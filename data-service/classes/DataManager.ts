@@ -12,77 +12,74 @@ import { getAliasesByAddress } from '../api/aliases/aliases';
 import { defer, TDefer } from '../utils/utils';
 
 
-export class BalanceManager {
+export class DataManager {
 
-    public balanceList: Array<IBalanceItem>;
-    public orders: Array<IOrder>;
-    public aliasList: Array<string>;
     public transactions: UTXManager = new UTXManager();
 
     private _address: string;
-    private _poll: Poll<IPollData>;
+    private _pollBlances: Poll<IPollData>;
+    private _pollAliases: Poll<Array<string>>;
     private _txHash: IHash<Money>;
     private _ordersHash: IHash<Money>;
-    private _firstBalancePromise: Promise<any>;
-    private _firstOrdersDefer: TDefer<Array<IOrder>>;
 
 
     public applyAddress(address: string): void {
         this._address = address;
-        if (!this._poll) {
-            const api = this._getPollBalanceApi();
-            this._poll = new Poll<IPollData>(api, 1000);
+        if (!this._pollBlances) {
+            const apiBalance = this._getPollBalanceApi();
+            const apiAliasList = this._getPollAliasListApi();
+            this._pollBlances = new Poll<IPollData>(apiBalance, 1000);
+            this._pollAliases = new Poll<Array<string>>(apiAliasList, 5000);
         } else {
-            this._poll.restart();
+            this._pollBlances.restart();
+            this._pollAliases.restart();
         }
         this.transactions.applyAddress(this._address);
-        getAliasesByAddress(address).then((aliasList) => {
-            this.aliasList = aliasList;
-        });
-        this._firstBalancePromise = new Promise((resolve) => {
-            this._poll.signals.requestSuccess.once(() => resolve(this.balanceList));
-        });
-        this._firstOrdersDefer = defer();
     }
 
     public dropAddress() {
         this._address = null;
-        this.balanceList = null;
-        this.orders = null;
-        this.aliasList = null;
-        if (this._poll) {
-            this._poll.destroy();
-            this._poll = null;
+        if (this._pollBlances) {
+            this._pollBlances.destroy();
+            this._pollBlances = null;
+        }
+        if (this._pollAliases) {
+            this._pollAliases.destroy();
+            this._pollAliases = null;
         }
         this.transactions.dropAddress();
     }
 
     public getBalances(): Promise<Array<IBalanceItem>> {
-        if (this.balanceList) {
-            return Promise.resolve(this.balanceList);
-        } else {
-            return this._firstBalancePromise;
-        }
+        return this._pollBlances.getDataPromise().then((data) => data.balanceList);
     }
 
     public getOrders(): Promise<Array<IOrder>> {
-        if (this.orders) {
-            return Promise.resolve(this.orders);
-        } else {
-            return this._firstOrdersDefer.promise;
-        }
+        return this._pollBlances.getDataPromise().then((data) => data.orders);
+    }
+
+    public getAliasesPromise(): Promise<Array<string>> {
+        return this._pollAliases.getDataPromise();
+    }
+
+    public getLastAliases(): Array<string> {
+        return this._pollAliases.lastData || [];
     }
 
     private _getPollBalanceApi(): IPollAPI<IPollData> {
         return {
             get: () => Promise.all([
-                balanceList(this._address),
+                balanceList(this._address, Object.create(null), this._ordersHash || Object.create(null)),
                 this._getOrders()
             ]).then(([balanceList, orders]) => ({ balanceList, orders })),
-            set: (data) => {
-                this.balanceList = data.balanceList;
-                this.orders = data.orders;
-            }
+            set: () => null
+        };
+    }
+
+    private _getPollAliasListApi(): IPollAPI<Array<string>> {
+        return {
+            get: () => getAliasesByAddress(this._address),
+            set: () => null
         };
     }
 
@@ -90,7 +87,6 @@ export class BalanceManager {
         if (hasSignature()) {
             return getOrders().then((orders) => {
                 this._updateInOrdersHash(orders);
-                this._firstOrdersDefer.resolve(orders);
                 return orders;
             });
         } else {

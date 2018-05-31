@@ -4,7 +4,9 @@ import {
     ISignatureGenerator,
     AUTH_ORDER_SIGNATURE,
     TX_NUMBER_MAP,
-    TRANSACTION_TYPE_NUMBER
+    TRANSACTION_TYPE_NUMBER,
+    CREATE_ORDER_SIGNATURE,
+    CANCEL_ORDER_SIGNATURE
 } from '@waves/waves-signature-generator';
 import { IKeyPair } from './interface';
 
@@ -18,32 +20,17 @@ export function dropSignatureApi() {
     API = null;
 }
 
-export function getPublicKey(): Promise<string> {
-    if (!API) {
-        throw new Error('Api is not available!');
-    }
-    return API.getPublicKey();
+export function getSignatureApi(): ISignatureApi {
+    return API;
 }
 
-export function getAddress(): Promise<string> {
-    if (!API) {
-        throw new Error('Api is not available!');
-    }
-    return API.getAddress();
-}
-
-export function sign(data: TSignData): Promise<string> {
-    if (!API) {
-        throw new Error('Api is not available!');
-    }
-    return API.sign(data);
-}
-
-export function getDefaultSignatureApi(keyPair: IKeyPair, address: string): ISignatureApi {
+export function getDefaultSignatureApi(keyPair: IKeyPair, address: string, seed: string): ISignatureApi {
     return {
         getPublicKey: () => Promise.resolve(keyPair.publicKey),
         sign: (data: TSignData) => addSignForData(data, keyPair.privateKey),
-        getAddress: () => Promise.resolve(address)
+        getAddress: () => Promise.resolve(address),
+        getSeed: () => Promise.resolve(seed),
+        getPrivateKey: () => Promise.resolve(keyPair.privateKey)
     };
 }
 
@@ -55,6 +42,12 @@ export function addSignForData(forSign: TSignData, privateKey: string): Promise<
             break;
         case SIGN_TYPE.MATCHER_ORDERS:
             instance = new AUTH_ORDER_SIGNATURE(forSign.data);
+            break;
+        case SIGN_TYPE.CREATE_ORDER:
+            instance = new CREATE_ORDER_SIGNATURE(forSign.data);
+            break;
+        case SIGN_TYPE.CANCEL_ORDER:
+            instance = new CANCEL_ORDER_SIGNATURE(forSign.data);
             break;
         case SIGN_TYPE.TRANSFER:
             instance = new TX_NUMBER_MAP[TRANSACTION_TYPE_NUMBER.TRANSFER](forSign.data);
@@ -94,16 +87,24 @@ export const AUTH_SIGNATURE = generate<IAuthData>([
 ]);
 
 export interface ISignatureApi {
-    sign: (data: TSignData) => Promise<string>;
-    getPublicKey: () => Promise<string>;
-    getAddress: () => Promise<string>;
+    sign(data: TSignData): Promise<string>;
+
+    getPublicKey(): Promise<string>;
+
+    getAddress(): Promise<string>;
+
+    getSeed?(): Promise<string>;
+
+    getPrivateKey?(): Promise<string>;
 }
 
 export const enum SIGN_TYPE {
-    AUTH = 0,
-    MATCHER_ORDERS = 1,
-    TRANSFER = 4,
+    AUTH = 1000,
+    MATCHER_ORDERS = 1001,
+    CREATE_ORDER = 1002,
+    CANCEL_ORDER = 1003,
     ISSUE = 3,
+    TRANSFER = 4,
     REISSUE = 5,
     BURN = 6,
     LEASE = 8,
@@ -115,6 +116,8 @@ export const enum SIGN_TYPE {
 export type TSignData =
     ISignAuthData |
     ISignGetOrders |
+    ISignCreateOrder |
+    ISignCancelOrder |
     ISignTransferData |
     ISignIssue |
     ISignReissue |
@@ -132,6 +135,16 @@ export interface ISignAuthData {
 export interface ISignGetOrders {
     data: IGetOrders;
     type: SIGN_TYPE.MATCHER_ORDERS;
+}
+
+export interface ISignCreateOrder {
+    data: ICreateOrder;
+    type: SIGN_TYPE.CREATE_ORDER;
+}
+
+export interface ISignCancelOrder {
+    data: ICancelOrder;
+    type: SIGN_TYPE.CANCEL_ORDER;
 }
 
 export interface ISignTransferData {
@@ -183,6 +196,24 @@ export interface IAuthData {
 export interface IGetOrders {
     timestamp: number;
     senderPublicKey: string;
+}
+
+export interface ICreateOrder {
+    matcherPublicKey: string;
+    amountAsset: string;
+    priceAsset: string;
+    orderType: string;
+    price: string;
+    amount: string;
+    expiration: number;
+    matcherFee: string;
+    senderPublicKey: string;
+    timestamp: number;
+}
+
+export interface ICancelOrder {
+    senderPublicKey: string;
+    orderId: string;
 }
 
 export interface ICreateTxData {

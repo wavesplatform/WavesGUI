@@ -79,26 +79,22 @@
                     case TYPES.EXCHANGE:
                         throw new Error('Can\'t create exchange transaction!');
                     case TYPES.LEASE:
-                        txPromise = waves.node.lease({ ...this.tx });
+                        txPromise = ds.broadcast(8, this.tx);
                         break;
                     case TYPES.CANCEL_LEASING:
-                        txPromise = waves.node.cancelLeasing({
-                            fee: this.tx.fee,
-                            timestamp: this.tx.timestamp,
-                            transactionId: this.tx.leaseTransactionId
-                        });
+                        txPromise = ds.broadcast(9, this.tx);
                         break;
                     case TYPES.CREATE_ALIAS:
-                        txPromise = waves.node.aliases.createAlias({ ...this.tx });
+                        txPromise = ds.broadcast(10, this.tx);
                         break;
                     case TYPES.ISSUE:
-                        txPromise = waves.node.assets.issue({ ...this.tx });
+                        txPromise = ds.broadcast(3, this.tx);
                         break;
                     case TYPES.REISSUE:
-                        txPromise = waves.node.assets.reissue({ ...this.tx });
+                        txPromise = ds.broadcast(5, this.tx);
                         break;
                     case TYPES.BURN:
-                        txPromise = waves.node.assets.burn({ ...this.tx });
+                        txPromise = ds.broadcast(6, this.tx);
                         break;
                     default:
                         throw new Error('Wrong transaction type!');

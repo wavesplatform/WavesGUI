@@ -5,10 +5,8 @@ import { request } from '../../utils/request';
 import { IBalanceItem, assetsApi } from './interface';
 import { WAVES_ID } from '@waves/waves-signature-generator';
 import { assetStorage } from '../../utils/AssetStorage';
-import { idToNode, normalizeAssetId, proxyArrayArgs, toArray, toHash } from '../../utils/utils';
+import { normalizeAssetId, toArray, toHash } from '../../utils/utils';
 import { IHash } from '../../interface';
-import { ITransfer } from '../transactions/interface';
-import { sign, SIGN_TYPE } from '../../sign';
 
 
 export function get(id: string): Promise<Asset>;
@@ -96,7 +94,7 @@ export function remapAssetsBalance(data: assetsApi.IBalanceList, assetsHash: IHa
             leasedOut: empty,
             leasedIn: empty
         };
-    });
+    }).sort(((a, b) => a.asset.name > b.asset.name ? 1 : a.asset.name === b.asset.name ? 0 : -1));
 }
 
 export function applyTxAndOrdersDif(balance: IBalanceItem, txHash?: IHash<Money>, ordersHash?: IHash<Money>): IBalanceItem;

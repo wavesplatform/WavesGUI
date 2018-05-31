@@ -14,8 +14,6 @@
      */
     const factory = function (BaseNodeComponent, utils, user, eventManager, decorators) {
 
-        const TX_TYPES = WavesApp.TRANSACTION_TYPES.NODE;
-
         class Assets extends BaseNodeComponent {
 
             /**
@@ -23,7 +21,7 @@
              * @return {Promise<Assets.IWavesBalanceDetails>}
              */
             getBalanceByAddress(address) {
-                return this._getWavesBalanceDetails(address);
+                return ds.api.assets.wavesBalance(address);
             }
 
             /**
@@ -110,31 +108,7 @@
              * @return {Promise<IBalanceDetails[]>}
              */
             userBalances() {
-                return ds.balanceManager.getBalances();
-            }
-
-            /**
-             * Create transfer transaction
-             * @param {Money} amount
-             * @param {Money} [fee]
-             * @param {string} recipient
-             * @param {string} attachment
-             * @param {string} keyPair
-             * @return {Promise<{id: string}>}
-             */
-            transfer({ amount, fee, recipient, attachment, keyPair }) {
-                return this.getFee({ type: TX_TYPES.TRANSFER, fee })
-                    .then((fee) => {
-                        return Waves.API.Node.v1.assets.transfer({
-                            amount: amount.toCoins(),
-                            assetId: amount.asset.id,
-                            fee: fee.toCoins(),
-                            feeAssetId: fee.asset.id,
-                            recipient,
-                            attachment
-                        }, keyPair)
-                            .then(this._pipeTransaction([amount, fee]));
-                    });
+                return ds.dataManager.getBalances();
             }
 
 
@@ -151,59 +125,6 @@
                             }))
                         }, keyPair);
                     });
-            }
-
-            /**
-             * Create issue transaction
-             * @param {string} name
-             * @param {string} description
-             * @param {BigNumber} quantity count of tokens from new asset
-             * @param {number} precision num in range from 0 to 8
-             * @param {boolean} reissuable can reissue token
-             * @param {Seed.keyPair} keyPair
-             * @param {Money} [fee]
-             * @return {Promise<ITransaction>}
-             */
-            issue({ name, description, quantity, precision, reissuable, fee, keyPair }) {
-                quantity = quantity.times(Math.pow(10, precision));
-                return this.getFee({ type: TX_TYPES.ISSUE, fee }).then((fee) => {
-                    return Waves.API.Node.v1.assets.issue({
-                        name,
-                        description,
-                        precision,
-                        reissuable,
-                        quantity: quantity.toFixed(),
-                        fee
-                    }, keyPair)
-                        .then(this._pipeTransaction([fee]));
-                });
-            }
-
-            /**
-             * Create reissue transaction
-             */
-            reissue({ quantity, reissuable, fee, keyPair }) {
-                return this.getFee({ type: TX_TYPES.REISSUE, fee }).then((fee) => Waves.API.Node.v1.assets.reissue({
-                    assetId: quantity.asset.id,
-                    fee: fee.toCoins(),
-                    quantity: quantity.toCoins(),
-                    reissuable
-                }, keyPair));
-            }
-
-            /**
-             * Create burn transaction
-             */
-            burn({ quantity, fee, keyPair }) {
-                return this.getFee({ type: TX_TYPES.BURN, fee }).then((fee) => Waves.API.Node.v1.assets.burn({
-                    quantity: quantity.toCoins(),
-                    fee: fee.toCoins(),
-                    assetId: quantity.asset.id
-                }, keyPair));
-            }
-
-            distribution() {
-
             }
 
             /**

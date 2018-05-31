@@ -40,7 +40,7 @@
             }
 
             dropOrder(order) {
-                return waves.matcher.cancelOrder(order.amount.asset.id, order.price.asset.id, order.id, seed.keyPair)
+                return ds.cancelOrder(order.amount.asset.id, order.price.asset.id, order.id)
                     .then(() => {
                         const canceledOrder = tsUtils.find(this.orders, { id: order.id });
                         canceledOrder.state = 'Canceled';

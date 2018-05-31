@@ -8,6 +8,8 @@ export class Poll<T> {
         requestError: new Signal<Error>()
     };
 
+    public lastData: T;
+
     private _api: IPollAPI<T>;
     private _timeout: number;
     private _timer: number;
@@ -18,6 +20,16 @@ export class Poll<T> {
         this._timeout = timeout;
 
         this._run();
+    }
+
+    public getDataPromise(): Promise<T> {
+        if (this.lastData) {
+            return Promise.resolve(this.lastData);
+        } else {
+            return new Promise((resolve) => {
+                this.signals.requestSuccess.once(resolve);
+            });
+        }
     }
 
     public destroy() {
@@ -34,6 +46,7 @@ export class Poll<T> {
             const promise = this._api.get();
             promise.then((data) => {
                 this._api.set(data);
+                this.lastData = data;
                 this.signals.requestSuccess.dispatch(data);
                 this._setTimeout();
             }, (e) => {

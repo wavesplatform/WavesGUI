@@ -273,6 +273,7 @@
                 const remapBalances = (item) => {
                     const isPinned = this._isPinned(item.asset.id);
                     const isSpam = this._isSpam(item.asset.id);
+                    item.asset.isMyAsset = item.asset.sender === user.address;
 
                     return {
                         available: item.available,

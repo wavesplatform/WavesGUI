@@ -54,8 +54,6 @@
     const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
                           notification, decorators, waves, ModalRouter) {
 
-        // TODO! Apply user node address!
-
         class AppRun {
 
             constructor() {

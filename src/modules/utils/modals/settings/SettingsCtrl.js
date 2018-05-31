@@ -73,9 +73,12 @@
                     $scope.$digest();
                 }, 5000);
 
-                user.getSeed().then((seed) => {
-                    this.phrase = seed.phrase;
-                    this.privateKey = seed.keyPair.privateKey;
+                Promise.all([
+                    ds.signature.getSignatureApi().getSeed(),
+                    ds.signature.getSignatureApi().getPrivateKey()
+                ]).then(([seed, key]) => {
+                    this.phrase = seed;
+                    this.privateKey = key;
                     $scope.$digest();
                 });
             }

@@ -1,7 +1,7 @@
-import { AUTH_ORDER_SIGNATURE, WAVES_ID } from '@waves/waves-signature-generator';
-import { Asset, AssetPair, BigNumber, Money } from '@waves/data-entities';
-import { IKeyPair, IHash } from '../../interface';
-import { addTime, getTime, normalizeAssetId, toHash } from '../../utils/utils';
+import { WAVES_ID } from '@waves/waves-signature-generator';
+import { Asset, AssetPair, BigNumber, Money, OrderPrice } from '@waves/data-entities';
+import { IHash } from '../../interface';
+import { normalizeAssetId, toHash } from '../../utils/utils';
 import { Signal } from 'ts-utils';
 import { request } from '../../utils/request';
 import { get as configGer } from '../../config';
@@ -62,7 +62,7 @@ export function remapOrder(order: api.IOrder, assets: IHash<Asset>): IOrder {
     const priceAsset = assets[normalizeAssetId(order.assetPair.priceAsset)];
     const assetPair = new AssetPair(amountAsset, priceAsset);
     const amount = new Money(new BigNumber(order.amount), amountAsset);
-    const price = new Money(new BigNumber(order.price), priceAsset);
+    const price = Money.fromTokens(OrderPrice.fromMatcherCoins(order.price, assetPair).getTokens(), priceAsset);
     const filled = new Money(new BigNumber(order.filled), amountAsset);
     const progress = filled.getTokens().div(amount.getTokens()).toNumber();
     const timestamp = new Date(order.timestamp);

@@ -1,5 +1,5 @@
 import * as apiMethods from './api/API';
-import { BalanceManager } from './classes/BalanceManager';
+import { DataManager } from './classes/DataManager';
 import * as configApi from './config';
 import * as sign from './sign';
 import * as utilsModule from './utils/utils';
@@ -12,7 +12,12 @@ import { IAssetInfo } from '@waves/data-entities/dist/entities/Asset';
 import { get } from './config';
 import { TAssetData, TBigNumberData } from './interface';
 import { getAssetPair } from './api/assets/assets';
-import { broadcast as broadcastF } from './broadcast/broadcast';
+import {
+    broadcast as broadcastF,
+    createOrder as createOrderF,
+    cancelOrder as cancelOrderF
+} from './broadcast/broadcast';
+import { utils as cryptoUtils } from '@waves/waves-signature-generator';
 
 export { Seed } from './classes/Seed';
 
@@ -20,14 +25,17 @@ export const wavesDataEntities = {
     ...wavesDataEntitiesModule
 };
 export const api = { ...apiMethods };
-export const balanceManager = new BalanceManager();
+export const dataManager = new DataManager();
 export const config = { ...configApi };
 export const utils = { ...utilsModule };
 export const signature = {
     ...sign
 };
+export const isValidAddress = cryptoUtils.crypto.isValidAddress;
 
 export const broadcast = broadcastF;
+export const createOrder = createOrderF;
+export const cancelOrder = cancelOrderF;
 
 wavesDataEntitiesModule.config.set('remapAsset', (data: IAssetInfo) => {
     const name = get('remappedAssetNames')[data.id] || data.name;
@@ -76,19 +84,19 @@ class App {
         this.address = address;
         sign.setSignatureApi(api);
         return this._addMatcherSign()
-            .then(() => this._initializeBalanceManager(address));
+            .then(() => this._initializeDataManager(address));
     }
 
     public logOut() {
         sign.dropSignatureApi();
-        balanceManager.dropAddress();
+        dataManager.dropAddress();
     }
 
     private _addMatcherSign() {
         const timestamp = utilsModule.addTime(new Date(), 2, 'hour').valueOf();
-        return sign.getPublicKey()
+        return sign.getSignatureApi().getPublicKey()
             .then((senderPublicKey) => {
-                return sign.sign({
+                return sign.getSignatureApi().sign({
                     type: sign.SIGN_TYPE.MATCHER_ORDERS,
                     data: {
                         senderPublicKey,
@@ -101,8 +109,8 @@ class App {
             });
     }
 
-    private _initializeBalanceManager(address: string): void {
-        balanceManager.applyAddress(address);
+    private _initializeDataManager(address: string): void {
+        dataManager.applyAddress(address);
     }
 
 }

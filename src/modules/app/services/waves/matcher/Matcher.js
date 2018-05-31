@@ -18,25 +18,12 @@
                 this._orderBookCacheHash = Object.create(null);
             }
 
-            createOrder(orderData, keyPair) {
-                return Waves.API.Matcher.v1.getMatcherKey().then((matcherPublicKey) => {
-                    return Waves.API.Matcher.v1.createOrder({
-                        matcherPublicKey,
-                        ...orderData
-                    }, keyPair);
-                });
-            }
-
             getOrders() {
-                return ds.balanceManager.getOrders();
+                return ds.dataManager.getOrders();
             }
 
             getOrderBook(asset1, asset2) {
                 return this._getOrderBookCache(asset1, asset2).get();
-            }
-
-            cancelOrder(amountAssetId, priceAssetId, orderId, keyPair) {
-                return Waves.API.Matcher.v1.cancelOrder(amountAssetId, priceAssetId, orderId, keyPair);
             }
 
             /**

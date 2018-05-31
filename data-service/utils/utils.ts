@@ -2,7 +2,12 @@ import { IAssetPair, IHash } from '../interface';
 import { WAVES_ID } from '@waves/waves-signature-generator';
 import { BigNumber, Asset } from '@waves/data-entities';
 import { get } from '../api/assets/assets';
+import { get as configGet } from '../config';
 
+
+export function normalizeRecipient(recipient: string): string {
+    return recipient.replace(`alias:${configGet('code')}:`, '');
+}
 
 export function normalizeAssetPair(assetPair: IAssetPair): IAssetPair {
     const priceAsset = normalizeAssetId(assetPair.priceAsset);

@@ -1,19 +1,21 @@
 import { Money, BigNumber } from '@waves/data-entities';
 import { idToNode } from '../utils/utils';
-import { TRANSACTION_TYPE_NUMBER, libs, utils } from '@waves/waves-signature-generator';
-import { getAddress, getPublicKey, sign } from '../sign';
+import { libs } from '@waves/waves-signature-generator';
+import { getSignatureApi, SIGN_TYPE } from '../sign';
 import { request } from '../utils/request';
 import { get } from '../config';
+import { signature } from '../index';
 
 
-export function broadcast(type: TRANSACTION_TYPE_NUMBER, data: any) {
+export function broadcast(type: SIGN_TYPE, data: any) {
+    const api = getSignatureApi();
     return Promise.all([
-        getPublicKey(),
-        getAddress()
+        api.getPublicKey(),
+        api.getAddress()
     ]).then(([senderPublicKey, sender]) => {
         const timestamp = data.timestamp || Date.now();
         const schema = schemas.getSchemaByType(type);
-        return sign({ type, data: schema.sign({ ...data, sender, senderPublicKey, timestamp }) } as any)
+        return api.sign({ type, data: schema.sign({ ...data, sender, senderPublicKey, timestamp }) } as any)
             .then((signature) => {
                 return schema.api({ ...data, sender, senderPublicKey, signature, timestamp });
             });
@@ -26,10 +28,80 @@ export function broadcast(type: TRANSACTION_TYPE_NUMBER, data: any) {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json;charset=UTF-8'
                 },
-                body: JSON.stringify({ ...data, type })
+                body: JSON.stringify(data)
             }
         });
     });
+}
+
+export function createOrder(data) {
+    const api = getSignatureApi();
+    return Promise.all([
+        api.getPublicKey(),
+        api.getAddress(),
+        request({ url: `${get('matcher')}/` })
+    ]).then(([senderPublicKey, sender, matcherPublicKey]) => {
+        const timestamp = data.timestamp || Date.now();
+        const expiration = data.expiration || prepare.processors.expiration();
+        const schema = schemas.getSchemaByType(SIGN_TYPE.CREATE_ORDER);
+        const assetPair = {
+            amountAsset: idToNode(data.amountAsset),
+            priceAsset: idToNode(data.priceAsset)
+        };
+        return api.sign({
+            type: SIGN_TYPE.CREATE_ORDER,
+            data: schema.sign({ ...data, sender, senderPublicKey, timestamp, matcherPublicKey, expiration })
+        } as any)
+            .then((signature) => {
+                return schema.api({
+                    ...data,
+                    sender,
+                    senderPublicKey,
+                    signature,
+                    timestamp,
+                    matcherPublicKey,
+                    expiration
+                });
+            })
+            .then((data) => ({ ...data, assetPair }));
+    }).then((data) => {
+        return request({
+            url: `${get('matcher')}/orderbook`,
+            fetchOptions: {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                body: JSON.stringify(data)
+            }
+        });
+    });
+}
+
+export function cancelOrder(amountId: string, priceId: string, orderId: string) {
+    const api = getSignatureApi();
+    const schema = schemas.getSchemaByType(SIGN_TYPE.CANCEL_ORDER);
+    return Promise.all([api.getPublicKey(), api.getAddress()])
+        .then(([senderPublicKey, sender]) => {
+            return api.sign({ type: SIGN_TYPE.CANCEL_ORDER, data: schema.sign({ senderPublicKey, orderId }) })
+                .then((signature) => {
+                    return schema.api({ senderPublicKey, orderId, signature, sender });
+                });
+        })
+        .then((data) => {
+            return request({
+                url: `${get('matcher')}/orderbook/${amountId}/${priceId}/cancel`,
+                fetchOptions: {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json;charset=UTF-8'
+                    },
+                    body: JSON.stringify(data)
+                }
+            });
+        });
 }
 
 export module prepare {
@@ -71,7 +143,19 @@ export module prepare {
         export function attachment(data: string) {
             data = data || '';
             const value = Uint8Array.from(libs.converters.stringToByteArray(data));
-            return libs.base58.encode(Uint8Array.from(value))
+            return libs.base58.encode(Uint8Array.from(value));
+        }
+
+        export function bigNumberToNumber(num: BigNumber): number { // TODO Remove!
+            return Number(num);
+        }
+
+        export function addValue(value: any) {
+            return () => value;
+        }
+
+        export function expiration(date?) {
+            return date || new Date().setDate(new Date().getDate() + 20);
         }
 
     }
@@ -89,8 +173,16 @@ export module prepare {
         cb: Function;
     }
 
-    export function schema(...args: Array<IWrappedFunction>) {
-        return (data) => args.map(({ from, to, cb }) => ({ key: to, value: cb(data[from]) }))
+    export function schema(...args: Array<IWrappedFunction | string>) {
+        return (data) => args.map((item) => {
+            return typeof item === 'string' ? {
+                key: item,
+                value: processors.noProcess(data[item])
+            } : {
+                key: item.to,
+                value: item.cb(data[item.from])
+            };
+        })
             .reduce((result, item) => {
                 result[item.key] = item.value;
                 return result;
@@ -102,6 +194,37 @@ export module schemas {
 
     export module api {
 
+        export const createOrder = prepare.schema(
+            'matcherPublicKey',
+            'orderType',
+            prepare.wrap('price', 'price', prepare.processors.bigNumberToNumber),
+            prepare.wrap('amount', 'amount', prepare.processors.bigNumberToNumber),
+            prepare.wrap('matcherFee', 'matcherFee', prepare.processors.bigNumberToNumber),
+            prepare.wrap('expiration', 'expiration', prepare.processors.expiration),
+            'senderPublicKey',
+            'timestamp',
+            'signature'
+        );
+
+        export const cancelOrder = prepare.schema(
+            'orderId',
+            'sender',
+            'signature'
+        );
+
+        export const issue = prepare.schema(
+            'senderPublicKey',
+            'name',
+            'description',
+            prepare.wrap('quantity', 'quantity', prepare.processors.bigNumberToNumber),
+            prepare.wrap('precision', 'precision', prepare.processors.noProcess),
+            prepare.wrap('reissuable', 'reissuable', prepare.processors.noProcess),
+            prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
+            prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp),
+            prepare.wrap('type', 'type', prepare.processors.addValue(SIGN_TYPE.ISSUE)),
+            'signature'
+        );
+
         export const transfer = prepare.schema(
             prepare.wrap('amount', 'assetId', prepare.processors.moneyToNodeAssetId),
             prepare.wrap('amount', 'amount', prepare.processors.moneyToNumber),
@@ -110,16 +233,95 @@ export module schemas {
             prepare.wrap('recipient', 'recipient', prepare.processors.recipient),
             prepare.wrap('attachment', 'attachment', prepare.processors.attachment),
             prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp),
-            prepare.wrap('senderPublicKey', 'senderPublicKey', prepare.processors.noProcess),
-            prepare.wrap('signature', 'signature', prepare.processors.noProcess),
+            'senderPublicKey',
+            'signature',
+            prepare.wrap('type', 'type', prepare.processors.addValue(SIGN_TYPE.TRANSFER))
+        );
+
+        export const reissue = prepare.schema(
+            'senderPublicKey',
+            prepare.wrap('assetId', 'assetId', prepare.processors.noProcess),
+            prepare.wrap('quantity', 'quantity', prepare.processors.moneyToNumber),
+            prepare.wrap('reissuable', 'reissuable', prepare.processors.noProcess),
+            prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
+            prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp),
+            'signature',
+            prepare.wrap('type', 'type', prepare.processors.addValue(SIGN_TYPE.REISSUE))
+        );
+
+        export const burn = prepare.schema(
+            'senderPublicKey',
+            prepare.wrap('assetId', 'assetId', prepare.processors.noProcess),
+            prepare.wrap('quantity', 'quantity', prepare.processors.moneyToNumber),
+            prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
+            prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp),
+            'signature',
+            prepare.wrap('type', 'type', prepare.processors.addValue(SIGN_TYPE.BURN))
+        );
+
+        export const lease = prepare.schema(
+            'senderPublicKey',
+            prepare.wrap('recipient', 'recipient', prepare.processors.recipient),
+            prepare.wrap('amount', 'amount', prepare.processors.moneyToNumber),
+            prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
+            prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp),
+            'signature',
+            prepare.wrap('type', 'type', prepare.processors.addValue(SIGN_TYPE.LEASE))
+        );
+
+        export const cancelLeasing = prepare.schema(
+            'senderPublicKey',
+            prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
+            prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp),
+            prepare.wrap('transactionId', 'transactionId', prepare.processors.noProcess),
+            'signature',
+            prepare.wrap('type', 'type', prepare.processors.addValue(SIGN_TYPE.CANCEL_LEASING))
+        );
+
+        export const alias = prepare.schema(
+            'senderPublicKey',
+            prepare.wrap('alias', 'alias', prepare.processors.noProcess),
+            prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
+            prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp),
+            'signature',
+            prepare.wrap('type', 'type', prepare.processors.addValue(SIGN_TYPE.CREATE_ALIAS))
         );
 
     }
 
     export module sign {
 
+        export const createOrder = prepare.schema(
+            'matcherPublicKey',
+            'amountAsset',
+            'priceAsset',
+            'orderType',
+            prepare.wrap('price', 'price', prepare.processors.bigNumberToNumber),
+            prepare.wrap('amount', 'amount', prepare.processors.bigNumberToNumber),
+            prepare.wrap('matcherFee', 'matcherFee', prepare.processors.bigNumberToNumber),
+            prepare.wrap('expiration', 'expiration', prepare.processors.expiration),
+            'senderPublicKey',
+            'timestamp'
+        );
+
+        export const cancelOrder = prepare.schema(
+            'senderPublicKey',
+            'orderId'
+        );
+
+        export const issue = prepare.schema(
+            'senderPublicKey',
+            'name',
+            'description',
+            prepare.wrap('quantity', 'quantity', prepare.processors.bigNumberToNumber),
+            prepare.wrap('precision', 'precision', prepare.processors.noProcess),
+            prepare.wrap('reissuable', 'reissuable', prepare.processors.noProcess),
+            prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
+            prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp)
+        );
+
         export const transfer = prepare.schema(
-            prepare.wrap('senderPublicKey', 'senderPublicKey', prepare.processors.noProcess),
+            'senderPublicKey',
             prepare.wrap('amount', 'assetId', prepare.processors.moneyToAssetId),
             prepare.wrap('fee', 'feeAssetId', prepare.processors.moneyToAssetId),
             prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp),
@@ -129,12 +331,66 @@ export module schemas {
             prepare.wrap('attachment', 'attachment', prepare.processors.orString)
         );
 
+        export const reissue = prepare.schema(
+            'senderPublicKey',
+            prepare.wrap('assetId', 'assetId', prepare.processors.noProcess),
+            prepare.wrap('quantity', 'quantity', prepare.processors.moneyToNumber),
+            prepare.wrap('reissuable', 'reissuable', prepare.processors.noProcess),
+            prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
+            prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp)
+        );
+
+        export const burn = prepare.schema(
+            'senderPublicKey',
+            prepare.wrap('assetId', 'assetId', prepare.processors.noProcess),
+            prepare.wrap('quantity', 'quantity', prepare.processors.moneyToNumber),
+            prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
+            prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp)
+        );
+
+        export const lease = prepare.schema(
+            'senderPublicKey',
+            prepare.wrap('recipient', 'recipient', prepare.processors.noProcess),
+            prepare.wrap('amount', 'amount', prepare.processors.moneyToNumber),
+            prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
+            prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp)
+        );
+
+        export const cancelLeasing = prepare.schema(
+            'senderPublicKey',
+            prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
+            prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp),
+            prepare.wrap('transactionId', 'transactionId', prepare.processors.noProcess)
+        );
+
+        export const alias = prepare.schema(
+            'senderPublicKey',
+            prepare.wrap('alias', 'alias', prepare.processors.noProcess),
+            prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
+            prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp),
+        );
     }
 
-    export function getSchemaByType(type: TRANSACTION_TYPE_NUMBER) {
+    export function getSchemaByType(type: SIGN_TYPE) {
         switch (type) {
-            case TRANSACTION_TYPE_NUMBER.TRANSFER:
+            case SIGN_TYPE.CREATE_ORDER:
+                return { api: api.createOrder, sign: sign.createOrder };
+            case SIGN_TYPE.CANCEL_ORDER:
+                return { api: api.cancelOrder, sign: sign.cancelOrder };
+            case SIGN_TYPE.TRANSFER:
                 return { api: api.transfer, sign: sign.transfer };
+            case SIGN_TYPE.ISSUE:
+                return { api: api.issue, sign: sign.issue };
+            case SIGN_TYPE.REISSUE:
+                return { api: api.reissue, sign: sign.reissue };
+            case SIGN_TYPE.BURN:
+                return { api: api.burn, sign: sign.burn };
+            case SIGN_TYPE.LEASE:
+                return { api: api.lease, sign: sign.lease };
+            case SIGN_TYPE.CANCEL_LEASING:
+                return { api: api.cancelLeasing, sign: sign.cancelLeasing };
+            case SIGN_TYPE.CREATE_ALIAS:
+                return { api: api.alias, sign: sign.alias };
         }
     }
 }

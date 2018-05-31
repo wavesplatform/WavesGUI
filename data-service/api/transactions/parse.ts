@@ -1,4 +1,4 @@
-import { Money, Asset, BigNumber } from '@waves/data-entities';
+import { Money, Asset, BigNumber, OrderPrice, AssetPair } from '@waves/data-entities';
 import { TRANSACTION_TYPE_NUMBER, utils, libs } from '@waves/waves-signature-generator';
 import { get } from '../assets/assets';
 import {
@@ -11,7 +11,7 @@ import {
     ILease,
     ICancelLeasing, ICreateAlias, IMassTransfer, IIssue, IReissue, IBurn
 } from './interface';
-import { normalizeAssetId, normalizeAssetPair, toHash } from '../../utils/utils';
+import { normalizeAssetId, normalizeAssetPair, normalizeRecipient, toHash } from '../../utils/utils';
 import { WAVES_ID } from '@waves/waves-signature-generator';
 import { IHash } from '../../interface';
 
@@ -98,10 +98,11 @@ export function parseTransferTx(tx: txApi.ITransfer, assetsHash: IHash<Asset>, i
         attachment = null;
     }
     const rawAttachment = tx.attachment;
+    const recipient = normalizeRecipient(tx.recipient);
     const amount = new Money(new BigNumber(tx.amount), assetsHash[normalizeAssetId(tx.assetId)]);
     const fee = new Money(new BigNumber(tx.fee), assetsHash[normalizeAssetId(tx.feeAsset)]);
     const assetId = normalizeAssetId(tx.assetId);
-    return { ...tx, amount, fee, assetId, isUTX, attachment, rawAttachment };
+    return { ...tx, amount, fee, assetId, isUTX, attachment, rawAttachment, recipient };
 }
 
 export function parseReissueTx(tx: txApi.IReissue, assetsHash: IHash<Asset>, isUTX: boolean): IReissue {
@@ -136,7 +137,8 @@ export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, i
 export function parseLeasingTx(tx: txApi.ILease, assetsHash: IHash<Asset>, isUTX: boolean): ILease {
     const amount = new Money(new BigNumber(tx.amount), assetsHash[WAVES_ID]);
     const fee = new Money(new BigNumber(tx.fee), assetsHash[WAVES_ID]);
-    return { ...tx, amount, fee, isUTX };
+    const recipient = normalizeRecipient(tx.recipient);
+    return { ...tx, amount, fee, isUTX, recipient };
 }
 
 export function parseCancelLeasingTx(tx: txApi.ICancelLeasing, assetsHash: IHash<Asset>, isUTX: boolean): ICancelLeasing {
@@ -154,15 +156,24 @@ export function parseMassTransferTx(tx: txApi.IMassTransfer, assetsHash: IHash<A
     const fee = new Money(new BigNumber(tx.fee), assetsHash[WAVES_ID]);
     const totalAmount = new Money(new BigNumber(tx.totalAmount), assetsHash[normalizeAssetId(tx.assetId)]);
     const transfers = tx.transfers.map((transfer) => ({
-        recipient: transfer.recipient,
+        recipient: normalizeRecipient(transfer.recipient),
         amount: new Money(new BigNumber(transfer.amount), assetsHash[normalizeAssetId(tx.assetId)])
     }));
-    return { ...tx, totalAmount, transfers, fee, isUTX };
+    const bytes = libs.base58.decode(tx.attachment);
+    let attachment;
+    try {
+        attachment = libs.converters.byteArrayToString(bytes);
+    } catch (e) {
+        attachment = null;
+    }
+    const rawAttachment = tx.attachment;
+    return { ...tx, totalAmount, transfers, fee, isUTX, attachment, rawAttachment };
 }
 
 function parseExchangeOrder(order: txApi.IExchangeOrder, assetsHash: IHash<Asset>): IExchangeOrder {
     const assetPair = normalizeAssetPair(order.assetPair);
-    const price = new Money(new BigNumber(order.price), assetsHash[assetPair.priceAsset]);
+    const pair = new AssetPair(assetsHash[assetPair.amountAsset], assetsHash[assetPair.priceAsset]);
+    const price = Money.fromTokens(new OrderPrice(new BigNumber(order.price), pair).getTokens(), assetsHash[assetPair.priceAsset]);
     const amount = new Money(new BigNumber(order.amount), assetsHash[assetPair.amountAsset]);
     const matcherFee = new Money(new BigNumber(order.matcherFee), assetsHash[WAVES_ID]);
     return { ...order, price, amount, matcherFee, assetPair };

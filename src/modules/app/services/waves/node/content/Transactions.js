@@ -220,7 +220,7 @@
              * @private
              */
             static _getTransferType({ sender, recipient }) {
-                const aliasList = ds.balanceManager.aliasList;
+                const aliasList = ds.dataManager.getLastAliases();
                 if (sender === recipient || (sender === user.address && aliasList.indexOf(recipient) !== -1)) {
                     return TYPES.CIRCULAR;
                 } else {
@@ -291,8 +291,8 @@
              * @return {*}
              * @private
              */
-            static _getTransactionAddress({ type, sender, recipient }) {
-                switch (type) {
+            static _getTransactionAddress({ typeName, sender, recipient }) {
+                switch (typeName) {
                     // TODO : clear this list as there is no need for address in some getList
                     case TYPES.RECEIVE:
                     case TYPES.MASS_RECEIVE:

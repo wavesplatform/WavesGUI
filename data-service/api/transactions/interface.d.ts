@@ -235,6 +235,7 @@ export interface IMassTransfer extends IBaseTransaction {
     assetId: string;
     version?: number;
     attachment: string;
+    rawAttachment: string;
     fee: Money;
     totalAmount: Money;
     transferCount: number;
