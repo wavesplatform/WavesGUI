@@ -212,6 +212,7 @@
              */
             create(data, hasBackup) {
                 return this._addUserData({
+                    api: data.api,
                     address: data.address,
                     password: data.password,
                     name: data.name,
