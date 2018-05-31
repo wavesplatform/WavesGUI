@@ -1,8 +1,9 @@
 <div class="line-wrapper">
     <div class="line">
         <div class="body-1 top fs-mobile">
-             <span w-i18n="transaction.headers.{{::$ctrl.type}}"
+            <span w-i18n="transaction.headers.{{::$ctrl.type}}"
                    params="{name: $ctrl.transaction.amount.asset.name}"></span>
+            <span class="spam-label" w-i18n="transaction.headers.spam"></span> <!-- todo @tsigel ng-if tx is spam-->
         </div>
         <div class="footnote-1 bottom fs-mobile">
          <span w-i18n="transaction.subheaders.{{::$ctrl.type}}"

@@ -136,6 +136,10 @@ w-transaction .transaction {
 
         .top {
           color: @color-basic-700;
+
+          .spam-label {
+            display: none;
+          }
         }
         .bottom {
           color: @color-basic-500;
@@ -161,6 +165,18 @@ w-transaction .transaction {
         .line {
           .top {
             color: @color-basic-500;
+
+            .spam-label {
+              .status();
+              display: inline-block;
+              background-color: @color-disabled-200;
+              color: @color-basic-900;
+              position: relative;
+              top: auto;
+              bottom: 3px;
+              margin-top: 0;
+              right: auto;
+            }
           }
           .bottom {
             color: @color-accent-100;
@@ -199,11 +215,11 @@ w-transaction .transaction {
             display: none;
           }
 
-          .footnote-1.fs-mobile {
+          .bottom.fs-mobile {
             font-size: @mobile-low-fsize;
           }
 
-          .body-1.fs-mobile {
+          .top.fs-mobile {
             font-size: @mobile-mid-fsize;
           }
 
@@ -240,12 +256,12 @@ w-transaction .transaction {
             display: none;
           }
 
-          .body-1.fs-mobile {
+          .top.fs-mobile {
             font-size: @mobile-mid-fsize;
             line-height: 1.2em;
           }
 
-          .footnote-1.fs-mobile {
+          .bottom.fs-mobile {
             font-size: @mobile-low-fsize;
             line-height: 1.2em;
             padding-top: 3px;
@@ -254,6 +270,23 @@ w-transaction .transaction {
           &:last-child {
             padding-right: 0;
             text-align: left;
+          }
+        }
+      }
+    }
+
+    &.spam {
+      .transaction-info {
+        .line-wrapper {
+          .line {
+            .top {
+              .spam-label {
+                margin-top: 4px;
+                position: absolute;
+                right: 43px;
+                bottom: 15px;
+              }
+            }
           }
         }
       }
