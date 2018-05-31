@@ -254,6 +254,9 @@
                     case 'spam':
                         balanceList = details.spam.slice();
                         break;
+                    case 'notLiquid':
+                        balanceList = details.notLiquid.slice();
+                        break;
                     default:
                         throw new Error('Wrong filter name!');
                 }
@@ -275,25 +278,28 @@
                     const isSpam = this._isSpam(item.asset.id);
                     const hasSpamSignatures = PortfolioCtrl._hasSpamSignatures(item.asset.name);
 
-                    return {
+                    return /* utils.isLiquid(item.asset).then((isLiquid) => */ Promise.resolve({
                         available: item.available,
                         asset: item.asset,
                         inOrders: item.inOrders,
                         isPinned,
                         isSpam,
+                        // isLiquid,
                         hasSpamSignatures
-                    };
+                    });
                 };
 
                 return Promise.all([
                     waves.node.assets.userBalances()
-                        .then((list) => list.map(remapBalances))
+                        .then((list) => Promise.all(list.map(remapBalances)))
                         .then((list) => list.filter((item) => !item.isSpam)),
                     // waves.node.assets.balanceList(this.pinned).then((list) => list.map(remapBalances)),
-                    waves.node.assets.balanceList(this.spam).then((list) => list.map(remapBalances))
+                    waves.node.assets.balanceList(this.spam)
+                        .then((list) => Promise.all(list.map(remapBalances)))
                 ]).then(([activeList, /* pinned,*/ spam]) => {
+
                     for (let i = activeList.length - 1; i > 0; i--) {
-                        if (activeList[i].hasSpamSignatures) {
+                        if (activeList[i].hasSpamSignatures || WavesApp.scam[activeList[i].asset.id]) {
                             spam.push(activeList.splice(i, 1)[0]);
                         }
                     }
