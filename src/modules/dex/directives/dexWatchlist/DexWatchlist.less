@@ -235,46 +235,50 @@ body.dex .dex-wrapper {
             padding-left: 10px;
           }
 
+          &[data-column-id="favourite"] {
+            flex-basis: 30px;
+          }
+
           &[data-column-id="volume"] {
             padding-right: 10px;
           }
-        }
 
-        &__cell[data-column-id="pair"] {
-          flex-basis: 35%;
-          text-overflow: ellipsis;
-          overflow: hidden;
-          white-space: nowrap;
-        }
-
-        &__cell[data-column-id="price"] {
-          flex-basis: 25%;
-          text-align: right;
-        }
-
-        &__cell[data-column-id="change"] {
-          flex-basis: 15%;
-          text-align: right;
-
-          &.plus {
-            color: @color-submit-400;
+          &[data-column-id="pair"] {
+            flex-basis: calc(35% ~'- 30px');
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
           }
-          &.minus {
-            color: @color-error-400;
+
+          &[data-column-id="price"] {
+            flex-basis: 25%;
+            text-align: right;
           }
-        }
 
-        &__cell[data-column-id="volume"] {
-          flex-basis: 25%;
-          text-align: right;
-        }
+          &[data-column-id="change"] {
+            flex-basis: 15%;
+            text-align: right;
 
-        &__cell[data-column-id="info"] {
-          flex-basis: 100%;
-          display: none;
-          width: 100%;
-          padding: 10px 20px 10px 30px;
-          .caption-3();
+            &.plus {
+              color: @color-submit-400;
+            }
+            &.minus {
+              color: @color-error-400;
+            }
+          }
+
+          &[data-column-id="volume"] {
+            flex-basis: 25%;
+            text-align: right;
+          }
+
+          &[data-column-id="info"] {
+            flex-basis: 100%;
+            display: none;
+            width: 100%;
+            padding: 10px 20px 10px 30px;
+            .caption-3();
+          }
         }
       }
 
