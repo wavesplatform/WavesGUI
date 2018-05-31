@@ -2,12 +2,13 @@
 (function () {
     'use strict';
 
+    const tsUtils = require('ts-utils');
+
     /**
-     * @param {app.utils} utils
      * @param {TimeLine} timeLine
      * @return {*}
      */
-    const factory = function (utils, timeLine) {
+    const factory = function (timeLine) {
 
         /**
          * @name app.utils.decorators
@@ -84,16 +85,17 @@
             /**
              * @name app.utils.decorators#cachable
              * @param time
+             * @param {function(data: *): string} [toString]
              * @return {Function}
              */
-            cachable(time) {
+            cachable(time, toString) {
                 return function (target, key, descriptor) {
                     const origin = descriptor.value;
                     const cache = Object.create(null);
 
                     if (time > 0) {
                         descriptor.value = function (...args) {
-                            const key = stringify(args);
+                            const key = toString ? toString(args) : stringify(args);
                             if (cache[key] && cache[key]) {
                                 return cache[key].value;
                             } else {
@@ -125,7 +127,7 @@
                     } else {
                         // TODO : make it limited in size (say, 1000 elements)
                         descriptor.value = function (...args) {
-                            const key = stringify(args);
+                            const key = toString ? toString(args) : stringify(args);
                             if (cache[key]) {
                                 return cache[key];
                             } else {
@@ -140,7 +142,7 @@
 
     };
 
-    factory.$inject = ['utils', 'timeLine', 'PromiseControl'];
+    factory.$inject = ['timeLine'];
 
     /**
      * @param {Array} some
