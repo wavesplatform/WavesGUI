@@ -6,15 +6,15 @@
 
                 constructor() {
                     /**
+                     * @type {Promise<void>}
+                     */
+                    this.pairsSorted = null;
+
+                    /**
                      * @type {Array}
                      * @private
                      */
                     this._pairsData = [];
-
-                    /**
-                     * @type {Promise<void>}
-                     */
-                    this.pairsSorted = null;
                 }
 
                 addPair(pair) {

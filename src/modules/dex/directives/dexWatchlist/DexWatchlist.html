@@ -28,31 +28,6 @@
              ng-model="$ctrl.search"
              w-i18n-attr="placeholder"></w-input>
 
-    <div class="search-list"
-         ng-if="$ctrl.shouldShowSearchResults()">
-        <div class="search-item"
-             ng-repeat="asset in $ctrl.assetSearchResults track by asset.id"
-             ng-click="$ctrl.addNewPairFromSearch(asset)"
-             ng-class="{
-            'watched': asset.isWatched
-         }">
-            <div class="ticker">
-                {{asset.ticker.beginning}}<span class="selected">{{asset.ticker.inputPart}}</span>{{asset.ticker.ending}}
-            </div>
-            <div class="name">
-                {{asset.name.beginning}}<span class="selected">{{asset.name.inputPart}}</span>{{asset.name.ending}}
-            </div>
-            <div ng-class="{
-                'add': !asset.isWatched,
-                'remove': asset.isWatched
-            }"></div>
-        </div>
-        <div class="not-found footnote-1 basic-500"
-             ng-if="$ctrl.nothingFound">
-            <w-i18n>directives.watchlist.placeholders.noMarkets</w-i18n>
-        </div>
-    </div>
-
     <w-smart-table data="$ctrl.pairsData" header-info="$ctrl.headers">
         <w-table-row ng-repeat="pair in $data"
                      ng-click="$ctrl.choosePair(pair)"

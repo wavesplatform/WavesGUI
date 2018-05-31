@@ -40,11 +40,6 @@
                 this.pairsData = [];
 
                 /**
-                 * @type {Array}
-                 */
-                this.assetSearchResults = [];
-
-                /**
                  * @type {string}
                  * @private
                  */
@@ -112,6 +107,11 @@
                  * @private
                  */
                 this._wandering = new PairList();
+
+                /**
+                 * @private
+                 */
+                this._searchResults = new PairList();
 
                 /**
                  * @type {Array<string>}
@@ -212,24 +212,6 @@
             }
 
             /**
-             * @param pairOfIds
-             * @returns {boolean}
-             * @private
-             */
-            _isFavouritePairOfIds(pairOfIds) {
-                return this._favourite.includesPairOfIds(pairOfIds);
-            }
-
-            /**
-             * @param pairOfIds
-             * @returns {boolean}
-             * @private
-             */
-            _isOtherPairOfIds(pairOfIds) {
-                return this._other.includesPairOfIds(pairOfIds);
-            }
-
-            /**
              * @returns {Promise}
              * @private
              */
@@ -265,7 +247,55 @@
              * @private
              */
             _prepareSearchResults({ value }) {
-                WatchlistSearch.search(value);
+                WatchlistSearch.search(value)
+                    .then((pairs) => {
+                        this._searchResults.clear();
+
+                        pairs.results.forEach((pair) => {
+                            if (this._isKnownPairOfIds(pair)) {
+                                return;
+                            }
+
+                            this._searchResults.addPairOfIds(pair);
+                        });
+
+                        this._searchResults.sortOnceVolumesLoaded();
+
+                        this._searchResults.pairsSorted.then(() => {
+                            this._updatePairsData();
+                        });
+                    });
+            }
+
+            /**
+             * @param pairOfIds
+             * @returns {boolean}
+             * @private
+             */
+            _isKnownPairOfIds(pairOfIds) {
+                return (
+                    this._isFavouritePairOfIds(pairOfIds) ||
+                    this._isOtherPairOfIds(pairOfIds) ||
+                    this._wandering.includesPairOfIds(pairOfIds)
+                );
+            }
+
+            /**
+             * @param pairOfIds
+             * @returns {boolean}
+             * @private
+             */
+            _isFavouritePairOfIds(pairOfIds) {
+                return this._favourite.includesPairOfIds(pairOfIds);
+            }
+
+            /**
+             * @param pairOfIds
+             * @returns {boolean}
+             * @private
+             */
+            _isOtherPairOfIds(pairOfIds) {
+                return this._other.includesPairOfIds(pairOfIds);
             }
 
             /**
@@ -311,6 +341,10 @@
                         ...this._wandering.getPairsData()
                     );
                 }
+
+                this.pairsData.push(
+                    ...this._searchResults.getPairsData().slice(0, 10)
+                );
             }
 
             toggleOnlyFavourite() {
@@ -323,24 +357,6 @@
              */
             shouldShowOnlyFavourite() {
                 return this._shouldShowOnlyFavourite;
-            }
-
-            /**
-             * @returns {boolean}
-             */
-            shouldShowSearchResults() {
-                return Boolean(this.assetSearchResults.length) || this.nothingFound;
-            }
-
-            /**
-             * @param asset
-             */
-            addNewPairFromSearch(asset) {
-                const pairOfIds = [WavesApp.defaultAssets.WAVES, asset.id];
-
-                this._addNewPair(pairOfIds);
-
-                this.search = '';
             }
 
             /**
@@ -409,7 +425,7 @@
                 if (this.isFavourite(pair)) {
                     this._exchangePair([this._favourite], this._other, pair);
                 } else {
-                    this._exchangePair([this._other, this._wandering], this._favourite, pair);
+                    this._exchangePair([this._other, this._wandering, this._searchResults], this._favourite, pair);
                 }
             }
 
