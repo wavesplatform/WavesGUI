@@ -157,6 +157,8 @@
                 $scope.$$postDigest(() => {
                     $element.find('input[name="amount"]').focus();
                 });
+
+                $element.find('.expandable').show();
             }
 
             setMaxAmount() {
