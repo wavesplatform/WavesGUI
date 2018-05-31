@@ -2,7 +2,7 @@
 
     class WatchlistSearch {
 
-        constructor(waves) {
+        constructor(waves, gateways, sepaGateways) {
 
             /**
              * @type {{resolve: Function }}
@@ -24,84 +24,162 @@
                 nothingFound: false
             };
 
-            /**
-             * @type {string}
-             */
-            const NAME_STUB = '—';
-
             return {
                 search
             };
 
-            function search(value) {
+            function search(query) {
                 searchProgress.resolve(INTERRUPTED_SEARCH_RESULT);
                 clearTimeout(searchDelay);
 
                 return new Promise((resolve) => {
                     searchProgress = { resolve };
 
-                    if (!value.length) {
+                    if (!query.length) {
                         resolve(INTERRUPTED_SEARCH_RESULT);
                         return;
                     }
 
                     searchDelay = setTimeout(() => {
+                        prepareSearches(query)
+                            .then((searches) => {
+                                Promise.all(searches.map((search) => search.run()))
+                                    .then((results) => {
+                                        const pairs = buildPairsOfIds(results);
 
-                        waves.node.assets.search(value)
-                            .then((searchResults) => {
-                                resolve(prepareSearchResults(searchResults, value));
-                            }, () => {
-                                resolve(INTERRUPTED_SEARCH_RESULT);
+                                        resolve({
+                                            results: pairs,
+                                            nothingFound: pairs.length === 0
+                                        });
+                                    });
                             });
                     }, 500);
                 });
             }
 
-            function prepareSearchResults(searchResults, value) {
-                const results = (
-                    searchResults
-                        .map((searchResult) => {
-                            const { id, ticker, name } = searchResult;
+            function prepareSearches(query = '') {
+                const SEPARATOR = '/';
 
-                            return {
-                                id,
-                                isWatched: false,
-                                ticker: getInputPartAndRemainder(value, ticker),
-                                name: getInputPartAndRemainder(value, name)
-                            };
-                        })
-                        .filter((searchResult) => {
-                            // Prevent appearing of wrong results when the query contains spaces.
-                            // todo: replace once the search is ready on api.wavesplatform.com.
-                            return !(
-                                searchResult.ticker.ending === NAME_STUB &&
-                                searchResult.name.ending === NAME_STUB
-                            );
-                        })
-                );
+                const splitMask = new RegExp(`([^/]*)${SEPARATOR}?(.*)`);
+                const splitResult = splitMask.exec(query);
 
-                return {
-                    results,
-                    nothingFound: results.length === 0
+                return Promise.all([
+                    getFirstItemSearch(splitResult[1], query.includes(SEPARATOR)),
+                    getSecondItemSearch(splitResult[2], query.includes(SEPARATOR))
+                ]);
+            }
+
+            function getFirstItemSearch(value, separatorIncluded) {
+                return tryToTreatAsIdAndGetSearchItem(value, buildFirstItemSearch(value, separatorIncluded));
+            }
+
+            function buildFirstItemSearch(value, separatorIncluded) {
+                return (asset) => {
+                    if (!asset && value && separatorIncluded) {
+                        return {
+                            value,
+                            run: searchStrict
+                        };
+                    }
+
+                    return buildAnyItemSearch(value)(asset);
                 };
             }
 
-            function getInputPartAndRemainder(query, text = '') {
-                const splitMask = new RegExp(`(.*)(${query})(.*)`, 'i');
-                const splitResult = splitMask.exec(text) || ['', '', '', NAME_STUB];
+            function searchStrict() {
+                return searchAsset(this.value, (name, ticker, value) => name === value || ticker === value);
+            }
 
-                return {
-                    beginning: splitResult[1],
-                    inputPart: splitResult[2],
-                    ending: splitResult[3]
+            function getSecondItemSearch(value) {
+                return tryToTreatAsIdAndGetSearchItem(value, buildAnyItemSearch(value));
+            }
+
+            function tryToTreatAsIdAndGetSearchItem(value, searchGetter) {
+                return (
+                    waves.node
+                        .assets
+                        .getExtendedAsset(value)
+                        .then(() => true, () => false)
+                        .then((isId) => {
+                            return searchGetter(isId);
+                        })
+                );
+            }
+
+            function buildAnyItemSearch(value) {
+                return (isId) => {
+                    if (isId) {
+                        return {
+                            value,
+                            run: searchId
+                        };
+                    }
+
+                    if (!value) {
+                        return {
+                            value,
+                            run: searchGateways
+                        };
+                    }
+
+                    return {
+                        value,
+                        run: searchLoose
+                    };
                 };
+            }
+
+            function searchId() {
+                return Promise.resolve([this.value]);
+            }
+
+            function searchGateways() {
+                const allGateways = Object.assign({}, gateways, sepaGateways);
+                return Promise.resolve(Object.keys(allGateways));
+            }
+
+            function searchLoose() {
+                return searchAsset(this.value, (name, ticker, value) => name.includes(value) || ticker.includes(value));
+            }
+
+            function searchAsset(value, filter) {
+                return waves.node.assets.search(value)
+                    .then((results) => {
+                        return (
+                            results
+                                .filter((result) => {
+                                    const { name = '', ticker = '' } = result;
+
+                                    return filter(
+                                        name.toLowerCase(),
+                                        ticker.toLowerCase(),
+                                        value.toLowerCase()
+                                    );
+                                })
+                                .map(({ id }) => id)
+                        );
+                    });
+            }
+
+            function buildPairsOfIds([ids, anotherIds]) {
+                const pairsOfIds = [];
+
+                ids.forEach((id) => {
+                    anotherIds.forEach((anotherId) => {
+                        if (id !== anotherId) {
+                            pairsOfIds.push([id, anotherId]);
+                        }
+                    });
+                });
+
+                return pairsOfIds;
             }
 
         }
 
     }
 
-    WatchlistSearch.$inject = ['waves'];
+    WatchlistSearch.$inject = ['waves', 'gateways', 'sepaGateways'];
 
     angular.module('app.dex').service('WatchlistSearch', WatchlistSearch);
 }

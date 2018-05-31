@@ -252,7 +252,6 @@
             }
 
             _getAndAddPair(pairOfIds) {
-                // todo: понять, работает ли.
                 const pairRequest = Waves.AssetPair.get(...pairOfIds);
 
                 pairRequest.then((pair) => {
@@ -266,11 +265,7 @@
              * @private
              */
             _prepareSearchResults({ value }) {
-                WatchlistSearch.search(value)
-                    .then((results) => {
-                        this.assetSearchResults = results.results;
-                        this.nothingFound = results.nothingFound;
-                    });
+                WatchlistSearch.search(value);
             }
 
             /**
@@ -481,16 +476,6 @@
                 }
 
                 return null;
-            }
-
-            /**
-             * @param {string} assetId
-             * @param {string} anotherAssetId
-             * @returns {*}
-             * @private
-             */
-            static _getPair(assetId, anotherAssetId) {
-                return Waves.AssetPair.get(assetId, anotherAssetId);
             }
 
         }
