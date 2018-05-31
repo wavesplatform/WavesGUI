@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-    const NAME_STUB = '—';
-
     /**
      * @param Base
      * @param {Waves} waves
@@ -14,6 +12,7 @@
      * @param sepaGateways
      * @param PairData
      * @param PairList
+     * @param WatchlistSearch
      * @return {DexWatchlist}
      */
     const controller = function (
@@ -26,7 +25,8 @@
         gateways,
         sepaGateways,
         PairData,
-        PairList
+        PairList,
+        WatchlistSearch
     ) {
 
         class DexWatchlist extends Base {
@@ -126,20 +126,6 @@
                 this._assetIdPair = null;
 
                 /**
-                 * Active xhr from find assets request.
-                 * @type {JQueryXHR}
-                 * @private
-                 */
-                this._assetSearchInProgress = null;
-
-                /**
-                 * Id of timeout for input
-                 * @type {number}
-                 * @private
-                 */
-                this._assetSearchDelay = null;
-
-                /**
                  * @type {boolean}
                  * @private
                  */
@@ -156,6 +142,8 @@
                 this._setFavouritePairs();
                 this._setOtherPairs();
                 this._setWanderingPair();
+                // todo: reconstruct to prevent rows jumps.
+                this._updatePairsData();
 
                 Promise.all([
                     this._favourite.pairsSorted,
@@ -214,7 +202,7 @@
                     return;
                 }
 
-                if (this._isFavouritePairOfIds(pairFromState) || this._isOther(pairFromState)) {
+                if (this._isFavouritePairOfIds(pairFromState) || this._isOtherPairOfIds(pairFromState)) {
                     return;
                 }
 
@@ -237,7 +225,7 @@
              * @returns {boolean}
              * @private
              */
-            _isOther(pairOfIds) {
+            _isOtherPairOfIds(pairOfIds) {
                 return this._other.includesPairOfIds(pairOfIds);
             }
 
@@ -250,89 +238,39 @@
 
                 if (!pairFromState) {
                     this._setDefaultPair();
-                    this._switchLocationToChosenPair();
                     return Promise.resolve();
                 }
 
-                return DexWatchlist._getPair(...pairFromState)
-                    .then((pair) => {
-                        this._setPairAndAddToAssetsIds(pair);
-                    })
-                    .catch(() => {
-                        const { WAVES, BTC } = WavesApp.defaultAssets;
+                return (
+                    this._getAndAddPair(...pairFromState)
+                        .catch(() => {
+                            const { WAVES, BTC } = WavesApp.defaultAssets;
 
-                        return DexWatchlist._getPair(WAVES, BTC)
-                            .then((pair) => {
-                                this._setPairAndAddToAssetsIds(pair);
-                                this._switchLocationToChosenPair();
-                            });
-                    });
+                            return this._getAndAddPair([WAVES, BTC]);
+                        })
+                );
+            }
+
+            _getAndAddPair(pairOfIds) {
+                // todo: понять, работает ли.
+                const pairRequest = Waves.AssetPair.get(...pairOfIds);
+
+                pairRequest.then((pair) => {
+                    this._addNewPair([pair.amountAsset.id, pair.priceAsset.id]);
+                });
+
+                return pairRequest;
             }
 
             /**
-             * @param pair
-             * @private
-             */
-            _setPairAndAddToAssetsIds(pair) {
-                this._chooseExistingPair([pair.amountAsset.id, pair.priceAsset.id]);
-            }
-
-            /**
-             * @param value
              * @private
              */
             _prepareSearchResults({ value }) {
-                if (this._assetSearchInProgress) {
-                    this._assetSearchInProgress.abort();
-                    this._assetSearchInProgress = null;
-                }
-
-                if (this._assetSearchDelay) {
-                    clearTimeout(this._assetSearchDelay);
-                    this._assetSearchDelay = null;
-                }
-
-                if (!value.length) {
-                    this._clearSearchResults();
-                    this.nothingFound = false;
-                    return;
-                }
-
-                this._assetSearchDelay = setTimeout(() => {
-                    this._assetSearchInProgress = waves.node.assets.search(value);
-                    this._assetSearchInProgress
-                        .then((searchResults) => {
-                            this.assetSearchResults = (
-                                searchResults
-                                    .filter((searchResult) => searchResult.id !== this.baseAssetId)
-                                    .map((searchResult) => {
-                                        const { id, ticker, name } = searchResult;
-
-                                        return {
-                                            id,
-                                            isWatched: this._assetsIds.some((assetId) => assetId === id),
-                                            ticker: DexWatchlist._getInputPartAndRemainder(value, ticker),
-                                            name: DexWatchlist._getInputPartAndRemainder(value, name)
-                                        };
-                                    })
-                                    .filter((searchResult) => {
-                                        // Prevent appearing of wrong results when the query contains spaces.
-                                        // todo: replace once the search is ready on api.wavesplatform.com.
-                                        return !(
-                                            searchResult.ticker.ending === NAME_STUB &&
-                                            searchResult.name.ending === NAME_STUB
-                                        );
-                                    })
-                            );
-
-                            this._setNothingFound();
-                            $scope.$digest();
-                        }, () => {
-                            this._clearSearchResults();
-                            this._setNothingFound();
-                            $scope.$digest();
-                        });
-                }, 500);
+                WatchlistSearch.search(value)
+                    .then((results) => {
+                        this.assetSearchResults = results.results;
+                        this.nothingFound = results.nothingFound;
+                    });
             }
 
             /**
@@ -346,6 +284,9 @@
                 };
             }
 
+            /**
+             * @private
+             */
             _setDefaultPair() {
                 this._chosenPair = this.pairsData[0];
             }
@@ -358,6 +299,9 @@
                 $location.search('assetId2', this._chosenPair.pairOfIds[1]);
             }
 
+            /**
+             * @private
+             */
             _updatePairsData() {
                 const favouritePairsData = this._favourite.getPairsData();
 
@@ -379,6 +323,9 @@
                 this._updatePairsData();
             }
 
+            /**
+             * @returns {boolean}
+             */
             shouldShowOnlyFavourite() {
                 return this._shouldShowOnlyFavourite;
             }
@@ -393,9 +340,19 @@
             /**
              * @param asset
              */
-            addNewPair(asset) {
+            addNewPairFromSearch(asset) {
                 const pairOfIds = [WavesApp.defaultAssets.WAVES, asset.id];
 
+                this._addNewPair(pairOfIds);
+
+                this.search = '';
+            }
+
+            /**
+             * @param pairOfIds
+             * @private
+             */
+            _addNewPair(pairOfIds) {
                 let wanderingPair = this._getKnownPairDataBy(pairOfIds);
                 if (!wanderingPair) {
                     this._updateWanderingPairs(pairOfIds);
@@ -403,19 +360,9 @@
                     wanderingPair = this._wandering.getPairsData()[0];
                 }
 
-                wanderingPair.amountAndPriceRequest.then(() => {
+                return wanderingPair.amountAndPriceRequest.then(() => {
                     this.choosePair(wanderingPair);
                 });
-
-                this.search = '';
-            }
-
-            _updateWanderingPairs(pairOfIds) {
-                this._wandering.clear();
-                if (pairOfIds) {
-                    this._wandering.addPairOfIds(pairOfIds);
-                }
-                this._updatePairsData();
             }
 
             /**
@@ -427,6 +374,18 @@
                 }
 
                 this._chosenPair = pair;
+            }
+
+            /**
+             * @param pairOfIds
+             * @private
+             */
+            _updateWanderingPairs(pairOfIds) {
+                this._wandering.clear();
+                if (pairOfIds) {
+                    this._wandering.addPairOfIds(pairOfIds);
+                }
+                this._updatePairsData();
             }
 
             /**
@@ -486,28 +445,10 @@
             }
 
             /**
-             * @private
-             */
-            _clearSearchResults() {
-                this.assetSearchResults = [];
-            }
-
-            /**
-             * @private
-             */
-            _setNothingFound() {
-                this.nothingFound = !this.assetSearchResults.length;
-            }
-
-            /**
              * @param pairOfIds
+             * @returns {*}
              * @private
              */
-            _chooseExistingPair(pairOfIds) {
-                const knownPair = this._getKnownPairDataBy(pairOfIds);
-                this._chosenPair = knownPair || this.pairsData[0];
-            }
-
             _getKnownPairDataBy(pairOfIds) {
                 return (
                     this.pairsData
@@ -552,23 +493,6 @@
                 return Waves.AssetPair.get(assetId, anotherAssetId);
             }
 
-            /**
-             * @param {string} query
-             * @param {string} text
-             * @returns {{beginning: string, inputPart: string, ending: string}}
-             * @private
-             */
-            static _getInputPartAndRemainder(query, text = '') {
-                const splitMask = new RegExp(`(.*)(${query})(.*)`, 'i');
-                const splitResult = splitMask.exec(text) || ['', '', '', NAME_STUB];
-
-                return {
-                    beginning: splitResult[1],
-                    inputPart: splitResult[2],
-                    ending: splitResult[3]
-                };
-            }
-
         }
 
         return new DexWatchlist();
@@ -584,7 +508,8 @@
         'gateways',
         'sepaGateways',
         'PairData',
-        'PairList'
+        'PairList',
+        'WatchlistSearch'
     ];
 
     angular.module('app.dex')

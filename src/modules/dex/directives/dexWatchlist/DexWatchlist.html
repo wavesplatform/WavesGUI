@@ -26,15 +26,13 @@
 
     <w-input placeholder="directives.watchlist.placeholders.coin"
              ng-model="$ctrl.search"
-             ng-focus="$ctrl.focused = true"
-             ng-blur="$ctrl.focused = false"
              w-i18n-attr="placeholder"></w-input>
 
     <div class="search-list"
          ng-if="$ctrl.shouldShowSearchResults()">
         <div class="search-item"
              ng-repeat="asset in $ctrl.assetSearchResults track by asset.id"
-             ng-click="$ctrl.addNewPair(asset)"
+             ng-click="$ctrl.addNewPairFromSearch(asset)"
              ng-class="{
             'watched': asset.isWatched
          }">
