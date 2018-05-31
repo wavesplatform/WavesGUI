@@ -6,18 +6,16 @@ import { isEmpty } from 'ts-utils';
 export function request<T>(params: IRequestParams<T>): Promise<T> {
     let promise;
     if (params.url) {
-
-        addDefaultRequestParams(params.url, params.fetchOptions);
-
+        params.fetchOptions = addDefaultRequestParams(params.url, params.fetchOptions);
         promise = fetch(normalizeUrl(params.url), params.fetchOptions || Object.create(null))
             .then((response) => {
+                const isJSON = response.headers.get('Content-Type').toLowerCase().includes('application/json');
                 if (response.ok) {
-                    return response.text();
+                    return response.text().then((data) => isJSON ? parse(data) : data);
                 } else {
                     return response.text().then((text) => Promise.reject(text));
                 }
-            })
-            .then(parse);
+            });
     } else if (params.method) {
         promise = params.method();
     } else {
@@ -28,10 +26,11 @@ export function request<T>(params: IRequestParams<T>): Promise<T> {
     return promise;
 }
 
-function addDefaultRequestParams(url: string, options: IFetchOptions = Object.create(null)): void {
+function addDefaultRequestParams(url: string, options: IFetchOptions = Object.create(null)): IFetchOptions {
     if (url.indexOf(get('node')) === 0 && isEmpty(options.credentials) && options.method !== 'POST') {
         options.credentials = 'include';
     }
+    return options;
 }
 
 export interface IRequestParams<T> {

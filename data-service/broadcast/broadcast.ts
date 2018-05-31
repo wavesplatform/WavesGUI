@@ -1,10 +1,9 @@
 import { Money, BigNumber } from '@waves/data-entities';
 import { idToNode } from '../utils/utils';
-import { libs } from '@waves/waves-signature-generator';
+import { libs, MASS_TRANSFER_TX_VERSION } from '@waves/waves-signature-generator';
 import { getSignatureApi, SIGN_TYPE } from '../sign';
 import { request } from '../utils/request';
 import { get } from '../config';
-import { signature } from '../index';
 
 
 export function broadcast(type: SIGN_TYPE, data: any) {
@@ -17,7 +16,8 @@ export function broadcast(type: SIGN_TYPE, data: any) {
         const schema = schemas.getSchemaByType(type);
         return api.sign({ type, data: schema.sign({ ...data, sender, senderPublicKey, timestamp }) } as any)
             .then((signature) => {
-                return schema.api({ ...data, sender, senderPublicKey, signature, timestamp });
+                const proofs = [signature];
+                return schema.api({ ...data, sender, senderPublicKey, signature, timestamp, proofs });
             });
     }).then((data) => {
         return request({
@@ -158,6 +158,12 @@ export module prepare {
             return date || new Date().setDate(new Date().getDate() + 20);
         }
 
+        export function transfers(recipient, amount) {
+            return (transfers) => transfers.map((transfer) => ({
+                recipient: recipient(transfer.recipient),
+                amount: amount(transfer.amount)
+            }));
+        }
     }
 
     export function wrap(from: string, to: string, cb: any): IWrappedFunction {
@@ -208,7 +214,7 @@ export module schemas {
 
         export const cancelOrder = prepare.schema(
             'orderId',
-            'sender',
+            prepare.wrap('senderPublicKey', 'sender', prepare.processors.noProcess),
             'signature'
         );
 
@@ -285,6 +291,21 @@ export module schemas {
             prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp),
             'signature',
             prepare.wrap('type', 'type', prepare.processors.addValue(SIGN_TYPE.CREATE_ALIAS))
+        );
+
+        export const massTransfer = prepare.schema(
+            'senderPublicKey',
+            prepare.wrap('version', 'version', prepare.processors.addValue(MASS_TRANSFER_TX_VERSION)),
+            prepare.wrap('totalAmount', 'assetId', prepare.processors.moneyToNodeAssetId),
+            prepare.wrap('transfers', 'transfers', prepare.processors.transfers(
+                prepare.processors.recipient,
+                prepare.processors.moneyToNumber
+            )),
+            prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp),
+            prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
+            prepare.wrap('attachment', 'attachment', prepare.processors.attachment),
+            prepare.wrap('type', 'type', prepare.processors.addValue(SIGN_TYPE.MASS_TRANSFER)),
+            'proofs'
         );
 
     }
@@ -369,6 +390,19 @@ export module schemas {
             prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
             prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp),
         );
+
+        export const massTransfer = prepare.schema(
+            'senderPublicKey',
+            prepare.wrap('totalAmount', 'assetId', prepare.processors.moneyToAssetId),
+            prepare.wrap('transfers', 'transfers', prepare.processors.transfers(
+                prepare.processors.noProcess,
+                prepare.processors.moneyToNumber
+            )),
+            prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp),
+            prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
+            prepare.wrap('attachment', 'attachment', prepare.processors.noProcess),
+            'proofs'
+        );
     }
 
     export function getSchemaByType(type: SIGN_TYPE) {
@@ -391,6 +425,8 @@ export module schemas {
                 return { api: api.cancelLeasing, sign: sign.cancelLeasing };
             case SIGN_TYPE.CREATE_ALIAS:
                 return { api: api.alias, sign: sign.alias };
+            case SIGN_TYPE.MASS_TRANSFER:
+                return { api: api.massTransfer, sign: sign.massTransfer };
         }
     }
 }

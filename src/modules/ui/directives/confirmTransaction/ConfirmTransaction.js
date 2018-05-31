@@ -74,7 +74,7 @@
                         txPromise = ds.broadcast(4, this.tx);
                         break;
                     case TYPES.MASS_TRANSFER:
-                        txPromise = waves.node.assets.massTransfer({ ...this.tx });
+                        txPromise = ds.broadcast(11, this.tx);
                         break;
                     case TYPES.EXCHANGE:
                         throw new Error('Can\'t create exchange transaction!');

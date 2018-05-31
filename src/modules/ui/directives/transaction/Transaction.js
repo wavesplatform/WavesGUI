@@ -43,12 +43,12 @@
 
             cancelLeasing() {
                 const leaseTransactionAmount = this.transaction.amount;
-                const leaseTransactionId = this.transaction.id;
+                const leaseId = this.transaction.id;
                 return waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING })
                     .then((fee) => modalManager.showConfirmTx(WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING, {
                         fee,
                         leaseTransactionAmount,
-                        leaseTransactionId
+                        leaseId
                     }));
             }
 

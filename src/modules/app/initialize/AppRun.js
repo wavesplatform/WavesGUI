@@ -59,8 +59,8 @@
         const origin = 'https://raw.githubusercontent.com/wavesplatform/WavesGUI/client-907-fix-portfolio/scam.csv';
         const papa = require('papaparse');
 
-        fetch(proxy)
-            .catch(() => fetch(origin))
+        ds.fetch(proxy)
+            .catch(() => ds.fetch(origin))
             .then((text) => {
                 papa.parse(text).data.forEach(([id]) => {
                     WavesApp.scam[id] = true;

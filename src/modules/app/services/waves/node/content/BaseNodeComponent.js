@@ -43,7 +43,7 @@
                                 const len = tx && tx.transfers && tx.transfers.length || 0;
                                 const transfer = new BigNumber('0.001');
                                 const massTransfer = new BigNumber('0.001').div(2);
-                                return money.cloneWithTokens(transfer.add(massTransfer.times(len)));
+                                return money.cloneWithTokens(transfer.plus(massTransfer.times(len)));
                             })
                         ]);
                     case TYPES.ISSUE:
