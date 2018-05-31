@@ -67,12 +67,12 @@
                                 <div ng-if="$ctrl.type === 'buy'"
                                      ng-click="$ctrl.setMaxPrice()"
                                      class="caption-1 disabled-900 amount-balance">
-                                    <w-balance money="$ctrl.priceBalance"></w-balance>&nbsp;{{$ctrl.priceBalance.asset.displayName}}
+                                    <w-balance money="$ctrl.priceBalance"></w-balance><w-i18n w-i18n-ns="app.ui">whitespace</w-i18n>{{$ctrl.priceBalance.asset.displayName}}
                                 </div>
                                 <div ng-if="$ctrl.type === 'sell'"
                                      ng-click="$ctrl.setMaxAmount()"
                                      class="caption-1 disabled-900 amount-balance">
-                                    <w-balance money="$ctrl.amountBalance"></w-balance>&nbsp;{{$ctrl.amountBalance.asset.displayName}}
+                                    <w-balance money="$ctrl.amountBalance"></w-balance><w-i18n w-i18n-ns="app.ui">whitespace</w-i18n>{{$ctrl.amountBalance.asset.displayName}}
                                 </div>
                             </div>
                             <w-input-container>
@@ -150,8 +150,8 @@
                         <div class="summary">
                             <div class="caption-2 disabled-700">
                                 <w-i18n>directives.createOrder.total</w-i18n>
-                                <span>&nbsp;{{$ctrl.totalPrice.toFormat($ctrl.priceBalance.asset.precision)}}</span>
-                                <span>&nbsp;{{$ctrl.priceDisplayName}}</span>
+                                <span><w-i18n w-i18n-ns="app.ui">whitespace</w-i18n>{{$ctrl.totalPrice.toFormat($ctrl.priceBalance.asset.precision)}}</span>
+                                <span><w-i18n w-i18n-ns="app.ui">whitespace</w-i18n>{{$ctrl.priceDisplayName}}</span>
                             </div>
                             <div class="caption-2 disabled-700">Fee 0.003 WAVES</div>
                         </div>

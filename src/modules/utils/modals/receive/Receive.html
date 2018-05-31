@@ -178,9 +178,9 @@
                                     <div class="row margin-1 relative">
                                         <div class="body-2 basic-900" w-i18n="modal.receive.amountYouPay"></div>
                                         <div class="basic-500 footnote-1">
-                                            <w-i18n>modal.receive.minimumIs</w-i18n>&nbsp;{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].min}}
-                                            {{$ctrl.currencies[$ctrl.chosenCurrencyIndex].name}},&nbsp;
-                                            <w-i18n>modal.receive.maximumIs</w-i18n>&nbsp;{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].max}}
+                                            <w-i18n>modal.receive.minimumIs</w-i18n><w-i18n w-i18n-ns="app.ui">whitespace</w-i18n>{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].min}}
+                                            {{$ctrl.currencies[$ctrl.chosenCurrencyIndex].name}},<w-i18n w-i18n-ns="app.ui">whitespace</w-i18n>
+                                            <w-i18n>modal.receive.maximumIs</w-i18n><w-i18n w-i18n-ns="app.ui">whitespace</w-i18n>{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].max}}
                                             {{$ctrl.currencies[$ctrl.chosenCurrencyIndex].name}}
                                         </div>
                                         <div class="card-icons">
