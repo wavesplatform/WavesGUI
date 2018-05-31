@@ -287,6 +287,7 @@
                 '{{network.assets.BTC}}': 'Bitcoin',
                 '{{network.assets.ETH}}': 'Ethereum'
             },
+            scam: Object.create(null),
             dex: {
                 resolutions: ['15', '30', '60', '240', '1440'], // TODO : add months
                 defaultResolution: '60'
@@ -606,6 +607,7 @@
      * @property {string} name
      * @property {string} version
      * @property {string} type
+     * @property {Object.<boolean>} scam
      * @property {MobileDetect} device
      * @property {Object.<{separators: {group: string, decimal: string}}>} localize
      * @property {number} minAliasLength
