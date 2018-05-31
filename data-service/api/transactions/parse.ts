@@ -138,7 +138,8 @@ export function parseLeasingTx(tx: txApi.ILease, assetsHash: IHash<Asset>, isUTX
     const amount = new Money(new BigNumber(tx.amount), assetsHash[WAVES_ID]);
     const fee = new Money(new BigNumber(tx.fee), assetsHash[WAVES_ID]);
     const recipient = normalizeRecipient(tx.recipient);
-    return { ...tx, amount, fee, isUTX, recipient };
+    const isActive = tx.status === 'active';
+    return { ...tx, amount, fee, isUTX, recipient, isActive };
 }
 
 export function parseCancelLeasingTx(tx: txApi.ICancelLeasing, assetsHash: IHash<Asset>, isUTX: boolean): ICancelLeasing {

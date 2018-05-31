@@ -2,6 +2,7 @@
     'use strict';
 
     const PATH = 'modules/ui/directives/transaction/types';
+    const tsUtils = require('ts-utils');
 
     /**
      * @param Base
@@ -27,6 +28,14 @@
                 this.shownAddress = this.transaction.shownAddress;
                 this.typeName = this.transaction.typeName;
 
+                const TYPES = waves.node.transactions.TYPES;
+                if (this.typeName === TYPES.BURN || this.typeName === TYPES.ISSUE || this.typeName === TYPES.REISSUE) {
+                    this.name = tsUtils.get(this.transaction, 'amount.asset.name') ||
+                        tsUtils.get(this.transaction, 'quantity.asset.name');
+                    this.amount = (tsUtils.get(this.transaction, 'amount') ||
+                        tsUtils.get(this.transaction, 'quantity')).toFormat();
+                }
+
                 if (this.transaction.amount && this.transaction.amount instanceof ds.wavesDataEntities.Money) {
                     baseAssetService.convertToBaseAsset(this.transaction.amount)
                         .then((baseMoney) => {
@@ -35,7 +44,6 @@
                         });
                 }
 
-                const TYPES = waves.node.transactions.TYPES;
                 if (this.typeName === TYPES.EXCHANGE_BUY || this.typeName === TYPES.EXCHANGE_SELL) {
                     this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
                 }

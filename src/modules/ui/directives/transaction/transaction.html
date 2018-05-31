@@ -18,7 +18,7 @@
             </w-action>
         </div>
         <!--TODO : isActive-->
-        <w-action ng-if="$ctrl.type === 'lease-out' && $ctrl.transaction.isActive"
+        <w-action ng-if="$ctrl.typeName === 'lease-out' && $ctrl.transaction.isActive"
                   ng-click="$ctrl.cancelLeasing()">
             <w-i18n>transaction.actions.cancelLeasing</w-i18n>
         </w-action>

@@ -2,7 +2,7 @@
     <div class="line">
         <div class="body-1 basic-700 fs-mobile">
              <span w-i18n="transaction.headers.{{::$ctrl.typeName}}"
-                   params="{name: $ctrl.transaction.quantity.asset.name}"></span>
+                   params="{name: $ctrl.name}"></span>
         </div>
         <div class="footnote-1 basic-500 fs-mobile">
              <span w-i18n="transaction.subheaders.{{::$ctrl.typeName}}"
@@ -13,7 +13,7 @@
         <div class="body-1 basic-700 fs-mobile">
         <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
               params="{
-                amount: $ctrl.transaction.quantity.toFormat(),
+                amount: $ctrl.amount,
                 name: $ctrl.transaction.quantity.asset.name
               }"></span>
         </div>

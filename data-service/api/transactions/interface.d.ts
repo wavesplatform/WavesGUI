@@ -213,6 +213,7 @@ export interface ILease extends IBaseTransaction {
     type: TRANSACTION_TYPE_NUMBER.LEASE;
     amount: Money;
     fee: Money;
+    isActive: boolean;
     status?: TLeasingStatus;
     recipient: string;
 }

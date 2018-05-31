@@ -279,7 +279,7 @@ export module schemas {
             'senderPublicKey',
             prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
             prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp),
-            prepare.wrap('transactionId', 'transactionId', prepare.processors.noProcess),
+            prepare.wrap('leaseId', 'leaseId', prepare.processors.noProcess),
             'signature',
             prepare.wrap('type', 'type', prepare.processors.addValue(SIGN_TYPE.CANCEL_LEASING))
         );
@@ -381,7 +381,7 @@ export module schemas {
             'senderPublicKey',
             prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
             prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp),
-            prepare.wrap('transactionId', 'transactionId', prepare.processors.noProcess)
+            prepare.wrap('leaseId', 'transactionId', prepare.processors.noProcess)
         );
 
         export const alias = prepare.schema(
