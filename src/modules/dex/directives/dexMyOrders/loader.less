@@ -16,13 +16,13 @@
     &::after {
       border: none;
       position: absolute;
-      top: 3px;
-      left: 3px;
+      top: 2px;
+      left: 2px;
       text-align: center;
       display: block;
       border-radius: 50%;
-      width: 24px;
-      height: 24px;
+      width: 26px;
+      height: 26px;
       background-color: @color-white;
       content: '';
     }
@@ -39,8 +39,8 @@
 
     .left-half-clipper {
       border-radius: 50%;
-      width: 30px;
-      height: 30px;
+      width: 31px;
+      height: 31px;
       position: absolute;
       clip: rect(0, 30px, 30px, 15px);
     }
@@ -65,6 +65,7 @@
       width: 30px;
       height: 30px;
     }
+
     &:not(.over50) .first50-bar {
       display: none;
     }
@@ -78,7 +79,7 @@
 
     .value-bar,
     &.over50 .first50-bar {
-      border: 3px solid @color-error-500; // line color
+      border: 2px solid @color-error-500; // line color
     }
 
     span {
@@ -93,7 +94,7 @@
 
     .value-bar,
     &.over50 .first50-bar {
-      border: 3px solid @color-submit-400; // line color
+      border: 2px solid @color-submit-400; // line color
     }
 
     span {
@@ -101,108 +102,6 @@
     }
   }
 }
-
-.circle-loader.p0 .value-bar { display: none; }
-.circle-loader.p1 .value-bar { transform: rotate(4deg); }
-.circle-loader.p2 .value-bar { transform: rotate(7deg); }
-.circle-loader.p3 .value-bar { transform: rotate(11deg); }
-.circle-loader.p4 .value-bar { transform: rotate(14deg); }
-.circle-loader.p5 .value-bar { transform: rotate(18deg); }
-.circle-loader.p6 .value-bar { transform: rotate(22deg); }
-.circle-loader.p7 .value-bar { transform: rotate(25deg); }
-.circle-loader.p8 .value-bar { transform: rotate(29deg); }
-.circle-loader.p9 .value-bar { transform: rotate(32deg); }
-.circle-loader.p10 .value-bar { transform: rotate(36deg); }
-.circle-loader.p11 .value-bar { transform: rotate(40deg); }
-.circle-loader.p12 .value-bar { transform: rotate(43deg); }
-.circle-loader.p13 .value-bar { transform: rotate(47deg); }
-.circle-loader.p14 .value-bar { transform: rotate(50deg); }
-.circle-loader.p15 .value-bar { transform: rotate(54deg); }
-.circle-loader.p16 .value-bar { transform: rotate(58deg); }
-.circle-loader.p17 .value-bar { transform: rotate(61deg); }
-.circle-loader.p18 .value-bar { transform: rotate(65deg); }
-.circle-loader.p19 .value-bar { transform: rotate(68deg); }
-.circle-loader.p20 .value-bar { transform: rotate(72deg); }
-.circle-loader.p21 .value-bar { transform: rotate(76deg); }
-.circle-loader.p22 .value-bar { transform: rotate(79deg); }
-.circle-loader.p23 .value-bar { transform: rotate(83deg); }
-.circle-loader.p24 .value-bar { transform: rotate(86deg); }
-.circle-loader.p25 .value-bar { transform: rotate(90deg); }
-.circle-loader.p26 .value-bar { transform: rotate(94deg); }
-.circle-loader.p27 .value-bar { transform: rotate(97deg); }
-.circle-loader.p28 .value-bar { transform: rotate(101deg); }
-.circle-loader.p29 .value-bar { transform: rotate(104deg); }
-.circle-loader.p30 .value-bar { transform: rotate(108deg); }
-.circle-loader.p31 .value-bar { transform: rotate(112deg); }
-.circle-loader.p32 .value-bar { transform: rotate(115deg); }
-.circle-loader.p33 .value-bar { transform: rotate(119deg); }
-.circle-loader.p34 .value-bar { transform: rotate(122deg); }
-.circle-loader.p35 .value-bar { transform: rotate(126deg); }
-.circle-loader.p36 .value-bar { transform: rotate(130deg); }
-.circle-loader.p37 .value-bar { transform: rotate(133deg); }
-.circle-loader.p38 .value-bar { transform: rotate(137deg); }
-.circle-loader.p39 .value-bar { transform: rotate(140deg); }
-.circle-loader.p40 .value-bar { transform: rotate(144deg); }
-.circle-loader.p41 .value-bar { transform: rotate(148deg); }
-.circle-loader.p42 .value-bar { transform: rotate(151deg); }
-.circle-loader.p43 .value-bar { transform: rotate(155deg); }
-.circle-loader.p44 .value-bar { transform: rotate(158deg); }
-.circle-loader.p45 .value-bar { transform: rotate(162deg); }
-.circle-loader.p46 .value-bar { transform: rotate(166deg); }
-.circle-loader.p47 .value-bar { transform: rotate(169deg); }
-.circle-loader.p48 .value-bar { transform: rotate(173deg); }
-.circle-loader.p49 .value-bar { transform: rotate(176deg); }
-.circle-loader.p50 .value-bar { transform: rotate(180deg); }
-.circle-loader.p51 .value-bar { transform: rotate(184deg); }
-.circle-loader.p52 .value-bar { transform: rotate(187deg); }
-.circle-loader.p53 .value-bar { transform: rotate(191deg); }
-.circle-loader.p54 .value-bar { transform: rotate(194deg); }
-.circle-loader.p55 .value-bar { transform: rotate(198deg); }
-.circle-loader.p56 .value-bar { transform: rotate(202deg); }
-.circle-loader.p57 .value-bar { transform: rotate(205deg); }
-.circle-loader.p58 .value-bar { transform: rotate(209deg); }
-.circle-loader.p59 .value-bar { transform: rotate(212deg); }
-.circle-loader.p60 .value-bar { transform: rotate(216deg); }
-.circle-loader.p61 .value-bar { transform: rotate(220deg); }
-.circle-loader.p62 .value-bar { transform: rotate(223deg); }
-.circle-loader.p63 .value-bar { transform: rotate(227deg); }
-.circle-loader.p64 .value-bar { transform: rotate(230deg); }
-.circle-loader.p65 .value-bar { transform: rotate(234deg); }
-.circle-loader.p66 .value-bar { transform: rotate(238deg); }
-.circle-loader.p67 .value-bar { transform: rotate(241deg); }
-.circle-loader.p68 .value-bar { transform: rotate(245deg); }
-.circle-loader.p69 .value-bar { transform: rotate(248deg); }
-.circle-loader.p70 .value-bar { transform: rotate(252deg); }
-.circle-loader.p71 .value-bar { transform: rotate(256deg); }
-.circle-loader.p72 .value-bar { transform: rotate(259deg); }
-.circle-loader.p73 .value-bar { transform: rotate(263deg); }
-.circle-loader.p74 .value-bar { transform: rotate(266deg); }
-.circle-loader.p75 .value-bar { transform: rotate(270deg); }
-.circle-loader.p76 .value-bar { transform: rotate(274deg); }
-.circle-loader.p77 .value-bar { transform: rotate(277deg); }
-.circle-loader.p78 .value-bar { transform: rotate(281deg); }
-.circle-loader.p79 .value-bar { transform: rotate(284deg); }
-.circle-loader.p80 .value-bar { transform: rotate(288deg); }
-.circle-loader.p81 .value-bar { transform: rotate(292deg); }
-.circle-loader.p82 .value-bar { transform: rotate(295deg); }
-.circle-loader.p83 .value-bar { transform: rotate(299deg); }
-.circle-loader.p84 .value-bar { transform: rotate(302deg); }
-.circle-loader.p85 .value-bar { transform: rotate(306deg); }
-.circle-loader.p86 .value-bar { transform: rotate(310deg); }
-.circle-loader.p87 .value-bar { transform: rotate(313deg); }
-.circle-loader.p88 .value-bar { transform: rotate(317deg); }
-.circle-loader.p89 .value-bar { transform: rotate(320deg); }
-.circle-loader.p90 .value-bar { transform: rotate(324deg); }
-.circle-loader.p91 .value-bar { transform: rotate(328deg); }
-.circle-loader.p92 .value-bar { transform: rotate(331deg); }
-.circle-loader.p93 .value-bar { transform: rotate(335deg); }
-.circle-loader.p94 .value-bar { transform: rotate(338deg); }
-.circle-loader.p95 .value-bar { transform: rotate(342deg); }
-.circle-loader.p96 .value-bar { transform: rotate(346deg); }
-.circle-loader.p97 .value-bar { transform: rotate(349deg); }
-.circle-loader.p98 .value-bar { transform: rotate(353deg); }
-.circle-loader.p99 .value-bar { transform: rotate(356deg); }
-.circle-loader.p100 .value-bar { transform: rotate(360deg); }
 
 @media screen and (max-width: 768px) {
   .circle-holder {

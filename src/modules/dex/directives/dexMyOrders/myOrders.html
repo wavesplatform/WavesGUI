@@ -38,11 +38,14 @@
                     <div class="progress-fill" style="width: {{order.percent}}%"></div>
                 </div>
                 <div class="circle-holder">
-                    <div class="circle-loader p{{order.percent.toString()}}">
-                        <span>{{order.percent.toString()}}</span>
+                    <div class="circle-loader"
+                         ng-class="{over50: order.percent > 0.5}">
+                        <span>{{order.percent.toString() * 100}}%</span>
                         <div class="left-half-clipper">
                             <div class="first50-bar"></div>
-                            <div class="value-bar"></div>
+                            <div class="value-bar"
+                                 style="transform: rotate({{order.percent * 360}}deg)">
+                            </div>
                         </div>
                     </div>
                 </div>

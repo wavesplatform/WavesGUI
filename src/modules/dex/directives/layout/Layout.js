@@ -8,7 +8,7 @@
      * @param {app.utils} utils
      * @return {Layout}
      */
-    const controller = function (Base, $q, $element, utils) {
+    const controller = function (Base, $q, $element, utils, $rootScope) {
 
         class Layout extends Base {
 
@@ -90,10 +90,12 @@
                  */
                 this._topRightCollapsed = null;
 
+                this.isPhone = $rootScope.isPhone;
+                this.isTablet = $rootScope.isTablet;
+                this.isDesktop = $rootScope.isDesktop;
+                this.isNotDesktop = $rootScope.isNotDesktop;
+
                 this.syncSettings({
-                    // _topLeftHeight: 'dex.layout.topleft.split',
-                    // _topRightHeight: 'dex.layout.topright.split',
-                    // _topCenterHeight: 'dex.layout.topcenter.split',
                     _topLeftCollapsed: 'dex.layout.topleft.collapsed',
                     _topRightCollapsed: 'dex.layout.topright.collapsed'
                 });
@@ -125,15 +127,6 @@
                 this._onChangeHeight();
 
                 this._ready.resolve();
-
-                $(window).resize(() => {
-                    if (
-                        window.innerWidth >= 481 &&
-                        window.innerWidth <= 768
-                    ) {
-                        $('.dex-layout__row-top').prepend(this._dom.topright.column);
-                    }
-                });
             }
 
             /**
@@ -228,10 +221,11 @@
         return new Layout();
     };
 
-    controller.$inject = ['Base', '$q', '$element', 'utils'];
+    controller.$inject = ['Base', '$q', '$element', 'utils', '$rootScope'];
 
     angular.module('app.dex')
         .component('wLayout', {
+            scope: false,
             bindings: {},
             templateUrl: 'modules/dex/directives/layout/layout.html',
             transclude: true,
