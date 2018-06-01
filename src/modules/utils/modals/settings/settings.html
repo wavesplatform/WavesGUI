@@ -131,17 +131,17 @@
                     <div class="footnote-1 disabled-600 label">
                         <w-i18n>modal.settings.network.spamFilter</w-i18n>
                         <!-- todo @tsigel // add spam filter to control -->
-                        <a class="settings-copy" w-copy="$ctrl.spamfilter" w-i18n="modal.settings.network.copy"></a>
+                        <a class="settings-copy" w-copy="$ctrl.scamListUrl" w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field">
-                        <w-input ng-model="$ctrl.matcher"></w-input>
+                        <w-input ng-model="$ctrl.scamListUrl"></w-input>
                     </div>
                 </div>
 
                 <div class="row margin-2">
                     <div class="row flex-row row-style unit-checkbox">
                         <!-- todo @tsigel // add spamFilterToggle model to control -->
-                        <w-checkbox-submit id="spamFilterToggle" ng-model="$ctrl.spamFilterToggle"></w-checkbox-submit>
+                        <w-checkbox-submit id="spamFilterToggle" ng-model="$ctrl.withScam"></w-checkbox-submit>
                         <label for="spamFilterToggle" w-i18n="modal.settings.network.spamFilterInputDescr"></label>
                     </div>
                 </div>
