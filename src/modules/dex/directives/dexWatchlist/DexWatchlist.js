@@ -37,7 +37,7 @@
                 /**
                  * @type {Array}
                  */
-                this.pairsData = [];
+                this.visiblePairsData = [];
 
                 /**
                  * @type {string}
@@ -85,6 +85,11 @@
                         id: 'info'
                     }
                 ];
+
+                /**
+                 * @type {Array}
+                 */
+                this._pairsData = [];
 
                 /**
                  * @type {string[]}
@@ -141,24 +146,22 @@
 
                 this._setFavouritePairs();
                 this._setOtherPairs();
-                this._setWanderingPair();
-                // todo: reconstruct to prevent rows jumps.
+                this._setWanderingPairFromState();
                 this._updatePairsData();
+
+                this._choseInitialPair();
 
                 Promise.all([
                     this._favourite.pairsSorted,
                     this._other.pairsSorted,
                     this._wandering.pairsSorted
                 ]).then(() => {
-                    this._updatePairsData();
-                });
-
-                this._resolveState().then(() => {
-                    this.observe('search', this._prepareSearchResults);
-                    this.observe('_chosenPair', this._switchLocationAndUpdateAssetIdPair);
-
+                    this._updateVisiblePairsData();
                     $scope.$digest();
                 });
+
+                this.observe('search', this._prepareSearchResults);
+                this.observe('_chosenPair', this._switchLocationAndUpdateAssetIdPair);
             }
 
             /**
@@ -195,7 +198,7 @@
             /**
              * @private
              */
-            _setWanderingPair() {
+            _setWanderingPairFromState() {
                 const pairFromState = DexWatchlist._getPairFromState();
 
                 if (!pairFromState) {
@@ -207,40 +210,16 @@
                 }
 
                 this._wandering.addPairOfIds(pairFromState);
-
                 this._wandering.sortOnceVolumesLoaded();
             }
 
             /**
-             * @returns {Promise}
              * @private
              */
-            _resolveState() {
-                const pairFromState = DexWatchlist._getPairFromState();
-
-                if (!pairFromState) {
-                    this._setDefaultPair();
-                    return Promise.resolve();
-                }
-
-                return (
-                    this._getAndAddPair(...pairFromState)
-                        .catch(() => {
-                            const { WAVES, BTC } = WavesApp.defaultAssets;
-
-                            return this._getAndAddPair([WAVES, BTC]);
-                        })
-                );
-            }
-
-            _getAndAddPair(pairOfIds) {
-                const pairRequest = Waves.AssetPair.get(...pairOfIds);
-
-                pairRequest.then((pair) => {
-                    this._addNewPair([pair.amountAsset.id, pair.priceAsset.id]);
-                });
-
-                return pairRequest;
+            _choseInitialPair() {
+                const wanderingPair = this._wandering.getPairsData()[0];
+                this._simplyChosePair(wanderingPair || this._pairsData[0]);
+                this._switchLocationToChosenPair();
             }
 
             /**
@@ -252,17 +231,25 @@
                         this._searchResults.clear();
 
                         pairs.results.forEach((pair) => {
-                            if (this._isKnownPairOfIds(pair)) {
+                            if (this._isVisiblePairOfIds(pair)) {
                                 return;
                             }
 
-                            this._searchResults.addPairOfIds(pair);
+                            const knownButInvisiblePair = this._getKnownPairDataBy(pair);
+
+                            if (knownButInvisiblePair) {
+                                this._searchResults.addPair(knownButInvisiblePair);
+                            } else {
+                                this._searchResults.addPairOfIds(pair);
+                            }
                         });
+
+                        this._updatePairsData();
 
                         this._searchResults.sortOnceVolumesLoaded();
 
                         this._searchResults.pairsSorted.then(() => {
-                            this._updatePairsData();
+                            this._updateVisiblePairsData();
                         });
                     });
             }
@@ -272,12 +259,10 @@
              * @returns {boolean}
              * @private
              */
-            _isKnownPairOfIds(pairOfIds) {
-                return (
-                    this._isFavouritePairOfIds(pairOfIds) ||
-                    this._isOtherPairOfIds(pairOfIds) ||
-                    this._wandering.includesPairOfIds(pairOfIds)
-                );
+            _isVisiblePairOfIds(pairOfIds) {
+                return this.visiblePairsData.some((pairData) => {
+                    return pairData.isBasedOn(pairOfIds);
+                });
             }
 
             /**
@@ -312,44 +297,47 @@
             /**
              * @private
              */
-            _setDefaultPair() {
-                this._chosenPair = this.pairsData[0];
-            }
-
-            /**
-             * @private
-             */
             _switchLocationToChosenPair() {
                 $location.search('assetId1', this._chosenPair.pairOfIds[0]);
                 $location.search('assetId2', this._chosenPair.pairOfIds[1]);
+            }
+
+            _updateVisiblePairsData() {
+                const favouritePairsData = this._favourite.getPairsData();
+
+                this.visiblePairsData = [
+                    ...favouritePairsData
+                ];
+
+                // todo: move 30 to settings.
+                if (!this.shouldShowOnlyFavourite()) {
+                    this.visiblePairsData.push(
+                        ...this._other.getPairsData().slice(0, 30 - favouritePairsData.length),
+                        ...this._wandering.getPairsData()
+                    );
+                }
+
+                // todo: move 10 to settings.
+                this.visiblePairsData.push(
+                    ...this._searchResults.getPairsData().slice(0, 10)
+                );
             }
 
             /**
              * @private
              */
             _updatePairsData() {
-                const favouritePairsData = this._favourite.getPairsData();
-
-                // todo: move 30 to settings.
-                this.pairsData = [
-                    ...favouritePairsData
+                this._pairsData = [
+                    ...this._favourite.getPairsData(),
+                    ...this._other.getPairsData(),
+                    ...this._wandering.getPairsData(),
+                    ...this._searchResults.getPairsData()
                 ];
-
-                if (!this.shouldShowOnlyFavourite()) {
-                    this.pairsData.push(
-                        ...this._other.getPairsData().slice(0, 30 - favouritePairsData.length),
-                        ...this._wandering.getPairsData()
-                    );
-                }
-
-                this.pairsData.push(
-                    ...this._searchResults.getPairsData().slice(0, 10)
-                );
             }
 
             toggleOnlyFavourite() {
                 this._shouldShowOnlyFavourite = !this._shouldShowOnlyFavourite;
-                this._updatePairsData();
+                this._updateVisiblePairsData();
             }
 
             /**
@@ -361,29 +349,40 @@
 
             /**
              * @param pairOfIds
+             * @returns {*}
              * @private
              */
-            _addNewPair(pairOfIds) {
-                let wanderingPair = this._getKnownPairDataBy(pairOfIds);
-                if (!wanderingPair) {
-                    this._updateWanderingPairs(pairOfIds);
+            _getKnownPairDataBy(pairOfIds) {
+                return (
+                    this._pairsData
+                        .reduce((knownPairData, somePairData) => {
+                            if (somePairData.isBasedOn(pairOfIds)) {
+                                knownPairData = somePairData;
+                            }
 
-                    wanderingPair = this._wandering.getPairsData()[0];
-                }
-
-                return wanderingPair.amountAndPriceRequest.then(() => {
-                    this.choosePair(wanderingPair);
-                });
+                            return knownPairData;
+                        }, null)
+                );
             }
 
             /**
              * @param pair
              */
-            choosePair(pair) {
-                if (pair !== this._wandering.getPairsData()[0]) {
-                    this._updateWanderingPairs();
+            chosePair(pair) {
+                if (!this._wandering.includes(pair)) {
+                    this._resetWanderingPair();
                 }
 
+                if (this._searchResults.includes(pair)) {
+                    this._exchangePair([this._searchResults], this._wandering, pair);
+                }
+
+                // todo: return wandering pair to the search if it is suitable for it. Implement after filtering.
+
+                this._simplyChosePair(pair);
+            }
+
+            _simplyChosePair(pair) {
                 this._chosenPair = pair;
             }
 
@@ -391,12 +390,17 @@
              * @param pairOfIds
              * @private
              */
-            _updateWanderingPairs(pairOfIds) {
+            _resetWanderingPair(pairOfIds) {
                 this._wandering.clear();
                 if (pairOfIds) {
                     this._wandering.addPairOfIds(pairOfIds);
                 }
+                this._updateInnerAndVisiblePairs();
+            }
+
+            _updateInnerAndVisiblePairs() {
                 this._updatePairsData();
+                this._updateVisiblePairsData();
             }
 
             /**
@@ -433,9 +437,9 @@
                 donors.forEach((donor) => {
                     donor.removePair(pair);
                 });
-                recipient.addPair(pair)
+                recipient.addPairAndSort(pair)
                     .then(() => {
-                        this._updatePairsData();
+                        this._updateInnerAndVisiblePairs();
                     });
             }
 
@@ -453,28 +457,6 @@
              */
             isNegative(change) {
                 return parseFloat(change) < 0;
-            }
-
-            /**
-             * @param pairOfIds
-             * @returns {*}
-             * @private
-             */
-            _getKnownPairDataBy(pairOfIds) {
-                return (
-                    this.pairsData
-                        .reduce((knownPairData, somePairData) => {
-                            if (this._areEqualPairs(somePairData.pairOfIds, pairOfIds)) {
-                                knownPairData = somePairData;
-                            }
-
-                            return knownPairData;
-                        }, null)
-                );
-            }
-
-            _areEqualPairs(pair, anotherPair) {
-                return pair.reduce((isKnownPair, id) => isKnownPair && anotherPair.includes(id), true);
             }
 
             /**

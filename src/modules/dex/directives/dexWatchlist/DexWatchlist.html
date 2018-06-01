@@ -28,9 +28,9 @@
              ng-model="$ctrl.search"
              w-i18n-attr="placeholder"></w-input>
 
-    <w-smart-table data="$ctrl.pairsData" header-info="$ctrl.headers">
+    <w-smart-table data="$ctrl.visiblePairsData" header-info="$ctrl.headers">
         <w-table-row ng-repeat="pair in $data"
-                     ng-click="$ctrl.choosePair(pair)"
+                     ng-click="$ctrl.chosePair(pair)"
                      ng-class="{
                      'selected': $ctrl.isSelected(pair)
                  }">
@@ -43,23 +43,23 @@
                 ></i>
             </w-table-cell>
             <w-table-cell>
-                <span>{{pair.pair}}</span>
+                <span>{{::pair.pair}}</span>
             </w-table-cell>
             <w-table-cell>
-                <span>{{pair.price}}</span>
+                <span>{{::pair.price}}</span>
             </w-table-cell>
             <w-table-cell ng-class="{
                         'plus': $ctrl.isPositive(pair.change),
                         'minus': $ctrl.isNegative(pair.change)
                       }">
-                <span>{{pair.change}}</span>
+                <span>{{::pair.change}}</span>
             </w-table-cell>
-            <w-table-cell title="{{pair.fullVolume}}">
-                {{pair.volume}}
+            <w-table-cell title="{{::pair.fullVolume}}">
+                {{::pair.volume}}
             </w-table-cell>
             <w-table-cell ng-if="$ctrl.isSelected(pair)">
-                <div class="disabled-900">{{pair.amountId}}<span>/</span></div>
-                <div class="disabled-900">{{pair.priceId}}</div>
+                <div class="disabled-900">{{::pair.amountId}}<span>/</span></div>
+                <div class="disabled-900">{{::pair.priceId}}</div>
             </w-table-cell>
         </w-table-row>
     </w-smart-table>

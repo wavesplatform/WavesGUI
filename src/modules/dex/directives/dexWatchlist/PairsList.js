@@ -19,6 +19,10 @@
 
                 addPair(pair) {
                     this._pairsData.push(pair);
+                }
+
+                addPairAndSort(pair) {
+                    this.addPair(pair);
                     return this._sortOnceVolumesLoaded();
                 }
 
@@ -40,14 +44,9 @@
 
                 includesPairOfIds(pairOfIds) {
                     return this._pairsData.some((pairFromList) => {
-                        return this._areEqualPairs(pairFromList.pairOfIds, pairOfIds);
+                        return pairFromList.isBasedOn(pairOfIds);
                     });
                 }
-
-                _areEqualPairs(pair, anotherPair) {
-                    return pair.reduce((isKnownPair, id) => isKnownPair && anotherPair.includes(id), true);
-                }
-
 
                 getPairsData() {
                     return this._pairsData;

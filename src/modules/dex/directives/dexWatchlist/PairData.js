@@ -22,6 +22,10 @@
                     this._init();
                 }
 
+                isBasedOn(pairOfIds) {
+                    return pairOfIds.reduce((isBasedOnPair, id) => isBasedOnPair && this.pairOfIds.includes(id), true);
+                }
+
                 _init() {
                     let resolveVolume = null;
                     this.volumeRequest = new Promise((resolve) => {
