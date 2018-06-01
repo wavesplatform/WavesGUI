@@ -281,7 +281,9 @@
                         const papa = require('papaparse');
                         const hash = Object.create(null);
                         papa.parse(text).data.forEach(([id]) => {
-                            hash[id] = true;
+                            if (id) {
+                                hash[id] = true;
+                            }
                         });
                         return hash;
                     });
