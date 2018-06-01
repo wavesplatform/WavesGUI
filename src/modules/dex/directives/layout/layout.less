@@ -2,7 +2,8 @@
 @import (reference) "../../../app/less/typography";
 
 .dex.main .main-content {
-  background: @color-basic-100;
+  // background: @color-basic-100;
+  background: @color-black;
   min-width: 1280px;
   min-height: 480px;
   overflow-y: hidden
@@ -95,9 +96,10 @@ w-layout {
     //  }
     //}
 
-    &__column-left {
+    &__watchlist {
       transition: .3s;
       width: 320px;
+      max-height: calc(100% ~'- 308px');
       border-radius: @border-radius / 2;
 
       .block-title {
@@ -124,12 +126,7 @@ w-layout {
       transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
     }
 
-    &__column-left {
-      width: 320px;
-      max-height: calc(100% ~'- 308px');
-    }
-
-    &__column-center {
+    &__candlechart {
       width: calc(100% ~'- 650px');
       max-height: calc(100% ~'- 308px');
       position: absolute;
@@ -149,7 +146,7 @@ w-layout {
       }
     }
 
-    &__column-right {
+    &__orderbook {
       width: 320px;
       max-height: calc(100% ~'- 308px');
       right: 0;
@@ -158,36 +155,37 @@ w-layout {
       border-radius: @border-radius / 2;
       background: @color-white;
 
-      .dex-layout__block-top {
-        transition: .3s;
-        height: calc(100% ~'- 200px');
+      .dex-layout {
+        &__block-top {
+          transition: .3s;
+          height: calc(100% ~'- 200px');
 
-        .empty-block-container {
-          transform: translate(-50%, 0%);
-          top: 90px;
+          .empty-block-container {
+            transform: translate(-50%, 0%);
+            top: 90px;
+          }
+
+          .block-wrapper,
+          w-scroll-box {
+            background: none transparent;
+          }
         }
+        &__block-bottom {
+          transition: .3s;
+          height: 200px;
 
-        .block-wrapper,
-        w-scroll-box {
-          background: none transparent;
-        }
-      }
+          .block-title {
+            border-top: 1px solid @color-basic-100;
+          }
 
-      .dex-layout__block-bottom {
-        transition: .3s;
-        height: 200px;
-
-        .block-title {
-          border-top: 1px solid @color-basic-100;
-        }
-
-        .dex-block-top-btn:last-child {
-          display: none;
+          .dex-block-top-btn:last-child {
+            display: none;
+          }
         }
       }
     }
 
-    &__column-bottom-left {
+    &__tradehistory {
       max-height: 303px;
       min-height: 303px;
       bottom: 0;
@@ -200,7 +198,7 @@ w-layout {
       }
     }
 
-    &__column-bottom-right {
+    &__createorder {
       max-height: 303px;
       min-height: 303px;
       bottom: 0;
@@ -212,8 +210,6 @@ w-layout {
         display: none;
       }
     }
-
-
 
     &__block {
       height: 100%;
@@ -279,21 +275,19 @@ w-layout {
 
   .dex-layout__topleft-collapsed.dex-layout__topright-collapsed {
     .dex-layout {
-      &__column-left {
+      &__watchlist {
         overflow: hidden;
-        flex-basis: 0;
         width: 0;
         margin-right: 0;
       }
 
-      &__column-center {
+      &__candlechart {
         flex-basis: 100%;
         flex-grow: 1;
       }
 
-      &__column-right {
+      &__orderbook {
         overflow: hidden;
-        flex-basis: 0;
         width: 0;
         margin-left: 0;
       }
@@ -353,86 +347,168 @@ html body.dex .notifications {
 }
 
 ////responsive
-//@media screen and (max-width: 768px) {
-//
-//  .dex.main .main-content {
-//    min-width: 100%;
-//    min-height: 100%;
-//  }
-//
-//  w-layout {
-//    .dex-layout {
-//      height: auto;
-//
-//      &__row {
-//
-//        &-top {
-//          display: block;
-//          .dex-layout {
-//            &__column-left {
-//              margin-right: 0;
-//              width: 100%;
-//            }
-//
-//            &__column-center {
-//              margin: 5px 0;
-//              .dex-layout {
-//                &__block {
-//                  border: 0 none;
-//                  border-radius: @border-radius / 2;
-//                }
-//              }
-//
-//              iframe {
-//                min-height: 320px;
-//              }
-//            }
-//
-//            &__column-right {
-//              margin-left: 0;
-//              width: 100%;
-//
-//              .dex-layout {
-//                &__block-bottom {
-//                  display: none;
-//                }
-//              }
-//            }
-//          }
-//
-//        }
-//
-//        &-bottom {
-//          display: block;
-//          height: 100%;
-//          max-height: 100%;
-//
-//          .dex-layout {
-//            &__column-right {
-//              margin-left: 0;
-//              margin-top: 5px;
-//            }
-//          }
-//        }
-//      }
-//
-//      &__sidebar-toggle {
-//        display: none;
-//      }
-//
-//      &__topleft-collapsed,
-//      &__topright-collapsed {
-//        .dex-layout {
-//          &__row-top {
-//            .dex-layout {
-//              &__column-right,
-//              &__column-left {
-//                min-width: 100%;
-//              }
-//            }
-//          }
-//        }
-//      }
-//    }
-//  }
-//}
+@media screen and (min-width: 660px) and (max-width: 1024px) {
+
+  .dex.main .main-content {
+
+    w-responsive-menu w-button.nav-toggler {
+      display: block;
+    }
+
+    min-width: 645px;
+    width: 100%;
+    min-height: 100%;
+
+    .content {
+      position: relative;
+      margin-top: 0;
+    }
+  }
+
+  w-layout {
+    .dex-layout {
+      overflow: visible;
+
+      &__watchlist {
+        width: calc(50% ~' - 3px');
+        min-width: 320px;
+        max-height: calc(50% ~ '- 45px');
+      }
+
+      &__candlechart {
+        width: calc(50% ~' - 2px');
+        min-width: 320px;
+        max-height: calc(50% ~ '- 45px');
+        right: 0;
+        left: auto;
+
+        .dex-layout {
+          &__sidebar-toggle-right {
+            display: none;
+          }
+        }
+      }
+
+      &__orderbook {
+        width: calc(50% ~' - 2px');
+        min-width: 320px;
+        min-height: calc(50% ~'- 40px');
+        max-height: calc(50% ~'- 40px');
+        height: calc(50% ~'- 40px');
+        right: 0;
+        bottom: 80px;
+      }
+
+      &__tradehistory {
+        width: calc(50% ~' - 3px');
+        min-width: 320px;
+        min-height: calc(50% ~'- 40px');
+        max-height: calc(50% ~'- 40px');
+        height: calc(50% ~'- 40px');
+        left: 0;
+        bottom: 80px;
+      }
+
+      &__createorder {
+        margin-left: -5px;
+        margin-right: -5px;
+        bottom: -5px;
+        width: calc(100% ~'+ 10px');
+        height: 80px;
+        max-height: none;
+        min-height: auto;
+        position: absolute;
+        z-index: 2;
+
+        &.expanded {
+          border: 1px solid red;
+          height: 370px;
+        }
+
+      }
+
+    }
+  }
+
+}
+
+@media screen and (max-width: 659px) {
+  .dex.main .main-content {
+    min-width: 100%;
+    min-height: 100%;
+
+    .content {
+      margin-top: 0;
+    }
+  }
+
+  w-layout {
+    .dex-layout {
+      margin-bottom: 80px;
+      overflow: visible;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      &__column {
+        position: relative;
+      }
+
+      &__watchlist {
+        width: 100%;
+        max-height: 320px;
+        margin-bottom: 5px;
+        order: 0;
+      }
+
+      &__candlechart {
+        min-width: 100%;
+        max-height: 320px;
+        min-height: 320px;
+        height: 320px;
+        left: 0;
+        margin-bottom: 5px;
+        order: 1;
+
+        .dex-layout {
+          &__sidebar-toggle {
+            display: none;
+          }
+        }
+      }
+
+      &__orderbook {
+        width: 100%;
+        max-height: 320px;
+        margin-bottom: 5px;
+        margin-left: 0;
+        order: 3;
+
+        .dex-layout {
+          &__block-bottom {
+            display: none;
+          }
+        }
+      }
+
+      &__tradehistory {
+        width: 100%;
+        margin-bottom: 5px;
+        order: 2;
+      }
+
+      &__createorder {
+        width: 100%;
+        max-height: none;
+        min-height: auto;
+        order: 5;
+        position: fixed;
+        height: auto;
+        z-index: 2;
+      }
+
+    }
+  }
+
+}

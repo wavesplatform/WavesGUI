@@ -1,30 +1,31 @@
 <div class="dex-layout" w-toggle-class-container>
 
-    <div data-column="topleft" class="dex-layout__column dex-layout__column-left">
+    <div data-column="watchlist" class="dex-layout__column dex-layout__watchlist">
         <div data-block="top" class="dex-layout__block dex-layout__block-top"></div>
     </div>
 
-    <div data-column="topcenter" class="dex-layout__column dex-layout__column-center">
+    <div data-column="candlechart" class="dex-layout__column dex-layout__candlechart">
         <div class="dex-layout__sidebar-toggle dex-layout__sidebar-toggle-left">
-            <div data-slider ng-click="$ctrl.toggleColumn('topleft')"></div>
+            <div data-slider ng-click="$ctrl.toggleColumn('watchlist')"></div>
         </div>
         <div data-block="top" class="dex-layout__block dex-layout__block-top"></div>
         <div class="dex-layout__sidebar-toggle dex-layout__sidebar-toggle-right">
-            <div data-slider ng-click="$ctrl.toggleColumn('topright')"></div>
+            <div data-slider ng-click="$ctrl.toggleColumn('order-book')"></div>
         </div>
     </div>
 
-    <div data-column="topright"
-         class="dex-layout__column dex-layout__column-right"
+    <div data-column="orderbook"
+         class="dex-layout__column dex-layout__orderbook"
          w-toggle-class-container>
         <div data-block="top" class="dex-layout__block dex-layout__block-top"></div>
         <div data-block="bottom" class="dex-layout__block dex-layout__block-bottom"></div>
     </div>
 
-    <div data-column="bottomleft" class="dex-layout__column dex-layout__column-bottom-left">
+    <div data-column="tradehistory" class="dex-layout__column dex-layout__tradehistory">
         <div data-block="top" class="dex-layout__block dex-layout__block-bottom"></div>
     </div>
-    <div data-column="bottomright" class="dex-layout__column dex-layout__column-bottom-right">
+
+    <div data-column="createorder" class="dex-layout__column dex-layout__createorder">
         <div data-block="top" class="dex-layout__block dex-layout__block-bottom"></div>
     </div>
 

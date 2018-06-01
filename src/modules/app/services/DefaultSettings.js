@@ -109,17 +109,17 @@
                             ]
                         },
                         layout: {
-                            topleft: {
+                            watchlist: {
                                 collapsed: false
                             },
-                            topcenter: {},
-                            topright: {
+                            candlechart: {},
+                            orderbook: {
                                 collapsed: false
                             },
-                            bottomleft: {
+                            tradehistory: {
                                 tab: 'myOpenOrders'
                             },
-                            bottomright: {}
+                            createorder: {}
                         }
                     }
                 };

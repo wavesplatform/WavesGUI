@@ -158,7 +158,11 @@
                     $element.find('input[name="amount"]').focus();
                 });
 
-                $element.find('.expandable').show();
+                $element.find('.create-order').addClass('expanded');
+            }
+
+            closeCreateOrder() {
+                $element.find('.create-order').removeClass('expanded');
             }
 
             setMaxAmount() {

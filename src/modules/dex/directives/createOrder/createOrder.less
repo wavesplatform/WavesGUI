@@ -124,17 +124,13 @@ w-create-order {
   .create-order {
     position: relative;
 
-    &.expanded {
-      background: @color-white;
-    }
-
     .head {
-      display: flex;
+      display: none;
       align-items: center;
       width: 100%;
       padding: 8px 16px;
       cursor: move;
-      position: absolute;
+      position: relative;
 
       .icon-close {
         position: absolute;
@@ -365,25 +361,53 @@ w-create-order {
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
 
   w-create-order {
     .create-order {
+
       .expandable {
         display: none;
       }
 
       .body {
-        .choice {
-          display: flex;
-        }
-
         .making-order {
           .areas {
             display: none;
           }
+
+          .choice {
+            display: flex;
+          }
+        }
+      }
+
+      .head {
+        display: none;
+      }
+
+      &.expanded {
+        .expandable {
+          display: block;
+        }
+
+        .body {
+          .making-order {
+            .choice {
+              display: flex;
+            }
+
+            .areas {
+              display: none;
+            }
+          }
+        }
+
+        .head {
+          display: flex;
         }
       }
     }
+
   }
 }
