@@ -14,7 +14,7 @@
         <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
               params="{
                 amount: $ctrl.amount,
-                name: $ctrl.transaction.quantity.asset.name
+                name: $ctrl.name
               }"></span>
         </div>
         <div ng-if="$ctrl.typeName === 'issue' || $ctrl.typeName === 'reissue'">

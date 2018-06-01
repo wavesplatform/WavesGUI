@@ -88,7 +88,7 @@
   },
   "dependencies": {
     "@uirouter/angularjs": "1.0.8",
-    "@waves/assets-pairs-order": "^3.2.2",
+    "@waves/assets-pairs-order": "^3.2.3",
     "@waves/data-entities": "1.4.0",
     "@waves/data-service-client-js": "0.1.0",
     "@waves/event-sender": "0.4.4",

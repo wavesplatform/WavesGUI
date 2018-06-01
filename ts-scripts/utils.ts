@@ -9,7 +9,7 @@ import { compile } from 'handlebars';
 import { transform } from 'babel-core';
 import { render } from 'less';
 import { minify } from 'html-minifier';
-import { get } from 'https';
+import { get, ServerResponse, IncomingMessage } from 'https';
 
 
 export const task: ITaskFunction = gulp.task.bind(gulp) as any;
@@ -223,20 +223,25 @@ export function parseArguments<T>(): T {
 }
 
 export function route(connectionType: TConnection, buildType: TBuild, type: TPlatform) {
-    return function (req, res) {
+    return function (req: IncomingMessage, res: ServerResponse) {
         const url = req.url.replace(/\?.*/, '');
 
         if (isTradingView(url)) {
-            get(`https://beta.wavesplatform.com/${url}`, (resp) => {
-                let data = '';
+            get(`https://beta.wavesplatform.com/${url}`, (resp: IncomingMessage) => {
+                let data = new Buffer('');
 
                 // A chunk of data has been recieved.
-                resp.on('data', (chunk) => {
-                    data += chunk;
+                resp.on('data', (chunk: Buffer) => {
+                    data = Buffer.concat([data, chunk]);
                 });
 
                 // The whole response has been received. Print out the result.
                 resp.on('end', () => {
+                    Object.keys(resp.headers).forEach((name) => {
+                        if (name !== 'transfer-encoding' && name !== 'connection' && !res.getHeader(name)) {
+                            res.setHeader(name, resp.headers[name]);
+                        }
+                    });
                     res.end(data);
                 });
             });
