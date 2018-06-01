@@ -295,7 +295,7 @@
                         .then((list) => Promise.all(list.map(remapBalances)))
                 ]).then(([activeList, /* pinned,*/ spam]) => {
 
-                    for (let i = activeList.length - 1; i > 0; i--) {
+                    for (let i = activeList.length - 1; i >= 0; i--) {
                         if (WavesApp.scam[activeList[i].asset.id] || PortfolioCtrl._isYoungAsset(activeList[i].asset)) {
                             spam.push(activeList.splice(i, 1)[0]);
                         }
