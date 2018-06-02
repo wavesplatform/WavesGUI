@@ -6,8 +6,8 @@
 
                 constructor(pairOfIds) {
                     this.pairOfIds = pairOfIds;
-                    this.amountId = '';
-                    this.priceId = '';
+                    this.amountAsset = {};
+                    this.priceAsset = {};
                     this.pair = '';
                     this.price = '';
                     this.change = '';
@@ -31,13 +31,9 @@
                     this.amountAndPriceRequest = (
                         Waves.AssetPair.get(this.pairOfIds[0], this.pairOfIds[1])
                             .then((pair) => {
-                                const amountAsset = pair.amountAsset;
-                                this.amountId = amountAsset.id;
-
-                                const priceAsset = pair.priceAsset;
-                                this.priceId = priceAsset.id;
-
-                                this.pair = `${amountAsset.displayName} / ${priceAsset.displayName}`;
+                                this.amountAsset = pair.amountAsset;
+                                this.priceAsset = pair.priceAsset;
+                                this.pair = `${this.amountAsset.displayName} / ${this.priceAsset.displayName}`;
 
                                 this._getPriceData(pair).then((price) => {
                                     this.price = price;
