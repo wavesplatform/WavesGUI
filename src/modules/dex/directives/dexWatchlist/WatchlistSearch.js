@@ -25,8 +25,63 @@
             };
 
             return {
+                filter,
                 search
             };
+
+            function filter(pairs, query) {
+                if (!query) {
+                    return Promise.resolve(pairs);
+                }
+
+                return (
+                    prepareFilter(query)
+                        .then((filter) => {
+                            return pairs.filter(filter);
+                        })
+                );
+            }
+
+            function prepareFilter(query) {
+                const { firstItem, secondItem, separatorIncluded } = parseQuery(query);
+
+                return (
+                    Promise.all([
+                        prepareFirstItemFilter(firstItem, separatorIncluded),
+                        prepareSecondItemFilter(secondItem)
+                    ])
+                        .then(([firstFilter, secondFilter]) => {
+                            return (pair) => {
+                                return (
+                                    firstFilter.run(pair.amountAsset, query) &&
+                                    secondFilter.run(pair.priceAsset, query) ||
+                                    firstFilter.run(pair.priceAsset, query) &&
+                                    secondFilter.run(pair.amountAsset, query)
+                                );
+                            };
+                        })
+                );
+            }
+
+            function prepareFirstItemFilter(value, separatorIncluded) {
+                return tryToTreatAsIdAndGetActionItem(value, buildFirstItemFilter(value, separatorIncluded));
+            }
+
+            function prepareSecondItemFilter(value) {
+                return tryToTreatAsIdAndGetActionItem(value, buildAnyItemFilter(value));
+            }
+
+            function buildFirstItemFilter(value, separatorIncluded) {
+                return buildItemStrictAction(value, separatorIncluded, getStrictFilter(value), buildAnyItemFilter);
+            }
+
+            function buildAnyItemFilter(value) {
+                return buildAnyItemAction(value, getStrictFilter(value), acceptAny, getLooseFilter(value));
+            }
+
+            function acceptAny() {
+                return true;
+            }
 
             function search(query) {
                 searchProgress.resolve(INTERRUPTED_SEARCH_RESULT);
@@ -58,73 +113,98 @@
             }
 
             function prepareSearches(query = '') {
+                const { firstItem, secondItem, separatorIncluded } = parseQuery(query);
+
+                return Promise.all([
+                    prepareFirstItemSearch(firstItem, separatorIncluded),
+                    prepareSecondItemSearch(secondItem, separatorIncluded)
+                ]);
+            }
+
+            function parseQuery(query) {
                 const SEPARATOR = '/';
 
                 const splitMask = new RegExp(`([^/]*)${SEPARATOR}?(.*)`);
                 const splitResult = splitMask.exec(query);
 
-                return Promise.all([
-                    getFirstItemSearch(splitResult[1], query.includes(SEPARATOR)),
-                    getSecondItemSearch(splitResult[2], query.includes(SEPARATOR))
-                ]);
+                return {
+                    firstItem: splitResult[1],
+                    secondItem: splitResult[2],
+                    separatorIncluded: query.includes(SEPARATOR)
+                };
             }
 
-            function getFirstItemSearch(value, separatorIncluded) {
-                return tryToTreatAsIdAndGetSearchItem(value, buildFirstItemSearch(value, separatorIncluded));
+            function prepareFirstItemSearch(value, separatorIncluded) {
+                return tryToTreatAsIdAndGetActionItem(value, buildFirstItemSearch(value, separatorIncluded));
             }
 
             function buildFirstItemSearch(value, separatorIncluded) {
-                return (asset) => {
-                    if (!asset && value && separatorIncluded) {
+                return buildItemStrictAction(value, separatorIncluded, searchStrict, buildAnyItemSearch);
+            }
+
+            function buildItemStrictAction(value, separatorIncluded, strictAction, anyActionBuilder) {
+                return (isId) => {
+                    if (!isId && value && separatorIncluded) {
                         return {
                             value,
-                            run: searchStrict
+                            run: strictAction
                         };
                     }
 
-                    return buildAnyItemSearch(value)(asset);
+                    return anyActionBuilder(value)(isId);
                 };
             }
 
             function searchStrict() {
-                return searchAsset(this.value, (name, ticker, value) => name === value || ticker === value);
+                return searchAssets(this.value, getStrictFilter);
             }
 
-            function getSecondItemSearch(value) {
-                return tryToTreatAsIdAndGetSearchItem(value, buildAnyItemSearch(value));
+            function getStrictFilter(value) {
+                return buildAssetsFilter(
+                    value,
+                    (name, ticker, value) => name === value || ticker === value
+                );
             }
 
-            function tryToTreatAsIdAndGetSearchItem(value, searchGetter) {
+            function prepareSecondItemSearch(value) {
+                return tryToTreatAsIdAndGetActionItem(value, buildAnyItemSearch(value));
+            }
+
+            function tryToTreatAsIdAndGetActionItem(value, actionGetter) {
                 return (
                     waves.node
                         .assets
                         .getExtendedAsset(value)
                         .then(() => true, () => false)
                         .then((isId) => {
-                            return searchGetter(isId);
+                            return actionGetter(isId);
                         })
                 );
             }
 
             function buildAnyItemSearch(value) {
+                return buildAnyItemAction(value, searchId, searchGateways, searchLoose);
+            }
+
+            function buildAnyItemAction(value, idAction, noValueAction, looseAction) {
                 return (isId) => {
                     if (isId) {
                         return {
                             value,
-                            run: searchId
+                            run: idAction
                         };
                     }
 
                     if (!value) {
                         return {
                             value,
-                            run: searchGateways
+                            run: noValueAction
                         };
                     }
 
                     return {
                         value,
-                        run: searchLoose
+                        run: looseAction
                     };
                 };
             }
@@ -139,26 +219,33 @@
             }
 
             function searchLoose() {
-                return searchAsset(this.value, (name, ticker, value) => name.includes(value) || ticker.includes(value));
+                return searchAssets(this.value, getLooseFilter);
             }
 
-            function searchAsset(value, filter) {
+            function searchAssets(value, getFilter) {
                 return waves.node.assets.search(value)
                     .then((results) => {
-                        return (
-                            results
-                                .filter((result) => {
-                                    const { name = '', ticker = '' } = result;
-
-                                    return filter(
-                                        name.toLowerCase(),
-                                        ticker.toLowerCase(),
-                                        value.toLowerCase()
-                                    );
-                                })
-                                .map(({ id }) => id)
-                        );
+                        return results.filter(getFilter(value)).map(({ id }) => id);
                     });
+            }
+
+            function getLooseFilter(value) {
+                return buildAssetsFilter(
+                    value,
+                    (name, ticker, value) => name.includes(value) || ticker.includes(value)
+                );
+            }
+
+            function buildAssetsFilter(value, filter) {
+                return (asset) => {
+                    const { name = '', ticker = '' } = asset;
+
+                    return filter(
+                        name.toLowerCase(),
+                        ticker.toLowerCase(),
+                        value.toLowerCase()
+                    );
+                };
             }
 
             function buildPairsOfIds([ids, anotherIds]) {

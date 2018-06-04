@@ -1,14 +1,14 @@
 {
-    class PairListService {
+    class PairsListService {
 
-        constructor(PairData, utils) {
-            return class PairList {
+        constructor(PairData, utils, PairsStorage) {
+            return class PairsList {
 
                 constructor() {
                     /**
                      * @type {Promise<void>}
                      */
-                    this.pairsSorted = null;
+                    this.pairsSorted = Promise.resolve();
 
                     /**
                      * @type {Array}
@@ -38,8 +38,21 @@
                     return this._pairsData.includes(pair);
                 }
 
+                addPairsOfIds(pairsOfIds) {
+                    pairsOfIds.forEach((pairOfIds) => {
+                        this.addPairOfIds(pairOfIds);
+                    });
+                }
+
                 addPairOfIds(pairOfIds) {
-                    this._pairsData.push(new PairData(pairOfIds));
+                    let pair = PairsStorage.get(pairOfIds);
+
+                    if (!pair) {
+                        pair = new PairData(pairOfIds);
+                        PairsStorage.add(pair);
+                    }
+
+                    this._pairsData.push(pair);
                 }
 
                 includesPairOfIds(pairOfIds) {
@@ -85,7 +98,7 @@
 
     }
 
-    PairListService.$inject = ['PairData', 'utils'];
+    PairsListService.$inject = ['PairData', 'utils', 'PairsStorage'];
 
-    angular.module('app.dex').service('PairList', PairListService);
+    angular.module('app.dex').service('PairsList', PairsListService);
 }

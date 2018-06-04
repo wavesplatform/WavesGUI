@@ -396,33 +396,20 @@ body.dex {
   }
 }
 
-@media screen and (max-width: 768px) {
 
+@media screen and (min-width: 660px) and (max-width: 1024px) {
   body.dex {
     .main-content .content {
-      width: 100%;
-      padding: 5px;
-      overflow: auto;
       height: 100%;
+      width: 100%;
+      top: 60px;
+      max-height: calc(100% ~' - 60px');
+      padding: 5px;
+      right: 0;
+      bottom: 0;
 
       .dex-wrapper {
-        w-tabs {
-          w-scroll-box {
-            height: 392px;
-            width: 100%;
-            overflow-y: auto;
-            overflow-x: hidden;
-          }
-        }
 
-        w-tabs,
-        w-dex-watchlist {
-          w-table {
-            w-t-head {
-              display: none;
-            }
-          }
-        }
       }
 
       w-tabs {
@@ -457,8 +444,6 @@ body.dex {
         .smart-table {
 
           &__w-tbody {
-            max-height: 276px;
-            min-height: 276px;
 
             .smart-table {
               &__row {
@@ -474,14 +459,14 @@ body.dex {
                   }
 
                   & + .active::before {
-                      background:@color-basic-100;
-                      height: 1px;
-                      width: calc(100% ~'- 20px');
-                      position: absolute;
-                      top: 0;
-                      left: 10px;
-                      display: block;
-                      content: '';
+                    background:@color-basic-100;
+                    height: 1px;
+                    width: calc(100% ~'- 20px');
+                    position: absolute;
+                    top: 0;
+                    left: 10px;
+                    display: block;
+                    content: '';
                   }
                 }
               }
@@ -499,6 +484,41 @@ body.dex {
         }
       }
 
+      w-tabs,
+      w-dex-watchlist {
+        w-table {
+          w-t-head {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 659px) {
+
+  body.dex {
+    .main-content .content {
+      width: 100%;
+      top: 60px;
+      padding: 5px;
+      right: 0;
+      bottom: 0;
+      height: 100%;
+      max-height: calc(100% ~' - 60px');
+      overflow: auto;
+
+      .dex-wrapper {
+        w-tabs {
+          w-scroll-box {
+            height: 392px;
+            width: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+          }
+        }
+      }
     }
   }
 
