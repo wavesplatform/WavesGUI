@@ -7,15 +7,20 @@
         'header_symbol_search',
         'symbol_search_hot_key',
         'display_market_status',
-        // 'border_around_the_chart', // TODO : decide whether to switch it off or not
         'control_bar',
         'timeframes_toolbar'
     ];
 
+    // TODO : added in version 1.12
+    // const ENABLED_FEATURES = [
+    //     'hide_left_toolbar_by_default'
+    // ];
+
     const OVERRIDES = {
         'mainSeriesProperties.candleStyle.upColor': '#5a81ea',
         'mainSeriesProperties.candleStyle.downColor': '#d1383c',
-        'mainSeriesProperties.candleStyle.drawBorder': false
+        'mainSeriesProperties.candleStyle.drawBorder': false,
+        'scalesProperties.lineColor': '#edf0f4'
     };
 
     const STUDIES_OVERRIDES = {
@@ -77,8 +82,10 @@
                         library_path: 'trading-view/',
                         autosize: true,
                         disabled_features: DISABLED_FEATURES,
+                        // enabled_features: ENABLED_FEATURES,
                         overrides: OVERRIDES,
-                        studies_overrides: STUDIES_OVERRIDES
+                        studies_overrides: STUDIES_OVERRIDES,
+                        custom_css_url: '/tradingview-style/style.css'
                     });
 
                     this.chart.onChartReady(() => {
