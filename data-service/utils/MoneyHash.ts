@@ -14,7 +14,7 @@ export class MoneyHash {
 
     public add(money: Money) {
         if (this._storage[money.asset.id]) {
-            this._storage[money.asset.id].add(money);
+            this._storage[money.asset.id] = this._storage[money.asset.id].add(money);
         } else {
             this._storage[money.asset.id] = money;
         }
