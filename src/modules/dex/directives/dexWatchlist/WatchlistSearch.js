@@ -76,7 +76,11 @@
             }
 
             function buildAnyItemFilter(value) {
-                return buildAnyItemAction(value, getStrictFilter(value), acceptAny, getLooseFilter(value));
+                return buildAnyItemAction(value, buildIdFilter(value), acceptAny, getLooseFilter(value));
+            }
+
+            function buildIdFilter(value) {
+                return ({ id }) => id === value;
             }
 
             function acceptAny() {
