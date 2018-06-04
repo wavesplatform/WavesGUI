@@ -170,7 +170,7 @@
              * @private
              */
             _choseInitialPair() {
-                this.chosePair(this.tab.getChosenPair() || this.tab.getDefaultPair());
+                this._simplyChosePair(this.tab.getChosenPair() || this.tab.getDefaultPair());
                 this._switchLocationAndUpdateAssetIdPair();
             }
 
@@ -180,13 +180,15 @@
             _prepareSearchResults({ value }) {
                 WatchlistSearch.search(value)
                     .then((searchResults) => {
-                        this.tab.clearSearchResults();
-
-                        this.tab.addSearchResults(searchResults.results)
+                        this.tab.setSearchResults(searchResults.results)
                             .then(() => {
                                 this._updateVisiblePairsData();
                             });
                     });
+
+                if (!value) {
+                    this.tab.clearSearchResults();
+                }
 
                 // Applies filter.
                 this._updateVisiblePairsData();
@@ -233,6 +235,14 @@
             chosePair(pair) {
                 this.tab.chosePair(pair);
                 this._updateVisiblePairsData();
+                this._simplyChosePair(pair);
+            }
+
+            /**
+             * @param pair
+             * @private
+             */
+            _simplyChosePair(pair) {
                 this._chosenPair = pair;
             }
 

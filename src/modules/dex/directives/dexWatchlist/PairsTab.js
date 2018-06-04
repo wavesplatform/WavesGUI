@@ -153,7 +153,8 @@
                  * @param pairsOfIds
                  * @returns {Promise<void>}
                  */
-                addSearchResults(pairsOfIds) {
+                setSearchResults(pairsOfIds) {
+                    this.clearSearchResults();
                     this._getSearchResults().addPairsOfIds(pairsOfIds);
 
                     return this._expectSort();
