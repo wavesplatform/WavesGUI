@@ -12,10 +12,11 @@
      * @param {Aliases} aliases
      * @param {Matcher} matcher
      * @param {ExtendedAsset} ExtendedAsset
+     * @param {IPollCreate} createPoll
      * @return {Assets}
      */
     const factory = function (BaseNodeComponent, utils, user, eventManager, decorators, PollCache, aliases, matcher,
-                              ExtendedAsset) {
+                              ExtendedAsset, createPoll) {
 
         const TX_TYPES = WavesApp.TRANSACTION_TYPES.NODE;
 
@@ -24,6 +25,11 @@
             constructor() {
                 super();
                 user.onLogin().then(() => {
+
+                    if (!user.getSetting('withScam')) {
+                        this.stopScam();
+                    }
+
                     this._balanceCache = new PollCache({
                         getData: this._getBalances.bind(this),
                         timeout: 2000,
@@ -244,6 +250,51 @@
 
             distribution() {
 
+            }
+
+            giveMyScamBack() {
+                WavesApp.scam = Object.create(null);
+                if (this._pollScam) {
+                    this._pollScam.destroy();
+                    this._pollScam = null;
+                }
+            }
+
+            stopScam() {
+                if (this._pollScam) {
+                    return null;
+                }
+                /**
+                 * @type {Poll}
+                 * @private
+                 */
+                this._pollScam = createPoll(this, this._getScamAssetList, this._setScamAssetList, 15000);
+            }
+
+            /**
+             * @return {Promise<Object.<string, boolean>>}
+             * @private
+             */
+            _getScamAssetList() {
+                return fetch(user.getSetting('scamListUrl'))
+                    .then((text) => {
+                        const papa = require('papaparse');
+                        const hash = Object.create(null);
+                        papa.parse(text).data.forEach(([id]) => {
+                            if (id) {
+                                hash[id] = true;
+                            }
+                        });
+                        return hash;
+                    });
+            }
+
+            /**
+             * @param hash
+             * @private
+             */
+            _setScamAssetList(hash) {
+                WavesApp.scam = hash;
             }
 
             /**
@@ -481,7 +532,8 @@
         'PollCache',
         'aliases',
         'matcher',
-        'ExtendedAsset'
+        'ExtendedAsset',
+        'createPoll'
     ];
 
     angular.module('app')
