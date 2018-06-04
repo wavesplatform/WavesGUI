@@ -72,7 +72,7 @@ export function remapWavesBalance(waves: Asset, data: assetsApi.IWavesBalance): 
     return {
         asset: waves,
         regular,
-        available,
+        available: available.sub(regular.sub(available)),
         inOrders: new Money(new BigNumber(0), waves),
         leasedOut: regular.sub(available),
         leasedIn: effectiveMoney.sub(available)
