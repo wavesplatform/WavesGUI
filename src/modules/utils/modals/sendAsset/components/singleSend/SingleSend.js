@@ -237,7 +237,7 @@
              * @return {boolean}
              */
             isOldMoneroAddress() {
-                return this.state.assetId === WavesApp.defaultAssets.XMR && this.state.assetId.substr(0, 1) === '4';
+                return this.state.assetId === WavesApp.defaultAssets.XMR && this.tx.recipient.substr(0, 1) === '4';
             }
 
             /**
