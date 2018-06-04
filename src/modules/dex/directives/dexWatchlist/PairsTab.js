@@ -44,7 +44,7 @@
                     this._getFavourite().addPairsOfIds(favourite);
                     this._pairsLists.get(OTHER).addPairsOfIds(other);
                     if (chosen) {
-                        this._getWandering().addPairsOfIds([chosen]);
+                        this._getWandering().addPairOfIds(chosen);
                     }
 
                     this._isActive = true;
@@ -58,6 +58,10 @@
                  */
                 isFavourite(pair) {
                     return this._getFavourite().includes(pair);
+                }
+
+                getChosenPair() {
+                    return this._getWandering().getFirstPair() || null;
                 }
 
                 /**
@@ -77,7 +81,7 @@
                 }
 
                 /**
-                 * @returns {PairList}
+                 * @returns {PairsList}
                  * @private
                  */
                 _getWandering() {
@@ -92,14 +96,14 @@
                     if (this.isFavourite(pair)) {
                         this._getFavourite().removePair(pair);
                     } else {
-                        this._getFavourite().addPair(pair);
+                        this._getFavourite().addPairAndSort(pair);
                     }
 
                     return this._expectSort();
                 }
 
                 /**
-                 * @returns {PairList}
+                 * @returns {PairsList}
                  * @private
                  */
                 _getFavourite() {
@@ -114,12 +118,12 @@
                     const visiblePairs = new Set();
                     let searchLimit = 10;
 
-                    this._pairsLists.forEach((pairList, listName) => {
+                    this._pairsLists.forEach((pairsList, listName) => {
                         if (onlyFavourite && [OTHER, WANDERING].includes(listName)) {
                             return;
                         }
 
-                        const pairs = pairList.getPairsData();
+                        const pairs = pairsList.getPairsData();
 
                         pairs.some((pair) => {
                             visiblePairs.add(pair);
@@ -139,6 +143,13 @@
                 }
 
                 /**
+                 * @returns {PairData}
+                 */
+                getDefaultPair() {
+                    return this._getFavourite().getFirstPair();
+                }
+
+                /**
                  * @param pairsOfIds
                  * @returns {Promise<void>}
                  */
@@ -153,7 +164,7 @@
                 }
 
                 /**
-                 * @returns {PairList}
+                 * @returns {PairsList}
                  * @private
                  */
                 _getSearchResults() {

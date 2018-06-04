@@ -32,7 +32,7 @@
         <w-table-row ng-repeat="pair in $data"
                      ng-click="$ctrl.chosePair(pair)"
                      ng-class="{
-                     'selected': $ctrl.isSelected(pair)
+                     'selected': $ctrl.isChosen(pair)
                  }">
             <w-table-cell>
                 <i class="icon-fav"
@@ -57,9 +57,9 @@
             <w-table-cell title="{{::pair.fullVolume}}">
                 {{::pair.volume}}
             </w-table-cell>
-            <w-table-cell ng-if="$ctrl.isSelected(pair)">
-                <div class="disabled-900">{{::pair.amountId}}<span>/</span></div>
-                <div class="disabled-900">{{::pair.priceId}}</div>
+            <w-table-cell ng-if="$ctrl.isChosen(pair)">
+                <div class="disabled-900">{{::pair.amountAsset.id}}<span>/</span></div>
+                <div class="disabled-900">{{::pair.priceAsset.id}}</div>
             </w-table-cell>
         </w-table-row>
     </w-smart-table>

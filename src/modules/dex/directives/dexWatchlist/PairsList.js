@@ -55,10 +55,8 @@
                     this._pairsData.push(pair);
                 }
 
-                includesPairOfIds(pairOfIds) {
-                    return this._pairsData.some((pairFromList) => {
-                        return pairFromList.isBasedOn(pairOfIds);
-                    });
+                getFirstPair() {
+                    return this._pairsData[0];
                 }
 
                 getPairsData() {
