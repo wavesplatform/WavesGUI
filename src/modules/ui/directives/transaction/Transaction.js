@@ -29,11 +29,13 @@
                 this.typeName = this.transaction.typeName;
 
                 const TYPES = waves.node.transactions.TYPES;
+
+                this.name = tsUtils.get(this.transaction, 'amount.asset.name') ||
+                    tsUtils.get(this.transaction, 'quantity.asset.name');
+
                 if (this.typeName === TYPES.BURN || this.typeName === TYPES.ISSUE || this.typeName === TYPES.REISSUE) {
-                    this.name = tsUtils.get(this.transaction, 'amount.asset.name') ||
-                        tsUtils.get(this.transaction, 'quantity.asset.name');
-                    this.amount = (tsUtils.get(this.transaction, 'amount') ||
-                        tsUtils.get(this.transaction, 'quantity')).toFormat();
+                    this.amount = tsUtils.get(this.transaction, 'amount') ||
+                        tsUtils.get(this.transaction, 'quantity');
                 }
 
                 if (this.transaction.amount && this.transaction.amount instanceof ds.wavesDataEntities.Money) {

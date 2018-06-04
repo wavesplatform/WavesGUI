@@ -17,7 +17,7 @@
             <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
                   params="{
                     sign: $ctrl.typeName === 'exchange-buy' ? '+' : '–',
-                    amount: $ctrl.transaction.amount.toFormat(),
+                    amount: $ctrl.transaction.amount.getTokens().toFixed(),
                     name: $ctrl.transaction.amount.asset.name
                   }"></span>
         </div>

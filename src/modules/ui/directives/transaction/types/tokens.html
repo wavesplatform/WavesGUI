@@ -13,7 +13,7 @@
         <div class="body-1 basic-700 fs-mobile">
         <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
               params="{
-                amount: $ctrl.amount,
+                amount: $ctrl.amount.getTokens().toFixed(),
                 name: $ctrl.name
               }"></span>
         </div>

@@ -15,8 +15,7 @@
             getTotalPrice(amount, price) {
                 const amountTokens = amount.getTokens();
                 const priceTokens = price.getTokens();
-                const precision = price.asset.precision;
-                return amountTokens.times(priceTokens).toFormat(precision);
+                return amountTokens.times(priceTokens).toFixed();
             }
 
         }
