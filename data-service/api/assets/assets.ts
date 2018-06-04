@@ -64,18 +64,19 @@ export function assetsBalance(address: string): Promise<Array<IBalanceItem>> {
 }
 
 export function remapWavesBalance(waves: Asset, data: assetsApi.IWavesBalance): IBalanceItem {
-    const inOrders = new Money(new BigNumber(0), waves);
-    const regular = new Money(new BigNumber(data.regular), waves);
-    const available = new Money(new BigNumber(data.available), waves).sub(inOrders);
-    const effectiveMoney = new Money(new BigNumber(data.effective), waves);
+    const inOrders = new Money(0, waves);
+    const regular = new Money(data.regular, waves);
+    const available = new Money(data.available, waves);
+    const leasedOut = new Money(data.regular, waves).sub(available);
+    const leasedIn = new Money(data.effective, waves).sub(available);
 
     return {
         asset: waves,
         regular,
-        available: available.sub(regular.sub(available)),
-        inOrders: new Money(new BigNumber(0), waves),
-        leasedOut: regular.sub(available),
-        leasedIn: effectiveMoney.sub(available)
+        available,
+        inOrders,
+        leasedOut,
+        leasedIn
     };
 }
 
@@ -105,7 +106,7 @@ export function applyTxAndOrdersDif(balance: IBalanceItem | Array<IBalanceItem>,
     ordersHash = ordersHash || Object.create(null);
     list.forEach((balance) => {
         balance.regular = moneyDif(balance.regular, txHash[balance.asset.id]);
-        balance.available = moneyDif(balance.regular, txHash[balance.asset.id], ordersHash[balance.asset.id]);
+        balance.available = moneyDif(balance.available, txHash[balance.asset.id], ordersHash[balance.asset.id]);
         balance.inOrders = ordersHash[balance.asset.id] || new Money(new BigNumber(0), balance.asset);
     });
     if (Array.isArray(balance)) {
