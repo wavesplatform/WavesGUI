@@ -41,6 +41,7 @@ w-layout {
         }
 
         &__candlechart {
+          transform: translateX(0);
           width: calc(100% ~'- 325px');
 
           .dex-layout {
@@ -60,6 +61,7 @@ w-layout {
         }
 
         &__candlechart {
+          transformX: (0);
           width: calc(100% ~'- 325px');
 
           .dex-layout {
@@ -131,7 +133,9 @@ w-layout {
       max-height: calc(100% ~'- 308px');
       position: absolute;
       border-radius: @border-radius / 2;
+      display: flex;
       transition: .3s;
+      transform: translateX(325px);
 
       .block-title {
         display: none;
@@ -281,6 +285,8 @@ w-layout {
 
       &__candlechart {
         width: 100%;
+        transform: translate(0);
+        flex-grow: 1;
       }
 
       &__orderbook {

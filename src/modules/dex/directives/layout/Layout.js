@@ -188,8 +188,8 @@
                         this._dom.orderbook.slider.toggleClass(`${base}__sidebar-toggle-open`, !orderbook);
 
                         return utils.whenAll([
-                            utils.animateByClass(this._node, `${base}__watchlist-collapsed`, watchlist, 'flex-basis'),
-                            utils.animateByClass(this._node, `${base}__orderbook-collapsed`, orderbook, 'flex-basis')
+                            utils.animateByClass(this._node, `${base}__watchlist-collapsed`, watchlist, 'transform'),
+                            utils.animateByClass(this._node, `${base}__orderbook-collapsed`, orderbook, 'transform')
                         ]);
                     })
                     .then(() => {
