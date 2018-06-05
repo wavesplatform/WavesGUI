@@ -1,26 +1,23 @@
 <div class="wrapper">
 
     <div class="titles-wrap">
-        <a href="#" class="title active">
-            <w-i18n>tabs.title.all</w-i18n>
-        </a> <!-- todo @german // must have .active if selected -->
-        <a href="#" class="title">
-            <w-i18n>tabs.title.waves</w-i18n>
-        </a>
-        <a href="#" class="title">
-            <w-i18n>tabs.title.btc</w-i18n>
-        </a>
-        <a href="#" class="title has-select"> <!-- onClick show select -->
-            <w-i18n>tabs.title.eth</w-i18n>
+        <a
+            href="#"
+            class="title"
+            ng-repeat="tabData in $ctrl.tabsData"
+            ng-class="{
+                'active': $ctrl.isActive(tabData)
+            }"
+            ng-click="$ctrl.chooseTab(tabData)"
+        >
+            {{::tabData.title}}
         </a>
 
         <w-select>
-            <w-option>USD</w-option>
-            <w-option>EUR</w-option>
-            <w-option>XMR</w-option>
-            <w-option>...</w-option>
-            <w-option>QWR</w-option>
-            <w-option>TYU</w-option>
+            <w-option
+                ng-repeat="tabData in $ctrl.dropDownData"
+                ng-click="$ctrl.chooseTab(tabData)"
+            >{{::tabData.title}}</w-option>
         </w-select>
     </div>
 
@@ -30,7 +27,7 @@
 
     <w-smart-table data="$ctrl.visiblePairsData" header-info="$ctrl.headers">
         <w-table-row ng-repeat="pair in $data"
-                     ng-click="$ctrl.chosePair(pair)"
+                     ng-click="$ctrl.choosePair(pair)"
                      ng-class="{
                      'selected': $ctrl.isChosen(pair)
                  }">

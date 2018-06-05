@@ -11,7 +11,7 @@
 
             return class PairsTab {
 
-                constructor() {
+                constructor(tabData) {
 
                     /**
                      * @type {{}}
@@ -24,18 +24,34 @@
                      * @private
                      */
                     this._isActive = false;
+
+                    /**
+                     * @type {string}
+                     */
+                    this._id = tabData.id;
+
+                    /**
+                     * @type {string}
+                     * @private
+                     */
+                    this._searchPrefix = tabData.searchPrefix;
+
+                    /**
+                     * @type {{favourite: string[][], other: string[][], chosen: string[]|null}}
+                     * @private
+                     */
+                    this._activationData = tabData.pairsOfIds;
                 }
 
                 /**
-                 * @param favourite
-                 * @param other
-                 * @param chosen
                  * @returns {Promise<void>}
                  */
-                activate({ favourite, other, chosen = null }) {
+                activate() {
                     if (this._isActive) {
                         return Promise.resolve();
                     }
+
+                    const { favourite, other, chosen = null } = this._activationData;
 
                     LISTS.forEach((group) => {
                         this._pairsLists.set(group, new PairsList());
@@ -54,60 +70,35 @@
 
                 /**
                  * @param pair
-                 * @returns {boolean}
                  */
-                isFavourite(pair) {
-                    return this._getFavourite().includes(pair);
+                choosePair(pair) {
+                    this._getWandering().clear();
+                    this._getWandering().addPair(pair);
                 }
 
+                clearSearchResults() {
+                    this._getSearchResults().clear();
+                }
+
+                /**
+                 * @returns {PairData|null}
+                 */
                 getChosenPair() {
                     return this._getWandering().getFirstPair() || null;
                 }
 
                 /**
-                 * @param pair
+                 * @returns {PairData}
                  */
-                chosePair(pair) {
-                    this._getWandering().clear();
-                    this._getWandering().addPair(pair);
+                getDefaultPair() {
+                    return this._getFavourite().getFirstPair();
                 }
 
                 /**
-                 * @param pair
-                 * @returns {boolean}
+                 * @returns {string}
                  */
-                isChosen(pair) {
-                    return this._getWandering().includes(pair);
-                }
-
-                /**
-                 * @returns {PairsList}
-                 * @private
-                 */
-                _getWandering() {
-                    return this._pairsLists.get(WANDERING);
-                }
-
-                /**
-                 * @param pair
-                 * @returns {Promise<void>}
-                 */
-                toggleFavourite(pair) {
-                    if (this.isFavourite(pair)) {
-                        this._getFavourite().removePair(pair);
-                    } else {
-                        this._getFavourite().addPairAndSort(pair);
-                    }
-
-                    return this._expectSort();
-                }
-
-                /**
-                 * @returns {PairsList}
-                 * @private
-                 */
-                _getFavourite() {
-                    return this._pairsLists.get(FAVOURITE);
+                getSearchPrefix() {
+                    return this._searchPrefix;
                 }
 
                 /**
@@ -143,10 +134,26 @@
                 }
 
                 /**
-                 * @returns {PairData}
+                 * @param tabData
                  */
-                getDefaultPair() {
-                    return this._getFavourite().getFirstPair();
+                isBasedOn(tabData) {
+                    return this._id === tabData.id;
+                }
+
+                /**
+                 * @param pair
+                 * @returns {boolean}
+                 */
+                isChosen(pair) {
+                    return this._getWandering().includes(pair);
+                }
+
+                /**
+                 * @param pair
+                 * @returns {boolean}
+                 */
+                isFavourite(pair) {
+                    return this._getFavourite().includes(pair);
                 }
 
                 /**
@@ -160,16 +167,18 @@
                     return this._expectSort();
                 }
 
-                clearSearchResults() {
-                    this._getSearchResults().clear();
-                }
-
                 /**
-                 * @returns {PairsList}
-                 * @private
+                 * @param pair
+                 * @returns {Promise<void>}
                  */
-                _getSearchResults() {
-                    return this._pairsLists.get(SEARCH_RESULTS);
+                toggleFavourite(pair) {
+                    if (this.isFavourite(pair)) {
+                        this._getFavourite().removePair(pair);
+                    } else {
+                        this._getFavourite().addPairAndSort(pair);
+                    }
+
+                    return this._expectSort();
                 }
 
                 /**
@@ -184,6 +193,30 @@
                     return LISTS.reduce((allPairsSorted, listName) => {
                         return allPairsSorted.then(() => this._pairsLists.get(listName).pairsSorted);
                     }, Promise.resolve());
+                }
+
+                /**
+                 * @returns {PairsList}
+                 * @private
+                 */
+                _getFavourite() {
+                    return this._pairsLists.get(FAVOURITE);
+                }
+
+                /**
+                 * @returns {PairsList}
+                 * @private
+                 */
+                _getSearchResults() {
+                    return this._pairsLists.get(SEARCH_RESULTS);
+                }
+
+                /**
+                 * @returns {PairsList}
+                 * @private
+                 */
+                _getWandering() {
+                    return this._pairsLists.get(WANDERING);
                 }
 
             };

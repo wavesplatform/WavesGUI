@@ -22,10 +22,9 @@
                     this._init();
                 }
 
-                isBasedOn(pairOfIds) {
-                    return pairOfIds.reduce((isBasedOnPair, id) => isBasedOnPair && this.pairOfIds.includes(id), true);
-                }
-
+                /**
+                 * @private
+                 */
                 _init() {
                     let resolveVolume = null;
                     this.volumeRequest = new Promise((resolve) => {
@@ -57,24 +56,6 @@
 
                             }, resolveVolume)
                     );
-                }
-
-                /**
-                 * @param volume
-                 * @returns {string}
-                 * @private
-                 */
-                static _getVolumeString(volume) {
-                    if (volume.gte(1000)) {
-                        return utils.getNiceBigNumberTemplate(volume);
-                    }
-
-                    const volumeString = volume.toString();
-                    if (volume.lt(0.0001) && volume.gt(0)) {
-                        return `...${volumeString.substring(-4)}`;
-                    }
-
-                    return volumeString.substr(0, 5);
                 }
 
                 /**
@@ -123,6 +104,24 @@
                         }, () => {
                             return new BigNumber(0);
                         });
+                }
+
+                /**
+                 * @param volume
+                 * @returns {string}
+                 * @private
+                 */
+                static _getVolumeString(volume) {
+                    if (volume.gte(1000)) {
+                        return utils.getNiceBigNumberTemplate(volume);
+                    }
+
+                    const volumeString = volume.toString();
+                    if (volume.lt(0.0001) && volume.gt(0)) {
+                        return `...${volumeString.substring(-4)}`;
+                    }
+
+                    return volumeString.substr(0, 5);
                 }
 
             };
