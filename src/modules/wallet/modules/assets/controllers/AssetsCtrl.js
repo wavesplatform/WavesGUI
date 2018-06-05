@@ -214,11 +214,11 @@
             _getGraphData() {
                 const from = this.activeChartAssetId;
                 const to = this.mirrorId;
-                const assetPromise = waves.node.assets.getExtendedAsset(this.mirrorId)
+                const precisionPromise = waves.node.assets.getExtendedAsset(this.mirrorId)
                     .then(({ precision }) => precision);
                 const valuesPromise = waves.utils.getRateHistory(from, to, this._startDate);
 
-                return Promise.all([assetPromise, valuesPromise])
+                return Promise.all([precisionPromise, valuesPromise])
                     .then(([precision, values]) => {
                         const first = values[0].rate;
                         const last = values[values.length - 1].rate;
