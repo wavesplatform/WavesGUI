@@ -58,10 +58,12 @@ w-layout {
       .dex-layout {
         &__orderbook {
           right: -100%;
-          width: calc(100% ~'- 325px');
+
         }
 
         &__candlechart {
+          width: calc(100% ~'- 325px');
+
           .dex-layout {
             &__sidebar-toggle-right div::after {
               transform: rotate(90deg);
@@ -73,7 +75,7 @@ w-layout {
 
     &__block-orderbook-bottom-collapsed {
       .dex-layout {
-        &__column-right {
+        &__orderbook {
           .dex-layout {
             &__block-top {
               height: calc(100% ~'- 38px');
@@ -273,7 +275,7 @@ w-layout {
     }
   }
 
-  .dex-layout__topleft-collapsed.dex-layout__topright-collapsed {
+  .dex-layout__watchlist-collapsed.dex-layout__orderbook-collapsed {
     .dex-layout {
       &__watchlist {
         overflow: hidden;
@@ -282,7 +284,7 @@ w-layout {
       }
 
       &__candlechart {
-        flex-basis: 100%;
+        width: 100%;
         flex-grow: 1;
       }
 
