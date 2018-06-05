@@ -214,19 +214,21 @@
             _getGraphData() {
                 const from = this.activeChartAssetId;
                 const to = this.mirrorId;
+                const assetPromise = waves.node.assets.getExtendedAsset(this.mirrorId)
+                    .then(({ precision }) => precision);
+                const valuesPromise = waves.utils.getRateHistory(from, to, this._startDate);
 
-                return waves.utils.getRateHistory(from, to, this._startDate)
-                    .then((values) => {
+                return Promise.all([assetPromise, valuesPromise])
+                    .then(([precision, values]) => {
                         const first = values[0].rate;
                         const last = values[values.length - 1].rate;
-
-                        this.change = (last - first).toFixed(2);
-                        this.changePercent = ((last - first) / first * 100).toFixed(2);
+                        this.change = (last - first).toFixed(precision);
+                        this.changePercent = ((last - first) / first * 100).toFixed(precision);
 
                         values = values.map((item) => {
                             return {
                                 ...item,
-                                rate: item.rate.toFixed(2)
+                                rate: item.rate.toFixed(precision)
                             };
                         });
 
