@@ -16,7 +16,7 @@
      * @param {app.utils.decorators} decorators
      * @return {app.utils}
      */
-    const factory = function ($q, Moment, $injector, decorators) {
+    const factory = function ($q, Moment, $injector) {
 
         const utils = {
 
@@ -213,7 +213,6 @@
              * @param {Asset} asset
              * @return {Promise<boolean>}
              */
-                @decorators.cachable(null, ([asset]) => asset.id)
             isLiquid(asset) {
                 const gatewaySvc = $injector.get('gatewayService');
                 const dataFeed = $injector.get('dataFeed');
@@ -841,7 +840,7 @@
         return utils;
     };
 
-    factory.$inject = ['$q', 'Moment', '$injector', 'decorators'];
+    factory.$inject = ['$q', 'Moment', '$injector'];
 
     angular.module('app.utils')
         .factory('utils', factory);
