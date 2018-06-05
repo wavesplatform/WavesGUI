@@ -72,7 +72,7 @@
                 this.transactions = transactions.filter((tx) => {
                     const TYPES = waves.node.transactions.TYPES;
 
-                    switch (tx.type) {
+                    switch (tx.typeName) {
                         case TYPES.SEND:
                         case TYPES.RECEIVE:
                         case TYPES.CIRCULAR:
@@ -90,7 +90,7 @@
                         case TYPES.ISSUE:
                         case TYPES.REISSUE:
                         case TYPES.BURN:
-                            return tx.quantity.asset.id === this.asset.id;
+                            return tx.amount.asset.id === this.asset.id;
                         default:
                             return false;
                     }
