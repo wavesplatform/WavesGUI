@@ -17,7 +17,8 @@
             <w-option
                 ng-repeat="tabData in $ctrl.dropDownData"
                 ng-click="$ctrl.chooseTab(tabData)"
-            >{{::tabData.title}}</w-option>
+            >{{::tabData.title}}
+            </w-option>
         </w-select>
     </div>
 
@@ -25,7 +26,9 @@
              ng-model="$ctrl.search"
              w-i18n-attr="placeholder"></w-input>
 
-    <w-smart-table data="$ctrl.visiblePairsData" header-info="$ctrl.headers">
+    <w-smart-table data="$ctrl.visiblePairsData"
+                   header-info="$ctrl.headers"
+                   class="smart-table">
         <w-table-row ng-repeat="pair in $data"
                      ng-click="$ctrl.choosePair(pair)"
                      ng-class="{

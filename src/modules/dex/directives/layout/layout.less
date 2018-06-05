@@ -2,11 +2,10 @@
 @import (reference) "../../../app/less/typography";
 
 .dex.main .main-content {
-  // background: @color-basic-100;
-  background: @color-black;
+  background: @color-basic-100;
   min-width: 1280px;
   min-height: 480px;
-  overflow-y: hidden
+  overflow-y: hidden;
 }
 
 .scroll {
@@ -35,66 +34,67 @@ w-layout {
     position: relative;
     overflow: hidden;
 
-    //&__topleft-collapsed {
-    //  .dex-layout {
-    //    &__column-left {
-    //      overflow: hidden;
-    //      margin-right: 0;
-    //    }
-    //
-    //    &__column-center {
-    //
-    //      .dex-layout {
-    //        &__sidebar-toggle-left div::after {
-    //          transform: rotate(-90deg);
-    //        }
-    //      }
-    //    }
-    //
-    //  }
-    //}
-    //
-    //&__topright-collapsed {
-    //  .dex-layout {
-    //    &__column-right {
-    //      overflow: hidden;
-    //    }
-    //
-    //    &__column-center {
-    //
-    //      .dex-layout {
-    //        &__sidebar-toggle-right div::after {
-    //          transform: rotate(90deg);
-    //        }
-    //      }
-    //    }
-    //  }
-    //}
-    //
-    //&__block-topright-bottom-collapsed {
-    //  .dex-layout {
-    //    &__column-right {
-    //      .dex-layout {
-    //        &__block-top {
-    //          height: calc(100% ~'- 38px');
-    //
-    //          .empty-block-container {
-    //            top: 50%;
-    //            transform: translate(-50%, -50%);
-    //          }
-    //        }
-    //
-    //        &__block-bottom {
-    //          height: 38px;
-    //
-    //          .block-title i {
-    //            transform: rotate(-180deg);
-    //          }
-    //        }
-    //      }
-    //    }
-    //  }
-    //}
+    &__watchlist-collapsed {
+      .dex-layout {
+        &__watchlist {
+          left: -100%;
+        }
+
+        &__candlechart {
+          left: 0;
+          width: calc(100% ~'- 325px');
+
+          .dex-layout {
+            &__sidebar-toggle-left div::after {
+              transform: rotate(-90deg);
+            }
+          }
+        }
+
+      }
+    }
+
+    &__orderbook-collapsed {
+      .dex-layout {
+        &__orderbook {
+          right: -100%;
+          width: calc(100% ~'- 325px');
+        }
+
+        &__candlechart {
+          .dex-layout {
+            &__sidebar-toggle-right div::after {
+              transform: rotate(90deg);
+            }
+          }
+        }
+      }
+    }
+
+    &__block-orderbook-bottom-collapsed {
+      .dex-layout {
+        &__column-right {
+          .dex-layout {
+            &__block-top {
+              height: calc(100% ~'- 38px');
+
+              .empty-block-container {
+                top: 50%;
+                transform: translate(-50%, -50%);
+              }
+            }
+
+            &__block-bottom {
+              height: 38px;
+
+              .block-title i {
+                transform: rotate(-180deg);
+              }
+            }
+          }
+        }
+      }
+    }
 
     &__watchlist {
       transition: .3s;
