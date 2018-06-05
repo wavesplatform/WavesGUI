@@ -276,7 +276,7 @@
              * @private
              */
             _getScamAssetList() {
-                return fetch(user.getSetting('scamListUrl'))
+                return fetch(`${user.getSetting('scamListUrl')}?${Date.now()}`)
                     .then((text) => {
                         const papa = require('papaparse');
                         const hash = Object.create(null);
