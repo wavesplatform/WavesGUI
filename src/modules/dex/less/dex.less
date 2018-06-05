@@ -408,11 +408,11 @@ body.dex {
       right: 0;
       bottom: 0;
 
-      .dex-wrapper {
-
-      }
-
       w-tabs {
+
+        .tab-body-wrap {
+          height: calc(100% ~'- 48px');
+        }
 
         .titles-wrap {
           height: 48px;
@@ -442,8 +442,9 @@ body.dex {
         }
 
         .smart-table {
-
           &__w-tbody {
+
+            max-height: 263px;
 
             .smart-table {
               &__row {
