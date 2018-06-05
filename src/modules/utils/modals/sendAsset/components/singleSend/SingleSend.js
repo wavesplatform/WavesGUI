@@ -1,6 +1,11 @@
 (function () {
     'use strict';
 
+    const FIAT_ASSETS = {
+        [WavesApp.defaultAssets.USD]: true,
+        [WavesApp.defaultAssets.EUR]: true
+    };
+
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
@@ -14,6 +19,21 @@
     const controller = function (Base, $scope, utils, createPoll, waves, outerBlockchains, user, gatewayService) {
 
         class SingleSend extends Base {
+
+            /**
+             * @return {boolean}
+             */
+            get hasSendToBank() {
+                return FIAT_ASSETS[this.assetId] || false;
+            }
+
+            get toBankMode() {
+                return this.state.toBankMode || false;
+            }
+
+            set toBankMode(mode) {
+                this.state.toBankMode = mode;
+            }
 
             /**
              * @return {ISingleSendTx}

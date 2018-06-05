@@ -31,13 +31,6 @@
                                     max-height="160"></w-qr-code-read>
                 </div>
 
-                <div class="to-bank-account" ng-if="$ctrl.toBankMode">
-                    <div class="bank-recipient">
-                        <span w-i18n="modal.send.toBank.bankAccount"></span>
-                        <i class="toggle-mode btn" ng-click="$ctrl.toBankMode = false"></i>
-                    </div>
-                </div>
-
                 <w-input-error message="anyAddress">
                     <w-i18n>modal.send.errors.address</w-i18n>
                 </w-input-error>
@@ -45,6 +38,13 @@
                     <w-i18n>modal.send.errors.required</w-i18n>
                 </w-input-error>
             </w-input-container>
+        </div>
+
+        <div class="to-bank-account" ng-if="$ctrl.toBankMode">
+            <div class="bank-recipient">
+                <span w-i18n="modal.send.toBank.bankAccount"></span>
+                <i class="toggle-mode btn" ng-click="$ctrl.toBankMode = false"></i>
+            </div>
         </div>
     </div>
 

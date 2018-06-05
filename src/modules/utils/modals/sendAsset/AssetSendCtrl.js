@@ -248,6 +248,7 @@
  * @property {Object.<string, Money>} moneyHash
  * @property {ISingleSendTx} singleSend
  * @property {IMassSendTx} massSend
+ * @property {boolean} toBankMode
  */
 
 /**
