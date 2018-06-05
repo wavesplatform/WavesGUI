@@ -223,6 +223,13 @@
                         this.change = (last - first).toFixed(2);
                         this.changePercent = ((last - first) / first * 100).toFixed(2);
 
+                        values = values.map((item) => {
+                            return {
+                                ...item,
+                                rate: item.rate.toFixed(2)
+                            };
+                        });
+
                         return { values };
                     });
             }
