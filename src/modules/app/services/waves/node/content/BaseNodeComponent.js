@@ -2,16 +2,17 @@
     'use strict';
 
     /**
+     * @param {Base} Base
      * @param {app.utils} utils
      * @param {EventManager} eventManager
      * @param {User} user
      * @return {BaseNodeComponent}
      */
-    const factory = function (utils, eventManager, user) {
+    const factory = function (Base, utils, eventManager, user) {
 
         const TYPES = WavesApp.TRANSACTION_TYPES.NODE;
 
-        class BaseNodeComponent {
+        class BaseNodeComponent extends Base {
 
             /**
              * @return {typeof WavesApp.network}
@@ -95,7 +96,7 @@
         return BaseNodeComponent;
     };
 
-    factory.$inject = ['utils', 'eventManager', 'user'];
+    factory.$inject = ['Base', 'utils', 'eventManager', 'user'];
 
     angular.module('app')
         .factory('BaseNodeComponent', factory);

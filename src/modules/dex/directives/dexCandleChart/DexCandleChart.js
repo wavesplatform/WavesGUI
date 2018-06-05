@@ -92,11 +92,40 @@
                                 );
                             });
                         }
+
+                        i18next.on('languageChanged', this._changeLangHandler.bind(this));
                     });
                 }, () => {
                     console.warn('Error 403!');
                     this.notLoaded = true;
                 });
+            }
+
+            $onDestroy() {
+                if (this.chartReady) {
+                    i18next.off('languageChanged', this._changeLangHandler.bind(this));
+                }
+            }
+
+            /**
+             * @private
+             */
+            _changeLangHandler() {
+                const langCode = DexCandleChart._remapLanguageCode(i18next.language);
+                this.chart.setLanguage(langCode);
+            }
+
+            static _remapLanguageCode(code) {
+                switch (code) {
+                    case 'hi':
+                        return 'en';
+                    case 'nl':
+                        return 'nl_NL';
+                    case 'zh-Hans-CN':
+                        return 'zh';
+                    default:
+                        return code;
+                }
             }
 
         }

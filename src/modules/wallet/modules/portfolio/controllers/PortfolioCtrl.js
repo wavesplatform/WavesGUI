@@ -276,17 +276,14 @@
                 const remapBalances = (item) => {
                     const isPinned = this._isPinned(item.asset.id);
                     const isSpam = this._isSpam(item.asset.id);
-                    const hasSpamSignatures = PortfolioCtrl._hasSpamSignatures(item.asset.name);
                     item.asset.isMyAsset = item.asset.sender === user.address;
 
-                    return /* utils.isLiquid(item.asset).then((isLiquid) => */ Promise.resolve({
+                    return Promise.resolve({
                         available: item.available,
                         asset: item.asset,
                         inOrders: item.inOrders,
                         isPinned,
-                        isSpam,
-                        // isLiquid,
-                        hasSpamSignatures
+                        isSpam
                     });
                 };
 
@@ -299,8 +296,8 @@
                         .then((list) => Promise.all(list.map(remapBalances)))
                 ]).then(([activeList, /* pinned,*/ spam]) => {
 
-                    for (let i = activeList.length - 1; i > 0; i--) {
-                        if (activeList[i].hasSpamSignatures || WavesApp.scam[activeList[i].asset.id]) {
+                    for (let i = activeList.length - 1; i >= 0; i--) {
+                        if (WavesApp.scam[activeList[i].asset.id] || PortfolioCtrl._isYoungAsset(activeList[i].asset)) {
                             spam.push(activeList.splice(i, 1)[0]);
                         }
                     }
@@ -329,11 +326,12 @@
             }
 
             /**
-             * @param {string} name
+             * @param {Asset} asset
              * @return {boolean}
+             * @private
              */
-            static _hasSpamSignatures(name) {
-                return /(www\.|https?:)/i.test(name);
+            static _isYoungAsset(asset) {
+                return utils.moment(new Date(asset.timestamp)).add().hour(1) > Date.now();
             }
 
         }

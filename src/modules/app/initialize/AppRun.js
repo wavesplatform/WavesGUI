@@ -54,19 +54,6 @@
     const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
                           notification, decorators, waves, ModalRouter) {
 
-
-        const proxy = 'https://github-proxy.wvservices.com/wavesplatform/WavesGUI/client-907-fix-portfolio/scam.csv';
-        const origin = 'https://raw.githubusercontent.com/wavesplatform/WavesGUI/client-907-fix-portfolio/scam.csv';
-        const papa = require('papaparse');
-
-        ds.fetch(proxy)
-            .catch(() => ds.fetch(origin))
-            .then((text) => {
-                papa.parse(text).data.forEach(([id]) => {
-                    WavesApp.scam[id] = true;
-                });
-            });
-
         class AppRun {
 
             constructor() {
@@ -84,11 +71,7 @@
                  * @private
                  */
                 this._modalRouter = new ModalRouter();
-                /**
-                 * @type {function}
-                 * @private
-                 */
-                this._changeLangHandler = null;
+
                 /**
                  * Configure library generation avatar by address
                  */
@@ -128,9 +111,6 @@
              * @private
              */
             _listenChangeLanguage() {
-                this._changeLangHandler = () => {
-                    localStorage.setItem('lng', i18next.language);
-                };
                 i18next.on('languageChanged', this._changeLangHandler);
             }
 
@@ -139,7 +119,13 @@
              */
             _stopListenChangeLanguage() {
                 i18next.off('languageChanged', this._changeLangHandler);
-                this._changeLangHandler = null;
+            }
+
+            /**
+             * @private
+             */
+            _changeLangHandler() {
+                localStorage.setItem('lng', i18next.language);
             }
 
             /**

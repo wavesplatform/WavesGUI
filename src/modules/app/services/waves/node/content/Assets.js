@@ -16,6 +16,22 @@
 
         class Assets extends BaseNodeComponent {
 
+            constructor() {
+                super();
+                user.onLogin().then(() => {
+
+                    if (!user.getSetting('withScam')) {
+                        this.stopScam();
+                    }
+
+                    this._balanceCache = new PollCache({
+                        getData: this._getBalances.bind(this),
+                        timeout: 2000,
+                        isBalance: true
+                    });
+                });
+            }
+
             /**
              * @param {string} address
              * @return {Promise<Assets.IWavesBalanceDetails>}
@@ -125,6 +141,51 @@
                             }))
                         }, keyPair);
                     });
+            }
+
+            giveMyScamBack() {
+                WavesApp.scam = Object.create(null);
+                if (this._pollScam) {
+                    this._pollScam.destroy();
+                    this._pollScam = null;
+                }
+            }
+
+            stopScam() {
+                if (this._pollScam) {
+                    return null;
+                }
+                /**
+                 * @type {Poll}
+                 * @private
+                 */
+                this._pollScam = createPoll(this, this._getScamAssetList, this._setScamAssetList, 15000);
+            }
+
+            /**
+             * @return {Promise<Object.<string, boolean>>}
+             * @private
+             */
+            _getScamAssetList() {
+                return ds.fetch(`${user.getSetting('scamListUrl')}?${Date.now()}`)
+                    .then((text) => {
+                        const papa = require('papaparse');
+                        const hash = Object.create(null);
+                        papa.parse(text).data.forEach(([id]) => {
+                            if (id) {
+                                hash[id] = true;
+                            }
+                        });
+                        return hash;
+                    });
+            }
+
+            /**
+             * @param hash
+             * @private
+             */
+            _setScamAssetList(hash) {
+                WavesApp.scam = hash;
             }
 
             /**
