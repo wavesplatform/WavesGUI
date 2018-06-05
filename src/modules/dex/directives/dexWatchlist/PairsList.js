@@ -17,33 +17,25 @@
                     this._pairsData = [];
                 }
 
+                /**
+                 * @param pair
+                 */
                 addPair(pair) {
                     this._pairsData.push(pair);
                 }
 
+                /**
+                 * @param pair
+                 * @returns {*}
+                 */
                 addPairAndSort(pair) {
                     this.addPair(pair);
                     return this._sortOnceVolumesLoaded();
                 }
 
-                removePair(pair) {
-                    const pairIndex = this._pairsData.indexOf(pair);
-
-                    if (pairIndex >= 0) {
-                        this._pairsData.splice(pairIndex, 1);
-                    }
-                }
-
-                includes(pair) {
-                    return this._pairsData.includes(pair);
-                }
-
-                addPairsOfIds(pairsOfIds) {
-                    pairsOfIds.forEach((pairOfIds) => {
-                        this.addPairOfIds(pairOfIds);
-                    });
-                }
-
+                /**
+                 * @param pairOfIds
+                 */
                 addPairOfIds(pairOfIds) {
                     let pair = PairsStorage.get(pairOfIds);
 
@@ -55,16 +47,50 @@
                     this._pairsData.push(pair);
                 }
 
-                getFirstPair() {
-                    return this._pairsData[0];
-                }
-
-                getPairsData() {
-                    return this._pairsData;
+                /**
+                 * @param pairsOfIds
+                 */
+                addPairsOfIds(pairsOfIds) {
+                    pairsOfIds.forEach((pairOfIds) => {
+                        this.addPairOfIds(pairOfIds);
+                    });
                 }
 
                 clear() {
                     this._pairsData.length = 0;
+                }
+
+                /**
+                 * @returns {PairData}
+                 */
+                getFirstPair() {
+                    return this._pairsData[0];
+                }
+
+                /**
+                 * @returns {Array}
+                 */
+                getPairsData() {
+                    return this._pairsData;
+                }
+
+                /**
+                 * @param pair
+                 * @returns {boolean}
+                 */
+                includes(pair) {
+                    return this._pairsData.includes(pair);
+                }
+
+                /**
+                 * @param pair
+                 */
+                removePair(pair) {
+                    const pairIndex = this._pairsData.indexOf(pair);
+
+                    if (pairIndex >= 0) {
+                        this._pairsData.splice(pairIndex, 1);
+                    }
                 }
 
                 sortOnceVolumesLoaded() {
@@ -74,6 +100,10 @@
                     });
                 }
 
+                /**
+                 * @returns {Promise<T>}
+                 * @private
+                 */
                 _sortOnceVolumesLoaded() {
                     return this._pairsData
                         .reduce((loadingProgress, pairData) => {
