@@ -406,7 +406,8 @@ export function isPage(url: string): boolean {
         'modules',
         'locales',
         'loginDaemon',
-        'transfer.js'
+        'transfer.js',
+        'tradingview-style'
     ];
     return !staticPathPartial.some((path) => {
         return url.includes(`/${path}`);

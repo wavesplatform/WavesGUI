@@ -1,0 +1,19 @@
+.chart-page .chart-container {
+  border-color: #ffffff !important;
+  border-top-width: 0 !important;
+  border-left-width: 0 !important;
+  border-right-width: 0 !important;
+}
+
+.chart-page .tv-close-panel.top {
+  display: none !important;
+}
+
+.chart-page .chart-markup-table.pane {
+  border-top: 1px solid #edf0f4 !important;
+  border-left: 1px solid #edf0f4 !important;
+}
+
+.chart-page .chart-markup-table.price-axis {
+  border-top: 1px solid #ffffff !important;
+}
