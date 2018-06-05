@@ -22,6 +22,8 @@
                 this.shownKey = false;
                 this.node = '';
                 this.matcher = '';
+                this.scamListUrl = '';
+                this.withScam = false;
                 this.shareStat = user.getSetting('shareAnalytics');
                 /**
                  * @type {number}
@@ -36,11 +38,19 @@
 
                 this.syncSettings({
                     node: 'network.node',
-                    matcher: 'network.matcher'
+                    matcher: 'network.matcher',
+                    logoutAfterMin: 'logoutAfterMin',
+                    scamListUrl: 'scamListUrl',
+                    withScam: 'withScam'
                 });
 
-                this.syncSettings({
-                    logoutAfterMin: 'logoutAfterMin'
+                this.observe('withScam', () => {
+                    const withScam = this.withScam;
+                    if (withScam) {
+                        waves.node.assets.giveMyScamBack();
+                    } else {
+                        waves.node.assets.stopScam();
+                    }
                 });
 
                 this.observe(['node', 'matcher'], () => {
@@ -88,6 +98,8 @@
             setNetworkDefault() {
                 this.node = WavesApp.network.node;
                 this.matcher = WavesApp.network.matcher;
+                this.withScam = false;
+                this.scamListUrl = WavesApp.network.scamListUrl;
             }
 
         }
