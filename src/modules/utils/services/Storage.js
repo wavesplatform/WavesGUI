@@ -112,7 +112,7 @@
             '1.0.0-beta.35': function (storage) {
                 return addNewGateway(storage, WavesApp.defaultAssets.DASH);
             },
-            '1.0.0-beta.37': function (storage) {
+            '1.0.0-beta.40': function (storage) {
                 return addNewGateway(storage, WavesApp.defaultAssets.XMR);
             }
         };
