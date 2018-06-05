@@ -6,6 +6,8 @@
         [WavesApp.defaultAssets.EUR]: true
     };
 
+    const COINOMAT_BANK_ADDRESS = '3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us';
+
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
@@ -33,6 +35,13 @@
 
             set toBankMode(mode) {
                 this.state.toBankMode = mode;
+                if (mode) {
+                    this.state.warning = 'send.coinomant.bank';
+                    this.state.singleSend.recipient = COINOMAT_BANK_ADDRESS;
+                } else {
+                    this.state.singleSend.recipient = '';
+                    this.state.warning = '';
+                }
             }
 
             /**

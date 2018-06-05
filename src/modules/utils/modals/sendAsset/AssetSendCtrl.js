@@ -249,6 +249,7 @@
  * @property {ISingleSendTx} singleSend
  * @property {IMassSendTx} massSend
  * @property {boolean} toBankMode
+ * @property {string} warning
  */
 
 /**

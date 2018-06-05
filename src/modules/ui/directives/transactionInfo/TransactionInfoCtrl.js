@@ -69,7 +69,8 @@
 
     angular.module('app.ui').component('wTransactionInfo', {
         bindings: {
-            transaction: '<'
+            transaction: '<',
+            warning: '<'
         },
         templateUrl: 'modules/ui/directives/transactionInfo/transaction-info.html',
         controller
