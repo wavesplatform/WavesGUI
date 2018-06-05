@@ -9,7 +9,6 @@ import { contains } from 'ts-utils';
 import { MoneyHash } from '../utils/MoneyHash';
 import { UTXManager } from './UTXManager';
 import { getAliasesByAddress } from '../api/aliases/aliases';
-import { defer, TDefer } from '../utils/utils';
 
 
 export class DataManager {
