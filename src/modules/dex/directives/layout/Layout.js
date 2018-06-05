@@ -139,15 +139,27 @@
 
                 utils.animateByClass(this._dom.candlechart.column, 'ghost', true, 'opacity')
                     .then(() => {
+                        this._dom.candlechart.column.hide();
                         this._dom.watchlist.slider.toggleClass(`${base}__sidebar-toggle-open`, !watchlist);
                         this._dom.orderbook.slider.toggleClass(`${base}__sidebar-toggle-open`, !orderbook);
 
-                        return utils.whenAll([
+                        const endCollapseAnimations = utils.whenAll([
                             utils.animateByClass(this._node, `${base}__watchlist-collapsed`, watchlist, 'transform'),
                             utils.animateByClass(this._node, `${base}__orderbook-collapsed`, orderbook, 'transform')
                         ]);
+
+                        const notWorking = new Promise((resolve, reject) => {
+                            setTimeout(reject, 3000);
+                        });
+
+                        return Promise.race([endCollapseAnimations, notWorking])
+                            .catch(() => {
+                                /* eslint no-console: "off" */
+                                console.warn('Not working css animation end event!');
+                            });
                     })
                     .then(() => {
+                        this._dom.candlechart.column.show();
                         return utils.wait(0);
                     })
                     .then(() => {
