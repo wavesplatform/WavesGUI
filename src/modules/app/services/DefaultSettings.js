@@ -29,6 +29,8 @@
                     network: WavesApp.network,
                     lastOpenVersion: '',
                     whatsNewList: [],
+                    withScam: false,
+                    scamListUrl: WavesApp.network.scamListUrl,
                     shareAnalytics: false,
                     logoutAfterMin: 5,
                     encryptionRounds: 5000,
