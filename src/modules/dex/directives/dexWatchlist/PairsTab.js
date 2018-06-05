@@ -109,7 +109,7 @@
                     const visiblePairs = new Set();
                     let searchLimit = 10;
 
-                    this._pairsLists.forEach((pairsList, listName) => {
+                    this._forEachPairsList((pairsList, listName) => {
                         if (onlyFavourite && [OTHER, WANDERING].includes(listName)) {
                             return;
                         }
@@ -167,6 +167,39 @@
                     return this._expectSort();
                 }
 
+                sortByChangeAscending() {
+                    this._forEachPairsList((pairsList) => pairsList.sortByChangeAscending());
+                }
+
+                sortByChangeDescending() {
+                    this._forEachPairsList((pairsList) => pairsList.sortByChangeDescending());
+                }
+
+                sortByPairAscending() {
+                    this._forEachPairsList((pairsList) => pairsList.sortByPairAscending());
+                }
+
+                sortByPairDescending() {
+                    this._forEachPairsList((pairsList) => pairsList.sortByPairDescending());
+                }
+
+                sortByPriceAscending() {
+                    this._forEachPairsList((pairsList) => pairsList.sortByPriceAscending());
+                }
+
+                sortByPriceDescending() {
+                    this._forEachPairsList((pairsList) => pairsList.sortByPriceDescending());
+                }
+
+                sortByVolumeAscending() {
+                    this._forEachPairsList((pairsList) => pairsList.sortByVolumeAscending());
+                }
+
+                sortByVolumeDescending() {
+                    this._forEachPairsList((pairsList) => pairsList.sortByVolumeDescending());
+                }
+
+
                 /**
                  * @param pair
                  * @returns {Promise<void>}
@@ -186,13 +219,17 @@
                  * @private
                  */
                 _expectSort() {
-                    this._pairsLists.forEach((pairsList) => {
+                    this._forEachPairsList((pairsList) => {
                         pairsList.sortOnceVolumesLoaded();
                     });
 
                     return LISTS.reduce((allPairsSorted, listName) => {
                         return allPairsSorted.then(() => this._pairsLists.get(listName).pairsSorted);
                     }, Promise.resolve());
+                }
+
+                _forEachPairsList(doAction) {
+                    this._pairsLists.forEach(doAction);
                 }
 
                 /**
