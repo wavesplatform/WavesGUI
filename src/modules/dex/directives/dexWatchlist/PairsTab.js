@@ -7,7 +7,7 @@
             const WANDERING = 'wandering';
             const SEARCH_RESULTS = 'searchResults';
 
-            const LISTS = [FAVOURITE, OTHER, WANDERING, SEARCH_RESULTS];
+            const LISTS = [FAVOURITE, OTHER, SEARCH_RESULTS, WANDERING];
 
             return class PairsTab {
 
