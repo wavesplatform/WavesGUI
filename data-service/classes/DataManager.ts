@@ -17,7 +17,7 @@ export class DataManager {
     public transactions: UTXManager = new UTXManager();
 
     private _address: string;
-    private _pollBlances: Poll<IPollData>;
+    private _pollBalances: Poll<IPollData>;
     private _pollAliases: Poll<Array<string>>;
     private _txHash: IHash<Money>;
     private _ordersHash: IHash<Money>;
@@ -25,13 +25,13 @@ export class DataManager {
 
     public applyAddress(address: string): void {
         this._address = address;
-        if (!this._pollBlances) {
+        if (!this._pollBalances) {
             const apiBalance = this._getPollBalanceApi();
             const apiAliasList = this._getPollAliasListApi();
-            this._pollBlances = new Poll<IPollData>(apiBalance, 1000);
+            this._pollBalances = new Poll<IPollData>(apiBalance, 1000);
             this._pollAliases = new Poll<Array<string>>(apiAliasList, 5000);
         } else {
-            this._pollBlances.restart();
+            this._pollBalances.restart();
             this._pollAliases.restart();
         }
         this.transactions.applyAddress(this._address);
@@ -39,9 +39,9 @@ export class DataManager {
 
     public dropAddress() {
         this._address = null;
-        if (this._pollBlances) {
-            this._pollBlances.destroy();
-            this._pollBlances = null;
+        if (this._pollBalances) {
+            this._pollBalances.destroy();
+            this._pollBalances = null;
         }
         if (this._pollAliases) {
             this._pollAliases.destroy();
@@ -51,11 +51,11 @@ export class DataManager {
     }
 
     public getBalances(): Promise<Array<IBalanceItem>> {
-        return this._pollBlances.getDataPromise().then((data) => data.balanceList);
+        return this._pollBalances.getDataPromise().then((data) => data.balanceList);
     }
 
     public getOrders(): Promise<Array<IOrder>> {
-        return this._pollBlances.getDataPromise().then((data) => data.orders);
+        return this._pollBalances.getDataPromise().then((data) => data.orders);
     }
 
     public getAliasesPromise(): Promise<Array<string>> {
