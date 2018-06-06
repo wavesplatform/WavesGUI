@@ -269,10 +269,11 @@
                 this._saveFavouriteForTab(this.tab.id, this.tab.getFavourite());
             }
 
-            _saveFavouriteForTab(tabId, favourite) {
-                this._favourite[tabId] = favourite;
-                this._favourite = Object.assign({}, this._favourite);
-                user.setSetting('dex.watchlist.favourite', this._favourite);
+            _saveFavouriteForTab(tabId, favouritePairsOfIds) {
+                // This order of operations is required for proper work of synchronization of settings.
+                const favourite = tsUtils.cloneDeep(this._favourite);
+                favourite[tabId] = favouritePairsOfIds;
+                this._favourite = favourite;
             }
 
             toggleOnlyFavourite() {
