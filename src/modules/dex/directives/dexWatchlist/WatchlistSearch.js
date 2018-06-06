@@ -218,7 +218,7 @@
             }
 
             function searchGateways() {
-                const allGateways = Object.assign({}, gateways, sepaGateways);
+                const allGateways = Object.assign({}, { WAVES: '' }, gateways, sepaGateways);
                 return Promise.resolve(Object.keys(allGateways));
             }
 
