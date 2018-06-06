@@ -250,7 +250,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
 
         if (buildType !== 'dev') {
             if (isPage(req.url)) {
-                const path = join(__dirname, '..', 'dist', type, connectionType, buildType, 'index.hbs');
+                const path = join(__dirname, '..', 'dist', type, connectionType, buildType, 'index.html');
                 return readFile(path, 'utf8').then((file) => {
                     res.end(file);
                 });
