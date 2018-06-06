@@ -61,19 +61,6 @@
             });
         });
 
-
-        const proxy = 'https://github-proxy.wvservices.com/wavesplatform/WavesGUI/client-907-fix-portfolio/scam.csv';
-        const origin = 'https://raw.githubusercontent.com/wavesplatform/WavesGUI/client-907-fix-portfolio/scam.csv';
-        const papa = require('papaparse');
-
-        fetch(proxy)
-            .catch(() => fetch(origin))
-            .then((text) => {
-                papa.parse(text).data.forEach(([id]) => {
-                    WavesApp.scam[id] = true;
-                });
-            });
-
         const phone = WavesApp.device.phone();
         const tablet = WavesApp.device.tablet();
 
@@ -111,11 +98,7 @@
                  * @private
                  */
                 this._modalRouter = new ModalRouter();
-                /**
-                 * @type {function}
-                 * @private
-                 */
-                this._changeLangHandler = null;
+
                 /**
                  * Configure library generation avatar by address
                  */
@@ -156,9 +139,6 @@
              * @private
              */
             _listenChangeLanguage() {
-                this._changeLangHandler = () => {
-                    localStorage.setItem('lng', i18next.language);
-                };
                 i18next.on('languageChanged', this._changeLangHandler);
             }
 
@@ -167,7 +147,13 @@
              */
             _stopListenChangeLanguage() {
                 i18next.off('languageChanged', this._changeLangHandler);
-                this._changeLangHandler = null;
+            }
+
+            /**
+             * @private
+             */
+            _changeLangHandler() {
+                localStorage.setItem('lng', i18next.language);
             }
 
             /**
