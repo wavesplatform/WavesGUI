@@ -190,7 +190,6 @@
              * @param pair
              */
             choosePair(pair) {
-                this.tab.choosePair(pair);
                 this._updateVisiblePairsData();
                 this._simplyChoosePair(pair);
             }
@@ -471,6 +470,7 @@
              * @private
              */
             _simplyChoosePair(pair) {
+                this.tab.choosePair(pair);
                 this._chosenPair = pair;
             }
 
