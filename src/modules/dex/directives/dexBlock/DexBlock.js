@@ -6,9 +6,10 @@
      * @param {JQuery} $element
      * @param {app.utils} utils
      * @param {app.i18n} i18n
+     * @param {DexDataService} dexDataService
      * @return {DexBlock}
      */
-    const controller = function (Base, $element, utils, i18n) {
+    const controller = function (Base, $element, utils, i18n, dexDataService) {
 
         class DexBlock extends Base {
 
@@ -46,6 +47,10 @@
                 i18n.translateField(this, 'titleLiteral', 'title', 'app.dex');
             }
 
+            scrollToSpread() {
+                dexDataService.showSpread.dispatch();
+            }
+
             $postLink() {
 
                 this.syncSettings({
@@ -78,7 +83,7 @@
         return new DexBlock();
     };
 
-    controller.$inject = ['Base', '$element', 'utils', 'i18n'];
+    controller.$inject = ['Base', '$element', 'utils', 'i18n', 'dexDataService'];
 
     angular.module('app.dex')
         .component('wDexBlock', {
