@@ -28,10 +28,9 @@
      * @param {$q} $q
      * @param {Moment} Moment
      * @param {$injector} $injector
-     * @param {app.utils.decorators} decorators
      * @return {app.utils}
      */
-    const factory = function ($q, Moment, $injector, decorators) {
+    const factory = function ($q, Moment, $injector) {
 
         const utils = {
 
@@ -228,33 +227,6 @@
              */
             isPromise(data) {
                 return data.then && typeof data.then === 'function';
-            },
-
-            /**
-             * @name app.utils#isLiquid
-             * @param {Asset} asset
-             * @return {Promise<boolean>}
-             */
-                @decorators.cachable(null, ([asset]) => asset.id)
-            isLiquid(asset) {
-                const gatewaySvc = $injector.get('gatewayService');
-                const dataFeed = $injector.get('dataFeed');
-
-                if (asset.id === WavesApp.defaultAssets.WAVES) {
-                    return Promise.resolve(true);
-                }
-
-                if (WavesApp.scam[asset.id]) {
-                    return Promise.resolve(false);
-                }
-
-                if (gatewaySvc.hasSupportOf(asset, 'sepa') || gatewaySvc.hasSupportOf(asset, 'deposit')) {
-                    return Promise.resolve(true);
-                }
-
-                return dataFeed.trades(asset.id, WavesApp.defaultAssets.WAVES)
-                    .then((trades) => trades.length > 40)
-                    .catch(() => false);
             },
 
             /**
@@ -924,7 +896,7 @@
         return utils;
     };
 
-    factory.$inject = ['$q', 'Moment', '$injector', 'decorators'];
+    factory.$inject = ['$q', 'Moment', '$injector'];
 
     angular.module('app.utils')
         .factory('utils', factory);

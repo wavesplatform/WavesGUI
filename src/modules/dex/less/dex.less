@@ -396,8 +396,15 @@ body.dex {
   }
 }
 
+//@media screen and (max-width: 1024px) {
+//  body.dex {
+//    main-content .content {
+//
+//    }
+//  }
+//}
 
-@media screen and (min-width: 660px) and (max-width: 1024px) {
+@media screen and (max-width: 1024px) {
   body.dex {
     .main-content .content {
       height: 100%;
@@ -407,6 +414,10 @@ body.dex {
       padding: 5px;
       right: 0;
       bottom: 0;
+
+      w-dex-candle-chart {
+        border-radius: 0 0 2px 0;
+      }
 
       w-tabs {
 
@@ -443,8 +454,6 @@ body.dex {
 
         .smart-table {
           &__w-tbody {
-
-            max-height: 263px;
 
             .smart-table {
               &__row {

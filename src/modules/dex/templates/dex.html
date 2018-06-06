@@ -1,29 +1,26 @@
 <div class="dex-wrapper" w-i18n-ns="app.dex">
     <w-layout>
 
-        <w-dex-block column="watchlist"
-                     block="top">
+        <w-dex-block block="watchlist">
             <w-dex-watchlist></w-dex-watchlist>
         </w-dex-block>
 
-        <w-dex-block column="candlechart" block="top">
+        <w-dex-block block="candlechart">
             <w-dex-candle-chart></w-dex-candle-chart>
         </w-dex-block>
 
-        <w-dex-block column="orderbook"
-                     block="top"
+        <w-dex-block block="orderbook"
                      title-name="directives.orderBook.title">
             <w-dex-order-book></w-dex-order-book>
         </w-dex-block>
 
-        <w-dex-block column="orderbook"
-                     block="bottom"
+        <w-dex-block block="tradevolume"
                      can-collapse="true"
                      title-name="directives.marketDepth">
             <w-dex-trade-graph></w-dex-trade-graph>
         </w-dex-block>
 
-        <w-dex-block column="tradehistory" block="top">
+        <w-dex-block block="tradehistory">
 
             <w-tabs ng-model="$ctrl.tab">
                 <w-tab title-name="::'tabs.title.openOrders'" id="::'myOpenOrders'">
@@ -42,7 +39,7 @@
 
         </w-dex-block>
 
-        <w-dex-block column="createorder" block="top">
+        <w-dex-block block="createorder">
             <w-create-order></w-create-order>
         </w-dex-block>
 

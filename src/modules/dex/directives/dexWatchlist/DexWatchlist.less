@@ -299,41 +299,6 @@ body.dex .dex-wrapper {
   }
 }
 
-@media screen and (max-width: 768px) {
-  body.dex .main-content .content {
-    .dex-wrapper {
-      w-dex-watchlist {
-        min-height: 290px;
-
-        .titles-wrap {
-          a.title {
-            border-left: 0;
-            border-right: 0;
-            border-top: 0;
-
-            &::before {
-              display: none;
-            }
-
-            &.active {
-              line-height: 40px;
-              border-bottom: 1px solid @color-submit-400;
-            }
-
-            &:hover {
-              border-bottom: 1px solid @color-info-500;
-            }
-          }
-
-          w-select {
-            left: 173px;
-          }
-        }
-      }
-    }
-  }
-}
-
 @media screen and (max-width: 659px) {
   w-dex-watchlist {
     .smart-table {
