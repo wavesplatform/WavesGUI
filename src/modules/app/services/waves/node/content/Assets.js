@@ -10,9 +10,10 @@
      * @param {User} user
      * @param {EventManager} eventManager
      * @param {app.utils.decorators} decorators
+     * @param {IPollCreate} createPoll
      * @return {Assets}
      */
-    const factory = function (BaseNodeComponent, utils, user, eventManager, decorators) {
+    const factory = function (BaseNodeComponent, utils, user, eventManager, decorators, createPoll) {
 
         class Assets extends BaseNodeComponent {
 
@@ -23,12 +24,6 @@
                     if (!user.getSetting('withScam')) {
                         this.stopScam();
                     }
-
-                    this._balanceCache = new PollCache({
-                        getData: this._getBalances.bind(this),
-                        timeout: 2000,
-                        isBalance: true
-                    });
                 });
             }
 
@@ -234,7 +229,8 @@
         'utils',
         'user',
         'eventManager',
-        'decorators'
+        'decorators',
+        'createPoll'
     ];
 
     angular.module('app')
