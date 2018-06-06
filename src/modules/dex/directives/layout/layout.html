@@ -16,8 +16,11 @@
 
     <div class="dex-layout__column dex-layout__orderbook"
          w-toggle-class-container>
-        <div data-block="orderbook" class="dex-layout__block dex-layout__block-top"></div>
-        <div data-block="tradevolume" class="dex-layout__block dex-layout__block-bottom"></div>
+        <div class="dex-layout__sidebar-toggle dex-layout__sidebar-toggle-left">
+            <div data-slider ng-click="$ctrl.toggleColumn('orderbook')"></div>
+        </div>
+        <div data-block="orderbook" class="dex-layout__block"></div>
+        <div data-block="tradevolume" class="dex-layout__block"></div>
     </div>
 
     <div class="dex-layout__column dex-layout__tradehistory">

@@ -74,26 +74,22 @@ w-layout {
       }
     }
 
-    &__block-orderbook-bottom-collapsed {
+    &__orderbook.active {
       .dex-layout {
-        &__orderbook {
-          .dex-layout {
-            &__block-top {
-              height: calc(100% ~'- 38px');
+        &__block[data-block="orderbook"] {
+          height: calc(100% ~'- 38px');
 
-              .empty-block-container {
-                top: 50%;
-                transform: translate(-50%, -50%);
-              }
-            }
+          .empty-block-container {
+            top: 50%;
+            transform: translate(-50%, -50%);
+          }
+        }
 
-            &__block-bottom {
-              height: 38px;
+        &__block[data-block="tradevolume"] {
+          height: 38px;
 
-              .block-title i {
-                transform: rotate(-180deg);
-              }
-            }
+          .block-title i {
+            transform: rotate(-180deg);
           }
         }
       }
@@ -174,7 +170,7 @@ w-layout {
 
       .dex-layout {
 
-        &__block-top {
+        &__block[data-block="orderbook"] {
           transition: .3s;
           height: calc(100% ~'- 200px');
 
@@ -188,9 +184,12 @@ w-layout {
             background: none transparent;
           }
         }
-        &__block-bottom {
+
+        &__block[data-block="tradevolume"] {
           transition: .3s;
           height: 200px;
+          bottom: 0;
+          position: absolute;
 
           .block-title {
             border-top: 1px solid @color-basic-100;
@@ -455,7 +454,7 @@ html body.dex .notifications {
         max-height: none;
         min-height: auto;
         position: absolute;
-        z-index: 2;
+        z-index: 7;
 
         &.expanded {
           border: 1px solid red;
@@ -527,13 +526,13 @@ html body.dex .notifications {
         }
       }
 
-      .dex-layout__watchlist-collapsed.dex-layout__orderbook-collapsed {
-        .dex-layout {
-          &__orderbook {
-
-          }
-        }
-      }
+      //.dex-layout__watchlist-collapsed.dex-layout__orderbook-collapsed {
+      //  .dex-layout {
+      //    &__orderbook {
+      //
+      //    }
+      //  }
+      //}
 
     }
   }

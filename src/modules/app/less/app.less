@@ -357,8 +357,9 @@ md-toolbar:not(.md-menu-toolbar) {
 
 .scroll-dex {
   ::-webkit-scrollbar {
-    width: 3px;
-    height: 3px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
   }
 
   :hover::-webkit-scrollbar {
@@ -366,13 +367,13 @@ md-toolbar:not(.md-menu-toolbar) {
   }
 
   ::-webkit-scrollbar-thumb {
-    //background: @color-basic-200;
-    background: @color-submit-300;
+    border-radius: 6px;
+    background: @color-basic-200;
+    box-shadow: inset -1px 0 0px 1px #fff;
   }
 
   ::-webkit-scrollbar-thumb:window-inactive {
-    //background: @color-basic-200;
-    background: @color-submit-300;
+    background: @color-basic-200;
   }
 }
 
