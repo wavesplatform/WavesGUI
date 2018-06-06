@@ -239,7 +239,7 @@
                                 return new BigNumber(0);
                             }
                         })
-                        .reduce((result, item) => result.add(item));
+                        .reduce((result, item) => result.plus(item));
                     const amount = this.state.moneyHash[this.state.assetId].cloneWithTokens(amountNum);
                     transfers.push({ recipient, amount });
                 });

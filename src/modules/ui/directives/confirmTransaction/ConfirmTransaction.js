@@ -67,55 +67,48 @@
             }
 
             sendTransaction() {
-                return user.getSeed().then(({ keyPair }) => {
-                    let txPromise = null;
+                let txPromise = null;
 
-                    switch (this.tx.transactionType) {
-                        case TYPES.TRANSFER:
-                            txPromise = waves.node.assets.transfer({ ...this.tx, keyPair });
-                            break;
-                        case TYPES.MASS_TRANSFER:
-                            txPromise = waves.node.assets.massTransfer({ ...this.tx, keyPair });
-                            break;
-                        case TYPES.EXCHANGE:
-                            throw new Error('Can\'t create exchange transaction!');
-                        case TYPES.LEASE:
-                            txPromise = waves.node.lease({ ...this.tx, keyPair });
-                            break;
-                        case TYPES.CANCEL_LEASING:
-                            txPromise = waves.node.cancelLeasing({
-                                fee: this.tx.fee,
-                                timestamp: this.tx.timestamp,
-                                transactionId: this.tx.leaseTransactionId,
-                                keyPair
-                            });
-                            break;
-                        case TYPES.CREATE_ALIAS:
-                            txPromise = waves.node.aliases.createAlias({ ...this.tx, keyPair });
-                            break;
-                        case TYPES.ISSUE:
-                            txPromise = waves.node.assets.issue({ ...this.tx, keyPair });
-                            break;
-                        case TYPES.REISSUE:
-                            txPromise = waves.node.assets.reissue({ ...this.tx, keyPair });
-                            break;
-                        case TYPES.BURN:
-                            txPromise = waves.node.assets.burn({ ...this.tx, keyPair });
-                            break;
-                        default:
-                            throw new Error('Wrong transaction type!');
-                    }
+                switch (this.tx.transactionType) {
+                    case TYPES.TRANSFER:
+                        txPromise = ds.broadcast(4, this.tx);
+                        break;
+                    case TYPES.MASS_TRANSFER:
+                        txPromise = ds.broadcast(11, this.tx);
+                        break;
+                    case TYPES.EXCHANGE:
+                        throw new Error('Can\'t create exchange transaction!');
+                    case TYPES.LEASE:
+                        txPromise = ds.broadcast(8, this.tx);
+                        break;
+                    case TYPES.CANCEL_LEASING:
+                        txPromise = ds.broadcast(9, this.tx);
+                        break;
+                    case TYPES.CREATE_ALIAS:
+                        txPromise = ds.broadcast(10, this.tx);
+                        break;
+                    case TYPES.ISSUE:
+                        txPromise = ds.broadcast(3, this.tx);
+                        break;
+                    case TYPES.REISSUE:
+                        txPromise = ds.broadcast(5, this.tx);
+                        break;
+                    case TYPES.BURN:
+                        txPromise = ds.broadcast(6, this.tx);
+                        break;
+                    default:
+                        throw new Error('Wrong transaction type!');
+                }
 
-                    const txType = ConfirmTransaction.upFirstChar(this.tx.transactionType);
-                    const amount = ConfirmTransaction.toBigNumber(this.tx.amount);
+                const txType = ConfirmTransaction.upFirstChar(this.tx.transactionType);
+                const amount = ConfirmTransaction.toBigNumber(this.tx.amount);
 
-                    return txPromise.then((data) => {
-                        analytics.push('Transaction', `Transaction.${txType}`, `Transaction.${txType}.Success`, amount);
-                        return data;
-                    }, (error) => {
-                        analytics.push('Transaction', `Transaction.${txType}`, `Transaction.${txType}.Error`, amount);
-                        return Promise.reject(error);
-                    });
+                return txPromise.then((data) => {
+                    analytics.push('Transaction', `Transaction.${txType}`, `Transaction.${txType}.Success`, amount);
+                    return data;
+                }, (error) => {
+                    analytics.push('Transaction', `Transaction.${txType}`, `Transaction.${txType}.Error`, amount);
+                    return Promise.reject(error);
                 });
             }
 

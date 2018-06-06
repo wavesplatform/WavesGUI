@@ -12,7 +12,7 @@
         class BaseAssetService {
 
             getBaseAsset() {
-                return waves.node.assets.getExtendedAsset(user.getSetting('baseAssetId'));
+                return waves.node.assets.getAsset(user.getSetting('baseAssetId'));
             }
 
             convertToBaseAsset(money) {
@@ -20,14 +20,7 @@
                     // TODO : change to getRateByDate()
                     return waves.utils.getRateApi(money.asset.id, baseAsset.id)
                         .then((api) => api.exchange(money.getTokens()))
-                        .then((balance) => {
-                            return Waves.Money.fromTokens(balance, baseAsset)
-                                .then((money) => {
-                                    // Some names are overwritten in the client
-                                    money.asset.name = baseAsset.name;
-                                    return money;
-                                });
-                        });
+                        .then((balance) => ds.moneyFromTokens(balance, baseAsset));
                 });
             }
 

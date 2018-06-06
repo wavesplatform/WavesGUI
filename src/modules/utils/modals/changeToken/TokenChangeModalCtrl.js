@@ -39,7 +39,7 @@
                 /**
                  * @type {BigNumber}
                  */
-                this.maxCoinsCount = WavesApp.maxCoinsCount.sub(money.asset.quantity);
+                this.maxCoinsCount = WavesApp.maxCoinsCount.minus(money.asset.quantity);
                 /**
                  * @type {Money}
                  */

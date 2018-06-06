@@ -42,7 +42,7 @@
             $postLink() {
                 this.interval = Number(this.interval) || 5000;
 
-                waves.node.assets.getExtendedAsset(user.getSetting('baseAssetId'))
+                waves.node.assets.getAsset(user.getSetting('baseAssetId'))
                     .then((mirror) => {
                         this.mirror = mirror;
 

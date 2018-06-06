@@ -13,6 +13,7 @@
   },
   "globals": {
     "Handlebars": true,
+    "ds": true,
     "transfer": true,
     "Waves": true,
     "BigNumber": true,

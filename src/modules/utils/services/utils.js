@@ -19,6 +19,7 @@
         }
 
     }
+    const dataEntities = require('@waves/data-entities');
 
     /**
      * @name app.utils
@@ -358,10 +359,10 @@
                 switch (typeof num) {
                     case 'string':
                     case 'number':
-                        return new BigNumber(num, 10).toFormat(precision);
+                        return new BigNumber(num, 10).toFormat(Number(precision));
                     case 'object':
                         if (num != null) {
-                            return num.toFormat(precision);
+                            return num.toFormat(Number(precision));
                         }
                         throw new Error('Wrong format!');
                     default:
@@ -682,7 +683,7 @@
                 },
                 smart: {
                     asc: function (a, b) {
-                        if (a instanceof Waves.Money && b instanceof Waves.Money) {
+                        if (a instanceof ds.wavesDataEntities.Money && b instanceof ds.wavesDataEntities.Money) {
                             return utils.comparators.money.asc(a, b);
                         } else if (a instanceof BigNumber && b instanceof BigNumber) {
                             return utils.comparators.bigNumber.asc(a, b);
@@ -691,7 +692,7 @@
                         return utils.comparators.asc(a, b);
                     },
                     desc: function (a, b) {
-                        if (a instanceof Waves.Money && b instanceof Waves.Money) {
+                        if (a instanceof ds.wavesDataEntities.Money && b instanceof ds.wavesDataEntities.Money) {
                             return utils.comparators.money.desc(a, b);
                         } else if (a instanceof BigNumber && b instanceof BigNumber) {
                             return utils.comparators.bigNumber.desc(a, b);
@@ -806,7 +807,7 @@
 
         function isNotEqualValue(oldValue, newValue) {
             if (typeof oldValue === typeof newValue) {
-                if (oldValue instanceof Waves.Money && newValue instanceof Waves.Money) {
+                if (oldValue instanceof dataEntities.Money && newValue instanceof dataEntities.Money) {
                     return oldValue.asset.id !== newValue.asset.id || oldValue.toTokens() !== newValue.toTokens();
                 } else if (oldValue instanceof BigNumber && newValue instanceof BigNumber) {
                     return !oldValue.eq(newValue);

@@ -3,7 +3,8 @@
 echo "run post install script"
 
 echo "compile typescript"
-./node_modules/.bin/tsc -p ./ || exit 1
+./node_modules/.bin/tsc || exit 1
+./node_modules/.bin/browserify data-service/index.js -s ds -u ts-utils -o ./data-service-dist/data-service.js || exit 1
 echo "compile typescript >> DONE"
 
 echo "run post install script >> DONE"

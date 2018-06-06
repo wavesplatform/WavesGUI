@@ -57,12 +57,12 @@
                     this.showPasswordError = false;
                     const activeUser = this.user;
                     const encryptionRounds = user.getSettingByUser(activeUser, 'encryptionRounds');
-                    const seed = Waves.Seed.decryptSeedPhrase(this.encryptedSeed, this.password, encryptionRounds);
-
-                    Waves.Seed.fromExistingPhrase(seed);
+                    const seed = ds.Seed.decryptSeedPhrase(this.encryptedSeed, this.password, encryptionRounds);
+                    const keyPair = (new ds.Seed(seed)).keyPair;
 
                     user.login({
                         address: activeUser.address,
+                        api: ds.signature.getDefaultSignatureApi(keyPair, activeUser.address, seed),
                         password: this.password
                     });
                 } catch (e) {

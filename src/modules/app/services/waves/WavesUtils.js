@@ -13,7 +13,7 @@
 
             @decorators.cachable(5)
             searchAsset(userInput) {
-                return fetch(`${WavesApp.network.api}/assets/search/${userInput}`);
+                return ds.fetch(`${WavesApp.network.api}/assets/search/${userInput}`);
             }
 
             /**
@@ -57,8 +57,8 @@
              */
             getRateApi(assetFrom, assetTo, date) {
                 return utils.whenAll([
-                    assets.getExtendedAsset(WavesUtils.toId(assetFrom)),
-                    assets.getExtendedAsset(WavesUtils.toId(assetTo)),
+                    assets.getAsset(WavesUtils.toId(assetFrom)),
+                    assets.getAsset(WavesUtils.toId(assetTo)),
                     this.getRate(assetFrom, assetTo, date)
                 ])
                     .then(([from, to, rate]) => {
@@ -191,10 +191,10 @@
              * @private
              */
             _getChange(from, to) {
-                return Waves.AssetPair.get(from, to)
+                return ds.api.assets.getAssetPair(from, to)
                     .then((pair) => {
                         const interval = this._getChangeByInterval(utils.moment().add().day(-1));
-                        return fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
+                        return ds.fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
                             .then((data) => {
 
                                 if (!data || data.status === 'error') {
@@ -234,7 +234,7 @@
                     return (
                         trades
                             .reduce((result, item) => {
-                                return result.add(new BigNumber(item.price));
+                                return result.plus(new BigNumber(item.price));
                             }, new BigNumber(0))
                             .div(trades.length)
                     );
@@ -244,9 +244,9 @@
                     return trades && trades.length ? calculateCurrentRate(trades) : new BigNumber(0);
                 };
 
-                return Waves.AssetPair.get(fromId, toId)
+                return ds.api.assets.getAssetPair(fromId, toId)
                     .then((pair) => {
-                        return fetch(`${WavesApp.network.datafeed}/api/trades/${pair.toString()}/5`)
+                        return ds.fetch(`${WavesApp.network.datafeed}/api/trades/${pair.toString()}/5`)
                             .then(currentRate)
                             .then((rate) => {
                                 if (fromId !== pair.priceAsset.id) {
@@ -269,9 +269,9 @@
              */
             _getRateHistory(fromId, toId, from, to) {
                 const interval = this._getChangeByInterval(from);
-                return Waves.AssetPair.get(fromId, toId)
+                return ds.api.assets.getAssetPair(fromId, toId)
                     .then((pair) => {
-                        return fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
+                        return ds.fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
                             .then((list) => {
 
                                 if (!list || !list.length) {
@@ -311,8 +311,8 @@
                      * @return {BigNumber}
                      */
                     exchange(balance) {
-                        return balance.mul(rate.toFixed(8))
-                            .round(to.precision);
+                        return balance.times(rate.toFixed(8))
+                            .dp(to.precision);
                     },
 
                     /**
@@ -321,7 +321,7 @@
                      * @return {BigNumber}
                      */
                     exchangeReverse(balance) {
-                        return (rate ? balance.div(rate) : new BigNumber(0)).round(from.precision);
+                        return (rate ? balance.div(rate) : new BigNumber(0)).dp(from.precision);
                     },
 
                     /**

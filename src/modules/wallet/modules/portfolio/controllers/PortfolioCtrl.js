@@ -62,7 +62,7 @@
                  */
                 this.pending = true;
 
-                waves.node.assets.getExtendedAsset(this.mirrorId)
+                waves.node.assets.getAsset(this.mirrorId)
                     .then((mirror) => {
                         this.mirror = mirror;
                         /**
@@ -276,6 +276,7 @@
                 const remapBalances = (item) => {
                     const isPinned = this._isPinned(item.asset.id);
                     const isSpam = this._isSpam(item.asset.id);
+                    item.asset.isMyAsset = item.asset.sender === user.address;
 
                     return Promise.resolve({
                         available: item.available,

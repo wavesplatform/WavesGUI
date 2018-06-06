@@ -1,6 +1,6 @@
 <div class="txinfo__lead">
     <h3 class="basic-700"
-        w-i18n="transaction.amounts.{{::$ctrl.type}}"
+        w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
         params="{
           amount: $ctrl.transaction.leaseTransactionAmount.toFormat(),
           name: $ctrl.transaction.leaseTransactionAmount.asset.name
@@ -10,5 +10,5 @@
 
 <div class="txinfo__row">
     <div class="txinfo__key" w-i18n="transaction.modals.cancelTx"></div>
-    <div class="txinfo__value">{{::$ctrl.transaction.leaseTransactionId}}</div>
+    <div class="txinfo__value">{{::$ctrl.transaction.leaseId}}</div>
 </div>

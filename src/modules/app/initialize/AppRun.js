@@ -54,13 +54,6 @@
     const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
                           notification, decorators, waves, ModalRouter) {
 
-        user.onLogin().then(() => {
-            Waves.config.set({
-                nodeAddress: user.getSetting('network.node'),
-                matcherAddress: user.getSetting('network.matcher')
-            });
-        });
-
         const phone = WavesApp.device.phone();
         const tablet = WavesApp.device.tablet();
 
@@ -108,7 +101,6 @@
                 this._stopLoader();
                 this._initializeLogin();
                 this._initializeOutLinks();
-                waves.node.assets.initializeAssetFactory();
 
                 $rootScope.WavesApp = WavesApp;
             }
