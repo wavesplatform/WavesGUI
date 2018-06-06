@@ -376,6 +376,11 @@
              * @private
              */
             _updateGatewayDetails() {
+
+                if (this.tx.recipient === COINOMAT_BANK_ADDRESS) {
+                    this.toBankMode = true;
+                }
+
                 const outerChain = outerBlockchains[this.assetId];
                 const isValidWavesAddress = waves.node.isValidAddress(this.tx.recipient);
 
