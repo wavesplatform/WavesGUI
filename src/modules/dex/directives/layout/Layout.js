@@ -25,22 +25,12 @@
                  */
                 this._dom = null;
                 this._children = {
-                    watchlist: {
-                        top: null
-                    },
-                    candlechart: {
-                        top: null
-                    },
-                    orderbook: {
-                        top: null,
-                        bottom: null
-                    },
-                    tradehistory: {
-                        top: null
-                    },
-                    createorder: {
-                        top: null
-                    }
+                    watchlist: null,
+                    candlechart: null,
+                    orderbook: null,
+                    tradehistory: null,
+                    createorder: null,
+                    tradevolume: null
                 };
                 /**
                  * @type {JQuery}
@@ -80,7 +70,8 @@
                     candlechart: Layout._getColumn('candlechart'),
                     orderbook: Layout._getColumn('orderbook'),
                     tradehistory: Layout._getColumn('tradehistory'),
-                    createorder: Layout._getColumn('createorder')
+                    createorder: Layout._getColumn('createorder'),
+                    tradevolume: Layout._getColumn('tradevolume')
                 };
 
                 const watchlistCollapsed = this._watchlistCollapsed;
@@ -90,8 +81,8 @@
                 this._node.get(0).className = 'dex-layout';
                 this._node.toggleClass(`${base}__watchlist-collapsed`, watchlistCollapsed);
                 this._node.toggleClass(`${base}__orderbook-collapsed`, orderbookCollapsed);
-                this._dom.watchlist.slider.toggleClass(`${base}__sidebar-toggle-open`, !watchlistCollapsed);
-                this._dom.orderbook.slider.toggleClass(`${base}__sidebar-toggle-open`, !orderbookCollapsed);
+                this._dom.watchlist.$slider.toggleClass(`${base}__sidebar-toggle-open`, !watchlistCollapsed);
+                this._dom.orderbook.$slider.toggleClass(`${base}__sidebar-toggle-open`, !orderbookCollapsed);
 
                 this._ready.resolve();
             }
@@ -101,16 +92,18 @@
              * @param {DexBlock} item
              */
             registerItem($element, item) {
-                const { column, block } = item;
+                const { block } = item;
 
-                if (!column || !block) {
+                if (!block) {
                     throw new Error('Wrong item address!');
                 }
 
                 this._ready.promise.then(() => {
-                    if (!this._children[column][block]) {
-                        this._children[column][block] = item;
-                        this._dom[column][block].append($element);
+                    if (!this._children[block]) {
+                        this._children[block] = item;
+                        this._dom[block].$container.append($element);
+                    } else {
+                        throw new Error('Duplicate child block!');
                     }
                 });
             }
@@ -137,11 +130,11 @@
                 const orderbook = this._orderbookCollapsed;
                 const base = 'dex-layout';
 
-                utils.animateByClass(this._dom.candlechart.column, 'ghost', true, 'opacity')
+                utils.animateByClass(this._dom.candlechart.$wrapper, 'ghost', true, 'opacity')
                     .then(() => {
-                        this._dom.candlechart.column.hide();
-                        this._dom.watchlist.slider.toggleClass(`${base}__sidebar-toggle-open`, !watchlist);
-                        this._dom.orderbook.slider.toggleClass(`${base}__sidebar-toggle-open`, !orderbook);
+                        this._dom.candlechart.$wrapper.hide();
+                        this._dom.watchlist.$slider.toggleClass(`${base}__sidebar-toggle-open`, !watchlist);
+                        this._dom.orderbook.$slider.toggleClass(`${base}__sidebar-toggle-open`, !orderbook);
 
                         const endCollapseAnimations = utils.whenAll([
                             utils.animateByClass(this._node, `${base}__watchlist-collapsed`, watchlist, 'transform'),
@@ -159,11 +152,11 @@
                             });
                     })
                     .then(() => {
-                        this._dom.candlechart.column.show();
+                        this._dom.candlechart.$wrapper.show();
                         return utils.wait(0);
                     })
                     .then(() => {
-                        utils.animateByClass(this._dom.candlechart.column, 'ghost', false, 'opacity');
+                        utils.animateByClass(this._dom.candlechart.$wrapper, 'ghost', false, 'opacity');
                     });
             }
 
@@ -173,12 +166,11 @@
              * @private
              */
             static _getColumn(type) {
-                const column = $element.find(`[data-column="${type}"]`);
-                const top = column.find('[data-block="top"]');
-                const bottom = column.find('[data-block="bottom"]');
-                const slider = column.find('[data-slider]');
+                const $container = $element.find(`[data-block="${type}"]`);
+                const $wrapper = $container.parent();
+                const $slider = $wrapper.find('[data-slider]');
 
-                return { column, top, bottom, slider };
+                return { $wrapper, $container, $slider };
             }
 
         }
@@ -200,10 +192,10 @@
 
 /**
  * @typedef {object} IDexLayoutDomContainerItem
- * @property {JQuery} column
- * @property {JQuery} top
- * @property {JQuery} bottom
- * @property {JQuery} slider
+ * @property {JQuery} $wrapper
+ * @property {JQuery} $container
+ * @property {JQuery} $slider
+ * @property {DexBlock} child
  */
 
 /**

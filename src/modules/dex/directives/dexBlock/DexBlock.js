@@ -38,10 +38,6 @@
                  */
                 this.block = null;
                 /**
-                 * @type {string}
-                 */
-                this.column = null;
-                /**
                  * @type {Layout}
                  * @private
                  */
@@ -53,10 +49,10 @@
             $postLink() {
 
                 this.syncSettings({
-                    collapsed: `dex.layout.${this.column}.collapsedBlock`
+                    collapsed: `dex.layout.${this.block}.collapsedBlock`
                 });
 
-                this._parent.collapseBlock(this.column, this.block, this.collapsed);
+                this._parent.collapseBlock(this.block, this.collapsed);
                 this._parent.registerItem($element, this);
             }
 
@@ -66,10 +62,10 @@
                     this.collapsed = !collapsed;
                     utils.wait(100)
                         .then(() => {
-                            this._parent.collapseBlock(this.column, this.block, this.collapsed);
+                            this._parent.collapseBlock(this.block, this.collapsed);
                         });
                 } else {
-                    this._parent.collapseBlock(this.column, this.block, !this.collapsed);
+                    this._parent.collapseBlock(this.block, !this.collapsed);
                     utils.wait(300)
                         .then(() => {
                             this.collapsed = !collapsed;
@@ -91,7 +87,6 @@
             },
             bindings: {
                 titleLiteral: '@titleName',
-                column: '@',
                 block: '@',
                 hasSearch: '@',
                 canCollapse: '@'

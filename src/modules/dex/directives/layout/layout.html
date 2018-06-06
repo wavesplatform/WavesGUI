@@ -1,32 +1,31 @@
 <div class="dex-layout" w-toggle-class-container>
 
-    <div data-column="watchlist" class="dex-layout__column dex-layout__watchlist">
-        <div data-block="top" class="dex-layout__block dex-layout__block-top"></div>
+    <div class="dex-layout__column dex-layout__watchlist">
+        <div data-block="watchlist" class="dex-layout__block dex-layout__block-top"></div>
     </div>
 
-    <div data-column="candlechart" class="dex-layout__column dex-layout__candlechart">
+    <div class="dex-layout__column dex-layout__candlechart">
         <div class="dex-layout__sidebar-toggle dex-layout__sidebar-toggle-left">
             <div data-slider ng-click="$ctrl.toggleColumn('watchlist')"></div>
         </div>
-        <div data-block="top" class="dex-layout__block dex-layout__block-top"></div>
+        <div data-block="candlechart" class="dex-layout__block dex-layout__block-top"></div>
         <div class="dex-layout__sidebar-toggle dex-layout__sidebar-toggle-right">
             <div data-slider ng-click="$ctrl.toggleColumn('orderbook')"></div>
         </div>
     </div>
 
-    <div data-column="orderbook"
-         class="dex-layout__column dex-layout__orderbook"
+    <div class="dex-layout__column dex-layout__orderbook"
          w-toggle-class-container>
-        <div data-block="top" class="dex-layout__block dex-layout__block-top"></div>
-        <div data-block="bottom" class="dex-layout__block dex-layout__block-bottom"></div>
+        <div data-block="orderbook" class="dex-layout__block dex-layout__block-top"></div>
+        <div data-block="tradevolume" class="dex-layout__block dex-layout__block-bottom"></div>
     </div>
 
-    <div data-column="tradehistory" class="dex-layout__column dex-layout__tradehistory">
-        <div data-block="top" class="dex-layout__block dex-layout__block-bottom"></div>
+    <div class="dex-layout__column dex-layout__tradehistory">
+        <div data-block="tradehistory" class="dex-layout__block dex-layout__block-bottom"></div>
     </div>
 
-    <div data-column="createorder" class="dex-layout__column dex-layout__createorder">
-        <div data-block="top" class="dex-layout__block dex-layout__block-bottom"></div>
+    <div class="dex-layout__column dex-layout__createorder">
+        <div data-block="createorder" class="dex-layout__block dex-layout__block-bottom"></div>
     </div>
 
     <div class="hidden" ng-transclude></div>
