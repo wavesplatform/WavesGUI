@@ -31,6 +31,7 @@ w-layout {
   .dex-layout {
     width: 100%;
     height: 100%;
+    min-height: 500px;
     position: relative;
     overflow: hidden;
 
@@ -61,7 +62,7 @@ w-layout {
         }
 
         &__candlechart {
-          transformX: (0);
+          transform: translateX(0);
           width: calc(100% ~'- 325px');
 
           .dex-layout {
@@ -96,6 +97,10 @@ w-layout {
           }
         }
       }
+    }
+
+    .wrapper {
+      height: 100%;
     }
 
     &__watchlist {
@@ -156,8 +161,19 @@ w-layout {
       margin-left: 5px;
       border-radius: @border-radius / 2;
       background: @color-white;
+      display: flex;
 
       .dex-layout {
+        &__sidebar-toggle {
+          position: absolute;
+          display: none;
+          left: 0;
+          border-right: 1px solid @color-basic-100;
+        }
+      }
+
+      .dex-layout {
+
         &__block-top {
           transition: .3s;
           height: calc(100% ~'- 200px');
@@ -221,7 +237,7 @@ w-layout {
 
     &__sidebar-toggle {
       height: 100%;
-      width: 15px;
+      width: 20px;
       background: @color-white;
       z-index: 1;
 
@@ -237,7 +253,9 @@ w-layout {
         &::after {
           content: "";
           display: block;
-          margin-top: -7px;
+          margin: -7px auto 0 auto;
+          right: 0;
+          left: 0;
           top: 50%;
           position: absolute;
           height: 15px;
@@ -279,20 +297,20 @@ w-layout {
     .dex-layout {
       &__watchlist {
         overflow: hidden;
-        width: 0;
         margin-right: 0;
+        transform: translateX(0);
       }
 
       &__candlechart {
         width: 100%;
-        transform: translate(0);
         flex-grow: 1;
+        transform: translate(0);
       }
 
       &__orderbook {
         overflow: hidden;
-        width: 0;
         margin-left: 0;
+        transform: translateX(0);
       }
     }
   }
@@ -375,15 +393,15 @@ html body.dex .notifications {
       &__watchlist {
         width: calc(50% ~' - 3px');
         min-width: 320px;
-        max-height: calc(50% ~ '- 45px');
+        max-height: calc(50% ~ '- 25px');
       }
 
       &__candlechart {
         width: calc(50% ~' - 2px');
         min-width: 320px;
-        max-height: calc(50% ~ '- 45px');
-        right: 0;
-        left: auto;
+        max-height: calc(50% ~ '- 25px');
+        transform: translate(0);
+        right: -1px;
 
         .dex-layout {
           &__sidebar-toggle-right {
@@ -395,21 +413,37 @@ html body.dex .notifications {
       &__orderbook {
         width: calc(50% ~' - 2px');
         min-width: 320px;
-        min-height: calc(50% ~'- 40px');
-        max-height: calc(50% ~'- 40px');
-        height: calc(50% ~'- 40px');
+        min-height: calc(50% ~'- 30px');
+        max-height: calc(50% ~'- 30px');
+        height: calc(50% ~'- 30px');
         right: 0;
-        bottom: 80px;
+        bottom: 50px;
+        transform: translate(0);
+        padding-left: 20px;
+
+        .dex-layout {
+          &__sidebar-toggle {
+            display: block;
+          }
+
+          &__block-top {
+            height: 100%;
+          }
+
+          &__block-bottom {
+            display: none;
+          }
+        }
       }
 
       &__tradehistory {
         width: calc(50% ~' - 3px');
         min-width: 320px;
-        min-height: calc(50% ~'- 40px');
-        max-height: calc(50% ~'- 40px');
-        height: calc(50% ~'- 40px');
+        min-height: calc(50% ~'- 30px');
+        max-height: calc(50% ~'- 30px');
+        height: calc(50% ~'- 30px');
         left: 0;
-        bottom: 80px;
+        bottom: 50px;
       }
 
       &__createorder {
@@ -417,7 +451,7 @@ html body.dex .notifications {
         margin-right: -5px;
         bottom: -5px;
         width: calc(100% ~'+ 10px');
-        height: 80px;
+        height: 50px;
         max-height: none;
         min-height: auto;
         position: absolute;
@@ -427,7 +461,78 @@ html body.dex .notifications {
           border: 1px solid red;
           height: 370px;
         }
+      }
 
+      //collapse
+
+      &__watchlist-collapsed {
+        .dex-layout {
+          &__watchlist {
+            transform: translateX(-100%);
+            left: -5px;
+          }
+
+          &__candlechart {
+            transform: translateX(0);
+            width: 100%;
+
+            .dex-layout {
+              &__sidebar-toggle-left div::after {
+                transform: rotate(-90deg);
+              }
+            }
+          }
+        }
+      }
+
+      &__orderbook-collapsed {
+        .dex-layout {
+
+          &__orderbook {
+            .dex-layout {
+              &__sidebar-toggle-left div::after {
+                transform: rotate(-270deg);
+              }
+
+              &__block-top {
+                display: none;
+              }
+            }
+          }
+
+          &__block-orderbook-bottom-collapsed {
+            .dex-layout {
+              &__orderbook {
+                .dex-layout__block-top {
+                  height: 100%;
+                }
+              }
+            }
+          }
+
+          &__candlechart {
+            width: calc(50% ~'- 3px')
+          }
+
+          &__orderbook {
+            background: none transparent;
+            transform: translateX(100%);
+            width: calc(50% ~'- 2px');
+            right: 20px;
+          }
+
+          &__tradehistory {
+            width: calc(100% ~' - 20px');
+          }
+        }
+      }
+
+      .dex-layout__watchlist-collapsed.dex-layout__orderbook-collapsed {
+        .dex-layout {
+          &__orderbook {
+
+          }
+        }
       }
 
     }
@@ -470,7 +575,7 @@ html body.dex .notifications {
         max-height: 320px;
         min-height: 320px;
         height: 320px;
-        left: 0;
+        transform: translateX(0);
         margin-bottom: 5px;
         order: 1;
 
@@ -514,5 +619,4 @@ html body.dex .notifications {
 
     }
   }
-
 }

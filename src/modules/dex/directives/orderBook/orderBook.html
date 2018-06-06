@@ -1,33 +1,37 @@
-<w-table ng-show="$ctrl.hasOrderBook">
-    <w-t-head>
-        <w-row>
-            <w-cell>
-                <w-i18n params="{assetName: $ctrl.amountAsset.displayName}">directives.orderBook.amount</w-i18n>
-            </w-cell>
-            <w-cell>
-                <w-i18n params="{assetName: $ctrl.priceAsset.displayName}">directives.orderBook.price</w-i18n>
-            </w-cell>
-            <w-cell>
-                <w-i18n params="{assetName: $ctrl.priceAsset.displayName}">directives.orderBook.sum</w-i18n>
-            </w-cell>
-        </w-row>
-    </w-t-head>
-    <w-scroll-box>
-        <div class="asks"></div>
-        <div class="info">
-            <div w-i18n="directives.orderBook.lastprice"></div>
-            <div class="last-price body-2 buy"></div>
-            <div>
-                <span w-i18n="directives.orderBook.spread"></span>
-                <span class="spread"></span>
-            </div>
-        </div>
-        <div class="bids"></div>
-    </w-scroll-box>
-</w-table>
+<div class="wrapper">
 
-<div class="empty-block-container" ng-hide="$ctrl.hasOrderBook">
-    <div class="icon"></div>
-    <div class="body-1 basic-700" w-i18n="emptyBlocks.orderBook.title"></div>
-    <div class="footnote-1 basic-500" w-i18n="emptyBlocks.orderBook.description"></div>
+    <w-table ng-show="$ctrl.hasOrderBook">
+        <w-t-head>
+            <w-row>
+                <w-cell>
+                    <w-i18n params="{assetName: $ctrl.amountAsset.displayName}">directives.orderBook.amount</w-i18n>
+                </w-cell>
+                <w-cell>
+                    <w-i18n params="{assetName: $ctrl.priceAsset.displayName}">directives.orderBook.price</w-i18n>
+                </w-cell>
+                <w-cell>
+                    <w-i18n params="{assetName: $ctrl.priceAsset.displayName}">directives.orderBook.sum</w-i18n>
+                </w-cell>
+            </w-row>
+        </w-t-head>
+        <w-scroll-box>
+            <div class="asks"></div>
+            <div class="info">
+                <div w-i18n="directives.orderBook.lastprice"></div>
+                <div class="last-price body-2 buy"></div>
+                <div>
+                    <span w-i18n="directives.orderBook.spread"></span>
+                    <span class="spread"></span>
+                </div>
+            </div>
+            <div class="bids"></div>
+        </w-scroll-box>
+    </w-table>
+
+    <div class="empty-block-container" ng-hide="$ctrl.hasOrderBook">
+        <div class="icon"></div>
+        <div class="body-1 basic-700" w-i18n="emptyBlocks.orderBook.title"></div>
+        <div class="footnote-1 basic-500" w-i18n="emptyBlocks.orderBook.description"></div>
+    </div>
+
 </div>
