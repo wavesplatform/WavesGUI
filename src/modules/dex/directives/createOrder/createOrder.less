@@ -124,21 +124,24 @@ w-create-order {
   .create-order {
     position: relative;
 
+    &.expanded {
+      .head {
+        .icon-close {
+          display: none;
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
+
     .head {
-      display: none;
       align-items: center;
       width: 100%;
       padding: 8px 16px;
-      cursor: move;
       position: relative;
-
-      .icon-close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 10px;
-        height: 10px;
-      }
     }
 
     .body {
@@ -380,10 +383,6 @@ w-create-order {
             display: flex;
           }
         }
-      }
-
-      .head {
-        display: none;
       }
 
       &.expanded {

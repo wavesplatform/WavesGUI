@@ -62,7 +62,6 @@ w-layout {
         }
 
         &__candlechart {
-          transform: translateX(0);
           width: calc(100% ~'- 325px');
 
           .dex-layout {
@@ -297,7 +296,7 @@ w-layout {
       &__watchlist {
         overflow: hidden;
         margin-right: 0;
-        transform: translateX(0);
+        transform: translateX(-100%);
       }
 
       &__candlechart {
@@ -309,7 +308,7 @@ w-layout {
       &__orderbook {
         overflow: hidden;
         margin-left: 0;
-        transform: translateX(0);
+        transform: translateX(100%);
       }
     }
   }
@@ -370,7 +369,6 @@ html body.dex .notifications {
 @media screen and (min-width: 660px) and (max-width: 1024px) {
 
   .dex.main .main-content {
-
     w-responsive-menu w-button.nav-toggler {
       display: block;
     }
@@ -392,15 +390,15 @@ html body.dex .notifications {
       &__watchlist {
         width: calc(50% ~' - 3px');
         min-width: 320px;
-        max-height: calc(50% ~ '- 25px');
+        max-height: calc(50% ~ '- 45px');
       }
 
       &__candlechart {
         width: calc(50% ~' - 2px');
         min-width: 320px;
-        max-height: calc(50% ~ '- 25px');
+        max-height: calc(50% ~ '- 45px');
         transform: translate(0);
-        right: -1px;
+        right: 0px;
 
         .dex-layout {
           &__sidebar-toggle-right {
@@ -412,17 +410,20 @@ html body.dex .notifications {
       &__orderbook {
         width: calc(50% ~' - 2px');
         min-width: 320px;
-        min-height: calc(50% ~'- 30px');
-        max-height: calc(50% ~'- 30px');
-        height: calc(50% ~'- 30px');
+        min-height: calc(50% ~'- 45px');
+        max-height: calc(50% ~'- 45px');
+        height: calc(50% ~'- 45px');
         right: 0;
-        bottom: 50px;
+        bottom: 85px;
         transform: translate(0);
         padding-left: 20px;
 
         .dex-layout {
-          &__sidebar-toggle {
+          &__sidebar-toggle-left {
             display: block;
+            div::after {
+              transform: rotate(270deg);
+            }
           }
 
           &__block-top {
@@ -432,17 +433,21 @@ html body.dex .notifications {
           &__block-bottom {
             display: none;
           }
+
+          &__block[data-block="tradevolume"] {
+            width: calc(100% ~'- 21px');
+          }
         }
       }
 
       &__tradehistory {
         width: calc(50% ~' - 3px');
         min-width: 320px;
-        min-height: calc(50% ~'- 30px');
-        max-height: calc(50% ~'- 30px');
-        height: calc(50% ~'- 30px');
+        min-height: calc(50% ~'- 45px');
+        max-height: calc(50% ~'- 45px');
+        height: calc(50% ~'- 45px');
         left: 0;
-        bottom: 50px;
+        bottom: 85px;
       }
 
       &__createorder {
@@ -450,7 +455,7 @@ html body.dex .notifications {
         margin-right: -5px;
         bottom: -5px;
         width: calc(100% ~'+ 10px');
-        height: 50px;
+        height: 80px;
         max-height: none;
         min-height: auto;
         position: absolute;
@@ -462,7 +467,7 @@ html body.dex .notifications {
         }
       }
 
-      //collapse
+      //collapse responsive
 
       &__watchlist-collapsed {
         .dex-layout {
@@ -488,13 +493,29 @@ html body.dex .notifications {
         .dex-layout {
 
           &__orderbook {
+            background: none transparent;
+
             .dex-layout {
-              &__sidebar-toggle-left div::after {
-                transform: rotate(-270deg);
+              &__sidebar-toggle-left {
+                border-right: 0 none;
+                border-left: 1px solid @color-basic-100;
+
+                div::after {
+                  transform: rotate(-270deg);
+                }
               }
 
               &__block-top {
                 display: none;
+              }
+
+              &__block {
+                min-width: 0;
+              }
+
+              &__block[data-block="orderbook"],
+              &__block[data-block="tradevolume"] {
+                transform: translate(5px);
               }
             }
           }
