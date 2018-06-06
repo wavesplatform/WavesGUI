@@ -52,7 +52,7 @@
                         'plus': $ctrl.isPositive(pair.change),
                         'minus': $ctrl.isNegative(pair.change)
                       }">
-                <span>{{::pair.change}}</span>
+                <span ng-if="$ctrl.isPositive(pair.change)">+</span><span>{{::pair.change}}</span>%
             </w-table-cell>
             <w-table-cell title="{{::pair.fullVolume}}">
                 {{::pair.volume}}
