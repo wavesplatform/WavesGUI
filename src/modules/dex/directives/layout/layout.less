@@ -37,11 +37,11 @@ w-layout {
     &__watchlist-collapsed {
       .dex-layout {
         &__watchlist {
-          left: -100%;
+          transform: translateX(-100%);
         }
 
         &__candlechart {
-          left: 0;
+          transform: translateX(0);
           width: calc(100% ~'- 325px');
 
           .dex-layout {
@@ -57,11 +57,11 @@ w-layout {
     &__orderbook-collapsed {
       .dex-layout {
         &__orderbook {
-          right: -100%;
-
+          transform: translateX(100%);
         }
 
         &__candlechart {
+          transformX: (0);
           width: calc(100% ~'- 325px');
 
           .dex-layout {
@@ -132,10 +132,10 @@ w-layout {
       width: calc(100% ~'- 650px');
       max-height: calc(100% ~'- 308px');
       position: absolute;
-      left: 325px;
       border-radius: @border-radius / 2;
       display: flex;
       transition: .3s;
+      transform: translateX(325px);
 
       .block-title {
         display: none;
@@ -285,6 +285,7 @@ w-layout {
 
       &__candlechart {
         width: 100%;
+        transform: translate(0);
         flex-grow: 1;
       }
 
@@ -498,6 +499,7 @@ html body.dex .notifications {
         width: 100%;
         margin-bottom: 5px;
         order: 2;
+        min-height: 100%;
       }
 
       &__createorder {

@@ -24,25 +24,6 @@
                  * @private
                  */
                 this._dom = null;
-                /**
-                 * @type {
-                 *  {
-                 *      left: {
-                 *          top: LayoutItem,
-                 *          bottom: LayoutItem
-                 *      },
-                 *      center: {
-                 *          top: LayoutItem,
-                 *          bottom: LayoutItem
-                 *      },
-                 *      right: {
-                 *          top: LayoutItem,
-                 *          bottom: LayoutItem
-                 *      }
-                 *  }
-                 * }
-                 * @private
-                 */
                 this._children = {
                     watchlist: {
                         top: null
@@ -67,28 +48,17 @@
                  */
                 this._node = null;
                 /**
-                 * @type {number}
-                 * @private
-                 */
-                this._topLeftHeight = null;
-                /**
                  *
-                 * @type {number}
+                 * @type {boolean}
                  * @private
                  */
-                this._topRightHeight = null;
+                this._watchlistCollapsed = null;
                 /**
                  *
                  * @type {boolean}
                  * @private
                  */
-                this._topLeftCollapsed = null;
-                /**
-                 *
-                 * @type {boolean}
-                 * @private
-                 */
-                this._topRightCollapsed = null;
+                this._orderbookCollapsed = null;
 
                 this.isPhone = $rootScope.isPhone;
                 this.isTablet = $rootScope.isTablet;
@@ -96,11 +66,11 @@
                 this.isNotDesktop = $rootScope.isNotDesktop;
 
                 this.syncSettings({
-                    _topLeftCollapsed: 'dex.layout.watchlist.collapsed',
-                    _topRightCollapsed: 'dex.layout.orderbook.collapsed'
+                    _watchlistCollapsed: 'dex.layout.watchlist.collapsed',
+                    _orderbookCollapsed: 'dex.layout.orderbook.collapsed'
                 });
 
-                this.observe(['_topLeftCollapsed', '_topRightCollapsed'], this._onChangeCollapsed);
+                this.observe(['_watchlistCollapsed', '_orderbookCollapsed'], this._onChangeCollapsed);
             }
 
             $postLink() {
@@ -113,17 +83,15 @@
                     createorder: Layout._getColumn('createorder')
                 };
 
-                const watchlist = this._topLeftCollapsed;
-                const orderbook = this._topRightCollapsed;
+                const watchlistCollapsed = this._watchlistCollapsed;
+                const orderbookCollapsed = this._orderbookCollapsed;
                 const base = 'dex-layout';
 
                 this._node.get(0).className = 'dex-layout';
-                this._node.toggleClass(`${base}__watchlist-collapsed`, watchlist);
-                this._node.toggleClass(`${base}__orderbook-collapsed`, orderbook);
-                this._dom.watchlist.slider.toggleClass(`${base}__sidebar-toggle-open`, !watchlist);
-                this._dom.orderbook.slider.toggleClass(`${base}__sidebar-toggle-open`, !orderbook);
-
-                this._onChangeHeight();
+                this._node.toggleClass(`${base}__watchlist-collapsed`, watchlistCollapsed);
+                this._node.toggleClass(`${base}__orderbook-collapsed`, orderbookCollapsed);
+                this._dom.watchlist.slider.toggleClass(`${base}__sidebar-toggle-open`, !watchlistCollapsed);
+                this._dom.orderbook.slider.toggleClass(`${base}__sidebar-toggle-open`, !orderbookCollapsed);
 
                 this._ready.resolve();
             }
@@ -154,46 +122,44 @@
             toggleColumn(column) {
                 switch (column) {
                     case 'watchlist':
-                        this._topLeftCollapsed = !this._topLeftCollapsed;
+                        this._watchlistCollapsed = !this._watchlistCollapsed;
                         break;
                     case 'orderbook':
-                        this._topRightCollapsed = !this._topRightCollapsed;
+                        this._orderbookCollapsed = !this._orderbookCollapsed;
                         break;
                     default:
                         throw new Error('Wrong column name!');
                 }
             }
 
-            _onChangeHeight() {
-                // const left = this._leftHeight;
-                // const center = this._centerHeight;
-                // const topright = this._topRightHeight;
-                // this._dom.left.top.css('height', `${left}%`);
-                // this._dom.left.bottom.css('height', `${100 - left}%`);
-                // this._dom.center.top.css('height', `${center}%`);
-                // this._dom.center.bottom.css('height', `${100 - center}%`);
-                // this._dom.topright.top.css('height', `${topright}%`);
-                // this._dom.topright.bottom.css('height', `${100 - topright}%`);
-            }
-
             _onChangeCollapsed() {
-                const watchlist = this._topLeftCollapsed;
-                const orderbook = this._topRightCollapsed;
+                const watchlist = this._watchlistCollapsed;
+                const orderbook = this._orderbookCollapsed;
                 const base = 'dex-layout';
 
                 utils.animateByClass(this._dom.candlechart.column, 'ghost', true, 'opacity')
                     .then(() => {
-                        // this._dom.topcenter.column.css('display', 'none'); // TODO check
+                        this._dom.candlechart.column.hide();
                         this._dom.watchlist.slider.toggleClass(`${base}__sidebar-toggle-open`, !watchlist);
                         this._dom.orderbook.slider.toggleClass(`${base}__sidebar-toggle-open`, !orderbook);
 
-                        return utils.whenAll([
-                            utils.animateByClass(this._node, `${base}__watchlist-collapsed`, watchlist, 'flex-basis'),
-                            utils.animateByClass(this._node, `${base}__orderbook-collapsed`, orderbook, 'flex-basis')
+                        const endCollapseAnimations = utils.whenAll([
+                            utils.animateByClass(this._node, `${base}__watchlist-collapsed`, watchlist, 'transform'),
+                            utils.animateByClass(this._node, `${base}__orderbook-collapsed`, orderbook, 'transform')
                         ]);
+
+                        const notWorking = new Promise((resolve, reject) => {
+                            setTimeout(reject, 3000);
+                        });
+
+                        return Promise.race([endCollapseAnimations, notWorking])
+                            .catch(() => {
+                                /* eslint no-console: "off" */
+                                console.warn('Not working css animation end event!');
+                            });
                     })
                     .then(() => {
-                        // this._dom.candlechart.column.css('display', 'flex');
+                        this._dom.candlechart.column.show();
                         return utils.wait(0);
                     })
                     .then(() => {
