@@ -134,8 +134,20 @@
             @decorators.cachable(60)
             getVolume(pair) {
                 return fetch(`${WavesApp.network.api}/v0/pairs/${pair.toString()}`)
-                    .then((pairString) => {
-                        const pairInfo = JSON.parse(pairString);
+                    .then((pair) => {
+                        let pairInfo = pair;
+
+                        if (typeof pair === 'string') {
+                            try {
+                                pairInfo = JSON.parse(pair);
+                            } catch (e) {
+                                pairInfo = {
+                                    data: {
+                                        volume: 0
+                                    }
+                                };
+                            }
+                        }
 
                         return pairInfo.data.volume.toString();
                     }, () => {

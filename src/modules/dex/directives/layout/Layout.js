@@ -108,8 +108,8 @@
                 });
             }
 
-            collapseBlock(column, block, collapsed) {
-                this._node.toggleClass(`dex-layout__block-${column}-${block}-collapsed`, collapsed);
+            collapseBlock(block, collapsed) {
+                this._node.toggleClass(`dex-layout__block-${block}-collapsed`, collapsed);
             }
 
             toggleColumn(column) {
