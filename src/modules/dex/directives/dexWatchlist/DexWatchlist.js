@@ -8,6 +8,7 @@
     /**
      * @param Base
      * @param {Waves} waves
+     * @param user
      * @param {$rootScope.Scope} $scope
      * @param {$state} $state
      * @param {$location} $location
@@ -23,6 +24,7 @@
     const controller = function (
         Base,
         waves,
+        user,
         $scope,
         $state,
         $location,
@@ -161,10 +163,17 @@
                  * @private
                  */
                 this._shouldShowOnlyFavourite = false;
+
+                /**
+                 * @type {{}}
+                 * @private
+                 */
+                this._favourite = {};
             }
 
             $postLink() {
                 this.syncSettings({
+                    _favourite: 'dex.watchlist.favourite',
                     _assetsIds: 'dex.watchlist.list',
                     _assetIdPair: 'dex.assetIdPair'
                 });
@@ -256,6 +265,14 @@
                     .then(() => {
                         this._updateVisiblePairsData();
                     });
+
+                this._saveFavouriteForTab(this.tab.id, this.tab.getFavourite());
+            }
+
+            _saveFavouriteForTab(tabId, favourite) {
+                this._favourite[tabId] = favourite;
+                this._favourite = Object.assign({}, this._favourite);
+                user.setSetting('dex.watchlist.favourite', this._favourite);
             }
 
             toggleOnlyFavourite() {
@@ -303,12 +320,22 @@
 
             /**
              * @param assetId
+             * @param tabId
              * @returns {Array}
              * @private
              */
-            _getFavouritePairsRelativeTo(assetId) {
+            _getFavouritePairsRelativeTo(assetId, tabId = assetId) {
+                const savedFavourite = this._getSavedFavourite(tabId);
+
+                if (savedFavourite) {
+                    return savedFavourite;
+                }
+
                 const allGateways = Object.assign({}, { WAVES: '' }, gateways, sepaGateways);
-                return this._buildPairsRelativeTo(assetId, Object.keys(allGateways));
+                const pairsRelativeToAsset = this._buildPairsRelativeTo(assetId, Object.keys(allGateways));
+                this._saveFavouriteForTab(tabId, pairsRelativeToAsset);
+
+                return pairsRelativeToAsset;
             }
 
             /**
@@ -394,13 +421,15 @@
              * @private
              */
             _prepareTabs() {
+                const ALL = 'All';
+
                 this.tabsData = [
                     {
-                        title: 'All',
-                        id: 'All',
+                        title: ALL,
+                        id: ALL,
                         searchPrefix: '',
                         pairsOfIds: {
-                            favourite: this._getFavouritePairsRelativeTo(WavesApp.defaultAssets.WAVES),
+                            favourite: this._getFavouritePairsRelativeTo(WavesApp.defaultAssets.WAVES, ALL),
                             other: this._getOtherPairs(),
                             chosen: DexWatchlist._getPairFromState()
                         }
@@ -421,6 +450,19 @@
                     .then(() => {
                         this._updateVisiblePairsData();
                     });
+            }
+
+
+            /**
+             * @param tabId
+             * @returns {{}|*|null}
+             * @private
+             */
+            _getSavedFavourite(tabId) {
+                return (
+                    this._favourite &&
+                    this._favourite[tabId]
+                ) || null;
             }
 
             /**
@@ -499,6 +541,7 @@
     controller.$inject = [
         'Base',
         'waves',
+        'user',
         '$scope',
         '$state',
         '$location',

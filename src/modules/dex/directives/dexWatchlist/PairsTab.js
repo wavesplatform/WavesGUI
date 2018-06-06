@@ -28,7 +28,7 @@
                     /**
                      * @type {string}
                      */
-                    this._id = tabData.id;
+                    this.id = tabData.id;
 
                     /**
                      * @type {string}
@@ -95,6 +95,17 @@
                 }
 
                 /**
+                 * @returns {Array}
+                 */
+                getFavourite() {
+                    return (
+                        this._getFavourite()
+                            .getPairsData()
+                            .map((pairData) => pairData.pairOfIds)
+                    );
+                }
+
+                /**
                  * @returns {string}
                  */
                 getSearchPrefix() {
@@ -137,7 +148,7 @@
                  * @param tabData
                  */
                 isBasedOn(tabData) {
-                    return this._id === tabData.id;
+                    return this.id === tabData.id;
                 }
 
                 /**
@@ -198,7 +209,6 @@
                 sortByVolumeDescending() {
                     this._forEachPairsList((pairsList) => pairsList.sortByVolumeDescending());
                 }
-
 
                 /**
                  * @param pair

@@ -15,5 +15,5 @@
         <!-- todo @german function scrollToSpread(); and ng-if -->
         <div ng-click="$ctrl.scrollToSpread()" class="dex-block-top-btn"><i class="tospread"></i></div>
     </div>
-    <div class="dex-block-content" ng-transclude></div>
+    <div ng-if="!$ctrl.collapsed" class="dex-block-content" ng-transclude></div>
 </div>

@@ -179,31 +179,11 @@
             }
 
             static myStringify(data) {
-                try {
-                    const paths = tsUtils.getPaths(data);
-                    return JSON.stringify(paths.reduce((result, item) => {
-                        result[String(item)] = tsUtils.get(data, item);
-                        return result;
-                    }, Object.create(null)));
-                } catch (e) {
-                    return JSON.stringify(data);
-                }
+                return JSON.stringify(data);
             }
 
             static myParse(data) {
-                if (typeof data === 'object') {
-                    let result;
-                    tsUtils.each(data, (value, path) => {
-                        if (!result) {
-                            result = tsUtils.Path.parse(path)
-                                .getItemData(0).container;
-                        }
-                        tsUtils.set(result, path, value);
-                    });
-                    return result;
-                } else {
-                    return data;
-                }
+                return data;
             }
 
         }
