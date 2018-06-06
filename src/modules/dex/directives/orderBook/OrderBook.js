@@ -83,6 +83,11 @@
                  */
                 this._dom = null;
 
+                this.receive(dexDataService.showSpread, () => {
+                    this._showSpread = true;
+                    this._render();
+                });
+
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair',
                     _orderBookCropRate: 'dex.orderBookCropRate'
