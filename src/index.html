@@ -261,7 +261,8 @@
                 coinomat: '{{network.coinomat}}',
                 datafeed: '{{network.datafeed}}',
                 support: '{{network.support}}',
-                nodeList: '{{network.nodeList}}'
+                nodeList: '{{network.nodeList}}',
+                scamListUrl: '{{network.scamListUrl}}'
             },
             defaultAssets: {
                 WAVES: 'WAVES',
@@ -615,14 +616,7 @@
      * @property {number} maxAddressLength
      * @property {BigNumber} maxCoinsCount
      * @property {typeof WavesApp.TRANSACTION_TYPES} TRANSACTION_TYPES
-     * @property {object} network
-     * @property {string} network.code
-     * @property {string} network.node
-     * @property {string} network.matcher
-     * @property {string} network.api
-     * @property {string} network.coinomat
-     * @property {string} network.datafeed
-     * @property {string} network.support
+     * @property {typeof WavesApp.network} network
      * @property {typeof WavesApp.defaultAssets} defaultAssets
      * @property {object} remappedAssetNames
      * @property {object} dex

@@ -191,6 +191,23 @@
   background-color: rgba(129, 201, 38, 0.1);
 }
 
+
+.icon-tx-spam {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 14 center;
+  }
+  background-color: rgba(153, 153, 153, 0.1);
+}
+
+.icon-tx-mass-spam {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 15 center;
+  }
+  background-color: rgba(153, 153, 153, 0.1);
+}
+
 .icon-info {
   width: 20px;
   height: 20px;

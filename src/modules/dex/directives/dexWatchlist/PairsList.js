@@ -93,11 +93,88 @@
                     }
                 }
 
+                sortByChangeAscending() {
+                    this._sortByAscending(this._getChangeConverter());
+                }
+
+                sortByChangeDescending() {
+                    this._sortByDescending(this._getChangeConverter());
+                }
+
+                sortByPairAscending() {
+                    this._sortByAscending((pair) => pair.pair);
+                }
+
+                sortByPairDescending() {
+                    this._sortByDescending((pair) => pair.pair);
+                }
+
+                sortByPriceAscending() {
+                    this._sortByAscending(this._getPriceConverter());
+                }
+
+                sortByPriceDescending() {
+                    this._sortByDescending(this._getPriceConverter());
+                }
+
+                sortByVolumeAscending() {
+                    this._sortByAscending((pair) => pair.bigNumberVolume);
+                }
+
+                sortByVolumeDescending() {
+                    this._sortByDescending((pair) => pair.bigNumberVolume);
+                }
+
                 sortOnceVolumesLoaded() {
                     this.pairsSorted = new Promise((resolve) => {
                         this._sortOnceVolumesLoaded()
                             .then(resolve);
                     });
+                }
+
+                /**
+                 * @returns {function(*): number}
+                 * @private
+                 */
+                _getChangeConverter() {
+                    return (pair) => parseFloat(pair.change);
+                }
+
+                /**
+                 * @returns {function(*): number}
+                 * @private
+                 */
+                _getPriceConverter() {
+                    return (pair) => parseFloat(pair.price);
+                }
+
+                /**
+                 * @param sort
+                 * @param getValue
+                 * @private
+                 */
+                _sortBy(sort, getValue) {
+                    this._pairsData.sort((pairData, anotherPairData) => {
+                        return (
+                            sort(getValue(pairData), getValue(anotherPairData))
+                        );
+                    });
+                }
+
+                /**
+                 * @param getValue
+                 * @private
+                 */
+                _sortByAscending(getValue) {
+                    this._sortBy(utils.comparators.smart.asc, getValue);
+                }
+
+                /**
+                 * @param getValue
+                 * @private
+                 */
+                _sortByDescending(getValue) {
+                    this._sortBy(utils.comparators.smart.desc, getValue);
                 }
 
                 /**
@@ -110,14 +187,7 @@
                             return (loadingProgress.then(() => pairData.volumeRequest));
                         }, Promise.resolve())
                         .then(() => {
-                            this._pairsData.sort((pairData, anotherPairData) => {
-                                return (
-                                    utils
-                                        .comparators
-                                        .bigNumber
-                                        .desc(pairData.bigNumberVolume, anotherPairData.bigNumberVolume)
-                                );
-                            });
+                            this.sortByVolumeDescending();
                         });
                 }
 

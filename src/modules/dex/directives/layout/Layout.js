@@ -24,42 +24,13 @@
                  * @private
                  */
                 this._dom = null;
-                /**
-                 * @type {
-                 *  {
-                 *      left: {
-                 *          top: LayoutItem,
-                 *          bottom: LayoutItem
-                 *      },
-                 *      center: {
-                 *          top: LayoutItem,
-                 *          bottom: LayoutItem
-                 *      },
-                 *      right: {
-                 *          top: LayoutItem,
-                 *          bottom: LayoutItem
-                 *      }
-                 *  }
-                 * }
-                 * @private
-                 */
                 this._children = {
-                    watchlist: {
-                        top: null
-                    },
-                    candlechart: {
-                        top: null
-                    },
-                    orderbook: {
-                        top: null,
-                        bottom: null
-                    },
-                    tradehistory: {
-                        top: null
-                    },
-                    createorder: {
-                        top: null
-                    }
+                    watchlist: null,
+                    candlechart: null,
+                    orderbook: null,
+                    tradehistory: null,
+                    createorder: null,
+                    tradevolume: null
                 };
                 /**
                  * @type {JQuery}
@@ -67,28 +38,17 @@
                  */
                 this._node = null;
                 /**
-                 * @type {number}
-                 * @private
-                 */
-                this._topLeftHeight = null;
-                /**
                  *
-                 * @type {number}
+                 * @type {boolean}
                  * @private
                  */
-                this._topRightHeight = null;
+                this._watchlistCollapsed = null;
                 /**
                  *
                  * @type {boolean}
                  * @private
                  */
-                this._topLeftCollapsed = null;
-                /**
-                 *
-                 * @type {boolean}
-                 * @private
-                 */
-                this._topRightCollapsed = null;
+                this._orderbookCollapsed = null;
 
                 this.isPhone = $rootScope.isPhone;
                 this.isTablet = $rootScope.isTablet;
@@ -96,11 +56,11 @@
                 this.isNotDesktop = $rootScope.isNotDesktop;
 
                 this.syncSettings({
-                    _topLeftCollapsed: 'dex.layout.watchlist.collapsed',
-                    _topRightCollapsed: 'dex.layout.orderbook.collapsed'
+                    _watchlistCollapsed: 'dex.layout.watchlist.collapsed',
+                    _orderbookCollapsed: 'dex.layout.orderbook.collapsed'
                 });
 
-                this.observe(['_topLeftCollapsed', '_topRightCollapsed'], this._onChangeCollapsed);
+                this.observe(['_watchlistCollapsed', '_orderbookCollapsed'], this._onChangeCollapsed);
             }
 
             $postLink() {
@@ -110,20 +70,19 @@
                     candlechart: Layout._getColumn('candlechart'),
                     orderbook: Layout._getColumn('orderbook'),
                     tradehistory: Layout._getColumn('tradehistory'),
-                    createorder: Layout._getColumn('createorder')
+                    createorder: Layout._getColumn('createorder'),
+                    tradevolume: Layout._getColumn('tradevolume')
                 };
 
-                const watchlist = this._topLeftCollapsed;
-                const orderbook = this._topRightCollapsed;
+                const watchlistCollapsed = this._watchlistCollapsed;
+                const orderbookCollapsed = this._orderbookCollapsed;
                 const base = 'dex-layout';
 
                 this._node.get(0).className = 'dex-layout';
-                this._node.toggleClass(`${base}__watchlist-collapsed`, watchlist);
-                this._node.toggleClass(`${base}__orderbook-collapsed`, orderbook);
-                this._dom.watchlist.slider.toggleClass(`${base}__sidebar-toggle-open`, !watchlist);
-                this._dom.orderbook.slider.toggleClass(`${base}__sidebar-toggle-open`, !orderbook);
-
-                this._onChangeHeight();
+                this._node.toggleClass(`${base}__watchlist-collapsed`, watchlistCollapsed);
+                this._node.toggleClass(`${base}__orderbook-collapsed`, orderbookCollapsed);
+                this._dom.watchlist.$slider.toggleClass(`${base}__sidebar-toggle-open`, !watchlistCollapsed);
+                this._dom.orderbook.$slider.toggleClass(`${base}__sidebar-toggle-open`, !orderbookCollapsed);
 
                 this._ready.resolve();
             }
@@ -133,16 +92,18 @@
              * @param {DexBlock} item
              */
             registerItem($element, item) {
-                const { column, block } = item;
+                const { block } = item;
 
-                if (!column || !block) {
+                if (!block) {
                     throw new Error('Wrong item address!');
                 }
 
                 this._ready.promise.then(() => {
-                    if (!this._children[column][block]) {
-                        this._children[column][block] = item;
-                        this._dom[column][block].append($element);
+                    if (!this._children[block]) {
+                        this._children[block] = item;
+                        this._dom[block].$container.append($element);
+                    } else {
+                        throw new Error('Duplicate child block!');
                     }
                 });
             }
@@ -154,50 +115,48 @@
             toggleColumn(column) {
                 switch (column) {
                     case 'watchlist':
-                        this._topLeftCollapsed = !this._topLeftCollapsed;
+                        this._watchlistCollapsed = !this._watchlistCollapsed;
                         break;
                     case 'orderbook':
-                        this._topRightCollapsed = !this._topRightCollapsed;
+                        this._orderbookCollapsed = !this._orderbookCollapsed;
                         break;
                     default:
                         throw new Error('Wrong column name!');
                 }
             }
 
-            _onChangeHeight() {
-                // const left = this._leftHeight;
-                // const center = this._centerHeight;
-                // const topright = this._topRightHeight;
-                // this._dom.left.top.css('height', `${left}%`);
-                // this._dom.left.bottom.css('height', `${100 - left}%`);
-                // this._dom.center.top.css('height', `${center}%`);
-                // this._dom.center.bottom.css('height', `${100 - center}%`);
-                // this._dom.topright.top.css('height', `${topright}%`);
-                // this._dom.topright.bottom.css('height', `${100 - topright}%`);
-            }
-
             _onChangeCollapsed() {
-                const watchlist = this._topLeftCollapsed;
-                const orderbook = this._topRightCollapsed;
+                const watchlist = this._watchlistCollapsed;
+                const orderbook = this._orderbookCollapsed;
                 const base = 'dex-layout';
 
-                utils.animateByClass(this._dom.candlechart.column, 'ghost', true, 'opacity')
+                utils.animateByClass(this._dom.candlechart.$wrapper, 'ghost', true, 'opacity')
                     .then(() => {
-                        // this._dom.topcenter.column.css('display', 'none'); // TODO check
-                        this._dom.watchlist.slider.toggleClass(`${base}__sidebar-toggle-open`, !watchlist);
-                        this._dom.orderbook.slider.toggleClass(`${base}__sidebar-toggle-open`, !orderbook);
+                        this._dom.candlechart.$wrapper.hide();
+                        this._dom.watchlist.$slider.toggleClass(`${base}__sidebar-toggle-open`, !watchlist);
+                        this._dom.orderbook.$slider.toggleClass(`${base}__sidebar-toggle-open`, !orderbook);
 
-                        return utils.whenAll([
+                        const endCollapseAnimations = utils.whenAll([
                             utils.animateByClass(this._node, `${base}__watchlist-collapsed`, watchlist, 'transform'),
                             utils.animateByClass(this._node, `${base}__orderbook-collapsed`, orderbook, 'transform')
                         ]);
+
+                        const notWorking = new Promise((resolve, reject) => {
+                            setTimeout(reject, 3000);
+                        });
+
+                        return Promise.race([endCollapseAnimations, notWorking])
+                            .catch(() => {
+                                /* eslint no-console: "off" */
+                                console.warn('Not working css animation end event!');
+                            });
                     })
                     .then(() => {
-                        // this._dom.candlechart.column.css('display', 'flex');
+                        this._dom.candlechart.$wrapper.show();
                         return utils.wait(0);
                     })
                     .then(() => {
-                        utils.animateByClass(this._dom.candlechart.column, 'ghost', false, 'opacity');
+                        utils.animateByClass(this._dom.candlechart.$wrapper, 'ghost', false, 'opacity');
                     });
             }
 
@@ -207,12 +166,11 @@
              * @private
              */
             static _getColumn(type) {
-                const column = $element.find(`[data-column="${type}"]`);
-                const top = column.find('[data-block="top"]');
-                const bottom = column.find('[data-block="bottom"]');
-                const slider = column.find('[data-slider]');
+                const $container = $element.find(`[data-block="${type}"]`);
+                const $wrapper = $container.parent();
+                const $slider = $wrapper.find('[data-slider]');
 
-                return { column, top, bottom, slider };
+                return { $wrapper, $container, $slider };
             }
 
         }
@@ -234,10 +192,10 @@
 
 /**
  * @typedef {object} IDexLayoutDomContainerItem
- * @property {JQuery} column
- * @property {JQuery} top
- * @property {JQuery} bottom
- * @property {JQuery} slider
+ * @property {JQuery} $wrapper
+ * @property {JQuery} $container
+ * @property {JQuery} $slider
+ * @property {DexBlock} child
  */
 
 /**

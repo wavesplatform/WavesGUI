@@ -91,22 +91,47 @@
                     {
                         id: 'pair',
                         title: { literal: 'directives.watchlist.pair' },
-                        sort: true
+                        sort: (pairs, shouldSortAscending) => {
+                            return this._sortColumn(
+                                shouldSortAscending,
+                                () => this.tab.sortByPairAscending(),
+                                () => this.tab.sortByPairDescending()
+                            );
+                        }
                     },
                     {
                         id: 'price',
                         title: { literal: 'directives.watchlist.price' },
-                        sort: true
+                        sort: (pairs, shouldSortAscending) => {
+                            return this._sortColumn(
+                                shouldSortAscending,
+                                () => this.tab.sortByPriceAscending(),
+                                () => this.tab.sortByPriceDescending()
+                            );
+                        }
                     },
                     {
                         id: 'change',
                         title: { literal: 'directives.watchlist.chg' },
-                        sort: true
+                        sort: (pairs, shouldSortAscending) => {
+                            return this._sortColumn(
+                                shouldSortAscending,
+                                () => this.tab.sortByChangeAscending(),
+                                () => this.tab.sortByChangeDescending()
+                            );
+                        }
                     },
                     {
                         id: 'volume',
                         title: { literal: 'directives.watchlist.volume' },
-                        sort: true
+                        sort: (pairs, shouldSortAscending) => {
+                            return this._sortColumn(
+                                shouldSortAscending,
+                                () => this.tab.sortByVolumeAscending(),
+                                () => this.tab.sortByVolumeDescending()
+                            );
+
+                        }
                     },
                     {
                         id: 'info'
@@ -313,23 +338,6 @@
                 return this._buildPairsRelativeTo(assetId, this._assetsIds);
             }
 
-            /**
-             * @returns {*}
-             * @private
-             */
-            static _getPairFromState() {
-                const { assetId1, assetId2 } = $state.params;
-
-                if (assetId1 && assetId2) {
-                    return [
-                        $state.params.assetId1,
-                        $state.params.assetId2
-                    ];
-                }
-
-                return null;
-            }
-
             _getSearchQuery() {
                 return `${this.tab.getSearchPrefix()}${this.search}`;
             }
@@ -341,6 +349,7 @@
             _prepareSearchResults() {
                 if (!this.search) {
                     this.tab.clearSearchResults();
+                    this._updateVisiblePairsData();
                     return;
                 }
 
@@ -423,6 +432,23 @@
             }
 
             /**
+             * @param shouldSortAscending
+             * @param sortAscending
+             * @param sortDescending
+             * @returns {any[]}
+             * @private
+             */
+            _sortColumn(shouldSortAscending, sortAscending, sortDescending) {
+                if (shouldSortAscending) {
+                    sortAscending();
+                } else {
+                    sortDescending();
+                }
+
+                return this.tab.getVisiblePairs(this._shouldShowOnlyFavourite);
+            }
+
+            /**
              * @private
              */
             _switchLocationAndUpdateAssetIdPair() {
@@ -446,6 +472,23 @@
                         this.visiblePairsData = filterResults;
                         $scope.$digest();
                     });
+            }
+
+            /**
+             * @returns {*}
+             * @private
+             */
+            static _getPairFromState() {
+                const { assetId1, assetId2 } = $state.params;
+
+                if (assetId1 && assetId2) {
+                    return [
+                        $state.params.assetId1,
+                        $state.params.assetId2
+                    ];
+                }
+
+                return null;
             }
 
         }

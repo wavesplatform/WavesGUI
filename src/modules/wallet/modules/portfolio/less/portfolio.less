@@ -58,9 +58,11 @@
     max-height: calc(100vh ~'- 142px');
     margin-top: @padding-main-layout;
 
-    .smart-table__w-tbody {
-      max-height: calc(100vh ~'- 208px');
-    }
+  &__w-tbody {
+    max-height: calc(100vh ~'- 208px');
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+  }
 
     .smart-table__row {
       min-width: 768px;
