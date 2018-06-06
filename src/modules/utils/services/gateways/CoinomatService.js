@@ -14,7 +14,8 @@
         [WavesApp.defaultAssets.LTC]: { waves: 'WLTC', gateway: 'LTC' },
         [WavesApp.defaultAssets.ZEC]: { waves: 'WZEC', gateway: 'ZEC' },
         [WavesApp.defaultAssets.BCH]: { waves: 'WBCH', gateway: 'BCH' },
-        [WavesApp.defaultAssets.DASH]: { waves: 'WDASH', gateway: 'DASH' }
+        [WavesApp.defaultAssets.DASH]: { waves: 'WDASH', gateway: 'DASH' },
+        [WavesApp.defaultAssets.XMR]: { waves: 'WXMR', gateway: 'XMR' }
     };
 
     /**
@@ -47,16 +48,21 @@
              * From Waves to Coinomat
              * @param {Asset} asset
              * @param {string} targetAddress
+             * @param {string} [paymentId]
              * @return {Promise}
              */
-            getWithdrawDetails(asset, targetAddress) {
+            getWithdrawDetails(asset, targetAddress, paymentId) {
                 CoinomatService._isSupportedAsset(asset.id);
                 const from = CURRENCIES[asset.id].waves;
                 const to = CURRENCIES[asset.id].gateway;
                 return Promise.all([
-                    this._loadPaymentDetails(from, to, targetAddress),
+                    this._loadPaymentDetails(from, to, targetAddress, paymentId),
                     this._loadWithdrawRate(from, to)
                 ]).then(([details, rate]) => {
+                    if (paymentId && details.tunnel.monero_payment_id !== paymentId) {
+                        throw new Error('Monero Payment ID is invalid or missing');
+                    }
+
                     return {
                         address: details.tunnel.wallet_from,
                         attachment: details.tunnel.attachment,
@@ -85,11 +91,12 @@
                 return `${KEY_NAME_PREFIX}${CURRENCIES[asset.id].gateway}`;
             }
 
-            _loadPaymentDetails(from, to, recipientAddress) {
+            _loadPaymentDetails(from, to, recipientAddress, paymentId) {
                 return $.get(`${PATH}/create_tunnel.php`, {
                     currency_from: from,
                     currency_to: to,
-                    wallet_to: recipientAddress
+                    wallet_to: recipientAddress,
+                    ...(paymentId ? { monero_payment_id: paymentId } : {})
                 }).then((res) => {
                     CoinomatService._isEligibleResponse(res, 'ok');
                     return $.get(`${PATH}/get_tunnel.php`, {

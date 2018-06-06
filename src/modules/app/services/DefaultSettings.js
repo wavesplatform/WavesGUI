@@ -53,7 +53,8 @@
                         WavesApp.defaultAssets.ZEC,
                         WavesApp.defaultAssets.BCH,
                         WavesApp.defaultAssets.TRY,
-                        WavesApp.defaultAssets.DASH
+                        WavesApp.defaultAssets.DASH,
+                        WavesApp.defaultAssets.XMR
                     ],
                     wallet: {
                         activeState: 'assets',
@@ -88,6 +89,7 @@
                                     WavesApp.defaultAssets.WAVES,
                                     WavesApp.defaultAssets.BTC,
                                     WavesApp.defaultAssets.DASH,
+                                    WavesApp.defaultAssets.XMR,
                                     WavesApp.defaultAssets.TRY,
                                     'HzfaJp8YQWLvQG4FkUxq2Q7iYWMYQ2k8UF89vVJAjWPj',
                                     'ABFYQjwDHSct6rNk59k3snoZfAqNHVZdHz4VGJe2oCV5',
@@ -117,6 +119,7 @@
                                     WavesApp.defaultAssets.WAVES,
                                     WavesApp.defaultAssets.BTC,
                                     WavesApp.defaultAssets.DASH,
+                                    WavesApp.defaultAssets.XMR,
                                     WavesApp.defaultAssets.TRY,
                                     'HzfaJp8YQWLvQG4FkUxq2Q7iYWMYQ2k8UF89vVJAjWPj',
                                     'ABFYQjwDHSct6rNk59k3snoZfAqNHVZdHz4VGJe2oCV5',

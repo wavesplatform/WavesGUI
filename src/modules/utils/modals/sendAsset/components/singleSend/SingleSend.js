@@ -66,6 +66,17 @@
             }
 
             /**
+             * @return {string}
+             */
+            get paymentId() {
+                return this.state.paymentId;
+            }
+
+            set paymentId(value) {
+                this.state.paymentId = value;
+            }
+
+            /**
              * @return {IGatewayDetails}
              */
             get gatewayDetails() {
@@ -111,6 +122,8 @@
                  * @private
                  */
                 this._noCurrentRate = false;
+
+                $scope.WavesApp = WavesApp;
             }
 
             $postLink() {
@@ -127,7 +140,9 @@
                         this.receive(utils.observe(this.state, 'assetId'), this._onChangeAssetId, this);
                         this.receive(utils.observe(this.state, 'mirrorId'), this._onChangeMirrorId, this);
 
+                        this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayDetails, this);
                         this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayDetails, this);
+
                         this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
                         this.observe('mirror', this._onChangeAmountMirror);
 
@@ -216,6 +231,13 @@
                         applyAmount();
                     }
                 }
+            }
+
+            /**
+             * @return {boolean}
+             */
+            isOldMoneroAddress() {
+                return this.state.assetId === WavesApp.defaultAssets.XMR && this.tx.recipient.substr(0, 1) === '4';
             }
 
             /**
@@ -344,11 +366,12 @@
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
-                    gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient).then((details) => {
-                        this.gatewayDetails = details;
-                        $scope.$digest();
-                        // TODO : validate amount field for gateway minimumAmount and maximumAmount
-                    });
+                    gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.paymentId)
+                        .then((details) => {
+                            this.gatewayDetails = details;
+                            $scope.$digest();
+                            // TODO : validate amount field for gateway minimumAmount and maximumAmount
+                        });
                 } else {
                     this.gatewayDetails = null;
                 }
