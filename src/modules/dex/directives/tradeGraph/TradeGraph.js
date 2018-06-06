@@ -27,6 +27,8 @@
         bids: 2
     };
 
+    const tsUtils = require('ts-utils');
+
     /**
      * @param Base
      * @param utils
@@ -54,12 +56,21 @@
                  * @private
                  */
                 this._chartCropRate = null;
+                /**
+                 * @type {Signal<void>}
+                 * @private
+                 */
+                this._setDataSignal = new tsUtils.Signal();
 
                 /**
                  * @type {boolean}
                  * @private
                  */
                 this.canShowGraph = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.pending = true;
 
                 this.options = {
                     margin: {
@@ -98,13 +109,24 @@
                  * @type {Poll}
                  * @private
                  */
-                this._poll = createPoll(this, this._getOrderBook, this._setOrderBook, 1000);
+                this._poll = createPoll(this, this._getOrderBook, this._setOrderBook, 1000, { $scope });
+
+                this._resetPending();
             }
 
             _onChangeAssets(noRestart) {
+                $scope.$apply();
                 if (!noRestart) {
                     this._poll.restart();
+                    this._resetPending();
                 }
+            }
+
+            _resetPending() {
+                this.pending = true;
+                this.receiveOnce(this._setDataSignal, () => {
+                    this.pending = false;
+                });
             }
 
             _getOrderBook() {
@@ -121,6 +143,8 @@
 
                 this.data.asks = orderBook.asks;
                 this.data.bids = orderBook.bids;
+
+                this._setDataSignal.dispatch();
 
                 $scope.$digest();
             }
