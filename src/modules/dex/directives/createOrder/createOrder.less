@@ -1,4 +1,21 @@
 @import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
+
+.dex-layout {
+  &__createorder {
+    .mask {
+      background: @color-black;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: .5;
+      height: 100%;
+      z-index: 5;
+      display: none;
+    }
+  }
+}
 
 w-create-order {
   display: block;
@@ -121,27 +138,28 @@ w-create-order {
     }
   }
 
+  .icon-close {
+    position: absolute;
+    top: 0;
+    display: none;
+    height: 30px;
+    width: 30px;
+    right: 15px;
+    background-size: 10px;
+    background-position: center;
+  }
+
   .create-order {
     position: relative;
-
-    &.expanded {
-      .head {
-        .icon-close {
-          display: none;
-          position: absolute;
-          top: 10px;
-          right: 10px;
-          width: 10px;
-          height: 10px;
-        }
-      }
-    }
 
     .head {
       align-items: center;
       width: 100%;
-      padding: 8px 16px;
+      padding: 0 16px;
+      height: 30px;
       position: relative;
+      display: none;
+      border-bottom: 1px solid @color-disabled-100;
     }
 
     .body {
@@ -156,6 +174,15 @@ w-create-order {
           padding-top: 8px;
           text-align: center;
           cursor: pointer;
+          color: @color-white;
+
+          .name {
+            font-size: @font-size-caption-2;
+          }
+
+          .price {
+            .footnote-2()
+          }
 
           &.sell {
             background: @color-error-400;
@@ -170,7 +197,6 @@ w-create-order {
           width: 70px;
           padding-top: 15px;
           text-align: center;
-          border-top: 1px solid @color-disabled-100;
         }
       }
 
@@ -256,7 +282,7 @@ w-create-order {
         }
 
         .fields {
-          padding: 6px 17px 17px;
+          padding: 6px 25px 17px;
 
           .field-label {
             margin-top: 8px;
@@ -365,48 +391,154 @@ w-create-order {
 }
 
 @media screen and (max-width: 1024px) {
+  w-layout {
+    .dex-layout {
+      .dex-layout {
+        &__createorder {
+          margin-left: -5px;
+          margin-right: -5px;
+          width: calc(100% ~'+ 10px');
+          height: 80px;
+          max-height: none;
+          min-height: auto;
+          position: absolute;
+          bottom: -5px;
 
-  w-create-order {
-    .create-order {
-
-      .expandable {
-        display: none;
-      }
-
-      .body {
-        .making-order {
-          .areas {
-            display: none;
-          }
-
-          .choice {
-            display: flex;
-          }
-        }
-      }
-
-      &.expanded {
-        .expandable {
-          display: block;
-        }
-
-        .body {
-          .making-order {
-            .choice {
-              display: flex;
-            }
-
-            .areas {
-              display: none;
+          .dex-layout {
+            &__block {
+              width: 100%;
+              position: absolute;
+              z-index: 8;
+              bottom: 0;
+              height: 80px;
             }
           }
-        }
 
-        .head {
-          display: flex;
+          &.expanded {
+            z-index: 7;
+            height: calc(100% ~'+ 10px');
+            top: -5px;
+
+            .dex-layout {
+              &__block {
+                height: 340px;
+              }
+            }
+
+            .mask {
+              display: block;
+            }
+
+            .head {
+              .icon-close {
+                display: block;
+              }
+            }
+
+            .body {
+              .making-order {
+                .areas {
+                  display: none;
+                }
+
+                .choice {
+                  display: flex;
+                  border-bottom: 1px solid @color-disabled-100;
+
+                  .buy {
+                    background: @color-white;
+                    flex-basis: 50%;
+                    text-align: left;
+                    padding-left: 25px;
+                  }
+
+                  .sell {
+                    background: @color-white;
+                    flex-basis: 50%;
+                    text-align: right;
+                    padding-right: 25px;
+                  }
+
+                  .middle {
+                    position: absolute;
+                    left: 50%;
+                    top: 0;
+                    color: @color-submit-400;
+                    height: 49px;
+                    width: 80px;
+                    transform: translate(-50%, 30px);
+                  }
+
+                }
+
+                &.buy {
+                  .buy {
+                    background: rgba(31, 90, 245, 0.1);
+                    color: @color-submit-400;
+                  }
+
+                  .sell {
+                    .price {
+                      color: @color-basic-900;
+                    }
+                    .name {
+                      color: @color-basic-500;
+                    }
+                  }
+                }
+
+                &.sell {
+                  .buy {
+                    .price {
+                      color: @color-basic-900;
+                    }
+                    .name {
+                      color: @color-basic-500;
+                    }
+                  }
+
+                  .sell {
+                    background: rgba(239, 72, 41, 0.1);
+                    color: @color-error-500;
+                  }
+
+                  .middle {
+                    color: @color-error-500;
+                  }
+                }
+
+
+              }
+            }
+          }
+
+          w-create-order {
+            .create-order {
+
+              .expandable {
+                display: block;
+              }
+
+              .head {
+                display: flex;
+              }
+
+              .body {
+                .making-order {
+                  .choice {
+                    display: flex;
+                  }
+
+                  .areas {
+                    display: none;
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
-
   }
+
 }

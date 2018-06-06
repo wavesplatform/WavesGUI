@@ -14,7 +14,6 @@
 
         <div class="making-order" ng-class="$ctrl.type">
             <div class="areas">
-                <!-- todo @german rename expand -->
                 <div class="area buy" ng-click="$ctrl.expand('buy')">
                     <div class="name headline-4 basic-700">BUY</div>
                 </div>
@@ -25,8 +24,8 @@
 
             <div class="choice">
                 <div class="choose buy" ng-click="$ctrl.expand('buy')">
-                    <div class="footnote-2 white-0">BUY</div>
-                    <div class="headline-2 white-0"
+                    <div class="name">BUY</div>
+                    <div class="price"
                          w-nice-number="$ctrl.ask.price"
                          precision="$ctrl.priceBalance.asset.precision"></div>
                 </div>
@@ -35,8 +34,8 @@
                     <div>{{$ctrl.spreadPercent}}%</div>
                 </div>
                 <div class="choose sell" ng-click="$ctrl.expand('sell')">
-                    <div class="footnote-2 white-0">SELL</div>
-                    <div class="headline-2 white-0"
+                    <div class="name">SELL</div>
+                    <div class="price"
                          w-nice-number="$ctrl.bid.price"
                          precision="$ctrl.priceBalance.asset.precision"></div>
                 </div>

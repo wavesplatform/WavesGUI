@@ -365,7 +365,7 @@ html body.dex .notifications {
   position: fixed
 }
 
-////responsive
+// responsive
 @media screen and (min-width: 660px) and (max-width: 1024px) {
 
   .dex.main .main-content {
@@ -410,11 +410,11 @@ html body.dex .notifications {
       &__orderbook {
         width: calc(50% ~' - 2px');
         min-width: 320px;
-        min-height: calc(50% ~'- 45px');
-        max-height: calc(50% ~'- 45px');
-        height: calc(50% ~'- 45px');
+        min-height: calc(50% ~'- 40px');
+        max-height: calc(50% ~'- 40px');
+        height: calc(50% ~'- 40px');
         right: 0;
-        bottom: 85px;
+        bottom: 80px;
         transform: translate(0);
         padding-left: 20px;
 
@@ -443,28 +443,12 @@ html body.dex .notifications {
       &__tradehistory {
         width: calc(50% ~' - 3px');
         min-width: 320px;
-        min-height: calc(50% ~'- 45px');
-        max-height: calc(50% ~'- 45px');
-        height: calc(50% ~'- 45px');
+        min-height: calc(50% ~'- 39px');
+        max-height: calc(50% ~'- 39px');
+        height: calc(50% ~'- 39px');
         left: 0;
-        bottom: 85px;
-      }
-
-      &__createorder {
-        margin-left: -5px;
-        margin-right: -5px;
-        bottom: -5px;
-        width: calc(100% ~'+ 10px');
-        height: 80px;
-        max-height: none;
-        min-height: auto;
-        position: absolute;
-        z-index: 7;
-
-        &.expanded {
-          border: 1px solid red;
-          height: 370px;
-        }
+        bottom: 80px;
+        border-radius: 2px 0 0 2px;
       }
 
       //collapse responsive
@@ -625,16 +609,6 @@ html body.dex .notifications {
         margin-bottom: 5px;
         order: 2;
         min-height: 100%;
-      }
-
-      &__createorder {
-        width: 100%;
-        max-height: none;
-        min-height: auto;
-        order: 5;
-        position: fixed;
-        height: auto;
-        z-index: 2;
       }
 
     }

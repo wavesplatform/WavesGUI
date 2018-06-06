@@ -158,11 +158,12 @@
                     $element.find('input[name="amount"]').focus();
                 });
 
-                $element.find('.create-order').addClass('expanded');
+                // todo @german refactoring (class for .dex-layout__createorder)
+                $element.parent().parent().parent().parent().parent().addClass('expanded');
             }
 
             closeCreateOrder() {
-                $element.find('.create-order').removeClass('expanded');
+                $element.parent().parent().parent().parent().parent().removeClass('expanded');
             }
 
             setMaxAmount() {
