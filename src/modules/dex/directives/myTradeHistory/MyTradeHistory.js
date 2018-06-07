@@ -21,6 +21,10 @@
                  * @type {Array}
                  */
                 this.orders = null;
+                /**
+                 * @type {boolean}
+                 */
+                this.pending = true;
 
                 this.headers = [
                     {
@@ -74,7 +78,10 @@
                     }
                 ];
 
-                createPoll(this, this._getOrders, 'orders', 1000, { $scope });
+                createPoll(this, this._getOrders, 'orders', 1000, { $scope }).ready
+                    .then(() => {
+                        this.pending = false;
+                    });
             }
 
             _getOrders() {
