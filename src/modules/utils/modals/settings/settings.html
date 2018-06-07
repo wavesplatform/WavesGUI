@@ -84,6 +84,19 @@
 
                 <div class="row margin-1">
                     <div class="footnote-1 disabled-600 label">
+                        <w-i18n>modal.settings.security.encodedSeed</w-i18n>
+                        <a class="settings-copy" w-copy="::$ctrl.encodedSeed" w-i18n="modal.settings.network.copy"></a>
+                    </div>
+                    <div class="data-field">
+                        <w-button ng-if="!$ctrl.shownEncodedSeed" class="tiny" on-click="$ctrl.shownEncodedSeed = true">
+                            <w-i18n>modal.settings.security.show</w-i18n>
+                        </w-button>
+                        <pre class="footnote-1" ng-if="$ctrl.shownEncodedSeed">{{::$ctrl.encodedSeed}}</pre>
+                    </div>
+                </div>
+
+                <div class="row margin-1">
+                    <div class="footnote-1 disabled-600 label">
                         <w-i18n>modal.settings.security.privateKey</w-i18n>
                         <a class="settings-copy"
                            w-copy="::$ctrl.privateKey"

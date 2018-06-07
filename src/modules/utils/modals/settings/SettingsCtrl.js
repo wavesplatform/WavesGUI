@@ -18,6 +18,7 @@
                 this.tab = 'general';
                 this.address = user.address;
                 this.publicKey = user.publicKey;
+                this.encodedSeed = user.encryptedSeed;
                 this.shownSeed = false;
                 this.shownKey = false;
                 this.node = '';
