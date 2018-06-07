@@ -2,7 +2,8 @@
 @import (reference) "../../../app/less/typography";
 
 .dex.main .main-content {
-  background: @color-basic-100;
+  //background: @color-basic-100;
+  background: @color-basic-900;
   min-width: 1280px;
   min-height: 480px;
   overflow-y: hidden;
@@ -373,6 +374,7 @@ html body.dex .notifications {
     .content {
       position: relative;
       margin-top: 0;
+      overflow: auto;
     }
   }
 
@@ -414,6 +416,8 @@ html body.dex .notifications {
         .dex-layout {
           &__sidebar-toggle-left {
             display: block;
+            border-radius: 2px 0 0 2px;
+
             div::after {
               transform: rotate(270deg);
             }
@@ -441,7 +445,6 @@ html body.dex .notifications {
         height: calc(50% ~'- 40px');
         left: 0;
         bottom: 80px;
-        border-radius: 2px 0 0 2px;
       }
 
       //collapse responsive
@@ -476,6 +479,7 @@ html body.dex .notifications {
               &__sidebar-toggle-left {
                 border-right: 0 none;
                 border-left: 1px solid @color-basic-100;
+                border-radius: 0 2px 2px 0;
 
                 div::after {
                   transform: rotate(-270deg);
@@ -495,6 +499,10 @@ html body.dex .notifications {
                 transform: translate(5px);
               }
             }
+          }
+
+          &__tradehistory {
+            border-radius: 2px 0 0 2px !important;
           }
 
           &__block-orderbook-bottom-collapsed {
