@@ -25,6 +25,9 @@
 
     <w-input placeholder="directives.watchlist.placeholders.coin"
              ng-model="$ctrl.search"
+             ng-class="{
+                'searching': $ctrl.searchInProgress
+             }"
              w-i18n-attr="placeholder"></w-input>
 
     <w-smart-table data="$ctrl.visiblePairsData"
@@ -53,7 +56,7 @@
                         'plus': $ctrl.isPositive(pair.change),
                         'minus': $ctrl.isNegative(pair.change)
                       }">
-                <span>{{::pair.change}}</span>
+                <span ng-if="$ctrl.isPositive(pair.change)">+</span><span>{{::pair.change}}</span>%
             </w-table-cell>
             <w-table-cell title="{{::pair.fullVolume}}">
                 {{::pair.volume}}

@@ -32,7 +32,7 @@
                     });
 
                     this.amountAndPriceRequest = (
-                        Waves.AssetPair.get(this.pairOfIds[0], this.pairOfIds[1])
+                        ds.api.pairs.get(this.pairOfIds[0], this.pairOfIds[1])
                             .then((pair) => {
                                 this.amountAsset = pair.amountAsset;
                                 this.priceAsset = pair.priceAsset;
@@ -67,13 +67,13 @@
                     const { amountAsset, priceAsset } = pair;
 
                     return Promise.all([
-                        Waves.Money.fromTokens('1', amountAsset),
+                        ds.moneyFromTokens('1', amountAsset),
                         waves.utils.getRateApi(amountAsset, priceAsset)
                     ])
                         .then(([money, api]) => {
                             const price = api.exchange(money.getTokens());
 
-                            return Waves.Money.fromTokens(price, priceAsset)
+                            return ds.moneyFromTokens(price, priceAsset)
                                 .then((price = new BigNumber(0)) => {
                                     return price.toFormat(priceAsset.precision);
                                 });

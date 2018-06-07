@@ -93,7 +93,7 @@
                  */
                 this.focusedInputName = null;
 
-                Waves.Money.fromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
+                ds.moneyFromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
                     this.fee = money;
                     $scope.$digest();
                 });
@@ -169,7 +169,7 @@
             setMaxAmount() {
                 if (this.amountBalance.asset.id === this.fee.asset.id) {
                     const amount = this.amountBalance.cloneWithTokens(this.amountBalance.sub(this.fee).getTokens()
-                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
+                        .dp(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
                     if (amount.getTokens().lt(0)) {
                         this.amount = this.amountBalance.cloneWithTokens('0');
                     } else {
@@ -177,7 +177,7 @@
                     }
                 } else {
                     this.amount = this.amountBalance.cloneWithTokens(this.amountBalance.getTokens()
-                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
+                        .dp(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
                 }
             }
 
@@ -189,8 +189,8 @@
                 if (this.priceBalance.asset.id === this.fee.asset.id) {
                     const amount = this.amountBalance.cloneWithTokens(this.priceBalance.sub(this.fee)
                         .getTokens()
-                        .div(this.price.getTokens())
-                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
+                        .times(this.price.getTokens())
+                        .dp(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
                     if (amount.getTokens().lt(0)) {
                         this.amount = amount.cloneWithTokens('0');
                     } else {
@@ -200,7 +200,7 @@
                 } else {
                     this.amount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens()
                         .div(this.price.getTokens())
-                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
+                        .dp(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
                 }
             }
 
@@ -220,53 +220,54 @@
                 const notify = $element.find('.js-order-notification');
                 notify.removeClass('success').removeClass('error');
 
-                return user.getSeed()
-                    .then((seed) => {
-                        return Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
-                            return Waves.OrderPrice.fromTokens(this.price.getTokens(), pair);
-                        }).then((price) => {
-                            const amount = this.amount;
-                            this.amount = null;
-                            form.$setPristine();
-                            form.$setUntouched();
-                            $scope.$apply();
-                            return waves.matcher.createOrder({
-                                amountAsset: this.amountBalance.asset.id,
-                                priceAsset: this.priceBalance.asset.id,
-                                orderType: this.type,
-                                price: price.toMatcherCoins(),
-                                amount: amount.toCoins()
-                            }, seed.keyPair);
-                        }).then(() => {
-                            notify.addClass('success');
-                            this.createOrderFailed = false;
-                            const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
-                            analytics.push('DEX', `DEX.Order.${this.type}.Success`, pair);
-                            notification.success({
-                                ns: 'app.dex',
-                                title: { literal: 'directives.createOrder.notifications.isCreated' }
-                            });
-                            $element.find('input[name="amount"]').focus();
-                        }).catch((err) => {
-                            this.createOrderFailed = true;
-                            notify.addClass('error');
-                            const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
-                            analytics.push('DEX', `DEX.Order.${this.type}.Error`, pair);
-                            // TODO : refactor this
-                            const notEnough = 'Not enough tradable balance';
-                            const isNotEnough = (err.data && err.data.message.slice(0, notEnough.length) === notEnough);
-                            notification.error({
-                                ns: 'app.dex',
-                                title: {
-                                    literal: isNotEnough ?
-                                        'directives.createOrder.notifications.notEnoughBalance' :
-                                        'directives.createOrder.notifications.somethingWendWrong'
-                                }
-                            });
-                        }).then(() => {
-                            $scope.$apply();
-                            CreateOrder._animateNotification(notify);
+                return ds.orderPriceFromTokens(
+                    this.price.getTokens(),
+                    this._assetIdPair.amount,
+                    this._assetIdPair.price
+                )
+                    .then((price) => {
+                        const amount = this.amount;
+                        this.amount = null;
+                        form.$setPristine();
+                        form.$setUntouched();
+                        $scope.$apply();
+                        return ds.createOrder({
+                            amountAsset: this.amountBalance.asset.id,
+                            priceAsset: this.priceBalance.asset.id,
+                            orderType: this.type,
+                            price: price.toMatcherCoins(),
+                            amount: amount.toCoins(),
+                            matcherFee: this.fee.getCoins()
                         });
+                    }).then(() => {
+                        notify.addClass('success');
+                        this.createOrderFailed = false;
+                        const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
+                        analytics.push('DEX', `DEX.Order.${this.type}.Success`, pair);
+                        notification.success({
+                            ns: 'app.dex',
+                            title: { literal: 'directives.createOrder.notifications.isCreated' }
+                        });
+                        $element.find('input[name="amount"]').focus();
+                    }).catch((err) => {
+                        this.createOrderFailed = true;
+                        notify.addClass('error');
+                        const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
+                        analytics.push('DEX', `DEX.Order.${this.type}.Error`, pair);
+                        // TODO : refactor this
+                        const notEnough = 'Not enough tradable balance';
+                        const isNotEnough = (err.data && err.data.message.slice(0, notEnough.length) === notEnough);
+                        notification.error({
+                            ns: 'app.dex',
+                            title: {
+                                literal: isNotEnough ?
+                                    'directives.createOrder.notifications.notEnoughBalance' :
+                                    'directives.createOrder.notifications.somethingWendWrong'
+                            }
+                        });
+                    }).then(() => {
+                        $scope.$apply();
+                        CreateOrder._animateNotification(notify);
                     });
             }
 
@@ -326,7 +327,7 @@
              * @private
              */
             _getBalances() {
-                return Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
+                return ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                     return utils.whenAll([
                         waves.node.assets.balance(pair.amountAsset.id),
                         waves.node.assets.balance(pair.priceAsset.id)
@@ -361,7 +362,7 @@
                     this.totalPrice = this.priceBalance.cloneWithTokens('0');
                 } else {
                     this.totalPrice = this.priceBalance.cloneWithTokens(
-                        this.price.getTokens().mul(this.amount.getTokens())
+                        this.price.getTokens().times(this.amount.getTokens())
                     );
                 }
 

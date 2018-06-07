@@ -20,8 +20,8 @@
             @decorators.cachable(2)
             trades(amount, price, count) {
                 count = count || 50;
-                return Waves.AssetPair.get(amount, price)
-                    .then((pair) => fetch(`${WavesApp.network.datafeed}/api/trades/${pair.toString()}/${count}`));
+                return ds.api.pairs.get(amount, price)
+                    .then((pair) => ds.fetch(`${WavesApp.network.datafeed}/api/trades/${pair.toString()}/${count}`));
             }
 
             /**
@@ -36,7 +36,7 @@
             candles(amount, price, interval, count) {
                 interval = interval || 30;
                 count = count || 100;
-                return fetch(`${WavesApp.network.datafeed}/api/candles/${amount}/${price}/${interval}/${count}`)
+                return ds.fetch(`${WavesApp.network.datafeed}/api/candles/${amount}/${price}/${interval}/${count}`)
                     .then((r) => r.json());
             }
 
@@ -45,7 +45,7 @@
              */
             @decorators.cachable(2)
             candlesFrame(amount, price, interval, from, to) {
-                return fetch(`${WavesApp.network.datafeed}/api/candles/${amount}/${price}/${interval}/${from}/${to}`)
+                return ds.fetch(`${WavesApp.network.datafeed}/api/candles/${amount}/${price}/${interval}/${from}/${to}`)
                     .then((r) => r.json());
             }
 

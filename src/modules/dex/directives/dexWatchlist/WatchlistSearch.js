@@ -21,8 +21,11 @@
              */
             const INTERRUPTED_SEARCH_RESULT = {
                 results: [],
+                searchFinished: false,
                 nothingFound: false
             };
+
+            const EMPTY_QUERY_SEARCH_RESULTS = Object.assign({ searchFinished: true }, INTERRUPTED_SEARCH_RESULT);
 
             return {
                 filter,
@@ -95,7 +98,7 @@
                     searchProgress = { resolve };
 
                     if (!query.length) {
-                        resolve(INTERRUPTED_SEARCH_RESULT);
+                        resolve(EMPTY_QUERY_SEARCH_RESULTS);
                         return;
                     }
 
@@ -108,6 +111,7 @@
 
                                         resolve({
                                             results: pairs,
+                                            searchFinished: true,
                                             nothingFound: pairs.length === 0
                                         });
                                     });

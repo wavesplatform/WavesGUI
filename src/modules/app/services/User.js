@@ -212,6 +212,7 @@
              */
             create(data, hasBackup) {
                 return this._addUserData({
+                    api: data.api,
                     address: data.address,
                     password: data.password,
                     name: data.name,
@@ -259,26 +260,6 @@
             }
 
             /**
-             * @return {Promise<Seed>}
-             */
-            getSeed() {
-                return this.onLogin() // TODO Refactor. Author Tsigel at 22/11/2017 09:35
-                    .then(() => {
-                        if (!this._password) {
-                            return modalManager.getSeed();
-                        } else {
-
-                            const encryptionRounds = this._settings.get('encryptionRounds');
-                            const encryptedSeed = this.encryptedSeed;
-                            const password = this._password;
-
-                            const phrase = Waves.Seed.decryptSeedPhrase(encryptedSeed, password, encryptionRounds);
-                            return Waves.Seed.fromExistingPhrase(phrase);
-                        }
-                    });
-            }
-
-            /**
              * @return {Promise}
              */
             getUserList() {
@@ -303,6 +284,7 @@
 
             /**
              * @param {object} data
+             * @param {ISignatureApi} data.api
              * @param {string} data.address
              * @param {string} [data.encryptedSeed]
              * @param {string} [data.publicKey]
@@ -313,7 +295,8 @@
              * @private
              */
             _addUserData(data) {
-                return this._loadUserByAddress(data.address)
+                return ds.app.login(data.address, data.api)
+                    .then(() => this._loadUserByAddress(data.address))
                     .then((item) => {
                         this._fieldsForSave.forEach((propertyName) => {
                             if (data[propertyName] != null) {
@@ -340,6 +323,8 @@
                             const id = baseTree.id;
                             return new UserRouteState('main', id, this._settings.get(`${id}.activeState`));
                         });
+
+                        ds.config.setConfig(this._settings.get('network'));
 
                         return this._save()
                             .then(() => {

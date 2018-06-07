@@ -83,6 +83,11 @@
                  */
                 this._dom = null;
 
+                this.receive(dexDataService.showSpread, () => {
+                    this._showSpread = true;
+                    this._render();
+                });
+
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair',
                     _orderBookCropRate: 'dex.orderBookCropRate'
@@ -139,11 +144,11 @@
             }
 
             _updateAssetData() {
-                waves.node.assets.getExtendedAsset(this._assetIdPair.price)
+                ds.api.assets.get(this._assetIdPair.price)
                     .then((asset) => {
                         this.priceAsset = asset;
                     });
-                waves.node.assets.getExtendedAsset(this._assetIdPair.amount)
+                ds.api.assets.get(this._assetIdPair.amount)
                     .then((asset) => {
                         this.amountAsset = asset;
                     });

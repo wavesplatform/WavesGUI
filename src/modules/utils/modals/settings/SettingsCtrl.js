@@ -54,9 +54,9 @@
                 });
 
                 this.observe(['node', 'matcher'], () => {
-                    Waves.config.set({
-                        nodeAddress: this.node,
-                        matcherAddress: this.matcher
+                    ds.config.set({
+                        node: this.node,
+                        matcher: this.matcher
                     });
                 });
 
@@ -83,9 +83,12 @@
                     $scope.$digest();
                 }, 5000);
 
-                user.getSeed().then((seed) => {
-                    this.phrase = seed.phrase;
-                    this.privateKey = seed.keyPair.privateKey;
+                Promise.all([
+                    ds.signature.getSignatureApi().getSeed(),
+                    ds.signature.getSignatureApi().getPrivateKey()
+                ]).then(([seed, key]) => {
+                    this.phrase = seed;
+                    this.privateKey = key;
                     $scope.$digest();
                 });
             }

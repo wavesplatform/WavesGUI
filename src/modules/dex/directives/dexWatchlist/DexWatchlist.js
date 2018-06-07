@@ -162,6 +162,12 @@
                  * @type {boolean}
                  * @private
                  */
+                this.searchInProgress = false;
+
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
                 this._shouldShowOnlyFavourite = false;
 
                 /**
@@ -190,7 +196,6 @@
              * @param pair
              */
             choosePair(pair) {
-                this.tab.choosePair(pair);
                 this._updateVisiblePairsData();
                 this._simplyChoosePair(pair);
             }
@@ -269,10 +274,11 @@
                 this._saveFavouriteForTab(this.tab.id, this.tab.getFavourite());
             }
 
-            _saveFavouriteForTab(tabId, favourite) {
-                this._favourite[tabId] = favourite;
-                this._favourite = Object.assign({}, this._favourite);
-                user.setSetting('dex.watchlist.favourite', this._favourite);
+            _saveFavouriteForTab(tabId, favouritePairsOfIds) {
+                // This order of operations is required for proper work of synchronization of settings.
+                const favourite = tsUtils.cloneDeep(this._favourite);
+                favourite[tabId] = favouritePairsOfIds;
+                this._favourite = favourite;
             }
 
             toggleOnlyFavourite() {
@@ -377,11 +383,16 @@
                 if (!this.search) {
                     this.tab.clearSearchResults();
                     this._updateVisiblePairsData();
+                    this.searchInProgress = false;
                     return;
                 }
 
+                this.searchInProgress = true;
+
                 WatchlistSearch.search(this._getSearchQuery())
                     .then((searchResults) => {
+                        this.searchInProgress = !searchResults.searchFinished;
+
                         return this.tab.setSearchResults(searchResults.results)
                             .then(() => {
                                 this._updateVisiblePairsData();
@@ -470,6 +481,7 @@
              * @private
              */
             _simplyChoosePair(pair) {
+                this.tab.choosePair(pair);
                 this._chosenPair = pair;
             }
 

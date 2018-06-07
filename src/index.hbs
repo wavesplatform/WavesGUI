@@ -192,9 +192,9 @@
     </style>
 
     {{#if isProduction}}
-    <!-- Sentry error logging -->
-    <script src="https://cdn.ravenjs.com/3.22.3/raven.min.js" crossorigin="anonymous"></script>
-    <script>Raven.config('https://edc3970622f446d7aa0c9cb38be44a4f@sentry.io/291068').install();</script>
+        <!-- Sentry error logging -->
+        <script src="https://cdn.ravenjs.com/3.22.3/raven.min.js" crossorigin="anonymous"></script>
+        <script>Raven.config('https://edc3970622f446d7aa0c9cb38be44a4f@sentry.io/291068').install();</script>
     {{/if}}
 
     <script>
@@ -261,6 +261,7 @@
                 coinomat: '{{network.coinomat}}',
                 datafeed: '{{network.datafeed}}',
                 support: '{{network.support}}',
+                dsApi: '{{network.dsApi}}',
                 nodeList: '{{network.nodeList}}',
                 scamListUrl: '{{network.scamListUrl}}'
             },
@@ -356,7 +357,7 @@
     <!-- CSS -->
 
     {{#if isWeb}}
-    <base href="/">
+        <base href="/">
     {{/if}}
 
 </head>
@@ -416,46 +417,7 @@
 <!-- JAVASCRIPT -->
 
 <script>
-
-    window.fetch = (function (fetch) {
-        if (!fetch) {
-            return undefined;
-        }
-
-        var DEFAULT_OPTIONS = {
-            credentials: 'include'
-        };
-
-        return function (url, options) {
-            options = options || Object.create(null);
-
-            if (url.indexOf(WavesApp.network.node) !== -1) {
-                Object.assign(options, DEFAULT_OPTIONS)
-            }
-
-            return fetch(url, options)
-                .then(function (response) {
-                    if (response.ok) {
-                        if (response.headers.get('Content-Type').indexOf('application/json') !== -1) {
-                            return response.text().then(function (text) {
-                                return WavesApp.parseJSON(text);
-                            });
-                        } else {
-                            return response.text();
-                        }
-                    } else {
-                        return response.text()
-                            .then(function (error) {
-                                try {
-                                    return Promise.reject(JSON.parse(error));
-                                } catch (e) {
-                                    return Promise.reject(error);
-                                }
-                            });
-                    }
-                });
-        };
-    })(window.fetch);
+    window.BigNumber = ds.wavesDataEntities.BigNumber;
 
     // Signed 64-bit integer.
     WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
@@ -473,6 +435,7 @@
             Object.values,
             Object.assign,
             Object.getOwnPropertyDescriptor,
+            Object.entries,
             URL,
             window.crypto || window.msCrypto
         ];
@@ -506,28 +469,15 @@
      */
     var analytics = eventSender.default.inactive();
 
-    try {
-        /**
-         * @type {IWavesAPI}
-         */
-        var Waves = WavesAPI.create({
-            networkByte: WavesApp.network.code.charCodeAt(0),
-            nodeAddress: WavesApp.network.node,
-            matcherAddress: WavesApp.network.matcher,
-            minimumSeedLength: 25,
-            logLevel: 'none'
-        });
 
-        Waves.API.Node.v1.utils.time().then(function (nodeTime) {
-            var timeDiff = Waves.tools.calculateTimeDiff(nodeTime, Date.now());
-            var tenMinutes = 10 * 60 * 1000;
-            if (Math.abs(timeDiff) > tenMinutes) {
-                Waves.config.set({ timeDiff: timeDiff });
-            }
-        });
-    } catch (e) {
-        console.error(e);
-    }
+    // TODO Add dif time
+    // Waves.API.Node.v1.utils.time().then(function (nodeTime) {
+    //     var timeDiff = Waves.tools.calculateTimeDiff(nodeTime, Date.now());
+    //     var tenMinutes = 10 * 60 * 1000;
+    //     if (Math.abs(timeDiff) > tenMinutes) {
+    //         Waves.config.set({ timeDiff: timeDiff });
+    //     }
+    // });
 
     WavesApp.stateTree = new tsUtils.Tree({
         id: 'root',

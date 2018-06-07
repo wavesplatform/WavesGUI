@@ -33,7 +33,7 @@
                 this.templateUrl = `${PATH}/${transaction.templateType}.html`;
                 this.datetime = $filter('date')(transaction.timestamp, 'dd.MM.yyyy, HH:mm');
                 this.shownAddress = transaction.shownAddress;
-                this.type = transaction.type;
+                this.typeName = transaction.typeName;
                 this.numberOfRecipients = transaction.numberOfRecipients;
 
                 this.explorerLink = explorerLinks.getTxLink(transaction.id);
@@ -48,9 +48,17 @@
                 }
 
                 const TYPES = waves.node.transactions.TYPES;
-                if (this.type === TYPES.EXCHANGE_BUY || this.type === TYPES.EXCHANGE_SELL) {
+
+                if (this.typeName === TYPES.BURN || this.typeName === TYPES.ISSUE || this.typeName === TYPES.REISSUE) {
+                    this.name = tsUtils.get(this.transaction, 'amount.asset.name') ||
+                        tsUtils.get(this.transaction, 'quantity.asset.name');
+                    this.amount = (tsUtils.get(this.transaction, 'amount') ||
+                        tsUtils.get(this.transaction, 'quantity')).toFormat();
+                }
+
+                if (this.typeName === TYPES.EXCHANGE_BUY || this.typeName === TYPES.EXCHANGE_SELL) {
                     this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
-                    if (this.type === TYPES.EXCHANGE_BUY) {
+                    if (this.typeName === TYPES.EXCHANGE_BUY) {
                         this.calculatedFee = this.transaction.buyMatcherFee;
                     } else {
                         this.calculatedFee = this.transaction.sellMatcherFee;

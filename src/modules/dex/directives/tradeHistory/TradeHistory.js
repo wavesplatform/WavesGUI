@@ -119,7 +119,7 @@
             _onChangeAssets() {
                 this.orders = [];
                 this.poll.restart();
-                Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
+                ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                     this.priceAsset = pair.priceAsset;
                     this.amountAsset = pair.amountAsset;
                     $scope.$digest();

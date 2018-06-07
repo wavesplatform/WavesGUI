@@ -11,18 +11,13 @@
 
         class Aliases extends BaseNodeComponent {
 
-            constructor() {
-                super();
-                this.aliases = [];
-            }
-
             /**
              * Get address by alias
              * @param {string} alias
              * @return {Promise<string>}
              */
             getAddress(alias) {
-                return fetch(`${this.network.node}/alias/by-alias/${alias}`)
+                return ds.fetch(`${this.network.node}/alias/by-alias/${alias}`)
                     .then(({ address }) => address);
             }
 
@@ -31,25 +26,7 @@
              * @return {string[]}
              */
             getAliasList() {
-                return this.aliases;
-            }
-
-            /**
-             * Create alias (transaction)
-             * @param {string} alias
-             * @param {string} keyPair
-             * @param {Money} [fee]
-             * @return Promise<ITransaction>
-             */
-            createAlias({ alias, fee, keyPair }) {
-                return this.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS, fee }).then((fee) => {
-                    return Waves.API.Node.v1.aliases.createAlias({
-                        fee: fee.toCoins(),
-                        feeAssetId: fee.asset.id,
-                        alias
-                    }, keyPair)
-                        .then(this._pipeTransaction([fee]));
-                });
+                return ds.dataManager.getLastAliases();
             }
 
             validate(alias) {
