@@ -32,12 +32,17 @@
         </div>
     </div>
 
-    <w-password class="margin-2"
-                name="$ctrl.name"
-                password="$ctrl.password"
-                on-submit="$ctrl.next()">
+    <div><w-i18n>createAccount.address</w-i18n></div>
+    <div>{{$ctrl.address}}</div>
+
+    <div>
+        <w-checkbox-submit  ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
+        <label for="save-user-data"><w-i18n>createAccount.saveUserData</w-i18n></label>
+    </div>
+
+    <w-button on-click="$ctrl.next($ctrl.stepIndex + $ctrl.saveUserData ? 1 : 2)" class="submit long big">
         <w-i18n>button.continue</w-i18n>
-    </w-password>
+    </w-button>
 
     <!--TODO #wrap-in-component-->
 

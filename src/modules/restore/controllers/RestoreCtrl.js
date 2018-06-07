@@ -37,6 +37,14 @@
                  * @type {string}
                  */
                 this.password = '';
+                /**
+                 * @type {boolean}
+                 */
+                this.saveUserData = true;
+                /**
+                 * @type {number}
+                 */
+                this.activeStep = 0;
 
                 this.observe('seed', this._onChangeSeed);
                 this.observeOnce('seedForm', () => {
@@ -49,9 +57,8 @@
             }
 
             restore() {
-
                 const seedData = Waves.Seed.fromExistingPhrase(this.seed);
-                const encryptedSeed = seedData.encrypt(this.password);
+                const encryptedSeed = this.saveUserData ? seedData.encrypt(this.password) : '';
                 const publicKey = seedData.keyPair.publicKey;
 
                 return user.create({
@@ -60,13 +67,22 @@
                     password: this.password,
                     settings: { termsAccepted: false },
                     encryptedSeed,
-                    publicKey
+                    publicKey,
+                    saveToStorage: this.saveUserData
                 }, true);
             }
 
             resetNameAndPassword() {
                 this.name = '';
                 this.password = '';
+            }
+
+            nextStep() {
+                if (!this.saveUserData) {
+                    return this.restore();
+                }
+
+                this.activeStep++;
             }
 
             /**

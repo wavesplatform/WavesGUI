@@ -9,7 +9,7 @@
 
     <div class="waves-logo"></div>
 
-    <w-step-by-step active-step="0">
+    <w-step-by-step active-step="$ctrl.activeStep">
         <w-step>
 
 
@@ -43,7 +43,12 @@
                     </div>
                 </div>
 
-                <w-button disabled="!$ctrl.address" class="submit big long" w-step-next>
+                <div>
+                    <w-checkbox-submit  ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
+                    <label for="save-user-data"><w-i18n>seedForm.saveUserData</w-i18n></label>
+                </div>
+
+                <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">
                     <w-i18n>seedForm.continue</w-i18n>
                 </w-button>
             </form>

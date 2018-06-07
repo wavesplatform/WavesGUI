@@ -15,6 +15,7 @@
         const PATH = 'modules/create/templates';
         const ORDER_LIST = [
             'createAccount',
+            'createAccountData',
             'noBackupNoMoney',
             'backupSeed',
             'confirmBackup'
@@ -33,6 +34,7 @@
                 this.seedList = [];
                 this.seedIsValid = false;
                 this.seedConfirmWasFilled = false;
+                this.saveUserData = true;
 
                 this.resetAddress();
             }
@@ -84,7 +86,6 @@
              * @param {number} [index]
              */
             next(index) {
-
                 if (!index) {
                     index = this.stepIndex + 1;
                 }
@@ -133,8 +134,9 @@
             }
 
             _create(hasBackup) {
+
                 const seedData = Waves.Seed.fromExistingPhrase(this.seed);
-                const encryptedSeed = seedData.encrypt(this.password);
+                const encryptedSeed = this.saveUserData ? seedData.encrypt(this.password) : '';
                 const publicKey = seedData.keyPair.publicKey;
 
                 return user.create({
@@ -142,7 +144,8 @@
                     name: this.name,
                     password: this.password,
                     encryptedSeed,
-                    publicKey
+                    publicKey,
+                    saveToStorage: this.saveUserData
                 }, hasBackup);
             }
 
