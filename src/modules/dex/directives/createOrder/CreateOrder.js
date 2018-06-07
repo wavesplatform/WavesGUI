@@ -18,6 +18,8 @@
     const controller = function (Base, waves, user, utils, createPoll, $scope,
                                  $element, notification, dexDataService, ease, dataFeed) {
 
+        const entities = require('@waves/data-entities');
+
         class CreateOrder extends Base {
 
             /**
@@ -100,7 +102,7 @@
 
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.expand(type);
-                    this.amount = this.amountBalance.cloneWithTokens(amount);
+                    this.amount = entities.Money.min(this.amountBalance.cloneWithTokens(amount), this.amountBalance);
                     this.price = this.priceBalance.cloneWithTokens(price);
                     $scope.$digest();
                 });
