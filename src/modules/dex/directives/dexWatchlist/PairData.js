@@ -97,10 +97,10 @@
                 static _getVolume(pair) {
                     return Promise.all([
                         waves.utils.getVolume(pair),
-                        waves.utils.getRate(pair.priceAsset, WavesApp.defaultAssets.WAVES)
+                        waves.utils.getRate(pair.amountAsset, WavesApp.defaultAssets.WAVES)
                     ])
                         .then(([volume, rate]) => {
-                            return new BigNumber(volume).mul(rate);
+                            return new BigNumber(volume).times(rate);
                         }, () => {
                             return new BigNumber(0);
                         });
