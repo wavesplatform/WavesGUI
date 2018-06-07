@@ -102,6 +102,7 @@
                     .then((templateString) => {
 
                         this._template = Handlebars.compile(templateString);
+
                         const poll = createPoll(this, this._getOrders, this._setOrders, 1000, { $scope });
 
                         this.observe('_assetIdPair', () => {

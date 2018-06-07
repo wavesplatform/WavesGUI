@@ -76,7 +76,6 @@ w-dex-order-book {
     overflow-x: hidden;
 
     w-row.active::before {
-      background-image: url(/img/icons/active-order-arrow.svg);
       background-repeat: no-repeat;
       width: 10px;
       height: 10px;
@@ -105,7 +104,34 @@ w-dex-order-book {
 
         &-fill {
           height: 100%;
-          background: @color-graph;
+        }
+      }
+    }
+
+    .asks w-row {
+      &.active::before {
+        background-image: url(/img/icons/active-order-arrow-ask.svg);
+      }
+
+      .dex-layout {
+        &__line-graph {
+          &-fill {
+            background-color: @color-graph-ask;
+          }
+        }
+      }
+    }
+
+    .bids w-row {
+      &.active::before {
+        background-image: url(/img/icons/active-order-arrow-bid.svg);
+      }
+
+      .dex-layout {
+        &__line-graph {
+          &-fill {
+            background-color: @color-graph-bid;
+          }
         }
       }
     }
