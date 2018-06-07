@@ -14,7 +14,7 @@
                 constructor(tabData) {
 
                     /**
-                     * @type {{}}
+                     * @type {Map<any, any>}
                      * @private
                      */
                     this._pairsLists = new Map();
@@ -128,11 +128,11 @@
                         const pairs = pairsList.getPairsData();
 
                         pairs.some((pair) => {
-                            visiblePairs.add(pair);
-
-                            if (listName === SEARCH_RESULTS) {
+                            if (!visiblePairs.has(pair) && listName === SEARCH_RESULTS) {
                                 searchLimit--;
                             }
+
+                            visiblePairs.add(pair);
 
                             return (
                                 (listName === OTHER && visiblePairs.size >= 30) ||
