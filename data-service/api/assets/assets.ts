@@ -25,18 +25,6 @@ export function get(assets: string | Array<string>): Promise<any> {
         });
 }
 
-export function getAssetPair(assetId1: string | Asset, assetId2: string | Asset): Promise<AssetPair> {
-    return get([toId(assetId1), toId(assetId2)])
-        .then(([asset1, asset2]) => {
-            const hash = {
-                [asset1.id]: asset1,
-                [asset2.id]: asset2
-            };
-            const [amountAssetId, priceAssetId] = createOrderPair(MAINNET_DATA, asset1.id, asset2.id);
-            return new AssetPair(hash[amountAssetId], hash[priceAssetId]);
-        });
-}
-
 export function balanceList(address: string, txHash?: IHash<Money>, ordersHash?: IHash<Money>): Promise<Array<IBalanceItem>> {
     return Promise.all([
         wavesBalance(address),
@@ -128,8 +116,4 @@ export function moneyDif(target: Money, ...toDif: Array<Money>): Money {
 
 export function getAssetsByBalanceList(data: assetsApi.IBalanceList): Promise<Array<Asset>> {
     return get(data.balances.map((balance) => normalizeAssetId(balance.assetId)));
-}
-
-function toId(asset: string | Asset): string {
-    return typeof asset === 'string' ? asset : asset.id;
 }

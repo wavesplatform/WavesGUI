@@ -44,7 +44,7 @@
 
             @decorators.cachable(1440) // TODO : make it persistent when cachable is limited in size
             _createSymbolInfo(assetOneId, assetTwoId) {
-                return ds.api.assets.getAssetPair(assetOneId, assetTwoId).then((pair) => {
+                return ds.api.pairs.get(assetOneId, assetTwoId).then((pair) => {
                     const amount = pair.amountAsset;
                     const price = pair.priceAsset;
 

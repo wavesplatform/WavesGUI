@@ -7,10 +7,9 @@
      * @param {app.i18n} i18n
      * @param {User} user
      * @param {PollCache} PollCache
-     * @param orderStatuses
      * @return {Matcher}
      */
-    const factory = function (utils, decorators, i18n, user, PollCache, orderStatuses) {
+    const factory = function (utils, decorators, i18n, user, PollCache) {
 
         class Matcher {
 
@@ -42,11 +41,14 @@
              * @private
              */
             _getOrderBook(asset1, asset2) {
-                return ds.api.assets.getAssetPair(asset1, asset2)
-                    .then((pair) => ds.api.matcher.getOrderBook(pair.amountAsset.id, pair.priceAsset.id)
-                        .then((orderBook) => Matcher._remapOrderBook(orderBook, pair))
-                        .then(([bids, asks]) => ({ bids, asks, pair, spread: Matcher._getSpread(bids, asks, pair) }))
-                    );
+                return ds.api.matcher.getOrderBook(asset1, asset2)
+                    .then((orderBook) => Matcher._remapOrderBook(orderBook))
+                    .then(({ bids, asks, pair }) => ({
+                        bids,
+                        asks,
+                        pair,
+                        spread: Matcher._getSpread(bids, asks, pair)
+                    }));
             }
 
             /**
@@ -87,11 +89,12 @@
              * @returns {Promise<any[]>}
              * @private
              */
-            static _remapOrderBook({ bids, asks }, pair) {
-                return Promise.all([
-                    Matcher._remapBidAsks(bids, pair),
-                    Matcher._remapBidAsks(asks, pair)
-                ]);
+            static _remapOrderBook({ bids, asks, pair }) {
+                return {
+                    pair,
+                    bids: Matcher._remapBidAsks(bids, pair),
+                    asks: Matcher._remapBidAsks(asks, pair)
+                };
             }
 
             /**
@@ -101,23 +104,17 @@
              * @private
              */
             static _remapBidAsks(list, pair) {
-                return Promise.all((list || [])
-                    .map((item) => Promise.all([
-                        ds.moneyFromCoins(String(item.amount), pair.amountAsset)
-                            .then((amount) => amount.getTokens()),
-                        ds.orderPriceFromCoins(String(item.price), pair)
-                            .then((orderPrice) => orderPrice.getTokens())
-                    ])
-                        .then((amountPrice) => {
-                            const amount = amountPrice[0];
-                            const price = amountPrice[1];
-                            const total = amount.times(price);
-                            return {
-                                amount: amount.toFixed(pair.amountAsset.precision),
-                                price: price.toFixed(pair.priceAsset.precision),
-                                total: total.toFixed(pair.priceAsset.precision)
-                            };
-                        })));
+                return (list || []).map((item) => {
+                    const amount = item.amount.getTokens();
+                    const price = item.price.getTokens();
+                    const total = amount.times(price);
+
+                    return {
+                        amount: amount.toFixed(pair.amountAsset.precision),
+                        price: price.toFixed(pair.priceAsset.precision),
+                        total: total.toFixed(pair.priceAsset.precision)
+                    };
+                });
             }
 
             /**
@@ -131,7 +128,7 @@
                 const [firstBid] = bids;
                 const sell = new BigNumber(firstBid && firstBid.price);
                 const buy = new BigNumber(lastAsk && lastAsk.price);
-                const percent = (sell && buy && buy.gt(0)) ? buy.sub(sell).mul(100).div(buy) : new BigNumber(0);
+                const percent = (sell && buy && buy.gt(0)) ? buy.minus(sell).times(100).div(buy) : new BigNumber(0);
 
                 return firstBid && lastAsk && {
                     lastAsk,

@@ -20,7 +20,7 @@
             @decorators.cachable(2)
             trades(amount, price, count) {
                 count = count || 50;
-                return ds.api.assets.getAssetPair(amount, price)
+                return ds.api.pairs.get(amount, price)
                     .then((pair) => ds.fetch(`${WavesApp.network.datafeed}/api/trades/${pair.toString()}/${count}`));
             }
 

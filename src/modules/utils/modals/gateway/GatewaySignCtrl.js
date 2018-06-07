@@ -99,7 +99,7 @@
 
                         this._setImageUrl(referrer, iconPath);
                         /**
-                         * @type {ITransactionClass}
+                         * @type {ITransactionClass} TODO!
                          */
                         const Sign = Waves.Transactions.createSignableData([
                             new Waves.byteProcessors.StringWithLength('prefix'),

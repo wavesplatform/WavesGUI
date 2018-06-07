@@ -1,15 +1,12 @@
-import { get as getAsset } from '../assets/assets';
 import { get as getConfig } from '../../config';
+import { get as getAssetPair } from '../pairs/pairs';
 import { addParam } from '../../utils/utils';
-import { createOrderPair, MAINNET_DATA } from '@waves/assets-pairs-order';
-import { AssetPair, BigNumber } from '@waves/data-entities';
+import { AssetPair, Money, OrderPrice } from '@waves/data-entities';
 import { request } from '../../utils/request';
 
 
 export function get(asset1: string, asset2: string): Promise<IOrderBook> {
-    const pair = createOrderPair(MAINNET_DATA, asset1, asset2);
-    return getAsset(pair)
-        .then(([amount, price]) => new AssetPair(amount, price))
+    return getAssetPair(asset1, asset2)
         .then((pair) => {
             return request({ url: `${getConfig('matcher')}/orderbook/${pair.toString()}` })
                 .then(addParam(remapOrderBook, pair));
@@ -18,19 +15,18 @@ export function get(asset1: string, asset2: string): Promise<IOrderBook> {
 }
 
 function remapOrderBook(orderBook, pair: AssetPair): IOrderBook {
+    const remap = remapOrder(pair);
     return {
         pair,
-        bids: orderBook.bids.map(remapOrder),
-        asks: orderBook.asks.map(remapOrder)
+        bids: orderBook.bids.map(remap),
+        asks: orderBook.asks.map(remap)
     };
 }
 
-function remapOrder(order) {
-    return {
-        amount: new BigNumber(order.amount),
-        price: new BigNumber(order.price)
-    };
-}
+const remapOrder = (pair: AssetPair) => (order: IApiOrder): IOrder => ({
+    amount: new Money(order.amount, pair.amountAsset),
+    price: new Money(order.price, pair.priceAsset)
+});
 
 export interface IOrderBook {
     pair: AssetPair;
@@ -39,6 +35,11 @@ export interface IOrderBook {
 }
 
 export interface IOrder {
-    amount: BigNumber;
-    price: BigNumber;
+    amount: Money;
+    price: Money;
+}
+
+interface IApiOrder {
+    amount: string;
+    price: string;
 }

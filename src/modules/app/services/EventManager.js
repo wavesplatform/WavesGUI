@@ -166,7 +166,7 @@
 
             static _getMoneyListData(tx) {
                 const moneyList = [tx.fee];
-                if (tx.type === Waves.constants.TRANSFER_TX) {
+                if (tx.type === 4) {
                     moneyList.push(tx.amount);
                 }
                 return moneyList;

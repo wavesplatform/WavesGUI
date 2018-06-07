@@ -54,9 +54,9 @@
                 });
 
                 this.observe(['node', 'matcher'], () => {
-                    Waves.config.set({
-                        nodeAddress: this.node,
-                        matcherAddress: this.matcher
+                    ds.config.set({
+                        node: this.node,
+                        matcher: this.matcher
                     });
                 });
 

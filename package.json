@@ -91,8 +91,7 @@
     "@waves/assets-pairs-order": "^3.2.3",
     "@waves/data-entities": "1.4.1",
     "@waves/event-sender": "0.4.4",
-    "@waves/data-service-client-js": "^0.2.4",
-    "@waves/waves-api": "0.28.2",
+    "@waves/data-service-client-js": "^0.2.6",
     "@waves/waves-signature-generator": "0.2.0",
     "angular": "1.6.6",
     "angular-animate": "1.6.6",
@@ -114,7 +113,7 @@
     "parse-json-bignumber": "0.0.2",
     "qrcode-reader": "1.0.3",
     "ts-api-validator": "2.1.2",
-    "ts-utils": "6.0.1",
+    "ts-utils": "6.0.2",
     "worker-wrapper": "1.2.2"
   }
 }

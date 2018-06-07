@@ -7,7 +7,8 @@
       "dom",
       "es2015",
       "es2017.object",
-      "es2015.promise"
+      "es2015.promise",
+      "es2016.array.include"
     ]
   },
   "files": [

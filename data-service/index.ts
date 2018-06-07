@@ -11,7 +11,7 @@ import { toAsset, toBigNumber } from './utils/utils';
 import { IAssetInfo } from '@waves/data-entities/dist/entities/Asset';
 import { get } from './config';
 import { TAssetData, TBigNumberData } from './interface';
-import { getAssetPair } from './api/assets/assets';
+import { get as getAssetPair } from './api/pairs/pairs';
 import {
     broadcast as broadcastF,
     createOrder as createOrderF,

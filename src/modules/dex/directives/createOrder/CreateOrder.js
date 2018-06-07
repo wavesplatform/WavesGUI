@@ -326,7 +326,7 @@
              * @private
              */
             _getBalances() {
-                return ds.api.assets.getAssetPair(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
+                return ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                     return utils.whenAll([
                         waves.node.assets.balance(pair.amountAsset.id),
                         waves.node.assets.balance(pair.priceAsset.id)

@@ -133,25 +133,10 @@
              */
             @decorators.cachable(60)
             getVolume(pair) {
-                return fetch(`${WavesApp.network.api}/v0/pairs/${pair.toString()}`)
-                    .then((pair) => {
-                        let pairInfo = pair;
-
-                        if (typeof pair === 'string') {
-                            try {
-                                pairInfo = JSON.parse(pair);
-                            } catch (e) {
-                                pairInfo = {
-                                    data: {
-                                        volume: 0
-                                    }
-                                };
-                            }
-                        }
-
-                        return pairInfo.data.volume.toString();
-                    }, () => {
-                        return '0';
+                return ds.api.pairs.info(pair)
+                    .then((data) => {
+                        const [pair] = data.filter(Boolean);
+                        return pair && String(pair.volume) || '0';
                     });
             }
 
@@ -191,7 +176,7 @@
              * @private
              */
             _getChange(from, to) {
-                return ds.api.assets.getAssetPair(from, to)
+                return ds.api.pairs.get(from, to)
                     .then((pair) => {
                         const interval = this._getChangeByInterval(utils.moment().add().day(-1));
                         return ds.fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
@@ -244,7 +229,7 @@
                     return trades && trades.length ? calculateCurrentRate(trades) : new BigNumber(0);
                 };
 
-                return ds.api.assets.getAssetPair(fromId, toId)
+                return ds.api.pairs.get(fromId, toId)
                     .then((pair) => {
                         return ds.fetch(`${WavesApp.network.datafeed}/api/trades/${pair.toString()}/5`)
                             .then(currentRate)
@@ -269,7 +254,7 @@
              */
             _getRateHistory(fromId, toId, from, to) {
                 const interval = this._getChangeByInterval(from);
-                return ds.api.assets.getAssetPair(fromId, toId)
+                return ds.api.pairs.get(fromId, toId)
                     .then((pair) => {
                         return ds.fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
                             .then((list) => {

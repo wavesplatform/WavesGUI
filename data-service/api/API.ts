@@ -8,6 +8,7 @@ import { height } from './node/node';
 import { get as getOrderBook } from './matcher/orderBook';
 import { addSignature, clearSignature, getOrders, signatureTimeout } from './matcher/getOrders';
 import { getAddressByAlias, getAliasesByAddress } from './aliases/aliases';
+import * as pairsModule from './pairs/pairs';
 
 
 export const aliases = { getAliasesByAddress, getAddressByAlias };
@@ -23,3 +24,7 @@ export const assets = { ...assetsApi };
 export const transactions = { ...transactionsApi, parseTx };
 
 export const utils = { ...utilsFunctions, request, assetStorage };
+
+export const pairs = {
+    ...pairsModule
+};
