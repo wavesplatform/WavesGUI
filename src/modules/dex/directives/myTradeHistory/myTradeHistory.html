@@ -10,7 +10,7 @@
                  class="{{::order.type}}"
                  ng-class="{cancelled: order.status === 'Cancelled'}">
         <w-table-cell>
-            <span>{{::order.pair}}</span>
+            <span>{{::order.assetPair.amountAsset.displayName}} / {{::order.assetPair.priceAsset.displayName}}</span>
             <span ng-if="order.status !== 'Cancelled'"
                   class="status-mobile">{{::order.percent}}%</span>
             <span ng-if="order.status === 'Cancelled'"
@@ -44,13 +44,13 @@
         <w-table-cell>
             <div class="status">
                 <div ng-if="order.status !== 'Cancelled'">
-                    {{::order.percent}}%
+                    {{::order.progress * 100}}%
                 </div>
                 <div ng-if="order.status === 'Cancelled'">
                     <w-i18n>directives.myOrders.canceled</w-i18n>
                 </div>
                 <div class="progress-bar">
-                    <div class="progress-fill" style="width: {{::order.percent}}%"></div>
+                    <div class="progress-fill" style="width: {{::order.progress * 100}}%"></div>
                 </div>
             </div>
             <w-actions>

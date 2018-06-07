@@ -20,7 +20,7 @@
             getValue(data) {
                 const amount = new BigNumber(data.amount);
                 const price = new BigNumber(data.price);
-                return amount.mul(price);
+                return amount.times(price);
             }
 
         }
@@ -42,6 +42,10 @@
                  * @type {Array}
                  */
                 this.orders = [];
+                /**
+                 * @type {boolean}
+                 */
+                this.pending = true;
 
                 this.shema = new tsApiValidator.Schema({
                     type: tsApiValidator.ArrayPart,
@@ -103,8 +107,11 @@
                  * @type {Poll}
                  */
                 this.poll = createPoll(this, this._getTradeHistory, 'orders', 2000, { $scope });
-                this.observe('_assetIdPair', this._onChangeAssets);
 
+                this.observe('_assetIdPair', this._onChangeAssets);
+                this.poll.ready.then(() => {
+                    this.pending = false;
+                });
                 this._onChangeAssets();
             }
 
