@@ -18,6 +18,7 @@
                  * @type {Array}
                  */
                 this.balanceList = null;
+                this.pending = true;
                 this.headers = [
                     {
                         id: 'asset',
@@ -46,7 +47,10 @@
                 ];
 
                 const isBalance = true;
-                createPoll(this, this._getBalanceList, 'balanceList', 1000, { $scope, isBalance });
+                createPoll(this, this._getBalanceList, 'balanceList', 1000, { $scope, isBalance }).ready
+                    .then(() => {
+                        this.pending = false;
+                    });
             }
 
             /**
@@ -54,7 +58,17 @@
              * @private
              */
             _getBalanceList() {
-                return waves.node.assets.userBalances();
+                return waves.node.assets.userBalances()
+                    .then((list) => list.filter(MyBalance._isNotScam));
+            }
+
+            /**
+             * @param {IBalanceItem} item
+             * @return {boolean}
+             * @private
+             */
+            static _isNotScam(item) {
+                return !WavesApp.scam[item.asset.id];
             }
 
         }

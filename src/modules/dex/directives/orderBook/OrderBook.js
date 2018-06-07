@@ -49,6 +49,10 @@
                  */
                 this.priceAsset = null;
                 /**
+                 * @type {boolean}
+                 */
+                this.pending = true;
+                /**
                  * @type {{amount: string, price: string}}
                  * @private
                  */
@@ -84,8 +88,7 @@
                 this._dom = null;
 
                 this.receive(dexDataService.showSpread, () => {
-                    this._showSpread = true;
-                    this._render();
+                    this._dom.$box.stop().animate({ scrollTop: this._getSpreadScrollPosition() }, 300);
                 });
 
                 this.syncSettings({
@@ -103,6 +106,7 @@
 
                         this.observe('_assetIdPair', () => {
                             this._showSpread = true;
+                            this.pending = true;
                             this._updateAssetData();
                             poll.restart();
                         });
@@ -144,13 +148,10 @@
             }
 
             _updateAssetData() {
-                ds.api.assets.get(this._assetIdPair.price)
-                    .then((asset) => {
-                        this.priceAsset = asset;
-                    });
-                ds.api.assets.get(this._assetIdPair.amount)
-                    .then((asset) => {
-                        this.amountAsset = asset;
+                ds.api.assets.get([this._assetIdPair.price, this._assetIdPair.amount])
+                    .then(([priceAsset, amountAsset]) => {
+                        this.priceAsset = priceAsset;
+                        this.amountAsset = amountAsset;
                     });
             }
 
@@ -172,6 +173,7 @@
              */
             _setOrders(data) {
                 this._render(data);
+                this.pending = false;
             }
 
             /**
@@ -200,7 +202,7 @@
                     return result;
                 }, Object.create(null));
 
-                const lastTrade = trades[0] && trades[0] || null;
+                const lastTrade = trades[0] || null;
                 const bids = OrderBook._sumAllOrders(orderbook.bids, orderbook.pair, 'sell');
                 const asks = OrderBook._sumAllOrders(orderbook.asks, orderbook.pair, 'buy');
 
@@ -244,11 +246,15 @@
                         this._showSpread = false;
 
                         const box = this._dom.$box.get(0);
-                        const info = this._dom.$info.get(0);
-                        box.scrollTop =
-                            info.offsetTop - box.offsetTop - box.clientHeight / 2 + info.clientHeight / 2;
+                        box.scrollTop = this._getSpreadScrollPosition();
                     }, 100);
                 }
+            }
+
+            _getSpreadScrollPosition() {
+                const box = this._dom.$box.get(0);
+                const info = this._dom.$info.get(0);
+                return info.offsetTop - box.offsetTop - box.clientHeight / 2 + info.clientHeight / 2;
             }
 
             /**
@@ -268,7 +274,7 @@
                     const inRange = order.price.gte(crop.min) && order.price.lte(crop.max);
                     const type = order.type;
                     const totalAmount = order.totalAmount && order.totalAmount.toFixed();
-                    const width = order.amount.div(maxAmount).mul(100).toFixed(2);
+                    const width = order.amount.div(maxAmount).times(100).toFixed(2);
                     const amount = utils.getNiceNumberTemplate(order.amount, this.amountAsset.precision, true);
                     const price = utils.getNiceNumberTemplate(order.price, this.priceAsset.precision, true);
                     const total = utils.getNiceNumberTemplate(order.total, this.priceAsset.precision, true);
@@ -302,8 +308,8 @@
                 let amountTotal = new BigNumber(0);
 
                 return list.map((item) => {
-                    total = total.add(item.total);
-                    amountTotal = amountTotal.add(item.amount);
+                    total = total.plus(item.total);
+                    amountTotal = amountTotal.plus(item.amount);
                     return {
                         type,
                         amount: new BigNumber(item.amount),

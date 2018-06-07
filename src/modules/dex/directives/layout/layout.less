@@ -8,18 +8,6 @@
   overflow-y: hidden;
 }
 
-.scroll {
-  ::-webkit-scrollbar-thumb {
-    border-right: 2px solid #fff;
-    box-shadow: none;
-    background: @color-basic-200;
-  }
-
-  ::-webkit-scrollbar-thumb:window-inactive {
-    border-right: 2px solid #fff;
-  }
-}
-
 @column-width: 320px;
 @dex-padding: 7px;
 
@@ -96,6 +84,10 @@ w-layout {
 
     .wrapper {
       height: 100%;
+    }
+
+    &__column {
+      background: @color-white;
     }
 
     &__watchlist {
@@ -220,6 +212,7 @@ w-layout {
       bottom: 0;
       right: 0;
       width: 320px;
+      background-color: transparent;
       border-radius: @border-radius / 2;
 
       .block-title {
@@ -365,7 +358,7 @@ html body.dex .notifications {
   position: fixed
 }
 
-////responsive
+// responsive
 @media screen and (min-width: 660px) and (max-width: 1024px) {
 
   .dex.main .main-content {
@@ -410,11 +403,11 @@ html body.dex .notifications {
       &__orderbook {
         width: calc(50% ~' - 2px');
         min-width: 320px;
-        min-height: calc(50% ~'- 45px');
-        max-height: calc(50% ~'- 45px');
-        height: calc(50% ~'- 45px');
+        min-height: calc(50% ~'- 40px');
+        max-height: calc(50% ~'- 40px');
+        height: calc(50% ~'- 40px');
         right: 0;
-        bottom: 85px;
+        bottom: 80px;
         transform: translate(0);
         padding-left: 20px;
 
@@ -443,28 +436,12 @@ html body.dex .notifications {
       &__tradehistory {
         width: calc(50% ~' - 3px');
         min-width: 320px;
-        min-height: calc(50% ~'- 45px');
-        max-height: calc(50% ~'- 45px');
-        height: calc(50% ~'- 45px');
+        min-height: calc(50% ~'- 40px');
+        max-height: calc(50% ~'- 40px');
+        height: calc(50% ~'- 40px');
         left: 0;
-        bottom: 85px;
-      }
-
-      &__createorder {
-        margin-left: -5px;
-        margin-right: -5px;
-        bottom: -5px;
-        width: calc(100% ~'+ 10px');
-        height: 80px;
-        max-height: none;
-        min-height: auto;
-        position: absolute;
-        z-index: 7;
-
-        &.expanded {
-          border: 1px solid red;
-          height: 370px;
-        }
+        bottom: 80px;
+        border-radius: 2px 0 0 2px;
       }
 
       //collapse responsive
@@ -535,9 +512,9 @@ html body.dex .notifications {
           }
 
           &__orderbook {
-            background: none transparent;
-            transform: translateX(100%);
-            width: calc(50% ~'- 2px');
+            // background: none transparent;
+            // transform: translateX(100%);
+            // width: calc(50% ~'- 2px');
             right: 20px;
           }
 
@@ -546,15 +523,6 @@ html body.dex .notifications {
           }
         }
       }
-
-      //.dex-layout__watchlist-collapsed.dex-layout__orderbook-collapsed {
-      //  .dex-layout {
-      //    &__orderbook {
-      //
-      //    }
-      //  }
-      //}
-
     }
   }
 
@@ -572,7 +540,6 @@ html body.dex .notifications {
 
   w-layout {
     .dex-layout {
-      margin-bottom: 80px;
       overflow: visible;
       height: auto;
       display: flex;
@@ -598,8 +565,13 @@ html body.dex .notifications {
         transform: translateX(0);
         margin-bottom: 5px;
         order: 1;
+        border-radius: @border-radius/2;
 
         .dex-layout {
+          &__block {
+            border: 0 none;
+          }
+
           &__sidebar-toggle {
             display: none;
           }
@@ -608,14 +580,20 @@ html body.dex .notifications {
 
       &__orderbook {
         width: 100%;
-        max-height: 320px;
-        margin-bottom: 5px;
+        max-height: 420px;
+        margin-bottom: 85px;
         margin-left: 0;
         order: 3;
 
         .dex-layout {
-          &__block-bottom {
-            display: none;
+          &__block[data-block="tradevolume"] {
+            height: 176px;
+          }
+        }
+
+        &.active {
+          w-scroll-box {
+            min-height: 293px;
           }
         }
       }
@@ -624,17 +602,36 @@ html body.dex .notifications {
         width: 100%;
         margin-bottom: 5px;
         order: 2;
-        min-height: 100%;
       }
 
-      &__createorder {
-        width: 100%;
-        max-height: none;
-        min-height: auto;
-        order: 5;
-        position: fixed;
-        height: auto;
-        z-index: 2;
+      &__watchlist-collapsed {
+        .dex-layout {
+          &__watchlist {
+            transform: translateX(0);
+            left: 0;
+          }
+        }
+      }
+
+      &__orderbook-collapsed {
+        .dex-layout {
+          &__orderbook {
+            transform: translate(0px);
+          }
+        }
+      }
+
+      &__watchlist-collapsed.dex-layout__orderbook-collapsed {
+        .dex-layout {
+          &__watchlist {
+            transform: translateX(0);
+            left: 0;
+          }
+
+          &__orderbook {
+            transform: translateX(0);
+          }
+        }
       }
 
     }

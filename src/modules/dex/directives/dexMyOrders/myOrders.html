@@ -1,4 +1,7 @@
-<w-smart-table class="smart-table"
+<w-loader ng-if="$ctrl.pending"></w-loader>
+
+<w-smart-table ng-if="!$ctrl.pending"
+               class="smart-table"
                data="$ctrl.orders"
                header-info="$ctrl.headers">
     <div ng-if="!$ctrl.orders.length" class="empty-block-container">
@@ -8,22 +11,22 @@
     </div>
     <w-table-row class="{{::order.type}}" ng-repeat="order in $data track by order.id">
         <w-table-cell>
-            <span>{{::order.pair}}</span>
+            <span>{{::order.assetPair.amountAsset.displayName}} / {{::order.assetPair.priceAsset.displayName}}</span>
         </w-table-cell>
         <w-table-cell>
             <span w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
         </w-table-cell>
         <w-table-cell>
             <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n></span>
-            <w-balance money="order.price"></w-balance>
+            <w-balance short-mode="::true" money="order.price"></w-balance>
         </w-table-cell>
         <w-table-cell>
             <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n></span>
-            <w-balance money="order.amount"></w-balance>
+            <w-balance short-mode="::true" money="order.amount"></w-balance>
         </w-table-cell>
         <w-table-cell>
             <span class="cell-label"><w-i18n>directives.myOrders.total</w-i18n></span>
-            <w-balance money="order.total"></w-balance>
+            <w-balance short-mode="::true" money="order.total"></w-balance>
         </w-table-cell>
         <w-table-cell>
             <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n></span>
@@ -32,19 +35,19 @@
         <w-table-cell>
             <div class="status">
                 <div class="progress-precents">
-                    {{order.percent.toString()}}%
+                    {{order.progress * 100}}%
                 </div>
                 <div class="progress-bar">
-                    <div class="progress-fill" style="width: {{order.percent}}%"></div>
+                    <div class="progress-fill" style="width: {{order.progress}}%"></div>
                 </div>
                 <div class="circle-holder">
                     <div class="circle-loader"
-                         ng-class="{over50: order.percent > 0.5}">
-                        <span>{{order.percent.toString() * 100}}%</span>
+                         ng-class="{over50: order.progress > 0.5}">
+                        <span>{{order.percent * 100}}%</span>
                         <div class="left-half-clipper">
                             <div class="first50-bar"></div>
                             <div class="value-bar"
-                                 style="transform: rotate({{order.percent * 360}}deg)">
+                                 style="transform: rotate({{order.progress * 360}}deg)">
                             </div>
                         </div>
                     </div>

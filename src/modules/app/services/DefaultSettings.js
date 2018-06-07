@@ -53,7 +53,8 @@
                         WavesApp.defaultAssets.ZEC,
                         WavesApp.defaultAssets.BCH,
                         WavesApp.defaultAssets.TRY,
-                        WavesApp.defaultAssets.DASH
+                        WavesApp.defaultAssets.DASH,
+                        WavesApp.defaultAssets.XMR
                     ],
                     wallet: {
                         activeState: 'assets',
@@ -76,17 +77,17 @@
                     },
                     dex: {
                         chartCropRate: 1.5,
-                        orderBookCropRate: 0.7,
                         assetIdPair: {
                             amount: WavesApp.defaultAssets.WAVES,
                             price: WavesApp.defaultAssets.BTC
                         },
                         watchlist: {
-                            favourite: {},
+                            baseAssetId: WavesApp.defaultAssets.WAVES,
                             list: [
                                 WavesApp.defaultAssets.WAVES,
                                 WavesApp.defaultAssets.BTC,
                                 WavesApp.defaultAssets.DASH,
+                                WavesApp.defaultAssets.XMR,
                                 WavesApp.defaultAssets.TRY,
                                 'HzfaJp8YQWLvQG4FkUxq2Q7iYWMYQ2k8UF89vVJAjWPj',
                                 'ABFYQjwDHSct6rNk59k3snoZfAqNHVZdHz4VGJe2oCV5',
@@ -111,17 +112,16 @@
                             ]
                         },
                         layout: {
-                            watchlist: {
+                            left: {
                                 collapsed: false
                             },
-                            candlechart: {},
-                            orderbook: {
-                                collapsed: false
+                            center: {
+                                collapsedBlock: false
                             },
-                            tradehistory: {
-                                tab: 'myOpenOrders'
-                            },
-                            createorder: {}
+                            right: {
+                                collapsed: false,
+                                collapsedBlock: true
+                            }
                         }
                     }
                 };
