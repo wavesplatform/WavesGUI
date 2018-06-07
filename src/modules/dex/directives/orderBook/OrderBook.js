@@ -49,6 +49,10 @@
                  */
                 this.priceAsset = null;
                 /**
+                 * @type {boolean}
+                 */
+                this.pending = true;
+                /**
                  * @type {{amount: string, price: string}}
                  * @private
                  */
@@ -102,6 +106,7 @@
 
                         this.observe('_assetIdPair', () => {
                             this._showSpread = true;
+                            this.pending = true;
                             this._updateAssetData();
                             poll.restart();
                         });
@@ -168,6 +173,7 @@
              */
             _setOrders(data) {
                 this._render(data);
+                this.pending = false;
             }
 
             /**

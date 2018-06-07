@@ -61,5 +61,7 @@
         return new CoinomatSepaService();
     };
 
+    factory.$inject = ['sepaGateways'];
+
     angular.module('app.utils').factory('coinomatSepaService', factory);
 })();
