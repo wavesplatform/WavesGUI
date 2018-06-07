@@ -403,6 +403,7 @@ w-create-order {
           min-height: auto;
           position: absolute;
           bottom: -5px;
+          z-index: 5;
 
           .dex-layout {
             &__block {
@@ -507,7 +508,6 @@ w-create-order {
                   }
                 }
 
-
               }
             }
           }
@@ -541,4 +541,18 @@ w-create-order {
     }
   }
 
+}
+
+@media screen and (max-width: 659px) {
+  w-layout {
+    .dex-layout {
+      .dex-layout {
+        &__createorder {
+          position: fixed;
+          bottom: 0;
+          border-top: 1px solid @color-basic-100;
+        }
+      }
+    }
+  }
 }

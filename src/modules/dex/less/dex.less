@@ -136,6 +136,10 @@ body.dex {
       height: 39px;
       padding: 0;
 
+      &::before {
+        display: none;
+      }
+
       .title {
         color: @color-basic-700;
         height: 38px;
@@ -344,6 +348,10 @@ body.dex {
       &__cell {
         white-space: nowrap;
 
+        .decimal-muted {
+          display: none;
+        }
+
         &:first-child {
           min-width: auto;
           padding-left: 0;
@@ -518,6 +526,16 @@ body.dex {
       height: 100%;
       max-height: calc(100% ~' - 60px');
       overflow: auto;
+
+      .dex-layout {
+        &__tradehistory {
+          .smart-table {
+            &__w-tbody {
+              max-height: 253px;
+            }
+          }
+        }
+      }
 
       .dex-wrapper {
         w-tabs {
