@@ -84,8 +84,7 @@
                 this._dom = null;
 
                 this.receive(dexDataService.showSpread, () => {
-                    this._showSpread = true;
-                    this._render();
+                    this._dom.$box.stop().animate({ scrollTop: this._getSpreadScrollPosition() }, 300);
                 });
 
                 this.syncSettings({
@@ -241,11 +240,15 @@
                         this._showSpread = false;
 
                         const box = this._dom.$box.get(0);
-                        const info = this._dom.$info.get(0);
-                        box.scrollTop =
-                            info.offsetTop - box.offsetTop - box.clientHeight / 2 + info.clientHeight / 2;
+                        box.scrollTop = this._getSpreadScrollPosition();
                     }, 100);
                 }
+            }
+
+            _getSpreadScrollPosition() {
+                const box = this._dom.$box.get(0);
+                const info = this._dom.$info.get(0);
+                return info.offsetTop - box.offsetTop - box.clientHeight / 2 + info.clientHeight / 2;
             }
 
             /**
