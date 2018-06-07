@@ -162,6 +162,12 @@
                  * @type {boolean}
                  * @private
                  */
+                this.searchInProgress = false;
+
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
                 this._shouldShowOnlyFavourite = false;
 
                 /**
@@ -377,11 +383,16 @@
                 if (!this.search) {
                     this.tab.clearSearchResults();
                     this._updateVisiblePairsData();
+                    this.searchInProgress = false;
                     return;
                 }
 
+                this.searchInProgress = true;
+
                 WatchlistSearch.search(this._getSearchQuery())
                     .then((searchResults) => {
+                        this.searchInProgress = !searchResults.searchFinished;
+
                         return this.tab.setSearchResults(searchResults.results)
                             .then(() => {
                                 this._updateVisiblePairsData();
