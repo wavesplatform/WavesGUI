@@ -180,9 +180,7 @@
 
             function tryToTreatAsIdAndGetActionItem(value, actionGetter) {
                 return (
-                    waves.node
-                        .assets
-                        .getExtendedAsset(value)
+                    ds.api.transactions.get(value)
                         .then(() => true, () => false)
                         .then((isId) => {
                             return actionGetter(isId);
@@ -246,11 +244,11 @@
 
             function buildAssetsFilter(value, filter) {
                 return (asset) => {
-                    const { name = '', ticker = '' } = asset;
+                    const { name = '', ticker } = asset;
 
                     return filter(
                         name.toLowerCase(),
-                        ticker.toLowerCase(),
+                        (ticker || '').toLowerCase(),
                         value.toLowerCase()
                     );
                 };
