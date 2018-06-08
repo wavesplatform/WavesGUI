@@ -109,9 +109,19 @@
                 };
 
                 const poll = createPoll(this, this._getOrders, 'orders', 1000, { $scope });
-                this.observe('_assetIdPair', () => poll.restart());
+
                 poll.ready.then(() => {
                     this.pending = false;
+                });
+            }
+
+            /**
+             * @param {IOrder} order
+             */
+            setPair(order) {
+                user.setSetting('dex.assetIdPair', {
+                    amount: order.assetPair.amountAsset.id,
+                    price: order.assetPair.priceAsset.id
                 });
             }
 
@@ -150,8 +160,8 @@
              */
             _getOrders() {
                 return waves.matcher.getOrders()
-                    .then((orders) => DexMyOrders._remapOrders(orders))
-                    .then((orders) => orders.filter(tsUtils.contains({ isActive: true })));
+                    .then((orders) => orders.filter(tsUtils.contains({ isActive: true })))
+                    .then((orders) => DexMyOrders._remapOrders(orders));
             }
 
             /**
@@ -160,8 +170,11 @@
              */
             static _remapOrders(orders) {
                 return orders.map((order) => {
+                    const assetPair = order.assetPair;
+                    const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
                     const isNew = Date.now() < (order.timestamp.getTime() + 1000 * 30);
-                    return { ...order, isNew };
+                    const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
+                    return { ...order, isNew, percent, pair };
                 });
             }
 

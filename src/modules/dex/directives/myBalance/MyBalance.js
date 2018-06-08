@@ -38,6 +38,12 @@
                         title: { literal: 'directives.balance.inOrders' },
                         valuePath: 'item.inOrders'
                     },
+                    { // todo @german add assetId
+                        id: 'assetId',
+                        sort: false,
+                        title: { literal: 'directives.balance.assetId' },
+                        valuePath: 'item.assetId'
+                    },
                     {
                         id: 'total',
                         sort: true,
