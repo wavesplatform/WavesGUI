@@ -50,7 +50,7 @@
                 <span>{{::pair.pair}}</span>
             </w-table-cell>
             <w-table-cell>
-                <span>{{::pair.price}}</span>
+                <span>{{::pair.price || '—'}}</span>
             </w-table-cell>
             <w-table-cell ng-class="{
                         'plus': $ctrl.isPositive(pair.change),
