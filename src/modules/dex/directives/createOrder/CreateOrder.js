@@ -98,10 +98,12 @@
                  * @type {[]}
                  */
                 this.expirationValues = [
-                    { name: '30days', value: utils.moment().add().day(30).getDate().getTime() },
-                    { name: '60days', value: utils.moment().add().day(60).getDate().getTime() },
-                    { name: '90days', value: utils.moment().add().day(90).getDate().getTime() }
+                    { name: '30min', value: utils.moment().add().minute(30).getDate().getTime() },
+                    { name: '1hour', value: utils.moment().add().hour(1).getDate().getTime() },
+                    { name: '30day', value: utils.moment().add().day(30).getDate().getTime() }
                 ];
+
+                this.expiration = this.expirationValues[this.expirationValues.length - 1].value;
 
                 ds.moneyFromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
                     this.fee = money;

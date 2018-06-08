@@ -84,6 +84,13 @@
                     });
             }
 
+            /**
+             * @param {IOrder} order
+             */
+            deleteOrder(order) {
+                ds.cancelOrder(order.amount.asset.id, order.price.asset.id, order.id, 'delete');
+            }
+
             _getOrders() {
                 return waves.matcher.getOrders()
                     .then((orders) => orders.filter(tsUtils.contains({ isActive: false })));
