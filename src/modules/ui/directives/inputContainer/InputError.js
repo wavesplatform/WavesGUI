@@ -4,9 +4,10 @@
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
+     * @param {JQuery} $element
      * @return {InputError}
      */
-    const controller = function (Base, $scope) {
+    const controller = function (Base, $scope, $element) {
 
         class InputError extends Base {
 
@@ -40,6 +41,7 @@
              */
             _onChangeCanShow() {
                 $scope.$apply();
+                $element.toggleClass('hidden', !this.canShow);
             }
 
             /**
@@ -81,7 +83,7 @@
         return new InputError();
     };
 
-    controller.$inject = ['Base', '$scope'];
+    controller.$inject = ['Base', '$scope', '$element'];
 
     angular.module('app.ui')
         .component('wInputError', {

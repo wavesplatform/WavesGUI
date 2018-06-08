@@ -209,7 +209,7 @@
 
                     <w-button disabled="order.$invalid"
                               class="place-order small footnote-3"
-                              on-click="$ctrl.createOrder(order)">
+                              on-click="$ctrl.createOrder($event, order)">
                         <w-i18n ng-if="$ctrl.type === 'sell'"
                                 params="{name: $ctrl.amountBalance.asset.displayName}">
                             directives.createOrder.placeSellOrder

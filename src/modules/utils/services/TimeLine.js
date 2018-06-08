@@ -120,10 +120,14 @@
                 for (let i = this._listeners.list.length - 1; i >= 0; i--) {
                     const item = this._listeners.list[i];
                     if (now - item.start >= item.timeout) {
-                        if (item.handler) {
-                            item.handler();
+                        try {
+                            if (item.handler) {
+                                item.handler();
+                            }
+                            item.defer.resolve();
+                        } catch (e) {
+                            // Exception in timeout callback!
                         }
-                        item.defer.resolve();
                         this._listeners.remove(item);
                     } else {
                         break;
@@ -144,7 +148,7 @@
                 this._timer = setTimeout(() => {
                     this._timer = null;
                     this._run();
-                }, 200);
+                }, 1000 / 60);
             }
 
         }

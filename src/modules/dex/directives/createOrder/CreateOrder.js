@@ -236,10 +236,10 @@
              * @param {form.FormController} form
              * @return {*}
              */
-            createOrder(form) {
+            createOrder($event, form) {
+                $event.preventDefault();
                 const notify = $element.find('.js-order-notification');
                 notify.removeClass('success').removeClass('error');
-                form.$pending = true;
 
                 return ds.orderPriceFromTokens(
                     this.price.getTokens(),
@@ -249,8 +249,8 @@
                     .then((price) => {
                         const amount = this.amount;
                         this.amount = null;
-                        form.$setPristine();
                         form.$setUntouched();
+                        form.$setPristine();
                         $scope.$apply();
                         return ds.createOrder({
                             amountAsset: this.amountBalance.asset.id,
@@ -287,7 +287,7 @@
                             }
                         });
                     }).then(() => {
-                        form.$pending = false;
+                        form.$setUntouched();
                         form.$setPristine();
                         $scope.$apply();
                         CreateOrder._animateNotification(notify);
