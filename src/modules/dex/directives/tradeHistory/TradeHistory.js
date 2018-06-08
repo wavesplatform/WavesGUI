@@ -72,6 +72,14 @@
                         sort: true
                     },
                     {
+                        id: 'time',
+                        title: { literal: 'directives.tradeHistory.tableTitle.date' },
+                        valuePath: 'item.date',
+                        sort: true,
+                        sortActive: true,
+                        isAsc: false
+                    },
+                    {
                         id: 'price',
                         title: { literal: 'directives.tradeHistory.tableTitle.price' },
                         valuePath: 'item.price',
@@ -88,14 +96,6 @@
                         title: { literal: 'directives.tradeHistory.tableTitle.total' },
                         valuePath: 'item.total',
                         sort: true
-                    },
-                    {
-                        id: 'time',
-                        title: { literal: 'directives.tradeHistory.tableTitle.date' },
-                        valuePath: 'item.date',
-                        sort: true,
-                        sortActive: true,
-                        isAsc: false
                     }
                 ];
 

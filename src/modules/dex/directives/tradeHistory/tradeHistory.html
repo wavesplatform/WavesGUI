@@ -18,6 +18,10 @@
                   w-i18n="directives.tradeHistory.orderType.{{::order.type}}"></span>
         </w-table-cell>
         <w-table-cell>
+            <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.date"></span>
+            {{::order.date | date:'MM-dd HH:mm:ss'}}
+        </w-table-cell>
+        <w-table-cell>
             <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.price"></span>
             <span precision="::$ctrl.priceAsset.precision" short-mode="::true" w-nice-number="::order.price"></span>
         </w-table-cell>
@@ -28,10 +32,6 @@
         <w-table-cell>
             <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.total"></span>
             <span precision="::$ctrl.priceAsset.precision" short-mode="::true" w-nice-number="::order.total"></span>
-        </w-table-cell>
-        <w-table-cell>
-            <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.date"></span>
-            {{::order.date | date:'MM-dd HH:mm:ss'}}
         </w-table-cell>
     </w-table-row>
 </w-smart-table>

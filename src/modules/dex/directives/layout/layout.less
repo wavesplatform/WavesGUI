@@ -61,22 +61,26 @@ w-layout {
       }
     }
 
-    &__orderbook.active {
+    &__block-tradevolume-collapsed {
       .dex-layout {
-        &__block[data-block="orderbook"] {
-          height: calc(100% ~'- 38px');
+        &__orderbook {
+          .dex-layout {
+            &__block[data-block="orderbook"] {
+              height: calc(100% ~'- 38px');
 
-          .empty-block-container {
-            top: 50%;
-            transform: translate(-50%, -50%);
-          }
-        }
+              .empty-block-container {
+                top: 50%;
+                transform: translate(-50%, -50%);
+              }
+            }
 
-        &__block[data-block="tradevolume"] {
-          height: 38px;
+            &__block[data-block="tradevolume"] {
+              height: 38px;
 
-          .block-title i {
-            transform: rotate(-180deg);
+              .block-title i {
+                transform: rotate(-180deg);
+              }
+            }
           }
         }
       }
@@ -84,6 +88,7 @@ w-layout {
 
     .wrapper {
       height: 100%;
+      position: relative;
     }
 
     &__column {
@@ -588,10 +593,14 @@ html body.dex .notifications {
             height: 176px;
           }
         }
+      }
 
-        &.active {
-          w-scroll-box {
-            min-height: 293px;
+      &__block-tradevolume-collapsed {
+        .dex-layout {
+          &__orderbook {
+            w-scroll-box {
+              min-height: 293px;
+            }
           }
         }
       }
