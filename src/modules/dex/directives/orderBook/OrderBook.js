@@ -287,6 +287,7 @@
              * @private
              */
             _toTemplate(list, crop, priceHash, maxAmount) {
+                maxAmount = maxAmount.times(2);
                 return list.map((order) => {
                     const hasOrder = !!priceHash[order.price.toFixed(this.priceAsset.precision)];
                     const inRange = order.price.gte(crop.min) && order.price.lte(crop.max);
