@@ -89,7 +89,7 @@
                     {
                         id: 'status',
                         title: { literal: 'directives.myOrders.status' },
-                        valuePath: 'item.percent',
+                        valuePath: 'item.progress',
                         sort: true
                     },
                     {
