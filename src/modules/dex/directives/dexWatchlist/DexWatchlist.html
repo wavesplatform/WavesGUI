@@ -14,7 +14,11 @@
         </a>
 
         <!-- todo @german addClass .active if some option choosed -->
-        <w-select>
+        <w-select
+            ng-class="{
+                'active': $ctrl.tabFromSelectIsActive()
+            }"
+        >
             <w-option
                 ng-repeat="tabData in $ctrl.dropDownData"
                 ng-click="$ctrl.chooseTab(tabData)"
@@ -54,7 +58,7 @@
                 <span>{{::pair.pair}}</span>
             </w-table-cell>
             <w-table-cell>
-                <span>{{::pair.price}}</span>
+                <span>{{::pair.price || '—'}}</span>
             </w-table-cell>
             <w-table-cell ng-class="{
                         'plus': $ctrl.isPositive(pair.change),

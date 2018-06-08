@@ -135,7 +135,7 @@
             getVolume(pair) {
                 return ds.api.pairs.info(pair)
                     .then((data) => {
-                        const [pair] = data.filter(Boolean);
+                        const [pair = {}] = data.filter(Boolean);
                         return pair && String(pair.volume) || '0';
                     });
             }

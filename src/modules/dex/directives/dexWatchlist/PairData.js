@@ -5,15 +5,17 @@
             return class PairData {
 
                 constructor(pairOfIds) {
+                    const NO_DATA_STRING = '—';
+
                     this.pairOfIds = pairOfIds;
                     this.amountAsset = {};
                     this.priceAsset = {};
-                    this.pair = '';
-                    this.price = '';
-                    this.change = '';
+                    this.pair = NO_DATA_STRING;
+                    this.price = NO_DATA_STRING;
+                    this.change = NO_DATA_STRING;
                     this.bigNumberVolume = new BigNumber(0);
-                    this.volume = '';
-                    this.fullVolume = '';
+                    this.volume = NO_DATA_STRING;
+                    this.fullVolume = NO_DATA_STRING;
 
                     this.amountAndPriceRequest = Promise.resolve();
                     this.volumeRequest = Promise.resolve();

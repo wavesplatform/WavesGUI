@@ -260,6 +260,13 @@
             }
 
             /**
+             * @returns {boolean}
+             */
+            tabFromSelectIsActive() {
+                return this.dropDownData.map(({ id }) => id).includes(this.tab.id);
+            }
+
+            /**
              * @param $event
              * @param pair
              */
@@ -380,13 +387,6 @@
              * @private
              */
             _prepareSearchResults() {
-                if (!this.search) {
-                    this.tab.clearSearchResults();
-                    this._updateVisiblePairsData();
-                    this.searchInProgress = false;
-                    return;
-                }
-
                 this.searchInProgress = true;
 
                 WatchlistSearch.search(this._getSearchQuery())
