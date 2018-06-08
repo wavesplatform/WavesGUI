@@ -102,6 +102,7 @@
             }
 
             $onDestroy() {
+                super.$onDestroy();
                 if (this.chartReady) {
                     i18next.off('languageChanged', this._changeLangHandler.bind(this));
                 }

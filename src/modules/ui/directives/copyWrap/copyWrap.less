@@ -1,38 +1,46 @@
 @import (reference) url('../../../config');
 
 w-copy-wrap {
-  display: block;
+  display: flex;
+  align-items: center;
   position: relative;
   background-color: @color-basic-50;
   border: 1px solid @color-basic-200;
   border-radius: @border-radius;
   height: @height-control-big;
-  padding: @padding-control-big;
+  padding: 0;
   font-size: @font-size-control-big;
-
-  @media screen and (max-width: 768px) {
-    height: @height-control-big-responsive;
-    padding: @padding-control-big-responsive;
-    font-size: @font-size-control-big-responsive;
-  }
 
   .container {
     height: 100%;
+    width: 100%;
     display: flex;
     align-items: center;
+    line-height: 48px;
+    padding: 0 17px;
+    overflow: hidden;
   }
 
   .copy-icon {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    top: 50%;
-    right: 5px;
+    border-left: 1px solid @color-disabled-200;
+    flex-basis: 40px;
+    height: 52px;
+    margin-right: 5px;
     background: url(/img/icons/copy-icon.svg) no-repeat center center;
     background-size: 16px 16px;
-    transform: translate(0, -50%);
     cursor: pointer;
   }
+
+  @media screen and (max-width: 768px) {
+    height: @height-control-big-responsive;
+    font-size: @font-size-control-big-responsive;
+
+    .container {
+      line-height: @height-control-big-responsive;
+    }
+
+    .copy-icon {
+      height: @height-control-big-responsive;
+    }
+  }
 }
-
-
