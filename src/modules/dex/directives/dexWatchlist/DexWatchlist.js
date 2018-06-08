@@ -196,8 +196,8 @@
              * @param pair
              */
             choosePair(pair) {
-                this._updateVisiblePairsData();
                 this._simplyChoosePair(pair);
+                this._updateVisiblePairsData();
             }
 
             /**
