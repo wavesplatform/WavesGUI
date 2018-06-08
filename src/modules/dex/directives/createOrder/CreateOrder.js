@@ -69,10 +69,6 @@
                  */
                 this.totalPrice = null;
                 /**
-                 * @type {form.FormController}
-                 */
-                this.order = null;
-                /**
                  * @type {Money}
                  */
                 this.amount = null;
@@ -236,9 +232,14 @@
                 this.price = this.lastTradePrice;
             }
 
+            /**
+             * @param {form.FormController} form
+             * @return {*}
+             */
             createOrder(form) {
                 const notify = $element.find('.js-order-notification');
                 notify.removeClass('success').removeClass('error');
+                form.$pending = true;
 
                 return ds.orderPriceFromTokens(
                     this.price.getTokens(),
@@ -286,7 +287,8 @@
                             }
                         });
                     }).then(() => {
-                        this.order.$setPristine();
+                        form.$pending = false;
+                        form.$setPristine();
                         $scope.$apply();
                         CreateOrder._animateNotification(notify);
                     });

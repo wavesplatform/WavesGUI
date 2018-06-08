@@ -68,9 +68,11 @@
                     }
 
                     const isFocused = element === document.activeElement;
+                    const pending = this.inputContainer.form.$pending || model.$pending;
 
                     const isTouchedOrSubmited = this.inputContainer.form.$submitted || model.$touched;
-                    this.canShow = (!isFocused && isTouchedOrSubmited && model.$error[this.message]) || false;
+                    this.canShow = (!pending && !isFocused && isTouchedOrSubmited && model.$error[this.message]) ||
+                        false;
                 });
             }
 
