@@ -79,7 +79,7 @@ export function createOrder(data) {
     });
 }
 
-export function cancelOrder(amountId: string, priceId: string, orderId: string) {
+export function cancelOrder(amountId: string, priceId: string, orderId: string, type: 'cancel' | 'delete' = 'cancel') {
     const api = getSignatureApi();
     const schema = schemas.getSchemaByType(SIGN_TYPE.CANCEL_ORDER);
     return Promise.all([api.getPublicKey(), api.getAddress()])
@@ -91,7 +91,7 @@ export function cancelOrder(amountId: string, priceId: string, orderId: string) 
         })
         .then((data) => {
             return request({
-                url: `${get('matcher')}/orderbook/${amountId}/${priceId}/cancel`,
+                url: `${get('matcher')}/orderbook/${amountId}/${priceId}/${type}`,
                 fetchOptions: {
                     method: 'POST',
                     headers: {

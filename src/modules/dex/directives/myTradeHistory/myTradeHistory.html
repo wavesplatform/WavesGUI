@@ -24,6 +24,10 @@
             <span w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
         </w-table-cell>
         <w-table-cell>
+            <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n></span>
+            {{::order.timestamp | date:'MM-dd HH:mm:ss' }}
+        </w-table-cell>
+        <w-table-cell>
             <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n></span>
             <w-balance short-mode="::true" money="::order.price"></w-balance>
         </w-table-cell>
@@ -41,10 +45,6 @@
             <w-balance money="order.fee"></w-balance>
         </w-table-cell>
         <w-table-cell>
-            <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n></span>
-            {{::order.timestamp | date:'MM-dd HH:mm:ss' }}
-        </w-table-cell>
-        <w-table-cell>
             <div class="status">
                 <div ng-if="order.status !== 'Cancelled'">
                     {{::order.progress * 100}}%
@@ -56,15 +56,15 @@
                     <div class="progress-fill" style="width: {{::order.progress * 100}}%"></div>
                 </div>
             </div>
-            <w-actions>
-                <!-- todo @german -->
-                <!--w-action ng-click="">
-                    <w-i18n>directives.myOrders.detail</w-i18n>
-                </w-action-->
-                <w-action ng-click=""> <!-- todo @german -->
-                    <w-i18n>directives.myOrders.delete</w-i18n>
-                </w-action>
-            </w-actions>
+            <!--<w-actions>-->
+                <!--&lt;!&ndash; todo @german &ndash;&gt;-->
+                <!--&lt;!&ndash;w-action ng-click="">-->
+                    <!--<w-i18n>directives.myOrders.detail</w-i18n>-->
+                <!--</w-action&ndash;&gt;-->
+                <!--<w-action ng-click="$ctrl.deleteOrder(order)">-->
+                    <!--<w-i18n>directives.myOrders.delete</w-i18n>-->
+                <!--</w-action>-->
+            <!--</w-actions>-->
         </w-table-cell>
     </w-table-row>
 </w-smart-table>

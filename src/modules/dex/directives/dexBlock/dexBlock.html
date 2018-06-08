@@ -11,7 +11,10 @@
              ng-click="$ctrl.onClickTitle()">
             {{$ctrl.title}}
         </div>
-        <div ng-if="$ctrl.canCollapse" w-toggle-class class="dex-block-top-btn"><i class="collapse"></i></div>
+        <div ng-if="$ctrl.canCollapse"
+             w-toggle-class
+             ng-click="$ctrl.toggleCollapse()"
+             class="dex-block-top-btn"><i class="collapse"></i></div>
         <div ng-click="$ctrl.scrollToSpread()" class="dex-block-top-btn"><i class="tospread"></i></div>
     </div>
     <div ng-if="!$ctrl.collapsed" class="dex-block-content" ng-transclude></div>

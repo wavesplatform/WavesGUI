@@ -94,6 +94,16 @@
                  * @type {string}
                  */
                 this.focusedInputName = null;
+                /**
+                 * @type {[]}
+                 */
+                this.expirationValues = [
+                    { name: '30min', value: utils.moment().add().minute(30).getDate().getTime() },
+                    { name: '1hour', value: utils.moment().add().hour(1).getDate().getTime() },
+                    { name: '30day', value: utils.moment().add().day(30).getDate().getTime() }
+                ];
+
+                this.expiration = this.expirationValues[this.expirationValues.length - 1].value;
 
                 ds.moneyFromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
                     this.fee = money;
@@ -119,7 +129,23 @@
                  * @type {Poll}
                  */
                 const spreadPoll = createPoll(this, this._getData, this._setData, 1000);
+                /**
+                 * @type {Poll}
+                 */
                 const lastTraderPoll = createPoll(this, this._getLastTrade, 'lastTradePrice', 1000);
+
+                Promise.all([
+                    balancesPoll.ready,
+                    lastTraderPoll.ready,
+                    spreadPoll.ready
+                ]).then(() => {
+                    this.amount = this.amountBalance.cloneWithTokens('0');
+                    if (this.lastTradePrice && this.lastTradePrice.getTokens().gt(0)) {
+                        this.price = this.lastTradePrice;
+                    } else {
+                        this.price = this._getCurrentPrice();
+                    }
+                });
 
                 this.observe(['amountBalance', 'type', 'fee'], this._updateMaxAmountBalance);
 
@@ -146,19 +172,11 @@
                 $element.on('mousedown touchstart', '.body', (e) => {
                     e.stopPropagation();
                 });
-
-                balancesPoll.ready.then(() => {
-                    this.price = this._getCurrentPrice();
-                });
             }
 
             expand(type) {
                 this.type = type;
                 this.price = this._getCurrentPrice();
-
-                $scope.$$postDigest(() => {
-                    $element.find('input[name="amount"]').focus();
-                });
 
                 // todo @german refactoring (class for .dex-layout__createorder)
                 $element.parent().parent().parent().parent().parent().addClass('expanded');
@@ -239,7 +257,8 @@
                             orderType: this.type,
                             price: price.toMatcherCoins(),
                             amount: amount.toCoins(),
-                            matcherFee: this.fee.getCoins()
+                            matcherFee: this.fee.getCoins(),
+                            expiration: this.expiration
                         });
                     }).then(() => {
                         notify.addClass('success');
@@ -279,7 +298,9 @@
              */
             _getLastTrade() {
                 return dataFeed.trades(this._assetIdPair.amount, this._assetIdPair.price)
-                    .then((list) => list[0] && this.priceBalance.cloneWithTokens(String(list[0].price)) || null);
+                    .then((list) => Array.isArray(list) &&
+                        list[0] &&
+                        this.priceBalance.cloneWithTokens(String(list[0].price)) || null);
             }
 
             /**

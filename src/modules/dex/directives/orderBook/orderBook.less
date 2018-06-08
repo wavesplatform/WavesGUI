@@ -8,12 +8,34 @@ w-dex-order-book {
   height: 100%;
   text-align: right;
 
+  &.pending {
+    .empty-block-container {
+      display: none;
+    }
+    w-loader {
+      display: block;
+    }
+  }
+
+  w-loader {
+    display: none;
+  }
+
+  &.has-order-book {
+    .empty-block-container {
+      display: none;
+    }
+    w-table {
+      display: block;
+    }
+  }
+
   w-table {
     position: relative;
     z-index: 1;
     width: 100%;
     height: 100%;
-    display: block;
+    display: none;
 
     .table-row {
       height: 100%;

@@ -39,6 +39,14 @@
                         sort: true
                     },
                     {
+                        id: 'time',
+                        title: { literal: 'directives.myOrders.time' },
+                        valuePath: 'item.timestamp',
+                        sort: true,
+                        sortActive: true,
+                        isAsc: false
+                    },
+                    {
                         id: 'price',
                         title: { literal: 'directives.myOrders.price' },
                         valuePath: 'item.price',
@@ -63,14 +71,6 @@
                         sort: true
                     },
                     {
-                        id: 'time',
-                        title: { literal: 'directives.myOrders.time' },
-                        valuePath: 'item.timestamp',
-                        sort: true,
-                        sortActive: true,
-                        isAsc: false
-                    },
-                    {
                         id: 'status',
                         title: { literal: 'directives.myOrders.status' },
                         valuePath: 'item.percent',
@@ -82,6 +82,13 @@
                     .then(() => {
                         this.pending = false;
                     });
+            }
+
+            /**
+             * @param {IOrder} order
+             */
+            deleteOrder(order) {
+                ds.cancelOrder(order.amount.asset.id, order.price.asset.id, order.id, 'delete');
             }
 
             _getOrders() {

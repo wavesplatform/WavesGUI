@@ -112,15 +112,14 @@
                             ]
                         },
                         layout: {
-                            left: {
+                            watchlist: {
                                 collapsed: false
                             },
-                            center: {
-                                collapsedBlock: false
+                            orderbook: {
+                                collapsed: false
                             },
-                            right: {
-                                collapsed: false,
-                                collapsedBlock: true
+                            tradevolume: {
+                                collapsed: true
                             }
                         }
                     }

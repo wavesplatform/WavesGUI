@@ -196,8 +196,8 @@
              * @param pair
              */
             choosePair(pair) {
-                this._updateVisiblePairsData();
                 this._simplyChoosePair(pair);
+                this._updateVisiblePairsData();
             }
 
             /**
@@ -521,7 +521,10 @@
              * @private
              */
             _updateVisiblePairsData() {
-                WatchlistSearch.filter(this.tab.getVisiblePairs(this._shouldShowOnlyFavourite), this._getSearchQuery())
+                WatchlistSearch.filter(
+                    this.tab.getReconstructedVisiblePairs(this._shouldShowOnlyFavourite),
+                    this._getSearchQuery()
+                )
                     .then((filterResults) => {
                         this.visiblePairsData = filterResults;
                         $scope.$digest();

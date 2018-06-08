@@ -53,6 +53,10 @@
                  */
                 this.pending = true;
                 /**
+                 * @type {boolean}
+                 */
+                this.hasOrderBook = false;
+                /**
                  * @type {{amount: string, price: string}}
                  * @private
                  */
@@ -96,6 +100,9 @@
                     _orderBookCropRate: 'dex.orderBookCropRate'
                 });
 
+                this.observe(['hasOrderBook', 'pending'], this._onChangeVisibleElements);
+
+                this._onChangeVisibleElements();
                 this._updateAssetData();
 
                 $templateRequest('modules/dex/directives/orderBook/orderbook.row.hbs')
@@ -108,6 +115,7 @@
                         this.observe('_assetIdPair', () => {
                             this._showSpread = true;
                             this.pending = true;
+                            this.hasOrderBook = false;
                             this._updateAssetData();
                             poll.restart();
                         });
@@ -148,6 +156,17 @@
                 });
             }
 
+            _onChangeVisibleElements() {
+                const hasOrderBook = this.hasOrderBook;
+                const pending = this.pending;
+
+                if (pending) {
+                    $element.removeClass('has-order-book').addClass('pending');
+                } else {
+                    $element.removeClass('pending').toggleClass('has-order-book', hasOrderBook);
+                }
+            }
+
             _updateAssetData() {
                 ds.api.assets.get([this._assetIdPair.price, this._assetIdPair.amount])
                     .then(([priceAsset, amountAsset]) => {
@@ -173,8 +192,8 @@
              * @private
              */
             _setOrders(data) {
-                this._render(data);
                 this.pending = false;
+                this._render(data);
             }
 
             /**
@@ -210,7 +229,7 @@
                 return {
                     bids: this._toTemplate(bids, crop, priceHash).join(''),
                     lastTrade,
-                    spread: orderbook.spread.percent,
+                    spread: orderbook.spread && orderbook.spread.percent,
                     asks: this._toTemplate(asks.slice().reverse(), crop, priceHash).join('')
                 };
             }
@@ -235,7 +254,9 @@
                     const isSell = data.lastTrade.type === 'sell';
                     this._dom.$info.toggleClass(CLASSES.BUY, isBuy).toggleClass(CLASSES.SELL, isSell);
                     this._dom.$lastPrice.text(data.lastTrade.price);
-                    this._dom.$spread.text(data.spread.toFixed(2));
+                    if (data.spread) {
+                        this._dom.$spread.text(data.spread.toFixed(2));
+                    }
                 } else {
                     this._dom.$info.removeClass(CLASSES.BUY).removeClass(CLASSES.SELL);
                 }
@@ -243,12 +264,9 @@
                 this._dom.$bids.html(data.bids);
 
                 if (this._showSpread) {
-                    setTimeout(() => {
-                        this._showSpread = false;
-
-                        const box = this._dom.$box.get(0);
-                        box.scrollTop = this._getSpreadScrollPosition();
-                    }, 100);
+                    this._showSpread = false;
+                    const box = this._dom.$box.get(0);
+                    box.scrollTop = this._getSpreadScrollPosition();
                 }
             }
 
