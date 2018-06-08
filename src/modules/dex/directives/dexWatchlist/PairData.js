@@ -116,7 +116,7 @@
                         return utils.getNiceBigNumberTemplate(volume);
                     }
 
-                    const volumeString = volume.toString();
+                    const volumeString = volume.toFixed();
                     if (volume.lt(0.0001) && volume.gt(0)) {
                         return `...${volumeString.substring(-4)}`;
                     }

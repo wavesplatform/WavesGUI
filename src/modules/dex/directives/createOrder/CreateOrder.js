@@ -98,10 +98,12 @@
                  * @type {[]}
                  */
                 this.expirationValues = [
-                    { name: '30days', value: utils.moment().add().day(30).getDate().getTime() },
-                    { name: '60days', value: utils.moment().add().day(60).getDate().getTime() },
-                    { name: '90days', value: utils.moment().add().day(90).getDate().getTime() }
+                    { name: '30min', value: utils.moment().add().minute(30).getDate().getTime() },
+                    { name: '1hour', value: utils.moment().add().hour(1).getDate().getTime() },
+                    { name: '30day', value: utils.moment().add().day(30).getDate().getTime() }
                 ];
+
+                this.expiration = this.expirationValues[this.expirationValues.length - 1].value;
 
                 ds.moneyFromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
                     this.fee = money;
@@ -134,10 +136,15 @@
 
                 Promise.all([
                     balancesPoll.ready,
+                    lastTraderPoll.ready,
                     spreadPoll.ready
                 ]).then(() => {
                     this.amount = this.amountBalance.cloneWithTokens('0');
-                    this.expand('buy');
+                    if (this.lastTradePrice && this.lastTradePrice.getTokens().gt(0)) {
+                        this.price = this.lastTradePrice;
+                    } else {
+                        this.price = this._getCurrentPrice();
+                    }
                 });
 
                 this.observe(['amountBalance', 'type', 'fee'], this._updateMaxAmountBalance);
@@ -291,7 +298,9 @@
              */
             _getLastTrade() {
                 return dataFeed.trades(this._assetIdPair.amount, this._assetIdPair.price)
-                    .then((list) => list[0] && this.priceBalance.cloneWithTokens(String(list[0].price)) || null);
+                    .then((list) => Array.isArray(list) &&
+                        list[0] &&
+                        this.priceBalance.cloneWithTokens(String(list[0].price)) || null);
             }
 
             /**

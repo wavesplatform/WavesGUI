@@ -107,6 +107,7 @@
                         this.observe('_assetIdPair', () => {
                             this._showSpread = true;
                             this.pending = true;
+                            $element.toggleClass('has-order-book', false);
                             this._updateAssetData();
                             poll.restart();
                         });
@@ -226,6 +227,7 @@
                 }
 
                 this.hasOrderBook = Boolean(data.bids || data.asks);
+                $element.toggleClass('has-order-book', this.hasOrderBook);
 
                 this._dom.$asks.html(data.asks);
 
@@ -244,12 +246,9 @@
                 this._dom.$bids.html(data.bids);
 
                 if (this._showSpread) {
-                    setTimeout(() => {
-                        this._showSpread = false;
-
-                        const box = this._dom.$box.get(0);
-                        box.scrollTop = this._getSpreadScrollPosition();
-                    }, 100);
+                    this._showSpread = false;
+                    const box = this._dom.$box.get(0);
+                    box.scrollTop = this._getSpreadScrollPosition();
                 }
             }
 
