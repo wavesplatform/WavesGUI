@@ -148,7 +148,7 @@
                 this._timer = setTimeout(() => {
                     this._timer = null;
                     this._run();
-                }, 1000 / 60);
+                }, 200);
             }
 
         }
