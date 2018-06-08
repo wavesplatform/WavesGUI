@@ -387,13 +387,6 @@
              * @private
              */
             _prepareSearchResults() {
-                if (!this.search) {
-                    this.tab.clearSearchResults();
-                    this._updateVisiblePairsData();
-                    this.searchInProgress = false;
-                    return;
-                }
-
                 this.searchInProgress = true;
 
                 WatchlistSearch.search(this._getSearchQuery())

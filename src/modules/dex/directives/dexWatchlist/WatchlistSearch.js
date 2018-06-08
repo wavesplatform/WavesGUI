@@ -25,7 +25,7 @@
                 nothingFound: false
             };
 
-            const EMPTY_QUERY_SEARCH_RESULTS = Object.assign({ searchFinished: true }, INTERRUPTED_SEARCH_RESULT);
+            const EMPTY_QUERY_SEARCH_RESULTS = Object.assign({}, INTERRUPTED_SEARCH_RESULT, { searchFinished: true });
 
             return {
                 filter,
