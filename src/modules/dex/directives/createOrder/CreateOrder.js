@@ -269,7 +269,8 @@
                             ns: 'app.dex',
                             title: { literal: 'directives.createOrder.notifications.isCreated' }
                         });
-                        $element.find('input[name="amount"]').focus();
+                        this.createForm.$setPristine();
+                        this.createForm.$setUntouched();
                     }).catch((err) => {
                         this.createOrderFailed = true;
                         notify.addClass('error');
