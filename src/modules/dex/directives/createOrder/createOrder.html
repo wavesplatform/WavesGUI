@@ -1,8 +1,8 @@
-<w-loader ng-if="!$ctrl.amountBalance || !$ctrl.priceBalance"></w-loader>
+<w-loader ng-if="!$ctrl.loaded"></w-loader>
 
 <div class="create-order"
      w-i18n-ns="app.dex"
-     ng-if="$ctrl.amountBalance && $ctrl.priceBalance">
+     ng-if="$ctrl.loaded">
 
     <div class="head">
         <div class="icon-drag margin-right-1"></div>
