@@ -1,7 +1,7 @@
 import { get as getConfig } from '../../config';
 import { get as getAssetPair } from '../pairs/pairs';
 import { addParam } from '../../utils/utils';
-import { AssetPair, Money, OrderPrice } from '@waves/data-entities';
+import { AssetPair, Money, OrderPrice, BigNumber } from '@waves/data-entities';
 import { request } from '../../utils/request';
 
 
@@ -25,7 +25,7 @@ function remapOrderBook(orderBook, pair: AssetPair): IOrderBook {
 
 const remapOrder = (pair: AssetPair) => (order: IApiOrder): IOrder => ({
     amount: new Money(order.amount, pair.amountAsset),
-    price: new Money(order.price, pair.priceAsset)
+    price: Money.fromTokens(OrderPrice.fromMatcherCoins(new BigNumber(order.price), pair).getTokens(), pair.priceAsset)
 });
 
 export interface IOrderBook {

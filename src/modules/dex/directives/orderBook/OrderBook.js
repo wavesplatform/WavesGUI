@@ -209,7 +209,7 @@
                 return {
                     bids: this._toTemplate(bids, crop, priceHash).join(''),
                     lastTrade,
-                    spread: orderbook.spread.percent,
+                    spread: orderbook.spread && orderbook.spread.percent,
                     asks: this._toTemplate(asks.slice().reverse(), crop, priceHash).join('')
                 };
             }
@@ -234,7 +234,9 @@
                     const isSell = data.lastTrade.type === 'sell';
                     this._dom.$info.toggleClass(CLASSES.BUY, isBuy).toggleClass(CLASSES.SELL, isSell);
                     this._dom.$lastPrice.text(data.lastTrade.price);
-                    this._dom.$spread.text(data.spread.toFixed(2));
+                    if (data.spread) {
+                        this._dom.$spread.text(data.spread.toFixed(2));
+                    }
                 } else {
                     this._dom.$info.removeClass(CLASSES.BUY).removeClass(CLASSES.SELL);
                 }

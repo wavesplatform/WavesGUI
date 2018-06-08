@@ -18,6 +18,8 @@
     const controller = function (Base, waves, user, utils, createPoll, $scope,
                                  $element, notification, dexDataService, ease, dataFeed) {
 
+        const entities = require('@waves/data-entities');
+
         class CreateOrder extends Base {
 
             /**
@@ -92,6 +94,14 @@
                  * @type {string}
                  */
                 this.focusedInputName = null;
+                /**
+                 * @type {[]}
+                 */
+                this.expirationValues = [
+                    { name: '30days', value: utils.moment().add().day(30).getDate().getTime() },
+                    { name: '60days', value: utils.moment().add().day(60).getDate().getTime() },
+                    { name: '90days', value: utils.moment().add().day(90).getDate().getTime() }
+                ];
 
                 ds.moneyFromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
                     this.fee = money;
@@ -100,7 +110,7 @@
 
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.expand(type);
-                    this.amount = this.amountBalance.cloneWithTokens(amount);
+                    this.amount = entities.Money.min(this.amountBalance.cloneWithTokens(amount), this.amountBalance);
                     this.price = this.priceBalance.cloneWithTokens(price);
                     $scope.$digest();
                 });
@@ -117,7 +127,18 @@
                  * @type {Poll}
                  */
                 const spreadPoll = createPoll(this, this._getData, this._setData, 1000);
+                /**
+                 * @type {Poll}
+                 */
                 const lastTraderPoll = createPoll(this, this._getLastTrade, 'lastTradePrice', 1000);
+
+                Promise.all([
+                    balancesPoll.ready,
+                    spreadPoll.ready
+                ]).then(() => {
+                    this.amount = this.amountBalance.cloneWithTokens('0');
+                    this.expand('buy');
+                });
 
                 this.observe(['amountBalance', 'type', 'fee'], this._updateMaxAmountBalance);
 
@@ -144,19 +165,11 @@
                 $element.on('mousedown touchstart', '.body', (e) => {
                     e.stopPropagation();
                 });
-
-                balancesPoll.ready.then(() => {
-                    this.price = this._getCurrentPrice();
-                });
             }
 
             expand(type) {
                 this.type = type;
                 this.price = this._getCurrentPrice();
-
-                $scope.$$postDigest(() => {
-                    $element.find('input[name="amount"]').focus();
-                });
 
                 // todo @german refactoring (class for .dex-layout__createorder)
                 $element.parent().parent().parent().parent().parent().addClass('expanded');
@@ -237,7 +250,8 @@
                             orderType: this.type,
                             price: price.toMatcherCoins(),
                             amount: amount.toCoins(),
-                            matcherFee: this.fee.getCoins()
+                            matcherFee: this.fee.getCoins(),
+                            expiration: this.expiration
                         });
                     }).then(() => {
                         notify.addClass('success');
