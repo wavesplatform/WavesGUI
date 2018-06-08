@@ -21,10 +21,11 @@
         >
             <w-option
                 ng-repeat="tabData in $ctrl.dropDownData"
-                ng-click="$ctrl.chooseTab(tabData)"
+                ng-click="$ctrl.chooseSelectTab(tabData)"
             >{{::tabData.title}}
             </w-option>
         </w-select>
+        <div class="select-hover" ng-if="!$ctrl.tabFromSelectIsActive()" ng-click="$ctrl.chooseSelectTab()"></div>
     </div>
 
     <div class="input-container">
@@ -64,10 +65,10 @@
                         'plus': $ctrl.isPositive(pair.change),
                         'minus': $ctrl.isNegative(pair.change)
                       }">
-                <span ng-if="$ctrl.isPositive(pair.change)">+</span><span>{{::pair.change}}</span>%
+                <span ng-if="$ctrl.isPositive(pair.change)">+</span><span>{{::pair.change}}</span>{{ ::pair.change ? '%' : '—'}}
             </w-table-cell>
-            <w-table-cell title="{{::pair.fullVolume}}">
-                {{::pair.volume}}
+            <w-table-cell title="{{::pair.fullVolume || '—'}}">
+                {{::pair.volume || '—'}}
             </w-table-cell>
             <w-table-cell ng-if="$ctrl.isChosen(pair)">
                 <!-- todo @german asset links -->

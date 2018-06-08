@@ -263,7 +263,12 @@
              * @returns {boolean}
              */
             tabFromSelectIsActive() {
-                return this.dropDownData.map(({ id }) => id).includes(this.tab.id);
+                return !!this.dropDownData.find(({ id }) => id === this.tab.id);
+            }
+
+            chooseSelectTab(item) {
+                this.lastActiveSelectedTab = item || this.lastActiveSelectedTab;
+                this.chooseTab(item || this.lastActiveSelectedTab || this.dropDownData[0]);
             }
 
             /**
