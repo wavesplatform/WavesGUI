@@ -116,8 +116,10 @@
                                 collapsed: false
                             },
                             orderbook: {
-                                collapsed: false,
-                                collapsedBlock: true
+                                collapsed: false
+                            },
+                            tradevolume: {
+                                collapsed: true
                             }
                         }
                     }
