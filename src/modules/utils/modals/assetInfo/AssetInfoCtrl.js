@@ -81,7 +81,7 @@
                         case TYPES.EXCHANGE_SELL:
                             return (
                                 tx.amount.asset.id === this.asset.id ||
-                                tx.price.pair.priceAsset.id === this.asset.id
+                                tx.price.asset.id === this.asset.id
                             );
                         case TYPES.LEASE_IN:
                         case TYPES.LEASE_OUT:
