@@ -197,26 +197,12 @@
                         </w-input-container>
                     </div>
 
-                    <div class="split-half field-fee">
-                        <div class="caption-2 disabled-600">Fee 0.003 WAVES</div>
-                        <div class="caption-2 disabled-600 flex">
-                            <span w-i18n="directives.createOrder.expiration"></span>
-                            <span class="expiration underline basic-900 active">
-                            <w-i18n>directives.createOrder.30days</w-i18n>
-                            <div class="select-like">
-                                <div class="option-like">
-                                    <w-i18n>directives.createOrder.30days</w-i18n>
-                                </div>
-                                <div class="option-like">
-                                    <w-i18n>directives.createOrder.60days</w-i18n>
-                                </div>
-                                <div class="option-like">
-                                    <w-i18n>directives.createOrder.90days</w-i18n>
-                                </div>
-                            </div>
-                        </span>
-                        </div>
-                    </div>
+                    <w-select ng-model="$ctrl.expiration">
+                        <w-option ng-repeat="option in $ctrl.expirationValues track by option.name"
+                                  value="::option.value">
+                            <w-i18n w-i18n-ns="app.dex">directives.createOrder.{{::option.name}}</w-i18n>
+                        </w-option>
+                    </w-select>
 
                     <!-- todo @german -->
                     <!--span>&nbsp;{{$ctrl.totalPrice.toFormat($ctrl.priceBalance.asset.precision)}}</span-->
