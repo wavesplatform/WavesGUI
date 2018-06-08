@@ -54,7 +54,7 @@
             $postLink() {
 
                 this.syncSettings({
-                    collapsed: `dex.layout.${this.block}.collapsedBlock`
+                    collapsed: `dex.layout.${this.block}.collapsed`
                 });
 
                 this._parent.collapseBlock(this.block, this.collapsed);
