@@ -140,7 +140,6 @@
 
             _setOrderBook(orderBook) {
                 this._updateGraphAccordingToOrderBook(orderBook);
-
                 this.data.asks = orderBook.asks;
                 this.data.bids = orderBook.bids;
 
@@ -251,12 +250,12 @@
             }
 
             static _buildCumulativeOrderList(list) {
-                let amount = 0;
+                let amount = new BigNumber(0);
 
                 return list.reduce((result, item) => {
-                    amount += Number(item.amount);
+                    amount = amount.plus(new BigNumber(item.amount));
                     result.push({
-                        amount,
+                        amount: Number(amount.toFixed(this._chartCropRate)),
                         price: Number(item.price)
                     });
 
