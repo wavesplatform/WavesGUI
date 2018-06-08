@@ -2,8 +2,7 @@
 @import (reference) "../../../app/less/typography";
 
 .dex.main .main-content {
-  //background: @color-basic-100;
-  background: @color-basic-900;
+  background: @color-basic-100;
   min-width: 1280px;
   min-height: 480px;
   overflow-y: hidden;
@@ -474,6 +473,8 @@ html body.dex .notifications {
 
           &__orderbook {
             background: none transparent;
+            min-width: 20px;
+            width: 20px;
 
             .dex-layout {
               &__sidebar-toggle-left {
@@ -486,17 +487,9 @@ html body.dex .notifications {
                 }
               }
 
-              &__block-top {
-                display: none;
-              }
-
               &__block {
                 min-width: 0;
-              }
-
-              &__block[data-block="orderbook"],
-              &__block[data-block="tradevolume"] {
-                transform: translate(5px);
+                display: none;
               }
             }
           }
@@ -520,9 +513,6 @@ html body.dex .notifications {
           }
 
           &__orderbook {
-            // background: none transparent;
-            // transform: translateX(100%);
-            // width: calc(50% ~'- 2px');
             right: 20px;
           }
 

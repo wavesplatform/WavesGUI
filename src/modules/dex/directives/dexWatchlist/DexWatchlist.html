@@ -23,12 +23,16 @@
         </w-select>
     </div>
 
-    <w-input placeholder="directives.watchlist.placeholders.coin"
-             ng-model="$ctrl.search"
-             ng-class="{
+    <div class="input-container">
+        <w-input placeholder="directives.watchlist.placeholders.coin"
+                 ng-model="$ctrl.search"
+                 ng-class="{
                 'searching': $ctrl.searchInProgress
-             }"
-             w-i18n-attr="placeholder"></w-input>
+              }" w-i18n-attr="placeholder"></w-input>
+        <i ng-if="$ctrl.search.length > 0"
+           class="input-clear"
+           ng-click="$ctrl.search = ''"></i>
+    </div>
 
     <w-smart-table data="$ctrl.visiblePairsData"
                    header-info="$ctrl.headers"
@@ -62,8 +66,9 @@
                 {{::pair.volume}}
             </w-table-cell>
             <w-table-cell ng-if="$ctrl.isChosen(pair)">
-                <div class="disabled-900">{{::pair.amountAsset.id}}<span>/</span></div>
-                <div class="disabled-900">{{::pair.priceAsset.id}}</div>
+                <!-- todo @german asset links -->
+                <a href="#" class="disabled-900">{{::pair.amountAsset.id}}</a> <span>/</span>
+                <a href="#" class="disabled-900">{{::pair.priceAsset.id}}</a>
             </w-table-cell>
         </w-table-row>
     </w-smart-table>
