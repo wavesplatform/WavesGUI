@@ -13,7 +13,7 @@
                  class="{{::order.type}}"
                  ng-class="{cancelled: order.status === 'Cancelled'}">
         <w-table-cell>
-            <span>{{::order.assetPair.amountAsset.displayName}} / {{::order.assetPair.priceAsset.displayName}}</span>
+            <span ng-click="$ctrl.setPair(order)">{{::order.assetPair.amountAsset.displayName}} / {{::order.assetPair.priceAsset.displayName}}</span>
             <span ng-if="order.status !== 'Cancelled'"
                   class="status-mobile">{{::order.percent}}%</span>
             <span ng-if="order.status === 'Cancelled'"

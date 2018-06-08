@@ -13,7 +13,7 @@
                  ng-class="{'new-order': order.isNew}"
                  ng-repeat="order in $data track by order.id">
         <w-table-cell>
-            <span>{{::order.assetPair.amountAsset.displayName}} / {{::order.assetPair.priceAsset.displayName}}</span>
+            <span ng-click="$ctrl.setPair(order)">{{::order.assetPair.amountAsset.displayName}} / {{::order.assetPair.priceAsset.displayName}}</span>
         </w-table-cell>
         <w-table-cell>
             <span w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>

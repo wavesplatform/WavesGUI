@@ -109,9 +109,19 @@
                 };
 
                 const poll = createPoll(this, this._getOrders, 'orders', 1000, { $scope });
-                this.observe('_assetIdPair', () => poll.restart());
+
                 poll.ready.then(() => {
                     this.pending = false;
+                });
+            }
+
+            /**
+             * @param {IOrder} order
+             */
+            setPair(order) {
+                user.setSetting('dex.assetIdPair', {
+                    amount: order.assetPair.amountAsset.id,
+                    price: order.assetPair.priceAsset.id
                 });
             }
 
