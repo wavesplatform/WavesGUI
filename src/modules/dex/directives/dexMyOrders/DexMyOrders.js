@@ -61,6 +61,14 @@
                         sort: true
                     },
                     {
+                        id: 'time',
+                        title: { literal: 'directives.myOrders.time' },
+                        valuePath: 'item.timestamp',
+                        sort: true,
+                        sortActive: true,
+                        isAsc: false
+                    },
+                    {
                         id: 'price',
                         title: { literal: 'directives.myOrders.price' },
                         valuePath: 'item.price',
@@ -77,14 +85,6 @@
                         title: { literal: 'directives.myOrders.total' },
                         valuePath: 'item.total',
                         sort: true
-                    },
-                    {
-                        id: 'time',
-                        title: { literal: 'directives.myOrders.time' },
-                        valuePath: 'item.timestamp',
-                        sort: true,
-                        sortActive: true,
-                        isAsc: false
                     },
                     {
                         id: 'status',
