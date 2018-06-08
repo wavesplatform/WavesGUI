@@ -260,6 +260,13 @@
             }
 
             /**
+             * @returns {boolean}
+             */
+            tabFromSelectIsActive() {
+                return this.dropDownData.map(({ id }) => id).includes(this.tab.id);
+            }
+
+            /**
              * @param $event
              * @param pair
              */
