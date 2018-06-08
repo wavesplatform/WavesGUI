@@ -93,7 +93,19 @@
 
             _getOrders() {
                 return waves.matcher.getOrders()
-                    .then((orders) => orders.filter(tsUtils.contains({ isActive: false })));
+                    .then((orders) => orders.filter(tsUtils.contains({ isActive: false })))
+                    .then((orders) => MyTradeHistory._remapOrders(orders));
+            }
+
+            /**
+             * @param {Array<IOrder>} orders
+             * @private
+             */
+            static _remapOrders(orders) {
+                return orders.map((order) => {
+                    const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
+                    return { ...order, percent };
+                });
             }
 
         }

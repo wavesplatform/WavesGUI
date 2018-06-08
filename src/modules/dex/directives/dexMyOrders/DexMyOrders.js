@@ -150,8 +150,8 @@
              */
             _getOrders() {
                 return waves.matcher.getOrders()
-                    .then((orders) => DexMyOrders._remapOrders(orders))
-                    .then((orders) => orders.filter(tsUtils.contains({ isActive: true })));
+                    .then((orders) => orders.filter(tsUtils.contains({ isActive: true })))
+                    .then((orders) => DexMyOrders._remapOrders(orders));
             }
 
             /**
@@ -161,7 +161,8 @@
             static _remapOrders(orders) {
                 return orders.map((order) => {
                     const isNew = Date.now() < (order.timestamp.getTime() + 1000 * 30);
-                    return { ...order, isNew };
+                    const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
+                    return { ...order, isNew, percent };
                 });
             }
 

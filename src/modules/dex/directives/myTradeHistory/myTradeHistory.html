@@ -47,13 +47,13 @@
         <w-table-cell>
             <div class="status">
                 <div ng-if="order.status !== 'Cancelled'">
-                    {{::order.progress * 100}}%
+                    {{::order.percent}}%
                 </div>
                 <div ng-if="order.status === 'Cancelled'">
                     <w-i18n>directives.myOrders.canceled</w-i18n>
                 </div>
                 <div class="progress-bar">
-                    <div class="progress-fill" style="width: {{::order.progress * 100}}%"></div>
+                    <div class="progress-fill" style="width: {{::order.percent}}%"></div>
                 </div>
             </div>
             <!--<w-actions>-->
