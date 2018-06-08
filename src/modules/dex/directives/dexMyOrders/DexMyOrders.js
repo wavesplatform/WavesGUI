@@ -150,7 +150,19 @@
              */
             _getOrders() {
                 return waves.matcher.getOrders()
+                    .then((orders) => DexMyOrders._remapOrders(orders))
                     .then((orders) => orders.filter(tsUtils.contains({ isActive: true })));
+            }
+
+            /**
+             * @param {Array<IOrder>} orders
+             * @private
+             */
+            static _remapOrders(orders) {
+                return orders.map((order) => {
+                    const isNew = Date.now() < (order.timestamp.getTime() + 1000 * 30);
+                    return { ...order, isNew };
+                });
             }
 
         }

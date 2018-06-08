@@ -269,8 +269,6 @@
                             ns: 'app.dex',
                             title: { literal: 'directives.createOrder.notifications.isCreated' }
                         });
-                        this.createForm.$setPristine();
-                        this.createForm.$setUntouched();
                     }).catch((err) => {
                         this.createOrderFailed = true;
                         notify.addClass('error');
@@ -288,6 +286,7 @@
                             }
                         });
                     }).then(() => {
+                        this.order.$setPristine();
                         $scope.$apply();
                         CreateOrder._animateNotification(notify);
                     });

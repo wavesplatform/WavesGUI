@@ -9,7 +9,9 @@
         <div class="body-1 basic-700" w-i18n="emptyBlocks.myOrders.title"></div>
         <div class="footnote-1 basic-500" w-i18n="emptyBlocks.myOrders.description"></div>
     </div>
-    <w-table-row class="{{::order.type}}" ng-repeat="order in $data track by order.id">
+    <w-table-row class="{{::order.type}}"
+                 ng-class="{'new-order': order.isNew}"
+                 ng-repeat="order in $data track by order.id">
         <w-table-cell>
             <span>{{::order.assetPair.amountAsset.displayName}} / {{::order.assetPair.priceAsset.displayName}}</span>
         </w-table-cell>
