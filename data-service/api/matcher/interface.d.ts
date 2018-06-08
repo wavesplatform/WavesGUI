@@ -21,6 +21,7 @@ export interface IOrder {
     amount: Money;
     price: Money;
     filled: Money;
+    total: Money;
     assetPair: AssetPair;
     id: string;
     progress: number;

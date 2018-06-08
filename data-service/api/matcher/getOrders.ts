@@ -64,10 +64,11 @@ export function remapOrder(order: api.IOrder, assets: IHash<Asset>): IOrder {
     const amount = new Money(new BigNumber(order.amount), amountAsset);
     const price = Money.fromTokens(OrderPrice.fromMatcherCoins(order.price, assetPair).getTokens(), priceAsset);
     const filled = new Money(new BigNumber(order.filled), amountAsset);
+    const total = new Money(amount.getTokens().times(price.getTokens()), priceAsset);
     const progress = filled.getTokens().div(amount.getTokens()).toNumber();
     const timestamp = new Date(order.timestamp);
     const isActive = order.status === 'Accepted' || order.status === 'PartiallyFilled';
-    return { ...order, amount, price, filled, assetPair, progress, timestamp, isActive };
+    return { ...order, amount, price, filled, assetPair, progress, timestamp, isActive, total };
 }
 
 function getAssetsFromOrderList(orders: Array<api.IOrder>): Array<string> {

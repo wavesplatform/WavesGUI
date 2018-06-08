@@ -22,6 +22,14 @@
 
         class CreateOrder extends Base {
 
+
+            /**
+             * @return {string}
+             */
+            get priceDisplayName() {
+                return this.priceBalance && this.priceBalance.asset.displayName || '';
+            }
+
             /**
              * @return {string}
              */
@@ -29,11 +37,8 @@
                 return this.amountBalance && this.amountBalance.asset.displayName || '';
             }
 
-            /**
-             * @return {string}
-             */
-            get priceDisplayName() {
-                return this.priceBalance && this.priceBalance.asset.displayName || '';
+            get loaded() {
+                return this.amountBalance && this.priceBalance;
             }
 
             constructor() {
@@ -120,19 +125,26 @@
                 /**
                  * @type {Poll}
                  */
+                let lastTraderPoll;
+                /**
+                 * @type {Poll}
+                 */
                 const balancesPoll = createPoll(this, this._getBalances, this._setBalances, 1000);
                 /**
                  * @type {Poll}
                  */
                 const spreadPoll = createPoll(this, this._getData, this._setData, 1000);
-                /**
-                 * @type {Poll}
-                 */
-                const lastTraderPoll = createPoll(this, this._getLastTrade, 'lastTradePrice', 1000);
+
+                const lastTradePromise = new Promise((resolve) => {
+                    balancesPoll.ready.then(() => {
+                        lastTraderPoll = createPoll(this, this._getLastTrade, 'lastTradePrice', 1000);
+                        resolve();
+                    });
+                });
 
                 Promise.all([
                     balancesPoll.ready,
-                    lastTraderPoll.ready,
+                    lastTradePromise,
                     spreadPoll.ready
                 ]).then(() => {
                     this.amount = this.amountBalance.cloneWithTokens('0');
@@ -152,7 +164,9 @@
                     this.ask = null;
                     balancesPoll.restart();
                     spreadPoll.restart();
-                    lastTraderPoll.restart();
+                    if (lastTraderPoll) {
+                        lastTraderPoll.restart();
+                    }
                     this.observeOnce(['bid', 'ask'], utils.debounce(() => {
                         if (this.type) {
                             this.price = this._getCurrentPrice();
@@ -200,15 +214,17 @@
             }
 
             setMaxPrice() {
-                if (this.price.getTokens().eq(0)) {
+                if (!this.price || this.price.getTokens().eq(0)) {
                     this.amount = this.amountBalance.cloneWithTokens('0');
                     return null;
                 }
                 if (this.priceBalance.asset.id === this.fee.asset.id) {
-                    const amount = this.amountBalance.cloneWithTokens(this.priceBalance.sub(this.fee)
-                        .getTokens()
-                        .times(this.price.getTokens())
-                        .dp(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
+                    const amount = this.amountBalance.cloneWithTokens(
+                        this.priceBalance.sub(this.fee)
+                            .getTokens()
+                            .div(this.price.getTokens())
+                            .dp(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR)
+                    );
                     if (amount.getTokens().lt(0)) {
                         this.amount = amount.cloneWithTokens('0');
                     } else {
@@ -216,9 +232,11 @@
                     }
 
                 } else {
-                    this.amount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens()
-                        .div(this.price.getTokens())
-                        .dp(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
+                    this.amount = this.amountBalance.cloneWithTokens(
+                        this.priceBalance.getTokens()
+                            .div(this.price.getTokens())
+                            .dp(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR)
+                    );
                 }
             }
 

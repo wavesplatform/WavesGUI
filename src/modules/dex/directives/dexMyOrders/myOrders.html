@@ -13,7 +13,7 @@
                  ng-class="{'new-order': order.isNew}"
                  ng-repeat="order in $data track by order.id">
         <w-table-cell>
-            <span>{{::order.assetPair.amountAsset.displayName}} / {{::order.assetPair.priceAsset.displayName}}</span>
+            <span ng-click="$ctrl.setPair(order)">{{::order.pair}}</span>
         </w-table-cell>
         <w-table-cell>
             <span w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
@@ -37,15 +37,15 @@
         <w-table-cell>
             <div class="status">
                 <div class="progress-precents">
-                    {{order.progress * 100}}%
+                    {{order.percent}}%
                 </div>
                 <div class="progress-bar">
-                    <div class="progress-fill" style="width: {{order.progress}}%"></div>
+                    <div class="progress-fill" style="width: {{order.percent}}%"></div>
                 </div>
                 <div class="circle-holder">
                     <div class="circle-loader"
                          ng-class="{over50: order.progress > 0.5}">
-                        <span>{{order.percent * 100}}%</span>
+                        <span>{{order.percent}}%</span>
                         <div class="left-half-clipper">
                             <div class="first50-bar"></div>
                             <div class="value-bar"

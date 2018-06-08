@@ -8,7 +8,7 @@
      * @param {Waves} waves
      * @return {MyTradeHistory}
      */
-    const controller = function (Base, $scope, createPoll, waves) {
+    const controller = function (Base, $scope, createPoll, waves, user) {
 
         const tsUtils = require('ts-utils');
 
@@ -87,13 +87,37 @@
             /**
              * @param {IOrder} order
              */
+            setPair(order) {
+                user.setSetting('dex.assetIdPair', {
+                    amount: order.assetPair.amountAsset.id,
+                    price: order.assetPair.priceAsset.id
+                });
+            }
+
+            /**
+             * @param {IOrder} order
+             */
             deleteOrder(order) {
                 ds.cancelOrder(order.amount.asset.id, order.price.asset.id, order.id, 'delete');
             }
 
             _getOrders() {
                 return waves.matcher.getOrders()
-                    .then((orders) => orders.filter(tsUtils.contains({ isActive: false })));
+                    .then((orders) => orders.filter(tsUtils.contains({ isActive: false })))
+                    .then((orders) => MyTradeHistory._remapOrders(orders));
+            }
+
+            /**
+             * @param {Array<IOrder>} orders
+             * @private
+             */
+            static _remapOrders(orders) {
+                return orders.map((order) => {
+                    const assetPair = order.assetPair;
+                    const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
+                    const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
+                    return { ...order, percent, pair };
+                });
             }
 
         }
@@ -101,7 +125,7 @@
         return new MyTradeHistory();
     };
 
-    controller.$inject = ['Base', '$scope', 'createPoll', 'waves'];
+    controller.$inject = ['Base', '$scope', 'createPoll', 'waves', 'user'];
 
     angular.module('app.dex').component('wDexMyTradeHistory', {
         bindings: {},

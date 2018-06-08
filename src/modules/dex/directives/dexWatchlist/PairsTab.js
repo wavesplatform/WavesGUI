@@ -78,8 +78,12 @@
                  * @param pair
                  */
                 choosePair(pair) {
-                    this._getWandering().clear();
+                    this.clearCurrentPair();
                     this._getWandering().addPair(pair);
+                }
+
+                clearCurrentPair() {
+                    this._getWandering().clear();
                 }
 
                 clearSearchResults() {

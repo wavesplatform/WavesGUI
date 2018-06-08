@@ -178,6 +178,7 @@
             }
 
             $postLink() {
+
                 this.syncSettings({
                     _favourite: 'dex.watchlist.favourite',
                     _assetsIds: 'dex.watchlist.list',
@@ -190,6 +191,7 @@
 
                 this.observe('search', this._applyFilteringAndPrepareSearchResults);
                 this.observe('_chosenPair', this._switchLocationAndUpdateAssetIdPair);
+                this.observe('_assetIdPair', this._switchLocationAndSelectAssetIdPair);
             }
 
             /**
@@ -505,6 +507,26 @@
                 }
 
                 return this.tab.getVisiblePairs(this._shouldShowOnlyFavourite);
+            }
+
+            /**
+             *
+             */
+            _switchLocationAndSelectAssetIdPair() {
+                const selctPairInCurrentTab = this.visiblePairsData
+                    .find(
+                        ({ pairOfIds }) => (
+                            pairOfIds[0] === this._assetIdPair.amount &&
+                            pairOfIds[1] === this._assetIdPair.price
+                        )
+                    );
+
+                if (selctPairInCurrentTab) {
+                    this.tab.choosePair(selctPairInCurrentTab);
+                    return;
+                }
+
+                this.tab.clearCurrentPair();
             }
 
             /**

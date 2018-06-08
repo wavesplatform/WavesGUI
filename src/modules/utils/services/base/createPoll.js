@@ -77,6 +77,9 @@
              * @return {Poll}
              */
             static create(base, getter, setter, time, options) {
+                if (base.wasDestroed) {
+                    return null;
+                }
                 return PollComponent._getPoll(base)
                     .createPoll(getter, setter, time, options);
             }

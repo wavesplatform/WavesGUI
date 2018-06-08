@@ -1,8 +1,8 @@
-<w-loader ng-if="!$ctrl.amountBalance || !$ctrl.priceBalance"></w-loader>
+<w-loader ng-if="!$ctrl.loaded"></w-loader>
 
 <div class="create-order"
      w-i18n-ns="app.dex"
-     ng-if="$ctrl.amountBalance && $ctrl.priceBalance">
+     ng-if="$ctrl.loaded">
 
     <div class="head">
         <div class="icon-drag margin-right-1"></div>
@@ -54,7 +54,6 @@
                     <w-i18n>create.order.success</w-i18n>
                 </div>
             </div>
-            <!--<div class="order-types"></div>-->
 
             <div class="expandable">
                 <form class="fields" novalidate name="order">
@@ -171,7 +170,6 @@
                         </w-input-container>
                     </div>
 
-
                     <div class="total">
                         <w-input-container>
                             <div class="field-label caption-2 disabled-900"
@@ -197,12 +195,16 @@
                         </w-input-container>
                     </div>
 
-                    <w-select ng-model="$ctrl.expiration"><!-- todo past up-direction="true" to open up-->
-                        <w-option ng-repeat="option in $ctrl.expirationValues track by option.name"
-                                  value="::option.value">
-                            <w-i18n w-i18n-ns="app.dex">directives.createOrder.{{::option.name}}</w-i18n>
-                        </w-option>
-                    </w-select>
+                    <div class="expiration">                            <!-- todo @german -->
+                        <div w-i18n="directives.createOrder.fee"></div> <!-- add params="fee (0.003) from API" // Fee {{fee}} WAVES-->
+                        <div w-i18n="directives.createOrder.expiration"></div>
+                        <w-select ng-model="$ctrl.expiration"><!-- todo past up-direction="true" to open up-->
+                            <w-option ng-repeat="option in $ctrl.expirationValues track by option.name"
+                                      value="::option.value">
+                                <w-i18n w-i18n-ns="app.dex">directives.createOrder.{{::option.name}}</w-i18n>
+                            </w-option>
+                        </w-select>
+                    </div>
 
                     <!-- todo @german -->
                     <!--span>&nbsp;{{$ctrl.totalPrice.toFormat($ctrl.priceBalance.asset.precision)}}</span-->

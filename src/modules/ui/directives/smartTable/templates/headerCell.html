@@ -5,7 +5,7 @@
             <!-- todo @german fix clear button -->
             <!-- ng-if="$ctrl.search.length > 0" -->
             <i class="input-clear"
-               ng-click="$ctrl.search = ''"></i>
+               ng-click="searchQuery = ''"></i>
         </div>
         <div ng-if="::title.literal" class="smart-table__header" ng-class="::{'sort-by': sort}">
             <w-i18n params="title.params">{{title.literal}}</w-i18n>
