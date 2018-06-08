@@ -170,9 +170,11 @@
              */
             static _remapOrders(orders) {
                 return orders.map((order) => {
+                    const assetPair = order.assetPair;
+                    const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
                     const isNew = Date.now() < (order.timestamp.getTime() + 1000 * 30);
                     const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
-                    return { ...order, isNew, percent };
+                    return { ...order, isNew, percent, pair };
                 });
             }
 
