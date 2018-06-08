@@ -172,7 +172,9 @@
 
             expand(type) {
                 this.type = type;
-                this.price = this._getCurrentPrice();
+                if (!this.price || this.price.getTokens().eq('0')) {
+                    this.price = this._getCurrentPrice();
+                }
 
                 // todo @german refactoring (class for .dex-layout__createorder)
                 $element.parent().parent().parent().parent().parent().addClass('expanded');
