@@ -136,8 +136,8 @@
                 const splitResult = splitMask.exec(query);
 
                 return {
-                    firstItem: splitResult[1],
-                    secondItem: splitResult[2],
+                    firstItem: splitResult[1].trim(),
+                    secondItem: splitResult[2].trim(),
                     separatorIncluded: query.includes(SEPARATOR)
                 };
             }
