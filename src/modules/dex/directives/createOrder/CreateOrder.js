@@ -136,10 +136,15 @@
 
                 Promise.all([
                     balancesPoll.ready,
+                    lastTraderPoll.ready,
                     spreadPoll.ready
                 ]).then(() => {
                     this.amount = this.amountBalance.cloneWithTokens('0');
-                    this.expand('buy');
+                    if (this.lastTradePrice && this.lastTradePrice.getTokens().gt(0)) {
+                        this.price = this.lastTradePrice;
+                    } else {
+                        this.price = this._getCurrentPrice();
+                    }
                 });
 
                 this.observe(['amountBalance', 'type', 'fee'], this._updateMaxAmountBalance);
@@ -293,7 +298,9 @@
              */
             _getLastTrade() {
                 return dataFeed.trades(this._assetIdPair.amount, this._assetIdPair.price)
-                    .then((list) => list[0] && this.priceBalance.cloneWithTokens(String(list[0].price)) || null);
+                    .then((list) => Array.isArray(list) &&
+                        list[0] &&
+                        this.priceBalance.cloneWithTokens(String(list[0].price)) || null);
             }
 
             /**

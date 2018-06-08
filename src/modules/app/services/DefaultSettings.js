@@ -112,13 +112,10 @@
                             ]
                         },
                         layout: {
-                            left: {
+                            watchlist: {
                                 collapsed: false
                             },
-                            center: {
-                                collapsedBlock: false
-                            },
-                            right: {
+                            orderbook: {
                                 collapsed: false,
                                 collapsedBlock: true
                             }
