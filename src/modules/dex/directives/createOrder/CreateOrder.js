@@ -149,6 +149,7 @@
 
                 balancesPoll.ready.then(() => {
                     this.price = this._getCurrentPrice();
+                    this.expand('buy');
                 });
             }
 
