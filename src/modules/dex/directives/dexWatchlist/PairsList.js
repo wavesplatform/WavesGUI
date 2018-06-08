@@ -18,6 +18,15 @@
                 }
 
                 /**
+                 * @param pairs
+                 */
+                addPairs(pairs) {
+                    pairs.forEach((pair) => {
+                        this.addPair(pair);
+                    });
+                }
+
+                /**
                  * @param pair
                  */
                 addPair(pair) {
@@ -57,7 +66,7 @@
                 }
 
                 clear() {
-                    this._pairsData.length = 0;
+                    this._pairsData = [];
                 }
 
                 /**
@@ -91,6 +100,14 @@
                     if (pairIndex >= 0) {
                         this._pairsData.splice(pairIndex, 1);
                     }
+                }
+
+                /**
+                 * @param pairs
+                 */
+                reset(pairs) {
+                    this.clear();
+                    this.addPairs(pairs);
                 }
 
                 sortByChangeAscending() {

@@ -8,6 +8,7 @@
             const SEARCH_RESULTS = 'searchResults';
 
             const LISTS = [FAVOURITE, OTHER, SEARCH_RESULTS, WANDERING];
+            const FAVOURITE_ONLY_LISTS = [FAVOURITE, SEARCH_RESULTS];
 
             return class PairsTab {
 
@@ -18,6 +19,11 @@
                      * @private
                      */
                     this._pairsLists = new Map();
+
+                    /**
+                     * @type {Array}
+                     */
+                    this._visiblePairs = new PairsList();
 
                     /**
                      * @type {boolean}
@@ -116,15 +122,10 @@
                  * @param onlyFavourite
                  * @returns {any[]}
                  */
-                getVisiblePairs(onlyFavourite) {
-                    const visiblePairs = new Set();
+                getReconstructedVisiblePairs(onlyFavourite) {
                     let searchLimit = 10;
 
-                    this._forEachPairsList((pairsList, listName) => {
-                        if (onlyFavourite && [OTHER, WANDERING].includes(listName)) {
-                            return;
-                        }
-
+                    const getFormingVisiblePairsProcessor = (visiblePairs) => (pairsList, listName) => {
                         const pairs = pairsList.getPairsData();
 
                         pairs.some((pair) => {
@@ -139,9 +140,48 @@
                                 (listName === SEARCH_RESULTS && searchLimit <= 0)
                             );
                         });
-                    });
+                    };
 
-                    return Array.from(visiblePairs);
+                    return this._getProcessedVisiblePairs(getFormingVisiblePairsProcessor, onlyFavourite);
+                }
+
+                /**
+                 * @param onlyFavourite
+                 * @returns {*}
+                 */
+                getVisiblePairs(onlyFavourite) {
+                    const getSortingByListsProcessor = (visiblePairs) => (pairsList) => {
+                        this._visiblePairs.getPairsData().forEach((pair) => {
+                            if (pairsList.includes(pair)) {
+                                visiblePairs.add(pair);
+                            }
+                        });
+                    };
+
+                    return this._getProcessedVisiblePairs(getSortingByListsProcessor, onlyFavourite);
+                }
+
+                /**
+                 * @param getProcessor
+                 * @param onlyFavourite
+                 * @returns {Array}
+                 * @private
+                 */
+                _getProcessedVisiblePairs(getProcessor, onlyFavourite) {
+                    const visiblePairs = new Set();
+                    const process = getProcessor(visiblePairs);
+
+                    if (onlyFavourite) {
+                        FAVOURITE_ONLY_LISTS.forEach((listName) => {
+                            process(this._pairsLists.get(listName), listName);
+                        });
+                    } else {
+                        this._forEachPairsList(process);
+                    }
+
+                    this._visiblePairs.reset(Array.from(visiblePairs));
+
+                    return this._visiblePairs.getPairsData();
                 }
 
                 /**
@@ -179,35 +219,35 @@
                 }
 
                 sortByChangeAscending() {
-                    this._forEachPairsList((pairsList) => pairsList.sortByChangeAscending());
+                    this._visiblePairs.sortByChangeAscending();
                 }
 
                 sortByChangeDescending() {
-                    this._forEachPairsList((pairsList) => pairsList.sortByChangeDescending());
+                    this._visiblePairs.sortByChangeDescending();
                 }
 
                 sortByPairAscending() {
-                    this._forEachPairsList((pairsList) => pairsList.sortByPairAscending());
+                    this._visiblePairs.sortByPairAscending();
                 }
 
                 sortByPairDescending() {
-                    this._forEachPairsList((pairsList) => pairsList.sortByPairDescending());
+                    this._visiblePairs.sortByPairDescending();
                 }
 
                 sortByPriceAscending() {
-                    this._forEachPairsList((pairsList) => pairsList.sortByPriceAscending());
+                    this._visiblePairs.sortByPriceAscending();
                 }
 
                 sortByPriceDescending() {
-                    this._forEachPairsList((pairsList) => pairsList.sortByPriceDescending());
+                    this._visiblePairs.sortByPriceDescending();
                 }
 
                 sortByVolumeAscending() {
-                    this._forEachPairsList((pairsList) => pairsList.sortByVolumeAscending());
+                    this._visiblePairs.sortByVolumeAscending();
                 }
 
                 sortByVolumeDescending() {
-                    this._forEachPairsList((pairsList) => pairsList.sortByVolumeDescending());
+                    this._visiblePairs.sortByVolumeDescending();
                 }
 
                 /**

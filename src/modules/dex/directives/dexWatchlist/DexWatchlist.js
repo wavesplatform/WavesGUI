@@ -521,7 +521,10 @@
              * @private
              */
             _updateVisiblePairsData() {
-                WatchlistSearch.filter(this.tab.getVisiblePairs(this._shouldShowOnlyFavourite), this._getSearchQuery())
+                WatchlistSearch.filter(
+                    this.tab.getReconstructedVisiblePairs(this._shouldShowOnlyFavourite),
+                    this._getSearchQuery()
+                )
                     .then((filterResults) => {
                         this.visiblePairsData = filterResults;
                         $scope.$digest();
