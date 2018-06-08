@@ -5,7 +5,7 @@
             return class PairData {
 
                 constructor(pairOfIds) {
-                    const NO_DATA_STRING = '—';
+                    const NO_DATA_STRING = '';
 
                     this.pairOfIds = pairOfIds;
                     this.amountAsset = {};
@@ -52,7 +52,7 @@
                                     this.bigNumberVolume = volume;
                                     // todo: replace with discussed algorithm.
                                     this.volume = PairData._getVolumeString(volume);
-                                    this.fullVolume = volume.toString();
+                                    this.fullVolume = volume.isNaN() ? '' : volume.toString();
                                     resolveVolume();
                                 }, resolveVolume);
 
@@ -114,6 +114,9 @@
                  * @private
                  */
                 static _getVolumeString(volume) {
+                    if (volume && volume.isNaN()) {
+                        return '';
+                    }
                     if (volume.gte(1000)) {
                         return utils.getNiceBigNumberTemplate(volume);
                     }

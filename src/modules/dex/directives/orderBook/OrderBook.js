@@ -223,14 +223,16 @@
                 }, Object.create(null));
 
                 const lastTrade = trades[0] || null;
-                const bids = OrderBook._sumAllOrders(orderbook.bids, orderbook.pair, 'sell');
-                const asks = OrderBook._sumAllOrders(orderbook.asks, orderbook.pair, 'buy');
+                const bids = OrderBook._sumAllOrders(orderbook.bids, 'sell');
+                const asks = OrderBook._sumAllOrders(orderbook.asks, 'buy').reverse();
+
+                const maxAmount = OrderBook._getMaxAmount(bids, asks, crop);
 
                 return {
-                    bids: this._toTemplate(bids, crop, priceHash).join(''),
+                    bids: this._toTemplate(bids, crop, priceHash, maxAmount).join(''),
                     lastTrade,
                     spread: orderbook.spread && orderbook.spread.percent,
-                    asks: this._toTemplate(asks.slice().reverse(), crop, priceHash).join('')
+                    asks: this._toTemplate(asks, crop, priceHash, maxAmount).join('')
                 };
             }
 
@@ -280,20 +282,17 @@
              * @param {OrderBook.IOrder[]} list
              * @param {OrderBook.ICrop} crop
              * @param {Object.<string, string>} priceHash
+             * @param {BigNumber} maxAmount
              * @return Array<string>
              * @private
              */
-            _toTemplate(list, crop, priceHash) {
-                const croppedList = list.filter((order) => order.price.gte(crop.min) && order.price.lte(crop.max));
-                const maxAmount = OrderBook._getMaxTotalAmount(croppedList) || OrderBook._getMaxTotalAmount(list);
-
+            _toTemplate(list, crop, priceHash, maxAmount) {
                 return list.map((order) => {
-
                     const hasOrder = !!priceHash[order.price.toFixed(this.priceAsset.precision)];
                     const inRange = order.price.gte(crop.min) && order.price.lte(crop.max);
                     const type = order.type;
                     const totalAmount = order.totalAmount && order.totalAmount.toFixed();
-                    const width = order.amount.div(maxAmount).times(500).toFixed(2);
+                    const width = order.amount.div(maxAmount).times(100).toFixed(2);
                     const amount = utils.getNiceNumberTemplate(order.amount, this.amountAsset.precision, true);
                     const price = utils.getNiceNumberTemplate(order.price, this.priceAsset.precision, true);
                     const total = utils.getNiceNumberTemplate(order.total, this.priceAsset.precision, true);
@@ -317,12 +316,11 @@
 
             /**
              * @param {Array<Matcher.IOrder>} list
-             * @param {Array<Matcher.IPair>} pair
              * @param {'buy'|'sell'} type
              * @return Array<OrderBook.IOrder>
              * @private
              */
-            static _sumAllOrders(list, pair, type) {
+            static _sumAllOrders(list, type) {
                 let total = new BigNumber(0);
                 let amountTotal = new BigNumber(0);
 
@@ -340,18 +338,55 @@
             }
 
             /**
-             * @param {Array} orderedList
+             * @param {OrderBook.IOrder[]} bids
+             * @param {OrderBook.IOrder[]} asks
+             * @param {OrderBook.ICrop} crop
              * @return {BigNumber}
              * @private
              */
-            static _getMaxTotalAmount(orderedList) {
-                if (orderedList.length) {
-                    return BigNumber.max(
-                        orderedList[0].totalAmount || 0,
-                        orderedList[orderedList.length - 1].totalAmount || 0
-                    );
+            static _getMaxAmount(bids, asks, crop) {
+                const croppedBids = OrderBook._cropFilterOrders(bids, crop).slice(0, 15);
+                const croppedAsks = OrderBook._cropFilterOrders(asks, crop).slice(0, 15);
+
+                if (!croppedBids.length || !croppedBids.length) {
+                    return new BigNumber(0);
                 }
-                return null;
+
+                const medianBid = OrderBook._getMedianAmount(croppedBids);
+                const medianAsk = OrderBook._getMedianAmount(croppedAsks);
+                const median = medianBid.plus(medianAsk).div(2);
+
+                const valuableOrders = [...croppedBids, ...croppedAsks].filter((o) => {
+                    return o.amount.gt(median - 2 * median) && o.amount.lt(3 * median);
+                });
+
+                if (!valuableOrders.length) {
+                    return new BigNumber(0);
+                }
+
+                const sum = valuableOrders.reduce((acc, order) => acc.plus(order.amount), new BigNumber(0));
+                return sum.div(valuableOrders.length / 8); // 8 is a heuristic value
+            }
+
+            /**
+             * @param {OrderBook.IOrder[]} list
+             * @param {OrderBook.ICrop} crop
+             * @return {OrderBook.IOrder[]}
+             * @private
+             */
+            static _cropFilterOrders(list, crop) {
+                return list.filter((o) => o.price.gte(crop.min) && o.price.lte(crop.max));
+            }
+
+            /**
+             * @param {OrderBook.IOrder[]} list
+             * @return {BigNumber}
+             * @private
+             */
+            static _getMedianAmount(list) {
+                const len = list.length;
+                const l = len % 2 ? len - 1 : len;
+                return list[l / 2].amount;
             }
 
         }
