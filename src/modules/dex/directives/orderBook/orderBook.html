@@ -1,6 +1,6 @@
 <div class="wrapper">
 
-    <w-loader ng-if="$ctrl.pending"></w-loader>
+    <w-loader></w-loader>
 
     <w-table>
         <w-t-head>
@@ -30,7 +30,7 @@
         </w-scroll-box>
     </w-table>
 
-    <div ng-if="!$ctrl.pending" class="empty-block-container">
+    <div class="empty-block-container">
         <div class="icon"></div>
         <div class="body-1 basic-700" w-i18n="emptyBlocks.orderBook.title"></div>
         <div class="footnote-1 basic-500" w-i18n="emptyBlocks.orderBook.description"></div>

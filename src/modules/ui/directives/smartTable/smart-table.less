@@ -26,6 +26,10 @@
     z-index: 1;
 
     .smart-table {
+      &__search-container {
+        position: relative;
+      }
+
       &__row {
         display: flex;
         width: 100%;
@@ -59,7 +63,7 @@
           background-image: url(/img/icons/icon-sorting-active.svg);
         }
 
-        &.asc {
+        &.desc {
           .sort-by {
             &::after {
               transform: rotate(180deg);

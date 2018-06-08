@@ -12,8 +12,14 @@ body.dex .dex-wrapper {
       width: 100%;
       height: 100%;
 
+      .input-container {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+      }
+
       input {
-        background: url(/img/icons/search-dex-14-basic-500.svg) 11px 50% no-repeat;
+        background: url(/img/icons/icon-search-dex.svg) 8px 50% no-repeat;
         border: 0 none;
         width: 100%;
         padding-left: 31px;
@@ -193,19 +199,19 @@ body.dex .dex-wrapper {
           }
 
           &[data-column-id="pair"] {
-            flex-basis: calc(35% ~'- 30px');
+            flex-basis: calc(34% ~'- 30px');
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
           }
 
           &[data-column-id="price"] {
-            flex-basis: 25%;
+            flex-basis: 24%;
             text-align: right;
           }
 
           &[data-column-id="change"] {
-            flex-basis: 15%;
+            flex-basis: 17%;
             text-align: right;
 
             &.plus {
@@ -227,6 +233,11 @@ body.dex .dex-wrapper {
             width: 100%;
             padding: 10px 20px 10px 30px;
             .caption-3();
+
+            a {
+              display: inline-block;
+              border-bottom: 1px dashed @color-disabled-400;
+            }
           }
         }
       }

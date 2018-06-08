@@ -31,9 +31,7 @@
         </w-table-cell>
         <w-table-cell>
             <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.date"></span>
-            {{::order.date | date:'yyyy-MM-dd HH:mm:ss'}}
+            {{::order.date | date:'MM-dd HH:mm:ss'}}
         </w-table-cell>
     </w-table-row>
 </w-smart-table>
-
-<!-- todo add !ng-if="::isNotDesktop"-->

@@ -53,6 +53,10 @@
                  */
                 this.pending = true;
                 /**
+                 * @type {boolean}
+                 */
+                this.hasOrderBook = false;
+                /**
                  * @type {{amount: string, price: string}}
                  * @private
                  */
@@ -96,18 +100,22 @@
                     _orderBookCropRate: 'dex.orderBookCropRate'
                 });
 
+                this.observe(['hasOrderBook', 'pending'], this._onChangeVisibleElements);
+
+                this._onChangeVisibleElements();
                 this._updateAssetData();
 
                 $templateRequest('modules/dex/directives/orderBook/orderbook.row.hbs')
                     .then((templateString) => {
 
                         this._template = Handlebars.compile(templateString);
+
                         const poll = createPoll(this, this._getOrders, this._setOrders, 1000, { $scope });
 
                         this.observe('_assetIdPair', () => {
                             this._showSpread = true;
                             this.pending = true;
-                            $element.toggleClass('has-order-book', false);
+                            this.hasOrderBook = false;
                             this._updateAssetData();
                             poll.restart();
                         });
@@ -148,6 +156,17 @@
                 });
             }
 
+            _onChangeVisibleElements() {
+                const hasOrderBook = this.hasOrderBook;
+                const pending = this.pending;
+
+                if (pending) {
+                    $element.removeClass('has-order-book').addClass('pending');
+                } else {
+                    $element.removeClass('pending').toggleClass('has-order-book', hasOrderBook);
+                }
+            }
+
             _updateAssetData() {
                 ds.api.assets.get([this._assetIdPair.price, this._assetIdPair.amount])
                     .then(([priceAsset, amountAsset]) => {
@@ -173,8 +192,8 @@
              * @private
              */
             _setOrders(data) {
-                this._render(data);
                 this.pending = false;
+                this._render(data);
             }
 
             /**
@@ -227,7 +246,6 @@
                 }
 
                 this.hasOrderBook = Boolean(data.bids || data.asks);
-                $element.toggleClass('has-order-book', this.hasOrderBook);
 
                 this._dom.$asks.html(data.asks);
 
