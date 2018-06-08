@@ -2,6 +2,9 @@
 (function () {
     'use strict';
 
+    const CANDLE_UP_COLOR = '#5a81ea';
+    const CANDLE_DOWN_COLOR = '#d1383c';
+
     const DISABLED_FEATURES = [
         'header_screenshot',
         'header_symbol_search',
@@ -17,9 +20,21 @@
     // ];
 
     const OVERRIDES = {
-        'mainSeriesProperties.candleStyle.upColor': '#5a81ea',
-        'mainSeriesProperties.candleStyle.downColor': '#d1383c',
+        'mainSeriesProperties.candleStyle.upColor': CANDLE_UP_COLOR,
+        'mainSeriesProperties.candleStyle.downColor': CANDLE_DOWN_COLOR,
         'mainSeriesProperties.candleStyle.drawBorder': false,
+        'mainSeriesProperties.hollowCandleStyle.upColor': CANDLE_UP_COLOR,
+        'mainSeriesProperties.hollowCandleStyle.downColor': CANDLE_DOWN_COLOR,
+        'mainSeriesProperties.hollowCandleStyle.drawBorder': false,
+        'mainSeriesProperties.barStyle.upColor': CANDLE_UP_COLOR,
+        'mainSeriesProperties.barStyle.downColor': CANDLE_DOWN_COLOR,
+        'mainSeriesProperties.haStyle.upColor': CANDLE_UP_COLOR,
+        'mainSeriesProperties.haStyle.downColor': CANDLE_DOWN_COLOR,
+        'mainSeriesProperties.haStyle.drawBorder': false,
+        'mainSeriesProperties.lineStyle.color': CANDLE_UP_COLOR,
+        'mainSeriesProperties.areaStyle.color1': CANDLE_UP_COLOR,
+        'mainSeriesProperties.areaStyle.color2': CANDLE_UP_COLOR,
+        'mainSeriesProperties.areaStyle.linecolor': CANDLE_UP_COLOR,
         'scalesProperties.lineColor': '#edf0f4'
     };
 
