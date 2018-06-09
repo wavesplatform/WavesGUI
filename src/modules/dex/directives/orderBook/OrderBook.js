@@ -287,7 +287,6 @@
              * @private
              */
             _toTemplate(list, crop, priceHash, maxAmount) {
-                maxAmount = maxAmount.times(2);
                 return list.map((order) => {
                     const hasOrder = !!priceHash[order.price.toFixed(this.priceAsset.precision)];
                     const inRange = order.price.gte(crop.min) && order.price.lte(crop.max);
@@ -346,27 +345,17 @@
              * @private
              */
             static _getMaxAmount(bids, asks, crop) {
-                const croppedBids = OrderBook._cropFilterOrders(bids, crop).slice(0, 15);
-                const croppedAsks = OrderBook._cropFilterOrders(asks, crop).slice(0, 15);
+                const croppedBids = OrderBook._cropFilterOrders(bids, crop);
+                const croppedAsks = OrderBook._cropFilterOrders(asks, crop);
 
-                if (!croppedBids.length || !croppedBids.length) {
+                const orders = [...croppedBids, ...croppedAsks].sort((a, b) => a.amount.gt(b.amount) ? 1 : -1);
+
+                if (!orders.length) {
                     return new BigNumber(0);
+                } else {
+                    const percentile = 0.9;
+                    return orders[Math.floor(orders.length * percentile)].amount;
                 }
-
-                const medianBid = OrderBook._getMedianAmount(croppedBids);
-                const medianAsk = OrderBook._getMedianAmount(croppedAsks);
-                const median = medianBid.plus(medianAsk).div(2);
-
-                const valuableOrders = [...croppedBids, ...croppedAsks].filter((o) => {
-                    return o.amount.gt(median - 2 * median) && o.amount.lt(3 * median);
-                });
-
-                if (!valuableOrders.length) {
-                    return new BigNumber(0);
-                }
-
-                const sum = valuableOrders.reduce((acc, order) => acc.plus(order.amount), new BigNumber(0));
-                return sum.div(valuableOrders.length / 8); // 8 is a heuristic value
             }
 
             /**
