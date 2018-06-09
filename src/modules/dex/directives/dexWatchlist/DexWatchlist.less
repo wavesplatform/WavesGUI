@@ -53,6 +53,20 @@ body.dex .dex-wrapper {
           display: none;
         }
 
+        w-select {
+          border-top: 2px solid transparent;
+          border-left: 1px solid transparent;
+          border-right: 1px solid transparent;
+          border-bottom: 1px solid transparent;
+
+          &.active {
+            border-top: 2px solid @color-submit-400;
+            border-left: 1px solid @color-basic-100;
+            border-right: 1px solid @color-basic-100;
+            border-bottom: 1px solid @color-white;
+          }
+        }
+
         a.title {
           font-size: @font-size-caption-2;
           color: @color-basic-700;
