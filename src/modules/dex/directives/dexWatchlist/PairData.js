@@ -4,6 +4,8 @@
         constructor(waves, utils) {
             return class PairData {
 
+                static id = 0;
+
                 constructor(pairOfIds) {
                     const NO_DATA_STRING = '';
 
@@ -16,7 +18,7 @@
                     this.bigNumberVolume = new BigNumber(0);
                     this.volume = NO_DATA_STRING;
                     this.fullVolume = NO_DATA_STRING;
-
+                    this.uid = `pairs_${PairData.id++}`;
                     this.amountAndPriceRequest = Promise.resolve();
                     this.volumeRequest = Promise.resolve();
 

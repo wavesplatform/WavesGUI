@@ -43,9 +43,8 @@
                    class="smart-table">
         <w-table-row ng-repeat="pair in $data"
                      ng-click="$ctrl.choosePair(pair)"
-                     ng-class="{
-                     'selected': $ctrl.isChosen(pair)
-                 }">
+                     ng-class="[{'selected': $ctrl.isChosen(pair)}, pair.uid]"
+        >
             <w-table-cell>
                 <i class="icon-fav"
                    ng-class="{

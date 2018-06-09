@@ -227,6 +227,11 @@
              * @returns {boolean}
              */
             isChosen(pair) {
+                const el = document.getElementsByClassName(this.scrollId)[0];
+                if (el) {
+                    this.scrollTo(el);
+                }
+
                 return this.tab.isChosen(pair);
             }
 
@@ -286,6 +291,14 @@
                     });
 
                 this._saveFavouriteForTab(this.tab.id, this.tab.getFavourite());
+            }
+
+            scrollTo(element) {
+                if (!this.scrollId) {
+                    return;
+                }
+                this.scrollId = null;
+                element.scrollIntoView({ behavior: 'smooth' });
             }
 
             _saveFavouriteForTab(tabId, favouritePairsOfIds) {
@@ -531,6 +544,7 @@
 
                 if (selectPairInCurrentTab) {
                     this.tab.choosePair(selectPairInCurrentTab);
+                    this.scrollId = selectPairInCurrentTab.uid;
                     return null;
                 }
 
@@ -538,6 +552,7 @@
                     this._updateVisiblePairsData();
                     const newPair = this.tab.addPairOfIds([this._assetIdPair.amount, this._assetIdPair.price]);
                     this.tab.choosePair(newPair);
+                    this.scrollId = newPair.uid;
                 });
 
                 this.tab = this.tabs.getChosenTab();
