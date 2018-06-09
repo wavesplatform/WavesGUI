@@ -523,8 +523,9 @@
 
                 if (selctPairInCurrentTab) {
                     this.tab.choosePair(selctPairInCurrentTab);
-                    return;
+                    return null;
                 }
+
 
                 this.tab.clearCurrentPair();
             }
