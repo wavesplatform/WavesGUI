@@ -75,6 +75,14 @@
                 }
 
                 /**
+                 * @param pairsIds {Array<string>}
+                 * @return {PairData}
+                 */
+                addPairOfIds(pairsIds) {
+                    return this._visiblePairs.addPairOfIds(pairsIds);
+                }
+
+                /**
                  * @param pair
                  */
                 choosePair(pair) {

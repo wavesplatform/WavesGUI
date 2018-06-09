@@ -44,6 +44,7 @@
 
                 /**
                  * @param pairOfIds
+                 * return {PairData}
                  */
                 addPairOfIds(pairOfIds) {
                     let pair = PairsStorage.get(pairOfIds);
@@ -54,6 +55,8 @@
                     }
 
                     this._pairsData.push(pair);
+
+                    return pair;
                 }
 
                 /**
