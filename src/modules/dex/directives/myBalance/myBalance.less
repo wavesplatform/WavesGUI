@@ -9,23 +9,19 @@ body.dex .dex-wrapper {
         padding: 6px 14px;
       }
 
-      &__cell {
-        flex-basis: 20%;
-      }
-
-      // todo @uIsk fix sizes
       &__cell[data-column-id="asset"] {
         flex-basis: 25%;
       }
 
       &__cell[data-column-id="assetId"] {
-        flex-basis: 15%;
+        flex-basis: 35%;
       }
 
       &__cell[data-column-id="total"],
       &__cell[data-column-id="available"],
       &__cell[data-column-id="inOrders"] {
         text-align: right;
+        flex-basis: calc(50% / 3);
       }
 
       &__cell[data-column-id="controls"] {
@@ -65,6 +61,7 @@ body.dex .dex-wrapper {
       vertical-align: middle;
       margin-top: -3px;
       margin-right: 10px;
+      cursor: pointer;
     }
 
   }
@@ -116,17 +113,28 @@ body.dex .dex-wrapper {
 
             .smart-table {
 
+              &__cell[data-column-id="asset"] {
+                flex-basis: calc(50% ~'- 20px');
+              }
+
+              &__cell[data-column-id="assetId"] {
+                flex-basis: calc(50% ~'- 20px');
+              }
+
               &__cell[data-column-id="inOrders"],
               &__cell[data-column-id="total"] {
                 display: block;
                 margin-top: 4px;
+                flex-basis: calc(50% ~'- 20px');
               }
 
               &__cell[data-column-id="available"] {
+                flex-basis: calc(50% ~'- 20px');
                 w-balance {
                   min-width: 74px;
                 }
               }
+
             }
           }
 
@@ -136,8 +144,6 @@ body.dex .dex-wrapper {
         }
 
         &__cell {
-          flex-basis: calc(50% ~'- 20px');
-
           .cell-label {
             display: inline-block;
           }
@@ -151,6 +157,10 @@ body.dex .dex-wrapper {
           span {
             max-width: none;
           }
+        }
+
+        &__cell[data-column-id="assetId"] {
+          display: none;
         }
 
         &__cell[data-column-id="price"] {
