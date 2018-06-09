@@ -40,8 +40,9 @@
                                 this.priceAsset = pair.priceAsset;
                                 this.pair = `${this.amountAsset.displayName} / ${this.priceAsset.displayName}`;
 
-                                this._getPriceData(pair).then((price) => {
-                                    this.price = price;
+                                this._getPriceData(pair).then(({ price, precision }) => {
+                                    this.price = price.toFormat(precision);
+                                    this.priceBigNumber = price;
                                 });
 
                                 PairData._getChange(pair).then((change) => {
@@ -49,10 +50,11 @@
                                 });
 
                                 PairData._getVolume(pair).then((volume) => {
-                                    this.bigNumberVolume = volume;
+                                    const isNaN = volume.isNaN();
+                                    this.bigNumberVolume = isNaN ? new BigNumber(-1) : volume;
                                     // todo: replace with discussed algorithm.
                                     this.volume = PairData._getVolumeString(volume);
-                                    this.fullVolume = volume.isNaN() ? '' : volume.toString();
+                                    this.fullVolume = isNaN ? '' : volume.toString();
                                     resolveVolume();
                                 }, resolveVolume);
 
@@ -62,7 +64,7 @@
 
                 /**
                  * @param pair
-                 * @returns {Promise<string>}
+                 * @returns {Promise<{price: BigNumber, precision: number}>}
                  * @private
                  */
                 _getPriceData(pair) {
@@ -74,10 +76,9 @@
                     ])
                         .then(([money, api]) => {
                             const price = api.exchange(money.getTokens());
-
                             return ds.moneyFromTokens(price, priceAsset)
                                 .then((price = new BigNumber(0)) => {
-                                    return price.toFormat(priceAsset.precision);
+                                    return { price, precision: priceAsset.precision };
                                 });
                         });
                 }

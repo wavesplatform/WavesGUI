@@ -127,11 +127,11 @@
                 }
 
                 sortByPriceAscending() {
-                    this._sortByAscending(this._getPriceConverter());
+                    this._sortByAscending((pair) => pair.priceBigNumber);
                 }
 
                 sortByPriceDescending() {
-                    this._sortByDescending(this._getPriceConverter());
+                    this._sortByDescending((pair) => pair.priceBigNumber);
                 }
 
                 sortByVolumeAscending() {
@@ -155,14 +155,6 @@
                  */
                 _getChangeConverter() {
                     return (pair) => parseFloat(pair.change);
-                }
-
-                /**
-                 * @returns {function(*): number}
-                 * @private
-                 */
-                _getPriceConverter() {
-                    return (pair) => parseFloat(pair.price);
                 }
 
                 /**
