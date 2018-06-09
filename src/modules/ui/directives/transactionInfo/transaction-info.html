@@ -1,4 +1,4 @@
-<div ng-if="$ctrl.transaction" class="txinfo__content">
+<div ng-if="$ctrl.transaction" class="txinfo__content" ng-class="::{'spam': $ctrl.isScam}">
 
     <div class="txinfo__icon" ng-class="$ctrl.transaction.type"></div>
 
