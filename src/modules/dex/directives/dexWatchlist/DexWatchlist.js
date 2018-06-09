@@ -548,14 +548,10 @@
              * @private
              */
             _updateVisiblePairsData() {
-                WatchlistSearch.filter(
+                this.visiblePairsData = WatchlistSearch.filter(
                     this.tab.getReconstructedVisiblePairs(this._shouldShowOnlyFavourite),
                     this._getSearchQuery()
-                )
-                    .then((filterResults) => {
-                        this.visiblePairsData = filterResults;
-                        $scope.$digest();
-                    });
+                );
             }
 
             /**
