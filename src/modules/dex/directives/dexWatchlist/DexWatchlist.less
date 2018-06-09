@@ -53,20 +53,6 @@ body.dex .dex-wrapper {
           display: none;
         }
 
-        w-select {
-          border-top: 2px solid transparent;
-          border-left: 1px solid transparent;
-          border-right: 1px solid transparent;
-          border-bottom: 1px solid transparent;
-
-          &.active {
-            border-top: 2px solid @color-submit-400;
-            border-left: 1px solid @color-basic-100;
-            border-right: 1px solid @color-basic-100;
-            border-bottom: 1px solid @color-white;
-          }
-        }
-
         a.title {
           font-size: @font-size-caption-2;
           color: @color-basic-700;
@@ -140,8 +126,19 @@ body.dex .dex-wrapper {
           position: absolute;
           left: 179px;
           z-index: 4;
-          top: 3px;
+          top: 1px;
+          border-top: 2px solid transparent;
+          border-left: 1px solid transparent;
+          border-right: 1px solid transparent;
+          border-bottom: 3px solid transparent;
 
+          &.active {
+            border-top: 2px solid @color-submit-400;
+            border-left: 1px solid @color-basic-100;
+            border-right: 1px solid @color-basic-100;
+            border-bottom: 3px solid @color-white;
+          }
+          
           .select-list {
             max-height: 155px;
             overflow: auto;

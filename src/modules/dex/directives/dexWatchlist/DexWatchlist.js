@@ -513,21 +513,35 @@
              *
              */
             _switchLocationAndSelectAssetIdPair() {
-                const selctPairInCurrentTab = this.visiblePairsData
+
+                const selectPairInCurrentTab = this.visiblePairsData
                     .find(
-                        ({ pairOfIds }) => (
-                            pairOfIds[0] === this._assetIdPair.amount &&
-                            pairOfIds[1] === this._assetIdPair.price
+                        ({ amountAsset, priceAsset }) => (
+                            amountAsset.id === this._assetIdPair.amount &&
+                            priceAsset.id === this._assetIdPair.price
                         )
                     );
 
-                if (selctPairInCurrentTab) {
-                    this.tab.choosePair(selctPairInCurrentTab);
+                if (
+                    (this.visiblePairsData && !this.visiblePairsData.length) ||
+                    (selectPairInCurrentTab && selectPairInCurrentTab === this._chosenPair)
+                ) {
                     return null;
                 }
 
+                if (selectPairInCurrentTab) {
+                    this.tab.choosePair(selectPairInCurrentTab);
+                    return null;
+                }
 
-                this.tab.clearCurrentPair();
+                this.tabs.switchTabTo(this.tabsData[0].id).then(() => {
+                    this._updateVisiblePairsData();
+                    const newPair = this.tab.addPairOfIds([this._assetIdPair.amount, this._assetIdPair.price]);
+                    this.tab.choosePair(newPair);
+                });
+
+                this.tab = this.tabs.getChosenTab();
+                this._prepareSearchResults();
             }
 
             /**
