@@ -125,14 +125,14 @@
             }
 
             _getTransactionsFilter() {
-                const limit = 100;
+                // TODO remove timestart 0
                 if (this.isMy) {
-                    return { sender: user.address, limit };
+                    return { sender: user.address, timeStart: 0 };
                 }
                 return {
                     amountAsset: this._assetIdPair.amount,
                     priceAsset: this._assetIdPair.price,
-                    limit
+                    timeStart: 0
                 };
             }
 
