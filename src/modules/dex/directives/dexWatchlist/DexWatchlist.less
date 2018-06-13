@@ -299,6 +299,18 @@ body.dex .dex-wrapper {
               border-bottom: 1px dashed @color-disabled-400;
             }
           }
+
+          .tooltip {
+            position: absolute;
+            display: none;
+            z-index: 10;
+          }
+
+          &:hover {
+            .tooltip {
+              display: block;
+            }
+          }
         }
       }
 
