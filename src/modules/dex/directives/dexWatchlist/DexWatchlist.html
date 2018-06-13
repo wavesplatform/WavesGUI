@@ -13,7 +13,6 @@
             {{::tabData.title}}
         </a>
 
-        <!-- todo @german addClass .active if some option choosed -->
         <w-select
             ng-class="{
                 'active': $ctrl.tabFromSelectIsActive()
@@ -21,10 +20,11 @@
         >
             <w-option
                 ng-repeat="tabData in $ctrl.dropDownData"
-                ng-click="$ctrl.chooseTab(tabData)"
+                ng-click="$ctrl.chooseSelectTab(tabData)"
             >{{::tabData.title}}
             </w-option>
         </w-select>
+        <div class="select-hover" ng-if="!$ctrl.tabFromSelectIsActive()" ng-click="$ctrl.chooseSelectTab()"></div>
     </div>
 
     <div class="input-container">
@@ -43,9 +43,8 @@
                    class="smart-table">
         <w-table-row ng-repeat="pair in $data"
                      ng-click="$ctrl.choosePair(pair)"
-                     ng-class="{
-                     'selected': $ctrl.isChosen(pair)
-                 }">
+                     ng-class="[{'selected': $ctrl.isChosen(pair)}, pair.uid]"
+        >
             <w-table-cell>
                 <i class="icon-fav"
                    ng-class="{
@@ -64,10 +63,11 @@
                         'plus': $ctrl.isPositive(pair.change),
                         'minus': $ctrl.isNegative(pair.change)
                       }">
-                <span ng-if="$ctrl.isPositive(pair.change)">+</span><span>{{::pair.change}}</span>%
+                <span ng-if="$ctrl.isPositive(pair.change)">+</span><span>{{::pair.change}}</span>{{ ::pair.change ? '%' : '—'}}
             </w-table-cell>
-            <w-table-cell title="{{::pair.fullVolume}}">
-                {{::pair.volume}}
+            <w-table-cell>
+                {{::pair.volume || '—'}}
+                <div class="tooltip">{{::pair.fullVolume || '—'}}</div>  <!-- TODO @Iskander styled tooltip -->
             </w-table-cell>
             <w-table-cell ng-if="$ctrl.isChosen(pair)">
                 <!-- todo @german asset links -->
@@ -75,6 +75,5 @@
                 <a href="#" class="disabled-900">{{::pair.priceAsset.id}}</a>
             </w-table-cell>
         </w-table-row>
-    </w-smart-table>
-
+    </w-smart-table
 </div>

@@ -6,8 +6,17 @@
     <w-table-row ng-repeat="balance in $data track by balance.asset.id"
                  w-toggle-class-container>
         <w-table-cell>
+            <!-- todo @german setPair() onClick w-asset-logo -->
             <w-asset-logo size="20" asset-id="{{::balance.asset.id}}"></w-asset-logo>
             {{::balance.asset.name}}
+        </w-table-cell>
+        <!-- todo @german add Asset adress to copywrap cell -->
+        <w-table-cell>
+            <span class="cell-label"><w-i18n>directives.balance.assetId</w-i18n></span>
+            <w-copy-wrap info="$ctrl.sendLink"
+                         ng-click="$ctrl.onCopyAddress()">
+                <span>8t8DMJFQu5GEhvAetiA8aHa3yPjxLj54sBnZsjnJ5dsw</span>
+            </w-copy-wrap>
         </w-table-cell>
         <w-table-cell>
             <span class="cell-label"><w-i18n>directives.balance.available</w-i18n></span>
@@ -15,34 +24,14 @@
             <div class="dropdown" w-toggle-class></div>
         </w-table-cell>
         <w-table-cell>
-            <span class="cell-label"><w-i18n>directives.balance.inOrders</w-i18n></span>
+            <span class="cell-label">
+                <w-i18n>directives.balance.inOrders</w-i18n>
+            </span>
             <w-balance short-mode="::true" money="balance.inOrders"></w-balance>
         </w-table-cell>
-
-        <!-- todo @german add Asset adress to copywrap cell -->
-        <w-table-cell>
-            <span class="cell-label"><w-i18n>directives.balance.assetId</w-i18n></span>
-            <w-copy-wrap class="body-1 basic-900 mobile-low-fsize" info="$ctrl.sendLink"
-                         ng-click="$ctrl.onCopyAddress()">
-            <span>8t8DMJFQu5GEhvAetiA8aHa3yPjxLj54sBnZsjnJ5dsw<</span>
-            </w-copy-wrap>
-        </w-table-cell>
-
         <w-table-cell>
             <span class="cell-label"><w-i18n>directives.balance.total</w-i18n></span>
             <w-balance short-mode="::true" money="balance.regular"></w-balance>
         </w-table-cell>
-
-        <w-actions>
-            <!-- todo @german add actions -->
-            <w-action ng-click="">
-                <w-i18n>directives.myOrders.detail</w-i18n>
-            </w-action>
-            <w-action ng-click="">
-                <w-i18n>directives.myOrders.delete</w-i18n>
-            </w-action>
-        </w-actions>
     </w-table-row>
 </w-smart-table>
-
-<!-- todo add ng-if="::isNotDesktop" -->

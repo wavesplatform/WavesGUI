@@ -20,48 +20,47 @@
                 <span ng-if="order.status === 'Cancelled'"
                       class="status-mobile">
                 <w-i18n>directives.myOrders.canceled</w-i18n></span>
-            </w-table-cell>
-            <w-table-cell>
-                <span w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
-            </w-table-cell>
-            <w-table-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n></span>
-                {{::order.timestamp | date:'MM-dd HH:mm:ss' }}
-            </w-table-cell>
-            <w-table-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n></span>
-                <w-balance short-mode="::true" money="::order.price"></w-balance>
-            </w-table-cell>
-            <w-table-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n></span>
-                <w-balance short-mode="::true" money="::order.amount"></w-balance>
-            </w-table-cell>
-            <w-table-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.total</w-i18n></span>
-                <w-balance short-mode="::true" money="::order.total"></w-balance>
-            </w-table-cell>
-            <!-- todo @dima -->
-            <w-table-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.fee</w-i18n></span>
-                <w-balance money="order.fee"></w-balance>
-            </w-table-cell>
-            <w-table-cell>
-                <div class="status">
-                    <div ng-if="order.status !== 'Cancelled'">
-                        {{::order.percent}}%
-                    </div>
-                    <div ng-if="order.status === 'Cancelled'">
-                        <w-i18n>directives.myOrders.canceled</w-i18n>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: {{::order.percent}}%"></div>
-                    </div>
+        </w-table-cell>
+        <w-table-cell>
+            <span w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
+        </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n></span>
+            {{::order.timestamp | date:'MM-dd HH:mm:ss' }}
+        </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n></span>
+            <w-balance short-mode="::true" money="::order.price"></w-balance>
+        </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n></span>
+            <w-balance short-mode="::true" money="::order.amount"></w-balance>
+        </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label"><w-i18n>directives.myOrders.total</w-i18n></span>
+            <w-balance short-mode="::true" money="::order.total"></w-balance>
+        </w-table-cell>
+        <!-- todo @dima -->
+        <w-table-cell>
+            <span class="cell-label"><w-i18n>directives.myOrders.fee</w-i18n></span>
+            <w-balance money="order.fee"></w-balance>
+        </w-table-cell>
+        <w-table-cell>
+            <div class="status">
+                <div ng-if="order.status !== 'Cancelled'">
+                    {{::order.percent}}%
                 </div>
-                <!--<w-actions>-->
-                <!--&lt;!&ndash; todo @german &ndash;&gt;-->
-                <!--&lt;!&ndash;w-action ng-click="">-->
-                <!--<w-i18n>directives.myOrders.detail</w-i18n>-->
-                <!--</w-action&ndash;&gt;-->
+                <div ng-if="order.status === 'Cancelled'">
+                    <w-i18n>directives.myOrders.canceled</w-i18n>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{::order.percent}}%"></div>
+                </div>
+            </div>
+            <!--<w-actions>-->
+                <!--<w-action ng-click="">-->
+                    <!--<w-i18n>directives.myOrders.detail</w-i18n>-->
+                <!--</w-action>-->
                 <!--<w-action ng-click="$ctrl.deleteOrder(order)">-->
                 <!--<w-i18n>directives.myOrders.delete</w-i18n>-->
                 <!--</w-action>-->
@@ -88,5 +87,3 @@
         </w-table-row>
     </div>
 </w-smart-table>
-
-<!-- todo add ng-if="::isNotDesktop" -->

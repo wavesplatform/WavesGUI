@@ -1,7 +1,7 @@
 {
     class PairsListService {
 
-        constructor(PairData, utils, PairsStorage) {
+        constructor(utils, PairsStorage) {
             return class PairsList {
 
                 constructor() {
@@ -34,26 +34,14 @@
                 }
 
                 /**
-                 * @param pair
-                 * @returns {*}
-                 */
-                addPairAndSort(pair) {
-                    this.addPair(pair);
-                    return this._sortOnceVolumesLoaded();
-                }
-
-                /**
                  * @param pairOfIds
+                 * return {PairData}
                  */
                 addPairOfIds(pairOfIds) {
-                    let pair = PairsStorage.get(pairOfIds);
-
-                    if (!pair) {
-                        pair = new PairData(pairOfIds);
-                        PairsStorage.add(pair);
-                    }
-
+                    const pair = PairsStorage.get(pairOfIds);
                     this._pairsData.push(pair);
+
+                    return pair;
                 }
 
                 /**
@@ -92,17 +80,6 @@
                 }
 
                 /**
-                 * @param pair
-                 */
-                removePair(pair) {
-                    const pairIndex = this._pairsData.indexOf(pair);
-
-                    if (pairIndex >= 0) {
-                        this._pairsData.splice(pairIndex, 1);
-                    }
-                }
-
-                /**
                  * @param pairs
                  */
                 reset(pairs) {
@@ -127,11 +104,11 @@
                 }
 
                 sortByPriceAscending() {
-                    this._sortByAscending(this._getPriceConverter());
+                    this._sortByAscending((pair) => pair.priceBigNumber);
                 }
 
                 sortByPriceDescending() {
-                    this._sortByDescending(this._getPriceConverter());
+                    this._sortByDescending((pair) => pair.priceBigNumber);
                 }
 
                 sortByVolumeAscending() {
@@ -155,14 +132,6 @@
                  */
                 _getChangeConverter() {
                     return (pair) => parseFloat(pair.change);
-                }
-
-                /**
-                 * @returns {function(*): number}
-                 * @private
-                 */
-                _getPriceConverter() {
-                    return (pair) => parseFloat(pair.price);
                 }
 
                 /**
@@ -213,7 +182,7 @@
 
     }
 
-    PairsListService.$inject = ['PairData', 'utils', 'PairsStorage'];
+    PairsListService.$inject = ['utils', 'PairsStorage'];
 
     angular.module('app.dex').service('PairsList', PairsListService);
 }

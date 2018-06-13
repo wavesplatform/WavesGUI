@@ -1,40 +1,33 @@
 (function () {
     'use strict';
 
+    const ANIMATE_SCROLL_TIME = 500;
     const TABS_ASSETS = ['WAVES', 'BTC'];
     // Other gateways are added dynamically in the code below.
     const DROP_DOWN_ASSETS = ['ETH', 'BCH', 'LTC', 'USD', 'EUR'];
 
     /**
      * @param Base
-     * @param {Waves} waves
-     * @param user
-     * @param {$rootScope.Scope} $scope
      * @param {$state} $state
      * @param {$location} $location
-     * @param {app.utils.decorators} decorators
      * @param gateways
      * @param sepaGateways
-     * @param PairData
-     * @param PairsList
      * @param PairsTabs
      * @param WatchlistSearch
+     * @param PairsStorage
+     * @param $element
      * @return {DexWatchlist}
      */
     const controller = function (
         Base,
-        waves,
-        user,
-        $scope,
         $state,
         $location,
-        decorators,
         gateways,
         sepaGateways,
-        PairData,
-        PairsList,
         PairsTabs,
-        WatchlistSearch
+        WatchlistSearch,
+        PairsStorage,
+        $element
     ) {
 
         class DexWatchlist extends Base {
@@ -171,10 +164,10 @@
                 this._shouldShowOnlyFavourite = false;
 
                 /**
-                 * @type {{}}
+                 * @type {[]}
                  * @private
                  */
-                this._favourite = {};
+                this._favourite = [];
             }
 
             $postLink() {
@@ -190,6 +183,7 @@
 
                 this.observe('search', this._applyFilteringAndPrepareSearchResults);
                 this.observe('_chosenPair', this._switchLocationAndUpdateAssetIdPair);
+                this.observe('_assetIdPair', this._switchLocationAndSelectAssetIdPair);
             }
 
             /**
@@ -206,6 +200,9 @@
             chooseTab(tabData) {
                 this.tabs.switchTabTo(tabData.id).then(() => {
                     this._updateVisiblePairsData();
+                    const chosenPair = this._findPairInCurrentTabBySetting() || this.tab._visiblePairs.getFirstPair();
+                    this.tab.choosePair(chosenPair);
+                    this._chosenPair = chosenPair;
                 });
 
                 this.tab = this.tabs.getChosenTab();
@@ -225,6 +222,11 @@
              * @returns {boolean}
              */
             isChosen(pair) {
+                const $el = $element.find(`.${this.scrollId}`);
+                if ($el.length > 0) {
+                    this.scrollTo($el);
+                }
+
                 return this.tab.isChosen(pair);
             }
 
@@ -263,7 +265,12 @@
              * @returns {boolean}
              */
             tabFromSelectIsActive() {
-                return this.dropDownData.map(({ id }) => id).includes(this.tab.id);
+                return !!this.dropDownData.find(({ id }) => id === this.tab.id);
+            }
+
+            chooseSelectTab(item) {
+                this.lastActiveSelectedTab = item || this.lastActiveSelectedTab;
+                this.chooseTab(item || this.lastActiveSelectedTab || this.dropDownData[0]);
             }
 
             /**
@@ -273,19 +280,30 @@
             toggleFavourite($event, pair) {
                 $event.stopPropagation();
 
-                this.tab.toggleFavourite(pair)
-                    .then(() => {
-                        this._updateVisiblePairsData();
-                    });
+                this.tab.toggleFavourite(pair);
+                this._updateVisiblePairsData();
 
-                this._saveFavouriteForTab(this.tab.id, this.tab.getFavourite());
+                this._saveFavourite();
             }
 
-            _saveFavouriteForTab(tabId, favouritePairsOfIds) {
-                // This order of operations is required for proper work of synchronization of settings.
-                const favourite = tsUtils.cloneDeep(this._favourite);
-                favourite[tabId] = favouritePairsOfIds;
-                this._favourite = favourite;
+            /**
+             * @param element
+             */
+            scrollTo($el) {
+                if (!this.scrollId) {
+                    return;
+                }
+                this.scrollId = null;
+                $element.find('.smart-table__w-tbody')
+                    .stop()
+                    .animate({ scrollTop: $el.position().top }, ANIMATE_SCROLL_TIME);
+            }
+
+            /**
+             * @private
+             */
+            _saveFavourite() {
+                this._favourite = PairsStorage.getFavourite().map((pair) => pair.pairOfIds);
             }
 
             toggleOnlyFavourite() {
@@ -329,26 +347,6 @@
             _chooseInitialPair() {
                 this._simplyChoosePair(this.tab.getChosenPair() || this.tab.getDefaultPair());
                 this._switchLocationAndUpdateAssetIdPair();
-            }
-
-            /**
-             * @param assetId
-             * @param tabId
-             * @returns {Array}
-             * @private
-             */
-            _getFavouritePairsRelativeTo(assetId, tabId = assetId) {
-                const savedFavourite = this._getSavedFavourite(tabId);
-
-                if (savedFavourite) {
-                    return savedFavourite;
-                }
-
-                const allGateways = Object.assign({}, { WAVES: '' }, gateways, sepaGateways);
-                const pairsRelativeToAsset = this._buildPairsRelativeTo(assetId, Object.keys(allGateways));
-                this._saveFavouriteForTab(tabId, pairsRelativeToAsset);
-
-                return pairsRelativeToAsset;
             }
 
             /**
@@ -413,7 +411,6 @@
                     id,
                     searchPrefix: `${id}/`,
                     pairsOfIds: {
-                        favourite: this._getFavouritePairsRelativeTo(id),
                         other: this._getOtherPairsRelativeTo(id)
                     }
                 };
@@ -434,13 +431,19 @@
             _prepareTabs() {
                 const ALL = 'All';
 
+                PairsStorage.addFavourite(
+                    this._getSavedFavourite() ||
+                    [
+                        [WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC]
+                    ]
+                );
+
                 this.tabsData = [
                     {
                         title: ALL,
                         id: ALL,
                         searchPrefix: '',
                         pairsOfIds: {
-                            favourite: this._getFavouritePairsRelativeTo(WavesApp.defaultAssets.WAVES, ALL),
                             other: this._getOtherPairs(),
                             chosen: DexWatchlist._getPairFromState()
                         }
@@ -465,15 +468,11 @@
 
 
             /**
-             * @param tabId
-             * @returns {{}|*|null}
+             * @returns {[]|null}
              * @private
              */
-            _getSavedFavourite(tabId) {
-                return (
-                    this._favourite &&
-                    this._favourite[tabId]
-                ) || null;
+            _getSavedFavourite() {
+                return this._favourite || null;
             }
 
             /**
@@ -499,7 +498,50 @@
                     sortDescending();
                 }
 
-                return this.tab.getVisiblePairs(this._shouldShowOnlyFavourite);
+                return this.tab.getSortedByListsVisiblePairs(this._shouldShowOnlyFavourite, this._getSearchQuery());
+            }
+
+            _findPairInCurrentTabBySetting() {
+                return this.visiblePairsData
+                    .find(
+                        ({ amountAsset, priceAsset }) => (
+                            amountAsset.id === this._assetIdPair.amount &&
+                            priceAsset.id === this._assetIdPair.price
+                        )
+                    );
+            }
+
+            /**
+             *
+             */
+            _switchLocationAndSelectAssetIdPair() {
+
+                const selectPairInCurrentTab = this._findPairInCurrentTabBySetting();
+
+                if (
+                    (this.visiblePairsData && !this.visiblePairsData.length) ||
+                    (selectPairInCurrentTab && selectPairInCurrentTab === this._chosenPair)
+                ) {
+                    return null;
+                }
+
+                if (selectPairInCurrentTab) {
+                    this.tab.choosePair(selectPairInCurrentTab);
+                    this.scrollId = selectPairInCurrentTab.uid;
+                    this._chosenPair = selectPairInCurrentTab;
+                    return null;
+                }
+
+                this.tabs.switchTabTo(this.tabsData[0].id).then(() => {
+                    this._updateVisiblePairsData();
+                    const newPair = this.tab.addPairOfIds([this._assetIdPair.amount, this._assetIdPair.price]);
+                    this.tab.choosePair(newPair);
+                    this._chosenPair = newPair;
+                    this.scrollId = newPair.uid;
+                });
+
+                this.tab = this.tabs.getChosenTab();
+                this._prepareSearchResults();
             }
 
             /**
@@ -521,14 +563,10 @@
              * @private
              */
             _updateVisiblePairsData() {
-                WatchlistSearch.filter(
-                    this.tab.getReconstructedVisiblePairs(this._shouldShowOnlyFavourite),
+                this.visiblePairsData = this.tab.getReconstructedVisiblePairs(
+                    this._shouldShowOnlyFavourite,
                     this._getSearchQuery()
-                )
-                    .then((filterResults) => {
-                        this.visiblePairsData = filterResults;
-                        $scope.$digest();
-                    });
+                );
             }
 
             /**
@@ -555,18 +593,14 @@
 
     controller.$inject = [
         'Base',
-        'waves',
-        'user',
-        '$scope',
         '$state',
         '$location',
-        'decorators',
         'gateways',
         'sepaGateways',
-        'PairData',
-        'PairsList',
         'PairsTabs',
-        'WatchlistSearch'
+        'WatchlistSearch',
+        'PairsStorage',
+        '$element'
     ];
 
     angular.module('app.dex')

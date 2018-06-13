@@ -135,6 +135,15 @@ body.dex {
           font-size: @font-size-caption-2;
         }
       }
+
+      &__cell:first-child {
+        min-width: auto;
+        padding-left: 0;
+      }
+
+      &__cell:last-child {
+        padding-right: 0;
+      }
     }
   }
 
@@ -366,15 +375,6 @@ body.dex {
 
         .decimal-muted {
           display: none;
-        }
-
-        &:first-child {
-          min-width: auto;
-          padding-left: 0;
-        }
-
-        &:last-child {
-          padding-right: 0;
         }
       }
     }

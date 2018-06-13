@@ -1,3 +1,4 @@
+/* global ds */
 {
 
     class WatchlistSearch {
@@ -12,7 +13,7 @@
             };
 
             /**
-             * @type {number}
+             * @type {number | null}
              */
             let searchDelay = null;
 
@@ -34,56 +35,59 @@
 
             function filter(pairs, query) {
                 if (!query) {
-                    return Promise.resolve(pairs);
+                    return pairs;
                 }
 
-                return (
-                    prepareFilter(query)
-                        .then((filter) => {
-                            return pairs.filter(filter);
-                        })
-                );
-            }
-
-            function prepareFilter(query) {
                 const { firstItem, secondItem, separatorIncluded } = parseQuery(query);
 
-                return (
-                    Promise.all([
-                        prepareFirstItemFilter(firstItem, separatorIncluded),
-                        prepareSecondItemFilter(secondItem)
-                    ])
-                        .then(([firstFilter, secondFilter]) => {
-                            return (pair) => {
-                                return (
-                                    firstFilter.run(pair.amountAsset, query) &&
-                                    secondFilter.run(pair.priceAsset, query) ||
-                                    firstFilter.run(pair.priceAsset, query) &&
-                                    secondFilter.run(pair.amountAsset, query)
-                                );
-                            };
-                        })
-                );
+                let firstItemFilter = angular.noop;
+                let secondItemFilter = angular.noop;
+
+                if (firstItem && !separatorIncluded) {
+                    firstItemFilter = prepareLooseFilter(firstItem);
+                    secondItemFilter = acceptAny;
+                }
+
+                if (firstItem && secondItem) {
+                    firstItemFilter = prepareStrictFilter(firstItem);
+                    secondItemFilter = prepareLooseFilter(secondItem);
+                }
+
+                if (firstItem && separatorIncluded && !secondItem) {
+                    firstItemFilter = prepareStrictFilter(firstItem);
+                    secondItemFilter = acceptAny;
+                }
+
+                return pairs.filter((pair) => {
+                    return (
+                        firstItemFilter(pair.amountAsset) && secondItemFilter(pair.priceAsset) ||
+                        firstItemFilter(pair.priceAsset) && secondItemFilter(pair.amountAsset)
+                    );
+                });
             }
 
-            function prepareFirstItemFilter(value, separatorIncluded) {
-                return tryToTreatAsIdAndGetActionItem(value, buildFirstItemFilter(value, separatorIncluded));
+            function prepareLooseFilter(value) {
+                return prepareFilter(value, ({ name, ticker, id, value, idValue }) => {
+                    return name.includes(value) || ticker.includes(value) || id === idValue;
+                });
             }
 
-            function prepareSecondItemFilter(value) {
-                return tryToTreatAsIdAndGetActionItem(value, buildAnyItemFilter(value));
+            function prepareStrictFilter(value) {
+                return prepareFilter(value, ({ name, ticker, id, value, idValue }) => {
+                    return name === value || ticker === value || id === idValue;
+                });
             }
 
-            function buildFirstItemFilter(value, separatorIncluded) {
-                return buildItemStrictAction(value, separatorIncluded, getStrictFilter(value), buildAnyItemFilter);
-            }
-
-            function buildAnyItemFilter(value) {
-                return buildAnyItemAction(value, buildIdFilter(value), acceptAny, getLooseFilter(value));
-            }
-
-            function buildIdFilter(value) {
-                return ({ id }) => id === value;
+            function prepareFilter(value, filter) {
+                return ({ name, ticker, id }) => {
+                    return filter({
+                        name: (name || '').toLowerCase(),
+                        ticker: (ticker || '').toLowerCase(),
+                        id,
+                        value: value.toLowerCase(),
+                        idValue: value
+                    });
+                };
             }
 
             function acceptAny() {
@@ -147,19 +151,14 @@
             }
 
             function buildFirstItemSearch(value, separatorIncluded) {
-                return buildItemStrictAction(value, separatorIncluded, searchStrict, buildAnyItemSearch);
-            }
-
-            function buildItemStrictAction(value, separatorIncluded, strictAction, anyActionBuilder) {
                 return (isId) => {
                     if (!isId && value && separatorIncluded) {
                         return {
                             value,
-                            run: strictAction
+                            run: searchStrict
                         };
                     }
-
-                    return anyActionBuilder(value)(isId);
+                    return buildAnyItemSearch(value)(isId);
                 };
             }
 
@@ -189,28 +188,22 @@
             }
 
             function buildAnyItemSearch(value) {
-                return buildAnyItemAction(value, searchId, searchGateways, searchLoose);
-            }
-
-            function buildAnyItemAction(value, idAction, noValueAction, looseAction) {
                 return (isId) => {
                     if (isId) {
                         return {
                             value,
-                            run: idAction
+                            run: searchId
                         };
                     }
-
                     if (!value) {
                         return {
                             value,
-                            run: noValueAction
+                            run: searchGateways
                         };
                     }
-
                     return {
                         value,
-                        run: looseAction
+                        run: searchLoose
                     };
                 };
             }

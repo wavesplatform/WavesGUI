@@ -26,6 +26,12 @@
                         sort: true,
                         valuePath: 'item.asset.displayName'
                     },
+                    { // todo @german add assetId
+                        id: 'assetId',
+                        sort: false,
+                        title: { literal: 'directives.balance.assetId' },
+                        valuePath: 'item.assetId'
+                    },
                     {
                         id: 'available',
                         sort: true,
@@ -35,14 +41,8 @@
                     {
                         id: 'inOrders',
                         sort: true,
-                        title: { literal: 'directives.balance.inOrders' },
+                        title: { literal: 'directives.balance.inOrdersFull' },
                         valuePath: 'item.inOrders'
-                    },
-                    { // todo @german add assetId
-                        id: 'assetId',
-                        sort: false,
-                        title: { literal: 'directives.balance.assetId' },
-                        valuePath: 'item.assetId'
                     },
                     {
                         id: 'total',
