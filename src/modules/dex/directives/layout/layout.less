@@ -363,6 +363,163 @@ html body.dex .notifications {
   position: fixed
 }
 
+//hi-res
+
+@media screen and (min-width: 2400px) {
+  w-layout {
+    .dex-layout {
+
+      &__watchlist-collapsed {
+        .dex-layout {
+          &__candlechart {
+            width: calc(100% ~'- 365px');
+          }
+        }
+      }
+
+      &__orderbook-collapsed {
+        .dex-layout {
+          &__candlechart {
+            width: calc(100% ~'- 365px');
+          }
+        }
+      }
+
+      &__tradehistory {
+        max-height: 440px;
+        width: calc(100% ~'- 365px');
+      }
+
+      &__block {
+        min-width: 360px;
+      }
+
+      &__column {
+        overflow: hidden;
+      }
+
+      &__watchlist {
+        max-height: calc(100% ~'- 445px');
+        width: 360px;
+      }
+
+      &__candlechart {
+        max-height: calc(100% ~'- 445px');
+        width: calc(100% ~'- 730px');
+        transform: translateX(365px);
+      }
+
+      &__orderbook {
+        width: 360px;
+        max-height: calc(100% ~'- 445px') !important;
+
+        w-row {
+          font-size: 12px;
+        }
+
+        .info {
+          font-size: 11px;
+        }
+      }
+
+      &__createorder {
+        max-height: 440px;
+        width: 360px;
+
+        .body .making-order {
+          .fields {
+            padding: 15px 25px;
+          }
+
+          .expiration {
+            margin: 10px 0;
+          }
+
+          .areas .area {
+            height: 42px;
+            line-height: 38px;
+          }
+
+          .fields {
+            .input-like {
+              height: 44px;
+
+              .asset-name-wrap div {
+                line-height: 28px;
+              }
+            }
+
+            .field-label {
+              margin-top: 15px;
+              padding-bottom: 4px;
+            }
+
+
+            .place-order {
+              height: 42px;
+            }
+
+            w-input input {
+              height: 42px;
+            }
+          }
+        }
+      }
+
+      .dex-wrapper {
+        w-dex-watchlist {
+          .wrapper a.title {
+
+            .titles-wrap {
+              height: 42px;
+            }
+
+            font-size: 13px;
+          }
+        }
+      }
+
+      w-dex-block .block-title {
+        height: 42px;
+      }
+
+      w-create-order .create-order
+      .dex-watchlist .wrapper {
+        .titles-wrap w-select .title {
+          font-size: 13px;
+        }
+
+        a.title {
+          font-size: 13px;
+        }
+      }
+
+      .dex-wrapper {
+        .smart-tabe__thead .smart-tabe__row {
+          font-size: 12px;
+        }
+
+        .smart-tabe__row {
+          font-size: 12px;
+        }
+      }
+
+      w-tabs .titles-wrap {
+        height: 42px;
+
+        a.title {
+          height: 42px;
+        }
+      }
+
+      .caption-2 {
+        font-size: 12px;
+      }
+
+    }
+  }
+}
+
 // responsive
 @media screen and (min-width: 660px) and (max-width: 1024px) {
 
