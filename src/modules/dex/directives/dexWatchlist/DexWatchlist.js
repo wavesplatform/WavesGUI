@@ -16,6 +16,7 @@
      * @param WatchlistSearch
      * @param PairsStorage
      * @param $element
+     * @param defaultPair
      * @return {DexWatchlist}
      */
     const controller = function (
@@ -27,7 +28,8 @@
         PairsTabs,
         WatchlistSearch,
         PairsStorage,
-        $element
+        $element,
+        defaultPair
     ) {
 
         class DexWatchlist extends Base {
@@ -287,7 +289,7 @@
             }
 
             /**
-             * @param element
+             * @param $el
              */
             scrollTo($el) {
                 if (!this.scrollId) {
@@ -345,7 +347,10 @@
              * @private
              */
             _chooseInitialPair() {
-                this._simplyChoosePair(this.tab.getChosenPair() || this.tab.getDefaultPair());
+                this._simplyChoosePair(this.tab.getChosenPair() || this.tab.getDefaultPair(
+                    this._shouldShowOnlyFavourite,
+                    this._getSearchQuery()
+                ));
                 this._switchLocationAndUpdateAssetIdPair();
             }
 
@@ -400,7 +405,14 @@
 
             /**
              * @param assetName
-             * @returns {{title: *, id: *, pairsOfIds: {favourite: *, other: *[][]}}}
+             * @returns {{
+             *      title: string,
+             *      id: string,
+             *      searchPrefix: string,
+             *      pairsOfIds: {
+             *          other: string[][]
+             *      }
+             *  }}
              * @private
              */
             _prepareTabDataForAsset(assetName) {
@@ -431,12 +443,7 @@
             _prepareTabs() {
                 const ALL = 'All';
 
-                PairsStorage.addFavourite(
-                    this._getSavedFavourite() ||
-                    [
-                        [WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC]
-                    ]
-                );
+                PairsStorage.addFavourite(this._getSavedFavourite() || [defaultPair]);
 
                 this.tabsData = [
                     {
@@ -600,7 +607,8 @@
         'PairsTabs',
         'WatchlistSearch',
         'PairsStorage',
-        '$element'
+        '$element',
+        'defaultPair'
     ];
 
     angular.module('app.dex')
