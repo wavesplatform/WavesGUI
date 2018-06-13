@@ -122,18 +122,34 @@ export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, i
     const create = (count: string) => isTokens ? Money.fromTokens(count, assetsHash[WAVES_ID]) : new Money(count, assetsHash[WAVES_ID]);
     const order1 = parseExchangeOrder(tx.order1, assetsHash, isTokens);
     const order2 = parseExchangeOrder(tx.order2, assetsHash, isTokens);
-    const orderHash = {
+    const orderHash: IHash<IExchangeOrder> = {
         [order1.orderType]: order1,
         [order2.orderType]: order2
     };
     const buyOrder = orderHash.buy;
     const sellOrder = orderHash.sell;
+    const exchangeType = buyOrder.timestamp > sellOrder.timestamp ? 'buy' : 'sell';
     const price = order1.price;
-    const amount = order1.amount.cloneWithTokens(BigNumber.min(order1.amount.getTokens(), order2.amount.getTokens()));
+    const amount = orderHash[exchangeType].amount;
+    const total = orderHash[exchangeType].total;
     const buyMatcherFee = create(tx.buyMatcherFee);
     const sellMatcherFee = create(tx.sellMatcherFee);
     const fee = create(tx.fee);
-    return { ...tx, order1, order2, price, amount, buyMatcherFee, sellMatcherFee, fee, isUTX, buyOrder, sellOrder };
+    return {
+        ...tx,
+        order1,
+        order2,
+        price,
+        amount,
+        buyMatcherFee,
+        sellMatcherFee,
+        fee,
+        isUTX,
+        buyOrder,
+        sellOrder,
+        exchangeType,
+        total
+    };
 }
 
 export function parseLeasingTx(tx: txApi.ILease, assetsHash: IHash<Asset>, isUTX: boolean): ILease {
@@ -179,6 +195,7 @@ function parseExchangeOrder(order: txApi.IExchangeOrder, assetsHash: IHash<Asset
     const pair = new AssetPair(assetsHash[assetPair.amountAsset], assetsHash[assetPair.priceAsset]);
     const price = isTokens ? Money.fromTokens(order.price, pair.priceAsset) : Money.fromTokens(new OrderPrice(new BigNumber(order.price), pair).getTokens(), pair.priceAsset);
     const amount = create(order.amount, assetsHash[assetPair.amountAsset]);
+    const total = Money.fromTokens(amount.getTokens().times(price.getTokens()), price.asset);
     const matcherFee = create(order.matcherFee, assetsHash[WAVES_ID]);
-    return { ...order, price, amount, matcherFee, assetPair };
+    return { ...order, price, amount, matcherFee, assetPair, total };
 }
