@@ -1,7 +1,7 @@
 {
     class PairsTabService {
 
-        constructor(PairsList, PairsStorage, WatchlistSearch) {
+        constructor(PairsList, PairsStorage, WatchlistSearch, defaultPair) {
             const FAVOURITE = 'favourite';
             const OTHER = 'other';
             const WANDERING = 'wandering';
@@ -26,7 +26,7 @@
                     this._pairsLists = new Map();
 
                     /**
-                     * @type {Array}
+                     * @type {PairsList}
                      */
                     this._visiblePairs = new PairsList();
 
@@ -43,7 +43,7 @@
                     this._searchPrefix = tabData.searchPrefix;
 
                     /**
-                     * @type {{favourite: string[][], other: string[][], chosen: string[]|null}}
+                     * @type {{ other: string[][], chosen: string[]|null }}
                      * @private
                      */
                     this._activationData = tabData.pairsOfIds;
@@ -63,6 +63,7 @@
                         this._pairsLists.set(listName, new PairsList());
                     });
 
+                    this._resetFavourite(this._searchPrefix);
                     this._pairsLists.get(OTHER).addPairsOfIds(other);
                     if (chosen) {
                         this._getWandering().addPairOfIds(chosen);
@@ -105,10 +106,12 @@
                 }
 
                 /**
+                 * @param onlyFavourite
+                 * @param query
                  * @returns {PairData}
                  */
-                getDefaultPair() {
-                    return this._getFavourite().getFirstPair();
+                getDefaultPair(onlyFavourite, query) {
+                    return this.getReconstructedVisiblePairs(onlyFavourite, query)[0] || PairsStorage.get(defaultPair);
                 }
 
                 /**
@@ -132,7 +135,7 @@
                 /**
                  * @param onlyFavourite
                  * @param query
-                 * @returns {any[]}
+                 * @returns {PairData[]}
                  */
                 getReconstructedVisiblePairs(onlyFavourite, query) {
                     let searchLimit = 10;
@@ -182,10 +185,7 @@
                  * @private
                  */
                 _reconstructAndGetVisiblePairs(getProcessor, onlyFavourite, query) {
-                    // Preliminary filtering of favourite pairs is required due to quantitative limits of other pairs
-                    // based on the quantity of favourite.
-                    const suitableFavourite = WatchlistSearch.filter(PairsStorage.getFavourite(), query);
-                    this._getFavourite().reset(suitableFavourite);
+                    this._resetFavourite(query);
 
                     const visiblePairs = new Set();
                     const process = getProcessor(visiblePairs);
@@ -202,6 +202,13 @@
                     this._visiblePairs.reset(suitablePairs);
 
                     return this._visiblePairs.getPairsData();
+                }
+
+                _resetFavourite(query) {
+                    // Preliminary filtering of favourite pairs is required due to quantitative limits of other pairs
+                    // based on the quantity of favourite.
+                    const suitableFavourite = WatchlistSearch.filter(PairsStorage.getFavourite(), query);
+                    this._getFavourite().reset(suitableFavourite);
                 }
 
                 /**
@@ -324,7 +331,7 @@
 
     }
 
-    PairsTabService.$inject = ['PairsList', 'PairsStorage', 'WatchlistSearch'];
+    PairsTabService.$inject = ['PairsList', 'PairsStorage', 'WatchlistSearch', 'defaultPair'];
 
     angular.module('app.dex').service('PairsTab', PairsTabService);
 }
