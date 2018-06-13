@@ -1,3 +1,4 @@
+/* global ds */
 {
 
     class WatchlistSearch {
@@ -12,7 +13,7 @@
             };
 
             /**
-             * @type {number}
+             * @type {number | null}
              */
             let searchDelay = null;
 
@@ -52,7 +53,7 @@
                     secondItemFilter = prepareLooseFilter(secondItem);
                 }
 
-                if (firstItem && separatorIncluded) {
+                if (firstItem && separatorIncluded && !secondItem) {
                     firstItemFilter = prepareStrictFilter(firstItem);
                     secondItemFilter = acceptAny;
                 }

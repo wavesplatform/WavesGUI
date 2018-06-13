@@ -7,34 +7,24 @@
 
     /**
      * @param Base
-     * @param {Waves} waves
-     * @param user
-     * @param {$rootScope.Scope} $scope
      * @param {$state} $state
      * @param {$location} $location
-     * @param {app.utils.decorators} decorators
      * @param gateways
      * @param sepaGateways
-     * @param PairData
-     * @param PairsList
      * @param PairsTabs
      * @param WatchlistSearch
+     * @param PairsStorage
      * @return {DexWatchlist}
      */
     const controller = function (
         Base,
-        waves,
-        user,
-        $scope,
         $state,
         $location,
-        decorators,
         gateways,
         sepaGateways,
-        PairData,
-        PairsList,
         PairsTabs,
-        WatchlistSearch
+        WatchlistSearch,
+        PairsStorage
     ) {
 
         class DexWatchlist extends Base {
@@ -171,14 +161,13 @@
                 this._shouldShowOnlyFavourite = false;
 
                 /**
-                 * @type {{}}
+                 * @type {[]}
                  * @private
                  */
-                this._favourite = {};
+                this._favourite = [];
             }
 
             $postLink() {
-
                 this.syncSettings({
                     _favourite: 'dex.watchlist.favourite',
                     _assetsIds: 'dex.watchlist.list',
@@ -285,14 +274,15 @@
             toggleFavourite($event, pair) {
                 $event.stopPropagation();
 
-                this.tab.toggleFavourite(pair)
-                    .then(() => {
-                        this._updateVisiblePairsData();
-                    });
+                this.tab.toggleFavourite(pair);
+                this._updateVisiblePairsData();
 
-                this._saveFavouriteForTab(this.tab.id, this.tab.getFavourite());
+                this._saveFavourite();
             }
 
+            /**
+             * @param element
+             */
             scrollTo(element) {
                 if (!this.scrollId) {
                     return;
@@ -301,11 +291,11 @@
                 element.scrollIntoView({ behavior: 'smooth' });
             }
 
-            _saveFavouriteForTab(tabId, favouritePairsOfIds) {
-                // This order of operations is required for proper work of synchronization of settings.
-                const favourite = tsUtils.cloneDeep(this._favourite);
-                favourite[tabId] = favouritePairsOfIds;
-                this._favourite = favourite;
+            /**
+             * @private
+             */
+            _saveFavourite() {
+                this._favourite = PairsStorage.getFavourite().map((pair) => pair.pairOfIds);
             }
 
             toggleOnlyFavourite() {
@@ -349,26 +339,6 @@
             _chooseInitialPair() {
                 this._simplyChoosePair(this.tab.getChosenPair() || this.tab.getDefaultPair());
                 this._switchLocationAndUpdateAssetIdPair();
-            }
-
-            /**
-             * @param assetId
-             * @param tabId
-             * @returns {Array}
-             * @private
-             */
-            _getFavouritePairsRelativeTo(assetId, tabId = assetId) {
-                const savedFavourite = this._getSavedFavourite(tabId);
-
-                if (savedFavourite) {
-                    return savedFavourite;
-                }
-
-                const allGateways = Object.assign({}, { WAVES: '' }, gateways, sepaGateways);
-                const pairsRelativeToAsset = this._buildPairsRelativeTo(assetId, Object.keys(allGateways));
-                this._saveFavouriteForTab(tabId, pairsRelativeToAsset);
-
-                return pairsRelativeToAsset;
             }
 
             /**
@@ -433,7 +403,6 @@
                     id,
                     searchPrefix: `${id}/`,
                     pairsOfIds: {
-                        favourite: this._getFavouritePairsRelativeTo(id),
                         other: this._getOtherPairsRelativeTo(id)
                     }
                 };
@@ -454,13 +423,19 @@
             _prepareTabs() {
                 const ALL = 'All';
 
+                PairsStorage.addFavourite(
+                    this._getSavedFavourite() ||
+                    [
+                        [WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC]
+                    ]
+                );
+
                 this.tabsData = [
                     {
                         title: ALL,
                         id: ALL,
                         searchPrefix: '',
                         pairsOfIds: {
-                            favourite: this._getFavouritePairsRelativeTo(WavesApp.defaultAssets.WAVES, ALL),
                             other: this._getOtherPairs(),
                             chosen: DexWatchlist._getPairFromState()
                         }
@@ -485,15 +460,11 @@
 
 
             /**
-             * @param tabId
-             * @returns {{}|*|null}
+             * @returns {[]|null}
              * @private
              */
-            _getSavedFavourite(tabId) {
-                return (
-                    this._favourite &&
-                    this._favourite[tabId]
-                ) || null;
+            _getSavedFavourite() {
+                return this._favourite || null;
             }
 
             /**
@@ -519,7 +490,7 @@
                     sortDescending();
                 }
 
-                return this.tab.getVisiblePairs(this._shouldShowOnlyFavourite);
+                return this.tab.getSortedByListsVisiblePairs(this._shouldShowOnlyFavourite, this._getSearchQuery());
             }
 
             /**
@@ -580,8 +551,8 @@
              * @private
              */
             _updateVisiblePairsData() {
-                this.visiblePairsData = WatchlistSearch.filter(
-                    this.tab.getReconstructedVisiblePairs(this._shouldShowOnlyFavourite),
+                this.visiblePairsData = this.tab.getReconstructedVisiblePairs(
+                    this._shouldShowOnlyFavourite,
                     this._getSearchQuery()
                 );
             }
@@ -610,18 +581,13 @@
 
     controller.$inject = [
         'Base',
-        'waves',
-        'user',
-        '$scope',
         '$state',
         '$location',
-        'decorators',
         'gateways',
         'sepaGateways',
-        'PairData',
-        'PairsList',
         'PairsTabs',
-        'WatchlistSearch'
+        'WatchlistSearch',
+        'PairsStorage'
     ];
 
     angular.module('app.dex')
