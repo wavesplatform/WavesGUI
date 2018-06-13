@@ -1,6 +1,7 @@
 (function () {
     'use strict';
 
+    const ANIMATE_SCROLL_TIME = 500;
     const TABS_ASSETS = ['WAVES', 'BTC'];
     // Other gateways are added dynamically in the code below.
     const DROP_DOWN_ASSETS = ['ETH', 'BCH', 'LTC', 'USD', 'EUR'];
@@ -34,7 +35,8 @@
         PairData,
         PairsList,
         PairsTabs,
-        WatchlistSearch
+        WatchlistSearch,
+        $element
     ) {
 
         class DexWatchlist extends Base {
@@ -208,6 +210,9 @@
             chooseTab(tabData) {
                 this.tabs.switchTabTo(tabData.id).then(() => {
                     this._updateVisiblePairsData();
+                    const chosenPair = this._findPairInCurrentTabBySetting() || this.tab._visiblePairs.getFirstPair();
+                    this.tab.choosePair(chosenPair);
+                    this._chosenPair = chosenPair;
                 });
 
                 this.tab = this.tabs.getChosenTab();
@@ -227,9 +232,9 @@
              * @returns {boolean}
              */
             isChosen(pair) {
-                const el = document.getElementsByClassName(this.scrollId)[0];
-                if (el) {
-                    this.scrollTo(el);
+                const $el = $element.find(`.${this.scrollId}`);
+                if ($el.length > 0) {
+                    this.scrollTo($el);
                 }
 
                 return this.tab.isChosen(pair);
@@ -293,12 +298,14 @@
                 this._saveFavouriteForTab(this.tab.id, this.tab.getFavourite());
             }
 
-            scrollTo(element) {
+            scrollTo($el) {
                 if (!this.scrollId) {
                     return;
                 }
                 this.scrollId = null;
-                element.scrollIntoView({ behavior: 'smooth' });
+                $element.find('.smart-table__w-tbody')
+                    .stop()
+                    .animate({ scrollTop: $el.position().top }, ANIMATE_SCROLL_TIME);
             }
 
             _saveFavouriteForTab(tabId, favouritePairsOfIds) {
@@ -522,18 +529,22 @@
                 return this.tab.getVisiblePairs(this._shouldShowOnlyFavourite);
             }
 
-            /**
-             *
-             */
-            _switchLocationAndSelectAssetIdPair() {
-
-                const selectPairInCurrentTab = this.visiblePairsData
+            _findPairInCurrentTabBySetting() {
+                return this.visiblePairsData
                     .find(
                         ({ amountAsset, priceAsset }) => (
                             amountAsset.id === this._assetIdPair.amount &&
                             priceAsset.id === this._assetIdPair.price
                         )
                     );
+            }
+
+            /**
+             *
+             */
+            _switchLocationAndSelectAssetIdPair() {
+
+                const selectPairInCurrentTab = this._findPairInCurrentTabBySetting();
 
                 if (
                     (this.visiblePairsData && !this.visiblePairsData.length) ||
@@ -621,7 +632,8 @@
         'PairData',
         'PairsList',
         'PairsTabs',
-        'WatchlistSearch'
+        'WatchlistSearch',
+        '$element'
     ];
 
     angular.module('app.dex')
