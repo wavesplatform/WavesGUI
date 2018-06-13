@@ -41,7 +41,7 @@
                     {
                         id: 'inOrders',
                         sort: true,
-                        title: { literal: 'directives.balance.inOrders' },
+                        title: { literal: 'directives.balance.inOrdersFull' },
                         valuePath: 'item.inOrders'
                     },
                     {

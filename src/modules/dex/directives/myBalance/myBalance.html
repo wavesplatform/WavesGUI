@@ -6,6 +6,7 @@
     <w-table-row ng-repeat="balance in $data track by balance.asset.id"
                  w-toggle-class-container>
         <w-table-cell>
+            <!-- todo @german setPair() onClick w-asset-logo -->
             <w-asset-logo size="20" asset-id="{{::balance.asset.id}}"></w-asset-logo>
             {{::balance.asset.name}}
         </w-table-cell>
@@ -23,7 +24,9 @@
             <div class="dropdown" w-toggle-class></div>
         </w-table-cell>
         <w-table-cell>
-            <span class="cell-label"><w-i18n>directives.balance.inOrders</w-i18n></span>
+            <span class="cell-label">
+                <w-i18n>directives.balance.inOrders</w-i18n>
+            </span>
             <w-balance short-mode="::true" money="balance.inOrders"></w-balance>
         </w-table-cell>
         <w-table-cell>
@@ -32,8 +35,3 @@
         </w-table-cell>
     </w-table-row>
 </w-smart-table>
-
-<!--
-<w-i18n>directives.balance.actions.assetInfo</w-i18n>
-<w-i18n>directives.balance.actions.copyAssetId</w-i18n>
--->

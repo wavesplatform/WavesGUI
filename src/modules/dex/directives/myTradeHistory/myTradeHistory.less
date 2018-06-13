@@ -35,13 +35,15 @@ w-dex-my-trade-history {
       overflow: hidden;
       max-width: 100%;
       text-overflow: ellipsis;
+
+
     }
 
     &__cell[data-column-id="status"] {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      min-width: 120px;
+      min-width: 100px;
     }
 
     &__cell[data-column-id="type"] {
@@ -57,26 +59,26 @@ w-dex-my-trade-history {
     }
   }
 
-  w-actions {
-    text-transform: capitalize;
-    margin-left: 30px;
-    font-size: @font-size-caption-1;
-
-    .actions-container {
-      min-width: auto;
-    }
-
-    .click-area {
-      .dots {
-        background: url(/img/icons/actions-blue.svg) center no-repeat;
-        width: 100%;
-
-        .dot {
-          display: none;
-        }
-      }
-    }
-  }
+  //w-actions {
+  //  text-transform: capitalize;
+  //  margin-left: 30px;
+  //  font-size: @font-size-caption-1;
+  //
+  //  .actions-container {
+  //    min-width: auto;
+  //  }
+  //
+  //  .click-area {
+  //    .dots {
+  //      background: url(/img/icons/actions-blue.svg) center no-repeat;
+  //      width: 100%;
+  //
+  //      .dot {
+  //        display: none;
+  //      }
+  //    }
+  //  }
+  //}
 
   .order-side {
     &.sell {

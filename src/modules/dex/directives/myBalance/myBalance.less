@@ -9,23 +9,19 @@ body.dex .dex-wrapper {
         padding: 6px 14px;
       }
 
-      &__cell {
-        flex-basis: 20%;
-      }
-
-      // todo @uIsk fix sizes
       &__cell[data-column-id="asset"] {
         flex-basis: 25%;
       }
 
       &__cell[data-column-id="assetId"] {
-        flex-basis: 15%;
+        flex-basis: 35%;
       }
 
       &__cell[data-column-id="total"],
       &__cell[data-column-id="available"],
       &__cell[data-column-id="inOrders"] {
         text-align: right;
+        flex-basis: calc(50% / 3);
       }
 
       &__cell[data-column-id="controls"] {
@@ -42,11 +38,15 @@ body.dex .dex-wrapper {
           padding: 0;
           font-size: @font-size-caption-2;
           line-height: inherit;
+          display: inline-block;
+          width: auto;
 
           span {
             text-overflow: ellipsis;
             overflow: hidden;
-            max-width: 250px;
+            max-width: 300px;
+            display: inline-block;
+            width: 100%;
           }
         }
 
@@ -65,6 +65,7 @@ body.dex .dex-wrapper {
       vertical-align: middle;
       margin-top: -3px;
       margin-right: 10px;
+      cursor: pointer;
     }
 
   }
@@ -115,17 +116,13 @@ body.dex .dex-wrapper {
             background: @color-basic-50;
 
             .smart-table {
+              &__cell[data-column-id="assetId"] {
+                display: flex;
+              }
 
               &__cell[data-column-id="inOrders"],
               &__cell[data-column-id="total"] {
                 display: block;
-                margin-top: 4px;
-              }
-
-              &__cell[data-column-id="available"] {
-                w-balance {
-                  min-width: 74px;
-                }
               }
             }
           }
@@ -136,21 +133,21 @@ body.dex .dex-wrapper {
         }
 
         &__cell {
-          flex-basis: calc(50% ~'- 20px');
-
           .cell-label {
             display: inline-block;
           }
         }
 
-        &__cell[data-column-id="pair"] {
-          order: 0;
-          margin-bottom: 5px;
-          font-family: @font-roboto-medium;
+        &__cell[data-column-id="asset"] {
+          flex-basis: calc(50% ~ '- 20px');
+        }
 
-          span {
-            max-width: none;
-          }
+        &__cell[data-column-id="assetId"] {
+          display: none;
+          order: 4;
+          margin-top: 4px;
+          flex-basis: 100%;
+          height: 18px;
         }
 
         &__cell[data-column-id="price"] {
@@ -163,13 +160,28 @@ body.dex .dex-wrapper {
         }
 
         &__cell[data-column-id="inOrders"] {
+          margin-top: 4px;
+          flex-basis: calc(50% ~'- 20px');
           text-align: left;
           display: none;
         }
 
         &__cell[data-column-id="total"] {
+          margin-top: 4px;
+          flex-basis: calc(50% ~'- 20px');
           text-align: right;
           display: none;
+        }
+
+        &__cell[data-column-id="available"] {
+          flex-basis: calc(50% ~'- 20px');
+          w-balance {
+            min-width: 74px;
+          }
+        }
+
+        w-copy-wrap .copy-icon {
+          margin-top: -10px;
         }
       }
     }

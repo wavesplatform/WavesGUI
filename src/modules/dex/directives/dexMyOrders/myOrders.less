@@ -40,11 +40,12 @@ w-dex-my-orders {
       padding-left: 0;
 
       span {
-        display: block;
+        display: inline-block;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
         max-width: 160px;
+        cursor: pointer;
       }
     }
 
@@ -135,6 +136,7 @@ w-dex-my-orders {
 
         &__cell {
           flex-basis: calc(50% ~'- 40px');
+          height: 18px;
 
           .cell-label {
             display: inline-block;
@@ -147,7 +149,7 @@ w-dex-my-orders {
           font-family: @font-roboto-medium;
 
           span {
-            max-width: auto;
+            max-width: none;
           }
         }
 
