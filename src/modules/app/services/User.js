@@ -48,6 +48,10 @@
                  */
                 this.settings = Object.create(null);
                 /**
+                 * @type {boolean}
+                 */
+                this.noSaveToStorage = false;
+                /**
                  * @type {DefaultSettings}
                  * @private
                  */
@@ -207,10 +211,13 @@
              * @param {string} data.encryptedSeed
              * @param {string} data.publicKey
              * @param {string} data.password
+             * @param {boolean} data.saveToStorage
              * @param {boolean} hasBackup
              * @return Promise
              */
             create(data, hasBackup) {
+                this.noSaveToStorage = !data.saveToStorage;
+
                 return this._addUserData({
                     address: data.address,
                     password: data.password,
@@ -323,9 +330,11 @@
                             }
                         });
                         this.lastLogin = Date.now();
+
                         if (this._settings) {
                             this._settings.change.off();
                         }
+
                         this._settings = defaultSettings.create(this.settings);
                         this._settings.change.on(() => this._onChangeSettings());
                         this.changeSetting = this._settings.change;
@@ -343,15 +352,21 @@
 
                         return this._save()
                             .then(() => {
-                                this.receive(state.signals.sleep, (min) => {
-                                    if (min >= this._settings.get('logoutAfterMin')) {
-                                        this.logout();
-                                    }
-                                });
-
+                                this._logoutTimer();
                                 this._dfr.resolve();
                             });
                     });
+            }
+
+            /**
+             * @private
+             */
+            _logoutTimer() {
+                this.receive(state.signals.sleep, (min) => {
+                    if (min >= this._settings.get('logoutAfterMin')) {
+                        this.logout();
+                    }
+                });
             }
 
             /**
@@ -407,6 +422,10 @@
              * @private
              */
             _save() {
+                if (this.noSaveToStorage) {
+                    return Promise.resolve();
+                }
+
                 return storage.load('userList')
                     .then((list) => {
                         list = list || [];
