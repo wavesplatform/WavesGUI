@@ -2,28 +2,57 @@
 (function () {
     'use strict';
 
-    const tsApiValidator = require('ts-api-validator');
+    const R = require('ramda');
 
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
-     * @param {Waves} waves
-     * @param {DataFeed} dataFeed
      * @param {IPollCreate} createPoll
-     * @param {app.utils} utils
+     * @param {User} user
      * @return {TradeHistory}
      */
-    const controller = function (Base, $scope, waves, dataFeed, createPoll, utils) {
+    const controller = function (Base, $scope, createPoll, user) {
 
-        class TotalAmountPart extends tsApiValidator.BasePart {
+        const PAIR_COLUMN_DATA = {
+            id: 'pair',
+            valuePath: 'item.pair',
+            search: true
+        };
 
-            getValue(data) {
-                const amount = new BigNumber(data.amount);
-                const price = new BigNumber(data.price);
-                return amount.times(price);
+        const HEADER_COLUMNS = [
+            {
+                id: 'type',
+                title: { literal: 'directives.tradeHistory.tableTitle.type' },
+                valuePath: 'item.exchangeType',
+                sort: true
+            },
+            {
+                id: 'time',
+                title: { literal: 'directives.tradeHistory.tableTitle.date' },
+                valuePath: 'item.timestamp',
+                sort: true,
+                sortActive: true,
+                isAsc: false
+            },
+            {
+                id: 'price',
+                title: { literal: 'directives.tradeHistory.tableTitle.price' },
+                valuePath: 'item.price',
+                sort: true
+            },
+            {
+                id: 'amount',
+                title: { literal: 'directives.tradeHistory.tableTitle.size' },
+                valuePath: 'item.amount',
+                sort: true
+            },
+            {
+                id: 'total',
+                title: { literal: 'directives.tradeHistory.tableTitle.total' },
+                valuePath: 'item.total',
+                sort: true
             }
-
-        }
+        ];
 
         class TradeHistory extends Base {
 
@@ -35,84 +64,36 @@
                  */
                 this._assetIdPair = null;
                 /**
-                 * @type {Asset}
+                 * @type {boolean}
                  */
-                this.priceAsset = null;
+                this.isMy = false;
                 /**
                  * @type {Array}
                  */
-                this.orders = [];
+                this.history = [];
+                /**
+                 * @type {function}
+                 */
+                this.remapTransactions = TradeHistory._remapTxList();
                 /**
                  * @type {boolean}
                  */
                 this.pending = true;
 
-                this.shema = new tsApiValidator.Schema({
-                    type: tsApiValidator.ArrayPart,
-                    required: true,
-                    content: {
-                        type: tsApiValidator.ObjectPart,
-                        required: true,
-                        content: {
-                            price: { type: utils.apiValidatorParts.BigNumberPart, required: true },
-                            amount: { type: utils.apiValidatorParts.BigNumberPart, required: true },
-                            total: { type: TotalAmountPart, required: true, path: null },
-                            date: { type: tsApiValidator.DatePart, required: true, path: 'timestamp' },
-                            type: { type: tsApiValidator.StringPart, required: true },
-                            id: { type: tsApiValidator.StringPart, required: true }
-                        }
-                    }
-                });
-
-                this.headers = [
-                    {
-                        id: 'type',
-                        title: { literal: 'directives.tradeHistory.tableTitle.type' },
-                        valuePath: 'item.type',
-                        sort: true
-                    },
-                    {
-                        id: 'time',
-                        title: { literal: 'directives.tradeHistory.tableTitle.date' },
-                        valuePath: 'item.date',
-                        sort: true,
-                        sortActive: true,
-                        isAsc: false
-                    },
-                    {
-                        id: 'price',
-                        title: { literal: 'directives.tradeHistory.tableTitle.price' },
-                        valuePath: 'item.price',
-                        sort: true
-                    },
-                    {
-                        id: 'amount',
-                        title: { literal: 'directives.tradeHistory.tableTitle.size' },
-                        valuePath: 'item.amount',
-                        sort: true
-                    },
-                    {
-                        id: 'total',
-                        title: { literal: 'directives.tradeHistory.tableTitle.total' },
-                        valuePath: 'item.total',
-                        sort: true
-                    }
-                ];
+                this.headers = [];
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
                 });
+            }
 
+            $postLink() {
+                this.headers = this.isMy ? [PAIR_COLUMN_DATA].concat(HEADER_COLUMNS) : HEADER_COLUMNS;
                 /**
                  * @type {Poll}
                  */
-                this.poll = createPoll(this, this._getTradeHistory, 'orders', 2000, { $scope });
-
+                this.poll = createPoll(this, this._getTradeHistory, this._setTradeHistory, 1000, { $scope });
                 this.observe('_assetIdPair', this._onChangeAssets);
-                this.poll.ready.then(() => {
-                    this.pending = false;
-                });
-                this._onChangeAssets();
             }
 
             $onDestroy() {
@@ -124,13 +105,9 @@
              * @private
              */
             _onChangeAssets() {
-                this.orders = [];
+                this.pending = true;
+                this.history = [];
                 this.poll.restart();
-                ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
-                    this.priceAsset = pair.priceAsset;
-                    this.amountAsset = pair.amountAsset;
-                    $scope.$digest();
-                });
             }
 
             /**
@@ -138,24 +115,33 @@
              * @private
              */
             _getTradeHistory() {
-                return dataFeed.trades(this._assetIdPair.amount, this._assetIdPair.price)
-                    .then((data) => this.shema.parse(data))
-                    .then(TradeHistory._filterDuplicate); // TODO remove with Dima's service
+                return ds.api.transactions.getExchangeTxList(this._getTransactionsFilter())
+                    .then(this.remapTransactions);
             }
 
-            /**
-             * @param list
-             * @private
-             */
-            static _filterDuplicate(list) {
-                const hash = Object.create(null);
-                return list.reduce((result, item) => {
-                    if (!hash[item.id]) {
-                        result.push(item);
-                    }
-                    hash[item.id] = true;
-                    return result;
-                }, []);
+            _setTradeHistory(history) {
+                this.pending = false;
+                this.history = history;
+            }
+
+            _getTransactionsFilter() {
+                const limit = 100;
+                if (this.isMy) {
+                    return { sender: user.address, limit };
+                }
+                return {
+                    amountAsset: this._assetIdPair.amount,
+                    priceAsset: this._assetIdPair.price,
+                    limit
+                };
+            }
+
+            static _remapTxList() {
+                const amount = tx => tx.amount.asset.displayName;
+                const price = tx => tx.price.asset.displayName;
+                const filter = R.uniqBy(R.prop('id'));
+                const map = R.map(tx => ({ ...tx, pair: `${amount(tx)} / ${price(tx)}` }));
+                return R.pipe(filter, map);
             }
 
         }
@@ -163,10 +149,13 @@
         return new TradeHistory();
     };
 
-    controller.$inject = ['Base', '$scope', 'waves', 'dataFeed', 'createPoll', 'utils'];
+    controller.$inject = ['Base', '$scope', 'createPoll', 'user'];
 
     angular.module('app.dex')
         .component('wDexTradeHistory', {
+            bindings: {
+                isMy: '<'
+            },
             templateUrl: 'modules/dex/directives/tradeHistory/tradeHistory.html',
             controller
         });

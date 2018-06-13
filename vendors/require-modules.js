@@ -9,7 +9,8 @@
         'papaparse': 'Papa',
         'waves-api': 'WavesAPI',
         'identity-img': 'identityImg',
-        '@waves/data-entities': 'ds.wavesDataEntities'
+        '@waves/data-entities': 'ds.wavesDataEntities',
+        'ramda': 'R'
     };
 
     function getModule(require) {

@@ -198,11 +198,13 @@ export interface IBurn extends IBaseTransaction {
 
 export interface IExchange extends IBaseTransaction {
     type: TRANSACTION_TYPE_NUMBER.EXCHANGE;
-    amount: Money;
+    exchangeType: TOrderType;
     buyMatcherFee: Money;
     sellMatcherFee: Money;
-    fee: Money;
+    amount: Money;
     price: Money;
+    total: Money;
+    fee: Money;
     order1: IExchangeOrder;
     order2: IExchangeOrder;
     buyOrder: IExchangeOrder;
@@ -245,13 +247,14 @@ export interface IMassTransfer extends IBaseTransaction {
 
 export interface IExchangeOrder {
     amount: Money;
+    price: Money;
+    total: Money;
     assetPair: IAssetPair;
     expiration: number;
     id: string;
     matcherFee: Money;
     matcherPublicKey: string;
     orderType: TOrderType;
-    price: Money;
     senderPublicKey: string;
     signature: string;
     timestamp: number;
