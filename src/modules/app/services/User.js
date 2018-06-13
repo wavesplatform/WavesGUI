@@ -422,7 +422,6 @@
              * @private
              */
             _save() {
-
                 if (this.noSaveToStorage) {
                     return Promise.resolve();
                 }

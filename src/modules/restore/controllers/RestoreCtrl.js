@@ -57,8 +57,11 @@
             }
 
             restore() {
+                if (!this.saveUserData) {
+                    this.password = Date.now().toString();
+                }
                 const seedData = Waves.Seed.fromExistingPhrase(this.seed);
-                const encryptedSeed = this.saveUserData ? seedData.encrypt(this.password) : '';
+                const encryptedSeed = seedData.encrypt(this.password);
                 const publicKey = seedData.keyPair.publicKey;
 
                 return user.create({
