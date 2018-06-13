@@ -350,11 +350,6 @@
                             return new UserRouteState('main', id, this._settings.get(`${id}.activeState`));
                         });
 
-                        if (this.noSaveToStorage) {
-                            this._logoutTimer();
-                            return this._dfr.resolve();
-                        }
-
                         return this._save()
                             .then(() => {
                                 this._logoutTimer();
@@ -427,6 +422,11 @@
              * @private
              */
             _save() {
+
+                if (this.noSaveToStorage) {
+                    return Promise.resolve();
+                }
+
                 return storage.load('userList')
                     .then((list) => {
                         list = list || [];
