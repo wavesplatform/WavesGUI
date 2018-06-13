@@ -15,7 +15,7 @@
             <span class="cell-label"><w-i18n>directives.balance.assetId</w-i18n></span>
             <w-copy-wrap info="$ctrl.sendLink"
                          ng-click="$ctrl.onCopyAddress()">
-                <span>8t8DMJFQu5GEhvAetiA8aHa3yPjxLj54sBnZsjnJ5dsw</span>
+                <span>{{::balance.asset.id}}</span>
             </w-copy-wrap>
         </w-table-cell>
         <w-table-cell>
