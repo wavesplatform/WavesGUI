@@ -61,10 +61,10 @@ export function remapOrder(order: api.IOrder, assets: IHash<Asset>): IOrder {
     const amountAsset = assets[normalizeAssetId(order.assetPair.amountAsset)];
     const priceAsset = assets[normalizeAssetId(order.assetPair.priceAsset)];
     const assetPair = new AssetPair(amountAsset, priceAsset);
-    const amount = new Money(new BigNumber(order.amount), amountAsset);
+    const amount = new Money(order.amount, amountAsset);
     const price = Money.fromTokens(OrderPrice.fromMatcherCoins(order.price, assetPair).getTokens(), priceAsset);
-    const filled = new Money(new BigNumber(order.filled), amountAsset);
-    const total = new Money(amount.getTokens().times(price.getTokens()), priceAsset);
+    const filled = new Money(order.filled, amountAsset);
+    const total = Money.fromTokens(amount.getTokens().times(price.getTokens()), priceAsset);
     const progress = filled.getTokens().div(amount.getTokens()).toNumber();
     const timestamp = new Date(order.timestamp);
     const isActive = order.status === 'Accepted' || order.status === 'PartiallyFilled';

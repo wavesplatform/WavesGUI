@@ -11,6 +11,7 @@
     const controller = function (Base, $scope, createPoll, waves, user) {
 
         const tsUtils = require('ts-utils');
+        const entities = require('@waves/data-entities');
 
         class MyTradeHistory extends Base {
 
@@ -25,6 +26,10 @@
                  * @type {boolean}
                  */
                 this.pending = true;
+                /**
+                 * @type {Object.<string, boolean>}
+                 */
+                this.expandedOrdersHash = Object.create(null);
 
                 this.headers = [
                     {
@@ -94,6 +99,10 @@
                 });
             }
 
+            toggleExpand(id, state) {
+                this.expandedOrdersHash[id] = state;
+            }
+
             /**
              * @param {IOrder} order
              */
@@ -104,7 +113,64 @@
             _getOrders() {
                 return waves.matcher.getOrders()
                     .then((orders) => orders.filter(tsUtils.contains({ isActive: false })))
-                    .then((orders) => MyTradeHistory._remapOrders(orders));
+                    .then((orders) => MyTradeHistory._remapOrders(orders))
+                    .then((orders) => {
+                        const last = orders.length ? orders[orders.length - 1] : null;
+
+                        if (!last) {
+                            return orders;
+                        } else {
+                            return ds.api.transactions.getExchangeTxList({
+                                sender: user.address,
+                                timeStart: last.timestamp
+                            })
+                                .then((txList) => {
+                                    const transactionsByOrderHash = Object.create(null);
+                                    const txHash = Object.create(null); // TODO remove after Dima clean duplicates
+                                    txList.forEach((tx) => {
+                                        if (!txHash[tx.id]) {
+                                            ['order1', 'order2'].forEach((orderFieldName) => {
+                                                if (!transactionsByOrderHash[tx[orderFieldName].id]) {
+                                                    transactionsByOrderHash[tx[orderFieldName].id] = [];
+                                                }
+                                                transactionsByOrderHash[tx[orderFieldName].id].push(tx);
+                                            });
+                                        }
+                                        txHash[tx.id] = true;
+                                    });
+                                    return orders.map((order) => {
+                                        if (!transactionsByOrderHash[order.id]) {
+                                            transactionsByOrderHash[order.id] = [];
+                                        }
+                                        if (transactionsByOrderHash[order.id].length) {
+                                            order.fee = transactionsByOrderHash[order.id]
+                                                .map(MyTradeHistory._getFeeByType(order.type))
+                                                .reduce((sum, fee) => sum.add(fee));
+                                        }
+                                        order.exchange = transactionsByOrderHash[order.id].map((tx) => {
+                                            const totalBigNum = tx.amount.getTokens().times(tx.price.getTokens());
+                                            const total = entities.Money.fromTokens(totalBigNum, tx.price.asset);
+                                            const fee = MyTradeHistory._getFeeByType(order.type)(tx);
+                                            return { ...tx, total, fee };
+                                        });
+                                        return order;
+                                    });
+                                });
+                        }
+                    });
+            }
+
+            static _getFeeByType(type) {
+                return function (tx) {
+                    switch (type) {
+                        case 'buy':
+                            return tx.buyOrder.matcherFee;
+                        case 'sell':
+                            return tx.sellOrder.matcherFee;
+                        default:
+                            throw new Error('Wrong order type!');
+                    }
+                };
             }
 
             /**

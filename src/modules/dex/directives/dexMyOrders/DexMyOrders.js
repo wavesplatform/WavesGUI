@@ -161,7 +161,41 @@
             _getOrders() {
                 return waves.matcher.getOrders()
                     .then((orders) => orders.filter(tsUtils.contains({ isActive: true })))
-                    .then((orders) => DexMyOrders._remapOrders(orders));
+                    .then((orders) => DexMyOrders._remapOrders(orders))
+                    .then((orders) => {
+                        const last = orders.length ? orders[orders.length - 1] : null;
+
+                        if (!last) {
+                            return {
+                                orders,
+                                tx: Object.create(null)
+                            };
+                        } else {
+                            return ds.api.transactions.getExchangeTxList({ timeEnd: last.timestamp }).then((txList) => {
+                                const hash = Object.create(null);
+                                txList.forEach((tx) => {
+                                    ['order1', 'order2'].forEach((orderFieldName) => {
+                                        if (!hash[tx[orderFieldName].id]) {
+                                            hash[tx[orderFieldName].id] = [];
+                                        }
+                                        hash[tx[orderFieldName].id].push(tx);
+                                    });
+                                });
+                                return orders.map((order) => {
+                                    if (!hash[order.id]) {
+                                        hash[order.id] = [];
+                                    }
+                                    if (hash[order.id].length) {
+                                        order.fee = hash[order.id]
+                                            .map((tx) => tx.fee)
+                                            .reduce((sum, fee) => sum.add(fee));
+                                    }
+                                    order.exchange = hash[order.id];
+                                    return order;
+                                });
+                            });
+                        }
+                    });
             }
 
             /**

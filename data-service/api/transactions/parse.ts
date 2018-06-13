@@ -16,7 +16,8 @@ import { WAVES_ID } from '@waves/waves-signature-generator';
 import { IHash } from '../../interface';
 
 
-export function parseTx(transactions: Array<T_API_TX>, isUTX: boolean): Promise<Array<T_TX>> {
+// TODO Remove is tokens flag after support Dima's api
+export function parseTx(transactions: Array<T_API_TX>, isUTX: boolean, isTokens?: boolean): Promise<Array<T_TX>> {
     const hash = Object.create(null);
     hash[WAVES_ID] = true;
     transactions.forEach((tx) => getAssetsHashFromTx(tx, hash));
@@ -37,7 +38,7 @@ export function parseTx(transactions: Array<T_API_TX>, isUTX: boolean): Promise<
                     case TRANSACTION_TYPE_NUMBER.BURN:
                         return parseBurnTx(transaction, hash, isUTX);
                     case TRANSACTION_TYPE_NUMBER.EXCHANGE:
-                        return parseExchangeTx(transaction, hash, isUTX);
+                        return parseExchangeTx(transaction, hash, isUTX, isTokens);
                     case TRANSACTION_TYPE_NUMBER.LEASE:
                         return parseLeasingTx(transaction, hash, isUTX);
                     case TRANSACTION_TYPE_NUMBER.CANCEL_LEASING:
@@ -117,9 +118,10 @@ export function parseBurnTx(tx: txApi.IBurn, assetsHash: IHash<Asset>, isUTX: bo
     return { ...tx, amount, fee, isUTX };
 }
 
-export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, isUTX: boolean): IExchange {
-    const order1 = parseExchangeOrder(tx.order1, assetsHash);
-    const order2 = parseExchangeOrder(tx.order2, assetsHash);
+export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, isUTX: boolean, isTokens?: boolean): IExchange {
+    const create = (count: string) => isTokens ? Money.fromTokens(count, assetsHash[WAVES_ID]) : new Money(count, assetsHash[WAVES_ID]);
+    const order1 = parseExchangeOrder(tx.order1, assetsHash, isTokens);
+    const order2 = parseExchangeOrder(tx.order2, assetsHash, isTokens);
     const orderHash = {
         [order1.orderType]: order1,
         [order2.orderType]: order2
@@ -128,9 +130,9 @@ export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, i
     const sellOrder = orderHash.sell;
     const price = order1.price;
     const amount = order1.amount.cloneWithTokens(BigNumber.min(order1.amount.getTokens(), order2.amount.getTokens()));
-    const buyMatcherFee = new Money(new BigNumber(tx.buyMatcherFee), assetsHash[WAVES_ID]);
-    const sellMatcherFee = new Money(new BigNumber(tx.sellMatcherFee), assetsHash[WAVES_ID]);
-    const fee = new Money(new BigNumber(tx.fee), assetsHash[WAVES_ID]);
+    const buyMatcherFee = create(tx.buyMatcherFee);
+    const sellMatcherFee = create(tx.sellMatcherFee);
+    const fee = create(tx.fee);
     return { ...tx, order1, order2, price, amount, buyMatcherFee, sellMatcherFee, fee, isUTX, buyOrder, sellOrder };
 }
 
@@ -171,11 +173,12 @@ export function parseMassTransferTx(tx: txApi.IMassTransfer, assetsHash: IHash<A
     return { ...tx, totalAmount, transfers, fee, isUTX, attachment, rawAttachment };
 }
 
-function parseExchangeOrder(order: txApi.IExchangeOrder, assetsHash: IHash<Asset>): IExchangeOrder {
+function parseExchangeOrder(order: txApi.IExchangeOrder, assetsHash: IHash<Asset>, isTokens?: boolean): IExchangeOrder {
+    const create = (count: string, asset: Asset) => isTokens ? Money.fromTokens(count, asset) : new Money(count, asset);
     const assetPair = normalizeAssetPair(order.assetPair);
     const pair = new AssetPair(assetsHash[assetPair.amountAsset], assetsHash[assetPair.priceAsset]);
-    const price = Money.fromTokens(new OrderPrice(new BigNumber(order.price), pair).getTokens(), assetsHash[assetPair.priceAsset]);
-    const amount = new Money(new BigNumber(order.amount), assetsHash[assetPair.amountAsset]);
-    const matcherFee = new Money(new BigNumber(order.matcherFee), assetsHash[WAVES_ID]);
+    const price = isTokens ? Money.fromTokens(order.price, pair.priceAsset) : Money.fromTokens(new OrderPrice(new BigNumber(order.price), pair).getTokens(), pair.priceAsset);
+    const amount = create(order.amount, assetsHash[assetPair.amountAsset]);
+    const matcherFee = create(order.matcherFee, assetsHash[WAVES_ID]);
     return { ...order, price, amount, matcherFee, assetPair };
 }

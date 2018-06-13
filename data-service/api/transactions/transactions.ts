@@ -1,4 +1,4 @@
-import { get as configGet } from '../../config';
+import { get as configGet, getDataService } from '../../config';
 import { request } from '../../utils/request';
 import { parseTx } from './parse';
 import {
@@ -14,12 +14,18 @@ import {
     ICancelLeasing, ICreateAlias, IMassTransfer
 } from './interface';
 import { contains } from 'ts-utils';
-import { TRANSACTION_TYPE_NUMBER } from '@waves/waves-signature-generator/src/index';
+import { TRANSACTION_TYPE_NUMBER } from '@waves/waves-signature-generator';
+import { TransactionFilters } from '@waves/data-service-client-js/src/types';
 
 
 export function list(address: string, limit = 100): Promise<Array<T_TX>> {
     return request({ url: `${configGet('node')}/transactions/address/${address}/limit/${limit}` })
         .then(([transactions]) => parseTx(transactions, false));
+}
+
+export function getExchangeTxList(options: TransactionFilters = Object.create(null)): Promise<Array<IExchange>> {
+    return request({ method: () => getDataService().getExchangeTxs(options) })
+        .then((transactions: any) => parseTx(transactions, false, true) as any);
 }
 
 export function listUTX(address?: string): Promise<Array<T_TX>> {
