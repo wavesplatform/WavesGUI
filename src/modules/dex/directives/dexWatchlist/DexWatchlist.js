@@ -545,6 +545,7 @@
                 if (selectPairInCurrentTab) {
                     this.tab.choosePair(selectPairInCurrentTab);
                     this.scrollId = selectPairInCurrentTab.uid;
+                    this._chosenPair = selectPairInCurrentTab;
                     return null;
                 }
 
@@ -552,6 +553,7 @@
                     this._updateVisiblePairsData();
                     const newPair = this.tab.addPairOfIds([this._assetIdPair.amount, this._assetIdPair.price]);
                     this.tab.choosePair(newPair);
+                    this._chosenPair = newPair;
                     this.scrollId = newPair.uid;
                 });
 
