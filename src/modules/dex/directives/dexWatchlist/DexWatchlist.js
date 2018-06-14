@@ -266,7 +266,7 @@
              * @returns {boolean}
              */
             isNegative(change) {
-                return parseFloat(change) < 0;
+                return Math.floor(parseFloat(change) * 100) / 100 < 0;
             }
 
             /**
@@ -274,7 +274,7 @@
              * @returns {boolean}
              */
             isPositive(change) {
-                return parseFloat(change) > 0;
+                return Math.floor(parseFloat(change) * 100) / 100 > 0;
             }
 
             /**
