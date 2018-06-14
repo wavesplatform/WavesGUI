@@ -51,6 +51,12 @@
                 title: { literal: 'directives.tradeHistory.tableTitle.total' },
                 valuePath: 'item.total',
                 sort: true
+            },
+            {
+                id: 'fee',
+                title: { literal: 'directives.tradeHistory.tableTitle.fee' },
+                valuePath: 'item.matchTxFee',
+                sort: true
             }
         ];
 

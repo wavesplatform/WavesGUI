@@ -82,7 +82,7 @@
 
                         const favoritePairs = favorite.map((data) => new PairData(data));
                         const otherPairs = other.map((data) => new PairData(data));
-                        const chosenPairs = [chosen].map((data) => new PairData(data));
+                        const chosenPairs = [chosen].filter(Boolean).map((data) => new PairData(data));
 
                         pairsStorage.add(favoritePairs.concat(otherPairs, chosenPairs));
                         pairsStorage.addFavourite(favoritePairs);
@@ -258,9 +258,11 @@
                  */
                 setSearchResults(pairsOfIds) {
                     this.clearSearchResults();
-                    this._getSearchResults().addPairsOfIds(pairsOfIds);
-
-                    return this._expectSort();
+                    return PairsTab._loadDataByPairs(pairsOfIds).then((data) => {
+                        const pairDataList = data.map((pair) => new PairData(pair));
+                        pairsStorage.add(pairDataList);
+                        this._getSearchResults().addPairs(pairDataList.map(p => pairsStorage.get(p.pairOfIds)));
+                    });
                 }
 
                 sortByChangeAscending() {
@@ -351,26 +353,7 @@
                 _loadPairsData() {
                     const favorite = user.getSetting('dex.watchlist.favourite') || [defaultPair];
                     const { other, chosen = [] } = this._activationData;
-                    const ids = R.uniq(R.flatten([favorite, other, chosen]));
-                    return ds.api.assets.get(ids)
-                        .then(() => {
-                            const promiseList = R.uniq(favorite.concat(other, [chosen]))
-                                .map(([assetId1, assetId2]) => ds.api.pairs.get(assetId1, assetId2));
-                            return Promise.all(promiseList);
-                        })
-                        .then((pairs) => {
-                            const promiseList = R.splitEvery(20, R.uniq(pairs)).map((pairs) => {
-                                return ds.api.pairs.info(...pairs)
-                                    .then(infoList => infoList.map((data, i) => ({ data, pair: pairs[i] })))
-                                    .catch(() => {
-                                        return pairs.map((pair) => ({ pair, data: null }));
-                                    });
-                            });
-
-                            return Promise.all(promiseList);
-                        })
-                        .then(R.flatten)
-                        .then(pairs => Promise.all(pairs.map(PairsTab._remapPairData)))
+                    return PairsTab._loadDataByPairs(favorite.concat(other, [chosen]))
                         .then((pairsInfo) => {
 
                             const pairId = (pair) => [pair.amountAsset.id, pair.priceAsset.id];
@@ -389,6 +372,29 @@
                                 other: other.map(getItemFromHashByPair)
                             };
                         });
+                }
+
+                static _loadDataByPairs(pairs) {
+                    const ids = R.uniq(R.flatten(pairs));
+                    return ds.api.assets.get(ids)
+                        .then(() => {
+                            const promiseList = R.uniq(pairs.filter(p => p.length === 2))
+                                .map(([assetId1, assetId2]) => ds.api.pairs.get(assetId1, assetId2));
+                            return Promise.all(promiseList);
+                        })
+                        .then((pairs) => {
+                            const promiseList = R.splitEvery(20, R.uniq(pairs)).map((pairs) => {
+                                return ds.api.pairs.info(...pairs)
+                                    .then(infoList => infoList.map((data, i) => ({ data, pair: pairs[i] })))
+                                    .catch(() => {
+                                        return pairs.map((pair) => ({ pair, data: null }));
+                                    });
+                            });
+
+                            return Promise.all(promiseList);
+                        })
+                        .then(R.flatten)
+                        .then(pairs => Promise.all(pairs.map(PairsTab._remapPairData)));
                 }
 
                 static _remapPairData({ pair, data }) {

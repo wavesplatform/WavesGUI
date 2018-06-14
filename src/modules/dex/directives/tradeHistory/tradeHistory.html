@@ -38,5 +38,9 @@
             <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.total"></span>
             <w-balance money="::tx.total" short-mode="::true"></w-balance>
         </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.fee"></span>
+            <w-balance money="::tx.matchTxFee" short-mode="::true"></w-balance>
+        </w-table-cell>
     </w-table-row>
 </w-smart-table>

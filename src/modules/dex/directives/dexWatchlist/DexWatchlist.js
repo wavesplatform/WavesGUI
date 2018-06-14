@@ -415,11 +415,11 @@
 
                 WatchlistSearch.search(this._getSearchQuery())
                     .then((searchResults) => {
-                        this.searchInProgress = !searchResults.searchFinished;
                         this.nothingFound = searchResults.nothingFound;
 
                         return this.tab.setSearchResults(searchResults.results)
                             .then(() => {
+                                this.searchInProgress = false;
                                 this._updateVisiblePairsData();
                             });
                     });
@@ -572,12 +572,10 @@
                 $location.search('assetId1', this._chosenPair.pairOfIds[0]);
                 $location.search('assetId2', this._chosenPair.pairOfIds[1]);
 
-                this._chosenPair.amountAndPriceRequest.then(() => {
-                    this._assetIdPair = {
-                        amount: this._chosenPair.amountAsset.id,
-                        price: this._chosenPair.priceAsset.id
-                    };
-                });
+                this._assetIdPair = {
+                    amount: this._chosenPair.amountAsset.id,
+                    price: this._chosenPair.priceAsset.id
+                };
             }
 
             /**
