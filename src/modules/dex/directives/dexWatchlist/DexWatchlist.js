@@ -17,6 +17,7 @@
      * @param PairsStorage
      * @param $element
      * @param defaultPair
+     * @param i18n
      * @return {DexWatchlist}
      */
     const controller = function (
@@ -29,7 +30,8 @@
         WatchlistSearch,
         PairsStorage,
         $element,
-        defaultPair
+        defaultPair,
+        i18n
     ) {
 
         class DexWatchlist extends Base {
@@ -464,14 +466,12 @@
              * @private
              */
             _prepareTabs() {
-                const ALL = 'All';
-
                 PairsStorage.addFavourite(this._getSavedFavourite() || [defaultPair]);
 
                 this.tabsData = [
                     {
-                        title: ALL,
-                        id: ALL,
+                        title: i18n.translate('tabs.title.all', 'app.dex'),
+                        id: 'All',
                         baseAssetId: WavesApp.defaultAssets.WAVES,
                         searchPrefix: '',
                         pairsOfIds: {
@@ -633,7 +633,8 @@
         'WatchlistSearch',
         'PairsStorage',
         '$element',
-        'defaultPair'
+        'defaultPair',
+        'i18n'
     ];
 
     angular.module('app.dex')
