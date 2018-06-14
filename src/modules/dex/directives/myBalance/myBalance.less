@@ -40,12 +40,14 @@ body.dex .dex-wrapper {
           line-height: inherit;
           display: inline-block;
           width: auto;
+          text-overflow: ellipsis;
+          overflow: hidden;
 
           span {
             text-overflow: ellipsis;
             overflow: hidden;
             max-width: 300px;
-            display: inline-block;
+            display: block;
             width: 100%;
           }
         }
@@ -68,6 +70,20 @@ body.dex .dex-wrapper {
       cursor: pointer;
     }
 
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  body.dex .dex-wrapper {
+    w-dex-my-balance {
+      .smart-table {
+        &__cell[data-column-id="assetId"] {
+          w-copy-wrap .container span {
+            max-width: 200px;
+          }
+        }
+      }
+    }
   }
 }
 

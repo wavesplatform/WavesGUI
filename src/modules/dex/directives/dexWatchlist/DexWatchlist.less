@@ -38,6 +38,11 @@ body.dex .dex-wrapper {
         }
       }
 
+      .not-found {
+        font-size: @font-size-caption-2;
+        margin: 14px 0 0 12px;
+      }
+
       .titles-wrap {
         display: flex;
         flex-direction: row;
@@ -231,6 +236,7 @@ body.dex .dex-wrapper {
           flex-wrap: wrap;
           cursor: pointer;
           padding: 0;
+          position: relative;
 
           &.selected {
             background-color: @color-submit-50;
@@ -245,6 +251,12 @@ body.dex .dex-wrapper {
 
         &__cell {
           padding: 2px 0;
+
+          &:hover {
+            .tooltip {
+              display: inline-block;
+            }
+          }
 
           &:first-child {
             padding-left: 10px;
@@ -299,11 +311,55 @@ body.dex .dex-wrapper {
               border-bottom: 1px dashed @color-disabled-400;
             }
           }
+        }
 
-          .tooltip {
-            position: absolute;
-            display: none;
-            z-index: 10;
+        .tooltip {
+          display: none;
+
+          &.left {
+            transform: translate(0);
+            left: 10px;
+            padding: 0 10px;
+            top: 22px;
+            right: auto;
+
+            &::before {
+              bottom: auto;
+              left: 25px;
+              right: auto;
+              top: -3px;
+            }
+          }
+
+          &.center {
+            transform: translate(0);
+            left: auto;
+            padding: 0 10px;
+            top: 22px;
+            width: auto;
+            right: 42%;
+
+            &::before {
+              bottom: auto;
+              left: calc(80% ~'- 7px');
+              right: auto;
+              top: -3px;
+            }
+          }
+
+          &.right {
+            transform: translate(0);
+            right: 10px;
+            top: 22px;
+            padding: 0 10px;
+
+
+            &::before {
+              bottom: auto;
+              left: auto;
+              right: 10px;
+              top: -3px;
+            }
           }
 
           &:hover {
@@ -313,7 +369,6 @@ body.dex .dex-wrapper {
           }
         }
       }
-
     }
 
     i.icon-fav {
