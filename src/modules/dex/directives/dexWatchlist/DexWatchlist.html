@@ -56,26 +56,26 @@
             </w-table-cell>
             <w-table-cell>
                 <span>{{::pair.pair}}</span>
-                <div class="tooltip">{{::pair.pair}}</div>  <!-- TODO @Iskander styled tooltip -->
+                <div class="tooltip">{{ ::pair.pair }}</div>  <!-- TODO @Iskander styled tooltip -->
             </w-table-cell>
             <w-table-cell>
-                <span>{{::pair.price || '—'}}</span>
+                <span>{{pair.price || '—'}}</span>
             </w-table-cell>
             <w-table-cell ng-class="{
                         'plus': $ctrl.isPositive(pair.change),
                         'minus': $ctrl.isNegative(pair.change)
                       }">
-                <span ng-if="$ctrl.isPositive(pair.change)">+</span><span>{{::pair.change}}</span>{{ ::pair.change ? '%' : '—'}}
+                <span ng-if="$ctrl.isPositive(pair.change)">+</span><span>{{ pair.change }}</span>{{ pair.change ? '%' : '—' }}
             </w-table-cell>
             <w-table-cell>
-                {{::pair.volume || '—'}}
-                <div class="tooltip">{{::pair.fullVolume || '—'}}</div>  <!-- TODO @Iskander styled tooltip -->
+                {{pair.volume || '—'}}
+                <div class="tooltip">{{ pair.fullVolume || '—' }}</div>  <!-- TODO @Iskander styled tooltip -->
             </w-table-cell>
             <w-table-cell ng-if="$ctrl.isChosen(pair)">
                 <!-- todo @german asset links -->
-                <a href="#" class="disabled-900">{{::pair.amountAsset.id}}</a> <span>/</span>
+                <a href="#" class="disabled-900">{{::pair.amountAsset.id}}</a>&nbsp/<br>
                 <a href="#" class="disabled-900">{{::pair.priceAsset.id}}</a>
             </w-table-cell>
         </w-table-row>
-    </w-smart-table
+    </w-smart-table>
 </div>
