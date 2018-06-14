@@ -20,6 +20,11 @@
                     this.id = tabData.id;
 
                     /**
+                     * @type {string}
+                     */
+                    this.baseAssetId = tabData.baseAssetId;
+
+                    /**
                      * @type {Map<string, PairsList>}
                      * @private
                      */

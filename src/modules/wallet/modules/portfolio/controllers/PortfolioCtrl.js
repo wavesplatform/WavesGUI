@@ -195,8 +195,7 @@
              * @param {Asset} asset
              */
             getSrefParams(asset) {
-                const id = user.getSetting('dex.watchlist.activeWatchListId');
-                const baseAssetId = user.getSetting(`dex.watchlist.${id}.baseAssetId`);
+                const baseAssetId = user.getSetting('dex.watchlist.baseAssetId');
 
                 if (baseAssetId === asset.id) {
                     if (baseAssetId === WavesApp.defaultAssets.WAVES) {
