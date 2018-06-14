@@ -166,6 +166,12 @@
                 this._shouldShowOnlyFavourite = false;
 
                 /**
+                 * @type {string}
+                 * @private
+                 */
+                this._baseAssetId = WavesApp.defaultAssets.WAVES;
+
+                /**
                  * @type {[]}
                  * @private
                  */
@@ -176,6 +182,7 @@
                 this.syncSettings({
                     _favourite: 'dex.watchlist.favourite',
                     _assetsIds: 'dex.watchlist.list',
+                    _baseAssetId: 'dex.watchlist.baseAssetId',
                     _assetIdPair: 'dex.assetIdPair'
                 });
 
@@ -208,6 +215,7 @@
                 });
 
                 this.tab = this.tabs.getChosenTab();
+                this._baseAssetId = this.tab.baseAssetId;
                 this._prepareSearchResults();
             }
 
@@ -408,6 +416,7 @@
              * @returns {{
              *      title: string,
              *      id: string,
+             *      baseAssetId: string,
              *      searchPrefix: string,
              *      pairsOfIds: {
              *          other: string[][]
@@ -421,6 +430,7 @@
                 return {
                     title: assetName,
                     id,
+                    baseAssetId: id,
                     searchPrefix: `${id}/`,
                     pairsOfIds: {
                         other: this._getOtherPairsRelativeTo(id)
@@ -449,6 +459,7 @@
                     {
                         title: ALL,
                         id: ALL,
+                        baseAssetId: WavesApp.defaultAssets.WAVES,
                         searchPrefix: '',
                         pairsOfIds: {
                             other: this._getOtherPairs(),
