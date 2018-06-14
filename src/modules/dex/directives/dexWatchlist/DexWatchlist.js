@@ -70,6 +70,11 @@
                 this.search = '';
 
                 /**
+                 * @type {boolean}
+                 */
+                this.nothingFound = false;
+
+                /**
                  * @type {*[]}
                  */
                 this.headers = [
@@ -399,10 +404,12 @@
              */
             _prepareSearchResults() {
                 this.searchInProgress = true;
+                this.nothingFound = false;
 
                 WatchlistSearch.search(this._getSearchQuery())
                     .then((searchResults) => {
                         this.searchInProgress = !searchResults.searchFinished;
+                        this.nothingFound = searchResults.nothingFound;
 
                         return this.tab.setSearchResults(searchResults.results)
                             .then(() => {
