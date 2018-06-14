@@ -9,59 +9,72 @@
         <div class="body-1 basic-700" w-i18n="emptyBlocks.myOrders.title"></div>
         <div class="footnote-1 basic-500" w-i18n="emptyBlocks.myOrders.description"></div>
     </div>
-    <w-table-row class="{{::order.type}}"
-                 ng-class="{'new-order': order.isNew}"
-                 ng-repeat="order in $data track by order.id">
-        <w-table-cell>
-            <span ng-click="$ctrl.setPair(order)">{{::order.pair}}</span>
-        </w-table-cell>
-        <w-table-cell>
-            <span w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
-        </w-table-cell>
-        <w-table-cell>
-            <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n></span>
-            {{ order.timestamp | date:'MM-dd HH:mm:ss' }}
-        </w-table-cell>
-        <w-table-cell>
-            <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n></span>
-            <w-balance short-mode="::true" money="order.price"></w-balance>
-        </w-table-cell>
-        <w-table-cell>
-            <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n></span>
-            <w-balance short-mode="::true" money="order.amount"></w-balance>
-        </w-table-cell>
-        <w-table-cell>
-            <span class="cell-label"><w-i18n>directives.myOrders.total</w-i18n></span>
-            <w-balance short-mode="::true" money="order.total"></w-balance>
-        </w-table-cell>
-        <w-table-cell>
-            <div class="status">
-                <div class="progress-precents">
-                    {{order.percent}}%
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: {{order.percent}}%"></div>
-                </div>
-                <div class="circle-holder">
-                    <div class="circle-loader"
-                         ng-class="{over50: order.progress > 0.5}">
-                        <span>{{order.percent}}%</span>
-                        <div class="left-half-clipper">
-                            <div class="first50-bar"></div>
-                            <div class="value-bar"
-                                 style="transform: rotate({{order.progress * 360}}deg)">
+    <div class="order-row" ng-repeat="order in $data track by order.id">
+        <w-table-row class="{{::order.type}}"
+                     ng-click="$ctrl.showDetails(order)"
+                     ng-class="{'new-order': order.isNew}">
+            <w-table-cell>
+                <span ng-click="$ctrl.setPair(order)">{{::order.pair}}</span>
+            </w-table-cell>
+            <w-table-cell>
+                <span w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
+            </w-table-cell>
+            <w-table-cell>
+                <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n></span>
+                {{ ::order.timestamp | date:'MM-dd HH:mm:ss' }}
+            </w-table-cell>
+            <w-table-cell>
+                <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n></span>
+                <w-balance short-mode="::true" money="::order.price"></w-balance>
+            </w-table-cell>
+            <w-table-cell>
+                <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n></span>
+                <w-balance short-mode="::true" money="::order.amount"></w-balance>
+            </w-table-cell>
+            <w-table-cell>
+                <span class="cell-label"><w-i18n>directives.myOrders.total</w-i18n></span>
+                <w-balance short-mode="::true" money="::order.total"></w-balance>
+            </w-table-cell>
+            <w-table-cell>
+                <div class="status">
+                    <div class="progress-precents">
+                        {{order.percent}}%
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {{order.percent}}%"></div>
+                    </div>
+                    <div class="circle-holder">
+                        <div class="circle-loader"
+                             ng-class="{over50: order.progress > 0.5}">
+                            <span>{{order.percent}}%</span>
+                            <div class="left-half-clipper">
+                                <div class="first50-bar"></div>
+                                <div class="value-bar"
+                                     style="transform: rotate({{order.progress * 360}}deg)">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </w-table-cell>
-        <w-table-cell>
-            <div ng-click="$ctrl.dropOrder(order)"
-                 w-i18n="directives.myOrders.cancel"
-                 class="stop"></div>
-        </w-table-cell>
-    </w-table-row>
+            </w-table-cell>
+            <w-table-cell>
+                <div ng-click="$ctrl.dropOrder(order)"
+                     w-i18n="directives.myOrders.cancel"
+                     class="stop"></div>
+            </w-table-cell>
+        </w-table-row>
+        <w-table-row ng-if="order.exchange.length && $ctrl.shownOrderDetails[order.id]"
+                     ng-repeat="tx in order.exchange track by tx.id">
+            <w-table-cell></w-table-cell>
+            <w-table-cell></w-table-cell>
+            <w-table-cell>{{ ::tx.timestamp | date:'MM-dd HH:mm:ss' }}</w-table-cell>
+            <w-table-cell><w-balance short-mode="::true" money="::tx.price"></w-balance></w-table-cell>
+            <w-table-cell><w-balance short-mode="::true" money="::tx.amount"></w-balance></w-table-cell>
+            <w-table-cell><w-balance short-mode="::true" money="::tx.total"></w-balance></w-table-cell>
+            <w-table-cell></w-table-cell>
+            <w-table-cell></w-table-cell>
+        </w-table-row>
+    </div>
 </w-smart-table>
 
 <!-- todo add ng-if="::isNotDesktop" -->

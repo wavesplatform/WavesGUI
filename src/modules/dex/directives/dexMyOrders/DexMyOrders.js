@@ -22,6 +22,7 @@
         $scope
     ) {
 
+        const R = require('ramda');
         const tsUtils = require('ts-utils');
 
         class DexMyOrders extends Base {
@@ -43,6 +44,10 @@
                  * @type {boolean}
                  */
                 this.pending = true;
+                /**
+                 * @type {Object.<string, boolean>}
+                 */
+                this.shownOrderDetails = Object.create(null);
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
@@ -125,6 +130,14 @@
                 });
             }
 
+            showDetails(order) {
+                this.shownOrderDetails[order.id] = true;
+            }
+
+            hideDetails(order) {
+                this.shownOrderDetails[order.id] = false;
+            }
+
             cancelAllOrders() {
                 this.orders.filter(tsUtils.contains({ isActive: true })).forEach((order) => {
                     this.dropOrder(order);
@@ -160,56 +173,75 @@
              */
             _getOrders() {
                 return waves.matcher.getOrders()
-                    .then((orders) => orders.filter(tsUtils.contains({ isActive: true })))
-                    .then((orders) => DexMyOrders._remapOrders(orders))
                     .then((orders) => {
-                        const last = orders.length ? orders[orders.length - 1] : null;
+                        const filter = R.filter(R.whereEq({ isActive: true }));
+                        const remap = R.map(DexMyOrders._remapOrders);
+
+                        const result = R.pipe(filter, remap)(orders);
+                        const last = result.length ? result[result.length - 1] : null;
 
                         if (!last) {
-                            return {
-                                orders,
-                                tx: Object.create(null)
-                            };
-                        } else {
-                            return ds.api.transactions.getExchangeTxList({ timeEnd: last.timestamp }).then((txList) => {
-                                const hash = Object.create(null);
-                                txList.forEach((tx) => {
-                                    ['order1', 'order2'].forEach((orderFieldName) => {
-                                        if (!hash[tx[orderFieldName].id]) {
-                                            hash[tx[orderFieldName].id] = [];
-                                        }
-                                        hash[tx[orderFieldName].id].push(tx);
-                                    });
-                                });
-                                return orders.map((order) => {
-                                    if (!hash[order.id]) {
-                                        hash[order.id] = [];
-                                    }
-                                    if (hash[order.id].length) {
-                                        order.fee = hash[order.id]
-                                            .map((tx) => tx.fee)
-                                            .reduce((sum, fee) => sum.add(fee));
-                                    }
-                                    order.exchange = hash[order.id];
-                                    return order;
-                                });
-                            });
+                            return orders;
                         }
+
+                        return ds.api.transactions.getExchangeTxList({
+                            sender: user.address,
+                            timeStart: last.timestamp
+                        }).then((txList) => {
+                            const transactionsByOrderHash = DexMyOrders._getTransactionsByOrderIdHash(txList);
+                            return result.map((order) => {
+                                if (!transactionsByOrderHash[order.id]) {
+                                    transactionsByOrderHash[order.id] = [];
+                                }
+                                if (transactionsByOrderHash[order.id].length) {
+                                    order.fee = transactionsByOrderHash[order.id]
+                                        .map(DexMyOrders._getFeeByType(order.type))
+                                        .reduce((sum, fee) => sum.add(fee));
+                                }
+                                order.exchange = transactionsByOrderHash[order.id];
+                                return order;
+                            });
+                        });
                     });
             }
 
+            static _getTransactionsByOrderIdHash(txList) {
+                const uniqueList = R.uniqBy(R.prop('id'), txList);
+                const transactionsByOrderHash = Object.create(null);
+                uniqueList.forEach((tx) => {
+                    ['order1', 'order2'].forEach((orderFieldName) => {
+                        if (!transactionsByOrderHash[tx[orderFieldName].id]) {
+                            transactionsByOrderHash[tx[orderFieldName].id] = [];
+                        }
+                        transactionsByOrderHash[tx[orderFieldName].id].push(tx);
+                    });
+                });
+                return transactionsByOrderHash;
+            }
+
             /**
-             * @param {Array<IOrder>} orders
+             * @param {IOrder} order
              * @private
              */
-            static _remapOrders(orders) {
-                return orders.map((order) => {
-                    const assetPair = order.assetPair;
-                    const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
-                    const isNew = Date.now() < (order.timestamp.getTime() + 1000 * 30);
-                    const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
-                    return { ...order, isNew, percent, pair };
-                });
+            static _remapOrders(order) {
+                const assetPair = order.assetPair;
+                const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
+                const isNew = Date.now() < (order.timestamp.getTime() + 1000 * 30);
+                const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
+                return { ...order, isNew, percent, pair };
+            }
+
+            static _getFeeByType(type) {
+                return function (tx) {
+                    switch (type) {
+                        case 'buy':
+                            return tx.buyOrder.matcherFee;
+                        case 'sell':
+                            return tx.sellOrder.matcherFee;
+                        default:
+                            throw new Error('Wrong order type!');
+                    }
+                };
             }
 
         }
