@@ -130,7 +130,7 @@
             showConfirmDeleteUser() {
                 return this._getModal({
                     id: 'delete-user-confirm',
-                    contentUrl: 'modules/utils/modals/confirmDeleteUser/confirmDeleteUser.modal.html'
+                    templateUrl: 'modules/utils/modals/confirmDeleteUser/confirmDeleteUser.modal.html'
                 });
             }
 

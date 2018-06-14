@@ -1,0 +1,34 @@
+@import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
+
+.confirm-delete-user {
+  text-align: center;
+
+ .icon-remove {
+   display: block;
+   width: 80px;
+   height: 80px;
+   margin: 0 auto;
+   background: url(/img/icons/icon-removeacc.svg) center no-repeat;
+ }
+
+  .icon-warning {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+
+  .buttons-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    & > w-button {
+      display: block;
+      width: 224px;
+    }
+  }
+
+}

@@ -1,2 +1,26 @@
-<button w-modal-close>Cancel</button>
-<button w-modal-hide>Ok</button>
+<md-dialog w-i18n-ns="app.ui" class="confirm-delete-user" aria-label="modal">
+    <div class="btn icon-close" w-modal-close></div>
+    <md-dialog-content>
+        <div class="modal-content">
+
+            <i class="icon-remove margin-3"></i>
+            <h3 w-i18n="removeAccountHeading">Remove account</h3>
+
+            <div class="warning-500 body-2">
+                <i class="icon-warning footnote-1 margin-1"></i>
+                <w-i18n>removeAccountWarning>You did not save your SEED</w-i18n>
+            </div>
+
+            <div class="removeAccountText margin-3 disabled-600 body-2">
+                Deleting an account will lead to its irretrievable loss!
+                Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.
+            </div>
+
+            <div class="buttons-wrapper">
+                <button w-modal-close class="big long submit" w-i18n="Cancel"></button>
+                <button w-modal-hide class="big long submit" w-i18n="Ok"></button>
+            </div>
+
+        </div>
+    </md-dialog-content>
+</md-dialog>
