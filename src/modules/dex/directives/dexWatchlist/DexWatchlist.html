@@ -42,6 +42,10 @@
                    data="$ctrl.visiblePairsData"
                    header-info="$ctrl.headers"
                    class="smart-table">
+        <!-- todo: @Iskander right styling for nothing found -->
+        <div class="not-found footnote-1 basic-500" ng-if="$ctrl.nothingFound">
+            <w-i18n>directives.watchlist.placeholders.noMarkets</w-i18n>
+        </div>
         <w-table-row ng-repeat="pair in $data"
                      ng-click="$ctrl.choosePair(pair)"
                      ng-class="[{'selected': $ctrl.isChosen(pair)}, pair.uid]"

@@ -17,6 +17,7 @@
      * @param PairsStorage
      * @param $element
      * @param defaultPair
+     * @param i18n
      * @return {DexWatchlist}
      */
     const controller = function (
@@ -29,7 +30,8 @@
         WatchlistSearch,
         PairsStorage,
         $element,
-        defaultPair
+        defaultPair,
+        i18n
     ) {
 
         class DexWatchlist extends Base {
@@ -72,6 +74,11 @@
                  * @type {string}
                  */
                 this.search = '';
+
+                /**
+                 * @type {boolean}
+                 */
+                this.nothingFound = false;
 
                 /**
                  * @type {*[]}
@@ -405,10 +412,12 @@
              */
             _prepareSearchResults() {
                 this.searchInProgress = true;
+                this.nothingFound = false;
 
                 WatchlistSearch.search(this._getSearchQuery())
                     .then((searchResults) => {
                         this.searchInProgress = !searchResults.searchFinished;
+                        this.nothingFound = searchResults.nothingFound;
 
                         return this.tab.setSearchResults(searchResults.results)
                             .then(() => {
@@ -457,14 +466,12 @@
              * @private
              */
             _prepareTabs() {
-                const ALL = 'All';
-
                 PairsStorage.addFavourite(this._getSavedFavourite() || [defaultPair]);
 
                 this.tabsData = [
                     {
-                        title: ALL,
-                        id: ALL,
+                        title: i18n.translate('tabs.title.all', 'app.dex'),
+                        id: 'All',
                         baseAssetId: WavesApp.defaultAssets.WAVES,
                         searchPrefix: '',
                         pairsOfIds: {
@@ -626,7 +633,8 @@
         'WatchlistSearch',
         'PairsStorage',
         '$element',
-        'defaultPair'
+        'defaultPair',
+        'i18n'
     ];
 
     angular.module('app.dex')
