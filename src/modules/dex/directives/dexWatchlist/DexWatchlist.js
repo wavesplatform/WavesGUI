@@ -38,6 +38,10 @@
                 super();
 
                 /**
+                 * @type {boolean}
+                 */
+                this.pending = false;
+                /**
                  * @type {Array}
                  */
                 this.visiblePairsData = [];
@@ -173,6 +177,8 @@
             }
 
             $postLink() {
+                this.pending = true;
+
                 this.syncSettings({
                     _favourite: 'dex.watchlist.favourite',
                     _assetsIds: 'dex.watchlist.list',
@@ -470,6 +476,7 @@
                     .addPairs([...this.tabsData, ...this.dropDownData])
                     .then(() => {
                         this._updateVisiblePairsData();
+                        this.pending = false;
                     });
             }
 

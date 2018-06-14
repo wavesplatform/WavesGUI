@@ -37,8 +37,9 @@
            class="input-clear"
            ng-click="$ctrl.search = ''"></i>
     </div>
-
-    <w-smart-table data="$ctrl.visiblePairsData"
+    <w-loader ng-if="$ctrl.pending"></w-loader>
+    <w-smart-table ng-if="!$ctrl.pending"
+                   data="$ctrl.visiblePairsData"
                    header-info="$ctrl.headers"
                    class="smart-table">
         <w-table-row ng-repeat="pair in $data"
