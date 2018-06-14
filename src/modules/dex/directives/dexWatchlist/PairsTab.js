@@ -1,7 +1,18 @@
 {
+    const R = require('ramda');
+    const entities = require('@waves/data-entities');
+
     class PairsTabService {
 
-        constructor(PairsList, PairsStorage, WatchlistSearch, defaultPair) {
+        /**
+         * @param PairsList
+         * @param pairsStorage
+         * @param WatchlistSearch
+         * @param {Array<string>} defaultPair
+         * @param {User} user
+         * @param {PairData} PairData
+         */
+        constructor(PairsList, pairsStorage, WatchlistSearch, defaultPair, user, PairData) {
             const FAVOURITE = 'favourite';
             const OTHER = 'other';
             const WANDERING = 'wandering';
@@ -62,21 +73,23 @@
                         return Promise.resolve();
                     }
 
-                    const { other, chosen = null } = this._activationData;
-
                     LISTS.forEach((listName) => {
                         this._pairsLists.set(listName, new PairsList());
                     });
 
-                    this._resetFavourite(this._searchPrefix);
-                    this._pairsLists.get(OTHER).addPairsOfIds(other);
-                    if (chosen) {
-                        this._getWandering().addPairOfIds(chosen);
-                    }
+                    return this._loadPairsData().then(({ favorite, other, chosen }) => {
+                        this._isActive = true;
 
-                    this._isActive = true;
+                        const favoritePairs = favorite.map((data) => new PairData(data));
+                        const otherPairs = other.map((data) => new PairData(data));
+                        const chosenPairs = [chosen].map((data) => new PairData(data));
 
-                    return this._expectSort();
+                        pairsStorage.add(favoritePairs.concat(otherPairs, chosenPairs));
+                        pairsStorage.addFavourite(favoritePairs);
+
+                        this._pairsLists.get(FAVOURITE).addPairs(favoritePairs);
+                        this._pairsLists.get(OTHER).addPairs(otherPairs.map(p => pairsStorage.get(p.pairOfIds)));
+                    });
                 }
 
                 /**
@@ -116,7 +129,7 @@
                  * @returns {PairData}
                  */
                 getDefaultPair(onlyFavourite, query) {
-                    return this.getReconstructedVisiblePairs(onlyFavourite, query)[0] || PairsStorage.get(defaultPair);
+                    return this.getReconstructedVisiblePairs(onlyFavourite, query)[0] || pairsStorage.get(defaultPair);
                 }
 
                 /**
@@ -212,7 +225,7 @@
                 _resetFavourite(query) {
                     // Preliminary filtering of favourite pairs is required due to quantitative limits of other pairs
                     // based on the quantity of favourite.
-                    const suitableFavourite = WatchlistSearch.filter(PairsStorage.getFavourite(), query);
+                    const suitableFavourite = WatchlistSearch.filter(pairsStorage.getFavourite(), query);
                     this._getFavourite().reset(suitableFavourite);
                 }
 
@@ -286,7 +299,7 @@
                  * @param pair
                  */
                 toggleFavourite(pair) {
-                    PairsStorage.toggleFavourite(pair);
+                    pairsStorage.toggleFavourite(pair);
                 }
 
                 /**
@@ -331,12 +344,83 @@
                     return this._pairsLists.get(WANDERING);
                 }
 
+                /**
+                 * @return {*}
+                 * @private
+                 */
+                _loadPairsData() {
+                    const favorite = user.getSetting('dex.watchlist.favourite') || [defaultPair];
+                    const { other, chosen = [] } = this._activationData;
+                    const ids = R.uniq(R.flatten([favorite, other, chosen]));
+                    return ds.api.assets.get(ids)
+                        .then(() => {
+                            const promiseList = R.uniq(favorite.concat(other, [chosen]))
+                                .map(([assetId1, assetId2]) => ds.api.pairs.get(assetId1, assetId2));
+                            return Promise.all(promiseList);
+                        })
+                        .then((pairs) => {
+                            const promiseList = R.splitEvery(20, R.uniq(pairs)).map((pairs) => {
+                                return ds.api.pairs.info(...pairs)
+                                    .then(infoList => infoList.map((data, i) => ({ data, pair: pairs[i] })))
+                                    .catch(() => {
+                                        return pairs.map((pair) => ({ pair, data: null }));
+                                    });
+                            });
+
+                            return Promise.all(promiseList);
+                        })
+                        .then(R.flatten)
+                        .then(pairs => Promise.all(pairs.map(PairsTab._remapPairData)))
+                        .then((pairsInfo) => {
+
+                            const pairId = (pair) => [pair.amountAsset.id, pair.priceAsset.id];
+                            const hash = Object.create(null);
+
+                            pairsInfo.forEach((data) => {
+                                hash[pairId(data.pair).join('/')] = data;
+                                hash[pairId(data.pair).reverse().join('/')] = data;
+                            });
+
+                            const getItemFromHashByPair = pair => hash[pair.join('/')];
+
+                            return {
+                                favorite: favorite.map(getItemFromHashByPair),
+                                chosen: [chosen].map(getItemFromHashByPair)[0],
+                                other: other.map(getItemFromHashByPair)
+                            };
+                        });
+                }
+
+                static _remapPairData({ pair, data }) {
+
+                    if (!data) {
+                        return { pair, change24: null, volume: null };
+                    }
+
+                    const open = new BigNumber(data.firstPrice || 0);
+                    const close = new BigNumber(data.lastPrice || 0);
+                    const change24 = (!open.eq(0)) ? (close.minus(open).div(open).times(100).dp(2)) : new BigNumber(0);
+                    const volume = new BigNumber(data.volume || 0);
+
+                    return ds.api.transactions.getExchangeTxList({ // TODO catch
+                        amountAsset: pair.amountAsset,
+                        priceAsset: pair.priceAsset,
+                        limit: 1,
+                        timeStart: 0 // TODO Remove
+                    }).then((exchangeTx) => {
+                        const emptyPrice = new entities.Money(0, pair.priceAsset);
+                        const price = exchangeTx[0] && exchangeTx[0].price || emptyPrice;
+
+                        return { pair, change24, volume, price };
+                    });
+                }
+
             };
         }
 
     }
 
-    PairsTabService.$inject = ['PairsList', 'PairsStorage', 'WatchlistSearch', 'defaultPair'];
+    PairsTabService.$inject = ['PairsList', 'PairsStorage', 'WatchlistSearch', 'defaultPair', 'user', 'PairData'];
 
     angular.module('app.dex').service('PairsTab', PairsTabService);
 }

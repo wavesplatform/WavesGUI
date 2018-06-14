@@ -13,6 +13,9 @@ export function get(id: string): Promise<Asset>;
 export function get(idList: Array<string>): Promise<Array<Asset>>;
 
 export function get(assets: string | Array<string>): Promise<any> {
+    if (toArray(assets).some((id) => id.length < 4)) {
+        debugger;
+    }
     const dataService = getDataService();
     const getMethod = (idList: Array<string>) => request<Asset[]>({ method: () => dataService.getAssets.apply(dataService, idList) });
     return assetStorage.getAssets(toArray(assets), getMethod)

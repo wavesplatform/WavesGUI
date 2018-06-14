@@ -3,7 +3,7 @@
 
         constructor(PairData) {
             /**
-             * @type {Map<string, Map<string, PairData>>}
+             * @type {Map<string, PairData>}
              * @private
              */
             this._storage = new Map();
@@ -20,72 +20,43 @@
             this.PairData = PairData;
 
             return {
-                get: (pairOfIds) => {
-                    return this._get(pairOfIds);
-                },
-                addFavourite: (pairsOfIds) => {
-                    this._addFavourite(pairsOfIds);
-                },
-                getFavourite: () => {
-                    return Array.from(this._favourite);
-                },
-                toggleFavourite: (pair) => {
-                    this._toggleFavourite(pair);
-                }
+                get: pairOfIds => this._get(pairOfIds),
+                add: (pairs) => this._add(pairs),
+                has: id => this._has(id),
+                addFavourite: pairDataList => this._addFavourite(pairDataList),
+                getFavourite: () => Array.from(this._favourite),
+                toggleFavourite: pair => this._toggleFavourite(pair)
             };
         }
 
-        /**
-         * @param pair
-         * @private
-         */
-        _add(pair) {
-            const { pairOfIds: idsPairBasedOn } = pair;
-            const [id, anotherId] = idsPairBasedOn;
-            this._addPair(id, anotherId, pair);
-            this._addPair(anotherId, id, pair);
-        }
-
-        /**
-         * @param pairOfIds
-         * @returns {PairData}
-         * @private
-         */
-        _addBy(pairOfIds) {
-            const pair = new this.PairData(pairOfIds);
-            this._add(pair);
-
-            return pair;
+        _add(pairs) {
+            pairs.forEach((pairData) => {
+                const id = [pairData.amountAsset.id, pairData.priceAsset.id];
+                if (!this._has(id)) {
+                    this._storage.set(id.sort().join(), pairData);
+                }
+            });
         }
 
         /**
          * @param pairsOfIds
+         * @returns {boolean}
          * @private
          */
-        _addFavourite(pairsOfIds) {
-            for (const pairOfIds of pairsOfIds) {
-                const pair = this._get(pairOfIds);
-                this._addToFavourite(pair);
-            }
+        _has(pairsOfIds) {
+            return this._storage.has(pairsOfIds.sort().join());
         }
 
         /**
-         * @param id
-         * @param anotherId
-         * @param pair
+         * @param pairDataList
          * @private
          */
-        _addPair(id, anotherId, pair) {
-            let pairsOfId = this._getPairsOfId(id);
-            if (!pairsOfId) {
-                pairsOfId = new Map();
-                this._storage.set(id, pairsOfId);
-            }
-
-            const pairFromStorage = pairsOfId.get(anotherId);
-            if (!pairFromStorage) {
-                pairsOfId.set(anotherId, pair);
-            }
+        _addFavourite(pairDataList) {
+            pairDataList.forEach((pairData) => {
+                if (!this._favourite.has(pairData)) {
+                    this._favourite.add(pairData);
+                }
+            });
         }
 
         /**
@@ -97,25 +68,12 @@
         }
 
         /**
-         * @param id
-         * @param anotherId
+         * @param pairsOfIds
          * @returns {*}
          * @private
          */
-        _get([id, anotherId]) {
-            const pairsOfId = this._getPairsOfId(id) || { get: () => null };
-            const pair = pairsOfId.get(anotherId);
-
-            return pair || this._addBy([id, anotherId]);
-        }
-
-        /**
-         * @param id
-         * @returns {Map<string, PairData> | null}
-         * @private
-         */
-        _getPairsOfId(id) {
-            return this._storage.get(id) || null;
+        _get(pairsOfIds) {
+            return this._storage.get(pairsOfIds.sort().join());
         }
 
         /**

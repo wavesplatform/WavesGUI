@@ -104,26 +104,19 @@
                 }
 
                 sortByPriceAscending() {
-                    this._sortByAscending((pair) => pair.priceBigNumber);
+                    this._sortByAscending((pair) => pair.price);
                 }
 
                 sortByPriceDescending() {
-                    this._sortByDescending((pair) => pair.priceBigNumber);
+                    this._sortByDescending((pair) => pair.price);
                 }
 
                 sortByVolumeAscending() {
-                    this._sortByAscending((pair) => pair.bigNumberVolume);
+                    this._sortByAscending((pair) => pair.volume);
                 }
 
                 sortByVolumeDescending() {
-                    this._sortByDescending((pair) => pair.bigNumberVolume);
-                }
-
-                sortOnceVolumesLoaded() {
-                    this.pairsSorted = new Promise((resolve) => {
-                        this._sortOnceVolumesLoaded()
-                            .then(resolve);
-                    });
+                    this._sortByDescending((pair) => pair.volume);
                 }
 
                 /**
@@ -161,20 +154,6 @@
                  */
                 _sortByDescending(getValue) {
                     this._sortBy(utils.comparators.smart.desc, getValue);
-                }
-
-                /**
-                 * @returns {Promise<T>}
-                 * @private
-                 */
-                _sortOnceVolumesLoaded() {
-                    return this._pairsData
-                        .reduce((loadingProgress, pairData) => {
-                            return (loadingProgress.then(() => pairData.volumeRequest));
-                        }, Promise.resolve())
-                        .then(() => {
-                            this.sortByVolumeDescending();
-                        });
                 }
 
             };

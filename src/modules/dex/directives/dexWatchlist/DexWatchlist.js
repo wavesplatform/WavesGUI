@@ -16,7 +16,6 @@
      * @param WatchlistSearch
      * @param PairsStorage
      * @param $element
-     * @param defaultPair
      * @param i18n
      * @return {DexWatchlist}
      */
@@ -30,7 +29,6 @@
         WatchlistSearch,
         PairsStorage,
         $element,
-        defaultPair,
         i18n
     ) {
 
@@ -132,6 +130,7 @@
                     {
                         id: 'volume',
                         title: { literal: 'directives.watchlist.volume' },
+                        sortActive: true,
                         sort: (pairs, shouldSortAscending) => {
                             return this._sortColumn(
                                 shouldSortAscending,
@@ -201,7 +200,7 @@
 
                 this._prepareTabs();
                 this.tab = this.tabs.getChosenTab();
-                this._chooseInitialPair();
+                // this._chooseInitialPair();
 
                 this.observe('search', this._applyFilteringAndPrepareSearchResults);
                 this.observe('_chosenPair', this._switchLocationAndUpdateAssetIdPair);
@@ -466,7 +465,6 @@
              * @private
              */
             _prepareTabs() {
-                PairsStorage.addFavourite(this._getSavedFavourite() || [defaultPair]);
 
                 this.tabsData = [
                     {
@@ -496,15 +494,6 @@
                         this._updateVisiblePairsData();
                         this.pending = false;
                     });
-            }
-
-
-            /**
-             * @returns {[]|null}
-             * @private
-             */
-            _getSavedFavourite() {
-                return this._favourite || null;
             }
 
             /**
@@ -633,7 +622,6 @@
         'WatchlistSearch',
         'PairsStorage',
         '$element',
-        'defaultPair',
         'i18n'
     ];
 

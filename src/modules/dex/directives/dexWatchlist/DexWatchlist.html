@@ -63,7 +63,7 @@
                 <div class="tooltip">{{ ::pair.pair }}</div>  <!-- TODO @Iskander styled tooltip -->
             </w-table-cell>
             <w-table-cell>
-                <span>{{pair.price || '—'}}</span>
+                <span>{{pair.price.toFormat() || '—'}}</span>
             </w-table-cell>
             <w-table-cell ng-class="{
                         'plus': $ctrl.isPositive(pair.change),
@@ -72,8 +72,9 @@
                 <span ng-if="$ctrl.isPositive(pair.change)">+</span><span>{{ pair.change }}</span>{{ pair.change ? '%' : '—' }}
             </w-table-cell>
             <w-table-cell>
-                {{pair.volume || '—'}}
-                <div class="tooltip">{{ pair.fullVolume || '—' }}</div>  <!-- TODO @Iskander styled tooltip -->
+                <span ng-if="pair.volume" w-nice-number="pair.volume" short-mode="true" precision="2"></span>
+                <span ng-if="!pair.volume">—</span>
+                <div class="tooltip">{{ pair.volume.toFormat() || '—' }}</div>  <!-- TODO @Iskander styled tooltip -->
             </w-table-cell>
             <w-table-cell ng-if="$ctrl.isChosen(pair)">
                 <!-- todo @german asset links -->
