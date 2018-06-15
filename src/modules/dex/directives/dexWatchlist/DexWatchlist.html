@@ -42,8 +42,7 @@
                    data="$ctrl.visiblePairsData"
                    header-info="$ctrl.headers"
                    class="smart-table">
-        <!-- todo: @Iskander right styling for nothing found -->
-        <div class="not-found footnote-1 basic-500" ng-if="$ctrl.nothingFound">
+        <div class="not-found basic-500" ng-if="$ctrl.nothingFound">
             <w-i18n>directives.watchlist.placeholders.noMarkets</w-i18n>
         </div>
         <w-table-row ng-repeat="pair in $data"
@@ -60,13 +59,14 @@
             </w-table-cell>
             <w-table-cell>
                 <span>{{::pair.pair}}</span>
-                <div class="tooltip">{{ ::pair.pair }}</div>  <!-- TODO @Iskander styled tooltip -->
+                <div class="tooltip left">{{::pair.pair || '—'}}</div>
             </w-table-cell>
             <w-table-cell>
                 <span>{{pair.price.toFormat() || '—'}}</span>
+                <div class="tooltip center">{{pair.price.toFormat() || '—'}}</div> <!-- todo @boris -->
             </w-table-cell>
             <w-table-cell ng-class="{
-                        'plus': $ctrl.isPositive(pair.change),
+                        'plus': $ctrl.isPositive(pair.change),\
                         'minus': $ctrl.isNegative(pair.change)
                       }">
                 <span ng-if="$ctrl.isPositive(pair.change)">+</span><span>{{ pair.change }}</span>{{ pair.change ? '%' : '—' }}
@@ -74,11 +74,10 @@
             <w-table-cell>
                 <span ng-if="pair.volume" w-nice-number="pair.volume" short-mode="::true" precision="2"></span>
                 <span ng-if="!pair.volume">—</span>
-                <div class="tooltip">{{ pair.volume.toFormat() || '—' }}</div>  <!-- TODO @Iskander styled tooltip -->
+                <div class="tooltip right">{{ pair.volume.toFormat() || '—' }}</div>
             </w-table-cell>
             <w-table-cell ng-if="$ctrl.isChosen(pair)">
-                <!-- todo @german asset links -->
-                <a href="#" class="disabled-900">{{::pair.amountAsset.id}}</a>&nbsp/<br>
+                <a href="#" class="disabled-900">{{::pair.amountAsset.id}}</a> <span>/</span>
                 <a href="#" class="disabled-900">{{::pair.priceAsset.id}}</a>
             </w-table-cell>
         </w-table-row>
