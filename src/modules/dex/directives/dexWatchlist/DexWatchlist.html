@@ -72,7 +72,7 @@
                 <span ng-if="$ctrl.isPositive(pair.change)">+</span><span>{{ pair.change }}</span>{{ pair.change ? '%' : '—' }}
             </w-table-cell>
             <w-table-cell>
-                <span ng-if="pair.volume" w-nice-number="pair.volume" short-mode="true" precision="2"></span>
+                <span ng-if="pair.volume" w-nice-number="pair.volume" short-mode="::true" precision="2"></span>
                 <span ng-if="!pair.volume">—</span>
                 <div class="tooltip">{{ pair.volume.toFormat() || '—' }}</div>  <!-- TODO @Iskander styled tooltip -->
             </w-table-cell>
