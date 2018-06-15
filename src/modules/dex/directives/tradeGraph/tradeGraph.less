@@ -1,4 +1,5 @@
 @import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
 
 w-dex-trade-graph {
   display: block;
@@ -15,7 +16,17 @@ w-dex-trade-graph {
     position: relative;
 
     .icon {
-      margin: 15px auto 20px;
+      margin: 15px auto 0;
+      background-size: 90%;
+    }
+
+    .body-2 {
+      margin: 0;
+    }
+
+    .footnote-1 {
+      font-size: @font-size-caption-1;
+      line-height: 16px;
     }
   }
 

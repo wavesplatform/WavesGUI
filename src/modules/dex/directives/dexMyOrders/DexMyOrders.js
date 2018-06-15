@@ -248,7 +248,7 @@
             static _remapOrders(order) {
                 const assetPair = order.assetPair;
                 const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
-                const isNew = Date.now() < (order.timestamp.getTime() + 1000 * 30);
+                const isNew = Date.now() < (order.timestamp.getTime() + 1000 * 8);
                 const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
                 return { ...order, isNew, percent, pair };
             }
