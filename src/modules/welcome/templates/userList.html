@@ -12,16 +12,8 @@
     </div>
 
     <div class="body-2 basic-900" w-i18n="userList.address"></div>
-    <div ng-if="$ctrl.userList.length === 1"
-         class="input-like big margin-3">
-        <w-avatar class="margin-right-1" address="$ctrl.user.address" size="30"></w-avatar>
-        <div class="mobile-caption-2" ng-class="::{'has-name': !!$ctrl.user.name}">
-            <div class="name">{{::$ctrl.user.name}}</div>
-            <div class="address">{{::$ctrl.user.address}}</div>
-        </div>
-        <div class="icon-remove-user icon-close" ng-click="$ctrl.removeUser($ctrl.user.address)"></div>
-    </div>
-    <w-select ng-if="$ctrl.userList.length > 1" ng-model="$ctrl.activeUserAddress" class="big margin-3">
+
+    <w-select ng-model="$ctrl.activeUserAddress" class="big margin-3">
         <w-option ng-repeat="user in $ctrl.userList track by user.address"
                   value="::user.address">
             <w-avatar class="margin-right-1" address="user.address" size="30"></w-avatar>
@@ -31,6 +23,11 @@
             </div>
             <div class="icon-remove-user icon-close" ng-click="$ctrl.removeUser(user.address)"></div>
         </w-option>
+        <div>
+            <a ui-sref="restore"
+               class="add-account"
+               w-i18n="userList.addNew"></a>
+        </div>
     </w-select>
 
     <div class="password-placeholder">
