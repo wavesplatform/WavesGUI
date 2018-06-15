@@ -66,7 +66,7 @@
                 <div class="tooltip center">{{pair.price.toFormat() || '—'}}</div> <!-- todo @boris -->
             </w-table-cell>
             <w-table-cell ng-class="{
-                        'plus': $ctrl.isPositive(pair.change),\
+                        'plus': $ctrl.isPositive(pair.change),
                         'minus': $ctrl.isNegative(pair.change)
                       }">
                 <span ng-if="$ctrl.isPositive(pair.change)">+</span><span>{{ pair.change }}</span>{{ pair.change ? '%' : '—' }}

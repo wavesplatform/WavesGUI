@@ -2,6 +2,7 @@
 (function () {
     'use strict';
 
+    const entities = require('@waves/data-entities');
     const R = require('ramda');
 
     /**
@@ -55,7 +56,7 @@
             {
                 id: 'fee',
                 title: { literal: 'directives.tradeHistory.tableTitle.fee' },
-                valuePath: 'item.matchTxFee',
+                valuePath: 'item.userFee',
                 sort: true
             }
         ];
@@ -143,11 +144,21 @@
             }
 
             static _remapTxList() {
+                const filter = R.uniqBy(R.prop('id'));
+                const map = R.map(TradeHistory._remapTx);
+                return R.pipe(filter, map);
+            }
+
+            static _remapTx(tx) {
                 const amount = tx => tx.amount.asset.displayName;
                 const price = tx => tx.price.asset.displayName;
-                const filter = R.uniqBy(R.prop('id'));
-                const map = R.map(tx => ({ ...tx, pair: `${amount(tx)} / ${price(tx)}` }));
-                return R.pipe(filter, map);
+                const pair = `${amount(tx)} / ${price(tx)}`;
+                const emptyFee = new entities.Money(0, tx.fee.asset);
+                const userFee = [tx.order1, tx.order2]
+                    .filter((order) => order.senderPublicKey !== user.publicKey)
+                    .reduce((acc, order) => acc.add(order.matcherFee), emptyFee);
+
+                return { ...tx, pair, userFee };
             }
 
         }
