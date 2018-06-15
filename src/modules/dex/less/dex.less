@@ -236,8 +236,27 @@ body.dex {
       &__w-tbody {
         .smart-table {
           &__row {
+            a.underline {
+              color: @color-disabled-900;
+            }
+
             &:hover {
               background-color: @color-basic-50;
+
+              a.underline {
+                display: inline-block;
+                position: relative;
+
+                &:after {
+                  display: block;
+                  height: 2px;
+                  border-bottom: 1px dashed @color-disabled-400;
+                  position: absolute;
+                  content: '';
+                  bottom: 0px;
+                  width: 100%;
+                }
+              }
             }
           }
         }

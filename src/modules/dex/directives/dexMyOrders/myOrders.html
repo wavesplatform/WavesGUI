@@ -11,10 +11,12 @@
     </div>
     <div class="order-row" ng-repeat="order in $data track by order.id">
         <w-table-row class="{{::order.type}}"
-                     ng-click="$ctrl.toggleDetails(order)"
                      ng-class="{'new-order': order.isNew, 'can-expand': !!order.exchange.length}">
             <w-table-cell>
-                <span ng-click="$ctrl.setPair(order)">{{::order.pair}}</span>
+                <span ng-click="$ctrl.setPair(order)">
+                    <!-- todo @tsigel remove .underline if pair selected -->
+                    <a href="#" class="underline">{{::order.pair}}</a>
+                </span>
             </w-table-cell>
             <w-table-cell>
                 <span w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
@@ -39,7 +41,7 @@
                 <span class="cell-label"><w-i18n>directives.myOrders.fee</w-i18n></span>
                 0.003
             </w-table-cell>
-            <w-table-cell>
+            <w-table-cell ng-click="$ctrl.toggleDetails(order)">
                 <div class="status">
                     <div class="progress-precents">
                         {{order.percent}}%
@@ -86,10 +88,7 @@
                 <w-balance short-mode="::true" money="::tx.userFee"></w-balance>
             </w-table-cell>
             <w-table-cell></w-table-cell>
-            <w-table-cell>
-                <div ng-click="$ctrl.hideDetails(order)"
-                     class="collapse-order-details"></div>
-            </w-table-cell>
+            <w-table-cell></w-table-cell>
         </w-table-row>
     </div>
 </w-smart-table>

@@ -450,6 +450,7 @@ w-create-order {
 
             .body {
               .making-order {
+
                 .areas {
                   display: none;
                 }
@@ -487,12 +488,22 @@ w-create-order {
                 &.buy {
                   .buy {
                     background: rgba(31, 90, 245, 0.1);
-                    color: @color-submit-400;
+                    .price {
+                      span {
+                        color: @color-submit-400;
+                      }
+                    }
+
+                    .name {
+                      color: @color-submit-400;
+                    }
                   }
 
                   .sell {
                     .price {
-                      color: @color-basic-900;
+                      span {
+                        color: @color-basic-900;
+                      }
                     }
                     .name {
                       color: @color-basic-500;
@@ -503,7 +514,9 @@ w-create-order {
                 &.sell {
                   .buy {
                     .price {
-                      color: @color-basic-900;
+                      span {
+                        color: @color-basic-900;
+                      }
                     }
                     .name {
                       color: @color-basic-500;
@@ -512,7 +525,15 @@ w-create-order {
 
                   .sell {
                     background: rgba(239, 72, 41, 0.1);
-                    color: @color-error-500;
+                    .price {
+                      span {
+                        color: @color-error-500;
+                      }
+                    }
+
+                    .name {
+                      color: @color-error-500;
+                    }
                   }
 
                   .middle {
@@ -539,6 +560,12 @@ w-create-order {
                 .making-order {
                   .choice {
                     display: flex;
+
+                    .price {
+                      span {
+                        color: @color-white;
+                      }
+                    }
                   }
 
                   .areas {
