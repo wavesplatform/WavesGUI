@@ -204,7 +204,6 @@ export interface IExchange extends IBaseTransaction {
     amount: Money;
     price: Money;
     total: Money;
-    matchTxFee: Money;
     fee: Money;
     order1: IExchangeOrder;
     order2: IExchangeOrder;

@@ -20,6 +20,13 @@
             search: true
         };
 
+        const FEE_COLUMN_DATA = {
+            id: 'fee',
+            title: { literal: 'directives.tradeHistory.tableTitle.fee' },
+            valuePath: 'item.userFee',
+            sort: true
+        };
+
         const HEADER_COLUMNS = [
             {
                 id: 'type',
@@ -51,12 +58,6 @@
                 id: 'total',
                 title: { literal: 'directives.tradeHistory.tableTitle.total' },
                 valuePath: 'item.total',
-                sort: true
-            },
-            {
-                id: 'fee',
-                title: { literal: 'directives.tradeHistory.tableTitle.fee' },
-                valuePath: 'item.userFee',
                 sort: true
             }
         ];
@@ -95,7 +96,7 @@
             }
 
             $postLink() {
-                this.headers = this.isMy ? [PAIR_COLUMN_DATA].concat(HEADER_COLUMNS) : HEADER_COLUMNS;
+                this.headers = this.isMy ? [PAIR_COLUMN_DATA].concat(HEADER_COLUMNS, FEE_COLUMN_DATA) : HEADER_COLUMNS;
                 /**
                  * @type {Poll}
                  */
@@ -152,11 +153,12 @@
             static _remapTx(tx) {
                 const amount = tx => tx.amount.asset.displayName;
                 const price = tx => tx.price.asset.displayName;
+                const fee = (tx, order) => order.orderType === 'sell' ? tx.sellMatcherFee : tx.buyMatcherFee;
                 const pair = `${amount(tx)} / ${price(tx)}`;
                 const emptyFee = new entities.Money(0, tx.fee.asset);
                 const userFee = [tx.order1, tx.order2]
-                    .filter((order) => order.senderPublicKey !== user.publicKey)
-                    .reduce((acc, order) => acc.add(order.matcherFee), emptyFee);
+                    .filter((order) => order.sender === user.address)
+                    .reduce((acc, order) => acc.add(fee(tx, order)), emptyFee);
 
                 return { ...tx, pair, userFee };
             }

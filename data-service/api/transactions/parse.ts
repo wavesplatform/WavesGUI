@@ -135,7 +135,6 @@ export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, i
     const buyMatcherFee = create(tx.buyMatcherFee);
     const sellMatcherFee = create(tx.sellMatcherFee);
     const fee = create(tx.fee);
-    const matchTxFee = orderHash[exchangeType].matcherFee;
     return {
         ...tx,
         order1,
@@ -149,8 +148,7 @@ export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, i
         buyOrder,
         sellOrder,
         exchangeType,
-        total,
-        matchTxFee
+        total
     };
 }
 
