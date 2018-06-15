@@ -30,37 +30,35 @@ w-dex-my-orders {
         &__row {
           padding: 6px 10px;
 
-          &:hover {
-            background-color: @color-basic-50;
+          &.can-expand {
+            .smart-table {
+              &__cell[data-column-id="status"] {
+                cursor: pointer;
+              }
+            }
           }
 
-          &.can-expand {
-            cursor: pointer;
+          &.sell {
+            &.new-order {
+              background: rgba(255, 228, 228, 0.5);
+            }
           }
+
+          &.buy {
+            &.new-order {
+              background: @color-submit-50;
+            }
+          }
+
         }
       }
 
       .order-details {
         background: @color-basic-50;
 
-        &:hover  {
+        &:hover {
           background-color: @color-basic-100;
         }
-      }
-
-      .collapse-order-details {
-        display: block;
-        height: 30px;
-        width: 70px;
-        background-color: @color-basic-100;
-        background-image: url(/img/icons/icon-dex-collapse-order.svg);
-        background-position: center;
-        background-repeat: no-repeat;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        right: 0;
-        cursor: pointer;
       }
     }
 
@@ -149,6 +147,7 @@ w-dex-my-orders {
       }
     }
   }
+
 }
 
 @media screen and (max-width: 1400px) {

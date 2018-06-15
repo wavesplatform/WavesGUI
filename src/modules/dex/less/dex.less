@@ -233,6 +233,35 @@ body.dex {
         }
       }
 
+      &__w-tbody {
+        .smart-table {
+          &__row {
+            a.underline {
+              color: @color-disabled-900;
+            }
+
+            &:hover {
+              background-color: @color-basic-50;
+
+              a.underline {
+                display: inline-block;
+                position: relative;
+
+                &:after {
+                  display: block;
+                  height: 2px;
+                  border-bottom: 1px dashed @color-disabled-400;
+                  position: absolute;
+                  content: '';
+                  bottom: 0px;
+                  width: 100%;
+                }
+              }
+            }
+          }
+        }
+      }
+
       .status {
         margin-top: 3px;
         .tag-3();
@@ -402,7 +431,7 @@ body.dex {
         color: @color-basic-700;
 
         &::before {
-          background-image: url(../../../img/icons/null.svg);
+          background-image: url(/img/icons/icon-empty.svg);
           background-repeat: no-repeat;
           width: 50px;
           height: 52px;

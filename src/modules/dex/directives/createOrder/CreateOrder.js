@@ -303,7 +303,7 @@
                             title: {
                                 literal: isNotEnough ?
                                     'directives.createOrder.notifications.notEnoughBalance' :
-                                    'directives.createOrder.notifications.somethingWendWrong'
+                                    'directives.createOrder.notifications.somethingWentWrong'
                             }
                         });
                     }).then(() => {
