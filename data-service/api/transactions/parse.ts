@@ -118,6 +118,7 @@ export function parseBurnTx(tx: txApi.IBurn, assetsHash: IHash<Asset>, isUTX: bo
     return { ...tx, amount, fee, isUTX };
 }
 
+// TODO use orders parse from matcher
 export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, isUTX: boolean, isTokens?: boolean): IExchange {
     const create = (count: string) => isTokens ? Money.fromTokens(count, assetsHash[WAVES_ID]) : new Money(count, assetsHash[WAVES_ID]);
     const order1 = parseExchangeOrder(tx.order1, assetsHash, isTokens);
@@ -130,12 +131,11 @@ export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, i
     const sellOrder = orderHash.sell;
     const exchangeType = buyOrder.timestamp > sellOrder.timestamp ? 'buy' : 'sell';
     const price = order1.price;
-    const amount = orderHash[exchangeType].amount;
-    const total = orderHash[exchangeType].total;
+    const amount = Money.min(order1.amount, order2.amount);
+    const total = Money.min(order1.total, order2.total);
     const buyMatcherFee = create(tx.buyMatcherFee);
     const sellMatcherFee = create(tx.sellMatcherFee);
     const fee = create(tx.fee);
-    const matchTxFee = orderHash[exchangeType].matcherFee;
     return {
         ...tx,
         order1,
@@ -149,8 +149,7 @@ export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, i
         buyOrder,
         sellOrder,
         exchangeType,
-        total,
-        matchTxFee
+        total
     };
 }
 

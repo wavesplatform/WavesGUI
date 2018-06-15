@@ -11,7 +11,7 @@
     </div>
     <div class="order-row" ng-repeat="order in $data track by order.id">
         <w-table-row class="{{::order.type}}"
-                     ng-click="$ctrl.showDetails(order)"
+                     ng-click="$ctrl.toggleDetails(order)"
                      ng-class="{'new-order': order.isNew, 'can-expand': !!order.exchange.length}">
             <w-table-cell>
                 <span ng-click="$ctrl.setPair(order)">{{::order.pair}}</span>
@@ -34,6 +34,10 @@
             <w-table-cell>
                 <span class="cell-label"><w-i18n>directives.myOrders.total</w-i18n></span>
                 <w-balance short-mode="::true" money="::order.total"></w-balance>
+            </w-table-cell>
+            <w-table-cell>
+                <span class="cell-label"><w-i18n>directives.myOrders.fee</w-i18n></span>
+                0.003
             </w-table-cell>
             <w-table-cell>
                 <div class="status">
@@ -69,12 +73,23 @@
             <w-table-cell></w-table-cell>
             <w-table-cell></w-table-cell>
             <w-table-cell>{{ ::tx.timestamp | date:'MM-dd HH:mm:ss' }}</w-table-cell>
-            <w-table-cell><w-balance short-mode="::true" money="::tx.price"></w-balance></w-table-cell>
-            <w-table-cell><w-balance short-mode="::true" money="::tx.amount"></w-balance></w-table-cell>
-            <w-table-cell><w-balance short-mode="::true" money="::tx.total"></w-balance></w-table-cell>
+            <w-table-cell>
+                <w-balance short-mode="::true" money="::tx.price"></w-balance>
+            </w-table-cell>
+            <w-table-cell>
+                <w-balance short-mode="::true" money="::tx.amount"></w-balance>
+            </w-table-cell>
+            <w-table-cell>
+                <w-balance short-mode="::true" money="::tx.total"></w-balance>
+            </w-table-cell>
+            <w-table-cell>
+                <w-balance short-mode="::true" money="::tx.userFee"></w-balance>
+            </w-table-cell>
             <w-table-cell></w-table-cell>
-            <w-table-cell><div ng-click="$ctrl.hideDetails(order)"
-            class="collapse-order-details"></div></w-table-cell>
+            <w-table-cell>
+                <div ng-click="$ctrl.hideDetails(order)"
+                     class="collapse-order-details"></div>
+            </w-table-cell>
         </w-table-row>
     </div>
 </w-smart-table>

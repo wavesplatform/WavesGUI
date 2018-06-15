@@ -34,30 +34,25 @@
                      * @type {string}
                      */
                     this.baseAssetId = tabData.baseAssetId;
-
+                    /**
+                     * @type {Promise}
+                     * @private
+                     */
+                    this._activatePromise = null;
                     /**
                      * @type {Map<string, PairsList>}
                      * @private
                      */
                     this._pairsLists = new Map();
-
                     /**
                      * @type {PairsList}
                      */
                     this._visiblePairs = new PairsList();
-
-                    /**
-                     * @type {boolean}
-                     * @private
-                     */
-                    this._isActive = false;
-
                     /**
                      * @type {string}
                      * @private
                      */
                     this._searchPrefix = tabData.searchPrefix;
-
                     /**
                      * @type {{ other: string[][], chosen: string[]|null }}
                      * @private
@@ -69,16 +64,15 @@
                  * @returns {Promise<void>}
                  */
                 activate() {
-                    if (this._isActive) {
-                        return Promise.resolve();
+                    if (this._activatePromise) {
+                        return this._activatePromise;
                     }
 
                     LISTS.forEach((listName) => {
                         this._pairsLists.set(listName, new PairsList());
                     });
 
-                    return this._loadPairsData().then(({ favorite, other, chosen }) => {
-                        this._isActive = true;
+                    this._activatePromise = this._loadPairsData().then(({ favorite, other, chosen }) => {
 
                         const favoritePairs = favorite.map((data) => new PairData(data));
                         const otherPairs = other.map((data) => new PairData(data));
@@ -90,6 +84,8 @@
                         this._pairsLists.get(FAVOURITE).addPairs(favoritePairs.map(p => pairsStorage.get(p.pairOfIds)));
                         this._pairsLists.get(OTHER).addPairs(otherPairs.map(p => pairsStorage.get(p.pairOfIds)));
                     });
+
+                    return this._activatePromise;
                 }
 
                 /**

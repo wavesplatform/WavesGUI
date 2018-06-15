@@ -108,12 +108,6 @@
                                     directives.createOrder.errors.balance
                                 </w-i18n>
                             </w-input-error>
-                            <w-input-error message="custom">
-                                <w-i18n params="{name: $ctrl.priceBalance.asset.displayName}">
-                                    directives.createOrder.errors.balance
-                                </w-i18n>
-                            </w-input-error>
-
                         </w-input-container>
                     </div>
 
@@ -192,16 +186,21 @@
                                     <div class="caption-1 disabled-500">{{$ctrl.priceDisplayName}}</div>
                                 </div>
                             </div>
+                            <span class="error active" ng-if="!$ctrl.canBuyOrder">
+                                <w-i18n params="{name: $ctrl.priceBalance.asset.displayName}">
+                                    directives.createOrder.errors.balance
+                                </w-i18n>
+                            </span>
                             <!--w-input-error message="">  <!-- todo validation @german -->
                             <!--w-i18n></w-i18n-->
                             <!--/w-input-error---->
                         </w-input-container>
                     </div>
 
-                    <div class="expiration">                            <!-- todo @german -->
-                        <div w-i18n="directives.createOrder.fee"></div> <!-- add params="fee (0.003) from API" // Fee {{fee}} WAVES-->
+                    <div class="expiration">
+                        <div params="{fee: $ctrl.fee.toFormat()}" w-i18n="directives.createOrder.fee"></div>
                         <div w-i18n="directives.createOrder.expiration"></div>
-                        <w-select ng-model="$ctrl.expiration"><!-- todo past up-direction="true" to open up-->
+                        <w-select ng-model="$ctrl.expiration">
                             <w-option ng-repeat="option in $ctrl.expirationValues track by option.name"
                                       value="::option.value">
                                 <w-i18n w-i18n-ns="app.dex">directives.createOrder.{{::option.name}}</w-i18n>
