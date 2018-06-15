@@ -206,8 +206,8 @@
                 // this._chooseInitialPair();
 
                 this.observe('search', this._applyFilteringAndPrepareSearchResults);
-                this.observe('_chosenPair', this._switchLocationAndUpdateAssetIdPair);
                 this.observe('_assetIdPair', this._switchLocationAndSelectAssetIdPair);
+                this.observe('_chosenPair', this._switchLocationAndUpdateAssetIdPair);
             }
 
             /**
