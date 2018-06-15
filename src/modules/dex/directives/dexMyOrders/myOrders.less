@@ -18,8 +18,50 @@ w-dex-my-orders {
       }
     }
 
-    &__row {
-      padding: 6px 14px;
+    .order-details {
+      &:hover {
+        background-color: @color-basic-50;
+      }
+    }
+
+    &__w-tbody {
+
+      .smart-table {
+        &__row {
+          padding: 6px 10px;
+
+          &:hover {
+            background-color: @color-basic-50;
+          }
+
+          &.can-expand {
+            cursor: pointer;
+          }
+        }
+      }
+
+      .order-details {
+        background: @color-basic-50;
+
+        &:hover  {
+          background-color: @color-basic-100;
+        }
+      }
+
+      .collapse-order-details {
+        display: block;
+        height: 30px;
+        width: 70px;
+        background-color: @color-basic-100;
+        background-image: url(/img/icons/icon-dex-collapse-order.svg);
+        background-position: center;
+        background-repeat: no-repeat;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 0;
+        cursor: pointer;
+      }
     }
 
     &__cell {
@@ -36,15 +78,23 @@ w-dex-my-orders {
       min-width: auto;
     }
 
+    &__cell[data-column-id="status"] {
+      flex-basis: 100px;
+      flex-grow: 0;
+      min-width: auto;
+    }
+
     &__cell[data-column-id="pair"] {
       padding-left: 0;
+      flex-basis: 160px;
 
       span {
-        display: inline-block;
+        display: block;
+        align-items: center;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
-        max-width: 160px;
+        max-width: 200px;
         cursor: pointer;
       }
     }
@@ -96,6 +146,18 @@ w-dex-my-orders {
         border-radius: 0;
         width: 100%;
         max-width: 110px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  w-dex-my-orders {
+    .smart-table {
+      &__cell[data-column-id="pair"] {
+        span {
+          max-width: 126px;
+        }
       }
     }
   }
