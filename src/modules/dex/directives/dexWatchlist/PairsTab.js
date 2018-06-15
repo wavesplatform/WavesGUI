@@ -87,7 +87,7 @@
                         pairsStorage.add(favoritePairs.concat(otherPairs, chosenPairs));
                         pairsStorage.addFavourite(favoritePairs);
 
-                        this._pairsLists.get(FAVOURITE).addPairs(favoritePairs);
+                        this._pairsLists.get(FAVOURITE).addPairs(favoritePairs.map(p => pairsStorage.get(p.pairOfIds)));
                         this._pairsLists.get(OTHER).addPairs(otherPairs.map(p => pairsStorage.get(p.pairOfIds)));
                     });
                 }

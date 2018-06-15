@@ -203,7 +203,6 @@
 
                 this._prepareTabs();
                 this.tab = this.tabs.getChosenTab();
-                // this._chooseInitialPair();
 
                 this.observe('search', this._applyFilteringAndPrepareSearchResults);
                 this.observe('_assetIdPair', this._switchLocationAndSelectAssetIdPair);
@@ -495,6 +494,7 @@
                     .addPairs([...this.tabsData, ...this.dropDownData])
                     .then(() => {
                         this._updateVisiblePairsData();
+                        this._chooseInitialPair();
                         this.pending = false;
                         $scope.$apply();
                     });
