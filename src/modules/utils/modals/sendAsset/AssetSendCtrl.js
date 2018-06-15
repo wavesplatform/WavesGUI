@@ -157,7 +157,7 @@
                 const hash = this.state.moneyHash;
                 const list = Object.values(hash).filter((money) => !money.getTokens().eq(0));
                 if (list.length) {
-                    this.choosableMoneyList = list;
+                    this.choosableMoneyList = list.filter(AssetSendCtrl._isNotScam);
                 } else {
                     this.choosableMoneyList = [this.state.moneyHash[this.state.assetId]];
                 }
@@ -174,6 +174,14 @@
                     .then((list) => utils.toHash(list, 'asset.id'))
                     .then(AssetSendCtrl._getAddMoneyProcessor(this.state.assetId))
                     .then(AssetSendCtrl._getAddMoneyProcessor(this.state.mirrorId));
+            }
+
+            /**
+             * @return {boolean}
+             * @private
+             */
+            static _isNotScam(item) {
+                return !WavesApp.scam[item.asset.id];
             }
 
             /**

@@ -276,13 +276,15 @@
                     const isPinned = this._isPinned(item.asset.id);
                     const isSpam = this._isSpam(item.asset.id);
                     item.asset.isMyAsset = item.asset.sender === user.address;
+                    const isOnScamList = WavesApp.scam[item.asset.id] || PortfolioCtrl._isYoungAsset(item.asset);
 
                     return Promise.resolve({
                         available: item.available,
                         asset: item.asset,
                         inOrders: item.inOrders,
                         isPinned,
-                        isSpam
+                        isSpam,
+                        isOnScamList
                     });
                 };
 
@@ -294,9 +296,8 @@
                     waves.node.assets.balanceList(this.spam)
                         .then((list) => Promise.all(list.map(remapBalances)))
                 ]).then(([activeList, /* pinned,*/ spam]) => {
-
                     for (let i = activeList.length - 1; i >= 0; i--) {
-                        if (WavesApp.scam[activeList[i].asset.id] || PortfolioCtrl._isYoungAsset(activeList[i].asset)) {
+                        if (activeList[i].isOnScamList) {
                             spam.push(activeList.splice(i, 1)[0]);
                         }
                     }
@@ -363,7 +364,7 @@
  * @typedef {object} PortfolioCtrl#IPortfolioBalanceDetails
  * @property {boolean} isPinned
  * @property {boolean} isSpam
- * @property {boolean} hasSpamSignatures
+ * @property {boolean} isOnScamList
  * @property {Asset} asset
  * @property {Money} available
  * @property {Money} inOrders

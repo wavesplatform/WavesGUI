@@ -27,6 +27,7 @@
                 this.time = $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm');
                 this.shownAddress = this.transaction.shownAddress;
                 this.typeName = this.transaction.typeName;
+                this.isScam = !!WavesApp.scam[this.transaction.assetId];
 
                 const TYPES = waves.node.transactions.TYPES;
                 if (this.typeName === TYPES.BURN || this.typeName === TYPES.ISSUE || this.typeName === TYPES.REISSUE) {

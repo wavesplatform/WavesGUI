@@ -103,7 +103,7 @@
                         <div><w-i18n>receive</w-i18n></div>
                     </span>
                     <span class="icon"
-                          ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES && !balance.isPinned && !balance.hasSpamSignatures"
+                          ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES && !balance.isPinned && !balance.isOnScamList"
                           ng-class="{'icon-hide': !balance.isSpam, 'icon-show': balance.isSpam}"
                           ng-click="$ctrl.toggleSpam(balance.asset)">
                          <div>
@@ -132,7 +132,7 @@
                         <w-action ng-if="::$ctrl.canShowDex(balance)" ng-click="$ctrl.openDex(balance.asset)">
                             <w-i18n>dex</w-i18n>
                         </w-action>
-                        <w-action ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES && !balance.isPinned && !balance.hasSpamSignatures"
+                        <w-action ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES && !balance.isPinned && !balance.isOnScamList"
                                   ng-click="$ctrl.toggleSpam(balance.asset)">
                             <w-i18n w-i18n-ns="app.wallet.portfolio" ng-if="!balance.isSpam">tospam</w-i18n>
                             <w-i18n w-i18n-ns="app.wallet.portfolio" ng-if="balance.isSpam">unspam</w-i18n>
