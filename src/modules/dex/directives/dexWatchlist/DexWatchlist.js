@@ -629,7 +629,7 @@
     ];
 
     angular.module('app.dex')
-        .component('wDexWatchlist', {
+        .component('wDexWatchlistdsafa', {
             templateUrl: 'modules/dex/directives/dexWatchlist/DexWatchlist.html',
             controller
         });
