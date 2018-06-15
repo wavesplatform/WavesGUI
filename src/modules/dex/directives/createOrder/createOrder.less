@@ -179,7 +179,7 @@ w-create-order {
           }
 
           .price {
-            .footnote-2()
+            .footnote-2();
           }
 
           &.sell {
@@ -383,6 +383,20 @@ w-create-order {
             }
           }
         }
+
+        .price {
+          font-size: @font-size-caption-2;
+          line-height: 12px;
+
+          span {
+            color: @color-disabled-900;
+
+            &.active {
+              color: @color-disabled-600;
+            }
+          }
+        }
+
       }
     }
   }

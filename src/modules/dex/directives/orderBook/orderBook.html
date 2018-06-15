@@ -30,11 +30,17 @@
         </w-scroll-box>
     </w-table>
 
-    <!-- todo @german add class error if error -->
-    <div class="empty-block-container error">
+    <div class="empty-block-container">
         <div class="icon"></div>
         <div class="body-1 basic-700" w-i18n="emptyBlocks.orderBook.title"></div>
         <div class="footnote-1 basic-500" w-i18n="emptyBlocks.orderBook.description"></div>
+    </div>
+
+    <!-- todo @german Если error (Something went wrong) - показывать этот новый блок с классом еррор -->
+    <div class="empty-block-container error">
+        <div class="icon"></div>
+        <div class="body-1 basic-700" w-i18n="emptyBlocks.orderBook.error.title"></div>
+        <div class="footnote-1 basic-500" w-i18n="emptyBlocks.orderBook.error.text"></div>
     </div>
 
 </div>

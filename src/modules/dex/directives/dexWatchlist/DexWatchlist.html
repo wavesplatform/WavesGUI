@@ -77,7 +77,9 @@
                 <div class="tooltip right">{{ pair.volume.toFormat() || '—' }}</div>
             </w-table-cell>
             <w-table-cell ng-if="$ctrl.isChosen(pair)">
-                <a href="#" class="disabled-900">{{::pair.amountAsset.id}}</a> <span>/</span>
+                <div>
+                    <a href="#" class="disabled-900">{{::pair.amountAsset.id}}</a> <span>/</span>
+                </div>
                 <a href="#" class="disabled-900">{{::pair.priceAsset.id}}</a>
             </w-table-cell>
         </w-table-row>
