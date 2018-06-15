@@ -15,6 +15,21 @@ body.dex .dex-wrapper {
 
       &__cell[data-column-id="assetId"] {
         flex-basis: 35%;
+
+        .underline {
+          display: inline-block;
+          position: relative;
+
+          &:after {
+            display: block;
+            height: 2px;
+            border-bottom: 1px dashed @color-disabled-400;
+            position: absolute;
+            content: '';
+            bottom: 0;
+            width: 100%;
+          }
+        }
       }
 
       &__cell[data-column-id="total"],
@@ -31,11 +46,12 @@ body.dex .dex-wrapper {
       w-copy-wrap {
         border: 0 none;
         border-radius: 0;
-        height: auto;
+        height: 18px;
         background-color: transparent;
 
         .container {
           padding: 0;
+          cursor: pointer;
           font-size: @font-size-caption-2;
           line-height: inherit;
           display: inline-block;
@@ -56,7 +72,7 @@ body.dex .dex-wrapper {
           border-left: 0 none;
           flex-basis: 24px;
           height: 12px;
-          margin-top: -2px;
+          margin-top: -4px;
           background: url(/img/icons/dex-copy-icon.svg) no-repeat right center;
         }
       }
