@@ -6,9 +6,10 @@
      * @param {$rootScope.Scope} $scope
      * @param {IPollCreate} createPoll
      * @param {Waves} waves
+     * @param user
      * @return {MyBalance}
      */
-    const controller = function (Base, $scope, createPoll, waves) {
+    const controller = function (Base, $scope, createPoll, waves, user) {
 
         class MyBalance extends Base {
 
@@ -26,7 +27,7 @@
                         sort: true,
                         valuePath: 'item.asset.displayName'
                     },
-                    { // todo @german add assetId
+                    {
                         id: 'assetId',
                         sort: false,
                         title: { literal: 'directives.balance.assetId' },
@@ -60,6 +61,16 @@
             }
 
             /**
+             * @param {string} assetId
+             */
+            setPair(assetId) {
+                user.setSetting('dex.assetIdPair', {
+                    amount: user.getSetting('dex.watchlist.baseAssetId'),
+                    price: assetId
+                });
+            }
+
+            /**
              * @return {Promise<IBalanceDetails[]>}
              * @private
              */
@@ -82,7 +93,7 @@
         return new MyBalance();
     };
 
-    controller.$inject = ['Base', '$scope', 'createPoll', 'waves'];
+    controller.$inject = ['Base', '$scope', 'createPoll', 'waves', 'user'];
 
     angular.module('app.dex').component('wDexMyBalance', {
         bindings: {},

@@ -5,16 +5,13 @@
                header-info="$ctrl.headers">
     <w-table-row ng-repeat="balance in $data track by balance.asset.id"
                  w-toggle-class-container>
-        <w-table-cell>
-            <!-- todo @german setPair() onClick w-asset-logo -->
+        <w-table-cell ng-click="$ctrl.setPair(balance.asset.id)">
             <w-asset-logo size="20" asset-id="{{::balance.asset.id}}"></w-asset-logo>
             {{::balance.asset.name}}
         </w-table-cell>
-        <!-- todo @german add Asset adress to copywrap cell -->
         <w-table-cell>
             <span class="cell-label"><w-i18n>directives.balance.assetId</w-i18n></span>
-            <w-copy-wrap info="$ctrl.sendLink"
-                         ng-click="$ctrl.onCopyAddress()">
+            <w-copy-wrap info="::balance.asset.id">
                 <span>{{::balance.asset.id}}</span>
             </w-copy-wrap>
         </w-table-cell>
