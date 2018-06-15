@@ -90,7 +90,19 @@
         const tagCompile = ({ main, content }) => {
             try {
                 const firstDotIndex = main.indexOf('.');
-                const tagName = firstDotIndex === 0 ? 'span' : main.slice(0, firstDotIndex);
+                let tagName = '';
+
+                switch (firstDotIndex) {
+                    case 0:
+                        tagName = 'span';
+                        break;
+                    case -1:
+                        tagName = main;
+                        break;
+                    default:
+                        tagName = main.slice(0, firstDotIndex);
+                }
+
                 const classes = main.slice(firstDotIndex + 1).split('.').join(' ');
 
                 if (AVAILABLE_TAGS.indexOf(tagName) === -1) {

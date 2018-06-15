@@ -37,6 +37,14 @@
                  * @type {string}
                  */
                 this.password = '';
+                /**
+                 * @type {boolean}
+                 */
+                this.saveUserData = true;
+                /**
+                 * @type {number}
+                 */
+                this.activeStep = 0;
 
                 this.observe('seed', this._onChangeSeed);
                 this.observeOnce('seedForm', () => {
@@ -50,6 +58,9 @@
 
             restore() {
 
+                if (!this.saveUserData) {
+                    this.password = Date.now().toString();
+                }
                 const seedData = new ds.Seed(this.seed);
                 const encryptedSeed = seedData.encrypt(this.password);
                 const keyPair = seedData.keyPair;
@@ -61,13 +72,22 @@
                     password: this.password,
                     settings: { termsAccepted: false },
                     encryptedSeed,
-                    publicKey: keyPair.publicKey
+                    publicKey: keyPair.publicKey,
+                    saveToStorage: this.saveUserData
                 }, true);
             }
 
             resetNameAndPassword() {
                 this.name = '';
                 this.password = '';
+            }
+
+            nextStep() {
+                if (!this.saveUserData) {
+                    return this.restore();
+                }
+
+                this.activeStep++;
             }
 
             /**

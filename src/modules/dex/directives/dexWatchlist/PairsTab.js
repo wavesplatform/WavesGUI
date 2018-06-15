@@ -87,7 +87,7 @@
                         pairsStorage.add(favoritePairs.concat(otherPairs, chosenPairs));
                         pairsStorage.addFavourite(favoritePairs);
 
-                        this._pairsLists.get(FAVOURITE).addPairs(favoritePairs);
+                        this._pairsLists.get(FAVOURITE).addPairs(favoritePairs.map(p => pairsStorage.get(p.pairOfIds)));
                         this._pairsLists.get(OTHER).addPairs(otherPairs.map(p => pairsStorage.get(p.pairOfIds)));
                     });
                 }
@@ -353,7 +353,7 @@
                 _loadPairsData() {
                     const favorite = user.getSetting('dex.watchlist.favourite') || [defaultPair];
                     const { other, chosen = [] } = this._activationData;
-                    return PairsTab._loadDataByPairs(favorite.concat(other, [chosen]))
+                    return PairsTab._loadDataByPairs(favorite.concat(other, [chosen].filter(Boolean)))
                         .then((pairsInfo) => {
 
                             const pairId = (pair) => [pair.amountAsset.id, pair.priceAsset.id];
@@ -368,7 +368,7 @@
 
                             return {
                                 favorite: favorite.map(getItemFromHashByPair),
-                                chosen: [chosen].map(getItemFromHashByPair)[0],
+                                chosen: [chosen].filter(Boolean).map(getItemFromHashByPair)[0],
                                 other: other.map(getItemFromHashByPair)
                             };
                         });

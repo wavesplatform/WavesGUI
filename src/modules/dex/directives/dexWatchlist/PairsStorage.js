@@ -52,10 +52,11 @@
          * @private
          */
         _addFavourite(pairDataList) {
-            pairDataList.forEach((pairData) => {
-                if (!this._favourite.has(pairData)) {
-                    this._favourite.add(pairData);
+            pairDataList.forEach(pairData => {
+                if (!this._has(pairData.pairOfIds)) {
+                    this._add([pairData]);
                 }
+                this._favourite.add(this._get(pairData.pairOfIds));
             });
         }
 
