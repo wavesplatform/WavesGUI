@@ -1,4 +1,4 @@
-import { Asset, BigNumber } from '@waves/data-entities';
+import { Asset, AssetPair, BigNumber, Money } from '@waves/data-entities';
 
 export interface IHash<T> {
     [key: string]: T;
@@ -20,3 +20,11 @@ export type TLeasingStatus = 'active' | 'canceled'
 
 export type TBigNumberData = string | number | BigNumber;
 export type TAssetData = Asset | string;
+
+export interface IMoneyFactory {
+    (data: string | number | BigNumber, asset: Asset): Money;
+}
+
+export interface IPriceMoneyFactory {
+    (data: string | number | BigNumber, pair: AssetPair): Money;
+}

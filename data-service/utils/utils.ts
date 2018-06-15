@@ -1,12 +1,24 @@
 import { IAssetPair, IHash } from '../interface';
 import { WAVES_ID } from '@waves/waves-signature-generator';
-import { BigNumber, Asset } from '@waves/data-entities';
+import { BigNumber, Asset, Money, AssetPair, OrderPrice } from '@waves/data-entities';
 import { get } from '../api/assets/assets';
 import { get as configGet } from '../config';
 
 
 export function normalizeRecipient(recipient: string): string {
     return recipient.replace(`alias:${configGet('code')}:`, '');
+}
+
+export function coinsMoneyFactory(money: string | number | BigNumber, asset: Asset): Money {
+    return new Money(money, asset);
+}
+
+export function tokensMoneyFactory(money: string | number | BigNumber, asset: Asset): Money {
+    return Money.fromTokens(money, asset);
+}
+
+export function priceMoneyFactory(money: string | number | BigNumber, pair: AssetPair): Money {
+    return Money.fromTokens(OrderPrice.fromMatcherCoins(money, pair).getTokens(), pair.priceAsset);
 }
 
 export function normalizeAssetPair(assetPair: IAssetPair): IAssetPair {

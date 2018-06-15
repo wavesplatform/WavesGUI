@@ -1,7 +1,8 @@
 <w-loader ng-if="$ctrl.pending"></w-loader>
 
 <w-smart-table ng-if="!$ctrl.pending"
-               clas="smart-table"
+               class="smart-table"
+               ng-class="{'my-trade-history': $ctrl.isMy}"
                data="$ctrl.history"
                header-info="$ctrl.headers">
 

@@ -110,6 +110,17 @@
             }
 
             /**
+             * @param {IExchange} tx
+             */
+            setPair(tx) {
+                user.setSetting('dex.assetIdPair', {
+                    amount: tx.amount.asset.id,
+                    price: tx.price.asset.id
+                });
+            }
+
+
+            /**
              * @private
              */
             _onChangeAssets() {

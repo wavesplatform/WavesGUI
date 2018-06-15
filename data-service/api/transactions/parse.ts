@@ -11,9 +11,28 @@ import {
     ILease,
     ICancelLeasing, ICreateAlias, IMassTransfer, IIssue, IReissue, IBurn
 } from './interface';
-import { normalizeAssetId, normalizeAssetPair, normalizeRecipient, toHash } from '../../utils/utils';
+import {
+    normalizeAssetId,
+    normalizeAssetPair,
+    normalizeRecipient,
+    toHash,
+    tokensMoneyFactory
+} from '../../utils/utils';
 import { WAVES_ID } from '@waves/waves-signature-generator';
 import { IHash } from '../../interface';
+import { IOrder } from '../matcher/interface';
+import { factory, IFactory, remapOrder } from '../matcher/getOrders';
+
+const getFactory = (isTokens: boolean): IFactory => {
+    if (isTokens) {
+        return {
+            money: tokensMoneyFactory,
+            price: (price, pair) => Money.fromTokens(price, pair.priceAsset)
+        };
+    } else {
+        return factory;
+    }
+};
 
 
 // TODO Remove is tokens flag after support Dima's api
@@ -120,9 +139,9 @@ export function parseBurnTx(tx: txApi.IBurn, assetsHash: IHash<Asset>, isUTX: bo
 
 // TODO use orders parse from matcher
 export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, isUTX: boolean, isTokens?: boolean): IExchange {
-    const create = (count: string) => isTokens ? Money.fromTokens(count, assetsHash[WAVES_ID]) : new Money(count, assetsHash[WAVES_ID]);
-    const order1 = parseExchangeOrder(tx.order1, assetsHash, isTokens);
-    const order2 = parseExchangeOrder(tx.order2, assetsHash, isTokens);
+    const factory = getFactory(isTokens);
+    const order1 = parseExchangeOrder(factory, tx.order1, assetsHash);
+    const order2 = parseExchangeOrder(factory, tx.order2, assetsHash);
     const orderHash: IHash<IExchangeOrder> = {
         [order1.orderType]: order1,
         [order2.orderType]: order2
@@ -133,9 +152,9 @@ export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, i
     const price = order1.price;
     const amount = Money.min(order1.amount, order2.amount);
     const total = Money.min(order1.total, order2.total);
-    const buyMatcherFee = create(tx.buyMatcherFee);
-    const sellMatcherFee = create(tx.sellMatcherFee);
-    const fee = create(tx.fee);
+    const buyMatcherFee = factory.money(tx.buyMatcherFee, assetsHash[WAVES_ID]);
+    const sellMatcherFee = factory.money(tx.sellMatcherFee, assetsHash[WAVES_ID]);
+    const fee = factory.money(tx.fee, assetsHash[WAVES_ID]);
     return {
         ...tx,
         order1,
@@ -190,13 +209,12 @@ export function parseMassTransferTx(tx: txApi.IMassTransfer, assetsHash: IHash<A
     return { ...tx, totalAmount, transfers, fee, isUTX, attachment, rawAttachment };
 }
 
-function parseExchangeOrder(order: txApi.IExchangeOrder, assetsHash: IHash<Asset>, isTokens?: boolean): IExchangeOrder {
-    const create = (count: string, asset: Asset) => isTokens ? Money.fromTokens(count, asset) : new Money(count, asset);
+function parseExchangeOrder(factory: IFactory, order: txApi.IExchangeOrder, assetsHash: IHash<Asset>): IExchangeOrder {
     const assetPair = normalizeAssetPair(order.assetPair);
     const pair = new AssetPair(assetsHash[assetPair.amountAsset], assetsHash[assetPair.priceAsset]);
-    const price = isTokens ? Money.fromTokens(order.price, pair.priceAsset) : Money.fromTokens(new OrderPrice(new BigNumber(order.price), pair).getTokens(), pair.priceAsset);
-    const amount = create(order.amount, assetsHash[assetPair.amountAsset]);
+    const price = factory.price(order.price, pair);
+    const amount = factory.money(order.amount, assetsHash[assetPair.amountAsset]);
     const total = Money.fromTokens(amount.getTokens().times(price.getTokens()), price.asset);
-    const matcherFee = create(order.matcherFee, assetsHash[WAVES_ID]);
+    const matcherFee = factory.money(order.matcherFee, assetsHash[WAVES_ID]);
     return { ...order, price, amount, matcherFee, assetPair, total };
 }
