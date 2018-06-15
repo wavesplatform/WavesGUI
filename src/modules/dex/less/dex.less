@@ -354,10 +354,6 @@ body.dex {
         position: relative;
         display: flex;
 
-        &:last-child {
-          margin-bottom: 10px;
-        }
-
         .dropdown {
           display: none;
           cursor: pointer;
@@ -369,6 +365,10 @@ body.dex {
           background: url(/img/icons/dex-toggle.svg) center no-repeat;
           background-size: 10px;
         }
+      }
+
+      .order-row:last-child {
+        margin-bottom: 10px;
       }
 
       &__cell {
