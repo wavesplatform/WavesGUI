@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const entities = require('@waves/data-entities');
+
     /**
      * @param Base
      * @param {Waves} waves
@@ -92,6 +94,12 @@
                         sort: true
                     },
                     {
+                        id: 'fee',
+                        title: { literal: 'directives.myOrders.tableTitle.fee' },
+                        valuePath: 'item.userFee',
+                        sort: true
+                    },
+                    {
                         id: 'status',
                         title: { literal: 'directives.myOrders.status' },
                         valuePath: 'item.progress',
@@ -136,6 +144,10 @@
 
             hideDetails(order) {
                 this.shownOrderDetails[order.id] = false;
+            }
+
+            toggleDetails(order) {
+                this.shownOrderDetails[order.id] = !this.shownOrderDetails[order.id];
             }
 
             cancelAllOrders() {
@@ -213,10 +225,20 @@
                         if (!transactionsByOrderHash[tx[orderFieldName].id]) {
                             transactionsByOrderHash[tx[orderFieldName].id] = [];
                         }
-                        transactionsByOrderHash[tx[orderFieldName].id].push(tx);
+                        transactionsByOrderHash[tx[orderFieldName].id].push(DexMyOrders._remapTx(tx));
                     });
                 });
                 return transactionsByOrderHash;
+            }
+
+            static _remapTx(tx) {
+                const fee = (tx, order) => order.orderType === 'sell' ? tx.sellMatcherFee : tx.buyMatcherFee;
+                const emptyFee = new entities.Money(0, tx.fee.asset);
+                const userFee = [tx.order1, tx.order2]
+                    .filter((order) => order.sender === user.address)
+                    .reduce((acc, order) => acc.add(fee(tx, order)), emptyFee);
+
+                return { ...tx, userFee };
             }
 
             /**
@@ -235,9 +257,9 @@
                 return function (tx) {
                     switch (type) {
                         case 'buy':
-                            return tx.buyOrder.matcherFee;
+                            return tx.buyMatcherFee;
                         case 'sell':
-                            return tx.sellOrder.matcherFee;
+                            return tx.sellMatcherFee;
                         default:
                             throw new Error('Wrong order type!');
                     }
