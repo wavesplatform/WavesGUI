@@ -67,8 +67,8 @@
                 this._headerCellPromise = $templateRequest(`${PATH}/headerCell.html`);
 
                 this.observe('headerInfo', this._onChangeHeader);
-                this.observeOnce('headerInfo', () => {
-                    this.observe(['data', 'filterList'], this._render);
+                this.observeOnce('_headerData', () => {
+                    this.observe(['_headerData', 'data', 'filterList'], this._render);
                     this._render();
                 });
 

@@ -17,6 +17,7 @@
      * @param PairsStorage
      * @param $element
      * @param i18n
+     * @param {$rootScope.Scope} $scope
      * @return {DexWatchlist}
      */
     const controller = function (
@@ -29,7 +30,8 @@
         WatchlistSearch,
         PairsStorage,
         $element,
-        i18n
+        i18n,
+        $scope
     ) {
 
         class DexWatchlist extends Base {
@@ -131,6 +133,7 @@
                         id: 'volume',
                         title: { literal: 'directives.watchlist.volume' },
                         sortActive: true,
+                        isAsc: false,
                         sort: (pairs, shouldSortAscending) => {
                             return this._sortColumn(
                                 shouldSortAscending,
@@ -493,6 +496,7 @@
                     .then(() => {
                         this._updateVisiblePairsData();
                         this.pending = false;
+                        $scope.$apply();
                     });
             }
 
@@ -620,7 +624,8 @@
         'WatchlistSearch',
         'PairsStorage',
         '$element',
-        'i18n'
+        'i18n',
+        '$scope'
     ];
 
     angular.module('app.dex')
