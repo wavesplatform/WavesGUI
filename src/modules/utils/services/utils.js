@@ -275,8 +275,8 @@
                 const pathsB = tsUtils.getPaths(b);
 
                 return pathsA.length === pathsB.length && pathsA.every((path, index) => {
-                    return tsUtils.get(a, path) === tsUtils.get(b, path) && (String(path) === String(pathsB[index]));
-                });
+                        return tsUtils.get(a, path) === tsUtils.get(b, path) && (String(path) === String(pathsB[index]));
+                    });
             },
 
             /**
@@ -568,6 +568,46 @@
                     asks: data.asks.filter((ask) => new BigNumber(ask.price).lte(max)),
                     bids: data.bids.filter((bid) => new BigNumber(bid.price).gte(min))
                 };
+            },
+
+            /**
+             * @name app.utils#cache
+             * @param {Object} storage
+             * @param {function} fetch
+             * @param {function} toId
+             * @param {number} time
+             * @param {function} fromList
+             */
+            cache: (storage, fetch, toId, time, fromList) => (data) => {
+                const list = utils.toArray(data);
+                const toRequest = [];
+                const promiseList = [];
+
+                list.forEach((item) => {
+                    const id = toId(item);
+                    if (storage[id]) {
+                        promiseList.push(storage[id].then(fromList(item)));
+                    } else {
+                        toRequest.push(item);
+                    }
+                });
+
+                let promise;
+                if (toRequest.length) {
+                    promise = fetch(toRequest);
+                    toRequest.forEach((item) => {
+                        const id = toId(item);
+                        storage[id] = promise;
+                        setTimeout(() => {
+                            delete storage[id];
+                        }, time);
+                    })
+                } else {
+                    promise = Promise.resolve();
+                }
+
+                return Promise.all([promise, ...promiseList])
+                    .then((...list) => list.reduce((acc, i) => acc.concat(...i), []));
             },
 
             /**

@@ -63,6 +63,17 @@
                     { name: 'BTC', value: WavesApp.defaultAssets.BTC }
                 ];
                 /**
+                 * @type {function}
+                 * @private
+                 */
+                this._cache = utils.cache(
+                    Object.create(null),
+                    WatchList._loadDataByPairs,
+                    WatchList._getKeyByPair,
+                    1000 * 60 * 2,
+                    pair => (list) => list.find((p) => R.equals(p.pairIdList, pair) || R.equals(p.pairIdList.reverse(), pair))
+                );
+                /**
                  * @type {*[]}
                  */
                 this.headers = [
@@ -185,7 +196,6 @@
                 }
 
                 this.observe('activeTab', this._onChangeActiveTab);
-
                 this._loadData();
             }
 
@@ -240,7 +250,7 @@
             _loadData() {
                 this.pending = true;
                 const pairs = this._getPairList();
-                WatchList._loadDataByPairs(pairs).then((pairDataList) => {
+                this._cache(pairs).then((pairDataList) => {
                     this.pairDataList = pairDataList;
                     this.pending = false;
                     $scope.$apply();
@@ -350,7 +360,7 @@
                     .then(([d1 = [], d2 = []]) => {
                         this._searchAssets = R.uniqBy(R.prop('id'), d1.concat(d2));
                         const pairs = this._getPairList();
-                        return WatchList._loadDataByPairs(pairs);
+                        return this._cache(pairs);
                     })
                     .then((pairDataList) => {
                         this.searchInProgress = false;
@@ -492,10 +502,12 @@
 
                 const pairIdList = [pair.amountAsset.id, pair.priceAsset.id];
                 const pairNames = `${pair.amountAsset.displayName} / ${pair.priceAsset.displayName}`;
+                const id = pairIdList.sort().join();
 
                 return WatchList._getPriceByPair(pair).then((price) => {
 
                     const result = {
+                        id,
                         pair,
                         pairNames,
                         pairIdList,
@@ -556,7 +568,7 @@
                     assetIdList
                         .slice(index + 1)
                         .forEach((anotherAssetId) => {
-                            pairs.push([assetId, anotherAssetId]);
+                            pairs.push([assetId, anotherAssetId].sort());
                         });
                 });
 
@@ -583,6 +595,7 @@
 
 /**
  * @typedef {object} WatchList#IPairDataItem
+ * @property {string} id
  * @property {AssetPair} pair
  * @property {boolean} isFavorite
  * @property {string} pairNames

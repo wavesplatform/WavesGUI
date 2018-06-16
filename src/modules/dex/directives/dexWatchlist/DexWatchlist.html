@@ -38,7 +38,7 @@
         <div class="not-found basic-500" ng-if="$ctrl.nothingFound">
             <w-i18n>directives.watchlist.placeholders.noMarkets</w-i18n>
         </div>
-        <w-table-row ng-repeat="pair in $data"
+        <w-table-row ng-repeat="pair in $data track by pair.id"
                      ng-click="$ctrl.choosePair(pair)"
                      ng-class="{'selected': $ctrl.isChosen(pair)}">
             <w-table-cell>
@@ -49,7 +49,7 @@
             </w-table-cell>
             <w-table-cell>
                 <span>{{::pair.pairNames}}</span>
-                <div class="tooltip left">{{::pair.pair || '—'}}</div>
+                <div class="tooltip left">{{::pair.pairNames || '—'}}</div>
             </w-table-cell>
             <w-table-cell>
                 <span>{{pair.price.toFormat() || '—'}}</span>
