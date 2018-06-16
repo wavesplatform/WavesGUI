@@ -339,6 +339,7 @@
                 const queryParts = query.split('/').slice(0, 2).filter(i => i.length >= 2);
 
                 if (!queryParts.length) {
+                    WatchList._renderSmartTable();
                     return null;
                 }
 
