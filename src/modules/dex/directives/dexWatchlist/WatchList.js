@@ -327,6 +327,12 @@
              * @private
              */
             _onChangeSearch() {
+                if (this.searchRequest) {
+                    this.searchRequest.drop();
+                    this.searchInProgress = false;
+                    this.pending = false;
+                }
+
                 const query = this.search;
                 this._searchAssets = [];
 
@@ -338,10 +344,6 @@
 
                 this.searchInProgress = true;
                 this.pending = true;
-
-                if (this.searchRequest) {
-                    this.searchRequest.drop();
-                }
 
                 this.searchRequest = new PromiseControl(Promise.all(queryParts.map(waves.node.assets.search)))
                     .then(([d1 = [], d2 = []]) => {
@@ -387,9 +389,9 @@
              */
             _getPairList() {
                 const favorite = this._favourite || [];
-                const other = WatchList._getAllCombinations(this._assetsIds);
-                const search = WatchList._getAllCombinations(Object.keys(this._searchAssetsHash));
-                return R.uniq(favorite.concat(other, search));
+                const searchIdList = Object.keys(this._searchAssetsHash);
+                const other = WatchList._getAllCombinations(R.uniq(this._assetsIds.concat(searchIdList)));
+                return R.uniq(favorite.concat(other));
             }
 
             /**
