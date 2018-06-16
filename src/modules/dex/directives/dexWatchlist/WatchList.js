@@ -1,4 +1,15 @@
 {
+    const DROP_DOWN_ORDER_LIST = ['ETH', 'BCH', 'LTC', 'USD', 'EUR'];
+    const DROP_DOWN_LIST = [];
+
+    DROP_DOWN_ORDER_LIST.forEach((name) => {
+        DROP_DOWN_LIST.push({ name, id: WavesApp.defaultAssets[name] });
+    });
+    Object.keys(WavesApp.defaultAssets).forEach((name) => {
+        if (!DROP_DOWN_ORDER_LIST.includes(name)) {
+            DROP_DOWN_LIST.push({ name, id: WavesApp.defaultAssets[name] });
+        }
+    });
 
     /**
      * @param Base
@@ -26,6 +37,26 @@
                  */
                 this.pending = false;
                 /**
+                 * @type {null}
+                 */
+                this.dropDownId = null;
+                /**
+                 * @type {Array}
+                 */
+                this.dropDown = DROP_DOWN_LIST;
+                /**
+                 * @type {boolean}
+                 */
+                this.isActiveSelect = false;
+                /**
+                 * @type {[*]}
+                 */
+                this.tabs = [
+                    { name: 'directives.watchlist.all', value: 'all' },
+                    { name: 'WAVES', value: WavesApp.defaultAssets.WAVES },
+                    { name: 'BTC', value: WavesApp.defaultAssets.BTC }
+                ];
+                /**
                  * @type {*[]}
                  */
                 this.headers = [
@@ -35,6 +66,7 @@
                         scopeData: {
                             toggleOnlyFavourite: () => {
                                 this.showOnlyFavorite = !this.showOnlyFavorite;
+                                WatchList._renderSmartTable();
                             },
                             $ctrl: this
                         }
@@ -124,6 +156,7 @@
             }
 
             $postLink() {
+                this.observe('dropDownId', this._onChangeDropDown);
                 this.observe('_favourite', this._updateFavoriteHash);
                 this.observe('_searchAssets', this._updateSearchAssetHash);
                 this.observe('search', this._onChangeSearch);
@@ -137,6 +170,16 @@
                 this.observe('activeTab', this._onChangeActiveTab);
 
                 this._loadData();
+            }
+
+            chooseSelect() {
+                this.isActiveSelect = true;
+                this.activeTab = this.dropDownId;
+            }
+
+            chooseTab(id) {
+                this.isActiveSelect = false;
+                this.activeTab = id;
             }
 
             /**
@@ -157,7 +200,7 @@
                     favorite.push(pair.pairIdList);
                     this._favourite = R.uniq(favorite);
                 }
-                stService.render('watchlist');
+                WatchList._renderSmartTable();
             }
 
             /**
@@ -166,6 +209,15 @@
              */
             isFavourite(pair) {
                 return !!this._favoriteHash[WatchList._getKeyByPair(pair.pairIdList)];
+            }
+
+            /**
+             * @private
+             */
+            _onChangeDropDown() {
+                if (this.isActiveSelect) {
+                    this.activeTab = this.dropDownId;
+                }
             }
 
             _loadData() {
@@ -194,12 +246,16 @@
              * @private
              */
             _filterDataItemByTab(item) {
+                let canShow = this.showOnlyFavorite ? this.isFavourite(item) : true;
+
                 switch (this.activeTab) {
                     case 'all':
-                        return true;
+                        return canShow;
                     default:
-                        return item.pair.amountAsset.id === this.activeTab ||
-                            item.pair.priceAsset.id === this.activeTab;
+                        return canShow && (
+                                item.pair.amountAsset.id === this.activeTab ||
+                                item.pair.priceAsset.id === this.activeTab
+                            );
                 }
             }
 
@@ -301,7 +357,7 @@
              * @private
              */
             _onChangeActiveTab() {
-                stService.render('watchlist');
+                WatchList._renderSmartTable();
             }
 
             /**
@@ -335,6 +391,10 @@
 
                     return favorite.concat(other);
                 }
+            }
+
+            static _renderSmartTable() {
+                stService.render('watchlist');
             }
 
             /**

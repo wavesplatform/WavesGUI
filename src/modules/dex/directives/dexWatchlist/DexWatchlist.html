@@ -2,31 +2,20 @@
 
     <div class="titles-wrap">
         <a href="#"
+           ng-repeat="tab in $ctrl.tabs track by tab.value"
            class="title"
-           ng-class="{'active': $ctrl.activeTab === 'all'}"
-           ng-click="$ctrl.activeTab = 'all'">
-            <w-i18n>directives.watchlist.all</w-i18n>
-        </a>
-        <a href="#"
-           class="title"
-           ng-class="{'active': $ctrl.activeTab === 'WAVES'}"
-           ng-click="$ctrl.activeTab = 'WAVES'">
-            WAVES
-        </a>
-        <a href="#"
-           class="title"
-           ng-class="{'active': $ctrl.activeTab === WavesApp.defaultAssets.BTC}"
-           ng-click="$ctrl.activeTab = WavesApp.defaultAssets.BTC">
-            BTC
+           ng-class="{'active': $ctrl.activeTab === tab.value}"
+           ng-click="$ctrl.chooseTab(tab.value)">
+            <w-i18n>{{::tab.name}}</w-i18n>
         </a>
 
-        <w-select ng-class="{'active': $ctrl.tabFromSelectIsActive()}">
-            <w-option ng-repeat="tabData in $ctrl.dropDownData"
-                      ng-click="$ctrl.chooseSelectTab(tabData)">
-                {{::tabData.title}}
+        <w-select ng-model="$ctrl.dropDownId" ng-class="{'active': $ctrl.isActiveSelect}">
+            <w-option ng-repeat="option in $ctrl.dropDown track by option.id"
+                      value="::option.id">
+                {{::option.name}}
             </w-option>
         </w-select>
-        <div class="select-hover" ng-if="!$ctrl.tabFromSelectIsActive()" ng-click="$ctrl.chooseSelectTab()"></div>
+        <div class="select-hover" ng-if="!$ctrl.isActiveSelect" ng-click="$ctrl.chooseSelect()"></div>
     </div>
 
     <div class="input-container">
