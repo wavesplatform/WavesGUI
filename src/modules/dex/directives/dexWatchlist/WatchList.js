@@ -185,6 +185,8 @@
                 }
 
                 this.observe('activeTab', this._onChangeActiveTab);
+
+                this._loadData();
             }
 
             chooseSelect() {
