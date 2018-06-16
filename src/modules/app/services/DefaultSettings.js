@@ -83,6 +83,9 @@
                             price: WavesApp.defaultAssets.BTC
                         },
                         watchlist: {
+                            favourite: [
+                                [WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC]
+                            ],
                             baseAssetId: WavesApp.defaultAssets.WAVES,
                             list: [
                                 WavesApp.defaultAssets.WAVES,

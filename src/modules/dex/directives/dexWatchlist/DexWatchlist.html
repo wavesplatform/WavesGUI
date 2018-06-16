@@ -32,6 +32,7 @@
     <div class="input-container">
         <w-input placeholder="directives.watchlist.placeholders.coin"
                  ng-model="$ctrl.search"
+                 ng-model-options="{updateOn: 'input blur', debounce: { 'input': 500, 'blur': 0 }}"
                  ng-class="{'searching': $ctrl.searchInProgress }"
                  w-i18n-attr="placeholder"></w-input>
         <i ng-if="$ctrl.search.length > 0"
@@ -40,7 +41,9 @@
     </div>
     <w-loader ng-if="$ctrl.pending"></w-loader>
     <w-smart-table ng-if="!$ctrl.pending"
-                   data="$ctrl.visiblePairsData"
+                   name="watchlist"
+                   options="$ctrl.tableOptions"
+                   data="$ctrl.pairDataList"
                    header-info="$ctrl.headers"
                    class="smart-table">
         <div class="not-found basic-500" ng-if="$ctrl.nothingFound">
@@ -48,29 +51,23 @@
         </div>
         <w-table-row ng-repeat="pair in $data"
                      ng-click="$ctrl.choosePair(pair)"
-                     ng-class="[{'selected': $ctrl.isChosen(pair)}, pair.uid]">
+                     ng-class="{'selected': $ctrl.isChosen(pair)}">
             <w-table-cell>
                 <i class="icon-fav"
-                   ng-class="{
-                       'active': $ctrl.isFavourite(pair)
-                   }"
+                   ng-class="{'active': $ctrl.isFavourite(pair)}"
                    ng-click="$ctrl.toggleFavourite($event, pair)"
                 ></i>
             </w-table-cell>
             <w-table-cell>
-                <span>{{::pair.pair}}</span>
+                <span>{{::pair.pairNames}}</span>
                 <div class="tooltip left">{{::pair.pair || '—'}}</div>
             </w-table-cell>
             <w-table-cell>
                 <span>{{pair.price.toFormat() || '—'}}</span>
                 <div class="tooltip center">{{pair.price.toFormat() || '—'}}</div> <!-- todo @boris -->
             </w-table-cell>
-            <w-table-cell ng-class="{
-                        'plus': $ctrl.isPositive(pair.change),
-                        'minus': $ctrl.isNegative(pair.change)
-                      }">
-                <span ng-if="$ctrl.isPositive(pair.change)">+</span><span>{{ pair.change }}</span>{{ pair.change ? '%' :
-                '—' }}
+            <w-table-cell ng-class="{'plus': $ctrl.isPositive(pair.change),'minus': $ctrl.isNegative(pair.change)}">
+                <span>{{ pair.change24 }}</span>{{ pair.change24 ? '%' : '—' }}
             </w-table-cell>
             <w-table-cell>
                 <span ng-if="pair.volume" w-nice-number="pair.volume" short-mode="::true" precision="2"></span>

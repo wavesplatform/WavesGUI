@@ -14,6 +14,17 @@
             }
 
             /**
+             * @param {string} [name]
+             */
+            render(name) {
+                Object.keys(this._hash).forEach((cid) => {
+                    if (!name || this._hash[cid].name === name) {
+                        this._hash[cid].render();
+                    }
+                });
+            }
+
+            /**
              * @param {SmartTable} table
              */
             register(table) {
