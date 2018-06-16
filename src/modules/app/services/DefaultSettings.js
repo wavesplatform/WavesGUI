@@ -86,6 +86,7 @@
                             favourite: [
                                 [WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC]
                             ],
+                            activeTab: 'all',
                             baseAssetId: WavesApp.defaultAssets.WAVES,
                             list: [
                                 WavesApp.defaultAssets.WAVES,

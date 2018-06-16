@@ -6,7 +6,7 @@
         DROP_DOWN_LIST.push({ name, id: WavesApp.defaultAssets[name] });
     });
     Object.keys(WavesApp.defaultAssets).forEach((name) => {
-        if (!DROP_DOWN_ORDER_LIST.includes(name)) {
+        if (!DROP_DOWN_ORDER_LIST.includes(name) && name !== 'WAVES' && name !== 'BTC') {
             DROP_DOWN_LIST.push({ name, id: WavesApp.defaultAssets[name] });
         }
     });
@@ -17,9 +17,11 @@
      * @param {app.utils} utils
      * @param {Waves} waves
      * @param {STService} stService
+     * @param {PromiseControl} PromiseControl
+     * @param {IPollCreate} createPoll
      * @returns {WatchList}
      */
-    const controller = function (Base, $scope, utils, waves, stService) {
+    const controller = function (Base, $scope, utils, waves, stService, PromiseControl, createPoll) {
         'use strict';
 
         const R = require('ramda');
@@ -48,6 +50,10 @@
                  * @type {boolean}
                  */
                 this.isActiveSelect = false;
+                /**
+                 * @type {PromiseControl}
+                 */
+                this.searchRequest = null;
                 /**
                  * @type {[*]}
                  */
@@ -153,6 +159,11 @@
                  * @private
                  */
                 this._assetIdPair = null;
+                /**
+                 * @type {Poll}
+                 * @private
+                 */
+                this._poll = null;
             }
 
             $postLink() {
@@ -162,14 +173,18 @@
                 this.observe('search', this._onChangeSearch);
 
                 this.syncSettings({
+                    activeTab: 'dex.watchlist.activeTab',
                     _favourite: 'dex.watchlist.favourite',
                     _assetsIds: 'dex.watchlist.list',
                     _assetIdPair: 'dex.assetIdPair'
                 });
 
-                this.observe('activeTab', this._onChangeActiveTab);
+                this.isActiveSelect = !this.tabs.find(R.contains({ value: this.activeTab }));
+                if (this.isActiveSelect) {
+                    this.dropDownId = this.activeTab;
+                }
 
-                this._loadData();
+                this.observe('activeTab', this._onChangeActiveTab);
             }
 
             chooseSelect() {
@@ -322,7 +337,11 @@
                 this.searchInProgress = true;
                 this.pending = true;
 
-                Promise.all(queryParts.map(waves.node.assets.search))
+                if (this.searchRequest) {
+                    this.searchRequest.drop();
+                }
+
+                this.searchRequest = new PromiseControl(Promise.all(queryParts.map(waves.node.assets.search)))
                     .then(([d1 = [], d2 = []]) => {
                         this._searchAssets = R.uniqBy(R.prop('id'), d1.concat(d2));
                         const pairs = this._getPairList();
@@ -332,6 +351,7 @@
                         this.searchInProgress = false;
                         this.pending = false;
                         this.pairDataList = pairDataList;
+                        this.searchRequest = null;
                         $scope.$apply();
                     });
             }
@@ -502,7 +522,7 @@
                 const wait = new Promise((resolve, reject) => {
                     setTimeout(() => {
                         reject(new Error('Timeout error!'));
-                    }, 300);
+                    }, 600);
                 });
 
                 const dataPromise = ds.api.transactions.getExchangeTxList({
@@ -543,7 +563,7 @@
         return new WatchList();
     };
 
-    controller.$inject = ['Base', '$scope', 'utils', 'waves', 'stService'];
+    controller.$inject = ['Base', '$scope', 'utils', 'waves', 'stService', 'PromiseControl', 'createPoll'];
 
     angular.module('app.dex')
         .component('wDexWatchlist', {
