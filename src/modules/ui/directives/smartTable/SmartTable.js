@@ -299,6 +299,11 @@
             _draw() {
                 $scope.$parent.$data = this._visibleList;
                 $scope.$parent.$digest();
+                $scope.$parent.$$postDigest(() => {
+                    if (this.name) {
+                        stService.draw.dispatch(this.name);
+                    }
+                });
             }
 
             /**

@@ -19,9 +19,10 @@
      * @param {STService} stService
      * @param {PromiseControl} PromiseControl
      * @param {IPollCreate} createPoll
+     * @param {JQuery} $element
      * @returns {WatchList}
      */
-    const controller = function (Base, $scope, utils, waves, stService, PromiseControl, createPoll) {
+    const controller = function (Base, $scope, utils, waves, stService, PromiseControl, createPoll, $element) {
         'use strict';
 
         const R = require('ramda');
@@ -223,6 +224,9 @@
                 this.activeTab = this.dropDownId;
             }
 
+            /**
+             * @param {string} id
+             */
             chooseTab(id) {
                 this.isActiveSelect = false;
                 this.activeTab = id;
@@ -279,6 +283,8 @@
                         this.pairDataList.push(item);
                         WatchList._renderSmartTable();
                     });
+                } else {
+                    WatchList._renderSmartTable();
                 }
             }
 
@@ -298,6 +304,7 @@
                     this.pairDataList = pairDataList;
                     this.pending = false;
                     $scope.$apply();
+                    stService.draw.once(WatchList._onRenderTable);
                 })
             }
 
@@ -474,6 +481,24 @@
 
             static _renderSmartTable() {
                 stService.render('watchlist');
+                stService.draw.once(WatchList._onRenderTable);
+            }
+
+            static _onRenderTable() {
+                setTimeout(function loop() {
+                    const $chosen = $element.find('.chosen');
+
+                    if (!$chosen.length) {
+                        return setTimeout(loop, 50);
+                    }
+
+                    const $body = $element.find('.smart-table__w-tbody');
+                    const top = $chosen.offset().top - $body.offset().top - $body.height() / 2 + $chosen.height() / 2;
+
+                    $element.find('.smart-table__w-tbody').animate({
+                        scrollTop: top
+                    }, 300);
+                }, 300);
             }
 
             /**
@@ -624,7 +649,7 @@
         return new WatchList();
     };
 
-    controller.$inject = ['Base', '$scope', 'utils', 'waves', 'stService', 'PromiseControl', 'createPoll'];
+    controller.$inject = ['Base', '$scope', 'utils', 'waves', 'stService', 'PromiseControl', 'createPoll', '$element'];
 
     angular.module('app.dex')
         .component('wDexWatchlist', {

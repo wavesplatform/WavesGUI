@@ -39,6 +39,7 @@
             <w-i18n>directives.watchlist.placeholders.noMarkets</w-i18n>
         </div>
         <w-table-row ng-repeat="pair in $data track by pair.id"
+                     ng-cloak
                      ng-click="$ctrl.choosePair(pair)"
                      ng-class="{'selected': $ctrl.isChosen(pair)}">
             <w-table-cell>
@@ -63,7 +64,7 @@
                 <span ng-if="!pair.volume">—</span>
                 <div class="tooltip right">{{ pair.volume.toFormat() || '—' }}</div>
             </w-table-cell>
-            <w-table-cell ng-if="$ctrl.isChosen(pair)">
+            <w-table-cell ng-if="$ctrl.isChosen(pair)" class="chosen">
                 <div>
                     <a href="#" class="disabled-900">{{::pair.pair.amountAsset.id}}</a> <span>/</span>
                 </div>
