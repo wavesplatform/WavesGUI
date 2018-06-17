@@ -277,8 +277,8 @@
                 if (!R.find(R.propEq('id', id), this.pairDataList)) {
                     this._cache([id.split(',')]).then(([item]) => {
                         this.pairDataList.push(item);
-                        $scope.$apply();
-                    })
+                        WatchList._renderSmartTable();
+                    });
                 }
             }
 
