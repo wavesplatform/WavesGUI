@@ -65,9 +65,9 @@
             </w-table-cell>
             <w-table-cell ng-if="$ctrl.isChosen(pair)">
                 <div>
-                    <a href="#" class="disabled-900">{{::pair.amountAsset.id}}</a> <span>/</span>
+                    <a href="#" class="disabled-900">{{::pair.pair.amountAsset.id}}</a> <span>/</span>
                 </div>
-                <a href="#" class="disabled-900">{{::pair.priceAsset.id}}</a>
+                <a href="#" class="disabled-900">{{::pair.pair.priceAsset.id}}</a>
             </w-table-cell>
         </w-table-row>
     </w-smart-table>

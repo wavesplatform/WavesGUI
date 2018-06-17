@@ -190,13 +190,32 @@
                     _assetIdPair: 'dex.assetIdPair'
                 });
 
-                this.isActiveSelect = !this.tabs.find(R.contains({ value: this.activeTab }));
-                if (this.isActiveSelect) {
-                    this.dropDownId = this.activeTab;
-                }
+                this._initializeActiveTab();
 
+                this.observe('_assetIdPair', this._onChangeChosenPair);
                 this.observe('activeTab', this._onChangeActiveTab);
+
                 this._loadData();
+            }
+
+            /**
+             * @param {WatchList.IPairDataItem} pairData
+             * @return boolean
+             */
+            isChosen(pairData) {
+                return this._assetIdPair.amount === pairData.pair.amountAsset.id &&
+                    this._assetIdPair.price === pairData.pair.priceAsset.id;
+            }
+
+            /**
+             * @param {WatchList.IPairDataItem} pairData
+             */
+            choosePair(pairData) {
+                const pair = {
+                    amount: pairData.pair.amountAsset.id,
+                    price: pairData.pair.priceAsset.id
+                };
+                this._assetIdPair = pair;
             }
 
             chooseSelect() {
@@ -241,6 +260,31 @@
             /**
              * @private
              */
+            _initializeActiveTab() {
+                this.isActiveSelect = !R.find(R.propEq('value', this.activeTab), this.tabs);
+                if (this.isActiveSelect) {
+                    this.dropDownId = this.activeTab;
+                }
+            }
+
+            /**
+             * @private
+             */
+            _onChangeChosenPair() {
+                const pair = this._assetIdPair;
+                const id = [pair.amount, pair.price].sort().join();
+
+                if (!R.find(R.propEq('id', id), this.pairDataList)) {
+                    this._cache([id.split(',')]).then(([item]) => {
+                        this.pairDataList.push(item);
+                        $scope.$apply();
+                    })
+                }
+            }
+
+            /**
+             * @private
+             */
             _onChangeDropDown() {
                 if (this.isActiveSelect) {
                     this.activeTab = this.dropDownId;
@@ -250,7 +294,7 @@
             _loadData() {
                 this.pending = true;
                 const pairs = this._getPairList();
-                this._cache(pairs).then((pairDataList) => {
+                return this._cache(pairs).then((pairDataList) => {
                     this.pairDataList = pairDataList;
                     this.pending = false;
                     $scope.$apply();
@@ -263,6 +307,9 @@
              */
             _getTableFilter() {
                 return list => list.filter((item) => {
+                    if (this.isChosen(item)) {
+                        return true;
+                    }
                     return this._filterDataItemByTab(item) && this._filterDataItemByQuery(item);
                 })
             }
@@ -359,15 +406,11 @@
                 this.searchRequest = new PromiseControl(Promise.all(queryParts.map(waves.node.assets.search)))
                     .then(([d1 = [], d2 = []]) => {
                         this._searchAssets = R.uniqBy(R.prop('id'), d1.concat(d2));
-                        const pairs = this._getPairList();
-                        return this._cache(pairs);
+                        return this._loadData();
                     })
-                    .then((pairDataList) => {
+                    .then(() => {
                         this.searchInProgress = false;
-                        this.pending = false;
-                        this.pairDataList = pairDataList;
                         this.searchRequest = null;
-                        $scope.$apply();
                     });
             }
 
@@ -399,10 +442,11 @@
              * @private
              */
             _getPairList() {
-                const favorite = this._favourite || [];
+                const favorite = (this._favourite || []).map(p => p.sort());
+                const chosen = [this._assetIdPair.amount, this._assetIdPair.price].sort();
                 const searchIdList = Object.keys(this._searchAssetsHash);
                 const other = WatchList._getAllCombinations(R.uniq(this._assetsIds.concat(searchIdList)));
-                return R.uniq(favorite.concat(other));
+                return R.uniq(favorite.concat(other, [chosen]));
             }
 
             /**
