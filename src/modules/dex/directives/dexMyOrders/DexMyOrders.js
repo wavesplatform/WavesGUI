@@ -193,7 +193,7 @@
                         const last = result.length ? result[result.length - 1] : null;
 
                         if (!last) {
-                            return orders;
+                            return result;
                         }
 
                         return ds.api.transactions.getExchangeTxList({
