@@ -115,7 +115,6 @@ body.dex {
           }
 
           &__cell {
-            text-transform: capitalize;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -236,14 +235,14 @@ body.dex {
       &__w-tbody {
         .smart-table {
           &__row {
-            a.underline {
+            a {
               color: @color-disabled-900;
             }
 
             &:hover {
               background-color: @color-basic-50;
 
-              a.underline {
+              .underline {
                 display: inline-block;
                 position: relative;
 
@@ -505,6 +504,12 @@ body.dex {
               &__row {
                 position: relative;
 
+                &:hover {
+                  .underline:after {
+                    display: none;
+                  }
+                }
+
                 .status-mobile {
                   display: inline-block;
                 }
@@ -567,11 +572,31 @@ body.dex {
 
       .dex-layout {
         &__tradehistory {
-          .smart-table {
-            &__w-tbody {
-              max-height: 217px;
+
+          w-dex-my-balance {
+            .smart-table {
+              &__w-tbody {
+                max-height: 217px;
+              }
             }
           }
+
+          w-dex-trade-history {
+            .smart-table {
+              &__w-tbody {
+                max-height: 226px;
+              }
+            }
+          }
+
+          w-dex-my-orders {
+            .smart-table {
+              &__w-tbody {
+                max-height: 254px;
+              }
+            }
+          }
+
         }
       }
 

@@ -22,23 +22,23 @@
                 <span w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
             </w-table-cell>
             <w-table-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n></span>
+                <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n>:</span>
                 {{ ::order.timestamp | date:'MM-dd HH:mm:ss' }}
             </w-table-cell>
             <w-table-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n></span>
+                <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n>:</span>
                 <w-balance short-mode="::true" money="::order.price"></w-balance>
             </w-table-cell>
             <w-table-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n></span>
+                <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n>:</span>
                 <w-balance short-mode="::true" money="::order.amount"></w-balance>
             </w-table-cell>
             <w-table-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.total</w-i18n></span>
+                <span class="cell-label"><w-i18n>directives.myOrders.total</w-i18n>:</span>
                 <w-balance short-mode="::true" money="::order.total"></w-balance>
             </w-table-cell>
             <w-table-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.fee</w-i18n></span>
+                <span class="cell-label"><w-i18n>directives.myOrders.fee</w-i18n>:</span>
                 0.003
             </w-table-cell>
             <w-table-cell ng-click="$ctrl.toggleDetails(order)">
@@ -74,17 +74,24 @@
                      ng-repeat="tx in order.exchange track by tx.id">
             <w-table-cell></w-table-cell>
             <w-table-cell></w-table-cell>
-            <w-table-cell>{{ ::tx.timestamp | date:'MM-dd HH:mm:ss' }}</w-table-cell>
             <w-table-cell>
+                <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n>:</span>
+                {{ ::tx.timestamp | date:'MM-dd HH:mm:ss' }}
+            </w-table-cell>
+            <w-table-cell>
+                <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n>:</span>
                 <w-balance short-mode="::true" money="::tx.price"></w-balance>
             </w-table-cell>
             <w-table-cell>
+                <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n>:</span>
                 <w-balance short-mode="::true" money="::tx.amount"></w-balance>
             </w-table-cell>
             <w-table-cell>
+                <span class="cell-label"><w-i18n>directives.myOrders.total</w-i18n>:</span>
                 <w-balance short-mode="::true" money="::tx.total"></w-balance>
             </w-table-cell>
             <w-table-cell>
+                <span class="cell-label"><w-i18n>directives.myOrders.fee</w-i18n>:</span>
                 <w-balance short-mode="::true" money="::tx.userFee"></w-balance>
             </w-table-cell>
             <w-table-cell></w-table-cell>
