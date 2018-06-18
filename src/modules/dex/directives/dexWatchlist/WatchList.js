@@ -69,7 +69,7 @@
                  * @private
                  */
                 this._cache = utils.cache(
-                    Object.create(null),
+                    controller.storage,
                     WatchList._loadDataByPairs,
                     WatchList._getKeyByPair,
                     1000 * 60 * 2,
@@ -202,6 +202,7 @@
                 this.observe('_assetIdPair', this._onChangeChosenPair);
                 this.observe('activeTab', this._onChangeActiveTab);
 
+                stService.draw.once(WatchList._onRenderTable);
                 this._loadData();
             }
 
@@ -297,6 +298,7 @@
 
                 if (!this._isSelfSetPair) {
                     this.activeTab = 'all';
+                    stService.draw.once(WatchList._onRenderTable);
                 }
             }
 
@@ -505,7 +507,6 @@
 
             static _renderSmartTable() {
                 stService.render('watchlist');
-                stService.draw.once(WatchList._onRenderTable);
             }
 
             static _onRenderTable() {
@@ -642,6 +643,8 @@
 
         return new WatchList();
     };
+
+    controller.storage = Object.create(null);
 
     controller.$inject = ['Base', '$scope', 'utils', 'waves', 'stService', 'PromiseControl', 'createPoll', '$element'];
 

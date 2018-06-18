@@ -9,15 +9,6 @@ let dataService = null;
 
 export let timeDiff = 0;
 
-time().then((serverTime) => {
-    const now = Date.now();
-    const dif = now - serverTime.getTime();
-
-    if (Math.abs(dif) > 1000 * 60 * 10) {
-        timeDiff = dif;
-    }
-});
-
 export const parse = create();
 
 export function get<K extends keyof IConfigParams>(key: K): IConfigParams[K] {
@@ -26,6 +17,18 @@ export function get<K extends keyof IConfigParams>(key: K): IConfigParams[K] {
 
 export function set<K extends keyof IConfigParams>(key: K, value: IConfigParams[K]): void {
     config[key] = value;
+    if (key === 'node') {
+        time().then((serverTime) => {
+            const now = Date.now();
+            const dif = now - serverTime.getTime();
+
+            if (Math.abs(dif) > 1000 * 60 * 10) {
+                timeDiff = dif;
+            } else {
+                timeDiff = 0;
+            }
+        });
+    }
     if (key === 'dsApi') {
         dataService = new DataServiceClient({ rootUrl: config.dsApi, parse });
     }
