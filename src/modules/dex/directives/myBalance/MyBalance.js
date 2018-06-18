@@ -6,10 +6,11 @@
      * @param {$rootScope.Scope} $scope
      * @param {IPollCreate} createPoll
      * @param {Waves} waves
-     * @param user
+     * @param {User} user
+     * @param {ModalManager} modalManager
      * @return {MyBalance}
      */
-    const controller = function (Base, $scope, createPoll, waves, user) {
+    const controller = function (Base, $scope, createPoll, waves, user, modalManager) {
 
         class MyBalance extends Base {
 
@@ -60,6 +61,10 @@
                     });
             }
 
+            showAssetInfo(asset) {
+                return modalManager.showAssetInfo(asset);
+            }
+
             /**
              * @param {string} assetId
              */
@@ -93,7 +98,7 @@
         return new MyBalance();
     };
 
-    controller.$inject = ['Base', '$scope', 'createPoll', 'waves', 'user'];
+    controller.$inject = ['Base', '$scope', 'createPoll', 'waves', 'user', 'modalManager'];
 
     angular.module('app.dex').component('wDexMyBalance', {
         bindings: {},
