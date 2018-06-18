@@ -103,7 +103,7 @@
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair',
-                    _orderBookCropRate: 'dex.orderBookCropRate'
+                    _orderBookCropRate: 'dex.chartCropRate'
                 });
 
                 this._updateAssetData();
@@ -113,7 +113,7 @@
 
                         this._template = Handlebars.compile(templateString);
 
-                        const poll = createPoll(this, this._getOrders, this._setOrders, 1000, { $scope });
+                        const poll = createPoll(this, this._getOrders, this._setOrders, 9991000, { $scope });
 
                         this.observe('_assetIdPair', () => {
                             this._showSpread = true;

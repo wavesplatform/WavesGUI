@@ -77,7 +77,6 @@
                     },
                     dex: {
                         chartCropRate: 1.5,
-                        orderBookCropRate: 1.5,
                         assetIdPair: {
                             amount: WavesApp.defaultAssets.WAVES,
                             price: WavesApp.defaultAssets.BTC
@@ -87,7 +86,6 @@
                                 [WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC]
                             ],
                             activeTab: 'all',
-                            baseAssetId: WavesApp.defaultAssets.WAVES,
                             list: [
                                 WavesApp.defaultAssets.WAVES,
                                 WavesApp.defaultAssets.BTC,

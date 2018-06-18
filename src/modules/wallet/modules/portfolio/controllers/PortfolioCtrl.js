@@ -195,17 +195,7 @@
              * @param {Asset} asset
              */
             getSrefParams(asset) {
-                const baseAssetId = user.getSetting('dex.watchlist.baseAssetId');
-
-                if (baseAssetId === asset.id) {
-                    if (baseAssetId === WavesApp.defaultAssets.WAVES) {
-                        return { assetId1: asset.id, assetId2: WavesApp.defaultAssets.BTC };
-                    } else {
-                        return { assetId1: asset.id, assetId2: WavesApp.defaultAssets.WAVES };
-                    }
-                } else {
-                    return { assetId1: asset.id, assetId2: baseAssetId };
-                }
+                utils.openDex(asset.id);
             }
 
             /**
