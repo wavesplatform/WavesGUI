@@ -4,6 +4,7 @@
 @dex-lower-block-height: 50%;
 
 body.dex {
+  color: @color-basic-900;
 
   w-header {
     display: none;
@@ -24,10 +25,8 @@ body.dex {
     .block-title {
       .w-input-wrap input {
         padding: 6px 8px 6px 21px;
-        background-image: url(/img/icons/icon-search-dex.svg);
-        background-repeat: no-repeat;
+        background: url(/img/icons/icon-search-dex.svg) 0 center no-repeat;
         background-size: 12px 12px;
-        background-position: 0 center;
         font-size: @font-size-caption-2;
         height: 29px;
         border: 0 none;
@@ -73,10 +72,8 @@ body.dex {
       height: 30px;
       z-index: 2;
       cursor: pointer;
-      background-image: url(/img/icons/order_cancel.svg);
+      background-image: url(/img/icons/order_cancel.svg) center no-repeat;
       background-size: 8px 8px;
-      background-repeat: no-repeat;
-      background-position: center;
     }
 
     .smart-table {

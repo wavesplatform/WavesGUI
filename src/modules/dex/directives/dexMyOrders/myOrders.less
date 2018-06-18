@@ -65,7 +65,6 @@ w-dex-my-orders {
     &__cell {
       flex-basis: 100px;
       flex-grow: 1;
-      min-width: 100px;
     }
 
     &__cell[data-column-id="fee"] {
@@ -116,8 +115,8 @@ w-dex-my-orders {
       background-position: 5px center;
       display: inline-block;
       text-transform: capitalize;
-      padding-left: 26px;
-      margin-top: -1px;
+      padding-left: 22px;
+      margin-top: -2px;
       height: calc(100% ~'- 4px');
     }
   }
@@ -222,6 +221,7 @@ w-dex-my-orders {
 
         &__cell[data-column-id="fee"] {
           display: none;
+          text-align: left;
         }
 
         &__cell[data-column-id="pair"] {
