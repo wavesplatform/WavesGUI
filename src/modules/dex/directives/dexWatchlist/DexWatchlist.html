@@ -56,8 +56,7 @@
                 <span>{{pair.price.toFormat() || '—'}}</span>
                 <div class="tooltip center">{{pair.price.toFormat() || '—'}}</div> <!-- todo @boris -->
             </w-table-cell>
-            <w-table-cell ng-class="{'plus': pair.change24.gt(0),'minus': pair.change24.lt(0)
-            }">
+            <w-table-cell ng-class="{'plus': pair.change24.gt(0),'minus': pair.change24.lt(0)}">
                 <span>{{ pair.change24 }}</span>{{ pair.change24 ? '%' : '—' }}
             </w-table-cell>
             <w-table-cell>
