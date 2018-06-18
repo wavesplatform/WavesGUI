@@ -143,35 +143,6 @@
             }
 
             /**
-             * @param {Moment} from
-             * @private
-             */
-            _getChangeByInterval(from) {
-                const MINUTE_TIME = 1000 * 60;
-                const INTERVALS = [5, 15, 30, 60, 240, 1440];
-                const MAX_COUNTS = 100;
-
-                const intervalMinutes = (Date.now() - from.getDate()) / MINUTE_TIME;
-
-                let interval, i = 0;
-                do {
-                    if ((intervalMinutes / INTERVALS[i]) < MAX_COUNTS) {
-                        interval = INTERVALS[i];
-                    } else {
-                        i++;
-                    }
-                } while (!interval && INTERVALS[i]);
-
-                if (!interval) {
-                    interval = INTERVALS[INTERVALS.length - 1];
-                }
-
-                const count = Math.min(Math.floor(intervalMinutes / interval), MAX_COUNTS);
-
-                return `${interval}/${count}`;
-            }
-
-            /**
              * @param {string} from
              * @param {string} to
              * @return {Promise<Number>}
