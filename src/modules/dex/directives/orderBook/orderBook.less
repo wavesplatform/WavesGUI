@@ -111,10 +111,6 @@ w-dex-order-book {
       position: absolute;
     }
 
-    .cell-1 {
-      font-family: @font-roboto-medium;
-    }
-
     .asks w-row,
     .bids w-row {
       cursor: pointer;
@@ -186,7 +182,10 @@ w-dex-order-book {
     }
 
     .last-price {
-      .footnote-2();
+      .body-1();
+      font-family: @font-roboto-regular;
+      font-weight: bold;
+      font-size: 15px;
       position: relative;
 
       &:after {
@@ -198,7 +197,7 @@ w-dex-order-book {
         height: 18px;
         display: block;
         right: -18px;
-        top: -1px;
+        top: 2px;
       }
 
       &.buy {
