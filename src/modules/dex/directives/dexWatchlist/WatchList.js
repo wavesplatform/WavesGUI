@@ -144,6 +144,11 @@
                  */
                 this.pairDataList = [];
                 /**
+                 * @type {boolean}
+                 * @private
+                 */
+                this._isSelfSetPair = false;
+                /**
                  * @type {Array}
                  * @private
                  */
@@ -218,7 +223,9 @@
                     amount: pairData.pair.amountAsset.id,
                     price: pairData.pair.priceAsset.id
                 };
+                this._isSelfSetPair = true;
                 this._assetIdPair = pair;
+                this._isSelfSetPair = false;
             }
 
             chooseSelect() {
@@ -288,6 +295,10 @@
                 } else {
                     WatchList._renderSmartTable();
                 }
+
+                if (!this._isSelfSetPair) {
+                    this.activeTab = 'all';
+                }
             }
 
             /**
@@ -315,12 +326,18 @@
              * @private
              */
             _getTableFilter() {
-                return list => list.filter((item) => {
-                    if (this.isChosen(item)) {
-                        return true;
+                return list => {
+                    const hasSearch = this.search.split('/').slice(0, 2).filter(q => q.length >= 2).length > 0;
+                    if (hasSearch) {
+                        return list.filter((item) => {
+                            return this._filterDataItemByTab(item) && this._filterDataItemByQuery(item);
+                        });
+                    } else {
+                        return list.filter((item) => {
+                            return this._filterDataItemByTab(item);
+                        });
                     }
-                    return this._filterDataItemByTab(item) && this._filterDataItemByQuery(item);
-                });
+                };
             }
 
             /**
@@ -349,10 +366,6 @@
              */
             _filterDataItemByQuery(item) {
                 const query = this.search;
-
-                if (!query.split('/').slice(0, 2).filter(q => q.length >= 2).length) {
-                    return true;
-                }
 
                 const search = (query) => {
                     const queryList = query.split('/');
@@ -444,6 +457,7 @@
              * @private
              */
             _onChangeActiveTab() {
+                this.isActiveSelect = !R.find(R.propEq('value', this.activeTab), this.tabs);
                 WatchList._renderSmartTable();
             }
 
@@ -495,7 +509,7 @@
                     const $chosen = $element.find('.chosen');
 
                     if (!$chosen.length) {
-                        return setTimeout(loop, 50);
+                        return null;
                     }
 
                     const $body = $element.find('.smart-table__w-tbody');

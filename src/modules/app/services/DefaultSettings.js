@@ -94,6 +94,7 @@
                                 WavesApp.defaultAssets.DASH,
                                 WavesApp.defaultAssets.XMR,
                                 WavesApp.defaultAssets.TRY,
+                                '7FzrHF1pueRFrPEupz6oiVGTUZqe8epvC7ggWUx8n1bd',
                                 'HzfaJp8YQWLvQG4FkUxq2Q7iYWMYQ2k8UF89vVJAjWPj',
                                 'ABFYQjwDHSct6rNk59k3snoZfAqNHVZdHz4VGJe2oCV5',
                                 '474jTeYx2r2Va35794tCScAXWJG9hU2HcgxzMowaZUnu',
