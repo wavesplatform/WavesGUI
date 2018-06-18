@@ -23,9 +23,11 @@
      * @param {PromiseControl} PromiseControl
      * @param {IPollCreate} createPoll
      * @param {JQuery} $element
+     * @param {ModalManager} modalManager
      * @returns {WatchList}
      */
-    const controller = function (Base, $scope, utils, waves, stService, PromiseControl, createPoll, $element) {
+    const controller = function (Base, $scope, utils, waves, stService, PromiseControl, createPoll, $element,
+                                 modalManager) {
 
         const R = require('ramda');
         const ds = require('data-service');
@@ -204,6 +206,10 @@
 
                 stService.draw.once(WatchList._onRenderTable);
                 this._loadData();
+            }
+
+            showAssetInfo(asset) {
+                return modalManager.showAssetInfo(asset);
             }
 
             /**
@@ -646,7 +652,17 @@
 
     controller.storage = Object.create(null);
 
-    controller.$inject = ['Base', '$scope', 'utils', 'waves', 'stService', 'PromiseControl', 'createPoll', '$element'];
+    controller.$inject = [
+        'Base',
+        '$scope',
+        'utils',
+        'waves',
+        'stService',
+        'PromiseControl',
+        'createPoll',
+        '$element',
+        'modalManager'
+    ];
 
     angular.module('app.dex')
         .component('wDexWatchlist', {
