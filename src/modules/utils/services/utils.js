@@ -19,6 +19,7 @@
         }
 
     }
+
     const dataEntities = require('@waves/data-entities');
 
     /**
@@ -275,8 +276,8 @@
                 const pathsB = tsUtils.getPaths(b);
 
                 return pathsA.length === pathsB.length && pathsA.every((path, index) => {
-                        return tsUtils.get(a, path) === tsUtils.get(b, path) && (String(path) === String(pathsB[index]));
-                    });
+                    return tsUtils.get(a, path) === tsUtils.get(b, path) && (String(path) === String(pathsB[index]));
+                });
             },
 
             /**
@@ -601,9 +602,9 @@
                         setTimeout(() => {
                             delete storage[id];
                         }, time);
-                    })
+                    });
                 } else {
-                    promise = Promise.resolve();
+                    return Promise.all(promiseList);
                 }
 
                 return Promise.all([promise, ...promiseList])

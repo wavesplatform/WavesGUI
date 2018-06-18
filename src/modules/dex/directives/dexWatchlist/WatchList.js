@@ -1,4 +1,7 @@
-{
+(function () {
+    'use strict';
+
+
     const DROP_DOWN_ORDER_LIST = ['ETH', 'BCH', 'LTC', 'USD', 'EUR'];
     const DROP_DOWN_LIST = [];
 
@@ -23,7 +26,6 @@
      * @returns {WatchList}
      */
     const controller = function (Base, $scope, utils, waves, stService, PromiseControl, createPoll, $element) {
-        'use strict';
 
         const R = require('ramda');
         const entities = require('@waves/data-entities');
@@ -72,7 +74,7 @@
                     WatchList._loadDataByPairs,
                     WatchList._getKeyByPair,
                     1000 * 60 * 2,
-                    pair => (list) => list.find((p) => R.equals(p.pairIdList, pair) || R.equals(p.pairIdList.reverse(), pair))
+                    pair => list => list.find((p) => R.equals(p.pairIdList.slice().sort(), pair.slice().sort()))
                 );
                 /**
                  * @type {*[]}
@@ -242,7 +244,7 @@
                 const key = WatchList._getKeyByPair(pair.pairIdList);
                 const favorite = this._favourite.slice();
 
-                if (!!this._favoriteHash[key]) {
+                if (this._favoriteHash[key]) {
                     const isEqualPair = p => R.equals(p, pair.pairIdList) || R.equals(p, pair.pairIdList.reverse());
                     const predicate = (p) => R.not(isEqualPair(p));
                     this._favourite = favorite.filter(predicate);
@@ -305,7 +307,7 @@
                     this.pending = false;
                     $scope.$apply();
                     stService.draw.once(WatchList._onRenderTable);
-                })
+                });
             }
 
             /**
@@ -318,7 +320,7 @@
                         return true;
                     }
                     return this._filterDataItemByTab(item) && this._filterDataItemByQuery(item);
-                })
+                });
             }
 
             /**
@@ -327,16 +329,16 @@
              * @private
              */
             _filterDataItemByTab(item) {
-                let canShow = this.showOnlyFavorite ? this.isFavourite(item) : true;
+                const canShow = this.showOnlyFavorite ? this.isFavourite(item) : true;
 
                 switch (this.activeTab) {
                     case 'all':
                         return canShow;
                     default:
                         return canShow && (
-                                item.pair.amountAsset.id === this.activeTab ||
-                                item.pair.priceAsset.id === this.activeTab
-                            );
+                            item.pair.amountAsset.id === this.activeTab ||
+                            item.pair.priceAsset.id === this.activeTab
+                        );
                 }
             }
 
@@ -348,7 +350,7 @@
             _filterDataItemByQuery(item) {
                 const query = this.search;
 
-                if (!this._searchAssets.length) {
+                if (!query.split('/').slice(0, 2).filter(q => q.length >= 2).length) {
                     return true;
                 }
 
@@ -400,7 +402,7 @@
                 const query = this.search;
                 this._searchAssets = [];
 
-                const queryParts = query.split('/').slice(0, 2).filter(i => i.length >= 2);
+                const queryParts = query.split('/').slice(0, 2).filter(q => q.length >= 2);
 
                 if (!queryParts.length) {
                     WatchList._renderSmartTable();
@@ -469,14 +471,18 @@
                     const comparator = utils.comparators.process(R.path(path.split('.'))).smart[method];
 
                     list.forEach((item) => {
-                        this.isFavourite(item) ? favorite.push(item) : other.push(item);
+                        if (this.isFavourite(item)) {
+                            favorite.push(item);
+                        } else {
+                            other.push(item);
+                        }
                     });
 
                     favorite.sort(comparator);
                     other.sort(comparator);
 
                     return favorite.concat(other);
-                }
+                };
             }
 
             static _renderSmartTable() {
@@ -528,7 +534,7 @@
                         }
                     });
                     return acc;
-                }, { assets: [], hash: {} }).assets
+                }, { assets: [], hash: {} }).assets;
             }
 
             /**
@@ -656,7 +662,7 @@
             templateUrl: 'modules/dex/directives/dexWatchlist/DexWatchlist.html',
             controller
         });
-}
+})();
 
 /**
  * @name WatchList

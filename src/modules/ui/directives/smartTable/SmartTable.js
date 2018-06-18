@@ -318,10 +318,10 @@
                 }
 
                 return sort && function (list, isAsc) {
-                        const method = isAsc ? 'asc' : 'desc';
-                        const getValue = (item) => tsUtils.get({ item }, valuePath);
-                        return list.sort(utils.comparators.process(getValue).smart[method]);
-                    } || null;
+                    const method = isAsc ? 'asc' : 'desc';
+                    const getValue = (item) => tsUtils.get({ item }, valuePath);
+                    return list.sort(utils.comparators.process(getValue).smart[method]);
+                } || null;
             }
 
             /**
