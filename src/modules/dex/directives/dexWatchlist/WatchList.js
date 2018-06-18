@@ -69,7 +69,7 @@
                  * @private
                  */
                 this._cache = utils.cache(
-                    Object.create(null),
+                    controller.storage,
                     WatchList._loadDataByPairs,
                     WatchList._getKeyByPair,
                     1000 * 60 * 2,
@@ -202,6 +202,7 @@
                 this.observe('_assetIdPair', this._onChangeChosenPair);
                 this.observe('activeTab', this._onChangeActiveTab);
 
+                stService.draw.once(WatchList._onRenderTable);
                 this._loadData();
             }
 
@@ -297,6 +298,7 @@
 
                 if (!this._isSelfSetPair) {
                     this.activeTab = 'all';
+                    stService.draw.once(WatchList._onRenderTable);
                 }
             }
 
@@ -368,6 +370,12 @@
 
                 const search = (query) => {
                     const queryList = query.split('/');
+                    const names = [
+                        item.pair.amountAsset.name.toLowerCase(),
+                        item.pair.amountAsset.ticker && item.pair.amountAsset.ticker.toLowerCase() || null,
+                        item.pair.priceAsset.name.toLowerCase(),
+                        item.pair.priceAsset.ticker && item.pair.priceAsset.ticker.toLowerCase() || null
+                    ].filter(Boolean);
 
                     if (queryList.length === 1) {
                         const q = query.toLowerCase();
@@ -375,8 +383,7 @@
                         if (WatchList._isId(query)) {
                             return item.pairIdList.includes(query);
                         } else {
-                            return item.pair.amountAsset.displayName.toLowerCase().indexOf(q) === 0 ||
-                                item.pair.priceAsset.displayName.toLowerCase().indexOf(q) === 0;
+                            return names.some(n => n.indexOf(q) === 0);
                         }
                     }
 
@@ -386,8 +393,7 @@
                         if (WatchList._isId(queryList[0])) {
                             return item.pairIdList.includes(queryList[0]);
                         } else {
-                            return item.pair.amountAsset.displayName.toLowerCase() === q ||
-                                item.pair.priceAsset.displayName.toLowerCase() === q;
+                            return names.some(n => n === q);
                         }
                     }
 
@@ -501,7 +507,6 @@
 
             static _renderSmartTable() {
                 stService.render('watchlist');
-                stService.draw.once(WatchList._onRenderTable);
             }
 
             static _onRenderTable() {
@@ -638,6 +643,8 @@
 
         return new WatchList();
     };
+
+    controller.storage = Object.create(null);
 
     controller.$inject = ['Base', '$scope', 'utils', 'waves', 'stService', 'PromiseControl', 'createPoll', '$element'];
 

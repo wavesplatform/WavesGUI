@@ -56,6 +56,12 @@
                  * @type {boolean}
                  */
                 this.hasOrderBook = false;
+
+                /**
+                 * @type {boolean}
+                 */
+                this.loadingError = false;
+
                 /**
                  * @type {{amount: string, price: string}}
                  * @private
@@ -100,9 +106,6 @@
                     _orderBookCropRate: 'dex.chartCropRate'
                 });
 
-                this.observe(['hasOrderBook', 'pending'], this._onChangeVisibleElements);
-
-                this._onChangeVisibleElements();
                 this._updateAssetData();
 
                 $templateRequest('modules/dex/directives/orderBook/orderbook.row.hbs')
@@ -116,6 +119,7 @@
                             this._showSpread = true;
                             this.pending = true;
                             this.hasOrderBook = false;
+                            this.loadingError = false;
                             this._updateAssetData();
                             poll.restart();
                         });
@@ -156,15 +160,8 @@
                 });
             }
 
-            _onChangeVisibleElements() {
-                const hasOrderBook = this.hasOrderBook;
-                const pending = this.pending;
-
-                if (pending) {
-                    $element.removeClass('has-order-book').addClass('pending');
-                } else {
-                    $element.removeClass('pending').toggleClass('has-order-book', hasOrderBook);
-                }
+            nothingFound() {
+                return !(this.hasOrderBook || this.pending || this.loadingError);
             }
 
             _updateAssetData() {
@@ -184,7 +181,17 @@
                     waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price),
                     waves.matcher.getOrders(),
                     dataFeed.trades(this._assetIdPair.amount, this._assetIdPair.price)
-                ]).then(([orderbook, orders, trades]) => this._remapOrderBook(orderbook, orders, trades));
+                ]).then(
+                    ([orderbook, orders, trades]) => {
+                        this.loadingError = false;
+                        return this._remapOrderBook(orderbook, orders, trades);
+                    },
+                    () => {
+                        this.loadingError = true;
+                        this.hasOrderBook = false;
+                        $scope.$digest();
+                    }
+                );
             }
 
             /**

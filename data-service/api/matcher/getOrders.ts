@@ -1,7 +1,7 @@
 import { WAVES_ID } from '@waves/waves-signature-generator';
 import { Asset, AssetPair, BigNumber, Money, OrderPrice } from '@waves/data-entities';
 import { IHash, IMoneyFactory, IPriceMoneyFactory } from '../../interface';
-import { coinsMoneyFactory, normalizeAssetId, priceMoneyFactory, toHash } from '../../utils/utils';
+import { coinsMoneyFactory, normalizeAssetId, normalizeTime, priceMoneyFactory, toHash } from '../../utils/utils';
 import { Signal } from 'ts-utils';
 import { request } from '../../utils/request';
 import { get as configGer } from '../../config';
@@ -35,7 +35,7 @@ export const matcherOrderRemap = remapOrder(factory);
 
 export function addSignature(signature: string, publicKey: string, timestamp: number): void {
     addTimer({
-        timestamp,
+        timestamp: normalizeTime(timestamp),
         signature,
         publicKey
     });
