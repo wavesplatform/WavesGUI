@@ -28,7 +28,6 @@
     const controller = function (Base, $scope, utils, waves, stService, PromiseControl, createPoll, $element) {
 
         const R = require('ramda');
-        const entities = require('@waves/data-entities');
         const ds = require('data-service');
 
         $scope.WavesApp = WavesApp;
@@ -94,12 +93,11 @@
                     {
                         id: 'pair',
                         title: { literal: 'directives.watchlist.pair' },
-                        sort: this._getComparatorByPath('pair')
+                        sort: this._getComparatorByPath('pairNames')
                     },
                     {
                         id: 'price',
-                        title: { literal: 'directives.watchlist.price' },
-                        sort: this._getComparatorByPath('price')
+                        title: { literal: 'directives.watchlist.price' }
                     },
                     {
                         id: 'change',
@@ -327,7 +325,7 @@
              */
             _getTableFilter() {
                 return list => {
-                    const hasSearch = this.search.split('/').slice(0, 2).filter(q => q.length >= 2).length > 0;
+                    const hasSearch = this.search !== '';
                     if (hasSearch) {
                         return list.filter((item) => {
                             return this._filterDataItemByTab(item) && this._filterDataItemByQuery(item);
@@ -468,7 +466,8 @@
                 const favorite = (this._favourite || []).map(p => p.sort());
                 const chosen = [this._assetIdPair.amount, this._assetIdPair.price].sort();
                 const searchIdList = Object.keys(this._searchAssetsHash);
-                const other = WatchList._getAllCombinations(R.uniq(this._assetsIds.concat(searchIdList)));
+                const idList = R.uniq(this._assetsIds.concat(searchIdList, Object.values(WavesApp.defaultAssets)));
+                const other = WatchList._getAllCombinations(idList);
                 return R.uniq(favorite.concat(other, [chosen]));
             }
 
@@ -584,7 +583,7 @@
                         return Promise.all(promiseList);
                     })
                     .then(R.flatten)
-                    .then(pairs => Promise.all(pairs.map(WatchList._remapPairData)));
+                    .then(pairs => pairs.map(WatchList._remapPairData));
             }
 
             static _remapPairData({ pair, data }) {
@@ -593,56 +592,25 @@
                 const pairNames = `${pair.amountAsset.displayName} / ${pair.priceAsset.displayName}`;
                 const id = pairIdList.sort().join();
 
-                return WatchList._getPriceByPair(pair).then((price) => {
+                const result = {
+                    id,
+                    pair,
+                    pairNames,
+                    pairIdList,
+                    change24: null,
+                    volume: null
+                };
 
-                    const result = {
-                        id,
-                        pair,
-                        pairNames,
-                        pairIdList,
-                        price,
-                        change24: null,
-                        volume: null
-                    };
+                if (!data) {
+                    return result;
+                }
 
-                    if (!data) {
-                        return result;
-                    }
+                const open = new BigNumber(data.firstPrice || 0);
+                const close = new BigNumber(data.lastPrice || 0);
+                const change24 = (!open.eq(0)) ? (close.minus(open).div(open).times(100).dp(2)) : new BigNumber(0);
+                const volume = new BigNumber(data.volume || 0);
 
-                    const open = new BigNumber(data.firstPrice || 0);
-                    const close = new BigNumber(data.lastPrice || 0);
-                    const change24 = (!open.eq(0)) ? (close.minus(open).div(open).times(100).dp(2)) : new BigNumber(0);
-                    const volume = new BigNumber(data.volume || 0);
-
-                    return { ...result, change24, volume };
-                });
-            }
-
-            /**
-             * @param {AssetPair} pair
-             * @returns {Promise<Money>}
-             * @private
-             */
-            static _getPriceByPair(pair) {
-
-                const wait = new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        reject(new Error('Timeout error!'));
-                    }, 600);
-                });
-
-                const dataPromise = ds.api.transactions.getExchangeTxList({
-                    amountAsset: pair.amountAsset,
-                    priceAsset: pair.priceAsset,
-                    limit: 1,
-                    timeStart: 0 // TODO Remove after update data services
-                }).then((exchangeTx) => {
-                    const emptyPrice = new entities.Money(0, pair.priceAsset);
-                    return exchangeTx[0] && exchangeTx[0].price || emptyPrice;
-                });
-
-                return Promise.race([dataPromise, wait])
-                    .catch(() => null);
+                return { ...result, change24, volume };
             }
 
             /**
@@ -689,7 +657,6 @@
  * @property {boolean} isFavorite
  * @property {string} pairNames
  * @property {Array<string>} pairIdList
- * @property {Money} price
  * @property {BigNumber} change24
  * @property {BigNumber} volume
  */
