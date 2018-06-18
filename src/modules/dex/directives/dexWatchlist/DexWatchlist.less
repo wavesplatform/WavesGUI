@@ -298,7 +298,12 @@ body.dex .dex-wrapper {
 
             &.plus {
               color: @color-submit-400;
+              &::before {
+                content: '+';
+                display: inline-block;
+              }
             }
+
             &.minus {
               color: @color-error-400;
             }

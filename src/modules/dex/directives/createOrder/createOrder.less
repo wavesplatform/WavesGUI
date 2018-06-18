@@ -164,6 +164,9 @@ w-create-order {
       .choice {
         display: none;
         flex-direction: row;
+        position: relative;
+        z-index: 2;
+        background-color: @color-white;
 
         .choose {
           width: 50%;
@@ -203,7 +206,7 @@ w-create-order {
           display: flex;
           flex-direction: row;
           position: relative;
-          z-index: 10;
+          z-index: 3;
 
           .area {
             width: 50%;
@@ -247,7 +250,7 @@ w-create-order {
           position: absolute;
           transform: translate(0, -100%);
           color: @color-white;
-          z-index: -1;
+          z-index: 1;
           width: 100%;
           padding: 10px 0;
           text-align: center;
@@ -264,8 +267,16 @@ w-create-order {
             vertical-align: middle;
           }
 
+          &.buy {
+            background-color: @color-submit-400;
+          }
+
+          &.sell {
+            background-color: @color-error-400;
+          }
+
           &.success {
-            background-color: @color-success-600;
+            background-color: @color-submit-400;
             i {
               background: url(/img/icons/checkbox-icon.svg) no-repeat center center;
             }
@@ -480,7 +491,7 @@ w-create-order {
                     color: @color-submit-400;
                     height: 49px;
                     width: 80px;
-                    transform: translate(-50%, 30px);
+                    transform: translate(-50%, 0);
                   }
 
                 }
@@ -547,6 +558,14 @@ w-create-order {
 
           w-create-order {
             .create-order {
+
+             .body {
+               .making-order {
+                 .create-order-notification {
+                    z-index: 1;
+                 }
+               }
+             }
 
               .expandable {
                 display: block;
