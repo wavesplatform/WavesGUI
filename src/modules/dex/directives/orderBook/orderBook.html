@@ -1,8 +1,8 @@
 <div class="wrapper">
 
-    <w-loader></w-loader>
+    <w-loader ng-show="$ctrl.pending"></w-loader>
 
-    <w-table>
+    <w-table ng-show="$ctrl.hasOrderBook">
         <w-t-head>
             <w-row>
                 <w-cell>
@@ -30,14 +30,13 @@
         </w-scroll-box>
     </w-table>
 
-    <div class="empty-block-container">
+    <div class="empty-block-container" ng-show="$ctrl.nothingFound()">
         <div class="icon"></div>
         <div class="body-1 basic-700" w-i18n="emptyBlocks.orderBook.title"></div>
         <div class="footnote-1 basic-500" w-i18n="emptyBlocks.orderBook.description"></div>
     </div>
 
-    <!-- todo @german Если error (Something went wrong) - показывать этот новый блок с классом еррор -->
-    <div class="empty-block-container error">
+    <div class="empty-block-container error" ng-show="$ctrl.loadingError">
         <div class="icon"></div>
         <div class="body-1 basic-700" w-i18n="emptyBlocks.orderBook.error.title"></div>
         <div class="footnote-1 basic-500" w-i18n="emptyBlocks.orderBook.error.text"></div>
