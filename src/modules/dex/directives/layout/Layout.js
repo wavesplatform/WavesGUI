@@ -6,6 +6,7 @@
      * @param $q
      * @param $element
      * @param {app.utils} utils
+     * @param $rootScope
      * @return {Layout}
      */
     const controller = function (Base, $q, $element, utils, $rootScope) {
@@ -106,6 +107,13 @@
                         throw new Error('Duplicate child block!');
                     }
                 });
+            }
+
+            /**
+             * @param $event
+             */
+            closeCreateOrder($event) {
+                angular.element($event.delegateTarget).parent().removeClass('expanded');
             }
 
             collapseBlock(block, collapsed) {
