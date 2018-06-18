@@ -1,5 +1,5 @@
 import { Money, BigNumber } from '@waves/data-entities';
-import { idToNode } from '../utils/utils';
+import { idToNode, normalizeTime } from '../utils/utils';
 import { libs, MASS_TRANSFER_TX_VERSION } from '@waves/waves-signature-generator';
 import { getSignatureApi, SIGN_TYPE } from '../sign';
 import { request } from '../utils/request';
@@ -12,7 +12,7 @@ export function broadcast(type: SIGN_TYPE, data: any) {
         api.getPublicKey(),
         api.getAddress()
     ]).then(([senderPublicKey, sender]) => {
-        const timestamp = data.timestamp || Date.now();
+        const timestamp = normalizeTime(data.timestamp || Date.now());
         const schema = schemas.getSchemaByType(type);
         return api.sign({ type, data: schema.sign({ ...data, sender, senderPublicKey, timestamp }) } as any)
             .then((signature) => {
@@ -41,7 +41,7 @@ export function createOrder(data) {
         api.getAddress(),
         request({ url: `${get('matcher')}/` })
     ]).then(([senderPublicKey, sender, matcherPublicKey]) => {
-        const timestamp = data.timestamp || Date.now();
+        const timestamp = normalizeTime(data.timestamp || Date.now());
         const expiration = data.expiration || prepare.processors.expiration();
         const schema = schemas.getSchemaByType(SIGN_TYPE.CREATE_ORDER);
         const assetPair = {

@@ -2,8 +2,17 @@ import { IAssetPair, IHash } from '../interface';
 import { WAVES_ID } from '@waves/waves-signature-generator';
 import { BigNumber, Asset, Money, AssetPair, OrderPrice } from '@waves/data-entities';
 import { get } from '../api/assets/assets';
-import { get as configGet } from '../config';
+import { get as configGet, timeDiff } from '../config';
 
+export function normalizeTime(time: number): number;
+export function normalizeTime(time: Date): Date;
+export function normalizeTime(time: number | Date): number | Date {
+    if (typeof time === 'number') {
+        return time + timeDiff;
+    } else {
+        return new Date(time.getTime() + timeDiff);
+    }
+}
 
 export function normalizeRecipient(recipient: string): string {
     return recipient.replace(`alias:${configGet('code')}:`, '');

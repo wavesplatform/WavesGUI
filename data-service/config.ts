@@ -1,10 +1,22 @@
 import DataServiceClient from '@waves/data-service-client-js';
 import * as create from 'parse-json-bignumber';
 import { IHash } from './interface';
+import { time } from './api/node/node';
 
 
 const config: IConfigParams = Object.create(null);
 let dataService = null;
+
+export let timeDiff = 0;
+
+time().then((serverTime) => {
+    const now = Date.now();
+    const dif = now - serverTime.getTime();
+
+    if (Math.abs(dif) > 1000 * 60 * 10) {
+        timeDiff = dif;
+    }
+});
 
 export const parse = create();
 
