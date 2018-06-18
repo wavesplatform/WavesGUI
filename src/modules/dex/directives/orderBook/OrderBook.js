@@ -97,7 +97,7 @@
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair',
-                    _orderBookCropRate: 'dex.orderBookCropRate'
+                    _orderBookCropRate: 'dex.chartCropRate'
                 });
 
                 this.observe(['hasOrderBook', 'pending'], this._onChangeVisibleElements);

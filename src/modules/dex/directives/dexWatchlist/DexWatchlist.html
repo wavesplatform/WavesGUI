@@ -53,7 +53,8 @@
                 <div class="tooltip left">{{::pair.pairNames || '—'}}</div>
             </w-table-cell>
             <w-table-cell>
-                <w-dex-watch-list-price pair="::pair.pair"></w-dex-watch-list-price>
+                <span>{{pair.price.toFormat() || '—'}}</span>
+                <div class="tooltip center">{{pair.price.toFormat() || '—'}}</div> <!-- todo @boris -->
             </w-table-cell>
             <w-table-cell ng-class="{'plus': $ctrl.isPositive(pair.change),'minus': $ctrl.isNegative(pair.change)}">
                 <span>{{ pair.change24 }}</span>{{ pair.change24 ? '%' : '—' }}

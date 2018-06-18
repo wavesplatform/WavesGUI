@@ -97,7 +97,8 @@
                     },
                     {
                         id: 'price',
-                        title: { literal: 'directives.watchlist.price' }
+                        title: { literal: 'directives.watchlist.price' },
+                        sort: this._getComparatorByPath('price')
                     },
                     {
                         id: 'change',
@@ -597,6 +598,7 @@
                     pair,
                     pairNames,
                     pairIdList,
+                    price: null,
                     change24: null,
                     volume: null
                 };
@@ -610,7 +612,7 @@
                 const change24 = (!open.eq(0)) ? (close.minus(open).div(open).times(100).dp(2)) : new BigNumber(0);
                 const volume = new BigNumber(data.volume || 0);
 
-                return { ...result, change24, volume };
+                return { ...result, change24, volume, price: close };
             }
 
             /**

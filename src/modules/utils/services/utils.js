@@ -386,6 +386,32 @@
             },
 
             /**
+             * @name app.utils#openDex
+             * @param {string} asset1
+             * @param {string} [asset2]
+             */
+            openDex(asset1, asset2) {
+                const $state = $injector.get('$state');
+                if (asset1 && asset2) {
+                    if (asset1 === asset2) {
+                        return utils.openDex(asset1);
+                    }
+                    setTimeout(() => {
+                        $state.go('main.dex', { assetId1: asset1, assetId2: asset2 });
+                    }, 50);
+                    return null;
+                }
+                if (asset1 === WavesApp.defaultAssets.WAVES) {
+                    asset2 = WavesApp.defaultAssets.BTC;
+                } else {
+                    asset2 = WavesApp.defaultAssets.WAVES;
+                }
+                setTimeout(() => {
+                    $state.go('main.dex', { assetId1: asset1, assetId2: asset2 });
+                }, 50);
+            },
+
+            /**
              * @name app.utils#getNiceNumberTemplate
              * @param {BigNumber|string|number} num
              * @param {number} precision
