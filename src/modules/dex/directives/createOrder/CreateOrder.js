@@ -190,11 +190,12 @@
                     this.price = this._getCurrentPrice();
                 }
 
-                // todo @german refactoring (class for .dex-layout__createorder)
+                // todo: refactor after getting rid of Layout-DEX coupling.
                 $element.parent().parent().parent().parent().parent().addClass('expanded');
             }
 
             closeCreateOrder() {
+                // todo: refactor after getting rid of Layout-DEX coupling.
                 $element.parent().parent().parent().parent().parent().removeClass('expanded');
             }
 
