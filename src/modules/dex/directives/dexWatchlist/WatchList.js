@@ -143,7 +143,7 @@
                 /**
                  * @type {Array<WatchList.IPairDataItem>}
                  */
-                this.pairDataList = [];
+                this.pairDataList = null; // TODO Reomove disgusting hack
                 /**
                  * @type {boolean}
                  * @private

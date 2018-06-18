@@ -35,7 +35,7 @@
                    data="$ctrl.pairDataList"
                    header-info="$ctrl.headers"
                    class="smart-table">
-        <div class="not-found basic-500" ng-if="!$data.length">
+        <div class="not-found basic-500" ng-if="$data && !$data.length">
             <w-i18n>directives.watchlist.placeholders.noMarkets</w-i18n>
         </div>
         <w-table-row ng-repeat="pair in $data track by pair.id"

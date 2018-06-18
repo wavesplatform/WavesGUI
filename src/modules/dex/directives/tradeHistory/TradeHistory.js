@@ -124,9 +124,9 @@
              * @private
              */
             _onChangeAssets() {
-                this.pending = true;
-                this.history = [];
                 if (!this.isMy) {
+                    this.pending = true;
+                    this.history = [];
                     this.poll.restart();
                 }
             }
