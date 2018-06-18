@@ -115,7 +115,6 @@
             }
 
             _onChangeAssets(noRestart) {
-                $scope.$apply();
                 if (!noRestart) {
                     this._poll.restart();
                     this._resetPending();

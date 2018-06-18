@@ -33,6 +33,14 @@
                  */
                 this.headerInfo = null;
                 /**
+                 * @type {Array|function}
+                 */
+                this._filterList = [];
+                /**
+                 * @type {SmartTable.ISmartTableOptions}
+                 */
+                this.options = null;
+                /**
                  * @type {Array<SmartTable._IHeaderData>}
                  * @private
                  */
@@ -42,15 +50,6 @@
                  * @private
                  */
                 this._header = null;
-                /**
-                 * @type {Array|function}
-                 */
-                this.filterList = [];
-                /**
-                 * @type {Array}
-                 * @private
-                 */
-                this._filterList = [];
                 /**
                  * @type {Array}
                  * @private
@@ -67,9 +66,10 @@
                 this._headerCellPromise = $templateRequest(`${PATH}/headerCell.html`);
 
                 this.observe('headerInfo', this._onChangeHeader);
+                this.observe('options', this._onChangeOptions);
                 this.observeOnce('_headerData', () => {
-                    this.observe(['_headerData', 'data', 'filterList'], this._render);
-                    this._render();
+                    this.observe(['_headerData', 'data', 'filterList', 'options'], this.render);
+                    this.render();
                 });
 
                 stService.register(this);
@@ -89,6 +89,31 @@
             }
 
             /**
+             * @param {SmartTable.ISmartTableOptions} value
+             * @param {SmartTable.ISmartTableOptions} prev
+             * @private
+             */
+            _onChangeOptions({ value, prev }) {
+                this._dropOldOptions(prev);
+                utils.toArray(value && value.filter || []).forEach((item) => {
+                    this._filterList.push(item);
+                });
+            }
+
+            /**
+             * @param {SmartTable.ISmartTableOptions} oldOptions
+             * @private
+             */
+            _dropOldOptions(oldOptions) {
+                if (!oldOptions) {
+                    return null;
+                }
+                utils.toArray(oldOptions.filter).forEach((filter) => {
+                    this._filterList = this._filterList.filter(f => f !== filter);
+                });
+            }
+
+            /**
              * @private
              */
             _applySort() {
@@ -96,11 +121,8 @@
                 this._draw();
             }
 
-            /**
-             * @private
-             */
             @decorators.async()
-            _render() {
+            render() {
                 this._visibleList = [];
                 this._filtredList = [];
                 if (this.data && this.data.length) {
@@ -147,7 +169,7 @@
                                 set: (value) => {
                                     if (value !== data.searchQuery) {
                                         data.searchQuery = value;
-                                        this._render();
+                                        this.render();
                                     }
                                 }
                             };
@@ -267,7 +289,7 @@
              * @private
              */
             _getFilterList() {
-                return utils.toArray(this.filterList || []).concat(this._filterList);
+                return utils.toArray(this._filterList || []);
             }
 
             /**
@@ -277,6 +299,11 @@
             _draw() {
                 $scope.$parent.$data = this._visibleList;
                 $scope.$parent.$digest();
+                $scope.$parent.$$postDigest(() => {
+                    if (this.name) {
+                        stService.draw.dispatch(this.name);
+                    }
+                });
             }
 
             /**
@@ -343,9 +370,10 @@
 
     angular.module('app.ui').component('wSmartTable', {
         bindings: {
+            name: '@',
             data: '<',
-            headerInfo: '<',
-            filterList: '<'
+            options: '<',
+            headerInfo: '<'
         },
         templateUrl: `${PATH}/table.html`,
         transclude: true,
@@ -378,6 +406,11 @@
  */
 
 /**
+ * @typedef {object} SmartTable#ISmartTableOptions
+ * @property {SmartTable.IFilterCallback|SmartTable.IFilterCallback[]} [filter]
+ */
+
+/**
  * @typedef {object} SmartTable#_IHeaderData
  * @property {SmartTable.ILocaleItem} title
  * @property {string} id
@@ -395,6 +428,12 @@
  * @typedef {function} SmartTable#ISearchCallback
  * @param {$rootScope.Scope} $scope
  * @param {string} queryModelKey
+ * @param {Array} list
+ * @return {Array}
+ */
+
+/**
+ * @typedef {function} SmartTable#IFilterCallback
  * @param {Array} list
  * @return {Array}
  */

@@ -3,6 +3,8 @@
 
     const factory = function () {
 
+        const tsUtils = require('ts-utils');
+
         class STService {
 
             constructor() {
@@ -11,6 +13,21 @@
                  * @private
                  */
                 this._hash = Object.create(null);
+                /**
+                 * @type {Signal<string>}
+                 */
+                this.draw = new tsUtils.Signal();
+            }
+
+            /**
+             * @param {string} [name]
+             */
+            render(name) {
+                Object.keys(this._hash).forEach((cid) => {
+                    if (!name || this._hash[cid].name === name) {
+                        this._hash[cid].render();
+                    }
+                });
             }
 
             /**

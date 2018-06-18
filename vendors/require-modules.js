@@ -10,7 +10,8 @@
         'waves-api': 'WavesAPI',
         'identity-img': 'identityImg',
         '@waves/data-entities': 'ds.wavesDataEntities',
-        'ramda': 'R'
+        'ramda': 'R',
+        'data-service': 'ds'
     };
 
     function getModule(require) {
