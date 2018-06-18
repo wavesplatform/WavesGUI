@@ -126,7 +126,9 @@
             _onChangeAssets() {
                 this.pending = true;
                 this.history = [];
-                this.poll.restart();
+                if (!this.isMy) {
+                    this.poll.restart();
+                }
             }
 
             /**
