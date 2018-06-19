@@ -9,6 +9,8 @@
      */
     const factory = function (assets, utils, decorators) {
 
+        const ds = require('data-service');
+
         class WavesUtils {
 
             @decorators.cachable(5)
@@ -141,67 +143,38 @@
             }
 
             /**
-             * @param {Moment} from
-             * @private
-             */
-            _getChangeByInterval(from) {
-                const MINUTE_TIME = 1000 * 60;
-                const INTERVALS = [5, 15, 30, 60, 240, 1440];
-                const MAX_COUNTS = 100;
-
-                const intervalMinutes = (Date.now() - from.getDate()) / MINUTE_TIME;
-
-                let interval, i = 0;
-                do {
-                    if ((intervalMinutes / INTERVALS[i]) < MAX_COUNTS) {
-                        interval = INTERVALS[i];
-                    } else {
-                        i++;
-                    }
-                } while (!interval && INTERVALS[i]);
-
-                if (!interval) {
-                    interval = INTERVALS[INTERVALS.length - 1];
-                }
-
-                const count = Math.min(Math.floor(intervalMinutes / interval), MAX_COUNTS);
-
-                return `${interval}/${count}`;
-            }
-
-            /**
              * @param {string} from
              * @param {string} to
              * @return {Promise<Number>}
              * @private
              */
             _getChange(from, to) {
+                const getChange = (open, close) => {
+                    if (open.eq(0)) {
+                        return new BigNumber(0);
+                    } else {
+                        return close.minus(open).div(open).times(100).dp(2);
+                    }
+                };
+
                 return ds.api.pairs.get(from, to)
                     .then((pair) => {
-                        const interval = this._getChangeByInterval(utils.moment().add().day(-1));
-                        return ds.fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
-                            .then((data) => {
+                        return ds.api.pairs.info(pair)
+                            .catch(() => null)
+                            .then(([data]) => {
 
                                 if (!data || data.status === 'error') {
                                     return 0;
                                 }
 
-                                data = data.filter(({ open, close }) => Number(open) !== 0 && Number(close) !== 0)
-                                    .sort(utils.comparators.process(({ timestamp }) => timestamp).asc);
-
-                                if (!data.length) {
-                                    return 0;
-                                }
-
-                                const open = Number(data[0].open);
-                                const close = Number(data[data.length - 1].close);
-
-                                const percent = open ? ((close - open) / open * 100) : 0;
+                                const open = new BigNumber(data.firstPrice || 0);
+                                const close = new BigNumber(data.lastPrice || 0);
+                                const change24 = getChange(open, close).toNumber();
 
                                 if (pair.amountAsset.id === from) {
-                                    return percent;
+                                    return change24;
                                 } else {
-                                    return -percent;
+                                    return -change24;
                                 }
                             });
                     });
@@ -219,7 +192,7 @@
                     return (
                         trades
                             .reduce((result, item) => {
-                                return result.plus(new BigNumber(item.price));
+                                return result.plus(new BigNumber(item.price.getTokens()));
                             }, new BigNumber(0))
                             .div(trades.length)
                     );
@@ -231,7 +204,12 @@
 
                 return ds.api.pairs.get(fromId, toId)
                     .then((pair) => {
-                        return ds.fetch(`${WavesApp.network.datafeed}/api/trades/${pair.toString()}/5`)
+                        return ds.api.transactions.getExchangeTxList({
+                            limit: 5,
+                            amountAsset: pair.amountAsset,
+                            priceAsset: pair.priceAsset,
+                            timeStart: 0 // TODO Remove
+                        })
                             .then(currentRate)
                             .then((rate) => {
                                 if (fromId !== pair.priceAsset.id) {
@@ -253,11 +231,18 @@
              * @private
              */
             _getRateHistory(fromId, toId, from, to) {
-                const interval = this._getChangeByInterval(from);
+                const minuteTime = 1000 * 60;
+                const interval = Math.round((to.getDate().getTime() - from.getDate().getTime()) / (200 * minuteTime));
+
                 return ds.api.pairs.get(fromId, toId)
                     .then((pair) => {
-                        return ds.fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
-                            .then((list) => {
+                        const amountId = pair.amountAsset.id;
+                        const priceId = pair.priceAsset.id;
+                        const path = `${WavesApp.network.api}/candles/${amountId}/${priceId}`;
+
+                        return ds.fetch(`${path}?timeStart=${from}&timeEnd=${to}&interval=${interval}m`)
+                            .then((data) => {
+                                const list = data.candles;
 
                                 if (!list || !list.length) {
                                     return Promise.reject(list);
@@ -269,7 +254,7 @@
 
                                     if (close !== 0) {
                                         result.push({
-                                            timestamp: new Date(item.timestamp),
+                                            timestamp: new Date(item.time),
                                             rate: rate
                                         });
                                     }

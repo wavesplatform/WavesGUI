@@ -293,6 +293,10 @@
                 const pair = this._assetIdPair;
                 const id = [pair.amount, pair.price].sort().join();
 
+                if (!this._favoriteHash[id] && this.showOnlyFavorite) {
+                    this.showOnlyFavorite = false;
+                }
+
                 if (!R.find(R.propEq('id', id), this.pairDataList)) {
                     this._cache([id.split(',')]).then(([item]) => {
                         this.pairDataList.push(item);

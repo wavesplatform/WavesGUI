@@ -12,11 +12,9 @@
      * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
      * @param {function(path: string): Promise<string>} $templateRequest
-     * @param {DataFeed} dataFeed
      * @return {OrderBook}
      */
-    const controller = function (Base, createPoll, $element, waves, dexDataService, utils, $scope, $templateRequest,
-                                 dataFeed) {
+    const controller = function (Base, createPoll, $element, waves, dexDataService, utils, $scope, $templateRequest) {
 
         const SECTIONS = {
             ASKS: '.asks',
@@ -61,22 +59,16 @@
                  * @type {boolean}
                  */
                 this.loadingError = false;
-
                 /**
                  * @type {{amount: string, price: string}}
                  * @private
                  */
                 this._assetIdPair = null;
                 /**
-                 * @type {boolean}
-                 * @private
-                 */
-                this._showSpread = true;
-                /**
                  * @type {*}
                  * @private
                  */
-                this._lastResopse = null;
+                this._lastResponse = null;
                 /**
                  * @type {boolean}
                  * @private
@@ -113,10 +105,9 @@
 
                         this._template = Handlebars.compile(templateString);
 
-                        const poll = createPoll(this, this._getOrders, this._setOrders, 9991000, { $scope });
+                        const poll = createPoll(this, this._getOrders, this._setOrders, 1000, { $scope });
 
                         this.observe('_assetIdPair', () => {
-                            this._showSpread = true;
                             this.pending = true;
                             this.hasOrderBook = false;
                             this.loadingError = false;
@@ -130,9 +121,9 @@
 
                         $element.on('mouseup touchend', 'w-scroll-box w-row', () => {
                             this._noRender = false;
-                            if (this._lastResopse) {
-                                this._render(this._lastResopse);
-                                this._lastResopse = null;
+                            if (this._lastResponse) {
+                                this._render(this._lastResponse);
+                                this._lastResponse = null;
                             }
                         });
 
@@ -158,6 +149,14 @@
                     $lastPrice: { get: () => this._dom.$info.find(SECTIONS.LAST_PRICE) },
                     $spread: { get: () => this._dom.$info.find(SECTIONS.SPREAD) }
                 });
+
+                $scope.$watch('$ctrl.hasOrderBook', () => {
+                    if (this.hasOrderBook) {
+                        setTimeout(() => {
+                            this._dom.$box.get(0).scrollTop = this._getSpreadScrollPosition();
+                        }, 0);
+                    }
+                });
             }
 
             nothingFound() {
@@ -180,7 +179,12 @@
                 return Promise.all([
                     waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price),
                     waves.matcher.getOrders(),
-                    dataFeed.trades(this._assetIdPair.amount, this._assetIdPair.price)
+                    ds.api.transactions.getExchangeTxList({
+                        timeStart: 0, // TODO
+                        amountAsset: this._assetIdPair.amount,
+                        priceAsset: this._assetIdPair.price,
+                        limit: 1
+                    }).then(([tx]) => tx)
                 ]).then(
                     ([orderbook, orders, trades]) => {
                         this.loadingError = false;
@@ -211,7 +215,7 @@
              * @return {OrderBook.OrdersData}
              * @private
              */
-            _remapOrderBook(orderbook, orders, trades) {
+            _remapOrderBook(orderbook, orders, tx) {
 
                 const crop = utils.getOrderBookRangeByCropRate({
                     bids: orderbook.bids,
@@ -229,7 +233,7 @@
                     return result;
                 }, Object.create(null));
 
-                const lastTrade = trades[0] || null;
+                const lastTrade = tx || null;
                 const bids = OrderBook._sumAllOrders(orderbook.bids, 'sell');
                 const asks = OrderBook._sumAllOrders(orderbook.asks, 'buy').reverse();
 
@@ -248,9 +252,12 @@
              * @private
              */
             _render(data) {
+                if (!data) {
+                    return null;
+                }
 
                 if (this._noRender) {
-                    this._lastResopse = data;
+                    this._lastResponse = data;
                     return null;
                 }
 
@@ -259,10 +266,10 @@
                 this._dom.$asks.html(data.asks);
 
                 if (data.lastTrade) {
-                    const isBuy = data.lastTrade.type === 'buy';
-                    const isSell = data.lastTrade.type === 'sell';
+                    const isBuy = data.lastTrade.exchangeType === 'buy';
+                    const isSell = data.lastTrade.exchangeType === 'sell';
                     this._dom.$info.toggleClass(CLASSES.BUY, isBuy).toggleClass(CLASSES.SELL, isSell);
-                    this._dom.$lastPrice.text(data.lastTrade.price);
+                    this._dom.$lastPrice.text(data.lastTrade.price.toFormat());
                     if (data.spread) {
                         this._dom.$spread.text(data.spread.toFixed(2));
                     }
@@ -271,12 +278,6 @@
                 }
 
                 this._dom.$bids.html(data.bids);
-
-                if (this._showSpread) {
-                    this._showSpread = false;
-                    const box = this._dom.$box.get(0);
-                    box.scrollTop = this._getSpreadScrollPosition();
-                }
             }
 
             _getSpreadScrollPosition() {
@@ -399,8 +400,7 @@
         'dexDataService',
         'utils',
         '$scope',
-        '$templateRequest',
-        'dataFeed'
+        '$templateRequest'
     ];
 
     angular.module('app.dex').component('wDexOrderBook', {
@@ -432,6 +432,6 @@
  * @typedef {object} OrderBook#OrdersData
  * @property {string} asks
  * @property {string} bids
- * @property {DataFeed.ITrade} lastTrade
+ * @property {IExchange} lastTrade
  * @property {BigNumber} spread
  */

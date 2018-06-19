@@ -51,7 +51,6 @@ export interface IConfigParams {
     api: string;
     dsApi: string;
     coinomat: string;
-    datafeed: string;
     support: string;
     nodeList: string;
     assets: IHash<string>;

@@ -50,7 +50,6 @@ export interface IConfItem {
     node: string;
     coinomat: string;
     matcher: string;
-    datafeed: string;
 }
 
 export type TConnection = 'mainnet' | 'testnet';

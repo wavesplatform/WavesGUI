@@ -12,13 +12,13 @@
      * @param {INotification} notification
      * @param {DexDataService} dexDataService
      * @param {Ease} ease
-     * @param {DataFeed} dataFeed
      * @return {CreateOrder}
      */
     const controller = function (Base, waves, user, utils, createPoll, $scope,
-                                 $element, notification, dexDataService, ease, dataFeed) {
+                                 $element, notification, dexDataService, ease) {
 
         const entities = require('@waves/data-entities');
+        const ds = require('data-service');
 
         class CreateOrder extends Base {
 
@@ -137,7 +137,7 @@
 
                 const lastTradePromise = new Promise((resolve) => {
                     balancesPoll.ready.then(() => {
-                        lastTraderPoll = createPoll(this, this._getLastTrade, 'lastTradePrice', 1000);
+                        lastTraderPoll = createPoll(this, this._getLastPrice, 'lastTradePrice', 1000);
                         resolve();
                     });
                 });
@@ -319,11 +319,13 @@
              * @return {Promise<Money>}
              * @private
              */
-            _getLastTrade() {
-                return dataFeed.trades(this._assetIdPair.amount, this._assetIdPair.price)
-                    .then((list) => Array.isArray(list) &&
-                        list[0] &&
-                        this.priceBalance.cloneWithTokens(String(list[0].price)) || null);
+            _getLastPrice() {
+                return ds.api.transactions.getExchangeTxList({
+                    timeStart: 0, // TODO
+                    amountAsset: this._assetIdPair.amount,
+                    priceAsset: this._assetIdPair.price,
+                    limit: 1
+                }).then(([tx]) => tx.price);
             }
 
             /**
@@ -499,8 +501,7 @@
         '$element',
         'notification',
         'dexDataService',
-        'ease',
-        'dataFeed'
+        'ease'
     ];
 
     angular.module('app.dex').component('wCreateOrder', {
