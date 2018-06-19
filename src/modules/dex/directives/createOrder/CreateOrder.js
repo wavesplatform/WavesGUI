@@ -113,8 +113,16 @@
 
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.expand(type);
-                    this.amount = entities.Money.min(this.amountBalance.cloneWithTokens(amount), this.amountBalance);
-                    this.price = this.priceBalance.cloneWithTokens(price);
+                    switch (type) {
+                        case 'buy':
+                            this._onClickBuyOrder(price, amount);
+                            break;
+                        case 'sell':
+                            this._onClickSellOrder(price, amount);
+                            break;
+                        default:
+                            throw new Error('Wrong order type!');
+                    }
                     $scope.$digest();
                 });
 
@@ -199,19 +207,37 @@
                 $element.parent().parent().parent().parent().parent().removeClass('expanded');
             }
 
+            /**
+             * @returns {boolean}
+             */
+            isAmountInvalid() {
+                return this.isDirtyAndInvalid(this.order.amount);
+            }
+
+            /**
+             * @returns {boolean}
+             */
+            isPriceInvalid() {
+                return this.isDirtyAndInvalid(this.order.price);
+            }
+
+            /**
+             * @returns {boolean}
+             */
+            isTotalInvalid() {
+                return this.isDirtyAndInvalid(this.order.total);
+            }
+
+            /**
+             * @param field
+             * @returns {boolean}
+             */
+            isDirtyAndInvalid(field) {
+                return field.$touched && field.$invalid;
+            }
+
             setMaxAmount() {
-                if (this.amountBalance.asset.id === this.fee.asset.id) {
-                    const amount = this.amountBalance.cloneWithTokens(this.amountBalance.sub(this.fee).getTokens()
-                        .dp(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
-                    if (amount.getTokens().lt(0)) {
-                        this.amount = this.amountBalance.cloneWithTokens('0');
-                    } else {
-                        this.amount = amount;
-                    }
-                } else {
-                    this.amount = this.amountBalance.cloneWithTokens(this.amountBalance.getTokens()
-                        .dp(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
-                }
+                this.amount = this._getMaxAmountForSell();
             }
 
             setMaxPrice() {
@@ -313,6 +339,42 @@
                         $scope.$apply();
                         CreateOrder._animateNotification(notify);
                     });
+            }
+
+            /**
+             * @param {string} price
+             * @param {string} amount
+             * @private
+             */
+            _onClickBuyOrder(price, amount) {
+                this.price = this.priceBalance.cloneWithTokens(price);
+                const minAmount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens().div(price));
+                this.amount = entities.Money.min(this.amountBalance.cloneWithTokens(amount), minAmount);
+            }
+
+            /**
+             * @param {string} price
+             * @param {string} amount
+             * @private
+             */
+            _onClickSellOrder(price, amount) {
+                const amountMoney = this.amountBalance.cloneWithTokens(amount);
+                this.amount = entities.Money.min(amountMoney, this._getMaxAmountForSell());
+                this.price = this.priceBalance.cloneWithTokens(price);
+            }
+
+            /**
+             * @return {Money}
+             * @private
+             */
+            _getMaxAmountForSell() {
+                const fee = this.fee;
+                const balance = this.amountBalance;
+                if (fee.asset.id === balance.asset.id) {
+                    return entities.Money.max(balance.sub(fee), balance.cloneWithTokens('0'));
+                } else {
+                    return balance;
+                }
             }
 
             /**
