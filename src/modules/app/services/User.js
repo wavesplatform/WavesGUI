@@ -55,7 +55,7 @@
                  * @type {DefaultSettings}
                  * @private
                  */
-                this._settings = null;
+                this._settings = defaultSettings.create(Object.create(null));
                 /**
                  * @type {number}
                  */
@@ -92,6 +92,7 @@
                 this._fieldsForSave = [];
 
                 this._setObserve();
+                this._settings.change.on(() => this._onChangeSettings());
             }
 
             /**
