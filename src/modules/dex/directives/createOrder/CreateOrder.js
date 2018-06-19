@@ -317,26 +317,11 @@
                         this.createOrderFailed = false;
                         const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                         analytics.push('DEX', `DEX.Order.${this.type}.Success`, pair);
-                        notification.success({
-                            ns: 'app.dex',
-                            title: { literal: 'directives.createOrder.notifications.isCreated' }
-                        });
-                    }).catch((err) => {
+                    }).catch(() => {
                         this.createOrderFailed = true;
                         notify.addClass('error');
                         const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                         analytics.push('DEX', `DEX.Order.${this.type}.Error`, pair);
-                        // TODO : refactor this
-                        const notEnough = 'Not enough tradable balance';
-                        const isNotEnough = (err.data && err.data.message.slice(0, notEnough.length) === notEnough);
-                        notification.error({
-                            ns: 'app.dex',
-                            title: {
-                                literal: isNotEnough ?
-                                    'directives.createOrder.notifications.notEnoughBalance' :
-                                    'directives.createOrder.notifications.somethingWentWrong'
-                            }
-                        });
                     }).then(() => {
                         form.$setUntouched();
                         form.$setPristine();
