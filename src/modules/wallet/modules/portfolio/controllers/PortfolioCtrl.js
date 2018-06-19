@@ -266,7 +266,7 @@
                     const isPinned = this._isPinned(item.asset.id);
                     const isSpam = this._isSpam(item.asset.id);
                     item.asset.isMyAsset = item.asset.sender === user.address;
-                    const isOnScamList = WavesApp.scam[item.asset.id] || PortfolioCtrl._isYoungAsset(item.asset);
+                    const isOnScamList = WavesApp.scam[item.asset.id];
 
                     return Promise.resolve({
                         available: item.available,
@@ -313,15 +313,6 @@
              */
             _isSpam(assetId) {
                 return this.spam.includes(assetId);
-            }
-
-            /**
-             * @param {Asset} asset
-             * @return {boolean}
-             * @private
-             */
-            static _isYoungAsset(asset) {
-                return utils.moment(new Date(asset.timestamp)).add().hour(1) > Date.now();
             }
 
         }
