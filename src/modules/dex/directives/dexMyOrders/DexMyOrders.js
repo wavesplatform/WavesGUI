@@ -184,12 +184,11 @@
              * @private
              */
             _getOrders() {
-                return waves.matcher.getOrders()
+                return this._getAllOrders()
                     .then((orders) => {
-                        const filter = R.filter(R.whereEq({ isActive: true }));
                         const remap = R.map(DexMyOrders._remapOrders);
 
-                        const result = R.pipe(filter, remap)(orders);
+                        const result = remap(orders);
                         const last = result.length ? result[result.length - 1] : null;
 
                         if (!last) {
@@ -214,6 +213,30 @@
                                 return order;
                             });
                         });
+                    });
+            }
+
+            _getAllOrders() {
+                return Promise.all([
+                    waves.matcher.getOrders().then(R.filter(R.whereEq({ isActive: true }))),
+                    ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price)
+                ])
+                    .then(([list, pair]) => {
+                        if (list.length === 100) {
+                            const hash = utils.toHash(list, 'id');
+                            return ds.api.matcher.getOrdersByPair(pair)
+                                .then((pairList) => {
+                                    const newList = pairList.filter((order) => {
+                                        return order.isActive &&
+                                            order.assetPair.amountAsset.id === pair.amountAsset.id &&
+                                            order.assetPair.priceAsset.id === pair.priceAsset.id &&
+                                            !hash[order.id];
+                                    });
+                                    return list.concat(newList);
+                                });
+                        } else {
+                            return list;
+                        }
                     });
             }
 

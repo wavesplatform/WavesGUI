@@ -55,26 +55,41 @@ export function clearSignature() {
 
 export const signatureTimeout: Signal<{}> = new Signal();
 
-
-export function getOrders(): Promise<Array<IOrder>> {
-    if (!signatureData) {
-        throw new Error('Get orders without signature! Call method "addSignature"!');
-    }
+const fetch = (url: string): Promise<Array<api.IOrder>> => {
     return request<Array<api.IOrder>>({
-        url: `${configGer('matcher')}/orderbook/${signatureData.publicKey}`,
+        url: `${configGer('matcher')}/${url}`,
         fetchOptions: {
             headers: {
                 Timestamp: signatureData.timestamp,
                 Signature: signatureData.signature
             }
         }
-    }).then((list) => {
-        const assets = getAssetsFromOrderList(list);
-        return getAsset(assets).then((assets) => {
-            const hash = toHash(assets, 'id');
-            return list.map((order) => matcherOrderRemap(hash)(order));
-        });
     });
+};
+
+const parse = (list) => {
+    const assets = getAssetsFromOrderList(list);
+    return getAsset(assets).then((assets) => {
+        const hash = toHash(assets, 'id');
+        return list.map((order) => matcherOrderRemap(hash)(order));
+    });
+};
+
+
+export function getOrders(): Promise<Array<IOrder>> {
+    if (!signatureData) {
+        throw new Error('Get orders without signature! Call method "addSignature"!');
+    }
+    return fetch(`orderbook/${signatureData.publicKey}`)
+        .then(parse);
+}
+
+export function getOrdersByPair(pair: AssetPair): Promise<Array<IOrder>> {
+    if (!signatureData) {
+        throw new Error('Get orders without signature! Call method "addSignature"!');
+    }
+    return fetch(`orderbook/${pair.amountAsset.id}/${pair.priceAsset.id}/publicKey/${signatureData.publicKey}`)
+        .then(parse);
 }
 
 function getAssetsFromOrderList(orders: Array<api.IOrder>): Array<string> {

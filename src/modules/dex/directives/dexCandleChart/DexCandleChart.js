@@ -116,19 +116,12 @@
                             });
                         }
 
-                        i18next.on('languageChanged', this._changeLangHandler.bind(this));
+                        this.listenEventEmitter(i18next, 'languageChanged', this._changeLangHandler.bind(this));
                     });
                 }, () => {
                     console.warn('Error 403!');
                     this.notLoaded = true;
                 });
-            }
-
-            $onDestroy() {
-                super.$onDestroy();
-                if (this.chartReady) {
-                    i18next.off('languageChanged', this._changeLangHandler.bind(this));
-                }
             }
 
             /**

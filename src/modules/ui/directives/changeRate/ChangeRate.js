@@ -89,7 +89,7 @@
             interval: '@',
             date: '@'
         },
-        template: '<span w-nice-number="$ctrl.rate" precision="$ctrl.mirror.precision"></span>',
+        template: '<span w-nice-number="$ctrl.rate" precision="$ctrl.mirror.precision" class="z-top"></span>',
         transclude: false,
         controller
     });

@@ -519,7 +519,11 @@
                 stService.render('watchlist');
             }
 
-            static _onRenderTable() {
+            static _onRenderTable(name) {
+                if (name !== 'watchlist') {
+                    return null;
+                }
+
                 setTimeout(function loop() {
                     const $chosen = $element.find('.chosen');
 
@@ -528,7 +532,11 @@
                     }
 
                     const $body = $element.find('.smart-table__w-tbody');
-                    const top = $chosen.offset().top - $body.offset().top - $body.height() / 2 + $chosen.height() / 2;
+                    const scroll = $body.scrollTop();
+                    const chosenOffset = $chosen.offset().top;
+                    const bodyOffset = $body.offset().top;
+
+                    const top = chosenOffset - bodyOffset + scroll - $body.height() / 2 + $chosen.height() / 2;
 
                     $element.find('.smart-table__w-tbody').animate({
                         scrollTop: top
