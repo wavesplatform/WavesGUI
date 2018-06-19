@@ -479,18 +479,11 @@
                         this.price.getTokens().times(this.amount.getTokens())
                     );
                 }
-
-                if (this.type === 'buy') {
-                    this.canBuyOrder = (
-                        this.totalPrice.lte(this.priceBalance) && this.priceBalance.getTokens().gt(0)
-                    );
-                } else {
-                    this.canBuyOrder = true;
-                }
+                this._setIfCanBuyOrder();
             }
 
             /**
-             * @return {}
+             * @returns {null}
              * @private
              */
             _currentAmount() {
@@ -500,6 +493,21 @@
 
                 const amount = this.totalPrice.getTokens().div(this.price.getTokens());
                 this.amount = this.priceBalance.cloneWithTokens(amount);
+
+                this._setIfCanBuyOrder();
+            }
+
+            /**
+             * @private
+             */
+            _setIfCanBuyOrder() {
+                if (this.type === 'buy') {
+                    this.canBuyOrder = (
+                        this.totalPrice.lte(this.priceBalance) && this.priceBalance.getTokens().gt(0)
+                    );
+                } else {
+                    this.canBuyOrder = true;
+                }
             }
 
             /**
