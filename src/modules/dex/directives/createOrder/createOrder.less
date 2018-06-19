@@ -267,14 +267,6 @@ w-create-order {
             vertical-align: middle;
           }
 
-          &.buy {
-            background-color: @color-submit-400;
-          }
-
-          &.sell {
-            background-color: @color-error-400;
-          }
-
           &.success {
             background-color: @color-submit-400;
             i {
@@ -287,6 +279,19 @@ w-create-order {
             i {
               background: url(/img/icons/white-cancel-icon.svg) no-repeat center center;
             }
+          }
+        }
+
+        &.buy {
+          .create-order-notification {
+            background-color: @color-submit-400;
+          }
+
+        }
+
+        &.sell {
+          .create-order-notification {
+            background-color: @color-error-400;
           }
         }
 

@@ -82,6 +82,10 @@
                  */
                 this.price = null;
                 /**
+                 * @type {number}
+                 */
+                this.ERROR_DISPLAY_INTERVAL = 3;
+                /**
                  * @type {{amount: string, price: string}}
                  * @private
                  */
