@@ -160,7 +160,7 @@
                 });
 
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true })
-                    .map((item) => item.id);
+                    .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
 
                 this._listenChangeLanguage();
                 const stop = $rootScope.$on('$stateChangeStart', (event, toState, params) => {

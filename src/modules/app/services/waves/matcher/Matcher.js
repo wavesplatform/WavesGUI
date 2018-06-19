@@ -22,7 +22,11 @@
              * @return {Promise<Array<IOrder>>}
              */
             getOrders() {
-                return ds.dataManager.getOrders();
+                if (user.address) {
+                    return ds.dataManager.getOrders();
+                } else {
+                    return Promise.resolve([]);
+                }
             }
 
             /**

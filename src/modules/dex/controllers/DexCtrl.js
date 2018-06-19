@@ -24,6 +24,10 @@
                 this.ready = false;
                 /**
                  * @type {boolean}
+                 */
+                this.isLogined = !!user.address;
+                /**
+                 * @type {boolean}
                  * @private
                  */
                 this._leftHidden = false;
