@@ -2,9 +2,8 @@
     <div class="cell">
         <div ng-if="::search" class="smart-table__search-container">
             <input ng-model="searchQuery" ng-class="{'not-empty': searchQuery != ''}"/>
-            <!-- todo @german fix clear button -->
-            <!-- ng-if="$ctrl.search.length > 0" -->
             <i class="input-clear"
+               ng-if="searchQuery"
                ng-click="searchQuery = ''"></i>
         </div>
         <div ng-if="::title.literal"
