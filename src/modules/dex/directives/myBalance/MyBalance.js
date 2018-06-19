@@ -69,9 +69,15 @@
              * @param {string} assetId
              */
             setPair(assetId) {
-                user.setSetting('dex.assetIdPair', {
-                    amount: user.getSetting('dex.watchlist.baseAssetId'),
-                    price: assetId
+                const wavesId = WavesApp.defaultAssets.WAVES;
+                const btcId = WavesApp.defaultAssets.BTC;
+                const assetId2 = assetId === wavesId ? btcId : wavesId;
+
+                ds.api.pairs.get(assetId, assetId2).then((pair) => {
+                    user.setSetting('dex.assetIdPair', {
+                        amount: pair.amountAsset.id,
+                        price: pair.priceAsset.id
+                    });
                 });
             }
 
