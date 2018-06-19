@@ -59,22 +59,16 @@
                  * @type {boolean}
                  */
                 this.loadingError = false;
-
                 /**
                  * @type {{amount: string, price: string}}
                  * @private
                  */
                 this._assetIdPair = null;
                 /**
-                 * @type {boolean}
-                 * @private
-                 */
-                this._showSpread = true;
-                /**
                  * @type {*}
                  * @private
                  */
-                this._lastResopse = null;
+                this._lastResponse = null;
                 /**
                  * @type {boolean}
                  * @private
@@ -111,10 +105,9 @@
 
                         this._template = Handlebars.compile(templateString);
 
-                        const poll = createPoll(this, this._getOrders, this._setOrders, 9991000, { $scope });
+                        const poll = createPoll(this, this._getOrders, this._setOrders, 1000, { $scope });
 
                         this.observe('_assetIdPair', () => {
-                            this._showSpread = true;
                             this.pending = true;
                             this.hasOrderBook = false;
                             this.loadingError = false;
@@ -128,9 +121,9 @@
 
                         $element.on('mouseup touchend', 'w-scroll-box w-row', () => {
                             this._noRender = false;
-                            if (this._lastResopse) {
-                                this._render(this._lastResopse);
-                                this._lastResopse = null;
+                            if (this._lastResponse) {
+                                this._render(this._lastResponse);
+                                this._lastResponse = null;
                             }
                         });
 
@@ -155,6 +148,14 @@
                     $info: { get: () => this._dom.$box.find(SECTIONS.INFO) },
                     $lastPrice: { get: () => this._dom.$info.find(SECTIONS.LAST_PRICE) },
                     $spread: { get: () => this._dom.$info.find(SECTIONS.SPREAD) }
+                });
+
+                $scope.$watch('$ctrl.hasOrderBook', () => {
+                    if (this.hasOrderBook) {
+                        setTimeout(() => {
+                            this._dom.$box.get(0).scrollTop = this._getSpreadScrollPosition();
+                        }, 0);
+                    }
                 });
             }
 
@@ -251,9 +252,12 @@
              * @private
              */
             _render(data) {
+                if (!data) {
+                    return null;
+                }
 
                 if (this._noRender) {
-                    this._lastResopse = data;
+                    this._lastResponse = data;
                     return null;
                 }
 
@@ -274,12 +278,6 @@
                 }
 
                 this._dom.$bids.html(data.bids);
-
-                if (this._showSpread) {
-                    this._showSpread = false;
-                    const box = this._dom.$box.get(0);
-                    box.scrollTop = this._getSpreadScrollPosition();
-                }
             }
 
             _getSpreadScrollPosition() {
