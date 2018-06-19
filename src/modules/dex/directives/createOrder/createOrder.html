@@ -92,17 +92,17 @@
                                 </div>
                             </div>
 
-                            <w-input-error message="required">
+                            <w-input-error message="required" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.required"></span>
                             </w-input-error>
-                            <w-input-error message="gt">
+                            <w-input-error message="gt" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.required"></span>
                             </w-input-error>
-                            <w-input-error message="precision">
+                            <w-input-error message="precision" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.precision"
                                       params="{precision: $ctrl.amountBalance.asset.precision}"></span>
                             </w-input-error>
-                            <w-input-error message="lte">
+                            <w-input-error message="lte" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.balance"
                                       params="{name: $ctrl.amountBalance.asset.displayName}"></span>
                             </w-input-error>
@@ -147,19 +147,16 @@
                                     <div class="caption-1 disabled-500">{{$ctrl.priceDisplayName}}</div>
                                 </div>
                             </div>
-                            <w-input-error message="precision">
+                            <w-input-error message="precision" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.precision"
                                       params="{precision: $ctrl.priceBalance.asset.precision}"></span>
                             </w-input-error>
-                            <w-input-error message="gt">
+                            <w-input-error message="gt" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.required"></span>
                             </w-input-error>
-                            <w-input-error message="required">
+                            <w-input-error message="required" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.required"></span>
                             </w-input-error>
-
-                            <!-- todo @german - fadeout error tooltip after 3 seconds -->
-
                         </w-input-container>
                     </div>
 
@@ -182,7 +179,7 @@
                                     <div class="caption-1 disabled-500">{{$ctrl.priceDisplayName}}</div>
                                 </div>
                             </div>
-                            <w-input-error ng-if="!$ctrl.canBuyOrder">
+                            <w-input-error ng-if="!$ctrl.canBuyOrder" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
                                 <span class="error active">
                                     <span w-i18n="directives.createOrder.errors.balance"
                                           params="{name: $ctrl.priceBalance.asset.displayName}"></span>

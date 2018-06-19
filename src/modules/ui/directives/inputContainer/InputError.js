@@ -13,22 +13,36 @@
 
             constructor() {
                 super();
+
+                /**
+                 * @type {ngModel.NgModelController|null}
+                 */
+                this.model = null;
+
                 /**
                  * @type {InputContainer}
                  */
                 this.inputContainer = null;
+
                 /**
                  * @type {string}
                  */
                 this.message = null;
+
                 /**
                  * @type {string}
                  */
                 this.name = null;
+
                 /**
                  * @type {boolean}
                  */
                 this.canShow = false;
+
+                /**
+                 * @type {number} — a number of seconds till error is hidden.
+                 */
+                this.hideWithin = 0;
             }
 
             $postLink() {
@@ -42,6 +56,12 @@
             _onChangeCanShow() {
                 $scope.$apply();
                 $element.toggleClass('hidden', !this.canShow);
+
+                if (this.hideWithin) {
+                    setTimeout(() => {
+                        this.model.$setUntouched();
+                    }, this.hideWithin * 1000);
+                }
             }
 
             /**
@@ -69,6 +89,10 @@
                         return null;
                     }
 
+                    if (!this.model) {
+                        this.model = model;
+                    }
+
                     const isFocused = element === document.activeElement;
                     const pending = this.inputContainer.form.$pending || model.$pending;
 
@@ -93,7 +117,8 @@
             },
             bindings: {
                 message: '@',
-                name: '@'
+                name: '@',
+                hideWithin: '<?'
             },
             template: '<span class="error active" ng-if="$ctrl.canShow" ng-transclude></span>',
             controller
