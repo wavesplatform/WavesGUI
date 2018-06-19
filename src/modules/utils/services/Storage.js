@@ -5,6 +5,7 @@
     let read;
     let write;
     let clear;
+    const tsUtils = require('ts-utils');
 
     if (WavesApp.isWeb()) {
         try {
@@ -114,6 +115,15 @@
             },
             '1.0.0-beta.40': function (storage) {
                 return addNewGateway(storage, WavesApp.defaultAssets.XMR);
+            },
+            '1.0.0-beta.44': function (storage) {
+                return storage.load('userList').then((list = []) => {
+                    const result = list.map((item) => {
+                        tsUtils.unset(item, 'settings.dex');
+                        return item;
+                    });
+                    return storage.save('userList', result);
+                });
             }
         };
 
@@ -187,11 +197,31 @@
             }
 
             static myStringify(data) {
-                return JSON.stringify(data);
+                try {
+                    const paths = tsUtils.getPaths(data);
+                    return JSON.stringify(paths.reduce((result, item) => {
+                        result[String(item)] = tsUtils.get(data, item);
+                        return result;
+                    }, Object.create(null)));
+                } catch (e) {
+                    return JSON.stringify(data);
+                }
             }
 
             static myParse(data) {
-                return data;
+                if (typeof data === 'object') {
+                    let result;
+                    tsUtils.each(data, (value, path) => {
+                        if (!result) {
+                            result = tsUtils.Path.parse(path)
+                                .getItemData(0).container;
+                        }
+                        tsUtils.set(result, path, value);
+                    });
+                    return result;
+                } else {
+                    return data;
+                }
             }
 
         }
