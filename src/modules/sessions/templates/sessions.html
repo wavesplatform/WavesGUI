@@ -9,7 +9,6 @@
         <span w-i18n="session.signIn"></span>
     </div>
 
-    <!-- TODO @tsigel check, review and fix ng-if and icon-remove -->
     <ul class="sessions-holder" ng-if="$ctrl.session.address.length <= 3">
         <li class="input-like big margin-2" ng-repeat="session in $ctrl.sessions track by session.address"
             ng-click="$ctrl.chooseSession(session)">
@@ -18,11 +17,10 @@
                 <span class="session-name">{{::session.name}}</span>
                 <span class="session-address">{{::session.address}}</span>
             </div>
-            <i class="icon-remove-user icon-close"></i> <!-- TODO @tsigel remove session -->
+            <i class="icon-remove-user icon-close"></i>
         </li>
     </ul>
 
-    <!-- TODO @tsigel check, review and fix w-select -->
     <div class="sessions-holder">
         <w-select class="big" ng-if="$ctrl.session.address.length > 3" ng-model="$ctrl.activeSession">
             <w-option ng-repeat="session in $ctrl.sessions track by session.address"
