@@ -276,7 +276,7 @@
                 const remapBalances = (item) => {
                     const isPinned = this._isPinned(item.asset.id);
                     const isSpam = this._isSpam(item.asset.id);
-                    const isOnScamList = WavesApp.scam[item.asset.id] || PortfolioCtrl._isYoungAsset(item.asset);
+                    const isOnScamList = WavesApp.scam[item.asset.id];
 
                     return Promise.resolve({
                         available: item.available,
@@ -323,15 +323,6 @@
              */
             _isSpam(assetId) {
                 return this.spam.includes(assetId);
-            }
-
-            /**
-             * @param {Asset} asset
-             * @return {boolean}
-             * @private
-             */
-            static _isYoungAsset(asset) {
-                return utils.moment(new Date(asset.timestamp)).add().hour(1) > Date.now();
             }
 
         }
