@@ -50,11 +50,11 @@
             </w-table-cell>
             <w-table-cell>
                 <span>{{::pair.pairNames}}</span>
-                <div class="tooltip left">{{::pair.pairNames || '—'}}</div>
+                <!--div class="tooltip left">{{::pair.pairNames || '—'}}</div-->
             </w-table-cell>
             <w-table-cell>
                 <span>{{pair.price.toFormat() || '—'}}</span>
-                <div class="tooltip center">{{pair.price.toFormat() || '—'}}</div> <!-- todo @boris -->
+                <!--div class="tooltip center">{{pair.price.toFormat() || '—'}}</div-->
             </w-table-cell>
             <w-table-cell ng-class="{'plus': pair.change24.gt(0),'minus': pair.change24.lt(0)}">
                 <span>{{ pair.change24 }}</span>{{ pair.change24 ? '%' : '—' }}
@@ -62,7 +62,7 @@
             <w-table-cell>
                 <span ng-if="pair.volume" w-nice-number="pair.volume" short-mode="::true" precision="2"></span>
                 <span ng-if="!pair.volume">—</span>
-                <div class="tooltip right">{{ pair.volume.toFormat() || '—' }}</div>
+                <!--div class="tooltip right">{{ pair.volume.toFormat() || '—' }}</div-->
             </w-table-cell>
             <w-table-cell ng-if="$ctrl.isChosen(pair)" class="chosen">
                 <div>

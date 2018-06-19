@@ -186,11 +186,13 @@
                                     <div class="caption-1 disabled-500">{{$ctrl.priceDisplayName}}</div>
                                 </div>
                             </div>
-                            <span class="error active" ng-if="!$ctrl.canBuyOrder">
-                                <w-i18n params="{name: $ctrl.priceBalance.asset.displayName}">
-                                    directives.createOrder.errors.balance
-                                </w-i18n>
-                            </span>
+                            <w-input-error ng-if="!$ctrl.canBuyOrder">
+                                <span class="error active">
+                                    <w-i18n params="{name: $ctrl.priceBalance.asset.displayName}">
+                                        directives.createOrder.errors.balance
+                                    </w-i18n>
+                                </span>
+                            </w-input-error>
                             <!--w-input-error message="">  <!-- todo validation @german -->
                             <!--w-i18n></w-i18n-->
                             <!--/w-input-error---->

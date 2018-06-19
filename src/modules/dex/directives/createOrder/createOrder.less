@@ -399,7 +399,7 @@ w-create-order {
           font-size: @font-size-caption-2;
           line-height: 12px;
 
-          span {
+          span:not(.error) {
             color: @color-disabled-900;
 
             &.active {
@@ -445,7 +445,7 @@ w-create-order {
 
             .dex-layout {
               &__block {
-                height: 340px;
+                height: 350px;
               }
             }
 
