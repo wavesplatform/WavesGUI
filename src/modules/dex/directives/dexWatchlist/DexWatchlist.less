@@ -317,9 +317,24 @@ body.dex .dex-wrapper {
             padding: 5px 20px 10px 30px;
             .caption-3();
 
+            & > div:first-child {
+              margin-bottom: 2px;
+            }
+
             a {
+              position: relative;
               display: inline-block;
-              border-bottom: 1px dashed @color-disabled-400;
+              &:hover {
+                &::after {
+                  height: 1px;
+                  display: block;
+                  width: 100%;
+                  content: '';
+                  position: absolute;
+                  bottom: 0;
+                  border-bottom: 1px dashed @color-disabled-400;
+                }
+              }
             }
           }
         }

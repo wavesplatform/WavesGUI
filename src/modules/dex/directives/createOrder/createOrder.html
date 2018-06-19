@@ -82,7 +82,6 @@
                                          w-validate
                                          w-validator-asset="{{$ctrl.amountBalance.asset}}"
                                          w-validator-lte="{{$ctrl.maxAmountBalance}}"
-                                         w-validator-custom="{{$ctrl.canBuyOrder}}"
                                          w-validator-gt="0"
                                          name="amount"
                                          ng-model="$ctrl.amount"
@@ -173,21 +172,17 @@
                                          ng-focus="$ctrl.focusedInputName = 'total'"
                                          ng-blur="$ctrl.focusedInputName = null"
                                          w-validator-asset="{{$ctrl.priceBalance.asset}}"
+                                         w-validator-custom="{{$ctrl.canBuyOrder}}"
                                          w-validator-gt="0"
                                          required></w-input>
                                 <div class="asset-name-wrap">
                                     <div class="caption-1 disabled-500">{{$ctrl.priceDisplayName}}</div>
                                 </div>
                             </div>
-                            <w-input-error ng-if="!$ctrl.canBuyOrder" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span class="error active">
-                                    <span w-i18n="directives.createOrder.errors.balance"
-                                          params="{name: $ctrl.priceBalance.asset.displayName}"></span>
-                                </span>
+                            <w-input-error message="custom" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                <span w-i18n="directives.createOrder.errors.balance"
+                                      params="{name: $ctrl.priceBalance.asset.displayName}"></span>
                             </w-input-error>
-                            <!--w-input-error message="">  <!-- todo validation @german -->
-                            <!--w-i18n></w-i18n-->
-                            <!--/w-input-error---->
                         </w-input-container>
                     </div>
 

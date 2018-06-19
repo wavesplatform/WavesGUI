@@ -181,6 +181,18 @@ w-scroll-box {
   }
 }
 
+.wallet.assets {
+  .main-content .content {
+    overflow-y: auto;
+    top: 70px;
+    right: 0;
+    bottom: 0;
+    padding: 10px 10px 0 0;
+    width: calc(100% ~'- 80px');
+    height: calc(100% ~'- 70px');
+  }
+}
+
 .md-dialog-backdrop:nth-of-type(even) {
   z-index: 81;
 }
@@ -321,9 +333,7 @@ md-toolbar:not(.md-menu-toolbar) {
 }
 
 .assets-wrapper {
-  max-height: calc(~'100vh - 140px');
-  overflow-x: hidden;
-  overflow-y: auto;
+  height: 100%;
   min-height: 210px;
 }
 
@@ -392,6 +402,15 @@ md-toolbar:not(.md-menu-toolbar) {
 @media screen and (max-width: 768px) {
 
   body {
+
+    &.wallet.assets {
+      .main-content .content {
+        top: 0;
+        padding: 10px;
+        width: 100%;
+        height: calc(100% ~'- 50px');
+      }
+    }
 
     .main-content w-scroll-box {
       overflow: visible;

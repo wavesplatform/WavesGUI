@@ -94,6 +94,11 @@
       }
     }
 
+    .z-top {
+      position: relative;
+      z-index: 1;
+    }
+
     .smart-table__cell {
       &:first-child {
         min-width: 200px;
@@ -145,9 +150,10 @@
             content: '';
             display: block;
             position: absolute;
-            bottom: 0;
-            width: 84px;
-            height: 100%;
+            bottom: -2px;
+            left: -1px;
+            width: 86px;
+            height: 38px;
           }
         }
       }
