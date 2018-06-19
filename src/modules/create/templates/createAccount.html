@@ -4,7 +4,7 @@
 
     <div class="text-center">
         <div class="headline-1">
-            <w-i18n>createAccount.createNewAccount</w-i18n>
+            <span w-i18n="createAccount.createNewAccount"></span>
         </div>
 
         <div class="body-2 disabled-600">
@@ -19,10 +19,10 @@
     </div>
 
     <div class="body-2">
-        <w-i18n>createAccount.choose</w-i18n>
+        <span w-i18n="createAccount.choose"></span>
     </div>
     <div class="footnote-1 disabled-500">
-        <w-i18n>createAccount.avatarUnique</w-i18n>
+        <span w-i18n="createAccount.avatarUnique"></span>
     </div>
 
     <div class="avatars-list">
@@ -41,7 +41,7 @@
     <div class="margin-2 flex">
         <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
         <label for="save-user-data" class="footnote-1 basic-500">
-            <w-i18n>createAccount.saveUserData</w-i18n>
+            <span w-i18n="createAccount.saveUserData"></span>
         </label>
     </div>
 
@@ -49,7 +49,7 @@
         <w-button
             on-click="$ctrl.next($ctrl.stepIndex + $ctrl.saveUserData ? 1 : 2)"
             class="submit long big">
-            <w-i18n>button.continue</w-i18n>
+            <span w-i18n="button.continue"></span>
         </w-button>
     </div>
 

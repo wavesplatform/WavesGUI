@@ -430,7 +430,7 @@
                 const query = this.search;
                 this._searchAssets = [];
 
-                const queryParts = query.split('/').slice(0, 2).filter(q => q.length >= 2);
+                const queryParts = query.split('/').slice(0, 2).filter(Boolean);
 
                 if (!queryParts.length) {
                     WatchList._renderSmartTable();

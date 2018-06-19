@@ -10,8 +10,8 @@
         <!--<div ng-if="$ctrl.asset.id !== $ctrl.wavesId"
              ng-click="$ctrl.togglePin()"
              ng-class="{pinned: $ctrl.pinned}" class="pin">
-            <w-i18n ng-if="!$ctrl.pinned">modal.assetInfo.unpinned</w-i18n>
-            <w-i18n ng-if="$ctrl.pinned">modal.assetInfo.pinned</w-i18n>
+            <span w-i18n="modal.assetInfo.unpinned" ng-if="!$ctrl.pinned"></span>
+            <span w-i18n="modal.assetInfo.pinned" ng-if="$ctrl.pinned"></span>
         </div>-->
         <div class="chart-wrapper">
             <w-asset-rate-chart no-update="::true" asset-id="::$ctrl.asset.id"></w-asset-rate-chart>
@@ -37,7 +37,7 @@
             <div class="line">
                 <div class="body-2 basic-700" w-i18n="modal.assetInfo.type"></div>
                 <div class="footnote-1 basic-500">
-                    <w-i18n>modal.assetInfo.reissue.{{::$ctrl.asset.reissuable ? 'yes' : 'no'}}</w-i18n>
+                    <span w-i18n="modal.assetInfo.reissue.{{::$ctrl.asset.reissuable ? 'yes' : 'no'}}"></span>
                 </div>
             </div>
             <div class="line">
@@ -63,7 +63,7 @@
                         <div class="part disabled-600 footnote-1">
                             <div class="legend-color margin-right-1"
                                  style="background-color: {{::$ctrl.chartOptions.items[legend.id].color}}"></div>
-                            <w-i18n>modal.assetInfo.{{::legend.id}}</w-i18n>
+                            <span w-i18n="modal.assetInfo.{{::legend.id}}"></span>
                         </div>
                         <div class="part">
                             <w-balance money="legend.value"></w-balance>

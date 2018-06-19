@@ -4,8 +4,8 @@
         <div class="backup-seed">
 
             <div class="body-2">
-                <w-i18n>backupSeed.writeSeed</w-i18n>
-                <span>&nbsp;<w-i18n>backupSeed.or</w-i18n>&nbsp;<a w-copy="::$ctrl.seed.phrase" w-i18n="backupSeed.copySeed"></a></span>
+                <span w-i18n="backupSeed.writeSeed"></span>
+                <span>&nbsp;<span w-i18n="backupSeed.or"></span>&nbsp;<a w-copy="::$ctrl.seed.phrase" w-i18n="backupSeed.copySeed"></a></span>
             </div>
 
             <w-seed-read type="read"
@@ -13,11 +13,11 @@
                          class="no-user-select"></w-seed-read>
 
             <div class="body-2 basic-900">
-                <w-i18n>backupSeed.needConfirm</w-i18n>
+                <span w-i18n="backupSeed.needConfirm"></span>
             </div>
 
             <w-button class="submit big long" w-step-next>
-                <w-i18n>backupSeed.ok</w-i18n>
+                <span w-i18n="backupSeed.ok"></span>
             </w-button>
         </div>
 
@@ -36,7 +36,7 @@
                           seed="{{::$ctrl.seed.phrase}}"></w-seed-write>
 
             <div class="body-2 basic-900">
-                <w-i18n>confirmBackup.enterCorrect</w-i18n>
+                <span w-i18n="confirmBackup.enterCorrect"></span>
             </div>
 
             <w-seed-read class="margin-4" type="random" seed="{{::$ctrl.seed.phrase}}"></w-seed-read>
@@ -46,15 +46,15 @@
                  w-i18n="confirmBackup.error"></div>
 
             <w-delegate class="body-2" selector="'span.clear'" handler="$ctrl.clear()">
-                <w-i18n w-i18n-ns="app.utils">modal.backup.clearSeed</w-i18n>
+                <span w-i18n="modal.backup.clearSeed" w-i18n-ns="app.utils"></span>
             </w-delegate>
 
             <div class="buttons-wrapper">
                 <w-button class="big long submit" w-step-prev>
-                    <w-i18n>modal.prev</w-i18n>
+                    <span w-i18n="modal.prev"></span>
                 </w-button>
                 <w-button disabled="!$ctrl.seedIsValid" class="big long submit" w-step-next>
-                    <w-i18n>modal.next</w-i18n>
+                    <span w-i18n="modal.next"></span>
                 </w-button>
             </div>
 
@@ -69,7 +69,7 @@
             <div class="disabled-600 margin-4 body-2 text-center"
                  w-i18n="modal.successContent"></div>
             <w-button class="submit half big" w-modal-hide>
-                <w-i18n>modal.understand</w-i18n>
+                <span w-i18n="modal.understand"></span>
             </w-button>
         </div>
 
