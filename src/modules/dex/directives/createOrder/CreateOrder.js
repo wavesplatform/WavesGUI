@@ -207,6 +207,35 @@
                 $element.parent().parent().parent().parent().parent().removeClass('expanded');
             }
 
+            /**
+             * @returns {boolean}
+             */
+            isAmountInvalid() {
+                return this.isDirtyAndInvalid(this.order.amount);
+            }
+
+            /**
+             * @returns {boolean}
+             */
+            isPriceInvalid() {
+                return this.isDirtyAndInvalid(this.order.price);
+            }
+
+            /**
+             * @returns {boolean}
+             */
+            isTotalInvalid() {
+                return this.isDirtyAndInvalid(this.order.total);
+            }
+
+            /**
+             * @param field
+             * @returns {boolean}
+             */
+            isDirtyAndInvalid(field) {
+                return field.$touched && field.$invalid;
+            }
+
             setMaxAmount() {
                 this.amount = this._getMaxAmountForSell();
             }
