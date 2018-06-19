@@ -391,6 +391,9 @@
              * @param {string} [asset2]
              */
             openDex(asset1, asset2) {
+                /**
+                 * @type {$state}
+                 */
                 const $state = $injector.get('$state');
                 if (asset1 && asset2) {
                     if (asset1 === asset2) {
