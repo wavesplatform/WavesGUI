@@ -12,11 +12,9 @@
      * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
      * @param {function(path: string): Promise<string>} $templateRequest
-     * @param {DataFeed} dataFeed
      * @return {OrderBook}
      */
-    const controller = function (Base, createPoll, $element, waves, dexDataService, utils, $scope, $templateRequest,
-                                 dataFeed) {
+    const controller = function (Base, createPoll, $element, waves, dexDataService, utils, $scope, $templateRequest) {
 
         const SECTIONS = {
             ASKS: '.asks',
@@ -180,7 +178,12 @@
                 return Promise.all([
                     waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price),
                     waves.matcher.getOrders(),
-                    dataFeed.trades(this._assetIdPair.amount, this._assetIdPair.price)
+                    ds.api.transactions.getExchangeTxList({
+                        timeStart: 0, // TODO
+                        amountAsset: this._assetIdPair.amount,
+                        priceAsset: this._assetIdPair.price,
+                        limit: 1
+                    }).then(([tx]) => tx)
                 ]).then(
                     ([orderbook, orders, trades]) => {
                         this.loadingError = false;
@@ -211,7 +214,7 @@
              * @return {OrderBook.OrdersData}
              * @private
              */
-            _remapOrderBook(orderbook, orders, trades) {
+            _remapOrderBook(orderbook, orders, tx) {
 
                 const crop = utils.getOrderBookRangeByCropRate({
                     bids: orderbook.bids,
@@ -229,7 +232,7 @@
                     return result;
                 }, Object.create(null));
 
-                const lastTrade = trades[0] || null;
+                const lastTrade = tx || null;
                 const bids = OrderBook._sumAllOrders(orderbook.bids, 'sell');
                 const asks = OrderBook._sumAllOrders(orderbook.asks, 'buy').reverse();
 
@@ -259,10 +262,10 @@
                 this._dom.$asks.html(data.asks);
 
                 if (data.lastTrade) {
-                    const isBuy = data.lastTrade.type === 'buy';
-                    const isSell = data.lastTrade.type === 'sell';
+                    const isBuy = data.lastTrade.exchangeType === 'buy';
+                    const isSell = data.lastTrade.exchangeType === 'sell';
                     this._dom.$info.toggleClass(CLASSES.BUY, isBuy).toggleClass(CLASSES.SELL, isSell);
-                    this._dom.$lastPrice.text(data.lastTrade.price);
+                    this._dom.$lastPrice.text(data.lastTrade.price.toFormat());
                     if (data.spread) {
                         this._dom.$spread.text(data.spread.toFixed(2));
                     }
@@ -399,8 +402,7 @@
         'dexDataService',
         'utils',
         '$scope',
-        '$templateRequest',
-        'dataFeed'
+        '$templateRequest'
     ];
 
     angular.module('app.dex').component('wDexOrderBook', {
@@ -432,6 +434,6 @@
  * @typedef {object} OrderBook#OrdersData
  * @property {string} asks
  * @property {string} bids
- * @property {DataFeed.ITrade} lastTrade
+ * @property {IExchange} lastTrade
  * @property {BigNumber} spread
  */
