@@ -47,11 +47,11 @@
             <div class="create-order-notification js-order-notification">
                 <div ng-if="$ctrl.createOrderFailed">
                     <i></i>
-                    <w-i18n>create.order.failed</w-i18n>
+                    <span w-i18n="create.order.failed"></span>
                 </div>
                 <div ng-if="!$ctrl.createOrderFailed">
                     <i></i>
-                    <w-i18n>create.order.success</w-i18n>
+                    <span w-i18n="create.order.success"></span>
                 </div>
             </div>
 
@@ -64,12 +64,12 @@
                             <div ng-if="$ctrl.type === 'buy'"
                                  ng-click="$ctrl.setMaxPrice()"
                                  class="caption-2 disabled-900 underline-dashed">
-                                <w-i18n params="{money: $ctrl.priceBalance}">money-currency</w-i18n>
+                                <span w-i18n="money-currency" params="{money: $ctrl.priceBalance}"></span>
                             </div>
                             <div ng-if="$ctrl.type === 'sell'"
                                  ng-click="$ctrl.setMaxAmount()"
                                  class="caption-2 disabled-900 underline-dashed">
-                                <w-i18n params="{money: $ctrl.amountBalance}">money-currency</w-i18n>
+                                <span w-i18n="money-currency" params="{money: $ctrl.amountBalance}"></span>
                             </div>
                         </div>
 
@@ -93,20 +93,18 @@
                             </div>
 
                             <w-input-error message="required">
-                                <w-i18n>directives.createOrder.errors.required</w-i18n>
+                                <span w-i18n="directives.createOrder.errors.required"></span>
                             </w-input-error>
                             <w-input-error message="gt">
-                                <w-i18n>directives.createOrder.errors.required</w-i18n>
+                                <span w-i18n="directives.createOrder.errors.required"></span>
                             </w-input-error>
                             <w-input-error message="precision">
-                                <w-i18n params="{precision: $ctrl.amountBalance.asset.precision}">
-                                    directives.createOrder.errors.precision
-                                </w-i18n>
+                                <span w-i18n="directives.createOrder.errors.precision"
+                                      params="{precision: $ctrl.amountBalance.asset.precision}"></span>
                             </w-input-error>
                             <w-input-error message="lte">
-                                <w-i18n params="{name: $ctrl.amountBalance.asset.displayName}">
-                                    directives.createOrder.errors.balance
-                                </w-i18n>
+                                <span w-i18n="directives.createOrder.errors.balance"
+                                      params="{name: $ctrl.amountBalance.asset.displayName}"></span>
                             </w-input-error>
                         </w-input-container>
                     </div>
@@ -118,17 +116,17 @@
                                 <span ng-if="$ctrl.ask && $ctrl.ask.price && $ctrl.ask.price !== '0'"
                                       ng-class="{active: $ctrl.price.getTokens().toFixed() === $ctrl.ask.price}"
                                       ng-click="$ctrl.setAskPrice()" class="underline-dashed">
-                                    <w-i18n>directives.createOrder.ask</w-i18n>
+                                    <span w-i18n="directives.createOrder.ask"></span>
                                 </span>
                                 <span ng-if="$ctrl.bid && $ctrl.bid.price && $ctrl.bid.price !== '0'"
                                       ng-class="{active: $ctrl.price.getTokens().toFixed() === $ctrl.bid.price}"
                                       ng-click="$ctrl.setBidPrice()" class="underline-dashed">
-                                    <w-i18n>directives.createOrder.bid</w-i18n>
+                                    <span w-i18n="directives.createOrder.bid"></span>
                                 </span>
                                 <span ng-if="$ctrl.lastTradePrice"
                                       ng-class="{active: $ctrl.price.getTokens().toFixed() === $ctrl.lastTradePrice.getTokens().toFixed()}"
                                       ng-click="$ctrl.setLastPrice()" class="underline-dashed">
-                                    <w-i18n>directives.createOrder.last</w-i18n>
+                                    <span w-i18n="directives.createOrder.last"></span>
                                 </span>
                             </div>
                         </div>
@@ -150,15 +148,14 @@
                                 </div>
                             </div>
                             <w-input-error message="precision">
-                                <w-i18n params="{precision: $ctrl.priceBalance.asset.precision}">
-                                    directives.createOrder.errors.precision
-                                </w-i18n>
+                                <span w-i18n="directives.createOrder.errors.precision"
+                                      params="{precision: $ctrl.priceBalance.asset.precision}"></span>
                             </w-input-error>
                             <w-input-error message="gt">
-                                <w-i18n>directives.createOrder.errors.required</w-i18n>
+                                <span w-i18n="directives.createOrder.errors.required"></span>
                             </w-input-error>
                             <w-input-error message="required">
-                                <w-i18n>directives.createOrder.errors.required</w-i18n>
+                                <span w-i18n="directives.createOrder.errors.required"></span>
                             </w-input-error>
 
                             <!-- todo @german - fadeout error tooltip after 3 seconds -->
@@ -187,9 +184,8 @@
                             </div>
                             <w-input-error ng-if="!$ctrl.canBuyOrder">
                                 <span class="error active">
-                                    <w-i18n params="{name: $ctrl.priceBalance.asset.displayName}">
-                                        directives.createOrder.errors.balance
-                                    </w-i18n>
+                                    <span w-i18n="directives.createOrder.errors.balance"
+                                          params="{name: $ctrl.priceBalance.asset.displayName}"></span>
                                 </span>
                             </w-input-error>
                             <!--w-input-error message="">  <!-- todo validation @german -->
@@ -204,7 +200,7 @@
                         <w-select ng-model="$ctrl.expiration">
                             <w-option ng-repeat="option in $ctrl.expirationValues track by option.name"
                                       value="::option.value">
-                                <w-i18n w-i18n-ns="app.dex">directives.createOrder.{{::option.name}}</w-i18n>
+                                <span w-i18n="directives.createOrder.{{::option.name}}" w-i18n-ns="app.dex"></span>
                             </w-option>
                         </w-select>
                     </div>
@@ -212,14 +208,12 @@
                     <w-button disabled="order.$invalid"
                               class="place-order small footnote-3"
                               on-click="$ctrl.createOrder($event, order)">
-                        <w-i18n ng-if="$ctrl.type === 'sell'"
-                                params="{name: $ctrl.amountBalance.asset.displayName}">
-                            directives.createOrder.placeSellOrder
-                        </w-i18n>
-                        <w-i18n ng-if="$ctrl.type === 'buy'"
-                                params="{name: $ctrl.amountBalance.asset.displayName}">
-                            directives.createOrder.placeBuyOrder
-                        </w-i18n>
+                        <span ng-if="$ctrl.type === 'sell'"
+                              w-i18n="directives.createOrder.placeSellOrder"
+                              params="{name: $ctrl.amountBalance.asset.displayName}"></span>
+                        <span ng-if="$ctrl.type === 'buy'"
+                              w-i18n="directives.createOrder.placeBuyOrder"
+                              params="{name: $ctrl.amountBalance.asset.displayName}"></span>
                     </w-button>
                 </form>
             </div>

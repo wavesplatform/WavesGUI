@@ -3,25 +3,25 @@
         <w-responsive-menu-item value="general">
             <div class="menu-item general icon-settings-general">
                 <i></i>
-                <w-i18n class="icon">modal.settings.general.title</w-i18n>
+                <span w-i18n="modal.settings.general.title" class="icon"></span>
             </div>
         </w-responsive-menu-item>
         <w-responsive-menu-item value="security">
             <div class="menu-item security icon-settings-security">
                 <i></i>
-                <w-i18n>modal.settings.security.title</w-i18n>
+                <span w-i18n="modal.settings.security.title"></span>
             </div>
         </w-responsive-menu-item>
         <w-responsive-menu-item value="network">
             <div class="menu-item network icon-settings-network">
                 <i></i>
-                <w-i18n class="icon">modal.settings.network.title</w-i18n>
+                <span w-i18n="modal.settings.network.title" class="icon"></span>
             </div>
         </w-responsive-menu-item>
         <w-responsive-menu-item value="info">
             <div class="menu-item info icon-settings-info">
                 <i></i>
-                <w-i18n class="icon">modal.settings.info.title</w-i18n>
+                <span w-i18n="modal.settings.info.title" class="icon"></span>
             </div>
         </w-responsive-menu-item>
     </w-responsive-menu>
@@ -44,19 +44,19 @@
                     <div>
                         <w-select class="with-scroll" ng-model="$ctrl.logoutAfterMin">
                             <w-option value="::5">
-                                <w-i18n w-i18n-ns="app.utils" params="{minutes: 5}">modal.settings.general.minutes</w-i18n>
+                                <span w-i18n="modal.settings.general.minutes" w-i18n-ns="app.utils" params="{minutes: 5}"></span>
                             </w-option>
                             <w-option value="::10">
-                                <w-i18n w-i18n-ns="app.utils" params="{minutes: 10}">modal.settings.general.minutes</w-i18n>
+                                <span w-i18n="modal.settings.general.minutes" w-i18n-ns="app.utils" params="{minutes: 10}"></span>
                             </w-option>
                             <w-option value="::20">
-                                <w-i18n w-i18n-ns="app.utils" params="{minutes: 20}">modal.settings.general.minutes</w-i18n>
+                                <span w-i18n="modal.settings.general.minutes" w-i18n-ns="app.utils" params="{minutes: 20}"></span>
                             </w-option>
                             <w-option value="::40">
-                                <w-i18n w-i18n-ns="app.utils" params="{minutes: 40}">modal.settings.general.minutes</w-i18n>
+                                <span w-i18n="modal.settings.general.minutes" w-i18n-ns="app.utils" params="{minutes: 40}"></span>
                             </w-option>
                             <w-option value="::60">
-                                <w-i18n w-i18n-ns="app.utils" params="{hours: 1}">modal.settings.general.hours</w-i18n>
+                                <span w-i18n="modal.settings.general.hours" w-i18n-ns="app.utils" params="{hours: 1}"></span>
                             </w-option>
                         </w-select>
                     </div>
@@ -71,12 +71,12 @@
             <w-step step-id="security" class="security">
                 <div class="row margin-1">
                     <div class="footnote-1 disabled-600 label">
-                        <w-i18n>modal.settings.security.backupPhrase</w-i18n>
+                        <span w-i18n="modal.settings.security.backupPhrase"></span>
                         <a class="settings-copy" w-copy="::$ctrl.phrase" w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field">
                         <w-button ng-if="!$ctrl.shownSeed" class="tiny" on-click="$ctrl.shownSeed = true">
-                            <w-i18n>modal.settings.security.show</w-i18n>
+                            <span w-i18n="modal.settings.security.show"></span>
                         </w-button>
                         <pre class="footnote-1" ng-if="$ctrl.shownSeed">{{::$ctrl.phrase}}</pre>
                     </div>
@@ -84,14 +84,14 @@
 
                 <div class="row margin-1">
                     <div class="footnote-1 disabled-600 label">
-                        <w-i18n>modal.settings.security.privateKey</w-i18n>
+                        <span w-i18n="modal.settings.security.privateKey"></span>
                         <a class="settings-copy"
                            w-copy="::$ctrl.privateKey"
                            w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field">
                         <w-button ng-if="!$ctrl.shownKey" class="tiny" on-click="$ctrl.shownKey = true">
-                            <w-i18n>modal.settings.security.show</w-i18n>
+                            <span w-i18n="modal.settings.security.show"></span>
                         </w-button>
                         <div class="mobile-low-fsize" ng-if="$ctrl.shownKey">{{::$ctrl.privateKey}}</div>
                     </div>
@@ -109,7 +109,7 @@
             <w-step step-id="network" class="network">
                 <div class="row margin-1">
                     <div class="footnote-1 disabled-600 label">
-                        <w-i18n>modal.settings.network.nodeAddress</w-i18n>
+                        <span w-i18n="modal.settings.network.nodeAddress"></span>
                         <a class="settings-copy" w-copy="$ctrl.node" w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field">
@@ -119,7 +119,7 @@
 
                 <div class="row margin-1">
                     <div class="footnote-1 disabled-600 label">
-                        <w-i18n>modal.settings.network.matcherAddress</w-i18n>
+                        <span w-i18n="modal.settings.network.matcherAddress"></span>
                         <a class="settings-copy" w-copy="$ctrl.matcher" w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field">
@@ -129,7 +129,7 @@
 
                 <div class="row margin-1">
                     <div class="footnote-1 disabled-600 label">
-                        <w-i18n>modal.settings.network.spamFilter</w-i18n>
+                        <span w-i18n="modal.settings.network.spamFilter"></span>
                         <a class="settings-copy" w-copy="$ctrl.scamListUrl" w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field">
@@ -145,7 +145,7 @@
                 </div>
 
                 <w-button class="interface" on-click="$ctrl.setNetworkDefault()">
-                    <w-i18n>modal.settings.setDefault</w-i18n>
+                    <span w-i18n="modal.settings.setDefault"></span>
                 </w-button>
             </w-step>
 

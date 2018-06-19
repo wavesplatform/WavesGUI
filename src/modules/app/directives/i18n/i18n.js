@@ -9,7 +9,7 @@
     const directive = function (Base, i18n, utils) {
         return {
             scope: false,
-            restrict: 'AE',
+            restrict: 'A',
             link($scope, $element, $attrs) {
 
                 class I18n extends Base {

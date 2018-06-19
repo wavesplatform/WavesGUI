@@ -37,13 +37,13 @@
             <div class="date-btns">
                 <w-radio-wrap mode="tab-mode" ng-model="$ctrl.chartMode">
                     <w-radio value="'day'" w-add-class>
-                        <w-i18n>chart.intervals.day</w-i18n>
+                        <span w-i18n="chart.intervals.day"></span>
                     </w-radio>
                     <w-radio value="'week'" w-add-class>
-                        <w-i18n>chart.intervals.week</w-i18n>
+                        <span w-i18n="chart.intervals.week"></span>
                     </w-radio>
                     <w-radio value="'month'" w-add-class>
-                        <w-i18n>chart.intervals.month</w-i18n>
+                        <span w-i18n="chart.intervals.month"></span>
                     </w-radio>
                 </w-radio-wrap>
             </div>
@@ -57,19 +57,19 @@
                     $&nbsp;<w-change-rate asset-id="$ctrl.activeChartAssetId"></w-change-rate>
                 </h1>
                 <div class="tag-1 info-500">
-                    <w-i18n params="{currency: $ctrl.activeChartBalance.asset.name.toUpperCase()}">price</w-i18n>
+                    <span w-i18n="price" params="{currency: $ctrl.activeChartBalance.asset.name.toUpperCase()}"></span>
                 </div>
             </div>
             <div class="change">
                 <h1>{{$ctrl.change > 0 ? '+' : '-'}}$ {{$ctrl.abs($ctrl.change)}}</h1>
                 <div class="tag-1 info-500">
-                    <w-i18n>since.{{$ctrl.chartMode}}</w-i18n>&nbsp;(USD)
+                    <span w-i18n="since.{{$ctrl.chartMode}}"></span>&nbsp;(USD)
                 </div>
             </div>
             <div class="change-percent">
                 <h1>{{$ctrl.change > 0 ? '+' : '-'}}{{$ctrl.abs($ctrl.changePercent)}}%</h1>
                 <div class="tag-1 info-500">
-                    <w-i18n>since.{{$ctrl.chartMode}}</w-i18n>&nbsp;(%)
+                    <span w-i18n="since.{{$ctrl.chartMode}}"></span>&nbsp;(%)
                 </div>
             </div>
         </div>

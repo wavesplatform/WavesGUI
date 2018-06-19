@@ -285,7 +285,7 @@
                     id: 'token-burn',
                     mod: 'change-token',
                     locals: { money: available, txType: 'burn' },
-                    titleContent: '<w-i18n params="{name: $ctrl.asset.name}">modal.token.burn.title</w-i18n>',
+                    titleContent: '<span w-i18n="modal.token.burn.title" params="{name: $ctrl.asset.name}"></span>',
                     contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
                     controller: 'TokenChangeModalCtrl'
                 }));
@@ -296,7 +296,7 @@
                     id: 'token-burn',
                     mod: 'change-token',
                     locals: { money: available, txType: 'reissue' },
-                    titleContent: '<w-i18n params="{name: $ctrl.asset.name}">modal.token.reissue.title</w-i18n>',
+                    titleContent: '<span w-i18n="modal.token.reissue.title" params="{name: $ctrl.asset.name}"></span>',
                     contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
                     controller: 'TokenChangeModalCtrl'
                 }));

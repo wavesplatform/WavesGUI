@@ -10,24 +10,24 @@
             {{::balance.asset.name}}
         </w-table-cell>
         <w-table-cell>
-            <span class="cell-label"><w-i18n>directives.balance.assetId</w-i18n></span>
+            <span class="cell-label"><span w-i18n="directives.balance.assetId"></span></span>
             <w-copy-wrap info="::balance.asset.id">
                 <span class="underline" ng-click="$ctrl.showAssetInfo(balance.asset)">{{::balance.asset.id}}</span>
             </w-copy-wrap>
         </w-table-cell>
         <w-table-cell>
-            <span class="cell-label"><w-i18n>directives.balance.available</w-i18n></span>
+            <span class="cell-label"><span w-i18n="directives.balance.available"></span></span>
             <w-balance short-mode="::true" money="balance.available"></w-balance>
             <div class="dropdown" w-toggle-class></div>
         </w-table-cell>
         <w-table-cell>
             <span class="cell-label">
-                <w-i18n>directives.balance.inOrders</w-i18n>
+                <span w-i18n="directives.balance.inOrders"></span>
             </span>
             <w-balance short-mode="::true" money="balance.inOrders"></w-balance>
         </w-table-cell>
         <w-table-cell>
-            <span class="cell-label"><w-i18n>directives.balance.total</w-i18n></span>
+            <span class="cell-label"><span w-i18n="directives.balance.total"></span></span>
             <w-balance short-mode="::true" money="balance.regular"></w-balance>
         </w-table-cell>
     </w-table-row>
