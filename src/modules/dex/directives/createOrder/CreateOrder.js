@@ -280,10 +280,10 @@
             }
 
             /**
-             * @param {form.FormController} form
              * @return {*}
              */
-            createOrder($event, form) {
+            createOrder($event) {
+                const form = this.order;
                 $event.preventDefault();
                 const notify = $element.find('.js-order-notification');
                 notify.removeClass('success').removeClass('error');

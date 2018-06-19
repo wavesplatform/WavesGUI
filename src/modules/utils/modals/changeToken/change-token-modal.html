@@ -38,7 +38,7 @@
 
             <form name="burn">
                 <div class="body-2">
-                    <w-i18n>modal.token.{{::$ctrl.txType}}.label</w-i18n>
+                    <span w-i18n="modal.token.{{::$ctrl.txType}}.label"></span>
                 </div>
                 <w-input-container class="margin-2">
 
@@ -75,23 +75,23 @@
                                      max-balance="$ctrl.balance"></w-balance-input>
 
                     <w-input-error message="required">
-                        <w-i18n>modal.token.validation.required</w-i18n>
+                        <span w-i18n="modal.token.validation.required"></span>
                     </w-input-error>
 
                     <w-input-error message="gt">
-                        <w-i18n>modal.token.validation.gt0</w-i18n>
+                        <span w-i18n="modal.token.validation.gt0"></span>
                     </w-input-error>
 
                     <w-input-error message="lt">
-                        <w-i18n>modal.token.validation.maxValueCount</w-i18n>
+                        <span w-i18n="modal.token.validation.maxValueCount"></span>
                     </w-input-error>
 
                     <w-input-error message="lte">
-                        <w-i18n>modal.token.validation.lteMaxBalance</w-i18n>
+                        <span w-i18n="modal.token.validation.lteMaxBalance"></span>
                     </w-input-error>
 
                     <w-input-error message="asset">
-                        <w-i18n params="{precision: $ctrl.precision}">modal.token.validation.invalidPrecision</w-i18n>
+                        <span w-i18n="modal.token.validation.invalidPrecision" params="{precision: $ctrl.precision}"></span>
                     </w-input-error>
 
                 </w-input-container>
@@ -105,7 +105,7 @@
                 </div>
 
                 <w-button disabled="burn.$invalid || $ctrl.noFee" class="submit big long" type="submit" w-step-next>
-                    <w-i18n>button.continue</w-i18n>
+                    <span w-i18n="button.continue"></span>
                 </w-button>
             </form>
         </div>

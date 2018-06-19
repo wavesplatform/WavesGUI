@@ -2,7 +2,7 @@
 
     <div class="waves-logo"></div>
     <div class="headline-1">
-        <w-i18n>confirmBackup.confirm</w-i18n>
+        <span w-i18n="confirmBackup.confirm"></span>
     </div>
 
     <div class="body-2 disabled-600">
@@ -16,7 +16,7 @@
                   seed="{{::$ctrl.seed}}"></w-seed-write>
 
     <div class="body-2 basic-900">
-        <w-i18n>confirmBackup.enterCorrect</w-i18n>
+        <span w-i18n="confirmBackup.enterCorrect"></span>
     </div>
 
     <w-seed-read type="random" seed="{{::$ctrl.seed}}"></w-seed-read>
@@ -28,11 +28,11 @@
     <w-button class="submit big long"
               disabled="!$ctrl.seedIsValid"
               on-click="$ctrl.create()">
-        <w-i18n>confirmBackup.ok</w-i18n>
+        <span w-i18n="confirmBackup.ok"></span>
     </w-button>
 
     <div class="or">
-        <w-i18n>noBackupNoMoney.or</w-i18n>
+        <span w-i18n="noBackupNoMoney.or"></span>
     </div>
 
     <div class="body-2 margin-2">

@@ -3,60 +3,60 @@
 
         <w-radio-wrap class="split-mode" ng-model="$ctrl.filter">
             <w-radio value="'all'">
-                <w-i18n>all</w-i18n>
+                <span w-i18n="all"></span>
             </w-radio>
             <w-radio value="'send,mass-send'">
-                <w-i18n>sent</w-i18n>
+                <span w-i18n="sent"></span>
             </w-radio>
             <w-radio value="'receive,mass-receive'">
-                <w-i18n>received</w-i18n>
+                <span w-i18n="received"></span>
             </w-radio>
             <w-radio value="'exchange-buy,exchange-sell'">
-                <w-i18n>exchanged</w-i18n>
+                <span w-i18n="exchanged"></span>
             </w-radio>
             <w-radio value="'lease-in,lease-out,cancel-leasing'">
-                <w-i18n>leased</w-i18n>
+                <span w-i18n="leased"></span>
             </w-radio>
             <w-radio value="'issue,reissue,burn'">
-                <w-i18n>issued</w-i18n>
+                <span w-i18n="issued"></span>
             </w-radio>
         </w-radio-wrap>
 
         <w-select class="split-mode" ng-model="$ctrl.filter">
             <w-option value="::'all'">
-                <w-i18n w-i18n-ns="app.wallet.transactions">all</w-i18n>
+                <span w-i18n="all" w-i18n-ns="app.wallet.transactions"></span>
             </w-option>
             <w-option value="::'send,mass-send'">
-                <w-i18n w-i18n-ns="app.wallet.transactions">sent</w-i18n>
+                <span w-i18n="sent" w-i18n-ns="app.wallet.transactions"></span>
             </w-option>
             <w-option value="::'receive,mass-receive'">
-                <w-i18n w-i18n-ns="app.wallet.transactions">received</w-i18n>
+                <span w-i18n="received" w-i18n-ns="app.wallet.transactions"></span>
             </w-option>
             <w-option value="::'exchange-buy,exchange-sell'">
-                <w-i18n w-i18n-ns="app.wallet.transactions">exchanged</w-i18n>
+                <span w-i18n="exchanged" w-i18n-ns="app.wallet.transactions"></span>
             </w-option>
             <w-option value="::'lease-in,lease-out,cancel-leasing'">
-                <w-i18n w-i18n-ns="app.wallet.transactions">leased</w-i18n>
+                <span w-i18n="leased" w-i18n-ns="app.wallet.transactions"></span>
             </w-option>
             <w-option value="::'issue,reissue,burn'">
-                <w-i18n w-i18n-ns="app.wallet.transactions">issued</w-i18n>
+                <span w-i18n="issued" w-i18n-ns="app.wallet.transactions"></span>
             </w-option>
         </w-select>
 
         <w-select ng-model="$ctrl.limit" class="tx-filter">
             <w-option value="::100">
-                <w-i18n w-i18n-ns="app.wallet.transactions" params="{count: 100}">filter.value1</w-i18n>
+                <span w-i18n="filter.value1" w-i18n-ns="app.wallet.transactions" params="{count: 100}"></span>
             </w-option>
             <w-option value="::500">
-                <w-i18n w-i18n-ns="app.wallet.transactions" params="{count: 500}">filter.value2</w-i18n>
+                <span w-i18n="filter.value2" w-i18n-ns="app.wallet.transactions" params="{count: 500}"></span>
             </w-option>
             <w-option value="::1000">
-                <w-i18n w-i18n-ns="app.wallet.transactions" params="{count: 1000}">filter.value3</w-i18n>
+                <span w-i18n="filter.value3" w-i18n-ns="app.wallet.transactions" params="{count: 1000}"></span>
             </w-option>
         </w-select>
 
         <w-button disabled="$ctrl.pending" class="download interface" on-click="$ctrl.exportTransactions()">
-            <span><w-i18n>export</w-i18n></span>
+            <span><span w-i18n="export"></span></span>
         </w-button>
 
     </div>

@@ -6,7 +6,7 @@
            class="title"
            ng-class="{'active': $ctrl.activeTab === tab.value}"
            ng-click="$ctrl.chooseTab(tab.value)">
-            <w-i18n>{{::tab.name}}</w-i18n>
+            <span w-i18n="{{::tab.name}}"></span>
         </a>
 
         <w-select ng-model="$ctrl.dropDownId" ng-class="{'active': $ctrl.isActiveSelect}">
@@ -36,7 +36,7 @@
                    header-info="$ctrl.headers"
                    class="smart-table">
         <div class="not-found basic-500" ng-if="$data && !$data.length">
-            <w-i18n>directives.watchlist.placeholders.noMarkets</w-i18n>
+            <span w-i18n="directives.watchlist.placeholders.noMarkets"></span>
         </div>
         <w-table-row ng-repeat="pair in $data track by pair.id"
                      ng-cloak

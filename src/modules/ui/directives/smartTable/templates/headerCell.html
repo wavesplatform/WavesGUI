@@ -7,8 +7,11 @@
             <i class="input-clear"
                ng-click="searchQuery = ''"></i>
         </div>
-        <div ng-if="::title.literal" class="smart-table__header" ng-class="::{'sort-by': sort}">
-            <w-i18n params="title.params">{{title.literal}}</w-i18n>
+        <div ng-if="::title.literal"
+             class="smart-table__header"
+             ng-class="::{'sort-by': sort}"
+             w-i18n="{{title.literal}}"
+             params="title.params">
         </div>
     </div>
 </w-table-cell>

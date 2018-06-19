@@ -24,7 +24,7 @@
                         rel="noopener noreferrer"
                         ng-href="{{::$ctrl.nodeListLink}}"
                     >
-                        <w-i18n>modal.startLease.nodeListLink</w-i18n>
+                        <span w-i18n="modal.startLease.nodeListLink"></span>
                     </a>
                 </div>
 
@@ -38,10 +38,10 @@
                              required></w-input>
 
                     <w-input-error message="inputAddress">
-                        <w-i18n>modal.send.errors.address</w-i18n>
+                        <span w-i18n="modal.send.errors.address"></span>
                     </w-input-error>
                     <w-input-error message="required">
-                        <w-i18n>modal.send.errors.required</w-i18n>
+                        <span w-i18n="modal.send.errors.required"></span>
                     </w-input-error>
                 </w-input-container>
             </div>
@@ -60,10 +60,10 @@
                 </w-input-container>
             </div>
             <div class="row basic-500 margin-2">
-                <w-i18n>modal.startLease.fee</w-i18n>&nbsp;0.001 WAVES
+                <span w-i18n="modal.startLease.fee"></span>&nbsp;0.001 WAVES
             </div>
             <w-button disabled="lease.$invalid" on-click="$ctrl.next()" class="submit big long">
-                <w-i18n>modal.startLease.start</w-i18n>
+                <span w-i18n="modal.startLease.start"></span>
             </w-button>
         </form>
     </w-step>
