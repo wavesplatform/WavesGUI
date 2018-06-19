@@ -8,6 +8,14 @@
   overflow-y: hidden;
 }
 
+html body.dex {
+  md-dialog.asset-info-modal {
+    .asset-content {
+      height: auto;
+    }
+  }
+}
+
 @column-width: 320px;
 @dex-padding: 7px;
 
@@ -98,6 +106,7 @@ w-layout {
     &__watchlist {
       transition: .3s;
       width: 320px;
+      min-height: 320px;
       max-height: calc(100% ~'- 308px');
       border-radius: @border-radius / 2;
 
@@ -159,7 +168,7 @@ w-layout {
         &__sidebar-toggle {
           position: absolute;
           display: none;
-          left: 0;
+          left: 1px;
           border-right: 1px solid @color-basic-100;
         }
       }
@@ -233,7 +242,8 @@ w-layout {
 
     &__sidebar-toggle {
       height: 100%;
-      width: 20px;
+      width: 19px;
+      min-width: 19px;
       background: @color-white;
       z-index: 1;
 
@@ -327,33 +337,38 @@ w-layout {
   w-input-container {
     position: relative;
 
-    w-input-error {
-      span.error {
-        background: @color-error-400;
-        color: @color-white;
-        font-size: @font-size-caption-2;
-        position: absolute;
-        border-radius: @border-radius;
-        padding: 5px 10px;
-        display: inline-block;
-        top: 35px;
-        width: auto;
-        overflow: visible;
-        z-index: 3;
+    span.error {
+      background: @color-error-400;
+      font-size: @font-size-caption-2;
+      position: absolute;
+      border-radius: @border-radius;
+      padding: 5px 10px;
+      display: inline-block;
+      top: 35px;
+      width: auto;
+      overflow: visible;
+      z-index: 3;
 
-        &::before {
-          display: inline-block;
-          width: 10px;
-          height: 10px;
-          content: '';
-          transform: rotate(45deg);
-          top: -3px;
-          left: 20px;
-          z-index: 2;
-          position: absolute;
-          background: @color-error-400;
-        }
+      &.active {
+        color: @color-white;
+        height: 30px;
+        line-height: 20px;
+        padding: 5px 10px;
       }
+
+      &::before {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        content: '';
+        transform: rotate(45deg);
+        top: -3px;
+        left: 20px;
+        z-index: 2;
+        position: absolute;
+        background: @color-error-400;
+      }
+
     }
   }
 
@@ -453,7 +468,6 @@ html body.dex .notifications {
               margin-top: 15px;
               padding-bottom: 4px;
             }
-
 
             .place-order {
               height: 42px;
