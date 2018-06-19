@@ -73,6 +73,11 @@
                  * @type {boolean}
                  * @private
                  */
+                this._showSpread = true;
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
                 this._noRender = false;
                 /**
                  * @type {number}
@@ -98,6 +103,9 @@
                     _orderBookCropRate: 'dex.chartCropRate'
                 });
 
+                this.observe(['hasOrderBook'], this._onChangeVisibleElements);
+
+                this._onChangeVisibleElements();
                 this._updateAssetData();
 
                 $templateRequest('modules/dex/directives/orderBook/orderbook.row.hbs')
@@ -108,6 +116,7 @@
                         const poll = createPoll(this, this._getOrders, this._setOrders, 1000, { $scope });
 
                         this.observe('_assetIdPair', () => {
+                            this._showSpread = true;
                             this.pending = true;
                             this.hasOrderBook = false;
                             this.loadingError = false;
@@ -149,14 +158,6 @@
                     $lastPrice: { get: () => this._dom.$info.find(SECTIONS.LAST_PRICE) },
                     $spread: { get: () => this._dom.$info.find(SECTIONS.SPREAD) }
                 });
-
-                $scope.$watch('$ctrl.hasOrderBook', () => {
-                    if (this.hasOrderBook) {
-                        setTimeout(() => {
-                            this._dom.$box.get(0).scrollTop = this._getSpreadScrollPosition();
-                        }, 0);
-                    }
-                });
             }
 
             nothingFound() {
@@ -196,6 +197,13 @@
                         $scope.$digest();
                     }
                 );
+            }
+
+            /**
+             * @private
+             */
+            _onChangeVisibleElements() {
+                $element.toggleClass('has-order-book', this.hasOrderBook);
             }
 
             /**
@@ -278,6 +286,12 @@
                 }
 
                 this._dom.$bids.html(data.bids);
+
+                if (this._showSpread) {
+                    this._showSpread = false;
+                    const box = this._dom.$box.get(0);
+                    box.scrollTop = this._getSpreadScrollPosition();
+                }
             }
 
             _getSpreadScrollPosition() {
