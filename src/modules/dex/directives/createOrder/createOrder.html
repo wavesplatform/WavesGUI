@@ -114,17 +114,17 @@
                             <div class="flex">
                                 <span ng-if="$ctrl.ask && $ctrl.ask.price && $ctrl.ask.price !== '0'"
                                       ng-class="{active: $ctrl.price.getTokens().toFixed() === $ctrl.ask.price}"
-                                      ng-click="$ctrl.setAskPrice()" class="underline-dashed">
+                                      ng-click="$ctrl.setAskPrice()" class="underline-dashed link">
                                     <span w-i18n="directives.createOrder.ask"></span>
                                 </span>
                                 <span ng-if="$ctrl.bid && $ctrl.bid.price && $ctrl.bid.price !== '0'"
                                       ng-class="{active: $ctrl.price.getTokens().toFixed() === $ctrl.bid.price}"
-                                      ng-click="$ctrl.setBidPrice()" class="underline-dashed">
+                                      ng-click="$ctrl.setBidPrice()" class="underline-dashed link">
                                     <span w-i18n="directives.createOrder.bid"></span>
                                 </span>
                                 <span ng-if="$ctrl.lastTradePrice"
                                       ng-class="{active: $ctrl.price.getTokens().toFixed() === $ctrl.lastTradePrice.getTokens().toFixed()}"
-                                      ng-click="$ctrl.setLastPrice()" class="underline-dashed">
+                                      ng-click="$ctrl.setLastPrice()" class="underline-dashed link">
                                     <span w-i18n="directives.createOrder.last"></span>
                                 </span>
                             </div>
@@ -160,9 +160,9 @@
                     </div>
 
                     <div class="total">
+                        <div class="field-label caption-2 disabled-900"
+                             w-i18n="directives.createOrder.total"></div>
                         <w-input-container ng-class="{ 'invalid': $ctrl.isTotalInvalid() }">
-                            <div class="field-label caption-2 disabled-900"
-                                 w-i18n="directives.createOrder.total"></div>
                             <div class="input-like tiny">
                                 <w-input class="tiny embed no-validate-icons"
                                          type="text"
