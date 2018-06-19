@@ -153,6 +153,13 @@ w-dex-order-book {
     padding-right: 10px;
     text-transform: uppercase;
 
+    .spread {
+      &::after {
+        content: '%';
+        display: inline-block;
+      }
+    }
+
     div {
       flex-basis: 33.3%;
     }
