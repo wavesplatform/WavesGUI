@@ -5,23 +5,17 @@
     </div>
 
     <div class="dex-layout__column dex-layout__candlechart">
-        <div class="dex-layout__sidebar-toggle dex-layout__sidebar-toggle-left">
-            <!-- @german todo on hover add class to parent (sidebar-toggle) -->
-            <div data-slider ng-click="$ctrl.toggleColumn('watchlist')"></div>
-        </div>
+        <w-dex-layout-side-bar-toggle handle-click="$ctrl.toggleColumn('watchlist')"
+                                      side="left"></w-dex-layout-side-bar-toggle>
         <div data-block="candlechart" class="dex-layout__block dex-layout__block-top"></div>
-        <div class="dex-layout__sidebar-toggle dex-layout__sidebar-toggle-right">
-            <!-- @german todo on hover add class to parent (sidebar-toggle) -->
-            <div data-slider ng-click="$ctrl.toggleColumn('orderbook')"></div>
-        </div>
+        <w-dex-layout-side-bar-toggle handle-click="$ctrl.toggleColumn('orderbook')"
+                                      side="right"></w-dex-layout-side-bar-toggle>
     </div>
 
     <div class="dex-layout__column dex-layout__orderbook"
          w-toggle-class-container>
-        <div class="dex-layout__sidebar-toggle dex-layout__sidebar-toggle-left">
-            <!-- @german todo on hover add class to parent (sidebar-toggle) -->
-            <div data-slider ng-click="$ctrl.toggleColumn('orderbook')"></div>
-        </div>
+        <w-dex-layout-side-bar-toggle handle-click="$ctrl.toggleColumn('orderbook')"
+                                      side="left"></w-dex-layout-side-bar-toggle>
         <div data-block="orderbook" class="dex-layout__block"></div>
         <div data-block="tradevolume" class="dex-layout__block"></div>
     </div>

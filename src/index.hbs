@@ -349,7 +349,7 @@
                 return this.type === 'desktop';
             },
             isProduction: function () {
-                return {{#if isProduction}}true;{{else}}false;{{/if}}
+            return {{#if isProduction}}true;{{else}}false;{{/if}}
             },
             parseJSON: null,
             stateTree: null
@@ -466,6 +466,15 @@
             }
         });
     }
+
+    Mousetrap.bind('c l e a n a l l', function () {
+        localStorage.clear();
+        if (WavesApp.isDesktop()) {
+            transfer('reload');
+        } else {
+            window.location.reload();
+        }
+    });
 
     /**
      * @type {EventSender}
