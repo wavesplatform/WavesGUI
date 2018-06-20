@@ -47,7 +47,6 @@ w-layout {
             }
           }
         }
-
       }
     }
 
@@ -240,12 +239,44 @@ w-layout {
       min-width: @column-width;
     }
 
+    w-dex-layout-side-bar-toggle {
+      width: 19px;
+      position: relative;
+
+      &[side="left"] {
+        .dex-layout {
+          &__sidebar-toggle {
+            left: 0;
+          }
+        }
+      }
+
+      &[side="right"] {
+        .dex-layout {
+          &__sidebar-toggle {
+            right: 0;
+          }
+        }
+      }
+    }
+
     &__sidebar-toggle {
       height: 100%;
       width: 19px;
       min-width: 19px;
-      background: @color-white;
       z-index: 1;
+      bottom: 0;
+      left: 0;
+      position: absolute;
+
+      &.active {
+        background: @color-basic-50;
+        div {
+          &::after {
+            background: url(/img/icons/dex-toggle-active.svg) center no-repeat;
+          }
+        }
+      }
 
       div {
         position: relative;
@@ -586,7 +617,7 @@ html body.dex .notifications {
         right: 0;
         bottom: 80px;
         transform: translate(0);
-        padding-left: 20px;
+        padding-left: 19px;
 
         .dex-layout {
           &__sidebar-toggle-left {
@@ -624,6 +655,12 @@ html body.dex .notifications {
 
       //collapse responsive
 
+      &__candlechart {
+        w-dex-layout-side-bar-toggle[side="right"] {
+          display: none;
+        }
+      }
+
       &__watchlist-collapsed {
         .dex-layout {
           &__watchlist {
@@ -644,6 +681,16 @@ html body.dex .notifications {
         }
       }
 
+      &__orderbook {
+        w-dex-layout-side-bar-toggle[side="left"] {
+          .dex-layout {
+            &__sidebar-toggle {
+              left: -19px;
+            }
+          }
+        }
+      }
+
       &__orderbook-collapsed {
         .dex-layout {
 
@@ -652,16 +699,28 @@ html body.dex .notifications {
             min-width: 20px;
             width: 20px;
 
-            .dex-layout {
-              &__sidebar-toggle-left {
-                border-right: 0 none;
-                border-left: 1px solid @color-basic-100;
-                border-radius: 0 2px 2px 0;
+            w-dex-layout-side-bar-toggle {
+              position: absolute;
+              height: 100%;
+              width: 19px;
+              left: 0;
+              background: #fff;
 
-                div::after {
-                  transform: rotate(-270deg);
+              .dex-layout {
+                &__sidebar-toggle {
+                  border-right: 0 none;
+                  border-left: 1px solid @color-basic-100;
+                  border-radius: 0 2px 2px 0;
+                  left: 0;
+                  div::after {
+                    transform: rotate(-270deg);
+                  }
                 }
               }
+            }
+
+            .dex-layout {
+
 
               &__block {
                 min-width: 0;
@@ -724,6 +783,10 @@ html body.dex .notifications {
         position: relative;
       }
 
+      w-dex-layout-side-bar-toggle {
+        display: none;
+      }
+
       &__watchlist {
         width: 100%;
         max-height: 320px;
@@ -742,6 +805,7 @@ html body.dex .notifications {
         border-radius: @border-radius/2;
 
         .dex-layout {
+
           &__block {
             border: 0 none;
           }
