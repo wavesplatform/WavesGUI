@@ -5,11 +5,13 @@
      params="::message.params"
      w-i18n-ns="{{::message.ns}}"></div>
 
-<w-button ng-repeat="button in buttons track by $index"
-          class="{{::button.classes}}"
-          on-click="$ctrl.applyClick(button)">
-    <div class="dialog-button"
-         w-i18n="{{::button.text.literal}}"
-         w-i18n-ns="{{::button.text.ns}}"
-         params="{{::button.text.params}}"></div>
-</w-button>
+<div class="buttons-wrapper">
+    <w-button ng-repeat="button in buttons track by $index"
+              class="{{::button.classes}}"
+              on-click="$ctrl.applyClick(button)">
+        <div class="dialog-button"
+             w-i18n="{{::button.text.literal}}"
+             w-i18n-ns="{{::button.text.ns}}"
+             params="{{::button.text.params}}"></div>
+    </w-button>
+</div>
