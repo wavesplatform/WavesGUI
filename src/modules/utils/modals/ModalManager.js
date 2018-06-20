@@ -309,6 +309,12 @@
             showDialogModal(options) {
                 const contentUrl = 'modules/utils/modals/templates/dialog-content.html';
 
+                const ns = options.ns || DEFAULT_OPTIONS.ns;
+                options.message.ns = options.message.ns || ns;
+                options.buttons.forEach((button) => {
+                    button.text.ns = button.text.ns || ns;
+                });
+
                 const controller = function ($scope, $mdDialog) {
                     Object.assign($scope, options);
                     this.applyClick = (button) => {
@@ -595,6 +601,7 @@
 
 /**
  * @typedef {object} IDialogOptions
+ * @property {string} [ns]
  * @property {string} iconClass
  * @property {IMessage} message
  * @property {IDialogButton[]} buttons
