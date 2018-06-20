@@ -22,6 +22,14 @@
 
         class User {
 
+
+            /**
+             * @type {Signal<string>} setting path
+             */
+            get changeSetting() {
+                return this._settings.change;
+            }
+
             constructor() {
                 /**
                  * @type {string}
@@ -31,10 +39,6 @@
                  * @type {string}
                  */
                 this.name = null;
-                /**
-                 * @type {Signal<string>} setting path
-                 */
-                this.changeSetting = null;
                 /**
                  * @type {string}
                  */
@@ -321,7 +325,6 @@
 
                         this._settings = defaultSettings.create(this.settings);
                         this._settings.change.on(() => this._onChangeSettings());
-                        this.changeSetting = this._settings.change;
 
                         if (this._settings.get('savePassword')) {
                             this._password = data.password;
@@ -408,7 +411,7 @@
              * @private
              */
             _save() {
-                if (this.noSaveToStorage) {
+                if (this.noSaveToStorage || !this.address) {
                     return Promise.resolve();
                 }
 

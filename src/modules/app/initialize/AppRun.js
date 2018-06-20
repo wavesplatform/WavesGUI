@@ -164,7 +164,6 @@
 
                 this._listenChangeLanguage();
                 const stop = $rootScope.$on('$stateChangeStart', (event, toState, params) => {
-                    stop();
 
                     if (START_STATES.indexOf(toState.name) === -1) {
                         event.preventDefault();
@@ -172,6 +171,8 @@
 
                     this._login(toState)
                         .then(() => {
+                            stop();
+
                             this._stopListenChangeLanguage();
                             if (START_STATES.indexOf(toState.name) === -1) {
                                 $state.go(toState.name, params);

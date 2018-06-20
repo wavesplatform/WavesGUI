@@ -17,10 +17,16 @@
         </div>
     </w-responsive-menu-item>
 
-    <w-responsive-menu-item class="logout" ng-click="$ctrl.logout()">
+    <w-responsive-menu-item ng-if="$ctrl.isLogined" class="logout" ng-click="$ctrl.logout()">
         <div class="menu-item logout">
             <span w-i18n="leftmenu.logout"></span>
         </div>
+    </w-responsive-menu-item>
+
+    <w-responsive-menu-item ng-if="!$ctrl.isLogined" class="login">
+        <a class="menu-item login" ui-sref="welcome">
+            <span w-i18n="leftmenu.login"></span>
+        </a>
     </w-responsive-menu-item>
 
 </w-responsive-menu>

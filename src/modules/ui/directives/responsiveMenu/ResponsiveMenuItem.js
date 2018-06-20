@@ -52,7 +52,7 @@
             }
 
             _onChangeState() {
-                const id = $state.$current.name.slice($state.$current.name.lastIndexOf('.') + 1);
+                const id = $state.$current.name.slice($state.$current.name.lastIndexOf('.') + 1).replace('-demo', '');
                 const path = WavesApp.stateTree.getPath(id);
                 if (path) {
                     const active = this.value === path[path.length - 1];

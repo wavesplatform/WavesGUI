@@ -131,7 +131,7 @@
                             const controller = (
                                 (abstract || viewData.noController) ?
                                     undefined :
-                                    AppConfig.getCtrlName(tsUtils.camelCase(item.id))
+                                    AppConfig.getCtrlName(item.get('controller') || tsUtils.camelCase(item.id))
                             );
                             const template = viewData.template;
                             const templateUrl = (

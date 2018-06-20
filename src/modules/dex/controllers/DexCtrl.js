@@ -50,6 +50,10 @@
                     _assetIdPair: 'dex.assetIdPair'
                 });
 
+                if (!this.isLogined) {
+                    this.tab = 'tradeHistory';
+                }
+
                 this.observe('_assetIdPair', this._onChangePair);
                 this.observe(['_leftHidden', '_rightHidden'], this._onChangeProperty);
 

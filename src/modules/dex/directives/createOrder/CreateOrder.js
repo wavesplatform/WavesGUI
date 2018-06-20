@@ -82,6 +82,10 @@
                  */
                 this.price = null;
                 /**
+                 * @type {boolean}
+                 */
+                this.isLogined = !!user.address;
+                /**
                  * @type {number}
                  */
                 this.ERROR_DISPLAY_INTERVAL = 3;
@@ -426,15 +430,24 @@
              * @private
              */
             _getBalances() {
-                return ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
-                    return utils.whenAll([
-                        waves.node.assets.balance(pair.amountAsset.id),
-                        waves.node.assets.balance(pair.priceAsset.id)
-                    ]).then(([amountMoney, priceMoney]) => ({
-                        amountBalance: amountMoney.available,
-                        priceBalance: priceMoney.available
-                    }));
-                });
+                if (this.isLogined) {
+                    return ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
+                        return utils.whenAll([
+                            waves.node.assets.balance(pair.amountAsset.id),
+                            waves.node.assets.balance(pair.priceAsset.id)
+                        ]).then(([amountMoney, priceMoney]) => ({
+                            amountBalance: amountMoney.available,
+                            priceBalance: priceMoney.available
+                        }));
+                    });
+                } else {
+                    return ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
+                        return {
+                            amountBalance: new entities.Money(0, pair.amountAsset),
+                            priceBalance: new entities.Money(0, pair.priceAsset)
+                        };
+                    });
+                }
             }
 
             /**

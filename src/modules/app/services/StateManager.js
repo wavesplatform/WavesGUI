@@ -27,7 +27,7 @@
 
             getStateTree(fromId = 'main') {
                 const root = WavesApp.stateTree.find(fromId);
-                return root.getChildren()
+                return root.getChildren().filter((child) => child.get('noLogin') !== true)
                     .map(StateManager._remapStateItem);
             }
 

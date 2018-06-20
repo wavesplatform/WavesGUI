@@ -303,6 +303,26 @@
             }
 
             /**
+             * @param {IDialogOptions} options
+             * @return {Promise}
+             */
+            showDialogModal(options) {
+                const contentUrl = 'modules/utils/modals/templates/dialog-content.html';
+
+                const controller = function ($scope, $mdDialog) {
+                    Object.assign($scope, options);
+                    this.applyClick = (button) => {
+                        const method = button.success ? 'hide' : 'cancel';
+                        $mdDialog[method](button.data);
+                    };
+                };
+
+                controller.$inject = ['$scope', '$mdDialog'];
+
+                return this._getModal(tsUtils.merge({}, DEFAULT_OPTIONS, options, { contentUrl, controller }));
+            }
+
+            /**
              * @param {IModalOptions} options
              * @return {$q.resolve}
              */
@@ -571,4 +591,28 @@
  * @property {*} [locals]
  * @property {string | function} [controller]
  * @property {string} [controllerAs]
+ */
+
+/**
+ * @typedef {object} IDialogOptions
+ * @property {string} iconClass
+ * @property {IMessage} message
+ * @property {IDialogButton[]} buttons
+ * @property {boolean} [clickOutsideToClose]
+ * @property {boolean} [escapeToClose]
+ */
+
+/**
+ * @typedef {object} IMessage
+ * @property {string} [ns]
+ * @property {string} literal
+ * @property {object} [params]
+ */
+
+/**
+ * @typedef {object} IDialogButton
+ * @property {boolean} success
+ * @property {IMessage} text
+ * @property {string} classes
+ * @property {*} data
  */
