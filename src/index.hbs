@@ -550,10 +550,19 @@
                     {
                         id: 'dex',
                         data: {
-                            // noLogin: true,
                             url: '/dex?assetId1&assetId2',
                             reloadOnSearch: false,
                             views: [{ name: 'mainContent' }]
+                        }
+                    },
+                    {
+                        id: 'dex-demo',
+                        data: {
+                            noLogin: true,
+                            controller: 'Dex',
+                            url: '/dex-demo?assetId1&assetId2',
+                            reloadOnSearch: false,
+                            views: [{ name: 'mainContent', templateUrl: 'modules/dex/templates/dex.html' }]
                         }
                     },
                     {

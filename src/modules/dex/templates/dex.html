@@ -31,14 +31,14 @@
                 <w-tab title-name="::'tabs.title.tradeHistory'" id="::'tradeHistory'">
                     <w-dex-trade-history is-my="::false"></w-dex-trade-history>
                 </w-tab>
-                <w-tab ng-if="::$ctrl.isLogined" title-name="::'tabs.title.myBalance'" id="::'myBalance'">
+                <w-tab title-name="::'tabs.title.myBalance'" id="::'myBalance'">
                     <w-dex-my-balance></w-dex-my-balance>
                 </w-tab>
             </w-tabs>
         </w-dex-block>
 
         <w-dex-block block="createorder">
-            <w-create-order ng-if="::$ctrl.isLogined"></w-create-order>
+            <w-create-order></w-create-order>
         </w-dex-block>
 
     </w-layout>
