@@ -283,7 +283,7 @@
                         this._dom.$spread.text(data.spread.toFixed(2));
                     }
                 } else {
-                    this._dom.$info.removeClass(CLASSES.BUY).removeClass(CLASSES.SELL);
+                    this._dom.$lastPrice.removeClass(CLASSES.BUY).removeClass(CLASSES.SELL);
                 }
 
                 this._dom.$bids.html(data.bids);

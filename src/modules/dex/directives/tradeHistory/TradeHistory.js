@@ -111,6 +111,15 @@
 
             /**
              * @param {IExchange} tx
+             * @return boolean
+             */
+            isSelected(tx) {
+                return this._assetIdPair.amount === tx.amount.asset.id &&
+                    this._assetIdPair.price === tx.price.asset.id;
+            }
+
+            /**
+             * @param {IExchange} tx
              */
             setPair(tx) {
                 user.setSetting('dex.assetIdPair', {
