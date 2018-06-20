@@ -37,7 +37,8 @@ w-left-menu {
       left: 10px;
       bottom: 50px;
     }
-    w-responsive-menu-item.logout {
+    w-responsive-menu-item.logout,
+    w-responsive-menu-item.login {
       position: absolute;
       left: 10px;
       bottom: 0;
@@ -110,7 +111,7 @@ w-left-menu {
 
         &.login::after {
           display: block;
-          background-position: (-@default-icon-size * 5) 0;
+          background-position: (-@default-icon-size * 4) -@default-icon-size;
         }
 
       }
@@ -331,10 +332,6 @@ w-left-menu {
 
         w-responsive-menu-item.has-active[value="wallet"] {
           background: @color-submit-400;
-          .menu-item {
-            background: url(/img/icons/wallet-active.svg) 10px center no-repeat;
-            color: @color-white;
-          }
         }
       }
 
@@ -511,6 +508,7 @@ w-left-menu {
 
           w-responsive-menu-item {
             display: block;
+            width: 100%;
             border-color: @color-accent-50;
             background: @color-white;
 
@@ -558,6 +556,7 @@ w-left-menu {
               }
             }
 
+            &.login,
             &.logout,
             &.settings {
               position: relative;

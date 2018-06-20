@@ -1,7 +1,8 @@
 @import (reference) '../../../config';
 @import (reference) "../../../app/less/typography";
 
-.dex.main .main-content {
+.dex.main .main-content,
+.dex-demo.main .main-content {
   background: @color-basic-100;
   min-width: 1280px;
   min-height: 520px;
@@ -566,7 +567,8 @@ html body.dex-demo .notifications {
 // responsive
 @media screen and (min-width: 660px) and (max-width: 1024px) {
 
-  .dex.main .main-content {
+  .dex.main .main-content,
+  .dex-demo.main .main-content {
     w-responsive-menu w-button.nav-toggler {
       display: block;
     }
@@ -760,7 +762,8 @@ html body.dex-demo .notifications {
 }
 
 @media screen and (max-width: 659px) {
-  .dex.main .main-content {
+  .dex.main .main-content,
+  .dex-demo.main .main-content {
     min-width: 100%;
     min-height: 100%;
 

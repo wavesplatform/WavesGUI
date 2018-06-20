@@ -61,7 +61,7 @@
 
             _getDialogModal(type, success, error) {
                 return modalManager.showDialogModal({
-                    iconClass: `${type}-account-info`,
+                    iconClass: `${type.replace(/\./g, '-')}-account-info`,
                     message: { literal: `modal.accountInfo.${type}.message` },
                     buttons: [
                         {
