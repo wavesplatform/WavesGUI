@@ -159,15 +159,24 @@
                     }
                 });
 
+                this._listenChangeLanguage();
+
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
 
-                this._listenChangeLanguage();
+                let waiting = false;
+
                 const stop = $rootScope.$on('$stateChangeStart', (event, toState, params) => {
 
                     if (START_STATES.indexOf(toState.name) === -1) {
                         event.preventDefault();
                     }
+
+                    if (waiting) {
+                        return null;
+                    }
+
+                    waiting = true;
 
                     this._login(toState)
                         .then(() => {
