@@ -157,21 +157,21 @@
       "coinomat": "https://test.coinomat.com",
       "support": "https://support.wavesplatform.com",
       "nodeList": "http://dev.pywaves.org/testnet/generators/",
-      "dsApi": "https://testnet.api.wavesplatform.com/v0",
+      "dsApi": "https://api.testnet.wavesplatform.com/v0",
       "scamListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv",
       "assets": {
         "EUR": "2xnE3EdpqXtFgCP156qt1AbyjpqdZ5jGjWo3CwTawcux",
         "USD": "HyFJ3rrq5m7FxdkWtQXkZrDat1F7LjVVGfpSkUuEXQHj",
         "BTC": "Fmg13HEHJHuZYbtJq8Da8wifJENq8uBxDuWoP9pVe2Qe",
         "ETH": "3fVdr1oiX39uS82ZGUPnu7atNQtFHZfPnseRDUcDxrhp",
-        "LTC": "no-asset-id",
-        "ZEC": "no-asset-id",
-        "BCH": "no-asset-id",
-        "TRY": "no-asset-id",
-        "DASH": "no-asset-id",
-        "EFYT": "no-asset-id",
-        "WNET": "no-asset-id",
-        "XMR": "no-asset-id"
+        "LTC": "5JZhU4g59GRP3coALyCfSvtEQjFmPpTbeF2GLXaBe5gf",
+        "ZEC": "DJ1P5TU3c5cWPywAfy7ww4qHqvpmfwySw9Rwph97SDjz",
+        "BCH": "HgkqjYFD28M3GdCfCMrU4Expr4wHLAgWmv1d7TenP2GJ",
+        "TRY": "5kMX3asKsCNg2pCSwXKcjpd5yGYAfTdVBGF5doN2ZwT3",
+        "DASH": "7eghdhLhjnW8TMSSgceZz5a4jgR7D7PfNMeVp4obYAtQ",
+        "EFYT": "34RpoSEzLf4JF4BgToi9GWuqfGdsgKJFywncAJcMW7hX",
+        "WNET": "EbCbrH3JBPcmV6n6aYyhpvVkXMhnee9XaMnGcP9GnZCq",
+        "XMR": "C9rPXtQAH3oTAxhT61Ft7FBkenkcmTk8aW6tYmLYB1Vt"
       }
     },
     "mainnet": {

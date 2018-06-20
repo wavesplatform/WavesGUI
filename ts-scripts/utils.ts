@@ -10,6 +10,7 @@ import { transform } from 'babel-core';
 import { render } from 'less';
 import { minify } from 'html-minifier';
 import { get, ServerResponse, IncomingMessage } from 'https';
+import { MAINNET_DATA, TESTNET_DATA } from '@waves/assets-pairs-order';
 
 
 export const task: ITaskFunction = gulp.task.bind(gulp) as any;
@@ -170,6 +171,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                 isWeb: param.type === 'web',
                 isProduction: param.buildType && param.buildType === 'min',
                 domain: meta.domain,
+                matcherPriorityList: JSON.stringify(param.connection === 'mainnet' ? MAINNET_DATA : TESTNET_DATA, null, 4),
                 build: {
                     type: param.type
                 },

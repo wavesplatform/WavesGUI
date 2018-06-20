@@ -188,6 +188,7 @@
                     .then((orders) => {
                         const remap = R.map(DexMyOrders._remapOrders);
 
+                        orders.sort(utils.comparators.process(a => a.timestamp).desc);
                         const result = remap(orders);
                         const last = result.length ? result[result.length - 1] : null;
 

@@ -74,7 +74,7 @@
                     controller.storage,
                     WatchList._loadDataByPairs,
                     WatchList._getKeyByPair,
-                    1000 * 60 * 2,
+                    1000 * 30,
                     pair => list => list.find((p) => R.equals(p.pairIdList.slice().sort(), pair.slice().sort()))
                 );
                 /**
@@ -205,7 +205,13 @@
                 this.observe('activeTab', this._onChangeActiveTab);
 
                 stService.draw.once(WatchList._onRenderTable);
-                this._loadData();
+
+                this.pending = true;
+                this._poll = createPoll(this, this._getPairData, 'pairDataList', { $scope });
+
+                this._poll.ready.then(() => {
+                    this.pending = false;
+                });
             }
 
             showAssetInfo(asset) {
@@ -321,15 +327,9 @@
                 }
             }
 
-            _loadData() {
-                this.pending = true;
+            _getPairData() {
                 const pairs = this._getPairList();
-                return this._cache(pairs).then((pairDataList) => {
-                    this.pairDataList = pairDataList;
-                    this.pending = false;
-                    $scope.$apply();
-                    stService.draw.once(WatchList._onRenderTable);
-                });
+                return this._cache(pairs);
             }
 
             /**
@@ -443,11 +443,11 @@
                 this.searchRequest = new PromiseControl(Promise.all(queryParts.map(waves.node.assets.search)))
                     .then(([d1 = [], d2 = []]) => {
                         this._searchAssets = R.uniqBy(R.prop('id'), d1.concat(d2));
-                        return this._loadData();
-                    })
-                    .then(() => {
-                        this.searchInProgress = false;
-                        this.searchRequest = null;
+                        this._poll.restart();
+                        this.observeOnce('pairDataList', () => {
+                            this.searchInProgress = false;
+                            this.searchRequest = null;
+                        });
                     });
             }
 
