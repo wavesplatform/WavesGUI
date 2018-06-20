@@ -276,8 +276,9 @@
                 if (data.lastTrade) {
                     const isBuy = data.lastTrade.exchangeType === 'buy';
                     const isSell = data.lastTrade.exchangeType === 'sell';
-                    this._dom.$info.toggleClass(CLASSES.BUY, isBuy).toggleClass(CLASSES.SELL, isSell);
-                    this._dom.$lastPrice.text(data.lastTrade.price.toFormat());
+                    this._dom.$lastPrice.toggleClass(CLASSES.BUY, isBuy)
+                        .toggleClass(CLASSES.SELL, isSell)
+                        .text(data.lastTrade.price.toFormat());
                     if (data.spread) {
                         this._dom.$spread.text(data.spread.toFixed(2));
                     }
