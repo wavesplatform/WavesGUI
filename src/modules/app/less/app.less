@@ -17,11 +17,12 @@ body {
   }
 }
 
-body:not(.dex) {
+body:not(.dex, .dex-demo) {
   .scroll();
 }
 
-body.dex {
+body.dex,
+body.dex-demo {
   .scroll-dex();
 }
 
