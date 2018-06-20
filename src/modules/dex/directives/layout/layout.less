@@ -4,11 +4,12 @@
 .dex.main .main-content {
   background: @color-basic-100;
   min-width: 1280px;
-  min-height: 480px;
+  min-height: 520px;
   overflow-y: hidden;
 }
 
-html body.dex {
+html body.dex,
+html body.dex-demo {
   md-dialog.asset-info-modal {
     .asset-content {
       height: auto;
@@ -100,12 +101,15 @@ w-layout {
 
     &__column {
       background: @color-white;
+      height: 100%;
+      position: absolute;
+      overflow: hidden;
+      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
     }
 
     &__watchlist {
       transition: .3s;
       width: 320px;
-      min-height: 320px;
       max-height: calc(100% ~'- 308px');
       border-radius: @border-radius / 2;
 
@@ -124,13 +128,6 @@ w-layout {
           text-transform: uppercase;
         }
       }
-    }
-
-    &__column {
-      height: 100%;
-      position: absolute;
-      overflow: hidden;
-      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
     }
 
     &__candlechart {
@@ -405,7 +402,8 @@ w-layout {
 
 }
 
-html body.dex .notifications {
+html body.dex .notifications,
+html body.dex-demo .notifications {
   position: fixed
 }
 
