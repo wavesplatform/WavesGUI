@@ -1,5 +1,4 @@
-import { Asset, Money, BigNumber, AssetPair } from '@waves/data-entities';
-import { MAINNET_DATA, createOrderPair } from '@waves/assets-pairs-order';
+import { Asset, Money, BigNumber } from '@waves/data-entities';
 import { get as configGet, getDataService } from '../../config';
 import { request } from '../../utils/request';
 import { IBalanceItem, assetsApi } from './interface';
@@ -7,6 +6,7 @@ import { WAVES_ID } from '@waves/waves-signature-generator';
 import { assetStorage } from '../../utils/AssetStorage';
 import { normalizeAssetId, toArray, toHash } from '../../utils/utils';
 import { IHash } from '../../interface';
+import { IAssetInfo } from '@waves/data-entities/dist/entities/Asset';
 
 
 export function get(id: string): Promise<Asset>;
@@ -16,9 +16,7 @@ export function get(assets: string | Array<string>): Promise<any> {
     if (toArray(assets).some((id) => id.length < 4)) {
         debugger;
     }
-    const dataService = getDataService();
-    const getMethod = (idList: Array<string>) => request<Asset[]>({ method: () => dataService.getAssets.apply(dataService, idList) });
-    return assetStorage.getAssets(toArray(assets), getMethod)
+    return assetStorage.getAssets(toArray(assets), getAssetRequestCb)
         .then((list) => {
             if (typeof assets === 'string') {
                 return list[0];
@@ -26,6 +24,21 @@ export function get(assets: string | Array<string>): Promise<any> {
                 return list;
             }
         });
+}
+
+export function getAssetFromNode(assetId: string): Promise<Asset> {
+    return request<INodeAssetData>({ url: `${configGet('node')}/assets/details/${assetId}` })
+        .then((data) => new Asset({
+            id: data.assetId,
+            name: data.name,
+            description: data.description,
+            height: data.issueHeight,
+            precision: data.decimals,
+            quantity: data.quantity,
+            reissuable: data.reissuable,
+            sender: data.issuer,
+            timestamp: new Date(data.issueTimestamp)
+        }));
 }
 
 export function balanceList(address: string, txHash?: IHash<Money>, ordersHash?: IHash<Money>): Promise<Array<IBalanceItem>> {
@@ -119,4 +132,44 @@ export function moneyDif(target: Money, ...toDif: Array<Money>): Money {
 
 export function getAssetsByBalanceList(data: assetsApi.IBalanceList): Promise<Array<Asset>> {
     return get(data.balances.map((balance) => normalizeAssetId(balance.assetId)));
+}
+
+const getAssetRequestCb = (list: Array<string>): Promise<Array<Asset>> => {
+    const ds = getDataService();
+    return ds.getAssets(...list)
+        .then((assets) => {
+            const fails = [];
+
+            list.forEach((id, index) => {
+                if (!assets[index]) {
+                    fails.push(id);
+                }
+            });
+
+            return Promise.all(fails.map(getAssetFromNode))
+                .then((reloadedAssets) => {
+                    let failCount = 0;
+                    return list.map((id, index) => {
+                        if (assets[index]) {
+                            return assets[index];
+                        } else {
+                            return reloadedAssets[failCount++];
+                        }
+                    });
+                });
+        });
+};
+
+export interface INodeAssetData {
+    assetId: string;
+    complexity: number;
+    decimals: number;
+    description: string;
+    extraFee: number;
+    issueHeight: number;
+    issueTimestamp: number;
+    issuer: string;
+    name: string;
+    quantity: string | number;
+    reissuable: boolean;
 }
