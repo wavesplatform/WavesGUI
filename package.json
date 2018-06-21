@@ -89,7 +89,7 @@
   "dependencies": {
     "@uirouter/angularjs": "1.0.8",
     "@waves/assets-pairs-order": "^3.2.3",
-    "@waves/data-entities": "1.5.2",
+    "@waves/data-entities": "1.5.3",
     "@waves/data-service-client-js": "^0.2.6",
     "@waves/event-sender": "0.4.4",
     "@waves/waves-signature-generator": "0.2.0",
