@@ -380,7 +380,7 @@
                     amountAsset: this._assetIdPair.amount,
                     priceAsset: this._assetIdPair.price,
                     limit: 1
-                }).then(([tx]) => tx.price);
+                }).then(([tx]) => tx && tx.price || null);
             }
 
             /**

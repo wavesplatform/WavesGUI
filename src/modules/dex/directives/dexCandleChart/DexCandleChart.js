@@ -49,78 +49,142 @@
      *
      * @param {Base} Base
      * @param candlesService
+     * @param {$rootScope.Scope} $scope
      * @return {DexCandleChart}
      */
-    const controller = function (Base, candlesService) {
+    const controller = function (Base, candlesService, $scope) {
 
         class DexCandleChart extends Base {
 
             constructor() {
                 super();
-                this.chart = null;
-                this.chartReady = false;
+                /**
+                 * @type {string}
+                 */
                 this.elementId = `tradingview${counter++}`;
+                /**
+                 * @type {boolean}
+                 */
                 this.notLoaded = false;
+                /**
+                 * @type {TradingView}
+                 * @private
+                 */
+                this._chart = null;
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
+                this._chartReady = false;
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
                 this._assetIdPairWasChanged = false;
-
                 /**
                  * @type {{price: string, amount: string}}
                  * @private
                  */
                 this._assetIdPair = null;
 
-                this.observe('_assetIdPair', () => {
-
-                    if (this.chartReady) {
-                        this.chart.symbolInterval(({ interval }) => {
-                            this.chart.setSymbol(`${this._assetIdPair.amount}/${this._assetIdPair.price}`, interval);
-                        });
-                    } else {
-                        this._assetIdPairWasChanged = true;
-                    }
-                });
-
-                this.syncSettings({
-                    _assetIdPair: 'dex.assetIdPair'
-                });
+                this.observe('_assetIdPair', this._onChangeAssetPair);
+                this.syncSettings({ _assetIdPair: 'dex.assetIdPair' });
+                this.listenEventEmitter(i18next, 'languageChanged', this._changeLangHandler.bind(this));
             }
 
             $postLink() {
-                controller.load().then(() => {
-                    this.chart = new TradingView.widget({
-                        // debug: true,
-                        locale: DexCandleChart._remapLanguageCode(i18next.language),
-                        toolbar_bg: '#fff',
-                        symbol: `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
-                        interval: WavesApp.dex.defaultResolution,
-                        container_id: this.elementId,
-                        datafeed: candlesService,
-                        library_path: 'trading-view/',
-                        autosize: true,
-                        disabled_features: DISABLED_FEATURES,
-                        // enabled_features: ENABLED_FEATURES,
-                        overrides: OVERRIDES,
-                        studies_overrides: STUDIES_OVERRIDES,
-                        custom_css_url: '/tradingview-style/style.css'
+                controller.load()
+                    .then(() => {
+                        this._createTradingView();
+                    }, () => {
+                        console.warn('Error 403!');
+                        this.notLoaded = true;
+                    })
+                    .then(() => {
+                        $scope.$apply();
                     });
+            }
 
-                    this.chart.onChartReady(() => {
-                        this.chartReady = true;
-                        // this.chart.subscribe('onSymbolChange', (data) => console.log(data));
-                        if (this._assetIdPairWasChanged) {
-                            this.chart.symbolInterval(({ interval }) => {
-                                this.chart.setSymbol(
-                                    `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
-                                    interval
-                                );
-                            });
-                        }
+            $onDestroy() {
+                super.$onDestroy();
+                this._removeTradingView();
+            }
 
-                        this.listenEventEmitter(i18next, 'languageChanged', this._changeLangHandler.bind(this));
+            /**
+             * @private
+             */
+            _onChangeAssetPair() {
+                if (this._chartReady) {
+                    this._setChartPair();
+                } else {
+                    this._assetIdPairWasChanged = true;
+                }
+            }
+
+            /**
+             * @return {*}
+             * @private
+             */
+            _resetTradingView() {
+                return this._removeTradingView()
+                    ._createTradingView();
+            }
+
+            /**
+             * @return {DexCandleChart}
+             * @private
+             */
+            _removeTradingView() {
+                try {
+                    if (this._chart) {
+                        this._chart.remove();
+                    }
+                } catch (e) {
+                    // Can't remove _chart
+                }
+                this._chart = null;
+                return this;
+            }
+
+            /**
+             * @return {DexCandleChart}
+             * @private
+             */
+            _createTradingView() {
+                this._chart = new TradingView.widget({
+                    // debug: true,
+                    locale: DexCandleChart._remapLanguageCode(i18next.language),
+                    toolbar_bg: '#fff',
+                    symbol: `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
+                    interval: WavesApp.dex.defaultResolution,
+                    container_id: this.elementId,
+                    datafeed: candlesService,
+                    library_path: 'trading-view/',
+                    autosize: true,
+                    disabled_features: DISABLED_FEATURES,
+                    // enabled_features: ENABLED_FEATURES,
+                    overrides: OVERRIDES,
+                    studies_overrides: STUDIES_OVERRIDES,
+                    custom_css_url: '/tradingview-style/style.css'
+                });
+
+                if (this._assetIdPairWasChanged) {
+                    this._chart.onChartReady(() => {
+                        this._setChartPair();
+                        this._assetIdPairWasChanged = false;
+                        this._chartReady = true;
                     });
-                }, () => {
-                    console.warn('Error 403!');
-                    this.notLoaded = true;
+                }
+
+                return this;
+            }
+
+            /**
+             * @private
+             */
+            _setChartPair() {
+                this._chart.symbolInterval(({ interval }) => {
+                    this._chart.setSymbol(`${this._assetIdPair.amount}/${this._assetIdPair.price}`, interval);
                 });
             }
 
@@ -128,8 +192,7 @@
              * @private
              */
             _changeLangHandler() {
-                const langCode = DexCandleChart._remapLanguageCode(i18next.language);
-                this.chart.setLanguage(langCode);
+                return this._resetTradingView();
             }
 
             static _remapLanguageCode(code) {
@@ -150,7 +213,7 @@
         return new DexCandleChart();
     };
 
-    controller.$inject = ['Base', 'candlesService'];
+    controller.$inject = ['Base', 'candlesService', '$scope'];
 
     controller.load = function () {
         const script = document.createElement('script');

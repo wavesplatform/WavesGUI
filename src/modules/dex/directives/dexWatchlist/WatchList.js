@@ -425,6 +425,7 @@
                     this.searchRequest.drop();
                     this.searchInProgress = false;
                     this.pending = false;
+                    this.searchRequest = null;
                 }
 
                 const query = this.search;
@@ -443,10 +444,11 @@
                 this.searchRequest = new PromiseControl(Promise.all(queryParts.map(waves.node.assets.search)))
                     .then(([d1 = [], d2 = []]) => {
                         this._searchAssets = R.uniqBy(R.prop('id'), d1.concat(d2));
-                        this._poll.restart();
-                        this.observeOnce('pairDataList', () => {
+                        return this._poll.restart().then(() => {
                             this.searchInProgress = false;
+                            this.pending = false;
                             this.searchRequest = null;
+                            $scope.$apply();
                         });
                     });
             }
