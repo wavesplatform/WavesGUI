@@ -23,8 +23,7 @@
                      ng-class="{'new-order': order.isNew, 'can-expand': !!order.exchange.length}">
             <w-table-cell>
                 <span ng-click="$ctrl.setPair(order)">
-                    <!-- todo @tsigel remove .underline if pair selected -->
-                    <a href="#" class="underline">{{::order.pair}}</a>
+                    <a href="#">{{::order.pair}}</a>
                 </span>
             </w-table-cell>
             <w-table-cell>
