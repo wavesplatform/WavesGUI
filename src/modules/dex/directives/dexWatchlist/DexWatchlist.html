@@ -28,7 +28,7 @@
            class="input-clear"
            ng-click="$ctrl.search = ''"></i>
     </div>
-    <w-loader></w-loader>
+    <w-loader ng-if="$ctrl.pending"></w-loader>
     <w-smart-table ng-if="!$ctrl.pending"
                    name="watchlist"
                    options="$ctrl.tableOptions"
