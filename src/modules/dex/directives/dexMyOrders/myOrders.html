@@ -30,23 +30,23 @@
                 <span w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
             </w-table-cell>
             <w-table-cell>
-                <span class="cell-label"><span w-i18n="directives.myOrders.time"></span>:</span>
+                <span class="cell-label"><span w-i18n="directives.myOrders.time"></span></span>
                 {{ ::order.timestamp | date:'MM-dd HH:mm:ss' }}
             </w-table-cell>
             <w-table-cell>
-                <span class="cell-label"><span w-i18n="directives.myOrders.price"></span>:</span>
+                <span class="cell-label"><span w-i18n="directives.myOrders.price"></span></span>
                 <w-balance short-mode="::true" money="::order.price"></w-balance>
             </w-table-cell>
             <w-table-cell>
-                <span class="cell-label"><span w-i18n="directives.myOrders.amount"></span>:</span>
+                <span class="cell-label"><span w-i18n="directives.myOrders.amount"></span></span>
                 <w-balance short-mode="::true" money="::order.amount"></w-balance>
             </w-table-cell>
             <w-table-cell>
-                <span class="cell-label"><span w-i18n="directives.myOrders.total"></span>:</span>
+                <span class="cell-label"><span w-i18n="directives.myOrders.total"></span></span>
                 <w-balance short-mode="::true" money="::order.total"></w-balance>
             </w-table-cell>
             <w-table-cell>
-                <span class="cell-label"><span w-i18n="directives.myOrders.fee"></span>:</span>
+                <span class="cell-label"><span w-i18n="directives.myOrders.fee"></span></span>
                 0.003
             </w-table-cell>
             <w-table-cell ng-click="$ctrl.toggleDetails(order)">
