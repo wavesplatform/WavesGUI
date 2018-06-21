@@ -164,6 +164,10 @@ export module prepare {
                 amount: amount(transfer.amount)
             }));
         }
+
+        export function quantity(data) {
+            return bigNumberToNumber(new BigNumber(data.quantity).times(new BigNumber(10).pow(data.precision)));
+        }
     }
 
     export function wrap(from: string, to: string, cb: any): IWrappedFunction {
@@ -186,7 +190,7 @@ export module prepare {
                 value: processors.noProcess(data[item])
             } : {
                 key: item.to,
-                value: item.cb(data[item.from])
+                value: item.cb(item.from && data[item.from] || data)
             };
         })
             .reduce((result, item) => {
@@ -222,8 +226,8 @@ export module schemas {
             'senderPublicKey',
             'name',
             'description',
-            prepare.wrap('quantity', 'quantity', prepare.processors.bigNumberToNumber),
-            prepare.wrap('precision', 'precision', prepare.processors.noProcess),
+            prepare.wrap(null, 'quantity', prepare.processors.quantity),
+            prepare.wrap('precision', 'decimals', prepare.processors.noProcess),
             prepare.wrap('reissuable', 'reissuable', prepare.processors.noProcess),
             prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
             prepare.wrap('timestamp', 'timestamp', prepare.processors.timestamp),
@@ -334,7 +338,7 @@ export module schemas {
             'senderPublicKey',
             'name',
             'description',
-            prepare.wrap('quantity', 'quantity', prepare.processors.bigNumberToNumber),
+            prepare.wrap(null, 'quantity', prepare.processors.quantity),
             prepare.wrap('precision', 'precision', prepare.processors.noProcess),
             prepare.wrap('reissuable', 'reissuable', prepare.processors.noProcess),
             prepare.wrap('fee', 'fee', prepare.processors.moneyToNumber),
