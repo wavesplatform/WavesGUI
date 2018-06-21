@@ -20,6 +20,7 @@
                  * @type {Array}
                  */
                 this.balanceList = null;
+                this.isDemo = !!user.address;
                 this.pending = true;
                 this.headers = [
                     {

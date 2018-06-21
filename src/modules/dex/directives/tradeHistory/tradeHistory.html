@@ -12,6 +12,13 @@
         <div class="footnote-1 basic-500" w-i18n="emptyBlocks.tradeHistory.description"></div>
     </div>
 
+    <div class="sign-in-message" ng-if="$ctrl.isDemo">
+        <a ui-sref="welcome" class="link" w-i18n="directives.demo.signIn"></a>
+        <span w-i18n="directives.demo.or"></span>
+        <a ui-sref="create" class="link" w-i18n="directives.demo.createAccount"></a>
+        <span w-i18n="to" w-i18n="directives.demo.to.tradehistory"></span>
+    </div>
+
     <!-- TODO @uIsk remove asset name from locize after release -->
     <w-table-row ng-repeat="tx in $data track by tx.id"
                  class="footnote-1 disabled-900 {{::tx.exchangeType}}">

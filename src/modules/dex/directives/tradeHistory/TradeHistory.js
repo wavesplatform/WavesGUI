@@ -87,6 +87,7 @@
                  * @type {boolean}
                  */
                 this.pending = true;
+                this.isDemo = this.isMy && !user.address;
 
                 this.headers = [];
 
