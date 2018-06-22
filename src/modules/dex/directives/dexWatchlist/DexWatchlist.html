@@ -60,7 +60,7 @@
                 <span>{{ pair.change24.toFormat() }}</span>{{ pair.change24 ? '%' : '—' }}
             </w-table-cell>
             <w-table-cell>
-                <span ng-if="pair.volume" w-nice-number="pair.currentVolume" short-mode="::true"></span>
+                <span ng-if="pair.volume" w-nice-number="pair.currentVolume" short-mode="true"></span>
                 <span ng-if="!pair.volume">—</span>
                 <!--div class="tooltip right">{{ pair.volume.toFormat() || '—' }}</div-->
             </w-table-cell>
