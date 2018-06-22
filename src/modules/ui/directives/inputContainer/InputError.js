@@ -54,7 +54,6 @@
              * @private
              */
             _onChangeCanShow() {
-                $scope.$apply();
                 $element.toggleClass('hidden', !this.canShow);
 
                 if (this.hideWithin) {
