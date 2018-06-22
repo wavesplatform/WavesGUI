@@ -14,6 +14,7 @@
     const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state) {
 
         const tsUtils = require('ts-utils');
+        const ds = require('data-service');
 
         const DEFAULT_OPTIONS = {
             clickOutsideToClose: true,
@@ -113,10 +114,11 @@
             }
 
             showSeedBackupModal() {
-                const user = this._getUser();
+                const api = ds.signature.getSignatureApi();
 
-                return user.getSeed()
-                    .then((seed) => {
+                return api.getSeed()
+                    .then((phrase) => {
+                        const seed = new ds.Seed(phrase);
                         return this._getModal({
                             id: 'seed-backup',
                             title: 'modal.backup.title.{{$ctrl.titleLiteral}}',
