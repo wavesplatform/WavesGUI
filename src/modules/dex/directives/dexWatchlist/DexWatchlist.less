@@ -9,6 +9,98 @@ body.dex-demo .dex-wrapper {
     height: 100%;
     position: relative;
 
+    .tooltip-dex {
+      display: none;
+      position: absolute;
+      padding: 0 10px;
+      top: 26px;
+      right: 149px;
+      transform-origin: center;
+      transform: translate(50%, 8px);
+      z-index: 1;
+      color: @color-white;
+      font-size: @font-size-caption-2;
+      line-height: 26px;
+      cursor: pointer;
+      text-shadow: 0 1px 6px rgba(78, 92, 110, 0.6);
+
+      i {
+        position: absolute;
+        width: 10px;
+        height: 5px;
+        overflow: hidden;
+        content: '';
+        z-index: -1;
+        top: -5px;
+        left: auto;
+        right: 10px;
+
+        em {
+          display: block;
+          position: relative;
+          width: 10px;
+          height: 5px;
+
+          &::before {
+            transform: rotate(45deg);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            width: 10px;
+            height: 10px;
+            content: '';
+            opacity: .6;
+            transform-origin: center;
+            background: @color-basic-700;
+          }
+        }
+      }
+
+      &.right {
+        transform: translate(0);
+        right: 10px;
+        padding: 0 10px;
+
+        &::after {
+          opacity: .6;
+          border-radius: @border-radius;
+          position: absolute;
+          background: @color-basic-700;
+          width: 100%;
+          height: 26px;
+          content: '';
+          left: 0;
+          top: 0;
+          z-index: -1;
+        }
+      }
+    }
+
+    .smart-table {
+      &__cell[data-column-id="volume"]:hover {
+        .tooltip-dex {
+          display: block;
+        }
+      }
+    }
+
+    //last-line tooltip fix
+    .smart-table {
+      &__row:last-child {
+        .tooltip-dex {
+          bottom: calc(100% ~'+ 2px');
+          top: auto;
+          i {
+            top: 100%;
+            em::before {
+              top: -7px;
+            }
+          }
+        }
+      }
+    }
+    //end
+
     .wrapper {
       width: 100%;
       height: 100%;
@@ -235,6 +327,7 @@ body.dex-demo .dex-wrapper {
 
         &__w-tbody {
           .smart-table {
+
             &__row:not(.selected) {
               &:hover {
                 background-color: @color-basic-50;
@@ -336,62 +429,6 @@ body.dex-demo .dex-wrapper {
                   border-bottom: 1px dashed @color-disabled-400;
                 }
               }
-            }
-          }
-        }
-
-        .tooltip {
-          display: none;
-
-          &.left {
-            transform: translate(0);
-            left: 10px;
-            padding: 0 10px;
-            top: 22px;
-            right: auto;
-
-            &::before {
-              bottom: auto;
-              left: 25px;
-              right: auto;
-              top: -3px;
-            }
-          }
-
-          &.center {
-            transform: translate(0);
-            left: auto;
-            padding: 0 10px;
-            top: 22px;
-            width: auto;
-            right: 42%;
-
-            &::before {
-              bottom: auto;
-              left: calc(80% ~'- 7px');
-              right: auto;
-              top: -3px;
-            }
-          }
-
-          &.right {
-            transform: translate(0);
-            right: 10px;
-            top: 22px;
-            padding: 0 10px;
-
-
-            &::before {
-              bottom: auto;
-              left: auto;
-              right: 10px;
-              top: -3px;
-            }
-          }
-
-          &:hover {
-            .tooltip {
-              display: block;
             }
           }
         }

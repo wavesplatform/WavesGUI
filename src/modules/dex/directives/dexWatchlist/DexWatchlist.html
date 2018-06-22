@@ -50,19 +50,23 @@
             </w-table-cell>
             <w-table-cell>
                 <span>{{::pair.pairNames}}</span>
-                <!--div class="tooltip left">{{::pair.pairNames || '—'}}</div-->
+                <!--div class="tooltip-dex left">{{::pair.pairNames || '—'}}</div-->
             </w-table-cell>
             <w-table-cell>
                 <span>{{pair.lastPrice.toFormat() || '—'}}</span>
-                <!--div class="tooltip center">{{pair.price.toFormat() || '—'}}</div-->
+                <!--div class="tooltip-dex center">{{pair.price.toFormat() || '—'}}</div-->
             </w-table-cell>
             <w-table-cell ng-class="{'plus': pair.change24.gt(0),'minus': pair.change24.lt(0)}">
                 <span>{{ pair.change24.toFormat() }}</span>{{ pair.change24 ? '%' : '—' }}
             </w-table-cell>
             <w-table-cell>
-                <span ng-if="pair.volume" w-nice-number="pair.currentVolume" short-mode="::true"></span>
+                <span ng-if="pair.volume"
+                      w-nice-number="pair.currentVolume"
+                      short-mode="::true"
+                      class="show-toolip"></span>
                 <span ng-if="!pair.volume">—</span>
-                <!--div class="tooltip right">{{ pair.volume.toFormat() || '—' }}</div-->
+                <!-- todo @tsigel //just one digit after dot (like 999.1) -->
+                <div ng-if="pair.volume" class="tooltip-dex right"><i><em></em></i>{{ pair.volume.toFormat() || '—' }}</div>
             </w-table-cell>
             <w-table-cell ng-if="$ctrl.isChosen(pair)" class="chosen">
                 <div>
