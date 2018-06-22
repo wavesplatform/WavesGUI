@@ -349,19 +349,20 @@
                             success: false,
                             classes: 'big',
                             text: { literal: 'modal.createOrder.cancel' },
-                            data: () => $state.go('create')
+                            click: () => $state.go('create')
                         },
                         {
                             success: true,
                             classes: 'big submit',
                             text: { literal: 'modal.createOrder.ok' },
-                            data: () => $state.go('welcome')
+                            click: () => $state.go('welcome')
                         }
                     ]
                 })
                     .catch(() => null)
                     .then(() => {
                         const form = this.order;
+                        this.amount = null;
                         form.$setUntouched();
                         form.$setPristine();
                     });

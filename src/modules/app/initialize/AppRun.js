@@ -153,10 +153,9 @@
              */
             _initializeLogin() {
 
+                let needShowTutorial = false;
                 storage.onReady().then((oldVersion) => {
-                    if (!oldVersion) {
-                        modalManager.showTutorialModals();
-                    }
+                    needShowTutorial = !oldVersion;
                 });
 
                 this._listenChangeLanguage();
@@ -170,6 +169,11 @@
 
                     if (START_STATES.indexOf(toState.name) === -1) {
                         event.preventDefault();
+                    }
+
+                    if (needShowTutorial && toState.name !== 'dex-demo') {
+                        modalManager.showTutorialModals();
+                        needShowTutorial = false;
                     }
 
                     if (waiting) {

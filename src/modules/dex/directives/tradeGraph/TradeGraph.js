@@ -10,14 +10,14 @@
             dataset: ORDERS_TYPES.asks,
             key: 'amount',
             label: 'Asks',
-            color: '#adbff5',
+            color: '#db8d92',
             type: ['line', 'area']
         },
         bids: {
             dataset: ORDERS_TYPES.bids,
             key: 'amount',
             label: 'Bids',
-            color: '#db8d92',
+            color: '#adbff5',
             type: ['line', 'area']
         }
     };
