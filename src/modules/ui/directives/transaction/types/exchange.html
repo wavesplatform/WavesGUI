@@ -24,7 +24,7 @@
         <div class="footnote-1 bottom fs-mobile">
            <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
                  params="{
-                    sign: $ctrl.type === 'exchange-buy' ? '–' : '+',
+                    sign: $ctrl.typeName === 'exchange-buy' ? '–' : '+',
                     amount: $ctrl.totalPrice,
                     name: $ctrl.transaction.price.asset.name
                   }"></span>
