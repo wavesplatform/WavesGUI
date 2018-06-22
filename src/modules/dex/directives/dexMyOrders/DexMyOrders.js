@@ -162,6 +162,10 @@
                 });
             }
 
+            round(data) {
+                return Math.round(Number(data));
+            }
+
             /**
              * @param order
              */
