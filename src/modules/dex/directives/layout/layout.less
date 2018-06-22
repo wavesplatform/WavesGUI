@@ -219,9 +219,10 @@ w-layout {
         display: inline-block;
         text-align: center;
         max-width: 90%;
+        width: 100%;
         top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(5%, -50%);
+        color: @color-basic-500;
       }
     }
 
@@ -570,6 +571,18 @@ html body.dex-demo .notifications {
         font-size: 12px;
       }
 
+    }
+  }
+}
+
+.dex-demo {
+  .avatar-wrap {
+    background: url(/img/icons/dex-demo-avatar.svg) center no-repeat;
+    background-size: 50px;
+    border-radius: 50%;
+
+    img {
+      display: none;
     }
   }
 }

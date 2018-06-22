@@ -194,6 +194,7 @@
 
                 this.syncSettings({
                     activeTab: 'dex.watchlist.activeTab',
+                    showOnlyFavorite: 'dex.watchlist.showOnlyFavorite',
                     _favourite: 'dex.watchlist.favourite',
                     _assetsIds: 'dex.watchlist.list',
                     _assetIdPair: 'dex.assetIdPair'
@@ -207,7 +208,7 @@
                 stService.draw.once(WatchList._onRenderTable);
 
                 this.pending = true;
-                this._poll = createPoll(this, this._getPairData, 'pairDataList', { $scope });
+                this._poll = createPoll(this, this._getPairData, 'pairDataList', 1000, { $scope });
 
                 this._poll.ready.then(() => {
                     this.pending = false;

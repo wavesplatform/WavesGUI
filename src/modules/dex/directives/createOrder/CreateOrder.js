@@ -200,6 +200,9 @@
                 $element.on('mousedown touchstart', '.body', (e) => {
                     e.stopPropagation();
                 });
+
+                // Preserve place order button from blinking
+                setTimeout(() => this.order.$setDirty(), 1000);
             }
 
             expand(type) {
@@ -342,7 +345,7 @@
 
             _showDemoModal() {
                 return modalManager.showDialogModal({
-                    iconClass: 'create-order-icon',
+                    iconClass: 'open-main-dex-account-info',
                     message: { literal: 'modal.createOrder.message' },
                     buttons: [
                         {

@@ -197,7 +197,7 @@
                         </w-select>
                     </div>
 
-                    <w-button disabled="order.$invalid"
+                    <w-button disabled="$ctrl.order.$invalid || $ctrl.order.$pristine"
                               class="place-order small footnote-3"
                               on-click="$ctrl.createOrder($event, order)">
                         <span ng-if="$ctrl.type === 'sell'"
