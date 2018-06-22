@@ -304,6 +304,12 @@ w-create-order {
             }
           }
 
+          w-input-container.invalid {
+            .input-like:not(.embed) {
+              border: 1px solid @color-error-200;
+            }
+          }
+
           .input-like {
             padding: 0;
             display: flex;
@@ -324,7 +330,7 @@ w-create-order {
               position: relative;
               height: 100%;
               width: 50%;
-              padding: 7px 11px;
+              padding: 6px 11px;
               background-color: @color-disabled-50;
               border-top-right-radius: @border-radius;
               border-bottom-right-radius: @border-radius;

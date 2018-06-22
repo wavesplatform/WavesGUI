@@ -146,8 +146,6 @@ w-layout {
 
       .dex-layout__block {
         height: 100%;
-        border-left: 1px solid @color-basic-100;
-        border-right: 1px solid @color-basic-100;
       }
     }
 
@@ -215,6 +213,16 @@ w-layout {
       .block-title {
         display: none;
       }
+
+      .sign-in-message {
+        position: absolute;
+        display: inline-block;
+        text-align: center;
+        max-width: 90%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
 
     &__createorder {
@@ -245,6 +253,7 @@ w-layout {
         .dex-layout {
           &__sidebar-toggle {
             left: 0;
+            border-right: 1px solid @color-basic-100;
           }
         }
       }
@@ -253,6 +262,7 @@ w-layout {
         .dex-layout {
           &__sidebar-toggle {
             right: 0;
+            border-left: 1px solid @color-basic-100;
           }
         }
       }
@@ -845,6 +855,10 @@ html body.dex-demo .notifications {
         width: 100%;
         margin-bottom: 5px;
         order: 2;
+
+        .dex-layout__block {
+          height: 304px;
+        }
       }
 
       &__watchlist-collapsed {

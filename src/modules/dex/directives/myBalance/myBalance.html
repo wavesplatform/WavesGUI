@@ -3,11 +3,19 @@
 <w-smart-table ng-if="!$ctrl.pending" class="smart-table"
                data="$ctrl.balanceList"
                header-info="$ctrl.headers">
+
+    <div class="sign-in-message" ng-if="$ctrl.isDemo">
+        <a ui-sref="welcome" class="link" w-i18n="directives.demo.signIn"></a>
+        <span w-i18n="directives.demo.or"></span>
+        <a ui-sref="create" class="link" w-i18n="directives.demo.createAccount"></a>
+        <span w-i18n="to" w-i18n="directives.demo.to.mybalance"></span>
+    </div>
+
     <w-table-row ng-repeat="balance in $data track by balance.asset.id"
                  w-toggle-class-container>
         <w-table-cell ng-click="$ctrl.setPair(balance.asset.id)">
             <w-asset-logo size="20" asset-id="{{::balance.asset.id}}"></w-asset-logo>
-            <span class="underline">{{::balance.asset.name}}</span>
+            <span>{{::balance.asset.name}}</span>
         </w-table-cell>
         <w-table-cell>
             <span class="cell-label"><span w-i18n="directives.balance.assetId"></span></span>

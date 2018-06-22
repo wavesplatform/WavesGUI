@@ -50,6 +50,7 @@
                  * @type {Object.<string, boolean>}
                  */
                 this.shownOrderDetails = Object.create(null);
+                this.isDemo = !!user.address;
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
