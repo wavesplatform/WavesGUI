@@ -155,14 +155,12 @@
             }
 
             _getTransactionsFilter() {
-                // TODO remove timestart 0
                 if (this.isMy) {
-                    return { sender: user.address, timeStart: 0 };
+                    return { sender: user.address };
                 }
                 return {
                     amountAsset: this._assetIdPair.amount,
-                    priceAsset: this._assetIdPair.price,
-                    timeStart: 0
+                    priceAsset: this._assetIdPair.price
                 };
             }
 

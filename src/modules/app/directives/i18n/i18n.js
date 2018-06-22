@@ -65,7 +65,7 @@
                      * @private
                      */
                     _getHandler() {
-                        const ns = i18n.getNs($element);
+                        const ns = $attrs.wI18nNs || i18n.getNs($element);
                         return () => {
                             const skipErrors = 'skipErrors' in $attrs;
                             const params = $attrs.params && $scope.$eval($attrs.params) || undefined;
