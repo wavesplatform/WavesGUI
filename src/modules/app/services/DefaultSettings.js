@@ -82,8 +82,13 @@
                             price: WavesApp.defaultAssets.BTC
                         },
                         watchlist: {
+                            showOnlyFavorite: false,
                             favourite: [
-                                [WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC]
+                                [WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC],
+                                [
+                                    '46dKSX1VuR7Wnk8ADAxpFpbtRXfYL14GaqJoFHSrHWLB',
+                                    '2moXv7GJ6tE1m1JQFrcMvu7RtbowYERTMFrYn3zk4pVR'
+                                ]
                             ],
                             activeTab: 'all',
                             list: Object.values(WavesApp.defaultAssets)

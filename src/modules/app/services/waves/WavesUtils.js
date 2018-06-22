@@ -10,6 +10,7 @@
     const factory = function (assets, utils, decorators) {
 
         const ds = require('data-service');
+        const entities = require('@waves/data-entities');
 
         class WavesUtils {
 
@@ -167,9 +168,9 @@
                                     return 0;
                                 }
 
-                                const open = new BigNumber(data.firstPrice || 0);
-                                const close = new BigNumber(data.lastPrice || 0);
-                                const change24 = getChange(open, close).toNumber();
+                                const open = data.firstPrice || new entities.Money(0, pair.priceAsset);
+                                const close = data.lastPrice || new entities.Money(0, pair.priceAsset);
+                                const change24 = getChange(open.getTokens(), close.getTokens()).toNumber();
 
                                 if (pair.amountAsset.id === from) {
                                     return change24;

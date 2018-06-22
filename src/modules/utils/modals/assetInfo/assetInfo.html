@@ -49,7 +49,8 @@
                 <div class="footnote-1 basic-500">{{::$ctrl.asset.description}}</div>
             </div>
         </w-tab>
-        <w-tab id="::'balance'"
+        <w-tab ng-if="!$ctrl.isDemo"
+               id="::'balance'"
                title-name="::'modal.assetInfo.balance'"
                class="padding-content">
             <div class="line chart-container">
@@ -78,7 +79,8 @@
                 </div>
             </div>
         </w-tab>
-        <w-tab id="::'tx'"
+        <w-tab ng-if="!$ctrl.isDemo"
+               id="::'tx'"
                title-name="::'modal.assetInfo.transactions'">
             <w-transaction-list transactions="$ctrl.transactions"
                                 pending="$ctrl.transactionsPending"></w-transaction-list>

@@ -194,6 +194,7 @@
 
                 this.syncSettings({
                     activeTab: 'dex.watchlist.activeTab',
+                    showOnlyFavorite: 'dex.watchlist.showOnlyFavorite',
                     _favourite: 'dex.watchlist.favourite',
                     _assetsIds: 'dex.watchlist.list',
                     _assetIdPair: 'dex.assetIdPair'
@@ -207,7 +208,7 @@
                 stService.draw.once(WatchList._onRenderTable);
 
                 this.pending = true;
-                this._poll = createPoll(this, this._getPairData, 'pairDataList', { $scope });
+                this._poll = createPoll(this, this._getPairData, 'pairDataList', 1000 * 30, { $scope });
 
                 this._poll.ready.then(() => {
                     this.pending = false;
@@ -391,14 +392,26 @@
             _filterDataItemByQuery(item) {
                 const query = this.search;
 
-                const search = (query) => {
-                    const queryList = query.split('/');
-                    const names = [
+                const amountSearch = {
+                    success: false,
+                    names: [
                         item.amountAsset.name.toLowerCase(),
-                        item.amountAsset.ticker && item.amountAsset.ticker.toLowerCase() || null,
+                        item.amountAsset.ticker && item.amountAsset.ticker.toLowerCase() || null
+                    ].filter(Boolean)
+                };
+
+                const priceSearch = {
+                    success: false,
+                    names: [
                         item.priceAsset.name.toLowerCase(),
                         item.priceAsset.ticker && item.priceAsset.ticker.toLowerCase() || null
-                    ].filter(Boolean);
+                    ].filter(Boolean)
+                };
+
+                const searchPair = [amountSearch, priceSearch];
+
+                function search(query) {
+                    const queryList = query.split('/');
 
                     if (queryList.length === 1) {
                         const q = query.toLowerCase();
@@ -406,7 +419,10 @@
                         if (WatchList._isId(query)) {
                             return item.pairIdList.includes(query);
                         } else {
-                            return names.some(n => n.indexOf(q) === 0);
+                            return R.filter(R.whereEq({ success: false }), searchPair).some((searchItem) => {
+                                searchItem.success = searchItem.names.some(n => n.indexOf(q) === 0);
+                                return searchItem.success;
+                            });
                         }
                     }
 
@@ -416,7 +432,12 @@
                         if (WatchList._isId(queryList[0])) {
                             return item.pairIdList.includes(queryList[0]);
                         } else {
-                            return names.some(n => n === q);
+                            return searchPair.some((searchItem) => {
+                                if (!searchItem.success) {
+                                    searchItem.success = searchItem.names.some(n => n === q);
+                                }
+                                return searchItem.success;
+                            });
                         }
                     }
 
@@ -425,7 +446,7 @@
                     }
 
                     return search(queryList[0]) && search(queryList[1]);
-                };
+                }
 
                 return search(query);
             }

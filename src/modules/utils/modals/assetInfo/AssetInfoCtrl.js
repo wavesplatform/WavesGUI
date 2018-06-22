@@ -18,6 +18,7 @@
                 super($scope);
                 this.asset = asset;
                 this.wavesId = WavesApp.defaultAssets.WAVES;
+                this.isDemo = !user.address;
 
                 const assetList = user.getSetting('pinnedAssetIdList');
                 this.assetList = assetList;
@@ -53,8 +54,11 @@
                 };
 
                 createPoll(this, this._getGraphData, 'chartData', 15000);
-                createPoll(this, this._getCircleGraphData, this._setCircleGraphData, 15000);
-                createPoll(this, () => waves.node.transactions.list(100), this._setTxList, 4000, { isBalance: true });
+                if (!this.isDemo) {
+                    const isBalance = true;
+                    createPoll(this, this._getCircleGraphData, this._setCircleGraphData, 15000);
+                    createPoll(this, () => waves.node.transactions.list(100), this._setTxList, 4000, { isBalance });
+                }
             }
 
             togglePin() {

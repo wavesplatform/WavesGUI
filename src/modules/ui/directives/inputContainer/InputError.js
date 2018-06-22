@@ -38,7 +38,8 @@
                  * @type {boolean}
                  */
                 this.canShow = false;
-
+                this.hiddenByTimeout = false;
+                this.timer = null;
                 /**
                  * @type {number} — a number of seconds till error is hidden.
                  */
@@ -48,19 +49,30 @@
             $postLink() {
                 this.receive(this.inputContainer.tik, this._onTick, this);
                 this.observe('canShow', this._onChangeCanShow);
+                this.observe('hiddenByTimeout', this._onChangeCanShowByTimeout);
+                this._onChangeCanShow();
             }
 
             /**
              * @private
              */
             _onChangeCanShow() {
+                this.hiddenByTimeout = false;
+                if (this.timer) {
+                    clearTimeout(this.timer);
+                }
                 $element.toggleClass('hidden', !this.canShow);
 
-                if (this.hideWithin) {
-                    setTimeout(() => {
-                        this.model.$setUntouched();
+                if (this.hideWithin && this.canShow) {
+                    this.timer = setTimeout(() => {
+                        this.timer = null;
+                        this.hiddenByTimeout = true;
                     }, this.hideWithin * 1000);
                 }
+            }
+
+            _onChangeCanShowByTimeout() {
+                $element.toggleClass('hidden', this.canShow && this.hiddenByTimeout);
             }
 
             /**
@@ -96,8 +108,7 @@
                     const pending = this.inputContainer.form.$pending || model.$pending;
 
                     const isTouchedOrSubmited = this.inputContainer.form.$submitted || model.$touched;
-                    this.canShow = (!pending && !isFocused && isTouchedOrSubmited && model.$error[this.message]) ||
-                        false;
+                    this.canShow = !!(!pending && !isFocused && isTouchedOrSubmited && model.$error[this.message]);
                 });
             }
 
@@ -119,7 +130,7 @@
                 name: '@',
                 hideWithin: '<?'
             },
-            template: '<span class="error active" ng-if="$ctrl.canShow" ng-transclude></span>',
+            template: '<span class="error active" ng-transclude></span>',
             controller
         });
 })();

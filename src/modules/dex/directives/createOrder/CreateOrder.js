@@ -182,11 +182,15 @@
                     this.ask = null;
                     balancesPoll.restart();
                     spreadPoll.restart();
+                    const form = this.order;
+                    form.$setUntouched();
+                    form.$setPristine();
                     if (lastTraderPoll) {
                         lastTraderPoll.restart();
                     }
                     this.observeOnce(['bid', 'ask'], utils.debounce(() => {
                         if (this.type) {
+                            this.amount = this.amountBalance.cloneWithTokens('0');
                             this.price = this._getCurrentPrice();
                             $scope.$apply();
                         }
@@ -251,30 +255,7 @@
             }
 
             setMaxPrice() {
-                if (!this.price || this.price.getTokens().eq(0)) {
-                    this.amount = this.amountBalance.cloneWithTokens('0');
-                    return null;
-                }
-                if (this.priceBalance.asset.id === this.fee.asset.id) {
-                    const amount = this.amountBalance.cloneWithTokens(
-                        this.priceBalance.sub(this.fee)
-                            .getTokens()
-                            .div(this.price.getTokens())
-                            .dp(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR)
-                    );
-                    if (amount.getTokens().lt(0)) {
-                        this.amount = amount.cloneWithTokens('0');
-                    } else {
-                        this.amount = amount;
-                    }
-
-                } else {
-                    this.amount = this.amountBalance.cloneWithTokens(
-                        this.priceBalance.getTokens()
-                            .div(this.price.getTokens())
-                            .dp(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR)
-                    );
-                }
+                this.amount = this._getMaxAmountForBy();
             }
 
             setBidPrice() {
@@ -402,6 +383,28 @@
                 } else {
                     return balance;
                 }
+            }
+
+            _getMaxAmountForBy() {
+                if (!this.price || this.price.getTokens().eq(0)) {
+                    return this.amountBalance.cloneWithTokens('0');
+                }
+
+                const fee = this.fee;
+                const process = (money) => {
+                    if (money.asset.id === fee.asset.id) {
+                        return entities.Money.max(money.sub(fee), new entities.Money(0, money.asset));
+                    } else {
+                        return money;
+                    }
+                };
+
+                return this.amountBalance.cloneWithTokens(
+                    process(this.priceBalance)
+                        .getTokens()
+                        .div(this.price.getTokens())
+                        .dp(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR)
+                );
             }
 
             /**

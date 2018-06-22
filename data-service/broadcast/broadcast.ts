@@ -190,7 +190,7 @@ export module prepare {
                 value: processors.noProcess(data[item])
             } : {
                 key: item.to,
-                value: item.cb(item.from && data[item.from] || data)
+                value: item.cb(item.from ? data[item.from] : data)
             };
         })
             .reduce((result, item) => {

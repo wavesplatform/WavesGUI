@@ -51,7 +51,8 @@
 
                 if (this.typeName === TYPES.BURN || this.typeName === TYPES.ISSUE || this.typeName === TYPES.REISSUE) {
                     this.name = tsUtils.get(this.transaction, 'amount.asset.name') ||
-                        tsUtils.get(this.transaction, 'quantity.asset.name');
+                        tsUtils.get(this.transaction, 'quantity.asset.name') ||
+                        this.transaction.name;
                     this.amount = (tsUtils.get(this.transaction, 'amount') ||
                         tsUtils.get(this.transaction, 'quantity')).toFormat();
                 }

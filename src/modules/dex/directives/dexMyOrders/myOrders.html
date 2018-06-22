@@ -52,7 +52,7 @@
             <w-table-cell ng-click="$ctrl.toggleDetails(order)">
                 <div class="status">
                     <div class="progress-precents">
-                        {{order.percent}}%
+                        {{$ctrl.round(order.percent)}}%
                     </div>
                     <div class="progress-bar">
                         <div class="progress-fill" style="width: {{order.percent}}%"></div>
@@ -60,7 +60,7 @@
                     <div class="circle-holder">
                         <div class="circle-loader"
                              ng-class="{over50: order.progress > 0.5}">
-                            <span>{{order.percent}}%</span>
+                            <span>{{$ctrl.round(order.percent)}}%</span>
                             <div class="left-half-clipper">
                                 <div class="first50-bar"></div>
                                 <div class="value-bar"
