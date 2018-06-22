@@ -339,11 +339,16 @@
 
             _getTabRate() {
                 const activeTab = this.activeTab;
-                if (activeTab === 'all') {
-                    return Promise.resolve(new BigNumber(1));
-                } else {
-                    return waves.utils.getRate(WavesApp.defaultAssets.WAVES, activeTab);
-                }
+                return waves.node.assets.getAsset(activeTab === 'all' ? WavesApp.defaultAssets.WAVES : activeTab)
+                    .then((asset) => {
+                        this.volumeAsset = asset;
+
+                        if (activeTab === 'all') {
+                            return Promise.resolve(new BigNumber(1));
+                        } else {
+                            return waves.utils.getRate(WavesApp.defaultAssets.WAVES, activeTab);
+                        }
+                    });
             }
 
             /**

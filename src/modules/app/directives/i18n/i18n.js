@@ -68,8 +68,10 @@
                         const ns = $attrs.wI18nNs || i18n.getNs($element);
                         return () => {
                             const skipErrors = 'skipErrors' in $attrs;
+                            const defaultValue = $attrs.defaultValue;
                             const params = $attrs.params && $scope.$eval($attrs.params) || undefined;
-                            $element.html(i18n.translate(this._compile(this._literalTemplate), ns, params, skipErrors));
+                            const result = i18n.translate(this._compile(this._literalTemplate), ns, params, skipErrors);
+                            $element.html(result ? result : defaultValue || result);
                         };
                     }
 

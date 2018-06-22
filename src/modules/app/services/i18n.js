@@ -56,7 +56,7 @@
                 }
                 if (skipErrors) {
                     const has = translate.some((key) => {
-                        return i18next.extantion(key, params);
+                        return i18next.exists(key, params);
                     });
                     if (has) {
                         return parse(i18next.t(translate, params));

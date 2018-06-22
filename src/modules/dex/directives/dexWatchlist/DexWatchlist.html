@@ -64,8 +64,10 @@
                       w-nice-number="pair.currentVolume"
                       short-mode="::true"></span>
                 <span ng-if="!pair.volume">—</span>
-                <!-- todo @tsigel //just one digit after dot (like 999.1) -->
-                <div ng-if="pair.volume" class="tooltip-dex right"><i><em></em></i>{{ pair.volume.toFormat() || '—' }}</div>
+                <div ng-if="pair.volume" class="tooltip-dex right">
+                    <span ng-if="pair.volume" w-nice-number="pair.currentVolume"></span>
+                    {{$ctrl.volumeAsset.displayName}}
+                </div>
             </w-table-cell>
             <w-table-cell ng-if="$ctrl.isChosen(pair)" class="chosen">
                 <div>
