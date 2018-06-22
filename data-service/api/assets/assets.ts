@@ -6,7 +6,6 @@ import { WAVES_ID } from '@waves/waves-signature-generator';
 import { assetStorage } from '../../utils/AssetStorage';
 import { normalizeAssetId, toArray, toHash } from '../../utils/utils';
 import { IHash } from '../../interface';
-import { IAssetInfo } from '@waves/data-entities/dist/entities/Asset';
 
 
 export function get(id: string): Promise<Asset>;
@@ -137,7 +136,8 @@ export function getAssetsByBalanceList(data: assetsApi.IBalanceList): Promise<Ar
 const getAssetRequestCb = (list: Array<string>): Promise<Array<Asset>> => {
     const ds = getDataService();
     return ds.getAssets(...list)
-        .then((assets) => {
+        .then((response) => {
+            const assets = response.data;
             const fails = [];
 
             list.forEach((id, index) => {

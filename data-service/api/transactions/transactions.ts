@@ -24,7 +24,7 @@ export function list(address: string, limit = 100): Promise<Array<T_TX>> {
 }
 
 export function getExchangeTxList(options: TransactionFilters = Object.create(null)): Promise<Array<IExchange>> {
-    return request({ method: () => getDataService().getExchangeTxs(options) })
+    return request({ method: () => getDataService().getExchangeTxs(options).then(r => r.data) })
         .then((transactions: any) => parseTx(transactions, false, true) as any);
 }
 

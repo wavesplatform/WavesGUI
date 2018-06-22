@@ -53,26 +53,26 @@
                 <!--div class="tooltip left">{{::pair.pairNames || '—'}}</div-->
             </w-table-cell>
             <w-table-cell>
-                <span>{{pair.price.toFormat() || '—'}}</span>
+                <span>{{pair.lastPrice.toFormat() || '—'}}</span>
                 <!--div class="tooltip center">{{pair.price.toFormat() || '—'}}</div-->
             </w-table-cell>
             <w-table-cell ng-class="{'plus': pair.change24.gt(0),'minus': pair.change24.lt(0)}">
-                <span>{{ pair.change24 }}</span>{{ pair.change24 ? '%' : '—' }}
+                <span>{{ pair.change24.toFormat() }}</span>{{ pair.change24 ? '%' : '—' }}
             </w-table-cell>
             <w-table-cell>
-                <span ng-if="pair.volume" w-nice-number="pair.volume" short-mode="::true" precision="2"></span>
+                <span ng-if="pair.volume" w-nice-number="pair.currentVolume" short-mode="::true"></span>
                 <span ng-if="!pair.volume">—</span>
                 <!--div class="tooltip right">{{ pair.volume.toFormat() || '—' }}</div-->
             </w-table-cell>
             <w-table-cell ng-if="$ctrl.isChosen(pair)" class="chosen">
                 <div>
                     <a href="#"
-                       ng-click="$ctrl.showAssetInfo(pair.pair.amountAsset)"
-                       class="disabled-900">{{::pair.pair.amountAsset.id}}</a> <span>/</span>
+                       ng-click="$ctrl.showAssetInfo(pair.amountAsset)"
+                       class="disabled-900">{{::pair.amountAsset.id}}</a> <span>/</span>
                 </div>
                 <a href="#"
-                   ng-click="$ctrl.showAssetInfo(pair.pair.priceAsset)"
-                   class="disabled-900">{{::pair.pair.priceAsset.id}}</a>
+                   ng-click="$ctrl.showAssetInfo(pair.priceAsset)"
+                   class="disabled-900">{{::pair.priceAsset.id}}</a>
             </w-table-cell>
         </w-table-row>
     </w-smart-table>

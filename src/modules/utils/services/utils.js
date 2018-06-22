@@ -360,10 +360,10 @@
                 switch (typeof num) {
                     case 'string':
                     case 'number':
-                        return new BigNumber(num, 10).toFormat(Number(precision));
+                        return new BigNumber(num, 10).toFormat(precision && Number(precision));
                     case 'object':
                         if (num != null) {
-                            return num.toFormat(Number(precision));
+                            return num.toFormat(precision && Number(precision));
                         }
                         throw new Error('Wrong format!');
                     default:
@@ -698,6 +698,20 @@
              */
             comparators: {
                 asc: function (a, b) {
+                    if (a == null) {
+                        if (b == null) {
+                            return 0;
+                        } else {
+                            return -1;
+                        }
+                    } else if (b == null) {
+                        if (a == null) {
+                            return 0;
+                        } else {
+                            return 1;
+                        }
+                    }
+
                     if (a > b) {
                         return 1;
                     }
@@ -709,6 +723,20 @@
                     return -1;
                 },
                 desc: function (a, b) {
+                    if (a == null) {
+                        if (b == null) {
+                            return 0;
+                        } else {
+                            return 1;
+                        }
+                    } else if (b == null) {
+                        if (a == null) {
+                            return 0;
+                        } else {
+                            return -1;
+                        }
+                    }
+
                     if (a > b) {
                         return -1;
                     }

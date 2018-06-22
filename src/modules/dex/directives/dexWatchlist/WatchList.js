@@ -223,8 +223,8 @@
              * @return boolean
              */
             isChosen(pairData) {
-                return this._assetIdPair.amount === pairData.pair.amountAsset.id &&
-                    this._assetIdPair.price === pairData.pair.priceAsset.id;
+                return this._assetIdPair.amount === pairData.amountAsset.id &&
+                    this._assetIdPair.price === pairData.priceAsset.id;
             }
 
             /**
@@ -232,8 +232,8 @@
              */
             choosePair(pairData) {
                 const pair = {
-                    amount: pairData.pair.amountAsset.id,
-                    price: pairData.pair.priceAsset.id
+                    amount: pairData.amountAsset.id,
+                    price: pairData.priceAsset.id
                 };
                 this._isSelfSetPair = true;
                 this._assetIdPair = pair;
@@ -329,7 +329,20 @@
 
             _getPairData() {
                 const pairs = this._getPairList();
-                return this._cache(pairs);
+                return Promise.all([
+                    this._getTabRate(),
+                    this._cache(pairs)
+                ])
+                    .then(([rate, pairs]) => pairs.map(WatchList._addRateForPair(rate)));
+            }
+
+            _getTabRate() {
+                const activeTab = this.activeTab;
+                if (activeTab === 'all') {
+                    return Promise.resolve(new BigNumber(1));
+                } else {
+                    return waves.utils.getRate(WavesApp.defaultAssets.WAVES, activeTab);
+                }
             }
 
             /**
@@ -364,8 +377,8 @@
                         return canShow;
                     default:
                         return canShow && (
-                            item.pair.amountAsset.id === this.activeTab ||
-                            item.pair.priceAsset.id === this.activeTab
+                            item.amountAsset.id === this.activeTab ||
+                            item.priceAsset.id === this.activeTab
                         );
                 }
             }
@@ -381,10 +394,10 @@
                 const search = (query) => {
                     const queryList = query.split('/');
                     const names = [
-                        item.pair.amountAsset.name.toLowerCase(),
-                        item.pair.amountAsset.ticker && item.pair.amountAsset.ticker.toLowerCase() || null,
-                        item.pair.priceAsset.name.toLowerCase(),
-                        item.pair.priceAsset.ticker && item.pair.priceAsset.ticker.toLowerCase() || null
+                        item.amountAsset.name.toLowerCase(),
+                        item.amountAsset.ticker && item.amountAsset.ticker.toLowerCase() || null,
+                        item.priceAsset.name.toLowerCase(),
+                        item.priceAsset.ticker && item.priceAsset.ticker.toLowerCase() || null
                     ].filter(Boolean);
 
                     if (queryList.length === 1) {
@@ -474,8 +487,11 @@
              * @private
              */
             _onChangeActiveTab() {
-                this.isActiveSelect = !R.find(R.propEq('value', this.activeTab), this.tabs);
-                WatchList._renderSmartTable();
+                this.pending = true;
+                this._poll.restart().then(() => {
+                    this.pending = false;
+                    $scope.$apply();
+                });
             }
 
             /**
@@ -514,6 +530,18 @@
                     other.sort(comparator);
 
                     return favorite.concat(other);
+                };
+            }
+
+            static _addRateForPair(rate) {
+                return pair => {
+                    if (!pair.volume) {
+                        return pair;
+                    }
+
+                    const currentVolume = pair.volume.getTokens().times(rate).dp(3, BigNumber.ROUND_HALF_UP);
+
+                    return { ...pair, currentVolume };
                 };
             }
 
@@ -600,44 +628,32 @@
                     .then((pairs) => {
                         const promiseList = R.splitEvery(20, R.uniq(pairs)).map((pairs) => {
                             return ds.api.pairs.info(...pairs)
-                                .then(infoList => infoList.map((data, i) => ({ data, pair: pairs[i] })))
-                                .catch(() => {
-                                    return pairs.map((pair) => ({ pair, data: null }));
-                                });
+                                .then(infoList => infoList.map((data, i) => ({
+                                    ...data,
+                                    pairNames:
+                                        `${pairs[i].amountAsset.displayName} / ${pairs[i].priceAsset.displayName}`,
+                                    pairIdList: [pairs[i].amountAsset.id, pairs[i].priceAsset.id]
+                                })))
+                                .catch(() => pairs.map(WatchList._getEmptyPairData));
                         });
 
                         return Promise.all(promiseList);
                     })
-                    .then(R.flatten)
-                    .then(pairs => pairs.map(WatchList._remapPairData));
+                    .then(R.flatten);
             }
 
-            static _remapPairData({ pair, data }) {
-
-                const pairIdList = [pair.amountAsset.id, pair.priceAsset.id];
-                const pairNames = `${pair.amountAsset.displayName} / ${pair.priceAsset.displayName}`;
-                const id = pairIdList.sort().join();
-
-                const result = {
-                    id,
-                    pair,
-                    pairNames,
-                    pairIdList,
-                    price: null,
-                    change24: null,
-                    volume: null
+            static _getEmptyPairData(pair) {
+                return {
+                    amountAsset: pair.amountAsset,
+                    priceAsset: pair.priceAsset,
+                    pairNames: `${pair.amountAsset.displayName} / ${pair.priceAsset.displayName}`,
+                    pairIdList: [pair.amountAsset.id, pair.priceAsset.id],
+                    id: [pair.amountAsset.id, pair.priceAsset.id].sort().join(),
+                    lastPrice: null,
+                    firstPrice: null,
+                    volume: null,
+                    change24: null
                 };
-
-                if (!data) {
-                    return result;
-                }
-
-                const open = new BigNumber(data.firstPrice || 0);
-                const close = new BigNumber(data.lastPrice || 0);
-                const change24 = (!open.eq(0)) ? (close.minus(open).div(open).times(100).dp(2)) : new BigNumber(0);
-                const volume = new BigNumber(data.volume || 0);
-
-                return { ...result, change24, volume, price: close };
             }
 
             /**

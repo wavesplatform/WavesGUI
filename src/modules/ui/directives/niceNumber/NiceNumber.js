@@ -25,7 +25,7 @@
             }
 
             $onChanges() {
-                if ($scope.number == null || $scope.precision == null) {
+                if ($scope.number == null) {
                     return $element.html('');
                 }
 
