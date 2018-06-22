@@ -187,6 +187,7 @@
                     }
                     this.observeOnce(['bid', 'ask'], utils.debounce(() => {
                         if (this.type) {
+                            this.amount = this.amountBalance.cloneWithTokens('0');
                             this.price = this._getCurrentPrice();
                             $scope.$apply();
                         }
