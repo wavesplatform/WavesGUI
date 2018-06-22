@@ -342,7 +342,7 @@
 
             _showDemoModal() {
                 return modalManager.showDialogModal({
-                    iconClass: 'create-order-icon',
+                    iconClass: 'open-main-dex-account-info',
                     message: { literal: 'modal.createOrder.message' },
                     buttons: [
                         {
