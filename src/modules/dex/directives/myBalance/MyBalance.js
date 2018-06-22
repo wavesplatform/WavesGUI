@@ -20,8 +20,8 @@
                  * @type {Array}
                  */
                 this.balanceList = null;
-                this.isDemo = !!user.address;
-                this.pending = true;
+                this.isDemo = !user.address;
+                this.pending = !this.isDemo;
                 this.headers = [
                     {
                         id: 'asset',
@@ -56,10 +56,13 @@
                 ];
 
                 const isBalance = true;
-                createPoll(this, this._getBalanceList, 'balanceList', 1000, { $scope, isBalance }).ready
-                    .then(() => {
-                        this.pending = false;
-                    });
+
+                if (!this.isDemo) {
+                    createPoll(this, this._getBalanceList, 'balanceList', 1000, { $scope, isBalance }).ready
+                        .then(() => {
+                            this.pending = false;
+                        });
+                }
             }
 
             showAssetInfo(asset) {

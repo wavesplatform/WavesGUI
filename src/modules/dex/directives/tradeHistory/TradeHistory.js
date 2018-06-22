@@ -87,7 +87,10 @@
                  * @type {boolean}
                  */
                 this.pending = true;
-                this.isDemo = this.isMy && !user.address;
+                /**
+                 * @type {boolean}
+                 */
+                this.isDemo = false;
 
                 this.headers = [];
 
@@ -99,15 +102,11 @@
             $postLink() {
                 this.headers = this.isMy ? [PAIR_COLUMN_DATA].concat(HEADER_COLUMNS, FEE_COLUMN_DATA) : HEADER_COLUMNS;
                 /**
-                 * @type {Poll}
+                 * @type {boolean}
                  */
-                this.poll = createPoll(this, this._getTradeHistory, this._setTradeHistory, 1000, { $scope });
+                this.isDemo = this.isMy && !user.address;
+                this._initializePoll();
                 this.observe('_assetIdPair', this._onChangeAssets);
-            }
-
-            $onDestroy() {
-                super.$onDestroy();
-                this.poll.destroy();
             }
 
             /**
@@ -129,6 +128,16 @@
                 });
             }
 
+            _initializePoll() {
+                if (this.isMy && this.isDemo) {
+                    return null;
+                }
+
+                /**
+                 * @type {Poll}
+                 */
+                this.poll = createPoll(this, this._getTradeHistory, this._setTradeHistory, 1000, { $scope });
+            }
 
             /**
              * @private

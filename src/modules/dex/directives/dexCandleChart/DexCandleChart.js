@@ -89,13 +89,13 @@
 
                 this.observe('_assetIdPair', this._onChangeAssetPair);
                 this.syncSettings({ _assetIdPair: 'dex.assetIdPair' });
-                this.listenEventEmitter(i18next, 'languageChanged', this._changeLangHandler.bind(this));
             }
 
             $postLink() {
                 controller.load()
                     .then(() => {
                         this._createTradingView();
+                        this.listenEventEmitter(i18next, 'languageChanged', this._changeLangHandler.bind(this));
                     }, () => {
                         console.warn('Error 403!');
                         this.notLoaded = true;

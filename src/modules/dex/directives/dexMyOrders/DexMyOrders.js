@@ -45,12 +45,15 @@
                 /**
                  * @type {boolean}
                  */
-                this.pending = true;
+                this.isDemo = !user.address;
+                /**
+                 * @type {boolean}
+                 */
+                this.pending = !this.isDemo;
                 /**
                  * @type {Object.<string, boolean>}
                  */
                 this.shownOrderDetails = Object.create(null);
-                this.isDemo = !!user.address;
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
@@ -122,11 +125,13 @@
                     PartiallyFilled: 'matcher.orders.statuses.filled'
                 };
 
-                const poll = createPoll(this, this._getOrders, 'orders', 1000, { $scope });
+                if (!this.isDemo) {
+                    const poll = createPoll(this, this._getOrders, 'orders', 1000, { $scope });
 
-                poll.ready.then(() => {
-                    this.pending = false;
-                });
+                    poll.ready.then(() => {
+                        this.pending = false;
+                    });
+                }
             }
 
             /**
