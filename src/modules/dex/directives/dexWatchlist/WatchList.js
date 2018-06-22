@@ -444,7 +444,7 @@
                 const query = this.search;
                 this._searchAssets = [];
 
-                const queryParts = query.split('/').slice(0, 2).filter(Boolean);
+                const queryParts = query.split('/').slice(0, 2).map(q => q.replace(/\W/g, '')).filter(Boolean);
 
                 if (!queryParts.length) {
                     WatchList._renderSmartTable();
@@ -463,6 +463,12 @@
                             this.searchRequest = null;
                             $scope.$apply();
                         });
+                    })
+                    .catch(() => {
+                        this.searchInProgress = false;
+                        this.pending = false;
+                        this.searchRequest = null;
+                        $scope.$apply();
                     });
             }
 

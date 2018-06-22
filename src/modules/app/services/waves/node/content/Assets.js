@@ -78,7 +78,7 @@
              * @return {JQuery.jqXHR}
              */
             search(query) {
-                return $.get(`https://api.wavesplatform.com/assets/search/${query}`, (data) => {
+                return $.get(`https://api.wavesplatform.com/assets/search/${encodeURIComponent(query)}`, (data) => {
                     return data.map((item) => {
                         item.name = WavesApp.remappedAssetNames[item.id] || item.name;
                         return item;
