@@ -57,13 +57,13 @@
              * @private
              */
             _onChangeCanShow() {
-                $element.toggleClass('hidden', !this.canShow);
                 this.hiddenByTimeout = false;
+                if (this.timer) {
+                    clearTimeout(this.timer);
+                }
+                $element.toggleClass('hidden', !this.canShow);
 
                 if (this.hideWithin && this.canShow) {
-                    if (this.timer) {
-                        clearTimeout(this.timer);
-                    }
                     this.timer = setTimeout(() => {
                         this.timer = null;
                         this.hiddenByTimeout = true;

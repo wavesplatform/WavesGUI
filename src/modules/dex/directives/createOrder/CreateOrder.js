@@ -182,6 +182,9 @@
                     this.ask = null;
                     balancesPoll.restart();
                     spreadPoll.restart();
+                    const form = this.order;
+                    form.$setUntouched();
+                    form.$setPristine();
                     if (lastTraderPoll) {
                         lastTraderPoll.restart();
                     }
