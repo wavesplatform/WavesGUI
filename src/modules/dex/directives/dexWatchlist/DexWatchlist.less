@@ -13,66 +13,46 @@ body.dex-demo .dex-wrapper {
       display: none;
       position: absolute;
       padding: 0 10px;
-      top: 26px;
+      top: 25px;
       right: 149px;
       transform-origin: center;
-      transform: translate(50%, 8px);
       z-index: 1;
       color: @color-white;
       font-size: @font-size-caption-2;
-      line-height: 26px;
+      line-height: 25px;
       cursor: pointer;
       text-shadow: 0 1px 6px rgba(78, 92, 110, 0.6);
 
-      i {
+      &::before {
         position: absolute;
-        width: 10px;
-        height: 5px;
-        overflow: hidden;
         content: '';
         z-index: -1;
         top: -5px;
-        left: auto;
         right: 10px;
+        opacity: .6;
+        width: 0;
+        height: 0;
+        border: 5px solid transparent;
+        border-bottom-color: @color-basic-700;
+        border-top: 0 none;
+        transform: translate(0);
+      }
 
-        em {
-          display: block;
-          position: relative;
-          width: 10px;
-          height: 5px;
-
-          &::before {
-            transform: rotate(45deg);
-            position: absolute;
-            left: 0;
-            top: 2px;
-            width: 10px;
-            height: 10px;
-            content: '';
-            opacity: .6;
-            transform-origin: center;
-            background: @color-basic-700;
-          }
-        }
+      &::after {
+        opacity: .6;
+        border-radius: @border-radius;
+        position: absolute;
+        background: @color-basic-700;
+        width: 100%;
+        height: 26px;
+        content: '';
+        left: 0;
+        top: 0;
+        z-index: -1;
       }
 
       &.right {
-        transform: translate(0);
         right: 10px;
-        padding: 0 10px;
-
-        &::after {
-          opacity: .6;
-          border-radius: @border-radius;
-          position: absolute;
-          background: @color-basic-700;
-          width: 100%;
-          height: 26px;
-          content: '';
-          left: 0;
-          top: 0;
-          z-index: -1;
-        }
       }
     }
 
@@ -88,13 +68,12 @@ body.dex-demo .dex-wrapper {
     .smart-table {
       &__row:last-child {
         .tooltip-dex {
-          bottom: calc(100% ~'+ 2px');
+          bottom: 100%;
           top: auto;
-          i {
-            top: 100%;
-            em::before {
-              top: -7px;
-            }
+          &::before {
+            top: auto;
+            bottom: -6px;
+            transform: rotate(180deg);
           }
         }
       }
