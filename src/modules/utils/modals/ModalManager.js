@@ -321,6 +321,9 @@
                     Object.assign($scope, options);
                     this.applyClick = (button) => {
                         const method = button.success ? 'hide' : 'cancel';
+                        if (button.click) {
+                            button.click();
+                        }
                         $mdDialog[method](button.data);
                     };
                 };
@@ -623,5 +626,5 @@
  * @property {boolean} success
  * @property {IMessage} text
  * @property {string} classes
- * @property {*} data
+ * @property {function} [click]
  */

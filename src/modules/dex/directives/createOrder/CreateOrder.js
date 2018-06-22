@@ -12,10 +12,12 @@
      * @param {INotification} notification
      * @param {DexDataService} dexDataService
      * @param {Ease} ease
+     * @param {$state} $state
+     * @param {ModalManager} modalManager
      * @return {CreateOrder}
      */
     const controller = function (Base, waves, user, utils, createPoll, $scope,
-                                 $element, notification, dexDataService, ease) {
+                                 $element, notification, dexDataService, ease, $state, modalManager) {
 
         const entities = require('@waves/data-entities');
         const ds = require('data-service');
@@ -84,7 +86,7 @@
                 /**
                  * @type {boolean}
                  */
-                this.isLogined = !!user.address;
+                this.idDemo = !user.address;
                 /**
                  * @type {number}
                  */
@@ -291,6 +293,10 @@
              * @return {*}
              */
             createOrder($event) {
+                if (this.idDemo) {
+                    return this._showDemoModal();
+                }
+
                 const form = this.order;
                 $event.preventDefault();
                 const notify = $element.find('.js-order-notification');
@@ -331,6 +337,33 @@
                         form.$setPristine();
                         $scope.$apply();
                         CreateOrder._animateNotification(notify);
+                    });
+            }
+
+            _showDemoModal() {
+                return modalManager.showDialogModal({
+                    iconClass: 'create-order-icon',
+                    message: { literal: 'modal.createOrder.message' },
+                    buttons: [
+                        {
+                            success: false,
+                            classes: 'big',
+                            text: { literal: 'modal.createOrder.cancel' },
+                            data: () => $state.go('create')
+                        },
+                        {
+                            success: true,
+                            classes: 'big submit',
+                            text: { literal: 'modal.createOrder.ok' },
+                            data: () => $state.go('welcome')
+                        }
+                    ]
+                })
+                    .catch(() => null)
+                    .then(() => {
+                        const form = this.order;
+                        form.$setUntouched();
+                        form.$setPristine();
                     });
             }
 
@@ -430,7 +463,7 @@
              * @private
              */
             _getBalances() {
-                if (this.isLogined) {
+                if (!this.idDemo) {
                     return ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                         return utils.whenAll([
                             waves.node.assets.balance(pair.amountAsset.id),
@@ -443,8 +476,8 @@
                 } else {
                     return ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                         return {
-                            amountBalance: new entities.Money(0, pair.amountAsset),
-                            priceBalance: new entities.Money(0, pair.priceAsset)
+                            amountBalance: entities.Money.fromTokens(10, pair.amountAsset),
+                            priceBalance: entities.Money.fromTokens(10, pair.priceAsset)
                         };
                     });
                 }
@@ -573,7 +606,9 @@
         '$element',
         'notification',
         'dexDataService',
-        'ease'
+        'ease',
+        '$state',
+        'modalManager'
     ];
 
     angular.module('app.dex').component('wCreateOrder', {

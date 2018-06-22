@@ -62,22 +62,22 @@
             _getDialogModal(type, success, error) {
                 return modalManager.showDialogModal({
                     iconClass: `${type.replace(/\./g, '-')}-account-info`,
-                    message: { literal: `modal.accountInfo.${type}.message` },
+                    message: { literal: `modal.${type}.message` },
                     buttons: [
                         {
                             success: false,
                             classes: 'big',
-                            text: { literal: `modal.accountInfo.${type}.cancel` },
-                            data: error
+                            text: { literal: `modal.${type}.cancel` },
+                            click: error
                         },
                         {
                             success: true,
                             classes: 'big submit',
-                            text: { literal: `modal.accountInfo.${type}.ok` },
-                            data: success
+                            text: { literal: `modal.${type}.ok` },
+                            click: success
                         }
                     ]
-                }).then((cb) => cb && cb(), (cb) => cb && cb());
+                });
             }
 
         }
