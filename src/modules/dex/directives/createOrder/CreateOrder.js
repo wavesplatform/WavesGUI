@@ -251,24 +251,23 @@
             }
 
             setMaxAmount() {
-                this.amount = this._getMaxAmountForSell();
+                this._setDirtyAmount(this._getMaxAmountForSell());
             }
 
             setMaxPrice() {
-                this.amount = this._getMaxAmountForBy();
-                this.order.$setDirty();
+                this._setDirtyAmount(this._getMaxAmountForBuy());
             }
 
             setBidPrice() {
-                this.price = this.priceBalance.cloneWithTokens(String(this.bid.price));
+                this._setDirtyPrice(this.priceBalance.cloneWithTokens(String(this.bid.price)));
             }
 
             setAskPrice() {
-                this.price = this.priceBalance.cloneWithTokens(String(this.ask.price));
+                this._setDirtyPrice(this.priceBalance.cloneWithTokens(String(this.ask.price)));
             }
 
             setLastPrice() {
-                this.price = this.lastTradePrice;
+                this._setDirtyPrice(this.lastTradePrice);
             }
 
             /**
@@ -291,7 +290,7 @@
                 )
                     .then((price) => {
                         const amount = this.amount;
-                        this.amount = null;
+                        this.amount = this.amountBalance.cloneWithTokens('0');
                         form.$setUntouched();
                         form.$setPristine();
                         $scope.$apply();
@@ -314,10 +313,7 @@
                         notify.addClass('error');
                         const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                         analytics.push('DEX', `DEX.Order.${this.type}.Error`, pair);
-                    }).then(() => {
-                        form.$setUntouched();
-                        form.$setPristine();
-                        $scope.$apply();
+                    }).finally(() => {
                         CreateOrder._animateNotification(notify);
                     });
             }
@@ -356,9 +352,9 @@
              * @private
              */
             _onClickBuyOrder(price, amount) {
-                this.price = this.priceBalance.cloneWithTokens(price);
                 const minAmount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens().div(price));
-                this.amount = entities.Money.min(this.amountBalance.cloneWithTokens(amount), minAmount);
+                this._setDirtyAmount(entities.Money.min(this.amountBalance.cloneWithTokens(amount), minAmount));
+                this._setDirtyPrice(this.priceBalance.cloneWithTokens(price));
             }
 
             /**
@@ -368,8 +364,8 @@
              */
             _onClickSellOrder(price, amount) {
                 const amountMoney = this.amountBalance.cloneWithTokens(amount);
-                this.amount = entities.Money.min(amountMoney, this._getMaxAmountForSell());
-                this.price = this.priceBalance.cloneWithTokens(price);
+                this._setDirtyAmount(entities.Money.min(amountMoney, this._getMaxAmountForSell()));
+                this._setDirtyPrice(this.priceBalance.cloneWithTokens(price));
             }
 
             /**
@@ -386,7 +382,7 @@
                 }
             }
 
-            _getMaxAmountForBy() {
+            _getMaxAmountForBuy() {
                 if (!this.price || this.price.getTokens().eq(0)) {
                     return this.amountBalance.cloneWithTokens('0');
                 }
@@ -528,7 +524,7 @@
                 }
 
                 const amount = this.totalPrice.getTokens().div(this.price.getTokens());
-                this.amount = this.priceBalance.cloneWithTokens(amount);
+                this._setDirtyAmount(this.priceBalance.cloneWithTokens(amount));
 
                 this._setIfCanBuyOrder();
             }
@@ -574,6 +570,25 @@
 
                 this.spreadPercent = buy ? (((buy - sell) * 100 / buy) || 0).toFixed(2) : '0.00';
                 $scope.$digest();
+            }
+
+            /**
+             * Set only non-zero amount values
+             * @param {Money} amount
+             * @private
+             */
+            _setDirtyAmount(amount) {
+                this.amount = amount;
+                this.order.$setDirty();
+            }
+
+            /**
+             * @param {Money} price
+             * @private
+             */
+            _setDirtyPrice(price) {
+                this.price = price;
+                this.order.$setDirty();
             }
 
             static _animateNotification($element) {
