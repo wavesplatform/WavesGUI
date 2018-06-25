@@ -29,8 +29,10 @@ export function set<K extends keyof IConfigParams>(key: K, value: IConfigParams[
             }
         });
     }
-    if (key === 'dsApi') {
-        dataService = new DataServiceClient({ rootUrl: config.dsApi, parse });
+    if (key === 'api' || key === 'apiVersion') {
+        if (config.api && config.apiVersion) {
+            dataService = new DataServiceClient({ rootUrl: `${config.api}/${config.apiVersion}`, parse });
+        }
     }
 }
 
@@ -49,7 +51,7 @@ export interface IConfigParams {
     node: string;
     matcher: string;
     api: string;
-    dsApi: string;
+    apiVersion: string;
     coinomat: string;
     support: string;
     nodeList: string;
