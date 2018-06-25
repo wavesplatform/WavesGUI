@@ -1,4 +1,5 @@
 @import (reference) '../../../config';
+@import (reference) '../../../app/less/icons';
 
 w-qr-code-read {
   display: flex;
@@ -11,7 +12,7 @@ w-qr-code-read {
     display: block;
     width: 24px;
     height: 24px;
-    background-image: url(/img/icons/qr-code-big.svg);
+    background-image: @qr-code-big-icon;
     background-size: 100% 100%;
   }
 }
@@ -26,7 +27,7 @@ w-qr-code-read {
   padding: 3px;
   border-radius: 3px;
   background-color: @color-white;
-  border: 1px solid #dae1e9;
+  border: 1px solid @color-basic-200;
   z-index: 120;
 
   &::after {
@@ -41,7 +42,7 @@ w-qr-code-read {
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
 
-    border-top: 8px solid #dae1e9;
+    border-top: 8px solid @color-basic-200;
   }
 
   video {

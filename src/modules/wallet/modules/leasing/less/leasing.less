@@ -1,5 +1,6 @@
 @import (reference) '../../../../config';
 @import (reference) '../../../../app/less/typography';
+@import (reference) "../../../../app/less/icons";
 
 @leftPanelWidth: 330px;
 @leftPanelRightMargin: 10px;
@@ -34,7 +35,7 @@
   }
 
   w-scroll-box {
-    border: 1px solid #e9e9eb;
+    border: 1px solid @color-basic-100;
     border-radius: 0 0 @border-radius @border-radius;
     height: calc(~'100vh - ' 130px);
 
@@ -111,7 +112,7 @@
       top: 0;
       width: 50px;
       height: 48px;
-      background-image: url(/img/icons/leasing_note.svg);
+      background-image: @leasing-note-icon;
     }
   }
 
@@ -144,7 +145,7 @@ w-leasing-block.leasingNote {
     cursor: pointer;
     transform-origin: center;
     transition: transform 0.3s ease-in-out;
-    background-image: url(/img/icons/close_arrow.svg);
+    background-image: @close-arrow-icon;
   }
 
   div.collapse-container {
@@ -159,7 +160,7 @@ w-leasing-block.leasingNote {
   &.active {
     div.collapse-container {
       height: auto;
-      border-top: 1px solid #e2e2e2;
+      border-top: 1px solid @color-disabled-200;
       padding: 20px;
     }
 

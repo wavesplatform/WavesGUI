@@ -1,5 +1,6 @@
 @import (reference) '../../../config';
 @import (reference) '../../../ui/directives/changeLanguage/changeLanguage';
+@import (reference) '../../../app/less/icons';
 
 @row-short: 25%;
 @row-long: 75%;
@@ -10,6 +11,7 @@ md-dialog.settings-modal {
   width: 100%;
   max-width: 740px;
   min-width: 740px;
+  color: @color-disabled-900;
 
   md-dialog-content::after {
     display: none;
@@ -35,7 +37,7 @@ md-dialog.settings-modal {
     font-size: 15px;
     left: -40px;
     top: -30px;
-    border-right: 1px solid @color-basic-200;
+    border-right: 1px solid @color-disabled-200;
 
     w-responsive-menu-item {
       display: block;
@@ -58,7 +60,7 @@ md-dialog.settings-modal {
           height: @low-icon-size;
           width: @low-icon-size;
           transform: translate(0, -50%);
-          background-image: url(/img/icons/settings-menu-icons.svg);
+          background-image: @setting-menu-icon;
           background-size: auto;
         }
 
@@ -91,7 +93,7 @@ md-dialog.settings-modal {
         }
 
         .menu-item {
-          color: @color-white;
+          color: @white-only;
 
           &.general::after {
             background-position: 0 -@low-icon-size;
@@ -226,6 +228,8 @@ md-dialog.settings-modal {
     input {
       border-radius: @border-radius;
       padding: 0 @padding-main-layout;
+      background: @color-white;
+      color: @color-disabled-900;
       height: 30px;
       line-height: 30px;
       width: 100%;

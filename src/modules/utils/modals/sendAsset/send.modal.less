@@ -1,5 +1,6 @@
 @import (reference) '../../../config';
 @import (reference) '../../../app/less/typography';
+@import (reference) '../../../app/less/icons';
 @import (reference) '../../../ui/directives/transactionInfo/transactionInfo';
 
 md-dialog.modal-send {
@@ -19,6 +20,7 @@ md-dialog.modal-send {
     position: relative;
     padding: 0;
     overflow: hidden;
+    color: @color-disabled-900;
 
     &::after {
       display: none;
@@ -107,7 +109,7 @@ md-dialog.modal-send {
       right: 0;
       top: 50%;
       margin-top: -17px;
-      border-left: 1px solid #dae1e9;
+      border-left: 1px solid @color-basic-200;
 
       .btn:before {
         width: 38px;

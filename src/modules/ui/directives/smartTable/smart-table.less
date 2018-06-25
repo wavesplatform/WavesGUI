@@ -50,7 +50,7 @@
             margin-left: 5px;
             margin-top: -1px;
             content: '';
-            background: url(/img/icons/icon-sorting.svg) center center no-repeat;
+            background: @sorting-icon center center no-repeat;
             vertical-align: middle;
             transform: rotate(0deg);
           }
@@ -58,7 +58,7 @@
 
         &.asc .sort-by::after,
         &.desc .sort-by::after {
-          background-image: url(/img/icons/icon-sorting-active.svg);
+          background-image: @sorting-active-icon;
         }
 
         &.desc {
@@ -148,7 +148,8 @@
           height: 36px;
           width: 36px;
           border-radius: @border-radius;
-          background: url(/img/icons/input-search-icon.svg) 11px center no-repeat @color-white;
+          background: @input-search-icon 11px center no-repeat @color-white;
+          color: @color-disabled-900;
           border: 1px solid @color-disabled-200;
           cursor: pointer;
           margin-right: 10px;

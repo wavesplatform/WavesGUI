@@ -1,4 +1,5 @@
 @import (reference) '../../../config';
+@import (reference) '../../../app/less/icons';
 
 w-select {
   display: block;
@@ -32,6 +33,7 @@ w-select {
       padding: 8px 35px 8px 15px;
       border-radius: @border-radius;
       cursor: pointer;
+      color: @color-disabled-900;
 
       .title-content {
         height: 100%;
@@ -50,7 +52,7 @@ w-select {
         height: 5px;
         transform: translateY(-50%);
         background-size: 100%;
-        background-image: url(/img/icons/arrow-select.svg);
+        background-image: @arrow-select-icon;
       }
     }
 
@@ -59,7 +61,7 @@ w-select {
       border-bottom-right-radius: 0;
 
       &::after {
-        background-image: url(/img/icons/arrow-select-expanded.svg);
+        background-image: @arrow-select-expanded-icon;
       }
     }
 
@@ -89,7 +91,7 @@ w-select {
         cursor: pointer;
         padding: 8px 35px 8px 15px;
         white-space: nowrap;
-
+        color: @color-disabled-900;
         &:hover {
           background-color: @color-basic-50;
         }

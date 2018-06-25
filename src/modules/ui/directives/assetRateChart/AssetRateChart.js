@@ -32,7 +32,7 @@
                             dataset: 'values',
                             key: 'rate',
                             label: 'Rate',
-                            color: '#5a81ea',
+                            color: 'rgba(255,255,255,0.80)', // #5a81ea grafik-mini //'rgba(90,129,234,0.60)'
                             type: ['line', 'area']
                         }
                     ],

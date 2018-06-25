@@ -1,5 +1,6 @@
 @import (reference) '../../../config';
 @import (reference) '../../../app/less/typography';
+@import (reference) '../../../app/less/icons';
 
 .dex-layout {
   &__createorder {
@@ -113,7 +114,7 @@ w-create-order {
               width: 10px;
               height: 5px;
               transform: translateY(-50%) rotate(180deg);
-              background-image: url(/img/icons/arrow-select.svg);
+              background-image: @arrow-select-icon;
               background-size: 80%;
               background-repeat: no-repeat;
               background-position: center left;
@@ -154,6 +155,11 @@ w-create-order {
 
   .create-order {
     position: relative;
+
+    input {
+      color: @color-disabled-900;
+      background: @color-white;
+    }
 
     .head {
       align-items: center;
@@ -254,7 +260,7 @@ w-create-order {
           will-change: transform;
           position: absolute;
           transform: translate(0, -100%);
-          color: @color-white;
+          color: @white-only;
           z-index: 1;
           width: 100%;
           padding: 10px 0;
@@ -290,6 +296,7 @@ w-create-order {
 
         .fields {
           padding: 6px 25px 17px;
+          background: @color-white;
 
           .field-label {
             margin-top: 8px;
@@ -301,6 +308,12 @@ w-create-order {
 
             span:last-child {
               margin-left: 5px;
+            }
+          }
+
+          w-input-container.invalid {
+            .input-like:not(.embed) {
+              border: 1px solid @color-error-200;
             }
           }
 
@@ -347,7 +360,7 @@ w-create-order {
 
           .place-order {
             width: 100%;
-            color: @color-white;
+            color: @white-only;
             border: none;
             height: 36px;
             border-radius: @border-radius / 2;
@@ -358,12 +371,14 @@ w-create-order {
 
           .areas .area.buy {
             border-top: 2px solid @color-submit-400;
-            border-bottom: 1px solid white;
+            border-bottom: 1px solid @color-white;
             cursor: default;
+            opacity: 1;
           }
 
           .place-order {
             background: @color-submit-400;
+            opacity: 1;
             &:hover {
               background: @color-submit-600;
             }
@@ -371,7 +386,8 @@ w-create-order {
               background: @color-submit-700;
             }
             &[disabled] {
-              background: @color-submit-200;
+              background: @color-submit-400;
+              opacity: 0.3;
             }
           }
         }
@@ -380,13 +396,14 @@ w-create-order {
 
           .areas .area.sell {
             border-top: 2px solid @color-error-400;
-            border-bottom: 1px solid white;
+            border-bottom: 1px solid @color-white;
             cursor: default;
+            opacity: 1;
           }
 
           .place-order {
             background: @color-error-400;
-
+            opacity: 1;
             &:hover {
               background: @color-error-600;
             }
@@ -394,7 +411,8 @@ w-create-order {
               background: @color-error-700;
             }
             &[disabled] {
-              background: @color-error-200;
+              background: @color-error-400;
+              opacity: 0.3;
             }
           }
         }

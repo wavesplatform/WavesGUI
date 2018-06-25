@@ -1,9 +1,11 @@
 @import (reference) '../../../config';
 @import (reference) "../../../app/less/typography";
+@import (reference) '../../../app/less/icons';
+
 
 .dex.main .main-content,
 .dex-demo.main .main-content {
-  background: @color-basic-100;
+  background: @color-background-dex;
   min-width: 1280px;
   min-height: 520px;
   overflow-y: hidden;
@@ -306,7 +308,7 @@ w-layout {
           position: absolute;
           height: 15px;
           width: 15px;
-          background: url(/img/icons/dex-toggle.svg) center no-repeat;
+          background: @dex-toggle-icon center no-repeat;
         }
       }
 

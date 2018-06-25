@@ -147,7 +147,7 @@ w-dex-order-book {
   }
 
   .decimal-muted {
-    color: @color-disabled-500;
+    opacity: 0.5;
   }
 
   .info {
@@ -197,7 +197,7 @@ w-dex-order-book {
         color: @color-submit-300;
 
         &:after {
-          background-image: url(/img/icons/arrow-orderbook-top.svg);
+          background-image: @arrow-orderbook-top-icon;
         }
       }
 
@@ -205,7 +205,7 @@ w-dex-order-book {
         color: @color-error-400;
 
         &:after {
-          background-image: url(/img/icons/arrow-orderbook-down.svg);
+          background-image: @arrow-orderbook-down-icon;
         }
       }
     }
@@ -214,18 +214,10 @@ w-dex-order-book {
 
   .asks .cell-1 {
     color: @color-error-400;
-
-    .decimal-muted {
-      color: @color-error-200;
-    }
   }
 
   .bids .cell-1 {
     color: @color-submit-600;
-
-    .decimal-muted {
-      color: @color-submit-200;
-    }
   }
 }
 
