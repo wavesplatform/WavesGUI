@@ -154,7 +154,7 @@
             _initializeLogin() {
 
                 let needShowTutorial = false;
-                const poromise = storage.onReady().then((oldVersion) => {
+                const promise = storage.onReady().then((oldVersion) => {
                     needShowTutorial = !oldVersion;
                 });
 
@@ -180,7 +180,7 @@
                         return null;
                     }
 
-                    poromise.then(() => {
+                    promise.then(() => {
                         if (needShowTutorial && toState.name !== 'dex-demo') {
                             modalManager.showTutorialModals();
                             needShowTutorial = false;
