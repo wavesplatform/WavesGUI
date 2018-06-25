@@ -12,6 +12,8 @@
      */
     const controller = function (Base, $scope, createPoll, waves, user, modalManager) {
 
+        const R = require('ramda');
+
         class MyBalance extends Base {
 
             constructor() {
@@ -91,16 +93,21 @@
              */
             _getBalanceList() {
                 return waves.node.assets.userBalances()
-                    .then((list) => list.filter(MyBalance._isNotScam));
+                    .then(R.filter(MyBalance._isNotScam()));
             }
 
             /**
-             * @param {IBalanceItem} item
-             * @return {boolean}
              * @private
              */
-            static _isNotScam(item) {
-                return !WavesApp.scam[item.asset.id];
+            static _isNotScam() {
+                const spamHash = (user.getSetting('wallet.portfolio.spam') || [])
+                    .reduce((r, id) => {
+                        r[id] = true;
+                        return r;
+                    }, Object.create(null));
+                return (item) => {
+                    return !WavesApp.scam[item.asset.id] && !spamHash[item.asset.id];
+                };
             }
 
         }
