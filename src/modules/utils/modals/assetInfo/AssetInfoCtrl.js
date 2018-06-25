@@ -94,7 +94,7 @@
                         case TYPES.ISSUE:
                         case TYPES.REISSUE:
                         case TYPES.BURN:
-                            return tx.amount.asset.id === this.asset.id;
+                            return (tx.amount && tx.amount.asset || tx.quantity.asset).id === this.asset.id;
                         default:
                             return false;
                     }
@@ -110,7 +110,8 @@
             _getGraphData() {
                 const startDate = utils.moment().add().day(-100);
                 return waves.utils.getRateHistory(this.asset.id, user.getSetting('baseAssetId'), startDate)
-                    .then((values) => ({ values }));
+                    .then((values) => ({ values }))
+                    .catch(() => ({ values: null }));
             }
 
             _getCircleGraphData() {

@@ -161,8 +161,8 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                 param.styles = meta.stylesheets.map((i) => join(__dirname, '..', i)).concat(getFilesFrom(join(__dirname, '../src'), '.less'));
             }
 
-            const networks = connectionTypes.reduce((result, item) => {
-                result[item] = meta.configurations[item];
+            const networks = connectionTypes.reduce((result, connection) => {
+                result[connection] = meta.configurations[connection];
                 return result;
             }, Object.create(null));
 
