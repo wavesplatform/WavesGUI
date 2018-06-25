@@ -46,6 +46,10 @@
                 super();
 
                 /**
+                 * @type {boolean}
+                 */
+                this.loadingError = false;
+                /**
                  * @type {{amount: string, price: string}}
                  * @private
                  */
@@ -134,6 +138,11 @@
                         .getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
                         .then((orderBook) => this._cutOffOutlyingOrdersIfNecessary(orderBook))
                         .then(TradeGraph._buildCumulativeOrderBook)
+                        .catch(() => {
+                            this.loadingError = true;
+                            this.pending = false;
+                            $scope.$apply();
+                        })
                 );
             }
 

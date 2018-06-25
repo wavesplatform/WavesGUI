@@ -4,7 +4,7 @@ import { IHash, IMoneyFactory, IPriceMoneyFactory } from '../../interface';
 import { coinsMoneyFactory, normalizeAssetId, normalizeTime, priceMoneyFactory, toHash } from '../../utils/utils';
 import { Signal } from 'ts-utils';
 import { request } from '../../utils/request';
-import { get as configGer } from '../../config';
+import { get as configGet } from '../../config';
 import { get as getAsset } from '../assets/assets';
 import { api, IOrder } from './interface';
 
@@ -57,7 +57,7 @@ export const signatureTimeout: Signal<{}> = new Signal();
 
 const fetch = (url: string): Promise<Array<api.IOrder>> => {
     return request<Array<api.IOrder>>({
-        url: `${configGer('matcher')}/${url}`,
+        url: `${configGet('matcher')}/${url}`,
         fetchOptions: {
             headers: {
                 Timestamp: signatureData.timestamp,

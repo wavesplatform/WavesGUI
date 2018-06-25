@@ -71,7 +71,7 @@
              */
             @decorators.cachable(120)
             getActiveLeasingTx() {
-                return ds.fetch(`${this.network.node}/leasing/active/${user.address}`)
+                return ds.fetch(`${this.node}/leasing/active/${user.address}`)
                     .then((list) => ds.api.transactions.parseTx(list, false))
                     .then((list) => list.map(this._pipeTransaction()));
             }

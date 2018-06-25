@@ -9,91 +9,72 @@ import { contains } from 'ts-utils';
 import { MoneyHash } from '../utils/MoneyHash';
 import { UTXManager } from './UTXManager';
 import { getAliasesByAddress } from '../api/aliases/aliases';
+import { PollControl } from './PollControl';
 
 
 export class DataManager {
 
     public transactions: UTXManager = new UTXManager();
-
+    public pollControl: PollControl<TPollHash>;
     private _address: string;
-    private _pollBalances: Poll<IPollData>;
-    private _pollAliases: Poll<Array<string>>;
-    private _txHash: IHash<Money>;
-    private _ordersHash: IHash<Money>;
+
+    constructor() {
+        this.pollControl = new PollControl<TPollHash>(() => this._createPolls());
+    }
 
 
     public applyAddress(address: string): void {
         this._address = address;
-        if (!this._pollBalances) {
-            const apiBalance = this._getPollBalanceApi();
-            const apiAliasList = this._getPollAliasListApi();
-            this._pollBalances = new Poll<IPollData>(apiBalance, 1000);
-            this._pollAliases = new Poll<Array<string>>(apiAliasList, 5000);
-        } else {
-            this._pollBalances.restart();
-            this._pollAliases.restart();
-        }
+        this.pollControl.create();
         this.transactions.applyAddress(this._address);
     }
 
     public dropAddress() {
-        this._address = null;
-        if (this._pollBalances) {
-            this._pollBalances.destroy();
-            this._pollBalances = null;
-        }
-        if (this._pollAliases) {
-            this._pollAliases.destroy();
-            this._pollAliases = null;
-        }
+        this.pollControl.destroy();
         this.transactions.dropAddress();
     }
 
     public getBalances(): Promise<Array<IBalanceItem>> {
-        return this._pollBalances.getDataPromise().then((data) => data.balanceList);
+        return this.pollControl.getPollHash().balance.getDataPromise();
     }
 
     public getOrders(): Promise<Array<IOrder>> {
-        return this._pollBalances.getDataPromise().then((data) => data.orders);
+        return this.pollControl.getPollHash().orders.getDataPromise();
     }
 
     public getAliasesPromise(): Promise<Array<string>> {
-        return this._pollAliases.getDataPromise();
+        return this.pollControl.getPollHash().aliases.getDataPromise();
     }
 
     public getLastAliases(): Array<string> {
-        return this._pollAliases.lastData || [];
+        return this.pollControl.getPollHash().aliases.lastData || [];
     }
 
-    private _getPollBalanceApi(): IPollAPI<IPollData> {
+    private _getPollBalanceApi(): IPollAPI<Array<IBalanceItem>> {
+        const hash = this.pollControl.getPollHash();
+        const orders = hash && hash.orders.lastData || [];
+        const inOrdersHash = this._getOrdersHash(orders);
         return {
-            get: () => Promise.all([
-                balanceList(this._address, Object.create(null), this._ordersHash || Object.create(null)),
-                this._getOrders()
-            ]).then(([balanceList, orders]) => ({ balanceList, orders })),
+            get: () => balanceList(this._address, Object.create(null), inOrdersHash),
             set: () => null
         };
     }
 
-    private _getPollAliasListApi(): IPollAPI<Array<string>> {
+    private _getPollOrdersApi(): IPollAPI<Array<IOrder>> {
+        return {
+            get: () => getOrders(),
+            set: () => null
+        };
+    }
+
+    private _getPollAliasesApi(): IPollAPI<Array<string>> {
         return {
             get: () => getAliasesByAddress(this._address),
             set: () => null
         };
     }
 
-    private _getOrders(): Promise<Array<IOrder>> {
-        if (hasSignature()) {
-            return getOrders().then((orders) => {
-                this._updateInOrdersHash(orders);
-                return orders;
-            });
-        } else {
-            return Promise.resolve([]);
-        }
-    }
-
-    private _updateInOrdersHash(orders: Array<IOrder>): void {
+    private _getOrdersHash(orders: Array<IOrder>): IHash<Money> {
         const hash = new MoneyHash();
 
         orders.filter(contains({ isActive: true })).forEach((order) => {
@@ -110,12 +91,21 @@ export class DataManager {
             }
         });
 
-        this._ordersHash = hash.toHash();
+        return hash.toHash();
+    }
+
+    private _createPolls(): TPollHash {
+        const balance = new Poll(this._getPollBalanceApi(), 1000);
+        const orders = new Poll(this._getPollOrdersApi(), 1000);
+        const aliases = new Poll(this._getPollAliasesApi(), 5000);
+
+        return { balance, orders, aliases };
     }
 
 }
 
-interface IPollData {
-    balanceList: Array<IBalanceItem>;
-    orders: Array<IOrder>;
+type TPollHash = {
+    balance: Poll<Array<IBalanceItem>>;
+    orders: Poll<Array<IOrder>>;
+    aliases: Poll<Array<string>>;
 }
