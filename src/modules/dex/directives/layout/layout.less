@@ -478,13 +478,17 @@ html body.dex-demo .notifications {
         }
       }
 
+      &__row {
+        font-size: 12px;
+      }
+
       &__createorder {
         max-height: 440px;
         width: 360px;
 
         .body .making-order {
           .fields {
-            padding: 15px 25px;
+            padding: 15px 25px 15px;
           }
 
           .expiration {
@@ -571,6 +575,23 @@ html body.dex-demo .notifications {
         font-size: 12px;
       }
 
+    }
+  }
+
+
+  body.dex,
+  body.dex-demo {
+    font-size: 12px;
+    .dex-wrapper {
+      .smart-table {
+        &__w-tbody {
+          .smart-table {
+            &__row {
+              font-size: 12px;
+            }
+          }
+        }
+      }
     }
   }
 }
