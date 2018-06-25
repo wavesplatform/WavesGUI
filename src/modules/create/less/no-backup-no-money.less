@@ -1,10 +1,12 @@
+@import (reference) '../../app/less/icons';
+
 .no-backup-no-money {
   width: 380px;
   text-align: center;
   margin: auto;
 
   .icon {
-    background: url(/img/icons/backup.svg) no-repeat center center;
+    background: @slide-backup-icon no-repeat center center;
     width: 172px;
     height: 121px;
     margin: 0 auto 25px;
@@ -42,7 +44,7 @@
   }
 
   .icon {
-    background: url(/img/icons/seed.svg) no-repeat center center;
+    background: @slide-seed-icon no-repeat center center;
     width: 106px;
     height: 106px;
     min-height: 106px;

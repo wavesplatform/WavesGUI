@@ -1,4 +1,5 @@
 @import (reference) '../../../../config';
+@import (reference) '../../../../app/less/icons';
 
 .transactions {
 
@@ -43,7 +44,7 @@
   }
 
   button.download {
-    background: url(/img/icons/download.svg) 20px center no-repeat @color-white;
+    background: @download-icon 20px center no-repeat @color-white;
     padding-left: 40px;
     flex-grow: 0;
   }
