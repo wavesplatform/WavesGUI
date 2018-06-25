@@ -519,7 +519,11 @@
              * @private
              */
             _currentAmount() {
-                if (!this.price || !this.totalPrice || this.focusedInputName !== 'total') {
+                if (this.focusedInputName !== 'total') {
+                    return null;
+                }
+
+                if (!this.totalPrice || !this.price || this.price.getTokens().eq('0')) {
                     return null;
                 }
 
