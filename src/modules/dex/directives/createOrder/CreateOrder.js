@@ -256,6 +256,7 @@
 
             setMaxPrice() {
                 this.amount = this._getMaxAmountForBy();
+                this.order.$setDirty();
             }
 
             setBidPrice() {
