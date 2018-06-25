@@ -17,7 +17,7 @@
              * @return {Promise<string>}
              */
             getAddress(alias) {
-                return ds.fetch(`${this.network.node}/alias/by-alias/${alias}`)
+                return ds.fetch(`${this.node}/alias/by-alias/${alias}`)
                     .then(({ address }) => address);
             }
 

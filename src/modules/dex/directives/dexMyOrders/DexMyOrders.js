@@ -54,6 +54,10 @@
                  * @type {Object.<string, boolean>}
                  */
                 this.shownOrderDetails = Object.create(null);
+                /**
+                 * @type {boolean}
+                 */
+                this.loadingError = false;
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
@@ -224,6 +228,10 @@
                                 return order;
                             });
                         });
+                    })
+                    .catch(() => {
+                        this.loadingError = true;
+                        $scope.$apply();
                     });
             }
 
