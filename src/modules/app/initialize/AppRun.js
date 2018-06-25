@@ -154,7 +154,7 @@
             _initializeLogin() {
 
                 let needShowTutorial = false;
-                storage.onReady().then((oldVersion) => {
+                const promise = storage.onReady().then((oldVersion) => {
                     needShowTutorial = !oldVersion;
                 });
 
@@ -179,6 +179,13 @@
                     if (waiting) {
                         return null;
                     }
+
+                    promise.then(() => {
+                        if (needShowTutorial && toState.name !== 'dex-demo') {
+                            modalManager.showTutorialModals();
+                            needShowTutorial = false;
+                        }
+                    });
 
                     waiting = true;
 
