@@ -23,23 +23,63 @@ w-dex-my-orders {
           }
 
           w-confirm-action {
-            span.clicked {
-              color: @color-error-400;
-              background: none transparent;
-              padding-left: 0;
-              position: relative;
 
-              &:hover {
-                &::after {
-                  display: block;
-                  position: absolute;
-                  bottom: 7px;
-                  width: 100%;
-                  height: 1px;
-                  content: '';
-                  border-bottom: 1px dashed @color-error-400;
+            .confirm-tooltip {
+              position: absolute;
+              top: calc(100% ~'+ 1px');
+              right: -10px;
+              background: @color-white;
+              box-shadow: 0 0 10px @color-basic-500;
+              width: 186px;
+              padding: 15px 20px;
+              text-align: center;
+              white-space: normal;
+              border-radius: @border-radius;
+
+              &::before {
+                display: block;
+                content: '';
+                transform: translate(68px, -20px);
+                right: 0;
+                width: 0;
+                height: 0;
+                border: 5px solid transparent;
+                border-bottom-color: @color-white;
+                border-top: 0 none;
+              }
+
+              .buttons-wrapper {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                span[role="button"] {
+                  flex-basis: 47%;
+                  color: @color-white;
+                  cursor: pointer;
+                  font-size: @font-size-caption-2;
+                  border-radius: @border-radius;
+                  padding-left: 0;
                 }
               }
+
+              .cancel {
+                background: @color-submit-400;
+              }
+
+              .action {
+                background: @color-error-400;
+              }
+
+              .title {
+                font-size: @font-size-caption-1;
+                line-height: 1em;
+              }
+
+              .descr {
+                line-height: 1.2em;
+              }
+
             }
           }
         }

@@ -13,6 +13,10 @@
                 this.clicked = true;
             }
 
+            removeClicked() {
+                this.clicked = false;
+            }
+
         }
 
         return new ConfirmAction();
@@ -24,6 +28,9 @@
         bindings: {
             literalText: '<',
             literalConfirm: '<',
+            literalBack: '<',
+            literalHeader: '<',
+            literalDescr: '<',
             action: '&'
         },
         templateUrl: 'modules/ui/directives/confirmAction/confirmAction.html',

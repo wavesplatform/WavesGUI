@@ -77,7 +77,7 @@
                     </div>
                 </div>
             </w-table-cell>
-            <w-table-cell>
+            <w-table-cell ng-if="$ctrl.orders.length">
                 <div ng-click="$ctrl.dropOrder(order)"
                      w-i18n="directives.myOrders.cancel"
                      class="stop"></div>
@@ -109,7 +109,7 @@
                 <w-balance short-mode="::true" money="::tx.userFee"></w-balance>
             </w-table-cell>
             <w-table-cell></w-table-cell>
-            <w-table-cell></w-table-cell>
+            <w-table-cell ng-if="$ctrl.orders.length"></w-table-cell>
         </w-table-row>
     </div>
 </w-smart-table>

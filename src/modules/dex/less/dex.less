@@ -231,6 +231,8 @@ body.dex, body.dex-demo {
 
         .smart-table {
           &__w-thead {
+            z-index: 3;
+
             .smart-table {
               &__row {
                 &:last-child {
@@ -241,6 +243,10 @@ body.dex, body.dex-demo {
               &__cell {
                 height: 28px;
                 line-height: 28px;
+
+                &[data-column-id="controls"] {
+                  overflow: visible;
+                }
               }
             }
           }

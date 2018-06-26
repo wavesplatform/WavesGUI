@@ -1,2 +1,13 @@
-<span ng-if="!$ctrl.clicked" w-i18n="{{$ctrl.literalText}}" ng-click="$ctrl.onClickAction()"></span>
-<span ng-if="$ctrl.clicked" class="clicked" w-i18n="{{$ctrl.literalConfirm}}" ng-click="$ctrl.action()"></span>
+<div class="relative">
+    <span w-i18n="{{$ctrl.literalText}}" ng-click="$ctrl.onClickAction()"></span>
+    <div ng-if="$ctrl.clicked" class="confirm-tooltip">
+
+        <div class="title basic-900 margin-1" w-i18n="{{$ctrl.literalHeader}}"></div>
+        <div class="descr basic-500 margin-1" w-i18n="{{$ctrl.literalDescr}}"></div>
+
+        <div class="buttons-wrapper">
+            <span class="cancel" w-i18n="{{$ctrl.literalBack}}" ng-click="$ctrl.removeClicked()"></span>
+            <span class="action" w-i18n="{{$ctrl.literalConfirm}}" ng-click="$ctrl.action()"></span>
+        </div>
+    </div>
+</div>
