@@ -23,8 +23,8 @@
     <w-table-row ng-repeat="tx in $data track by tx.id"
                  class="footnote-1 disabled-900 {{::tx.exchangeType}}">
         <w-table-cell ng-if="::$ctrl.isMy">
-            <span ng-click="$ctrl.setPair(tx)">
-                <a href="#" ng-class="{underline: !$ctrl.isSelected(tx)}">{{::tx.pair}}</a>
+            <span ng-click="$ctrl.setPair(tx)" ng-class="{underline: !$ctrl.isSelected(tx)}">
+                <a href="#">{{::tx.pair}}</a>
             </span>
         </w-table-cell>
         <w-table-cell>

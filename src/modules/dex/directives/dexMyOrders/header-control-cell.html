@@ -1,7 +1,10 @@
 <w-table-cell>
-    <div class="cell">
-        <span w-i18n-ns="app.dex" ng-click="cancelAllOrders()">
+    <div class="cell" w-i18n-ns="app.dex">
+        <span ng-if="!cancelClicked" ng-click="cancelClicked = true">
             <span w-i18n="directives.myOrders.cancelAll"></span>
+        </span>
+        <span ng-if="cancelClicked" ng-click="cancelClicked = false; cancelAllOrders()">
+            <span w-i18n="directives.myOrders.confirmCancel"></span>
         </span>
     </div>
 </w-table-cell>

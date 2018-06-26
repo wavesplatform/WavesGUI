@@ -28,7 +28,8 @@
         <w-table-row class="{{::order.type}}"
                      ng-class="{'new-order': order.isNew, 'can-expand': !!order.exchange.length}">
             <w-table-cell>
-                <span ng-click="$ctrl.setPair(order)">
+                <span ng-class="{underline: !$ctrl.isSelected(order)}"
+                      ng-click="$ctrl.setPair(order)">
                     <a href="#">{{::order.pair}}</a>
                 </span>
             </w-table-cell>

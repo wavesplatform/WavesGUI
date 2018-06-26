@@ -171,6 +171,15 @@
             }
 
             /**
+             * @param {IOrder} order
+             * @return boolean
+             */
+            isSelected(order) {
+                return this._assetIdPair.amount === order.amount.asset.id &&
+                    this._assetIdPair.price === order.price.asset.id;
+            }
+
+            /**
              * @param order
              */
             dropOrder(order) {
