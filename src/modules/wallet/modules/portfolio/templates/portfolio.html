@@ -90,15 +90,15 @@
             </w-table-cell>
             <w-table-cell class="smart-table__control-cell">
                 <div class="cell">
-                    <span ng-if="::$ctrl.canShowDex(balance)" class="icon icon-dex" ng-click="$ctrl.openDex(balance.asset)">
-                        <div><span w-i18n="dex"></span></div>
-                    </span>
                     <span class="icon icon-send" ng-click="$ctrl.showSend(balance.asset)">
                         <div><span w-i18n="send"></span></div>
                     </span>
                     <span class="icon icon-receive"
                           ng-click="$ctrl.showReceivePopup(balance.asset)">
                         <div><span w-i18n="receive"></span></div>
+                    </span>
+                    <span ng-if="::$ctrl.canShowDex(balance)" class="icon icon-dex" ng-click="$ctrl.openDex(balance.asset)">
+                        <div><span w-i18n="dex"></span></div>
                     </span>
                     <span class="icon"
                           ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES && !balance.isPinned && !balance.isOnScamList"

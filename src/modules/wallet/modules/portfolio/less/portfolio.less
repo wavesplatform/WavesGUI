@@ -58,11 +58,11 @@
     max-height: calc(100vh ~'- 142px');
     margin-top: @padding-main-layout;
 
-  &__w-tbody {
-    max-height: calc(100vh ~'- 208px');
-    transform: translate3d(0, 0, 0);
-    will-change: transform;
-  }
+    &__w-tbody {
+      max-height: calc(100vh ~'- 208px');
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
+    }
 
     .smart-table__row {
       min-width: 768px;
@@ -251,16 +251,16 @@
 
         }
 
-        .icon-dex {
-          background: url(/img/icons/dex-icon-mini.svg) center no-repeat;
-          right: 181px;
-        }
         .icon-send {
           background: url(/img/icons/send.svg) center no-repeat;
           right: 139px;
         }
         .icon-receive {
           background: url(/img/icons/deposit.svg) center no-repeat;
+          right: 181px;
+        }
+        .icon-dex {
+          background: url(/img/icons/dex-icon-mini.svg) center no-repeat;
           right: 97px;
         }
         .icon-hide {
@@ -330,13 +330,19 @@
             display: none;
           }
 
+          .title-content {
+            & > span {
+              font-size: 0;
+              right: 5px;
+              top: 5px;
+              position: absolute;
+            }
+          }
+
           span {
             font-size: 9px;
             display: inline-block;
             padding: 1px 2px;
-            position: absolute;
-            right: 5px;
-            top: 5px;
             background: @color-submit-400;
             color: @color-white;
             border-radius: @border-radius / 2;
@@ -378,7 +384,7 @@
           height: 20px;
           background: url(/img/icons/arrow-dropdown.svg) center center no-repeat;
           left: 50%;
-          bottom: 20px;
+          bottom: 10px;
           display: block;
           cursor: pointer;
           transform: translateX(-50%) rotate(0);
@@ -447,17 +453,17 @@
               }
             }
 
-            .icon-dex {
-              right: auto;
-              left: 20px;
-            }
-
             .icon-send {
               right: 65%;
               transform: translateX(50%);
             }
 
             .icon-receive {
+              right: auto;
+              left: 20px;
+            }
+
+            .icon-dex {
               right: 35%;
               transform: translateX(50%);
             }
