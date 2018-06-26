@@ -84,7 +84,6 @@
 
                 modalManager.showConfirmDeleteUser().then(() => {
                     this._deleteUser(address);
-                    $scope.$apply();
                 });
             }
 
