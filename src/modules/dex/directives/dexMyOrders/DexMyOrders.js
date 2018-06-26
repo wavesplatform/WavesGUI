@@ -67,7 +67,8 @@
                     {
                         id: 'pair',
                         valuePath: 'item.pair',
-                        search: true
+                        search: true,
+                        placeholder: 'directives.myOrders.filter'
                     },
                     {
                         id: 'type',
