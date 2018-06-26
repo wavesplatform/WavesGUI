@@ -21,6 +21,27 @@ w-dex-my-orders {
             padding-left: 22px;
             background-position: 7px center;
           }
+
+          w-confirm-action {
+            span.clicked {
+              color: @color-error-400;
+              background: none transparent;
+              padding-left: 0;
+              position: relative;
+
+              &:hover {
+                &::after {
+                  display: block;
+                  position: absolute;
+                  bottom: 7px;
+                  width: 100%;
+                  height: 1px;
+                  content: '';
+                  border-bottom: 1px dashed @color-error-400;
+                }
+              }
+            }
+          }
         }
       }
     }
