@@ -173,12 +173,13 @@ w-scroll-box {
   min-height: 355px;
 
   .content {
-    width: calc(~"100% - "@width-left-menu + @padding-main-layout * 2);
-    height: calc(~"100% - "@height-header + @padding-main-layout * 2);
+    width: calc(~"100% - "@width-left-menu + @padding-main-layout);
+    height: calc(~"100% - "@height-header + @padding-main-layout);
     overflow: hidden;
     position: absolute;
-    right: @padding-main-layout;
+    right: 0;
     bottom: @padding-main-layout;
+    padding: @padding-main-layout @padding-main-layout 0 0;
   }
 }
 

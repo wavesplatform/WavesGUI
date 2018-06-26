@@ -8,6 +8,7 @@
 w-asset {
   box-sizing: border-box;
   min-height: 182px;
+  transition: all 0.3s;
   flex-basis: @asset-block-narrow;
   max-width: @asset-block-narrow;
   @media screen and (max-width: 1300px) {
@@ -22,8 +23,7 @@ w-asset {
     flex-basis: @asset-block-full;
     max-width: @asset-block-full;
   }
-
-  border: 1px solid @color-basic-100;
+  box-shadow: @shadow-main-default;
   border-radius: @border-radius;
   background-color: @color-white;
   position: relative;
@@ -99,4 +99,8 @@ w-asset {
       }
     }
   }
+}
+w-asset:hover {
+  box-shadow: @shadow-main-hover;
+  z-index: 3;
 }

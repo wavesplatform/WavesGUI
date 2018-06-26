@@ -86,21 +86,23 @@
         width: 100%;
         align-items: center;
         justify-content: space-between;
+        position: relative;
         transition: .2s;
         background: @color-white;
+        transition: all 0.5s;
       }
 
       &__cell {
         padding: 0 10px;
       }
+
     }
   }
-
 }
 
 .smart-table {
   &__mode-large {
-    border: 1px solid @color-accent-50;
+    box-shadow: @shadow-table-center;
     border-radius: @border-radius;
 
     .smart-table__w-table {
@@ -117,7 +119,7 @@
       }
 
       .smart-table__cell {
-        border-bottom: 1px solid @color-accent-50;
+        border-bottom: 1px solid @color-basic-100;
         width: 100%;
 
         &:first-child {
@@ -175,7 +177,7 @@
     .smart-table__w-tbody {
 
       .smart-table__cell {
-        border-bottom: 1px solid @color-accent-50;
+        border-bottom: 1px solid @color-basic-50;
         padding: 0 10px;
         width: 100%;
         .footnote-1();
