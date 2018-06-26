@@ -17,6 +17,10 @@
                  * @type {Signal}
                  */
                 this.showSpread = new tsUtils.Signal();
+                /**
+                 * @type {Signal}
+                 */
+                this.createOrder = new tsUtils.Signal();
             }
 
         }

@@ -7,6 +7,7 @@ import { request } from '../../utils/request';
 import { get as configGet } from '../../config';
 import { get as getAsset } from '../assets/assets';
 import { api, IOrder } from './interface';
+import { processOrders } from '../../store';
 
 
 let signatureData: ISignatureData;
@@ -67,7 +68,7 @@ const fetch = (url: string): Promise<Array<api.IOrder>> => {
     });
 };
 
-const parse = (list) => {
+export const parse = (list) => {
     const assets = getAssetsFromOrderList(list);
     return getAsset(assets).then((assets) => {
         const hash = toHash(assets, 'id');

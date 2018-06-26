@@ -3,7 +3,10 @@ import { idToNode, normalizeTime } from '../utils/utils';
 import { libs, MASS_TRANSFER_TX_VERSION } from '@waves/waves-signature-generator';
 import { getSignatureApi, SIGN_TYPE } from '../sign';
 import { request } from '../utils/request';
+import { parse } from '../api/matcher/getOrders';
 import { get } from '../config';
+import { addOrder } from '../store';
+import { last } from 'ramda';
 
 
 export function broadcast(type: SIGN_TYPE, data: any) {
@@ -40,43 +43,50 @@ export function createOrder(data) {
         api.getPublicKey(),
         api.getAddress(),
         request({ url: `${get('matcher')}/` })
-    ]).then(([senderPublicKey, sender, matcherPublicKey]) => {
-        const timestamp = normalizeTime(data.timestamp || Date.now());
-        const expiration = data.expiration || prepare.processors.expiration();
-        const schema = schemas.getSchemaByType(SIGN_TYPE.CREATE_ORDER);
-        const assetPair = {
-            amountAsset: idToNode(data.amountAsset),
-            priceAsset: idToNode(data.priceAsset)
-        };
-        return api.sign({
-            type: SIGN_TYPE.CREATE_ORDER,
-            data: schema.sign({ ...data, sender, senderPublicKey, timestamp, matcherPublicKey, expiration })
-        } as any)
-            .then((signature) => {
-                return schema.api({
-                    ...data,
-                    sender,
-                    senderPublicKey,
-                    signature,
-                    timestamp,
-                    matcherPublicKey,
-                    expiration
-                });
-            })
-            .then((data) => ({ ...data, assetPair }));
-    }).then((data) => {
-        return request({
-            url: `${get('matcher')}/orderbook`,
-            fetchOptions: {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json;charset=UTF-8'
-                },
-                body: JSON.stringify(data)
-            }
-        });
-    });
+    ])
+        .then(([senderPublicKey, sender, matcherPublicKey]) => {
+            const timestamp = normalizeTime(data.timestamp || Date.now());
+            const expiration = data.expiration || prepare.processors.expiration();
+            const schema = schemas.getSchemaByType(SIGN_TYPE.CREATE_ORDER);
+            const assetPair = {
+                amountAsset: idToNode(data.amountAsset),
+                priceAsset: idToNode(data.priceAsset)
+            };
+            return api.sign({
+                type: SIGN_TYPE.CREATE_ORDER,
+                data: schema.sign({ ...data, sender, senderPublicKey, timestamp, matcherPublicKey, expiration })
+            } as any)
+                .then((signature) => {
+                    return schema.api({
+                        ...data,
+                        sender,
+                        senderPublicKey,
+                        signature,
+                        timestamp,
+                        matcherPublicKey,
+                        expiration
+                    });
+                })
+                .then((data) => ({ ...data, assetPair }));
+        })
+        .then((data) => {
+            return request({
+                url: `${get('matcher')}/orderbook`,
+                fetchOptions: {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json;charset=UTF-8'
+                    },
+                    body: JSON.stringify(data)
+                }
+            });
+        })
+        .then((data: any) => {
+            return parse([{ ...data.message, type: data.message.orderType, status: 'Accepted', filled: 0 }])
+                .then(([order]) => order);
+        })
+        .then(addOrder);
 }
 
 export function cancelOrder(amountId: string, priceId: string, orderId: string, type: 'cancel' | 'delete' = 'cancel') {

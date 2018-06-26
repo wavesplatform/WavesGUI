@@ -308,6 +308,7 @@
                         this.createOrderFailed = false;
                         const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                         analytics.push('DEX', `DEX.Order.${this.type}.Success`, pair);
+                        dexDataService.createOrder.dispatch();
                     }).catch(() => {
                         this.createOrderFailed = true;
                         notify.addClass('error');

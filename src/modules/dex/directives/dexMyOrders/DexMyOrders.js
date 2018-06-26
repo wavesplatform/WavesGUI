@@ -11,6 +11,7 @@
      * @param {INotification} notification
      * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
+     * @param {DexDataService} dexDataService
      * @param orderStatuses
      * @return {DexMyOrders}
      */
@@ -21,7 +22,8 @@
         createPoll,
         notification,
         utils,
-        $scope
+        $scope,
+        dexDataService
     ) {
 
         const R = require('ramda');
@@ -58,6 +60,11 @@
                  * @type {boolean}
                  */
                 this.loadingError = false;
+                /**
+                 * @type {object}
+                 * @private
+                 */
+                this._deletedOrders = Object.create(null);
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
@@ -136,6 +143,10 @@
                     poll.ready.then(() => {
                         this.pending = false;
                     });
+
+                    this.receive(dexDataService.createOrder, () => poll.restart());
+
+                    this.poll = poll;
                 }
             }
 
@@ -192,8 +203,14 @@
                             ns: 'app.dex',
                             title: { literal: 'directives.myOrders.notifications.isCanceled' }
                         });
+                        this._deletedOrders[order.id] = true;
+                        setTimeout(() => {
+                            delete this._deletedOrders[order.id];
+                        }, 5000);
 
-                        $scope.$digest();
+                        if (this.poll) {
+                            this.poll.restart();
+                        }
                     })
                     .catch(() => {
                         notification.error({
@@ -251,6 +268,7 @@
                     ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price)
                 ])
                     .then(([list, pair]) => {
+                        list = list.filter(({ id }) => !this._deletedOrders[id]);
                         if (list.length === 100) {
                             const hash = utils.toHash(list, 'id');
                             return ds.api.matcher.getOrdersByPair(pair)
@@ -330,7 +348,8 @@
         'createPoll',
         'notification',
         'utils',
-        '$scope'
+        '$scope',
+        'dexDataService'
     ];
 
     angular.module('app.dex').component('wDexMyOrders', {

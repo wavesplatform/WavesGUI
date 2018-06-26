@@ -10,6 +10,7 @@ import { MoneyHash } from '../utils/MoneyHash';
 import { UTXManager } from './UTXManager';
 import { getAliasesByAddress } from '../api/aliases/aliases';
 import { PollControl } from './PollControl';
+import { processOrders } from '../store';
 
 
 export class DataManager {
@@ -39,7 +40,8 @@ export class DataManager {
     }
 
     public getOrders(): Promise<Array<IOrder>> {
-        return this.pollControl.getPollHash().orders.getDataPromise();
+        return this.pollControl.getPollHash().orders.getDataPromise()
+            .then(processOrders);
     }
 
     public getAliasesPromise(): Promise<Array<string>> {
