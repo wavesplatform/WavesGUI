@@ -1,7 +1,7 @@
 <w-table-cell>
-    <div class="cell">
-        <span w-i18n-ns="app.dex" ng-click="cancelAllOrders()">
-            <span w-i18n="directives.myOrders.cancelAll"></span>
-        </span>
+    <div class="cell" w-i18n-ns="app.dex">
+        <w-confirm-action action="cancelAllOrders()"
+                          literal-confirm="::'directives.myOrders.cancelAllConfirm'"
+                          literal-text="::'directives.myOrders.cancelAll'"></w-confirm-action>
     </div>
 </w-table-cell>

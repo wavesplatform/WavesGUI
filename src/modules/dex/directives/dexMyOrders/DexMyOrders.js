@@ -63,6 +63,17 @@
                     _assetIdPair: 'dex.assetIdPair'
                 });
 
+                const controlsScope = {
+                    cancelAllOrders: () => {
+                        controlsScope.clickedAllClose = false;
+                        this.cancelAllOrders();
+                    },
+                    clickedAllClose: false,
+                    cancelAllClick: () => {
+                        controlsScope.clickedAllClose = true;
+                    }
+                };
+
                 this.headers = [
                     {
                         id: 'pair',
@@ -116,9 +127,7 @@
                     {
                         id: 'controls',
                         templatePath: 'modules/dex/directives/dexMyOrders/header-control-cell.html',
-                        scopeData: {
-                            cancelAllOrders: this.cancelAllOrders.bind(this)
-                        }
+                        scopeData: controlsScope
                     }
                 ];
 
