@@ -1,4 +1,4 @@
-<div w-i18n-ns="app.ui" class="transaction"><!-- todo @tsigel // add .spam if spam -->
+<div w-i18n-ns="app.ui" class="transaction"  ng-class="{'spam': $ctrl.isScam}"><!-- todo @tsigel // add .spam if spam -->
     <div class="icon {{::$ctrl.transaction.type}}"></div><!-- todo @tsigel // add .spam or .mass-span for icon if spam -->
     <div class="transaction-info">
         <ng-include class="full-width" src="$ctrl.templateUrl"></ng-include>

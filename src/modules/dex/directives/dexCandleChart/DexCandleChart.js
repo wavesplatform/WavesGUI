@@ -69,6 +69,7 @@
                 controller.load().then(() => {
                     this.chart = new TradingView.widget({
                         // debug: true,
+                        locale: DexCandleChart._remapLanguageCode(i18next.language),
                         toolbar_bg: '#fff',
                         symbol: `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
                         interval: WavesApp.dex.defaultResolution,
@@ -102,6 +103,7 @@
             }
 
             $onDestroy() {
+                super.$onDestroy();
                 if (this.chartReady) {
                     i18next.off('languageChanged', this._changeLangHandler.bind(this));
                 }

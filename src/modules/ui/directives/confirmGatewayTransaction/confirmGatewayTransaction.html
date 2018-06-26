@@ -29,7 +29,7 @@
                 <div class="section">
                     <div class="key"
                          w-i18n="confirmGatewayTransaction.fieldFee"></div>
-                    <div class="value">{{::$ctrl.tx.fee}}</div>
+                    <div class="value">{{::$ctrl.tx.fee.toFormat()}} {{::$ctrl.tx.fee.asset.displayName}}</div>
                 </div>
 
                 <div class="section">

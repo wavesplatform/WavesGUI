@@ -1,24 +1,27 @@
 <div class="create-account">
 
     <div class="waves-logo"></div>
-    <div class="headline-1">
-        <w-i18n>createAccount.createNewAccount</w-i18n>
+
+    <div class="text-center">
+        <div class="headline-1">
+            <w-i18n>createAccount.createNewAccount</w-i18n>
+        </div>
+
+        <div class="body-2 disabled-600">
+            <span w-i18n="createAccount.signUp"></span>
+            <a ui-sref="restore">
+                <span w-i18n="createAccount.restore"></span>
+            </a>
+            <span w-i18n="createAccount.from"></span>
+        </div>
+
+        <hr>
     </div>
 
-    <div class="body-2 disabled-600">
-        <span w-i18n="createAccount.signUp"></span>
-        <a ui-sref="restore">
-            <span w-i18n="createAccount.restore"></span>
-        </a>
-        <span w-i18n="createAccount.from"></span>
-    </div>
-
-    <hr>
-
-    <div class="left body-2">
+    <div class="body-2">
         <w-i18n>createAccount.choose</w-i18n>
     </div>
-    <div class="left footnote-1 disabled-500">
+    <div class="footnote-1 disabled-500">
         <w-i18n>createAccount.avatarUnique</w-i18n>
     </div>
 
@@ -32,21 +35,34 @@
         </div>
     </div>
 
-    <w-password class="margin-2"
-                name="$ctrl.name"
-                password="$ctrl.password"
-                on-submit="$ctrl.next()">
-        <w-i18n>button.continue</w-i18n>
-    </w-password>
+    <div class="body-2 basic-900" w-i18n="createAccount.address"></div>
+    <div class="input-like margin-2">{{$ctrl.address}}</div>
+
+    <div class="margin-2 flex">
+        <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
+        <label for="save-user-data" class="footnote-1 basic-500">
+            <w-i18n>createAccount.saveUserData</w-i18n>
+        </label>
+    </div>
+
+    <div class="margin-3">
+        <w-button
+            on-click="$ctrl.next($ctrl.stepIndex + $ctrl.saveUserData ? 1 : 2)"
+            class="submit long big">
+            <w-i18n>button.continue</w-i18n>
+        </w-button>
+    </div>
 
     <!--TODO #wrap-in-component-->
 
-    <div class="or margin-2">
-        <span w-i18n="noBackupNoMoney.or"></span>
-    </div>
-    <div class="text-center body-2 flex-column-center-min margin-2">
-        <a ui-sref="welcome" w-i18n="createAccount.signIn"></a>
-        <span w-i18n="createAccount.tosaved"></span>
+    <div class="text-center">
+        <div class="or margin-2">
+            <span w-i18n="noBackupNoMoney.or"></span>
+        </div>
+        <div class="text-center body-2 flex-column-center-min margin-2">
+            <a ui-sref="welcome" w-i18n="createAccount.signIn"></a>
+            <span w-i18n="createAccount.tosaved"></span>
+        </div>
     </div>
 
 </div>

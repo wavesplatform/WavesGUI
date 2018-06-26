@@ -35,7 +35,7 @@
                 this.shownAddress = transaction.shownAddress;
                 this.type = transaction.type;
                 this.numberOfRecipients = transaction.numberOfRecipients;
-
+                this.isScam = !!WavesApp.scam[this.transaction.assetId];
                 this.explorerLink = explorerLinks.getTxLink(transaction.id);
 
                 if (transaction.amount || transaction.leaseTransactionAmount) {

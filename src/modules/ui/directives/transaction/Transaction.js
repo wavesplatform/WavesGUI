@@ -26,7 +26,7 @@
                 this.time = $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm');
                 this.shownAddress = this.transaction.shownAddress;
                 this.type = this.transaction.type;
-
+                this.isScam = !!WavesApp.scam[this.transaction.assetId];
                 if (this.transaction.amount && this.transaction.amount instanceof Waves.Money) {
                     baseAssetService.convertToBaseAsset(this.transaction.amount)
                         .then((baseMoney) => {

@@ -101,12 +101,14 @@ w-transaction .transaction {
     &.unknown {
       .icon-tx-unknown();
     }
+  }
 
-    &.spam {
+  &.spam .icon {
+    &.receive {
       .icon-tx-spam();
     }
 
-    &.mass-spam {
+    &.mass-receive {
       .icon-tx-mass-spam();
     }
   }

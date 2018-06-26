@@ -36,6 +36,14 @@
 
     w-transaction-info {
       width: 100%;
+
+      .bottom-warning {
+        position: relative;
+        background: @color-white;
+        margin-bottom: -1px;
+        padding-top: 30px;
+        border-top: 1px solid #dae1e9;
+      }
     }
   }
 
@@ -203,14 +211,6 @@
       .icon-tx-cancel-leasing();
     }
 
-    &.spam {
-      .icon-tx-spam();
-    }
-
-    &.mass-spam {
-      .icon-tx-mass-spam();
-    }
-
     &::before {
       width: @tx-icon-size;
       height: @tx-icon-size;
@@ -221,10 +221,24 @@
     }
   }
 
+  &__content.spam {
+    .txinfo {
+      &__icon {
+        &.receive {
+          .icon-tx-spam();
+        }
+
+        &.mass-receive {
+          .icon-tx-mass-spam();
+        }
+      }
+    }
+  }
+
   .status {
     .tag-1();
-    padding: 4px 11px;
     margin-top: -4px;
+    padding: 4px 11px;
     border-radius: @border-radius;
 
     &.confirmed {

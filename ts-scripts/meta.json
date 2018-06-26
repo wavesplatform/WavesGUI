@@ -168,7 +168,8 @@
         "TRY": "no-asset-id",
         "DASH": "no-asset-id",
         "EFYT": "no-asset-id",
-        "WNET": "no-asset-id"
+        "WNET": "no-asset-id",
+        "XMR": "no-asset-id"
       }
     },
     "mainnet": {
@@ -192,7 +193,8 @@
         "TRY": "2mX5DzVKWrAJw8iwdJnV2qtoeVG9h5nTDpTqC1wb1WEN",
         "DASH": "B3uGHFRpSUuGEDWjqB9LWWxafQj8VTvpMucEyoxzws5H",
         "EFYT": "725Yv9oceWsB4GsYwyy4A52kEwyVrL5avubkeChSnL46",
-        "WNET": "AxAmJaro7BJ4KasYiZhw7HkjwgYtt2nekPuF2CN9LMym"
+        "WNET": "AxAmJaro7BJ4KasYiZhw7HkjwgYtt2nekPuF2CN9LMym",
+        "XMR": "5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3"
       }
     }
   }

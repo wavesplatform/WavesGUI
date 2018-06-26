@@ -29,8 +29,14 @@ md-dialog.account-info {
         &:last-child {
           border-bottom-left-radius: @border-radius;
           border-bottom-right-radius: @border-radius;
-          border-bottom: 1px solid #dae1e9;
+          border-bottom: 1px solid @color-basic-200;
         }
+      }
+
+      .message-warning {
+        border: 1px dashed @color-warning-400;
+        padding: 10px 20px;
+        border-radius: @border-radius;
       }
 
       .alias-list {

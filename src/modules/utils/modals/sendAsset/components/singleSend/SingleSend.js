@@ -66,6 +66,17 @@
             }
 
             /**
+             * @return {string}
+             */
+            get paymentId() {
+                return this.state.paymentId;
+            }
+
+            set paymentId(value) {
+                this.state.paymentId = value;
+            }
+
+            /**
              * @return {IGatewayDetails}
              */
             get gatewayDetails() {
@@ -111,6 +122,8 @@
                  * @private
                  */
                 this._noCurrentRate = false;
+
+                $scope.WavesApp = WavesApp;
             }
 
             $postLink() {
@@ -127,7 +140,9 @@
                         this.receive(utils.observe(this.state, 'assetId'), this._onChangeAssetId, this);
                         this.receive(utils.observe(this.state, 'mirrorId'), this._onChangeMirrorId, this);
 
+                        this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayDetails, this);
                         this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayDetails, this);
+
                         this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
                         this.observe('mirror', this._onChangeAmountMirror);
 
@@ -219,6 +234,13 @@
             }
 
             /**
+             * @return {boolean}
+             */
+            isOldMoneroAddress() {
+                return this.state.assetId === WavesApp.defaultAssets.XMR && this.tx.recipient.substr(0, 1) === '4';
+            }
+
+            /**
              * @private
              */
             _onChangeMirrorId() {
@@ -300,7 +322,7 @@
              * @private
              */
             _onChangeAmount() {
-                if (!this._noCurrentRate && !this.noMirror && this.tx.amount && this.focus === 'amount') {
+                if (!this._noCurrentRate && !this.noMirror && this.focus === 'amount') {
                     this._fillMirror();
                 }
             }
@@ -309,7 +331,7 @@
              * @private
              */
             _onChangeAmountMirror() {
-                if (!this._noCurrentRate && this.mirror && this.focus === 'mirror') {
+                if (!this._noCurrentRate && this.focus === 'mirror') {
                     this._fillAmount();
                 }
             }
@@ -318,6 +340,13 @@
              * @private
              */
             _fillMirror() {
+
+                if (!this.tx.amount) {
+                    this.mirror = null;
+                    $scope.$digest();
+                    return null;
+                }
+
                 waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
                     this.mirror = this.tx.amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
                     $scope.$digest();
@@ -328,6 +357,13 @@
              * @private
              */
             _fillAmount() {
+
+                if (!this.mirror) {
+                    this.tx.amount = null;
+                    $scope.$digest();
+                    return null;
+                }
+
                 waves.utils.getRate(this.mirrorId, this.assetId).then((rate) => {
                     this.tx.amount = this.mirror.convertTo(this.moneyHash[this.assetId].asset, rate);
                     $scope.$digest();
@@ -344,11 +380,12 @@
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
-                    gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient).then((details) => {
-                        this.gatewayDetails = details;
-                        $scope.$digest();
-                        // TODO : validate amount field for gateway minimumAmount and maximumAmount
-                    });
+                    gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.paymentId)
+                        .then((details) => {
+                            this.gatewayDetails = details;
+                            $scope.$digest();
+                            // TODO : validate amount field for gateway minimumAmount and maximumAmount
+                        });
                 } else {
                     this.gatewayDetails = null;
                 }

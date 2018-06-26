@@ -58,7 +58,6 @@
     </div>
 
     <div ng-if="$ctrl.outerSendMode" class="row">
-
         <div class="warning-plate margin-2">
             <div class="body-2 warning-500"
                  w-i18n="modal.send.coinomat.feeTitle"
@@ -80,6 +79,37 @@
             <w-i18n params="{assetName: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.name}">modal.send.icoWarning
             </w-i18n>
         </div>
+    </div>
+
+    <div ng-if="$ctrl.outerSendMode && $ctrl.isOldMoneroAddress()">
+        <div class="body-2" w-i18n="modal.send.moneroPaymentId"></div>
+        <w-input-container class="row">
+            <div>
+                <w-input type="text"
+                         name="payment-id"
+                         ng-model="$ctrl.state.paymentId"
+                         placeholder="modal.send.moneroPaymentIdPlaceholder"
+                         w-i18n-attr="placeholder"
+                         ng-minlength="64"
+                         ng-maxlength="64"
+                         w-validate
+                         w-validator-pattern="^[0-9a-fA-F]+$"
+                         required></w-input>
+            </div>
+
+            <w-input-error message="minlength">
+                <w-i18n>modal.send.errors.paymentIdLength</w-i18n>
+            </w-input-error>
+            <w-input-error message="maxlength">
+                <w-i18n>modal.send.errors.paymentIdLength</w-i18n>
+            </w-input-error>
+            <w-input-error message="pattern">
+                <w-i18n>modal.send.errors.paymentIdPattern</w-i18n>
+            </w-input-error>
+            <w-input-error message="required">
+                <w-i18n>modal.send.errors.required</w-i18n>
+            </w-input-error>
+        </w-input-container>
     </div>
 
     <w-input-container class="row">
@@ -122,7 +152,7 @@
             </w-i18n>
         </w-input-error>
         <w-input-error name="amountMirror" message="precision">
-            <w-i18n params="{precision: $ctrl.mirror.asset.precision}">modal.send.errors.precision</w-i18n>
+            <w-i18n params="{precision: $ctrl.state.moneyHash[$ctrl.state.mirrorId].asset.precision}">modal.send.errors.precision</w-i18n>
         </w-input-error>
         <w-input-error name="amount" message="lte">
             <w-i18n>modal.send.errors.max</w-i18n>
