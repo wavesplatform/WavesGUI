@@ -65,7 +65,7 @@
                      * @private
                      */
                     _getHandler() {
-                        const ns = $attrs.wI18nNs || i18n.getNs($element);
+                        const ns = this._getNs();
                         return () => {
                             const skipErrors = 'skipErrors' in $attrs;
                             const defaultValue = $attrs.defaultValue;
@@ -73,6 +73,10 @@
                             const result = i18n.translate(this._compile(this._literalTemplate), ns, params, skipErrors);
                             $element.html(result ? result : defaultValue || result);
                         };
+                    }
+
+                    _getNs() {
+                        return $attrs.wI18nNs ? $attrs.wI18nNs : i18n.getNs($element);
                     }
 
                     /**
@@ -110,15 +114,7 @@
                      * @private
                      */
                     static _getLiteralTemplate() {
-                        return String(I18n._isAttribute() ? $element.attr('w-i18n') : $element.text()).trim();
-                    }
-
-                    /**
-                     * @return {boolean}
-                     * @private
-                     */
-                    static _isAttribute() {
-                        return !!$attrs.wI18n;
+                        return String($element.attr('w-i18n')).trim();
                     }
 
                     /**
