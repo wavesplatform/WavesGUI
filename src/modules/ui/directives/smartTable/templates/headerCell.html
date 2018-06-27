@@ -1,10 +1,11 @@
 <w-table-cell ng-class="{sorting: sorting, asc: sorting && isAsc, desc: sorting && !isAsc}">
-    <div class="cell">
+    <div class="cell" w-i18n-ns="{{::title.ns}}">
         <div ng-if="::search" class="smart-table__search-container">
-            <input
-                placeholder="directives.tradeHistory.search"
-                ng-model="searchQuery"
-                ng-class="{'not-empty': searchQuery != ''}"/>
+            <input placeholder="{{::placeholder}}"
+                   attr-params="searchLocale.params"
+                   w-i18n-attr="placeholder"
+                   ng-model="searchQuery"
+                   ng-class="{'not-empty': searchQuery != ''}"/>
             <i class="input-clear"
                ng-if="searchQuery"
                ng-click="searchQuery = ''"></i>

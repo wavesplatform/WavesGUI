@@ -100,8 +100,7 @@
              * @return {string}
              */
             getNs($element) {
-                return $element.attr('w-i18n-ns') || $element.closest('[w-i18n-ns]')
-                    .attr('w-i18n-ns') || '';
+                return $element.closest('[w-i18n-ns]').attr('w-i18n-ns') || '';
             },
 
             onLoad

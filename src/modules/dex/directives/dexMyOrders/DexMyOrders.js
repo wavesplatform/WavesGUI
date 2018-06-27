@@ -67,7 +67,8 @@
                     {
                         id: 'pair',
                         valuePath: 'item.pair',
-                        search: true
+                        search: true,
+                        placeholder: 'directives.myOrders.filter'
                     },
                     {
                         id: 'type',
@@ -168,6 +169,15 @@
 
             round(data) {
                 return Math.round(Number(data));
+            }
+
+            /**
+             * @param {IOrder} order
+             * @return boolean
+             */
+            isSelected(order) {
+                return this._assetIdPair.amount === order.amount.asset.id &&
+                    this._assetIdPair.price === order.price.asset.id;
             }
 
             /**

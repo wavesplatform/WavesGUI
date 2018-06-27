@@ -59,6 +59,10 @@
 
                 const isBalance = true;
 
+                this.syncSettings({
+                    _assetIdPair: 'dex.assetIdPair'
+                });
+
                 if (!this.isDemo) {
                     createPoll(this, this._getBalanceList, 'balanceList', 1000, { $scope, isBalance }).ready
                         .then(() => {
@@ -69,6 +73,15 @@
 
             showAssetInfo(asset) {
                 return modalManager.showAssetInfo(asset);
+            }
+
+            /**
+             * @param {Asset} asset
+             * @return boolean
+             */
+            isSelected(asset) {
+                return this._assetIdPair.amount === asset.id ||
+                    this._assetIdPair.price === asset.id;
             }
 
             /**

@@ -13,9 +13,11 @@
      * @param {$compile} $compile
      * @param {app.utils} utils
      * @param {STService} stService
+     * @param {app.i18n} i18n
      * @return {SmartTable}
      */
-    const controller = function (Base, $scope, $element, decorators, $templateRequest, $compile, utils, stService) {
+    const controller = function (Base, $scope, $element, decorators, $templateRequest, $compile, utils, stService,
+                                 i18n) {
 
         const tsUtils = require('ts-utils');
 
@@ -139,6 +141,7 @@
             @decorators.async()
             _onChangeHeader() {
                 const headers = this.headerInfo;
+                const defaultNs = i18n.getNs($element);
 
                 if (!headers || !headers.length) {
                     return null;
@@ -175,9 +178,11 @@
                             };
                         }
 
-                        data.$scope.title = data.title;
+                        data.$scope.title = data.title || Object.create(null);
+                        data.$scope.title.ns = data.$scope.title && data.$scope.title.ns || defaultNs;
                         data.$scope.sort = !!data.sort;
                         data.$scope.search = !!data.search;
+                        data.$scope.placeholder = data.placeholder;
 
                         Object.defineProperties(data.$scope, descriptorHash);
 
@@ -231,7 +236,8 @@
                         isAsc: tsUtils.isEmpty(header.isAsc) ? true : header.isAsc,
                         searchQuery: '',
                         $scope: $headerScope,
-                        $element
+                        $element,
+                        placeholder: header.placeholder || 'filter'
                     };
                 });
             }
@@ -365,7 +371,8 @@
         '$templateRequest',
         '$compile',
         'utils',
-        'stService'
+        'stService',
+        'i18n'
     ];
 
     angular.module('app.ui').component('wSmartTable', {
@@ -403,6 +410,7 @@
  * @property {boolean} [sortActive]
  * @property {boolean} [isAsc]
  * @property {boolean|SmartTable.ISearchCallback} search
+ * @property {string} [placeholder]
  */
 
 /**
