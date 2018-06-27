@@ -5,8 +5,7 @@ import { getSignatureApi, SIGN_TYPE } from '../sign';
 import { request } from '../utils/request';
 import { parse } from '../api/matcher/getOrders';
 import { get } from '../config';
-import { addOrder } from '../store';
-import { last } from 'ramda';
+import { addOrderToStore, removeOrderFromStore } from '../store';
 
 
 export function broadcast(type: SIGN_TYPE, data: any) {
@@ -83,10 +82,9 @@ export function createOrder(data) {
             });
         })
         .then((data: any) => {
-            return parse([{ ...data.message, type: data.message.orderType, status: 'Accepted', filled: 0 }])
-                .then(([order]) => order);
+            return parse([{ ...data.message, type: data.message.orderType, status: 'Accepted', filled: 0 }]);
         })
-        .then(addOrder);
+        .then(addOrderToStore);
 }
 
 export function cancelOrder(amountId: string, priceId: string, orderId: string, type: 'cancel' | 'delete' = 'cancel') {
@@ -111,6 +109,10 @@ export function cancelOrder(amountId: string, priceId: string, orderId: string, 
                     body: JSON.stringify(data)
                 }
             });
+        })
+        .then((data) => {
+            removeOrderFromStore({ id: orderId });
+            return data;
         });
 }
 

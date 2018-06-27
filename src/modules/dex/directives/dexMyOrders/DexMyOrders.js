@@ -60,11 +60,6 @@
                  * @type {boolean}
                  */
                 this.loadingError = false;
-                /**
-                 * @type {object}
-                 * @private
-                 */
-                this._deletedOrders = Object.create(null);
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
@@ -203,10 +198,6 @@
                             ns: 'app.dex',
                             title: { literal: 'directives.myOrders.notifications.isCanceled' }
                         });
-                        this._deletedOrders[order.id] = true;
-                        setTimeout(() => {
-                            delete this._deletedOrders[order.id];
-                        }, 5000);
 
                         if (this.poll) {
                             this.poll.restart();
@@ -268,7 +259,6 @@
                     ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price)
                 ])
                     .then(([list, pair]) => {
-                        list = list.filter(({ id }) => !this._deletedOrders[id]);
                         if (list.length === 100) {
                             const hash = utils.toHash(list, 'id');
                             return ds.api.matcher.getOrdersByPair(pair)

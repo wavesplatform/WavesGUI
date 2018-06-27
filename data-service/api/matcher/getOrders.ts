@@ -7,7 +7,6 @@ import { request } from '../../utils/request';
 import { get as configGet } from '../../config';
 import { get as getAsset } from '../assets/assets';
 import { api, IOrder } from './interface';
-import { processOrders } from '../../store';
 
 
 let signatureData: ISignatureData;
