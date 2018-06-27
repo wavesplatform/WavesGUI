@@ -272,8 +272,13 @@
 
             setCardObserver() {
                 this.observe(['chosenCurrencyIndex', 'cardPayment', 'asset'], () => {
-                    if (!Number(this.tokenizeCardPayment())) {
+                    const tokenizedCardPayment = this.tokenizeCardPayment();
+
+                    if (typeof tokenizedCardPayment === 'undefined') {
                         this.approximateAmount = new Waves.Money(0, this.asset);
+                    }
+
+                    if (!Number(tokenizedCardPayment)) {
                         return;
                     }
 
