@@ -102,8 +102,8 @@
 
 .smart-table {
   &__mode-large {
-    box-shadow: @shadow-table-center;
     border-radius: @border-radius;
+    box-shadow: @shadow-table-center;
 
     .smart-table__w-table {
       color: @color-basic-700;
@@ -209,6 +209,7 @@
     &__mode-large {
       border: 0 none;
       border-radius: 0;
+      box-shadow: none;
 
       .smart-table__w-table {
         background: none transparent;
@@ -222,7 +223,6 @@
         overflow: hidden;
       }
 
-      .smart-table__w-thead,
       .smart-table__w-tbody {
 
         .smart-table__row {
@@ -230,11 +230,16 @@
           position: relative;
           background: @color-white;
           border-radius: @border-radius;
-          border: 1px solid @color-accent-50;
+          box-shadow: @shadow-table-center;
           padding: 20px 0 40px;
           transition: .3s;
-          min-width: 100%;
-          margin-bottom: 10px;
+          min-width: calc(100% ~'- 20px');
+          width: calc(100% ~'- 20px');
+          margin: 10px;
+
+          &:first-child {
+            margin-top: 0;
+          }
 
           &:last-child {
             margin-bottom: 0;

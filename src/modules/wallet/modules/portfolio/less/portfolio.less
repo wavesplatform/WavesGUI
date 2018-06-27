@@ -58,15 +58,17 @@
     max-height: calc(100vh ~'- 142px');
     margin-top: @padding-main-layout;
 
-    &__w-tbody {
-      max-height: calc(100vh ~'- 208px');
-      transform: translate3d(0, 0, 0);
-      will-change: transform;
+    .smart-table {
+      &__w-tbody {
+        max-height: calc(100vh ~'- 208px');
+        transform: translate3d(0, 0, 0);
+        will-change: transform;
 
-      .smart-table__row:hover {
-        box-shadow: @shadow-element-hover;
-        border-color: @color-white;
-        z-index: 5;
+        .smart-table__row:hover {
+          box-shadow: @shadow-element-hover;
+          border-color: @color-white;
+          z-index: 5;
+        }
       }
     }
 
@@ -317,7 +319,13 @@
 
   .main.wallet.portfolio {
 
+    .main-content .content {
+      padding: 0;
+    }
+
     .toolbar {
+      padding: 10px 10px 0;
+
       w-select {
         width: 50px;
         height: 42px;
