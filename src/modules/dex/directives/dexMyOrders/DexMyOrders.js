@@ -11,6 +11,7 @@
      * @param {INotification} notification
      * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
+     * @param {DexDataService} dexDataService
      * @param orderStatuses
      * @return {DexMyOrders}
      */
@@ -21,7 +22,8 @@
         createPoll,
         notification,
         utils,
-        $scope
+        $scope,
+        dexDataService
     ) {
 
         const R = require('ramda');
@@ -136,6 +138,10 @@
                     poll.ready.then(() => {
                         this.pending = false;
                     });
+
+                    this.receive(dexDataService.createOrder, () => poll.restart());
+
+                    this.poll = poll;
                 }
             }
 
@@ -193,7 +199,9 @@
                             title: { literal: 'directives.myOrders.notifications.isCanceled' }
                         });
 
-                        $scope.$digest();
+                        if (this.poll) {
+                            this.poll.restart();
+                        }
                     })
                     .catch(() => {
                         notification.error({
@@ -330,7 +338,8 @@
         'createPoll',
         'notification',
         'utils',
-        '$scope'
+        '$scope',
+        'dexDataService'
     ];
 
     angular.module('app.dex').component('wDexMyOrders', {
