@@ -323,6 +323,7 @@
                         this.listOfEligibleCountries = details.listOfEligibleCountries;
                         this.idNowSiteUrl = details.idNowSiteUrl;
                         this.idNowUserLink = details.idNowUserLink;
+                        $scope.$apply();
                     });
                 }
 
