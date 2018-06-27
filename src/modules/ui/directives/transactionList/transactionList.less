@@ -1,7 +1,7 @@
 @import (reference) '../../../config';
 
 .transactions w-scroll-box {
-  border: 1px solid @color-accent-50;
+  box-shadow: @shadow-table-center;
   border-radius: @border-radius;
 
   .scroll-list {
@@ -54,20 +54,12 @@ w-transaction-list {
 
         .row {
           position: relative;
-          border-bottom: 1px solid @color-accent-50;
+          border-bottom: 1px solid @color-basic-50;
+          transition: all 0.5s;
 
           &:hover {
-            background-color: @color-submit-50;
-
-            &::before {
-              content: '';
-              width: 2px;
-              height: 100%;
-              background-color: @color-submit-400;
-              position: absolute;
-              left: 0;
-              top: 0;
-            }
+            box-shadow: @shadow-element-hover;
+            border-color: @color-white;
           }
         }
       }

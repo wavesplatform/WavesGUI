@@ -62,6 +62,12 @@
       max-height: calc(100vh ~'- 208px');
       transform: translate3d(0, 0, 0);
       will-change: transform;
+
+      .smart-table__row:hover {
+        box-shadow: @shadow-element-hover;
+        border-color: @color-white;
+        z-index: 5;
+      }
     }
 
     .smart-table__row {
