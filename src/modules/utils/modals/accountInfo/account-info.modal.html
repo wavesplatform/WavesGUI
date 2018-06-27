@@ -14,45 +14,44 @@
                          info="::alias">
                 {{::alias}}
             </w-copy-wrap>
-            <div class="message-warning warning-500" w-i18n="modal.account.aliasesWarning"></div>
-            <!--<w-step-by-step active-step="$ctrl.createAliasStep">-->
-                <!--<w-step>-->
-                    <!--<div class="create-alias-wrap">-->
-                        <!--<w-button class="tiny margin-right-1" w-step-next>-->
-                            <!--<span w-i18n="modal.account.create"></span>-->
-                        <!--</w-button>-->
-                        <!--<span class="caption-1 basic-700"-->
-                              <!--params="{price: $ctrl.fee.toFormat(), name: $ctrl.fee.asset.name}"-->
-                              <!--w-i18n="modal.account.fee"></span>-->
-                    <!--</div>-->
-                <!--</w-step>-->
-                <!--<w-step>-->
-                    <!--<form name="form" novalidate ng-submit="form.$valid && $ctrl.createAlias()">-->
-                        <!--<div class="closable-input-wrapper">-->
-                            <!--<w-input ng-model="$ctrl.newAlias"-->
-                                     <!--class="embed no-icon new-alias"-->
-                                     <!--type="text"-->
-                                     <!--placeholder="modal.account.placeholder"-->
-                                     <!--required-->
-                                     <!--w-i18n-attr="placeholder"-->
-                                     <!--ng-pattern="/^[a-z0-9-@_.]*$/"-->
-                                     <!--maxlength="30"-->
-                                     <!--minlength="4"></w-input>-->
-                            <!--<div class="icon-close"-->
-                                 <!--ng-click="$ctrl.reset()"-->
-                                 <!--w-step-prev></div>-->
-                        <!--</div>-->
-                        <!--<div class="create-alias-wrap">-->
-                            <!--<w-button disabled="form.$invalid" class="submit tiny margin-right-1" type="submit">-->
-                                <!--<span w-i18n="modal.account.create"></span>-->
-                            <!--</w-button>-->
-                            <!--<span class="caption-1 basic-700"-->
-                                  <!--params="{price: $ctrl.fee.toFormat(), name: $ctrl.fee.asset.name}"-->
-                                  <!--w-i18n="modal.account.fee"></span>-->
-                        <!--</div>-->
-                    <!--</form>-->
-                <!--</w-step>-->
-            <!--</w-step-by-step>-->
+            <w-step-by-step active-step="$ctrl.createAliasStep">
+                <w-step>
+                    <div class="create-alias-wrap">
+                        <w-button class="tiny margin-right-1" w-step-next>
+                            <span w-i18n="modal.account.create"></span>
+                        </w-button>
+                        <span class="caption-1 basic-700"
+                              params="{price: $ctrl.fee.toFormat(), name: $ctrl.fee.asset.name}"
+                              w-i18n="modal.account.fee"></span>
+                    </div>
+                </w-step>
+                <w-step>
+                    <form name="form" novalidate ng-submit="form.$valid && $ctrl.createAlias()">
+                        <div class="closable-input-wrapper">
+                            <w-input ng-model="$ctrl.newAlias"
+                                     class="embed no-icon new-alias"
+                                     type="text"
+                                     placeholder="modal.account.placeholder"
+                                     required
+                                     w-i18n-attr="placeholder"
+                                     ng-pattern="/^[a-z0-9-@_.]*$/"
+                                     maxlength="30"
+                                     minlength="4"></w-input>
+                            <div class="icon-close"
+                                 ng-click="$ctrl.reset()"
+                                 w-step-prev></div>
+                        </div>
+                        <div class="create-alias-wrap">
+                            <w-button disabled="form.$invalid" class="submit tiny margin-right-1" type="submit">
+                                <span w-i18n="modal.account.create"></span>
+                            </w-button>
+                            <span class="caption-1 basic-700"
+                                  params="{price: $ctrl.fee.toFormat(), name: $ctrl.fee.asset.name}"
+                                  w-i18n="modal.account.fee"></span>
+                        </div>
+                    </form>
+                </w-step>
+            </w-step-by-step>
         </div>
     </div>
 </div>
