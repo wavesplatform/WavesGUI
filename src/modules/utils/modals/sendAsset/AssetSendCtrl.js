@@ -93,6 +93,10 @@
                  * @type {boolean}
                  */
                 this.strict = options.amount && options.recipient && options.strict;
+                /**
+                 * @type {boolean}
+                 */
+                this.errorOccured = false;
 
                 try {
                     this.referrer = new URL(options.referrer).href;
@@ -119,7 +123,11 @@
                         if (this.strict) {
                             this.nextStep();
                         }
-                    });
+                    })
+                        .catch(() => {
+                            this.errorOccured = true;
+                            $scope.$digest();
+                        });
                 }
 
                 this.receive(utils.observe(this.state, 'moneyHash'), this._onChangeMoneyHash, this);
