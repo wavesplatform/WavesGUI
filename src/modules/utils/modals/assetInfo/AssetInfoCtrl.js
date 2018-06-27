@@ -19,6 +19,7 @@
                 this.asset = asset;
                 this.wavesId = WavesApp.defaultAssets.WAVES;
                 this.isDemo = !user.address;
+                this.quantity = this.asset.quantity.div(new BigNumber(10).pow(this.asset.precision)).toFixed();
 
                 const assetList = user.getSetting('pinnedAssetIdList');
                 this.assetList = assetList;
