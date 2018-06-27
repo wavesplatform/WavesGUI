@@ -24,7 +24,7 @@
         <div class="footnote-1 basic-500" w-i18n="emptyBlocks.error.text"></div>
     </div>
 
-    <div class="order-row" ng-repeat="order in $data track by order.id">
+    <div class="order-row" ng-if="!$ctrl.loadingError" ng-repeat="order in $data track by order.id">
         <w-table-row class="{{::order.type}}"
                      ng-class="{'new-order': order.isNew, 'can-expand': !!order.exchange.length}">
             <w-table-cell>
@@ -78,7 +78,7 @@
                     </div>
                 </div>
             </w-table-cell>
-            <w-table-cell>
+            <w-table-cell ng-if="$ctrl.orders.length">
                 <div ng-click="$ctrl.dropOrder(order)"
                      w-i18n="directives.myOrders.cancel"
                      class="stop"></div>
@@ -110,7 +110,7 @@
                 <w-balance short-mode="::true" money="::tx.userFee"></w-balance>
             </w-table-cell>
             <w-table-cell></w-table-cell>
-            <w-table-cell></w-table-cell>
+            <w-table-cell ng-if="$ctrl.orders.length"></w-table-cell>
         </w-table-row>
     </div>
 </w-smart-table>

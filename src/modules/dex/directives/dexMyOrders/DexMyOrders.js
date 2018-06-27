@@ -120,7 +120,9 @@
                         id: 'controls',
                         templatePath: 'modules/dex/directives/dexMyOrders/header-control-cell.html',
                         scopeData: {
-                            cancelAllOrders: this.cancelAllOrders.bind(this)
+                            cancelAllOrdersClick: () => {
+                                this.cancelAllOrders();
+                            }
                         }
                     }
                 ];
@@ -233,6 +235,7 @@
                             timeStart: last.timestamp.getTime()
                         }).then((txList) => {
                             const transactionsByOrderHash = DexMyOrders._getTransactionsByOrderIdHash(txList);
+                            this.loadingError = false;
                             return result.map((order) => {
                                 if (!transactionsByOrderHash[order.id]) {
                                     transactionsByOrderHash[order.id] = [];
