@@ -3,11 +3,15 @@
     <div ng-if="$ctrl.clicked" class="confirm-tooltip">
 
         <div class="title basic-900 margin-1" w-i18n="{{$ctrl.literalHeader}}"></div>
-        <div class="descr basic-500 margin-1" w-i18n="{{$ctrl.literalDescr}}"></div>
+        <div class="descr basic-500 margin-1" w-i18n="{{$ctrl.literalDescription}}"></div>
 
         <div class="buttons-wrapper">
-            <span class="cancel" w-i18n="{{$ctrl.literalBack}}" ng-click="$ctrl.removeClicked()"></span>
-            <span class="action" w-i18n="{{$ctrl.literalConfirm}}" ng-click="$ctrl.action()"></span>
+            <w-button class="submit tiny" on-click="$ctrl.removeClicked()">
+                <span w-i18n="{{$ctrl.literalBack}}"></span>
+            </w-button>
+            <w-button class="tiny" on-click="$ctrl.action()">
+                <span w-i18n="{{$ctrl.literalConfirm}}"></span>
+            </w-button>
         </div>
     </div>
 </div>

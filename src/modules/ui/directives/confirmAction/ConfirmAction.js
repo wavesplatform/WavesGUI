@@ -30,7 +30,7 @@
             literalConfirm: '<',
             literalBack: '<',
             literalHeader: '<',
-            literalDescr: '<',
+            literalDescription: '<',
             action: '&'
         },
         templateUrl: 'modules/ui/directives/confirmAction/confirmAction.html',
