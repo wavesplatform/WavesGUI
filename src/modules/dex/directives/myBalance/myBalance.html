@@ -15,12 +15,16 @@
                  w-toggle-class-container>
         <w-table-cell ng-click="$ctrl.setPair(balance.asset.id)">
             <w-asset-logo size="20" asset-id="{{::balance.asset.id}}"></w-asset-logo>
-            <span>{{::balance.asset.name}}</span>
+            <span ng-class="{underline: !$ctrl.isSelected(balance.asset)}">
+                <a href="#">{{::balance.asset.name}}</a>
+            </span>
         </w-table-cell>
         <w-table-cell>
             <span class="cell-label"><span w-i18n="directives.balance.assetId"></span></span>
             <w-copy-wrap info="::balance.asset.id">
-                <span class="underline" ng-click="$ctrl.showAssetInfo(balance.asset)">{{::balance.asset.id}}</span>
+                <span class="underline">
+                    <a ng-click="$ctrl.showAssetInfo(balance.asset)" href="#">{{::balance.asset.id}}</a>
+                </span>
             </w-copy-wrap>
         </w-table-cell>
         <w-table-cell>

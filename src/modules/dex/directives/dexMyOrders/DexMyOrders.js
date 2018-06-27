@@ -11,6 +11,7 @@
      * @param {INotification} notification
      * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
+     * @param {DexDataService} dexDataService
      * @param orderStatuses
      * @return {DexMyOrders}
      */
@@ -21,7 +22,8 @@
         createPoll,
         notification,
         utils,
-        $scope
+        $scope,
+        dexDataService
     ) {
 
         const R = require('ramda');
@@ -67,7 +69,8 @@
                     {
                         id: 'pair',
                         valuePath: 'item.pair',
-                        search: true
+                        search: true,
+                        placeholder: 'directives.myOrders.filter'
                     },
                     {
                         id: 'type',
@@ -137,6 +140,10 @@
                     poll.ready.then(() => {
                         this.pending = false;
                     });
+
+                    this.receive(dexDataService.createOrder, () => poll.restart());
+
+                    this.poll = poll;
                 }
             }
 
@@ -173,6 +180,15 @@
             }
 
             /**
+             * @param {IOrder} order
+             * @return boolean
+             */
+            isSelected(order) {
+                return this._assetIdPair.amount === order.amount.asset.id &&
+                    this._assetIdPair.price === order.price.asset.id;
+            }
+
+            /**
              * @param order
              */
             dropOrder(order) {
@@ -185,7 +201,9 @@
                             title: { literal: 'directives.myOrders.notifications.isCanceled' }
                         });
 
-                        $scope.$digest();
+                        if (this.poll) {
+                            this.poll.restart();
+                        }
                     })
                     .catch(() => {
                         notification.error({
@@ -214,7 +232,7 @@
 
                         return ds.api.transactions.getExchangeTxList({
                             sender: user.address,
-                            timeStart: last.timestamp
+                            timeStart: last.timestamp.getTime()
                         }).then((txList) => {
                             const transactionsByOrderHash = DexMyOrders._getTransactionsByOrderIdHash(txList);
                             this.loadingError = false;
@@ -323,7 +341,8 @@
         'createPoll',
         'notification',
         'utils',
-        '$scope'
+        '$scope',
+        'dexDataService'
     ];
 
     angular.module('app.dex').component('wDexMyOrders', {

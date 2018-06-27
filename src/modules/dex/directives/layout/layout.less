@@ -542,25 +542,18 @@ html body.dex-demo .notifications {
         height: 42px;
       }
 
-      w-create-order .create-order
       .dex-watchlist .wrapper {
-        .titles-wrap w-select .title {
-          font-size: 13px;
-        }
-
-        a.title {
+        .titles-wrap w-select a.title {
           font-size: 13px;
         }
       }
 
-      .dex-wrapper {
-        .smart-tabe__thead .smart-tabe__row {
-          font-size: 12px;
-        }
+      .smart-tabe__thead .smart-tabe__row {
+        font-size: 12px;
+      }
 
-        .smart-tabe__row {
-          font-size: 12px;
-        }
+      .smart-tabe__row {
+        font-size: 12px;
       }
 
       w-tabs .titles-wrap {
@@ -578,7 +571,6 @@ html body.dex-demo .notifications {
     }
   }
 
-
   body.dex,
   body.dex-demo {
     font-size: 12px;
@@ -588,6 +580,52 @@ html body.dex-demo .notifications {
           .smart-table {
             &__row {
               font-size: 12px;
+            }
+          }
+        }
+      }
+
+      w-dex-watchlist .wrapper {
+        .titles-wrap {
+          height: 42px;
+
+          w-select {
+            .select-list {
+              height: 42px;
+              font-size: 13px;
+            }
+
+            w-option {
+              font-size: 13px;
+            }
+
+            .title {
+              height: 42px;
+              font-size: 13px;
+            }
+          }
+
+          .title {
+            height: 42px;
+            font-size: 13px;
+          }
+        }
+      }
+
+      w-create-order {
+        .create-order {
+          .body .making-order .areas .area .name {
+            line-height: 36px;
+          }
+        }
+      }
+
+      .dex-layout {
+        &__tradehistory w-tabs {
+          .titles-wrap {
+            height: 42px;
+            .title {
+              height: 42px;
             }
           }
         }
@@ -685,6 +723,14 @@ html body.dex-demo .notifications {
             width: calc(100% ~'- 21px');
           }
         }
+
+        w-dex-layout-side-bar-toggle[side="left"] {
+          .dex-layout {
+            &__sidebar-toggle {
+              left: -19px;
+            }
+          }
+        }
       }
 
       &__tradehistory {
@@ -725,16 +771,6 @@ html body.dex-demo .notifications {
         }
       }
 
-      &__orderbook {
-        w-dex-layout-side-bar-toggle[side="left"] {
-          .dex-layout {
-            &__sidebar-toggle {
-              left: -19px;
-            }
-          }
-        }
-      }
-
       &__orderbook-collapsed {
         .dex-layout {
 
@@ -742,6 +778,7 @@ html body.dex-demo .notifications {
             background: none transparent;
             min-width: 20px;
             width: 20px;
+            right: 19px;
 
             w-dex-layout-side-bar-toggle {
               position: absolute;
@@ -749,12 +786,12 @@ html body.dex-demo .notifications {
               width: 19px;
               left: 0;
               background: #fff;
+              border-radius: 0 2px 2px 0;
 
               .dex-layout {
                 &__sidebar-toggle {
                   border-right: 0 none;
                   border-left: 1px solid @color-basic-100;
-                  border-radius: 0 2px 2px 0;
                   left: 0;
                   div::after {
                     transform: rotate(-270deg);
@@ -764,8 +801,6 @@ html body.dex-demo .notifications {
             }
 
             .dex-layout {
-
-
               &__block {
                 min-width: 0;
                 display: none;
@@ -774,7 +809,8 @@ html body.dex-demo .notifications {
           }
 
           &__tradehistory {
-            border-radius: 2px 0 0 2px !important;
+            border-radius: 2px 0 0 2px;
+            width: calc(100% ~' - 19px');
           }
 
           &__block-orderbook-bottom-collapsed {
@@ -789,14 +825,6 @@ html body.dex-demo .notifications {
 
           &__candlechart {
             width: calc(50% ~'- 3px')
-          }
-
-          &__orderbook {
-            right: 20px;
-          }
-
-          &__tradehistory {
-            width: calc(100% ~' - 20px');
           }
         }
       }

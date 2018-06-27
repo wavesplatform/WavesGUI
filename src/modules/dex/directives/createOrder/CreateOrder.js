@@ -71,6 +71,11 @@
                  */
                 this.type = 'buy';
                 /**
+                 * Max balance in price asset
+                 * @type {Money}
+                 */
+                this.maxPriceBalance = null;
+                /**
                  * Total price (amount multiply price)
                  * @type {Money}
                  */
@@ -173,7 +178,7 @@
                     }
                 });
 
-                this.observe(['amountBalance', 'type', 'fee'], this._updateMaxAmountBalance);
+                this.observe(['amountBalance', 'type', 'fee', 'priceBalance'], this._updateMaxAmountOrPriceBalance);
 
                 this.observe('_assetIdPair', () => {
                     this.amount = null;
@@ -308,6 +313,7 @@
                         this.createOrderFailed = false;
                         const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                         analytics.push('DEX', `DEX.Order.${this.type}.Success`, pair);
+                        dexDataService.createOrder.dispatch();
                     }).catch(() => {
                         this.createOrderFailed = true;
                         notify.addClass('error');
@@ -375,32 +381,26 @@
             _getMaxAmountForSell() {
                 const fee = this.fee;
                 const balance = this.amountBalance;
-                if (fee.asset.id === balance.asset.id) {
-                    return entities.Money.max(balance.sub(fee), balance.cloneWithTokens('0'));
-                } else {
-                    return balance;
-                }
+                return balance.safeSub(fee).toNonNegative();
             }
 
+            /**
+             * @return {Money}
+             * @private
+             */
             _getMaxAmountForBuy() {
                 if (!this.price || this.price.getTokens().eq(0)) {
                     return this.amountBalance.cloneWithTokens('0');
                 }
 
                 const fee = this.fee;
-                const process = (money) => {
-                    if (money.asset.id === fee.asset.id) {
-                        return entities.Money.max(money.sub(fee), new entities.Money(0, money.asset));
-                    } else {
-                        return money;
-                    }
-                };
 
                 return this.amountBalance.cloneWithTokens(
-                    process(this.priceBalance)
+                    this.priceBalance.safeSub(fee)
+                        .toNonNegative()
                         .getTokens()
                         .div(this.price.getTokens())
-                        .dp(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR)
+                        .dp(this.amountBalance.asset.precision)
                 );
             }
 
@@ -420,28 +420,18 @@
             /**
              * @private
              */
-            _updateMaxAmountBalance() {
-                const { type, amountBalance, fee } = this;
-
-                if (!type || type === 'buy' || !amountBalance || !fee) {
-                    this.maxAmountBalance = null;
+            _updateMaxAmountOrPriceBalance() {
+                if (!this.amountBalance || !this.fee || !this.priceBalance) {
                     return null;
                 }
 
-                const apply = function () {
-                    if (amountBalance.asset.id === fee.asset.id) {
-                        const result = amountBalance.sub(fee);
-                        if (result.getTokens().gte('0')) {
-                            return result;
-                        } else {
-                            return amountBalance.cloneWithTokens('0');
-                        }
-                    } else {
-                        return amountBalance;
-                    }
-                };
-
-                this.maxAmountBalance = apply();
+                if (this.type === 'sell') {
+                    this.maxAmountBalance = this._getMaxAmountForSell();
+                    this.maxPriceBalance = null;
+                } else {
+                    this.maxAmountBalance = null;
+                    this.maxPriceBalance = this.priceBalance.safeSub(this.fee).toNonNegative();
+                }
             }
 
             /**

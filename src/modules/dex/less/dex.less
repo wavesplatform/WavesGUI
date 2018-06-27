@@ -262,17 +262,19 @@ body.dex, body.dex-demo {
                   background-color: @color-basic-50;
 
                   .underline {
-                    display: inline-block;
-                    position: relative;
+                    a {
+                      display: inline-block;
+                      position: relative;
 
-                    &:after {
-                      display: block;
-                      height: 2px;
-                      border-bottom: 1px dashed @color-disabled-400;
-                      position: absolute;
-                      content: '';
-                      bottom: 0px;
-                      width: 100%;
+                      &:after {
+                        display: block;
+                        height: 1px;
+                        border-bottom: 1px dashed @color-disabled-400;
+                        position: absolute;
+                        content: '';
+                        bottom: 0;
+                        width: 100%;
+                      }
                     }
                   }
                 }
