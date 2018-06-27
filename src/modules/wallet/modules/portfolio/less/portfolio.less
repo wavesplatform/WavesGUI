@@ -22,6 +22,7 @@
       height: 42px;
       background: @color-white;
       .title {
+        border-color: @color-basic-100;
         display: flex;
 
         &:before {
@@ -66,8 +67,12 @@
 
         .smart-table__row:hover {
           box-shadow: @shadow-element-hover;
-          border-color: @color-white;
+          border-color: @color-basic-200;
           z-index: 5;
+            .smart-table__cell {
+              border-color: @color-basic-100;
+            }
+
         }
       }
     }
@@ -108,6 +113,7 @@
     }
 
     .smart-table__cell {
+      transition: all 0.5s;
       &:first-child {
         min-width: 200px;
       }
