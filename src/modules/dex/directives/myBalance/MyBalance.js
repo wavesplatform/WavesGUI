@@ -29,6 +29,7 @@
                         id: 'asset',
                         search: true,
                         sort: true,
+                        placeholder: 'directives.filter',
                         valuePath: 'item.asset.displayName'
                     },
                     {
