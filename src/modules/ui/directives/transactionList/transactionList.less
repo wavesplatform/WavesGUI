@@ -1,7 +1,6 @@
 @import (reference) '../../../config';
 
 .transactions w-scroll-box {
-  box-shadow: @shadow-table-center;
   border-radius: @border-radius;
 
   .scroll-list {
@@ -58,8 +57,7 @@ w-transaction-list {
           transition: all 0.5s;
 
           &:hover {
-            box-shadow: @shadow-element-hover;
-            border-color: @color-basic-100;
+            background: @color-basic-50;
           }
         }
       }
