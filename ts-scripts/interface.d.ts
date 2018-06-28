@@ -7,6 +7,8 @@ export interface IMetaJSON {
     copyNodeModules: Array<string>;
     debugInjections: Array<string>;
     electronScripts: Array<string>;
+    betaOrigin: string;
+    targetOrigin: string;
     configurations: {
         testnet: IConfItem;
         mainnet: IConfItem;

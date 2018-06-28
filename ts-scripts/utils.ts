@@ -172,6 +172,8 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                 isProduction: param.buildType && param.buildType === 'min',
                 domain: meta.domain,
                 matcherPriorityList: JSON.stringify(param.connection === 'mainnet' ? MAINNET_DATA : TESTNET_DATA, null, 4),
+                betaOrigin: meta.betaOrigin,
+                targetOrigin: meta.targetOrigin,
                 build: {
                     type: param.type
                 },

@@ -224,6 +224,8 @@
             version: '{{pack.version}}',
             type: '{{build.type}}',
             matcherPriorityList: {{{matcherPriorityList}}},
+            betaOrigin: '{{{betaOrigin}}}',
+            targetOrigin: '{{{targetOrigin}}}',
             localize: {
                 'en': {
                     name: 'En',
@@ -525,6 +527,13 @@
                 }
             },
             {
+                id: 'export',
+                data: {
+                    noLogin: true,
+                    views: [{ name: 'main' }]
+                }
+            },
+            {
                 id: 'main',
                 data: {
                     abstract: true,
@@ -582,6 +591,8 @@
      * @property {string} name
      * @property {string} version
      * @property {string} type
+     * @property {string} betaOrigin
+     * @property {string} targetOrigin
      * @property {Object.<boolean>} scam
      * @property {MobileDetect} device
      * @property {Object.<{separators: {group: string, decimal: string}}>} localize

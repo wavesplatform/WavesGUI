@@ -148,6 +148,8 @@
     },
     "server": "desktop.wavesplatform.com"
   },
+  "betaOrigin": "https://localhost:8080",
+  "targetOrigin": "https://10.56.1.152:8000",
   "configurations": {
     "testnet": {
       "apiVersion": "v0",

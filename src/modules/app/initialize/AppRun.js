@@ -28,9 +28,12 @@
             this._element.style.width = `${this._current}%`;
         },
         stop() {
-            const loader = $(this._root);
-            loader.fadeOut(1000, () => {
-                loader.remove();
+            return new Promise(resolve => {
+                const loader = $(this._root);
+                loader.fadeOut(1000, () => {
+                    loader.remove();
+                    resolve();
+                });
             });
         }
     };
@@ -356,6 +359,7 @@
                     this._getImagesReadyPromise()
                 ])
                     .then(() => LOADER.stop())
+                    .then(() => this._sendReadyMessage())
                     .catch((e) => {
                         console.error(e);
                         // TODO add error load application page
@@ -383,6 +387,14 @@
                     .then((list) => {
                         return Promise.all(list.map(AppRun.getLoadImagePromise(list.length)));
                     });
+            }
+
+            _sendReadyMessage() {
+                const message = {
+                    type: 'event',
+                    name: 'loadEnd'
+                };
+                window.parent.postMessage(message, WavesApp.targetOrigin);
             }
 
             static getLoadImagePromise(length) {
