@@ -313,6 +313,7 @@
                         this.createOrderFailed = false;
                         const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                         analytics.push('DEX', `DEX.Order.${this.type}.Success`, pair);
+                        dexDataService.createOrder.dispatch();
                     }).catch(() => {
                         this.createOrderFailed = true;
                         notify.addClass('error');
@@ -517,7 +518,7 @@
                 }
 
                 const amount = this.totalPrice.getTokens().div(this.price.getTokens());
-                this._setDirtyAmount(this.priceBalance.cloneWithTokens(amount));
+                this._setDirtyAmount(this.amountBalance.cloneWithTokens(amount));
 
                 this._setIfCanBuyOrder();
             }

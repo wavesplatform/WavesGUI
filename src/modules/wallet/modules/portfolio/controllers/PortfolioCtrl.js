@@ -74,7 +74,8 @@
                                 title: { literal: 'list.name' },
                                 valuePath: 'item.asset.name',
                                 sort: true,
-                                search: true
+                                search: true,
+                                placeholder: 'portfolio.filter'
                             },
                             {
                                 id: 'balance',
