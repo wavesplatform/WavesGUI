@@ -67,7 +67,7 @@ const fetch = (url: string): Promise<Array<api.IOrder>> => {
     });
 };
 
-const parse = (list) => {
+export const parse = (list) => {
     const assets = getAssetsFromOrderList(list);
     return getAsset(assets).then((assets) => {
         const hash = toHash(assets, 'id');

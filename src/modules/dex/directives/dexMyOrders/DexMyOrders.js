@@ -11,6 +11,7 @@
      * @param {INotification} notification
      * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
+     * @param {DexDataService} dexDataService
      * @param orderStatuses
      * @return {DexMyOrders}
      */
@@ -21,7 +22,8 @@
         createPoll,
         notification,
         utils,
-        $scope
+        $scope,
+        dexDataService
     ) {
 
         const R = require('ramda');
@@ -118,7 +120,9 @@
                         id: 'controls',
                         templatePath: 'modules/dex/directives/dexMyOrders/header-control-cell.html',
                         scopeData: {
-                            cancelAllOrders: this.cancelAllOrders.bind(this)
+                            cancelAllOrdersClick: () => {
+                                this.cancelAllOrders();
+                            }
                         }
                     }
                 ];
@@ -136,6 +140,10 @@
                     poll.ready.then(() => {
                         this.pending = false;
                     });
+
+                    this.receive(dexDataService.createOrder, () => poll.restart());
+
+                    this.poll = poll;
                 }
             }
 
@@ -193,7 +201,9 @@
                             title: { literal: 'directives.myOrders.notifications.isCanceled' }
                         });
 
-                        $scope.$digest();
+                        if (this.poll) {
+                            this.poll.restart();
+                        }
                     })
                     .catch(() => {
                         notification.error({
@@ -225,6 +235,7 @@
                             timeStart: last.timestamp.getTime()
                         }).then((txList) => {
                             const transactionsByOrderHash = DexMyOrders._getTransactionsByOrderIdHash(txList);
+                            this.loadingError = false;
                             return result.map((order) => {
                                 if (!transactionsByOrderHash[order.id]) {
                                     transactionsByOrderHash[order.id] = [];
@@ -330,7 +341,8 @@
         'createPoll',
         'notification',
         'utils',
-        '$scope'
+        '$scope',
+        'dexDataService'
     ];
 
     angular.module('app.dex').component('wDexMyOrders', {
