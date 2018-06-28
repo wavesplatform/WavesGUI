@@ -518,7 +518,7 @@
                 }
 
                 const amount = this.totalPrice.getTokens().div(this.price.getTokens());
-                this._setDirtyAmount(this.priceBalance.cloneWithTokens(amount));
+                this._setDirtyAmount(this.amountBalance.cloneWithTokens(amount));
 
                 this._setIfCanBuyOrder();
             }
