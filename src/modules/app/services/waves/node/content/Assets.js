@@ -195,11 +195,8 @@
              * @private
              */
             static _updateAsset(asset, props) {
-                const divider = new BigNumber(10).pow(asset.precision);
-                const quantity = new BigNumber(props.quantity).div(divider);
-
                 asset.reissuable = props.reissuable;
-                asset.quantity = quantity;
+                asset.quantity = new BigNumber(props.quantity);
             }
 
         }
