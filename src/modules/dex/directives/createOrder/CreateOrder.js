@@ -295,9 +295,7 @@
                 )
                     .then((price) => {
                         const amount = this.amount;
-                        this.amount = this.amountBalance.cloneWithTokens('0');
                         form.$setUntouched();
-                        form.$setPristine();
                         $scope.$apply();
                         return ds.createOrder({
                             amountAsset: this.amountBalance.asset.id,
