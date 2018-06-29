@@ -11,9 +11,10 @@
      * @param $attrs
      * @param {app.utils} utils
      * @param {IPromiseControlCreate} createPromise
+     * @param {$rootScope.Scope} $scope
      * @return {Button}
      */
-    const controller = function (Base, $element, $attrs, utils, createPromise) {
+    const controller = function (Base, $element, $attrs, utils, createPromise, $scope) {
 
         const SYNC_ATTRS = ['type', 'class'];
 
@@ -71,6 +72,7 @@
                         } else {
                             const result = this.onClick({ $event: e });
                             this._applyClick(result);
+                            $scope.$apply();
                         }
                     }, false);
             }
@@ -123,7 +125,7 @@
         return new Button();
     };
 
-    controller.$inject = ['Base', '$element', '$attrs', 'utils', 'createPromise'];
+    controller.$inject = ['Base', '$element', '$attrs', 'utils', 'createPromise', '$scope'];
 
     module.component('wButton', {
         templateUrl: 'modules/ui/directives/button/button.html',
