@@ -122,7 +122,8 @@
                         scopeData: {
                             cancelAllOrdersClick: () => {
                                 this.cancelAllOrders();
-                            }
+                            },
+                            $ctrl: this
                         }
                     }
                 ];

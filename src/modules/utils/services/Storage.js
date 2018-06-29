@@ -116,7 +116,7 @@
             '1.0.0-beta.40': function (storage) {
                 return addNewGateway(storage, WavesApp.defaultAssets.XMR);
             },
-            '1.0.0-beta.45': function (storage) {
+            '1.0.0-beta.46': function (storage) {
                 return storage.load('userList').then((list = []) => {
                     const result = list.map((item) => {
                         tsUtils.unset(item, 'settings.dex');
