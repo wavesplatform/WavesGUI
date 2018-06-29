@@ -37,6 +37,7 @@ html body md-dialog.asset-info-modal {
     height: 100%;
 
     .tab-tem {
+      .footnote-1();
       overflow-y: auto;
       max-height: calc(~'74vh - 300px');
     }
@@ -56,7 +57,7 @@ html body md-dialog.asset-info-modal {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      border-bottom: 1px solid @color-disabled-100;
+      border-bottom: 1px solid @color-basic-100;
       padding: 5px 0;
       align-items: center;
 
@@ -90,7 +91,6 @@ html body md-dialog.asset-info-modal {
       & > div:first-child {
         align-items: center;
         display: flex;
-        align-self: flex-start;
       }
 
       & > div:last-child {
@@ -101,9 +101,8 @@ html body md-dialog.asset-info-modal {
 
         .legend-item, .total {
           display: flex;
-          padding: 12px 0;
           width: 100%;
-          border-bottom: 1px solid @color-disabled-100;
+          border-bottom: 1px solid @color-basic-100;
           align-items: center;
 
           & > div {
@@ -128,11 +127,11 @@ html body md-dialog.asset-info-modal {
         }
 
         .total {
-          font-weight: bold;
           border-bottom: 0 none;
+          font-family: @font-roboto-medium;
 
           div:first-child {
-            color: @color-disabled-600;
+            color: @color-disabled-500;
           }
         }
 
@@ -142,6 +141,10 @@ html body md-dialog.asset-info-modal {
   }
 
   .padding-content.tab-details .tab-tem {
+    .footnote-1();
+    .line {
+      height: 38px;
+    }
     .line > div:last-child {
       display: block;
     }
