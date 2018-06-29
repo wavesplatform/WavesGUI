@@ -9,7 +9,8 @@ w-dex-order-book {
   text-align: right;
 
   &.has-order-book {
-    .empty-block-container {
+    w-empty-block,
+    w-error-block {
       display: none;
     }
     w-table {
@@ -236,7 +237,8 @@ w-dex-order-book {
       &__orderbook {
         .dex-layout {
           &__block[data-block="orderbook"] {
-            .empty-block-container {
+            w-empty-block,
+            w-error-block {
               top: 0;
             }
           }

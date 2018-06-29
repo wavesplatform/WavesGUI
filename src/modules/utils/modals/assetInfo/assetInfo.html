@@ -39,6 +39,14 @@
                 <div class="footnote-1 basic-500">{{::$ctrl.asset.name}}</div>
             </div>
             <div class="line">
+                <div class="body-2 basic-700" w-i18n="modal.assetInfo.quantity"></div>
+                <div class="footnote-1 basic-500">{{::$ctrl.quantity}}</div>
+            </div>
+            <div class="line">
+                <div class="body-2 basic-700" w-i18n="modal.assetInfo.decimals"></div>
+                <div class="footnote-1 basic-500">{{::$ctrl.asset.precision}}</div>
+            </div>
+            <div class="line">
                 <div class="body-2 basic-700" w-i18n="modal.assetInfo.type"></div>
                 <div class="footnote-1 basic-500">
                     <span w-i18n="modal.assetInfo.reissue.{{::$ctrl.asset.reissuable ? 'yes' : 'no'}}"></span>

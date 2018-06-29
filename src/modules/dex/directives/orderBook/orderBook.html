@@ -30,16 +30,7 @@
         </w-scroll-box>
     </w-table>
 
-    <div class="empty-block-container" ng-show="$ctrl.nothingFound()">
-        <div class="icon"></div>
-        <div class="body-1 basic-700" w-i18n="emptyBlocks.orderBook.title"></div>
-        <div class="footnote-1 basic-500" w-i18n="emptyBlocks.orderBook.description"></div>
-    </div>
-
-    <div class="empty-block-container error" ng-show="$ctrl.loadingError">
-        <div class="icon"></div>
-        <div class="body-1 basic-700" w-i18n="emptyBlocks.orderBook.error.title"></div>
-        <div class="footnote-1 basic-500" w-i18n="emptyBlocks.orderBook.error.text"></div>
-    </div>
+    <w-empty-block ng-show="$ctrl.nothingFound()"></w-empty-block>
+    <w-error-block ng-show="$ctrl.loadingError"></w-error-block>
 
 </div>
