@@ -1,5 +1,5 @@
 <w-table-cell>
-    <div class="cell" w-i18n-ns="app.dex">
+    <div class="cell" ng-class="{disabled: $ctrl.orders.length === 0}" w-i18n-ns="app.dex">
         <w-confirm-action action="cancelAllOrdersClick()"
                           literal-confirm="::'directives.myOrders.cancelAllConfirm'"
                           literal-text="::'directives.myOrders.cancelAll'"

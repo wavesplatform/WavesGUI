@@ -13,6 +13,11 @@
                 this.clicked = true;
             }
 
+            runAction() {
+                this.action();
+                this.clicked = false;
+            }
+
             removeClicked() {
                 this.clicked = false;
             }
