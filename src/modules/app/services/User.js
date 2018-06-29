@@ -307,8 +307,7 @@
              * @private
              */
             _addUserData(data) {
-                return ds.app.login(data.address, data.api)
-                    .then(() => this._loadUserByAddress(data.address))
+                return this._loadUserByAddress(data.address)
                     .then((item) => {
                         this._fieldsForSave.forEach((propertyName) => {
                             if (data[propertyName] != null) {
@@ -337,9 +336,12 @@
                             return new UserRouteState('main', id, this._settings.get(`${id}.activeState`));
                         });
 
-                        ds.config.setConfig(this._settings.get('network'));
+                        Object.keys(WavesApp.network).forEach((key) => {
+                            ds.config.set(key, this._settings.get(`network.${key}`));
+                        });
 
-                        return this._save()
+                        return ds.app.login(data.address, data.api)
+                            .then(() => this._save())
                             .then(() => {
                                 this._logoutTimer();
                                 this._dfr.resolve();

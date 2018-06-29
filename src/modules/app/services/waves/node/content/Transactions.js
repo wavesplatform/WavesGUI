@@ -71,7 +71,7 @@
              */
             @decorators.cachable(120)
             getActiveLeasingTx() {
-                return ds.fetch(`${this.network.node}/leasing/active/${user.address}`)
+                return ds.fetch(`${this.node}/leasing/active/${user.address}`)
                     .then((list) => ds.api.transactions.parseTx(list, false))
                     .then((list) => list.map(this._pipeTransaction()));
             }
@@ -145,7 +145,7 @@
                             tx.amount = tx.transfers
                                 .filter(({ recipient }) => recipient === user.address || list.indexOf(recipient) !== -1)
                                 .map(({ amount }) => amount)
-                                .reduce((acc, val) => acc.add(val));
+                                .reduce((acc, val) => acc.add(val), tx.totalAmount.cloneWithTokens(0));
                             break;
                         default:
                             break;

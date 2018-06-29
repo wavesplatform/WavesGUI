@@ -20,7 +20,6 @@ import {
 } from '../../utils/utils';
 import { WAVES_ID } from '@waves/waves-signature-generator';
 import { IHash } from '../../interface';
-import { IOrder } from '../matcher/interface';
 import { factory, IFactory, remapOrder } from '../matcher/getOrders';
 
 const getFactory = (isTokens: boolean): IFactory => {

@@ -3,9 +3,7 @@
     <linechart ng-if="!$ctrl.pending && $ctrl.canShowGraph"
                options="$ctrl.options"
                data="$ctrl.data"></linechart>
-    <div ng-if="!$ctrl.pending && !$ctrl.canShowGraph" class="empty-block-container">
-        <div class="icon"></div>
-        <div class="body-2 basic-700" w-i18n="directives.noChartDataTitle"></div>
-        <div class="footnote-1 basic-500" w-i18n="directives.noChartDataMessage"></div>
-    </div>
+
+    <w-empty-block ng-if="!$ctrl.pending && !$ctrl.canShowGraph && !$ctrl.loadingError"></w-empty-block>
+    <w-error-block ng-if="!$ctrl.pending && $ctrl.loadingError"></w-error-block>
 </div>

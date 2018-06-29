@@ -42,7 +42,7 @@
              * @return {Promise<Number>}
              */
             height() {
-                return ds.fetch(`${this.network.node}/blocks/height`)
+                return ds.fetch(`${this.node}/blocks/height`)
                     .then((res) => res.height);
             }
 

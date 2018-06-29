@@ -6,11 +6,7 @@
                data="$ctrl.history"
                header-info="$ctrl.headers">
 
-    <div ng-if="!$ctrl.history.length && !$ctrl.isDemo" class="empty-block-container">
-        <div class="icon"></div>
-        <div class="body-1 basic-700" w-i18n="emptyBlocks.tradeHistory.title"></div>
-        <div class="footnote-1 basic-500" w-i18n="emptyBlocks.tradeHistory.description"></div>
-    </div>
+    <w-empty-block ng-if="!$ctrl.history.length && !$ctrl.isDemo"></w-empty-block>
 
     <div class="sign-in-message" ng-if="$ctrl.isMy && $ctrl.isDemo">
         <a ui-sref="welcome" class="link" w-i18n="directives.demo.signIn"></a>
@@ -23,8 +19,8 @@
     <w-table-row ng-repeat="tx in $data track by tx.id"
                  class="footnote-1 disabled-900 {{::tx.exchangeType}}">
         <w-table-cell ng-if="::$ctrl.isMy">
-            <span ng-click="$ctrl.setPair(tx)">
-                <a href="#" ng-class="{underline: !$ctrl.isSelected(tx)}">{{::tx.pair}}</a>
+            <span ng-click="$ctrl.setPair(tx)" ng-class="{underline: !$ctrl.isSelected(tx)}">
+                <a href="#">{{::tx.pair}}</a>
             </span>
         </w-table-cell>
         <w-table-cell>

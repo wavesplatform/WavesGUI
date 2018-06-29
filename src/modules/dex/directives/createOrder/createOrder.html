@@ -64,12 +64,12 @@
                             <div ng-if="$ctrl.type === 'buy'"
                                  ng-click="$ctrl.setMaxPrice()"
                                  class="caption-2 disabled-900 underline-dashed">
-                                <span w-i18n="money-currency" params="{money: $ctrl.priceBalance}"></span>
+                                <span w-i18n="money-currency" params="{money: $ctrl.maxPriceBalance}"></span>
                             </div>
                             <div ng-if="$ctrl.type === 'sell'"
                                  ng-click="$ctrl.setMaxAmount()"
                                  class="caption-2 disabled-900 underline-dashed">
-                                <span w-i18n="money-currency" params="{money: $ctrl.amountBalance}"></span>
+                                <span w-i18n="money-currency" params="{money: $ctrl.maxAmountBalance}"></span>
                             </div>
                         </div>
 

@@ -27,16 +27,24 @@
                title-name="::'modal.assetInfo.details'"
                class="padding-content tab-details">
             <div class="line">
-                <div class="body-2 basic-700" w-i18n="modal.assetInfo.issuer"></div>
-                <div class="footnote-1 basic-500 fs-mobile">{{::$ctrl.asset.sender}}</div>
+                <div class="basic-500" w-i18n="modal.assetInfo.issuer"></div>
+                <div class="basic-900 fs-mobile">{{::$ctrl.asset.sender}}</div>
             </div>
             <div class="line">
-                <div class="body-2 basic-700" w-i18n="modal.assetInfo.identifier"></div>
-                <div class="footnote-1 basic-500 fs-mobile">{{::$ctrl.asset.id}}</div>
+                <div class="basic-500" w-i18n="modal.assetInfo.identifier"></div>
+                <div class="basic-900 fs-mobile">{{::$ctrl.asset.id}}</div>
             </div>
             <div class="line">
-                <div class="body-2 basic-700" w-i18n="modal.assetInfo.name"></div>
-                <div class="footnote-1 basic-500">{{::$ctrl.asset.name}}</div>
+                <div class="basic-500" w-i18n="modal.assetInfo.name"></div>
+                <div class="basic-900">{{::$ctrl.asset.name}}</div>
+            </div>
+            <div class="line">
+                <div class="basic-500" w-i18n="modal.assetInfo.quantity"></div>
+                <div class="basic-900">{{::$ctrl.quantity}}</div>
+            </div>
+            <div class="line">
+                <div class="basic-500" w-i18n="modal.assetInfo.decimals"></div>
+                <div class="basic-900">{{::$ctrl.asset.precision}}</div>
             </div>
             <div class="line">
                 <div class="body-2 basic-700" w-i18n="modal.assetInfo.type"></div>
@@ -45,18 +53,18 @@
                 </div>
             </div>
             <div class="line">
-                <div class="body-2 basic-700" w-i18n="modal.assetInfo.date"></div>
-                <div class="footnote-1 basic-500">{{::$ctrl.asset.timestamp | date:'dd.MM.yyyy HH:mm'}}</div>
+                <div class="basic-500" w-i18n="modal.assetInfo.date"></div>
+                <div class="basic-900">{{::$ctrl.asset.timestamp | date:'dd.MM.yyyy HH:mm'}}</div>
             </div>
             <div ng-if="$ctrl.asset.description" class="line line-description">
-                <div class="body-2 basic-700" w-i18n="modal.assetInfo.description"></div>
-                <div class="footnote-1 basic-500">{{::$ctrl.asset.description}}</div>
+                <div class="basic-500" w-i18n="modal.assetInfo.description"></div>
+                <div class="basic-900">{{::$ctrl.asset.description}}</div>
             </div>
         </w-tab>
         <w-tab ng-if="!$ctrl.isDemo"
                id="::'balance'"
                title-name="::'modal.assetInfo.balance'"
-               class="padding-content">
+               class="padding-content tab-balance">
             <div class="line chart-container">
                 <div>
                     <w-circle-chart options="$ctrl.chartOptions" data="$ctrl.circleChartData"></w-circle-chart>
@@ -65,7 +73,7 @@
                     <div ng-repeat="legend in $ctrl.circleChartData track by legend.id"
                          ng-if="!legend.value.getTokens().eq(0)"
                          class="legend-item">
-                        <div class="part disabled-600 footnote-1">
+                        <div class="part disabled-500">
                             <div class="legend-color margin-right-1"
                                  style="background-color: {{::$ctrl.chartOptions.items[legend.id].color}}"></div>
                             <span w-i18n="modal.assetInfo.{{::legend.id}}"></span>
@@ -74,7 +82,7 @@
                             <w-balance money="legend.value"></w-balance>
                         </div>
                     </div>
-                    <div class="total">
+                    <div class="legend-item total">
                         <div w-i18n="modal.assetInfo.total"></div>
                         <div class="part">
                             <w-balance money="$ctrl.totalBalance"></w-balance>
