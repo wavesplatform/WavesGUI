@@ -26,8 +26,17 @@ export class Poll<T> {
         if (this.lastData) {
             return Promise.resolve(this.lastData);
         } else {
-            return new Promise((resolve) => {
-                this.signals.requestSuccess.once(resolve);
+            return new Promise((resolve, reject) => {
+                const s = (data) => {
+                    resolve(data);
+                    this.signals.requestError.off(r);
+                };
+                const r = (data) => {
+                    reject(data);
+                    this.signals.requestSuccess.off(s);
+                };
+                this.signals.requestSuccess.once(s);
+                this.signals.requestError.once(r);
             });
         }
     }
@@ -38,7 +47,7 @@ export class Poll<T> {
 
     public restart() {
         this._clear();
-        this._setTimeout();
+        this._run();
     }
 
     private _run() {

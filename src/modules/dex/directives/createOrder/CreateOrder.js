@@ -71,6 +71,11 @@
                  */
                 this.type = 'buy';
                 /**
+                 * Max balance in price asset
+                 * @type {Money}
+                 */
+                this.maxPriceBalance = null;
+                /**
                  * Total price (amount multiply price)
                  * @type {Money}
                  */
@@ -173,7 +178,7 @@
                     }
                 });
 
-                this.observe(['amountBalance', 'type', 'fee'], this._updateMaxAmountBalance);
+                this.observe(['amountBalance', 'type', 'fee', 'priceBalance'], this._updateMaxAmountOrPriceBalance);
 
                 this.observe('_assetIdPair', () => {
                     this.amount = null;
@@ -251,23 +256,23 @@
             }
 
             setMaxAmount() {
-                this.amount = this._getMaxAmountForSell();
+                this._setDirtyAmount(this._getMaxAmountForSell());
             }
 
             setMaxPrice() {
-                this.amount = this._getMaxAmountForBy();
+                this._setDirtyAmount(this._getMaxAmountForBuy());
             }
 
             setBidPrice() {
-                this.price = this.priceBalance.cloneWithTokens(String(this.bid.price));
+                this._setDirtyPrice(this.priceBalance.cloneWithTokens(String(this.bid.price)));
             }
 
             setAskPrice() {
-                this.price = this.priceBalance.cloneWithTokens(String(this.ask.price));
+                this._setDirtyPrice(this.priceBalance.cloneWithTokens(String(this.ask.price)));
             }
 
             setLastPrice() {
-                this.price = this.lastTradePrice;
+                this._setDirtyPrice(this.lastTradePrice);
             }
 
             /**
@@ -290,7 +295,7 @@
                 )
                     .then((price) => {
                         const amount = this.amount;
-                        this.amount = null;
+                        this.amount = this.amountBalance.cloneWithTokens('0');
                         form.$setUntouched();
                         form.$setPristine();
                         $scope.$apply();
@@ -308,15 +313,13 @@
                         this.createOrderFailed = false;
                         const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                         analytics.push('DEX', `DEX.Order.${this.type}.Success`, pair);
+                        dexDataService.createOrder.dispatch();
                     }).catch(() => {
                         this.createOrderFailed = true;
                         notify.addClass('error');
                         const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                         analytics.push('DEX', `DEX.Order.${this.type}.Error`, pair);
-                    }).then(() => {
-                        form.$setUntouched();
-                        form.$setPristine();
-                        $scope.$apply();
+                    }).finally(() => {
                         CreateOrder._animateNotification(notify);
                     });
             }
@@ -355,9 +358,9 @@
              * @private
              */
             _onClickBuyOrder(price, amount) {
-                this.price = this.priceBalance.cloneWithTokens(price);
                 const minAmount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens().div(price));
-                this.amount = entities.Money.min(this.amountBalance.cloneWithTokens(amount), minAmount);
+                this._setDirtyAmount(entities.Money.min(this.amountBalance.cloneWithTokens(amount), minAmount));
+                this._setDirtyPrice(this.priceBalance.cloneWithTokens(price));
             }
 
             /**
@@ -367,8 +370,8 @@
              */
             _onClickSellOrder(price, amount) {
                 const amountMoney = this.amountBalance.cloneWithTokens(amount);
-                this.amount = entities.Money.min(amountMoney, this._getMaxAmountForSell());
-                this.price = this.priceBalance.cloneWithTokens(price);
+                this._setDirtyAmount(entities.Money.min(amountMoney, this._getMaxAmountForSell()));
+                this._setDirtyPrice(this.priceBalance.cloneWithTokens(price));
             }
 
             /**
@@ -378,32 +381,26 @@
             _getMaxAmountForSell() {
                 const fee = this.fee;
                 const balance = this.amountBalance;
-                if (fee.asset.id === balance.asset.id) {
-                    return entities.Money.max(balance.sub(fee), balance.cloneWithTokens('0'));
-                } else {
-                    return balance;
-                }
+                return balance.safeSub(fee).toNonNegative();
             }
 
-            _getMaxAmountForBy() {
+            /**
+             * @return {Money}
+             * @private
+             */
+            _getMaxAmountForBuy() {
                 if (!this.price || this.price.getTokens().eq(0)) {
                     return this.amountBalance.cloneWithTokens('0');
                 }
 
                 const fee = this.fee;
-                const process = (money) => {
-                    if (money.asset.id === fee.asset.id) {
-                        return entities.Money.max(money.sub(fee), new entities.Money(0, money.asset));
-                    } else {
-                        return money;
-                    }
-                };
 
                 return this.amountBalance.cloneWithTokens(
-                    process(this.priceBalance)
+                    this.priceBalance.safeSub(fee)
+                        .toNonNegative()
                         .getTokens()
                         .div(this.price.getTokens())
-                        .dp(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR)
+                        .dp(this.amountBalance.asset.precision)
                 );
             }
 
@@ -423,28 +420,18 @@
             /**
              * @private
              */
-            _updateMaxAmountBalance() {
-                const { type, amountBalance, fee } = this;
-
-                if (!type || type === 'buy' || !amountBalance || !fee) {
-                    this.maxAmountBalance = null;
+            _updateMaxAmountOrPriceBalance() {
+                if (!this.amountBalance || !this.fee || !this.priceBalance) {
                     return null;
                 }
 
-                const apply = function () {
-                    if (amountBalance.asset.id === fee.asset.id) {
-                        const result = amountBalance.sub(fee);
-                        if (result.getTokens().gte('0')) {
-                            return result;
-                        } else {
-                            return amountBalance.cloneWithTokens('0');
-                        }
-                    } else {
-                        return amountBalance;
-                    }
-                };
-
-                this.maxAmountBalance = apply();
+                if (this.type === 'sell') {
+                    this.maxAmountBalance = this._getMaxAmountForSell();
+                    this.maxPriceBalance = null;
+                } else {
+                    this.maxAmountBalance = null;
+                    this.maxPriceBalance = this.priceBalance.safeSub(this.fee).toNonNegative();
+                }
             }
 
             /**
@@ -522,12 +509,16 @@
              * @private
              */
             _currentAmount() {
-                if (!this.price || !this.totalPrice || this.focusedInputName !== 'total') {
+                if (this.focusedInputName !== 'total') {
+                    return null;
+                }
+
+                if (!this.totalPrice || !this.price || this.price.getTokens().eq('0')) {
                     return null;
                 }
 
                 const amount = this.totalPrice.getTokens().div(this.price.getTokens());
-                this.amount = this.priceBalance.cloneWithTokens(amount);
+                this._setDirtyAmount(this.amountBalance.cloneWithTokens(amount));
 
                 this._setIfCanBuyOrder();
             }
@@ -573,6 +564,25 @@
 
                 this.spreadPercent = buy ? (((buy - sell) * 100 / buy) || 0).toFixed(2) : '0.00';
                 $scope.$digest();
+            }
+
+            /**
+             * Set only non-zero amount values
+             * @param {Money} amount
+             * @private
+             */
+            _setDirtyAmount(amount) {
+                this.amount = amount;
+                this.order.$setDirty();
+            }
+
+            /**
+             * @param {Money} price
+             * @private
+             */
+            _setDirtyPrice(price) {
+                this.price = price;
+                this.order.$setDirty();
             }
 
             static _animateNotification($element) {

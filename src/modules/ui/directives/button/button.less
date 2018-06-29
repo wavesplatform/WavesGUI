@@ -133,6 +133,31 @@ w-button {
       }
     }
 
+    &.warning {
+      background-color: @color-error-400;
+      border: 1px solid @color-error-600;
+      color: @color-white;
+
+      &:hover, &.hover {
+        background-color: @color-error-600;
+        border-color: transparent;
+        color: @color-white;
+      }
+
+      &:active, &.active {
+        background-color: @color-error-600;
+        border-color: transparent;
+        color: @color-white;
+      }
+
+      &:disabled, &.disabled {
+        background-color: @color-error-200;
+        border-color: @color-error-200;
+        color: @color-white;
+        box-shadow: inset -1px 1px 0 0 rgba(255, 255, 255, 0);
+      }
+    }
+
     &.interface {
       background-color: @color-white;
       border: 1px solid @color-accent-50;

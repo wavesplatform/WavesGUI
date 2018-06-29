@@ -11,6 +11,7 @@
      * @param {INotification} notification
      * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
+     * @param {DexDataService} dexDataService
      * @param orderStatuses
      * @return {DexMyOrders}
      */
@@ -21,7 +22,8 @@
         createPoll,
         notification,
         utils,
-        $scope
+        $scope,
+        dexDataService
     ) {
 
         const R = require('ramda');
@@ -54,6 +56,10 @@
                  * @type {Object.<string, boolean>}
                  */
                 this.shownOrderDetails = Object.create(null);
+                /**
+                 * @type {boolean}
+                 */
+                this.loadingError = false;
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
@@ -63,7 +69,8 @@
                     {
                         id: 'pair',
                         valuePath: 'item.pair',
-                        search: true
+                        search: true,
+                        placeholder: 'directives.filter'
                     },
                     {
                         id: 'type',
@@ -113,7 +120,10 @@
                         id: 'controls',
                         templatePath: 'modules/dex/directives/dexMyOrders/header-control-cell.html',
                         scopeData: {
-                            cancelAllOrders: this.cancelAllOrders.bind(this)
+                            cancelAllOrdersClick: () => {
+                                this.cancelAllOrders();
+                            },
+                            $ctrl: this
                         }
                     }
                 ];
@@ -131,6 +141,10 @@
                     poll.ready.then(() => {
                         this.pending = false;
                     });
+
+                    this.receive(dexDataService.createOrder, () => poll.restart());
+
+                    this.poll = poll;
                 }
             }
 
@@ -167,6 +181,15 @@
             }
 
             /**
+             * @param {IOrder} order
+             * @return boolean
+             */
+            isSelected(order) {
+                return this._assetIdPair.amount === order.amount.asset.id &&
+                    this._assetIdPair.price === order.price.asset.id;
+            }
+
+            /**
              * @param order
              */
             dropOrder(order) {
@@ -179,7 +202,9 @@
                             title: { literal: 'directives.myOrders.notifications.isCanceled' }
                         });
 
-                        $scope.$digest();
+                        if (this.poll) {
+                            this.poll.restart();
+                        }
                     })
                     .catch(() => {
                         notification.error({
@@ -208,9 +233,10 @@
 
                         return ds.api.transactions.getExchangeTxList({
                             sender: user.address,
-                            timeStart: last.timestamp
+                            timeStart: last.timestamp.getTime()
                         }).then((txList) => {
                             const transactionsByOrderHash = DexMyOrders._getTransactionsByOrderIdHash(txList);
+                            this.loadingError = false;
                             return result.map((order) => {
                                 if (!transactionsByOrderHash[order.id]) {
                                     transactionsByOrderHash[order.id] = [];
@@ -224,6 +250,10 @@
                                 return order;
                             });
                         });
+                    })
+                    .catch(() => {
+                        this.loadingError = true;
+                        $scope.$apply();
                     });
             }
 
@@ -312,7 +342,8 @@
         'createPoll',
         'notification',
         'utils',
-        '$scope'
+        '$scope',
+        'dexDataService'
     ];
 
     angular.module('app.dex').component('wDexMyOrders', {

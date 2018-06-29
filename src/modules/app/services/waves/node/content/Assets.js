@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    const dataEntities = require('@waves/data-entities');
+    const entities = require('@waves/data-entities');
 
     /**
      * @param {BaseNodeComponent} BaseNodeComponent
@@ -45,9 +45,10 @@
                 if (assetId === WavesApp.defaultAssets.WAVES) {
                     return this.getAsset(assetId);
                 }
+
                 return Promise.all([
                     this.getAsset(assetId),
-                    ds.fetch(`${this.network.node}/assets/details/${assetId}`)
+                    ds.fetch(`${this.node}/assets/details/${assetId}`)
                 ]).then(([asset, assetData]) => {
                     Assets._updateAsset(asset, assetData);
                     return asset;
@@ -169,14 +170,12 @@
 
             /**
              * @param {string[]} idList
-             * @returns {Promise<any[]>}
+             * @returns {Promise<Money[]>}
              * @private
              */
             _getEmptyBalanceList(idList) {
-                return Promise.all(idList.map((id) => {
-                    return this.getAsset(id)
-                        .then((asset) => new dataEntities.Money('0', asset));
-                }));
+                return ds.api.assets.get(idList)
+                    .then((list) => list.map(asset => new entities.Money(0, asset)));
             }
 
             /**
@@ -196,11 +195,8 @@
              * @private
              */
             static _updateAsset(asset, props) {
-                const divider = new BigNumber(10).pow(asset.precision);
-                const quantity = new BigNumber(props.quantity).div(divider);
-
                 asset.reissuable = props.reissuable;
-                asset.quantity = quantity;
+                asset.quantity = new BigNumber(props.quantity);
             }
 
         }

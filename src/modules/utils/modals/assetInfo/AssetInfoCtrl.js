@@ -19,6 +19,7 @@
                 this.asset = asset;
                 this.wavesId = WavesApp.defaultAssets.WAVES;
                 this.isDemo = !user.address;
+                this.quantity = this.asset.quantity.div(new BigNumber(10).pow(this.asset.precision)).toFormat();
 
                 const assetList = user.getSetting('pinnedAssetIdList');
                 this.assetList = assetList;
@@ -94,7 +95,7 @@
                         case TYPES.ISSUE:
                         case TYPES.REISSUE:
                         case TYPES.BURN:
-                            return tx.amount.asset.id === this.asset.id;
+                            return (tx.amount && tx.amount.asset || tx.quantity.asset).id === this.asset.id;
                         default:
                             return false;
                     }
@@ -110,7 +111,8 @@
             _getGraphData() {
                 const startDate = utils.moment().add().day(-100);
                 return waves.utils.getRateHistory(this.asset.id, user.getSetting('baseAssetId'), startDate)
-                    .then((values) => ({ values }));
+                    .then((values) => ({ values }))
+                    .catch(() => ({ values: null }));
             }
 
             _getCircleGraphData() {

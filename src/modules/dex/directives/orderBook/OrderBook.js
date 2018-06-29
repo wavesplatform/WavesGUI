@@ -186,17 +186,16 @@
                         priceAsset: this._assetIdPair.price,
                         limit: 1
                     }).then(([tx]) => tx)
-                ]).then(
-                    ([orderbook, orders, trades]) => {
+                ])
+                    .then(([orderbook, orders, trades]) => {
                         this.loadingError = false;
                         return this._remapOrderBook(orderbook, orders, trades);
-                    },
-                    () => {
+                    })
+                    .catch(() => {
                         this.loadingError = true;
                         this.hasOrderBook = false;
                         $scope.$digest();
-                    }
-                );
+                    });
             }
 
             /**

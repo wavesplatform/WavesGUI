@@ -208,8 +208,7 @@
                         return ds.api.transactions.getExchangeTxList({
                             limit: 5,
                             amountAsset: pair.amountAsset,
-                            priceAsset: pair.priceAsset,
-                            timeStart: 0 // TODO Remove
+                            priceAsset: pair.priceAsset
                         })
                             .then(currentRate)
                             .then((rate) => {

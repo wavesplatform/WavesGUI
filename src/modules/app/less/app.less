@@ -89,7 +89,8 @@ md-input-container {
   outline: none;
 }
 
-.empty-block-container {
+w-error-block,
+w-empty-block {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -105,12 +106,12 @@ md-input-container {
     height: 100px;
     margin: 0 0 10px 0;
   }
+}
 
-  &.error {
+w-error-block {
     .icon {
       background-image: @error-icon;
     }
-  }
 }
 
 .ghost {

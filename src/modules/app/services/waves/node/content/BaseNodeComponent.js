@@ -14,11 +14,12 @@
 
         class BaseNodeComponent extends Base {
 
-            /**
-             * @return {typeof WavesApp.network}
-             */
-            get network() {
-                return user.getSetting('network');
+            get matcher() {
+                return user.getSetting('network.matcher');
+            }
+
+            get node() {
+                return user.getSetting('network.node');
             }
 
             /**
