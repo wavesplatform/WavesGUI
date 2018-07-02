@@ -1,95 +1,105 @@
 @import (reference) '../../../config';
 @import (reference) '../../../app/less/typography';
 
-i.help-icon {
-  position: relative;
-  margin-left: 7px;
+.help-icon {
+  display: inline-block;
 
-  &::before {
-    content: '?';
-    background: @color-accent-100;
-    color: @color-white;
-    border-radius: 50%;
-    display: inline-block;
-    width: @text-icon-size;
-    height: 14px;
-    padding-top: 2px;
-    text-align: center;
-    font-style: normal;
-    font-weight: bold;
-    vertical-align: middle;
-    margin-top: -3px;
-    font-size: @font-size-caption-2;
-    line-height: 13px;
+  &__icon {
+    position: relative;
+    margin-left: 7px;
+
+    &::before {
+      content: '?';
+      background: @color-accent-100;
+      color: @color-white;
+      border-radius: 50%;
+      display: inline-block;
+      width: @text-icon-size;
+      height: 14px;
+      padding-top: 2px;
+      text-align: center;
+      font-style: normal;
+      font-weight: bold;
+      vertical-align: middle;
+      margin-top: -3px;
+      font-size: @font-size-caption-2;
+      line-height: 13px;
+    }
+
+    &:hover::before {
+      background: @color-submit-300;
+    }
+
+    &:after {
+      display: none;
+      width: 10px;
+      height: 10px;
+      background: @color-submit-300;
+      transform: rotate(-45deg);
+      left: 3px;
+      top: 21px;
+      position: absolute;
+      content: '';
+      z-index: 0;
+    }
+
+    &:hover::after {
+      display: block;
+    }
+
+    &:hover + .help-icon__content {
+      display: block;
+    }
+
   }
 
-  &:hover::before {
-    background: @color-submit-300;
-  }
-
-  &:after {
+  &__content {
     display: none;
-    width: 10px;
-    height: 10px;
-    background: @color-submit-300;
-    transform: rotate(-45deg);
-    left: 3px;
-    top: 21px;
+    z-index: 19;
     position: absolute;
-    content: '';
-    z-index: 0;
+    background: @color-white;
+    border-top: 5px solid @color-submit-300;
+    border-radius: @border-radius;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.18);
+    padding: 15px;
+    margin-top: 4px;
+    left: 40px;
+    width: calc(100% ~'- 80px');
+
+    &:hover {
+      display: block;
+    }
   }
 
-  &:hover::after {
-    display: block;
-  }
-
-  &:hover + div.help-content {
-    display: block;
-  }
-
-}
-
-div.help-content {
-  display: none;
-  z-index: 19;
-  position: absolute;
-  background: @color-white;
-  border-top: 5px solid @color-submit-300;
-  border-radius: @border-radius;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.18);
-  padding: 15px;
-  margin-top: 4px;
-  left: 40px;
-  width: calc(100% ~'- 80px');
-
-  &:hover {
-    display: block;
-  }
-
-  .row-help {
+  &__row {
     margin-bottom: 5px;
     margin-top: 0;
   }
 }
 
 md-dialog {
-  div.help-content {
-    left: 80px;
-    width: calc(100% ~'- 160px');
+  .help-icon {
+    &__content {
+      left: 80px;
+      width: calc(100% ~'- 160px');
+    }
   }
 }
 
 @media screen and (max-width: 540px) {
-  div.help-content {
-    left: 20px;
-    width: calc(100% ~'- 40px');
+  .help-icon {
+    &__content {
+      left: 20px;
+      width: calc(100% ~'- 40px');
+    }
   }
 
   md-dialog {
-    div.help-content {
-      left: 40px;
-      width: calc(100% ~'- 80px');
+    .help-icon {
+      &__content {
+        left: 40px;
+        width: calc(100% ~'- 80px');
+      }
     }
   }
 }
