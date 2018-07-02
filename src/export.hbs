@@ -15,7 +15,7 @@
         tsUtils.each(data, (value, path) => {
             if (!result) {
                 result = tsUtils.Path.parse(path)
-                    .getItemData(0).container;
+                        .getItemData(0).container;
             }
             tsUtils.set(result, path, value);
         });
@@ -23,15 +23,17 @@
     }
 
     var webBus = new bus.Bus(new bus.WindowAdapter(
-        { origin: 'https://localhost:8080', win: window },
-        { origin: 'https://10.56.1.152:8000', win: window.parent }
+            { origin: '{{{betaOrigin}}}', win: window },
+            { origin: '{{{targetOrigin}}}', win: window.opener || window.parent }
     ));
 
     webBus.registerRequestHandler('getLocalStorageData', () => {
         return parse(JSON.parse(localStorage.getItem('userList')));
     });
 
-    webBus.dispatchEvent('export-ready');
+    setInterval(function () {
+        webBus.dispatchEvent('export-ready');
+    }, 50);
 
 </script>
 

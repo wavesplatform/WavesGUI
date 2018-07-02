@@ -100,9 +100,20 @@
                  */
                 const iframe = document.createElement('iframe');
 
+                let hasResponse = false;
+
+                const onError = () => {
+                    if (hasResponse) {
+                        return null;
+                    }
+                    hasResponse = true;
+                    document.body.removeChild(iframe);
+                    this._initUserList();
+                };
+
                 iframe.addEventListener('load', () => {
                     const adapter = new bus.WindowAdapter(
-                        { win: window, origin: location.origin },
+                        { win: window, origin: WavesApp.targetOrigin },
                         { win: iframe.contentWindow, origin: WavesApp.betaOrigin }
                     );
 
@@ -111,24 +122,25 @@
                     webBus.once('export-ready', () => {
                         webBus.request('getLocalStorageData')
                             .then((userList) => {
-                                console.log(userList);
-                                debugger;
+                                this.userList = userList;
+                                this._updateActiveUserAddress();
+                                return Promise.all([
+                                    storage.save('accountImportComplete'),
+                                    storage.save('userList', userList)
+                                ]);
                             })
-                            .catch((e) => {
-                                console.log(e);
-                                debugger;
+                            .catch(onError)
+                            .then(() => {
+                                hasResponse = true;
+                                document.body.removeChild(iframe);
+                                $scope.$apply();
                             });
                     });
                 }, false);
 
-                const onError = () => {
-                    this._initUserList();
-                };
 
-                iframe.addEventListener('error', () => {
-                    document.body.removeChild(iframe);
-                    onError();
-                }, false);
+                setTimeout(onError, 1000);
+                iframe.addEventListener('error', onError, false);
 
                 iframe.src = `${WavesApp.betaOrigin}/export`;
                 iframe.style.opacity = '0';

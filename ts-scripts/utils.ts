@@ -137,10 +137,10 @@ export function isTradingView(url: string): boolean {
 export function prepareExport(): Promise<string> {
     return Promise.all([
         readJSON(join(__dirname, './meta.json')) as Promise<IMetaJSON>,
-        readFile(join(__dirname, '..', 'src', 'export.html'), 'utf8') as Promise<string>
+        readFile(join(__dirname, '..', 'src', 'export.hbs'), 'utf8') as Promise<string>
     ])
         .then(([meta, file]) => {
-            return replaceScripts(file, meta.exportPageVendors);
+            return replaceScripts(compile(file)(meta), meta.exportPageVendors);
         });
 }
 
