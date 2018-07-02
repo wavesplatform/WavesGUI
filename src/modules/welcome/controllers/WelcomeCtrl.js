@@ -122,8 +122,13 @@
                     webBus.once('export-ready', () => {
                         webBus.request('getLocalStorageData')
                             .then((userList) => {
+                                if (hasResponse) {
+                                    return null;
+                                }
+                                hasResponse = true;
                                 this.userList = userList;
                                 this._updateActiveUserAddress();
+                                document.body.removeChild(iframe);
                                 return Promise.all([
                                     storage.save('accountImportComplete'),
                                     storage.save('userList', userList)
@@ -131,8 +136,6 @@
                             })
                             .catch(onError)
                             .then(() => {
-                                hasResponse = true;
-                                document.body.removeChild(iframe);
                                 $scope.$apply();
                             });
                     });
