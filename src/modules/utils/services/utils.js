@@ -380,9 +380,11 @@
                 if (data instanceof BigNumber) {
                     return data;
                 }
-                return new BigNumber((String(data)
+                const num = new BigNumber((String(data)
                     .replace(',', '')
                     .replace(/\s/g, '') || 0), 10);
+
+                return num.isNaN() ? new BigNumber(0) : num;
             },
 
             /**
