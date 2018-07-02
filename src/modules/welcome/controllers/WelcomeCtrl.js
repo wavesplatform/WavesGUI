@@ -2,6 +2,8 @@
     'use strict';
 
     const PATH = 'modules/welcome/templates';
+    const bus = require('@waves/waves-browser-bus');
+
 
     const controller = function (Base, $scope, $state, user, modalManager, $element, storage) {
 
@@ -98,34 +100,30 @@
                  */
                 const iframe = document.createElement('iframe');
 
-                const onMessage = (data) => {
-                    if (data.type === 'event' && data.name === 'loadEnd') {
-                        const message = {
-                            type: 'action',
-                            name: 'getStorageData'
-                        };
-                        iframe.contentWindow.postMessage(message, WavesApp.betaOrigin);
-                    } else if (data.type === 'response') {
-                        this.userList = data.content;
-                        this._updateActiveUserAddress();
-                        $scope.$apply();
-                        document.body.removeChild(iframe);
-                        storage.save('accountImportComplete', true);
-                        storage.save('userList', data.content);
-                    }
-                };
+                iframe.addEventListener('load', () => {
+                    const adapter = new bus.WindowAdapter(
+                        { win: window, origin: location.origin },
+                        { win: iframe.contentWindow, origin: WavesApp.betaOrigin }
+                    );
+
+                    const webBus = new bus.Bus(adapter);
+
+                    webBus.once('export-ready', () => {
+                        webBus.request('getLocalStorageData')
+                            .then((userList) => {
+                                console.log(userList);
+                                debugger;
+                            })
+                            .catch((e) => {
+                                console.log(e);
+                                debugger;
+                            });
+                    });
+                }, false);
 
                 const onError = () => {
                     this._initUserList();
                 };
-
-                iframe.addEventListener('load', () => {
-                    window.addEventListener('message', (event) => {
-                        if (event.origin === location.origin || event.origin === WavesApp.betaOrigin) {
-                            onMessage(event.data);
-                        }
-                    }, false);
-                }, false);
 
                 iframe.addEventListener('error', () => {
                     document.body.removeChild(iframe);

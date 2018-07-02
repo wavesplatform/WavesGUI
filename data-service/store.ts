@@ -43,11 +43,11 @@ function creteClearStore<T>(addContainre: TStore<T>, addRemoveF: IRemoveOrderFun
     };
 }
 
-function createProcessStore<T>(toAddContainer: TStore<T>, toRemoveContainer: TStore<T>, idKey: keyof T): (list: Array<T>) => Array<T> {
+function createProcessStore<T>(toAddContainer: TStore<T>, toRemoveContainer: TStore<T>, idKey: string): (list: Array<T>) => Array<T> {
     return pipe(
         list => concat(toAddContainer.map(prop('data')), list),
         list => differenceWith(eqProps(idKey), list, toRemoveContainer.map(prop('data'))) as any,
-        uniqBy(prop(idKey) as any),
+        uniqBy(prop(idKey) as any)
     );
 }
 

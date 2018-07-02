@@ -2,6 +2,7 @@ import { Stream } from 'stream';
 
 export interface IMetaJSON {
     vendors: Array<string>;
+    exportPageVendors: Array<string>;
     stylesheets: Array<string>;
     domain: string;
     copyNodeModules: Array<string>;

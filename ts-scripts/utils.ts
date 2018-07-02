@@ -134,6 +134,16 @@ export function isTradingView(url: string): boolean {
     return url.indexOf('/trading-view') !== -1;
 }
 
+export function prepareExport(): Promise<string> {
+    return Promise.all([
+        readJSON(join(__dirname, './meta.json')) as Promise<IMetaJSON>,
+        readFile(join(__dirname, '..', 'src', 'export.html'), 'utf8') as Promise<string>
+    ])
+        .then(([meta, file]) => {
+            return replaceScripts(file, meta.exportPageVendors);
+        });
+}
+
 export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
     const filter = moveTo(param.target);
 
@@ -260,6 +270,13 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                 });
             }
             return routeStatic(req, res, connectionType, buildType, type);
+        }
+
+        if (url.indexOf('export') !== -1) {
+            prepareExport().then((file) => {
+                res.end(file);
+            });
+            return null;
         }
 
         if (url.indexOf('/img/images-list.json') !== -1) {

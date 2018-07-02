@@ -2,7 +2,7 @@ import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
 import { exec, execSync } from 'child_process';
-import { download, getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
+import { getFilesFrom, prepareExport, prepareHTML, run, task } from './ts-scripts/utils';
 import { basename, join, sep } from 'path';
 import { copy, mkdirp, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
@@ -52,15 +52,6 @@ const getFileName = (name, type) => {
 
 const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: 'utf8' });
 
-task('load-trading-view', (done) => {
-    Promise.all(meta.tradingView.files.map((relativePath) => {
-        const url = `${meta.tradingView.domain}/${relativePath}`;
-        return download(url, join(__dirname, 'dist', 'tmp', 'trading-view', relativePath)).then(() => {
-            console.log(`Download "${relativePath}" done`);
-        });
-    })).then(() => done());
-});
-
 ['web', 'desktop'].forEach((buildName: TPlatform) => {
 
     configurations.forEach((configName: TConnection) => {
@@ -90,25 +81,15 @@ task('load-trading-view', (done) => {
             taskHash.concat.push(`concat-${taskPostfix}`);
 
             const copyDeps = ['concat-style'];
-            if (buildName === 'desktop') {
-                copyDeps.push('load-trading-view');
-            }
 
             task(`copy-${taskPostfix}`, copyDeps, function (done) {
                     const reg = new RegExp(`(.*?\\${sep}src)`);
                     let forCopy = JSON_LIST.map((path) => {
                         return copy(path, path.replace(reg, `${targetPath}`));
-                    }).concat(copy(join(__dirname, 'src/fonts'), `${targetPath}/fonts`));
-
-                    if (buildName === 'desktop') {
-                        const electronFiles = getFilesFrom(join(__dirname, 'electron'), '.js');
-                        electronFiles.forEach((path) => {
-                            const name = basename(path);
-                            forCopy.push(copy(path, join(targetPath, name)));
-                        });
-                        forCopy.push(copy(join(__dirname, 'electron', 'icons'), join(targetPath, 'img', 'icon.png')));
-                        forCopy.push(copy(join(__dirname, 'dist', 'tmp', 'trading-view'), join(targetPath, 'trading-view')));
-                    }
+                    }).concat(
+                        copy(join(__dirname, 'src/fonts'), `${targetPath}/fonts`),
+                        meta.exportPageVendors.map(p => copy(join(__dirname, p), join(targetPath, p)))
+                    );
 
                     Promise.all([
                         Promise.all(meta.copyNodeModules.map((path) => {
@@ -143,7 +124,7 @@ task('load-trading-view', (done) => {
                     });
                 }
 
-                indexPromise.then((file) => {
+                Promise.all([indexPromise.then((file) => {
                     return prepareHTML({
                         buildType: type,
                         target: targetPath,
@@ -155,9 +136,10 @@ task('load-trading-view', (done) => {
                         type: buildName
                     });
                 }).then((file) => {
-                    console.log('out ' + configName);
-                    outputFile(`${targetPath}/index.html`, file).then(() => done());
-                });
+                    outputFile(`${targetPath}/index.html`, file);
+                }),
+                    prepareExport().then(file => outputFile(`${targetPath}/export.html`, file))
+                ]).then(() => done());
             });
             taskHash.html.push(`html-${taskPostfix}`);
 
