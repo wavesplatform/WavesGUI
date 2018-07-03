@@ -122,6 +122,7 @@
                     webBus.once('export-ready', () => {
                         webBus.request('getLocalStorageData')
                             .then((userList) => {
+                                userList = userList || [];
                                 if (hasResponse) {
                                     return null;
                                 }
