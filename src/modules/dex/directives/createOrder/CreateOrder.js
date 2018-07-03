@@ -204,6 +204,8 @@
                     }));
                 });
 
+                this.observe('priceBalance', this._setIfCanBuyOrder);
+
                 this.observe(['amount', 'price', 'type'], this._currentTotal);
                 this.observe('totalPrice', this._currentAmount);
 
