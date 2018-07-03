@@ -412,7 +412,6 @@
              */
             _getLastPrice() {
                 return ds.api.transactions.getExchangeTxList({
-                    timeStart: 0, // TODO
                     amountAsset: this._assetIdPair.amount,
                     priceAsset: this._assetIdPair.price,
                     limit: 1
