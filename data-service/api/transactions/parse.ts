@@ -150,7 +150,7 @@ export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, i
     const buyOrder = orderHash.buy;
     const sellOrder = orderHash.sell;
     const exchangeType = getExchangeType(order1, order2, sender);
-    const price = order1.price;
+    const price = Money.min(order1.price, order2.price);
     const amount = Money.min(order1.amount, order2.amount);
     const total = Money.min(order1.total, order2.total);
     const buyMatcherFee = factory.money(tx.buyMatcherFee, assetsHash[WAVES_ID]);
