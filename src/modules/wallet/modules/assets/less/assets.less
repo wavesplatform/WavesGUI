@@ -1,4 +1,5 @@
 @import (reference) '../../../../config';
+@import (reference) "../../../../app/less/icons";
 
 @toolbar-radio-line-height: 57.5px;
 
@@ -100,6 +101,10 @@
         height: 239px;
         padding: 0 10px;
       }
+      .chart-tooltip {
+        background: @white-btn-bg;
+        box-shadow: @shadow-type-2;
+      }
     }
 
     .assets-list {
@@ -170,7 +175,7 @@
 i.toggler {
   width: 100%;
   height: 28px;
-  background: url(/img/icons/arrow-dropdown.svg) center center no-repeat;
+  background: @dropdown-icon center center no-repeat;
   position: absolute;
   bottom: 0;
   left: 0;
