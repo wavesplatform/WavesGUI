@@ -12,8 +12,12 @@ w-dex-my-orders {
     &__w-thead {
       .smart-table {
         &__cell[data-column-id="controls"] {
-          border-left: 1px solid @color-basic-100;
+          flex-basis: 0;
           padding-left: 0;
+
+          .disabled {
+            display: none;
+          }
 
           span[role='button'] {
             display: inline-block;
@@ -23,6 +27,8 @@ w-dex-my-orders {
           }
 
           w-confirm-action {
+            border-left: 1px solid @color-basic-100;
+            display: block;
 
             .confirm-tooltip {
               position: absolute;

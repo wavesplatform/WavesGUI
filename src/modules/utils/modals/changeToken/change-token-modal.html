@@ -19,17 +19,17 @@
 
             <div class="rows">
                 <div class="row row-style flex-row token-burn__info-line">
-                    <div class="footnote-1 disabled-600" w-i18n="modal.token.id"></div>
+                    <div class="footnote-1 disabled-500" w-i18n="modal.token.id"></div>
                     <div>{{::$ctrl.asset.id}}</div>
                 </div>
 
                 <div class="row row-style flex-row token-burn__info-line">
-                    <div class="footnote-1 disabled-600" w-i18n="modal.token.quantity"></div>
+                    <div class="footnote-1 disabled-500" w-i18n="modal.token.quantity"></div>
                     <div>{{::$ctrl.quantity.toFormat($ctrl.asset.precision)}}</div>
                 </div>
 
                 <div class="row row-style flex-row margin-2 token-burn__info-line">
-                    <div class="footnote-1 disabled-600" w-i18n="modal.token.balance"></div>
+                    <div class="footnote-1 disabled-500" w-i18n="modal.token.balance"></div>
                     <div class="bold">
                         <w-balance money="$ctrl.balance"></w-balance>
                     </div>
@@ -56,11 +56,11 @@
                         <div class="select-wrap">
                             <w-select class="issue-select tiny" ng-model="$ctrl.issue">
                                 <w-option option-type="boolean" value="false">
-                                    <span class="caption-1 basic-700" w-i18n-ns="app.tokens"
+                                    <span class="caption-1 basic-900" w-i18n-ns="app.tokens"
                                           w-i18n="reissuable.false"></span>
                                 </w-option>
                                 <w-option option-type="boolean" value="true">
-                                    <span class="caption-1 basic-700" w-i18n-ns="app.tokens"
+                                    <span class="caption-1 basic-900" w-i18n-ns="app.tokens"
                                           w-i18n="reissuable.true"></span>
                                 </w-option>
                             </w-select>
@@ -99,7 +99,7 @@
 
                 <div class="footnote-1 margin-2">
                     <div ng-class="{'error-400': $ctrl.noFee}"
-                         class="disabled-600"
+                         class="disabled-500"
                          w-i18n="modal.token.fee"
                          params="{fee: $ctrl.fee}"></div>
                     <div class="error-400" ng-if="$ctrl.noFee" w-i18n="modal.token.validation.noMoney"></div>

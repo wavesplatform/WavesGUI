@@ -97,13 +97,17 @@ w-create-order {
 
           &::after {
             right: 9px;
+            top: 10px;
             background-size: 80%;
+            transform: rotate(180deg);
             background-repeat: no-repeat;
             background-position: center left;
           }
         }
 
         .select-list {
+          flex-direction: column-reverse;
+
           w-option {
             &.active::after {
               content: '';
@@ -113,7 +117,7 @@ w-create-order {
               top: 50%;
               width: 10px;
               height: 5px;
-              transform: translateY(-50%) rotate(180deg);
+              transform: translateY(-50%);
               background-image: @arrow-select-icon;
               background-size: 80%;
               background-repeat: no-repeat;
@@ -135,7 +139,7 @@ w-create-order {
           }
 
           .select-list {
-            margin-top: -22px;
+            margin-top: 22px;
           }
         }
       }
