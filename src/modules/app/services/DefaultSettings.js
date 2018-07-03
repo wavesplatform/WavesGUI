@@ -84,11 +84,7 @@
                         watchlist: {
                             showOnlyFavorite: false,
                             favourite: [
-                                [WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC],
-                                [
-                                    '46dKSX1VuR7Wnk8ADAxpFpbtRXfYL14GaqJoFHSrHWLB',
-                                    '2moXv7GJ6tE1m1JQFrcMvu7RtbowYERTMFrYn3zk4pVR'
-                                ]
+                                [WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC]
                             ],
                             activeTab: 'all',
                             list: Object.values(WavesApp.defaultAssets)
