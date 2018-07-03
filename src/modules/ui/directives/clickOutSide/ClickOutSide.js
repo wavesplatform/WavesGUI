@@ -17,7 +17,7 @@
                         const $target = $(e.target);
 
                         if ($target.closest($element).length === 0) {
-                            this.onClickOutSide({ event: e });
+                            this.onClickOutside({ event: e });
                             $scope.$apply();
                         }
                     });

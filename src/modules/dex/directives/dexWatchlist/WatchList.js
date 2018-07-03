@@ -470,7 +470,7 @@
                 const query = this.search;
                 this._searchAssets = [];
 
-                const queryParts = query.split('/').slice(0, 2).map(q => q.replace(/\W/g, '')).filter(Boolean);
+                const queryParts = query.split('/').slice(0, 2).map(q => q.replace(/[:()^]/g, '')).filter(Boolean);
 
                 if (!queryParts.length) {
                     WatchList._renderSmartTable();

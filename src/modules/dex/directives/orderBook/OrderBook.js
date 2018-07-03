@@ -181,7 +181,6 @@
                     waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price),
                     waves.matcher.getOrders(),
                     ds.api.transactions.getExchangeTxList({
-                        timeStart: 0, // TODO
                         amountAsset: this._assetIdPair.amount,
                         priceAsset: this._assetIdPair.price,
                         limit: 1
