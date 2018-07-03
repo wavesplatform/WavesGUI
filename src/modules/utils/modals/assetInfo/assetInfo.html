@@ -47,8 +47,8 @@
                 <div class="basic-900">{{::$ctrl.asset.precision}}</div>
             </div>
             <div class="line">
-                <div class="body-2 basic-700" w-i18n="modal.assetInfo.type"></div>
-                <div class="footnote-1 basic-500">
+                <div class="basic-500" w-i18n="modal.assetInfo.type"></div>
+                <div class="basic-900">
                     <span w-i18n="modal.assetInfo.reissue.{{::$ctrl.asset.reissuable ? 'yes' : 'no'}}"></span>
                 </div>
             </div>
@@ -73,7 +73,7 @@
                     <div ng-repeat="legend in $ctrl.circleChartData track by legend.id"
                          ng-if="!legend.value.getTokens().eq(0)"
                          class="legend-item">
-                        <div class="part disabled-500">
+                        <div class="part basic-500">
                             <div class="legend-color margin-right-1"
                                  style="background-color: {{::$ctrl.chartOptions.items[legend.id].color}}"></div>
                             <span w-i18n="modal.assetInfo.{{::legend.id}}"></span>
