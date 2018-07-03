@@ -131,7 +131,7 @@
                                 this._updateActiveUserAddress();
                                 document.body.removeChild(iframe);
                                 return Promise.all([
-                                    storage.save('accountImportComplete'),
+                                    storage.save('accountImportComplete', userList.length > 0),
                                     storage.save('userList', userList)
                                 ]);
                             })
