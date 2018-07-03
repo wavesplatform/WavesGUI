@@ -528,7 +528,11 @@
              * @private
              */
             _setIfCanBuyOrder() {
-                if (this.type === 'buy' && this.totalPrice) {
+                if (this.type === 'buy' &&
+                    this.totalPrice &&
+                    this.priceBalance &&
+                    this.totalPrice.asset.id === this.priceBalance.asset.id) {
+
                     this.canBuyOrder = (
                         this.totalPrice.lte(this.priceBalance) && this.priceBalance.getTokens().gt(0)
                     );
