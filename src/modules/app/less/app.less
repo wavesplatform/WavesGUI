@@ -18,7 +18,8 @@ body {
   }
 }
 
-body.wallet {
+body.wallet,
+body.tokens {
   .scroll();
 }
 
@@ -191,24 +192,25 @@ w-scroll-box {
   min-height: 355px;
 
   .content {
-    width: calc(~"100% - "@width-left-menu + @padding-main-layout * 2);
-    height: calc(~"100% - "@height-header + @padding-main-layout * 2);
+    width: calc(~"100% - "@width-left-menu);
+    height: calc(~"100% - "@height-header);
+    padding: @padding-main-layout;
     overflow: hidden;
     position: absolute;
-    right: @padding-main-layout;
-    bottom: @padding-main-layout;
+    right: 0;
+    bottom: 0;
   }
 }
 
 .wallet.assets {
   .main-content .content {
+    width: calc(100% ~'- 70px');
+    height: calc(100% ~'- 70px');
+    padding: @padding-main-layout;
     overflow-y: auto;
     top: 70px;
     right: 0;
     bottom: 0;
-    padding: 10px 10px 0 0;
-    width: calc(100% ~'- 80px');
-    height: calc(100% ~'- 70px');
   }
 }
 
@@ -323,7 +325,7 @@ md-toolbar:not(.md-menu-toolbar) {
 
 .main {
   .main-content {
-    background-color: @color-basic-50;
+    background-color: @color-basic-100;
 
     .header,
     .left-menu {

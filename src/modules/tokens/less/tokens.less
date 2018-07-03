@@ -10,10 +10,10 @@ body.tokens {
   @height-title: 40px;
 
   .main-content .content {
-    height: calc(~'100% - '@padding-main-layout * 2);
-    width: calc(~'100% - '@width-left-menu + @padding-main-layout * 2);
-    right: @padding-main-layout;
-    bottom: @padding-main-layout;
+    height: 100%;
+    width: calc(~'100% - '@width-left-menu);
+    right: 0;
+    bottom: 0;
     overflow: hidden;
   }
 
@@ -22,7 +22,6 @@ body.tokens {
     height: 100%;
     background-color: @color-white;
     border-radius: @border-radius;
-    border: 1px solid @color-basic-100;
 
     w-select.issue-select {
       white-space: nowrap;

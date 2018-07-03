@@ -10,19 +10,11 @@ w-header {
   background-color: @color-white;
   overflow: hidden;
 
-  &::after {
-    content: '';
-    height: 1px;
-    width: calc(~"100% - " @width-left-menu);
-    background-color: @color-disabled-100;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-  }
 
   w-navigation {
     display: block;
     height: 100%;
+    border-left: 1px solid @color-basic-100;
   }
 
   w-search {
