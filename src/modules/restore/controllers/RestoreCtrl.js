@@ -90,6 +90,15 @@
                 this.activeStep++;
             }
 
+            importAccounts() {
+                const beta = utils.importAccountByTab(WavesApp.betaOrigin, 5000)
+                    .catch(() => []);
+                const old = utils.importAccountByTab('https://waveswallet.io', 5000)
+                    .catch(() => []);
+
+
+            }
+
             /**
              * @private
              */

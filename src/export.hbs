@@ -27,11 +27,14 @@
             { origin: '{{{targetOrigin}}}', win: window.opener || window.parent }
     ));
 
+    var intervalId;
+
     webBus.registerRequestHandler('getLocalStorageData', () => {
+        clearInterval(intervalId);
         return parse(JSON.parse(localStorage.getItem('userList')));
     });
 
-    setInterval(function () {
+    intervalId = setInterval(function () {
         webBus.dispatchEvent('export-ready');
     }, 50);
 

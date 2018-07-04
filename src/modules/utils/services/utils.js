@@ -5,6 +5,7 @@
 
     const tsUtils = require('ts-utils');
     const tsApiValidator = require('ts-api-validator');
+    const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
 
     class BigNumberPart extends tsApiValidator.BasePart {
 
@@ -383,6 +384,119 @@
                 return new BigNumber((String(data)
                     .replace(',', '')
                     .replace(/\s/g, '') || 0), 10);
+            },
+
+            /**
+             * @name app.utils#loadOrTimeout
+             * @param {Window} target
+             * @param {number} timeout
+             * @return {Promise<any>}
+             */
+            loadOrTimeout(target, timeout) {
+                return new Promise((resolve, reject) => {
+                    target.addEventListener('load', resolve, false);
+                    target.addEventListener('error', reject, false);
+
+                    setTimeout(() => {
+                        reject(new Error('Timeout limit error!'));
+                    }, timeout);
+                });
+            },
+
+            /**
+             * @name app.utils#importUsersByWindow
+             * @param {Window} win
+             * @param {string} origin
+             * @param {number} timeout
+             * @return {Promise<any>}
+             */
+            importUsersByWindow(win, origin, timeout) {
+                return new Promise((resolve, reject) => {
+                    const adapter = new WindowAdapter(
+                        { win: window, origin: WavesApp.targetOrigin },
+                        { win, origin }
+                    );
+                    const bus = new Bus(adapter);
+
+                    bus.once('export-ready', () => {
+                        bus.request('getLocalStorageData').then(resolve);
+                    });
+
+                    setTimeout(() => {
+                        reject(new Error('Timeout limit error!'));
+                    }, timeout);
+                });
+            },
+
+            /**
+             * @name app.utils#importAccountByIframe
+             * @param {string} origin
+             * @param {number} timeout
+             * @return {Promise<T>}
+             */
+            importAccountByIframe(origin, timeout) {
+
+                /**
+                 * @type {HTMLIFrameElement}
+                 */
+                const iframe = document.createElement('iframe');
+                const onError = (error) => {
+                    if (iframe.parentNode) {
+                        document.body.removeChild(iframe);
+                    }
+                    return Promise.reject(error);
+                };
+
+                iframe.src = `${origin}/export`;
+
+                const result = utils.loadOrTimeout(iframe, timeout)
+                    .then(() => utils.importUsersByWindow(iframe.contentWindow, origin, timeout))
+                    .catch(onError);
+
+                iframe.style.opacity = '0';
+                iframe.style.position = 'absolute';
+                iframe.style.left = '0';
+                iframe.style.top = '0';
+                document.body.appendChild(iframe);
+
+                return result;
+            },
+
+            /**
+             * @name app.utils#importAccountByTab
+             * @param {string} origin
+             * @param {number} timeout
+             * @return {Promise<T>}
+             */
+            importAccountByTab(origin, timeout) {
+                const width = 'width=100';
+                const height = 'height=100';
+                const left = `left=${Math.floor(screen.width - 100 / 2)}`;
+                const right = `right=${Math.floor(screen.height - 100 / 2)}`;
+                let closed = false;
+
+                const close = d => {
+                    if (!closed) {
+                        win.close();
+                        closed = true;
+                    }
+                    return d;
+                };
+
+                const win = window.open(
+                    `${origin}/export`,
+                    'export',
+                    `${width},${height},${left},${top},${right},no,no,no,no,no,no`
+                );
+
+                const onError = (e) => {
+                    close();
+                    return Promise.reject(e);
+                };
+
+                return utils.importUsersByWindow(win, origin, timeout)
+                    .then(close)
+                    .catch(onError);
             },
 
             /**

@@ -2,10 +2,20 @@
     'use strict';
 
     const PATH = 'modules/welcome/templates';
-    const bus = require('@waves/waves-browser-bus');
 
 
-    const controller = function (Base, $scope, $state, user, modalManager, $element, storage) {
+    /**
+     * @param Base
+     * @param $scope
+     * @param $state
+     * @param user
+     * @param modalManager
+     * @param $element
+     * @param storage
+     * @param {app.utils} utils
+     * @return {WelcomeCtrl}
+     */
+    const controller = function (Base, $scope, $state, user, modalManager, $element, storage, utils) {
 
         class WelcomeCtrl extends Base {
 
@@ -95,62 +105,19 @@
             }
 
             _loadUserListFromBeta() {
-                /**
-                 * @type {HTMLIFrameElement}
-                 */
-                const iframe = document.createElement('iframe');
+                utils.importAccountByIframe(WavesApp.betaOrigin, 5000)
+                    .then((userList) => {
+                        this.userList = userList || [];
+                        this._updateActiveUserAddress();
 
-                let hasResponse = false;
+                        $scope.$apply();
 
-                const onError = () => {
-                    if (hasResponse) {
-                        return null;
-                    }
-                    hasResponse = true;
-                    document.body.removeChild(iframe);
-                    this._initUserList();
-                };
-
-                iframe.addEventListener('load', () => {
-                    const adapter = new bus.WindowAdapter(
-                        { win: window, origin: WavesApp.targetOrigin },
-                        { win: iframe.contentWindow, origin: WavesApp.betaOrigin }
-                    );
-
-                    const webBus = new bus.Bus(adapter);
-
-                    webBus.once('export-ready', () => {
-                        webBus.request('getLocalStorageData')
-                            .then((userList) => {
-                                userList = userList || [];
-                                if (hasResponse) {
-                                    return null;
-                                }
-                                hasResponse = true;
-                                this.userList = userList;
-                                this._updateActiveUserAddress();
-                                document.body.removeChild(iframe);
-                                return Promise.all([
-                                    storage.save('accountImportComplete', userList.length > 0),
-                                    storage.save('userList', userList)
-                                ]);
-                            })
-                            .catch(onError)
-                            .then(() => {
-                                $scope.$apply();
-                            });
+                        storage.save('accountImportComplete', this.userList.length > 0);
+                        storage.save('userList', userList);
+                    })
+                    .catch(() => {
+                        this._initUserList();
                     });
-                }, false);
-
-
-                setTimeout(onError, 1000);
-                iframe.addEventListener('error', onError, false);
-
-                iframe.src = `${WavesApp.betaOrigin}/export`;
-                iframe.style.opacity = '0';
-                iframe.style.position = 'absolute';
-
-                document.body.appendChild(iframe);
             }
 
             /**
@@ -203,7 +170,7 @@
         return new WelcomeCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', '$element', 'storage'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', '$element', 'storage', 'utils'];
 
     angular.module('app.welcome')
         .controller('WelcomeCtrl', controller);

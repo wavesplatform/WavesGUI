@@ -1,0 +1,37 @@
+<w-loader ng-if="$ctrl.pending"></w-loader>
+
+<div ng-if="!$ctrl.pending">
+
+    <div ng-if="$ctrl.users.length">
+        <div class="icon"></div>
+        <div w-i18n="select"></div>
+
+        <ul>
+            <li ng-repeat="user in $ctrl.userList track by user.address"
+                ng-class="{'has-name': !!user.name}">
+                <span ng-if="::user.name">{{::user.name}}</span>
+                <span>{{::user.address}}</span>
+                <w-checkbox-submit></w-checkbox-submit>
+            </li>
+        </ul>
+
+        <w-button w-modal-close>
+            cancel
+        </w-button>
+        <w-button>
+            import
+        </w-button>
+    </div>
+
+    <div ng-if="!$ctrl.users.length">
+
+        <div class="icon"></div>
+        <div w-i18n="not-found"></div>
+        <div w-i18n="not-found-description"></div>
+
+        <w-button w-modal-close class="big submit">
+            <span w-i18n=":-("></span>
+        </w-button>
+    </div>
+
+</div>

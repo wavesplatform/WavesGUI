@@ -304,6 +304,16 @@
                 }));
             }
 
+            showImportAccountsModal(promise) {
+                return this._getModal({
+                    id: 'import-accounts',
+                    mod: 'import-accounts',
+                    locals: { promise },
+                    controller: 'ImportAccountsCtrl',
+                    contentUrl: 'modules/utils/modals/importAccounts/importAccounts.html'
+                });
+            }
+
             /**
              * @param {IDialogOptions} options
              * @return {Promise}
