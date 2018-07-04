@@ -7,6 +7,7 @@
      */
     const factory = function (BaseNodeComponent) {
 
+        const ds = require('data-service');
         const AVAILABLE_CHARS = '-.0123456789@_abcdefghijklmnopqrstuvwxyz';
 
         class Aliases extends BaseNodeComponent {
@@ -17,7 +18,7 @@
              * @return {Promise<string>}
              */
             getAddress(alias) {
-                return ds.fetch(`${this.node}/alias/by-alias/${alias}`)
+                return ds.api.aliases.getAddressByAlias(alias)
                     .then(({ address }) => address);
             }
 
@@ -30,7 +31,6 @@
             }
 
             validate(alias) {
-                // TODO : replace with waves-api method when it is implemented
                 return alias.length >= 4 &&
                     alias.length <= WavesApp.maxAliasLength &&
                     alias.split('').every((char) => AVAILABLE_CHARS.includes(char));

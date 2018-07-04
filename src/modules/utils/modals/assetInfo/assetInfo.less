@@ -62,7 +62,6 @@ html body md-dialog.asset-info-modal {
       align-items: center;
 
       &.chart-container {
-
         .legend-item {
           white-space: nowrap;
         }
@@ -98,6 +97,7 @@ html body md-dialog.asset-info-modal {
         display: flex;
         flex-direction: column;
         text-align: right;
+        margin-left: 20px;
 
         .legend-item, .total {
           display: flex;
@@ -131,7 +131,7 @@ html body md-dialog.asset-info-modal {
           font-family: @font-roboto-medium;
 
           div:first-child {
-            color: @color-disabled-500;
+            color: @color-basic-500;
           }
         }
 
@@ -143,7 +143,7 @@ html body md-dialog.asset-info-modal {
   .padding-content.tab-details .tab-tem {
     .footnote-1();
     .line {
-      height: 38px;
+      min-height: 38px;
     }
     .line > div:last-child {
       display: block;

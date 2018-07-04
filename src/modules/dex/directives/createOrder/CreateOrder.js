@@ -114,11 +114,18 @@
                  * @type {[]}
                  */
                 this.expirationValues = [
-                    { name: '1min', value: utils.moment().add().minute(1).getDate().getTime() },
-                    { name: '30min', value: utils.moment().add().minute(30).getDate().getTime() },
-                    { name: '1hour', value: utils.moment().add().hour(1).getDate().getTime() },
-                    { name: '1week', value: utils.moment().add().week(1).getDate().getTime() },
-                    { name: '30day', value: utils.moment().add().day(30).getDate().getTime() }
+                    { name: '5min', value: () => utils.moment().add().minute(5).getDate().getTime() },
+                    { name: '30min', value: () => utils.moment().add().minute(30).getDate().getTime() },
+                    { name: '1hour', value: () => utils.moment().add().hour(1).getDate().getTime() },
+                    { name: '1day', value: () => utils.moment().add().day(1).getDate().getTime() },
+                    { name: '1week', value: () => utils.moment().add().week(1).getDate().getTime() },
+                    {
+                        name: '30day',
+                        value: () => utils.moment()
+                            .add().day(29)
+                            .add().hour(23)
+                            .add().minute(55).getDate().getTime()
+                    }
                 ];
 
                 this.expiration = this.expirationValues[this.expirationValues.length - 1].value;
@@ -203,6 +210,8 @@
                         }
                     }));
                 });
+
+                this.observe(['priceBalance', 'totalPrice'], this._setIfCanBuyOrder);
 
                 this.observe(['amount', 'price', 'type'], this._currentTotal);
                 this.observe('totalPrice', this._currentAmount);
@@ -297,9 +306,7 @@
                 )
                     .then((price) => {
                         const amount = this.amount;
-                        this.amount = this.amountBalance.cloneWithTokens('0');
                         form.$setUntouched();
-                        form.$setPristine();
                         $scope.$apply();
                         return ds.createOrder({
                             amountAsset: this.amountBalance.asset.id,
@@ -308,7 +315,7 @@
                             price: price.toMatcherCoins(),
                             amount: amount.toCoins(),
                             matcherFee: this.fee.getCoins(),
-                            expiration: this.expiration
+                            expiration: this.expiration()
                         });
                     }).then(() => {
                         notify.addClass('success');
@@ -412,7 +419,6 @@
              */
             _getLastPrice() {
                 return ds.api.transactions.getExchangeTxList({
-                    timeStart: 0, // TODO
                     amountAsset: this._assetIdPair.amount,
                     priceAsset: this._assetIdPair.price,
                     limit: 1
@@ -529,7 +535,11 @@
              * @private
              */
             _setIfCanBuyOrder() {
-                if (this.type === 'buy') {
+                if (this.type === 'buy' &&
+                    this.totalPrice &&
+                    this.priceBalance &&
+                    this.totalPrice.asset.id === this.priceBalance.asset.id) {
+
                     this.canBuyOrder = (
                         this.totalPrice.lte(this.priceBalance) && this.priceBalance.getTokens().gt(0)
                     );
