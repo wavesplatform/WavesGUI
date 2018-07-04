@@ -35,7 +35,18 @@
         'mainSeriesProperties.areaStyle.color1': CANDLE_UP_COLOR,
         'mainSeriesProperties.areaStyle.color2': CANDLE_UP_COLOR,
         'mainSeriesProperties.areaStyle.linecolor': CANDLE_UP_COLOR,
-        'scalesProperties.lineColor': '#edf0f4'
+        'paneProperties.background': '#2d2d2d',
+        'scalesProperties.lineColor': '#424242',
+        'scalesProperties.textColor': '#8c8c8c',
+        'paneProperties.gridProperties.color': '#424242',
+        'paneProperties.vertGridProperties.color': '#424242',
+        'paneProperties.horzGridProperties.color': '#424242',
+        'mainSeriesProperties.candleStyle.borderDownColor': '#e5494d',
+        'mainSeriesProperties.hollowCandleStyle.borderDownColor': '#e5494d',
+        'mainSeriesProperties.haStyle.borderDownColor': '#e5494d',
+        'mainSeriesProperties.candleStyle.borderUpColor': '#5a81ea',
+        'mainSeriesProperties.hollowCandleStyle.borderUpColor': '#5a81ea',
+        'mainSeriesProperties.haStyle.borderUpColor': '#5a81ea'
     };
 
     const STUDIES_OVERRIDES = {
@@ -154,7 +165,7 @@
                 this._chart = new TradingView.widget({
                     // debug: true,
                     locale: DexCandleChart._remapLanguageCode(i18next.language),
-                    toolbar_bg: '#fff',
+                    toolbar_bg: '#2d2d2d',
                     symbol: `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
                     interval: WavesApp.dex.defaultResolution,
                     container_id: this.elementId,
