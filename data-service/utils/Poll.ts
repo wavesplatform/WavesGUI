@@ -47,7 +47,7 @@ export class Poll<T> {
 
     public restart() {
         this._clear();
-        this._setTimeout();
+        this._run();
     }
 
     private _run() {

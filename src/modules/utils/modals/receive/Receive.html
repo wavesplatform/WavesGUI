@@ -49,13 +49,13 @@
                                 <div class="body-2 basic-900">
                                     <span w-i18n="modal.deposit.copyAndShare"></span>
                                     <w-help-icon>
-                                        <div class="row-help headline-3">
+                                        <div class="help-icon__row headline-3">
                                             <span w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.helpDescrTitle"></span>
                                         </div>
-                                        <div class="row-help">
+                                        <div class="help-icon__row">
                                             <span w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.helpDescrText"></span>
                                         </div>
-                                        <div class="row-help">
+                                        <div class="help-icon__row">
                                             <span w-i18n="modal.deposit.pleaseNote"></span>
                                         </div>
                                     </w-help-icon>
@@ -164,7 +164,8 @@
                                             class="big"
                                             ng-if="!$ctrl.singleAsset"
                                             ng-model="$ctrl.chosenAssetId">
-                                            <w-option ng-repeat="purchasableByCard in $ctrl.purchasablesByCards track by $index" value="::purchasableByCard.id">
+                                            <w-option ng-repeat="purchasableByCard in $ctrl.purchasablesByCards track by $index"
+                                                      value="::purchasableByCard.id">
                                                 <div class="flex-row split-half">
                                                     <div class="flex-row">
                                                         <w-asset-logo size="24" asset-id="{{::purchasableByCard.id}}"></w-asset-logo>

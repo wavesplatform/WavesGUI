@@ -1,5 +1,5 @@
 import { request } from '../../utils/request';
-import { get, getDataService } from '../../config';
+import { getDataService } from '../../config';
 
 export function getAliasesByAddress(address: string): Promise<Array<string>> {
     const ds = getDataService();
@@ -8,5 +8,6 @@ export function getAliasesByAddress(address: string): Promise<Array<string>> {
 }
 
 export function getAddressByAlias(alias: string): Promise<{ address: string }> {
-    return request<{ address: string }>({ url: `${get('node')}/alias/by-alias/${alias}` });
+    const ds = getDataService();
+    return request({ method: () => ds.aliases.getById(alias).then(r => r.data) });
 }

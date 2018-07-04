@@ -72,7 +72,8 @@ md-input-container {
   outline: none;
 }
 
-.empty-block-container {
+w-error-block,
+w-empty-block {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -88,12 +89,12 @@ md-input-container {
     height: 100px;
     margin: 0 0 10px 0;
   }
+}
 
-  &.error {
+w-error-block {
     .icon {
       background-image: url(/img/icons/icon-error.svg);
     }
-  }
 }
 
 .ghost {
@@ -247,7 +248,7 @@ md-toolbar.md-default-theme:not(.md-menu-toolbar),
 md-toolbar:not(.md-menu-toolbar) {
   background-color: @color-white;
   color: @color-black;
-  border-bottom: 1px solid @color-disabled-200;
+  border-bottom: 1px solid @color-basic-200;
 }
 
 .chart-legend {
@@ -256,7 +257,7 @@ md-toolbar:not(.md-menu-toolbar) {
 
   .legend-item {
     display: block;
-    padding: 12px 0;
+    height: 38px;
   }
 
 }

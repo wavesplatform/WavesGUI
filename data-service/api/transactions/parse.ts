@@ -19,8 +19,9 @@ import {
     tokensMoneyFactory
 } from '../../utils/utils';
 import { WAVES_ID } from '@waves/waves-signature-generator';
-import { IHash } from '../../interface';
+import { IHash, TOrderType } from '../../interface';
 import { factory, IFactory, remapOrder } from '../matcher/getOrders';
+import { getSignatureApi } from '../../sign';
 
 const getFactory = (isTokens: boolean): IFactory => {
     if (isTokens) {
@@ -40,9 +41,11 @@ export function parseTx(transactions: Array<T_API_TX>, isUTX: boolean, isTokens?
     hash[WAVES_ID] = true;
     transactions.forEach((tx) => getAssetsHashFromTx(tx, hash));
 
-    return get(Object.keys(hash))
-        .then((assets) => toHash(assets, 'id'))
-        .then((hash) => {
+    return Promise.all([
+        get(Object.keys(hash)).then((assets) => toHash(assets, 'id')),
+        getSignatureApi().getPublicKey()
+    ])
+        .then(([hash, sender]) => {
             return transactions.map((transaction) => {
                 switch (transaction.type) {
                     case TRANSACTION_TYPE_NUMBER.SEND_OLD:
@@ -56,7 +59,7 @@ export function parseTx(transactions: Array<T_API_TX>, isUTX: boolean, isTokens?
                     case TRANSACTION_TYPE_NUMBER.BURN:
                         return parseBurnTx(transaction, hash, isUTX);
                     case TRANSACTION_TYPE_NUMBER.EXCHANGE:
-                        return parseExchangeTx(transaction, hash, isUTX, isTokens);
+                        return parseExchangeTx(transaction, hash, isUTX, isTokens, sender);
                     case TRANSACTION_TYPE_NUMBER.LEASE:
                         return parseLeasingTx(transaction, hash, isUTX);
                     case TRANSACTION_TYPE_NUMBER.CANCEL_LEASING:
@@ -136,8 +139,7 @@ export function parseBurnTx(tx: txApi.IBurn, assetsHash: IHash<Asset>, isUTX: bo
     return { ...tx, amount, fee, isUTX };
 }
 
-// TODO use orders parse from matcher
-export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, isUTX: boolean, isTokens?: boolean): IExchange {
+export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, isUTX: boolean, isTokens: boolean, sender: string): IExchange {
     const factory = getFactory(isTokens);
     const order1 = parseExchangeOrder(factory, tx.order1, assetsHash);
     const order2 = parseExchangeOrder(factory, tx.order2, assetsHash);
@@ -147,8 +149,8 @@ export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, i
     };
     const buyOrder = orderHash.buy;
     const sellOrder = orderHash.sell;
-    const exchangeType = buyOrder.timestamp > sellOrder.timestamp ? 'buy' : 'sell';
-    const price = order1.price;
+    const exchangeType = getExchangeType(order1, order2, sender);
+    const price = Money.min(order1.price, order2.price);
     const amount = Money.min(order1.amount, order2.amount);
     const total = Money.min(order1.total, order2.total);
     const buyMatcherFee = factory.money(tx.buyMatcherFee, assetsHash[WAVES_ID]);
@@ -216,4 +218,24 @@ function parseExchangeOrder(factory: IFactory, order: txApi.IExchangeOrder, asse
     const total = Money.fromTokens(amount.getTokens().times(price.getTokens()), price.asset);
     const matcherFee = factory.money(order.matcherFee, assetsHash[WAVES_ID]);
     return { ...order, price, amount, matcherFee, assetPair, total };
+}
+
+function getExchangeType(order1: IExchangeOrder, order2: IExchangeOrder, sender: string): TOrderType {
+    if (isBothOwnedBy(order1, order2, sender) || isBothNotOwnedBy(order1, order2, sender)) {
+        return order1.timestamp > order2.timestamp ? order1.orderType : order2.orderType;
+    } else {
+        return getMineOrder(order1, order2, sender).orderType;
+    }
+}
+
+function getMineOrder(order1: IExchangeOrder, order2: IExchangeOrder, sender: string): IExchangeOrder {
+    return order1.senderPublicKey === sender ? order1 : order2;
+}
+
+function isBothOwnedBy(order1: IExchangeOrder, order2: IExchangeOrder, sender: string) {
+    return order1.senderPublicKey === sender && order2.senderPublicKey === sender;
+}
+
+function isBothNotOwnedBy(order1: IExchangeOrder, order2: IExchangeOrder, sender: string) {
+    return order1.senderPublicKey !== sender && order2.senderPublicKey !== sender;
 }

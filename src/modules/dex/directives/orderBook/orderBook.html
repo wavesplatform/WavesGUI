@@ -1,12 +1,15 @@
 <div class="wrapper">
 
     <w-loader ng-show="$ctrl.pending"></w-loader>
+    <w-empty-block ng-show="$ctrl.nothingFound()"></w-empty-block>
+    <w-error-block ng-show="$ctrl.loadingError"></w-error-block>
 
     <w-table>
-        <w-t-head>
+        <w-thead>
             <w-row>
                 <w-cell>
-                    <span w-i18n="directives.orderBook.amount" params="{assetName: $ctrl.amountAsset.displayName}"></span>
+                    <span w-i18n="directives.orderBook.amount"
+                          params="{assetName: $ctrl.amountAsset.displayName}"></span>
                 </w-cell>
                 <w-cell>
                     <span w-i18n="directives.orderBook.price" params="{assetName: $ctrl.priceAsset.displayName}"></span>
@@ -15,31 +18,20 @@
                     <span w-i18n="directives.orderBook.sum" params="{assetName: $ctrl.priceAsset.displayName}"></span>
                 </w-cell>
             </w-row>
-        </w-t-head>
-        <w-scroll-box>
-            <div class="asks"></div>
-            <div class="info">
-                <div w-i18n="directives.orderBook.lastprice"></div>
-                <div class="last-price body-2"></div>
-                <div>
-                    <span w-i18n="directives.orderBook.spread"></span>
-                    <span class="spread"></span>
+        </w-thead>
+        <w-tbody>
+            <w-scroll-box>
+                <div class="asks"></div>
+                <div class="info">
+                    <div w-i18n="directives.orderBook.lastprice"></div>
+                    <div class="last-price body-2"></div>
+                    <div>
+                        <span w-i18n="directives.orderBook.spread"></span>
+                        <span class="spread"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="bids"></div>
-        </w-scroll-box>
+                <div class="bids"></div>
+            </w-scroll-box>
+        </w-tbody>
     </w-table>
-
-    <div class="empty-block-container" ng-show="$ctrl.nothingFound()">
-        <div class="icon"></div>
-        <div class="body-1 basic-700" w-i18n="emptyBlocks.orderBook.title"></div>
-        <div class="footnote-1 basic-500" w-i18n="emptyBlocks.orderBook.description"></div>
-    </div>
-
-    <div class="empty-block-container error" ng-show="$ctrl.loadingError">
-        <div class="icon"></div>
-        <div class="body-1 basic-700" w-i18n="emptyBlocks.orderBook.error.title"></div>
-        <div class="footnote-1 basic-500" w-i18n="emptyBlocks.orderBook.error.text"></div>
-    </div>
-
 </div>

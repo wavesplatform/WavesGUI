@@ -10,6 +10,7 @@ import { MoneyHash } from '../utils/MoneyHash';
 import { UTXManager } from './UTXManager';
 import { getAliasesByAddress } from '../api/aliases/aliases';
 import { PollControl } from './PollControl';
+import { processOrdersWithStore } from '../store';
 
 
 export class DataManager {
@@ -39,7 +40,8 @@ export class DataManager {
     }
 
     public getOrders(): Promise<Array<IOrder>> {
-        return this.pollControl.getPollHash().orders.getDataPromise();
+        return this.pollControl.getPollHash().orders.getDataPromise()
+            .then(processOrdersWithStore);
     }
 
     public getAliasesPromise(): Promise<Array<string>> {
@@ -51,13 +53,13 @@ export class DataManager {
     }
 
     private _getPollBalanceApi(): IPollAPI<Array<IBalanceItem>> {
-        const hash = this.pollControl.getPollHash();
-        const orders = hash && hash.orders.lastData || [];
-        const inOrdersHash = this._getOrdersHash(orders);
-        return {
-            get: () => balanceList(this._address, Object.create(null), inOrdersHash),
-            set: () => null
+        const get = () => {
+            const hash = this.pollControl.getPollHash();
+            const orders = hash && hash.orders.lastData || [];
+            const inOrdersHash = this._getOrdersHash(orders);
+            return balanceList(this._address, Object.create(null), inOrdersHash);
         };
+        return { get, set: () => null };
     }
 
     private _getPollOrdersApi(): IPollAPI<Array<IOrder>> {
