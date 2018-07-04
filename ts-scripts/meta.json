@@ -154,7 +154,7 @@
       "code": "T",
       "node": "https://pool.testnet.wavesnodes.com",
       "matcher": "https://testnet1.wavesnodes.com/matcher",
-      "api": "https://api-stage.testnet.wavesplatform.com",
+      "api": "https://api.testnet.wavesplatform.com",
       "coinomat": "https://test.coinomat.com",
       "support": "https://support.wavesplatform.com",
       "nodeList": "http://dev.pywaves.org/testnet/generators/",
