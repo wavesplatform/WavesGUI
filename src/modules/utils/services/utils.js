@@ -472,7 +472,7 @@
                 const width = 'width=100';
                 const height = 'height=100';
                 const left = `left=${Math.floor(screen.width - 100 / 2)}`;
-                const right = `right=${Math.floor(screen.height - 100 / 2)}`;
+                const right = `top=${Math.floor(screen.height - 100 / 2)}`;
                 let closed = false;
 
                 const close = d => {

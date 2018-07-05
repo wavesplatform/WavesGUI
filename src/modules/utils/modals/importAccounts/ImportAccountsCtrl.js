@@ -5,21 +5,16 @@
 
         class ImportAccountsCtrl extends Base {
 
-            constructor(importPromise) {
+            constructor() {
                 super($scope);
 
                 this.pending = true;
-
-                importPromise.then(([beta, old]) => {
-                    this.pending = false;
-                    $scope.$apply();
-                    debugger;
-                });
+                this.userList = [];
             }
 
         }
 
-        return new ImportAccountsCtrl(this.promise);
+        return new ImportAccountsCtrl();
     };
 
     controller.$inject = ['Base', '$scope'];

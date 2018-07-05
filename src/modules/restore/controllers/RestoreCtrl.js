@@ -6,10 +6,12 @@
      * @param $scope
      * @param {User} user
      * @param {app.utils} utils
-     * @param modalManager
+     * @param {ModalManager} modalManager
      * @return {RestoreCtrl}
      */
     const controller = function (Base, $scope, user, utils, modalManager) {
+
+        const tsUtils = require('ts-utils');
 
         class RestoreCtrl extends Base {
 
@@ -91,12 +93,7 @@
             }
 
             importAccounts() {
-                const beta = utils.importAccountByTab(WavesApp.betaOrigin, 5000)
-                    .catch(() => []);
-                const old = utils.importAccountByTab('https://waveswallet.io', 5000)
-                    .catch(() => []);
-
-
+                return modalManager.showImportAccountsModal();
             }
 
             /**
