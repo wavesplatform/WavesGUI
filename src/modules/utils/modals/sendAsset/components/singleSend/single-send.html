@@ -82,15 +82,15 @@
     </div>
 
     <div ng-if="$ctrl.outerSendMode && $ctrl.gatewayDetailsError" class="row">
-        <div class="warning-plate margin-2">
+        <div class="warning-plate server-error">
             <div class="body-2 warning-500"
-                 w-i18n="modal.send.coinomat.noConnect">
+                 w-i18n="modal.receive.serverError">
             </div>
         </div>
         <w-button on-click="$ctrl.getGatewayDetails()"
                   type="submit"
                   class="big submit long">
-            <span w-i18n="modal.send.coinomat.tryAgain"></span>
+            <span w-i18n="modal.receive.coinomat.tryAgain"></span>
         </w-button>
     </div>
 

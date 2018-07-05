@@ -78,7 +78,7 @@
                                     <w-loader ng-if="!$ctrl.gatewayAddress"></w-loader>
                                 </div>
 
-                                <div class="warning-plate" ng-if="$ctrl.gatewayServerError">
+                                <div class="warning-plate server-error" ng-if="$ctrl.gatewayServerError">
                                     <div class="body-2 warning-500"
                                          w-i18n="modal.receive.serverError"></div>
                                 </div>
@@ -86,7 +86,7 @@
                                           on-click="$ctrl.updateGatewayAddress()"
                                           type="submit"
                                           class="big submit long">
-                                    <span w-i18n="modal.send.coinomat.tryAgain"></span>
+                                    <span w-i18n="modal.receive.coinomat.tryAgain"></span>
                                 </w-button>
                             </div>
                         </w-tab>
@@ -146,11 +146,11 @@
                                         <div class="body-2 basic-900" w-i18n="modal.receive.shareInvoiceLink"></div>
                                         <w-copy-wrap class="body-1 basic-900 mobile-low-fsize" info="$ctrl.sendLink"
                                                      ng-click="$ctrl.onCopyAddress()">
-                                            <span>{{$ctrl.sendLink}}<span>
+                                            <span>{{$ctrl.sendLink}}</span>
                                         </w-copy-wrap>
                                     </div>
 
-                                    <div class="or">or</div>
+                                    <div class="or" w-i18n="modal.send.or"></div>
 
                                     <div class="center">
                                         <div class="scan body-2 basic-900" w-i18n="modal.qr.scanQrCode"></div>
