@@ -1,8 +1,8 @@
 <div class="txinfo__lead">
-    <h3 class="basic-700">
-        <span w-nice-number="$ctrl.amount" precision="$ctrl.precision"></span>
-        <span w-i18n="transaction.amounts.{{::$ctrl.transaction.typeName}}" params="{name: $ctrl.name}"></span>
-    </h3>
+    <h3 class="basic-700"
+        w-i18n="transaction.amounts.{{::$ctrl.transaction.typeName}}"
+        w-nice-number="$ctrl.amount"
+        params="{amount: $ctrl.transaction.quantity.toFormat($ctrl.transaction.precision), name: $ctrl.name}"></h3>
 </div>
 
 <div class="txinfo__row" ng-if="::$ctrl.transaction.assetId">
