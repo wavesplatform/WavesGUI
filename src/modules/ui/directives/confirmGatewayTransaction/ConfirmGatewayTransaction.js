@@ -20,23 +20,19 @@
             }
 
             confirm() {
-                return user.getSeed().then(({ keyPair }) => {
+                let amount = this.tx.amount;
+                amount = amount.cloneWithTokens(amount.getTokens().plus(this.gatewayDetails.gatewayFee));
 
-                    let amount = this.tx.amount;
-                    amount = amount.cloneWithTokens(amount.getTokens().plus(this.gatewayDetails.gatewayFee));
-
-                    return waves.node.assets.transfer({ ...this.tx, amount, keyPair }).then(({ id }) => {
-                        this.tx.id = id;
-                        this.step++;
-                        analytics.push('Gateway', 'Gateway.Send', 'Gateway.Send.Success', this.tx.amount);
-                        $scope.$apply();
-                    }).catch((e) => {
-                        console.error(e);
-                        console.error('Gateway transaction error!');
-                        analytics.push('Gateway', 'Gateway.Send', 'Gateway.Send.Error', this.tx.amount);
-                        $scope.$apply();
-                    });
-
+                return ds.broadcast(4, { ...this.tx, amount }).then(({ id }) => {
+                    this.tx.id = id;
+                    this.step++;
+                    analytics.push('Gateway', 'Gateway.Send', 'Gateway.Send.Success', this.tx.amount);
+                    $scope.$apply();
+                }).catch((e) => {
+                    console.error(e);
+                    console.error('Gateway transaction error!');
+                    analytics.push('Gateway', 'Gateway.Send', 'Gateway.Send.Error', this.tx.amount);
+                    $scope.$apply();
                 });
             }
 
