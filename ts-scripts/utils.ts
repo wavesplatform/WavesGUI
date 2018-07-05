@@ -12,6 +12,7 @@ import { minify } from 'html-minifier';
 import { get, ServerResponse, IncomingMessage } from 'https';
 import { MAINNET_DATA, TESTNET_DATA } from '@waves/assets-pairs-order';
 
+const EXIST_THEME = ['default', 'black'];
 
 export const task: ITaskFunction = gulp.task.bind(gulp) as any;
 
@@ -126,7 +127,7 @@ export function replaceScripts(file: string, paths: Array<string>): string {
 
 export function replaceStyles(file: string, paths: Array<string>): string {
     return file.replace('<!-- CSS -->', paths.map((path: string) => {
-        return `<link rel="stylesheet" href="${path}">`;
+        return EXIST_THEME.map((theme: string) => `<link theme="${theme}" rel="stylesheet" href="${path}?theme=${theme}">`).join('\n');
     }).join('\n'));
 }
 
@@ -179,6 +180,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
             });
         })
         .then((file) => {
+            let styleSheet = replaceStyles(file, param.styles.map(filter).map(s => `/${s}`));
             return replaceStyles(file, param.styles.map(filter).map(s => `/${s}`));
         }).then((file) => {
             return replaceScripts(file, param.scripts.map(filter));
@@ -288,10 +290,13 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                     res.end(code);
                 });
         } else if (isLess(url)) {
+            const theme = req.url.match(/theme=(.+),?/)[1];
+
             readFile(join(__dirname, '../src', url), 'utf8')
                 .then((style) => {
                     (render as any)(style, {
-                        filename: join(__dirname, '../src', url)
+                        filename: join(__dirname, '../src', url),
+                        paths: join(__dirname, `../src/lessConfig/${theme}`)
                     } as any)
                         .then(function (out) {
                             res.setHeader('Content-type', 'text/css');
@@ -387,6 +392,7 @@ export function isSourceScript(url: string): boolean {
 }
 
 export function isLess(url: string): boolean {
+    url = url.split('?')[0];
     return url.includes('/modules/') && url.lastIndexOf('.less') === url.length - 5;
 }
 

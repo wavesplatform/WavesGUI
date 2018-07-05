@@ -2,7 +2,7 @@
 
 echo 'compile less'
 mkdir -p tmp
-find src -name "*.less" -exec node_modules/.bin/lessc {} \; > tmp/style.css
+find src -name "*.less" -exec node_modules/.bin/lessc --include-path=./lessConfig/default {} \; > tmp/style.css
 echo 'auto prefix'
 node_modules/.bin/postcss tmp/style.css -o tmp/style.css || exit 1
 echo 'uglify css'

@@ -197,7 +197,6 @@
     {{/if}}
 
     <script>
-
         var __controllers = Object.create(null);
 
         var localeSeparators = {
@@ -363,6 +362,9 @@
         <base href="/">
     {{/if}}
 
+    <script>
+        [].slice.apply(document.querySelectorAll('[theme=black]')).forEach(function(el){el.disabled = true});
+    </script>
 </head>
 
 <body>
