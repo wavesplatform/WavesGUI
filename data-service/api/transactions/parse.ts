@@ -40,10 +40,11 @@ export function parseTx(transactions: Array<T_API_TX>, isUTX: boolean, isTokens?
     const hash = Object.create(null);
     hash[WAVES_ID] = true;
     transactions.forEach((tx) => getAssetsHashFromTx(tx, hash));
+    const api = getSignatureApi();
 
     return Promise.all([
         get(Object.keys(hash)).then((assets) => toHash(assets, 'id')),
-        getSignatureApi().getPublicKey()
+        api && api.getPublicKey() || Promise.resolve(null)
     ])
         .then(([hash, sender]) => {
             return transactions.map((transaction) => {
