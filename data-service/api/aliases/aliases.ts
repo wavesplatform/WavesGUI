@@ -1,15 +1,13 @@
 import { request } from '../../utils/request';
-import { get } from '../../config';
+import { getDataService } from '../../config';
 
 export function getAliasesByAddress(address: string): Promise<Array<string>> {
-    return request<Array<string>>({ url: `${get('node')}/alias/by-address/${address}` })
-        .then((list) => list.map(clearAliasName));
+    const ds = getDataService();
+    return request({ method: () => ds.aliases.getByAddress(address) })
+        .then((r) => r.data.map((alias) => alias.alias));
 }
 
 export function getAddressByAlias(alias: string): Promise<{ address: string }> {
-    return request<{ address: string }>({ url: `${get('node')}/alias/by-alias/${alias}` });
-}
-
-export function clearAliasName(item: string): string {
-    return item.replace(`alias:${get('code')}:`, '');
+    const ds = getDataService();
+    return request({ method: () => ds.aliases.getById(alias).then(r => r.data) });
 }

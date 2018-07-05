@@ -73,6 +73,7 @@ w-create-order {
     justify-content: space-between;
     align-items: center;
     margin: 7px 0;
+    min-height: 25px;
 
     & > div {
       margin-left: 7px;
@@ -89,6 +90,8 @@ w-create-order {
       flex-grow: 0;
 
       .select {
+        min-width: 82px;
+
         .title {
           padding: 2px 25px 2px 10px;
           border: 1px solid transparent;
@@ -96,6 +99,7 @@ w-create-order {
 
           &::after {
             right: 9px;
+            top: 10px;
             background-size: 80%;
             background-repeat: no-repeat;
             background-position: center left;
@@ -103,6 +107,8 @@ w-create-order {
         }
 
         .select-list {
+          flex-direction: column-reverse;
+
           w-option {
             &.active::after {
               content: '';
@@ -112,7 +118,7 @@ w-create-order {
               top: 50%;
               width: 10px;
               height: 5px;
-              transform: translateY(-50%) rotate(180deg);
+              transform: translateY(-50%);
               background-image: url(/img/icons/arrow-select.svg);
               background-size: 80%;
               background-repeat: no-repeat;
@@ -123,7 +129,7 @@ w-create-order {
               padding: 0 25px 0 10px;
               line-height: 20px;
               font-size: @font-size-caption-2;
-              text-align: right;
+              text-align: left;
             }
           }
         }
@@ -134,7 +140,7 @@ w-create-order {
           }
 
           .select-list {
-            margin-top: -22px;
+            margin-top: 22px;
           }
         }
       }
@@ -171,6 +177,7 @@ w-create-order {
         flex-direction: row;
         position: relative;
         z-index: 2;
+        text-transform: uppercase;
         background-color: @color-white;
 
         .choose {
@@ -184,6 +191,7 @@ w-create-order {
 
           .name {
             font-size: @font-size-caption-2;
+            text-transform: uppercase;
           }
 
           .price {
@@ -226,6 +234,7 @@ w-create-order {
 
             .name {
               line-height: 32px;
+              text-transform: uppercase;
             }
 
             &:first-child {

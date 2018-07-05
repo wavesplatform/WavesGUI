@@ -46,7 +46,7 @@ w-dex-order-book {
       }
     }
 
-    w-t-head {
+    w-thead {
       color: @color-disabled-700;
       border-bottom: 1px solid @color-disabled-100;
 
@@ -57,6 +57,7 @@ w-dex-order-book {
         width: 100%;
         display: flex;
         align-items: center;
+        border-bottom: 1px solid @color-basic-100;
 
         &:hover {
           background: @color-white;
@@ -78,12 +79,19 @@ w-dex-order-book {
         }
       }
     }
+
+    w-tbody {
+      overflow-y: auto;
+      display: block;
+      height: 100%;
+    }
   }
 
   w-scroll-box {
     height: calc(100% ~'- 29px');
-    overflow-y: auto;
-    overflow-x: hidden;
+    max-height: calc(100% ~'- 29px');
+    overflow: auto;
+    display: block;
 
     w-row.active::before {
       background-repeat: no-repeat;
@@ -96,6 +104,11 @@ w-dex-order-book {
       z-index: 3;
       transform: translateY(-50%);
       position: absolute;
+    }
+
+    .asks,
+    .bids {
+      overflow: hidden;
     }
 
     .asks w-row,
