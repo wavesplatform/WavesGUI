@@ -355,7 +355,13 @@ tr.context-menu-hover {
 .tv-select-container.sbHolderOpen, .tv-select-container.sbHolderOpen a {
   color: #8b8b8b;
 }
-._tv-button.active, ._tv-button.toolbutton.active, .feature-no-touch ._tv-button.toolbutton:active, .feature-no-touch ._tv-button:active:not([disabled]), .feature-no-touch .tv-select-container:active, .feature-touch ._tv-button.toolbutton:active, .feature-touch ._tv-button:active:not([disabled]), .feature-touch .tv-select-container:active, .tv-select-container.sbHolderOpen {
+._tv-button.active, ._tv-button.toolbutton.active,
+.feature-no-touch ._tv-button.toolbutton:active,
+.feature-no-touch ._tv-button:active:not([disabled]),
+.feature-no-touch .tv-select-container:active,
+.feature-touch ._tv-button.toolbutton:active,
+.feature-touch ._tv-button:active:not([disabled]),
+.feature-touch .tv-select-container:active, .tv-select-container.sbHolderOpen {
   background: #2d2d2d;
 }
 .tv-select-container .sbOptions, .tv-unstyled-select-container .sbOptions {
