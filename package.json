@@ -1,6 +1,6 @@
 {
   "name": "waves-client",
-  "version": "1.0.0-beta.46",
+  "version": "1.0.0-beta.47",
   "description": "The official client application for the Waves platform",
   "private": true,
   "repository": {
@@ -83,7 +83,7 @@
     "electron:win": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.ico --platform=win32 --out=./dist/win",
     "electron:osx": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.icns --platform=darwin --out=./dist/osx",
     "electron": "gulp all && npm run electron:linux && npm run electron:win && npm run electron:osx",
-    "electron-debug": "gulp html-desktop-mainnet-min && node_modules/.bin/electron ./dist/desktop/mainnet/min/ --inspect",
+    "electron-debug": "gulp html-desktop-mainnet-min && node_modules/.bin/electron ./dist/desktop/electron-debug --inspect",
     "data-service": "tsc -p ./data-service && ./node_modules/.bin/browserify data-service/index.js -s ds -u ts-utils -o ./data-service-dist/data-service.js"
   },
   "dependencies": {
@@ -91,7 +91,7 @@
     "@uirouter/angularjs": "1.0.8",
     "@waves/assets-pairs-order": "^3.2.4",
     "@waves/data-entities": "1.6.0",
-    "@waves/data-service-client-js": "^0.3.0",
+    "@waves/data-service-client-js": "^0.5.0",
     "@waves/event-sender": "0.4.4",
     "@waves/waves-signature-generator": "0.2.0",
     "angular": "1.6.6",

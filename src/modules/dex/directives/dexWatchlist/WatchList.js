@@ -215,7 +215,9 @@
                 });
             }
 
-            showAssetInfo(asset) {
+            showAssetInfo(event, asset) {
+                event.preventDefault();
+                event.stopPropagation();
                 return modalManager.showAssetInfo(asset);
             }
 
