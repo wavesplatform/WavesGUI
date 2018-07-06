@@ -7,6 +7,7 @@ import { assetStorage } from '../../utils/AssetStorage';
 import { normalizeAssetId, toArray, toHash } from '../../utils/utils';
 import { IHash } from '../../interface';
 
+const MAX_ASSETS_IN_REQUEST = 30;
 
 export function get(id: string): Promise<Asset>;
 export function get(idList: Array<string>): Promise<Array<Asset>>;
@@ -133,9 +134,28 @@ export function getAssetsByBalanceList(data: assetsApi.IBalanceList): Promise<Ar
     return get(data.balances.map((balance) => normalizeAssetId(balance.assetId)));
 }
 
+const splitRequest = (list: string[], getData) => {
+
+    const newList = [...list];
+    const requests = [];
+
+    while (newList.length) {
+        const listPart = newList.splice(0, MAX_ASSETS_IN_REQUEST);
+        requests.push(getData(listPart));
+    }
+
+    return Promise.all(requests).then((results) => {
+        let data = [];
+        for (const items of results) {
+            data = [...data, ...items.data];
+        }
+        return {data: data};
+    });
+};
+
 const getAssetRequestCb = (list: Array<string>): Promise<Array<Asset>> => {
     const ds = getDataService();
-    return ds.getAssets(...list)
+    return splitRequest(list as any, ds.getAssets as any)
         .then((response) => {
             const assets = response.data;
             const fails = [];
