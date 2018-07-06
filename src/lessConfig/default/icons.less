@@ -54,7 +54,7 @@
 .icon-close {
   width: 16px;
   height: 16px;
-  background-image: url(/img/icons/close.svg);
+  background-image: @close-icon;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   display: inline-block;
@@ -79,7 +79,7 @@
   display: inline-block;
   width: 80px;
   height: 80px;
-  background: url(../../img/icons/card-success.svg) center no-repeat;
+  background: @card-success-icon center no-repeat;
 }
 
 .bank-success-icon {
@@ -105,11 +105,11 @@
 }
 
 .icon-send::before {
-  background-image: url(../../img/icons/send.svg);
+  background-image: @send-icon;
 }
 
 .icon-deposit::before {
-  background-image: url(../../img/icons/deposit.svg);
+  background-image: @deposit-icon;
 }
 
 .icon-qr::before {
@@ -261,7 +261,7 @@
 .icon-info {
   width: 20px;
   height: 20px;
-  background: url(../../img/icons/info-icon.svg) center no-repeat;
+  background: @info-icon center no-repeat;
   display: block;
 }
 
@@ -301,19 +301,19 @@
   width: 10px;
   height: 10px;
   vertical-align: middle;
-  background: url(../../img/icons/sorting-arrow.svg) center top no-repeat;
+  background: @sorting-icon center top no-repeat;
 }
 
 .icon-dex-arrow {
   display: inline-block;
-  background-image: url(../../img/icons/dex-toggle.svg);
+  background-image: @dex-toggle-icon;
   background-repeat: no-repeat;
   background-position: center center;
 }
 
 .icon-dex-tospread {
   display: inline-block;
-  background-image: url(../../img/icons/orderbook-to-spread.svg);
+  background-image: @orderbook-to-spread-icon;
   background-repeat: no-repeat;
   background-position: center center;
 }
