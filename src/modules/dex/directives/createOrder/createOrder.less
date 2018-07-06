@@ -1,6 +1,6 @@
 @import (reference) 'config';
 @import (reference) '../../../app/less/typography';
-@import (reference) '../../../app/less/icons';
+@import (reference) 'icons';
 
 .dex-layout {
   &__createorder {
@@ -74,6 +74,7 @@ w-create-order {
     justify-content: space-between;
     align-items: center;
     margin: 7px 0;
+    min-height: 25px;
 
     & > div {
       margin-left: 7px;
@@ -90,6 +91,8 @@ w-create-order {
       flex-grow: 0;
 
       .select {
+        min-width: 82px;
+
         .title {
           padding: 2px 25px 2px 10px;
           border: 1px solid transparent;
@@ -127,7 +130,7 @@ w-create-order {
               padding: 0 25px 0 10px;
               line-height: 20px;
               font-size: @font-size-caption-2;
-              text-align: right;
+              text-align: left;
             }
           }
         }
@@ -180,6 +183,7 @@ w-create-order {
         flex-direction: row;
         position: relative;
         z-index: 2;
+        text-transform: uppercase;
         background-color: @color-white;
 
         .choose {
@@ -193,6 +197,7 @@ w-create-order {
 
           .name {
             font-size: @font-size-caption-2;
+            text-transform: uppercase;
           }
 
           .price {
@@ -235,6 +240,7 @@ w-create-order {
 
             .name {
               line-height: 32px;
+              text-transform: uppercase;
             }
 
             &:first-child {

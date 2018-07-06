@@ -1,6 +1,6 @@
 @import (reference) 'config';
 @import (reference) '../../../ui/directives/changeLanguage/changeLanguage';
-@import (reference) '../../../app/less/icons';
+@import (reference) 'icons';
 
 @row-short: 25%;
 @row-long: 75%;
@@ -174,6 +174,46 @@ md-dialog.settings-modal {
       padding: 5px 0;
     }
   }
+
+  .white,
+  .dark,
+  .auto,
+  .blue,
+  .green {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 50%;
+    margin-right: 8px;
+    width: 12px;
+    height: 12px;
+  }
+
+  w-select w-option i {
+    margin-top: -2px;
+  }
+
+  .white {
+    background: white;
+    box-shadow: 0 0 0 1px @color-basic-200 inset;
+  }
+
+  .dark {
+    background: #2d2d2d; //basic-900
+  }
+
+  .auto {
+    background: url(/img/icons/mode-toggler-auto.svg) center no-repeat;
+  }
+
+  .blue {
+    background: #1f5af6; //submit-400
+  }
+
+  .green {
+    background: #4aad02; //success-400
+  }
+
+
 
   .network {
     .row-style {

@@ -32,7 +32,6 @@ md-dialog.account-info {
           border-bottom: 1px solid @color-basic-200;
         }
       }
-
       .message-warning {
         border: 1px dashed @color-warning-400;
         padding: 10px 20px;
@@ -51,9 +50,11 @@ md-dialog.account-info {
 
           w-button {
             display: block;
-          }
-          span {
-            color: #3f536e;
+            & > *:not(.submit) {
+              span {
+                color: @color-basic-900;
+              }
+            }
           }
         }
 

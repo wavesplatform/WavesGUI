@@ -17,26 +17,26 @@
         <div class="making-order" ng-class="$ctrl.type">
             <div class="areas">
                 <div class="area buy" ng-click="$ctrl.expand('buy')">
-                    <div class="name headline-4 basic-700">BUY</div>
+                    <div class="name headline-4 basic-700" w-i18n="directives.createOrder.buy"></div>
                 </div>
                 <div class="area sell" ng-click="$ctrl.expand('sell')">
-                    <div class="name headline-4 basic-700">SELL</div>
+                    <div class="name headline-4 basic-700" w-i18n="directives.createOrder.sell"></div>
                 </div>
             </div>
 
             <div class="choice">
                 <div class="choose buy" ng-click="$ctrl.expand('buy')">
-                    <div class="name">BUY</div>
+                    <div class="name" w-i18n="directives.createOrder.buy"></div>
                     <div class="price"
                          w-nice-number="$ctrl.ask.price"
                          precision="$ctrl.priceBalance.asset.precision"></div>
                 </div>
                 <div class="middle caption-3 disabled-900">
-                    <div>SPREAD</div>
+                    <div w-i18n="directives.createOrder.spread"></div>
                     <div>{{$ctrl.spreadPercent}}%</div>
                 </div>
                 <div class="choose sell" ng-click="$ctrl.expand('sell')">
-                    <div class="name">SELL</div>
+                    <div class="name" w-i18n="directives.createOrder.sell"></div>
                     <div class="price"
                          w-nice-number="$ctrl.bid.price"
                          precision="$ctrl.priceBalance.asset.precision"></div>

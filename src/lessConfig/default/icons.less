@@ -1,0 +1,319 @@
+@input-search-icon: url(/img/icons/input-search-icon.svg);
+@dex-star-icon: url(/img/icons/dex-star.svg);
+@dex-star-active-icon: url(/img/icons/dex-star-active.svg);
+@sorting-icon: url(/img/icons/icon-sorting.svg);
+@sorting-active-icon: url(/img/icons/icon-sorting-active.svg);
+@menu-icons: url(/img/icons/menu-icons.svg);
+@arrow-select-icon: url(/img/icons/arrow-select.svg);
+@arrow-select-expanded-icon: url(/img/icons/arrow-select-expanded.svg);
+@dex-toggle-icon: url(/img/icons/dex-toggle.svg);
+@orderbook-to-spread-icon: url(/img/icons/orderbook-to-spread.svg);
+@arrow-orderbook-top-icon: url(/img/icons/arrow-orderbook-top.svg);
+@arrow-orderbook-down-icon: url(/img/icons/arrow-orderbook-down.svg);
+@empty-icon: url(/img/icons/icon-empty.svg);
+@error-icon: url(/img/icons/icon-error.svg);
+@send-icon: url(/img/icons/send.svg);
+@deposit-icon: url(/img/icons/deposit.svg);
+@close-icon: url(/img/icons/close.svg);
+@waves-logo-icon: url(/img/icons/waves_logo.svg);
+@setting-menu-icon: url(/img/icons/settings-menu-icons.svg);
+@filter-icon: url(/img/icons/icon-filter.svg);
+@qr-code-big-icon: url(/img/icons/qr-code-big.svg);
+@dex-mini-icon: url(/img/icons/dex-icon-mini.svg);
+@hide-icon: url(/img/icons/hide-icon.svg);
+@show-icon: url(/img/icons/show-icon.svg);
+@info-icon: url(/img/icons/info-icon.svg);
+@leasing-note-icon: url(/img/icons/leasing_note.svg);
+@card-success-icon: url(/img/icons/card-success.svg);
+@close-arrow-icon: url(/img/icons/close_arrow.svg);
+@information-icon: url(/img/icons/icon-info.svg);
+@download-icon: url(/img/icons/download.svg);
+@dropdown-icon: url(/img/icons/arrow-dropdown.svg);
+
+@slide-start-icon: url(/img/icons/0_start.svg);
+@slide-wallet-icon: url(/img/icons/1_wallet.svg);
+@slide-dex-icon: url(/img/icons/2_dex.svg);
+@slide-token-icon: url(/img/icons/3_token.svg);
+@slide-backup-icon: url(/img/icons/backup.svg);
+@slide-seed-icon: url(/img/icons/seed.svg);
+
+@modal-anonymus-icon: url(/img/icons/tutorial-modals/anonym.svg);
+@modal-backup-icon: url(/img/icons/tutorial-modals/backup.svg);
+@modal-mail-icon: url(/img/icons/tutorial-modals/mail.svg);
+@modal-os-icon: url(/img/icons/tutorial-modals/os.svg);
+@modal-paper-icon: url(/img/icons/tutorial-modals/paper.svg);
+@modal-password-icon: url(/img/icons/tutorial-modals/password.svg);
+@modal-plugin-icon: url(/img/icons/tutorial-modals/plugin.svg);
+@modal-refresh-icon: url(/img/icons/tutorial-modals/refresh.svg);
+@modal-computer-icon: url(/img/icons/tutorial-modals/tutorial-computer.svg);
+@modal-url-icon: url(/img/icons/tutorial-modals/url.svg);
+@modal-wifi-icon: url(/img/icons/tutorial-modals/wifi.svg);
+
+@tx-icon-size: 32px;
+
+.icon-close {
+  width: 16px;
+  height: 16px;
+  background-image: @close-icon;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.visa-icon {
+  display: block;
+  width: 42px;
+  height: 42px;
+  background: url(../../img/icons/visa-icon.svg) center no-repeat;
+}
+
+.mastercard-icon {
+  display: block;
+  width: 42px;
+  height: 42px;
+  background: url(../../img/icons/mastercard-icon.svg) center no-repeat;
+}
+
+.card-success-icon {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  background: @card-success-icon center no-repeat;
+}
+
+.bank-success-icon {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  background: url(../../img/icons/bank-success.svg) center no-repeat;
+}
+
+.bank-building-success-icon {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  background: url(../../img/icons/bank-building-success.svg) center no-repeat;
+}
+
+.verified-icon {
+  background: url(../../img/icons/input-valid-icon.svg) center center no-repeat rgba(129, 201, 38, 0.1);
+  border-radius: 100%;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+}
+
+.icon-send::before {
+  background-image: @send-icon;
+}
+
+.icon-deposit::before {
+  background-image: @deposit-icon;
+}
+
+.icon-qr::before {
+  background-image: url(../../img/icons/qr-code-small.svg);
+}
+
+.icon-tx-success {
+  background-image: url(../../img/icons/check.svg);
+  width: 80px;
+  height: 80px;
+  background-size: 100% 100%;
+  margin: 10px auto 20px auto;
+}
+
+.icon-tx-bg {
+  background-image: url(../../img/icons/transaction-icons.svg);
+  background-size: auto @tx-icon-size;
+  background-repeat: no-repeat;
+}
+
+.icon-tx-create-alias {
+  &::before {
+    .icon-tx-bg();
+    background-position: 0 center;
+  }
+  background-color: rgba(53, 165, 245, 0.1);
+}
+
+.icon-tx-cancel-leasing {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size center;
+  }
+  background-color: rgba(239, 72, 41, 0.1);
+}
+
+.icon-tx-exchange {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 2 center;
+  }
+  background-color: rgba(171, 125, 246, 0.1);
+}
+
+.icon-tx-receive {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 3 center;
+  }
+  background-color: rgba(129, 201, 38, 0.1);
+}
+
+.icon-tx-circular {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 4 center;
+  }
+  background-color: rgba(239, 72, 41, 0.1);
+}
+
+.icon-tx-send {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 5 center;
+  }
+  background-color: rgba(255, 175, 0, 0.1);
+}
+
+.icon-tx-lease {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 6 center;
+  }
+  background-color: rgba(129, 201, 38, 0.1);
+}
+
+.icon-tx-burn {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 7 center;
+  }
+  background-color: rgba(255, 175, 0, 0.1);
+}
+
+.icon-tx-issue {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 8 center;
+  }
+  background-color: rgba(38, 193, 201, 0.1);
+}
+
+.icon-tx-reissue {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 9 center;
+  }
+  background-color: rgba(129, 201, 38, 0.1);
+}
+
+.icon-tx-incoming-leasing {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 10 center;
+  }
+  background-color: rgba(90, 129, 234, 0.1);
+}
+
+.icon-tx-unknown {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 11 center;
+  }
+  background-color: rgba(153, 153, 153, 0.1);
+}
+
+.icon-tx-mass-transfer {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 12 center;
+  }
+  background-color: rgba(255, 175, 0, 0.1); // TODO : specify the exact color (this one is taken from the send tx)
+}
+
+.icon-tx-mass-receive {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 13 center;
+  }
+  background-color: rgba(129, 201, 38, 0.1);
+}
+
+.icon-tx-spam {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 14 center;
+  }
+  background-color: rgba(153, 153, 153, 0.1);
+}
+
+.icon-tx-mass-spam {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 15 center;
+  }
+  background-color: rgba(153, 153, 153, 0.1);
+}
+
+.icon-info {
+  width: 20px;
+  height: 20px;
+  background: @info-icon center no-repeat;
+  display: block;
+}
+
+.icon-filter {
+  width: 14px;
+  height: 14px;
+  background: url(../../img/icons/icon-filter.svg) center no-repeat;
+  display: inline-block;
+}
+
+.icon-lock {
+  width: 16px;
+  height: 16px;
+  background: url(../../img/icons/icon-lock.svg) center no-repeat;
+  display: block;
+}
+
+.icon-disconnected {
+  display: block;
+  margin: 20px auto 20px auto;
+  width: 80px;
+  height: 80px;
+  background: url(/img/no-preload/not-supported-browser.svg) center top no-repeat;
+}
+
+.icon-connected {
+  display: block;
+  margin: 20px auto 20px auto;
+  width: 80px;
+  height: 80px;
+  background: url(../../img/icons/icon-connected.svg) center top no-repeat;
+}
+
+.icon-sorting {
+  display: inline-block;
+  margin-left: 4px;
+  width: 10px;
+  height: 10px;
+  vertical-align: middle;
+  background: @sorting-icon center top no-repeat;
+}
+
+.icon-dex-arrow {
+  display: inline-block;
+  background-image: @dex-toggle-icon;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.icon-dex-tospread {
+  display: inline-block;
+  background-image: @orderbook-to-spread-icon;
+  background-repeat: no-repeat;
+  background-position: center center;
+}

@@ -1,6 +1,6 @@
 @import (reference) 'config';
 @import (reference) '../../../app/less/typography';
-@import (reference) '../../../app/less/icons';
+@import (reference) 'icons';
 
 w-dex-order-book {
   display: block;
@@ -57,6 +57,7 @@ w-dex-order-book {
         width: 100%;
         display: flex;
         align-items: center;
+        border-bottom: 1px solid @color-basic-100;
 
         &:hover {
           background: @color-white;

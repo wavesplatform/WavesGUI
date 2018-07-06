@@ -1,6 +1,7 @@
 @import (reference) 'config';
+@import (reference) 'icons';
 @import (reference) '../../app/less/typography';
-@import (reference) "../../app/less/icons";
+
 html,
 body {
   width: 100%;
@@ -8,7 +9,7 @@ body {
   min-width: 360px;
   overflow: auto;
   color: @color-disabled-900;
-  background-color: @color-background-default;
+  background-color: @color-basic-100;
 
   .notifications {
     position: absolute;
@@ -29,10 +30,11 @@ body.dex-demo {
 }
 
 ui-view[name="main"] {
+  display: block;
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: @color-background-default;
+  background-color: @color-white;
 }
 
 html body .hidden {
@@ -41,10 +43,6 @@ html body .hidden {
 
 .text-center {
   text-align: center;
-}
-
-ui-view[name="main"] {
-  display: block;
 }
 
 a {
@@ -105,7 +103,7 @@ w-empty-block {
     background-position: center center;
     width: 100px;
     height: 100px;
-    margin: 0 0 10px 0;
+    margin: 0 auto 10px auto;
   }
 }
 
@@ -325,7 +323,7 @@ md-toolbar:not(.md-menu-toolbar) {
 
 .main {
   .main-content {
-    background-color: @color-background-default;
+    background-color: @color-basic-100;
 
     .header,
     .left-menu {
@@ -526,3 +524,4 @@ md-toolbar:not(.md-menu-toolbar) {
     }
   }
 }
+
