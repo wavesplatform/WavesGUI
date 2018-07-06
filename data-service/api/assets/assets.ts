@@ -155,7 +155,7 @@ const splitRequest = (list: string[], getData) => {
 
 const getAssetRequestCb = (list: Array<string>): Promise<Array<Asset>> => {
     const ds = getDataService();
-    return splitRequest(list as any, ds.getAssets as any)
+    return splitRequest(list as any, ds.getAssets as any)  //TODO delete after modify client lib
         .then((response) => {
             const assets = response.data;
             const fails = [];
