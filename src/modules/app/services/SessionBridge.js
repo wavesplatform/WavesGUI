@@ -123,49 +123,49 @@
              * @param {object} request.data.tx
              * @private
              */
-            _sign(request) {
+            _sign(/* request */) {
                 /**
                  * @type {ITransactionClass}
                  */
-                let transaction;
+                // let transaction;
 
-                switch (request.data.type) {
-                    case 'order':
-                        transaction = new Waves.Transactions.Order(request.data.tx);
-                        break;
-                    case Waves.constants.ISSUE_TX_NAME:
-                        transaction = new Waves.Transactions.IssueTransaction(request.data.tx);
-                        break;
-                    case Waves.constants.TRANSFER_TX_NAME:
-                        transaction = new Waves.Transactions.TransferTransaction(request.data.tx);
-                        break;
-                    case Waves.constants.REISSUE_TX_NAME:
-                        transaction = new Waves.Transactions.ReissueTransaction(request.data.tx);
-                        break;
-                    case Waves.constants.BURN_TX_NAME:
-                        transaction = new Waves.Transactions.BurnTransaction(request.data.tx);
-                        break;
-                    case Waves.constants.LEASE_TX_NAME:
-                        transaction = new Waves.Transactions.LeaseTransaction(request.data.tx);
-                        break;
-                    case Waves.constants.CANCEL_LEASING_TX_NAME:
-                        transaction = new Waves.Transactions.CancelLeasingTransaction(request.data.tx);
-                        break;
-                    case Waves.constants.CREATE_ALIAS_TX_NAME:
-                        transaction = new Waves.Transactions.CreateAliasTransaction(request.data.tx);
-                        break;
-                    case Waves.constants.MASS_TRANSFER_TX_NAME:
-                        throw new Error('Unsupported method mass transfer!');
-                    default:
-                        throw new Error('Unknown transaction type!');
-                }
+                // switch (request.data.type) {
+                //     case 'order':
+                //         transaction = new Waves.Transactions.Order(request.data.tx);
+                //         break;
+                //     case Waves.constants.ISSUE_TX_NAME:
+                //         transaction = new Waves.Transactions.IssueTransaction(request.data.tx);
+                //         break;
+                //     case Waves.constants.TRANSFER_TX_NAME:
+                //         transaction = new Waves.Transactions.TransferTransaction(request.data.tx);
+                //         break;
+                //     case Waves.constants.REISSUE_TX_NAME:
+                //         transaction = new Waves.Transactions.ReissueTransaction(request.data.tx);
+                //         break;
+                //     case Waves.constants.BURN_TX_NAME:
+                //         transaction = new Waves.Transactions.BurnTransaction(request.data.tx);
+                //         break;
+                //     case Waves.constants.LEASE_TX_NAME:
+                //         transaction = new Waves.Transactions.LeaseTransaction(request.data.tx);
+                //         break;
+                //     case Waves.constants.CANCEL_LEASING_TX_NAME:
+                //         transaction = new Waves.Transactions.CancelLeasingTransaction(request.data.tx);
+                //         break;
+                //     case Waves.constants.CREATE_ALIAS_TX_NAME:
+                //         transaction = new Waves.Transactions.CreateAliasTransaction(request.data.tx);
+                //         break;
+                //     case Waves.constants.MASS_TRANSFER_TX_NAME:
+                //         throw new Error('Unsupported method mass transfer!');
+                //     default:
+                //         throw new Error('Unknown transaction type!');
+                // }
 
-                user.getSeed()
-                    .then((seed) => transaction.prepareForAPI(seed.keyPair.privateKey))
-                    .then((prepareData) => this._setResponseSuccess(request, prepareData))
-                    .catch((e) => {
-                        this._setResponseError(request, e);
-                    });
+                // user.getSeed()
+                //     .then((seed) => transaction.prepareForAPI(seed.keyPair.privateKey))
+                //     .then((prepareData) => this._setResponseSuccess(request, prepareData))
+                //     .catch((e) => {
+                //         this._setResponseError(request, e);
+                //     });
             }
 
             /**

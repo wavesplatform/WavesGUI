@@ -2,26 +2,46 @@
 (function () {
     'use strict';
 
+    const CANDLE_UP_COLOR = '#5a81ea';
+    const CANDLE_DOWN_COLOR = '#d1383c';
+
     const DISABLED_FEATURES = [
         'header_screenshot',
         'header_symbol_search',
         'symbol_search_hot_key',
-        'display_market_status'
-        // 'border_around_the_chart', // TODO : decide whether to switch it off or not
-        // 'control_bar',
-        // 'timeframes_toolbar'
+        'display_market_status',
+        'control_bar',
+        'timeframes_toolbar'
     ];
 
-    // const OVERRIDES = {
-    //     'mainSeriesProperties.candleStyle.upColor': '#5a81ea',
-    //     'mainSeriesProperties.candleStyle.downColor': '#d1383c',
-    //     'mainSeriesProperties.candleStyle.drawBorder': false
-    // };
-    //
-    // const STUDIES_OVERRIDES = {
-    //     'volume.volume.color.0': 'rgba(209,56,60,0.3)',
-    //     'volume.volume.color.1': 'rgba(90,129,234,0.3)'
-    // };
+    // TODO : added in version 1.12
+    // const ENABLED_FEATURES = [
+    //     'hide_left_toolbar_by_default'
+    // ];
+
+    const OVERRIDES = {
+        'mainSeriesProperties.candleStyle.upColor': CANDLE_UP_COLOR,
+        'mainSeriesProperties.candleStyle.downColor': CANDLE_DOWN_COLOR,
+        'mainSeriesProperties.candleStyle.drawBorder': false,
+        'mainSeriesProperties.hollowCandleStyle.upColor': CANDLE_UP_COLOR,
+        'mainSeriesProperties.hollowCandleStyle.downColor': CANDLE_DOWN_COLOR,
+        'mainSeriesProperties.hollowCandleStyle.drawBorder': false,
+        'mainSeriesProperties.barStyle.upColor': CANDLE_UP_COLOR,
+        'mainSeriesProperties.barStyle.downColor': CANDLE_DOWN_COLOR,
+        'mainSeriesProperties.haStyle.upColor': CANDLE_UP_COLOR,
+        'mainSeriesProperties.haStyle.downColor': CANDLE_DOWN_COLOR,
+        'mainSeriesProperties.haStyle.drawBorder': false,
+        'mainSeriesProperties.lineStyle.color': CANDLE_UP_COLOR,
+        'mainSeriesProperties.areaStyle.color1': CANDLE_UP_COLOR,
+        'mainSeriesProperties.areaStyle.color2': CANDLE_UP_COLOR,
+        'mainSeriesProperties.areaStyle.linecolor': CANDLE_UP_COLOR,
+        'scalesProperties.lineColor': '#edf0f4'
+    };
+
+    const STUDIES_OVERRIDES = {
+        'volume.volume.color.0': 'rgba(209,56,60,0.3)',
+        'volume.volume.color.1': 'rgba(90,129,234,0.3)'
+    };
 
     let counter = 0;
 
@@ -29,92 +49,150 @@
      *
      * @param {Base} Base
      * @param candlesService
+     * @param {$rootScope.Scope} $scope
      * @return {DexCandleChart}
      */
-    const controller = function (Base, candlesService) {
+    const controller = function (Base, candlesService, $scope) {
 
         class DexCandleChart extends Base {
 
             constructor() {
                 super();
-                this.chart = null;
-                this.chartReady = false;
+                /**
+                 * @type {string}
+                 */
                 this.elementId = `tradingview${counter++}`;
+                /**
+                 * @type {boolean}
+                 */
                 this.notLoaded = false;
+                /**
+                 * @type {TradingView}
+                 * @private
+                 */
+                this._chart = null;
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
+                this._chartReady = false;
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
                 this._assetIdPairWasChanged = false;
-
                 /**
                  * @type {{price: string, amount: string}}
                  * @private
                  */
                 this._assetIdPair = null;
 
-                this.observe('_assetIdPair', () => {
-
-                    if (this.chartReady) {
-                        this.chart.symbolInterval(({ interval }) => {
-                            this.chart.setSymbol(`${this._assetIdPair.amount}/${this._assetIdPair.price}`, interval);
-                        });
-                    } else {
-                        this._assetIdPairWasChanged = true;
-                    }
-                });
-
-                this.syncSettings({
-                    _assetIdPair: 'dex.assetIdPair'
-                });
+                this.observe('_assetIdPair', this._onChangeAssetPair);
+                this.syncSettings({ _assetIdPair: 'dex.assetIdPair' });
             }
 
             $postLink() {
-                controller.load().then(() => {
-                    this.chart = new TradingView.widget({
-                        // debug: true,
-                        locale: DexCandleChart._remapLanguageCode(i18next.language),
-                        toolbar_bg: '#fff',
-                        symbol: `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
-                        interval: WavesApp.dex.defaultResolution,
-                        container_id: this.elementId,
-                        datafeed: candlesService,
-                        library_path: 'trading-view/',
-                        autosize: true,
-                        disabled_features: DISABLED_FEATURES
-                        // overrides: OVERRIDES,
-                        // studies_overrides: STUDIES_OVERRIDES
+                controller.load()
+                    .then(() => {
+                        this._createTradingView();
+                        this.listenEventEmitter(i18next, 'languageChanged', this._changeLangHandler.bind(this));
+                    }, () => {
+                        console.warn('Error 403!');
+                        this.notLoaded = true;
+                    })
+                    .then(() => {
+                        $scope.$apply();
                     });
-
-                    this.chart.onChartReady(() => {
-                        this.chartReady = true;
-                        // this.chart.subscribe('onSymbolChange', (data) => console.log(data));
-                        if (this._assetIdPairWasChanged) {
-                            this.chart.symbolInterval(({ interval }) => {
-                                this.chart.setSymbol(
-                                    `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
-                                    interval
-                                );
-                            });
-                        }
-
-                        i18next.on('languageChanged', this._changeLangHandler.bind(this));
-                    });
-                }, () => {
-                    console.warn('Error 403!');
-                    this.notLoaded = true;
-                });
             }
 
             $onDestroy() {
                 super.$onDestroy();
-                if (this.chartReady) {
-                    i18next.off('languageChanged', this._changeLangHandler.bind(this));
+                this._removeTradingView();
+            }
+
+            /**
+             * @private
+             */
+            _onChangeAssetPair() {
+                if (this._chartReady) {
+                    this._setChartPair();
+                } else {
+                    this._assetIdPairWasChanged = true;
                 }
+            }
+
+            /**
+             * @return {*}
+             * @private
+             */
+            _resetTradingView() {
+                return this._removeTradingView()
+                    ._createTradingView();
+            }
+
+            /**
+             * @return {DexCandleChart}
+             * @private
+             */
+            _removeTradingView() {
+                try {
+                    if (this._chart) {
+                        this._chart.remove();
+                    }
+                } catch (e) {
+                    // Can't remove _chart
+                }
+                this._chart = null;
+                return this;
+            }
+
+            /**
+             * @return {DexCandleChart}
+             * @private
+             */
+            _createTradingView() {
+                this._chart = new TradingView.widget({
+                    // debug: true,
+                    locale: DexCandleChart._remapLanguageCode(i18next.language),
+                    toolbar_bg: '#fff',
+                    symbol: `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
+                    interval: WavesApp.dex.defaultResolution,
+                    container_id: this.elementId,
+                    datafeed: candlesService,
+                    library_path: 'trading-view/',
+                    autosize: true,
+                    disabled_features: DISABLED_FEATURES,
+                    // enabled_features: ENABLED_FEATURES,
+                    overrides: OVERRIDES,
+                    studies_overrides: STUDIES_OVERRIDES,
+                    custom_css_url: '/tradingview-style/style.css'
+                });
+
+                if (this._assetIdPairWasChanged) {
+                    this._chart.onChartReady(() => {
+                        this._setChartPair();
+                        this._assetIdPairWasChanged = false;
+                        this._chartReady = true;
+                    });
+                }
+
+                return this;
+            }
+
+            /**
+             * @private
+             */
+            _setChartPair() {
+                this._chart.symbolInterval(({ interval }) => {
+                    this._chart.setSymbol(`${this._assetIdPair.amount}/${this._assetIdPair.price}`, interval);
+                });
             }
 
             /**
              * @private
              */
             _changeLangHandler() {
-                const langCode = DexCandleChart._remapLanguageCode(i18next.language);
-                this.chart.setLanguage(langCode);
+                return this._resetTradingView();
             }
 
             static _remapLanguageCode(code) {
@@ -135,7 +213,7 @@
         return new DexCandleChart();
     };
 
-    controller.$inject = ['Base', 'candlesService'];
+    controller.$inject = ['Base', 'candlesService', '$scope'];
 
     controller.load = function () {
         const script = document.createElement('script');

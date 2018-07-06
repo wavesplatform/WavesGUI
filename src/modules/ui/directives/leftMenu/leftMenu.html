@@ -13,14 +13,20 @@
 
     <w-responsive-menu-item class="settings" ng-click="$ctrl.settings()">
         <div class="menu-item settings">
-            <w-i18n>leftmenu.settings</w-i18n>
+            <span w-i18n="leftmenu.settings"></span>
         </div>
     </w-responsive-menu-item>
 
-    <w-responsive-menu-item class="logout" ng-click="$ctrl.logout()">
+    <w-responsive-menu-item ng-if="$ctrl.isLogined" class="logout" ng-click="$ctrl.logout()">
         <div class="menu-item logout">
-            <w-i18n>leftmenu.logout</w-i18n>
+            <span w-i18n="leftmenu.logout"></span>
         </div>
+    </w-responsive-menu-item>
+
+    <w-responsive-menu-item ng-if="!$ctrl.isLogined" class="login">
+        <a class="menu-item login" ui-sref="welcome">
+            <span w-i18n="leftmenu.login"></span>
+        </a>
     </w-responsive-menu-item>
 
 </w-responsive-menu>

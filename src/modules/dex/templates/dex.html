@@ -1,34 +1,45 @@
 <div class="dex-wrapper" w-i18n-ns="app.dex">
-    <w-layout>
+    <w-layout ng-if="$ctrl.ready">
 
-        <w-dex-block column="left" block="top" has-search="true">
-            <w-dex-watchlist id="top"></w-dex-watchlist>
+        <w-dex-block block="watchlist">
+            <w-dex-watchlist></w-dex-watchlist>
         </w-dex-block>
 
-        <w-dex-block column="left" block="bottom" has-search="true">
-            <w-dex-watchlist id="bottom"></w-dex-watchlist>
-        </w-dex-block>
-
-        <w-dex-block column="center" block="top">
+        <w-dex-block block="candlechart">
             <w-dex-candle-chart></w-dex-candle-chart>
-            <w-dex-trade-graph></w-dex-trade-graph>
         </w-dex-block>
 
-        <w-dex-block can-collapse="true" column="center" block="bottom" title-name="layout.center.bottom">
-            <w-dex-my-orders></w-dex-my-orders>
-        </w-dex-block>
-
-        <w-dex-block column="right" block="top" title-name="layout.right.top">
+        <w-dex-block block="orderbook"
+                     title-name="directives.orderBook.title">
             <w-dex-order-book></w-dex-order-book>
         </w-dex-block>
 
-        <w-dex-block column="right"
-                     block="bottom"
-                     collapsed="$ctrl.collapseTradeHistory"
+        <w-dex-block block="tradevolume"
                      can-collapse="true"
-                     title-name="layout.right.bottom">
-            <w-dex-trade-history></w-dex-trade-history>
+                     title-name="directives.marketDepth">
+            <w-dex-trade-graph></w-dex-trade-graph>
         </w-dex-block>
+
+        <w-dex-block block="tradehistory">
+            <w-tabs ng-model="$ctrl.tab">
+                <w-tab title-name="::'tabs.title.openOrders'" id="::'myOpenOrders'">
+                    <w-dex-my-orders></w-dex-my-orders>
+                </w-tab>
+                <w-tab title-name="::'tabs.title.myTradeHistory'" id="::'myTradeHistory'">
+                    <w-dex-trade-history is-my="::true"></w-dex-trade-history>
+                </w-tab>
+                <w-tab title-name="::'tabs.title.tradeHistory'" id="::'tradeHistory'">
+                    <w-dex-trade-history is-my="::false"></w-dex-trade-history>
+                </w-tab>
+                <w-tab title-name="::'tabs.title.myBalance'" id="::'myBalance'">
+                    <w-dex-my-balance></w-dex-my-balance>
+                </w-tab>
+            </w-tabs>
+        </w-dex-block>
+
+        <w-dex-block block="createorder">
+            <w-create-order></w-create-order>
+        </w-dex-block>
+
     </w-layout>
-    <w-create-order w-draggable></w-create-order>
 </div>

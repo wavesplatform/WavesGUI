@@ -6,9 +6,10 @@
      * @param {*} $scope
      * @param {JQuery} $element
      * @param {app.utils} utils
+     * @param {app.utils.decorators} decorators
      * @return {NiceNumber}
      */
-    const controller = function (Base, $scope, $element, utils) {
+    const controller = function (Base, $scope, $element, utils, decorators) {
 
         class NiceNumber extends Base {
 
@@ -20,12 +21,9 @@
                 this.receive(utils.observe($scope, 'precision'), this.$onChanges, this);
             }
 
-            $postLink() {
-                $scope.shortMode = $scope.shortMode === 'true';
-            }
-
+            @decorators.async()
             $onChanges() {
-                if ($scope.number == null || $scope.precision == null) {
+                if ($scope.number == null) {
                     return $element.html('');
                 }
 
@@ -38,7 +36,7 @@
         return new NiceNumber();
     };
 
-    controller.$inject = ['Base', '$scope', '$element', 'utils'];
+    controller.$inject = ['Base', '$scope', '$element', 'utils', 'decorators'];
 
     angular.module('app')
         .directive('wNiceNumber', () => {

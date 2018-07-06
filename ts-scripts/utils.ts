@@ -9,7 +9,8 @@ import { compile } from 'handlebars';
 import { transform } from 'babel-core';
 import { render } from 'less';
 import { minify } from 'html-minifier';
-import { get } from 'https';
+import { get, ServerResponse, IncomingMessage } from 'https';
+import { MAINNET_DATA, TESTNET_DATA } from '@waves/assets-pairs-order';
 
 
 export const task: ITaskFunction = gulp.task.bind(gulp) as any;
@@ -137,7 +138,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
     const filter = moveTo(param.target);
 
     return Promise.all([
-        readFile(join(__dirname, '../src/index.html'), 'utf8') as Promise<string>,
+        readFile(join(__dirname, '../src/index.hbs'), 'utf8') as Promise<string>,
         readJSON(join(__dirname, '../package.json')) as Promise<IPackageJSON>,
         readJSON(join(__dirname, './meta.json')) as Promise<IMetaJSON>
     ])
@@ -160,8 +161,8 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                 param.styles = meta.stylesheets.map((i) => join(__dirname, '..', i)).concat(getFilesFrom(join(__dirname, '../src'), '.less'));
             }
 
-            const networks = connectionTypes.reduce((result, item) => {
-                result[item] = meta.configurations[item];
+            const networks = connectionTypes.reduce((result, connection) => {
+                result[connection] = meta.configurations[connection];
                 return result;
             }, Object.create(null));
 
@@ -170,6 +171,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                 isWeb: param.type === 'web',
                 isProduction: param.buildType && param.buildType === 'min',
                 domain: meta.domain,
+                matcherPriorityList: JSON.stringify(param.connection === 'mainnet' ? MAINNET_DATA : TESTNET_DATA, null, 4),
                 build: {
                     type: param.type
                 },
@@ -223,20 +225,25 @@ export function parseArguments<T>(): T {
 }
 
 export function route(connectionType: TConnection, buildType: TBuild, type: TPlatform) {
-    return function (req, res) {
+    return function (req: IncomingMessage, res: ServerResponse) {
         const url = req.url.replace(/\?.*/, '');
 
         if (isTradingView(url)) {
-            get(`https://beta.wavesplatform.com/${url}`, (resp) => {
-                let data = '';
+            get(`https://beta.wavesplatform.com/${url}`, (resp: IncomingMessage) => {
+                let data = new Buffer('');
 
                 // A chunk of data has been recieved.
-                resp.on('data', (chunk) => {
-                    data += chunk;
+                resp.on('data', (chunk: Buffer) => {
+                    data = Buffer.concat([data, chunk]);
                 });
 
                 // The whole response has been received. Print out the result.
                 resp.on('end', () => {
+                    Object.keys(resp.headers).forEach((name) => {
+                        if (name !== 'transfer-encoding' && name !== 'connection' && !res.getHeader(name)) {
+                            res.setHeader(name, resp.headers[name]);
+                        }
+                    });
                     res.end(data);
                 });
             });
@@ -406,7 +413,9 @@ export function isPage(url: string): boolean {
         'modules',
         'locales',
         'loginDaemon',
-        'transfer.js'
+        'transfer.js',
+        'tradingview-style',
+        'data-service-dist'
     ];
     return !staticPathPartial.some((path) => {
         return url.includes(`/${path}`);

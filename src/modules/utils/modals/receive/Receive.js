@@ -261,7 +261,7 @@
             }
 
             updateCardDetails() {
-                Waves.Money.fromTokens(this.currencies[0].min, this.currencies[0].assetId).then((sum) => {
+                ds.moneyFromTokens(this.currencies[0].min, this.currencies[0].assetId).then((sum) => {
                     this.cardPayment = sum;
                 });
 
@@ -273,7 +273,7 @@
             setCardObserver() {
                 this.observe(['chosenCurrencyIndex', 'cardPayment', 'asset'], () => {
                     if (!Number(this.tokenizeCardPayment())) {
-                        this.approximateAmount = new Waves.Money(0, this.asset);
+                        this.approximateAmount = new ds.wavesDataEntities.Money(0, this.asset);
                         return;
                     }
 
@@ -305,11 +305,11 @@
 
                 const params = this.getCoinomatParams();
 
-                fetch(`${COINOMAT_API}rate.php?${params.address}&${params.amount}&${params.crypto}&${params.fiat}`)
+                ds.fetch(`${COINOMAT_API}rate.php?${params.address}&${params.amount}&${params.crypto}&${params.fiat}`)
                     .then(utils.onFetch)
                     .then((approximateAmount) => {
-                        const coins = new BigNumber(approximateAmount).mul(Math.pow(10, this.asset.precision));
-                        this.approximateAmount = new Waves.Money(coins.round(0), this.asset);
+                        const coins = new BigNumber(approximateAmount).times(Math.pow(10, this.asset.precision));
+                        this.approximateAmount = new ds.wavesDataEntities.Money(coins.dp(0), this.asset);
                         $scope.$digest();
                     });
             }
@@ -367,7 +367,7 @@
                 return (
                     Object
                         .keys(assetsIds)
-                        .map(waves.node.assets.getExtendedAsset)
+                        .map(waves.node.assets.getAsset)
                 );
             }
 

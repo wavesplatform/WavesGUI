@@ -12,9 +12,12 @@
      * @param {function(url: string): Promise<string>} $templateRequest
      * @param {$compile} $compile
      * @param {app.utils} utils
+     * @param {STService} stService
+     * @param {app.i18n} i18n
      * @return {SmartTable}
      */
-    const controller = function (Base, $scope, $element, decorators, $templateRequest, $compile, utils) {
+    const controller = function (Base, $scope, $element, decorators, $templateRequest, $compile, utils, stService,
+                                 i18n) {
 
         const tsUtils = require('ts-utils');
 
@@ -24,10 +27,6 @@
             constructor() {
                 super();
                 /**
-                 * @type {string}
-                 */
-                this.templatesPath = PATH;
-                /**
                  * @type {Array<*>}
                  */
                 this.data = null;
@@ -35,6 +34,14 @@
                  * @type {Array<SmartTable.IHeaderInfo>}
                  */
                 this.headerInfo = null;
+                /**
+                 * @type {Array|function}
+                 */
+                this._filterList = [];
+                /**
+                 * @type {SmartTable.ISmartTableOptions}
+                 */
+                this.options = null;
                 /**
                  * @type {Array<SmartTable._IHeaderData>}
                  * @private
@@ -45,15 +52,6 @@
                  * @private
                  */
                 this._header = null;
-                /**
-                 * @type {Array|function}
-                 */
-                this.filterList = [];
-                /**
-                 * @type {Array}
-                 * @private
-                 */
-                this._filterList = [];
                 /**
                  * @type {Array}
                  * @private
@@ -70,26 +68,63 @@
                 this._headerCellPromise = $templateRequest(`${PATH}/headerCell.html`);
 
                 this.observe('headerInfo', this._onChangeHeader);
-                this.observeOnce('headerInfo', () => {
-                    this.observe(['data', 'filterList'], this._render);
-                    this._render();
+                this.observe('options', this._onChangeOptions);
+                this.observeOnce('_headerData', () => {
+                    this.observe(['_headerData', 'data', 'filterList', 'options'], this.render);
+                    this.render();
                 });
+
+                stService.register(this);
             }
 
             $postLink() {
                 this._header = $element.find('.smart-table__w-thead');
             }
 
-            _applySort() {
-                this._sort();
-                this._draw();
+            $onDestroy() {
+                stService.unregister(this);
+                super.$onDestroy();
+            }
+
+            getIdByIndex(index) {
+                return this.headerInfo[index].id;
+            }
+
+            /**
+             * @param {SmartTable.ISmartTableOptions} value
+             * @param {SmartTable.ISmartTableOptions} prev
+             * @private
+             */
+            _onChangeOptions({ value, prev }) {
+                this._dropOldOptions(prev);
+                utils.toArray(value && value.filter || []).forEach((item) => {
+                    this._filterList.push(item);
+                });
+            }
+
+            /**
+             * @param {SmartTable.ISmartTableOptions} oldOptions
+             * @private
+             */
+            _dropOldOptions(oldOptions) {
+                if (!oldOptions) {
+                    return null;
+                }
+                utils.toArray(oldOptions.filter).forEach((filter) => {
+                    this._filterList = this._filterList.filter(f => f !== filter);
+                });
             }
 
             /**
              * @private
              */
+            _applySort() {
+                this._sort();
+                this._draw();
+            }
+
             @decorators.async()
-            _render() {
+            render() {
                 this._visibleList = [];
                 this._filtredList = [];
                 if (this.data && this.data.length) {
@@ -99,9 +134,14 @@
                 this._draw();
             }
 
+            /**
+             * @return {null}
+             * @private
+             */
             @decorators.async()
             _onChangeHeader() {
                 const headers = this.headerInfo;
+                const defaultNs = i18n.getNs($element);
 
                 if (!headers || !headers.length) {
                     return null;
@@ -112,9 +152,7 @@
 
                 this._clearHeader();
 
-                this._headerCellPromise.then((template) => {
-
-                    const headerDataList = this.headerInfo.map(this._remapHeaders(template));
+                Promise.all(this.headerInfo.map(this._remapHeaders, this)).then((headerDataList) => {
 
                     headerDataList.forEach((data) => {
                         const descriptorHash = Object.create(null);
@@ -134,15 +172,17 @@
                                 set: (value) => {
                                     if (value !== data.searchQuery) {
                                         data.searchQuery = value;
-                                        this._render();
+                                        this.render();
                                     }
                                 }
                             };
                         }
 
-                        data.$scope.title = data.title;
+                        data.$scope.title = data.title || Object.create(null);
+                        data.$scope.title.ns = data.$scope.title && data.$scope.title.ns || defaultNs;
                         data.$scope.sort = !!data.sort;
                         data.$scope.search = !!data.search;
+                        data.$scope.placeholder = data.placeholder;
 
                         Object.defineProperties(data.$scope, descriptorHash);
 
@@ -150,6 +190,7 @@
                     });
 
                     this._headerData = headerDataList;
+                    $scope.$digest();
                 });
             }
 
@@ -169,30 +210,36 @@
             }
 
             /**
-             * @param {string} template
-             * @return {function(head: SmartTable.IHeaderInfo): SmartTable._IHeaderData}
+             * @param {SmartTable.IHeaderInfo} header
+             * @return {Promise<SmartTable._IHeaderData>}
              * @private
              */
-            _remapHeaders(template) {
-                return (header) => {
-                    const { id, title } = header;
-                    const valuePath = header.valuePath || id;
-                    const $headeScope = $scope.$new(true);
-                    const $element = $compile(template)($headeScope);
+            _remapHeaders(header) {
+                const { id, title } = header;
+                const valuePath = header.valuePath || id;
+                const $headerScope = $scope.$new(true);
+                const xhr = header.templatePath ? $templateRequest(header.templatePath) : this._headerCellPromise;
+                const sorting = header.sortActive || false;
+
+                Object.assign($headerScope, { ...header.scopeData || Object.create(null) }, { id });
+
+                return xhr.then((template) => {
+                    const $element = $compile(template)($headerScope);
 
                     return {
                         id,
                         title,
                         valuePath,
                         sort: SmartTable._getSortFunction(header.sort, valuePath),
-                        search: SmartTable._getSearchFunction($headeScope, header.search, valuePath),
-                        sorting: false,
-                        isAsc: true,
+                        search: SmartTable._getSearchFunction($headerScope, header.search, valuePath),
+                        sorting,
+                        isAsc: tsUtils.isEmpty(header.isAsc) ? true : header.isAsc,
                         searchQuery: '',
-                        $scope: $headeScope,
-                        $element
+                        $scope: $headerScope,
+                        $element,
+                        placeholder: header.placeholder || 'filter'
                     };
-                };
+                });
             }
 
             /**
@@ -248,7 +295,7 @@
              * @private
              */
             _getFilterList() {
-                return utils.toArray(this.filterList || []).concat(this._filterList);
+                return utils.toArray(this._filterList || []);
             }
 
             /**
@@ -258,6 +305,11 @@
             _draw() {
                 $scope.$parent.$data = this._visibleList;
                 $scope.$parent.$digest();
+                $scope.$parent.$$postDigest(() => {
+                    if (this.name) {
+                        stService.draw.dispatch(this.name);
+                    }
+                });
             }
 
             /**
@@ -311,13 +363,24 @@
         return new SmartTable();
     };
 
-    controller.$inject = ['Base', '$scope', '$element', 'decorators', '$templateRequest', '$compile', 'utils'];
+    controller.$inject = [
+        'Base',
+        '$scope',
+        '$element',
+        'decorators',
+        '$templateRequest',
+        '$compile',
+        'utils',
+        'stService',
+        'i18n'
+    ];
 
     angular.module('app.ui').component('wSmartTable', {
         bindings: {
+            name: '@',
             data: '<',
-            headerInfo: '<',
-            filterList: '<'
+            options: '<',
+            headerInfo: '<'
         },
         templateUrl: `${PATH}/table.html`,
         transclude: true,
@@ -341,8 +404,18 @@
  * @property {SmartTable.ILocaleItem} title
  * @property {string} id
  * @property {string} [valuePath]
+ * @property {string} [templatePath]
+ * @property {*} [scopeData]
  * @property {boolean|SmartTable.ISortCallback} sort
+ * @property {boolean} [sortActive]
+ * @property {boolean} [isAsc]
  * @property {boolean|SmartTable.ISearchCallback} search
+ * @property {string} [placeholder]
+ */
+
+/**
+ * @typedef {object} SmartTable#ISmartTableOptions
+ * @property {SmartTable.IFilterCallback|SmartTable.IFilterCallback[]} [filter]
  */
 
 /**
@@ -363,6 +436,12 @@
  * @typedef {function} SmartTable#ISearchCallback
  * @param {$rootScope.Scope} $scope
  * @param {string} queryModelKey
+ * @param {Array} list
+ * @return {Array}
+ */
+
+/**
+ * @typedef {function} SmartTable#IFilterCallback
  * @param {Array} list
  * @return {Array}
  */

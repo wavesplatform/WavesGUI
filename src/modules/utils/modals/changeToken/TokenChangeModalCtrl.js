@@ -12,6 +12,8 @@
      */
     const controller = function (Base, $scope, createPoll, utils, waves, user) {
 
+        const entities = require('@waves/data-entities');
+
         class TokenChangeModalCtrl extends Base {
 
             constructor({ money, txType }) {
@@ -39,7 +41,7 @@
                 /**
                  * @type {BigNumber}
                  */
-                this.maxCoinsCount = WavesApp.maxCoinsCount.sub(money.asset.quantity);
+                this.maxCoinsCount = WavesApp.maxCoinsCount.minus(money.asset.quantity);
                 /**
                  * @type {Money}
                  */
@@ -52,6 +54,10 @@
                  * @type {Precision}
                  */
                 this.input = null;
+                /**
+                 * @type {Money}
+                 */
+                this.quantity = new entities.Money(this.asset.quantity, this.asset);
                 /**
                  * @type {Money}
                  * @private

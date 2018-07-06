@@ -73,7 +73,7 @@
                 if (filter === 'all') {
                     this.transactions = list.slice();
                 } else {
-                    this.transactions = list.filter(({ type }) => availableTypes[type]);
+                    this.transactions = list.filter(({ typeName }) => availableTypes[typeName]);
                 }
             }
 

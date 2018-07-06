@@ -14,6 +14,7 @@
     const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state) {
 
         const tsUtils = require('ts-utils');
+        const ds = require('data-service');
 
         const DEFAULT_OPTIONS = {
             clickOutsideToClose: true,
@@ -113,10 +114,11 @@
             }
 
             showSeedBackupModal() {
-                const user = this._getUser();
+                const api = ds.signature.getSignatureApi();
 
-                return user.getSeed()
-                    .then((seed) => {
+                return api.getSeed()
+                    .then((phrase) => {
+                        const seed = new ds.Seed(phrase);
                         return this._getModal({
                             id: 'seed-backup',
                             title: 'modal.backup.title.{{$ctrl.titleLiteral}}',
@@ -285,7 +287,7 @@
                     id: 'token-burn',
                     mod: 'change-token',
                     locals: { money: available, txType: 'burn' },
-                    titleContent: '<w-i18n params="{name: $ctrl.asset.name}">modal.token.burn.title</w-i18n>',
+                    titleContent: '<span w-i18n="modal.token.burn.title" params="{name: $ctrl.asset.name}"></span>',
                     contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
                     controller: 'TokenChangeModalCtrl'
                 }));
@@ -296,10 +298,39 @@
                     id: 'token-burn',
                     mod: 'change-token',
                     locals: { money: available, txType: 'reissue' },
-                    titleContent: '<w-i18n params="{name: $ctrl.asset.name}">modal.token.reissue.title</w-i18n>',
+                    titleContent: '<span w-i18n="modal.token.reissue.title" params="{name: $ctrl.asset.name}"></span>',
                     contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
                     controller: 'TokenChangeModalCtrl'
                 }));
+            }
+
+            /**
+             * @param {IDialogOptions} options
+             * @return {Promise}
+             */
+            showDialogModal(options) {
+                const contentUrl = 'modules/utils/modals/templates/dialog-content.html';
+
+                const ns = options.ns || DEFAULT_OPTIONS.ns;
+                options.message.ns = options.message.ns || ns;
+                options.buttons.forEach((button) => {
+                    button.text.ns = button.text.ns || ns;
+                });
+
+                const controller = function ($scope, $mdDialog) {
+                    Object.assign($scope, options);
+                    this.applyClick = (button) => {
+                        const method = button.success ? 'hide' : 'cancel';
+                        if (button.click) {
+                            button.click();
+                        }
+                        $mdDialog[method](button.data);
+                    };
+                };
+
+                controller.$inject = ['$scope', '$mdDialog'];
+
+                return this._getModal(tsUtils.merge({}, DEFAULT_OPTIONS, options, { contentUrl, controller }));
             }
 
             /**
@@ -571,4 +602,29 @@
  * @property {*} [locals]
  * @property {string | function} [controller]
  * @property {string} [controllerAs]
+ */
+
+/**
+ * @typedef {object} IDialogOptions
+ * @property {string} [ns]
+ * @property {string} iconClass
+ * @property {IMessage} message
+ * @property {IDialogButton[]} buttons
+ * @property {boolean} [clickOutsideToClose]
+ * @property {boolean} [escapeToClose]
+ */
+
+/**
+ * @typedef {object} IMessage
+ * @property {string} [ns]
+ * @property {string} literal
+ * @property {object} [params]
+ */
+
+/**
+ * @typedef {object} IDialogButton
+ * @property {boolean} success
+ * @property {IMessage} text
+ * @property {string} classes
+ * @property {function} [click]
  */

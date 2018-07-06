@@ -46,23 +46,22 @@
             }
 
             createAlias() {
-                return user.getSeed().then((seed) => {
-                    return waves.node.aliases.createAlias({ alias: this.newAlias, keyPair: seed.keyPair })
-                        .then(() => {
-                            analytics.push('User', 'User.CreateAlias.Success');
-                            this.aliases.push(this.newAlias);
-                            this.newAlias = '';
-                            this.createAliasStep = 0;
-                            notification.info({
-                                ns: 'app.utils',
-                                title: { literal: 'modal.account.notifications.aliasCreated' }
-                            });
-                            $scope.$digest();
-                        })
-                        .catch(() => {
-                            analytics.push('User', 'User.CreateAlias.Error');
+                return ds.broadcast(10, { alias: this.newAlias, fee: this.fee })
+                    .then(() => {
+                        analytics.push('User', 'User.CreateAlias.Success');
+                        this.aliases.push(this.newAlias);
+                        this.newAlias = '';
+                        this.createAliasStep = 0;
+                        notification.info({
+                            ns: 'app.utils',
+                            title: { literal: 'modal.account.notifications.aliasCreated' }
                         });
-                });
+                        $scope.$digest();
+                    })
+                    .catch(() => {
+                        analytics.push('User', 'User.CreateAlias.Error');
+                    });
+
             }
 
             onCopyAddress() {

@@ -43,7 +43,7 @@
 
             @decorators.cachable(2)
             _loadData() {
-                return fetch('/api/assets-total/balance.json')
+                return ds.fetch('/api/assets-total/balance.json')
                     .then((r) => r.json())
                     .then((data) => data.map((item) => ({ x: new Date(item.x), y: item.y })));
             }

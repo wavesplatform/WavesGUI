@@ -5,7 +5,7 @@
                 <w-transaction-info transaction="$ctrl.tx"></w-transaction-info>
 
                 <h3 class="info margin-4 basic-700" ng-if="$ctrl.referrer">
-                    <w-i18n params="{referrer: $ctrl.referrer}">confirmTransaction.redirect</w-i18n>
+                    <span w-i18n="confirmTransaction.redirect" params="{referrer: $ctrl.referrer}"></span>
                 </h3>
 
                 <div class="error error-500 text-center body-2"
@@ -14,14 +14,14 @@
 
                 <div class="buttons-wrapper">
                     <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
-                        <w-i18n>confirmTransaction.back</w-i18n>
+                        <span w-i18n="confirmTransaction.back"></span>
                     </w-button>
                     <w-button class="big submit"
                               disabled="$ctrl.errors.length > 0"
                               ng-class="{long: $ctrl.noBackButton}"
                               w-next-step
                               on-click="$ctrl.confirm()">
-                        <w-i18n>confirmTransaction.confirm</w-i18n>
+                        <span w-i18n="confirmTransaction.confirm"></span>
                     </w-button>
                 </div>
             </div>
@@ -31,9 +31,9 @@
                 <div class="icon-tx-success"></div>
                 <h2 class="text-center basic-900" w-i18n="confirmTransaction.success"></h2>
                 <div class="disabled-600 margin-4 body-2 text-center"
-                     w-i18n="confirmTransaction.description.{{::$ctrl.tx.type}}" params="$ctrl.tx"></div>
+                     w-i18n="confirmTransaction.description.{{::$ctrl.tx.typeName}}" params="$ctrl.tx"></div>
                 <w-button class="submit half big" on-click="$ctrl.showTxInfo()">
-                    <w-i18n>confirmTransaction.details</w-i18n>
+                    <span w-i18n="confirmTransaction.details"></span>
                 </w-button>
             </div>
         </w-step>

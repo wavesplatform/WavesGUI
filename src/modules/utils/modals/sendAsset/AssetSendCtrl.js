@@ -109,7 +109,7 @@
                     this.state.singleSend.recipient = options.recipient;
 
                     Promise.all([
-                        Waves.Money.fromTokens(options.amount || '0', this.state.assetId),
+                        ds.moneyFromTokens(options.amount || '0', this.state.assetId),
                         waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.TRANSFER })
                     ]).then(([money, fee]) => {
 
@@ -192,7 +192,7 @@
             static _getAddMoneyProcessor(assetId) {
                 return (hash) => {
                     if (!hash[assetId]) {
-                        return Waves.Money.fromTokens('0', assetId).then((money) => {
+                        return ds.moneyFromTokens('0', assetId).then((money) => {
                             hash[assetId] = money;
                             return hash;
                         });

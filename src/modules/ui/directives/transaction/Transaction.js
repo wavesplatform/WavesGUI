@@ -2,6 +2,7 @@
     'use strict';
 
     const PATH = 'modules/ui/directives/transaction/types';
+    const tsUtils = require('ts-utils');
 
     /**
      * @param Base
@@ -25,9 +26,18 @@
                 this.templateUrl = `${PATH}/${this.transaction.templateType}.html`;
                 this.time = $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm');
                 this.shownAddress = this.transaction.shownAddress;
-                this.type = this.transaction.type;
+                this.typeName = this.transaction.typeName;
                 this.isScam = !!WavesApp.scam[this.transaction.assetId];
-                if (this.transaction.amount && this.transaction.amount instanceof Waves.Money) {
+
+                const TYPES = waves.node.transactions.TYPES;
+                if (this.typeName === TYPES.BURN || this.typeName === TYPES.ISSUE || this.typeName === TYPES.REISSUE) {
+                    this.name = tsUtils.get(this.transaction, 'amount.asset.name') ||
+                        tsUtils.get(this.transaction, 'quantity.asset.name');
+                    this.amount = (tsUtils.get(this.transaction, 'amount') ||
+                        tsUtils.get(this.transaction, 'quantity')).toFormat();
+                }
+
+                if (this.transaction.amount && this.transaction.amount instanceof ds.wavesDataEntities.Money) {
                     baseAssetService.convertToBaseAsset(this.transaction.amount)
                         .then((baseMoney) => {
                             this.mirrorBalance = baseMoney;
@@ -35,20 +45,19 @@
                         });
                 }
 
-                const TYPES = waves.node.transactions.TYPES;
-                if (this.type === TYPES.EXCHANGE_BUY || this.type === TYPES.EXCHANGE_SELL) {
+                if (this.typeName === TYPES.EXCHANGE_BUY || this.typeName === TYPES.EXCHANGE_SELL) {
                     this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
                 }
             }
 
             cancelLeasing() {
                 const leaseTransactionAmount = this.transaction.amount;
-                const leaseTransactionId = this.transaction.id;
+                const leaseId = this.transaction.id;
                 return waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING })
                     .then((fee) => modalManager.showConfirmTx(WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING, {
                         fee,
                         leaseTransactionAmount,
-                        leaseTransactionId
+                        leaseId
                     }));
             }
 
@@ -80,7 +89,7 @@
                     message += `\n${recipient}`;
                 }
 
-                if (tx.amount && tx.amount instanceof Waves.Money) {
+                if (tx.amount && tx.amount instanceof ds.wavesDataEntities.Money) {
                     const asset = tx.amount.asset;
                     const amount = `Amount: ${tx.amount.toFormat()} ${asset.name} (${asset.id})`;
                     message += `\n${amount}`;
