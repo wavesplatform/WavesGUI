@@ -233,7 +233,8 @@
                     settings: {
                         termsAccepted: false,
                         hasBackup: hasBackup,
-                        lng: i18next.language
+                        lng: i18next.language,
+                        theme: 'default'
                     }
                 }).then(() => analytics.push('User', 'Create'));
             }
@@ -292,6 +293,11 @@
                 return storage.load('userList')
                     .then((list) => list.filter(({ address }) => address !== removeAddress))
                     .then((list) => storage.save('userList', list));
+            }
+
+            changeTheme(theme) {
+                this.setSetting('theme', theme);
+                analytics.push('Settings', 'Settings.ChangeTheme', theme);
             }
 
             /**
