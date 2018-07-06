@@ -370,3 +370,12 @@ tr.context-menu-hover {
   color: #FFF;
   border-color: #777;
  }
+.chart-style-widget span.selected svg {
+  fill: #5881ea;
+}
+.tv-dialog__title {
+  color: #FFFFFF;
+}
+.tv-search-row__input {
+  background: #2d2d2d;
+}
