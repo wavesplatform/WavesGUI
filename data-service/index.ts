@@ -7,7 +7,7 @@ import { request } from './utils/request';
 import { IFetchOptions } from './utils/request';
 import * as wavesDataEntitiesModule from '@waves/data-entities';
 import { BigNumber, Asset, Money, AssetPair, OrderPrice } from '@waves/data-entities';
-import { toAsset, toBigNumber } from './utils/utils';
+import { normalizeTime, toAsset, toBigNumber } from './utils/utils';
 import { IAssetInfo } from '@waves/data-entities/dist/entities/Asset';
 import { get } from './config';
 import { TAssetData, TBigNumberData } from './interface';
@@ -93,7 +93,7 @@ class App {
     }
 
     private _addMatcherSign() {
-        const timestamp = utilsModule.addTime(new Date(), 2, 'hour').valueOf();
+        const timestamp = utilsModule.addTime(normalizeTime(new Date().getTime()), 2, 'hour').valueOf();
         return sign.getSignatureApi().getPublicKey()
             .then((senderPublicKey) => {
                 return sign.getSignatureApi().sign({

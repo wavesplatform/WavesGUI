@@ -8,9 +8,9 @@ export function normalizeTime(time: number): number;
 export function normalizeTime(time: Date): Date;
 export function normalizeTime(time: number | Date): number | Date {
     if (typeof time === 'number') {
-        return time + timeDiff;
+        return time - timeDiff;
     } else {
-        return new Date(time.getTime() + timeDiff);
+        return new Date(time.getTime() - timeDiff);
     }
 }
 
@@ -86,8 +86,16 @@ export function toArray<T>(some: T | Array<T>): Array<T> {
 
 export type TTimeType = 'day' | 'hour' | 'minute' | 'second'
 
-export function addTime(date: Date, count: number, timeType: TTimeType) {
-    return new Date(date.valueOf() + getTime(count, timeType).valueOf());
+export function dateTime(time: Date | number): number {
+    if (typeof time === 'number') {
+        return time;
+    }
+
+    return time.getTime();
+}
+
+export function addTime(date: Date | number, count: number, timeType: TTimeType) {
+    return new Date(dateTime(date) + getTime(count, timeType).getTime());
 }
 
 export function getTime(count, timeType: TTimeType): Date {
