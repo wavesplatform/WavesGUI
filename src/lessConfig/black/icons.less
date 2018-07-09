@@ -12,10 +12,12 @@
 @arrow-orderbook-down-icon: url(/img/icons/dark/arrow-orderbook-down.svg);
 @empty-icon: url(/img/icons/dark/icon-empty.svg);
 @error-icon: url(/img/icons/dark/icon-error.svg);
+
 @send-icon: url(/img/icons/dark/send.svg);
-@deposit-icon: url(/img/icons/dark/deposit.svg);
 @send-icon-hover: url(/img/icons/dark/send-hover.svg);
-@deposit-icon-hover: url(/img/icons/dark/deposit-hover.svg);
+@receive-icon: url(/img/icons/dark/deposit.svg);
+@receive-icon-hover: url(/img/icons/dark/deposit-hover.svg);
+
 @close-icon: url(/img/icons/dark/close.svg);
 @waves-logo-icon: url(/img/icons/dark/waves_logo.svg);
 @setting-menu-icon: url(/img/icons/dark/settings-menu-icons.svg);
@@ -106,20 +108,28 @@
   height: 24px;
 }
 
-.icon-send::before {
-  background-image: @send-icon;
+.btn-send {
+  &.btn-icon::before {
+    background-image: @send-icon;
+    transition: .3s;
+  }
+  &:hover {
+    &.btn-icon::before {
+      background-image: @send-icon-hover;
+    }
+  }
 }
 
-.icon-deposit::before {
-  background-image: @deposit-icon;
-}
-
-.icon-send:hover::before {
-  background-image: @send-icon-hover;
-}
-
-.icon-deposit:hover::before {
-  background-image: @deposit-icon-hover;
+.btn-receive {
+  &.btn-icon::before {
+    background-image:@receive-icon;
+    transition: .3s;
+  }
+  &:hover {
+    &.btn-icon::before {
+      background-image: @receive-icon-hover;
+    }
+  }
 }
 
 .icon-qr::before {
