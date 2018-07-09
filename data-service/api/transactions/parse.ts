@@ -152,9 +152,7 @@ export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, i
     const buyOrder = orderHash.buy;
     const sellOrder = orderHash.sell;
     const exchangeType = getExchangeType(order1, order2, sender);
-    const price = Money.min(order1.price, order2.price);
-    const amount = Money.min(order1.amount, order2.amount);
-    const total = Money.min(order1.total, order2.total);
+    const { price, amount, total } = getExchangeTxMoneys(factory, tx, assetsHash);
     const buyMatcherFee = factory.money(tx.buyMatcherFee, assetsHash[WAVES_ID]);
     const sellMatcherFee = factory.money(tx.sellMatcherFee, assetsHash[WAVES_ID]);
     const fee = factory.money(tx.fee, assetsHash[WAVES_ID]);
@@ -173,6 +171,15 @@ export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, i
         exchangeType,
         total
     };
+}
+
+export function getExchangeTxMoneys(factory: IFactory, tx: txApi.IExchange, assetsHash: IHash<Asset>) {
+    const pair = new AssetPair(assetsHash[tx.order2.assetPair.amountAsset], assetsHash[tx.order2.assetPair.priceAsset]);
+    const price = factory.price(tx.price, pair);
+    const amount = factory.money(tx.amount, pair.amountAsset);
+    const total = Money.fromTokens(amount.getTokens().times(price.getTokens()), price.asset);
+
+    return { price, amount, total };
 }
 
 export function parseLeasingTx(tx: txApi.ILease, assetsHash: IHash<Asset>, isUTX: boolean): ILease {
