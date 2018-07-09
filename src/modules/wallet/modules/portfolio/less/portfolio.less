@@ -37,17 +37,6 @@
 
   .btn-icon {
     font-family: @font-roboto-medium;
-
-    &::before {
-      content: '';
-      display: inline-block;
-      position: relative;
-      top: 2px;
-      background-size: 100% 100%;
-      width: 18px;
-      height: 14px;
-      margin-right: 7px;
-    }
   }
 
   .part {
@@ -232,6 +221,7 @@
             position: absolute;
             background: @color-disabled-500;
             top: 0;
+            z-index: 2;
             left: 50%;
             transform: translate(-50%, -40px);
             color: @color-white;
@@ -253,32 +243,40 @@
             }
           }
 
+          svg {
+            fill: @color-basic-500;
+            transition: .3s;
+            vertical-align: top;
+          }
+
           &:hover {
             div {
               display: block;
+            }
+            svg {
+              fill: @color-basic-700;
             }
           }
 
         }
 
         .icon-send {
-          background: @send-icon center no-repeat;
           right: 139px;
         }
         .icon-receive {
-          background: @receive-icon center no-repeat;
           right: 181px;
+          margin-top: 1px;
+          svg {
+            transform: rotate(-180deg);
+          }
         }
         .icon-dex {
-          background: @dex-mini-icon center no-repeat;
           right: 97px;
         }
         .icon-hide {
-          background: @hide-icon center no-repeat;
           right: 55px;
         }
         .icon-show {
-          background: @show-icon center no-repeat;
           right: 55px;
         }
 

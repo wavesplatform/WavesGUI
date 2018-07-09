@@ -13,25 +13,16 @@
 @empty-icon: url(/img/icons/icon-empty.svg);
 @error-icon: url(/img/icons/icon-error.svg);
 
-@send-icon: url(/img/icons/send.svg);
-@send-icon-hover: url(/img/icons/send-hover.svg);
-@receive-icon: url(/img/icons/deposit.svg);
-@receive-icon-hover: url(/img/icons/deposit-hover.svg);
-
 @close-icon: url(/img/icons/close.svg);
 @waves-logo-icon: url(/img/icons/waves_logo.svg);
 @setting-menu-icon: url(/img/icons/settings-menu-icons.svg);
 @filter-icon: url(/img/icons/icon-filter.svg);
 @qr-code-big-icon: url(/img/icons/qr-code-big.svg);
-@dex-mini-icon: url(/img/icons/dex-icon-mini.svg);
-@hide-icon: url(/img/icons/hide-icon.svg);
-@show-icon: url(/img/icons/show-icon.svg);
 @info-icon: url(/img/icons/info-icon.svg);
 @leasing-note-icon: url(/img/icons/leasing_note.svg);
 @card-success-icon: url(/img/icons/card-success.svg);
 @close-arrow-icon: url(/img/icons/close_arrow.svg);
 @information-icon: url(/img/icons/icon-info.svg);
-@download-icon: url(/img/icons/download.svg);
 @dropdown-icon: url(/img/icons/arrow-dropdown.svg);
 
 @slide-start-icon: url(/img/icons/0_start.svg);
@@ -109,25 +100,10 @@
 
 }
 
-.btn-send {
-  .btn-icon::before {
-    background-image: @send-icon;
-  }
-  &:hover {
-    .btn-icon::before {
-      background-image: @send-icon-hover;
-    }
-  }
-}
-
 .btn-receive {
-  .btn-icon::before {
-    background-image:@receive-icon;
-  }
-  &:hover {
-    .btn-icon::before {
-      background-image: @receive-icon-hover;
-    }
+  svg {
+    transform-origin: center;
+    transform: rotate(-180deg)
   }
 }
 
