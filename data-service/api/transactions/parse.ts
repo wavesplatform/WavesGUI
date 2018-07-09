@@ -144,6 +144,8 @@ export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, i
     const factory = getFactory(isTokens);
     const order1 = parseExchangeOrder(factory, tx.order1, assetsHash);
     const order2 = parseExchangeOrder(factory, tx.order2, assetsHash);
+    const exchange = parseExchangeOrder(factory, {...tx.order2, amount: tx.amount}, assetsHash);
+
     const orderHash: IHash<IExchangeOrder> = {
         [order1.orderType]: order1,
         [order2.orderType]: order2
@@ -151,9 +153,9 @@ export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, i
     const buyOrder = orderHash.buy;
     const sellOrder = orderHash.sell;
     const exchangeType = getExchangeType(order1, order2, sender);
-    const price = Money.min(order1.price, order2.price);
-    const amount = Money.min(order1.amount, order2.amount);
-    const total = Money.min(order1.total, order2.total);
+    const price = exchange.price;
+    const amount = exchange.amount;
+    const total = exchange.total;
     const buyMatcherFee = factory.money(tx.buyMatcherFee, assetsHash[WAVES_ID]);
     const sellMatcherFee = factory.money(tx.sellMatcherFee, assetsHash[WAVES_ID]);
     const fee = factory.money(tx.fee, assetsHash[WAVES_ID]);
