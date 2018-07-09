@@ -174,7 +174,8 @@ export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, i
 }
 
 export function getExchangeTxMoneys(factory: IFactory, tx: txApi.IExchange, assetsHash: IHash<Asset>) {
-    const pair = new AssetPair(assetsHash[tx.order2.assetPair.amountAsset], assetsHash[tx.order2.assetPair.priceAsset]);
+    const assetIdPair = normalizeAssetPair(tx.order2.assetPair);
+    const pair = new AssetPair(assetsHash[assetIdPair.amountAsset], assetsHash[assetIdPair.priceAsset]);
     const price = factory.price(tx.price, pair);
     const amount = factory.money(tx.amount, pair.amountAsset);
     const total = Money.fromTokens(amount.getTokens().times(price.getTokens()), price.asset);
