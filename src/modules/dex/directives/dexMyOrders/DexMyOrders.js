@@ -233,7 +233,7 @@
 
                         return ds.api.transactions.getExchangeTxList({
                             sender: user.address,
-                            timeStart: last.timestamp.getTime()
+                            timeStart: ds.utils.normalizeTime(last.timestamp.getTime())
                         }).then((txList) => {
                             const transactionsByOrderHash = DexMyOrders._getTransactionsByOrderIdHash(txList);
                             this.loadingError = false;
