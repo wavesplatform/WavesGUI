@@ -57,20 +57,22 @@
             }
 
             restore() {
+
                 if (!this.saveUserData) {
                     this.password = Date.now().toString();
                 }
-                const seedData = Waves.Seed.fromExistingPhrase(this.seed);
+                const seedData = new ds.Seed(this.seed);
                 const encryptedSeed = seedData.encrypt(this.password);
-                const publicKey = seedData.keyPair.publicKey;
+                const keyPair = seedData.keyPair;
 
                 return user.create({
                     address: this.address,
+                    api: ds.signature.getDefaultSignatureApi(keyPair, this.address, seedData.phrase),
                     name: this.name,
                     password: this.password,
                     settings: { termsAccepted: false },
                     encryptedSeed,
-                    publicKey,
+                    publicKey: keyPair.publicKey,
                     saveToStorage: this.saveUserData
                 }, true);
             }
@@ -93,7 +95,7 @@
              */
             _onChangeSeed() {
                 if (this.seedForm.$valid) {
-                    this.address = Waves.Seed.fromExistingPhrase(this.seed).address;
+                    this.address = new ds.Seed(this.seed).address;
                 } else {
                     this.address = '';
                 }

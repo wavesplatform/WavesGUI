@@ -62,7 +62,7 @@
                  */
                 this.pending = true;
 
-                waves.node.assets.getExtendedAsset(this.mirrorId)
+                waves.node.assets.getAsset(this.mirrorId)
                     .then((mirror) => {
                         this.mirror = mirror;
                         /**
@@ -74,7 +74,8 @@
                                 title: { literal: 'list.name' },
                                 valuePath: 'item.asset.name',
                                 sort: true,
-                                search: true
+                                search: true,
+                                placeholder: 'portfolio.filter'
                             },
                             {
                                 id: 'balance',
@@ -195,18 +196,7 @@
              * @param {Asset} asset
              */
             getSrefParams(asset) {
-                const id = user.getSetting('dex.watchlist.activeWatchListId');
-                const baseAssetId = user.getSetting(`dex.watchlist.${id}.baseAssetId`);
-
-                if (baseAssetId === asset.id) {
-                    if (baseAssetId === WavesApp.defaultAssets.WAVES) {
-                        return { assetId1: asset.id, assetId2: WavesApp.defaultAssets.BTC };
-                    } else {
-                        return { assetId1: asset.id, assetId2: WavesApp.defaultAssets.WAVES };
-                    }
-                } else {
-                    return { assetId1: asset.id, assetId2: baseAssetId };
-                }
+                utils.openDex(asset.id);
             }
 
             /**
@@ -276,6 +266,7 @@
                 const remapBalances = (item) => {
                     const isPinned = this._isPinned(item.asset.id);
                     const isSpam = this._isSpam(item.asset.id);
+                    item.asset.isMyAsset = item.asset.sender === user.address;
                     const isOnScamList = WavesApp.scam[item.asset.id];
 
                     return Promise.resolve({

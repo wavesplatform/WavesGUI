@@ -94,6 +94,7 @@
                  * @type {Array<ITransferItem>}
                  */
                 const transfers = this.tx.transfers || [];
+                this.tx.attachment = this.tx.attachment || '';
                 const assetId = this.state.assetId;
                 transfers.forEach((item) => {
                     item.amount = this.state.moneyHash[assetId].cloneWithTokens(item.amount.toTokens());
@@ -239,7 +240,7 @@
                                 return new BigNumber(0);
                             }
                         })
-                        .reduce((result, item) => result.add(item));
+                        .reduce((result, item) => result.plus(item));
                     const amount = this.state.moneyHash[this.state.assetId].cloneWithTokens(amountNum);
                     transfers.push({ recipient, amount });
                 });

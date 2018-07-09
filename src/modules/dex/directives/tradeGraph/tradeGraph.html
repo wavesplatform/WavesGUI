@@ -1,10 +1,9 @@
 <div class="graph-wrapper">
-    <linechart options="$ctrl.options"
-               data="$ctrl.data"
-               ng-if="$ctrl.canShowGraph"></linechart>
-    <div class="empty-block-container" ng-if="!$ctrl.canShowGraph">
-        <div class="icon"></div>
-        <div class="body-1 basic-700" w-i18n="directives.noChartDataTitle"></div>
-        <div class="footnote-1 basic-500" w-i18n="directives.noChartDataMessage"></div>
-    </div>
+    <w-loader ng-if="$ctrl.pending"></w-loader>
+    <linechart ng-if="!$ctrl.pending && $ctrl.canShowGraph"
+               options="$ctrl.options"
+               data="$ctrl.data"></linechart>
+
+    <w-empty-block ng-if="!$ctrl.pending && !$ctrl.canShowGraph && !$ctrl.loadingError"></w-empty-block>
+    <w-error-block ng-if="!$ctrl.pending && $ctrl.loadingError"></w-error-block>
 </div>

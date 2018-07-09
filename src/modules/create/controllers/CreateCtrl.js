@@ -86,6 +86,7 @@
              * @param {number} [index]
              */
             next(index) {
+
                 if (!index) {
                     index = this.stepIndex + 1;
                 }
@@ -117,7 +118,7 @@
             resetAddress() {
                 const list = [];
                 for (let i = 0; i < 5; i++) {
-                    const seedData = Waves.Seed.create();
+                    const seedData = ds.Seed.create();
                     list.push({ seed: seedData.phrase, address: seedData.address });
                 }
 
@@ -137,8 +138,7 @@
                 if (!this.saveUserData) {
                     this.password = Date.now().toString();
                 }
-
-                const seedData = Waves.Seed.fromExistingPhrase(this.seed);
+                const seedData = new ds.Seed(this.seed);
                 const encryptedSeed = seedData.encrypt(this.password);
                 const publicKey = seedData.keyPair.publicKey;
 
@@ -148,6 +148,7 @@
                     password: this.password,
                     encryptedSeed,
                     publicKey,
+                    api: ds.signature.getDefaultSignatureApi(seedData.keyPair, this.address, seedData.phrase),
                     saveToStorage: this.saveUserData
                 }, hasBackup);
             }

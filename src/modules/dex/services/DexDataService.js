@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const tsUtils = require('ts-utils');
+
     const factory = function (Base) {
 
         class DexDataService extends Base {
@@ -11,6 +13,14 @@
                  * @type {Signal}
                  */
                 this.chooseOrderBook = new tsUtils.Signal();
+                /**
+                 * @type {Signal}
+                 */
+                this.showSpread = new tsUtils.Signal();
+                /**
+                 * @type {Signal}
+                 */
+                this.createOrder = new tsUtils.Signal();
             }
 
         }

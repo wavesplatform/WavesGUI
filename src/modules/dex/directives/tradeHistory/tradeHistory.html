@@ -1,37 +1,52 @@
-<w-table ng-if="$ctrl.orders.length">
-    <w-t-head>
-        <w-row>
-            <w-cell>
-                <w-i18n params="{assetName: $ctrl.amountAsset.displayName}">
-                    directives.tradeHistory.tableTitle.size
-                </w-i18n>
-            </w-cell>
-            <w-cell>
-                <w-i18n params="{assetName: $ctrl.priceAsset.displayName}">
-                    directives.tradeHistory.tableTitle.price
-                </w-i18n>
-            </w-cell>
-            <w-cell>
-                <w-i18n>directives.tradeHistory.tableTitle.date</w-i18n>
-            </w-cell>
-        </w-row>
-    </w-t-head>
-    <w-scroll-box>
-        <w-row ng-repeat="order in $ctrl.orders track by order.id" class="footnote-1 disabled-900 {{::order.type}}">
-            <w-cell>
-                <span precision="$ctrl.amountAsset.precision" short-mode="::true" w-nice-number="order.size"></span>
-            </w-cell>
-            <w-cell class="size">
-                <span precision="$ctrl.priceAsset.precision" short-mode="::true" w-nice-number="order.price"></span>
-            </w-cell>
-            <w-cell>
-                {{::order.date | date:'MM-dd HH:mm:ss'}}
-            </w-cell>
-    </w-scroll-box>
-    </w-row>
-</w-table>
-<div ng-if="!$ctrl.orders.length" class="empty-block-container">
-    <div class="icon"></div>
-    <div class="body-1 basic-700" w-i18n="emptyBlocks.tradeHistory.title"></div>
-    <div class="footnote-1 basic-500" w-i18n="emptyBlocks.tradeHistory.description"></div>
-</div>
+<w-loader ng-if="$ctrl.pending && !$ctrl.isDemo"></w-loader>
+
+<w-smart-table ng-if="!$ctrl.pending || $ctrl.isDemo"
+               class="smart-table"
+               ng-class="{'my-trade-history': $ctrl.isMy}"
+               data="$ctrl.history"
+               header-info="$ctrl.headers">
+
+    <w-empty-block ng-if="!$ctrl.history.length && !$ctrl.isDemo"></w-empty-block>
+
+    <div class="sign-in-message" ng-if="$ctrl.isMy && $ctrl.isDemo">
+        <a ui-sref="welcome" class="link" w-i18n="directives.demo.signIn"></a>
+        <span w-i18n="directives.demo.or"></span>
+        <a ui-sref="create" class="link" w-i18n="directives.demo.createAccount"></a>
+        <span w-i18n="directives.demo.to.tradehistory"></span>
+    </div>
+
+    <!-- TODO @uIsk remove asset name from locize after release -->
+    <w-table-row ng-repeat="tx in $data track by tx.id"
+                 class="footnote-1 disabled-900 {{::tx.exchangeType}}">
+        <w-table-cell ng-if="::$ctrl.isMy">
+            <span ng-click="$ctrl.setPair(tx)" ng-class="{underline: !$ctrl.isSelected(tx)}">
+                <a href="#">{{::tx.pair}}</a>
+            </span>
+        </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.exchangeType"></span>
+            <span class="order-side {{::tx.exchangeType}}"
+                  w-i18n="directives.tradeHistory.orderType.{{::tx.exchangeType}}"></span>
+        </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.date"></span>
+            {{::tx.timestamp | date:'MM-dd HH:mm:ss'}}
+        </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.price"></span>
+            <w-balance money="::tx.price" short-mode="::true"></w-balance>
+        </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.size"></span>
+            <w-balance money="::tx.amount" short-mode="::true"></w-balance>
+        </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.total"></span>
+            <w-balance money="::tx.total" short-mode="::true"></w-balance>
+        </w-table-cell>
+        <w-table-cell ng-if="$ctrl.isMy">
+            <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.fee"></span>
+            <w-balance money="::tx.userFee" short-mode="::true"></w-balance>
+        </w-table-cell>
+    </w-table-row>
+</w-smart-table>

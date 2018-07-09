@@ -8,7 +8,6 @@ body {
   min-width: 360px;
   overflow: auto;
   background-color: @color-background-default;
-  .scroll();
 
   .notifications {
     position: absolute;
@@ -16,6 +15,15 @@ body {
     bottom: 10px;
     z-index: 10000;
   }
+}
+
+body.wallet {
+  .scroll();
+}
+
+body.dex,
+body.dex-demo {
+  .scroll-dex();
 }
 
 ui-view[name="main"] {
@@ -64,7 +72,8 @@ md-input-container {
   outline: none;
 }
 
-.empty-block-container {
+w-error-block,
+w-empty-block {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -73,13 +82,19 @@ md-input-container {
   text-align: center;
 
   .icon {
-    background-image: url(/img/icons/null.svg);
+    background-image: url(/img/icons/icon-empty.svg);
     background-repeat: no-repeat;
     background-position: center center;
-    width: 50px;
-    height: 52px;
-    margin: 30px 0 30px;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 10px auto;
   }
+}
+
+w-error-block {
+    .icon {
+      background-image: url(/img/icons/icon-error.svg);
+    }
 }
 
 .ghost {
@@ -168,6 +183,18 @@ w-scroll-box {
   }
 }
 
+.wallet.assets {
+  .main-content .content {
+    overflow-y: auto;
+    top: 70px;
+    right: 0;
+    bottom: 0;
+    padding: 10px 10px 0 0;
+    width: calc(100% ~'- 80px');
+    height: calc(100% ~'- 70px');
+  }
+}
+
 .md-dialog-backdrop:nth-of-type(even) {
   z-index: 81;
 }
@@ -221,7 +248,7 @@ md-toolbar.md-default-theme:not(.md-menu-toolbar),
 md-toolbar:not(.md-menu-toolbar) {
   background-color: @color-white;
   color: @color-black;
-  border-bottom: 1px solid @color-disabled-200;
+  border-bottom: 1px solid @color-basic-200;
 }
 
 .chart-legend {
@@ -230,7 +257,7 @@ md-toolbar:not(.md-menu-toolbar) {
 
   .legend-item {
     display: block;
-    padding: 12px 0;
+    height: 38px;
   }
 
 }
@@ -308,9 +335,7 @@ md-toolbar:not(.md-menu-toolbar) {
 }
 
 .assets-wrapper {
-  max-height: calc(~'100vh - 140px');
-  overflow-x: hidden;
-  overflow-y: auto;
+  height: 100%;
   min-height: 210px;
 }
 
@@ -348,6 +373,28 @@ md-toolbar:not(.md-menu-toolbar) {
   }
 }
 
+.scroll-dex {
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+  }
+
+  :hover::-webkit-scrollbar {
+    display: block;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background: @color-basic-200;
+    box-shadow: inset -1px 0 0px 1px #fff;
+  }
+
+  ::-webkit-scrollbar-thumb:window-inactive {
+    background: @color-basic-200;
+  }
+}
+
 @media screen and (min-width: 1024px) {
   w-left-menu w-responsive-menu {
     min-height: 270px;
@@ -357,6 +404,15 @@ md-toolbar:not(.md-menu-toolbar) {
 @media screen and (max-width: 768px) {
 
   body {
+
+    &.wallet.assets {
+      .main-content .content {
+        top: 0;
+        padding: 10px;
+        width: 100%;
+        height: calc(100% ~'- 50px');
+      }
+    }
 
     .main-content w-scroll-box {
       overflow: visible;

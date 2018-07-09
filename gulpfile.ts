@@ -50,7 +50,7 @@ const getFileName = (name, type) => {
 };
 
 
-const indexPromise = readFile(join(__dirname, 'src', 'index.html'), { encoding: 'utf8' });
+const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: 'utf8' });
 
 task('load-trading-view', (done) => {
     Promise.all(meta.tradingView.files.map((relativePath) => {
@@ -224,13 +224,10 @@ task('up-version-json', function (done) {
 });
 
 task('templates', function () {
-    return gulp.src('src/!(index.html)/**/*.html')
+    return gulp.src(['src/**/*.html', 'src/!(index.hbs)/**/*.hbs'])
         .pipe(htmlmin({ collapseWhitespace: true }))
         .pipe(templateCache({
-            module: 'app.templates',
-            // transformUrl: function (url) {
-            //     return `/${url}`;
-            // }
+            module: 'app.templates'
         }))
         .pipe(gulp.dest(tmpJsPath));
 });
@@ -254,7 +251,7 @@ task('concat-develop-vendors', function () {
 });
 
 task('clean', function () {
-    execSync('sh scripts/clean.sh');
+    execSync(`sh ${join('scripts', 'clean.sh')}`);
 });
 
 task('eslint', function (done) {
@@ -355,8 +352,13 @@ task('electron-debug', ['electron-task-list'], function (done) {
         .catch((e) => console.log(e.stack));
 });
 
+task('data-service', function () {
+    execSync(`${join('node_modules', '.bin', 'tsc')} -p data-service && ${join('node_modules', '.bin', 'browserify')} ${join('data-service', 'index.js')} -s ds -u ts-utils -o ${join('data-service-dist', 'data-service.js')}`);
+});
+
 task('all', [
     'clean',
+    'data-service',
     'templates',
     'concat',
     'copy',

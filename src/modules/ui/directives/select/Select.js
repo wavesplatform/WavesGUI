@@ -185,13 +185,23 @@
              * @private
              */
             _animate() {
+                const fromCss = {
+                    height: 0,
+                    top: this.upDirection ? 0 : undefined
+                };
                 if (this.isOpend) {
                     this._selectList.css({ display: 'flex', height: 'auto' });
                     const height = this._selectList.outerHeight();
-                    this._selectList.css('height', 0);
-                    return utils.animate(this._selectList, { height }, { duration: 100 });
+                    const top = this.upDirection ? -height : undefined;
+                    const toCss = {
+                        height,
+                        top
+                    };
+
+                    this._selectList.css(fromCss);
+                    return utils.animate(this._selectList, toCss, { duration: 100 });
                 } else {
-                    return utils.animate(this._selectList, { height: 0 }, { duration: 100 }).then(() => {
+                    return utils.animate(this._selectList, fromCss, { duration: 100 }).then(() => {
                         this._selectList.css('display', 'none');
                     });
                 }
@@ -207,7 +217,8 @@
     angular.module('app.ui').component('wSelect', {
         bindings: {
             ngModel: '=',
-            disabled: '<'
+            disabled: '<',
+            upDirection: '<'
         },
         templateUrl: 'modules/ui/directives/select/select.html',
         transclude: true,

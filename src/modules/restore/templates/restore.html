@@ -3,7 +3,7 @@
     <span ng-click="$ctrl.showTutorialModals()"
           w-i18n-ns="app.welcome"
           w-i18n="infoTooltip"
-          class="icon-information-tooltip">
+          class="tooltip">
     </span>
     <w-change-language></w-change-language>
 
@@ -53,7 +53,7 @@
 
                 <div class="margin-3">
                     <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">
-                        <w-i18n>seedForm.continue</w-i18n>
+                        <span w-i18n="seedForm.continue"></span>
                     </w-button>
                 </div>
             </form>
@@ -72,7 +72,7 @@
                         password="$ctrl.password"
                         on-submit="$ctrl.restore()">
                 <span w-i18n-ns="app.restore">
-                    <w-i18n>passwordForm.login</w-i18n>
+                    <span w-i18n="passwordForm.login"></span>
                 </span>
             </w-password>
         </w-step>

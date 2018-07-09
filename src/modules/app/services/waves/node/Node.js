@@ -32,7 +32,7 @@
 
             isValidAddress(address) {
                 try {
-                    return Waves.crypto.isValidAddress(address);
+                    return ds.isValidAddress(address);
                 } catch (e) {
                     return false;
                 }
@@ -42,46 +42,8 @@
              * @return {Promise<Number>}
              */
             height() {
-                return fetch(`${this.network.node}/blocks/height`)
+                return ds.fetch(`${this.node}/blocks/height`)
                     .then((res) => res.height);
-            }
-
-            /**
-             * Leasing transaction
-             * @param {string} recipient
-             * @param {Money} amount
-             * @param {Money} [fee]
-             * @param {string} keyPair
-             * @return {Promise.<TResult>}
-             */
-            lease({ recipient, amount, fee, keyPair }) {
-                return this.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.LEASE, fee })
-                    .then((fee) => {
-                        return Waves.API.Node.v1.leasing.lease({
-                            amount: amount.toCoins(),
-                            fee: fee.toCoins(),
-                            recipient
-                        }, keyPair)
-                            .then(this._pipeTransaction([amount, fee]));
-                    });
-            }
-
-            /**
-             * Cancel leasing
-             * @param {string} transactionId
-             * @param {string} keyPair
-             * @param {Money} [fee]
-             * @return {Promise<ITransaction>}
-             */
-            cancelLeasing({ transactionId, keyPair, fee }) {
-                return this.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING, fee })
-                    .then((fee) => {
-                        return Waves.API.Node.v1.leasing.cancelLeasing({
-                            fee: fee.toCoins(),
-                            transactionId
-                        }, keyPair)
-                            .then(this._pipeTransaction([fee]));
-                    });
             }
 
         }

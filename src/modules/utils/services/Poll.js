@@ -167,7 +167,7 @@
 
             restart() {
                 this._stopTimers();
-                this._run();
+                return this._run();
             }
 
             /**
@@ -214,27 +214,31 @@
              * @private
              */
             _run() {
-                if (this._removed) {
-                    return null;
-                }
-                if (this._paused) {
-                    return null;
-                }
+                return new Promise((resolve) => {
+                    if (this._removed) {
+                        return null;
+                    }
+                    if (this._paused) {
+                        return null;
+                    }
 
-                const result = this._getData();
-                if (Poll._isPromise(result)) {
-                    this._promise = new PromiseControl(result);
-                    this._promise.then((data) => {
+                    const result = this._getData();
+                    if (Poll._isPromise(result)) {
+                        this._promise = new PromiseControl(result);
+                        this._promise.then((data) => {
+                            this._addTimeout();
+                            this._applyData(data);
+                            this._ready.resolve();
+                            resolve();
+                        }, () => {
+                            this._timer = timeLine.timeout(() => this._run(), this._errorRequestTime);
+                        });
+                    } else {
+                        this._applyData(result);
                         this._addTimeout();
-                        this._applyData(data);
-                        this._ready.resolve();
-                    }, () => {
-                        this._timer = timeLine.timeout(() => this._run(), this._errorRequestTime);
-                    });
-                } else {
-                    this._applyData(result);
-                    this._addTimeout();
-                }
+                        resolve();
+                    }
+                });
             }
 
             /**

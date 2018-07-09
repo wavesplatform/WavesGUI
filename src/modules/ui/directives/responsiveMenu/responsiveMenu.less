@@ -56,3 +56,43 @@ w-responsive-menu {
   }
 
 }
+
+@media screen and (max-width: 1024px) {
+  body.dex, body.dex-demo {
+    w-responsive-menu {
+      height: auto;
+      position: absolute;
+      z-index: 2;
+
+      .menu-item {
+        display: block;
+      }
+
+      .navigation-menu {
+        display: flex;
+        flex-direction: column;
+      }
+
+      w-button.nav-toggler {
+        display: block;
+
+        & > button.nav-toggler {
+          position: absolute;
+          cursor: pointer;
+          display: block;
+          border: 0 none;
+          padding: 0;
+          z-index: 10;
+          background: none transparent;
+
+          .dots {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}

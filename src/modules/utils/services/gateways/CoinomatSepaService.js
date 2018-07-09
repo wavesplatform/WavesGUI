@@ -10,22 +10,16 @@
     // That is used to access values from `**/locales/*.json` files
     const KEY_NAME_PREFIX = 'coinomatSepa';
 
-    const CURRENCIES = {
-        // TODO : move this list to a server-size DB
-        [WavesApp.defaultAssets.USD]: 'USD',
-        [WavesApp.defaultAssets.EUR]: 'EUR',
-        [WavesApp.defaultAssets.TRY]: 'TRY'
-    };
-
     /**
-     * @return {CoinomatSepaService}
+     * @param sepaGateways
+     * @returns {CoinomatSepaService}
      */
-    const factory = function () {
+    const factory = function (sepaGateways) {
 
         class CoinomatSepaService {
 
             getAll() {
-                return CURRENCIES;
+                return sepaGateways;
             }
 
             /**
@@ -47,17 +41,17 @@
              * @return {IGatewaySupportMap}
              */
             getSupportMap(asset) {
-                if (CURRENCIES[asset.id]) {
+                if (sepaGateways[asset.id]) {
                     return { sepa: true };
                 }
             }
 
             getAssetKeyName(asset) {
-                return `${KEY_NAME_PREFIX}${CURRENCIES[asset.id]}`;
+                return `${KEY_NAME_PREFIX}${sepaGateways[asset.id]}`;
             }
 
             static _isSupportedAsset(assetId) {
-                if (!CURRENCIES[assetId]) {
+                if (!sepaGateways[assetId]) {
                     throw new Error('Asset is not supported by Coinomat SEPA');
                 }
             }
@@ -66,6 +60,8 @@
 
         return new CoinomatSepaService();
     };
+
+    factory.$inject = ['sepaGateways'];
 
     angular.module('app.utils').factory('coinomatSepaService', factory);
 })();

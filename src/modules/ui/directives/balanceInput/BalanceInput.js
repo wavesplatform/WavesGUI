@@ -122,7 +122,7 @@
                 if (!this.assetId) {
                     return null;
                 }
-                Waves.Money.fromTokens('0', this.assetId).then((money) => {
+                ds.moneyFromTokens('0', this.assetId).then((money) => {
                     this.asset = money.asset;
                     if (!this.amount) {
                         this.amount = money;

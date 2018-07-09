@@ -1,0 +1,19 @@
+<div class="dialog-content">
+    <div class="dialog-content__close icon-close" w-modal-close></div>
+    <div class="dialog-content__icon {{::iconClass}}" ng-if="iconClass"></div>
+    <h3 class="dialog-content__message"
+        w-i18n="{{::message.literal}}"
+        params="::message.params"
+        w-i18n-ns="{{::message.ns}}"></h3>
+
+    <div class="buttons-wrapper">
+        <w-button ng-repeat="button in buttons track by $index"
+                  class="{{::button.classes}}"
+                  on-click="$ctrl.applyClick(button)">
+            <div class="dialog-content__button"
+                 w-i18n="{{::button.text.literal}}"
+                 w-i18n-ns="{{::button.text.ns}}"
+                 params="{{::button.text.params}}"></div>
+        </w-button>
+    </div>
+</div>
