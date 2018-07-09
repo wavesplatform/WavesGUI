@@ -12,8 +12,6 @@ import { minify } from 'html-minifier';
 import { get, ServerResponse, IncomingMessage } from 'https';
 import { MAINNET_DATA, TESTNET_DATA } from '@waves/assets-pairs-order';
 
-const EXIST_THEME = ['default', 'black'];
-
 export const task: ITaskFunction = gulp.task.bind(gulp) as any;
 
 export function getBranch(): Promise<string> {
@@ -125,9 +123,9 @@ export function replaceScripts(file: string, paths: Array<string>): string {
     }).join('\n'));
 }
 
-export function replaceStyles(file: string, paths: Array<string>): string {
+export function replaceStyles(file: string, paths: Array<string>, themes): string {
     return file.replace('<!-- CSS -->', paths.map((path: string) => {
-        return EXIST_THEME.map((theme: string) => `<link theme="${theme}" rel="stylesheet" href="${path}?theme=${theme}">`).join('\n');
+        return themes.map((theme: string) => `<link theme="${theme}" rel="stylesheet" href="${path}?theme=${theme}">`).join('\n');
     }).join('\n'));
 }
 
@@ -137,13 +135,13 @@ export function isTradingView(url: string): boolean {
 
 export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
     const filter = moveTo(param.target);
-
     return Promise.all([
         readFile(join(__dirname, '../src/index.hbs'), 'utf8') as Promise<string>,
         readJSON(join(__dirname, '../package.json')) as Promise<IPackageJSON>,
-        readJSON(join(__dirname, './meta.json')) as Promise<IMetaJSON>
+        readJSON(join(__dirname, './meta.json')) as Promise<IMetaJSON>,
+        readJSON(join(__dirname, '../src/lessConfig/theme.json'))
     ])
-        .then(([file, pack, meta]) => {
+        .then(([file, pack, meta, {themes}]) => {
             const connectionTypes = ['mainnet', 'testnet'];
 
             if (!param.scripts) {
@@ -167,7 +165,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                 return result;
             }, Object.create(null));
 
-            return compile(file)({
+            const fileTpl = compile(file)({
                 pack: pack,
                 isWeb: param.type === 'web',
                 isProduction: param.buildType && param.buildType === 'min',
@@ -178,11 +176,10 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                 },
                 network: networks[param.connection]
             });
+
+            return replaceStyles(fileTpl, param.styles.map(filter).map(s => `/${s}`), themes);
         })
         .then((file) => {
-            let styleSheet = replaceStyles(file, param.styles.map(filter).map(s => `/${s}`));
-            return replaceStyles(file, param.styles.map(filter).map(s => `/${s}`));
-        }).then((file) => {
             return replaceScripts(file, param.scripts.map(filter));
         });
 }
@@ -393,7 +390,9 @@ export function isSourceScript(url: string): boolean {
 
 export function isLess(url: string): boolean {
     url = url.split('?')[0];
-    return url.includes('/modules/') && url.lastIndexOf('.less') === url.length - 5;
+    return  url.lastIndexOf('.less')=== url.length - 5 && (
+        url.includes('/modules/') || url.includes('/lessConfig/')
+    );
 }
 
 export function isApiMock(url: string): boolean {
@@ -417,6 +416,7 @@ export function isPage(url: string): boolean {
         'node_modules',
         'ts-scripts',
         'modules',
+        'lessConfig',
         'locales',
         'loginDaemon',
         'transfer.js',
