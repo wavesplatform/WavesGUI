@@ -934,6 +934,21 @@
             },
 
             /**
+             * @name app.utils#remapOldClientAccounts
+             * @param account
+             * @returns {{address: *, encryptedSeed: *, settings: {encryptionRounds: number}}}
+             */
+            remapOldClientAccounts(account) {
+                return {
+                    address: account.address,
+                    encryptedSeed: account.cipher,
+                    settings: {
+                        encryptionRounds: 1000
+                    }
+                };
+            },
+
+            /**
              * @name app.utils#isNotEqualValue
              * @param {*} oldValue
              * @param {*} newValue

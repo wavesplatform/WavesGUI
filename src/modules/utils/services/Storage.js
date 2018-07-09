@@ -89,15 +89,7 @@
                         return null;
                     }
 
-                    const userList = data.accounts.map((account) => {
-                        return {
-                            address: account.address,
-                            encryptedSeed: account.cipher,
-                            settings: {
-                                encryptionRounds: 1000
-                            }
-                        };
-                    });
+                    const userList = data.accounts.map(utils.remapOldClientAccounts);
                     return storage.clear().then(() => storage.save('userList', userList));
                 });
             },
