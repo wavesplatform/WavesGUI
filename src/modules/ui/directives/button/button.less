@@ -160,26 +160,28 @@ w-button {
 
     &.interface {
       background-color: @color-white;
-      border: 1px solid @color-basic-100;
+      border: none;
       color: @color-basic-500;
       font-family: @font-roboto-medium;
       height: 42px;
       text-transform: capitalize;
       transition: all 0.15s;
+      box-shadow: @shadow-buttons-default;
+      transition: all 0.5s;
 
       &:hover, &.hover {
-        border-color: @color-basic-500;
-        color: @color-basic-600;
+        box-shadow: @shadow-buttons-hover;
+        color: @color-basic-700;
       }
 
       &:active, &.active {
-        border-color: @color-basic-500;
+        box-shadow: @shadow-buttons-hover;
         color: @color-basic-500;
       }
 
       &:disabled, &.disabled {
-        border: 1px solid @color-accent-50;
-        color: @color-basic-200;
+        opacity: 0.5;
+        cursor: default;
       }
     }
   }

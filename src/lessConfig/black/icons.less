@@ -14,6 +14,8 @@
 @error-icon: url(/img/icons/dark/icon-error.svg);
 @send-icon: url(/img/icons/dark/send.svg);
 @deposit-icon: url(/img/icons/dark/deposit.svg);
+@send-icon-hover: url(/img/icons/dark/send-hover.svg);
+@deposit-icon-hover: url(/img/icons/dark/deposit-hover.svg);
 @close-icon: url(/img/icons/dark/close.svg);
 @waves-logo-icon: url(/img/icons/dark/waves_logo.svg);
 @setting-menu-icon: url(/img/icons/dark/settings-menu-icons.svg);
@@ -110,6 +112,14 @@
 
 .icon-deposit::before {
   background-image: @deposit-icon;
+}
+
+.icon-send:hover::before {
+  background-image: @send-icon-hover;
+}
+
+.icon-deposit:hover::before {
+  background-image: @deposit-icon-hover;
 }
 
 .icon-qr::before {
