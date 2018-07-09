@@ -12,8 +12,12 @@
 @arrow-orderbook-down-icon: url(/img/icons/arrow-orderbook-down.svg);
 @empty-icon: url(/img/icons/icon-empty.svg);
 @error-icon: url(/img/icons/icon-error.svg);
+
 @send-icon: url(/img/icons/send.svg);
-@deposit-icon: url(/img/icons/deposit.svg);
+@send-icon-hover: url(/img/icons/send-hover.svg);
+@receive-icon: url(/img/icons/deposit.svg);
+@receive-icon-hover: url(/img/icons/deposit-hover.svg);
+
 @close-icon: url(/img/icons/close.svg);
 @waves-logo-icon: url(/img/icons/waves_logo.svg);
 @setting-menu-icon: url(/img/icons/settings-menu-icons.svg);
@@ -65,14 +69,14 @@
   display: block;
   width: 42px;
   height: 42px;
-  background: url(../../img/icons/visa-icon.svg) center no-repeat;
+  background: url(/img/icons/visa-icon.svg) center no-repeat;
 }
 
 .mastercard-icon {
   display: block;
   width: 42px;
   height: 42px;
-  background: url(../../img/icons/mastercard-icon.svg) center no-repeat;
+  background: url(/img/icons/mastercard-icon.svg) center no-repeat;
 }
 
 .card-success-icon {
@@ -86,38 +90,53 @@
   display: inline-block;
   width: 80px;
   height: 80px;
-  background: url(../../img/icons/bank-success.svg) center no-repeat;
+  background: url(/img/icons/bank-success.svg) center no-repeat;
 }
 
 .bank-building-success-icon {
   display: inline-block;
   width: 80px;
   height: 80px;
-  background: url(../../img/icons/bank-building-success.svg) center no-repeat;
+  background: url(/img/icons/bank-building-success.svg) center no-repeat;
 }
 
 .verified-icon {
-  background: url(../../img/icons/input-valid-icon.svg) center center no-repeat rgba(129, 201, 38, 0.1);
+  background: url(/img/icons/input-valid-icon.svg) center center no-repeat rgba(129, 201, 38, 0.1);
   border-radius: 100%;
   display: inline-block;
   width: 24px;
   height: 24px;
+
 }
 
-.icon-send::before {
-  background-image: @send-icon;
+.btn-send {
+  .btn-icon::before {
+    background-image: @send-icon;
+  }
+  &:hover {
+    .btn-icon::before {
+      background-image: @send-icon-hover;
+    }
+  }
 }
 
-.icon-deposit::before {
-  background-image: @deposit-icon;
+.btn-receive {
+  .btn-icon::before {
+    background-image:@receive-icon;
+  }
+  &:hover {
+    .btn-icon::before {
+      background-image: @receive-icon-hover;
+    }
+  }
 }
 
 .icon-qr::before {
-  background-image: url(../../img/icons/qr-code-small.svg);
+  background-image: url(/img/icons/qr-code-small.svg);
 }
 
 .icon-tx-success {
-  background-image: url(../../img/icons/check.svg);
+  background-image: url(/img/icons/check.svg);
   width: 80px;
   height: 80px;
   background-size: 100% 100%;
@@ -125,7 +144,7 @@
 }
 
 .icon-tx-bg {
-  background-image: url(../../img/icons/transaction-icons.svg);
+  background-image: url(/img/icons/transaction-icons.svg);
   background-size: auto @tx-icon-size;
   background-repeat: no-repeat;
 }
@@ -268,14 +287,14 @@
 .icon-filter {
   width: 14px;
   height: 14px;
-  background: url(../../img/icons/icon-filter.svg) center no-repeat;
+  background: @filter-icon center no-repeat;
   display: inline-block;
 }
 
 .icon-lock {
   width: 16px;
   height: 16px;
-  background: url(../../img/icons/icon-lock.svg) center no-repeat;
+  background: url(/img/icons/icon-lock.svg) center no-repeat;
   display: block;
 }
 
@@ -292,7 +311,7 @@
   margin: 20px auto 20px auto;
   width: 80px;
   height: 80px;
-  background: url(../../img/icons/icon-connected.svg) center top no-repeat;
+  background: url(/img/icons/icon-connected.svg) center top no-repeat;
 }
 
 .icon-sorting {

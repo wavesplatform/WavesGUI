@@ -84,7 +84,7 @@
   color: #68696b;
 }
 .feature-no-touch ._tv-dialog .button:not(.disabled):not(.selected):hover:before, .feature-no-touch ._tv-dialog .custom-select .switcher:not(.disabled):not(.selected):hover:before, .feature-no-touch ._tv-dialog .favored-list-container span:not(.disabled):not(.selected):hover:before, .feature-no-touch ._tv-dialog .submenu:not(.disabled):not(.selected):hover:before, .feature-no-touch .bottom-widgetbar-content.backtesting .button:not(.disabled):not(.selected):hover:before, .feature-no-touch .bottom-widgetbar-content.backtesting .custom-select .switcher:not(.disabled):not(.selected):hover:before, .feature-no-touch .bottom-widgetbar-content.backtesting .favored-list-container span:not(.disabled):not(.selected):hover:before, .feature-no-touch .bottom-widgetbar-content.backtesting .submenu:not(.disabled):not(.selected):hover:before, .feature-no-touch .header-chart-panel .button:not(.disabled):not(.selected):hover:before, .feature-no-touch .header-chart-panel .custom-select .switcher:not(.disabled):not(.selected):hover:before, .feature-no-touch .header-chart-panel .favored-list-container span:not(.disabled):not(.selected):hover:before, .feature-no-touch .header-chart-panel .submenu:not(.disabled):not(.selected):hover:before, .feature-no-touch .properties-toolbar .button:not(.disabled):not(.selected):hover:before, .feature-no-touch .properties-toolbar .custom-select .switcher:not(.disabled):not(.selected):hover:before, .feature-no-touch .properties-toolbar .favored-list-container span:not(.disabled):not(.selected):hover:before, .feature-no-touch .properties-toolbar .submenu:not(.disabled):not(.selected):hover:before {
-  border: 1px solid #424242;
+  border: 1px solid #777;
 }
 .chart-page,
 .chart-page .loading-indicator {
@@ -283,8 +283,11 @@ tr.context-menu-hover {
 }
 
 ._tv-button.ok {
-  background: #5981ea;
+  background: #5a81ea;
   color: #fff!important;
+}
+.feature-no-touch ._tv-button.ok:hover {
+  background: #1f5af6;
 }
 ._tv-button.cancel {
   background: #424242;
@@ -292,8 +295,9 @@ tr.context-menu-hover {
   color: #fff!important;
 }
 ._tv-button, button._tv-button {
-  color: #2d2d2d !important;
+  color: #ffffff !important;
   border: 1px solid #ffffff;
+  background: #2d2d2d;
 }
 .properties-tabs a.properties-tabs-label {
   color: #8c8c8c;
@@ -342,7 +346,7 @@ tr.context-menu-hover {
   border: 1px solid #424242;
 }
 .feature-no-touch .tv-select-container:hover:not(.sbHolderDisabled), .feature-no-touch .tv-select-container:hover:not(.sbHolderDisabled) a {
-  color: #8b8b8b;
+  color: #FFF;
 }
 .feature-no-touch .tv-select-container .sbOptions a:hover, .feature-no-touch .tv-unstyled-select-container .sbOptions a:hover {
   background: #353535;
@@ -376,3 +380,125 @@ tr.context-menu-hover {
   color: #FFF;
   border-color: #777;
  }
+.chart-style-widget span.selected svg {
+  fill: #5881ea;
+}
+.tv-dialog__title {
+  color: #FFFFFF;
+}
+.tv-search-row__input {
+  background: #2d2d2d;
+}
+.tv-insert-study-item {
+  color: #FFF;
+}
+.tvcolorpicker-widget {
+  background: #2d2d2d;
+}
+.sbOptions a:visited, .tv-select-container .sbOptions a:link, .tv-unstyled-select-container .sbOptions a:link {
+  color: #FFF;
+}
+.custom-select .switcher {
+  background: #2d2d2d;
+  border: 1px solid #777777;
+}
+.custom-select .items {
+  background: #2d2d2d;
+  border: 1px solid #777777;
+}
+.custom-select .items .item.selected {
+  background: #353535;
+  border-left: 4px solid #5a81ea;
+}
+.feature-no-touch .custom-select .items .item:hover {
+  background: #353535;
+}
+.tv-objects-tree-item.i-active {
+  background-color: #353535;
+  color: #FFF;
+}
+.tv-dropdown__body {
+  background-color: #2d2d2d;
+}
+.tv-dropdown__item.i-active {
+  color: #FFF;
+  background-color: #353535;
+}
+.feature-no-touch .tv-dropdown__item:hover {
+  color: #FFF;
+  background-color: #353535;
+}
+.tv-control-checkbox__input:checked+.tv-control-checkbox__box {
+  background-color: #5a81ea;
+}
+.tv-control-checkbox__input:checked+.tv-control-checkbox__box:after {
+  border-color: #5a81ea;
+}
+.button.compare.active svg {
+  fill: #5a81ea;
+}
+.tv-control-input {
+  color: #777;
+  border: 1px solid #777;
+  background-color: #2d2d2d;
+}
+.tv-control-checkbox__box:before {
+  background-color: #2d2d2d;
+}
+.tv-control-checkbox__box:after {
+  border: 2px solid #777;
+}
+.tv-add-symbol-tab__checkbox-box:after {
+  border-color: #777;
+}
+.feature-no-touch .tv-control-checkbox:active .tv-control-checkbox__box:after, .feature-no-touch .tv-control-checkbox__input:focus+.tv-control-checkbox__box:after, .feature-touch .tv-control-checkbox:active .tv-control-checkbox__box:after, .feature-touch .tv-control-checkbox__input:focus+.tv-control-checkbox__box:after {
+  border-color: #5a81ea;
+}
+.feature-no-touch .tv-control-checkbox:hover .tv-control-checkbox__input:checked+.tv-control-checkbox__box {
+  background-color: #5a81ea;
+}
+.feature-no-touch .tv-control-checkbox:active .tv-control-checkbox__input:checked+.tv-control-checkbox__box, .feature-no-touch .tv-control-checkbox__input:focus:checked+.tv-control-checkbox__box, .feature-touch .tv-control-checkbox:active .tv-control-checkbox__input:checked+.tv-control-checkbox__box, .feature-touch .tv-control-checkbox__input:focus:checked+.tv-control-checkbox__box {
+  background-color: #5a81ea;
+}
+.feature-no-touch .tv-control-input:focus, .feature-touch .tv-control-input:focus {
+  border-color: #5a81ea;
+}
+.feature-no-touch .tv-control-checkbox:hover .tv-control-checkbox__input:checked+.tv-control-checkbox__box:after {
+  border-color: #5a81ea;
+}
+.feature-no-touch .tv-control-checkbox:active .tv-control-checkbox__input:checked+.tv-control-checkbox__box:after, .feature-no-touch .tv-control-checkbox__input:focus:checked+.tv-control-checkbox__box:after, .feature-touch .tv-control-checkbox:active .tv-control-checkbox__input:checked+.tv-control-checkbox__box:after, .feature-touch .tv-control-checkbox__input:focus:checked+.tv-control-checkbox__box:after {
+  border-color: #5a81ea;
+}
+div.symbol-edit-popup{
+  border:1px solid #777;
+  background:#2d2d2d;
+}
+div.symbol-edit-popup .table-wrapper{
+  border-top:1px solid #2d2d2d;
+}
+.tv-search-row {
+  border-bottom: 1px solid #777;
+  border-top: 1px solid #777;
+}
+.tv-dialog__section {
+  border-bottom: 1px solid #2d2d2d;
+}
+.feature-no-touch .tv-insert-study-item:hover {
+  background-color: #353535;
+}
+.feature-no-touch .tv-objects-tree-item.i-active:hover {
+  background-color: #353535;
+}
+.feature-no-touch .tv-dropdown__item.i-active:hover {
+  color: #FFF;
+  background-color: #353535;
+}
+.feature-no-touch .tv-objects-tree-item__button:hover svg {
+  fill: #5a81ea;
+}
+.properties-tabs a.properties-tabs-label.active {
+  color: #FFF;
+}
+.tv-search-row__search-icon svg {
+  color: #777;
+}
