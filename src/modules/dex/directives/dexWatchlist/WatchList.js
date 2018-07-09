@@ -472,7 +472,10 @@
                 const query = this.search;
                 this._searchAssets = [];
 
-                const queryParts = query.split('/').slice(0, 2).map(q => q.replace(/[:()^]/g, '')).filter(Boolean);
+                const queryParts = query.split('/')
+                    .slice(0, 2)
+                    .map(q => q.replace(/[:()^]/g, '').trim())
+                    .filter(Boolean);
 
                 if (!queryParts.length) {
                     WatchList._renderSmartTable();
@@ -489,6 +492,7 @@
                             this.searchInProgress = false;
                             this.pending = false;
                             this.searchRequest = null;
+                            this.showOnlyFavorite = false;
                             $scope.$apply();
                         });
                     })
