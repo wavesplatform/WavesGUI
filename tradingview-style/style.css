@@ -17,3 +17,72 @@
 .chart-page .chart-markup-table.price-axis {
     border-top: 1px solid #ffffff !important;
 }
+/*********MAX*******/
+.chart-page :not(input):not(textarea):not(.selectable), .tv-profile .tags, .unselectable {
+    fill: #7f8fa4;
+}
+.charts-popup-list .item span {
+    color: #7f8fa4;
+}
+.tv-side-toolbar .tools-group .button .main.text-as-icon {
+    color: #7f8fa4;
+}
+.tv-side-toolbar {
+    border-right: 1px solid #eef0f4;
+}
+.bottom-widgetbar-content.backtesting .button, .header-chart-panel .button, .hotlist-controls .button, .symbol-edit-widget .button {
+    border: 1px solid #dae1e9;
+}
+.favored-list-container span {
+    border: 1px solid #dae1e9;
+}
+.favored-list-container span.submenu {
+    margin-left: -1px;
+}
+.feature-no-touch ._tv-dialog .button:not(.disabled):not(.selected):hover:before,
+.feature-no-touch ._tv-dialog .custom-select .switcher:not(.disabled):not(.selected):hover:before,
+.feature-no-touch ._tv-dialog .favored-list-container span:not(.disabled):not(.selected):hover:before,
+.feature-no-touch ._tv-dialog .submenu:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .bottom-widgetbar-content.backtesting .button:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .bottom-widgetbar-content.backtesting .custom-select .switcher:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .bottom-widgetbar-content.backtesting .favored-list-container span:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .bottom-widgetbar-content.backtesting .submenu:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .header-chart-panel .button:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .header-chart-panel .custom-select .switcher:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .header-chart-panel .favored-list-container span:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .header-chart-panel .submenu:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .properties-toolbar .button:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .properties-toolbar .custom-select .switcher:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .properties-toolbar .favored-list-container span:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .properties-toolbar .submenu:not(.disabled):not(.selected):hover:before {
+    border: 1px solid #9ba6b2;
+}
+.favored-list-container span.submenu.interval-dialog-button i {
+    background: #7f8fa4;
+}
+.tv-side-toolbar .tools-group:not(:first-child):not(.no-delimiter):before {
+    background: #eef0f4;
+}
+.tv-close-panel {
+    border: 1px solid #eef0f4;
+}
+.drawing-favorites-toolbar .tools-group .button.active, .feature-no-touch .drawing-favorites-toolbar .tools-group .button:active,
+.feature-no-touch .properties-toolbar .tools-group .button:active, .feature-no-touch .tv-side-toolbar .tools-group .button:active .side,
+.feature-no-touch .tv-side-toolbar .tools-group .button:not(.subgroup):active, .feature-touch .drawing-favorites-toolbar .tools-group .button:active,
+.feature-touch .properties-toolbar .tools-group .button:active, .feature-touch .tv-side-toolbar .tools-group .button:active .side,
+.feature-touch .tv-side-toolbar .tools-group .button:not(.subgroup):active, .properties-toolbar .tools-group .button.active,
+.tv-side-toolbar .tools-group .button.active .side, .tv-side-toolbar .tools-group .button.selected .main,
+.tv-side-toolbar .tools-group .button:not(.subgroup).active, .tv-side-toolbar .tools-group .button:not(.subgroup).selected {
+    background-color: #f8f9fb;
+}
+.tv-side-toolbar .tools-group .button .side {
+    border-left: 1px dotted #dae1e9;
+}
+.drawing-favorites-toolbar .tools-group .button, .feature-no-touch .tv-side-toolbar .tools-group .button:active,
+.feature-no-touch .tv-side-toolbar .tools-group .button:hover, .feature-touch .tv-side-toolbar .tools-group .button:active,
+.properties-toolbar .tools-group .button, .tv-side-toolbar .tools-group .button.active, .tv-side-toolbar .tools-group .button.selected {
+    border-color: #dae1e9;
+}
+.tv-linetool-properties-toolbar__color-picker .colorpicker-widget+svg .icon {
+    fill: #7f8fa4;
+}

@@ -5,7 +5,7 @@
 .dex-layout {
   &__createorder {
     .mask {
-      background: @color-black;
+      background: @mask-default;
       position: absolute;
       left: 0;
       right: 0;
@@ -459,6 +459,7 @@ w-create-order {
           position: absolute;
           bottom: -5px;
           z-index: 7;
+          box-shadow: @shadow-dex-open;
 
           .dex-layout {
             &__block {
@@ -534,7 +535,6 @@ w-create-order {
                     .price {
                       span {
                         color: @color-submit-400;
-                        color: @white-only;
                       }
                     }
 
@@ -547,7 +547,6 @@ w-create-order {
                     .price {
                       span {
                         color: @color-basic-900;
-                        color: @white-only;
                       }
                     }
                     .name {
@@ -561,7 +560,6 @@ w-create-order {
                     .price {
                       span {
                         color: @color-basic-900;
-                        color: @white-only;
                       }
                     }
                     .name {
@@ -574,7 +572,6 @@ w-create-order {
                     .price {
                       span {
                         color: @color-error-500;
-                        color: @white-only;
                       }
                     }
 
@@ -643,8 +640,7 @@ w-create-order {
       .dex-layout {
         &__createorder {
           position: fixed;
-          bottom: 0;
-          border-top: 1px solid @color-basic-100;
+          box-shadow: @shadow-create-order;
 
           &.expanded {
             bottom: 0;

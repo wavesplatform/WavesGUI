@@ -55,9 +55,10 @@
         max-height: calc(100vh ~'- 208px');
         transform: translate3d(0, 0, 0);
         will-change: transform;
+        background: @color-white;
 
         .smart-table__row:hover {
-          background: @color-basic-50;
+          background: @hover-default;
 
         }
       }
@@ -99,7 +100,7 @@
     }
 
     .smart-table__cell {
-      transition: all 0.5s;
+      transition: all 0.3s;
       &:first-child {
         min-width: 200px;
       }

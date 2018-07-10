@@ -411,14 +411,15 @@ w-left-menu {
       display: flex;
       border-right: 0 none;
       position: fixed;
-      border-bottom: 1px solid @color-disabled-100;
+      box-shadow: @shadow-menu-left;
+      border: none;
 
       .logo-wrapper {
         margin: @padding-main-layout;
       }
 
       .wallet-toggler {
-        background: url(/img/icons/arrow-dropdown.svg) no-repeat;
+        background: @dropdown-icon no-repeat;
         background-position: 20px center;
         transform: rotate(180deg);
         width: 100%;
@@ -441,7 +442,7 @@ w-left-menu {
         height: auto;
         position: absolute;
         z-index: 16;
-        box-shadow: 0 5px 5px @color-basic-50;
+        box-shadow: @shadow-menu-top;
         margin-top: -1px;
         min-height: auto;
 
@@ -542,7 +543,7 @@ w-left-menu {
               background-color: @color-submit-400;
 
               .menu-item {
-                color: @color-white;
+                color: @white-only;
               }
             }
 
