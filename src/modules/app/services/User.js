@@ -240,7 +240,8 @@
                         termsAccepted: false,
                         hasBackup: hasBackup,
                         lng: i18next.language,
-                        theme: themes.getDefaultTheme()
+                        theme: themes.getDefaultTheme(),
+                        candle: 'blue'
                     }
                 }).then(() => analytics.push('User', 'Create'));
             }
