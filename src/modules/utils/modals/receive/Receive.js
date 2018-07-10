@@ -336,7 +336,7 @@
                 });
 
                 const invoicesRequest = waves.node.assets.userBalances().then((results) => {
-                    this.invoicables = results.map((balance) => balance.asset);
+                    this.invoicables = results.filter(ReceiveCtrl._isNotScam).map((balance) => balance.asset);
                 });
 
                 const cardsRequests = this.getExtendedAssets(gatewayService.getPurchasableByCards());
@@ -432,6 +432,14 @@
 
             isLira() {
                 return this.asset.id === WavesApp.defaultAssets.TRY;
+            }
+
+            /**
+             * @return {boolean}
+             * @private
+             */
+            static _isNotScam(item) {
+                return !WavesApp.scam[item.asset.id];
             }
 
         }
