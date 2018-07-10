@@ -103,7 +103,7 @@
                         const host = GatewaySignCtrl._getDomain(referrer);
 
                         return ds.signature.getSignatureApi().sign({ data: { prefix, host, data }, type: 1000 })
-                            .then(({ signature }) => {
+                            .then((signature) => {
                                 const publicKey = seed.keyPair.publicKey;
                                 const search = `?s=${signature}&p=${publicKey}&a=${user.address}&d=${data}`;
                                 const path = successPath || '';
