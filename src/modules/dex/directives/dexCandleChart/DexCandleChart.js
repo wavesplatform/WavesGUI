@@ -19,23 +19,23 @@
     //     'hide_left_toolbar_by_default'
     // ];
 
-    function getOverrides(CANDLE_UP_COLOR, CANDLE_DOWN_COLOR) {
+    function getOverrides(candleUpColor, candleDownColor) {
         return {
-            'mainSeriesProperties.candleStyle.upColor': CANDLE_UP_COLOR,
-            'mainSeriesProperties.candleStyle.downColor': CANDLE_DOWN_COLOR,
+            'mainSeriesProperties.candleStyle.upColor': candleUpColor,
+            'mainSeriesProperties.candleStyle.downColor': candleDownColor,
             'mainSeriesProperties.candleStyle.drawBorder': false,
-            'mainSeriesProperties.hollowCandleStyle.upColor': CANDLE_UP_COLOR,
-            'mainSeriesProperties.hollowCandleStyle.downColor': CANDLE_DOWN_COLOR,
+            'mainSeriesProperties.hollowCandleStyle.upColor': candleUpColor,
+            'mainSeriesProperties.hollowCandleStyle.downColor': candleDownColor,
             'mainSeriesProperties.hollowCandleStyle.drawBorder': false,
-            'mainSeriesProperties.barStyle.upColor': CANDLE_UP_COLOR,
-            'mainSeriesProperties.barStyle.downColor': CANDLE_DOWN_COLOR,
-            'mainSeriesProperties.haStyle.upColor': CANDLE_UP_COLOR,
-            'mainSeriesProperties.haStyle.downColor': CANDLE_DOWN_COLOR,
+            'mainSeriesProperties.barStyle.upColor': candleUpColor,
+            'mainSeriesProperties.barStyle.downColor': candleDownColor,
+            'mainSeriesProperties.haStyle.upColor': candleUpColor,
+            'mainSeriesProperties.haStyle.downColor': candleDownColor,
             'mainSeriesProperties.haStyle.drawBorder': false,
-            'mainSeriesProperties.lineStyle.color': CANDLE_UP_COLOR,
-            'mainSeriesProperties.areaStyle.color1': CANDLE_UP_COLOR,
-            'mainSeriesProperties.areaStyle.color2': CANDLE_UP_COLOR,
-            'mainSeriesProperties.areaStyle.linecolor': CANDLE_UP_COLOR,
+            'mainSeriesProperties.lineStyle.color': candleUpColor,
+            'mainSeriesProperties.areaStyle.color1': candleUpColor,
+            'mainSeriesProperties.areaStyle.color2': candleUpColor,
+            'mainSeriesProperties.areaStyle.linecolor': candleUpColor,
             'paneProperties.background': '#2d2d2d',
             'scalesProperties.lineColor': '#424242',
             'scalesProperties.textColor': '#8c8c8c',
@@ -102,6 +102,8 @@
                 this._assetIdPair = null;
 
                 this.theme = null;
+
+                this.candle = null;
 
                 this.observe('_assetIdPair', this._onChangeAssetPair);
                 this.observe('theme', this._resetTradingView);
@@ -176,8 +178,8 @@
             _createTradingView() {
                 const candleUpColor = CANDLE_UP_COLOR;
                 const candleDownColor = CANDLE_DOWN_COLOR;
-                const themeConf = themes.getTradingViewConfig(candleUpColor, candleDownColor);
-                const overrides = { ...getOverrides(), ...themeConf.OVERRIDES };
+                const themeConf = themes.getTradingViewConfig();
+                const overrides = { ...getOverrides(candleUpColor, candleDownColor), ...themeConf.OVERRIDES };
                 const studies_overrides = { ...STUDIES_OVERRIDES, ...themeConf.STUDIES_OVERRIDES };
                 const toolbar_bg = themeConf.toolbarBg;
                 const custom_css_url = themeConf.customCssUrl;
