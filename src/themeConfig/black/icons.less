@@ -12,26 +12,17 @@
 @arrow-orderbook-down-icon: url(/img/icons/dark/arrow-orderbook-down.svg);
 @empty-icon: url(/img/icons/dark/icon-empty.svg);
 @error-icon: url(/img/icons/dark/icon-error.svg);
-//test
-@send-icon: url(/img/icons/dark/send.svg);
-@send-icon-hover: url(/img/icons/dark/send-hover.svg);
-@receive-icon: url(/img/icons/dark/deposit.svg);
-@receive-icon-hover: url(/img/icons/dark/deposit-hover.svg);
 
 @close-icon: url(/img/icons/dark/close.svg);
 @waves-logo-icon: url(/img/icons/dark/waves_logo.svg);
 @setting-menu-icon: url(/img/icons/dark/settings-menu-icons.svg);
 @filter-icon: url(/img/icons/dark/icon-filter.svg);
 @qr-code-big-icon: url(/img/icons/dark/qr-code-big.svg);
-@dex-mini-icon: url(/img/icons/dark/dex-icon-mini.svg);
-@hide-icon: url(/img/icons/dark/hide-icon.svg);
-@show-icon: url(/img/icons/dark/show-icon.svg);
 @info-icon: url(/img/icons/dark/info-icon.svg);
 @leasing-note-icon: url(/img/icons/dark/leasing_note.svg);
 @card-success-icon: url(/img/icons/dark/card-success.svg);
 @close-arrow-icon: url(/img/icons/dark/close_arrow.svg);
 @information-icon: url(/img/icons/dark/icon-info.svg);
-@download-icon: url(/img/icons/dark/download.svg);
 @dropdown-icon: url(/img/icons/dark/arrow-dropdown.svg);
 
 @slide-start-icon: url(/img/icons/dark/0_start.svg);
@@ -109,26 +100,19 @@
 }
 
 .btn-send {
-  &.btn-icon::before {
-    background-image: @send-icon;
+  .btn-icon::before {
     transition: .3s;
   }
   &:hover {
-    &.btn-icon::before {
-      background-image: @send-icon-hover;
+    .btn-icon::before {
     }
   }
 }
 
 .btn-receive {
-  &.btn-icon::before {
-    background-image:@receive-icon;
-    transition: .3s;
-  }
-  &:hover {
-    &.btn-icon::before {
-      background-image: @receive-icon-hover;
-    }
+  svg {
+    transform-origin: center;
+    transform: rotate(-180deg)
   }
 }
 

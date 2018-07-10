@@ -9,21 +9,26 @@
 
     .btn-icon {
       font-family: @font-roboto-regular;
+      svg {
+        transition: .3s;
+        fill: @color-basic-500;
+      }
 
-      &::before {
-        content: '';
-        display: inline-block;
-        position: relative;
-        top: 2px;
-        background-size: 100% 100%;
-        width: 18px;
-        height: 14px;
-        margin-right: 7px;
+      &:hover {
+        svg {
+          fill: @color-basic-700;
+        }
       }
     }
 
     .interface .btn-icon {
       font-family: @font-roboto-medium;
+    }
+
+    .icon-receive {
+      svg {
+        transform: rotate(-180deg);
+      }
     }
 
     .toolbar {
