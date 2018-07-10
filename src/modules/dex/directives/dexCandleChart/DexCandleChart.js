@@ -92,11 +92,10 @@
 
                 this.observe('_assetIdPair', this._onChangeAssetPair);
                 this.observe('theme', this._resetTradingView);
-                this.observe('candle', this._resetTradingView);
+                this.observe('candle', this._refreshTradingView);
                 this.syncSettings({ _assetIdPair: 'dex.assetIdPair' });
                 this.syncSettings({ theme: 'theme' });
                 this.syncSettings({ candle: 'candle' });
-
             }
 
             $postLink() {
@@ -158,16 +157,28 @@
                 return this;
             }
 
+
+            _refreshTradingView() {
+                if (!this._chart) {
+                    return null;
+                }
+
+                const { up, down } = themes.getCurrentCandleSColor(this.candle);
+                const candleUpColor = up;
+                const candleDownColor = down;
+                const themeConf = themes.getTradingViewConfig(this.theme);
+                const overrides = { ...getOverrides(candleUpColor, candleDownColor), ...themeConf.OVERRIDES };
+                this._chart.applyOverrides(overrides);
+            }
             /**
              * @return {DexCandleChart}
              * @private
              */
             _createTradingView() {
-                const { up, down } = themes.getCurrentCandleSColor();
-
+                const { up, down } = themes.getCurrentCandleSColor(this.candle);
                 const candleUpColor = up;
                 const candleDownColor = down;
-                const themeConf = themes.getTradingViewConfig();
+                const themeConf = themes.getTradingViewConfig(this.theme);
                 const overrides = { ...getOverrides(candleUpColor, candleDownColor), ...themeConf.OVERRIDES };
                 const studies_overrides = { ...STUDIES_OVERRIDES, ...themeConf.STUDIES_OVERRIDES };
                 const toolbar_bg = themeConf.toolbarBg;
@@ -189,6 +200,11 @@
                     studies_overrides,
                     custom_css_url
                 });
+
+                this._chart.onChartReady(() => {
+                    this._chart.applyOverrides(overrides);
+                });
+
 
                 if (this._assetIdPairWasChanged) {
                     this._chart.onChartReady(() => {

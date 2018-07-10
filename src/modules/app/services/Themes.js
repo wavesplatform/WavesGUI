@@ -15,6 +15,7 @@
         class Themes {
 
             constructor() {
+                this._events = {};
                 this.cssRules = {};
                 this.currentTheme = DEFAULT_THEME;
                 this.themes = WavesApp.themesConf.themes;
@@ -50,8 +51,8 @@
                 return this.themes;
             }
 
-            getTradingViewConfig() {
-                return WavesApp.themesConf.tradingView[this.currentTheme || DEFAULT_THEME] || {};
+            getTradingViewConfig(theme) {
+                return WavesApp.themesConf.tradingView[theme || this.currentTheme || DEFAULT_THEME] || {};
             }
 
             switchNext() {
@@ -65,7 +66,12 @@
                 return WavesApp.themesConf.tradingView.candles;
             }
 
-            getCurrentCandleSColor() {
+            getCurrentCandleSColor(name) {
+                if (name) {
+                    const { upColor, downColor } = this.getCandlesColors()[name || DEFAULT_CANDLE];
+                    return { up: upColor, down: downColor };
+                }
+
                 let { up, down } = this.candleColors;
                 up = up || this.getCandlesColors()[DEFAULT_CANDLE].upColor;
                 down = down || this.getCandlesColors()[DEFAULT_CANDLE].downColor;
