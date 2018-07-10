@@ -82,12 +82,22 @@
                 this._assetIdPairWasChanged = false;
                 /**
                  * @type {{price: string, amount: string}}
-                 * @private
                  */
                 this._assetIdPair = null;
-
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
+                this.loadingTradingView = true;
+                /**
+                 * @type {string}
+                 * @private
+                 */
                 this.theme = null;
-
+                /**
+                 * @type {string}
+                 * @private
+                 */
                 this.candle = null;
 
                 this.observe('_assetIdPair', this._onChangeAssetPair);
@@ -175,6 +185,8 @@
              * @private
              */
             _createTradingView() {
+                this.loadingTradingView = true;
+
                 const { up, down } = themes.getCurrentCandleSColor(this.candle);
                 const candleUpColor = up;
                 const candleDownColor = down;
@@ -203,16 +215,15 @@
 
                 this._chart.onChartReady(() => {
                     this._chart.applyOverrides(overrides);
-                });
+                    this.loadingTradingView = false;
 
-
-                if (this._assetIdPairWasChanged) {
-                    this._chart.onChartReady(() => {
+                    if (this._assetIdPairWasChanged) {
+                        this._chart.applyOverrides(overrides);
                         this._setChartPair();
                         this._assetIdPairWasChanged = false;
                         this._chartReady = true;
-                    });
-                }
+                    }
+                });
 
                 return this;
             }
