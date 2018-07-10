@@ -18,17 +18,17 @@
       "customCssUrl": "/tradingview-style/style.css",
       "OVERRIDES": {
         "scalesProperties.lineColor": "#edf0f4",
-        "scalesProperties.textColor": "#4e5c6e",
-        "paneProperties.background": "rgba( 255, 255, 255, 1)",
-        "paneProperties.gridProperties.color": "#E6E6E6",
-        "paneProperties.vertGridProperties.color": "rgba( 230, 230, 230, 1)",
-        "paneProperties.horzGridProperties.color": "rgba( 230, 230, 230, 1)",
-        "mainSeriesProperties.candleStyle.borderDownColor": "#5b1a13",
-        "mainSeriesProperties.candleStyle.borderUpColor": "#225437",
-        "mainSeriesProperties.hollowCandleStyle.borderDownColor": "rgba( 91, 26, 19, 1)",
-        "mainSeriesProperties.hollowCandleStyle.borderUpColor": "rgba( 34, 84, 55, 1)",
-        "mainSeriesProperties.haStyle.borderDownColor": "rgba( 91, 26, 19, 1)",
-        "mainSeriesProperties.haStyle.borderUpColor": "rgba( 34, 84, 55, 1)"
+        "scalesProperties.textColor": "#263241",
+        "paneProperties.background": "#FFF",
+        "paneProperties.gridProperties.color": "#edf0f4",
+        "paneProperties.vertGridProperties.color": "#edf0f4",
+        "paneProperties.horzGridProperties.color": "#edf0f4",
+        "mainSeriesProperties.candleStyle.borderDownColor": "#e5494d",
+        "mainSeriesProperties.candleStyle.borderUpColor": "#5a81ea",
+        "mainSeriesProperties.hollowCandleStyle.borderDownColor": "#e5494d",
+        "mainSeriesProperties.hollowCandleStyle.borderUpColor": "#e5494d",
+        "mainSeriesProperties.haStyle.borderDownColor": "#e5494d",
+        "mainSeriesProperties.haStyle.borderUpColor": "#5a81ea"
       }
     },
     "black": {
@@ -45,7 +45,7 @@
         "mainSeriesProperties.hollowCandleStyle.borderDownColor": "#e5494d",
         "mainSeriesProperties.haStyle.borderDownColor": "#e5494d",
         "mainSeriesProperties.candleStyle.borderUpColor": "#5a81ea",
-        "mainSeriesProperties.hollowCandleStyle.borderUpColor": "#5a81ea",
+        "mainSeriesProperties.hollowCandleStyle.borderUpColor": "#e5494d",
         "mainSeriesProperties.haStyle.borderUpColor": "#5a81ea"
       }
     }
