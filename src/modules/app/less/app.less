@@ -19,6 +19,13 @@ body {
   }
 }
 
+::selection {
+  background: @selection-bg;
+}
+::-moz-selection {
+  background: @selection-bg;
+}
+
 body.wallet,
 body.tokens {
   .scroll();
