@@ -6,7 +6,7 @@
       "customCssUrl": "/tradingview-style/style.css",
       "OVERRIDES": {
         "scalesProperties.lineColor": "#edf0f4",
-        "scalesProperties.textColor": "#fff",
+        "scalesProperties.textColor": "#4e5c6e",
         "paneProperties.background": "rgba( 255, 255, 255, 1)",
         "paneProperties.gridProperties.color": "#E6E6E6",
         "paneProperties.vertGridProperties.color": "rgba( 230, 230, 230, 1)",
