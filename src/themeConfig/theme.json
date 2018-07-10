@@ -6,17 +6,17 @@
       "customCssUrl": "/tradingview-style/style.css",
       "OVERRIDES": {
         "scalesProperties.lineColor": "#edf0f4",
-        "paneProperties.background": "#fff",
         "scalesProperties.textColor": "#fff",
-        "paneProperties.gridProperties.color": "#fff",
-        "paneProperties.vertGridProperties.color": "#fff",
-        "paneProperties.horzGridProperties.color": "#fff",
-        "mainSeriesProperties.candleStyle.borderDownColor": "#fff",
-        "mainSeriesProperties.hollowCandleStyle.borderDownColor": "#fff",
-        "mainSeriesProperties.haStyle.borderDownColor": "#fff",
-        "mainSeriesProperties.candleStyle.borderUpColor": "#fff",
-        "mainSeriesProperties.hollowCandleStyle.borderUpColor": "#fff",
-        "mainSeriesProperties.haStyle.borderUpColor": "#fff"
+        "paneProperties.background": "rgba( 255, 255, 255, 1)",
+        "paneProperties.gridProperties.color": "#E6E6E6",
+        "paneProperties.vertGridProperties.color": "rgba( 230, 230, 230, 1)",
+        "paneProperties.horzGridProperties.color": "rgba( 230, 230, 230, 1)",
+        "mainSeriesProperties.candleStyle.borderDownColor": "#5b1a13",
+        "mainSeriesProperties.candleStyle.borderUpColor": "#225437",
+        "mainSeriesProperties.hollowCandleStyle.borderDownColor": "rgba( 91, 26, 19, 1)",
+        "mainSeriesProperties.hollowCandleStyle.borderUpColor": "rgba( 34, 84, 55, 1)",
+        "mainSeriesProperties.haStyle.borderDownColor": "rgba( 91, 26, 19, 1)",
+        "mainSeriesProperties.haStyle.borderUpColor": "rgba( 34, 84, 55, 1)"
       }
     },
     "black": {
