@@ -57,7 +57,6 @@
 
         .smart-table__row:hover {
           background: @color-basic-50;
-
         }
       }
     }
@@ -257,17 +256,20 @@
               fill: @color-basic-700;
             }
           }
-
         }
 
         .icon-send {
           right: 139px;
+          svg {
+            margin-left: -1px;
+          }
         }
         .icon-receive {
           right: 181px;
           margin-top: 1px;
           svg {
             transform: rotate(-180deg);
+            margin-left: 1px;
           }
         }
         .icon-dex {
