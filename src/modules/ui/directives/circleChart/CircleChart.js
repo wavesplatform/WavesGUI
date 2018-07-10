@@ -132,7 +132,7 @@
 
                 if (insightRadius) {
                     this._ctx.beginPath();
-                    this._ctx.fillStyle = '#fff';
+                    this._ctx.fillStyle = 'rgba(0,0,0,0)';
                     this._ctx.arc(center, center, insightRadius, 0, 2 * Math.PI);
                     this._ctx.fill();
                     this._ctx.closePath();

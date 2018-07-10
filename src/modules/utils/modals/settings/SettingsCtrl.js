@@ -43,11 +43,16 @@
                     logoutAfterMin: 'logoutAfterMin',
                     scamListUrl: 'scamListUrl',
                     withScam: 'withScam',
-                    theme: 'theme'
+                    theme: 'theme',
+                    candle: 'candle'
                 });
 
                 this.observe('theme', () => {
                     user.changeTheme(this.theme);
+                });
+
+                this.observe('candle', () => {
+                    user.changeCandle(this.candle);
                 });
 
                 this.observe('matcher', () => {

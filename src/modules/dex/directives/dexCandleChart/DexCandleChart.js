@@ -2,9 +2,6 @@
 (function () {
     'use strict';
 
-    const CANDLE_UP_COLOR = '#5a81ea';
-    const CANDLE_DOWN_COLOR = '#d1383c';
-
     const DISABLED_FEATURES = [
         'header_screenshot',
         'header_symbol_search',
@@ -95,8 +92,10 @@
 
                 this.observe('_assetIdPair', this._onChangeAssetPair);
                 this.observe('theme', this._resetTradingView);
+                this.observe('candle', this._resetTradingView);
                 this.syncSettings({ _assetIdPair: 'dex.assetIdPair' });
                 this.syncSettings({ theme: 'theme' });
+                this.syncSettings({ candle: 'candle' });
 
             }
 
@@ -164,8 +163,10 @@
              * @private
              */
             _createTradingView() {
-                const candleUpColor = CANDLE_UP_COLOR;
-                const candleDownColor = CANDLE_DOWN_COLOR;
+                const { up, down } = themes.getCurrentCandleSColor();
+
+                const candleUpColor = up;
+                const candleDownColor = down;
                 const themeConf = themes.getTradingViewConfig();
                 const overrides = { ...getOverrides(candleUpColor, candleDownColor), ...themeConf.OVERRIDES };
                 const studies_overrides = { ...STUDIES_OVERRIDES, ...themeConf.STUDIES_OVERRIDES };

@@ -1,6 +1,18 @@
 {
   "themes": ["default", "black"],
   "tradingView": {
+
+    "candles": {
+      "blue": {
+        "upColor": "#5a81ea",
+        "downColor": "#d1383c"
+      },
+      "green": {
+        "upColor": "#6ba583",
+        "downColor": "#d1383c"
+      }
+    },
+
     "default": {
       "toolbarBg": "#fff",
       "customCssUrl": "/tradingview-style/style.css",
