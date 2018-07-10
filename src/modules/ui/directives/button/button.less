@@ -171,6 +171,23 @@ w-button {
       &:hover, &.hover {
         box-shadow: @shadow-buttons-hover;
         color: @color-basic-700;
+        svg {
+          fill: @color-basic-700;
+        }
+      }
+
+      svg {
+        transition: .3s;
+        vertical-align: middle;
+        fill: @color-basic-500;
+        margin-right: 7px;
+        margin-top: -3px;
+        margin-left: -4px;
+
+        @media screen and (max-width: 768px) {
+          margin-right: 0;
+          margin-left: 0;
+        }
       }
 
       &:active, &.active {

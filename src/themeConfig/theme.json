@@ -1,0 +1,41 @@
+{
+  "themes": ["default", "black"],
+  "tradingView": {
+    "default": {
+      "toolbarBg": "#fff",
+      "customCssUrl": "/tradingview-style/style.css",
+      "OVERRIDES": {
+        "scalesProperties.lineColor": "#edf0f4",
+        "paneProperties.background": "#fff",
+        "scalesProperties.textColor": "#fff",
+        "paneProperties.gridProperties.color": "#fff",
+        "paneProperties.vertGridProperties.color": "#fff",
+        "paneProperties.horzGridProperties.color": "#fff",
+        "mainSeriesProperties.candleStyle.borderDownColor": "#fff",
+        "mainSeriesProperties.hollowCandleStyle.borderDownColor": "#fff",
+        "mainSeriesProperties.haStyle.borderDownColor": "#fff",
+        "mainSeriesProperties.candleStyle.borderUpColor": "#fff",
+        "mainSeriesProperties.hollowCandleStyle.borderUpColor": "#fff",
+        "mainSeriesProperties.haStyle.borderUpColor": "#fff"
+      }
+    },
+    "black": {
+      "toolbarBg": "#2d2d2d",
+      "customCssUrl": "/tradingview-style/dark-style.css",
+      "OVERRIDES": {
+        "paneProperties.background": "#2d2d2d",
+        "scalesProperties.lineColor": "#424242",
+        "scalesProperties.textColor": "#8c8c8c",
+        "paneProperties.gridProperties.color": "#424242",
+        "paneProperties.vertGridProperties.color": "#424242",
+        "paneProperties.horzGridProperties.color": "#424242",
+        "mainSeriesProperties.candleStyle.borderDownColor": "#e5494d",
+        "mainSeriesProperties.hollowCandleStyle.borderDownColor": "#e5494d",
+        "mainSeriesProperties.haStyle.borderDownColor": "#e5494d",
+        "mainSeriesProperties.candleStyle.borderUpColor": "#5a81ea",
+        "mainSeriesProperties.hollowCandleStyle.borderUpColor": "#5a81ea",
+        "mainSeriesProperties.haStyle.borderUpColor": "#5a81ea"
+      }
+    }
+  }
+}

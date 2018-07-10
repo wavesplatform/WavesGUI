@@ -12,6 +12,7 @@ import * as htmlmin from 'gulp-htmlmin';
 const zip = require('gulp-zip');
 const s3 = require('gulp-s3');
 
+const { themes: THEMES } = readJSONSync(join(__dirname, 'src/themeConfig', 'theme.json'));
 const meta: IMetaJSON = readJSONSync(join(__dirname, 'ts-scripts', 'meta.json'));
 const pack: IPackageJSON = readJSONSync(join(__dirname, 'package.json'));
 const configurations = Object.keys(meta.configurations);
@@ -39,10 +40,11 @@ const vendorName = 'vendors.js';
 const bundleName = 'bundle.js';
 const templatesName = 'templates.js';
 const cssName = `${pack.name}-styles-${pack.version}.css`;
+const vendorCssName = `${pack.name}-vendor-styles-${pack.version}.css`; //TODO need drop cache?
 const vendorPath = join(tmpJsPath, vendorName);
 const bundlePath = join(tmpJsPath, bundleName);
 const templatePath = join(tmpJsPath, templatesName);
-const cssPath = join(tmpCssPath, cssName);
+const steelSheetsFiles = {};
 
 const getFileName = (name, type) => {
     const postfix = type === 'min' ? '.min' : '';
@@ -118,7 +120,7 @@ task('load-trading-view', (done) => {
                             const images = IMAGE_LIST.map((path) => path.replace(reg, ''));
                             return writeFile(join(targetPath, 'img', 'images-list.json'), JSON.stringify(images));
                         }),
-                        copy(cssPath, join(targetPath, 'css', cssName)),
+                        copy(tmpCssPath, join(targetPath, 'css')),
                         copy('LICENSE', join(`${targetPath}`, 'LICENSE')),
                     ].concat(forCopy)).then(() => {
                         done();
@@ -144,15 +146,23 @@ task('load-trading-view', (done) => {
                 }
 
                 indexPromise.then((file) => {
+
+                    const styles = [{name: join('css', vendorCssName), theme: null }];
+
+                    for (const theme of THEMES) {
+                        styles.push({
+                            name: join('css', `${theme}-${cssName}`), theme
+                        });
+                    }
+
                     return prepareHTML({
                         buildType: type,
                         target: targetPath,
                         connection: configName,
                         scripts: scripts,
-                        styles: [
-                            join(targetPath, 'css', `${pack.name}-styles-${pack.version}.css`)
-                        ],
-                        type: buildName
+                        type: buildName,
+                        styles,
+                        themes: THEMES
                     });
                 }).then((file) => {
                     console.log('out ' + configName);
@@ -233,8 +243,9 @@ task('templates', function () {
 });
 
 task('concat-style', ['less'], function () {
-    return gulp.src(meta.stylesheets.concat(join(tmpCssPath, 'style.css')))
-        .pipe(concat(cssName))
+    steelSheetsFiles[vendorCssName] = { theme: false };
+    return gulp.src(meta.stylesheets)
+        .pipe(concat(vendorCssName))
         .pipe(gulp.dest(tmpCssPath));
 });
 
@@ -259,7 +270,10 @@ task('eslint', function (done) {
 });
 
 task('less', function () {
-    execSync(`sh ${join('scripts', 'less.sh')}`);
+    for (const theme of THEMES) {
+        execSync(`sh ${join('scripts', `less.sh -t=${theme} -n=${cssName}`)}`);
+        steelSheetsFiles[cssName] = { theme };
+    }
 });
 
 task('babel', ['concat-develop'], function () {

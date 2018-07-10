@@ -123,9 +123,13 @@ export function replaceScripts(file: string, paths: Array<string>): string {
     }).join('\n'));
 }
 
-export function replaceStyles(file: string, paths: Array<string>, themes): string {
-    return file.replace('<!-- CSS -->', paths.map((path: string) => {
-        return themes.map((theme: string) => `<link theme="${theme}" rel="stylesheet" href="${path}?theme=${theme}">`).join('\n');
+export function replaceStyles(file: string, paths: Array<{theme: string, name: string, hasGet?: boolean}>): string {
+    return file.replace('<!-- CSS -->', paths.map(({theme, name, hasGet}) => {
+        if (hasGet) {
+            return `<link ${theme ? `theme="${theme}"`: ''} rel="stylesheet" href="${name}?theme=${theme || ''}">`;
+        }
+
+        return `<link ${theme ? `theme="${theme}"`: ''} rel="stylesheet" href="${name}">`;
     }).join('\n'));
 }
 
@@ -139,9 +143,10 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
         readFile(join(__dirname, '../src/index.hbs'), 'utf8') as Promise<string>,
         readJSON(join(__dirname, '../package.json')) as Promise<IPackageJSON>,
         readJSON(join(__dirname, './meta.json')) as Promise<IMetaJSON>,
-        readJSON(join(__dirname, '../src/lessConfig/theme.json'))
+        readJSON(join(__dirname, '../src/themeConfig/theme.json'))
     ])
-        .then(([file, pack, meta, {themes}]) => {
+        .then(([file, pack, meta, themesConf]) => {
+            const { themes } = themesConf;
             const connectionTypes = ['mainnet', 'testnet'];
 
             if (!param.scripts) {
@@ -157,7 +162,19 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
             }
 
             if (!param.styles) {
-                param.styles = meta.stylesheets.map((i) => join(__dirname, '..', i)).concat(getFilesFrom(join(__dirname, '../src'), '.less'));
+                const styles = meta.stylesheets.concat(getFilesFrom(join(__dirname, '../src'), '.less'));
+                param.styles = [];
+                for (const style of styles) {
+                    for (const theme of themes) {
+                        const name = filter(style);
+                        
+                        if(!isLess(style)) {
+                            param.styles.push({ name: `/${name}`, theme: null });
+                            break;
+                        }
+                        param.styles.push({ name: `/${name}`, theme , hasGet: true});
+                    }
+                }
             }
 
             const networks = connectionTypes.reduce((result, connection) => {
@@ -174,10 +191,11 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                 build: {
                     type: param.type
                 },
-                network: networks[param.connection]
+                network: networks[param.connection],
+                themesConf: JSON.stringify(themesConf)
             });
 
-            return replaceStyles(fileTpl, param.styles.map(filter).map(s => `/${s}`), themes);
+            return replaceStyles(fileTpl, param.styles);
         })
         .then((file) => {
             return replaceScripts(file, param.scripts.map(filter));
@@ -274,7 +292,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
             return prepareHTML({
                 target: join(__dirname, '..', 'src'),
                 connection: connectionType,
-                type
+                type,
             }).then((file) => {
                 res.end(file);
             });
@@ -293,7 +311,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                 .then((style) => {
                     (render as any)(style, {
                         filename: join(__dirname, '../src', url),
-                        paths: join(__dirname, `../src/lessConfig/${theme}`)
+                        paths: join(__dirname, `../src/themeConfig/${theme}`)
                     } as any)
                         .then(function (out) {
                             res.setHeader('Content-type', 'text/css');
@@ -391,7 +409,7 @@ export function isSourceScript(url: string): boolean {
 export function isLess(url: string): boolean {
     url = url.split('?')[0];
     return  url.lastIndexOf('.less')=== url.length - 5 && (
-        url.includes('/modules/') || url.includes('/lessConfig/')
+        url.includes('/modules/') || url.includes('/themeConfig/')
     );
 }
 
@@ -416,7 +434,7 @@ export function isPage(url: string): boolean {
         'node_modules',
         'ts-scripts',
         'modules',
-        'lessConfig',
+        'themeConfig',
         'locales',
         'loginDaemon',
         'transfer.js',
@@ -468,9 +486,10 @@ export interface IPrepareHTMLOptions {
     buildType?: TBuild;
     connection: TConnection;
     scripts?: string[];
-    styles?: string[];
+    styles?: Array<{name: string, theme: string, hasGet?: boolean}>;
     target: string;
     type: TPlatform;
+    themes?: Array<string>;
 }
 
 export interface IFilter {

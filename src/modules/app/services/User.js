@@ -2,6 +2,10 @@
 (function () {
     'use strict';
 
+    /* global
+        Mousetrap
+     */
+
     const NOT_SYNC_FIELDS = [
         'changeSetting'
     ];
@@ -16,7 +20,7 @@
      * @param {TimeLine} timeLine
      * @return {User}
      */
-    const factory = function (storage, $state, defaultSettings, state, UserRouteState, modalManager, timeLine) {
+    const factory = function (storage, $state, defaultSettings, state, UserRouteState, modalManager, timeLine, themes) {
 
         const tsUtils = require('ts-utils');
 
@@ -97,6 +101,8 @@
 
                 this._setObserve();
                 this._settings.change.on(() => this._onChangeSettings());
+
+                Mousetrap.bind(['ctrl+shift+k'], () => this.switchNextTheme());
             }
 
             /**
@@ -234,7 +240,7 @@
                         termsAccepted: false,
                         hasBackup: hasBackup,
                         lng: i18next.language,
-                        theme: 'default'
+                        theme: themes.getDefaultTheme()
                     }
                 }).then(() => analytics.push('User', 'Create'));
             }
@@ -296,10 +302,18 @@
             }
 
             changeTheme(theme) {
-                this.setSetting('theme', theme);
-                analytics.push('Settings', 'Settings.ChangeTheme', theme);
+                const currentTheme = this.getSetting('theme');
+                const newTheme = themes.changeTheme(theme || this.getSetting('theme'));
+                if (currentTheme !== newTheme) {
+                    this.setSetting('theme', newTheme);
+                }
+                analytics.push('Settings', 'Settings.ChangeTheme', newTheme);
             }
 
+            switchNextTheme() {
+                const newTheme = themes.switchNext();
+                this.setSetting('theme', newTheme);
+            }
             /**
              * @param {object} data
              * @param {ISignatureApi} data.api
@@ -345,6 +359,8 @@
                         Object.keys(WavesApp.network).forEach((key) => {
                             ds.config.set(key, this._settings.get(`network.${key}`));
                         });
+
+                        this.changeTheme();
 
                         return ds.app.login(data.address, data.api)
                             .then(() => this._save())
@@ -474,7 +490,8 @@
         'state',
         'UserRouteState',
         'modalManager',
-        'timeLine'
+        'timeLine',
+        'themes'
     ];
 
     angular.module('app').factory('user', factory);
