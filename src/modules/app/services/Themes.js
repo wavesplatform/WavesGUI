@@ -2,7 +2,7 @@
     'use strict';
 
     const DEFAULT_THEME = 'default';
-
+    const DEFAULT_CANDLE = 'blue';
     /**
      * @name app.themes
      */
@@ -15,9 +15,13 @@
         class Themes {
 
             constructor() {
+                this.cssRules = {};
                 this.currentTheme = DEFAULT_THEME;
                 this.themes = WavesApp.themesConf.themes;
+                this.candleColors = {};
+                this._initCssStyleEl();
                 this.changeTheme();
+                this._setDefaultCandle();
             }
 
             getCurrentTheme() {
@@ -57,6 +61,45 @@
                 return this.currentTheme;
             }
 
+            getCandlesColors() {
+                return WavesApp.themesConf.tradingView.candles;
+            }
+
+            getCurrentCandleSColor() {
+                let { up, down } = this.candleColors;
+                up = up || this.getCandlesColors()[DEFAULT_CANDLE].upColor;
+                down = down || this.getCandlesColors()[DEFAULT_CANDLE].downColor;
+                return { up, down };
+            }
+
+            changeStyleRules(rules) {
+                this.cssRules = { ...this.cssRules, ...rules };
+                this._applyRules();
+            }
+
+            setCandleColors(up, down) {
+                this.candleColors = { up, down };
+                this.changeStyleRules({
+                    '.candle-up-color-dynamic': { color: `${up}!important` },
+                    '.candle-down-color-dynamic': { color: `${down}!important` },
+                    '.candle-up-bg-color-dynamic': { 'background-color': `${up}!important` },
+                    '.candle-down-bg-color-dynamic': { 'background-color': `${down}!important` }
+                });
+            }
+
+            setCandleColorsByName(name) {
+                const colors = this.getCandlesColors();
+                const cfg = colors[name] || colors[DEFAULT_CANDLE];
+                if (cfg) {
+                    this.setCandleColors(cfg.upColor, cfg.downColor);
+                }
+            }
+
+            _setDefaultCandle() {
+                const { upColor, downColor } = this.getCandlesColors()[DEFAULT_CANDLE];
+                this.setCandleColors(upColor, downColor);
+            }
+
             _changeTheme(name) {
                 const styleSheets = [].slice.apply(document.querySelectorAll('[rel=stylesheet]'))
                     .filter(function (el) {
@@ -65,6 +108,32 @@
                 styleSheets.forEach(style => {
                     style.disabled = style.getAttribute('theme') !== name;
                 });
+            }
+
+            _applyRules() {
+
+                let cssText = '';
+
+                const parseStyles = (styles = {}) => {
+                    let stylesTxt = '';
+
+                    for (const [style, value] of Object.entries(styles)) {
+                        stylesTxt += `\n${style}: ${value};`;
+                    }
+
+                    return stylesTxt;
+                };
+
+                for (const [rule, css] of Object.entries(this.cssRules)) {
+                    cssText += `${rule} {${parseStyles(css)}\n}\n`;
+                }
+
+                this.cssStyleEl.innerHTML = cssText;
+            }
+
+            _initCssStyleEl() {
+                this.cssStyleEl = document.createElement('style');
+                document.head.appendChild(this.cssStyleEl);
             }
 
         }

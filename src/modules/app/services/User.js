@@ -311,6 +311,14 @@
                 analytics.push('Settings', 'Settings.ChangeTheme', newTheme);
             }
 
+            changeCandle(name) {
+                const current = this.getSetting('candle');
+                themes.setCandleColorsByName(name);
+                if (name !== current) {
+                    this.setSetting('candle', name);
+                }
+            }
+
             switchNextTheme() {
                 const newTheme = themes.switchNext();
                 this.setSetting('theme', newTheme);
@@ -361,10 +369,12 @@
                             ds.config.set(key, this._settings.get(`network.${key}`));
                         });
 
-                        this.changeTheme();
-
                         return ds.app.login(data.address, data.api)
-                            .then(() => this._save())
+                            .then(() => {
+                                this.changeTheme();
+                                this.changeCandle();
+                                this._save();
+                            })
                             .then(() => {
                                 this._logoutTimer();
                                 this._dfr.resolve();

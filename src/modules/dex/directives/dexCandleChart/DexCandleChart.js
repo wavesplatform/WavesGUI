@@ -2,9 +2,6 @@
 (function () {
     'use strict';
 
-    const CANDLE_UP_COLOR = '#5a81ea';
-    const CANDLE_DOWN_COLOR = '#d1383c';
-
     const DISABLED_FEATURES = [
         'header_screenshot',
         'header_symbol_search',
@@ -35,19 +32,7 @@
             'mainSeriesProperties.lineStyle.color': candleUpColor,
             'mainSeriesProperties.areaStyle.color1': candleUpColor,
             'mainSeriesProperties.areaStyle.color2': candleUpColor,
-            'mainSeriesProperties.areaStyle.linecolor': candleUpColor,
-            'paneProperties.background': '#2d2d2d',
-            'scalesProperties.lineColor': '#424242',
-            'scalesProperties.textColor': '#8c8c8c',
-            'paneProperties.gridProperties.color': '#424242',
-            'paneProperties.vertGridProperties.color': '#424242',
-            'paneProperties.horzGridProperties.color': '#424242',
-            'mainSeriesProperties.candleStyle.borderDownColor': '#e5494d',
-            'mainSeriesProperties.hollowCandleStyle.borderDownColor': '#e5494d',
-            'mainSeriesProperties.haStyle.borderDownColor': '#e5494d',
-            'mainSeriesProperties.candleStyle.borderUpColor': '#5a81ea',
-            'mainSeriesProperties.hollowCandleStyle.borderUpColor': '#5a81ea',
-            'mainSeriesProperties.haStyle.borderUpColor': '#5a81ea'
+            'mainSeriesProperties.areaStyle.linecolor': candleUpColor
         };
     }
 
@@ -107,8 +92,10 @@
 
                 this.observe('_assetIdPair', this._onChangeAssetPair);
                 this.observe('theme', this._resetTradingView);
+                this.observe('candle', this._resetTradingView);
                 this.syncSettings({ _assetIdPair: 'dex.assetIdPair' });
                 this.syncSettings({ theme: 'theme' });
+                this.syncSettings({ candle: 'candle' });
 
             }
 
@@ -176,8 +163,10 @@
              * @private
              */
             _createTradingView() {
-                const candleUpColor = CANDLE_UP_COLOR;
-                const candleDownColor = CANDLE_DOWN_COLOR;
+                const { up, down } = themes.getCurrentCandleSColor();
+
+                const candleUpColor = up;
+                const candleDownColor = down;
                 const themeConf = themes.getTradingViewConfig();
                 const overrides = { ...getOverrides(candleUpColor, candleDownColor), ...themeConf.OVERRIDES };
                 const studies_overrides = { ...STUDIES_OVERRIDES, ...themeConf.STUDIES_OVERRIDES };
