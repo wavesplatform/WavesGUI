@@ -24,6 +24,7 @@
                 this.matcher = '';
                 this.scamListUrl = '';
                 this.withScam = false;
+                this.theme = user.getSetting('theme');
                 this.shareStat = user.getSetting('shareAnalytics');
                 /**
                  * @type {number}
@@ -41,7 +42,12 @@
                     matcher: 'network.matcher',
                     logoutAfterMin: 'logoutAfterMin',
                     scamListUrl: 'scamListUrl',
-                    withScam: 'withScam'
+                    withScam: 'withScam',
+                    theme: 'theme'
+                });
+
+                this.observe('theme', () => {
+                    user.changeTheme(this.theme);
                 });
 
                 this.observe('matcher', () => {

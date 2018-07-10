@@ -222,6 +222,7 @@
             version: '{{pack.version}}',
             type: '{{build.type}}',
             matcherPriorityList: {{{matcherPriorityList}}},
+            themesConf: {{{themesConf}}},
             localize: {
                 'en': {
                     name: 'En',
@@ -363,7 +364,9 @@
     {{/if}}
 
     <script>
-        [].slice.apply(document.querySelectorAll('[theme=black]')).forEach(function(el){el.disabled = true});
+        [].slice.apply(document.querySelectorAll('[rel=stylesheet]'))
+                .filter(function (el) { return el.getAttribute('theme') })
+                .forEach(function(el){el.disabled = el.getAttribute('theme') !== 'default'});
     </script>
 </head>
 
