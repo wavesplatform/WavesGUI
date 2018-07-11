@@ -82,21 +82,30 @@
                 this._assetIdPairWasChanged = false;
                 /**
                  * @type {{price: string, amount: string}}
-                 * @private
                  */
                 this._assetIdPair = null;
-
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
+                this.loadingTradingView = true;
+                /**
+                 * @type {string}
+                 * @private
+                 */
                 this.theme = null;
-
+                /**
+                 * @type {string}
+                 * @private
+                 */
                 this.candle = null;
 
                 this.observe('_assetIdPair', this._onChangeAssetPair);
                 this.observe('theme', this._resetTradingView);
-                this.observe('candle', this._resetTradingView);
+                this.observe('candle', this._refreshTradingView);
                 this.syncSettings({ _assetIdPair: 'dex.assetIdPair' });
                 this.syncSettings({ theme: 'theme' });
                 this.syncSettings({ candle: 'candle' });
-
             }
 
             $postLink() {
@@ -158,16 +167,30 @@
                 return this;
             }
 
+
+            _refreshTradingView() {
+                if (!this._chart) {
+                    return null;
+                }
+
+                const { up, down } = themes.getCurrentCandleSColor(this.candle);
+                const candleUpColor = up;
+                const candleDownColor = down;
+                const themeConf = themes.getTradingViewConfig(this.theme);
+                const overrides = { ...getOverrides(candleUpColor, candleDownColor), ...themeConf.OVERRIDES };
+                this._chart.applyOverrides(overrides);
+            }
             /**
              * @return {DexCandleChart}
              * @private
              */
             _createTradingView() {
-                const { up, down } = themes.getCurrentCandleSColor();
+                this.loadingTradingView = true;
 
+                const { up, down } = themes.getCurrentCandleSColor(this.candle);
                 const candleUpColor = up;
                 const candleDownColor = down;
-                const themeConf = themes.getTradingViewConfig();
+                const themeConf = themes.getTradingViewConfig(this.theme);
                 const overrides = { ...getOverrides(candleUpColor, candleDownColor), ...themeConf.OVERRIDES };
                 const studies_overrides = { ...STUDIES_OVERRIDES, ...themeConf.STUDIES_OVERRIDES };
                 const toolbar_bg = themeConf.toolbarBg;
@@ -190,13 +213,17 @@
                     custom_css_url
                 });
 
-                if (this._assetIdPairWasChanged) {
-                    this._chart.onChartReady(() => {
+                this._chart.onChartReady(() => {
+                    this._chart.applyOverrides(overrides);
+                    this.loadingTradingView = false;
+
+                    if (this._assetIdPairWasChanged) {
+                        this._chart.applyOverrides(overrides);
                         this._setChartPair();
                         this._assetIdPairWasChanged = false;
                         this._chartReady = true;
-                    });
-                }
+                    }
+                });
 
                 return this;
             }
