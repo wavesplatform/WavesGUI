@@ -22,17 +22,6 @@ w-select {
     }
   }
 
-  &.interface {
-    .select {
-      .title {
-
-      }
-      .select-list {
-
-      }
-    }
-  }
-
   .select {
     position: relative;
     height: 100%;
@@ -118,4 +107,39 @@ w-select {
       }
     }
   }
+
+  &.interface {
+    height: 42px;
+
+    .title {
+      background: @color-white;
+      border-color: @color-white;
+      color: @color-basic-500;
+      box-shadow: @shadow-buttons-default;
+      width: 100%;
+    }
+    &:hover {
+      border-radius: @border-radius @border-radius 0 0;
+      color: @color-basic-700;
+      .title {
+        box-shadow: @shadow-buttons-hover;
+        transition: all 0.3s;
+        color: @color-basic-700;
+      }
+      .select:not(.expanded) {
+        border-radius: 0 0 @border-radius @border-radius;
+      }
+    }
+    .select.expanded {
+      .title {
+        border-top: 1px solid @color-basic-100;
+        border-left: 1px solid @color-basic-100;
+        border-right: 1px solid @color-basic-100;
+        border-bottom: 0 none;
+        border-radius: @border-radius @border-radius 0 0;
+      }
+    }
+  }
+
+
 }

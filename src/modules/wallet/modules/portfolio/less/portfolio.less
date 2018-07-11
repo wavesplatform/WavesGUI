@@ -1,7 +1,8 @@
-@import (reference) 'config';
+@import (reference) "../../../../app/less/app-icons";
 @import (reference) '../../../../app/less/typography';
-@import (reference) 'icons';
 @import (reference) '../../../../ui/directives/smartTable/smart-table';
+@import (reference) 'config';
+@import (reference) 'icons';
 
 .main.wallet.portfolio {
 
@@ -18,12 +19,9 @@
     w-select {
       width: 100%;
       max-width: 250px;
-      border-radius: 4px;
       float: right;
-      height: 42px;
-      background: @color-white;
+
       .title {
-        border-color: @color-basic-100;
         display: flex;
 
         &:before {
@@ -337,7 +335,7 @@
           padding: 0;
           position: relative;
           font-size: 0;
-          background: @filter-icon center no-repeat;
+          .icon-filter();
           box-shadow: @shadow-buttons-default;
           border: none;
 

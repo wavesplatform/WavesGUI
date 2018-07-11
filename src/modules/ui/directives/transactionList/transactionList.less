@@ -50,9 +50,7 @@ w-transaction-list {
           font-family: @font-roboto-medium;
           letter-spacing: 2px;
         }
-        .date:first-child {
-          border-radius: 4px;
-        }
+
         .row {
           position: relative;
           border-bottom: 1px solid @color-basic-50;
@@ -79,22 +77,23 @@ w-transaction-list {
 }
 
 @media screen and (max-width: 768px) {
-
-  ul .transaction-item .date {
+  .transaction-item .date {
     padding-left: 23px;
   }
 
-  .main-content {
-    w-transaction-list {
-      min-height: calc(100vh ~'- 148px');
-
-      .w-transaction-list {
-        &.no-transactions {
-          min-height: 250px;
+  body {
+    .main-content {
+      w-scroll-box {
+        overflow: hidden;
+      }
+      w-transaction-list {
+        min-height: calc(100vh ~'- 148px');
+        .w-transaction-list {
+          &.no-transactions {
+            min-height: 250px;
+          }
         }
       }
-
     }
   }
-
 }
