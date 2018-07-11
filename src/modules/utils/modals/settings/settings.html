@@ -68,12 +68,12 @@
                         <w-select ng-model="$ctrl.theme">
                             <w-option value="::'default'"><i class="white"></i><span w-i18n="modal.settings.general.white"></span></w-option>
                             <w-option value="::'black'"><i class="dark"></i><span w-i18n="modal.settings.general.dark"></span></w-option>
-                            <w-option value="::'auto'"><i class="auto"></i><span w-i18n="modal.settings.general.auto"></span></w-option>
+                            <!--w-option value="::'auto'"><i class="auto"></i><span w-i18n="modal.settings.general.auto"></span></w-option-->
                         </w-select>
                     </div>
                 </div>
 
-                <div class="row flex-row row-style unit-select">
+                <!--div class="row flex-row row-style unit-select">
                     <div class="footnote-1 disabled-600" w-i18n="modal.settings.general.color"></div>
                     <div>
                         <w-select ng-model="$ctrl.candle">
@@ -81,7 +81,7 @@
                             <w-option value="::'green'"><i class="green"></i><span w-i18n="modal.settings.general.green"></span></w-option>
                         </w-select>
                     </div>
-                </div>
+                </div-->
 
                 <div class="row flex-row row-style">
                     <div class="footnote-1 disabled-600" w-i18n="modal.settings.general.blockHeight"></div>
@@ -165,7 +165,7 @@
                     </div>
                 </div>
 
-                <w-button class="interface" on-click="$ctrl.setNetworkDefault()">
+                <w-button class="interface bordered" on-click="$ctrl.setNetworkDefault()">
                     <span w-i18n="modal.settings.setDefault"></span>
                 </w-button>
             </w-step>

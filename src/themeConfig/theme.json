@@ -4,14 +4,14 @@
 
     "candles": {
       "blue": {
-        "upColor": "#5a81ea",
-        "downColor": "#d1383c",
+        "upColor": "#1f5af6",
+        "downColor": "#e5494d",
         "volume0": "rgba(209,56,60,0.3)",
         "volume1": "rgba(90,129,234,0.3)"
       },
       "green": {
-        "upColor": "#6ba583",
-        "downColor": "#d1383c",
+        "upColor": "#39a12c",
+        "downColor": "#e5494d",
         "volume0": "rgba(200,0,00,0.3)",
         "volume1": "rgba(0,200,0,0.3)"
       }
