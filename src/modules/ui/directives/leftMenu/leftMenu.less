@@ -164,14 +164,14 @@ w-left-menu {
     display: flex;
     border-right: 0 none;
     position: fixed;
-    border-bottom: 1px solid @color-disabled-100;
+    box-shadow: @shadow-menu-top;
 
     .logo-wrapper {
       margin: @padding-main-layout;
     }
 
     .wallet-toggler {
-      background: url(/img/icons/arrow-dropdown.svg) no-repeat;
+      background: @dropdown-icon no-repeat;
       background-position: 20px center;
       transform: rotate(180deg);
       width: 100%;
@@ -214,7 +214,7 @@ w-left-menu {
           background: @color-submit-400;
 
           .menu-item {
-            color: @color-white;
+            color: @white-only;
 
             &::after {
               background-position: 0 -@default-icon-size;
@@ -294,7 +294,7 @@ w-left-menu {
             background-color: @color-submit-400;
 
             .menu-item {
-              color: @color-white;
+              color: @white-only;
             }
           }
 

@@ -55,7 +55,6 @@
         max-height: calc(100vh ~'- 208px');
         transform: translate3d(0, 0, 0);
         will-change: transform;
-        background: @color-white;
 
         .smart-table__row:hover {
           background: @hover-default;
@@ -297,7 +296,6 @@
         .smart-table__cell:last-child {
           width: 50px;
           min-width: 50px;
-
           .cell {
             .icon {
               display: none;
@@ -339,7 +337,9 @@
           padding: 0;
           position: relative;
           font-size: 0;
-          background: url(/img/icons/icon-filter.svg) center no-repeat;
+          background: @filter-icon center no-repeat;
+          box-shadow: @shadow-buttons-default;
+          border: none;
 
           &::before {
             display: none;
@@ -363,7 +363,7 @@
             display: inline-block;
             padding: 1px 2px;
             background: @color-submit-400;
-            color: @color-white;
+            color: @white-only;
             border-radius: @border-radius / 2;
             line-height: 1em;
           }
@@ -401,7 +401,7 @@
         i.toggler {
           width: 50px;
           height: 20px;
-          background: url(/img/icons/arrow-dropdown.svg) center center no-repeat;
+          background: @dropdown-icon center center no-repeat;
           left: 50%;
           bottom: 10px;
           display: block;

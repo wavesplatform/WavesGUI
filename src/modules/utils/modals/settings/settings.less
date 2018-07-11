@@ -48,7 +48,7 @@ md-dialog.settings-modal {
         display: flex;
         align-items: center;
         height: 50px;
-        padding-left: 65px;
+        padding-left: 68px;
         color: @color-info-500;
 
         &::after {
@@ -56,7 +56,7 @@ md-dialog.settings-modal {
           display: block;
           position: absolute;
           top: 50%;
-          left: 34px;
+          left: 39px;
           height: @low-icon-size;
           width: @low-icon-size;
           transform: translate(0, -50%);
@@ -288,7 +288,7 @@ md-dialog.settings-modal {
       padding: 20px;
 
       .icon-close {
-        right: 20px;
+        right: 10px;
       }
     }
 
@@ -342,6 +342,7 @@ md-dialog.settings-modal {
 
         &.active {
           height: auto;
+          box-shadow: @shadow-main-default;
           w-responsive-menu-item {
             opacity: 1;
             height: @mobile-settings-item-height;
@@ -352,7 +353,7 @@ md-dialog.settings-modal {
 
       w-button {
         & > button.nav-toggler {
-          right: 20px;
+          right: 26px;
           top: 10px;
           display: flex;
           justify-content: center;
@@ -368,7 +369,7 @@ md-dialog.settings-modal {
               width: 4px;
               height: 4px;
               border-radius: 100%;
-              background-color: @color-white;
+              background-color: @white-only;
             }
           }
         }
@@ -385,7 +386,7 @@ md-dialog.settings-modal {
       .settings-content {
         margin-left: 0;
         margin-top: 50px;
-        padding: 0 10px;
+        padding: 0;
 
         .row-mobile {
           flex-direction: column;

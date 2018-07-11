@@ -64,7 +64,8 @@
     background: #eef0f4;
 }
 .tv-close-panel {
-    border: 1px solid #eef0f4;
+    border: solid #eef0f4;
+    border-width: 1px 0;
 }
 .drawing-favorites-toolbar .tools-group .button.active, .feature-no-touch .drawing-favorites-toolbar .tools-group .button:active,
 .feature-no-touch .properties-toolbar .tools-group .button:active, .feature-no-touch .tv-side-toolbar .tools-group .button:active .side,
