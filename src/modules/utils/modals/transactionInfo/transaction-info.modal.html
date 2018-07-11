@@ -2,6 +2,9 @@
     <div class="btn icon-close" w-modal-close></div>
     <md-dialog-content>
         <div class="modal-content">
+            <div ng-if="!$ctrl.transaction">
+                <w-loader></w-loader>
+            </div>
             <div ng-if="$ctrl.transaction" class="txinfo__wrapper">
 
                 <w-transaction-info transaction="::$ctrl.transaction"></w-transaction-info>
