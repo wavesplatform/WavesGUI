@@ -2,6 +2,8 @@
 @import (reference) "../../../app/less/typography";
 @import (reference) 'icons';
 
+@column-width: 320px;
+@dex-padding: 7px;
 
 .dex.main .main-content,
 .dex-demo.main .main-content {
@@ -19,9 +21,6 @@ html body.dex-demo {
     }
   }
 }
-
-@column-width: 320px;
-@dex-padding: 7px;
 
 w-layout {
 
@@ -961,4 +960,23 @@ html body.dex-demo .notifications {
 
     }
   }
+}
+
+//candleChart preloader
+.dex-loader,
+.loading {
+  opacity: 0;
+}
+.dex-loader {
+  position: absolute;
+  z-index: 0;
+}
+.dex-loader.loading {
+  opacity: 1;
+  position: absolute;
+  z-index: 1;
+  display: inline-block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
