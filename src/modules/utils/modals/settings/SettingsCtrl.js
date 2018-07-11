@@ -25,6 +25,7 @@
                 this.scamListUrl = '';
                 this.withScam = false;
                 this.theme = user.getSetting('theme');
+                this.candle = user.getSetting('candle');
                 this.shareStat = user.getSetting('shareAnalytics');
                 /**
                  * @type {number}

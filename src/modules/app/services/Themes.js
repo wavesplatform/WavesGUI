@@ -68,14 +68,16 @@
 
             getCurrentCandleSColor(name) {
                 if (name) {
-                    const { upColor, downColor } = this.getCandlesColors()[name || DEFAULT_CANDLE];
-                    return { up: upColor, down: downColor };
+                    const { upColor, downColor, volume0, volume1 } = this.getCandlesColors()[name || DEFAULT_CANDLE];
+                    return { up: upColor, down: downColor, volume0, volume1 };
                 }
 
-                let { up, down } = this.candleColors;
+                let { up, down, volume0, volume1 } = this.candleColors;
                 up = up || this.getCandlesColors()[DEFAULT_CANDLE].upColor;
                 down = down || this.getCandlesColors()[DEFAULT_CANDLE].downColor;
-                return { up, down };
+                volume0 = volume0 || this.getCandlesColors()[DEFAULT_CANDLE].volume0;
+                volume1 = volume1 || this.getCandlesColors()[DEFAULT_CANDLE].volume1;
+                return { up, down, volume0, volume1 };
             }
 
             changeStyleRules(rules) {
