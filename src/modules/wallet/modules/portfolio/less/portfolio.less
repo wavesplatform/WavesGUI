@@ -23,12 +23,9 @@
 
       .title {
         display: flex;
-
-        &:before {
-          content: '';
-          margin: 5px 7px 0 0;
-          .icon-filter();
-        }
+        padding-left: 40px;
+        .icon-filter();
+        background-position: 15px center;
       }
     }
   }
@@ -338,10 +335,6 @@
           .icon-filter();
           box-shadow: @shadow-buttons-default;
           border: none;
-
-          &::before {
-            display: none;
-          }
 
           &::after {
             display: none;

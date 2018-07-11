@@ -292,8 +292,13 @@ w-dex-my-orders {
         }
 
         &__cell {
-          flex-basis: calc(50% ~'- 40px');
-          height: 18px;
+          &[data-column-id="pair"],
+          &[data-column-id="time"],
+          &[data-column-id="price"],
+          &[data-column-id="amount"] {
+            flex-basis: 50%;
+            height: 18px;
+          }
 
           .cell-label {
             display: inline-block;
