@@ -24,13 +24,12 @@ w-qr-code-read {
   width: 0;
   height: 0;
   padding: 3px;
-  border-radius: 3px;
   background-color: @color-white;
-  border: 1px solid #dae1e9;
+  border: 1px solid @color-basic-200;
   z-index: 120;
 
   &__error {
-    background-color: red;
+    background: url(/img/icons/webcamerror.svg) center no-repeat @color-white;
   }
 
   &::after {
@@ -44,7 +43,6 @@ w-qr-code-read {
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-
     border-top: 8px solid #dae1e9;
   }
 
