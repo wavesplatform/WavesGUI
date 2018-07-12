@@ -314,6 +314,7 @@ w-layout {
       }
 
       &-left {
+        transition: .3s;
         div {
           &::after {
             transform: rotate(90deg);
@@ -322,6 +323,7 @@ w-layout {
       }
 
       &-right {
+        transition: .3s;
         div {
           &::after {
             transform: rotate(-90deg);
@@ -449,6 +451,8 @@ html body.dex-demo .notifications {
 .dex-layout__tradehistory {
   transition: .3s !important;
 }
+//end
+
 
 .tradehistory-fullscreen {
   .dex-layout__column:not(.dex-layout__tradehistory) {
