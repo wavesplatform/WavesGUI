@@ -7,7 +7,7 @@ w-transaction .transaction {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 74px;
+  min-height: 74px;
   align-items: center;
   position: relative;
 
@@ -139,6 +139,7 @@ w-transaction .transaction {
 
         .top {
           color: @color-basic-700;
+          word-break: break-all;
 
           .spam-label {
             display: none;
@@ -168,6 +169,7 @@ w-transaction .transaction {
         .line {
           .top {
             color: @color-basic-500;
+            word-break: break-all;
 
             .spam-label {
               .status();
