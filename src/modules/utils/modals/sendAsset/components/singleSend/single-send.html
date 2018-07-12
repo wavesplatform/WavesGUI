@@ -141,7 +141,7 @@
         </div>
 
         <w-input-error name="amount" message="required">
-            <w-i18n>inputs.errors.required</w-i18n>
+            <span w-i18n="inputs.errors.required"></span>
         </w-input-error>
         <w-input-error name="amount" message="gt">
             <span ng-if="$ctrl.tx.amount.getTokens().eq(0)"
