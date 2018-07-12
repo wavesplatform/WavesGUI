@@ -66,8 +66,14 @@
                     <div class="footnote-1 disabled-600" w-i18n="modal.settings.general.theme"></div>
                     <div>
                         <w-select ng-model="$ctrl.theme">
-                            <w-option value="::'default'"><i class="white"></i><span w-i18n="modal.settings.general.white"></span></w-option>
-                            <w-option value="::'black'"><i class="dark"></i><span w-i18n="modal.settings.general.dark"></span></w-option>
+                            <w-option value="::'default'">
+                                <i class="white"></i>
+                                <span w-i18n-ns="app.utils" w-i18n="modal.settings.general.white"></span>
+                            </w-option>
+                            <w-option value="::'black'">
+                                <i class="dark"></i>
+                                <span w-i18n-ns="app.utils" w-i18n="modal.settings.general.dark"></span>
+                            </w-option>
                             <!--w-option value="::'auto'"><i class="auto"></i><span w-i18n="modal.settings.general.auto"></span></w-option-->
                         </w-select>
                     </div>

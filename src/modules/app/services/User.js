@@ -323,6 +323,7 @@
                 const newTheme = themes.switchNext();
                 this.setSetting('theme', newTheme);
             }
+
             /**
              * @param {object} data
              * @param {ISignatureApi} data.api

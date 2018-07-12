@@ -9,7 +9,7 @@
      * @param {IPollCreate} createPoll
      * @return {SettingsCtrl}
      */
-    const controller = function (Base, $scope, waves, user, createPoll) {
+    const controller = function (Base, $scope, waves, user, createPoll, $templateRequest) {
 
         class SettingsCtrl extends Base {
 
@@ -27,6 +27,8 @@
                 this.theme = user.getSetting('theme');
                 this.candle = user.getSetting('candle');
                 this.shareStat = user.getSetting('shareAnalytics');
+                this.templatePromise = $templateRequest('modules/utils/modals/settings/loader.html');
+
                 /**
                  * @type {number}
                  */
@@ -49,7 +51,13 @@
                 });
 
                 this.observe('theme', () => {
-                    user.changeTheme(this.theme);
+                    this.templatePromise.then(
+                        (template) => {
+                            this.showLoader(template);
+                            user.changeTheme(this.theme);
+                        },
+                        () => user.changeTheme(this.theme)
+                    );
                 });
 
                 this.observe('candle', () => {
@@ -121,12 +129,21 @@
                 this.scamListUrl = WavesApp.network.scamListUrl;
             }
 
+            showLoader(template) {
+                const loaderEl = document.createElement('div');
+                loaderEl.innerHTML = template;
+                document.body.appendChild(loaderEl);
+                setTimeout(() => {
+                    document.body.removeChild(loaderEl);
+                }, 3000);
+            }
+
         }
 
         return new SettingsCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'waves', 'user', 'createPoll'];
+    controller.$inject = ['Base', '$scope', 'waves', 'user', 'createPoll', '$templateRequest'];
 
     angular.module('app.utils').controller('SettingsCtrl', controller);
 
