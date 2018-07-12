@@ -13,9 +13,6 @@ export function get(id: string): Promise<Asset>;
 export function get(idList: Array<string>): Promise<Array<Asset>>;
 
 export function get(assets: string | Array<string>): Promise<any> {
-    if (toArray(assets).some((id) => id.length < 4)) {
-        debugger;
-    }
     return assetStorage.getAssets(toArray(assets), getAssetRequestCb)
         .then((list) => {
             if (typeof assets === 'string') {
@@ -59,6 +56,9 @@ export function wavesBalance(address: string): Promise<IBalanceItem> {
 export function assetsBalance(address: string): Promise<Array<IBalanceItem>> {
     return request({ url: `${configGet('node')}/assets/balance/${address}` })
         .then((data: assetsApi.IBalanceList) => {
+            data.balances.forEach((asset) => {
+                assetStorage.updateAsset(asset.assetId, new BigNumber(asset.quantity), asset.reissuable);
+            });
             return getAssetsByBalanceList(data)
                 .then((assets) => {
                     const hash = toHash(assets, 'id');
@@ -149,7 +149,7 @@ const splitRequest = (list: string[], getData) => {
         for (const items of results) {
             data = [...data, ...items.data];
         }
-        return {data: data};
+        return { data: data };
     });
 };
 
