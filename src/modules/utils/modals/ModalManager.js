@@ -129,6 +129,13 @@
                     });
             }
 
+            showConfirmDeleteUser() {
+                return this._getModal({
+                    id: 'delete-user-confirm',
+                    templateUrl: 'modules/utils/modals/confirmDeleteUser/confirmDeleteUser.modal.html'
+                });
+            }
+
             showAccountInfo() {
                 /**
                  * @type {User}
