@@ -15,6 +15,10 @@ if grep -r --ignore-case "debugger" ./src
   then echo "Can't commit with debugger" && exit 1
 fi
 
+if grep -r --ignore-case "<w-i18n" ./src
+  then echo "w-i18n should be used only as an attribute, not as a tag name" && exit 1
+fi
+
 echo "pre-commit hook >> DONE"
 
 exit 0

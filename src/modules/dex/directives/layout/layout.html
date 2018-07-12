@@ -1,21 +1,33 @@
 <div class="dex-layout" w-toggle-class-container>
-    <div data-column="left" class="dex-layout__column dex-layout__column-left">
-        <div data-block="top" class="dex-layout__block dex-layout__block-top"></div>
-        <div data-block="bottom" class="dex-layout__block dex-layout__block-bottom"></div>
-        <div data-slider
-             ng-click="$ctrl.toggleColumn('left')"
-             class="dex-layout__sidebar-toggle dex-layout__sidebar-toggle-left"></div>
+
+    <div class="dex-layout__column dex-layout__watchlist">
+        <div data-block="watchlist" class="dex-layout__block dex-layout__block-top"></div>
     </div>
-    <div data-column="center" class="dex-layout__column dex-layout__column-center">
-        <div data-block="top" class="dex-layout__block dex-layout__block-top"></div>
-        <div data-block="bottom" class="dex-layout__block dex-layout__block-bottom"></div>
+
+    <div class="dex-layout__column dex-layout__candlechart">
+        <w-dex-layout-side-bar-toggle handle-click="$ctrl.toggleColumn('watchlist')"
+                                      side="left"></w-dex-layout-side-bar-toggle>
+        <div data-block="candlechart" class="dex-layout__block dex-layout__block-top"></div>
+        <w-dex-layout-side-bar-toggle handle-click="$ctrl.toggleColumn('orderbook')"
+                                      side="right"></w-dex-layout-side-bar-toggle>
     </div>
-    <div data-column="right" class="dex-layout__column dex-layout__column-right">
-        <div data-slider
-             ng-click="$ctrl.toggleColumn('right')"
-             class="dex-layout__sidebar-toggle dex-layout__sidebar-toggle-right"></div>
-        <div data-block="top" class="dex-layout__block dex-layout__block-top"></div>
-        <div data-block="bottom" class="dex-layout__block dex-layout__block-bottom"></div>
+
+    <div class="dex-layout__column dex-layout__orderbook"
+         w-toggle-class-container>
+        <w-dex-layout-side-bar-toggle handle-click="$ctrl.toggleColumn('orderbook')"
+                                      side="left"></w-dex-layout-side-bar-toggle>
+        <div data-block="orderbook" class="dex-layout__block"></div>
+        <div data-block="tradevolume" class="dex-layout__block"></div>
     </div>
+
+    <div class="dex-layout__column dex-layout__tradehistory">
+        <div data-block="tradehistory" class="dex-layout__block dex-layout__block-bottom"></div>
+    </div>
+
+    <div class="dex-layout__column dex-layout__createorder">
+        <div class="mask" ng-click="$ctrl.closeCreateOrder($event)"></div>
+        <div data-block="createorder" class="dex-layout__block dex-layout__block-bottom"></div>
+    </div>
+
     <div class="hidden" ng-transclude></div>
 </div>

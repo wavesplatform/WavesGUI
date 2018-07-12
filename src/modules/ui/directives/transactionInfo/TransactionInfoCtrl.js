@@ -33,9 +33,9 @@
                 this.templateUrl = `${PATH}/${transaction.templateType}.html`;
                 this.datetime = $filter('date')(transaction.timestamp, 'dd.MM.yyyy, HH:mm');
                 this.shownAddress = transaction.shownAddress;
-                this.type = transaction.type;
+                this.typeName = transaction.typeName;
                 this.numberOfRecipients = transaction.numberOfRecipients;
-
+                this.isScam = !!WavesApp.scam[this.transaction.assetId];
                 this.explorerLink = explorerLinks.getTxLink(transaction.id);
 
                 if (transaction.amount || transaction.leaseTransactionAmount) {
@@ -48,9 +48,20 @@
                 }
 
                 const TYPES = waves.node.transactions.TYPES;
-                if (this.type === TYPES.EXCHANGE_BUY || this.type === TYPES.EXCHANGE_SELL) {
+
+                if (this.typeName === TYPES.BURN || this.typeName === TYPES.ISSUE || this.typeName === TYPES.REISSUE) {
+                    this.name = tsUtils.get(this.transaction, 'amount.asset.name') ||
+                        tsUtils.get(this.transaction, 'quantity.asset.name') ||
+                        this.transaction.name;
+                    this.amount = (tsUtils.get(this.transaction, 'amount') ||
+                        tsUtils.get(this.transaction, 'quantity')).toFormat();
+                    this.quantity = this.transaction.quantity || this.transaction.amount;
+                    this.precision = this.transaction.precision || this.quantity.asset.precision;
+                }
+
+                if (this.typeName === TYPES.EXCHANGE_BUY || this.typeName === TYPES.EXCHANGE_SELL) {
                     this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
-                    if (this.type === TYPES.EXCHANGE_BUY) {
+                    if (this.typeName === TYPES.EXCHANGE_BUY) {
                         this.calculatedFee = this.transaction.buyMatcherFee;
                     } else {
                         this.calculatedFee = this.transaction.sellMatcherFee;

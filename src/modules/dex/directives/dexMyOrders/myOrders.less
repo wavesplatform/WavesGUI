@@ -8,227 +8,378 @@ w-dex-my-orders {
   overflow: hidden;
   overflow-x: auto;
 
-  w-table {
-    min-width: 500px;
-  }
+  .smart-table {
+    &__w-thead {
+      .smart-table {
+        &__cell[data-column-id="controls"] {
+          flex-basis: 0;
+          padding-left: 0;
 
-  w-scroll-box {
-    overflow-x: visible;
+          .disabled {
+            display: none;
+          }
 
-    w-row {
-      padding: 6px 16px 6px 16px;
+          span[role='button'] {
+            display: inline-block;
+            .stop();
+            padding-left: 22px;
+            background-position: 7px center;
+          }
 
-      &:last-child {
-        margin-bottom: 10px;
-      }
+          w-confirm-action {
+            border-left: 1px solid @color-basic-100;
+            display: block;
 
-      &:hover {
-        .stop {
-          background-image: url(/img/icons/red-cancel.svg);
-          background-size: 16px 16px;
+            .confirm-tooltip {
+              position: absolute;
+              top: calc(100% ~'+ 1px');
+              right: -10px;
+              background: @color-white;
+              box-shadow: 0 0 19px rgba(97, 116, 144, 0.25);
+              width: 186px;
+              padding: 15px 20px;
+              text-align: center;
+              white-space: normal;
+              border-radius: @border-radius;
+
+              &::before {
+                display: block;
+                content: '';
+                transform: translate(91px, -20px);
+                right: 0;
+                width: 0;
+                height: 0;
+                border: 5px solid transparent;
+                border-bottom-color: @color-white;
+                border-top: 0 none;
+              }
+
+              .buttons-wrapper {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                w-button {
+                  flex-basis: 47%;
+                  button {
+                    color: @color-white;
+                    font-size: @font-size-caption-2;
+                    border-radius: @border-radius / 2;
+                  }
+                }
+              }
+
+              .cancel {
+                background: @color-submit-400;
+              }
+
+              .action {
+                background: @color-error-400;
+              }
+
+              .title {
+                font-size: @font-size-caption-1;
+                line-height: 1em;
+              }
+
+              .descr {
+                line-height: 1.2em;
+              }
+
+            }
+          }
         }
       }
     }
-  }
 
-  w-row {
-    position: relative;
-    padding: 0 16px 0 16px;
-
-    &[ng-class="cancelled"], &[ng-class="filled"] {
-      color: @color-disabled-500;
-
-      .order-side.sell, .order-side.buy {
-        color: @color-disabled-500;
+    .order-details {
+      &:hover {
+        background-color: @color-basic-50;
       }
     }
 
-    w-cell {
-      white-space: nowrap;
+    &__w-tbody {
+
+      .smart-table {
+        &__row {
+          padding: 6px 10px;
+
+          &.can-expand {
+            .smart-table {
+              &__cell[data-column-id="status"] {
+                cursor: pointer;
+              }
+            }
+          }
+
+          &.sell {
+            &.new-order {
+              background: rgba(255, 228, 228, 0.5);
+            }
+          }
+
+          &.buy {
+            &.new-order {
+              background: @color-submit-50;
+            }
+          }
+
+        }
+      }
+
+      .order-details {
+        background: @color-basic-50;
+
+        &:hover {
+          background-color: @color-basic-100;
+        }
+      }
     }
 
-    .cell-0 {
+    &__cell {
+      flex-basis: 100px;
+      flex-grow: 1;
+    }
+
+    &__cell[data-column-id="fee"] {
+      text-align: right;
+    }
+
+    &__cell[data-column-id="type"] {
+      flex-basis: 80px;
+      flex-grow: 0;
+      min-width: auto;
+    }
+
+    &__cell[data-column-id="status"] {
+      flex-basis: 100px;
+      flex-grow: 0;
+      min-width: auto;
+    }
+
+    &__cell[data-column-id="pair"] {
+      padding-left: 0;
+      flex-basis: 160px;
+
       span {
         display: block;
+        align-items: center;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
-        max-width: 160px;
+        max-width: 200px;
+        cursor: pointer;
       }
     }
 
-    .cell-1 {
-      max-width: 5%;
-      padding: 0 14px;
-    }
-
-    .cell-2, .cell-3, .cell-4 {
+    &__cell[data-column-id="price"],
+    &__cell[data-column-id="amount"],
+    &__cell[data-column-id="total"],
+    &__cell[data-column-id="time"],
+    &__cell[data-column-id="controls"] {
       text-align: right;
-      min-width: 100px;
-      padding-right: 20px;
     }
 
-    .cell-2 {
-      min-width: 140px;
-    }
-
-    .cell-4 {
-      margin-right: 30px;
-      padding-right: 0;
-      width: 26%;
-    }
-
-    .order-side.sell {
-      color: @color-error-400;
-    }
-
-    .order-side.buy {
-      color: @color-success-600;
+    &__cell[data-column-id="controls"] {
+      flex-grow: 0;
     }
 
     .stop {
       cursor: pointer;
-      position: absolute;
-      right: 10px;
       background-image: url(/img/icons/order_cancel.svg);
       background-size: 8px 8px;
       background-repeat: no-repeat;
-      background-position: center;
-      top: 2px;
-      width: 30px;
-      height: calc(100% ~'- 4px');
-    }
-
-    &:not(:last-child) {
-      border-bottom: 1px solid @color-disabled-100;
+      background-position: 14px center;
+      display: inline-block;
+      padding-left: 32px;
+      text-transform: capitalize;
     }
   }
 
-  .cell-label {
-    display: none;
-    color: @color-disabled-700;
-    margin-right: 7px;
-    font-size: 9px;
+  .order-side {
+    &.sell {
+      color: @color-error-400;
+    }
+
+    &.buy {
+      color: @color-submit-400;
+    }
+  }
+
+  w-input.orders-filter {
+    .w-input-wrap {
+      input[type="text"] {
+        padding: 0 8px 2px 21px;
+        background-image: url(/img/icons/input-search-icon.svg);
+        background-repeat: no-repeat;
+        background-size: 12px 12px;
+        background-position: 0 center;
+        font-size: 11px;
+        height: 27px;
+        line-height: 25px;
+        border: 0 none;
+        border-radius: 0;
+        width: 100%;
+        max-width: 110px;
+      }
+    }
   }
 
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 1400px) {
+  w-dex-my-orders {
+    .smart-table {
+      &__cell[data-column-id="pair"] {
+        span {
+          max-width: 126px;
+        }
+      }
+    }
+  }
+}
 
-  body.dex .dex-wrapper {
+@media screen and (max-width: 1024px) {
+  body.dex .dex-wrapper,
+  body.dex-demo .dex-wrapper {
     w-dex-my-orders {
-      w-table {
+      .smart-table {
         min-width: 100%;
 
-        w-t-head {
-          w-row {
-            padding: 8px 0;
+        &__w-thead {
+          display: none;
+        }
 
-            .table-row {
-              margin: 0 30px 0 10px;
-              height: auto;
+        .order-row {
+          position: relative;
 
-              w-cell {
-                &.cell-0 {
-                  width: 45%;
-                }
-
-                &.cell-1 {
-                  width: 15%;
-                  max-width: 15%;
-                  padding: 0;
-                }
-
-                &.cell-2,
-                &.cell-3 {
-                  display: none;
-                }
-
-                &.cell-4 {
-                  width: 40%;
-                  margin-right: 0;
-                }
-              }
+          &:not(:first-child) {
+            &::before {
+              background: @color-basic-100;
+              height: 1px;
+              width: calc(100% ~'- 20px');
+              position: absolute;
+              top: 0;
+              left: 10px;
+              display: block;
+              content: '';
+              z-index: 1;
             }
           }
         }
 
-        w-scroll-box w-row {
-          padding: 8px 0;
+        &__row {
+          padding-left: 48px;
+          padding-right: 48px;
+          padding-top: 14px;
+          padding-bottom: 14px;
+          flex-wrap: wrap;
+          margin: 0 2px;
+          width: calc(100% ~'- 4px');
 
-          .table-row {
-            display: flex;
-            flex-wrap: wrap;
-            height: auto;
-            margin: 0 30px 0 10px;
-
-            .stop {
-              right: 2px;
-              width: 26px;
-            }
-
-            w-cell {
-              padding: 0;
-
-              .cell-label {
-                display: inline-block;
+          &.order-details {
+            .smart-table {
+              &__cell[data-column-id="pair"] {
+                display: none;
               }
 
-              &.cell-0 {
-                flex-basis: 45%;
-                width: 45%;
+              &__cell[data-column-id="fee"] {
+                display: block;
                 order: 0;
-
-                span {
-                  max-width: 120px;
-                }
-              }
-
-              &.cell-1 {
-                max-width: 15%;
-                flex-basis: 15%;
-                width: 15%;
-                order: 1;
-              }
-
-              &.cell-2 {
-                flex-basis: 40%;
-                width: 40%;
-                min-width: 40%;
-                order: 3;
-                text-align: left;
-              }
-
-              &.cell-3 {
-                flex-basis: 60%;
-                width: 60%;
-                order: 4;
-                text-align: right;
-              }
-
-              &.cell-4 {
-                flex-basis: 40%;
-                width: 40%;
-                margin-right: 0;
-                order: 2;
               }
             }
+          }
+        }
 
+        &__cell {
+          flex-basis: calc(50% ~'- 40px');
+          height: 18px;
+
+          .cell-label {
+            display: inline-block;
+          }
+        }
+
+        &__cell[data-column-id="fee"] {
+          display: none;
+          text-align: left;
+        }
+
+        &__cell[data-column-id="pair"] {
+          order: 0;
+          margin-bottom: 5px;
+          font-family: @font-roboto-medium;
+
+          span {
+            max-width: none;
+          }
+        }
+
+        &__cell[data-column-id="price"] {
+          text-align: left;
+          order: 2;
+        }
+
+        &__cell[data-column-id="amount"] {
+          order: 3;
+        }
+
+        &__cell[data-column-id="type"],
+        &__cell[data-column-id="total"] {
+          display: none;
+        }
+
+        &__cell[data-column-id="time"] {
+          margin-bottom: 5px;
+          order: 1;
+          text-align: right;
+          color: @color-basic-500;
+          font-size: @font-size-caption-2;
+
+          .cell-label {
+            display: none;
+          }
+        }
+
+        &__cell[data-column-id="status"] {
+          order: 0;
+          position: absolute;
+          min-width: 36px;
+          left: 10px;
+          top: 50%;
+          transform: translate(0, -50%);
+          height: 36px;
+          width: 36px;
+          font-size: 0;
+
+          .progress-bar,
+          .progress-precents {
+            display: none;
+          }
+        }
+
+        &__cell[data-column-id="controls"] {
+          order: 4;
+          position: absolute;
+          flex-basis: 30px;
+          right: 10px;
+          min-width: 30px;
+          top: 50%;
+          transform: translate(0, -50%);
+          height: 30px;
+          width: 30px;
+          font-size: 0;
+
+          .stop {
+            background-size: 10px 10px;
+            background-repeat: no-repeat;
+            background-position: center center;
+            margin-left: 0;
+            height: 30px;
+            width: 30px;
           }
         }
       }
     }
   }
-}
-
-@media screen and (max-width: 380px) {
-
-  body.dex .dex-wrapper {
-    w-dex-my-orders {
-      w-scroll-box w-row {
-        font-size: @font-size-caption-2;
-      }
-    }
-  }
-
 }

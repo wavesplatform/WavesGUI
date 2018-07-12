@@ -1,7 +1,7 @@
 @import (reference) '../../../config';
 
 .transactions w-scroll-box {
-  border: 1px solid @color-accent-50;
+  border: 1px solid @color-basic-100;
   border-radius: @border-radius;
 
   .scroll-list {
@@ -20,6 +20,7 @@ w-transaction-list {
 
   .no-transactions {
     .transaction-list-mixin();
+    position: relative;
     min-height: 230px;
     width: 100%;
     display: flex;
@@ -53,7 +54,7 @@ w-transaction-list {
 
         .row {
           position: relative;
-          border-bottom: 1px solid @color-accent-50;
+          border-bottom: 1px solid @color-basic-100;
 
           &:hover {
             background-color: @color-submit-50;

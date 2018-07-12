@@ -54,12 +54,25 @@
     const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
                           notification, decorators, waves, ModalRouter) {
 
-        user.onLogin().then(() => {
-            Waves.config.set({
-                nodeAddress: user.getSetting('network.node'),
-                matcherAddress: user.getSetting('network.matcher')
-            });
-        });
+        const phone = WavesApp.device.phone();
+        const tablet = WavesApp.device.tablet();
+
+        const isPhone = !!phone;
+        const isTablet = !!tablet;
+        const isDesktop = !(isPhone || isTablet);
+
+        $rootScope.isDesktop = isDesktop;
+        $rootScope.isNotDesktop = !isDesktop;
+        $rootScope.isPhone = isPhone;
+        $rootScope.isTablet = isTablet;
+
+        if (isPhone) {
+            document.body.classList.add('phone');
+        } else if (isTablet) {
+            document.body.classList.add('tablet');
+        } else {
+            document.body.classList.add('desktop');
+        }
 
         class AppRun {
 
@@ -88,7 +101,6 @@
                 this._stopLoader();
                 this._initializeLogin();
                 this._initializeOutLinks();
-                waves.node.assets.initializeAssetFactory();
 
                 $rootScope.WavesApp = WavesApp;
             }
@@ -141,25 +153,46 @@
              */
             _initializeLogin() {
 
-                storage.onReady().then((oldVersion) => {
-                    if (!oldVersion) {
-                        modalManager.showTutorialModals();
-                    }
+                let needShowTutorial = false;
+                const promise = storage.onReady().then((oldVersion) => {
+                    needShowTutorial = !oldVersion;
                 });
 
-                const START_STATES = WavesApp.stateTree.where({ noLogin: true })
-                    .map((item) => item.id);
-
                 this._listenChangeLanguage();
+
+                const START_STATES = WavesApp.stateTree.where({ noLogin: true })
+                    .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
+
+                let waiting = false;
+
                 const stop = $rootScope.$on('$stateChangeStart', (event, toState, params) => {
-                    stop();
 
                     if (START_STATES.indexOf(toState.name) === -1) {
                         event.preventDefault();
                     }
 
+                    if (needShowTutorial && toState.name !== 'dex-demo') {
+                        modalManager.showTutorialModals();
+                        needShowTutorial = false;
+                    }
+
+                    if (waiting) {
+                        return null;
+                    }
+
+                    promise.then(() => {
+                        if (needShowTutorial && toState.name !== 'dex-demo') {
+                            modalManager.showTutorialModals();
+                            needShowTutorial = false;
+                        }
+                    });
+
+                    waiting = true;
+
                     this._login(toState)
                         .then(() => {
+                            stop();
+
                             this._stopListenChangeLanguage();
                             if (START_STATES.indexOf(toState.name) === -1) {
                                 $state.go(toState.name, params);
@@ -400,3 +433,10 @@
     angular.module('app')
         .run(run);
 })();
+
+/**
+ * @property {boolean} $rootScope.Scope#isDesktop
+ * @property {boolean} $rootScope.Scope#isNotDesktop
+ * @property {boolean} $rootScope.Scope#isPhone
+ * @property {boolean} $rootScope.Scope#isTablet
+ */

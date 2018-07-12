@@ -88,7 +88,8 @@
                     reissuable: this.issue,
                     quantity: this.count,
                     precision,
-                    fee: this._fee
+                    fee: this._fee,
+                    createToken: true
                 }).then(() => this._reset());
             }
 

@@ -184,7 +184,7 @@
                     case 'object':
                         if (item instanceof BigNumber) {
                             return item;
-                        } else if (item instanceof Waves.Money) {
+                        } else if (item instanceof ds.wavesDataEntities.Money) {
                             return item.getTokens();
                         } else {
                             return null;

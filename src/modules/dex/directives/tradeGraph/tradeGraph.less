@@ -1,21 +1,29 @@
 @import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
 
 w-dex-trade-graph {
   display: block;
   width: 100%;
+  position: relative;
 
   .graph-wrapper {
     background-color: @color-white;
     height: 100%;
   }
 
-  .empty-block-container {
+  w-empty-block,
+  w-error-block {
     margin: 0 auto;
-    border-top: 1px solid @color-disabled-100;
+    position: relative;
 
     .icon {
-      margin: 15px auto 20px;
+      margin: 15px auto 0;
+      background-size: 90%;
+    }
+
+    .footnote-1 {
+      font-size: @font-size-caption-1;
+      line-height: 16px;
     }
   }
-
 }

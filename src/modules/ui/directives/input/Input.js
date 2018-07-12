@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const EXCLUDE_ATRIBUTES = ['tabindex'];
+
     /**
      * @param Base
      * @param {app.utils} utils
@@ -18,6 +20,11 @@
                     return result;
                 }, []);
                 const typeClass = $data.type ? `input-type-${$data.type}` : '';
+                const element = $element[0];
+                EXCLUDE_ATRIBUTES.forEach((attr) => {
+                    element.removeAttribute(attr);
+                });
+
                 if ('textarea' in $data) {
                     return `<div class="w-input-wrap ${typeClass}"><textarea ${attrs.join(' ')}></textarea></div>`;
                 } else {
@@ -99,6 +106,9 @@
                         }
                     }
 
+                    /**
+                     * @private
+                     */
                     _setHandlers() {
                         this._$input.on('focus', () => {
                             this._$inputWrap.addClass('focused');
@@ -109,6 +119,10 @@
                         });
                     }
 
+                    /**
+                     * @return {string}
+                     * @private
+                     */
                     _getName() {
                         const name = this._$input.attr('name');
 
@@ -125,6 +139,11 @@
                         }
                     }
 
+                    /**
+                     * @param name
+                     * @return {*}
+                     * @private
+                     */
                     _getForm(name) {
                         let $localScope = $scope;
                         let form = null;

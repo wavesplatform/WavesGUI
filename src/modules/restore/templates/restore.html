@@ -3,15 +3,14 @@
     <span ng-click="$ctrl.showTutorialModals()"
           w-i18n-ns="app.welcome"
           w-i18n="infoTooltip"
-          class="icon-information-tooltip">
+          class="tooltip">
     </span>
     <w-change-language></w-change-language>
 
     <div class="waves-logo"></div>
 
-    <w-step-by-step active-step="0">
+    <w-step-by-step active-step="$ctrl.activeStep">
         <w-step>
-
 
             <div class="headline-1 text-center" w-i18n="seedForm.title"></div>
             <div class="body-2 text-center margin-5">
@@ -21,8 +20,8 @@
 
             <div class="body-2 basic-900" w-i18n="seedForm.seedTitle"></div>
 
-            <form name="$ctrl.seedForm" class="margin-2">
-                <div class="seed-block margin-3">
+            <form name="$ctrl.seedForm">
+                <div class="seed-block margin-2">
                     <w-input textarea
                              w-autofocus
                              class="embed no-icon big"
@@ -37,15 +36,26 @@
                         <div ng-if="!$ctrl.address" class="avatar-fake margin-right-1"></div>
                         <div class="address-block">
                             <div class="body-2 basic-900" w-i18n="seedForm.address"></div>
-                            <div ng-class="{empty: !$ctrl.address}" class="address body-1 basic-500 mobile-caption-2">{{$ctrl.address}}
+                            <div ng-class="{empty: !$ctrl.address}" class="address body-1 basic-500 mobile-caption-2">
+                                {{$ctrl.address}}
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <w-button disabled="!$ctrl.address" class="submit big long" w-step-next>
-                    <w-i18n>seedForm.continue</w-i18n>
-                </w-button>
+                <div class="flex margin-3">
+                    <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
+                    <label
+                        for="save-user-data"
+                        w-i18n="seedForm.saveUserData"
+                        class="footnote-1 basic-500"></label>
+                </div>
+
+                <div class="margin-3">
+                    <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">
+                        <span w-i18n="seedForm.continue"></span>
+                    </w-button>
+                </div>
             </form>
 
         </w-step>
@@ -62,7 +72,7 @@
                         password="$ctrl.password"
                         on-submit="$ctrl.restore()">
                 <span w-i18n-ns="app.restore">
-                    <w-i18n>passwordForm.login</w-i18n>
+                    <span w-i18n="passwordForm.login"></span>
                 </span>
             </w-password>
         </w-step>

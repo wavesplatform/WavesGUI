@@ -1,26 +1,26 @@
-<div w-i18n-ns="app.ui" class="transaction"><!-- todo @tsigel // add .spam if spam -->
-    <div class="icon {{::$ctrl.transaction.type}}"></div><!-- todo @tsigel // add .spam or .mass-span for icon if spam -->
+<div w-i18n-ns="app.ui" class="transaction" ng-class="{'spam': $ctrl.isScam}">
+    <div class="icon {{::$ctrl.transaction.typeName}}"></div>
     <div class="transaction-info">
         <ng-include class="full-width" src="$ctrl.templateUrl"></ng-include>
     </div>
     <w-actions class="actions">
         <w-action ng-click="$ctrl.showTransaction()">
-            <w-i18n>transaction.actions.showTx</w-i18n>
+            <span w-i18n="transaction.actions.showTx"></span>
         </w-action>
         <div w-copy="::$ctrl.transaction.id">
             <w-action>
-                <w-i18n>transaction.actions.copyTxId</w-i18n>
+                <span w-i18n="transaction.actions.copyTxId"></span>
             </w-action>
         </div>
         <div w-copy="::$ctrl.getCopyAllData()">
             <w-action>
-                <w-i18n>transaction.actions.copyTxData</w-i18n>
+                <span w-i18n="transaction.actions.copyTxData"></span>
             </w-action>
         </div>
         <!--TODO : isActive-->
-        <w-action ng-if="$ctrl.type === 'lease-out' && $ctrl.transaction.isActive"
+        <w-action ng-if="$ctrl.typeName === 'lease-out' && $ctrl.transaction.isActive"
                   ng-click="$ctrl.cancelLeasing()">
-            <w-i18n>transaction.actions.cancelLeasing</w-i18n>
+            <span w-i18n="transaction.actions.cancelLeasing"></span>
         </w-action>
     </w-actions>
 </div>

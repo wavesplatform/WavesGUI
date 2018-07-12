@@ -29,7 +29,7 @@
                 <div class="section">
                     <div class="key"
                          w-i18n="confirmGatewayTransaction.fieldFee"></div>
-                    <div class="value">{{::$ctrl.tx.fee}}</div>
+                    <div class="value">{{::$ctrl.tx.fee.toFormat()}} {{::$ctrl.tx.fee.asset.displayName}}</div>
                 </div>
 
                 <div class="section">
@@ -48,10 +48,10 @@
 
             <div class="buttons-wrapper">
                 <w-button class="big" on-click="$ctrl.onClickBack()">
-                    <w-i18n>confirmGatewayTransaction.back</w-i18n>
+                    <span w-i18n="confirmGatewayTransaction.back"></span>
                 </w-button>
                 <w-button class="big submit" w-next-step on-click="$ctrl.confirm()">
-                    <w-i18n>confirmGatewayTransaction.confirm</w-i18n>
+                    <span w-i18n="confirmGatewayTransaction.confirm"></span>
                 </w-button>
             </div>
         </w-step>

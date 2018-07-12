@@ -1,23 +1,37 @@
-<w-table ng-show="$ctrl.hasOrderBook">
-    <w-t-head>
-        <w-row>
-            <w-cell>
-                <w-i18n params="{assetName: $ctrl.amountAsset.displayName}">directives.orderBook.amount</w-i18n>
-            </w-cell>
-            <w-cell>
-                <w-i18n params="{assetName: $ctrl.priceAsset.displayName}">directives.orderBook.price</w-i18n>
-            </w-cell>
-            <w-cell>
-                <w-i18n params="{assetName: $ctrl.priceAsset.displayName}">directives.orderBook.sum</w-i18n>
-            </w-cell>
-        </w-row>
-    </w-t-head>
+<div class="wrapper">
 
-    <w-scroll-box>
-    </w-scroll-box>
-</w-table>
-<div class="empty-block-container" ng-hide="$ctrl.hasOrderBook">
-    <div class="icon"></div>
-    <div class="body-1 basic-700" w-i18n="emptyBlocks.orderBook.title"></div>
-    <div class="footnote-1 basic-500" w-i18n="emptyBlocks.orderBook.description"></div>
+    <w-loader ng-show="$ctrl.pending"></w-loader>
+    <w-empty-block ng-show="$ctrl.nothingFound()"></w-empty-block>
+    <w-error-block ng-show="$ctrl.loadingError"></w-error-block>
+
+    <w-table>
+        <w-thead>
+            <w-row>
+                <w-cell>
+                    <span w-i18n="directives.orderBook.amount"
+                          params="{assetName: $ctrl.amountAsset.displayName}"></span>
+                </w-cell>
+                <w-cell>
+                    <span w-i18n="directives.orderBook.price" params="{assetName: $ctrl.priceAsset.displayName}"></span>
+                </w-cell>
+                <w-cell>
+                    <span w-i18n="directives.orderBook.sum" params="{assetName: $ctrl.priceAsset.displayName}"></span>
+                </w-cell>
+            </w-row>
+        </w-thead>
+        <w-tbody>
+            <w-scroll-box>
+                <div class="asks"></div>
+                <div class="info">
+                    <div w-i18n="directives.orderBook.lastprice"></div>
+                    <div class="last-price body-2"></div>
+                    <div>
+                        <span w-i18n="directives.orderBook.spread"></span>
+                        <span class="spread"></span>
+                    </div>
+                </div>
+                <div class="bids"></div>
+            </w-scroll-box>
+        </w-tbody>
+    </w-table>
 </div>

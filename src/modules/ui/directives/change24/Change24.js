@@ -68,7 +68,7 @@
             _getChange() {
                 if (this.assetFrom && this.assetTo) {
                     if (this.directionByPair) {
-                        return Waves.AssetPair.get(this.assetFrom, this.assetTo).then((pair) => {
+                        return ds.api.pairs.get(this.assetFrom, this.assetTo).then((pair) => {
                             return waves.utils.getChange(pair.amountAsset.id, pair.priceAsset.id);
                         });
                     }

@@ -4,6 +4,23 @@
     'use strict';
 
     const tsUtils = require('ts-utils');
+    const tsApiValidator = require('ts-api-validator');
+
+    class BigNumberPart extends tsApiValidator.BasePart {
+
+        getValue(data) {
+            switch (typeof data) {
+                case 'string':
+                case 'number':
+                    return new BigNumber(data);
+                default:
+                    return null;
+            }
+        }
+
+    }
+
+    const dataEntities = require('@waves/data-entities');
 
     /**
      * @name app.utils
@@ -18,6 +35,13 @@
     const factory = function ($q, Moment, $injector) {
 
         const utils = {
+
+            /**
+             * @name app.utils#apiValidatorParts
+             */
+            apiValidatorParts: {
+                BigNumberPart
+            },
 
             /**
              * @name app.utils#observe
@@ -336,10 +360,10 @@
                 switch (typeof num) {
                     case 'string':
                     case 'number':
-                        return new BigNumber(num, 10).toFormat(precision);
+                        return new BigNumber(num, 10).toFormat(precision && Number(precision));
                     case 'object':
                         if (num != null) {
-                            return num.toFormat(precision);
+                            return num.toFormat(precision && Number(precision));
                         }
                         throw new Error('Wrong format!');
                     default:
@@ -353,9 +377,43 @@
              * @return {BigNumber}
              */
             parseNiceNumber(data) {
-                return new BigNumber((String(data)
+                if (data instanceof BigNumber) {
+                    return data;
+                }
+                const num = new BigNumber((String(data)
                     .replace(',', '')
                     .replace(/\s/g, '') || 0), 10);
+
+                return num.isNaN() ? new BigNumber(0) : num;
+            },
+
+            /**
+             * @name app.utils#openDex
+             * @param {string} asset1
+             * @param {string} [asset2]
+             */
+            openDex(asset1, asset2) {
+                /**
+                 * @type {$state}
+                 */
+                const $state = $injector.get('$state');
+                if (asset1 && asset2) {
+                    if (asset1 === asset2) {
+                        return utils.openDex(asset1);
+                    }
+                    setTimeout(() => {
+                        $state.go('main.dex', { assetId1: asset1, assetId2: asset2 });
+                    }, 50);
+                    return null;
+                }
+                if (asset1 === WavesApp.defaultAssets.WAVES) {
+                    asset2 = WavesApp.defaultAssets.BTC;
+                } else {
+                    asset2 = WavesApp.defaultAssets.WAVES;
+                }
+                setTimeout(() => {
+                    $state.go('main.dex', { assetId1: asset1, assetId2: asset2 });
+                }, 50);
             },
 
             /**
@@ -370,22 +428,7 @@
                 const formatted = this.getNiceNumber(bigNum, precision);
 
                 if (shortMode && bigNum.gte(10000)) {
-                    /**
-                     * @type {app.i18n}
-                     */
-                    const i18n = $injector.get('i18n');
-                    let stringNum;
-                    let postfix;
-
-                    if (bigNum.gte(1000000)) {
-                        stringNum = bigNum.div(1000000).toFormat(1);
-                        postfix = i18n.translate('number.short.million');
-                    } else {
-                        stringNum = bigNum.div(1000).toFormat(1);
-                        postfix = i18n.translate('number.short.thousand');
-                    }
-
-                    return `${stringNum}${postfix}`;
+                    return this.getNiceBigNumberTemplate(bigNum);
                 } else {
                     const separatorDecimal = WavesApp.getLocaleData().separators.decimal;
                     const [int, decimal] = formatted.split(separatorDecimal);
@@ -399,6 +442,29 @@
                         return `<span class="int">${int}</span>`;
                     }
                 }
+            },
+
+            /**
+             * @param bigNum
+             * @returns {string}
+             */
+            getNiceBigNumberTemplate: function (bigNum) {
+                /**
+                 * @type {app.i18n}
+                 */
+                const i18n = $injector.get('i18n');
+                let stringNum;
+                let postfix;
+
+                if (bigNum.gte(1000000)) {
+                    stringNum = bigNum.div(1000000).toFormat(1);
+                    postfix = i18n.translate('number.short.million');
+                } else {
+                    stringNum = bigNum.div(1000).toFormat(1);
+                    postfix = i18n.translate('number.short.thousand');
+                }
+
+                return `${stringNum}${postfix}`;
             },
 
             /**
@@ -513,6 +579,96 @@
             },
 
             /**
+             * @name app.utils#filterOrderBookByCharCropRate
+             * @param {object} data
+             * @param {number} data.chartCropRate
+             * @param {Array<{price: string}>} data.asks
+             * @param {Array<{price: string}>} data.bids
+             * @return {{bids: Array, asks: Array}}
+             */
+            filterOrderBookByCharCropRate(data) {
+                const { min, max } = this.getOrderBookRangeByCropRate(data);
+
+                if (!min || !max) {
+                    return {
+                        bids: [],
+                        asks: []
+                    };
+                }
+
+                return {
+                    asks: data.asks.filter((ask) => new BigNumber(ask.price).lte(max)),
+                    bids: data.bids.filter((bid) => new BigNumber(bid.price).gte(min))
+                };
+            },
+
+            /**
+             * @name app.utils#cache
+             * @param {Object} storage
+             * @param {function} fetch
+             * @param {function} toId
+             * @param {number} time
+             * @param {function} fromList
+             */
+            cache: (storage, fetch, toId, time, fromList) => (data) => {
+                const list = utils.toArray(data);
+                const toRequest = [];
+                const promiseList = [];
+
+                list.forEach((item) => {
+                    const id = toId(item);
+                    if (storage[id]) {
+                        promiseList.push(storage[id].then(fromList(item)));
+                    } else {
+                        toRequest.push(item);
+                    }
+                });
+
+                let promise;
+                if (toRequest.length) {
+                    promise = fetch(toRequest);
+                    toRequest.forEach((item) => {
+                        const id = toId(item);
+                        storage[id] = promise;
+                        setTimeout(() => {
+                            delete storage[id];
+                        }, time);
+                    });
+                } else {
+                    return Promise.all(promiseList);
+                }
+
+                return Promise.all([promise, ...promiseList])
+                    .then((...list) => list.reduce((acc, i) => acc.concat(...i), []));
+            },
+
+            /**
+             * @name app.utils#filterOrderBookByCharCropRate
+             * @param {object} data
+             * @param {number} data.chartCropRate
+             * @param {Array<{price: string}>} data.asks
+             * @param {Array<{price: string}>} data.bids
+             * @return {{min: BigNumber, max: BigNumber}}
+             */
+            getOrderBookRangeByCropRate(data) {
+                if (!data.asks || !data.asks.length || !data.bids || !data.bids.length) {
+                    return {
+                        min: null,
+                        max: null
+                    };
+                }
+
+                const spreadPrice = new BigNumber(data.asks[0].price)
+                    .plus(data.bids[0].price)
+                    .div(2);
+                const delta = spreadPrice.times(data.chartCropRate).div(2);
+                const max = spreadPrice.plus(delta);
+                const min = BigNumber.max(0, spreadPrice.minus(delta));
+
+                return { min, max };
+            },
+
+            /**
              * @name app.utils#chainCall
              * @param {function[]} functionList
              * @return {Promise<void>}
@@ -544,6 +700,20 @@
              */
             comparators: {
                 asc: function (a, b) {
+                    if (a == null) {
+                        if (b == null) {
+                            return 0;
+                        } else {
+                            return -1;
+                        }
+                    } else if (b == null) {
+                        if (a == null) {
+                            return 0;
+                        } else {
+                            return 1;
+                        }
+                    }
+
                     if (a > b) {
                         return 1;
                     }
@@ -555,6 +725,20 @@
                     return -1;
                 },
                 desc: function (a, b) {
+                    if (a == null) {
+                        if (b == null) {
+                            return 0;
+                        } else {
+                            return 1;
+                        }
+                    } else if (b == null) {
+                        if (a == null) {
+                            return 0;
+                        } else {
+                            return -1;
+                        }
+                    }
+
                     if (a > b) {
                         return -1;
                     }
@@ -599,7 +783,7 @@
                 },
                 smart: {
                     asc: function (a, b) {
-                        if (a instanceof Waves.Money && b instanceof Waves.Money) {
+                        if (a instanceof ds.wavesDataEntities.Money && b instanceof ds.wavesDataEntities.Money) {
                             return utils.comparators.money.asc(a, b);
                         } else if (a instanceof BigNumber && b instanceof BigNumber) {
                             return utils.comparators.bigNumber.asc(a, b);
@@ -608,7 +792,7 @@
                         return utils.comparators.asc(a, b);
                     },
                     desc: function (a, b) {
-                        if (a instanceof Waves.Money && b instanceof Waves.Money) {
+                        if (a instanceof ds.wavesDataEntities.Money && b instanceof ds.wavesDataEntities.Money) {
                             return utils.comparators.money.desc(a, b);
                         } else if (a instanceof BigNumber && b instanceof BigNumber) {
                             return utils.comparators.bigNumber.desc(a, b);
@@ -723,7 +907,7 @@
 
         function isNotEqualValue(oldValue, newValue) {
             if (typeof oldValue === typeof newValue) {
-                if (oldValue instanceof Waves.Money && newValue instanceof Waves.Money) {
+                if (oldValue instanceof dataEntities.Money && newValue instanceof dataEntities.Money) {
                     return oldValue.asset.id !== newValue.asset.id || oldValue.toTokens() !== newValue.toTokens();
                 } else if (oldValue instanceof BigNumber && newValue instanceof BigNumber) {
                     return !oldValue.eq(newValue);

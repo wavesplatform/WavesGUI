@@ -1,22 +1,20 @@
 <div class="block-wrapper">
-    <div class="block-title" ng-class="{'change-base-asset': $ctrl.changeBaseAssetMode}">
-        <w-input ng-if="$ctrl.hasSearch" ng-model="$ctrl.search"
-                 ng-blur="$ctrl.changeBaseAssetMode = false;"
-                 placeholder="directives.watchlist.placeholders.base"
-                 w-i18n-attr="placeholder"
-                 class="embed change-base-asset-input" type="text"></w-input>
-        <div ng-class="{interactive: $ctrl.hasSearch}"
-             class="headline-4 disabled-900 dex-block-title"
+    <div class="block-title">
+        <div ng-if="$ctrl.hasSearch" class="has-search">
+            <w-input placeholder="directives.watchlist.placeholders.coin"
+                     ng-model="$ctrl.search"
+                     ng-focus="$ctrl.focused = true"
+                     ng-blur="$ctrl.focused = false"
+                     w-i18n-attr="placeholder"></w-input>
+        </div>
+        <div class="basic-700 footnote-2 dex-block-title"
              ng-click="$ctrl.onClickTitle()">
             {{$ctrl.title}}
         </div>
-        <div ng-if="$ctrl.hasSearch">
-            <w-input ng-focus="$ctrl.focused = true"
-                     placeholder="directives.watchlist.placeholders.coin"
-                     w-i18n-attr="placeholder"
-                     ng-blur="$ctrl.focused = false" ng-model="$ctrl.search"></w-input>
-        </div>
-        <div ng-if="$ctrl.canCollapse" ng-click="$ctrl.toggleCollapse()" class="collapse-dex-block"></div>
+        <div ng-if="$ctrl.canCollapse"
+             ng-click="$ctrl.toggleCollapse()"
+             class="dex-block-top-btn"><i class="collapse"></i></div>
+        <div ng-click="$ctrl.scrollToSpread()" class="dex-block-top-btn"><i class="tospread"></i></div>
     </div>
-    <div class="dex-block-content" ng-transclude></div>
+    <div ng-if="!$ctrl.collapsed" class="dex-block-content" ng-transclude></div>
 </div>
