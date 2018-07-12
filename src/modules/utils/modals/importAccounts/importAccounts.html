@@ -2,7 +2,7 @@
 
 <div ng-if="!$ctrl.pending">
 
-    <div ng-if="$ctrl.users.length">
+    <div ng-if="$ctrl.userList.length">
         <div class="icon"></div>
         <div w-i18n="select"></div>
 
@@ -11,26 +11,30 @@
                 ng-class="{'has-name': !!user.name}">
                 <span ng-if="::user.name">{{::user.name}}</span>
                 <span>{{::user.address}}</span>
-                <w-checkbox-submit></w-checkbox-submit>
+                <w-checkbox-submit ng-model="$ctrl.checkedHash[user.address]"></w-checkbox-submit>
             </li>
         </ul>
 
         <w-button w-modal-close>
             cancel
         </w-button>
-        <w-button>
+        <w-button on-click="$ctrl.importAccounts()">
             import
         </w-button>
     </div>
 
-    <div ng-if="!$ctrl.users.length">
+    <div ng-if="!$ctrl.userList.length">
 
-        <div class="icon"></div>
-        <div w-i18n="not-found"></div>
-        <div w-i18n="not-found-description"></div>
+        <div w-i18n="warning"></div>
 
-        <w-button w-modal-close class="big submit">
-            <span w-i18n="\:-("></span>
+        <div ng-if="$ctrl.wasImportBeta && $ctrl.wasImportOld" w-i18n="error"></div>
+
+        <w-button ng-if="!$ctrl.wasImportBeta" on-click="$ctrl.importFromBeta()">
+            <span w-i18n="import from beta"></span>
+        </w-button>
+
+        <w-button ng-if="!$ctrl.wasImportOld" on-click="$ctrl.importFromOld()">
+            <span w-i18n="import from old"></span>
         </w-button>
     </div>
 

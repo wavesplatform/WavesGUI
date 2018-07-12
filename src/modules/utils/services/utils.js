@@ -421,7 +421,8 @@
                     const bus = new Bus(adapter);
 
                     bus.once('export-ready', () => {
-                        bus.request('getLocalStorageData').then(resolve);
+                        bus.request('getLocalStorageData')
+                            .then(utils.onExportUsers(origin, resolve));
                     });
 
                     setTimeout(() => {
@@ -449,7 +450,7 @@
                     return Promise.reject(error);
                 };
 
-                iframe.src = `${origin}/export`;
+                iframe.src = `${origin}/export.html`;
 
                 const result = utils.loadOrTimeout(iframe, timeout)
                     .then(() => utils.importUsersByWindow(iframe.contentWindow, origin, timeout))
@@ -486,7 +487,7 @@
                 };
 
                 const win = window.open(
-                    `${origin}/export`,
+                    `${origin}/export.html`,
                     'export',
                     `${width},${height},${left},${top},${right},no,no,no,no,no,no`
                 );
@@ -499,6 +500,26 @@
                 return utils.importUsersByWindow(win, origin, timeout)
                     .then(close)
                     .catch(onError);
+            },
+
+            /**
+             * @name app.utils#onExportUsers
+             * @param origin
+             * @param resolve
+             * @returns {Function}
+             */
+            onExportUsers(origin, resolve) {
+                return (response) => {
+                    if (!response) {
+                        return [];
+                    }
+
+                    if (origin === WavesApp.betaOrigin) {
+                        resolve(response);
+                    } else {
+                        resolve(response.accounts && response.accounts.map(utils.remapOldClientAccounts) || []);
+                    }
+                };
             },
 
             /**

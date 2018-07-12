@@ -11,8 +11,6 @@
      */
     const controller = function (Base, $scope, user, utils, modalManager) {
 
-        const tsUtils = require('ts-utils');
-
         class RestoreCtrl extends Base {
 
             constructor() {
