@@ -32,7 +32,8 @@
         </w-select>
     </div>
 
-    <w-smart-table class="smart-table smart-table__mode-large" data="$ctrl.balanceList" header-info="$ctrl.tableHeaders">
+    <w-smart-table class="smart-table smart-table__mode-large" data="$ctrl.balanceList"
+                   header-info="$ctrl.tableHeaders">
         <w-loader ng-if="$ctrl.pending"></w-loader>
         <w-table-row
                 w-toggle-class-container
@@ -112,7 +113,8 @@
                           </svg>
                         <div><span w-i18n="receive"></span></div>
                     </span>
-                    <span ng-if="::$ctrl.canShowDex(balance)" class="icon icon-dex" ng-click="$ctrl.openDex(balance.asset)">
+                    <span ng-if="::$ctrl.canShowDex(balance)" class="icon icon-dex"
+                          ng-click="$ctrl.openDex(balance.asset)">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                             <path d="M2 6.48v5.68h2.48V6.48H2zm.75-1V2a.5.5 0 0 1 1 0v3.48h.73a1 1 0 0 1 1 1v5.68a1 1 0 0 1-1 1h-.73V16a.5.5 0 1 1-1 0v-2.84H2a1 1 0 0 1-1-1V6.48a1 1 0 0 1 1-1h.75zM7.76 4.56v3.12h2.48V4.56H7.76zm.74-1V1.5a.5.5 0 0 1 1 0v2.06h.74a1 1 0 0 1 1 1v3.12a1 1 0 0 1-1 1H9.5v1.82a.5.5 0 0 1-1 0V8.68h-.74a1 1 0 0 1-1-1V4.56a1 1 0 0 1 1-1h.74zM13.52 4.56v6.32H16V4.56h-2.48zm.73-1V1.5a.5.5 0 1 1 1 0v2.06H16a1 1 0 0 1 1 1v6.32a1 1 0 0 1-1 1h-.75v3.62a.5.5 0 1 1-1 0v-3.62h-.73a1 1 0 0 1-1-1V4.56a1 1 0 0 1 1-1h.73z"/>
                         </svg>
@@ -143,7 +145,7 @@
                         <w-action ng-click="$ctrl.showReceivePopup(balance.asset)">
                             <span w-i18n="receive"></span>
                         </w-action>
-                        <w-action ng-if="::balance.asset.isMyAsset"
+                        <w-action ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES"
                                   ng-click="$ctrl.showBurn(balance.asset.id)">
                             <span w-i18n="burn"></span>
                         </w-action>
@@ -154,8 +156,9 @@
                         <w-action ng-if="::$ctrl.canShowDex(balance)" ng-click="$ctrl.openDex(balance.asset)">
                             <span w-i18n="dex"></span>
                         </w-action>
-                        <w-action ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES && !balance.isPinned && !balance.isOnScamList"
-                                  ng-click="$ctrl.toggleSpam(balance.asset)">
+                        <w-action
+                                ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES && !balance.isPinned && !balance.isOnScamList"
+                                ng-click="$ctrl.toggleSpam(balance.asset)">
                             <span w-i18n="tospam" w-i18n-ns="app.wallet.portfolio" ng-if="!balance.isSpam"></span>
                             <span w-i18n="unspam" w-i18n-ns="app.wallet.portfolio" ng-if="balance.isSpam"></span>
                         </w-action>

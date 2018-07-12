@@ -1,0 +1,59 @@
+@import (reference) 'config';
+@import (reference) '../../../app/less/typography';
+
+.confirm-delete-user {
+  text-align: center;
+
+  .btn.icon-close {
+    width: 36px;
+    height: 36px;
+    background-size: 16px;
+    background-position: center;
+    background-repeat: no-repeat;
+    right: 10px;
+    position: absolute;
+    top: 10px;
+    padding: 10px;
+  }
+
+ .icon-remove {
+   display: block;
+   width: 80px;
+   height: 80px;
+   margin-left: auto;
+   margin-right: auto;
+   background: url(/img/icons/icon-removeacc.svg) center no-repeat;
+ }
+
+  .icon-warning {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    margin-top: -2px;
+    background: url(/img/icons/icon-orange-alert.svg) no-repeat;
+  }
+
+  h3 {
+    font-family: @font-roboto-regular;
+  }
+
+  .buttons-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    & > w-button {
+      display: block;
+      width: 48%;
+    }
+  }
+
+}
+
+@media screen and (max-width: 540px) {
+  .icon-remove {
+    margin-top: 30px;
+  }
+}
