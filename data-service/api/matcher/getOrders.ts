@@ -35,7 +35,7 @@ export const matcherOrderRemap = remapOrder(factory);
 
 export function addSignature(signature: string, publicKey: string, timestamp: number): void {
     addTimer({
-        timestamp: normalizeTime(timestamp),
+        timestamp: timestamp,
         signature,
         publicKey
     });
