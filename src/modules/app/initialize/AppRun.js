@@ -26,6 +26,7 @@
             this._current += delta;
             this._current = Math.min(this._current, 100);
             this._element.style.width = `${this._current}%`;
+            WavesApp.progress = this._current;
         },
         stop() {
             const loader = $(this._root);
@@ -36,7 +37,7 @@
     };
 
     LOADER.addProgress(PROGRESS_MAP.RUN_SCRIPT);
-
+    WavesApp.state = 'initApp';
     /**
      * @param {$rootScope.Scope} $rootScope
      * @param {User} user
@@ -355,10 +356,13 @@
                     this._getLocalizeReadyPromise(),
                     this._getImagesReadyPromise()
                 ])
-                    .then(() => LOADER.stop())
+                    .then(() => {
+                        LOADER.stop();
+                        WavesApp.state = 'appRun';
+                    })
                     .catch((e) => {
                         console.error(e);
-                        // TODO add error load application page
+                        WavesApp.state = 'loadingError';
                     });
             }
 
