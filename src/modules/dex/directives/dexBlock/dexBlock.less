@@ -37,10 +37,13 @@ w-dex-block {
         width: 20px;
         height: 20px;
         cursor: pointer;
-        transition: transform 0.3s ease-in-out;
+        transition: transform 0.3s ease-in-out, all 0.3s;
         border-radius: @border-radius / 2;
         .icon-dex-arrow();
         background-color: @color-basic-50;
+      }
+      i.collapse:hover {
+        background-color: @color-basic-100;
       }
 
       i.tospread {
@@ -48,10 +51,13 @@ w-dex-block {
         width: 20px;
         height: 20px;
         cursor: pointer;
-        transition: transform 0.3s ease-in-out;
+        transition: transform 0.3s ease-in-out, all 0.3s;
         border-radius: @border-radius / 2;
         .icon-dex-tospread();
         background-color: @color-basic-50;
+      }
+      i.tospread:hover {
+        background-color: @color-basic-100;
       }
     }
 
