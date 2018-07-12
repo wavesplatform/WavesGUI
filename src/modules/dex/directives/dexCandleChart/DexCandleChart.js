@@ -86,7 +86,7 @@
                  * @type {boolean}
                  * @private
                  */
-                this._changeTheme = false;
+                this._changeTheme = true;
                 /**
                  * @type {{price: string, amount: string}}
                  */
