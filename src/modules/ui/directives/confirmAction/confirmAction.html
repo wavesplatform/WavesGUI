@@ -1,15 +1,17 @@
 <div class="relative">
     <span w-i18n="{{$ctrl.literalText}}" ng-click="$ctrl.onClickAction()"></span>
-    <div ng-if="$ctrl.clicked" class="confirm-tooltip">
-        <div class="title basic-900 margin-1" w-i18n="{{$ctrl.literalHeader}}"></div>
-        <div class="descr basic-500 margin-1" w-i18n="{{$ctrl.literalDescription}}"></div>
-        <div class="buttons-wrapper">
-            <w-button class="submit tiny" on-click="$ctrl.removeClicked()">
-                <span w-i18n="{{$ctrl.literalBack}}"></span>
-            </w-button>
-            <w-button class="warning tiny" on-click="$ctrl.action()">
-                <span w-i18n="{{$ctrl.literalConfirm}}"></span>
-            </w-button>
+    <w-click-outside ng-if="$ctrl.clicked" on-click-outside="$ctrl.removeClicked();">
+        <div class="confirm-tooltip">
+            <div class="title basic-900 margin-1" w-i18n="{{$ctrl.literalHeader}}"></div>
+            <div class="descr basic-500 margin-1" w-i18n="{{$ctrl.literalDescription}}"></div>
+            <div class="buttons-wrapper">
+                <w-button class="submit tiny" on-click="$ctrl.removeClicked()">
+                    <span w-i18n="{{$ctrl.literalBack}}"></span>
+                </w-button>
+                <w-button class="warning tiny" on-click="$ctrl.runAction()">
+                    <span w-i18n="{{$ctrl.literalConfirm}}"></span>
+                </w-button>
+            </div>
         </div>
-    </div>
+    </w-click-outside>
 </div>

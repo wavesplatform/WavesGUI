@@ -70,7 +70,7 @@
                         id: 'pair',
                         valuePath: 'item.pair',
                         search: true,
-                        placeholder: 'directives.myOrders.filter'
+                        placeholder: 'directives.filter'
                     },
                     {
                         id: 'type',
@@ -122,7 +122,8 @@
                         scopeData: {
                             cancelAllOrdersClick: () => {
                                 this.cancelAllOrders();
-                            }
+                            },
+                            $ctrl: this
                         }
                     }
                 ];
@@ -232,7 +233,7 @@
 
                         return ds.api.transactions.getExchangeTxList({
                             sender: user.address,
-                            timeStart: last.timestamp.getTime()
+                            timeStart: ds.utils.normalizeTime(last.timestamp.getTime())
                         }).then((txList) => {
                             const transactionsByOrderHash = DexMyOrders._getTransactionsByOrderIdHash(txList);
                             this.loadingError = false;

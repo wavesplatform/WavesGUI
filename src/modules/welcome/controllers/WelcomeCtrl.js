@@ -88,6 +88,21 @@
              * @param {string} address
              */
             removeUser(address) {
+                const user = this.userList.find((user) => user.address === address);
+                if (user.settings.hasBackup) {
+                    this._deleteUser(address);
+                    return null;
+                }
+
+                modalManager.showConfirmDeleteUser().then(() => {
+                    this._deleteUser(address);
+                });
+            }
+
+            /**
+             * @private
+             */
+            _deleteUser(address) {
                 user.removeUserByAddress(address);
                 this.userList = this.userList.filter((user) => user.address !== address);
                 this._updateActiveUserAddress();

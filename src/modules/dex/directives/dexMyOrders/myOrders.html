@@ -5,23 +5,14 @@
                data="$ctrl.orders"
                header-info="$ctrl.headers">
 
-    <div ng-if="!$ctrl.orders.length && !$ctrl.isDemo && !$ctrl.loadingError" class="empty-block-container">
-        <div class="icon"></div>
-        <div class="body-1 basic-700" w-i18n="emptyBlocks.myOrders.title"></div>
-        <div class="footnote-1 basic-500" w-i18n="emptyBlocks.myOrders.description"></div>
-    </div>
+    <w-empty-block ng-if="!$ctrl.orders.length && !$ctrl.isDemo && !$ctrl.loadingError"></w-empty-block>
+    <w-error-block ng-if="$ctrl.loadingError"></w-error-block>
 
     <div class="sign-in-message" ng-if="$ctrl.isDemo">
         <a ui-sref="welcome" class="link" w-i18n="directives.demo.signIn"></a>
         <span w-i18n="directives.demo.or"></span>
         <a ui-sref="create" class="link" w-i18n="directives.demo.createAccount"></a>
         <span w-i18n="directives.demo.to.openorders"></span>
-    </div>
-
-    <div class="empty-block-container error" ng-if="$ctrl.loadingError">
-        <div class="icon"></div>
-        <div class="body-1 basic-700" w-i18n="emptyBlocks.error.title"></div>
-        <div class="footnote-1 basic-500" w-i18n="emptyBlocks.error.text"></div>
     </div>
 
     <div class="order-row" ng-if="!$ctrl.loadingError" ng-repeat="order in $data track by order.id">

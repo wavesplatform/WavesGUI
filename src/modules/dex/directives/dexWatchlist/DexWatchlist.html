@@ -72,11 +72,11 @@
             <w-table-cell ng-if="$ctrl.isChosen(pair)" class="chosen">
                 <div>
                     <a href="#"
-                       ng-click="$ctrl.showAssetInfo(pair.amountAsset)"
+                       ng-click="$ctrl.showAssetInfo($event, pair.amountAsset)"
                        class="disabled-900">{{::pair.amountAsset.id}}</a> <span>/</span>
                 </div>
                 <a href="#"
-                   ng-click="$ctrl.showAssetInfo(pair.priceAsset)"
+                   ng-click="$ctrl.showAssetInfo($event, pair.priceAsset)"
                    class="disabled-900">{{::pair.priceAsset.id}}</a>
             </w-table-cell>
         </w-table-row>

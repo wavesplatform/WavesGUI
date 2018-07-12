@@ -233,7 +233,7 @@ task('concat-develop-vendors', function () {
 });
 
 task('clean', function () {
-    execSync('sh scripts/clean.sh');
+    execSync(`sh ${join('scripts', 'clean.sh')}`);
 });
 
 task('eslint', function (done) {
@@ -335,7 +335,7 @@ task('electron-debug', ['electron-task-list'], function (done) {
 });
 
 task('data-service', function () {
-    execSync('node_modules/.bin/tsc -p ./data-service && ./node_modules/.bin/browserify data-service/index.js -s ds -u ts-utils -o ./data-service-dist/data-service.js');
+    execSync(`${join('node_modules', '.bin', 'tsc')} -p data-service && ${join('node_modules', '.bin', 'browserify')} ${join('data-service', 'index.js')} -s ds -u ts-utils -o ${join('data-service-dist', 'data-service.js')}`);
 });
 
 task('all', [

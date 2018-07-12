@@ -87,10 +87,10 @@
 
                 schema.parse(search)
                     .then((data) => {
-                        return user.getSeed().then((seed) => ({ seed, data }));
+                        return ds.signature.getSignatureApi().getSeed().then((seed) => ({ seed, data }));
                     })
                     .then((params) => {
-                        const seed = params.seed;
+                        const seed = new ds.Seed(params.seed);
                         const search = params.data;
                         const { referrer, name, data, iconPath, successPath } = search;
 
@@ -102,8 +102,8 @@
                         const prefix = 'WavesWalletAuthentication';
                         const host = GatewaySignCtrl._getDomain(referrer);
 
-                        return ds.sign.getSignatureApi().sign({ data: { prefix, host, data }, type: 1000 })
-                            .then(({ signature }) => {
+                        return ds.signature.getSignatureApi().sign({ data: { prefix, host, data }, type: 1000 })
+                            .then((signature) => {
                                 const publicKey = seed.keyPair.publicKey;
                                 const search = `?s=${signature}&p=${publicKey}&a=${user.address}&d=${data}`;
                                 const path = successPath || '';

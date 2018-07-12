@@ -271,7 +271,7 @@
             }
 
             setCardObserver() {
-                this.observe(['chosenCurrencyIndex', 'cardPayment'], () => {
+                this.observe(['chosenCurrencyIndex', 'cardPayment', 'asset'], () => {
                     if (!Number(this.tokenizeCardPayment())) {
                         this.approximateAmount = new ds.wavesDataEntities.Money(0, this.asset);
                         return;
@@ -323,6 +323,7 @@
                         this.listOfEligibleCountries = details.listOfEligibleCountries;
                         this.idNowSiteUrl = details.idNowSiteUrl;
                         this.idNowUserLink = details.idNowUserLink;
+                        $scope.$apply();
                     });
                 }
 

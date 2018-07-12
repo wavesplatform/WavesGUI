@@ -17,7 +17,8 @@
         const PAIR_COLUMN_DATA = {
             id: 'pair',
             valuePath: 'item.pair',
-            search: true
+            search: true,
+            placeholder: 'directives.filter'
         };
 
         const FEE_COLUMN_DATA = {
