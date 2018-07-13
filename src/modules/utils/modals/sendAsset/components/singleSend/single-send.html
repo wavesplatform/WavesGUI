@@ -146,7 +146,7 @@
         <w-input-error name="amount" message="gt">
             <span ng-if="$ctrl.tx.amount.getTokens().eq(0)" w-i18n="inputs.errors.required"></span>
             <span ng-if="$ctrl.tx.amount.getTokens().gt(0)" w-i18n="inputs.errors.gtGatewayMin"
-                  params="{min: $ctrl.gatewayDetails.minimumAmount, assetName: '$ctrl.tx.amount.asset.name'}">
+                  params="{min: $ctrl.gatewayDetails.minimumAmount, assetName: $ctrl.tx.amount.asset.name}">
             </span>
         </w-input-error>
         <w-input-error name="amount" message="precision">
