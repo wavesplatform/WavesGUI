@@ -302,6 +302,11 @@
                     .then((list) => storage.save('userList', list));
             }
 
+            getThemeSettings() {
+                const currentTheme = this.getSetting('theme');
+                return themes.getSettings(currentTheme);
+            }
+
             changeTheme(theme) {
                 const currentTheme = this.getSetting('theme');
                 const newTheme = themes.changeTheme(theme || this.getSetting('theme'));
@@ -312,8 +317,9 @@
             }
 
             changeCandle(name) {
+                const currentTheme = this.getSetting('theme');
                 const current = this.getSetting('candle');
-                themes.setCandleColorsByName(name);
+                themes.setCandleColorsByName(currentTheme, name);
                 if (name !== current) {
                     this.setSetting('candle', name);
                 }

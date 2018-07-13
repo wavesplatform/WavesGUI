@@ -51,8 +51,12 @@
                 return this.themes;
             }
 
+            getSettings(theme) {
+                return WavesApp.themesConf[theme || this.currentTheme || DEFAULT_THEME] || {};
+            }
+
             getTradingViewConfig(theme) {
-                return WavesApp.themesConf.tradingView[theme || this.currentTheme || DEFAULT_THEME] || {};
+                return this.getSettings(theme).tradingView || {};
             }
 
             switchNext() {
@@ -62,8 +66,8 @@
                 return this.currentTheme;
             }
 
-            getCandlesColors() {
-                return WavesApp.themesConf.tradingView.candles;
+            getCandlesColors(currentTheme) {
+                return this.getTradingViewConfig(currentTheme).candles;
             }
 
             getCurrentCandleSColor(name) {
@@ -95,8 +99,8 @@
                 });
             }
 
-            setCandleColorsByName(name) {
-                const colors = this.getCandlesColors();
+            setCandleColorsByName(currentTheme, name) {
+                const colors = this.getCandlesColors(currentTheme);
                 const cfg = colors[name] || colors[DEFAULT_CANDLE];
                 if (cfg) {
                     this.setCandleColors(cfg.upColor, cfg.downColor);
