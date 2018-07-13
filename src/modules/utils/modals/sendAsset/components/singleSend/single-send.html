@@ -115,8 +115,10 @@
         </w-input-error>
         <w-input-error name="amount" message="gt">
             <w-i18n ng-if="$ctrl.tx.amount.getTokens().eq(0)">inputs.errors.required</w-i18n>
-            <!--TODO-->
-            <w-i18n ng-if="$ctrl.tx.amount.getTokens().gt(0)">has no money to send</w-i18n>
+            <w-i18n ng-if="$ctrl.tx.amount.getTokens().gt(0)"
+                    params="{min: $ctrl.gatewayDetails.minimumAmount, assetName: '$ctrl.tx.amount.asset.name'}">
+                inputs.errors.gtGatewayMin
+            </w-i18n>
         </w-input-error>
         <w-input-error name="amount" message="precision">
             <w-i18n params="{precision: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.precision}">
