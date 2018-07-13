@@ -16,6 +16,8 @@
             constructor() {
                 super();
 
+                const { wAssetRateChart } = user.getThemeSettings();
+
                 this.options = {
                     grid: {
                         x: false,
@@ -32,7 +34,7 @@
                             dataset: 'values',
                             key: 'rate',
                             label: 'Rate',
-                            color: 'rgba(255,255,255,0.80)', // #5a81ea grafik-mini //'rgba(90,129,234,0.60)'
+                            color: wAssetRateChart.seriesColor || 'rgba(90,129,234,0.60)', // #5a81ea grafik-mini
                             type: ['line', 'area']
                         }
                     ],
