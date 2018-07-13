@@ -67,6 +67,10 @@
     .smart-table__row {
       min-width: 768px;
 
+      w-visible {
+        min-height: 64px;
+      }
+
       i.toggler {
         display: none;
       }
@@ -379,6 +383,14 @@
       }
 
       .smart-table__row {
+        padding: 20px 0 0;
+
+        w-visible {
+          flex-wrap: wrap;
+          height: 100% !important;
+
+        }
+
         i.toggler {
           width: 50px;
           height: 20px;
@@ -412,7 +424,7 @@
             }
 
             &:last-child {
-              padding-top: 20px;
+              padding-bottom: 40px;
 
               .cell {
                 height: 30px;
@@ -428,7 +440,6 @@
       }
 
       .smart-table__cell {
-        padding-top: 20px;
 
         .cell {
           height: 30px;
@@ -441,7 +452,7 @@
         }
 
         &:last-child {
-          padding: 0;
+          padding: 0 0 40px 20px;
 
           .cell {
             height: 20px;
