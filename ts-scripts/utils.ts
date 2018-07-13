@@ -147,6 +147,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
     ])
         .then(([file, pack, meta, themesConf]) => {
             const { themes } = themesConf;
+            +
             const connectionTypes = ['mainnet', 'testnet'];
 
             if (!param.scripts) {
@@ -408,8 +409,9 @@ export function isSourceScript(url: string): boolean {
 
 export function isLess(url: string): boolean {
     url = url.split('?')[0];
+    url.replace(/\\/g, '/');
     return  url.lastIndexOf('.less')=== url.length - 5 && (
-        url.includes('/modules/') || url.includes('/themeConfig/')
+        url.includes('modules/') || url.includes('/themeConfig/')
     );
 }
 
