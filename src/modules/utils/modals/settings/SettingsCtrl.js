@@ -7,9 +7,11 @@
      * @param {Waves} waves
      * @param {User} user
      * @param {IPollCreate} createPoll
+     * @param {*} $templateRequest
+     * @param {app.utils} utils
      * @return {SettingsCtrl}
      */
-    const controller = function (Base, $scope, waves, user, createPoll, $templateRequest) {
+    const controller = function (Base, $scope, waves, user, createPoll, $templateRequest, utils) {
 
         class SettingsCtrl extends Base {
 
@@ -53,16 +55,17 @@
                 this.observe('theme', () => {
                     this.templatePromise.then(
                         (template) => {
+                            template = template.replace('{{bgColor}}', user.getThemeSettings().bgColor);
                             this.showLoader(template);
-                            user.changeTheme(this.theme);
+                            utils.wait(1000).then(() => user.changeTheme(this.theme));
                         },
                         () => user.changeTheme(this.theme)
                     );
                 });
 
-                this.observe('candle', () => {
-                    user.changeCandle(this.candle);
-                });
+                // this.observe('candle', () => {
+                //     user.changeCandle(this.candle);
+                // });
 
                 this.observe('matcher', () => {
                     ds.config.set('matcher', this.matcher);
@@ -143,7 +146,7 @@
         return new SettingsCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'waves', 'user', 'createPoll', '$templateRequest'];
+    controller.$inject = ['Base', '$scope', 'waves', 'user', 'createPoll', '$templateRequest', 'utils'];
 
     angular.module('app.utils').controller('SettingsCtrl', controller);
 

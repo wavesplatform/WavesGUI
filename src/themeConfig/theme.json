@@ -37,7 +37,8 @@
 
     "wAssetRateChart": {
       "seriesColor": "#5a81ea"
-    }
+    },
+    "bgColor": "#2d2d2d"
   },
   "black": {
     "tradingView": {
@@ -76,6 +77,7 @@
 
     "wAssetRateChart": {
       "seriesColor": "rgba(255,255,255,0.80)"
-    }
+    },
+    "bgColor": "#fff"
   }
 }
