@@ -34,7 +34,7 @@
                             dataset: 'values',
                             key: 'rate',
                             label: 'Rate',
-                            color: wAssetRateChart.seriesColor || 'rgba(90,129,234,0.60)', // #5a81ea grafik-mini
+                            color: wAssetRateChart.seriesColor || '#5a81ea',
                             type: ['line', 'area']
                         }
                     ],

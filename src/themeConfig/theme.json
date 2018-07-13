@@ -36,7 +36,7 @@
     },
 
     "wAssetRateChart": {
-      "seriesColor": "rgba(90,129,234,0.60)"
+      "seriesColor": "#5a81ea"
     }
   },
   "black": {
