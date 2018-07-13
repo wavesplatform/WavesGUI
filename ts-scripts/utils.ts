@@ -407,10 +407,9 @@ export function isSourceScript(url: string): boolean {
 }
 
 export function isLess(url: string): boolean {
-    url = url.split('?')[0];
-    url.replace(/\\/g, '/');
+    url = url.split('?')[0].replace(/\\/g, '/');
     return  url.lastIndexOf('.less')=== url.length - 5 && (
-        url.includes('/modules/') || url.includes('/themeConfig/')
+        url.includes('modules/') || url.includes('/themeConfig/')
     );
 }
 
