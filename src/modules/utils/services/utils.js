@@ -58,20 +58,24 @@
 
             /**
              * @name app.utils#debounce
-             * @param {function} handler
+             * @param {function} callback
              * @param {number} [timeout]
              * @return {Function}
              */
-            debounce(handler, timeout) {
-                let timer = null;
+            debounce(callback, timeout) {
+                const control = {
+                    queued: false,
+                    args: null
+                };
                 return function (...args) {
-                    if (timer) {
-                        clearTimeout(timer);
+                    control.args = args;
+                    if (!control.queued) {
+                        setTimeout(() => {
+                            control.queued = false;
+                            callback.call(this, ...control.args);
+                        }, timeout);
                     }
-                    timer = setTimeout(() => {
-                        timer = null;
-                        handler.call(this, ...args);
-                    }, timeout);
+                    control.queued = true;
                 };
             },
 

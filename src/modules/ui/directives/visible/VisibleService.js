@@ -12,6 +12,11 @@
             constructor() {
                 this.children = Object.create(null);
                 this._handler = utils.debounceRequestAnimationFrame(() => this._onScroll());
+                this._initHandler = utils.debounce(() => this._onScroll(), 50);
+            }
+
+            checkVisibleContent() {
+                this._handler();
             }
 
             /**
@@ -29,6 +34,7 @@
                 });
 
                 this._addHandlers();
+                this._initHandler();
             }
 
             /**
@@ -43,6 +49,7 @@
              */
             _addHandlers() {
                 document.addEventListener('scroll', this._handler, true);
+                window.addEventListener('resize', this._handler, false);
             }
 
             /**
@@ -50,6 +57,7 @@
              */
             _removeHandlers() {
                 document.removeEventListener('scroll', this._handler, true);
+                window.removeEventListener('resize', this._handler, false);
             }
 
         }

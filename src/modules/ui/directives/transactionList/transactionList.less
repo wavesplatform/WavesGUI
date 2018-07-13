@@ -40,14 +40,17 @@ w-transaction-list {
   .w-transaction-list {
     width: 100%;
     border-radius: @border-radius;
+    transform: translate3d(0, 0, 0);
 
     ul {
       .transaction-list-mixin();
       list-style: none;
       margin: 0;
       padding: 0;
+      transform: translate3d(0, 0, 0);
 
       li {
+        transform: translate3d(0, 0, 0);
         padding: 0;
 
         .date {

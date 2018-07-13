@@ -6,11 +6,12 @@
      * @param {VisibleService} visibleService
      * @returns {{restrict: string, transclude: boolean, link: link}}
      */
-    const directive = function (Base, visibleService) {
+    const directive = function (Base, visibleService, $rootScope) {
 
         return {
             restrict: 'E',
             transclude: true,
+            scope: false,
             link: function ($scope, $element, $attrs, $ctrl, $transclude) {
 
                 class Visible extends Base {
@@ -22,9 +23,9 @@
                          */
                         this.$node = $element;
                         /**
-                         * @type {JQuery}
+                         * @type {{$element: JQuery, $scope: $rootScope.Scope}}
                          */
-                        this.$content = null;
+                        this.content = null;
                         /**
                          * @type {HTMLElement}
                          */
@@ -36,14 +37,16 @@
 
                         visibleService.registerVisibleComponent(this);
                         this.observe('visible', this._onChangeVisible);
-                        this.currentVisibleState();
 
                         this.signals.destroy.once(() => {
-                            if (this.$content) {
-                                this.$content.remove();
-                                this.$content = null;
+                            if (this.content) {
+                                this.content.$scope.$destroy();
+                                this.content.$element.remove();
+                                this.content = null;
                             }
                         });
+
+                        this.currentVisibleState();
                     }
 
                     currentVisibleState() {
@@ -56,17 +59,14 @@
                      */
                     _onChangeVisible() {
                         if (this.visible) {
-                            if (this.$content) {
-                                this.$node.append(this.$content);
-                            } else {
-                                $transclude($clone => {
-                                    this.$node.append($clone);
-                                    this.$content = $clone;
-                                });
-                            }
+                            $transclude(($element, $scope) => {
+                                this.$node.append($element);
+                                this.content = { $element, $scope };
+                            });
                         } else {
-                            this.$node.height(this.$content.height());
-                            this.$content.detach();
+                            this.content.$element.remove();
+                            this.content.$scope.$destroy();
+                            this.content = null;
                         }
                     }
 
@@ -77,7 +77,7 @@
         };
     };
 
-    directive.$inject = ['Base', 'visibleService'];
+    directive.$inject = ['Base', 'visibleService', '$rootScope'];
 
     angular.module('app.ui').directive('wVisible', directive);
 })();
