@@ -31,117 +31,119 @@
         <w-table-row
                 w-toggle-class-container
                 ng-repeat="balance in $data track by balance.asset.id">
-            <w-table-cell class="smart-table__name">
-                <div class="cell">
-                    <w-asset-logo class="margin-right-1" asset-id="{{::balance.asset.id}}" size="30"></w-asset-logo>
-                    <span>{{::balance.asset.name}}</span>
-                </div>
-            </w-table-cell>
-            <w-table-cell class="smart-table__available">
-                <div class="cell-header">
-                    <span w-i18n="list.balance"></span>
-                </div>
-                <div class="cell">
-                    <w-balance money="balance.available" short-mode="::true"></w-balance>
-                </div>
-            </w-table-cell>
-            <w-table-cell class="smart-table__in-orders">
-                <div class="cell-header">
-                    <span w-i18n="list.inOrders"></span>
-                </div>
-                <div class="cell">
-                    <w-balance money="balance.inOrders"></w-balance>
-                </div>
-            </w-table-cell>
-            <w-table-cell class="smart-table__available-value">
-                <div class="cell-header">
-                    <span w-i18n="list.mirror" params="{currency: $ctrl.mirror.displayName}"></span>
-                </div>
-                <div class="cell">
-                    <w-exchange noUpdate balance="balance.available"
-                                ng-if="::balance.asset.id !== WavesApp.defaultAssets.USD"></w-exchange>
-                    <span ng-if="::balance.asset.id == WavesApp.defaultAssets.USD">—</span>
-                </div>
-            </w-table-cell>
-            <w-table-cell class="smart-table__chart-wrap">
-                <div class="cell-header">
-                    <span w-i18n="list.rate" params="{currency: $ctrl.mirror.displayName}"></span>
-                </div>
-                <div class="cell">
-                    <w-change-rate ng-if="::balance.asset.id !== WavesApp.defaultAssets.USD"
-                                   asset-id="balance.asset.id"></w-change-rate>
-                    <span ng-if="::balance.asset.id == WavesApp.defaultAssets.USD">—</span>
-                    <div>
-                        <w-asset-rate-chart no-update="::true"
-                                            start-from="::$ctrl.chartStartDate"
-                                            asset-id="::balance.asset.id"></w-asset-rate-chart>
+            <w-visible>
+                <w-table-cell class="smart-table__name">
+                    <div class="cell">
+                        <w-asset-logo class="margin-right-1" asset-id="{{::balance.asset.id}}" size="30"></w-asset-logo>
+                        <span>{{::balance.asset.name}}</span>
                     </div>
-                </div>
-            </w-table-cell>
-            <w-table-cell class="smart-table__change">
-                <div class="cell-header">
-                    <span w-i18n="list.change"></span>
-                </div>
-                <div class="cell">
-                    <w-change24 asset-from="balance.asset.id"
-                                asset-to="$ctrl.mirrorId"
-                                no-update></w-change24>
-                    <span>%</span>
-                </div>
-            </w-table-cell>
-            <w-table-cell class="smart-table__control-cell">
-                <div class="cell">
+                </w-table-cell>
+                <w-table-cell class="smart-table__available">
+                    <div class="cell-header">
+                        <span w-i18n="list.balance"></span>
+                    </div>
+                    <div class="cell">
+                        <w-balance money="balance.available" short-mode="::true"></w-balance>
+                    </div>
+                </w-table-cell>
+                <w-table-cell class="smart-table__in-orders">
+                    <div class="cell-header">
+                        <span w-i18n="list.inOrders"></span>
+                    </div>
+                    <div class="cell">
+                        <w-balance money="balance.inOrders"></w-balance>
+                    </div>
+                </w-table-cell>
+                <w-table-cell class="smart-table__available-value">
+                    <div class="cell-header">
+                        <span w-i18n="list.mirror" params="{currency: $ctrl.mirror.displayName}"></span>
+                    </div>
+                    <div class="cell">
+                        <w-exchange noUpdate balance="balance.available"
+                                    ng-if="::balance.asset.id !== WavesApp.defaultAssets.USD"></w-exchange>
+                        <span ng-if="::balance.asset.id == WavesApp.defaultAssets.USD">—</span>
+                    </div>
+                </w-table-cell>
+                <w-table-cell class="smart-table__chart-wrap">
+                    <div class="cell-header">
+                        <span w-i18n="list.rate" params="{currency: $ctrl.mirror.displayName}"></span>
+                    </div>
+                    <div class="cell">
+                        <w-change-rate ng-if="::balance.asset.id !== WavesApp.defaultAssets.USD"
+                                       asset-id="balance.asset.id"></w-change-rate>
+                        <span ng-if="::balance.asset.id == WavesApp.defaultAssets.USD">—</span>
+                        <div>
+                            <w-asset-rate-chart no-update="::true"
+                                                start-from="::$ctrl.chartStartDate"
+                                                asset-id="::balance.asset.id"></w-asset-rate-chart>
+                        </div>
+                    </div>
+                </w-table-cell>
+                <w-table-cell class="smart-table__change">
+                    <div class="cell-header">
+                        <span w-i18n="list.change"></span>
+                    </div>
+                    <div class="cell">
+                        <w-change24 asset-from="balance.asset.id"
+                                    asset-to="$ctrl.mirrorId"
+                                    no-update></w-change24>
+                        <span>%</span>
+                    </div>
+                </w-table-cell>
+                <w-table-cell class="smart-table__control-cell">
+                    <div class="cell">
                     <span class="icon icon-send" ng-click="$ctrl.showSend(balance.asset)">
                         <div><span w-i18n="send"></span></div>
                     </span>
-                    <span class="icon icon-receive"
-                          ng-click="$ctrl.showReceivePopup(balance.asset)">
+                        <span class="icon icon-receive"
+                              ng-click="$ctrl.showReceivePopup(balance.asset)">
                         <div><span w-i18n="receive"></span></div>
                     </span>
-                    <span ng-if="::$ctrl.canShowDex(balance)" class="icon icon-dex"
-                          ng-click="$ctrl.openDex(balance.asset)">
+                        <span ng-if="::$ctrl.canShowDex(balance)" class="icon icon-dex"
+                              ng-click="$ctrl.openDex(balance.asset)">
                         <div><span w-i18n="dex"></span></div>
                     </span>
-                    <span class="icon"
-                          ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES && !balance.isPinned && !balance.isOnScamList"
-                          ng-class="{'icon-hide': !balance.isSpam, 'icon-show': balance.isSpam}"
-                          ng-click="$ctrl.toggleSpam(balance.asset)">
+                        <span class="icon"
+                              ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES && !balance.isPinned && !balance.isOnScamList"
+                              ng-class="{'icon-hide': !balance.isSpam, 'icon-show': balance.isSpam}"
+                              ng-click="$ctrl.toggleSpam(balance.asset)">
                          <div>
                             <span w-i18n="tospam" ng-if="!balance.isSpam"></span>
                             <span w-i18n="unspam" ng-if="balance.isSpam"></span>
                          </div>
                     </span>
-                    <w-actions>
-                        <w-action ng-click="$ctrl.showAsset(balance.asset)">
-                            <span w-i18n="info"></span>
-                        </w-action>
-                        <w-action ng-click="$ctrl.showSend(balance.asset)">
-                            <span w-i18n="send"></span>
-                        </w-action>
-                        <w-action ng-click="$ctrl.showReceivePopup(balance.asset)">
-                            <span w-i18n="receive"></span>
-                        </w-action>
-                        <w-action ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES"
-                                  ng-click="$ctrl.showBurn(balance.asset.id)">
-                            <span w-i18n="burn"></span>
-                        </w-action>
-                        <w-action ng-if="::balance.asset.isMyAsset && balance.asset.reissuable"
-                                  ng-click="$ctrl.showReissue(balance.asset.id)">
-                            <span w-i18n="reissue"></span>
-                        </w-action>
-                        <w-action ng-if="::$ctrl.canShowDex(balance)" ng-click="$ctrl.openDex(balance.asset)">
-                            <span w-i18n="dex"></span>
-                        </w-action>
-                        <w-action
-                                ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES && !balance.isPinned && !balance.isOnScamList"
-                                ng-click="$ctrl.toggleSpam(balance.asset)">
-                            <span w-i18n="tospam" w-i18n-ns="app.wallet.portfolio" ng-if="!balance.isSpam"></span>
-                            <span w-i18n="unspam" w-i18n-ns="app.wallet.portfolio" ng-if="balance.isSpam"></span>
-                        </w-action>
-                    </w-actions>
-                    <i class="toggler" w-toggle-class></i>
-                </div>
-            </w-table-cell>
+                        <w-actions>
+                            <w-action ng-click="$ctrl.showAsset(balance.asset)">
+                                <span w-i18n="info"></span>
+                            </w-action>
+                            <w-action ng-click="$ctrl.showSend(balance.asset)">
+                                <span w-i18n="send"></span>
+                            </w-action>
+                            <w-action ng-click="$ctrl.showReceivePopup(balance.asset)">
+                                <span w-i18n="receive"></span>
+                            </w-action>
+                            <w-action ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES"
+                                      ng-click="$ctrl.showBurn(balance.asset.id)">
+                                <span w-i18n="burn"></span>
+                            </w-action>
+                            <w-action ng-if="::balance.asset.isMyAsset && balance.asset.reissuable"
+                                      ng-click="$ctrl.showReissue(balance.asset.id)">
+                                <span w-i18n="reissue"></span>
+                            </w-action>
+                            <w-action ng-if="::$ctrl.canShowDex(balance)" ng-click="$ctrl.openDex(balance.asset)">
+                                <span w-i18n="dex"></span>
+                            </w-action>
+                            <w-action
+                                    ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES && !balance.isPinned && !balance.isOnScamList"
+                                    ng-click="$ctrl.toggleSpam(balance.asset)">
+                                <span w-i18n="tospam" w-i18n-ns="app.wallet.portfolio" ng-if="!balance.isSpam"></span>
+                                <span w-i18n="unspam" w-i18n-ns="app.wallet.portfolio" ng-if="balance.isSpam"></span>
+                            </w-action>
+                        </w-actions>
+                        <i class="toggler" w-toggle-class></i>
+                    </div>
+                </w-table-cell>
+            </w-visible>
         </w-table-row>
     </w-smart-table>
 </div>
