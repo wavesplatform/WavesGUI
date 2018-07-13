@@ -144,11 +144,10 @@
             <span w-i18n="inputs.errors.required"></span>
         </w-input-error>
         <w-input-error name="amount" message="gt">
-            <w-i18n ng-if="$ctrl.tx.amount.getTokens().eq(0)">inputs.errors.required</w-i18n>
-            <w-i18n ng-if="$ctrl.tx.amount.getTokens().gt(0)"
-                    params="{min: $ctrl.gatewayDetails.minimumAmount, assetName: '$ctrl.tx.amount.asset.name'}">
-                inputs.errors.gtGatewayMin
-            </w-i18n>
+            <span ng-if="$ctrl.tx.amount.getTokens().eq(0)" w-i18n="inputs.errors.required"></span>
+            <span ng-if="$ctrl.tx.amount.getTokens().gt(0)" w-i18n="inputs.errors.gtGatewayMin"
+                  params="{min: $ctrl.gatewayDetails.minimumAmount, assetName: '$ctrl.tx.amount.asset.name'}">
+            </span>
         </w-input-error>
         <w-input-error name="amount" message="precision">
             <span w-i18n="modal.send.errors.precision"
@@ -192,7 +191,7 @@
               params="{fee: $ctrl.state.singleSend.fee, getawayFee: $ctrl.gatewayDetails.gatewayFee, currency: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.displayName}"></span>
         <span w-i18n="modal.send.validationError.notEnoughFunds"
               ng-hide="$ctrl.outerSendMode"
-              params="{fee:$ctrl.state.singleSend.fee}"></span>
+              params="{fee: $ctrl.state.singleSend.fee}"></span>
     </div>
 
     <w-button on-click="$ctrl.createTx()"
