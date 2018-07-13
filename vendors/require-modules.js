@@ -8,34 +8,23 @@
         'parse-json-bignumber': 'parseJsonBignumber',
         'papaparse': 'Papa',
         'waves-api': 'WavesAPI',
-        'identity-img': 'identityImg'
+        'identity-img': 'identityImg',
+        '@waves/data-entities': 'ds.wavesDataEntities',
+        'ramda': 'R',
+        'data-service': 'ds'
     };
 
-    if (window.require) {
-        var origin = require;
-        window.require = function (name) {
-            if (name in MODULES_MAP) {
-                return window[MODULES_MAP[name]] || origin(name);
+    function getModule(require) {
+        return function (name) {
+            if (name in MODULES_MAP && MODULES_MAP.hasOwnProperty(name)) {
+                return tsUtils.get(window, MODULES_MAP[name]);
+            } else if (require) {
+                return require(name);
             } else {
-                try {
-                    return angular.element(document).injector().get(name);
-                } catch (e) {
-                    return origin(name);
-                }
-            }
-        };
-    } else {
-        window.require = function (name) {
-            if (name in MODULES_MAP) {
-                return window[MODULES_MAP[name]];
-            } else {
-                try {
-                    return angular.element(document).injector().get(name);
-                } catch (e) {
-                    throw new Error('Not loaded module with name "' + name);
-                }
+                throw new Error('Not loaded module with name "' + name);
             }
         };
     }
 
+    window.require = getModule(window.require);
 })();

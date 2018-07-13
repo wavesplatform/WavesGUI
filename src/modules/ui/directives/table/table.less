@@ -5,11 +5,7 @@ w-table {
 
   .table {
     width: 100%;
-  }
-
-  .table-thead {
-    //color: @color-lite-font;
-    //border-bottom: 1px solid @color-lite-background;
+    height: 100%;
   }
 
   w-t-head {
@@ -22,13 +18,14 @@ w-table {
 
   w-cell {
     display: block;
+    height: 100%;
   }
 
   .table-row {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    padding: 11px 0;
+    width: 100%;
 
     &.selected {
       background-color: #eee; // TODO Color from config. Author Tsigel at 02/11/2017 08:16

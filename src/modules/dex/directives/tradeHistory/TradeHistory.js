@@ -2,15 +2,66 @@
 (function () {
     'use strict';
 
+    const entities = require('@waves/data-entities');
+    const R = require('ramda');
+
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
-     * @param {Waves} waves
-     * @param {DataFeed} dataFeed
      * @param {IPollCreate} createPoll
+     * @param {User} user
      * @return {TradeHistory}
      */
-    const controller = function (Base, $scope, waves, dataFeed, createPoll) {
+    const controller = function (Base, $scope, createPoll, user) {
+
+        const PAIR_COLUMN_DATA = {
+            id: 'pair',
+            valuePath: 'item.pair',
+            search: true,
+            placeholder: 'directives.filter'
+        };
+
+        const FEE_COLUMN_DATA = {
+            id: 'fee',
+            title: { literal: 'directives.tradeHistory.tableTitle.fee' },
+            valuePath: 'item.userFee',
+            sort: true
+        };
+
+        const HEADER_COLUMNS = [
+            {
+                id: 'type',
+                title: { literal: 'directives.tradeHistory.tableTitle.type' },
+                valuePath: 'item.exchangeType',
+                sort: true
+            },
+            {
+                id: 'time',
+                title: { literal: 'directives.tradeHistory.tableTitle.date' },
+                valuePath: 'item.timestamp',
+                sort: true,
+                sortActive: true,
+                isAsc: false
+            },
+            {
+                id: 'price',
+                title: { literal: 'directives.tradeHistory.tableTitle.price' },
+                valuePath: 'item.price',
+                sort: true
+            },
+            {
+                id: 'amount',
+                title: { literal: 'directives.tradeHistory.tableTitle.size' },
+                valuePath: 'item.amount',
+                sort: true
+            },
+            {
+                id: 'total',
+                title: { literal: 'directives.tradeHistory.tableTitle.total' },
+                valuePath: 'item.total',
+                sort: true
+            }
+        ];
 
         class TradeHistory extends Base {
 
@@ -22,59 +73,82 @@
                  */
                 this._assetIdPair = null;
                 /**
-                 * @type {Asset}
+                 * @type {boolean}
                  */
-                this.priceAsset = null;
+                this.isMy = false;
                 /**
                  * @type {Array}
                  */
-                this.orders = [];
+                this.history = [];
+                /**
+                 * @type {function}
+                 */
+                this.remapTransactions = TradeHistory._remapTxList();
+                /**
+                 * @type {boolean}
+                 */
+                this.pending = true;
+                /**
+                 * @type {boolean}
+                 */
+                this.isDemo = false;
 
-                this.shema = new tsApiValidator.Schema({
-                    type: tsApiValidator.ArrayPart,
-                    required: true,
-                    content: {
-                        type: tsApiValidator.ObjectPart,
-                        required: true,
-                        content: {
-                            price: { type: tsApiValidator.StringPart, required: true },
-                            size: { type: tsApiValidator.StringPart, required: true, path: 'amount' },
-                            date: { type: tsApiValidator.DatePart, required: true, path: 'timestamp' },
-                            type: { type: tsApiValidator.StringPart, required: true },
-                            id: { type: tsApiValidator.StringPart, required: true }
-                        }
-                    }
-                });
+                this.headers = [];
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
                 });
+            }
+
+            $postLink() {
+                this.headers = this.isMy ? [PAIR_COLUMN_DATA].concat(HEADER_COLUMNS, FEE_COLUMN_DATA) : HEADER_COLUMNS;
+                /**
+                 * @type {boolean}
+                 */
+                this.isDemo = this.isMy && !user.address;
+                this._initializePoll();
+                this.observe('_assetIdPair', this._onChangeAssets);
+            }
+
+            /**
+             * @param {IExchange} tx
+             * @return boolean
+             */
+            isSelected(tx) {
+                return this._assetIdPair.amount === tx.amount.asset.id &&
+                    this._assetIdPair.price === tx.price.asset.id;
+            }
+
+            /**
+             * @param {IExchange} tx
+             */
+            setPair(tx) {
+                user.setSetting('dex.assetIdPair', {
+                    amount: tx.amount.asset.id,
+                    price: tx.price.asset.id
+                });
+            }
+
+            _initializePoll() {
+                if (this.isMy && this.isDemo) {
+                    return null;
+                }
 
                 /**
                  * @type {Poll}
                  */
-                this.poll = createPoll(this, this._getTradeHistory, 'orders', 2000, { $scope });
-                this.observe('_assetIdPair', this._onChangeAssets);
-
-                this._onChangeAssets();
-            }
-
-            $onDestroy() {
-                super.$onDestroy();
-                this.poll.destroy();
+                this.poll = createPoll(this, this._getTradeHistory, this._setTradeHistory, 1000, { $scope });
             }
 
             /**
              * @private
              */
             _onChangeAssets() {
-                this.orders = [];
-                this.poll.restart();
-                Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
-                    this.priceAsset = pair.priceAsset;
-                    this.amountAsset = pair.amountAsset;
-                    $scope.$digest();
-                });
+                if (!this.isMy) {
+                    this.pending = true;
+                    this.history = [];
+                    this.poll.restart();
+                }
             }
 
             /**
@@ -82,24 +156,42 @@
              * @private
              */
             _getTradeHistory() {
-                return dataFeed.trades(this._assetIdPair.amount, this._assetIdPair.price)
-                    .then((data) => this.shema.parse(data))
-                    .then(TradeHistory._filterDuplicate); // TODO remove with Dima's service
+                return ds.api.transactions.getExchangeTxList(this._getTransactionsFilter())
+                    .then(this.remapTransactions);
             }
 
-            /**
-             * @param list
-             * @private
-             */
-            static _filterDuplicate(list) {
-                const hash = Object.create(null);
-                return list.reduce((result, item) => {
-                    if (!hash[item.id]) {
-                        result.push(item);
-                    }
-                    hash[item.id] = true;
-                    return result;
-                }, []);
+            _setTradeHistory(history) {
+                this.pending = false;
+                this.history = history;
+            }
+
+            _getTransactionsFilter() {
+                if (this.isMy) {
+                    return { sender: user.address };
+                }
+                return {
+                    amountAsset: this._assetIdPair.amount,
+                    priceAsset: this._assetIdPair.price
+                };
+            }
+
+            static _remapTxList() {
+                const filter = R.uniqBy(R.prop('id'));
+                const map = R.map(TradeHistory._remapTx);
+                return R.pipe(filter, map);
+            }
+
+            static _remapTx(tx) {
+                const amount = tx => tx.amount.asset.displayName;
+                const price = tx => tx.price.asset.displayName;
+                const fee = (tx, order) => order.orderType === 'sell' ? tx.sellMatcherFee : tx.buyMatcherFee;
+                const pair = `${amount(tx)} / ${price(tx)}`;
+                const emptyFee = new entities.Money(0, tx.fee.asset);
+                const userFee = [tx.order1, tx.order2]
+                    .filter((order) => order.sender === user.address)
+                    .reduce((acc, order) => acc.add(fee(tx, order)), emptyFee);
+
+                return { ...tx, pair, userFee };
             }
 
         }
@@ -107,10 +199,13 @@
         return new TradeHistory();
     };
 
-    controller.$inject = ['Base', '$scope', 'waves', 'dataFeed', 'createPoll', 'utils'];
+    controller.$inject = ['Base', '$scope', 'createPoll', 'user'];
 
     angular.module('app.dex')
         .component('wDexTradeHistory', {
+            bindings: {
+                isMy: '<'
+            },
             templateUrl: 'modules/dex/directives/tradeHistory/tradeHistory.html',
             controller
         });

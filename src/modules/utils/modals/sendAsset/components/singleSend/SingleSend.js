@@ -1,6 +1,13 @@
 (function () {
     'use strict';
 
+    const FIAT_ASSETS = {
+        [WavesApp.defaultAssets.USD]: true,
+        [WavesApp.defaultAssets.EUR]: true
+    };
+
+    const COINOMAT_BANK_ADDRESS = '3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us';
+
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
@@ -14,6 +21,28 @@
     const controller = function (Base, $scope, utils, createPoll, waves, outerBlockchains, user, gatewayService) {
 
         class SingleSend extends Base {
+
+            /**
+             * @return {boolean}
+             */
+            get hasSendToBank() {
+                return FIAT_ASSETS[this.assetId] || false;
+            }
+
+            get toBankMode() {
+                return this.state.toBankMode || false;
+            }
+
+            set toBankMode(mode) {
+                this.state.toBankMode = mode;
+                if (mode) {
+                    this.state.warning = 'send.coinomant.bank';
+                    this.state.singleSend.recipient = COINOMAT_BANK_ADDRESS;
+                } else {
+                    this.state.singleSend.recipient = '';
+                    this.state.warning = '';
+                }
+            }
 
             /**
              * @return {ISingleSendTx}
@@ -63,6 +92,17 @@
 
             set outerSendMode(value) {
                 this.state.outerSendMode = value;
+            }
+
+            /**
+             * @return {string}
+             */
+            get paymentId() {
+                return this.state.paymentId;
+            }
+
+            set paymentId(value) {
+                this.state.paymentId = value;
             }
 
             /**
@@ -119,6 +159,8 @@
                  * @private
                  */
                 this._noCurrentRate = false;
+
+                $scope.WavesApp = WavesApp;
             }
 
             $postLink() {
@@ -136,7 +178,9 @@
                         this.receive(utils.observe(this.state, 'assetId'), this._onChangeAssetId, this);
                         this.receive(utils.observe(this.state, 'mirrorId'), this._onChangeMirrorId, this);
 
+                        this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayDetails, this);
                         this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayDetails, this);
+
                         this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
                         this.observe('mirror', this._onChangeAmountMirror);
 
@@ -228,6 +272,13 @@
             }
 
             /**
+             * @return {boolean}
+             */
+            isOldMoneroAddress() {
+                return this.state.assetId === WavesApp.defaultAssets.XMR && this.tx.recipient.substr(0, 1) === '4';
+            }
+
+            /**
              * @private
              */
             _onChangeMirrorId() {
@@ -309,7 +360,7 @@
              * @private
              */
             _onChangeAmount() {
-                if (!this._noCurrentRate && !this.noMirror && this.tx.amount && this.focus === 'amount') {
+                if (!this._noCurrentRate && !this.noMirror && this.focus === 'amount') {
                     this._fillMirror();
                 }
             }
@@ -318,7 +369,7 @@
              * @private
              */
             _onChangeAmountMirror() {
-                if (!this._noCurrentRate && this.mirror && this.focus === 'mirror') {
+                if (!this._noCurrentRate && this.focus === 'mirror') {
                     this._fillAmount();
                 }
             }
@@ -327,6 +378,13 @@
              * @private
              */
             _fillMirror() {
+
+                if (!this.tx.amount) {
+                    this.mirror = null;
+                    $scope.$digest();
+                    return null;
+                }
+
                 waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
                     this.mirror = this.tx.amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
                     $scope.$digest();
@@ -337,6 +395,13 @@
              * @private
              */
             _fillAmount() {
+
+                if (!this.mirror) {
+                    this.tx.amount = null;
+                    $scope.$digest();
+                    return null;
+                }
+
                 waves.utils.getRate(this.mirrorId, this.assetId).then((rate) => {
                     this.tx.amount = this.mirror.convertTo(this.moneyHash[this.assetId].asset, rate);
                     $scope.$digest();
@@ -347,6 +412,11 @@
              * @private
              */
             _updateGatewayDetails() {
+
+                if (this.tx.recipient === COINOMAT_BANK_ADDRESS) {
+                    this.toBankMode = true;
+                }
+
                 const outerChain = outerBlockchains[this.assetId];
                 const isValidWavesAddress = waves.node.isValidAddress(this.tx.recipient);
 

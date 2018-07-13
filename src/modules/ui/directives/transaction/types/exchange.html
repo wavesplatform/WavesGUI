@@ -1,32 +1,32 @@
 <div class="line-wrapper">
     <div class="line">
-        <div class="body-1 basic-700 fs-mobile">
-            <span w-i18n="transaction.headers.{{::$ctrl.type}}"
+        <div class="body-2 top fs-mobile">
+            <span w-i18n="transaction.headers.{{::$ctrl.typeName}}"
                   params="{
                     amountAsset: $ctrl.transaction.amount.asset.name,
-                    priceAsset: $ctrl.transaction.price.pair.priceAsset.name
+                    priceAsset: $ctrl.transaction.price.asset.name
                   }"></span>
         </div>
-        <div class="footnote-1 basic-500 fs-mobile">
-            <span w-i18n="transaction.subheaders.{{::$ctrl.type}}"
+        <div class="footnote-1 bottom fs-mobile">
+            <span w-i18n="transaction.subheaders.{{::$ctrl.typeName}}"
                   params="{time: $ctrl.time}"></span>
         </div>
     </div>
     <div class="line">
-        <div class="body-1 basic-700 fs-mobile">
-            <span w-i18n="transaction.amounts.{{::$ctrl.type}}"
+        <div class="body-2 top fs-mobile">
+            <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
                   params="{
-                    sign: $ctrl.type === 'exchange-buy' ? '+' : '–',
+                    sign: $ctrl.typeName === 'exchange-buy' ? '+' : '–',
                     amount: $ctrl.transaction.amount.toFormat(),
                     name: $ctrl.transaction.amount.asset.name
                   }"></span>
         </div>
-        <div class="footnote-1 basic-500 fs-mobile">
-           <span w-i18n="transaction.amounts.{{::$ctrl.type}}"
+        <div class="footnote-1 bottom fs-mobile">
+           <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
                  params="{
-                    sign: $ctrl.type === 'exchange-buy' ? '–' : '+',
+                    sign: $ctrl.typeName === 'exchange-buy' ? '–' : '+',
                     amount: $ctrl.totalPrice,
-                    name: $ctrl.transaction.price.pair.priceAsset.name
+                    name: $ctrl.transaction.price.asset.name
                   }"></span>
         </div>
     </div>

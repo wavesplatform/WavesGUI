@@ -49,14 +49,14 @@
                                 <div class="body-2 basic-900">
                                     <span w-i18n="modal.deposit.copyAndShare"></span>
                                     <w-help-icon>
-                                        <div class="row-help headline-3">
-                                            <w-i18n>modal.deposit.{{$ctrl.assetKeyName}}.helpDescrTitle</w-i18n>
+                                        <div class="help-icon__row headline-3">
+                                            <span w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.helpDescrTitle"></span>
                                         </div>
-                                        <div class="row-help">
-                                            <w-i18n>modal.deposit.{{$ctrl.assetKeyName}}.helpDescrText</w-i18n>
+                                        <div class="help-icon__row">
+                                            <span w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.helpDescrText"></span>
                                         </div>
-                                        <div class="row-help">
-                                            <w-i18n>modal.deposit.pleaseNote</w-i18n>
+                                        <div class="help-icon__row">
+                                            <span w-i18n="modal.deposit.pleaseNote"></span>
                                         </div>
                                     </w-help-icon>
                                 </div>
@@ -67,11 +67,11 @@
                                 </w-copy-wrap>
 
                                 <div class="or">
-                                    <w-i18n>modal.deposit.or</w-i18n>
+                                    <span w-i18n="modal.deposit.or"></span>
                                 </div>
 
                                 <div class="qr-wrapper">
-                                    <div class="scan body-2 center basic-900" w-i18n="modal.deposit.scanQrCode"></div>
+                                    <div class="scan body-2 basic-900" w-i18n="modal.deposit.scanQrCode"></div>
                                     <w-qr-code size="160" url="$ctrl.gatewayAddress"></w-qr-code>
                                     <w-loader ng-if="!$ctrl.gatewayAddress"></w-loader>
                                 </div>
@@ -164,7 +164,8 @@
                                             class="big"
                                             ng-if="!$ctrl.singleAsset"
                                             ng-model="$ctrl.chosenAssetId">
-                                            <w-option ng-repeat="purchasableByCard in $ctrl.purchasablesByCards track by $index" value="::purchasableByCard.id">
+                                            <w-option ng-repeat="purchasableByCard in $ctrl.purchasablesByCards track by $index"
+                                                      value="::purchasableByCard.id">
                                                 <div class="flex-row split-half">
                                                     <div class="flex-row">
                                                         <w-asset-logo size="24" asset-id="{{::purchasableByCard.id}}"></w-asset-logo>
@@ -178,9 +179,9 @@
                                     <div class="row margin-1 relative">
                                         <div class="body-2 basic-900" w-i18n="modal.receive.amountYouPay"></div>
                                         <div class="basic-500 footnote-1">
-                                            <w-i18n>modal.receive.minimumIs</w-i18n>&nbsp;{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].min}}
+                                            <span w-i18n="modal.receive.minimumIs"></span>&nbsp;{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].min}}
                                             {{$ctrl.currencies[$ctrl.chosenCurrencyIndex].name}},&nbsp;
-                                            <w-i18n>modal.receive.maximumIs</w-i18n>&nbsp;{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].max}}
+                                            <span w-i18n="modal.receive.maximumIs"></span>&nbsp;{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].max}}
                                             {{$ctrl.currencies[$ctrl.chosenCurrencyIndex].name}}
                                         </div>
                                         <div class="card-icons">
@@ -213,21 +214,15 @@
                                             </div>
 
                                             <w-input-error message="gte">
-                                                <w-i18n params="{
-                                                    gte: $ctrl.currencies[$ctrl.chosenCurrencyIndex].min,
-                                                    currency: $ctrl.currencies[$ctrl.chosenCurrencyIndex].name
-                                                    }">modal.receive.error.cardAmount.gte
-                                                </w-i18n>
+                                                <span w-i18n="modal.receive.error.cardAmount.gte"
+                                                      params="{gte: $ctrl.currencies[$ctrl.chosenCurrencyIndex].min,currency: $ctrl.currencies[$ctrl.chosenCurrencyIndex].name}"></span>
                                             </w-input-error>
                                             <w-input-error message="lte">
-                                                <w-i18n params="{
-                                                            lte: $ctrl.currencies[$ctrl.chosenCurrencyIndex].max,
-                                                            currency: $ctrl.currencies[$ctrl.chosenCurrencyIndex].name
-                                                        }">modal.receive.error.cardAmount.lte
-                                                </w-i18n>
+                                                <span w-i18n="modal.receive.error.cardAmount.lte"
+                                                      params="{lte: $ctrl.currencies[$ctrl.chosenCurrencyIndex].max,currency: $ctrl.currencies[$ctrl.chosenCurrencyIndex].name}"></span>
                                             </w-input-error>
                                             <w-input-error message="precision">
-                                                <w-i18n>modal.receive.error.cardAmount.precision</w-i18n>
+                                                <span w-i18n="modal.receive.error.cardAmount.precision"></span>
                                             </w-input-error>
 
 
@@ -240,9 +235,9 @@
                                         </div>
 
                                         <div class="note-plate body-2">
-                                            <w-i18n params="{money: $ctrl.approximateAmount}"
-                                                    ng-if="$ctrl.approximateAmount">money-currency
-                                            </w-i18n>
+                                            <span ng-if="$ctrl.approximateAmount"
+                                                  w-i18n="money-currency"
+                                                  params="{money: $ctrl.approximateAmount}"></span>
                                             <w-loader ng-if="!$ctrl.approximateAmount"></w-loader>
                                         </div>
                                     </div>
@@ -252,7 +247,7 @@
                                 <a href="{{$ctrl.indacoinLink}}" target="_blank">
                                     <w-button disabled="card.$invalid" class="big submit long"
                                               on-click="$ctrl.confirmIndacoin()">
-                                        <w-i18n>modal.receive.card.continue</w-i18n>
+                                        <span w-i18n="modal.receive.card.continue"></span>
                                     </w-button>
                                 </a>
                             </div>
@@ -319,7 +314,7 @@
 
                                     <a href="{{$ctrl.idNowUserLink}}" target="_blank">
                                         <w-button class="big submit long" on-click="$ctrl.confirmIdNow()">
-                                            <w-i18n>modal.sepa.proceed</w-i18n>
+                                            <span w-i18n="modal.sepa.proceed"></span>
                                         </w-button>
                                     </a>
 
@@ -339,7 +334,7 @@
 
                                     <a href="{{$ctrl.digiLiraUserLink}}" target="_blank">
                                         <w-button class="big submit long" on-click="$ctrl.confirmDigilira()">
-                                            <w-i18n>modal.receive.card.continue</w-i18n>
+                                            <span w-i18n="modal.receive.card.continue"></span>
                                         </w-button>
                                     </a>
 

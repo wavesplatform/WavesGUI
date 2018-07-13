@@ -51,11 +51,12 @@
             /**
              * @param {Asset} asset
              * @param {string} targetAddress
+             * @param {string} [paymentId]
              * @return {Promise<IGatewayDetails>}
              */
-            getWithdrawDetails(asset, targetAddress) {
+            getWithdrawDetails(asset, targetAddress, paymentId) {
                 const gateway = this._findGatewayFor(asset, 'withdraw');
-                return gateway.getWithdrawDetails(asset, targetAddress);
+                return gateway.getWithdrawDetails(asset, targetAddress, paymentId);
             }
 
             /**

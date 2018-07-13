@@ -1,11 +1,11 @@
 <div w-i18n-ns="app.tokens" class="token-page">
-    <div class="page-title headline-4 disabled-900" w-i18n="pageTitle"></div>
+    <div class="page-title headline-4 basic-700" w-i18n="pageTitle"></div>
     <div class="token-page__content">
         <form class="generate-form" name="$ctrl.createForm" novalidate>
 
             <div class="row">
                 <div class="body-2 basic-900">
-                    <w-i18n>name</w-i18n>
+                    <span w-i18n="name"></span>
                     <div class="footnote-1 basic-500" w-i18n="help.name"></div>
                 </div>
                 <w-input-container>
@@ -19,13 +19,13 @@
                              required></w-input>
 
                     <w-input-error message="required">
-                        <w-i18n>validators.required</w-i18n>
+                        <span w-i18n="validators.required"></span>
                     </w-input-error>
                     <w-input-error message="byteLte">
-                        <w-i18n>validators.byte.lte</w-i18n>
+                        <span w-i18n="validators.byte.lte"></span>
                     </w-input-error>
                     <w-input-error message="byteGte">
-                        <w-i18n>validators.byte.gte</w-i18n>
+                        <span w-i18n="validators.byte.gte"></span>
                     </w-input-error>
                 </w-input-container>
             </div>
@@ -42,20 +42,20 @@
                              w-i18n-attr="placeholder"></w-input>
 
                     <w-input-error message="byteLte">
-                        <w-i18n>validators.descriptionLen</w-i18n>
+                        <span w-i18n="validators.descriptionLen"></span>
                     </w-input-error>
                 </w-input-container>
             </div>
 
             <div class="row">
                 <div class="body-2 basic-900 relative">
-                    <w-i18n>count</w-i18n>
+                    <span w-i18n="count"></span>
                     <w-help-icon>
-                        <div class="row-help headline-3">
-                            <w-i18n>helpIcon.totalTokens.headline</w-i18n>
+                        <div class="help-icon__row headline-3">
+                            <span w-i18n="helpIcon.totalTokens.headline"></span>
                         </div>
-                        <div class="row-help" w-i18n="helpIcon.totalTokens.reissuable"></div>
-                        <div class="row-help" w-i18n="helpIcon.totalTokens.notReissuable"></div>
+                        <div class="help-icon__row" w-i18n="helpIcon.totalTokens.reissuable"></div>
+                        <div class="help-icon__row" w-i18n="helpIcon.totalTokens.notReissuable"></div>
                     </w-help-icon>
                 </div>
                 <w-input-container>
@@ -87,26 +87,26 @@
                         </div>
                     </div>
                     <w-input-error message="required">
-                        <w-i18n>validators.required</w-i18n>
+                        <span w-i18n="validators.required"></span>
                     </w-input-error>
                     <w-input-error message="gt">
-                        <w-i18n>validators.minValueCount</w-i18n>
+                        <span w-i18n="validators.minValueCount"></span>
                     </w-input-error>
                     <w-input-error message="lt">
-                        <w-i18n>validators.maxValueCount</w-i18n>
+                        <span w-i18n="validators.maxValueCount"></span>
                     </w-input-error>
                     <w-input-error message="precision">
-                        <w-i18n>validators.precisionCount</w-i18n>
+                        <span w-i18n="validators.precisionCount"></span>
                     </w-input-error>
                 </w-input-container>
             </div>
 
             <div class="row">
                 <div class="body-2 basic-900 relative">
-                    <w-i18n>precision</w-i18n>
+                    <span w-i18n="precision"></span>
                     <w-help-icon>
-                        <div class="row-help headline-3">
-                            <w-i18n>helpIcon.demicals</w-i18n>
+                        <div class="help-icon__row headline-3">
+                            <span w-i18n="helpIcon.demicals"></span>
                         </div>
                     </w-help-icon>
                 </div>
@@ -125,16 +125,16 @@
                              w-i18n-attr="placeholder"></w-input>
 
                     <w-input-error message="lte">
-                        <w-i18n>validators.minValuePrecision</w-i18n>
+                        <span w-i18n="validators.minValuePrecision"></span>
                     </w-input-error>
                     <w-input-error message="gte">
-                        <w-i18n>validators.maxValuePrecision</w-i18n>
+                        <span w-i18n="validators.maxValuePrecision"></span>
                     </w-input-error>
                     <w-input-error message="required">
-                        <w-i18n>validators.required</w-i18n>
+                        <span w-i18n="validators.required"></span>
                     </w-input-error>
                     <w-input-error message="integer">
-                        <w-i18n>validators.required</w-i18n>
+                        <span w-i18n="validators.required"></span>
                     </w-input-error>
                 </w-input-container>
             </div>
@@ -167,7 +167,7 @@
                 <w-button disabled="$ctrl.createForm.$invalid || $ctrl.invalid"
                           class="submit long margin-2"
                           on-click="$ctrl.generate()">
-                    <w-i18n>create</w-i18n>
+                    <span w-i18n="create"></span>
                 </w-button>
             </div>
 

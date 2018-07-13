@@ -1,0 +1,84 @@
+<div class="wrapper">
+
+    <div class="titles-wrap">
+        <a href="#"
+           ng-repeat="tab in $ctrl.tabs track by tab.value"
+           class="title"
+           ng-class="{'active': $ctrl.activeTab === tab.value}"
+           ng-click="$ctrl.chooseTab(tab.value)">
+            <span w-i18n="{{::tab.name}}"></span>
+        </a>
+
+        <w-select ng-model="$ctrl.dropDownId" ng-class="{'active': $ctrl.isActiveSelect}">
+            <w-option ng-repeat="option in $ctrl.dropDown track by option.id"
+                      value="::option.id">
+                {{::option.name}}
+            </w-option>
+        </w-select>
+        <div class="select-hover" ng-if="!$ctrl.isActiveSelect" ng-click="$ctrl.chooseSelect()"></div>
+    </div>
+
+    <div class="input-container">
+        <w-input placeholder="directives.watchlist.placeholders.coin"
+                 ng-model="$ctrl.search"
+                 ng-model-options="{updateOn: 'input blur', debounce: { 'input': 500, 'blur': 0 }}"
+                 ng-class="{'searching': $ctrl.searchInProgress }"
+                 w-i18n-attr="placeholder"></w-input>
+        <i ng-if="$ctrl.search.length > 0"
+           class="input-clear"
+           ng-click="$ctrl.search = ''"></i>
+    </div>
+    <w-loader ng-if="$ctrl.pending"></w-loader>
+    <w-smart-table ng-if="!$ctrl.pending"
+                   name="watchlist"
+                   options="$ctrl.tableOptions"
+                   data="$ctrl.pairDataList"
+                   header-info="$ctrl.headers"
+                   class="smart-table">
+        <div class="not-found basic-500" ng-if="$data && !$data.length">
+            <span w-i18n="directives.watchlist.placeholders.noMarkets"></span>
+        </div>
+        <w-table-row ng-repeat="pair in $data track by pair.id"
+                     ng-cloak
+                     ng-click="$ctrl.choosePair(pair)"
+                     ng-class="{'selected': $ctrl.isChosen(pair)}">
+            <w-table-cell>
+                <i class="icon-fav"
+                   ng-class="{'active': $ctrl.isFavourite(pair)}"
+                   ng-click="$ctrl.toggleFavourite($event, pair)"
+                ></i>
+            </w-table-cell>
+            <w-table-cell>
+                <span>{{::pair.pairNames}}</span>
+                <!--div class="tooltip-dex left">{{::pair.pairNames || '—'}}</div-->
+            </w-table-cell>
+            <w-table-cell>
+                <span>{{pair.lastPrice.toFormat() || '—'}}</span>
+                <!--div class="tooltip-dex center">{{pair.price.toFormat() || '—'}}</div-->
+            </w-table-cell>
+            <w-table-cell ng-class="{'plus': pair.change24.gt(0),'minus': pair.change24.lt(0)}">
+                <span>{{ pair.change24.toFormat() }}</span>{{ pair.change24 ? '%' : '—' }}
+            </w-table-cell>
+            <w-table-cell>
+                <span ng-if="pair.volume"
+                      w-nice-number="pair.currentVolume"
+                      short-mode="::true"></span>
+                <span ng-if="!pair.volume">—</span>
+                <div ng-if="pair.volume" class="tooltip-dex right">
+                    <span ng-if="pair.volume" w-nice-number="pair.currentVolume"></span>
+                    {{$ctrl.volumeAsset.displayName}}
+                </div>
+            </w-table-cell>
+            <w-table-cell ng-if="$ctrl.isChosen(pair)" class="chosen">
+                <div>
+                    <a href="#"
+                       ng-click="$ctrl.showAssetInfo($event, pair.amountAsset)"
+                       class="disabled-900">{{::pair.amountAsset.id}}</a> <span>/</span>
+                </div>
+                <a href="#"
+                   ng-click="$ctrl.showAssetInfo($event, pair.priceAsset)"
+                   class="disabled-900">{{::pair.priceAsset.id}}</a>
+            </w-table-cell>
+        </w-table-row>
+    </w-smart-table>
+</div>

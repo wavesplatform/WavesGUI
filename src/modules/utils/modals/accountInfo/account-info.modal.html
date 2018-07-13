@@ -18,10 +18,10 @@
                 <w-step>
                     <div class="create-alias-wrap">
                         <w-button class="tiny margin-right-1" w-step-next>
-                            <w-i18n>modal.account.create</w-i18n>
+                            <span w-i18n="modal.account.create"></span>
                         </w-button>
                         <span class="caption-1 basic-700"
-                              params="{price: $ctrl.fee.toTokens(), name: $ctrl.fee.asset.name}"
+                              params="{price: $ctrl.fee.toFormat(), name: $ctrl.fee.asset.name}"
                               w-i18n="modal.account.fee"></span>
                     </div>
                 </w-step>
@@ -42,11 +42,11 @@
                                  w-step-prev></div>
                         </div>
                         <div class="create-alias-wrap">
-                            <w-button disabled="form.$invalid" class="submit tiny margin-right-1" type="submit">
-                                <w-i18n>modal.account.create</w-i18n>
+                            <w-button disabled="form.$invalid" class="tiny submit margin-right-1" type="submit">
+                                <span w-i18n="modal.account.create"></span>
                             </w-button>
                             <span class="caption-1 basic-700"
-                                  params="{price: $ctrl.fee.toTokens(), name: $ctrl.fee.asset.name}"
+                                  params="{price: $ctrl.fee.toFormat(), name: $ctrl.fee.asset.name}"
                                   w-i18n="modal.account.fee"></span>
                         </div>
                     </form>

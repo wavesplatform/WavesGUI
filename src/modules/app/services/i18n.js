@@ -56,7 +56,7 @@
                 }
                 if (skipErrors) {
                     const has = translate.some((key) => {
-                        return i18next.extantion(key, params);
+                        return i18next.exists(key, params);
                     });
                     if (has) {
                         return parse(i18next.t(translate, params));
@@ -100,8 +100,7 @@
              * @return {string}
              */
             getNs($element) {
-                return $element.attr('w-i18n-ns') || $element.closest('[w-i18n-ns]')
-                    .attr('w-i18n-ns') || '';
+                return $element.closest('[w-i18n-ns]').attr('w-i18n-ns') || '';
             },
 
             onLoad

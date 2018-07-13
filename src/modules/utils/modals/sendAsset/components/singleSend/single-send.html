@@ -11,7 +11,7 @@
             <a class="link"
                ng-if="!$ctrl.toBankMode && $ctrl.hasSendToBank"
                ng-click="$ctrl.toBankMode = true">
-                <w-i18n>modal.send.toBank.toBankLink</w-i18n>
+                <span w-i18n="modal.send.toBank.toBankLink"></span>
             </a>
         </div>
 
@@ -31,20 +31,20 @@
                                     max-height="160"></w-qr-code-read>
                 </div>
 
-                <div class="to-bank-account" ng-if="$ctrl.toBankMode">
-                    <div class="bank-recipient">
-                        <span w-i18n="modal.send.toBank.bankAccount"></span>
-                        <i class="toggle-mode btn" ng-click="$ctrl.toBankMode = false"></i>
-                    </div>
-                </div>
-
                 <w-input-error message="anyAddress">
-                    <w-i18n>modal.send.errors.address</w-i18n>
+                    <span w-i18n="modal.send.errors.address"></span>
                 </w-input-error>
                 <w-input-error message="required">
-                    <w-i18n>modal.send.errors.required</w-i18n>
+                    <span w-i18n="modal.send.errors.required"></span>
                 </w-input-error>
             </w-input-container>
+        </div>
+
+        <div class="to-bank-account" ng-if="$ctrl.toBankMode">
+            <div class="bank-recipient">
+                <span w-i18n="modal.send.toBank.bankAccount"></span>
+                <i class="toggle-mode btn" ng-click="$ctrl.toBankMode = false"></i>
+            </div>
         </div>
     </div>
 
@@ -58,7 +58,6 @@
     </div>
 
     <div ng-if="$ctrl.outerSendMode" class="row">
-
         <div class="warning-plate margin-2">
             <div class="body-2 warning-500"
                  w-i18n="modal.send.coinomat.feeTitle"
@@ -77,9 +76,40 @@
         </div>
 
         <div class="warning-plate basic-500">
-            <w-i18n params="{assetName: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.name}">modal.send.icoWarning
-            </w-i18n>
+            <span w-i18n="modal.send.icoWarning"
+                  params="{assetName: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.name}"></span>
         </div>
+    </div>
+
+    <div ng-if="$ctrl.outerSendMode && $ctrl.isOldMoneroAddress()">
+        <div class="body-2" w-i18n="modal.send.moneroPaymentId"></div>
+        <w-input-container class="row">
+            <div>
+                <w-input type="text"
+                         name="payment-id"
+                         ng-model="$ctrl.state.paymentId"
+                         placeholder="modal.send.moneroPaymentIdPlaceholder"
+                         w-i18n-attr="placeholder"
+                         ng-minlength="64"
+                         ng-maxlength="64"
+                         w-validate
+                         w-validator-pattern="^[0-9a-fA-F]+$"
+                         required></w-input>
+            </div>
+
+            <w-input-error message="minlength">
+                <span w-i18n="modal.send.errors.paymentIdLength"></span>
+            </w-input-error>
+            <w-input-error message="maxlength">
+                <span w-i18n="modal.send.errors.paymentIdLength"></span>
+            </w-input-error>
+            <w-input-error message="pattern">
+                <span w-i18n="modal.send.errors.paymentIdPattern"></span>
+            </w-input-error>
+            <w-input-error message="required">
+                <span w-i18n="modal.send.errors.required"></span>
+            </w-input-error>
+        </w-input-container>
     </div>
 
     <w-input-container class="row">
@@ -111,7 +141,7 @@
         </div>
 
         <w-input-error name="amount" message="required">
-            <w-i18n>inputs.errors.required</w-i18n>
+            <span w-i18n="inputs.errors.required"></span>
         </w-input-error>
         <w-input-error name="amount" message="gt">
             <w-i18n ng-if="$ctrl.tx.amount.getTokens().eq(0)">inputs.errors.required</w-i18n>
@@ -121,15 +151,15 @@
             </w-i18n>
         </w-input-error>
         <w-input-error name="amount" message="precision">
-            <w-i18n params="{precision: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.precision}">
-                modal.send.errors.precision
-            </w-i18n>
+            <span w-i18n="modal.send.errors.precision"
+                  params="{precision: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.precision}"></span>
         </w-input-error>
         <w-input-error name="amountMirror" message="precision">
-            <w-i18n params="{precision: $ctrl.mirror.asset.precision}">modal.send.errors.precision</w-i18n>
+            <span w-i18n="modal.send.errors.precision"
+                  params="{precision: $ctrl.state.moneyHash[$ctrl.state.mirrorId].asset.precision}"></span>
         </w-input-error>
         <w-input-error name="amount" message="lte">
-            <w-i18n>modal.send.errors.max</w-i18n>
+            <span w-i18n="modal.send.errors.max"></span>
         </w-input-error>
     </w-input-container>
 
@@ -145,32 +175,31 @@
                      placeholder="modal.send.descriptionPlaceholder"></w-input>
 
             <w-input-error message="byteLte">
-                <w-i18n>modal.send.attachmentLength</w-i18n>
+                <span w-i18n="modal.send.attachmentLength"></span>
             </w-input-error>
         </w-input-container>
     </div>
 
     <div class="row fee margin-1">
         <div class="body basic-500">
-            <w-i18n params="{fee: $ctrl.tx.fee}">modal.send.fee</w-i18n>
+            <span w-i18n="modal.send.fee" params="{fee: $ctrl.tx.fee}"></span>
         </div>
     </div>
 
     <div class="row commission-error margin-2 footnote error-500" ng-if="!$ctrl.hasComission">
-        <w-i18n ng-show="$ctrl.outerSendMode"
-                params="{fee: $ctrl.state.singleSend.fee, getawayFee: $ctrl.gatewayDetails.gatewayFee, currency: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.displayName}">
-            modal.send.validationError.notEnoughFundsWithdraw
-        </w-i18n>
-        <w-i18n ng-hide="$ctrl.outerSendMode"
-                params="{fee:$ctrl.state.singleSend.fee}">modal.send.validationError.notEnoughFunds
-        </w-i18n>
+        <span w-i18n="modal.send.validationError.notEnoughFundsWithdraw"
+              ng-show="$ctrl.outerSendMode"
+              params="{fee: $ctrl.state.singleSend.fee, getawayFee: $ctrl.gatewayDetails.gatewayFee, currency: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.displayName}"></span>
+        <span w-i18n="modal.send.validationError.notEnoughFunds"
+              ng-hide="$ctrl.outerSendMode"
+              params="{fee:$ctrl.state.singleSend.fee}"></span>
     </div>
 
     <w-button on-click="$ctrl.createTx()"
               disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission)"
               type="submit"
               class="big submit long">
-        <w-i18n>button.continue</w-i18n>
+        <span w-i18n="button.continue"></span>
     </w-button>
 
 </form>

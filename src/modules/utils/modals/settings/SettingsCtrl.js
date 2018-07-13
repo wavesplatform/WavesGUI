@@ -22,6 +22,8 @@
                 this.shownKey = false;
                 this.node = '';
                 this.matcher = '';
+                this.scamListUrl = '';
+                this.withScam = false;
                 this.shareStat = user.getSetting('shareAnalytics');
                 /**
                  * @type {number}
@@ -36,17 +38,29 @@
 
                 this.syncSettings({
                     node: 'network.node',
-                    matcher: 'network.matcher'
+                    matcher: 'network.matcher',
+                    logoutAfterMin: 'logoutAfterMin',
+                    scamListUrl: 'scamListUrl',
+                    withScam: 'withScam'
                 });
 
-                this.syncSettings({
-                    logoutAfterMin: 'logoutAfterMin'
+                this.observe('matcher', () => {
+                    ds.config.set('matcher', this.matcher);
+                });
+
+                this.observe('withScam', () => {
+                    const withScam = this.withScam;
+                    if (withScam) {
+                        waves.node.assets.giveMyScamBack();
+                    } else {
+                        waves.node.assets.stopScam();
+                    }
                 });
 
                 this.observe(['node', 'matcher'], () => {
-                    Waves.config.set({
-                        nodeAddress: this.node,
-                        matcherAddress: this.matcher
+                    ds.config.set({
+                        node: this.node,
+                        matcher: this.matcher
                     });
                 });
 
@@ -73,9 +87,12 @@
                     $scope.$digest();
                 }, 5000);
 
-                user.getSeed().then((seed) => {
-                    this.phrase = seed.phrase;
-                    this.privateKey = seed.keyPair.privateKey;
+                Promise.all([
+                    ds.signature.getSignatureApi().getSeed(),
+                    ds.signature.getSignatureApi().getPrivateKey()
+                ]).then(([seed, key]) => {
+                    this.phrase = seed;
+                    this.privateKey = key;
                     $scope.$digest();
                 });
             }
@@ -88,6 +105,8 @@
             setNetworkDefault() {
                 this.node = WavesApp.network.node;
                 this.matcher = WavesApp.network.matcher;
+                this.withScam = false;
+                this.scamListUrl = WavesApp.network.scamListUrl;
             }
 
         }

@@ -1,16 +1,18 @@
 {
   "vendors": [
+    "node_modules/ramda/dist/ramda.min.js",
+    "node_modules/mobile-detect/mobile-detect.min.js",
+    "node_modules/handlebars/dist/handlebars.min.js",
     "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js",
     "node_modules/mousetrap/mousetrap.min.js",
     "node_modules/clipboard/dist/clipboard.min.js",
     "node_modules/papaparse/papaparse.min.js",
     "node_modules/js-cookie/src/js.cookie.js",
     "vendors/require-modules.js",
-    "vendors/qrcode.min.js",
     "node_modules/ts-utils/dist/ts-utils.min.js",
-    "node_modules/bignumber.js/bignumber.min.js",
+    "data-service-dist/data-service.js",
+    "vendors/qrcode.min.js",
     "node_modules/ts-api-validator/dist/ts-api-validator.partial.min.js",
-    "node_modules/@waves/waves-api/dist/waves-api.partial.js",
     "node_modules/jquery/dist/jquery.min.js",
     "node_modules/d3/d3.min.js",
     "node_modules/identity-img/dist/identity-img.min.js",
@@ -148,37 +150,40 @@
   },
   "configurations": {
     "testnet": {
+      "apiVersion": "v0",
       "code": "T",
       "node": "https://pool.testnet.wavesnodes.com",
       "matcher": "https://testnet1.wavesnodes.com/matcher",
-      "api": "https://TODO.com",
+      "api": "https://api.testnet.wavesplatform.com",
       "coinomat": "https://test.coinomat.com",
-      "datafeed": "https://marketdata.wavesplatform.com",
       "support": "https://support.wavesplatform.com",
       "nodeList": "http://dev.pywaves.org/testnet/generators/",
+      "scamListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv",
       "assets": {
-        "EUR": "2xnE3EdpqXtFgCP156qt1AbyjpqdZ5jGjWo3CwTawcux",
-        "USD": "HyFJ3rrq5m7FxdkWtQXkZrDat1F7LjVVGfpSkUuEXQHj",
-        "BTC": "Fmg13HEHJHuZYbtJq8Da8wifJENq8uBxDuWoP9pVe2Qe",
-        "ETH": "3fVdr1oiX39uS82ZGUPnu7atNQtFHZfPnseRDUcDxrhp",
-        "LTC": "no-asset-id",
-        "ZEC": "no-asset-id",
-        "BCH": "no-asset-id",
-        "TRY": "no-asset-id",
-        "DASH": "no-asset-id",
-        "EFYT": "no-asset-id",
-        "WNET": "no-asset-id"
+        "EUR": "CcC36vP4yXPtnFH6q45owvD64kcS549QHMYS2o3r4HbX",
+        "USD": "FmD6Q1E4EKj1AV4NLWJVKe3YqN5wR3R3ewmiL8zACdnN",
+        "BTC": "CjmqkvSzsghaJqM7CzZSadoD7PWX2eZR9Zogp6L3eGPS",
+        "ETH": "Bmn8Hv1MNo7n4UV9UFNp5mRF2HBzck6pWytG4LVNcNYG",
+        "LTC": "4ghwG5kvC22my5jANyvXeMtozxddEWbXKxs9dwur36sy",
+        "ZEC": "EgZaVKyWfiYjZwrssR4FECF9Wz3F4DBLXmuiKBjuBeHS",
+        "BCH": "6CM1FFiEuDhaWvMjjkjAPs5Qz4VapbzJNY5cRxGvPnYR",
+        "TRY": "ChRkiUKiMjEvmFsBmDJAV4eHaN7eX3JWbtNjoLJvrV4Z",
+        "DASH": "4jhT4fKTwx6sLcjdCcKSSNmY1WoZc2N8aUk9HwZbYyLB",
+        "EFYT": "C19JvFxmxaDkoKBjAPU9kLPs6jDmSBtkMsgfRP5i3Vwv",
+        "WNET": "Eikg1Zukjfu8NU27ExbmFvugNcatcZ8VAqSYo9k8U64E",
+        "XMR": "3pnwi9qofdWcLActDwGNqQAewj48qQmFH1iCAhCcBcgN"
       }
     },
     "mainnet": {
+      "apiVersion": "v0",
       "code": "W",
       "node": "https://nodes.wavesplatform.com",
       "matcher": "https://matcher.wavesplatform.com/matcher",
       "api": "https://api.wavesplatform.com",
       "coinomat": "https://coinomat.com",
-      "datafeed": "https://marketdata.wavesplatform.com",
       "support": "https://support.wavesplatform.com",
       "nodeList": "http://dev.pywaves.org/generators/",
+      "scamListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv",
       "assets": {
         "EUR": "Gtb1WRznfchDnTh37ezoDTJ4wcoKaRsKqKjJjy7nm2zU",
         "USD": "Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck",
@@ -190,7 +195,8 @@
         "TRY": "2mX5DzVKWrAJw8iwdJnV2qtoeVG9h5nTDpTqC1wb1WEN",
         "DASH": "B3uGHFRpSUuGEDWjqB9LWWxafQj8VTvpMucEyoxzws5H",
         "EFYT": "725Yv9oceWsB4GsYwyy4A52kEwyVrL5avubkeChSnL46",
-        "WNET": "AxAmJaro7BJ4KasYiZhw7HkjwgYtt2nekPuF2CN9LMym"
+        "WNET": "AxAmJaro7BJ4KasYiZhw7HkjwgYtt2nekPuF2CN9LMym",
+        "XMR": "5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3"
       }
     }
   }

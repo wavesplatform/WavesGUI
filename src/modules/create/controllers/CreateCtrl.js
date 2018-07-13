@@ -15,6 +15,7 @@
         const PATH = 'modules/create/templates';
         const ORDER_LIST = [
             'createAccount',
+            'createAccountData',
             'noBackupNoMoney',
             'backupSeed',
             'confirmBackup'
@@ -33,6 +34,7 @@
                 this.seedList = [];
                 this.seedIsValid = false;
                 this.seedConfirmWasFilled = false;
+                this.saveUserData = true;
 
                 this.resetAddress();
             }
@@ -116,7 +118,7 @@
             resetAddress() {
                 const list = [];
                 for (let i = 0; i < 5; i++) {
-                    const seedData = Waves.Seed.create();
+                    const seedData = ds.Seed.create();
                     list.push({ seed: seedData.phrase, address: seedData.address });
                 }
 
@@ -133,7 +135,10 @@
             }
 
             _create(hasBackup) {
-                const seedData = Waves.Seed.fromExistingPhrase(this.seed);
+                if (!this.saveUserData) {
+                    this.password = Date.now().toString();
+                }
+                const seedData = new ds.Seed(this.seed);
                 const encryptedSeed = seedData.encrypt(this.password);
                 const publicKey = seedData.keyPair.publicKey;
 
@@ -142,7 +147,9 @@
                     name: this.name,
                     password: this.password,
                     encryptedSeed,
-                    publicKey
+                    publicKey,
+                    api: ds.signature.getDefaultSignatureApi(seedData.keyPair, this.address, seedData.phrase),
+                    saveToStorage: this.saveUserData
                 }, hasBackup);
             }
 

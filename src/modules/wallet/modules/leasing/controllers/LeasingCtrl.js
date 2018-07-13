@@ -121,7 +121,7 @@
                     [waves.node.transactions.TYPES.CANCEL_LEASING]: true
                 };
 
-                this.txList = txList.filter(({ type }) => AVAILABLE_TYPES_HASH[type]);
+                this.txList = txList.filter(({ typeName }) => AVAILABLE_TYPES_HASH[typeName]);
                 $scope.$digest();
             }
 

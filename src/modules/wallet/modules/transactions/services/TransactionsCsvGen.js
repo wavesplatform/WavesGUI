@@ -57,13 +57,13 @@
                         case 'reissuable':
                             return value != null && i18n.translate(`csv.reissuable.${value}`, NS) || value;
                         case 'priceTicker':
-                            return tx.price && tx.price.pair.priceAsset.ticker || '';
+                            return tx.price && tx.price.asset.ticker || '';
                         case 'priceName':
-                            return tx.price && tx.price.pair.priceAsset.name || '';
+                            return tx.price && tx.price.asset.name || '';
                         case 'priceValue':
                             return tx.price && tx.price.toFormat() || '';
                         case 'priceId':
-                            return tx.price && tx.price.pair.priceAsset.id || '';
+                            return tx.price && tx.price.asset.id || '';
                         case 'amountTicker':
                             return tx.amount && tx.amount.asset.ticker || '';
                         case 'amountName':

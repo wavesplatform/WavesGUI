@@ -1,6 +1,9 @@
 <div w-i18n-ns="app.wallet.leasing" class="leasing-page">
     <div class="left-panel">
-        <w-leasing-block class="noheader margin-1" title-locale="chart.title">
+        <w-leasing-block class="noheader margin-1">
+            <div class="leasing-block-title headline-4">
+                <span w-i18n="chart.title"></span>
+            </div>
             <div class="balance-container text-center margin-4">
                 <w-balance money="$ctrl.total"></w-balance>
             </div>
@@ -14,7 +17,7 @@
                     <div class="part disabled-600 footnote-1">
                         <div class="legend-color margin-right-1"
                              style="background-color: {{::$ctrl.chartOptions.items[legend.id].color}}"></div>
-                        <w-i18n>{{::legend.id}}</w-i18n>
+                        <span w-i18n="{{::legend.id}}"></span>
                     </div>
                     <div class="part">
                         <w-balance money="legend.value"></w-balance>
@@ -22,12 +25,12 @@
                 </div>
             </div>
             <w-button class="submit long" on-click="$ctrl.startLeasing()">
-                <w-i18n>chart.create</w-i18n>
+                <span w-i18n="chart.create"></span>
             </w-button>
         </w-leasing-block>
         <w-leasing-block class="leasingNote" w-toggle-class-container>
-            <div class="transactions-title headline-4 disabled-900">
-                <w-i18n>description.title</w-i18n>
+            <div class="transactions-title headline-4 basic-700">
+                <span w-i18n="description.title"></span>
             </div>
             <i class="collapse-trigger" w-toggle-class></i>
             <div class="collapse-container" class="collapseable">
@@ -42,13 +45,13 @@
                     rel="noopener noreferrer"
                     ng-href="{{::$ctrl.nodeListLink}}"
                 >
-                    <w-i18n>nodeListLink</w-i18n>
+                    <span w-i18n="nodeListLink"></span>
                 </a>
             </div>
         </w-leasing-block>
     </div>
     <div class="transactions-container">
-        <div class="transactions-title headline-4 disabled-900" w-i18n="title"></div>
+        <div class="transactions-title headline-4 basic-700" w-i18n="title"></div>
         <w-scroll-box>
             <div class="scroll-list">
                 <w-transaction-list transaction-date-pattern="dd.MM.yyyy HH:mm"

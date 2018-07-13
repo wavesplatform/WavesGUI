@@ -115,14 +115,13 @@ md-dialog.settings-modal {
     flex-direction: row;
     flex-shrink: 0;
     position: relative;
-    min-height: 300px;
+    min-height: 390px;
 
     .settings-content {
       position: relative;
       margin-left: 200px;
       right: 0;
       width: 100%;
-      padding: 10px 0;
 
       .label {
         line-height: 1.8em;
@@ -174,7 +173,18 @@ md-dialog.settings-modal {
     }
   }
 
+  .network {
+    .row-style {
+      border-bottom: 0 none;
+      padding: 0;
+    }
+  }
+
   .info {
+    .row-style:first-child  {
+      padding-top: 3px;
+    }
+
     span.waves-logo {
       width: 60px;
       height: 13px;
@@ -248,7 +258,8 @@ md-dialog.settings-modal {
       min-width: 360px;
       border-bottom: 1px solid @color-accent-50;
       left: 0;
-      top: 0;
+      top:81px;
+      position: fixed;
       margin: -20px -10px 0 -20px;
       border-right: 0 none;
       height: auto;

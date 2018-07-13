@@ -159,13 +159,23 @@ md-dialog.modal-receive {
       padding-bottom: 70px;
     }
 
+    .receive-crypto {
+      w-copy-wrap {
+        .container {
+          overflow-x: scroll;
+        }
+      }
+    }
+
     .receive-invoice {
-      w-copy-wrap span {
-        display: inline-block;
-        width: calc(100% ~'- 20px');
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+      w-copy-wrap {
+        span {
+          display: inline-block;
+          width: 100%;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
       }
     }
 
@@ -185,6 +195,7 @@ md-dialog.modal-receive {
       }
 
       .note-plate {
+        position: relative;
         margin: 10px 0 20px;
         background: @color-basic-50;
         border: 1px dashed @color-basic-200;
@@ -192,12 +203,6 @@ md-dialog.modal-receive {
         border-radius: @border-radius;
         line-height: 54px;
         min-height: 54px;
-
-        w-loader {
-          transform: translateY(20px);
-          margin: 0 auto
-        }
-
       }
 
       .or {
@@ -206,6 +211,7 @@ md-dialog.modal-receive {
 
       .scan {
         margin-bottom: 20px;
+        text-align: center;
       }
 
       .center {

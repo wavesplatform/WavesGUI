@@ -1,0 +1,92 @@
+@import (reference) '../../../app/less/typography';
+
+.dialog-content {
+  text-align: center;
+
+
+  .buttons-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    w-button {
+      flex-basis: 48%;
+      max-width: 48%;
+    }
+  }
+
+  &__icon {
+    display: block;
+    margin: 40px auto 30px;
+    width: 80px;
+    height: 80px;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    &.account-account-info {
+      background-image: url(/img/icons/dex-demo-account.svg);
+    }
+
+    &.settings-account-info {
+      background-image: url(/img/icons/dex-demo-settings.svg);
+    }
+  }
+
+
+
+  .open-main {
+
+    &-wallet-account-info,
+    &-wallet-portfolio-account-info,
+    &-wallet-assets-account-info,
+    &-wallet-transactions-account-info,
+    &-wallet-leasing-account-info {
+      background-image: url(/img/icons/dex-demo-wallet.svg);
+    }
+
+    &-dex-account-info {
+      background-image: url(/img/icons/dex-demo-dex.svg);
+    }
+
+    &-tokens-account-info {
+      background-image: url(/img/icons/dex-demo-tokens.svg);
+    }
+
+    &-settings-account-info {
+      background-image: url(/img/icons/dex-demo-settings.svg);
+    }
+  }
+
+  &__message {
+    color: @color-basic-700;
+    margin-bottom: 40px;
+  }
+
+  &__close {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    z-index: 11;
+    padding: 20px;
+    background-size: 16px;
+    background-position: center;
+  }
+
+}
+
+@media screen and (max-width: 480px) {
+  .dialog-content {
+    .buttons-wrapper {
+      flex-direction: column;
+
+      w-button {
+        width: 100%;
+        max-width: 100%;
+
+        &:first-child {
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+}

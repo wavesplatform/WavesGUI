@@ -8,10 +8,6 @@
             </div>
         </li>
     </ul>
-    <div ng-if="!$ctrl.pending && !$ctrl.transactions.length" class="empty-block-container">
-        <div class="icon"></div>
-        <div class="body-1 basic-700" w-i18n="transactionList.noTransactionsTitle"></div>
-        <div class="footnote-1 basic-500 margin-4" w-i18n="transactionList.noTransactionsDescription"></div>
-    </div>
+    <w-empty-block ng-if="!$ctrl.pending && !$ctrl.transactions.length"></w-empty-block>
     <w-loader ng-if="$ctrl.pending"></w-loader>
 </div>

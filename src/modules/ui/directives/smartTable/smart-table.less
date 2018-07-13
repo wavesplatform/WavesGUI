@@ -6,16 +6,13 @@
 @responsive-cell-height: auto;
 
 .smart-table {
+
   display: block;
   height: 100%;
   position: relative;
   overflow: hidden;
-  border: 1px solid @color-accent-50;
-  border-radius: @border-radius;
 
   &__w-table {
-    color: @color-basic-700;
-    font-size: 15px;
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -25,54 +22,103 @@
 
   &__w-thead {
     width: 100%;
-    background: @color-white;
     z-index: 1;
 
     .smart-table {
+      &__search-container {
+        position: relative;
+      }
+
       &__row {
         display: flex;
         width: 100%;
-        min-width: 768px;
-        overflow-x: auto;
         align-items: center;
         justify-content: space-between;
       }
 
       &__cell {
         padding: 0 10px;
-        border-bottom: 1px solid @color-accent-50;
-        width: 100%;
 
         .sort-by {
           cursor: pointer;
-          font-family: @font-roboto-medium;
+          display: inline-block;
 
           &::after {
-            display: none;
+            display: inline-block;
             width: 10px;
             height: 10px;
             margin-left: 5px;
             margin-top: -1px;
             content: '';
-            background: url(/img/icons/arrow-sorting.svg) center center no-repeat;
+            background: url(/img/icons/icon-sorting.svg) center center no-repeat;
             vertical-align: middle;
             transform: rotate(0deg);
           }
-
         }
 
         &.asc .sort-by::after,
         &.desc .sort-by::after {
-          display: inline-block;
+          background-image: url(/img/icons/icon-sorting-active.svg);
         }
 
-        &.asc {
+        &.desc {
           .sort-by {
             &::after {
               transform: rotate(180deg);
             }
           }
         }
+
+      }
+    }
+  }
+
+  &__w-tbody {
+    height: 100%;
+    display: block;
+    overflow: auto;
+    position: relative;
+    z-index: 2;
+
+    .smart-table {
+      &__row {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        transition: .2s;
+        background: @color-white;
+      }
+
+      &__cell {
+        padding: 0 10px;
+      }
+    }
+  }
+
+}
+
+.smart-table {
+  &__mode-large {
+    border: 1px solid @color-accent-50;
+    border-radius: @border-radius;
+
+    .smart-table__w-table {
+      color: @color-basic-700;
+      font-size: 15px;
+    }
+
+    .smart-table__w-thead {
+
+      .smart-table__row {
+        min-width: 768px;
+        overflow-x: auto;
+        background: @color-white;
+      }
+
+      .smart-table__cell {
+        border-bottom: 1px solid @color-accent-50;
+        width: 100%;
 
         &:first-child {
           .cell {
@@ -92,11 +138,13 @@
 
       }
 
-      &__search-container {
+      .smart-table__search-container {
+        position: absolute;
+        left: 20px;
+        top: 13px;
+        z-index: 1;
+
         input {
-          position: absolute;
-          left: 20px;
-          top: 13px;
           height: 36px;
           width: 36px;
           border-radius: @border-radius;
@@ -121,28 +169,12 @@
           }
         }
       }
+
     }
 
-  }
+    .smart-table__w-tbody {
 
-  &__w-tbody {
-    height: 100%;
-    display: block;
-    overflow: auto;
-    position: relative;
-    z-index: 2;
-
-    .smart-table {
-      &__row {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: space-between;
-        transition: .2s;
-        background: @color-white;
-      }
-
-      &__cell {
+      .smart-table__cell {
         border-bottom: 1px solid @color-accent-50;
         padding: 0 10px;
         width: 100%;
@@ -166,33 +198,32 @@
         }
       }
     }
-
   }
-
 }
 
 @media screen and (max-width: 768px) {
+
   .smart-table {
-    border: 0 none;
-    border-radius: 0;
+    &__mode-large {
+      border: 0 none;
+      border-radius: 0;
 
+      .smart-table__w-table {
+        background: none transparent;
+      }
 
-    &__w-table {
-      background: none transparent;
-    }
+      .smart-table__w-thead {
+        display: none;
+      }
 
-    &__w-thead {
-      display: none;
-    }
+      .smart-table__w-tbody {
+        overflow: hidden;
+      }
 
-    &__w-tbody {
-      overflow: hidden;
-    }
+      .smart-table__w-thead,
+      .smart-table__w-tbody {
 
-    &__w-thead,
-    &__w-tbody {
-      .smart-table {
-        &__row {
+        .smart-table__row {
           flex-direction: column;
           position: relative;
           background: @color-white;
@@ -208,8 +239,7 @@
           }
         }
 
-
-        &__cell {
+        .smart-table__cell {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -240,6 +270,7 @@
             width: 100%;
             min-width: 100%;
             padding-right: 20px;
+            padding-top: 10px;
             margin-top: 10px;
             border-top: 1px dashed @color-basic-200;
 
@@ -253,8 +284,8 @@
               width: 24px;
             }
           }
-
         }
+
       }
     }
   }

@@ -15,7 +15,8 @@
             constructor() {
                 super();
 
-                this.address = user.address;
+                this.address = user.address || '3PHBX4uXhCyaANUxccLHNXw3sqyksV7YnDz';
+                this.isLogined = !!user.address;
                 this.receive(stateManager.changeRouteState, () => {
                     this.subStateList = stateManager.subStateList;
                     this.rootStateList = stateManager.rootStateList;
@@ -24,6 +25,18 @@
                 this.subStateList = stateManager.subStateList;
                 this.menuList = stateManager.getStateTree();
                 this.activeState = $state.$current.name.slice($state.$current.name.lastIndexOf('.') + 1);
+
+                if (!this.isLogined) {
+                    this.activeState = this.activeState.replace('-demo', '');
+                }
+            }
+
+            open(sref) {
+                if (this.isLogined) {
+                    $state.go(sref);
+                } else {
+                    this._getDialogModal(`open-${sref}`, () => $state.go('welcome'), () => $state.go('create'));
+                }
             }
 
             logout() {
@@ -31,11 +44,40 @@
             }
 
             avatarClick() {
-                modalManager.showAccountInfo();
+                if (this.isLogined) {
+                    modalManager.showAccountInfo();
+                } else {
+                    this._getDialogModal('account', () => $state.go('welcome'), () => $state.go('create'));
+                }
             }
 
             settings() {
-                modalManager.showSettings();
+                if (this.isLogined) {
+                    modalManager.showSettings();
+                } else {
+                    this._getDialogModal('settings', () => $state.go('welcome'), () => $state.go('create'));
+                }
+            }
+
+            _getDialogModal(type, success, error) {
+                return modalManager.showDialogModal({
+                    iconClass: `${type.replace(/\./g, '-')}-account-info`,
+                    message: { literal: `modal.${type}.message` },
+                    buttons: [
+                        {
+                            success: false,
+                            classes: 'big',
+                            text: { literal: `modal.${type}.cancel` },
+                            click: error
+                        },
+                        {
+                            success: true,
+                            classes: 'big submit',
+                            text: { literal: `modal.${type}.ok` },
+                            click: success
+                        }
+                    ]
+                });
             }
 
         }

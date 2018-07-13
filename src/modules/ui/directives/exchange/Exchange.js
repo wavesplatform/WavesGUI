@@ -49,7 +49,7 @@
                 this.interval = Number(this.interval) || 5000;
                 this.noUpdate = this.noUpdate == null;
 
-                waves.node.assets.getExtendedAsset(this.targetAssetId || user.getSetting('baseAssetId'))
+                waves.node.assets.getAsset(this.targetAssetId || user.getSetting('baseAssetId'))
                     .then((mirror) => {
                         this.mirror = mirror;
 

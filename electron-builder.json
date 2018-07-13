@@ -38,15 +38,13 @@
     "icon": "electron/icons/icon.ico"
   },
   "nsis": {
-    "artifactName": "waves-client[${env.WAVES_CONFIGURATION}]-setup-${version}.${ext}"
+    "artifactName": "waves-client[${env.WAVES_CONFIGURATION}]-setup-${version}.${ext}",
+    "include": "electron/installer.nsh",
+    "installerIcon": "electron/icons/icon.ico",
+    "uninstallerIcon": "electron/icons/icon.ico"
   },
   "dmg": {
     "icon": null,
-    "window": {
-      "x": 400,
-      "y": 100,
-      "width": 540,
-      "height": 280
-    }
+    "background": "electron/icons/macos-installer-bg.tiff"
   }
 }

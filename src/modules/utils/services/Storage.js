@@ -5,6 +5,7 @@
     let read;
     let write;
     let clear;
+    const tsUtils = require('ts-utils');
 
     if (WavesApp.isWeb()) {
         try {
@@ -110,18 +111,35 @@
                 });
             },
             '1.0.0-beta.35': function (storage) {
+                return addNewGateway(storage, WavesApp.defaultAssets.DASH);
+            },
+            '1.0.0-beta.40': function (storage) {
+                return addNewGateway(storage, WavesApp.defaultAssets.XMR);
+            },
+            '1.0.0-beta.47': function (storage) {
                 return storage.load('userList').then((list = []) => {
-                    list.forEach((item) => {
-                        const settings = item.settings || Object.create(null);
-                        const idList = settings.pinnedAssetIdList;
-                        if (idList) {
-                            idList.push(WavesApp.defaultAssets.DASH);
-                        }
+                    const result = list.map((item) => {
+                        tsUtils.unset(item, 'settings.dex');
+                        return item;
                     });
-                    return storage.save('userList', list);
+                    return storage.save('userList', result);
                 });
             }
         };
+
+        function addNewGateway(storage, gateway) {
+            return storage.load('userList').then((users = []) => {
+                users.forEach((user) => {
+                    const settings = user.settings || Object.create(null);
+                    const idList = settings.pinnedAssetIdList;
+                    if (idList && !idList.includes(gateway)) {
+                        idList.push(gateway);
+                    }
+                });
+
+                return storage.save('userList', users);
+            });
+        }
 
         class Storage {
 

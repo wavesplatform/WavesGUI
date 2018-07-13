@@ -9,11 +9,14 @@
      */
     const factory = function (assets, utils, decorators) {
 
+        const ds = require('data-service');
+        const entities = require('@waves/data-entities');
+
         class WavesUtils {
 
             @decorators.cachable(5)
             searchAsset(userInput) {
-                return fetch(`${WavesApp.network.api}/assets/search/${userInput}`);
+                return ds.fetch(`${WavesApp.network.api}/assets/search/${userInput}`);
             }
 
             /**
@@ -57,8 +60,8 @@
              */
             getRateApi(assetFrom, assetTo, date) {
                 return utils.whenAll([
-                    assets.getExtendedAsset(WavesUtils.toId(assetFrom)),
-                    assets.getExtendedAsset(WavesUtils.toId(assetTo)),
+                    assets.getAsset(WavesUtils.toId(assetFrom)),
+                    assets.getAsset(WavesUtils.toId(assetTo)),
                     this.getRate(assetFrom, assetTo, date)
                 ])
                     .then(([from, to, rate]) => {
@@ -121,39 +124,23 @@
                 const idTo = WavesUtils.toId(assetTo);
 
                 if (idFrom === idTo) {
-                    return Promise.resolve(1);
+                    return Promise.resolve(0);
                 }
 
                 return this._getChange(idFrom, idTo);
             }
 
             /**
-             * @param {Moment} from
-             * @private
+             * @param pair
+             * @returns {Promise<string>}
              */
-            _getChangeByInterval(from) {
-                const MINUTE_TIME = 1000 * 60;
-                const INTERVALS = [5, 15, 30, 60, 240, 1440];
-                const MAX_COUNTS = 100;
-
-                const intervalMinutes = (Date.now() - from.getDate()) / MINUTE_TIME;
-
-                let interval, i = 0;
-                do {
-                    if ((intervalMinutes / INTERVALS[i]) < MAX_COUNTS) {
-                        interval = INTERVALS[i];
-                    } else {
-                        i++;
-                    }
-                } while (!interval && INTERVALS[i]);
-
-                if (!interval) {
-                    interval = INTERVALS[INTERVALS.length - 1];
-                }
-
-                const count = Math.min(Math.floor(intervalMinutes / interval), MAX_COUNTS);
-
-                return `${interval}/${count}`;
+            @decorators.cachable(60)
+            getVolume(pair) {
+                return ds.api.pairs.info(pair)
+                    .then((data) => {
+                        const [pair = {}] = data.filter(Boolean);
+                        return pair && String(pair.volume) || '0';
+                    });
             }
 
             /**
@@ -163,32 +150,32 @@
              * @private
              */
             _getChange(from, to) {
-                return Waves.AssetPair.get(from, to)
+                const getChange = (open, close) => {
+                    if (open.eq(0)) {
+                        return new BigNumber(0);
+                    } else {
+                        return close.minus(open).div(open).times(100).dp(2);
+                    }
+                };
+
+                return ds.api.pairs.get(from, to)
                     .then((pair) => {
-                        const interval = this._getChangeByInterval(utils.moment().add().day(-1));
-                        return fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
-                            .then((data) => {
+                        return ds.api.pairs.info(pair)
+                            .catch(() => null)
+                            .then(([data]) => {
 
                                 if (!data || data.status === 'error') {
                                     return 0;
                                 }
 
-                                data = data.filter(({ open, close }) => Number(open) !== 0 && Number(close) !== 0)
-                                    .sort(utils.comparators.process(({ timestamp }) => timestamp).asc);
-
-                                if (!data.length) {
-                                    return 0;
-                                }
-
-                                const open = Number(data[0].open);
-                                const close = Number(data[data.length - 1].close);
-
-                                const percent = open ? ((close - open) / open * 100) : 0;
+                                const open = data.firstPrice || new entities.Money(0, pair.priceAsset);
+                                const close = data.lastPrice || new entities.Money(0, pair.priceAsset);
+                                const change24 = getChange(open.getTokens(), close.getTokens()).toNumber();
 
                                 if (pair.amountAsset.id === from) {
-                                    return percent;
+                                    return change24;
                                 } else {
-                                    return -percent;
+                                    return -change24;
                                 }
                             });
                     });
@@ -206,7 +193,7 @@
                     return (
                         trades
                             .reduce((result, item) => {
-                                return result.add(new BigNumber(item.price));
+                                return result.plus(new BigNumber(item.price.getTokens()));
                             }, new BigNumber(0))
                             .div(trades.length)
                     );
@@ -216,9 +203,13 @@
                     return trades && trades.length ? calculateCurrentRate(trades) : new BigNumber(0);
                 };
 
-                return Waves.AssetPair.get(fromId, toId)
+                return ds.api.pairs.get(fromId, toId)
                     .then((pair) => {
-                        return fetch(`${WavesApp.network.datafeed}/api/trades/${pair.toString()}/5`)
+                        return ds.api.transactions.getExchangeTxList({
+                            limit: 5,
+                            amountAsset: pair.amountAsset,
+                            priceAsset: pair.priceAsset
+                        })
                             .then(currentRate)
                             .then((rate) => {
                                 if (fromId !== pair.priceAsset.id) {
@@ -240,11 +231,18 @@
              * @private
              */
             _getRateHistory(fromId, toId, from, to) {
-                const interval = this._getChangeByInterval(from);
-                return Waves.AssetPair.get(fromId, toId)
+                const minuteTime = 1000 * 60;
+                const interval = Math.round((to.getDate().getTime() - from.getDate().getTime()) / (200 * minuteTime));
+
+                return ds.api.pairs.get(fromId, toId)
                     .then((pair) => {
-                        return fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
-                            .then((list) => {
+                        const amountId = pair.amountAsset.id;
+                        const priceId = pair.priceAsset.id;
+                        const path = `${WavesApp.network.api}/candles/${amountId}/${priceId}`;
+
+                        return ds.fetch(`${path}?timeStart=${from}&timeEnd=${to}&interval=${interval}m`)
+                            .then((data) => {
+                                const list = data.candles;
 
                                 if (!list || !list.length) {
                                     return Promise.reject(list);
@@ -256,7 +254,7 @@
 
                                     if (close !== 0) {
                                         result.push({
-                                            timestamp: new Date(item.timestamp),
+                                            timestamp: new Date(item.time),
                                             rate: rate
                                         });
                                     }
@@ -283,8 +281,8 @@
                      * @return {BigNumber}
                      */
                     exchange(balance) {
-                        return balance.mul(rate.toFixed(8))
-                            .round(to.precision);
+                        return balance.times(rate.toFixed(8))
+                            .dp(to.precision);
                     },
 
                     /**
@@ -293,7 +291,7 @@
                      * @return {BigNumber}
                      */
                     exchangeReverse(balance) {
-                        return (rate ? balance.div(rate) : new BigNumber(0)).round(from.precision);
+                        return (rate ? balance.div(rate) : new BigNumber(0)).dp(from.precision);
                     },
 
                     /**

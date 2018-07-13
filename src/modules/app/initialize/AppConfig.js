@@ -5,6 +5,9 @@
 
         const tsUtils = require('ts-utils');
 
+        ds.config.setConfig(WavesApp.network);
+        ds.config.set('remappedAssetNames', WavesApp.remappedAssetNames);
+
         class AppConfig {
 
             constructor() {
@@ -128,7 +131,7 @@
                             const controller = (
                                 (abstract || viewData.noController) ?
                                     undefined :
-                                    AppConfig.getCtrlName(tsUtils.camelCase(item.id))
+                                    AppConfig.getCtrlName(item.get('controller') || tsUtils.camelCase(item.id))
                             );
                             const template = viewData.template;
                             const templateUrl = (

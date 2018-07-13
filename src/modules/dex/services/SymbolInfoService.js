@@ -44,14 +44,14 @@
 
             @decorators.cachable(1440) // TODO : make it persistent when cachable is limited in size
             _createSymbolInfo(assetOneId, assetTwoId) {
-                return Waves.AssetPair.get(assetOneId, assetTwoId).then((pair) => {
+                return ds.api.pairs.get(assetOneId, assetTwoId).then((pair) => {
                     const amount = pair.amountAsset;
                     const price = pair.priceAsset;
 
                     // TODO : remove when Waves.Asset is created via factory
                     return Promise.all([
-                        waves.node.assets.getExtendedAsset(amount.id),
-                        waves.node.assets.getExtendedAsset(price.id)
+                        waves.node.assets.getAsset(amount.id),
+                        waves.node.assets.getAsset(price.id)
                     ]).then(([amountInfo, priceInfo]) => {
                         const amountName = amountInfo.ticker ? amountInfo.ticker : amountInfo.name;
                         const priceName = priceInfo.ticker ? priceInfo.ticker : priceInfo.name;

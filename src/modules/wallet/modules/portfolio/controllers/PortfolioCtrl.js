@@ -62,7 +62,7 @@
                  */
                 this.pending = true;
 
-                waves.node.assets.getExtendedAsset(this.mirrorId)
+                waves.node.assets.getAsset(this.mirrorId)
                     .then((mirror) => {
                         this.mirror = mirror;
                         /**
@@ -74,7 +74,8 @@
                                 title: { literal: 'list.name' },
                                 valuePath: 'item.asset.name',
                                 sort: true,
-                                search: true
+                                search: true,
+                                placeholder: 'portfolio.filter'
                             },
                             {
                                 id: 'balance',
@@ -195,18 +196,7 @@
              * @param {Asset} asset
              */
             getSrefParams(asset) {
-                const id = user.getSetting('dex.watchlist.activeWatchListId');
-                const baseAssetId = user.getSetting(`dex.watchlist.${id}.baseAssetId`);
-
-                if (baseAssetId === asset.id) {
-                    if (baseAssetId === WavesApp.defaultAssets.WAVES) {
-                        return { assetId1: asset.id, assetId2: WavesApp.defaultAssets.BTC };
-                    } else {
-                        return { assetId1: asset.id, assetId2: WavesApp.defaultAssets.WAVES };
-                    }
-                } else {
-                    return { assetId1: asset.id, assetId2: baseAssetId };
-                }
+                utils.openDex(asset.id);
             }
 
             /**
@@ -254,6 +244,9 @@
                     case 'spam':
                         balanceList = details.spam.slice();
                         break;
+                    case 'notLiquid':
+                        balanceList = details.notLiquid.slice();
+                        break;
                     default:
                         throw new Error('Wrong filter name!');
                 }
@@ -273,25 +266,31 @@
                 const remapBalances = (item) => {
                     const isPinned = this._isPinned(item.asset.id);
                     const isSpam = this._isSpam(item.asset.id);
+                    item.asset.isMyAsset = item.asset.sender === user.address;
+                    const isOnScamList = WavesApp.scam[item.asset.id];
 
-                    return {
+                    return Promise.resolve({
                         available: item.available,
                         asset: item.asset,
                         inOrders: item.inOrders,
                         isPinned,
-                        isSpam
-                    };
+                        isSpam,
+                        isOnScamList
+                    });
                 };
 
                 return Promise.all([
-                    waves.node.assets.userBalances().then((list) => list.map(remapBalances))
-                        .then((list) => list.filter((item) => !item.isSpam)),
-                    // waves.node.assets.balanceList(this.pinned).then((list) => list.map(remapBalances)),
-                    waves.node.assets.balanceList(this.spam).then((list) => list.map(remapBalances))
-                ]).then(([activeList, /* pinned,*/ spam]) => {
-                    // const pinnedHash = utils.toHash(pinned, 'asset.id');
-                    // const active = pinned.concat(activeList.filter((item) => !pinnedHash[item.asset.id]));
-                    return { active: activeList, /* pinned, */ spam };
+                    waves.node.assets.userBalances().then((list) => Promise.all(list.map(remapBalances)))
+                ]).then(([activeList]) => {
+
+                    const spam = [];
+
+                    for (let i = activeList.length - 1; i >= 0; i--) {
+                        if (activeList[i].isOnScamList || activeList[i].isSpam) {
+                            spam.push(activeList.splice(i, 1)[0]);
+                        }
+                    }
+                    return { active: activeList, spam };
                 });
             }
 
@@ -343,6 +342,7 @@
  * @typedef {object} PortfolioCtrl#IPortfolioBalanceDetails
  * @property {boolean} isPinned
  * @property {boolean} isSpam
+ * @property {boolean} isOnScamList
  * @property {Asset} asset
  * @property {Money} available
  * @property {Money} inOrders
