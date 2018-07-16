@@ -1,41 +1,108 @@
 <w-loader ng-if="$ctrl.pending"></w-loader>
 
-<div ng-if="!$ctrl.pending">
+<div ng-if="!$ctrl.pending" class="import-modal">
+    <div class="btn icon-close" w-modal-close></div>
 
     <div ng-if="$ctrl.userList.length">
-        <div class="icon"></div>
-        <div w-i18n="select"></div>
 
-        <ul>
+        <h3 class="text-center basic-700" w-i18n="modal.import.selectAccountToImport"></h3>
+
+        <ul class="import-modal__select">
             <li ng-repeat="user in $ctrl.userList track by user.address"
                 ng-class="{'has-name': !!user.name}">
-                <span ng-if="::user.name">{{::user.name}}</span>
-                <span>{{::user.address}}</span>
+
+                <!--w-avatar></w-avatar--> <!-- todo @tsigel -->
+                <div style="width: 30px; height: 30px; display: inline-block; border-radius: 50%; background: orange; color: white; font-size: 24px; line-height: 30px; text-align: center;">
+                    A
+                </div>
+
+                <span ng-if="::user.name" class="basic-700">{{::user.name}}</span>
+                <span class="basic-500">{{::user.address}}</span>
                 <w-checkbox-submit ng-model="$ctrl.checkedHash[user.address]"></w-checkbox-submit>
             </li>
         </ul>
 
-        <w-button w-modal-close>
-            cancel
-        </w-button>
-        <w-button on-click="$ctrl.importAccounts()">
-            import
-        </w-button>
+        <div class="buttons-wrapper">
+            <w-button w-modal-close w-i18n="modal.import.importButton" class="big">
+                cancel
+            </w-button>
+            <w-button w-i18n="modal.import.importCancel" on-click="$ctrl.importAccounts()" class="big submit">
+                import
+            </w-button>
+        </div>
     </div>
 
     <div ng-if="!$ctrl.userList.length">
 
-        <div w-i18n="warning"></div>
+        <h3 class="text-center basic-700" w-i18n="modal.import.selectAccountToImportFrom"></h3>
+        <div class="text-center">
+            <span class="body-2 basic-500" w-i18n="modal.import.selectAccountDescription"></span>
 
-        <div ng-if="$ctrl.wasImportBeta && $ctrl.wasImportOld" w-i18n="error"></div>
+            <w-help-icon>
+                <div class="help-icon__row headline-3">
+                    <span w-i18n="Some browsers block pop-up windows by default."></span>
+                </div>
+                <div class="help-icon__row">
+                    <span
+                        w-i18n="For correct operation, we recommend that you allow pop-ups.
+                        Instructions for browsers: Chrome, Safari,  Firefox, Opera."></span>
+                </div>
+            </w-help-icon>
+        </div>
 
-        <w-button ng-if="!$ctrl.wasImportBeta" on-click="$ctrl.importFromBeta()">
-            <span w-i18n="import from beta"></span>
-        </w-button>
+        <div ng-if="$ctrl.wasImportBeta && $ctrl.wasImportOld">
 
-        <w-button ng-if="!$ctrl.wasImportOld" on-click="$ctrl.importFromOld()">
-            <span w-i18n="import from old"></span>
-        </w-button>
+            <i class="import-modal__icon-error"></i>
+
+            <h3 class="text-center basic-700" w-i18n="No accounts found"></h3>
+
+            <div class="basic-500 body-2 text-center margin-4" ng-if="!$ctrl.wasImportBeta" w-i18n="We were unable to retrieve your accounts from the Waves Beta Client.
+            Try importing from the Waves Lite Client."></div>
+
+            <div class="basic-500 body-2 text-center margin-4" ng-if="!$ctrl.wasImportOld" w-i18n="We were unable to retrieve your accounts from the Waves Lite Client.
+            Try importing from the Waves Beta Client."></div>
+
+            <div class="basic-500 body-2 text-center margin-4" w-i18n="We were unable to retrieve your accounts.
+            Please restore them by using their backup SEEDs."></div> <!-- todo @tsigel if unable to retreive -->
+
+            <div class="import-modal__buttons-wrapper">
+                <w-button class="big long"> <!-- todo @tsigel if not error? -->
+                    <span w-i18n="Cancel"></span>
+                </w-button>
+                <w-button ng-if="!$ctrl.wasImportBeta" class="big long submit"> <!-- todo @tsigel if not error? -->
+                    <span w-i18n="Import from Lite Client"></span>
+                </w-button>
+                <w-button ng-if="!$ctrl.wasImportOld" class="big long submit"> <!-- todo @tsigel if not error? -->
+                    <span w-i18n="Import from Beta Client"></span>
+                </w-button>
+            </div>
+            <w-button class="big long submit"> <!-- todo @tsigel if unable to retreive -->
+                <span w-i18n="I understand"></span>
+            </w-button>
+
+        </div>
+
+        <div class="import-modal__buttons-wrapper text-center">
+            <div class="import-modal__block import-modal__block-beta">
+                <div class="import-modal__icon-beta"></div>
+                <div class="body-2 basic-700" w-i18n="Waves Beta Client"></div>
+                <div class="caption-1 basic-500 margin-2" w-i18n="Import accounts from Waves Beta Client"></div>
+                <w-button ng-if="!$ctrl.wasImportBeta"
+                          on-click="$ctrl.importFromBeta()"
+                          class="submit tiny">
+                    <span w-i18n="Select"></span>
+                </w-button>
+            </div>
+            <div class="import-modal__block import-modal__block-old">
+                <div class="import-modal__icon-old"></div>
+                <div class="body-2 basic-700" w-i18n="Waves Lite Client"></div>
+                <div class="caption-1 basic-500 margin-2" w-i18n="Import accounts from Waves Lite Client"></div>
+                <w-button ng-if="!$ctrl.wasImportOld"
+                          on-click="$ctrl.importFromOld()"
+                          class="submit tiny">
+                    <span w-i18n="Select"></span>
+                </w-button>
+            </div>
+        </div>
     </div>
-
 </div>
