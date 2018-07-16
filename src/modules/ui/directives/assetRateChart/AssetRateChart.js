@@ -90,8 +90,8 @@
              */
             _setThemSettings() {
                 const { wAssetRateChart } = user.getThemeSettings();
-                this.options.series.color = wAssetRateChart.seriesColor || '#5a81ea';
                 this.options = { ...this.options };
+                this.options.series[0] = { ...this.options.series[0], color: wAssetRateChart.seriesColor };
             }
 
             /**
