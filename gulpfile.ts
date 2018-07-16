@@ -147,11 +147,11 @@ task('load-trading-view', (done) => {
 
                 indexPromise.then((file) => {
 
-                    const styles = [{name: join('css', vendorCssName), theme: null }];
+                    const styles = [{name: join('/css', vendorCssName), theme: null }];
 
                     for (const theme of THEMES) {
                         styles.push({
-                            name: join('css', `${theme}-${cssName}`), theme
+                            name: join('/css', `${theme}-${cssName}`), theme
                         });
                     }
 
