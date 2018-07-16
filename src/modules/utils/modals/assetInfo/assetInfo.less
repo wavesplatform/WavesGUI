@@ -151,8 +151,8 @@ html body md-dialog.asset-info-modal {
   }
 
   .tab-container {
-    width: calc(~'100% + 80px');
-    margin-left: -40px;
+    width: calc(~'100% + 60px');
+    margin-left: -30px;
 
     w-transaction-list ul {
       border-top: none;
@@ -164,9 +164,9 @@ html body md-dialog.asset-info-modal {
         }
 
         .row {
-          padding-left: 20px;
+          padding-left: 0;
 
-          .line {
+          .line:last-child {
             padding-right: 40px;
           }
         }
@@ -197,6 +197,7 @@ html body md-dialog.asset-info-modal {
 
     md-dialog-content {
       overflow-y: auto;
+      height: auto;
     }
 
     .chart-wrapper {
@@ -207,6 +208,10 @@ html body md-dialog.asset-info-modal {
     .asset-content {
       .padding-content .tab-tem {
         padding: 20px;
+      }
+
+      w-tabs .tab-body-wrap {
+        height: auto;
       }
 
       .tab-tem {
