@@ -16,8 +16,6 @@
             constructor() {
                 super();
 
-                const { wAssetRateChart } = user.getThemeSettings();
-
                 this.options = {
                     grid: {
                         x: false,
@@ -34,7 +32,7 @@
                             dataset: 'values',
                             key: 'rate',
                             label: 'Rate',
-                            color: wAssetRateChart.seriesColor || '#5a81ea',
+                            color: '#5a81ea',
                             type: ['line', 'area']
                         }
                     ],
@@ -68,18 +66,32 @@
                  * @private
                  */
                 this._poll = null;
+
+                this._setThemSettings();
             }
 
             $postLink() {
                 this.observe('noUpdate', this._onChangeNoUpdate);
                 this.observe(['assetId', 'chartToId', 'startFrom'], this._onChangeMainParams);
+                this.observe('theme', this._setThemSettings);
+                this.syncSettings({ theme: 'theme' });
 
                 const noUpdate = this.noUpdate;
+
                 if (noUpdate) {
                     this._onChangeMainParams();
                 } else {
                     this._poll = this._createPoll();
                 }
+            }
+
+            /**
+             * @private
+             */
+            _setThemSettings() {
+                const { wAssetRateChart } = user.getThemeSettings();
+                this.options.series.color = wAssetRateChart.seriesColor || '#5a81ea';
+                this.options = { ...this.options };
             }
 
             /**
