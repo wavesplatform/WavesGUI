@@ -117,25 +117,8 @@
             }
 
             _changeTheme(name) {
-                const inDom = [];
-                const deTouch = [];
-
                 this.links.forEach(style => {
-                    if (style.getAttribute('theme') === name) {
-                        inDom.push(style);
-                    } else {
-                        deTouch.push(style);
-                    }
-
                     style.disabled = style.getAttribute('theme') !== name;
-                });
-
-                inDom.forEach((style) => {
-                    document.head.appendChild(style);
-                });
-
-                deTouch.forEach((style) => {
-                    document.head.removeChild(style);
                 });
             }
 
