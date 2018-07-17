@@ -347,7 +347,7 @@
 
                 if (!this.tx.amount) {
                     this.mirror = null;
-                    $scope.$digest();
+                    setTimeout(() => $scope.$digest(), 0);
                     return null;
                 }
 
@@ -364,7 +364,7 @@
 
                 if (!this.mirror) {
                     this.tx.amount = null;
-                    $scope.$digest();
+                    setTimeout(() => $scope.$digest(), 0);
                     return null;
                 }
 
