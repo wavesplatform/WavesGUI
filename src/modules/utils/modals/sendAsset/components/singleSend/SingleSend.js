@@ -424,10 +424,14 @@
 
                 if (this.outerSendMode) {
                     gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient).then((details) => {
-                        const max = BigNumber.min(details.maximumAmount, this.moneyHash[this.assetId].getTokens());
+                        const max = BigNumber.min(
+                            details.maximumAmount,
+                            this.moneyHash[this.assetId].getTokens()
+                        );
 
                         this.gatewayDetails = details;
-                        this.minAmount = this.moneyHash[this.assetId].cloneWithTokens(details.minimumAmount);
+                        this.minAmount = this.moneyHash[this.assetId]
+                            .cloneWithTokens(details.minimumAmount.minus('0.00000001'));
                         this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
 
                         $scope.$digest();
