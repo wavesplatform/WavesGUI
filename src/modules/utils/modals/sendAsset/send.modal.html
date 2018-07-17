@@ -2,7 +2,7 @@
     <md-dialog-content>
         <div class="modal-content">
             <div class="btn icon-close ng-scope" w-modal-close></div>
-            <w-step-by-step active-step="$ctrl.step">
+            <w-step-by-step active-step="$ctrl.step" ng-if="!$ctrl.errorOccured">
                 <w-step>
                     <w-tabs ng-model="$ctrl.tab">
                         <w-tab title-name="::'modal.send.sendTitle'" id="::'singleSend'">
@@ -36,6 +36,21 @@
                                                    tx="$ctrl.txInfo"></w-confirm-gateway-transaction>
                 </w-step>
             </w-step-by-step>
+            <div class="error-content" ng-if="$ctrl.errorOccured">
+                <div class="error-title headline-2">
+                    <w-i18n>modal.send.errors.title</w-i18n>
+                </div>
+
+                <div class="icon-browser-warning"></div>
+
+                <h3 class="text-center margin-4 basic-700">
+                    <w-i18n>modal.send.errors.headline</w-i18n>
+                </h3>
+
+                <w-button class="big long white" w-modal-close>
+                    <w-i18n>modal.send.errors.button</w-i18n>
+                </w-button>
+            </div>
         </div>
     </md-dialog-content>
 </md-dialog>
