@@ -8,23 +8,22 @@
         <h3 class="text-center basic-700" w-i18n="modal.import.selectAccountToImport"></h3>
 
         <ul class="import-modal__select">
-            <li ng-repeat="user in $ctrl.userList track by user.address"
-                ng-class="{'has-name': !!user.name}">
-
-
-                <w-avatar size="30" address="::user.address"></w-avatar>
-                <span ng-if="::user.name" class="basic-700">{{::user.name}}</span>
-                <span class="basic-500">{{::user.address}}</span>
-                <w-checkbox-submit ng-model="$ctrl.checkedHash[user.address]"></w-checkbox-submit>
+            <li ng-repeat="user in $ctrl.userList track by user.address">
+                <w-avatar class="margin-right-1" size="30" address="::user.address"></w-avatar>
+                <div class="mobile-caption-2" ng-class="{'has-name': !!user.name}">
+                    <span ng-if="::user.name" class="name basic-700">{{::user.name}}</span>
+                    <span class="address basic-500">{{::user.address}}</span>
+                    <w-checkbox-submit ng-model="$ctrl.checkedHash[user.address]"></w-checkbox-submit>
+                </div>
             </li>
         </ul>
 
-        <div class="buttons-wrapper">
+        <div class="import-modal__buttons-wrapper">
             <w-button w-modal-close class="big">
-                <span w-i18n="modal.import.importButton"></span>
+                <span w-i18n="modal.import.importCancel"></span>
             </w-button>
             <w-button on-click="$ctrl.importAccounts()" class="big submit">
-                <span w-i18n="modal.import.importCancel"></span>
+                <span w-i18n="modal.import.importButton"></span>
             </w-button>
         </div>
     </div>
@@ -79,23 +78,21 @@
 
         </div>
 
-        <div class="import-modal__buttons-wrapper text-center">
+        <div ng-if="!$ctrl.wasImportBeta" class="import-modal__buttons-wrapper text-center">
             <div class="import-modal__block import-modal__block-beta">
                 <div class="import-modal__icon-beta"></div>
                 <div class="body-2 basic-700" w-i18n="Waves Beta Client"></div>
                 <div class="caption-1 basic-500 margin-2" w-i18n="Import accounts from Waves Beta Client"></div>
-                <w-button ng-if="!$ctrl.wasImportBeta"
-                          on-click="$ctrl.importFromBeta()"
+                <w-button on-click="$ctrl.importFromBeta()"
                           class="submit tiny">
                     <span w-i18n="Select"></span>
                 </w-button>
             </div>
-            <div class="import-modal__block import-modal__block-old">
+            <div ng-if="!$ctrl.wasImportOld" class="import-modal__block import-modal__block-old">
                 <div class="import-modal__icon-old"></div>
                 <div class="body-2 basic-700" w-i18n="Waves Lite Client"></div>
                 <div class="caption-1 basic-500 margin-2" w-i18n="Import accounts from Waves Lite Client"></div>
-                <w-button ng-if="!$ctrl.wasImportOld"
-                          on-click="$ctrl.importFromOld()"
+                <w-button on-click="$ctrl.importFromOld()"
                           class="submit tiny">
                     <span w-i18n="Select"></span>
                 </w-button>
