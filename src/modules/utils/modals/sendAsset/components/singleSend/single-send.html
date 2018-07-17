@@ -161,6 +161,7 @@
             <span ng-if="$ctrl.amount.getTokens().gt($ctrl.moneyHash[$ctrl.assetId])"
                   w-i18n="modal.send.errors.max"></span>
             <span ng-if="!$ctrl.amount.getTokens().gt($ctrl.moneyHash[$ctrl.assetId])"
+                  params="{money: $ctrl.maxGatewayAmount}"
                   w-i18n="modal.send.errors.maxCoinomat"></span>
         </w-input-error>
     </w-input-container>

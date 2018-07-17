@@ -7,6 +7,7 @@
     };
 
     const COINOMAT_BANK_ADDRESS = '3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us';
+    const { Money } = require('@waves/data-entities');
 
     /**
      * @param {Base} Base
@@ -154,6 +155,10 @@
                  * @type {ISendState}
                  */
                 this.state = Object.create(null);
+                /**
+                 * @type {Money}
+                 */
+                this.maxGatewayAmount = null;
                 /**
                  * @type {boolean}
                  * @private
@@ -433,6 +438,7 @@
                         this.minAmount = this.moneyHash[this.assetId]
                             .cloneWithTokens(details.minimumAmount.minus('0.00000001'));
                         this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
+                        this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
 
                         $scope.$digest();
                     });
