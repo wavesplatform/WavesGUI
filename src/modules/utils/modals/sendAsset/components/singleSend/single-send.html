@@ -158,7 +158,10 @@
                   params="{precision: $ctrl.state.moneyHash[$ctrl.state.mirrorId].asset.precision}"></span>
         </w-input-error>
         <w-input-error name="amount" message="lte">
-            <span w-i18n="modal.send.errors.max"></span>
+            <span ng-if="$ctrl.amount.getTokens().gt($ctrl.moneyHash[$ctrl.assetId])"
+                  w-i18n="modal.send.errors.max"></span>
+            <span ng-if="!$ctrl.amount.getTokens().gt($ctrl.moneyHash[$ctrl.assetId])"
+                  w-i18n="modal.send.errors.maxCoinomat"></span>
         </w-input-error>
     </w-input-container>
 
