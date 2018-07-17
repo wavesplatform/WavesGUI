@@ -6,7 +6,7 @@
      * @param {VisibleService} visibleService
      * @returns {{restrict: string, transclude: boolean, link: link}}
      */
-    const directive = function (Base, visibleService, $rootScope) {
+    const directive = function (Base, visibleService) {
 
         return {
             restrict: 'E',
@@ -77,7 +77,7 @@
         };
     };
 
-    directive.$inject = ['Base', 'visibleService', '$rootScope'];
+    directive.$inject = ['Base', 'visibleService'];
 
     angular.module('app.ui').directive('wVisible', directive);
 })();
