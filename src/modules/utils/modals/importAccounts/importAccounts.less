@@ -2,7 +2,7 @@
 @import (reference) "../../../app/less/icons";
 
 .import-accounts {
-  min-height: 472px;
+  min-height: 322px;
 
   .icon-close {
     position: absolute;
@@ -40,20 +40,31 @@
     }
   }
 
-  &__buttons-wrapper {
+  &__blocks-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
 
     w-button {
-      width: 48%;
+      width: 100%;
       & > * {
         font-family: @font-roboto-medium;
       }
     }
   }
 
+  &__buttons-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    w-button {
+      width: 48%;
+    }
+  }
+
   &__select {
+    height: auto;
     max-height: 242px;
     border-radius: @border-radius;
     list-style-type: none;
@@ -134,12 +145,4 @@
     margin-top: 40px;
   }
 
-}
-
-@media screen and (max-width: 768px) {
-  .import-modal {
-    &__select {
-      height: @height-control-big-responsive;
-    }
-  }
 }

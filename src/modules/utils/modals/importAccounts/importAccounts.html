@@ -16,6 +16,24 @@
                     <w-checkbox-submit ng-model="$ctrl.checkedHash[user.address]"></w-checkbox-submit>
                 </div>
             </li>
+
+            <li ng-repeat="user in $ctrl.userList track by user.address">
+                <w-avatar class="margin-right-1" size="30" address="::user.address"></w-avatar>
+                <div class="mobile-caption-2" ng-class="{'has-name': !!user.name}">
+                    <span ng-if="::user.name" class="name basic-700">{{::user.name}}</span>
+                    <span class="address basic-500">{{::user.address}}</span>
+                    <w-checkbox-submit ng-model="$ctrl.checkedHash[user.address]"></w-checkbox-submit>
+                </div>
+            </li>
+
+            <li ng-repeat="user in $ctrl.userList track by user.address">
+                <w-avatar class="margin-right-1" size="30" address="::user.address"></w-avatar>
+                <div class="mobile-caption-2" ng-class="{'has-name': !!user.name}">
+                    <span ng-if="::user.name" class="name basic-700">{{::user.name}}</span>
+                    <span class="address basic-500">{{::user.address}}</span>
+                    <w-checkbox-submit ng-model="$ctrl.checkedHash[user.address]"></w-checkbox-submit>
+                </div>
+            </li>
         </ul>
 
         <div class="import-modal__buttons-wrapper">
@@ -77,7 +95,7 @@
 
         </div>
 
-        <div ng-if="!$ctrl.wasImportBeta" class="import-modal__buttons-wrapper text-center">
+        <div ng-if="!$ctrl.wasImportBeta" class="import-modal__blocks-wrapper text-center">
             <div class="import-modal__block import-modal__block-beta">
                 <div class="import-modal__icon-beta"></div>
                 <div class="body-2 basic-700" w-i18n="modal.import.wavesBetaClient"></div>
