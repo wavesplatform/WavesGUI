@@ -2,7 +2,30 @@
     'use strict';
 
     const DEFAULT_LINK = '#';
-    const COINOMAT_API = 'https://coinomat.com/api/v2/indacoin/';
+
+    const FIAT_CODES = {
+        [WavesApp.defaultAssets.USD]: 'USD',
+        [WavesApp.defaultAssets.EUR]: 'EURO'
+    };
+
+    // TODO : move this to the related gateway service
+    // TODO : keep only IDs here
+    const FIAT_LIST = [
+        {
+            name: 'USD',
+            assetId: WavesApp.defaultAssets.USD,
+            fiatCode: FIAT_CODES[WavesApp.defaultAssets.USD],
+            min: '30',
+            max: '50'
+        },
+        {
+            name: 'EUR',
+            assetId: WavesApp.defaultAssets.EUR,
+            fiatCode: FIAT_CODES[WavesApp.defaultAssets.EUR],
+            min: '30',
+            max: '50'
+        }
+    ];
 
     /**
      * @param Base
@@ -163,22 +186,7 @@
                 /**
                  * {{[p: string]: string}}
                  */
-                this.currencies = [
-                    {
-                        name: 'USD',
-                        assetId: WavesApp.defaultAssets.USD,
-                        fiat: 'USD',
-                        min: '30',
-                        max: '200'
-                    },
-                    {
-                        name: 'EUR',
-                        assetId: WavesApp.defaultAssets.EUR,
-                        fiat: 'EURO',
-                        min: '30',
-                        max: '200'
-                    }
-                ];
+                this.cardFiatList = FIAT_LIST;
 
                 /**
                  * @type {Object}
@@ -186,9 +194,9 @@
                 this.cardPayment = null;
 
                 /**
-                 * @type {string}
+                 * @type {number}
                  */
-                this.approximateAmount = '';
+                this.approximateAmount = 0;
 
                 if (this.asset) {
                     this.initForSingleAsset();
@@ -196,13 +204,6 @@
                     this.singleAsset = false;
                     this.initForAllAssets();
                 }
-            }
-
-            initForSingleAsset() {
-                this.initCryptocurrencyTab();
-                this.initInvoiceTab();
-                this.initCardTab();
-                this.initBankTab();
             }
 
             initCryptocurrencyTab() {
@@ -254,59 +255,54 @@
             }
 
             initCardTab() {
-                this.updateCardDetails();
-                if (this.showCardTab) {
-                    this.setCardObserver();
+                if (gatewayService.hasSupportOf(this.asset, 'card')) {
+                    this.showCardTab = true;
+                    this.updateCardDetails().then(() => {
+                        gatewayService.getCardFiatWithLimits(this.asset, user.address, FIAT_LIST).then((fiatList) => {
+                            this.cardFiatList = fiatList;
+                            this.updateCardTab();
+                            this.setCardObserver();
+                        });
+                    });
                 }
             }
 
             updateCardDetails() {
-                ds.moneyFromTokens(this.currencies[0].min, this.currencies[0].assetId).then((sum) => {
+                return ds.moneyFromTokens(this.cardFiatList[0].min, this.cardFiatList[0].assetId).then((sum) => {
                     this.cardPayment = sum;
                 });
+            }
 
-                if (gatewayService.getCardDetails(this.asset)) {
-                    this.activateCardTab();
-                }
+            updateCardTab() {
+                this.updateApproximateAmount();
+                this.indacoinLink = gatewayService.getCardBuyLink(
+                    this.asset,
+                    this.cardFiatList[this.chosenCurrencyIndex].fiatCode,
+                    user.address,
+                    this._tokenizeCardPayment()
+                );
             }
 
             setCardObserver() {
                 this.observe(['chosenCurrencyIndex', 'cardPayment', 'asset'], () => {
-                    if (!Number(this.tokenizeCardPayment())) {
+                    if (!Number(this._tokenizeCardPayment())) {
                         this.approximateAmount = new ds.wavesDataEntities.Money(0, this.asset);
                         return;
                     }
 
-                    this.updateApproximateAmount();
-
-                    const params = this.getCoinomatParams();
-                    this.indacoinLink = (
-                        `${COINOMAT_API}buy.php?${params.address}&${params.fiat}&${params.amount}&${params.crypto}`
-                    );
+                    this.updateCardTab();
                 });
             }
 
-            getCoinomatParams() {
-                return {
-                    address: `address=${user.address}`,
-                    amount: `amount=${this.tokenizeCardPayment()}`,
-                    crypto: `crypto=${this.asset.displayName}`,
-                    fiat: `fiat=${this.currencies[this.chosenCurrencyIndex].fiat}`
-                };
-            }
-
-            tokenizeCardPayment() {
-                const cardPayment = this.cardPayment && this.cardPayment.toTokens();
-                return cardPayment;
-            }
-
             updateApproximateAmount() {
-                this.approximateAmount = null;
+                this.approximateAmount = new ds.wavesDataEntities.Money(0, this.asset);
 
-                const params = this.getCoinomatParams();
-
-                ds.fetch(`${COINOMAT_API}rate.php?${params.address}&${params.amount}&${params.crypto}&${params.fiat}`)
-                    .then(utils.onFetch)
+                gatewayService.getCardApproximateCryptoAmount(
+                    this.asset,
+                    this.cardFiatList[this.chosenCurrencyIndex].fiatCode,
+                    user.address,
+                    this._tokenizeCardPayment()
+                )
                     .then((approximateAmount) => {
                         const coins = new BigNumber(approximateAmount).times(Math.pow(10, this.asset.precision));
                         this.approximateAmount = new ds.wavesDataEntities.Money(coins.dp(0), this.asset);
@@ -329,6 +325,13 @@
 
             }
 
+            initForSingleAsset() {
+                this.initCryptocurrencyTab();
+                this.initInvoiceTab();
+                this.initCardTab();
+                this.initBankTab();
+            }
+
             initForAllAssets() {
                 const cryptocurrenciesRequests = this.getExtendedAssets(gatewayService.getCryptocurrencies());
                 const cryptocurrenciesRequest = Promise.all(cryptocurrenciesRequests).then((results) => {
@@ -339,7 +342,7 @@
                     this.invoicables = results.map((balance) => balance.asset);
                 });
 
-                const cardsRequests = this.getExtendedAssets(gatewayService.getPurchasableByCards());
+                const cardsRequests = this.getExtendedAssets(gatewayService.getPurchasableWithCards());
                 const cardsRequest = Promise.all(cardsRequests).then((results) => {
                     this.purchasablesByCards = results;
                 });
@@ -350,7 +353,7 @@
                 });
 
                 Promise.all([cryptocurrenciesRequest, invoicesRequest, cardsRequest, fiatsRequest]).then(() => {
-                    this.updateAssetBy(this.cryptocurrencies[0].id);
+                    this.updateAssetAndDataBy(this.cryptocurrencies[0].id);
 
                     this.activateCryptocurrencyTab();
                     this.activateInvoiceTab();
@@ -377,7 +380,10 @@
                 this.initCryptocurrencyTab();
                 this.updateSendLink();
                 if (this.isPurchasableByCard(this.asset)) {
-                    this.updateApproximateAmount();
+                    if (this.showCardTab === true) {
+                        this.initCardTab();
+                    }
+                    this.updateCardTab();
                 }
                 this.initBankTab();
             }
@@ -432,6 +438,10 @@
 
             isLira() {
                 return this.asset.id === WavesApp.defaultAssets.TRY;
+            }
+
+            _tokenizeCardPayment() {
+                return (this.cardPayment && this.cardPayment.toTokens()) || 0;
             }
 
         }
