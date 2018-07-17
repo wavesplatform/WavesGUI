@@ -102,7 +102,9 @@ task('load-trading-view', (done) => {
                         return copy(path, path.replace(reg, `${targetPath}`));
                     }).concat(copy(join(__dirname, 'src/fonts'), `${targetPath}/fonts`));
 
-                    if (buildName === 'desktop') {
+                forCopy.push(copy(join(__dirname, 'tradingview-style'), join(targetPath, 'tradingview-style')));
+
+                if (buildName === 'desktop') {
                         const electronFiles = getFilesFrom(join(__dirname, 'electron'), '.js');
                         electronFiles.forEach((path) => {
                             const name = basename(path);
