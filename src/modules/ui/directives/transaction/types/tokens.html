@@ -13,8 +13,12 @@
         <div class="body-2 top fs-mobile">
         <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
               params="{
-                amount: $ctrl.amount,
-                name: $ctrl.name
+                amount: $ctrl.amount
+              }"></span>
+            <span class="nowrap"
+                  w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
+                  params="{
+                  name: $ctrl.name
               }"></span>
         </div>
         <div class="footnote-1 bottom fs-mobile" ng-if="$ctrl.typeName === 'issue' || $ctrl.typeName === 'reissue'">
