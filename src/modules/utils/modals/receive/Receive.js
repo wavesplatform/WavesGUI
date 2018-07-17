@@ -206,11 +206,15 @@
             }
 
             initCryptocurrencyTab() {
+                this.gatewayServerError = false;
                 const depositDetails = gatewayService.getDepositDetails(this.asset, this.address);
                 if (depositDetails) {
                     depositDetails.then((details) => {
                         this.gatewayAddress = details.address;
-
+                        $scope.$digest();
+                    }, () => {
+                        this.gatewayAddress = null;
+                        this.gatewayServerError = true;
                         $scope.$digest();
                     });
 
@@ -230,6 +234,10 @@
                 if (this.showInvoiceTab) {
                     this.setInvoiceObserver();
                 }
+            }
+
+            updateGatewayAddress() {
+                this.initCryptocurrencyTab();
             }
 
             setInvoiceObserver() {

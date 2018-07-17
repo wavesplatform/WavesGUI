@@ -240,6 +240,10 @@
                 return this.state.assetId === WavesApp.defaultAssets.XMR && this.tx.recipient.substr(0, 1) === '4';
             }
 
+            getGatewayDetails() {
+                this._onChangeAssetId();
+            }
+
             /**
              * @private
              */
@@ -380,11 +384,16 @@
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
+                    this.gatewayDetailsError = false;
                     gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.paymentId)
                         .then((details) => {
                             this.gatewayDetails = details;
                             $scope.$digest();
                             // TODO : validate amount field for gateway minimumAmount and maximumAmount
+                        }, () => {
+                            this.gatewayDetails = null;
+                            this.gatewayDetailsError = true;
+                            $scope.$digest();
                         });
                 } else {
                     this.gatewayDetails = null;
