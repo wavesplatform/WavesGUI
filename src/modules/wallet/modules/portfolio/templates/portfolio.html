@@ -25,7 +25,8 @@
         </w-select>
     </div>
 
-    <w-smart-table class="smart-table smart-table__mode-large" data="$ctrl.balanceList" header-info="$ctrl.tableHeaders">
+    <w-smart-table class="smart-table smart-table__mode-large" data="$ctrl.balanceList"
+                   header-info="$ctrl.tableHeaders">
         <w-loader ng-if="$ctrl.pending"></w-loader>
         <w-table-row
                 w-toggle-class-container
@@ -97,7 +98,8 @@
                           ng-click="$ctrl.showReceivePopup(balance.asset)">
                         <div><span w-i18n="receive"></span></div>
                     </span>
-                    <span ng-if="::$ctrl.canShowDex(balance)" class="icon icon-dex" ng-click="$ctrl.openDex(balance.asset)">
+                    <span ng-if="::$ctrl.canShowDex(balance)" class="icon icon-dex"
+                          ng-click="$ctrl.openDex(balance.asset)">
                         <div><span w-i18n="dex"></span></div>
                     </span>
                     <span class="icon"
@@ -119,7 +121,7 @@
                         <w-action ng-click="$ctrl.showReceivePopup(balance.asset)">
                             <span w-i18n="receive"></span>
                         </w-action>
-                        <w-action ng-if="::balance.asset.isMyAsset"
+                        <w-action ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES"
                                   ng-click="$ctrl.showBurn(balance.asset.id)">
                             <span w-i18n="burn"></span>
                         </w-action>
@@ -130,8 +132,9 @@
                         <w-action ng-if="::$ctrl.canShowDex(balance)" ng-click="$ctrl.openDex(balance.asset)">
                             <span w-i18n="dex"></span>
                         </w-action>
-                        <w-action ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES && !balance.isPinned && !balance.isOnScamList"
-                                  ng-click="$ctrl.toggleSpam(balance.asset)">
+                        <w-action
+                                ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES && !balance.isPinned && !balance.isOnScamList"
+                                ng-click="$ctrl.toggleSpam(balance.asset)">
                             <span w-i18n="tospam" w-i18n-ns="app.wallet.portfolio" ng-if="!balance.isSpam"></span>
                             <span w-i18n="unspam" w-i18n-ns="app.wallet.portfolio" ng-if="balance.isSpam"></span>
                         </w-action>

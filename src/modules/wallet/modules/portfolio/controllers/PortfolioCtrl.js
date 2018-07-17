@@ -280,21 +280,17 @@
                 };
 
                 return Promise.all([
-                    waves.node.assets.userBalances()
-                        .then((list) => Promise.all(list.map(remapBalances)))
-                        .then((list) => list.filter((item) => !item.isSpam)),
-                    // waves.node.assets.balanceList(this.pinned).then((list) => list.map(remapBalances)),
-                    waves.node.assets.balanceList(this.spam)
-                        .then((list) => Promise.all(list.map(remapBalances)))
-                ]).then(([activeList, /* pinned,*/ spam]) => {
+                    waves.node.assets.userBalances().then((list) => Promise.all(list.map(remapBalances)))
+                ]).then(([activeList]) => {
+
+                    const spam = [];
+
                     for (let i = activeList.length - 1; i >= 0; i--) {
-                        if (activeList[i].isOnScamList) {
+                        if (activeList[i].isOnScamList || activeList[i].isSpam) {
                             spam.push(activeList.splice(i, 1)[0]);
                         }
                     }
-                    // const pinnedHash = utils.toHash(pinned, 'asset.id');
-                    // const active = pinned.concat(activeList.filter((item) => !pinnedHash[item.asset.id]));
-                    return { active: activeList, /* pinned, */ spam };
+                    return { active: activeList, spam };
                 });
             }
 
