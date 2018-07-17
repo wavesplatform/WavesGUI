@@ -11,11 +11,8 @@
             <li ng-repeat="user in $ctrl.userList track by user.address"
                 ng-class="{'has-name': !!user.name}">
 
-                <!--w-avatar></w-avatar--> <!-- todo @tsigel -->
-                <div style="width: 30px; height: 30px; display: inline-block; border-radius: 50%; background: orange; color: white; font-size: 24px; line-height: 30px; text-align: center;">
-                    A
-                </div>
 
+                <w-avatar size="30" address="::user.address"></w-avatar>
                 <span ng-if="::user.name" class="basic-700">{{::user.name}}</span>
                 <span class="basic-500">{{::user.address}}</span>
                 <w-checkbox-submit ng-model="$ctrl.checkedHash[user.address]"></w-checkbox-submit>
@@ -23,11 +20,11 @@
         </ul>
 
         <div class="buttons-wrapper">
-            <w-button w-modal-close w-i18n="modal.import.importButton" class="big">
-                cancel
+            <w-button w-modal-close class="big">
+                <span w-i18n="modal.import.importButton"></span>
             </w-button>
-            <w-button w-i18n="modal.import.importCancel" on-click="$ctrl.importAccounts()" class="big submit">
-                import
+            <w-button on-click="$ctrl.importAccounts()" class="big submit">
+                <span w-i18n="modal.import.importCancel"></span>
             </w-button>
         </div>
     </div>
@@ -44,7 +41,7 @@
                 </div>
                 <div class="help-icon__row">
                     <span
-                        w-i18n="For correct operation, we recommend that you allow pop-ups.
+                            w-i18n="For correct operation, we recommend that you allow pop-ups.
                         Instructions for browsers: Chrome, Safari,  Firefox, Opera."></span>
                 </div>
             </w-help-icon>

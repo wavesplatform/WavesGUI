@@ -963,6 +963,7 @@
              */
             remapOldClientAccounts(account) {
                 return {
+                    name: account.name,
                     address: account.address,
                     encryptedSeed: account.cipher,
                     settings: {
