@@ -1,28 +1,28 @@
 <div class="txinfo__lead">
     <h3 class="basic-700"
-        w-i18n="transaction.amounts.{{::$ctrl.type}}"
+        w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
         params="{amount: $ctrl.transaction.amount.toFormat(), name: $ctrl.transaction.amount.asset.name}"></h3>
     <div class="body-2 basic-500">≈ {{::$ctrl.mirrorBalance.toFormat()}} {{::$ctrl.mirrorBalance.asset.name}}</div>
 </div>
 
-<div class="txinfo__row txinfo__row-header" ng-if="::$ctrl.type === 'mass-send'">
+<div class="txinfo__row txinfo__row-header" ng-if="::$ctrl.typeName === 'mass-send'">
     <div w-i18n="recipient"></div>
     <div w-i18n="amount"></div>
 </div>
 
-<div ng-if="::!($ctrl.type === 'circular' || $ctrl.type === 'mass-send')" class="txinfo__data">
+<div ng-if="::!($ctrl.typeName === 'circular' || $ctrl.typeName === 'mass-send')" class="txinfo__data">
 
     <div class="txinfo__row">
-        <div class="txinfo__key" w-i18n="transaction.modals.to" ng-if="::$ctrl.type === 'send'"></div>
+        <div class="txinfo__key" w-i18n="transaction.modals.to" ng-if="::$ctrl.typeName === 'send'"></div>
         <div class="txinfo__key" w-i18n="transaction.modals.from"
-             ng-if="::$ctrl.type === 'receive' || $ctrl.type === 'mass-receive'"></div>
-        <div class="txinfo__value" ng-if="::$ctrl.type !== 'mass-send'">{{::$ctrl.shownAddress}}</div>
+             ng-if="::$ctrl.typeName === 'receive' || $ctrl.typeName === 'mass-receive'"></div>
+        <div class="txinfo__value" ng-if="::$ctrl.typeName !== 'mass-send'">{{::$ctrl.shownAddress}}</div>
     </div>
 
 </div>
 
-<div ng-if="::$ctrl.type !== 'circular'" class="txinfo__data">
-<div ng-if="::$ctrl.type === 'mass-send'" ng-init="$ctrl.showAllTX = false">
+<div ng-if="::$ctrl.typeName !== 'circular'" class="txinfo__data">
+<div ng-if="::$ctrl.typeName === 'mass-send'" ng-init="$ctrl.showAllTX = false">
 
     <div ng-if="$ctrl.showAllTX">
         <div class="txinfo__row" ng-repeat="transfer in $ctrl.transaction.transfers track by transfer.recipient">
@@ -67,7 +67,7 @@
     <div class="txinfo__row">
         <div class="txinfo__key" w-i18n="transaction.modals.massSend.totalAmount"></div>
         <div class="txinfo__value">
-            <w-i18n params="{money: $ctrl.transaction.totalAmount}">money-currency</w-i18n>
+            <span w-i18n="money-currency" params="{money: $ctrl.transaction.totalAmount}"></span>
         </div>
     </div>
 </div>

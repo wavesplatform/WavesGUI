@@ -42,7 +42,7 @@
             $postLink() {
                 this.interval = Number(this.interval) || 5000;
 
-                waves.node.assets.getExtendedAsset(user.getSetting('baseAssetId'))
+                waves.node.assets.getAsset(user.getSetting('baseAssetId'))
                     .then((mirror) => {
                         this.mirror = mirror;
 
@@ -89,7 +89,7 @@
             interval: '@',
             date: '@'
         },
-        template: '<span w-nice-number="$ctrl.rate" precision="$ctrl.mirror.precision"></span>',
+        template: '<span w-nice-number="$ctrl.rate" precision="$ctrl.mirror.precision" class="z-top"></span>',
         transclude: false,
         controller
     });

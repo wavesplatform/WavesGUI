@@ -1,4 +1,6 @@
 @import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
+@import (reference) '../../../app/less/icons';
 
 w-dex-order-book {
   display: block;
@@ -6,33 +8,155 @@ w-dex-order-book {
   height: 100%;
   text-align: right;
 
-  w-table w-row {
-    padding: 0 10px 0 5px;
-    border-bottom: 1px solid transparent;
-    border-top: 1px solid transparent;
+  &.has-order-book {
+    w-empty-block,
+    w-error-block {
+      display: none;
+    }
+    w-table {
+      display: block;
+    }
   }
 
-  w-table w-t-head w-row {
-    padding: 0 14px 0 5px;
+  w-table {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: none;
 
-    &:hover {
-      background-color: #fff;
-      border-color: transparent;
+    .table-row {
+      height: 100%;
     }
 
-    .table-cell {
-      white-space: nowrap;
+    w-row {
+      padding: 0 10px 0 5px;
+      position: relative;
+      height: 22px;
+      line-height: 23px;
+      font-size: @font-size-caption-2;
+
+      &:hover {
+        background-color: @color-basic-50;
+        border-color: @color-basic-200;
+      }
+
+      w-cell {
+        z-index: 2;
+      }
+    }
+
+    w-thead {
+      color: @color-disabled-700;
+      border-bottom: 1px solid @color-disabled-100;
+
+      w-row {
+        padding: 0 14px 0 5px;
+        background: @color-white;
+        height: 28px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid @color-basic-100;
+
+        &:hover {
+          background: @color-white;
+          border-color: transparent;
+        }
+
+        w-cell {
+          text-transform: capitalize;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .table-cell {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 30px;
+        }
+      }
+    }
+
+    w-tbody {
+      overflow-y: auto;
+      display: block;
+      height: 100%;
+    }
+  }
+
+  w-scroll-box {
+    height: calc(100% ~'- 29px');
+    max-height: calc(100% ~'- 29px');
+    overflow: auto;
+    display: block;
+
+    w-row.active::before {
+      background-repeat: no-repeat;
+      width: 10px;
+      height: 10px;
+      left: 6px;
+      top: 50%;
+      display: block;
+      content: '';
+      z-index: 3;
+      transform: translateY(-50%);
+      position: absolute;
+    }
+
+    .asks,
+    .bids {
       overflow: hidden;
-      text-overflow: ellipsis;
     }
-  }
 
-  w-scroll-box .asks w-row, w-scroll-box .bids w-row {
-    cursor: pointer;
+    .asks w-row,
+    .bids w-row {
+      cursor: pointer;
+    }
 
-    &:hover {
-      background-color: @color-basic-50;
-      border-color: @color-basic-200;
+    .dex-layout {
+      &__line-graph {
+        height: 100%;
+        width: 100%;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        position: absolute;
+
+        &-fill {
+          height: 100%;
+        }
+      }
+    }
+
+    .asks w-row {
+      &.active::before {
+        background-image: url(/img/icons/active-order-arrow-ask.svg);
+      }
+
+      .dex-layout {
+        &__line-graph {
+          &-fill {
+            background-color: @color-graph-ask;
+          }
+        }
+      }
+    }
+
+    .bids w-row {
+      &.active::before {
+        background-image: url(/img/icons/active-order-arrow-bid.svg);
+      }
+
+      .dex-layout {
+        &__line-graph {
+          &-fill {
+            background-color: @color-graph-bid;
+          }
+        }
+      }
     }
   }
 
@@ -40,37 +164,66 @@ w-dex-order-book {
     color: @color-disabled-500;
   }
 
-  .spread {
-    padding: 7px 0;
-    background-color: @color-disabled-50;
+  .info {
+    border-top: 1px solid @color-basic-100;
+    border-bottom: 1px solid @color-basic-100;
+    background: @color-white;
+    display: flex;
+    align-items: center;
+    text-align: right;
+    font-size: 9px;
+    width: 100%;
+    min-height: 43px;
+    padding-right: 10px;
+    text-transform: uppercase;
 
-    .cell-0 {
-      color: @color-error-400;
-
-      .decimal-muted {
-        color: @color-error-200;
+    .spread {
+      &::after {
+        content: '%';
+        display: inline-block;
       }
     }
 
-    .cell-1 {
-      color: @color-submit-300;
+    div {
+      flex-basis: 33.3%;
     }
 
-    .cell-2 {
-      color: @color-success-600;
+    .last-price {
+      .body-1();
+      font-family: @font-roboto-regular;
+      font-weight: bold;
+      font-size: 15px;
+      position: relative;
 
-      .decimal-muted {
-        color: @color-success-200;
+      &:after {
+        background-repeat: no-repeat;
+        background-position: center;
+        position: absolute;
+        content: '';
+        width: 18px;
+        height: 18px;
+        display: block;
+        right: -18px;
+        top: 2px;
+      }
+
+      &.buy {
+        color: @color-submit-300;
+
+        &:after {
+          background-image: url(/img/icons/arrow-orderbook-top.svg);
+        }
+      }
+
+      &.sell {
+        color: @color-error-400;
+
+        &:after {
+          background-image: url(/img/icons/arrow-orderbook-down.svg);
+        }
       }
     }
-  }
 
-  .bids .cell-1 {
-    color: @color-success-600;
-
-    .decimal-muted {
-      color: @color-success-200;
-    }
   }
 
   .asks .cell-1 {
@@ -81,4 +234,45 @@ w-dex-order-book {
     }
   }
 
+  .bids .cell-1 {
+    color: @color-submit-600;
+
+    .decimal-muted {
+      color: @color-submit-200;
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+
+  w-layout {
+    .dex-layout {
+      &__orderbook {
+        .dex-layout {
+          &__block[data-block="orderbook"] {
+            w-empty-block,
+            w-error-block {
+              top: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+
+@media screen and (max-width: 659px) {
+  body.dex .dex-wrapper,
+  body.dex-demo .dex-wrapper {
+    w-dex-order-book {
+      min-height: 360px;
+
+      w-scroll-box {
+        max-height: 155px;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+    }
+  }
 }

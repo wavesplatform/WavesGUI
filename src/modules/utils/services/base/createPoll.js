@@ -11,6 +11,7 @@
     const factory = function (BaseClassComponent, Poll, modalManager, eventManager) {
 
         const pollComponents = Object.create(null);
+        const tsUtils = require('ts-utils');
 
         class PollComponent extends BaseClassComponent {
 
@@ -30,14 +31,9 @@
             createPoll(getter, setter, time, options) {
                 if (typeof setter === 'string') {
                     const name = setter;
-                    setter = (data) => {
-                        tsUtils.set(this.parent, name, data);
-                        if (options && options.$scope) {
-                            options.$scope.$apply();
-                        }
-                    };
+                    setter = PollComponent._getSetterHandler(name, this.parent, options);
                 } else {
-                    setter = setter.bind(this.parent);
+                    setter = PollComponent._wrapSetterHandler(setter, this.parent, options);
                 }
                 /**
                  * @type {Poll}
@@ -81,8 +77,47 @@
              * @return {Poll}
              */
             static create(base, getter, setter, time, options) {
+                if (base.wasDestroed) {
+                    return null;
+                }
                 return PollComponent._getPoll(base)
                     .createPoll(getter, setter, time, options);
+            }
+
+            /**
+             * @param {string} path
+             * @param {Base} parent
+             * @param {ICreatePollOptions} options
+             * @private
+             */
+            static _getSetterHandler(path, parent, options) {
+                if (options && options.$scope) {
+                    return function (data) {
+                        tsUtils.set(parent, path, data);
+                        options.$scope.$apply();
+                    };
+                } else {
+                    return function (data) {
+                        tsUtils.set(parent, path, data);
+                    };
+                }
+            }
+
+            /**
+             * @param {function} handler
+             * @param {Base} parent
+             * @param {ICreatePollOptions} options
+             * @private
+             */
+            static _wrapSetterHandler(handler, parent, options) {
+                if (options && options.$scope) {
+                    return function (data) {
+                        handler.call(parent, data);
+                        options.$scope.$apply();
+                    };
+                } else {
+                    return handler.bind(parent);
+                }
             }
 
             /**

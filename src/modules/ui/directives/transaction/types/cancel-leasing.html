@@ -1,17 +1,17 @@
 <div class="line-wrapper grow">
     <div class="line">
-        <div class="body-1 top fs-mobile">
-            <span w-i18n="transaction.headers.{{::$ctrl.type}}"></span>
+        <div class="body-2 top fs-mobile">
+            <span w-i18n="transaction.headers.{{::$ctrl.typeName}}"></span>
         </div>
         <div class="footnote-1 bottom fs-mobile">
-            <span w-i18n="transaction.subheaders.{{::$ctrl.type}}"
-                  params="{time: $ctrl.time, transactionId: $ctrl.transaction.leaseTransactionId}"></span>
+            <span w-i18n="transaction.subheaders.{{::$ctrl.typeName}}"
+                  params="{time: $ctrl.time, transactionId: $ctrl.transaction.leaseId}"></span>
         </div>
     </div>
     <div class="line">
         <div class="footnote-1 bottom fs-mobile">
             <!--TODO : canceled leasing amount-->
-            <span w-i18n="transaction.amounts.{{::$ctrl.type}}"
+            <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
                   params="{amount: $ctrl.transaction.amount.toFormat(), name: $ctrl.transaction.amount.asset.name}"></span>
         </div>
     </div>

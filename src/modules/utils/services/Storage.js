@@ -5,6 +5,7 @@
     let read;
     let write;
     let clear;
+    const tsUtils = require('ts-utils');
 
     if (WavesApp.isWeb()) {
         try {
@@ -114,6 +115,15 @@
             },
             '1.0.0-beta.40': function (storage) {
                 return addNewGateway(storage, WavesApp.defaultAssets.XMR);
+            },
+            '1.0.0-beta.47': function (storage) {
+                return storage.load('userList').then((list = []) => {
+                    const result = list.map((item) => {
+                        tsUtils.unset(item, 'settings.dex');
+                        return item;
+                    });
+                    return storage.save('userList', result);
+                });
             }
         };
 

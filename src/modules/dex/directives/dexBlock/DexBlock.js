@@ -6,9 +6,10 @@
      * @param {JQuery} $element
      * @param {app.utils} utils
      * @param {app.i18n} i18n
+     * @param {DexDataService} dexDataService
      * @return {DexBlock}
      */
-    const controller = function (Base, $element, utils, i18n) {
+    const controller = function (Base, $element, utils, i18n, dexDataService) {
 
         class DexBlock extends Base {
 
@@ -34,18 +35,9 @@
                  */
                 this.focused = false;
                 /**
-                 * Mode for choose base asset id for dex block
-                 * @type {boolean}
-                 */
-                this.changeBaseAssetMode = false;
-                /**
                  * @type {string}
                  */
                 this.block = null;
-                /**
-                 * @type {string}
-                 */
-                this.column = null;
                 /**
                  * @type {Layout}
                  * @private
@@ -53,16 +45,19 @@
                 this._parent = null;
 
                 i18n.translateField(this, 'titleLiteral', 'title', 'app.dex');
-                this.observe('changeBaseAssetMode', this._onChangeAssetMode);
+            }
+
+            scrollToSpread() {
+                dexDataService.showSpread.dispatch();
             }
 
             $postLink() {
 
                 this.syncSettings({
-                    collapsed: `dex.layout.${this.column}.collapsedBlock`
+                    collapsed: `dex.layout.${this.block}.collapsed`
                 });
 
-                this._parent.collapseBlock(this.column, this.block, this.collapsed);
+                this._parent.collapseBlock(this.block, this.collapsed);
                 this._parent.registerItem($element, this);
             }
 
@@ -72,39 +67,14 @@
                     this.collapsed = !collapsed;
                     utils.wait(100)
                         .then(() => {
-                            this._parent.collapseBlock(this.column, this.block, this.collapsed);
+                            this._parent.collapseBlock(this.block, this.collapsed);
                         });
                 } else {
-                    this._parent.collapseBlock(this.column, this.block, !this.collapsed);
+                    this._parent.collapseBlock(this.block, !this.collapsed);
                     utils.wait(300)
                         .then(() => {
                             this.collapsed = !collapsed;
                         });
-                }
-            }
-
-            onClickTitle() {
-                if (this.hasSearch) {
-                    this.changeBaseAssetMode = true;
-                    utils.wait().then(() => {
-                        $element.find('input.change-base-asset-input').focus();
-                    });
-                }
-            }
-
-            /**
-             * @param {boolean} value
-             * @private
-             */
-            _onChangeAssetMode({ value }) {
-                if (value) {
-                    this.focused = true;
-                    this.search = this.title;
-                    $element.find('.change-base-asset-input')
-                        .focus();
-                } else {
-                    this.focused = false;
-                    this.search = '';
                 }
             }
 
@@ -113,7 +83,7 @@
         return new DexBlock();
     };
 
-    controller.$inject = ['Base', '$element', 'utils', 'i18n'];
+    controller.$inject = ['Base', '$element', 'utils', 'i18n', 'dexDataService'];
 
     angular.module('app.dex')
         .component('wDexBlock', {
@@ -122,7 +92,6 @@
             },
             bindings: {
                 titleLiteral: '@titleName',
-                column: '@',
                 block: '@',
                 hasSearch: '@',
                 canCollapse: '@'

@@ -12,6 +12,8 @@
     "es6": true
   },
   "globals": {
+    "Handlebars": true,
+    "ds": true,
     "transfer": true,
     "Waves": true,
     "BigNumber": true,
@@ -53,10 +55,6 @@
     "array-callback-return": "error",
     "array-element-newline": "off",
     "arrow-body-style": "off",
-    "arrow-parens": [
-      "error",
-      "always"
-    ],
     "arrow-spacing": [
       "error",
       {
@@ -219,7 +217,7 @@
     "no-iterator": "error",
     "no-label-var": "error",
     "no-labels": "error",
-    "no-lone-blocks": "error",
+    "no-lone-blocks": "off",
     "no-lonely-if": "error",
     "no-loop-func": "error",
     "no-magic-numbers": "off",

@@ -5,23 +5,21 @@
 
 w-loader {
   display: block;
-  position: relative;
-  margin: 36vh auto;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   height: @preloader-size;
   width: @preloader-size * 4;
 }
 
-md-dialog {
-  w-loader {
-    margin: 120px auto 140px;
-  }
+.qr-wrapper {
+  height: 160px;
+  position: relative;
+  min-height: 200px;
 
-  w-copy-wrap w-loader {
-    margin: 0 auto;
-  }
-
-  .qr-wrapper w-loader {
-    margin: 60px auto;
+  .center {
+    height: auto;
   }
 }
 

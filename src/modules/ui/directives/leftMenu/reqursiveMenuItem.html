@@ -1,6 +1,6 @@
 <w-responsive-menu-item value="{{::menu.id}}" active-by-state="true">
-    <a ui-state="menu.sref" class="menu-item {{::menu.id}}">
-        <w-i18n>header.{{::menu.id}}</w-i18n>
+    <a ng-click="$ctrl.open(menu.sref)" class="menu-item {{::menu.id}}">
+        <span w-i18n="header.{{::menu.id}}"></span>
     </a>
     <div ng-if="menu.list.length" class="child-menu-list">
         <div class="child-menu-item"

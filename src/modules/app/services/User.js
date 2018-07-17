@@ -22,6 +22,14 @@
 
         class User {
 
+
+            /**
+             * @type {Signal<string>} setting path
+             */
+            get changeSetting() {
+                return this._settings.change;
+            }
+
             constructor() {
                 /**
                  * @type {string}
@@ -31,10 +39,6 @@
                  * @type {string}
                  */
                 this.name = null;
-                /**
-                 * @type {Signal<string>} setting path
-                 */
-                this.changeSetting = null;
                 /**
                  * @type {string}
                  */
@@ -55,7 +59,7 @@
                  * @type {DefaultSettings}
                  * @private
                  */
-                this._settings = null;
+                this._settings = defaultSettings.create(Object.create(null));
                 /**
                  * @type {number}
                  */
@@ -92,6 +96,7 @@
                 this._fieldsForSave = [];
 
                 this._setObserve();
+                this._settings.change.on(() => this._onChangeSettings());
             }
 
             /**
@@ -219,6 +224,7 @@
                 this.noSaveToStorage = !data.saveToStorage;
 
                 return this._addUserData({
+                    api: data.api,
                     address: data.address,
                     password: data.password,
                     name: data.name,
@@ -266,26 +272,6 @@
             }
 
             /**
-             * @return {Promise<Seed>}
-             */
-            getSeed() {
-                return this.onLogin() // TODO Refactor. Author Tsigel at 22/11/2017 09:35
-                    .then(() => {
-                        if (!this._password) {
-                            return modalManager.getSeed();
-                        } else {
-
-                            const encryptionRounds = this._settings.get('encryptionRounds');
-                            const encryptedSeed = this.encryptedSeed;
-                            const password = this._password;
-
-                            const phrase = Waves.Seed.decryptSeedPhrase(encryptedSeed, password, encryptionRounds);
-                            return Waves.Seed.fromExistingPhrase(phrase);
-                        }
-                    });
-            }
-
-            /**
              * @return {Promise}
              */
             getUserList() {
@@ -310,6 +296,7 @@
 
             /**
              * @param {object} data
+             * @param {ISignatureApi} data.api
              * @param {string} data.address
              * @param {string} [data.encryptedSeed]
              * @param {string} [data.publicKey]
@@ -337,7 +324,6 @@
 
                         this._settings = defaultSettings.create(this.settings);
                         this._settings.change.on(() => this._onChangeSettings());
-                        this.changeSetting = this._settings.change;
 
                         if (this._settings.get('savePassword')) {
                             this._password = data.password;
@@ -350,7 +336,12 @@
                             return new UserRouteState('main', id, this._settings.get(`${id}.activeState`));
                         });
 
-                        return this._save()
+                        Object.keys(WavesApp.network).forEach((key) => {
+                            ds.config.set(key, this._settings.get(`network.${key}`));
+                        });
+
+                        return ds.app.login(data.address, data.api)
+                            .then(() => this._save())
                             .then(() => {
                                 this._logoutTimer();
                                 this._dfr.resolve();
@@ -422,7 +413,7 @@
              * @private
              */
             _save() {
-                if (this.noSaveToStorage) {
+                if (this.noSaveToStorage || !this.address) {
                     return Promise.resolve();
                 }
 
