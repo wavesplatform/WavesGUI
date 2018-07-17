@@ -151,8 +151,8 @@ html body md-dialog.asset-info-modal {
   }
 
   .tab-container {
-    width: calc(~'100% + 80px');
-    margin-left: -40px;
+    width: calc(~'100% + 60px');
+    margin-left: -30px;
 
     w-transaction-list ul {
       border-top: none;
@@ -166,7 +166,7 @@ html body md-dialog.asset-info-modal {
         .row {
           padding-left: 20px;
 
-          .line {
+          .line:last-child {
             padding-right: 40px;
           }
         }
@@ -188,7 +188,29 @@ html body md-dialog.asset-info-modal {
       margin: 20px auto;
     }
   }
+}
 
+@media screen and (max-width: 768px) {
+
+  html body md-dialog.asset-info-modal {
+    .tab-container w-transaction-list {
+      ul {
+        .transaction-item {
+          .date {
+            padding-left: 20px;
+          }
+
+          .row {
+            padding-left: 0;
+
+            .line:last-child {
+              padding-right: 0;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 540px) {
@@ -197,6 +219,11 @@ html body md-dialog.asset-info-modal {
 
     md-dialog-content {
       overflow-y: auto;
+      height: auto;
+    }
+
+    w-tabs .titles-wrap {
+      padding-left: 0;
     }
 
     .chart-wrapper {
@@ -207,6 +234,10 @@ html body md-dialog.asset-info-modal {
     .asset-content {
       .padding-content .tab-tem {
         padding: 20px;
+      }
+
+      w-tabs .tab-body-wrap {
+        height: auto;
       }
 
       .tab-tem {
