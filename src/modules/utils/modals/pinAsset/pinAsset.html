@@ -1,37 +1,37 @@
-<div class="add-asset margin-4">
-
-    <div class="body-2" w-i18n="modal.pinAsset.assetTitle"></div>
-    <div class="add-asset__choosen" ng-click="$ctrl.toggleList()">
-        <div class="title" ng-if="!$ctrl.selected">
-            <div class="title-content" w-i18n="modal.pinAsset.nothing"></div>
-        </div>
-        <div class="title" ng-if="$ctrl.selected">
-            <div class="title-content" w-i18n="modal.pinAsset.selected"></div>
-            {{$ctrl.selected}}
-        </div>
-    </div>
-
-    <ul class="add-asset__select" ng-if="$ctrl.isListOpen">
-        <li class="add-asset__search">
-            <input placeholder="modal.pinAsset.Placeholder" ng-model="$ctrl.search">
-        </li>
-        <li ng-repeat="asset in $ctrl.pinnedAssetNewList track by asset.id">
-            <div class="mobile-caption-2">
-                <w-checkbox-submit ng-model="asset.pined"></w-checkbox-submit>
-                <div class="name">{{::asset.name}}</div>
-                <div class="asset-id">{{::asset.id}}</div>
+<md-dialog w-i18n-ns="app.utils" class="add-asset" aria-label="modal">
+    <md-dialog-content>
+        <div class="margin-4 add-asset__wrapper">
+            <div class="add-asset__header">
+                <h3 class="text-center basic-700" w-i18n="modal.pinAsset.title"></h3>
+                <div class="btn icon-close" w-modal-close></div>
             </div>
-        </li>
-    </ul>
-
-</div>
-<div>
-    <div class="add-asset__buttons-wrapper">
-        <w-button class="big long" w-modal-close>
-            <span w-i18n="modal.pinAsset.cancel"></span>
-        </w-button>
-        <w-button class="big long submit" on-click="$ctrl.onSubmit()" disabled="!$ctrl.selected">
-            <span w-i18n="modal.pinAsset.submit"></span>
-        </w-button>
-    </div>
-</div>
+            <div class="body-2" w-i18n="modal.pinAsset.assetTitle"></div>
+            <input class="add-asset__search"
+                   placeholder="modal.pinAsset.placeholder"
+                   ng-model="$ctrl.search"/>
+            <ul class="add-asset__select"
+                ng-class="{active: $ctrl.isListOpen}">
+                <li ng-repeat="asset in $ctrl.pinnedAssetNewList track by asset.id">
+                    <label class="mobile-caption-2">
+                        <w-checkbox-submit ng-model="asset.pined"></w-checkbox-submit>
+                        <w-asset-logo size="24" asset-id="{{::asset.id}}"></w-asset-logo>
+                        <div class="name basic-700">{{::asset.name}}</div>
+                        <div class="asset-id basic-500">{{::asset.id}}</div>
+                    </label>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <div class="add-asset__buttons-wrapper">
+                <w-button class="big long" w-modal-close>
+                    <span w-i18n="modal.pinAsset.cancel"></span>
+                </w-button>
+                <w-button class="big long submit"
+                          on-click="$ctrl.onSubmit()"
+                          disabled="!$ctrl.selected">
+                    <span w-i18n="modal.pinAsset.submit"></span>
+                </w-button>
+            </div>
+        </div>
+    </md-dialog-content>
+</md-dialog>
