@@ -1,0 +1,31 @@
+<div class="input-wrapper">
+    <div class="choosen" ng-click="$ctrl.toggleList()">
+        <div class="selected-item" ng-if="!$ctrl.selected">
+            <span w-i18n="modal.painAsset.nothing"></span>
+        </div>
+        <div class="selected-item" ng-if="$ctrl.selected">
+            <span w-i18n="modal.painAsset.selected"></span>
+            {{$ctrl.selected}}
+        </div>
+    </div>
+    <ul ng-if="$ctrl.isListOpen">
+        <li>
+            <input ng-model="$ctrl.search">
+        </li>
+        <li  ng-repeat="asset in $ctrl.pinnedAssetNewList track by asset.id">
+            <div>
+                <w-checkbox-submit ng-model="asset.pined"></w-checkbox-submit>
+                <div>{{::asset.name}}</div>
+                <div>{{::asset.id}}</div>
+            </div>
+        </li>
+    </ul>
+</div>
+<div>
+    <w-button class="" w-modal-close>
+        <span w-i18n="modal.painAsset.cancel"></span>
+    </w-button>
+    <w-button class="submit" on-click="$ctrl.onSubmit()" disabled="!$ctrl.selected" >
+        <span w-i18n="modal.painAsset.submit"></span>
+    </w-button>
+</div>

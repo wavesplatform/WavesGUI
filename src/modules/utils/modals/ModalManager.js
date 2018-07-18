@@ -68,6 +68,16 @@
                 });
             }
 
+            showPinAsset() {
+                return this._getModal({
+                    id: 'pin-asset',
+                    title: 'modal.pinAsset.title',
+                    contentUrl: 'modules/utils/modals/pinAsset/pinAsset.html',
+                    controller: 'PinAssetCtrl',
+                    mod: 'pin-asset-modal'
+                });
+            }
+
             showAssetInfo(asset) {
                 return this._getModal({
                     id: 'asset-info',
