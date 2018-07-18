@@ -114,12 +114,14 @@
                         this.userList = list;
                         this._updateActiveUserAddress();
                         setTimeout(() => {
+                            this.pendingRestore = false
                             $scope.$apply(); // TODO FIX!
                         }, 100);
                     });
             }
 
             _loadUserListFromBeta() {
+                this.pendingRestore = true;
                 utils.importAccountByIframe(WavesApp.betaOrigin, 5000)
                     .then((userList) => {
                         this.userList = userList || [];
