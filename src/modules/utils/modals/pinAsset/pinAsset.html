@@ -1,31 +1,37 @@
-<div class="input-wrapper">
-    <div class="choosen" ng-click="$ctrl.toggleList()">
-        <div class="selected-item" ng-if="!$ctrl.selected">
-            <span w-i18n="modal.painAsset.nothing"></span>
+<div class="add-asset margin-4">
+
+    <div class="body-2" w-i18n="modal.pinAsset.assetTitle"></div>
+    <div class="add-asset__choosen" ng-click="$ctrl.toggleList()">
+        <div class="title" ng-if="!$ctrl.selected">
+            <div class="title-content" w-i18n="modal.pinAsset.nothing"></div>
         </div>
-        <div class="selected-item" ng-if="$ctrl.selected">
-            <span w-i18n="modal.painAsset.selected"></span>
+        <div class="title" ng-if="$ctrl.selected">
+            <div class="title-content" w-i18n="modal.pinAsset.selected"></div>
             {{$ctrl.selected}}
         </div>
     </div>
-    <ul ng-if="$ctrl.isListOpen">
-        <li>
-            <input ng-model="$ctrl.search">
+
+    <ul class="add-asset__select" ng-if="$ctrl.isListOpen">
+        <li class="add-asset__search">
+            <input placeholder="modal.pinAsset.Placeholder" ng-model="$ctrl.search">
         </li>
-        <li  ng-repeat="asset in $ctrl.pinnedAssetNewList track by asset.id">
-            <div>
+        <li ng-repeat="asset in $ctrl.pinnedAssetNewList track by asset.id">
+            <div class="mobile-caption-2">
                 <w-checkbox-submit ng-model="asset.pined"></w-checkbox-submit>
-                <div>{{::asset.name}}</div>
-                <div>{{::asset.id}}</div>
+                <div class="name">{{::asset.name}}</div>
+                <div class="asset-id">{{::asset.id}}</div>
             </div>
         </li>
     </ul>
+
 </div>
 <div>
-    <w-button class="" w-modal-close>
-        <span w-i18n="modal.painAsset.cancel"></span>
-    </w-button>
-    <w-button class="submit" on-click="$ctrl.onSubmit()" disabled="!$ctrl.selected" >
-        <span w-i18n="modal.painAsset.submit"></span>
-    </w-button>
+    <div class="add-asset__buttons-wrapper">
+        <w-button class="big long" w-modal-close>
+            <span w-i18n="modal.pinAsset.cancel"></span>
+        </w-button>
+        <w-button class="big long submit" on-click="$ctrl.onSubmit()" disabled="!$ctrl.selected">
+            <span w-i18n="modal.pinAsset.submit"></span>
+        </w-button>
+    </div>
 </div>

@@ -1,0 +1,117 @@
+@import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
+
+.add-asset {
+
+  &__buttons-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    w-button {
+      flex-basis: 49%;
+    }
+  }
+
+  &__choosen {
+
+    .title {
+      border: 1px solid #dae1e9;
+      font-size: 15px;
+      padding: 8px 35px 8px 15px;
+      border-radius: @border-radius;
+      cursor: pointer;
+      height: 48px;
+      position: relative;
+
+      .title-content {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        width: 100%;
+
+        &::after {
+          content: '';
+          display: block;
+          position: absolute;
+          right: 16px;
+          top: 50%;
+          width: 10px;
+          height: 5px;
+          transform: translateY(-50%);
+          background-size: 100%;
+          background-image: url(/img/icons/arrow-select.svg);
+        }
+      }
+    }
+  }
+
+  &__search {
+    padding: 0;
+
+    input {
+      .body-2();
+      border: 0 none;
+      width: 100%;
+      padding: 8px 15px 8px 26px;
+      background: url(/img/icons/input-search-icon.svg) 2px center no-repeat @color-white;
+    }
+
+    &:hover {
+      background: @color-white;
+    }
+  }
+
+  &__select {
+    max-height: 242px;
+    border-radius: @border-radius;
+    list-style-type: none;
+    border: 1px solid @color-basic-100;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+
+    li {
+      height: 48px;
+      cursor: pointer;
+      display: flex;
+      padding: 8px 55px 8px 15px;
+      white-space: nowrap;
+      position: relative;
+
+       .name {
+        font-size: 15px;
+        line-height: 1em;
+        margin: 0 0 4px 0;
+      }
+
+      .address {
+        line-height: 1em;
+      }
+      //
+      //&:hover {
+      //  background: @color-basic-50;
+      //}
+
+      w-checkbox-submit {
+        position: absolute;
+        left: 30px;
+        top: 50%;
+        transform: translate(0, -50%);
+      }
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

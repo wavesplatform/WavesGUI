@@ -5,6 +5,7 @@
 @asset-block-wide50: calc(~"50% - " @padding-main-layout);
 @asset-block-full: calc(~"100% - " @padding-main-layout);
 
+.new-asset,
 w-asset {
   box-sizing: border-box;
   min-height: 182px;
@@ -99,4 +100,32 @@ w-asset {
       }
     }
   }
+}
+
+.new-asset {
+  background: url(/img/icons/new-asset.svg) center no-repeat @color-white;
+  cursor: pointer;
+
+  &:hover {
+    background: url(/img/icons/new-asset-hover.svg) center no-repeat @color-white;
+  }
+}
+
+.unpin {
+  display: block;
+  width: 30px;
+  height: 30px;
+  background: url(/img/icons/unpin-asset.svg) center no-repeat;
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  cursor: pointer;
+
+  &:hover {
+    background: url(/img/icons/unpin-asset-hover.svg) center no-repeat;
+  }
+}
+
+.tooltip.unpin-tooltop {
+  display: none;
 }
