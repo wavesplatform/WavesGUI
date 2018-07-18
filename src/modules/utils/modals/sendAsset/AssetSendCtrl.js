@@ -163,9 +163,18 @@
              */
             _onChangeMoneyHash() {
                 const hash = this.state.moneyHash;
-                const list = Object.values(hash).filter((money) => !money.getTokens().eq(0));
+                const list = Object.values(hash)
+                    .filter((money) => !money.getTokens().eq(0) && AssetSendCtrl._isNotScam(money));
+
+
                 if (list.length) {
-                    this.choosableMoneyList = list.filter(AssetSendCtrl._isNotScam);
+                    const availableBalancesHash = utils.toHash(list, 'asset.id');
+
+                    if (!availableBalancesHash[this.state.assetId] && this.canChooseAsset) {
+                        this.state.assetId = list[0].asset.id;
+                    }
+
+                    this.choosableMoneyList = list;
                 } else {
                     this.choosableMoneyList = [this.state.moneyHash[this.state.assetId]];
                 }
