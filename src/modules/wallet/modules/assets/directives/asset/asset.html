@@ -1,9 +1,13 @@
 <div w-i18n-ns="app.wallet.assets">
     <div ng-click="$ctrl.onUnpinClick($ctrl.balance.asset)"
          ng-if="$ctrl.isUnpinned()"
-         class="unpin"></div>
-    <div class="tooltip unpin-tooltop">
-        <span w-i18n="Unpin"></span>
+         class="unpin">
+        <div class="tooltip-holder">
+            <span></span>
+            <div class="tooltip unpin-tooltip">
+                <div w-i18n="Unpin"></div>
+            </div>
+        </div>
     </div>
     <div class="info" ng-click="$ctrl.onClick({event: $event, asset: $ctrl.balance.asset, action: 'info'})">
         <div class="name">
