@@ -172,8 +172,8 @@ w-asset {
   position: absolute;
   background: @color-disabled-500;
   top: 5px;
-  right: 50%;
-  transform: translate(50%, -40px);
+  right: -12px;
+  transform: translate(0, -40px);
   color: @color-white;
   padding: 10px 15px;
   border-radius: 4px;
@@ -188,6 +188,7 @@ w-asset {
 
   &::before {
     bottom: -4px;
+    left: calc(100% ~'- 33px');
     background: @color-disabled-500;
   }
 }
