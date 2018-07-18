@@ -541,7 +541,7 @@
                     this.totalPrice.asset.id === this.priceBalance.asset.id) {
 
                     this.canBuyOrder = (
-                        this.totalPrice.lte(this.priceBalance) && this.priceBalance.getTokens().gt(0)
+                        this.totalPrice.lte(this.maxPriceBalance) && this.maxPriceBalance.getTokens().gt(0)
                     );
                 } else {
                     this.canBuyOrder = true;
