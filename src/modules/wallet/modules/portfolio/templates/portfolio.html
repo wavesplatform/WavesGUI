@@ -28,10 +28,8 @@
     <w-smart-table class="smart-table smart-table__mode-large" data="$ctrl.balanceList"
                    header-info="$ctrl.tableHeaders">
         <w-loader ng-if="$ctrl.pending"></w-loader>
-        <w-table-row
-                w-toggle-class-container
-                ng-repeat="balance in $data track by balance.asset.id">
-            <w-visible>
+        <w-table-row ng-repeat="balance in $data track by balance.asset.id">
+
                 <w-table-cell class="smart-table__name">
                     <div class="cell">
                         <w-asset-logo class="margin-right-1" asset-id="{{::balance.asset.id}}" size="30"></w-asset-logo>
@@ -39,25 +37,16 @@
                     </div>
                 </w-table-cell>
                 <w-table-cell class="smart-table__available">
-                    <div class="cell-header">
-                        <span w-i18n="list.balance"></span>
-                    </div>
                     <div class="cell">
                         <w-balance money="balance.available" short-mode="::true"></w-balance>
                     </div>
                 </w-table-cell>
                 <w-table-cell class="smart-table__in-orders">
-                    <div class="cell-header">
-                        <span w-i18n="list.inOrders"></span>
-                    </div>
                     <div class="cell">
                         <w-balance money="balance.inOrders"></w-balance>
                     </div>
                 </w-table-cell>
                 <w-table-cell class="smart-table__available-value">
-                    <div class="cell-header">
-                        <span w-i18n="list.mirror" params="{currency: $ctrl.mirror.displayName}"></span>
-                    </div>
                     <div class="cell">
                         <w-exchange noUpdate balance="balance.available"
                                     ng-if="::balance.asset.id !== WavesApp.defaultAssets.USD"></w-exchange>
@@ -65,9 +54,6 @@
                     </div>
                 </w-table-cell>
                 <w-table-cell class="smart-table__chart-wrap">
-                    <div class="cell-header">
-                        <span w-i18n="list.rate" params="{currency: $ctrl.mirror.displayName}"></span>
-                    </div>
                     <div class="cell">
                         <w-change-rate ng-if="::balance.asset.id !== WavesApp.defaultAssets.USD"
                                        asset-id="balance.asset.id"></w-change-rate>
@@ -80,9 +66,6 @@
                     </div>
                 </w-table-cell>
                 <w-table-cell class="smart-table__change">
-                    <div class="cell-header">
-                        <span w-i18n="list.change"></span>
-                    </div>
                     <div class="cell">
                         <w-change24 asset-from="balance.asset.id"
                                     asset-to="$ctrl.mirrorId"
@@ -140,7 +123,6 @@
                                 <span w-i18n="unspam" w-i18n-ns="app.wallet.portfolio" ng-if="balance.isSpam"></span>
                             </w-action>
                         </w-actions>
-                        <i class="toggler" w-toggle-class></i>
                     </div>
                 </w-table-cell>
             </w-visible>
