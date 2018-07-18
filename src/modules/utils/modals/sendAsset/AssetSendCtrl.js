@@ -170,7 +170,7 @@
                 if (list.length) {
                     const availableBalancesHash = utils.toHash(list, 'asset.id');
 
-                    if (!availableBalancesHash[this.state.assetId]) {
+                    if (!availableBalancesHash[this.state.assetId] && this.canChooseAsset) {
                         this.state.assetId = list[0].asset.id;
                     }
 
