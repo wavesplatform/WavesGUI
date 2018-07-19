@@ -1,6 +1,12 @@
 (function () {
     'use strict';
 
+    const SEPA_GATEWAYS = {
+        [WavesApp.defaultAssets.USD]: 'USD',
+        [WavesApp.defaultAssets.EUR]: 'EUR',
+        [WavesApp.defaultAssets.TRY]: 'TRY'
+    };
+
     const KNOWLEDGE_BASE = `${WavesApp.network.support}/forums/2-knowledge-base/topics`;
     const SEPA_COUNTRIES_URL = `${KNOWLEDGE_BASE}/1304-list-of-accepted-countries-and-documents-for-verification`;
 
@@ -11,15 +17,14 @@
     const KEY_NAME_PREFIX = 'coinomatSepa';
 
     /**
-     * @param sepaGateways
      * @returns {CoinomatSepaService}
      */
-    const factory = function (sepaGateways) {
+    const factory = function () {
 
         class CoinomatSepaService {
 
             getAll() {
-                return sepaGateways;
+                return SEPA_GATEWAYS;
             }
 
             /**
@@ -28,7 +33,7 @@
              * @return {Promise}
              */
             getSepaDetails(asset, wavesAddress) {
-                CoinomatSepaService._isSupportedAsset(asset.id);
+                CoinomatSepaService._assertAsset(asset.id);
                 return Promise.resolve({
                     listOfEligibleCountries: SEPA_COUNTRIES_URL,
                     idNowSiteUrl: ID_NOW_SITE_URL,
@@ -41,17 +46,17 @@
              * @return {IGatewaySupportMap}
              */
             getSupportMap(asset) {
-                if (sepaGateways[asset.id]) {
+                if (SEPA_GATEWAYS[asset.id]) {
                     return { sepa: true };
                 }
             }
 
             getAssetKeyName(asset) {
-                return `${KEY_NAME_PREFIX}${sepaGateways[asset.id]}`;
+                return `${KEY_NAME_PREFIX}${SEPA_GATEWAYS[asset.id]}`;
             }
 
-            static _isSupportedAsset(assetId) {
-                if (!sepaGateways[assetId]) {
+            static _assertAsset(assetId) {
+                if (!SEPA_GATEWAYS[assetId]) {
                     throw new Error('Asset is not supported by Coinomat SEPA');
                 }
             }
@@ -60,8 +65,6 @@
 
         return new CoinomatSepaService();
     };
-
-    factory.$inject = ['sepaGateways'];
 
     angular.module('app.utils').factory('coinomatSepaService', factory);
 })();
