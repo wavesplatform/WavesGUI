@@ -265,6 +265,8 @@
             themesConf: {{{themesConf}}},
             progress: 0,
             state: 'loading',
+            betaOrigin: '{{{betaOrigin}}}',
+            targetOrigin: '{{{targetOrigin}}}',
             localize: {
                 'en': {
                     name: 'En',
@@ -444,7 +446,7 @@
             <div class="browser-icon-block">
                 <img src="/img/no-preload/chrome-icon.svg"/>
                 <div>Chrome</div>
-                <div><a href="https://www.google.ru/chrome/index.html" target="_blank">Install or update</a></div>
+                <div><a href="https://www.google.com/chrome/index.html" target="_blank">Install or update</a></div>
             </div>
             <div class="browser-icon-block">
                 <img src="/img/no-preload/firefox-icon.svg"/>
@@ -635,6 +637,8 @@
      * @property {string} name
      * @property {string} version
      * @property {string} type
+     * @property {string} betaOrigin
+     * @property {string} targetOrigin
      * @property {Object.<boolean>} scam
      * @property {MobileDetect} device
      * @property {Object.<{separators: {group: string, decimal: string}}>} localize

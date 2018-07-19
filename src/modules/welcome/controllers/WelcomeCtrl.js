@@ -3,7 +3,19 @@
 
     const PATH = 'modules/welcome/templates';
 
-    const controller = function (Base, $scope, $state, user, modalManager) {
+
+    /**
+     * @param Base
+     * @param $scope
+     * @param $state
+     * @param user
+     * @param modalManager
+     * @param $element
+     * @param storage
+     * @param {app.utils} utils
+     * @return {WelcomeCtrl}
+     */
+    const controller = function (Base, $scope, $state, user, modalManager, $element, storage, utils) {
 
         class WelcomeCtrl extends Base {
 
@@ -37,13 +49,13 @@
 
                 this.observe('activeUserAddress', this._calculateActiveIndex);
 
-                user.getUserList()
-                    .then((list) => {
-                        this.userList = list;
-                        this._updateActiveUserAddress();
-                        setTimeout(() => {
-                            $scope.$apply(); // TODO FIX!
-                        }, 100);
+                storage.load('accountImportComplete')
+                    .then((complete) => {
+                        if (complete) {
+                            this._initUserList();
+                        } else {
+                            this._loadUserListFromBeta();
+                        }
                     });
             }
 
@@ -89,6 +101,35 @@
                 user.removeUserByAddress(address);
                 this.userList = this.userList.filter((user) => user.address !== address);
                 this._updateActiveUserAddress();
+            }
+
+            _initUserList() {
+                user.getUserList()
+                    .then((list) => {
+                        this.userList = list;
+                        this._updateActiveUserAddress();
+                        setTimeout(() => {
+                            this.pendingRestore = false;
+                            $scope.$apply(); // TODO FIX!
+                        }, 100);
+                    });
+            }
+
+            _loadUserListFromBeta() {
+                this.pendingRestore = true;
+                utils.importAccountByIframe(WavesApp.betaOrigin, 5000)
+                    .then((userList) => {
+                        this.userList = userList || [];
+                        this._updateActiveUserAddress();
+
+                        $scope.$apply();
+
+                        storage.save('accountImportComplete', this.userList.length > 0);
+                        storage.save('userList', userList);
+                    })
+                    .catch(() => {
+                        this._initUserList();
+                    });
             }
 
             /**
@@ -141,7 +182,7 @@
         return new WelcomeCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', '$element', 'storage', 'utils'];
 
     angular.module('app.welcome')
         .controller('WelcomeCtrl', controller);

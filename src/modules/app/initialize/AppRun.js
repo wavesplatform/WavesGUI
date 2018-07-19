@@ -29,9 +29,12 @@
             WavesApp.progress = this._current;
         },
         stop() {
-            const loader = $(this._root);
-            loader.fadeOut(1000, () => {
-                loader.remove();
+            return new Promise(resolve => {
+                const loader = $(this._root);
+                loader.fadeOut(1000, () => {
+                    loader.remove();
+                    resolve();
+                });
             });
         }
     };

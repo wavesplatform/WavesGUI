@@ -325,6 +325,15 @@
                 }));
             }
 
+            showImportAccountsModal() {
+                return this._getModal({
+                    id: 'import-accounts',
+                    mod: 'import-accounts',
+                    controller: 'ImportAccountsCtrl',
+                    contentUrl: 'modules/utils/modals/importAccounts/importAccounts.html'
+                });
+            }
+
             /**
              * @param {IDialogOptions} options
              * @return {Promise}

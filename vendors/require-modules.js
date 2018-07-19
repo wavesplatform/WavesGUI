@@ -11,7 +11,8 @@
         'identity-img': 'identityImg',
         '@waves/data-entities': 'ds.wavesDataEntities',
         'ramda': 'R',
-        'data-service': 'ds'
+        'data-service': 'ds',
+        '@waves/waves-browser-bus': 'bus'
     };
 
     function getModule(require) {

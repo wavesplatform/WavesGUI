@@ -1,0 +1,148 @@
+@import (reference) "config";
+@import (reference) "icons";
+
+.import-accounts {
+  min-height: 322px;
+
+  .icon-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+  }
+}
+
+.import-modal {
+  position: relative;
+
+  &__icon {
+    &-beta {
+      background: url(/img/icons/logo-beta.svg) center no-repeat;
+      width: 60px;
+      height: 60px;
+      display: block;
+      margin: 0 auto 30px auto;
+    }
+
+    &-old {
+      background: url(/img/icons/logo-alfa.svg) center no-repeat;
+      width: 60px;
+      height: 60px;
+      display: block;
+      margin: 0 auto 30px auto;
+    }
+
+    &-error {
+      background: url(/img/icons/icon-error-import.svg) center no-repeat;
+      width: 80px;
+      height: 80px;
+      display: block;
+      margin: 0 auto 30px auto;
+    }
+  }
+
+  &__blocks-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    w-button {
+      width: 100%;
+      & > * {
+        font-family: @font-roboto-medium;
+      }
+    }
+  }
+
+  &__buttons-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    w-button {
+      width: 48%;
+    }
+  }
+
+  &__select {
+    height: auto;
+    max-height: 242px;
+    border-radius: @border-radius;
+    list-style-type: none;
+    border: 1px solid @color-basic-100;
+    padding: 0;
+    margin: 40px 0;
+    overflow: auto;
+
+    li {
+      height: 48px;
+      cursor: pointer;
+      display: flex;
+      padding: 8px 55px 8px 15px;
+      white-space: nowrap;
+      position: relative;
+
+      .name {
+        font-size: 15px;
+        line-height: 1em;
+        margin: 0 0 4px 0;
+      }
+
+      .has-name {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .address {
+        line-height: 1em;
+      }
+
+      &:hover {
+        background: @color-basic-50;
+      }
+
+      w-avatar {}
+
+      w-checkbox-submit {
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        transform: translate(0, -50%);
+      }
+    }
+  }
+
+  &__block {
+    flex-basis: 46%;
+    padding: 30px;
+    margin:40px 0 0;
+    border: 1px solid @color-basic-100;
+    border-radius: @border-radius * 2;
+    height: 264px;
+
+    & + .import-modal__block {
+      margin-left: 40px;
+    }
+
+    w-button {
+      & > * {
+        height: 36px;
+        border-radius: @border-radius / 2;
+      }
+    }
+  }
+
+  w-help-icon {
+    text-align: left;
+
+    .help-icon__content {
+      right: -40px;
+      left: auto;
+      margin-top: 8px;
+    }
+  }
+
+  h3 {
+    margin-top: 40px;
+  }
+
+}
