@@ -185,6 +185,8 @@
                         return TYPES.REISSUE;
                     case 6:
                         return TYPES.BURN;
+                    case 12:
+                        return TYPES.DATA;
                     default:
                         return TYPES.UNKNOWN;
                 }
@@ -208,6 +210,8 @@
                         return 6;
                     case WavesApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS:
                         return 10;
+                    case WavesApp.TRANSACTION_TYPES.NODE.DATA:
+                        return 12;
                     default:
                         throw new Error('Wrong tx name!');
                 }
@@ -277,6 +281,8 @@
                     case TYPES.EXCHANGE_BUY:
                     case TYPES.EXCHANGE_SELL:
                         return 'exchange';
+                    case TYPES.DATA:
+                        return 'data';
                     case TYPES.UNKNOWN:
                         return 'unknown';
                     default:
