@@ -138,7 +138,7 @@
                 document.body.appendChild(loaderEl);
                 setTimeout(() => {
                     document.body.removeChild(loaderEl);
-                }, 3000);
+                }, 4100);
             }
 
         }
