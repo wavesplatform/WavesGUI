@@ -14,6 +14,10 @@
             display: none;
         }
 
+        .connection-problem {
+            display: none;
+        }
+
         .app-loader {
             z-index: 10000;
             position: fixed;
@@ -212,6 +216,27 @@
     {{/if}}
 
     <script>
+        window.addEventListener('load', function () {
+            var __interval = setInterval(function () {
+
+                window.WavesApp = window.WavesApp || { state: 'loading' };
+
+                switch (WavesApp.state) {
+                    case 'loading':
+                    case 'loadingError':
+                        clearInterval(__interval);
+                        document.querySelector('.app-loader').style.display = 'none';
+                        document.querySelector('.connection-problem').style.display = 'block';
+                        break;
+                    case 'appRun':
+                        clearInterval(__interval);
+                        var errorModal = document.querySelector('.connection-problem');
+                        errorModal.parentNode.removeChild(errorModal);
+                        break;
+                }
+            }, 2000);
+        });
+
         var __controllers = Object.create(null);
 
         var localeSeparators = {
@@ -238,6 +263,8 @@
             type: '{{build.type}}',
             matcherPriorityList: {{{matcherPriorityList}}},
             themesConf: {{{themesConf}}},
+            progress: 0,
+            state: 'loading',
             localize: {
                 'en': {
                     name: 'En',
@@ -387,13 +414,17 @@
 
 <body>
 
-
 <div class="app-loader">
     <div class="progress"></div>
     <div class="loader-wrapper">
         <div class="loader"><span class="leaf1"></span><span class="leaf2"></span><span class="leaf3"></span><span
                 class="leaf4"></span></div>
     </div>
+</div>
+
+<div class="connection-problem">
+    Connection problemm!!!!
+    <button onclick="location.href=location.href">reload page</button>
 </div>
 
 <div class="not-supported-browser">
@@ -625,7 +656,6 @@
      * @property {function(data: string): object} parseJSON
      * @property {Tree} stateTree
      */
-
 </script>
 
 </body>
