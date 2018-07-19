@@ -17,9 +17,18 @@
             constructor({ transactionId }) {
                 super($scope);
 
+                this.timer = null;
                 this.id = transactionId;
+                this._getData();
+            }
 
-                waves.node.transactions.getAlways(transactionId)
+            $onDestroy() {
+                super.$onDestroy();
+                clearTimeout(this.timer);
+            }
+
+            _getData() {
+                waves.node.transactions.getAlways(this.id)
                     .then((transaction) => {
                         if (!transaction.isUTX) {
                             return waves.node.height().then((height) => ({
@@ -39,8 +48,11 @@
                         this.confirmations = confirmations;
                         this.confirmed = !transaction.isUTX;
                         this.explorerLink = explorerLinks.getTxLink(transaction.id);
-
                         createPoll(this, this._getHeight, this._setHeight, 1000);
+                    })
+                    .catch(() => {
+                        clearTimeout(this.timer);
+                        this.timer = setTimeout(() => this._getData(), 2000);
                     });
             }
 

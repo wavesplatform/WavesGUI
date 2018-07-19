@@ -61,26 +61,6 @@ const R = require('ramda');
             }
 
             /**
-             * @param {Asset} asset
-             * @return {boolean}
-             * @private
-             * @static
-             */
-            static _isScam(asset) {
-                return (WavesApp.scam || {})[asset.id];
-            }
-
-            /**
-             * @param {Asset} asset
-             * @return {boolean}
-             * @private
-             * @static
-             */
-            _isSpam(asset) {
-                return (this.spam || []).includes(asset.id);
-            }
-
-            /**
              * return {void}
              */
             checkChecked() {
@@ -102,6 +82,15 @@ const R = require('ramda');
                 this.pinnedAssetIdList = R.uniq([...this.pinnedAssetIdList, ...Object.keys(this.selectedHash)]);
                 this.spam = this.spam.filter((spamId) => !this.pinnedAssetIdList.includes(spamId));
                 $mdDialog.hide({ selected: this.selected.length });
+            }
+
+            /**
+             * @param {Asset} asset
+             * @return {boolean}
+             * @private
+             */
+            _isSpam(asset) {
+                return (this.spam || []).includes(asset.id);
             }
 
             /**
@@ -190,6 +179,16 @@ const R = require('ramda');
                     return true;
                 }
                 return `${asset.id} ${asset.name} ${asset.ticker}`.toUpperCase().includes(search);
+            }
+
+            /**
+             * @param {Asset} asset
+             * @return {boolean}
+             * @private
+             * @static
+             */
+            static _isScam(asset) {
+                return (WavesApp.scam || {})[asset.id];
             }
 
         }
