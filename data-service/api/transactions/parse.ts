@@ -230,7 +230,8 @@ export function parseMassTransferTx(tx: txApi.IMassTransfer, assetsHash: IHash<A
 
 export function parseDataTx(tx: txApi.IData, assetsHash: IHash<Asset>, isUTX: boolean): IData {
     const fee = new Money(new BigNumber(tx.fee), assetsHash[WAVES_ID]);
-    return { ...tx, fee, isUTX };
+    const stringifiedData = JSON.stringify(tx.data, null, 4);
+    return { ...tx, stringifiedData, fee, isUTX };
 }
 
 function parseExchangeOrder(factory: IFactory, order: txApi.IExchangeOrder, assetsHash: IHash<Asset>): IExchangeOrder {

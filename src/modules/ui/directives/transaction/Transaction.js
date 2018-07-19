@@ -72,13 +72,13 @@
                 const tx = this.transaction;
 
                 const id = `Transaction ID: ${tx.id}`;
-                const type = `Type: ${tx.transactionType} (${this.type})`;
+                const type = `Type: ${tx.typeName}`;
 
                 const timestamp = $filter('date')(tx.timestamp, 'MM/dd/yyyy HH:mm');
                 const datetime = `Date: ${timestamp}`;
 
                 let sender = `Sender: ${tx.sender}`;
-                if (tx.transactionType === WavesApp.TRANSACTION_TYPES.NODE.EXCHANGE) {
+                if (tx.typeName === WavesApp.TRANSACTION_TYPES.NODE.EXCHANGE) {
                     sender += ' (matcher address)';
                 }
 
@@ -95,12 +95,18 @@
                     message += `\n${amount}`;
                 }
 
-                if (this.type === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_BUY ||
-                    this.type === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_SELL) {
-                    const asset = tx.price.pair.priceAsset;
+                if (this.typeName === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_BUY ||
+                    this.typeName === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_SELL) {
+                    const asset = tx.price.asset;
                     const price = `Price: ${tx.price.toFormat()} ${asset.name} (${asset.id})`;
                     const totalPrice = `Total price: ${this.totalPrice} ${asset.name}`;
                     message += `\n${price}\n${totalPrice}`;
+                }
+
+                if (this.typeName === WavesApp.TRANSACTION_TYPES.EXTENDED.DATA) {
+                    message += '\n\n\nDATA START';
+                    message += `\n\n${tx.stringifiedData}`;
+                    message += '\n\nDATA END\n\n';
                 }
 
                 const fee = `Fee: ${tx.fee.toFormat()} ${tx.fee.asset.name} (${tx.fee.asset.id})`;

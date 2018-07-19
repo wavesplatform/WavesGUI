@@ -258,6 +258,8 @@ export interface IData extends IBaseTransaction {
     type: TRANSACTION_TYPE_NUMBER.DATA;
     version?: number;
     data: Array<TDataEntry>;
+    stringifiedData: string;
+    fee: Money;
 }
 
 export interface IExchangeOrder {
