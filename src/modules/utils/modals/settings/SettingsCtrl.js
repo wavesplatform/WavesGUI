@@ -44,10 +44,6 @@
                     withScam: 'withScam'
                 });
 
-                this.observe('matcher', () => {
-                    ds.config.set('matcher', this.matcher);
-                });
-
                 this.observe('withScam', () => {
                     const withScam = this.withScam;
                     if (withScam) {
@@ -58,7 +54,7 @@
                 });
 
                 this.observe(['node', 'matcher'], () => {
-                    ds.config.set({
+                    ds.config.setConfig({
                         node: this.node,
                         matcher: this.matcher
                     });
