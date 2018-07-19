@@ -66,8 +66,8 @@
     },
     "server": "desktop.wavesplatform.com"
   },
-  "betaOrigin": "https://stage-langs.waveswallet.io",
-  "targetOrigin": "https://localhost:8080",
+  "betaOrigin": "https://beta.wavesplatform.com",
+  "targetOrigin": "https://client.wavesplatform.com",
   "configurations": {
     "testnet": {
       "apiVersion": "v0",
