@@ -29,7 +29,7 @@
                    header-info="$ctrl.tableHeaders">
         <w-loader ng-if="$ctrl.pending"></w-loader>
         <w-table-row ng-repeat="balance in $data track by balance.asset.id">
-
+            <w-visible>
                 <w-table-cell class="smart-table__name">
                     <div class="cell">
                         <w-asset-logo class="margin-right-1" asset-id="{{::balance.asset.id}}" size="30"></w-asset-logo>
