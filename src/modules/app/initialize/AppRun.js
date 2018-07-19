@@ -330,7 +330,10 @@
              */
             _onChangeStateSuccess(event, toState, some, fromState) {
                 if (fromState.name) {
-                    analytics.pushPageView(AppRun._getUrlFromState(toState), AppRun._getUrlFromState(fromState));
+                    analytics.pushPageView(
+                        `${AppRun._getUrlFromState(toState)}.${WavesApp.type}`,
+                        `${AppRun._getUrlFromState(fromState)}.${WavesApp.type}`
+                    );
                 }
                 this.activeClasses.forEach((className) => {
                     document.body.classList.remove(className);

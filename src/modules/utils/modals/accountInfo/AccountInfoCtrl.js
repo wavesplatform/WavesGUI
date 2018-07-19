@@ -48,7 +48,7 @@
             createAlias() {
                 return ds.broadcast(10, { alias: this.newAlias, fee: this.fee })
                     .then(() => {
-                        analytics.push('User', 'User.CreateAlias.Success');
+                        analytics.push('User', `User.CreateAlias.Success.${WavesApp.type}`);
                         this.aliases.push(this.newAlias);
                         this.newAlias = '';
                         this.createAliasStep = 0;
@@ -59,17 +59,17 @@
                         $scope.$digest();
                     })
                     .catch(() => {
-                        analytics.push('User', 'User.CreateAlias.Error');
+                        analytics.push('User', `User.CreateAlias.Error.${WavesApp.type}`);
                     });
 
             }
 
             onCopyAddress() {
-                analytics.push('User', 'User.CopyAddress');
+                analytics.push('User', `User.CopyAddress.${WavesApp.type}`);
             }
 
             onCopyAlias() {
-                analytics.push('User', 'User.CopyAlias');
+                analytics.push('User', `User.CopyAlias.${WavesApp.type}`);
             }
 
             reset() {

@@ -206,7 +206,7 @@
              */
             login(data) {
                 return this._addUserData(data)
-                    .then(() => analytics.push('User', 'Login'));
+                    .then(() => analytics.push('User', `Login.${WavesApp.type}`));
             }
 
             /**
@@ -220,7 +220,7 @@
              * @param {boolean} hasBackup
              * @return Promise
              */
-            create(data, hasBackup) {
+            create(data, hasBackup, restore) {
                 this.noSaveToStorage = !data.saveToStorage;
 
                 return this._addUserData({
@@ -235,7 +235,11 @@
                         hasBackup: hasBackup,
                         lng: i18next.language
                     }
-                }).then(() => analytics.push('User', 'Create'));
+                }).then(() => analytics.push(
+                    'User',
+                    `${restore ? 'Restore' : 'Create'}.${WavesApp.type}`,
+                    document.referrer)
+                );
             }
 
             logout() {
