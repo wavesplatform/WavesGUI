@@ -430,7 +430,7 @@
                 if (this.outerSendMode) {
                     gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient).then((details) => {
                         const max = BigNumber.min(
-                            details.maximumAmount,
+                            details.maximumAmount.plus(details.gatewayFee),
                             this.moneyHash[this.assetId].getTokens()
                         );
 
