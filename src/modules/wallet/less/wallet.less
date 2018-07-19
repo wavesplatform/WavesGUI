@@ -1,4 +1,5 @@
-@import (reference) '../../config';
+@import (reference) 'config';
+@import (reference) 'icons';
 
 .wallet {
   w-navigation a {
@@ -10,7 +11,7 @@
       height: @default-icon-size;
       margin-right: 7px;
       content: '';
-      background-image: url(/img/icons/menu-icons.svg);
+      background-image: @menu-icons;
       background-repeat: no-repeat;
       background-position: center;
       background-size: auto;

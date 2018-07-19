@@ -21,7 +21,6 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #fff;
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -130,6 +129,21 @@
             background-color: #0942d9;
         }
 
+        @keyframes loader-transition {
+            0% {
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
         @-moz-keyframes folding {
             0%, 10% {
                 -moz-transform: perspective(140px) rotateX(-180deg);
@@ -198,7 +212,6 @@
     {{/if}}
 
     <script>
-
         var __controllers = Object.create(null);
 
         var localeSeparators = {
@@ -224,6 +237,7 @@
             version: '{{pack.version}}',
             type: '{{build.type}}',
             matcherPriorityList: {{{matcherPriorityList}}},
+            themesConf: {{{themesConf}}},
             localize: {
                 'en': {
                     name: 'En',
@@ -364,6 +378,11 @@
         <base href="/">
     {{/if}}
 
+    <script>
+        [].slice.apply(document.querySelectorAll('[rel=stylesheet]'))
+                .filter(function (el) { return el.getAttribute('theme') })
+                .forEach(function(el){el.disabled = el.getAttribute('theme') !== 'default'});
+    </script>
 </head>
 
 <body>

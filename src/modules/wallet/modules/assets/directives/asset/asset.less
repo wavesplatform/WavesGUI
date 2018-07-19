@@ -1,4 +1,4 @@
-@import (reference) '../../../../../config';
+@import (reference) 'config';
 
 @asset-block-narrow: calc(~"25% - " @padding-main-layout);
 @asset-block-wide: calc(~"33.3% - " @padding-main-layout);
@@ -8,6 +8,8 @@
 w-asset {
   box-sizing: border-box;
   min-height: 182px;
+  transition: all 0.3s;
+  box-shadow: @shadow-type-1;
   flex-basis: @asset-block-narrow;
   max-width: @asset-block-narrow;
   @media screen and (max-width: 1300px) {
@@ -23,7 +25,6 @@ w-asset {
     max-width: @asset-block-full;
   }
 
-  border: 1px solid @color-basic-100;
   border-radius: @border-radius;
   background-color: @color-white;
   position: relative;
@@ -93,10 +94,22 @@ w-asset {
       margin-right: 20px;
       cursor: pointer;
       font-size: 15px;
+      transition: .3s;
+
+      svg {
+        vertical-align: middle;
+        margin-right: 6px;
+        margin-top: -3px;
+      }
 
       &:hover {
-        color: @color-black;
+        color: @color-basic-700;
       }
     }
+  }
+
+  &:hover {
+    box-shadow: @shadow-main-hover;
+    z-index: 3;
   }
 }

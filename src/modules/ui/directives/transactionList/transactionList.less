@@ -1,7 +1,6 @@
-@import (reference) '../../../config';
+@import (reference) 'config';
 
 .transactions w-scroll-box {
-  border: 1px solid @color-basic-100;
   border-radius: @border-radius;
 
   .scroll-list {
@@ -54,20 +53,11 @@ w-transaction-list {
 
         .row {
           position: relative;
-          border-bottom: 1px solid @color-basic-100;
+          border-bottom: 1px solid @color-basic-50;
+          transition: all 0.3s;
 
           &:hover {
-            background-color: @color-submit-50;
-
-            &::before {
-              content: '';
-              width: 2px;
-              height: 100%;
-              background-color: @color-submit-400;
-              position: absolute;
-              left: 0;
-              top: 0;
-            }
+            background: @hover-default;
           }
         }
       }
@@ -87,22 +77,30 @@ w-transaction-list {
 }
 
 @media screen and (max-width: 768px) {
-
-  ul .transaction-item .date {
+  .transaction-item .date {
     padding-left: 23px;
   }
 
-  .main-content {
-    w-transaction-list {
-      min-height: calc(100vh ~'- 148px');
-
-      .w-transaction-list {
-        &.no-transactions {
-          min-height: 250px;
-        }
+  body.transactions {
+    .main-content {
+      w-scroll-box {
+        overflow: hidden;
       }
 
+      w-transaction-list {
+        min-height: calc(100vh ~'- 148px');
+        .w-transaction-list {
+
+          ul {
+            height: calc(100% - 176px);
+            overflow: auto;
+          }
+
+          &.no-transactions {
+            min-height: 250px;
+          }
+        }
+      }
     }
   }
-
 }

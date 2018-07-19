@@ -1,4 +1,5 @@
-@import (reference) '../../../config';
+@import (reference) 'config';
+@import (reference) 'icons';
 @import (reference) '../../../ui/directives/changeLanguage/changeLanguage';
 
 @row-short: 25%;
@@ -6,10 +7,170 @@
 @row-normal: 50%;
 @mobile-settings-item-height: 50px;
 
+// Loader
+.app-loader {
+  background: @color-white;
+  animation: loader-transition 2.9s both;
+}
+
+.loader {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+
+  &-wrapper {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-top: -150px;
+    transform-origin: center;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
+    text-align: center;
+  }
+
+  span {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+
+    &::before {
+      content: '';
+      background-color: #1f5af6;
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: block;
+      width: 50px;
+      height: 50px;
+      -moz-transform-origin: 100% 100%;
+      -ms-transform-origin: 100% 100%;
+      -webkit-transform-origin: 100% 100%;
+      transform-origin: 100% 100%;
+      -moz-animation: folding 2.5s infinite linear both;
+      -webkit-animation: folding 2.5s infinite linear both;
+      animation: folding 2.5s infinite linear both;
+    }
+  }
+
+  .leaf2 {
+    -moz-transform: rotateZ(90deg);
+    -ms-transform: rotateZ(90deg);
+    -webkit-transform: rotateZ(90deg);
+    transform: rotateZ(90deg);
+
+    &::before {
+      -moz-animation-delay: 0.3s;
+      -webkit-animation-delay: 0.3s;
+      animation-delay: 0.3s;
+      background-color: #0a49f2;
+    }
+  }
+
+  .leaf3 {
+    -moz-transform: rotateZ(270deg);
+    -ms-transform: rotateZ(270deg);
+    -webkit-transform: rotateZ(270deg);
+    transform: rotateZ(270deg);
+
+    &::before {
+      -moz-animation-delay: 0.9s;
+      -webkit-animation-delay: 0.9s;
+      animation-delay: 0.9s;
+      background-color: #0a49f2;
+    }
+  }
+
+  .leaf4 {
+    -moz-transform: rotateZ(180deg);
+    -ms-transform: rotateZ(180deg);
+    -webkit-transform: rotateZ(180deg);
+    transform: rotateZ(180deg);
+
+    &::before {
+      -moz-animation-delay: 0.6s;
+      -webkit-animation-delay: 0.6s;
+      animation-delay: 0.6s;
+      background-color: #0942d9;
+    }
+  }
+
+
+}
+
+@-moz-keyframes folding {
+  0%, 10% {
+    -moz-transform: perspective(140px) rotateX(-180deg);
+    transform: perspective(140px) rotateX(-180deg);
+    opacity: 0;
+  }
+  25%, 75% {
+    -moz-transform: perspective(140px) rotateX(0deg);
+    transform: perspective(140px) rotateX(0deg);
+    opacity: 1;
+  }
+  90%, 100% {
+    -moz-transform: perspective(140px) rotateY(180deg);
+    transform: perspective(140px) rotateY(180deg);
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes folding {
+  0%, 10% {
+    -webkit-transform: perspective(140px) rotateX(-180deg);
+    transform: perspective(140px) rotateX(-180deg);
+    opacity: 0;
+  }
+  25%, 75% {
+    -webkit-transform: perspective(140px) rotateX(0deg);
+    transform: perspective(140px) rotateX(0deg);
+    opacity: 1;
+  }
+  90%, 100% {
+    -webkit-transform: perspective(140px) rotateY(180deg);
+    transform: perspective(140px) rotateY(180deg);
+    opacity: 0;
+  }
+}
+
+@keyframes folding {
+  0%, 10% {
+    -moz-transform: perspective(140px) rotateX(-180deg);
+    -ms-transform: perspective(140px) rotateX(-180deg);
+    -webkit-transform: perspective(140px) rotateX(-180deg);
+    transform: perspective(140px) rotateX(-180deg);
+    opacity: 0;
+  }
+  25%, 75% {
+    -moz-transform: perspective(140px) rotateX(0deg);
+    -ms-transform: perspective(140px) rotateX(0deg);
+    -webkit-transform: perspective(140px) rotateX(0deg);
+    transform: perspective(140px) rotateX(0deg);
+    opacity: 1;
+  }
+  90%, 100% {
+    -moz-transform: perspective(140px) rotateY(180deg);
+    -ms-transform: perspective(140px) rotateY(180deg);
+    -webkit-transform: perspective(140px) rotateY(180deg);
+    transform: perspective(140px) rotateY(180deg);
+    opacity: 0;
+  }
+}
+// end Loader
+
 md-dialog.settings-modal {
   width: 100%;
   max-width: 740px;
   min-width: 740px;
+  color: @color-disabled-900;
 
   md-dialog-content::after {
     display: none;
@@ -35,7 +196,7 @@ md-dialog.settings-modal {
     font-size: 15px;
     left: -40px;
     top: -30px;
-    border-right: 1px solid @color-basic-200;
+    border-right: 1px solid @color-disabled-200;
 
     w-responsive-menu-item {
       display: block;
@@ -46,7 +207,7 @@ md-dialog.settings-modal {
         display: flex;
         align-items: center;
         height: 50px;
-        padding-left: 65px;
+        padding-left: 68px;
         color: @color-info-500;
 
         &::after {
@@ -54,11 +215,11 @@ md-dialog.settings-modal {
           display: block;
           position: absolute;
           top: 50%;
-          left: 34px;
+          left: 39px;
           height: @low-icon-size;
           width: @low-icon-size;
           transform: translate(0, -50%);
-          background-image: url(/img/icons/settings-menu-icons.svg);
+          background-image: @setting-menu-icon;
           background-size: auto;
         }
 
@@ -91,7 +252,7 @@ md-dialog.settings-modal {
         }
 
         .menu-item {
-          color: @color-white;
+          color: @white-only;
 
           &.general::after {
             background-position: 0 -@low-icon-size;
@@ -173,6 +334,47 @@ md-dialog.settings-modal {
     }
   }
 
+  .white,
+  .dark,
+  .auto,
+  .blue,
+  .green {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 50%;
+    margin-right: 8px;
+    width: 12px;
+    height: 12px;
+  }
+
+  w-select w-option i {
+    margin-top: -2px;
+  }
+
+  .white {
+    background: white;
+    border: 1px solid @color-basic-200;
+  }
+
+  .dark {
+    background: #2d2d2d; //basic-900
+    border: 1px solid @color-disabled-200;
+  }
+
+  .auto {
+    background: url(/img/icons/mode-toggler-auto.svg) center no-repeat;
+  }
+
+  .blue {
+    background: #1f5af6; //submit-400
+  }
+
+  .green {
+    background: #4aad02; //success-400
+  }
+
+
+
   .network {
     .row-style {
       border-bottom: 0 none;
@@ -226,6 +428,8 @@ md-dialog.settings-modal {
     input {
       border-radius: @border-radius;
       padding: 0 @padding-main-layout;
+      background: @color-white;
+      color: @color-disabled-900;
       height: 30px;
       line-height: 30px;
       width: 100%;
@@ -244,7 +448,7 @@ md-dialog.settings-modal {
       padding: 20px;
 
       .icon-close {
-        right: 20px;
+        right: 10px;
       }
     }
 
@@ -298,6 +502,7 @@ md-dialog.settings-modal {
 
         &.active {
           height: auto;
+          box-shadow: @shadow-main-default;
           w-responsive-menu-item {
             opacity: 1;
             height: @mobile-settings-item-height;
@@ -308,7 +513,7 @@ md-dialog.settings-modal {
 
       w-button {
         & > button.nav-toggler {
-          right: 20px;
+          right: 26px;
           top: 10px;
           display: flex;
           justify-content: center;
@@ -324,7 +529,7 @@ md-dialog.settings-modal {
               width: 4px;
               height: 4px;
               border-radius: 100%;
-              background-color: @color-white;
+              background-color: @white-only;
             }
           }
         }
@@ -341,7 +546,7 @@ md-dialog.settings-modal {
       .settings-content {
         margin-left: 0;
         margin-top: 50px;
-        padding: 0 10px;
+        padding: 0;
 
         .row-mobile {
           flex-direction: column;

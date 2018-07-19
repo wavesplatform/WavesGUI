@@ -131,11 +131,14 @@
                 });
 
                 if (insightRadius) {
+                    this._ctx.save();
+                    this._ctx.globalCompositeOperation = 'destination-out';
                     this._ctx.beginPath();
-                    this._ctx.fillStyle = '#fff';
+                    this._ctx.fillStyle = 'rgba(255,255,255,1)';
                     this._ctx.arc(center, center, insightRadius, 0, 2 * Math.PI);
                     this._ctx.fill();
                     this._ctx.closePath();
+                    this._ctx.restore();
                 }
             }
 

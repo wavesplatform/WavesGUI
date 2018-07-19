@@ -1,4 +1,4 @@
-@import (reference) '../../../config';
+@import (reference) 'config';
 @import (reference) '../../../app/less/typography';
 
 input[type="checkbox"] {
@@ -13,6 +13,8 @@ input[type="checkbox"] {
   height: @height-control-big;
   padding: @padding-control-big;
   font-size: @font-size-control-big;
+  color: @color-disabled-900;
+  background: @color-white;
 
   &.blue {
     background: @color-basic-200;

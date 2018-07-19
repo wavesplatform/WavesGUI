@@ -1,5 +1,5 @@
 @import (reference) '../../../app/less/typography';
-@import (reference) '../../../config';
+@import (reference) 'config';
 
 .circle-holder {
   position: absolute;
@@ -75,7 +75,7 @@
 // colors
 .sell {
   .circle-loader {
-    background-color: @color-error-100; // bg color
+    background-color: @circle-loader-bg-sell; // bg color
 
     .value-bar,
     &.over50 .first50-bar {
@@ -90,7 +90,7 @@
 
 .buy {
   .circle-loader {
-    background-color: @color-submit-50; // bg color
+    background-color: @circle-loader-bg-buy;  // bg color
 
     .value-bar,
     &.over50 .first50-bar {
