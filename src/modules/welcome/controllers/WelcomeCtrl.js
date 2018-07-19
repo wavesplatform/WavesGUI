@@ -77,12 +77,7 @@
              */
             removeUser(address) {
                 const user = this.userList.find((user) => user.address === address);
-                if (user.settings.hasBackup) {
-                    this._deleteUser(address);
-                    return null;
-                }
-
-                modalManager.showConfirmDeleteUser().then(() => {
+                modalManager.showConfirmDeleteUser(user.settings.hasBackup).then(() => {
                     this._deleteUser(address);
                 });
             }
