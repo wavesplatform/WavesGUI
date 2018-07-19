@@ -118,7 +118,10 @@
 
             _changeTheme(name) {
                 this.links.forEach(style => {
-                    style.disabled = style.getAttribute('theme') !== name;
+                    if (style.getAttribute('theme') === name) {
+                        style.disabled = false;
+                        document.head.appendChild(style);
+                    }
                 });
             }
 
