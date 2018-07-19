@@ -114,7 +114,7 @@
                         this.userList = list;
                         this._updateActiveUserAddress();
                         setTimeout(() => {
-                            this.pendingRestore = false
+                            this.pendingRestore = false;
                             $scope.$apply(); // TODO FIX!
                         }, 100);
                     });

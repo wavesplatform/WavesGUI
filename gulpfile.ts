@@ -91,6 +91,15 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                         meta.exportPageVendors.map(p => copy(join(__dirname, p), join(targetPath, p)))
                     );
 
+                    if (buildName === 'desktop') {
+                        const electronFiles = getFilesFrom(join(__dirname, 'electron'), '.js');
+                        electronFiles.forEach((path) => {
+                            const name = basename(path);
+                            forCopy.push(copy(path, join(targetPath, name)));
+                        });
+                        forCopy.push(copy(join(__dirname, 'electron', 'icons'), join(targetPath, 'img', 'icon.png')));
+                    }
+
                     Promise.all([
                         Promise.all(meta.copyNodeModules.map((path) => {
                             return copy(join(__dirname, path), `${targetPath}/${path}`);
