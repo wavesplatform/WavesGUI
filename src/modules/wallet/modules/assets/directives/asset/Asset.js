@@ -15,6 +15,10 @@
                 this.balance = null;
             }
 
+            isUnpinned() {
+                return !WavesApp.ALWAYS_PINNED_ASSETS.includes(this.balance.asset.id);
+            }
+
         }
 
         return new Asset();
@@ -25,7 +29,8 @@
     angular.module('app.wallet.assets').component('wAsset', {
         bindings: {
             balance: '<',
-            onClick: '&'
+            onClick: '&',
+            onUnpinClick: '&'
         },
         templateUrl: 'modules/wallet/modules/assets/directives/asset/asset.html',
         controller

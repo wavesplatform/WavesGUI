@@ -132,6 +132,21 @@
                 throw new Error('Wrong action');
             }
 
+            /**
+             * @param {Asset} asset
+             */
+            unpin(asset) {
+                this.pinnedAssetIdList = this.pinnedAssetIdList.filter((fAsset) => fAsset !== asset.id);
+            }
+
+            newAssetOnClick() {
+                modalManager.showPinAsset().then(({ selected }) => {
+                    if (selected) {
+                        $scope.$digest();
+                    }
+                });
+            }
+
             showReceivePopup(asset) {
                 return modalManager.showReceivePopup(user, asset);
             }

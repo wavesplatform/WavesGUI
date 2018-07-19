@@ -90,7 +90,11 @@
     <div class="assets-list">
         <w-asset ng-repeat="balance in $ctrl.pinnedAssetBalances track by balance.asset.id"
                  on-click="$ctrl.onAssetActionClick(event, balance.asset, action)"
+                 on-unpin-click="$ctrl.unpin(balance.asset)"
                  balance="balance"></w-asset>
+        <div class="new-asset" ng-click="$ctrl.newAssetOnClick()" role="button">
+            <span></span>
+        </div>
     </div>
 
 </div>

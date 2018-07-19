@@ -323,6 +323,9 @@
                 TRY: '{{network.assets.TRY}}',
                 XMR: '{{network.assets.XMR}}'
             },
+
+            ALWAYS_PINNED_ASSETS: ['WAVES'],
+
             otherAssetsWithIcons: {
                 // TODO @xenohunter : remove that when icons are in @dvshur's service
                 EFYT: '{{network.assets.EFYT}}',
@@ -642,6 +645,7 @@
      * @property {typeof WavesApp.TRANSACTION_TYPES} TRANSACTION_TYPES
      * @property {typeof WavesApp.network} network
      * @property {typeof WavesApp.defaultAssets} defaultAssets
+     * @property {Array<string>} ALWAYS_PINNED_ASSETS
      * @property {object} remappedAssetNames
      * @property {object} dex
      * @property {Array<string>} dex.resolutions
