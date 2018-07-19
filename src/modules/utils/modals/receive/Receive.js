@@ -206,11 +206,15 @@
             }
 
             initCryptocurrencyTab() {
+                this.gatewayServerError = false;
                 const depositDetails = gatewayService.getDepositDetails(this.asset, this.address);
                 if (depositDetails) {
                     depositDetails.then((details) => {
                         this.gatewayAddress = details.address;
-
+                        $scope.$digest();
+                    }, () => {
+                        this.gatewayAddress = null;
+                        this.gatewayServerError = true;
                         $scope.$digest();
                     });
 
@@ -230,6 +234,10 @@
                 if (this.showInvoiceTab) {
                     this.setInvoiceObserver();
                 }
+            }
+
+            updateGatewayAddress() {
+                this.initCryptocurrencyTab();
             }
 
             setInvoiceObserver() {
@@ -272,8 +280,13 @@
 
             setCardObserver() {
                 this.observe(['chosenCurrencyIndex', 'cardPayment', 'asset'], () => {
-                    if (!Number(this.tokenizeCardPayment())) {
+                    const tokenizedCardPayment = this.tokenizeCardPayment();
+
+                    if (typeof tokenizedCardPayment === 'undefined') {
                         this.approximateAmount = new ds.wavesDataEntities.Money(0, this.asset);
+                    }
+
+                    if (!Number(tokenizedCardPayment)) {
                         return;
                     }
 
@@ -336,7 +349,7 @@
                 });
 
                 const invoicesRequest = waves.node.assets.userBalances().then((results) => {
-                    this.invoicables = results.map((balance) => balance.asset);
+                    this.invoicables = results.filter(ReceiveCtrl._isNotScam).map((balance) => balance.asset);
                 });
 
                 const cardsRequests = this.getExtendedAssets(gatewayService.getPurchasableByCards());
@@ -432,6 +445,14 @@
 
             isLira() {
                 return this.asset.id === WavesApp.defaultAssets.TRY;
+            }
+
+            /**
+             * @return {boolean}
+             * @private
+             */
+            static _isNotScam(item) {
+                return !WavesApp.scam[item.asset.id];
             }
 
         }

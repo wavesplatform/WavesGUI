@@ -31,17 +31,17 @@ const R = require('ramda');
                  */
                 this.withScam = null;
                 /**
-                 * @type {boolean}
-                 */
-                this.loading = false;
-                /**
-                 * @type {boolean}
-                 */
-                this.isListOpen = false;
-                /**
                  * @type {Array<Asset>}
                  */
                 this.pinnedAssetNewList = [];
+                /**
+                 * @type {Array<string>}
+                 */
+                this.pinnedAssetIdList = [];
+                /**
+                 * @type {Array<string>}
+                 */
+                this.spam = [];
                 /**
                  * @type {Object}
                  */
@@ -49,6 +49,7 @@ const R = require('ramda');
 
                 this.syncSettings({
                     pinnedAssetIdList: 'pinnedAssetIdList',
+                    spam: 'wallet.portfolio.spam',
                     withScam: 'withScam'
                 });
 
@@ -60,30 +61,13 @@ const R = require('ramda');
             }
 
             /**
-             * @param {Asset} asset
-             * @return {boolean}
-             * @private
-             * @static
-             */
-            static _isScam(asset) {
-                return !WavesApp.scam[asset.id];
-            }
-
-            /**
-             * return {void}
-             */
-            toggleList() {
-                this.isListOpen = !this.isListOpen;
-            }
-
-            /**
              * return {void}
              */
             checkChecked() {
                 this.selected = 0;
                 this.pinnedAssetNewList.forEach(asset => {
-                    if (asset.pined) {
-                        this.selectedHash[asset.id] = null;
+                    if (asset.pinned) {
+                        this.selectedHash[asset.id] = true;
                     } else {
                         delete this.selectedHash[asset.id];
                     }
@@ -96,7 +80,17 @@ const R = require('ramda');
              */
             onSubmit() {
                 this.pinnedAssetIdList = R.uniq([...this.pinnedAssetIdList, ...Object.keys(this.selectedHash)]);
+                this.spam = this.spam.filter((spamId) => !this.pinnedAssetIdList.includes(spamId));
                 $mdDialog.hide({ selected: this.selected.length });
+            }
+
+            /**
+             * @param {Asset} asset
+             * @return {boolean}
+             * @private
+             */
+            _isSpam(asset) {
+                return (this.spam || []).includes(asset.id);
             }
 
             /**
@@ -107,8 +101,8 @@ const R = require('ramda');
                 const myAssets = await ds.dataManager.getBalances();
                 const defaultAssets = await waves.node.assets.getAsset(Object.values(WavesApp.defaultAssets));
                 return R.uniqBy(R.prop('id'), [...defaultAssets, ...myAssets.map(x => x.asset)]).map((asset) => {
-                    const pined = this.pinnedAssetIdList.includes(asset.id);
-                    return { ...asset, pined };
+                    const pinned = this.pinnedAssetIdList.includes(asset.id);
+                    return { ...asset, pinned };
                 });
             }
 
@@ -117,7 +111,6 @@ const R = require('ramda');
              * @private
              */
             async _fillList() {
-                this.loading = true;
                 const assetsList = this._filterAndSort(await this.loadPromise);
                 const searchList = this._filterAndSort(await this._searchByApi());
                 this.pinnedAssetNewList = R.uniqBy(R.prop('id'), [...assetsList, ...searchList]);
@@ -141,7 +134,7 @@ const R = require('ramda');
                         continue;
                     }
 
-                    if (this.withScam && PinAssetCtrl._isScam(asset)) {
+                    if (!this.withScam && (PinAssetCtrl._isScam(asset) || this._isSpam(asset))) {
                         continue;
                     }
 
@@ -186,6 +179,16 @@ const R = require('ramda');
                     return true;
                 }
                 return `${asset.id} ${asset.name} ${asset.ticker}`.toUpperCase().includes(search);
+            }
+
+            /**
+             * @param {Asset} asset
+             * @return {boolean}
+             * @private
+             * @static
+             */
+            static _isScam(asset) {
+                return (WavesApp.scam || {})[asset.id];
             }
 
         }
