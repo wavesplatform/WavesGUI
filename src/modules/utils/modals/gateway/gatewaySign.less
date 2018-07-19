@@ -19,13 +19,18 @@
     max-width: 100%;
     text-overflow: ellipsis;
     overflow: hidden;
+    span.link {
+      font-size: inherit;
+      cursor: text;
+    }
   }
 
   .content {
     i.icon-lock  {
       display: inline-block;
-      margin-right: 6px;
+      margin-right: 10px;
       vertical-align: top;
+      width: 26px;
     }
   }
 
@@ -34,7 +39,7 @@
     align-items: flex-start;
 
     div {
-      glex-grow: 1;
+      flex-grow: 1;
     }
   }
 
@@ -54,5 +59,4 @@
     padding: 12px;
     overflow: auto;
   }
-
 }
