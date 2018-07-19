@@ -82,64 +82,21 @@
      */
     const factory = function ($q, utils, migration, state) {
 
-        const MIGRATION_MAP = {
-            '1.0.0': function (storage) {
-                return storage.load('Wavesmainnet').then((data) => {
-                    if (!data) {
-                        return null;
-                    }
+        const MIGRATION_MAP = {};
 
-                    const userList = data.accounts.map((account) => {
-                        return {
-                            address: account.address,
-                            encryptedSeed: account.cipher,
-                            settings: {
-                                encryptionRounds: 1000
-                            }
-                        };
-                    });
-                    return storage.clear().then(() => storage.save('userList', userList));
-                });
-            },
-            '1.0.0-beta.23': function (storage) {
-                return storage.load('userList').then((list = []) => {
-                    const newList = list.map((item) => {
-                        tsUtils.set(item, 'settings.lastOpenVersion', '1.0.0-beta.22');
-                        return item;
-                    });
-                    return storage.save('userList', newList);
-                });
-            },
-            '1.0.0-beta.35': function (storage) {
-                return addNewGateway(storage, WavesApp.defaultAssets.DASH);
-            },
-            '1.0.0-beta.40': function (storage) {
-                return addNewGateway(storage, WavesApp.defaultAssets.XMR);
-            },
-            '1.0.0-beta.47': function (storage) {
-                return storage.load('userList').then((list = []) => {
-                    const result = list.map((item) => {
-                        tsUtils.unset(item, 'settings.dex');
-                        return item;
-                    });
-                    return storage.save('userList', result);
-                });
-            }
-        };
-
-        function addNewGateway(storage, gateway) {
-            return storage.load('userList').then((users = []) => {
-                users.forEach((user) => {
-                    const settings = user.settings || Object.create(null);
-                    const idList = settings.pinnedAssetIdList;
-                    if (idList && !idList.includes(gateway)) {
-                        idList.push(gateway);
-                    }
-                });
-
-                return storage.save('userList', users);
-            });
-        }
+        // function addNewGateway(storage, gateway) {
+        //     return storage.load('userList').then((users = []) => {
+        //         users.forEach((user) => {
+        //             const settings = user.settings || Object.create(null);
+        //             const idList = settings.pinnedAssetIdList;
+        //             if (idList && !idList.includes(gateway)) {
+        //                 idList.push(gateway);
+        //             }
+        //         });
+        //
+        //         return storage.save('userList', users);
+        //     });
+        // }
 
         class Storage {
 
