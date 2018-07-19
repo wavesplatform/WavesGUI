@@ -31,10 +31,6 @@ const R = require('ramda');
                  */
                 this.withScam = null;
                 /**
-                 * @type {boolean}
-                 */
-                this.loading = false;
-                /**
                  * @type {Array<Asset>}
                  */
                 this.pinnedAssetNewList = [];
@@ -91,7 +87,7 @@ const R = require('ramda');
                 this.selected = 0;
                 this.pinnedAssetNewList.forEach(asset => {
                     if (asset.pinned) {
-                        this.selectedHash[asset.id] = null;
+                        this.selectedHash[asset.id] = true;
                     } else {
                         delete this.selectedHash[asset.id];
                     }
@@ -126,7 +122,6 @@ const R = require('ramda');
              * @private
              */
             async _fillList() {
-                this.loading = true;
                 const assetsList = this._filterAndSort(await this.loadPromise);
                 const searchList = this._filterAndSort(await this._searchByApi());
                 this.pinnedAssetNewList = R.uniqBy(R.prop('id'), [...assetsList, ...searchList]);
