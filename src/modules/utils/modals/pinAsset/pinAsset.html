@@ -2,18 +2,16 @@
     <md-dialog-content>
         <div class="margin-4 add-asset__wrapper">
             <div class="add-asset__header">
-                <h3 class="text-center basic-700" w-i18n="modal.pinAsset.title"></h3>
                 <div class="btn icon-close" w-modal-close></div>
             </div>
             <div class="body-2" w-i18n="modal.pinAsset.assetTitle"></div>
             <input class="add-asset__search"
                    placeholder="modal.pinAsset.placeholder"
                    ng-model="$ctrl.search"/>
-            <ul class="add-asset__select"
-                ng-class="{active: $ctrl.isListOpen}">
+            <ul class="add-asset__select">
                 <li ng-repeat="asset in $ctrl.pinnedAssetNewList track by asset.id">
                     <label class="mobile-caption-2">
-                        <w-checkbox-submit ng-model="asset.pined"></w-checkbox-submit>
+                        <w-checkbox-submit ng-model="asset.pinned"></w-checkbox-submit>
                         <w-asset-logo size="24" asset-id="{{::asset.id}}"></w-asset-logo>
                         <div class="name basic-700">{{::asset.name}}</div>
                         <div class="asset-id basic-500">{{::asset.id}}</div>
