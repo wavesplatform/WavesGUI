@@ -124,6 +124,7 @@
                 utils.importAccountByIframe(WavesApp.betaOrigin, 5000)
                     .then((userList) => {
                         this.userList = userList || [];
+                        this.pendingRestore = false;
                         this._updateActiveUserAddress();
 
                         $scope.$apply();
