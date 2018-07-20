@@ -49,14 +49,18 @@
 
                 this.observe('activeUserAddress', this._calculateActiveIndex);
 
-                storage.load('accountImportComplete')
-                    .then((complete) => {
-                        if (complete) {
-                            this._initUserList();
-                        } else {
-                            this._loadUserListFromBeta();
-                        }
-                    });
+                if (WavesApp.isWeb()) {
+                    storage.load('accountImportComplete')
+                        .then((complete) => {
+                            if (complete) {
+                                this._initUserList();
+                            } else {
+                                this._loadUserListFromBeta();
+                            }
+                        });
+                } else {
+                    this._initUserList();
+                }
             }
 
             showTutorialModals() {
@@ -112,9 +116,9 @@
                 user.getUserList()
                     .then((list) => {
                         this.userList = list;
+                        this.pendingRestore = false;
                         this._updateActiveUserAddress();
                         setTimeout(() => {
-                            this.pendingRestore = false;
                             $scope.$apply(); // TODO FIX!
                         }, 100);
                     });
