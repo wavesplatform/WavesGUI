@@ -443,17 +443,25 @@
                  * @type {HTMLIFrameElement}
                  */
                 const iframe = document.createElement('iframe');
-                const onError = (error) => {
+                const remove = () => {
                     if (iframe.parentNode) {
                         document.body.removeChild(iframe);
                     }
+                };
+                const onError = (error) => {
+                    remove();
                     return Promise.reject(error);
+                };
+                const onSuccess = (data) => {
+                    remove();
+                    return Promise.resolve(data);
                 };
 
                 iframe.src = `${origin}/export.html`;
 
                 const result = utils.loadOrTimeout(iframe, timeout)
                     .then(() => utils.importUsersByWindow(iframe.contentWindow, origin, timeout))
+                    .then(onSuccess)
                     .catch(onError);
 
                 iframe.style.opacity = '0';
