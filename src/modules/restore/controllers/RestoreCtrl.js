@@ -9,18 +9,23 @@
      * @param modalManager
      * @return {RestoreCtrl}
      */
-    const controller = function (Base, $scope, user, utils, modalManager) {
+    const controller = function (Base, $scope, user) {
+
+        const R = require('ramda');
 
         class RestoreCtrl extends Base {
+
+            get user() {
+                return R.find(R.propEq('address', this.activeUserAddress), this.userList);
+            }
 
             constructor() {
                 super($scope);
 
-                this.seedForm = null;
                 /**
                  * @type {string}
                  */
-                this.address = '';
+                this.activeUserAddress = null;
                 /**
                  * @type {string}
                  */
@@ -28,77 +33,38 @@
                 /**
                  * @type {string}
                  */
-                this.name = '';
-                /**
-                 * @type {string}
-                 */
-                this.encryptedSeed = '';
-                /**
-                 * @type {string}
-                 */
                 this.password = '';
-                /**
-                 * @type {boolean}
-                 */
-                this.saveUserData = true;
                 /**
                  * @type {number}
                  */
                 this.activeStep = 0;
+                /**
+                 * @type {Array}
+                 */
+                this.userList = [];
 
-                this.observe('seed', this._onChangeSeed);
-                this.observeOnce('seedForm', () => {
-                    this.receive(utils.observe(this.seedForm, '$valid'), this._onChangeSeed, this);
-                });
+                user.getUserList()
+                    .then((list) => {
+                        this.userList = list;
+                        $scope.$apply();
+                    });
             }
 
-            showTutorialModals() {
-                return modalManager.showTutorialModals();
-            }
+            login() {
 
-            restore() {
+                try {
+                    this.showPasswordError = false;
+                    const activeUser = this.user;
+                    const encryptionRounds = user.getSettingByUser(activeUser, 'encryptionRounds');
+                    this.seed = ds.Seed.decryptSeedPhrase(activeUser.encryptedSeed, this.password, encryptionRounds);
 
-                if (!this.saveUserData) {
-                    this.password = Date.now().toString();
-                }
-                const seedData = new ds.Seed(this.seed);
-                const encryptedSeed = seedData.encrypt(this.password);
-                const keyPair = seedData.keyPair;
-
-                return user.create({
-                    address: this.address,
-                    api: ds.signature.getDefaultSignatureApi(keyPair, this.address, seedData.phrase),
-                    name: this.name,
-                    password: this.password,
-                    settings: { termsAccepted: false },
-                    encryptedSeed,
-                    publicKey: keyPair.publicKey,
-                    saveToStorage: this.saveUserData
-                }, true);
-            }
-
-            resetNameAndPassword() {
-                this.name = '';
-                this.password = '';
-            }
-
-            nextStep() {
-                if (!this.saveUserData) {
-                    return this.restore();
+                    this.activeStep++;
+                    this.password = '';
+                } catch (e) {
+                    this.password = '';
+                    this.showPasswordError = true;
                 }
 
-                this.activeStep++;
-            }
-
-            /**
-             * @private
-             */
-            _onChangeSeed() {
-                if (this.seedForm.$valid) {
-                    this.address = new ds.Seed(this.seed).address;
-                } else {
-                    this.address = '';
-                }
             }
 
         }
@@ -106,7 +72,7 @@
         return new RestoreCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'utils', 'modalManager'];
+    controller.$inject = ['Base', '$scope', 'user'];
 
     angular.module('app.restore').controller('RestoreCtrl', controller);
 })();
