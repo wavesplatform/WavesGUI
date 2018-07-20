@@ -1,15 +1,20 @@
 (function () {
     'use strict';
 
+    const MIN_ALIAS_LENGTH = 4;
+    const MAX_ALIAS_LENGTH = 30;
+    const ALIAS_PATTERN = /^[a-z0-9-@_.]*$/;
+
     /**
      * @param Base
      * @param {$rootScope.Scope} $scope
      * @param {User} user
      * @param {Waves} waves
      * @param {INotification} notification
+     * @param {createPoll} createPoll
      * @return {AccountInfoCtrl}
      */
-    const controller = function (Base, $scope, user, waves, notification) {
+    const controller = function (Base, $scope, user, waves, notification, createPoll) {
 
         class AccountInfoCtrl extends Base {
 
@@ -35,14 +40,49 @@
                  * @type {Money}
                  */
                 this.fee = null;
+                /**
+                 * @type {boolean}
+                 */
+                this.noMoneyForFee = true;
+                /**
+                 * @type {boolean}
+                 */
+                this.invalid = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.invalidMinLength = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.invalidMaxLength = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.invalidPattern = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.invalidExist = false;
+                /**
+                 * @type {Money}
+                 * @private
+                 */
+                this._balance = null;
 
-                waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS })
-                    .then((fee) => {
+                const poll = createPoll(this, this._getBalance, '_balance', 5000, { isBalance: true, $scope });
+                const feePromise = waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS });
+
+                Promise.all([feePromise, poll.ready])
+                    .then(([fee]) => {
                         this.fee = fee;
+                        this.observe(['_balance', 'fee'], this._onChangeBalance);
+                        this._onChangeBalance();
                         $scope.$digest();
                     });
 
                 this.aliases = waves.node.aliases.getAliasList();
+                this.observe(['newAlias'], this._validateNewAlias);
             }
 
             createAlias() {
@@ -76,12 +116,42 @@
                 this.newAlias = '';
             }
 
+            /**
+             * @private
+             */
+            _onChangeBalance() {
+                this.noMoneyForFee = (!this.fee || !this._balance) ||
+                    this._balance.available.getTokens().lt(this.fee.getTokens());
+                this._validateNewAlias();
+            }
+
+            /**
+             * @return {Promise<Money>}
+             * @private
+             */
+            _getBalance() {
+                return waves.node.assets.balance(WavesApp.defaultAssets.WAVES);
+            }
+
+            /**
+             * @return {Promise<Money>}
+             * @private
+             */
+            _validateNewAlias() {
+                this.invalidMinLength = this.newAlias && this.newAlias.length < MIN_ALIAS_LENGTH;
+                this.invalidMaxLength = this.newAlias && this.newAlias.length > MAX_ALIAS_LENGTH;
+                this.invalidPattern = this.newAlias && !ALIAS_PATTERN.test(this.newAlias);
+                this.invalidExist = this.aliases && this.aliases.includes(this.newAlias);
+                this.invalid = this.noMoneyForFee || this.invalidMinLength ||
+                    this.invalidMaxLength || this.invalidPattern || this.invalidExist;
+            }
+
         }
 
         return new AccountInfoCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'waves', 'notification'];
+    controller.$inject = ['Base', '$scope', 'user', 'waves', 'notification', 'createPoll'];
 
     angular.module('app.utils')
         .controller('AccountInfoCtrl', controller);

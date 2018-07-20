@@ -28,26 +28,39 @@
                 <w-step>
                     <form name="form" novalidate ng-submit="form.$valid && $ctrl.createAlias()">
                         <div class="closable-input-wrapper">
-                            <w-input ng-model="$ctrl.newAlias"
-                                     class="embed no-icon new-alias"
-                                     type="text"
-                                     placeholder="modal.account.placeholder"
-                                     required
-                                     w-i18n-attr="placeholder"
-                                     ng-pattern="/^[a-z0-9-@_.]*$/"
-                                     maxlength="30"
-                                     minlength="4"></w-input>
+                            <w-input-container>
+                                <w-input name="newAlias"
+                                         ng-model="$ctrl.newAlias"
+                                         class="embed no-icon new-alias"
+                                         type="text"
+                                         placeholder="modal.account.placeholder"
+                                         w-i18n-attr="placeholder"
+                                         required
+                                         w-validate
+                                         w-validator-custom="{{!$ctrl.invalid}}">
+
+                                </w-input>
+                                <w-input-error message="custom">
+                                    <span ng-if="$ctrl.invalidMinLength" w-i18n="minLength"></span>
+                                    <span ng-if="$ctrl.invalidMaxLength" w-i18n="maxLength"></span>
+                                    <span ng-if="$ctrl.invalidPattern" w-i18n="invalidSymbols"></span>
+                                    <span ng-if="$ctrl.invalidExist" w-i18n="hasAlias"></span>
+                                </w-input-error>
+                            </w-input-container>
                             <div class="icon-close"
                                  ng-click="$ctrl.reset()"
                                  w-step-prev></div>
                         </div>
                         <div class="create-alias-wrap">
-                            <w-button disabled="form.$invalid" class="tiny submit margin-right-1" type="submit">
+                            <w-button disabled="$ctrl.invalid" class="tiny submit margin-right-1" type="submit">
                                 <span w-i18n="modal.account.create"></span>
                             </w-button>
                             <span class="caption-1 basic-700"
                                   params="{price: $ctrl.fee.toFormat(), name: $ctrl.fee.asset.name}"
                                   w-i18n="modal.account.fee"></span>
+                        </div>
+                        <div ng-if="$ctrl.noMoneyForFee">
+                            <span class="error-400" w-i18n="noMoney"></span>
                         </div>
                     </form>
                 </w-step>
