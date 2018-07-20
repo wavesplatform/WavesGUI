@@ -1,10 +1,4 @@
 <div w-i18n-ns="app.restore" class="restore-content">
-    <i class="icon-information"></i>
-    <span ng-click="$ctrl.showTutorialModals()"
-          w-i18n-ns="app.welcome"
-          w-i18n="infoTooltip"
-          class="tooltip">
-    </span>
     <w-change-language></w-change-language>
 
     <div class="waves-logo"></div>
@@ -13,26 +7,28 @@
         <w-step>
 
             <div ng-if="$ctrl.userList.length">
-                <w-select ng-model="$ctrl.activeUserAddress" class="big margin-3">
-                    <w-option ng-repeat="user in $ctrl.userList track by user.address"
-                              value="::user.address">
-                        <w-avatar class="margin-right-1" address="user.address" size="30"></w-avatar>
-                        <div class="mobile-caption-2" ng-class="::{'has-name': !!user.name}">
-                            <div class="name">{{::user.name}}</div>
-                            <div class="address">{{::user.address}}</div>
-                        </div>
-                        <div class="icon-remove-user icon-close" ng-click="$ctrl.removeUser(user.address)"></div>
-                    </w-option>
-                    <div>
-                        <a ui-sref="restore"
-                           class="add-account"
-                           w-i18n="userList.addNew"></a>
-                    </div>
-                </w-select>
 
-                <div class="password-placeholder">
-                    <div class="body-2 basic-900" w-i18n="userList.password"></div>
+                <div class="text-center margin-3">
+                    <div class="headline-1" w-i18n="restore.beta.title"></div>
+                    <div class="basic-500 body-2 restore-description"
+                         w-i18n="restore.beta.step1Description"></div>
                 </div>
+
+                <div class="body-2" w-i18n="restore.beta.accountTitle"></div>
+                <div class="user-list">
+                    <w-select ng-model="$ctrl.activeUserAddress" class="big margin-3">
+                        <w-option ng-repeat="user in $ctrl.userList track by user.address"
+                                  value="::user.address">
+                            <w-avatar class="margin-right-1" address="user.address" size="30"></w-avatar>
+                            <div class="mobile-caption-2" ng-class="::{'has-name': !!user.name}">
+                                <div class="name">{{::user.name}}</div>
+                                <div class="address">{{::user.address}}</div>
+                            </div>
+                        </w-option>
+                    </w-select>
+                </div>
+
+                <div class="body-2 basic-900" w-i18n="restore.beta.passwordTitle"></div>
                 <form class="margin-2"
                       name="$ctrl.loginForm"
                       ng-submit="$ctrl.loginForm.$valid && $ctrl.login()"
@@ -45,40 +41,49 @@
                                  ng-model="$ctrl.password"
                                  w-i18n-attr="placeholder"
                                  class="big no-icon"
-                                 placeholder="userList.placeholders.password"
+                                 placeholder="restore.beta.placeholders.password"
                                  required></w-input>
 
-                        <div ng-class="{active: $ctrl.showPasswordError}" class="error" w-i18n="password.error"></div>
+                        <div ng-class="{active: $ctrl.showPasswordError}"
+                             class="error"
+                             w-i18n="password.error"></div>
                     </w-input-container>
 
                     <w-button disabled="$ctrl.loginForm.$invalid" type="submit" class="submit big long">
-                        <span w-i18n="userList.buttons.login"></span>
+                        <span w-i18n="restore.beta.buttons.restore"></span>
                     </w-button>
                 </form>
             </div>
-            <div ng-if="!$ctrl.userList.length">
 
-                has no users
-
+            <div ng-if="!$ctrl.userList.length" class="no-users text-center">
+                <i class="margin-2"></i>
+                <h3 class="margin-1 basic-700" w-i18n="restore.beta.noUsers.title"></h3>
+                <div class="basic-500 body-2" w-i18n="restore.beta.noUsers.description"></div>
             </div>
 
         </w-step>
         <w-step>
 
-            <h1 w-i18n="restore"></h1>
-            <div w-i18n="restore"></div>
-
-            <w-seed-read type="read" seed="{{::$ctrl.seed}}"></w-seed-read>
-
-            <w-button w-step-prev>
-                <span w-i18n="cancel"></span>
-            </w-button>
-
-            <div w-copy="::$ctrl.seed">
-                <w-button>
-                    <span w-i18n="copy"></span>
-                </w-button>
+            <div class="text-center margin-4">
+                <div class="headline-1" w-i18n="restore.beta.title"></div>
+                <div class="basic-500 body-2 restore-description"
+                     w-i18n="restore.beta.step2Description"></div>
             </div>
+
+            <w-seed-read class="margin-3" type="read" seed="{{::$ctrl.seed}}"></w-seed-read>
+
+            <div class="buttons-wrapper">
+                <w-button class="big long" w-step-prev>
+                    <span w-i18n="restore.beta.buttons.cancel"></span>
+                </w-button>
+
+                <div w-copy="::$ctrl.seed">
+                    <w-button class="big long submit">
+                        <span w-i18n="restore.beta.buttons.copy"></span>
+                    </w-button>
+                </div>
+            </div>
+
         </w-step>
     </w-step-by-step>
 
