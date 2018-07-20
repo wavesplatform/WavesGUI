@@ -87,7 +87,7 @@
              * @private
              */
             _getTransactions() {
-                return waves.node.transactions.list(5000);
+                return waves.node.transactions.list(10000);
             }
 
             /**
