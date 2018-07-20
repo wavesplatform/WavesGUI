@@ -137,13 +137,26 @@
              * @return {Promise<Money>}
              * @private
              */
-            _validateNewAlias() {
+            async _validateNewAlias() {
                 this.invalidMinLength = this.newAlias && this.newAlias.length < MIN_ALIAS_LENGTH;
                 this.invalidMaxLength = this.newAlias && this.newAlias.length > MAX_ALIAS_LENGTH;
                 this.invalidPattern = this.newAlias && !ALIAS_PATTERN.test(this.newAlias);
-                this.invalidExist = this.aliases && this.aliases.includes(this.newAlias);
                 this.invalid = this.noMoneyForFee || this.invalidMinLength ||
-                    this.invalidMaxLength || this.invalidPattern || this.invalidExist;
+                this.invalidMaxLength || this.invalidPattern;
+
+                if (this.newAlias && !this.invalid) {
+                    this.pendingAlias = true;
+                    try {
+                        await ds.api.aliases.getAddressByAlias(this.newAlias);
+                        this.invalidExist = true;
+                    } catch (e) {
+                        this.invalidExist = false;
+                    }
+
+                    this.pendingAlias = false;
+                    this.invalid = this.invalid || this.invalidExist;
+                    $scope.$digest();
+                }
             }
 
         }

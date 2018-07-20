@@ -34,11 +34,12 @@
                                          class="embed no-icon new-alias"
                                          type="text"
                                          placeholder="modal.account.placeholder"
+                                         ng-model-options="{updateOn: 'input blur', debounce: { 'input': 500, 'blur': 0 }}"
+                                         pending="$ctrl.pendingAlias"
                                          w-i18n-attr="placeholder"
                                          required
                                          w-validate
-                                         w-validator-custom="{{!$ctrl.invalid}}">
-
+                                         w-validator-custom="{{!$ctrl.invalid && !$ctrl.pendingAlias}}">
                                 </w-input>
                                 <w-input-error message="custom">
                                     <span ng-if="$ctrl.invalidMinLength" w-i18n="minLength"></span>
@@ -52,7 +53,7 @@
                                  w-step-prev></div>
                         </div>
                         <div class="create-alias-wrap">
-                            <w-button disabled="$ctrl.invalid" class="tiny submit margin-right-1" type="submit">
+                            <w-button disabled="$ctrl.invalid || $ctrl.pendingAlias" class="tiny submit margin-right-1" type="submit">
                                 <span w-i18n="modal.account.create"></span>
                             </w-button>
                             <span class="caption-1 basic-700"
