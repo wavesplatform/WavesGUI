@@ -247,7 +247,9 @@
                                     return Promise.reject(list);
                                 }
 
-                                return list.reduce((result, item) => {
+                                const result = [];
+
+                                list.forEach((item) => {
                                     const close = Number(item.close);
                                     const rate = fromId !== pair.priceAsset.id ? close : 1 / close;
 
@@ -257,10 +259,10 @@
                                             rate: rate
                                         });
                                     }
+                                });
 
-                                    return result.filter((item) => item.timestamp > from && item.timestamp < to)
-                                        .sort(utils.comparators.process(({ timestamp }) => timestamp).asc);
-                                }, []);
+                                return result.filter((item) => item.timestamp > from && item.timestamp < to)
+                                    .sort(utils.comparators.process(({ timestamp }) => timestamp).asc);
                             });
                     });
             }
