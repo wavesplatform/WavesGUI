@@ -75,7 +75,7 @@
              * @param {Date|number|Moment} [to]
              * @return {Promise<{rate: number, timestamp: Date}[]>}
              */
-            @decorators.cachable(60)
+            @decorators.cachable(350)
             getRateHistory(assetFrom, assetTo, from, to) {
                 const idFrom = WavesUtils.toId(assetFrom);
                 const idTo = WavesUtils.toId(assetTo);
@@ -244,7 +244,7 @@
                                 const list = data.candles;
 
                                 if (!list || !list.length) {
-                                    return Promise.reject(list);
+                                    return Promise.resolve([]);
                                 }
 
                                 const result = [];
