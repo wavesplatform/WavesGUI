@@ -51,7 +51,7 @@
 
                     currentVisibleState() {
                         const offset = this.$node.offset();
-                        this.visible = offset.top > 0 && offset.top < innerHeight;
+                        this.visible = offset.top > 0 && offset.top < window.innerHeight;
                     }
 
                     /**
