@@ -7,6 +7,12 @@
 
     <div class="row">
         <span class="body-2 basic-900 modal-header" w-i18n="modal.account.aliases"></span>
+        <w-help-icon>
+            <div class="help-icon__row headline-3" w-i18n="modal.accountInfo.alias.helpIcon.row1"></div>
+            <div class="help-icon__row" w-i18n="modal.accountInfo.alias.helpIcon.row2"></div>
+            <div class="help-icon__row" w-i18n="modal.accountInfo.alias.helpIcon.row3"></div>
+            <div class="help-icon__row" w-i18n="modal.accountInfo.alias.helpIcon.row4"></div>
+        </w-help-icon>
         <div class="alias-list">
             <w-copy-wrap class="body-1 basic-900"
                          ng-repeat="alias in $ctrl.aliases"
@@ -41,28 +47,34 @@
                                          w-validate
                                          w-validator-custom="{{!$ctrl.invalid && !$ctrl.pendingAlias}}">
                                 </w-input>
-                                <w-input-error message="custom">
-                                    <span ng-if="$ctrl.invalidMinLength" w-i18n="minLength"></span>
-                                    <span ng-if="$ctrl.invalidMaxLength" w-i18n="maxLength"></span>
-                                    <span ng-if="$ctrl.invalidPattern" w-i18n="invalidSymbols"></span>
-                                    <span ng-if="$ctrl.invalidExist" w-i18n="hasAlias"></span>
-                                </w-input-error>
+
+                                <w-loader ng-if="$ctrl.pendingAlias"></w-loader>
+
+                                <div class="create-alias-wrap">
+                                    <w-button disabled="$ctrl.invalid || $ctrl.pendingAlias"
+                                              class="tiny submit margin-right-1" type="submit">
+                                        <span w-i18n="modal.account.create"></span>
+                                    </w-button>
+                                    <span class="caption-1 basic-700"
+                                          params="{price: $ctrl.fee.toFormat(), name: $ctrl.fee.asset.name}"
+                                          w-i18n="modal.account.fee"></span>
+                                </div>
+
+                                <div class="errors-margin">
+                                    <div ng-if="$ctrl.noMoneyForFee">
+                                        <span class="error-400" w-i18n="noMoney"></span>
+                                    </div>
+                                    <w-input-error message="custom">
+                                        <span ng-if="$ctrl.invalidMinLength" w-i18n="minLength"></span>
+                                        <span ng-if="$ctrl.invalidMaxLength" w-i18n="maxLength"></span>
+                                        <span ng-if="$ctrl.invalidPattern" w-i18n="invalidSymbols"></span>
+                                        <span ng-if="$ctrl.invalidExist" w-i18n="hasAlias"></span>
+                                    </w-input-error>
+                                </div>
+
                             </w-input-container>
-                            <div class="icon-close"
-                                 ng-click="$ctrl.reset()"
-                                 w-step-prev></div>
                         </div>
-                        <div class="create-alias-wrap">
-                            <w-button disabled="$ctrl.invalid || $ctrl.pendingAlias" class="tiny submit margin-right-1" type="submit">
-                                <span w-i18n="modal.account.create"></span>
-                            </w-button>
-                            <span class="caption-1 basic-700"
-                                  params="{price: $ctrl.fee.toFormat(), name: $ctrl.fee.asset.name}"
-                                  w-i18n="modal.account.fee"></span>
-                        </div>
-                        <div ng-if="$ctrl.noMoneyForFee">
-                            <span class="error-400" w-i18n="noMoney"></span>
-                        </div>
+
                     </form>
                 </w-step>
             </w-step-by-step>
