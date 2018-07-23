@@ -1,7 +1,8 @@
 <w-loader ng-if="$ctrl.pending"></w-loader>
 
 <div ng-if="!$ctrl.pending" class="import-modal">
-    <div class="btn icon-close" w-modal-close></div>
+    <div class="btn icon-close" w-modal-close
+         ng-class="{'error-modal': $ctrl.wasImportBeta && $ctrl.wasImportOld && !$ctrl.userList.length}"></div>
 
     <div ng-if="$ctrl.userList.length">
 
