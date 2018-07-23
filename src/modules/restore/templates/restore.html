@@ -1,10 +1,4 @@
 <div w-i18n-ns="app.restore" class="restore-content">
-    <i class="icon-information"></i>
-    <span ng-click="$ctrl.showTutorialModals()"
-          w-i18n-ns="app.welcome"
-          w-i18n="infoTooltip"
-          class="tooltip">
-    </span>
     <w-change-language></w-change-language>
 
     <div class="waves-logo"></div>
@@ -12,80 +6,85 @@
     <w-step-by-step active-step="$ctrl.activeStep">
         <w-step>
 
-            <div class="headline-1 text-center" w-i18n="seedForm.title"></div>
-            <div class="body-2 text-center margin-5">
-                <span class="disabled-600" w-i18n="seedForm.description"></span>
-                <a ui-sref="create" w-i18n="seedForm.create"></a>
+            <div ng-if="$ctrl.userList.length">
+
+                <div class="text-center margin-3">
+                    <div class="headline-1" w-i18n="restore.beta.title"></div>
+                    <div class="basic-500 body-2 restore-description"
+                         w-i18n="restore.beta.step1Description"></div>
+                </div>
+
+                <div class="body-2" w-i18n="restore.beta.accountTitle"></div>
+                <div class="user-list">
+                    <w-select ng-model="$ctrl.activeUserAddress" class="big margin-3">
+                        <w-option ng-repeat="user in $ctrl.userList track by user.address"
+                                  value="::user.address">
+                            <w-avatar class="margin-right-1" address="user.address" size="30"></w-avatar>
+                            <div class="mobile-caption-2" ng-class="::{'has-name': !!user.name}">
+                                <div class="name">{{::user.name}}</div>
+                                <div class="address">{{::user.address}}</div>
+                            </div>
+                        </w-option>
+                    </w-select>
+                </div>
+
+                <div class="body-2 basic-900" w-i18n="restore.beta.passwordTitle"></div>
+                <form class="margin-2"
+                      name="$ctrl.loginForm"
+                      ng-submit="$ctrl.loginForm.$valid && $ctrl.login()"
+                      novalidate>
+
+                    <w-input-container class="margin-3">
+                        <w-input w-autofocus
+                                 name="password"
+                                 type="password"
+                                 ng-model="$ctrl.password"
+                                 w-i18n-attr="placeholder"
+                                 class="big no-icon"
+                                 placeholder="restore.beta.placeholders.password"
+                                 required></w-input>
+
+                        <div ng-class="{active: $ctrl.showPasswordError}"
+                             class="error"
+                             w-i18n="password.error"></div>
+                    </w-input-container>
+
+                    <w-button disabled="$ctrl.loginForm.$invalid" type="submit" class="submit big long">
+                        <span w-i18n="restore.beta.buttons.restore"></span>
+                    </w-button>
+                </form>
             </div>
 
-            <div class="body-2 basic-900" w-i18n="seedForm.seedTitle"></div>
-
-            <form name="$ctrl.seedForm">
-                <div class="seed-block margin-2">
-                    <w-input textarea
-                             w-autofocus
-                             class="embed no-icon big"
-                             ng-model="$ctrl.seed"
-                             placeholder="seedForm.placeholder"
-                             w-i18n-attr="placeholder"
-                             minlength="25"
-                             required></w-input>
-                    <div class="address-block-info">
-                        <w-avatar ng-if="$ctrl.address" class="margin-right-1" address="$ctrl.address"
-                                  size="40"></w-avatar>
-                        <div ng-if="!$ctrl.address" class="avatar-fake margin-right-1"></div>
-                        <div class="address-block">
-                            <div class="body-2 basic-900" w-i18n="seedForm.address"></div>
-                            <div ng-class="{empty: !$ctrl.address}" class="address body-1 basic-500 mobile-caption-2">
-                                {{$ctrl.address}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex margin-3">
-                    <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
-                    <label
-                        for="save-user-data"
-                        w-i18n="seedForm.saveUserData"
-                        class="footnote-1 basic-500"></label>
-                </div>
-
-                <div class="margin-3">
-                    <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">
-                        <span w-i18n="seedForm.continue"></span>
-                    </w-button>
-                </div>
-            </form>
+            <div ng-if="!$ctrl.userList.length" class="no-users text-center">
+                <i class="margin-2"></i>
+                <h3 class="margin-1 basic-700" w-i18n="restore.beta.noUsers.title"></h3>
+                <div class="basic-500 body-2" w-i18n="restore.beta.noUsers.description"></div>
+            </div>
 
         </w-step>
         <w-step>
 
-            <div class="headline-1 text-center" w-i18n="passwordForm.title"></div>
-            <div class="body-2 text-center margin-5">
-                <span class="disabled-600" w-i18n="passwordForm.description"></span>
-                <a w-i18n="passwordForm.back" w-step-prev ng-click="$ctrl.resetNameAndPassword()"></a>
+            <div class="text-center margin-4">
+                <div class="headline-1" w-i18n="restore.beta.title"></div>
+                <div class="basic-500 body-2 restore-description"
+                     w-i18n="restore.beta.step2Description"></div>
             </div>
 
-            <w-password class="margin-2"
-                        name="$ctrl.name"
-                        password="$ctrl.password"
-                        on-submit="$ctrl.restore()">
-                <span w-i18n-ns="app.restore">
-                    <span w-i18n="passwordForm.login"></span>
-                </span>
-            </w-password>
+            <w-seed-read class="margin-3" type="read" seed="{{::$ctrl.seed}}"></w-seed-read>
+
+            <div class="buttons-wrapper">
+                <w-button class="big long" w-step-prev>
+                    <span w-i18n="restore.beta.buttons.cancel"></span>
+                </w-button>
+
+                <div w-copy="::$ctrl.seed">
+                    <w-button class="big long submit">
+                        <span w-i18n="restore.beta.buttons.copy"></span>
+                    </w-button>
+                </div>
+            </div>
+
         </w-step>
     </w-step-by-step>
-
-    <!--TODO #wrap-in-component-->
-
-    <div class="or margin-2">
-        <span w-i18n="seedForm.or"></span>
-    </div>
-    <div class="text-center body-2 flex-column-center-min margin-2">
-        <a ui-sref="welcome" w-i18n="passwordForm.login"></a>
-        <span w-i18n="seedForm.tosaved"></span>
-    </div>
 
 </div>

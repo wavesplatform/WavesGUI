@@ -1,4 +1,5 @@
 @import (reference) '../../config';
+@import (reference) '../../app/less/typography';
 
 body.restore {
 
@@ -10,63 +11,76 @@ body.restore {
     width: 460px;
     margin: auto;
 
-    .flex {
-      display: flex;
-      align-items: center;
+    .restore-description {
+      padding: 0 40px;
     }
 
-    w-checkbox-submit {
-      margin-right: 5px;
+
+    .buttons-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      w-button {
+        flex-basis: 49%;
+      }
+
+      div {
+        flex-basis: 49%;
+        w-button {
+          width: 100%;
+        }
+      }
     }
 
     .seed-block {
       border-radius: @border-radius;
       border: 1px solid @color-basic-200;
-
-      w-input textarea {
-        border-radius: @border-radius;
-        border: none;
-        padding: 16px;
-        min-height: 86px;
-        max-height: 150px;
-        resize: vertical;
-      }
-
-      .address-block-info {
-        background-color: @color-disabled-50;
-        border-top: 1px solid @color-basic-200;
-        height: 76px;
-        display: flex;
-        flex-direction: row;
-        padding: 18px 14px;
-
-        .avatar-fake {
-          width: 40px;
-          height: 40px;
-          border-radius: 100%;
-          background-color: @color-basic-100;
-        }
-
-        .address-block {
-          height: 30px;
-          position: relative;
-          top: -5px;
-
-          .address {
-
-            &.empty {
-              position: relative;
-              top: 3px;
-              width: 338px;
-              height: 12px;
-              border-radius: 100px;
-              background-color: @color-basic-100;
-            }
-          }
-        }
-      }
     }
 
+
+
+    .user-list {
+      w-select {
+        width: 100%;
+
+        .title-content,
+        .option {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+
+        .select-list {
+          max-height: 300px;
+          overflow: auto;
+        }
+      }
+
+      .input-like .has-name .name,
+      w-select .has-name .name {
+        .body-2();
+        line-height: 1em;
+        margin: 0 0 4px 0;
+      }
+
+      .input-like .has-name .address,
+      w-select .has-name .address {
+        .footnote-1();
+        color: @color-basic-500;
+        line-height: 1em;
+      }
+    }
+  }
+
+  .no-users {
+    padding-top: 30px;
+    i {
+      width: 80px;
+      height: 80px;
+      display: inline-block;
+      background: url(/img/icons/error-circle-x.svg) center no-repeat;
+    }
   }
 }
 
@@ -75,11 +89,8 @@ body.restore {
     width: calc(100% ~'- 20px');
     padding: 0 10px;
 
-    .seed-block .address-block-info .address-block {
-      width: 80%;
-      .address.empty {
-        width: 100%;
-      }
+    .restore-description {
+      padding: 0 20px;
     }
   }
 }
