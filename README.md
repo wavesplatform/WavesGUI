@@ -1,20 +1,41 @@
-# Waves Client (beta version)
+# Waves Client
 
-The new client is available here and at [beta.wavesplatform.com](https://beta.wavesplatform.com/).
+[**Website**](https://wavesplatform.com/) | [**Discord**](https://discord.gg/cnFmDyA) | [**Forum**](https://forum.wavesplatform.com/) | [**Support**](https://support.wavesplatform.com/) | [**Documentation**](https://docs.wavesplatform.com)
 
-The old stable client is available at [waveswallet.io](https://waveswallet.io/) and on branch [old-client](https://github.com/wavesplatform/WavesGUI/tree/old-client).
+[![Waves App Promo](https://cdn-images-1.medium.com/max/1200/1*Tgu7GVQg9b8Es4lGA1Fj4g.png)](https://wavesplatform.com/product)
 
-## Setup
+Waves Client is the official wallet software designed with mass adoption in mind. It allows to access your Waves account, handle financial operations, issue tokens, and trade on DEX.
 
-You will need Node.js 8.9.4 (or higher) and npm v5 (or higher).
+## Installation and usage
+
+The web version is available at [https://client.wavesplatform.com](https://client.wavesplatform.com) and needs no installation.
+
+The desktop client can be downloaded from [https://wavesplatform.com/product](https://wavesplatform.com/product).
+
+## For developers
+
+You will need Node.js 10.7.0 (or higher) and npm v5 (or higher).
 
 ```
 npm i
+npm run data-service
 npm run server
 ```
 
-The server will be launched locally, ports for different versions will be shown in the console.
+The server will be launched at [https://localhost:8080](https://localhost:8080).
 
-* `dev` version is without concatenation and minification of files
-* `normal` version has files concatenated into one
-* `min` version is the production one, with files both concatenated and minified
+## Blockchain for the people
+
+Keep up with the latest news and articles, and find out all about events happening on the [Waves Platform](https://wavesplatform.com/).
+
+* [Community Forum](https://forum.wavesplatform.com/)
+* [Community Portal](https://wavescommunity.com/)
+* [Waves Docs](https://docs.wavesplatform.com/)
+* [Waves Blog](https://blog.wavesplatform.com/)
+* [Support](https://support.wavesplatform.com/)
+
+##
+
+_Please see the [issues](https://github.com/wavesplatform/WavesGUI/issues) section to report any bugs or feature requests and to see the list of known issues._
+
+[![Waves Logo](https://cdn.worldvectorlogo.com/logos/waves-6.svg)](https://wavesplatform.com)
