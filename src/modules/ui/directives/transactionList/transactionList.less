@@ -12,6 +12,14 @@ w-transaction-list {
   display: flex;
   height: 100%;
 
+  w-transaction {
+    width: 100%;
+  }
+
+  w-visible {
+    min-height: 74px;
+  }
+
   .transaction-list-mixin {
     background-color: @color-white;
     border-radius: @border-radius;
@@ -31,14 +39,17 @@ w-transaction-list {
   .w-transaction-list {
     width: 100%;
     border-radius: @border-radius;
+    transform: translate3d(0, 0, 0);
 
     ul {
       .transaction-list-mixin();
       list-style: none;
       margin: 0;
       padding: 0;
+      transform: translate3d(0, 0, 0);
 
       li {
+        transform: translate3d(0, 0, 0);
         padding: 0;
 
         .date {
@@ -72,7 +83,7 @@ w-transaction-list {
   height: 13px;
 
   w-loader {
-       margin: 0 auto;
+    margin: 0 auto;
   }
 }
 

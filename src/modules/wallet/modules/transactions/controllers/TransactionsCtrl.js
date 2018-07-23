@@ -7,9 +7,10 @@
      * @param {TransactionsCsvGen} transactionsCsvGen
      * @param {Waves} waves
      * @param {IPollCreate} createPoll
+     * @param {VisibleService} visibleService
      * @return {TransactionsCtrl}
      */
-    const controller = function (Base, $scope, transactionsCsvGen, waves, createPoll) {
+    const controller = function (Base, $scope, transactionsCsvGen, waves, createPoll, visibleService) {
 
         class TransactionsCtrl extends Base {
 
@@ -42,7 +43,9 @@
                 const poll = createPoll(this, this._getTxList, this._setTxList, 4000, { isBalance: true });
 
                 this.observe('filter', () => {
-                    this.limit = 100;
+                    $scope.$$postDigest(() => {
+                        visibleService.checkVisibleContent();
+                    });
                 });
                 this.observe(['txList', 'filter'], this._applyTransactionList);
                 this.observe('limit', () => poll.restart());
@@ -92,7 +95,7 @@
         return new TransactionsCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'transactionsCsvGen', 'waves', 'createPoll'];
+    controller.$inject = ['Base', '$scope', 'transactionsCsvGen', 'waves', 'createPoll', 'visibleService'];
 
     angular.module('app.wallet.transactions').controller('TransactionsCtrl', controller);
 })();

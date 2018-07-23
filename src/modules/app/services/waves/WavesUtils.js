@@ -26,7 +26,7 @@
              * @param {Date|number|Moment} [date] timestamp or Date
              * @return {Promise<BigNumber>}
              */
-            @decorators.cachable(60)
+            @decorators.cachable(350)
             getRate(assetFrom, assetTo, date) {
                 const WavesId = WavesApp.defaultAssets.WAVES;
                 const from = WavesUtils.toId(assetFrom);
@@ -55,14 +55,13 @@
              * Get api for current balance from another balance
              * @param {string|Asset} assetFrom
              * @param {string|Asset} assetTo
-             * @param {Date|number} [date] timestamp or Date
              * @return {Promise<WavesUtils.rateApi>}
              */
-            getRateApi(assetFrom, assetTo, date) {
+            getRateApi(assetFrom, assetTo) {
                 return utils.whenAll([
                     assets.getAsset(WavesUtils.toId(assetFrom)),
                     assets.getAsset(WavesUtils.toId(assetTo)),
-                    this.getRate(assetFrom, assetTo, date)
+                    this.getRate(assetFrom, assetTo)
                 ])
                     .then(([from, to, rate]) => {
                         return this._generateRateApi(from, to, rate);
@@ -76,7 +75,7 @@
              * @param {Date|number|Moment} [to]
              * @return {Promise<{rate: number, timestamp: Date}[]>}
              */
-            @decorators.cachable(60)
+            @decorators.cachable(350)
             getRateHistory(assetFrom, assetTo, from, to) {
                 const idFrom = WavesUtils.toId(assetFrom);
                 const idTo = WavesUtils.toId(assetTo);
@@ -245,10 +244,12 @@
                                 const list = data.candles;
 
                                 if (!list || !list.length) {
-                                    return Promise.reject(list);
+                                    return Promise.resolve([]);
                                 }
 
-                                return list.reduce((result, item) => {
+                                const result = [];
+
+                                list.forEach((item) => {
                                     const close = Number(item.close);
                                     const rate = fromId !== pair.priceAsset.id ? close : 1 / close;
 
@@ -258,10 +259,10 @@
                                             rate: rate
                                         });
                                     }
+                                });
 
-                                    return result.filter((item) => item.timestamp > from && item.timestamp < to)
-                                        .sort(utils.comparators.process(({ timestamp }) => timestamp).asc);
-                                }, []);
+                                return result.filter((item) => item.timestamp > from && item.timestamp < to)
+                                    .sort(utils.comparators.process(({ timestamp }) => timestamp).asc);
                             });
                     });
             }
