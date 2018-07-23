@@ -122,7 +122,8 @@
             _onChangeBalance() {
                 this.noMoneyForFee = (!this.fee || !this._balance) ||
                     this._balance.available.getTokens().lt(this.fee.getTokens());
-                this._validateNewAlias();
+                this.invalid = this.invalid || this.noMoneyForFee;
+                $scope.$digest();
             }
 
             /**
@@ -141,11 +142,12 @@
                 this.invalidMinLength = this.newAlias && this.newAlias.length < MIN_ALIAS_LENGTH;
                 this.invalidMaxLength = this.newAlias && this.newAlias.length > MAX_ALIAS_LENGTH;
                 this.invalidPattern = this.newAlias && !ALIAS_PATTERN.test(this.newAlias);
-                this.invalid = this.noMoneyForFee || this.invalidMinLength ||
+                const invalid = this.noMoneyForFee || this.invalidMinLength ||
                 this.invalidMaxLength || this.invalidPattern;
 
-                if (this.newAlias && !this.invalid) {
+                if (this.newAlias && !invalid) {
                     this.pendingAlias = true;
+                    this.invalid = true;
                     try {
                         await ds.api.aliases.getAddressByAlias(this.newAlias);
                         this.invalidExist = true;
@@ -154,8 +156,11 @@
                     }
 
                     this.pendingAlias = false;
-                    this.invalid = this.invalid || this.invalidExist;
+                    this.invalid = invalid || this.invalidExist;
                     $scope.$digest();
+                } else {
+                    this.invalidExist = false;
+                    this.invalid = invalid;
                 }
             }
 
