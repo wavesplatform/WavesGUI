@@ -81,15 +81,26 @@
 
     class PortfolioRow {
 
-        constructor($templateRequest, $element, utils) {
+        constructor($templateRequest, $element, utils, waves, user, modalManager, $state) {
+
+            if (!PortfolioRow.templatePromise) {
+                PortfolioRow.templatePromise = $templateRequest(TEMPLATE_PATH)
+                    .then((html) => Handlebars.compile(html));
+            }
+
+            this.$state = $state;
             /**
-             * @type {Promise<Function>}
+             * @type {ModalManager}
              */
-            this.templatePromise = $templateRequest(TEMPLATE_PATH).then((html) => Handlebars.compile(html));
+            this.modalManager = modalManager;
             /**
              * @type {JQuery}
              */
             this.$node = $element;
+            /**
+             * @type {HTMLElement}
+             */
+            this.node = $element.get(0);
             /**
              * @type {IBalanceDetails}
              */
@@ -98,10 +109,23 @@
              * @type {app.utils}
              */
             this.utils = utils;
+            /**
+             * @type {Waves}
+             */
+            this.waves = waves;
+            /**
+             * @type {User}
+             */
+            this.user = user;
+            /**
+             * @type {boolean}
+             */
+            this.canShowDex = null;
         }
 
         $postLink() {
-            this.templatePromise.then((template) => {
+            PortfolioRow.templatePromise.then((template) => {
+
                 const firstAssetChar = this.balance.asset.name.slice(0, 1);
 
                 const html = template({
@@ -110,30 +134,127 @@
                     charColor: COLORS_MAP[firstAssetChar.toUpperCase()] || DEFAULT_COLOR,
                     assetName: this.balance.asset.name,
                     SELECTORS: { ...SELECTORS },
-                    canShowDex: this._canShowDex(),
+                    canShowDex: this.canShowDex,
                     canShowToggleSpam: this._canShowToggleSpam()
                 });
 
-                this.$node.append(html);
+                this.node.innerHTML = html;
+
+                let balance = this.balance;
+
+                Object.defineProperty(this, 'balance', {
+                    get: () => balance,
+                    set: (value) => {
+                        if (this.balance.asset.id !== value.asset.id ||
+                            !this.balance.available.getTokens().eq(value.available.getTokens()) ||
+                            !this.balance.inOrders.getTokens().eq(value.inOrders.getTokens())
+                        ) {
+                            balance = value;
+                            this._onUpdateBalance();
+                        }
+                    }
+                });
+
+                this._onUpdateBalance();
+
+                this._setHandlers();
             });
         }
 
-        _canShowDex() {
-            return true; // TODO!
+        _onUpdateBalance() {
+            this._updateBalances();
+            this._initSpamState();
+
+            const balance = this.balance;
+            const baseAssetId = this.user.getSetting('baseAssetId');
+
+            if (baseAssetId === balance.asset.id) {
+                this.node.querySelector(`.${SELECTORS.CHANGE_24}`).innerHTML = '—';
+                this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
+                this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+
+                return null;
+            }
+
+            this.waves.utils.getChange(balance.asset.id, baseAssetId)
+                .then(change24 => {
+                    this.node.querySelector(`.${SELECTORS.CHANGE_24}`).innerHTML = `${change24.toFixed(2)}%`;
+                });
+
+            this.waves.utils.getRate(balance.asset.id, baseAssetId)
+                .then(rate => {
+                    const baseAssetBalance = balance.available.getTokens().times(rate).toFixed(2);
+
+                    this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = rate.toFixed(2);
+                    this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = baseAssetBalance;
+                });
+        }
+
+        _setHandlers() {
+            this.$node.on('click', `.${SELECTORS.BUTTONS.SEND.MAIN}`, () => {
+                this.modalManager.showSendAsset({ assetId: this.balance.asset.id });
+            });
+
+            this.$node.on('click', `.${SELECTORS.BUTTONS.DEX.MAIN}`, () => {
+                this.$state.go('main.dex', this._getSrefParams(this.balance.asset));
+            });
+
+            this.$node.on('click', `.${SELECTORS.BUTTONS.RECEIVE.MAIN}`, () => {
+                this.modalManager.showReissueModal(this.balance.asset.id);
+            });
+
+            this.$node.on('click', `.${SELECTORS.BUTTONS.TOGGLE_SPAM.MAIN}`, () => {
+                this.user.toggleSpamAsset(this.balance.asset.id);
+                this._initSpamState();
+            });
+        }
+
+        _initSpamState() {
+            if (!this._canShowToggleSpam()) {
+                return null;
+            }
+
+            const spam = this.user.getSetting('wallet.portfolio.spam') || [];
+            const isSpam = spam.includes(this.balance.asset.id);
+
+            const toggleSpam = this.node.querySelector(`.${SELECTORS.BUTTONS.TOGGLE_SPAM.MAIN}`);
+
+            toggleSpam.classList.toggle('icon-hide', isSpam);
+            toggleSpam.classList.toggle('icon-show', !isSpam);
+        }
+
+        /**
+         * @param {Asset} asset
+         * @private
+         */
+        _getSrefParams(asset) {
+            this.utils.openDex(asset.id);
+        }
+
+        _updateBalances() {
+            const asset = this.balance.asset;
+            const available = this.balance.available.getTokens();
+            const inOrders = this.balance.inOrders.getTokens();
+            const availableHtml = this.utils.getNiceNumberTemplate(available, asset.precision, true);
+            const inOrdersHtml = this.utils.getNiceNumberTemplate(inOrders, asset.precision);
+
+            this.node.querySelector(`.${SELECTORS.AVAILABLE}`).innerHTML = availableHtml;
+            this.node.querySelector(`.${SELECTORS.IN_ORDERS}`).innerHTML = inOrdersHtml;
         }
 
         _canShowToggleSpam() {
-            return true; // TODO!
+            return this.balance.asset.id !== WavesApp.defaultAssets.WAVES;
         }
 
     }
 
-    PortfolioRow.$inject = ['$templateRequest', '$element', 'utils'];
+    PortfolioRow.$inject = ['$templateRequest', '$element', 'utils', 'waves', 'user', 'modalManager', '$state'];
 
     angular.module('app.wallet.portfolio').component('wPortfolioRow', {
         controller: PortfolioRow,
         bindings: {
-            balance: '<'
+            balance: '<',
+            canShowDex: '<'
         },
         scope: false
     });

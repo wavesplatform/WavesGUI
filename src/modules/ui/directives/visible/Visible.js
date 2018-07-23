@@ -4,9 +4,10 @@
     /**
      * @param Base
      * @param {VisibleService} visibleService
+     * @param {TimeLine} timeLine
      * @returns {{restrict: string, transclude: boolean, link: link}}
      */
-    const directive = function (Base, visibleService) {
+    const directive = function (Base, visibleService, timeLine) {
 
         return {
             restrict: 'E',
@@ -50,8 +51,11 @@
                     }
 
                     currentVisibleState() {
-                        const offset = this.$node.offset();
-                        this.visible = offset.top > 0 && offset.top < window.innerHeight;
+                        const rect = this.node.getBoundingClientRect();
+                        const visible = rect.top > 0 || rect.top < innerHeight;
+                        this.visible = visible;
+
+                        return visible;
                     }
 
                     /**
@@ -64,9 +68,13 @@
                                 this.content = { $element, $scope };
                             });
                         } else {
-                            this.content.$element.remove();
-                            this.content.$scope.$destroy();
+                            const content = this.content;
                             this.content = null;
+
+                            timeLine.wait(0).then(() => {
+                                content.$element.remove();
+                                content.$scope.$destroy();
+                            });
                         }
                     }
 
@@ -77,7 +85,7 @@
         };
     };
 
-    directive.$inject = ['Base', 'visibleService'];
+    directive.$inject = ['Base', 'visibleService', 'timeLine'];
 
     angular.module('app.ui').directive('wVisible', directive);
 })();

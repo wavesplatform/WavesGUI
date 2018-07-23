@@ -115,7 +115,7 @@
             /**
              * @param {string|Asset} assetFrom
              * @param {string|Asset} assetTo
-             * @return {Promise<number>}
+             * @return {Promise<BigNumber>}
              */
             @decorators.cachable(60)
             getChange(assetFrom, assetTo) {
@@ -123,7 +123,7 @@
                 const idTo = WavesUtils.toId(assetTo);
 
                 if (idFrom === idTo) {
-                    return Promise.resolve(0);
+                    return Promise.resolve(new BigNumber(0));
                 }
 
                 return this._getChange(idFrom, idTo);

@@ -1,14 +1,13 @@
 <div class="smart-table__name smart-table__cell" data-column-id="name">
     <div class="cell">
         {{#if assetIconPath}}
-            <div class="asset-logo footnote-3"
+            <div class="asset-logo margin-right-1 footnote-3"
                  style="width: 30px; height: 30px; background-image: url({{assetIconPath}});">
             </div>
         {{else}}
-            <div class="asset-logo footnote-3"
+            <div class="asset-logo margin-right-1 footnote-3"
                  style="width: 30px; height: 30px; background-color: {{charColor}}; font-size: 13px;">{{firstAssetChar}}</div>
         {{/if}}
-        <!-- TODO -->
         <span>{{assetName}}</span></div>
 </div>
 <div class="smart-table__available smart-table__cell" data-column-id="balance">
@@ -35,7 +34,6 @@
 <div class="smart-table__change smart-table__cell" data-column-id="change24">
     <div class="cell">
         <span class="{{SELECTORS.CHANGE_24}}"></span>
-        <span>%</span>
     </div>
 </div>
 <div class="smart-table__control-cell smart-table__cell" data-column-id="controls">
