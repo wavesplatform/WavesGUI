@@ -51,7 +51,7 @@
                                 <w-loader ng-if="$ctrl.pendingAlias"></w-loader>
 
                                 <div class="create-alias-wrap">
-                                    <w-button disabled="$ctrl.invalid || $ctrl.pendingAlias"
+                                    <w-button disabled="$ctrl.invalid || $ctrl.pendingAlias || !$ctrl.newAlias"
                                               class="tiny submit margin-right-1" type="submit">
                                         <span w-i18n="modal.account.create"></span>
                                     </w-button>

@@ -122,7 +122,8 @@
             _onChangeBalance() {
                 this.noMoneyForFee = (!this.fee || !this._balance) ||
                     this._balance.available.getTokens().lt(this.fee.getTokens());
-                this._validateNewAlias();
+                this.invalid = this.invalid || this.noMoneyForFee;
+                $scope.$digest();
             }
 
             /**
@@ -158,6 +159,7 @@
                     this.invalid = invalid || this.invalidExist;
                     $scope.$digest();
                 } else {
+                    this.invalidExist = false;
                     this.invalid = invalid;
                 }
             }
