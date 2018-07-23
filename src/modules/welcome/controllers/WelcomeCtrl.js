@@ -2,7 +2,7 @@
     'use strict';
 
     const PATH = 'modules/welcome/templates';
-
+    const { Seed } = require('data-service');
 
     /**
      * @param Base
@@ -73,13 +73,15 @@
                     this.showPasswordError = false;
                     const activeUser = this.user;
                     const encryptionRounds = user.getSettingByUser(activeUser, 'encryptionRounds');
-                    const seed = ds.Seed.decryptSeedPhrase(this.encryptedSeed, this.password, encryptionRounds);
-                    const keyPair = (new ds.Seed(seed)).keyPair;
+                    const phrase = Seed.decryptSeedPhrase(this.encryptedSeed, this.password, encryptionRounds);
+                    const seed = new Seed(phrase);
+                    const keyPair = seed.keyPair;
 
                     user.login({
                         address: activeUser.address,
-                        api: ds.signature.getDefaultSignatureApi(keyPair, activeUser.address, seed),
-                        password: this.password
+                        api: ds.signature.getDefaultSignatureApi(keyPair, activeUser.address, phrase),
+                        password: this.password,
+                        publicKey: seed.keyPair.publicKey
                     });
                 } catch (e) {
                     this.password = '';
