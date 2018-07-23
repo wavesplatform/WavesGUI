@@ -39,20 +39,14 @@
 <div class="smart-table__control-cell smart-table__cell" data-column-id="controls">
     <div class="cell">
         <span class="icon icon-send {{SELECTORS.BUTTONS.SEND.MAIN}}" role="button" tabindex="0">
-            <div>
-                <span class="{{SELECTORS.BUTTONS.SEND.TITLE}}"></span>
-            </div>
+            <span class="{{SELECTORS.BUTTONS.SEND.TITLE}}"></span>
         </span>
         <span class="icon icon-receive {{SELECTORS.BUTTONS.RECEIVE.MAIN}}" role="button" tabindex="0">
-            <div>
-                <span class="{{SELECTORS.BUTTONS.RECEIVE.TITLE}}"></span>
-            </div>
+            <span class="{{SELECTORS.BUTTONS.RECEIVE.TITLE}}"></span>
         </span>
         {{#if canShowDex}}
             <span class="icon icon-dex {{SELECTORS.BUTTONS.DEX.MAIN}}" role="button" tabindex="0">
-                <div>
-                    <span class="{{SELECTORS.BUTTONS.DEX.TITLE}}"></span>
-                </div>
+                <span class="{{SELECTORS.BUTTONS.DEX.TITLE}}"></span>
             </span>
         {{/if}}
         {{#if canShowToggleSpam}}
@@ -61,11 +55,59 @@
             </span>
         {{/if}}
 
-        <div class="click-area {{SELECTORS.ACTIONS}}" role="button" tabindex="0">
-            <div class="dots">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
+        <div class="actions-wrapper">
+            <div class="click-area" role="button" tabindex="0">
+                <div class="dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="actions-container">
+
+                    <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.ASSET_INFO.MAIN}}"
+                         role="button" tabindex="0">
+                        <span class="{{SELECTORS.ACTION_BUTTONS.ASSET_INFO.TITLE}}"></span>
+                    </div>
+
+                    <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SEND.MAIN}}"
+                         role="button" tabindex="0">
+                        <span class="{{SELECTORS.ACTION_BUTTONS.SEND.TITLE}}"></span>
+                    </div>
+
+
+                    <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.RECEIVE.MAIN}}"
+                         role="button" tabindex="0">
+                        <span class="{{SELECTORS.ACTION_BUTTONS.RECEIVE.TITLE}}"></span>
+                    </div>
+
+                    {{#if canBurn}}
+                        <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.BURN.MAIN}}"
+                             role="button" tabindex="0">
+                            <span class="{{SELECTORS.ACTION_BUTTONS.BURN.TITLE}}"></span>
+                        </div>
+                    {{/if}}
+
+                    {{#if canReiisue}}
+                        <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.REISSUE.MAIN}}"
+                             role="button" tabindex="0">
+                            <span class="{{SELECTORS.ACTION_BUTTONS.REISSUE.TITLE}}"></span>
+                        </div>
+                    {{/if}}
+
+                    {{#if canShowDex}}
+                        <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.DEX.MAIN}}"
+                             role="button" tabindex="0">
+                            <span class="{{SELECTORS.ACTION_BUTTONS.DEX.TITLE}}"></span>
+                        </div>
+                    {{/if}}
+
+                    {{#if canShowToggleSpam}}
+                        <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.TOGGLE_SPAM.MAIN}}"
+                             role="button" tabindex="0">
+                            <span class="{{SELECTORS.ACTION_BUTTONS.TOGGLE_SPAM.TITLE}}"></span>
+                        </div>
+                    {{/if}}
+                </div>
             </div>
         </div>
     </div>

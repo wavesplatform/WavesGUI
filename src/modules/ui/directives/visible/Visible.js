@@ -52,7 +52,7 @@
 
                     currentVisibleState() {
                         const rect = this.node.getBoundingClientRect();
-                        const visible = rect.top > 0 || rect.top < innerHeight;
+                        const visible = rect.top > 0 && rect.top < innerHeight;
                         this.visible = visible;
 
                         return visible;

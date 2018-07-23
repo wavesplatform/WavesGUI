@@ -58,7 +58,6 @@
         BASE_ASSET_BALANCE: 'js-balance-in-base-asset',
         EXCHANGE_RATE: 'js-exchange-rate',
         CHANGE_24: 'js-change-24',
-        ACTIONS: 'js-actions',
         BUTTONS: {
             SEND: {
                 MAIN: 'js-button-send',
@@ -75,6 +74,36 @@
             TOGGLE_SPAM: {
                 MAIN: 'js-button-toggle-spam',
                 TITLE: 'js-button-toggle-spam-title'
+            }
+        },
+        ACTION_BUTTONS: {
+            ASSET_INFO: {
+                MAIN: 'js-action-button-asset-info',
+                TITLE: 'js-action-button-asset-info-title'
+            },
+            SEND: {
+                MAIN: 'js-action-button-send',
+                TITLE: 'js-action-button-send-title'
+            },
+            RECEIVE: {
+                MAIN: 'js-action-button-receive',
+                TITLE: 'js-action-button-receive-title'
+            },
+            BURN: {
+                MAIN: 'js-action-button-burn',
+                TITLE: 'js-action-button-burn-title'
+            },
+            REISSUE: {
+                MAIN: 'js-action-button-reissue',
+                TITLE: 'js-action-button-reissue-title'
+            },
+            DEX: {
+                MAIN: 'js-action-button-dex',
+                TITLE: 'js-action-button-dex-title'
+            },
+            TOGGLE_SPAM: {
+                MAIN: 'js-action-button-toggle-spam',
+                TITLE: 'js-action-button-toggle-spam-title'
             }
         }
     };
@@ -131,6 +160,8 @@
                 const html = template({
                     assetIconPath: ASSET_IMAGES_MAP[this.balance.asset.id],
                     firstAssetChar,
+                    canBurn: this.balance.asset.id !== WavesApp.defaultAssets.WAVES,
+                    canReissue: this.balance.asset.isMyAsset && this.balance.asset.reissuable,
                     charColor: COLORS_MAP[firstAssetChar.toUpperCase()] || DEFAULT_COLOR,
                     assetName: this.balance.asset.name,
                     SELECTORS: { ...SELECTORS },
@@ -156,11 +187,13 @@
                 });
 
                 this._onUpdateBalance();
-
                 this._setHandlers();
             });
         }
 
+        /**
+         * @private
+         */
         _onUpdateBalance() {
             this._updateBalances();
             this._initSpamState();
@@ -183,14 +216,22 @@
 
             this.waves.utils.getRate(balance.asset.id, baseAssetId)
                 .then(rate => {
-                    const baseAssetBalance = balance.available.getTokens().times(rate).toFixed(2);
+                    const baseAssetBalance = balance.available.getTokens().times(rate).toFormat(2);
 
                     this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = rate.toFixed(2);
                     this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = baseAssetBalance;
                 });
         }
 
+        _initActions() {
+            this.$node.find('.click-area').on('click', () => {
+                this.$node.find('.actions-container').toggleClass('expanded');
+            });
+        }
+
         _setHandlers() {
+            this._initActions();
+
             this.$node.on('click', `.${SELECTORS.BUTTONS.SEND.MAIN}`, () => {
                 this.modalManager.showSendAsset({ assetId: this.balance.asset.id });
             });
@@ -200,15 +241,47 @@
             });
 
             this.$node.on('click', `.${SELECTORS.BUTTONS.RECEIVE.MAIN}`, () => {
-                this.modalManager.showReissueModal(this.balance.asset.id);
+                this.modalManager.showReceiveModal(this.user, this.balance.asset);
             });
 
             this.$node.on('click', `.${SELECTORS.BUTTONS.TOGGLE_SPAM.MAIN}`, () => {
                 this.user.toggleSpamAsset(this.balance.asset.id);
                 this._initSpamState();
             });
+
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.ASSET_INFO.MAIN}`, () => {
+                this.modalManager.showAssetInfo(this.balance.asset.id);
+            });
+
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SEND.MAIN}`, () => {
+                this.modalManager.showSendAsset({ assetId: this.balance.asset.id });
+            });
+
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.RECEIVE.MAIN}`, () => {
+                this.modalManager.showReceiveModal(this.user, this.balance.asset);
+            });
+
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.BURN.MAIN}`, () => {
+                this.modalManager.showBurnModal(this.balance.asset.id);
+            });
+
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.REISSUE.MAIN}`, () => {
+                this.modalManager.showReissueModal(this.balance.asset.id);
+            });
+
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.DEX.MAIN}`, () => {
+                this.$state.go('main.dex', this._getSrefParams(this.balance.asset));
+            });
+
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.TOGGLE_SPAM.MAIN}`, () => {
+                this.user.toggleSpamAsset(this.balance.asset.id);
+                this._initSpamState();
+            });
         }
 
+        /**
+         * @private
+         */
         _initSpamState() {
             if (!this._canShowToggleSpam()) {
                 return null;
@@ -217,10 +290,15 @@
             const spam = this.user.getSetting('wallet.portfolio.spam') || [];
             const isSpam = spam.includes(this.balance.asset.id);
 
-            const toggleSpam = this.node.querySelector(`.${SELECTORS.BUTTONS.TOGGLE_SPAM.MAIN}`);
+            const elements = [
+                this.node.querySelector(`.${SELECTORS.BUTTONS.TOGGLE_SPAM.MAIN}`),
+                this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.TOGGLE_SPAM.MAIN}`)
+            ];
 
-            toggleSpam.classList.toggle('icon-hide', isSpam);
-            toggleSpam.classList.toggle('icon-show', !isSpam);
+            elements.forEach(toggleSpam => {
+                toggleSpam.classList.toggle('icon-hide', isSpam);
+                toggleSpam.classList.toggle('icon-show', !isSpam);
+            });
         }
 
         /**
@@ -231,6 +309,9 @@
             this.utils.openDex(asset.id);
         }
 
+        /**
+         * @private
+         */
         _updateBalances() {
             const asset = this.balance.asset;
             const available = this.balance.available.getTokens();
@@ -242,6 +323,10 @@
             this.node.querySelector(`.${SELECTORS.IN_ORDERS}`).innerHTML = inOrdersHtml;
         }
 
+        /**
+         * @returns {boolean}
+         * @private
+         */
         _canShowToggleSpam() {
             return this.balance.asset.id !== WavesApp.defaultAssets.WAVES;
         }
