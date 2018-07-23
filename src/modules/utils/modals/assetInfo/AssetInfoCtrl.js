@@ -81,6 +81,7 @@
                         case TYPES.SEND:
                         case TYPES.RECEIVE:
                         case TYPES.MASS_RECEIVE:
+                        case TYPES.MASS_SEND:
                         case TYPES.CIRCULAR:
                             return tx.amount.asset.id === this.asset.id;
                         case TYPES.EXCHANGE_BUY:
