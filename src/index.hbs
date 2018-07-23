@@ -9,13 +9,41 @@
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
 
     <style>
-
         .not-supported-browser {
             display: none;
         }
 
+        button.big {
+            width: 224px;
+            background-color: #1f5af6;
+            border: 1px solid #1751ec;
+            color: #fff;
+            border-radius: 4px;
+            height: 54px;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        button.big:hover {
+            background: #1a4ac8;
+        }
+
+        .waves-logo {
+            margin-top: 0 !important;
+        }
+
         .connection-problem {
             display: none;
+            padding-top: 40px;
+            text-align: center;
+            width: 100%;
+            max-width: 90%;
+            margin: 0 auto;
+            height: 100%;
+        }
+
+        .connection-problem img {
+            max-width: 100%;
         }
 
         .app-loader.app-loader-transition {
@@ -224,7 +252,7 @@
         window.addEventListener('load', function () {
             var __interval = setInterval(function () {
 
-                window.WavesApp = window.WavesApp || { state: 'loading' };
+                WavesApp = WavesApp || { state: 'loading' };
 
                 switch (WavesApp.state) {
                     case 'loading':
@@ -232,6 +260,7 @@
                         clearInterval(__interval);
                         document.querySelector('.app-loader').style.display = 'none';
                         document.querySelector('.connection-problem').style.display = 'block';
+                        document.querySelector('[name=main]').style.display = 'none';
                         break;
                     case 'appRun':
                         clearInterval(__interval);
@@ -432,12 +461,15 @@
     </div>
 </div>
 
-<div class="connection-problem">
-    Connection problemm!!!!
-    <button onclick="location.href=location.href">reload page</button>
-</div>
+    <div class="connection-problem">
+        <div class="waves-logo"><img src="/img/icons/waves_logo.svg"/></div>
+        <img src="/img/no-preload/connection-error.svg" class="margin-3" />
+        <div class="headline-1">We couldn't connect to the server</div>
+        <div class="body-1 margin-4 disabled-600">Check your internet connection and try again</div>
+        <button class="submit big submit" onclick="location.href=location.href">Refresh page</button>
+    </div>
 
-<div class="not-supported-browser">
+    <div class="not-supported-browser">
     <div class="overlay"></div>
     <div class="not-supported-modal">
         <i></i>
