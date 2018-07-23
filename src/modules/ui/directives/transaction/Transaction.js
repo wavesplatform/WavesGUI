@@ -72,7 +72,7 @@
                 const tx = this.transaction;
 
                 const id = `Transaction ID: ${tx.id}`;
-                const type = `Type: ${tx.transactionType} (${this.type})`;
+                const type = `Type: ${tx.transactionType} (${this.typeName})`;
 
                 const timestamp = $filter('date')(tx.timestamp, 'MM/dd/yyyy HH:mm');
                 const datetime = `Date: ${timestamp}`;
@@ -95,8 +95,8 @@
                     message += `\n${amount}`;
                 }
 
-                if (this.type === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_BUY ||
-                    this.type === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_SELL) {
+                if (this.typeName === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_BUY ||
+                    this.typeName === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_SELL) {
                     const asset = tx.price.pair.priceAsset;
                     const price = `Price: ${tx.price.toFormat()} ${asset.name} (${asset.id})`;
                     const totalPrice = `Total price: ${this.totalPrice} ${asset.name}`;

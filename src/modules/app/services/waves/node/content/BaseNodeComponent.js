@@ -43,9 +43,10 @@
                         return Promise.all([
                             ds.moneyFromTokens('0', WavesApp.defaultAssets.WAVES).then((money) => {
                                 const len = tx && tx.transfers && tx.transfers.length || 0;
+                                const factor = !(len % 2) ? len : len + 1;
                                 const transfer = new BigNumber('0.001');
                                 const massTransfer = new BigNumber('0.001').div(2);
-                                return money.cloneWithTokens(transfer.plus(massTransfer.times(len)));
+                                return money.cloneWithTokens(transfer.plus(massTransfer.times(factor)));
                             })
                         ]);
                     case TYPES.ISSUE:
