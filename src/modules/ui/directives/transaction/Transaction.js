@@ -72,7 +72,7 @@
                 const tx = this.transaction;
 
                 const id = `Transaction ID: ${tx.id}`;
-                const type = `Type: ${tx.transactionType} (${this.typeName})`;
+                const type = `Type: ${tx.type} (${this.typeName})`;
 
                 const timestamp = $filter('date')(tx.timestamp, 'MM/dd/yyyy HH:mm');
                 const datetime = `Date: ${timestamp}`;
