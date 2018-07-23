@@ -11,7 +11,8 @@
         'identity-img': 'identityImg',
         '@waves/data-entities': 'ds.wavesDataEntities',
         'ramda': 'R',
-        'data-service': 'ds'
+        'data-service': 'ds',
+        'handlebars': 'Handlebars'
     };
 
     function getModule(require) {

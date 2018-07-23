@@ -1,0 +1,74 @@
+<div class="smart-table__name smart-table__cell" data-column-id="name">
+    <div class="cell">
+        {{#if assetIconPath}}
+            <div class="asset-logo footnote-3"
+                 style="width: 30px; height: 30px; background-image: url({{assetIconPath}});">
+            </div>
+        {{else}}
+            <div class="asset-logo footnote-3"
+                 style="width: 30px; height: 30px; background-color: {{charColor}}; font-size: 13px;">{{firstAssetChar}}</div>
+        {{/if}}
+        <!-- TODO -->
+        <span>{{assetName}}</span></div>
+</div>
+<div class="smart-table__available smart-table__cell" data-column-id="balance">
+    <div class="cell">
+        <span class="{{SELECTORS.AVAILABLE}}"></span>
+    </div>
+</div>
+<div class="smart-table__in-orders smart-table__cell" data-column-id="inOrders">
+    <div class="cell">
+        <span class="{{SELECTORS.IN_ORDERS}}"></span>
+    </div>
+</div>
+<div class="smart-table__available-value smart-table__cell" data-column-id="mirror">
+    <div class="cell">
+        <span class="{{SELECTORS.BASE_ASSET_BALANCE}}"></span>
+    </div>
+</div>
+<div class="smart-table__chart-wrap smart-table__cell" data-column-id="rate">
+    <div class="cell">
+        <span class="{{SELECTORS.EXCHANGE_RATE}}"></span>
+        <!--TODO Asset rate chart    -->
+    </div>
+</div>
+<div class="smart-table__change smart-table__cell" data-column-id="change24">
+    <div class="cell">
+        <span class="{{SELECTORS.CHANGE_24}}"></span>
+        <span>%</span>
+    </div>
+</div>
+<div class="smart-table__control-cell smart-table__cell" data-column-id="controls">
+    <div class="cell">
+        <span class="icon icon-send {{SELECTORS.BUTTONS.SEND.MAIN}}" role="button" tabindex="0">
+            <div>
+                <span class="{{SELECTORS.BUTTONS.SEND.TITLE}}"></span>
+            </div>
+        </span>
+        <span class="icon icon-receive {{SELECTORS.BUTTONS.RECEIVE.MAIN}}" role="button" tabindex="0">
+            <div>
+                <span class="{{SELECTORS.BUTTONS.RECEIVE.TITLE}}"></span>
+            </div>
+        </span>
+        {{#if canShowDex}}
+            <span class="icon icon-dex {{SELECTORS.BUTTONS.DEX.MAIN}}" role="button" tabindex="0">
+                <div>
+                    <span class="{{SELECTORS.BUTTONS.DEX.TITLE}}"></span>
+                </div>
+            </span>
+        {{/if}}
+        {{#if canShowToggleSpam}}
+            <span class="icon {{SELECTORS.BUTTONS.TOGGLE_SPAM.MAIN}}">
+                <span class="{{SELECTORS.BUTTONS.TOGGLE_SPAM.TITLE}}"></span>
+            </span>
+        {{/if}}
+
+        <div class="click-area {{SELECTORS.ACTIONS}}" role="button" tabindex="0">
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+    </div>
+</div>
