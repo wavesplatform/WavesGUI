@@ -76,6 +76,16 @@
              * @private
              */
             static _comparator(v1, v2) {
+
+                const v1Beta = v1.includes('beta');
+                const v2Beta = v2.includes('beta');
+
+                if (v1Beta && !v2Beta) {
+                    return -1;
+                } else if (!v1Beta && v2Beta) {
+                    return 1;
+                }
+
                 v1 = Migration._parse(v1);
                 v2 = Migration._parse(v2);
 

@@ -10,7 +10,7 @@
      */
     const factory = function (notification, user, migration, utils) {
 
-        const MIGRATION_LIST = [];
+        const MIGRATION_LIST = ['1.0.0'];
 
         /**
          * @param {string|Array<string>} version
