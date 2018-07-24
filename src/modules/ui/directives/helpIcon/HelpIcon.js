@@ -13,15 +13,20 @@
             hoverIn() {
                 this.hovered = true;
                 clearTimeout(this.timer);
+                $scope.$apply();
+            }
+
+            hoverOut() {
+                clearTimeout(this.timer);
                 this.timer = setTimeout(() => {
                     this.hovered = false;
                     $scope.$apply();
                 }, Number(this.delay) || 1000);
-                $scope.$apply();
             }
 
             $postLink() {
                 $element.on('mouseover', () => this.hoverIn());
+                $element.on('mouseout', () => this.hoverOut());
             }
 
         }
