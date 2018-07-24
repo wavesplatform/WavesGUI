@@ -16,7 +16,7 @@
                 this.timer = setTimeout(() => {
                     this.hovered = false;
                     $scope.$apply();
-                }, this.delay || 1000);
+                }, Number(this.delay) || 1000);
                 $scope.$apply();
             }
 
