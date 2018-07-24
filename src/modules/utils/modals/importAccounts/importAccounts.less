@@ -139,7 +139,7 @@
     text-align: left;
 
     .help-icon__content {
-      right: -40px;
+      right: -15px;
       left: auto;
       margin-top: 8px;
     }
@@ -147,6 +147,33 @@
 
   h3 {
     margin-top: 40px;
+  }
+
+}
+
+@media screen and (max-width: 480px) {
+
+  .import-modal {
+    &__blocks-wrapper {
+      flex-direction: column;
+    }
+
+    &__block {
+      flex-basis: 100%;
+
+      & + .import-modal__block {
+        margin-left: 0;
+      }
+    }
+
+    w-help-icon {
+      .help-icon__content {
+        right: 0;
+        left: 0;
+        width: 100%;
+      }
+    }
+
   }
 
 }
