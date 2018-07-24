@@ -240,6 +240,13 @@
                 opacity: 0;
             }
         }
+
+        @media screen and (max-width: 768px) {
+            .app-loader .loader {
+                margin: 0 auto;
+                transform: scale(.8) rotate(45deg);
+            }
+        }
     </style>
 
     {{#if isProduction}}
