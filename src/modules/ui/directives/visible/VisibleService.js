@@ -7,11 +7,12 @@
      * @param {app.utils} utils
      * @returns {VisibleService}
      */
-    const factory = function (utils) {
+    const factory = function (Base, utils) {
 
-        class VisibleService {
+        class VisibleService extends Base {
 
             constructor() {
+                super();
                 this.children = Object.create(null);
                 this._handler = utils.debounceRequestAnimationFrame((e) => this._onScroll(e));
                 this._initHandler = utils.debounce(() => this._onScroll(), 50);
@@ -44,8 +45,8 @@
 
                 this.children[id].list.push(visible);
 
-                visible.signals.destroy.once(() => {
-                    this.children[id] = this.children[id].list.filter(i => i !== visible);
+                this.receiveOnce(visible.signals.destroy, () => {
+                    this.children[id].list = this.children[id].list.filter(i => i !== visible);
 
                     if (!this.children[id].list.length) {
                         delete this.children[id];
@@ -63,6 +64,14 @@
                 this._initHandler();
             }
 
+            unregisterVisibleComponent(visible) {
+                Object.values(this.children).forEach(info => {
+                    info.list = info.list.filter(i => i !== visible);
+                    delete info.visible[visible.cid];
+                });
+                this.stopReceive(visible.signals.destroy);
+            }
+
             /**
              * @param {Event} e
              * @private
@@ -72,27 +81,22 @@
                 const id = target && target.getAttribute('id');
 
                 if (id && this.children[id]) {
-                    this._scrollById(target, id);
+                    this._scrollById(target.scrollTop, id);
                 } else {
-                    Object.values(this.children).forEach(info => {
-                        info.list.forEach(item => item.currentVisibleState());
+                    Object.keys(this.children).forEach(id => {
+                        const element = document.querySelector(`#${id}`);
+                        this._scrollById(element.scrollTop, id);
                     });
                 }
             }
 
             /**
-             * @param {HTMLElement} parent
+             * @param {number} activeScrollTop
              * @param {string} id
              * @private
              */
-            _scrollById(parent, id) {
+            _scrollById(activeScrollTop, id) {
                 const lastScrollTop = this.children[id].scrollTop;
-                const activeScrollTop = parent.scrollTop;
-
-                if (lastScrollTop === activeScrollTop) {
-                    return null;
-                }
-
                 const direction = activeScrollTop > lastScrollTop;
 
                 const visibleHash = this.children[id].visible;
@@ -109,45 +113,36 @@
                     return null;
                 }
 
+                let wasVisible = false;
+                let wasChangeVisible = false;
+
+                const loop = (i) => {
+                    const item = this.children[id].list[i];
+                    wasVisible = wasVisible || visibleHash[item.cid];
+
+                    if (!wasVisible) {
+                        return null;
+                    }
+
+                    const isVisible = item.currentVisibleState();
+
+                    if (isVisible) {
+                        this.children[id].visible[item.cid] = item;
+                        wasChangeVisible = true;
+                    } else if (wasChangeVisible) {
+                        return false;
+                    }
+                };
+
                 if (direction) {
-                    let wasVisible = false;
-                    let wasChangeVisible = false;
-
                     for (let i = 0; i < this.children[id].list.length; i++) {
-                        const item = this.children[id].list[i];
-                        wasVisible = wasVisible || visibleHash[item.cid];
-
-                        if (!wasVisible) {
-                            continue;
-                        }
-
-                        const isVisible = item.currentVisibleState();
-
-                        if (isVisible) {
-                            this.children[id].visible[item.cid] = item;
-                            wasChangeVisible = true;
-                        } else if (wasChangeVisible) {
+                        if (loop(i) === false) {
                             break;
                         }
                     }
                 } else {
-                    let wasVisible = false;
-                    let wasChangeVisible = false;
-
                     for (let i = this.children[id].list.length - 1; i >= 0; i--) {
-                        const item = this.children[id].list[i];
-                        wasVisible = wasVisible || visibleHash[item.cid];
-
-                        if (!wasVisible) {
-                            continue;
-                        }
-
-                        const isVisible = item.currentVisibleState();
-
-                        if (isVisible) {
-                            this.children[id].visible[item.cid] = item;
-                            wasChangeVisible = true;
-                        } else if (wasChangeVisible) {
+                        if (loop(i) === false) {
                             break;
                         }
                     }
@@ -194,7 +189,7 @@
         return new VisibleService();
     };
 
-    factory.$inject = ['utils'];
+    factory.$inject = ['Base', 'utils'];
 
     angular.module('app.ui').factory('visibleService', factory);
 })();

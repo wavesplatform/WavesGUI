@@ -4,15 +4,18 @@
     /**
      * @param Base
      * @param {VisibleService} visibleService
+     * @param {TimeLine} timeLine
      * @returns {{restrict: string, transclude: boolean, link: link}}
      */
-    const directive = function (Base, visibleService) {
+    const directive = function (Base, visibleService, timeLine) {
 
         return {
             restrict: 'E',
             transclude: true,
             scope: false,
             link: function ($scope, $element, $attrs, $ctrl, $transclude) {
+
+                const once = $attrs.once === '' || $attrs.once === 'true';
 
                 class Visible extends Base {
 
@@ -62,16 +65,20 @@
                      */
                     _onChangeVisible() {
                         if (this.visible) {
-                            if (!this.content) {
-                                $transclude(($element, $scope) => {
-                                    this.$node.append($element);
-                                    this.content = { $element, $scope };
-                                });
-                            } else {
-                                this.$node.append(this.content.$element);
-                            }
+                            $transclude(($element, $scope) => {
+                                this.$node.append($element);
+                                this.content = { $element, $scope };
+                            });
+                        } else if (once) {
+                            visibleService.unregisterVisibleComponent(this);
                         } else {
-                            this.content.$element.detach();
+                            const content = this.content;
+                            this.content = null;
+
+                            timeLine.wait(0).then(() => {
+                                content.$element.remove();
+                                content.$scope.$destroy();
+                            });
                         }
                     }
 
