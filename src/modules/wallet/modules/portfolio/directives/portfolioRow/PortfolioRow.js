@@ -58,6 +58,7 @@
         BASE_ASSET_BALANCE: 'js-balance-in-base-asset',
         EXCHANGE_RATE: 'js-exchange-rate',
         CHANGE_24: 'js-change-24',
+        CHART_CONTAINER: 'js-chart-container',
         BUTTONS: {
             SEND: {
                 MAIN: 'js-button-send',
@@ -110,12 +111,14 @@
 
     class PortfolioRow {
 
-        constructor($templateRequest, $element, utils, waves, user, modalManager, $state) {
+        constructor($templateRequest, $element, utils, waves, user, modalManager, $state, ChartFactory) {
 
             if (!PortfolioRow.templatePromise) {
                 PortfolioRow.templatePromise = $templateRequest(TEMPLATE_PATH)
                     .then((html) => Handlebars.compile(html));
             }
+
+            this.ChartFactory = ChartFactory;
 
             this.$state = $state;
             /**
@@ -150,6 +153,17 @@
              * @type {boolean}
              */
             this.canShowDex = null;
+
+            this.chartOptions = {
+                charts: [
+                    {
+                        axisX: 'timestamp',
+                        axisY: 'rate',
+                        lineColor: '#5a81ea',
+                        fillColor: '#5a81ea'
+                    }
+                ]
+            }
         }
 
         $postLink() {
@@ -221,6 +235,11 @@
                     this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = rate.toFixed(2);
                     this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = baseAssetBalance;
                 });
+
+            const startDate = this.utils.moment().add().day(-100);
+            this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then((values) => {
+                this.chart = new this.ChartFactory(this.$node.find(`.${SELECTORS.CHART_CONTAINER}`), this.chartOptions, values);
+            });
         }
 
         _initActions() {
@@ -333,7 +352,7 @@
 
     }
 
-    PortfolioRow.$inject = ['$templateRequest', '$element', 'utils', 'waves', 'user', 'modalManager', '$state'];
+    PortfolioRow.$inject = ['$templateRequest', '$element', 'utils', 'waves', 'user', 'modalManager', '$state', 'ChartFactory'];
 
     angular.module('app.wallet.portfolio').component('wPortfolioRow', {
         controller: PortfolioRow,

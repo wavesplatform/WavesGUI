@@ -105,6 +105,7 @@
                 } else {
                     this._getGraphData().then((values) => {
                         this.chartData = values;
+                        console.log(values);
                     });
                 }
             }
