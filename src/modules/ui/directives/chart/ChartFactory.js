@@ -3,25 +3,11 @@
 
     /**
      * @param Base
-     * @param {app.utils} utils
-     * @param {JQuery} $element
      * @return {Chart}
      */
-    const factory = function (Base, utils) {
+    const factory = function (Base) {
 
         const { Money } = require('@waves/data-entities');
-
-        const DEFAULT_OPTIONS = {
-            charts: [
-                {
-                    axisX: 'x',
-                    axisY: 'y',
-                    lineColor: '#000',
-                    fillColor: '#000'
-                }
-            ]
-        };
-
         const tsUtils = require('ts-utils');
 
         class ChartFactory extends Base {
@@ -201,7 +187,7 @@
                         coordinates,
                         length: coordinates.length,
                         ...chartOptions
-                    }
+                    };
                 });
             }
 

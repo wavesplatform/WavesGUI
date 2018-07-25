@@ -28,11 +28,11 @@
     <w-smart-table class="smart-table smart-table__mode-large" data="$ctrl.balanceList"
                    header-info="$ctrl.tableHeaders">
         <w-loader ng-if="$ctrl.pending"></w-loader>
-        <w-table-row ng-repeat="balance in $data track by balance.asset.id">
-            <w-visible>
+        <w-visible ng-repeat="balance in $data track by balance.asset.id">
+            <w-table-row>
                 <w-portfolio-row can-show-dex="::$ctrl.canShowDex(balance)"
                                  balance="balance"></w-portfolio-row>
-            </w-visible>
-        </w-table-row>
+            </w-table-row>
+        </w-visible>
     </w-smart-table>
 </div>

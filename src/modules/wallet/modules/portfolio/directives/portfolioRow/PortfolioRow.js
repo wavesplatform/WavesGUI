@@ -163,7 +163,7 @@
                         fillColor: '#5a81ea'
                     }
                 ]
-            }
+            };
         }
 
         $postLink() {
@@ -238,7 +238,11 @@
 
             const startDate = this.utils.moment().add().day(-100);
             this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then((values) => {
-                this.chart = new this.ChartFactory(this.$node.find(`.${SELECTORS.CHART_CONTAINER}`), this.chartOptions, values);
+                this.chart = new this.ChartFactory(
+                    this.$node.find(`.${SELECTORS.CHART_CONTAINER}`),
+                    this.chartOptions,
+                    values
+                );
             });
         }
 
@@ -352,7 +356,16 @@
 
     }
 
-    PortfolioRow.$inject = ['$templateRequest', '$element', 'utils', 'waves', 'user', 'modalManager', '$state', 'ChartFactory'];
+    PortfolioRow.$inject = [
+        '$templateRequest',
+        '$element',
+        'utils',
+        'waves',
+        'user',
+        'modalManager',
+        '$state',
+        'ChartFactory'
+    ];
 
     angular.module('app.wallet.portfolio').component('wPortfolioRow', {
         controller: PortfolioRow,

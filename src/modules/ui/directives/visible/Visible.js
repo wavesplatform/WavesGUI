@@ -4,10 +4,9 @@
     /**
      * @param Base
      * @param {VisibleService} visibleService
-     * @param {TimeLine} timeLine
      * @returns {{restrict: string, transclude: boolean, link: link}}
      */
-    const directive = function (Base, visibleService, timeLine) {
+    const directive = function (Base, visibleService) {
 
         return {
             restrict: 'E',
@@ -36,7 +35,7 @@
                          */
                         this.visible = false;
 
-                        visibleService.registerVisibleComponent(this);
+                        visibleService.registerVisibleComponent(this, $element);
                         this.observe('visible', this._onChangeVisible);
 
                         this.signals.destroy.once(() => {
@@ -63,18 +62,16 @@
                      */
                     _onChangeVisible() {
                         if (this.visible) {
-                            $transclude(($element, $scope) => {
-                                this.$node.append($element);
-                                this.content = { $element, $scope };
-                            });
+                            if (!this.content) {
+                                $transclude(($element, $scope) => {
+                                    this.$node.append($element);
+                                    this.content = { $element, $scope };
+                                });
+                            } else {
+                                this.$node.append(this.content.$element);
+                            }
                         } else {
-                            const content = this.content;
-                            this.content = null;
-
-                            timeLine.wait(0).then(() => {
-                                content.$element.remove();
-                                content.$scope.$destroy();
-                            });
+                            this.content.$element.detach();
                         }
                     }
 

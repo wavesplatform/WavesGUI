@@ -34,5 +34,5 @@
         },
         scope: false,
         controller
-    })
+    });
 })();
