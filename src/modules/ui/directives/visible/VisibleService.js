@@ -106,7 +106,12 @@
                 } else {
                     Object.keys(this.children).forEach(id => {
                         const element = document.querySelector(`#${id}`);
-                        this._scrollById(element.scrollTop, id);
+
+                        if (!element) {
+                            delete this.children[id];
+                        } else {
+                            this._scrollById(element.scrollTop, id);
+                        }
                     });
                 }
             }
