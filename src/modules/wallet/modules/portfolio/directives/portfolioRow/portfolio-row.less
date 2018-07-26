@@ -15,12 +15,24 @@ w-portfolio-row {
     justify-content: center;
   }
 
-  .chart-asset-rate {
-    position: absolute;
-    bottom: 0;
-    width: 84px;
-    height: 40%;
-    right: 0;
+  .smart-table {
+    &__chart-wrap {
+      .cell {
+        position: relative;
+        width: 84px;
+        padding-right: 10px;
+        float: right;
+
+        .chart-asset-rate {
+          position: absolute;
+          bottom: 0;
+          width: 84px;
+          height: 25px;
+          opacity: .3;
+          right: 0;
+        }
+      }
+    }
   }
 
   .actions-wrapper {
@@ -101,5 +113,11 @@ w-portfolio-row {
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  w-portfolio-row {
+    flex-wrap: wrap;
   }
 }

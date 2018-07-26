@@ -8,7 +8,9 @@
 
   w-visible {
     flex-wrap: wrap;
-    height: 65px !important;
+    @media screen and (min-width: 768px) {
+      height: 65px !important;
+    }
   }
 
   .portfolio-wrapper {
@@ -61,30 +63,25 @@
         transform: translate3d(0, 0, 0);
         will-change: transform;
 
-        .smart-table__row:hover {
-          background: @hover-default;
-
+        @media screen and (min-width: 768px) {
+          .smart-table {
+            &__row:hover {
+              background: @hover-default;
+            }
+          }
         }
       }
     }
 
-    .smart-table__row {
-      min-width: 768px;
-
-      w-visible {
-        min-height: 64px;
-      }
-
-      i.toggler {
-        display: none;
-      }
+    w-visible {
+      min-height: 64px;
 
       &:first-child {
         .smart-table {
           &__control-cell {
             .cell {
               span.icon {
-                div {
+                span {
                   top: auto;
                   bottom: 0;
                   left: 50%;
@@ -99,6 +96,14 @@
             }
           }
         }
+      }
+    }
+
+    .smart-table__row {
+      min-width: 768px;
+
+      i.toggler {
+        display: none;
       }
     }
 
@@ -122,6 +127,8 @@
       }
 
       &:first-child {
+        min-width: 200px;
+
         .cell {
           min-width: 160px;
           padding-left: 10px;
@@ -137,34 +144,6 @@
         padding-right: 5px;
         min-width: 250px;
         width: 250px;
-      }
-    }
-
-    .smart-table__chart-wrap {
-      .cell {
-        position: relative;
-        width: 84px;
-        padding-right: 10px;
-        float: right;
-
-        w-asset-rate-chart {
-          position: absolute;
-          bottom: 0;
-          width: 84px;
-          height: 40%;
-          opacity: .2;
-          right: 0;
-
-          &::after {
-            content: '';
-            display: block;
-            position: absolute;
-            bottom: -2px;
-            left: -1px;
-            width: 86px;
-            height: 38px;
-          }
-        }
       }
     }
 
@@ -219,7 +198,44 @@
         display: flex;
         align-items: center;
 
+        .spam-icons {
+          span.unspam,
+          span.tospam,
+          svg {
+            display: none;
+          }
+
+          &.icon-hide {
+            svg:first-child {
+              display: inline-block;
+            }
+            &:hover {
+              span.unspam {
+                display: none;
+              }
+              span.tospam {
+                display: block;
+              }
+            }
+          }
+
+          &.icon-show {
+            svg:first-child + svg {
+              display: inline-block;
+            }
+            &:hover {
+              span.unspam {
+                display: block;
+              }
+              span.tospam {
+                display: none;
+              }
+            }
+          }
+        }
+
         span.icon {
+          z-index: 2;
           display: inline-block;
           width: 18px;
           height: 18px;
@@ -260,7 +276,7 @@
           }
 
           &:hover {
-            div {
+            span {
               display: block;
             }
             svg {
@@ -314,7 +330,6 @@
       }
     }
   }
-
 }
 
 @media screen and (min-width: 769px) {
@@ -401,6 +416,10 @@
       .smart-table__w-tbody {
         max-height: 100%;
 
+        w-visible {
+          margin-bottom: @padding-main-layout;
+        }
+
         .smart-table__row {
           padding: 20px 0 0;
           flex-direction: row;
@@ -446,7 +465,6 @@
       }
 
       .smart-table__row {
-
         .smart-table__available-value,
         .smart-table__chart-wrap,
         .smart-table__change,
@@ -488,7 +506,8 @@
               transform: translateX(50%);
             }
 
-            .icon-hide {
+            .icon-hide,
+            .icon-show {
               right: 20px;
             }
           }

@@ -131,8 +131,8 @@
                     {
                         axisX: 'timestamp',
                         axisY: 'rate',
-                        lineColor: '#5a81ea',
-                        fillColor: '#5a81ea'
+                        lineColor: 'rgba(90, 129, 234)',
+                        fillColor: 'rgba(90, 129, 234, .3)'
                     }
                 ]
             };
@@ -330,7 +330,6 @@
             const inOrders = this.balance.inOrders.getTokens();
             const availableHtml = this.utils.getNiceNumberTemplate(available, asset.precision, true);
             const inOrdersHtml = this.utils.getNiceNumberTemplate(inOrders, asset.precision);
-
             this.node.querySelector(`.${SELECTORS.AVAILABLE}`).innerHTML = availableHtml;
             this.node.querySelector(`.${SELECTORS.IN_ORDERS}`).innerHTML = inOrdersHtml;
         }
