@@ -14,21 +14,20 @@
             constructor() {
                 super();
                 this.children = Object.create(null);
-                this._handler = utils.debounceRequestAnimationFrame((e) => this._onScroll(e));
-                this._initHandler = utils.debounce(() => this._onScroll(), 50);
+                this._handlerdebounce = utils.debounceRequestAnimationFrame((e) => this._onScroll(e));
+                this._initHandlerDebounce = utils.debounce(() => this._onScroll(), 50);
+                this._updateSortDebounce = utils.debounce(() => this.updateSort(), 50);
             }
 
             checkVisibleContent() {
-                this._handler();
+                this._handlerdebounce();
             }
 
             /**
              * @param {Visible} visible
-             * @param {JQuery} $element
+             * @param {JQuery} $parent
              */
-            registerVisibleComponent(visible, $element) {
-                const $parent = $element.parent();
-
+            registerVisibleComponent(visible, $parent) {
                 if (!$parent.length) {
                     throw new Error('Element visible has no parent!');
                 }
@@ -55,13 +54,35 @@
                     if (Object.keys(this.children).length === 0) {
                         this._removeHandlers();
                     }
+
+                    this._updateSortDebounce();
                 });
 
                 if (Object.keys(this.children).length === 1 && this.children[id].list.length === 1) {
                     this._addHandlers();
                 }
 
-                this._initHandler();
+                this._updateSortDebounce();
+            }
+
+            updateSort() {
+                Object.keys(this.children).forEach(id => {
+                    const visibleElements = $(`#${id} w-visible`).toArray();
+                    const childrenHash = utils.toHash(this.children[id].list, 'cid');
+                    const sortList = this.children[id].list.map(item => {
+                        return {
+                            cid: item.cid,
+                            index: visibleElements.indexOf(item.node)
+                        };
+                    });
+
+                    sortList.sort(utils.comparators.process((i => i.index)).asc);
+
+                    this.children[id].list = sortList.map(item => childrenHash[item.cid]);
+                    this.children[id].visible = Object.create(null);
+                });
+
+                this._onScroll();
             }
 
             unregisterVisibleComponent(visible) {
@@ -73,7 +94,7 @@
             }
 
             /**
-             * @param {Event} e
+             * @param {Event} [e]
              * @private
              */
             _onScroll(e) {
@@ -155,16 +176,16 @@
              * @private
              */
             _addHandlers() {
-                document.addEventListener('scroll', this._handler, true);
-                window.addEventListener('resize', this._handler, false);
+                document.addEventListener('scroll', this._handlerdebounce, true);
+                window.addEventListener('resize', this._handlerdebounce, false);
             }
 
             /**
              * @private
              */
             _removeHandlers() {
-                document.removeEventListener('scroll', this._handler, true);
-                window.removeEventListener('resize', this._handler, false);
+                document.removeEventListener('scroll', this._handlerdebounce, true);
+                window.removeEventListener('resize', this._handlerdebounce, false);
             }
 
             /**

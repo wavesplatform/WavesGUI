@@ -16,6 +16,7 @@
             link: function ($scope, $element, $attrs, $ctrl, $transclude) {
 
                 const once = $attrs.once === '' || $attrs.once === 'true';
+                const root = $attrs.scrollRootSelector;
 
                 class Visible extends Base {
 
@@ -38,7 +39,9 @@
                          */
                         this.visible = false;
 
-                        visibleService.registerVisibleComponent(this, $element);
+                        const $scrollRootElement = root ? $element.closest(root) : $element.parent();
+
+                        visibleService.registerVisibleComponent(this, $scrollRootElement);
                         this.observe('visible', this._onChangeVisible);
 
                         this.signals.destroy.once(() => {
@@ -48,8 +51,6 @@
                                 this.content = null;
                             }
                         });
-
-                        this.currentVisibleState();
                     }
 
                     currentVisibleState() {
