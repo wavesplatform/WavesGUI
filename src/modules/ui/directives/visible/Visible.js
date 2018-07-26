@@ -7,7 +7,7 @@
      * @param {TimeLine} timeLine
      * @returns {{restrict: string, transclude: boolean, link: link}}
      */
-    const directive = function (Base, visibleService, timeLine) {
+    const directive = function (Base, visibleService) {
 
         return {
             restrict: 'E',
@@ -38,6 +38,11 @@
                          * @type {boolean}
                          */
                         this.visible = false;
+                        /**
+                         * @type {Promise}
+                         * @private
+                         */
+                        this._appendPromise = null;
 
                         const $scrollRootElement = root ? $element.closest(root) : $element.parent();
 
@@ -65,22 +70,31 @@
                      * @private
                      */
                     _onChangeVisible() {
+                        if (this._appendPromise) {
+                            this._appendPromise.then(() => this._onChangeVisible());
+                            return null;
+                        }
+
                         if (this.visible) {
-                            $transclude(($element, $scope) => {
-                                this.$node.append($element);
-                                this.content = { $element, $scope };
+                            this._appendPromise = this._append().then(() => {
+                                this._appendPromise = null;
                             });
                         } else if (once) {
                             visibleService.unregisterVisibleComponent(this);
                         } else {
-                            const content = this.content;
-                            this.content = null;
-
-                            timeLine.wait(0).then(() => {
-                                content.$element.remove();
-                                content.$scope.$destroy();
-                            });
+                            this.content.$element.remove();
+                            this.content.$scope.$destroy();
                         }
+                    }
+
+                    _append() {
+                        return new Promise((resolve) => {
+                            $transclude(($element, $scope) => {
+                                this.$node.append($element);
+                                this.content = { $element, $scope };
+                                resolve();
+                            });
+                        });
                     }
 
                 }
@@ -90,7 +104,7 @@
         };
     };
 
-    directive.$inject = ['Base', 'visibleService', 'timeLine'];
+    directive.$inject = ['Base', 'visibleService'];
 
     angular.module('app.ui').directive('wVisible', directive);
 })();
