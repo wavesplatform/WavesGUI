@@ -27,6 +27,22 @@ md-dialog.modal-send {
     .modal-content {
       overflow: auto;
       padding-top: 60px;
+
+      .error-title {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 0 40px;
+        z-index: 10;
+        height: 60px;
+        line-height: 60px;
+        border-bottom: 1px solid @color-disabled-200;
+      }
+
+      .error-content {
+        padding: 30px 40px;
+      }
     }
 
     .icon-close {
@@ -98,6 +114,12 @@ md-dialog.modal-send {
     .total-amount {
       background-color: @color-basic-50;
       border: 1px solid @color-basic-200;
+    }
+
+    .warning-plate {
+      &.server-error {
+        margin-bottom: 30px;
+      }
     }
 
     w-qr-code-read {
