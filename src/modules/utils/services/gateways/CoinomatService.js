@@ -1,6 +1,16 @@
 (function () {
     'use strict';
 
+    const GATEWAYS = {
+        [WavesApp.defaultAssets.BTC]: { waves: 'WBTC', gateway: 'BTC' },
+        [WavesApp.defaultAssets.ETH]: { waves: 'WETH', gateway: 'ETH' },
+        [WavesApp.defaultAssets.LTC]: { waves: 'WLTC', gateway: 'LTC' },
+        [WavesApp.defaultAssets.ZEC]: { waves: 'WZEC', gateway: 'ZEC' },
+        [WavesApp.defaultAssets.BCH]: { waves: 'WBCH', gateway: 'BCH' },
+        [WavesApp.defaultAssets.DASH]: { waves: 'WDASH', gateway: 'DASH' },
+        [WavesApp.defaultAssets.XMR]: { waves: 'WXMR', gateway: 'XMR' }
+    };
+
     const PATH = `${WavesApp.network.coinomat}/api/v1`;
     const LANGUAGE = 'ru_RU';
 
@@ -8,15 +18,14 @@
     const KEY_NAME_PREFIX = 'coinomat';
 
     /**
-     * @param gateways
      * @returns {CoinomatService}
      */
-    const factory = function (gateways) {
+    const factory = function () {
 
         class CoinomatService {
 
             getAll() {
-                return gateways;
+                return GATEWAYS;
             }
 
             /**
@@ -26,9 +35,9 @@
              * @return {Promise}
              */
             getDepositDetails(asset, wavesAddress) {
-                CoinomatService._isSupportedAsset(asset.id);
-                const from = gateways[asset.id].gateway;
-                const to = gateways[asset.id].waves;
+                CoinomatService._assertAsset(asset.id);
+                const from = GATEWAYS[asset.id].gateway;
+                const to = GATEWAYS[asset.id].waves;
                 return this._loadPaymentDetails(from, to, wavesAddress).then((details) => {
                     return { address: details.tunnel.wallet_from };
                 });
@@ -42,9 +51,9 @@
              * @return {Promise}
              */
             getWithdrawDetails(asset, targetAddress, paymentId) {
-                CoinomatService._isSupportedAsset(asset.id);
-                const from = gateways[asset.id].waves;
-                const to = gateways[asset.id].gateway;
+                CoinomatService._assertAsset(asset.id);
+                const from = GATEWAYS[asset.id].waves;
+                const to = GATEWAYS[asset.id].gateway;
                 return Promise.all([
                     this._loadPaymentDetails(from, to, targetAddress, paymentId),
                     this._loadWithdrawRate(from, to)
@@ -69,7 +78,7 @@
              * @return {IGatewaySupportMap}
              */
             getSupportMap(asset) {
-                if (gateways[asset.id]) {
+                if (GATEWAYS[asset.id]) {
                     return {
                         deposit: true,
                         withdraw: true
@@ -78,7 +87,7 @@
             }
 
             getAssetKeyName(asset) {
-                return `${KEY_NAME_PREFIX}${gateways[asset.id].gateway}`;
+                return `${KEY_NAME_PREFIX}${GATEWAYS[asset.id].gateway}`;
             }
 
             _loadPaymentDetails(from, to, recipientAddress, paymentId) {
@@ -88,7 +97,7 @@
                     wallet_to: recipientAddress,
                     ...(paymentId ? { monero_payment_id: paymentId } : {})
                 }).then((res) => {
-                    CoinomatService._isEligibleResponse(res, 'ok');
+                    CoinomatService._assertResponse(res, 'ok');
                     return $.get(`${PATH}/get_tunnel.php`, {
                         xt_id: res.tunnel_id,
                         k1: res.k1,
@@ -97,7 +106,7 @@
                         lang: LANGUAGE
                     });
                 }).then((res) => {
-                    CoinomatService._isEligibleResponse(res, 'tunnel');
+                    CoinomatService._assertResponse(res, 'tunnel');
                     return res;
                 });
             }
@@ -110,16 +119,14 @@
                 });
             }
 
-            static _isEligibleResponse(response, fieldName) {
+            static _assertResponse(response, fieldName) {
                 if (!response[fieldName]) {
                     throw new Error(response.error);
-                } else {
-                    return response;
                 }
             }
 
-            static _isSupportedAsset(assetId) {
-                if (!gateways[assetId]) {
+            static _assertAsset(assetId) {
+                if (!GATEWAYS[assetId]) {
                     throw new Error('Asset is not supported by Coinomat');
                 }
             }
@@ -128,8 +135,6 @@
 
         return new CoinomatService();
     };
-
-    factory.$inject = ['gateways'];
 
     angular.module('app.utils').factory('coinomatService', factory);
 })();

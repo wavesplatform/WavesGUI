@@ -68,6 +68,16 @@
                 });
             }
 
+            showPinAsset() {
+                return this._getModal({
+                    id: 'pin-asset',
+                    title: 'modal.pinAsset.title',
+                    templateUrl: 'modules/utils/modals/pinAsset/pinAsset.html',
+                    controller: 'PinAssetCtrl',
+                    mod: 'pin-asset-modal'
+                });
+            }
+
             showAssetInfo(asset) {
                 return this._getModal({
                     id: 'asset-info',
@@ -129,10 +139,14 @@
                     });
             }
 
-            showConfirmDeleteUser() {
+            showConfirmDeleteUser(hasBackup) {
                 return this._getModal({
                     id: 'delete-user-confirm',
-                    templateUrl: 'modules/utils/modals/confirmDeleteUser/confirmDeleteUser.modal.html'
+                    templateUrl: 'modules/utils/modals/confirmDeleteUser/confirmDeleteUser.modal.html',
+                    controller: 'confirmDeleteUserCtrl',
+                    locals: {
+                        hasBackup
+                    }
                 });
             }
 
@@ -309,6 +323,15 @@
                     contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
                     controller: 'TokenChangeModalCtrl'
                 }));
+            }
+
+            showImportAccountsModal() {
+                return this._getModal({
+                    id: 'import-accounts',
+                    mod: 'import-accounts',
+                    controller: 'ImportAccountsCtrl',
+                    contentUrl: 'modules/utils/modals/importAccounts/importAccounts.html'
+                });
             }
 
             /**

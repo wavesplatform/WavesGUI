@@ -12,7 +12,6 @@
      * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
      * @param {DexDataService} dexDataService
-     * @param orderStatuses
      * @return {DexMyOrders}
      */
     const controller = function (
@@ -127,13 +126,6 @@
                         }
                     }
                 ];
-
-                this.statusMap = {
-                    Cancelled: 'matcher.orders.statuses.canceled',
-                    Accepted: 'matcher.orders.statuses.opened',
-                    Filled: 'matcher.orders.statuses.filled',
-                    PartiallyFilled: 'matcher.orders.statuses.filled'
-                };
 
                 if (!this.isDemo) {
                     const poll = createPoll(this, this._getOrders, 'orders', 1000, { $scope });

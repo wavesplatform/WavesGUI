@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="39px" viewBox="0 0 40 39" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>mail2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="step_3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-390.000000, -413.000000)">
+        <g id="white-bg" transform="translate(330.000000, 102.000000)" fill="#5A81EA">
+            <g id="left" transform="translate(55.000000, 231.000000)">
+                <g id="LINE-3" transform="translate(4.000000, 80.000000)">
+                    <g id="mail2">
+                        <rect id="Rectangle-11" x="1" y="36.6807709" width="40" height="2"></rect>
+                        <rect id="Rectangle-11" transform="translate(2.000000, 26.350006) rotate(-90.000000) translate(-2.000000, -26.350006) " x="-8.3500061" y="25.3500061" width="20.7000122" height="2"></rect>
+                        <polygon id="Rectangle-11" transform="translate(11.316143, 8.835181) rotate(-36.000000) translate(-11.316143, -8.835181) " points="-0.70123687 7.83518119 23.7971211 7.83518119 24.4612379 9.83518119 -1.82895211 9.83518119 -1.82895211 9.38115697"></polygon>
+                        <polygon id="Rectangle-11" transform="translate(30.218776, 8.734907) scale(-1, 1) rotate(-36.000000) translate(-30.218776, -8.734907) " points="17.6213373 7.73490738 42.5328559 7.73490738 43.2112838 9.73490738 17.2262684 9.73490738 17.2262684 8.27486213"></polygon>
+                        <polygon id="Rectangle-11" transform="translate(9.268249, 21.052392) rotate(-146.500000) translate(-9.268249, -21.052392) " points="0.752487997 20.0523916 17.9220853 20.0523916 17.9220853 22.0523916 0.614412053 22.041364"></polygon>
+                        <polygon id="Rectangle-11" transform="translate(32.844668, 21.298198) scale(-1, 1) rotate(-144.500000) translate(-32.844668, -21.298198) " points="24.6744408 20.2981984 41.1473679 20.2981984 41.1473679 22.2981984 24.5419674 22.2871708"></polygon>
+                        <polygon id="Rectangle-11" transform="translate(12.303768, 29.741334) rotate(-37.000000) translate(-12.303768, -29.741334) " points="0.646820491 28.7606166 23.9607151 28.7220506 23.122377 30.7606166 0.646820491 30.7606166"></polygon>
+                        <polygon id="Rectangle-11" transform="translate(29.755453, 29.732459) rotate(37.000000) translate(-29.755453, -29.732459) " points="18.0551459 28.7540392 41.4557606 28.732459 41.4557606 30.732459 18.7113424 30.732459"></polygon>
+                        <rect id="Rectangle-11" transform="translate(40.000000, 26.350006) rotate(-90.000000) translate(-40.000000, -26.350006) " x="29.6499939" y="25.3500061" width="20.7000122" height="2"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

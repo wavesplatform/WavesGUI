@@ -180,7 +180,7 @@
                 return balance.isPinned ||
                     balance.asset.isMyAsset ||
                     balance.asset.id === WavesApp.defaultAssets.WAVES ||
-                    gatewayService.getPurchasableByCards()[balance.asset.id] ||
+                    gatewayService.getPurchasableWithCards()[balance.asset.id] ||
                     gatewayService.getCryptocurrencies()[balance.asset.id] ||
                     gatewayService.getFiats()[balance.asset.id];
             }

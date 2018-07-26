@@ -148,7 +148,7 @@
         return new Matcher();
     };
 
-    factory.$inject = ['utils', 'decorators', 'i18n', 'user', 'PollCache', 'orderStatuses'];
+    factory.$inject = ['utils', 'decorators', 'i18n', 'user', 'PollCache'];
 
     angular.module('app').factory('matcher', factory);
 })();

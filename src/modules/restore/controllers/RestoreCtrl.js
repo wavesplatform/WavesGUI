@@ -6,7 +6,7 @@
      * @param $scope
      * @param {User} user
      * @param {app.utils} utils
-     * @param modalManager
+     * @param {ModalManager} modalManager
      * @return {RestoreCtrl}
      */
     const controller = function (Base, $scope, user, utils, modalManager) {
@@ -88,6 +88,10 @@
                 }
 
                 this.activeStep++;
+            }
+
+            importAccounts() {
+                return modalManager.showImportAccountsModal();
             }
 
             /**

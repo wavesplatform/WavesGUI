@@ -1,6 +1,6 @@
-@import (reference) '../../../config';
+@import (reference) 'config';
 @import (reference) '../../../app/less/typography';
-@import (reference) '../../../app/less/icons';
+@import (reference) 'icons';
 
 @cell-height: 64px;
 @responsive-cell-height: auto;
@@ -50,7 +50,7 @@
             margin-left: 5px;
             margin-top: -1px;
             content: '';
-            background: url(/img/icons/icon-sorting.svg) center center no-repeat;
+            background: @sorting-icon center center no-repeat;
             vertical-align: middle;
             transform: rotate(0deg);
           }
@@ -58,7 +58,7 @@
 
         &.asc .sort-by::after,
         &.desc .sort-by::after {
-          background-image: url(/img/icons/icon-sorting-active.svg);
+          background-image: @sorting-active-icon;
         }
 
         &.desc {
@@ -86,26 +86,27 @@
         width: 100%;
         align-items: center;
         justify-content: space-between;
-        transition: .2s;
+        position: relative;
         background: @color-white;
+        transition: all 0.3s;
       }
 
       &__cell {
         padding: 0 10px;
       }
+
     }
   }
-
 }
 
 .smart-table {
   &__mode-large {
-    border: 1px solid @color-accent-50;
     border-radius: @border-radius;
 
     .smart-table__w-table {
       color: @color-basic-700;
       font-size: 15px;
+      background: @color-white;
     }
 
     .smart-table__w-thead {
@@ -117,7 +118,7 @@
       }
 
       .smart-table__cell {
-        border-bottom: 1px solid @color-accent-50;
+        border-bottom: 1px solid @color-basic-100;
         width: 100%;
 
         &:first-child {
@@ -148,8 +149,14 @@
           height: 36px;
           width: 36px;
           border-radius: @border-radius;
-          background: url(/img/icons/input-search-icon.svg) 11px center no-repeat @color-white;
+          background-image: @input-search-icon;
+          background-position: 11px center;
+          background-repeat: no-repeat;
+          background-color: @color-white;
+          color: @color-disabled-900;
           border: 1px solid @color-disabled-200;
+          background: @input-search-icon 11px center no-repeat @color-white;
+          border: 1px solid @color-basic-200;
           cursor: pointer;
           margin-right: 10px;
           transition: .3s;
@@ -175,7 +182,7 @@
     .smart-table__w-tbody {
 
       .smart-table__cell {
-        border-bottom: 1px solid @color-accent-50;
+        border-bottom: 1px solid @color-basic-50;
         padding: 0 10px;
         width: 100%;
         .footnote-1();
@@ -207,6 +214,7 @@
     &__mode-large {
       border: 0 none;
       border-radius: 0;
+      box-shadow: none;
 
       .smart-table__w-table {
         background: none transparent;
@@ -220,7 +228,6 @@
         overflow: hidden;
       }
 
-      .smart-table__w-thead,
       .smart-table__w-tbody {
 
         .smart-table__row {
@@ -228,10 +235,20 @@
           position: relative;
           background: @color-white;
           border-radius: @border-radius;
-          border: 1px solid @color-accent-50;
+          box-shadow: @shadow-type-1;
+          padding: 20px 0 40px;
           transition: .3s;
-          min-width: 100%;
-          margin-bottom: 10px;
+          min-width: calc(100% ~'- 20px');
+          width: calc(100% ~'- 20px');
+          margin: 10px;
+
+          &:first-child {
+            margin-top: 0;
+          }
+
+          &:last-child {
+            margin-bottom: 0;
+          }
         }
 
         .smart-table__cell {

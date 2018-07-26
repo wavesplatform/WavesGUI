@@ -1,4 +1,5 @@
-@import (reference) '../../config';
+@import (reference) 'config';
+@import (reference) 'app-icons';
 @import (reference) '../../app/less/typography';
 
 html,
@@ -7,7 +8,8 @@ body {
   height: 100%;
   min-width: 360px;
   overflow: auto;
-  background-color: @color-background-default;
+  color: @color-disabled-900;
+  background-color: @color-basic-100;
 
   .notifications {
     position: absolute;
@@ -17,6 +19,17 @@ body {
   }
 }
 
+::selection {
+  background: @selection-bg;
+}
+::-moz-selection {
+  background: @selection-bg;
+}
+
+body.welcome,
+body.create,
+body.restore,
+body.tokens,
 body.wallet {
   .scroll();
 }
@@ -27,10 +40,11 @@ body.dex-demo {
 }
 
 ui-view[name="main"] {
+  display: block;
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: @color-background-default;
+  background-color: @color-white;
 }
 
 html body .hidden {
@@ -41,20 +55,32 @@ html body .hidden {
   text-align: center;
 }
 
-ui-view[name="main"] {
-  display: block;
-}
-
 a {
   text-decoration: none;
   color: @color-submit-300;
   cursor: pointer;
 }
 
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid green;
+  -webkit-text-fill-color: @color-disabled-900;
+  -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 .waves-logo {
   width: 100px;
   height: 21px;
-  background-image: url(/img/icons/waves_logo.svg);
+  background-image: @waves-logo-icon;
   background-repeat: no-repeat;
   display: block;
   margin: 40px auto 80px auto;
@@ -82,7 +108,7 @@ w-empty-block {
   text-align: center;
 
   .icon {
-    background-image: url(/img/icons/icon-empty.svg);
+    background-image: @empty-icon;
     background-repeat: no-repeat;
     background-position: center center;
     width: 100px;
@@ -93,7 +119,7 @@ w-empty-block {
 
 w-error-block {
     .icon {
-      background-image: url(/img/icons/icon-error.svg);
+      background-image: @error-icon;
     }
 }
 
@@ -174,24 +200,25 @@ w-scroll-box {
   min-height: 355px;
 
   .content {
-    width: calc(~"100% - "@width-left-menu + @padding-main-layout * 2);
-    height: calc(~"100% - "@height-header + @padding-main-layout * 2);
+    width: calc(~"100% - "@width-left-menu);
+    height: calc(~"100% - "@height-header);
+    padding: @padding-main-layout;
     overflow: hidden;
     position: absolute;
-    right: @padding-main-layout;
-    bottom: @padding-main-layout;
+    right: 0;
+    bottom: 0;
   }
 }
 
 .wallet.assets {
   .main-content .content {
+    width: calc(100% ~'- 70px');
+    height: calc(100% ~'- 70px');
+    padding: @padding-main-layout;
     overflow-y: auto;
     top: 70px;
     right: 0;
     bottom: 0;
-    padding: 10px 10px 0 0;
-    width: calc(100% ~'- 80px');
-    height: calc(100% ~'- 70px');
   }
 }
 
@@ -201,6 +228,7 @@ w-scroll-box {
 
 .md-dialog-backdrop:nth-of-type(odd) {
   z-index: 79;
+  opacity: 0.7;
 }
 
 .md-dialog-container:first-child:nth-of-type(even) {
@@ -235,6 +263,8 @@ svg.chart {
     top: 13%;
     max-height: 74%;
     width: 540px;
+    background: @color-white;
+    color: @color-disabled-900;
 
     md-dialog-actions {
       display: flex;
@@ -303,7 +333,7 @@ md-toolbar:not(.md-menu-toolbar) {
 
 .main {
   .main-content {
-    background-color: @color-basic-50;
+    background-color: @app-background;
 
     .header,
     .left-menu {
@@ -387,7 +417,7 @@ md-toolbar:not(.md-menu-toolbar) {
   ::-webkit-scrollbar-thumb {
     border-radius: 6px;
     background: @color-basic-200;
-    box-shadow: inset -1px 0 0px 1px #fff;
+    box-shadow: inset -1px 0 0px 1px @color-white;
   }
 
   ::-webkit-scrollbar-thumb:window-inactive {
@@ -473,13 +503,6 @@ md-toolbar:not(.md-menu-toolbar) {
       margin-top: 60px;
     }
   }
-
-  .app-loader .loader {
-    zoom: .6;
-    transform-origin: center;
-    transform: translateX(40px) rotate(45deg);
-  }
-
 }
 
 @media screen and (max-width: 540px) {
@@ -499,6 +522,7 @@ md-toolbar:not(.md-menu-toolbar) {
       md-dialog-content {
         padding: 20px 20px 0;
         height: 100%;
+        color: @color-disabled-900;
       }
     }
   }

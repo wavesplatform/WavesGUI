@@ -12,7 +12,8 @@
         '@waves/data-entities': 'ds.wavesDataEntities',
         'ramda': 'R',
         'data-service': 'ds',
-        'handlebars': 'Handlebars'
+        'handlebars': 'Handlebars',
+        '@waves/waves-browser-bus': 'bus'
     };
 
     function getModule(require) {

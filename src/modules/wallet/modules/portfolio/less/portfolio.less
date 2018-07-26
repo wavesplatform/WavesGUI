@@ -1,7 +1,8 @@
-@import (reference) '../../../../config';
+@import (reference) "../../../../app/less/app-icons";
 @import (reference) '../../../../app/less/typography';
-@import (reference) '../../../../app/less/icons';
 @import (reference) '../../../../ui/directives/smartTable/smart-table';
+@import (reference) 'config';
+@import (reference) 'icons';
 
 .main.wallet.portfolio {
 
@@ -18,39 +19,29 @@
   .toolbar {
     w-button:not(:last-child) {
       margin-right: 5px;
+
+      svg {
+        display: inline-block;
+        width: 16px;
+      }
     }
 
     w-select {
       width: 100%;
       max-width: 250px;
       float: right;
-      height: 42px;
-      background: @color-white;
+
       .title {
         display: flex;
-
-        &:before {
-          content: '';
-          margin: 5px 7px 0 0;
-          .icon-filter();
-        }
+        padding-left: 40px;
+        .icon-filter();
+        background-position: 15px center;
       }
     }
   }
 
   .btn-icon {
     font-family: @font-roboto-medium;
-
-    &::before {
-      content: '';
-      display: inline-block;
-      position: relative;
-      top: 2px;
-      background-size: 100% 100%;
-      width: 18px;
-      height: 14px;
-      margin-right: 7px;
-    }
   }
 
   .part {
@@ -62,9 +53,19 @@
   &__mode-large {
     max-height: calc(100vh ~'- 142px');
     margin-top: @padding-main-layout;
+    box-shadow: @shadow-type-1;
 
-    &__w-tbody {
-      max-height: calc(100vh ~'- 208px');
+    .smart-table {
+      &__w-tbody {
+        max-height: calc(100vh ~'- 208px');
+        transform: translate3d(0, 0, 0);
+        will-change: transform;
+
+        .smart-table__row:hover {
+          background: @hover-default;
+
+        }
+      }
     }
 
     .smart-table__row {
@@ -107,6 +108,7 @@
     }
 
     .smart-table__cell {
+      transition: all 0.3s;
       &:first-child {
         min-width: 200px;
       }
@@ -150,7 +152,7 @@
           bottom: 0;
           width: 84px;
           height: 40%;
-          opacity: .3;
+          opacity: .2;
           right: 0;
 
           &::after {
@@ -195,10 +197,10 @@
 
       w-change24 {
         &.green {
-          color: @color-success-600;
+          color: @color-submit-300;
 
           & + span {
-            color: @color-success-600;
+            color: @color-submit-300;
           }
         }
 
@@ -229,6 +231,7 @@
             position: absolute;
             background: @color-disabled-500;
             top: 0;
+            z-index: 2;
             left: 50%;
             transform: translate(-50%, -40px);
             color: @color-white;
@@ -250,32 +253,43 @@
             }
           }
 
+          svg {
+            fill: @color-basic-500;
+            transition: .3s;
+            vertical-align: top;
+          }
+
           &:hover {
             div {
               display: block;
             }
+            svg {
+              fill: @color-basic-700;
+            }
           }
-
         }
 
         .icon-send {
-          background: url(/img/icons/send.svg) center no-repeat;
           right: 139px;
+          svg {
+            margin-left: -1px;
+          }
         }
         .icon-receive {
-          background: url(/img/icons/deposit.svg) center no-repeat;
           right: 181px;
+          margin-top: 1px;
+          svg {
+            transform: rotate(-180deg);
+            margin-left: 1px;
+          }
         }
         .icon-dex {
-          background: url(/img/icons/dex-icon-mini.svg) center no-repeat;
           right: 97px;
         }
         .icon-hide {
-          background: url(/img/icons/hide-icon.svg) center no-repeat;
           right: 55px;
         }
         .icon-show {
-          background: url(/img/icons/show-icon.svg) center no-repeat;
           right: 55px;
         }
 
@@ -291,7 +305,6 @@
         .smart-table__cell:last-child {
           width: 50px;
           min-width: 50px;
-
           .cell {
             .icon {
               display: none;
@@ -318,7 +331,13 @@
 
   .main.wallet.portfolio {
 
+    .main-content .content {
+      padding: 0;
+    }
+
     .toolbar {
+      padding: 10px 10px 0;
+
       w-select {
         width: 50px;
         height: 42px;
@@ -327,11 +346,9 @@
           padding: 0;
           position: relative;
           font-size: 0;
-          background: url(/img/icons/icon-filter.svg) center no-repeat;
-
-          &::before {
-            display: none;
-          }
+          .icon-filter();
+          box-shadow: @shadow-buttons-default;
+          border: none;
 
           &::after {
             display: none;
@@ -351,7 +368,7 @@
             display: inline-block;
             padding: 1px 2px;
             background: @color-submit-400;
-            color: @color-white;
+            color: @white-only;
             border-radius: @border-radius / 2;
             line-height: 1em;
           }
