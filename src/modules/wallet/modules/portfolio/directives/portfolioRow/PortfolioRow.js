@@ -262,7 +262,7 @@
             });
 
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.ASSET_INFO}`, () => {
-                this.modalManager.showAssetInfo(this.balance.asset.id);
+                this.modalManager.showAssetInfo(this.balance.asset);
             });
 
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SEND}`, () => {

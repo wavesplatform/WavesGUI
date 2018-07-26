@@ -87,6 +87,10 @@
                         }
                     }
 
+                    /**
+                     * @return {Promise<any>}
+                     * @private
+                     */
                     _append() {
                         return new Promise((resolve) => {
                             $transclude(($element, $scope) => {
