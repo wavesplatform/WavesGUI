@@ -60,58 +60,25 @@
         CHANGE_24: 'js-change-24',
         CHART_CONTAINER: 'js-chart-container',
         BUTTONS: {
-            SEND: {
-                MAIN: 'js-button-send',
-                TITLE: 'js-button-send-title'
-            },
-            RECEIVE: {
-                MAIN: 'js-button-receive',
-                TITLE: 'js-button-receive-title'
-            },
-            DEX: {
-                MAIN: 'js-button-open-in-dex',
-                TITLE: 'js-button-open-in-dex-title'
-            },
-            TOGGLE_SPAM: {
-                MAIN: 'js-button-toggle-spam',
-                TITLE: 'js-button-toggle-spam-title'
-            }
+            SEND: 'js-button-send',
+            RECEIVE: 'js-button-receive',
+            DEX: 'js-button-open-in-dex',
+            TOGGLE_SPAM: 'js-button-toggle-spam'
         },
         ACTION_BUTTONS: {
-            ASSET_INFO: {
-                MAIN: 'js-action-button-asset-info',
-                TITLE: 'js-action-button-asset-info-title'
-            },
-            SEND: {
-                MAIN: 'js-action-button-send',
-                TITLE: 'js-action-button-send-title'
-            },
-            RECEIVE: {
-                MAIN: 'js-action-button-receive',
-                TITLE: 'js-action-button-receive-title'
-            },
-            BURN: {
-                MAIN: 'js-action-button-burn',
-                TITLE: 'js-action-button-burn-title'
-            },
-            REISSUE: {
-                MAIN: 'js-action-button-reissue',
-                TITLE: 'js-action-button-reissue-title'
-            },
-            DEX: {
-                MAIN: 'js-action-button-dex',
-                TITLE: 'js-action-button-dex-title'
-            },
-            TOGGLE_SPAM: {
-                MAIN: 'js-action-button-toggle-spam',
-                TITLE: 'js-action-button-toggle-spam-title'
-            }
+            ASSET_INFO: 'js-action-button-asset-info',
+            SEND: 'js-action-button-send',
+            RECEIVE: 'js-action-button-receive',
+            BURN: 'js-action-button-burn',
+            REISSUE: 'js-action-button-reissue',
+            DEX: 'js-action-button-dex',
+            TOGGLE_SPAM: 'js-action-button-toggle-spam'
         }
     };
 
     class PortfolioRow {
 
-        constructor($templateRequest, $element, utils, waves, user, modalManager, $state, ChartFactory) {
+        constructor($templateRequest, $element, utils, waves, user, modalManager, $state, ChartFactory, i18n) {
 
             if (!PortfolioRow.templatePromise) {
                 PortfolioRow.templatePromise = $templateRequest(TEMPLATE_PATH)
@@ -121,6 +88,10 @@
             this.ChartFactory = ChartFactory;
 
             this.$state = $state;
+            /**
+             * @type {app.i18n}
+             */
+            this.i18n = i18n;
             /**
              * @type {ModalManager}
              */
@@ -153,6 +124,7 @@
              * @type {boolean}
              */
             this.canShowDex = null;
+            this.changeLanguageHandler = () => this._onChangeLanguage();
 
             this.chartOptions = {
                 charts: [
@@ -202,6 +174,21 @@
 
                 this._onUpdateBalance();
                 this._setHandlers();
+
+                this.changeLanguageHandler();
+            });
+        }
+
+        $onDestroy() {
+            i18next.off('languageChanged', this.changeLanguageHandler);
+            this.$node.off();
+        }
+
+        _onChangeLanguage() {
+            const nodeList = this.node.querySelectorAll('[w-i18n-literal]');
+
+            Array.prototype.forEach.call(nodeList, element => {
+                element.innerHTML = this.i18n.translate(element.getAttribute('w-i18n-literal'), 'app.wallet.portfolio');
             });
         }
 
@@ -255,48 +242,50 @@
         _setHandlers() {
             this._initActions();
 
-            this.$node.on('click', `.${SELECTORS.BUTTONS.SEND.MAIN}`, () => {
+            i18next.on('languageChanged', this.changeLanguageHandler);
+
+            this.$node.on('click', `.${SELECTORS.BUTTONS.SEND}`, () => {
                 this.modalManager.showSendAsset({ assetId: this.balance.asset.id });
             });
 
-            this.$node.on('click', `.${SELECTORS.BUTTONS.DEX.MAIN}`, () => {
+            this.$node.on('click', `.${SELECTORS.BUTTONS.DEX}`, () => {
                 this.$state.go('main.dex', this._getSrefParams(this.balance.asset));
             });
 
-            this.$node.on('click', `.${SELECTORS.BUTTONS.RECEIVE.MAIN}`, () => {
+            this.$node.on('click', `.${SELECTORS.BUTTONS.RECEIVE}`, () => {
                 this.modalManager.showReceiveModal(this.user, this.balance.asset);
             });
 
-            this.$node.on('click', `.${SELECTORS.BUTTONS.TOGGLE_SPAM.MAIN}`, () => {
+            this.$node.on('click', `.${SELECTORS.BUTTONS.TOGGLE_SPAM}`, () => {
                 this.user.toggleSpamAsset(this.balance.asset.id);
                 this._initSpamState();
             });
 
-            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.ASSET_INFO.MAIN}`, () => {
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.ASSET_INFO}`, () => {
                 this.modalManager.showAssetInfo(this.balance.asset.id);
             });
 
-            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SEND.MAIN}`, () => {
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SEND}`, () => {
                 this.modalManager.showSendAsset({ assetId: this.balance.asset.id });
             });
 
-            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.RECEIVE.MAIN}`, () => {
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.RECEIVE}`, () => {
                 this.modalManager.showReceiveModal(this.user, this.balance.asset);
             });
 
-            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.BURN.MAIN}`, () => {
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.BURN}`, () => {
                 this.modalManager.showBurnModal(this.balance.asset.id);
             });
 
-            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.REISSUE.MAIN}`, () => {
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.REISSUE}`, () => {
                 this.modalManager.showReissueModal(this.balance.asset.id);
             });
 
-            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.DEX.MAIN}`, () => {
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.DEX}`, () => {
                 this.$state.go('main.dex', this._getSrefParams(this.balance.asset));
             });
 
-            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.TOGGLE_SPAM.MAIN}`, () => {
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.TOGGLE_SPAM}`, () => {
                 this.user.toggleSpamAsset(this.balance.asset.id);
                 this._initSpamState();
             });
@@ -314,8 +303,8 @@
             const isSpam = spam.includes(this.balance.asset.id);
 
             const elements = [
-                this.node.querySelector(`.${SELECTORS.BUTTONS.TOGGLE_SPAM.MAIN}`),
-                this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.TOGGLE_SPAM.MAIN}`)
+                this.node.querySelector(`.${SELECTORS.BUTTONS.TOGGLE_SPAM}`),
+                this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.TOGGLE_SPAM}`)
             ];
 
             elements.forEach(toggleSpam => {
@@ -364,7 +353,8 @@
         'user',
         'modalManager',
         '$state',
-        'ChartFactory'
+        'ChartFactory',
+        'i18n'
     ];
 
     angular.module('app.wallet.portfolio').component('wPortfolioRow', {
