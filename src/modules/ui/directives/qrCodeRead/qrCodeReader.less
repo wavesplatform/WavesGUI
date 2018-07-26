@@ -1,4 +1,5 @@
-@import (reference) '../../../config';
+@import (reference) 'config';
+@import (reference) 'icons';
 
 w-qr-code-read {
   display: flex;
@@ -11,7 +12,7 @@ w-qr-code-read {
     display: block;
     width: 24px;
     height: 24px;
-    background-image: url(/img/icons/qr-code-big.svg);
+    background-image: @qr-code-big-icon;
     background-size: 100% 100%;
   }
 }
@@ -43,7 +44,8 @@ w-qr-code-read {
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-top: 8px solid #dae1e9;
+
+    border-top: 8px solid @color-basic-200;
   }
 
   video {

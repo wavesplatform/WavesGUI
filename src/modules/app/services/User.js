@@ -2,6 +2,10 @@
 (function () {
     'use strict';
 
+    /* global
+        Mousetrap
+     */
+
     const NOT_SYNC_FIELDS = [
         'changeSetting'
     ];
@@ -16,7 +20,7 @@
      * @param {TimeLine} timeLine
      * @return {User}
      */
-    const factory = function (storage, $state, defaultSettings, state, UserRouteState, modalManager, timeLine) {
+    const factory = function (storage, $state, defaultSettings, state, UserRouteState, modalManager, timeLine, themes) {
 
         const tsUtils = require('ts-utils');
 
@@ -97,6 +101,8 @@
 
                 this._setObserve();
                 this._settings.change.on(() => this._onChangeSettings());
+
+                Mousetrap.bind(['ctrl+shift+k'], () => this.switchNextTheme());
             }
 
             /**
@@ -233,7 +239,9 @@
                     settings: {
                         termsAccepted: false,
                         hasBackup: hasBackup,
-                        lng: i18next.language
+                        lng: i18next.language,
+                        theme: themes.getDefaultTheme(),
+                        candle: 'blue'
                     }
                 }).then(() => analytics.push('User', 'Create'));
             }
@@ -294,6 +302,34 @@
                     .then((list) => storage.save('userList', list));
             }
 
+            getThemeSettings() {
+                const currentTheme = this.getSetting('theme');
+                return themes.getSettings(currentTheme);
+            }
+
+            changeTheme(theme) {
+                const currentTheme = this.getSetting('theme');
+                const newTheme = themes.changeTheme(theme || this.getSetting('theme'));
+                if (currentTheme !== newTheme) {
+                    this.setSetting('theme', newTheme);
+                }
+                analytics.push('Settings', 'Settings.ChangeTheme', newTheme);
+            }
+
+            changeCandle(name) {
+                const currentTheme = this.getSetting('theme');
+                const current = this.getSetting('candle');
+                themes.setCandleColorsByName(currentTheme, name);
+                if (name !== current) {
+                    this.setSetting('candle', name);
+                }
+            }
+
+            switchNextTheme() {
+                const newTheme = themes.switchNext();
+                this.setSetting('theme', newTheme);
+            }
+
             /**
              * @param {object} data
              * @param {ISignatureApi} data.api
@@ -341,7 +377,11 @@
                         });
 
                         return ds.app.login(data.address, data.api)
-                            .then(() => this._save())
+                            .then(() => {
+                                this.changeTheme();
+                                this.changeCandle();
+                                this._save();
+                            })
                             .then(() => {
                                 this._logoutTimer();
                                 this._dfr.resolve();
@@ -468,7 +508,8 @@
         'state',
         'UserRouteState',
         'modalManager',
-        'timeLine'
+        'timeLine',
+        'themes'
     ];
 
     angular.module('app').factory('user', factory);

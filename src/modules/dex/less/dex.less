@@ -1,5 +1,6 @@
-@import (reference) '../../config';
+@import (reference) 'config';
 @import (reference) '../../app/less/typography';
+@import (reference) 'icons';
 
 @dex-lower-block-height: 50%;
 
@@ -16,6 +17,7 @@ body.dex, body.dex-demo {
     right: @padding-main-layout / 2;
     bottom: @padding-main-layout / 2;
     overflow: hidden;
+    padding: 0;
   }
 
   .dex-wrapper {
@@ -72,8 +74,10 @@ body.dex, body.dex-demo {
       height: 30px;
       z-index: 2;
       cursor: pointer;
-      background: url(/img/icons/order_cancel.svg) center no-repeat #fff;
+      background: url(/img/icons/order_cancel.svg) center no-repeat;
       background-size: 8px 8px;
+      background-repeat: no-repeat;
+      background-position: center;
     }
 
     .smart-table {
@@ -94,11 +98,11 @@ body.dex, body.dex-demo {
         .smart-table {
           &__search-container {
             input {
-              background: url(/img/icons/input-search-icon.svg) left 48% no-repeat @color-white;
-              background-size: 10px;
+              background: @input-search-icon left 48% no-repeat;
               border: 0 none;
               width: 100%;
               padding-left: 20px;
+              color: @color-disabled-900;
             }
           }
 
@@ -259,7 +263,7 @@ body.dex, body.dex-demo {
                 }
 
                 &:hover {
-                  background-color: @color-basic-50;
+                  background-color: @hover-default;
 
                   .underline {
                     a {
@@ -315,13 +319,13 @@ body.dex, body.dex-demo {
                 &__cell[data-column-id="status"] {
                   color: @color-submit-400;
 
-                  .progress-bar {
-                    background: @color-submit-50;
+              .progress-bar {
+                background: @color-bluebar-400;
 
-                    .progress-fill {
-                      background: @color-submit-400;
-                    }
-                  }
+                .progress-fill {
+                  background: @color-bluebar-1000;
+                }
+              }
 
                 }
               }
@@ -341,16 +345,16 @@ body.dex, body.dex-demo {
                 &__cell[data-column-id="status"] {
                   color: @color-error-500;
 
-                  .progress-bar {
-                    background: @color-error-100;
+              .progress-bar {
+                background: @color-redbar-400;
 
-                    .progress-fill {
-                      background: @color-error-500;
-                    }
-                  }
+                .progress-fill {
+                  background: @color-redbar-1000;
                 }
               }
             }
+          }
+        }
 
             &.cancelled {
               color: @color-disabled-500;
@@ -486,7 +490,7 @@ body.dex, body.dex-demo {
 
         .titles-wrap {
           height: 48px;
-          box-shadow: 1px 1px 3px @color-disabled-200;
+          box-shadow: @shadow-menu-top;
           position: relative;
           z-index: 6;
 

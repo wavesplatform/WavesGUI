@@ -7,9 +7,11 @@
      * @param {Waves} waves
      * @param {User} user
      * @param {IPollCreate} createPoll
+     * @param {*} $templateRequest
+     * @param {app.utils} utils
      * @return {SettingsCtrl}
      */
-    const controller = function (Base, $scope, waves, user, createPoll) {
+    const controller = function (Base, $scope, waves, user, createPoll, $templateRequest, utils) {
 
         class SettingsCtrl extends Base {
 
@@ -24,7 +26,11 @@
                 this.matcher = '';
                 this.scamListUrl = '';
                 this.withScam = false;
+                this.theme = user.getSetting('theme');
+                this.candle = user.getSetting('candle');
                 this.shareStat = user.getSetting('shareAnalytics');
+                this.templatePromise = $templateRequest('modules/utils/modals/settings/loader.html');
+
                 /**
                  * @type {number}
                  */
@@ -41,8 +47,25 @@
                     matcher: 'network.matcher',
                     logoutAfterMin: 'logoutAfterMin',
                     scamListUrl: 'scamListUrl',
-                    withScam: 'withScam'
+                    withScam: 'withScam',
+                    theme: 'theme',
+                    candle: 'candle'
                 });
+
+                this.observe('theme', () => {
+                    this.templatePromise.then(
+                        (template) => {
+                            template = template.replace('{{bgColor}}', user.getThemeSettings().bgColor);
+                            this.showLoader(template);
+                            utils.wait(1000).then(() => user.changeTheme(this.theme));
+                        },
+                        () => user.changeTheme(this.theme)
+                    );
+                });
+
+                // this.observe('candle', () => {
+                //     user.changeCandle(this.candle);
+                // });
 
                 this.observe('matcher', () => {
                     ds.config.set('matcher', this.matcher);
@@ -109,12 +132,21 @@
                 this.scamListUrl = WavesApp.network.scamListUrl;
             }
 
+            showLoader(template) {
+                const loaderEl = document.createElement('div');
+                loaderEl.innerHTML = template;
+                document.body.appendChild(loaderEl);
+                setTimeout(() => {
+                    document.body.removeChild(loaderEl);
+                }, 4100);
+            }
+
         }
 
         return new SettingsCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'waves', 'user', 'createPoll'];
+    controller.$inject = ['Base', '$scope', 'waves', 'user', 'createPoll', '$templateRequest', 'utils'];
 
     angular.module('app.utils').controller('SettingsCtrl', controller);
 

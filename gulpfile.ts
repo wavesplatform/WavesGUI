@@ -2,7 +2,7 @@ import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
 import { exec, execSync } from 'child_process';
-import { download, getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
+import { getFilesFrom, prepareExport, prepareHTML, run, task } from './ts-scripts/utils';
 import { basename, join, sep } from 'path';
 import { copy, mkdirp, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
@@ -12,6 +12,7 @@ import * as htmlmin from 'gulp-htmlmin';
 const zip = require('gulp-zip');
 const s3 = require('gulp-s3');
 
+const { themes: THEMES } = readJSONSync(join(__dirname, 'src/themeConfig', 'theme.json'));
 const meta: IMetaJSON = readJSONSync(join(__dirname, 'ts-scripts', 'meta.json'));
 const pack: IPackageJSON = readJSONSync(join(__dirname, 'package.json'));
 const configurations = Object.keys(meta.configurations);
@@ -39,10 +40,11 @@ const vendorName = 'vendors.js';
 const bundleName = 'bundle.js';
 const templatesName = 'templates.js';
 const cssName = `${pack.name}-styles-${pack.version}.css`;
+const vendorCssName = `${pack.name}-vendor-styles-${pack.version}.css`; //TODO need drop cache?
 const vendorPath = join(tmpJsPath, vendorName);
 const bundlePath = join(tmpJsPath, bundleName);
 const templatePath = join(tmpJsPath, templatesName);
-const cssPath = join(tmpCssPath, cssName);
+const steelSheetsFiles = {};
 
 const getFileName = (name, type) => {
     const postfix = type === 'min' ? '.min' : '';
@@ -51,15 +53,6 @@ const getFileName = (name, type) => {
 
 
 const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: 'utf8' });
-
-task('load-trading-view', (done) => {
-    Promise.all(meta.tradingView.files.map((relativePath) => {
-        const url = `${meta.tradingView.domain}/${relativePath}`;
-        return download(url, join(__dirname, 'dist', 'tmp', 'trading-view', relativePath)).then(() => {
-            console.log(`Download "${relativePath}" done`);
-        });
-    })).then(() => done());
-});
 
 ['web', 'desktop'].forEach((buildName: TPlatform) => {
 
@@ -90,15 +83,17 @@ task('load-trading-view', (done) => {
             taskHash.concat.push(`concat-${taskPostfix}`);
 
             const copyDeps = ['concat-style'];
-            if (buildName === 'desktop') {
-                copyDeps.push('load-trading-view');
-            }
 
             task(`copy-${taskPostfix}`, copyDeps, function (done) {
                     const reg = new RegExp(`(.*?\\${sep}src)`);
                     let forCopy = JSON_LIST.map((path) => {
                         return copy(path, path.replace(reg, `${targetPath}`));
-                    }).concat(copy(join(__dirname, 'src/fonts'), `${targetPath}/fonts`));
+                    }).concat(
+                        copy(join(__dirname, 'src/fonts'), `${targetPath}/fonts`),
+                        meta.exportPageVendors.map(p => copy(join(__dirname, p), join(targetPath, p)))
+                    );
+
+                    forCopy.push(copy(join(__dirname, 'tradingview-style'), join(targetPath, 'tradingview-style')));
 
                     if (buildName === 'desktop') {
                         const electronFiles = getFilesFrom(join(__dirname, 'electron'), '.js');
@@ -107,7 +102,6 @@ task('load-trading-view', (done) => {
                             forCopy.push(copy(path, join(targetPath, name)));
                         });
                         forCopy.push(copy(join(__dirname, 'electron', 'icons'), join(targetPath, 'img', 'icon.png')));
-                        forCopy.push(copy(join(__dirname, 'dist', 'tmp', 'trading-view'), join(targetPath, 'trading-view')));
                     }
 
                     Promise.all([
@@ -118,7 +112,7 @@ task('load-trading-view', (done) => {
                             const images = IMAGE_LIST.map((path) => path.replace(reg, ''));
                             return writeFile(join(targetPath, 'img', 'images-list.json'), JSON.stringify(images));
                         }),
-                        copy(cssPath, join(targetPath, 'css', cssName)),
+                        copy(tmpCssPath, join(targetPath, 'css')),
                         copy('LICENSE', join(`${targetPath}`, 'LICENSE')),
                     ].concat(forCopy)).then(() => {
                         done();
@@ -143,21 +137,30 @@ task('load-trading-view', (done) => {
                     });
                 }
 
-                indexPromise.then((file) => {
+                Promise.all([indexPromise.then(() => {
+
+                    const styles = [{ name: join('/css', vendorCssName), theme: null }];
+
+                    for (const theme of THEMES) {
+                        styles.push({
+                            name: join('/css', `${theme}-${cssName}`), theme
+                        });
+                    }
+
                     return prepareHTML({
                         buildType: type,
                         target: targetPath,
                         connection: configName,
                         scripts: scripts,
-                        styles: [
-                            join(targetPath, 'css', `${pack.name}-styles-${pack.version}.css`)
-                        ],
-                        type: buildName
+                        type: buildName,
+                        styles,
+                        themes: THEMES
                     });
                 }).then((file) => {
-                    console.log('out ' + configName);
-                    outputFile(`${targetPath}/index.html`, file).then(() => done());
-                });
+                    outputFile(`${targetPath}/index.html`, file);
+                }),
+                    prepareExport().then(file => outputFile(`${targetPath}/export.html`, file))
+                ]).then(() => done());
             });
             taskHash.html.push(`html-${taskPostfix}`);
 
@@ -233,8 +236,9 @@ task('templates', function () {
 });
 
 task('concat-style', ['less'], function () {
-    return gulp.src(meta.stylesheets.concat(join(tmpCssPath, 'style.css')))
-        .pipe(concat(cssName))
+    steelSheetsFiles[vendorCssName] = { theme: false };
+    return gulp.src(meta.stylesheets)
+        .pipe(concat(vendorCssName))
         .pipe(gulp.dest(tmpCssPath));
 });
 
@@ -259,7 +263,10 @@ task('eslint', function (done) {
 });
 
 task('less', function () {
-    execSync(`sh ${join('scripts', 'less.sh')}`);
+    for (const theme of THEMES) {
+        execSync(`sh ${join('scripts', `less.sh -t=${theme} -n=${cssName}`)}`);
+        steelSheetsFiles[cssName] = { theme };
+    }
 });
 
 task('babel', ['concat-develop'], function () {
