@@ -82,6 +82,7 @@
                             loadPath: 'https://locize.wvservices.com/{{projectId}}/{{version}}/{{lng}}/{{ns}}',
                             projectId: '30ffe655-de56-4196-b274-5edc3080c724',
                             apiKey: '5af41ced-a862-4947-a079-2c7999367925',
+                            version: WavesApp.isProduction() ? WavesApp.version : 'latest',
                             referenceLng: 'en'
                         }
                     });
