@@ -286,17 +286,16 @@
         }
 
         .icon-send {
-          right: 139px;
-          svg {
-            margin-left: -1px;
-          }
-        }
-        .icon-receive {
           right: 181px;
-          margin-top: 1px;
+        }
+
+        .icon-receive {
+          right: 139px;
+          span {
+            margin-left: -2px;
+          }
           svg {
             transform: rotate(-180deg);
-            margin-left: 1px;
           }
         }
         .icon-dex {
@@ -485,20 +484,20 @@
           .cell {
             height: 20px;
 
-            span.icon {
-              &:hover div {
+            span.icon:hover {
+              span {
                 display: none;
               }
             }
 
             .icon-send {
-              right: 65%;
               transform: translateX(50%);
+              right: auto;
+              left: 20px;
             }
 
             .icon-receive {
-              right: auto;
-              left: 20px;
+              right: 65%;
             }
 
             .icon-dex {
