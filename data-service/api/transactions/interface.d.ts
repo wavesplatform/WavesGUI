@@ -298,7 +298,7 @@ export interface TDataEntryBinary {
 }
 
 export interface TDataEntryString {
-    type: 'binary';
+    type: 'string';
     key: string;
     value: string;
 }
