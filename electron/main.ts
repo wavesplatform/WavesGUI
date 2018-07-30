@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen, protocol, Menu } from 'electron';
+import { app, BrowserWindow, screen, protocol, Menu, dialog } from 'electron';
 import { Bridge } from './Bridge';
 import { ISize, IMetaJSON } from './package';
 import { format } from 'url';
@@ -24,7 +24,8 @@ const CONFIG = {
             width: 1440,
             height: 960
         }
-    }
+    },
+    PROTOCOL: 'waves'
 };
 
 const MENU_LIST: MenuItemConstructorOptions[] = [
@@ -46,6 +47,14 @@ const MENU_LIST: MenuItemConstructorOptions[] = [
         ]
     } as MenuItemConstructorOptions
 ];
+
+// Protocol handler for osx
+app.on('open-url', function (event, url) {
+    event.preventDefault();
+    console.log("open-url event: " + url);
+
+    dialog.showErrorBox('open-url', `You arrived from: ${url}`)
+});
 
 
 class Main {
@@ -72,7 +81,7 @@ class Main {
                 pathname: pack.server,
                 protocol: 'https:',
                 slashes: true
-            }), {'extraHeaders' : 'pragma: no-cache\n'});
+            }), { 'extraHeaders': 'pragma: no-cache\n' });
 
             this.mainWindow.on('closed', () => {
                 this.mainWindow = null;
@@ -106,9 +115,23 @@ class Main {
     }
 
     private onAppReady() {
+        this.registerProtocol();
         this.createWindow();
         this.menu = Menu.buildFromTemplate(MENU_LIST);
         Menu.setApplicationMenu(this.menu);
+    }
+
+    private registerProtocol() {
+        const loop = () => {
+            const status = app.setAsDefaultProtocolClient(CONFIG.PROTOCOL);
+            console.log(`Set protocol resolved with status: ${status}`);
+
+            if (!status) {
+                setTimeout(loop, 500);
+            }
+        };
+
+        loop();
     }
 
     private onActivate() {
