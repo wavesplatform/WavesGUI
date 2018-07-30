@@ -34,6 +34,64 @@
     "node_modules/ts-utils/dist/ts-utils.min.js",
     "node_modules/@waves/waves-browser-bus/dist/browser-bus.min.js"
   ],
+  "langList": {
+    "en": {
+      "name": "En",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
+    "ru": {
+      "name": "Ru",
+      "separators": {
+        "group": " ",
+        "decimal": "."
+      }
+    },
+    "ko": {
+      "name": "Ko",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
+    "zh-Hans-CN": {
+      "name": "Zh",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
+    "tr": {
+      "name": "Tr",
+      "separators": {
+        "group": " ",
+        "decimal": "."
+      }
+    },
+    "nl": {
+      "name": "Nl",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
+    "hi": {
+      "name": "Hi",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
+    "es": {
+      "name": "Es",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    }
+  },
   "electronScripts": [
   ],
   "stylesheets": [
