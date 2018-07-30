@@ -99,7 +99,7 @@
              */
             _onScroll(e) {
                 const target = e && e.target;
-                const id = target && target.getAttribute('id');
+                const id = target && target.getAttribute && target.getAttribute('id');
 
                 if (id && this.children[id]) {
                     this._scrollById(target.scrollTop, id);

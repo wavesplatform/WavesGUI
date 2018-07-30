@@ -12,10 +12,12 @@
      * @param {IPollCreate} createPoll
      * @param {GatewayService} gatewayService
      * @param {$state} $state
+     * @param {STService} stService
+     * @param {VisibleService} visibleService
      * @return {PortfolioCtrl}
      */
     const controller = function (Base, $scope, waves, utils, modalManager, user,
-                                 eventManager, createPoll, gatewayService, $state) {
+                                 eventManager, createPoll, gatewayService, $state, stService, visibleService) {
 
         class PortfolioCtrl extends Base {
 
@@ -126,6 +128,10 @@
                     this.observe('filter', this._onChangeDetails);
 
                     this._onChangeDetails();
+                });
+
+                this.receive(stService.sort, () => {
+                    visibleService.updateSort();
                 });
             }
 
@@ -327,7 +333,9 @@
         'eventManager',
         'createPoll',
         'gatewayService',
-        '$state'
+        '$state',
+        'stService',
+        'visibleService'
     ];
 
     angular.module('app.wallet.portfolio')

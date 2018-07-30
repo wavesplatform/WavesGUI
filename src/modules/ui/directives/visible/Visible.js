@@ -79,8 +79,9 @@
                             this._appendPromise = this._append().then(() => {
                                 this._appendPromise = null;
                             });
-                        } else if (once) {
-                            visibleService.unregisterVisibleComponent(this);
+                            if (once) {
+                                visibleService.unregisterVisibleComponent(this);
+                            }
                         } else {
                             this.content.$element.remove();
                             this.content.$scope.$destroy();
