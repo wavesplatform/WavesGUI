@@ -242,7 +242,7 @@
             onReadQrCode(result) {
                 this.tx.recipient = result.body;
 
-                analytics.push('Send', 'Send.QrCodeRead', 'Send.QrCodeRead.Success');
+                analytics.push('Send', `Send.QrCodeRead.${WavesApp.type}`, `Send.QrCodeRead.${WavesApp.type}.Success`);
 
                 if (result.params) {
 
@@ -283,6 +283,10 @@
                 return this.state.assetId === WavesApp.defaultAssets.XMR && this.tx.recipient.substr(0, 1) === '4';
             }
 
+            getGatewayDetails() {
+                this._onChangeAssetId();
+            }
+
             /**
              * @private
              */
@@ -319,7 +323,7 @@
                 this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
                 this._updateGatewayDetails();
 
-                analytics.push('Send', 'Send.ChangeCurrency', this.assetId);
+                analytics.push('Send', `Send.ChangeCurrency.${WavesApp.type}`, this.assetId);
             }
 
             /**
@@ -386,7 +390,7 @@
 
                 if (!this.tx.amount) {
                     this.mirror = null;
-                    $scope.$digest();
+                    setTimeout(() => $scope.$digest(), 0);
                     return null;
                 }
 
@@ -403,7 +407,7 @@
 
                 if (!this.mirror) {
                     this.tx.amount = null;
-                    $scope.$digest();
+                    setTimeout(() => $scope.$digest(), 0);
                     return null;
                 }
 
@@ -440,6 +444,10 @@
                         this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
                         this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
 
+                        $scope.$digest();
+                    }, () => {
+                        this.gatewayDetails = null;
+                        this.gatewayDetailsError = true;
                         $scope.$digest();
                     });
                 } else {

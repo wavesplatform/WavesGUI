@@ -1,9 +1,9 @@
-@tx-icon-size: 32px;
+@import (reference) 'icons';
 
 .icon-close {
   width: 16px;
   height: 16px;
-  background-image: url(/img/icons/close.svg);
+  background-image: @close-icon;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   display: inline-block;
@@ -28,7 +28,7 @@
   display: inline-block;
   width: 80px;
   height: 80px;
-  background: url(/img/icons/card-success.svg) center no-repeat;
+  background: @card-success-icon center no-repeat;
 }
 
 .bank-success-icon {
@@ -53,12 +53,21 @@
   height: 24px;
 }
 
-.icon-send::before {
-  background-image: url(/img/icons/send.svg);
+.btn-send {
+  .btn-icon::before {
+    transition: .3s;
+  }
+  &:hover {
+    .btn-icon::before {
+    }
+  }
 }
 
-.icon-deposit::before {
-  background-image: url(/img/icons/deposit.svg);
+.btn-receive {
+  svg {
+    transform-origin: center;
+    transform: rotate(-180deg)
+  }
 }
 
 .icon-qr::before {
@@ -210,14 +219,14 @@
 .icon-info {
   width: 20px;
   height: 20px;
-  background: url(/img/icons/info-icon.svg) center no-repeat;
+  background: @info-icon center no-repeat;
   display: block;
 }
 
 .icon-filter {
-  width: 14px;
-  height: 14px;
-  background: url(/img/icons/icon-filter.svg) center no-repeat;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: @filter-icon;
   display: inline-block;
 }
 
@@ -236,6 +245,14 @@
   background: url(/img/no-preload/not-supported-browser.svg) center top no-repeat;
 }
 
+.icon-browser-warning {
+  display: block;
+  margin: 20px auto 20px auto;
+  width: 80px;
+  height: 80px;
+  background: url(/img/no-preload/userimg-browserwarning-80-mix-sunset.svg) center top no-repeat;
+}
+
 .icon-connected {
   display: block;
   margin: 20px auto 20px auto;
@@ -250,19 +267,19 @@
   width: 10px;
   height: 10px;
   vertical-align: middle;
-  background: url(/img/icons/sorting-arrow.svg) center top no-repeat;
+  background: @sorting-icon center top no-repeat;
 }
 
 .icon-dex-arrow {
   display: inline-block;
-  background-image: url(/img/icons/dex-toggle.svg);
+  background-image: @dex-toggle-icon;
   background-repeat: no-repeat;
   background-position: center center;
 }
 
 .icon-dex-tospread {
   display: inline-block;
-  background-image: url(/img/icons/orderbook-to-spread.svg);
+  background-image: @orderbook-to-spread-icon;
   background-repeat: no-repeat;
   background-position: center center;
 }

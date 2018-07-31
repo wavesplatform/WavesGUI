@@ -1,5 +1,7 @@
-@import (reference) '../../../../config';
+@import (reference) "../../../../app/less/app-icons";
 @import (reference) '../../../../app/less/typography';
+@import (reference) 'config';
+@import (reference) 'icons';
 
 @leftPanelWidth: 330px;
 @leftPanelRightMargin: 10px;
@@ -26,15 +28,14 @@
     align-items: center;
     padding: 0 20px;
     background-color: @color-white;
-    border-top: 1px solid @color-disabled-200;
-    border-left: 1px solid @color-disabled-200;
-    border-right: 1px solid @color-disabled-200;
     border-top-left-radius: @border-radius;
     border-top-right-radius: @border-radius;
+    border-bottom: 1px solid @color-basic-100;
+    z-index: 2;
+    position: relative;
   }
 
   w-scroll-box {
-    border: 1px solid #e9e9eb;
     border-radius: 0 0 @border-radius @border-radius;
     height: calc(~'100vh - ' 130px);
 
@@ -50,6 +51,7 @@
   .transactions-container {
     width: calc(~'100% - '@leftPanelWidth + @leftPanelRightMargin);
     position: relative;
+    box-shadow: @shadow-type-1;
   }
 
   .chart-wrapper {
@@ -97,7 +99,7 @@
   .description-split {
     margin: 30px 0;
     height: 0;
-    border-bottom: 1px dashed @color-disabled-200;
+    border-bottom: 1px dashed @color-basic-100;
   }
 
   .icon-description {
@@ -111,7 +113,7 @@
       top: 0;
       width: 50px;
       height: 48px;
-      background-image: url(/img/icons/leasing_note.svg);
+      background-image: @leasing-note-icon;
     }
   }
 
@@ -134,19 +136,23 @@ w-leasing-block.leasingNote {
   }
 
   i.collapse-trigger {
-    position: absolute;
     top: 10px;
-    right: 10px;
     width: 20px;
     height: 20px;
-    z-index: 1;
-    text-align: center;
     cursor: pointer;
-    transform-origin: center;
-    transition: transform 0.3s ease-in-out;
-    background-image: url(/img/icons/close_arrow.svg);
+    transition: transform 0.3s ease-in-out, all 0.3s;
+    border-radius: 2px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: absolute;
+    z-index: 3;
+    right: 12px;
+    .icon-dex-arrow();
+    background-color: @color-basic-50;
   }
-
+  i.collapse-trigger:hover {
+    background-color: @color-basic-100;
+  }
   div.collapse-container {
     height: 0px;
     transition: .4s;
@@ -159,7 +165,7 @@ w-leasing-block.leasingNote {
   &.active {
     div.collapse-container {
       height: auto;
-      border-top: 1px solid #e2e2e2;
+      border-top: 1px solid @color-basic-50;
       padding: 20px;
     }
 

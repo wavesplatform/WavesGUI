@@ -1,4 +1,4 @@
-@import (reference) url('../../../config');
+@import (reference) url('config');
 
 md-dialog.account-info {
   md-dialog-content {
@@ -11,6 +11,30 @@ md-dialog.account-info {
         display: flex;
         flex-direction: row;
         align-items: center;
+      }
+    }
+
+    w-loader {
+      top: 28px;
+    }
+
+    .help-icon{
+      &__content {
+        margin-bottom: 20px;
+      }
+    }
+
+    .errors-margin {
+      margin-top: @padding-main-layout * 2;
+
+      span {
+        display: block;
+      }
+    }
+
+    w-input-container {
+      .error.active {
+        margin-top: -8px;
       }
     }
 
@@ -32,6 +56,7 @@ md-dialog.account-info {
           border-bottom: 1px solid @color-basic-200;
         }
       }
+
       .message-warning {
         border: 1px dashed @color-warning-400;
         padding: 10px 20px;
@@ -64,7 +89,7 @@ md-dialog.account-info {
           border-left: 1px solid @color-basic-200;
           border-right: 1px solid @color-basic-200;
           border-top: 1px solid @color-basic-200;
-          border-bottom: none;
+          border-bottom: 1px solid @color-white;
 
           &:focus {
             border: 1px solid @color-submit-400;

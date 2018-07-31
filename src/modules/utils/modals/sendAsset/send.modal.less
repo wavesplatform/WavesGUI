@@ -1,6 +1,8 @@
-@import (reference) '../../../config';
 @import (reference) '../../../app/less/typography';
+@import (reference) "../../../app/less/app-icons";
 @import (reference) '../../../ui/directives/transactionInfo/transactionInfo';
+@import (reference) 'config';
+@import (reference) 'icons';
 
 md-dialog.modal-send {
   md-dialog-content {
@@ -19,6 +21,7 @@ md-dialog.modal-send {
     position: relative;
     padding: 0;
     overflow: hidden;
+    color: @color-disabled-900;
 
     &::after {
       display: none;
@@ -27,13 +30,29 @@ md-dialog.modal-send {
     .modal-content {
       overflow: auto;
       padding-top: 60px;
+
+      .error-title {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 0 40px;
+        z-index: 10;
+        height: 60px;
+        line-height: 60px;
+        border-bottom: 1px solid @color-disabled-200;
+      }
+
+      .error-content {
+        padding: 30px 40px;
+      }
     }
 
     .icon-close {
-      position: fixed;
+      position: absolute;
       top: 10px;
       right: 30px;
-      z-index: 11;
+      z-index: 13;
       padding: 20px;
       background-size: 16px;
       background-position: center;
@@ -100,6 +119,12 @@ md-dialog.modal-send {
       border: 1px solid @color-basic-200;
     }
 
+    .warning-plate {
+      &.server-error {
+        margin-bottom: 30px;
+      }
+    }
+
     w-qr-code-read {
       position: absolute;
       height: 34px;
@@ -107,7 +132,7 @@ md-dialog.modal-send {
       right: 0;
       top: 50%;
       margin-top: -17px;
-      border-left: 1px solid #dae1e9;
+      border-left: 1px solid @color-basic-200;
 
       .btn:before {
         width: 38px;

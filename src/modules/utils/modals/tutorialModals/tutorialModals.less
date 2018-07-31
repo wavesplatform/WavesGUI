@@ -1,4 +1,5 @@
-@import (reference) '../../../config';
+@import (reference) 'config';
+@import (reference) 'icons';
 @import (reference) '../../../app/less/typography';
 
 .icon-information {
@@ -6,10 +7,50 @@
   display: block;
   right: 141px;
   top: 43px;
-  background: url(/img/icons/icon-info.svg) center no-repeat;
+  background: @information-icon center no-repeat;
   width: 16px;
   height: 16px;
 }
+
+.cell {
+  background-repeat: no-repeat;
+}
+
+.cell-001 {
+ background: @modal-anonymus-icon no-repeat;
+}
+
+.cell-002 {
+  background: @modal-password-icon no-repeat;
+}
+.cell-003 {
+  background: @modal-backup-icon no-repeat;
+}
+.cell-004 {
+  background: @modal-paper-icon no-repeat;
+}
+
+.cell-005 {
+  background: @modal-url-icon no-repeat;
+}
+.cell-006 {
+  background: @modal-plugin-icon no-repeat;
+}
+.cell-007 {
+  background: @modal-mail-icon no-repeat;
+}
+.cell-008 {
+  background: @modal-refresh-icon no-repeat;
+}
+.cell-009 {
+  background: @modal-os-icon no-repeat;
+}
+.cell-010 {
+  background: @modal-wifi-icon no-repeat;
+}
+
+
+
 
 .tooltip {
   display: none;

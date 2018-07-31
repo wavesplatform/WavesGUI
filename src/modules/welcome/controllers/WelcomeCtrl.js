@@ -2,8 +2,20 @@
     'use strict';
 
     const PATH = 'modules/welcome/templates';
+    const { Seed } = require('data-service');
 
-    const controller = function (Base, $scope, $state, user, modalManager) {
+    /**
+     * @param Base
+     * @param $scope
+     * @param $state
+     * @param user
+     * @param modalManager
+     * @param $element
+     * @param storage
+     * @param {app.utils} utils
+     * @return {WelcomeCtrl}
+     */
+    const controller = function (Base, $scope, $state, user, modalManager, $element, storage, utils) {
 
         class WelcomeCtrl extends Base {
 
@@ -37,14 +49,18 @@
 
                 this.observe('activeUserAddress', this._calculateActiveIndex);
 
-                user.getUserList()
-                    .then((list) => {
-                        this.userList = list;
-                        this._updateActiveUserAddress();
-                        setTimeout(() => {
-                            $scope.$apply(); // TODO FIX!
-                        }, 100);
-                    });
+                if (WavesApp.isWeb()) {
+                    storage.load('accountImportComplete')
+                        .then((complete) => {
+                            if (complete) {
+                                this._initUserList();
+                            } else {
+                                this._loadUserListFromBeta();
+                            }
+                        });
+                } else {
+                    this._initUserList();
+                }
             }
 
             showTutorialModals() {
@@ -57,13 +73,15 @@
                     this.showPasswordError = false;
                     const activeUser = this.user;
                     const encryptionRounds = user.getSettingByUser(activeUser, 'encryptionRounds');
-                    const seed = ds.Seed.decryptSeedPhrase(this.encryptedSeed, this.password, encryptionRounds);
-                    const keyPair = (new ds.Seed(seed)).keyPair;
+                    const phrase = Seed.decryptSeedPhrase(this.encryptedSeed, this.password, encryptionRounds);
+                    const seed = new Seed(phrase);
+                    const keyPair = seed.keyPair;
 
                     user.login({
                         address: activeUser.address,
-                        api: ds.signature.getDefaultSignatureApi(keyPair, activeUser.address, seed),
-                        password: this.password
+                        api: ds.signature.getDefaultSignatureApi(keyPair, activeUser.address, phrase),
+                        password: this.password,
+                        publicKey: seed.keyPair.publicKey
                     });
                 } catch (e) {
                     this.password = '';
@@ -77,12 +95,7 @@
              */
             removeUser(address) {
                 const user = this.userList.find((user) => user.address === address);
-                if (user.settings.hasBackup) {
-                    this._deleteUser(address);
-                    return null;
-                }
-
-                modalManager.showConfirmDeleteUser().then(() => {
+                modalManager.showConfirmDeleteUser(user.settings.hasBackup).then(() => {
                     this._deleteUser(address);
                 });
             }
@@ -94,6 +107,36 @@
                 user.removeUserByAddress(address);
                 this.userList = this.userList.filter((user) => user.address !== address);
                 this._updateActiveUserAddress();
+            }
+
+            _initUserList() {
+                user.getUserList()
+                    .then((list) => {
+                        this.userList = list;
+                        this.pendingRestore = false;
+                        this._updateActiveUserAddress();
+                        setTimeout(() => {
+                            $scope.$apply(); // TODO FIX!
+                        }, 100);
+                    });
+            }
+
+            _loadUserListFromBeta() {
+                this.pendingRestore = true;
+                utils.importAccountByIframe(WavesApp.betaOrigin, 5000)
+                    .then((userList) => {
+                        this.userList = userList || [];
+                        this.pendingRestore = false;
+                        this._updateActiveUserAddress();
+
+                        $scope.$apply();
+
+                        storage.save('accountImportComplete', this.userList.length > 0);
+                        storage.save('userList', userList);
+                    })
+                    .catch(() => {
+                        this._initUserList();
+                    });
             }
 
             /**
@@ -146,7 +189,7 @@
         return new WelcomeCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', '$element', 'storage', 'utils'];
 
     angular.module('app.welcome')
         .controller('WelcomeCtrl', controller);

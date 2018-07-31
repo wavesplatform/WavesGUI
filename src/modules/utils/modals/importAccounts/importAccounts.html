@@ -1,0 +1,96 @@
+<w-loader ng-if="$ctrl.pending"></w-loader>
+
+<div ng-if="!$ctrl.pending" class="import-modal">
+    <div class="btn icon-close" w-modal-close
+         ng-class="{'error-modal': $ctrl.wasImportBeta && $ctrl.wasImportOld && !$ctrl.userList.length}"></div>
+
+    <div ng-if="$ctrl.userList.length">
+
+        <h3 class="text-center basic-700" w-i18n="modal.import.selectAccountToImport"></h3>
+
+        <ul class="import-modal__select">
+            <li ng-repeat="user in $ctrl.userList track by user.address">
+                <w-avatar class="margin-right-1" size="30" address="::user.address"></w-avatar>
+                <div class="mobile-caption-2" ng-class="{'has-name': !!user.name}">
+                    <span ng-if="::user.name" class="name basic-700">{{::user.name}}</span>
+                    <span class="address basic-500">{{::user.address}}</span>
+                    <w-checkbox-submit ng-model="$ctrl.checkedHash[user.address]"></w-checkbox-submit>
+                </div>
+            </li>
+        </ul>
+
+        <div class="import-modal__buttons-wrapper">
+            <w-button w-modal-close class="big">
+                <span w-i18n="modal.import.importCancel"></span>
+            </w-button>
+            <w-button disabled="!$ctrl.hasSelected" on-click="$ctrl.importAccounts()" class="big submit">
+                <span w-i18n="modal.import.importButton"></span>
+            </w-button>
+        </div>
+    </div>
+
+    <div ng-if="!$ctrl.userList.length">
+
+        <div ng-if="$ctrl.wasImportBeta && $ctrl.wasImportOld">
+
+            <i class="import-modal__icon-error"></i>
+            <h3 class="text-center basic-700" w-i18n="modal.import.errorHeader"></h3>
+
+            <div class="basic-500 body-2 text-center margin-4"
+                 ng-if="!$ctrl.wasImportBeta"
+                 w-i18n="modal.import.errorBeta"></div>
+
+            <div class="basic-500 body-2 text-center margin-4"
+                 ng-if="!$ctrl.wasImportOld"
+                 w-i18n="modal.import.errorLite"></div>
+
+            <div class="basic-500 body-2 text-center margin-4"
+                 w-i18n="modal.import.errorUnable"></div>
+
+            <w-button w-modal-close class="big long submit">
+                <span w-i18n="modal.import.iUnderstandButton"></span>
+            </w-button>
+
+        </div>
+
+        <div ng-if="!$ctrl.wasImportBeta || !$ctrl.wasImportOld">
+
+            <h3 class="text-center basic-700" w-i18n="modal.import.selectAccountToImportFrom"></h3>
+            <div class="text-center">
+                <span class="body-2 basic-500" w-i18n="modal.import.selectAccountDescription"></span>
+
+                <w-help-icon>
+                    <div class="help-icon__row headline-3">
+                        <span w-i18n="modal.import.helpIcon.title"></span>
+                    </div>
+                    <div class="help-icon__row">
+                        <span w-i18n="modal.import.helpIcon.description"></span>
+                    </div>
+                </w-help-icon>
+            </div>
+
+            <div class="import-modal__blocks-wrapper text-center">
+
+                <div ng-if="!$ctrl.wasImportBeta" class="import-modal__block import-modal__block-beta">
+                    <div class="import-modal__icon-beta"></div>
+                    <div class="body-2 basic-700" w-i18n="modal.import.wavesBetaClient"></div>
+                    <div class="caption-1 basic-500 margin-2" w-i18n="modal.import.wavesBetaClientDescription"></div>
+                    <w-button on-click="$ctrl.importFromBeta()"
+                              class="submit tiny">
+                        <span w-i18n="modal.import.selectButton"></span>
+                    </w-button>
+                </div>
+                <div ng-if="!$ctrl.wasImportOld" class="import-modal__block import-modal__block-old">
+                    <div class="import-modal__icon-old"></div>
+                    <div class="body-2 basic-700" w-i18n="modal.import.wavesLiteClient"></div>
+                    <div class="caption-1 basic-500 margin-2" w-i18n="modal.import.wavesLiteClientDescription"></div>
+                    <w-button on-click="$ctrl.importFromOld()"
+                              class="submit tiny">
+                        <span w-i18n="modal.import.selectButton"></span>
+                    </w-button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

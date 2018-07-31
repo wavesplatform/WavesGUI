@@ -104,10 +104,16 @@
                 const amount = ConfirmTransaction.toBigNumber(this.tx.amount);
 
                 return txPromise.then((data) => {
-                    analytics.push('Transaction', `Transaction.${txType}`, `Transaction.${txType}.Success`, amount);
+                    analytics.push(
+                        'Transaction', `Transaction.${txType}.${WavesApp.type}`,
+                        `Transaction.${txType}.${WavesApp.type}.Success`, amount
+                    );
                     return data;
                 }, (error) => {
-                    analytics.push('Transaction', `Transaction.${txType}`, `Transaction.${txType}.Error`, amount);
+                    analytics.push(
+                        'Transaction', `Transaction.${txType}.${WavesApp.type}`,
+                        `Transaction.${txType}.${WavesApp.type}.Error`, amount
+                    );
                     return Promise.reject(error);
                 });
             }
