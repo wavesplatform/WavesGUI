@@ -223,7 +223,7 @@
                     this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = baseAssetBalance;
                 });
 
-            const startDate = this.utils.moment().add().day(-100);
+            const startDate = this.utils.moment().add().day(-7);
             this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then((values) => {
                 this.chart = new this.ChartFactory(
                     this.$node.find(`.${SELECTORS.CHART_CONTAINER}`),

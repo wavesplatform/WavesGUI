@@ -11,6 +11,8 @@
 
         return {
             restrict: 'E',
+            replace: true,
+            template: '<div class="w-visible"></div>',
             transclude: true,
             scope: false,
             link: function ($scope, $element, $attrs, $ctrl, $transclude) {
