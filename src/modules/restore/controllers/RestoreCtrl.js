@@ -74,7 +74,7 @@
                     encryptedSeed,
                     publicKey: keyPair.publicKey,
                     saveToStorage: this.saveUserData
-                }, true);
+                }, true, true);
             }
 
             resetNameAndPassword() {

@@ -8,6 +8,7 @@ export interface IMetaJSON {
     copyNodeModules: Array<string>;
     debugInjections: Array<string>;
     electronScripts: Array<string>;
+    langList: object,
     betaOrigin: string;
     targetOrigin: string;
     configurations: {
