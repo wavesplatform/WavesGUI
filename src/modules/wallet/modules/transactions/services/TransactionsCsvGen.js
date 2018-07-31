@@ -51,37 +51,41 @@
                     const id = header.id;
                     const value = tx[id];
 
-                    switch (id) {
-                        case 'timestamp':
-                            return value && utils.moment(value).format('DD.MM.YYYY hh:mm:ss') || value;
-                        case 'reissuable':
-                            return value != null && i18n.translate(`csv.reissuable.${value}`, NS) || value;
-                        case 'priceTicker':
-                            return tx.price && tx.price.asset.ticker || '';
-                        case 'priceName':
-                            return tx.price && tx.price.asset.name || '';
-                        case 'priceValue':
-                            return tx.price && tx.price.toFormat() || '';
-                        case 'priceId':
-                            return tx.price && tx.price.asset.id || '';
-                        case 'amountTicker':
-                            return tx.amount && tx.amount.asset.ticker || '';
-                        case 'amountName':
-                            return tx.amount && tx.amount.asset.name || '';
-                        case 'amountValue':
-                            return tx.amount && tx.amount.toFormat() || '';
-                        case 'amountId':
-                            return tx.amount && tx.amount.asset.id || '';
-                        case 'feeTicker':
-                            return tx.fee && tx.fee.asset.ticker || '';
-                        case 'feeName':
-                            return tx.fee && tx.fee.asset.name || '';
-                        case 'feeValue':
-                            return tx.fee && tx.fee.toFormat() || '';
-                        case 'feeId':
-                            return tx.fee && tx.fee.asset.id || '';
-                        default:
-                            return value == null ? '' : String(value);
+                    try {
+                        switch (id) {
+                            case 'timestamp':
+                                return value && utils.moment(value).format('DD.MM.YYYY hh:mm:ss') || value;
+                            case 'reissuable':
+                                return value != null && i18n.translate(`csv.reissuable.${value}`, NS) || value;
+                            case 'priceTicker':
+                                return tx.price && tx.price.asset.ticker || '';
+                            case 'priceName':
+                                return tx.price && tx.price.asset.name || '';
+                            case 'priceValue':
+                                return tx.price && tx.price.toFormat() || '';
+                            case 'priceId':
+                                return tx.price && tx.price.asset.id || '';
+                            case 'amountTicker':
+                                return tx.amount && tx.amount.asset.ticker || '';
+                            case 'amountName':
+                                return tx.amount && tx.amount.asset.name || '';
+                            case 'amountValue':
+                                return tx.amount && tx.amount.toFormat() || '';
+                            case 'amountId':
+                                return tx.amount && tx.amount.asset.id || '';
+                            case 'feeTicker':
+                                return tx.fee && tx.fee.asset.ticker || '';
+                            case 'feeName':
+                                return tx.fee && tx.fee.asset.name || '';
+                            case 'feeValue':
+                                return tx.fee && tx.fee.toFormat() || '';
+                            case 'feeId':
+                                return tx.fee && tx.fee.asset.id || '';
+                            default:
+                                return value == null ? '' : String(value);
+                        }
+                    } catch (e) {
+                        return '';
                     }
                 }));
 

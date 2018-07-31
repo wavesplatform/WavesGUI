@@ -9,6 +9,7 @@ import { compile } from 'handlebars';
 import { transform } from 'babel-core';
 import { render } from 'less';
 import { minify } from 'html-minifier';
+import { Readable, Writable } from 'stream';
 import { get, ServerResponse, IncomingMessage } from 'https';
 import { MAINNET_DATA, TESTNET_DATA } from '@waves/assets-pairs-order';
 
@@ -123,13 +124,13 @@ export function replaceScripts(file: string, paths: Array<string>): string {
     }).join('\n'));
 }
 
-export function replaceStyles(file: string, paths: Array<{theme: string, name: string, hasGet?: boolean}>): string {
-    return file.replace('<!-- CSS -->', paths.map(({theme, name, hasGet}) => {
+export function replaceStyles(file: string, paths: Array<{ theme: string, name: string, hasGet?: boolean }>): string {
+    return file.replace('<!-- CSS -->', paths.map(({ theme, name, hasGet }) => {
         if (hasGet) {
-            return `<link ${theme ? `theme="${theme}"`: ''} rel="stylesheet" href="${name}?theme=${theme || ''}">`;
+            return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}?theme=${theme || ''}">`;
         }
 
-        return `<link ${theme ? `theme="${theme}"`: ''} rel="stylesheet" href="${name}">`;
+        return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}">`;
     }).join('\n'));
 }
 
@@ -177,12 +178,12 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                 for (const style of styles) {
                     for (const theme of themes) {
                         const name = filter(style);
-                        
-                        if(!isLess(style)) {
+
+                        if (!isLess(style)) {
                             param.styles.push({ name: `/${name}`, theme: null });
                             break;
                         }
-                        param.styles.push({ name: `/${name}`, theme , hasGet: true});
+                        param.styles.push({ name: `/${name}`, theme, hasGet: true });
                     }
                 }
             }
@@ -204,7 +205,8 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                     type: param.type
                 },
                 network: networks[param.connection],
-                themesConf: JSON.stringify(themesConf)
+                themesConf: JSON.stringify(themesConf),
+                langList: JSON.stringify(meta.langList)
             });
 
             return replaceStyles(fileTpl, param.styles);
@@ -258,7 +260,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
         const url = req.url.replace(/\?.*/, '');
 
         if (isTradingView(url)) {
-            get(`https://beta.wavesplatform.com/${url}`, (resp: IncomingMessage) => {
+            get(`https://client.wavesplatform.com/${url}`, (resp: IncomingMessage) => {
                 let data = new Buffer('');
 
                 // A chunk of data has been recieved.
@@ -287,6 +289,26 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                 });
             }
             return routeStatic(req, res, connectionType, buildType, type);
+        }
+
+        if (url.indexOf('/locales') === 0) {
+            const [lang, ns] = url.replace('/locales/', '')
+                .replace(/\?.*/, '')
+                .replace('.json', '')
+                .split('/');
+
+            get(`https://locize.wvservices.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/${ns}`, (response) => {
+                let data = new Buffer('');
+
+                // A chunk of data has been recieved.
+                response.on('data', (chunk: Buffer) => {
+                    data = Buffer.concat([data, chunk]);
+                });
+                response.on('end', () => {
+                    res.end(data);
+                });
+            });
+            return null;
         }
 
         if (url.indexOf('export') !== -1) {
@@ -427,7 +449,7 @@ export function isSourceScript(url: string): boolean {
 
 export function isLess(url: string): boolean {
     url = url.split('?')[0].replace(/\\/g, '/');
-    return  url.lastIndexOf('.less')=== url.length - 5 && (
+    return url.lastIndexOf('.less') === url.length - 5 && (
         url.includes('modules/') || url.includes('/themeConfig/')
     );
 }
@@ -458,7 +480,8 @@ export function isPage(url: string): boolean {
         'loginDaemon',
         'transfer.js',
         'tradingview-style',
-        'data-service-dist'
+        'data-service-dist',
+        'locale'
     ];
     return !staticPathPartial.some((path) => {
         return url.includes(`/${path}`);
@@ -505,7 +528,7 @@ export interface IPrepareHTMLOptions {
     buildType?: TBuild;
     connection: TConnection;
     scripts?: string[];
-    styles?: Array<{name: string, theme: string, hasGet?: boolean}>;
+    styles?: Array<{ name: string, theme: string, hasGet?: boolean }>;
     target: string;
     type: TPlatform;
     themes?: Array<string>;
