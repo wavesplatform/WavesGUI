@@ -101,7 +101,7 @@ module.exports = function (grunt) {
                     server: 'https://nodes.wavesnodes.org',
                     coinomat: 'https://coinomat.com',
                     matcher: 'https://matcher.wavesnodes.org',
-                    datafeed: 'https://marketdata.wavesplatform.com'
+                    datafeed: 'https://marketdata.wavesnodes.org'
                 },
                 devnet: {
                     name: 'devnet',
