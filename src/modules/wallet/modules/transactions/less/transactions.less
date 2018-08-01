@@ -1,4 +1,5 @@
-@import (reference) '../../../../config';
+@import (reference) 'config';
+@import (reference) 'icons';
 
 .transactions {
 
@@ -36,15 +37,11 @@
 
   w-select.tx-filter {
     margin-right: 10px;
-    background: @color-white;
     flex-grow: 0;
-    height: 42px;
     white-space: nowrap;
   }
 
   button.download {
-    background: url(/img/icons/download.svg) 20px center no-repeat @color-white;
-    padding-left: 40px;
     flex-grow: 0;
   }
 }
@@ -59,11 +56,6 @@
       display: block;
       width: 100%;
       margin-right: 10px;
-      background: @color-white;
-
-      .title {
-        height: 42px;
-      }
     }
 
     button.download {

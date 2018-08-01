@@ -321,13 +321,13 @@
                         notify.addClass('success');
                         this.createOrderFailed = false;
                         const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
-                        analytics.push('DEX', `DEX.Order.${this.type}.Success`, pair);
+                        analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Success`, pair);
                         dexDataService.createOrder.dispatch();
                     }).catch(() => {
                         this.createOrderFailed = true;
                         notify.addClass('error');
                         const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
-                        analytics.push('DEX', `DEX.Order.${this.type}.Error`, pair);
+                        analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Error`, pair);
                     }).finally(() => {
                         CreateOrder._animateNotification(notify);
                     });
@@ -541,7 +541,7 @@
                     this.totalPrice.asset.id === this.priceBalance.asset.id) {
 
                     this.canBuyOrder = (
-                        this.totalPrice.lte(this.priceBalance) && this.priceBalance.getTokens().gt(0)
+                        this.totalPrice.lte(this.maxPriceBalance) && this.maxPriceBalance.getTokens().gt(0)
                     );
                 } else {
                     this.canBuyOrder = true;

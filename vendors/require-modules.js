@@ -12,7 +12,8 @@
         '@waves/data-entities': 'ds.wavesDataEntities',
         '@waves/waves-signature-generator': 'wavesSignatureGenerator',
         'ramda': 'R',
-        'data-service': 'ds'
+        'data-service': 'ds',
+        '@waves/waves-browser-bus': 'bus'
     };
 
     function getModule(require) {

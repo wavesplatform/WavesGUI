@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51 (57462) - http://www.bohemiancoding.com/sketch -->
+    <title>logo-beta</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="logo/favicon32-blue">
+            <rect id="ico-zone" fill-opacity="0" fill="#D8D8D8" x="0" y="0" width="60" height="60"></rect>
+            <rect id="brand-elem" fill="#1F5AF6" transform="translate(30.000000, 30.000000) rotate(45.000000) translate(-30.000000, -30.000000) " x="9.33333333" y="9.33333333" width="41.3333333" height="41.3333333"></rect>
+        </g>
+    </g>
+</svg>

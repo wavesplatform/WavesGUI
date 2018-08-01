@@ -1,8 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" viewBox="0 0 20 14">
-  <g fill="none" transform="translate(0 -1)">
-    <rect width="18" height="12" x="1" y="2" fill="#1F5AF6"/>
-    <path fill="#FFF" d="M0.444344584,3.02899151 L18.4443446,15.0289915 L19.5556554,12.9710085 L1.55565542,0.971008489 L0.444344584,3.02899151 Z M18.4443446,0.971008489 L0.444344584,12.9710085 L1.55565542,15.0289915 L19.5556554,3.02899151 L18.4443446,0.971008489 Z"/>
-    <path fill="#FFF" d="M8.2,2 L8.2,14 L11.8,14 L11.8,2 L8.2,2 Z M1,10 L19,10 L19,6 L1,6 L1,10 Z"/>
-    <path fill="#CF142B" d="M8.92,2 L8.92,14 L11.08,14 L11.08,2 L8.92,2 Z M1,9.2 L19,9.2 L19,6.8 L1,6.8 L1,9.2 Z"/>
-  </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>en</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="en" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle-path" fill="#1F5AF6" fill-rule="nonzero" x="0" y="3" width="18" height="12"></rect>
+        <path d="M0.00123915301,4.41738892 L15.9044194,15.0038874 L18.0004504,14.9991659 L18.0000541,13.6003089 L2.10896301,2.99770528 L0.000161147408,3 L0.00123915301,4.41738892 Z M15.9037386,2.99807917 L0.00104974008,13.5998717 L0.000161147408,15.0002984 L2.09659243,15.0017002 L18.0044469,4.39646381 L18.0000541,3 L15.9037386,2.99807917 Z" id="Shape" fill="#FFFFFF" fill-rule="nonzero"></path>
+        <path d="M7.2,3 L7.2,15 L10.8,15 L10.8,3 L7.2,3 Z M0,11 L18,11 L18,7 L0,7 L0,11 Z" id="Shape" fill="#FFFFFF" fill-rule="nonzero"></path>
+        <path d="M7.92,3 L7.92,15 L10.08,15 L10.08,3 L7.92,3 Z M0,10.2 L18,10.2 L18,7.8 L0,7.8 L0,10.2 Z" id="Shape" fill="#CF142B" fill-rule="nonzero"></path>
+    </g>
 </svg>

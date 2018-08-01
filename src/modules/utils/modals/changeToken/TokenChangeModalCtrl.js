@@ -64,6 +64,8 @@
                  */
                 this._waves = null;
 
+                const { TokenChangeModalCtrl = {} } = user.getThemeSettings();
+
                 this.options = {
                     grid: {
                         x: false,
@@ -80,7 +82,7 @@
                             dataset: 'values',
                             key: 'rate',
                             label: 'Rate',
-                            color: '#5a81ea',
+                            color: TokenChangeModalCtrl.seriesColor || '#5a81ea',
                             type: ['line', 'area']
                         }
                     ],

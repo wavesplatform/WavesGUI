@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10" height="5" viewBox="0 0 10 5">
+    <defs>
+        <polygon id="type-1-down-a" points="0 0 5 5 10 0 0 0"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <use fill="#8C8C8C" xlink:href="#type-1-down-a"/>
+    </g>
+</svg>
