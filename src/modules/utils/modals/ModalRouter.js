@@ -38,6 +38,15 @@
                 waves.node.assets.userBalances().then(() => {
                     this._apply(this._firstUrl);
                 });
+
+                if (WavesApp.isDesktop()) {
+                    window.listenMainProcessEvent((eventType, urlString) => {
+                        const { hash } = utils.parseElectronUrl(urlString);
+                        if (hash) {
+                            this._apply(ModalRouter._getUrlData(hash));
+                        }
+                    });
+                }
             }
 
             /**
@@ -96,11 +105,12 @@
             }
 
             /**
+             * @param {string} [fromUrl]
              * @return {{url: string, search: string}}
              * @private
              */
-            static _getUrlData() {
-                const fullUrl = `/${decodeURIComponent(location.hash.replace('#', ''))}`;
+            static _getUrlData(fromUrl) {
+                const fullUrl = `/${decodeURIComponent(fromUrl || location.hash.replace('#', ''))}`;
                 const [url, search] = fullUrl.split('?');
                 return { url, search };
             }

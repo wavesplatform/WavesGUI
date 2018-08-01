@@ -1,7 +1,7 @@
 import { app, BrowserWindow, Menu, MenuItem, dialog } from 'electron';
 import { IHash } from '../ts-scripts/interface';
 import { join } from 'path';
-import { writeFile } from './utils';
+import { write } from './utils';
 
 export class Bridge {
 
@@ -16,7 +16,8 @@ export class Bridge {
             'addDevToolsMenu': this.addDevToolsMenu,
             'reload': this.reload,
             'getLocale': this.getLocale,
-            'download': this.download
+            'download': this.download,
+            'clientReady': this.setClientReady
         };
     }
 
@@ -44,12 +45,16 @@ export class Bridge {
 
             dialog.showSaveDialog(this.main.mainWindow, options, function (filename) {
                 if (filename) {
-                    return writeFile(filename, data.fileContent).then(resolve, reject);
+                    return write(filename, data.fileContent).then(resolve, reject);
                 } else {
                     return reject(new Error('Cancel'));
                 }
             });
         });
+    }
+
+    private setClientReady() {
+
     }
 
     private getLocale(): string {

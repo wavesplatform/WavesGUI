@@ -3,9 +3,15 @@ import { shell, remote } from 'electron';
 
 
 process.once('loaded', () => {
-    (global as any).WebStorage = new Storage();
-    (global as any).openInBrowser = function (url) {
+    const g: any = global;
+    g.WebStorage = new Storage();
+    g.openInBrowser = function (url) {
         shell.openExternal(url);
     };
-    (global as any).transfer = remote.require('./transfer').transfer;
+    const transferModule = remote.require('./transfer');
+
+    g.transfer = transferModule.transfer;
+    g.listenMainProcessEvent = transferModule.listenMainProcessEvent;
+    g.stopListenMainProcessEvent = transferModule.stopListenMainProcessEvent;
+    g.runMainProcessEvent = transferModule.runMainProcessEvent;
 });

@@ -3,6 +3,7 @@
 (function () {
     'use strict';
 
+    const href = location.href;
     const tsUtils = require('ts-utils');
 
     const PROGRESS_MAP = {
@@ -101,12 +102,48 @@
                  */
                 identityImg.config({ rows: 8, cells: 8 });
 
+                this._initTryDesktop();
                 this._setHandlers();
                 this._stopLoader();
                 this._initializeLogin();
                 this._initializeOutLinks();
 
+                if (WavesApp.isDesktop()) {
+                    window.listenMainProcessEvent((type, url) => {
+                        const parts = utils.parseElectronUrl(url);
+                        location.hash = `#!${parts.path}${parts.search}`;
+                    });
+                }
+
                 $rootScope.WavesApp = WavesApp;
+            }
+
+            _initTryDesktop() {
+                if (!isDesktop || WavesApp.isDesktop()) {
+                    return null;
+                }
+
+                storage.load('openClientMode').then(clientMode => {
+                    switch (clientMode) {
+                        case 'desktop':
+                            this._runDesktop();
+                            break;
+                        case 'web':
+                            break;
+                        default:
+                            modalManager.showTryDesktopModal()
+                                .then(() => this._runDesktop())
+                                .catch();
+                    }
+                });
+            }
+
+            _runDesktop() {
+                const url = new URL(href);
+                const iframe = document.createElement('iframe');
+                iframe.src = `waves://${url.pathname}${url.search}${url.hash}`.replace('///', '//');
+
+                document.body.appendChild(iframe);
             }
 
             /**

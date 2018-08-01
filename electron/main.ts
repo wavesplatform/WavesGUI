@@ -1,9 +1,10 @@
-import { app, BrowserWindow, screen, protocol, Menu, dialog } from 'electron';
+import { app, BrowserWindow, screen, Menu } from 'electron';
 import { Bridge } from './Bridge';
 import { ISize, IMetaJSON } from './package';
 import { format } from 'url';
 import { join } from 'path';
-import { readJSON, writeJSON } from './utils';
+import { read, readJSON, write, writeJSON } from './utils';
+import { homedir } from "os";
 
 import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOptions;
 import MenuItemConstructorOptions = Electron.MenuItemConstructorOptions;
@@ -25,7 +26,12 @@ const CONFIG = {
             height: 960
         }
     },
-    PROTOCOL: 'waves'
+    PROTOCOL: 'waves',
+    ARGV_FLAGS: {
+        IGNORE_SSL_ERROR: '--ignore-ssl-error',
+        NO_REPLACE_DESKTOP_FILE: '--no-replace-desktop',
+        SERVER: '--server'
+    }
 };
 
 const MENU_LIST: MenuItemConstructorOptions[] = [
@@ -48,28 +54,60 @@ const MENU_LIST: MenuItemConstructorOptions[] = [
     } as MenuItemConstructorOptions
 ];
 
-// Protocol handler for osx
-app.on('open-url', function (event, url) {
-    event.preventDefault();
-    console.log("open-url event: " + url);
-
-    dialog.showErrorBox('open-url', `You arrived from: ${url}`)
-});
-
+const argv = Array.prototype.slice.call(process.argv);
 
 class Main {
 
     public mainWindow: BrowserWindow;
     public menu: Menu;
     public bridge: Bridge;
+    private clientIsReady: Promise<{}>;
     private dataPromise: Promise<IMetaJSON>;
+    private readonly ignoreSslError: boolean;
+    private readonly noReplaceDesktopFile: boolean;
+    private readonly server: string;
 
     constructor() {
+        const canOpenElectron = this.makeSingleInstance();
+
+        if (!canOpenElectron) {
+            return null;
+        }
+
+        this.ignoreSslError = argv.includes(CONFIG.ARGV_FLAGS.IGNORE_SSL_ERROR);
+        this.noReplaceDesktopFile = argv.includes(CONFIG.ARGV_FLAGS.NO_REPLACE_DESKTOP_FILE);
+
         this.mainWindow = null;
         this.bridge = new Bridge(this);
-
         this.dataPromise = Main.loadMeta();
+
         this.setHandlers();
+    }
+
+    public onClientReady() {
+
+    }
+
+    private makeSingleInstance(): boolean {
+        const isOpenClient = app.makeSingleInstance((argv) => {
+            const [execPath, browserLink] = argv;
+            this.openProtocolIn(browserLink);
+        });
+
+        if (isOpenClient) {
+            app.quit();
+        }
+
+        return !isOpenClient;
+    }
+
+    private openProtocolIn(browserLink) {
+        if (!browserLink || browserLink.indexOf('waves://') !== 0) {
+            return null;
+        }
+
+        const url = browserLink.replace('waves://', '');
+        this.mainWindow.webContents.executeJavaScript(`runMainProcessEvent('open-from-browser', '${url}')`);
     }
 
     private createWindow() {
@@ -77,11 +115,14 @@ class Main {
             const pack = require('./package.json');
             this.mainWindow = new BrowserWindow(Main.getWindowOptions(meta));
 
-            this.mainWindow.loadURL(format({
-                pathname: pack.server,
-                protocol: 'https:',
-                slashes: true
-            }), { 'extraHeaders': 'pragma: no-cache\n' });
+            const url = argv[1] && !argv[1].includes('--') ? argv[1].replace('waves://', '') : ''
+            this.mainWindow.loadURL(`https://${pack.server}/#${url}`, { 'extraHeaders': 'pragma: no-cache\n' });
+
+            setTimeout(() => {
+                argv.forEach((a) => {
+                    this.mainWindow.webContents.executeJavaScript(`console.log('${String(a)}')`);
+                });
+            }, 2000);
 
             this.mainWindow.on('closed', () => {
                 this.mainWindow = null;
@@ -109,6 +150,15 @@ class Main {
     }
 
     private setHandlers() {
+        if (this.ignoreSslError) {
+            // SSL/TSL: this is the self signed certificate support
+            app.on('certificate-error', (event, webContents, url, error, certificate, callback) => {
+                // On certificate error we disable default behaviour (stop loading the page)
+                // and we then say "it is all fine - true" to the callback
+                event.preventDefault();
+                callback(true);
+            });
+        }
         app.on('ready', () => this.onAppReady());
         app.on('window-all-closed', Main.onAllWindowClosed);
         app.on('activate', () => this.onActivate());
@@ -122,16 +172,24 @@ class Main {
     }
 
     private registerProtocol() {
-        const loop = () => {
-            const status = app.setAsDefaultProtocolClient(CONFIG.PROTOCOL);
-            console.log(`Set protocol resolved with status: ${status}`);
-
-            if (!status) {
-                setTimeout(loop, 500);
+        if (process.platform !== 'linux') {
+            app.setAsDefaultProtocolClient(CONFIG.PROTOCOL);
+        } else {
+            if (!this.noReplaceDesktopFile) {
+                this.installDesktopFile();
             }
-        };
+        }
+    }
 
-        loop();
+    private installDesktopFile() {
+        const escape = path => path.replace(/\s/g, '\\ ');
+        const processDesktopFile = file => file.replace('{{APP_PATH}}', escape(process.execPath));
+        const writeDesktop = desktop => write(join(homedir(), '.local', 'share', 'applications', 'waves.desktop'), desktop);
+
+        return read(join(__dirname, 'waves.desktop'))
+            .then(processDesktopFile)
+            .then(writeDesktop)
+            .catch(e => console.error(e));
     }
 
     private onActivate() {

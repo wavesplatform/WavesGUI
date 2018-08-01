@@ -102,6 +102,7 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                             forCopy.push(copy(path, join(targetPath, name)));
                         });
                         forCopy.push(copy(join(__dirname, 'electron', 'icons'), join(targetPath, 'img', 'icon.png')));
+                        forCopy.push(copy(join(__dirname, 'electron', 'waves.desktop'), join(targetPath, 'waves.desktop')));
                     }
 
                     Promise.all([

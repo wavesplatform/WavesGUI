@@ -28,7 +28,7 @@ export function readJSON(path: string): Promise<object> {
     return read(path).then((file) => JSON.parse(file));
 }
 
-export function writeFile(path: string, content: string): Promise<void> {
+export function write(path: string, content: string): Promise<void> {
     return new Promise((resolve, reject) => {
         fsWriteFile(path, content, function (error) {
             if (error) {
@@ -41,5 +41,5 @@ export function writeFile(path: string, content: string): Promise<void> {
 }
 
 export function writeJSON(path: string, content: object | Array<object>): Promise<void> {
-    return writeFile(path, JSON.stringify(content));
+    return write(path, JSON.stringify(content));
 }
