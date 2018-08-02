@@ -63,7 +63,8 @@
                     contentUrl: 'modules/utils/modals/tryDesktop/tryDesktop.html',
                     controller: 'TryDesktopCtrl',
                     clickOutsideToClose: false,
-                    escapeToClose: false
+                    escapeToClose: false,
+                    mod: 'try-desktop-modal'
                 });
             }
 

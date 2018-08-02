@@ -103,7 +103,6 @@
                  */
                 identityImg.config({ rows: 8, cells: 8 });
 
-                this._initTryDesktop();
                 this._setHandlers();
                 this._stopLoader();
                 this._initializeLogin();
@@ -121,20 +120,19 @@
 
             _initTryDesktop() {
                 if (!isDesktop || WavesApp.isDesktop()) {
-                    return null;
+                    return Promise.resolve();
                 }
 
-                storage.load('openClientMode').then(clientMode => {
+                return storage.load('openClientMode').then(clientMode => {
                     switch (clientMode) {
                         case 'desktop':
-                            this._runDesktop();
-                            break;
+                            return this._runDesktop();
                         case 'web':
-                            break;
+                            return Promise.resolve();
                         default:
-                            modalManager.showTryDesktopModal()
+                            return modalManager.showTryDesktopModal()
                                 .then(() => this._runDesktop())
-                                .catch();
+                                .catch(() => null);
                     }
                 });
             }
@@ -204,7 +202,10 @@
             _initializeLogin() {
 
                 let needShowTutorial = false;
-                const promise = storage.onReady().then((oldVersion) => {
+                const promise = Promise.all([
+                    storage.onReady(),
+                    this._initTryDesktop()
+                ]).then(([oldVersion]) => {
                     needShowTutorial = !oldVersion;
                 });
 

@@ -1,0 +1,38 @@
+@import (reference) 'icons';
+
+md-dialog {
+  padding: 40px 40px 0 40px;
+
+  md-dialog-content {
+    padding: 0;
+  }
+
+  .try-desktop-modal {
+
+    &__icon {
+      width: 100%;
+      height: 80px;
+      background: @modal-try-desktop-icon no-repeat center bottom;
+    }
+
+    &__title, &__message {
+      text-align: center;
+    }
+
+    &__button-wrapper {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    &__button {
+      width: 224px;
+    }
+
+    &__label {
+      display: inline-block;
+      vertical-align: top;
+      margin: 0;
+    }
+  }
+}
