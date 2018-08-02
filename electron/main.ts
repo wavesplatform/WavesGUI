@@ -1,59 +1,16 @@
 import { app, BrowserWindow, screen, Menu } from 'electron';
 import { Bridge } from './Bridge';
 import { ISize, IMetaJSON } from './package';
-import { format } from 'url';
 import { join } from 'path';
-import { read, readJSON, write, writeJSON } from './utils';
+import { hasProtocol, read, readJSON, removeProtocol, write, writeJSON } from './utils';
 import { homedir } from "os";
+import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST } from "./constansts";
 
 import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOptions;
-import MenuItemConstructorOptions = Electron.MenuItemConstructorOptions;
 
 
-const CONFIG = {
-    META_PATH: join(app.getPath('userData'), 'meta.json'),
-    MIN_SIZE: {
-        width: 400,
-        height: 500
-    },
-    FIRST_OPEN_SIZES: {
-        MIN_SIZE: {
-            width: 1024,
-            height: 768
-        },
-        MAX_SIZE: {
-            width: 1440,
-            height: 960
-        }
-    },
-    PROTOCOL: 'waves',
-    ARGV_FLAGS: {
-        IGNORE_SSL_ERROR: '--ignore-ssl-error',
-        NO_REPLACE_DESKTOP_FILE: '--no-replace-desktop',
-        SERVER: '--server'
-    }
-};
-
-const MENU_LIST: MenuItemConstructorOptions[] = [
-    {
-        label: 'Application',
-        submenu: [
-            { label: 'Quit', accelerator: 'Command+Q', click: () => app.quit() }
-        ]
-    } as MenuItemConstructorOptions, {
-        label: 'Edit',
-        submenu: [
-            { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
-            { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
-            { type: 'separator' },
-            { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
-            { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-            { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
-            { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' }
-        ]
-    } as MenuItemConstructorOptions
-];
-
+const META_PATH = join(app.getPath('userData'), META_NAME);
+const MENU_LIST = GET_MENU_LIST(app);
 const argv = Array.prototype.slice.call(process.argv);
 
 class Main {
@@ -61,7 +18,6 @@ class Main {
     public mainWindow: BrowserWindow;
     public menu: Menu;
     public bridge: Bridge;
-    private clientIsReady: Promise<{}>;
     private dataPromise: Promise<IMetaJSON>;
     private readonly ignoreSslError: boolean;
     private readonly noReplaceDesktopFile: boolean;
@@ -74,18 +30,14 @@ class Main {
             return null;
         }
 
-        this.ignoreSslError = argv.includes(CONFIG.ARGV_FLAGS.IGNORE_SSL_ERROR);
-        this.noReplaceDesktopFile = argv.includes(CONFIG.ARGV_FLAGS.NO_REPLACE_DESKTOP_FILE);
+        this.ignoreSslError = argv.includes(ARGV_FLAGS.IGNORE_SSL_ERROR);
+        this.noReplaceDesktopFile = argv.includes(ARGV_FLAGS.NO_REPLACE_DESKTOP_FILE);
 
         this.mainWindow = null;
         this.bridge = new Bridge(this);
         this.dataPromise = Main.loadMeta();
 
         this.setHandlers();
-    }
-
-    public onClientReady() {
-
     }
 
     private makeSingleInstance(): boolean {
@@ -102,11 +54,11 @@ class Main {
     }
 
     private openProtocolIn(browserLink) {
-        if (!browserLink || browserLink.indexOf('waves://') !== 0) {
+        if (!browserLink || !hasProtocol(browserLink)) {
             return null;
         }
 
-        const url = browserLink.replace('waves://', '');
+        const url = removeProtocol(browserLink);
         this.mainWindow.webContents.executeJavaScript(`runMainProcessEvent('open-from-browser', '${url}')`);
     }
 
@@ -115,14 +67,8 @@ class Main {
             const pack = require('./package.json');
             this.mainWindow = new BrowserWindow(Main.getWindowOptions(meta));
 
-            const url = argv[1] && !argv[1].includes('--') ? argv[1].replace('waves://', '') : ''
-            this.mainWindow.loadURL(`https://${pack.server}/#${url}`, { 'extraHeaders': 'pragma: no-cache\n' });
-
-            setTimeout(() => {
-                argv.forEach((a) => {
-                    this.mainWindow.webContents.executeJavaScript(`console.log('${String(a)}')`);
-                });
-            }, 2000);
+            const url = removeProtocol(argv.find(argument => hasProtocol(argument)) || '');
+            this.mainWindow.loadURL(`https://${pack.server}/#!${url}`, { 'extraHeaders': 'pragma: no-cache\n' });
 
             this.mainWindow.on('closed', () => {
                 this.mainWindow = null;
@@ -173,7 +119,7 @@ class Main {
 
     private registerProtocol() {
         if (process.platform !== 'linux') {
-            app.setAsDefaultProtocolClient(CONFIG.PROTOCOL);
+            app.setAsDefaultProtocolClient(PROTOCOL);
         } else {
             if (!this.noReplaceDesktopFile) {
                 this.installDesktopFile();
@@ -209,8 +155,8 @@ class Main {
     }
 
     private static loadMeta(): Promise<IMetaJSON> {
-        return readJSON(CONFIG.META_PATH).catch(() => {
-            return writeJSON(CONFIG.META_PATH, {}).then(() => ({}));
+        return readJSON(META_PATH).catch(() => {
+            return writeJSON(META_PATH, {}).then(() => ({}));
         }) as Promise<IMetaJSON>;
     }
 
@@ -219,7 +165,7 @@ class Main {
             meta.lastOpen = {
                 width, height, x, y, isFullScreen
             };
-            return writeJSON(CONFIG.META_PATH, meta);
+            return writeJSON(META_PATH, meta);
         });
     }
 
@@ -243,8 +189,8 @@ class Main {
         }
 
         return {
-            minWidth: CONFIG.MIN_SIZE.width,
-            minHeight: CONFIG.MIN_SIZE.height,
+            minWidth: MIN_SIZE.WIDTH,
+            minHeight: MIN_SIZE.HEIGHT,
             icon: join(__dirname, 'img', 'icon.png'),
             fullscreen, width, height, x, y,
             webPreferences: {
@@ -256,12 +202,12 @@ class Main {
 
     private static getStartSize(size: ISize): ISize {
         const width = Math.max(
-            Math.min(size.width, CONFIG.FIRST_OPEN_SIZES.MAX_SIZE.width),
-            CONFIG.FIRST_OPEN_SIZES.MIN_SIZE.width
+            Math.min(size.width, FIRST_OPEN_SIZES.MAX_SIZE.WIDTH),
+            FIRST_OPEN_SIZES.MIN_SIZE.WIDTH
         );
         const height = Math.max(
-            Math.min(size.height, CONFIG.FIRST_OPEN_SIZES.MAX_SIZE.height),
-            CONFIG.FIRST_OPEN_SIZES.MIN_SIZE.height
+            Math.min(size.height, FIRST_OPEN_SIZES.MAX_SIZE.HEIGHT),
+            FIRST_OPEN_SIZES.MIN_SIZE.HEIGHT
         );
 
         return { width, height };

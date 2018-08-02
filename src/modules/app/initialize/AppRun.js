@@ -54,10 +54,11 @@
      * @param {app.utils.decorators} decorators
      * @param {Waves} waves
      * @param {ModalRouter} ModalRouter
+     * @param {function} $templateRequest
      * @return {AppRun}
      */
     const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
-                          notification, decorators, waves, ModalRouter) {
+                          notification, decorators, waves, ModalRouter, $templateRequest) {
 
         const phone = WavesApp.device.phone();
         const tablet = WavesApp.device.tablet();
@@ -143,7 +144,15 @@
                 const iframe = document.createElement('iframe');
                 iframe.src = `waves://${url.pathname}${url.search}${url.hash}`.replace('///', '//');
 
+                iframe.style.position = 'absolute';
+                iframe.style.top = '0';
+                iframe.style.opacity = '0';
                 document.body.appendChild(iframe);
+
+                $templateRequest('modules/app/templates/try-launch-desktop.html')
+                    .then(html => {
+                        $(document.body).empty().html(html);
+                    });
             }
 
             /**
@@ -471,6 +480,7 @@
         'decorators',
         'waves',
         'ModalRouter',
+        '$templateRequest',
         'whatsNew'
     ];
 

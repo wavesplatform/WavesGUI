@@ -16,8 +16,7 @@ export class Bridge {
             'addDevToolsMenu': this.addDevToolsMenu,
             'reload': this.reload,
             'getLocale': this.getLocale,
-            'download': this.download,
-            'clientReady': this.setClientReady
+            'download': this.download
         };
     }
 
@@ -51,10 +50,6 @@ export class Bridge {
                 }
             });
         });
-    }
-
-    private setClientReady() {
-
     }
 
     private getLocale(): string {

@@ -1,5 +1,14 @@
+import { PROTOCOL } from './constansts'
 import { readFile, writeFile as fsWriteFile, existsSync } from 'fs';
 
+
+export function hasProtocol(str: string): boolean {
+    return str.indexOf(PROTOCOL) === 0;
+}
+
+export function removeProtocol(str: string): string {
+    return str.replace(PROTOCOL, '');
+}
 
 export function exist(path: string): Promise<void> {
     const exists = existsSync(path);

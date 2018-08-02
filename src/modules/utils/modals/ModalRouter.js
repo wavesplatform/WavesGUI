@@ -110,9 +110,19 @@
              * @private
              */
             static _getUrlData(fromUrl) {
-                const fullUrl = `/${decodeURIComponent(fromUrl || location.hash.replace('#', ''))}`;
+                const fullUrl = `/${decodeURIComponent(fromUrl || ModalRouter._getLocation())}`;
                 const [url, search] = fullUrl.split('?');
                 return { url, search };
+            }
+
+            static _getLocation() {
+                if (WavesApp.isDesktop()) {
+                    const lastIndex = location.hash.lastIndexOf('#');
+                    const firstIndex = location.hash.indexOf('#');
+                    return lastIndex > firstIndex ? location.hash.slice(lastIndex + 1) : '';
+                } else {
+                    return location.hash.replace('#', '');
+                }
             }
 
         }
