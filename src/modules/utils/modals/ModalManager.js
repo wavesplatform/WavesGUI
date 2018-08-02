@@ -56,6 +56,28 @@
                 });
             }
 
+            showSignLedger(options) {
+                return this._getModal({
+                    id: 'sign-ledger',
+                    contentUrl: '/modules/utils/modals/signLedger/signLedger.html',
+                    controller: 'SignLedgerCtrl',
+                    locals: { ledgerPromise: () => options.promise, mode: options.mode },
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
+            showLedgerError(options) {
+                return this._getModal({
+                    id: 'error-ledger',
+                    contentUrl: '/modules/utils/modals/ledgerError/ledgerError.html',
+                    controller: 'LedgerErrorCtrl',
+                    locals: { ...options },
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
             showGatewaySign(search) {
                 return this._getModal({
                     id: 'gateway-sign-in',

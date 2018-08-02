@@ -38,6 +38,10 @@
                  */
                 this.password = '';
                 /**
+                 * @type {string}
+                 */
+                this.restoreType = '';
+                /**
                  * @type {boolean}
                  */
                 this.saveUserData = true;
@@ -61,19 +65,28 @@
                 if (!this.saveUserData) {
                     this.password = Date.now().toString();
                 }
-                const seedData = new ds.Seed(this.seed);
-                const encryptedSeed = seedData.encrypt(this.password);
-                const keyPair = seedData.keyPair;
 
-                return user.create({
+                const encryptedSeed = new ds.Seed(this.seed).encrypt(this.password);
+                const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
+
+                const newUser = {
+                    userType: this.restoreType,
                     address: this.address,
-                    api: ds.signature.getDefaultSignatureApi(keyPair, this.address, seedData.phrase),
                     name: this.name,
                     password: this.password,
-                    settings: { termsAccepted: false },
-                    encryptedSeed,
-                    publicKey: keyPair.publicKey,
-                    saveToStorage: this.saveUserData
+                    id: this.userId,
+                    path: this.userPath,
+                    settings: userSettings,
+                    saveToStorage: this.saveUserData,
+                    encryptedSeed
+                };
+
+                const api = ds.signature.getDefaultSignatureApi(newUser);
+
+                return user.create({
+                    ...newUser,
+                    settings: userSettings.getSettings(),
+                    api
                 }, true, true);
             }
 

@@ -1,0 +1,30 @@
+<div class="ledger-modal">
+
+    <div class="connect-mode" ng-if="$ctrl.mode === 'connect'">
+        <div class="ledger">
+            <div class="device-img">
+                <div class="dispaly dispaly1 animate-show">
+                    <div class="dot dot1 animate-show"></div>
+                    <div class="dot dot2 animate-show"></div>
+                    <div class="dot dot3 animate-show"></div>
+                    <div class="dot dot4 animate-show"></div>
+                    <div class="dot dot5 animate-show"></div>
+                </div>
+                <div class="dispaly dispaly2 animate-show">Display pin</div>
+                <div class="dispaly dispaly3 animate-show">Display icons</div>
+            </div>
+        </div>
+        <div>Connecting...</div>
+        <div class="texts-wrapper">
+            <div class="info-text text1 animate-show">Text1 test</div>
+            <div class="info-text text2 animate-show">Text2 test</div>
+            <div class="info-text text3 animate-show">Text3 test</div>
+        </div>
+        <w-loader></w-loader>
+    </div>
+
+    <div ng-if="$ctrl.mode === 'sign-matcher'">
+        Sign matcher
+    </div>
+
+</div>

@@ -11,6 +11,9 @@
         'identity-img': 'identityImg',
         '@waves/data-entities': 'ds.wavesDataEntities',
         '@waves/waves-signature-generator': 'wavesSignatureGenerator',
+        '@ledgerhq/hw-transport-u2f': 'TransportU2F',
+        '@waves/ledger': 'WavesLedgerJs',
+        '@waves/waves-signature-adapter': 'wavesSignatureAdapter',
         'ramda': 'R',
         'data-service': 'ds',
         '@waves/waves-browser-bus': 'bus'

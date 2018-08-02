@@ -1,0 +1,64 @@
+<div w-i18n-ns="app.import" class="import-content">
+    <i class="icon-information"></i>
+    <span ng-click="$ctrl.showTutorialModals()"
+          w-i18n-ns="app.welcome"
+          w-i18n="infoTooltip"
+          class="tooltip">
+    </span>
+    <w-change-language></w-change-language>
+
+    <div class="waves-logo"></div>
+
+    <div class="loader-wrapper" ng-if="$ctrl.loading">
+        <w-loader></w-loader>
+    </div>
+
+    <div class="loader-error-wrapper" ng-if="$ctrl.error">
+        Error
+        <w-button class="submit big long" on-click="$ctrl.retryGetUsers()">
+            <span>RETRY</span>
+        </w-button>
+    </div>
+
+    <div class="import-wrapper margin-3" ng-if="$ctrl.isInit">
+        <div class="select-user">
+            <div class="step-left" ng-click="$ctrl.stepLeft()" ng-class="{disabled: $ctrl.disabledLeft}">&lt;</div>
+            <div class="user" ng-class="{selected: $ctrl.selectedUser === user, disabled: $ctrl.isUserDisable($index)}"
+                 ng-repeat="user in $ctrl.visibleUsers track by user.id" ng-click="$ctrl.selectUser(user)">
+                <w-avatar address="user.address" size="49" type="ledger"></w-avatar>
+            </div>
+            <div class="step-right" ng-click="$ctrl.stepRight()" ng-class="{disabled: $ctrl.disabledRight}">&gt;</div>
+        </div>
+
+        <div class="flex margin-3">
+            <w-checkbox-submit ng-model="$ctrl.selectDefault" id="select-default"></w-checkbox-submit>
+            <label for="select-default"
+                   w-i18n="ledgerForm.selectDefault"
+                   class="footnote-1 basic-500"></label>
+            
+            <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
+            <label for="save-user-data"
+                   w-i18n="ledgerForm.saveUserData"
+                   class="footnote-1 basic-500"></label>
+        </div>
+
+        <div class="address-block margin-3">
+            <div class="body-2 basic-900" w-i18n="ledgerForm.address"></div>
+            <div ng-class="{empty: !$ctrl.selectedUser}" class="address body-1 basic-500 mobile-caption-2">
+                {{$ctrl.selectedUser.address}}
+            </div>
+        </div>
+        <w-input w-autofocus
+                 class="big no-validate no-icon"
+                 type="text"
+                 maxlength="20"
+                 ng-model="$ctrl.name"></w-input>
+
+        <div class="margin-3">
+            <w-button disabled="$ctrl.disabledLogin"
+                      class="submit big long" on-click="$ctrl.login()">
+                <span>LOGIN</span>
+            </w-button>
+        </div>
+    </div>
+</div>

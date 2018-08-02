@@ -1,0 +1,21 @@
+<div w-i18n-ns="app.import" class="import-content">
+    <i class="icon-information"></i>
+    <span ng-click="$ctrl.showTutorialModals()"
+          w-i18n-ns="app.welcome"
+          w-i18n="infoTooltip"
+          class="tooltip">
+    </span>
+    <w-change-language></w-change-language>
+
+    <div class="waves-logo"></div>
+
+    <div class="headline-1 text-center" w-i18n="importAccount"></div>
+    <div class="body-2 text-center margin-5">
+        <span class="disabled-600" w-i18n="importAccountInfo"></span>
+    </div>
+
+    <div class="choose-import-type"
+         ng-repeat="adapter in $ctrl.importTypes track by adapter.type">
+        <a class="import-type" type="adapter.type" href="{{$ctrl.getLink(adapter)}}">{{adapter.type}}</a>
+    </div>
+</div>

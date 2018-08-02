@@ -33,6 +33,8 @@
         'app.welcome',
         'app.create',
         'app.restore',
+        'app.ledger',
+        'app.import',
         'app.wallet',
         'app.dex',
         'app.tokens'

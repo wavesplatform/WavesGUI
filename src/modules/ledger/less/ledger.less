@@ -1,0 +1,35 @@
+@import (reference) 'config';
+
+body.ledger {
+
+  .import-wrapper {
+    width: 460px;
+    margin: auto;
+  }
+
+  .select-user {
+    display: flex;
+    padding: 10px;
+  }
+
+  .user {
+    text-align: center;
+    margin: 10px;
+
+    &.selected {
+      background-color: lightgrey;
+    }
+
+    &.disabled {
+      opacity: 0.5;
+    }
+  }
+
+  .disabled {
+
+    &.step-left,
+    &.step-right  {
+      color: lightgrey;
+    }
+  }
+}

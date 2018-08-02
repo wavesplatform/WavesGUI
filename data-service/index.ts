@@ -18,7 +18,9 @@ import {
     cancelOrder as cancelOrderF
 } from './broadcast/broadcast';
 import { utils as cryptoUtils } from '@waves/waves-signature-generator';
+import * as signatureAdapters from '@waves/waves-signature-adapter';
 
+export { getAdapterByType, getAvailableList } from '@waves/waves-signature-adapter';
 export { Seed } from './classes/Seed';
 
 export const wavesDataEntities = {
@@ -31,6 +33,8 @@ export const utils = { ...utilsModule };
 export const signature = {
     ...sign
 };
+
+export const signAdapters = signatureAdapters;
 export const isValidAddress = cryptoUtils.crypto.isValidAddress;
 
 export const broadcast = broadcastF;
@@ -80,11 +84,10 @@ class App {
 
     public address: string;
 
-    public login(address: string, api: sign.ISignatureApi): Promise<void> {
+    public login(address: string, api: sign.ISignatureApi) {
         this.address = address;
         sign.setSignatureApi(api);
-        return this._addMatcherSign()
-            .then(() => this._initializeDataManager(address));
+        this._initializeDataManager(address);
     }
 
     public logOut() {
@@ -92,8 +95,18 @@ class App {
         dataManager.dropAddress();
     }
 
-    private _addMatcherSign() {
-        const timestamp = utilsModule.addTime(normalizeTime(new Date().getTime()), 2, 'hour').valueOf();
+    public addMatcherSign(timestamp, signature) {
+        return sign.getSignatureApi().getPublicKey()
+            .then((senderPublicKey) => {
+                api.matcher.addSignature(signature, senderPublicKey, timestamp);
+            });
+    }
+
+    public getTimeStamp(count: number, timeType) {
+        return utilsModule.addTime(normalizeTime(new Date().getTime()), count, timeType).valueOf();
+    }
+
+    public signForMatcher(timestamp: number): Promise<string> {
         return sign.getSignatureApi().getPublicKey()
             .then((senderPublicKey) => {
                 return sign.getSignatureApi().sign({
@@ -102,10 +115,7 @@ class App {
                         senderPublicKey,
                         timestamp
                     }
-                })
-                    .then((signature) => {
-                        api.matcher.addSignature(signature, senderPublicKey, timestamp);
-                    });
+                });
             });
     }
 

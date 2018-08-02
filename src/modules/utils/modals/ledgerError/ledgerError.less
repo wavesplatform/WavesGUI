@@ -1,0 +1,124 @@
+.ledger-modal {
+
+  .connect-mode {
+    text-align: center;
+
+    .texts-wrapper {
+      position: relative;
+      height: 20px;
+    }
+
+    .animate-show {
+      animation-duration: 9s;
+      animation-name: showLedger;
+      animation-fill-mode: both;
+      animation-iteration-count: infinite;
+    }
+
+    .device-img {
+      position: relative;
+      width: 235px;
+      height: 60px;
+      border: 1px solid;
+      display: block;
+      margin: auto;
+    }
+
+    .dispaly {
+      margin: 10px;
+      position: absolute;
+    }
+
+    .dispaly1,
+    .text1 {
+      animation-delay: 0s;
+    }
+
+    .dispaly2,
+    .text2 {
+      animation-delay: 3s;
+    }
+
+    .dispaly3,
+    .text3 {
+      animation-delay: 6s;
+    }
+
+    .dot {
+      animation-duration: 9s;
+      animation-name: showDot;
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      background-color: #4ece3d;
+      position: relative;
+      margin: 5px;
+      opacity: 0;
+    }
+
+    .dot1 {
+      animation-delay: 0s;
+    }
+    .dot2 {
+      animation-delay: 0.5s;
+    }
+    .dot3 {
+      animation-delay: 1s;
+    }
+    .dot4 {
+      animation-delay: 1.5s;
+    }
+    .dot5 {
+      animation-delay: 2s;
+    }
+
+    .info-text {
+      position: absolute;
+    }
+
+    w-loader {
+      top: 10px;
+      position: relative;
+    }
+  }
+}
+
+@keyframes showDot {
+  0% {
+    opacity: 0;
+  }
+
+  3% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  51% {
+    opacity: 0;
+  }
+
+    100% {
+    opacity: 0;
+  }
+}
+
+@keyframes showLedger {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 1;
+  }
+  35% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}

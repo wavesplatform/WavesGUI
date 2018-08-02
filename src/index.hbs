@@ -333,6 +333,7 @@
                 '{{network.assets.BTC}}': 'Bitcoin',
                 '{{network.assets.ETH}}': 'Ethereum'
             },
+            matcherSignInterval: {count: 20, timeType: 'day'},
             scam: Object.create(null),
             dex: {
                 resolutions: ['15', '30', '60', '240', '1440'], // TODO : add months
@@ -573,6 +574,22 @@
             {
                 id: 'restore',
                 data: {
+                    url: '/import/restore',
+                    noLogin: true,
+                    views: [{ name: 'main' }]
+                }
+            },
+            {
+                id: 'ledger',
+                data: {
+                    url: '/import/ledger',
+                    noLogin: true,
+                    views: [{ name: 'main' }]
+                }
+            },
+            {
+                id: 'import',
+                data: {
                     noLogin: true,
                     views: [{ name: 'main' }]
                 }
@@ -643,6 +660,7 @@
      * @property {number} minAliasLength
      * @property {number} maxAliasLength
      * @property {number} maxAddressLength
+     * @property {Object.<{count: number, timeType: string>} matcherSignInterval
      * @property {BigNumber} maxCoinsCount
      * @property {typeof WavesApp.TRANSACTION_TYPES} TRANSACTION_TYPES
      * @property {typeof WavesApp.network} network

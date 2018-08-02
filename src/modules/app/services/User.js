@@ -42,6 +42,10 @@
                 /**
                  * @type {string}
                  */
+                this.id = null;
+                /**
+                 * @type {string}
+                 */
                 this.name = null;
                 /**
                  * @type {string}
@@ -51,6 +55,14 @@
                  * @type {string}
                  */
                 this.encryptedSeed = null;
+                /**
+                 * @type {string}
+                 */
+                this.userType = null;
+                /**
+                 * @type {string}
+                 */
+                this.userType = null;
                 /**
                  * @type {object}
                  */
@@ -68,6 +80,9 @@
                  * @type {number}
                  */
                 this.lastLogin = Date.now();
+
+                this.matcherSign = null;
+
                 /**
                  * @type {Deferred}
                  * @private
@@ -188,6 +203,20 @@
                 return settings.get(name);
             }
 
+            getDefaultUserSettings(settings) {
+                return defaultSettings.create({ ...settings });
+            }
+
+            /**
+             * @param {User} user
+             * @param {string} name
+             * @return {DefaultSettings}
+             */
+            getSettingsByUser(user) {
+                const settings = this.getDefaultUserSettings(user.settings);
+                return settings;
+            }
+
             /**
              * @param {string} name
              * @param {*} value
@@ -222,11 +251,13 @@
              * @param {string} data.encryptedSeed
              * @param {string} data.publicKey
              * @param {string} data.password
+             * @param {string} data.userType
              * @param {boolean} data.saveToStorage
              * @param {boolean} hasBackup
              * @return Promise
              */
             create(data, hasBackup, restore) {
+
                 this.noSaveToStorage = !data.saveToStorage;
 
                 return this._addUserData({
@@ -234,6 +265,7 @@
                     address: data.address,
                     password: data.password,
                     name: data.name,
+                    userType: data.userType,
                     encryptedSeed: data.encryptedSeed,
                     publicKey: data.publicKey,
                     settings: {
@@ -338,9 +370,11 @@
              * @param {object} data
              * @param {ISignatureApi} data.api
              * @param {string} data.address
+             * @param {string} data.userType
              * @param {string} [data.encryptedSeed]
              * @param {string} [data.publicKey]
              * @param {string} data.password
+             * @param {string} data.userType
              * @param {object} [data.settings]
              * @param {boolean} [data.settings.termsAccepted]
              * @return Promise
@@ -380,17 +414,48 @@
                             ds.config.set(key, this._settings.get(`network.${key}`));
                         });
 
-                        return ds.app.login(data.address, data.api)
-                            .then(() => {
-                                this.changeTheme();
-                                this.changeCandle();
-                                this._save();
-                            })
-                            .then(() => {
-                                this._logoutTimer();
-                                this._dfr.resolve();
-                            });
+                        ds.app.login(data.address, data.api);
+                        this.addMatcherSign().then((matcherSign) => {
+                            this.matcherSign = matcherSign;
+                            return ds.app.addMatcherSign(matcherSign.timestamp, matcherSign.signature);
+                        }).then(() => {
+                            this.changeTheme();
+                            this.changeCandle();
+                            return this._save();
+                        }).then(() => {
+                            this._logoutTimer();
+                            this._dfr.resolve();
+                        });
                     });
+            }
+
+            /**
+             * @return {Promise<{signature, timestamp}>}
+             */
+            addMatcherSign() {
+                let promise;
+                const dayForwardTime = ds.app.getTimeStamp(1, 'day');
+                if (!this.matcherSign || this.matcherSign.timestamp - dayForwardTime < 0) {
+                    const maxIntervalTimeStamp = ds.app.getTimeStamp(
+                        WavesApp.matcherSignInterval.count,
+                        WavesApp.matcherSignInterval.timeType
+                    );
+                    promise = ds.app.signForMatcher(maxIntervalTimeStamp).then(
+                        (signature) => {
+                            return { signature, timestamp: maxIntervalTimeStamp };
+                        });
+
+                    if (this.userType && this.userType === 'ledger') {
+                        modalManager.showSignLedger({ promise, mode: 'sign-matcher' });
+                        return promise.catch(() => {
+                            modalManager.showLedgerError({ error: 'sign-matcher-error' });
+                        });
+                    }
+
+                    return promise;
+                }
+
+                return Promise.resolve(this.matcherSign);
             }
 
             /**
