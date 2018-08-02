@@ -57,6 +57,7 @@
                                 this.content.$element.remove();
                                 this.content = null;
                             }
+                            this.$node.remove();
                         });
                     }
 

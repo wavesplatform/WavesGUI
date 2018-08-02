@@ -49,7 +49,6 @@ w-transaction-list {
       transform: translate3d(0, 0, 0);
 
       li {
-        transform: translate3d(0, 0, 0);
         padding: 0;
 
         .date {
@@ -64,8 +63,11 @@ w-transaction-list {
 
         .row {
           position: relative;
-          border-bottom: 1px solid @color-basic-50;
           transition: all 0.3s;
+
+          .w-visible {
+            border-bottom: 1px solid @color-basic-50;
+          }
 
           &:hover {
             background: @hover-default;
