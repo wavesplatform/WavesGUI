@@ -54,11 +54,10 @@
      * @param {app.utils.decorators} decorators
      * @param {Waves} waves
      * @param {ModalRouter} ModalRouter
-     * @param {function} $templateRequest
      * @return {AppRun}
      */
     const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
-                          notification, decorators, waves, ModalRouter, $templateRequest) {
+                          notification, decorators, waves, ModalRouter) {
 
         const phone = WavesApp.device.phone();
         const tablet = WavesApp.device.tablet();
@@ -120,7 +119,7 @@
 
             _initTryDesktop() {
                 if (!isDesktop || WavesApp.isDesktop()) {
-                    return Promise.resolve();
+                    return Promise.resolve(true);
                 }
 
                 return storage.load('openClientMode').then(clientMode => {
@@ -128,11 +127,11 @@
                         case 'desktop':
                             return this._runDesktop();
                         case 'web':
-                            return Promise.resolve();
+                            return Promise.resolve(true);
                         default:
                             return modalManager.showTryDesktopModal()
                                 .then(() => this._runDesktop())
-                                .catch(() => null);
+                                .catch(() => true);
                     }
                 });
             }
@@ -146,11 +145,15 @@
                 iframe.style.top = '0';
                 iframe.style.opacity = '0';
                 document.body.appendChild(iframe);
+                this._canOpenDesktopPage = true;
 
-                $templateRequest('modules/app/templates/try-launch-desktop.html')
-                    .then(html => {
-                        $(document.body).empty().html(html);
-                    });
+                setTimeout(() => {
+                    document.body.removeChild(iframe);
+                }, 500);
+
+                $state.go('desktop');
+
+                return false;
             }
 
             /**
@@ -202,11 +205,14 @@
             _initializeLogin() {
 
                 let needShowTutorial = false;
+
+                const tryDesktop = this._initTryDesktop();
+
                 const promise = Promise.all([
                     storage.onReady(),
-                    this._initTryDesktop()
-                ]).then(([oldVersion]) => {
-                    needShowTutorial = !oldVersion;
+                    tryDesktop
+                ]).then(([oldVersion, canOpenTutorial]) => {
+                    needShowTutorial = canOpenTutorial && !oldVersion;
                 });
 
                 this._listenChangeLanguage();
@@ -240,7 +246,8 @@
 
                     waiting = true;
 
-                    this._login(toState)
+                    tryDesktop
+                        .then((canChangeState) => this._login(toState, canChangeState))
                         .then(() => {
                             stop();
 
@@ -350,10 +357,11 @@
 
             /**
              * @param {{name: string}} currentState
+             * @param {boolean} canChangeState
              * @return {Promise}
              * @private
              */
-            _login(currentState) {
+            _login(currentState, canChangeState) {
                 // const sessions = sessionBridge.getSessionsData();
 
                 const states = WavesApp.stateTree.where({ noLogin: true })
@@ -361,13 +369,16 @@
                         return WavesApp.stateTree.getPath(item.id)
                             .join('.');
                     });
-                if (states.indexOf(currentState.name) === -1) {
+                if (canChangeState && states.indexOf(currentState.name) === -1) {
                     // if (sessions.length) {
                     //     $state.go('sessions');
                     // } else {
                     $state.go(states[0]);
                     // }
+                } else if (currentState.name === 'desktop' && !this._canOpenDesktopPage) {
+                    $state.go(states[0]);
                 }
+
                 return user.onLogin();
             }
 
@@ -484,7 +495,6 @@
         'decorators',
         'waves',
         'ModalRouter',
-        '$templateRequest',
         'whatsNew'
     ];
 
