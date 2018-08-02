@@ -6,7 +6,7 @@
 
 .main.wallet.portfolio {
 
-  w-visible {
+  .w-visible {
     flex-wrap: wrap;
     @media screen and (min-width: 768px) {
       height: 65px !important;
@@ -73,7 +73,7 @@
       }
     }
 
-    w-visible {
+    .w-visible {
       min-height: 64px;
 
       &:first-child {
@@ -192,6 +192,19 @@
       }
     }
 
+    .smart-table__w-tbody .w-visible:first-child {
+      .smart-table__cell:last-child .cell span.icon span::after {
+        transform: translate(-50%, -5px) rotate(45deg);
+        top: 0;
+      }
+
+      .smart-table__cell:last-child .cell span.icon span {
+        transform: translate(-50%, 100%);
+        bottom: -5px;
+        top: auto;
+      }
+    }
+
     .smart-table__cell:last-child {
 
       .cell {
@@ -241,7 +254,7 @@
           height: 18px;
           cursor: pointer;
           position: absolute;
-          transform: translate3d(0,0,0);
+          transform: translate3d(0, 0, 0);
 
           span {
             display: none;
@@ -416,7 +429,7 @@
       .smart-table__w-tbody {
         max-height: 100%;
 
-        w-visible {
+        .w-visible {
           margin-bottom: @padding-main-layout;
           height: 111px !important;
         }

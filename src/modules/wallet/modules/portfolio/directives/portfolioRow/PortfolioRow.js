@@ -78,16 +78,21 @@
 
     class PortfolioRow {
 
-        constructor($templateRequest, $element, utils, waves, user, modalManager, $state, ChartFactory, i18n) {
+        constructor($templateRequest, $element, utils, waves, user, modalManager, $state, ChartFactory, i18n, $scope) {
 
             if (!PortfolioRow.templatePromise) {
                 PortfolioRow.templatePromise = $templateRequest(TEMPLATE_PATH)
                     .then((html) => Handlebars.compile(html));
             }
 
+
             this.ChartFactory = ChartFactory;
 
             this.$state = $state;
+            /**
+             * @type {$rootScope.Scope}
+             */
+            this.$scope = $scope;
             /**
              * @type {app.i18n}
              */
@@ -234,8 +239,33 @@
         }
 
         _initActions() {
+            let expanded = false;
+
+            const $wrapper = this.$node.find('.actions-wrapper');
+
+            const toggleExpanded = () => {
+                expanded = !expanded;
+                this.$node.find('.actions-container').toggleClass('expanded', expanded);
+
+                if (expanded) {
+                    $(document).on('mousedown', _handler);
+                } else {
+                    $(document).off('mousedown', _handler);
+                }
+            };
+
+            const _handler = e => {
+                if ($(e.target).closest($wrapper).length === 0) {
+                    toggleExpanded();
+                }
+            };
+
             this.$node.find('.click-area').on('click', () => {
-                this.$node.find('.actions-container').toggleClass('expanded');
+                toggleExpanded();
+            });
+
+            this.$scope.$on('$destroy', () => {
+                document.off('mousedown', _handler);
             });
         }
 
@@ -353,7 +383,8 @@
         'modalManager',
         '$state',
         'ChartFactory',
-        'i18n'
+        'i18n',
+        '$scope'
     ];
 
     angular.module('app.wallet.portfolio').component('wPortfolioRow', {
