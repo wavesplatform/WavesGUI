@@ -265,7 +265,7 @@
             });
 
             this.$scope.$on('$destroy', () => {
-                document.off('mousedown', _handler);
+                $(document).off('mousedown', _handler);
             });
         }
 

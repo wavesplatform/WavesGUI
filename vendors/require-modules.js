@@ -13,7 +13,8 @@
         'ramda': 'R',
         'data-service': 'ds',
         'handlebars': 'Handlebars',
-        '@waves/waves-browser-bus': 'bus'
+        '@waves/waves-browser-bus': 'bus',
+        'worker-wrapper': 'workerWrapper'
     };
 
     function getModule(require) {

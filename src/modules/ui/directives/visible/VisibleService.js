@@ -67,7 +67,7 @@
 
             updateSort() {
                 Object.keys(this.children).forEach(id => {
-                    const visibleElements = $(`#${id} w-visible`).toArray();
+                    const visibleElements = $(`#${id} .w-visible`).toArray();
                     const childrenHash = utils.toHash(this.children[id].list, 'cid');
                     const sortList = this.children[id].list.map(item => {
                         return {

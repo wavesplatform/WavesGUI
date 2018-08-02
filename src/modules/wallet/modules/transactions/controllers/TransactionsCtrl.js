@@ -44,7 +44,7 @@
 
                 this.observe('filter', () => {
                     $scope.$$postDigest(() => {
-                        visibleService.checkVisibleContent();
+                        visibleService.updateSort();
                     });
                 });
                 this.observe(['txList', 'filter'], this._applyTransactionList);

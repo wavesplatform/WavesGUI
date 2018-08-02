@@ -116,6 +116,6 @@
     "ramda": "^0.25.0",
     "ts-api-validator": "2.1.2",
     "ts-utils": "6.0.2",
-    "worker-wrapper": "1.2.2"
+    "worker-wrapper": "^1.2.3"
   }
 }
