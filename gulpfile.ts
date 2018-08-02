@@ -2,7 +2,7 @@ import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
 import { exec, execSync } from 'child_process';
-import { getFilesFrom, prepareExport, prepareHTML, run, task } from './ts-scripts/utils';
+import { download, getFilesFrom, prepareExport, prepareHTML, run, task } from './ts-scripts/utils';
 import { basename, join, sep } from 'path';
 import { copy, mkdirp, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
@@ -82,7 +82,7 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
             });
             taskHash.concat.push(`concat-${taskPostfix}`);
 
-            const copyDeps = ['concat-style'];
+            const copyDeps = ['concat-style', 'downloadLocales'];
 
             task(`copy-${taskPostfix}`, copyDeps, function (done) {
                     const reg = new RegExp(`(.*?\\${sep}src)`);
@@ -93,6 +93,7 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                         meta.exportPageVendors.map(p => copy(join(__dirname, p), join(targetPath, p)))
                     );
 
+                    forCopy.push(copy(join('dist', 'locale'), join(targetPath, 'locales')));
                     forCopy.push(copy(join(__dirname, 'tradingview-style'), join(targetPath, 'tradingview-style')));
 
                     if (buildName === 'desktop') {
@@ -253,6 +254,31 @@ task('concat-develop-vendors', function () {
     return gulp.src(meta.vendors)
         .pipe(concat(vendorName))
         .pipe(gulp.dest(tmpJsPath));
+});
+
+task('downloadLocales', ['concat-develop-sources'], function (done) {
+    const path = join(tmpJsPath, bundleName);
+
+    readFile(path, 'utf8').then(file => {
+
+        const modules = file.match(/angular\.module\('app\.?((\w|\.)+?)?',/g)
+            .map(str => str.replace('angular.module(\'', '')
+                .replace('\',', ''));
+
+        const load = name => {
+            const langs = Object.keys(meta.langList);
+
+            return Promise.all(langs.map(lang => {
+                const url = `https://locize.wvservices.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/${name}`;
+                const out = join('dist', 'locale', lang, `${name}.json`);
+
+                return download(url, out)
+                    .then(() => console.log(`Module ${lang} ${name} loaded!`))
+                    .catch(() => console.error(`Error load module with name ${name}!`));
+            }));
+        };
+        return Promise.all(modules.map(load))
+    }).then(() => done());
 });
 
 task('clean', function () {

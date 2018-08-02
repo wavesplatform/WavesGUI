@@ -199,7 +199,7 @@
             onReadQrCode(result) {
                 this.tx.recipient = result.body;
 
-                analytics.push('Send', 'Send.QrCodeRead', 'Send.QrCodeRead.Success');
+                analytics.push('Send', `Send.QrCodeRead.${WavesApp.type}`, `Send.QrCodeRead.${WavesApp.type}.Success`);
 
                 if (result.params) {
 
@@ -280,7 +280,7 @@
                 this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
                 this._updateGatewayDetails();
 
-                analytics.push('Send', 'Send.ChangeCurrency', this.assetId);
+                analytics.push('Send', `Send.ChangeCurrency.${WavesApp.type}`, this.assetId);
             }
 
             /**

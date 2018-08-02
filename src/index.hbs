@@ -282,21 +282,6 @@
 
         var __controllers = Object.create(null);
 
-        var localeSeparators = {
-            world: {
-                group: ',',
-                decimal: '.'
-            },
-            russian: {
-                group: ' ',
-                decimal: '.'
-            },
-            turkish: {
-                group: ' ', // TODO change to '.'
-                decimal: '.' // TODO change to ','
-            }
-        };
-
         /**
          * @type {IWavesApp}
          */
@@ -310,40 +295,7 @@
             state: 'loading',
             betaOrigin: '{{{betaOrigin}}}',
             targetOrigin: '{{{targetOrigin}}}',
-            localize: {
-                'en': {
-                    name: 'En',
-                    separators: localeSeparators.world
-                },
-                'ru': {
-                    name: 'Ru',
-                    separators: localeSeparators.russian
-                },
-                'ko': {
-                    name: 'Ko',
-                    separators: localeSeparators.world
-                },
-                'zh-Hans-CN': {
-                    name: 'Zh',
-                    separators: localeSeparators.world
-                },
-                'tr': {
-                    name: 'Tr',
-                    separators: localeSeparators.turkish
-                },
-                'nl': {
-                    name: 'Nl',
-                    separators: localeSeparators.world
-                },
-                'hi': {
-                    name: 'Hi',
-                    separators: localeSeparators.world
-                },
-                'es': {
-                    name: 'Es',
-                    separators: localeSeparators.world
-                }
-            },
+            localize: {{{langList}}},
             network: {
                 apiVersion: '{{network.apiVersion}}',
                 code: '{{network.code}}',
