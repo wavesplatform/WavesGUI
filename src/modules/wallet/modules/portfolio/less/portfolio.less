@@ -8,17 +8,21 @@
 
   .w-visible {
     flex-wrap: wrap;
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 769px) {
       height: 65px !important;
     }
   }
 
   .portfolio-wrapper {
-    display: block;
+    display: flex;
+    flex-direction: column;
     height: 100%;
   }
 
   .toolbar {
+    position: relative;
+    display: flex;
+    flex-direction: row;
     w-button:not(:last-child) {
       margin-right: 5px;
 
@@ -31,7 +35,9 @@
     w-select {
       width: 100%;
       max-width: 250px;
-      float: right;
+      position: absolute;
+      right: 15px;
+      top: 10px;
 
       .title {
         display: flex;
@@ -63,7 +69,7 @@
         transform: translate3d(0, 0, 0);
         will-change: transform;
 
-        @media screen and (min-width: 768px) {
+        @media screen and (min-width: 769px) {
           .smart-table {
             &__row:hover {
               background: @hover-default;
@@ -355,7 +361,7 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 769px) {
 
   .main.wallet.portfolio {
 

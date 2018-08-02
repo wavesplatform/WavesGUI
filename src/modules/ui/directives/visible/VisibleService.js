@@ -110,6 +110,7 @@
                         if (!element) {
                             delete this.children[id];
                         } else {
+                            this.children[id].visible = Object.create(null);
                             this._scrollById(element.scrollTop, id);
                         }
                     });
@@ -182,7 +183,7 @@
              */
             _addHandlers() {
                 document.addEventListener('scroll', this._handlerdebounce, true);
-                window.addEventListener('resize', this._handlerdebounce, false);
+                window.addEventListener('resize', this._initHandlerDebounce, false);
             }
 
             /**
@@ -190,7 +191,7 @@
              */
             _removeHandlers() {
                 document.removeEventListener('scroll', this._handlerdebounce, true);
-                window.removeEventListener('resize', this._handlerdebounce, false);
+                window.removeEventListener('resize', this._initHandlerDebounce, false);
             }
 
             /**
