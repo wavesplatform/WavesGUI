@@ -70,7 +70,7 @@ class Main implements IMain {
 
                 const instance = i18next.init({
                     fallbackLng: 'en',
-                    lng: 'ru',
+                    lng: 'en',
                     ns: ['electron']
                 });
 
