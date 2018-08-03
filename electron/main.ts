@@ -9,7 +9,8 @@ import { hasProtocol, read, readJSON, removeProtocol, write, writeJSON, readdir 
 import { homedir, platform } from 'os';
 import { execSync } from 'child_process'
 import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST } from './constansts';
-import { init, addResources, on, t, changeLanguage } from 'i18next';
+
+const i18next = require(join(__dirname, 'node_modules', 'i18next', 'dist', 'commonjs', 'index.js'));
 
 import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOptions;
 
@@ -49,7 +50,7 @@ class Main implements IMain {
     }
 
     public setLanguage(lng: string): void {
-        changeLanguage(lng);
+        i18next.changeLanguage(lng);
         this.addApplicationMenu();
     }
 
@@ -66,7 +67,7 @@ class Main implements IMain {
                     value: require(join(__dirname, 'locales', lang, 'electron.json'))
                 }));
 
-                const instance = init({
+                const instance = i18next.init({
                     fallbackLng: 'en',
                     lng: 'ru',
                     ns: ['electron']
@@ -79,7 +80,7 @@ class Main implements IMain {
                 });
 
                 return new Promise((resolve) => {
-                    on('initialized', () => {
+                    i18next.on('initialized', () => {
                         resolve((literal, options) => instance.t(`electron:${literal}`, options));
                     });
                 }) as Promise<Function>;

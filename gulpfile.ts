@@ -396,11 +396,14 @@ task('electron-debug', function (done) {
         return download(url, out);
     };
 
+    const copyNodeModules = () => Promise.all(meta.copyNodeModules.map(name => copy(name, join(root, name))));
+
     readdir(srcDir)
         .then(excludeTypeScrip)
         .then(list => Promise.all(list.map(copyItem)))
         .then(makePackageJSON)
         .then(loadLocales)
+        .then(copyNodeModules)
         .then(() => done());
 });
 
