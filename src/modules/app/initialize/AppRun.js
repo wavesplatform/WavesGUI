@@ -229,6 +229,11 @@
                         event.preventDefault();
                     }
 
+                    if (toState.name === 'desktop' && !this._canOpenDesktopPage) {
+                        event.preventDefault();
+                        $state.go(START_STATES[0]);
+                    }
+
                     if (needShowTutorial && toState.name !== 'dex-demo') {
                         modalManager.showTutorialModals();
                         needShowTutorial = false;
@@ -376,8 +381,6 @@
                     // } else {
                     $state.go(states[0]);
                     // }
-                } else if (currentState.name === 'desktop' && !this._canOpenDesktopPage) {
-                    $state.go(states[0]);
                 }
 
                 return user.onLogin();
