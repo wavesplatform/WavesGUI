@@ -125,7 +125,18 @@
       "license"
     ],
     "defaults": {
-      "main": "main.js"
+      "main": "main.js",
+      "devDependencies": {
+         "electron-rebuild": "1.8.2"
+      },
+      "dependencies": {
+        "i18next": "9.1.0",
+        "qrcode-reader": "1.0.3",
+        "@ledgerhq/hw-transport-node-hid": "4.22.0"
+      },
+      "scripts": {
+        "postinstall": "electron-rebuild --force"
+      }
     },
     "server": "desktop.wavesplatform.com"
   },
