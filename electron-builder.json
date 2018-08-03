@@ -7,10 +7,6 @@
   "compression": "normal",
   "npmRebuild": false,
   "npmSkipBuildFromSource": true,
-  "protocols": {
-    "name": "electron-deep-linking",
-    "schemes": ["waves"]
-  },
   "artifactName": "${productName}[${env.WAVES_CONFIGURATION}]-${version}-${os}.${ext}",
   "directories": {
     "buildResources": "electron/"
