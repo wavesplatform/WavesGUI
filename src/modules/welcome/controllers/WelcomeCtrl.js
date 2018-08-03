@@ -41,6 +41,10 @@
                  */
                 this.activeUserAddress = null;
                 /**
+                 * @type {boolean}
+                 */
+                this.needPassword = true;
+                /**
                  * @type {number}
                  * @private
                  */
@@ -74,21 +78,22 @@
                     const activeUser = { ...this.user, password: this.password, settings: userSettings };
                     const api = ds.signature.getDefaultSignatureApi(activeUser);
 
-                    api.getType().then((userType) => {
-
-                        switch (userType) {
-                            case 'ledger':
-                                break;
-                            default:
-                        }
-
-                        return user.login({
-                            address: activeUser.address,
-                            api,
-                            password: this.password,
-                            userType
+                    const promise = api.isAvailable()
+                        .then(() => {
+                            return user.login({
+                                address: activeUser.address,
+                                api,
+                                password: this.password,
+                                userType: api.type
+                            });
+                        },
+                        () => {
+                            this.showPasswordError = true;
                         });
-                    });
+
+                    if (api.type === 'ledger') {
+                        modalManager.showSignLedger({ promise, mode: 'connect' });
+                    }
                 } catch (e) {
                     this.password = '';
                     this.showPasswordError = true;
@@ -151,8 +156,10 @@
             _updateActiveUserAddress() {
                 if (this.userList.length) {
                     this.activeUserAddress = this.userList[0].address;
+                    this.needPassword = this.userList[0].userType === 'seed';
                 } else {
                     this.activeUserAddress = null;
+                    this.needPassword = true;
                 }
                 this._updatePageUrl();
             }
@@ -188,6 +195,7 @@
                 });
 
                 this._activeUserIndex = index;
+                this.needPassword = !this.userList[index].userType || this.userList[index].userType === 'seed';
             }
 
         }

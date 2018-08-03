@@ -39,6 +39,7 @@ export function getDefaultSignatureApi(user): ISignatureApi {
     const adapter = new Adapter(userData, networkCode);
 
     return {
+        isAvailable: () => adapter.isAvailable(),
         getPublicKey: () => adapter.getPublicKey(),
         getPrivateKey: () => adapter.getPrivateKey(),
         sign: (data: TSignData) => {
@@ -46,7 +47,7 @@ export function getDefaultSignatureApi(user): ISignatureApi {
         },
         getAddress: () => adapter.getAddress(),
         getSeed: () => adapter.getSeed(),
-        getType: () => Promise.resolve(Adapter.type)
+        type: Adapter.type
     };
 }
 
@@ -126,11 +127,13 @@ export interface ISignatureApi {
 
     getAddress(): Promise<string>;
 
+    isAvailable(): Promise<void>;
+
     getSeed?(): Promise<string>;
 
     getPrivateKey?(): Promise<string>;
 
-    getType?(): Promise<string>;
+    type?: string;
 }
 
 export const enum SIGN_TYPE {

@@ -261,6 +261,7 @@
                 this.noSaveToStorage = !data.saveToStorage;
 
                 return this._addUserData({
+                    id: data.id,
                     api: data.api,
                     address: data.address,
                     password: data.password,
