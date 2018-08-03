@@ -24,6 +24,7 @@ class Main implements IMain {
     public menu: Menu;
     public bridge: Bridge;
     private i18next: any;
+    private createMainWindowPromise: Promise<BrowserWindow>;
     private hasDevTools: boolean = false;
     private dataPromise: Promise<IMetaJSON>;
     private localeReadyPromise: Promise<Function>;
@@ -89,8 +90,9 @@ class Main implements IMain {
 
     private makeSingleInstance(): boolean {
         const isOpenClient = app.makeSingleInstance((argv) => {
-            const [execPath, browserLink] = argv;
-            this.openProtocolIn(browserLink);
+            const link = argv.find(hasProtocol) || '';
+
+            this.openProtocolIn(link);
         });
 
         if (isOpenClient) {
@@ -109,13 +111,14 @@ class Main implements IMain {
         this.mainWindow.webContents.executeJavaScript(`runMainProcessEvent('open-from-browser', '${url}')`);
     }
 
-    private createWindow(): Promise<void> {
+    private createWindow(resolve?): Promise<void> {
         return this.dataPromise.then((meta) => {
             const pack = require('./package.json');
             this.mainWindow = new BrowserWindow(Main.getWindowOptions(meta));
             const url = removeProtocol(argv.find(argument => hasProtocol(argument)) || '');
 
             this.mainWindow.loadURL(`https://${pack.server}/#!${url}`, { 'extraHeaders': 'pragma: no-cache\n' });
+            resolve & resolve(this.mainWindow);
 
             this.mainWindow.on('closed', () => {
                 this.mainWindow = null;
@@ -152,14 +155,22 @@ class Main implements IMain {
                 callback(true);
             });
         }
-        app.on('ready', () => this.onAppReady());
+        const browseWindowPromise = new Promise((resolve) => {
+            app.on('ready', () => this.onAppReady(resolve));
+        })
         app.on('window-all-closed', Main.onAllWindowClosed);
         app.on('activate', () => this.onActivate());
+        app.on('open-url', (event, url) => {
+            event.preventDefault();
+            browseWindowPromise.then(() => {
+                this.openProtocolIn(url);
+            })
+        })
     }
 
-    private onAppReady() {
+    private onAppReady(resolve) {
         this.registerProtocol()
-            .then(() => this.createWindow())
+            .then(() => this.createWindow(resolve))
             .then(() => this.addApplicationMenu());
     }
 
@@ -181,7 +192,7 @@ class Main implements IMain {
                     return void 0;
                 }
 
-                const setProtocolResult = app.setAsDefaultProtocolClient(PROTOCOL);
+                const setProtocolResult = app.setAsDefaultProtocolClient(PROTOCOL.replace('://', ''));
 
                 if (setProtocolResult) {
                     return Main.updateMeta({
@@ -255,11 +266,7 @@ class Main implements IMain {
     }
 
     private static onAllWindowClosed() {
-        // On OS X it is common for applications and their menu bar
-        // to stay active until the user quits explicitly with Cmd + Q
-        if (process.platform !== 'darwin') {
-            app.quit();
-        }
+        app.quit();
     }
 
     private static loadMeta(): Promise<IMetaJSON> {
