@@ -22,9 +22,9 @@
             getLink({ type }) {
                 switch (type) {
                     case 'seed':
-                        return 'import/restore';
+                        return 'restore';
                     default:
-                        return `import/${type}`;
+                        return `${type}`;
                 }
 
             }

@@ -79,12 +79,12 @@
                 });
             }
 
-            showLedgerError(options) {
+            showLedgerError(locals) {
                 return this._getModal({
                     id: 'error-ledger',
                     contentUrl: '/modules/utils/modals/ledgerError/ledgerError.html',
                     controller: 'LedgerErrorCtrl',
-                    locals: { ...options },
+                    locals: { ...locals },
                     clickOutsideToClose: false,
                     escapeToClose: false
                 });

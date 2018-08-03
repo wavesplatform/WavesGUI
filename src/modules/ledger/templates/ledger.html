@@ -1,4 +1,4 @@
-<div w-i18n-ns="app.import" class="import-content">
+<div w-i18n-ns="app.ledger" class="import-content">
     <i class="icon-information"></i>
     <span ng-click="$ctrl.showTutorialModals()"
           w-i18n-ns="app.welcome"
@@ -16,7 +16,7 @@
     <div class="loader-error-wrapper" ng-if="$ctrl.error">
         Error
         <w-button class="submit big long" on-click="$ctrl.retryGetUsers()">
-            <span>RETRY</span>
+            <span w-i18n="ledgerForm.retry"></span>
         </w-button>
     </div>
 
@@ -51,13 +51,14 @@
         <w-input w-autofocus
                  class="big no-validate no-icon"
                  type="text"
+                 placeholder="ledgerForm.inputName"
                  maxlength="20"
                  ng-model="$ctrl.name"></w-input>
 
         <div class="margin-3">
             <w-button disabled="$ctrl.disabledLogin"
                       class="submit big long" on-click="$ctrl.login()">
-                <span>LOGIN</span>
+                <span w-i18n="ledgerForm.login"></span>
             </w-button>
         </div>
     </div>

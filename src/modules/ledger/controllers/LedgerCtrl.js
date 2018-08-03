@@ -103,6 +103,7 @@
                         const error = { ...err, count };
                         this.loading = false;
                         this.error = error;
+                        modalManager.showLedgerError({ error: 'sign-matcher-error' });
                         $scope.$digest();
                         throw error;
                     }

@@ -35,6 +35,7 @@ class Main implements IMain {
         const canOpenElectron = this.makeSingleInstance();
 
         if (!canOpenElectron) {
+            console.log('null')
             return null;
         }
 

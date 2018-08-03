@@ -15,7 +15,7 @@
     </div>
 
     <div class="choose-import-type"
-         ng-repeat="adapter in $ctrl.importTypes track by adapter.type">
-        <a class="import-type" type="adapter.type" href="{{$ctrl.getLink(adapter)}}">{{adapter.type}}</a>
+         ng-repeat="adapter in ::$ctrl.importTypes track by adapter.type">
+        <a class="import-type" type="adapter.type"  ui-sref="{{::$ctrl.getLink(adapter)}}" w-i18n="import.{{::adapter.type}}"></a>
     </div>
 </div>
