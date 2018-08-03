@@ -1,6 +1,19 @@
 (function () {
     'use strict';
 
+    const searchByNameAndId = ($scope, key, list) => {
+        const query = $scope[key];
+        if (!query) {
+            return list;
+        }
+
+        return list.filter((item) => {
+            const name = tsUtils.get({ item }, 'item.asset.name');
+            const id = tsUtils.get({ item }, 'item.asset.id');
+            return String(name).toLowerCase().indexOf(query.toLowerCase()) !== -1 || String(id) === query;
+        });
+    };
+
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
@@ -76,7 +89,7 @@
                                 title: { literal: 'list.name' },
                                 valuePath: 'item.asset.name',
                                 sort: true,
-                                search: true,
+                                search: searchByNameAndId,
                                 placeholder: 'portfolio.filter'
                             },
                             {
