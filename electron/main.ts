@@ -210,36 +210,36 @@ class Main implements IMain {
     }
 
     private showSetProtocolError(error?: Error): void {
-        const pack = require('./package.json');
-
-        const details = {
-            os: platform(),
-            clientVersion: pack.version,
-            error: String(error)
-        };
-
-        const makeUrkWithParams = url => {
-            return url + '?' + Object.keys(details)
-                .map(name => ({ name, value: details[name] }))
-                .reduce((acc, item) => acc + `${name}=${encodeURIComponent(item.value)}&`, '');
-        };
-
-        this.localeReadyPromise.then(t => {
-            dialog.showMessageBox({
-                    type: 'warning',
-                    buttons: [t('modal.set_protocol_error.close'), t('modal.set_protocol_error.report')],
-                    defaultId: 0,
-                    cancelId: 0,
-                    title: t('modal.set_protocol_error.title'),
-                    message: t('modal.set_protocol_error.message'),
-                    detail: JSON.stringify(details, null, 4)
-                },
-                response => {
-                    if (response === 1) {
-                        shell.openExternal(makeUrkWithParams('https://bug-report'));
-                    }
-                });
-        });
+        // const pack = require('./package.json');
+        //
+        // const details = {
+        //     os: platform(),
+        //     clientVersion: pack.version,
+        //     error: String(error)
+        // };
+        //
+        // const makeUrkWithParams = url => {
+        //     return url + '?' + Object.keys(details)
+        //         .map(name => ({ name, value: details[name] }))
+        //         .reduce((acc, item) => acc + `${name}=${encodeURIComponent(item.value)}&`, '');
+        // };
+        //
+        // this.localeReadyPromise.then(t => {
+        //     dialog.showMessageBox({
+        //             type: 'warning',
+        //             buttons: [t('modal.set_protocol_error.close'), t('modal.set_protocol_error.report')],
+        //             defaultId: 0,
+        //             cancelId: 0,
+        //             title: t('modal.set_protocol_error.title'),
+        //             message: t('modal.set_protocol_error.message'),
+        //             detail: JSON.stringify(details, null, 4)
+        //         },
+        //         response => {
+        //             if (response === 1) {
+        //                 shell.openExternal(makeUrkWithParams('https://bug-report'));
+        //             }
+        //         });
+        // });
     }
 
     private installDesktopFile() {
