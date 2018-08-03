@@ -1,5 +1,5 @@
 import { PROTOCOL } from './constansts'
-import { readFile, writeFile as fsWriteFile, existsSync } from 'fs';
+import { readFile, writeFile as fsWriteFile, existsSync, readdir as fsReadDir } from 'fs';
 
 
 export function hasProtocol(str: string): boolean {
@@ -8,6 +8,18 @@ export function hasProtocol(str: string): boolean {
 
 export function removeProtocol(str: string): string {
     return str.replace(PROTOCOL, '');
+}
+
+export function readdir(path: string): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+        fsReadDir(path, (error, list) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(list);
+            }
+        });
+    });
 }
 
 export function exist(path: string): Promise<void> {

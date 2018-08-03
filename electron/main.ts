@@ -1,24 +1,31 @@
-import { app, BrowserWindow, screen, Menu } from 'electron';
+///<reference path="node-global-extends.d.ts"/>
+
+
+import { app, BrowserWindow, screen, Menu, dialog, shell } from 'electron';
 import { Bridge } from './Bridge';
-import { ISize, IMetaJSON } from './package';
+import { ISize, IMetaJSON, ILastOpen } from './package';
 import { join } from 'path';
-import { hasProtocol, read, readJSON, removeProtocol, write, writeJSON } from './utils';
-import { homedir } from "os";
-import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST } from "./constansts";
+import { hasProtocol, read, readJSON, removeProtocol, write, writeJSON, readdir } from './utils';
+import { homedir, platform } from 'os';
+import { execSync } from 'child_process'
+import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST } from './constansts';
+import { init, addResources, on, t, changeLanguage } from 'i18next';
 
 import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOptions;
 
 
 const META_PATH = join(app.getPath('userData'), META_NAME);
-const MENU_LIST = GET_MENU_LIST(app);
 const argv = Array.prototype.slice.call(process.argv);
 
-class Main {
+class Main implements IMain {
 
     public mainWindow: BrowserWindow;
     public menu: Menu;
     public bridge: Bridge;
+    private i18next: any;
+    private hasDevTools: boolean = false;
     private dataPromise: Promise<IMetaJSON>;
+    private localeReadyPromise: Promise<Function>;
     private readonly ignoreSslError: boolean;
     private readonly noReplaceDesktopFile: boolean;
     private readonly server: string;
@@ -36,8 +43,47 @@ class Main {
         this.mainWindow = null;
         this.bridge = new Bridge(this);
         this.dataPromise = Main.loadMeta();
+        this.localeReadyPromise = this.getLocaleReadyPromise();
 
         this.setHandlers();
+    }
+
+    public setLanguage(lng: string): void {
+        changeLanguage(lng);
+        this.addApplicationMenu();
+    }
+
+    public addDevTools() {
+        this.hasDevTools = true;
+        this.addApplicationMenu();
+    }
+
+    private getLocaleReadyPromise(): Promise<Function> {
+        return readdir(join(__dirname, 'locales'))
+            .then(list => {
+                const resources = list.map(lang => ({
+                    lang,
+                    value: require(join(__dirname, 'locales', lang, 'electron.json'))
+                }));
+
+                const instance = init({
+                    fallbackLng: 'en',
+                    lng: 'ru',
+                    ns: ['electron']
+                });
+
+                this.i18next = instance;
+
+                resources.forEach(({ lang, value }) => {
+                    instance.addResourceBundle(lang, 'electron', value, true);
+                });
+
+                return new Promise((resolve) => {
+                    on('initialized', () => {
+                        resolve((literal, options) => instance.t(`electron:${literal}`, options));
+                    });
+                }) as Promise<Function>;
+            })
     }
 
     private makeSingleInstance(): boolean {
@@ -62,12 +108,12 @@ class Main {
         this.mainWindow.webContents.executeJavaScript(`runMainProcessEvent('open-from-browser', '${url}')`);
     }
 
-    private createWindow() {
-        this.dataPromise.then((meta) => {
+    private createWindow(): Promise<void> {
+        return this.dataPromise.then((meta) => {
             const pack = require('./package.json');
             this.mainWindow = new BrowserWindow(Main.getWindowOptions(meta));
-
             const url = removeProtocol(argv.find(argument => hasProtocol(argument)) || '');
+
             this.mainWindow.loadURL(`https://${pack.server}/#!${url}`, { 'extraHeaders': 'pragma: no-cache\n' });
 
             this.mainWindow.on('closed', () => {
@@ -111,31 +157,92 @@ class Main {
     }
 
     private onAppReady() {
-        this.registerProtocol();
-        this.createWindow();
-        this.menu = Menu.buildFromTemplate(MENU_LIST);
-        Menu.setApplicationMenu(this.menu);
+        this.registerProtocol()
+            .then(() => this.createWindow())
+            .then(() => this.addApplicationMenu());
     }
 
-    private registerProtocol() {
-        if (process.platform !== 'linux') {
-            app.setAsDefaultProtocolClient(PROTOCOL);
-        } else {
-            if (!this.noReplaceDesktopFile) {
-                this.installDesktopFile();
-            }
-        }
+    private addApplicationMenu(): Promise<void> {
+        Menu.setApplicationMenu(null);
+        return this.localeReadyPromise.then(t => {
+            const menuList = GET_MENU_LIST(app, t, this.hasDevTools);
+            this.menu = Menu.buildFromTemplate(menuList);
+            Menu.setApplicationMenu(this.menu);
+        });
+    }
+
+    private registerProtocol(): Promise<void> {
+        return Main.loadMeta()
+            .then(meta => {
+                const execPath = process.execPath;
+
+                if (meta.lastOpen && meta.lastOpen.setProtocolStatus && meta.lastOpen.lastOpenPath === execPath) {
+                    return void 0;
+                }
+
+                const setProtocolResult = app.setAsDefaultProtocolClient(PROTOCOL);
+
+                if (setProtocolResult) {
+                    return Main.updateMeta({
+                        lastOpenPath: execPath,
+                        setProtocolStatus: true
+                    });
+                }
+
+                if (process.platform === 'linux') {
+                    return this.installDesktopFile();
+                }
+
+                this.showSetProtocolError();
+            });
+    }
+
+    private showSetProtocolError(error?: Error): void {
+        const pack = require('./package.json');
+
+        const details = {
+            os: platform(),
+            clientVersion: pack.version,
+            error: String(error)
+        };
+
+        const makeUrkWithParams = url => {
+            return url + '?' + Object.keys(details)
+                .map(name => ({ name, value: details[name] }))
+                .reduce((acc, item) => acc + `${name}=${encodeURIComponent(item.value)}&`, '');
+        };
+
+        this.localeReadyPromise.then(t => {
+            dialog.showMessageBox({
+                    type: 'warning',
+                    buttons: [t('modal.set_protocol_error.close'), t('modal.set_protocol_error.report')],
+                    defaultId: 0,
+                    cancelId: 0,
+                    title: t('modal.set_protocol_error.title'),
+                    message: t('modal.set_protocol_error.message'),
+                    detail: JSON.stringify(details, null, 4)
+                },
+                response => {
+                    if (response === 1) {
+                        shell.openExternal(makeUrkWithParams('https://bug-report'));
+                    }
+                });
+        });
     }
 
     private installDesktopFile() {
         const escape = path => path.replace(/\s/g, '\\ ');
         const processDesktopFile = file => file.replace('{{APP_PATH}}', escape(process.execPath));
         const writeDesktop = desktop => write(join(homedir(), '.local', 'share', 'applications', 'waves.desktop'), desktop);
+        const registerProtocolHandler = () => {
+            execSync('xdg-mime default waves.desktop x-scheme-handler/waves');
+        };
 
         return read(join(__dirname, 'waves.desktop'))
             .then(processDesktopFile)
             .then(writeDesktop)
-            .catch(e => console.error(e));
+            .then(registerProtocolHandler)
+            .catch((error) => this.showSetProtocolError(error));
     }
 
     private onActivate() {
@@ -160,11 +267,9 @@ class Main {
         }) as Promise<IMetaJSON>;
     }
 
-    private static updateMeta({ x, y, width, height, isFullScreen }) {
+    private static updateMeta(data: Partial<ILastOpen>) {
         return Main.loadMeta().then((meta) => {
-            meta.lastOpen = {
-                width, height, x, y, isFullScreen
-            };
+            meta.lastOpen = { ...meta.lastOpen || Object.create(null), ...data, };
             return writeJSON(META_PATH, meta);
         });
     }
@@ -227,4 +332,4 @@ class Main {
     }
 }
 
-export const main = new Main();
+export const main = global.main = new Main();

@@ -27,6 +27,7 @@
             this._current += delta;
             this._current = Math.min(this._current, 100);
             this._element.style.width = `${this._current}%`;
+            console.log(`Delta: ${delta}, Progress ${this._current}`);
             WavesApp.progress = this._current;
         },
         stop() {

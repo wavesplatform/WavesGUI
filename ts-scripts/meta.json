@@ -109,7 +109,8 @@
   ],
   "domain": "https://beta.wavesplatform.com",
   "copyNodeModules": [
-    "node_modules/qrcode-reader/dist/index.min.js"
+    "node_modules/qrcode-reader/dist/index.min.js",
+    "node_modules/i18next"
   ],
   "electron": {
     "createPackageJSONFields": [
