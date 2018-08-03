@@ -108,7 +108,7 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
 
                     Promise.all([
                         Promise.all(meta.copyNodeModules.map((path) => {
-                            return copy(join(__dirname, path), `${targetPath}/${path}`);
+                            return copy(join(__dirname, path), join(targetPath, path));
                         })) as Promise<any>,
                         copy(join(__dirname, 'src/img'), `${targetPath}/img`).then(() => {
                             const images = IMAGE_LIST.map((path) => path.replace(reg, ''));
