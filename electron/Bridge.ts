@@ -1,22 +1,26 @@
+///<reference path="interface.d.ts"/>
+
+
 import { app, BrowserWindow, Menu, MenuItem, dialog } from 'electron';
 import { IHash } from '../ts-scripts/interface';
 import { join } from 'path';
-import { writeFile } from './utils';
+import { write } from './utils';
 
-export class Bridge {
+export class Bridge implements IBridge {
 
-    private main: { mainWindow: BrowserWindow; menu: Menu };
-    private bridgeCommands: IHash<(data?: object) => any | Promise<any>>;
+    private main: IMain;
+    private bridgeCommands: IHash<(data?: any) => any | Promise<any>>;
 
 
-    constructor(main: { mainWindow: BrowserWindow; menu: Menu }) {
+    constructor(main: IMain) {
         this.main = main;
 
         this.bridgeCommands = {
             'addDevToolsMenu': this.addDevToolsMenu,
             'reload': this.reload,
             'getLocale': this.getLocale,
-            'download': this.download
+            'download': this.download,
+            'setLanguage': this.setLanguage
         };
     }
 
@@ -37,6 +41,10 @@ export class Bridge {
         }
     }
 
+    private setLanguage(lng: string): void {
+        this.main.setLanguage(lng);
+    }
+
     private download(data: IDownloadData): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             const path = app.getPath('downloads');
@@ -44,7 +52,7 @@ export class Bridge {
 
             dialog.showSaveDialog(this.main.mainWindow, options, function (filename) {
                 if (filename) {
-                    return writeFile(filename, data.fileContent).then(resolve, reject);
+                    return write(filename, data.fileContent).then(resolve, reject);
                 } else {
                     return reject(new Error('Cancel'));
                 }
@@ -57,14 +65,7 @@ export class Bridge {
     }
 
     private addDevToolsMenu() {
-        const item = new MenuItem({
-            label: 'God Mode',
-            submenu: [{
-                role: 'toggledevtools'
-            }]
-        });
-        this.main.menu.append(item);
-        Menu.setApplicationMenu(this.main.menu);
+        this.main.addDevTools();
     }
 
     private reload() {

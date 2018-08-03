@@ -1,0 +1,82 @@
+@import (reference) 'icons';
+@import (reference) 'config';
+
+.try-desktop-modal {
+  padding: 40px 40px 0 40px;
+
+  md-dialog-content {
+    padding: 0;
+  }
+
+  &__icon {
+    width: 100%;
+    height: 80px;
+    background: @modal-try-desktop-icon no-repeat center bottom;
+  }
+
+  &__title {
+    font-weight: normal;
+  }
+
+  &__center {
+    text-align: center;
+  }
+
+  &__fake-button {
+    display: inline-block;
+    height: @height-control-big;
+    font-size: @font-size-control-big;
+    font-family: @font-roboto-medium;
+    border-radius: @border-radius;
+
+    &.big {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0;
+    }
+
+    &.submit {
+      background-color: @color-submit-400;
+      border: 1px solid @color-submit-400;
+      color: @white-only;
+
+      &:hover, &.hover {
+        background-color: @color-submit-500;
+        border: 1px solid @color-submit-500;
+        color: @white-only;
+      }
+
+      &:active, &.active {
+        background-color: @color-submit-600;
+        border: 1px solid @color-submit-600;
+        color: @white-only;
+      }
+
+      &:disabled, &.disabled {
+        background-color: @color-submit-400;
+        border: 1px solid @color-submit-400;
+        color: @white-only;
+        opacity: 0.3;
+      }
+    }
+  }
+
+  &__button-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &__button {
+    width: 224px;
+  }
+
+  &__label {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0;
+  }
+}

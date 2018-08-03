@@ -26,6 +26,7 @@
             this._current += delta;
             this._current = Math.min(this._current, 100);
             this._element.style.width = `${this._current}%`;
+            console.log(`Delta: ${delta}, Progress ${this._current}`);
             WavesApp.progress = this._current;
         },
         stop() {
@@ -106,7 +107,40 @@
                 this._initializeLogin();
                 this._initializeOutLinks();
 
+                if (WavesApp.isDesktop()) {
+                    window.listenMainProcessEvent((type, url) => {
+                        const parts = utils.parseElectronUrl(url);
+                        location.hash = `#!${parts.path}${parts.search}`;
+                    });
+                }
+
                 $rootScope.WavesApp = WavesApp;
+            }
+
+            _initTryDesktop() {
+                if (!isDesktop || WavesApp.isDesktop()) {
+                    return Promise.resolve(true);
+                }
+
+                return storage.load('openClientMode').then(clientMode => {
+                    switch (clientMode) {
+                        case 'desktop':
+                            return this._runDesktop();
+                        case 'web':
+                            return Promise.resolve(true);
+                        default:
+                            return modalManager.showTryDesktopModal()
+                                .then(() => this._runDesktop())
+                                .catch(() => true);
+                    }
+                });
+            }
+
+            _runDesktop() {
+                this._canOpenDesktopPage = true;
+                $state.go('desktop');
+
+                return false;
             }
 
             /**
@@ -158,8 +192,14 @@
             _initializeLogin() {
 
                 let needShowTutorial = false;
-                const promise = storage.onReady().then((oldVersion) => {
-                    needShowTutorial = !oldVersion;
+
+                const tryDesktop = this._initTryDesktop();
+
+                const promise = Promise.all([
+                    storage.onReady(),
+                    tryDesktop
+                ]).then(([oldVersion, canOpenTutorial]) => {
+                    needShowTutorial = canOpenTutorial && !oldVersion;
                 });
 
                 this._listenChangeLanguage();
@@ -173,6 +213,11 @@
 
                     if (START_STATES.indexOf(toState.name) === -1) {
                         event.preventDefault();
+                    }
+
+                    if (toState.name === 'desktop' && !this._canOpenDesktopPage) {
+                        event.preventDefault();
+                        $state.go(START_STATES[0]);
                     }
 
                     if (needShowTutorial && toState.name !== 'dex-demo') {
@@ -193,7 +238,8 @@
 
                     waiting = true;
 
-                    this._login(toState)
+                    tryDesktop
+                        .then((canChangeState) => this._login(toState, canChangeState))
                         .then(() => {
                             stop();
 
@@ -303,10 +349,11 @@
 
             /**
              * @param {{name: string}} currentState
+             * @param {boolean} canChangeState
              * @return {Promise}
              * @private
              */
-            _login(currentState) {
+            _login(currentState, canChangeState) {
                 // const sessions = sessionBridge.getSessionsData();
 
                 const states = WavesApp.stateTree.where({ noLogin: true })
@@ -314,13 +361,14 @@
                         return WavesApp.stateTree.getPath(item.id)
                             .join('.');
                     });
-                if (states.indexOf(currentState.name) === -1) {
+                if (canChangeState && states.indexOf(currentState.name) === -1) {
                     // if (sessions.length) {
                     //     $state.go('sessions');
                     // } else {
                     $state.go(states[0]);
                     // }
                 }
+
                 return user.onLogin();
             }
 

@@ -77,6 +77,34 @@
             },
 
             /**
+             * @name app.utils#parseElectronUrl
+             * @param {string} url
+             * @return {{path: string, search: string, hash: string}}
+             */
+            parseElectronUrl(url) {
+                const [pathAndSearch, hash] = url.split('#');
+                const [path, search] = pathAndSearch.split('?');
+
+                return {
+                    path,
+                    search: `?${search}`,
+                    hash: `#${hash}`
+                };
+            },
+
+            /**
+             * @name app.utils#redirect
+             * @param {string} url
+             */
+            redirect(url) {
+                if (WavesApp.isDesktop()) {
+                    window.openInBrowser(url);
+                } else {
+                    location.href = url;
+                }
+            },
+
+            /**
              * @name app.utils#parseSearchParams
              * @param {string} search
              * @return {object}

@@ -272,7 +272,9 @@
                     case 'appRun':
                         clearInterval(__interval);
                         var errorModal = document.querySelector('.connection-problem');
-                        errorModal.parentNode.removeChild(errorModal);
+                        if (errorModal.parentNode) {
+                            errorModal.parentNode.removeChild(errorModal);
+                        }
                         break;
                 }
             }, 2000);
@@ -407,9 +409,13 @@
     {{/if}}
 
     <script>
-        [].slice.apply(document.querySelectorAll('[rel=stylesheet]'))
-                .filter(function (el) { return el.getAttribute('theme') })
-                .forEach(function(el){el.disabled = el.getAttribute('theme') !== 'default'});
+        Array.prototype.slice.apply(document.querySelectorAll('[rel=stylesheet]'))
+                .filter(function (el) {
+                    return el.getAttribute('theme');
+                })
+                .forEach(function (el) {
+                    el.disabled = el.getAttribute('theme') !== 'default';
+                });
     </script>
 </head>
 
@@ -423,15 +429,15 @@
     </div>
 </div>
 
-    <div class="connection-problem">
-        <div class="waves-logo"><img src="/img/icons/waves_logo.svg"/></div>
-        <img src="/img/no-preload/connection-error.svg" class="margin-3" />
-        <div class="headline-1">We couldn't connect to the server</div>
-        <div class="body-1 margin-4 disabled-600">Check your internet connection and try again</div>
-        <button class="submit big submit" onclick="location.href=location.href">Refresh page</button>
-    </div>
+<div class="connection-problem">
+    <div class="waves-logo"><img src="/img/icons/waves_logo.svg"/></div>
+    <img src="/img/no-preload/connection-error.svg" class="margin-3"/>
+    <div class="headline-1">We couldn't connect to the server</div>
+    <div class="body-1 margin-4 disabled-600">Check your internet connection and try again</div>
+    <button class="submit big submit" onclick="location.href=location.href">Refresh page</button>
+</div>
 
-    <div class="not-supported-browser">
+<div class="not-supported-browser">
     <div class="overlay"></div>
     <div class="not-supported-modal">
         <i></i>
@@ -536,16 +542,6 @@
      */
     var analytics = eventSender.default.inactive();
 
-
-    // TODO Add dif time
-    // Waves.API.Node.v1.utils.time().then(function (nodeTime) {
-    //     var timeDiff = Waves.tools.calculateTimeDiff(nodeTime, Date.now());
-    //     var tenMinutes = 10 * 60 * 1000;
-    //     if (Math.abs(timeDiff) > tenMinutes) {
-    //         Waves.config.set({ timeDiff: timeDiff });
-    //     }
-    // });
-
     WavesApp.stateTree = new tsUtils.Tree({
         id: 'root',
         children: [
@@ -589,6 +585,13 @@
             },
             {
                 id: 'import',
+                data: {
+                    noLogin: true,
+                    views: [{ name: 'main' }]
+                }
+            },
+            {
+                id: 'desktop',
                 data: {
                     noLogin: true,
                     views: [{ name: 'main' }]

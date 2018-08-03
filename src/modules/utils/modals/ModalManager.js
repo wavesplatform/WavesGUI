@@ -56,6 +56,18 @@
                 });
             }
 
+            showTryDesktopModal() {
+                return this._getModal({
+                    id: 'try-desktop',
+                    title: '',
+                    contentUrl: 'modules/utils/modals/tryDesktop/tryDesktop.html',
+                    controller: 'TryDesktopCtrl',
+                    clickOutsideToClose: false,
+                    escapeToClose: false,
+                    mod: 'try-desktop-modal'
+                });
+            }
+
             showSignLedger(options) {
                 return this._getModal({
                     id: 'sign-ledger',
