@@ -193,6 +193,7 @@
             onClickBack: '&',
             onTxSent: '&',
             noBackButton: '<',
+            warning: '<',
             showValidationErrors: '<',
             referrer: '<'
         },

@@ -2,7 +2,7 @@
     <w-step-by-step active-step="$ctrl.step">
         <w-step>
             <div class="txinfo__wrapper">
-                <w-transaction-info transaction="$ctrl.tx"></w-transaction-info>
+                <w-transaction-info warning="$ctrl.warning" transaction="$ctrl.tx"></w-transaction-info>
 
                 <h3 class="info margin-4 basic-700" ng-if="$ctrl.referrer">
                     <span w-i18n="confirmTransaction.redirect" params="{referrer: $ctrl.referrer}"></span>
