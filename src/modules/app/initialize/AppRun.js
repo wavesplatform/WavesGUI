@@ -3,7 +3,6 @@
 (function () {
     'use strict';
 
-    const href = location.href;
     const tsUtils = require('ts-utils');
 
     const PROGRESS_MAP = {
@@ -138,20 +137,7 @@
             }
 
             _runDesktop() {
-                const url = new URL(href);
-                const iframe = document.createElement('iframe');
-                iframe.src = `waves://${url.pathname}${url.search}${url.hash}`.replace('///', '//');
-
-                iframe.style.position = 'absolute';
-                iframe.style.top = '0';
-                iframe.style.opacity = '0';
-                document.body.appendChild(iframe);
                 this._canOpenDesktopPage = true;
-
-                setTimeout(() => {
-                    document.body.removeChild(iframe);
-                }, 500);
-
                 $state.go('desktop');
 
                 return false;

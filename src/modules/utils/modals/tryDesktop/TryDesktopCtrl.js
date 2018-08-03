@@ -1,7 +1,9 @@
 (function () {
     'use strict';
 
-    const controller = function (Base, $scope, storage) {
+    const locationHref = location.href;
+
+    const controller = function (Base, $scope, storage, $element) {
 
         class TryDesktopCtrl extends Base {
 
@@ -12,6 +14,10 @@
                  * @type {boolean}
                  */
                 this.save = false;
+                const url = new URL(locationHref);
+                const href = `waves://${url.pathname}${url.search}${url.hash}`.replace('///', '//');
+
+                $element.find('a').attr('href', href);
             }
 
             tryWeb() {
@@ -33,7 +39,7 @@
         return new TryDesktopCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'storage'];
+    controller.$inject = ['Base', '$scope', 'storage', '$element'];
 
     angular.module('app.utils').controller('TryDesktopCtrl', controller);
 })();

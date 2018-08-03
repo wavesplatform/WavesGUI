@@ -1,4 +1,5 @@
 @import (reference) 'icons';
+@import (reference) 'config';
 
 .try-desktop-modal {
   padding: 40px 40px 0 40px;
@@ -19,6 +20,48 @@
 
   &__center {
     text-align: center;
+  }
+
+  &__fake-button {
+    display: inline-block;
+    height: @height-control-big;
+    font-size: @font-size-control-big;
+    font-family: @font-roboto-medium;
+    border-radius: @border-radius;
+
+    &.big {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0;
+    }
+
+    &.submit {
+      background-color: @color-submit-400;
+      border: 1px solid @color-submit-400;
+      color: @white-only;
+
+      &:hover, &.hover {
+        background-color: @color-submit-500;
+        border: 1px solid @color-submit-500;
+        color: @white-only;
+      }
+
+      &:active, &.active {
+        background-color: @color-submit-600;
+        border: 1px solid @color-submit-600;
+        color: @white-only;
+      }
+
+      &:disabled, &.disabled {
+        background-color: @color-submit-400;
+        border: 1px solid @color-submit-400;
+        color: @white-only;
+        opacity: 0.3;
+      }
+    }
   }
 
   &__button-wrapper {
