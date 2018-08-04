@@ -847,7 +847,7 @@
               <tr ng-show="assetList.noData">
                 <td colspan="5">You do not own/have not created any assets.</td>
               </tr>
-              <tr ng-show="!assetList.noData" ng-repeat="tx in assetList.assets | asset track by tx.id">
+              <tr ng-show="!assetList.noData" ng-repeat="tx in assetList.assets | antiSpam:'id' | asset track by tx.id">
                 <td>
                   <span>{{tx.name}}</span>
                 </td>

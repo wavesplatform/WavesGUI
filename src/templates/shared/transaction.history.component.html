@@ -14,7 +14,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="tx in $ctrl.transactions | orderBy:'timestamp':true | limitTo:$ctrl.limitTo | transaction track by tx.timestamp"
+      <tr ng-repeat="tx in $ctrl.transactions | antiSpam | orderBy:'timestamp':true | limitTo:$ctrl.limitTo | transaction track by tx.timestamp"
           ng-class="{'tx-unc': tx.unconfirmed, 'tx-in': !tx.formatted.isOutgoing, 'tx-out': tx.formatted.isOutgoing}">
         <td>{{tx.formatted.datetime}}</td>
         <td>{{tx.formatted.type}}</td>
