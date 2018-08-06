@@ -13,8 +13,8 @@
         const HEADERS = [
             { name: 'csv.date', id: 'timestamp' },
             { name: 'csv.id', id: 'id' },
-            { name: 'csv.type', id: 'type' },
-            { name: 'csv.transactionType', id: 'transactionType' },
+            { name: 'csv.type', id: 'typeName' },
+            { name: 'csv.transactionType', id: 'type' },
             { name: 'csv.price.ticker', id: 'priceTicker' },
             { name: 'csv.price.name', id: 'priceName' },
             { name: 'csv.price.value', id: 'priceValue' },
