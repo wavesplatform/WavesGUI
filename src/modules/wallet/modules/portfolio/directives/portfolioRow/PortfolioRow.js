@@ -179,7 +179,6 @@
 
                 this._onUpdateBalance();
                 this._setHandlers();
-
                 this.changeLanguageHandler();
             });
         }
@@ -245,13 +244,20 @@
 
             const toggleExpanded = () => {
                 expanded = !expanded;
-                this.$node.find('.actions-container').toggleClass('expanded', expanded);
+                const conteiner = this.$node.find('.actions-container');
+                const conteinerNode = conteiner.get(0);
+                conteiner.toggleClass('expanded', expanded);
 
                 if (expanded) {
                     $(document).on('mousedown', _handler);
-                } else {
-                    $(document).off('mousedown', _handler);
+                    const dropDownPosition = conteinerNode.getBoundingClientRect();
+                    const bodyPosition = document.body.getBoundingClientRect();
+                    conteinerNode.classList.toggle('to-up', dropDownPosition.bottom > bodyPosition.bottom);
+                    return;
                 }
+
+                $(document).off('mousedown', _handler);
+                conteinerNode.classList.remove('to-up');
             };
 
             const _handler = e => {
@@ -338,8 +344,8 @@
             ];
 
             elements.forEach(toggleSpam => {
-                toggleSpam.classList.toggle('icon-hide', isSpam);
-                toggleSpam.classList.toggle('icon-show', !isSpam);
+                toggleSpam.classList.toggle('icon-hide', !isSpam);
+                toggleSpam.classList.toggle('icon-show', isSpam);
             });
         }
 
@@ -369,7 +375,8 @@
          * @private
          */
         _canShowToggleSpam() {
-            return this.balance.asset.id !== WavesApp.defaultAssets.WAVES;
+            return !Object.values(WavesApp.defaultAssets).includes(this.balance.asset.id) &&
+                !WavesApp.scam[this.balance.asset.id];
         }
 
     }

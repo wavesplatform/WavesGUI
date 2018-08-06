@@ -59,6 +59,11 @@ w-portfolio-row {
 
       &.expanded {
         display: block;
+
+        &.to-up {
+          top: auto;
+          bottom: 0;
+        }
       }
 
       &.open-up {
@@ -75,6 +80,18 @@ w-portfolio-row {
 
         &:hover {
           background-color: @color-basic-50;
+        }
+        
+        &.icon-hide {
+          .unspam {
+            display: none;
+          }
+        }
+
+        &.icon-show {
+          .tospam {
+            display: none;
+          }
         }
       }
 
