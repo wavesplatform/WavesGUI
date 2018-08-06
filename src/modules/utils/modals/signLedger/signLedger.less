@@ -1,11 +1,19 @@
-.ledger-modal {
+@import (reference) 'config';
+@import (reference) 'icons';
 
+.ledger-modal {
+  .icon-close {
+    right: 30px;
+    top: 30px;
+    position: absolute;
+  }
   .connect-mode {
     text-align: center;
 
     .texts-wrapper {
       position: relative;
       height: 20px;
+      margin-bottom: 30px;
     }
 
     .animate-show {
@@ -16,30 +24,51 @@
     }
 
     .device-img {
+      width: 278px;
+      height: 146px;
+      background: @ledger-step1;
       position: relative;
-      width: 235px;
-      height: 60px;
-      border: 1px solid;
       display: block;
-      margin: auto;
+      margin: 30px 150px auto auto;
     }
 
-    .dispaly {
-      margin: 10px;
+    .display {
       position: absolute;
+      width: 70px;
+      height: 26px;
+      margin: 0 auto;
+      text-align: center;
+      top: 99px;
+      left: 140px;
+      font-size: 7px;
+      font-family: @font-roboto-medium;
+      color: @color-submit-300;
     }
-
-    .dispaly1,
     .text1 {
       animation-delay: 0s;
     }
-
-    .dispaly2,
+    .display1 {
+      padding-top: 5px;
+    }
+    .display2 {
+      animation-delay: 3s;
+      background: @ledger-pin no-repeat;
+      background-position-y: 15px;
+      background-position-x: center;
+    }
     .text2 {
       animation-delay: 3s;
     }
 
-    .dispaly3,
+    .display3 {
+      animation-delay: 6s;
+      background: @ledger-apps no-repeat;
+      background-position-y: 6px;
+      background-position-x: center;
+      top: 97px;
+      left: 138px;
+      line-height: 43px;
+    }
     .text3 {
       animation-delay: 6s;
     }
@@ -48,11 +77,11 @@
       animation-duration: 9s;
       animation-name: showDot;
       display: inline-block;
-      width: 5px;
-      height: 5px;
-      background-color: #4ece3d;
+      width: 3px;
+      height: 3px;
+      background-color: #5a81ea;
       position: relative;
-      margin: 5px;
+      margin: 2px;
       opacity: 0;
     }
 
@@ -74,12 +103,16 @@
 
     .info-text {
       position: absolute;
+      width: 100%;
+      text-align: center;
+      margin: 0;
     }
 
     w-loader {
-      top: 10px;
+      top: 5px;
       position: relative;
     }
+
   }
 }
 
@@ -122,3 +155,5 @@
     opacity: 0;
   }
 }
+
+

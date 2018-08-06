@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-    const signatureAdapter = require('@waves/waves-signature-adapter');
-
     /**
      * @param Base
      * @return {ImportCtrl}
@@ -13,10 +11,6 @@
 
             constructor() {
                 super($scope);
-                /**
-                 * @type {(SeedAdapter | LedgerAdapter)[]}
-                 */
-                this.importTypes = signatureAdapter.adapterList;
             }
 
             getLink({ type }) {

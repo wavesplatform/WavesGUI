@@ -9,13 +9,44 @@
 
     <div class="waves-logo"></div>
 
-    <div class="headline-1 text-center" w-i18n="importAccount"></div>
+    <div class="headline-1 text-center" w-i18n="import.importAccount"></div>
     <div class="body-2 text-center margin-5">
-        <span class="disabled-600" w-i18n="importAccountInfo"></span>
+        <span class="disabled-600" w-i18n="import.importAccountInfo"></span>
     </div>
 
-    <div class="choose-import-type"
-         ng-repeat="adapter in ::$ctrl.importTypes track by adapter.type">
-        <a class="import-type" type="adapter.type"  ui-sref="{{::$ctrl.getLink(adapter)}}" w-i18n="import.{{::adapter.type}}"></a>
+    <div class="import-modal__blocks-wrapper text-center">
+        <div ng-if="!$ctrl.wasImportBeta" class="import-modal__block import-modal__block-beta">
+            <div class="import-modal__icon-beta"></div>
+            <div class="body-2 basic-700" w-i18n="modal.import.wavesBetaClient"></div>
+            <div class="caption-1 basic-500 margin-2" w-i18n="modal.import.wavesBetaClientDescription"></div>
+            <w-button class="submit tiny">
+                <a ui-sref="seed" w-i18n="modal.import.selectButton"></a>
+            </w-button>
+        </div>
+        <div ng-if="!$ctrl.wasImportOld" class="import-modal__block import-modal__block-old">
+            <div class="import-modal__icon-old"></div>
+            <div class="body-2 basic-700" w-i18n="modal.import.wavesLiteClient"></div>
+            <div class="caption-1 basic-500 margin-2" w-i18n="modal.import.wavesLiteClientDescription"></div>
+            <w-button class="submit tiny">
+                <a ui-sref="old" w-i18n="modal.import.selectButton"></a>
+            </w-button>
+        </div>
+        <div ng-if="!$ctrl.wasImportOld" class="import-modal__block import-modal__block-old">
+            <div class="import-modal__icon-ledger"></div>
+            <div class="body-2 basic-700" w-i18n="modal.import.wavesLiteClient"></div>
+            <div class="caption-1 basic-500 margin-2" w-i18n="modal.import.wavesLiteClientDescription"></div>
+            <w-button class="submit tiny">
+                <a ui-sref="ledger" w-i18n="modal.import.selectButton"></a>
+            </w-button>
+        </div>
     </div>
+
+    <div class="import-footer-wrp">
+        <div class="or margin-2" w-i18n="or"></div>
+
+        <div class="center">
+            <a ng-click="$ctrl.next(-1)" w-i18n="import.back"> go back</a>
+        </div>
+    </div>
+
 </div>
