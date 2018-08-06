@@ -97,7 +97,7 @@
 
                 if (this.typeName === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_BUY ||
                     this.typeName === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_SELL) {
-                    const asset = tx.price.pair.priceAsset;
+                    const asset = tx.price.asset;
                     const price = `Price: ${tx.price.toFormat()} ${asset.name} (${asset.id})`;
                     const totalPrice = `Total price: ${this.totalPrice} ${asset.name}`;
                     message += `\n${price}\n${totalPrice}`;
