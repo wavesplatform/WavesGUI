@@ -16,7 +16,9 @@
         '@waves/waves-signature-adapter': 'wavesSignatureAdapter',
         'ramda': 'R',
         'data-service': 'ds',
-        '@waves/waves-browser-bus': 'bus'
+        'handlebars': 'Handlebars',
+        '@waves/waves-browser-bus': 'bus',
+        'worker-wrapper': 'workerWrapper'
     };
 
     function getModule(require) {
