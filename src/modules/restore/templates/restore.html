@@ -83,12 +83,7 @@
     <div class="or margin-2">
         <span w-i18n="seedForm.or"></span>
     </div>
-    <div ng-if="::WavesApp.isDesktop()" class="text-center body-2 flex-column-center-min margin-2">
-        <a ui-sref="welcome" w-i18n="passwordForm.login"></a>
-        <span w-i18n="seedForm.tosaved"></span>
+    <div class="text-center body-2 flex-column-center-min margin-2">
+        <a ui-sref="import" w-i18n="seedForm.back"></a>
     </div>
-    <div ng-if="::WavesApp.isWeb()" class="text-center body-2 flex-column-center-min margin-2">
-        <a ng-click="$ctrl.importAccounts()" w-i18n="passwordForm.importAccounts"></a>
-    </div>
-
 </div>
