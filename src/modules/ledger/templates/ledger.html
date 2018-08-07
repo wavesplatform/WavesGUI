@@ -26,9 +26,9 @@
     </div>
 
     <div class="import-wrapper margin-3" ng-if="$ctrl.isInit">
-        <div class="select-user">
-            <div class="step-left" ng-click="$ctrl.stepLeft()" ng-class="{disabled: $ctrl.disabledLeft}">&lt;</div>
-            <div class="user" ng-class="{selected: $ctrl.selectedUser === user, disabled: $ctrl.isUserDisable($index)}"
+        <div class="ledger-avatars-list">
+            <div class="step-left" ng-click="$ctrl.stepLeft()" ng-class="{disabled: $ctrl.disabledLeft}"><div class="icon-left"></div></div>
+            <div class="avatar-wrapper" ng-class="{active: $ctrl.selectedUser === user, disabled: $ctrl.isUserDisable($index)}"
                  ng-repeat="user in $ctrl.visibleUsers track by user.id" ng-click="$ctrl.selectUser(user)">
                 <w-avatar address="user.address" size="49" type="ledger"></w-avatar>
             </div>

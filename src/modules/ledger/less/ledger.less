@@ -1,10 +1,46 @@
 @import (reference) 'config';
+@import (reference) 'icons';
 
 body.ledger {
 
   .import-wrapper {
     width: 460px;
     margin: auto;
+    .ledger-avatars-list {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      margin: 10px 0 30px 0;
+    }
+    .ledger-avatars-list .avatar-wrapper {
+      width: 84px;
+      height: 84px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      &.active {
+        background-color: rgba(31,90,246,0.05);
+        border: solid 1px #1f5af6;
+        cursor: default;
+      }
+
+      &.disabled {
+        opacity: 0.5;
+        cursor: default;
+
+        &.disabled .avatar-wrap {
+          cursor: default;
+        }
+      }
+    }
+    .icon-left {
+      background: @left;
+    }
   }
 
   .select-user {
@@ -12,18 +48,6 @@ body.ledger {
     padding: 10px;
   }
 
-  .user {
-    text-align: center;
-    margin: 10px;
-
-    &.selected {
-      background-color: lightgrey;
-    }
-
-    &.disabled {
-      opacity: 0.5;
-    }
-  }
 
   .disabled {
 
