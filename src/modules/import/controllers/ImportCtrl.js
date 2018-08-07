@@ -7,7 +7,7 @@
      * @param {modalManager} modalManager
      * @return {ImportCtrl}
      */
-    const controller = function (Base, $scope, modalManager) {
+    const controller = function (Base, $scope, modalManager, user) {
 
         class ImportCtrl extends Base {
 
@@ -19,12 +19,16 @@
                 modalManager.showImportAccountsModal();
             }
 
+            backState() {
+                return user.getLastState();
+            }
+
         }
 
         return new ImportCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'modalManager'];
+    controller.$inject = ['Base', '$scope', 'modalManager', 'user'];
 
     angular.module('app.import').controller('ImportCtrl', controller);
 })();
