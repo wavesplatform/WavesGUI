@@ -75,6 +75,11 @@
                  * @type {string}
                  */
                 this.name = '';
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._runLedgerCommand = '';
 
                 this.observe('selectDefault', this._onChangeSelectDefault);
                 this.getUsers(PRELOAD_USERS_COUNT);
@@ -85,6 +90,7 @@
              * @return {void}
              */
             getUsers(count) {
+                this._runLedgerCommand = 'getUsers';
                 this.loading = true;
                 this.error = false;
                 const start = this.users.length;
@@ -103,7 +109,6 @@
                         const error = { ...err, count };
                         this.loading = false;
                         this.error = error;
-                        modalManager.showLedgerError({ error: 'sign-matcher-error' });
                         $scope.$digest();
                         throw error;
                     }
@@ -118,7 +123,7 @@
              * {void}
              */
             retryGetUsers() {
-                this.getUsers(this.error && this.error.count);
+                this[this._runLedgerCommand](this.error && this.error.count);
             }
 
             /**
@@ -192,6 +197,7 @@
              * @return {void}
              */
             login() {
+                this._runLedgerCommand = 'login';
                 const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
                 const newUser = {
                     ...this.selectedUser,
@@ -208,7 +214,10 @@
                     ...newUser,
                     settings: userSettings.getSettings(),
                     api
-                }, true, true);
+                }, true, true).catch(() => {
+                    this.error = true;
+                    $scope.$digest();
+                });
             }
 
             /**
