@@ -8,7 +8,8 @@
         'symbol_search_hot_key',
         'display_market_status',
         'control_bar',
-        'timeframes_toolbar'
+        'timeframes_toolbar',
+        'volume_force_overlay'
     ];
 
     // TODO : added in version 1.12
