@@ -173,13 +173,13 @@
                     });
             }
 
-            showConfirmDeleteUser(hasBackup) {
+            showConfirmDeleteUser(user) {
                 return this._getModal({
                     id: 'delete-user-confirm',
                     templateUrl: 'modules/utils/modals/confirmDeleteUser/confirmDeleteUser.modal.html',
                     controller: 'confirmDeleteUserCtrl',
                     locals: {
-                        hasBackup
+                        user
                     }
                 });
             }
