@@ -13,7 +13,14 @@
             constructor() {
                 this._initUrlResolveMode();
                 this._initLocalize();
+                this._initAdapters();
                 this._initStates();
+            }
+
+            _initAdapters() {
+                ds.signAdapters.adapterList.forEach((Adapter) => Adapter.initOptions({
+                    code: WavesApp.network.code.charCodeAt(0)
+                }));
             }
 
             /**

@@ -134,7 +134,7 @@
       "dependencies": {
         "i18next": "9.1.0",
         "qrcode-reader": "1.0.3",
-        "@ledgerhq/hw-transport-node-hid": "4.22.0"
+        "@ledgerhq/hw-transport-node-hid": "4.22.0",
         "@waves/ledger": "^0.0.16"
       },
       "scripts": {

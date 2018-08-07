@@ -148,6 +148,10 @@ export function prepareExport(): Promise<string> {
         });
 }
 
+export function getAllLessFiles() {
+    return getFilesFrom(join(__dirname, '../src'), '.less');
+}
+
 export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
     const filter = moveTo(param.target);
     return Promise.all([
