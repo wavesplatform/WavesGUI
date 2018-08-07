@@ -91,8 +91,8 @@
                             this.showPasswordError = true;
                         });
 
-                    if (api.type === 'ledger') {
-                        modalManager.showSignLedger({ promise, mode: 'connect' });
+                    if (api.type && api.type !== 'seed') {
+                        modalManager.showSignLedger({ promise, mode: `connect-${api.type}` });
                     }
                 } catch (e) {
                     this.password = '';

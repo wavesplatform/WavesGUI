@@ -110,7 +110,7 @@
                 );
 
                 if (!this.isInit) {
-                    modalManager.showSignLedger({ promise, mode: 'connect' });
+                    modalManager.showSignLedger({ promise, mode: 'connect-ledger' });
                 }
             }
 
