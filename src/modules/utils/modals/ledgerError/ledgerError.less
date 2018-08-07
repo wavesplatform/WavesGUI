@@ -86,6 +86,42 @@
   }
 }
 
+.loader-error-wrapper {
+  max-width: 460px;
+  margin: 0 auto;
+  padding-top: 30px;
+  text-align: center;
+  .ledger-error-icon {
+    background: @error-circle-icon;
+    height: 80px;
+    width: 80px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin: 0 auto 30px auto;
+  }
+  p {
+    margin-bottom: 30px;
+  }
+  .big {
+    width: 224px;
+    margin: 0 auto 30px auto;
+    display: flex;
+  }
+  .big .submit {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      white-space: nowrap;
+      margin: 0 auto;
+  }
+  .or {
+    width: 224px;
+    margin: 0 auto 20px auto;
+  }
+}
+
+
 @keyframes showDot {
   0% {
     opacity: 0;

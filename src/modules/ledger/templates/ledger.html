@@ -14,10 +14,15 @@
     </div>
 
     <div class="loader-error-wrapper" ng-if="$ctrl.error">
-        Error
-        <w-button class="submit big long" on-click="$ctrl.retryGetUsers()">
+        <div class="ledger-error-icon"></div>
+
+        <h3 class="text-center basic-700" w-i18n="ledger.connectionError"></h3>
+        <p class="body-2 basic-500" w-i18n="ledger.connectionText"></p>
+        <w-button class="submit big" on-click="$ctrl.retryGetUsers()">
             <span w-i18n="ledgerForm.retry"></span>
         </w-button>
+        <div class="or margin-2" w-i18n="or"></div>
+        <a sref="import" w-i18n="ledger.import"></a>
     </div>
 
     <div class="import-wrapper margin-3" ng-if="$ctrl.isInit">
