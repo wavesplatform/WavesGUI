@@ -6,7 +6,7 @@ interface IMain {
     menu: Electron.Menu;
     bridge: IBridge;
 
-    setLanguage(lng: string): void;
+    // setLanguage(lng: string): void;
 
     addDevTools(): void;
 }

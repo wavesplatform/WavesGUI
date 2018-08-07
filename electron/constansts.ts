@@ -26,26 +26,51 @@ export const ARGV_FLAGS = {
     NO_REPLACE_DESKTOP_FILE: '--no-replace-desktop'
 };
 
-export const GET_MENU_LIST = (app, t, hasDevTools) => [
+// export const GET_MENU_LIST = (app, t, hasDevTools) => [
+//     {
+//         label: t('menu.title.application'),
+//         submenu: [
+//             { label: t('menu.quit'), accelerator: 'Command+Q', click: () => app.quit() }
+//         ]
+//     },
+//     {
+//         label: t('menu.title.edit'),
+//         submenu: [
+//             { label: t('menu.cut'), accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
+//             { label: t('menu.copy'), accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+//             { label: t('menu.paste'), accelerator: 'CmdOrCtrl+V', selector: 'paste:' }
+//         ]
+//     },
+//     hasDevTools ? {
+//         label: t('menu.title.god_mode'),
+//         submenu: [
+//             {
+//                 label: t('menu.dev_tools'), role: 'toggledevtools'
+//             }
+//         ]
+//     } : null
+// ].filter(Boolean) as MenuItemConstructorOptions[];
+
+export const GET_MENU_LIST = (app, hasDevTools) => [
     {
-        label: t('menu.title.application'),
+        label: 'Application',
         submenu: [
-            { label: t('menu.quit'), accelerator: 'Command+Q', click: () => app.quit() }
+            { label: 'Quit', accelerator: 'Command+Q', click: () => app.quit() }
         ]
     },
     {
-        label: t('menu.title.edit'),
+        label: 'Edit',
         submenu: [
-            { label: t('menu.cut'), accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
-            { label: t('menu.copy'), accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-            { label: t('menu.paste'), accelerator: 'CmdOrCtrl+V', selector: 'paste:' }
+            { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
+            { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+            { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' }
         ]
     },
     hasDevTools ? {
-        label: t('menu.title.god_mode'),
+        label: 'God Mode',
         submenu: [
             {
-                label: t('menu.dev_tools'), role: 'toggledevtools'
+                label: 'Dev Tools', role: 'toggledevtools'
             }
         ]
     } : null

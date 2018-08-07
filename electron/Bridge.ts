@@ -19,8 +19,8 @@ export class Bridge implements IBridge {
             'addDevToolsMenu': this.addDevToolsMenu,
             'reload': this.reload,
             'getLocale': this.getLocale,
-            'download': this.download,
-            'setLanguage': this.setLanguage
+            'download': this.download//,
+            // 'setLanguage': this.setLanguage
         };
     }
 
@@ -41,9 +41,9 @@ export class Bridge implements IBridge {
         }
     }
 
-    private setLanguage(lng: string): void {
-        this.main.setLanguage(lng);
-    }
+    // private setLanguage(lng: string): void {
+    //     this.main.setLanguage(lng);
+    // }
 
     private download(data: IDownloadData): Promise<void> {
         return new Promise<void>((resolve, reject) => {
