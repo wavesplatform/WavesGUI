@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    var TRANSACTIONS_TO_LOAD = 200;
+
     function HistoryController($scope, $interval, applicationContext, transactionLoadingService) {
         var history = this;
         var refreshPromise;
@@ -21,7 +23,7 @@
 
         function refreshTransactions() {
             var txArray;
-            transactionLoadingService.loadTransactions(applicationContext.account)
+            transactionLoadingService.loadTransactions(applicationContext.account, TRANSACTIONS_TO_LOAD)
                 .then(function (transactions) {
                     txArray = transactions;
 

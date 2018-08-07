@@ -12,7 +12,7 @@
             fieldName = fieldName || DEFAULT_ASSET_ID_FIELD_NAME;
 
             return _.filter(input, function (tx) {
-                return spamAssetService.isSpam(tx[fieldName]);
+                return !spamAssetService.isSpam(tx[fieldName]);
             });
         };
     }

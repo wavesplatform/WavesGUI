@@ -183,6 +183,8 @@ module.exports = function (grunt) {
                 'src/js/shared/dialog.service.js',
                 'src/js/shared/document.title.service.js',
                 'src/js/shared/notification.service.js',
+                'src/js/shared/spam.asset.service.js',
+                'src/js/shared/antispam.asset.filter.js',
                 'src/js/shared/padder.filter.js',
                 'src/js/shared/page.component.js',
                 'src/js/shared/qr.code.component.js',
