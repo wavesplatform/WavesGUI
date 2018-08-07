@@ -229,9 +229,9 @@
             }
 
             _calculateDisabled(disable) {
-                const limitRight = this.users.length < this.currentStep + USERS_COUNT + 1;
+                // const limitRight = this.users.length < this.currentStep + USERS_COUNT + 1;
                 this.disabledLogin = disable || this.loading || !this.selectedUser;
-                this.disabledRight = disable || this.selectDefault || limitRight;
+                this.disabledRight = disable || this.selectDefault;
                 this.disabledLeft = disable || this.selectDefault || this.currentStep === 0;
             }
 
