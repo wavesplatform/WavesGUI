@@ -1,5 +1,7 @@
 {
   "vendors": [
+    "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
+    "node_modules/handlebars/dist/handlebars.min.js",
     "node_modules/ramda/dist/ramda.min.js",
     "node_modules/mobile-detect/mobile-detect.min.js",
     "node_modules/handlebars/dist/handlebars.min.js",
@@ -29,7 +31,7 @@
     "node_modules/@uirouter/angularjs/release/angular-ui-router.min.js",
     "node_modules/@uirouter/angularjs/release/stateEvents.min.js",
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
-    "node_modules/i18next/dist/umd/i18next.min.js",
+    "node_modules/i18next/dist/umd/i18next.js",
     "node_modules/n3-charts/build/LineChart.min.js",
     "node_modules/@waves/event-sender/dist/umd.js",
     "node_modules/babel-polyfill/dist/polyfill.min.js"
@@ -114,7 +116,7 @@
   "domain": "https://beta.wavesplatform.com",
   "copyNodeModules": [
     "node_modules/qrcode-reader/dist/index.min.js",
-    "node_modules/i18next/dist"
+    "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js"
   ],
   "electron": {
     "createPackageJSONFields": [

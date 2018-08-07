@@ -3,9 +3,11 @@
 
     /**
      * @param Base
+     * @param {$rootScope.Scope} $scope
+     * @param {modalManager} modalManager
      * @return {ImportCtrl}
      */
-    const controller = function (Base, $scope) {
+    const controller = function (Base, $scope, modalManager) {
 
         class ImportCtrl extends Base {
 
@@ -13,14 +15,8 @@
                 super($scope);
             }
 
-            getLink({ type }) {
-                switch (type) {
-                    case 'seed':
-                        return 'restore';
-                    default:
-                        return `${type}`;
-                }
-
+            importFromOld() {
+                modalManager.showImportAccountsModal();
             }
 
         }
@@ -28,7 +24,7 @@
         return new ImportCtrl();
     };
 
-    controller.$inject = ['Base', '$scope'];
+    controller.$inject = ['Base', '$scope', 'modalManager'];
 
     angular.module('app.import').controller('ImportCtrl', controller);
 })();

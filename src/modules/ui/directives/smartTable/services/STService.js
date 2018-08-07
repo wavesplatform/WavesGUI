@@ -17,6 +17,10 @@
                  * @type {Signal<string>}
                  */
                 this.draw = new tsUtils.Signal();
+                /**
+                 * @type {Signal<{name: string, isAsc: boolean}>}
+                 */
+                this.sort = new tsUtils.Signal();
             }
 
             /**

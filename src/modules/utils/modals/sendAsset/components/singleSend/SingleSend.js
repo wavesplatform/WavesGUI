@@ -1,6 +1,14 @@
 (function () {
     'use strict';
 
+    const FIAT_ASSETS = {
+        [WavesApp.defaultAssets.USD]: true,
+        [WavesApp.defaultAssets.EUR]: true
+    };
+
+    const COINOMAT_BANK_ADDRESS = '3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us';
+    const { Money } = require('@waves/data-entities');
+
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
@@ -14,6 +22,28 @@
     const controller = function (Base, $scope, utils, createPoll, waves, outerBlockchains, user, gatewayService) {
 
         class SingleSend extends Base {
+
+            /**
+             * @return {boolean}
+             */
+            get hasSendToBank() {
+                return FIAT_ASSETS[this.assetId] || false;
+            }
+
+            get toBankMode() {
+                return this.state.toBankMode || false;
+            }
+
+            set toBankMode(mode) {
+                this.state.toBankMode = mode;
+                if (mode) {
+                    this.state.warning = 'send.coinomant.bank';
+                    this.state.singleSend.recipient = COINOMAT_BANK_ADDRESS;
+                } else {
+                    this.state.singleSend.recipient = '';
+                    this.state.warning = '';
+                }
+            }
 
             /**
              * @return {ISingleSendTx}
@@ -114,9 +144,21 @@
                  */
                 this.feeList = null;
                 /**
+                 * @type {Money}
+                 */
+                this.minAmount = null;
+                /**
+                 * @type {Money}
+                 */
+                this.maxAmount = null;
+                /**
                  * @type {ISendState}
                  */
                 this.state = Object.create(null);
+                /**
+                 * @type {Money}
+                 */
+                this.maxGatewayAmount = null;
                 /**
                  * @type {boolean}
                  * @private
@@ -133,6 +175,7 @@
                         this.observe('gatewayDetails', this._currentHasCommission);
                         this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
 
+                        this.minAmount = this.state.moneyHash[this.state.assetId].cloneWithTokens('0');
                         this.tx.fee = fee;
                         this.tx.amount = this.tx.amount || this.moneyHash[this.assetId].cloneWithTokens('0');
                         this._fillMirror();
@@ -378,24 +421,38 @@
              * @private
              */
             _updateGatewayDetails() {
+
+                if (this.tx.recipient === COINOMAT_BANK_ADDRESS) {
+                    this.toBankMode = true;
+                }
+
                 const outerChain = outerBlockchains[this.assetId];
                 const isValidWavesAddress = waves.node.isValidAddress(this.tx.recipient);
 
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
-                    this.gatewayDetailsError = false;
-                    gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.paymentId)
-                        .then((details) => {
-                            this.gatewayDetails = details;
-                            $scope.$digest();
-                            // TODO : validate amount field for gateway minimumAmount and maximumAmount
-                        }, () => {
-                            this.gatewayDetails = null;
-                            this.gatewayDetailsError = true;
-                            $scope.$digest();
-                        });
+                    gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient).then((details) => {
+                        const max = BigNumber.min(
+                            details.maximumAmount.plus(details.gatewayFee),
+                            this.moneyHash[this.assetId].getTokens()
+                        );
+
+                        this.gatewayDetails = details;
+                        this.minAmount = this.moneyHash[this.assetId]
+                            .cloneWithTokens(details.minimumAmount.minus('0.00000001'));
+                        this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
+                        this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
+
+                        $scope.$digest();
+                    }, () => {
+                        this.gatewayDetails = null;
+                        this.gatewayDetailsError = true;
+                        $scope.$digest();
+                    });
                 } else {
+                    this.minAmount = this.state.moneyHash[this.assetId].cloneWithTokens('0');
+                    this.maxAmount = this.moneyHash[this.assetId];
                     this.gatewayDetails = null;
                 }
             }
