@@ -141,8 +141,8 @@
 
                 if (!user && !this.selectedUser && this.users.length) {
                     this.selectedUser = this.users[0];
-                } else if (this.selectedUser === user) {
-                    this.selectedUser = null;
+                // } else if (this.selectedUser === user) {
+                //     this.selectedUser = null;
                 } else if (user) {
                     this.selectedUser = user;
                 }

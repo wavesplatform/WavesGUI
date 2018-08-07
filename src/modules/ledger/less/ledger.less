@@ -1,35 +1,76 @@
 @import (reference) 'config';
+@import (reference) 'icons';
 
 body.ledger {
 
   .import-wrapper {
-    width: 460px;
+    max-width: 460px;
     margin: auto;
-  }
+    .ledger-avatars-list {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      margin: 10px 0 30px 0;
+    }
+    .ledger-avatars-list .avatar-wrapper {
+      width: 84px;
+      height: 84px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
 
-  .select-user {
-    display: flex;
-    padding: 10px;
-  }
+      &.active {
+        background-color: rgba(31,90,246,0.05);
+        border: solid 1px #1f5af6;
+        cursor: default;
+      }
 
-  .user {
-    text-align: center;
-    margin: 10px;
+      &.disabled {
+        opacity: 0.5;
+        cursor: default;
 
-    &.selected {
-      background-color: lightgrey;
+        &.disabled .avatar-wrap {
+          cursor: default;
+        }
+      }
+    }
+    .icon-left {
+      background: @arrow-left-icon;
+      height: 18px;
+      width: 18px;
+      margin-top: 34px;
+      margin-right: 10px;
+    }
+    .icon-right {
+      background: @arrow-right-icon;
+      height: 18px;
+      width: 18px;
+      margin-top: 34px;
+      margin-left: 10px;
     }
 
-    &.disabled {
-      opacity: 0.5;
+    .step-left.disabled .icon-left,
+    .step-right.disabled .icon-right {
+      cursor: default;
+      opacity: 0.3;
+    }
+
+    .input-like {
+      background: @color-basic-50;
+    }
+    w-checkbox-submit {
+      margin-right: 5px;
+    }
+    .flex {
+      display: flex;
+      align-items: center;
     }
   }
 
-  .disabled {
 
-    &.step-left,
-    &.step-right  {
-      color: lightgrey;
-    }
-  }
+
 }
