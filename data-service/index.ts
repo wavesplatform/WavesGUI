@@ -110,6 +110,20 @@ class App {
         return utilsModule.addTime(normalizeTime(new Date().getTime()), count, timeType).valueOf();
     }
 
+    public getSignIdForMatcher(timestamp) {
+        const api = sign.getSignatureApi();
+        return api.getPublicKey()
+            .then((senderPublicKey) => {
+                return api.getTxId({
+                    type: sign.SIGN_TYPE.MATCHER_ORDERS,
+                    data: {
+                        senderPublicKey,
+                        timestamp
+                    }
+                })
+            });
+    }
+
     public signForMatcher(timestamp: number): Promise<string> {
         return sign.getSignatureApi().getPublicKey()
             .then((senderPublicKey) => {

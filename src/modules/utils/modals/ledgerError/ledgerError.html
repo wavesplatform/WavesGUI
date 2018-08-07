@@ -2,7 +2,11 @@
     <div class="btn icon-close" w-modal-close></div>
 
     <div class="connect-mode" ng-if="$ctrl.mode === 'sign-matcher-error'">
-           <span w-i18n="modal.ledger.matcherError"></span>
+           <span w-i18n="modal.sign.matcherError"></span>
+    </div>
+
+    <div class="connect-mode" ng-if="$ctrl.mode === 'load-user-error'">
+        <span w-i18n="modal.sign.connectError"></span>
     </div>
 
 </div>

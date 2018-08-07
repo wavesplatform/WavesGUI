@@ -14,7 +14,7 @@
 
             constructor({ locals }) {
                 super($scope);
-                this.mode = locals.mode;
+                this.mode = locals.error;
                 this.loading = true;
             }
 

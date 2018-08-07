@@ -447,7 +447,10 @@
                         });
 
                     if (this.userType && this.userType === 'ledger') {
-                        modalManager.showSignLedger({ promise, mode: 'sign-matcher' });
+                        ds.app.getSignIdForMatcher(maxIntervalTimeStamp).then((id) => {
+                            modalManager.showSignLedger({ promise, mode: 'sign-matcher', id });
+                        });
+
                         return promise.catch(() => {
                             modalManager.showLedgerError({ error: 'sign-matcher-error' });
                         });

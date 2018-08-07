@@ -16,7 +16,7 @@
                 super($scope);
                 this.mode = locals.mode;
                 this.loading = true;
-
+                this.txId = locals.id;
                 locals.ledgerPromise().then(
                     () => this.onLoad(),
                     () => this.onError()

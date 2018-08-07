@@ -1,7 +1,7 @@
 <div class="ledger-modal">
     <div class="btn icon-close" w-modal-close></div>
 
-    <div class="connect-mode" ng-if="$ctrl.mode === 'connect'">
+    <div class="connect-mode" ng-if="$ctrl.mode === 'connect-ledger'">
         <div class="ledger">
             <div class="device-img">
                 <div class="display display1 animate-show">
@@ -15,17 +15,19 @@
                 <div class="display display3 animate-show">Waves</div>
             </div>
         </div>
-        <h3 class="text-center basic-700">Connecting...</h3>
+        <h3 class="text-center basic-700" w-i18n="modal.sign.connecting"></h3>
         <div class="texts-wrapper">
-            <div class="info-text text1 animate-show body-2 basic-500">Connect your Ledger Device</div>
-            <div class="info-text text2 animate-show body-2 basic-500">Enter your PIN code</div>
-            <div class="info-text text3 animate-show body-2 basic-500">Open the Waves App</div>
+            <div class="info-text text1 animate-show body-2 basic-500" w-i18n="modal.sign.connectLedger"></div>
+            <div class="info-text text2 animate-show body-2 basic-500" w-i18n="modal.sign.enterPin"></div>
+            <div class="info-text text3 animate-show body-2 basic-500" w-i18n="modal.sign.openApp"></div>
         </div>
         <w-loader></w-loader>
     </div>
 
     <div ng-if="$ctrl.mode === 'sign-matcher'">
-        Sign matcher
+        <div w-i18n="modal.sign.matcher"></div>
+        <div w-i18n="modal.sign.requestId"></div>
+        <div>{{$ctrl.txId}}</div>
     </div>
 
 </div>
