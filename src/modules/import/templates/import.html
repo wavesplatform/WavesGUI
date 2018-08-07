@@ -9,36 +9,40 @@
 
     <div class="waves-logo"></div>
 
-    <div class="headline-1 text-center" w-i18n="import.importAccount"></div>
+    <div class="headline-1 text-center" w-i18n="importAccount"></div>
     <div class="body-2 text-center margin-5">
-        <span class="disabled-600" w-i18n="import.importAccountInfo"></span>
+        <span class="disabled-600" w-i18n="importAccountInfo"></span>
     </div>
 
     <div class="import-modal__blocks-wrapper text-center">
         <div class="import-modal__block import-modal__block-beta">
             <div class="import-modal__icon-beta"></div>
-            <div class="body-2 basic-700" w-i18n="modal.import.wavesBetaClient"></div>
-            <div class="caption-1 basic-500 margin-2" w-i18n="modal.import.wavesBetaClientDescription"></div>
-            <w-button class="submit tiny">
-                <a ui-sref="restore" w-i18n="modal.import.selectButton"></a>
-            </w-button>
+            <div class="body-2 basic-700" w-i18n="wavesSeedClient"></div>
+            <div class="caption-1 basic-500 margin-2" w-i18n="wavesSeedClientDescription"></div>
+            <span ui-sref="restore">
+                <w-button class="submit tiny">
+                    <span w-i18n="selectButton"></span>
+                </w-button>
+            </span>
         </div>
         <div class="import-modal__block import-modal__block-old">
             <div class="import-modal__icon-old"></div>
-            <div class="body-2 basic-700" w-i18n="modal.import.wavesLiteClient"></div>
-            <div class="caption-1 basic-500 margin-2" w-i18n="modal.import.wavesLiteClientDescription"></div>
+            <div class="body-2 basic-700" w-i18n="wavesLiteClient"></div>
+            <div class="caption-1 basic-500 margin-2" w-i18n="wavesLiteClientDescription"></div>
             <w-button class="submit tiny"
                       on-click="$ctrl.importFromOld()">
-                <span w-i18n="modal.import.selectButton"></span>
+                <span w-i18n="selectButton"></span>
             </w-button>
         </div>
         <div class="import-modal__block import-modal__block-old">
             <div class="import-modal__icon-ledger"></div>
-            <div class="body-2 basic-700" w-i18n="modal.import.LedgerClient"></div>
-            <div class="caption-1 basic-500 margin-2" w-i18n="modal.import.ledgerDescription"></div>
-            <w-button class="submit tiny">
-                <a ui-sref="ledger" w-i18n="modal.import.selectButton"></a>
-            </w-button>
+            <div class="body-2 basic-700" w-i18n="LedgerClient"></div>
+            <div class="caption-1 basic-500 margin-2" w-i18n="ledgerDescription"></div>
+            <span ui-sref="ledger">
+                <w-button class="submit tiny">
+                    <span w-i18n="selectButton"></span>
+                </w-button>
+            </span>
         </div>
     </div>
 
@@ -46,7 +50,7 @@
         <div class="or margin-2" w-i18n="or"></div>
 
         <div class="center">
-            <a ng-click="$ctrl.next(-1)" w-i18n="import.back"> go back</a>
+            <a ui-sref="{{::$ctrl.backState()}}" w-i18n="back"></a>
         </div>
     </div>
 

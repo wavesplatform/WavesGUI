@@ -113,6 +113,7 @@
                  * @private
                  */
                 this._fieldsForSave = [];
+                this._history = [];
 
                 this._setObserve();
                 this._settings.change.on(() => this._onChangeSettings());
@@ -311,9 +312,15 @@
              * @param {string} state    state name
              */
             applyState(state) {
+                this._history.push(state.name);
+                this._history = this._history.slice(-10);
                 if (this._stateList) {
                     this._stateList.some((item) => item.applyState(state, this));
                 }
+            }
+
+            getLastState() {
+                return this._history.length > 1 ? this._history[this._history.length - 2] : 'welcome';
             }
 
             /**
