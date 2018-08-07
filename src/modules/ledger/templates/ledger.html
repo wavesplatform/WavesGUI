@@ -32,33 +32,41 @@
                  ng-repeat="user in $ctrl.visibleUsers track by user.id" ng-click="$ctrl.selectUser(user)">
                 <w-avatar address="user.address" size="49" type="ledger"></w-avatar>
             </div>
-            <div class="step-right" ng-click="$ctrl.stepRight()" ng-class="{disabled: $ctrl.disabledRight}">&gt;</div>
+            <div class="step-right" ng-click="$ctrl.stepRight()" ng-class="{disabled: $ctrl.disabledRight}"><div class="icon-right"></div></div>
         </div>
 
-        <div class="flex margin-3">
+
+
+
+        <div class="body-2 basic-900" w-i18n="ledgerForm.address"></div>
+        <div class="input-like margin-2">
+            <div ng-class="{empty: !$ctrl.selectedUser}" class="address basic-900 mobile-caption-2">
+                {{$ctrl.selectedUser.address}}
+            </div>
+        </div>
+
+        <div class="flex margin-2">
             <w-checkbox-submit ng-model="$ctrl.selectDefault" id="select-default"></w-checkbox-submit>
             <label for="select-default"
-                   w-i18n="ledgerForm.selectDefault"
-                   class="footnote-1 basic-500"></label>
-            
+                   class="footnote-1 basic-500"><span w-i18n="ledgerForm.selectDefault"></span></label>
+        </div>
+        <div class="margin-2">
+            <div class="body-2 basic-900" w-i18n="ledgerForm.name"></div>
+            <w-input w-autofocus
+                     class="big no-validate no-icon"
+                     type="text"
+                     placeholder="ledgerForm.inputName"
+                     maxlength="20"
+                     ng-model="$ctrl.name">
+            </w-input>
+        </div>
+
+        <div class="flex margin-2">
             <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
             <label for="save-user-data"
                    w-i18n="ledgerForm.saveUserData"
                    class="footnote-1 basic-500"></label>
         </div>
-
-        <div class="address-block margin-3">
-            <div class="body-2 basic-900" w-i18n="ledgerForm.address"></div>
-            <div ng-class="{empty: !$ctrl.selectedUser}" class="address body-1 basic-500 mobile-caption-2">
-                {{$ctrl.selectedUser.address}}
-            </div>
-        </div>
-        <w-input w-autofocus
-                 class="big no-validate no-icon"
-                 type="text"
-                 placeholder="ledgerForm.inputName"
-                 maxlength="20"
-                 ng-model="$ctrl.name"></w-input>
 
         <div class="margin-3">
             <w-button disabled="$ctrl.disabledLogin"
@@ -67,6 +75,8 @@
             </w-button>
         </div>
         <div class="or margin-2"><span w-i18n="ledgerForm.or">or</span></div>
-        <a w-i18n="ledgerForm.back" ui-sref="import"></a>
+        <div class="text-center">
+            <a w-i18n="ledgerForm.back" ui-sref="import"></a>
+        </div>
     </div>
 </div>
