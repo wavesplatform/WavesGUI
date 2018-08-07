@@ -417,7 +417,7 @@
 
                         ds.app.login(data.address, data.api);
                         this.addMatcherSign().then((matcherSign) => {
-                            this.matcherSign = matcherSign;
+                            this.matcherSign = matcherSign || this.matcherSign || { timestamp: 0, signature: '' };
                             return ds.app.addMatcherSign(matcherSign.timestamp, matcherSign.signature);
                         }).then(() => {
                             this.changeTheme();

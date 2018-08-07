@@ -12,11 +12,14 @@
         '@waves/data-entities': 'ds.wavesDataEntities',
         '@waves/waves-signature-generator': 'wavesSignatureGenerator',
         '@ledgerhq/hw-transport-u2f': 'TransportU2F',
+        '@ledgerhq/hw-transport-node-hid': 'TransportU2F',
         '@waves/ledger': 'WavesLedgerJs',
         '@waves/waves-signature-adapter': 'wavesSignatureAdapter',
         'ramda': 'R',
         'data-service': 'ds',
-        '@waves/waves-browser-bus': 'bus'
+        'handlebars': 'Handlebars',
+        '@waves/waves-browser-bus': 'bus',
+        'worker-wrapper': 'workerWrapper'
     };
 
     function getModule(require) {

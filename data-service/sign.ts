@@ -7,6 +7,7 @@ import {
     TRANSACTION_TYPE_NUMBER,
     CREATE_ORDER_SIGNATURE,
     CANCEL_ORDER_SIGNATURE,
+    utils,
     config
 } from '@waves/waves-signature-generator';
 
@@ -32,86 +33,82 @@ export function getSignatureApi(): ISignatureApi {
 export function getDefaultSignatureApi(user): ISignatureApi {
 
     const encryptionRounds = user.settings.get('encryptionRounds');
-    const networkCode = (<any>window).WavesApp.network.code.charCodeAt(0);
     const userData = { ...user, encryptionRounds };
     const Adapter = signatureAdapter.getAdapterByType(user.userType) ||
         signatureAdapter.getAdapterByType(signatureAdapter.adapterList[0].type);
-    const adapter = new Adapter(userData, networkCode);
+    const adapter = new Adapter(userData);
 
     return {
+        getTxId: (data: TSignData) => getTransactionId(data),
         isAvailable: () => adapter.isAvailable(),
         getPublicKey: () => adapter.getPublicKey(),
         getPrivateKey: () => adapter.getPrivateKey(),
-        sign: (data: TSignData) => {
-            return addSignForData(data, adapter);
-        },
+        sign: (data: TSignData, asset?) => getSignatureForData(data, adapter, asset),
         getAddress: () => adapter.getAddress(),
         getSeed: () => adapter.getSeed(),
         type: Adapter.type
     };
 }
 
-export function addSignForData(forSign: TSignData, adapter): Promise<string> {
-    let instance: ISignatureGenerator;
-    let signType = '';
-    let amountPrecision = 10;
-
-    switch (forSign.type) {
+function getSignatureGenerator({ type, data }) {
+    switch (type) {
         case SIGN_TYPE.AUTH:
-            instance = new AUTH_SIGNATURE(forSign.data);
-            signType = 'signRequest';
-            break;
+            return new AUTH_SIGNATURE(data);
         case SIGN_TYPE.MATCHER_ORDERS:
-            instance = new AUTH_ORDER_SIGNATURE(forSign.data);
-            signType = 'signRequest';
-            break;
+            return new AUTH_ORDER_SIGNATURE(data);
         case SIGN_TYPE.CREATE_ORDER:
-            instance = new CREATE_ORDER_SIGNATURE(forSign.data);
-            signType = 'signOrder';
-            break;
+            return new CREATE_ORDER_SIGNATURE(data);
         case SIGN_TYPE.CANCEL_ORDER:
-            instance = new CANCEL_ORDER_SIGNATURE(forSign.data);
-            signType = 'signOrder';
-            break;
+            return new CANCEL_ORDER_SIGNATURE(data);
         case SIGN_TYPE.TRANSFER:
-            instance = new TX_NUMBER_MAP[TRANSACTION_TYPE_NUMBER.TRANSFER](forSign.data);
-            signType = 'signTransaction';
-            break;
+            return new TX_NUMBER_MAP[TRANSACTION_TYPE_NUMBER.TRANSFER](data);
         case SIGN_TYPE.ISSUE:
-            instance = new TX_NUMBER_MAP[TRANSACTION_TYPE_NUMBER.ISSUE](forSign.data);
-            signType = 'signTransaction';
-            break;
+            return new TX_NUMBER_MAP[TRANSACTION_TYPE_NUMBER.ISSUE](data);
         case SIGN_TYPE.REISSUE:
-            instance = new TX_NUMBER_MAP[TRANSACTION_TYPE_NUMBER.REISSUE](forSign.data);
-            signType = 'signTransaction';
-            break;
+            return new TX_NUMBER_MAP[TRANSACTION_TYPE_NUMBER.REISSUE](data);
         case SIGN_TYPE.BURN:
-            instance = new TX_NUMBER_MAP[TRANSACTION_TYPE_NUMBER.BURN](forSign.data);
-            signType = 'signTransaction';
-            break;
+            return new TX_NUMBER_MAP[TRANSACTION_TYPE_NUMBER.BURN](data);
         case SIGN_TYPE.LEASE:
-            instance = new TX_NUMBER_MAP[TRANSACTION_TYPE_NUMBER.LEASE](forSign.data);
-            signType = 'signTransaction';
-            break;
+            return new TX_NUMBER_MAP[TRANSACTION_TYPE_NUMBER.LEASE](data);
         case SIGN_TYPE.CANCEL_LEASING:
-            instance = new TX_NUMBER_MAP[TRANSACTION_TYPE_NUMBER.CANCEL_LEASING](forSign.data);
-            signType = 'signTransaction';
-            break;
+            return new TX_NUMBER_MAP[TRANSACTION_TYPE_NUMBER.CANCEL_LEASING](data);
         case SIGN_TYPE.CREATE_ALIAS:
-            instance = new TX_NUMBER_MAP[TRANSACTION_TYPE_NUMBER.CREATE_ALIAS](forSign.data);
-            signType = 'signTransaction';
-            break;
+            return new TX_NUMBER_MAP[TRANSACTION_TYPE_NUMBER.CREATE_ALIAS](data);
         case SIGN_TYPE.MASS_TRANSFER:
-            instance = new TX_NUMBER_MAP[TRANSACTION_TYPE_NUMBER.MASS_TRANSFER](forSign.data);
-            signType = 'signTransaction';
-            break;
+            return new TX_NUMBER_MAP[TRANSACTION_TYPE_NUMBER.MASS_TRANSFER](data);
         default:
             return Promise.reject(new Error('Wrong sign type!'));
     }
+}
 
+function getAdapterMethod({ type }) {
+    switch (type) {
+        case SIGN_TYPE.AUTH:
+            return 'signRequest';
+        case SIGN_TYPE.MATCHER_ORDERS:
+            return 'signRequest';
+        case SIGN_TYPE.CREATE_ORDER:
+            return 'signOrder';
+        case SIGN_TYPE.CANCEL_ORDER:
+            return 'signOrder';
+        default:
+            return 'signTransaction';
+    }
+}
+
+export function getSignatureForData(forSign: TSignData, adapter, asset?): Promise<string> {
+    const signType = getAdapterMethod(forSign);
+    const amountPrecision = asset ? asset.precision : 10;
+    const instance = <ISignatureGenerator>getSignatureGenerator(forSign);
     return instance.getBytes()
         .then((bytes) => adapter[signType](bytes, amountPrecision));
-    //return instance.getSignature('dddddd');
+}
+
+export function getTransactionId(forSign: TSignData): Promise<string> {
+    const instance = <ISignatureGenerator>getSignatureGenerator(forSign);
+    return instance.getBytes().then((bytes) => {
+        return utils.crypto.buildTransactionId(bytes);
+    });
 }
 
 export const AUTH_SIGNATURE = generate<IAuthData>([
@@ -122,6 +119,8 @@ export const AUTH_SIGNATURE = generate<IAuthData>([
 
 export interface ISignatureApi {
     sign(data: TSignData): Promise<string>;
+
+    getTxId(data: TSignData): Promise<string>;
 
     getPublicKey(): Promise<string>;
 

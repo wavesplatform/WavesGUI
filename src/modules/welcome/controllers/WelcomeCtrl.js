@@ -142,10 +142,11 @@
 
                         $scope.$apply();
 
-                        storage.save('accountImportComplete', this.userList.length > 0);
+                        storage.save('accountImportComplete', true);
                         storage.save('userList', userList);
                     })
                     .catch(() => {
+                        storage.save('accountImportComplete', true);
                         this._initUserList();
                     });
             }
