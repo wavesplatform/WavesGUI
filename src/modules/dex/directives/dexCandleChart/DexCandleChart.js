@@ -33,7 +33,8 @@
             'mainSeriesProperties.lineStyle.color': candleUpColor,
             'mainSeriesProperties.areaStyle.color1': candleUpColor,
             'mainSeriesProperties.areaStyle.color2': candleUpColor,
-            'mainSeriesProperties.areaStyle.linecolor': candleUpColor
+            'mainSeriesProperties.areaStyle.linecolor': candleUpColor,
+            'volumePaneSize': 'medium'
         };
     }
 
