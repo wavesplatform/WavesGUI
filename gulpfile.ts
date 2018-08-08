@@ -8,7 +8,6 @@ import { copy, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile,
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
-import {utils} from "./data-service/api/API";
 
 const zip = require('gulp-zip');
 const s3 = require('gulp-s3');
@@ -409,8 +408,13 @@ task('electron-debug', function (done) {
         .then(() => done());
 });
 
+task('data-service', function () {
+    execSync(`${join('node_modules', '.bin', 'tsc')} -p data-service && ${join('node_modules', '.bin', 'browserify')} ${join('data-service', 'index.js')} -s ds -u ts-utils -u ramda -u @waves/waves-signature-generator -u @waves/waves-signature-adapter -o ${join('data-service-dist', 'data-service.js')}`);
+});
+
 task('all', [
     'clean',
+    'data-service',
     'templates',
     'concat',
     'copy',
