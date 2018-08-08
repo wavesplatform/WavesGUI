@@ -423,17 +423,16 @@
                         });
 
                         ds.app.login(data.address, data.api);
-                        this.addMatcherSign().then((matcherSign) => {
-                            this.matcherSign = matcherSign || this.matcherSign || { timestamp: 0, signature: '' };
-                            return ds.app.addMatcherSign(this.matcherSign.timestamp, this.matcherSign.signature);
-                        }).then(() => {
-                            this.changeTheme();
-                            this.changeCandle();
-                            return this._save();
-                        }).then(() => {
-                            this._logoutTimer();
-                            this._dfr.resolve();
-                        });
+                        this.addMatcherSign()
+                            .then(() => {
+                                this.changeTheme();
+                                this.changeCandle();
+                                return this._save();
+                            })
+                            .then(() => {
+                                this._logoutTimer();
+                                this._dfr.resolve();
+                            });
                     });
             }
 
@@ -443,6 +442,7 @@
             addMatcherSign() {
                 let promise;
                 let modalPromise;
+                let ledgerPromise;
 
                 const dayForwardTime = ds.app.getTimeStamp(1, 'day');
                 if (!this.matcherSign || this.matcherSign.timestamp - dayForwardTime < 0) {
@@ -460,7 +460,7 @@
                             return modalManager.showSignLedger({ promise, mode: 'sign-matcher', id });
                         });
 
-                        return Promise.all([promise, modalPromise]).catch(
+                        ledgerPromise = Promise.all([promise, modalPromise]).catch(
                             () => modalManager.showLedgerError({ error: 'sign-error' }).then(
                                 () => {
                                     return this.addMatcherSign();
@@ -471,11 +471,13 @@
                                 }
                             ));
                     }
-
-                    return promise;
                 }
 
-                return Promise.resolve(this.matcherSign);
+                return (ledgerPromise || promise || Promise.resolve(this.matcherSign))
+                    .then((matcherSign) => {
+                        this.matcherSign = matcherSign || this.matcherSign || { timestamp: 0, signature: '' };
+                        return ds.app.addMatcherSign(this.matcherSign.timestamp, this.matcherSign.signature);
+                    });
             }
 
             /**
