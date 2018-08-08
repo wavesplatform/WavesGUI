@@ -71,7 +71,7 @@
             showSignLedger(options) {
                 return this._getModal({
                     id: 'sign-ledger',
-                    contentUrl: '/modules/utils/modals/signLedger/signLedger.html',
+                    contentUrl: 'modules/utils/modals/signLedger/signLedger.html',
                     controller: 'SignLedgerCtrl',
                     locals: { ledgerPromise: () => options.promise, mode: options.mode, id: options.id },
                     clickOutsideToClose: false,
@@ -82,7 +82,7 @@
             showLedgerError(locals) {
                 return this._getModal({
                     id: 'error-ledger',
-                    contentUrl: '/modules/utils/modals/ledgerError/ledgerError.html',
+                    contentUrl: 'modules/utils/modals/ledgerError/ledgerError.html',
                     controller: 'LedgerErrorCtrl',
                     locals: { ...locals },
                     clickOutsideToClose: false,
