@@ -40,17 +40,17 @@
                                          type="text"
                                          placeholder="modal.account.placeholder"
                                          ng-model-options="{updateOn: 'input blur', debounce: { 'input': 500, 'blur': 0 }}"
-                                         pending="$ctrl.pendingAlias"
+                                         pending="$ctrl.pendingAlias || $ctrl.signLoader"
                                          w-i18n-attr="placeholder"
                                          required
                                          w-validate
                                          w-validator-custom="{{!$ctrl.invalid && !$ctrl.pendingAlias}}">
                                 </w-input>
 
-                                <w-loader ng-if="$ctrl.pendingAlias"></w-loader>
+                                <w-loader ng-if="$ctrl.pendingAlias || $ctrl.signLoader"></w-loader>
 
                                 <div class="create-alias-wrap">
-                                    <w-button disabled="$ctrl.invalid || $ctrl.pendingAlias || !$ctrl.newAlias"
+                                    <w-button disabled="$ctrl.signLoader || $ctrl.invalid || $ctrl.pendingAlias || !$ctrl.newAlias"
                                               class="tiny submit margin-right-1" type="submit">
                                         <span w-i18n="modal.account.create"></span>
                                     </w-button>
@@ -59,6 +59,11 @@
                                           w-i18n="modal.account.fee"></span>
                                 </div>
 
+                                <div class="errors-margin text-center caption-1 basic-700"
+                                     w-i18n="modal.account.signLedger"
+                                     ng-if="$ctrl.signLoader">
+                                </div>
+                                <div class="text-center basic-800 body-2" ng-if="$ctrl.signLoader">{{$ctrl.transactionId}}</div>
                                 <div class="errors-margin">
                                     <div ng-if="$ctrl.noMoneyForFee">
                                         <span class="error-400" w-i18n="modal.account.noMoney"></span>

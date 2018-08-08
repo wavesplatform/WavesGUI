@@ -61,6 +61,18 @@
                  */
                 this.invalidPattern = false;
                 /**
+                 * @type {string}
+                 */
+                this.transactionId = '';
+                /**
+                 * @type {boolean}
+                 */
+                this.signLoader = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.signError = false;
+                /**
                  * @type {boolean}
                  */
                 this.invalidExist = false;
@@ -85,12 +97,34 @@
                 this.observe(['newAlias'], this._validateNewAlias);
             }
 
-            createAlias() {
+            getTx() {
                 const timestamp = ds.utils.normalizeTime(Date.now());
-                return ds.prepareForBroadcast(10, { alias: this.newAlias, fee: this.fee, timestamp })
-                    .then((preparedTx) => {
-                        return ds.broadcast(preparedTx)
-                            .then(() => {
+                return { alias: this.newAlias, fee: this.fee, timestamp };
+            }
+
+            getTransactionId(tx) {
+                return ds.getTransactionId(10, tx);
+            }
+
+            getPreparedData(tx) {
+                return ds.prepareForBroadcast(10, tx);
+            }
+
+            createAlias() {
+                const tx = this.getTx();
+                return this.getTransactionId(tx)
+                    .then(
+                        (id) => {
+                            this.signError = false;
+                            this.transactionId = id;
+                            this.signLoader = user.userType && user.userType !== 'seed';
+                            $scope.$digest();
+                        })
+                    .then(() => this.getPreparedData(tx))
+                    .then(
+                        (preparedTx) => {
+                            this.signLoader = false;
+                            return ds.broadcast(preparedTx).then(() => {
                                 analytics.push('User', `User.CreateAlias.Success.${WavesApp.type}`);
                                 this.aliases.push(this.newAlias);
                                 this.newAlias = '';
@@ -101,9 +135,12 @@
                                 });
                                 $scope.$digest();
                             });
-                    }).catch(() => {
-                        analytics.push('User', `User.CreateAlias.Error.${WavesApp.type}`);
-                    });
+                        },
+                        () => {
+                            this.signError = true;
+                            this.signLoader = false;
+                            $scope.$digest();
+                        });
             }
 
             onCopyAddress() {
