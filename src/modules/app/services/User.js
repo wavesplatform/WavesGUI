@@ -425,7 +425,7 @@
                         ds.app.login(data.address, data.api);
                         this.addMatcherSign().then((matcherSign) => {
                             this.matcherSign = matcherSign || this.matcherSign || { timestamp: 0, signature: '' };
-                            return ds.app.addMatcherSign(matcherSign.timestamp, matcherSign.signature);
+                            return ds.app.addMatcherSign(this.matcherSign.timestamp, this.matcherSign.signature);
                         }).then(() => {
                             this.changeTheme();
                             this.changeCandle();
@@ -442,6 +442,8 @@
              */
             addMatcherSign() {
                 let promise;
+                let modalPromise;
+
                 const dayForwardTime = ds.app.getTimeStamp(1, 'day');
                 if (!this.matcherSign || this.matcherSign.timestamp - dayForwardTime < 0) {
                     const maxIntervalTimeStamp = ds.app.getTimeStamp(
@@ -454,13 +456,14 @@
                         });
 
                     if (this.userType && this.userType === 'ledger') {
-                        ds.app.getSignIdForMatcher(maxIntervalTimeStamp).then((id) => {
-                            modalManager.showSignLedger({ promise, mode: 'sign-matcher', id });
+                        modalPromise = ds.app.getSignIdForMatcher(maxIntervalTimeStamp).then((id) => {
+                            return modalManager.showSignLedger({ promise, mode: 'sign-matcher', id });
                         });
 
-                        return promise.catch(() => {
-                            modalManager.showLedgerError({ error: 'sign-matcher-error' });
-                        });
+                        return Promise.all([promise, modalPromise]).catch(
+                            () => modalManager.showLedgerError({ error: 'sign-matcher-error' })
+                                .catch(() => Promise.resolve())
+                        );
                     }
 
                     return promise;

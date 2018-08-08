@@ -19,7 +19,7 @@
 
             _initAdapters() {
                 ds.signAdapters.adapterList.forEach((Adapter) => Adapter.initOptions({
-                    code: WavesApp.network.code.charCodeAt(0)
+                    networkCode: WavesApp.network.code.charCodeAt(0)
                 }));
             }
 

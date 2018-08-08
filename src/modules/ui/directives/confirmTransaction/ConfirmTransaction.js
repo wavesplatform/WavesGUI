@@ -59,13 +59,15 @@
                 const timestamp = ds.utils.normalizeTime(this.tx.timestamp || Date.now());
                 const tx = { ...this.tx, timestamp };
 
-                Promise.all([
-                    ConfirmTransaction.switchOnTxType(ds.prepareForBroadcast, tx.transactionType, tx),
-                    ConfirmTransaction.switchOnTxType(ds.getTransactionId, tx.transactionType, tx)
-                ]).then(([preparedTx, txId]) => {
-                    this.preparedTx = preparedTx;
-                    this.txId = txId;
-                });
+                ConfirmTransaction.switchOnTxType(ds.getTransactionId, tx.transactionType, tx)
+                    .then((txId) => {
+                        this.txId = txId;
+                        $scope.$digest();
+                        return ConfirmTransaction.switchOnTxType(ds.prepareForBroadcast, tx.transactionType, tx);
+                    }).then((preparedTx) => {
+                        this.preparedTx = preparedTx;
+                        $scope.$digest();
+                    });
             }
 
             confirm() {

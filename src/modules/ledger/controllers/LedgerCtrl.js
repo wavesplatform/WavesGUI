@@ -95,8 +95,13 @@
                 this.error = false;
                 const start = this.users.length;
                 const end = start + (count || USERS_COUNT) - 1;
-                const promise = this.adapter.getUserList(start, end).then(
-                    (users) => {
+                const promise = this.adapter.getUserList(start, end);
+                const modalPromise = this.isInit ?
+                    Promise.resolve() :
+                    modalManager.showSignLedger({ promise, mode: 'connect-ledger' });
+
+                Promise.all([promise, modalPromise]).then(
+                    ([users]) => {
                         this.isInit = true;
                         this.users = [...this.users, ...users];
                         this.loading = false;
@@ -113,10 +118,6 @@
                         throw error;
                     }
                 );
-
-                if (!this.isInit) {
-                    modalManager.showSignLedger({ promise, mode: 'connect-ledger' });
-                }
             }
 
             /**
