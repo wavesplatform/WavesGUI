@@ -88,7 +88,6 @@
                             });
                         },
                         () => {
-                            this.showPasswordError = true;
                             if (api.type && api.type !== 'seed') {
                                 modalManager.showLedgerError({ error: 'load-user-error' });
                             }
