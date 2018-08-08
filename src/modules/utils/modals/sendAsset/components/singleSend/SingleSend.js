@@ -6,7 +6,6 @@
         [WavesApp.defaultAssets.EUR]: true
     };
 
-    const COINOMAT_BANK_ADDRESS = '3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us';
     const { Money } = require('@waves/data-entities');
 
     /**
@@ -28,21 +27,6 @@
              */
             get hasSendToBank() {
                 return FIAT_ASSETS[this.assetId] || false;
-            }
-
-            get toBankMode() {
-                return this.state.toBankMode || false;
-            }
-
-            set toBankMode(mode) {
-                this.state.toBankMode = mode;
-                if (mode) {
-                    this.state.warning = 'send.coinomant.bank';
-                    this.state.singleSend.recipient = COINOMAT_BANK_ADDRESS;
-                } else {
-                    this.state.singleSend.recipient = '';
-                    this.state.warning = '';
-                }
             }
 
             /**
@@ -421,11 +405,6 @@
              * @private
              */
             _updateGatewayDetails() {
-
-                if (this.tx.recipient === COINOMAT_BANK_ADDRESS) {
-                    this.toBankMode = true;
-                }
-
                 const outerChain = outerBlockchains[this.assetId];
                 const isValidWavesAddress = waves.node.isValidAddress(this.tx.recipient);
 

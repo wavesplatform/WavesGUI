@@ -8,14 +8,9 @@
 
         <div class="flex-row-title">
             <div class="body-2" w-i18n="modal.send.recipient"></div>
-            <a class="link"
-               ng-if="!$ctrl.toBankMode && $ctrl.hasSendToBank"
-               ng-click="$ctrl.toBankMode = true">
-                <span w-i18n="modal.send.toBank.toBankLink"></span>
-            </a>
         </div>
 
-        <div ng-if="!$ctrl.toBankMode">
+        <div>
             <w-input-container>
                 <div class="read-address-wrap">
                     <w-input type="text"
@@ -39,22 +34,6 @@
                 </w-input-error>
             </w-input-container>
         </div>
-
-        <div class="to-bank-account" ng-if="$ctrl.toBankMode">
-            <div class="bank-recipient">
-                <span w-i18n="modal.send.toBank.bankAccount"></span>
-                <i class="toggle-mode btn" ng-click="$ctrl.toBankMode = false"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="row" ng-if="$ctrl.toBankMode">
-        <div class="warning-plate basic-500 margin-2" w-i18n="modal.send.toBank.warning"></div>
-    </div>
-
-    <div class="warning-plate margin-2" ng-if="$ctrl.toBankMode">
-        <div class="body-2 warning-500" w-i18n="modal.send.toBank.feeTitle"></div>
-        <div class="footnote-1 basic-500" w-i18n="modal.send.toBank.feeExplanation"></div>
     </div>
 
     <div ng-if="$ctrl.outerSendMode && !$ctrl.gatewayDetailsError" class="row">
@@ -179,7 +158,7 @@
         </w-input-error>
     </w-input-container>
 
-    <div ng-if="!($ctrl.outerSendMode || $ctrl.toBankMode) && !$ctrl.gatewayDetailsError" class="row margin-1">
+    <div ng-if="!$ctrl.outerSendMode && !$ctrl.gatewayDetailsError" class="row margin-1">
         <div class="body-2" w-i18n="modal.send.description"></div>
         <w-input-container>
             <w-input textarea="true"
