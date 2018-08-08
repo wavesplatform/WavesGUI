@@ -17,17 +17,31 @@
                      ng-repeat="error in $ctrl.errors"
                      w-i18n="{{::error.literal}}"></div>
 
-                <div class="buttons-wrapper">
-                    <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
-                        <span w-i18n="confirmTransaction.back"></span>
-                    </w-button>
-                    <w-button class="big submit"
-                              disabled="$ctrl.errors.length > 0 || !$ctrl.txId || !$ctrl.preparedTx"
-                              ng-class="{long: $ctrl.noBackButton}"
-                              w-next-step
-                              on-click="$ctrl.confirm()">
-                        <span w-i18n="confirmTransaction.confirm"></span>
-                    </w-button>
+                <div class="bottom-wrapper">
+                    <div class="device-loader-wrapper" ng-if="$ctrl.loadingSignFromDevice">
+                        <div class="info basic-700">
+                            <span w-i18n="confirmTransaction.signLedger"></span>
+                        </div>
+                        <w-loader></w-loader>
+                    </div>
+                    <div class="buttons-wrapper" ng-if="!$ctrl.loadingSignFromDevice">
+                        <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
+                            <span w-i18n="confirmTransaction.back"></span>
+                        </w-button>
+                        <w-button ng-if="!$ctrl.deviceSignFail"
+                                  class="big submit"
+                                  disabled="$ctrl.errors.length > 0 || !$ctrl.txId || !$ctrl.preparedTx"
+                                  ng-class="{long: $ctrl.noBackButton}"
+                                  w-next-step
+                                  on-click="$ctrl.confirm()">
+                            <span w-i18n="confirmTransaction.confirm"></span>
+                        </w-button>
+                        <w-button class="big submit"
+                                  ng-if="$ctrl.deviceSignFail"
+                                  on-click="$ctrl.trySign()">
+                            <span w-i18n="confirmTransaction.retrySign"></span>
+                        </w-button>
+                    </div>
                 </div>
             </div>
         </w-step>

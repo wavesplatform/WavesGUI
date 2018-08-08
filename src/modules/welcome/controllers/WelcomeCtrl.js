@@ -78,7 +78,16 @@
                     const activeUser = { ...this.user, password: this.password, settings: userSettings };
                     const api = ds.signature.getDefaultSignatureApi(activeUser);
 
-                    const promise = api.isAvailable()
+                    const adapterAvilablePromise = api.isAvailable();
+                    const modalPromise = (api.type && api.type !== 'seed') ?
+                        modalManager.showSignLedger(
+                            {
+                                promise: adapterAvilablePromise,
+                                mode: `connect-${api.type}`
+                            }) :
+                        Promise.resolve();
+
+                    Promise.all([adapterAvilablePromise, modalPromise])
                         .then(() => {
                             return user.login({
                                 address: activeUser.address,
@@ -89,13 +98,10 @@
                         },
                         () => {
                             if (api.type && api.type !== 'seed') {
-                                modalManager.showLedgerError({ error: 'load-user-error' });
+                                return modalManager.showLedgerError({ error: 'load-user-error' })
+                                    .catch(() => Promise.resolve());
                             }
                         });
-
-                    if (api.type && api.type !== 'seed') {
-                        modalManager.showSignLedger({ promise, mode: `connect-${api.type}` });
-                    }
                 } catch (e) {
                     this.password = '';
                     this.showPasswordError = true;

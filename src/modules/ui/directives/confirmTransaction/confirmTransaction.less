@@ -9,13 +9,17 @@ w-confirm-transaction {
   display: block;
   width: 100%;
 
-  .buttons-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  .bottom-wrapper{
     width: 100%;
     padding-top: 30px;
     border-top: 1px solid @color-basic-200;
+  }
+
+  .buttons-wrapper {
+    padding-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 
     & > w-button {
       display: block;
@@ -31,6 +35,16 @@ w-confirm-transaction {
     text-align: center;
     word-break: break-word;
     text-transform: lowercase;
+  }
+
+  .device-loader-wrapper {
+    text-align: center;
+    width: 100%;
+  }
+
+  w-loader {
+    top: 25px;
+    position: relative;
   }
 }
 

@@ -461,9 +461,15 @@
                         });
 
                         return Promise.all([promise, modalPromise]).catch(
-                            () => modalManager.showLedgerError({ error: 'sign-matcher-error' })
-                                .catch(() => Promise.resolve())
-                        );
+                            () => modalManager.showLedgerError({ error: 'sign-error' }).then(
+                                () => {
+                                    return this.addMatcherSign();
+                                },
+                                () => {
+                                    // No matcher sign, may be other modal
+                                    Promise.resolve();
+                                }
+                            ));
                     }
 
                     return promise;

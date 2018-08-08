@@ -51,23 +51,79 @@
                  * @type {string}
                  */
                 this.txId = '';
+                /**
+                 * @type {string}
+                 */
+                this.type = user.userType;
+                /**
+                 * @type {boolean}
+                 */
+                this.loadingSignFromDevice = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.deviceSignFail = false;
 
                 this.observe('showValidationErrors', this._showErrors);
             }
 
-            $postLink() {
+            signFromDevice() {
+                return this.type && this.type !== 'seed';
+            }
+
+            getTxId(tx) {
+                return ConfirmTransaction.switchOnTxType(ds.getTransactionId, tx.transactionType, tx).then(
+                    (txId) => {
+                        this.txId = txId;
+                        return tx;
+                    });
+            }
+
+            signTx(tx) {
+                this.loadingSignFromDevice = this.signFromDevice();
+                const txDataPromise = ConfirmTransaction.switchOnTxType(ds.prepareForBroadcast, tx.transactionType, tx);
+                this.deviceSignFail = false;
+                txDataPromise.then(
+                    (preparedTx) => {
+                        return preparedTx;
+                    },
+                    () => {
+                        this.deviceSignFail = true;
+                        return Promise.reject();
+                    }
+                );
+                return txDataPromise;
+            }
+
+            getTxData() {
                 const timestamp = ds.utils.normalizeTime(this.tx.timestamp || Date.now());
                 const tx = { ...this.tx, timestamp };
 
-                ConfirmTransaction.switchOnTxType(ds.getTransactionId, tx.transactionType, tx)
-                    .then((txId) => {
-                        this.txId = txId;
+                this.getTxId(tx)
+                    .then(() => {
+                        this.loadingSignFromDevice = true;
                         $scope.$digest();
-                        return ConfirmTransaction.switchOnTxType(ds.prepareForBroadcast, tx.transactionType, tx);
-                    }).then((preparedTx) => {
+                        return this.signTx(tx);
+                    })
+                    .then((preparedTx) => {
                         this.preparedTx = preparedTx;
+                        if (this.signFromDevice()) {
+                            this.confirm();
+                        }
+                        this.loadingSignFromDevice = false;
+                        $scope.$digest();
+                    }).catch(() => {
+                        this.loadingSignFromDevice = false;
                         $scope.$digest();
                     });
+            }
+
+            trySign() {
+                return this.getTxData();
+            }
+
+            $postLink() {
+                this.trySign();
             }
 
             confirm() {
