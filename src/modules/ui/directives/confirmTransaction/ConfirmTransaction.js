@@ -101,7 +101,7 @@
 
                 this.getTxId(tx)
                     .then(() => {
-                        this.loadingSignFromDevice = true;
+                        this.loadingSignFromDevice = this.signFromDevice();
                         $scope.$digest();
                         return this.signTx(tx);
                     })
@@ -110,8 +110,6 @@
                         if (this.signFromDevice()) {
                             this.confirm();
                         }
-                        this.loadingSignFromDevice = false;
-                        $scope.$digest();
                     }).catch(() => {
                         this.loadingSignFromDevice = false;
                         $scope.$digest();
@@ -133,6 +131,7 @@
                     this.onTxSent({ id });
                     $scope.$apply();
                 }).catch((e) => {
+                    this.loadingSignFromDevice = false;
                     console.error(e);
                     console.error('Transaction error!');
                     $scope.$apply();

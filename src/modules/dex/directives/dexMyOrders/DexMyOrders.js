@@ -239,9 +239,9 @@
                     return ds.cancelOrder.signed(txData);
                 });
 
-                if (user.userType && user.userType === 'seed') {
-                    return signPromise;
-                }
+                // if (user.userType && user.userType === 'seed') {
+                //     return signPromise;
+                // }
 
                 return dataPromise.then((txData) => {
                     return ds.cancelOrder.createTransactionId(txData.data)
@@ -252,9 +252,9 @@
                         ...data,
                         mode: 'cancel-order'
                     });
-                    return Promise.all([signPromise, modalPromise]);
+                    return modalPromise;
                 }).then(
-                    ([data]) => data,
+                    () => signPromise,
                     () => {
                         return modalManager.showLedgerError({ error: 'sign-error' }).then(
                             () => this.dropOrderGetSignData(),

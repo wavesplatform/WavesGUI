@@ -67,27 +67,51 @@
         <div class="create-order-cont">
             <div class="txinfo__row">
                 <div class="txinfo__key">
-                    {{::$ctrl.priceAsset.name}} <span w-i18n="model.sign.price"></span>
+                    {{::$ctrl.priceAsset.name}} <span w-i18n="modal.sign.price"></span>
                 </div>
                 <div class="txinfo__value nowrap">{{::$ctrl.txData.price}}</div>
             </div>
 
             <div class="txinfo__row">
                 <div class="txinfo__key"
-                     w-i18n="madal.sign.txId">
+                     w-i18n="modal.sign.txId">
                 </div>
                 <div class="txinfo__value nowrap">{{::$ctrl.txId}}</div>
             </div>
 
             <div class="txinfo__row">
                 <div class="txinfo__key"
-                     w-i18n="madal.sign.fee">
+                     w-i18n="modal.sign.fee">
                 </div>
                 <div class="txinfo__value nowrap">{{::$ctrl.txData.fee}} {{::$ctrl.txData.feeAsset.name}}</div>
             </div>
         </div>
-        <div class="bottom-wrapper"></div>
+        <div class="bottom-wrapper">
+            <w-loader></w-loader>
+            <div w-i18n="modal.sign.signByLedger"></div>
+        </div>
+    </div>
 
+    <div class="cancel-order-mode" ng-if="$ctrl.mode === 'cancel-order'">
+
+        <div class="cancel-order-icon"></div>
+
+        <div class="cancel-order-title">
+            <h3 class="basic-700 text-center" w-i18n=""></h3>
+        </div>
+
+        <div class="cancel-order-cont">
+            <div class="txinfo__row">
+                <div class="txinfo__key"
+                     w-i18n="madal.sign.txId">
+                </div>
+                <div class="txinfo__value nowrap">{{::$ctrl.txId}}</div>
+            </div>
+        </div>
+        <div class="bottom-wrapper">
+            <w-loader></w-loader>
+            <div w-i18n="modal.sign.signByLedger"></div>
+        </div>
     </div>
 
 </div>
