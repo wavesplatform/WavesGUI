@@ -71,7 +71,7 @@
                 /**
                  * @type {boolean}
                  */
-                this.signError = false;
+                this.signDeviceFail = false;
                 /**
                  * @type {boolean}
                  */
@@ -115,7 +115,7 @@
                 return this.getTransactionId(tx)
                     .then(
                         (id) => {
-                            this.signError = false;
+                            this.signDeviceFail = false;
                             this.transactionId = id;
                             this.signLoader = user.userType && user.userType !== 'seed';
                             $scope.$digest();
@@ -137,7 +137,7 @@
                             });
                         },
                         () => {
-                            this.signError = true;
+                            this.signDeviceFail = true;
                             this.signLoader = false;
                             $scope.$digest();
                         });

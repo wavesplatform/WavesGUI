@@ -239,25 +239,24 @@
                     return ds.cancelOrder.signed(txData);
                 });
 
-                // if (user.userType && user.userType === 'seed') {
-                //     return signPromise;
-                // }
+                if (user.userType && user.userType === 'seed') {
+                    return signPromise;
+                }
 
                 return dataPromise.then((txData) => {
                     return ds.cancelOrder.createTransactionId(txData.data)
                         .then((txId) => ({ id: txId, data: txData }));
                 }).then((data) => {
-                    const modalPromise = modalManager.showSignLedger({
+                    return modalManager.showSignLedger({
                         promise: signPromise,
                         ...data,
                         mode: 'cancel-order'
-                    });
-                    return modalPromise;
+                    }).catch(() => Promise.reject());
                 }).then(
                     () => signPromise,
                     () => {
                         return modalManager.showLedgerError({ error: 'sign-error' }).then(
-                            () => this.dropOrderGetSignData(),
+                            () => this.dropOrderGetSignData(order),
                             () => {
                                 return Promise.reject({ error: 'no sign' });
                             });
