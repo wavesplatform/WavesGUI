@@ -32,25 +32,28 @@
         </div>
         <h3 class="text-center basic-700" w-i18n="modal.sign.confirmRequest"></h3>
         <div class="text-center info-text body-2 basic-500" w-i18n="modal.sign.confirmRequestMatcher"></div>
-        <div class="tx-id-wrapper">
-            <div class="text-center info-text body-2" w-i18n="modal.sign.requestId"></div>
-            <div class="text-center body-2 basic-500">{{$ctrl.txId}}</div>
+
+
+        <div class="txinfo__row">
+            <div class="txinfo__key ng-scope" w-i18n="modal.sign.requestId">From</div>
+            <div class="txinfo__value ng-binding ng-scope">{{$ctrl.txId}}</div>
         </div>
+
+
         <w-loader></w-loader>
     </div>
 
     <div class="create-order-mode" ng-if="$ctrl.mode === 'create-order'">
 
+        <div class="create-order-icon"></div>
 
-        <div class="txinfo__icon order"></div>
-
-        <h3 class="text-center">
-            <span ng-if="$ctrl.txData.type === 'buy'">
+        <h3 class="basic-700 text-center">
+            <div class="body-2 basic-500 ng-binding" ng-if="$ctrl.txData.type === 'buy'">
                 +{{::$ctrl.txData.amount}} {{::$ctrl.txData.amountAsset.name}}
-            </span>
-            <span ng-if="$ctrl.txData.type === 'sell'">
+            </div>
+            <div class="body-2 basic-500 ng-binding" ng-if="$ctrl.txData.type === 'sell'">
                 +{{::$ctrl.txData.total}} {{::$ctrl.txData.totalAsset.name}}
-            </span>
+            </div>
         </h3>
 
         <div class="text-center body-2">
