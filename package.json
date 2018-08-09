@@ -95,7 +95,7 @@
     "@waves/event-sender": "0.4.4",
     "@waves/waves-signature-generator": "0.14.0",
     "@waves/waves-browser-bus": "0.0.7",
-    "@waves/waves-signature-adapter": "0.0.25",
+    "@waves/waves-signature-adapter": "0.0.26",
     "angular": "1.6.6",
     "angular-animate": "1.6.6",
     "angular-aria": "1.6.6",
