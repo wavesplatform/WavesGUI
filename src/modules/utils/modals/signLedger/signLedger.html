@@ -1,5 +1,5 @@
 <div class="ledger-modal">
-    <div class="btn icon-close" w-modal-close></div>
+    <div class="btn icon-close" ng-click="$ctrl.onClose()"></div>
 
     <div class="connect-mode" ng-if="$ctrl.mode === 'connect-ledger'">
         <div class="ledger">
@@ -32,14 +32,10 @@
         </div>
         <h3 class="text-center basic-700" w-i18n="modal.sign.confirmRequest"></h3>
         <div class="text-center info-text body-2 basic-500" w-i18n="modal.sign.confirmRequestMatcher"></div>
-
-
         <div class="txinfo__row">
-            <div class="txinfo__key ng-scope" w-i18n="modal.sign.requestId">From</div>
-            <div class="txinfo__value ng-binding ng-scope">{{$ctrl.txId}}</div>
+            <div class="txinfo__key" w-i18n="modal.sign.requestId"></div>
+            <div class="txinfo__value">{{$ctrl.txId}}</div>
         </div>
-
-
         <w-loader></w-loader>
     </div>
 
@@ -48,10 +44,10 @@
         <div class="create-order-icon"></div>
 
         <h3 class="basic-700 text-center">
-            <div class="body-2 basic-500 ng-binding" ng-if="$ctrl.txData.type === 'buy'">
+            <div class="body-2 basic-500" ng-if="$ctrl.txData.type === 'buy'">
                 +{{::$ctrl.txData.amount}} {{::$ctrl.txData.amountAsset.name}}
             </div>
-            <div class="body-2 basic-500 ng-binding" ng-if="$ctrl.txData.type === 'sell'">
+            <div class="body-2 basic-500" ng-if="$ctrl.txData.type === 'sell'">
                 +{{::$ctrl.txData.total}} {{::$ctrl.txData.totalAsset.name}}
             </div>
         </h3>
@@ -85,6 +81,25 @@
             </div>
             <div class="txinfo__value nowrap">{{::$ctrl.txData.fee}} {{::$ctrl.txData.feeAsset.name}}</div>
         </div>
+
+        <w-loader></w-loader>
+        <div class="text-center body-2" w-i18n="model.sign.waitLedger"></div>
+    </div>
+
+    <div class="cancel-order-mode" ng-if="$ctrl.mode === 'cancel-order'">
+        <div class="txinfo__icon cancel-order"></div>
+
+        <h3 class="text-center" w-i18n="modal.sign.cancelOrder"></h3>
+
+        <div class="txinfo__row">
+            <div class="txinfo__key"
+                 w-i18n="madal.sign.txId">
+            </div>
+            <div class="txinfo__value nowrap">{{::$ctrl.txId}}</div>
+        </div>
+
+        <w-loader></w-loader>
+        <div class="text-center body-2" w-i18n="model.sign.waitLedger"></div>
     </div>
 
 </div>

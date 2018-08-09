@@ -13,6 +13,7 @@
      * @param {$rootScope.Scope} $scope
      * @param {DexDataService} dexDataService
      * @return {DexMyOrders}
+     * @return {modalManager}
      */
     const controller = function (
         Base,
@@ -22,7 +23,8 @@
         notification,
         utils,
         $scope,
-        dexDataService
+        dexDataService,
+        modalManager
     ) {
 
         const R = require('ramda');
@@ -140,6 +142,55 @@
                 }
             }
 
+            static _getTransactionsByOrderIdHash(txList) {
+                const uniqueList = R.uniqBy(R.prop('id'), txList);
+                const transactionsByOrderHash = Object.create(null);
+                uniqueList.forEach((tx) => {
+                    ['order1', 'order2'].forEach((orderFieldName) => {
+                        if (!transactionsByOrderHash[tx[orderFieldName].id]) {
+                            transactionsByOrderHash[tx[orderFieldName].id] = [];
+                        }
+                        transactionsByOrderHash[tx[orderFieldName].id].push(DexMyOrders._remapTx(tx));
+                    });
+                });
+                return transactionsByOrderHash;
+            }
+
+            static _remapTx(tx) {
+                const fee = (tx, order) => order.orderType === 'sell' ? tx.sellMatcherFee : tx.buyMatcherFee;
+                const emptyFee = new entities.Money(0, tx.fee.asset);
+                const userFee = [tx.order1, tx.order2]
+                    .filter((order) => order.sender === user.address)
+                    .reduce((acc, order) => acc.add(fee(tx, order)), emptyFee);
+
+                return { ...tx, userFee };
+            }
+
+            /**
+             * @param {IOrder} order
+             * @private
+             */
+            static _remapOrders(order) {
+                const assetPair = order.assetPair;
+                const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
+                const isNew = Date.now() < (order.timestamp.getTime() + 1000 * 8);
+                const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
+                return { ...order, isNew, percent, pair };
+            }
+
+            static _getFeeByType(type) {
+                return function (tx) {
+                    switch (type) {
+                        case 'buy':
+                            return tx.buyMatcherFee;
+                        case 'sell':
+                            return tx.sellMatcherFee;
+                        default:
+                            throw new Error('Wrong order type!');
+                    }
+                };
+            }
+
             /**
              * @param {IOrder} order
              */
@@ -181,29 +232,68 @@
                     this._assetIdPair.price === order.price.asset.id;
             }
 
+            dropOrderGetSignData(order) {
+                const dataPromise = ds.cancelOrder.createTx(order.id);
+
+                const signPromise = dataPromise.then((txData) => {
+                    return ds.cancelOrder.signed(txData);
+                });
+
+                if (user.userType && user.userType === 'seed') {
+                    return signPromise;
+                }
+
+                return dataPromise.then((txData) => {
+                    return ds.cancelOrder.createTransactionId(txData.data)
+                        .then((txId) => ({ id: txId, data: txData }));
+                }).then((data) => {
+                    const modalPromise = modalManager.showSignLedger({
+                        promise: signPromise,
+                        ...data,
+                        mode: 'cancel-order'
+                    });
+                    return Promise.all([signPromise, modalPromise]);
+                }).then(
+                    ([data]) => data,
+                    () => {
+                        return modalManager.showLedgerError({ error: 'sign-error' }).then(
+                            () => this.dropOrderGetSignData(),
+                            () => {
+                                return Promise.reject({ error: 'no sign' });
+                            });
+                    });
+            }
+
             /**
              * @param order
              */
             dropOrder(order) {
-                return ds.cancelOrder(order.amount.asset.id, order.price.asset.id, order.id)
-                    .then(() => {
-                        const canceledOrder = tsUtils.find(this.orders, { id: order.id });
-                        canceledOrder.state = 'Canceled';
-                        notification.info({
-                            ns: 'app.dex',
-                            title: { literal: 'directives.myOrders.notifications.isCanceled' }
-                        });
 
-                        if (this.poll) {
-                            this.poll.restart();
-                        }
-                    })
-                    .catch(() => {
-                        notification.error({
-                            ns: 'app.dex',
-                            title: { literal: 'directives.myOrders.notifications.somethingWentWrong' }
-                        });
-                    });
+                const dataPromise = this.dropOrderGetSignData(order);
+
+                dataPromise.then(
+                    (signedTxData) => {
+                        return ds.cancelOrder.send(signedTxData, order.amount.asset.id, order.price.asset.id)
+                            .then(() => {
+                                const canceledOrder = tsUtils.find(this.orders, { id: order.id });
+                                canceledOrder.state = 'Canceled';
+                                notification.info({
+                                    ns: 'app.dex',
+                                    title: { literal: 'directives.myOrders.notifications.isCanceled' }
+                                });
+
+                                if (this.poll) {
+                                    this.poll.restart();
+                                }
+                            },
+                            () => {
+                                notification.error({
+                                    ns: 'app.dex',
+                                    title: { literal: 'directives.myOrders.notifications.somethingWentWrong' }
+                                });
+                            });
+                    }
+                );
             }
 
             /**
@@ -273,55 +363,6 @@
                     });
             }
 
-            static _getTransactionsByOrderIdHash(txList) {
-                const uniqueList = R.uniqBy(R.prop('id'), txList);
-                const transactionsByOrderHash = Object.create(null);
-                uniqueList.forEach((tx) => {
-                    ['order1', 'order2'].forEach((orderFieldName) => {
-                        if (!transactionsByOrderHash[tx[orderFieldName].id]) {
-                            transactionsByOrderHash[tx[orderFieldName].id] = [];
-                        }
-                        transactionsByOrderHash[tx[orderFieldName].id].push(DexMyOrders._remapTx(tx));
-                    });
-                });
-                return transactionsByOrderHash;
-            }
-
-            static _remapTx(tx) {
-                const fee = (tx, order) => order.orderType === 'sell' ? tx.sellMatcherFee : tx.buyMatcherFee;
-                const emptyFee = new entities.Money(0, tx.fee.asset);
-                const userFee = [tx.order1, tx.order2]
-                    .filter((order) => order.sender === user.address)
-                    .reduce((acc, order) => acc.add(fee(tx, order)), emptyFee);
-
-                return { ...tx, userFee };
-            }
-
-            /**
-             * @param {IOrder} order
-             * @private
-             */
-            static _remapOrders(order) {
-                const assetPair = order.assetPair;
-                const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
-                const isNew = Date.now() < (order.timestamp.getTime() + 1000 * 8);
-                const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
-                return { ...order, isNew, percent, pair };
-            }
-
-            static _getFeeByType(type) {
-                return function (tx) {
-                    switch (type) {
-                        case 'buy':
-                            return tx.buyMatcherFee;
-                        case 'sell':
-                            return tx.sellMatcherFee;
-                        default:
-                            throw new Error('Wrong order type!');
-                    }
-                };
-            }
-
         }
 
         return new DexMyOrders();
@@ -335,7 +376,8 @@
         'notification',
         'utils',
         '$scope',
-        'dexDataService'
+        'dexDataService',
+        'modalManager'
     ];
 
     angular.module('app.dex').component('wDexMyOrders', {

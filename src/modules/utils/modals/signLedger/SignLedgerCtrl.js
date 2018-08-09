@@ -19,18 +19,35 @@
                 this.txId = locals.id;
                 this.txData = locals.data;
 
+                this.deferred = {};
+                this.deferred.promise = new Promise((res, rej) => {
+                    this.deferred.resolve = res;
+                    this.deferred.reject = rej;
+                });
+
                 locals.ledgerPromise().then(
+                    () => this.deferred.resolve(),
+                    () => this.deferred.reject()
+                );
+
+                this.deferred.promise.then(
                     () => this.onLoad(),
                     () => this.onError()
                 );
             }
 
+            onClose() {
+                this.deferred.reject();
+            }
+
             onLoad() {
                 $mdDialog.hide();
+                $scope.$destroy();
             }
 
             onError() {
-                $mdDialog.hide();
+                $mdDialog.cancel();
+                $scope.$destroy();
             }
 
         }
