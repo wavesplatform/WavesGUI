@@ -68,7 +68,6 @@
             }
 
             login() {
-
                 try {
                     this.showPasswordError = false;
                     const activeUser = this.user;
@@ -77,17 +76,21 @@
                     const seed = new Seed(phrase);
                     const keyPair = seed.keyPair;
 
-                    user.login({
-                        address: activeUser.address,
-                        api: ds.signature.getDefaultSignatureApi(keyPair, activeUser.address, phrase),
-                        password: this.password,
-                        publicKey: seed.keyPair.publicKey
-                    });
+                    if (seed.address === activeUser.address) {
+                        user.login({
+                            address: activeUser.address,
+                            api: ds.signature.getDefaultSignatureApi(keyPair, activeUser.address, phrase),
+                            password: this.password,
+                            publicKey: seed.keyPair.publicKey
+                        });
+                    } else {
+                        this.password = '';
+                        this.showPasswordError = true;
+                    }
                 } catch (e) {
                     this.password = '';
                     this.showPasswordError = true;
                 }
-
             }
 
             /**
