@@ -84,12 +84,10 @@
                             publicKey: seed.keyPair.publicKey
                         });
                     } else {
-                        this.password = '';
-                        this.showPasswordError = true;
+                        this._showPasswordError();
                     }
                 } catch (e) {
-                    this.password = '';
-                    this.showPasswordError = true;
+                    this._showPasswordError();
                 }
             }
 
@@ -101,6 +99,14 @@
                 modalManager.showConfirmDeleteUser(user.settings.hasBackup).then(() => {
                     this._deleteUser(address);
                 });
+            }
+
+            /**
+             * @private
+             */
+            _showPasswordError() {
+                this.password = '';
+                this.showPasswordError = true;
             }
 
             /**
