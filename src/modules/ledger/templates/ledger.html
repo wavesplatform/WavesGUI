@@ -43,14 +43,17 @@
         </div>
         <div class="body-2 basic-900" w-i18n="ledgerForm.choose"></div>
         <div class="footnote-1 basic-500" w-i18n="ledgerForm.avatarUnique"></div>
+<div class="step-arrows-wrp">
         <div class="step-left" ng-click="$ctrl.stepLeft()" ng-class="{disabled: $ctrl.disabledLeft}"><div class="icon-left"></div></div>
+        <div class="step-right" ng-click="$ctrl.stepRight()" ng-class="{disabled: $ctrl.disabledRight}"><div class="icon-right"></div></div>
+</div>
         <div class="ledger-avatars-list">
             <div class="avatar-wrapper" ng-class="{active: $ctrl.selectedUser === user, disabled: $ctrl.isUserDisable($index)}"
                  ng-repeat="user in $ctrl.visibleUsers track by user.id" ng-click="$ctrl.selectUser(user)">
                 <w-avatar address="user.address" size="49" type="ledger"></w-avatar>
             </div>
         </div>
-        <div class="step-right" ng-click="$ctrl.stepRight()" ng-class="{disabled: $ctrl.disabledRight}"><div class="icon-right"></div></div>
+
         <div class="body-2 basic-900" w-i18n="ledgerForm.address"></div>
         <div class="input-like margin-2">
             <div ng-class="{empty: !$ctrl.selectedUser}" class="address basic-900 mobile-caption-2">

@@ -73,24 +73,29 @@ body.ledger {
         }
       }
     }
-    .step-left, step-right {
+    .step-left {
+      position: relative;
+    }
+    .step-right {
       position: relative;
     }
     .icon-left {
       background: @arrow-left-icon;
       height: 18px;
       width: 18px;
-      margin-top: 34px;
-      margin-right: 10px;
       cursor: pointer;
+      position: absolute;
+      margin-top: 44px;
+      margin-left: -20px;
     }
     .icon-right {
       background: @arrow-right-icon;
       height: 18px;
       width: 18px;
-      margin-top: 34px;
-      margin-left: 10px;
       cursor: pointer;
+      position: absolute;
+      margin-top: 44px;
+      margin-left: -20px;
     }
 
     .step-left.disabled .icon-left,
