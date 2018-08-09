@@ -48,85 +48,111 @@ export function broadcast(data) {
     });
 }
 
-export function createOrder(data) {
+function getCreateOrderTxData(data) {
     const api = getSignatureApi();
     return Promise.all([
-        api.getPublicKey(),
-        api.getAddress(),
-        request({ url: `${get('matcher')}/` })
-    ])
+            api.getPublicKey(),
+            api.getAddress(),
+            request({url: `${get('matcher')}/`})
+        ])
         .then(([senderPublicKey, sender, matcherPublicKey]) => {
             const timestamp = normalizeTime(data.timestamp || Date.now());
             const expiration = data.expiration || prepare.processors.expiration();
-            const schema = schemas.getSchemaByType(SIGN_TYPE.CREATE_ORDER);
-            const assetPair = {
-                amountAsset: idToNode(data.amountAsset),
-                priceAsset: idToNode(data.priceAsset)
-            };
-            return api.sign({
-                type: SIGN_TYPE.CREATE_ORDER,
-                data: schema.sign({ ...data, sender, senderPublicKey, timestamp, matcherPublicKey, expiration })
-            } as any)
-                .then((signature) => {
-                    return schema.api({
-                        ...data,
-                        sender,
-                        senderPublicKey,
-                        signature,
-                        timestamp,
-                        matcherPublicKey,
-                        expiration
-                    });
-                })
-                .then((data) => ({ ...data, assetPair }));
+            return { ...data, sender, senderPublicKey, timestamp, matcherPublicKey, expiration };
+        });
+}
+
+function getCreateOrderSignedData(txData) {
+    const api = getSignatureApi();
+    const schema = schemas.getSchemaByType(SIGN_TYPE.CREATE_ORDER);
+    const assetPair = {
+        amountAsset: idToNode(txData.amountAsset),
+        priceAsset: idToNode(txData.priceAsset)
+    };
+    return api.sign({
+            type: SIGN_TYPE.CREATE_ORDER,
+            data: schema.sign(txData)
         })
-        .then((data) => {
-            return request({
-                url: `${get('matcher')}/orderbook`,
-                fetchOptions: {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json;charset=UTF-8'
-                    },
-                    body: JSON.stringify(data)
-                }
+        .then((signature) => {
+            return schema.api({
+                ...txData,
+                signature
             });
         })
+        .then((data) => ({...data, assetPair}));
+}
+
+function createOrderSend(txData) {
+    return request({
+            url: `${get('matcher')}/orderbook`,
+            fetchOptions: {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                body: JSON.stringify(txData)
+            }
+        })
         .then((data: any) => {
-            return parse([{ ...data.message, type: data.message.orderType, status: 'Accepted', filled: 0 }]);
+            return parse([{
+                ...data.message,
+                type: data.message.orderType,
+                status: 'Accepted',
+                filled: 0
+            }]);
         })
         .then(addOrderToStore);
 }
 
-export function cancelOrder(amountId: string, priceId: string, orderId: string, type: 'cancel' | 'delete' = 'cancel') {
+export const createOrder = {
+    createTransactionId: getTransactionId.bind(null, SIGN_TYPE.CREATE_ORDER),
+    createTx: getCreateOrderTxData,
+    signed: getCreateOrderSignedData,
+    send: createOrderSend
+};
+
+function getCancelOrderTxData({ amountId, priceId, orderId }) {
     const api = getSignatureApi();
     const schema = schemas.getSchemaByType(SIGN_TYPE.CANCEL_ORDER);
-    return Promise.all([api.getPublicKey(), api.getAddress()])
-        .then(([senderPublicKey, sender]) => {
-            return api.sign({ type: SIGN_TYPE.CANCEL_ORDER, data: schema.sign({ senderPublicKey, orderId }) })
-                .then((signature) => {
-                    return schema.api({ senderPublicKey, orderId, signature, sender });
-                });
-        })
-        .then((data) => {
-            return request({
-                url: `${get('matcher')}/orderbook/${amountId}/${priceId}/${type}`,
-                fetchOptions: {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json;charset=UTF-8'
-                    },
-                    body: JSON.stringify(data)
-                }
-            });
-        })
-        .then((data) => {
-            removeOrderFromStore({ id: orderId });
-            return data;
+    return api.getPublicKey().then((senderPublicKey) => {
+        return { type: SIGN_TYPE.CANCEL_ORDER, data: schema.sign({ senderPublicKey, orderId }) }
+    });
+}
+
+function getCancelOrderSignData(txData) {
+    const api = getSignatureApi();
+    const schema = schemas.getSchemaByType(SIGN_TYPE.CANCEL_ORDER);
+
+    return Promise.all([api.sign(txData), api.getAddress()])
+        .then(([signature, sender]) => {
+            return schema.api({ ...txData, signature, sender });
         });
 }
+
+function cancelOrderSend(type: 'cancel' | 'delete' = 'cancel', txData) {
+    return request({
+        url: `${get('matcher')}/orderbook/${txData.amountId}/${txData.priceId}/${type}`,
+        fetchOptions: {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
+            body: JSON.stringify(txData)
+        }
+    }).then((data) => {
+        removeOrderFromStore({ id: txData.orderId });
+        return data;
+    });
+}
+
+export const cancelOrder = {
+    createTransactionId: getTransactionId.bind(null, SIGN_TYPE.CANCEL_ORDER),
+    createTx: getCancelOrderTxData,
+    signed: getCancelOrderSignData,
+    send: cancelOrderSend
+};
 
 export module prepare {
 

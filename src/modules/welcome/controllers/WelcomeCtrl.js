@@ -165,7 +165,7 @@
             _updateActiveUserAddress() {
                 if (this.userList.length) {
                     this.activeUserAddress = this.userList[0].address;
-                    this.needPassword = this.userList[0].userType === 'seed';
+                    this.needPassword = !this.userList[0].userType || this.userList[0].userType === 'seed';
                 } else {
                     this.activeUserAddress = null;
                     this.needPassword = true;

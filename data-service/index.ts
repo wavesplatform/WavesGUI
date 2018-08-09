@@ -16,8 +16,8 @@ import {
     prepareForBroadcast as prepareForBroadcastF,
     getTransactionId as getTransactionIdF,
     broadcast as broadcastF,
-    createOrder as createOrderF,
-    cancelOrder as cancelOrderF
+    createOrder as createOrderO,
+    cancelOrder as cancelOrderO
 } from './broadcast/broadcast';
 import { utils as cryptoUtils } from '@waves/waves-signature-generator';
 import * as signatureAdapters from '@waves/waves-signature-adapter';
@@ -42,8 +42,8 @@ export const isValidAddress = cryptoUtils.crypto.isValidAddress;
 export const prepareForBroadcast = prepareForBroadcastF;
 export const getTransactionId = getTransactionIdF;
 export const broadcast = broadcastF;
-export const createOrder = createOrderF;
-export const cancelOrder = cancelOrderF;
+export const createOrder = createOrderO;
+export const cancelOrder = cancelOrderO;
 
 wavesDataEntitiesModule.config.set('remapAsset', (data: IAssetInfo) => {
     const name = get('remappedAssetNames')[data.id] || data.name;

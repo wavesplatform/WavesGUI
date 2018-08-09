@@ -73,7 +73,12 @@
                     id: 'sign-ledger',
                     contentUrl: 'modules/utils/modals/signLedger/signLedger.html',
                     controller: 'SignLedgerCtrl',
-                    locals: { ledgerPromise: () => options.promise, mode: options.mode, id: options.id },
+                    locals: {
+                        ledgerPromise: () => options.promise,
+                        mode: options.mode,
+                        id: options.id,
+                        data: options.data
+                    },
                     clickOutsideToClose: false,
                     escapeToClose: false
                 });

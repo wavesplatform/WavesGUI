@@ -17,6 +17,8 @@
                 this.mode = locals.mode;
                 this.loading = true;
                 this.txId = locals.id;
+                this.txData = locals.data;
+
                 locals.ledgerPromise().then(
                     () => this.onLoad(),
                     () => this.onError()
