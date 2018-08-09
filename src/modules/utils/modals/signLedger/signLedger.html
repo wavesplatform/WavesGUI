@@ -41,7 +41,6 @@
 
     <div class="create-order-mode" ng-if="$ctrl.mode === 'create-order'">
 
-
         <div class="txinfo__icon order"></div>
 
         <h3 class="text-center">
@@ -82,6 +81,25 @@
             </div>
             <div class="txinfo__value nowrap">{{::$ctrl.txData.fee}} {{::$ctrl.txData.feeAsset.name}}</div>
         </div>
+
+        <w-loader></w-loader>
+        <div class="text-center body-2" w-i18n="model.sign.waitLedger"></div>
+    </div>
+
+    <div class="cancel-order-mode" ng-if="$ctrl.mode === 'cancel-order'">
+        <div class="txinfo__icon cancel-order"></div>
+
+        <h3 class="text-center" w-i18n="modal.sign.cancelOrder"></h3>
+
+        <div class="txinfo__row">
+            <div class="txinfo__key"
+                 w-i18n="madal.sign.txId">
+            </div>
+            <div class="txinfo__value nowrap">{{::$ctrl.txId}}</div>
+        </div>
+
+        <w-loader></w-loader>
+        <div class="text-center body-2" w-i18n="model.sign.waitLedger"></div>
     </div>
 
 </div>

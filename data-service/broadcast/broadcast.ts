@@ -112,7 +112,7 @@ export const createOrder = {
     send: createOrderSend
 };
 
-function getCancelOrderTxData({ amountId, priceId, orderId }) {
+function getCancelOrderTxData(orderId) {
     const api = getSignatureApi();
     const schema = schemas.getSchemaByType(SIGN_TYPE.CANCEL_ORDER);
     return api.getPublicKey().then((senderPublicKey) => {
@@ -126,13 +126,13 @@ function getCancelOrderSignData(txData) {
 
     return Promise.all([api.sign(txData), api.getAddress()])
         .then(([signature, sender]) => {
-            return schema.api({ ...txData, signature, sender });
+            return schema.api({ ...txData.data, signature, sender });
         });
 }
 
-function cancelOrderSend(type: 'cancel' | 'delete' = 'cancel', txData) {
+function cancelOrderSend(txData, amountId, priceId, type: 'cancel' | 'delete' = 'cancel') {
     return request({
-        url: `${get('matcher')}/orderbook/${txData.amountId}/${txData.priceId}/${type}`,
+        url: `${get('matcher')}/orderbook/${amountId}/${priceId}/${type}`,
         fetchOptions: {
             method: 'POST',
             headers: {
