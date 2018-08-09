@@ -341,7 +341,8 @@
             }
 
             _createTxData(data) {
-                const dataPromise = ds.createOrder.createTx(data)
+
+                const dataPromise = ds.createOrder.createTx({ ...data })
                     .then((txData) => {
                         return ds.createOrder.createTransactionId(txData).then((txId) => {
                             return { txId, txData };
@@ -374,7 +375,7 @@
                             id: txId
                         });
 
-                        return Promise.all([signPromise, modalPromise]).then(([data]) => data);
+                        return modalPromise.then(() => signPromise);
                     });
 
                 if (!user.userType || user.userType === 'seed') {
@@ -382,7 +383,9 @@
                 }
 
                 return dataPromise.catch(() => {
-                    return modalManager.showLedgerError({ error: 'sign-error' }).then(() => this._createTxData(data));
+                    return modalManager.showLedgerError({ error: 'sign-error' })
+                        .then(() => Promise.resolve(), () => Promise.reject({ error: 'signAbort' }))
+                        .then(() => this._createTxData(data));
                 });
             }
 
