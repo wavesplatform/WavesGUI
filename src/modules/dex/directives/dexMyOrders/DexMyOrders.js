@@ -247,17 +247,16 @@
                     return ds.cancelOrder.createTransactionId(txData.data)
                         .then((txId) => ({ id: txId, data: txData }));
                 }).then((data) => {
-                    const modalPromise = modalManager.showSignLedger({
+                    return modalManager.showSignLedger({
                         promise: signPromise,
                         ...data,
                         mode: 'cancel-order'
-                    });
-                    return Promise.all([signPromise, modalPromise]);
+                    }).catch(() => Promise.reject());
                 }).then(
-                    ([data]) => data,
+                    () => signPromise,
                     () => {
                         return modalManager.showLedgerError({ error: 'sign-error' }).then(
-                            () => this.dropOrderGetSignData(),
+                            () => this.dropOrderGetSignData(order),
                             () => {
                                 return Promise.reject({ error: 'no sign' });
                             });

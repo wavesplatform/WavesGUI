@@ -87,7 +87,8 @@
                             }) :
                         Promise.resolve();
 
-                    Promise.all([adapterAvilablePromise, modalPromise])
+                    modalPromise
+                        .then(() => adapterAvilablePromise)
                         .then(() => {
                             return user.login({
                                 address: activeUser.address,

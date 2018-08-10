@@ -460,8 +460,8 @@
                             return modalManager.showSignLedger({ promise, mode: 'sign-matcher', id });
                         });
 
-                        ledgerPromise = Promise.all([promise, modalPromise])
-                            .then(([signData]) => signData)
+                        ledgerPromise = modalPromise
+                            .then(() => promise)
                             .catch(
                                 () => modalManager.showLedgerError({ error: 'sign-error' }).then(
                                     () => {
