@@ -10,7 +10,7 @@ import { homedir, platform } from 'os';
 import { execSync } from 'child_process'
 import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST } from './constansts';
 
-// const i18next = require(join(__dirname, 'node_modules', 'i18next', 'dist', 'commonjs', 'index.js'));
+const i18next = require(join(__dirname, 'i18next', 'commonjs', 'index.js'));
 
 import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOptions;
 
@@ -23,11 +23,11 @@ class Main implements IMain {
     public mainWindow: BrowserWindow;
     public menu: Menu;
     public bridge: Bridge;
-    // private i18next: any;
+    private i18next: any;
     private createMainWindowPromise: Promise<BrowserWindow>;
     private hasDevTools: boolean = false;
     private dataPromise: Promise<IMetaJSON>;
-    private localeReadyPromise/*: Promise<Function>*/;
+    private localeReadyPromise: Promise<Function>;
     private readonly ignoreSslError: boolean;
     private readonly noReplaceDesktopFile: boolean;
     private readonly server: string;
@@ -50,43 +50,42 @@ class Main implements IMain {
         this.setHandlers();
     }
 
-    // public setLanguage(lng: string): void {
-    //     i18next.changeLanguage(lng);
-    //     this.addApplicationMenu();
-    // }
+    public setLanguage(lng: string): void {
+        i18next.changeLanguage(lng);
+        this.addApplicationMenu();
+    }
 
     public addDevTools() {
         this.hasDevTools = true;
         this.addApplicationMenu();
     }
 
-    private getLocaleReadyPromise()/*: Promise<Function>*/ {
-        // return readdir(join(__dirname, 'locales'))
-        //     .then(list => {
-        //         const resources = list.map(lang => ({
-        //             lang,
-        //             value: require(join(__dirname, 'locales', lang, 'electron.json'))
-        //         }));
-        //
-        //         const instance = i18next.init({
-        //             fallbackLng: 'en',
-        //             lng: 'en',
-        //             ns: ['electron']
-        //         });
-        //
-        //         this.i18next = instance;
-        //
-        //         resources.forEach(({ lang, value }) => {
-        //             instance.addResourceBundle(lang, 'electron', value, true);
-        //         });
-        //
-        //         return new Promise((resolve) => {
-        //             i18next.on('initialized', () => {
-        //                 resolve((literal, options) => instance.t(`electron:${literal}`, options));
-        //             });
-        //         }) as Promise<Function>;
-        //     });
-        return Promise.resolve();
+    private getLocaleReadyPromise(): Promise<Function> {
+        return readdir(join(__dirname, 'locales'))
+            .then(list => {
+                const resources = list.map(lang => ({
+                    lang,
+                    value: require(join(__dirname, 'locales', lang, 'electron.json'))
+                }));
+
+                const instance = i18next.init({
+                    fallbackLng: 'en',
+                    lng: 'en',
+                    ns: ['electron']
+                });
+
+                this.i18next = instance;
+
+                resources.forEach(({ lang, value }) => {
+                    instance.addResourceBundle(lang, 'electron', value, true);
+                });
+
+                return new Promise((resolve) => {
+                    i18next.on('initialized', () => {
+                        resolve((literal, options) => instance.t(`electron:${literal}`, options));
+                    });
+                }) as Promise<Function>;
+            })
     }
 
     private makeSingleInstance(): boolean {
@@ -177,12 +176,11 @@ class Main implements IMain {
 
     private addApplicationMenu(): Promise<void> {
         Menu.setApplicationMenu(null);
-        // return this.localeReadyPromise.then(t => {
-        const menuList = GET_MENU_LIST(app, /*t,*/ this.hasDevTools);
-        this.menu = Menu.buildFromTemplate(menuList);
-        Menu.setApplicationMenu(this.menu);
-        // });
-        return Promise.resolve();
+        return this.localeReadyPromise.then(t => {
+            const menuList = GET_MENU_LIST(app, t, this.hasDevTools);
+            this.menu = Menu.buildFromTemplate(menuList);
+            Menu.setApplicationMenu(this.menu);
+        });
     }
 
     private registerProtocol(): Promise<void> {
