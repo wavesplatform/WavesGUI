@@ -6,7 +6,7 @@
         <div class="headline-1" w-i18n="userList.title"></div>
 
         <div class="body-2">
-            <span class="disabled-600" w-i18n="userList.subTitleSession"></span>
+            <span class="basic-500" w-i18n="userList.subTitleSession"></span>
         </div>
     </div>
 
@@ -29,7 +29,7 @@
         </div>
     </w-select>
 
-    <div class="password-placeholder">
+    <div class="password-placeholder" ng-if="$ctrl.needPassword">
         <div class="body-2 basic-900" w-i18n="userList.password"></div>
     </div>
     <form class="margin-2"
