@@ -8,8 +8,11 @@
         </div>
 
         <div class="body-2 disabled-600">
-            <span w-i18n="createAccount.signUp"></span>
-            <a ui-sref="import">
+            <a ui-sref="welcome">
+                <span w-i18n="createAccount.signIn"></span>
+            </a>
+            <span w-i18n="createAccount.toWalet"></span>
+            <a ui-sref="restore">
                 <span w-i18n="createAccount.restore"></span>
             </a>
             <span w-i18n="createAccount.from"></span>
@@ -60,8 +63,9 @@
             <span w-i18n="noBackupNoMoney.or"></span>
         </div>
         <div class="text-center body-2 flex-column-center-min margin-2">
-            <a ui-sref="welcome" w-i18n="createAccount.signIn"></a>
-            <span w-i18n="createAccount.tosaved"></span>
+            <a ui-sref="import">
+                <span w-i18n="createAccount.import"></span>
+            </a>
         </div>
     </div>
 
