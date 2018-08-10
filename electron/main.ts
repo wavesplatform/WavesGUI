@@ -9,6 +9,14 @@ import { hasProtocol, read, readJSON, removeProtocol, write, writeJSON, readdir 
 import { homedir, platform } from 'os';
 import { execSync } from 'child_process'
 import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST } from './constansts';
+import { LedgerAdapter } from '@waves/waves-signature-adapter';
+
+(<any>global).LedgerAdapter = LedgerAdapter;
+(<any>global).Transport = require('@ledgerhq/hw-transport-node-hid');
+LedgerAdapter.initOptions({
+    networkCode: 87,
+    transport: (<any>global).Transport.default,
+});
 
 const i18next = require(join(__dirname, 'node_modules', 'i18next', 'dist', 'commonjs', 'index.js'));
 
