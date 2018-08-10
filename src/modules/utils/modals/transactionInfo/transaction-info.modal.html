@@ -7,7 +7,7 @@
             </div>
             <div ng-if="$ctrl.transaction" class="txinfo__wrapper">
 
-                <w-transaction-info transaction="::$ctrl.transaction" txid="$ctrl.transaction.id"></w-transaction-info>
+                <w-transaction-info transaction="::$ctrl.transaction" tx-id="$ctrl.transaction.id"></w-transaction-info>
 
                 <div class="txinfo__row" ng-if="$ctrl.confirmed">
                     <div class="txinfo__key" w-i18n="transaction.modals.confirmations"></div>
