@@ -3306,7 +3306,7 @@
         'J3MYxiQ7ngAGaK129Ac7fLFfzTosA6YVhzsBeuzk1GXX': true,
         '2xUpPkiAbgwjCmohcM2bxc2bpzyF77wa1L61BwNcFpbP': true
     };
-    var hasBeenUpdated = true; // set this to false to update asset list from github
+    var hasBeenUpdated = false; // set this to false to update asset list from github
     var isPendingUpdate = false;
     var SPAM_ASSET_LIST_URL = 'https://raw.githubusercontent.com/wavesplatform/waves-community/' +
         'master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv';
