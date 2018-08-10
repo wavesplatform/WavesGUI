@@ -14,6 +14,7 @@
 
         class ModalRouter {
 
+
             constructor() {
                 /**
                  * @type {boolean}
