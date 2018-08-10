@@ -25,11 +25,11 @@
                  * @type {ITransaction}
                  */
                 this.transaction = null;
+                this.txId = null;
             }
 
             $postLink() {
                 const transaction = this.transaction;
-
                 this.templateUrl = `${PATH}/${transaction.templateType}.html`;
                 this.datetime = $filter('date')(transaction.timestamp, 'dd.MM.yyyy, HH:mm');
                 this.shownAddress = transaction.shownAddress;
@@ -37,7 +37,6 @@
                 this.numberOfRecipients = transaction.numberOfRecipients;
                 this.isScam = !!WavesApp.scam[this.transaction.assetId];
                 this.explorerLink = explorerLinks.getTxLink(transaction.id);
-
                 if (transaction.amount || (transaction.lease && transaction.lease.amount)) {
                     const amount = transaction.amount || transaction.lease.amount;
                     baseAssetService.convertToBaseAsset(amount)
@@ -81,6 +80,7 @@
     angular.module('app.ui').component('wTransactionInfo', {
         bindings: {
             transaction: '<',
+            txId: '<',
             warning: '<'
         },
         templateUrl: 'modules/ui/directives/transactionInfo/transaction-info.html',
