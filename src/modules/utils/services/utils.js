@@ -91,8 +91,8 @@
 
                 return {
                     path,
-                    search: `?${search}`,
-                    hash: `#${hash}`
+                    search: `?${search || ''}`,
+                    hash: `#${hash || ''}`
                 };
             },
 
