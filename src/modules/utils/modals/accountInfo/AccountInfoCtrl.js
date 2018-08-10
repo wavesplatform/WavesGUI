@@ -86,22 +86,24 @@
             }
 
             createAlias() {
-                return ds.broadcast(10, { alias: this.newAlias, fee: this.fee })
-                    .then(() => {
-                        analytics.push('User', `User.CreateAlias.Success.${WavesApp.type}`);
-                        this.aliases.push(this.newAlias);
-                        this.newAlias = '';
-                        this.createAliasStep = 0;
-                        notification.info({
-                            ns: 'app.utils',
-                            title: { literal: 'modal.account.notifications.aliasCreated' }
-                        });
-                        $scope.$digest();
-                    })
-                    .catch(() => {
+                const timestamp = ds.utils.normalizeTime(Date.now());
+                return ds.prepareForBroadcast(10, { alias: this.newAlias, fee: this.fee, timestamp })
+                    .then((preparedTx) => {
+                        return ds.broadcast(preparedTx)
+                            .then(() => {
+                                analytics.push('User', `User.CreateAlias.Success.${WavesApp.type}`);
+                                this.aliases.push(this.newAlias);
+                                this.newAlias = '';
+                                this.createAliasStep = 0;
+                                notification.info({
+                                    ns: 'app.utils',
+                                    title: { literal: 'modal.account.notifications.aliasCreated' }
+                                });
+                                $scope.$digest();
+                            });
+                    }).catch(() => {
                         analytics.push('User', `User.CreateAlias.Error.${WavesApp.type}`);
                     });
-
             }
 
             onCopyAddress() {

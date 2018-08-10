@@ -293,8 +293,9 @@ task('eslint', function (done) {
 });
 
 task('less', function () {
+    const files = getAllLessFiles().join('\n');
     for (const theme of THEMES) {
-        execSync(`sh ${join('scripts', `less.sh -t=${theme} -n=${cssName}`)}`);
+        execSync(`sh ${join('scripts', `less.sh -t=${theme} -n=${cssName} -f="${files}"`)}`);
         steelSheetsFiles[cssName] = { theme };
     }
 });

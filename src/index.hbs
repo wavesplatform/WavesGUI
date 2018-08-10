@@ -483,10 +483,19 @@
     // Signed 64-bit integer.
     WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
 
-    WavesApp.parseJSON = parseJsonBignumber();
-
     WavesApp.device = new MobileDetect(navigator.userAgent);
 
+    var wrapper = require('worker-wrapper');
+
+    var worker = wrapper.create({
+        libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js']
+    });
+
+    worker.process(() => {
+        self.parse = parseJsonBignumber();
+    });
+
+    WavesApp.parseJSON = str => worker.process(str => parse(str), str);
 
     var isBrowserSupported = (function () {
 
