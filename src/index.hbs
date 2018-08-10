@@ -397,7 +397,12 @@
             return {{#if isProduction}}true;{{else}}false;{{/if}}
             },
             parseJSON: null,
-            stateTree: null
+            stateTree: null,
+            sign: {
+                openTimeout: 3000,
+                listenTimeout: 15000,
+                exchangeTimeout: 60000,
+            }
         };
 
     </script>
@@ -691,6 +696,7 @@
      * @property {function():{name: string, separators: {group: string, decimal: string}}} getLocaleData
      * @property {function(data: string): object} parseJSON
      * @property {Tree} stateTree
+     * @property {object.<{openTimeout: number, listenTimeout: number, exchangeTimeout: number}>} sign
      */
 </script>
 
