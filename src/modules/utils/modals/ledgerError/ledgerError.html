@@ -17,7 +17,16 @@
         <div class="ledger-error-icon"></div>
 
         <h3 class="text-center basic-700" w-i18n="modal.sign.connectionError"></h3>
-        <p class="body-2 basic-500" w-i18n="modal.sign.connectionText"></p>
+        <div class="title-wrapper margin-4 body-2 basic-500">
+            <div class="text-center basic-500">
+                <span w-i18n="modal.sign.signErrorText"></span>
+            </div>
+            <div class="text-center basic-500">
+                <span w-i18n="modal.sign.referTo"></span>
+                <a href="https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues"
+                   w-i18n="modal.sign.article"></a>
+            </div>
+        </div>
         <w-button class="submit big" w-modal-close>
             <span w-i18n="modal.sign.close"></span>
         </w-button>
