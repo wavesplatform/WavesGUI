@@ -22,7 +22,8 @@
                     networkCode: WavesApp.network.code.charCodeAt(0),
                     openTimeout: WavesApp.sign.openTimeout,
                     listenTimeout: WavesApp.sign.listenTimeout,
-                    exchangeTimeout: WavesApp.sign.exchangeTimeout
+                    exchangeTimeout: WavesApp.sign.exchangeTimeout,
+                    debug: !WavesApp.isProduction()
                 }));
             }
 
