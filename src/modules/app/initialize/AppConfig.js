@@ -19,7 +19,10 @@
 
             _initAdapters() {
                 ds.signAdapters.adapterList.forEach((Adapter) => Adapter.initOptions({
-                    networkCode: WavesApp.network.code.charCodeAt(0)
+                    networkCode: WavesApp.network.code.charCodeAt(0),
+                    openTimeout: WavesApp.sign.openTimeout,
+                    listenTimeout: WavesApp.sign.listenTimeout,
+                    exchangeTimeout: WavesApp.sign.exchangeTimeout
                 }));
             }
 
