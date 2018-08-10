@@ -2,12 +2,13 @@ import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
 import { exec, execSync } from 'child_process';
-import { download, getFilesFrom, prepareExport, prepareHTML, run, task } from './ts-scripts/utils';
+import { download, getFilesFrom, prepareExport, prepareHTML, run, task, getAllLessFiles } from './ts-scripts/utils';
 import { basename, join, sep } from 'path';
-import { copy, mkdirp, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
+import { copy, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
+import {utils} from "./data-service/api/API";
 
 const zip = require('gulp-zip');
 const s3 = require('gulp-s3');
@@ -289,8 +290,9 @@ task('eslint', function (done) {
 });
 
 task('less', function () {
+    const files = getAllLessFiles().join('\n');
     for (const theme of THEMES) {
-        execSync(`sh ${join('scripts', `less.sh -t=${theme} -n=${cssName}`)}`);
+        execSync(`sh ${join('scripts', `less.sh -t=${theme} -n=${cssName} -f="${files}"`)}`);
         steelSheetsFiles[cssName] = { theme };
     }
 });

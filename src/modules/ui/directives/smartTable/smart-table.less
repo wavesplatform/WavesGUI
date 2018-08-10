@@ -180,7 +180,6 @@
     }
 
     .smart-table__w-tbody {
-
       .smart-table__cell {
         border-bottom: 1px solid @color-basic-50;
         padding: 0 10px;
@@ -225,12 +224,9 @@
       }
 
       .smart-table__w-tbody {
-        overflow: hidden;
-      }
-
-      .smart-table__w-tbody {
 
         .smart-table__row {
+          width: 100%;
           flex-direction: column;
           position: relative;
           background: @color-white;
@@ -239,8 +235,6 @@
           padding: 20px 0 40px;
           transition: .3s;
           min-width: calc(100% ~'- 20px');
-          width: calc(100% ~'- 20px');
-          margin: 10px;
 
           &:first-child {
             margin-top: 0;
@@ -255,28 +249,8 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 0 20px;
+          padding: 0 20px 0 10px;
           border: 0 none;
-
-          .cell-header {
-            display: block;
-            flex-basis: 50%;
-            color: @color-basic-500;
-            .footnote-1();
-            margin: 0;
-          }
-
-          .cell {
-            flex-basis: 50%;
-          }
-
-          &:first-child {
-            .cell {
-              padding-left: 0;
-              margin-bottom: 10px;
-              flex-basis: 100%;
-            }
-          }
 
           &:last-child {
             width: 100%;
@@ -292,7 +266,7 @@
 
             w-actions {
               right: 10px;
-              top: 30px;
+              top: 39px;
               width: 24px;
             }
           }

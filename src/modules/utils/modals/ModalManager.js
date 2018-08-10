@@ -203,7 +203,7 @@
              * @param {Asset} [asset]
              * @return {Promise}
              */
-            showReceivePopup(user, asset) {
+            showReceiveModal(user, asset) {
                 return user.onLogin().then(() => {
                     return this._getModal({
                         id: 'receive-popup',

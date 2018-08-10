@@ -92,6 +92,7 @@
                 return function (target, key, descriptor) {
                     const origin = descriptor.value;
                     const cache = Object.create(null);
+                    const timeout = time * 1000;
 
                     if (time > 0) {
                         descriptor.value = function (...args) {
@@ -114,12 +115,12 @@
                                         .then(() => {
                                             cache[key].timer = timeLine.timeout(() => {
                                                 delete cache[key];
-                                            }, time * 1000);
+                                            }, timeout);
                                         });
                                 } else {
                                     cache[key].timer = timeLine.timeout(() => {
                                         delete cache[key];
-                                    }, time * 1000);
+                                    }, timeout);
                                 }
                             }
                             return cache[key].value;

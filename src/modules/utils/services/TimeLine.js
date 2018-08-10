@@ -7,6 +7,8 @@
      */
     const factory = function (PromiseControl) {
 
+        const tsUtils = require('ts-utils');
+
         class TimerList {
 
             constructor() {
