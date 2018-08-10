@@ -2,7 +2,6 @@
 @import (reference) 'icons';
 
 body.ledger {
-
   .loader-error-wrapper {
     max-width: 460px;
     margin: 0 auto;
@@ -41,6 +40,7 @@ body.ledger {
   .import-wrapper {
     max-width: 460px;
     margin: auto;
+    position: relative;
     .ledger-avatars-list {
       display: flex;
       flex-direction: row;
@@ -95,7 +95,8 @@ body.ledger {
       cursor: pointer;
       position: absolute;
       margin-top: 44px;
-      margin-left: -20px;
+      margin-right: -20px;
+      right: 0px;
     }
 
     .step-left.disabled .icon-left,
@@ -117,5 +118,15 @@ body.ledger {
   }
 
 
+
+}
+
+@media screen and (max-width: 768px) {
+
+  body.ledger {
+    ui-view[name="main"] {
+      padding: 0 10px 10px 10px;
+    }
+  }
 
 }

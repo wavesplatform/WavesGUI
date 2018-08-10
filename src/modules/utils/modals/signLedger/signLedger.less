@@ -113,6 +113,11 @@
       position: relative;
     }
   }
+  .ledger-icons {
+    height: 80px;
+    width: 80px;
+    margin: 0 auto 30px auto;
+  }
   .create-order-amounts {
     text-align: center;
     padding: 0 0 30px 0;
@@ -124,9 +129,6 @@
   }
   .create-order-icon {
     background: @transaction-icons;
-    height: 80px;
-    width: 80px;
-    margin: 30px auto;
     background-size: auto 80px;
     background-repeat: no-repeat;
     background-position: -157px center;
@@ -134,7 +136,13 @@
   .create-order-cont {
     border-bottom: 1px solid #edf0f4;
   }
-
+  .cancel-order-mode,
+  .create-order-mode {
+    padding-top: 30px;
+  }
+  .cancel-order-icon {
+    background: @cancelorder-icon;
+  }
   .bottom-wrapper {
     padding-top: 20px;
     

@@ -41,7 +41,7 @@
 
     <div class="create-order-mode" ng-if="$ctrl.mode === 'create-order'">
 
-        <div class="create-order-icon"></div>
+        <div class="create-order-icon ledger-icons"></div>
 
         
         <div class="create-order-amounts">
@@ -67,7 +67,7 @@
         <div class="create-order-cont">
             <div class="txinfo__row">
                 <div class="txinfo__key">
-                    <span>{{::$ctrl.txData.priceAsset.name}}<span> <span w-i18n="modal.sign.price"></span>
+                    <span>{{::$ctrl.txData.priceAsset.name}}</span> <span w-i18n="modal.sign.price"></span>
                 </div>
                 <div class="txinfo__value nowrap">{{::$ctrl.txData.price}}</div>
             </div>
@@ -93,7 +93,7 @@
     </div>
 
     <div class="cancel-order-mode" ng-if="$ctrl.mode === 'cancel-order'">
-
+        <div class="cancel-order-icon ledger-icons"></div>
         <div class="create-order-amounts">
             <h3 class="basic-700 text-center" w-i18n="modal.sign.cancelOrder"></h3>
         </div>
