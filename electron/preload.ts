@@ -11,7 +11,4 @@ process.once('loaded', () => {
     const transferModule = remote.require('./transfer');
 
     g.transfer = transferModule.transfer;
-    g.listenMainProcessEvent = transferModule.listenMainProcessEvent;
-    g.stopListenMainProcessEvent = transferModule.stopListenMainProcessEvent;
-    g.runMainProcessEvent = transferModule.runMainProcessEvent;
 });

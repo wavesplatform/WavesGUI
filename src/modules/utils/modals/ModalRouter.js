@@ -43,7 +43,7 @@
                     window.listenMainProcessEvent((eventType, urlString) => {
                         const { hash } = utils.parseElectronUrl(urlString);
                         if (hash) {
-                            this._apply(ModalRouter._getUrlData(hash));
+                            this._apply(ModalRouter._getUrlData(hash.replace('#', '')));
                         }
                     });
                 }

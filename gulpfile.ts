@@ -399,6 +399,7 @@ task('electron-debug', function (done) {
     };
 
     const copyNodeModules = () => Promise.all(meta.copyNodeModules.map(name => copy(name, join(root, name))));
+    const copyI18next = () => copy(join(__dirname, 'node_modules', 'i18next', 'dist'), join(root, 'i18next'));
 
     readdir(srcDir)
         .then(excludeTypeScrip)
@@ -406,6 +407,7 @@ task('electron-debug', function (done) {
         .then(makePackageJSON)
         .then(loadLocales)
         .then(copyNodeModules)
+        .then(copyI18next)
         .then(() => done());
 });
 

@@ -110,7 +110,9 @@
                 if (WavesApp.isDesktop()) {
                     window.listenMainProcessEvent((type, url) => {
                         const parts = utils.parseElectronUrl(url);
-                        location.hash = `#!${parts.path}${parts.search}`;
+                        if (parts.path) {
+                            location.hash = `#!${parts.path}${parts.search}`;
+                        }
                     });
                 }
 

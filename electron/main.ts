@@ -157,7 +157,7 @@ class Main implements IMain {
         }
         const browseWindowPromise = new Promise((resolve) => {
             app.on('ready', () => this.onAppReady(resolve));
-        })
+        });
         app.on('window-all-closed', Main.onAllWindowClosed);
         app.on('activate', () => this.onActivate());
         app.on('open-url', (event, url) => {
@@ -184,6 +184,10 @@ class Main implements IMain {
     }
 
     private registerProtocol(): Promise<void> {
+        if (this.noReplaceDesktopFile) {
+            return Promise.resolve();
+        }
+
         return Main.loadMeta()
             .then(meta => {
                 const execPath = process.execPath;
