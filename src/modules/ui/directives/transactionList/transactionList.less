@@ -1,7 +1,6 @@
-@import (reference) '../../../config';
+@import (reference) 'config';
 
 .transactions w-scroll-box {
-  border: 1px solid @color-basic-100;
   border-radius: @border-radius;
 
   .scroll-list {
@@ -12,6 +11,14 @@
 w-transaction-list {
   display: flex;
   height: 100%;
+
+  w-transaction {
+    width: 100%;
+  }
+
+  .w-visible {
+    min-height: 74px;
+  }
 
   .transaction-list-mixin {
     background-color: @color-white;
@@ -32,12 +39,14 @@ w-transaction-list {
   .w-transaction-list {
     width: 100%;
     border-radius: @border-radius;
+    transform: translate3d(0, 0, 0);
 
     ul {
       .transaction-list-mixin();
       list-style: none;
       margin: 0;
       padding: 0;
+      transform: translate3d(0, 0, 0);
 
       li {
         padding: 0;
@@ -54,20 +63,14 @@ w-transaction-list {
 
         .row {
           position: relative;
-          border-bottom: 1px solid @color-basic-100;
+          transition: all 0.3s;
+
+          .w-visible {
+            border-bottom: 1px solid @color-basic-50;
+          }
 
           &:hover {
-            background-color: @color-submit-50;
-
-            &::before {
-              content: '';
-              width: 2px;
-              height: 100%;
-              background-color: @color-submit-400;
-              position: absolute;
-              left: 0;
-              top: 0;
-            }
+            background: @hover-default;
           }
         }
       }
@@ -82,27 +85,34 @@ w-transaction-list {
   height: 13px;
 
   w-loader {
-       margin: 0 auto;
+    margin: 0 auto;
   }
 }
 
 @media screen and (max-width: 768px) {
-
-  ul .transaction-item .date {
+  .transaction-item .date {
     padding-left: 23px;
   }
 
-  .main-content {
-    w-transaction-list {
-      min-height: calc(100vh ~'- 148px');
-
-      .w-transaction-list {
-        &.no-transactions {
-          min-height: 250px;
-        }
+  body.transactions {
+    .main-content {
+      .w-visible {
+        height: 91px;
       }
 
+      w-transaction-list {
+        min-height: calc(100vh ~'- 148px');
+        .w-transaction-list {
+
+          ul {
+            overflow: auto;
+          }
+
+          &.no-transactions {
+            min-height: 250px;
+          }
+        }
+      }
     }
   }
-
 }

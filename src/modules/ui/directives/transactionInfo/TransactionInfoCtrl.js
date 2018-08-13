@@ -38,8 +38,8 @@
                 this.isScam = !!WavesApp.scam[this.transaction.assetId];
                 this.explorerLink = explorerLinks.getTxLink(transaction.id);
 
-                if (transaction.amount || transaction.leaseTransactionAmount) {
-                    const amount = transaction.amount || transaction.leaseTransactionAmount;
+                if (transaction.amount || (transaction.lease && transaction.lease.amount)) {
+                    const amount = transaction.amount || transaction.lease.amount;
                     baseAssetService.convertToBaseAsset(amount)
                         .then((baseMoney) => {
                             this.mirrorBalance = baseMoney;
@@ -80,7 +80,8 @@
 
     angular.module('app.ui').component('wTransactionInfo', {
         bindings: {
-            transaction: '<'
+            transaction: '<',
+            warning: '<'
         },
         templateUrl: 'modules/ui/directives/transactionInfo/transaction-info.html',
         controller

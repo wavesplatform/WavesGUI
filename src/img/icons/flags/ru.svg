@@ -1,7 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 20 16">
-  <g fill="none" fill-rule="evenodd" transform="translate(1 2)">
-    <path fill="#DAE1E9" fill-rule="nonzero" d="M1,1 L1,4 L17,4 L17,1 L1,1 Z M0,0 L18,0 L18,5 L0,5 L0,0 Z"/>
-    <rect width="18" height="4" y="4" fill="#1F5AF6"/>
-    <rect width="18" height="4" y="8" fill="#D52B1E"/>
-  </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>ru</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="ru" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M1,4 L1,7 L17,7 L17,4 L1,4 Z M0,3 L18,3 L18,8 L0,8 L0,3 Z" id="Shape" fill="#DAE1E9" fill-rule="nonzero"></path>
+        <rect id="Rectangle-path" fill="#FFFFFF" fill-rule="nonzero" x="1" y="4" width="16" height="3"></rect>
+        <rect id="Rectangle-path" fill="#1F5AF6" fill-rule="nonzero" x="0" y="7" width="18" height="4"></rect>
+        <rect id="Rectangle-path" fill="#D52B1E" fill-rule="nonzero" x="0" y="11" width="18" height="4"></rect>
+    </g>
 </svg>

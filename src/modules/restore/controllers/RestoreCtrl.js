@@ -6,7 +6,7 @@
      * @param $scope
      * @param {User} user
      * @param {app.utils} utils
-     * @param modalManager
+     * @param {ModalManager} modalManager
      * @return {RestoreCtrl}
      */
     const controller = function (Base, $scope, user, utils, modalManager) {
@@ -74,7 +74,7 @@
                     encryptedSeed,
                     publicKey: keyPair.publicKey,
                     saveToStorage: this.saveUserData
-                }, true);
+                }, true, true);
             }
 
             resetNameAndPassword() {
@@ -88,6 +88,10 @@
                 }
 
                 this.activeStep++;
+            }
+
+            importAccounts() {
+                return modalManager.showImportAccountsModal();
             }
 
             /**

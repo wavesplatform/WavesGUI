@@ -1,8 +1,10 @@
 <div class="toggler collapse-dex-block" w-toggle-class="collapsed">
     <i></i>
 </div>
-
-<div ng-class="{error: $ctrl.notLoaded}"
+<div class="dex-loader" ng-class="{loading: $ctrl.loadingTradingView}">
+    <w-loader></w-loader>
+</div>
+<div ng-class="{error: $ctrl.notLoaded, loading: $ctrl.loadingTradingView}"
      class="candle-chart-wrapper"
      id="{{::$ctrl.elementId}}">
 
