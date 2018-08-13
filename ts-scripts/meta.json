@@ -128,9 +128,6 @@
     ],
     "defaults": {
       "main": "main.js",
-      "devDependencies": {
-         "electron-rebuild": "1.8.2"
-      },
       "dependencies": {
         "i18next": "9.1.0",
         "qrcode-reader": "1.0.3",

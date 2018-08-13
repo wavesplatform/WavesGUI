@@ -6,7 +6,7 @@
   "asar": true,
   "compression": "normal",
   "npmRebuild": false,
-  "npmSkipBuildFromSource": true,
+  "npmSkipBuildFromSource": false,
   "artifactName": "${productName}[${env.WAVES_CONFIGURATION}]-${version}-${os}.${ext}",
   "directories": {
     "buildResources": "electron/"
