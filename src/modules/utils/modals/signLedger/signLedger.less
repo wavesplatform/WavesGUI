@@ -7,6 +7,7 @@
     top: 30px;
     position: absolute;
   }
+
   .connect-mode {
     text-align: center;
 
@@ -29,8 +30,9 @@
       background: @ledger-step1;
       position: relative;
       display: block;
-      margin: 30px 150px 20px auto;
+      margin: 30px auto 20px calc(50% ~'- 193px');
     }
+
     .display {
       position: absolute;
       width: 70px;
@@ -43,18 +45,22 @@
       font-family: @font-roboto-medium;
       color: @color-submit-300;
     }
+
     .text1 {
       animation-delay: 0s;
     }
+
     .display1 {
       padding-top: 5px;
     }
+
     .display2 {
       animation-delay: 3s;
       background: @ledger-pin no-repeat;
       background-position-y: 15px;
       background-position-x: center;
     }
+
     .text2 {
       animation-delay: 3s;
     }
@@ -68,6 +74,7 @@
       left: 138px;
       line-height: 43px;
     }
+
     .text3 {
       animation-delay: 6s;
     }
@@ -157,13 +164,15 @@
       background: @ledger-step1;
       position: relative;
       display: block;
-      margin: 30px 150px auto auto;
+      margin: 30px auto 20px calc(50% ~'- 193px');
     }
+
     .txinfo__row.one-line-border {
       border-top: 1px solid @color-basic-100;
       border-bottom: 1px solid @color-basic-100;
       margin-top: 20px;
     }
+
     .display {
       position: absolute;
       width: 70px;
@@ -175,11 +184,45 @@
       font-size: 7px;
       font-family: @font-roboto-medium;
       color: @color-submit-300;
+
+      & > div {
+        height: 8px;
+        padding: 0 15px;
+        position: relative;
+
+        &::before {
+          content: '';
+          width: 7px;
+          height: 7px;
+          display: block;
+          position: absolute;
+          top: 50%;
+
+        }
+
+        &:first-child {
+          &::before {
+            background: url(/img/icons/ledger-cancel.svg) center no-repeat;
+            left: 5px;
+            transform: translateY(60%);
+          }
+        }
+
+        &:last-child {
+          &::before {
+            background: url(/img/icons/ledger-ok.svg) center no-repeat;
+            right: 7px;
+            transform: translateY(-50%);
+          }
+        }
+      }
     }
 
     w-loader {
       position: relative;
-      margin-top: 30px;
+      margin: 30px auto 0;
+      transform: translate(0) translate3d(0,0,0);
+      left: auto;
     }
 
     .tx-id-wrapper {
@@ -232,5 +275,3 @@
     opacity: 0;
   }
 }
-
-

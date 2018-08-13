@@ -16,26 +16,16 @@ w-avatar[type='ledger'] {
 
   &:after {
     position: absolute;
-    content: ' ';
+    content: '';
     width: 16px;
     height: 16px;
     bottom: 0;
-    right: 0;
+    left: calc(100% ~'- 15px');
     background-image: @ledger-mini-icon;
     border-radius: 50%;
     background-color: @color-white;
     background-position: center center;
     background-repeat: no-repeat;
     box-shadow: 0 0 3px 0 rgba(34, 34, 34, 0.24);
-  }
-}
-
-.logo-wrapper {
-  w-avatar[type='ledger'] {
-    display: block;
-
-    &:after {
-      right: 10px;
-    }
   }
 }

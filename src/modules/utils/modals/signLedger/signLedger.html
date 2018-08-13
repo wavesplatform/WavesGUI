@@ -27,11 +27,15 @@
     <div class="matcher-mode" ng-if="$ctrl.mode === 'sign-matcher'">
         <div class="ledger">
             <div class="device-img">
-                <div class="display" w-i18n="modal.sign.confirmRequest"></div>
+                <div class="display">
+                    <div w-i18n="modal.sign.confirm"></div>
+                    <div w-i18n="modal.sign.request"></div>
+                </div>
             </div>
         </div>
         <h3 class="text-center basic-700" w-i18n="modal.sign.confirmRequest"></h3>
-        <div class="text-center info-text body-2 basic-500" w-i18n="modal.sign.confirmRequestMatcher"></div>
+        <div class="text-center info-text body-2 basic-500"
+             w-i18n="modal.sign.confirmRequestMatcher"></div>
         <div class="txinfo__row one-line-border">
             <div class="txinfo__key" w-i18n="modal.sign.requestId"></div>
             <div class="txinfo__value">{{$ctrl.txId}}</div>

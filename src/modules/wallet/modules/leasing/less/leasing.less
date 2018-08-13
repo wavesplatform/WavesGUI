@@ -1,4 +1,4 @@
-@import (reference) "../../../../app/less/app-icons";
+@import (reference) '../../../../app/less/app-icons';
 @import (reference) '../../../../app/less/typography';
 @import (reference) 'config';
 @import (reference) 'icons';
@@ -190,6 +190,7 @@
     w-scroll-box {
       height: auto;
       margin-bottom: 10px;
+      min-height: 300px;
     }
 
     .left-panel {
@@ -205,6 +206,11 @@
     w-transaction .transaction {
       height: auto;
       min-height: 74px;
+    }
+
+    w-actions .actions-container.open-up {
+      top: 0;
+      bottom: auto;
     }
   }
 

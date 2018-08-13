@@ -159,7 +159,7 @@
 
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px) {
 
   .import-modal {
     &__blocks-wrapper {
@@ -168,6 +168,14 @@
 
     &__block {
       flex-basis: 100%;
+      max-width: calc(100% ~'- 40px');
+      width: 100%;
+      margin-top: 0;
+      margin-bottom: @padding-main-layout * 2;
+
+      &:last-of-type {
+        margin-bottom: @padding-main-layout * 4;
+      }
 
       & + .import-modal__block {
         margin-left: 0;

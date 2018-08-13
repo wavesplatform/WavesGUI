@@ -1,23 +1,12 @@
 <div w-i18n-ns="app.ledger" class="import-content">
-    <i class="icon-information"></i>
-    <span ng-click="$ctrl.showTutorialModals()"
-          w-i18n-ns="app.welcome"
-          w-i18n="infoTooltip"
-          class="tooltip">
-    </span>
     <w-change-language></w-change-language>
-
     <div class="waves-logo"></div>
-
-    <div class="loader-wrapper" ng-if="$ctrl.loading">
-        <w-loader></w-loader>
-    </div>
 
     <div class="loader-error-wrapper" ng-if="$ctrl.error">
         <div class="ledger-error-icon ledger-icons"></div>
 
         <h3 class="text-center basic-700" w-i18n="ledger.connectionError"></h3>
-        
+
         <div class="title-wrapper margin-4 body-2 basic-500">
             <div class="text-center basic-500">
                 <span w-i18n="ledger.connectionText"></span>
@@ -36,14 +25,12 @@
         <a ui-sref="import" w-i18n="ledgerForm.back"></a>
     </div>
 
-
-
     <div class="import-wrapper margin-3" ng-if="$ctrl.isInit && !$ctrl.error">
         <div class="text-center">
             <div class="headline-1">
                 <span w-i18n="ledgerForm.importAccount"></span>
             </div>
-            <div class="body-2 disabled-600">
+            <div class="body-2 basic-500">
                 <span w-i18n="ledgerForm.ImportOrSignIn"></span>
                 <a ui-sref="signIn" href="/signIn">
                     <span w-i18n="ledgerForm.signIn"></span>
@@ -59,9 +46,18 @@
                 <div class="step-right" ng-click="$ctrl.stepRight()" ng-class="{disabled: $ctrl.disabledRight}"><div class="icon-right"></div></div>
         </div>
         <div class="ledger-avatars-list">
-            <div class="avatar-wrapper" ng-class="{active: $ctrl.selectedUser === user, disabled: $ctrl.isUserDisable($index)}"
-                 ng-repeat="user in $ctrl.visibleUsers track by user.id" ng-click="$ctrl.selectUser(user)">
-                <w-avatar address="user.address" size="49" type="ledger"></w-avatar>
+            <div class="avatar-wrapper"
+                 ng-if="!$ctrl.loading"
+                 ng-class="{active: $ctrl.selectedUser === user, disabled: $ctrl.isUserDisable($index)}"
+                 ng-repeat="user in $ctrl.visibleUsers track by user.id"
+                 ng-click="$ctrl.selectUser(user)">
+                 <w-avatar address="user.address"
+                          size="49"
+                          type="ledger"></w-avatar>
+            </div>
+
+            <div class="loader-wrapper" ng-if="$ctrl.loading">
+                <w-loader></w-loader>
             </div>
         </div>
 
@@ -102,7 +98,7 @@
             </w-button>
         </div>
         <div class="or margin-2"><span w-i18n="ledgerForm.or">or</span></div>
-        <div class="text-center">
+        <div class="text-center margin-2">
             <a w-i18n="ledgerForm.back" ui-sref="import"></a>
         </div>
     </div>
