@@ -109,6 +109,7 @@ class Main implements IMain {
 
         const url = removeProtocol(browserLink);
         this.mainWindow.webContents.executeJavaScript(`runMainProcessEvent('open-from-browser', '${url}')`);
+        this.mainWindow.webContents.focus();
     }
 
     private createWindow(resolve?): Promise<void> {
