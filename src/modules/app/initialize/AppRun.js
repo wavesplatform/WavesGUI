@@ -111,7 +111,19 @@
                     window.listenMainProcessEvent((type, url) => {
                         const parts = utils.parseElectronUrl(url);
                         if (parts.path) {
-                            location.hash = `#!${parts.path}${parts.search}`;
+                            const noLogin = WavesApp.stateTree.where({ noLogin: true }).some(item => {
+                                const url = item.get('url') || item.id;
+                                return parts.path.includes(url);
+                            });
+                            if (noLogin) {
+                                location.hash = `#!${parts.path}${parts.search}`;
+                            } else {
+                                user.onLogin().then(() => {
+                                    setTimeout(() => {
+                                        location.hash = `#!${parts.path}${parts.search}`;
+                                    }, 1000);
+                                });
+                            }
                         }
                     });
                 }

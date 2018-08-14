@@ -27,6 +27,17 @@
                  */
                 this._firstUrl = ModalRouter._getUrlData();
                 router.registerRouteHash(this._wrapClose(this._getRoutes()));
+
+                if (WavesApp.isDesktop()) {
+                    window.listenMainProcessEvent((eventType, urlString) => {
+                        user.onLogin().then(() => {
+                            const { hash } = utils.parseElectronUrl(urlString);
+                            if (hash) {
+                                this._apply(ModalRouter._getUrlData(hash.replace('#', '')));
+                            }
+                        });
+                    });
+                }
             }
 
             initialize() {
@@ -39,15 +50,6 @@
                 waves.node.assets.userBalances().then(() => {
                     this._apply(this._firstUrl);
                 });
-
-                if (WavesApp.isDesktop()) {
-                    window.listenMainProcessEvent((eventType, urlString) => {
-                        const { hash } = utils.parseElectronUrl(urlString);
-                        if (hash) {
-                            this._apply(ModalRouter._getUrlData(hash.replace('#', '')));
-                        }
-                    });
-                }
             }
 
             /**
