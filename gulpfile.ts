@@ -2,8 +2,8 @@ import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
 import { exec, execSync } from 'child_process';
-import { download, getFilesFrom, prepareExport, prepareHTML, run, task, getAllLessFiles } from './ts-scripts/utils';
-import { basename, join, extname, sep } from 'path';
+import { download, getAllLessFiles, getFilesFrom, prepareExport, prepareHTML, run, task, getAllLessFiles } from './ts-scripts/utils';
+import { basename, extname, join, sep } from 'path';
 import { copy, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
@@ -104,6 +104,7 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                         });
                         forCopy.push(copy(join(__dirname, 'electron', 'icons'), join(targetPath, 'img', 'icon.png')));
                         forCopy.push(copy(join(__dirname, 'electron', 'waves.desktop'), join(targetPath, 'waves.desktop')));
+                        forCopy.push(copy(join(__dirname, 'node_modules', 'i18next', 'dist'), join(targetPath, 'i18next')));
                     }
 
                     Promise.all([
@@ -398,6 +399,7 @@ task('electron-debug', function (done) {
     };
 
     const copyNodeModules = () => Promise.all(meta.copyNodeModules.map(name => copy(name, join(root, name))));
+    const copyI18next = () => copy(join(__dirname, 'node_modules', 'i18next', 'dist'), join(root, 'i18next'));
 
     readdir(srcDir)
         .then(excludeTypeScrip)
@@ -405,6 +407,7 @@ task('electron-debug', function (done) {
         .then(makePackageJSON)
         .then(loadLocales)
         .then(copyNodeModules)
+        .then(copyI18next)
         .then(() => done());
 });
 

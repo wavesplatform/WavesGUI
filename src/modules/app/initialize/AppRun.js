@@ -110,7 +110,22 @@
                 if (WavesApp.isDesktop()) {
                     window.listenMainProcessEvent((type, url) => {
                         const parts = utils.parseElectronUrl(url);
-                        location.hash = `#!${parts.path}${parts.search}`;
+                        const path = parts.path.replace(/\/$/, '') || parts.path;
+                        if (path) {
+                            const noLogin = path === '/' || WavesApp.stateTree.where({ noLogin: true }).some(item => {
+                                const url = item.get('url') || item.id;
+                                return parts.path.includes(url);
+                            });
+                            if (noLogin) {
+                                location.hash = `#!${path}${parts.search}`;
+                            } else {
+                                user.onLogin().then(() => {
+                                    setTimeout(() => {
+                                        location.hash = `#!${path}${parts.search}`;
+                                    }, 1000);
+                                });
+                            }
+                        }
                     });
                 }
 

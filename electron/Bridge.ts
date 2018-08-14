@@ -37,7 +37,7 @@ export class Bridge implements IBridge {
                 return Promise.reject(e);
             }
         } else {
-            return Promise.reject(new Error('Wrong command!'));
+            return Promise.reject(new Error(`Wrong command! "${command}"`));
         }
     }
 

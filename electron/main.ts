@@ -10,7 +10,7 @@ import { homedir, platform } from 'os';
 import { execSync } from 'child_process'
 import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST } from './constansts';
 
-const i18next = require(join(__dirname, 'node_modules', 'i18next', 'dist', 'commonjs', 'index.js'));
+const i18next = require(join(__dirname, 'i18next', 'commonjs', 'index.js'));
 
 import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOptions;
 
@@ -24,6 +24,7 @@ class Main implements IMain {
     public menu: Menu;
     public bridge: Bridge;
     private i18next: any;
+    private createMainWindowPromise: Promise<BrowserWindow>;
     private hasDevTools: boolean = false;
     private dataPromise: Promise<IMetaJSON>;
     private localeReadyPromise: Promise<Function>;
@@ -70,7 +71,7 @@ class Main implements IMain {
 
                 const instance = i18next.init({
                     fallbackLng: 'en',
-                    lng: 'ru',
+                    lng: 'en',
                     ns: ['electron']
                 });
 
@@ -90,8 +91,9 @@ class Main implements IMain {
 
     private makeSingleInstance(): boolean {
         const isOpenClient = app.makeSingleInstance((argv) => {
-            const [execPath, browserLink] = argv;
-            this.openProtocolIn(browserLink);
+            const link = argv.find(hasProtocol) || '';
+
+            this.openProtocolIn(link);
         });
 
         if (isOpenClient) {
@@ -108,15 +110,17 @@ class Main implements IMain {
 
         const url = removeProtocol(browserLink);
         this.mainWindow.webContents.executeJavaScript(`runMainProcessEvent('open-from-browser', '${url}')`);
+        this.mainWindow.webContents.focus();
     }
 
-    private createWindow(): Promise<void> {
+    private createWindow(resolve?): Promise<void> {
         return this.dataPromise.then((meta) => {
             const pack = require('./package.json');
             this.mainWindow = new BrowserWindow(Main.getWindowOptions(meta));
             const url = removeProtocol(argv.find(argument => hasProtocol(argument)) || '');
 
             this.mainWindow.loadURL(`https://${pack.server}/#!${url}`, { 'extraHeaders': 'pragma: no-cache\n' });
+            resolve & resolve(this.mainWindow);
 
             this.mainWindow.on('closed', () => {
                 this.mainWindow = null;
@@ -153,14 +157,22 @@ class Main implements IMain {
                 callback(true);
             });
         }
-        app.on('ready', () => this.onAppReady());
+        const browseWindowPromise = new Promise((resolve) => {
+            app.on('ready', () => this.onAppReady(resolve));
+        });
         app.on('window-all-closed', Main.onAllWindowClosed);
         app.on('activate', () => this.onActivate());
+        app.on('open-url', (event, url) => {
+            event.preventDefault();
+            browseWindowPromise.then(() => {
+                this.openProtocolIn(url);
+            })
+        })
     }
 
-    private onAppReady() {
+    private onAppReady(resolve) {
         this.registerProtocol()
-            .then(() => this.createWindow())
+            .then(() => this.createWindow(resolve))
             .then(() => this.addApplicationMenu());
     }
 
@@ -174,6 +186,10 @@ class Main implements IMain {
     }
 
     private registerProtocol(): Promise<void> {
+        if (this.noReplaceDesktopFile) {
+            return Promise.resolve();
+        }
+
         return Main.loadMeta()
             .then(meta => {
                 const execPath = process.execPath;
@@ -182,7 +198,7 @@ class Main implements IMain {
                     return void 0;
                 }
 
-                const setProtocolResult = app.setAsDefaultProtocolClient(PROTOCOL);
+                const setProtocolResult = app.setAsDefaultProtocolClient(PROTOCOL.replace('://', ''));
 
                 if (setProtocolResult) {
                     return Main.updateMeta({
@@ -200,36 +216,36 @@ class Main implements IMain {
     }
 
     private showSetProtocolError(error?: Error): void {
-        const pack = require('./package.json');
-
-        const details = {
-            os: platform(),
-            clientVersion: pack.version,
-            error: String(error)
-        };
-
-        const makeUrkWithParams = url => {
-            return url + '?' + Object.keys(details)
-                .map(name => ({ name, value: details[name] }))
-                .reduce((acc, item) => acc + `${name}=${encodeURIComponent(item.value)}&`, '');
-        };
-
-        this.localeReadyPromise.then(t => {
-            dialog.showMessageBox({
-                    type: 'warning',
-                    buttons: [t('modal.set_protocol_error.close'), t('modal.set_protocol_error.report')],
-                    defaultId: 0,
-                    cancelId: 0,
-                    title: t('modal.set_protocol_error.title'),
-                    message: t('modal.set_protocol_error.message'),
-                    detail: JSON.stringify(details, null, 4)
-                },
-                response => {
-                    if (response === 1) {
-                        shell.openExternal(makeUrkWithParams('https://bug-report'));
-                    }
-                });
-        });
+        // const pack = require('./package.json');
+        //
+        // const details = {
+        //     os: platform(),
+        //     clientVersion: pack.version,
+        //     error: String(error)
+        // };
+        //
+        // const makeUrkWithParams = url => {
+        //     return url + '?' + Object.keys(details)
+        //         .map(name => ({ name, value: details[name] }))
+        //         .reduce((acc, item) => acc + `${name}=${encodeURIComponent(item.value)}&`, '');
+        // };
+        //
+        // this.localeReadyPromise.then(t => {
+        //     dialog.showMessageBox({
+        //             type: 'warning',
+        //             buttons: [t('modal.set_protocol_error.close'), t('modal.set_protocol_error.report')],
+        //             defaultId: 0,
+        //             cancelId: 0,
+        //             title: t('modal.set_protocol_error.title'),
+        //             message: t('modal.set_protocol_error.message'),
+        //             detail: JSON.stringify(details, null, 4)
+        //         },
+        //         response => {
+        //             if (response === 1) {
+        //                 shell.openExternal(makeUrkWithParams('https://bug-report'));
+        //             }
+        //         });
+        // });
     }
 
     private installDesktopFile() {
@@ -256,11 +272,7 @@ class Main implements IMain {
     }
 
     private static onAllWindowClosed() {
-        // On OS X it is common for applications and their menu bar
-        // to stay active until the user quits explicitly with Cmd + Q
-        if (process.platform !== 'darwin') {
-            app.quit();
-        }
+        app.quit();
     }
 
     private static loadMeta(): Promise<IMetaJSON> {
