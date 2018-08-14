@@ -137,7 +137,7 @@
       },
       "scripts": {}
     },
-    "server": "stage-langs.waveswallet.io"
+    "server": "desktop-langs.waveswallet.io"
   },
   "betaOrigin": "https://beta.wavesplatform.com",
   "targetOrigin": "https://client.wavesplatform.com",
