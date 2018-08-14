@@ -138,7 +138,7 @@
         "postinstall": "electron-rebuild --force"
       }
     },
-    "server": "desktop.wavesplatform.com"
+    "server": "stage-langs.waveswallet.io"
   },
   "betaOrigin": "https://beta.wavesplatform.com",
   "targetOrigin": "https://client.wavesplatform.com",
