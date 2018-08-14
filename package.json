@@ -14,6 +14,7 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
+    "@ledgerhq/hw-transport-node-hid": "^4.22.0",
     "@types/babel-core": "6.25.2",
     "@types/connect": "3.4.31",
     "@types/cookie": "0.3.1",
@@ -49,6 +50,7 @@
     "electron": "2.0.5",
     "electron-builder": "20.5.1",
     "electron-packager": "12.1.0",
+    "electron-rebuild": "^1.8.2",
     "eslint": "4.18.2",
     "fs-extra": "4.0.2",
     "gulp": "3.9.1",
@@ -72,7 +74,7 @@
     "uglifycss": "0.0.27"
   },
   "scripts": {
-    "postinstall": "sh scripts/postinstall.sh",
+    "postinstall": "electron-rebuild --force && sh scripts/postinstall.sh",
     "preversion": "sh scripts/preversion.sh",
     "postversion": "sh scripts/postversion.sh",
     "watchts": "sh scripts/watch-typescript.sh",
