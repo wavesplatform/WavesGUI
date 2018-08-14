@@ -41,15 +41,12 @@
 
                 const poll = createPoll(this, this._getTxList, this._setTxList, 4000, { isBalance: true });
 
-                this.observe('filter', () => {
-                    this.limit = 100;
-                });
                 this.observe(['txList', 'filter'], this._applyTransactionList);
                 this.observe('limit', () => poll.restart());
             }
 
             exportTransactions() {
-                analytics.push('TransactionsPage', 'TransactionsPage.CSV', 'download');
+                analytics.push('TransactionsPage', `TransactionsPage.CSV.${WavesApp.type}`, 'download');
                 transactionsCsvGen.generate(this.transactions);
             }
 

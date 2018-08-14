@@ -280,21 +280,6 @@
 
         var __controllers = Object.create(null);
 
-        var localeSeparators = {
-            world: {
-                group: ',',
-                decimal: '.'
-            },
-            russian: {
-                group: ' ',
-                decimal: '.'
-            },
-            turkish: {
-                group: ' ', // TODO change to '.'
-                decimal: '.' // TODO change to ','
-            }
-        };
-
         /**
          * @type {IWavesApp}
          */
@@ -308,40 +293,7 @@
             state: 'loading',
             betaOrigin: '{{{betaOrigin}}}',
             targetOrigin: '{{{targetOrigin}}}',
-            localize: {
-                'en': {
-                    name: 'En',
-                    separators: localeSeparators.world
-                },
-                'ru': {
-                    name: 'Ru',
-                    separators: localeSeparators.russian
-                },
-                'ko': {
-                    name: 'Ko',
-                    separators: localeSeparators.world
-                },
-                'zh-Hans-CN': {
-                    name: 'Zh',
-                    separators: localeSeparators.world
-                },
-                'tr': {
-                    name: 'Tr',
-                    separators: localeSeparators.turkish
-                },
-                'nl': {
-                    name: 'Nl',
-                    separators: localeSeparators.world
-                },
-                'hi': {
-                    name: 'Hi',
-                    separators: localeSeparators.world
-                },
-                'es': {
-                    name: 'Es',
-                    separators: localeSeparators.world
-                }
-            },
+            localize: {{{langList}}},
             network: {
                 apiVersion: '{{network.apiVersion}}',
                 code: '{{network.code}}',
@@ -453,8 +405,12 @@
 
     <script>
         [].slice.apply(document.querySelectorAll('[rel=stylesheet]'))
-                .filter(function (el) { return el.getAttribute('theme') })
-                .forEach(function(el){el.disabled = el.getAttribute('theme') !== 'default'});
+                .filter(function (el) {
+                    return el.getAttribute('theme');
+                })
+                .forEach(function (el) {
+                    el.disabled = el.getAttribute('theme') !== 'default';
+                });
     </script>
 </head>
 
@@ -468,15 +424,15 @@
     </div>
 </div>
 
-    <div class="connection-problem">
-        <div class="waves-logo"><img src="/img/icons/waves_logo.svg"/></div>
-        <img src="/img/no-preload/connection-error.svg" class="margin-3" />
-        <div class="headline-1">We couldn't connect to the server</div>
-        <div class="body-1 margin-4 disabled-600">Check your internet connection and try again</div>
-        <button class="submit big submit" onclick="location.href=location.href">Refresh page</button>
-    </div>
+<div class="connection-problem">
+    <div class="waves-logo"><img src="/img/icons/waves_logo.svg"/></div>
+    <img src="/img/no-preload/connection-error.svg" class="margin-3"/>
+    <div class="headline-1">We couldn't connect to the server</div>
+    <div class="body-1 margin-4 disabled-600">Check your internet connection and try again</div>
+    <button class="submit big submit" onclick="location.href=location.href">Refresh page</button>
+</div>
 
-    <div class="not-supported-browser">
+<div class="not-supported-browser">
     <div class="overlay"></div>
     <div class="not-supported-modal">
         <i></i>
@@ -525,10 +481,19 @@
     // Signed 64-bit integer.
     WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
 
-    WavesApp.parseJSON = parseJsonBignumber();
-
     WavesApp.device = new MobileDetect(navigator.userAgent);
 
+    var wrapper = require('worker-wrapper');
+
+    var worker = wrapper.create({
+        libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js']
+    });
+
+    worker.process(() => {
+        self.parse = parseJsonBignumber();
+    });
+
+    WavesApp.parseJSON = str => worker.process(str => parse(str), str);
 
     var isBrowserSupported = (function () {
 

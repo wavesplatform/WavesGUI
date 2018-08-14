@@ -20,12 +20,12 @@
                     </w-tabs>
                 </w-step>
                 <w-step>
-
                     <w-confirm-transaction ng-if="!$ctrl.outerSendMode"
                                            on-click-back="$ctrl.back()"
                                            no-back-button="$ctrl.strict"
                                            on-tx-sent="$ctrl.onTxSent(id)"
                                            referrer="$ctrl.referrer"
+                                           warning="$ctrl.state.warning || ''"
                                            show-validation-errors="$ctrl.strict"
                                            tx="$ctrl.txInfo"></w-confirm-transaction>
 

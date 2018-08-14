@@ -257,6 +257,16 @@
                         headerData.sorting = true;
                         headerData.isAsc = false;
                     }
+
+                    if (this.name) {
+                        stService.draw.once(() => {
+                            stService.sort.dispatch({
+                                name: this.name,
+                                isAsc: headerData.isAsc
+                            });
+                        });
+                    }
+
                     this._applySort();
                 };
             }

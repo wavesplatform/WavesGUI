@@ -203,7 +203,7 @@
              * @param {Asset} [asset]
              * @return {Promise}
              */
-            showReceivePopup(user, asset) {
+            showReceiveModal(user, asset) {
                 return user.onLogin().then(() => {
                     return this._getModal({
                         id: 'receive-popup',
@@ -397,7 +397,7 @@
                             this._counter--;
 
                             if (options.id) {
-                                analytics.push('Modal', 'Modal.Close', options.id);
+                                analytics.push('Modal', `Modal.Close.${WavesApp.type}`, options.id);
                             }
                         };
 
@@ -409,7 +409,7 @@
                         const modal = $mdDialog.show(target);
 
                         if (options.id) {
-                            analytics.push('Modal', 'Modal.Open', options.id);
+                            analytics.push('Modal', `Modal.Open.${WavesApp.type}`, options.id);
                         }
 
                         modal.then(changeCounter, changeCounter);
