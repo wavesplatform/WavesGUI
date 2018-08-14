@@ -7,7 +7,7 @@ process.once('loaded', () => {
     g.openInBrowser = function (url) {
         shell.openExternal(url);
     };
-
+    g.isDesktop = true;
     g.TransportNodeHid = require('@ledgerhq/hw-transport-node-hid');
 
     const transferModule = remote.require('./transfer');

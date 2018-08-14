@@ -128,6 +128,9 @@
     ],
     "defaults": {
       "main": "main.js",
+      "devDependencies": {
+         "electron-rebuild": "1.8.2"
+      },
       "dependencies": {
         "@ledgerhq/hw-transport-node-hid": "4.22.0",
         "@waves/waves-signature-adapter": "0.0.29",
@@ -135,9 +138,11 @@
         "parse-json-bignumber": "0.0.2",
         "qrcode-reader": "1.0.3"
       },
-      "scripts": {}
+      "scripts": {
+        "postinstall": "electron-rebuild --force"
+      }
     },
-    "server": "desktop-langs.waveswallet.io"
+    "server": "stage-langs.waveswallet.io"
   },
   "betaOrigin": "https://beta.wavesplatform.com",
   "targetOrigin": "https://client.wavesplatform.com",
