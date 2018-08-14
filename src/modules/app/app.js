@@ -8,17 +8,85 @@
             WavesApp.modules.push(name);
         }
         const module = origin.call(angular, ...args);
-        const controller = module.controller;
+        wrapAngularController(module);
+        wrapAngularComponent(module);
+        wrapAngularDirective(module);
+        return module;
+    };
+
+    function wrapAngularController(module) {
+        const origin = module.controller;
         module.controller = function (name, $ctrl) {
             if (typeof $ctrl !== 'function') {
                 throw new Error('Wrong code style!');
             }
             WavesApp.addController(name, $ctrl);
-            return controller.call(this, name, $ctrl);
+            return origin.call(this, name, wrapControllerParams($ctrl));
         };
+    }
 
-        return module;
-    };
+    function wrapAngularComponent(module) {
+        const origin = module.component;
+        module.component = function (name, $component) {
+            $component.controller = wrapControllerParams($component.controller);
+            return origin.call(this, name, $component);
+        };
+    }
+
+    function wrapAngularDirective(module) {
+        const origin = module.directive;
+        module.directive = function (name, $directive) {
+            $directive.controller = wrapControllerParams($directive.controller);
+            return origin.call(this, name, $directive);
+        };
+    }
+
+
+    function wrapControllerParams(controller) {
+
+        let newController = controller;
+
+        if (typeof controller === 'function') {
+            const $inject = ['$element', '$compile', '$scope', ...(controller.$inject || [])];
+
+            if ($inject.length > 3 && !controller.length) {
+                throw new Error('Wrong code style!');
+            }
+
+            newController = function ($element, $compile, $scope, ...args) {
+
+                const onError = () => {
+                    $element.addClass('_internal-error');
+                    const content = $compile('<w-component-error></w-component-error>')($scope);
+                    $element.append(content);
+                    return this;
+                };
+
+                try {
+                    const instance = controller.apply(this, args);
+                    const originalPostLink = instance.$postLink;
+
+                    if (originalPostLink) {
+                        instance.$postLink = function (...args) {
+                            try {
+                                return originalPostLink.apply(instance, args);
+                            } catch (e) {
+                                return onError(e);
+                            }
+                        };
+                    }
+
+                    return instance;
+                } catch (e) {
+                    return onError(e);
+                }
+            };
+
+            newController.$inject = $inject;
+        }
+
+        return newController;
+    }
 
     angular.module('app', [
         'ngAnimate',

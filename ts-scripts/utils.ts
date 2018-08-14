@@ -258,7 +258,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
         const url = req.url.replace(/\?.*/, '');
 
         if (isTradingView(url)) {
-            get(`https://beta.wavesplatform.com/${url}`, (resp: IncomingMessage) => {
+            get(`https://client.wavesplatform.com/${url}`, (resp: IncomingMessage) => {
                 let data = new Buffer('');
 
                 // A chunk of data has been recieved.
