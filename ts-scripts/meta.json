@@ -129,14 +129,13 @@
     "defaults": {
       "main": "main.js",
       "dependencies": {
-        "i18next": "9.1.0",
-        "qrcode-reader": "1.0.3",
         "@ledgerhq/hw-transport-node-hid": "4.22.0",
-        "@waves/waves-signature-adapter": "0.0.29"
+        "@waves/waves-signature-adapter": "0.0.29",
+        "i18next": "9.1.0",
+        "parse-json-bignumber": "0.0.2",
+        "qrcode-reader": "1.0.3"
       },
-      "scripts": {
-        "postinstall": "electron-rebuild --force"
-      }
+      "scripts": {}
     },
     "server": "stage-langs.waveswallet.io"
   },

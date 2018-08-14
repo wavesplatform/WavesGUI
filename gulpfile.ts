@@ -2,7 +2,7 @@ import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
 import { exec, execSync } from 'child_process';
-import { download, getAllLessFiles, getFilesFrom, prepareExport, prepareHTML, run, task, getAllLessFiles } from './ts-scripts/utils';
+import { download, getAllLessFiles, getFilesFrom, prepareExport, prepareHTML, run, task } from './ts-scripts/utils';
 import { basename, extname, join, sep } from 'path';
 import { copy, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
