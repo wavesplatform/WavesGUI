@@ -57,8 +57,8 @@
 
                 const onError = () => {
                     $element.addClass('_internal-error');
-                    const content = $compile('<w-component-error></w-component-error>')($scope);
-                    $element.append(content);
+                    // const content = $compile('<w-component-error></w-component-error>')($scope);
+                    // $element.append(content);
                     return this;
                 };
 
