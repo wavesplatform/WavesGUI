@@ -409,10 +409,9 @@
 
     <!-- CSS -->
 
-    {{#if isWeb}}
-        <base href="/">
-    {{else}}
-        <script>
+    <script>
+        if (window.isDesktop) {
+
             const __mainListeners = [];
 
             function listenMainProcessEvent(cb) {
@@ -436,8 +435,11 @@
                     }
                 });
             }
-        </script>
-    {{/if}}
+        } else {
+            document.write('<base href="/">');
+        }
+    </script>
+
 
     <script>
         Array.prototype.slice.apply(document.querySelectorAll('[rel=stylesheet]'))
