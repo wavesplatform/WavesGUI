@@ -129,17 +129,21 @@
     "defaults": {
       "main": "main.js",
       "devDependencies": {
-         "electron-rebuild": "1.8.2"
+         "electron-rebuild": "1.8.2",
+         "electron-builder": "20.5.1",
+         "electron-packager": "12.1.0",
+         "electron": "2.0.5"
       },
       "dependencies": {
         "@ledgerhq/hw-transport-node-hid": "4.22.0",
         "@waves/waves-signature-adapter": "0.0.29",
         "i18next": "9.1.0",
         "parse-json-bignumber": "0.0.2",
-        "qrcode-reader": "1.0.3"
+        "qrcode-reader": "1.0.3",
+        "ts-utils": "6.0.2"
       },
       "scripts": {
-        "postinstall": "electron-rebuild --force"
+        "postinstall": "electron-builder install-app-deps && electron-rebuild --force"
       }
     },
     "server": "stage-langs.waveswallet.io"
