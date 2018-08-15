@@ -84,6 +84,12 @@
 
                 let message = `${id}\n${type}\n${datetime}\n${sender}`;
 
+                if (tx.typeName === WavesApp.TRANSACTION_TYPES.EXTENDED.UNKNOWN) {
+                    message += '\n\nRAW TX DATA BELOW\n\n';
+                    message += JSON.stringify(tx, null, 2);
+                    return message;
+                }
+
                 if (tx.recipient) {
                     const recipient = `Recipient: ${tx.recipient}`;
                     message += `\n${recipient}`;
