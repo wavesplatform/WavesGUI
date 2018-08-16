@@ -63,7 +63,7 @@
                 };
 
                 try {
-                    const instance = controller.apply(this, args);
+                    const instance = new controller(...args);
                     const originalPostLink = instance.$postLink;
 
                     if (originalPostLink) {
