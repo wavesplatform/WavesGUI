@@ -319,9 +319,24 @@
                                         </tr>
                                     </table>
 
+                                    <div class="note-plate margin-2 basic-700">
+                                        <div class="margin-1 footnote-3" w-i18n="modal.receive.providedByCoinomat.header"></div>
+                                        <div class="footnote-1" w-i18n="modal.receive.providedByCoinomat.descriprion"></div>
+                                    </div>
+
+                                    <div class="unit-checkbox margin-1 basic-700">
+                                        <w-checkbox-submit id="haveReadTerms" ng-model=""></w-checkbox-submit>
+                                        <label for="haveReadTerms" w-i18n="modal.receive.providedByCoinomat.termsReadedInputLabel"></label>
+                                    </div>
+
+                                    <div class="unit-checkbox margin-2 basic-700">
+                                        <w-checkbox-submit id="haveReadPolicy" ng-model=""></w-checkbox-submit>
+                                        <label for="haveReadPolicy" w-i18n="modal.receive.providedByCoinomat.policyReadedInputLabel"></label>
+                                    </div>
+
                                     <div class="row margin-3 caption-1 info-block">
                                         <i class="icon-info"></i>
-                                        <div w-i18n="modal.sepa.warning"></div>
+                                        <div w-i18n="modal.receive.providedByCoinomat.warning"></div>
                                     </div>
 
                                     <a href="{{$ctrl.idNowUserLink}}" target="_blank">
