@@ -6,15 +6,15 @@
 <div class="body-2 basic-500 try-desktop-modal__message margin-3 try-desktop-modal__center"
      w-i18n="modal.tryDesktop.message"></div>
 
-<div class="try-desktop-modal__button-wrapper headline-2">
+<div class="try-desktop-modal__buttons-wrapper headline-2">
     <w-button class="try-desktop-modal__button big"
               on-click="$ctrl.tryWeb()" w-modal-close>
         <span w-i18n="modal.tryDesktop.cancel"></span>
     </w-button>
-    <a class="try-desktop-modal__button big submit try-desktop-modal__fake-button"
+    <a class="try-desktop-modal__button fake-button"
        target="_blank"
        ng-click="$ctrl.tryDesktop()" w-modal-hide>
-        <span w-i18n="modal.tryDesktop.try"></span>
+        <span w-i18n="modal.tryDesktop.try" class="big submit fake-button-content"></span>
     </a>
 </div>
 
