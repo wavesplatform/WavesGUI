@@ -18,3 +18,4 @@ The server will be launched locally, ports for different versions will be shown 
 * `dev` version is without concatenation and minification of files
 * `normal` version has files concatenated into one
 * `min` version is the production one, with files both concatenated and minified
+
