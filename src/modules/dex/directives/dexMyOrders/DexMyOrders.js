@@ -2,6 +2,8 @@
     'use strict';
 
     const entities = require('@waves/data-entities');
+    const { SIGN_TYPE } = require('@waves/signature-adapter');
+    const ds = require('data-service');
 
     /**
      * @param Base
@@ -233,28 +235,28 @@
             }
 
             dropOrderGetSignData(order) {
-                const dataPromise = ds.cancelOrder.createTx(order.id);
-
-                const signPromise = dataPromise.then((txData) => {
-                    return ds.cancelOrder.signed(txData);
+                const signable = ds.signature.getSignatureApi().makeSignable({
+                    type: SIGN_TYPE.CANCEL_ORDER,
+                    data: order
                 });
 
-                if (user.userType && user.userType === 'seed') {
-                    return signPromise;
-                }
+                return signable.getId().then(id => {
+                    const signPromise = signable.getDataForApi();
 
-                return dataPromise.then((txData) => {
-                    return ds.cancelOrder.createTransactionId(txData.data)
-                        .then((txId) => ({ id: txId, data: txData }));
-                }).then((data) => {
+                    if (user.userType === 'seed' || !user.userType) {
+                        return signPromise;
+                    }
+
                     return modalManager.showSignLedger({
                         promise: signPromise,
-                        ...data,
+                        data: order,
+                        id,
                         mode: 'cancel-order'
-                    }).catch(() => Promise.reject());
-                }).then(
-                    () => signPromise,
-                    () => {
+                    })
+                        .then(() => signPromise)
+                        .catch(() => Promise.reject());
+                })
+                    .catch(() => {
                         return modalManager.showLedgerError({ error: 'sign-error' }).then(
                             () => this.dropOrderGetSignData(order),
                             () => {
@@ -270,29 +272,26 @@
 
                 const dataPromise = this.dropOrderGetSignData(order);
 
-                dataPromise.then(
-                    (signedTxData) => {
-                        return ds.cancelOrder.send(signedTxData, order.amount.asset.id, order.price.asset.id)
-                            .then(() => {
-                                const canceledOrder = tsUtils.find(this.orders, { id: order.id });
-                                canceledOrder.state = 'Canceled';
-                                notification.info({
-                                    ns: 'app.dex',
-                                    title: { literal: 'directives.myOrders.notifications.isCanceled' }
-                                });
+                dataPromise
+                    .then((signedTxData) => ds.cancelOrder(signedTxData, order.amount.asset.id, order.price.asset.id))
+                    .then(() => {
+                        const canceledOrder = tsUtils.find(this.orders, { id: order.id });
+                        canceledOrder.state = 'Canceled';
+                        notification.info({
+                            ns: 'app.dex',
+                            title: { literal: 'directives.myOrders.notifications.isCanceled' }
+                        });
 
-                                if (this.poll) {
-                                    this.poll.restart();
-                                }
-                            },
-                            () => {
-                                notification.error({
-                                    ns: 'app.dex',
-                                    title: { literal: 'directives.myOrders.notifications.somethingWentWrong' }
-                                });
-                            });
-                    }
-                );
+                        if (this.poll) {
+                            this.poll.restart();
+                        }
+                    })
+                    .catch(() => {
+                        notification.error({
+                            ns: 'app.dex',
+                            title: { literal: 'directives.myOrders.notifications.somethingWentWrong' }
+                        });
+                    });
             }
 
             /**

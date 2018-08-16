@@ -335,7 +335,7 @@
                 '{{network.assets.BTC}}': 'Bitcoin',
                 '{{network.assets.ETH}}': 'Ethereum'
             },
-            matcherSignInterval: {count: 20, timeType: 'day'},
+            matcherSignInterval: { count: 20, timeType: 'day' },
             scam: Object.create(null),
             dex: {
                 resolutions: ['15', '30', '60', '240', '1440'], // TODO : add months
@@ -519,17 +519,26 @@
 
     WavesApp.device = new MobileDetect(navigator.userAgent);
 
-    var wrapper = require('worker-wrapper');
+    (function () {
+        var wrapper = require('worker-wrapper');
 
-    var worker = wrapper.create({
-        libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js']
-    });
+        var worker = wrapper.create({
+            libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js']
+        });
 
-    worker.process(() => {
-        self.parse = parseJsonBignumber();
-    });
+        worker.process(function () {
+            self.parse = parseJsonBignumber().parse;
+        });
 
-    WavesApp.parseJSON = str => worker.process(str => parse(str), str);
+        var stringify = parseJsonBignumber({ BigNumber: BigNumber }).stringify;
+        WavesApp.parseJSON = str => worker.process(function (str) {
+            return parse(str);
+        }, str);
+
+        WavesApp.stringifyJSON = function (data) {
+            return stringify(data);
+        };
+    })();
 
     var isBrowserSupported = (function () {
 
@@ -720,7 +729,8 @@
      * @property {Function} addController
      * @property {Function} getController
      * @property {function():{name: string, separators: {group: string, decimal: string}}} getLocaleData
-     * @property {function(data: string): object} parseJSON
+     * @property {function(data: string): Promise<object>} parseJSON
+     * @property {function(data: object): Promise<string>} stringifyJSON
      * @property {Tree} stateTree
      */
 </script>

@@ -12,17 +12,12 @@ import { IAssetInfo } from '@waves/data-entities/dist/entities/Asset';
 import { get } from './config';
 import { TAssetData, TBigNumberData } from './interface';
 import { get as getAssetPair } from './api/pairs/pairs';
-import {
-    prepareForBroadcast as prepareForBroadcastF,
-    getTransactionId as getTransactionIdF,
-    broadcast as broadcastF,
-    createOrder as createOrderO,
-    cancelOrder as cancelOrderO
-} from './broadcast/broadcast';
+import { broadcast as broadcastF, createOrderSend, cancelOrderSend } from './broadcast/broadcast';
 import { utils as cryptoUtils } from '@waves/waves-signature-generator';
-import * as signatureAdapters from '@waves/waves-signature-adapter';
+import * as signatureAdapters from '@waves/signature-adapter';
+import { Adapter, SIGN_TYPE } from '@waves/signature-adapter';
 
-export { getAdapterByType, getAvailableList } from '@waves/waves-signature-adapter';
+export { getAdapterByType, getAvailableList } from '@waves/signature-adapter';
 export { Seed } from './classes/Seed';
 
 export const wavesDataEntities = {
@@ -39,11 +34,11 @@ export const signature = {
 export const signAdapters = signatureAdapters;
 export const isValidAddress = cryptoUtils.crypto.isValidAddress;
 
-export const prepareForBroadcast = prepareForBroadcastF;
-export const getTransactionId = getTransactionIdF;
+// export const prepareForBroadcast = prepareForBroadcastF;
+// export const getTransactionId = getTransactionIdF;
 export const broadcast = broadcastF;
-export const createOrder = createOrderO;
-export const cancelOrder = cancelOrderO;
+export const createOrder = createOrderSend;
+export const cancelOrder = cancelOrderSend;
 
 wavesDataEntitiesModule.config.set('remapAsset', (data: IAssetInfo) => {
     const name = get('remappedAssetNames')[data.id] || data.name;
@@ -88,7 +83,7 @@ class App {
 
     public address: string;
 
-    public login(address: string, api: sign.ISignatureApi) {
+    public login(address: string, api: Adapter) {
         this.address = address;
         sign.setSignatureApi(api);
         this._initializeDataManager(address);
@@ -110,31 +105,26 @@ class App {
         return utilsModule.addTime(normalizeTime(new Date().getTime()), count, timeType).valueOf();
     }
 
-    public getSignIdForMatcher(timestamp) {
-        const api = sign.getSignatureApi();
-        return api.getPublicKey()
-            .then((senderPublicKey) => {
-                return api.getTxId({
-                    type: sign.SIGN_TYPE.MATCHER_ORDERS,
-                    data: {
-                        senderPublicKey,
-                        timestamp
-                    }
-                })
-            });
+    public getSignIdForMatcher(timestamp): Promise<string> {
+        return sign.getSignatureApi()
+            .makeSignable({
+                type: SIGN_TYPE.MATCHER_ORDERS,
+                data: {
+                    timestamp
+                }
+            })
+            .getId();
     }
 
     public signForMatcher(timestamp: number): Promise<string> {
-        return sign.getSignatureApi().getPublicKey()
-            .then((senderPublicKey) => {
-                return sign.getSignatureApi().sign({
-                    type: sign.SIGN_TYPE.MATCHER_ORDERS,
-                    data: {
-                        senderPublicKey,
-                        timestamp
-                    }
-                });
-            });
+        return sign.getSignatureApi()
+            .makeSignable({
+                type: SIGN_TYPE.MATCHER_ORDERS,
+                data: {
+                    timestamp
+                }
+            })
+            .getSignature();
     }
 
     private _initializeDataManager(address: string): void {

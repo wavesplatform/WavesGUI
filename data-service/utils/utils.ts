@@ -155,3 +155,7 @@ export function defer<T>(): TDefer<T> {
     });
     return { resolve, reject, promise };
 }
+
+export function stringifyJSON(data: any): string {
+    return (window as any).WavesApp.stringifyJSON(data);
+}

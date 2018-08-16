@@ -20,6 +20,7 @@
                                  $element, notification, dexDataService, ease, $state, modalManager) {
 
         const entities = require('@waves/data-entities');
+        const { SIGN_TYPE } = require('@waves/signature-adapter');
         const ds = require('data-service');
 
         class CreateOrder extends Base {
@@ -299,12 +300,15 @@
                 const notify = $element.find('.js-order-notification');
                 notify.removeClass('success').removeClass('error');
 
-                return ds.orderPriceFromTokens(
-                    this.price.getTokens(),
-                    this._assetIdPair.amount,
-                    this._assetIdPair.price
-                )
-                    .then((price) => {
+                return Promise.all([
+                    ds.orderPriceFromTokens(
+                        this.price.getTokens(),
+                        this._assetIdPair.amount,
+                        this._assetIdPair.price
+                    ),
+                    ds.fetch(ds.config.get('matcher'))
+                ])
+                    .then(([price, matcherPublicKey]) => {
                         const amount = this.amount;
                         form.$setUntouched();
                         $scope.$apply();
@@ -316,11 +320,12 @@
                             price: price.toMatcherCoins(),
                             amount: amount.toCoins(),
                             matcherFee: this.fee.getCoins(),
-                            expiration: this.expiration()
+                            expiration: this.expiration(),
+                            matcherPublicKey
                         };
 
                         this._createTxData(data)
-                            .then((txData) => ds.createOrder.send(txData))
+                            .then((txData) => ds.createOrder(txData))
                             .then(() => {
                                 notify.addClass('success');
                                 this.createOrderFailed = false;
@@ -342,50 +347,51 @@
 
             _createTxData(data) {
 
-                const dataPromise = ds.createOrder.createTx({ ...data })
-                    .then((txData) => {
-                        return ds.createOrder.createTransactionId(txData).then((txId) => {
-                            return { txId, txData };
-                        });
-                    })
-                    .then(({ txData, txId }) => {
-                        const signPromise = ds.createOrder.signed(txData);
+                const timestamp = ds.utils.normalizeTime(Date.now());
+                const expiration = this.expiration();
+                const clone = { ...data, timestamp, expiration };
 
-                        if (user.userType === 'seed' || !user.userType) {
-                            return signPromise;
-                        }
+                const signable = ds.signature.getSignatureApi().makeSignable({
+                    type: SIGN_TYPE.CREATE_ORDER,
+                    data: clone
+                });
 
-                        const transactionData = {
-                            fee: this.fee.toFormat(),
-                            amount: this.amount.toFormat(),
-                            price: this.price.toFormat(),
-                            total: this.totalPrice.toFormat(),
-                            orderType: this.type,
-                            totalAsset: this.totalPrice.asset,
-                            amountAsset: this.amountBalance.asset,
-                            priceAsset: this.priceBalance.asset,
-                            feeAsset: this.fee.asset,
-                            type: this.type
-                        };
+                return signable.getId().then(id => {
+                    const signPromise = signable.getDataForApi();
 
-                        const modalPromise = modalManager.showSignLedger({
-                            promise: signPromise,
-                            mode: 'create-order',
-                            data: transactionData,
-                            id: txId
-                        });
+                    if (user.userType === 'seed' || !user.userType) {
+                        return signPromise;
+                    }
 
-                        return modalPromise.then(() => signPromise);
+                    const transactionData = {
+                        fee: this.fee.toFormat(),
+                        amount: this.amount.toFormat(),
+                        price: this.price.toFormat(),
+                        total: this.totalPrice.toFormat(),
+                        orderType: this.type,
+                        totalAsset: this.totalPrice.asset,
+                        amountAsset: this.amountBalance.asset,
+                        priceAsset: this.priceBalance.asset,
+                        feeAsset: this.fee.asset,
+                        type: this.type,
+                        timestamp,
+                        expiration
+                    };
+
+                    const modalPromise = modalManager.showSignLedger({
+                        promise: signPromise,
+                        mode: 'create-order',
+                        data: transactionData,
+                        id
                     });
 
-                if (!user.userType || user.userType === 'seed') {
-                    return dataPromise;
-                }
-
-                return dataPromise.catch(() => {
-                    return modalManager.showLedgerError({ error: 'sign-error' })
-                        .then(() => Promise.resolve(), () => Promise.reject({ error: 'signAbort' }))
-                        .then(() => this._createTxData(data));
+                    return modalPromise
+                        .then(() => signPromise)
+                        .catch(() => {
+                            return modalManager.showLedgerError({ error: 'sign-error' })
+                                .then(() => Promise.resolve(), () => Promise.reject({ error: 'signAbort' }))
+                                .then(() => this._createTxData(data));
+                        });
                 });
             }
 

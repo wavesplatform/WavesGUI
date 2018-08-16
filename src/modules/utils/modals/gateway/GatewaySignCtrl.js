@@ -85,14 +85,11 @@
                     }
                 });
 
+                const adapter = ds.signature.getSignatureApi();
+
                 schema.parse(search)
-                    .then((data) => {
-                        return ds.signature.getSignatureApi().getSeed().then((seed) => ({ seed, data }));
-                    })
                     .then((params) => {
-                        const seed = new ds.Seed(params.seed);
-                        const search = params.data;
-                        const { referrer, name, data, iconPath, successPath } = search;
+                        const { referrer, name, data, iconPath, successPath } = params;
 
                         this.referrer = referrer;
                         this.name = name;
@@ -102,9 +99,11 @@
                         const prefix = 'WavesWalletAuthentication';
                         const host = GatewaySignCtrl._getDomain(referrer);
 
-                        return ds.signature.getSignatureApi().sign({ data: { prefix, host, data }, type: 1000 })
-                            .then((signature) => {
-                                const publicKey = seed.keyPair.publicKey;
+                        return Promise.all([
+                            adapter.signJSON({ data: { prefix, host, data }, type: 1000 }),
+                            adapter.getPublicKey()
+                        ])
+                            .then(([signature, publicKey]) => {
                                 const search = `?s=${signature}&p=${publicKey}&a=${user.address}&d=${data}`;
                                 const path = successPath || '';
                                 const url = `${referrer}/${path}${search}`;
