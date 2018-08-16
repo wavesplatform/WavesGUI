@@ -12,7 +12,7 @@ import {
 } from '@waves/waves-signature-generator';
 
 import { Seed } from './classes/Seed';
-import * as signatureAdapter from '@waves/waves-signature-adapter';
+import * as signatureAdapter from '@waves/signature-adapter';
 
 import { IKeyPair } from './interface';
 

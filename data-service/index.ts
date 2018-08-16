@@ -20,9 +20,9 @@ import {
     cancelOrder as cancelOrderO
 } from './broadcast/broadcast';
 import { utils as cryptoUtils } from '@waves/waves-signature-generator';
-import * as signatureAdapters from '@waves/waves-signature-adapter';
+import * as signatureAdapters from '@waves/signature-adapter';
 
-export { getAdapterByType, getAvailableList } from '@waves/waves-signature-adapter';
+export { getAdapterByType, getAvailableList } from '@waves/signature-adapter';
 export { Seed } from './classes/Seed';
 
 export const wavesDataEntities = {

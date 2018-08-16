@@ -16,7 +16,7 @@
     "node_modules/@waves/waves-browser-bus/dist/browser-bus.min.js",
     "node_modules/@waves/ledger/dist/transport-u2f.js",
     "node_modules/@waves/ledger/dist/waves-ledger.js",
-    "node_modules/@waves/waves-signature-adapter/dist/waves-signature-adapter.js",
+    "node_modules/@waves/signature-adapter/dist/waves-signature-adapter.js",
     "data-service-dist/data-service.js",
     "vendors/qrcode.min.js",
     "node_modules/ts-api-validator/dist/ts-api-validator.partial.min.js",

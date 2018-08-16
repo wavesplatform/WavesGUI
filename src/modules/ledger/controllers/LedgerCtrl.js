@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const signatureAdapter = require('@waves/waves-signature-adapter');
+    const signatureAdapter = require('@waves/signature-adapter');
 
     const USERS_COUNT = 5;
     const PRELOAD_USERS_COUNT = 5;

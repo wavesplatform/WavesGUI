@@ -412,7 +412,7 @@ task('electron-debug', function (done) {
 });
 
 task('data-service', function () {
-    execSync(`${join('node_modules', '.bin', 'tsc')} -p data-service && ${join('node_modules', '.bin', 'browserify')} ${join('data-service', 'index.js')} -s ds -u ts-utils -u ramda -u @waves/waves-signature-generator -u @waves/waves-signature-adapter -o ${join('data-service-dist', 'data-service.js')}`);
+    execSync(`${join('node_modules', '.bin', 'tsc')} -p data-service && ${join('node_modules', '.bin', 'browserify')} ${join('data-service', 'index.js')} -s ds -u ts-utils -u ramda -u @waves/waves-signature-generator -u @waves/signature-adapter -o ${join('data-service-dist', 'data-service.js')}`);
 });
 
 task('all', [
