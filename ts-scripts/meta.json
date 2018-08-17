@@ -144,7 +144,7 @@
         "ts-utils": "6.0.2"
       },
       "scripts": {
-        "postinstall": "node_modules/.bin/electron-rebuild"
+        "postinstall": "node_modules/.bin/electron-rebuild --force"
       }
     },
     "server": "stage-langs.waveswallet.io"
