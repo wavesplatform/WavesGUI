@@ -4,7 +4,7 @@ echo "run post install script"
 
 echo "compile typescript"
 ./node_modules/.bin/tsc || exit 1
-./node_modules/.bin/browserify data-service/index.js -s ds -u bignumber.js -u @waves/data-entities -u ts-utils -u @waves/signature-adapter -u ramda --no-bf -o ./data-service-dist/data-service.js || exit 1
+./node_modules/.bin/browserify data-service/index.js -s ds -u -u @waves/waves-signature-generator -u bignumber.js -u @waves/data-entities -u ts-utils -u @waves/signature-adapter -u ramda --no-bf -o ./data-service-dist/data-service.js || exit 1
 echo "compile typescript >> DONE"
 
 echo "run post install script >> DONE"
