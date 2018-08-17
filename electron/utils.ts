@@ -22,6 +22,17 @@ export function readdir(path: string): Promise<string[]> {
     });
 }
 
+export function parseElectronUrl(url: string) {
+    const [pathAndSearch, hash] = url.split('#');
+    const [path, search] = pathAndSearch.split('?');
+
+    return {
+        path,
+        search: `?${search || ''}`,
+        hash: `#${hash || ''}`
+    };
+}
+
 export function exist(path: string): Promise<void> {
     const exists = existsSync(path);
     if (exists) {
