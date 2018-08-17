@@ -24,7 +24,7 @@ class Main implements IMain {
     public menu: Menu;
     public bridge: Bridge;
     private i18next: any;
-    private createMainWindowPromise: Promise<BrowserWindow>;
+    private initializeUrl: string = '';
     private hasDevTools: boolean = false;
     private dataPromise: Promise<IMetaJSON>;
     private localeReadyPromise: Promise<Function>;
@@ -108,19 +108,22 @@ class Main implements IMain {
             return null;
         }
 
-        const url = removeProtocol(browserLink);
-        this.mainWindow.webContents.executeJavaScript(`runMainProcessEvent('open-from-browser', '${url}')`);
-        this.mainWindow.webContents.focus();
+        if (this.mainWindow && this.mainWindow.webContents) {
+            const url = removeProtocol(browserLink);
+            this.mainWindow.webContents.executeJavaScript(`runMainProcessEvent('open-from-browser', '${url}')`);
+            this.mainWindow.webContents.focus();
+        } else {
+            this.initializeUrl = browserLink;
+        }
     }
 
-    private createWindow(resolve?): Promise<void> {
+    private createWindow(): Promise<void> {
         return this.dataPromise.then((meta) => {
             const pack = require('./package.json');
             this.mainWindow = new BrowserWindow(Main.getWindowOptions(meta));
-            const url = removeProtocol(argv.find(argument => hasProtocol(argument)) || '');
+            const url = removeProtocol(this.initializeUrl || argv.find(argument => hasProtocol(argument)) || '');
 
             this.mainWindow.loadURL(`https://${pack.server}/#!${url}`, { 'extraHeaders': 'pragma: no-cache\n' });
-            resolve & resolve(this.mainWindow);
 
             this.mainWindow.on('closed', () => {
                 this.mainWindow = null;
@@ -157,22 +160,18 @@ class Main implements IMain {
                 callback(true);
             });
         }
-        const browseWindowPromise = new Promise((resolve) => {
-            app.on('ready', () => this.onAppReady(resolve));
-        });
+        app.on('ready', () => this.onAppReady());
         app.on('window-all-closed', Main.onAllWindowClosed);
         app.on('activate', () => this.onActivate());
         app.on('open-url', (event, url) => {
             event.preventDefault();
-            browseWindowPromise.then(() => {
-                this.openProtocolIn(url);
-            })
+            this.openProtocolIn(url);
         })
     }
 
-    private onAppReady(resolve) {
+    private onAppReady() {
         this.registerProtocol()
-            .then(() => this.createWindow(resolve))
+            .then(() => this.createWindow())
             .then(() => this.addApplicationMenu());
     }
 

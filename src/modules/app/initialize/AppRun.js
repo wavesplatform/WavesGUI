@@ -26,7 +26,6 @@
             this._current += delta;
             this._current = Math.min(this._current, 100);
             this._element.style.width = `${this._current}%`;
-            // console.log(`Delta: ${delta}, Progress ${this._current}`);
             WavesApp.progress = this._current;
         },
         stop() {
@@ -114,7 +113,7 @@
                         if (path) {
                             const noLogin = path === '/' || WavesApp.stateTree.where({ noLogin: true }).some(item => {
                                 const url = item.get('url') || item.id;
-                                return parts.path.includes(url);
+                                return parts.path === url;
                             });
                             if (noLogin) {
                                 location.hash = `#!${path}${parts.search}`;
