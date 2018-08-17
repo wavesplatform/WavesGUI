@@ -8,6 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
 
+    <script>
+        window.buildIsWeb = {{isWeb}};
+    </script>
+
     <style>
         .not-supported-browser {
             display: none;
@@ -256,8 +260,6 @@
     {{/if}}
 
     <script>
-        window.buildIsWeb = {{isWeb}};
-        
         window.addEventListener('load', function () {
             var __interval = setInterval(function () {
 
@@ -410,6 +412,8 @@
 
     <!-- CSS -->
 
+    {{#if isWeb}}<base href="/">{{/if}}
+
     <script>
 
         if (window.isDesktop || !window.buildIsWeb) {
@@ -447,7 +451,6 @@
                     el.disabled = el.getAttribute('theme') !== 'default';
                 });
     </script>
-    {{#if isWeb}}<base href="/">{{/if}}
 </head>
 
 <body>
