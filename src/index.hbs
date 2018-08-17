@@ -256,6 +256,8 @@
     {{/if}}
 
     <script>
+        window.buildIsWeb = {{isWeb}};
+        
         window.addEventListener('load', function () {
             var __interval = setInterval(function () {
 
@@ -288,7 +290,7 @@
         var WavesApp = {
             name: 'Waves Client',
             version: '{{pack.version}}',
-            type: window.isDesktop ? 'desktop' : 'web',
+            type: (window.isDesktop || !window.buildIsWeb)? 'desktop' : 'web',
             matcherPriorityList: {{{matcherPriorityList}}},
             themesConf: {{{themesConf}}},
             progress: 0,
@@ -404,13 +406,13 @@
                 exchangeTimeout: 60000,
             }
         };
-
     </script>
 
     <!-- CSS -->
 
     <script>
-        if (window.isDesktop) {
+
+        if (window.isDesktop || !window.buildIsWeb) {
 
             const __mainListeners = [];
 
@@ -435,13 +437,8 @@
                     }
                 });
             }
-        } else {
-            document.write('<base href="/">');
         }
-    </script>
 
-
-    <script>
         Array.prototype.slice.apply(document.querySelectorAll('[rel=stylesheet]'))
                 .filter(function (el) {
                     return el.getAttribute('theme');
@@ -450,6 +447,7 @@
                     el.disabled = el.getAttribute('theme') !== 'default';
                 });
     </script>
+    {{#if isWeb}}<base href="/">{{/if}}
 </head>
 
 <body>
