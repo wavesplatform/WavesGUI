@@ -118,6 +118,10 @@
                     .then(() => signable.getDataForApi())
                     .then(
                         (preparedTx) => {
+                            if (this.wasDestroed) {
+                                return Promise.reject();
+                            }
+
                             this.signLoader = false;
                             return ds.broadcast(preparedTx).then(() => {
                                 analytics.push('User', `User.CreateAlias.Success.${WavesApp.type}`);
