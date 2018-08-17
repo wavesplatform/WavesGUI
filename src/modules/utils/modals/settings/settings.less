@@ -32,11 +32,11 @@ md-dialog.settings-modal {
 
   w-responsive-menu {
     width: 199px;
-    height: calc(100% ~' + 30px');
+    height: calc(100% ~' + 20px');
     position: absolute;
     font-size: 15px;
     left: -40px;
-    top: -30px;
+    top: -20px;
     border-right: 1px solid @color-disabled-200;
 
     w-responsive-menu-item {
@@ -123,6 +123,7 @@ md-dialog.settings-modal {
       position: relative;
       margin-left: 200px;
       right: 0;
+      margin-top: 10px;
       width: 100%;
 
       .label {
@@ -214,8 +215,6 @@ md-dialog.settings-modal {
     background: #4aad02; //success-400
   }
 
-
-
   .network {
     .row-style {
       border-bottom: 0 none;
@@ -277,7 +276,6 @@ md-dialog.settings-modal {
       border: 1px solid @color-basic-200;
     }
   }
-
 }
 
 @media screen and (max-width: 767px) {
@@ -398,17 +396,14 @@ md-dialog.settings-modal {
           padding-top: 3px;
         }
       }
-
     }
 
   }
 }
 
 @media screen and (max-width: 540px) {
-
   md-dialog.settings-modal {
     max-width: 100%;
     min-width: 100%;
   }
-
 }
