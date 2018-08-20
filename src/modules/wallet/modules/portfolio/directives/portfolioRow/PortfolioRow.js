@@ -207,7 +207,7 @@
             const baseAssetId = this.user.getSetting('baseAssetId');
 
             if (baseAssetId === balance.asset.id) {
-                const change24Node =  this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
+                const change24Node = this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
                 change24Node.innerHTML = '—';
                 change24Node.classList.remove('minus');
                 change24Node.classList.remove('plus');
