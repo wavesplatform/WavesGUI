@@ -9,18 +9,13 @@
     display: none !important;
 }
 
-.chart-page .chart-markup-table.pane {
+.chart-markup-table .chart-markup-table.pane {
     border-top: 1px solid #edf0f4 !important;
     border-left: 1px solid #edf0f4 !important;
 }
 
-.chart-page .chart-markup-table.price-axis {
-    border-top: 1px solid #ffffff !important;
-}
 /*********MAX*******/
-.chart-page :not(input):not(textarea):not(.selectable), .tv-profile .tags, .unselectable {
-    fill: #7f8fa4;
-}
+
 .charts-popup-list .item span {
     color: #7f8fa4;
 }
@@ -86,4 +81,7 @@
 }
 .tv-linetool-properties-toolbar__color-picker .colorpicker-widget+svg .icon {
     fill: #7f8fa4;
+}
+.pane-separator {
+    background: none !important;
 }
