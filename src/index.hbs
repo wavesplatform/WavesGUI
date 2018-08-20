@@ -28,6 +28,21 @@
             background: #1a4ac8;
         }
 
+        .connetion-problem__headline {
+            font-family: 'Roboto-Regular', sans-serif;
+            font-size: 34px;
+            line-height: 40px;
+            margin: 10px 0;
+            color: #2d2d2d;
+        }
+
+        .connetion-problem__description {
+            color: #8c8c8c;
+            margin-bottom: 40px;
+            font-size: 17px;
+            line-height: 22px;
+        }
+
         .connection-problem {
             display: none;
             padding-top: 40px;
@@ -36,14 +51,21 @@
             max-width: 90%;
             margin: 0 auto;
             height: 100%;
+            font-family: 'Roboto-Regular', sans-serif;
         }
 
-        .connection-problem img {
+        .connection-problem > img {
             max-width: 100%;
+            margin-bottom: 30px;
         }
 
         .connection-problem .waves-logo {
-            margin-top: 0;
+            width: 100px;
+            height: 21px;
+            background-image: url(/img/icons/waves_logo.svg);
+            background-repeat: no-repeat;
+            display: block;
+            margin: 0 auto 80px auto;
         }
 
         .app-loader.app-loader-transition {
@@ -428,9 +450,9 @@
 
 <div class="connection-problem">
     <div class="waves-logo"><img src="/img/icons/waves_logo.svg"/></div>
-    <img src="/img/no-preload/connection-error.svg" class="margin-3"/>
-    <div class="headline-1">We couldn't connect to the server</div>
-    <div class="body-1 margin-4 disabled-600">Check your internet connection and try again</div>
+    <img src="/img/no-preload/connection-error.svg">
+    <div class="connetion-problem__headline">We couldn't connect to the server</div>
+    <div class="connetion-problem__description">Check your internet connection and try again</div>
     <button class="submit big submit" onclick="location.href=location.href">Refresh page</button>
 </div>
 
@@ -438,9 +460,7 @@
     <div class="overlay"></div>
     <div class="not-supported-modal">
         <i></i>
-        <h2 class="margin-2">
-            Your browser is not supported
-        </h2>
+        <h2 class="margin-2">Your browser is not supported</h2>
         <div class="body-2 disabled-600 margin-4">
             Please update to the latest version of one of the following browsers:
         </div>
