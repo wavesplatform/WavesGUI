@@ -1,12 +1,11 @@
 @import (reference) 'config';
-@import (reference) '../../../app/less/typography';
 @import (reference) 'icons';
+@import (reference) '../../../app/less/typography';
 
 @cell-height: 64px;
 @responsive-cell-height: auto;
 
 .smart-table {
-
   display: block;
   height: 100%;
   position: relative;
@@ -28,7 +27,6 @@
       &__search-container {
         position: relative;
       }
-
       &__row {
         display: flex;
         width: 100%;
@@ -68,7 +66,6 @@
             }
           }
         }
-
       }
     }
   }
@@ -94,7 +91,6 @@
       &__cell {
         padding: 0 10px;
       }
-
     }
   }
 }
@@ -136,7 +132,6 @@
           white-space: nowrap;
           .footnote-1();
         }
-
       }
 
       .smart-table__search-container {
@@ -149,12 +144,7 @@
           height: 36px;
           width: 36px;
           border-radius: @border-radius;
-          background-image: @input-search-icon;
-          background-position: 11px center;
-          background-repeat: no-repeat;
-          background-color: @color-white;
           color: @color-disabled-900;
-          border: 1px solid @color-disabled-200;
           background: @input-search-icon 11px center no-repeat @color-white;
           border: 1px solid @color-basic-200;
           cursor: pointer;
@@ -176,7 +166,6 @@
           }
         }
       }
-
     }
 
     .smart-table__w-tbody {
@@ -208,7 +197,6 @@
 }
 
 @media screen and (max-width: 659px) {
-
   .smart-table {
     &__mode-large {
       border: 0 none;
@@ -251,11 +239,6 @@
           justify-content: space-between;
           padding: 0 20px 0 10px;
           border: 0 none;
-          w-actions {
-            right: 10px;
-            top: 39px;
-            width: 24px;
-          }
         }
       }
     }
