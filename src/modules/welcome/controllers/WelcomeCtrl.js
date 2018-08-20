@@ -68,7 +68,6 @@
             }
 
             login() {
-
                 try {
                     this.showPasswordError = false;
                     const activeUser = this.user;
@@ -77,17 +76,19 @@
                     const seed = new Seed(phrase);
                     const keyPair = seed.keyPair;
 
-                    user.login({
-                        address: activeUser.address,
-                        api: ds.signature.getDefaultSignatureApi(keyPair, activeUser.address, phrase),
-                        password: this.password,
-                        publicKey: seed.keyPair.publicKey
-                    });
+                    if (seed.address === activeUser.address) {
+                        user.login({
+                            address: activeUser.address,
+                            api: ds.signature.getDefaultSignatureApi(keyPair, activeUser.address, phrase),
+                            password: this.password,
+                            publicKey: seed.keyPair.publicKey
+                        });
+                    } else {
+                        this._showPasswordError();
+                    }
                 } catch (e) {
-                    this.password = '';
-                    this.showPasswordError = true;
+                    this._showPasswordError();
                 }
-
             }
 
             /**
@@ -98,6 +99,14 @@
                 modalManager.showConfirmDeleteUser(user.settings.hasBackup).then(() => {
                     this._deleteUser(address);
                 });
+            }
+
+            /**
+             * @private
+             */
+            _showPasswordError() {
+                this.password = '';
+                this.showPasswordError = true;
             }
 
             /**
