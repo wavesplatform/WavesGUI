@@ -19,6 +19,9 @@
                         </div>
                         <w-loader></w-loader>
                     </div>
+
+                    <input ng-if="$ctrl.has2fa" ng-model="$ctrl.code2fa" placeholder="code"/>
+
                     <div class="buttons-wrapper" ng-if="!$ctrl.loadingSignFromDevice">
                         <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
                             <span w-i18n="confirmTransaction.back"></span>

@@ -17,6 +17,7 @@
     const controller = function (Base, waves, $attrs, $mdDialog, modalManager, user, $scope, utils, validateService) {
 
         const ds = require('data-service');
+        const { Money } = require('@waves/data-entities');
         const { TRANSACTION_TYPE_NUMBER } = require('@waves/signature-adapter');
 
         class ConfirmTransaction extends Base {
@@ -69,8 +70,22 @@
                  * @private
                  */
                 this._signable = null;
+                /**
+                 * @type {boolean}
+                 */
+                this.has2fa = false;
+                /**
+                 * @type {string}
+                 */
+                this.code2fa = '';
+
+                ds.fetch(`https://localhost:8081/is-available/${user.address}`).then(response => {
+                    this.has2fa = !response.status;
+                    $scope.$digest();
+                });
 
                 this.observe('tx', this._onChangeTx);
+                this.observe('code2fa', this._onChange2faCode);
                 this.observe('showValidationErrors', this._showErrors);
             }
 
@@ -176,6 +191,35 @@
                     this.txId = id;
                     $scope.$digest();
                 });
+            }
+
+            _onChange2faCode() {
+                const code = this.code2fa;
+                const { create, getClassName } = require('instance-transfer');
+                const stringify = create({
+                    jsonStringify: WavesApp.stringifyJSON,
+                    classes: [
+                        {
+                            name: getClassName(Money),
+                            stringify: (item) => {
+                                const asset = item.asset.toJSON();
+                                const coins = item.toCoins();
+
+                                return { asset, coins };
+                            }
+                        }
+                    ]
+                }).stringify;
+
+                if (code.trim().length === 6) {
+                    this._signable.sign2fa({
+                        code,
+                        request: (data) => ds.fetch('https://localhost:8081/sign', {
+                            method: 'POST',
+                            body: stringify(data)
+                        }).then(({ signature }) => signature)
+                    });
+                }
             }
 
             /**

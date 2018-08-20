@@ -45,7 +45,7 @@ wavesDataEntitiesModule.config.set('remapAsset', (data: IAssetInfo) => {
     return { ...data, name };
 });
 
-export function fetch<T>(url: string, fetchOptions: IFetchOptions): Promise<T> {
+export function fetch<T>(url: string, fetchOptions?: IFetchOptions): Promise<T> {
     return request<T>({ url, fetchOptions });
 }
 
