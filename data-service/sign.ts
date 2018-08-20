@@ -63,7 +63,7 @@ function getSignatureGenerator(type, data) {
         case SIGN_TYPE.MASS_TRANSFER:
             return new TX_NUMBER_MAP[TRANSACTION_TYPE_NUMBER.MASS_TRANSFER](data);
         default:
-            return Promise.reject(new Error('Wrong sign type!'));
+            throw new Error('Wrong sign type!');
     }
 }
 

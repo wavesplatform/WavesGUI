@@ -84,17 +84,17 @@
     "electron:osx": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.icns --platform=darwin --out=./dist/osx",
     "electron": "gulp all && npm run electron:linux && npm run electron:win && npm run electron:osx",
     "electron-debug": "gulp html-desktop-mainnet-min && node_modules/.bin/electron ./dist/desktop/electron-debug --inspect",
-    "data-service": "tsc -p ./data-service && ./node_modules/.bin/browserify data-service/index.js -s ds -u ts-utils -o ./data-service-dist/data-service.js"
+    "data-service": "tsc -p ./data-service && ./node_modules/.bin/browserify data-service/index.js -s ds -u ts-utils -u @waves/waves-signature-generator -u ramda --no-bf -o ./data-service-dist/data-service.js"
   },
   "dependencies": {
-    "@types/ramda": "^0.25.34",
+    "@types/ramda": "0.25.34",
     "@uirouter/angularjs": "1.0.8",
     "@waves/assets-pairs-order": "4.0.0",
     "@waves/data-entities": "1.6.0",
     "@waves/data-service-client-js": "0.5.1",
     "@waves/event-sender": "0.4.4",
     "@waves/waves-browser-bus": "0.0.7",
-    "@waves/waves-signature-generator": "0.2.0",
+    "@waves/waves-signature-generator": "0.14.0",
     "angular": "1.6.6",
     "angular-animate": "1.6.6",
     "angular-aria": "1.6.6",

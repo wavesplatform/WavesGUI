@@ -140,6 +140,11 @@
         flex-grow: 1;
         text-align: left;
       }
+
+      &__data {
+        max-height: 140px;
+        overflow: scroll;
+      }
     }
 
     &-border-ts {
@@ -210,6 +215,10 @@
 
     &.cancel-leasing {
       .icon-tx-cancel-leasing();
+    }
+
+    &.data {
+      .icon-tx-data();
     }
 
     &::before {
