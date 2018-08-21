@@ -13,11 +13,14 @@
     }
   }
 
+  .mobiles-only {
+    display: none;
+  }
+
   .portfolio-wrapper {
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: 10px 10px 0 10px;
   }
 
   .toolbar {
@@ -180,21 +183,12 @@
 
     .smart-table__change .cell {
       .footnote-1();
-
-      w-change24 {
-        &.green {
+      span {
+        &.plus {
           color: @color-submit-300;
-
-          & + span {
-            color: @color-submit-300;
-          }
         }
-
-        &.red {
+        &.minus {
           color: @color-error-500;
-          & + span {
-            color: @color-error-500;
-          }
         }
       }
     }
@@ -338,7 +332,7 @@
   .main.wallet.portfolio {
     .smart-table {
       &__mode-large {
-        .smart-table__cell:last-child {
+        .smart-table__cell[data-column-id="controls"] {
           width: 50px;
           min-width: 50px;
           .cell {
@@ -352,25 +346,58 @@
   }
 }
 
-@media screen and (min-width: 769px) {
-  .smart-table {
-    &__mode-large {
-      .smart-table__cell:last-child .cell {
-        position: relative;
+//tablet
+@media screen and (min-width: 660px) and (max-width: 768px) {
+  .main.wallet.portfolio {
+
+    .smart-table {
+      &__mode-large {
+
+        .smart-table__row {
+          min-width: 100%;
+        }
+
+        .smart-table__cell[data-column-id="controls"] {
+          display: block;
+          width: 50px;
+          min-width: 50px;
+          .cell {
+            .icon {
+              display: none;
+            }
+          }
+        }
+
+        .smart-table__cell[data-column-id="mirror"],
+        .smart-table__cell[data-column-id="inOrders"] {
+          display: none;
+        }
       }
     }
   }
 }
 
-@media screen and (max-width: 769px) {
+//mobile
+@media screen and (max-width: 659px) {
 
   .main.wallet.portfolio {
+
+    .asset-name-desktop {
+      display: none;
+    }
+
+    .mobiles-only {
+      display: block;
+      font-family: @font-roboto-regular;
+    }
 
     .main-content .content {
       padding: 0;
     }
 
     .toolbar {
+      margin: 10px 0 0 10px;
+      width: calc(100% ~'- 20px');
 
       w-select {
         width: 50px;
@@ -421,7 +448,6 @@
 
     .btn-icon {
       font-size: 0;
-
       &::before {
         margin: 0;
       }
@@ -436,23 +462,18 @@
         max-height: 100%;
 
         .w-visible {
-          margin-bottom: @padding-main-layout;
-          height: 111px !important;
+          margin: 0 0 (@padding-main-layout / 2) @padding-main-layout;
+          height: 70px !important;
+          width: calc(100% ~'- 20px');
         }
 
         .smart-table__row {
-          padding: 20px 0 0;
+          padding: 0;
           flex-direction: row;
           flex-wrap: wrap;
 
           .smart-table__cell {
             padding: 0;
-          }
-
-          .smart-table__name,
-          .smart-table__available {
-            flex-basis: 50%;
-            max-width: 50%;
           }
 
           .smart-table__name {
@@ -469,17 +490,9 @@
             }
           }
 
-          .smart-table__available {
-            .cell {
-              padding: 0 40px 0 5px;
-              width: 100%;
-              font-size: inherit;
-              text-align: right;
-            }
-          }
-
           .smart-table__control-cell {
-            padding: 10px 0;
+            max-width: 50px;
+            min-width: 50px;
           }
         }
       }
@@ -491,6 +504,20 @@
         .smart-table__in-orders {
           display: none;
         }
+
+        .smart-table__cell[data-column-id="name"] {
+          flex-basis: 50px;
+          max-width: 50px;
+        }
+
+        .smart-table__cell[data-column-id="balance"] {
+          .cell {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 0 0 0 20px;
+          }
+        }
       }
 
       .smart-table__cell {
@@ -501,39 +528,14 @@
 
         &:last-child {
           padding: 0 0 10px 20px;
-
           .cell {
             height: 20px;
-
-            span.icon:hover {
-              span {
-                display: none;
-              }
-            }
-
-            .icon-send {
-              transform: translateX(50%);
-              right: auto;
-              left: 20px;
-            }
-
-            .icon-receive {
-              right: 65%;
-            }
-
-            .icon-dex {
-              right: 35%;
-              transform: translateX(50%);
-            }
-
-            .icon-hide,
-            .icon-show {
-              right: 20px;
+            span.icon {
+              display: none;
             }
           }
         }
       }
     }
   }
-
 }
