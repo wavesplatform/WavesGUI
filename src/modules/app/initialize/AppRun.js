@@ -207,15 +207,6 @@
 
                 let needShowTutorial = false;
 
-                const tryDesktop = this._initTryDesktop();
-
-                const promise = Promise.all([
-                    storage.onReady(),
-                    tryDesktop
-                ]).then(([oldVersion, canOpenTutorial]) => {
-                    needShowTutorial = canOpenTutorial && !oldVersion;
-                });
-
                 this._listenChangeLanguage();
 
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true })
@@ -224,6 +215,21 @@
                 let waiting = false;
 
                 const stop = $rootScope.$on('$stateChangeStart', (event, toState, params) => {
+
+                    let tryDesktop;
+
+                    if (toState.name === 'main.dex-demo') {
+                        tryDesktop = Promise.resolve();
+                    } else {
+                        tryDesktop = this._initTryDesktop();
+                    }
+
+                    const promise = Promise.all([
+                        storage.onReady(),
+                        tryDesktop
+                    ]).then(([oldVersion, canOpenTutorial]) => {
+                        needShowTutorial = canOpenTutorial && !oldVersion;
+                    });
 
                     if (START_STATES.indexOf(toState.name) === -1) {
                         event.preventDefault();
