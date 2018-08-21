@@ -56,7 +56,8 @@
                     this.amount = (tsUtils.get(this.transaction, 'amount') ||
                         tsUtils.get(this.transaction, 'quantity')).toFormat();
                     this.quantity = this.transaction.quantity || this.transaction.amount;
-                    this.precision = this.transaction.precision || this.quantity.asset.precision;
+                    this.precision = this.transaction.precision ||
+                        (this.quantity.asset ? this.quantity.asset.precision : 0);
                 }
 
                 if (this.typeName === TYPES.EXCHANGE_BUY || this.typeName === TYPES.EXCHANGE_SELL) {
