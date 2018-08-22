@@ -5,7 +5,7 @@ import { app, BrowserWindow, screen, Menu, dialog, shell } from 'electron';
 import { Bridge } from './Bridge';
 import { ISize, IMetaJSON, ILastOpen } from './package';
 import { join } from 'path';
-import { hasProtocol, read, readJSON, removeProtocol, write, writeJSON, readdir, parseElectronUrl, createLogger } from './utils';
+import { hasProtocol, read, readJSON, removeProtocol, write, writeJSON, readdir, parseElectronUrl } from './utils';
 import { homedir, platform } from 'os';
 import { execSync } from 'child_process'
 import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST } from './constansts';
@@ -24,7 +24,6 @@ class Main implements IMain {
     public menu: Menu;
     public bridge: Bridge;
     private i18next: any;
-    private log: (data: any) => void;
     private initializeUrl: string = '';
     private hasDevTools: boolean = false;
     private dataPromise: Promise<IMetaJSON>;
@@ -112,7 +111,6 @@ class Main implements IMain {
             const url = removeProtocol(browserLink);
             this.mainWindow.webContents.executeJavaScript(`runMainProcessEvent('open-from-browser', '${url}')`);
 
-            this.log(`is collapsed: ${this.mainWindow.isMinimized()}`);
             if (this.mainWindow.isMinimized()) {
                 this.mainWindow.restore();
             }
@@ -126,7 +124,6 @@ class Main implements IMain {
         return this.dataPromise.then((meta) => {
             const pack = require('./package.json');
             this.mainWindow = new BrowserWindow(Main.getWindowOptions(meta));
-            this.log = createLogger(this.mainWindow);
 
             const parts = parseElectronUrl(removeProtocol(this.initializeUrl || argv.find(argument => hasProtocol(argument)) || ''));
             const path = parts.path === '/' ? '/' : parts.path.replace(/\/$/, '');
