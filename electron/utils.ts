@@ -1,6 +1,8 @@
 import { PROTOCOL } from './constansts'
 import { readFile, writeFile as fsWriteFile, existsSync, readdir as fsReadDir } from 'fs';
 
+import { BrowserWindow } from 'electron';
+
 
 export function hasProtocol(str: string): boolean {
     return str.indexOf(PROTOCOL) === 0;
@@ -74,4 +76,19 @@ export function write(path: string, content: string): Promise<void> {
 
 export function writeJSON(path: string, content: object | Array<object>): Promise<void> {
     return write(path, JSON.stringify(content));
+}
+
+export function stringify(data: any): string {
+    try {
+        return JSON.stringify(data, null, 4);
+    } catch (e) {
+        return String(data);
+    }
+}
+
+export function createLogger(browser: BrowserWindow) {
+    return (message: any) => {
+        console.log(message);
+        browser.webContents.executeJavaScript(`console.log("${stringify(message)}")`);
+    }
 }
