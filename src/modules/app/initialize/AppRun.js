@@ -113,7 +113,7 @@
                         if (path) {
                             const noLogin = path === '/' || WavesApp.stateTree.where({ noLogin: true }).some(item => {
                                 const url = item.get('url') || item.id;
-                                return parts.path === url;
+                                return path === url;
                             });
                             if (noLogin) {
                                 location.hash = `#!${path}${parts.search}`;
