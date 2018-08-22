@@ -55,5 +55,14 @@ w-qr-code-read {
   &.active {
     display: block;
   }
+}
 
+@media screen and (max-width: 480px) {
+  .qr-code-reader-popup {
+    left: 20px !important;
+    width: calc(100% ~'- 40px') !important;
+    &::after {
+      left: calc(100% ~'- 26px');
+    }
+  }
 }
