@@ -156,6 +156,12 @@ class Main implements IMain {
         });
     }
 
+    // private log(message: string): void {
+    //     const command = `console.log('${message}');`
+    //     this.mainWindow.webContents.executeJavaScript(command);
+    //     console.log(message);
+    // }
+
     private setHandlers() {
         if (this.ignoreSslError) {
             // SSL/TSL: this is the self signed certificate support

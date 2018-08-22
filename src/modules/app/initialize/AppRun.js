@@ -218,6 +218,24 @@
 
                     let tryDesktop;
 
+                    if (START_STATES.indexOf(toState.name) === -1) {
+                        event.preventDefault();
+                    }
+
+                    if (toState.name === 'desktop' && !this._canOpenDesktopPage) {
+                        event.preventDefault();
+                        $state.go(START_STATES[0]);
+                    }
+
+                    if (waiting) {
+                        return null;
+                    }
+
+                    if (needShowTutorial && toState.name !== 'dex-demo') {
+                        modalManager.showTutorialModals();
+                        needShowTutorial = false;
+                    }
+
                     if (toState.name === 'main.dex-demo') {
                         tryDesktop = Promise.resolve();
                     } else {
@@ -230,24 +248,6 @@
                     ]).then(([oldVersion, canOpenTutorial]) => {
                         needShowTutorial = canOpenTutorial && !oldVersion;
                     });
-
-                    if (START_STATES.indexOf(toState.name) === -1) {
-                        event.preventDefault();
-                    }
-
-                    if (toState.name === 'desktop' && !this._canOpenDesktopPage) {
-                        event.preventDefault();
-                        $state.go(START_STATES[0]);
-                    }
-
-                    if (needShowTutorial && toState.name !== 'dex-demo') {
-                        modalManager.showTutorialModals();
-                        needShowTutorial = false;
-                    }
-
-                    if (waiting) {
-                        return null;
-                    }
 
                     promise.then(() => {
                         if (needShowTutorial && toState.name !== 'dex-demo') {
