@@ -4,13 +4,15 @@
     const origin = angular.module;
     angular.module = function (...args) {
         const [name] = args;
+        const module = origin.call(angular, ...args);
+
         if (WavesApp.modules.indexOf(name) === -1) {
             WavesApp.modules.push(name);
+            wrapAngularController(module);
+            wrapAngularComponent(module);
+            wrapAngularDirective(module);
         }
-        const module = origin.call(angular, ...args);
-        wrapAngularController(module);
-        wrapAngularComponent(module);
-        wrapAngularDirective(module);
+
         return module;
     };
 
