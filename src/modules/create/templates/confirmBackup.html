@@ -5,7 +5,7 @@
         <span w-i18n="confirmBackup.confirm"></span>
     </div>
 
-    <div class="body-2 disabled-600">
+    <div class="body-2 disabled-600 description">
         <span w-i18n="confirmBackup.description"></span>
         <a ng-click="$ctrl.next(-1)" w-i18n="confirmBackup.back"></a>
     </div>
@@ -19,19 +19,21 @@
         <span w-i18n="confirmBackup.enterCorrect"></span>
     </div>
 
-    <w-seed-read type="random" seed="{{::$ctrl.seed}}"></w-seed-read>
+    <w-seed-read type="random" class="margin-4" seed="{{::$ctrl.seed}}"></w-seed-read>
 
-    <div class="error-500"
+    <div class="error-500 seed-error margin-3"
          ng-if="$ctrl.seedConfirmWasFilled && !$ctrl.seedIsValid"
          w-i18n="confirmBackup.error"></div>
 
-    <w-button class="submit big long"
-              disabled="!$ctrl.seedIsValid"
-              on-click="$ctrl.create()">
-        <span w-i18n="confirmBackup.ok"></span>
-    </w-button>
+    <div class="margin-2">
+        <w-button class="submit big long"
+                  disabled="!$ctrl.seedIsValid"
+                  on-click="$ctrl.create()">
+            <span w-i18n="confirmBackup.ok"></span>
+        </w-button>
+    </div>
 
-    <div class="or">
+    <div class="or margin-2">
         <span w-i18n="noBackupNoMoney.or"></span>
     </div>
 

@@ -5,6 +5,8 @@
     <div class="body-2 basic-500">≈ {{::$ctrl.mirrorBalance.toFormat()}} {{::$ctrl.mirrorBalance.asset.name}}</div>
 </div>
 
+<div ng-if="$ctrl.warning" class="" w-i18n="{{$ctrl.warning}}"></div>
+
 <div class="txinfo__row txinfo__row-header" ng-if="::$ctrl.typeName === 'mass-send'">
     <div w-i18n="recipient"></div>
     <div w-i18n="amount"></div>

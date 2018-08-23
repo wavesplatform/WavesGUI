@@ -1,5 +1,4 @@
 import DataServiceClient from '@waves/data-service-client-js';
-import * as create from 'parse-json-bignumber';
 import { IHash } from './interface';
 import { time } from './api/node/node';
 
@@ -9,7 +8,7 @@ let dataService = null;
 
 export let timeDiff = 0;
 
-export const parse = create();
+export const parse = str => (window as any).WavesApp.parseJSON(str);
 
 export function get<K extends keyof IConfigParams>(key: K): IConfigParams[K] {
     return config[key];

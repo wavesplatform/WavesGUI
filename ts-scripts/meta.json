@@ -1,9 +1,11 @@
 {
   "vendors": [
+    "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
+    "node_modules/handlebars/dist/handlebars.min.js",
     "node_modules/ramda/dist/ramda.min.js",
     "node_modules/mobile-detect/mobile-detect.min.js",
     "node_modules/handlebars/dist/handlebars.min.js",
-    "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js",
+    "node_modules/@waves/waves-signature-generator/dist/waves-signature-generator.js",
     "node_modules/mousetrap/mousetrap.min.js",
     "node_modules/clipboard/dist/clipboard.min.js",
     "node_modules/papaparse/papaparse.min.js",
@@ -25,7 +27,7 @@
     "node_modules/@uirouter/angularjs/release/angular-ui-router.min.js",
     "node_modules/@uirouter/angularjs/release/stateEvents.min.js",
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
-    "node_modules/i18next/dist/umd/i18next.min.js",
+    "node_modules/i18next/dist/umd/i18next.js",
     "node_modules/n3-charts/build/LineChart.min.js",
     "node_modules/@waves/event-sender/dist/umd.js",
     "node_modules/babel-polyfill/dist/polyfill.min.js"
@@ -34,6 +36,64 @@
     "node_modules/ts-utils/dist/ts-utils.min.js",
     "node_modules/@waves/waves-browser-bus/dist/browser-bus.min.js"
   ],
+  "langList": {
+    "en": {
+      "name": "En",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
+    "ru": {
+      "name": "Ru",
+      "separators": {
+        "group": " ",
+        "decimal": "."
+      }
+    },
+    "ko": {
+      "name": "Ko",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
+    "zh-Hans-CN": {
+      "name": "Zh",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
+    "tr": {
+      "name": "Tr",
+      "separators": {
+        "group": " ",
+        "decimal": "."
+      }
+    },
+    "nl": {
+      "name": "Nl",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
+    "hi": {
+      "name": "Hi",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
+    "es": {
+      "name": "Es",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    }
+  },
   "electronScripts": [
   ],
   "stylesheets": [
@@ -51,7 +111,8 @@
   ],
   "domain": "https://beta.wavesplatform.com",
   "copyNodeModules": [
-    "node_modules/qrcode-reader/dist/index.min.js"
+    "node_modules/qrcode-reader/dist/index.min.js",
+    "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js"
   ],
   "electron": {
     "createPackageJSONFields": [
@@ -80,18 +141,18 @@
       "nodeList": "http://dev.pywaves.org/testnet/generators/",
       "scamListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv",
       "assets": {
-        "EUR": "CcC36vP4yXPtnFH6q45owvD64kcS549QHMYS2o3r4HbX",
-        "USD": "FmD6Q1E4EKj1AV4NLWJVKe3YqN5wR3R3ewmiL8zACdnN",
-        "BTC": "CjmqkvSzsghaJqM7CzZSadoD7PWX2eZR9Zogp6L3eGPS",
-        "ETH": "Bmn8Hv1MNo7n4UV9UFNp5mRF2HBzck6pWytG4LVNcNYG",
-        "LTC": "4ghwG5kvC22my5jANyvXeMtozxddEWbXKxs9dwur36sy",
-        "ZEC": "EgZaVKyWfiYjZwrssR4FECF9Wz3F4DBLXmuiKBjuBeHS",
-        "BCH": "6CM1FFiEuDhaWvMjjkjAPs5Qz4VapbzJNY5cRxGvPnYR",
-        "TRY": "ChRkiUKiMjEvmFsBmDJAV4eHaN7eX3JWbtNjoLJvrV4Z",
-        "DASH": "4jhT4fKTwx6sLcjdCcKSSNmY1WoZc2N8aUk9HwZbYyLB",
-        "EFYT": "C19JvFxmxaDkoKBjAPU9kLPs6jDmSBtkMsgfRP5i3Vwv",
-        "WNET": "Eikg1Zukjfu8NU27ExbmFvugNcatcZ8VAqSYo9k8U64E",
-        "XMR": "3pnwi9qofdWcLActDwGNqQAewj48qQmFH1iCAhCcBcgN"
+        "EUR": "AsuWyM9MUUsMmWkK7jS48L3ky6gA1pxx7QtEYPbfLjAJ",
+        "USD": "D6N2rAqWN6ZCWnCeNFWLGqqjS6nJLeK4m19XiuhdDenr",
+        "BTC": "DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn",
+        "ETH": "BrmjyAWT5jjr3Wpsiyivyvg5vDuzoX2s93WgiexXetB3",
+        "LTC": "BNdAstuFogzSyN2rY3beJbnBYwYcu7RzTHFjW88g8roK",
+        "ZEC": "CFg2KQfkUgUVM2jFCMC5Xh8T8zrebvPc4HjHPfAugU1S",
+        "BCH": "8HT8tXwrXAYqwm8XrZ2hywWWTUAXxobHB5DakVC1y6jn",
+        "TRY": "7itsmgdmomeTXvZzaaxqF3346h4FhciRoWceEw9asNV3",
+        "DASH": "DGgBtwVoXKAKKvV2ayUpSoPzTJxt7jo9KiXMJRzTH2ET",
+        "EFYT": "FvKx3cerSVYGfXKFvUgp7koNuTAcLs8DmtmwRrFVCqJv",
+        "WNET": "3P8gkhcLhFQvBkDzMnWeqqwvq3qxkpTNQPs4LUQ95tKD",
+        "XMR": "8oPbSCKFHkXBy1hCGSg9pJkSARE7zhTQTLpc8KZwdtr7"
       }
     },
     "mainnet": {
@@ -102,7 +163,7 @@
       "api": "https://api.wavesplatform.com",
       "coinomat": "https://coinomat.com",
       "support": "https://support.wavesplatform.com",
-      "nodeList": "http://dev.pywaves.org/generators/",
+      "nodeList": "https://forum.wavesplatform.com/c/pools",
       "scamListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv",
       "assets": {
         "EUR": "Gtb1WRznfchDnTh37ezoDTJ4wcoKaRsKqKjJjy7nm2zU",

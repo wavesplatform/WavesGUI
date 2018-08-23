@@ -12,6 +12,14 @@ w-transaction-list {
   display: flex;
   height: 100%;
 
+  w-transaction {
+    width: 100%;
+  }
+
+  .w-visible {
+    min-height: 74px;
+  }
+
   .transaction-list-mixin {
     background-color: @color-white;
     border-radius: @border-radius;
@@ -31,12 +39,15 @@ w-transaction-list {
   .w-transaction-list {
     width: 100%;
     border-radius: @border-radius;
+    transform: translate3d(0, 0, 0);
 
     ul {
       .transaction-list-mixin();
       list-style: none;
       margin: 0;
       padding: 0;
+      border-radius: @border-radius;
+      transform: translate3d(0, 0, 0);
 
       li {
         padding: 0;
@@ -53,8 +64,11 @@ w-transaction-list {
 
         .row {
           position: relative;
-          border-bottom: 1px solid @color-basic-50;
           transition: all 0.3s;
+
+          .w-visible {
+            border-bottom: 1px solid @color-basic-50;
+          }
 
           &:hover {
             background: @hover-default;
@@ -72,7 +86,7 @@ w-transaction-list {
   height: 13px;
 
   w-loader {
-       margin: 0 auto;
+    margin: 0 auto;
   }
 }
 
@@ -83,8 +97,8 @@ w-transaction-list {
 
   body.transactions {
     .main-content {
-      w-scroll-box {
-        overflow: hidden;
+      .w-visible {
+        height: 91px;
       }
 
       w-transaction-list {

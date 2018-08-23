@@ -13,6 +13,8 @@ import { get } from './config';
 import { TAssetData, TBigNumberData } from './interface';
 import { get as getAssetPair } from './api/pairs/pairs';
 import {
+    prepareForBroadcast as prepareForBroadcastF,
+    getTransactionId as getTransactionIdF,
     broadcast as broadcastF,
     createOrder as createOrderF,
     cancelOrder as cancelOrderF
@@ -33,6 +35,8 @@ export const signature = {
 };
 export const isValidAddress = cryptoUtils.crypto.isValidAddress;
 
+export const prepareForBroadcast = prepareForBroadcastF;
+export const getTransactionId = getTransactionIdF;
 export const broadcast = broadcastF;
 export const createOrder = createOrderF;
 export const cancelOrder = cancelOrderF;

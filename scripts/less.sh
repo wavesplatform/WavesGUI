@@ -12,6 +12,9 @@ case $i in
     -n=*|--name=*)
         FILENAME="${i#*=}"
     ;;
+    -f=*|--files=*)
+        FILENAMES="${i#*=}"
+    ;;
 esac
 done
 FILENAME="$THEME-$FILENAME"
@@ -19,7 +22,9 @@ FILE="$TMP_PATH/$FILENAME"
 
 echo 'compile less'
 mkdir -p tmp
-find src -name "*.less" -exec node_modules/.bin/lessc --include-path=$CONFIG_PATH {} \; > $FILE
+cat /dev/null > $FILE
+for s in $FILENAMES; do node_modules/.bin/lessc --include-path=$CONFIG_PATH $s >> $FILE; done
+#find src -name "*.less" -exec node_modules/.bin/lessc --include-path=$CONFIG_PATH {} \; > $FILE
 echo 'auto prefix'
 node_modules/.bin/postcss $FILE -o $FILE || exit 1
 echo 'uglify css'

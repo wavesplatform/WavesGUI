@@ -2,12 +2,13 @@ import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
 import { exec, execSync } from 'child_process';
-import { getFilesFrom, prepareExport, prepareHTML, run, task } from './ts-scripts/utils';
+import { download, getFilesFrom, prepareExport, prepareHTML, run, task, getAllLessFiles } from './ts-scripts/utils';
 import { basename, join, sep } from 'path';
-import { copy, mkdirp, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
+import { copy, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
+import {utils} from "./data-service/api/API";
 
 const zip = require('gulp-zip');
 const s3 = require('gulp-s3');
@@ -82,7 +83,7 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
             });
             taskHash.concat.push(`concat-${taskPostfix}`);
 
-            const copyDeps = ['concat-style'];
+            const copyDeps = ['concat-style', 'downloadLocales'];
 
             task(`copy-${taskPostfix}`, copyDeps, function (done) {
                     const reg = new RegExp(`(.*?\\${sep}src)`);
@@ -93,6 +94,7 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                         meta.exportPageVendors.map(p => copy(join(__dirname, p), join(targetPath, p)))
                     );
 
+                    forCopy.push(copy(join('dist', 'locale'), join(targetPath, 'locales')));
                     forCopy.push(copy(join(__dirname, 'tradingview-style'), join(targetPath, 'tradingview-style')));
 
                     if (buildName === 'desktop') {
@@ -254,6 +256,31 @@ task('concat-develop-vendors', function () {
         .pipe(gulp.dest(tmpJsPath));
 });
 
+task('downloadLocales', ['concat-develop-sources'], function (done) {
+    const path = join(tmpJsPath, bundleName);
+
+    readFile(path, 'utf8').then(file => {
+
+        const modules = file.match(/angular\.module\('app\.?((\w|\.)+?)?',/g)
+            .map(str => str.replace('angular.module(\'', '')
+                .replace('\',', ''));
+
+        const load = name => {
+            const langs = Object.keys(meta.langList);
+
+            return Promise.all(langs.map(lang => {
+                const url = `https://locize.wvservices.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/${name}`;
+                const out = join('dist', 'locale', lang, `${name}.json`);
+
+                return download(url, out)
+                    .then(() => console.log(`Module ${lang} ${name} loaded!`))
+                    .catch(() => console.error(`Error load module with name ${name}!`));
+            }));
+        };
+        return Promise.all(modules.map(load))
+    }).then(() => done());
+});
+
 task('clean', function () {
     execSync(`sh ${join('scripts', 'clean.sh')}`);
 });
@@ -263,8 +290,9 @@ task('eslint', function (done) {
 });
 
 task('less', function () {
+    const files = getAllLessFiles().join('\n');
     for (const theme of THEMES) {
-        execSync(`sh ${join('scripts', `less.sh -t=${theme} -n=${cssName}`)}`);
+        execSync(`sh ${join('scripts', `less.sh -t=${theme} -n=${cssName} -f="${files}"`)}`);
         steelSheetsFiles[cssName] = { theme };
     }
 });
@@ -359,13 +387,8 @@ task('electron-debug', ['electron-task-list'], function (done) {
         .catch((e) => console.log(e.stack));
 });
 
-task('data-service', function () {
-    execSync(`${join('node_modules', '.bin', 'tsc')} -p data-service && ${join('node_modules', '.bin', 'browserify')} ${join('data-service', 'index.js')} -s ds -u ts-utils -o ${join('data-service-dist', 'data-service.js')}`);
-});
-
 task('all', [
     'clean',
-    'data-service',
     'templates',
     'concat',
     'copy',

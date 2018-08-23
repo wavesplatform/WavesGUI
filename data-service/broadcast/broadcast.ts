@@ -1,6 +1,6 @@
 import { Money, BigNumber } from '@waves/data-entities';
 import { idToNode, normalizeTime } from '../utils/utils';
-import { libs, MASS_TRANSFER_TX_VERSION } from '@waves/waves-signature-generator';
+import { libs, TRANSACTION_TYPE_VERSION } from '@waves/waves-signature-generator';
 import { getSignatureApi, SIGN_TYPE } from '../sign';
 import { request } from '../utils/request';
 import { parse } from '../api/matcher/getOrders';
@@ -8,31 +8,43 @@ import { get } from '../config';
 import { addOrderToStore, removeOrderFromStore } from '../store';
 
 
-export function broadcast(type: SIGN_TYPE, data: any) {
+export function prepareForBroadcast(type: SIGN_TYPE, data: any) {
     const api = getSignatureApi();
     return Promise.all([
         api.getPublicKey(),
         api.getAddress()
     ]).then(([senderPublicKey, sender]) => {
-        const timestamp = normalizeTime(data.timestamp || Date.now());
         const schema = schemas.getSchemaByType(type);
-        return api.sign({ type, data: schema.sign({ ...data, sender, senderPublicKey, timestamp }) } as any)
+        return api.sign({ type, data: schema.sign({ ...data, sender, senderPublicKey }) } as any)
             .then((signature) => {
                 const proofs = [signature];
-                return schema.api({ ...data, sender, senderPublicKey, signature, timestamp, proofs });
+                return schema.api({ ...data, sender, senderPublicKey, signature, proofs });
             });
-    }).then((data) => {
-        return request({
-            url: `${get('node')}/transactions/broadcast`,
-            fetchOptions: {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json;charset=UTF-8'
-                },
-                body: JSON.stringify(data)
-            }
-        });
+    });
+}
+
+export function getTransactionId(type: SIGN_TYPE, data: any): Promise<string> {
+    const api = getSignatureApi();
+    return Promise.all([
+        api.getPublicKey(),
+        api.getAddress()
+    ]).then(([senderPublicKey, sender]) => {
+        const schema = schemas.getSchemaByType(type);
+        return api.getTxId({ type, data: schema.sign({ ...data, sender, senderPublicKey }) } as any);
+    });
+}
+
+export function broadcast(data) {
+    return request({
+        url: `${get('node')}/transactions/broadcast`,
+        fetchOptions: {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
+            body: JSON.stringify(data)
+        }
     });
 }
 
@@ -311,7 +323,7 @@ export module schemas {
 
         export const massTransfer = prepare.schema(
             'senderPublicKey',
-            prepare.wrap('version', 'version', prepare.processors.addValue(MASS_TRANSFER_TX_VERSION)),
+            prepare.wrap('version', 'version', prepare.processors.addValue(TRANSACTION_TYPE_VERSION.MASS_TRANSFER)),
             prepare.wrap('totalAmount', 'assetId', prepare.processors.moneyToNodeAssetId),
             prepare.wrap('transfers', 'transfers', prepare.processors.transfers(
                 prepare.processors.recipient,

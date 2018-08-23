@@ -13,7 +13,8 @@ export type T_API_TX =
     txApi.ILease |
     txApi.ICancelLeasing |
     txApi.ICreateAlias |
-    txApi.IMassTransfer;
+    txApi.IMassTransfer |
+    txApi.IData;
 
 export type T_TX =
     IIssue |
@@ -24,7 +25,8 @@ export type T_TX =
     ILease |
     ICancelLeasing |
     ICreateAlias |
-    IMassTransfer;
+    IMassTransfer |
+    IData;
 
 export module txApi {
 
@@ -116,13 +118,20 @@ export module txApi {
 
     export interface IMassTransfer extends IBaseTransaction {
         type: TRANSACTION_TYPE_NUMBER.MASS_TRANSFER;
-        assetId: string;
         version?: number;
+        assetId: string;
         attachment: string;
         fee: string;
         totalAmount: string;
         transferCount: number;
         transfers: Array<{ amount: string; recipient: string; }>
+    }
+
+    export interface IData extends IBaseTransaction {
+        type: TRANSACTION_TYPE_NUMBER.DATA;
+        version?: number;
+        data: Array<TDataEntry>;
+        fee: string;
     }
 
     export interface IExchangeOrder {
@@ -235,14 +244,22 @@ export interface ICreateAlias extends IBaseTransaction {
 
 export interface IMassTransfer extends IBaseTransaction {
     type: TRANSACTION_TYPE_NUMBER.MASS_TRANSFER;
-    assetId: string;
     version?: number;
+    assetId: string;
     attachment: string;
     rawAttachment: string;
     fee: Money;
     totalAmount: Money;
     transferCount: number;
     transfers: Array<{ amount: Money; recipient: string; }>
+}
+
+export interface IData extends IBaseTransaction {
+    type: TRANSACTION_TYPE_NUMBER.DATA;
+    version?: number;
+    data: Array<TDataEntry>;
+    stringifiedData: string;
+    fee: Money;
 }
 
 export interface IExchangeOrder {
@@ -258,4 +275,30 @@ export interface IExchangeOrder {
     senderPublicKey: string;
     signature: string;
     timestamp: number;
+}
+
+export type TDataEntry = TDataEntryInteger | TDataEntryBoolean | TDataEntryBinary | TDataEntryString;
+
+export interface TDataEntryInteger {
+    type: 'integer';
+    key: string;
+    value: number;
+}
+
+export interface TDataEntryBoolean {
+    type: 'boolean';
+    key: string;
+    value: boolean;
+}
+
+export interface TDataEntryBinary {
+    type: 'binary';
+    key: string;
+    value: string; // base64
+}
+
+export interface TDataEntryString {
+    type: 'string';
+    key: string;
+    value: string;
 }
