@@ -11,7 +11,10 @@ import {
     IBurn,
     IExchange,
     ILease,
-    ICancelLeasing, ICreateAlias, IMassTransfer
+    ICancelLeasing,
+    ICreateAlias,
+    IMassTransfer,
+    IData
 } from './interface';
 import { contains } from 'ts-utils';
 import { TRANSACTION_TYPE_NUMBER } from '@waves/waves-signature-generator';
@@ -107,3 +110,8 @@ export function isMassTransfer(tx: T_TX | T_API_TX): boolean {
     return tx.type === TRANSACTION_TYPE_NUMBER.MASS_TRANSFER;
 }
 
+export function isData(tx: T_TX): tx is IData;
+export function isData(tx: T_API_TX): tx is txApi.IData;
+export function isData(tx: T_TX | T_API_TX): boolean {
+    return tx.type === TRANSACTION_TYPE_NUMBER.DATA;
+}

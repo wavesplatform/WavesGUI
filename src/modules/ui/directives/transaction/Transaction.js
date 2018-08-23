@@ -78,11 +78,17 @@
                 const datetime = `Date: ${timestamp}`;
 
                 let sender = `Sender: ${tx.sender}`;
-                if (tx.transactionType === WavesApp.TRANSACTION_TYPES.NODE.EXCHANGE) {
+                if (tx.typeName === WavesApp.TRANSACTION_TYPES.NODE.EXCHANGE) {
                     sender += ' (matcher address)';
                 }
 
                 let message = `${id}\n${type}\n${datetime}\n${sender}`;
+
+                if (tx.typeName === WavesApp.TRANSACTION_TYPES.EXTENDED.UNKNOWN) {
+                    message += '\n\nRAW TX DATA BELOW\n\n';
+                    message += JSON.stringify(tx, null, 2);
+                    return message;
+                }
 
                 if (tx.recipient) {
                     const recipient = `Recipient: ${tx.recipient}`;
@@ -97,10 +103,16 @@
 
                 if (this.typeName === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_BUY ||
                     this.typeName === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_SELL) {
-                    const asset = tx.price.pair.priceAsset;
+                    const asset = tx.price.asset;
                     const price = `Price: ${tx.price.toFormat()} ${asset.name} (${asset.id})`;
                     const totalPrice = `Total price: ${this.totalPrice} ${asset.name}`;
                     message += `\n${price}\n${totalPrice}`;
+                }
+
+                if (this.typeName === WavesApp.TRANSACTION_TYPES.EXTENDED.DATA) {
+                    message += '\n\n\nDATA START';
+                    message += `\n\n${tx.stringifiedData}`;
+                    message += '\n\nDATA END\n\n';
                 }
 
                 const fee = `Fee: ${tx.fee.toFormat()} ${tx.fee.asset.name} (${tx.fee.asset.id})`;

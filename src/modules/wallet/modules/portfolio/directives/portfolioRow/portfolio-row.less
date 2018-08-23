@@ -8,11 +8,11 @@ w-portfolio-row {
     background-size: 100% 100%;
     text-align: center;
     border-radius: 50%;
-    color: @color-white;
     left: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: @white-only;
   }
 
   .smart-table {
@@ -55,7 +55,7 @@ w-portfolio-row {
       margin-bottom: 10px;
       padding: 17px 0;
       background-color: @color-white;
-      box-shadow: 0 1px 4px 0 rgba(44, 64, 90, 0.25);
+      box-shadow: @shadow-buttons-default;
 
       &.expanded {
         display: block;
@@ -130,11 +130,5 @@ w-portfolio-row {
         }
       }
     }
-  }
-}
-
-@media screen and (max-width: 768px) {
-  w-portfolio-row {
-    flex-wrap: wrap;
   }
 }

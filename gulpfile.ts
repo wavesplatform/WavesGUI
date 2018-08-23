@@ -387,13 +387,8 @@ task('electron-debug', ['electron-task-list'], function (done) {
         .catch((e) => console.log(e.stack));
 });
 
-task('data-service', function () {
-    execSync(`${join('node_modules', '.bin', 'tsc')} -p data-service && ${join('node_modules', '.bin', 'browserify')} ${join('data-service', 'index.js')} -s ds -u ts-utils -o ${join('data-service-dist', 'data-service.js')}`);
-});
-
 task('all', [
     'clean',
-    'data-service',
     'templates',
     'concat',
     'copy',

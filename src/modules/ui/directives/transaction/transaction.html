@@ -17,7 +17,6 @@
                 <span w-i18n="transaction.actions.copyTxData"></span>
             </w-action>
         </div>
-        <!--TODO : isActive-->
         <w-action ng-if="$ctrl.typeName === 'lease-out' && $ctrl.transaction.isActive"
                   ng-click="$ctrl.cancelLeasing()">
             <span w-i18n="transaction.actions.cancelLeasing"></span>
