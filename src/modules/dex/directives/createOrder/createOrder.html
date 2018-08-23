@@ -59,7 +59,7 @@
                 <form class="fields" novalidate name="$ctrl.order">
                     <div class="amount">
                         <div class="split-half field-label">
-                            <div class="caption-2 disabled-900"
+                            <div class="caption-2 basic-600"
                                  w-i18n="directives.createOrder.amountField"></div>
                             <div ng-if="$ctrl.type === 'buy'"
                                  ng-click="$ctrl.setMaxPrice()"
@@ -88,7 +88,7 @@
                                          ng-model="$ctrl.amount"
                                          required></w-input>
                                 <div class="asset-name-wrap">
-                                    <div class="caption-1 disabled-500">{{$ctrl.amountDisplayName}}</div>
+                                    <div class="caption-1 basic-500">{{$ctrl.amountDisplayName}}</div>
                                 </div>
                             </div>
 
@@ -111,7 +111,7 @@
 
                     <div class="price">
                         <div class="split-half field-label">
-                            <div class="disabled-900" w-i18n="directives.createOrder.priceField"></div>
+                            <div class="basic-600" w-i18n="directives.createOrder.priceField"></div>
                             <div class="flex">
                                 <span ng-if="$ctrl.ask && $ctrl.ask.price && $ctrl.ask.price !== '0'"
                                       ng-class="{active: $ctrl.price.getTokens().toFixed() === $ctrl.ask.price}"
@@ -162,7 +162,7 @@
                     </div>
 
                     <div class="total">
-                        <div class="field-label caption-2 disabled-900"
+                        <div class="field-label caption-2 basic-600"
                              w-i18n="directives.createOrder.total"></div>
                         <w-input-container ng-class="{ 'invalid': $ctrl.isTotalInvalid() }">
                             <div class="input-like tiny">
@@ -179,7 +179,7 @@
                                          w-validator-gt="0"
                                          required></w-input>
                                 <div class="asset-name-wrap">
-                                    <div class="caption-1 disabled-500">{{$ctrl.priceDisplayName}}</div>
+                                    <div class="caption-1 basic-500">{{$ctrl.priceDisplayName}}</div>
                                 </div>
                             </div>
                             <w-input-error message="custom" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
