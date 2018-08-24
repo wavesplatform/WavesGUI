@@ -2,27 +2,72 @@
 
 w-input-container {
   display: block;
+  position: relative;
 
   input {
     transition: all 0.3s;
   }
 
-  .error {
-    transition: all 0.3s;
-    opacity: 0;
-    height: 0;
-    transform: scaleY(0);
-    overflow: hidden;
-    display: block;
-    color: @color-error-500;
-    position: relative;
-    top: 6px;
+  w-input.ng-valid + .like-input-error {
+    display: none!important
+  }
+
+  .like-input-error,
+  w-input-error {
+    position: absolute;
     width: 100%;
 
-    &.active {
+    &::before {
+      display: block;
+      width: 10px;
+      height: 10px;
+      content: '';
+      transform: rotate(45deg);
+      background: @color-error-400;
+      top: 2px;
+      left: 20px;
+      position: absolute;
+    }
+
+    &.multiline {
+      .error {
+        padding: 16px 25px 16px 16px;
+      }
+
+      span.error-list-row {
+        display: block;
+      }
+
+      .show-all-errors-link {
+        color: @color-error-200;
+        margin-top: @padding-main-layout / 2;
+      }
+
+      .close-btn {
+        display: block;
+        position: absolute;
+        right:3px;
+        top: 3px;
+        background: url(/img/icons/error-tooltip-close.svg) center no-repeat;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+    }
+
+    .error {
+      background: @color-error-400;
+      padding: 10px 16px;
+      border-radius: @border-radius;
+      display: inline-block;
+      z-index: 2;
+      margin-top: 7px;
+      width: auto;
+      transition: all 0.3s;
+      color: @color-white;
+      position: relative;
       opacity: 1;
       transform: scaleY(1);
-      height: auto;
     }
   }
 }
