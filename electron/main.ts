@@ -110,7 +110,11 @@ class Main implements IMain {
         if (this.mainWindow && this.mainWindow.webContents) {
             const url = removeProtocol(browserLink);
             this.mainWindow.webContents.executeJavaScript(`runMainProcessEvent('open-from-browser', '${url}')`);
-            this.mainWindow.webContents.focus();
+
+            if (this.mainWindow.isMinimized()) {
+                this.mainWindow.restore();
+            }
+            this.mainWindow.show();
         } else {
             this.initializeUrl = browserLink;
         }
@@ -151,6 +155,12 @@ class Main implements IMain {
             this.mainWindow.on('leave-full-screen', onChangeWindow);
         });
     }
+
+    // private log(message: string): void {
+    //     const command = `console.log('${message}');`
+    //     this.mainWindow.webContents.executeJavaScript(command);
+    //     console.log(message);
+    // }
 
     private setHandlers() {
         if (this.ignoreSslError) {

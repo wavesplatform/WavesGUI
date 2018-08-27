@@ -1,6 +1,8 @@
 import { PROTOCOL } from './constansts'
 import { readFile, writeFile as fsWriteFile, existsSync, readdir as fsReadDir } from 'fs';
 
+import { BrowserWindow } from 'electron';
+
 
 export function hasProtocol(str: string): boolean {
     return str.indexOf(PROTOCOL) === 0;
