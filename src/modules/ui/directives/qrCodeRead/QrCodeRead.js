@@ -52,9 +52,6 @@
                  * @type {HTMLMediaElement}
                  */
                 this.video = document.createElement('VIDEO');
-                /**
-                 */
-
                 this.worker = null;
                 /**
                  * @type {Function}
@@ -111,7 +108,7 @@
                         this.stream = stream;
                         this._loadVideoSize()
                             .then((size) => {
-                                this._currentSize(size);
+                                this._applySize(size);
                                 this.poll = createPoll(this, this._decodeImage, this._checkStop, 50);
                             });
                         this.video.srcObject = stream.stream;
@@ -139,8 +136,10 @@
              * @private
              */
             _onChangeSize() {
-                this._addPopupSize();
-                this._setPopupPosition();
+                if (!this.width || !this.height) {
+                    return null;
+                }
+                this._setPopupPosition(this._addPopupSize());
             }
 
             /**
@@ -173,11 +172,9 @@
              * @param size
              * @private
              */
-            _currentSize(size) {
-                const factor = Math.min(this.maxWidth / size.width, this.maxHeight / size.height);
-
-                this.width = Math.round(size.width * factor);
-                this.height = Math.round(size.height * factor);
+            _applySize(size) {
+                this.width = size.width;
+                this.height = size.height;
             }
 
             /**
@@ -200,15 +197,25 @@
             }
 
             _parseQrCode({ result }) {
-                let protocol, data;
-                if (result.includes('://')) {
-                    [protocol, data] = result.split('://');
-                } else {
-                    protocol = null;
-                    data = result;
+                try {
+                    const url = new URL(result);
+                    const hash = url.hash.replace('#', '');
+                    const [path, search] = hash.split('?');
+                    const assetId = path.replace('send/', '');
+                    const params = utils.parseSearchParams(search);
+
+                    return { ...params, assetId };
+                } catch (e) {
+                    let data;
+                    if (result.includes('://')) {
+                        data = result.split('://')[1];
+                    } else {
+                        data = result;
+                    }
+                    const [body, search] = (data || '').split('?');
+                    return { recipient: body, ...utils.parseSearchParams(search) };
                 }
-                const [body, search] = (data || '').split('?');
-                return { protocol, body, params: utils.parseSearchParams(search) };
+
             }
 
             /**
@@ -216,7 +223,7 @@
              * @private
              */
             _getFrame() {
-                this.ctx.drawImage(this.video, 0, 0, this.width, this.height);
+                // this.ctx.drawImage(this.video, 0, 0, this.width, this.height);
                 return this.ctx.getImageData(0, 0, this.width, this.height);
             }
 
@@ -254,7 +261,7 @@
              * @private
              */
             _onWebCamError() {
-                this._currentSize({ width: this.maxWidth, height: this.maxHeight });
+                this._applySize({ width: this.maxWidth, height: this.maxHeight });
                 this._setPopupPosition();
                 this._addPopupSize();
                 this.webCamError = true;
@@ -287,13 +294,13 @@
             /**
              * @private
              */
-            _setPopupPosition() {
+            _setPopupPosition({ width, height }) {
                 const $btn = $element.find('.btn');
                 const offset = $btn.offset();
                 $(this.popupNode)
                     .offset({
-                        top: offset.top - this.height - 10,
-                        left: offset.left - (this.width - $btn.width()) / 2
+                        top: offset.top - height - 10,
+                        left: offset.left - (width - $btn.width()) / 2
                     });
             }
 
@@ -301,10 +308,21 @@
              * @private
              */
             _addPopupSize() {
-                this.canvas.width = this.width;
-                this.canvas.height = this.height;
-                this.popupNode.style.width = `${this.width}px`;
-                this.popupNode.style.height = `${this.height}px`;
+                const factor = Math.min(Number(this.maxWidth) / this.width, Number(this.maxHeight) / this.height);
+
+                const width = Math.round(this.width * factor);
+                const height = Math.round(this.height * factor);
+
+                this.video.width = this.width;
+                this.video.height = this.height;
+
+                this.video.style.width = `${width}px`;
+                this.video.style.height = `${height}px`;
+
+                this.popupNode.style.width = `${width}px`;
+                this.popupNode.style.height = `${height}px`;
+
+                return { width, height };
             }
 
         }
