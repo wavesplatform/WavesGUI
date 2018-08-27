@@ -12,6 +12,7 @@
     const factory = function (user, utils, aliases, decorators, BaseNodeComponent) {
 
         const tsUtils = require('ts-utils');
+        const R = require('ramda');
 
         const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
 
@@ -63,7 +64,7 @@
             @decorators.cachable(1)
             list(limit = 1000) {
                 return ds.api.transactions.list(user.address, limit)
-                    .then((list) => list.map(this._pipeTransaction()));
+                    .then(list => list.map(this._pipeTransaction()));
             }
 
             /**
@@ -72,8 +73,9 @@
             @decorators.cachable(120)
             getActiveLeasingTx() {
                 return ds.fetch(`${this.node}/leasing/active/${user.address}`)
-                    .then((list) => ds.api.transactions.parseTx(list, false))
-                    .then((list) => list.map(this._pipeTransaction()));
+                    .then(R.uniqBy(R.prop('id')))
+                    .then(list => ds.api.transactions.parseTx(list, false))
+                    .then(list => list.map(this._pipeTransaction()));
             }
 
             /**
