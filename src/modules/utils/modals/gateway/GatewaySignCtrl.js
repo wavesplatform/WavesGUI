@@ -117,7 +117,7 @@
             }
 
             send() {
-                location.href = this._successUrl;
+                utils.redirect(this._successUrl);
             }
 
             /**

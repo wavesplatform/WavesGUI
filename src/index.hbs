@@ -294,7 +294,9 @@
                     case 'appRun':
                         clearInterval(__interval);
                         var errorModal = document.querySelector('.connection-problem');
-                        errorModal.parentNode.removeChild(errorModal);
+                        if (errorModal.parentNode) {
+                            errorModal.parentNode.removeChild(errorModal);
+                        }
                         break;
                 }
             }, 2000);
@@ -425,10 +427,36 @@
 
     {{#if isWeb}}
         <base href="/">
+    {{else}}
+        <script>
+            const __mainListeners = [];
+
+            function listenMainProcessEvent(cb) {
+                __mainListeners.push(cb);
+            }
+
+            function stopListenMainProcessEvent(cb) {
+                for (let i = __mainListeners.length - 1; i >= 0; i--) {
+                    if (__mainListeners[i] === cb) {
+                        __mainListeners.splice(i, 1);
+                    }
+                }
+            }
+
+            function runMainProcessEvent(...args) {
+                __mainListeners.slice().forEach(cb => {
+                    try {
+                        cb(...args);
+                    } catch (e) {
+                        console.error(e);
+                    }
+                });
+            }
+        </script>
     {{/if}}
 
     <script>
-        [].slice.apply(document.querySelectorAll('[rel=stylesheet]'))
+        Array.prototype.slice.apply(document.querySelectorAll('[rel=stylesheet]'))
                 .filter(function (el) {
                     return el.getAttribute('theme');
                 })
@@ -568,16 +596,6 @@
      */
     var analytics = eventSender.default.inactive();
 
-
-    // TODO Add dif time
-    // Waves.API.Node.v1.utils.time().then(function (nodeTime) {
-    //     var timeDiff = Waves.tools.calculateTimeDiff(nodeTime, Date.now());
-    //     var tenMinutes = 10 * 60 * 1000;
-    //     if (Math.abs(timeDiff) > tenMinutes) {
-    //         Waves.config.set({ timeDiff: timeDiff });
-    //     }
-    // });
-
     WavesApp.stateTree = new tsUtils.Tree({
         id: 'root',
         children: [
@@ -605,6 +623,13 @@
             },
             {
                 id: 'restore',
+                data: {
+                    noLogin: true,
+                    views: [{ name: 'main' }]
+                }
+            },
+            {
+                id: 'desktop',
                 data: {
                     noLogin: true,
                     views: [{ name: 'main' }]

@@ -95,7 +95,15 @@
                         })
                     });
 
+                    if (WavesApp.isDesktop()) {
+                        transfer('setLanguage', i18next.language);
+                    }
+
                     i18next.on('languageChanged', () => {
+                        if (WavesApp.isDesktop()) {
+                            transfer('setLanguage', i18next.language);
+                        }
+
                         const localeData = WavesApp.getLocaleData().separators;
 
                         BigNumber.config({

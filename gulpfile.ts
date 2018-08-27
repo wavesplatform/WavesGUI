@@ -2,13 +2,12 @@ import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
 import { exec, execSync } from 'child_process';
-import { download, getFilesFrom, prepareExport, prepareHTML, run, task, getAllLessFiles } from './ts-scripts/utils';
-import { basename, join, sep } from 'path';
-import { copy, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
+import { download, getAllLessFiles, getFilesFrom, prepareExport, prepareHTML, run, task } from './ts-scripts/utils';
+import { basename, extname, join, sep } from 'path';
+import { copy, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile } from 'fs-extra';
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
-import {utils} from "./data-service/api/API";
 
 const zip = require('gulp-zip');
 const s3 = require('gulp-s3');
@@ -104,11 +103,13 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                             forCopy.push(copy(path, join(targetPath, name)));
                         });
                         forCopy.push(copy(join(__dirname, 'electron', 'icons'), join(targetPath, 'img', 'icon.png')));
+                        forCopy.push(copy(join(__dirname, 'electron', 'waves.desktop'), join(targetPath, 'waves.desktop')));
+                        forCopy.push(copy(join(__dirname, 'node_modules', 'i18next', 'dist'), join(targetPath, 'i18next')));
                     }
 
                     Promise.all([
                         Promise.all(meta.copyNodeModules.map((path) => {
-                            return copy(join(__dirname, path), `${targetPath}/${path}`);
+                            return copy(join(__dirname, path), join(targetPath, path));
                         })) as Promise<any>,
                         copy(join(__dirname, 'src/img'), `${targetPath}/img`).then(() => {
                             const images = IMAGE_LIST.map((path) => path.replace(reg, ''));
@@ -265,6 +266,8 @@ task('downloadLocales', ['concat-develop-sources'], function (done) {
             .map(str => str.replace('angular.module(\'', '')
                 .replace('\',', ''));
 
+        modules.push('electron');
+
         const load = name => {
             const langs = Object.keys(meta.langList);
 
@@ -363,28 +366,49 @@ task('copy', taskHash.copy);
 task('html', taskHash.html);
 task('zip', taskHash.zip);
 
-task('electron-debug', ['electron-task-list'], function (done) {
-    const root = join(__dirname, 'dist', 'desktop');
+task('electron-debug', function (done) {
+    const root = join(__dirname, 'dist', 'desktop', 'electron-debug');
+    const srcDir = join(__dirname, 'electron');
 
-    const process = function (to: string) {
-        const promise = readdir(join(__dirname, 'electron'))
-            .then((list) => list.filter((name) => name.indexOf('js') !== -1))
-            .then((list) => list.map((name) => copy(join(__dirname, 'electron', name), join(to, name))))
-            .then((list) => Promise.all(list))
-            .then(() => readJSON(join(__dirname, 'dist', 'desktop', 'mainnet', 'normal', 'package.json')))
-            .then((pack) => {
-                pack.server = `localhost:8080`;
-                return writeFile(join(to, 'package.json'), JSON.stringify(pack, null, 4));
-            });
+    const copyItem = name => copy(join(srcDir, name), join(root, name));
+    const makePackageJSON = () => {
+        const targetPackage = Object.create(null);
 
-        return promise;
+        meta.electron.createPackageJSONFields.forEach((name) => {
+            targetPackage[name] = pack[name];
+        });
+
+        Object.assign(targetPackage, meta.electron.defaults);
+        targetPackage.server = 'localhost:8080';
+
+        return writeFile(join(root, 'package.json'), JSON.stringify(targetPackage));
     };
 
+    const excludeTypeScrip = list => list.filter(name => extname(name) !== '.ts');
+    const loadLocales = () => {
+        const list = Object.keys(require(join(__dirname, 'ts-scripts', 'meta.json')).langList);
 
-    const copyTo = join(root, 'electron-debug');
-    process(copyTo)
-        .then(() => done())
-        .catch((e) => console.log(e.stack));
+        return Promise.all(list.map(loadLocale));
+    };
+
+    const loadLocale = lang => {
+        const url = `https://locize.wvservices.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/electron`;
+        const out = join(root, 'locales', lang, `electron.json`);
+
+        return download(url, out);
+    };
+
+    const copyNodeModules = () => Promise.all(meta.copyNodeModules.map(name => copy(name, join(root, name))));
+    const copyI18next = () => copy(join(__dirname, 'node_modules', 'i18next', 'dist'), join(root, 'i18next'));
+
+    readdir(srcDir)
+        .then(excludeTypeScrip)
+        .then(list => Promise.all(list.map(copyItem)))
+        .then(makePackageJSON)
+        .then(loadLocales)
+        .then(copyNodeModules)
+        .then(copyI18next)
+        .then(() => done());
 });
 
 task('all', [
