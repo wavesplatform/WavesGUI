@@ -44,7 +44,6 @@ w-qr-code-read {
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-
     border-top: 8px solid @color-basic-200;
   }
 
@@ -56,5 +55,14 @@ w-qr-code-read {
   &.active {
     display: block;
   }
+}
 
+@media screen and (max-width: 480px) {
+  .qr-code-reader-popup {
+    left: 20px !important;
+    width: calc(100% ~'- 40px') !important;
+    &::after {
+      left: calc(100% ~'- 26px');
+    }
+  }
 }
