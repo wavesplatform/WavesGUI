@@ -125,7 +125,7 @@
     "defaults": {
       "main": "main.js"
     },
-    "server": "desktop-stage.wavesplatform.com"
+    "server": "desktop.wavesplatform.com"
   },
   "betaOrigin": "https://beta.wavesplatform.com",
   "targetOrigin": "https://client.wavesplatform.com",
