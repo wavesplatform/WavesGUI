@@ -21,7 +21,7 @@
                     </div>
                     <div class="device-loader-wrapper" ng-if="$ctrl.loadingSignFromDevice">
                         <div class="info basic-700">
-                            <span w-i18n="confirmTransaction.signLedger"></span>
+                            <span w-i18n-ns="app.utils" w-i18n="confirmTransaction.signLedger"></span>
                         </div>
                         <w-loader></w-loader>
                     </div>
@@ -40,7 +40,7 @@
                         <w-button class="big submit"
                                   ng-if="$ctrl.deviceSignFail"
                                   on-click="$ctrl.trySign()">
-                            <span w-i18n="confirmTransaction.retrySign"></span>
+                            <span w-i18n-ns="app.wallet.transactions" w-i18n="confirmTransaction.retrySign"></span>
                         </w-button>
                     </div>
                 </div>
