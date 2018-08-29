@@ -1,5 +1,5 @@
 import { Money, Asset, BigNumber, OrderPrice, AssetPair } from '@waves/data-entities';
-import { TRANSACTION_TYPE_NUMBER, utils, libs } from '@waves/waves-signature-generator';
+import { TRANSACTION_TYPE_NUMBER, utils, libs } from '@waves/signature-generator';
 import { get } from '../assets/assets';
 import {
     txApi,
@@ -24,7 +24,7 @@ import {
     toHash,
     tokensMoneyFactory
 } from '../../utils/utils';
-import { WAVES_ID } from '@waves/waves-signature-generator';
+import { WAVES_ID } from '@waves/signature-generator';
 import { IHash, TOrderType } from '../../interface';
 import { factory, IFactory, remapOrder } from '../matcher/getOrders';
 import { getSignatureApi } from '../../sign';

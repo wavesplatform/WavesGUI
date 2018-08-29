@@ -13,7 +13,7 @@ import { get } from './config';
 import { TAssetData, TBigNumberData } from './interface';
 import { get as getAssetPair } from './api/pairs/pairs';
 import { broadcast as broadcastF, createOrderSend, cancelOrderSend } from './broadcast/broadcast';
-import { utils as cryptoUtils } from '@waves/waves-signature-generator';
+import { utils as cryptoUtils } from '@waves/signature-generator';
 import * as signatureAdapters from '@waves/signature-adapter';
 import { Adapter, SIGN_TYPE } from '@waves/signature-adapter';
 

@@ -1,5 +1,5 @@
 import { IAssetPair, IHash } from '../interface';
-import { WAVES_ID } from '@waves/waves-signature-generator';
+import { WAVES_ID } from '@waves/signature-generator';
 import { BigNumber, Asset, Money, AssetPair, OrderPrice } from '@waves/data-entities';
 import { get } from '../api/assets/assets';
 import { get as configGet, timeDiff } from '../config';

@@ -10,7 +10,7 @@
         'waves-api': 'WavesAPI',
         'identity-img': 'identityImg',
         '@waves/data-entities': 'dataEntities',
-        '@waves/waves-signature-generator': 'wavesSignatureGenerator',
+        '@waves/signature-generator': 'wavesSignatureGenerator',
         '@ledgerhq/hw-transport-u2f': 'TransportU2F',
         '@ledgerhq/hw-transport-node-hid': 'TransportU2F',
         '@waves/ledger': 'WavesLedgerJs',
