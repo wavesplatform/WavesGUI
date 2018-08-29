@@ -1,11 +1,15 @@
 export interface IMetaJSON {
-    lastOpen?: {
-        isFullScreen: boolean;
-        x: number;
-        y: number;
-        width: number;
-        height: number;
-    }
+    lastOpen?: ILastOpen;
+}
+
+export interface ILastOpen {
+    isFullScreen: boolean;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    setProtocolStatus?: boolean;
+    lastOpenPath?: string;
 }
 
 export interface ISize {
