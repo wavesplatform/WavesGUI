@@ -74,10 +74,18 @@
 
                     const getUserMedia = deviceList => {
                         const mediaDevices = navigator.mediaDevices;
-                        return mediaDevices.getUserMedia(getConstraints(deviceList, RESOLUTIONS.FULL_HD))
-                            .catch(() => mediaDevices.getUserMedia(getConstraints(deviceList, RESOLUTIONS.HD)))
-                            .catch(() => mediaDevices.getUserMedia(getConstraints(deviceList, RESOLUTIONS.VGA)))
-                            .catch(() => mediaDevices.getUserMedia(getConstraints(deviceList, RESOLUTIONS.QVGA)));
+
+                        const reverse = resolution => ({ width: resolution.height, height: resolution.width });
+
+                        const checkResolution = res => {
+                            return mediaDevices.getUserMedia(getConstraints(deviceList, res))
+                                .catch(() => mediaDevices.getUserMedia(getConstraints(deviceList, reverse(res))));
+                        };
+
+                        return checkResolution(RESOLUTIONS.FULL_HD)
+                            .catch(() => checkResolution(RESOLUTIONS.HD))
+                            .catch(() => checkResolution(RESOLUTIONS.VGA))
+                            .catch(() => checkResolution(RESOLUTIONS.QVGA));
                     };
 
                     navigator.mediaDevices.enumerateDevices()

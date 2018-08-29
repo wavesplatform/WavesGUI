@@ -115,7 +115,7 @@
     "qrcode-reader": "1.0.4",
     "ramda": "^0.25.0",
     "ts-api-validator": "2.1.2",
-    "ts-utils": "6.0.2",
+    "ts-utils": "^6.0.4",
     "worker-wrapper": "^1.2.3"
   }
 }

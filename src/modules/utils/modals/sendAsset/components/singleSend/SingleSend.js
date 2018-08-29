@@ -223,7 +223,15 @@
                 this.focus = '';
             }
 
-            onReadQrCode(result) {
+            onReadQrCode(url) {
+                const routeData = utils.getRouterParams(utils.getUrlForRoute(url));
+
+                if (!routeData || routeData.name !== 'SEND_ASSET') {
+                    return null;
+                }
+
+                const result = routeData.data;
+
                 this.tx.recipient = result.recipient;
 
                 analytics.push('Send', `Send.QrCodeRead.${WavesApp.type}`, `Send.QrCodeRead.${WavesApp.type}.Success`);

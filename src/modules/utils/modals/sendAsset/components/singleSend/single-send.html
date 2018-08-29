@@ -22,8 +22,8 @@
                              w-validator-any-address="{{$ctrl.state.assetId}}"
                              required></w-input>
 
-                    <w-qr-code-read on-read="$ctrl.onReadQrCode(result)" max-width="250"
-                                    max-height="160"></w-qr-code-read>
+                    <w-qr-code-read on-read="$ctrl.onReadQrCode(text)" max-width="415"
+                                    max-height="310"></w-qr-code-read>
                 </div>
 
                 <w-input-error message="anyAddress">
@@ -181,7 +181,8 @@
         </div>
     </div>
 
-    <div class="row commission-error margin-2 footnote error-500" ng-if="!$ctrl.hasComission && !$ctrl.gatewayDetailsError">
+    <div class="row commission-error margin-2 footnote error-500"
+         ng-if="!$ctrl.hasComission && !$ctrl.gatewayDetailsError">
         <span w-i18n="modal.send.validationError.notEnoughFundsWithdraw"
               ng-show="$ctrl.outerSendMode"
               params="{fee: $ctrl.state.singleSend.fee, getawayFee: $ctrl.gatewayDetails.gatewayFee, currency: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.displayName}"></span>

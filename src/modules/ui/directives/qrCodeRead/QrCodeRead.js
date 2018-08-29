@@ -1,328 +1,286 @@
 (function () {
     'use strict';
 
+    const MODULE_PATH = 'modules/ui/directives/qrCodeRead';
+
     /**
      * @param {Base} Base
      * @param {JQuery} $element
-     * @param {app.utils.mediaStream} mediaStream
-     * @param {IPollCreate} createPoll
+     * @param {QrCodeReadService} QrCodeReadService
+     * @param {$templateRequest} $templateRequest
      * @param {app.utils} utils
+     * @param {$compile} $compile
+     * @param {$rootScope.Scope} $scope
+     * @param {app.utils.decorators} decorators
      * @return {QrCodeRead}
      */
-    const controller = function (Base, $element, mediaStream, createPoll, utils) {
+    const controller = function (Base,
+                                 $element,
+                                 QrCodeReadService,
+                                 $templateRequest,
+                                 utils,
+                                 $compile,
+                                 $scope,
+                                 decorators) {
+
+        const VIDEO_WRAPPER_SELECTOR = '.js-camera-wrapper';
 
         class QrCodeRead extends Base {
 
+            /**
+             * @return {boolean}
+             */
+            get videoPending() {
+                return !this.isWatched || (!this.videoSize && !this.videoError);
+            }
+
+            /**
+             * @type {number}
+             */
+            maxWidth = null;
+            /**
+             * @type {number}
+             */
+            maxHeight = null;
+            /**
+             * @type {boolean}
+             */
+            isWatched = false;
+            /**
+             * @type {HTMLElement}
+             */
+            popupNode = null;
+            /**
+             * @type {Function}
+             */
+            onRead = null;
+            /**
+             * @type {QrCodeReadService}
+             */
+            readService = null;
+            /**
+             * @type {QrCodeReadService.ISize}
+             */
+            videoSize = null;
+            /**
+             * @type {Promise<string>}
+             */
+            templatePromise = $templateRequest(`${MODULE_PATH}/cameraPopup.html`);
+            /**
+             * @type {boolean}
+             */
+            videoError = false;
+
+
             constructor() {
                 super();
-                /**
-                 * @type {number}
-                 */
-                this.maxWidth = null;
-                /**
-                 * @type {number}
-                 */
-                this.maxHeight = null;
-                /**
-                 * @type {string}
-                 */
-                this.position = null;
-                /**
-                 * @type {boolean}
-                 */
-                this.isWatched = false;
-                /**
-                 * @type {HTMLCanvasElement}
-                 */
-                this.canvas = null;
-                /**
-                 * @type {CanvasRenderingContext2D}
-                 */
-                this.ctx = null;
-                /**
-                 * @type {HTMLDivElement}
-                 */
-                this.popupNode = null;
-                /**
-                 * @type {MediaStream}
-                 */
-                this.stream = null;
-                /**
-                 * @type {Wrap}
-                 * @type {HTMLMediaElement}
-                 */
-                this.video = document.createElement('VIDEO');
-                this.worker = null;
-                /**
-                 * @type {Function}
-                 */
-                this.onRead = null;
-                /**
-                 * @type {boolean}
-                 */
-                this.webCamError = null;
 
-                this._addVideoAttrs();
-                this.observe(['width', 'height'], this._onChangeSize);
-                this.observe('isWatched', this._onChangeWatched);
-                this.observe('webCamError', this._onChangeVideoError);
-            }
+                this.observe('isWatched', this._dropLastVideoSize);
+                this.observe(['isWatched', 'videoSize'], this._onChangeWatched);
+                this.observe('videoSize', this._onChangeVideoSize);
 
-            $postLink() {
-                this.maxWidth = Number(this.maxWidth);
-                this.maxHeight = Number(this.maxHeight);
-                if (!this.maxWidth || !this.maxHeight) {
-                    throw new Error('Has no QrCode reader size!');
-                }
-            }
+                const positionHandler = utils.debounceRequestAnimationFrame(() => this._onChangePosition());
 
-            $onDestroy() {
-                super.$onDestroy();
-                this._stopStream();
-                if (this.worker) {
-                    this.worker.terminate();
-                }
-                if (this.popupNode) {
-                    document.body.removeChild(this.popupNode);
-                }
-            }
+                this.listenEventEmitter(window, 'resize', positionHandler, {
+                    on: 'addEventListener',
+                    off: 'removeEventListener'
+                });
 
-            watchQrCode() {
-                if (this.isWatched) {
-                    this._stopWatchQrCode();
-                    return null;
-                }
-
-                if (!this.popupNode) {
-                    this._createPopup();
-                }
-
-                if (!this.worker) {
-                    this._createWorker();
-                }
-
-                this.isWatched = true;
-                this.webCamError = false;
-                mediaStream.create()
-                    .then((stream) => {
-                        this.stream = stream;
-                        this._loadVideoSize()
-                            .then((size) => {
-                                this._applySize(size);
-                                this.poll = createPoll(this, this._decodeImage, this._checkStop, 50);
-                            });
-                        this.video.srcObject = stream.stream;
-                    }, () => this._onWebCamError());
-            }
-
-            /**
-             * @private
-             */
-            _addVideoAttrs() {
-                this.video.setAttribute('autoplay', 'true');
-                this.video.setAttribute('preload', 'auto');
-                this.video.setAttribute('muted', 'true');
-                this.video.setAttribute('playsinline', 'true');
-            }
-
-            /**
-             * @private
-             */
-            _onChangeWatched() {
-                this.popupNode.classList.toggle('active', this.isWatched);
-            }
-
-            /**
-             * @private
-             */
-            _onChangeSize() {
-                if (!this.width || !this.height) {
-                    return null;
-                }
-                this._setPopupPosition(this._addPopupSize());
-            }
-
-            /**
-             * @return {Promise}
-             * @private
-             */
-            _loadVideoSize() {
-                return new Promise((resolve) => {
-                    const handler = () => {
-                        resolve({ width: this.video.videoWidth, height: this.video.videoHeight });
-                        this.video.removeEventListener('loadedmetadata', handler, false);
-                    };
-                    this.video.addEventListener('loadedmetadata', handler, false);
+                this.listenEventEmitter(document, 'scroll', positionHandler, {
+                    on: 'addEventListener',
+                    off: 'removeEventListener',
+                    capture: true
                 });
             }
 
+
+            $onDestroy() {
+                super.$onDestroy();
+                this._removeReadQrService();
+                this._removePopup();
+            }
+
+            toggleWatchQrCode() {
+                if (this.isWatched) {
+                    this.stopWatchQrCode();
+                    return null;
+                }
+
+                this.videoError = false;
+                this.isWatched = true;
+                this.webCamError = false;
+
+                this._createPopup()
+                    .then(() => this._createReadQrService());
+            }
+
+            stopWatchQrCode() {
+                this.isWatched = false;
+                this._removeReadQrService();
+            }
+
             /**
              * @private
              */
-            _stopWatchQrCode() {
-                this.isWatched = false;
-                if (this.poll) {
-                    this.poll.destroy();
-                    this.poll = null;
+            _onChangePosition() {
+                if (this.isActive) {
+                    this._setPopupPosition();
                 }
-                this._stopStream();
+            }
+
+            /**
+             * @return {QrCodeRead}
+             * @private
+             */
+            _createReadQrService() {
+                if (!this.readService) {
+                    const $element = $(this.popupNode).find(VIDEO_WRAPPER_SELECTOR);
+
+                    this.readService = new QrCodeReadService({ $element });
+
+                    this.receiveOnce(this.readService.onRead, this._onSuccessReadQrCode, this);
+                    this.receiveOnce(this.readService.onError, this._onErrorRead, this);
+                    this.receiveOnce(this.readService.onHasSize, this._onAddVideoSize, this);
+                }
+
+                return this;
+            }
+
+            /**
+             * @private
+             */
+            @decorators.async()
+            _onErrorRead() {
+                this.videoError = true;
+                this._setPopupPosition();
+                $scope.$apply();
             }
 
             /**
              * @param size
              * @private
              */
-            _applySize(size) {
-                this.width = size.width;
-                this.height = size.height;
+            @decorators.async()
+            _onAddVideoSize(size) {
+                this.videoSize = size;
+                $scope.$apply();
             }
 
             /**
-             * @return {Promise<any>}
+             * @param text
              * @private
              */
-            _decodeImage() {
-                return this.worker.process((qr, { frame }) => {
-                    return new Promise((resolve) => {
-                        qr.callback = function (error, response) {
-                            if (error) {
-                                resolve(null);
-                            } else {
-                                resolve(response);
-                            }
-                        };
-                        qr.decode(frame);
-                    });
-                }, { frame: this._getFrame() });
+            @decorators.async()
+            _onSuccessReadQrCode(text) {
+                this.onRead({ text });
+                this.isWatched = false;
             }
 
-            _parseQrCode({ result }) {
-                try {
-                    const url = new URL(result);
-                    const hash = url.hash.replace('#', '');
-                    const [path, search] = hash.split('?');
-                    const assetId = path.replace('send/', '');
-                    const params = utils.parseSearchParams(search);
-
-                    return { ...params, assetId };
-                } catch (e) {
-                    let data;
-                    if (result.includes('://')) {
-                        data = result.split('://')[1];
-                    } else {
-                        data = result;
-                    }
-                    const [body, search] = (data || '').split('?');
-                    return { recipient: body, ...utils.parseSearchParams(search) };
+            /**
+             * @return {QrCodeRead}
+             * @private
+             */
+            _removeReadQrService() {
+                if (this.readService) {
+                    this.stopReceive(this.readService.onRead);
+                    this.stopReceive(this.readService.onError);
+                    this.stopReceive(this.readService.onHasSize);
+                    this.readService.destroy();
+                    this.readService = null;
+                    this.videoSize = null;
                 }
 
-            }
-
-            /**
-             * @return {ImageData}
-             * @private
-             */
-            _getFrame() {
-                // this.ctx.drawImage(this.video, 0, 0, this.width, this.height);
-                return this.ctx.getImageData(0, 0, this.width, this.height);
+                return this;
             }
 
             /**
              * @private
              */
-            _createWorker() {
-                this.worker = workerWrapper.create(() => new QrCode(), {
-                    libs: ['/node_modules/qrcode-reader/dist/index.min.js']
-                });
-            }
-
-            /**
-             * @private
-             */
-            _stopStream() {
-                if (this.stream) {
-                    this.stream.stop();
-                    this.stream = null;
-                }
-            }
-
-            /**
-             * @param data
-             * @private
-             */
-            _checkStop(data) {
-                if (data) {
-                    this._stopWatchQrCode();
-                    this.onRead({ result: this._parseQrCode(data) });
-                }
-            }
-
-            /**
-             * @private
-             */
-            _onWebCamError() {
-                this._applySize({ width: this.maxWidth, height: this.maxHeight });
-                this._setPopupPosition();
+            _onChangeVideoSize() {
                 this._addPopupSize();
-                this.webCamError = true;
-            }
-
-            /**
-             * @private
-             */
-            _onChangeVideoError() {
-                if (this.webCamError) {
-                    this.popupNode.classList.add('qr-code-reader-popup__error');
-                } else {
-                    this.popupNode.classList.remove('qr-code-reader-popup__error');
-                }
+                this._setPopupPosition();
             }
 
             /**
              * @private
              */
             _createPopup() {
-                this.errorLiteral = null;
-                this.popupNode = document.createElement('DIV');
-                this.popupNode.classList.add('qr-code-reader-popup');
-                this.popupNode.appendChild(this.video);
-                this.canvas = document.createElement('CANVAS');
-                this.ctx = this.canvas.getContext('2d');
-                document.body.append(this.popupNode);
+                if (this.popupNode) {
+                    return Promise.resolve();
+                }
+
+                return this.templatePromise.then(template => {
+                    const $node = $compile(template)($scope);
+                    this.popupNode = $node.get(0);
+                    document.body.appendChild(this.popupNode);
+                    this._onChangeWatched();
+                    this._setPopupPosition();
+                });
             }
 
             /**
              * @private
              */
-            _setPopupPosition({ width, height }) {
+            _removePopup() {
+                if (this.popupNode) {
+                    document.body.removeChild(this.popupNode);
+                }
+            }
+
+            /**
+             * @private
+             */
+            _onChangeWatched() {
+                if (this.popupNode) {
+                    this.popupNode.classList.toggle('active', this.isWatched);
+                    if (this.isWatched) {
+                        this._setPopupPosition();
+                    }
+                }
+            }
+
+            /**
+             * @private
+             */
+            _dropLastVideoSize() {
+                if (!this.isWatched) {
+                    this.stopWatchQrCode();
+                }
+            }
+
+            /**
+             * @private
+             */
+            _setPopupPosition() {
                 const $btn = $element.find('.btn');
                 const offset = $btn.offset();
-                $(this.popupNode)
-                    .offset({
-                        top: offset.top - height - 10,
-                        left: offset.left - (width - $btn.width()) / 2
-                    });
+                const videoWrapper = this.popupNode.querySelector(VIDEO_WRAPPER_SELECTOR);
+                const width = videoWrapper.clientWidth;
+                const height = videoWrapper.clientHeight;
+
+                const top = offset.top - height / 2 + $btn.height() / 2;
+                const left = offset.left - (width + 10);
+
+                $(this.popupNode).find(VIDEO_WRAPPER_SELECTOR)
+                    .offset({ top, left });
             }
 
             /**
              * @private
              */
             _addPopupSize() {
-                const factor = Math.min(Number(this.maxWidth) / this.width, Number(this.maxHeight) / this.height);
+                if (!this.videoSize) {
+                    return null;
+                }
 
-                const width = Math.round(this.width * factor);
-                const height = Math.round(this.height * factor);
+                const videoWrapper = this.popupNode.querySelector(VIDEO_WRAPPER_SELECTOR);
+                const factor = Math.min(this.maxWidth / this.videoSize.width, this.maxHeight / this.videoSize.height);
 
-                this.video.width = this.width;
-                this.video.height = this.height;
+                const width = Math.round(this.videoSize.width * factor);
+                const height = Math.round(this.videoSize.height * factor);
 
-                this.video.style.width = `${width}px`;
-                this.video.style.height = `${height}px`;
-
-                this.popupNode.style.width = `${width}px`;
-                this.popupNode.style.height = `${height}px`;
-
-                return { width, height };
+                videoWrapper.style.width = `${width}px`;
+                videoWrapper.style.height = `${height}px`;
             }
 
         }
@@ -330,17 +288,25 @@
         return new QrCodeRead();
     };
 
-    controller.$inject = ['Base', '$element', 'mediaStream', 'createPoll', 'utils'];
+    controller.$inject = [
+        'Base',
+        '$element',
+        'QrCodeReadService',
+        '$templateRequest',
+        'utils',
+        '$compile',
+        '$scope',
+        'decorators'
+    ];
 
     angular.module('app.ui')
         .component('wQrCodeRead', {
             bindings: {
-                maxWidth: '@',
-                maxHeight: '@',
-                position: '@',
+                maxWidth: '<',
+                maxHeight: '<',
                 onRead: '&'
             },
-            template: '<div ng-class="{active: $ctrl.isWatched}" class="btn" ng-click="$ctrl.watchQrCode()"></div>',
+            templateUrl: `${MODULE_PATH}/qrCodeRead.html`,
             controller
         });
 })();
