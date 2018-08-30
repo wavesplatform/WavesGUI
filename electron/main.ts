@@ -5,7 +5,7 @@ import { app, BrowserWindow, screen, Menu, dialog, shell } from 'electron';
 import { Bridge } from './Bridge';
 import { ISize, IMetaJSON, ILastOpen } from './package';
 import { join } from 'path';
-import { hasProtocol, read, readJSON, removeProtocol, write, writeJSON, readdir } from './utils';
+import { hasProtocol, read, readJSON, removeProtocol, write, writeJSON, readdir, parseElectronUrl } from './utils';
 import { homedir, platform } from 'os';
 import { execSync } from 'child_process'
 import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST } from './constansts';
@@ -111,7 +111,11 @@ class Main implements IMain {
         if (this.mainWindow && this.mainWindow.webContents) {
             const url = removeProtocol(browserLink);
             this.mainWindow.webContents.executeJavaScript(`runMainProcessEvent('open-from-browser', '${url}')`);
-            this.mainWindow.webContents.focus();
+
+            if (this.mainWindow.isMinimized()) {
+                this.mainWindow.restore();
+            }
+            this.mainWindow.show();
         } else {
             this.initializeUrl = browserLink;
         }
@@ -121,7 +125,10 @@ class Main implements IMain {
         return this.dataPromise.then((meta) => {
             const pack = require('./package.json');
             this.mainWindow = new BrowserWindow(Main.getWindowOptions(meta));
-            const url = removeProtocol(this.initializeUrl || argv.find(argument => hasProtocol(argument)) || '');
+
+            const parts = parseElectronUrl(removeProtocol(this.initializeUrl || argv.find(argument => hasProtocol(argument)) || ''));
+            const path = parts.path === '/' ? '/' : parts.path.replace(/\/$/, '');
+            const url = `${path}${parts.search}${parts.hash}`;
 
             this.mainWindow.loadURL(`https://${pack.server}/#!${url}`, { 'extraHeaders': 'pragma: no-cache\n' });
 
@@ -149,6 +156,12 @@ class Main implements IMain {
             this.mainWindow.on('leave-full-screen', onChangeWindow);
         });
     }
+
+    // private log(message: string): void {
+    //     const command = `console.log('${message}');`
+    //     this.mainWindow.webContents.executeJavaScript(command);
+    //     console.log(message);
+    // }
 
     private setHandlers() {
         if (this.ignoreSslError) {

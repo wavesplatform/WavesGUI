@@ -113,7 +113,7 @@
                         if (path) {
                             const noLogin = path === '/' || WavesApp.stateTree.where({ noLogin: true }).some(item => {
                                 const url = item.get('url') || item.id;
-                                return parts.path === url;
+                                return path === url;
                             });
                             if (noLogin) {
                                 location.hash = `#!${path}${parts.search}`;
@@ -207,15 +207,6 @@
 
                 let needShowTutorial = false;
 
-                const tryDesktop = this._initTryDesktop();
-
-                const promise = Promise.all([
-                    storage.onReady(),
-                    tryDesktop
-                ]).then(([oldVersion, canOpenTutorial]) => {
-                    needShowTutorial = canOpenTutorial && !oldVersion;
-                });
-
                 this._listenChangeLanguage();
 
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true })
@@ -224,6 +215,8 @@
                 let waiting = false;
 
                 const stop = $rootScope.$on('$stateChangeStart', (event, toState, params) => {
+
+                    let tryDesktop;
 
                     if (START_STATES.indexOf(toState.name) === -1) {
                         event.preventDefault();
@@ -234,14 +227,27 @@
                         $state.go(START_STATES[0]);
                     }
 
+                    if (waiting) {
+                        return null;
+                    }
+
                     if (needShowTutorial && toState.name !== 'dex-demo') {
                         modalManager.showTutorialModals();
                         needShowTutorial = false;
                     }
 
-                    if (waiting) {
-                        return null;
+                    if (toState.name === 'main.dex-demo') {
+                        tryDesktop = Promise.resolve();
+                    } else {
+                        tryDesktop = this._initTryDesktop();
                     }
+
+                    const promise = Promise.all([
+                        storage.onReady(),
+                        tryDesktop
+                    ]).then(([oldVersion, canOpenTutorial]) => {
+                        needShowTutorial = canOpenTutorial && !oldVersion;
+                    });
 
                     promise.then(() => {
                         if (needShowTutorial && toState.name !== 'dex-demo') {

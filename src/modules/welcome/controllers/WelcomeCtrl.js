@@ -16,6 +16,8 @@
      */
     const controller = function (Base, $scope, $state, user, modalManager, $element, storage, utils) {
 
+        const ds = require('data-service');
+
         class WelcomeCtrl extends Base {
 
             get user() {
@@ -71,43 +73,43 @@
             }
 
             login() {
-
                 try {
                     this.showPasswordError = false;
                     const userSettings = user.getSettingsByUser(this.user);
                     const activeUser = { ...this.user, password: this.password, settings: userSettings };
                     const api = ds.signature.getDefaultSignatureApi(activeUser);
+                    const adapterAvailablePromise = api.isAvailable();
 
-                    const adapterAvilablePromise = api.isAvailable();
-                    const modalPromise = (api.type && api.type !== 'seed') ?
-                        modalManager.showSignLedger(
-                            {
-                                promise: adapterAvilablePromise,
-                                mode: `connect-${api.type}`
-                            }) :
-                        Promise.resolve();
+                    let canLoginPromise;
 
-                    modalPromise
-                        .then(() => adapterAvilablePromise)
-                        .then(() => {
-                            return user.login({
-                                address: activeUser.address,
-                                api,
-                                password: this.password,
-                                userType: api.type
-                            });
-                        },
-                        () => {
-                            if (api.type && api.type !== 'seed') {
-                                return modalManager.showLedgerError({ error: 'load-user-error' })
-                                    .catch(() => Promise.resolve());
-                            }
+                    if (this._isSeedAdapter(api)) {
+                        canLoginPromise = adapterAvailablePromise.then(() => api.getAddress())
+                            .then(address => address === activeUser.address ? true : Promise.resolve('Wrong address!'));
+                    } else {
+                        canLoginPromise = modalManager.showSignLedger({
+                            promise: adapterAvailablePromise,
+                            mode: `connect-${api.type}`
+                        }).then(() => adapterAvailablePromise);
+                    }
+
+                    canLoginPromise.then(() => {
+                        return user.login({
+                            address: activeUser.address,
+                            api,
+                            password: this.password,
+                            userType: api.type
                         });
+                    }, () => {
+                        if (!this._isSeedAdapter(api)) {
+                            return modalManager.showLedgerError({ error: 'load-user-error' })
+                                .catch(() => Promise.resolve());
+                        } else {
+                            this._showPasswordError();
+                        }
+                    });
                 } catch (e) {
-                    this.password = '';
-                    this.showPasswordError = true;
+                    this._showPasswordError();
                 }
-
             }
 
             /**
@@ -118,6 +120,23 @@
                 modalManager.showConfirmDeleteUser(user).then(() => {
                     this._deleteUser(address);
                 });
+            }
+
+            /**
+             * @param {Adapter} api
+             * @return boolean
+             * @private
+             */
+            _isSeedAdapter(api) {
+                return api.type && api.type === 'seed';
+            }
+
+            /**
+             * @private
+             */
+            _showPasswordError() {
+                this.password = '';
+                this.showPasswordError = true;
             }
 
             /**
