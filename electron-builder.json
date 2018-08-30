@@ -7,16 +7,19 @@
   "compression": "normal",
   "npmRebuild": false,
   "npmSkipBuildFromSource": true,
-  "artifactName": "${productName}[${env.WAVES_CONFIGURATION}]-${version}-${os}.${ext}",
+  "artifactName": "${productName}[${env.WAVES_CONFIGURATION}]-${version}-${os}-${arch}.${ext}",
   "directories": {
     "buildResources": "electron/"
   },
   "linux": {
     "category": "Utility",
-    "target": [
-      "deb",
-      "zip"
-    ],
+    "target": [{
+      "target": "deb",
+      "arch": [ "x64", "ia32" ]
+    }, {
+      "target": "zip",
+      "arch": [ "x64" ]
+    }],
     "executableName": "waves-client"
   },
   "mac": {
