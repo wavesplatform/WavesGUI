@@ -40,10 +40,10 @@
                 <div class="description-split"></div>
                 <div class="footnote-1 basic-500 margin-1" w-i18n="description.text3"></div>
                 <a
-                    class="link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    ng-href="{{::$ctrl.nodeListLink}}"
+                        class="link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        ng-href="{{::$ctrl.nodeListLink}}"
                 >
                     <span w-i18n="nodeListLink"></span>
                 </a>
@@ -56,6 +56,7 @@
             <div class="scroll-list">
                 <w-transaction-list transaction-date-pattern="dd.MM.yyyy HH:mm"
                                     pending="$ctrl.pending"
+                                    parent-selector="w-scroll-box"
                                     transactions="$ctrl.transactions"></w-transaction-list>
                 <div class="fake-transaction-line" ng-if="$ctrl.pendingAllLeasing">
                     <w-loader></w-loader>

@@ -11,9 +11,6 @@
   border-top: 1px solid #424242 !important;
   border-left: 1px solid #424242 !important;
 }
-.chart-page .chart-markup-table.price-axis {
-  border-top: 1px solid #424242 !important;
-}
 .tv-side-toolbar {
   border-color: #424242;
 }
@@ -71,9 +68,7 @@
   border-left-width: 0 !important;
   border-right-width: 0 !important;
 }
-.chart-page .chart-markup-table.price-axis {
-  border-top: 1px solid #2d2d2d !important;
-}
+
 .tv-close-panel {
   border: solid #424242;
   border-width: 1px 0;
@@ -600,4 +595,13 @@ div.symbol-edit-popup .table-wrapper{
 }
 .tv-search-row__search-icon svg {
   color: #777;
+}
+.pane-separator {
+  background: none !important;
+}
+.pane-separator .handle {
+  background-color: hsla(0,0%,100%,.0);
+}
+.chart-widget {
+  background: #2d2d2d;
 }

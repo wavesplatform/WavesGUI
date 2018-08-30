@@ -16,12 +16,13 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      margin: 6px 0 16px;
-      min-height: 32px;
+      min-height: 42px;
 
       .btn-wrap.btn-group {
         justify-content: flex-start;
         padding: 0;
+        align-items: center;
+        height: 42px;
 
         .btn.btn-radio {
           font-size: 15px;
@@ -46,7 +47,7 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .transactions {
     w-radio-wrap.split-mode {
       display: none;
@@ -58,14 +59,19 @@
       margin-right: 10px;
     }
 
-    button.download {
-      width: 42px;
-      height: 42px;
-      padding: 0;
-      background-position: center;
-
-      span {
-        display: none;
+    w-button {
+      & > *.interface svg {
+        margin-left: 0;
+        margin-right: 0;
+      }
+      button.download {
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        background-position: center;
+        span {
+          display: none;
+        }
       }
     }
   }

@@ -8,14 +8,9 @@
 
         <div class="flex-row-title">
             <div class="body-2" w-i18n="modal.send.recipient"></div>
-            <a class="link"
-               ng-if="!$ctrl.toBankMode && $ctrl.hasSendToBank"
-               ng-click="$ctrl.toBankMode = true">
-                <span w-i18n="modal.send.toBank.toBankLink"></span>
-            </a>
         </div>
 
-        <div ng-if="!$ctrl.toBankMode">
+        <div>
             <w-input-container>
                 <div class="read-address-wrap">
                     <w-input type="text"
@@ -31,13 +26,6 @@
                                     max-height="160"></w-qr-code-read>
                 </div>
 
-                <div class="to-bank-account" ng-if="$ctrl.toBankMode">
-                    <div class="bank-recipient">
-                        <span w-i18n="modal.send.toBank.bankAccount"></span>
-                        <i class="toggle-mode btn" ng-click="$ctrl.toBankMode = false"></i>
-                    </div>
-                </div>
-
                 <w-input-error message="anyAddress">
                     <span w-i18n="modal.send.errors.address"></span>
                 </w-input-error>
@@ -46,15 +34,6 @@
                 </w-input-error>
             </w-input-container>
         </div>
-    </div>
-
-    <div class="row" ng-if="$ctrl.toBankMode">
-        <div class="warning-plate basic-500 margin-2" w-i18n="modal.send.toBank.warning"></div>
-    </div>
-
-    <div class="warning-plate margin-2" ng-if="$ctrl.toBankMode">
-        <div class="body-2 warning-500" w-i18n="modal.send.toBank.feeTitle"></div>
-        <div class="footnote-1 basic-500" w-i18n="modal.send.toBank.feeExplanation"></div>
     </div>
 
     <div ng-if="$ctrl.outerSendMode && !$ctrl.gatewayDetailsError" class="row">
@@ -131,10 +110,10 @@
 
             <w-balance-input name="amount"
                              asset-id="$ctrl.state.assetId"
-                             max-balance="$ctrl.state.moneyHash[$ctrl.state.assetId]"
+                             max-balance="$ctrl.maxAmount"
                              fee="$ctrl.feeList"
                              input-classes="big"
-                             min="0"
+                             min="$ctrl.minAmount"
                              on-focus="$ctrl.focus = 'amount'"
                              on-blur="$ctrl.focus = ''"
                              amount="$ctrl.state.singleSend.amount">
@@ -153,25 +132,33 @@
 
         </div>
 
-        <w-input-error name="amount" message="gt">
-            <span w-i18n="inputs.errors.required"></span>
-        </w-input-error>
         <w-input-error name="amount" message="required">
             <span w-i18n="inputs.errors.required"></span>
+        </w-input-error>
+        <w-input-error name="amount" message="gt">
+            <span ng-if="$ctrl.tx.amount.getTokens().eq(0)" w-i18n="inputs.errors.required"></span>
+            <span ng-if="$ctrl.tx.amount.getTokens().gt(0)" w-i18n="inputs.errors.gtGatewayMin"
+                  params="{min: $ctrl.gatewayDetails.minimumAmount, assetName: $ctrl.tx.amount.asset.displayName}">
+            </span>
         </w-input-error>
         <w-input-error name="amount" message="precision">
             <span w-i18n="modal.send.errors.precision"
                   params="{precision: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.precision}"></span>
         </w-input-error>
         <w-input-error name="amountMirror" message="precision">
-            <span w-i18n="modal.send.errors.precision" params="{precision: $ctrl.state.moneyHash[$ctrl.state.mirrorId].asset.precision}"></span>
+            <span w-i18n="modal.send.errors.precision"
+                  params="{precision: $ctrl.state.moneyHash[$ctrl.state.mirrorId].asset.precision}"></span>
         </w-input-error>
         <w-input-error name="amount" message="lte">
-            <span w-i18n="modal.send.errors.max"></span>
+            <span ng-if="$ctrl.tx.amount.getTokens().gt($ctrl.moneyHash[$ctrl.assetId].getTokens())"
+                  w-i18n="modal.send.errors.max"></span>
+            <span ng-if="!$ctrl.tx.amount.getTokens().gt($ctrl.moneyHash[$ctrl.assetId].getTokens())"
+                  params="{money: $ctrl.maxGatewayAmount}"
+                  w-i18n="modal.send.errors.maxCoinomat"></span>
         </w-input-error>
     </w-input-container>
 
-    <div ng-if="!($ctrl.outerSendMode || $ctrl.toBankMode) && !$ctrl.gatewayDetailsError" class="row margin-1">
+    <div ng-if="!$ctrl.outerSendMode && !$ctrl.gatewayDetailsError" class="row margin-1">
         <div class="body-2" w-i18n="modal.send.description"></div>
         <w-input-container>
             <w-input textarea="true"
@@ -200,7 +187,7 @@
               params="{fee: $ctrl.state.singleSend.fee, getawayFee: $ctrl.gatewayDetails.gatewayFee, currency: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.displayName}"></span>
         <span w-i18n="modal.send.validationError.notEnoughFunds"
               ng-hide="$ctrl.outerSendMode"
-              params="{fee:$ctrl.state.singleSend.fee}"></span>
+              params="{fee: $ctrl.state.singleSend.fee}"></span>
     </div>
 
     <w-button ng-if="!$ctrl.gatewayDetailsError"

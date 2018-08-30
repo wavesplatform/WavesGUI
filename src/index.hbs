@@ -28,6 +28,21 @@
             background: #1a4ac8;
         }
 
+        .connetion-problem__headline {
+            font-family: 'Roboto-Regular', sans-serif;
+            font-size: 34px;
+            line-height: 40px;
+            margin: 10px 0;
+            color: #2d2d2d;
+        }
+
+        .connetion-problem__description {
+            color: #8c8c8c;
+            margin-bottom: 40px;
+            font-size: 17px;
+            line-height: 22px;
+        }
+
         .connection-problem {
             display: none;
             padding-top: 40px;
@@ -36,14 +51,20 @@
             max-width: 90%;
             margin: 0 auto;
             height: 100%;
+            font-family: 'Roboto-Regular', sans-serif;
         }
 
-        .connection-problem img {
+        .connection-problem > img {
             max-width: 100%;
+            margin-bottom: 30px;
         }
 
         .connection-problem .waves-logo {
-            margin-top: 0;
+            width: 100px;
+            height: 21px;
+            background: url(/img/icons/waves_logo.svg) no-repeat;
+            display: block;
+            margin: 0 auto 80px auto;
         }
 
         .app-loader.app-loader-transition {
@@ -272,28 +293,15 @@
                     case 'appRun':
                         clearInterval(__interval);
                         var errorModal = document.querySelector('.connection-problem');
-                        errorModal.parentNode.removeChild(errorModal);
+                        if (errorModal.parentNode) {
+                            errorModal.parentNode.removeChild(errorModal);
+                        }
                         break;
                 }
             }, 2000);
         });
 
         var __controllers = Object.create(null);
-
-        var localeSeparators = {
-            world: {
-                group: ',',
-                decimal: '.'
-            },
-            russian: {
-                group: ' ',
-                decimal: '.'
-            },
-            turkish: {
-                group: ' ', // TODO change to '.'
-                decimal: '.' // TODO change to ','
-            }
-        };
 
         /**
          * @type {IWavesApp}
@@ -308,40 +316,7 @@
             state: 'loading',
             betaOrigin: '{{{betaOrigin}}}',
             targetOrigin: '{{{targetOrigin}}}',
-            localize: {
-                'en': {
-                    name: 'En',
-                    separators: localeSeparators.world
-                },
-                'ru': {
-                    name: 'Ru',
-                    separators: localeSeparators.russian
-                },
-                'ko': {
-                    name: 'Ko',
-                    separators: localeSeparators.world
-                },
-                'zh-Hans-CN': {
-                    name: 'Zh',
-                    separators: localeSeparators.world
-                },
-                'tr': {
-                    name: 'Tr',
-                    separators: localeSeparators.turkish
-                },
-                'nl': {
-                    name: 'Nl',
-                    separators: localeSeparators.world
-                },
-                'hi': {
-                    name: 'Hi',
-                    separators: localeSeparators.world
-                },
-                'es': {
-                    name: 'Es',
-                    separators: localeSeparators.world
-                }
-            },
+            localize: {{{langList}}},
             network: {
                 apiVersion: '{{network.apiVersion}}',
                 code: '{{network.code}}',
@@ -407,6 +382,7 @@
                     LEASE_OUT: 'lease-out',
                     CANCEL_LEASING: 'cancel-leasing',
                     CREATE_ALIAS: 'create-alias',
+                    DATA: 'data',
                     UNKNOWN: 'unknown'
                 },
                 NODE: {
@@ -418,7 +394,8 @@
                     CREATE_ALIAS: 'createAlias',
                     LEASE: 'lease',
                     CANCEL_LEASING: 'cancelLeasing',
-                    EXCHANGE: 'exchange'
+                    EXCHANGE: 'exchange',
+                    DATA: 'data'
                 }
             },
             getLocaleData: function () {
@@ -449,12 +426,42 @@
 
     {{#if isWeb}}
         <base href="/">
+    {{else}}
+        <script>
+            const __mainListeners = [];
+
+            function listenMainProcessEvent(cb) {
+                __mainListeners.push(cb);
+            }
+
+            function stopListenMainProcessEvent(cb) {
+                for (let i = __mainListeners.length - 1; i >= 0; i--) {
+                    if (__mainListeners[i] === cb) {
+                        __mainListeners.splice(i, 1);
+                    }
+                }
+            }
+
+            function runMainProcessEvent(...args) {
+                __mainListeners.slice().forEach(cb => {
+                    try {
+                        cb(...args);
+                    } catch (e) {
+                        console.error(e);
+                    }
+                });
+            }
+        </script>
     {{/if}}
 
     <script>
-        [].slice.apply(document.querySelectorAll('[rel=stylesheet]'))
-                .filter(function (el) { return el.getAttribute('theme') })
-                .forEach(function(el){el.disabled = el.getAttribute('theme') !== 'default'});
+        Array.prototype.slice.apply(document.querySelectorAll('[rel=stylesheet]'))
+                .filter(function (el) {
+                    return el.getAttribute('theme');
+                })
+                .forEach(function (el) {
+                    el.disabled = el.getAttribute('theme') !== 'default';
+                });
     </script>
 </head>
 
@@ -468,21 +475,19 @@
     </div>
 </div>
 
-    <div class="connection-problem">
-        <div class="waves-logo"><img src="/img/icons/waves_logo.svg"/></div>
-        <img src="/img/no-preload/connection-error.svg" class="margin-3" />
-        <div class="headline-1">We couldn't connect to the server</div>
-        <div class="body-1 margin-4 disabled-600">Check your internet connection and try again</div>
-        <button class="submit big submit" onclick="location.href=location.href">Refresh page</button>
-    </div>
+<div class="connection-problem">
+    <div class="waves-logo"><img src="/img/icons/waves_logo.svg"/></div>
+    <img src="/img/no-preload/connection-error.svg" class="margin-3"/>
+    <div class="headline-1">We couldn't connect to the server</div>
+    <div class="body-1 margin-4 disabled-600">Check your internet connection and try again</div>
+    <button class="submit big submit" onclick="location.href=location.href">Refresh page</button>
+</div>
 
-    <div class="not-supported-browser">
+<div class="not-supported-browser">
     <div class="overlay"></div>
     <div class="not-supported-modal">
         <i></i>
-        <h2 class="margin-2">
-            Your browser is not supported
-        </h2>
+        <h2 class="margin-2">Your browser is not supported</h2>
         <div class="body-2 disabled-600 margin-4">
             Please update to the latest version of one of the following browsers:
         </div>
@@ -525,10 +530,19 @@
     // Signed 64-bit integer.
     WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
 
-    WavesApp.parseJSON = parseJsonBignumber();
-
     WavesApp.device = new MobileDetect(navigator.userAgent);
 
+    var wrapper = require('worker-wrapper');
+
+    var worker = wrapper.create({
+        libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js']
+    });
+
+    worker.process(() => {
+        self.parse = parseJsonBignumber();
+    });
+
+    WavesApp.parseJSON = str => worker.process(str => parse(str), str);
 
     var isBrowserSupported = (function () {
 
@@ -581,16 +595,6 @@
      */
     var analytics = eventSender.default.inactive();
 
-
-    // TODO Add dif time
-    // Waves.API.Node.v1.utils.time().then(function (nodeTime) {
-    //     var timeDiff = Waves.tools.calculateTimeDiff(nodeTime, Date.now());
-    //     var tenMinutes = 10 * 60 * 1000;
-    //     if (Math.abs(timeDiff) > tenMinutes) {
-    //         Waves.config.set({ timeDiff: timeDiff });
-    //     }
-    // });
-
     WavesApp.stateTree = new tsUtils.Tree({
         id: 'root',
         children: [
@@ -618,6 +622,13 @@
             },
             {
                 id: 'restore',
+                data: {
+                    noLogin: true,
+                    views: [{ name: 'main' }]
+                }
+            },
+            {
+                id: 'desktop',
                 data: {
                     noLogin: true,
                     views: [{ name: 'main' }]

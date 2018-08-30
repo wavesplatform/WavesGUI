@@ -2,9 +2,9 @@ import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
 import { exec, execSync } from 'child_process';
-import { getFilesFrom, prepareExport, prepareHTML, run, task } from './ts-scripts/utils';
-import { basename, join, sep } from 'path';
-import { copy, mkdirp, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
+import { download, getAllLessFiles, getFilesFrom, prepareExport, prepareHTML, run, task } from './ts-scripts/utils';
+import { basename, extname, join, sep } from 'path';
+import { copy, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile } from 'fs-extra';
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
@@ -82,7 +82,7 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
             });
             taskHash.concat.push(`concat-${taskPostfix}`);
 
-            const copyDeps = ['concat-style'];
+            const copyDeps = ['concat-style', 'downloadLocales'];
 
             task(`copy-${taskPostfix}`, copyDeps, function (done) {
                     const reg = new RegExp(`(.*?\\${sep}src)`);
@@ -93,6 +93,7 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                         meta.exportPageVendors.map(p => copy(join(__dirname, p), join(targetPath, p)))
                     );
 
+                    forCopy.push(copy(join('dist', 'locale'), join(targetPath, 'locales')));
                     forCopy.push(copy(join(__dirname, 'tradingview-style'), join(targetPath, 'tradingview-style')));
 
                     if (buildName === 'desktop') {
@@ -102,11 +103,13 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                             forCopy.push(copy(path, join(targetPath, name)));
                         });
                         forCopy.push(copy(join(__dirname, 'electron', 'icons'), join(targetPath, 'img', 'icon.png')));
+                        forCopy.push(copy(join(__dirname, 'electron', 'waves.desktop'), join(targetPath, 'waves.desktop')));
+                        forCopy.push(copy(join(__dirname, 'node_modules', 'i18next', 'dist'), join(targetPath, 'i18next')));
                     }
 
                     Promise.all([
                         Promise.all(meta.copyNodeModules.map((path) => {
-                            return copy(join(__dirname, path), `${targetPath}/${path}`);
+                            return copy(join(__dirname, path), join(targetPath, path));
                         })) as Promise<any>,
                         copy(join(__dirname, 'src/img'), `${targetPath}/img`).then(() => {
                             const images = IMAGE_LIST.map((path) => path.replace(reg, ''));
@@ -254,6 +257,33 @@ task('concat-develop-vendors', function () {
         .pipe(gulp.dest(tmpJsPath));
 });
 
+task('downloadLocales', ['concat-develop-sources'], function (done) {
+    const path = join(tmpJsPath, bundleName);
+
+    readFile(path, 'utf8').then(file => {
+
+        const modules = file.match(/angular\.module\('app\.?((\w|\.)+?)?',/g)
+            .map(str => str.replace('angular.module(\'', '')
+                .replace('\',', ''));
+
+        modules.push('electron');
+
+        const load = name => {
+            const langs = Object.keys(meta.langList);
+
+            return Promise.all(langs.map(lang => {
+                const url = `https://locize.wvservices.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/${name}`;
+                const out = join('dist', 'locale', lang, `${name}.json`);
+
+                return download(url, out)
+                    .then(() => console.log(`Module ${lang} ${name} loaded!`))
+                    .catch(() => console.error(`Error load module with name ${name}!`));
+            }));
+        };
+        return Promise.all(modules.map(load))
+    }).then(() => done());
+});
+
 task('clean', function () {
     execSync(`sh ${join('scripts', 'clean.sh')}`);
 });
@@ -263,8 +293,9 @@ task('eslint', function (done) {
 });
 
 task('less', function () {
+    const files = getAllLessFiles().join('\n');
     for (const theme of THEMES) {
-        execSync(`sh ${join('scripts', `less.sh -t=${theme} -n=${cssName}`)}`);
+        execSync(`sh ${join('scripts', `less.sh -t=${theme} -n=${cssName} -f="${files}"`)}`);
         steelSheetsFiles[cssName] = { theme };
     }
 });
@@ -335,37 +366,53 @@ task('copy', taskHash.copy);
 task('html', taskHash.html);
 task('zip', taskHash.zip);
 
-task('electron-debug', ['electron-task-list'], function (done) {
-    const root = join(__dirname, 'dist', 'desktop');
+task('electron-debug', function (done) {
+    const root = join(__dirname, 'dist', 'desktop', 'electron-debug');
+    const srcDir = join(__dirname, 'electron');
 
-    const process = function (to: string) {
-        const promise = readdir(join(__dirname, 'electron'))
-            .then((list) => list.filter((name) => name.indexOf('js') !== -1))
-            .then((list) => list.map((name) => copy(join(__dirname, 'electron', name), join(to, name))))
-            .then((list) => Promise.all(list))
-            .then(() => readJSON(join(__dirname, 'dist', 'desktop', 'mainnet', 'normal', 'package.json')))
-            .then((pack) => {
-                pack.server = `localhost:8080`;
-                return writeFile(join(to, 'package.json'), JSON.stringify(pack, null, 4));
-            });
+    const copyItem = name => copy(join(srcDir, name), join(root, name));
+    const makePackageJSON = () => {
+        const targetPackage = Object.create(null);
 
-        return promise;
+        meta.electron.createPackageJSONFields.forEach((name) => {
+            targetPackage[name] = pack[name];
+        });
+
+        Object.assign(targetPackage, meta.electron.defaults);
+        targetPackage.server = 'localhost:8080';
+
+        return writeFile(join(root, 'package.json'), JSON.stringify(targetPackage));
     };
 
+    const excludeTypeScrip = list => list.filter(name => extname(name) !== '.ts');
+    const loadLocales = () => {
+        const list = Object.keys(require(join(__dirname, 'ts-scripts', 'meta.json')).langList);
 
-    const copyTo = join(root, 'electron-debug');
-    process(copyTo)
-        .then(() => done())
-        .catch((e) => console.log(e.stack));
-});
+        return Promise.all(list.map(loadLocale));
+    };
 
-task('data-service', function () {
-    execSync(`${join('node_modules', '.bin', 'tsc')} -p data-service && ${join('node_modules', '.bin', 'browserify')} ${join('data-service', 'index.js')} -s ds -u ts-utils -o ${join('data-service-dist', 'data-service.js')}`);
+    const loadLocale = lang => {
+        const url = `https://locize.wvservices.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/electron`;
+        const out = join(root, 'locales', lang, `electron.json`);
+
+        return download(url, out);
+    };
+
+    const copyNodeModules = () => Promise.all(meta.copyNodeModules.map(name => copy(name, join(root, name))));
+    const copyI18next = () => copy(join(__dirname, 'node_modules', 'i18next', 'dist'), join(root, 'i18next'));
+
+    readdir(srcDir)
+        .then(excludeTypeScrip)
+        .then(list => Promise.all(list.map(copyItem)))
+        .then(makePackageJSON)
+        .then(loadLocales)
+        .then(copyNodeModules)
+        .then(copyI18next)
+        .then(() => done());
 });
 
 task('all', [
     'clean',
-    'data-service',
     'templates',
     'concat',
     'copy',

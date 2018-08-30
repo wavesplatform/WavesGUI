@@ -239,6 +239,10 @@ w-scroll-box {
   z-index: 82;
 }
 
+._internal-error {
+  display: none;
+}
+
 svg.chart {
 
   .axis {
@@ -444,17 +448,8 @@ md-toolbar:not(.md-menu-toolbar) {
       }
     }
 
-    .main-content w-scroll-box {
-      overflow: visible;
-    }
-
     &.wallet {
       min-width: 100%;
-
-      .content ui-view[name="mainContent"],
-      .content ui-view[name="mainContent"] ui-view[name="content"] {
-        height: auto;
-      }
     }
 
     &.portfolio {

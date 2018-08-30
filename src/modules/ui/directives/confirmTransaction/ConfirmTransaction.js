@@ -43,7 +43,29 @@
                  */
                 this.errors = [];
 
+                /**
+                 * @type {object}
+                 */
+                this.preparedTx = null;
+                /**
+                 * @type {string}
+                 */
+                this.txId = '';
+
                 this.observe('showValidationErrors', this._showErrors);
+            }
+
+            $postLink() {
+                const timestamp = ds.utils.normalizeTime(this.tx.timestamp || Date.now());
+                const tx = { ...this.tx, timestamp };
+
+                Promise.all([
+                    ConfirmTransaction.switchOnTxType(ds.prepareForBroadcast, tx.transactionType, tx),
+                    ConfirmTransaction.switchOnTxType(ds.getTransactionId, tx.transactionType, tx)
+                ]).then(([preparedTx, txId]) => {
+                    this.preparedTx = preparedTx;
+                    this.txId = txId;
+                });
             }
 
             confirm() {
@@ -67,47 +89,20 @@
             }
 
             sendTransaction() {
-                let txPromise = null;
-
-                switch (this.tx.transactionType) {
-                    case TYPES.TRANSFER:
-                        txPromise = ds.broadcast(4, this.tx);
-                        break;
-                    case TYPES.MASS_TRANSFER:
-                        txPromise = ds.broadcast(11, this.tx);
-                        break;
-                    case TYPES.EXCHANGE:
-                        throw new Error('Can\'t create exchange transaction!');
-                    case TYPES.LEASE:
-                        txPromise = ds.broadcast(8, this.tx);
-                        break;
-                    case TYPES.CANCEL_LEASING:
-                        txPromise = ds.broadcast(9, this.tx);
-                        break;
-                    case TYPES.CREATE_ALIAS:
-                        txPromise = ds.broadcast(10, this.tx);
-                        break;
-                    case TYPES.ISSUE:
-                        txPromise = ds.broadcast(3, this.tx);
-                        break;
-                    case TYPES.REISSUE:
-                        txPromise = ds.broadcast(5, this.tx);
-                        break;
-                    case TYPES.BURN:
-                        txPromise = ds.broadcast(6, this.tx);
-                        break;
-                    default:
-                        throw new Error('Wrong transaction type!');
-                }
-
                 const txType = ConfirmTransaction.upFirstChar(this.tx.transactionType);
                 const amount = ConfirmTransaction.toBigNumber(this.tx.amount);
 
-                return txPromise.then((data) => {
-                    analytics.push('Transaction', `Transaction.${txType}`, `Transaction.${txType}.Success`, amount);
+                return ds.broadcast(this.preparedTx).then((data) => {
+                    analytics.push(
+                        'Transaction', `Transaction.${txType}.${WavesApp.type}`,
+                        `Transaction.${txType}.${WavesApp.type}.Success`, amount
+                    );
                     return data;
                 }, (error) => {
-                    analytics.push('Transaction', `Transaction.${txType}`, `Transaction.${txType}.Error`, amount);
+                    analytics.push(
+                        'Transaction', `Transaction.${txType}.${WavesApp.type}`,
+                        `Transaction.${txType}.${WavesApp.type}.Error`, amount
+                    );
                     return Promise.reject(error);
                 });
             }
@@ -153,6 +148,37 @@
             }
 
             /**
+             * @param {Function} fn
+             * @param {string} typeName
+             * @param {object} tx
+             * @return {*}
+             */
+            static switchOnTxType(fn, typeName, tx) {
+                switch (typeName) {
+                    case TYPES.TRANSFER:
+                        return fn(4, tx);
+                    case TYPES.MASS_TRANSFER:
+                        return fn(11, tx);
+                    case TYPES.EXCHANGE:
+                        throw new Error('Can\'t create exchange transaction!');
+                    case TYPES.LEASE:
+                        return fn(8, tx);
+                    case TYPES.CANCEL_LEASING:
+                        return fn(9, tx);
+                    case TYPES.CREATE_ALIAS:
+                        return fn(10, tx);
+                    case TYPES.ISSUE:
+                        return fn(3, tx);
+                    case TYPES.REISSUE:
+                        return fn(5, tx);
+                    case TYPES.BURN:
+                        return fn(6, tx);
+                    default:
+                        throw new Error('Wrong transaction type!');
+                }
+            }
+
+            /**
              * @param {string} str
              * @returns {string}
              */
@@ -187,6 +213,7 @@
             onClickBack: '&',
             onTxSent: '&',
             noBackButton: '<',
+            warning: '<',
             showValidationErrors: '<',
             referrer: '<'
         },

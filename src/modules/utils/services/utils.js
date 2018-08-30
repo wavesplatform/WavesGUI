@@ -59,21 +59,53 @@
 
             /**
              * @name app.utils#debounce
-             * @param {function} handler
+             * @param {function} callback
              * @param {number} [timeout]
              * @return {Function}
              */
-            debounce(handler, timeout) {
-                let timer = null;
-                return function (...args) {
-                    if (timer) {
-                        clearTimeout(timer);
-                    }
-                    timer = setTimeout(() => {
-                        timer = null;
-                        handler.call(this, ...args);
-                    }, timeout);
+            debounce(callback, timeout) {
+                const control = {
+                    queued: false,
+                    args: null
                 };
+                return function (...args) {
+                    control.args = args;
+                    if (!control.queued) {
+                        setTimeout(() => {
+                            control.queued = false;
+                            callback.call(this, ...control.args);
+                        }, timeout);
+                    }
+                    control.queued = true;
+                };
+            },
+
+            /**
+             * @name app.utils#parseElectronUrl
+             * @param {string} url
+             * @return {{path: string, search: string, hash: string}}
+             */
+            parseElectronUrl(url) {
+                const [pathAndSearch, hash] = url.split('#');
+                const [path, search] = pathAndSearch.split('?');
+
+                return {
+                    path,
+                    search: `?${search || ''}`,
+                    hash: `#${hash || ''}`
+                };
+            },
+
+            /**
+             * @name app.utils#redirect
+             * @param {string} url
+             */
+            redirect(url) {
+                if (WavesApp.isDesktop()) {
+                    window.openInBrowser(url);
+                } else {
+                    location.href = url;
+                }
             },
 
             /**

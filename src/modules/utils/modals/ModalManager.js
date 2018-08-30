@@ -56,6 +56,18 @@
                 });
             }
 
+            showTryDesktopModal() {
+                return this._getModal({
+                    id: 'try-desktop',
+                    title: '',
+                    contentUrl: 'modules/utils/modals/tryDesktop/tryDesktop.html',
+                    controller: 'TryDesktopCtrl',
+                    clickOutsideToClose: false,
+                    escapeToClose: false,
+                    mod: 'try-desktop-modal'
+                });
+            }
+
             showGatewaySign(search) {
                 return this._getModal({
                     id: 'gateway-sign-in',
@@ -203,7 +215,7 @@
              * @param {Asset} [asset]
              * @return {Promise}
              */
-            showReceivePopup(user, asset) {
+            showReceiveModal(user, asset) {
                 return user.onLogin().then(() => {
                     return this._getModal({
                         id: 'receive-popup',
@@ -397,7 +409,7 @@
                             this._counter--;
 
                             if (options.id) {
-                                analytics.push('Modal', 'Modal.Close', options.id);
+                                analytics.push('Modal', `Modal.Close.${WavesApp.type}`, options.id);
                             }
                         };
 
@@ -409,7 +421,7 @@
                         const modal = $mdDialog.show(target);
 
                         if (options.id) {
-                            analytics.push('Modal', 'Modal.Open', options.id);
+                            analytics.push('Modal', `Modal.Open.${WavesApp.type}`, options.id);
                         }
 
                         modal.then(changeCounter, changeCounter);

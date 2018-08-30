@@ -4,7 +4,7 @@
 html body md-dialog.asset-info-modal {
 
   md-dialog-content {
-    padding-bottom: 0;
+    padding: 20px 30px 0 30px;
     overflow-y: hidden;
 
     &::after {
@@ -12,11 +12,14 @@ html body md-dialog.asset-info-modal {
     }
   }
 
+  w-asset-rate-chart {
+    position: absolute;
+  }
+
   .chart-wrapper {
     opacity: 0.2;
     position: relative;
-    margin-left: -40px;
-    margin-right: -40px;
+    margin-left: 0 -30px 0;
     height: 76px;
 
     .interactive-stop {
@@ -194,6 +197,9 @@ html body md-dialog.asset-info-modal {
 
   html body md-dialog.asset-info-modal {
     .tab-container w-transaction-list {
+      .w-visible {
+        height: 91px;
+      }
       ul {
         .transaction-item {
           .date {
