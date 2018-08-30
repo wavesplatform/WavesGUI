@@ -1,6 +1,7 @@
 import { Asset } from '@waves/data-entities';
 import { IHash } from '../interface';
 import { isPromise, toArray } from './utils';
+import { BigNumber } from "@waves/data-entities/dist/libs/bignumber";
 
 type TAssetORList = Asset | Array<Asset>;
 type TIdOrList = string | Array<string>;
@@ -36,6 +37,28 @@ export class AssetStorage {
                 return newRequestPromise.then(() => idList.map((id) => this._hash[id]));
             } else {
                 return Promise.resolve(idList.map((id) => this._hash[id]));
+            }
+        }
+    }
+
+    public updateAsset(id: string, quantity: BigNumber, reissuable: boolean) {
+        if (this._hash[id]) {
+            const asset = this._hash[id];
+
+            if (asset.reissuable !== reissuable || !quantity.eq(asset.quantity)) {
+                const info = {
+                    id,
+                    ticker: asset.ticker,
+                    name: asset.name,
+                    precision: asset.precision,
+                    description: asset.description,
+                    height: asset.height,
+                    timestamp: asset.timestamp,
+                    sender: asset.sender,
+                    quantity,
+                    reissuable
+                };
+                this._hash[id] = new Asset(info);
             }
         }
     }

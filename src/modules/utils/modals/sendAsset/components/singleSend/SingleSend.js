@@ -1,6 +1,13 @@
 (function () {
     'use strict';
 
+    const FIAT_ASSETS = {
+        [WavesApp.defaultAssets.USD]: true,
+        [WavesApp.defaultAssets.EUR]: true
+    };
+
+    const { Money } = require('@waves/data-entities');
+
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
@@ -14,6 +21,13 @@
     const controller = function (Base, $scope, utils, createPoll, waves, outerBlockchains, user, gatewayService) {
 
         class SingleSend extends Base {
+
+            /**
+             * @return {boolean}
+             */
+            get hasSendToBank() {
+                return FIAT_ASSETS[this.assetId] || false;
+            }
 
             /**
              * @return {ISingleSendTx}
@@ -114,9 +128,21 @@
                  */
                 this.feeList = null;
                 /**
+                 * @type {Money}
+                 */
+                this.minAmount = null;
+                /**
+                 * @type {Money}
+                 */
+                this.maxAmount = null;
+                /**
                  * @type {ISendState}
                  */
                 this.state = Object.create(null);
+                /**
+                 * @type {Money}
+                 */
+                this.maxGatewayAmount = null;
                 /**
                  * @type {boolean}
                  * @private
@@ -133,6 +159,7 @@
                         this.observe('gatewayDetails', this._currentHasCommission);
                         this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
 
+                        this.minAmount = this.state.moneyHash[this.state.assetId].cloneWithTokens('0');
                         this.tx.fee = fee;
                         this.tx.amount = this.tx.amount || this.moneyHash[this.assetId].cloneWithTokens('0');
                         this._fillMirror();
@@ -199,7 +226,7 @@
             onReadQrCode(result) {
                 this.tx.recipient = result.body;
 
-                analytics.push('Send', 'Send.QrCodeRead', 'Send.QrCodeRead.Success');
+                analytics.push('Send', `Send.QrCodeRead.${WavesApp.type}`, `Send.QrCodeRead.${WavesApp.type}.Success`);
 
                 if (result.params) {
 
@@ -240,6 +267,10 @@
                 return this.state.assetId === WavesApp.defaultAssets.XMR && this.tx.recipient.substr(0, 1) === '4';
             }
 
+            getGatewayDetails() {
+                this._onChangeAssetId();
+            }
+
             /**
              * @private
              */
@@ -276,7 +307,7 @@
                 this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
                 this._updateGatewayDetails();
 
-                analytics.push('Send', 'Send.ChangeCurrency', this.assetId);
+                analytics.push('Send', `Send.ChangeCurrency.${WavesApp.type}`, this.assetId);
             }
 
             /**
@@ -343,7 +374,7 @@
 
                 if (!this.tx.amount) {
                     this.mirror = null;
-                    $scope.$digest();
+                    setTimeout(() => $scope.$digest(), 0);
                     return null;
                 }
 
@@ -360,7 +391,7 @@
 
                 if (!this.mirror) {
                     this.tx.amount = null;
-                    $scope.$digest();
+                    setTimeout(() => $scope.$digest(), 0);
                     return null;
                 }
 
@@ -380,13 +411,27 @@
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
-                    gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.paymentId)
-                        .then((details) => {
-                            this.gatewayDetails = details;
-                            $scope.$digest();
-                            // TODO : validate amount field for gateway minimumAmount and maximumAmount
-                        });
+                    gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient).then((details) => {
+                        const max = BigNumber.min(
+                            details.maximumAmount.plus(details.gatewayFee),
+                            this.moneyHash[this.assetId].getTokens()
+                        );
+
+                        this.gatewayDetails = details;
+                        this.minAmount = this.moneyHash[this.assetId]
+                            .cloneWithTokens(details.minimumAmount.minus('0.00000001'));
+                        this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
+                        this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
+
+                        $scope.$digest();
+                    }, () => {
+                        this.gatewayDetails = null;
+                        this.gatewayDetailsError = true;
+                        $scope.$digest();
+                    });
                 } else {
+                    this.minAmount = this.state.moneyHash[this.assetId].cloneWithTokens('0');
+                    this.maxAmount = this.moneyHash[this.assetId];
                     this.gatewayDetails = null;
                 }
             }

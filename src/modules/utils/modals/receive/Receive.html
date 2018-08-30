@@ -32,21 +32,21 @@
                                     </w-select>
                                 </div>
 
-                                <div class="warning-plate margin-1">
+                                <div class="warning-plate margin-1" ng-if="!$ctrl.gatewayServerError">
                                     <div class="body-2 warning-500"
                                          w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningTitle"></div>
                                     <div class="footnote-1 basic-500"
                                          w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningText"></div>
                                 </div>
 
-                                <div class="warning-plate">
+                                <div class="warning-plate" ng-if="!$ctrl.gatewayServerError">
                                     <div class="body-2 warning-500"
                                          w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountTitle"></div>
                                     <div class="footnote-1 basic-500"
                                          w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountText"></div>
                                 </div>
 
-                                <div class="body-2 basic-900">
+                                <div class="body-2 basic-900" ng-if="!$ctrl.gatewayServerError">
                                     <span w-i18n="modal.deposit.copyAndShare"></span>
                                     <w-help-icon>
                                         <div class="help-icon__row headline-3">
@@ -61,21 +61,33 @@
                                     </w-help-icon>
                                 </div>
 
-                                <w-copy-wrap class="body-1 basic-900 mobile-low-fsize" info="$ctrl.gatewayAddress">
+                                <w-copy-wrap class="body-1 basic-900 mobile-low-fsize"
+                                             info="$ctrl.gatewayAddress"
+                                             ng-if="!$ctrl.gatewayServerError">
                                     {{$ctrl.gatewayAddress}}
                                     <w-loader ng-if="!$ctrl.gatewayAddress"></w-loader>
                                 </w-copy-wrap>
 
-                                <div class="or">
+                                <div class="or" ng-if="!$ctrl.gatewayServerError">
                                     <span w-i18n="modal.deposit.or"></span>
                                 </div>
 
-                                <div class="qr-wrapper">
+                                <div class="qr-wrapper" ng-if="!$ctrl.gatewayServerError">
                                     <div class="scan body-2 basic-900" w-i18n="modal.deposit.scanQrCode"></div>
                                     <w-qr-code size="160" url="$ctrl.gatewayAddress"></w-qr-code>
                                     <w-loader ng-if="!$ctrl.gatewayAddress"></w-loader>
                                 </div>
 
+                                <div class="warning-plate server-error" ng-if="$ctrl.gatewayServerError">
+                                    <div class="body-2 warning-500"
+                                         w-i18n="modal.receive.serverError"></div>
+                                </div>
+                                <w-button ng-if="$ctrl.gatewayServerError"
+                                          on-click="$ctrl.updateGatewayAddress()"
+                                          type="submit"
+                                          class="big submit long">
+                                    <span w-i18n="modal.receive.coinomat.tryAgain"></span>
+                                </w-button>
                             </div>
                         </w-tab>
 
@@ -134,11 +146,11 @@
                                         <div class="body-2 basic-900" w-i18n="modal.receive.shareInvoiceLink"></div>
                                         <w-copy-wrap class="body-1 basic-900 mobile-low-fsize" info="$ctrl.sendLink"
                                                      ng-click="$ctrl.onCopyAddress()">
-                                            <span>{{$ctrl.sendLink}}<span>
+                                            <span>{{$ctrl.sendLink}}</span>
                                         </w-copy-wrap>
                                     </div>
 
-                                    <div class="or">or</div>
+                                    <div class="or" w-i18n="modal.send.or"></div>
 
                                     <div class="center">
                                         <div class="scan body-2 basic-900" w-i18n="modal.qr.scanQrCode"></div>
@@ -179,10 +191,10 @@
                                     <div class="row margin-1 relative">
                                         <div class="body-2 basic-900" w-i18n="modal.receive.amountYouPay"></div>
                                         <div class="basic-500 footnote-1">
-                                            <span w-i18n="modal.receive.minimumIs"></span>&nbsp;{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].min}}
-                                            {{$ctrl.currencies[$ctrl.chosenCurrencyIndex].name}},&nbsp;
-                                            <span w-i18n="modal.receive.maximumIs"></span>&nbsp;{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].max}}
-                                            {{$ctrl.currencies[$ctrl.chosenCurrencyIndex].name}}
+                                            <span w-i18n="modal.receive.minimumIs"></span>&nbsp;{{$ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].min}}
+                                            {{$ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].name}},&nbsp;
+                                            <span w-i18n="modal.receive.maximumIs"></span>&nbsp;{{$ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].max}}
+                                            {{$ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].name}}
                                         </div>
                                         <div class="card-icons">
                                             <i class="visa-icon"></i>
@@ -200,13 +212,13 @@
                                                         class="big"
                                                         ng-model="$ctrl.cardPayment"
                                                         w-validate
-                                                        w-validator-gte="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].min}}"
-                                                        w-validator-lte="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].max}}"
-                                                        w-validator-asset="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].assetId}}"
+                                                        w-validator-gte="{{$ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].min}}"
+                                                        w-validator-lte="{{$ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].max}}"
+                                                        w-validator-asset="{{$ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].assetId}}"
                                                         required></w-input>
 
                                                 <w-select class="big" ng-model="$ctrl.chosenCurrencyIndex">
-                                                    <w-option ng-repeat="currency in $ctrl.currencies track by $index"
+                                                    <w-option ng-repeat="currency in $ctrl.cardFiatList track by $index"
                                                               value="$index">
                                                         <span>{{::currency.name}}</span>
                                                     </w-option>
@@ -215,11 +227,11 @@
 
                                             <w-input-error message="gte">
                                                 <span w-i18n="modal.receive.error.cardAmount.gte"
-                                                      params="{gte: $ctrl.currencies[$ctrl.chosenCurrencyIndex].min,currency: $ctrl.currencies[$ctrl.chosenCurrencyIndex].name}"></span>
+                                                      params="{gte: $ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].min,currency: $ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].name}"></span>
                                             </w-input-error>
                                             <w-input-error message="lte">
                                                 <span w-i18n="modal.receive.error.cardAmount.lte"
-                                                      params="{lte: $ctrl.currencies[$ctrl.chosenCurrencyIndex].max,currency: $ctrl.currencies[$ctrl.chosenCurrencyIndex].name}"></span>
+                                                      params="{lte: $ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].max,currency: $ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].name}"></span>
                                             </w-input-error>
                                             <w-input-error message="precision">
                                                 <span w-i18n="modal.receive.error.cardAmount.precision"></span>

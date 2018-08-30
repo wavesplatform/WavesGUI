@@ -1,6 +1,19 @@
 (function () {
     'use strict';
 
+    const searchByNameAndId = ($scope, key, list) => {
+        const query = $scope[key];
+        if (!query) {
+            return list;
+        }
+
+        return list.filter((item) => {
+            const name = tsUtils.get({ item }, 'item.asset.name');
+            const id = tsUtils.get({ item }, 'item.asset.id');
+            return String(name).toLowerCase().indexOf(query.toLowerCase()) !== -1 || String(id) === query;
+        });
+    };
+
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
@@ -12,10 +25,12 @@
      * @param {IPollCreate} createPoll
      * @param {GatewayService} gatewayService
      * @param {$state} $state
+     * @param {STService} stService
+     * @param {VisibleService} visibleService
      * @return {PortfolioCtrl}
      */
     const controller = function (Base, $scope, waves, utils, modalManager, user,
-                                 eventManager, createPoll, gatewayService, $state) {
+                                 eventManager, createPoll, gatewayService, $state, stService, visibleService) {
 
         class PortfolioCtrl extends Base {
 
@@ -74,7 +89,7 @@
                                 title: { literal: 'list.name' },
                                 valuePath: 'item.asset.name',
                                 sort: true,
-                                search: true,
+                                search: searchByNameAndId,
                                 placeholder: 'portfolio.filter'
                             },
                             {
@@ -127,6 +142,10 @@
 
                     this._onChangeDetails();
                 });
+
+                this.receive(stService.sort, () => {
+                    visibleService.updateSort();
+                });
             }
 
             /**
@@ -147,7 +166,7 @@
              * @param {Asset} asset
              */
             showReceivePopup(asset) {
-                return modalManager.showReceivePopup(user, asset);
+                return modalManager.showReceiveModal(user, asset);
             }
 
             /**
@@ -180,7 +199,7 @@
                 return balance.isPinned ||
                     balance.asset.isMyAsset ||
                     balance.asset.id === WavesApp.defaultAssets.WAVES ||
-                    gatewayService.getPurchasableByCards()[balance.asset.id] ||
+                    gatewayService.getPurchasableWithCards()[balance.asset.id] ||
                     gatewayService.getCryptocurrencies()[balance.asset.id] ||
                     gatewayService.getFiats()[balance.asset.id];
             }
@@ -280,21 +299,17 @@
                 };
 
                 return Promise.all([
-                    waves.node.assets.userBalances()
-                        .then((list) => Promise.all(list.map(remapBalances)))
-                        .then((list) => list.filter((item) => !item.isSpam)),
-                    // waves.node.assets.balanceList(this.pinned).then((list) => list.map(remapBalances)),
-                    waves.node.assets.balanceList(this.spam)
-                        .then((list) => Promise.all(list.map(remapBalances)))
-                ]).then(([activeList, /* pinned,*/ spam]) => {
+                    waves.node.assets.userBalances().then((list) => Promise.all(list.map(remapBalances)))
+                ]).then(([activeList]) => {
+
+                    const spam = [];
+
                     for (let i = activeList.length - 1; i >= 0; i--) {
-                        if (activeList[i].isOnScamList) {
+                        if (activeList[i].isOnScamList || activeList[i].isSpam) {
                             spam.push(activeList.splice(i, 1)[0]);
                         }
                     }
-                    // const pinnedHash = utils.toHash(pinned, 'asset.id');
-                    // const active = pinned.concat(activeList.filter((item) => !pinnedHash[item.asset.id]));
-                    return { active: activeList, /* pinned, */ spam };
+                    return { active: activeList, spam };
                 });
             }
 
@@ -331,7 +346,9 @@
         'eventManager',
         'createPoll',
         'gatewayService',
-        '$state'
+        '$state',
+        'stService',
+        'visibleService'
     ];
 
     angular.module('app.wallet.portfolio')

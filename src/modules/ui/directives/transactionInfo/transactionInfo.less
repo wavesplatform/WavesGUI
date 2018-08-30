@@ -1,6 +1,7 @@
-@import (reference) '../../../config';
-@import (reference) '../../../app/less/icons';
 @import (reference) '../../../app/less/typography';
+@import (reference) "../../../app/less/app-icons";
+@import (reference) 'config';
+@import (reference) 'icons';
 
 @tx-icon-size: 80px;
 
@@ -49,13 +50,13 @@
 
   &__lead {
     text-align: center;
-    padding: 20px 0 30px;
+    padding: 0 0 30px;
     border-bottom: 1px solid @color-basic-100;
     .noborder();
     z-index: 2;
 
     h3 {
-      margin-bottom: 6px;
+      margin: 0 0 6px;
     }
   }
 
@@ -110,7 +111,6 @@
         flex-grow: 0;
         padding-right: 10px;
         overflow: hidden;
-        word-break: break-all;
         .footnote-1();
       }
 
@@ -139,6 +139,11 @@
         flex-grow: 1;
         text-align: left;
       }
+
+      &__data {
+        max-height: 140px;
+        overflow: scroll;
+      }
     }
 
     &-border-ts {
@@ -152,7 +157,7 @@
     background: none transparent;
     position: relative;
     border-radius: 50%;
-    margin: 10px auto 0 auto;
+    margin: 10px auto 30px auto;
 
     &.send {
       .icon-tx-send();
@@ -209,6 +214,10 @@
 
     &.cancel-leasing {
       .icon-tx-cancel-leasing();
+    }
+
+    &.data {
+      .icon-tx-data();
     }
 
     &::before {
@@ -275,18 +284,6 @@
       &-padder {
         height: 30px;
       }
-
-      .txinfo {
-        .key-props {
-          flex-basis: 50%;
-          max-width: 50%;
-        }
-
-        &__value {
-          flex-basis: 50%;
-        }
-      }
-
     }
   }
 }

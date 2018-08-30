@@ -2,6 +2,9 @@
     <div class="btn icon-close" w-modal-close></div>
     <md-dialog-content>
         <div class="modal-content">
+            <div ng-if="!$ctrl.transaction">
+                <w-loader></w-loader>
+            </div>
             <div ng-if="$ctrl.transaction" class="txinfo__wrapper">
 
                 <w-transaction-info transaction="::$ctrl.transaction"></w-transaction-info>
@@ -9,6 +12,11 @@
                 <div class="txinfo__row" ng-if="$ctrl.confirmed">
                     <div class="txinfo__key" w-i18n="transaction.modals.confirmations"></div>
                     <div class="txinfo__value">{{$ctrl.confirmations}}</div>
+                </div>
+
+                <div class="txinfo__row">
+                    <div class="txinfo__key" w-i18n="transaction.modals.txId"></div>
+                    <div class="txinfo__value">{{::$ctrl.transaction.id}}</div>
                 </div>
 
                 <div class="txinfo__row">

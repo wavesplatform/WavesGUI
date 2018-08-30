@@ -2,16 +2,14 @@
 (function () {
     'use strict';
 
-    const CANDLE_UP_COLOR = '#5a81ea';
-    const CANDLE_DOWN_COLOR = '#d1383c';
-
     const DISABLED_FEATURES = [
         'header_screenshot',
         'header_symbol_search',
         'symbol_search_hot_key',
         'display_market_status',
         'control_bar',
-        'timeframes_toolbar'
+        'timeframes_toolbar',
+        'volume_force_overlay'
     ];
 
     // TODO : added in version 1.12
@@ -19,29 +17,33 @@
     //     'hide_left_toolbar_by_default'
     // ];
 
-    const OVERRIDES = {
-        'mainSeriesProperties.candleStyle.upColor': CANDLE_UP_COLOR,
-        'mainSeriesProperties.candleStyle.downColor': CANDLE_DOWN_COLOR,
-        'mainSeriesProperties.candleStyle.drawBorder': false,
-        'mainSeriesProperties.hollowCandleStyle.upColor': CANDLE_UP_COLOR,
-        'mainSeriesProperties.hollowCandleStyle.downColor': CANDLE_DOWN_COLOR,
-        'mainSeriesProperties.hollowCandleStyle.drawBorder': false,
-        'mainSeriesProperties.barStyle.upColor': CANDLE_UP_COLOR,
-        'mainSeriesProperties.barStyle.downColor': CANDLE_DOWN_COLOR,
-        'mainSeriesProperties.haStyle.upColor': CANDLE_UP_COLOR,
-        'mainSeriesProperties.haStyle.downColor': CANDLE_DOWN_COLOR,
-        'mainSeriesProperties.haStyle.drawBorder': false,
-        'mainSeriesProperties.lineStyle.color': CANDLE_UP_COLOR,
-        'mainSeriesProperties.areaStyle.color1': CANDLE_UP_COLOR,
-        'mainSeriesProperties.areaStyle.color2': CANDLE_UP_COLOR,
-        'mainSeriesProperties.areaStyle.linecolor': CANDLE_UP_COLOR,
-        'scalesProperties.lineColor': '#edf0f4'
-    };
+    function getOverrides(candleUpColor, candleDownColor) {
+        return {
+            'mainSeriesProperties.candleStyle.upColor': candleUpColor,
+            'mainSeriesProperties.candleStyle.downColor': candleDownColor,
+            'mainSeriesProperties.candleStyle.drawBorder': false,
+            'mainSeriesProperties.hollowCandleStyle.upColor': candleUpColor,
+            'mainSeriesProperties.hollowCandleStyle.downColor': candleDownColor,
+            'mainSeriesProperties.hollowCandleStyle.drawBorder': false,
+            'mainSeriesProperties.barStyle.upColor': candleUpColor,
+            'mainSeriesProperties.barStyle.downColor': candleDownColor,
+            'mainSeriesProperties.haStyle.upColor': candleUpColor,
+            'mainSeriesProperties.haStyle.downColor': candleDownColor,
+            'mainSeriesProperties.haStyle.drawBorder': false,
+            'mainSeriesProperties.lineStyle.color': candleUpColor,
+            'mainSeriesProperties.areaStyle.color1': candleUpColor,
+            'mainSeriesProperties.areaStyle.color2': candleUpColor,
+            'mainSeriesProperties.areaStyle.linecolor': candleUpColor,
+            'volumePaneSize': 'medium'
+        };
+    }
 
-    const STUDIES_OVERRIDES = {
-        'volume.volume.color.0': 'rgba(209,56,60,0.3)',
-        'volume.volume.color.1': 'rgba(90,129,234,0.3)'
-    };
+    function getStudiesOverrides({ volume0, volume1 }) {
+        return {
+            'volume.volume.color.0': volume0,
+            'volume.volume.color.1': volume1
+        };
+    }
 
     let counter = 0;
 
@@ -50,9 +52,10 @@
      * @param {Base} Base
      * @param candlesService
      * @param {$rootScope.Scope} $scope
+     * @param {app.themes} themes
      * @return {DexCandleChart}
      */
-    const controller = function (Base, candlesService, $scope) {
+    const controller = function (Base, candlesService, $scope, themes, user) {
 
         class DexCandleChart extends Base {
 
@@ -82,13 +85,40 @@
                  */
                 this._assetIdPairWasChanged = false;
                 /**
-                 * @type {{price: string, amount: string}}
+                 * @type {boolean}
                  * @private
                  */
+                this._changeTheme = true;
+                /**
+                 * @type {{price: string, amount: string}}
+                 */
                 this._assetIdPair = null;
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
+                this.loadingTradingView = true;
+
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this.theme = user.getSetting('theme');
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this.candle = user.getSetting('candle');
 
                 this.observe('_assetIdPair', this._onChangeAssetPair);
+                this.observe('theme', () => {
+                    this._changeTheme = true;
+                    this._resetTradingView();
+                });
+                this.observe('candle', this._refreshTradingView);
                 this.syncSettings({ _assetIdPair: 'dex.assetIdPair' });
+                this.syncSettings({ theme: 'theme' });
+                this.syncSettings({ candle: 'candle' });
             }
 
             $postLink() {
@@ -126,8 +156,12 @@
              * @private
              */
             _resetTradingView() {
-                return this._removeTradingView()
-                    ._createTradingView();
+                try {
+                    return this._removeTradingView()
+                        ._createTradingView();
+                } catch (e) {
+                    // Trading view not loaded
+                }
             }
 
             /**
@@ -146,35 +180,65 @@
                 return this;
             }
 
+            _refreshTradingView() {
+                if (!this._chart) {
+                    return null;
+                }
+                const { up, down, volume0, volume1 } = themes.getCurrentCandleSColor(this.candle);
+                const overrides = getOverrides(up, down);
+                const studiesOverrides = getStudiesOverrides({ volume0, volume1 });
+                this._chart.applyOverrides(overrides);
+                this._chart.applyStudiesOverrides(studiesOverrides);
+            }
             /**
              * @return {DexCandleChart}
              * @private
              */
             _createTradingView() {
+                this.loadingTradingView = true;
+
+                const { up, down, volume0, volume1 } = themes.getCurrentCandleSColor(this.candle);
+                const themeConf = themes.getTradingViewConfig(this.theme);
+                const overrides = { ...getOverrides(up, down), ...themeConf.OVERRIDES };
+                const studies_overrides = {
+                    ...getStudiesOverrides({ volume0, volume1 }),
+                    ...themeConf.STUDIES_OVERRIDES
+                };
+                const toolbar_bg = themeConf.toolbarBg;
+                const custom_css_url = themeConf.customCssUrl;
+
                 this._chart = new TradingView.widget({
                     // debug: true,
                     locale: DexCandleChart._remapLanguageCode(i18next.language),
-                    toolbar_bg: '#fff',
                     symbol: `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
                     interval: WavesApp.dex.defaultResolution,
                     container_id: this.elementId,
                     datafeed: candlesService,
                     library_path: 'trading-view/',
                     autosize: true,
+                    toolbar_bg,
                     disabled_features: DISABLED_FEATURES,
                     // enabled_features: ENABLED_FEATURES,
-                    overrides: OVERRIDES,
-                    studies_overrides: STUDIES_OVERRIDES,
-                    custom_css_url: '/tradingview-style/style.css'
+                    overrides,
+                    studies_overrides,
+                    custom_css_url
                 });
 
-                if (this._assetIdPairWasChanged) {
-                    this._chart.onChartReady(() => {
+                this._chart.onChartReady(() => {
+                    if (this._changeTheme) {
+                        this._chart.applyOverrides(overrides);
+                        this._chart.applyStudiesOverrides(studies_overrides);
+                    }
+
+                    this._changeTheme = false;
+                    this.loadingTradingView = false;
+
+                    if (this._assetIdPairWasChanged) {
                         this._setChartPair();
                         this._assetIdPairWasChanged = false;
                         this._chartReady = true;
-                    });
-                }
+                    }
+                });
 
                 return this;
             }
@@ -213,7 +277,7 @@
         return new DexCandleChart();
     };
 
-    controller.$inject = ['Base', 'candlesService', '$scope'];
+    controller.$inject = ['Base', 'candlesService', '$scope', 'themes', 'user'];
 
     controller.load = function () {
         const script = document.createElement('script');

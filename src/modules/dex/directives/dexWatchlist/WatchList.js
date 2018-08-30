@@ -143,7 +143,7 @@
                 /**
                  * @type {Array<WatchList.IPairDataItem>}
                  */
-                this.pairDataList = null; // TODO Reomove disgusting hack
+                this.pairDataList = null; // TODO Remove disgusting hack
                 /**
                  * @type {boolean}
                  * @private
@@ -418,7 +418,7 @@
                 const searchPair = [amountSearch, priceSearch];
 
                 function search(query) {
-                    const queryList = query.split('/');
+                    const queryList = query.split('/').map(q => q.trim());
 
                     if (queryList.length === 1) {
                         const q = query.toLowerCase();
@@ -452,10 +452,10 @@
                         return search(query.replace('/', ''));
                     }
 
-                    return search(queryList[0]) && search(queryList[1]);
+                    return search(queryList[0].trim()) && search(queryList[1].trim());
                 }
 
-                return search(query);
+                return search(query.trim());
             }
 
             /**
@@ -472,7 +472,10 @@
                 const query = this.search;
                 this._searchAssets = [];
 
-                const queryParts = query.split('/').slice(0, 2).map(q => q.replace(/[:()^]/g, '')).filter(Boolean);
+                const queryParts = query.split('/')
+                    .slice(0, 2)
+                    .map(q => q.replace(/[:()^]/g, '').trim())
+                    .filter(Boolean);
 
                 if (!queryParts.length) {
                     WatchList._renderSmartTable();
@@ -489,6 +492,7 @@
                             this.searchInProgress = false;
                             this.pending = false;
                             this.searchRequest = null;
+                            this.showOnlyFavorite = false;
                             $scope.$apply();
                         });
                     })

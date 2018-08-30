@@ -1,9 +1,13 @@
-@import (reference) '../../../config';
 @import (reference) "../../../app/less/typography";
+@import (reference) 'config';
+@import (reference) 'icons';
+
+@column-width: 320px;
+@dex-padding: 7px;
 
 .dex.main .main-content,
 .dex-demo.main .main-content {
-  background: @color-basic-100;
+  background: @app-background;
   min-width: 1280px;
   min-height: 520px;
   overflow-y: hidden;
@@ -18,11 +22,7 @@ html body.dex-demo {
   }
 }
 
-@column-width: 320px;
-@dex-padding: 7px;
-
 w-layout {
-
   width: 100%;
   height: 100%;
 
@@ -308,11 +308,12 @@ w-layout {
           position: absolute;
           height: 15px;
           width: 15px;
-          background: url(/img/icons/dex-toggle.svg) center no-repeat;
+          background: @dex-toggle-icon center no-repeat;
         }
       }
 
       &-left {
+        transition: .3s;
         div {
           &::after {
             transform: rotate(90deg);
@@ -321,6 +322,7 @@ w-layout {
       }
 
       &-right {
+        transition: .3s;
         div {
           &::after {
             transform: rotate(-90deg);
@@ -393,7 +395,7 @@ w-layout {
       z-index: 3;
 
       &.active {
-        color: @color-white;
+        color: @white-only;
         height: 30px;
         line-height: 20px;
         padding: 5px 10px;
@@ -420,6 +422,50 @@ w-layout {
 html body.dex .notifications,
 html body.dex-demo .notifications {
   position: fixed
+}
+
+//tradehistory fullscreen mode
+.tradehistory-fullscreen-toggler {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+  background-image: @dex-fullscreen-icon;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: @color-basic-50;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.tradehistory-fullscreen-toggler:hover {
+  background-color: @color-basic-100;
+}
+
+.tradehistory-fullscreen .tradehistory-fullscreen-toggler {
+  background-image: @dex-fullscreenclose-icon;
+}
+.dex-layout__tradehistory {
+  transition: .3s !important;
+}
+//end
+
+
+.tradehistory-fullscreen {
+  .dex-layout__column:not(.dex-layout__tradehistory) {
+    transition:.3s;
+    opacity: 0.1;
+  }
+
+  .dex-layout__tradehistory {
+    width: 100%;
+    border-radius: 2px;
+    z-index: 10;
+    height: 100%;
+    max-height: 100%;
+    transition: .3s;
+  }
 }
 
 //hi-res
@@ -531,11 +577,9 @@ html body.dex-demo .notifications {
       .dex-wrapper {
         w-dex-watchlist {
           .wrapper a.title {
-
             .titles-wrap {
               height: 42px;
             }
-
             font-size: 13px;
           }
         }
@@ -603,7 +647,7 @@ html body.dex-demo .notifications {
             }
 
             .title {
-              height: 42px;
+              height: 40px;
               font-size: 13px;
             }
           }
@@ -611,6 +655,9 @@ html body.dex-demo .notifications {
           .title {
             height: 42px;
             font-size: 13px;
+            &.active {
+              background: @color-white;
+            }
           }
         }
       }
@@ -672,6 +719,10 @@ html body.dex-demo .notifications {
   w-layout {
     .dex-layout {
       overflow: visible;
+
+      .tradehistory-fullscreen-toggler {
+        display: none;
+      }
 
       &__watchlist {
         width: calc(50% ~' - 3px');
@@ -856,6 +907,10 @@ html body.dex-demo .notifications {
       flex-direction: column;
       justify-content: space-between;
 
+      .tradehistory-fullscreen-toggler {
+        display: none;
+      }
+
       &__column {
         position: relative;
       }
@@ -959,4 +1014,23 @@ html body.dex-demo .notifications {
 
     }
   }
+}
+
+//candleChart preloader
+.dex-loader,
+.loading {
+  opacity: 0;
+}
+.dex-loader {
+  position: absolute;
+  z-index: 0;
+}
+.dex-loader.loading {
+  opacity: 1;
+  position: absolute;
+  z-index: 1;
+  display: inline-block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

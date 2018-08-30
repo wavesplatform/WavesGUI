@@ -1,4 +1,4 @@
-@import (reference) '../../../config';
+@import (reference) 'config';
 @import (reference) '../../../app/less/typography';
 
 .help-icon {
@@ -7,6 +7,7 @@
   &__icon {
     position: relative;
     margin-left: 7px;
+    z-index: 1;
 
     &::before {
       content: '?';
@@ -26,6 +27,7 @@
       line-height: 13px;
     }
 
+    &.hovered::before,
     &:hover::before {
       background: @color-submit-300;
     }
@@ -43,10 +45,12 @@
       z-index: 0;
     }
 
+    &.hovered::after,
     &:hover::after {
       display: block;
     }
 
+    &.hovered + .help-icon__content,
     &:hover + .help-icon__content {
       display: block;
     }

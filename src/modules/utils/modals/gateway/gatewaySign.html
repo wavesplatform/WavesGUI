@@ -3,19 +3,12 @@
         <div class="text-center gateway-icon" ng-if="$ctrl.imageSrc !== ''">
             <img src="{{::$ctrl.imageSrc}}"/>
         </div>
-        <div class="headline-2 basic-700" ng-if="$ctrl.imageSrc === ''">
-            <i class="icon-connected"></i>
-        </div>
 
-        <h3 class="text-center margin-3 basic-700">
+        <h3 class="text-center margin-2 basic-700">
             <span w-i18n="modal.gatewaySign.headline" params="{url: $ctrl.referrer, name: $ctrl.name}"></span>
         </h3>
 
-        <div class="warning-plate margin-2 body-2 warning-500">
-            <span w-i18n="modal.gatewaySign.warning"></span>
-        </div>
-
-        <div class="content margin-4 caption-1 basic-500 flex-caption">
+        <div class="content margin-2 caption-1 basic-500 flex-caption">
             <i class="icon-lock"></i>
             <span w-i18n="modal.gatewaySign.description"></span>
         </div>
@@ -24,7 +17,7 @@
             <w-button class="big" w-modal-close>
                 <span w-i18n="modal.gatewaySign.cancel"></span>
             </w-button>
-            <w-button class="big submit" on-click="$ctrl.send()">
+            <w-button class="big submit" w-modal-close on-click="$ctrl.send()">
                 <span w-i18n="modal.gatewaySign.continue"></span>
             </w-button>
         </div>

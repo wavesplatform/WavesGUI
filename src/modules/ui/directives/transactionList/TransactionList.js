@@ -31,6 +31,10 @@
                 this.observe('_transactions', this._onChangeTransactions);
             }
 
+            $postLink() {
+                this.parentSelector = this.parentSelector || 'ul';
+            }
+
             /**
              * @private
              */
@@ -74,6 +78,7 @@
         .component('wTransactionList', {
             bindings: {
                 transactionDatePattern: '@',
+                parentSelector: '@',
                 pending: '<',
                 _transactions: '<transactions'
             },

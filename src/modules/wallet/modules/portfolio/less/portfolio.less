@@ -1,51 +1,59 @@
-@import (reference) '../../../../config';
+@import (reference) "../../../../app/less/app-icons";
 @import (reference) '../../../../app/less/typography';
-@import (reference) '../../../../app/less/icons';
 @import (reference) '../../../../ui/directives/smartTable/smart-table';
+@import (reference) 'config';
+@import (reference) 'icons';
 
 .main.wallet.portfolio {
 
+  .w-visible {
+    flex-wrap: wrap;
+    @media screen and (min-width: 769px) {
+      height: 65px !important;
+    }
+  }
+
+  .mobiles-only {
+    display: none;
+  }
+
   .portfolio-wrapper {
-    display: block;
+    display: flex;
+    flex-direction: column;
     height: 100%;
   }
 
   .toolbar {
+    position: relative;
+    display: flex;
+    flex-direction: row;
     w-button:not(:last-child) {
       margin-right: 5px;
+
+      svg {
+        display: inline-block;
+        width: 16px;
+      }
     }
 
     w-select {
       width: 100%;
       max-width: 250px;
-      float: right;
-      height: 42px;
-      background: @color-white;
+      position: absolute;
+      right: 0;
+      top: 0;
+
       .title {
         display: flex;
-
-        &:before {
-          content: '';
-          margin: 5px 7px 0 0;
-          .icon-filter();
-        }
+        padding-left: 40px;
+        .icon-filter();
+        background-position: 15px center;
       }
     }
   }
 
   .btn-icon {
     font-family: @font-roboto-medium;
-
-    &::before {
-      content: '';
-      display: inline-block;
-      position: relative;
-      top: 2px;
-      background-size: 100% 100%;
-      width: 18px;
-      height: 14px;
-      margin-right: 7px;
-    }
   }
 
   .part {
@@ -57,26 +65,33 @@
   &__mode-large {
     max-height: calc(100vh ~'- 142px');
     margin-top: @padding-main-layout;
+    box-shadow: @shadow-type-1;
 
-    &__w-tbody {
-      max-height: calc(100vh ~'- 208px');
-      transform: translate3d(0, 0, 0);
-      will-change: transform;
+    .smart-table {
+      &__w-tbody {
+        max-height: calc(100vh ~'- 208px');
+        transform: translate3d(0, 0, 0);
+        will-change: transform;
+
+        @media screen and (min-width: 769px) {
+          .smart-table {
+            &__row:hover {
+              background: @hover-default;
+            }
+          }
+        }
+      }
     }
 
-    .smart-table__row {
-      min-width: 768px;
-
-      i.toggler {
-        display: none;
-      }
+    .w-visible {
+      min-height: 64px;
 
       &:first-child {
         .smart-table {
           &__control-cell {
             .cell {
               span.icon {
-                div {
+                span {
                   top: auto;
                   bottom: 0;
                   left: 50%;
@@ -94,12 +109,21 @@
       }
     }
 
+    .smart-table__row {
+      min-width: 768px;
+
+      i.toggler {
+        display: none;
+      }
+    }
+
     .z-top {
       position: relative;
       z-index: 1;
     }
 
     .smart-table__cell {
+      transition: all 0.3s;
       &:first-child {
         min-width: 200px;
       }
@@ -113,6 +137,8 @@
       }
 
       &:first-child {
+        min-width: 200px;
+
         .cell {
           min-width: 160px;
           padding-left: 10px;
@@ -128,34 +154,6 @@
         padding-right: 5px;
         min-width: 250px;
         width: 250px;
-      }
-    }
-
-    .smart-table__chart-wrap {
-      .cell {
-        position: relative;
-        width: 84px;
-        padding-right: 10px;
-        float: right;
-
-        w-asset-rate-chart {
-          position: absolute;
-          bottom: 0;
-          width: 84px;
-          height: 40%;
-          opacity: .3;
-          right: 0;
-
-          &::after {
-            content: '';
-            display: block;
-            position: absolute;
-            bottom: -2px;
-            left: -1px;
-            width: 86px;
-            height: 38px;
-          }
-        }
       }
     }
 
@@ -185,22 +183,26 @@
 
     .smart-table__change .cell {
       .footnote-1();
-
-      w-change24 {
-        &.green {
-          color: @color-success-600;
-
-          & + span {
-            color: @color-success-600;
-          }
+      span {
+        &.plus {
+          color: @color-submit-300;
         }
-
-        &.red {
+        &.minus {
           color: @color-error-500;
-          & + span {
-            color: @color-error-500;
-          }
         }
+      }
+    }
+
+    .smart-table__w-tbody .w-visible:first-child {
+      .smart-table__cell:last-child .cell span.icon span::after {
+        transform: translate(-50%, -5px) rotate(45deg);
+        top: 0;
+      }
+
+      .smart-table__cell:last-child .cell span.icon span {
+        transform: translate(-50%, 100%);
+        bottom: -5px;
+        top: auto;
       }
     }
 
@@ -210,18 +212,57 @@
         display: flex;
         align-items: center;
 
+        .spam-icons {
+          span.unspam,
+          span.tospam,
+          svg {
+            display: none;
+          }
+
+          &.icon-hide {
+            svg:first-child {
+              display: inline-block;
+            }
+            &:hover {
+              span.unspam {
+                display: none;
+              }
+              span.tospam {
+                display: block;
+              }
+            }
+          }
+
+          &.icon-show {
+            svg:first-child + svg {
+              display: inline-block;
+            }
+            &:hover {
+              span.unspam {
+                display: block;
+              }
+              span.tospam {
+                display: none;
+              }
+            }
+          }
+        }
+
         span.icon {
+          z-index: 2;
           display: inline-block;
           width: 18px;
           height: 18px;
           cursor: pointer;
           position: absolute;
+          transform: translate3d(0, 0, 0);
 
-          div {
+          span {
             display: none;
             position: absolute;
             background: @color-disabled-500;
             top: 0;
+            z-index: 2;
             left: 50%;
             transform: translate(-50%, -40px);
             color: @color-white;
@@ -243,32 +284,42 @@
             }
           }
 
-          &:hover {
-            div {
-              display: block;
-            }
+          svg {
+            fill: @color-basic-500;
+            transition: .3s;
+            vertical-align: top;
           }
 
+          &:hover {
+            span {
+              display: block;
+            }
+            svg {
+              fill: @color-basic-700;
+            }
+          }
         }
 
         .icon-send {
-          background: url(/img/icons/send.svg) center no-repeat;
-          right: 139px;
-        }
-        .icon-receive {
-          background: url(/img/icons/deposit.svg) center no-repeat;
           right: 181px;
         }
+
+        .icon-receive {
+          right: 139px;
+          span {
+            margin-left: -2px;
+          }
+          svg {
+            transform: rotate(-180deg);
+          }
+        }
         .icon-dex {
-          background: url(/img/icons/dex-icon-mini.svg) center no-repeat;
           right: 97px;
         }
         .icon-hide {
-          background: url(/img/icons/hide-icon.svg) center no-repeat;
           right: 55px;
         }
         .icon-show {
-          background: url(/img/icons/show-icon.svg) center no-repeat;
           right: 55px;
         }
 
@@ -281,10 +332,9 @@
   .main.wallet.portfolio {
     .smart-table {
       &__mode-large {
-        .smart-table__cell:last-child {
+        .smart-table__cell[data-column-id="controls"] {
           width: 50px;
           min-width: 50px;
-
           .cell {
             .icon {
               display: none;
@@ -294,24 +344,61 @@
       }
     }
   }
-
 }
 
-@media screen and (min-width: 769px) {
-  .smart-table {
-    &__mode-large {
-      .smart-table__cell:last-child .cell {
-        position: relative;
+//tablet
+@media screen and (min-width: 660px) and (max-width: 768px) {
+  .main.wallet.portfolio {
+
+    .smart-table {
+      &__mode-large {
+
+        .smart-table__row {
+          min-width: 100%;
+        }
+
+        .smart-table__cell[data-column-id="controls"] {
+          display: block;
+          width: 50px;
+          min-width: 50px;
+          .cell {
+            .icon {
+              display: none;
+            }
+          }
+        }
+
+        .smart-table__cell[data-column-id="mirror"],
+        .smart-table__cell[data-column-id="inOrders"] {
+          display: none;
+        }
       }
     }
   }
 }
 
-@media screen and (max-width: 768px) {
+//mobile
+@media screen and (max-width: 659px) {
 
   .main.wallet.portfolio {
 
+    .asset-name-desktop {
+      display: none;
+    }
+
+    .mobiles-only {
+      display: block;
+      font-family: @font-roboto-regular;
+    }
+
+    .main-content .content {
+      padding: 0;
+    }
+
     .toolbar {
+      margin: 10px 0 0 10px;
+      width: calc(100% ~'- 20px');
+
       w-select {
         width: 50px;
         height: 42px;
@@ -320,11 +407,9 @@
           padding: 0;
           position: relative;
           font-size: 0;
-          background: url(/img/icons/icon-filter.svg) center no-repeat;
-
-          &::before {
-            display: none;
-          }
+          .icon-filter();
+          box-shadow: @shadow-buttons-default;
+          border: none;
 
           &::after {
             display: none;
@@ -344,7 +429,7 @@
             display: inline-block;
             padding: 1px 2px;
             background: @color-submit-400;
-            color: @color-white;
+            color: @white-only;
             border-radius: @border-radius / 2;
             line-height: 1em;
           }
@@ -363,7 +448,6 @@
 
     .btn-icon {
       font-size: 0;
-
       &::before {
         margin: 0;
       }
@@ -376,109 +460,82 @@
 
       .smart-table__w-tbody {
         max-height: 100%;
+
+        .w-visible {
+          margin: 0 0 (@padding-main-layout / 2) @padding-main-layout;
+          height: 70px !important;
+          width: calc(100% ~'- 20px');
+        }
+
+        .smart-table__row {
+          padding: 0;
+          flex-direction: row;
+          flex-wrap: wrap;
+
+          .smart-table__cell {
+            padding: 0;
+          }
+
+          .smart-table__name {
+            min-width: auto;
+            .cell {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              width: 100%;
+              max-width: 100%;
+              padding: 0 5px 0 20px;
+              span {
+                max-width: 100%;
+              }
+            }
+          }
+
+          .smart-table__control-cell {
+            max-width: 50px;
+            min-width: 50px;
+          }
+        }
       }
 
       .smart-table__row {
-        i.toggler {
-          width: 50px;
-          height: 20px;
-          background: url(/img/icons/arrow-dropdown.svg) center center no-repeat;
-          left: 50%;
-          bottom: 10px;
-          display: block;
-          cursor: pointer;
-          transform: translateX(-50%) rotate(0);
-        }
-
         .smart-table__available-value,
         .smart-table__chart-wrap,
-        .smart-table__change {
-          height: 0;
-          overflow: hidden;
+        .smart-table__change,
+        .smart-table__in-orders {
+          display: none;
         }
 
-        &.active {
-          .smart-table__available-value,
-          .smart-table__chart-wrap,
-          .smart-table__change {
-            height: 30px;
-          }
-
-          .smart-table__cell {
-            .cell {
-              .icon {
-                display: block;
-              }
-            }
-
-            &:last-child {
-              padding-top: 20px;
-
-              .cell {
-                height: 30px;
-              }
-            }
-          }
-
-          i.toggler {
-            transform: translateX(-50%) rotate(180deg);
-          }
+        .smart-table__cell[data-column-id="name"] {
+          flex-basis: 50px;
+          max-width: 50px;
         }
 
+        .smart-table__cell[data-column-id="balance"] {
+          .cell {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 0 0 0 20px;
+          }
+        }
       }
 
       .smart-table__cell {
-        padding-top: 20px;
 
         .cell {
-          height: 30px;
-        }
-
-        &:first-child {
-          .cell {
-            height: 40px;
-          }
+          height: 40px;
         }
 
         &:last-child {
-          padding: 0;
-
+          padding: 0 0 10px 20px;
           .cell {
             height: 20px;
-
-            .icon {
+            span.icon {
               display: none;
-              &:hover div {
-                display: none;
-              }
-            }
-
-            .icon-send {
-              right: 65%;
-              transform: translateX(50%);
-            }
-
-            .icon-receive {
-              right: auto;
-              left: 20px;
-            }
-
-            .icon-dex {
-              right: 35%;
-              transform: translateX(50%);
-            }
-
-            .icon-hide {
-              right: 20px;
             }
           }
         }
       }
-
-      .smart-table__chart-wrap .cell {
-        padding-right: 0;
-      }
     }
   }
-
 }

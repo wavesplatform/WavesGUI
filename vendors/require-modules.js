@@ -10,8 +10,12 @@
         'waves-api': 'WavesAPI',
         'identity-img': 'identityImg',
         '@waves/data-entities': 'ds.wavesDataEntities',
+        '@waves/waves-signature-generator': 'wavesSignatureGenerator',
         'ramda': 'R',
-        'data-service': 'ds'
+        'data-service': 'ds',
+        'handlebars': 'Handlebars',
+        '@waves/waves-browser-bus': 'bus',
+        'worker-wrapper': 'workerWrapper'
     };
 
     function getModule(require) {

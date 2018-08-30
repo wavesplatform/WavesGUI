@@ -1,7 +1,6 @@
-@import (reference) '../../../config';
+@import (reference) 'config';
 
 md-dialog md-dialog-content {
-  padding: 30px 40px 0;
 
   .button-margin {
     margin-top: 100px;
@@ -11,6 +10,10 @@ md-dialog md-dialog-content {
     w-button.submit {
       margin-top: 90px;
     }
+  }
+
+  w-delegate {
+    display: block;
   }
 
   w-seed-write .seed-container {
@@ -29,10 +32,8 @@ md-dialog md-dialog-content {
       flex-direction: row;
       justify-content: space-between;
 
-      & > w-button.submit {
-        flex-basis: 48%;
-        margin-bottom: 0;
-        margin-top: 30px;
+      & > w-button {
+        flex-basis: 49%;
       }
     }
   }

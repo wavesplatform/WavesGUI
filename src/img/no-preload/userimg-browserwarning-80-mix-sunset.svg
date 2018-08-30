@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+    <g fill="none" fill-rule="evenodd">
+        <path fill="none" d="M0 0h80v80H0z"/>
+        <path fill="#FFAF00" fill-rule="nonzero" d="M78.5 13v3h-77v-3zM8.5 10.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM10.094 22.5v14h59.812v-14H10.094zm-1.031-3h61.874c1.14 0 2.063.895 2.063 2v16c0 1.105-.923 2-2.063 2H9.063c-1.14 0-2.063-.895-2.063-2v-16c0-1.105.923-2 2.063-2zm.937 28v7h13v-7H10zm-1-3h15a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2z"/>
+        <path fill="#FFAF00" d="M57 47.5v7h13v-7H57zm-1-3h15a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H56a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2z"/>
+        <rect width="19" height="3" x="31" y="44.5" fill="#FFAF00" rx="1.5"/>
+        <rect width="3" height="7" x="31" y="44.5" fill="#FFAF00" rx="1.5"/>
+        <rect width="3" height="7" x="47" y="44.5" fill="#FFAF00" rx="1.5"/>
+        <rect width="24" height="3" y="62" fill="#FFAF00" rx="1.5"/>
+        <rect width="24" height="3" x="56" y="62" fill="#FFAF00" rx="1.5"/>
+        <rect width="3" height="64" x="77" y="1" fill="#FFAF00" rx="1.5"/>
+        <rect width="3" height="64" y="1" fill="#FFAF00" rx="1.5"/>
+        <rect width="80" height="3" y="1" fill="#FFAF00" rx="1.5"/>
+        <path fill="#FFAF00" fill-rule="nonzero" d="M42.26 54.78a2.5 2.5 0 0 0-3.42.899L31.806 67.74a2.5 2.5 0 0 0 2.16 3.76h14.07a2.5 2.5 0 0 0 2.16-3.76L43.16 55.68a2.5 2.5 0 0 0-.9-.9zm10.527 11.449a5.5 5.5 0 0 1-4.751 8.271H33.964a5.5 5.5 0 0 1-4.75-8.271l7.035-12.062a5.5 5.5 0 0 1 9.502 0l7.036 12.062z"/>
+        <path fill="#FFAF00" d="M40.95 58c.69 0 1.25.56 1.25 1.25v5.5a1.25 1.25 0 0 1-2.5 0v-5.5c0-.69.56-1.25 1.25-1.25zm0 9a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z"/>
+    </g>
+</svg>

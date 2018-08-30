@@ -11,19 +11,10 @@
     const factory = function (notification, user, migration, utils) {
 
         const MIGRATION_LIST = [
-            '1.0.0-beta.23',
-            '1.0.0-beta.25',
-            '1.0.0-beta.26',
-            '1.0.0-beta.27',
-            '1.0.0-beta.30',
-            '1.0.0-beta.31',
-            '1.0.0-beta.32',
-            '1.0.0-beta.35',
-            '1.0.0-beta.36',
-            '1.0.0-beta.39',
-            '1.0.0-beta.40',
-            '1.0.0-beta.42',
-            '1.0.0-beta.47'
+            '1.0.0',
+            '1.0.3',
+            '1.0.5',
+            '1.0.6'
         ];
 
         /**

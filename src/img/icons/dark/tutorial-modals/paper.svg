@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="41px" height="40px" viewBox="0 0 41 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>paper2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="step_2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-740.000000, -519.000000)">
+        <g id="white-bg" transform="translate(330.000000, 102.000000)" fill="#5A81EA">
+            <g id="right" transform="translate(405.000000, 271.000000)">
+                <g id="LINE-5" transform="translate(4.000000, 140.000000)">
+                    <g id="paper2" transform="translate(1.000000, 5.000000)">
+                        <rect id="Rectangle-9" x="38" y="11.0261438" width="2" height="15.9738562"></rect>
+                        <rect id="Rectangle-9" x="28" y="1" width="2" height="11"></rect>
+                        <polygon id="Rectangle-9" transform="translate(34.706790, 6.707714) rotate(-45.000000) translate(-34.706790, -6.707714) " points="33.7074433 -1.77777315 34.7013478 -1.35569451 35.6987485 -0.358293725 35.7061376 13.20943 33.7074433 15.1932007"></polygon>
+                        <rect id="Rectangle-9" transform="translate(34.000000, 12.000000) rotate(90.000000) translate(-34.000000, -12.000000) " x="33" y="6" width="2" height="12"></rect>
+                        <rect id="Rectangle-9" transform="translate(14.750000, 2.000000) rotate(90.000000) translate(-14.750000, -2.000000) " x="13.75" y="-12.25" width="2" height="28.5"></rect>
+                        <rect id="Rectangle-9" transform="translate(14.875000, 11.000000) rotate(90.000000) translate(-14.875000, -11.000000) " x="13.875" y="3.375" width="2" height="15.25"></rect>
+                        <rect id="Rectangle-9" x="3.5" y="28.25" width="2" height="9"></rect>
+                        <rect id="Rectangle-9" x="7.5" y="24" width="2" height="9"></rect>
+                        <rect id="Rectangle-9" x="11.5" y="24" width="2" height="12"></rect>
+                        <rect id="Rectangle-9" x="15.5" y="32" width="2" height="8.75"></rect>
+                        <rect id="Rectangle-9" x="19.5" y="28" width="2" height="9"></rect>
+                        <rect id="Rectangle-9" x="23.5" y="24" width="2" height="9"></rect>
+                        <rect id="Rectangle-9" x="27.5" y="26" width="2" height="9"></rect>
+                        <rect id="Rectangle-9" x="31.5" y="29" width="2" height="9"></rect>
+                        <rect id="Rectangle-9" x="34.5" y="26" width="2" height="5"></rect>
+                        <rect id="Rectangle-9" transform="translate(20.000000, 17.000000) rotate(90.000000) translate(-20.000000, -17.000000) " x="19" y="4" width="2" height="26"></rect>
+                        <rect id="Rectangle-9" x="0" y="1" width="2" height="32"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

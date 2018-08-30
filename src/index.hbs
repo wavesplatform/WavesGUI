@@ -9,9 +9,67 @@
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
 
     <style>
-
         .not-supported-browser {
             display: none;
+        }
+
+        .connection-problem button.big {
+            width: 224px;
+            background-color: #1f5af6;
+            border: 1px solid #1751ec;
+            color: #fff;
+            border-radius: 4px;
+            height: 54px;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .connection-problem button.big:hover {
+            background: #1a4ac8;
+        }
+
+        .connetion-problem__headline {
+            font-family: 'Roboto-Regular', sans-serif;
+            font-size: 34px;
+            line-height: 40px;
+            margin: 10px 0;
+            color: #2d2d2d;
+        }
+
+        .connetion-problem__description {
+            color: #8c8c8c;
+            margin-bottom: 40px;
+            font-size: 17px;
+            line-height: 22px;
+        }
+
+        .connection-problem {
+            display: none;
+            padding-top: 40px;
+            text-align: center;
+            width: 100%;
+            max-width: 90%;
+            margin: 0 auto;
+            height: 100%;
+            font-family: 'Roboto-Regular', sans-serif;
+        }
+
+        .connection-problem > img {
+            max-width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .connection-problem .waves-logo {
+            width: 100px;
+            height: 21px;
+            background-image: url(/img/icons/waves_logo.svg);
+            background-repeat: no-repeat;
+            display: block;
+            margin: 0 auto 80px auto;
+        }
+
+        .app-loader.app-loader-transition {
+            animation: loader-transition 4s both;
         }
 
         .app-loader {
@@ -21,11 +79,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #fff;
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
+            background: #fff;
         }
 
         .app-loader .progress {
@@ -130,6 +188,21 @@
             background-color: #0942d9;
         }
 
+        @keyframes loader-transition {
+            0% {
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
         @-moz-keyframes folding {
             0%, 10% {
                 -moz-transform: perspective(140px) rotateX(-180deg);
@@ -189,6 +262,13 @@
                 opacity: 0;
             }
         }
+
+        @media screen and (max-width: 768px) {
+            .app-loader .loader {
+                margin: 0 auto;
+                transform: scale(.8) rotate(45deg);
+            }
+        }
     </style>
 
     {{#if isProduction}}
@@ -198,23 +278,31 @@
     {{/if}}
 
     <script>
+        window.addEventListener('load', function () {
+            var __interval = setInterval(function () {
+
+                WavesApp = WavesApp || { state: 'loading' };
+
+                switch (WavesApp.state) {
+                    case 'loading':
+                    case 'loadingError':
+                        clearInterval(__interval);
+                        document.querySelector('.app-loader').style.display = 'none';
+                        document.querySelector('.connection-problem').style.display = 'block';
+                        document.querySelector('[name=main]').style.display = 'none';
+                        break;
+                    case 'appRun':
+                        clearInterval(__interval);
+                        var errorModal = document.querySelector('.connection-problem');
+                        if (errorModal.parentNode) {
+                            errorModal.parentNode.removeChild(errorModal);
+                        }
+                        break;
+                }
+            }, 2000);
+        });
 
         var __controllers = Object.create(null);
-
-        var localeSeparators = {
-            world: {
-                group: ',',
-                decimal: '.'
-            },
-            russian: {
-                group: ' ',
-                decimal: '.'
-            },
-            turkish: {
-                group: ' ', // TODO change to '.'
-                decimal: '.' // TODO change to ','
-            }
-        };
 
         /**
          * @type {IWavesApp}
@@ -224,40 +312,12 @@
             version: '{{pack.version}}',
             type: '{{build.type}}',
             matcherPriorityList: {{{matcherPriorityList}}},
-            localize: {
-                'en': {
-                    name: 'En',
-                    separators: localeSeparators.world
-                },
-                'ru': {
-                    name: 'Ru',
-                    separators: localeSeparators.russian
-                },
-                'ko': {
-                    name: 'Ko',
-                    separators: localeSeparators.world
-                },
-                'zh-Hans-CN': {
-                    name: 'Zh',
-                    separators: localeSeparators.world
-                },
-                'tr': {
-                    name: 'Tr',
-                    separators: localeSeparators.turkish
-                },
-                'nl': {
-                    name: 'Nl',
-                    separators: localeSeparators.world
-                },
-                'hi': {
-                    name: 'Hi',
-                    separators: localeSeparators.world
-                },
-                'es': {
-                    name: 'Es',
-                    separators: localeSeparators.world
-                }
-            },
+            themesConf: {{{themesConf}}},
+            progress: 0,
+            state: 'loading',
+            betaOrigin: '{{{betaOrigin}}}',
+            targetOrigin: '{{{targetOrigin}}}',
+            localize: {{{langList}}},
             network: {
                 apiVersion: '{{network.apiVersion}}',
                 code: '{{network.code}}',
@@ -282,6 +342,9 @@
                 TRY: '{{network.assets.TRY}}',
                 XMR: '{{network.assets.XMR}}'
             },
+
+            ALWAYS_PINNED_ASSETS: ['WAVES'],
+
             otherAssetsWithIcons: {
                 // TODO @xenohunter : remove that when icons are in @dvshur's service
                 EFYT: '{{network.assets.EFYT}}',
@@ -320,6 +383,7 @@
                     LEASE_OUT: 'lease-out',
                     CANCEL_LEASING: 'cancel-leasing',
                     CREATE_ALIAS: 'create-alias',
+                    DATA: 'data',
                     UNKNOWN: 'unknown'
                 },
                 NODE: {
@@ -331,7 +395,8 @@
                     CREATE_ALIAS: 'createAlias',
                     LEASE: 'lease',
                     CANCEL_LEASING: 'cancelLeasing',
-                    EXCHANGE: 'exchange'
+                    EXCHANGE: 'exchange',
+                    DATA: 'data'
                 }
             },
             getLocaleData: function () {
@@ -362,12 +427,46 @@
 
     {{#if isWeb}}
         <base href="/">
+    {{else}}
+        <script>
+            const __mainListeners = [];
+
+            function listenMainProcessEvent(cb) {
+                __mainListeners.push(cb);
+            }
+
+            function stopListenMainProcessEvent(cb) {
+                for (let i = __mainListeners.length - 1; i >= 0; i--) {
+                    if (__mainListeners[i] === cb) {
+                        __mainListeners.splice(i, 1);
+                    }
+                }
+            }
+
+            function runMainProcessEvent(...args) {
+                __mainListeners.slice().forEach(cb => {
+                    try {
+                        cb(...args);
+                    } catch (e) {
+                        console.error(e);
+                    }
+                });
+            }
+        </script>
     {{/if}}
 
+    <script>
+        Array.prototype.slice.apply(document.querySelectorAll('[rel=stylesheet]'))
+                .filter(function (el) {
+                    return el.getAttribute('theme');
+                })
+                .forEach(function (el) {
+                    el.disabled = el.getAttribute('theme') !== 'default';
+                });
+    </script>
 </head>
 
 <body>
-
 
 <div class="app-loader">
     <div class="progress"></div>
@@ -377,13 +476,19 @@
     </div>
 </div>
 
+<div class="connection-problem">
+    <div class="waves-logo"><img src="/img/icons/waves_logo.svg"/></div>
+    <img src="/img/no-preload/connection-error.svg">
+    <div class="connetion-problem__headline">We couldn't connect to the server</div>
+    <div class="connetion-problem__description">Check your internet connection and try again</div>
+    <button class="submit big submit" onclick="location.href=location.href">Refresh page</button>
+</div>
+
 <div class="not-supported-browser">
     <div class="overlay"></div>
     <div class="not-supported-modal">
         <i></i>
-        <h2 class="margin-2">
-            Your browser is not supported
-        </h2>
+        <h2 class="margin-2">Your browser is not supported</h2>
         <div class="body-2 disabled-600 margin-4">
             Please update to the latest version of one of the following browsers:
         </div>
@@ -391,7 +496,7 @@
             <div class="browser-icon-block">
                 <img src="/img/no-preload/chrome-icon.svg"/>
                 <div>Chrome</div>
-                <div><a href="https://www.google.ru/chrome/index.html" target="_blank">Install or update</a></div>
+                <div><a href="https://www.google.com/chrome/index.html" target="_blank">Install or update</a></div>
             </div>
             <div class="browser-icon-block">
                 <img src="/img/no-preload/firefox-icon.svg"/>
@@ -426,10 +531,19 @@
     // Signed 64-bit integer.
     WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
 
-    WavesApp.parseJSON = parseJsonBignumber();
-
     WavesApp.device = new MobileDetect(navigator.userAgent);
 
+    var wrapper = require('worker-wrapper');
+
+    var worker = wrapper.create({
+        libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js']
+    });
+
+    worker.process(() => {
+        self.parse = parseJsonBignumber();
+    });
+
+    WavesApp.parseJSON = str => worker.process(str => parse(str), str);
 
     var isBrowserSupported = (function () {
 
@@ -482,16 +596,6 @@
      */
     var analytics = eventSender.default.inactive();
 
-
-    // TODO Add dif time
-    // Waves.API.Node.v1.utils.time().then(function (nodeTime) {
-    //     var timeDiff = Waves.tools.calculateTimeDiff(nodeTime, Date.now());
-    //     var tenMinutes = 10 * 60 * 1000;
-    //     if (Math.abs(timeDiff) > tenMinutes) {
-    //         Waves.config.set({ timeDiff: timeDiff });
-    //     }
-    // });
-
     WavesApp.stateTree = new tsUtils.Tree({
         id: 'root',
         children: [
@@ -519,6 +623,13 @@
             },
             {
                 id: 'restore',
+                data: {
+                    noLogin: true,
+                    views: [{ name: 'main' }]
+                }
+            },
+            {
+                id: 'desktop',
                 data: {
                     noLogin: true,
                     views: [{ name: 'main' }]
@@ -582,6 +693,8 @@
      * @property {string} name
      * @property {string} version
      * @property {string} type
+     * @property {string} betaOrigin
+     * @property {string} targetOrigin
      * @property {Object.<boolean>} scam
      * @property {MobileDetect} device
      * @property {Object.<{separators: {group: string, decimal: string}}>} localize
@@ -592,6 +705,7 @@
      * @property {typeof WavesApp.TRANSACTION_TYPES} TRANSACTION_TYPES
      * @property {typeof WavesApp.network} network
      * @property {typeof WavesApp.defaultAssets} defaultAssets
+     * @property {Array<string>} ALWAYS_PINNED_ASSETS
      * @property {object} remappedAssetNames
      * @property {object} dex
      * @property {Array<string>} dex.resolutions
@@ -606,7 +720,6 @@
      * @property {function(data: string): object} parseJSON
      * @property {Tree} stateTree
      */
-
 </script>
 
 </body>

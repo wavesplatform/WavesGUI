@@ -10,7 +10,7 @@
      * @param {User} user
      * @return {AssetSendCtrl}
      */
-    const controller = function ($scope, waves, Base, utils, createPoll, user) {
+    const controller = function ($scope, waves, Base, utils, createPoll, user, $mdDialog) {
 
         class AssetSendCtrl extends Base {
 
@@ -93,6 +93,10 @@
                  * @type {boolean}
                  */
                 this.strict = options.amount && options.recipient && options.strict;
+                /**
+                 * @type {boolean}
+                 */
+                this.errorOccured = false;
 
                 try {
                     this.referrer = new URL(options.referrer).href;
@@ -119,7 +123,11 @@
                         if (this.strict) {
                             this.nextStep();
                         }
-                    });
+                    })
+                        .catch(() => {
+                            this.errorOccured = true;
+                            $scope.$digest();
+                        });
                 }
 
                 this.receive(utils.observe(this.state, 'moneyHash'), this._onChangeMoneyHash, this);
@@ -146,7 +154,8 @@
 
             onTxSent(id) {
                 if (this.referrer) {
-                    location.href = `${this.referrer}?txId=${id}`;
+                    utils.redirect(`${this.referrer}?txId=${id}`);
+                    $mdDialog.hide();
                 }
             }
 
@@ -155,9 +164,18 @@
              */
             _onChangeMoneyHash() {
                 const hash = this.state.moneyHash;
-                const list = Object.values(hash).filter((money) => !money.getTokens().eq(0));
+                const list = Object.values(hash)
+                    .filter((money) => !money.getTokens().eq(0) && AssetSendCtrl._isNotScam(money));
+
+
                 if (list.length) {
-                    this.choosableMoneyList = list.filter(AssetSendCtrl._isNotScam);
+                    const availableBalancesHash = utils.toHash(list, 'asset.id');
+
+                    if (!availableBalancesHash[this.state.assetId] && this.canChooseAsset) {
+                        this.state.assetId = list[0].asset.id;
+                    }
+
+                    this.choosableMoneyList = list;
                 } else {
                     this.choosableMoneyList = [this.state.moneyHash[this.state.assetId]];
                 }
@@ -213,7 +231,8 @@
         'Base',
         'utils',
         'createPoll',
-        'user'
+        'user',
+        '$mdDialog'
     ];
 
     angular.module('app.utils')
@@ -256,6 +275,7 @@
  * @property {Object.<string, Money>} moneyHash
  * @property {ISingleSendTx} singleSend
  * @property {IMassSendTx} massSend
+ * @property {string} warning
  */
 
 /**
