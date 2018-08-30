@@ -1,4 +1,5 @@
-@import (reference) '../../../config';
+@import (reference) 'config';
+@import (reference) 'icons';
 @import (reference) '../../../ui/directives/changeLanguage/changeLanguage';
 
 @row-short: 25%;
@@ -10,6 +11,7 @@ md-dialog.settings-modal {
   width: 100%;
   max-width: 740px;
   min-width: 740px;
+  color: @color-disabled-900;
 
   md-dialog-content::after {
     display: none;
@@ -30,12 +32,12 @@ md-dialog.settings-modal {
 
   w-responsive-menu {
     width: 199px;
-    height: calc(100% ~' + 30px');
+    height: calc(100% ~' + 20px');
     position: absolute;
     font-size: 15px;
     left: -40px;
-    top: -30px;
-    border-right: 1px solid @color-basic-200;
+    top: -20px;
+    border-right: 1px solid @color-disabled-200;
 
     w-responsive-menu-item {
       display: block;
@@ -46,7 +48,7 @@ md-dialog.settings-modal {
         display: flex;
         align-items: center;
         height: 50px;
-        padding-left: 65px;
+        padding-left: 68px;
         color: @color-info-500;
 
         &::after {
@@ -54,11 +56,11 @@ md-dialog.settings-modal {
           display: block;
           position: absolute;
           top: 50%;
-          left: 34px;
+          left: 39px;
           height: @low-icon-size;
           width: @low-icon-size;
           transform: translate(0, -50%);
-          background-image: url(/img/icons/settings-menu-icons.svg);
+          background-image: @setting-menu-icon;
           background-size: auto;
         }
 
@@ -91,7 +93,7 @@ md-dialog.settings-modal {
         }
 
         .menu-item {
-          color: @color-white;
+          color: @white-only;
 
           &.general::after {
             background-position: 0 -@low-icon-size;
@@ -121,6 +123,7 @@ md-dialog.settings-modal {
       position: relative;
       margin-left: 200px;
       right: 0;
+      margin-top: 10px;
       width: 100%;
 
       .label {
@@ -171,6 +174,45 @@ md-dialog.settings-modal {
       // TODO : align to the middle without magic
       padding: 5px 0;
     }
+  }
+
+  .white,
+  .dark,
+  .auto,
+  .blue,
+  .green {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 50%;
+    margin-right: 8px;
+    width: 12px;
+    height: 12px;
+  }
+
+  w-select w-option i {
+    margin-top: -2px;
+  }
+
+  .white {
+    background: white;
+    border: 1px solid @color-basic-200;
+  }
+
+  .dark {
+    background: #2d2d2d; //basic-900
+    border: 1px solid @color-disabled-200;
+  }
+
+  .auto {
+    background: url(/img/icons/mode-toggler-auto.svg) center no-repeat;
+  }
+
+  .blue {
+    background: #1f5af6; //submit-400
+  }
+
+  .green {
+    background: #4aad02; //success-400
   }
 
   .network {
@@ -226,13 +268,14 @@ md-dialog.settings-modal {
     input {
       border-radius: @border-radius;
       padding: 0 @padding-main-layout;
+      background: @color-white;
+      color: @color-disabled-900;
       height: 30px;
       line-height: 30px;
       width: 100%;
       border: 1px solid @color-basic-200;
     }
   }
-
 }
 
 @media screen and (max-width: 767px) {
@@ -244,7 +287,7 @@ md-dialog.settings-modal {
       padding: 20px;
 
       .icon-close {
-        right: 20px;
+        right: 10px;
       }
     }
 
@@ -298,6 +341,7 @@ md-dialog.settings-modal {
 
         &.active {
           height: auto;
+          box-shadow: @shadow-main-default;
           w-responsive-menu-item {
             opacity: 1;
             height: @mobile-settings-item-height;
@@ -308,7 +352,7 @@ md-dialog.settings-modal {
 
       w-button {
         & > button.nav-toggler {
-          right: 20px;
+          right: 26px;
           top: 10px;
           display: flex;
           justify-content: center;
@@ -324,7 +368,7 @@ md-dialog.settings-modal {
               width: 4px;
               height: 4px;
               border-radius: 100%;
-              background-color: @color-white;
+              background-color: @white-only;
             }
           }
         }
@@ -341,7 +385,7 @@ md-dialog.settings-modal {
       .settings-content {
         margin-left: 0;
         margin-top: 50px;
-        padding: 0 10px;
+        padding: 0;
 
         .row-mobile {
           flex-direction: column;
@@ -352,17 +396,14 @@ md-dialog.settings-modal {
           padding-top: 3px;
         }
       }
-
     }
 
   }
 }
 
 @media screen and (max-width: 540px) {
-
   md-dialog.settings-modal {
     max-width: 100%;
     min-width: 100%;
   }
-
 }

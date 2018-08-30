@@ -1,6 +1,6 @@
-@import (reference) '../../../config';
+@import (reference) 'config';
 @import (reference) '../../../app/less/typography';
-@import (reference) '../../../app/less/icons';
+@import (reference) 'icons';
 
 w-dex-order-book {
   display: block;
@@ -37,7 +37,7 @@ w-dex-order-book {
       font-size: @font-size-caption-2;
 
       &:hover {
-        background-color: @color-basic-50;
+        background-color: @hover-default;
         border-color: @color-basic-200;
       }
 
@@ -47,7 +47,7 @@ w-dex-order-book {
     }
 
     w-thead {
-      color: @color-disabled-700;
+      color: @color-basic-600;
       border-bottom: 1px solid @color-disabled-100;
 
       w-row {
@@ -61,7 +61,7 @@ w-dex-order-book {
 
         &:hover {
           background: @color-white;
-          border-color: transparent;
+          border-bottom: 1px solid @color-basic-100;
         }
 
         w-cell {
@@ -75,7 +75,7 @@ w-dex-order-book {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          line-height: 30px;
+          line-height: 27px;
         }
       }
     }
@@ -88,8 +88,8 @@ w-dex-order-book {
   }
 
   w-scroll-box {
-    height: calc(100% ~'- 29px');
-    max-height: calc(100% ~'- 29px');
+    height: calc(100% ~'- 28px');
+    max-height: calc(100% ~'- 28px');
     overflow: auto;
     display: block;
 
@@ -161,7 +161,7 @@ w-dex-order-book {
   }
 
   .decimal-muted {
-    color: @color-disabled-500;
+    opacity: 0.5;
   }
 
   .info {
@@ -211,7 +211,7 @@ w-dex-order-book {
         color: @color-submit-300;
 
         &:after {
-          background-image: url(/img/icons/arrow-orderbook-top.svg);
+          background-image: @arrow-orderbook-top-icon;
         }
       }
 
@@ -219,7 +219,7 @@ w-dex-order-book {
         color: @color-error-400;
 
         &:after {
-          background-image: url(/img/icons/arrow-orderbook-down.svg);
+          background-image: @arrow-orderbook-down-icon;
         }
       }
     }
@@ -228,18 +228,10 @@ w-dex-order-book {
 
   .asks .cell-1 {
     color: @color-error-400;
-
-    .decimal-muted {
-      color: @color-error-200;
-    }
   }
 
   .bids .cell-1 {
     color: @color-submit-600;
-
-    .decimal-muted {
-      color: @color-submit-200;
-    }
   }
 }
 
@@ -259,7 +251,6 @@ w-dex-order-book {
       }
     }
   }
-
 }
 
 @media screen and (max-width: 659px) {
@@ -267,6 +258,10 @@ w-dex-order-book {
   body.dex-demo .dex-wrapper {
     w-dex-order-book {
       min-height: 360px;
+
+      .wrapper {
+        min-height: 322px;
+      }
 
       w-scroll-box {
         max-height: 155px;

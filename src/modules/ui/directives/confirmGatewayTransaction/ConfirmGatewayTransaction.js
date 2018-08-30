@@ -20,18 +20,26 @@
             }
 
             confirm() {
+                const timestamp = ds.utils.normalizeTime(this.tx.timestamp || Date.now());
+
                 let amount = this.tx.amount;
                 amount = amount.cloneWithTokens(amount.getTokens().plus(this.gatewayDetails.gatewayFee));
 
-                return ds.broadcast(4, { ...this.tx, amount }).then(({ id }) => {
-                    this.tx.id = id;
-                    this.step++;
-                    analytics.push('Gateway', 'Gateway.Send', 'Gateway.Send.Success', this.tx.amount);
-                    $scope.$apply();
+                return ds.prepareForBroadcast(4, { ...this.tx, amount, timestamp }).then((preparedTx) => {
+                    return ds.broadcast(preparedTx).then(({ id }) => {
+                        this.tx.id = id;
+                        this.step++;
+                        analytics.push(
+                            'Gateway', `Gateway.Send.${WavesApp.type}`,
+                            `Gateway.Send.${WavesApp.type}.Success`, this.tx.amount);
+                        $scope.$apply();
+                    });
                 }).catch((e) => {
                     console.error(e);
                     console.error('Gateway transaction error!');
-                    analytics.push('Gateway', 'Gateway.Send', 'Gateway.Send.Error', this.tx.amount);
+                    analytics.push(
+                        'Gateway', `Gateway.Send.${WavesApp.type}`,
+                        `Gateway.Send.${WavesApp.type}.Error`, this.tx.amount);
                     $scope.$apply();
                 });
             }

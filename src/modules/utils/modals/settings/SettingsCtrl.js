@@ -7,9 +7,11 @@
      * @param {Waves} waves
      * @param {User} user
      * @param {IPollCreate} createPoll
+     * @param {*} $templateRequest
+     * @param {app.utils} utils
      * @return {SettingsCtrl}
      */
-    const controller = function (Base, $scope, waves, user, createPoll) {
+    const controller = function (Base, $scope, waves, user, createPoll, $templateRequest, utils) {
 
         class SettingsCtrl extends Base {
 
@@ -24,7 +26,11 @@
                 this.matcher = '';
                 this.scamListUrl = '';
                 this.withScam = false;
+                this.theme = user.getSetting('theme');
+                this.candle = user.getSetting('candle');
                 this.shareStat = user.getSetting('shareAnalytics');
+                this.templatePromise = $templateRequest('modules/utils/modals/settings/loader.html');
+
                 /**
                  * @type {number}
                  */
@@ -41,12 +47,25 @@
                     matcher: 'network.matcher',
                     logoutAfterMin: 'logoutAfterMin',
                     scamListUrl: 'scamListUrl',
-                    withScam: 'withScam'
+                    withScam: 'withScam',
+                    theme: 'theme',
+                    candle: 'candle'
                 });
 
-                this.observe('matcher', () => {
-                    ds.config.set('matcher', this.matcher);
+                this.observe('theme', () => {
+                    this.templatePromise.then(
+                        (template) => {
+                            template = template.replace('{{bgColor}}', user.getThemeSettings().bgColor);
+                            this.showLoader(template);
+                            utils.wait(1000).then(() => user.changeTheme(this.theme));
+                        },
+                        () => user.changeTheme(this.theme)
+                    );
                 });
+
+                // this.observe('candle', () => {
+                //     user.changeCandle(this.candle);
+                // });
 
                 this.observe('withScam', () => {
                     const withScam = this.withScam;
@@ -58,7 +77,7 @@
                 });
 
                 this.observe(['node', 'matcher'], () => {
-                    ds.config.set({
+                    ds.config.setConfig({
                         node: this.node,
                         matcher: this.matcher
                     });
@@ -75,11 +94,11 @@
                 });
 
                 this.observe('shownSeed', () => {
-                    analytics.push('Settings', 'Settings.ShowSeed');
+                    analytics.push('Settings', `Settings.ShowSeed.${WavesApp.type}`);
                 });
 
                 this.observe('shownKey', () => {
-                    analytics.push('Settings', 'Settings.ShowKeyPair');
+                    analytics.push('Settings', `Settings.ShowKeyPair.${WavesApp.type}`);
                 });
 
                 createPoll(this, waves.node.height, (height) => {
@@ -99,7 +118,7 @@
 
             onChangeLanguage(language) {
                 user.setSetting('lng', language);
-                analytics.push('Settings', 'Settings.ChangeLanguage', language);
+                analytics.push('Settings', `Settings.ChangeLanguage.${WavesApp.type}`, language);
             }
 
             setNetworkDefault() {
@@ -109,12 +128,21 @@
                 this.scamListUrl = WavesApp.network.scamListUrl;
             }
 
+            showLoader(template) {
+                const loaderEl = document.createElement('div');
+                loaderEl.innerHTML = template;
+                document.body.appendChild(loaderEl);
+                setTimeout(() => {
+                    document.body.removeChild(loaderEl);
+                }, 4100);
+            }
+
         }
 
         return new SettingsCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'waves', 'user', 'createPoll'];
+    controller.$inject = ['Base', '$scope', 'waves', 'user', 'createPoll', '$templateRequest', 'utils'];
 
     angular.module('app.utils').controller('SettingsCtrl', controller);
 

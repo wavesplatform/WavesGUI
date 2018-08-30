@@ -66,18 +66,32 @@
                  * @private
                  */
                 this._poll = null;
+
+                this._setThemSettings();
             }
 
             $postLink() {
                 this.observe('noUpdate', this._onChangeNoUpdate);
                 this.observe(['assetId', 'chartToId', 'startFrom'], this._onChangeMainParams);
+                this.observe('theme', this._setThemSettings);
+                this.syncSettings({ theme: 'theme' });
 
                 const noUpdate = this.noUpdate;
+
                 if (noUpdate) {
                     this._onChangeMainParams();
                 } else {
                     this._poll = this._createPoll();
                 }
+            }
+
+            /**
+             * @private
+             */
+            _setThemSettings() {
+                const { wAssetRateChart } = user.getThemeSettings();
+                this.options = { ...this.options };
+                this.options.series[0] = { ...this.options.series[0], color: wAssetRateChart.seriesColor };
             }
 
             /**

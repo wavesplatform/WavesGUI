@@ -1,22 +1,20 @@
 (function () {
     'use strict';
 
-    const CARDS_PAYMENTS_AVAILABLE = {
-        [WavesApp.defaultAssets.WAVES]: true
-    };
-
     /**
      * @param {CoinomatService} coinomatService
+     * @param {CoinomatCardService} coinomatCardService
      * @param {CoinomatSepaService} coinomatSepaService
      * @return {GatewayService}
      */
-    const factory = function (coinomatService, coinomatSepaService) {
+    const factory = function (coinomatService, coinomatCardService, coinomatSepaService) {
 
         class GatewayService {
 
             constructor() {
                 this.gateways = [
                     coinomatService,
+                    coinomatCardService,
                     coinomatSepaService
                 ];
             }
@@ -25,8 +23,8 @@
                 return coinomatService.getAll();
             }
 
-            getPurchasableByCards() {
-                return CARDS_PAYMENTS_AVAILABLE;
+            getPurchasableWithCards() {
+                return coinomatCardService.getAll();
             }
 
             getFiats() {
@@ -60,6 +58,48 @@
             }
 
             /**
+             * @param {Asset} crypto
+             * @param {string} wavesAddress
+             * @return {Promise<object>}
+             */
+            getCardFiatWithLimits(crypto, wavesAddress, fiatList) {
+                const gateway = this._findGatewayFor(crypto, 'card');
+                return gateway.getFiatWithLimits(crypto, wavesAddress, fiatList);
+            }
+
+            /**
+             * @param {Asset} crypto
+             * @param {string} fiat
+             * @param {string} recipientAddress
+             * @param {number} fiatAmount
+             * @return {Promise<number>}
+             */
+            getCardApproximateCryptoAmount(crypto, fiat, recipientAddress, fiatAmount) {
+                const gateway = this._findGatewayFor(crypto, 'card');
+                if (!gateway) {
+                    return Promise.resolve(0);
+                } else {
+                    return gateway.getApproximateCryptoAmount(crypto, fiat, recipientAddress, fiatAmount);
+                }
+            }
+
+            /**
+             * @param {Asset} crypto
+             * @param {string} fiat
+             * @param {string} recipientAddress
+             * @param {number} fiatAmount
+             * @return {string}
+             */
+            getCardBuyLink(crypto, fiat, recipientAddress, fiatAmount) {
+                const gateway = this._findGatewayFor(crypto, 'card');
+                if (!gateway) {
+                    return '';
+                } else {
+                    return gateway.getCardBuyLink(crypto, fiat, recipientAddress, fiatAmount);
+                }
+            }
+
+            /**
              * @param {Asset} asset
              * @param {string} wavesAddress
              * @return {Promise}
@@ -72,13 +112,6 @@
                 }
 
                 return null;
-            }
-
-            /**
-             * @param {Asset} asset
-             */
-            getCardDetails(asset) {
-                return CARDS_PAYMENTS_AVAILABLE[asset.id] || false;
             }
 
             /**
@@ -123,7 +156,7 @@
         return new GatewayService();
     };
 
-    factory.$inject = ['coinomatService', 'coinomatSepaService'];
+    factory.$inject = ['coinomatService', 'coinomatCardService', 'coinomatSepaService'];
 
     angular.module('app.utils').factory('gatewayService', factory);
 })();

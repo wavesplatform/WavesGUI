@@ -26,17 +26,21 @@
             this._current += delta;
             this._current = Math.min(this._current, 100);
             this._element.style.width = `${this._current}%`;
+            WavesApp.progress = this._current;
         },
         stop() {
-            const loader = $(this._root);
-            loader.fadeOut(1000, () => {
-                loader.remove();
+            return new Promise(resolve => {
+                const loader = $(this._root);
+                loader.fadeOut(1000, () => {
+                    loader.remove();
+                    resolve();
+                });
             });
         }
     };
 
     LOADER.addProgress(PROGRESS_MAP.RUN_SCRIPT);
-
+    WavesApp.state = 'initApp';
     /**
      * @param {$rootScope.Scope} $rootScope
      * @param {User} user
@@ -102,7 +106,55 @@
                 this._initializeLogin();
                 this._initializeOutLinks();
 
+                if (WavesApp.isDesktop()) {
+                    window.listenMainProcessEvent((type, url) => {
+                        const parts = utils.parseElectronUrl(url);
+                        const path = parts.path.replace(/\/$/, '') || parts.path;
+                        if (path) {
+                            const noLogin = path === '/' || WavesApp.stateTree.where({ noLogin: true }).some(item => {
+                                const url = item.get('url') || item.id;
+                                return path === url;
+                            });
+                            if (noLogin) {
+                                location.hash = `#!${path}${parts.search}`;
+                            } else {
+                                user.onLogin().then(() => {
+                                    setTimeout(() => {
+                                        location.hash = `#!${path}${parts.search}`;
+                                    }, 1000);
+                                });
+                            }
+                        }
+                    });
+                }
+
                 $rootScope.WavesApp = WavesApp;
+            }
+
+            _initTryDesktop() {
+                if (!isDesktop || WavesApp.isDesktop()) {
+                    return Promise.resolve(true);
+                }
+
+                return storage.load('openClientMode').then(clientMode => {
+                    switch (clientMode) {
+                        case 'desktop':
+                            return this._runDesktop();
+                        case 'web':
+                            return Promise.resolve(true);
+                        default:
+                            return modalManager.showTryDesktopModal()
+                                .then(() => this._runDesktop())
+                                .catch(() => true);
+                    }
+                });
+            }
+
+            _runDesktop() {
+                this._canOpenDesktopPage = true;
+                $state.go('desktop');
+
+                return false;
             }
 
             /**
@@ -154,9 +206,6 @@
             _initializeLogin() {
 
                 let needShowTutorial = false;
-                const promise = storage.onReady().then((oldVersion) => {
-                    needShowTutorial = !oldVersion;
-                });
 
                 this._listenChangeLanguage();
 
@@ -167,8 +216,19 @@
 
                 const stop = $rootScope.$on('$stateChangeStart', (event, toState, params) => {
 
+                    let tryDesktop;
+
                     if (START_STATES.indexOf(toState.name) === -1) {
                         event.preventDefault();
+                    }
+
+                    if (toState.name === 'desktop' && !this._canOpenDesktopPage) {
+                        event.preventDefault();
+                        $state.go(START_STATES[0]);
+                    }
+
+                    if (waiting) {
+                        return null;
                     }
 
                     if (needShowTutorial && toState.name !== 'dex-demo') {
@@ -176,9 +236,18 @@
                         needShowTutorial = false;
                     }
 
-                    if (waiting) {
-                        return null;
+                    if (toState.name === 'main.dex-demo') {
+                        tryDesktop = Promise.resolve();
+                    } else {
+                        tryDesktop = this._initTryDesktop();
                     }
+
+                    const promise = Promise.all([
+                        storage.onReady(),
+                        tryDesktop
+                    ]).then(([oldVersion, canOpenTutorial]) => {
+                        needShowTutorial = canOpenTutorial && !oldVersion;
+                    });
 
                     promise.then(() => {
                         if (needShowTutorial && toState.name !== 'dex-demo') {
@@ -189,7 +258,8 @@
 
                     waiting = true;
 
-                    this._login(toState)
+                    tryDesktop
+                        .then((canChangeState) => this._login(toState, canChangeState))
                         .then(() => {
                             stop();
 
@@ -299,10 +369,11 @@
 
             /**
              * @param {{name: string}} currentState
+             * @param {boolean} canChangeState
              * @return {Promise}
              * @private
              */
-            _login(currentState) {
+            _login(currentState, canChangeState) {
                 // const sessions = sessionBridge.getSessionsData();
 
                 const states = WavesApp.stateTree.where({ noLogin: true })
@@ -310,13 +381,14 @@
                         return WavesApp.stateTree.getPath(item.id)
                             .join('.');
                     });
-                if (states.indexOf(currentState.name) === -1) {
+                if (canChangeState && states.indexOf(currentState.name) === -1) {
                     // if (sessions.length) {
                     //     $state.go('sessions');
                     // } else {
                     $state.go(states[0]);
                     // }
                 }
+
                 return user.onLogin();
             }
 
@@ -330,7 +402,10 @@
              */
             _onChangeStateSuccess(event, toState, some, fromState) {
                 if (fromState.name) {
-                    analytics.pushPageView(AppRun._getUrlFromState(toState), AppRun._getUrlFromState(fromState));
+                    analytics.pushPageView(
+                        `${AppRun._getUrlFromState(toState)}.${WavesApp.type}`,
+                        `${AppRun._getUrlFromState(fromState)}.${WavesApp.type}`
+                    );
                 }
                 this.activeClasses.forEach((className) => {
                     document.body.classList.remove(className);
@@ -355,10 +430,13 @@
                     this._getLocalizeReadyPromise(),
                     this._getImagesReadyPromise()
                 ])
-                    .then(() => LOADER.stop())
+                    .then(() => {
+                        LOADER.stop();
+                        WavesApp.state = 'appRun';
+                    })
                     .catch((e) => {
                         console.error(e);
-                        // TODO add error load application page
+                        WavesApp.state = 'loadingError';
                     });
             }
 

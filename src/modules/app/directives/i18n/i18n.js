@@ -1,6 +1,25 @@
 (function () {
     'use strict';
 
+    const escape = function (text) {
+        return text.split('').map((char) => {
+            switch (char.charCodeAt(0)) {
+                case 34: // "
+                    return '&quot;';
+                case 38: // &
+                    return '&amp;';
+                case 39: // '
+                    return '&#39;';
+                case 60: // <
+                    return '&lt;';
+                case 62: // >
+                    return '&gt;';
+                default:
+                    return char;
+            }
+        }).join('');
+    };
+
     /**
      * @param Base
      * @param i18n
@@ -68,7 +87,7 @@
                         const ns = this._getNs();
                         return () => {
                             const skipErrors = 'skipErrors' in $attrs;
-                            const defaultValue = $attrs.defaultValue;
+                            const defaultValue = escape($attrs.defaultValue || '');
                             const params = $attrs.params && $scope.$eval($attrs.params) || undefined;
                             const result = i18n.translate(this._compile(this._literalTemplate), ns, params, skipErrors);
                             $element.html(result ? result : defaultValue || result);

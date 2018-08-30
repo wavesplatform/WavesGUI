@@ -1,0 +1,114 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../app/less/typography';
+
+.add-asset {
+
+  &__header {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+
+    h3 {
+      margin: 30px;
+    }
+
+    .icon-close {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+
+  &__buttons-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    w-button {
+      flex-basis: 49%;
+    }
+  }
+
+  &__search:not(input) {
+    border: 1px solid @color-basic-100;
+    border-radius: @border-radius @border-radius 0 0;
+    padding: 8px 15px 8px 35px;
+    background: @input-search-icon 15px center no-repeat @color-white;
+    margin: -1px 0 0;
+    height: 48px;
+    width: 100%;
+
+    input {
+      .body-2();
+      border: 0 none;
+      width: 100%;
+      background: @color-white;
+      color: @color-basic-700;
+    }
+  }
+
+  &__select {
+    max-height: 242px;
+    border-radius: 0 0 @border-radius @border-radius;
+    list-style-type: none;
+    border: 1px solid @color-basic-100;
+    padding: 0;
+    margin: -1px 0 0;
+    overflow: auto;
+
+    li {
+      height: 48px;
+      cursor: pointer;
+      display: flex;
+      padding: 8px 15px 8px 82px;
+      white-space: nowrap;
+      position: relative;
+
+      w-asset-logo {
+        position: absolute;
+        left: 45px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .name {
+        font-size: 15px;
+        line-height: 1em;
+        margin: 0 0 4px 0;
+      }
+
+      .asset-id {
+        line-height: 1em;
+        color: @color-basic-500;
+      }
+
+      &:hover {
+        background: @color-basic-50;
+      }
+
+      w-checkbox-submit {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translate(0, -50%);
+      }
+    }
+  }
+
+}
+
+@media screen and (max-width: 540px) {
+  .add-asset {
+    min-height: 360px;
+
+    &__wrapper {
+      height: calc(100% ~'- 106px');
+      min-height: 440px;
+    }
+
+    &__select {
+      max-height: calc(100% ~'- 200px');
+    }
+  }
+}

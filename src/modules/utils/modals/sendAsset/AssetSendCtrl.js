@@ -10,7 +10,7 @@
      * @param {User} user
      * @return {AssetSendCtrl}
      */
-    const controller = function ($scope, waves, Base, utils, createPoll, user) {
+    const controller = function ($scope, waves, Base, utils, createPoll, user, $mdDialog) {
 
         class AssetSendCtrl extends Base {
 
@@ -154,7 +154,8 @@
 
             onTxSent(id) {
                 if (this.referrer) {
-                    location.href = `${this.referrer}?txId=${id}`;
+                    utils.redirect(`${this.referrer}?txId=${id}`);
+                    $mdDialog.hide();
                 }
             }
 
@@ -230,7 +231,8 @@
         'Base',
         'utils',
         'createPoll',
-        'user'
+        'user',
+        '$mdDialog'
     ];
 
     angular.module('app.utils')
@@ -273,6 +275,7 @@
  * @property {Object.<string, Money>} moneyHash
  * @property {ISingleSendTx} singleSend
  * @property {IMassSendTx} massSend
+ * @property {string} warning
  */
 
 /**

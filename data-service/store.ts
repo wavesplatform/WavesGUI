@@ -47,7 +47,7 @@ function createProcessStore<T>(toAddContainer: TStore<T>, toRemoveContainer: TSt
     return pipe(
         list => concat(toAddContainer.map(prop('data')), list),
         list => differenceWith(eqProps(idKey), list, toRemoveContainer.map(prop('data'))) as any,
-        uniqBy(prop(idKey) as any),
+        uniqBy(prop(idKey) as any)
     );
 }
 

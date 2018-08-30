@@ -1,5 +1,6 @@
-@import (reference) "../../../config";
+@import (reference) 'config';
 @import (reference) "../../../app/less/typography";
+@import (reference) 'icons';
 
 body.dex .dex-wrapper,
 body.dex-demo .dex-wrapper {
@@ -88,14 +89,15 @@ body.dex-demo .dex-wrapper {
         position: relative;
         display: inline-block;
         width: 100%;
-      }
+       }
 
       input {
-        background: url(/img/icons/icon-search-dex.svg) 8px 50% no-repeat;
+        background: @input-search-icon 8px 50% no-repeat;
         border: 0 none;
         width: 100%;
         padding-left: 31px;
         height: 35px;
+        color: @color-disabled-900;
         font-size: @font-size-caption-1;
         border-bottom: 1px solid @color-basic-100;
 
@@ -137,6 +139,7 @@ body.dex-demo .dex-wrapper {
             max-height: 155px;
             overflow: auto;
             border-color: @color-basic-100;
+            color: @color-basic-700;
           }
 
           .title {
@@ -167,10 +170,12 @@ body.dex-demo .dex-wrapper {
           w-option {
             font-size: @font-size-caption-2;
             color: @color-basic-700;
+            background: @color-white;
             font-family: @font-roboto-medium;
 
             .option {
               padding: 4px 35px 4px 15px;
+              color: @color-basic-700;
             }
           }
 
@@ -309,7 +314,7 @@ body.dex-demo .dex-wrapper {
 
             &__row:not(.selected) {
               &:hover {
-                background-color: @color-basic-50;
+                background-color: @hover-default;
               }
             }
           }
@@ -322,7 +327,7 @@ body.dex-demo .dex-wrapper {
           position: relative;
 
           &.selected {
-            background-color: @color-submit-50;
+            background-color: @color-basic-50;
 
             .smart-table {
               &__cell[data-column-id="info"] {
@@ -419,14 +424,14 @@ body.dex-demo .dex-wrapper {
       margin-top: -3px;
       display: inline-block;
       vertical-align: middle;
-      background: url(/img/icons/dex-star.svg) center no-repeat;
+      background: @dex-star-icon center no-repeat;
       width: 24px;
       height: 24px;
       float: right;
       margin-right: 3px;
 
       &.active {
-        background: url(/img/icons/dex-star-active.svg) center no-repeat;
+        background: @dex-star-active-icon center no-repeat;
       }
     }
   }

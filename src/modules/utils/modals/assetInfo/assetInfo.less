@@ -1,10 +1,10 @@
-@import (reference) '../../../config';
+@import (reference) 'config';
 @import (reference) '../../../app/less/typography';
 
 html body md-dialog.asset-info-modal {
 
   md-dialog-content {
-    padding-bottom: 0;
+    padding: 20px 30px 0 30px;
     overflow-y: hidden;
 
     &::after {
@@ -12,11 +12,14 @@ html body md-dialog.asset-info-modal {
     }
   }
 
+  w-asset-rate-chart {
+    position: absolute;
+  }
+
   .chart-wrapper {
     opacity: 0.2;
     position: relative;
-    margin-left: -40px;
-    margin-right: -40px;
+    margin-left: 0 -30px 0;
     height: 76px;
 
     .interactive-stop {
@@ -151,8 +154,8 @@ html body md-dialog.asset-info-modal {
   }
 
   .tab-container {
-    width: calc(~'100% + 80px');
-    margin-left: -40px;
+    width: calc(~'100% + 60px');
+    margin-left: -30px;
 
     w-transaction-list ul {
       border-top: none;
@@ -166,7 +169,7 @@ html body md-dialog.asset-info-modal {
         .row {
           padding-left: 20px;
 
-          .line {
+          .line:last-child {
             padding-right: 40px;
           }
         }
@@ -188,7 +191,32 @@ html body md-dialog.asset-info-modal {
       margin: 20px auto;
     }
   }
+}
 
+@media screen and (max-width: 768px) {
+
+  html body md-dialog.asset-info-modal {
+    .tab-container w-transaction-list {
+      .w-visible {
+        height: 91px;
+      }
+      ul {
+        .transaction-item {
+          .date {
+            padding-left: 20px;
+          }
+
+          .row {
+            padding-left: 0;
+
+            .line:last-child {
+              padding-right: 0;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 540px) {
@@ -197,6 +225,11 @@ html body md-dialog.asset-info-modal {
 
     md-dialog-content {
       overflow-y: auto;
+      height: auto;
+    }
+
+    w-tabs .titles-wrap {
+      padding-left: 0;
     }
 
     .chart-wrapper {
@@ -209,8 +242,12 @@ html body md-dialog.asset-info-modal {
         padding: 20px;
       }
 
+      w-tabs .tab-body-wrap {
+        height: auto;
+      }
+
       .tab-tem {
-        overflow-y: hidden;
+        overflow-y: visible;
         max-height: 100%;
         padding: 0;
 
@@ -219,7 +256,6 @@ html body md-dialog.asset-info-modal {
             margin: 0 auto;
           }
         }
-
       }
 
       .footnote-1.fs-mobile {

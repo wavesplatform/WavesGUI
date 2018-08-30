@@ -6,7 +6,7 @@
             <i class="icon-remove margin-3"></i>
             <h3 w-i18n="modal.removeAccount.heading"></h3>
 
-            <div class="warning-500 body-2 margin-1">
+            <div class="warning-500 body-2 margin-1" ng-if="!$ctrl.hasBackup">
                 <i class="icon-warning footnote-1"></i>
                 <span w-i18n="modal.removeAccount.warning"></span>
             </div>
@@ -17,7 +17,7 @@
 
             <div class="buttons-wrapper">
                 <w-button w-modal-close
-                        class="big long submit">
+                        class="big long">
                     <span w-i18n="modal.removeAccount.cancel"></span>
                 </w-button>
                 <w-button w-modal-hide
