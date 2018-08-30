@@ -103,9 +103,9 @@
         'app.welcome',
         'app.create',
         'app.restore',
+        'app.desktop',
         'app.wallet',
         'app.dex',
         'app.tokens'
-        // 'app.sessions'
     ]);
 })();
