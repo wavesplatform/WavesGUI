@@ -68,8 +68,7 @@
         .connection-problem .waves-logo {
             width: 100px;
             height: 21px;
-            background-image: url(/img/icons/waves_logo.svg);
-            background-repeat: no-repeat;
+            background: url(/img/icons/waves_logo.svg) no-repeat;
             display: block;
             margin: 0 auto 80px auto;
         }
@@ -484,9 +483,9 @@
 
 <div class="connection-problem">
     <div class="waves-logo"><img src="/img/icons/waves_logo.svg"/></div>
-    <img src="/img/no-preload/connection-error.svg">
-    <div class="connetion-problem__headline">We couldn't connect to the server</div>
-    <div class="connetion-problem__description">Check your internet connection and try again</div>
+    <img src="/img/no-preload/connection-error.svg" class="margin-3"/>
+    <div class="headline-1">We couldn't connect to the server</div>
+    <div class="body-1 margin-4 disabled-600">Check your internet connection and try again</div>
     <button class="submit big submit" onclick="location.href=location.href">Refresh page</button>
 </div>
 
