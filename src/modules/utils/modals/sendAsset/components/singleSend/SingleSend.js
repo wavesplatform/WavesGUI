@@ -240,7 +240,7 @@
 
                     const applyAmount = () => {
                         if (result.amount) {
-                            this.tx.amount = this.moneyHash[this.assetId].cloneWithCoins(result.amount);
+                            this.tx.amount = this.moneyHash[this.assetId].cloneWithTokens(result.amount);
                             this._fillMirror();
                         }
                         $scope.$apply();
