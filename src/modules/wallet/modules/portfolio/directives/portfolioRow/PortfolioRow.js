@@ -207,7 +207,10 @@
             const baseAssetId = this.user.getSetting('baseAssetId');
 
             if (baseAssetId === balance.asset.id) {
-                this.node.querySelector(`.${SELECTORS.CHANGE_24}`).innerHTML = '—';
+                const change24Node = this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
+                change24Node.innerHTML = '—';
+                change24Node.classList.remove('minus');
+                change24Node.classList.remove('plus');
                 this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
                 this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
 
@@ -216,7 +219,12 @@
 
             this.waves.utils.getChange(balance.asset.id, baseAssetId)
                 .then(change24 => {
-                    this.node.querySelector(`.${SELECTORS.CHANGE_24}`).innerHTML = `${change24.toFixed(2)}%`;
+                    const change24Node = this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
+                    const isMoreZero = typeof change24 === 'number' ? change24 > 0 : change24.gt(0);
+                    const isLessZero = typeof change24 === 'number' ? change24 < 0 : change24.lt(0);
+                    change24Node.classList.toggle('minus', isLessZero);
+                    change24Node.classList.toggle('plus', isMoreZero);
+                    change24Node.innerHTML = `${change24.toFixed(2)}%`;
                 });
 
             this.waves.utils.getRate(balance.asset.id, baseAssetId)

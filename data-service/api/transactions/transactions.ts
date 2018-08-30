@@ -11,16 +11,24 @@ import {
     IBurn,
     IExchange,
     ILease,
-    ICancelLeasing, ICreateAlias, IMassTransfer
+    ICancelLeasing,
+    ICreateAlias,
+    IMassTransfer,
+    IData
 } from './interface';
 import { contains } from 'ts-utils';
+import { pipe, prop, uniqBy, tap } from 'ramda';
 import { TRANSACTION_TYPE_NUMBER } from '@waves/waves-signature-generator';
 import { TransactionFilters } from '@waves/data-service-client-js/src/types';
 
 
 export function list(address: string, limit = 100): Promise<Array<T_TX>> {
     return request({ url: `${configGet('node')}/transactions/address/${address}/limit/${limit}` })
-        .then(([transactions]) => parseTx(transactions, false));
+        .then(pipe(
+            prop('0'),
+            uniqBy(prop('id')) as any,
+        ))
+        .then(transactions => parseTx(transactions as any, false));
 }
 
 export function getExchangeTxList(options: TransactionFilters = Object.create(null)): Promise<Array<IExchange>> {
@@ -30,8 +38,9 @@ export function getExchangeTxList(options: TransactionFilters = Object.create(nu
 
 export function listUTX(address?: string): Promise<Array<T_TX>> {
     return request<Array<T_API_TX>>({ url: `${configGet('node')}/transactions/unconfirmed` })
-        .then((transactions) => filterByAddress(transactions, address))
-        .then((transactions) => parseTx(transactions, true));
+        .then(uniqBy(prop('id')))
+        .then(transactions => filterByAddress(transactions, address))
+        .then(transactions => parseTx(transactions, true));
 }
 
 export function get(id: string): Promise<T_TX> {
@@ -107,3 +116,8 @@ export function isMassTransfer(tx: T_TX | T_API_TX): boolean {
     return tx.type === TRANSACTION_TYPE_NUMBER.MASS_TRANSFER;
 }
 
+export function isData(tx: T_TX): tx is IData;
+export function isData(tx: T_API_TX): tx is txApi.IData;
+export function isData(tx: T_TX | T_API_TX): boolean {
+    return tx.type === TRANSACTION_TYPE_NUMBER.DATA;
+}

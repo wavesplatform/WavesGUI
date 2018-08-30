@@ -1,0 +1,48 @@
+@import (reference) 'icons';
+@import (reference) 'config';
+
+.try-desktop-modal {
+
+  &__icon {
+    width: 100%;
+    height: 80px;
+    background: @modal-try-desktop-icon no-repeat center bottom;
+  }
+
+  &__title {
+    font-weight: normal;
+  }
+
+  &__center {
+    text-align: center;
+  }
+
+  &__buttons-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &__button {
+    flex-basis: 49%;
+  }
+
+  &__label {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .try-desktop-modal {
+    &__buttons-wrapper {
+      flex-direction: column;
+    }
+
+    &__button {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+}

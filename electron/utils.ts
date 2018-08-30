@@ -1,5 +1,39 @@
-import { readFile, writeFile as fsWriteFile, existsSync } from 'fs';
+import { PROTOCOL } from './constansts'
+import { readFile, writeFile as fsWriteFile, existsSync, readdir as fsReadDir } from 'fs';
 
+import { BrowserWindow } from 'electron';
+
+
+export function hasProtocol(str: string): boolean {
+    return str.indexOf(PROTOCOL) === 0;
+}
+
+export function removeProtocol(str: string): string {
+    return str.replace(PROTOCOL, '');
+}
+
+export function readdir(path: string): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+        fsReadDir(path, (error, list) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(list);
+            }
+        });
+    });
+}
+
+export function parseElectronUrl(url: string) {
+    const [pathAndSearch, hash] = url.split('#');
+    const [path, search] = pathAndSearch.split('?');
+
+    return {
+        path,
+        search: `?${search || ''}`,
+        hash: `#${hash || ''}`
+    };
+}
 
 export function exist(path: string): Promise<void> {
     const exists = existsSync(path);
@@ -28,7 +62,7 @@ export function readJSON(path: string): Promise<object> {
     return read(path).then((file) => JSON.parse(file));
 }
 
-export function writeFile(path: string, content: string): Promise<void> {
+export function write(path: string, content: string): Promise<void> {
     return new Promise((resolve, reject) => {
         fsWriteFile(path, content, function (error) {
             if (error) {
@@ -41,5 +75,5 @@ export function writeFile(path: string, content: string): Promise<void> {
 }
 
 export function writeJSON(path: string, content: object | Array<object>): Promise<void> {
-    return writeFile(path, JSON.stringify(content));
+    return write(path, JSON.stringify(content));
 }

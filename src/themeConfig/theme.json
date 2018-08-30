@@ -31,7 +31,12 @@
         "mainSeriesProperties.hollowCandleStyle.borderDownColor": "#e5494d",
         "mainSeriesProperties.hollowCandleStyle.borderUpColor": "#e5494d",
         "mainSeriesProperties.haStyle.borderDownColor": "#e5494d",
-        "mainSeriesProperties.haStyle.borderUpColor": "#5a81ea"
+        "mainSeriesProperties.candleStyle.wickUpColor": "rgba(90, 129, 234, 0.5)",
+        "mainSeriesProperties.candleStyle.wickDownColor": "rgba(229, 73, 77, 0.5)",
+        "mainSeriesProperties.hollowCandleStyle.wickUpColor": "rgba(90, 129, 234, 0.5)",
+        "mainSeriesProperties.hollowCandleStyle.wickDownColor": "rgba(229, 73, 77, 0.5)",
+        "mainSeriesProperties.haStyle.wickUpColor": "rgba(90, 129, 234, 0.5)",
+        "mainSeriesProperties.haStyle.wickDownColor": "rgba(229, 73, 77, 0.5)"
       }
     },
 
@@ -73,10 +78,16 @@
         "paneProperties.horzGridProperties.color": "#424242",
         "mainSeriesProperties.candleStyle.borderDownColor": "#e5494d",
         "mainSeriesProperties.hollowCandleStyle.borderDownColor": "#e5494d",
-        "mainSeriesProperties.haStyle.borderDownColor": "#e5494d",
         "mainSeriesProperties.candleStyle.borderUpColor": "#5a81ea",
+        "mainSeriesProperties.haStyle.borderUpColor": "#5a81ea",
         "mainSeriesProperties.hollowCandleStyle.borderUpColor": "#e5494d",
-        "mainSeriesProperties.haStyle.borderUpColor": "#5a81ea"
+        "mainSeriesProperties.haStyle.borderDownColor": "#e5494d",
+        "mainSeriesProperties.candleStyle.wickUpColor": "rgba(90, 129, 234, 0.5)",
+        "mainSeriesProperties.candleStyle.wickDownColor": "rgba(229, 73, 77, 0.5)",
+        "mainSeriesProperties.hollowCandleStyle.wickUpColor": "rgba(90, 129, 234, 0.5)",
+        "mainSeriesProperties.hollowCandleStyle.wickDownColor": "rgba(229, 73, 77, 0.5)",
+        "mainSeriesProperties.haStyle.wickUpColor": "rgba(90, 129, 234, 0.5)",
+        "mainSeriesProperties.haStyle.wickDownColor": "rgba(229, 73, 77, 0.5)"
       }
     },
 
