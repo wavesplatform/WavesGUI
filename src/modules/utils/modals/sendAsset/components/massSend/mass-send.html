@@ -40,8 +40,7 @@
                            name="recipientCsv"
                            message="custom"
                            class="multiline">
-                <!-- TODO @tsigel hide <w-input-error>.multiline tooltip onClick .close-btn -->
-                <!--span class="close-btn"></span-->
+
                 <span w-i18n="modal.send.errors.max" ng-if="$ctrl.tx.transfers.length"></span>
                 <span ng-if="$ctrl.transfers.length && !$ctrl.tx.transfers.length"
                       w-i18n="modal.send.errors.allAddressesInvalid"></span>
@@ -55,7 +54,7 @@
                 <span ng-if="!$ctrl.view.errors.showAll" class="error-list-row">
                     {{$ctrl.errors[0].recipient}}
                 </span>
-                <span ng-if="!$ctrl.view.errors.showAll && $ctrl.errors[1]"  class="error-list-row">
+                <span ng-if="!$ctrl.view.errors.showAll && $ctrl.errors[1]" class="error-list-row">
                     {{$ctrl.errors[1].recipient}}
                 </span>
                 <span ng-if="$ctrl.errors.length > 2"
