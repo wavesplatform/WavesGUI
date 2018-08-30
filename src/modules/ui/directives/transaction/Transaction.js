@@ -31,6 +31,8 @@
 
                 const TYPES = waves.node.transactions.TYPES;
                 if (this.typeName === TYPES.BURN || this.typeName === TYPES.ISSUE || this.typeName === TYPES.REISSUE) {
+                    this.titleAssetName = this.getAssetName(tsUtils.get(this.transaction, 'amount.asset') ||
+                        tsUtils.get(this.transaction, 'quantity.asset'));
                     this.name = tsUtils.get(this.transaction, 'amount.asset.name') ||
                         tsUtils.get(this.transaction, 'quantity.asset.name');
                     this.amount = (tsUtils.get(this.transaction, 'amount') ||
@@ -47,6 +49,14 @@
 
                 if (this.typeName === TYPES.EXCHANGE_BUY || this.typeName === TYPES.EXCHANGE_SELL) {
                     this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
+                }
+            }
+
+            getAssetName(asset) {
+                try {
+                    return !WavesApp.scam[asset.id] ? asset.name : '';
+                } catch (e) {
+                    return '';
                 }
             }
 

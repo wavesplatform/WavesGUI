@@ -13,10 +13,13 @@
   },
   "linux": {
     "category": "Utility",
-    "target": [
-      "deb",
-      "zip"
-    ],
+    "target": [{
+      "target": "deb",
+      "arch": [ "x64", "ia32" ]
+    }, {
+      "target": "zip",
+      "arch": [ "x64" ]
+    }],
     "executableName": "waves-client"
   },
   "mac": {
