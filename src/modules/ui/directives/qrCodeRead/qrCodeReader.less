@@ -27,6 +27,9 @@ w-qr-code-read {
     overflow: hidden;
     min-width: 213px;
     min-height: 160px;
+    max-width: 401px;
+    max-height: 226px;
+    border-radius: @border-radius / 2;
 
     & > video {
       width: 100%;
@@ -47,8 +50,14 @@ w-qr-code-read {
       background: url(/img/icons/webcamerror.svg) no-repeat center;
     }
 
-    & > w-button {
-      display: none; // TODO @Iscander
+    & > w-button.transparent {
+      display: none;
+      position: absolute;
+      bottom: 0;
+      margin: 0 20px 20px;
+      width: calc(100% ~'- 40px');
+      font-size: 13px;
+      z-index: 100;
     }
   }
 
@@ -57,12 +66,32 @@ w-qr-code-read {
     height: 170px;
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 40%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 0 250px rgba(0, 0, 0, 0.3)
+    box-shadow: 0 0 0 2500px rgba(0, 0, 0, 0.3)
   }
 
   &.active {
     display: block;
   }
+}
+
+@media screen and (max-width: 540px) {
+
+    .camera-popup {
+      &__video-wrapper {
+        position: fixed;
+        max-width: 100%;
+        max-height: 100%;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100vh !important;
+
+        & > w-button.transparent {
+          display: block;
+        }
+      }
+  }
+
 }

@@ -134,11 +134,32 @@ md-dialog.modal-send {
       margin-top: -17px;
       border-left: 1px solid @color-basic-200;
 
-      .btn:before {
-        width: 38px;
-        height: 32px;
-        background-size: 38px;
-        cursor: pointer;
+      .btn {
+        &::before {
+          width: 38px;
+          height: 32px;
+          background-size: 38px;
+          cursor: pointer;
+        }
+
+        &.active {
+          &::before {
+            background: @modal-qr-active-close no-repeat center;
+          }
+
+          &::after {
+            width: 10px;
+            height: 10px;
+            content: '';
+            display: block;
+            background: @color-basic-200;
+            left: -8px;
+            position: absolute;
+            top: 50%;
+            z-index: 1;
+            transform: rotate(45deg) translateY(-50%);
+          }
+        }
       }
     }
 
@@ -149,10 +170,10 @@ md-dialog.modal-send {
     .read-address-wrap {
       position: relative;
 
-    .w-input-wrap input {
-      padding-right: 54px;
+      .w-input-wrap input {
+        padding-right: 54px;
+      }
     }
-  }
 
     w-input-container .error.active {
       display: inline-block;
@@ -207,16 +228,16 @@ md-dialog.modal-send {
       margin-left: 10px;
     }
 
-  .input-like {
-    position: relative;
-    padding: 0 20px;
-    border-radius: @border-radius;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    overflow-x: hidden;
-  }
+    .input-like {
+      position: relative;
+      padding: 0 20px;
+      border-radius: @border-radius;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      overflow-x: hidden;
+    }
 
     w-select {
       .title {
