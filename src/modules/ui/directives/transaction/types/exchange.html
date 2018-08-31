@@ -3,8 +3,8 @@
         <div class="body-2 top fs-mobile">
             <span w-i18n="transaction.headers.{{::$ctrl.typeName}}"
                   params="{
-                    amountAsset: $ctrl.transaction.amount.asset.name,
-                    priceAsset: $ctrl.transaction.price.asset.name
+                    amountAsset: $ctrl.getAssetName($ctrl.transaction.amount.asset),
+                    priceAsset: $ctrl.getAssetName($ctrl.transaction.price.asset)
                   }"></span>
         </div>
         <div class="footnote-1 bottom fs-mobile">

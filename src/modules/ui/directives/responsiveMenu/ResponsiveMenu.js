@@ -41,6 +41,8 @@
 
     };
 
+    controller.$inject = ['Base', '$element'];
+
     angular.module('app.ui').component('wResponsiveMenu', {
         templateUrl: 'modules/ui/directives/responsiveMenu/responsiveMenu.html',
         bindings: {
