@@ -2,8 +2,8 @@
 /* global openInBrowser, BigNumber */
 (function () {
     'use strict';
-    const locationHref = location.href;
 
+    const locationHref = location.href;
     const tsUtils = require('ts-utils');
 
     const PROGRESS_MAP = {
