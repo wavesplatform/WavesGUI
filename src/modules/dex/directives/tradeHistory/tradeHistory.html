@@ -15,9 +15,8 @@
         <span w-i18n="directives.demo.to.tradehistory"></span>
     </div>
 
-    <!-- TODO @uIsk remove asset name from locize after release -->
     <w-table-row ng-repeat="tx in $data track by tx.id"
-                 class="footnote-1 disabled-900 {{::tx.exchangeType}}">
+                 class="footnote-1 basic-900 {{::tx.exchangeType}}">
         <w-table-cell ng-if="::$ctrl.isMy">
             <span ng-click="$ctrl.setPair(tx)" ng-class="{underline: !$ctrl.isSelected(tx)}">
                 <a href="#">{{::tx.pair}}</a>

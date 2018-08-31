@@ -12,6 +12,7 @@
     const factory = function (user, utils, aliases, decorators, BaseNodeComponent) {
 
         const tsUtils = require('ts-utils');
+        const R = require('ramda');
 
         const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
 
@@ -63,7 +64,7 @@
             @decorators.cachable(1)
             list(limit = 1000) {
                 return ds.api.transactions.list(user.address, limit)
-                    .then((list) => list.map(this._pipeTransaction()));
+                    .then(list => list.map(this._pipeTransaction()));
             }
 
             /**
@@ -72,8 +73,9 @@
             @decorators.cachable(120)
             getActiveLeasingTx() {
                 return ds.fetch(`${this.node}/leasing/active/${user.address}`)
-                    .then((list) => ds.api.transactions.parseTx(list, false))
-                    .then((list) => list.map(this._pipeTransaction()));
+                    .then(R.uniqBy(R.prop('id')))
+                    .then(list => ds.api.transactions.parseTx(list, false))
+                    .then(list => list.map(this._pipeTransaction()));
             }
 
             /**
@@ -185,6 +187,8 @@
                         return TYPES.REISSUE;
                     case 6:
                         return TYPES.BURN;
+                    case 12:
+                        return TYPES.DATA;
                     default:
                         return TYPES.UNKNOWN;
                 }
@@ -208,6 +212,8 @@
                         return 6;
                     case WavesApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS:
                         return 10;
+                    case WavesApp.TRANSACTION_TYPES.NODE.DATA:
+                        return 12;
                     default:
                         throw new Error('Wrong tx name!');
                 }
@@ -277,6 +283,8 @@
                     case TYPES.EXCHANGE_BUY:
                     case TYPES.EXCHANGE_SELL:
                         return 'exchange';
+                    case TYPES.DATA:
+                        return 'data';
                     case TYPES.UNKNOWN:
                         return 'unknown';
                     default:

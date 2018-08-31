@@ -9,7 +9,13 @@ import {
     T_API_TX,
     T_TX,
     ILease,
-    ICancelLeasing, ICreateAlias, IMassTransfer, IIssue, IReissue, IBurn
+    ICancelLeasing,
+    ICreateAlias,
+    IMassTransfer,
+    IIssue,
+    IReissue,
+    IBurn,
+    IData
 } from './interface';
 import {
     normalizeAssetId,
@@ -69,6 +75,8 @@ export function parseTx(transactions: Array<T_API_TX>, isUTX: boolean, isTokens?
                         return parseCreateAliasTx(transaction, hash, isUTX);
                     case TRANSACTION_TYPE_NUMBER.MASS_TRANSFER:
                         return parseMassTransferTx(transaction, hash, isUTX);
+                    case TRANSACTION_TYPE_NUMBER.DATA:
+                        return parseDataTx(transaction, hash, isUTX);
                     default:
                         return transaction;
                 }
@@ -218,6 +226,12 @@ export function parseMassTransferTx(tx: txApi.IMassTransfer, assetsHash: IHash<A
     }
     const rawAttachment = tx.attachment;
     return { ...tx, totalAmount, transfers, fee, isUTX, attachment, rawAttachment };
+}
+
+export function parseDataTx(tx: txApi.IData, assetsHash: IHash<Asset>, isUTX: boolean): IData {
+    const fee = new Money(new BigNumber(tx.fee), assetsHash[WAVES_ID]);
+    const stringifiedData = JSON.stringify(tx.data, null, 4);
+    return { ...tx, stringifiedData, fee, isUTX };
 }
 
 function parseExchangeOrder(factory: IFactory, order: txApi.IExchangeOrder, assetsHash: IHash<Asset>): IExchangeOrder {
