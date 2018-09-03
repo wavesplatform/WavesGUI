@@ -32,7 +32,6 @@
           name="$ctrl.loginForm"
           ng-submit="$ctrl.loginForm.$valid && $ctrl.login()"
           novalidate>
-
         <w-input-container class="margin-3" ng-if="$ctrl.needPassword">
             <w-input w-autofocus
                      name="password"
@@ -42,8 +41,9 @@
                      class="big no-icon"
                      placeholder="userList.placeholders.password"
                      required></w-input>
-
-            <div ng-class="{active: $ctrl.showPasswordError}" class="error" w-i18n="password.error"></div>
+            <div class="like-input-error" ng-if="$ctrl.showPasswordError">
+                <span class="error active" w-i18n="password.error"></span>
+            </div>
         </w-input-container>
 
         <w-button disabled="$ctrl.loginForm.$invalid" type="submit" class="submit big long">

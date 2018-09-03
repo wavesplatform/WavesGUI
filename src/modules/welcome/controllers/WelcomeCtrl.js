@@ -53,6 +53,7 @@
                 this._activeUserIndex = null;
 
                 this.observe('activeUserAddress', this._calculateActiveIndex);
+                this.observe('password', this._updatePassword);
 
                 if (WavesApp.isWeb()) {
                     storage.load('accountImportComplete')
@@ -70,6 +71,12 @@
 
             showTutorialModals() {
                 return modalManager.showTutorialModals();
+            }
+
+            _updatePassword() {
+                if (this.password) {
+                    this.showPasswordError = false;
+                }
             }
 
             login() {
