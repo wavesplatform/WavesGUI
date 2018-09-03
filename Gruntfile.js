@@ -98,10 +98,10 @@ module.exports = function (grunt) {
                 mainnet: {
                     name: 'mainnet',
                     code: 'W',
-                    server: 'https://nodes.wavesplatform.com',
+                    server: 'https://nodes.wavesnodes.org',
                     coinomat: 'https://coinomat.com',
-                    matcher: 'https://matcher.wavesplatform.com',
-                    datafeed: 'https://marketdata.wavesplatform.com'
+                    matcher: 'https://matcher.wavesnodes.org',
+                    datafeed: 'https://marketdata.wavesnodes.org'
                 },
                 devnet: {
                     name: 'devnet',
