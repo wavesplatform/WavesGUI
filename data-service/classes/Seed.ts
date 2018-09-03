@@ -1,4 +1,4 @@
-import { utils, libs, config } from '@waves/waves-signature-generator';
+import { utils, libs, config } from '@waves/signature-generator';
 import dictionary from '../utils/seedDictionary';
 import { get } from '../config';
 import { IKeyPair } from '../interface';

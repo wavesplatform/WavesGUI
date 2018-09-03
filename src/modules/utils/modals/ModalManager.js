@@ -68,6 +68,33 @@
                 });
             }
 
+            showSignLedger(options) {
+                return this._getModal({
+                    id: 'sign-ledger',
+                    contentUrl: 'modules/utils/modals/signLedger/signLedger.html',
+                    controller: 'SignLedgerCtrl',
+                    locals: {
+                        ledgerPromise: () => options.promise,
+                        mode: options.mode,
+                        id: options.id,
+                        data: options.data
+                    },
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
+            showLedgerError(locals) {
+                return this._getModal({
+                    id: 'error-ledger',
+                    contentUrl: 'modules/utils/modals/ledgerError/ledgerError.html',
+                    controller: 'LedgerErrorCtrl',
+                    locals: { ...locals },
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
             showGatewaySign(search) {
                 return this._getModal({
                     id: 'gateway-sign-in',
@@ -151,13 +178,13 @@
                     });
             }
 
-            showConfirmDeleteUser(hasBackup) {
+            showConfirmDeleteUser(user) {
                 return this._getModal({
                     id: 'delete-user-confirm',
                     templateUrl: 'modules/utils/modals/confirmDeleteUser/confirmDeleteUser.modal.html',
                     controller: 'confirmDeleteUserCtrl',
                     locals: {
-                        hasBackup
+                        user
                     }
                 });
             }

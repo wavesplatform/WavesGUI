@@ -1,18 +1,24 @@
 {
   "vendors": [
+    "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js",
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
     "node_modules/handlebars/dist/handlebars.min.js",
     "node_modules/ramda/dist/ramda.min.js",
     "node_modules/mobile-detect/mobile-detect.min.js",
     "node_modules/handlebars/dist/handlebars.min.js",
-    "node_modules/@waves/waves-signature-generator/dist/waves-signature-generator.js",
+    "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js",
     "node_modules/mousetrap/mousetrap.min.js",
     "node_modules/clipboard/dist/clipboard.min.js",
     "node_modules/papaparse/papaparse.min.js",
     "node_modules/js-cookie/src/js.cookie.js",
     "vendors/require-modules.js",
     "node_modules/ts-utils/dist/ts-utils.min.js",
+    "node_modules/@waves/data-entities/dist/data-entities.js",
+    "node_modules/@waves/signature-generator/dist/signature-generator.partial.min.js",
     "node_modules/@waves/waves-browser-bus/dist/browser-bus.min.js",
+    "node_modules/@waves/ledger/dist/transport-u2f.js",
+    "node_modules/@waves/ledger/dist/waves-ledger.js",
+    "node_modules/@waves/signature-adapter/dist/signature-adapter.min.js",
     "data-service-dist/data-service.js",
     "vendors/qrcode.min.js",
     "node_modules/ts-api-validator/dist/ts-api-validator.partial.min.js",
@@ -123,9 +129,25 @@
       "license"
     ],
     "defaults": {
-      "main": "main.js"
+      "main": "main.js",
+      "devDependencies": {
+         "electron-builder": "20.5.1",
+         "electron": "2.0.5",
+        "electron-rebuild": "^1.8.2"
+      },
+      "dependencies": {
+        "@ledgerhq/hw-transport-node-hid": "4.22.0",
+        "babel-runtime": "^6.26.0",
+        "i18next": "9.1.0",
+        "parse-json-bignumber": "0.0.2",
+        "qrcode-reader": "1.0.3",
+        "ts-utils": "6.0.2"
+      },
+      "scripts": {
+        "postinstall": "node_modules/.bin/electron-rebuild --force"
+      }
     },
-    "server": "desktop.wavesplatform.com"
+    "server": "stage-langs.waveswallet.io"
   },
   "betaOrigin": "https://beta.wavesplatform.com",
   "targetOrigin": "https://client.wavesplatform.com",
@@ -134,7 +156,7 @@
       "apiVersion": "v0",
       "code": "T",
       "node": "https://pool.testnet.wavesnodes.com",
-      "matcher": "https://testnet1.wavesnodes.com/matcher",
+      "matcher": "https://matcher.testnet.wavesnodes.com/matcher",
       "api": "https://api.testnet.wavesplatform.com",
       "coinomat": "https://test.coinomat.com",
       "support": "https://support.wavesplatform.com",
