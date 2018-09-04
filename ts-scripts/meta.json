@@ -131,8 +131,8 @@
     "defaults": {
       "main": "main.js",
       "devDependencies": {
-         "electron-builder": "20.5.1",
-         "electron": "2.0.5",
+        "electron-builder": "20.5.1",
+        "electron": "2.0.5",
         "electron-rebuild": "^1.8.2"
       },
       "dependencies": {
@@ -147,7 +147,7 @@
         "postinstall": "node_modules/.bin/electron-rebuild --force"
       }
     },
-    "server": "stage-langs.waveswallet.io"
+    "server": "desktop-stage.wavesplatform.com"
   },
   "betaOrigin": "https://beta.wavesplatform.com",
   "targetOrigin": "https://client.wavesplatform.com",
