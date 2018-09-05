@@ -159,3 +159,23 @@ export function defer<T>(): TDefer<T> {
 export function stringifyJSON(data: any): string {
     return (window as any).WavesApp.stringifyJSON(data);
 }
+
+
+export interface ITramsferFee {
+    balance: Money;
+    fee: Money;
+}
+
+const transferFeeList: Array<ITramsferFee> = [];
+
+export function clearTransferFee() {
+    transferFeeList.splice(0, transferFeeList.length);
+}
+
+export function setTransferFeeItem(item: ITramsferFee) {
+    transferFeeList.push(item);
+}
+
+export function getTransferFeeList() {
+    return transferFeeList.map(item => item.fee);
+}

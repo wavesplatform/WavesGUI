@@ -1,0 +1,31 @@
+<w-step-by-step active-step="$ctrl.step">
+    <w-step>
+        <w-asset-logo asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
+        <form novalidate name="sponsored">
+
+            <w-input-container>
+                <w-input ng-model="$ctrl.minSponsoredAssetFee"
+                         w-validate
+                         w-validator-gt="0"
+                         w-validator-lte="{{$ctrl.assetBalance}}"
+                         w-validator-asset="{{::$ctrl.assetId}}"></w-input>
+            </w-input-container>
+
+            <div class="sponsored-modal__button-wrapper">
+
+                <w-button class="big" w-modal-close>
+                    <span w-i18n="cancel"></span>
+                </w-button>
+
+                <w-button class="big submit" disabled="sponsored.$invalid" on-click="$ctrl.onConfirm()">
+                    <span w-i18n="confirm"></span>
+                </w-button>
+
+            </div>
+        </form>
+    </w-step>
+    <w-step>
+        <w-confirm-transaction on-click-back="$ctrl.onBack()"
+                               tx="$ctrl.getSponsoredTx()"></w-confirm-transaction>
+    </w-step>
+</w-step-by-step>

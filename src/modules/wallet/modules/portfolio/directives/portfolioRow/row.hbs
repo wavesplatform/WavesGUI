@@ -112,6 +112,20 @@
                         </div>
                     {{/if}}
 
+                    {{#if canSponsored}}
+                        <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SPONSORSHIP}}"
+                             role="button" tabindex="0">
+                            <span w-i18n-literal="sponsorship"></span>
+                        </div>
+                    {{/if}}
+
+                    {{#if canStopSponsored}}
+                        <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SPONSORSHIP_STOP}}"
+                             role="button" tabindex="0">
+                            <span w-i18n-literal="sponsorshipStop"></span>
+                        </div>
+                    {{/if}}
+
                     {{#if canShowDex}}
                         <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.DEX}}"
                              role="button" tabindex="0">

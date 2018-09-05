@@ -72,64 +72,107 @@
             BURN: 'js-action-button-burn',
             REISSUE: 'js-action-button-reissue',
             DEX: 'js-action-button-dex',
-            TOGGLE_SPAM: 'js-action-button-toggle-spam'
+            TOGGLE_SPAM: 'js-action-button-toggle-spam',
+            SPONSORSHIP: 'js-action-button-sponsorship',
+            SPONSORSHIP_STOP: 'js-action-button-cancel-sponsorship'
         }
     };
 
+    const ds = require('data-service');
+
     class PortfolioRow {
 
-        constructor($templateRequest, $element, utils, waves, user, modalManager, $state, ChartFactory, i18n, $scope) {
+        /**
+         * @type {typeof ChartFactory}
+         */
+        ChartFactory = null;
+        /**
+         * @type {$state}
+         */
+        $state = null;
+        /**
+         * @type {$rootScope.Scope}
+         */
+        $scope = null;
+        /**
+         * @type {app.i18n}
+         */
+        i18n = null;
+        /**
+         * @type {ModalManager}
+         */
+        modalManager = null;
+        /**
+         * @type {JQuery}
+         */
+        $node = null;
+        /**
+         * @type {HTMLElement}
+         */
+        node = null;
+        /**
+         * @type {PortfolioCtrl.IPortfolioBalanceDetails}
+         */
+        balance = null;
+        /**
+         * @type {app.utils}
+         */
+        utils = null;
+        /**
+         * @type {Waves}
+         */
+        waves = null;
+        /**
+         * @type {User}
+         */
+        user = null;
+        /**
+         * @type {boolean}
+         */
+        canShowDex = null;
+        /**
+         * @type {gatewayService}
+         */
+        gatewayService = null;
+        /**
+         * @type {boolean}
+         * @private
+         */
+        _isMyAsset = false;
+        /**
+         * @type {Function}
+         */
+        changeLanguageHandler = () => this._onChangeLanguage();
+
+
+        constructor($templateRequest,
+                    $element,
+                    utils,
+                    waves,
+                    user,
+                    modalManager,
+                    $state,
+                    ChartFactory,
+                    i18n,
+                    $scope,
+                    gatewayService) {
+
+            this.ChartFactory = ChartFactory;
+            this.$state = $state;
+            this.$scope = $scope;
+            this.i18n = i18n;
+            this.modalManager = modalManager;
+            this.$node = $element;
+            this.node = $element.get(0);
+            this.utils = utils;
+            this.waves = waves;
+            this.user = user;
+            this.gatewayService = gatewayService;
 
             if (!PortfolioRow.templatePromise) {
                 PortfolioRow.templatePromise = $templateRequest(TEMPLATE_PATH)
                     .then((html) => Handlebars.compile(html));
             }
-
-
-            this.ChartFactory = ChartFactory;
-
-            this.$state = $state;
-            /**
-             * @type {$rootScope.Scope}
-             */
-            this.$scope = $scope;
-            /**
-             * @type {app.i18n}
-             */
-            this.i18n = i18n;
-            /**
-             * @type {ModalManager}
-             */
-            this.modalManager = modalManager;
-            /**
-             * @type {JQuery}
-             */
-            this.$node = $element;
-            /**
-             * @type {HTMLElement}
-             */
-            this.node = $element.get(0);
-            /**
-             * @type {IBalanceDetails}
-             */
-            this.balance = null;
-            /**
-             * @type {app.utils}
-             */
-            this.utils = utils;
-            /**
-             * @type {Waves}
-             */
-            this.waves = waves;
-            /**
-             * @type {User}
-             */
-            this.user = user;
-            /**
-             * @type {boolean}
-             */
-            this.canShowDex = null;
-            this.changeLanguageHandler = () => this._onChangeLanguage();
 
             this.chartOptions = {
                 charts: [
@@ -144,6 +187,12 @@
         }
 
         $postLink() {
+
+            this._isMyAsset = this.balance.asset.sender === this.user.address;
+            this.canShowDex = this._getCanShowDex();
+            const canStopSponsored = this._isMyAsset && ds.utils.getTransferFeeList()
+                .find(item => item.asset.id === this.balance.asset.id);
+
             PortfolioRow.templatePromise.then((template) => {
 
                 const firstAssetChar = this.balance.asset.name.slice(0, 1);
@@ -152,12 +201,14 @@
                     assetIconPath: ASSET_IMAGES_MAP[this.balance.asset.id],
                     firstAssetChar,
                     canBurn: this.balance.asset.id !== WavesApp.defaultAssets.WAVES,
-                    canReissue: this.balance.asset.isMyAsset && this.balance.asset.reissuable,
+                    canReissue: this._isMyAsset && this.balance.asset.reissuable,
                     charColor: COLORS_MAP[firstAssetChar.toUpperCase()] || DEFAULT_COLOR,
                     assetName: this.balance.asset.name,
                     SELECTORS: { ...SELECTORS },
                     canShowDex: this.canShowDex,
-                    canShowToggleSpam: this._canShowToggleSpam()
+                    canShowToggleSpam: this._canShowToggleSpam(),
+                    canSponsored: this._isMyAsset,
+                    canStopSponsored
                 });
 
                 this.node.innerHTML = html;
@@ -194,6 +245,16 @@
             Array.prototype.forEach.call(nodeList, element => {
                 element.innerHTML = this.i18n.translate(element.getAttribute('w-i18n-literal'), 'app.wallet.portfolio');
             });
+        }
+
+        _getCanShowDex() {
+            return this.balance.isPinned ||
+                this.balance.asset.isMyAsset ||
+                this.balance.asset.id === WavesApp.defaultAssets.WAVES ||
+                this.gatewayService.getPurchasableWithCards()[this.balance.asset.id] ||
+                this.gatewayService.getCryptocurrencies()[this.balance.asset.id] ||
+                this.gatewayService.getFiats()[this.balance.asset.id];
+
         }
 
         /**
@@ -329,6 +390,14 @@
                 this.$state.go('main.dex', this._getSrefParams(this.balance.asset));
             });
 
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP}`, () => {
+                this.modalManager.showSponsorshipModal(this.balance.asset.id);
+            });
+
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_STOP}`, () => {
+                this.modalManager.showSponsorshipStopModal(this.balance.asset.id);
+            });
+
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.TOGGLE_SPAM}`, () => {
                 this.user.toggleSpamAsset(this.balance.asset.id);
                 this._initSpamState();
@@ -399,7 +468,8 @@
         '$state',
         'ChartFactory',
         'i18n',
-        '$scope'
+        '$scope',
+        'gatewayService'
     ];
 
     angular.module('app.wallet.portfolio').component('wPortfolioRow', {

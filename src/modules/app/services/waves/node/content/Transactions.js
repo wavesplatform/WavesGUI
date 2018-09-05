@@ -189,8 +189,20 @@
                         return TYPES.BURN;
                     case 12:
                         return TYPES.DATA;
+                    case 13:
+                        return TYPES.SET_SCRIPT;
+                    case 14:
+                        return Transactions._getSponsorshipType(tx);
                     default:
                         return TYPES.UNKNOWN;
+                }
+            }
+
+            static _getSponsorshipType(tx) {
+                if (tx.minSponsoredAssetFee.getTokens().eq(0)) {
+                    return TYPES.SPONSORSHIP_STOP;
+                } else {
+                    return TYPES.SPONSORSHIP_START;
                 }
             }
 
@@ -214,6 +226,10 @@
                         return 10;
                     case WavesApp.TRANSACTION_TYPES.NODE.DATA:
                         return 12;
+                    case WavesApp.TRANSACTION_TYPES.NODE.SET_SCRIPT:
+                        return 13;
+                    case WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP:
+                        return 14;
                     default:
                         throw new Error('Wrong tx name!');
                 }
@@ -285,6 +301,9 @@
                         return 'exchange';
                     case TYPES.DATA:
                         return 'data';
+                    case TYPES.SPONSORSHIP_START:
+                    case TYPES.SPONSORSHIP_STOP:
+                        return 'sponsorship';
                     case TYPES.UNKNOWN:
                         return 'unknown';
                     default:

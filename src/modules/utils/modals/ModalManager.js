@@ -15,6 +15,7 @@
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
+        const { Money } = require('@waves/data-entities');
 
         const DEFAULT_OPTIONS = {
             clickOutsideToClose: true,
@@ -362,6 +363,33 @@
                     contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
                     controller: 'TokenChangeModalCtrl'
                 }));
+            }
+
+            showSponsorshipModal(assetId) {
+                return this._getModal({
+                    id: 'sponsorship',
+                    mod: 'sponsorship',
+                    locals: { assetId, isCreateSponsored: true },
+                    controller: 'SponsoredModalCtrl',
+                    contentUrl: 'modules/utils/modals/sponsored/sponsored.html'
+                });
+            }
+
+            showSponsorshipStopModal(assetId) {
+                const waves = $injector.get('waves');
+
+                return Promise.all([
+                    ds.api.assets.get(assetId),
+                    waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP })
+                ]).then(([asset, fee]) => {
+                    const money = new Money(0, asset);
+
+                    return this.showConfirmTx(WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP, {
+                        assetId,
+                        minSponsoredAssetFee: money,
+                        fee
+                    });
+                });
             }
 
             showImportAccountsModal() {

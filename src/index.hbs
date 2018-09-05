@@ -313,7 +313,7 @@
         var WavesApp = {
             name: 'Waves Client',
             version: '{{pack.version}}',
-            type: (window.isDesktop || !window.buildIsWeb)? 'desktop' : 'web',
+            type: (window.isDesktop || !window.buildIsWeb) ? 'desktop' : 'web',
             matcherPriorityList: {{{matcherPriorityList}}},
             themesConf: {{{themesConf}}},
             progress: 0,
@@ -388,6 +388,9 @@
                     CANCEL_LEASING: 'cancel-leasing',
                     CREATE_ALIAS: 'create-alias',
                     DATA: 'data',
+                    SET_SCRIPT: 'set-script',
+                    SPONSORSHIP_START: 'sponsorship-start',
+                    SPONSORSHIP_STOP: 'sponsorship-stop',
                     UNKNOWN: 'unknown'
                 },
                 NODE: {
@@ -400,7 +403,9 @@
                     LEASE: 'lease',
                     CANCEL_LEASING: 'cancelLeasing',
                     EXCHANGE: 'exchange',
-                    DATA: 'data'
+                    DATA: 'data',
+                    SET_SCRIPT: 'setScript',
+                    SPONSORSHIP: 'sponsorship'
                 }
             },
             getLocaleData: function () {
@@ -440,7 +445,8 @@
 
     <!-- CSS -->
 
-    {{#if isWeb}}<base href="/">{{/if}}
+    {{#if isWeb}}
+        <base href="/">{{/if}}
 
     <script>
 

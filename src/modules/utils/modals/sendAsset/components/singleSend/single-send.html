@@ -176,12 +176,13 @@
     </div>
 
     <div class="row fee margin-1" ng-if="!$ctrl.gatewayDetailsError">
-        <div class="body basic-500">
-            <span w-i18n="modal.send.fee" params="{fee: $ctrl.tx.fee}"></span>
-        </div>
+        <w-fee-list type="::$ctrl.txType"
+                    balance-hash="$ctrl.state.moneyHash"
+                    fee="$ctrl.tx.fee"></w-fee-list>
     </div>
 
-    <div class="row commission-error margin-2 footnote error-500" ng-if="!$ctrl.hasComission && !$ctrl.gatewayDetailsError">
+    <div class="row commission-error margin-2 footnote error-500"
+         ng-if="!$ctrl.hasComission && !$ctrl.gatewayDetailsError">
         <span w-i18n="modal.send.validationError.notEnoughFundsWithdraw"
               ng-show="$ctrl.outerSendMode"
               params="{fee: $ctrl.state.singleSend.fee, getawayFee: $ctrl.gatewayDetails.gatewayFee, currency: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.displayName}"></span>

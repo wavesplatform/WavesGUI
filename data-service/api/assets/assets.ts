@@ -4,7 +4,8 @@ import { request } from '../../utils/request';
 import { IBalanceItem, assetsApi } from './interface';
 import { WAVES_ID } from '@waves/signature-generator';
 import { assetStorage } from '../../utils/AssetStorage';
-import { normalizeAssetId, toArray, toHash } from '../../utils/utils';
+import { clearTransferFee, normalizeAssetId, setTransferFeeItem, toArray, toHash } from '../../utils/utils';
+import { isEmpty } from 'ts-utils';
 import { IHash } from '../../interface';
 
 const MAX_ASSETS_IN_REQUEST = 30;
@@ -85,19 +86,27 @@ export function remapWavesBalance(waves: Asset, data: assetsApi.IWavesBalance): 
 }
 
 export function remapAssetsBalance(data: assetsApi.IBalanceList, assetsHash: IHash<Asset>): Array<IBalanceItem> {
-    return data.balances.map((balance) => {
-        const asset = assetsHash[balance.assetId];
+    clearTransferFee();
+    return data.balances.map((assetData) => {
+        const asset = assetsHash[assetData.assetId];
         const inOrders = new Money(new BigNumber('0'), asset);
-        const regular = new Money(new BigNumber(balance.balance), asset);
+        const regular = new Money(new BigNumber(assetData.balance), asset);
         const available = regular.sub(inOrders);
         const empty = new Money(new BigNumber('0'), asset);
+        const balance = isEmpty(assetData.sponsorBalance) ? null : new Money(assetData.sponsorBalance as string, assetsHash[WAVES_ID]);
+        const fee = isEmpty(assetData.minSponsoredAssetFee) ? null : new Money(assetData.minSponsoredAssetFee as string, asset);
+
+        if (balance && fee) {
+            setTransferFeeItem({ balance, fee });
+        }
+
         return {
             asset,
             regular,
             available,
             inOrders,
             leasedOut: empty,
-            leasedIn: empty
+            leasedIn: empty,
         };
     }).sort(((a, b) => a.asset.name > b.asset.name ? 1 : a.asset.name === b.asset.name ? 0 : -1));
 }
@@ -131,7 +140,7 @@ export function moneyDif(target: Money, ...toDif: Array<Money>): Money {
 }
 
 export function getAssetsByBalanceList(data: assetsApi.IBalanceList): Promise<Array<Asset>> {
-    return get(data.balances.map((balance) => normalizeAssetId(balance.assetId)));
+    return get([WAVES_ID, ...data.balances.map((balance) => normalizeAssetId(balance.assetId))]);
 }
 
 const splitRequest = (list: string[], getData) => {
