@@ -23,6 +23,7 @@
     </div>
 
     <w-input-container class="margin-2">
+
         <w-input textarea="true"
                  class="tall"
                  name="recipientCsv"
@@ -36,36 +37,39 @@
         ></w-input>
 
         <div class="error active">
-            <w-input-error ng-if="$ctrl.tx.transfers.length || $ctrl.transfers.length"
-                           name="recipientCsv"
+            <w-input-error name="recipientCsv"
+                           ng-if="$ctrl.tx.transfers.length || $ctrl.transfers.length"
                            message="custom"
-                           class="multiline">
+                           class="multiline multiline-error-input-padding">
 
-                <span w-i18n="modal.send.errors.max" ng-if="$ctrl.tx.transfers.length"></span>
-                <span ng-if="$ctrl.transfers.length && !$ctrl.tx.transfers.length"
-                      w-i18n="modal.send.errors.allAddressesInvalid"></span>
-
-                <span w-i18n="modal.send.massSend.errors.invalidAddress" class="error-list-row"></span>
-                <span ng-if="$ctrl.view.errors.showAll"
-                      ng-repeat="error in $ctrl.errors track by error.recipient"
-                      class="error-list-row">
-                    {{::error.recipient}}
-                </span>
-                <span ng-if="!$ctrl.view.errors.showAll" class="error-list-row">
-                    {{$ctrl.errors[0].recipient}}
-                </span>
-                <span ng-if="!$ctrl.view.errors.showAll && $ctrl.errors[1]" class="error-list-row">
-                    {{$ctrl.errors[1].recipient}}
-                </span>
-                <span ng-if="$ctrl.errors.length > 2"
-                      class="error-list-row show-all-errors-link link"
-                      w-i18n="modal.send.massSend.showAllErrors.{{$ctrl.view.errors.showAll}}"
-                      params="{count: $ctrl.errors.length}"
-                      ng-click="$ctrl.view.errors.showAll = !$ctrl.view.errors.showAll"></span>
+                        <span w-i18n="modal.send.errors.max" ng-if="$ctrl.tx.transfers.length"></span>
+                        <span ng-if="$ctrl.transfers.length && !$ctrl.tx.transfers.length"
+                              w-i18n="modal.send.errors.allAddressesInvalid"></span>
+                        <span w-i18n="modal.send.massSend.errors.invalidAddress" class="error-list-row"></span>
+                        <span ng-if="$ctrl.view.errors.showAll"
+                              ng-repeat="error in $ctrl.errors track by error.recipient"
+                              class="error-list-row">
+                             {{::error.recipient}}
+                        </span>
+                        <span ng-if="!$ctrl.view.errors.showAll" class="error-list-row">
+                            {{$ctrl.errors[0].recipient}}
+                        </span>
+                        <span ng-if="!$ctrl.view.errors.showAll && $ctrl.errors[1]" class="error-list-row">
+                            {{$ctrl.errors[1].recipient}}
+                        </span>
+                        <span ng-if="$ctrl.errors.length > 2"
+                              class="error-list-row show-all-errors-link link"
+                              w-i18n="modal.send.massSend.showAllErrors.{{$ctrl.view.errors.showAll}}"
+                              params="{count: $ctrl.errors.length}"
+                              ng-click="$ctrl.view.errors.showAll = !$ctrl.view.errors.showAll">
+                        </span>
             </w-input-error>
+        </div>
+
             <w-input-error name="recipientCsv" message="required">
                 <span w-i18n="modal.receive.errors.required"></span>
             </w-input-error>
+
         </div>
     </w-input-container>
 
