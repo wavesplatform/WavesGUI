@@ -4,7 +4,7 @@ import * as babel from 'gulp-babel';
 import { exec, execSync } from 'child_process';
 import { download, getAllLessFiles, getFilesFrom, prepareExport, prepareHTML, run, task } from './ts-scripts/utils';
 import { basename, extname, join, sep } from 'path';
-import { copy, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile } from 'fs-extra';
+import { copy, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
@@ -411,8 +411,13 @@ task('electron-debug', function (done) {
         .then(() => done());
 });
 
+task('data-service', function () {
+    execSync(`${join('node_modules', '.bin', 'tsc')} -p data-service && ${join('node_modules', '.bin', 'browserify')} ${join('data-service', 'index.js')} -s ds -u ts-utils -u bignumber.js -u @waves/data-entities -u ramda -u @waves/signature-generator -u @waves/signature-adapter -o ${join('data-service-dist', 'data-service.js')}`);
+});
+
 task('all', [
     'clean',
+    'data-service',
     'templates',
     'concat',
     'copy',

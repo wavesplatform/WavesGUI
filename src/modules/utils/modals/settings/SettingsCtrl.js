@@ -127,10 +127,12 @@
 
                 Promise.all([
                     ds.signature.getSignatureApi().getSeed(),
-                    ds.signature.getSignatureApi().getPrivateKey()
-                ]).then(([seed, key]) => {
+                    ds.signature.getSignatureApi().getPrivateKey(),
+                    ds.signature.getSignatureApi().getPublicKey()
+                ]).then(([seed, privateKey, publicKey]) => {
                     this.phrase = seed;
-                    this.privateKey = key;
+                    this.privateKey = privateKey;
+                    this.publicKey = publicKey;
                     $scope.$digest();
                 });
             }

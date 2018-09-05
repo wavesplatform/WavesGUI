@@ -1,0 +1,31 @@
+@import (reference) 'config';
+
+body.import {
+  ui-view[name='main'] {
+    position: relative;
+  }
+
+  .flex {
+    display: flex;
+    align-items: center;
+  }
+
+  .import-footer {
+    margin: 0 auto 20px;
+    padding: 0 20px;
+    width: 420px;
+  }
+
+  .import-content {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body.import {
+    .import-footer {
+      width: calc(100% ~'- 40px');
+    }
+  }
+}

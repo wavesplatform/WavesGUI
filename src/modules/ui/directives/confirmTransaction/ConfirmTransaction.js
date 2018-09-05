@@ -16,7 +16,8 @@
      */
     const controller = function (Base, waves, $attrs, $mdDialog, modalManager, user, $scope, utils, validateService) {
 
-        const TYPES = WavesApp.TRANSACTION_TYPES.NODE;
+        const ds = require('data-service');
+        const { TRANSACTION_TYPE_NUMBER } = require('@waves/signature-adapter');
 
         class ConfirmTransaction extends Base {
 
@@ -51,21 +52,75 @@
                  * @type {string}
                  */
                 this.txId = '';
+                /**
+                 * @type {string}
+                 */
+                this.type = user.userType;
+                /**
+                 * @type {boolean}
+                 */
+                this.loadingSignFromDevice = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.deviceSignFail = false;
+                /**
+                 * @type {Signable}
+                 * @private
+                 */
+                this._signable = null;
 
+                this.observe('tx', this._onChangeTx);
                 this.observe('showValidationErrors', this._showErrors);
             }
 
-            $postLink() {
-                const timestamp = ds.utils.normalizeTime(this.tx.timestamp || Date.now());
-                const tx = { ...this.tx, timestamp };
+            /**
+             * @return {boolean}
+             */
+            canSignFromDevice() {
+                return this.type && this.type !== 'seed' || false;
+            }
 
-                Promise.all([
-                    ConfirmTransaction.switchOnTxType(ds.prepareForBroadcast, tx.transactionType, tx),
-                    ConfirmTransaction.switchOnTxType(ds.getTransactionId, tx.transactionType, tx)
-                ]).then(([preparedTx, txId]) => {
-                    this.preparedTx = preparedTx;
-                    this.txId = txId;
-                });
+            /**
+             * @return {Promise<string>}
+             */
+            getTxId() {
+                return this._signable.getId();
+            }
+
+            signTx() {
+                this.loadingSignFromDevice = this.canSignFromDevice();
+                return this._signable.getDataForApi();
+            }
+
+            getTxData() {
+                this.getTxId()
+                    .then(() => {
+                        this.deviceSignFail = false;
+                        this.loadingSignFromDevice = this.canSignFromDevice();
+                        $scope.$digest();
+                        return this.signTx();
+                    })
+                    .then(preparedTx => {
+                        this.preparedTx = preparedTx;
+
+                        if (this.canSignFromDevice() && !this.wasDestroed) {
+                            this.confirm();
+                        }
+                    })
+                    .catch(() => {
+                        this.loadingSignFromDevice = false;
+                        this.deviceSignFail = true;
+                        $scope.$digest();
+                    });
+            }
+
+            trySign() {
+                return this.getTxData();
+            }
+
+            $postLink() {
+                this.trySign();
             }
 
             confirm() {
@@ -75,6 +130,7 @@
                     this.onTxSent({ id });
                     $scope.$apply();
                 }).catch((e) => {
+                    this.loadingSignFromDevice = false;
                     console.error(e);
                     console.error('Transaction error!');
                     $scope.$apply();
@@ -110,9 +166,26 @@
             /**
              * @private
              */
+            _onChangeTx() {
+                const timestamp = ds.utils.normalizeTime(this.tx.timestamp || Date.now());
+                const data = { ...this.tx, timestamp };
+                const type = this.tx.type;
+
+                this._signable = ds.signature.getSignatureApi()
+                    .makeSignable({ type, data });
+
+                this._signable.getId().then(id => {
+                    this.txId = id;
+                    $scope.$digest();
+                });
+            }
+
+            /**
+             * @private
+             */
             _showErrors() {
                 if (this.showValidationErrors) {
-                    if (this.tx.transactionType === TYPES.TRANSFER) {
+                    if (this.tx.transactionType === TRANSACTION_TYPE_NUMBER.TRANSFER) {
                         const errors = [];
                         Promise.all([
                             waves.node.assets.userBalances()
@@ -144,37 +217,6 @@
                     }
                 } else {
                     this.errors = [];
-                }
-            }
-
-            /**
-             * @param {Function} fn
-             * @param {string} typeName
-             * @param {object} tx
-             * @return {*}
-             */
-            static switchOnTxType(fn, typeName, tx) {
-                switch (typeName) {
-                    case TYPES.TRANSFER:
-                        return fn(4, tx);
-                    case TYPES.MASS_TRANSFER:
-                        return fn(11, tx);
-                    case TYPES.EXCHANGE:
-                        throw new Error('Can\'t create exchange transaction!');
-                    case TYPES.LEASE:
-                        return fn(8, tx);
-                    case TYPES.CANCEL_LEASING:
-                        return fn(9, tx);
-                    case TYPES.CREATE_ALIAS:
-                        return fn(10, tx);
-                    case TYPES.ISSUE:
-                        return fn(3, tx);
-                    case TYPES.REISSUE:
-                        return fn(5, tx);
-                    case TYPES.BURN:
-                        return fn(6, tx);
-                    default:
-                        throw new Error('Wrong transaction type!');
                 }
             }
 
