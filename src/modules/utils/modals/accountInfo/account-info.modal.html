@@ -60,7 +60,7 @@
                                 </div>
 
                                 <div class="errors-margin text-center caption-1 basic-700"
-                                     w-i18n="modal.account.signLedger"
+                                     w-i18n="modal.sign.signByLedger"
                                      ng-if="$ctrl.signLoader">
                                 </div>
                                 <div class="text-center basic-800 body-2" ng-if="$ctrl.signLoader">{{$ctrl.transactionId}}</div>
@@ -70,8 +70,11 @@
                                 </div>
 
                                 <div class="errors-margin">
-                                    <div ng-if="$ctrl.signDeviceFail">
-                                        <span class="error-400" w-i18n="modal.account.noSign"></span>
+                                    <div class="bottom-warning margin-3" ng-if="$ctrl.signDeviceFail">
+                                        <div class="warning-plate warning-plate-red">
+                                            <div class="body-2 error-400" w-i18n-ns="app.ui" w-i18n="confirmTransaction.ledgerUnconfirmed.header"></div>
+                                            <div class="footnote-1 basic-500" w-i18n-ns="app.ui" w-i18n="confirmTransaction.ledgerUnconfirmed.description"></div>
+                                        </div>
                                     </div>
                                     <div ng-if="$ctrl.noMoneyForFee">
                                         <span class="error-400" w-i18n="modal.account.noMoney"></span>

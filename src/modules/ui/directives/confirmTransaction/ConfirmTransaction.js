@@ -111,6 +111,7 @@
             getTxData() {
                 this.getTxId()
                     .then(() => {
+                        this.deviceSignFail = false;
                         this.loadingSignFromDevice = this.canSignFromDevice();
                         $scope.$digest();
                         return this.signTx();
@@ -118,12 +119,13 @@
                     .then(preparedTx => {
                         this.preparedTx = preparedTx;
 
-                        if (this.canSignFromDevice()) {
+                        if (this.canSignFromDevice() && !this.wasDestroed) {
                             this.confirm();
                         }
                     })
                     .catch(() => {
                         this.loadingSignFromDevice = false;
+                        this.deviceSignFail = true;
                         $scope.$digest();
                     });
             }

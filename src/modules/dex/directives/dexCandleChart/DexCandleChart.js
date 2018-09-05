@@ -8,7 +8,8 @@
         'symbol_search_hot_key',
         'display_market_status',
         'control_bar',
-        'timeframes_toolbar'
+        'timeframes_toolbar',
+        'volume_force_overlay'
     ];
 
     // TODO : added in version 1.12
@@ -32,11 +33,12 @@
             'mainSeriesProperties.lineStyle.color': candleUpColor,
             'mainSeriesProperties.areaStyle.color1': candleUpColor,
             'mainSeriesProperties.areaStyle.color2': candleUpColor,
-            'mainSeriesProperties.areaStyle.linecolor': candleUpColor
+            'mainSeriesProperties.areaStyle.linecolor': candleUpColor,
+            'volumePaneSize': 'medium'
         };
     }
 
-    function studiesOverrite({ volume0, volume1 }) {
+    function getStudiesOverrides({ volume0, volume1 }) {
         return {
             'volume.volume.color.0': volume0,
             'volume.volume.color.1': volume1
@@ -184,7 +186,7 @@
                 }
                 const { up, down, volume0, volume1 } = themes.getCurrentCandleSColor(this.candle);
                 const overrides = getOverrides(up, down);
-                const studiesOverrides = studiesOverrite({ volume0, volume1 });
+                const studiesOverrides = getStudiesOverrides({ volume0, volume1 });
                 this._chart.applyOverrides(overrides);
                 this._chart.applyStudiesOverrides(studiesOverrides);
             }
@@ -198,7 +200,10 @@
                 const { up, down, volume0, volume1 } = themes.getCurrentCandleSColor(this.candle);
                 const themeConf = themes.getTradingViewConfig(this.theme);
                 const overrides = { ...getOverrides(up, down), ...themeConf.OVERRIDES };
-                const studies_overrides = { ...studiesOverrite({ volume0, volume1 }), ...themeConf.STUDIES_OVERRIDES };
+                const studies_overrides = {
+                    ...getStudiesOverrides({ volume0, volume1 }),
+                    ...themeConf.STUDIES_OVERRIDES
+                };
                 const toolbar_bg = themeConf.toolbarBg;
                 const custom_css_url = themeConf.customCssUrl;
 

@@ -76,7 +76,11 @@
              */
             getCardApproximateCryptoAmount(crypto, fiat, recipientAddress, fiatAmount) {
                 const gateway = this._findGatewayFor(crypto, 'card');
-                return gateway.getApproximateCryptoAmount(crypto, fiat, recipientAddress, fiatAmount);
+                if (!gateway) {
+                    return Promise.resolve(0);
+                } else {
+                    return gateway.getApproximateCryptoAmount(crypto, fiat, recipientAddress, fiatAmount);
+                }
             }
 
             /**
@@ -88,7 +92,11 @@
              */
             getCardBuyLink(crypto, fiat, recipientAddress, fiatAmount) {
                 const gateway = this._findGatewayFor(crypto, 'card');
-                return gateway.getCardBuyLink(crypto, fiat, recipientAddress, fiatAmount);
+                if (!gateway) {
+                    return '';
+                } else {
+                    return gateway.getCardBuyLink(crypto, fiat, recipientAddress, fiatAmount);
+                }
             }
 
             /**

@@ -69,7 +69,7 @@ export class Bridge implements IBridge {
     }
 
     private reload() {
-        this.main.mainWindow.reload();
+        this.main.reload();
     }
 }
 

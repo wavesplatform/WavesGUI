@@ -13,9 +13,15 @@
                      w-i18n="{{::error.literal}}"></div>
 
                 <div class="bottom-wrapper">
+                    <div class="bottom-warning margin-3" ng-if="$ctrl.deviceSignFail">
+                        <div class="warning-plate warning-plate-red">
+                            <div class="body-2 error-400" w-i18n-ns="app.ui" w-i18n="confirmTransaction.ledgerUnconfirmed.header"></div>
+                            <div class="footnote-1 basic-500" w-i18n-ns="app.ui" w-i18n="confirmTransaction.ledgerUnconfirmed.description"></div>
+                        </div>
+                    </div>
                     <div class="device-loader-wrapper" ng-if="$ctrl.loadingSignFromDevice">
                         <div class="info basic-700">
-                            <span w-i18n="confirmTransaction.signLedger"></span>
+                            <span w-i18n-ns="app.utils" w-i18n="confirmTransaction.signLedger"></span>
                         </div>
                         <w-loader></w-loader>
                     </div>
@@ -37,7 +43,7 @@
                         <w-button class="big submit"
                                   ng-if="$ctrl.deviceSignFail"
                                   on-click="$ctrl.trySign()">
-                            <span w-i18n="confirmTransaction.retrySign"></span>
+                            <span w-i18n-ns="app.wallet.transactions" w-i18n="confirmTransaction.retrySign"></span>
                         </w-button>
                     </div>
                 </div>

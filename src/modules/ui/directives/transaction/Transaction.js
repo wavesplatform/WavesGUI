@@ -31,6 +31,8 @@
 
                 const TYPES = waves.node.transactions.TYPES;
                 if (this.typeName === TYPES.BURN || this.typeName === TYPES.ISSUE || this.typeName === TYPES.REISSUE) {
+                    this.titleAssetName = this.getAssetName(tsUtils.get(this.transaction, 'amount.asset') ||
+                        tsUtils.get(this.transaction, 'quantity.asset'));
                     this.name = tsUtils.get(this.transaction, 'amount.asset.name') ||
                         tsUtils.get(this.transaction, 'quantity.asset.name');
                     this.amount = (tsUtils.get(this.transaction, 'amount') ||
@@ -47,6 +49,14 @@
 
                 if (this.typeName === TYPES.EXCHANGE_BUY || this.typeName === TYPES.EXCHANGE_SELL) {
                     this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
+                }
+            }
+
+            getAssetName(asset) {
+                try {
+                    return !WavesApp.scam[asset.id] ? asset.name : '';
+                } catch (e) {
+                    return '';
                 }
             }
 
@@ -72,7 +82,7 @@
                 const tx = this.transaction;
 
                 const id = `Transaction ID: ${tx.id}`;
-                const type = `Type: ${tx.typeName}`;
+                const type = `Type: ${tx.type} (${this.typeName})`;
 
                 const timestamp = $filter('date')(tx.timestamp, 'MM/dd/yyyy HH:mm');
                 const datetime = `Date: ${timestamp}`;
@@ -83,6 +93,12 @@
                 }
 
                 let message = `${id}\n${type}\n${datetime}\n${sender}`;
+
+                if (tx.typeName === WavesApp.TRANSACTION_TYPES.EXTENDED.UNKNOWN) {
+                    message += '\n\nRAW TX DATA BELOW\n\n';
+                    message += JSON.stringify(tx, null, 2);
+                    return message;
+                }
 
                 if (tx.recipient) {
                     const recipient = `Recipient: ${tx.recipient}`;

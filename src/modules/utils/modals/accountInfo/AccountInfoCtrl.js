@@ -97,22 +97,17 @@
                 this.observe(['newAlias'], this._validateNewAlias);
             }
 
-            getTx() {
+            getSignableTx() {
+                const type = 10;
                 const timestamp = ds.utils.normalizeTime(Date.now());
-                return { alias: this.newAlias, fee: this.fee, timestamp };
-            }
-
-            getTransactionId(tx) {
-                return ds.getTransactionId(10, tx);
-            }
-
-            getPreparedData(tx) {
-                return ds.prepareForBroadcast(10, tx);
+                const data = { alias: this.newAlias, fee: this.fee, timestamp };
+                return ds.signature.getSignatureApi()
+                    .makeSignable({ type, data });
             }
 
             createAlias() {
-                const tx = this.getTx();
-                return this.getTransactionId(tx)
+                const signable = this.getSignableTx();
+                return signable.getId()
                     .then(
                         (id) => {
                             this.signDeviceFail = false;
@@ -120,9 +115,13 @@
                             this.signLoader = user.userType && user.userType !== 'seed';
                             $scope.$digest();
                         })
-                    .then(() => this.getPreparedData(tx))
+                    .then(() => signable.getDataForApi())
                     .then(
                         (preparedTx) => {
+                            if (this.wasDestroed) {
+                                return Promise.reject();
+                            }
+
                             this.signLoader = false;
                             return ds.broadcast(preparedTx).then(() => {
                                 analytics.push('User', `User.CreateAlias.Success.${WavesApp.type}`);

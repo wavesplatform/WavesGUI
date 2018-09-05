@@ -23,7 +23,6 @@ html body.dex-demo {
 }
 
 w-layout {
-
   width: 100%;
   height: 100%;
 
@@ -379,45 +378,11 @@ w-layout {
     z-index: 1;
   }
 
-  //validation errors todo uIsk вынести в общие стили
   w-input-container {
-    position: relative;
-
-    span.error {
-      background: @color-error-400;
-      font-size: @font-size-caption-2;
-      position: absolute;
-      border-radius: @border-radius;
-      padding: 5px 10px;
-      display: inline-block;
-      top: 35px;
-      width: auto;
-      overflow: visible;
-      z-index: 3;
-
-      &.active {
-        color: @white-only;
-        height: 30px;
-        line-height: 20px;
-        padding: 5px 10px;
-      }
-
-      &::before {
-        display: inline-block;
-        width: 10px;
-        height: 10px;
-        content: '';
-        transform: rotate(45deg);
-        top: -3px;
-        left: 20px;
-        z-index: 2;
-        position: absolute;
-        background: @color-error-400;
-      }
-
+    w-input-error .error {
+      padding: 12px;
     }
   }
-
 }
 
 html body.dex .notifications,
@@ -426,7 +391,6 @@ html body.dex-demo .notifications {
 }
 
 //tradehistory fullscreen mode
-
 .tradehistory-fullscreen-toggler {
   position: absolute;
   right: 10px;
@@ -453,7 +417,6 @@ html body.dex-demo .notifications {
 }
 //end
 
-
 .tradehistory-fullscreen {
   .dex-layout__column:not(.dex-layout__tradehistory) {
     transition:.3s;
@@ -471,7 +434,6 @@ html body.dex-demo .notifications {
 }
 
 //hi-res
-
 @media screen and (min-width: 2400px) {
   w-layout {
     .dex-layout {
@@ -722,6 +684,10 @@ html body.dex-demo .notifications {
     .dex-layout {
       overflow: visible;
 
+      .tradehistory-fullscreen-toggler {
+        display: none;
+      }
+
       &__watchlist {
         width: calc(50% ~' - 3px');
         min-width: 320px;
@@ -904,6 +870,10 @@ html body.dex-demo .notifications {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+
+      .tradehistory-fullscreen-toggler {
+        display: none;
+      }
 
       &__column {
         position: relative;
