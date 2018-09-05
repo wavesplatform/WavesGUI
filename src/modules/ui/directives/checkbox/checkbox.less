@@ -26,57 +26,17 @@ input[type="checkbox"] {
     background-size: 9px 7px;
   }
 
-  //&.success:checked::after { TODO removed from components
-    //background: @color-success url(/img/icons/checkbox-icon.svg) no-repeat center center;
-  //}
-
   &.submit:checked::after {
     background: @color-submit-400 url(/img/icons/checkbox-icon.svg) no-repeat center center;
     border-color: @color-submit-400;
   }
-
-  //&.switcher { // TODO Removed from components. Author Tsigel at 02/11/2017 08:34
-  //  border: none;
-  //  transform: translate(10px, 10px);
-  //
-  //  &::before {
-  //    transition: background-color 0.3s;
-  //    transform: translate(-10px, -10px);
-  //    content: '';
-  //    display: block;
-  //    box-sizing: border-box;
-  //    background-color: @color-white;
-  //    border: 1px solid @color-checkbox-border;
-  //    border-radius: 26px;
-  //    width: 51px;
-  //    height: 28px;
-  //  }
-  //  &::after {
-  //    transition: left 0.3s;
-  //    transform: translate(-10px, -10px);
-  //    width: 22px;
-  //    height: 22px;
-  //    left: 3px;
-  //    top: 3px;
-  //    border-radius: 100%;
-  //    background: @color-background-default url(/img/icons/switcher-icon.svg) no-repeat center center;
-  //    background-size: 6px 8px;
-  //  }
-  //
-  //  &:checked::before {
-  //    background-color: @color-success;
-  //  }
-  //  &:checked::after {
-  //    left: 26px;
-  //  }
-  //}
 }
 
 w-checkbox-submit, w-checkbox-success {
   display: inline-block;
   position: relative;
-  width: 18px;
-  height: 18px;
+  width: 19px;
+  height: 19px;
   overflow: hidden;
 }
 
