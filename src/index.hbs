@@ -428,17 +428,17 @@
             },
             parseJSON: null,
             stateTree: null,
+            sign: {
+                openTimeout: 3000,
+                listenTimeout: 15000,
+                exchangeTimeout: 60000,
+            },
             reload: function () {
                 if (WavesApp.isDesktop()) {
                     transfer('reload');
                 } else {
                     window.location.reload();
                 }
-            },
-            sign: {
-                openTimeout: 3000,
-                listenTimeout: 15000,
-                exchangeTimeout: 60000,
             }
         };
     </script>

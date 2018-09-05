@@ -94,7 +94,7 @@
                             }
                         },
                         backend: {
-                            loadPath: '/locales/{{lng}}/{{ns}}.json',
+                            loadPath: `/locales/{{lng}}/{{ns}}.json?${WavesApp.version}`,
                             referenceLng: 'en'
                         }
                     });

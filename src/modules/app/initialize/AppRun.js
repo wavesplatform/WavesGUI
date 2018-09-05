@@ -3,6 +3,7 @@
 (function () {
     'use strict';
 
+    const locationHref = location.href;
     const tsUtils = require('ts-utils');
 
     const PROGRESS_MAP = {
@@ -136,9 +137,13 @@
                     return Promise.resolve(true);
                 }
 
+                const url = new URL(locationHref);
+                const href = `waves://${url.pathname}${url.search}${url.hash}`.replace('///', '//');
+
                 return storage.load('openClientMode').then(clientMode => {
                     switch (clientMode) {
                         case 'desktop':
+                            window.open(href);
                             return this._runDesktop();
                         case 'web':
                             return Promise.resolve(true);
