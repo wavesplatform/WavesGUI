@@ -11,7 +11,6 @@ export function get(asset1: string, asset2: string): Promise<IOrderBook> {
             return request({ url: `${getConfig('matcher')}/orderbook/${pair.toString()}` })
                 .then(addParam(remapOrderBook, pair));
         });
-
 }
 
 function remapOrderBook(orderBook, pair: AssetPair): IOrderBook {

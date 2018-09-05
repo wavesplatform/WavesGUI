@@ -6,6 +6,8 @@ interface IMain {
     menu: Electron.Menu;
     bridge: IBridge;
 
+    reload(): void;
+
     setLanguage(lng: string): void;
 
     addDevTools(): void;
