@@ -31,6 +31,9 @@ w-qr-code-read {
 
     & > video {
       background-color: @color-black;
+      position: absolute;
+      left: 50%;
+      top: 50%;
     }
 
     &.pending, &.error {
@@ -89,6 +92,7 @@ w-qr-code-read {
       left: 0 !important;
       width: 100% !important;
       height: 100vh !important;
+      background-color: @color-black;
 
       & > w-button.transparent {
         display: block;

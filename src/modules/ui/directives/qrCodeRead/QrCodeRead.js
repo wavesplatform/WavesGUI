@@ -136,10 +136,18 @@
                 if (!this.readService) {
                     const $element = $(this.popupNode).find(VIDEO_WRAPPER_SELECTOR);
 
-                    const maxSize = {
-                        width: this.maxWidth,
-                        height: this.maxHeight
-                    };
+                    let maxSize;
+                    if (WavesApp.device.phone()) {
+                        maxSize = {
+                            width: window.innerWidth,
+                            height: window.innerHeight
+                        };
+                    } else {
+                        maxSize = {
+                            width: this.maxWidth,
+                            height: this.maxHeight
+                        };
+                    }
 
                     this.readService = new QrCodeReadService({ $element, maxSize });
 

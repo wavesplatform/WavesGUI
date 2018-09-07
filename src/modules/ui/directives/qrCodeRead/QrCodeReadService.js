@@ -268,7 +268,7 @@
                         ) || 1;
 
                         this._factor = factor;
-                        this._video.style.transform = `scale(${factor})`;
+                        this._video.style.transform = `scale(${factor}) translate(-50%, -50%)`;
                         this._video.style.transformOrigin = '0 0';
 
                         this._canvas.width = this.size.width * (1 / factor);
