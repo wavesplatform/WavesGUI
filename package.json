@@ -112,7 +112,7 @@
     "n3-charts": "2.0.28",
     "ng-i18next": "1.0.5",
     "papaparse": "4.3.7",
-    "parse-json-bignumber": "0.1.1",
+    "parse-json-bignumber": "^0.1.1",
     "qrcode-reader": "1.0.3",
     "ramda": "^0.25.0",
     "ts-api-validator": "2.1.2",

@@ -27,6 +27,17 @@ w-confirm-gateway-transaction {
     }
   }
 
+  .bottom-wrapper {
+    width: 100%;
+    padding-top: 30px;
+  }
+
+  .warning-plate {
+    &-red {
+      margin-top: -10px;
+    }
+  }
+
   .buttons-wrapper {
     display: flex;
     flex-direction: row;
@@ -34,7 +45,36 @@ w-confirm-gateway-transaction {
 
     & > w-button {
       display: block;
-      width: 224px;
+      width: 48%;
+    }
+
+    & > w-button.long {
+      width: 100%;
+    }
+  }
+
+  h3.info {
+    text-align: center;
+    word-break: break-word;
+    text-transform: lowercase;
+  }
+
+  .device-loader-wrapper {
+    text-align: center;
+    width: 100%;
+    padding-bottom: 20px;
+  }
+
+  w-loader {
+    top: 25px;
+    position: relative;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  w-confirm-transaction {
+    .buttons-wrapper {
+      padding-top: 20px;
     }
   }
 }
