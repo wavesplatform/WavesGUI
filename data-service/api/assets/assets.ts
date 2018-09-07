@@ -2,7 +2,7 @@ import { Asset, Money, BigNumber } from '@waves/data-entities';
 import { get as configGet, getDataService } from '../../config';
 import { request } from '../../utils/request';
 import { IBalanceItem, assetsApi } from './interface';
-import { WAVES_ID } from '@waves/waves-signature-generator';
+import { WAVES_ID } from '@waves/signature-generator';
 import { assetStorage } from '../../utils/AssetStorage';
 import { normalizeAssetId, toArray, toHash } from '../../utils/utils';
 import { IHash } from '../../interface';

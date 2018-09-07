@@ -21,8 +21,13 @@
          w-i18n="message"></div>
 
     <w-button on-click="$ctrl.openMainPage()"
-              class="big submit headline-2 desktop-page__button">
+              class="big submit margin-4 headline-2 desktop-page__button">
         <span w-i18n="back"></span>
     </w-button>
+
+    <div class="text-center basic-500">
+        <w-checkbox-submit id="openLinkViaDesktop" ng-model="$ctrl.openLinkViaDesktop"></w-checkbox-submit>
+        <label for="openLinkViaDesktop" w-i18n-ns="app.welcome" w-i18n="openViaDesktop"></label>
+    </div>
 
 </div>

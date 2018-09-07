@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="4px" viewBox="0 0 40 4" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>ledger-pin</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="ledger-pin" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="monitor" fill="#5A81EA" fill-rule="nonzero">
+            <circle id="Oval" cx="31" cy="2" r="1"></circle>
+            <polygon id="Shape" points="39.1038462 0.2 36.8653846 2.43846154 35.7461538 1.31923077 35 2.06538462 36.8653846 3.93076923 39.85 0.946153846"></polygon>
+            <circle id="Oval" cx="26" cy="2" r="1"></circle>
+            <circle id="Oval" cx="6" cy="2" r="1"></circle>
+            <circle id="Oval" cx="1" cy="2" r="1"></circle>
+            <circle id="Oval" cx="16" cy="2" r="1"></circle>
+            <circle id="Oval" cx="21" cy="2" r="1"></circle>
+            <circle id="Oval" cx="11" cy="2" r="1"></circle>
+        </g>
+    </g>
+</svg>

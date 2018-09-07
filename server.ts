@@ -36,6 +36,11 @@ const handler = function (req, res) {
         return null;
     }
 
+    if (req.url.includes('/package.json')) {
+        res.end(readFileSync(join(__dirname, 'package.json')));
+        return null;
+    }
+
     const parsed = parseCookie(req.headers.cookie);
     if (!parsed) {
         readFile(join(__dirname, 'chooseBuild.hbs'), 'utf8').then((file) => {

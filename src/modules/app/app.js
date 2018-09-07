@@ -104,6 +104,8 @@
         'app.create',
         'app.restore',
         'app.desktop',
+        'app.ledger',
+        'app.import',
         'app.wallet',
         'app.dex',
         'app.tokens'

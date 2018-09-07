@@ -35,6 +35,14 @@
       margin: 0 auto 30px auto;
     }
 
+    &-ledger {
+      background: url(/img/icons/logo-ledger.svg) center no-repeat;
+      width: 60px;
+      height: 60px;
+      display: block;
+      margin: 0 auto 30px auto;
+    }
+
     &-error {
       background: url(/img/icons/icon-error-import.svg) center no-repeat;
       width: 80px;
@@ -118,13 +126,13 @@
   &__block {
     flex-basis: 46%;
     padding: 30px;
-    margin:40px 0 0;
+    margin: 40px 0 30px 0;
     border: 1px solid @color-basic-100;
     border-radius: @border-radius * 2;
-    height: 264px;
+    max-width: 210px;
 
     & + .import-modal__block {
-      margin-left: 40px;
+      margin-left: 30px;
     }
 
     w-button {
@@ -151,7 +159,7 @@
 
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px) {
 
   .import-modal {
     &__blocks-wrapper {
@@ -160,6 +168,14 @@
 
     &__block {
       flex-basis: 100%;
+      max-width: calc(100% ~'- 40px');
+      width: 100%;
+      margin-top: 0;
+      margin-bottom: @padding-main-layout * 2;
+
+      &:last-of-type {
+        margin-bottom: @padding-main-layout * 4;
+      }
 
       & + .import-modal__block {
         margin-left: 0;

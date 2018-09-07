@@ -145,6 +145,10 @@
                 this.maxGatewayAmount = null;
                 /**
                  * @type {boolean}
+                 */
+                this.gatewayDetailsError = false;
+                /**
+                 * @type {boolean}
                  * @private
                  */
                 this._noCurrentRate = false;
@@ -415,6 +419,11 @@
             _updateGatewayDetails() {
                 const outerChain = outerBlockchains[this.assetId];
                 const isValidWavesAddress = waves.node.isValidAddress(this.tx.recipient);
+
+                if (this.gatewayDetailsError) {
+                    this.outerSendMode = false;
+                    this.gatewayDetailsError = false;
+                }
 
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 

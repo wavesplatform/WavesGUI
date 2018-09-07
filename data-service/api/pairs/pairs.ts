@@ -3,7 +3,7 @@ import { getDataService } from '../../config';
 import { request } from '../../utils/request';
 import { get as getAsset } from '../assets/assets';
 import { createOrderPair } from '@waves/assets-pairs-order';
-import { WAVES_ID } from '@waves/waves-signature-generator';
+import { WAVES_ID } from '@waves/signature-generator';
 import { IPairJSON } from '@waves/data-service-client-js/src/types';
 import { TMoneyInput } from '@waves/data-entities/dist/entities/Money';
 

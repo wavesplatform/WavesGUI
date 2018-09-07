@@ -39,6 +39,7 @@ export interface IPackageJSON {
         type: string;
         url: string;
     };
+    server: string;
     license: string;
     devDependencies: IHash<string>;
     scripts: IHash<string>;
