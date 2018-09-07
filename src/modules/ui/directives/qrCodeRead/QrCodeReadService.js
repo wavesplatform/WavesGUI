@@ -206,7 +206,7 @@
                 }
 
                 this._worker = wrapper.create(() => new QrCode(), {
-                    libs: ['/node_modules/qrcode-reader/dist/index.min.js']
+                    libs: [`/node_modules/qrcode-reader/dist/index.min.js?${WavesApp.version}`]
                 });
 
                 return this;
