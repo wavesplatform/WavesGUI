@@ -177,5 +177,7 @@ export function setTransferFeeItem(item: ITramsferFee) {
 }
 
 export function getTransferFeeList() {
-    return transferFeeList.map(item => item.fee);
+    return transferFeeList
+        .filter(item => item.balance.getTokens().gt(1))
+        .map(item => item.fee);
 }
