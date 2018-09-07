@@ -72,6 +72,16 @@
              * @private
              */
             _readCount = DEFAULT_READ_COUNT;
+            /**
+             * @type {ISize}
+             * @private
+             */
+            _maxSize = null;
+            /**
+             * @type {number}
+             * @private
+             */
+            _factor = 1;
 
 
             /**
@@ -82,6 +92,8 @@
                 if (options.readCount) {
                     this._readCount = options.readCount;
                 }
+
+                this._maxSize = options.maxSize;
 
                 this._initializeDom(options);
 
@@ -110,8 +122,9 @@
                 this._createContext()
                     ._addVideoAttrs();
 
-                this._canvas.height = 170;
-                this._canvas.width = 170;
+                // For debug read camera square
+                // this._canvas.style.cssText = 'position: absolute; top: 0; left: 0; z-index: 10000';
+                // document.body.appendChild(this._canvas);
 
                 options.$element.append(this._video);
                 return this;
@@ -248,6 +261,19 @@
                 return new Promise((resolve) => {
                     const handler = () => {
                         this.size = { width: this._video.videoWidth, height: this._video.videoHeight };
+
+                        const factor = this._maxSize && Math.min(
+                            this._maxSize.width / this.size.width,
+                            this._maxSize.height / this.size.height
+                        ) || 1;
+
+                        this._factor = factor;
+                        this._video.style.transform = `scale(${factor})`;
+                        this._video.style.transformOrigin = '0 0';
+
+                        this._canvas.width = this.size.width * (1 / factor);
+                        this._canvas.height = this.size.height * (1 / factor);
+
                         this.onHasSize.dispatch({ ...this.size });
                         this._video.removeEventListener('loadedmetadata', handler, false);
                         resolve();
@@ -308,15 +334,15 @@
              * @private
              */
             _getFrame() {
-                const size = 170;
-                const width = this._video.clientWidth;
-                const height = this._video.clientHeight;
-                const factor = Math.min(this.size.width / width, this.size.height / height);
+                const factor = 1 / this._factor;
+                const size = 170 * factor;
+                const width = this.size.width;
+                const height = this.size.height;
 
                 const deltaX = (width - size) / 2;
                 const deltaY = (height - size) / 2;
 
-                const args = [deltaX * factor, deltaY * factor, size * factor, size * factor, 0, 0, size, size];
+                const args = [deltaX, deltaY, size, size, 0, 0, size, size];
 
                 this._ctx.drawImage(this._video, ...args);
                 return this._ctx.getImageData(0, 0, size, size);
@@ -348,6 +374,7 @@
 /**
  * @typedef {object} QrCodeReadService#IOptions
  * @property {JQuery} $element
+ * @property {ISize} maxSize
  * @property {number} [readCount] Count of success read for throw success event
  */
 

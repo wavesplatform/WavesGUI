@@ -123,7 +123,7 @@
              * @private
              */
             _onChangePosition() {
-                if (this.isActive) {
+                if (this.isWatched) {
                     this._setPopupPosition();
                 }
             }
@@ -136,7 +136,12 @@
                 if (!this.readService) {
                     const $element = $(this.popupNode).find(VIDEO_WRAPPER_SELECTOR);
 
-                    this.readService = new QrCodeReadService({ $element });
+                    const maxSize = {
+                        width: this.maxWidth,
+                        height: this.maxHeight
+                    };
+
+                    this.readService = new QrCodeReadService({ $element, maxSize });
 
                     this.receiveOnce(this.readService.onRead, this._onSuccessReadQrCode, this);
                     this.receiveOnce(this.readService.onError, this._onErrorRead, this);
