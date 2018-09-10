@@ -8,6 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
 
+    <script>
+        window.buildIsWeb = {{isWeb}};
+    </script>
+
     <style>
         .not-supported-browser {
             display: none;
@@ -309,7 +313,7 @@
         var WavesApp = {
             name: 'Waves Client',
             version: '{{pack.version}}',
-            type: '{{build.type}}',
+            type: (window.isDesktop || !window.buildIsWeb) ? 'desktop' : 'web',
             matcherPriorityList: {{{matcherPriorityList}}},
             themesConf: {{{themesConf}}},
             progress: 0,
@@ -356,6 +360,7 @@
                 '{{network.assets.BTC}}': 'Bitcoin',
                 '{{network.assets.ETH}}': 'Ethereum'
             },
+            matcherSignInterval: { count: 20, timeType: 'day' },
             scam: Object.create(null),
             dex: {
                 resolutions: ['15', '30', '60', '240', '1440'], // TODO : add months
@@ -418,6 +423,12 @@
             },
             parseJSON: null,
             stateTree: null,
+            sign: {
+                openTimeout: 3000,
+                listenTimeout: 15000,
+                exchangeTimeout: 60000,
+            },
+            stateTree: null,
             reload: function () {
                 if (WavesApp.isDesktop()) {
                     transfer('reload');
@@ -426,15 +437,17 @@
                 }
             }
         };
-
     </script>
 
     <!-- CSS -->
 
     {{#if isWeb}}
-        <base href="/">
-    {{else}}
-        <script>
+        <base href="/">{{/if}}
+
+    <script>
+
+        if (window.isDesktop || !window.buildIsWeb) {
+
             const __mainListeners = [];
 
             function listenMainProcessEvent(cb) {
@@ -450,7 +463,7 @@
             }
 
             function runMainProcessEvent(...args) {
-                __mainListeners.slice().forEach(cb => {
+                __mainListeners.slice().forEach(function (cb) {
                     try {
                         cb(...args);
                     } catch (e) {
@@ -458,10 +471,8 @@
                     }
                 });
             }
-        </script>
-    {{/if}}
+        }
 
-    <script>
         Array.prototype.slice.apply(document.querySelectorAll('[rel=stylesheet]'))
                 .filter(function (el) {
                     return el.getAttribute('theme');
@@ -539,17 +550,28 @@
 
     WavesApp.device = new MobileDetect(navigator.userAgent);
 
-    var wrapper = require('worker-wrapper');
+    (function () {
+        var wrapper = require('worker-wrapper');
 
-    var worker = wrapper.create({
-        libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js']
-    });
+        var worker = wrapper.create({
+            libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js?v' + WavesApp.version]
+        });
 
-    worker.process(() => {
-        self.parse = parseJsonBignumber();
-    });
+        worker.process(function () {
+            self.parse = parseJsonBignumber().parse;
+        });
 
-    WavesApp.parseJSON = str => worker.process(str => parse(str), str);
+        var stringify = parseJsonBignumber({ BigNumber: BigNumber }).stringify;
+        WavesApp.parseJSON = function (str) {
+            return worker.process(function (str) {
+                return parse(str);
+            }, str);
+        };
+
+        WavesApp.stringifyJSON = function (data) {
+            return stringify(data);
+        };
+    })();
 
     var isBrowserSupported = (function () {
 
@@ -630,6 +652,22 @@
             {
                 id: 'restore',
                 data: {
+                    url: '/import/restore',
+                    noLogin: true,
+                    views: [{ name: 'main' }]
+                }
+            },
+            {
+                id: 'ledger',
+                data: {
+                    url: '/import/ledger',
+                    noLogin: true,
+                    views: [{ name: 'main' }]
+                }
+            },
+            {
+                id: 'import',
+                data: {
                     noLogin: true,
                     views: [{ name: 'main' }]
                 }
@@ -707,6 +745,7 @@
      * @property {number} minAliasLength
      * @property {number} maxAliasLength
      * @property {number} maxAddressLength
+     * @property {Object.<{count: number, timeType: string>} matcherSignInterval
      * @property {BigNumber} maxCoinsCount
      * @property {typeof WavesApp.TRANSACTION_TYPES} TRANSACTION_TYPES
      * @property {typeof WavesApp.network} network
@@ -723,7 +762,8 @@
      * @property {Function} addController
      * @property {Function} getController
      * @property {function():{name: string, separators: {group: string, decimal: string}}} getLocaleData
-     * @property {function(data: string): object} parseJSON
+     * @property {function(data: string): Promise<object>} parseJSON
+     * @property {function(data: object): Promise<string>} stringifyJSON
      * @property {Tree} stateTree
      */
 </script>

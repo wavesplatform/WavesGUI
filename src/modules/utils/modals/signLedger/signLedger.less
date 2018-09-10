@@ -1,0 +1,277 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+
+.ledger-modal {
+  .icon-close {
+    right: 30px;
+    top: 30px;
+    position: absolute;
+  }
+
+  .connect-mode {
+    text-align: center;
+
+    .texts-wrapper {
+      position: relative;
+      height: 20px;
+      margin-bottom: 30px;
+    }
+
+    .animate-show {
+      animation-duration: 9s;
+      animation-name: showLedger;
+      animation-fill-mode: both;
+      animation-iteration-count: infinite;
+    }
+
+    .device-img {
+      width: 278px;
+      height: 146px;
+      background: @ledger-step1;
+      position: relative;
+      display: block;
+      margin: 30px auto 20px calc(50% ~'- 193px');
+    }
+
+    .display {
+      position: absolute;
+      width: 70px;
+      height: 26px;
+      margin: 0 auto;
+      text-align: center;
+      top: 99px;
+      left: 140px;
+      font-size: 7px;
+      font-family: @font-roboto-medium;
+      color: @color-submit-300;
+    }
+
+    .text1 {
+      animation-delay: 0s;
+    }
+
+    .display1 {
+      padding-top: 5px;
+    }
+
+    .display2 {
+      animation-delay: 3s;
+      background: @ledger-pin no-repeat;
+      background-position-y: 15px;
+      background-position-x: center;
+    }
+
+    .text2 {
+      animation-delay: 3s;
+    }
+
+    .display3 {
+      animation-delay: 6s;
+      background: @ledger-apps no-repeat;
+      background-position-y: 6px;
+      background-position-x: center;
+      top: 97px;
+      left: 138px;
+      line-height: 43px;
+    }
+
+    .text3 {
+      animation-delay: 6s;
+    }
+
+    .dot {
+      animation-duration: 9s;
+      animation-name: showDot;
+      display: inline-block;
+      width: 3px;
+      height: 3px;
+      background-color: #5a81ea;
+      position: relative;
+      margin: 2px;
+      opacity: 0;
+    }
+
+    .dot1 {
+      animation-delay: 0s;
+    }
+    .dot2 {
+      animation-delay: 0.5s;
+    }
+    .dot3 {
+      animation-delay: 1s;
+    }
+    .dot4 {
+      animation-delay: 1.5s;
+    }
+    .dot5 {
+      animation-delay: 2s;
+    }
+
+    .info-text {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      margin: 0;
+    }
+
+    w-loader {
+      top: 5px;
+      position: relative;
+    }
+  }
+  .ledger-icons {
+    height: 80px;
+    width: 80px;
+    margin: 0 auto 30px auto;
+  }
+  .create-order-amounts {
+    text-align: center;
+    padding: 0 0 30px 0;
+    border-bottom: 1px solid @color-basic-100;
+    margin-bottom: -1px;
+    position: relative;
+    z-index: 1;
+  }
+  .create-order-icon {
+    background: @transaction-icons;
+    background-size: auto 80px;
+    background-repeat: no-repeat;
+    background-position: -157px center;
+  }
+  .create-order-cont {
+    border-bottom: 1px solid @color-basic-100;
+  }
+  .cancel-order-mode,
+  .create-order-mode {
+    padding-top: 30px;
+  }
+  .cancel-order-icon {
+    background: @cancelorder-icon;
+  }
+  .bottom-wrapper {
+    padding-top: 20px;
+    
+    w-loader {
+      position: relative;
+    }
+  }
+
+  .matcher-mode {
+
+    .device-img {
+      width: 278px;
+      height: 146px;
+      background: @ledger-step1;
+      position: relative;
+      display: block;
+      margin: 30px auto 20px calc(50% ~'- 193px');
+    }
+
+    .txinfo__row.one-line-border {
+      border-top: 1px solid @color-basic-100;
+      border-bottom: 1px solid @color-basic-100;
+      margin-top: 20px;
+    }
+
+    .display {
+      position: absolute;
+      width: 70px;
+      height: 26px;
+      margin: 0 auto;
+      text-align: center;
+      top: 99px;
+      left: 140px;
+      font-size: 7px;
+      font-family: @font-roboto-medium;
+      color: @color-submit-300;
+
+      & > div {
+        height: 8px;
+        padding: 0 15px;
+        position: relative;
+
+        &::before {
+          content: '';
+          width: 7px;
+          height: 7px;
+          display: block;
+          position: absolute;
+          top: 50%;
+
+        }
+
+        &:first-child {
+          &::before {
+            background: url(/img/icons/ledger-cancel.svg) center no-repeat;
+            left: 5px;
+            transform: translateY(60%);
+          }
+        }
+
+        &:last-child {
+          &::before {
+            background: url(/img/icons/ledger-ok.svg) center no-repeat;
+            right: 7px;
+            transform: translateY(-50%);
+          }
+        }
+      }
+    }
+
+    w-loader {
+      position: relative;
+      margin: 30px auto 0;
+      transform: translate(0) translate3d(0,0,0);
+      left: auto;
+    }
+
+    .tx-id-wrapper {
+      padding-top: 10px;
+    }
+
+    .tx-info {
+      display: inline-block;
+      padding-right: 40px;
+    }
+  }
+}
+
+@keyframes showDot {
+  0% {
+    opacity: 0;
+  }
+
+  3% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  51% {
+    opacity: 0;
+  }
+
+    100% {
+    opacity: 0;
+  }
+}
+
+@keyframes showLedger {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 1;
+  }
+  35% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}

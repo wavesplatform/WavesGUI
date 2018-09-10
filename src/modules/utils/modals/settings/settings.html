@@ -108,7 +108,7 @@
             </w-step>
 
             <w-step step-id="security" class="security">
-                <div class="row margin-1">
+                <div class="row margin-1" ng-if="$ctrl.phrase">
                     <div class="footnote-1 disabled-600 label">
                         <span w-i18n="modal.settings.security.backupPhrase"></span>
                         <a class="settings-copy" w-copy="::$ctrl.phrase" w-i18n="modal.settings.network.copy"></a>
@@ -121,7 +121,7 @@
                     </div>
                 </div>
 
-                <div class="row margin-1">
+                <div class="row margin-1" ng-if="$ctrl.privateKey">
                     <div class="footnote-1 disabled-600 label">
                         <span w-i18n="modal.settings.security.privateKey"></span>
                         <a class="settings-copy"
