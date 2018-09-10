@@ -95,7 +95,13 @@ class App {
     }
 
     public addMatcherSign(timestamp, signature) {
-        return sign.getSignatureApi().getPublicKey()
+        const signApi = sign.getSignatureApi();
+
+        if (!signApi) {
+            return Promise.reject({ error: 'No exist signature api' });
+        }
+
+        return signApi.getPublicKey()
             .then((senderPublicKey) => {
                 api.matcher.addSignature(signature, senderPublicKey, timestamp);
             });
@@ -117,8 +123,13 @@ class App {
     }
 
     public signForMatcher(timestamp: number): Promise<string> {
-        return sign.getSignatureApi()
-            .makeSignable({
+        const signApi = sign.getSignatureApi()
+
+        if (!signApi) {
+            return Promise.reject({ error: 'Not exist signature api' })
+        }
+
+        return signApi.makeSignable({
                 type: SIGN_TYPE.MATCHER_ORDERS,
                 data: {
                     timestamp
