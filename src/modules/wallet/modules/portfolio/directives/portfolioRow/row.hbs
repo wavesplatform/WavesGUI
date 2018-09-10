@@ -1,12 +1,14 @@
 <div class="smart-table__name smart-table__cell" data-column-id="name">
-    <div class="cell">
+    <div class="cell {{#if canPayFee}}sponsored-asset{{/if}}">
         {{#if assetIconPath}}
             <div class="asset-logo margin-right-1 footnote-3"
                  style="width: 30px; height: 30px; background-image: url({{assetIconPath}});">
             </div>
         {{else}}
             <div class="asset-logo margin-right-1 footnote-3"
-                 style="width: 30px; height: 30px; background-color: {{charColor}}; font-size: 13px;">{{firstAssetChar}}</div>
+                 style="width: 30px; height: 30px; background-color: {{charColor}}; font-size: 13px;">{{firstAssetChar}}
+                <div class="marker" style="background-color: {{charColor}}"></div>
+            </div>
         {{/if}}
         <span class="asset-name-desktop">{{assetName}}</span></div>
 </div>

@@ -193,14 +193,21 @@
             const canStopSponsored = this._isMyAsset && ds.utils.getTransferFeeList()
                 .find(item => item.asset.id === this.balance.asset.id);
 
-            PortfolioRow.templatePromise.then((template) => {
+            Promise.all([
+                this.waves.node.getFeeList({ type: 'transfer' }),
+                PortfolioRow.templatePromise
+            ]).then(([list, template]) => {
 
+                let balance = this.balance;
                 const firstAssetChar = this.balance.asset.name.slice(0, 1);
+
+                const isWaves = this.balance.asset.id === WavesApp.defaultAssets.WAVES;
+                const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !isWaves;
 
                 const html = template({
                     assetIconPath: ASSET_IMAGES_MAP[this.balance.asset.id],
                     firstAssetChar,
-                    canBurn: this.balance.asset.id !== WavesApp.defaultAssets.WAVES,
+                    canBurn: !isWaves,
                     canReissue: this._isMyAsset && this.balance.asset.reissuable,
                     charColor: COLORS_MAP[firstAssetChar.toUpperCase()] || DEFAULT_COLOR,
                     assetName: this.balance.asset.name,
@@ -208,12 +215,11 @@
                     canShowDex: this.canShowDex,
                     canShowToggleSpam: this._canShowToggleSpam(),
                     canSponsored: this._isMyAsset,
+                    canPayFee,
                     canStopSponsored
                 });
 
                 this.node.innerHTML = html;
-
-                let balance = this.balance;
 
                 Object.defineProperty(this, 'balance', {
                     get: () => balance,

@@ -84,12 +84,17 @@
             _createTx() {
                 if (!this.fee || !this.minSponsoredAssetFee) {
                     this._tx = null;
+                    return null;
                 }
 
                 const { fee, minSponsoredAssetFee } = this;
                 const type = SIGN_TYPE.SPONSORSHIP;
                 const transactionType = WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP;
-                this._tx = { transactionType, fee, minSponsoredAssetFee, type };
+                this._tx = waves.node.transactions.createTransaction(transactionType, {
+                    fee,
+                    minSponsoredAssetFee,
+                    type
+                });
             }
 
             /**

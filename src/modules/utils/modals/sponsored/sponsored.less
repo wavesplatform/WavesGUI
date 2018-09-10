@@ -1,0 +1,73 @@
+@import (reference) 'config';
+
+.sponsorship,
+.asset-info-modal {
+  w-asset-logo {
+    margin-right: 20px;
+    float: left;
+    z-index: 1;
+    position: relative;
+    &.sponsored-asset {
+      .asset-logo {
+        .marker {
+          width: 20px;
+          height: 20px;
+          background-size: 10px;
+          border: 2px solid #fff;
+        }
+      }
+    }
+  }
+}
+
+.sponsorship {
+  w-asset-rate-chart {
+    position: absolute;
+  }
+
+  &__asset-data h4 {
+    font-weight: normal;
+    padding-top: 9px;
+    margin-bottom: 2px;
+  }
+
+  &__one-line {
+    max-height: 1.3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__chart-wrapper {
+    opacity: 0.2;
+    position: relative;
+    height: 76px;
+    margin: 0 -40px;
+    width: calc(100% ~'+ 80px');
+    border-bottom: 1px solid @color-submit-300;
+  }
+
+  &__interactive-stop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  &__chart-tooltip,
+  &__chart-legend { // Lib ng3-charts
+    display: none !important;
+  }
+
+  &__line {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid @color-basic-100;
+    border-top: 1px solid @color-basic-100;
+    padding: 5px 0;
+    align-items: center;
+    min-height: 38px;
+  }
+}

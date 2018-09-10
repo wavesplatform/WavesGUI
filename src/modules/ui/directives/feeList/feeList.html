@@ -1,14 +1,15 @@
-<div ng-if="$ctrl.type">
+<div ng-if="$ctrl.type" class="fee-list">
     <w-select ng-if="$ctrl.feeList.length > 1"
-              ng-model="$ctrl.fee">
+              ng-model="$ctrl.fee"
+              class="big">
         <w-option ng-repeat="fee in $ctrl.feeList track by fee.asset.id"
                   value="::fee">
             <span>{{::fee.asset.displayName}}</span>
-            <span w-i18n="money-currency" params="{money: fee}"></span>
+            <span w-i18n="money-currency" class="money-currency" params="{money: fee}"></span>
         </w-option>
     </w-select>
     <div ng-if="$ctrl.feeList.length === 1">
         <span>{{::$ctrl.fee.asset.displayName}}</span>
-        <span w-i18n="money-currency" params="{money: $ctrl.fee}"></span>
+        <span w-i18n="money-currency" class="money-currency" params="{money: $ctrl.fee}"></span>
     </div>
 </div>

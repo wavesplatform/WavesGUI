@@ -370,6 +370,7 @@
                     id: 'sponsorship',
                     mod: 'sponsorship',
                     locals: { assetId, isCreateSponsored: true },
+                    titleContent: '<span w-i18n="modal.sponsorship.title""></span>',
                     controller: 'SponsoredModalCtrl',
                     contentUrl: 'modules/utils/modals/sponsored/sponsored.html'
                 });

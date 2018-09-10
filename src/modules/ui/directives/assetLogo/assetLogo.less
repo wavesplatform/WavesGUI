@@ -1,6 +1,10 @@
 @import (reference) 'config';
 
-w-asset-logo .asset-logo {
+w-asset-logo {
+  position: relative;
+}
+
+.asset-logo {
   background-size: 100% 100%;
   text-align: center;
   border-radius: 50%;
@@ -9,4 +13,24 @@ w-asset-logo .asset-logo {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  .marker {
+    display: none;
+  }
+}
+
+.sponsored-asset {
+  .asset-logo {
+    .marker {
+      display: block;
+      width: 11px;
+      height: 11px;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      border: 1px solid @color-white;
+      border-radius: 50%;
+      background: url(/img/icons/sponosred-asset-marker.svg) center no-repeat;
+    }
+  }
 }

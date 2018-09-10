@@ -1,27 +1,66 @@
 <w-step-by-step active-step="$ctrl.step">
     <w-step>
-        <w-asset-logo asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
+        <div class="sponsorship__asset-content margin-4">
+            <div class="sponsorship__top-content">
+                <w-asset-logo ng-cloak asset-id="{{::$ctrl.assetId}}" size="65"></w-asset-logo>
+
+                <div class="sponsorship__asset-data">
+                    <h4 ng-cloak class="basic-900">{{::$ctrl.asset.name}}Token name(hardcode)</h4>
+                    <div ng-cloak
+                         class="body-2 basic-500 sponsorship__one-line"
+                         w-i18n-ns="app.ui"
+                         skip-errors>
+                        Token descr (hardcode)
+                        <!--
+                            default-value="{{::$ctrl.asset.description}}"
+                            w-i18n="{{::$ctrl.asset.id}}.description"
+                         -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="sponsorship__chart-wrapper">
+                <w-asset-rate-chart no-update="::true" asset-id="::$ctrl.asset.id"></w-asset-rate-chart>
+                <div class="sponsorship__interactive-stop"></div>
+            </div>
+        </div>
+
         <form novalidate name="sponsored">
 
-            <w-input-container>
+            <div class="sponsorship__line margin-3">
+                <div class="basic-500" w-i18n="modal.sponsorship.assetId"></div>
+                <div class="basic-900 fs-mobile ng-binding"><!--{{::$ctrl.asset.id}}-->000000000001-HARDCODE</div>
+            </div>
+
+            <div class="warning-plate margin-3 body-1">
+                <div class="body-2 warning-500" w-i18n="modal.sponsorship.warningHeader"></div>
+                <div class="footnote-1 basic-500" w-i18n="modal.sponsorship.warningText"></div>
+            </div>
+
+            <div class="body-2 basic-900" w-i18n="modal.sponsorship.amountPerTx" params=""></div>
+
+            <w-input-container class="margin-1">
                 <w-input ng-model="$ctrl.minSponsoredAssetFee"
+                         name="minSponsoredAssetFee"
                          w-validate
+                         type="text"
+                         required
                          w-validator-gt="0"
-                         w-validator-lte="{{$ctrl.assetBalance}}"
-                         w-validator-asset="{{::$ctrl.assetId}}"></w-input>
+                         w-validator-asset="{{::$ctrl.assetId}}"
+                         class="big"></w-input>
+
+                <w-input-error message="required">
+                    <span w-i18n="required"></span>
+                </w-input-error>
+
             </w-input-container>
 
-            <div class="sponsored-modal__button-wrapper">
+            <div class="basic-500 margin-3" w-i18n="modal.sponsorship.fee" params="{fee: $ctrl.tx.fee}"></div>
 
-                <w-button class="big" w-modal-close>
-                    <span w-i18n="cancel"></span>
-                </w-button>
+            <w-button class="big submit long" disabled="sponsored.$invalid" on-click="$ctrl.onConfirm()">
+                <span w-i18n="modal.sponsorship.continue"></span>
+            </w-button>
 
-                <w-button class="big submit" disabled="sponsored.$invalid" on-click="$ctrl.onConfirm()">
-                    <span w-i18n="confirm"></span>
-                </w-button>
-
-            </div>
         </form>
     </w-step>
     <w-step>

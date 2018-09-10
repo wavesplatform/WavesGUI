@@ -175,10 +175,12 @@
         </w-input-container>
     </div>
 
+    <div class="body-2 fee-title" w-i18n="modal.send.txFee"></div>
     <div class="row fee margin-1" ng-if="!$ctrl.gatewayDetailsError">
         <w-fee-list type="::$ctrl.txType"
                     balance-hash="$ctrl.state.moneyHash"
-                    fee="$ctrl.tx.fee"></w-fee-list>
+                    fee="$ctrl.tx.fee"
+                    class="margin-2"></w-fee-list>
     </div>
 
     <div class="row commission-error margin-2 footnote error-500"

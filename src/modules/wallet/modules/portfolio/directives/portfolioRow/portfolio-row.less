@@ -4,6 +4,17 @@ w-portfolio-row {
   display: flex;
   width: 100%;
 
+
+  .sponsored-asset{
+    .asset-logo {
+      .marker {
+        position: absolute;
+        left: 40px;
+        bottom: calc(50% ~'- 14px');
+      }
+    }
+  }
+
   .asset-logo {
     background-size: 100% 100%;
     text-align: center;
@@ -13,6 +24,9 @@ w-portfolio-row {
     align-items: center;
     justify-content: center;
     color: @white-only;
+    .marker {
+      display: none;
+    }
   }
 
   .smart-table {

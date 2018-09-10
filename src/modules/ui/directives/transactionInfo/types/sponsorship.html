@@ -1,0 +1,16 @@
+<div class="txinfo__lead">
+    <h3 w-i18n="transaction.amounts.{{::$ctrl.typeName}}" class="basic-700"></h3>
+</div>
+
+<div class="txinfo__row" ng-if="$ctrl.transaction.minSponsoredAssetFee.asset.id">
+    <div class="txinfo__key" w-i18n="transaction.modals.assetId"></div>
+    <div class="txinfo__value">{{$ctrl.transaction.minSponsoredAssetFee.asset.id}}</div>
+</div>
+
+<div class="txinfo__row" ng-if="$ctrl.transaction.minSponsoredAssetFee.toFormat()">
+    <div class="txinfo__key" w-i18n="transaction.amounts.perTransaction"></div>
+    <div class="txinfo__value">
+        <w-balance money="::$ctrl.transaction.minSponsoredAssetFee"></w-balance>
+        <span class="txinfo__value-name">{{$ctrl.transaction.minSponsoredAssetFee.asset.name}}</span>
+    </div>
+</div>
