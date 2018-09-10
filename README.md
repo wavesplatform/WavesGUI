@@ -2,7 +2,7 @@
 
 [**Website**](https://wavesplatform.com/) | [**Discord**](https://discord.gg/cnFmDyA) | [**Forum**](https://forum.wavesplatform.com/) | [**Support**](https://support.wavesplatform.com/) | [**Documentation**](https://docs.wavesplatform.com)
 
-[![Waves App Promo](https://cdn-images-1.medium.com/max/1200/1*Tgu7GVQg9b8Es4lGA1Fj4g.png)](https://wavesplatform.com/product)
+[![Waves App Promo](https://raw.githubusercontent.com/wavesplatform/WavesGUI/dev/README_IMG_01.png)](https://wavesplatform.com/product)
 
 Waves Client is the official wallet software designed with mass adoption in mind. It allows to access your Waves account, handle financial operations, issue tokens, and trade on DEX.
 
