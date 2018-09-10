@@ -279,7 +279,7 @@
                     }
                 }).then(() => analytics.push(
                     'User',
-                    `${restore ? 'Restore' : 'Create'}.${WavesApp.type}`,
+                    `${restore ? 'Restore' : 'Create'}.${WavesApp.type}.${data.userType}`,
                     document.referrer)
                 );
             }
