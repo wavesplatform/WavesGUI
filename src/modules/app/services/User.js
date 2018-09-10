@@ -242,7 +242,7 @@
              */
             login(data) {
                 return this._addUserData(data)
-                    .then(() => analytics.push('User', `Login.${WavesApp.type}`));
+                    .then(() => analytics.push('User', `Login.${WavesApp.type}.${data.userType}`));
             }
 
             /**
@@ -260,6 +260,8 @@
             create(data, hasBackup, restore) {
 
                 this.noSaveToStorage = !data.saveToStorage;
+
+                data.userType = data.userType || 'seed';
 
                 return this._addUserData({
                     id: data.id,
@@ -279,9 +281,8 @@
                     }
                 }).then(() => analytics.push(
                     'User',
-                    `${restore ? 'Restore' : 'Create'}.${WavesApp.type}`,
-                    document.referrer)
-                );
+                    `${restore ? 'Restore' : 'Create'}.${WavesApp.type}.${data.userType}`,
+                    document.referrer));
             }
 
             logout() {
