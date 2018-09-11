@@ -33,13 +33,13 @@
             <div class="warning-plate margin-3 body-1">
                 <div class="body-2 warning-500"
                      w-i18n="modal.sponsorship.warningHeader"
-                     params="{fee: $ctrl.minSponsoredAssetFee}"
+                     params="{name: $ctrl.asset.description}"
 
                 ></div>
-                <div class="footnote-1 basic-500" w-i18n="modal.sponsorship.warningText" params="{fee: $ctrl.minSponsoredAssetFee, name: $ctrl.asset.description}"></div>
+                <div class="footnote-1 basic-500" w-i18n="modal.sponsorship.warningText" params="{name: $ctrl.asset.description}"></div>
             </div>
 
-            <div class="body-2 basic-900" w-i18n="modal.sponsorship.amountPerTx" params="{amount: $ctrl.minSponsoredAssetFee}"></div>
+            <div class="body-2 basic-900" w-i18n="modal.sponsorship.amountPerTx"></div>
 
             <w-input-container class="margin-1">
                 <w-input ng-model="$ctrl.minSponsoredAssetFee"
