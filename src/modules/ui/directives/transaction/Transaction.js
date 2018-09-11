@@ -50,6 +50,10 @@
                 if (this.typeName === TYPES.EXCHANGE_BUY || this.typeName === TYPES.EXCHANGE_SELL) {
                     this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
                 }
+
+                if ([TYPES.SPONSORSHIP_START, TYPES.SPONSORSHIP_STOP].includes(this.typeName)) {
+                    this.sponsorshipFee = this.transaction.minSponsoredAssetFee;
+                }
             }
 
             getAssetName(asset) {

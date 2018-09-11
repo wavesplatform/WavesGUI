@@ -199,10 +199,10 @@
             }
 
             static _getSponsorshipType(tx) {
-                if (tx.minSponsoredAssetFee.getTokens().eq(0)) {
-                    return TYPES.SPONSORSHIP_STOP;
-                } else {
+                if (tx.minSponsoredAssetFee.getTokens().gt(0)) {
                     return TYPES.SPONSORSHIP_START;
+                } else {
+                    return TYPES.SPONSORSHIP_STOP;
                 }
             }
 
