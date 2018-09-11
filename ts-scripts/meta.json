@@ -105,6 +105,13 @@
         "group": ",",
         "decimal": "."
       }
+    },
+    "pl": {
+      "name": "Pl",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
     }
   },
   "electronScripts": [
