@@ -366,13 +366,15 @@
             }
 
             showSponsorshipModal(assetId) {
-                return this._getModal({
-                    id: 'sponsorship',
-                    mod: 'sponsorship',
-                    locals: { assetId, isCreateSponsored: true },
-                    titleContent: '<span w-i18n="modal.sponsorship.title""></span>',
-                    controller: 'SponsoredModalCtrl',
-                    contentUrl: 'modules/utils/modals/sponsored/sponsored.html'
+                return ds.api.assets.get(assetId).then((asset) => {
+                    return this._getModal({
+                        id: 'sponsorship',
+                        mod: 'sponsorship',
+                        locals: { asset, assetId, isCreateSponsored: true },
+                        titleContent: '<span w-i18n="modal.sponsorship.title""></span>',
+                        controller: 'SponsoredModalCtrl',
+                        contentUrl: 'modules/utils/modals/sponsored/sponsored.html'
+                    });
                 });
             }
 
@@ -387,6 +389,7 @@
 
                     return this.showConfirmTx(WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP, {
                         assetId,
+                        asset,
                         minSponsoredAssetFee: money,
                         fee
                     });

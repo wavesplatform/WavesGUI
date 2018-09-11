@@ -52,12 +52,15 @@
              * @private
              */
             _tx = null;
+            /**
+             * @type {Asset}
+             */
+            asset = null;
 
-
-            constructor({ assetId }) {
+            constructor({ asset }) {
                 super($scope);
-                this.assetId = assetId;
-
+                this.assetId = asset.id;
+                this.asset = asset;
                 if (isEmpty(this.assetId)) {
                     throw new Error('Wrong modal params!');
                 }
@@ -130,9 +133,9 @@
              * @private
              */
             _getTxForFee() {
-                return waves.node.assets.getAsset(this.assetId)
-                    .then(asset => new Money(0, asset))
-                    .then(money => ({ type: SIGN_TYPE.SPONSORSHIP, minSponsoredAssetFee: money }));
+                return Promise.resolve(() => {
+                    return { type: SIGN_TYPE.SPONSORSHIP, minSponsoredAssetFee: new Money(0, this.asset) };
+                });
             }
 
         }

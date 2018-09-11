@@ -1,5 +1,5 @@
 <div class="smart-table__name smart-table__cell" data-column-id="name">
-    <div class="cell {{#if canPayFee}}sponsored-asset{{/if}}">
+    <div class="cell {{SELECTORS.SPONSORED}}">
         {{#if assetIconPath}}
             <div class="asset-logo margin-right-1 footnote-3"
                  style="width: 30px; height: 30px; background-image: url({{assetIconPath}});">
@@ -114,19 +114,22 @@
                         </div>
                     {{/if}}
 
-                    {{#if canSponsored}}
-                        <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SPONSORSHIP}}"
-                             role="button" tabindex="0">
-                            <span w-i18n-literal="sponsorship"></span>
-                        </div>
-                    {{/if}}
+                    <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SPONSORSHIP_CREATE}}"
+                         role="button" tabindex="0">
+                        <span class="{{SELECTORS.ACTION_BUTTONS.SPONSORSHIP_CREATE}}"
+                              w-i18n-literal="sponsorship"></span>
+                    </div>
 
-                    {{#if canStopSponsored}}
-                        <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SPONSORSHIP_STOP}}"
-                             role="button" tabindex="0">
-                            <span w-i18n-literal="sponsorshipStop"></span>
-                        </div>
-                    {{/if}}
+                    <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SPONSORSHIP_EDIT}}"
+                         role="button" tabindex="0">
+                        <span class="{{SELECTORS.ACTION_BUTTONS.SPONSORSHIP_EDIT}}"
+                              w-i18n-literal="editSponsorship"></span>
+                    </div>
+
+                    <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SPONSORSHIP_STOP}}"
+                         role="button" tabindex="0">
+                        <span w-i18n-literal="sponsorshipStop"></span>
+                    </div>
 
                     {{#if canShowDex}}
                         <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.DEX}}"

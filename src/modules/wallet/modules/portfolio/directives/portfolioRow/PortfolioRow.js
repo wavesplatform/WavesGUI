@@ -54,6 +54,7 @@
     const TEMPLATE_PATH = 'modules/wallet/modules/portfolio/directives/portfolioRow/row.hbs';
     const SELECTORS = {
         AVAILABLE: 'js-balance-available',
+        SPONSORED: 'js-sponsored-asset',
         IN_ORDERS: 'js-balance-in-orders',
         BASE_ASSET_BALANCE: 'js-balance-in-base-asset',
         EXCHANGE_RATE: 'js-exchange-rate',
@@ -73,7 +74,8 @@
             REISSUE: 'js-action-button-reissue',
             DEX: 'js-action-button-dex',
             TOGGLE_SPAM: 'js-action-button-toggle-spam',
-            SPONSORSHIP: 'js-action-button-sponsorship',
+            SPONSORSHIP_CREATE: 'js-action-button-sponsorship_create',
+            SPONSORSHIP_EDIT: 'js-action-button-sponsorship_edit',
             SPONSORSHIP_STOP: 'js-action-button-cancel-sponsorship'
         }
     };
@@ -187,11 +189,10 @@
         }
 
         $postLink() {
-
+            this._isWaves = this.balance.asset.id === WavesApp.defaultAssets.WAVES;
             this._isMyAsset = this.balance.asset.sender === this.user.address;
             this.canShowDex = this._getCanShowDex();
-            const canStopSponsored = this._isMyAsset && ds.utils.getTransferFeeList()
-                .find(item => item.asset.id === this.balance.asset.id);
+            const canStopSponsored = this._getCanStopSponsored();
 
             Promise.all([
                 this.waves.node.getFeeList({ type: 'transfer' }),
@@ -201,13 +202,12 @@
                 let balance = this.balance;
                 const firstAssetChar = this.balance.asset.name.slice(0, 1);
 
-                const isWaves = this.balance.asset.id === WavesApp.defaultAssets.WAVES;
-                const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !isWaves;
+                const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
 
                 const html = template({
                     assetIconPath: ASSET_IMAGES_MAP[this.balance.asset.id],
                     firstAssetChar,
-                    canBurn: !isWaves,
+                    canBurn: !this._isWaves,
                     canReissue: this._isMyAsset && this.balance.asset.reissuable,
                     charColor: COLORS_MAP[firstAssetChar.toUpperCase()] || DEFAULT_COLOR,
                     assetName: this.balance.asset.name,
@@ -231,10 +231,13 @@
                             balance = value;
                             this._onUpdateBalance();
                         }
+
+                        this._initSponsorShips();
                     }
                 });
 
                 this._onUpdateBalance();
+                this._initSponsorShips();
                 this._setHandlers();
                 this.changeLanguageHandler();
             });
@@ -253,8 +256,14 @@
             });
         }
 
+        _getCanStopSponsored() {
+            return this._isMyAsset && ds.utils.getTransferFeeList()
+                .find(item => item.asset.id === this.balance.asset.id);
+        }
+
         _getCanShowDex() {
             return this.balance.isPinned ||
+                this._isMyAsset ||
                 this.balance.asset.isMyAsset ||
                 this.balance.asset.id === WavesApp.defaultAssets.WAVES ||
                 this.gatewayService.getPurchasableWithCards()[this.balance.asset.id] ||
@@ -396,7 +405,11 @@
                 this.$state.go('main.dex', this._getSrefParams(this.balance.asset));
             });
 
-            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP}`, () => {
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_CREATE}`, () => {
+                this.modalManager.showSponsorshipModal(this.balance.asset.id);
+            });
+
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_EDIT}`, () => {
                 this.modalManager.showSponsorshipModal(this.balance.asset.id);
             });
 
@@ -430,6 +443,26 @@
                 toggleSpam.classList.toggle('icon-hide', !isSpam);
                 toggleSpam.classList.toggle('icon-show', isSpam);
             });
+        }
+
+        _initSponsorShips(list) {
+            const canStopSponsored = !!this._getCanStopSponsored();
+            const canSponsored = !!this._isMyAsset;
+
+            const btnCreate = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_CREATE}`);
+            const btnEdit = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_EDIT}`);
+            const btnStop = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_STOP}`);
+            const icon = this.node.querySelector(`.${SELECTORS.SPONSORED}`);
+
+            btnCreate.classList.toggle('hidden', !(canSponsored && !canStopSponsored));
+            btnEdit.classList.toggle('hidden', !(canSponsored && canStopSponsored));
+            btnStop.classList.toggle('hidden', !canStopSponsored);
+
+            Promise.resolve(list || this.waves.node.getFeeList({ type: 'transfer' }))
+                .then((list) => {
+                    const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
+                    icon.classList.toggle('sponsored-asset', !!canPayFee);
+                });
         }
 
         /**
