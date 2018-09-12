@@ -117,6 +117,7 @@
             _setBalances([waves, assetBalance]) {
                 this.wavesBalance = waves.available;
                 this.assetBalance = assetBalance;
+                this._updateAvilableFee();
             }
 
             /**
@@ -127,7 +128,17 @@
                     .then(tx => waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP, tx }))
                     .then(fee => {
                         this.fee = fee;
+                        this._updateAvilableFee();
                     });
+            }
+
+            /**
+             * @private
+             */
+            _updateAvilableFee() {
+                if (this.fee && this.wavesBalance) {
+                    this.canSendTransaction = this.wavesBalance.gt(this.fee);
+                }
             }
 
             /**
