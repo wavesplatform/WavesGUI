@@ -53,6 +53,9 @@
 
                 if ([TYPES.SPONSORSHIP_START, TYPES.SPONSORSHIP_STOP].includes(this.typeName)) {
                     this.sponsorshipFee = this.transaction.minSponsoredAssetFee;
+                    this.titleAssetName = this.getAssetName(
+                        tsUtils.get(this.transaction, 'minSponsoredAssetFee.asset')
+                    );
                 }
             }
 
