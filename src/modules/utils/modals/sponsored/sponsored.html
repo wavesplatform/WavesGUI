@@ -42,14 +42,15 @@
             <div class="body-2 basic-900" w-i18n="modal.sponsorship.amountPerTx"></div>
 
             <w-input-container class="margin-1">
-                <w-input ng-model="$ctrl.minSponsoredAssetFee"
+                <w-balance-input ng-model="$ctrl.minSponsoredAssetFee"
                          name="minSponsoredAssetFee"
                          w-validate
                          type="text"
                          required
+                         asset-id="$ctrl.assetId"
                          w-validator-gt="0"
                          w-validator-asset="{{::$ctrl.asset.id}}"
-                         class="big"></w-input>
+                         class="big"></w-balance-input>
 
                 <w-input-error message="required">
                     <span w-i18n="modal.sponsorship.feeRequired"></span>
