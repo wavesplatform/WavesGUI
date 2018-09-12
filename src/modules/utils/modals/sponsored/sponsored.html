@@ -49,19 +49,24 @@
                          required
                          asset-id="$ctrl.assetId"
                          w-validator-gt="0"
+                         w-validator-custom="{{$ctrl.canSendTransaction}}"
                          w-validator-asset="{{::$ctrl.asset.id}}"
                          class="big"></w-balance-input>
 
                 <w-input-error message="required">
-                    <span w-i18n="modal.sponsorship.feeRequired"></span>
+                    <span w-i18n="modal.sponsorship.errors.feeRequired"></span>
                 </w-input-error>
                 <w-input-error message="precision">
-                    <span w-i18n="modal.receive.error.minSponsoredAssetFee.precision"></span>
+                    <span w-i18n="modal.sponsorship.errors.minSponsoredAssetFee.precision"></span>
                 </w-input-error>
 
             </w-input-container>
 
             <div class="basic-500 margin-3" w-i18n="modal.sponsorship.fee" params="{fee: $ctrl.fee}"></div>
+
+            <div ng-if="!$ctrl.canSendTransaction">
+                    <span w-i18n="modal.sponsorship.errors.noMoney"></span>
+            </div>
 
             <w-button class="big submit long" disabled="sponsored.$invalid" on-click="$ctrl.onConfirm()">
                 <span w-i18n="modal.sponsorship.continue"></span>
