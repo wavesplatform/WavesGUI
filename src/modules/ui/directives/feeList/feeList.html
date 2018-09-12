@@ -1,4 +1,7 @@
 <div ng-if="$ctrl.type" class="fee-list">
+    <div ng-if="$ctrl.feeList.length > 1"
+         class="body-2 fee-title"
+         w-i18n="modal.send.txFee"></div>
     <w-select ng-if="$ctrl.feeList.length > 1"
               ng-model="$ctrl.fee"
               class="big">
@@ -8,7 +11,9 @@
             <span w-i18n="money-currency" class="money-currency" params="{money: fee}"></span>
         </w-option>
     </w-select>
-    <div ng-if="$ctrl.feeList.length === 1">
-        <span w-i18n="money-currency" class="money-currency" params="{money: $ctrl.fee}"></span>
+    <div ng-if="$ctrl.feeList.length === 1" class="row margin-1">
+        <span w-i18n="modal.send.notSponsorship.fee"
+              params="{fee: $ctrl.fee}"
+              class="body basic-500"></span>
     </div>
 </div>
