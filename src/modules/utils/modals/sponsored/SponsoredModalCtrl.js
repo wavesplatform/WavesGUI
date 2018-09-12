@@ -137,7 +137,7 @@
              */
             _updateAvilableFee() {
                 if (this.fee && this.wavesBalance) {
-                    this.canSendTransaction = this.wavesBalance.gt(this.fee);
+                    this.canSendTransaction = this.wavesBalance.gte(this.fee);
                 }
             }
 

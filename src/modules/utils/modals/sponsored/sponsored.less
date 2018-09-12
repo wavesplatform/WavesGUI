@@ -26,10 +26,28 @@
     position: absolute;
   }
 
-  w-balance-input {
-    .send-all {
+  w-input-container {
+    position: relative;
+
+    .w-input-wrap::after {
       display: none;
     }
+
+    .currency {
+      max-width: 40px;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 15px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+
+  .commission-error {
+    margin-top: -20px;
   }
 
   &__asset-data h4 {

@@ -12,7 +12,7 @@
                          skip-errors
                          default-value="{{::$ctrl.asset.description}}"
                          w-i18n="{{::$ctrl.asset.id}}.description"
-                         >
+                    >
                     </div>
                 </div>
             </div>
@@ -36,22 +36,24 @@
                      params="{name: $ctrl.asset.name}"
 
                 ></div>
-                <div class="footnote-1 basic-500" w-i18n="modal.sponsorship.warningText" params="{name: $ctrl.asset.name}"></div>
+                <div class="footnote-1 basic-500" w-i18n="modal.sponsorship.warningText"
+                     params="{name: $ctrl.asset.name}"></div>
             </div>
 
             <div class="body-2 basic-900" w-i18n="modal.sponsorship.amountPerTx"></div>
 
             <w-input-container class="margin-1">
-                <w-balance-input ng-model="$ctrl.minSponsoredAssetFee"
-                         name="minSponsoredAssetFee"
+                <w-input ng-model="$ctrl.minSponsoredAssetFee"
                          w-validate
                          type="text"
                          required
-                         asset-id="$ctrl.assetId"
                          w-validator-gt="0"
                          w-validator-custom="{{$ctrl.canSendTransaction}}"
-                         w-validator-asset="{{::$ctrl.asset.id}}"
-                         class="big"></w-balance-input>
+                         class="big"></w-input>
+
+                <div title="{{$ctrl.asset.name}}"
+                     class="currency basic-500 caption-2">{{$ctrl.asset.displayName}}
+                </div>
 
                 <w-input-error message="required">
                     <span w-i18n="modal.sponsorship.errors.feeRequired"></span>
@@ -64,8 +66,11 @@
 
             <div class="basic-500 margin-3" w-i18n="modal.sponsorship.fee" params="{fee: $ctrl.fee}"></div>
 
-            <div ng-if="!$ctrl.canSendTransaction">
-                    <span w-i18n="modal.sponsorship.errors.noMoney"></span>
+            <div class="row commission-error margin-2 footnote error-500"
+                 ng-if="!$ctrl.canSendTransaction">
+                <span params="{fee: $ctrl.fee, currency: $ctrl.fee.asset}"
+                      w-i18n="modal.sponsorship.errors.noMoney">
+                </span>
             </div>
 
             <w-button class="big submit long" disabled="sponsored.$invalid" on-click="$ctrl.onConfirm()">
