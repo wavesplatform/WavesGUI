@@ -1,0 +1,24 @@
+<div class="line-wrapper">
+    <div class="line">
+        <div class="body-2 top fs-mobile">
+            <span w-i18n="transaction.headers.{{::$ctrl.typeName}}"
+                  params="{
+                    name: $ctrl.getAssetName($ctrl.transaction.fee.asset),
+                  }"></span>
+        </div>
+        <div class="footnote-1 bottom fs-mobile">
+            <span w-i18n="transaction.subheaders.{{::$ctrl.typeName}}"
+                  params="{time: $ctrl.time}"></span>
+        </div>
+    </div>
+    <div class="line">
+        <div class="body-2 top fs-mobile">
+            <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
+                  params="{
+                    sign: '+',
+                    amount: $ctrl.transaction.fee.toFormat(),
+                    name: $ctrl.getAssetName($ctrl.transaction.fee.asset)
+                  }"></span>
+        </div>
+    </div>
+</div>

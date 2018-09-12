@@ -14,7 +14,7 @@
         <div class="txinfo__value nowrap">{{$ctrl.txId || $ctrl.transaction.id}}</div>
     </div>
 
-    <div class="txinfo__row">
+    <div class="txinfo__row" ng-if="$ctrl.calculatedFee">
         <div class="txinfo__key" w-i18n="transaction.modals.fee"></div>
         <div class="txinfo__value">
             <span w-i18n="fee" params="{money: $ctrl.calculatedFee}"></span>
