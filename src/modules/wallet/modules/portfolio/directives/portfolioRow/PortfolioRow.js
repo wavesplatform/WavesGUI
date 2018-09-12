@@ -410,7 +410,7 @@
             });
 
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_EDIT}`, () => {
-                this.modalManager.showSponsorshipModal(this.balance.asset.id);
+                this.modalManager.showSponsorshipModal(this.balance.asset.id, true);
             });
 
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_STOP}`, () => {

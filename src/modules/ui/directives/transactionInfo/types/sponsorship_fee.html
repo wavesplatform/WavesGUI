@@ -1,6 +1,10 @@
 <div class="txinfo__lead">
     <h3 w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
-        params="{amount: $ctrl.transaction.fee.toFormat(), name: $ctrl.transaction.fee.asset.name}"
+        params="{
+            amount: $ctrl.transaction.fee.toFormat(),
+            name: $ctrl.transaction.fee.asset.name,
+            sign: '+'
+        }"
         class="basic-700"
     ></h3>
 </div>

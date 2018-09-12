@@ -57,10 +57,11 @@
              */
             asset = null;
 
-            constructor({ asset }) {
+            constructor({ asset, isCreateSponsored }) {
                 super($scope);
                 this.assetId = asset.id;
                 this.asset = asset;
+                this.isCreateSponsored = isCreateSponsored;
                 if (isEmpty(this.assetId)) {
                     throw new Error('Wrong modal params!');
                 }

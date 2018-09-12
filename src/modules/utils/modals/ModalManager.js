@@ -365,13 +365,14 @@
                 }));
             }
 
-            showSponsorshipModal(assetId) {
+            showSponsorshipModal(assetId, isEdit) {
+                const title = isEdit ? 'modal.sponsorship_edit.title' : 'modal.sponsorship.title';
                 return ds.api.assets.get(assetId).then((asset) => {
                     return this._getModal({
                         id: 'sponsorship',
                         mod: 'sponsorship',
-                        locals: { asset, assetId, isCreateSponsored: true },
-                        titleContent: '<span w-i18n="modal.sponsorship.title""></span>',
+                        locals: { asset, assetId, isCreateSponsored: !isEdit },
+                        titleContent: `<span w-i18n="${title}"></span>`,
                         controller: 'SponsoredModalCtrl',
                         contentUrl: 'modules/utils/modals/sponsored/sponsored.html'
                     });
