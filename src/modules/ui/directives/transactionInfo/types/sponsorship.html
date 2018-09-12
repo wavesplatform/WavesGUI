@@ -7,7 +7,7 @@
     <div class="txinfo__value">{{$ctrl.transaction.minSponsoredAssetFee.asset.id}}</div>
 </div>
 
-<div class="txinfo__row" ng-if="$ctrl.transaction.minSponsoredAssetFee.toFormat()">
+<div class="txinfo__row" ng-if="$ctrl.transaction.typeName === 'sponsorship-start'">
     <div class="txinfo__key" w-i18n="transaction.amounts.perTransaction"></div>
     <div class="txinfo__value">
         <w-balance money="::$ctrl.transaction.minSponsoredAssetFee"></w-balance>
