@@ -17,6 +17,10 @@ md-dialog.settings-modal {
     display: none;
   }
 
+  w-web-only {
+    display: block;
+  }
+
   w-select {
     &.with-scroll {
       .select-list {
@@ -144,35 +148,34 @@ md-dialog.settings-modal {
     align-items: center;
   }
 
+  .row {
+    min-height: 44px;
+  }
+
   .row-style {
-    padding: 12px 0;
     border-bottom: 1px dashed @color-basic-200;
 
-    &:last-child {
-      border-bottom-style: solid;
-      align-items: center;
+    &.solid-border {
+      border-bottom: 1px solid @color-basic-200;
+    }
+
+    &.no-border {
+      border: 0 none;
     }
 
     &.unit-checkbox {
-      // TODO : make it work properly without magic
-      padding-top: 5px;
+      padding-bottom: 20px;
 
       w-checkbox-submit {
         flex-grow: 0;
         display: block;
         margin-right: 18px;
         padding-right: 18px;
-        align-self: flex-start;
       }
 
       label {
         flex-grow: 1;
       }
-    }
-
-    &.unit-select {
-      // TODO : align to the middle without magic
-      padding: 5px 0;
     }
   }
 
