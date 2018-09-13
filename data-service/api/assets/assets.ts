@@ -95,9 +95,11 @@ export function remapAssetsBalance(data: assetsApi.IBalanceList, assetsHash: IHa
         const empty = new Money(new BigNumber('0'), asset);
         const balance = isEmpty(assetData.sponsorBalance) ? null : new Money(assetData.sponsorBalance as string, assetsHash[WAVES_ID]);
         const fee = isEmpty(assetData.minSponsoredAssetFee) ? null : new Money(assetData.minSponsoredAssetFee as string, asset);
-
+        const { issueTransaction } = assetData;
+        const { sender } = issueTransaction;
+        const isMy = sender === data.address;
         if (balance && fee) {
-            setTransferFeeItem({ balance, fee });
+            setTransferFeeItem({ balance, fee, isMy });
         }
 
         return {

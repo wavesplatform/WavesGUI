@@ -458,7 +458,7 @@
             btnEdit.classList.toggle('hidden', !(canSponsored && canStopSponsored));
             btnStop.classList.toggle('hidden', !canStopSponsored);
 
-            Promise.resolve(list || this.waves.node.getFeeList({ type: 'transfer' }))
+            Promise.resolve(list || this.waves.node.getFeeList({ type: 'transfer', address: this.user.address }))
                 .then((list) => {
                     const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
                     icon.classList.toggle('sponsored-asset', !!canPayFee);

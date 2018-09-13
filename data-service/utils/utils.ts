@@ -164,6 +164,7 @@ export function stringifyJSON(data: any): string {
 export interface ITramsferFee {
     balance: Money;
     fee: Money;
+    isMy: boolean;
 }
 
 const transferFeeList: Array<ITramsferFee> = [];
@@ -178,6 +179,6 @@ export function setTransferFeeItem(item: ITramsferFee) {
 
 export function getTransferFeeList() {
     return transferFeeList
-        .filter(item => item.balance.getTokens().gt(1))
+        .filter(item => item.balance.getTokens().gt(0.001) || item.isMy )
         .map(item => item.fee);
 }

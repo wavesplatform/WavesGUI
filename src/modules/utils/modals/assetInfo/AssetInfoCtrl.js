@@ -20,7 +20,7 @@
                 this.wavesId = WavesApp.defaultAssets.WAVES;
                 this.isDemo = !user.address;
                 this.quantity = this.asset.quantity.div(new BigNumber(10).pow(this.asset.precision)).toFormat();
-
+                this.minFee = ds.utils.getTransferFeeList().find(money => money.asset.id === this.asset.id);
                 const assetList = user.getSetting('pinnedAssetIdList');
                 this.assetList = assetList;
                 this.pinned = assetList.indexOf(asset.id) !== -1;
@@ -98,6 +98,11 @@
                         case TYPES.REISSUE:
                         case TYPES.BURN:
                             return (tx.amount && tx.amount.asset || tx.quantity.asset).id === this.asset.id;
+                        case TYPES.SPONSORSHIP_START:
+                        case TYPES.SPONSORSHIP_STOP:
+                            return tx.assetId === this.asset.id;
+                        case TYPES.SPONSORSHIP_FEE:
+                            return this.asset.id === tx.feeAssetId;
                         default:
                             return false;
                     }
