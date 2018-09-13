@@ -7,9 +7,9 @@
     <div class="txinfo__value">{{$ctrl.transaction.minSponsoredAssetFee.asset.id}}</div>
 </div>
 
-<div class="txinfo__row" ng-if="$ctrl.minSponsoredAssetFee">
+<div class="txinfo__row" ng-if="$ctrl.isSponsoredFee">
     <div class="txinfo__key" w-i18n="transaction.amounts.perTransaction"></div>
     <div class="txinfo__value">
-        <span w-i18n="fee" params="::{money: $ctrl.minSponsoredAssetFee}"></span>
+        <span w-i18n="fee" params="{money: $ctrl.transaction.minSponsoredAssetFee}"></span>
     </div>
 </div>
