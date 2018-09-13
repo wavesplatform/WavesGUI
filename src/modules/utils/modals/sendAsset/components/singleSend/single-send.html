@@ -158,7 +158,7 @@
         </w-input-error>
     </w-input-container>
 
-    <div ng-if="!$ctrl.outerSendMode && !$ctrl.gatewayDetailsError" class="row">
+    <div ng-if="!$ctrl.outerSendMode && !$ctrl.gatewayDetailsError">
         <div class="body-2" w-i18n="modal.send.description"></div>
         <w-input-container>
             <w-input textarea="true"
@@ -175,7 +175,7 @@
         </w-input-container>
     </div>
 
-    <div class="row fee" ng-if="!$ctrl.gatewayDetailsError">
+    <div class="fee" ng-if="!$ctrl.gatewayDetailsError">
         <w-fee-list type="::$ctrl.txType"
                     balance-hash="$ctrl.state.moneyHash"
                     fee="$ctrl.tx.fee"></w-fee-list>
