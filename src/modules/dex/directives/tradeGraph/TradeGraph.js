@@ -10,14 +10,14 @@
             dataset: ORDERS_TYPES.asks,
             key: 'amount',
             label: 'Asks',
-            color: '#e5494d', // stakan krasn
+            color: '#e5494d',
             type: ['line', 'area']
         },
         bids: {
             dataset: ORDERS_TYPES.bids,
             key: 'amount',
             label: 'Bids',
-            color: '#5a81ea', // stakan goluboi
+            color: '#5a81ea',
             type: ['line', 'area']
         }
     };
