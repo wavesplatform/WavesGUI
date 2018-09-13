@@ -2,7 +2,7 @@
     <w-step>
         <div class="sponsorship__asset-content margin-4">
             <div class="sponsorship__top-content">
-                <w-asset-logo ng-cloak asset-id="{{::$ctrl.asset.id}}" size="65"></w-asset-logo>
+                <w-asset-logo class="asset-logo-large" ng-cloak asset-id="{{::$ctrl.asset.id}}" size="65"></w-asset-logo>
 
                 <div class="sponsorship__asset-data">
                     <h4 ng-cloak class="basic-900">{{::$ctrl.asset.name}}</h4>
@@ -66,7 +66,6 @@
                 <w-input-error message="precision">
                     <span w-i18n="modal.sponsorship.errors.minSponsoredAssetFee.precision"></span>
                 </w-input-error>
-
             </w-input-container>
 
             <div class="basic-500 margin-3" w-i18n="modal.sponsorship.fee" params="{fee: $ctrl.fee}"></div>

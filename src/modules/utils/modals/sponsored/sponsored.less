@@ -1,21 +1,18 @@
 @import (reference) 'config';
 
-.sponsorship,
-.asset-info-modal {
-  w-asset-logo {
-    margin-right: 20px;
-    float: left;
-    z-index: 1;
-    position: relative;
+w-asset-logo.asset-logo-large {
+  margin-right: 20px;
+  float: left;
+  z-index: 1;
+  position: relative;
 
-    &.sponsored-asset {
-      .asset-logo {
-        .marker {
-          width: 24px;
-          height: 24px;
-          background-size: 12px;
-          border: 2px solid @color-white;
-        }
+  &.sponsored-asset {
+    .asset-logo {
+      .marker {
+        width: 24px;
+        height: 24px;
+        background-size: 12px;
+        border: 2px solid @color-white;
       }
     }
   }
