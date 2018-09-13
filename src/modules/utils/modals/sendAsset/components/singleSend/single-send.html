@@ -158,7 +158,7 @@
         </w-input-error>
     </w-input-container>
 
-    <div ng-if="!$ctrl.outerSendMode && !$ctrl.gatewayDetailsError">
+    <div ng-if="!$ctrl.outerSendMode && !$ctrl.gatewayDetailsError" class="row">
         <div class="body-2" w-i18n="modal.send.description"></div>
         <w-input-container>
             <w-input textarea="true"
@@ -181,7 +181,7 @@
                     fee="$ctrl.tx.fee"></w-fee-list>
     </div>
 
-    <div class="row commission-error margin-2 footnote error-500"
+    <div class="commission-error footnote error-500"
          ng-if="!$ctrl.hasComission && !$ctrl.gatewayDetailsError">
         <span w-i18n="modal.send.validationError.notEnoughFundsWithdraw"
               ng-show="$ctrl.outerSendMode"
