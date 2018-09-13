@@ -5,6 +5,10 @@
 
 @tx-icon-size: 80px;
 
+md-dialog.txinfo {
+  padding-top: 40px;
+}
+
 .txinfo {
   display: block;
   width: 100%;
@@ -132,6 +136,11 @@
         word-break: break-all;
         .footnote-1();
         color: @color-basic-900;
+
+        &-name {
+          margin-left: 5px;
+          display: inline-block;
+        }
       }
 
       &__text {
@@ -157,7 +166,7 @@
     background: none transparent;
     position: relative;
     border-radius: 50%;
-    margin: 10px auto 30px auto;
+    margin: 0 auto 30px;
 
     &.send {
       .icon-tx-send();
@@ -220,6 +229,22 @@
       .icon-tx-data();
     }
 
+    &.sponsorship-start {
+      .icon-tx-sponsorship-start();
+    }
+
+    &.sponsorship-stop {
+      .icon-tx-sponsorship-stop();
+    }
+
+    &.sponsorship-fee {
+      .icon-tx-sponsorship-plus();
+    }
+
+    //&.sponsorship-minus {
+    //  .icon-tx-sponsorship-minus();
+    //}
+
     &::before {
       width: @tx-icon-size;
       height: @tx-icon-size;
@@ -260,7 +285,6 @@
       color: @color-warning-500;
     }
   }
-
 }
 
 @media screen and (max-width: 540px) {

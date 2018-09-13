@@ -66,6 +66,10 @@
                     } else {
                         this.calculatedFee = this.transaction.sellMatcherFee;
                     }
+                } else if (this.typeName === TYPES.SPONSORSHIP_FEE) {
+                    this.calculatedFee = null;
+                } else if (this.typeName === TYPES.SPONSORSHIP_START) {
+                    this.isSponsoredFee = true;
                 } else {
                     this.calculatedFee = this.transaction.fee;
                 }
