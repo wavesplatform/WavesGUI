@@ -44,11 +44,13 @@
 
             <w-input-container class="margin-1">
                 <w-input ng-model="$ctrl.minSponsoredAssetFee"
+                         name="minSponsoredAssetFee"
                          w-validate
                          type="text"
                          required
                          w-validator-gt="0"
                          w-validator-custom="{{$ctrl.canSendTransaction}}"
+                         w-validator-asset="{{::$ctrl.asset.id}}"
                          class="big"></w-input>
 
                 <div title="{{$ctrl.asset.name}}"
