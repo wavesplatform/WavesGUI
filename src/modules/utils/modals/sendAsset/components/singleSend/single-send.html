@@ -175,7 +175,7 @@
         </w-input-container>
     </div>
 
-    <div class="row fee margin-1" ng-if="!$ctrl.gatewayDetailsError">
+    <div class="row fee" ng-if="!$ctrl.gatewayDetailsError">
         <w-fee-list type="::$ctrl.txType"
                     balance-hash="$ctrl.state.moneyHash"
                     fee="$ctrl.tx.fee"
