@@ -2,6 +2,12 @@
 
 w-asset-logo {
   position: relative;
+
+  &.marker-hide {
+    .marker {
+      opacity: 0;
+    }
+  }
 }
 
 .asset-logo {
@@ -16,6 +22,12 @@ w-asset-logo {
 
   .marker {
     display: none;
+  }
+
+  &.little {
+    .marker {
+      display: none;
+    }
   }
 }
 
