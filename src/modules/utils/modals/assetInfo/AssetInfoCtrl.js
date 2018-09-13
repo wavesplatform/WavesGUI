@@ -98,6 +98,11 @@
                         case TYPES.REISSUE:
                         case TYPES.BURN:
                             return (tx.amount && tx.amount.asset || tx.quantity.asset).id === this.asset.id;
+                        case TYPES.SPONSORSHIP_START:
+                        case TYPES.SPONSORSHIP_STOP:
+                            return tx.assetId === this.asset.id;
+                        case TYPES.SPONSORSHIP_FEE:
+                            return this.asset.id === tx.feeAssetId;
                         default:
                             return false;
                     }
