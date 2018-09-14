@@ -175,14 +175,13 @@
         </w-input-container>
     </div>
 
-    <div class="row fee" ng-if="!$ctrl.gatewayDetailsError">
+    <div class="fee" ng-if="!$ctrl.gatewayDetailsError">
         <w-fee-list type="::$ctrl.txType"
                     balance-hash="$ctrl.state.moneyHash"
-                    fee="$ctrl.tx.fee"
-                    class="margin-2"></w-fee-list>
+                    fee="$ctrl.tx.fee"></w-fee-list>
     </div>
 
-    <div class="row commission-error margin-2 footnote error-500"
+    <div class="commission-error footnote error-500"
          ng-if="!$ctrl.hasComission && !$ctrl.gatewayDetailsError">
         <span w-i18n="modal.send.validationError.notEnoughFundsWithdraw"
               ng-show="$ctrl.outerSendMode"
