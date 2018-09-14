@@ -76,10 +76,8 @@
                                             <div class="footnote-1 basic-500" w-i18n-ns="app.ui" w-i18n="confirmTransaction.ledgerUnconfirmed.description"></div>
                                         </div>
                                     </div>
-                                    <div ng-if="$ctrl.noMoneyForFee">
-                                        <span class="error-400" w-i18n="modal.account.noMoney"></span>
-                                    </div>
                                     <w-input-error message="custom">
+                                        <span ng-if="$ctrl.noMoneyForFee" w-i18n="modal.account.noMoney"></span>
                                         <span ng-if="$ctrl.invalidMinLength" w-i18n="modal.account.minLength"></span>
                                         <span ng-if="$ctrl.invalidMaxLength" w-i18n="modal.account.maxLength"></span>
                                         <span ng-if="$ctrl.invalidPattern" w-i18n="modal.account.invalidSymbols"></span>

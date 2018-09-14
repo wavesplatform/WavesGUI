@@ -191,12 +191,14 @@
               params="{fee: $ctrl.state.singleSend.fee}"></span>
     </div>
 
-    <w-button ng-if="!$ctrl.gatewayDetailsError"
-              on-click="$ctrl.createTx()"
-              disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission)"
-              type="submit"
-              class="big submit long">
-        <span w-i18n="button.continue"></span>
-    </w-button>
+    <div class="margin-top-3">
+        <w-button ng-if="!$ctrl.gatewayDetailsError"
+                  on-click="$ctrl.createTx()"
+                  disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission)"
+                  type="submit"
+                  class="big submit long">
+            <span w-i18n="button.continue"></span>
+        </w-button>
+    </div>
 
 </form>

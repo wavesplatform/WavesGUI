@@ -108,15 +108,17 @@
         <w-balance money="$ctrl.totalAmount"></w-balance>
     </div>
 
-    <div class="fee margin-3">
+    <div class="fee">
         <div class="body basic-500">
             <span w-i18n="modal.send.fee" params="{fee: $ctrl.tx.fee}"></span>
         </div>
     </div>
 
-    <w-button disabled="$ctrl.massSend.$invalid || !$ctrl.tx.transfers.length"
-              class="submit long big"
-              on-click="$ctrl.nextStep()">
-        <span w-i18n="button.continue"></span>
-    </w-button>
+    <div class="margin-top-3">
+        <w-button disabled="$ctrl.massSend.$invalid || !$ctrl.tx.transfers.length"
+                  class="submit long big"
+                  on-click="$ctrl.nextStep()">
+            <span w-i18n="button.continue"></span>
+        </w-button>
+    </div>
 </form>

@@ -117,7 +117,7 @@ w-input {
             border-color: @color-success-300;
           }
           &.ng-invalid:not(:focus):not(.focus) {
-            border-color: @color-warning-400;
+            border-color: @color-error-200;
           }
         }
       }
@@ -188,11 +188,11 @@ w-input {
       height: 10px;
     }
 
-    &.touched.invalid:not(.focused)::after {
-      background: url(/img/icons/input-invalid-icon.svg) no-repeat center center;
-      width: 11px;
-      height: 11px;
-    }
+    // &.touched.invalid:not(.focused)::after {
+    //   background: url(/img/icons/input-invalid-icon.svg) no-repeat center center;
+    //   width: 11px;
+    //   height: 11px;
+    // }
   }
 
   .byte-validator__help {
@@ -220,7 +220,7 @@ w-input {
 form.ng-submitted {
   input[type="text"], input[type="password"], input[type="number"], textarea {
     &.ng-invalid:not(.embed):not(:focus):not(.focus):not(.no-validate) {
-      border-color: @color-warning-400;
+      border-color: @color-error-200;
     }
   }
 }
