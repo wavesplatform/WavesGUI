@@ -96,11 +96,11 @@
             getTxData() {
                 this.getTxId()
                     .then(() => {
-                        if (this.errors.length) {
-                            throw new Error('No money');
-                        }
                         this.deviceSignFail = false;
                         this.loadingSignFromDevice = this.canSignFromDevice();
+                        if (this.errors.length && this.loadingSignFromDevice) {
+                            throw new Error('No money');
+                        }
                         $scope.$digest();
                         return this.signTx();
                     })
