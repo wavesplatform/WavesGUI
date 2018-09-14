@@ -10,6 +10,28 @@ w-input-container {
 
   .like-input-error,
   w-input-error {
+    &.multiline {
+
+      .error {
+        padding: 16px 25px 16px 16px;
+        overflow: auto;
+        max-height: 300px;
+      }
+
+      span.error-list-row {
+        display: block;
+      }
+
+      .show-all-errors-link {
+        color: @color-white;
+        margin-top: @padding-main-layout / 2;
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
     position: absolute;
     width: 100%;
 
@@ -25,31 +47,6 @@ w-input-container {
       position: absolute;
     }
 
-    &.multiline {
-      .error {
-        padding: 16px 25px 16px 16px;
-      }
-
-      span.error-list-row {
-        display: block;
-      }
-
-      .show-all-errors-link {
-        color: @color-error-200;
-        margin-top: @padding-main-layout / 2;
-      }
-
-      .close-btn {
-        display: block;
-        position: absolute;
-        right:3px;
-        top: 3px;
-        background: url(/img/icons/error-tooltip-close.svg) center no-repeat;
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-      }
-    }
 
     .error {
       background: @color-error-400;
