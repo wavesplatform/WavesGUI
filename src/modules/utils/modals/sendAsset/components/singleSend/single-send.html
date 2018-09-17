@@ -158,7 +158,7 @@
         </w-input-error>
     </w-input-container>
 
-    <div ng-if="!$ctrl.outerSendMode && !$ctrl.gatewayDetailsError" class="row">
+    <div ng-if="!$ctrl.outerSendMode && !$ctrl.gatewayDetailsError">
         <div class="body-2" w-i18n="modal.send.description"></div>
         <w-input-container>
             <w-input textarea="true"
@@ -191,12 +191,14 @@
               params="{fee: $ctrl.state.singleSend.fee}"></span>
     </div>
 
-    <w-button ng-if="!$ctrl.gatewayDetailsError"
-              on-click="$ctrl.createTx()"
-              disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission)"
-              type="submit"
-              class="big submit long">
-        <span w-i18n="button.continue"></span>
-    </w-button>
+    <div class="margin-top-3">
+        <w-button ng-if="!$ctrl.gatewayDetailsError"
+                  on-click="$ctrl.createTx()"
+                  disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission)"
+                  type="submit"
+                  class="big submit long">
+            <span w-i18n="button.continue"></span>
+        </w-button>
+    </div>
 
 </form>
