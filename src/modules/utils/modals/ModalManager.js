@@ -331,13 +331,13 @@
                 });
             }
 
-            showConfirmTx(type, txData) {
+            showConfirmTx(type, txData, showValidationErrors) {
                 const tx = $injector.get('waves').node.transactions.createTransaction(type, txData);
 
                 return this._getModal({
                     id: 'confirm-tx',
                     ns: 'app.ui',
-                    locals: { tx },
+                    locals: { tx, showValidationErrors },
                     controller: 'ConfirmTxCtrl',
                     contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
                 });
@@ -393,7 +393,7 @@
                         asset,
                         minSponsoredAssetFee: money,
                         fee
-                    });
+                    }, true);
                 });
             }
 
