@@ -42,6 +42,10 @@
                 /**
                  * @type {string}
                  */
+                this.id = null;
+                /**
+                 * @type {string}
+                 */
                 this.name = null;
                 /**
                  * @type {string}
@@ -51,6 +55,14 @@
                  * @type {string}
                  */
                 this.encryptedSeed = null;
+                /**
+                 * @type {string}
+                 */
+                this.userType = null;
+                /**
+                 * @type {string}
+                 */
+                this.userType = null;
                 /**
                  * @type {object}
                  */
@@ -68,6 +80,9 @@
                  * @type {number}
                  */
                 this.lastLogin = Date.now();
+
+                this.matcherSign = null;
+
                 /**
                  * @type {Deferred}
                  * @private
@@ -98,6 +113,7 @@
                  * @private
                  */
                 this._fieldsForSave = [];
+                this._history = [];
 
                 this._setObserve();
                 this._settings.change.on(() => this._onChangeSettings());
@@ -188,6 +204,20 @@
                 return settings.get(name);
             }
 
+            getDefaultUserSettings(settings) {
+                return defaultSettings.create({ ...settings });
+            }
+
+            /**
+             * @param {User} user
+             * @param {string} name
+             * @return {DefaultSettings}
+             */
+            getSettingsByUser(user) {
+                const settings = this.getDefaultUserSettings(user.settings);
+                return settings;
+            }
+
             /**
              * @param {string} name
              * @param {*} value
@@ -212,7 +242,7 @@
              */
             login(data) {
                 return this._addUserData(data)
-                    .then(() => analytics.push('User', `Login.${WavesApp.type}`));
+                    .then(() => analytics.push('User', `Login.${WavesApp.type}.${data.userType}`));
             }
 
             /**
@@ -222,18 +252,24 @@
              * @param {string} data.encryptedSeed
              * @param {string} data.publicKey
              * @param {string} data.password
+             * @param {string} data.userType
              * @param {boolean} data.saveToStorage
              * @param {boolean} hasBackup
              * @return Promise
              */
             create(data, hasBackup, restore) {
+
                 this.noSaveToStorage = !data.saveToStorage;
 
+                data.userType = data.userType || 'seed';
+
                 return this._addUserData({
+                    id: data.id,
                     api: data.api,
                     address: data.address,
                     password: data.password,
                     name: data.name,
+                    userType: data.userType,
                     encryptedSeed: data.encryptedSeed,
                     publicKey: data.publicKey,
                     settings: {
@@ -245,9 +281,8 @@
                     }
                 }).then(() => analytics.push(
                     'User',
-                    `${restore ? 'Restore' : 'Create'}.${WavesApp.type}`,
-                    document.referrer)
-                );
+                    `${restore ? 'Restore' : 'Create'}.${WavesApp.type}.${data.userType}`,
+                    document.referrer));
             }
 
             logout() {
@@ -278,9 +313,15 @@
              * @param {string} state    state name
              */
             applyState(state) {
+                this._history.push(state.name);
+                this._history = this._history.slice(-10);
                 if (this._stateList) {
                     this._stateList.some((item) => item.applyState(state, this));
                 }
+            }
+
+            getLastState() {
+                return this._history.length > 1 ? this._history[this._history.length - 2] : 'welcome';
             }
 
             /**
@@ -338,9 +379,11 @@
              * @param {object} data
              * @param {ISignatureApi} data.api
              * @param {string} data.address
+             * @param {string} data.userType
              * @param {string} [data.encryptedSeed]
              * @param {string} [data.publicKey]
              * @param {string} data.password
+             * @param {string} data.userType
              * @param {object} [data.settings]
              * @param {boolean} [data.settings.termsAccepted]
              * @return Promise
@@ -380,16 +423,63 @@
                             ds.config.set(key, this._settings.get(`network.${key}`));
                         });
 
-                        return ds.app.login(data.address, data.api)
+                        ds.app.login(data.address, data.api);
+                        this.addMatcherSign()
                             .then(() => {
                                 this.changeTheme();
                                 this.changeCandle();
-                                this._save();
+                                return this._save();
                             })
                             .then(() => {
                                 this._logoutTimer();
                                 this._dfr.resolve();
                             });
+                    });
+            }
+
+            /**
+             * @return {Promise<{signature, timestamp}>}
+             */
+            addMatcherSign() {
+                let promise;
+                let modalPromise;
+                let ledgerPromise;
+
+                const dayForwardTime = ds.app.getTimeStamp(1, 'day');
+                if (!this.matcherSign || this.matcherSign.timestamp - dayForwardTime < 0) {
+                    const maxIntervalTimeStamp = ds.app.getTimeStamp(
+                        WavesApp.matcherSignInterval.count,
+                        WavesApp.matcherSignInterval.timeType
+                    );
+                    promise = ds.app.signForMatcher(maxIntervalTimeStamp).then(
+                        (signature) => {
+                            return { signature, timestamp: maxIntervalTimeStamp };
+                        });
+
+                    if (this.userType && this.userType === 'ledger') {
+                        modalPromise = ds.app.getSignIdForMatcher(maxIntervalTimeStamp).then((id) => {
+                            return modalManager.showSignLedger({ promise, mode: 'sign-matcher', id });
+                        });
+
+                        ledgerPromise = modalPromise
+                            .then(() => promise)
+                            .catch(
+                                () => modalManager.showLedgerError({ error: 'sign-error' }).then(
+                                    () => {
+                                        return this.addMatcherSign();
+                                    },
+                                    () => {
+                                        // No matcher sign, may be other modal
+                                        Promise.resolve();
+                                    }
+                                ));
+                    }
+                }
+
+                return (ledgerPromise || promise || Promise.resolve(this.matcherSign))
+                    .then((matcherSign) => {
+                        this.matcherSign = matcherSign || this.matcherSign || { timestamp: 0, signature: '' };
+                        return ds.app.addMatcherSign(this.matcherSign.timestamp, this.matcherSign.signature);
                     });
             }
 

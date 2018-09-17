@@ -1,12 +1,14 @@
 <div class="smart-table__name smart-table__cell" data-column-id="name">
-    <div class="cell">
+    <div class="cell {{SELECTORS.SPONSORED}}">
         {{#if assetIconPath}}
             <div class="asset-logo margin-right-1 footnote-3"
                  style="width: 30px; height: 30px; background-image: url({{assetIconPath}});">
             </div>
         {{else}}
             <div class="asset-logo margin-right-1 footnote-3"
-                 style="width: 30px; height: 30px; background-color: {{charColor}}; font-size: 13px;">{{firstAssetChar}}</div>
+                 style="width: 30px; height: 30px; background-color: {{charColor}}; font-size: 13px;">{{firstAssetChar}}
+                <div class="marker" style="background-color: {{charColor}}"></div>
+            </div>
         {{/if}}
         <span class="asset-name-desktop">{{assetName}}</span></div>
 </div>
@@ -111,6 +113,21 @@
                             <span w-i18n-literal="reissue"></span>
                         </div>
                     {{/if}}
+
+                    <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SPONSORSHIP_CREATE}}"
+                         role="button" tabindex="0">
+                        <span w-i18n-literal="sponsorship"></span>
+                    </div>
+
+                    <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SPONSORSHIP_EDIT}}"
+                         role="button" tabindex="0">
+                        <span w-i18n-literal="sponsorshipChange"></span>
+                    </div>
+
+                    <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SPONSORSHIP_STOP}}"
+                         role="button" tabindex="0">
+                        <span w-i18n-literal="sponsorshipStop"></span>
+                    </div>
 
                     {{#if canShowDex}}
                         <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.DEX}}"

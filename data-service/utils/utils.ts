@@ -1,5 +1,5 @@
 import { IAssetPair, IHash } from '../interface';
-import { WAVES_ID } from '@waves/waves-signature-generator';
+import { WAVES_ID } from '@waves/signature-generator';
 import { BigNumber, Asset, Money, AssetPair, OrderPrice } from '@waves/data-entities';
 import { get } from '../api/assets/assets';
 import { get as configGet, timeDiff } from '../config';
@@ -154,4 +154,31 @@ export function defer<T>(): TDefer<T> {
         reject = rej;
     });
     return { resolve, reject, promise };
+}
+
+export function stringifyJSON(data: any): string {
+    return (window as any).WavesApp.stringifyJSON(data);
+}
+
+
+export interface ITramsferFee {
+    balance: Money;
+    fee: Money;
+    isMy: boolean;
+}
+
+const transferFeeList: Array<ITramsferFee> = [];
+
+export function clearTransferFee() {
+    transferFeeList.splice(0, transferFeeList.length);
+}
+
+export function setTransferFeeItem(item: ITramsferFee) {
+    transferFeeList.push(item);
+}
+
+export function getTransferFeeList() {
+    return transferFeeList
+        .filter(item => item.balance.getTokens().gt(0.001) || item.isMy )
+        .map(item => item.fee);
 }

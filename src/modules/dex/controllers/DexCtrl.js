@@ -54,13 +54,17 @@
                     this.tab = 'tradeHistory';
                 }
 
+                user.addMatcherSign().catch(
+                    () => Promise.resolve()
+                ).then(() => {
+                    this._initializePair().then(() => {
+                        this.ready = true;
+                        $scope.$apply();
+                    });
+                });
+
                 this.observe('_assetIdPair', this._onChangePair);
                 this.observe(['_leftHidden', '_rightHidden'], this._onChangeProperty);
-
-                this._initializePair().then(() => {
-                    this.ready = true;
-                    $scope.$apply();
-                });
             }
 
             // hide and show graph to force its resize

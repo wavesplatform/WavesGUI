@@ -29,7 +29,7 @@
     <div class="settings-content">
         <w-step-by-step active-step="$ctrl.tab">
             <w-step step-id="general" class="general">
-                <div class="row flex-row row-style unit-checkbox">
+                <div class="row flex-row row-style unit-checkbox no-border">
                     <w-checkbox-submit id="shareStat" ng-model="$ctrl.shareStat"></w-checkbox-submit>
                     <label for="shareStat" w-i18n="modal.termsAccept.body.analytics"></label>
                 </div>
@@ -101,14 +101,14 @@
                     </div>
                 </div-->
 
-                <div class="row flex-row row-style">
+                <div class="row flex-row row-style solid-border">
                     <div class="footnote-1 disabled-600" w-i18n="modal.settings.general.blockHeight"></div>
                     <div><span class="label">{{$ctrl.blockHeight}}</span></div>
                 </div>
             </w-step>
 
             <w-step step-id="security" class="security">
-                <div class="row margin-1">
+                <div class="row margin-1" ng-if="$ctrl.phrase">
                     <div class="footnote-1 disabled-600 label">
                         <span w-i18n="modal.settings.security.backupPhrase"></span>
                         <a class="settings-copy" w-copy="::$ctrl.phrase" w-i18n="modal.settings.network.copy"></a>
@@ -121,7 +121,7 @@
                     </div>
                 </div>
 
-                <div class="row margin-1">
+                <div class="row margin-1" ng-if="$ctrl.privateKey">
                     <div class="footnote-1 disabled-600 label">
                         <span w-i18n="modal.settings.security.privateKey"></span>
                         <a class="settings-copy"

@@ -61,6 +61,18 @@
                  */
                 this.invalidPattern = false;
                 /**
+                 * @type {string}
+                 */
+                this.transactionId = '';
+                /**
+                 * @type {boolean}
+                 */
+                this.signLoader = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.signDeviceFail = false;
+                /**
                  * @type {boolean}
                  */
                 this.invalidExist = false;
@@ -85,12 +97,33 @@
                 this.observe(['newAlias'], this._validateNewAlias);
             }
 
-            createAlias() {
+            getSignableTx() {
+                const type = 10;
                 const timestamp = ds.utils.normalizeTime(Date.now());
-                return ds.prepareForBroadcast(10, { alias: this.newAlias, fee: this.fee, timestamp })
-                    .then((preparedTx) => {
-                        return ds.broadcast(preparedTx)
-                            .then(() => {
+                const data = { alias: this.newAlias, fee: this.fee, timestamp };
+                return ds.signature.getSignatureApi()
+                    .makeSignable({ type, data });
+            }
+
+            createAlias() {
+                const signable = this.getSignableTx();
+                return signable.getId()
+                    .then(
+                        (id) => {
+                            this.signDeviceFail = false;
+                            this.transactionId = id;
+                            this.signLoader = user.userType && user.userType !== 'seed';
+                            $scope.$digest();
+                        })
+                    .then(() => signable.getDataForApi())
+                    .then(
+                        (preparedTx) => {
+                            if (this.wasDestroed) {
+                                return Promise.reject();
+                            }
+
+                            this.signLoader = false;
+                            return ds.broadcast(preparedTx).then(() => {
                                 analytics.push('User', `User.CreateAlias.Success.${WavesApp.type}`);
                                 this.aliases.push(this.newAlias);
                                 this.newAlias = '';
@@ -101,9 +134,12 @@
                                 });
                                 $scope.$digest();
                             });
-                    }).catch(() => {
-                        analytics.push('User', `User.CreateAlias.Error.${WavesApp.type}`);
-                    });
+                        },
+                        () => {
+                            this.signDeviceFail = true;
+                            this.signLoader = false;
+                            $scope.$digest();
+                        });
             }
 
             onCopyAddress() {

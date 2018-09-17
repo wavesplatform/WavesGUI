@@ -1,5 +1,5 @@
 @import (reference) '../../../app/less/typography';
-@import (reference) "../../../app/less/app-icons";
+@import (reference) '../../../app/less/app-icons';
 @import (reference) '../../../ui/directives/transactionInfo/transactionInfo';
 @import (reference) 'config';
 @import (reference) 'icons';
@@ -58,10 +58,14 @@ md-dialog.modal-send {
       background-position: center;
     }
 
+    .commission-error {
+      margin-bottom: -10px;
+    }
+
     w-confirm-gateway-transaction,
     w-confirm-transaction {
       display: block;
-      padding: 60px 40px 0;
+      padding: 50px 40px 0;
       max-height: calc(74vh ~'- 60px');
       margin-top: -60px;
 
@@ -154,12 +158,6 @@ md-dialog.modal-send {
       }
     }
 
-    textarea {
-      resize: vertical;
-      height: 47px;
-      max-height: 250px;
-    }
-
     .flex-row {
       display: flex;
       flex-direction: row;
@@ -191,12 +189,12 @@ md-dialog.modal-send {
       &.margin-1 {
         margin-bottom: 10px;
       }
+    }
 
-      textarea {
-        resize: vertical;
-        min-height: 77px;
-        max-height: 300px;
-      }
+    textarea {
+      resize: vertical;
+      min-height: 77px;
+      max-height: 300px;
     }
 
     .asset-name {
@@ -217,6 +215,16 @@ md-dialog.modal-send {
     w-select {
       .title {
         overflow-x: hidden;
+
+        span {
+          white-space: nowrap;
+        }
+      }
+
+      .expanded {
+        .select-list {
+          margin-bottom: 40px;
+        }
       }
 
       .select-list {

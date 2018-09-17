@@ -19,6 +19,8 @@
 
         const isEmpty = (value) => !value;
         const tsApiValidator = require('ts-api-validator');
+        const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const ds = require('data-service');
         const schema = new tsApiValidator.Schema({
             type: tsApiValidator.ObjectPart,
             required: true,
@@ -35,6 +37,41 @@
         class GatewaySignCtrl extends Base {
 
             /**
+             * @type {boolean}
+             */
+            hasError = false;
+            /**
+             * @type {string}
+             */
+            imageSrc = '';
+            /**
+             * @type {string}
+             */
+            successPath = '';
+            /**
+             * @type {string}
+             */
+            referrer = '';
+            /**
+             * @type {string}
+             */
+            name = '';
+            /**
+             * @type {string}
+             * @private
+             */
+            _successUrl = '';
+            /**
+             * @readonly
+             * @type {boolean}
+             */
+            debug = false;
+            /**
+             * @type {string}
+             */
+            titleLiteral = LOCALIZATION.title.normal;
+
+            /**
              * @param {object} search
              * @param {string} search.n Gateaway application name
              * @param {string} search.r Gateaway referrer
@@ -46,36 +83,7 @@
             constructor(search) {
                 super($scope);
 
-                this.hasError = false;
-                /**
-                 * @type {string}
-                 */
-                this.imageSrc = '';
-                /**
-                 * @type {string}
-                 */
-                this.successPath = '';
-                /**
-                 * @type {string}
-                 */
-                this.referrer = '';
-                /**
-                 * @type {string}
-                 */
-                this.name = '';
-                /**
-                 * @type {string}
-                 * @private
-                 */
-                this._successUrl = '';
-                /**
-                 * @type {boolean}
-                 */
                 this.debug = !!search.debug;
-                /**
-                 * @type {string}
-                 */
-                this.titleLiteral = LOCALIZATION.title.normal;
 
                 this.observe('hasError', (value) => {
                     if (value) {
@@ -85,26 +93,29 @@
                     }
                 });
 
+                const adapter = ds.signature.getSignatureApi();
+
                 schema.parse(search)
-                    .then((data) => {
-                        return ds.signature.getSignatureApi().getSeed().then((seed) => ({ seed, data }));
-                    })
                     .then((params) => {
-                        const seed = new ds.Seed(params.seed);
-                        const search = params.data;
-                        const { referrer, name, data, iconPath, successPath } = search;
+                        const { referrer, name, data, iconPath, successPath } = params;
+                        const prefix = 'WavesWalletAuthentication';
+                        const host = GatewaySignCtrl._getDomain(referrer);
+
+                        const signable = adapter.makeSignable({
+                            type: SIGN_TYPE.AUTH,
+                            data: { prefix, host, data }
+                        });
 
                         this.referrer = referrer;
                         this.name = name;
 
                         this._setImageUrl(referrer, iconPath);
 
-                        const prefix = 'WavesWalletAuthentication';
-                        const host = GatewaySignCtrl._getDomain(referrer);
-
-                        return ds.signature.getSignatureApi().sign({ data: { prefix, host, data }, type: 1000 })
-                            .then((signature) => {
-                                const publicKey = seed.keyPair.publicKey;
+                        return Promise.all([
+                            signable.getSignature(),
+                            adapter.getPublicKey()
+                        ])
+                            .then(([signature, publicKey]) => {
                                 const search = `?s=${signature}&p=${publicKey}&a=${user.address}&d=${data}`;
                                 const path = successPath || '';
                                 const url = `${referrer}/${path}${search}`;

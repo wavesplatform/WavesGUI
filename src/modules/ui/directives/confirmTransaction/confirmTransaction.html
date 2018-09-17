@@ -2,12 +2,7 @@
     <w-step-by-step active-step="$ctrl.step">
         <w-step>
             <div class="txinfo__wrapper">
-                <w-transaction-info warning="$ctrl.warning" transaction="$ctrl.tx"></w-transaction-info>
-
-                <div class="txinfo__row">
-                    <div class="txinfo__key" w-i18n="transaction.modals.txId"></div>
-                    <div class="txinfo__value nowrap">{{$ctrl.txId}}</div>
-                </div>
+                <w-transaction-info warning="$ctrl.warning" transaction="$ctrl.tx" tx-id="$ctrl.txId"></w-transaction-info>
 
                 <h3 class="info margin-4 basic-700" ng-if="$ctrl.referrer">
                     <span w-i18n="confirmTransaction.redirect" params="{referrer: $ctrl.referrer}"></span>
@@ -17,17 +12,38 @@
                      ng-repeat="error in $ctrl.errors"
                      w-i18n="{{::error.literal}}"></div>
 
-                <div class="buttons-wrapper">
-                    <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
-                        <span w-i18n="confirmTransaction.back"></span>
-                    </w-button>
-                    <w-button class="big submit"
-                              disabled="$ctrl.errors.length > 0 || !$ctrl.txId || !$ctrl.preparedTx"
-                              ng-class="{long: $ctrl.noBackButton}"
-                              w-next-step
-                              on-click="$ctrl.confirm()">
-                        <span w-i18n="confirmTransaction.confirm"></span>
-                    </w-button>
+                <div class="bottom-wrapper">
+                    <div class="bottom-warning margin-3" ng-if="$ctrl.deviceSignFail">
+                        <div class="warning-plate warning-plate-red">
+                            <div class="body-2 error-400" w-i18n-ns="app.ui" w-i18n="confirmTransaction.ledgerUnconfirmed.header"></div>
+                            <div class="footnote-1 basic-500" w-i18n-ns="app.ui" w-i18n="confirmTransaction.ledgerUnconfirmed.description"></div>
+                        </div>
+                    </div>
+                    <div class="device-loader-wrapper" ng-if="$ctrl.loadingSignFromDevice">
+                        <div class="info basic-700">
+                            <span w-i18n-ns="app.utils" w-i18n="confirmTransaction.signLedger"></span>
+                        </div>
+                        <w-loader></w-loader>
+                    </div>
+                    <div class="buttons-wrapper" ng-if="!$ctrl.loadingSignFromDevice">
+                        <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
+                            <span w-i18n="confirmTransaction.back"></span>
+                        </w-button>
+                        <w-button ng-if="!$ctrl.deviceSignFail"
+                                  class="big submit"
+                                  disabled="$ctrl.errors.length > 0 || !$ctrl.txId || !$ctrl.preparedTx"
+                                  ng-class="{long: $ctrl.noBackButton}"
+                                  w-next-step
+                                  on-click="$ctrl.confirm()">
+                            <span w-i18n="confirmTransaction.confirm"></span>
+                        </w-button>
+                        <w-button class="big submit"
+                                  disabled="$ctrl.errors.length > 0 || !$ctrl.txId || !$ctrl.preparedTx"
+                                  ng-if="$ctrl.deviceSignFail"
+                                  on-click="$ctrl.trySign()">
+                            <span w-i18n-ns="app.wallet.transactions" w-i18n="confirmTransaction.retrySign"></span>
+                        </w-button>
+                    </div>
                 </div>
             </div>
         </w-step>
