@@ -115,13 +115,12 @@
                     hashId,
                     next: async () => {
                         const signature = await next();
-                        const data = await $.post(`${PATH_V2}/set_confirmation.php`, {
-                            ts, signature, public_key, is_confirmed
-                        });
                         try {
-                            const serverData = await $.post(`${PATH_V2}/set_confirmation.php`, data);
+                            const data = await $.post(`${PATH_V2}/set_confirmation.php`, {
+                                ts, signature, public_key, is_confirmed
+                            });
 
-                            if (!serverData || serverData.includes('error')) {
+                            if (!data || data.includes('error')) {
                                 throw new Error('dataError');
                             }
                         } catch (e) {

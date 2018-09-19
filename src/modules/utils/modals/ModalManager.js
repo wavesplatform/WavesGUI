@@ -57,6 +57,17 @@
                 });
             }
 
+            showCoinomatConfirmation(is_confirm) {
+                return this._getModal({
+                    id: 'error-ledger',
+                    contentUrl: 'modules/utils/modals/coinomatConfirmation/coinomatConfirmation.html',
+                    controller: 'coinomatConfirmationCtrl',
+                    locals: { is_confirm },
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
             showTryDesktopModal() {
                 return this._getModal({
                     id: 'try-desktop',
