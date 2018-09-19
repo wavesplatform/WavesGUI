@@ -229,25 +229,33 @@
                 this.focus = '';
             }
 
-            onReadQrCode(result) {
-                this.tx.recipient = result.body;
+            onReadQrCode(url) {
+                const routeData = utils.getRouterParams(utils.getUrlForRoute(url));
+
+                if (!routeData || routeData.name !== 'SEND_ASSET') {
+                    return null;
+                }
+
+                const result = routeData.data;
+
+                this.tx.recipient = result.recipient;
 
                 analytics.push('Send', `Send.QrCodeRead.${WavesApp.type}`, `Send.QrCodeRead.${WavesApp.type}.Success`);
 
-                if (result.params) {
+                if (result) {
 
                     const applyAmount = () => {
-                        if (result.params.amount) {
-                            this.tx.amount = this.moneyHash[this.assetId].cloneWithCoins(result.params.amount);
+                        if (result.amount) {
+                            this.tx.amount = this.moneyHash[this.assetId].cloneWithTokens(result.amount);
                             this._fillMirror();
                         }
                         $scope.$apply();
                     };
 
-                    result.params.assetId = result.params.asset || result.params.assetId;
+                    result.assetId = result.asset || result.assetId;
 
-                    if (result.params.assetId) {
-                        waves.node.assets.balance(result.params.assetId).then(({ available }) => {
+                    if (result.assetId) {
+                        waves.node.assets.balance(result.assetId).then(({ available }) => {
                             this.moneyHash[available.asset.id] = available;
 
                             if (this.assetId !== available.asset.id) {

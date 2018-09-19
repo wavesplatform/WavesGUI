@@ -22,8 +22,8 @@
                              w-validator-any-address="{{$ctrl.state.assetId}}"
                              required></w-input>
 
-                    <w-qr-code-read on-read="$ctrl.onReadQrCode(result)" max-width="250"
-                                    max-height="160"></w-qr-code-read>
+                    <w-qr-code-read on-read="$ctrl.onReadQrCode(text)" max-width="415"
+                                    max-height="310"></w-qr-code-read>
                 </div>
 
                 <w-input-error message="anyAddress">
@@ -180,6 +180,7 @@
                     balance-hash="$ctrl.state.moneyHash"
                     fee="$ctrl.tx.fee"></w-fee-list>
     </div>
+
 
     <div class="commission-error footnote error-500"
          ng-if="!$ctrl.hasComission && !$ctrl.gatewayDetailsError">

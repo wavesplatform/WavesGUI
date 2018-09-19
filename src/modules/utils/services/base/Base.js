@@ -63,7 +63,7 @@
                 }
                 this.__emitterListeners[event].push({ emitter, handler, methods });
 
-                emitter[methods.on](event, handler);
+                emitter[methods.on](event, handler, methods.capture);
             }
 
             /**
@@ -230,4 +230,5 @@
  * @typedef {object} Base#IMethods
  * @property {string} on
  * @property {string} off
+ * @property {boolean} [capture]
  */
