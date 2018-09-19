@@ -12,10 +12,12 @@
     };
 
     const PATH = `${WavesApp.network.coinomat}/api/v1`;
+    const PATH_V2 = `${WavesApp.network.coinomat}/api/v2`;
     const LANGUAGE = 'ru_RU';
 
     // That is used to access values from `**/locales/*.json` files
     const KEY_NAME_PREFIX = 'coinomat';
+    const ds = require('data-service');
 
     /**
      * @returns {CoinomatService}
@@ -88,6 +90,47 @@
 
             getAssetKeyName(asset) {
                 return `${KEY_NAME_PREFIX}${GATEWAYS[asset.id].gateway}`;
+            }
+
+            hasConfirmation(address) {
+                return $.get(`${PATH_V2}/get_confirmation.php?address=${address}`).then((res) => {
+                    const { status, is_confirmed } = JSON.parse(res);
+
+                    if (status === 'not found' || !is_confirmed) {
+                        throw new Error('No confirm');
+                    }
+
+                    return true;
+                });
+            }
+
+            async sendConfirmation(public_key, is_confirmed) {
+                is_confirmed = is_confirmed ? 1 : 0;
+
+                const tsData = await $.get(`${PATH_V2}/get_ts.php`);
+                const { ts } = JSON.parse(tsData);
+                const { hashId, next } = await ds.app.signCoinomat(ts);
+
+                return {
+                    hashId,
+                    next: async () => {
+                        const signature = await next();
+                        const data = await $.post(`${PATH_V2}/set_confirmation.php`, {
+                            ts, signature, public_key, is_confirmed
+                        });
+                        try {
+                            const serverData = await $.post(`${PATH_V2}/set_confirmation.php`, data);
+
+                            if (!serverData || serverData.includes('error')) {
+                                throw new Error('dataError');
+                            }
+                        } catch (e) {
+                            throw new Error('serverError');
+                        }
+
+                        return true;
+                    }
+                };
             }
 
             _loadPaymentDetails(from, to, recipientAddress, paymentId) {
