@@ -98,6 +98,9 @@
                     .then(() => {
                         this.deviceSignFail = false;
                         this.loadingSignFromDevice = this.canSignFromDevice();
+                        if (this.errors.length && this.loadingSignFromDevice) {
+                            throw new Error('No money');
+                        }
                         $scope.$digest();
                         return this.signTx();
                     })
@@ -184,39 +187,61 @@
              * @private
              */
             _showErrors() {
-                if (this.showValidationErrors) {
-                    if (this.tx.transactionType === TRANSACTION_TYPE_NUMBER.TRANSFER) {
-                        const errors = [];
-                        Promise.all([
-                            waves.node.assets.userBalances()
-                                .then((list) => list.map(({ available }) => available))
-                                .then((list) => {
-                                    const hash = utils.toHash(list, 'asset.id');
-                                    const amount = this.tx.amount;
-                                    if (!hash[amount.asset.id] ||
-                                        hash[amount.asset.id].lt(amount) ||
-                                        amount.getTokens().lte(0)) {
+                let promise;
+                switch (true) {
+                    case (this.tx.type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP):
+                        promise = this._validateAmount(this.tx.fee);
+                        break;
+                    case (this.tx.transactionType === TRANSACTION_TYPE_NUMBER.TRANSFER && this.showValidationErrors):
+                        promise = Promise.all([
+                            this._validateAmount(this.tx.amount),
+                            this._validateAddress()
+                        ]).then(([errors1, errors2]) => [...errors1, ...errors2]);
+                        break;
+                    default:
+                        promise = Promise.resolve([]);
+                }
 
-                                        errors.push({
-                                            literal: 'confirmTransaction.send.errors.balance.invalid'
-                                        });
-                                    }
-                                }),
-                            utils.resolve(utils.when(validateService.wavesAddress(this.tx.recipient)))
-                                .then(({ state }) => {
-                                    if (!state) {
-                                        errors.push({
-                                            literal: 'confirmTransaction.send.errors.recipient.invalid'
-                                        });
-                                    }
-                                })
-                        ]).then(() => {
-                            this.errors = errors;
-                            $scope.$apply();
+                return promise.then((errors) => {
+                    this.errors = errors;
+                    $scope.$apply();
+                });
+            }
+
+            _validateAddress() {
+                const errors = [];
+                return utils.resolve(utils.when(validateService.wavesAddress(this.tx.recipient)))
+                    .then(({ state }) => {
+                        if (!state) {
+                            errors.push({
+                                literal: 'confirmTransaction.send.errors.recipient.invalid'
+                            });
+                        }
+                        return errors;
+                    });
+            }
+
+            _validateAmount(amount) {
+                const errors = [];
+
+                if (this.tx.type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP) {
+                    return waves.node.assets.userBalances()
+                        .then((list) => list.map(({ available }) => available))
+                        .then((list) => {
+                            const hash = utils.toHash(list, 'asset.id');
+                            if (!hash[amount.asset.id] ||
+                                hash[amount.asset.id].lt(amount) ||
+                                amount.getTokens().lte(0)) {
+
+                                errors.push({
+                                    literal: 'confirmTransaction.send.errors.balance.invalid'
+                                });
+                            }
+
+                            return errors;
                         });
-                    }
                 } else {
-                    this.errors = [];
+                    return Promise.resolve([]);
                 }
             }
 

@@ -54,6 +54,7 @@
     const TEMPLATE_PATH = 'modules/wallet/modules/portfolio/directives/portfolioRow/row.hbs';
     const SELECTORS = {
         AVAILABLE: 'js-balance-available',
+        SPONSORED: 'js-sponsored-asset',
         IN_ORDERS: 'js-balance-in-orders',
         BASE_ASSET_BALANCE: 'js-balance-in-base-asset',
         EXCHANGE_RATE: 'js-exchange-rate',
@@ -72,64 +73,108 @@
             BURN: 'js-action-button-burn',
             REISSUE: 'js-action-button-reissue',
             DEX: 'js-action-button-dex',
-            TOGGLE_SPAM: 'js-action-button-toggle-spam'
+            TOGGLE_SPAM: 'js-action-button-toggle-spam',
+            SPONSORSHIP_CREATE: 'js-action-button-sponsorship_create',
+            SPONSORSHIP_EDIT: 'js-action-button-sponsorship_edit',
+            SPONSORSHIP_STOP: 'js-action-button-cancel-sponsorship'
         }
     };
 
+    const ds = require('data-service');
+
     class PortfolioRow {
 
-        constructor($templateRequest, $element, utils, waves, user, modalManager, $state, ChartFactory, i18n, $scope) {
+        /**
+         * @type {typeof ChartFactory}
+         */
+        ChartFactory = null;
+        /**
+         * @type {$state}
+         */
+        $state = null;
+        /**
+         * @type {$rootScope.Scope}
+         */
+        $scope = null;
+        /**
+         * @type {app.i18n}
+         */
+        i18n = null;
+        /**
+         * @type {ModalManager}
+         */
+        modalManager = null;
+        /**
+         * @type {JQuery}
+         */
+        $node = null;
+        /**
+         * @type {HTMLElement}
+         */
+        node = null;
+        /**
+         * @type {PortfolioCtrl.IPortfolioBalanceDetails}
+         */
+        balance = null;
+        /**
+         * @type {app.utils}
+         */
+        utils = null;
+        /**
+         * @type {Waves}
+         */
+        waves = null;
+        /**
+         * @type {User}
+         */
+        user = null;
+        /**
+         * @type {boolean}
+         */
+        canShowDex = null;
+        /**
+         * @type {gatewayService}
+         */
+        gatewayService = null;
+        /**
+         * @type {boolean}
+         * @private
+         */
+        _isMyAsset = false;
+        /**
+         * @type {Function}
+         */
+        changeLanguageHandler = () => this._onChangeLanguage();
+
+
+        constructor($templateRequest,
+                    $element,
+                    utils,
+                    waves,
+                    user,
+                    modalManager,
+                    $state,
+                    ChartFactory,
+                    i18n,
+                    $scope,
+                    gatewayService) {
+
+            this.ChartFactory = ChartFactory;
+            this.$state = $state;
+            this.$scope = $scope;
+            this.i18n = i18n;
+            this.modalManager = modalManager;
+            this.$node = $element;
+            this.node = $element.get(0);
+            this.utils = utils;
+            this.waves = waves;
+            this.user = user;
+            this.gatewayService = gatewayService;
 
             if (!PortfolioRow.templatePromise) {
                 PortfolioRow.templatePromise = $templateRequest(TEMPLATE_PATH)
                     .then((html) => Handlebars.compile(html));
             }
-
-
-            this.ChartFactory = ChartFactory;
-
-            this.$state = $state;
-            /**
-             * @type {$rootScope.Scope}
-             */
-            this.$scope = $scope;
-            /**
-             * @type {app.i18n}
-             */
-            this.i18n = i18n;
-            /**
-             * @type {ModalManager}
-             */
-            this.modalManager = modalManager;
-            /**
-             * @type {JQuery}
-             */
-            this.$node = $element;
-            /**
-             * @type {HTMLElement}
-             */
-            this.node = $element.get(0);
-            /**
-             * @type {IBalanceDetails}
-             */
-            this.balance = null;
-            /**
-             * @type {app.utils}
-             */
-            this.utils = utils;
-            /**
-             * @type {Waves}
-             */
-            this.waves = waves;
-            /**
-             * @type {User}
-             */
-            this.user = user;
-            /**
-             * @type {boolean}
-             */
-            this.canShowDex = null;
-            this.changeLanguageHandler = () => this._onChangeLanguage();
 
             this.chartOptions = {
                 charts: [
@@ -144,25 +189,37 @@
         }
 
         $postLink() {
-            PortfolioRow.templatePromise.then((template) => {
+            this._isWaves = this.balance.asset.id === WavesApp.defaultAssets.WAVES;
+            this._isMyAsset = this.balance.asset.sender === this.user.address;
+            this.canShowDex = this._getCanShowDex();
+            const canStopSponsored = this._getCanStopSponsored();
 
+            Promise.all([
+                this.waves.node.getFeeList({ type: 'transfer' }),
+                PortfolioRow.templatePromise
+            ]).then(([list, template]) => {
+
+                let balance = this.balance;
                 const firstAssetChar = this.balance.asset.name.slice(0, 1);
+
+                const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
 
                 const html = template({
                     assetIconPath: ASSET_IMAGES_MAP[this.balance.asset.id],
                     firstAssetChar,
-                    canBurn: this.balance.asset.id !== WavesApp.defaultAssets.WAVES,
-                    canReissue: this.balance.asset.isMyAsset && this.balance.asset.reissuable,
+                    canBurn: !this._isWaves,
+                    canReissue: this._isMyAsset && this.balance.asset.reissuable,
                     charColor: COLORS_MAP[firstAssetChar.toUpperCase()] || DEFAULT_COLOR,
                     assetName: this.balance.asset.name,
                     SELECTORS: { ...SELECTORS },
                     canShowDex: this.canShowDex,
-                    canShowToggleSpam: this._canShowToggleSpam()
+                    canShowToggleSpam: this._canShowToggleSpam(),
+                    canSponsored: this._isMyAsset,
+                    canPayFee,
+                    canStopSponsored
                 });
 
                 this.node.innerHTML = html;
-
-                let balance = this.balance;
 
                 Object.defineProperty(this, 'balance', {
                     get: () => balance,
@@ -174,10 +231,13 @@
                             balance = value;
                             this._onUpdateBalance();
                         }
+
+                        this._initSponsorShips();
                     }
                 });
 
                 this._onUpdateBalance();
+                this._initSponsorShips();
                 this._setHandlers();
                 this.changeLanguageHandler();
             });
@@ -194,6 +254,22 @@
             Array.prototype.forEach.call(nodeList, element => {
                 element.innerHTML = this.i18n.translate(element.getAttribute('w-i18n-literal'), 'app.wallet.portfolio');
             });
+        }
+
+        _getCanStopSponsored() {
+            return this._isMyAsset && ds.utils.getTransferFeeList()
+                .find(item => item.asset.id === this.balance.asset.id);
+        }
+
+        _getCanShowDex() {
+            return this.balance.isPinned ||
+                this._isMyAsset ||
+                this.balance.asset.isMyAsset ||
+                this.balance.asset.id === WavesApp.defaultAssets.WAVES ||
+                this.gatewayService.getPurchasableWithCards()[this.balance.asset.id] ||
+                this.gatewayService.getCryptocurrencies()[this.balance.asset.id] ||
+                this.gatewayService.getFiats()[this.balance.asset.id];
+
         }
 
         /**
@@ -329,6 +405,18 @@
                 this.$state.go('main.dex', this._getSrefParams(this.balance.asset));
             });
 
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_CREATE}`, () => {
+                this.modalManager.showSponsorshipModal(this.balance.asset.id);
+            });
+
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_EDIT}`, () => {
+                this.modalManager.showSponsorshipModal(this.balance.asset.id, true);
+            });
+
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_STOP}`, () => {
+                this.modalManager.showSponsorshipStopModal(this.balance.asset.id);
+            });
+
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.TOGGLE_SPAM}`, () => {
                 this.user.toggleSpamAsset(this.balance.asset.id);
                 this._initSpamState();
@@ -355,6 +443,26 @@
                 toggleSpam.classList.toggle('icon-hide', !isSpam);
                 toggleSpam.classList.toggle('icon-show', isSpam);
             });
+        }
+
+        _initSponsorShips(list) {
+            const canStopSponsored = !!this._getCanStopSponsored();
+            const canSponsored = !!this._isMyAsset;
+
+            const btnCreate = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_CREATE}`);
+            const btnEdit = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_EDIT}`);
+            const btnStop = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_STOP}`);
+            const icon = this.node.querySelector(`.${SELECTORS.SPONSORED}`);
+
+            btnCreate.classList.toggle('hidden', !(canSponsored && !canStopSponsored));
+            btnEdit.classList.toggle('hidden', !(canSponsored && canStopSponsored));
+            btnStop.classList.toggle('hidden', !canStopSponsored);
+
+            Promise.resolve(list || this.waves.node.getFeeList({ type: 'transfer', address: this.user.address }))
+                .then((list) => {
+                    const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
+                    icon.classList.toggle('sponsored-asset', !!canPayFee);
+                });
         }
 
         /**
@@ -399,7 +507,8 @@
         '$state',
         'ChartFactory',
         'i18n',
-        '$scope'
+        '$scope',
+        'gatewayService'
     ];
 
     angular.module('app.wallet.portfolio').component('wPortfolioRow', {

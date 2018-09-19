@@ -158,7 +158,7 @@
         </w-input-error>
     </w-input-container>
 
-    <div ng-if="!$ctrl.outerSendMode && !$ctrl.gatewayDetailsError" class="row margin-1">
+    <div ng-if="!$ctrl.outerSendMode && !$ctrl.gatewayDetailsError">
         <div class="body-2" w-i18n="modal.send.description"></div>
         <w-input-container>
             <w-input textarea="true"
@@ -175,13 +175,14 @@
         </w-input-container>
     </div>
 
-    <div class="row fee margin-1" ng-if="!$ctrl.gatewayDetailsError">
-        <div class="body basic-500">
-            <span w-i18n="modal.send.fee" params="{fee: $ctrl.tx.fee}"></span>
-        </div>
+    <div class="fee" ng-if="!$ctrl.gatewayDetailsError">
+        <w-fee-list type="::$ctrl.txType"
+                    balance-hash="$ctrl.state.moneyHash"
+                    fee="$ctrl.tx.fee"></w-fee-list>
     </div>
 
-    <div class="row commission-error margin-2 footnote error-500"
+
+    <div class="commission-error footnote error-500"
          ng-if="!$ctrl.hasComission && !$ctrl.gatewayDetailsError">
         <span w-i18n="modal.send.validationError.notEnoughFundsWithdraw"
               ng-show="$ctrl.outerSendMode"
@@ -191,12 +192,14 @@
               params="{fee: $ctrl.state.singleSend.fee}"></span>
     </div>
 
-    <w-button ng-if="!$ctrl.gatewayDetailsError"
-              on-click="$ctrl.createTx()"
-              disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission)"
-              type="submit"
-              class="big submit long">
-        <span w-i18n="button.continue"></span>
-    </w-button>
+    <div class="margin-top-3">
+        <w-button ng-if="!$ctrl.gatewayDetailsError"
+                  on-click="$ctrl.createTx()"
+                  disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission)"
+                  type="submit"
+                  class="big submit long">
+            <span w-i18n="button.continue"></span>
+        </w-button>
+    </div>
 
 </form>

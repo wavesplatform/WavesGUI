@@ -388,6 +388,10 @@
                     CANCEL_LEASING: 'cancel-leasing',
                     CREATE_ALIAS: 'create-alias',
                     DATA: 'data',
+                    SET_SCRIPT: 'set-script',
+                    SPONSORSHIP_START: 'sponsorship-start',
+                    SPONSORSHIP_STOP: 'sponsorship-stop',
+                    SPONSORSHIP_FEE: 'sponsorship-fee',
                     UNKNOWN: 'unknown'
                 },
                 NODE: {
@@ -400,7 +404,9 @@
                     LEASE: 'lease',
                     CANCEL_LEASING: 'cancelLeasing',
                     EXCHANGE: 'exchange',
-                    DATA: 'data'
+                    DATA: 'data',
+                    SET_SCRIPT: 'setScript',
+                    SPONSORSHIP: 'sponsorship'
                 }
             },
             getLocaleData: function () {
@@ -428,7 +434,6 @@
                 listenTimeout: 15000,
                 exchangeTimeout: 60000,
             },
-            stateTree: null,
             reload: function () {
                 if (WavesApp.isDesktop()) {
                     transfer('reload');

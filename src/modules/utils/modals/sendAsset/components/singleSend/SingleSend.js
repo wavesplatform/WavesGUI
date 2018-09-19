@@ -101,6 +101,11 @@
                 this.state.gatewayDetails = value;
             }
 
+            /**
+             * @type {string}
+             */
+            txType = WavesApp.TRANSACTION_TYPES.NODE.TRANSFER;
+
             constructor() {
                 super();
                 /**
@@ -158,32 +163,29 @@
 
             $postLink() {
                 this.receiveOnce(utils.observe(this.state, 'moneyHash'), () => {
-                    waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.TRANSFER }).then((fee) => {
 
-                        this.observe('gatewayDetails', this._currentHasCommission);
-                        this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
+                    this.observe('gatewayDetails', this._currentHasCommission);
+                    this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
 
-                        this.minAmount = this.state.moneyHash[this.state.assetId].cloneWithTokens('0');
-                        this.tx.fee = fee;
-                        this.tx.amount = this.tx.amount || this.moneyHash[this.assetId].cloneWithTokens('0');
-                        this._fillMirror();
+                    this.minAmount = this.state.moneyHash[this.state.assetId].cloneWithTokens('0');
+                    this.tx.amount = this.tx.amount || this.moneyHash[this.assetId].cloneWithTokens('0');
+                    this._fillMirror();
 
-                        this.receive(utils.observe(this.state, 'assetId'), this._onChangeAssetId, this);
-                        this.receive(utils.observe(this.state, 'mirrorId'), this._onChangeMirrorId, this);
+                    this.receive(utils.observe(this.state, 'assetId'), this._onChangeAssetId, this);
+                    this.receive(utils.observe(this.state, 'mirrorId'), this._onChangeMirrorId, this);
 
-                        this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayDetails, this);
-                        this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayDetails, this);
+                    this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayDetails, this);
+                    this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayDetails, this);
 
-                        this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
-                        this.observe('mirror', this._onChangeAmountMirror);
+                    this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
+                    this.observe('mirror', this._onChangeAmountMirror);
 
-                        this._onChangeBaseAssets();
-                        this._updateGatewayDetails();
+                    this._onChangeBaseAssets();
+                    this._updateGatewayDetails();
 
-                        if (this.tx.amount.getTokens().gt(0) || this.tx.recipient) {
-                            this.send.$setSubmitted(true);
-                        }
-                    });
+                    if (this.tx.amount.getTokens().gt(0) || this.tx.recipient) {
+                        this.send.$setSubmitted(true);
+                    }
                 });
             }
 

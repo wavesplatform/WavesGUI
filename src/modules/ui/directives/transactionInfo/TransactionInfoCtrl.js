@@ -16,6 +16,9 @@
      */
     const controller = function (Base, $scope, $filter, explorerLinks, baseAssetService, dexService, waves) {
 
+        const ds = require('data-service');
+        const { Money } = require('@waves/data-entities');
+
         class TransactionInfoCtrl extends Base {
 
             constructor() {
@@ -66,6 +69,15 @@
                     } else {
                         this.calculatedFee = this.transaction.sellMatcherFee;
                     }
+                } else if (this.typeName === TYPES.SPONSORSHIP_FEE) {
+                    this.calculatedFee = null;
+                    ds.api.assets.get('WAVES').then((asset) => {
+                        this.calculatedFee = new Money(100000, asset); // TODO hardcode fee
+                        $scope.$digest();
+                    });
+                } else if (this.typeName === TYPES.SPONSORSHIP_START) {
+                    this.isSponsoredFee = true;
+                    this.calculatedFee = this.transaction.fee;
                 } else {
                     this.calculatedFee = this.transaction.fee;
                 }

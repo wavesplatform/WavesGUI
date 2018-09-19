@@ -14,7 +14,8 @@ export type T_API_TX =
     txApi.ICancelLeasing |
     txApi.ICreateAlias |
     txApi.IMassTransfer |
-    txApi.IData;
+    txApi.IData |
+    txApi.ISponsorship;
 
 export type T_TX =
     IIssue |
@@ -26,7 +27,8 @@ export type T_TX =
     ICancelLeasing |
     ICreateAlias |
     IMassTransfer |
-    IData;
+    IData |
+    ISponsorship;
 
 export module txApi {
 
@@ -131,7 +133,13 @@ export module txApi {
         type: TRANSACTION_TYPE_NUMBER.DATA;
         version?: number;
         data: Array<TDataEntry>;
-        fee: string;
+    }
+
+    export interface ISponsorship extends IBaseTransaction {
+        type: TRANSACTION_TYPE_NUMBER.SPONSORSHIP;
+        version?: number;
+        minSponsoredAssetFee: string | number;
+        assetId: string;
     }
 
     export interface IExchangeOrder {
@@ -260,6 +268,13 @@ export interface IData extends IBaseTransaction {
     data: Array<TDataEntry>;
     stringifiedData: string;
     fee: Money;
+}
+
+export interface ISponsorship extends IBaseTransaction {
+    type: TRANSACTION_TYPE_NUMBER.SPONSORSHIP;
+    version?: number;
+    assetId: string
+    minSponsoredAssetFee: Money;
 }
 
 export interface IExchangeOrder {

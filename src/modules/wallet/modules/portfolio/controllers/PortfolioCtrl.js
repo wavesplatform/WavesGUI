@@ -285,7 +285,6 @@
                 const remapBalances = (item) => {
                     const isPinned = this._isPinned(item.asset.id);
                     const isSpam = this._isSpam(item.asset.id);
-                    item.asset.isMyAsset = item.asset.sender === user.address;
                     const isOnScamList = WavesApp.scam[item.asset.id];
 
                     return Promise.resolve({
@@ -294,7 +293,9 @@
                         inOrders: item.inOrders,
                         isPinned,
                         isSpam,
-                        isOnScamList
+                        isOnScamList,
+                        minSponsoredAssetFee: item.minSponsoredAssetFee,
+                        sponsorBalance: item.sponsorBalance
                     });
                 };
 
@@ -367,6 +368,8 @@
  * @property {Asset} asset
  * @property {Money} available
  * @property {Money} inOrders
+ * @property {Money|void} minSponsoredAssetFee
+ * @property {Money|void} sponsorBalance
  */
 
 /**

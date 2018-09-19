@@ -5,6 +5,10 @@
 
 @tx-icon-size: 80px;
 
+md-dialog.txinfo {
+  padding-top: 40px;
+}
+
 .txinfo {
   display: block;
   width: 100%;
@@ -109,7 +113,7 @@
       .key-props {
         flex-basis: auto;
         flex-grow: 0;
-        padding-right: 10px;
+        padding-right: 20px;
         overflow: hidden;
         .footnote-1();
       }
@@ -127,11 +131,15 @@
       &__value {
         flex-basis: auto;
         flex-grow: 0;
-        padding-left: 10px;
         text-align: right;
         word-break: break-all;
         .footnote-1();
         color: @color-basic-900;
+
+        &-name {
+          margin-left: 5px;
+          display: inline-block;
+        }
       }
 
       &__text {
@@ -157,7 +165,7 @@
     background: none transparent;
     position: relative;
     border-radius: 50%;
-    margin: 10px auto 30px auto;
+    margin: 0 auto 30px;
 
     &.send {
       .icon-tx-send();
@@ -220,6 +228,22 @@
       .icon-tx-data();
     }
 
+    &.sponsorship-start {
+      .icon-tx-sponsorship-start();
+    }
+
+    &.sponsorship-stop {
+      .icon-tx-sponsorship-stop();
+    }
+
+    &.sponsorship-fee {
+      .icon-tx-sponsorship-plus();
+    }
+
+    //&.sponsorship-minus {
+    //  .icon-tx-sponsorship-minus();
+    //}
+
     &::before {
       width: @tx-icon-size;
       height: @tx-icon-size;
@@ -256,11 +280,10 @@
     }
 
     &.unconfirmed {
-      background: @color-warning-50;
+      background: rgba(255, 175, 0, 0.1);
       color: @color-warning-500;
     }
   }
-
 }
 
 @media screen and (max-width: 540px) {
