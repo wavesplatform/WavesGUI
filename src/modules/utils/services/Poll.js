@@ -11,6 +11,8 @@
      */
     const factory = function (state, PromiseControl, timeLine, utils, $q) {
 
+        const tsUtils = require('ts-utils');
+
         class Poll {
 
             /**
