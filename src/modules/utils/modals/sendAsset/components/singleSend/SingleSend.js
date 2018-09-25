@@ -342,7 +342,7 @@
 
                 if (details) {
                     const gatewayFee = this.balance.cloneWithTokens(details.gatewayFee);
-                    this.feeList = [this.tx.fee, gatewayFee];
+                    this.feeList = [this.tx.fee, gatewayFee, this.balance.cloneWithTokens(details.minimumAmount)];
                     check(this.feeList);
                 } else {
                     this.feeList = [this.tx.fee];
