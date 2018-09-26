@@ -62,6 +62,13 @@
             }
 
             /**
+             * @return {Object.<string, Money>}
+             */
+            get feeHash() {
+                return utils.groupMoney(this.feeList || []);
+            }
+
+            /**
              * @return {Money}
              */
             get balance() {
