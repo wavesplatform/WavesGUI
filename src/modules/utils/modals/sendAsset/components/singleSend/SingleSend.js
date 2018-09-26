@@ -62,6 +62,13 @@
             }
 
             /**
+             * @return {Object.<string, Money>}
+             */
+            get feeHash() {
+                return utils.groupMoney(this.feeList || []);
+            }
+
+            /**
              * @return {Money}
              */
             get balance() {
@@ -343,7 +350,7 @@
                 if (details) {
                     const gatewayFee = this.balance.cloneWithTokens(details.gatewayFee);
                     this.feeList = [this.tx.fee, gatewayFee];
-                    check(this.feeList);
+                    check(this.feeList.concat(this.balance.cloneWithTokens(details.minimumAmount)));
                 } else {
                     this.feeList = [this.tx.fee];
                     check(this.feeList);

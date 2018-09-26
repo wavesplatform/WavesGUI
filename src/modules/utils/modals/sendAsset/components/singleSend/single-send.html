@@ -150,9 +150,9 @@
                   params="{precision: $ctrl.state.moneyHash[$ctrl.state.mirrorId].asset.precision}"></span>
         </w-input-error>
         <w-input-error name="amount" message="lte">
-            <span ng-if="$ctrl.tx.amount.getTokens().gt($ctrl.moneyHash[$ctrl.assetId].getTokens())"
+            <span ng-if="!$ctrl.tx.amount.getTokens().gte($ctrl.gatewayDetails.maximumAmount)"
                   w-i18n="modal.send.errors.max"></span>
-            <span ng-if="!$ctrl.tx.amount.getTokens().gt($ctrl.moneyHash[$ctrl.assetId].getTokens())"
+            <span ng-if="$ctrl.tx.amount.getTokens().gte($ctrl.gatewayDetails.maximumAmount)"
                   params="{money: $ctrl.maxGatewayAmount}"
                   w-i18n="modal.send.errors.maxCoinomat"></span>
         </w-input-error>
@@ -186,7 +186,12 @@
          ng-if="!$ctrl.hasComission && !$ctrl.gatewayDetailsError">
         <span w-i18n="modal.send.validationError.notEnoughFundsWithdraw"
               ng-show="$ctrl.outerSendMode"
-              params="{fee: $ctrl.state.singleSend.fee, getawayFee: $ctrl.gatewayDetails.gatewayFee, currency: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.displayName}"></span>
+              params="{
+                fee: $ctrl.state.singleSend.fee,
+                getawayFee: $ctrl.gatewayDetails.gatewayFee,
+                currency: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.displayName,
+                minGatewayAmount: $ctrl.gatewayDetails.minimumAmount
+              }"></span>
         <span w-i18n="modal.send.validationError.notEnoughFunds"
               ng-hide="$ctrl.outerSendMode"
               params="{fee: $ctrl.state.singleSend.fee}"></span>
