@@ -20,7 +20,7 @@
                 this.wavesId = WavesApp.defaultAssets.WAVES;
                 this.isDemo = !user.address;
                 this.quantity = this.asset.quantity.div(new BigNumber(10).pow(this.asset.precision)).toFormat();
-
+                this.minFee = ds.utils.getTransferFeeList().find(money => money.asset.id === this.asset.id);
                 const assetList = user.getSetting('pinnedAssetIdList');
                 this.assetList = assetList;
                 this.pinned = assetList.indexOf(asset.id) !== -1;
@@ -32,7 +32,7 @@
                 /**
                  * @type {string}
                  */
-                this.tab = null;
+                this.tab = 'info';
 
                 this.chartOptions = {
                     items: {
@@ -58,7 +58,7 @@
                 if (!this.isDemo) {
                     const isBalance = true;
                     createPoll(this, this._getCircleGraphData, this._setCircleGraphData, 15000);
-                    createPoll(this, () => waves.node.transactions.list(100), this._setTxList, 4000, { isBalance });
+                    createPoll(this, AssetInfoCtrl._getTxList, this._setTxList, 4000, { isBalance, $scope });
                 }
             }
 
@@ -98,12 +98,15 @@
                         case TYPES.REISSUE:
                         case TYPES.BURN:
                             return (tx.amount && tx.amount.asset || tx.quantity.asset).id === this.asset.id;
+                        case TYPES.SPONSORSHIP_START:
+                        case TYPES.SPONSORSHIP_STOP:
+                            return tx.assetId === this.asset.id;
+                        case TYPES.SPONSORSHIP_FEE:
+                            return this.asset.id === tx.feeAssetId;
                         default:
                             return false;
                     }
                 });
-
-                $scope.$digest();
             }
 
             /**
@@ -117,10 +120,20 @@
                     .catch(() => ({ values: null }));
             }
 
+            /**
+             * @return {*}
+             * @private
+             */
             _getCircleGraphData() {
                 return waves.node.assets.balance(this.asset.id);
             }
 
+            /**
+             * @param available
+             * @param leasedOut
+             * @param inOrders
+             * @private
+             */
             _setCircleGraphData({ available, leasedOut, inOrders }) {
                 this.circleChartData = [
                     { id: 'available', value: available },
@@ -129,6 +142,10 @@
                 ];
                 this.totalBalance = available.add(leasedOut).add(inOrders);
                 $scope.$digest();
+            }
+
+            static _getTxList() {
+                return waves.node.transactions.list(100);
             }
 
         }

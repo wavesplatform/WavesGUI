@@ -58,10 +58,14 @@ md-dialog.modal-send {
       background-position: center;
     }
 
+    .commission-error {
+      margin-bottom: -10px;
+    }
+
     w-confirm-gateway-transaction,
     w-confirm-transaction {
       display: block;
-      padding: 60px 40px 0;
+      padding: 50px 40px 0;
       max-height: calc(74vh ~'- 60px');
       margin-top: -60px;
 
@@ -134,11 +138,32 @@ md-dialog.modal-send {
       margin-top: -17px;
       border-left: 1px solid @color-basic-200;
 
-      .btn:before {
-        width: 38px;
-        height: 32px;
-        background-size: 38px;
-        cursor: pointer;
+      .btn {
+        &::before {
+          width: 38px;
+          height: 32px;
+          background-size: 38px;
+          cursor: pointer;
+        }
+
+        &.active {
+          &::before {
+            background: @modal-qr-active-close no-repeat center;
+          }
+
+          &::after {
+            width: 10px;
+            height: 10px;
+            content: '';
+            display: block;
+            background: @color-basic-200;
+            left: -8px;
+            position: absolute;
+            top: 50%;
+            z-index: 1;
+            transform: rotate(45deg) translateY(-50%);
+          }
+        }
       }
     }
 
@@ -152,12 +177,6 @@ md-dialog.modal-send {
       .w-input-wrap input {
         padding-right: 54px;
       }
-    }
-
-    textarea {
-      resize: vertical;
-      height: 47px;
-      max-height: 250px;
     }
 
     .flex-row {
@@ -191,12 +210,12 @@ md-dialog.modal-send {
       &.margin-1 {
         margin-bottom: 10px;
       }
+    }
 
-      textarea {
-        resize: vertical;
-        min-height: 77px;
-        max-height: 300px;
-      }
+    textarea {
+      resize: vertical;
+      min-height: 77px;
+      max-height: 300px;
     }
 
     .asset-name {
@@ -217,6 +236,16 @@ md-dialog.modal-send {
     w-select {
       .title {
         overflow-x: hidden;
+
+        span {
+          white-space: nowrap;
+        }
+      }
+
+      .expanded {
+        .select-list {
+          margin-bottom: 40px;
+        }
       }
 
       .select-list {
@@ -321,7 +350,6 @@ md-dialog.modal-send {
 
       div {
         flex-grow: 1;
-
       }
 
       w-import-file,
@@ -440,7 +468,6 @@ md-dialog.modal-send {
       w-select .select .title {
         font-size: @font-size-caption-1;
       }
-
     }
   }
 }

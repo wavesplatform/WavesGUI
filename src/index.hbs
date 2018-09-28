@@ -313,7 +313,7 @@
         var WavesApp = {
             name: 'Waves Client',
             version: '{{pack.version}}',
-            type: (window.isDesktop || !window.buildIsWeb)? 'desktop' : 'web',
+            type: (window.isDesktop || !window.buildIsWeb) ? 'desktop' : 'web',
             matcherPriorityList: {{{matcherPriorityList}}},
             themesConf: {{{themesConf}}},
             progress: 0,
@@ -388,6 +388,10 @@
                     CANCEL_LEASING: 'cancel-leasing',
                     CREATE_ALIAS: 'create-alias',
                     DATA: 'data',
+                    SET_SCRIPT: 'set-script',
+                    SPONSORSHIP_START: 'sponsorship-start',
+                    SPONSORSHIP_STOP: 'sponsorship-stop',
+                    SPONSORSHIP_FEE: 'sponsorship-fee',
                     UNKNOWN: 'unknown'
                 },
                 NODE: {
@@ -400,7 +404,9 @@
                     LEASE: 'lease',
                     CANCEL_LEASING: 'cancelLeasing',
                     EXCHANGE: 'exchange',
-                    DATA: 'data'
+                    DATA: 'data',
+                    SET_SCRIPT: 'setScript',
+                    SPONSORSHIP: 'sponsorship'
                 }
             },
             getLocaleData: function () {
@@ -428,7 +434,6 @@
                 listenTimeout: 15000,
                 exchangeTimeout: 60000,
             },
-            stateTree: null,
             reload: function () {
                 if (WavesApp.isDesktop()) {
                     transfer('reload');
@@ -441,7 +446,8 @@
 
     <!-- CSS -->
 
-    {{#if isWeb}}<base href="/">{{/if}}
+    {{#if isWeb}}
+        <base href="/">{{/if}}
 
     <script>
 
@@ -462,7 +468,7 @@
             }
 
             function runMainProcessEvent(...args) {
-                __mainListeners.slice().forEach(cb => {
+                __mainListeners.slice().forEach(function (cb) {
                     try {
                         cb(...args);
                     } catch (e) {
@@ -553,7 +559,7 @@
         var wrapper = require('worker-wrapper');
 
         var worker = wrapper.create({
-            libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js']
+            libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js?v' + WavesApp.version]
         });
 
         worker.process(function () {
@@ -561,9 +567,11 @@
         });
 
         var stringify = parseJsonBignumber({ BigNumber: BigNumber }).stringify;
-        WavesApp.parseJSON = str => worker.process(function (str) {
-            return parse(str);
-        }, str);
+        WavesApp.parseJSON = function (str) {
+            return worker.process(function (str) {
+                return parse(str);
+            }, str);
+        };
 
         WavesApp.stringifyJSON = function (data) {
             return stringify(data);

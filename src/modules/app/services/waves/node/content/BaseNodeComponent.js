@@ -32,6 +32,8 @@
             _feeList({ type, tx }) {
                 switch (type) {
                     case TYPES.TRANSFER:
+                        return ds.moneyFromTokens('0.001', WavesApp.defaultAssets.WAVES)
+                            .then(money => [money, ...ds.utils.getTransferFeeList()]);
                     case TYPES.BURN:
                     case TYPES.CREATE_ALIAS:
                     case TYPES.LEASE:
@@ -49,6 +51,7 @@
                                 return money.cloneWithTokens(transfer.plus(massTransfer.times(factor)));
                             })
                         ]);
+                    case TYPES.SPONSORSHIP:
                     case TYPES.ISSUE:
                     case TYPES.REISSUE:
                         return utils.whenAll([
@@ -79,6 +82,15 @@
                             return list[0];
                         }
                     });
+            }
+
+            /**
+             * @param {string} type
+             * @param {*} [tx]
+             * @return {Promise<Money[]>}
+             */
+            getFeeList({ type, tx }) {
+                return this._feeList({ type, tx });
             }
 
             /**

@@ -25,9 +25,6 @@
                         </div>
                         <w-loader></w-loader>
                     </div>
-
-                    <input ng-if="$ctrl.has2fa" ng-model="$ctrl.code2fa" placeholder="code"/>
-
                     <div class="buttons-wrapper" ng-if="!$ctrl.loadingSignFromDevice">
                         <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
                             <span w-i18n="confirmTransaction.back"></span>
@@ -41,6 +38,7 @@
                             <span w-i18n="confirmTransaction.confirm"></span>
                         </w-button>
                         <w-button class="big submit"
+                                  disabled="$ctrl.errors.length > 0 || !$ctrl.txId || !$ctrl.preparedTx"
                                   ng-if="$ctrl.deviceSignFail"
                                   on-click="$ctrl.trySign()">
                             <span w-i18n-ns="app.wallet.transactions" w-i18n="confirmTransaction.retrySign"></span>

@@ -14,6 +14,8 @@ export module assetsApi {
         issueTransaction: txApi.IIssue;
         quantity: string;
         reissuable: boolean;
+        sponsorBalance: string | number | void;
+        minSponsoredAssetFee: string | number | void;
     }
 
     export interface IWavesBalance {

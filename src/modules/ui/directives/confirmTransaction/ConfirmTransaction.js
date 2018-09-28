@@ -17,7 +17,6 @@
     const controller = function (Base, waves, $attrs, $mdDialog, modalManager, user, $scope, utils, validateService) {
 
         const ds = require('data-service');
-        const { Money } = require('@waves/data-entities');
         const { TRANSACTION_TYPE_NUMBER } = require('@waves/signature-adapter');
 
         class ConfirmTransaction extends Base {
@@ -70,22 +69,12 @@
                  * @private
                  */
                 this._signable = null;
-                /**
-                 * @type {boolean}
-                 */
-                this.has2fa = false;
-                /**
-                 * @type {string}
-                 */
-                this.code2fa = '';
-
-                ds.fetch(`https://localhost:8081/is-available/${user.address}`).then(response => {
-                    this.has2fa = !response.status;
-                    $scope.$digest();
-                });
+                // /**
+                //  * @type {boolean}
+                //  */
+                // this.has2fa = null;
 
                 this.observe('tx', this._onChangeTx);
-                this.observe('code2fa', this._onChange2faCode);
                 this.observe('showValidationErrors', this._showErrors);
             }
 
@@ -113,6 +102,9 @@
                     .then(() => {
                         this.deviceSignFail = false;
                         this.loadingSignFromDevice = this.canSignFromDevice();
+                        if (this.errors.length && this.loadingSignFromDevice) {
+                            throw new Error('No money');
+                        }
                         $scope.$digest();
                         return this.signTx();
                     })
@@ -195,72 +187,65 @@
                 });
             }
 
-            _onChange2faCode() {
-                const code = this.code2fa;
-                const { create, getClassName } = require('instance-transfer');
-                const stringify = create({
-                    jsonStringify: WavesApp.stringifyJSON,
-                    classes: [
-                        {
-                            name: getClassName(Money),
-                            stringify: (item) => {
-                                const asset = item.asset.toJSON();
-                                const coins = item.toCoins();
-
-                                return { asset, coins };
-                            }
-                        }
-                    ]
-                }).stringify;
-
-                if (code.trim().length === 6) {
-                    this._signable.sign2fa({
-                        code,
-                        request: (data) => ds.fetch('https://localhost:8081/sign', {
-                            method: 'POST',
-                            body: stringify(data)
-                        }).then(({ signature }) => signature)
-                    });
-                }
-            }
-
             /**
              * @private
              */
             _showErrors() {
-                if (this.showValidationErrors) {
-                    if (this.tx.transactionType === TRANSACTION_TYPE_NUMBER.TRANSFER) {
-                        const errors = [];
-                        Promise.all([
-                            waves.node.assets.userBalances()
-                                .then((list) => list.map(({ available }) => available))
-                                .then((list) => {
-                                    const hash = utils.toHash(list, 'asset.id');
-                                    const amount = this.tx.amount;
-                                    if (!hash[amount.asset.id] ||
-                                        hash[amount.asset.id].lt(amount) ||
-                                        amount.getTokens().lte(0)) {
+                let promise;
+                switch (true) {
+                    case (this.tx.type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP):
+                        promise = this._validateAmount(this.tx.fee);
+                        break;
+                    case (this.tx.transactionType === TRANSACTION_TYPE_NUMBER.TRANSFER && this.showValidationErrors):
+                        promise = Promise.all([
+                            this._validateAmount(this.tx.amount),
+                            this._validateAddress()
+                        ]).then(([errors1, errors2]) => [...errors1, ...errors2]);
+                        break;
+                    default:
+                        promise = Promise.resolve([]);
+                }
 
-                                        errors.push({
-                                            literal: 'confirmTransaction.send.errors.balance.invalid'
-                                        });
-                                    }
-                                }),
-                            utils.resolve(utils.when(validateService.wavesAddress(this.tx.recipient)))
-                                .then(({ state }) => {
-                                    if (!state) {
-                                        errors.push({
-                                            literal: 'confirmTransaction.send.errors.recipient.invalid'
-                                        });
-                                    }
-                                })
-                        ]).then(() => {
-                            this.errors = errors;
-                            $scope.$apply();
+                return promise.then((errors) => {
+                    this.errors = errors;
+                    $scope.$apply();
+                });
+            }
+
+            _validateAddress() {
+                const errors = [];
+                return utils.resolve(utils.when(validateService.wavesAddress(this.tx.recipient)))
+                    .then(({ state }) => {
+                        if (!state) {
+                            errors.push({
+                                literal: 'confirmTransaction.send.errors.recipient.invalid'
+                            });
+                        }
+                        return errors;
+                    });
+            }
+
+            _validateAmount(amount) {
+                const errors = [];
+
+                if (this.tx.type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP) {
+                    return waves.node.assets.userBalances()
+                        .then((list) => list.map(({ available }) => available))
+                        .then((list) => {
+                            const hash = utils.toHash(list, 'asset.id');
+                            if (!hash[amount.asset.id] ||
+                                hash[amount.asset.id].lt(amount) ||
+                                amount.getTokens().lte(0)) {
+
+                                errors.push({
+                                    literal: 'confirmTransaction.send.errors.balance.invalid'
+                                });
+                            }
+
+                            return errors;
                         });
-                    }
                 } else {
-                    this.errors = [];
+                    return Promise.resolve([]);
                 }
             }
 

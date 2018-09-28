@@ -20,7 +20,7 @@
         'handlebars': 'Handlebars',
         '@waves/waves-browser-bus': 'bus',
         'worker-wrapper': 'workerWrapper',
-        'instance-transfer': 'instanceTransfer'
+        '@waves/assets-pairs-order': 'OrderPairs'
     };
 
     function getModule(require) {
