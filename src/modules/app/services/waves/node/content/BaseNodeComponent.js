@@ -11,6 +11,8 @@
     const factory = function (Base, utils, eventManager, user) {
 
         const TYPES = WavesApp.TRANSACTION_TYPES.NODE;
+        const ds = require('data-service');
+        const { Money } = require('@waves/data-entities');
 
         class BaseNodeComponent extends Base {
 
@@ -30,36 +32,43 @@
              * @protected
              */
             _feeList({ type, tx }) {
-                switch (type) {
-                    case TYPES.TRANSFER:
-                        return ds.moneyFromTokens('0.001', WavesApp.defaultAssets.WAVES)
-                            .then(money => [money, ...ds.utils.getTransferFeeList()]);
-                    case TYPES.BURN:
-                    case TYPES.CREATE_ALIAS:
-                    case TYPES.LEASE:
-                    case TYPES.CANCEL_LEASING:
-                        return Promise.all([
-                            ds.moneyFromTokens('0.001', WavesApp.defaultAssets.WAVES)
-                        ]);
-                    case TYPES.MASS_TRANSFER:
-                        return Promise.all([
-                            ds.moneyFromTokens('0', WavesApp.defaultAssets.WAVES).then((money) => {
-                                const len = tx && tx.transfers && tx.transfers.length || 0;
-                                const factor = !(len % 2) ? len : len + 1;
-                                const transfer = new BigNumber('0.001');
-                                const massTransfer = new BigNumber('0.001').div(2);
-                                return money.cloneWithTokens(transfer.plus(massTransfer.times(factor)));
-                            })
-                        ]);
-                    case TYPES.SPONSORSHIP:
-                    case TYPES.ISSUE:
-                    case TYPES.REISSUE:
-                        return utils.whenAll([
-                            ds.moneyFromTokens('1', WavesApp.defaultAssets.WAVES)
-                        ]);
-                    default:
-                        throw new Error(`Wrong transaction type! ${type}`);
-                }
+                return Promise.all([
+                    ds.api.assets.get(WavesApp.defaultAssets.WAVES),
+                    user.onLogin()
+                ]).then(([waves]) => {
+                    const getFee = tokens => user.extraFee.add(Money.fromTokens(tokens, waves));
+
+                    const getMassTransferFee = () => {
+                        const len = tx && tx.transfers && tx.transfers.length || 0;
+                        const factor = !(len % 2) ? len : len + 1;
+                        const transfer = new BigNumber('0.001');
+                        const massTransfer = new BigNumber('0.001').div(2);
+                        const fee = transfer.plus(massTransfer.times(factor));
+                        return getFee(fee);
+                    };
+
+                    switch (type) {
+                        case TYPES.TRANSFER:
+                        case TYPES.BURN:
+                        case TYPES.CREATE_ALIAS:
+                        case TYPES.LEASE:
+                        case TYPES.CANCEL_LEASING:
+                            return Promise.all([
+                                getFee('0.001')
+                            ]);
+                        case TYPES.MASS_TRANSFER:
+                            return Promise.all([
+                                getMassTransferFee()
+                            ]);
+                        case TYPES.ISSUE:
+                        case TYPES.REISSUE:
+                            return utils.whenAll([
+                                getFee('1')
+                            ]);
+                        default:
+                            throw new Error(`Wrong transaction type! ${type}`);
+                    }
+                });
             }
 
             /**

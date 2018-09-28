@@ -7,7 +7,8 @@
      */
 
     const NOT_SYNC_FIELDS = [
-        'changeSetting'
+        'changeSetting',
+        'extraFee'
     ];
 
     /**
@@ -23,9 +24,10 @@
     const factory = function (storage, $state, defaultSettings, state, UserRouteState, modalManager, timeLine, themes) {
 
         const tsUtils = require('ts-utils');
+        const ds = require('data-service');
+        const { Money } = require('@waves/data-entities');
 
         class User {
-
 
             /**
              * @type {Signal<string>} setting path
@@ -34,91 +36,109 @@
                 return this._settings.change;
             }
 
+            /**
+             * @type {string}
+             */
+            address = null;
+            /**
+             * @type {string}
+             */
+            id = null;
+            /**
+             * @type {string}
+             */
+            name = null;
+            /**
+             * @type {string}
+             */
+            publicKey = null;
+            /**
+             * @type {string}
+             */
+            encryptedSeed = null;
+            /**
+             * @type {string}
+             */
+            userType = null;
+            /**
+             * @type {object}
+             */
+            settings = Object.create(null);
+            /**
+             * @type {boolean}
+             */
+            noSaveToStorage = false;
+            /**
+             * @type {number}
+             */
+            lastLogin = Date.now();
+            /**
+             * @type {{signature: string, timestamp: number}}
+             */
+            matcherSign = null;
+            /**
+             * @type {Money}
+             */
+            extraFee = null;
+            /**
+             * @type {DefaultSettings}
+             * @private
+             */
+            _settings = defaultSettings.create(Object.create(null));
+            /**
+             * @type {Deferred}
+             * @private
+             */
+            _dfr = $.Deferred();
+            /**
+             * @type {object}
+             * @private
+             */
+            __props = Object.create(null);
+            /**
+             * @type {string}
+             * @private
+             */
+            _password = null;
+            /**
+             * @type {number}
+             * @private
+             */
+            _changeTimer = null;
+            /**
+             * @type {Array}
+             * @private
+             */
+            _stateList = null;
+            /**
+             * @type {Array}
+             * @private
+             */
+            _fieldsForSave = [];
+            /**
+             * @type {Array}
+             * @private
+             */
+            _history = [];
+            /**
+             * @type {boolean}
+             * @private
+             */
+            _hasScript = false;
+
             constructor() {
-                /**
-                 * @type {string}
-                 */
-                this.address = null;
-                /**
-                 * @type {string}
-                 */
-                this.id = null;
-                /**
-                 * @type {string}
-                 */
-                this.name = null;
-                /**
-                 * @type {string}
-                 */
-                this.publicKey = null;
-                /**
-                 * @type {string}
-                 */
-                this.encryptedSeed = null;
-                /**
-                 * @type {string}
-                 */
-                this.userType = null;
-                /**
-                 * @type {string}
-                 */
-                this.userType = null;
-                /**
-                 * @type {object}
-                 */
-                this.settings = Object.create(null);
-                /**
-                 * @type {boolean}
-                 */
-                this.noSaveToStorage = false;
-                /**
-                 * @type {DefaultSettings}
-                 * @private
-                 */
-                this._settings = defaultSettings.create(Object.create(null));
-                /**
-                 * @type {number}
-                 */
-                this.lastLogin = Date.now();
-
-                this.matcherSign = null;
-
-                /**
-                 * @type {Deferred}
-                 * @private
-                 */
-                this._dfr = $.Deferred();
-                /**
-                 * @type {object}
-                 * @private
-                 */
-                this.__props = Object.create(null);
-                /**
-                 * @type {string}
-                 * @private
-                 */
-                this._password = null;
-                /**
-                 * @type {number}
-                 * @private
-                 */
-                this._changeTimer = null;
-                /**
-                 * @type {Array}
-                 * @private
-                 */
-                this._stateList = null;
-                /**
-                 * @type {Array}
-                 * @private
-                 */
-                this._fieldsForSave = [];
-                this._history = [];
 
                 this._setObserve();
                 this._settings.change.on(() => this._onChangeSettings());
 
                 Mousetrap.bind(['ctrl+shift+k'], () => this.switchNextTheme());
+            }
+
+            /**
+             * @return {boolean}
+             */
+            hasScript() {
+                return this._hasScript;
             }
 
             /**
@@ -432,8 +452,9 @@
                             })
                             .then(() => {
                                 this._logoutTimer();
-                                this._dfr.resolve();
-                            });
+                                return this._loadScriptAccountData();
+                            })
+                            .then(this._dfr.resolve);
                     });
             }
 
@@ -480,6 +501,21 @@
                     .then((matcherSign) => {
                         this.matcherSign = matcherSign || this.matcherSign || { timestamp: 0, signature: '' };
                         return ds.app.addMatcherSign(this.matcherSign.timestamp, this.matcherSign.signature);
+                    });
+            }
+
+            /**
+             * @return {Promise<any>}
+             * @private
+             */
+            _loadScriptAccountData() {
+                return Promise.all([
+                    ds.fetch(`${ds.config.get('node')}/addresses/scriptInfo/${this.address}`),
+                    ds.api.assets.get(WavesApp.defaultAssets.WAVES)
+                ])
+                    .then(([response, waves]) => {
+                        this.extraFee = Money.fromCoins(response.extraFee, waves);
+                        this._hasScript = response.extraFee !== 0;
                     });
             }
 
