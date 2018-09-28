@@ -437,24 +437,25 @@
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
-                    gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient).then((details) => {
-                        const max = BigNumber.min(
-                            details.maximumAmount.plus(details.gatewayFee),
-                            this.moneyHash[this.assetId].getTokens()
-                        );
+                    gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.paymentId)
+                        .then((details) => {
+                            const max = BigNumber.min(
+                                details.maximumAmount.plus(details.gatewayFee),
+                                this.moneyHash[this.assetId].getTokens()
+                            );
 
-                        this.gatewayDetails = details;
-                        this.minAmount = this.moneyHash[this.assetId]
-                            .cloneWithTokens(details.minimumAmount.minus('0.00000001'));
-                        this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
-                        this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
+                            this.gatewayDetails = details;
+                            this.minAmount = this.moneyHash[this.assetId]
+                                .cloneWithTokens(details.minimumAmount.minus('0.00000001'));
+                            this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
+                            this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
 
-                        $scope.$digest();
-                    }, () => {
-                        this.gatewayDetails = null;
-                        this.gatewayDetailsError = true;
-                        $scope.$digest();
-                    });
+                            $scope.$digest();
+                        }, () => {
+                            this.gatewayDetails = null;
+                            this.gatewayDetailsError = true;
+                            $scope.$digest();
+                        });
                 } else {
                     this.minAmount = this.state.moneyHash[this.assetId].cloneWithTokens('0');
                     this.maxAmount = this.moneyHash[this.assetId];
