@@ -13,6 +13,7 @@
         const TYPES = WavesApp.TRANSACTION_TYPES.NODE;
         const ds = require('data-service');
         const { Money } = require('@waves/data-entities');
+        const { head } = require('ramda');
 
         class BaseNodeComponent extends Base {
 
@@ -35,7 +36,7 @@
                 return Promise.all([
                     ds.api.assets.get(WavesApp.defaultAssets.WAVES),
                     user.onLogin()
-                ]).then(([waves]) => {
+                ]).then(head).then(waves => {
                     const getFee = tokens => user.extraFee.add(Money.fromTokens(tokens, waves));
 
                     const getMassTransferFee = () => {

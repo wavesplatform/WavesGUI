@@ -523,7 +523,7 @@
              * @private
              */
             _logoutTimer() {
-                this.receive(state.signals.sleep, (min) => {
+                this.receive(state.signals.sleep, min => {
                     if (min >= this._settings.get('logoutAfterMin')) {
                         this.logout();
                     }
