@@ -32,7 +32,7 @@
                 /**
                  * @type {string}
                  */
-                this.tab = null;
+                this.tab = 'info';
 
                 this.chartOptions = {
                     items: {
@@ -58,7 +58,7 @@
                 if (!this.isDemo) {
                     const isBalance = true;
                     createPoll(this, this._getCircleGraphData, this._setCircleGraphData, 15000);
-                    createPoll(this, () => waves.node.transactions.list(100), this._setTxList, 4000, { isBalance });
+                    createPoll(this, AssetInfoCtrl._getTxList, this._setTxList, 4000, { isBalance, $scope });
                 }
             }
 
@@ -107,8 +107,6 @@
                             return false;
                     }
                 });
-
-                $scope.$digest();
             }
 
             /**
@@ -122,10 +120,20 @@
                     .catch(() => ({ values: null }));
             }
 
+            /**
+             * @return {*}
+             * @private
+             */
             _getCircleGraphData() {
                 return waves.node.assets.balance(this.asset.id);
             }
 
+            /**
+             * @param available
+             * @param leasedOut
+             * @param inOrders
+             * @private
+             */
             _setCircleGraphData({ available, leasedOut, inOrders }) {
                 this.circleChartData = [
                     { id: 'available', value: available },
@@ -134,6 +142,10 @@
                 ];
                 this.totalBalance = available.add(leasedOut).add(inOrders);
                 $scope.$digest();
+            }
+
+            static _getTxList() {
+                return waves.node.transactions.list(100);
             }
 
         }

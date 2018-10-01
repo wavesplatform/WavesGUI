@@ -1,6 +1,6 @@
 {
   "name": "waves-client",
-  "version": "1.0.11",
+  "version": "1.0.13",
   "description": "The official client application for the Waves platform",
   "private": true,
   "repository": {
@@ -84,13 +84,13 @@
     "electron:osx": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.icns --platform=darwin --out=./dist/osx",
     "electron": "gulp all && npm run electron:linux && npm run electron:win && npm run electron:osx",
     "electron-debug": "gulp html-desktop-mainnet-min && node_modules/.bin/electron ./dist/desktop/electron-debug --inspect",
-    "data-service": "tsc -p ./data-service && ./node_modules/.bin/browserify data-service/index.js -s ds -u ts-utils -u @waves/data-entities -u @waves/signature-generator -u @waves/signature-adapter -u ramda --no-bf -o ./data-service-dist/data-service.js"
+    "data-service": "tsc -p ./data-service && ./node_modules/.bin/browserify data-service/index.js --node -s ds -u @waves/assets-pairs-order -u ts-utils -u @waves/data-entities -u @waves/signature-generator -u @waves/signature-adapter -u ramda --no-bf -o ./data-service-dist/data-service.js"
   },
   "dependencies": {
     "@types/ramda": "0.25.34",
     "@uirouter/angularjs": "1.0.8",
     "@waves/assets-pairs-order": "4.0.0",
-    "@waves/data-entities": "^1.6.3",
+    "@waves/data-entities": "^1.6.4",
     "@waves/data-service-client-js": "0.5.1",
     "@waves/event-sender": "0.4.4",
     "@waves/waves-browser-bus": "0.0.7",
@@ -112,11 +112,11 @@
     "n3-charts": "2.0.28",
     "ng-i18next": "1.0.5",
     "papaparse": "4.3.7",
-    "parse-json-bignumber": "^0.1.1",
-    "qrcode-reader": "1.0.3",
+    "parse-json-bignumber": "^0.1.2",
+    "qrcode-reader": "1.0.4",
     "ramda": "^0.25.0",
     "ts-api-validator": "2.1.2",
-    "ts-utils": "6.0.2",
+    "ts-utils": "^6.0.4",
     "worker-wrapper": "^1.2.3"
   }
 }
