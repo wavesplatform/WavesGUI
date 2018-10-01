@@ -39,6 +39,21 @@
                 ]).then(head).then(waves => {
                     const getFee = tokens => user.extraFee.add(Money.fromTokens(tokens, waves));
 
+                    const transfer = () => {
+                        const feeList = ds.utils.getTransferFeeList();
+                        const fee = Money.fromTokens(0.001, waves).add(user.extraFee);
+                        const assets = feeList.map(item => {
+                            const count = fee.getTokens().div(0.001);
+                            let asset = item.cloneWithTokens(0);
+                            for (let i = 0; i < count; i++) {
+                                asset = asset.add(item);
+                            }
+                            return asset;
+                        });
+
+                        return [fee, ...assets];
+                    };
+
                     const getMassTransferFee = () => {
                         const len = tx && tx.transfers && tx.transfers.length || 0;
                         const factor = !(len % 2) ? len : len + 1;
@@ -50,6 +65,7 @@
 
                     switch (type) {
                         case TYPES.TRANSFER:
+                            return transfer();
                         case TYPES.BURN:
                         case TYPES.CREATE_ALIAS:
                         case TYPES.LEASE:
