@@ -44,11 +44,7 @@
                         const fee = Money.fromTokens(0.001, waves).add(user.extraFee);
                         const assets = feeList.map(item => {
                             const count = fee.getTokens().div(0.001);
-                            let asset = item.cloneWithTokens(0);
-                            for (let i = 0; i < count; i++) {
-                                asset = asset.add(item);
-                            }
-                            return asset;
+                            return item.cloneWithTokens(item.getTokens().times(count));
                         });
 
                         return [fee, ...assets];
