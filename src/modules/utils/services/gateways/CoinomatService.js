@@ -103,7 +103,7 @@
                 });
             }
 
-            async sendConfirmation(public_key, is_confirmed) {
+            async setConfirmation(public_key, is_confirmed) {
                 is_confirmed = is_confirmed ? 1 : 0;
 
                 const tsData = await $.get(`${PATH_V2}/get_ts.php`);
