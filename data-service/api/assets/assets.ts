@@ -168,7 +168,7 @@ const splitRequest = (list: string[], getData) => {
     while (newList.length) {
         const listPart = newList.splice(0, MAX_ASSETS_IN_REQUEST);
         const result = getData(listPart);
-        const timeout = wait(1000).then(() => ({ data: [] }));
+        const timeout = wait(5000).then(() => ({ data: [] }));
         requests.push(Promise.race([result, timeout]));
     }
 
