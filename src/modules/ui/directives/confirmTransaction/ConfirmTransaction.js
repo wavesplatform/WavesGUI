@@ -69,6 +69,10 @@
                  * @private
                  */
                 this._signable = null;
+                // /**
+                //  * @type {boolean}
+                //  */
+                // this.has2fa = null;
 
                 this.observe('tx', this._onChangeTx);
                 this.observe('showValidationErrors', this._showErrors);
