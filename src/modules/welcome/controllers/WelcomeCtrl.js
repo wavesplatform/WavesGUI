@@ -99,7 +99,7 @@
                         }).then(() => adapterAvailablePromise);
                     }
 
-                    canLoginPromise.then(() => {
+                    return canLoginPromise.then(() => {
                         return user.login({
                             address: activeUser.address,
                             api,

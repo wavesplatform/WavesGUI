@@ -201,7 +201,6 @@
 
                 let balance = this.balance;
                 const firstAssetChar = this.balance.asset.name.slice(0, 1);
-
                 const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
 
                 const html = template({

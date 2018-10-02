@@ -179,6 +179,6 @@ export function setTransferFeeItem(item: ITramsferFee) {
 
 export function getTransferFeeList() {
     return transferFeeList
-        .filter(item => item.balance.getTokens().gt(0.001) || item.isMy )
+        .filter(item => item.balance.getTokens().gt(1.005) || item.isMy )
         .map(item => item.fee);
 }
