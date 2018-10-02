@@ -11,7 +11,8 @@
         [WavesApp.defaultAssets.XMR]: { waves: 'WXMR', gateway: 'XMR' }
     };
 
-    const PATH = `${WavesApp.network.coinomat}/api/v1`;
+    const PATH_V1 = `${WavesApp.network.coinomat}/api/v1`;
+    const PATH_V2 = `${WavesApp.network.coinomat}/api/v2`;
     const LANGUAGE = 'ru_RU';
 
     // That is used to access values from `**/locales/*.json` files
@@ -90,15 +91,55 @@
                 return `${KEY_NAME_PREFIX}${GATEWAYS[asset.id].gateway}`;
             }
 
+            hasConfirmation(address) {
+                return $.get(`${PATH_V2}/get_confirmation.php?address=${address}`).then((res) => {
+                    const { status, is_confirmed } = JSON.parse(res);
+
+                    if (status === 'not found' || !is_confirmed) {
+                        throw new Error('No confirm');
+                    }
+
+                    return true;
+                });
+            }
+
+            async sendConfirmation(public_key, is_confirmed) {
+                is_confirmed = is_confirmed ? 1 : 0;
+
+                const tsData = await $.get(`${PATH_V2}/get_ts.php`);
+                const { ts } = JSON.parse(tsData);
+                const { hashId, next } = await ds.app.signCoinomat(ts);
+
+                return {
+                    hashId,
+                    next: async () => {
+                        const signature = await next();
+                        try {
+                            const data = await $.post(`${PATH_V2}/set_confirmation.php`, {
+                                ts, signature, public_key, is_confirmed
+                            });
+
+                            if (!data || data.includes('error')) {
+                                throw new Error('dataError');
+                            }
+                        } catch (e) {
+                            throw new Error('serverError');
+                        }
+
+                        return true;
+                    }
+                };
+            }
+
             _loadPaymentDetails(from, to, recipientAddress, paymentId) {
-                return $.get(`${PATH}/create_tunnel.php`, {
+                return $.get(`${PATH_V1}/create_tunnel.php`, {
                     currency_from: from,
                     currency_to: to,
                     wallet_to: recipientAddress,
                     ...(paymentId ? { monero_payment_id: paymentId } : {})
                 }).then((res) => {
                     CoinomatService._assertResponse(res, 'ok');
-                    return $.get(`${PATH}/get_tunnel.php`, {
+                    return $.get(`${PATH_V1}/get_tunnel.php`, {
                         xt_id: res.tunnel_id,
                         k1: res.k1,
                         k2: res.k2,
@@ -112,7 +153,7 @@
             }
 
             _loadWithdrawRate(from, to) {
-                return $.get(`${PATH}/get_xrate.php`, {
+                return $.get(`${PATH_V1}/get_xrate.php`, {
                     f: from,
                     t: to,
                     lang: LANGUAGE
