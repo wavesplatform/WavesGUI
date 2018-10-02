@@ -11,7 +11,13 @@
         </div>
 
         <div>
-            <w-input-container>
+            <div ng-click="$ctrl.toBankMode = !$ctrl.toBankMode"
+                 ng-if="$ctrl.hasSendToBank"
+                 class="toggle-mode-container">
+                <span ng-if="!$ctrl.toBankMode" w-i18n="modal.send.toBank"></span>
+                <span ng-if="$ctrl.toBankMode" w-i18n="modal.send.toWaves"></span>
+            </div>
+            <w-input-container ng-if="!$ctrl.toBankMode">
                 <div class="read-address-wrap">
                     <w-input type="text"
                              name="recipient"
@@ -33,6 +39,13 @@
                     <span w-i18n="modal.send.errors.required"></span>
                 </w-input-error>
             </w-input-container>
+            <div ng-if="$ctrl.toBankMode && !$ctrl.verifyStatus" class="bank-mode-need-verify">
+                You have not been verified.
+                Withdrawal to a bank account is only available to verified users. You can find out more about sending and receiving fiat money here.
+            </div>
+            <div ng-if="$ctrl.toBankMode" class="bank-mode-recipient">
+                <span w-i18n="modal.send.bank.recipient"></span>
+            </div>
         </div>
     </div>
 
@@ -113,6 +126,7 @@
                              max-balance="$ctrl.maxAmount"
                              fee="$ctrl.feeList"
                              input-classes="big"
+                             disabled="$ctrl.toBankMode && !$ctrl.verifyStatus"
                              min="$ctrl.minAmount"
                              on-focus="$ctrl.focus = 'amount'"
                              on-blur="$ctrl.focus = ''"
@@ -158,7 +172,7 @@
         </w-input-error>
     </w-input-container>
 
-    <div ng-if="!$ctrl.outerSendMode && !$ctrl.gatewayDetailsError">
+    <div ng-if="!$ctrl.toBankMode && !$ctrl.outerSendMode && !$ctrl.gatewayDetailsError">
         <div class="body-2" w-i18n="modal.send.description"></div>
         <w-input-container>
             <w-input textarea="true"
@@ -177,6 +191,7 @@
 
     <div class="fee" ng-if="!$ctrl.gatewayDetailsError">
         <w-fee-list type="::$ctrl.txType"
+                    disabled="$ctrl.toBankMode && !$ctrl.verifyStatus"
                     balance-hash="$ctrl.state.moneyHash"
                     fee="$ctrl.tx.fee"></w-fee-list>
     </div>
@@ -195,6 +210,10 @@
         <span w-i18n="modal.send.validationError.notEnoughFunds"
               ng-hide="$ctrl.outerSendMode"
               params="{fee: $ctrl.state.singleSend.fee}"></span>
+    </div>
+
+    <div ng-if="$ctrl.toBankMode">
+        If you have questions or problems with payment processing, please contact Coinomat support — support@coinomat.com
     </div>
 
     <div class="margin-top-3">
