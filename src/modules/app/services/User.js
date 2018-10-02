@@ -444,7 +444,8 @@
                         });
 
                         ds.app.login(data.address, data.api);
-                        this.addMatcherSign()
+
+                        return this.addMatcherSign()
                             .then(() => {
                                 this.changeTheme();
                                 this.changeCandle();

@@ -73,9 +73,10 @@
                             return Promise.all([
                                 getMassTransferFee()
                             ]);
+                        case TYPES.SPONSORSHIP:
                         case TYPES.ISSUE:
                         case TYPES.REISSUE:
-                            return utils.whenAll([
+                            return Promise.all([
                                 getFee('1')
                             ]);
                         default:
