@@ -320,7 +320,6 @@
                             price: price.toMatcherCoins(),
                             amount: amount.toCoins(),
                             matcherFee: this.fee.getCoins(),
-                            expiration: this.expiration(),
                             matcherPublicKey
                         };
 
@@ -348,7 +347,7 @@
             _createTxData(data) {
 
                 const timestamp = ds.utils.normalizeTime(Date.now());
-                const expiration = this.expiration();
+                const expiration = ds.utils.normalizeTime(this.expiration());
                 const clone = { ...data, timestamp, expiration };
 
                 const signable = ds.signature.getSignatureApi().makeSignable({
