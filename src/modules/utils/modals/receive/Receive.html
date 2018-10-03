@@ -289,7 +289,15 @@
                                             </div>
                                         </w-option>
                                     </w-select>
+                                </div>
 
+                                <!-- todo @tsigel // if verified -->
+                                <div class="row margin-2" ng-if="!$ctrl.unverified">
+                                    <div class="body-2 basic-900" w-i18n="modal.receive.accountStatus"></div>
+                                    <div class="big input-like verified-input flex-row">
+                                        <i class="verified-icon"></i>
+                                        <span w-i18n="modal.receive.verified"></span>
+                                    </div>
                                 </div>
 
                                 <div ng-if="!$ctrl.isLira()" class="get-verified">
@@ -319,7 +327,23 @@
                                         </tr>
                                     </table>
 
-                                    <div class="row margin-3 caption-1 info-block">
+                                    <div class="margin-top-2"> <!-- ng-if="!$ctrl.isConfirmedByCoinomat" -->
+                                        <div class="note-plate transparent margin-2 basic-700">
+                                            <div class="margin-1 footnote-3" w-i18n="modal.receive.providedByCoinomat.header"></div>
+                                            <div class="footnote-1" w-i18n="modal.receive.providedByCoinomat.descriprion"></div>
+                                        </div>
+
+                                        <div> <!-- ng-if="!$ctrl.coinomatConfirmPending && !$ctrl.coinomatPendingError" -->
+                                            <div class="unit-checkbox margin-2 basic-700">
+                                                <w-checkbox-submit ng-model="$ctrl.isAgreeCoinomatPolicy" id="coinomat-private-policy"></w-checkbox-submit>
+                                                <label for="coinomat-private-policy" class="footnote-1">
+                                                    <span w-i18n="modal.receive.providedByCoinomat.policyReadedInputLabel"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row margin-3 caption-1 margin-top-3 info-block">
                                         <i class="icon-info"></i>
                                         <div w-i18n="modal.sepa.warning"></div>
                                     </div>
@@ -339,7 +363,7 @@
                                         <div class="footnote-1 basic-500" w-i18n="modal.receive.wtryPlate1Text"></div>
                                     </div>
 
-                                    <div class="row margin-3 caption-1 info-block">
+                                    <div class="row margin-3 margin-top-3 caption-1 info-block">
                                         <i class="icon-info"></i>
                                         <div w-i18n="modal.receive.wtry.info"></div>
                                     </div>

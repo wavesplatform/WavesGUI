@@ -203,10 +203,38 @@ md-dialog.modal-receive {
         margin: 10px 0 20px;
         background: @color-basic-50;
         border: 1px dashed @color-basic-200;
-        padding: 0 12px;
+        padding: 0 14px;
         border-radius: @border-radius;
         line-height: 54px;
         min-height: 54px;
+
+        &.transparent {
+          background: transparent;
+          padding: 12px;
+        }
+      }
+
+      .unit-checkbox {
+        display: flex;
+
+        w-checkbox-submit {
+          flex-grow: 0;
+          display: block;
+          margin-right: 18px;
+          padding-right: 18px;
+        }
+
+        label {
+          flex-grow: 1;
+        }
+      }
+
+      .verified-input i {
+        background-color: rgba(129, 201, 38, 0.1);
+        display: block;
+        width: 30px;
+        height: 30px;
+        margin-right: 12px;
       }
 
       .or {
@@ -230,7 +258,7 @@ md-dialog.modal-receive {
       }
 
       table.steps {
-        margin: 16px 0 30px;
+        margin: 16px 0 0;
         border-collapse: collapse;
 
         td {

@@ -53,8 +53,8 @@
 
     <div class="row" ng-if="$ctrl.toBankMode && $ctrl.verifyStatus">
         <div class="warning-plate">
-            <div class="body-2 warning-500" w-i18n="We will send your money through Coinomat gateway."></div>
-            <div class="footnote-1 basic-500" w-i18n="Before making a withdrawal, please check Сoinomat limits and transaction fees"></div>
+            <div class="body-2 warning-500" w-i18n="modal.send.coinomatWarningHeader"></div>
+            <div class="footnote-1 basic-500" w-i18n="modal.send.coinomatWarningText"></div>
         </div>
     </div>
 
@@ -206,8 +206,7 @@
                     fee="$ctrl.tx.fee"></w-fee-list>
     </div>
 
-
-    <div class="commission-error footnote error-500"
+    <div class="commission-error margin-2 footnote error-500"
          ng-if="!$ctrl.hasComission && !$ctrl.gatewayDetailsError">
         <span w-i18n="modal.send.validationError.notEnoughFundsWithdraw"
               ng-show="$ctrl.outerSendMode"
@@ -220,6 +219,22 @@
         <span w-i18n="modal.send.validationError.notEnoughFunds"
               ng-hide="$ctrl.outerSendMode"
               params="{fee: $ctrl.state.singleSend.fee}"></span>
+    </div>
+
+    <div ng-if="$ctrl.toBankMode" class="margin-top-2"> <!-- ng-if="!$ctrl.isConfirmedByCoinomat" -->
+        <div class="note-plate transparent margin-2 basic-700">
+            <div class="margin-1 footnote-3" w-i18n="modal.receive.providedByCoinomat.header"></div>
+            <div class="footnote-1" w-i18n="modal.receive.providedByCoinomat.descriprion"></div>
+        </div>
+
+        <div> <!-- ng-if="!$ctrl.coinomatConfirmPending && !$ctrl.coinomatPendingError" -->
+            <div class="unit-checkbox margin-2 basic-700">
+                <w-checkbox-submit ng-model="$ctrl.isAgreeCoinomatPolicy" id="coinomat-private-policy"></w-checkbox-submit>
+                <label for="coinomat-private-policy" class="footnote-1">
+                    <span w-i18n="modal.receive.providedByCoinomat.policyReadedInputLabel"></span>
+                </label>
+            </div>
+        </div>
     </div>
 
     <div ng-if="$ctrl.toBankMode" class="row margin-3 margin-top-2 caption-1 info-block">
