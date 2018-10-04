@@ -144,14 +144,6 @@
             }
 
             /**
-             * @param {string} public_key
-             * @param {boolean} is_confirmed
-             */
-            setConfirmation(public_key, is_confirmed) {
-                return coinomatService.setConfirmation(public_key, is_confirmed);
-            }
-
-            /**
              * @param {Asset} asset
              * @param {string} type
              * @return {IGateway}

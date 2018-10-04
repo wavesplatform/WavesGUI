@@ -103,34 +103,6 @@
                 });
             }
 
-            async setConfirmation(public_key, is_confirmed) {
-                is_confirmed = is_confirmed ? 1 : 0;
-
-                const tsData = await $.get(`${PATH_V2}/get_ts.php`);
-                const { ts } = JSON.parse(tsData);
-                const { hashId, next } = await ds.app.signCoinomat(ts);
-
-                return {
-                    hashId,
-                    next: async () => {
-                        const signature = await next();
-                        try {
-                            const data = await $.post(`${PATH_V2}/set_confirmation.php`, {
-                                ts, signature, public_key, is_confirmed
-                            });
-
-                            if (!data || data.includes('error')) {
-                                throw new Error('dataError');
-                            }
-                        } catch (e) {
-                            throw new Error('serverError');
-                        }
-
-                        return true;
-                    }
-                };
-            }
-
             _loadPaymentDetails(from, to, recipientAddress, paymentId) {
                 return $.get(`${PATH_V1}/create_tunnel.php`, {
                     currency_from: from,
