@@ -169,10 +169,11 @@
             }
 
             $postLink() {
+                this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
+
                 this.receiveOnce(utils.observe(this.state, 'moneyHash'), () => {
 
                     this.observe('gatewayDetails', this._currentHasCommission);
-                    this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
 
                     this.minAmount = this.state.moneyHash[this.state.assetId].cloneWithTokens('0');
                     this.tx.amount = this.tx.amount || this.moneyHash[this.assetId].cloneWithTokens('0');
@@ -187,6 +188,7 @@
                     this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
                     this.observe('mirror', this._onChangeAmountMirror);
 
+                    this._currentHasCommission();
                     this._onChangeBaseAssets();
                     this._updateGatewayDetails();
 
@@ -335,6 +337,10 @@
              * @private
              */
             _currentHasCommission() {
+                if (!this.moneyHash) {
+                    return null;
+                }
+
                 const details = this.gatewayDetails;
 
                 const check = (feeList) => {
