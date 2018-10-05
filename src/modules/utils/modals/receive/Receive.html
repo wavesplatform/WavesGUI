@@ -267,6 +267,9 @@
 
                         <w-tab ng-if="$ctrl.showBankTab" title-name="::'modal.receive.bank.title'" id="::'bank'">
                             <w-receive-bank fiats="$ctrl.fiats"
+                                            asset="$ctrl.asset"
+                                            id-now-user-link="$ctrl.idNowUserLink"
+                                            list-of-eligible-countries="$ctrl.listOfEligibleCountries"
                                             single-asset="$ctrl.singleAsset"></w-receive-bank>
                         </w-tab>
 

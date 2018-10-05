@@ -24,20 +24,39 @@
 
     </div>
 
-    <div ng-if="!$ctrl.isLira()" class="get-verified">
+    <div ng-if="!$ctrl.isLira && !$ctrl.pending && !$ctrl.error" class="get-verified">
 
-        <div class="warning-plate">
+        <div ng-if="$ctrl.isVerified">
+            Verified!
+        </div>
+
+        <div ng-if="!$ctrl.isVerified" class="warning-plate">
             <div class="body-2 warning-500" w-i18n="modal.sepa.warningTitle"></div>
         </div>
 
-        <div class="country-list-link">
+        <div ng-if="$ctrl.isVerified" class="warning-plate">
+            <div class="body-2 warning-500">
+                You must use the same Waves address that you used to make KYC&ALM request. If you make a mistake or put
+                a different Waves address we can’t credit your account.
+            </div>
+        </div>
+
+        <div ng-if="$ctrl.isVerified" class="warning-plate">
+            <div class="body-2 warning-500">
+                When making a wire transfer you should specify your unique id-number instead of your Waves address in
+                the
+                payment details field.
+            </div>
+        </div>
+
+        <div ng-if="!$ctrl.isVerified" class="country-list-link">
             <a class="caption-1 submit-300"
                w-i18n="modal.sepa.countryList"
-               href="{{$ctrl.listOfEligibleCountries}}"
+               ng-href="{{$ctrl.listOfEligibleCountries}}"
                target="_blank"></a>
         </div>
 
-        <table class="steps">
+        <table ng-if="!$ctrl.isVerified" class="steps">
             <tr>
                 <td class="step headline-3 basic-900" w-i18n="modal.sepa.step1"></td>
                 <td class="description body-2 basic-900"
@@ -51,10 +70,11 @@
             </tr>
         </table>
 
-        <div ng-if="!$ctrl.isVerified">
+        <div ng-if="!$ctrl.isTermsAccepted || !$ctrl.isVerified">
             This service is provided by Coinomat Company (Сoinomat).
 
-            Waves Platform AG does not undertake any responsibility for the activities carried out by Coinomat and does
+            Waves Platform AG does not undertake any responsibility for the activities carried out by Coinomat and
+            does
             not take any part in the relationship that may arise between Coinomat and users of the Waves Platform.
             By using Coinomat service, you agree to be bound by Coinomat Terms of Service and Conduction of
             Transactions. If you do not agree to these terms, then do not use this Coinomat service.
@@ -64,6 +84,7 @@
             <w-checkbox-submit id="coinomat-rerms-accept"
                                ng-model="$ctrl.userTermsAcceptedModel"
                                disabled="$ctrl.signPending"></w-checkbox-submit>
+
             <label for="coinomat-rerms-accept">
                 I agree with the Terms of Service and Conduction of Transactions, Price List and Privacy Policy of
                 Coinomat Company.
@@ -74,16 +95,24 @@
                 on-success="$ctrl.onSignSuccess(signature)"
                 on-cancel="$ctrl.onSignCancel()"></w-sign>
 
-        <a href="{{$ctrl.idNowUserLink}}" target="_blank">
+        <a ng-if="!$ctrl.signPending && !$ctrl.isVerified"
+           href="{{$ctrl.idNowUserLink}}"
+           target="_blank">
             <w-button class="big submit long" disabled="!$ctrl.isTermsAccepted">
                 <span w-i18n="modal.sepa.proceed"></span>
             </w-button>
         </a>
 
+        <div>
+            In case of problems with payment processing, please contact the Coinomat support team — support@coinomat.com
+        </div>
+
     </div>
-
-
-    <div ng-if="$ctrl.isLira()" class="bank-account wtry">
+    <w-loader ng-if="!$ctrl.isLira && $ctrl.pending"></w-loader>
+    <div ng-if="!$ctrl.isLira && $ctrl.error">
+        Error!
+    </div>
+    <div ng-if="$ctrl.isLira" class="bank-account wtry">
 
         <div class="warning-plate">
             <div class="body-2 warning-500" w-i18n="modal.receive.wtryPlate1Header"></div>

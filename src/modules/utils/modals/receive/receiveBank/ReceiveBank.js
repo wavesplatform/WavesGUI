@@ -30,6 +30,10 @@
             /**
              * @type {boolean}
              */
+            error = false;
+            /**
+             * @type {boolean}
+             */
             isVerified = false;
             /**
              * @type {boolean}
@@ -72,8 +76,15 @@
             constructor() {
                 super();
 
-                this._load();
-                this.observe('userTermsAcceptedModel', this._onChangeUserTermsAcceptedModel);
+                this.pending = true;
+                this._load()
+                    .catch(() => {
+                        this.error = true;
+                    })
+                    .then(() => {
+                        this.pending = false;
+                        $scope.$apply();
+                    });
             }
 
             onSignCancel() {
@@ -105,10 +116,12 @@
                     ReceiveBank._getVerified(),
                     ReceiveBank._getTermsAccepted()
                 ]).then(([verified, termsAccepted]) => {
+
                     this.isVerified = verified;
                     this.isTermsAccepted = termsAccepted;
                     this.userTermsAcceptedModel = termsAccepted;
-                    $scope.$apply();
+
+                    this.observe('userTermsAcceptedModel', this._onChangeUserTermsAcceptedModel);
                 });
             }
 
@@ -216,7 +229,10 @@
         controller,
         bindings: {
             fiats: '<',
-            singleAsset: '<'
+            asset: '<',
+            singleAsset: '<',
+            idNowUserLink: '<',
+            listOfEligibleCountries: '<'
         },
         templateUrl: 'modules/utils/modals/receive/receiveBank/receive-bank.html',
         scope: false
