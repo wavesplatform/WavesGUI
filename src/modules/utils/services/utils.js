@@ -6,7 +6,8 @@
     const tsUtils = require('ts-utils');
     const tsApiValidator = require('ts-api-validator');
     const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
-    const R = require('ramda');
+    const { splitEvery, pipe } = require('ramda');
+    const { libs } = require('@waves/signature-generator');
 
     class BigNumberPart extends tsApiValidator.BasePart {
 
@@ -65,7 +66,7 @@
                     }
                 };
 
-                const processor = R.pipe(
+                const processor = pipe(
                     utils.removeUrlProtocol,
                     getHash
                 );
@@ -109,6 +110,21 @@
              */
             observe(target, keys, options) {
                 return _addObserverSignals(target, keys, options);
+            },
+
+            /**
+             * @name app.utils#getPublicKeysFromScript
+             * @param {string} script
+             * @return {Array<string>}
+             */
+            getPublicKeysFromScript(script) {
+                const toBytes = key => splitEvery(2, key)
+                    .map(byte16 => parseInt(byte16, 16));
+
+                return (script.match(/ByteVector\(\d+\sbytes,\s(.[^)]+)/g) || [])
+                    .map(res => res.replace(/ByteVector\(\d+\sbytes,\s0x/, ''))
+                    .map(toBytes)
+                    .map(libs.base58.encode);
             },
 
             /**

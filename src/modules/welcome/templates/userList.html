@@ -30,7 +30,6 @@
     </div>
     <form class="margin-2"
           name="$ctrl.loginForm"
-          ng-submit="$ctrl.loginForm.$valid && $ctrl.login()"
           novalidate>
 
         <w-input-container class="margin-3" ng-if="$ctrl.needPassword">
@@ -47,7 +46,10 @@
             </div>
         </w-input-container>
 
-        <w-button disabled="$ctrl.loginForm.$invalid" type="submit" class="submit big long">
+        <w-button disabled="$ctrl.loginForm.$invalid"
+                  on-click="$ctrl.login()"
+                  type="submit"
+                  class="submit big long">
             <span w-i18n="userList.buttons.login"></span>
         </w-button>
     </form>

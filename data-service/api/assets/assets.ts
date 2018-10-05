@@ -25,6 +25,21 @@ export function get(assets: string | Array<string>): Promise<any> {
 }
 
 export function getAssetFromNode(assetId: string): Promise<Asset> {
+    if (assetId === WAVES_ID) {
+        return Promise.resolve( new Asset({
+            ticker: 'WAVES',
+            id: 'WAVES',
+            name: 'Waves',
+            precision: 8,
+            description: '',
+            height: 0,
+            timestamp: new Date('2016-04-11T21:00:00.000Z'),
+            sender: '',
+            quantity: 10000000000000000,
+            reissuable: false
+        } ));
+    }
+
     return request<INodeAssetData>({ url: `${configGet('node')}/assets/details/${assetId}` })
         .then((data) => new Asset({
             id: data.assetId,
@@ -152,7 +167,9 @@ const splitRequest = (list: string[], getData) => {
 
     while (newList.length) {
         const listPart = newList.splice(0, MAX_ASSETS_IN_REQUEST);
-        requests.push(getData(listPart));
+        const result = getData(listPart);
+        const timeout = wait(5000).then(() => ({ data: [] }));
+        requests.push(Promise.race([result, timeout]));
     }
 
     return Promise.all(requests).then((results) => {
@@ -160,8 +177,8 @@ const splitRequest = (list: string[], getData) => {
         for (const items of results) {
             data = [...data, ...items.data];
         }
-        return { data: data };
-    });
+        return { data };
+    }).catch(e => ({ data: [] }));
 };
 
 const getAssetRequestCb = (list: Array<string>): Promise<Array<Asset>> => {
@@ -190,6 +207,8 @@ const getAssetRequestCb = (list: Array<string>): Promise<Array<Asset>> => {
                 });
         });
 };
+
+export const wait = time => new Promise(resolve => setTimeout(resolve, time));
 
 export interface INodeAssetData {
     assetId: string;

@@ -12,6 +12,8 @@
      */
     const controller = function (Base, $scope, user, createPoll, utils, waves) {
 
+        const ds = require('data-service');
+
         class AssetInfoCtrl extends Base {
 
             constructor(asset) {
