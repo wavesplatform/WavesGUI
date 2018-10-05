@@ -15,6 +15,11 @@ input[type="checkbox"] {
   font-size: @font-size-control-big;
   color: @color-disabled-900;
   background: @color-white;
+  text-align: left;
+  box-shadow: none;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
 
   &.blue {
     background: @color-basic-200;
@@ -26,12 +31,6 @@ input[type="checkbox"] {
     font-size: @font-size-control-big-responsive;
   }
 
-  text-align: left;
-  box-shadow: none;
-  appearance: none;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-
   &::placeholder {
     color: @color-basic-500;
   }
@@ -40,6 +39,10 @@ input[type="checkbox"] {
     background-color: @color-white;
     border: 1px solid @color-basic-200;
     border-radius: @border-radius;
+
+    &.disabled {
+      background: @color-basic-50;
+    }
   }
 
   &.tiny {
@@ -126,7 +129,13 @@ w-input {
       &.embed:focus {
         border: 1px solid @color-submit-400;
       }
+
+      &[disabled="disabled"] {
+        background-color: @color-basic-50;
+      }
     }
+
+
 
     &::after {
       content: '';

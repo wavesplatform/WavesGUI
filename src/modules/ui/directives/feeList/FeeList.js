@@ -107,6 +107,7 @@
         bindings: {
             type: '<',
             balanceHash: '<',
+            disabled: '<',
             fee: '='
         },
         scope: false,
