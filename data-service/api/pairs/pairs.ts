@@ -1,5 +1,5 @@
 import { Asset, AssetPair, Money, BigNumber } from '@waves/data-entities';
-import { getDataService } from '../../config';
+import { getDataService, matcherSettingsPromise } from '../../config';
 import { request } from '../../utils/request';
 import { get as getAsset } from '../assets/assets';
 import { createOrderPair } from '@waves/assets-pairs-order';
@@ -9,17 +9,18 @@ import { TMoneyInput } from '@waves/data-entities/dist/entities/Money';
 
 
 export function get(assetId1: string | Asset, assetId2: string | Asset): Promise<AssetPair> {
-    const priorityList = (window as any).WavesApp.matcherPriorityList;
+    return matcherSettingsPromise.then(list => {
 
-    return getAsset([toId(assetId1), toId(assetId2)])
-        .then(([asset1, asset2]) => {
-            const hash = {
-                [asset1.id]: asset1,
-                [asset2.id]: asset2
-            };
-            const [amountAssetId, priceAssetId] = createOrderPair(priorityList, asset1.id, asset2.id);
-            return new AssetPair(hash[amountAssetId], hash[priceAssetId]);
-        });
+        return getAsset([toId(assetId1), toId(assetId2)])
+            .then(([asset1, asset2]) => {
+                const hash = {
+                    [asset1.id]: asset1,
+                    [asset2.id]: asset2
+                };
+                const [amountAssetId, priceAssetId] = createOrderPair(list, asset1.id, asset2.id);
+                return new AssetPair(hash[amountAssetId], hash[priceAssetId]);
+            });
+    });
 }
 
 const remapPairInfo = (pairs: Array<AssetPair>, volumeFactory: (data: TMoneyInput) => Money) => (list: Array<IPairJSON>) => pairs.map((pair, index) => {
