@@ -335,6 +335,7 @@
                             .catch(e => {
                                 const error = CreateOrder._parseError(e);
                                 notification.error({
+                                    ns: 'app.dex',
                                     title: {
                                         literal: 'directives.createOrder.notifications.error.title'
                                     },
