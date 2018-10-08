@@ -26,27 +26,23 @@
 
     <div ng-if="!$ctrl.isLira && !$ctrl.pending && !$ctrl.error" class="get-verified">
 
-        <div ng-if="$ctrl.isVerified">
-            Verified!
+        <div class="input-like verified-input margin-2" ng-if="$ctrl.isVerified">
+            <i></i><span w-i18n="modal.receive.verified"></span>
         </div>
 
-        <div ng-if="!$ctrl.isVerified" class="warning-plate">
-            <div class="body-2 warning-500" w-i18n="modal.sepa.warningTitle"></div>
+        <div ng-if="!$ctrl.isVerified"
+             class="body-2 warning-500 warning-plate margin-1"
+             w-i18n="modal.sepa.warningTitle">
         </div>
 
-        <div ng-if="$ctrl.isVerified" class="warning-plate">
-            <div class="body-2 warning-500">
-                You must use the same Waves address that you used to make KYC&ALM request. If you make a mistake or put
-                a different Waves address we can’t credit your account.
-            </div>
+        <div ng-if="$ctrl.isVerified"
+             class="body-2 warning-500 warning-plate margin-1"
+             w-i18n="modal.receive.bankVerifiedPlate1Header">
         </div>
 
-        <div ng-if="$ctrl.isVerified" class="warning-plate">
-            <div class="body-2 warning-500">
-                When making a wire transfer you should specify your unique id-number instead of your Waves address in
-                the
-                payment details field.
-            </div>
+        <div ng-if="$ctrl.isVerified"
+             class="body-2 warning-500 warning-plate"
+             w-i18n="modal.receive.bankVerifiedPlate2Header">
         </div>
 
         <div ng-if="!$ctrl.isVerified" class="country-list-link">
@@ -80,7 +76,7 @@
         <a ng-if="!$ctrl.signPending && !$ctrl.isVerified"
            href="{{$ctrl.idNowUserLink}}"
            target="_blank">
-            <w-button class="big submit long" disabled="!$ctrl.isTermsAccepted">
+            <w-button class="big submit long" disabled="!$ctrl.termsAccepted">
                 <span w-i18n="modal.sepa.proceed"></span>
             </w-button>
         </a>

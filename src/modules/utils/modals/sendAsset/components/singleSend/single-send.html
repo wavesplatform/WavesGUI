@@ -51,7 +51,7 @@
 
     </div>
 
-    <div class="row" ng-if="$ctrl.toBankMode && $ctrl.isVerified">
+    <div class="row" ng-if="$ctrl.toBankMode && !$ctrl.isVerified">
         <div class="warning-plate">
             <div class="body-2 warning-500" w-i18n="modal.send.coinomatWarningHeader"></div>
             <div class="footnote-1 basic-500" w-i18n="modal.send.coinomatWarningText"></div>
@@ -221,7 +221,7 @@
               params="{fee: $ctrl.state.singleSend.fee}"></span>
     </div>
 
-    <div ng-if="$ctrl.toBankMode" class="margin-top-2"> <!-- ng-if="!$ctrl.isConfirmedByCoinomat" -->
+    <div ng-if="$ctrl.toBankMode" class="margin-top-2">
         <w-coinomat-terms force-show-terms="::false"
                           show-accepted-checkbox="::false"
                           is-verified="$ctrl.isVerified"
@@ -239,5 +239,4 @@
             <span w-i18n="button.continue"></span>
         </w-button>
     </div>
-
 </form>

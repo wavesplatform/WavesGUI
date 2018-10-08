@@ -220,7 +220,7 @@ md-dialog.modal-receive {
         w-checkbox-submit {
           flex-grow: 0;
           display: block;
-          margin-right: 18px;
+          margin-right: 13px;
           padding-right: 18px;
         }
 
@@ -229,12 +229,18 @@ md-dialog.modal-receive {
         }
       }
 
-      .verified-input i {
-        background-color: rgba(129, 201, 38, 0.1);
-        display: block;
-        width: 30px;
-        height: 30px;
-        margin-right: 12px;
+      .verified-input {
+        align-items: center;
+        display: flex;
+
+        i {
+          background: url(/img/icons/input-valid-icon.svg) center no-repeat rgba(129, 201, 38, 0.1);
+          display: block;
+          width: 30px;
+          height: 30px;
+          margin-right: 12px;
+          border-radius: 50%;
+        }
       }
 
       .or {
@@ -253,12 +259,14 @@ md-dialog.modal-receive {
       }
 
       .country-list-link {
-        margin-top: 10px;
         text-align: right;
+        a {
+          display: inline-block;
+        }
       }
 
       table.steps {
-        margin: 16px 0 0;
+        margin: 16px 0 20px 0;
         border-collapse: collapse;
 
         td {

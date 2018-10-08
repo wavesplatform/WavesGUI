@@ -1,28 +1,25 @@
-<div ng-if="$ctrl.canShowTerms">
-    This service is provided by Coinomat Company (Сoinomat).
-
-    Waves Platform AG does not undertake any responsibility for the activities carried out by Coinomat and
-    does
-    not take any part in the relationship that may arise between Coinomat and users of the Waves Platform.
-    By using Coinomat service, you agree to be bound by Coinomat Terms of Service and Conduction of
-    Transactions. If you do not agree to these terms, then do not use this Coinomat service.
+<div ng-if="$ctrl.canShowTerms" class="note-plate transparent margin-2 basic-700">
+    <div class="margin-1 footnote-3" w-i18n="modal.receive.providedByCoinomat.header"></div>
+    <div class="footnote-1" w-i18n="modal.receive.providedByCoinomat.descriprion"></div>
 </div>
 
-<div ng-if="$ctrl.canShowCheckBox">
-    <w-checkbox-submit id="coinomat-terms-accept"
-                       ng-model="$ctrl.userModelTerms"
-                       disabled="$ctrl.signPending"></w-checkbox-submit>
+<div ng-if="$ctrl.canShowCheckBox" class="unit-checkbox margin-1 basic-700">
 
-    <label for="coinomat-terms-accept">
-        I agree with the Terms of Service and Conduction of Transactions, Price List and Privacy Policy of
-        Coinomat Company.
-    </label>
+        <w-checkbox-submit id="coinomat-terms-accept"
+                           ng-model="$ctrl.userModelTerms"
+                           disabled="$ctrl.signPending"></w-checkbox-submit>
+
+        <label for="coinomat-terms-accept"  class="footnote-1">
+            <span w-i18n="modal.receive.providedByCoinomat.termsReadedInputLabel"></span>
+        </label>
+
 </div>
 
-<div>
-    In case of problems with payment processing, please contact the Coinomat support team — support@coinomat.com
-</div>
+<div class="row margin-3 margin-top-2 caption-1 basic-500 info-block">
+    <i class="icon-info"></i>
+    <div w-i18n="modal.sepa.warning"></div>
 
 <w-sign signable="$ctrl.signable"
         on-success="$ctrl.onSignSuccess(signature)"
         on-cancel="$ctrl.onSignCancel()"></w-sign>
+</div>
