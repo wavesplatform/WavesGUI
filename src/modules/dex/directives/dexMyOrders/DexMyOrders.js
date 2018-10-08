@@ -286,10 +286,12 @@
                             this.poll.restart();
                         }
                     })
-                    .catch(() => {
+                    .catch(e => {
+                        const error = DexMyOrders._parseError(e);
                         notification.error({
                             ns: 'app.dex',
-                            title: { literal: 'directives.myOrders.notifications.somethingWentWrong' }
+                            title: { literal: 'directives.myOrders.notifications.somethingWentWrong' },
+                            body: { literal: error && error.message || error }
                         });
                     });
             }
@@ -359,6 +361,14 @@
                             return list;
                         }
                     });
+            }
+
+            static _parseError(error) {
+                try {
+                    return typeof error === 'string' ? JSON.parse(error) : error;
+                } catch (e) {
+                    return error;
+                }
             }
 
         }
