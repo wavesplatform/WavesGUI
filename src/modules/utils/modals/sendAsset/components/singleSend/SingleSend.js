@@ -286,8 +286,8 @@
             /**
              * @return {boolean}
              */
-            isOldMoneroAddress() {
-                return this.state.assetId === WavesApp.defaultAssets.XMR && this.tx.recipient.substr(0, 1) === '4';
+            isMoneroAddress() {
+                return this.state.assetId === WavesApp.defaultAssets.XMR;
             }
 
             getGatewayDetails() {
