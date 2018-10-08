@@ -235,9 +235,13 @@
             }
 
             dropOrderGetSignData(order) {
+
+                const data = { ...order };
+                delete data.signature;
+
                 const signable = ds.signature.getSignatureApi().makeSignable({
                     type: SIGN_TYPE.CANCEL_ORDER,
-                    data: order
+                    data
                 });
 
                 return signable.getId().then(id => {
