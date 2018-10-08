@@ -36,7 +36,22 @@
                  * @type {Poll}
                  * @private
                  */
-                this._poll = new Poll(getData, this._applyData.bind(this), timeout || 5000);
+                this._poll = new Poll(() => {
+                    return getData()
+                        .then(data => {
+                            this._isError = false;
+                            return data;
+                        })
+                        .catch(e => {
+                            this._isError = true;
+                            return e;
+                        });
+                }, this._applyData.bind(this), timeout || 5000);
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
+                this._isError = false;
                 /**
                  * @type {JQuery.Deferred}
                  * @private
@@ -60,6 +75,9 @@
 
             get() {
                 if (this._ready) {
+                    if (this._isError) {
+                        return Promise.reject(this.data);
+                    }
                     return Promise.resolve(this.data);
                 } else {
                     return this._readyDfr.promise();

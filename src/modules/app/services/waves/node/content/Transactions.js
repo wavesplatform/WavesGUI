@@ -282,8 +282,8 @@
              * @return {string}
              * @private
              */
-            static _getExchangeType({ buyOrder }) {
-                if (buyOrder.senderPublicKey === user.publicKey) {
+            static _getExchangeType({ exchangeType }) {
+                if (exchangeType === 'buy') {
                     return TYPES.EXCHANGE_BUY;
                 } else {
                     return TYPES.EXCHANGE_SELL;

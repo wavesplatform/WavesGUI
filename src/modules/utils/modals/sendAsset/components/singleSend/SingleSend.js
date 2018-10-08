@@ -62,6 +62,13 @@
             }
 
             /**
+             * @return {Object.<string, Money>}
+             */
+            get feeHash() {
+                return utils.groupMoney(this.feeList || []);
+            }
+
+            /**
              * @return {Money}
              */
             get balance() {
@@ -162,10 +169,11 @@
             }
 
             $postLink() {
+                this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
+
                 this.receiveOnce(utils.observe(this.state, 'moneyHash'), () => {
 
                     this.observe('gatewayDetails', this._currentHasCommission);
-                    this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
 
                     this.minAmount = this.state.moneyHash[this.state.assetId].cloneWithTokens('0');
                     this.tx.amount = this.tx.amount || this.moneyHash[this.assetId].cloneWithTokens('0');
@@ -180,6 +188,7 @@
                     this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
                     this.observe('mirror', this._onChangeAmountMirror);
 
+                    this._currentHasCommission();
                     this._onChangeBaseAssets();
                     this._updateGatewayDetails();
 
@@ -229,25 +238,33 @@
                 this.focus = '';
             }
 
-            onReadQrCode(result) {
-                this.tx.recipient = result.body;
+            onReadQrCode(url) {
+                const routeData = utils.getRouterParams(utils.getUrlForRoute(url));
+
+                if (!routeData || routeData.name !== 'SEND_ASSET') {
+                    return null;
+                }
+
+                const result = routeData.data;
+
+                this.tx.recipient = result.recipient;
 
                 analytics.push('Send', `Send.QrCodeRead.${WavesApp.type}`, `Send.QrCodeRead.${WavesApp.type}.Success`);
 
-                if (result.params) {
+                if (result) {
 
                     const applyAmount = () => {
-                        if (result.params.amount) {
-                            this.tx.amount = this.moneyHash[this.assetId].cloneWithCoins(result.params.amount);
+                        if (result.amount) {
+                            this.tx.amount = this.moneyHash[this.assetId].cloneWithTokens(result.amount);
                             this._fillMirror();
                         }
                         $scope.$apply();
                     };
 
-                    result.params.assetId = result.params.asset || result.params.assetId;
+                    result.assetId = result.asset || result.assetId;
 
-                    if (result.params.assetId) {
-                        waves.node.assets.balance(result.params.assetId).then(({ available }) => {
+                    if (result.assetId) {
+                        waves.node.assets.balance(result.assetId).then(({ available }) => {
                             this.moneyHash[available.asset.id] = available;
 
                             if (this.assetId !== available.asset.id) {
@@ -320,6 +337,10 @@
              * @private
              */
             _currentHasCommission() {
+                if (!this.moneyHash) {
+                    return null;
+                }
+
                 const details = this.gatewayDetails;
 
                 const check = (feeList) => {
@@ -335,7 +356,7 @@
                 if (details) {
                     const gatewayFee = this.balance.cloneWithTokens(details.gatewayFee);
                     this.feeList = [this.tx.fee, gatewayFee];
-                    check(this.feeList);
+                    check(this.feeList.concat(this.balance.cloneWithTokens(details.minimumAmount)));
                 } else {
                     this.feeList = [this.tx.fee];
                     check(this.feeList);
@@ -422,24 +443,25 @@
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
-                    gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient).then((details) => {
-                        const max = BigNumber.min(
-                            details.maximumAmount.plus(details.gatewayFee),
-                            this.moneyHash[this.assetId].getTokens()
-                        );
+                    gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.paymentId)
+                        .then((details) => {
+                            const max = BigNumber.min(
+                                details.maximumAmount.plus(details.gatewayFee),
+                                this.moneyHash[this.assetId].getTokens()
+                            );
 
-                        this.gatewayDetails = details;
-                        this.minAmount = this.moneyHash[this.assetId]
-                            .cloneWithTokens(details.minimumAmount.minus('0.00000001'));
-                        this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
-                        this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
+                            this.gatewayDetails = details;
+                            this.minAmount = this.moneyHash[this.assetId]
+                                .cloneWithTokens(details.minimumAmount.minus('0.00000001'));
+                            this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
+                            this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
 
-                        $scope.$digest();
-                    }, () => {
-                        this.gatewayDetails = null;
-                        this.gatewayDetailsError = true;
-                        $scope.$digest();
-                    });
+                            $scope.$digest();
+                        }, () => {
+                            this.gatewayDetails = null;
+                            this.gatewayDetailsError = true;
+                            $scope.$digest();
+                        });
                 } else {
                     this.minAmount = this.state.moneyHash[this.assetId].cloneWithTokens('0');
                     this.maxAmount = this.moneyHash[this.assetId];

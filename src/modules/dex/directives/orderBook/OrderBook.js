@@ -177,14 +177,15 @@
              * @private
              */
             _getOrders() {
+                const amountAsset = this._assetIdPair.amount;
+                const priceAsset = this._assetIdPair.price;
+                const limit = 1;
+
                 return Promise.all([
-                    waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price),
-                    waves.matcher.getOrders(),
-                    ds.api.transactions.getExchangeTxList({
-                        amountAsset: this._assetIdPair.amount,
-                        priceAsset: this._assetIdPair.price,
-                        limit: 1
-                    }).then(([tx]) => tx)
+                    waves.matcher.getOrderBook(amountAsset, priceAsset),
+                    waves.matcher.getOrders().catch(() => null),
+                    ds.api.transactions.getExchangeTxList({ amountAsset, priceAsset, limit })
+                        .then(([tx]) => tx).catch(() => null)
                 ])
                     .then(([orderbook, orders, trades]) => {
                         this.loadingError = false;
@@ -221,7 +222,7 @@
              * @return {OrderBook.OrdersData}
              * @private
              */
-            _remapOrderBook(orderbook, orders, tx) {
+            _remapOrderBook(orderbook, orders = [], tx = null) {
 
                 const crop = utils.getOrderBookRangeByCropRate({
                     bids: orderbook.bids,

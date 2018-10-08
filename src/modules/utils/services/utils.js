@@ -6,6 +6,8 @@
     const tsUtils = require('ts-utils');
     const tsApiValidator = require('ts-api-validator');
     const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
+    const { splitEvery, pipe } = require('ramda');
+    const { libs } = require('@waves/signature-generator');
 
     class BigNumberPart extends tsApiValidator.BasePart {
 
@@ -44,6 +46,59 @@
                 BigNumberPart
             },
 
+            removeUrlProtocol(url) {
+                return url.replace(/.+?(:\/\/)/, '');
+            },
+
+            /**
+             * @name app.utils#getUrlForRoute
+             * @param {string} [url]
+             * @return string
+             */
+            getUrlForRoute(url) {
+                url = decodeURI(url || location.href);
+
+                const getHash = url => {
+                    if (url.includes('#')) {
+                        return url.slice(url.indexOf('#')).replace('#', '/');
+                    } else {
+                        return '';
+                    }
+                };
+
+                const processor = pipe(
+                    utils.removeUrlProtocol,
+                    getHash
+                );
+
+                return processor(url);
+            },
+
+            /**
+             * @name app.utils#getRouterParams
+             * @param {string} url
+             * @return object
+             */
+            getRouterParams(url) {
+                /**
+                 * @type {typeof Router}
+                 */
+                const Router = $injector.get('Router');
+                const router = new Router();
+
+                const makeRouterHandler = name => (params = Object.create(null), search = Object.create(null)) => {
+                    const url = Router.ROUTES[name];
+                    return { name, url, data: { ...params, ...search } };
+                };
+
+                Object.keys(Router.ROUTES).forEach(name => {
+                    const handler = makeRouterHandler(name);
+                    router.registerRoute(Router.ROUTES[name], handler);
+                });
+
+                return router.apply(url);
+            },
+
             /**
              * @name app.utils#observe
              * @param {object} target
@@ -55,6 +110,21 @@
              */
             observe(target, keys, options) {
                 return _addObserverSignals(target, keys, options);
+            },
+
+            /**
+             * @name app.utils#getPublicKeysFromScript
+             * @param {string} script
+             * @return {Array<string>}
+             */
+            getPublicKeysFromScript(script) {
+                const toBytes = key => splitEvery(2, key)
+                    .map(byte16 => parseInt(byte16, 16));
+
+                return (script.match(/ByteVector\(\d+\sbytes,\s(.[^)]+)/g) || [])
+                    .map(res => res.replace(/ByteVector\(\d+\sbytes,\s0x/, ''))
+                    .map(toBytes)
+                    .map(libs.base58.encode);
             },
 
             /**

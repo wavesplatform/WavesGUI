@@ -1,6 +1,13 @@
 (function () {
     'use strict';
 
+    const RESOLUTIONS = {
+        FULL_HD: { width: 1920, height: 1080 },
+        HD: { width: 1280, height: 720 },
+        VGA: { width: 640, height: 480 },
+        QVGA: { width: 320, height: 240 }
+    };
+
     /**
      * @name app.utils.mediaStream
      */
@@ -35,22 +42,23 @@
             return facingBackCamera || null;
         }
 
-        function getConstraints(deviceList) {
-            if (navigator.mediaDevices.getSupportedConstraints().facingMode) {
-                return {
-                    video: {
-                        facingMode: 'environment'
-                    }
-                };
-            }
-
-            const deviceInfo = getFacingBackCamera(deviceList);
-
-            return {
+        function getConstraints(deviceList, resolution) {
+            const constraints = {
                 video: {
-                    deviceId: { exact: deviceInfo.deviceId }
+                    width: { exact: resolution.width },
+                    height: { exact: resolution.height }
                 }
             };
+
+            if (navigator.mediaDevices.getSupportedConstraints().facingMode) {
+                constraints.video.facingMode = 'environment';
+            } else {
+                const deviceInfo = getFacingBackCamera(deviceList);
+                constraints.video.deviceId = { exact: deviceInfo.deviceId };
+            }
+
+
+            return constraints;
         }
 
         return {
@@ -64,15 +72,25 @@
                         resolve(new MediaStream(stream));
                     };
 
-                    navigator.mediaDevices.enumerateDevices().then((deviceList) => {
-                        return (
-                            navigator
-                                .mediaDevices
-                                .getUserMedia(
-                                    getConstraints(deviceList)
-                                )
-                        );
-                    }).then(handler, reject);
+                    const getUserMedia = deviceList => {
+                        const mediaDevices = navigator.mediaDevices;
+
+                        const reverse = resolution => ({ width: resolution.height, height: resolution.width });
+
+                        const checkResolution = res => {
+                            return mediaDevices.getUserMedia(getConstraints(deviceList, res))
+                                .catch(() => mediaDevices.getUserMedia(getConstraints(deviceList, reverse(res))));
+                        };
+
+                        return checkResolution(RESOLUTIONS.FULL_HD)
+                            .catch(() => checkResolution(RESOLUTIONS.HD))
+                            .catch(() => checkResolution(RESOLUTIONS.VGA))
+                            .catch(() => checkResolution(RESOLUTIONS.QVGA));
+                    };
+
+                    navigator.mediaDevices.enumerateDevices()
+                        .then(getUserMedia)
+                        .then(handler, reject);
                 });
             }
         };

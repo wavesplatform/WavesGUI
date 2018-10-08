@@ -1,7 +1,13 @@
 (function () {
     'use strict';
 
-    const factory = function () {
+    /**
+     * @param {app.utils} utils
+     * @return {Router}
+     */
+    const factory = function (utils) {
+
+        const { each } = require('ts-utils');
 
         class Router {
 
@@ -9,7 +15,9 @@
                 this._routesHash = Object.create(null);
             }
 
-            apply(url, search) {
+            apply(fullUrl) {
+                const [url, searchStr] = fullUrl.split('?');
+                const search = utils.parseSearchParams(searchStr);
                 const parts = url.split('/');
                 const urls = Object.keys(this._routesHash)
                     .sort((a, b) => {
@@ -50,17 +58,25 @@
             }
 
             registerRouteHash(hash) {
-                tsUtils.each(hash, (listener, url) => {
+                each(hash, (listener, url) => {
                     this.registerRoute(url, listener);
                 });
             }
 
+            static ROUTES = {
+                SEND: '/send',
+                SEND_ASSET: '/send/:assetId',
+                ASSET_INFO: '/asset/:assetId',
+                ACCOUNT: '/account',
+                GATEWAY_AUTH: '/gateway/auth'
+            };
+
         }
 
-        return new Router();
+        return Router;
     };
 
-    factory.$inject = [];
+    factory.$inject = ['utils'];
 
-    angular.module('app.utils').factory('router', factory);
+    angular.module('app.utils').factory('Router', factory);
 })();
