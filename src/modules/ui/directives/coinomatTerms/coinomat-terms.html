@@ -1,0 +1,28 @@
+<div ng-if="$ctrl.canShowTerms">
+    This service is provided by Coinomat Company (Сoinomat).
+
+    Waves Platform AG does not undertake any responsibility for the activities carried out by Coinomat and
+    does
+    not take any part in the relationship that may arise between Coinomat and users of the Waves Platform.
+    By using Coinomat service, you agree to be bound by Coinomat Terms of Service and Conduction of
+    Transactions. If you do not agree to these terms, then do not use this Coinomat service.
+</div>
+
+<div ng-if="$ctrl.canShowCheckBox">
+    <w-checkbox-submit id="coinomat-terms-accept"
+                       ng-model="$ctrl.userModelTerms"
+                       disabled="$ctrl.signPending"></w-checkbox-submit>
+
+    <label for="coinomat-terms-accept">
+        I agree with the Terms of Service and Conduction of Transactions, Price List and Privacy Policy of
+        Coinomat Company.
+    </label>
+</div>
+
+<div>
+    In case of problems with payment processing, please contact the Coinomat support team — support@coinomat.com
+</div>
+
+<w-sign signable="$ctrl.signable"
+        on-success="$ctrl.onSignSuccess(signature)"
+        on-cancel="$ctrl.onSignCancel()"></w-sign>

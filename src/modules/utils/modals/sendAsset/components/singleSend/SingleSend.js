@@ -20,7 +20,14 @@
      * @param {GatewayService} gatewayService
      * @param {Waves} waves
      */
-    const controller = function (Base, $scope, utils, createPoll, waves, outerBlockchains, user, gatewayService) {
+    const controller = function (Base,
+                                 $scope,
+                                 utils,
+                                 createPoll,
+                                 waves,
+                                 outerBlockchains,
+                                 user,
+                                 gatewayService) {
 
         class SingleSend extends Base {
 
@@ -164,18 +171,6 @@
             gatewayDetailsError = false;
             /**
              * @type {boolean}
-             */
-            verifyStatusPending = false;
-            /**
-             * @type {boolean}
-             */
-            verifyStatus = false;
-            /**
-             * @type {boolean}
-             */
-            verifyStatusError = false;
-            /**
-             * @type {boolean}
              * @private
              */
             _noCurrentRate = false;
@@ -316,19 +311,6 @@
              */
             _onChangeBankMode() {
                 if (this.toBankMode) {
-                    this.verifyStatusPending = true;
-                    this.verifyStatusError = false;
-                    ds.fetch(`https://coinomat.com/api/v2/get_verification_status.php?address=${user.address}`)
-                        .then(data => {
-                            this.verifyStatusPending = false;
-                            this.verifyStatus = data.verified;
-                            $scope.$apply();
-                        })
-                        .catch(() => {
-                            this.verifyStatusPending = false;
-                            this.verifyStatus = false;
-                            this.verifyStatusError = true;
-                        });
                     this.tx.recipient = BANK_RECIPIENT;
                 } else {
                     this.tx.recipient = '';

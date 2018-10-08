@@ -5,7 +5,7 @@
     <ng-transclude></ng-transclude>
 
     <div class="row">
-        <div ng-if="$ctrl.toBankMode && !$ctrl.verifyStatus" class="warning-plate warning-plate-red">
+        <div ng-if="$ctrl.toBankMode && !$ctrl.isVerified" class="warning-plate warning-plate-red">
             <div class="body-2 error-500" w-i18n="modal.send.notVerifiedHeader"></div>
             <div class="footnote-1 basic-500" w-i18n="modal.send.notVerifiedText"></div>
         </div>
@@ -51,7 +51,7 @@
 
     </div>
 
-    <div class="row" ng-if="$ctrl.toBankMode && $ctrl.verifyStatus">
+    <div class="row" ng-if="$ctrl.toBankMode && $ctrl.isVerified">
         <div class="warning-plate">
             <div class="body-2 warning-500" w-i18n="modal.send.coinomatWarningHeader"></div>
             <div class="footnote-1 basic-500" w-i18n="modal.send.coinomatWarningText"></div>
@@ -135,7 +135,7 @@
                              max-balance="$ctrl.maxAmount"
                              fee="$ctrl.feeList"
                              input-classes="big"
-                             disabled="$ctrl.toBankMode && !$ctrl.verifyStatus"
+                             disabled="$ctrl.toBankMode && !$ctrl.isVerified"
                              min="$ctrl.minAmount"
                              on-focus="$ctrl.focus = 'amount'"
                              on-blur="$ctrl.focus = ''"
@@ -201,7 +201,7 @@
 
     <div class="fee" ng-if="!$ctrl.gatewayDetailsError">
         <w-fee-list type="::$ctrl.txType"
-                    disabled="$ctrl.toBankMode && !$ctrl.verifyStatus"
+                    disabled="$ctrl.toBankMode && !$ctrl.isVerified"
                     balance-hash="$ctrl.state.moneyHash"
                     fee="$ctrl.tx.fee"></w-fee-list>
     </div>
@@ -222,24 +222,12 @@
     </div>
 
     <div ng-if="$ctrl.toBankMode" class="margin-top-2"> <!-- ng-if="!$ctrl.isConfirmedByCoinomat" -->
-        <div class="note-plate transparent margin-2 basic-700">
-            <div class="margin-1 footnote-3" w-i18n="modal.receive.providedByCoinomat.header"></div>
-            <div class="footnote-1" w-i18n="modal.receive.providedByCoinomat.descriprion"></div>
-        </div>
-
-        <div> <!-- ng-if="!$ctrl.coinomatConfirmPending && !$ctrl.coinomatPendingError" -->
-            <div class="unit-checkbox margin-2 basic-700">
-                <w-checkbox-submit ng-model="$ctrl.isAgreeCoinomatPolicy" id="coinomat-private-policy"></w-checkbox-submit>
-                <label for="coinomat-private-policy" class="footnote-1">
-                    <span w-i18n="modal.receive.providedByCoinomat.policyReadedInputLabel"></span>
-                </label>
-            </div>
-        </div>
-    </div>
-
-    <div ng-if="$ctrl.toBankMode" class="row margin-3 margin-top-2 caption-1 info-block">
-        <i class="icon-info"></i>
-        <div w-i18n="modal.sepa.warning"></div>
+        <w-coinomat-terms force-show-terms="::false"
+                          show-accepted-checkbox="::false"
+                          is-verified="$ctrl.isVerified"
+                          terms-accepted="$ctrl.termsAccepted"
+                          on-sign-start="$ctrl.onSignCoinomatStart()"
+                          on-sign-end="$ctrl.onSignCoinomatEnd()"></w-coinomat-terms>
     </div>
 
     <div class="margin-top-3">

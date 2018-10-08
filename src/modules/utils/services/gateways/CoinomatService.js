@@ -17,6 +17,8 @@
 
     // That is used to access values from `**/locales/*.json` files
     const KEY_NAME_PREFIX = 'coinomat';
+    const ds = require('data-service');
+    const { prop } = require('ramda');
 
     /**
      * @returns {CoinomatService}
@@ -91,15 +93,61 @@
                 return `${KEY_NAME_PREFIX}${GATEWAYS[asset.id].gateway}`;
             }
 
+            /**
+             * @param {string} address
+             * @return {Promise<boolean>}
+             */
             hasConfirmation(address) {
-                return $.get(`${PATH_V2}/get_confirmation.php?address=${address}`).then((res) => {
-                    const { status, is_confirmed } = JSON.parse(res);
+                return ds.fetch(`${PATH_V2}/get_confirmation.php?address=${address}`)
+                    .then(({ status, is_confirmed }) => !(status === 'not found' || !is_confirmed));
+            }
 
-                    if (status === 'not found' || !is_confirmed) {
-                        throw new Error('No confirm');
-                    }
+            /**
+             * @param {string} address
+             * @return {Promise<boolean>}
+             */
+            isVerified(address) {
+                return ds.fetch(`${PATH_V2}/get_verification_status.php?address=${address}`)
+                    .then(prop('verified'));
+            }
 
-                    return true;
+            /**
+             * @return {Promise<number>}
+             */
+            getCoinomatTimestamp() {
+                return ds.fetch(`${PATH_V2}/get_ts.php`)
+                    .then(prop('ts'));
+            }
+
+            /**
+             * @param {string} signature
+             * @param {number} timestamp
+             * @param {boolean} status
+             * @return {Promise<void>}
+             */
+            setCoinomatTermsAccepted(signature, timestamp, status) {
+                const confirmed = status ? 1 : 0;
+
+                return ds.signature.getSignatureApi().getPublicKey().then(publicKey => {
+
+                    const params = {
+                        signature,
+                        public_key: publicKey,
+                        ts: timestamp,
+                        is_confirmed: confirmed
+                    };
+
+                    const toGetParams = params => Object.keys(params).reduce((acc, item) => {
+                        const start = acc ? '&' : '';
+                        return `${acc}${start}${item}=${params[item]}`;
+                    }, '');
+
+                    return ds.fetch(`${PATH_V2}/set_confirmation.php?${toGetParams(params)}`, { method: 'POST' })
+                        .then(response => {
+                            if (response.status === 'error') {
+                                return Promise.reject('Error!');
+                            }
+                        });
                 });
             }
 
