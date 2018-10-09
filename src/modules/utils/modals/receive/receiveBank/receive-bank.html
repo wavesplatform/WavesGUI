@@ -24,9 +24,9 @@
 
     </div>
 
-    <div class="receive-user-status">
-        <w-loader></w-loader> <!-- todo @tsigel / ng-show if user status loading -->
-        <w-error-block></w-error-block> <!-- todo @tsigel / ng-show if user status error -->
+    <div ng-if="$ctrl.pending || $ctrl.error" class="receive-user-status">
+        <w-loader ng-if="$ctrl.pending"></w-loader>
+        <w-error-block ng-if="$ctrl.error"></w-error-block>
     </div>
 
     <div ng-if="!$ctrl.isLira && !$ctrl.pending && !$ctrl.error" class="get-verified">
@@ -74,6 +74,8 @@
         <w-coinomat-terms show-accepted-checkbox="::true"
                           is-verified="$ctrl.isVerified"
                           terms-accepted="$ctrl.termsAccepted"
+                          load-status="$ctrl.pending"
+                          load-error="$ctrl.error"
                           on-sign-start="$ctrl.onSignStart()"
                           on-sign-end="$ctrl.onSignEnd()"
                           force-show-terms="!$ctrl.isVerified"></w-coinomat-terms>
@@ -87,10 +89,7 @@
         </a>
 
     </div>
-    <w-loader ng-if="!$ctrl.isLira && $ctrl.pending"></w-loader>
-    <div ng-if="!$ctrl.isLira && $ctrl.error">
-        Error!
-    </div>
+
     <div ng-if="$ctrl.isLira" class="bank-account wtry">
 
         <div class="warning-plate">

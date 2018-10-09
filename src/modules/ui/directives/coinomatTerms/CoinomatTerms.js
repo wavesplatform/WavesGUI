@@ -63,6 +63,14 @@
              */
             onSignEnd = null;
             /**
+             * @type {boolean}
+             */
+            loadStatus = false;
+            /**
+             * @type {null}
+             */
+            loadError = null;
+            /**
              * @type {number}
              * @private
              */
@@ -75,6 +83,7 @@
                 this.observe(['forceShowTerms', 'termsAcceptedFreeze'], this._currentCanShowTerms);
                 this.observe(['showAcceptedCheckbox', 'termsAcceptedFreeze'], this._currentCanShowCheckbox);
 
+                this.loadStatus = true;
                 Promise.all([
                     coinomatService.hasConfirmation(user.address),
                     coinomatService.isVerified(user.address)
@@ -84,12 +93,15 @@
                     this.userModelTerms = terms;
                     this.termsAcceptedFreeze = terms;
                     this.isVerified = verified;
+                    this.loadStatus = false;
 
                     this.observe('userModelTerms', this._onChangeTerms);
                     this._currentCanShowTerms();
                     this._currentCanShowCheckbox();
 
                     $scope.$apply();
+                }).catch(e => {
+                    this.loadError = e;
                 });
             }
 
@@ -182,6 +194,8 @@
             onSignEnd: '&',
             isVerified: '=',
             termsAccepted: '=',
+            loadStatus: '=',
+            loadError: '=',
             forceShowTerms: '<',
             showAcceptedCheckbox: '<'
         }
