@@ -24,6 +24,11 @@
 
     </div>
 
+    <div class="receive-user-status">
+        <w-loader></w-loader> <!-- todo @tsigel / ng-show if user status loading -->
+        <w-error-block></w-error-block> <!-- todo @tsigel / ng-show if user status error -->
+    </div>
+
     <div ng-if="!$ctrl.isLira && !$ctrl.pending && !$ctrl.error" class="get-verified">
 
         <div class="input-like verified-input margin-2" ng-if="$ctrl.isVerified">
