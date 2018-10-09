@@ -36,6 +36,34 @@ md-dialog.modal-receive {
         justify-content: space-between;
         width: 100%;
       }
+
+      &.data {
+        border-top: 1px solid @color-basic-200;
+        border-bottom: 1px solid @color-basic-200;
+        height: 44px;
+      }
+    }
+
+    .buttons-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      w-button {
+        flex-basis: 48%;
+        max-width: 48%;
+      }
+    }
+
+    .sign-loader {
+      height: 50px;
+      w-loader {
+        position: relative;
+        margin: 0 auto;
+        top: 0;
+        left: 0;
+        transform: translate(0, 0);
+      }
     }
 
     w-select .select-list {

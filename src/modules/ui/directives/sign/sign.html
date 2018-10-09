@@ -1,15 +1,25 @@
-<div ng-if="$ctrl.signPending">
-    <span w-i18n="modal.sign.txId"></span> {{$ctrl.id}}
-    <div w-i18n="modal.sign.confirmRequestLedger.waiting"></div>
-    <w-loader></w-loader>
+<div class="flex-row split-half data margin-top-2 margin-2" ng-if="$ctrl.signPending">
+    <div w-i18n="modal.sign.txId"></div>
+    <div>{{$ctrl.id}}</div>
 </div>
-<div ng-if="!$ctrl.signPending && $ctrl.signError">
-    <div w-i18n="modal.sign.confirmRequestLedger.error"></div>
 
+<div ng-if="!$ctrl.signPending && $ctrl.signError"
+     class="warning-plate warning-plate-red margin-2 margin-top-2">
+    <div w-i18n="modal.sign.confirmRequestLedger.errorHeader" class="error-400 body-1"></div>
+    <div w-i18n="modal.sign.confirmRequestLedger.errorDescription" class="basic-500"></div>
+</div>
+
+<div ng-if="!$ctrl.signPending && $ctrl.signError"
+     class="buttons-wrapper">
     <w-button class="big" on-click="$ctrl.cancel()">
         <span w-i18n="modal.sign.confirmRequestLedger.cancel"></span>
     </w-button>
     <w-button class="big submit" on-click="$ctrl.trySign()">
-        <span w-i18n="modal.sign.confirmRequestLedger.retry"></span>
+        <span w-i18n="modal.sign.confirmRequestLedger.sign"></span>
     </w-button>
+</div>
+
+<div ng-if="$ctrl.signPending" class="relative sign-loader">
+    <div w-i18n="modal.sign.confirmRequestLedger.waiting" class="center"></div>
+    <w-loader></w-loader>
 </div>
