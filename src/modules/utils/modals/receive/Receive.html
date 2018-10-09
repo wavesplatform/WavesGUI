@@ -319,13 +319,53 @@
                                         </tr>
                                     </table>
 
+                                    <div ng-if="!$ctrl.isConfirmedByCoinomat">
+                                        <div>INFO TEXT</div>
+                                        <div ng-if="!$ctrl.coinomatConfirmPending && !$ctrl.coinomatPendingError">
+                                            <div>
+                                                <w-checkbox-submit ng-model="$ctrl.isAgreeCoinomatTerms" id="coinomat-terms"></w-checkbox-submit>
+                                                <label for="coinomat-terms"  class="footnote-1 basic-500">
+                                                    <span w-i18n="modal.sepa.terms"></span>
+                                                </label>
+                                            </div>
+
+                                            <div>
+                                                <w-checkbox-submit ng-model="$ctrl.isAgreeCoinomatPolicy" id="coinomat-private-policy"></w-checkbox-submit>
+                                                <label for="coinomat-private-policy" class="footnote-1 basic-500">
+                                                    <span w-i18n="modal.sepa.policy"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div ng-if="$ctrl.coinomatSignFromDevice && $ctrl.coinomatConfirmPending">
+                                            <p>{{$ctrl.confirmHashId}}</p>
+                                            LEDGER PENDING
+                                        </div>
+
+                                        <div ng-if="$ctrl.coinomatPendingError && $ctrl.coinomatSignFromDevice && $ctrl.coinomatPendingError === 'ledger'">
+                                            <w-button on-click="$ctrl.sendCoinomatConfirm()">
+                                                Retry
+                                            </w-button>
+                                            <w-button on-click="$ctrl.clearCoinomatConfirm()">
+                                                Cancel
+                                            </w-button>
+                                            LEDGER ERROR
+                                        </div>
+
+                                        <div ng-if="$ctrl.coinomatPendingError && $ctrl.coinomatPendingError !== 'ledger'">
+                                            NETWORK ERROR
+                                        </div>
+                                    </div>
+
                                     <div class="row margin-3 caption-1 info-block">
                                         <i class="icon-info"></i>
                                         <div w-i18n="modal.sepa.warning"></div>
                                     </div>
 
                                     <a href="{{$ctrl.idNowUserLink}}" target="_blank">
-                                        <w-button class="big submit long" on-click="$ctrl.confirmIdNow()">
+                                        <w-button class="big submit long" on-click="$ctrl.confirmIdNow()"
+                                                  disabled="!$ctrl.coinomatPendingError && $ctrl.isAgreeCoinomatTerms && $ctrl.isAgreeCoinomatPolicy && !$ctrl.coinomatConfirmPending"
+                                        >
                                             <span w-i18n="modal.sepa.proceed"></span>
                                         </w-button>
                                     </a>

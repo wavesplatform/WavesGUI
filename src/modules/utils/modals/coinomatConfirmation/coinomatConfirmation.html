@@ -1,0 +1,30 @@
+<div>
+    <div ng-click="$ctrl.cancel()">X</div>
+
+    <div ng-class="{confirm: $ctrl.is_confirm, unconfirm: !$ctrl.is_confirm}"></div>
+
+    <div ng-if="$ctrl.is_confirm" w-i18n="modal.coinomatConfirm.confirm"></div>
+    <div ng-if="!$ctrl.is_confirm" w-i18n="modal.coinomatConfirm.unconfirm"></div>
+
+    <div>{{$ctrl.hashId}}</div>
+
+    <div ng-if="$ctrl.isLedger">
+        <div ng-if="$ctrl.pending" w-i18n="modal.coinomatConfirm.waitingConfirm"></div>
+        <w-loader ng-if="$ctrl.pending"></w-loader>
+        <div ng-if="$ctrl.error">
+            <div>Error</div>
+            <w-button on-click="$ctrl.cancel()">
+                <div w-i18n="modal.coinomatConfirm.cancel"></div>
+            </w-button>
+            <w-button on-click="$ctrl.getSignature()">
+                <div w-i18n="modal.coinomatConfirm.retry"></div>
+            </w-button>
+        </div>
+
+    </div>
+
+    <w-button ng-if="!$ctrl.isLedger"
+              on-click="$ctrl.confirm()">
+        <div w-i18n="modal.coinomatConfirm.confirm"></div>
+    </w-button>
+</div>

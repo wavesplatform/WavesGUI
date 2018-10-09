@@ -198,6 +198,26 @@
                  */
                 this.approximateAmount = 0;
 
+                /**
+                 * @type {boolean}
+                 */
+                this.isConfirmedByCoinomat = false;
+
+                /**
+                 * @type {boolean}
+                 */
+                this.isAgreeCoinomatTerms = false;
+
+                /**
+                 * @type {boolean}
+                 */
+                this.isAgreeCoinomatPolicy = false;
+
+                /**
+                 * @type {boolean}
+                 */
+                this.coinomatConfirmPending = false;
+
                 if (this.asset) {
                     this.initForSingleAsset();
                 } else {
@@ -422,6 +442,56 @@
 
             activateBankTab() {
                 this.showBankTab = true;
+                this.observe('isAgreeCoinomatTerms', () => this.sendCoinomatConfirm());
+                this.observe('isAgreeCoinomatPolicy', () => this.sendCoinomatConfirm());
+
+                gatewayService.hasConfirmation(user.address).then(
+                    () => {
+                        this.isConfirmedByCoinomat = true;
+                        $scope.$digest();
+                    },
+                    () => {
+                        this.isConfirmedByCoinomat = false;
+                        $scope.$digest();
+                    }
+                );
+            }
+
+            clearCoinomatConfirm() {
+                this.isAgreeCoinomatTerms = false;
+                this.isAgreeCoinomatPolicy = false;
+                this.coinomatPendingError = false;
+            }
+
+            sendCoinomatConfirm() {
+                if (!this.isAgreeCoinomatTerms || !this.isAgreeCoinomatPolicy) {
+                    return null;
+                }
+                const api = ds.signature.getSignatureApi();
+                this.coinomatPendingError = null;
+                this.coinomatSignFromDevice = this.coinomatConfirmPending = api.type !== 'seed';
+                api.getPublicKey().then(
+                    pKey => gatewayService.sendConfirmation(pKey, true)
+                ).then(
+                    ({ hashId, next }) => {
+                        this.confirmHashId = hashId;
+                        $scope.$digest();
+                        return next();
+                    }
+                ).then(
+                    () => {
+                        this.isConfirmedByCoinomat = true;
+                        this.coinomatConfirmPending = false;
+                        $scope.$digest();
+                    }
+                ).catch(
+                    (error) => {
+                        this.coinomatConfirmPending = false;
+                        this.coinomatPendingError = error.message.includes('device') ? 'ledger' : error.message;
+                        $scope.$digest();
+
+                    }
+                );
             }
 
             confirmIdNow() {

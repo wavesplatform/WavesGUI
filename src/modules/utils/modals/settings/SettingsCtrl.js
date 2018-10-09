@@ -10,9 +10,13 @@
      * @param {*} $templateRequest
      * @param {app.utils} utils
      * @param {Storage} storage
+     * @param {ModalManager} modalManager
+     * @param {$mdDialog} $mdDialog
+     * @param {GatewayService} gatewayService
      * @return {SettingsCtrl}
      */
-    const controller = function (Base, $scope, waves, user, createPoll, $templateRequest, utils, storage) {
+    const controller = function (Base, $scope, waves, user, createPoll,
+                                 $templateRequest, utils, storage, modalManager, $mdDialog, gatewayService) {
 
         class SettingsCtrl extends Base {
 
@@ -28,7 +32,7 @@
                 }
                 storage.save('openClientMode', this.openClientMode);
             }
-
+            agreeCoinomat = false;
             tab = 'general';
             address = user.address;
             publicKey = user.publicKey;
@@ -70,6 +74,13 @@
                 storage.load('openClientMode').then(mode => {
                     this.openClientMode = mode;
                 });
+
+                gatewayService.hasConfirmation(user.address).then(() => true, () => false).then(
+                    (res) => {
+                        this.agreeCoinomat = res;
+                        this.observe('agreeCoinomat', () => this.changeCoinomatAgree());
+                    }
+                );
 
                 this.observe('theme', () => {
                     this.templatePromise.then(
@@ -158,12 +169,18 @@
                 }, 4100);
             }
 
+            changeCoinomatAgree() {
+                $mdDialog.cancel();
+                modalManager.showCoinomatConfirmation(this.agreeCoinomat);
+            }
+
         }
 
         return new SettingsCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'waves', 'user', 'createPoll', '$templateRequest', 'utils', 'storage'];
+    controller.$inject = ['Base', '$scope', 'waves', 'user', 'createPoll',
+        '$templateRequest', 'utils', 'storage', 'modalManager', '$mdDialog', 'gatewayService'];
 
     angular.module('app.utils').controller('SettingsCtrl', controller);
 

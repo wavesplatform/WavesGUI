@@ -115,6 +115,22 @@
             }
 
             /**
+             * @param {string} address
+             * @return {Promise}
+             */
+            hasConfirmation(address) {
+                return coinomatService.hasConfirmation(address);
+            }
+
+            /**
+             * @param {string} public_key
+             * @param {boolean} is_confirmed
+             */
+            sendConfirmation(public_key, is_confirmed) {
+                return coinomatService.sendConfirmation(public_key, is_confirmed);
+            }
+
+            /**
              * @param {Asset} asset
              * @param {IGatewayType} type
              * @return {boolean}
