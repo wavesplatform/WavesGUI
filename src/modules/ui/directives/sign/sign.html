@@ -1,0 +1,18 @@
+<div ng-if="$ctrl.signPending">
+    TXID {{$ctrl.id}}
+
+    Waiting for confirmation on Ledger Nano S…
+
+    <w-loader></w-loader>
+</div>
+<div ng-if="!$ctrl.signPending && $ctrl.signError">
+    You did not confirm the request on your Ledger Nano S
+    Please try again. If the error persists, please refer to this article
+
+    <w-button class="big" on-click="$ctrl.cancel()">
+        Cancel
+    </w-button>
+    <w-button class="big submit" on-click="$ctrl.trySign()">
+        Retry sign
+    </w-button>
+</div>

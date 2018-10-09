@@ -8,6 +8,8 @@
 
     const { Money } = require('@waves/data-entities');
 
+    const BANK_RECIPIENT = '3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us';
+
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
@@ -18,7 +20,14 @@
      * @param {GatewayService} gatewayService
      * @param {Waves} waves
      */
-    const controller = function (Base, $scope, utils, createPoll, waves, outerBlockchains, user, gatewayService) {
+    const controller = function (Base,
+                                 $scope,
+                                 utils,
+                                 createPoll,
+                                 waves,
+                                 outerBlockchains,
+                                 user,
+                                 gatewayService) {
 
         class SingleSend extends Base {
 
@@ -112,58 +121,62 @@
              * @type {string}
              */
             txType = WavesApp.TRANSACTION_TYPES.NODE.TRANSFER;
+            /**
+             * @type {boolean}
+             */
+            toBankMode = false;
+            /**
+             * @type {Function}
+             */
+            onContinue = null;
+            /**
+             * @type {string}
+             */
+            focus = null;
+            /**
+             * @type {Money}
+             */
+            mirror = null;
+            /**
+             * @type {boolean}
+             */
+            noMirror = false;
+            /**
+             * @type {boolean}
+             */
+            hasComission = true;
+            /**
+             * @type {Array}
+             */
+            feeList = null;
+            /**
+             * @type {Money}
+             */
+            minAmount = null;
+            /**
+             * @type {Money}
+             */
+            maxAmount = null;
+            /**
+             * @type {ISendState}
+             */
+            state = Object.create(null);
+            /**
+             * @type {Money}
+             */
+            maxGatewayAmount = null;
+            /**
+             * @type {boolean}
+             */
+            gatewayDetailsError = false;
+            /**
+             * @type {boolean}
+             * @private
+             */
+            _noCurrentRate = false;
 
             constructor() {
                 super();
-                /**
-                 * @type {Function}
-                 */
-                this.onContinue = null;
-                /**
-                 * @type {string}
-                 */
-                this.focus = null;
-                /**
-                 * @type {Money}
-                 */
-                this.mirror = null;
-                /**
-                 * @type {boolean}
-                 */
-                this.noMirror = false;
-                /**
-                 * @type {boolean}
-                 */
-                this.hasComission = true;
-                /**
-                 * @type {Array}
-                 */
-                this.feeList = null;
-                /**
-                 * @type {Money}
-                 */
-                this.minAmount = null;
-                /**
-                 * @type {Money}
-                 */
-                this.maxAmount = null;
-                /**
-                 * @type {ISendState}
-                 */
-                this.state = Object.create(null);
-                /**
-                 * @type {Money}
-                 */
-                this.maxGatewayAmount = null;
-                /**
-                 * @type {boolean}
-                 */
-                this.gatewayDetailsError = false;
-                /**
-                 * @type {boolean}
-                 * @private
-                 */
-                this._noCurrentRate = false;
 
                 $scope.WavesApp = WavesApp;
             }
@@ -173,6 +186,7 @@
 
                 this.receiveOnce(utils.observe(this.state, 'moneyHash'), () => {
 
+                    this.observe('toBankMode', this._onChangeBankMode);
                     this.observe('gatewayDetails', this._currentHasCommission);
 
                     this.minAmount = this.state.moneyHash[this.state.assetId].cloneWithTokens('0');
@@ -292,6 +306,17 @@
 
             getGatewayDetails() {
                 this._onChangeAssetId();
+            }
+
+            /**
+             * @private
+             */
+            _onChangeBankMode() {
+                if (this.toBankMode) {
+                    this.tx.recipient = BANK_RECIPIENT;
+                } else {
+                    this.tx.recipient = '';
+                }
             }
 
             /**
