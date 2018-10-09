@@ -2,7 +2,8 @@
     <div ng-if="$ctrl.feeList.length > 1"
          class="body-2 fee-title margin-top-2"
          w-i18n="modal.send.txFee"></div>
-    <w-select disabled="$ctrl.disabled" ng-if="$ctrl.feeList.length > 1"
+    <w-select disabled="$ctrl.disabled"
+              ng-if="$ctrl.feeList.length > 1"
               ng-model="$ctrl.fee"
               class="big">
         <w-option ng-repeat="fee in $ctrl.feeList track by fee.asset.id"
