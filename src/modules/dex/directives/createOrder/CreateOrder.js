@@ -332,11 +332,22 @@
                                 analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Success`, pair);
                                 dexDataService.createOrder.dispatch();
                             })
-                            .catch(() => {
+                            .catch(e => {
+                                const error = CreateOrder._parseError(e);
+                                notification.error({
+                                    ns: 'app.dex',
+                                    title: {
+                                        literal: 'directives.createOrder.notifications.error.title'
+                                    },
+                                    body: {
+                                        literal: error && error.message || error
+                                    }
+                                }, -1);
                                 this.createOrderFailed = true;
                                 notify.addClass('error');
                                 const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                                 analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Error`, pair);
+
                             })
                             .finally(() => {
                                 CreateOrder._animateNotification(notify);
@@ -676,6 +687,14 @@
                             }
                         });
                     });
+            }
+
+            static _parseError(error) {
+                try {
+                    return typeof error === 'string' ? JSON.parse(error) : error;
+                } catch (e) {
+                    return error;
+                }
             }
 
         }
