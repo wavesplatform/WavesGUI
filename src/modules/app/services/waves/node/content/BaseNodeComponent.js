@@ -66,6 +66,7 @@
                         case TYPES.CREATE_ALIAS:
                         case TYPES.LEASE:
                         case TYPES.CANCEL_LEASING:
+                        case TYPES.SET_SCRIPT:
                             return Promise.all([
                                 getFee('0.001')
                             ]);

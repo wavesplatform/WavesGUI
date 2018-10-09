@@ -57,6 +57,14 @@
                 });
             }
 
+            showScriptModal() {
+                return this._getModal({
+                    id: 'script-modal',
+                    contentUrl: 'modules/utils/modals/script/script.html',
+                    controller: 'ScriptModalCtrl'
+                });
+            }
+
             showTryDesktopModal() {
                 return this._getModal({
                     id: 'try-desktop',

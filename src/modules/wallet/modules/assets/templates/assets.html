@@ -13,6 +13,9 @@
         </svg>
         <span class="btn-icon" w-i18n="directives.asset.receive"></span>
     </w-button>
+    <w-button ng-if="$ctrl.advancedMode" on-click="$ctrl.openScriptModal()">
+        <span w-i18n="script"></span>
+    </w-button>
 </div>
 
 <div w-i18n-ns="app.wallet.assets" class="assets-wrapper">
