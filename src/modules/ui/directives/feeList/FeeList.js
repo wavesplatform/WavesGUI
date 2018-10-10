@@ -4,8 +4,9 @@
     /**
      * @param {typeof Base} Base
      * @param {Waves} waves
+     * @param {$rootScope.Scope} $scope
      */
-    const controller = function (Base, waves) {
+    const controller = function (Base, waves, $scope) {
 
         const { find } = require('ts-utils');
 
@@ -51,9 +52,14 @@
                         this.fee = fee || this.feeList[0];
                     }
 
+                    $scope.$apply();
                 });
             }
 
+            /**
+             * @return {null}
+             * @private
+             */
             _onChangeBalanceHash() {
                 if (!this.fee) {
                     return null;
@@ -101,7 +107,7 @@
         return new FeeList();
     };
 
-    controller.$inject = ['Base', 'waves'];
+    controller.$inject = ['Base', 'waves', '$scope'];
 
     angular.module('app.ui').component('wFeeList', {
         bindings: {
