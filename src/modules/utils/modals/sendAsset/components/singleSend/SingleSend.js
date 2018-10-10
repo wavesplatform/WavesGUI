@@ -171,6 +171,14 @@
             gatewayDetailsError = false;
             /**
              * @type {boolean}
+             */
+            termsIsPending = true;
+            /**
+             * @type {boolean}
+             */
+            termsLoadError = false;
+            /**
+             * @type {boolean}
              * @private
              */
             _noCurrentRate = false;
@@ -314,8 +322,10 @@
             _onChangeBankMode() {
                 if (this.toBankMode) {
                     this.tx.recipient = BANK_RECIPIENT;
+                    this.termsIsPending = true;
                 } else {
                     this.tx.recipient = '';
+                    this.termsIsPending = false;
                 }
             }
 

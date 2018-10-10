@@ -5,13 +5,14 @@
     <ng-transclude></ng-transclude>
 
     <div class="row">
-        <div ng-if="$ctrl.toBankMode && !$ctrl.isVerified" class="warning-plate warning-plate-red">
+        <div ng-if="$ctrl.toBankMode && !$ctrl.isVerified && !$ctrl.termsLoadError && !$ctrl.termsIsPending"
+             class="warning-plate warning-plate-red">
             <div class="body-2 error-500" w-i18n="modal.send.notVerifiedHeader"></div>
             <div class="footnote-1 basic-500" w-i18n="modal.send.notVerifiedText"></div>
         </div>
     </div>
 
-    <w-loader></w-loader>
+    <w-loader ng-if="$ctrl.toBankMode && $ctrl.termsIsPending"></w-loader>
 
     <div class="row">
         <div class="flex-row-title">
@@ -52,7 +53,7 @@
         </w-input-container>
     </div>
 
-    <div ng-if="$ctrl.toBankMode && $ctrl.isVerified" class="row">
+    <div ng-if="$ctrl.toBankMode && !$ctrl.termsIsPending && $ctrl.isVerified" class="row">
         <div class="warning-plate">
             <div class="body-2 warning-500" w-i18n="modal.send.coinomatWarningHeader"></div>
             <div class="footnote-1 basic-500" w-i18n="modal.send.coinomatWarningText"></div>
@@ -127,7 +128,8 @@
         </w-input-container>
     </div>
 
-    <w-input-container class="margin-top-2" ng-if="!$ctrl.gatewayDetailsError">
+    <w-input-container class="margin-top-2"
+                       ng-if="!$ctrl.gatewayDetailsError && (!$ctrl.toBankMode || ($ctrl.toBankMode && !($ctrl.termsIsPending || $ctrl.termsLoadError)))">
         <div class="body-2" w-i18n="modal.send.amount"></div>
         <div class="amount-wrap" ng-class="{'no-mirror': $ctrl.noMirror}">
 
@@ -200,7 +202,7 @@
         </w-input-container>
     </div>
 
-    <div class="fee" ng-if="!$ctrl.gatewayDetailsError">
+    <div class="fee" ng-if="!$ctrl.gatewayDetailsError && (!$ctrl.toBankMode || ($ctrl.toBankMode && !($ctrl.termsIsPending || $ctrl.termsLoadError)))">
         <w-fee-list type="::$ctrl.txType"
                     disabled="$ctrl.toBankMode && (!$ctrl.isVerified || !$ctrl.termsAccepted)"
                     balance-hash="$ctrl.state.moneyHash"
@@ -224,6 +226,8 @@
 
     <div ng-if="$ctrl.toBankMode" class="margin-top-2">
         <w-coinomat-terms force-show-terms="::false"
+                          terms-pending="$ctrl.termsIsPending"
+                          load-error="$ctrl.termsLoadError"
                           show-accepted-checkbox="::false"
                           is-verified="$ctrl.isVerified"
                           terms-accepted="$ctrl.termsAccepted"
@@ -232,7 +236,7 @@
     </div>
 
     <div class="margin-top-3">
-        <w-button ng-if="!$ctrl.gatewayDetailsError"
+        <w-button ng-if="!$ctrl.gatewayDetailsError && (!$ctrl.toBankMode || ($ctrl.toBankMode && !($ctrl.termsIsPending || $ctrl.termsLoadError)))"
                   on-click="$ctrl.createTx()"
                   disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission) || ($ctrl.toBankMode && !$ctrl.termsAccepted)"
                   type="submit"
