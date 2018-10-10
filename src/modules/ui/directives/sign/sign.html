@@ -1,18 +1,25 @@
-<div ng-if="$ctrl.signPending">
-    TXID {{$ctrl.id}}
-
-    Waiting for confirmation on Ledger Nano S…
-
-    <w-loader></w-loader>
+<div class="flex-row split-half data margin-top-2 margin-2" ng-if="$ctrl.signPending">
+    <div w-i18n="modal.sign.txId"></div>
+    <div>{{$ctrl.id}}</div>
 </div>
-<div ng-if="!$ctrl.signPending && $ctrl.signError">
-    You did not confirm the request on your Ledger Nano S
-    Please try again. If the error persists, please refer to this article
 
+<div ng-if="!$ctrl.signPending && $ctrl.signError"
+     class="warning-plate warning-plate-red margin-2 margin-top-2">
+    <div w-i18n="modal.sign.confirmRequestLedger.errorHeader" class="error-400 body-1"></div>
+    <div w-i18n="modal.sign.confirmRequestLedger.errorDescription" class="basic-500"></div>
+</div>
+
+<div ng-if="!$ctrl.signPending && $ctrl.signError"
+     class="buttons-wrapper">
     <w-button class="big" on-click="$ctrl.cancel()">
-        Cancel
+        <span w-i18n="modal.sign.confirmRequestLedger.cancel"></span>
     </w-button>
     <w-button class="big submit" on-click="$ctrl.trySign()">
-        Retry sign
+        <span w-i18n="modal.sign.confirmRequestLedger.sign"></span>
     </w-button>
+</div>
+
+<div ng-if="$ctrl.signPending" class="relative sign-loader">
+    <div w-i18n="modal.sign.confirmRequestLedger.waiting" class="center"></div>
+    <w-loader></w-loader>
 </div>
