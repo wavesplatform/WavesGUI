@@ -11,6 +11,8 @@
         </div>
     </div>
 
+    <w-loader></w-loader>
+
     <div class="row">
         <div class="flex-row-title">
             <div class="body-2" w-i18n="modal.send.recipient"></div>
@@ -48,10 +50,9 @@
                 <span w-i18n="modal.send.errors.required"></span>
             </w-input-error>
         </w-input-container>
-
     </div>
 
-    <div class="row" ng-if="$ctrl.toBankMode && !$ctrl.isVerified">
+    <div ng-if="$ctrl.toBankMode && $ctrl.isVerified" class="row">
         <div class="warning-plate">
             <div class="body-2 warning-500" w-i18n="modal.send.coinomatWarningHeader"></div>
             <div class="footnote-1 basic-500" w-i18n="modal.send.coinomatWarningText"></div>
