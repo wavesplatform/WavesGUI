@@ -24,7 +24,9 @@
 
     </div>
 
-    <div ng-if="$ctrl.pending || $ctrl.error" class="receive-user-status">
+    <div ng-if="$ctrl.pending || $ctrl.error"
+         class="receive-user-status"
+         ng-class="{pending: $ctrl.pending}">
         <w-loader ng-if="$ctrl.pending"></w-loader>
         <w-error-block ng-if="$ctrl.error"></w-error-block>
     </div>

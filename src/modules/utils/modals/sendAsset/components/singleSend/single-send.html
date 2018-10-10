@@ -12,8 +12,6 @@
         </div>
     </div>
 
-    <w-loader ng-if="$ctrl.toBankMode && $ctrl.termsIsPending"></w-loader>
-
     <div class="row">
         <div class="flex-row-title">
             <div class="body-2" w-i18n="modal.send.recipient"></div>
@@ -51,6 +49,10 @@
                 <span w-i18n="modal.send.errors.required"></span>
             </w-input-error>
         </w-input-container>
+    </div>
+
+    <div class="row relative" style="min-height: 60px;" ng-if="$ctrl.toBankMode && $ctrl.termsIsPending">
+        <w-loader class="asd"></w-loader>
     </div>
 
     <div ng-if="$ctrl.toBankMode && !$ctrl.termsIsPending && $ctrl.isVerified" class="row">
