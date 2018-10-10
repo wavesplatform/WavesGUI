@@ -73,6 +73,7 @@
                 if (signable) {
                     signable.getId().then(id => {
                         this.id = id;
+                        $scope.$apply();
                     });
                     this.trySign();
                 } else {
