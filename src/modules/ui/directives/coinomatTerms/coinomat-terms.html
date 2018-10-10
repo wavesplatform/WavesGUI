@@ -15,11 +15,12 @@
 
 </div>
 
-<div class="row margin-3 margin-top-2 caption-1 basic-500 info-block">
+<div class="row margin-top-2 caption-1 basic-500 info-block">
     <i class="icon-info"></i>
     <div w-i18n="modal.sepa.warning"></div>
 </div>
 
 <w-sign signable="$ctrl.signable"
         on-success="$ctrl.onSignSuccess(signature)"
-        on-cancel="$ctrl.onSignCancel()"></w-sign>
+        on-cancel="$ctrl.onSignCancel()"
+        class=" margin-top-3"></w-sign>
