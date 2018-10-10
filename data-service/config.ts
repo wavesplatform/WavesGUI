@@ -21,7 +21,7 @@ export function set<K extends keyof IConfigParams>(key: K, value: IConfigParams[
             const now = Date.now();
             const dif = now - serverTime.getTime();
 
-            if (Math.abs(dif) > 1000 * 60 * 10) {
+            if (Math.abs(dif) > 1000 * 30) {
                 timeDiff = dif;
             } else {
                 timeDiff = 0;
