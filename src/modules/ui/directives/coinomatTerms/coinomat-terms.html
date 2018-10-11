@@ -1,26 +1,28 @@
-<div ng-if="$ctrl.canShowTerms" class="note-plate transparent margin-2 basic-700">
-    <div class="margin-1 footnote-3" w-i18n="modal.receive.providedByCoinomat.header"></div>
-    <div class="footnote-1" w-i18n="modal.receive.providedByCoinomat.descriprion"></div>
-</div>
+<div ng-if="!$ctrl.termsPending">
+    <div ng-if="$ctrl.canShowTerms" class="note-plate transparent margin-2 basic-700">
+        <div class="margin-1 footnote-3" w-i18n="modal.receive.providedByCoinomat.header"></div>
+        <div class="footnote-1" w-i18n="modal.receive.providedByCoinomat.descriprion"></div>
+    </div>
 
-<div ng-if="$ctrl.canShowCheckBox" class="unit-checkbox margin-1 basic-700">
+    <div ng-if="$ctrl.canShowCheckBox" class="unit-checkbox margin-1 basic-700">
 
         <w-checkbox-submit id="coinomat-terms-accept"
                            ng-model="$ctrl.userModelTerms"
                            disabled="$ctrl.signPending"></w-checkbox-submit>
 
-        <label for="coinomat-terms-accept"  class="footnote-1">
+        <label for="coinomat-terms-accept" class="footnote-1">
             <span w-i18n="modal.receive.providedByCoinomat.termsReadedInputLabel"></span>
         </label>
 
-</div>
+    </div>
 
-<div class="row margin-top-2 caption-1 basic-500 info-block">
-    <i class="icon-info"></i>
-    <div w-i18n="modal.sepa.warning"></div>
-</div>
+    <div class="row margin-top-2 caption-1 basic-500 info-block">
+        <i class="icon-info"></i>
+        <div w-i18n="modal.sepa.warning"></div>
+    </div>
 
-<w-sign signable="$ctrl.signable"
-        on-success="$ctrl.onSignSuccess(signature)"
-        on-cancel="$ctrl.onSignCancel()"
-        class=" margin-top-3"></w-sign>
+    <w-sign signable="$ctrl.signable"
+            on-success="$ctrl.onSignSuccess(signature)"
+            on-cancel="$ctrl.onSignCancel()"
+            class=" margin-top-3"></w-sign>
+</div>

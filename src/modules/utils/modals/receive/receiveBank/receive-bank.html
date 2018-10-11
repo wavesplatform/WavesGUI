@@ -79,7 +79,7 @@
                           on-sign-end="$ctrl.onSignEnd()"
                           force-show-terms="!$ctrl.isVerified"></w-coinomat-terms>
 
-        <a ng-if="!$ctrl.signPending && !$ctrl.isVerified"
+        <a ng-if="!$ctrl.pending && !$ctrl.isVerified"
            href="{{$ctrl.idNowUserLink}}"
            target="_blank"
            class=" margin-top-3 flex">
