@@ -24,40 +24,42 @@
 
     </div>
 
-    <div ng-if="$ctrl.pending || $ctrl.error" class="receive-user-status">
+    <div ng-if="$ctrl.pending || $ctrl.error"
+         class="receive-user-status"
+         ng-class="{pending: $ctrl.pending}">
         <w-loader ng-if="$ctrl.pending"></w-loader>
         <w-error-block ng-if="$ctrl.error"></w-error-block>
     </div>
 
-    <div ng-if="!$ctrl.isLira && !$ctrl.pending && !$ctrl.error" class="get-verified">
+    <div ng-if="!$ctrl.isLira && !$ctrl.error" class="get-verified">
 
-        <div class="input-like verified-input margin-2" ng-if="$ctrl.isVerified">
+        <div class="input-like verified-input margin-2" ng-if="$ctrl.isVerified && !$ctrl.pending">
             <i></i><span w-i18n="modal.receive.verified"></span>
         </div>
 
-        <div ng-if="!$ctrl.isVerified"
+        <div ng-if="!$ctrl.isVerified && !$ctrl.pending"
              class="body-2 warning-500 warning-plate margin-1"
              w-i18n="modal.sepa.warningTitle">
         </div>
 
-        <div ng-if="$ctrl.isVerified"
+        <div ng-if="$ctrl.isVerified && !$ctrl.pending"
              class="body-2 warning-500 warning-plate margin-1"
              w-i18n="modal.receive.bankVerifiedPlate1Header">
         </div>
 
-        <div ng-if="$ctrl.isVerified"
+        <div ng-if="$ctrl.isVerified && !$ctrl.pending"
              class="body-2 warning-500 warning-plate"
              w-i18n="modal.receive.bankVerifiedPlate2Header">
         </div>
 
-        <div ng-if="!$ctrl.isVerified" class="country-list-link">
+        <div ng-if="!$ctrl.isVerified && !$ctrl.pending" class="country-list-link">
             <a class="caption-1 submit-300"
                w-i18n="modal.sepa.countryList"
                ng-href="{{$ctrl.listOfEligibleCountries}}"
                target="_blank"></a>
         </div>
 
-        <table ng-if="!$ctrl.isVerified" class="steps">
+        <table ng-if="!$ctrl.isVerified && !$ctrl.pending" class="steps">
             <tr>
                 <td class="step headline-3 basic-900" w-i18n="modal.sepa.step1"></td>
                 <td class="description body-2 basic-900"
@@ -74,15 +76,16 @@
         <w-coinomat-terms show-accepted-checkbox="::true"
                           is-verified="$ctrl.isVerified"
                           terms-accepted="$ctrl.termsAccepted"
-                          load-status="$ctrl.pending"
+                          terms-pending="$ctrl.pending"
                           load-error="$ctrl.error"
                           on-sign-start="$ctrl.onSignStart()"
                           on-sign-end="$ctrl.onSignEnd()"
                           force-show-terms="!$ctrl.isVerified"></w-coinomat-terms>
 
-        <a ng-if="!$ctrl.signPending && !$ctrl.isVerified"
+        <a ng-if="!$ctrl.pending && !$ctrl.isVerified"
            href="{{$ctrl.idNowUserLink}}"
-           target="_blank">
+           target="_blank"
+           class=" margin-top-3 flex">
             <w-button class="big submit long" disabled="!$ctrl.termsAccepted">
                 <span w-i18n="modal.sepa.proceed"></span>
             </w-button>
@@ -102,7 +105,7 @@
             <div w-i18n="modal.receive.wtry.info"></div>
         </div>
 
-        <a href="{{$ctrl.digiLiraUserLink}}" target="_blank">
+        <a ng-if="!$ctrl.signInProgress" href="{{$ctrl.digiLiraUserLink}}" target="_blank">
             <w-button class="big submit long" on-click="$ctrl.confirmDigilira()">
                 <span w-i18n="modal.receive.card.continue"></span>
             </w-button>

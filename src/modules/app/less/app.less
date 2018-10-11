@@ -347,6 +347,10 @@ md-toolbar:not(.md-menu-toolbar) {
   }
 }
 
+.flex {
+  display: flex;
+}
+
 .content ui-view[name="mainContent"],
 .content ui-view[name="mainContent"] ui-view[name="content"] {
   display: block;
@@ -360,6 +364,9 @@ md-toolbar:not(.md-menu-toolbar) {
   width: 100%;
   &-red {
     border: 1px dashed @color-error-500;
+  }
+  div {
+    margin-top: 0;
   }
 }
 
@@ -402,6 +409,24 @@ md-toolbar:not(.md-menu-toolbar) {
     position: absolute;
     left: 0;
     top: 2px;
+  }
+}
+
+.unit-checkbox {
+  display: flex;
+  min-height: auto;
+  margin-bottom: 20px;
+
+  w-checkbox-submit {
+    flex-grow: 0;
+    align-self: flex-start;
+    display: block;
+    margin-right: 18px;
+    padding-right: 18px;
+  }
+
+  label {
+    flex-grow: 1;
   }
 }
 

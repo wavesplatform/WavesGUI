@@ -1,11 +1,11 @@
-<div class="flex-row split-half data margin-top-2 margin-2" ng-if="$ctrl.signPending">
+<div class="flex-row split-half data margin-top-2" ng-if="$ctrl.signPending">
     <div w-i18n="modal.sign.txId"></div>
     <div>{{$ctrl.id}}</div>
 </div>
 
 <div ng-if="!$ctrl.signPending && $ctrl.signError"
      class="warning-plate warning-plate-red margin-2 margin-top-2">
-    <div w-i18n="modal.sign.confirmRequestLedger.errorHeader" class="error-400 body-1"></div>
+    <div w-i18n="modal.sign.confirmRequestLedger.errorHeader" class="error-400 body-2"></div>
     <div w-i18n="modal.sign.confirmRequestLedger.errorDescription" class="basic-500"></div>
 </div>
 
@@ -20,6 +20,6 @@
 </div>
 
 <div ng-if="$ctrl.signPending" class="relative sign-loader">
-    <div w-i18n="modal.sign.confirmRequestLedger.waiting" class="center"></div>
+    <div w-i18n="modal.sign.confirmRequestLedger.waiting" class="center basic-500"></div>
     <w-loader></w-loader>
 </div>
