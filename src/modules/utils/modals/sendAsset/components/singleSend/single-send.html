@@ -164,7 +164,7 @@
         <w-input-error name="amount" message="gt">
             <span ng-if="$ctrl.tx.amount.getTokens().eq(0)" w-i18n="inputs.errors.required"></span>
             <span ng-if="$ctrl.tx.amount.getTokens().gt(0)" w-i18n="inputs.errors.gtGatewayMin"
-                  params="{min: $ctrl.gatewayDetails.minimumAmount, assetName: $ctrl.tx.amount.asset.displayName}">
+                  params="{min: $ctrl.minimumAmount, assetName: $ctrl.tx.amount.asset.displayName}">
             </span>
         </w-input-error>
         <w-input-error name="amount" message="precision">
@@ -188,7 +188,7 @@
         <span w-i18n="modal.send.idNumber"></span>
         <w-input ng-required
                  ng-model="$ctrl.state.singleSend.attachment"
-                 name="idNumber"></w-input>
+                 name="id-number"></w-input>
 
         <w-input-error name="idNumber" message="required">
             <span w-i18n="inputs.errors.required"></span>
@@ -247,7 +247,7 @@
     </div>
 
     <div class="margin-top-3">
-        <w-button ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending"
+        <w-button ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending && !$ctrl.signInProgress"
                   on-click="$ctrl.createTx()"
                   disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission) || ($ctrl.toBankMode && !$ctrl.termsAccepted)"
                   type="submit"

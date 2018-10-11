@@ -45,6 +45,18 @@
              * @type {Array}
              */
             fiats = [];
+            /**
+             * @type {boolean}
+             */
+            signInProgress = false;
+
+            onSignStart() {
+                this.signInProgress = true;
+            }
+
+            onSignEnd() {
+                this.signInProgress = false;
+            }
 
         }
 
