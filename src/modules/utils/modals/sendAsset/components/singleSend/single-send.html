@@ -199,7 +199,9 @@
                      class="help-icon__row"></div>
             </w-help-icon>
         </div>
-        <w-input ng-required
+        <w-input required
+                 w-validate
+                 w-validator-number
                  ng-model="$ctrl.state.singleSend.attachment"
                  name="id-number"
                  type="number"></w-input>
