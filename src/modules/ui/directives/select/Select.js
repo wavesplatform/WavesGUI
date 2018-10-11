@@ -55,6 +55,10 @@
                     this._initializeSelected();
                     $scope.$digest();
                 }, 100);
+
+                this.observe('disabled', () => {
+                    $element.toggleClass('disabled', this.disabled);
+                });
             }
 
             $postLink() {

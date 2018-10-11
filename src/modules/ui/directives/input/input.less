@@ -115,6 +115,10 @@ w-input {
           border-color: @color-submit-400;
         }
 
+        &.disabled {
+          background: @color-basic-50;
+        }
+
         &.ng-touched {
           &.ng-valid:not(:focus):not(.focus) {
             border-color: @color-success-300;
@@ -134,8 +138,6 @@ w-input {
         background-color: @color-basic-50;
       }
     }
-
-
 
     &::after {
       content: '';
