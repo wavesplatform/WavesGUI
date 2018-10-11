@@ -9,9 +9,9 @@
             </div>
         </div>
         <w-select
-                class="big"
-                ng-if="!$ctrl.singleAsset"
-                ng-model="$ctrl.chosenAssetId">
+            class="big"
+            ng-if="!$ctrl.singleAsset"
+            ng-model="$ctrl.chosenAssetId">
             <w-option ng-repeat="fiat in $ctrl.fiats track by $index" value="::fiat.id">
                 <div class="flex-row split-half">
                     <div class="flex-row">
@@ -42,14 +42,11 @@
              w-i18n="modal.sepa.warningTitle">
         </div>
 
-        <div ng-if="$ctrl.isVerified && !$ctrl.pending"
-             class="body-2 warning-500 warning-plate margin-1"
-             w-i18n="modal.receive.bankVerifiedPlate1Header">
-        </div>
-
-        <div ng-if="$ctrl.isVerified && !$ctrl.pending"
-             class="body-2 warning-500 warning-plate"
-             w-i18n="modal.receive.bankVerifiedPlate2Header">
+        <div ng-if="$ctrl.isVerified && !$ctrl.pending" class="warning-plate">
+            <div class="body-2 warning-500"
+                 w-i18n="modal.receive.bankVerifiedPlateHeader"></div>
+            <div class="basic-500"
+                 w-i18n="modal.receive.bankVerifiedPlateDescription"></div>
         </div>
 
         <div ng-if="!$ctrl.isVerified && !$ctrl.pending" class="country-list-link">
