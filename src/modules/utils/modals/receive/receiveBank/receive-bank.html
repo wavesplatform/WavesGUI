@@ -105,7 +105,7 @@
             <div w-i18n="modal.receive.wtry.info"></div>
         </div>
 
-        <a href="{{$ctrl.digiLiraUserLink}}" target="_blank">
+        <a ng-if="!$ctrl.signInProgress" href="{{$ctrl.digiLiraUserLink}}" target="_blank">
             <w-button class="big submit long" on-click="$ctrl.confirmDigilira()">
                 <span w-i18n="modal.receive.card.continue"></span>
             </w-button>
