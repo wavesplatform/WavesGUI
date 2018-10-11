@@ -5,14 +5,14 @@
     <ng-transclude></ng-transclude>
 
     <div class="row">
-        <div ng-if="$ctrl.toBankMode && !$ctrl.isVerified && !$ctrl.termsLoadError && !$ctrl.termsIsPending"
+        <div ng-if="$ctrl.toBankMode && !$ctrl.isVerified && !$ctrl.isBankPendingOrError"
              class="warning-plate warning-plate-red">
             <div class="body-2 error-500" w-i18n="modal.send.notVerifiedHeader"></div>
             <div class="footnote-1 basic-500" w-i18n="modal.send.notVerifiedText"></div>
         </div>
     </div>
 
-    <w-loader ng-if="$ctrl.toBankMode && $ctrl.termsIsPending"></w-loader>
+    <w-loader ng-if="$ctrl.isBankPending"></w-loader>
 
     <div class="row">
         <div class="flex-row-title">
@@ -53,7 +53,7 @@
         </w-input-container>
     </div>
 
-    <div ng-if="$ctrl.toBankMode && !$ctrl.termsIsPending && $ctrl.isVerified" class="row">
+    <div ng-if="$ctrl.toBankMode && !$ctrl.isBankPendingOrError && $ctrl.isVerified" class="row">
         <div class="warning-plate">
             <div class="body-2 warning-500" w-i18n="modal.send.coinomatWarningHeader"></div>
             <div class="footnote-1 basic-500" w-i18n="modal.send.coinomatWarningText"></div>
@@ -129,7 +129,7 @@
     </div>
 
     <w-input-container class="margin-top-2"
-                       ng-if="!$ctrl.gatewayDetailsError && (!$ctrl.toBankMode || ($ctrl.toBankMode && !($ctrl.termsIsPending || $ctrl.termsLoadError)))">
+                       ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending">
         <div class="body-2" w-i18n="modal.send.amount"></div>
         <div class="amount-wrap" ng-class="{'no-mirror': $ctrl.noMirror}">
 
@@ -184,7 +184,18 @@
         </w-input-error>
     </w-input-container>
 
-    <div ng-if="!$ctrl.toBankMode && !$ctrl.outerSendMode && !$ctrl.gatewayDetailsError"
+    <w-input-container ng-if="$ctrl.toBankMode && !$ctrl.isBankPendingOrError">
+        <span w-i18n="modal.send.idNumber"></span>
+        <w-input ng-required
+                 ng-model="$ctrl.state.singleSend.attachment"
+                 name="idNumber"></w-input>
+
+        <w-input-error name="idNumber" message="required">
+            <span w-i18n="inputs.errors.required"></span>
+        </w-input-error>
+    </w-input-container>
+
+    <div ng-if="!$ctrl.toBankMode && !$ctrl.hasOuterError"
          class="margin-top-2">
         <div class="body-2" w-i18n="modal.send.description"></div>
         <w-input-container>
@@ -202,7 +213,7 @@
         </w-input-container>
     </div>
 
-    <div class="fee" ng-if="!$ctrl.gatewayDetailsError && (!$ctrl.toBankMode || ($ctrl.toBankMode && !($ctrl.termsIsPending || $ctrl.termsLoadError)))">
+    <div class="fee" ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending">
         <w-fee-list type="::$ctrl.txType"
                     disabled="$ctrl.toBankMode && (!$ctrl.isVerified || !$ctrl.termsAccepted)"
                     balance-hash="$ctrl.state.moneyHash"
@@ -236,7 +247,7 @@
     </div>
 
     <div class="margin-top-3">
-        <w-button ng-if="!$ctrl.gatewayDetailsError && (!$ctrl.toBankMode || ($ctrl.toBankMode && !($ctrl.termsIsPending || $ctrl.termsLoadError)))"
+        <w-button ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending"
                   on-click="$ctrl.createTx()"
                   disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission) || ($ctrl.toBankMode && !$ctrl.termsAccepted)"
                   type="submit"

@@ -117,6 +117,22 @@
                 this.state.gatewayDetails = value;
             }
 
+            get isBankPending() {
+                return this.toBankMode && this.termsIsPending;
+            }
+
+            get isBankError() {
+                return this.toBankMode && this.termsLoadError;
+            }
+
+            get isBankPendingOrError() {
+                return this.isBankError || this.isBankPending;
+            }
+
+            get hasOuterError() {
+                return this.outerSendMode && this.gatewayDetailsError || this.isBankError;
+            }
+
             /**
              * @type {string}
              */
