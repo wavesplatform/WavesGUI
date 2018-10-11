@@ -1,7 +1,7 @@
 <form novalidate name="setScript">
     <span w-i18n="directives.scriptForm.textAreaTitle"></span>
     <w-input-container>
-        <w-input ng-model="$ctrl.script" name="script" ng-required textarea></w-input>
+        <w-input ng-model="$ctrl.script" name="script" required textarea></w-input>
 
         <w-input-error name="required">
             <span w-i18n="directives.scriptForm.errors.scriptRequired"></span>
@@ -17,5 +17,7 @@
 
     <w-button class="big long submit"
               disabled="setScript.$invalid"
-              on-click="$ctrl.next"></w-button>
+              on-click="$ctrl.next()">
+        <span w-i18n="directives.scriptForm.ok"></span>
+    </w-button>
 </form>

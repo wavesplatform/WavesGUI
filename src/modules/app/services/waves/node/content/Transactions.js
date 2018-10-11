@@ -13,6 +13,7 @@
 
         const tsUtils = require('ts-utils');
         const R = require('ramda');
+        const { SIGN_TYPE } = require('@waves/signature-adapter');
 
         const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
 
@@ -65,7 +66,7 @@
             list(limit = 1000) {
                 return ds.api.transactions.list(user.address, limit)
                     .then(list => list.map(this._pipeTransaction()));
-            }
+            }SIGN_TYPE
 
             /**
              * @return {Promise<ITransaction[]>}
@@ -96,18 +97,15 @@
                     .then(([utxTxList, txList]) => utxTxList.concat(txList));
             }
 
-            createTransaction(transactionType, txData) {
+            createTransaction(txData) {
 
                 const tx = {
-                    transactionType,
                     sender: user.address,
                     timestamp: Date.now(),
                     ...txData
                 };
 
-                tx.type = Transactions._getTypeByName(transactionType);
-
-                if (transactionType === WavesApp.TRANSACTION_TYPES.NODE.MASS_TRANSFER) {
+                if (tx.type === SIGN_TYPE.MASS_TRANSFER) {
                     tx.totalAmount = tx.totalAmount || tx.transfers.map(({ amount }) => amount)
                         .reduce((result, item) => result.add(item));
                 }

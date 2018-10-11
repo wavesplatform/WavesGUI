@@ -5,14 +5,11 @@
 
         class ScriptModalCtrl extends Base {
 
-            get tx() {
-                return this.state[this.activeTab] && this.state[this.activeTab].tx;
-            }
-
             get activeState() {
                 return this.state[this.activeTab];
             }
 
+            tx = null;
             state = Object.create(null);
             step = 0;
             activeTab = 'script';
@@ -26,6 +23,10 @@
 
             onClickBack() {
                 this.step--;
+            }
+
+            nextStep() {
+
             }
 
             /**

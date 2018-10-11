@@ -13,16 +13,31 @@
 
         class ScriptTxForm extends Base {
 
+            /**
+             * @type {object}
+             */
             state = Object.create(null);
+            /**
+             * @type {string}
+             */
             script = '';
+            /**
+             * @type {boolean}
+             */
             scriptValid = false;
+            /**
+             * @type {Function}
+             */
+            onSuccess = null;
 
 
-            constructor() {
-                super();
-
+            $postLink() {
                 this.observe('state', this._onChangeState);
                 this.observe('script', this._onChangeScript);
+            }
+
+            next() {
+                this.onSuccess();
             }
 
             /**
@@ -68,7 +83,9 @@
         controller,
         scope: false,
         bindings: {
-            state: '<'
-        }
+            state: '<',
+            onSuccess: '&'
+        },
+        templateUrl: 'modules/ui/directives/scriptTxForm/script-form.html'
     });
 })();

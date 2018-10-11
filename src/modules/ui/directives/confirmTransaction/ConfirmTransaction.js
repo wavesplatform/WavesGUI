@@ -152,19 +152,18 @@
             }
 
             sendTransaction() {
-                const txType = ConfirmTransaction.upFirstChar(this.tx.transactionType);
                 const amount = ConfirmTransaction.toBigNumber(this.tx.amount);
 
                 return ds.broadcast(this.preparedTx).then((data) => {
                     analytics.push(
-                        'Transaction', `Transaction.${txType}.${WavesApp.type}`,
-                        `Transaction.${txType}.${WavesApp.type}.Success`, amount
+                        'Transaction', `Transaction.${this.tx.type}.${WavesApp.type}`,
+                        `Transaction.${this.tx.type}.${WavesApp.type}.Success`, amount
                     );
                     return data;
                 }, (error) => {
                     analytics.push(
-                        'Transaction', `Transaction.${txType}.${WavesApp.type}`,
-                        `Transaction.${txType}.${WavesApp.type}.Error`, amount
+                        'Transaction', `Transaction.${this.tx.type}.${WavesApp.type}`,
+                        `Transaction.${this.tx.type}.${WavesApp.type}.Error`, amount
                     );
                     return Promise.reject(error);
                 });
@@ -247,14 +246,6 @@
                 } else {
                     return Promise.resolve([]);
                 }
-            }
-
-            /**
-             * @param {string} str
-             * @returns {string}
-             */
-            static upFirstChar(str) {
-                return str.charAt(0).toUpperCase() + str.slice(1);
             }
 
             static toBigNumber(amount) {
