@@ -365,8 +365,12 @@ md-toolbar:not(.md-menu-toolbar) {
   &-red {
     border: 1px dashed @color-error-500;
   }
-  div {
-    margin-top: 0;
+  div:first-child {
+    margin: 0;
+
+    & + div {
+      margin-top: 4px;
+    }
   }
 }
 
