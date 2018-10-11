@@ -35,6 +35,7 @@
                 try {
                     const permissions = JSON.parse(features).PERMISSIONS;
                     this._permissions = PermissionManager._parsePermissions(permissions);
+                    this.change.dispatch();
                 } catch (e) {
                     throw new Error('Cannot parse features config');
                 }
