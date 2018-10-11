@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <w-loader ng-if="$ctrl.isBankPending"></w-loader>
+    <w-loader ng-if="$ctrl.toBankMode && $ctrl.termsIsPending"></w-loader>
 
     <div class="row">
         <div class="flex-row-title">
@@ -132,8 +132,8 @@
         </w-input-container>
     </div>
 
-    <w-input-container class="margin-top-2"
-                       ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending">
+    <w-input-container ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending"
+                       class="margin-top-2">
         <div class="body-2" w-i18n="modal.send.amount"></div>
         <div class="amount-wrap" ng-class="{'no-mirror': $ctrl.noMirror}">
 
@@ -188,12 +188,21 @@
         </w-input-error>
     </w-input-container>
 
-    <w-input-container ng-if="$ctrl.toBankMode && !$ctrl.isBankPendingOrError">
-        <span w-i18n="modal.send.idNumber"></span>
+    <w-input-container ng-if="$ctrl.toBankMode && !$ctrl.isBankPendingOrError"
+                       class="margin-top-2">
+        <div class="body-2">
+            <span w-i18n="modal.send.idNumberTitle"></span>
+            <w-help-icon>
+                <div w-i18n="modal.send.idNumber.helpIcon.title"
+                     class="help-icon__row headline-3"></div>
+                <div w-i18n="modal.send.idNumber.helpIcon.description"
+                     class="help-icon__row"></div>
+            </w-help-icon>
+        </div>
         <w-input ng-required
                  ng-model="$ctrl.state.singleSend.attachment"
-                 name="idNumber"></w-input>
-
+                 name="idNumber"
+                 type="text"></w-input>
         <w-input-error name="idNumber" message="required">
             <span w-i18n="inputs.errors.required"></span>
         </w-input-error>
