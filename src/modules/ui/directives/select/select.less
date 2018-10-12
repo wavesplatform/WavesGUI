@@ -16,6 +16,11 @@ w-select {
     height: @height-control-big;
   }
 
+  &.disabled .select {
+    background: @color-basic-50;
+    cursor: default;
+  }
+
   @media screen and (max-width: 768px) {
     &.big {
       height: @height-control-big-responsive;
@@ -25,10 +30,6 @@ w-select {
   .select {
     position: relative;
     height: 100%;
-
-    &.disabled {
-      background: @color-basic-50;
-    }
 
     .title {
       border: 1px solid @color-basic-200;

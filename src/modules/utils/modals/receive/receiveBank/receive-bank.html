@@ -11,8 +11,8 @@
         <w-select
                 class="big"
                 ng-if="!$ctrl.singleAsset"
-                ng-model="$ctrl.chosenAssetId">
-            <w-option ng-repeat="fiat in $ctrl.fiats track by $index" value="::fiat.id">
+                ng-model="$ctrl.asset">
+            <w-option ng-repeat="fiat in $ctrl.fiats track by $index" value="::fiat">
                 <div class="flex-row split-half">
                     <div class="flex-row">
                         <w-asset-logo class="marker-hide" size="24" asset-id="{{::fiat.id}}"></w-asset-logo>

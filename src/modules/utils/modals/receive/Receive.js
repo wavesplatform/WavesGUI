@@ -321,13 +321,6 @@
                 const sepaDetails = gatewayService.getSepaDetails(this.asset, this.address);
                 if (sepaDetails) {
                     this.activateBankTab();
-
-                    sepaDetails.then((details) => {
-                        this.listOfEligibleCountries = details.listOfEligibleCountries;
-                        this.idNowSiteUrl = details.idNowSiteUrl;
-                        this.idNowUserLink = details.idNowUserLink;
-                        $scope.$apply();
-                    });
                 }
 
             }
@@ -392,7 +385,6 @@
                     }
                     this.updateCardTab();
                 }
-                this.initBankTab();
             }
 
             updateAssetBy(id) {

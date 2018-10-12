@@ -57,7 +57,7 @@
                 }, 100);
 
                 this.observe('disabled', () => {
-                    $element.toggleClass('disabled', this.disabled);
+                    $element.toggleClass('disabled', !!this.disabled);
                 });
             }
 
