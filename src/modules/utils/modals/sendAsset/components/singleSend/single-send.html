@@ -205,6 +205,7 @@
         </div>
         <w-input required
                  w-validate
+                 disabled="!$ctrl.termsAccepted"
                  w-validator-number
                  ng-model="$ctrl.state.singleSend.attachment"
                  name="id-number"
