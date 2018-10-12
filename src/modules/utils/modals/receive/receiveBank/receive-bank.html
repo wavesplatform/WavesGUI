@@ -9,9 +9,9 @@
             </div>
         </div>
         <w-select
-            class="big"
-            ng-if="!$ctrl.singleAsset"
-            ng-model="$ctrl.chosenAssetId">
+                class="big"
+                ng-if="!$ctrl.singleAsset"
+                ng-model="$ctrl.chosenAssetId">
             <w-option ng-repeat="fiat in $ctrl.fiats track by $index" value="::fiat.id">
                 <div class="flex-row split-half">
                     <div class="flex-row">
@@ -79,7 +79,7 @@
                           on-sign-end="$ctrl.onSignEnd()"
                           force-show-terms="!$ctrl.isVerified"></w-coinomat-terms>
 
-        <a ng-if="!$ctrl.pending && !$ctrl.isVerified"
+        <a ng-if="!$ctrl.signInProgress && !$ctrl.pending && !$ctrl.isVerified"
            href="{{$ctrl.idNowUserLink}}"
            target="_blank"
            class=" margin-top-3 flex">
@@ -102,7 +102,7 @@
             <div w-i18n="modal.receive.wtry.info"></div>
         </div>
 
-        <a ng-if="!$ctrl.signInProgress" href="{{$ctrl.digiLiraUserLink}}" target="_blank">
+        <a href="{{$ctrl.digiLiraUserLink}}" target="_blank">
             <w-button class="big submit long" on-click="$ctrl.confirmDigilira()">
                 <span w-i18n="modal.receive.card.continue"></span>
             </w-button>
