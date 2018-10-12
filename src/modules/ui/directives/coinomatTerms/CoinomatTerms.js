@@ -154,6 +154,7 @@
                     return null;
                 }
 
+                this.signPending = true;
                 this.onSignStart();
 
                 return coinomatService.getCoinomatTimestamp()
