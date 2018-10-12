@@ -61,6 +61,8 @@
             }
 
             cancel() {
+                this.signError = false;
+                this.signPending = false;
                 this.onCancel();
             }
 
