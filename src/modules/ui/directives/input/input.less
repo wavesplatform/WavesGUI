@@ -8,6 +8,11 @@ input[type="checkbox"] {
   -webkit-appearance: none;
 }
 
+w-checkbox-submit {
+  margin-right: 12px;
+  min-width: 19px;
+}
+
 .input-like {
   width: 100%;
   height: @height-control-big;
@@ -105,7 +110,10 @@ w-input {
     position: relative;
     width: 100%;
 
-    input[type="text"], input[type="password"], input[type="number"], textarea {
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    textarea {
       .input-like();
 
       &:not(.embed):not(.no-validate) {
