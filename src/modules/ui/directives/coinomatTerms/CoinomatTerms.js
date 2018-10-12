@@ -142,7 +142,7 @@
              * @private
              */
             _currentCanShowCheckbox() {
-                this.canShowCheckBox = this.showAcceptedCheckbox || !this.termsAcceptedFreeze;
+                this.canShowCheckBox = this.showAcceptedCheckbox || this.isVerified && !this.termsAcceptedFreeze;
             }
 
             /**

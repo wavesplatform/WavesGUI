@@ -42,14 +42,11 @@
              w-i18n="modal.sepa.warningTitle">
         </div>
 
-        <div ng-if="$ctrl.isVerified && !$ctrl.pending"
-             class="body-2 warning-500 warning-plate margin-1"
-             w-i18n="modal.receive.bankVerifiedPlate1Header">
-        </div>
-
-        <div ng-if="$ctrl.isVerified && !$ctrl.pending"
-             class="body-2 warning-500 warning-plate"
-             w-i18n="modal.receive.bankVerifiedPlate2Header">
+        <div ng-if="$ctrl.isVerified && !$ctrl.pending" class="warning-plate">
+            <div class="body-2 warning-500"
+                 w-i18n="modal.receive.bankVerifiedPlateHeader"></div>
+            <div class="basic-500"
+                 w-i18n="modal.receive.bankVerifiedPlateDescription"></div>
         </div>
 
         <div ng-if="!$ctrl.isVerified && !$ctrl.pending" class="country-list-link">
@@ -82,7 +79,7 @@
                           on-sign-end="$ctrl.onSignEnd()"
                           force-show-terms="!$ctrl.isVerified"></w-coinomat-terms>
 
-        <a ng-if="!$ctrl.pending && !$ctrl.isVerified"
+        <a ng-if="!$ctrl.signInProgress && !$ctrl.pending && !$ctrl.isVerified"
            href="{{$ctrl.idNowUserLink}}"
            target="_blank"
            class=" margin-top-3 flex">
@@ -105,7 +102,7 @@
             <div w-i18n="modal.receive.wtry.info"></div>
         </div>
 
-        <a ng-if="!$ctrl.signInProgress" href="{{$ctrl.digiLiraUserLink}}" target="_blank">
+        <a href="{{$ctrl.digiLiraUserLink}}" target="_blank">
             <w-button class="big submit long" on-click="$ctrl.confirmDigilira()">
                 <span w-i18n="modal.receive.card.continue"></span>
             </w-button>
