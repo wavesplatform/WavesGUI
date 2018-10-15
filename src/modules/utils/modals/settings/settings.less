@@ -145,7 +145,14 @@ md-dialog.settings-modal {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    align-items: center;
+
+    &.unit-checkbox {
+      min-height: auto;
+    }
+
+    &:not(.unit-checkbox) {
+      align-items: center;
+    }
   }
 
   .row {
@@ -161,21 +168,6 @@ md-dialog.settings-modal {
 
     &.no-border {
       border: 0 none;
-    }
-
-    &.unit-checkbox {
-      padding-bottom: 20px;
-
-      w-checkbox-submit {
-        flex-grow: 0;
-        display: block;
-        margin-right: 18px;
-        padding-right: 18px;
-      }
-
-      label {
-        flex-grow: 1;
-      }
     }
   }
 

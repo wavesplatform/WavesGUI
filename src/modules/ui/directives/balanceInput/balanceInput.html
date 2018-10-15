@@ -8,6 +8,7 @@
              ng-focus="$ctrl.focus = true"
              ng-blur="$ctrl.focus = false"
              name="{{::$ctrl.name}}"
+             ng-disabled="$ctrl.disabled"
              ng-model="$ctrl.amount"
              required></w-input>
     <div ng-if="!$ctrl.focus" title="{{$ctrl.asset.ticker || $ctrl.asset.name}}"

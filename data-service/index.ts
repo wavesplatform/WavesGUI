@@ -13,7 +13,7 @@ import { get } from './config';
 import { TAssetData, TBigNumberData } from './interface';
 import { get as getAssetPair } from './api/pairs/pairs';
 import { broadcast as broadcastF, createOrderSend, cancelOrderSend } from './broadcast/broadcast';
-import { utils as cryptoUtils } from '@waves/signature-generator';
+import { utils as cryptoUtils, generate, Long } from '@waves/signature-generator';
 import * as signatureAdapters from '@waves/signature-adapter';
 import { Adapter, SIGN_TYPE } from '@waves/signature-adapter';
 
@@ -33,6 +33,7 @@ export const signature = {
 
 export const signAdapters = signatureAdapters;
 export const isValidAddress = cryptoUtils.crypto.isValidAddress;
+export const buildTransactionId = cryptoUtils.crypto.buildTransactionId;
 
 // export const prepareForBroadcast = prepareForBroadcastF;
 // export const getTransactionId = getTransactionIdF;
@@ -136,6 +137,21 @@ class App {
                 }
             })
             .getSignature();
+    }
+
+    public async signCoinomat(timestamp: number) {
+        const signApi = sign.getSignatureApi();
+
+        if (!signApi) {
+            return Promise.reject({ error: 'No exist signature api' });
+        }
+
+        const ByteGenerator = generate([new Long('timestamp')]);
+        const generator =  new ByteGenerator({ timestamp });
+        const bytes = await generator.getBytes();
+        const hashId = await buildTransactionId(bytes);
+
+        return { bytes, hashId, next: () => signApi.signData(bytes)};
     }
 
     private _initializeDataManager(address: string): void {

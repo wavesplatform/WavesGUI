@@ -15,6 +15,11 @@ input[type="checkbox"] {
   font-size: @font-size-control-big;
   color: @color-disabled-900;
   background: @color-white;
+  text-align: left;
+  box-shadow: none;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
 
   &.blue {
     background: @color-basic-200;
@@ -26,12 +31,6 @@ input[type="checkbox"] {
     font-size: @font-size-control-big-responsive;
   }
 
-  text-align: left;
-  box-shadow: none;
-  appearance: none;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-
   &::placeholder {
     color: @color-basic-500;
   }
@@ -40,6 +39,10 @@ input[type="checkbox"] {
     background-color: @color-white;
     border: 1px solid @color-basic-200;
     border-radius: @border-radius;
+
+    &.disabled {
+      background: @color-basic-50;
+    }
   }
 
   &.tiny {
@@ -97,12 +100,16 @@ input[type="checkbox"] {
 w-input {
   display: block;
   width: 100%;
+  transform: translate3d(0, 0, 0);
 
   .w-input-wrap {
     position: relative;
     width: 100%;
 
-    input[type="text"], input[type="password"], input[type="number"], textarea {
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    textarea {
       .input-like();
 
       &:not(.embed):not(.no-validate) {
@@ -110,6 +117,10 @@ w-input {
           background-color: @color-white;
           color: @color-basic-900;
           border-color: @color-submit-400;
+        }
+
+        &.disabled {
+          background: @color-basic-50;
         }
 
         &.ng-touched {
@@ -125,6 +136,10 @@ w-input {
       &.no-validate:focus,
       &.embed:focus {
         border: 1px solid @color-submit-400;
+      }
+
+      &[disabled="disabled"] {
+        background-color: @color-basic-50;
       }
     }
 

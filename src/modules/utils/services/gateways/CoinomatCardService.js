@@ -89,7 +89,7 @@
              * @private
              */
             _loadBuyLimits(to, from, recipientAddress) {
-                return $.get(`${PATH}/limits.php`, {
+                return $.get(`${PATH}/limits.php`, { // TODO Refactor ro ds.fetch
                     crypto: to,
                     fiat: from,
                     address: recipientAddress
