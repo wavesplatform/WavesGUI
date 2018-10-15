@@ -2,16 +2,16 @@
     <w-step>
         <w-tabs ng-model="$ctrl.activeTab">
             <w-tab title-name="::'modal.script.setScript'" id="::'script'">
-                <w-script-tx-form on-success="$ctrl.nextStep()" state="$ctrl.activeState"></w-script-tx-form>
+                <w-script-tx-form on-success="$ctrl.nextStep(tx)" state="$ctrl.activeState"></w-script-tx-form>
             </w-tab>
-            <w-tab title-name="::'modal.script.anyTx'" id="::'transaction'">
-                <w-any-transaction-form on-success="$ctrl.nextStep()"
-                                        state="$ctrl.activeState"></w-any-transaction-form>
-            </w-tab>
+            <!--<w-tab title-name="::'modal.script.anyTx'" id="::'transaction'">-->
+                <!--<w-any-transaction-form on-success="$ctrl.nextStep()"-->
+                                        <!--state="$ctrl.activeState"></w-any-transaction-form>-->
+            <!--</w-tab>-->
         </w-tabs>
     </w-step>
     <w-step>
-        <w-confirm-transaction tx="$ctr.tx"
+        <w-confirm-transaction tx="$ctrl.tx"
                                on-click-back="$ctrl.onClickBack()"></w-confirm-transaction>
     </w-step>
 </w-step-by-step>

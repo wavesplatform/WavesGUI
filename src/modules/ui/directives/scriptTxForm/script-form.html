@@ -1,10 +1,24 @@
 <form novalidate name="setScript">
+
     <span w-i18n="directives.scriptForm.textAreaTitle"></span>
     <w-input-container>
-        <w-input ng-model="$ctrl.script" name="script" required textarea></w-input>
 
-        <w-input-error name="required">
-            <span w-i18n="directives.scriptForm.errors.scriptRequired"></span>
+        <w-input ng-model="$ctrl.script"
+                 placeholder="directives.scriptForm.placeholder"
+                 w-i18n-attr="placeholder"
+                 w-validate
+                 w-validator-custom="{{$ctrl.isValid}}"
+                 name="script"
+                 textarea></w-input>
+
+        <w-input-error name="custom">
+            <span ng-if="$ctrl.requiredError"
+                  w-i18n="directives.scriptForm.errors.invalidScript"></span>
+        </w-input-error>
+
+        <w-input-error name="custom">
+            <span ng-if="$ctrl.validationError"
+                  w-i18n="directives.scriptForm.errors.invalidScript"></span>
         </w-input-error>
     </w-input-container>
 

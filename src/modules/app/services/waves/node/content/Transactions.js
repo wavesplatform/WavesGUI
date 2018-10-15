@@ -14,6 +14,7 @@
         const tsUtils = require('ts-utils');
         const R = require('ramda');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const ds = require('data-service');
 
         const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
 
@@ -66,7 +67,7 @@
             list(limit = 1000) {
                 return ds.api.transactions.list(user.address, limit)
                     .then(list => list.map(this._pipeTransaction()));
-            }SIGN_TYPE
+            }
 
             /**
              * @return {Promise<ITransaction[]>}

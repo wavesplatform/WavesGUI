@@ -19,14 +19,16 @@
                 super($scope);
 
                 this.observe('activeTab', this._onChangeActiveTab);
+                this._onChangeActiveTab();
             }
 
             onClickBack() {
                 this.step--;
             }
 
-            nextStep() {
-
+            nextStep(tx) {
+                this.tx = tx;
+                this.step++;
             }
 
             /**

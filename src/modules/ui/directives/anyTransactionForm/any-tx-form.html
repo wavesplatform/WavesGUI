@@ -1,0 +1,37 @@
+<form novalidate name="anyTx">
+
+    <span w-i18n="directives.anyTransaction.textAreaTitle"></span>
+    <w-input-container>
+
+        <w-input ng-model="$ctrl.json"
+                 placeholder="directives.anyTransaction.placeholder"
+                 w-i18n-attr="placeholder"
+                 w-validate
+                 w-validator-custom="{{$ctrl.isValid}}"
+                 name="script"
+                 textarea></w-input>
+
+        <w-input-error name="custom">
+            <span ng-if="$ctrl.requiredError"
+                  w-i18n="directives.anyTransaction.errors.invalidScript"></span>
+        </w-input-error>
+
+        <w-input-error name="custom">
+            <span ng-if="$ctrl.validationError"
+                  w-i18n="directives.anyTransaction.errors.invalidScript"></span>
+        </w-input-error>
+    </w-input-container>
+
+    <div>
+        <span w-i18n="directives.anyTransaction.warning.title"></span>
+        <span w-i18n="directives.anyTransaction.warning.body"></span>
+    </div>
+
+    <span w-i18n="directives.anyTransaction.fee" params="$ctrl.state.tx"></span>
+
+    <w-button class="big long submit"
+              disabled="anyTx.$invalid"
+              on-click="$ctrl.next()">
+        <span w-i18n="directives.anyTransaction.ok"></span>
+    </w-button>
+</form>
