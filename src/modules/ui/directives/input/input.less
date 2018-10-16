@@ -100,12 +100,16 @@ input[type="checkbox"] {
 w-input {
   display: block;
   width: 100%;
+  transform: translate3d(0, 0, 0);
 
   .w-input-wrap {
     position: relative;
     width: 100%;
 
-    input[type="text"], input[type="password"], input[type="number"], textarea {
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    textarea {
       .input-like();
 
       &:not(.embed):not(.no-validate) {

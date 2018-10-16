@@ -2,6 +2,8 @@
 (function () {
     'use strict';
 
+    const ds = require('data-service');
+
     /**
      * @param Base
      * @param {Waves} waves
@@ -70,25 +72,13 @@
                 return this.sendTransaction().then(({ id }) => {
                     this.tx.id = id;
                     this.step++;
+                    analytics.push(
+                        'Gateway', `Gateway.Send.${WavesApp.type}`,
+                        `Gateway.Send.${WavesApp.type}.Success`, this.tx.amount);
                     this.onTxSent({ id });
                     $scope.$apply();
                 }).catch((e) => {
                     this.loadingSignFromDevice = false;
-                    console.error(e);
-                    console.error('Transaction error!');
-                    $scope.$apply();
-                });
-            }
-
-            sendTransaction() {
-                return ds.broadcast(this.preparedTx).then(({ id }) => {
-                    this.tx.id = id;
-                    this.step++;
-                    analytics.push(
-                        'Gateway', `Gateway.Send.${WavesApp.type}`,
-                        `Gateway.Send.${WavesApp.type}.Success`, this.tx.amount);
-                    $scope.$apply();
-                }).catch((e) => {
                     console.error(e);
                     console.error('Gateway transaction error!');
                     analytics.push(
@@ -96,6 +86,10 @@
                         `Gateway.Send.${WavesApp.type}.Error`, this.tx.amount);
                     $scope.$apply();
                 });
+            }
+
+            sendTransaction() {
+                return ds.broadcast(this.preparedTx);
             }
 
             _onChangeTx() {

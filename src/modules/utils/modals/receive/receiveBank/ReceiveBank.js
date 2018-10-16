@@ -4,9 +4,11 @@
     /**
      * @param {typeof Base} Base
      * @param {User} user
+     * @param {$rootScope.Scope} $scope
+     * @param {GatewayService} gatewayService
      * @return {ReceiveBank}
      */
-    const controller = function (Base, user) {
+    const controller = function (Base, user, $scope, gatewayService) {
 
         class ReceiveBank extends Base {
 
@@ -50,6 +52,14 @@
              */
             signInProgress = false;
 
+
+            constructor() {
+                super();
+
+                this.observe('asset', this.initBankTab);
+            }
+
+
             onSignStart() {
                 this.signInProgress = true;
             }
@@ -58,12 +68,26 @@
                 this.signInProgress = false;
             }
 
+            initBankTab() {
+                const sepaDetails = gatewayService.getSepaDetails(this.asset, user.address);
+                if (sepaDetails) {
+
+                    sepaDetails.then((details) => {
+                        this.listOfEligibleCountries = details.listOfEligibleCountries;
+                        this.idNowSiteUrl = details.idNowSiteUrl;
+                        this.idNowUserLink = details.idNowUserLink;
+                        $scope.$apply();
+                    });
+                }
+
+            }
+
         }
 
         return new ReceiveBank();
     };
 
-    controller.$inject = ['Base', 'user', '$scope', 'coinomatService'];
+    controller.$inject = ['Base', 'user', '$scope', 'gatewayService'];
 
     angular.module('app.utils').component('wReceiveBank', {
         controller,
@@ -71,7 +95,6 @@
             fiats: '<',
             asset: '<',
             singleAsset: '<',
-            idNowUserLink: '<',
             listOfEligibleCountries: '<'
         },
         templateUrl: 'modules/utils/modals/receive/receiveBank/receive-bank.html',

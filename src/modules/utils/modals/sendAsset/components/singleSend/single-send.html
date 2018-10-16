@@ -179,10 +179,6 @@
             <span w-i18n="modal.send.errors.precision"
                   params="{precision: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.precision}"></span>
         </w-input-error>
-        <w-input-error name="amountMirror" message="precision">
-            <span w-i18n="modal.send.errors.precision"
-                  params="{precision: $ctrl.state.moneyHash[$ctrl.state.mirrorId].asset.precision}"></span>
-        </w-input-error>
         <w-input-error name="amount" message="lte">
             <span ng-if="!$ctrl.tx.amount.getTokens().gte($ctrl.gatewayDetails.maximumAmount)"
                   w-i18n="modal.send.errors.max"></span>
@@ -205,7 +201,7 @@
         </div>
         <w-input required
                  w-validate
-                 disabled="!$ctrl.termsAccepted"
+                 ng-disabled="!$ctrl.termsAccepted"
                  w-validator-number
                  ng-model="$ctrl.state.singleSend.attachment"
                  name="id-number"
