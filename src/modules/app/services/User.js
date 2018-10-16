@@ -153,7 +153,7 @@
                      */
                     const Poll = $injector.get('Poll');
                     setTimeout(() => {
-                        this._scriptInfoPoll = new Poll(() => this.updateScriptAccountData(), () => null, 30000);
+                        this._scriptInfoPoll = new Poll(() => this.updateScriptAccountData(), () => null, 5000);
                     }, 30000);
                 });
             }
@@ -444,7 +444,7 @@
                 const dayForwardTime = ds.app.getTimeStamp(1, 'day');
                 if (!this.matcherSign || this.matcherSign.timestamp - dayForwardTime < 0) {
                     const maxIntervalTimeStamp = ds.app.getTimeStamp(
-                        Waves.matcherSignInterval.count,
+                        WavesApp.matcherSignInterval.count,
                         WavesApp.matcherSignInterval.timeType
                     );
                     promise = ds.app.signForMatcher(maxIntervalTimeStamp).then(
