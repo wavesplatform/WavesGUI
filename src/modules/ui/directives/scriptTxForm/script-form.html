@@ -11,14 +11,12 @@
                  name="script"
                  textarea></w-input>
 
-        <w-input-error name="custom">
-            <span ng-if="$ctrl.requiredError"
-                  w-i18n="directives.scriptForm.errors.invalidScript"></span>
+        <w-input-error ng-if="$ctrl.requiredError" message="custom">
+            <span w-i18n="directives.scriptForm.errors.invalidScript"></span>
         </w-input-error>
 
-        <w-input-error name="custom">
-            <span ng-if="$ctrl.validationError"
-                  w-i18n="directives.scriptForm.errors.invalidScript"></span>
+        <w-input-error ng-if="$ctrl.validationError" message="custom">
+            <span w-i18n="directives.scriptForm.errors.invalidScript"></span>
         </w-input-error>
     </w-input-container>
 
