@@ -153,7 +153,7 @@
                      */
                     const Poll = $injector.get('Poll');
                     setTimeout(() => {
-                        this._scriptInfoPoll = new Poll(() => this.updateScriptAccountData(), () => null, 5000);
+                        this._scriptInfoPoll = new Poll(() => this.updateScriptAccountData(), () => null, 10000);
                     }, 30000);
                 });
             }

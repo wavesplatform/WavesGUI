@@ -189,7 +189,7 @@
                     case 12:
                         return TYPES.DATA;
                     case 13:
-                        return TYPES.SET_SCRIPT;
+                        return Transactions._getScriptType(tx);
                     case 14:
                         return Transactions._getSponsorshipType(tx);
                     default:
@@ -265,6 +265,10 @@
 
             static _getMassTransferType(sender) {
                 return Transactions.isMe(sender) ? TYPES.MASS_SEND : TYPES.MASS_RECEIVE;
+            }
+
+            static _getScriptType({ script }) {
+                return (script || '').replace('base64:', '') ? TYPES.SET_SCRIPT : TYPES.SCRIPT_CANCEL;
             }
 
             /**
