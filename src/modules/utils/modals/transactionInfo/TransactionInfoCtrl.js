@@ -4,7 +4,7 @@
     /**
      *
      * @param Base
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param {ExplorerLinks} explorerLinks
      * @param {Waves} waves
      * @param {IPollCreate} createPoll
@@ -49,10 +49,14 @@
                         this.confirmed = !transaction.isUTX;
                         this.explorerLink = explorerLinks.getTxLink(transaction.id);
                         createPoll(this, this._getHeight, this._setHeight, 1000);
+
+                        $scope.$apply();
                     })
                     .catch(() => {
                         clearTimeout(this.timer);
                         this.timer = setTimeout(() => this._getData(), 2000);
+
+                        $scope.$apply();
                     });
             }
 
