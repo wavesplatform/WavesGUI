@@ -139,21 +139,6 @@ class App {
             .getSignature();
     }
 
-    public async signCoinomat(timestamp: number) {
-        const signApi = sign.getSignatureApi();
-
-        if (!signApi) {
-            return Promise.reject({ error: 'No exist signature api' });
-        }
-
-        const ByteGenerator = generate([new Long('timestamp')]);
-        const generator =  new ByteGenerator({ timestamp });
-        const bytes = await generator.getBytes();
-        const hashId = await buildTransactionId(bytes);
-
-        return { bytes, hashId, next: () => signApi.signData(bytes)};
-    }
-
     private _initializeDataManager(address: string): void {
         dataManager.applyAddress(address);
     }
