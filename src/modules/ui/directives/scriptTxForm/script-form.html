@@ -1,31 +1,34 @@
-<form novalidate name="setScript">
+<form w-i18n-ns="app.utils" novalidate name="setScript">
 
-    <span w-i18n="directives.scriptForm.textAreaTitle"></span>
-    <w-input-container>
+    <div class="body-2" w-i18n="directives.scriptForm.textAreaTitle"></div>
 
+    <w-input-container class="margin-2">
         <w-input ng-model="$ctrl.script"
                  placeholder="directives.scriptForm.placeholder"
                  w-i18n-attr="placeholder"
                  w-validate
                  w-validator-custom="{{$ctrl.isValid}}"
                  name="script"
-                 textarea></w-input>
+                 textarea
+                 class="large"></w-input>
 
         <w-input-error ng-if="$ctrl.requiredError" message="custom">
             <span w-i18n="directives.scriptForm.errors.invalidScript"></span>
         </w-input-error>
 
-        <w-input-error ng-if="$ctrl.validationError" message="custom">
+        <!-- todo @tsigel - another error -->
+        <w-input-error ng-if="$ctrl.requiredError" message="custom">
             <span w-i18n="directives.scriptForm.errors.invalidScript"></span>
         </w-input-error>
+
     </w-input-container>
 
-    <div>
-        <span w-i18n="directives.scriptForm.warning.title"></span>
-        <span w-i18n="directives.scriptForm.warning.body"></span>
+    <div class="warning-plate margin-2">
+        <div class="body-2 warning-500" w-i18n="directives.scriptForm.warning.title"></div>
+        <div class="footnote-1 basic-500" w-i18n="directives.scriptForm.warning.body"></div>
     </div>
 
-    <span w-i18n="directives.scriptForm.fee" params="$ctrl.state.tx"></span>
+    <div class="basic-500 footnote-1 margin-2" w-i18n="directives.scriptForm.fee" params="$ctrl.state.tx"></div>
 
     <w-button class="big long submit"
               disabled="setScript.$invalid"

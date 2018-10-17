@@ -1,17 +1,26 @@
-<w-step-by-step active-step="$ctrl.step">
-    <w-step>
-        <w-tabs ng-model="$ctrl.activeTab">
-            <w-tab title-name="::'modal.script.setScript'" id="::'script'">
-                <w-script-tx-form on-success="$ctrl.nextStep(tx)" state="$ctrl.activeState"></w-script-tx-form>
-            </w-tab>
-            <!--<w-tab title-name="::'modal.script.anyTx'" id="::'transaction'">-->
-                <!--<w-any-transaction-form on-success="$ctrl.nextStep()"-->
-                                        <!--state="$ctrl.activeState"></w-any-transaction-form>-->
-            <!--</w-tab>-->
-        </w-tabs>
-    </w-step>
-    <w-step>
-        <w-confirm-transaction tx="$ctrl.tx"
-                               on-click-back="$ctrl.onClickBack()"></w-confirm-transaction>
-    </w-step>
-</w-step-by-step>
+<md-dialog class="modal-send" w-i18n-ns="app.utils" aria-label="modal">
+    <md-dialog-content>
+        <div class="modal-content">
+            <div class="btn icon-close ng-scope" w-modal-close></div>
+
+            <w-step-by-step active-step="$ctrl.step">
+                <w-step>
+                    <w-tabs ng-model="$ctrl.activeTab">
+                        <w-tab title-name="::'modal.script.setScript'" id="::'script'">
+                            <w-script-tx-form on-success="$ctrl.nextStep(tx)"
+                                              state="$ctrl.activeState"></w-script-tx-form>
+                        </w-tab>
+                        <!--<w-tab title-name="::'modal.script.anyTx'" id="::'transaction'">-->
+                        <!--<w-any-transaction-form on-success="$ctrl.nextStep()"-->
+                        <!--state="$ctrl.activeState"></w-any-transaction-form>-->
+                        <!--</w-tab>-->
+                    </w-tabs>
+                </w-step>
+                <w-step>
+                    <w-confirm-transaction tx="$ctrl.tx"
+                                           on-click-back="$ctrl.onClickBack()"></w-confirm-transaction>
+                </w-step>
+            </w-step-by-step>
+        </div>
+    </md-dialog-content>
+</md-dialog>
