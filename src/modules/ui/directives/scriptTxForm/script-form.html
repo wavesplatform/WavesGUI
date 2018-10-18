@@ -4,7 +4,8 @@
 
     <w-input-container class="margin-2">
         <w-input ng-model="$ctrl.script"
-                 placeholder="directives.scriptForm.placeholder"
+                 ng-model-options="{updateOn: 'input blur', debounce: { 'input': 500, 'blur': 0 }}"
+                 placeholder="directives.scriptForm.placeholder.{{::$ctrl.placeHolderLiteral}}"
                  w-i18n-attr="placeholder"
                  w-validate
                  w-validator-custom="{{$ctrl.isValid}}"
@@ -13,11 +14,11 @@
                  class="large"></w-input>
 
         <w-input-error ng-if="$ctrl.requiredError" message="custom">
-            <span w-i18n="directives.scriptForm.errors.invalidScript"></span>
+            <span w-i18n="directives.scriptForm.errors.required"></span>
         </w-input-error>
 
         <!-- todo @tsigel - another error -->
-        <w-input-error ng-if="$ctrl.requiredError" message="custom">
+        <w-input-error ng-if="$ctrl.validationError" message="custom">
             <span w-i18n="directives.scriptForm.errors.invalidScript"></span>
         </w-input-error>
 
@@ -34,8 +35,13 @@
 
     <div class="basic-500 footnote-1 margin-2" w-i18n="directives.scriptForm.fee" params="$ctrl.state.tx"></div>
 
+    <div class="error-300"
+         ng-if="!$ctrl.hasFee"
+         params="$ctrl.state.tx"
+         w-i18n="directives.scriptForm.errors.fee"></div>
+
     <w-button class="big long submit"
-              disabled="setScript.$invalid"
+              disabled="setScript.$invalid || $ctrl.validationPending || !$ctrl.hasFee"
               on-click="$ctrl.next()">
         <span w-i18n="directives.scriptForm.ok"></span>
     </w-button>
