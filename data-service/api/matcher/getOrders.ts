@@ -1,4 +1,4 @@
-import { WAVES_ID } from '@waves/waves-signature-generator';
+import { WAVES_ID } from '@waves/signature-generator';
 import { Asset, AssetPair, BigNumber, Money, OrderPrice } from '@waves/data-entities';
 import { IHash, IMoneyFactory, IPriceMoneyFactory } from '../../interface';
 import { coinsMoneyFactory, normalizeAssetId, normalizeTime, priceMoneyFactory, toHash } from '../../utils/utils';
@@ -80,7 +80,7 @@ export function getOrders(): Promise<Array<IOrder>> {
     if (!signatureData) {
         throw new Error('Get orders without signature! Call method "addSignature"!');
     }
-    return fetch(`orderbook/${signatureData.publicKey}`)
+    return fetch(`orderbook/${signatureData.publicKey}?activeOnly=true`)
         .then(parse);
 }
 

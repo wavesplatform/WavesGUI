@@ -104,8 +104,28 @@
         'app.create',
         'app.restore',
         'app.desktop',
+        'app.ledger',
+        'app.import',
         'app.wallet',
         'app.dex',
         'app.tokens'
     ]);
 })();
+
+/**
+ * @typedef {function} $templateRequest
+ * @param {string} path
+ * @return Promise<string>
+ */
+
+/**
+ * @typedef {function} $compile
+ * @param {string} template
+ * @return _$ICompileResult
+ */
+
+/**
+ * @typedef {function} _$ICompileResult
+ * @param {$rootScope.Scope} $scope
+ * @return JQuery
+ */

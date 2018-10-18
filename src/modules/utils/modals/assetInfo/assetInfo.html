@@ -1,6 +1,6 @@
 <div ng-cloak class="asset-content">
     <div class="top-content">
-        <w-asset-logo ng-cloak asset-id="{{::$ctrl.asset.id}}" size="65"></w-asset-logo>
+        <w-asset-logo class="asset-logo-large" ng-cloak asset-id="{{::$ctrl.asset.id}}" size="65"></w-asset-logo>
         <div class="asset-data">
             <h4 ng-cloak class="basic-900">{{::$ctrl.asset.name}}</h4>
             <div ng-cloak
@@ -50,6 +50,12 @@
                 <div class="basic-500" w-i18n="modal.assetInfo.type"></div>
                 <div class="basic-900">
                     <span w-i18n="modal.assetInfo.reissue.{{::$ctrl.asset.reissuable ? 'yes' : 'no'}}"></span>
+                </div>
+            </div>
+            <div class="line" ng-if="::$ctrl.minFee">
+                <div class="basic-500" w-i18n="modal.assetInfo.sponsorshipFee"></div>
+                <div class="basic-900">
+                    <span w-i18n="fee" params="{money: $ctrl.minFee}"></span>
                 </div>
             </div>
             <div class="line">

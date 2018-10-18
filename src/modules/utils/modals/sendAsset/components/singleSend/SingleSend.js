@@ -8,6 +8,10 @@
 
     const { Money } = require('@waves/data-entities');
 
+    const BANK_RECIPIENT = '3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us';
+    const MIN_TOKEN_COUNT = 100;
+    const MAX_TOKEN_COUNT = 50000;
+
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
@@ -18,7 +22,14 @@
      * @param {GatewayService} gatewayService
      * @param {Waves} waves
      */
-    const controller = function (Base, $scope, utils, createPoll, waves, outerBlockchains, user, gatewayService) {
+    const controller = function (Base,
+                                 $scope,
+                                 utils,
+                                 createPoll,
+                                 waves,
+                                 outerBlockchains,
+                                 user,
+                                 gatewayService) {
 
         class SingleSend extends Base {
 
@@ -62,6 +73,13 @@
             }
 
             /**
+             * @return {Object.<string, Money>}
+             */
+            get feeHash() {
+                return utils.groupMoney(this.feeList || []);
+            }
+
+            /**
              * @return {Money}
              */
             get balance() {
@@ -101,86 +119,154 @@
                 this.state.gatewayDetails = value;
             }
 
+            get isBankPending() {
+                return this.toBankMode && this.termsIsPending;
+            }
+
+            get isBankError() {
+                return this.toBankMode && this.termsLoadError;
+            }
+
+            get isBankPendingOrError() {
+                return this.isBankError || this.isBankPending;
+            }
+
+            get hasOuterError() {
+                return this.outerSendMode && this.gatewayDetailsError || this.isBankError;
+            }
+
+            get minimumAmount() {
+                return this.gatewayDetails &&
+                    this.gatewayDetails.minimumAmount ||
+                    this.toBankMode &&
+                    new BigNumber(MIN_TOKEN_COUNT);
+            }
+
+            get maximumAmount() {
+                return this.maxGatewayAmount || this.toBankMode && this.balance.cloneWithTokens(MAX_TOKEN_COUNT);
+            }
+
+            /**
+             * @type {string}
+             */
+            txType = WavesApp.TRANSACTION_TYPES.NODE.TRANSFER;
+
+            /**
+             * @type {boolean}
+             */
+            get toBankMode() {
+                return this.state.toBankMode;
+            }
+
+            set toBankMode(value) {
+                this.state.toBankMode = value;
+            }
+
+            /**
+             * @type {Function}
+             */
+            onContinue = null;
+            /**
+             * @type {string}
+             */
+            focus = null;
+            /**
+             * @type {Money}
+             */
+            mirror = null;
+            /**
+             * @type {boolean}
+             */
+            noMirror = false;
+            /**
+             * @type {boolean}
+             */
+            hasComission = true;
+            /**
+             * @type {Array}
+             */
+            feeList = null;
+            /**
+             * @type {Money}
+             */
+            minAmount = null;
+            /**
+             * @type {Money}
+             */
+            maxAmount = null;
+            /**
+             * @type {ISendState}
+             */
+            state = Object.create(null);
+            /**
+             * @type {Money}
+             */
+            maxGatewayAmount = null;
+            /**
+             * @type {boolean}
+             */
+            gatewayDetailsError = false;
+            /**
+             * @type {boolean}
+             */
+            termsIsPending = true;
+            /**
+             * @type {boolean}
+             */
+            termsLoadError = false;
+            /**
+             * @type {boolean}
+             */
+            signInProgress = false;
+            /**
+             * @type {boolean}
+             * @private
+             */
+            _noCurrentRate = false;
+
             constructor() {
                 super();
-                /**
-                 * @type {Function}
-                 */
-                this.onContinue = null;
-                /**
-                 * @type {string}
-                 */
-                this.focus = null;
-                /**
-                 * @type {Money}
-                 */
-                this.mirror = null;
-                /**
-                 * @type {boolean}
-                 */
-                this.noMirror = false;
-                /**
-                 * @type {boolean}
-                 */
-                this.hasComission = true;
-                /**
-                 * @type {Array}
-                 */
-                this.feeList = null;
-                /**
-                 * @type {Money}
-                 */
-                this.minAmount = null;
-                /**
-                 * @type {Money}
-                 */
-                this.maxAmount = null;
-                /**
-                 * @type {ISendState}
-                 */
-                this.state = Object.create(null);
-                /**
-                 * @type {Money}
-                 */
-                this.maxGatewayAmount = null;
-                /**
-                 * @type {boolean}
-                 * @private
-                 */
-                this._noCurrentRate = false;
 
                 $scope.WavesApp = WavesApp;
             }
 
             $postLink() {
+                this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
+
                 this.receiveOnce(utils.observe(this.state, 'moneyHash'), () => {
-                    waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.TRANSFER }).then((fee) => {
 
-                        this.observe('gatewayDetails', this._currentHasCommission);
-                        this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
+                    this.receive(utils.observe(this.state, 'toBankMode'), this._onChangeBankMode, this);
+                    this.observe('gatewayDetails', this._currentHasCommission);
 
-                        this.minAmount = this.state.moneyHash[this.state.assetId].cloneWithTokens('0');
-                        this.tx.fee = fee;
-                        this.tx.amount = this.tx.amount || this.moneyHash[this.assetId].cloneWithTokens('0');
-                        this._fillMirror();
+                    this.minAmount = this.state.moneyHash[this.state.assetId].cloneWithTokens('0');
+                    this.tx.amount = this.tx.amount || this.moneyHash[this.assetId].cloneWithTokens('0');
+                    this._fillMirror();
 
-                        this.receive(utils.observe(this.state, 'assetId'), this._onChangeAssetId, this);
-                        this.receive(utils.observe(this.state, 'mirrorId'), this._onChangeMirrorId, this);
+                    this.receive(utils.observe(this.state, 'assetId'), this._onChangeAssetId, this);
+                    this.receive(utils.observe(this.state, 'mirrorId'), this._onChangeMirrorId, this);
 
-                        this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayDetails, this);
-                        this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayDetails, this);
+                    this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayDetails, this);
+                    this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayDetails, this);
 
-                        this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
-                        this.observe('mirror', this._onChangeAmountMirror);
+                    this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
+                    this.observe('mirror', this._onChangeAmountMirror);
 
-                        this._onChangeBaseAssets();
-                        this._updateGatewayDetails();
+                    this._currentHasCommission();
+                    this._onChangeBaseAssets();
+                    this._updateGatewayDetails();
 
-                        if (this.tx.amount.getTokens().gt(0) || this.tx.recipient) {
-                            this.send.$setSubmitted(true);
-                        }
-                    });
+                    if (this.tx.amount.getTokens().gt(0) || this.tx.recipient) {
+                        this.send.$setSubmitted(true);
+                    }
                 });
+            }
+
+            onSignCoinomatStart() {
+                this.signInProgress = true;
+            }
+
+            onSignCoinomatEnd() {
+                this.signInProgress = false;
             }
 
             createTx() {
@@ -223,25 +309,33 @@
                 this.focus = '';
             }
 
-            onReadQrCode(result) {
-                this.tx.recipient = result.body;
+            onReadQrCode(url) {
+                const routeData = utils.getRouterParams(utils.getUrlForRoute(url));
+
+                if (!routeData || routeData.name !== 'SEND_ASSET') {
+                    return null;
+                }
+
+                const result = routeData.data;
+
+                this.tx.recipient = result.recipient;
 
                 analytics.push('Send', `Send.QrCodeRead.${WavesApp.type}`, `Send.QrCodeRead.${WavesApp.type}.Success`);
 
-                if (result.params) {
+                if (result) {
 
                     const applyAmount = () => {
-                        if (result.params.amount) {
-                            this.tx.amount = this.moneyHash[this.assetId].cloneWithCoins(result.params.amount);
+                        if (result.amount) {
+                            this.tx.amount = this.moneyHash[this.assetId].cloneWithTokens(result.amount);
                             this._fillMirror();
                         }
                         $scope.$apply();
                     };
 
-                    result.params.assetId = result.params.asset || result.params.assetId;
+                    result.assetId = result.asset || result.assetId;
 
-                    if (result.params.assetId) {
-                        waves.node.assets.balance(result.params.assetId).then(({ available }) => {
+                    if (result.assetId) {
+                        waves.node.assets.balance(result.assetId).then(({ available }) => {
                             this.moneyHash[available.asset.id] = available;
 
                             if (this.assetId !== available.asset.id) {
@@ -263,12 +357,32 @@
             /**
              * @return {boolean}
              */
-            isOldMoneroAddress() {
-                return this.state.assetId === WavesApp.defaultAssets.XMR && this.tx.recipient.substr(0, 1) === '4';
+            isMoneroAddress() {
+                return this.state.assetId === WavesApp.defaultAssets.XMR;
             }
 
             getGatewayDetails() {
                 this._onChangeAssetId();
+            }
+
+            /**
+             * @private
+             */
+            _onChangeBankMode() {
+                const maxCoinomatAmount = this.balance.cloneWithTokens(50000);
+                const minCoinomatAmount = this.balance.cloneWithTokens(100);
+
+                if (this.toBankMode) {
+                    this.tx.recipient = BANK_RECIPIENT;
+                    this.termsIsPending = true;
+                    this.maxAmount = Money.min(maxCoinomatAmount, this.balance);
+                    this.minAmount = minCoinomatAmount;
+                } else {
+                    this.tx.recipient = '';
+                    this.termsIsPending = false;
+                    this.minAmount = this.state.moneyHash[this.assetId].cloneWithTokens('0');
+                    this.maxAmount = this.moneyHash[this.assetId];
+                }
             }
 
             /**
@@ -314,6 +428,10 @@
              * @private
              */
             _currentHasCommission() {
+                if (!this.moneyHash) {
+                    return null;
+                }
+
                 const details = this.gatewayDetails;
 
                 const check = (feeList) => {
@@ -329,7 +447,7 @@
                 if (details) {
                     const gatewayFee = this.balance.cloneWithTokens(details.gatewayFee);
                     this.feeList = [this.tx.fee, gatewayFee];
-                    check(this.feeList);
+                    check(this.feeList.concat(this.balance.cloneWithTokens(details.minimumAmount)));
                 } else {
                     this.feeList = [this.tx.fee];
                     check(this.feeList);
@@ -408,27 +526,33 @@
                 const outerChain = outerBlockchains[this.assetId];
                 const isValidWavesAddress = waves.node.isValidAddress(this.tx.recipient);
 
+                if (this.gatewayDetailsError) {
+                    this.outerSendMode = false;
+                    this.gatewayDetailsError = false;
+                }
+
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
-                    gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient).then((details) => {
-                        const max = BigNumber.min(
-                            details.maximumAmount.plus(details.gatewayFee),
-                            this.moneyHash[this.assetId].getTokens()
-                        );
+                    gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.paymentId)
+                        .then((details) => {
+                            const max = BigNumber.min(
+                                details.maximumAmount.plus(details.gatewayFee),
+                                this.moneyHash[this.assetId].getTokens()
+                            );
 
-                        this.gatewayDetails = details;
-                        this.minAmount = this.moneyHash[this.assetId]
-                            .cloneWithTokens(details.minimumAmount.minus('0.00000001'));
-                        this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
-                        this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
+                            this.gatewayDetails = details;
+                            this.minAmount = this.moneyHash[this.assetId]
+                                .cloneWithTokens(details.minimumAmount.minus('0.00000001'));
+                            this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
+                            this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
 
-                        $scope.$digest();
-                    }, () => {
-                        this.gatewayDetails = null;
-                        this.gatewayDetailsError = true;
-                        $scope.$digest();
-                    });
+                            $scope.$digest();
+                        }, () => {
+                            this.gatewayDetails = null;
+                            this.gatewayDetailsError = true;
+                            $scope.$digest();
+                        });
                 } else {
                     this.minAmount = this.state.moneyHash[this.assetId].cloneWithTokens('0');
                     this.maxAmount = this.moneyHash[this.assetId];

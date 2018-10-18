@@ -13,7 +13,7 @@
                                     <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
                                     <div ng-if="$ctrl.singleAsset" class="input-like big flex-row split-half">
                                         <div class="flex-row">
-                                            <w-asset-logo size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
+                                            <w-asset-logo class="marker-hide" size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
                                             <div class="asset-name">{{::$ctrl.asset.name}}</div>
                                         </div>
                                     </div>
@@ -24,7 +24,7 @@
                                         <w-option ng-repeat="cryptocurrency in $ctrl.cryptocurrencies track by $index" value="::cryptocurrency.id">
                                             <div class="flex-row split-half">
                                                 <div class="flex-row">
-                                                    <w-asset-logo size="24" asset-id="{{::cryptocurrency.id}}"></w-asset-logo>
+                                                    <w-asset-logo class="marker-hide" size="24" asset-id="{{::cryptocurrency.id}}"></w-asset-logo>
                                                     <div class="asset-name">{{::cryptocurrency.name}}</div>
                                                 </div>
                                             </div>
@@ -74,7 +74,7 @@
 
                                 <div class="qr-wrapper" ng-if="!$ctrl.gatewayServerError">
                                     <div class="scan body-2 basic-900" w-i18n="modal.deposit.scanQrCode"></div>
-                                    <w-qr-code size="160" url="$ctrl.gatewayAddress"></w-qr-code>
+                                    <w-qr-code size="200" url="$ctrl.gatewayAddress"></w-qr-code>
                                     <w-loader ng-if="!$ctrl.gatewayAddress"></w-loader>
                                 </div>
 
@@ -98,7 +98,7 @@
                                         <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
                                         <div class="input-like big flex-row split-half" ng-if="$ctrl.singleAsset">
                                             <div class="flex-row">
-                                                <w-asset-logo size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
+                                                <w-asset-logo class="marker-hide" size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
                                                 <div class="asset-name">{{::$ctrl.asset.name}}</div>
                                             </div>
                                         </div>
@@ -109,7 +109,7 @@
                                             <w-option ng-repeat="invoice in $ctrl.invoicables track by $index" value="::invoice.id">
                                                 <div class="flex-row split-half">
                                                     <div class="flex-row">
-                                                        <w-asset-logo size="24" asset-id="{{::invoice.id}}"></w-asset-logo>
+                                                        <w-asset-logo class="marker-hide" size="24" asset-id="{{::invoice.id}}"></w-asset-logo>
                                                         <div class="asset-name">{{::invoice.name}}</div>
                                                     </div>
                                                 </div>
@@ -154,7 +154,7 @@
 
                                     <div class="center">
                                         <div class="scan body-2 basic-900" w-i18n="modal.qr.scanQrCode"></div>
-                                        <w-qr-code size="160" url="$ctrl.sendLink"></w-qr-code>
+                                        <w-qr-code size="200" url="$ctrl.sendLink"></w-qr-code>
                                     </div>
                                 </div>
                             </form>
@@ -168,7 +168,7 @@
                                         <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
                                         <div ng-if="$ctrl.singleAsset" class="input-like big flex-row split-half">
                                             <div class="flex-row">
-                                                <w-asset-logo size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
+                                                <w-asset-logo class="marker-hide" size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
                                                 <div class="asset-name">{{::$ctrl.asset.name}}</div>
                                             </div>
                                         </div>
@@ -180,7 +180,7 @@
                                                       value="::purchasableByCard.id">
                                                 <div class="flex-row split-half">
                                                     <div class="flex-row">
-                                                        <w-asset-logo size="24" asset-id="{{::purchasableByCard.id}}"></w-asset-logo>
+                                                        <w-asset-logo class="marker-hide" size="24" asset-id="{{::purchasableByCard.id}}"></w-asset-logo>
                                                         <div class="asset-name">{{::purchasableByCard.name}}</div>
                                                     </div>
                                                 </div>
@@ -266,93 +266,10 @@
                         </w-tab>
 
                         <w-tab ng-if="$ctrl.showBankTab" title-name="::'modal.receive.bank.title'" id="::'bank'">
-                            <div class="receive-bank">
-
-                                <div class="row margin-2">
-                                    <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
-                                    <div class="input-like big flex-row split-half" ng-if="$ctrl.singleAsset">
-                                        <div class="flex-row">
-                                            <w-asset-logo size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
-                                            <div class="asset-name">{{::$ctrl.asset.name}}</div>
-                                        </div>
-                                    </div>
-                                    <w-select
-                                        class="big"
-                                        ng-if="!$ctrl.singleAsset"
-                                        ng-model="$ctrl.chosenAssetId">
-                                        <w-option ng-repeat="fiat in $ctrl.fiats track by $index" value="::fiat.id">
-                                            <div class="flex-row split-half">
-                                                <div class="flex-row">
-                                                    <w-asset-logo size="24" asset-id="{{::fiat.id}}"></w-asset-logo>
-                                                    <div class="asset-name">{{::fiat.name}}</div>
-                                                </div>
-                                            </div>
-                                        </w-option>
-                                    </w-select>
-
-                                </div>
-
-                                <div ng-if="!$ctrl.isLira()" class="get-verified">
-
-                                    <div class="warning-plate">
-                                        <div class="body-2 warning-500" w-i18n="modal.sepa.warningTitle"></div>
-                                    </div>
-
-                                    <div class="country-list-link">
-                                        <a class="caption-1 submit-300"
-                                           w-i18n="modal.sepa.countryList"
-                                           href="{{$ctrl.listOfEligibleCountries}}"
-                                           target="_blank"></a>
-                                    </div>
-
-                                    <table class="steps">
-                                        <tr>
-                                            <td class="step headline-3 basic-900" w-i18n="modal.sepa.step1"></td>
-                                            <td class="description body-2 basic-900"
-                                                w-i18n="modal.sepa.step1Description"
-                                                params="{assetName: $ctrl.asset.name, url: $ctrl.idNowSiteUrl}"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="step headline-3 basic-900" w-i18n="modal.sepa.step2"></td>
-                                            <td class="description body-2 basic-900"
-                                                w-i18n="modal.sepa.step2Description"></td>
-                                        </tr>
-                                    </table>
-
-                                    <div class="row margin-3 caption-1 info-block">
-                                        <i class="icon-info"></i>
-                                        <div w-i18n="modal.sepa.warning"></div>
-                                    </div>
-
-                                    <a href="{{$ctrl.idNowUserLink}}" target="_blank">
-                                        <w-button class="big submit long" on-click="$ctrl.confirmIdNow()">
-                                            <span w-i18n="modal.sepa.proceed"></span>
-                                        </w-button>
-                                    </a>
-
-                                </div>
-
-                                <div ng-if="$ctrl.isLira()" class="bank-account wtry">
-
-                                    <div class="warning-plate">
-                                        <div class="body-2 warning-500" w-i18n="modal.receive.wtryPlate1Header"></div>
-                                        <div class="footnote-1 basic-500" w-i18n="modal.receive.wtryPlate1Text"></div>
-                                    </div>
-
-                                    <div class="row margin-3 caption-1 info-block">
-                                        <i class="icon-info"></i>
-                                        <div w-i18n="modal.receive.wtry.info"></div>
-                                    </div>
-
-                                    <a href="{{$ctrl.digiLiraUserLink}}" target="_blank">
-                                        <w-button class="big submit long" on-click="$ctrl.confirmDigilira()">
-                                            <span w-i18n="modal.receive.card.continue"></span>
-                                        </w-button>
-                                    </a>
-
-                                </div>
-
-                            </div>
+                            <w-receive-bank fiats="$ctrl.fiats"
+                                            asset="$ctrl.asset"
+                                            list-of-eligible-countries="$ctrl.listOfEligibleCountries"
+                                            single-asset="$ctrl.singleAsset"></w-receive-bank>
                         </w-tab>
 
                     </w-tabs>

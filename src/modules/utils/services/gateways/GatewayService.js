@@ -136,6 +136,14 @@
             }
 
             /**
+             * @param {string} address
+             * @return {Promise}
+             */
+            hasConfirmation(address) {
+                return coinomatService.hasConfirmation(address);
+            }
+
+            /**
              * @param {Asset} asset
              * @param {string} type
              * @return {IGateway}

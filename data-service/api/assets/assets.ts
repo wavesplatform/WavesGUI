@@ -2,9 +2,10 @@ import { Asset, Money, BigNumber } from '@waves/data-entities';
 import { get as configGet, getDataService } from '../../config';
 import { request } from '../../utils/request';
 import { IBalanceItem, assetsApi } from './interface';
-import { WAVES_ID } from '@waves/waves-signature-generator';
+import { WAVES_ID } from '@waves/signature-generator';
 import { assetStorage } from '../../utils/AssetStorage';
-import { normalizeAssetId, toArray, toHash } from '../../utils/utils';
+import { clearTransferFee, normalizeAssetId, setTransferFeeItem, toArray, toHash } from '../../utils/utils';
+import { isEmpty } from 'ts-utils';
 import { IHash } from '../../interface';
 
 const MAX_ASSETS_IN_REQUEST = 30;
@@ -24,6 +25,21 @@ export function get(assets: string | Array<string>): Promise<any> {
 }
 
 export function getAssetFromNode(assetId: string): Promise<Asset> {
+    if (assetId === WAVES_ID) {
+        return Promise.resolve( new Asset({
+            ticker: 'WAVES',
+            id: 'WAVES',
+            name: 'Waves',
+            precision: 8,
+            description: '',
+            height: 0,
+            timestamp: new Date('2016-04-11T21:00:00.000Z'),
+            sender: '',
+            quantity: 10000000000000000,
+            reissuable: false
+        } ));
+    }
+
     return request<INodeAssetData>({ url: `${configGet('node')}/assets/details/${assetId}` })
         .then((data) => new Asset({
             id: data.assetId,
@@ -85,19 +101,29 @@ export function remapWavesBalance(waves: Asset, data: assetsApi.IWavesBalance): 
 }
 
 export function remapAssetsBalance(data: assetsApi.IBalanceList, assetsHash: IHash<Asset>): Array<IBalanceItem> {
-    return data.balances.map((balance) => {
-        const asset = assetsHash[balance.assetId];
+    clearTransferFee();
+    return data.balances.map((assetData) => {
+        const asset = assetsHash[assetData.assetId];
         const inOrders = new Money(new BigNumber('0'), asset);
-        const regular = new Money(new BigNumber(balance.balance), asset);
+        const regular = new Money(new BigNumber(assetData.balance), asset);
         const available = regular.sub(inOrders);
         const empty = new Money(new BigNumber('0'), asset);
+        const balance = isEmpty(assetData.sponsorBalance) ? null : new Money(assetData.sponsorBalance as string, assetsHash[WAVES_ID]);
+        const fee = isEmpty(assetData.minSponsoredAssetFee) ? null : new Money(assetData.minSponsoredAssetFee as string, asset);
+        const { issueTransaction } = assetData;
+        const { sender } = issueTransaction;
+        const isMy = sender === data.address;
+        if (balance && fee) {
+            setTransferFeeItem({ balance, fee, isMy });
+        }
+
         return {
             asset,
             regular,
             available,
             inOrders,
             leasedOut: empty,
-            leasedIn: empty
+            leasedIn: empty,
         };
     }).sort(((a, b) => a.asset.name > b.asset.name ? 1 : a.asset.name === b.asset.name ? 0 : -1));
 }
@@ -131,7 +157,7 @@ export function moneyDif(target: Money, ...toDif: Array<Money>): Money {
 }
 
 export function getAssetsByBalanceList(data: assetsApi.IBalanceList): Promise<Array<Asset>> {
-    return get(data.balances.map((balance) => normalizeAssetId(balance.assetId)));
+    return get([WAVES_ID, ...data.balances.map((balance) => normalizeAssetId(balance.assetId))]);
 }
 
 const splitRequest = (list: string[], getData) => {
@@ -141,7 +167,9 @@ const splitRequest = (list: string[], getData) => {
 
     while (newList.length) {
         const listPart = newList.splice(0, MAX_ASSETS_IN_REQUEST);
-        requests.push(getData(listPart));
+        const result = getData(listPart);
+        const timeout = wait(5000).then(() => ({ data: listPart.map(() => null) }));
+        requests.push(Promise.race([result, timeout]));
     }
 
     return Promise.all(requests).then((results) => {
@@ -149,8 +177,8 @@ const splitRequest = (list: string[], getData) => {
         for (const items of results) {
             data = [...data, ...items.data];
         }
-        return { data: data };
-    });
+        return { data };
+    }).catch(e => ({ data: list.map(() => null) }));
 };
 
 const getAssetRequestCb = (list: Array<string>): Promise<Array<Asset>> => {
@@ -179,6 +207,8 @@ const getAssetRequestCb = (list: Array<string>): Promise<Array<Asset>> => {
                 });
         });
 };
+
+export const wait = time => new Promise(resolve => setTimeout(resolve, time));
 
 export interface INodeAssetData {
     assetId: string;

@@ -7,7 +7,8 @@
      */
 
     const NOT_SYNC_FIELDS = [
-        'changeSetting'
+        'changeSetting',
+        'extraFee'
     ];
 
     /**
@@ -23,9 +24,10 @@
     const factory = function (storage, $state, defaultSettings, state, UserRouteState, modalManager, timeLine, themes) {
 
         const tsUtils = require('ts-utils');
+        const ds = require('data-service');
+        const { Money } = require('@waves/data-entities');
 
         class User {
-
 
             /**
              * @type {Signal<string>} setting path
@@ -34,75 +36,109 @@
                 return this._settings.change;
             }
 
+            /**
+             * @type {string}
+             */
+            address = null;
+            /**
+             * @type {string}
+             */
+            id = null;
+            /**
+             * @type {string}
+             */
+            name = null;
+            /**
+             * @type {string}
+             */
+            publicKey = null;
+            /**
+             * @type {string}
+             */
+            encryptedSeed = null;
+            /**
+             * @type {string}
+             */
+            userType = null;
+            /**
+             * @type {object}
+             */
+            settings = Object.create(null);
+            /**
+             * @type {boolean}
+             */
+            noSaveToStorage = false;
+            /**
+             * @type {number}
+             */
+            lastLogin = Date.now();
+            /**
+             * @type {{signature: string, timestamp: number}}
+             */
+            matcherSign = null;
+            /**
+             * @type {Money}
+             */
+            extraFee = null;
+            /**
+             * @type {DefaultSettings}
+             * @private
+             */
+            _settings = defaultSettings.create(Object.create(null));
+            /**
+             * @type {Deferred}
+             * @private
+             */
+            _dfr = $.Deferred();
+            /**
+             * @type {object}
+             * @private
+             */
+            __props = Object.create(null);
+            /**
+             * @type {string}
+             * @private
+             */
+            _password = null;
+            /**
+             * @type {number}
+             * @private
+             */
+            _changeTimer = null;
+            /**
+             * @type {Array}
+             * @private
+             */
+            _stateList = null;
+            /**
+             * @type {Array}
+             * @private
+             */
+            _fieldsForSave = [];
+            /**
+             * @type {Array}
+             * @private
+             */
+            _history = [];
+            /**
+             * @type {boolean}
+             * @private
+             */
+            _hasScript = false;
+
             constructor() {
-                /**
-                 * @type {string}
-                 */
-                this.address = null;
-                /**
-                 * @type {string}
-                 */
-                this.name = null;
-                /**
-                 * @type {string}
-                 */
-                this.publicKey = null;
-                /**
-                 * @type {string}
-                 */
-                this.encryptedSeed = null;
-                /**
-                 * @type {object}
-                 */
-                this.settings = Object.create(null);
-                /**
-                 * @type {boolean}
-                 */
-                this.noSaveToStorage = false;
-                /**
-                 * @type {DefaultSettings}
-                 * @private
-                 */
-                this._settings = defaultSettings.create(Object.create(null));
-                /**
-                 * @type {number}
-                 */
-                this.lastLogin = Date.now();
-                /**
-                 * @type {Deferred}
-                 * @private
-                 */
-                this._dfr = $.Deferred();
-                /**
-                 * @type {object}
-                 * @private
-                 */
-                this.__props = Object.create(null);
-                /**
-                 * @type {string}
-                 * @private
-                 */
-                this._password = null;
-                /**
-                 * @type {number}
-                 * @private
-                 */
-                this._changeTimer = null;
-                /**
-                 * @type {Array}
-                 * @private
-                 */
-                this._stateList = null;
-                /**
-                 * @type {Array}
-                 * @private
-                 */
-                this._fieldsForSave = [];
 
                 this._setObserve();
                 this._settings.change.on(() => this._onChangeSettings());
 
                 Mousetrap.bind(['ctrl+shift+k'], () => this.switchNextTheme());
+            }
+
+            /**
+             * @return {boolean}
+             */
+            hasScript() {
+                return this._hasScript;
             }
 
             /**
@@ -188,6 +224,20 @@
                 return settings.get(name);
             }
 
+            getDefaultUserSettings(settings) {
+                return defaultSettings.create({ ...settings });
+            }
+
+            /**
+             * @param {User} user
+             * @param {string} name
+             * @return {DefaultSettings}
+             */
+            getSettingsByUser(user) {
+                const settings = this.getDefaultUserSettings(user.settings);
+                return settings;
+            }
+
             /**
              * @param {string} name
              * @param {*} value
@@ -212,7 +262,7 @@
              */
             login(data) {
                 return this._addUserData(data)
-                    .then(() => analytics.push('User', `Login.${WavesApp.type}`));
+                    .then(() => analytics.push('User', `Login.${WavesApp.type}.${data.userType}`));
             }
 
             /**
@@ -222,18 +272,24 @@
              * @param {string} data.encryptedSeed
              * @param {string} data.publicKey
              * @param {string} data.password
+             * @param {string} data.userType
              * @param {boolean} data.saveToStorage
              * @param {boolean} hasBackup
              * @return Promise
              */
             create(data, hasBackup, restore) {
+
                 this.noSaveToStorage = !data.saveToStorage;
 
+                data.userType = data.userType || 'seed';
+
                 return this._addUserData({
+                    id: data.id,
                     api: data.api,
                     address: data.address,
                     password: data.password,
                     name: data.name,
+                    userType: data.userType,
                     encryptedSeed: data.encryptedSeed,
                     publicKey: data.publicKey,
                     settings: {
@@ -245,9 +301,8 @@
                     }
                 }).then(() => analytics.push(
                     'User',
-                    `${restore ? 'Restore' : 'Create'}.${WavesApp.type}`,
-                    document.referrer)
-                );
+                    `${restore ? 'Restore' : 'Create'}.${WavesApp.type}.${data.userType}`,
+                    document.referrer));
             }
 
             logout() {
@@ -278,9 +333,15 @@
              * @param {string} state    state name
              */
             applyState(state) {
+                this._history.push(state.name);
+                this._history = this._history.slice(-10);
                 if (this._stateList) {
                     this._stateList.some((item) => item.applyState(state, this));
                 }
+            }
+
+            getLastState() {
+                return this._history.length > 1 ? this._history[this._history.length - 2] : 'welcome';
             }
 
             /**
@@ -338,9 +399,11 @@
              * @param {object} data
              * @param {ISignatureApi} data.api
              * @param {string} data.address
+             * @param {string} data.userType
              * @param {string} [data.encryptedSeed]
              * @param {string} [data.publicKey]
              * @param {string} data.password
+             * @param {string} data.userType
              * @param {object} [data.settings]
              * @param {boolean} [data.settings.termsAccepted]
              * @return Promise
@@ -380,16 +443,80 @@
                             ds.config.set(key, this._settings.get(`network.${key}`));
                         });
 
-                        return ds.app.login(data.address, data.api)
+                        ds.app.login(data.address, data.api);
+
+                        return this.addMatcherSign()
                             .then(() => {
                                 this.changeTheme();
                                 this.changeCandle();
-                                this._save();
+                                return this._save();
                             })
                             .then(() => {
                                 this._logoutTimer();
-                                this._dfr.resolve();
-                            });
+                                return this._loadScriptAccountData();
+                            })
+                            .then(this._dfr.resolve);
+                    });
+            }
+
+            /**
+             * @return {Promise<{signature, timestamp}>}
+             */
+            addMatcherSign() {
+                let promise;
+                let modalPromise;
+                let ledgerPromise;
+
+                const dayForwardTime = ds.app.getTimeStamp(1, 'day');
+                if (!this.matcherSign || this.matcherSign.timestamp - dayForwardTime < 0) {
+                    const maxIntervalTimeStamp = ds.app.getTimeStamp(
+                        WavesApp.matcherSignInterval.count,
+                        WavesApp.matcherSignInterval.timeType
+                    );
+                    promise = ds.app.signForMatcher(maxIntervalTimeStamp).then(
+                        (signature) => {
+                            return { signature, timestamp: maxIntervalTimeStamp };
+                        });
+
+                    if (this.userType && this.userType === 'ledger') {
+                        modalPromise = ds.app.getSignIdForMatcher(maxIntervalTimeStamp).then((id) => {
+                            return modalManager.showSignLedger({ promise, mode: 'sign-matcher', id });
+                        });
+
+                        ledgerPromise = modalPromise
+                            .then(() => promise)
+                            .catch(
+                                () => modalManager.showLedgerError({ error: 'sign-error' }).then(
+                                    () => {
+                                        return this.addMatcherSign();
+                                    },
+                                    () => {
+                                        // No matcher sign, may be other modal
+                                        Promise.resolve();
+                                    }
+                                ));
+                    }
+                }
+
+                return (ledgerPromise || promise || Promise.resolve(this.matcherSign))
+                    .then((matcherSign) => {
+                        this.matcherSign = matcherSign || this.matcherSign || { timestamp: 0, signature: '' };
+                        return ds.app.addMatcherSign(this.matcherSign.timestamp, this.matcherSign.signature);
+                    });
+            }
+
+            /**
+             * @return {Promise<any>}
+             * @private
+             */
+            _loadScriptAccountData() {
+                return Promise.all([
+                    ds.fetch(`${ds.config.get('node')}/addresses/scriptInfo/${this.address}`),
+                    ds.api.assets.get(WavesApp.defaultAssets.WAVES)
+                ])
+                    .then(([response, waves]) => {
+                        this.extraFee = Money.fromCoins(response.extraFee, waves);
+                        this._hasScript = response.extraFee !== 0;
                     });
             }
 
@@ -397,7 +524,7 @@
              * @private
              */
             _logoutTimer() {
-                this.receive(state.signals.sleep, (min) => {
+                this.receive(state.signals.sleep, min => {
                     if (min >= this._settings.get('logoutAfterMin')) {
                         this.logout();
                     }

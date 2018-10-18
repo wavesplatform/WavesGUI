@@ -2,27 +2,65 @@
 
 w-input-container {
   display: block;
+  position: relative;
 
   input {
     transition: all 0.3s;
   }
 
-  .error {
-    transition: all 0.3s;
-    opacity: 0;
-    height: 0;
-    transform: scaleY(0);
-    overflow: hidden;
-    display: block;
-    color: @color-error-500;
-    position: relative;
-    top: 6px;
+  .like-input-error,
+  w-input-error {
+    &.multiline {
+
+      .error {
+        padding: 16px 25px 16px 16px;
+        overflow: auto;
+        max-height: 300px;
+      }
+
+      span.error-list-row {
+        display: block;
+      }
+
+      .show-all-errors-link {
+        color: @white-only;
+        margin-top: @padding-main-layout / 2;
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    position: absolute;
     width: 100%;
 
-    &.active {
+    &::before {
+      display: block;
+      width: 10px;
+      height: 10px;
+      content: '';
+      transform: rotate(45deg);
+      background: @color-error-400;
+      top: 2px;
+      left: 20px;
+      position: absolute;
+    }
+
+
+    .error {
+      background: @color-error-400;
+      padding: 10px 16px;
+      border-radius: @border-radius;
+      display: inline-block;
+      z-index: 2;
+      margin-top: 7px;
+      width: auto;
+      transition: all 0.3s;
+      color: @white-only;
+      position: relative;
       opacity: 1;
       transform: scaleY(1);
-      height: auto;
     }
   }
 }

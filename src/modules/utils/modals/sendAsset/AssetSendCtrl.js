@@ -75,7 +75,8 @@
                     gatewayDetails: null,
                     moneyHash: null,
                     singleSend: Object.create(null),
-                    massSend: Object.create(null)
+                    massSend: Object.create(null),
+                    toBankMode: false
                 };
                 /**
                  * @type {Poll}
@@ -271,6 +272,7 @@
  * @property {string} assetId
  * @property {string} mirrorId
  * @property {boolean} outerSendMode
+ * @property {boolean} toBankMode
  * @property {IGatewayDetails} gatewayDetails
  * @property {Object.<string, Money>} moneyHash
  * @property {ISingleSendTx} singleSend

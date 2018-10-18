@@ -12,16 +12,14 @@ import { IAssetInfo } from '@waves/data-entities/dist/entities/Asset';
 import { get } from './config';
 import { TAssetData, TBigNumberData } from './interface';
 import { get as getAssetPair } from './api/pairs/pairs';
-import {
-    prepareForBroadcast as prepareForBroadcastF,
-    getTransactionId as getTransactionIdF,
-    broadcast as broadcastF,
-    createOrder as createOrderF,
-    cancelOrder as cancelOrderF
-} from './broadcast/broadcast';
-import { utils as cryptoUtils } from '@waves/waves-signature-generator';
+import { broadcast as broadcastF, createOrderSend, cancelOrderSend } from './broadcast/broadcast';
+import { utils as cryptoUtils, generate, Long } from '@waves/signature-generator';
+import * as signatureAdapters from '@waves/signature-adapter';
+import { Adapter, SIGN_TYPE } from '@waves/signature-adapter';
 
+export { getAdapterByType, getAvailableList } from '@waves/signature-adapter';
 export { Seed } from './classes/Seed';
+export { assetStorage } from './utils/AssetStorage';
 
 export const wavesDataEntities = {
     ...wavesDataEntitiesModule
@@ -33,20 +31,23 @@ export const utils = { ...utilsModule };
 export const signature = {
     ...sign
 };
-export const isValidAddress = cryptoUtils.crypto.isValidAddress;
 
-export const prepareForBroadcast = prepareForBroadcastF;
-export const getTransactionId = getTransactionIdF;
+export const signAdapters = signatureAdapters;
+export const isValidAddress = cryptoUtils.crypto.isValidAddress;
+export const buildTransactionId = cryptoUtils.crypto.buildTransactionId;
+
+// export const prepareForBroadcast = prepareForBroadcastF;
+// export const getTransactionId = getTransactionIdF;
 export const broadcast = broadcastF;
-export const createOrder = createOrderF;
-export const cancelOrder = cancelOrderF;
+export const createOrder = createOrderSend;
+export const cancelOrder = cancelOrderSend;
 
 wavesDataEntitiesModule.config.set('remapAsset', (data: IAssetInfo) => {
     const name = get('remappedAssetNames')[data.id] || data.name;
     return { ...data, name };
 });
 
-export function fetch<T>(url: string, fetchOptions: IFetchOptions): Promise<T> {
+export function fetch<T>(url: string, fetchOptions?: IFetchOptions): Promise<T> {
     return request<T>({ url, fetchOptions });
 }
 
@@ -84,11 +85,10 @@ class App {
 
     public address: string;
 
-    public login(address: string, api: sign.ISignatureApi): Promise<void> {
+    public login(address: string, api: Adapter) {
         this.address = address;
         sign.setSignatureApi(api);
-        return this._addMatcherSign()
-            .then(() => this._initializeDataManager(address));
+        this._initializeDataManager(address);
     }
 
     public logOut() {
@@ -96,21 +96,63 @@ class App {
         dataManager.dropAddress();
     }
 
-    private _addMatcherSign() {
-        const timestamp = utilsModule.addTime(normalizeTime(new Date().getTime()), 2, 'hour').valueOf();
-        return sign.getSignatureApi().getPublicKey()
+    public addMatcherSign(timestamp, signature) {
+        const signApi = sign.getSignatureApi();
+
+        if (!signApi) {
+            return Promise.reject({ error: 'No exist signature api' });
+        }
+
+        return signApi.getPublicKey()
             .then((senderPublicKey) => {
-                return sign.getSignatureApi().sign({
-                    type: sign.SIGN_TYPE.MATCHER_ORDERS,
-                    data: {
-                        senderPublicKey,
-                        timestamp
-                    }
-                })
-                    .then((signature) => {
-                        api.matcher.addSignature(signature, senderPublicKey, timestamp);
-                    });
+                api.matcher.addSignature(signature, senderPublicKey, timestamp);
             });
+    }
+
+    public getTimeStamp(count: number, timeType) {
+        return utilsModule.addTime(normalizeTime(new Date().getTime()), count, timeType).valueOf();
+    }
+
+    public getSignIdForMatcher(timestamp): Promise<string> {
+        return sign.getSignatureApi()
+            .makeSignable({
+                type: SIGN_TYPE.MATCHER_ORDERS,
+                data: {
+                    timestamp
+                }
+            })
+            .getId();
+    }
+
+    public signForMatcher(timestamp: number): Promise<string> {
+        const signApi = sign.getSignatureApi();
+
+        if (!signApi) {
+            return Promise.reject({ error: 'Not exist signature api' });
+        }
+
+        return signApi.makeSignable({
+            type: SIGN_TYPE.MATCHER_ORDERS,
+            data: {
+                timestamp
+            }
+        })
+            .getSignature();
+    }
+
+    public async signCoinomat(timestamp: number) {
+        const signApi = sign.getSignatureApi();
+
+        if (!signApi) {
+            return Promise.reject({ error: 'No exist signature api' });
+        }
+
+        const ByteGenerator = generate([new Long('timestamp')]);
+        const generator = new ByteGenerator({ timestamp });
+        const bytes = await generator.getBytes();
+        const hashId = await buildTransactionId(bytes);
+
+        return { bytes, hashId, next: () => signApi.signData(bytes) };
     }
 
     private _initializeDataManager(address: string): void {

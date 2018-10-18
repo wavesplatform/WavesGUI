@@ -13,7 +13,22 @@
             constructor() {
                 this._initUrlResolveMode();
                 this._initLocalize();
+                this._initAdapters();
                 this._initStates();
+            }
+
+            _initAdapters() {
+
+                const Transport = window.TransportNodeHid;
+
+                ds.signAdapters.adapterList.forEach((Adapter) => Adapter.initOptions({
+                    networkCode: WavesApp.network.code.charCodeAt(0),
+                    openTimeout: WavesApp.sign.openTimeout,
+                    listenTimeout: WavesApp.sign.listenTimeout,
+                    exchangeTimeout: WavesApp.sign.exchangeTimeout,
+                    debug: !WavesApp.isProduction(),
+                    transport: Transport && Transport.default
+                }));
             }
 
             /**
@@ -79,7 +94,7 @@
                             }
                         },
                         backend: {
-                            loadPath: '/locales/{{lng}}/{{ns}}.json',
+                            loadPath: `/locales/{{lng}}/{{ns}}.json?${WavesApp.version}`,
                             referenceLng: 'en'
                         }
                     });
