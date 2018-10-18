@@ -13,6 +13,7 @@
 
         const tsUtils = require('ts-utils');
         const R = require('ramda');
+        const ds = require('data-service');
 
         const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
 

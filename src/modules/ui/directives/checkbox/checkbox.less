@@ -32,12 +32,28 @@ input[type="checkbox"] {
   }
 }
 
+w-checkbox-submit {
+  margin-right: 12px;
+  min-width: 19px;
+  input {
+    &[disabled="disabled"]::after {
+      background: url(/img/icons/checkbox-icon.svg) center no-repeat @color-submit-100;
+      border: 1px solid @color-submit-200;
+    }
+  }
+}
+
 w-checkbox-submit, w-checkbox-success {
   display: inline-block;
   position: relative;
   width: 19px;
   height: 19px;
   overflow: hidden;
+  cursor: pointer;
+
+  & + label {
+    cursor: pointer;
+  }
 }
 
 w-checkbox-switcher {
