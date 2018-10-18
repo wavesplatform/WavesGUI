@@ -130,8 +130,13 @@
              * @private
              */
             _initScript() {
-                const script = this.state && this.state.tx && this.state.tx.script || BASE_64_PREFIX;
-                this.script = script.replace(BASE_64_PREFIX, '');
+                const script = (this.state && this.state.tx && this.state.tx.script || BASE_64_PREFIX)
+                    .replace(BASE_64_PREFIX, '');
+                if (this.script !== script) {
+                    this.script = script;
+                } else {
+                    this._onChangeScript();
+                }
                 this.state.tx.script = script;
             }
 
