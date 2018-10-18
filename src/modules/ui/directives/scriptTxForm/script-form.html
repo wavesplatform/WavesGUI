@@ -33,11 +33,13 @@
         <div class="footnote-1 basic-500" w-i18n="directives.scriptForm.warning.body"></div>
     </div>
 
-    <div class="basic-500 footnote-1 margin-2" w-i18n="directives.scriptForm.fee" params="$ctrl.state.tx"></div>
+    <div class="basic-500 footnote-1 margin-2"
+         w-i18n="directives.scriptForm.fee"
+         params="{fee: $ctrl.state.tx.fee}"></div>
 
     <div class="error-300"
          ng-if="!$ctrl.hasFee"
-         params="$ctrl.state.tx"
+         params="{fee: $ctrl.state.tx.fee}"
          w-i18n="directives.scriptForm.errors.fee"></div>
 
     <w-button class="big long submit"

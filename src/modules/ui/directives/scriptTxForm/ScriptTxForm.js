@@ -87,6 +87,7 @@
 
                 this.observe(['requiredError', 'validationError'], this._updateValidationState);
                 this._updateValidationState();
+                this._currentHasFee();
             }
 
             $postLink() {
