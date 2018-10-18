@@ -15,7 +15,8 @@ export type T_API_TX =
     txApi.ICreateAlias |
     txApi.IMassTransfer |
     txApi.IData |
-    txApi.ISponsorship;
+    txApi.ISponsorship |
+    txApi.ISetScript;
 
 export type T_TX =
     IIssue |
@@ -28,7 +29,8 @@ export type T_TX =
     ICreateAlias |
     IMassTransfer |
     IData |
-    ISponsorship;
+    ISponsorship |
+    ISetScript;
 
 export module txApi {
 
@@ -140,6 +142,12 @@ export module txApi {
         version?: number;
         minSponsoredAssetFee: string | number;
         assetId: string;
+    }
+
+    export interface ISetScript extends IBaseTransaction {
+        type: TRANSACTION_TYPE_NUMBER.SET_SCRIPT;
+        version?: number;
+        script: string;
     }
 
     export interface IExchangeOrder {
@@ -275,6 +283,12 @@ export interface ISponsorship extends IBaseTransaction {
     version?: number;
     assetId: string
     minSponsoredAssetFee: Money;
+}
+
+export interface ISetScript extends IBaseTransaction {
+    type: TRANSACTION_TYPE_NUMBER.SET_SCRIPT;
+    version?: number;
+    script: string;
 }
 
 export interface IExchangeOrder {

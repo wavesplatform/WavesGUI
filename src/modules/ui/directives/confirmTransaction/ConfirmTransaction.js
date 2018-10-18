@@ -17,7 +17,9 @@
     const controller = function (Base, waves, $attrs, $mdDialog, modalManager, user, $scope, utils, validateService) {
 
         const ds = require('data-service');
+        const { Asset } = require('@waves/data-entities');
         const { TRANSACTION_TYPE_NUMBER } = require('@waves/signature-adapter');
+        const { SIGN_TYPE } = require('@waves/signature-adapter');
 
         class ConfirmTransaction extends Base {
 
@@ -131,10 +133,15 @@
             }
 
             confirm() {
-                return this.sendTransaction().then(({ id }) => {
-                    this.tx.id = id;
+                return this.sendTransaction().then(tx => {
+                    this.tx.id = tx.id;
+
+                    if (this._isIssueTx()) {
+                        this._saveIssueAsset(tx);
+                    }
+
                     this.step++;
-                    this.onTxSent({ id });
+                    this.onTxSent({ id: tx.id });
                     $scope.$apply();
                 }).catch((e) => {
                     this.loadingSignFromDevice = false;
@@ -166,6 +173,21 @@
                         `Transaction.${this.tx.type}.${WavesApp.type}.Error`, amount
                     );
                     return Promise.reject(error);
+                });
+            }
+
+            _isIssueTx() {
+                return this.tx.type === SIGN_TYPE.ISSUE;
+            }
+
+            _saveIssueAsset(tx) {
+                waves.node.height().then(height => {
+                    ds.assetStorage.save(tx.id, new Asset({
+                        ...tx,
+                        ticker: null,
+                        precision: tx.decimals,
+                        height
+                    }));
                 });
             }
 
@@ -211,6 +233,10 @@
                 });
             }
 
+            /**
+             * @return {Promise<Array | never>}
+             * @private
+             */
             _validateAddress() {
                 const errors = [];
                 return utils.resolve(utils.when(validateService.wavesAddress(this.tx.recipient)))
@@ -224,6 +250,11 @@
                     });
             }
 
+            /**
+             * @param amount
+             * @return {*}
+             * @private
+             */
             _validateAmount(amount) {
                 const errors = [];
 
