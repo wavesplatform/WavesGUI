@@ -24,7 +24,8 @@
         </div>
 
         <div class="input-like big disabled" ng-if="$ctrl.toBankMode">
-            <span w-i18n="modal.send.bankAccount"></span>
+            <span w-i18n="modal.send.bankAccount" ng-if="!$ctrl.isLira"></span>
+            <span w-i18n="modal.send.liraBankAccount" ng-if="$ctrl.isLira"></span>
         </div>
 
         <w-input-container ng-if="!$ctrl.toBankMode">
@@ -51,7 +52,7 @@
         </w-input-container>
     </div>
 
-    <div class="row relative" style="min-height: 60px;" ng-if="$ctrl.toBankMode && $ctrl.termsIsPending">
+    <div class="row relative" style="min-height: 60px;" ng-if="$ctrl.toBankMode && $ctrl.termsIsPending && !$ctrl.isLira">
         <w-loader class="asd"></w-loader>
     </div>
 
@@ -262,7 +263,26 @@
                           on-sign-end="$ctrl.onSignCoinomatEnd()"></w-coinomat-terms>
     </div>
 
+    <div ng-if="$ctrl.toBankMode && $ctrl.isLira">
+        <div class="warning-plate">
+            <div class="body-2 warning-500" w-i18n="modal.receive.wtryPlate1Header"></div>
+            <div class="footnote-1 basic-500" w-i18n="modal.receive.wtryPlate1Text"></div>
+        </div>
+
+        <!--<div class="row margin-3 caption-1 info-block">-->
+            <!--<i class="icon-info"></i>-->
+            <!--<div w-i18n="modal.receive.wtry.info"></div>-->
+        <!--</div>-->
+    </div>
+
     <div class="margin-top-3">
+        <a href="{{$ctrl.digiLiraUserLink}}"
+           target="_blank"
+           ng-if="$ctrl.toBankMode && $ctrl.isLira"
+           class="big submit long">
+            <span w-i18n="modal.receive.card.continue"></span>
+        </a>
+        
         <w-button ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending && !$ctrl.signInProgress"
                   on-click="$ctrl.createTx()"
                   disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission) || ($ctrl.toBankMode && !$ctrl.termsAccepted)"
