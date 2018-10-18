@@ -5,7 +5,7 @@
     <w-input-container class="margin-2">
         <w-input ng-model="$ctrl.script"
                  ng-model-options="{updateOn: 'input blur', debounce: { 'input': 500, 'blur': 0 }}"
-                 placeholder="directives.scriptForm.placeholder.{{::$ctrl.placeHolderLiteral}}"
+                 placeholder="directives.scriptForm.{{::$ctrl.placeHolderLiteral}}Placeholder"
                  w-i18n-attr="placeholder"
                  w-validate
                  w-validator-custom="{{$ctrl.isValid}}"
