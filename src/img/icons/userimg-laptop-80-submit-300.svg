@@ -1,11 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
-    <g fill="none" fill-rule="nonzero">
-        <path fill="#D8D8D8" fill-opacity="0" d="M0 0h80v80H0z"/>
-        <g stroke="#5A81EA" stroke-width="3" transform="translate(0 22)">
-            <rect width="67" height="50" x="6.5" y="1.5" rx="4"/>
-            <rect width="57" height="36.682" x="11.5" y="6.818" rx="2"/>
-            <path fill="#FFF" d="M2 48.5a.5.5 0 0 0-.5.5v3.5a4 4 0 0 0 4 4h69a4 4 0 0 0 4-4V49a.5.5 0 0 0-.5-.5H2z"/>
-            <path fill="#D8D8D8" d="M32.5 48.5a1 1 0 0 0 0 2h15a1 1 0 0 0 0-2h-15z"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80px" height="58px" viewBox="0 0 80 58" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>userimg-laptop-80-submit-300</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="userimg-laptop-80-submit-300" transform="translate(0.000000, -22.000000)" fill-rule="nonzero">
+            <polygon id="Shape" fill-opacity="0" fill="#D8D8D8" points="0 0 80 0 80 80 0 80"></polygon>
+            <g id="Group" transform="translate(0.000000, 22.000000)" fill="#5A81EA">
+                <path d="M72,47 L72,5.5 C72,4.11928813 70.8807119,3 69.5,3 L10.4572205,3 C9.08699452,3 8.01473276,4.10297308 8,5.47311983 L8,47 L72,47 Z M10.4572205,-1.77635684e-15 L69.5,-7.10542736e-15 C72.5375661,-7.54951657e-15 75,2.46243388 75,5.5 L75,50 L5,50 L5,5.44086363 C5.03241207,2.42654077 7.44272336,-1.33226763e-15 10.4572205,-1.77635684e-15 Z" id="Rectangle-path"></path>
+                <path d="M13.5,8.318 C13.2238576,8.318 13,8.54185763 13,8.818 L13,41.5 C13,41.7761424 13.2238576,42 13.5,42 L66.5,42 C66.7761424,42 67,41.7761424 67,41.5 L67,8.818 C67,8.54185763 66.7761424,8.318 66.5,8.318 L13.5,8.318 Z M13.5,5.318 L66.5,5.318 C68.4329966,5.318 70,6.88500338 70,8.818 L70,41.5 C70,43.4329966 68.4329966,45 66.5,45 L13.5,45 C11.5670034,45 10,43.4329966 10,41.5 L10,8.818 C10,6.88500338 11.5670034,5.318 13.5,5.318 Z" id="Rectangle-path"></path>
+                <path d="M2,47 L78,47 C79.1045695,47 80,47.8954305 80,49 L80,52.5 C80,55.5375661 77.5375661,58 74.5,58 L5.5,58 C2.46243388,58 3.33066907e-16,55.5375661 0,52.5 L0,49 C0,47.8954305 0.8954305,47 2,47 Z M3,50 L3,52.5 C3,53.8807119 4.11928813,55 5.5,55 L74.5,55 C75.8807119,55 77,53.8807119 77,52.5 L77,50 L3,50 Z" id="Shape"></path>
+                <path d="M32.5,47 L47.5,47 C48.8807119,47 50,48.1192881 50,49.5 C50,50.8807119 48.8807119,52 47.5,52 L32.5,52 C31.1192881,52 30,50.8807119 30,49.5 C30,48.1192881 31.1192881,47 32.5,47 Z" id="Shape"></path>
+            </g>
         </g>
     </g>
 </svg>
