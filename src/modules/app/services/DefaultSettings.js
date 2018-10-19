@@ -26,6 +26,7 @@
                  * @private
                  */
                 this.defaults = {
+                    advancedMode: false,
                     network: WavesApp.network,
                     lastOpenVersion: '',
                     whatsNewList: [],
