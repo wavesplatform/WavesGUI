@@ -93,11 +93,10 @@
 
                 const { fee, minSponsoredAssetFee } = this;
                 const type = SIGN_TYPE.SPONSORSHIP;
-                const transactionType = WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP;
-                this._tx = waves.node.transactions.createTransaction(transactionType, {
+                this._tx = waves.node.transactions.createTransaction({
                     fee,
-                    minSponsoredAssetFee,
-                    type
+                    type,
+                    minSponsoredAssetFee
                 });
             }
 

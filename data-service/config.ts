@@ -20,7 +20,7 @@ export function get<K extends keyof IConfigParams>(key: K): IConfigParams[K] {
 export function set<K extends keyof IConfigParams>(key: K, value: IConfigParams[K]): void {
     config[key] = value;
     if (key === 'node') {
-        time().then((serverTime) => {
+        time().then(serverTime => {
             const now = Date.now();
             const dif = now - serverTime.getTime();
 

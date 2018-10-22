@@ -16,6 +16,7 @@
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
         const { Money } = require('@waves/data-entities');
+        const { SIGN_TYPE } = require('@waves/signature-adapter');
 
         const DEFAULT_OPTIONS = {
             clickOutsideToClose: true,
@@ -54,6 +55,14 @@
                     for (let i = 0; i < counter; i++) {
                         $mdDialog.cancel();
                     }
+                });
+            }
+
+            showScriptModal() {
+                return this._getModal({
+                    id: 'script-modal',
+                    templateUrl: 'modules/utils/modals/script/script.html',
+                    controller: 'ScriptModalCtrl'
                 });
             }
 
@@ -331,8 +340,8 @@
                 });
             }
 
-            showConfirmTx(type, txData, showValidationErrors) {
-                const tx = $injector.get('waves').node.transactions.createTransaction(type, txData);
+            showConfirmTx(txData, showValidationErrors) {
+                const tx = $injector.get('waves').node.transactions.createTransaction(txData);
 
                 return this._getModal({
                     id: 'confirm-tx',
@@ -388,7 +397,8 @@
                 ]).then(([asset, fee]) => {
                     const money = new Money(0, asset);
 
-                    return this.showConfirmTx(WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP, {
+                    return this.showConfirmTx({
+                        type: SIGN_TYPE.SPONSORSHIP,
                         assetId,
                         asset,
                         minSponsoredAssetFee: money,

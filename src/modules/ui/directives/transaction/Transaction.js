@@ -19,6 +19,8 @@
     const controller = function (Base, $filter, modalManager, notification,
                                  waves, user, baseAssetService, dexService, $scope) {
 
+        const { SIGN_TYPE } = require('@waves/signature-adapter');
+
         class Transaction extends Base {
 
             $postLink() {
@@ -101,10 +103,11 @@
                 const leaseTransactionAmount = this.transaction.amount;
                 const leaseId = this.transaction.id;
                 return waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING })
-                    .then((fee) => modalManager.showConfirmTx(WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING, {
+                    .then((fee) => modalManager.showConfirmTx({
                         fee,
                         leaseTransactionAmount,
-                        leaseId
+                        leaseId,
+                        type: SIGN_TYPE.CANCEL_LEASING
                     }));
             }
 
