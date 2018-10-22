@@ -148,7 +148,8 @@
             assetId: '<',
             maxBalance: '<',
             fee: '<',
-            min: '<'
+            min: '<',
+            disabled: '<'
         },
         scope: false,
         templateUrl: 'modules/ui/directives/balanceInput/balanceInput.html',

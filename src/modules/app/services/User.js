@@ -19,9 +19,18 @@
      * @param {UserRouteState} UserRouteState
      * @param {ModalManager} modalManager
      * @param {TimeLine} timeLine
+     * @param {$injector} $injector
      * @return {User}
      */
-    const factory = function (storage, $state, defaultSettings, state, UserRouteState, modalManager, timeLine, themes) {
+    const factory = function (storage,
+                              $state,
+                              defaultSettings,
+                              state,
+                              UserRouteState,
+                              modalManager,
+                              timeLine,
+                              $injector,
+                              themes) {
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
@@ -125,6 +134,11 @@
              * @private
              */
             _hasScript = false;
+            /**
+             * @type {Poll}
+             * @private
+             */
+            _scriptInfoPoll = null;
 
             constructor() {
 
@@ -132,6 +146,16 @@
                 this._settings.change.on(() => this._onChangeSettings());
 
                 Mousetrap.bind(['ctrl+shift+k'], () => this.switchNextTheme());
+
+                this.onLogin().then(() => {
+                    /**
+                     * @type {Poll}
+                     */
+                    const Poll = $injector.get('Poll');
+                    setTimeout(() => {
+                        this._scriptInfoPoll = new Poll(() => this.updateScriptAccountData(), () => null, 10000);
+                    }, 30000);
+                });
             }
 
             /**
@@ -396,6 +420,66 @@
             }
 
             /**
+             * @return {Promise<any>}
+             */
+            updateScriptAccountData() {
+                return Promise.all([
+                    ds.fetch(`${ds.config.get('node')}/addresses/scriptInfo/${this.address}`),
+                    ds.api.assets.get(WavesApp.defaultAssets.WAVES)
+                ])
+                    .then(([response, waves]) => {
+                        this.extraFee = Money.fromCoins(response.extraFee, waves);
+                        this._hasScript = response.extraFee !== 0;
+                    });
+            }
+
+            /**
+             * @return {Promise<{signature, timestamp}>}
+             */
+            addMatcherSign() {
+                let promise;
+                let modalPromise;
+                let ledgerPromise;
+
+                const dayForwardTime = ds.app.getTimeStamp(1, 'day');
+                if (!this.matcherSign || this.matcherSign.timestamp - dayForwardTime < 0) {
+                    const maxIntervalTimeStamp = ds.app.getTimeStamp(
+                        WavesApp.matcherSignInterval.count,
+                        WavesApp.matcherSignInterval.timeType
+                    );
+                    promise = ds.app.signForMatcher(maxIntervalTimeStamp).then(
+                        (signature) => {
+                            return { signature, timestamp: maxIntervalTimeStamp };
+                        });
+
+                    if (this.userType && this.userType === 'ledger') {
+                        modalPromise = ds.app.getSignIdForMatcher(maxIntervalTimeStamp).then((id) => {
+                            return modalManager.showSignLedger({ promise, mode: 'sign-matcher', id });
+                        });
+
+                        ledgerPromise = modalPromise
+                            .then(() => promise)
+                            .catch(
+                                () => modalManager.showLedgerError({ error: 'sign-error' }).then(
+                                    () => {
+                                        return this.addMatcherSign();
+                                    },
+                                    () => {
+                                        // No matcher sign, may be other modal
+                                        Promise.resolve();
+                                    }
+                                ));
+                    }
+                }
+
+                return (ledgerPromise || promise || Promise.resolve(this.matcherSign))
+                    .then((matcherSign) => {
+                        this.matcherSign = matcherSign || this.matcherSign || { timestamp: 0, signature: '' };
+                        return ds.app.addMatcherSign(this.matcherSign.timestamp, this.matcherSign.signature);
+                    });
+            }
+
+            /**
              * @param {object} data
              * @param {ISignatureApi} data.api
              * @param {string} data.address
@@ -453,70 +537,9 @@
                             })
                             .then(() => {
                                 this._logoutTimer();
-                                return this._loadScriptAccountData();
+                                return this.updateScriptAccountData();
                             })
                             .then(this._dfr.resolve);
-                    });
-            }
-
-            /**
-             * @return {Promise<{signature, timestamp}>}
-             */
-            addMatcherSign() {
-                let promise;
-                let modalPromise;
-                let ledgerPromise;
-
-                const dayForwardTime = ds.app.getTimeStamp(1, 'day');
-                if (!this.matcherSign || this.matcherSign.timestamp - dayForwardTime < 0) {
-                    const maxIntervalTimeStamp = ds.app.getTimeStamp(
-                        WavesApp.matcherSignInterval.count,
-                        WavesApp.matcherSignInterval.timeType
-                    );
-                    promise = ds.app.signForMatcher(maxIntervalTimeStamp).then(
-                        (signature) => {
-                            return { signature, timestamp: maxIntervalTimeStamp };
-                        });
-
-                    if (this.userType && this.userType === 'ledger') {
-                        modalPromise = ds.app.getSignIdForMatcher(maxIntervalTimeStamp).then((id) => {
-                            return modalManager.showSignLedger({ promise, mode: 'sign-matcher', id });
-                        });
-
-                        ledgerPromise = modalPromise
-                            .then(() => promise)
-                            .catch(
-                                () => modalManager.showLedgerError({ error: 'sign-error' }).then(
-                                    () => {
-                                        return this.addMatcherSign();
-                                    },
-                                    () => {
-                                        // No matcher sign, may be other modal
-                                        Promise.resolve();
-                                    }
-                                ));
-                    }
-                }
-
-                return (ledgerPromise || promise || Promise.resolve(this.matcherSign))
-                    .then((matcherSign) => {
-                        this.matcherSign = matcherSign || this.matcherSign || { timestamp: 0, signature: '' };
-                        return ds.app.addMatcherSign(this.matcherSign.timestamp, this.matcherSign.signature);
-                    });
-            }
-
-            /**
-             * @return {Promise<any>}
-             * @private
-             */
-            _loadScriptAccountData() {
-                return Promise.all([
-                    ds.fetch(`${ds.config.get('node')}/addresses/scriptInfo/${this.address}`),
-                    ds.api.assets.get(WavesApp.defaultAssets.WAVES)
-                ])
-                    .then(([response, waves]) => {
-                        this.extraFee = Money.fromCoins(response.extraFee, waves);
-                        this._hasScript = response.extraFee !== 0;
                     });
             }
 
@@ -640,6 +663,7 @@
         'UserRouteState',
         'modalManager',
         'timeLine',
+        '$injector',
         'themes'
     ];
 

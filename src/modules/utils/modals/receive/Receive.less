@@ -27,17 +27,6 @@ md-dialog.modal-receive {
       display: none;
     }
 
-    .flex-row {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-
-      &.split-half {
-        justify-content: space-between;
-        width: 100%;
-      }
-    }
-
     w-select .select-list {
       max-height: 325px;
       overflow: auto;
@@ -51,6 +40,12 @@ md-dialog.modal-receive {
       padding: 20px;
       background-size: 16px;
       background-position: center;
+    }
+
+    .flex-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
     }
 
     w-tabs {
@@ -178,6 +173,14 @@ md-dialog.modal-receive {
       }
     }
 
+    .receive-user-status {
+      position: relative;
+      min-height: 130px;
+      &.pending {
+        min-height: 60px;
+      }
+    }
+
     .modal-content {
       padding-top: 60px;
 
@@ -203,60 +206,68 @@ md-dialog.modal-receive {
         margin: 10px 0 20px;
         background: @color-basic-50;
         border: 1px dashed @color-basic-200;
-        padding: 0 12px;
+        padding: 0 14px;
         border-radius: @border-radius;
         line-height: 54px;
         min-height: 54px;
-      }
 
-      .or {
-        margin: 33px 0 22px;
-      }
-
-      .scan {
-        margin-bottom: 20px;
-        text-align: center;
-      }
-
-      .center {
-        background-color: @color-white;
-        width: 100%;
-        height: 100%;
-      }
-
-      .country-list-link {
-        margin-top: 10px;
-        text-align: right;
-      }
-
-      .info-block {
-        position: relative;
-        padding-left: 30px;
-        color: @color-basic-500;
-
-        i {
-          position: absolute;
-          left: 0;
-          top: 2px;
+        &.transparent {
+          background: transparent;
+          padding: 12px;
         }
       }
+    }
 
-      table.steps {
-        margin: 16px 0 30px;
-        border-collapse: collapse;
+    .verified-input {
+      align-items: center;
+      display: flex;
 
-        td {
-          padding: 16px;
-          border: 1px solid @color-basic-200;
-          vertical-align: top;
+      i {
+        background: url(/img/icons/input-valid-icon.svg) center no-repeat rgba(129, 201, 38, 0.1);
+        display: block;
+        width: 30px;
+        height: 30px;
+        margin-right: 12px;
+        border-radius: 50%;
+      }
+    }
 
-          &.step {
-            min-width: 80px;
-            background: @color-basic-50;
-          }
+    .or {
+      margin: 33px 0 22px;
+    }
+
+    .scan {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .center {
+      background-color: @color-white;
+      width: 100%;
+      height: 100%;
+    }
+
+    .country-list-link {
+      text-align: right;
+      a {
+        display: inline-block;
+      }
+    }
+
+    table.steps {
+      margin: 16px 0 20px 0;
+      border-collapse: collapse;
+
+      td {
+        padding: 16px;
+        border: 1px solid @color-basic-200;
+        vertical-align: top;
+
+        &.step {
+          min-width: 80px;
+          background: @color-basic-50;
         }
       }
-
     }
   }
 }

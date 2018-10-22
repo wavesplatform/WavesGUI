@@ -46,6 +46,29 @@ md-dialog.modal-send {
       .error-content {
         padding: 30px 40px;
       }
+
+      .note-plate {
+        position: relative;
+        margin: 0 0 20px;
+        background: @color-basic-50;
+        border: 1px dashed @color-basic-200;
+        padding: 14px;
+        border-radius: @border-radius;
+        min-height: 54px;
+        display: flex;
+        width: 100%;
+        align-items: center;
+
+        &.transparent {
+          background: transparent;
+          padding: 12px;
+        }
+      }
+
+      .help-icon__content {
+        left: 40px;
+        width: calc(100% ~'- 80px');
+      }
     }
 
     .icon-close {
@@ -56,10 +79,6 @@ md-dialog.modal-send {
       padding: 20px;
       background-size: 16px;
       background-position: center;
-    }
-
-    .commission-error {
-      margin-bottom: -10px;
     }
 
     w-confirm-gateway-transaction,
@@ -356,6 +375,11 @@ md-dialog.modal-send {
       a {
         flex-grow: 0;
         margin: 4px 0;
+      }
+
+      .toggle-mode-container {
+        display: block;
+        text-align: right;
       }
     }
 

@@ -13,12 +13,13 @@ import { get } from './config';
 import { TAssetData, TBigNumberData } from './interface';
 import { get as getAssetPair } from './api/pairs/pairs';
 import { broadcast as broadcastF, createOrderSend, cancelOrderSend } from './broadcast/broadcast';
-import { utils as cryptoUtils } from '@waves/signature-generator';
+import { utils as cryptoUtils, generate, Long } from '@waves/signature-generator';
 import * as signatureAdapters from '@waves/signature-adapter';
 import { Adapter, SIGN_TYPE } from '@waves/signature-adapter';
 
 export { getAdapterByType, getAvailableList } from '@waves/signature-adapter';
 export { Seed } from './classes/Seed';
+export { assetStorage } from './utils/AssetStorage';
 
 export const wavesDataEntities = {
     ...wavesDataEntitiesModule
@@ -33,6 +34,7 @@ export const signature = {
 
 export const signAdapters = signatureAdapters;
 export const isValidAddress = cryptoUtils.crypto.isValidAddress;
+export const buildTransactionId = cryptoUtils.crypto.buildTransactionId;
 
 // export const prepareForBroadcast = prepareForBroadcastF;
 // export const getTransactionId = getTransactionIdF;
@@ -123,18 +125,18 @@ class App {
     }
 
     public signForMatcher(timestamp: number): Promise<string> {
-        const signApi = sign.getSignatureApi()
+        const signApi = sign.getSignatureApi();
 
         if (!signApi) {
-            return Promise.reject({ error: 'Not exist signature api' })
+            return Promise.reject({ error: 'Not exist signature api' });
         }
 
         return signApi.makeSignable({
-                type: SIGN_TYPE.MATCHER_ORDERS,
-                data: {
-                    timestamp
-                }
-            })
+            type: SIGN_TYPE.MATCHER_ORDERS,
+            data: {
+                timestamp
+            }
+        })
             .getSignature();
     }
 

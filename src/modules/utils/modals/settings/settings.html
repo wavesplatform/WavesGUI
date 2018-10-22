@@ -29,17 +29,23 @@
     <div class="settings-content">
         <w-step-by-step active-step="$ctrl.tab">
             <w-step step-id="general" class="general">
+
                 <div class="row flex-row row-style unit-checkbox no-border">
                     <w-checkbox-submit id="shareStat" ng-model="$ctrl.shareStat"></w-checkbox-submit>
                     <label for="shareStat" w-i18n="modal.termsAccept.body.analytics"></label>
                 </div>
 
                 <w-web-only>
-                    <div class="row flex-row row-style unit-checkbox">
+                    <div class="row flex-row row-style unit-checkbox no-border">
                         <w-checkbox-submit id="openLinkViaWeb" ng-model="$ctrl.openLinkViaWeb"></w-checkbox-submit>
                         <label for="openLinkViaWeb" w-i18n="modal.settings.general.openLinkViaWeb"></label>
                     </div>
                 </w-web-only>
+
+                <div class="row flex-row row-style unit-checkbox no-border">
+                    <w-checkbox-submit id="advancedMode" ng-model="$ctrl.advancedMode"></w-checkbox-submit>
+                    <label for="advancedMode" w-i18n="modal.termsAccept.body.advancedMode"></label>
+                </div>
 
                 <div class="row flex-row row-style unit-select">
                     <div class="footnote-1 disabled-600" w-i18n="modal.settings.general.language"></div>

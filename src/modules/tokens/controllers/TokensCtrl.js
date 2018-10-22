@@ -11,6 +11,8 @@
      */
     const controller = function (Base, $scope, modalManager, createPoll, waves) {
 
+        const { SIGN_TYPE } = require('@waves/signature-adapter');
+
         class TokensCtrl extends Base {
 
             constructor() {
@@ -82,7 +84,8 @@
             generate() {
                 const precision = Number(this.precision.toString());
 
-                return modalManager.showConfirmTx('issue', {
+                return modalManager.showConfirmTx({
+                    type: SIGN_TYPE.ISSUE,
                     name: this.name,
                     description: this.description,
                     reissuable: this.issue,
