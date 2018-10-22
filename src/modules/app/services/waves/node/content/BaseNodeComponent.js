@@ -69,6 +69,10 @@
                             return Promise.all([
                                 getFee('0.001')
                             ]);
+                        case TYPES.SET_SCRIPT:
+                            return Promise.all([
+                                getFee('0.01')
+                            ]);
                         case TYPES.MASS_TRANSFER:
                             return Promise.all([
                                 getMassTransferFee()

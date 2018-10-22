@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const { Signal } = require('ts-utils');
+
     /**
      * @param {User} user
      * @param {Poll} Poll
@@ -22,7 +24,7 @@
                  * @type {{changeBalanceEvent: Signal}}
                  */
                 this.signals = {
-                    changeBalanceEvent: new tsUtils.Signal()
+                    changeBalanceEvent: new Signal()
                 };
                 /**
                  * @type {Poll}

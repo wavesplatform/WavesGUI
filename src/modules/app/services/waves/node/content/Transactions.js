@@ -13,6 +13,7 @@
 
         const tsUtils = require('ts-utils');
         const R = require('ramda');
+        const { SIGN_TYPE } = require('@waves/signature-adapter');
         const ds = require('data-service');
 
         const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
@@ -97,18 +98,15 @@
                     .then(([utxTxList, txList]) => utxTxList.concat(txList));
             }
 
-            createTransaction(transactionType, txData) {
+            createTransaction(txData) {
 
                 const tx = {
-                    transactionType,
                     sender: user.address,
                     timestamp: Date.now(),
                     ...txData
                 };
 
-                tx.type = Transactions._getTypeByName(transactionType);
-
-                if (transactionType === WavesApp.TRANSACTION_TYPES.NODE.MASS_TRANSFER) {
+                if (tx.type === SIGN_TYPE.MASS_TRANSFER) {
                     tx.totalAmount = tx.totalAmount || tx.transfers.map(({ amount }) => amount)
                         .reduce((result, item) => result.add(item));
                 }
@@ -191,7 +189,7 @@
                     case 12:
                         return TYPES.DATA;
                     case 13:
-                        return TYPES.SET_SCRIPT;
+                        return Transactions._getScriptType(tx);
                     case 14:
                         return Transactions._getSponsorshipType(tx);
                     default:
@@ -267,6 +265,10 @@
 
             static _getMassTransferType(sender) {
                 return Transactions.isMe(sender) ? TYPES.MASS_SEND : TYPES.MASS_RECEIVE;
+            }
+
+            static _getScriptType({ script }) {
+                return (script || '').replace('base64:', '') ? TYPES.SET_SCRIPT : TYPES.SCRIPT_CANCEL;
             }
 
             /**
