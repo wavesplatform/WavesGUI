@@ -71,6 +71,10 @@
                  * @private
                  */
                 this._signable = null;
+                /**
+                 * @type {string}
+                 */
+                this.permissionName = '';
                 // /**
                 //  * @type {boolean}
                 //  */
@@ -198,6 +202,7 @@
                 const timestamp = ds.utils.normalizeTime(this.tx.timestamp || Date.now());
                 const data = { ...this.tx, timestamp };
                 const type = this.tx.type;
+                this.permissionName = ConfirmTransaction._getPermissionNameByTx(this.tx);
 
                 this._signable = ds.signature.getSignatureApi()
                     .makeSignable({ type, data });
@@ -281,6 +286,37 @@
 
             static toBigNumber(amount) {
                 return amount && amount.getTokens().toFixed() || undefined;
+            }
+
+            static _getPermissionNameByTx(tx) {
+                switch (tx.type) {
+                    case 3:
+                        return 'CAN_ISSUE_TRANSACTION';
+                    case 4:
+                        return 'CAN_TRANSFER_TRANSACTION';
+                    case 5:
+                        return 'CAN_REISSUE_TRANSACTION';
+                    case 6:
+                        return 'CAN_BURN_TRANSACTION';
+                    case 7:
+                        throw new Error('Can\' confirm exchange transaction!');
+                    case 8:
+                        return 'CAN_LEASE_TRANSACTION';
+                    case 9:
+                        return 'CAN_CANCEL_LEASE_TRANSACTION';
+                    case 10:
+                        return 'CAN_CREATE_ALIAS_TRANSACTION';
+                    case 11:
+                        return 'CAN_MASS_TRANSFER_TRANSACTION';
+                    case 12:
+                        return 'CAN_DATA_TRANSACTION';
+                    case 13:
+                        return 'CAN_SET_SCRIPT_TRANSACTION';
+                    case 14:
+                        return 'CAN_SPONSORSHIP_TRANSACTION';
+                    default:
+                        return '';
+                }
             }
 
         }

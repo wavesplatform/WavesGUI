@@ -1,0 +1,26 @@
+{
+  "PERMISSIONS": {
+    "CAN_TRANSFER_COINOMAT": [
+      "BTC",
+      "ETH",
+      "LTC",
+      "ZEC",
+      "BCH",
+      "DASH"
+    ],
+    "CAN_TRANSFER_TRANSACTION": true,
+    "CAN_MASS_TRANSFER_TRANSACTION": false,
+    "CAN_CREATE_ALIAS_TRANSACTION": false,
+    "CAN_ISSUE_TRANSACTION": false,
+    "CAN_REISSUE_TRANSACTION": false,
+    "CAN_SET_SCRIPT_TRANSACTION": false,
+    "CAN_LEASE_TRANSACTION": false,
+    "CAN_CANCEL_LEASE_TRANSACTION": false,
+    "CAN_BURN_TRANSACTION": false,
+    "CAN_SPONSORSHIP_TRANSACTION": false,
+    "CAN_DATA_TRANSACTION": false,
+    "CAN_CREATE_ORDER": false,
+    "CAN_CANCEL_ORDER": false
+  },
+  "DEX_BLACK_LIST": []
+}

@@ -24,7 +24,8 @@
              * @return {boolean}
              */
             isPermitted(name) {
-                return this._permissions[name] || true; // Fallback for the case when config is failed to download
+                const permission = this._permissions[name];
+                return permission == null || permission; // Fallback for the case when config is failed to download
             }
 
             _getFeaturesConfig() {
