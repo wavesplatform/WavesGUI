@@ -47,10 +47,6 @@
             /**
              * @type {string}
              */
-            successPath = '';
-            /**
-             * @type {string}
-             */
             referrer = '';
             /**
              * @type {string}
@@ -116,7 +112,7 @@
                             adapter.getPublicKey()
                         ])
                             .then(([signature, publicKey]) => {
-                                const search = `?s=${signature}&p=${publicKey}&a=${user.address}&d=${data}`;
+                                const search = `?s=${signature}&p=${publicKey}&a=${user.address}`;
                                 const path = successPath || '';
                                 const url = `${referrer}/${path}${search}`;
                                 this._successUrl = GatewaySignCtrl._normalizeUrl(url);
