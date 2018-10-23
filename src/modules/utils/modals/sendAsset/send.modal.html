@@ -14,7 +14,7 @@
                                 </w-single-send>
                             </w-permit>
                             <w-permit name="CAN_TRANSFER_TRANSACTION" mode="off">
-                                <div>Sorry, this feature is currently disabled.</div>
+                                <div class="warning-plate body-1 warning-500" w-i18n="modal.disabledFeatures.transfer"></div>
                             </w-permit>
                         </w-tab>
 
@@ -23,11 +23,10 @@
                                 <w-mass-send state="$ctrl.state"
                                              on-continue="$ctrl.nextStep(tx)">
                                         <ng-include src="::$ctrl.headerPath"></ng-include>
-                                    </w-permit>
                                 </w-mass-send>
                             </w-permit>
                             <w-permit name="CAN_MASS_TRANSFER_TRANSACTION" mode="off">
-                                <div>Sorry, this feature is currently disabled.</div>
+                                <div class="warning-plate body-1 warning-500" w-i18n="modal.disabledFeatures.massTransfer"></div>
                             </w-permit>
                         </w-tab>
 
