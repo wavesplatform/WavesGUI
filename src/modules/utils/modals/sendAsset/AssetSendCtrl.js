@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const { SIGN_TYPE } = require('@waves/signature-adapter');
+
     /**
      * @param $scope
      * @param {Waves} waves
@@ -8,6 +10,7 @@
      * @param {app.utils} utils
      * @param {IPollCreate} createPoll
      * @param {User} user
+     * @param {$mdDialog} $mdDialog
      * @return {AssetSendCtrl}
      */
     const controller = function ($scope, waves, Base, utils, createPoll, user, $mdDialog) {
@@ -140,13 +143,13 @@
             }
 
             nextStep(tx) {
-                const types = WavesApp.TRANSACTION_TYPES.NODE;
-                const type = this.tab === 'singleSend' ? types.TRANSFER : types.MASS_TRANSFER;
+                const type = this.tab === 'singleSend' ? SIGN_TYPE.TRANSFER : SIGN_TYPE.MASS_TRANSFER;
 
                 tx = tx || (this.tab === 'singleSend' ? { ...this.state.singleSend } : { ...this.state.massSend });
 
-                this.txInfo = waves.node.transactions.createTransaction(type, {
+                this.txInfo = waves.node.transactions.createTransaction({
                     ...tx,
+                    type,
                     sender: user.address
                 });
 

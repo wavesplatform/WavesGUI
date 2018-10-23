@@ -29,6 +29,14 @@
                 storage.save('openClientMode', this.openClientMode);
             }
 
+            get advancedMode() {
+                return user.getSetting('advancedMode');
+            }
+
+            set advancedMode(mode) {
+                user.setSetting('advancedMode', mode);
+            }
+
             tab = 'general';
             address = user.address;
             publicKey = user.publicKey;

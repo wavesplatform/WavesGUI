@@ -13,6 +13,7 @@
     const controller = function (Base, $scope, createPoll, utils, waves, user) {
 
         const entities = require('@waves/data-entities');
+        const { SIGN_TYPE } = require('@waves/signature-adapter');
 
         class TokenChangeModalCtrl extends Base {
 
@@ -117,9 +118,11 @@
 
             _createTx() {
                 const input = this.input;
+                const type = this.txType === 'burn' ? SIGN_TYPE.BURN : SIGN_TYPE.REISSUE;
 
                 if (input) {
-                    this.tx = waves.node.transactions.createTransaction(this.txType, {
+                    this.tx = waves.node.transactions.createTransaction({
+                        type,
                         assetId: input.asset.id,
                         description: input.asset.description,
                         fee: this.fee,

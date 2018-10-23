@@ -19,6 +19,7 @@ import { Adapter, SIGN_TYPE } from '@waves/signature-adapter';
 
 export { getAdapterByType, getAvailableList } from '@waves/signature-adapter';
 export { Seed } from './classes/Seed';
+export { assetStorage } from './utils/AssetStorage';
 
 export const wavesDataEntities = {
     ...wavesDataEntitiesModule
@@ -124,34 +125,19 @@ class App {
     }
 
     public signForMatcher(timestamp: number): Promise<string> {
-        const signApi = sign.getSignatureApi()
-
-        if (!signApi) {
-            return Promise.reject({ error: 'Not exist signature api' })
-        }
-
-        return signApi.makeSignable({
-                type: SIGN_TYPE.MATCHER_ORDERS,
-                data: {
-                    timestamp
-                }
-            })
-            .getSignature();
-    }
-
-    public async signCoinomat(timestamp: number) {
         const signApi = sign.getSignatureApi();
 
         if (!signApi) {
-            return Promise.reject({ error: 'No exist signature api' });
+            return Promise.reject({ error: 'Not exist signature api' });
         }
 
-        const ByteGenerator = generate([new Long('timestamp')]);
-        const generator =  new ByteGenerator({ timestamp });
-        const bytes = await generator.getBytes();
-        const hashId = await buildTransactionId(bytes);
-
-        return { bytes, hashId, next: () => signApi.signData(bytes)};
+        return signApi.makeSignable({
+            type: SIGN_TYPE.MATCHER_ORDERS,
+            data: {
+                timestamp
+            }
+        })
+            .getSignature();
     }
 
     private _initializeDataManager(address: string): void {

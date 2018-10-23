@@ -13,6 +13,12 @@
         </svg>
         <span class="btn-icon" w-i18n="directives.asset.receive"></span>
     </w-button>
+    <w-button ng-if="$ctrl.advancedMode" on-click="$ctrl.openScriptModal()" class="interface btn-script">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+            <path d="M9.158 3.615a.5.5 0 1 1 .684-.73l4 3.75a.5.5 0 0 1 0 .73l-4 3.75a.5.5 0 0 1-.684-.73L12.768 7l-3.61-3.385zM4.842 10.385a.5.5 0 0 1-.684.73l-4-3.75a.5.5 0 0 1 0-.73l4-3.75a.5.5 0 1 1 .684.73L1.232 7l3.61 3.385z"/>
+        </svg>
+        <span w-i18n="directives.asset.script"></span>
+    </w-button>
 </div>
 
 <div w-i18n-ns="app.wallet.assets" class="assets-wrapper">
