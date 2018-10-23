@@ -124,8 +124,6 @@
                         name: '30day',
                         value: () => utils.moment()
                             .add().day(29)
-                            .add().hour(23)
-                            .add().minute(55).getDate().getTime()
                     }
                 ];
 
