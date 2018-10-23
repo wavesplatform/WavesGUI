@@ -38,8 +38,16 @@
                     .catch(reject); // TODO
             }
 
-            getBars(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback) {
+            getBars(symbolInfo, resolution, from, to = Date.now(), onHistoryCallback, onErrorCallback) {
+                from = CandlesService.convertToMilliseconds(from);
+                to = CandlesService.convertToMilliseconds(to);
                 const handleCandles = (candles) => {
+                    candles = CandlesService.filterCandlesByTime(
+                        candles,
+                        from,
+                        to
+                    );
+
                     if (candles.length) {
                         this._updateLastTime(candles);
                         onHistoryCallback(candles);
@@ -52,8 +60,8 @@
 
                 CandlesService._getAndHandleCandles(
                     symbolInfo,
-                    CandlesService.convertToMilliseconds(from),
-                    CandlesService.convertToMilliseconds(to),
+                    from,
+                    to,
                     resolution,
                     handleCandles,
                     onErrorCallback
@@ -62,6 +70,9 @@
 
             subscribeBars(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
                 this._subscriber = subscriberUID;
+
+                const from = this._lastTime;
+                const to = CandlesService.convertToMilliseconds(Date.now());
 
                 const handleCandles = (candles) => {
                     if (this._subscriber !== subscriberUID) {
@@ -78,15 +89,17 @@
 
                     if (candles.length) {
                         this._updateLastTime(candles);
-                        candles.forEach(onRealtimeCallback);
+                        CandlesService
+                            .filterCandlesByTime(candles, from, to)
+                            .forEach(onRealtimeCallback);
                     }
                 };
 
                 timeLine.timeout(() => {
                     CandlesService._getAndHandleCandles(
                         symbolInfo,
-                        this._lastTime,
-                        Date.now(),
+                        from,
+                        to,
                         resolution,
                         handleCandles
                     );
@@ -100,7 +113,15 @@
             }
 
             _updateLastTime(candles) {
-                this._lastTime = candles[candles.length - 1].time;
+                const lastTime = candles[candles.length - 1].time;
+                if (this._lastTime >= lastTime) {
+                    return false;
+                }
+                this._lastTime = lastTime;
+            }
+
+            static filterCandlesByTime(candles = [], from, to) {
+                return candles.filter(({ time }) => time <= to && time >= from);
             }
 
             static _getAndHandleCandles(symbolInfo, from, to, resolution, handleCandles, handleError = angular.noop) {
@@ -115,7 +136,7 @@
                     .catch(handleError);
             }
 
-            static _getCandles(symbolInfo, from, to = Date.now(), resolution) {
+            static _getCandles(symbolInfo, from, to, resolution) {
                 const amountId = symbolInfo._wavesData.amountAsset.id;
                 const priceId = symbolInfo._wavesData.priceAsset.id;
                 const interval = CandlesService._normalizeInterval(resolution);
