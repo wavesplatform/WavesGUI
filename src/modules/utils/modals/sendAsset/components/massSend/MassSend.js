@@ -195,6 +195,7 @@
                 const fee = this.state.massSend.fee;
                 const moneyHash = this.state.moneyHash;
                 this.hasFee = moneyHash[fee.asset.id] && moneyHash[fee.asset.id].gte(fee);
+                $scope.$digest();
             }
 
             /**
