@@ -8,7 +8,7 @@
       "BCH",
       "DASH"
     ],
-    "CAN_TRANSFER_TRANSACTION": true,
+    "CAN_TRANSFER_TRANSACTION": false,
     "CAN_MASS_TRANSFER_TRANSACTION": false,
     "CAN_CREATE_ALIAS_TRANSACTION": false,
     "CAN_ISSUE_TRANSACTION": false,
