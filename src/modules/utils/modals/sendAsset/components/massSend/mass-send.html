@@ -108,17 +108,15 @@
         <w-balance money="$ctrl.totalAmount"></w-balance>
     </div>
 
-    <div class="fee">
-        <div class="body basic-500">
-            <span w-i18n="modal.send.fee" params="{fee: $ctrl.tx.fee}"></span>
-        </div>
+    <div params="{fee: $ctrl.tx.fee}"
+         w-i18n="modal.send.fee"
+         class="fee row margin-1 basic-500">
     </div>
 
-
-    <div ng-if="!$ctrl.hasFee">
-        <div class="body basic-500">
-            <span w-i18n="modal.send.errors.fee" params="{fee: $ctrl.tx.fee}"></span>
-        </div>
+    <div ng-if="!$ctrl.hasFee"
+         params="{fee: $ctrl.tx.fee}"
+         w-i18n="modal.send.validationError.notEnoughFunds"
+         class="commission-error margin-2 footnote error-500">
     </div>
 
     <div class="margin-top-3">
