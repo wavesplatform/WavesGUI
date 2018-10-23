@@ -120,11 +120,7 @@
                     { name: '1hour', value: () => utils.moment().add().hour(1).getDate().getTime() },
                     { name: '1day', value: () => utils.moment().add().day(1).getDate().getTime() },
                     { name: '1week', value: () => utils.moment().add().week(1).getDate().getTime() },
-                    {
-                        name: '30day',
-                        value: () => utils.moment()
-                            .add().day(29)
-                    }
+                    { name: '30day', value: () => utils.moment().add().day(29) }
                 ];
 
                 this.expiration = this.expirationValues[this.expirationValues.length - 1].value;
