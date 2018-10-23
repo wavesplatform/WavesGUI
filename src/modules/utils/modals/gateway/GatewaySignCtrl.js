@@ -39,6 +39,10 @@
             /**
              * @type {boolean}
              */
+            isDesktop = WavesApp.isDesktop();
+            /**
+             * @type {boolean}
+             */
             hasError = false;
             /**
              * @type {string}
@@ -60,7 +64,7 @@
              * @type {string}
              * @private
              */
-            _successUrl = '';
+            successUrl = '';
             /**
              * @readonly
              * @type {boolean}
@@ -119,7 +123,7 @@
                                 const search = `?s=${signature}&p=${publicKey}&a=${user.address}&d=${data}`;
                                 const path = successPath || '';
                                 const url = `${referrer}/${path}${search}`;
-                                this._successUrl = GatewaySignCtrl._normalizeUrl(url);
+                                this.successUrl = GatewaySignCtrl._normalizeUrl(url);
                             });
                     })
                     .catch((e) => {
@@ -128,7 +132,7 @@
             }
 
             send() {
-                utils.redirect(this._successUrl);
+                utils.redirect(this.successUrl);
             }
 
             /**
@@ -200,3 +204,4 @@
 
     angular.module('app.utils').controller('GatewaySignCtrl', controller);
 })();
+

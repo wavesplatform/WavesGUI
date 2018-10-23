@@ -14,12 +14,14 @@
             <span w-i18n="modal.gatewaySign.description"></span>
         </div>
 
-        <!-- todo @vba - add isDesktop to Ctrl -->
-        <div ng-if="!$ctrl.isDesktop" class="content margin-2 body-3 basic-500 flex-caption">
+        <div ng-if="$ctrl.isDesktop" class="content margin-2 body-3 basic-500 flex-caption">
             <i class="icon-grey-warning"></i>
             <span>
                 <span w-i18n="modal.gatewaySign.descriptionDesktop1"></span>
-<!-- todo @vba this span must copy url--------> <span w-i18n="modal.gatewaySign.descriptionDesktop2" class="link body-3"></span>
+                <span w-i18n="modal.gatewaySign.descriptionDesktop2"
+                      class="link body-3"
+                      w-copy="$ctrl.successUrl"
+                ></span>
                 <span w-i18n="modal.gatewaySign.descriptionDesktop3"></span>
             </span>
         </div>
