@@ -422,15 +422,16 @@
             /**
              * @return {Promise<any>}
              */
-            updateScriptAccountData() {
-                return Promise.all([
-                    ds.fetch(`${ds.config.get('node')}/addresses/scriptInfo/${this.address}`),
-                    ds.api.assets.get(WavesApp.defaultAssets.WAVES)
-                ])
-                    .then(([response, waves]) => {
-                        this.extraFee = Money.fromCoins(response.extraFee, waves);
-                        this._hasScript = response.extraFee !== 0;
-                    });
+            async updateScriptAccountData() {
+                const waves = await ds.api.assets.get(WavesApp.defaultAssets.WAVES);
+                try {
+                    const response = await ds.fetch(`${ds.config.get('node')}/addresses/scriptInfo/${this.address}`);
+                    this.extraFee = Money.fromCoins(response.extraFee, waves);
+                    this._hasScript = response.extraFee !== 0;
+                } catch (e) {
+                    this._hasScript = !!this._hasScript;
+                    this.extraFee = this.extraFee || Money.fromCoins(0, waves);
+                }
             }
 
             /**
