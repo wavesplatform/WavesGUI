@@ -7,7 +7,7 @@
                 <w-step>
                     <w-tabs ng-model="$ctrl.activeTab">
                         <w-tab title-name="::'modal.script.setScript'" id="::'script'">
-                            <w-script-tx-form on-success="$ctrl.nextStep(tx)"
+                            <w-script-tx-form on-success="$ctrl.nextStep(signable)"
                                               state="$ctrl.activeState"></w-script-tx-form>
                         </w-tab>
                         <!--<w-tab title-name="::'modal.script.anyTx'" id="::'transaction'">-->
@@ -17,7 +17,7 @@
                     </w-tabs>
                 </w-step>
                 <w-step>
-                    <w-confirm-transaction tx="$ctrl.tx"
+                    <w-confirm-transaction signable="$ctrl.signable"
                                            on-click-back="$ctrl.onClickBack()"></w-confirm-transaction>
                 </w-step>
             </w-step-by-step>

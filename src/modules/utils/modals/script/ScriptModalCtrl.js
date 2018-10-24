@@ -26,8 +26,8 @@
                 this.step--;
             }
 
-            nextStep(tx) {
-                this.tx = tx;
+            nextStep(signable) {
+                this.signable = signable;
                 this.step++;
             }
 

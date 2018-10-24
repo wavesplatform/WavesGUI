@@ -13,7 +13,10 @@
 
             constructor(tx) {
                 super($scope);
-                this.tx = tx;
+                this.signable = ds.signature.getSignatureApi().makeSignable({
+                    type: tx.type,
+                    data: tx
+                });
             }
 
             back() {

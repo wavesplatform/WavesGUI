@@ -55,7 +55,10 @@
                     type: SIGN_TYPE.LEASE
                 });
 
-                this.tx = tx;
+                this.signable = ds.signature.getSignatureApi().makeSignable({
+                    type: tx.type,
+                    data: tx
+                });
                 this.step++;
             }
 

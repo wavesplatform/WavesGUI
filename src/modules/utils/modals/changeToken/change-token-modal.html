@@ -112,6 +112,7 @@
         </div>
     </w-step>
     <w-step>
-        <w-confirm-transaction tx="$ctrl.tx" on-click-back="$ctrl.step = $ctrl.step - 1"></w-confirm-transaction>
+        <w-confirm-transaction signable="$ctrl.signable"
+                               on-click-back="$ctrl.step = $ctrl.step - 1"></w-confirm-transaction>
     </w-step>
 </w-step-by-step>

@@ -96,7 +96,11 @@
 
             next() {
                 const tx = waves.node.transactions.createTransaction({ ...this.state.tx, type: SIGN_TYPE.SET_SCRIPT });
-                this.onSuccess({ tx });
+                const signable = ds.signature.getSignatureApi().makeSignable({
+                    type: tx.type,
+                    data: tx
+                });
+                this.onSuccess({ signable });
             }
 
             /**

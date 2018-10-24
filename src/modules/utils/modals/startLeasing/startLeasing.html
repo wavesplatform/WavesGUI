@@ -19,10 +19,10 @@
                 <div class="flex-row-title">
                     <div class="body-2 basic-900" w-i18n="modal.startLease.recipient"></div>
                     <a
-                        class="link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        ng-href="{{::$ctrl.nodeListLink}}"
+                            class="link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            ng-href="{{::$ctrl.nodeListLink}}"
                     >
                         <span w-i18n="modal.startLease.nodeListLink"></span>
                     </a>
@@ -68,6 +68,6 @@
         </form>
     </w-step>
     <w-step>
-        <w-confirm-transaction on-click-back="$ctrl.back()" tx="$ctrl.tx"></w-confirm-transaction>
+        <w-confirm-transaction on-click-back="$ctrl.back()" signable="$ctrl.signable"></w-confirm-transaction>
     </w-step>
 </w-step-by-step>
