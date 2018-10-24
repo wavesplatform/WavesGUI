@@ -266,7 +266,6 @@
         <w-sign-button
                 on-click="$ctrl.createTx()"
                 on-success="$ctrl.onSignTx(signable)"
-                signable="$ctrl.signable"
                 disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission) || ($ctrl.toBankMode && !$ctrl.termsAccepted)">
             <span w-i18n="button.continue"></span>
         </w-sign-button>
