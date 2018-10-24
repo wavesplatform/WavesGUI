@@ -263,12 +263,12 @@
     </div>
 
     <div class="margin-top-3">
-        <w-button ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending && !$ctrl.signInProgress"
-                  on-click="$ctrl.createTx()"
-                  disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission) || ($ctrl.toBankMode && !$ctrl.termsAccepted)"
-                  type="submit"
-                  class="big submit long">
+        <w-sign-button
+                on-click="$ctrl.createTx()"
+                on-success="$ctrl.onSignTx(signable)"
+                signable="$ctrl.signable"
+                disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission) || ($ctrl.toBankMode && !$ctrl.termsAccepted)">
             <span w-i18n="button.continue"></span>
-        </w-button>
+        </w-sign-button>
     </div>
 </form>

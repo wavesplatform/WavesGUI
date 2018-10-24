@@ -76,7 +76,7 @@
              * @param {string} search.n Gateaway application name
              * @param {string} search.r Gateaway referrer
              * @param {string} search.i Gateaway icon path
-             * @param {string} search.d Gateaway data for sign
+             * @param {string} search.d Gateaway data for signable
              * @param {string} search.s Gateaway path for success auth
              * @param {string} search.debug Gateaway show errors
              */

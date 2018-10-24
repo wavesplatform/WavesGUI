@@ -7,6 +7,7 @@
     };
 
     const { Money } = require('@waves/data-entities');
+    const ds = require('data-service');
 
     const BANK_RECIPIENT = '3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us';
     const MIN_TOKEN_COUNT = 100;
@@ -272,13 +273,22 @@
             createTx() {
                 const toGateway = this.outerSendMode && this.gatewayDetails;
 
-                const tx = {
+                const tx = waves.node.transactions.createTransaction({
                     ...this.tx,
                     recipient: toGateway ? this.gatewayDetails.address : this.tx.recipient,
                     attachment: toGateway ? this.gatewayDetails.attachment : this.tx.attachment
-                };
+                });
 
-                this.onContinue({ tx });
+                const signable = ds.signature.getSignatureApi().makeSignable({
+                    type: tx.type,
+                    data: tx
+                });
+
+                return signable;
+            }
+
+            onSignTx(signable) {
+                this.onContinue({ signable });
             }
 
             fillMax() {

@@ -68,16 +68,11 @@
                 this.deviceSignFail = false;
                 /**
                  * @type {Signable}
-                 * @private
                  */
-                this._signable = null;
-                // /**
-                //  * @type {boolean}
-                //  */
-                // this.has2fa = null;
+                this.signable = null;
 
-                this.observe('tx', this._onChangeTx);
-                this.observe('showValidationErrors', this._showErrors);
+                this.observe('signable', this._onChangeSignable);
+                this.observe(['showValidationErrors', 'signable'], this._showErrors);
             }
 
             /**
@@ -91,12 +86,12 @@
              * @return {Promise<string>}
              */
             getTxId() {
-                return this._signable.getId();
+                return this.signable.getId();
             }
 
             signTx() {
                 this.loadingSignFromDevice = this.canSignFromDevice();
-                return this._signable.getDataForApi();
+                return this.signable.getDataForApi();
             }
 
             getTxData() {
@@ -134,9 +129,8 @@
 
             confirm() {
                 return this.sendTransaction().then(tx => {
-                    this.tx.id = tx.id;
 
-                    if (this._isIssueTx()) {
+                    if (ConfirmTransaction._isIssueTx(tx)) {
                         this._saveIssueAsset(tx);
                     }
 
@@ -176,10 +170,6 @@
                 });
             }
 
-            _isIssueTx() {
-                return this.tx.type === SIGN_TYPE.ISSUE;
-            }
-
             _saveIssueAsset(tx) {
                 waves.node.height().then(height => {
                     ds.assetStorage.save(tx.id, new Asset({
@@ -194,32 +184,38 @@
             /**
              * @private
              */
-            _onChangeTx() {
-                const timestamp = ds.utils.normalizeTime(this.tx.timestamp || Date.now());
-                const data = { ...this.tx, timestamp };
-                const type = this.tx.type;
-
-                this._signable = ds.signature.getSignatureApi()
-                    .makeSignable({ type, data });
-
-                this._signable.getId().then(id => {
-                    this.txId = id;
-                    $scope.$digest();
-                });
+            _onChangeSignable() {
+                if (this.signable) {
+                    this.tx = this.signable.getTxData();
+                    this.signable.getId().then(id => {
+                        this.txId = id;
+                        $scope.$digest();
+                    });
+                } else {
+                    this.txId = '';
+                    this.tx = null;
+                }
             }
 
             /**
              * @private
              */
             _showErrors() {
+                if (!this.signable) {
+                    return null;
+                }
+
                 let promise;
+
+                const { type, amount, fee } = this.signable.getTxData();
+
                 switch (true) {
-                    case (this.tx.type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP):
-                        promise = this._validateAmount(this.tx.fee);
+                    case (type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP):
+                        promise = this._validateAmount(fee);
                         break;
-                    case (this.tx.transactionType === TRANSACTION_TYPE_NUMBER.TRANSFER && this.showValidationErrors):
+                    case (type === TRANSACTION_TYPE_NUMBER.TRANSFER && this.showValidationErrors):
                         promise = Promise.all([
-                            this._validateAmount(this.tx.amount),
+                            this._validateAmount(amount),
                             this._validateAddress()
                         ]).then(([errors1, errors2]) => [...errors1, ...errors2]);
                         break;
@@ -238,8 +234,9 @@
              * @private
              */
             _validateAddress() {
+                const { recipient } = this.signable.getTxData();
                 const errors = [];
-                return utils.resolve(utils.when(validateService.wavesAddress(this.tx.recipient)))
+                return utils.resolve(utils.when(validateService.wavesAddress(recipient)))
                     .then(({ state }) => {
                         if (!state) {
                             errors.push({
@@ -257,8 +254,9 @@
              */
             _validateAmount(amount) {
                 const errors = [];
+                const { type } = this.signable.getTxData();
 
-                if (this.tx.type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP) {
+                if (type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP) {
                     return waves.node.assets.userBalances()
                         .then((list) => list.map(({ available }) => available))
                         .then((list) => {
@@ -277,6 +275,10 @@
                 } else {
                     return Promise.resolve([]);
                 }
+            }
+
+            static _isIssueTx(tx) {
+                return tx.type === SIGN_TYPE.ISSUE;
             }
 
             static toBigNumber(amount) {
@@ -302,7 +304,7 @@
 
     angular.module('app.ui').component('wConfirmTransaction', {
         bindings: {
-            tx: '<',
+            signable: '<',
             onClickBack: '&',
             onTxSent: '&',
             noBackButton: '<',

@@ -7,13 +7,13 @@
                     <w-tabs ng-model="$ctrl.tab">
                         <w-tab title-name="::'modal.send.sendTitle'" id="::'singleSend'">
                             <w-single-send state="$ctrl.state"
-                                           on-continue="$ctrl.nextStep(tx)">
+                                           on-continue="$ctrl.nextStep(signable)">
                                 <ng-include src="::$ctrl.headerPath"></ng-include>
                             </w-single-send>
                         </w-tab>
                         <w-tab title-name="::'modal.send.massSendTitle'" id="::'massSend'">
                             <w-mass-send state="$ctrl.state"
-                                         on-continue="$ctrl.nextStep(tx)">
+                                         on-continue="$ctrl.nextStep(signable)">
                                 <ng-include src="::$ctrl.headerPath"></ng-include>
                             </w-mass-send>
                         </w-tab>
@@ -27,7 +27,7 @@
                                            referrer="$ctrl.referrer"
                                            warning="$ctrl.state.warning || ''"
                                            show-validation-errors="$ctrl.strict"
-                                           tx="$ctrl.txInfo"></w-confirm-transaction>
+                                           signable="$ctrl.signable"></w-confirm-transaction>
 
                     <w-confirm-gateway-transaction ng-if="$ctrl.outerSendMode"
                                                    on-click-back="$ctrl.back()"

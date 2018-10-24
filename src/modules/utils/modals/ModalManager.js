@@ -80,7 +80,7 @@
 
             showSignLedger(options) {
                 return this._getModal({
-                    id: 'sign-ledger',
+                    id: 'signable-ledger',
                     contentUrl: 'modules/utils/modals/signLedger/signLedger.html',
                     controller: 'SignLedgerCtrl',
                     locals: {
@@ -107,7 +107,7 @@
 
             showGatewaySign(search) {
                 return this._getModal({
-                    id: 'gateway-sign-in',
+                    id: 'gateway-signable-in',
                     title: '{{$ctrl.titleLiteral}}',
                     contentUrl: 'modules/utils/modals/gateway/gatewaySign.html',
                     controller: 'GatewaySignCtrl',
