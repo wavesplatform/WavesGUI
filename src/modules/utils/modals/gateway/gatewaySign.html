@@ -3,6 +3,7 @@
         <div class="text-center gateway-icon" ng-if="$ctrl.imageSrc !== ''">
             <img src="{{::$ctrl.imageSrc}}"/>
         </div>
+        <div class="text-center icon-connected" ng-if="$ctrl.imageSrc == ''"></div>
 
         <h3 class="text-center margin-2 basic-700">
             <span w-i18n="modal.gatewaySign.headline" params="{url: $ctrl.referrer, name: $ctrl.name}"></span>
