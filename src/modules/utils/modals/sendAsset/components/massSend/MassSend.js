@@ -86,6 +86,10 @@
                  * @type {boolean}
                  */
                 this.importError = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.hasFee = false;
             }
 
             $postLink() {
@@ -113,6 +117,7 @@
                     this.receive(signal, this._calculateTotalAmount, this);
                     this.receive(signal, this._validate, this);
                     this.receive(signal, this._calculateFee, this);
+                    this.receive(utils.observe(this.state.massSend, 'fee'), this._currentHasFee, this);
 
                     this.transfers = this.tx.transfers.slice();
                     signal.dispatch();
@@ -177,6 +182,20 @@
                         };
                     });
                 }
+            }
+
+            /**
+             * @private
+             */
+            _currentHasFee() {
+                if (!this.state || !this.state.massSend || !this.state.massSend.fee) {
+                    return null;
+                }
+
+                const fee = this.state.massSend.fee;
+                const moneyHash = this.state.moneyHash;
+                this.hasFee = moneyHash[fee.asset.id] && moneyHash[fee.asset.id].gte(fee);
+                $scope.$digest();
             }
 
             /**
