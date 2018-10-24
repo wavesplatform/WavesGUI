@@ -162,6 +162,7 @@
                              fill-max="$ctrl.fillMax()"
                              fee="$ctrl.tx.fee"
                              input-classes="big"
+                             disabled="$ctrl.toBankMode && (!$ctrl.isVerified || !$ctrl.termsAccepted)"
                              amount="$ctrl.mirror">
             </w-balance-input>
 
@@ -279,11 +280,11 @@
         <a href="{{$ctrl.digiLiraUserLink}}"
            target="_blank"
            ng-if="$ctrl.toBankMode && $ctrl.isLira"
-           class="big submit long">
-            <span w-i18n="modal.receive.card.continue"></span>
+           class="fake-button long">
+            <span class="fake-button-content big submit long" w-i18n="button.continue"></span>
         </a>
-        
-        <w-button ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending && !$ctrl.signInProgress"
+
+        <w-button ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending && !$ctrl.signInProgress && !($ctrl.toBankMode && $ctrl.isLira)"
                   on-click="$ctrl.createTx()"
                   disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission) || ($ctrl.toBankMode && !$ctrl.termsAccepted)"
                   type="submit"
