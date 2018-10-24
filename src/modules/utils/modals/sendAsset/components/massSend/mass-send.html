@@ -115,7 +115,7 @@
     </div>
 
     <div class="margin-top-3">
-        <w-button disabled="$ctrl.massSend.$invalid || !$ctrl.tx.transfers.length || !$ctrl.hasFee"
+        <w-button disabled="!$ctrl.isValidAmounts || !$ctrl.tx.transfers.length || !$ctrl.hasFee"
                   class="submit long big"
                   on-click="$ctrl.nextStep()">
             <span w-i18n="button.continue"></span>
