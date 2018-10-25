@@ -100,6 +100,33 @@
             },
 
             /**
+             * @name app.utils#createQS
+             * @param {object} obj
+             * @return {string}
+             */
+            createQS(obj) {
+                /* eslint-disable */
+                const customSerialize = v => {
+                    switch (true) {
+                        case v instanceof Date:
+                            return v.getTime();
+                        default:
+                            return v;
+                    }
+                };
+                const createKeyValue = (key, v) => `${key}=${customSerialize(v)}`;
+                const createArrayKeyValue = (key, values) => values.map(v => createKeyValue(key, v)).join('&');
+                const qs = Object.entries(obj)
+                    .filter(([_, value]) => value !== undefined)
+                    .map(([key, value]) => {
+                        return Array.isArray(value) ? createArrayKeyValue(key, value) : createKeyValue(key, value);
+                    })
+                    .join('&');
+                return qs === '' ? qs : `?${qs}`;
+                /* eslint-enable */
+            },
+
+            /**
              * @name app.utils#observe
              * @param {object} target
              * @param {string|string[]} keys

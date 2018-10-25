@@ -63,69 +63,34 @@
                  */
                 this.loadingSignFromDevice = false;
                 /**
-                 * @type {boolean}
-                 */
-                this.deviceSignFail = false;
-                /**
                  * @type {Signable}
                  */
                 this.signable = null;
+                /**
+                 * @type {boolean}
+                 */
+                this.advancedMode = false;
+                /**
+                 * @type {string}
+                 */
+                this.activeTab = 'details';
+                /**
+                 * @type {boolean}
+                 */
+                this.canCreateLink = false;
+                /**
+                 * @type {string}
+                 */
+                this.exportLink = WavesApp.targetOrigin;
+
+                this.syncSettings({
+                    advancedMode: 'advancedMode'
+                });
 
                 this.observe('signable', this._onChangeSignable);
                 this.observe(['showValidationErrors', 'signable'], this._showErrors);
             }
 
-            /**
-             * @return {boolean}
-             */
-            canSignFromDevice() {
-                return this.type && this.type !== 'seed' || false;
-            }
-
-            /**
-             * @return {Promise<string>}
-             */
-            getTxId() {
-                return this.signable.getId();
-            }
-
-            signTx() {
-                this.loadingSignFromDevice = this.canSignFromDevice();
-                return this.signable.getDataForApi();
-            }
-
-            getTxData() {
-                this.getTxId()
-                    .then(() => {
-                        this.deviceSignFail = false;
-                        this.loadingSignFromDevice = this.canSignFromDevice();
-                        if (this.errors.length && this.loadingSignFromDevice) {
-                            throw new Error('No money');
-                        }
-                        $scope.$digest();
-                        return this.signTx();
-                    })
-                    .then(preparedTx => {
-                        this.preparedTx = preparedTx;
-
-                        if (this.canSignFromDevice() && !this.wasDestroed) {
-                            this.confirm();
-                        }
-                    })
-                    .catch(() => {
-                        this.loadingSignFromDevice = false;
-                        this.deviceSignFail = true;
-                        $scope.$digest();
-                    });
-            }
-
-            trySign() {
-                return this.getTxData();
-            }
-
-            $postLink() {
-                this.trySign();
-            }
 
             confirm() {
                 return this.sendTransaction().then(tx => {
@@ -146,30 +111,49 @@
             }
 
             showTxInfo() {
-                $mdDialog.hide();
-                setTimeout(() => { // Timeout for routing (if modal has route)
-                    modalManager.showTransactionInfo(this.tx.id);
-                }, 1000);
+                this.getTxId().then(id => {
+                    $mdDialog.hide();
+                    setTimeout(() => { // Timeout for routing (if modal has route)
+                        modalManager.showTransactionInfo(id);
+                    }, 1000);
+                });
             }
 
             sendTransaction() {
                 const amount = ConfirmTransaction.toBigNumber(this.tx.amount);
 
-                return ds.broadcast(this.preparedTx).then((data) => {
-                    analytics.push(
-                        'Transaction', `Transaction.${this.tx.type}.${WavesApp.type}`,
-                        `Transaction.${this.tx.type}.${WavesApp.type}.Success`, amount
-                    );
-                    return data;
-                }, (error) => {
-                    analytics.push(
-                        'Transaction', `Transaction.${this.tx.type}.${WavesApp.type}`,
-                        `Transaction.${this.tx.type}.${WavesApp.type}.Error`, amount
-                    );
-                    return Promise.reject(error);
+                return this.signable.getDataForApi()
+                    .then(ds.broadcast)
+                    .then((data) => {
+                        analytics.push(
+                            'Transaction', `Transaction.${this.tx.type}.${WavesApp.type}`,
+                            `Transaction.${this.tx.type}.${WavesApp.type}.Success`, amount
+                        );
+                        return data;
+                    }, (error) => {
+                        analytics.push(
+                            'Transaction', `Transaction.${this.tx.type}.${WavesApp.type}`,
+                            `Transaction.${this.tx.type}.${WavesApp.type}.Error`, amount
+                        );
+                        return Promise.reject(error);
+                    });
+            }
+
+            /**
+             * @private
+             */
+            _initExportLink() {
+                this.signable.getDataForApi().then(data => {
+                    this.exportLink = `${WavesApp.targetOrigin}/#tx${utils.createQS(data)}`;
+                    this.canCreateLink = this.exportLink.length <= WavesApp.MAX_URL_LENGTH;
+                    $scope.$apply();
                 });
             }
 
+            /**
+             * @param tx
+             * @private
+             */
             _saveIssueAsset(tx) {
                 waves.node.height().then(height => {
                     ds.assetStorage.save(tx.id, new Asset({
@@ -186,6 +170,9 @@
              */
             _onChangeSignable() {
                 if (this.signable) {
+                    if (this.advancedMode) {
+                        this._initExportLink();
+                    }
                     this.tx = this.signable.getTxData();
                     this.signable.getId().then(id => {
                         this.txId = id;
