@@ -231,6 +231,7 @@
             }
 
             $postLink() {
+
                 this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
 
                 this.receiveOnce(utils.observe(this.state, 'moneyHash'), () => {
@@ -258,6 +259,8 @@
                     if (this.tx.amount.getTokens().gt(0) || this.tx.recipient) {
                         this.send.$setSubmitted(true);
                     }
+
+                    this.postLinkAlreadyCall = true;
                 });
             }
 
@@ -382,6 +385,10 @@
                     this.termsIsPending = false;
                     this.minAmount = this.state.moneyHash[this.assetId].cloneWithTokens('0');
                     this.maxAmount = this.moneyHash[this.assetId];
+
+                    if (this.tx.amount.getTokens().gt(0) || this.tx.recipient) {
+                        this.send.$setSubmitted(true);
+                    }
                 }
             }
 
