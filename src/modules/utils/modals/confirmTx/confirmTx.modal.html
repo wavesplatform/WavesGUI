@@ -1,4 +1,10 @@
-<div class="confirm-tx">
-    <div class="btn icon-close" w-modal-close></div>
-    <w-confirm-transaction on-click-back="$ctrl.back()" tx="$ctrl.tx"></w-confirm-transaction>
-</div>
+<md-dialog w-i18n-ns="app.utils" aria-label="modal" class="tx-modal">
+    <md-dialog-content>
+        <div class="modal-content">
+            <div class="btn icon-close ng-scope" w-modal-close></div>
+            <div class="confirm-tx">
+                <w-confirm-transaction on-click-back="$ctrl.back()" tx="$ctrl.tx"></w-confirm-transaction>
+            </div>
+        </div>
+    </md-dialog-content>
+</md-dialog>
