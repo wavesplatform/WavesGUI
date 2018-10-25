@@ -15,11 +15,16 @@
     <div class="row">
         <div class="flex-row-title">
             <div class="body-2" w-i18n="modal.send.recipient"></div>
-            <div ng-click="$ctrl.toBankMode = !$ctrl.toBankMode"
-                 ng-if="$ctrl.hasSendToBank"
+            <div ng-if="$ctrl.hasSendToBank"
                  class="toggle-mode-container">
-                <span class="link" ng-if="!$ctrl.toBankMode" w-i18n="modal.send.toBank"></span>
-                <span class="link" ng-if="$ctrl.toBankMode" w-i18n="modal.send.toWaves"></span>
+                <span class="link"
+                      ng-click="$ctrl.toBankMode = !$ctrl.toBankMode"
+                      ng-if="!$ctrl.toBankMode"
+                      w-i18n="modal.send.toBank"></span>
+                <span class="link"
+                      ng-click="$ctrl.toBankMode = !$ctrl.toBankMode"
+                      ng-if="$ctrl.toBankMode"
+                      w-i18n="modal.send.toWaves"></span>
             </div>
         </div>
 
