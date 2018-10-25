@@ -1,8 +1,9 @@
 <div class="gateway">
     <div ng-if="!$ctrl.hasError">
-        <div class="text-center gateway-icon" ng-if="$ctrl.imageSrc !== ''">
-            <img src="{{::$ctrl.imageSrc}}"/>
+        <div class="text-center gateway-icon">
+            <img ng-if="$ctrl.imageSrc !== ''" src="{{::$ctrl.imageSrc}}"/>
         </div>
+        <div ng-if="$ctrl.imageSrc == ''" class="text-center icon-connected"></div>
 
         <h3 class="text-center margin-2 basic-700">
             <span w-i18n="modal.gatewaySign.headline" params="{url: $ctrl.referrer, name: $ctrl.name}"></span>
@@ -10,7 +11,19 @@
 
         <div class="content margin-2 caption-1 basic-500 flex-caption">
             <i class="icon-lock"></i>
-            <span w-i18n="modal.gatewaySign.description"></span>
+            <span params="{name: $ctrl.name}" w-i18n="modal.gatewaySign.description"></span>
+        </div>
+
+        <div ng-if="$ctrl.isDesktop" class="content margin-2 body-3 basic-500 flex-caption">
+            <i class="icon-grey-warning"></i>
+            <span>
+                <span w-i18n="modal.gatewaySign.descriptionDesktop1"></span>
+                <span w-i18n="modal.gatewaySign.descriptionDesktop2"
+                      class="link body-3"
+                      w-copy="$ctrl.successUrl"
+                ></span>
+                <span w-i18n="modal.gatewaySign.descriptionDesktop3"></span>
+            </span>
         </div>
         <div class="buttons-wrapper" ng-if="$ctrl.signPending">
             <div ng-if="!$ctrl.isSeed" w-i18n="modal.gatewaySign.signDevice{{::$ctrl.userType}}"></div>

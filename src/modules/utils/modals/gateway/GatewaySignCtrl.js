@@ -51,15 +51,15 @@
             /**
              * @type {boolean}
              */
+            isDesktop = WavesApp.isDesktop();
+            /**
+             * @type {boolean}
+             */
             hasError = false;
             /**
              * @type {string}
              */
             imageSrc = '';
-            /**
-             * @type {string}
-             */
-            successPath = '';
             /**
              * @type {string}
              */
@@ -72,7 +72,7 @@
              * @type {string}
              * @private
              */
-            _successUrl = '';
+            successUrl = '';
             /**
              * @readonly
              * @type {boolean}
@@ -130,31 +130,6 @@
                     }).finally(() => $scope.$apply());
             }
 
-            /**
-             * @param {string} referer
-             * @return {string}
-             * @private
-             */
-            static _getDomain(referer) {
-                const url = new URL(referer);
-                if (url.protocol !== 'https:') {
-                    throw new Error('Protocol must be "https:"');
-                }
-                return url.hostname;
-            }
-
-            /**
-             * @param {string} urlString
-             * @return {string}
-             * @private
-             */
-            static _normalizeUrl(urlString) {
-                const url = new URL(urlString);
-                const protocol = `${url.protocol}//`;
-                return protocol + (`${url.host}/${url.pathname}/${url.search}${url.hash}`.replace(/\/+/g, '/'))
-                    .replace(/\/$/, '');
-            }
-
             sign() {
                 this.createUrl()
                     .catch((e) => {
@@ -181,12 +156,12 @@
                 const sign = this.signAuth(adapter, signData);
 
                 return Promise.all([sign, adapter.getPublicKey()]).then(([signature, publicKey]) => {
-                    const search = `?s=${signature}&p=${publicKey}&a=${user.address}&d=${data}`;
+                    const search = `?s=${signature}&p=${publicKey}&a=${user.address}`;
                     const path = successPath || '';
                     const url = `${referrer}/${path}${search}`;
                     this.signPending = false;
                     this.signAdapterError = false;
-                    this._successUrl = GatewaySignCtrl._normalizeUrl(url);
+                    this.successUrl = GatewaySignCtrl._normalizeUrl(url);
                 }).catch(e => {
                     this.signPending = false;
 
@@ -199,7 +174,7 @@
             }
 
             send() {
-                utils.redirect(this._successUrl);
+                utils.redirect(this.successUrl);
             }
 
             /**
@@ -235,6 +210,31 @@
             _sendError(message) {
                 this.hasError = true;
                 this.errorMessage = message;
+            }
+
+            /**
+             * @param {string} referer
+             * @return {string}
+             * @private
+             */
+            static _getDomain(referer) {
+                const url = new URL(referer);
+                if (url.protocol !== 'https:') {
+                    throw new Error('Protocol must be "https:"');
+                }
+                return url.hostname;
+            }
+
+            /**
+             * @param {string} urlString
+             * @return {string}
+             * @private
+             */
+            static _normalizeUrl(urlString) {
+                const url = new URL(urlString);
+                const protocol = `${url.protocol}//`;
+                return protocol + (`${url.host}/${url.pathname}/${url.search}${url.hash}`.replace(/\/+/g, '/'))
+                    .replace(/\/$/, '');
             }
 
         }
