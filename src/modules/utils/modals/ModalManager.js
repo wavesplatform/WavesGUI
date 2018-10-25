@@ -329,6 +329,15 @@
                 });
             }
 
+            showAnyTx(tx) {
+                return this._getModal({
+                    id: 'any-tx-modal',
+                    controller: 'AnyTxModalCtrl',
+                    contentUrl: 'modules/utils/modals/anyTxModal/any-tx-modal.html',
+                    locals: tx
+                });
+            }
+
             showStartLeasing() {
                 return this._getModal({
                     id: 'start-leasing',

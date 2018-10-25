@@ -34,7 +34,7 @@
                         <span w-i18n="confirmTransaction.back"></span>
                     </w-button>
                     <w-button class="big submit"
-                              disabled="$ctrl.errors.length > 0 || !$ctrl.txId || !$ctrl.preparedTx"
+                              disabled="$ctrl.errors.length > 0 || !$ctrl.txId"
                               ng-class="{long: $ctrl.noBackButton}"
                               w-next-step
                               on-click="$ctrl.confirm()">

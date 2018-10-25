@@ -288,7 +288,7 @@
             }
 
             onSignTx(signable) {
-                this.onContinue({ signable });
+                this.onContinue({ signable }); // TODO! Coinomat
             }
 
             fillMax() {

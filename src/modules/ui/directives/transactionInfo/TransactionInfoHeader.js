@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const controller = function () {
+    const controller = function (waves) {
 
         class TransactionInfoHeader {
 
@@ -22,7 +22,7 @@
                 if (!this.signable) {
                     throw new Error('Has no signable!');
                 }
-                const tx = this.signable.getTxData();
+                const tx = waves.node.transactions.createTransaction(this.signable.getTxData());
                 this.isScam = !!WavesApp.scam[tx.assetId];
                 this.typeName = tx.typeName;
             }
@@ -32,7 +32,7 @@
         return new TransactionInfoHeader();
     };
 
-    controller.$inject = [];
+    controller.$inject = ['waves'];
 
     angular.module('app.ui').component('wTransactionInfoHeader', {
         bindings: {

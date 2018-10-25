@@ -115,7 +115,7 @@
                     }
                 };
                 const createKeyValue = (key, v) => `${key}=${customSerialize(v)}`;
-                const createArrayKeyValue = (key, values) => values.map(v => createKeyValue(key, v)).join('&');
+                const createArrayKeyValue = (key, values) => values.map(v => createKeyValue(`${key}[]`, v)).join('&');
                 const qs = Object.entries(obj)
                     .filter(([_, value]) => value !== undefined)
                     .map(([key, value]) => {
@@ -214,12 +214,33 @@
                 const hashes = search.slice(search.indexOf('?') + 1).split('&').filter(Boolean);
                 const params = Object.create(null);
 
+                const normalizeValue = value => {
+                    const num = Number(value);
+                    return String(num) === value ? num : value;
+                };
+
+                const add = (name, value) => {
+                    if (value == null) {
+                        params[name] = true;
+                    } else {
+                        params[name] = normalizeValue(decodeURIComponent(value));
+                    }
+                };
+
+                const addArray = (name, value) => {
+                    const key = name.replace('[]', '');
+                    if (!params[key]) {
+                        params[key] = [];
+                    }
+                    params[key].push(normalizeValue(decodeURIComponent(value)));
+                };
+
                 hashes.forEach((hash) => {
                     const [key, val] = hash.split('=');
-                    if (val == null) {
-                        params[key] = true;
+                    if (key.includes('[]')) {
+                        addArray(key, val);
                     } else {
-                        params[key] = decodeURIComponent(val);
+                        add(key, val);
                     }
                 });
 

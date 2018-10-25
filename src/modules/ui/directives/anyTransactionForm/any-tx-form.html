@@ -7,7 +7,7 @@
                  placeholder="directives.anyTransaction.placeholder"
                  w-i18n-attr="placeholder"
                  w-validate
-                 w-validator-custom="{{$ctrl.isValid}}"
+                 w-validator-custom="{{$ctrl.isValidJSON}}"
                  name="script"
                  textarea></w-input>
 
@@ -27,7 +27,7 @@
         <span w-i18n="directives.anyTransaction.warning.body"></span>
     </div>
 
-    <span w-i18n="directives.anyTransaction.fee" params="$ctrl.state.tx"></span>
+    <span w-i18n="directives.anyTransaction.fee" params="{fee: $ctrl.fee}"></span>
 
     <w-button class="big long submit"
               disabled="anyTx.$invalid"

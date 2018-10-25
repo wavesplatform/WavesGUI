@@ -77,7 +77,8 @@
                     },
                     // '/receive': () => modalManager.showReceiveAsset(user), // TODO : decide on that
                     [Router.ROUTES.ACCOUNT]: () => modalManager.showAccountInfo(),
-                    [Router.ROUTES.GATEWAY_AUTH]: (params, search) => modalManager.showGatewaySign(search)
+                    [Router.ROUTES.GATEWAY_AUTH]: (params, search) => modalManager.showGatewaySign(search),
+                    [Router.ROUTES.ANY_TX]: (params, search) => modalManager.showAnyTx(search) // TODO! Any tx
                 };
             }
 
