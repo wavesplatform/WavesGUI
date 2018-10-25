@@ -39,6 +39,18 @@
             /**
              * @type {boolean}
              */
+            isSeed = false;
+            /**
+             * @type {boolean}
+             */
+            signAdapterError = false;
+            /**
+             * @type {boolean}
+             */
+            signPending = false;
+            /**
+             * @type {boolean}
+             */
             hasError = false;
             /**
              * @type {string}
@@ -67,6 +79,14 @@
              */
             debug = false;
             /**
+             * @type {Object}
+             */
+            search = null;
+            /**
+             * @type {string}
+             */
+            userType = null;
+            /**
              * @type {string}
              */
             titleLiteral = LOCALIZATION.title.normal;
@@ -82,9 +102,10 @@
              */
             constructor(search) {
                 super($scope);
-
+                this.search = search;
+                this.userType = user.userType;
                 this.debug = !!search.debug;
-
+                this.isSeed = user.userType === 'seed';
                 this.observe('hasError', (value) => {
                     if (value) {
                         this.titleLiteral = LOCALIZATION.title.error;
@@ -93,38 +114,88 @@
                     }
                 });
 
-                const adapter = ds.signature.getSignatureApi();
-
                 schema.parse(search)
                     .then((params) => {
-                        const { referrer, name, data, iconPath, successPath } = params;
-                        const prefix = 'WavesWalletAuthentication';
-                        const host = GatewaySignCtrl._getDomain(referrer);
-
-                        const signable = adapter.makeSignable({
-                            type: SIGN_TYPE.AUTH,
-                            data: { prefix, host, data }
-                        });
-
+                        this.urlParams = params;
+                        const { referrer, name, iconPath } = params;
                         this.referrer = referrer;
                         this.name = name;
 
                         this._setImageUrl(referrer, iconPath);
 
-                        return Promise.all([
-                            signable.getSignature(),
-                            adapter.getPublicKey()
-                        ])
-                            .then(([signature, publicKey]) => {
-                                const search = `?s=${signature}&p=${publicKey}&a=${user.address}&d=${data}`;
-                                const path = successPath || '';
-                                const url = `${referrer}/${path}${search}`;
-                                this._successUrl = GatewaySignCtrl._normalizeUrl(url);
-                            });
-                    })
+                        return this.createUrl();
+                    }).catch((e) => {
+                        this._sendError(e.message || e);
+                        this.signPending = false;
+                    }).finally(() => $scope.$apply());
+            }
+
+            /**
+             * @param {string} referer
+             * @return {string}
+             * @private
+             */
+            static _getDomain(referer) {
+                const url = new URL(referer);
+                if (url.protocol !== 'https:') {
+                    throw new Error('Protocol must be "https:"');
+                }
+                return url.hostname;
+            }
+
+            /**
+             * @param {string} urlString
+             * @return {string}
+             * @private
+             */
+            static _normalizeUrl(urlString) {
+                const url = new URL(urlString);
+                const protocol = `${url.protocol}//`;
+                return protocol + (`${url.host}/${url.pathname}/${url.search}${url.hash}`.replace(/\/+/g, '/'))
+                    .replace(/\/$/, '');
+            }
+
+            sign() {
+                this.createUrl()
                     .catch((e) => {
                         this._sendError(e.message || e);
-                    });
+                        this.signPending = false;
+                    }).finally(() => $scope.$apply());
+            }
+
+            signAuth(adapter, data) {
+                this.signPending = true;
+                const signable = adapter.makeSignable(data);
+                return signable.getSignature();
+            }
+
+            createUrl() {
+                const { referrer, data, successPath } = this.urlParams;
+                const prefix = 'WavesWalletAuthentication';
+                const host = GatewaySignCtrl._getDomain(referrer);
+                const signData = {
+                    type: SIGN_TYPE.AUTH,
+                    data: { prefix, host, data }
+                };
+                const adapter = ds.signature.getSignatureApi();
+                const sign = this.signAuth(adapter, signData);
+
+                return Promise.all([sign, adapter.getPublicKey()]).then(([signature, publicKey]) => {
+                    const search = `?s=${signature}&p=${publicKey}&a=${user.address}&d=${data}`;
+                    const path = successPath || '';
+                    const url = `${referrer}/${path}${search}`;
+                    this.signPending = false;
+                    this.signAdapterError = false;
+                    this._successUrl = GatewaySignCtrl._normalizeUrl(url);
+                }).catch(e => {
+                    this.signPending = false;
+
+                    if (this.isSeed) {
+                        return Promise.reject(e);
+                    }
+
+                    this.signAdapterError = true;
+                });
             }
 
             send() {
@@ -164,31 +235,6 @@
             _sendError(message) {
                 this.hasError = true;
                 this.errorMessage = message;
-            }
-
-            /**
-             * @param {string} referer
-             * @return {string}
-             * @private
-             */
-            static _getDomain(referer) {
-                const url = new URL(referer);
-                if (url.protocol !== 'https:') {
-                    throw new Error('Protocol must be "https:"');
-                }
-                return url.hostname;
-            }
-
-            /**
-             * @param {string} urlString
-             * @return {string}
-             * @private
-             */
-            static _normalizeUrl(urlString) {
-                const url = new URL(urlString);
-                const protocol = `${url.protocol}//`;
-                return protocol + (`${url.host}/${url.pathname}/${url.search}${url.hash}`.replace(/\/+/g, '/'))
-                    .replace(/\/$/, '');
             }
 
         }

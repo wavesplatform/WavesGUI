@@ -12,13 +12,20 @@
             <i class="icon-lock"></i>
             <span w-i18n="modal.gatewaySign.description"></span>
         </div>
-
-        <div class="buttons-wrapper">
+        <div class="buttons-wrapper" ng-if="$ctrl.signPending">
+            <div ng-if="!$ctrl.isSeed" w-i18n="modal.gatewaySign.signDevice{{::$ctrl.userType}}"></div>
+            <w-loader ></w-loader>
+        </div>
+        <div class="buttons-wrapper" ng-if="$ctrl.isSeed || !$ctrl.signPending">
+            <div ng-if="$ctrl.signAdapterError" w-i18n="modal.gatewaySign.notConfirmed"></div>
             <w-button class="big" w-modal-close>
                 <span w-i18n="modal.gatewaySign.cancel"></span>
             </w-button>
-            <w-button class="big submit" w-modal-close on-click="$ctrl.send()">
+            <w-button ng-if="!$ctrl.signAdapterError" class="big submit" w-modal-close on-click="$ctrl.send()">
                 <span w-i18n="modal.gatewaySign.continue"></span>
+            </w-button>
+            <w-button ng-if="$ctrl.signAdapterError" class="big submit" w-modal-close on-click="$ctrl.sign()">
+                <span w-i18n="modal.gatewaySign.retrySign"></span>
             </w-button>
         </div>
     </div>
