@@ -43,7 +43,7 @@
                            class="multiline multiline-error-input-padding">
 
                 <span w-i18n="modal.send.errors.max"
-                      ng-if="!$ctrl.isValidAmounts"></span>
+                      ng-if="!$ctrl.isValidAmounts && $ctrl.tx.transfers.length"></span>
                 <span ng-if="$ctrl.transfers.length && !$ctrl.tx.transfers.length"
                       w-i18n="modal.send.errors.allAddressesInvalid"></span>
                 <span ng-if="$ctrl.errors.length" w-i18n="modal.send.massSend.errors.invalidAddress" class="error-list-row"></span>
