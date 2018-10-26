@@ -104,7 +104,7 @@ export function getAssetsHashFromTx(transaction: T_API_TX, hash = Object.create(
             break;
         case TRANSACTION_TYPE_NUMBER.TRANSFER:
             hash[normalizeAssetId(transaction.assetId)] = true;
-            hash[normalizeAssetId(transaction.feeAsset)] = true;
+            hash[normalizeAssetId(transaction.feeAssetId)] = true;
             break;
         case TRANSACTION_TYPE_NUMBER.EXCHANGE:
             hash[normalizeAssetId(transaction.order1.assetPair.amountAsset)] = true;
@@ -117,7 +117,7 @@ export function getAssetsHashFromTx(transaction: T_API_TX, hash = Object.create(
 export function remapOldTransfer(tx: txApi.IOldTransferTx): txApi.ITransfer {
     const type = TRANSACTION_TYPE_NUMBER.TRANSFER;
     const assetId = WAVES_ID;
-    return { ...tx, type, assetId, attachment: '', feeAsset: WAVES_ID };
+    return { ...tx, type, assetId, attachment: '', feeAssetId: WAVES_ID };
 }
 
 export function parseIssueTx(tx: txApi.IIssue, assetsHash: IHash<Asset>, isUTX: boolean): IIssue {
@@ -137,7 +137,7 @@ export function parseTransferTx(tx: txApi.ITransfer, assetsHash: IHash<Asset>, i
     const rawAttachment = tx.attachment;
     const recipient = normalizeRecipient(tx.recipient);
     const amount = new Money(tx.amount, assetsHash[normalizeAssetId(tx.assetId)]);
-    const fee = new Money(tx.fee, assetsHash[normalizeAssetId(tx.feeAsset)]);
+    const fee = new Money(tx.fee, assetsHash[normalizeAssetId(tx.feeAssetId)]);
     const assetId = normalizeAssetId(tx.assetId);
     return { ...tx, amount, fee, assetId, isUTX, attachment, rawAttachment, recipient };
 }

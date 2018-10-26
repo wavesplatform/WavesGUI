@@ -38,7 +38,7 @@
                 if (!this.signable) {
                     throw new Error('Has no signable!');
                 }
-                const transaction = this.signable.getTxData();
+                const transaction = waves.node.transactions.createTransaction(this.signable.getTxData());
                 this.transaction = transaction;
 
                 this.signable.getId().then(id => {

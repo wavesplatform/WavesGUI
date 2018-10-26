@@ -69,7 +69,7 @@ export module txApi {
         assetId: string;
         attachment: string;
         fee: string;
-        feeAsset: string;
+        feeAssetId: string;
         recipient: string;
     }
 
@@ -202,7 +202,7 @@ export interface ITransfer extends IBaseTransaction {
     attachment: string;
     rawAttachment: string;
     fee: Money;
-    feeAsset: string;
+    feeAssetId: string;
     recipient: string;
 }
 

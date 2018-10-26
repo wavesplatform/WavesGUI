@@ -45,11 +45,6 @@
                  * @type {Array}
                  */
                 this.errors = [];
-
-                /**
-                 * @type {object}
-                 */
-                this.preparedTx = null;
                 /**
                  * @type {string}
                  */
@@ -111,7 +106,7 @@
             }
 
             showTxInfo() {
-                this.getTxId().then(id => {
+                this.signable.getId().then(id => {
                     $mdDialog.hide();
                     setTimeout(() => { // Timeout for routing (if modal has route)
                         modalManager.showTransactionInfo(id);
@@ -173,7 +168,7 @@
                     if (this.advancedMode) {
                         this._initExportLink();
                     }
-                    this.tx = this.signable.getTxData();
+                    this.tx = waves.node.transactions.createTransaction(this.signable.getTxData());
                     this.signable.getId().then(id => {
                         this.txId = id;
                         $scope.$digest();
