@@ -3,180 +3,26 @@
     'use strict';
 
     /**
-     * @param Base
-     * @param {Waves} waves
-     * @param $attrs
-     * @param {$mdDialog} $mdDialog
-     * @param {ModalManager} modalManager
-     * @param {User} user
+     * @param {typeof ConfirmTxService} ConfirmTxService
      * @param {$rootScope.Scope} $scope
+     * @param {validateService} validateService
      * @param {app.utils} utils
-     * @param {ValidateService} validateService
+     * @param {Waves} waves
      * @returns {ConfirmTransaction}
      */
-    const controller = function (Base, waves, $attrs, $mdDialog, modalManager, user, $scope, utils, validateService) {
+    const controller = function (ConfirmTxService, $scope, validateService, utils, waves, $attrs) {
 
-        const ds = require('data-service');
-        const { Asset } = require('@waves/data-entities');
         const { TRANSACTION_TYPE_NUMBER } = require('@waves/signature-adapter');
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
 
-        class ConfirmTransaction extends Base {
+
+        class ConfirmTransaction extends ConfirmTxService {
+
+            locale = $attrs.ns || 'app.ui';
 
             constructor() {
-                super();
-                /**
-                 * @type {function}
-                 */
-                this.onTxSent = null;
-                /**
-                 * @type {*|string}
-                 */
-                this.locale = $attrs.locale || 'app.ui';
-                /**
-                 * @type {number}
-                 */
-                this.step = 0;
-                /**
-                 * @type {boolean}
-                 */
-                this.showValidationErrors = false;
-                /**
-                 * @type {Array}
-                 */
-                this.errors = [];
-                /**
-                 * @type {string}
-                 */
-                this.txId = '';
-                /**
-                 * @type {string}
-                 */
-                this.type = user.userType;
-                /**
-                 * @type {boolean}
-                 */
-                this.loadingSignFromDevice = false;
-                /**
-                 * @type {Signable}
-                 */
-                this.signable = null;
-                /**
-                 * @type {boolean}
-                 */
-                this.advancedMode = false;
-                /**
-                 * @type {string}
-                 */
-                this.activeTab = 'details';
-                /**
-                 * @type {boolean}
-                 */
-                this.canCreateLink = false;
-                /**
-                 * @type {string}
-                 */
-                this.exportLink = WavesApp.targetOrigin;
+                super($scope);
 
-                this.syncSettings({
-                    advancedMode: 'advancedMode'
-                });
-
-                this.observe('signable', this._onChangeSignable);
                 this.observe(['showValidationErrors', 'signable'], this._showErrors);
-            }
-
-
-            confirm() {
-                return this.sendTransaction().then(tx => {
-
-                    if (ConfirmTransaction._isIssueTx(tx)) {
-                        this._saveIssueAsset(tx);
-                    }
-
-                    this.step++;
-                    this.onTxSent({ id: tx.id });
-                    $scope.$apply();
-                }).catch((e) => {
-                    this.loadingSignFromDevice = false;
-                    console.error(e);
-                    console.error('Transaction error!');
-                    $scope.$apply();
-                });
-            }
-
-            showTxInfo() {
-                this.signable.getId().then(id => {
-                    $mdDialog.hide();
-                    setTimeout(() => { // Timeout for routing (if modal has route)
-                        modalManager.showTransactionInfo(id);
-                    }, 1000);
-                });
-            }
-
-            sendTransaction() {
-                const amount = ConfirmTransaction.toBigNumber(this.tx.amount);
-
-                return this.signable.getDataForApi()
-                    .then(ds.broadcast)
-                    .then((data) => {
-                        analytics.push(
-                            'Transaction', `Transaction.${this.tx.type}.${WavesApp.type}`,
-                            `Transaction.${this.tx.type}.${WavesApp.type}.Success`, amount
-                        );
-                        return data;
-                    }, (error) => {
-                        analytics.push(
-                            'Transaction', `Transaction.${this.tx.type}.${WavesApp.type}`,
-                            `Transaction.${this.tx.type}.${WavesApp.type}.Error`, amount
-                        );
-                        return Promise.reject(error);
-                    });
-            }
-
-            /**
-             * @private
-             */
-            _initExportLink() {
-                this.signable.getDataForApi().then(data => {
-                    this.exportLink = `${WavesApp.targetOrigin}/#tx${utils.createQS(data)}`;
-                    this.canCreateLink = this.exportLink.length <= WavesApp.MAX_URL_LENGTH;
-                    $scope.$apply();
-                });
-            }
-
-            /**
-             * @param tx
-             * @private
-             */
-            _saveIssueAsset(tx) {
-                waves.node.height().then(height => {
-                    ds.assetStorage.save(tx.id, new Asset({
-                        ...tx,
-                        ticker: null,
-                        precision: tx.decimals,
-                        height
-                    }));
-                });
-            }
-
-            /**
-             * @private
-             */
-            _onChangeSignable() {
-                if (this.signable) {
-                    if (this.advancedMode) {
-                        this._initExportLink();
-                    }
-                    this.tx = waves.node.transactions.createTransaction(this.signable.getTxData());
-                    this.signable.getId().then(id => {
-                        this.txId = id;
-                        $scope.$digest();
-                    });
-                } else {
-                    this.txId = '';
-                    this.tx = null;
-                }
             }
 
             /**
@@ -259,13 +105,6 @@
                 }
             }
 
-            static _isIssueTx(tx) {
-                return tx.type === SIGN_TYPE.ISSUE;
-            }
-
-            static toBigNumber(amount) {
-                return amount && amount.getTokens().toFixed() || undefined;
-            }
 
         }
 
@@ -273,15 +112,12 @@
     };
 
     controller.$inject = [
-        'Base',
-        'waves',
-        '$attrs',
-        '$mdDialog',
-        'modalManager',
-        'user',
+        'ConfirmTxService',
         '$scope',
+        'validateService',
         'utils',
-        'validateService'
+        'waves',
+        '$attrs'
     ];
 
     angular.module('app.ui').component('wConfirmTransaction', {

@@ -39,15 +39,15 @@
             /**
              * @type {boolean}
              */
+            isDesktop = WavesApp.isDesktop();
+            /**
+             * @type {boolean}
+             */
             hasError = false;
             /**
              * @type {string}
              */
             imageSrc = '';
-            /**
-             * @type {string}
-             */
-            successPath = '';
             /**
              * @type {string}
              */
@@ -60,7 +60,7 @@
              * @type {string}
              * @private
              */
-            _successUrl = '';
+            successUrl = '';
             /**
              * @readonly
              * @type {boolean}
@@ -116,10 +116,10 @@
                             adapter.getPublicKey()
                         ])
                             .then(([signature, publicKey]) => {
-                                const search = `?s=${signature}&p=${publicKey}&a=${user.address}&d=${data}`;
+                                const search = `?s=${signature}&p=${publicKey}&a=${user.address}`;
                                 const path = successPath || '';
                                 const url = `${referrer}/${path}${search}`;
-                                this._successUrl = GatewaySignCtrl._normalizeUrl(url);
+                                this.successUrl = GatewaySignCtrl._normalizeUrl(url);
                             });
                     })
                     .catch((e) => {
@@ -128,7 +128,7 @@
             }
 
             send() {
-                utils.redirect(this._successUrl);
+                utils.redirect(this.successUrl);
             }
 
             /**
@@ -200,3 +200,4 @@
 
     angular.module('app.utils').controller('GatewaySignCtrl', controller);
 })();
+

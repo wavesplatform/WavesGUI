@@ -30,6 +30,11 @@
 
                 <div class="bottom-wrapper">
 
+                    <div ng-if="$ctrl.errorMessage">
+                        <span w-i18n="confirmTransaction.serverError.title"></span>
+                        <span>{{$ctrl.errorMessage}}</span>
+                    </div>
+
                     <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
                         <span w-i18n="confirmTransaction.back"></span>
                     </w-button>
