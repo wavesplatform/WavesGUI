@@ -57,7 +57,7 @@
                     try {
                         this.json = WavesApp.stringifyJSON(this.state.tx, null, 4);
                     } catch (e) {
-                        console.error('Can\'t parse state! :(');
+                        // TODO add error
                         this.json = '';
                     }
                 }
