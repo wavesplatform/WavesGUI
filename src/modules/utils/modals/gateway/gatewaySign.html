@@ -1,36 +1,53 @@
 <div class="gateway">
     <div ng-if="!$ctrl.hasError">
-        <div class="text-center gateway-icon">
-            <img ng-if="$ctrl.imageSrc !== ''" src="{{::$ctrl.imageSrc}}"/>
-        </div>
-        <div ng-if="$ctrl.imageSrc == ''" class="text-center icon-connected"></div>
 
-        <h3 class="text-center margin-2 basic-700">
-            <span w-i18n="modal.gatewaySign.headline" params="{url: $ctrl.referrer, name: $ctrl.name}"></span>
-        </h3>
+        <div class="content" ng-if="!$ctrl.signAdapterError || ($ctrl.signAdapterError && $ctrl.signPending)">
+            <div class="text-center gateway-icon">
+                <img ng-if="$ctrl.imageSrc !== ''" src="{{::$ctrl.imageSrc}}"/>
+            </div>
+            <div ng-if="$ctrl.imageSrc == ''" class="text-center icon-connected"></div>
 
-        <div class="content margin-2 caption-1 basic-500 flex-caption">
-            <i class="icon-lock"></i>
-            <span params="{name: $ctrl.name}" w-i18n="modal.gatewaySign.description"></span>
+            <h3 class="text-center margin-2 basic-700">
+                <span w-i18n="modal.gatewaySign.headline" params="{url: $ctrl.referrer, name: $ctrl.name}"></span>
+            </h3>
+
+            <div class="content margin-2 caption-1 basic-500 flex-caption">
+                <i class="icon-lock"></i>
+                <span params="{name: $ctrl.name}" w-i18n="modal.gatewaySign.description"></span>
+            </div>
+
+            <div ng-if="$ctrl.isDesktop" class="content margin-2 body-3 basic-500 flex-caption">
+                <i class="icon-grey-warning"></i>
+                <span>
+                    <span w-i18n="modal.gatewaySign.descriptionDesktop1"></span>
+                    <span w-i18n="modal.gatewaySign.descriptionDesktop2"
+                          class="link body-3"
+                          w-copy="$ctrl.successUrl"
+                    ></span>
+                    <span w-i18n="modal.gatewaySign.descriptionDesktop3"></span>
+                </span>
+            </div>
         </div>
 
-        <div ng-if="$ctrl.isDesktop" class="content margin-2 body-3 basic-500 flex-caption">
-            <i class="icon-grey-warning"></i>
-            <span>
-                <span w-i18n="modal.gatewaySign.descriptionDesktop1"></span>
-                <span w-i18n="modal.gatewaySign.descriptionDesktop2"
-                      class="link body-3"
-                      w-copy="$ctrl.successUrl"
-                ></span>
-                <span w-i18n="modal.gatewaySign.descriptionDesktop3"></span>
-            </span>
+        <div ng-if="$ctrl.signPending">
+            <div class="row bordered margin-1">
+                <div ng-if="!$ctrl.isSeed"
+                     class="caption-1 basic-500 flex-caption"
+                     w-i18n="modal.gatewaySign.txHash"></div>
+                <div class="ellipsis" ng-if="!$ctrl.isSeed">{{$ctrl.id}}</div>
+            </div>
+            <div class="relative row">
+                <w-loader></w-loader>
+            </div>
         </div>
-        <div class="buttons-wrapper" ng-if="$ctrl.signPending">
-            <div ng-if="!$ctrl.isSeed" w-i18n="modal.gatewaySign.signDevice{{::$ctrl.userType}}"></div>
-            <w-loader ></w-loader>
+
+        <div class="center" ng-if="$ctrl.signAdapterError  && !$ctrl.signPending && !$ctrl.isSeed">
+            <div class="ledger-error-icon ledger-icons"></div>
+            <h3 class="text-center basic-700" w-i18n="modal.sign.signError"></h3>
+            <p class="body-2 basic-500" w-i18n="modal.sign.signErrorText"></p>
         </div>
-        <div class="buttons-wrapper" ng-if="$ctrl.isSeed || !$ctrl.signPending">
-            <div ng-if="$ctrl.signAdapterError" w-i18n="modal.gatewaySign.notConfirmed"></div>
+
+        <div class="buttons-wrapper margin-top-3" ng-if="$ctrl.isSeed || !$ctrl.signPending">
             <w-button class="big" w-modal-close>
                 <span w-i18n="modal.gatewaySign.cancel"></span>
             </w-button>

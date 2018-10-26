@@ -1,5 +1,6 @@
 @import (reference) 'config';
 @import (reference) '../../../app/less/typography';
+@import (reference) 'icons';
 
 .gateway {
 
@@ -27,6 +28,28 @@
       cursor: text;
       word-wrap: break-word;
     }
+  }
+
+  .row {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &.bordered {
+      border-top: 1px solid @color-basic-200;
+      border-bottom: 1px solid @color-basic-200;
+    }
+  }
+
+  .ledger-error-icon {
+    height: 80px;
+    width: 80px;
+    background: @error-circle-icon;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin: 0 auto 30px auto;
   }
 
   .content {

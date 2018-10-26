@@ -141,6 +141,10 @@
             signAuth(adapter, data) {
                 this.signPending = true;
                 const signable = adapter.makeSignable(data);
+                signable.getId().then(id => {
+                    this.id = id;
+                    $scope.$apply();
+                });
                 return signable.getSignature();
             }
 
