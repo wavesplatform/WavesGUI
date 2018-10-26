@@ -141,6 +141,7 @@ class App {
     }
 
     private _initializeDataManager(address: string): void {
+        dataManager.dropAddress();
         dataManager.applyAddress(address);
     }
 
