@@ -10,8 +10,10 @@
      * @param {User} user
      * @param {$rootScope.Scope} $scope
      * @returns {ConfirmGatewayTransaction}
+     * @param {$mdDialog} $mdDialog
+     * @param {modalManager} modalManager
      */
-    const controller = function (Base, waves, user, $scope) {
+    const controller = function (Base, waves, user, $scope, $mdDialog, modalManager) {
 
         class ConfirmGatewayTransaction extends Base {
 
@@ -75,7 +77,7 @@
                     analytics.push(
                         'Gateway', `Gateway.Send.${WavesApp.type}`,
                         `Gateway.Send.${WavesApp.type}.Success`, this.tx.amount);
-                    this.onTxSent({ id });
+                    // this.onTxSent({ id });
                     $scope.$apply();
                 }).catch((e) => {
                     this.loadingSignFromDevice = false;
@@ -86,6 +88,13 @@
                         `Gateway.Send.${WavesApp.type}.Error`, this.tx.amount);
                     $scope.$apply();
                 });
+            }
+
+            showTxInfo() {
+                $mdDialog.hide();
+                setTimeout(() => { // Timeout for routing (if modal has route)
+                    modalManager.showTransactionInfo(this.tx.id);
+                }, 1000);
             }
 
             sendTransaction() {
@@ -115,7 +124,7 @@
         return new ConfirmGatewayTransaction();
     };
 
-    controller.$inject = ['Base', 'waves', 'user', '$scope'];
+    controller.$inject = ['Base', 'waves', 'user', '$scope', '$mdDialog', 'modalManager'];
 
     angular.module('app.ui').component('wConfirmGatewayTransaction', {
         bindings: {
