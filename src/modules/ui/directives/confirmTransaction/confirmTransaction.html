@@ -8,10 +8,6 @@
                     <span w-i18n="confirmTransaction.redirect" params="{referrer: $ctrl.referrer}"></span>
                 </h3>
 
-                <div class="error error-500 text-center body-2"
-                     ng-repeat="error in $ctrl.errors"
-                     w-i18n="{{::error.literal}}"></div>
-
                 <div class="bottom-wrapper">
                     <div class="bottom-warning margin-3" ng-if="$ctrl.deviceSignFail">
                         <div class="warning-plate warning-plate-red">
@@ -25,6 +21,11 @@
                         </div>
                         <w-loader></w-loader>
                     </div>
+
+                    <div class="tx-error error error-500 margin-3 footnote-1"
+                         ng-repeat="error in $ctrl.errors"
+                         w-i18n="{{::error.literal}}"></div>
+
                     <div class="buttons-wrapper" ng-if="!$ctrl.loadingSignFromDevice">
                         <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
                             <span w-i18n="confirmTransaction.back"></span>
@@ -48,7 +49,7 @@
             </div>
         </w-step>
         <w-step>
-            <div class="text-center">
+            <div class="text-center overflow-h">
                 <div class="icon-tx-success"></div>
                 <h2 class="text-center basic-900" w-i18n="confirmTransaction.success"></h2>
                 <div class="disabled-600 margin-4 body-2 text-center"

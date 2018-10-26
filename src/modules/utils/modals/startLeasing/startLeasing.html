@@ -1,71 +1,73 @@
 <w-step-by-step active-step="$ctrl.step">
     <w-step>
-        <form name="lease" novalidate>
-            <div class="row">
-                <div class="body-2 basic-900" w-i18n="modal.startLease.balance"></div>
-                <div class="input-like flex-row split-half">
-                    <div class="flex-row">
-                        <w-asset-logo class="marker-hide" size="24"
-                                      asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
-                        <div class="asset-name">{{$ctrl.balance.asset.name}}</div>
-                    </div>
-                    <div>
-                        <w-balance money="$ctrl.balance"></w-balance>
-                        <span>&nbsp{{$ctrl.balance.asset.displayName}}</span>
+        <div class="margin-top-4">
+            <form name="lease" novalidate>
+                <div class="row">
+                    <div class="body-2 basic-900" w-i18n="modal.startLease.balance"></div>
+                    <div class="input-like flex-row split-half">
+                        <div class="flex-row">
+                            <w-asset-logo class="marker-hide" size="24"
+                                          asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
+                            <div class="asset-name">{{$ctrl.balance.asset.name}}</div>
+                        </div>
+                        <div>
+                            <w-balance money="$ctrl.balance"></w-balance>
+                            <span>&nbsp{{$ctrl.balance.asset.displayName}}</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="flex-row-title">
-                    <div class="body-2 basic-900" w-i18n="modal.startLease.recipient"></div>
-                    <a
-                        class="link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        ng-href="{{::$ctrl.nodeListLink}}"
-                    >
-                        <span w-i18n="modal.startLease.nodeListLink"></span>
-                    </a>
+                <div class="row">
+                    <div class="flex-row-title">
+                        <div class="body-2 basic-900" w-i18n="modal.startLease.recipient"></div>
+                        <a
+                            class="link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            ng-href="{{::$ctrl.nodeListLink}}"
+                        >
+                            <span w-i18n="modal.startLease.nodeListLink"></span>
+                        </a>
+                    </div>
+
+                    <w-input-container>
+                        <w-input class="big"
+                                 type="text"
+                                 w-validate
+                                 w-validator-waves-address="no-self"
+                                 name="recipient"
+                                 ng-model="$ctrl.recipient"
+                                 required></w-input>
+
+                        <w-input-error message="inputAddress">
+                            <span w-i18n="modal.send.errors.address"></span>
+                        </w-input-error>
+                        <w-input-error message="required">
+                            <span w-i18n="modal.send.errors.required"></span>
+                        </w-input-error>
+                    </w-input-container>
                 </div>
+                <div class="row">
 
-                <w-input-container>
-                    <w-input class="big"
-                             type="text"
-                             w-validate
-                             w-validator-waves-address="no-self"
-                             name="recipient"
-                             ng-model="$ctrl.recipient"
-                             required></w-input>
+                    <div class="body-2 basic-900" w-i18n="modal.startLease.amount"></div>
 
-                    <w-input-error message="inputAddress">
-                        <span w-i18n="modal.send.errors.address"></span>
-                    </w-input-error>
-                    <w-input-error message="required">
-                        <span w-i18n="modal.send.errors.required"></span>
-                    </w-input-error>
-                </w-input-container>
-            </div>
-            <div class="row">
-
-                <div class="body-2 basic-900" w-i18n="modal.startLease.amount"></div>
-
-                <w-input-container>
-                    <w-balance-input name="amount"
-                                     asset-id="$ctrl.assetId"
-                                     max-balance="$ctrl.balance"
-                                     min="0"
-                                     fee="$ctrl.fee"
-                                     input-classes="big"
-                                     amount="$ctrl.amount"></w-balance-input>
-                </w-input-container>
-            </div>
-            <div class="row basic-500 margin-2">
-                <span w-i18n="modal.startLease.fee"></span>&nbsp;0.001 WAVES
-            </div>
-            <w-button disabled="lease.$invalid" on-click="$ctrl.next()" class="submit big long">
-                <span w-i18n="modal.startLease.start"></span>
-            </w-button>
-        </form>
+                    <w-input-container>
+                        <w-balance-input name="amount"
+                                         asset-id="$ctrl.assetId"
+                                         max-balance="$ctrl.balance"
+                                         min="0"
+                                         fee="$ctrl.fee"
+                                         input-classes="big"
+                                         amount="$ctrl.amount"></w-balance-input>
+                    </w-input-container>
+                </div>
+                <div class="row basic-500 margin-2">
+                    <span w-i18n="modal.startLease.fee"></span>&nbsp;0.001 WAVES
+                </div>
+                <w-button disabled="lease.$invalid" on-click="$ctrl.next()" class="submit big long">
+                    <span w-i18n="modal.startLease.start"></span>
+                </w-button>
+            </form>
+        </div>
     </w-step>
     <w-step>
         <w-confirm-transaction on-click-back="$ctrl.back()" tx="$ctrl.tx"></w-confirm-transaction>
