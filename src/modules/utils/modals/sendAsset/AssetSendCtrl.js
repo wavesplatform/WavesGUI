@@ -115,6 +115,7 @@
                 } else {
                     this.tab = 'singleSend';
                     this.state.singleSend.recipient = options.recipient;
+                    this.state.singleSend.attachment = options.attachment;
 
                     Promise.all([
                         ds.moneyFromTokens(options.amount || '0', this.state.assetId),
