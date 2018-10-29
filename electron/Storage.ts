@@ -1,11 +1,12 @@
 import { remote } from 'electron';
 import { join } from 'path';
-import { readJSON, writeJSON } from './utils';
+import { exist, localeReady, readJSON, writeJSON } from './utils';
 
 
 export class Storage {
 
     private storagePath: string = join(remote.app.getPath('userData'), 'storage.json');
+    private backupPath: string = join(remote.app.getPath('userData'), 'backup.json');
     private storageCache: object;
     private ready: Promise<void>;
 
@@ -28,12 +29,37 @@ export class Storage {
         return writeJSON(this.storagePath, this.storageCache);
     }
 
-    private initializeStorageCache(): Promise<void> {
-        this.storageCache = Object.create(null);
-        return readJSON(this.storagePath).then((cache) => {
-            Object.assign(this.storageCache, cache);
-        }).catch(() => {
-            return writeJSON(this.storagePath, this.storageCache);
+    private createNotification() {
+        localeReady.then(t => {
+            new Notification(t('storage.read.error.title'), {
+                body: t('storage.read.error.body')
+            });
         });
     }
+
+    private initializeStorageCache(): Promise<void> {
+        this.storageCache = Object.create(null);
+
+        const applybackup = () => {
+            this.createNotification();
+            return readJSON(this.backupPath).then(cache => {
+                Object.assign(this.storageCache, cache);
+            }).catch(() => {
+                this.storageCache = Object.create(null);
+            });
+        };
+
+        return exist(this.storagePath)
+            .then(() => {
+                return readJSON(this.storagePath)
+                    .then(cache => {
+                        Object.assign(this.storageCache, cache);
+                        return writeJSON(this.backupPath, cache);
+                    })
+                    .catch(applybackup);
+            })
+            .catch(() => exist(this.backupPath).then(applybackup))
+            .catch(() => writeJSON(this.storagePath, this.storageCache));
+    }
+
 }
