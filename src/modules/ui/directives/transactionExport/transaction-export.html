@@ -1,8 +1,9 @@
 <div w-i18n="directives.transactionExport.linkTitle" class="body-2"></div>
 <w-copy-wrap info="$ctrl.link">
-    {{$ctrl.link}}
+    <div class="ellipsis">{{$ctrl.link}}</div>
 </w-copy-wrap>
 
-<div class="margin-top-3 margin-3">
+<div class="margin-top-3 margin-3" w-toggle-class-container>
     <w-qr-code size="400" url="$ctrl.link"></w-qr-code>
+    <div class="qr-toggler footnote-1 basic-500" w-toggle-class="zoomed-in">Toggle QR</div>
 </div>

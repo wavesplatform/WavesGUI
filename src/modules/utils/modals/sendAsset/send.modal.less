@@ -33,20 +33,6 @@ md-dialog.modal-send {
       display: none;
     }
 
-    w-transaction-export w-copy-wrap {
-      height: auto;
-      .container {
-        overflow: auto;
-        max-height: 200px;
-        word-break: break-all;
-        line-height: 1em;
-        padding: 17px;
-      }
-      .copy-icon {
-        height: 100%;
-      }
-    }
-
     .modal-content {
       overflow: auto;
       padding-top: 60px;
@@ -138,6 +124,7 @@ md-dialog.modal-send {
         z-index: 10;
         height: 60px;
         background: @color-white;
+        margin: 0;
 
         .title {
           .headline-2();
@@ -423,6 +410,12 @@ md-dialog.modal-send {
 @media screen and (max-width: 540px) {
   md-dialog.modal-send {
     md-dialog-content {
+
+      w-mass-send,
+      w-single-send {
+        padding: 20px 20px 0;
+        display: block;
+      }
 
       .qr-code-wrap {
         width: 100%;

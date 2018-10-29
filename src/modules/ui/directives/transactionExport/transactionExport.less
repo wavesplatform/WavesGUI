@@ -1,0 +1,32 @@
+w-transaction-export {
+  w-copy-wrap {
+    .ellipsis {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  w-qr-code {
+    display: block;
+    margin: 0 30px auto;
+    text-align: center;
+    .qr-code-wrap {
+      display: inline-block;
+    }
+
+    img {
+      max-width: 200px;
+      max-height: 200px;
+    }
+
+    &.zoomed-in {
+      img {
+        width: 400px;
+        height: 400px;
+      }
+    }
+  }
+}
+
+

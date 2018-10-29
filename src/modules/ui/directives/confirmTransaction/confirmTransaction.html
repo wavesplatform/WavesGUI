@@ -18,6 +18,7 @@
                         <w-transaction-info-content signable="$ctrl.signable"></w-transaction-info-content>
                     </w-tab>
                     <w-tab title-name="::'confirmTransaction.JSON'" id="::'JSON'">
+                        <div class="body-1" w-i18n="directives.anyTransaction.textAreaTitle"></div>
                         <w-transaction-info-json signable="$ctrl.signable"></w-transaction-info-json>
                     </w-tab>
                     <w-tab ng-if="$ctrl.canCreateLink" title-name="::'confirmTransaction.export'" id="::'export'">
@@ -64,11 +65,12 @@
                 <h2 class="text-center basic-900" w-i18n="confirmTransaction.success"></h2>
                 <div class="disabled-600 margin-4 body-2 text-center"
                      w-i18n="confirmTransaction.description.{{::$ctrl.tx.typeName}}" params="$ctrl.tx"></div>
-                <div class="buttons-wrapper">
+                <div class="">
                     <w-button class="submit half big" on-click="$ctrl.showTxInfo()">
                         <span w-i18n="confirmTransaction.details"></span>
                     </w-button>
                 </div>
+
             </div>
         </w-step>
     </w-step-by-step>

@@ -62,7 +62,8 @@
                 return this._getModal({
                     id: 'script-modal',
                     contentUrl: 'modules/utils/modals/script/script.html',
-                    controller: 'ScriptModalCtrl'
+                    controller: 'ScriptModalCtrl',
+                    title: 'modal.script.setScript'
                 });
             }
 
@@ -334,6 +335,7 @@
                     id: 'any-tx-modal',
                     controller: 'AnyTxModalCtrl',
                     contentUrl: 'modules/utils/modals/anyTxModal/any-tx-modal.html',
+                    title: 'modals.anyTx.title',
                     locals: tx
                 });
             }
