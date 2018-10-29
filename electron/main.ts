@@ -61,15 +61,17 @@ class Main implements IMain {
     }
 
     public reload() {
-        Main.loadVersion(this.pack).then(version => {
-            if (version === this.lastLoadedVersion) {
-                this.mainWindow.reload();
-            } else {
-                const url = this.mainWindow.webContents.getURL();
-                this.mainWindow.loadURL(url, { 'extraHeaders': 'pragma: no-cache\n' });
-                this.lastLoadedVersion = version;
-            }
-        });
+        Main.loadVersion(this.pack)
+            .catch(() => null)
+            .then(version => {
+                if (version && version === this.lastLoadedVersion) {
+                    this.mainWindow.reload();
+                } else {
+                    const url = this.mainWindow.webContents.getURL();
+                    this.mainWindow.loadURL(url, {'extraHeaders': 'pragma: no-cache\n'});
+                    this.lastLoadedVersion = version;
+                }
+            });
     }
 
     public setLanguage(lng: string): void {
