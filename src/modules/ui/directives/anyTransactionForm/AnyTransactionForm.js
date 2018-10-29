@@ -84,6 +84,10 @@
              * @private
              */
             _updateSignable(data) {
+                if (!data) {
+                    return null;
+                }
+
                 const clone = Object.keys(data).reduce((acc, name) => {
                     const value = AnyTransactionForm._normalizeValue(data[name]);
                     acc[name] = value;
