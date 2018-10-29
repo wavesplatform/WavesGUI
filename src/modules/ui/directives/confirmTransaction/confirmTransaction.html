@@ -3,6 +3,7 @@
         <w-step>
             <w-transaction-info signable="$ctrl.signable"></w-transaction-info>
             <w-sign-button on-success="$ctrl.nextStep()"
+                           class="margin-top-3"
                            on-click="$ctrl.getSignable()">
                 <span w-i18n="confirmTransaction.sign"></span>
             </w-sign-button>
