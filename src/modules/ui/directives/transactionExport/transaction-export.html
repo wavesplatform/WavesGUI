@@ -1,6 +1,8 @@
-<span w-i18n="directives.transactionExport.linkTitle"></span>
+<div w-i18n="directives.transactionExport.linkTitle" class="body-2"></div>
 <w-copy-wrap info="$ctrl.link">
     {{$ctrl.link}}
 </w-copy-wrap>
 
-<w-qr-code size="400" url="$ctrl.link"></w-qr-code>
+<div class="margin-top-3 margin-3">
+    <w-qr-code size="400" url="$ctrl.link"></w-qr-code>
+</div>

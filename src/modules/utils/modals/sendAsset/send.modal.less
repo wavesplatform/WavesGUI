@@ -18,6 +18,12 @@ md-dialog.modal-send {
       height: 100%;
     }
 
+    w-mass-send,
+    w-single-send {
+      padding: 40px 40px 0;
+      display: block;
+    }
+
     position: relative;
     padding: 0;
     overflow: hidden;
@@ -25,6 +31,20 @@ md-dialog.modal-send {
 
     &::after {
       display: none;
+    }
+
+    w-transaction-export w-copy-wrap {
+      height: auto;
+      .container {
+        overflow: auto;
+        max-height: 200px;
+        word-break: break-all;
+        line-height: 1em;
+        padding: 17px;
+      }
+      .copy-icon {
+        height: 100%;
+      }
     }
 
     .modal-content {
@@ -81,28 +101,43 @@ md-dialog.modal-send {
       background-position: center;
     }
 
+    w-transaction-info {
+      margin-top: -60px;
+      display: block;
+    }
+
+    .buttons-wrapper w-button,
+    w-sign-button {
+      &::after {
+        display: block;
+        content: '';
+        height: 40px;
+      }
+    }
+
     w-confirm-gateway-transaction,
     w-confirm-transaction {
       display: block;
       padding: 50px 40px 0;
       max-height: calc(74vh ~'- 60px');
-      margin-top: -60px;
+    }
 
-      &::after {
-        content: '';
-        display: block;
-        height: 40px;
-      }
+    .qr-code-wrap {
+      margin: 0 auto 30px;
     }
 
     w-tabs {
+      width: 100%;
+
       .titles-wrap {
         position: fixed;
         top: 0;
+        left: 0;
         width: 100%;
         padding: 0 40px;
         z-index: 10;
         height: 60px;
+        background: @color-white;
 
         .title {
           .headline-2();
@@ -126,14 +161,6 @@ md-dialog.modal-send {
       .tab-body-wrap .tab-tem {
         max-height: calc(74vh ~'- 60px');
         display: block;
-        overflow: auto;
-        padding: 40px 40px 0;
-
-        &::after {
-          display: block;
-          content: '';
-          height: 40px;
-        }
       }
     }
 
@@ -148,6 +175,11 @@ md-dialog.modal-send {
       }
     }
 
+    w-qr-code {
+      display: block;
+      margin: 0 30px auto;
+    }
+
     w-qr-code-read {
       position: absolute;
       height: 34px;
@@ -155,6 +187,8 @@ md-dialog.modal-send {
       right: 0;
       top: 50%;
       margin-top: -17px;
+      margin-left: auto;
+      margin-right: auto;
       border-left: 1px solid @color-basic-200;
 
       .btn {
@@ -390,11 +424,25 @@ md-dialog.modal-send {
   md-dialog.modal-send {
     md-dialog-content {
 
+      .qr-code-wrap {
+        width: 100%;
+        height: auto;
+      }
+
       .modal-content {
         overflow: auto;
 
         .icon-close {
           right: 10px;
+        }
+
+        .buttons-wrapper w-button,
+        w-sign-button {
+          &::after {
+            display: block;
+            content: '';
+            height: 20px;
+          }
         }
 
         w-tabs {
@@ -417,12 +465,8 @@ md-dialog.modal-send {
           }
 
           .tab-body-wrap .tab-tem {
-            padding: 20px 20px 0;
+            padding: 20px 0 0;
             max-height: 100%;
-
-            &::after {
-              height: 20px;
-            }
           }
         }
 

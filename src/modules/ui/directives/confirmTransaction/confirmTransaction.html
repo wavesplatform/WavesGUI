@@ -3,7 +3,7 @@
         <w-step>
             <w-transaction-info signable="$ctrl.signable"></w-transaction-info>
             <w-sign-button on-success="$ctrl.nextStep()"
-                           class="margin-top-3"
+                           class="margin-top-3 block"
                            on-click="$ctrl.getSignable()">
                 <span w-i18n="confirmTransaction.sign"></span>
             </w-sign-button>
@@ -32,27 +32,29 @@
                     <span w-i18n="confirmTransaction.redirect" params="{referrer: $ctrl.referrer}"></span>
                 </h3>
 
-                <div class="error error-500 text-center body-2"
+                <div class="error-500 footnote-1"
                      ng-repeat="error in $ctrl.errors"
                      w-i18n="{{::error.literal}}"></div>
 
                 <div class="bottom-wrapper">
 
-                    <div ng-if="$ctrl.errorMessage">
-                        <span w-i18n="confirmTransaction.serverError.title"></span>
-                        <span>{{$ctrl.errorMessage}}</span>
+                    <div ng-if="$ctrl.errorMessage" class="footnote-1 error-500">
+                        <div w-i18n="confirmTransaction.serverError.title"></div>
+                        <div>{{$ctrl.errorMessage}}</div>
                     </div>
 
-                    <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
-                        <span w-i18n="confirmTransaction.back"></span>
-                    </w-button>
-                    <w-button class="big submit"
-                              disabled="$ctrl.errors.length > 0 || !$ctrl.txId"
-                              ng-class="{long: $ctrl.noBackButton}"
-                              w-next-step
-                              on-click="$ctrl.confirm()">
-                        <span w-i18n="confirmTransaction.confirm"></span>
-                    </w-button>
+                    <div class="buttons-wrapper">
+                        <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
+                            <span w-i18n="confirmTransaction.back"></span>
+                        </w-button>
+                        <w-button class="big submit"
+                                  disabled="$ctrl.errors.length > 0 || !$ctrl.txId"
+                                  ng-class="{long: $ctrl.noBackButton}"
+                                  w-next-step
+                                  on-click="$ctrl.confirm()">
+                            <span w-i18n="confirmTransaction.confirm"></span>
+                        </w-button>
+                    </div>
                 </div>
             </div>
         </w-step>
@@ -62,9 +64,11 @@
                 <h2 class="text-center basic-900" w-i18n="confirmTransaction.success"></h2>
                 <div class="disabled-600 margin-4 body-2 text-center"
                      w-i18n="confirmTransaction.description.{{::$ctrl.tx.typeName}}" params="$ctrl.tx"></div>
-                <w-button class="submit half big" on-click="$ctrl.showTxInfo()">
-                    <span w-i18n="confirmTransaction.details"></span>
-                </w-button>
+                <div class="buttons-wrapper">
+                    <w-button class="submit half big" on-click="$ctrl.showTxInfo()">
+                        <span w-i18n="confirmTransaction.details"></span>
+                    </w-button>
+                </div>
             </div>
         </w-step>
     </w-step-by-step>
