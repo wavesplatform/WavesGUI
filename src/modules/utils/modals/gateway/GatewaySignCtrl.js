@@ -13,9 +13,10 @@
      * @param {$rootScope.Scope} $scope
      * @param {User} user
      * @param {app.utils} utils
+     * @param {$mdDialog} $mdDialog
      * @return {GatewaySignCtrl}
      */
-    const controller = function (Base, $scope, user, utils) {
+    const controller = function (Base, $scope, user, utils, $mdDialog) {
 
         const isEmpty = (value) => !value;
         const tsApiValidator = require('ts-api-validator');
@@ -166,6 +167,12 @@
                     this.signPending = false;
                     this.signAdapterError = false;
                     this.successUrl = GatewaySignCtrl._normalizeUrl(url);
+
+                    if (this.isSeed) {
+                        this.send();
+                        $mdDialog.cancel();
+                    }
+
                 }).catch(e => {
                     this.signPending = false;
 
@@ -246,7 +253,7 @@
         return new GatewaySignCtrl(this.search);
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'utils'];
+    controller.$inject = ['Base', '$scope', 'user', 'utils', '$mdDialog'];
 
     angular.module('app.utils').controller('GatewaySignCtrl', controller);
 })();
