@@ -18,6 +18,7 @@
         class ConfirmTransaction extends ConfirmTxService {
 
             locale = $attrs.ns || 'app.ui';
+            step = 0;
 
             constructor() {
                 super($scope);
@@ -37,6 +38,7 @@
 
             nextStep() {
                 this.step++;
+                this.initExportLink();
             }
 
             /**

@@ -143,9 +143,9 @@
             }
 
             /**
-             * @private
+             * @protected
              */
-            _initExportLink() {
+            initExportLink() {
                 this.signable.getDataForApi().then(data => {
                     this.exportLink = `${WavesApp.targetOrigin}/#tx${utils.createQS(data)}`;
                     this.canCreateLink = this.exportLink.length <= WavesApp.MAX_URL_LENGTH;
@@ -159,7 +159,11 @@
             _onChangeSignable() {
                 if (this.signable) {
                     if (this.advancedMode) {
-                        this._initExportLink();
+                        this.signable.hasMySignature().then(state => {
+                            if (state) {
+                                this.initExportLink();
+                            }
+                        });
                     }
                     this.tx = waves.node.transactions.createTransaction(this.signable.getTxData());
                     this.signable.getId().then(id => {
