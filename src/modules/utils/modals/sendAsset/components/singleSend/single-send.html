@@ -254,16 +254,15 @@
               params="{fee: $ctrl.state.singleSend.fee}"></span>
     </div>
 
-    <div ng-if="$ctrl.toBankMode && !$ctrl.isLira"
-    " class="margin-top-2">
-    <w-coinomat-terms force-show-terms="::false"
-                      terms-pending="$ctrl.termsIsPending"
-                      load-error="$ctrl.termsLoadError"
-                      show-accepted-checkbox="::false"
-                      is-verified="$ctrl.isVerified"
-                      terms-accepted="$ctrl.termsAccepted"
-                      on-sign-start="$ctrl.onSignCoinomatStart()"
-                      on-sign-end="$ctrl.onSignCoinomatEnd()"></w-coinomat-terms>
+    <div ng-if="$ctrl.toBankMode && !$ctrl.isLira" class="margin-top-2">
+        <w-coinomat-terms force-show-terms="::false"
+                          terms-pending="$ctrl.termsIsPending"
+                          load-error="$ctrl.termsLoadError"
+                          show-accepted-checkbox="::false"
+                          is-verified="$ctrl.isVerified"
+                          terms-accepted="$ctrl.termsAccepted"
+                          on-sign-start="$ctrl.onSignCoinomatStart()"
+                          on-sign-end="$ctrl.onSignCoinomatEnd()"></w-coinomat-terms>
     </div>
 
     <div ng-if="$ctrl.toBankMode && $ctrl.isLira" class="margin-top-2">
@@ -287,10 +286,10 @@
         </a>
 
         <w-sign-button
-                ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending && !($ctrl.toBankMode && $ctrl.isLira)"
-                on-click="$ctrl.createTx()"
-                on-success="$ctrl.onSignTx(signable)"
-                disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission) || ($ctrl.toBankMode && !$ctrl.termsAccepted)">
+            ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending && !($ctrl.toBankMode && $ctrl.isLira)"
+            on-click="$ctrl.createTx()"
+            on-success="$ctrl.onSignTx(signable)"
+            disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission) || ($ctrl.toBankMode && !$ctrl.termsAccepted)">
             <span w-i18n="button.continue"></span>
         </w-sign-button>
     </div>
