@@ -26,7 +26,7 @@
             @decorators.cachable(1)
             getOrders() {
                 if (user.address) {
-                    return ds.api.matcher.getOrders();
+                    return ds.api.matcher.getOrders().then(ds.processOrdersWithStore);
                 } else {
                     return Promise.resolve([]);
                 }
