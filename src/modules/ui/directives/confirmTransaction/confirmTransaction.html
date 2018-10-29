@@ -1,6 +1,13 @@
 <div w-i18n-ns="{{::$ctrl.locale}}" class="transaction-confirm txinfo">
     <w-step-by-step active-step="$ctrl.step">
         <w-step>
+            <w-transaction-info signable="$ctrl.signable"></w-transaction-info>
+            <w-sign-button on-success="$ctrl.nextStep()"
+                           on-click="$ctrl.getSignable()">
+                <span w-i18n="confirmTransaction.sign"></span>
+            </w-sign-button>
+        </w-step>
+        <w-step>
             <div class="txinfo__wrapper">
 
                 <w-transaction-info-header signable="$ctrl.signable"></w-transaction-info-header>

@@ -25,6 +25,20 @@
                 this.observe(['showValidationErrors', 'signable'], this._showErrors);
             }
 
+            $postLink() {
+                this.signable.hasMySignature().then(state => {
+                    this.step = state ? 1 : 0;
+                });
+            }
+
+            getSignable() {
+                return this.signable;
+            }
+
+            nextStep() {
+                this.step++;
+            }
+
             /**
              * @private
              */
