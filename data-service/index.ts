@@ -6,20 +6,21 @@ import * as utilsModule from './utils/utils';
 import { request } from './utils/request';
 import { IFetchOptions } from './utils/request';
 import * as wavesDataEntitiesModule from '@waves/data-entities';
-import { BigNumber, Asset, Money, AssetPair, OrderPrice } from '@waves/data-entities';
-import { normalizeTime, toAsset, toBigNumber } from './utils/utils';
+import { Money, AssetPair, OrderPrice } from '@waves/data-entities';
+import { normalizeTime, toAsset } from './utils/utils';
 import { IAssetInfo } from '@waves/data-entities/dist/entities/Asset';
 import { get } from './config';
 import { TAssetData, TBigNumberData } from './interface';
 import { get as getAssetPair } from './api/pairs/pairs';
 import { broadcast as broadcastF, createOrderSend, cancelOrderSend } from './broadcast/broadcast';
-import { utils as cryptoUtils, generate, Long } from '@waves/signature-generator';
+import { utils as cryptoUtils } from '@waves/signature-generator';
 import * as signatureAdapters from '@waves/signature-adapter';
 import { Adapter, SIGN_TYPE } from '@waves/signature-adapter';
 
 export { getAdapterByType, getAvailableList } from '@waves/signature-adapter';
 export { Seed } from './classes/Seed';
 export { assetStorage } from './utils/AssetStorage';
+export * from './store';
 
 export const wavesDataEntities = {
     ...wavesDataEntitiesModule
