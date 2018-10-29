@@ -326,7 +326,7 @@ class Main implements IMain {
 
     private static loadVersion(pack: IPackageJSON): Promise<string> {
         return new Promise<string>((resolve, reject) => {
-            get(`https://${pack.server}/package.json?${Date.now()}`, res => {
+            const httpGet = get(`https://${pack.server}/package.json?${Date.now()}`, res => {
                 let data = new Buffer('');
 
                 // A chunk of data has been recieved.
@@ -343,6 +343,7 @@ class Main implements IMain {
                     reject(e);
                 });
             });
+            httpGet.on('error', reject);
         });
     }
 
