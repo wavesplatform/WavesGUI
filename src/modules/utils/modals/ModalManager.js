@@ -61,7 +61,7 @@
             showScriptModal() {
                 return this._getModal({
                     id: 'script-modal',
-                    templateUrl: 'modules/utils/modals/script/script.html',
+                    contentUrl: 'modules/utils/modals/script/script.html',
                     controller: 'ScriptModalCtrl'
                 });
             }
