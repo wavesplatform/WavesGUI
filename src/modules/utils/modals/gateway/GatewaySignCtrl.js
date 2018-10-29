@@ -168,7 +168,7 @@
                     this.signAdapterError = false;
                     this.successUrl = GatewaySignCtrl._normalizeUrl(url);
 
-                    if (this.isSeed) {
+                    if (!this.isSeed) {
                         this.send();
                         $mdDialog.cancel();
                     }
