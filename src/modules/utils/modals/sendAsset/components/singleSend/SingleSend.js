@@ -3,7 +3,8 @@
 
     const FIAT_ASSETS = {
         [WavesApp.defaultAssets.USD]: true,
-        [WavesApp.defaultAssets.EUR]: true
+        [WavesApp.defaultAssets.EUR]: true,
+        [WavesApp.defaultAssets.TRY]: true
     };
 
     const { Money } = require('@waves/data-entities');
@@ -39,6 +40,13 @@
              */
             get hasSendToBank() {
                 return FIAT_ASSETS[this.assetId] || false;
+            }
+
+            /**
+             * @return {boolean}
+             */
+            get isLira() {
+                return this.assetId === WavesApp.defaultAssets.TRY;
             }
 
             /**
@@ -163,6 +171,10 @@
                 this.state.toBankMode = value;
             }
 
+            /**
+             * @type {string}
+             */
+            digiLiraUserLink = 'https://www.digilira.com/';
             /**
              * @type {Function}
              */
@@ -382,7 +394,7 @@
                 const maxCoinomatAmount = this.balance.cloneWithTokens(50000);
                 const minCoinomatAmount = this.balance.cloneWithTokens(100);
 
-                if (this.toBankMode) {
+                if (this.toBankMode && !this.isLira) {
                     this.tx.recipient = BANK_RECIPIENT;
                     this.termsIsPending = true;
                     this.maxAmount = Money.min(maxCoinomatAmount, this.balance);
