@@ -1,32 +1,36 @@
 w-transaction-export {
-  w-copy-wrap {
-    .ellipsis {
+  .qr-wrapper {
+    transition: all .3s;
+    height: auto;
+
+    w-qr-code {
+      display: block;
+      margin: 0 auto 30px;
+      text-align: center;
+      width: 200px;
+      height: 200px;
       overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
+      transition: all .3s;
 
-  w-qr-code {
-    display: block;
-    margin: 0 30px auto;
-    text-align: center;
-    .qr-code-wrap {
-      display: inline-block;
-    }
-
-    img {
-      max-width: 200px;
-      max-height: 200px;
+      .qr-code-wrap,
+      img {
+        width: 200px;
+        height: 200px;
+        transition: all .3s;
+      }
     }
 
     &.zoomed-in {
-      img {
+      w-qr-code {
         width: 400px;
         height: 400px;
+
+        .qr-code-wrap,
+        img {
+          width: 400px;
+          height: 400px;
+        }
       }
     }
   }
 }
-
-

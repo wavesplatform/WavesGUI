@@ -2,8 +2,10 @@
 <w-copy-wrap info="$ctrl.link">
     <div class="ellipsis">{{$ctrl.link}}</div>
 </w-copy-wrap>
-
-<div class="margin-top-3 margin-3" w-toggle-class-container>
+<div class="or margin-3 margin-top-3" w-i18n="directives.transactionExport.or"></div>
+<div class="margin-top-2 margin-3 qr-wrapper" w-toggle-class-container>
+    <div class="center margin-1 body-2" w-i18n="directives.transactionExport.scanQrCode"></div>
     <w-qr-code size="400" url="$ctrl.link"></w-qr-code>
-    <div class="qr-toggler footnote-1 basic-500" w-toggle-class="zoomed-in">Toggle QR</div>
+    <div class="pointer center footnote-1 margin-top-1 basic-500 margin-3"
+         w-toggle-class="zoomed-in" w-i18n="directives.transactionExport.qrZoomBtn"></div>
 </div>

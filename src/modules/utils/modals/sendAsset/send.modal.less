@@ -22,6 +22,7 @@ md-dialog.modal-send {
     w-single-send {
       padding: 40px 40px 0;
       display: block;
+      max-height: calc(74vh ~'- 60px');
     }
 
     position: relative;
@@ -108,10 +109,6 @@ md-dialog.modal-send {
       max-height: calc(74vh ~'- 60px');
     }
 
-    .qr-code-wrap {
-      margin: 0 auto 30px;
-    }
-
     w-tabs {
       width: 100%;
 
@@ -146,7 +143,7 @@ md-dialog.modal-send {
       }
 
       .tab-body-wrap .tab-tem {
-        max-height: calc(74vh ~'- 60px');
+        max-height: calc(100% ~'- 60px');
         display: block;
       }
     }
@@ -164,7 +161,6 @@ md-dialog.modal-send {
 
     w-qr-code {
       display: block;
-      margin: 0 30px auto;
     }
 
     w-qr-code-read {
@@ -338,15 +334,6 @@ md-dialog.modal-send {
       .decimal-muted {
         display: none;
       }
-    }
-
-    .ellipsis {
-      display: inline-block;
-      max-width: 60px;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      vertical-align: top;
     }
 
     .to-bank-account {
