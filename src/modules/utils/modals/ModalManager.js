@@ -359,7 +359,7 @@
                     ns: 'app.ui',
                     locals: { tx, showValidationErrors },
                     controller: 'ConfirmTxCtrl',
-                    contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
+                    templateUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
                 });
             }
 

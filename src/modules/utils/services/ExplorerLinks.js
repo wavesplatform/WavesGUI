@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const BASE_URL = 'https://wavesexplorer.com';
+    const BASE_URL = WavesApp.network.explorer;
     const TX_PREFIX = 'tx';
 
     /**
