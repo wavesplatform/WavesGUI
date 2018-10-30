@@ -123,7 +123,7 @@ export function remapOldTransfer(tx: txApi.IOldTransferTx): txApi.ITransfer {
 export function parseIssueTx(tx: txApi.IIssue, assetsHash: IHash<Asset>, isUTX: boolean): IIssue {
     const quantity = new Money(tx.quantity, assetsHash[normalizeAssetId(tx.id)]);
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
-    return { ...tx, quantity, fee, isUTX };
+    return { ...tx, precision: tx.decimals, quantity, fee, isUTX } as IIssue;
 }
 
 export function parseTransferTx(tx: txApi.ITransfer, assetsHash: IHash<Asset>, isUTX: boolean): ITransfer {

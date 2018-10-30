@@ -11,12 +11,9 @@
 
         class ConfirmTxCtrl extends Base {
 
-            constructor(tx) {
+            constructor(signable) {
                 super($scope);
-                this.signable = ds.signature.getSignatureApi().makeSignable({
-                    type: tx.type,
-                    data: tx
-                });
+                this.signable = signable;
             }
 
             back() {

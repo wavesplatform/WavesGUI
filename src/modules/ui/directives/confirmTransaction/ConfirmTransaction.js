@@ -12,7 +12,7 @@
      */
     const controller = function (ConfirmTxService, $scope, validateService, utils, waves, $attrs) {
 
-        const { TRANSACTION_TYPE_NUMBER } = require('@waves/signature-adapter');
+        const { TRANSACTION_TYPE_NUMBER, SIGN_TYPE } = require('@waves/signature-adapter');
 
 
         class ConfirmTransaction extends ConfirmTxService {
@@ -27,6 +27,7 @@
             }
 
             $postLink() {
+                this.isTockenIssue = this.signable.getTxData().type === SIGN_TYPE.ISSUE;
                 this.signable.hasMySignature().then(state => {
                     this.step = state ? 1 : 0;
                     $scope.$apply();
