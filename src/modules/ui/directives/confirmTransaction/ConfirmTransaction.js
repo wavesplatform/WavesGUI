@@ -29,6 +29,7 @@
             $postLink() {
                 this.signable.hasMySignature().then(state => {
                     this.step = state ? 1 : 0;
+                    $scope.$apply();
                 });
             }
 
