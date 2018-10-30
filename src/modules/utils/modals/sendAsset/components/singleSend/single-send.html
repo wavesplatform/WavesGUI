@@ -204,10 +204,10 @@
         <w-input required
                  w-validate
                  ng-disabled="!$ctrl.termsAccepted"
-                 w-validator-number
+                 w-validator-pattern="\d*"
                  ng-model="$ctrl.state.singleSend.attachment"
                  name="id-number"
-                 type="number"></w-input>
+                 type="text"></w-input>
         <w-input-error name="idNumber" message="required">
             <span w-i18n="inputs.errors.required"></span>
         </w-input-error>
