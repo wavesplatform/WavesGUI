@@ -85,7 +85,7 @@
                 const hasBalances = this.balanceHash && Object.keys(this.balanceHash).length;
 
                 if (!list || list.length < 2 || !hasBalances) {
-                    this.feeList = [...list];
+                    this.feeList = [...(list || [])];
                     return null;
                 }
 
@@ -94,6 +94,7 @@
                     const feeBalance = this.balanceHash[fee.asset.id];
                     return !(!hasBalances || !feeBalance || feeBalance.lt(fee));
                 });
+
 
                 if (!filteredList.length) {
                     filteredList.push(wavesFee);

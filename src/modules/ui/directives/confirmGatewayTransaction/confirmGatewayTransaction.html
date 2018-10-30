@@ -84,7 +84,12 @@
         </w-step>
         <w-step>
             <div class="icon icon-tx-success margin-2"></div>
-            <h2 class="text-center basic-900" w-i18n="confirmGatewayTransaction.success"></h2>
+            <h2 class="text-center basic-900 margin-4" w-i18n="confirmGatewayTransaction.success"></h2>
+            <div class="text-center">
+                <w-button class="submit half big" on-click="$ctrl.showTxInfo()">
+                    <span w-i18n="confirmTransaction.details"></span>
+                </w-button>
+            </div>
         </w-step>
     </w-step-by-step>
 </div>
