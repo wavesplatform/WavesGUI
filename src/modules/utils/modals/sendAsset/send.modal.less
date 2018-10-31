@@ -108,51 +108,6 @@ md-dialog.modal-send {
       max-height: calc(74vh ~'- 60px');
     }
 
-    w-tabs {
-      width: 100%;
-
-      .tab-container {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .tab-body-wrap {
-        max-height: calc(74vh ~'- 60px');
-        overflow: auto;
-      }
-
-      .titles-wrap {
-        //position: fixed;
-        position: relative;
-        //top: 0;
-        //left: 0;
-        width: 100%;
-        padding: 0 40px;
-        z-index: 10;
-        height: 60px;
-        background: @color-white;
-        margin: 0;
-
-        .title {
-          .headline-2();
-          line-height: 30px;
-          padding: 20px 0 10px;
-          margin: 0 40px 0 0;
-          color: @color-info-500;
-          min-height: 60px;
-          cursor: pointer;
-
-          &.active {
-            color: @color-submit-400;
-          }
-        }
-
-        &::before {
-          display: none;
-        }
-      }
-    }
-
     .total-amount {
       background-color: @color-basic-50;
       border: 1px solid @color-basic-200;

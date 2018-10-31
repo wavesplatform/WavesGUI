@@ -352,7 +352,6 @@
             }
 
             showConfirmTx(signable, showValidationErrors) {
-
                 return this._getModal({
                     id: 'confirm-tx',
                     ns: 'app.ui',

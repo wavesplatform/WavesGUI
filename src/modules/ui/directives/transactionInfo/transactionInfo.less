@@ -11,6 +11,14 @@ md-dialog.txinfo {
   }
 }
 
+w-transaction-info-header {
+  margin-top: 60px;
+}
+
+w-transaction-info-content {
+  width: 100%;
+}
+
 .txinfo {
   display: block;
   width: 100%;
@@ -65,17 +73,17 @@ md-dialog.txinfo {
     flex-direction: column;
     align-items: center;
 
+    .bottom-warning {
+      position: relative;
+      background: @color-white;
+      margin-bottom: -1px;
+      padding-top: 30px;
+      border-top: 1px solid @color-basic-100;
+    }
+
     w-transaction-info {
       margin-top: 60px;
       width: 100%;
-
-      .bottom-warning {
-        position: relative;
-        background: @color-white;
-        margin-bottom: -1px;
-        padding-top: 30px;
-        border-top: 1px solid @color-basic-100;
-      }
     }
   }
 
