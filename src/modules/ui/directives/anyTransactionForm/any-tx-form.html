@@ -1,6 +1,6 @@
 <form novalidate name="anyTx">
 
-    <div class="flex flex-between body-2">
+    <div class="flex flex-between body-2 margin-top-4">
         <div w-i18n="directives.anyTransaction.textAreaTitle"></div>
         <div ng-if="!!$ctrl.json">
             <span class="link" w-copy="$ctrl.json" w-i18n="directives.anyTransaction.copy"></span>
@@ -12,7 +12,7 @@
                  w-validate
                  w-validator-custom="{{$ctrl.isValidJSON}}"
                  name="script"
-                 textarea
+                 textarea="true"
                  class="large"></w-input>
 
         <w-input-error name="custom">

@@ -30,15 +30,9 @@ md-dialog.modal-send {
       max-height: calc(74vh ~'- 60px');
     }
 
-
-
     &::after {
       display: none;
     }
-
-    //.tab-container {
-    //  padding-top: 60px;
-    //}
 
     .modal-content {
       overflow: auto;
@@ -114,10 +108,6 @@ md-dialog.modal-send {
       max-height: calc(74vh ~'- 60px');
     }
 
-    w-transaction-info-header {
-      margin-top: 60px;
-    }
-
     w-tabs {
       width: 100%;
 
@@ -161,8 +151,6 @@ md-dialog.modal-send {
           display: none;
         }
       }
-
-
     }
 
     .total-amount {
@@ -409,6 +397,7 @@ md-dialog.modal-send {
     }
 
   }
+
 }
 
 @media screen and (max-width: 540px) {
@@ -443,6 +432,10 @@ md-dialog.modal-send {
         }
 
         w-tabs {
+          .tab-body-wrap {
+            max-height: none;
+          }
+
           .titles-wrap {
             width: 100%;
             padding: 0 20px;
@@ -496,7 +489,7 @@ md-dialog.modal-send {
         w-confirm-gateway-transaction,
         w-confirm-transaction {
           padding: 40px 20px 0;
-          max-height: calc(100% + 60px);
+          max-height: calc(100% ~'+ 60px');
 
           &::after {
             content: '';
