@@ -15,6 +15,7 @@ md-dialog.modal-send {
     .modal-content,
     .tab-container,
     .tab-body-wrap,
+    w-tabs,
     w-tab,
     .step-list,
     w-step-by-step,
@@ -28,6 +29,41 @@ md-dialog.modal-send {
       padding: 40px 40px 0;
       display: block;
       max-height: calc(74vh ~'- 60px');
+    }
+
+    w-tabs.header {
+      height: 100%;
+
+      .titles-wrap {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+
+        &:after {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 1px;
+          background-color: @color-disabled-100;
+          top: auto;
+          bottom: 0;
+          left: 0;
+        }
+      }
+
+      .tab-container {
+        height: 100%;
+      }
+
+      .tab-body-wrap {
+        height: 100%;
+
+        .tab-tem {
+          height: 100%;
+          box-sizing: border-box;
+          position: relative;
+        }
+      }
     }
 
     &::after {
@@ -384,35 +420,6 @@ md-dialog.modal-send {
             display: block;
             content: '';
             height: 20px;
-          }
-        }
-
-        w-tabs {
-          .tab-body-wrap {
-            max-height: none;
-          }
-
-          .titles-wrap {
-            width: 100%;
-            padding: 0 20px;
-
-            .title {
-              .body-2();
-              margin: 0;
-              margin-right: 20px;
-              font-family: @font-roboto-medium;
-              color: @color-info-500;
-              padding: 30px 0 0;
-
-              &.active {
-                color: @color-submit-400;
-              }
-            }
-          }
-
-          .tab-body-wrap .tab-tem {
-            padding: 20px 0 0;
-            max-height: 100%;
           }
         }
 

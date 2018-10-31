@@ -17,6 +17,7 @@ w-transaction-export {
         width: 200px;
         height: 200px;
         transition: all .3s;
+        cursor: pointer;
       }
     }
 
@@ -29,6 +30,25 @@ w-transaction-export {
         img {
           width: 400px;
           height: 400px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  w-transaction-export {
+    .qr-wrapper {
+      &.zoomed-in {
+        w-qr-code {
+          width: 340px;
+          height: 340px;
+
+          .qr-code-wrap,
+          img {
+            width: 340px;
+            height: 340px;
+          }
         }
       }
     }
