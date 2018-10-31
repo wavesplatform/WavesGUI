@@ -7,6 +7,11 @@
 md-dialog.modal-send {
   md-dialog-content {
 
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+    color: @color-disabled-900;
+
     .modal-content,
     .tab-container,
     .tab-body-wrap,
@@ -25,18 +30,12 @@ md-dialog.modal-send {
       max-height: calc(74vh ~'- 60px');
     }
 
-    position: relative;
-    padding: 0;
-    overflow: hidden;
-    color: @color-disabled-900;
-
     &::after {
       display: none;
     }
 
     .modal-content {
       overflow: auto;
-      padding-top: 60px;
 
       .error-title {
         position: fixed;
@@ -105,17 +104,28 @@ md-dialog.modal-send {
     w-confirm-gateway-transaction,
     w-confirm-transaction {
       display: block;
-      padding: 50px 40px 0;
+      padding: 0 40px;
       max-height: calc(74vh ~'- 60px');
     }
 
     w-tabs {
       width: 100%;
 
+      .tab-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .tab-body-wrap {
+        max-height: calc(74vh ~'- 60px');
+        overflow: auto;
+      }
+
       .titles-wrap {
-        position: fixed;
-        top: 0;
-        left: 0;
+        //position: fixed;
+        position: relative;
+        //top: 0;
+        //left: 0;
         width: 100%;
         padding: 0 40px;
         z-index: 10;
@@ -140,11 +150,6 @@ md-dialog.modal-send {
         &::before {
           display: none;
         }
-      }
-
-      .tab-body-wrap .tab-tem {
-        max-height: calc(100% ~'- 60px');
-        display: block;
       }
     }
 
@@ -298,7 +303,7 @@ md-dialog.modal-send {
     }
 
     .amount-modal-icon {
-      background-image: url(/img/icons/arrow.svg);
+      background-image: @double-arrow;
       background-size: 100% 100%;
       width: 24px;
       height: 20px;
@@ -392,6 +397,7 @@ md-dialog.modal-send {
     }
 
   }
+
 }
 
 @media screen and (max-width: 540px) {
@@ -426,6 +432,10 @@ md-dialog.modal-send {
         }
 
         w-tabs {
+          .tab-body-wrap {
+            max-height: none;
+          }
+
           .titles-wrap {
             width: 100%;
             padding: 0 20px;
@@ -479,7 +489,7 @@ md-dialog.modal-send {
         w-confirm-gateway-transaction,
         w-confirm-transaction {
           padding: 40px 20px 0;
-          max-height: calc(100% + 60px);
+          max-height: calc(100% ~'+ 60px');
 
           &::after {
             content: '';
