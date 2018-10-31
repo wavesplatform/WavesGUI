@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const PATH = 'modules/ui/directives/transactionInfo/types';
+
     const controller = function (waves) {
 
         class TransactionInfoHeader {
@@ -25,6 +27,7 @@
                 const tx = waves.node.transactions.createTransaction(this.signable.getTxData());
                 this.isScam = !!WavesApp.scam[tx.assetId];
                 this.typeName = tx.typeName;
+                this.templateUrl = `${PATH}/${tx.templateType}-header.html`;
             }
 
         }

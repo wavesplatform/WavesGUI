@@ -11,12 +11,10 @@
 
         class ConfirmTxCtrl extends Base {
 
-            constructor(tx) {
+            constructor({ signable, showValidationErrors }) {
                 super($scope);
-                this.signable = ds.signature.getSignatureApi().makeSignable({
-                    type: tx.type,
-                    data: tx
-                });
+                this.signable = signable;
+                this.showValidationErrors = showValidationErrors;
             }
 
             back() {
@@ -25,7 +23,7 @@
 
         }
 
-        return new ConfirmTxCtrl(this.tx);
+        return new ConfirmTxCtrl(this.locals);
     };
 
     controller.$inject = ['Base', '$scope', '$mdDialog'];

@@ -18,10 +18,6 @@
                         <w-transaction-info-content signable="$ctrl.signable"></w-transaction-info-content>
                     </w-tab>
                     <w-tab title-name="::'confirmTransaction.JSON'" id="::'JSON'">
-                        <div class="flex flex-between body-2">
-                            <div w-i18n="directives.anyTransaction.textAreaTitle"></div>
-                            <div><span class="link" on-click="" w-i18n="directives.anyTransaction.copy"></span></div>
-                        </div>
                         <w-transaction-info-json signable="$ctrl.signable"></w-transaction-info-json>
                     </w-tab>
                     <w-tab ng-if="$ctrl.canCreateLink" title-name="::'confirmTransaction.export'" id="::'export'">
@@ -31,6 +27,14 @@
 
                 <w-transaction-info-content ng-if="::!$ctrl.advancedMode"
                                             signable="$ctrl.signable"></w-transaction-info-content>
+
+                <div class="bottom-warning" ng-if="::$ctrl.isTockenIssue">
+                    <div class="warning-plate">
+                        <div class="body-2 warning-500" w-i18n="modal.token.warning.header"></div>
+                        <div class="footnote-1 basic-500" w-i18n="modal.token.warning.text"></div>
+                        <div class="body-2 warning-500" w-i18n="modal.token.warning.textWarning"></div>
+                    </div>
+                </div>
 
                 <h3 class="info margin-4 basic-700" ng-if="$ctrl.referrer">
                     <span w-i18n="confirmTransaction.redirect" params="{referrer: $ctrl.referrer}"></span>

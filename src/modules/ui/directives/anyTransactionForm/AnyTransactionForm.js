@@ -69,6 +69,7 @@
             _onChangeJSON() {
                 this.isValidJSON = false;
                 const json = this.json;
+                this.fee = null;
 
                 WavesApp.parseJSON(json)
                     .then(data => {

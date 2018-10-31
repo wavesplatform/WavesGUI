@@ -109,6 +109,14 @@
                 this.observe(['_waves', 'fee'], this._changeHasFee);
             }
 
+            getSignable() {
+                return this.signable;
+            }
+
+            next() {
+                this.step++;
+            }
+
             _getWavesBalance() {
                 return waves.node.assets.balance(WavesApp.defaultAssets.WAVES).then(({ available }) => available);
             }
@@ -141,6 +149,7 @@
                     });
                 } else {
                     this.tx = null;
+                    this.signable = null;
                 }
             }
 

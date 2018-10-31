@@ -55,7 +55,7 @@ export module txApi {
 
     export interface IIssue extends IBaseTransaction {
         type: TRANSACTION_TYPE_NUMBER.ISSUE;
-        precision: number;
+        decimals: number;
         description: string;
         name: string;
         quantity: string;
@@ -190,7 +190,7 @@ export interface IIssue extends IBaseTransaction {
     precision: number;
     description: string;
     name: string;
-    quantity: Money;
+    quantity: BigNumber;
     reissuable: boolean;
     fee: Money;
 }

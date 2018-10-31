@@ -351,13 +351,12 @@
                 });
             }
 
-            showConfirmTx(txData, showValidationErrors) {
-                const tx = $injector.get('waves').node.transactions.createTransaction(txData);
+            showConfirmTx(signable, showValidationErrors) {
 
                 return this._getModal({
                     id: 'confirm-tx',
                     ns: 'app.ui',
-                    locals: { tx, showValidationErrors },
+                    locals: { signable, showValidationErrors },
                     controller: 'ConfirmTxCtrl',
                     templateUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
                 });
