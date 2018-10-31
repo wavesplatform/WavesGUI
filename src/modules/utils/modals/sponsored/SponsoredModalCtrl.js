@@ -73,6 +73,10 @@
                 this._updateFee();
             }
 
+            getSignable() {
+                return this.signable;
+            }
+
             onConfirm() {
                 this.step++;
             }
