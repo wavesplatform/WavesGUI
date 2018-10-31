@@ -220,11 +220,15 @@ export function parseCreateAliasTx(tx: txApi.ICreateAlias, assetsHash: IHash<Ass
 
 export function parseMassTransferTx(tx: txApi.IMassTransfer, assetsHash: IHash<Asset>, isUTX: boolean): IMassTransfer {
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
-    const totalAmount = new Money(tx.totalAmount, assetsHash[normalizeAssetId(tx.assetId)]);
+    const asset = assetsHash[normalizeAssetId(tx.assetId)];
+
     const transfers = tx.transfers.map((transfer) => ({
         recipient: normalizeRecipient(transfer.recipient),
         amount: new Money(transfer.amount, assetsHash[normalizeAssetId(tx.assetId)])
     }));
+
+    const totalAmount = new Money(tx.totalAmount || transfers.reduce((acc, item) => acc.add(item.amount), new Money(0, asset)).toCoins(), asset);
+
     const bytes = libs.base58.decode(tx.attachment);
     let attachment;
     try {

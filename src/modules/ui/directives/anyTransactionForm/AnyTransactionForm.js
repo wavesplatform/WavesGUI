@@ -77,9 +77,11 @@
                 WavesApp.parseJSON(json)
                     .then(data => {
                         this._updateSignable(data);
+                        this.state.tx = data;
                         this.isValidJSON = true;
                     })
                     .catch(() => {
+                        this.state.tx = null;
                         this.isValidJSON = false;
                     });
             }
@@ -99,9 +101,9 @@
                 }, Object.create(null));
 
                 return Promise.all([
-                    AnyTransactionForm._loadTxData(clone),
                     ds.api.transactions.parseTx([clone])
-                        .then(head)
+                        .then(head),
+                    AnyTransactionForm._loadTxData(clone)
                 ])
                     .then(([data, lease]) => {
                         this.fee = data.fee;
@@ -118,7 +120,7 @@
                     case SIGN_TYPE.CANCEL_LEASING:
                         return waves.node.transactions.get(tx.leaseId);
                     default:
-                        return Promise.resolve(tx);
+                        return Promise.resolve(Object.create(null));
                 }
             }
 
@@ -146,7 +148,7 @@
         controller,
         scope: false,
         bindings: {
-            state: '<',
+            state: '=',
             onSuccess: '&'
         },
         templateUrl: 'modules/ui/directives/anyTransactionForm/any-tx-form.html'
