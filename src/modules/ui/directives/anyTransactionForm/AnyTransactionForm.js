@@ -1,14 +1,17 @@
 (function () {
     'use strict';
 
+
     /**
      * @param {typeof Base} Base
      * @param {$rootScope.Scope} $scope
+     * @param {Waves} waves
      * @return {AnyTransactionForm}
      */
-    const controller = function (Base, $scope) {
+    const controller = function (Base, $scope, waves) {
 
         const { head } = require('ramda');
+        const { SIGN_TYPE } = require('@waves/signature-adapter');
         const ds = require('data-service');
 
         class AnyTransactionForm extends Base {
@@ -95,16 +98,28 @@
                     return acc;
                 }, Object.create(null));
 
-                ds.api.transactions.parseTx([clone])
-                    .then(head)
-                    .then(data => {
+                return Promise.all([
+                    AnyTransactionForm._loadTxData(clone),
+                    ds.api.transactions.parseTx([clone])
+                        .then(head)
+                ])
+                    .then(([data, lease]) => {
                         this.fee = data.fee;
                         this.signable = ds.signature.getSignatureApi().makeSignable({
                             type: data.type,
-                            data
+                            data: { ...data, lease }
                         });
                         $scope.$apply();
                     });
+            }
+
+            static _loadTxData(tx) {
+                switch (tx.type) {
+                    case SIGN_TYPE.CANCEL_LEASING:
+                        return waves.node.transactions.get(tx.leaseId);
+                    default:
+                        return Promise.resolve(tx);
+                }
             }
 
             static _normalizeValue = value => {
@@ -125,7 +140,7 @@
         return new AnyTransactionForm();
     };
 
-    controller.$inject = ['Base', '$scope'];
+    controller.$inject = ['Base', '$scope', 'waves'];
 
     angular.module('app.ui').component('wAnyTransactionForm', {
         controller,

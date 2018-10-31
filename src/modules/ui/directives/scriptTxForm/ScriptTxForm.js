@@ -94,12 +94,16 @@
                 this._initScript();
             }
 
-            next() {
+            getSignable() {
                 const tx = waves.node.transactions.createTransaction({ ...this.state.tx, type: SIGN_TYPE.SET_SCRIPT });
                 const signable = ds.signature.getSignatureApi().makeSignable({
                     type: tx.type,
                     data: tx
                 });
+                return signable;
+            }
+
+            next(signable) {
                 this.onSuccess({ signable });
             }
 

@@ -103,12 +103,19 @@
                 const lease = this.transaction;
                 const leaseId = lease.id;
                 return waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING })
-                    .then((fee) => modalManager.showConfirmTx({
-                        fee,
-                        type: SIGN_TYPE.CANCEL_LEASING,
-                        lease,
-                        leaseId
-                    }));
+                    .then((fee) => {
+                        const tx = waves.node.transactions.createTransaction({
+                            fee,
+                            type: SIGN_TYPE.CANCEL_LEASING,
+                            lease,
+                            leaseId
+                        });
+                        const signable = ds.signature.getSignatureApi().makeSignable({
+                            type: tx.type,
+                            data: tx
+                        });
+                        return modalManager.showConfirmTx(signable);
+                    });
             }
 
             showTransaction() {

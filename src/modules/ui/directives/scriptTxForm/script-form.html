@@ -39,9 +39,10 @@
          params="{fee: $ctrl.state.tx.fee}"
          w-i18n="directives.scriptForm.errors.fee"></div>
 
-    <w-button class="big long submit"
-              disabled="setScript.$invalid || $ctrl.validationPending || !$ctrl.hasFee"
-              on-click="$ctrl.next()">
+    <w-sign-button class="big long submit"
+                   disabled="setScript.$invalid || $ctrl.validationPending || !$ctrl.hasFee"
+                   on-click="$ctrl.getSignable()"
+                   on-success="$ctrl.next(signable)">
         <span w-i18n="directives.scriptForm.ok"></span>
-    </w-button>
+    </w-sign-button>
 </form>

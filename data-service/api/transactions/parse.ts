@@ -208,7 +208,7 @@ export function parseLeasingTx(tx: txApi.ILease, assetsHash: IHash<Asset>, isUTX
 }
 
 export function parseCancelLeasingTx(tx: txApi.ICancelLeasing, assetsHash: IHash<Asset>, isUTX: boolean): ICancelLeasing {
-    const lease = parseLeasingTx(tx.lease, assetsHash, false);
+    const lease = tx.lease && parseLeasingTx(tx.lease, assetsHash, false) || null;
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
     return { ...tx, lease, fee, isUTX };
 }
