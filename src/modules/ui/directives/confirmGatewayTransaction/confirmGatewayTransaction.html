@@ -14,7 +14,7 @@
 
             <w-tabs class="inner" ng-model="$ctrl.activeTab" ng-if="::$ctrl.advancedMode">
                 <w-tab title-name="::'confirmTransaction.details'" id="::'details'">
-                    <div ng-if="$ctrl.tx && $ctrl.gatewayDetails && $ctrl.targetRecipient" class="row margin-2">
+                    <div ng-if="$ctrl.tx && $ctrl.gatewayDetails && $ctrl.targetRecipient" class="row margin-top-4 margin-2">
 
                         <div class="section">
                             <div class="key"
@@ -53,14 +53,14 @@
                     </div>
                 </w-tab>
                 <w-tab title-name="::'confirmTransaction.JSON'" id="::'JSON'">
-                    <div class="flex flex-between body-2">
+                    <div class="margin-top-4 lex flex-between body-2">
                         <div w-i18n="directives.anyTransaction.textAreaTitle"></div>
                         <div><span class="link" on-click="" w-i18n="directives.anyTransaction.copy"></span></div>
                     </div>
                     <w-transaction-info-json signable="$ctrl.signable"></w-transaction-info-json>
                 </w-tab>
                 <w-tab ng-if="$ctrl.canCreateLink" title-name="::'confirmTransaction.export'" id="::'export'">
-                    <w-transaction-export link="$ctrl.exportLink"></w-transaction-export>
+                    <w-transaction-export class="margin-top-4" link="$ctrl.exportLink"></w-transaction-export>
                 </w-tab>
             </w-tabs>
 

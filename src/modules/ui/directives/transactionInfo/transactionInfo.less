@@ -11,11 +11,12 @@ md-dialog.txinfo {
   }
 }
 
-w-transaction-info-header {
-  margin-top: 60px;
-}
-
-w-transaction-info-content {
+w-transaction-info,
+w-transaction-info-header,
+w-transaction-info-content,
+w-transaction-export,
+w-transaction-info-json {
+  display: block;
   width: 100%;
 }
 
@@ -65,7 +66,6 @@ w-transaction-info-content {
     word-break: break-all;
     padding: 17px;
     display: block;
-    margin: 0 0 30px 0;
   }
 
   &__wrapper {
@@ -79,11 +79,6 @@ w-transaction-info-content {
       margin-bottom: -1px;
       padding-top: 30px;
       border-top: 1px solid @color-basic-100;
-    }
-
-    w-transaction-info {
-      margin-top: 60px;
-      width: 100%;
     }
   }
 
@@ -205,7 +200,7 @@ w-transaction-info-content {
     background: none transparent;
     position: relative;
     border-radius: 50%;
-    margin: 0 auto 30px;
+    margin: 60px auto 30px;
 
     &.send {
       .icon-tx-send();
