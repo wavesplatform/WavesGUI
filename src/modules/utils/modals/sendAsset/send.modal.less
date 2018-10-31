@@ -7,6 +7,11 @@
 md-dialog.modal-send {
   md-dialog-content {
 
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+    color: @color-disabled-900;
+
     .modal-content,
     .tab-container,
     .tab-body-wrap,
@@ -25,18 +30,15 @@ md-dialog.modal-send {
       max-height: calc(74vh ~'- 60px');
     }
 
-    position: relative;
-    padding: 0;
-    overflow: hidden;
-    color: @color-disabled-900;
+
 
     &::after {
       display: none;
     }
 
-    .tab-container {
-      padding-top: 60px;
-    }
+    //.tab-container {
+    //  padding-top: 60px;
+    //}
 
     .modal-content {
       overflow: auto;
@@ -112,13 +114,28 @@ md-dialog.modal-send {
       max-height: calc(74vh ~'- 60px');
     }
 
+    w-transaction-info-header {
+      margin-top: 60px;
+    }
+
     w-tabs {
       width: 100%;
 
+      .tab-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .tab-body-wrap {
+        max-height: calc(74vh ~'- 60px');
+        overflow: auto;
+      }
+
       .titles-wrap {
-        position: fixed;
-        top: 0;
-        left: 0;
+        //position: fixed;
+        position: relative;
+        //top: 0;
+        //left: 0;
         width: 100%;
         padding: 0 40px;
         z-index: 10;
@@ -145,10 +162,7 @@ md-dialog.modal-send {
         }
       }
 
-      .tab-body-wrap .tab-tem {
-        max-height: calc(100% ~'- 60px');
-        display: block;
-      }
+
     }
 
     .total-amount {
