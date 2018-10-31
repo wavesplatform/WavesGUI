@@ -1,14 +1,17 @@
 (function () {
     'use strict';
 
+
     /**
      * @param {typeof Base} Base
      * @param {$rootScope.Scope} $scope
+     * @param {Waves} waves
      * @return {AnyTransactionForm}
      */
-    const controller = function (Base, $scope) {
+    const controller = function (Base, $scope, waves) {
 
         const { head } = require('ramda');
+        const { SIGN_TYPE } = require('@waves/signature-adapter');
         const ds = require('data-service');
 
         class AnyTransactionForm extends Base {
@@ -74,9 +77,11 @@
                 WavesApp.parseJSON(json)
                     .then(data => {
                         this._updateSignable(data);
+                        this.state.tx = data;
                         this.isValidJSON = true;
                     })
                     .catch(() => {
+                        this.state.tx = null;
                         this.isValidJSON = false;
                     });
             }
@@ -95,16 +100,28 @@
                     return acc;
                 }, Object.create(null));
 
-                ds.api.transactions.parseTx([clone])
-                    .then(head)
-                    .then(data => {
+                return Promise.all([
+                    ds.api.transactions.parseTx([clone])
+                        .then(head),
+                    AnyTransactionForm._loadTxData(clone)
+                ])
+                    .then(([data, lease]) => {
                         this.fee = data.fee;
                         this.signable = ds.signature.getSignatureApi().makeSignable({
                             type: data.type,
-                            data
+                            data: { ...data, lease }
                         });
                         $scope.$apply();
                     });
+            }
+
+            static _loadTxData(tx) {
+                switch (tx.type) {
+                    case SIGN_TYPE.CANCEL_LEASING:
+                        return waves.node.transactions.get(tx.leaseId);
+                    default:
+                        return Promise.resolve(Object.create(null));
+                }
             }
 
             static _normalizeValue = value => {
@@ -125,13 +142,13 @@
         return new AnyTransactionForm();
     };
 
-    controller.$inject = ['Base', '$scope'];
+    controller.$inject = ['Base', '$scope', 'waves'];
 
     angular.module('app.ui').component('wAnyTransactionForm', {
         controller,
         scope: false,
         bindings: {
-            state: '<',
+            state: '=',
             onSuccess: '&'
         },
         templateUrl: 'modules/ui/directives/anyTransactionForm/any-tx-form.html'

@@ -249,7 +249,7 @@ export interface ICancelLeasing extends IBaseTransaction {
     type: TRANSACTION_TYPE_NUMBER.CANCEL_LEASING;
     fee: Money;
     leaseId: string;
-    lease: ILease;
+    lease?: ILease;
 }
 
 export interface ICreateAlias extends IBaseTransaction {
