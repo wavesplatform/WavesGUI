@@ -18,10 +18,6 @@
                         <w-transaction-info-content signable="$ctrl.signable"></w-transaction-info-content>
                     </w-tab>
                     <w-tab title-name="::'confirmTransaction.JSON'" id="::'JSON'">
-                        <div class="flex flex-between body-2">
-                            <div w-i18n="directives.anyTransaction.textAreaTitle"></div>
-                            <div><span class="link" on-click="" w-i18n="directives.anyTransaction.copy"></span></div>
-                        </div>
                         <w-transaction-info-json signable="$ctrl.signable"></w-transaction-info-json>
                     </w-tab>
                     <w-tab ng-if="$ctrl.canCreateLink" title-name="::'confirmTransaction.export'" id="::'export'">

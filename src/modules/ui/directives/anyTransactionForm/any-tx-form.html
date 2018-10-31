@@ -2,7 +2,9 @@
 
     <div class="flex flex-between body-2">
         <div w-i18n="directives.anyTransaction.textAreaTitle"></div>
-        <div><span class="link" on-click="" w-i18n="directives.anyTransaction.copy"></span></div>
+        <div ng-if="!!$ctrl.json">
+            <span class="link" w-copy="$ctrl.json" w-i18n="directives.anyTransaction.copy"></span>
+        </div>
     </div>
 
     <w-input-container>
@@ -29,7 +31,8 @@
         <div class="footnote-1 basic-500" w-i18n="directives.anyTransaction.warning.body"></div>
     </div>
 
-    <div class="margin-top-2 basic-500 footnote-1"
+    <div ng-if="$ctrl.fee"
+         class="margin-top-2 basic-500 footnote-1"
          w-i18n="directives.anyTransaction.fee"
          params="{fee: $ctrl.fee}"></div>
 

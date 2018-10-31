@@ -190,7 +190,7 @@ export interface IIssue extends IBaseTransaction {
     precision: number;
     description: string;
     name: string;
-    quantity: Money;
+    quantity: BigNumber;
     reissuable: boolean;
     fee: Money;
 }
