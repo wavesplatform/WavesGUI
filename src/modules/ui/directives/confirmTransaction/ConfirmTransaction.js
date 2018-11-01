@@ -19,6 +19,7 @@
 
             locale = $attrs.ns || 'app.ui';
             step = 0;
+            isSetScript = false;
 
             constructor() {
                 super($scope);
@@ -27,7 +28,10 @@
             }
 
             $postLink() {
-                this.isTockenIssue = this.signable.getTxData().type === SIGN_TYPE.ISSUE;
+                const tx = this.signable.getTxData();
+                const type = tx.type;
+                this.isSetScript = type === SIGN_TYPE.SET_SCRIPT && tx.script;
+                this.isTockenIssue = type === SIGN_TYPE.ISSUE;
                 this.signable.hasMySignature().then(state => {
                     this.step = state ? 1 : 0;
                     $scope.$apply();
