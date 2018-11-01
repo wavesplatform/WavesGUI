@@ -79,7 +79,8 @@
             tokens() {
                 this.titleAssetName = this.getAssetName(
                     tsUtils.get(this.transaction, 'amount.asset') ||
-                    tsUtils.get(this.transaction, 'quantity.asset')
+                    tsUtils.get(this.transaction, 'quantity.asset') ||
+                    this.transaction
                 );
                 this.name = tsUtils.get(
                     this.transaction, 'amount.asset.name') ||
@@ -91,6 +92,10 @@
                 ).toFormat();
             }
 
+            /**
+             * @param {{id: string, name: string}} asset
+             * @return {string}
+             */
             getAssetName(asset) {
                 try {
                     return !WavesApp.scam[asset.id] ? asset.name : '';
