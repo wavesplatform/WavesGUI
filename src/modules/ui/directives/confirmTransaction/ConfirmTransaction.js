@@ -26,6 +26,18 @@
             constructor() {
                 super();
                 /**
+                 * @type {boolean}
+                 */
+                this.deviceBufferOverflow = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.rejectByUser = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.signError = false;
+                /**
                  * @type {function}
                  */
                 this.onTxSent = null;
@@ -117,9 +129,12 @@
                             this.confirm();
                         }
                     })
-                    .catch(() => {
+                    .catch((e) => {
                         this.loadingSignFromDevice = false;
                         this.deviceSignFail = true;
+                        this.deviceBufferOverflow = e && e.statusCode === 27024;
+                        this.rejectByUser = e && e.statusCode === 37120;
+                        this.signError = !(this.deviceBufferOverflow || this.rejectByUser);
                         $scope.$digest();
                     });
             }

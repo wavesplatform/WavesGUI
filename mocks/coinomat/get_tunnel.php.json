@@ -13,7 +13,7 @@
     "fee_in": "0.00000000",
     "fee_out": "0.00100000",
     "further_info": null,
-    "monero_payment_id": null,
+    "monero_payment_id": "aa11111111111111111111111111111111111111111111111111111111111aaa",
     "xcase": 0,
     "xrate": 1,
     "in_min": 0.001,

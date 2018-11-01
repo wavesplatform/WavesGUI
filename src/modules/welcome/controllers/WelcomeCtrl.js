@@ -28,6 +28,11 @@
                 return this.user.encryptedSeed;
             }
 
+            /**
+             * @type {boolean}
+             */
+            networkError = false;
+
             constructor() {
                 super($scope);
                 /**
@@ -76,11 +81,13 @@
             _updatePassword() {
                 if (this.password) {
                     this.showPasswordError = false;
+                    this.networkError = false;
                 }
             }
 
             login() {
                 try {
+                    this.networkError = false;
                     this.showPasswordError = false;
                     const userSettings = user.getSettingsByUser(this.user);
                     const activeUser = { ...this.user, password: this.password, settings: userSettings };
@@ -101,10 +108,10 @@
 
                     return canLoginPromise.then(() => {
                         return user.login({
-                            address: activeUser.address,
                             api,
+                            userType: api.type,
                             password: this.password,
-                            userType: api.type
+                            address: activeUser.address
                         });
                     }, () => {
                         if (!this._isSeedAdapter(api)) {
@@ -144,6 +151,7 @@
             _showPasswordError() {
                 this.password = '';
                 this.showPasswordError = true;
+                this.networkError = this.user.networkError;
             }
 
             /**
