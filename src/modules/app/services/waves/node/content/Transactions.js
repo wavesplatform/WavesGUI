@@ -13,6 +13,8 @@
 
         const tsUtils = require('ts-utils');
         const R = require('ramda');
+        const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const ds = require('data-service');
 
         const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
 
@@ -96,18 +98,15 @@
                     .then(([utxTxList, txList]) => utxTxList.concat(txList));
             }
 
-            createTransaction(transactionType, txData) {
+            createTransaction(txData) {
 
                 const tx = {
-                    transactionType,
                     sender: user.address,
                     timestamp: Date.now(),
                     ...txData
                 };
 
-                tx.type = Transactions._getTypeByName(transactionType);
-
-                if (transactionType === WavesApp.TRANSACTION_TYPES.NODE.MASS_TRANSFER) {
+                if (tx.type === SIGN_TYPE.MASS_TRANSFER) {
                     tx.totalAmount = tx.totalAmount || tx.transfers.map(({ amount }) => amount)
                         .reduce((result, item) => result.add(item));
                 }
@@ -189,8 +188,20 @@
                         return TYPES.BURN;
                     case 12:
                         return TYPES.DATA;
+                    case 13:
+                        return Transactions._getScriptType(tx);
+                    case 14:
+                        return Transactions._getSponsorshipType(tx);
                     default:
                         return TYPES.UNKNOWN;
+                }
+            }
+
+            static _getSponsorshipType(tx) {
+                if (tx.minSponsoredAssetFee.getTokens().gt(0)) {
+                    return TYPES.SPONSORSHIP_START;
+                } else {
+                    return TYPES.SPONSORSHIP_STOP;
                 }
             }
 
@@ -214,9 +225,23 @@
                         return 10;
                     case WavesApp.TRANSACTION_TYPES.NODE.DATA:
                         return 12;
+                    case WavesApp.TRANSACTION_TYPES.NODE.SET_SCRIPT:
+                        return 13;
+                    case WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP:
+                        return 14;
                     default:
                         throw new Error('Wrong tx name!');
                 }
+            }
+
+            /**
+             * @param {string} address
+             * @return {boolean}
+             * @private
+             */
+            static isMe(address) {
+                const aliasList = ds.dataManager.getLastAliases();
+                return address === user.address || aliasList.includes(address);
             }
 
             /**
@@ -226,16 +251,24 @@
              * @private
              */
             static _getTransferType({ sender, recipient }) {
-                const aliasList = ds.dataManager.getLastAliases();
-                if (sender === recipient || (sender === user.address && aliasList.indexOf(recipient) !== -1)) {
+                const meIsSender = Transactions.isMe(sender);
+                const meIsRecipient = Transactions.isMe(recipient);
+
+                if (!meIsSender && !meIsRecipient) {
+                    return TYPES.SPONSORSHIP_FEE;
+                } else if (meIsSender && meIsRecipient) {
                     return TYPES.CIRCULAR;
                 } else {
-                    return sender === user.address ? TYPES.SEND : TYPES.RECEIVE;
+                    return meIsSender ? TYPES.SEND : TYPES.RECEIVE;
                 }
             }
 
             static _getMassTransferType(sender) {
-                return sender === user.address ? TYPES.MASS_SEND : TYPES.MASS_RECEIVE;
+                return Transactions.isMe(sender) ? TYPES.MASS_SEND : TYPES.MASS_RECEIVE;
+            }
+
+            static _getScriptType({ script }) {
+                return (script || '').replace('base64:', '') ? TYPES.SET_SCRIPT : TYPES.SCRIPT_CANCEL;
             }
 
             /**
@@ -244,7 +277,7 @@
              * @private
              */
             static _getLeaseType({ sender }) {
-                return sender === user.address ? TYPES.LEASE_OUT : TYPES.LEASE_IN;
+                return Transactions.isMe(sender) ? TYPES.LEASE_OUT : TYPES.LEASE_IN;
             }
 
             /**
@@ -252,8 +285,8 @@
              * @return {string}
              * @private
              */
-            static _getExchangeType({ buyOrder }) {
-                if (buyOrder.senderPublicKey === user.publicKey) {
+            static _getExchangeType({ exchangeType }) {
+                if (exchangeType === 'buy') {
                     return TYPES.EXCHANGE_BUY;
                 } else {
                     return TYPES.EXCHANGE_SELL;
@@ -285,6 +318,11 @@
                         return 'exchange';
                     case TYPES.DATA:
                         return 'data';
+                    case TYPES.SPONSORSHIP_START:
+                    case TYPES.SPONSORSHIP_STOP:
+                        return 'sponsorship';
+                    case TYPES.SPONSORSHIP_FEE:
+                        return 'sponsorship_fee';
                     case TYPES.UNKNOWN:
                         return 'unknown';
                     default:

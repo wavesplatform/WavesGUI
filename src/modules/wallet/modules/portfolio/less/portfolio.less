@@ -378,8 +378,10 @@
 }
 
 //mobile
-@media screen and (max-width: 659px) {
-
+@media screen and (max-width: 769px) {
+  .portfolio-wrapper {
+    padding: 10px 0 10px 10px;
+  }
   .main.wallet.portfolio {
 
     .asset-name-desktop {
@@ -396,8 +398,7 @@
     }
 
     .toolbar {
-      margin: 10px 0 0 10px;
-      width: calc(100% ~'- 20px');
+      width: calc(100% ~'- 10px');
 
       w-select {
         width: 50px;
@@ -460,11 +461,11 @@
 
       .smart-table__w-tbody {
         max-height: 100%;
+        padding-right: 10px;
 
         .w-visible {
-          margin: 0 0 (@padding-main-layout / 2) @padding-main-layout;
+          margin: 0 0 5px;
           height: 70px !important;
-          width: calc(100% ~'- 20px');
         }
 
         .smart-table__row {
@@ -539,3 +540,5 @@
     }
   }
 }
+
+

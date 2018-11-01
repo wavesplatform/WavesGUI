@@ -1,9 +1,9 @@
-<div class="row">
+<div class="margin-2">
     <div class="body-2" w-i18n="modal.send.currency"></div>
     <div ng-if="!$ctrl.canChooseAsset || $ctrl.choosableMoneyList.length === 1"
          class="input-like big flex-row split-half">
         <div class="flex-row">
-            <w-asset-logo size="24" asset-id="{{::$ctrl.state.assetId}}"></w-asset-logo>
+            <w-asset-logo class="marker-hide" size="24" asset-id="{{::$ctrl.state.assetId}}"></w-asset-logo>
             <div class="asset-name">{{$ctrl.balance.asset.name}}</div>
         </div>
         <div class="flex-row">
@@ -18,7 +18,7 @@
                   value="::option.asset.id">
             <div class="flex-row split-half">
                 <div class="flex-row">
-                    <w-asset-logo size="24" asset-id="{{::option.asset.id}}"></w-asset-logo>
+                    <w-asset-logo class="marker-hide" size="24" asset-id="{{::option.asset.id}}"></w-asset-logo>
                     <div class="asset-name">{{::option.asset.name}}</div>
                 </div>
                 <div>

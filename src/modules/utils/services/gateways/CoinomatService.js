@@ -11,11 +11,14 @@
         [WavesApp.defaultAssets.XMR]: { waves: 'WXMR', gateway: 'XMR' }
     };
 
-    const PATH = `${WavesApp.network.coinomat}/api/v1`;
+    const PATH_V1 = `${WavesApp.network.coinomat}/api/v1`;
+    const PATH_V2 = `${WavesApp.network.coinomat}/api/v2`;
     const LANGUAGE = 'ru_RU';
 
     // That is used to access values from `**/locales/*.json` files
     const KEY_NAME_PREFIX = 'coinomat';
+    const ds = require('data-service');
+    const { prop } = require('ramda');
 
     /**
      * @returns {CoinomatService}
@@ -90,15 +93,73 @@
                 return `${KEY_NAME_PREFIX}${GATEWAYS[asset.id].gateway}`;
             }
 
+            /**
+             * @param {string} address
+             * @return {Promise<boolean>}
+             */
+            hasConfirmation(address) {
+                return ds.fetch(`${PATH_V2}/get_confirmation.php?address=${address}`)
+                    .then(({ status, is_confirmed }) => !(status === 'not found' || !is_confirmed));
+            }
+
+            /**
+             * @param {string} address
+             * @return {Promise<boolean>}
+             */
+            isVerified(address) {
+                return ds.fetch(`${PATH_V2}/get_verification_status.php?address=${address}`)
+                    .then(prop('verified'));
+            }
+
+            /**
+             * @return {Promise<number>}
+             */
+            getCoinomatTimestamp() {
+                return ds.fetch(`${PATH_V2}/get_ts.php`)
+                    .then(prop('ts'));
+            }
+
+            /**
+             * @param {string} signature
+             * @param {number} timestamp
+             * @param {boolean} status
+             * @return {Promise<void>}
+             */
+            setCoinomatTermsAccepted(signature, timestamp, status) {
+                const confirmed = status ? 1 : 0;
+
+                return ds.signature.getSignatureApi().getPublicKey().then(publicKey => {
+
+                    const params = {
+                        signature,
+                        public_key: publicKey,
+                        ts: timestamp,
+                        is_confirmed: confirmed
+                    };
+
+                    const toGetParams = params => Object.keys(params).reduce((acc, item) => {
+                        const start = acc ? '&' : '';
+                        return `${acc}${start}${item}=${params[item]}`;
+                    }, '');
+
+                    return ds.fetch(`${PATH_V2}/set_confirmation.php?${toGetParams(params)}`, { method: 'POST' })
+                        .then(response => {
+                            if (response.status === 'error') {
+                                return Promise.reject('Error!');
+                            }
+                        });
+                });
+            }
+
             _loadPaymentDetails(from, to, recipientAddress, paymentId) {
-                return $.get(`${PATH}/create_tunnel.php`, {
+                return $.get(`${PATH_V1}/create_tunnel.php`, {
                     currency_from: from,
                     currency_to: to,
                     wallet_to: recipientAddress,
                     ...(paymentId ? { monero_payment_id: paymentId } : {})
                 }).then((res) => {
                     CoinomatService._assertResponse(res, 'ok');
-                    return $.get(`${PATH}/get_tunnel.php`, {
+                    return $.get(`${PATH_V1}/get_tunnel.php`, {
                         xt_id: res.tunnel_id,
                         k1: res.k1,
                         k2: res.k2,
@@ -112,7 +173,7 @@
             }
 
             _loadWithdrawRate(from, to) {
-                return $.get(`${PATH}/get_xrate.php`, {
+                return $.get(`${PATH_V1}/get_xrate.php`, {
                     f: from,
                     t: to,
                     lang: LANGUAGE

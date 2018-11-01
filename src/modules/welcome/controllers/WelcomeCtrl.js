@@ -2,7 +2,6 @@
     'use strict';
 
     const PATH = 'modules/welcome/templates';
-    const { Seed } = require('data-service');
 
     /**
      * @param Base
@@ -17,6 +16,8 @@
      */
     const controller = function (Base, $scope, $state, user, modalManager, $element, storage, utils) {
 
+        const ds = require('data-service');
+
         class WelcomeCtrl extends Base {
 
             get user() {
@@ -26,6 +27,11 @@
             get encryptedSeed() {
                 return this.user.encryptedSeed;
             }
+
+            /**
+             * @type {boolean}
+             */
+            networkError = false;
 
             constructor() {
                 super($scope);
@@ -42,12 +48,17 @@
                  */
                 this.activeUserAddress = null;
                 /**
+                 * @type {boolean}
+                 */
+                this.needPassword = true;
+                /**
                  * @type {number}
                  * @private
                  */
                 this._activeUserIndex = null;
 
                 this.observe('activeUserAddress', this._calculateActiveIndex);
+                this.observe('password', this._updatePassword);
 
                 if (WavesApp.isWeb()) {
                     storage.load('accountImportComplete')
@@ -67,25 +78,49 @@
                 return modalManager.showTutorialModals();
             }
 
+            _updatePassword() {
+                if (this.password) {
+                    this.showPasswordError = false;
+                    this.networkError = false;
+                }
+            }
+
             login() {
                 try {
+                    this.networkError = false;
                     this.showPasswordError = false;
-                    const activeUser = this.user;
-                    const encryptionRounds = user.getSettingByUser(activeUser, 'encryptionRounds');
-                    const phrase = Seed.decryptSeedPhrase(this.encryptedSeed, this.password, encryptionRounds);
-                    const seed = new Seed(phrase);
-                    const keyPair = seed.keyPair;
+                    const userSettings = user.getSettingsByUser(this.user);
+                    const activeUser = { ...this.user, password: this.password, settings: userSettings };
+                    const api = ds.signature.getDefaultSignatureApi(activeUser);
+                    const adapterAvailablePromise = api.isAvailable();
 
-                    if (seed.address === activeUser.address) {
-                        user.login({
-                            address: activeUser.address,
-                            api: ds.signature.getDefaultSignatureApi(keyPair, activeUser.address, phrase),
-                            password: this.password,
-                            publicKey: seed.keyPair.publicKey
-                        });
+                    let canLoginPromise;
+
+                    if (this._isSeedAdapter(api)) {
+                        canLoginPromise = adapterAvailablePromise.then(() => api.getAddress())
+                            .then(address => address === activeUser.address ? true : Promise.resolve('Wrong address!'));
                     } else {
-                        this._showPasswordError();
+                        canLoginPromise = modalManager.showSignLedger({
+                            promise: adapterAvailablePromise,
+                            mode: `connect-${api.type}`
+                        }).then(() => adapterAvailablePromise);
                     }
+
+                    return canLoginPromise.then(() => {
+                        return user.login({
+                            api,
+                            userType: api.type,
+                            password: this.password,
+                            address: activeUser.address
+                        });
+                    }, () => {
+                        if (!this._isSeedAdapter(api)) {
+                            return modalManager.showLedgerError({ error: 'load-user-error' })
+                                .catch(() => Promise.resolve());
+                        } else {
+                            this._showPasswordError();
+                        }
+                    });
                 } catch (e) {
                     this._showPasswordError();
                 }
@@ -96,9 +131,18 @@
              */
             removeUser(address) {
                 const user = this.userList.find((user) => user.address === address);
-                modalManager.showConfirmDeleteUser(user.settings.hasBackup).then(() => {
+                modalManager.showConfirmDeleteUser(user).then(() => {
                     this._deleteUser(address);
                 });
+            }
+
+            /**
+             * @param {Adapter} api
+             * @return boolean
+             * @private
+             */
+            _isSeedAdapter(api) {
+                return api.type && api.type === 'seed';
             }
 
             /**
@@ -107,6 +151,7 @@
             _showPasswordError() {
                 this.password = '';
                 this.showPasswordError = true;
+                this.networkError = this.user.networkError;
             }
 
             /**
@@ -155,8 +200,10 @@
             _updateActiveUserAddress() {
                 if (this.userList.length) {
                     this.activeUserAddress = this.userList[0].address;
+                    this.needPassword = !this.userList[0].userType || this.userList[0].userType === 'seed';
                 } else {
                     this.activeUserAddress = null;
+                    this.needPassword = true;
                 }
                 this._updatePageUrl();
             }
@@ -192,6 +239,7 @@
                 });
 
                 this._activeUserIndex = index;
+                this.needPassword = !this.userList[index].userType || this.userList[index].userType === 'seed';
             }
 
         }

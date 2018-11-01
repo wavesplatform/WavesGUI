@@ -4,35 +4,73 @@
 
     <ng-transclude></ng-transclude>
 
-    <div class="row">
+    <div class="row" ng-if="!$ctrl.isLira">
+        <div ng-if="$ctrl.toBankMode && !$ctrl.isVerified && !$ctrl.isBankPendingOrError"
+             class="warning-plate warning-plate-red">
+            <div class="body-2 error-500" w-i18n="modal.send.notVerifiedHeader"></div>
+            <div class="footnote-1 basic-500" w-i18n="modal.send.notVerifiedText"></div>
+        </div>
+    </div>
 
+    <div class="row">
         <div class="flex-row-title">
             <div class="body-2" w-i18n="modal.send.recipient"></div>
+            <div ng-if="$ctrl.hasSendToBank"
+                 class="toggle-mode-container">
+                <span class="link"
+                      ng-click="$ctrl.toBankMode = !$ctrl.toBankMode"
+                      ng-if="!$ctrl.toBankMode"
+                      w-i18n="modal.send.toBank"></span>
+                <span class="link"
+                      ng-click="$ctrl.toBankMode = !$ctrl.toBankMode"
+                      ng-if="$ctrl.toBankMode"
+                      w-i18n="modal.send.toWaves"></span>
+            </div>
         </div>
 
-        <div>
-            <w-input-container>
-                <div class="read-address-wrap">
-                    <w-input type="text"
-                             name="recipient"
-                             ng-model="$ctrl.state.singleSend.recipient"
-                             placeholder="modal.send.placeholderRecipient"
-                             w-i18n-attr="placeholder"
-                             w-validate
-                             w-validator-any-address="{{$ctrl.state.assetId}}"
-                             required></w-input>
+        <div class="input-like big disabled" ng-if="$ctrl.toBankMode">
+            <span w-i18n="modal.send.bankAccount" ng-if="!$ctrl.isLira"></span>
+            <span w-i18n="modal.send.liraBankAccount" ng-if="$ctrl.isLira"></span>
+        </div>
 
-                    <w-qr-code-read on-read="$ctrl.onReadQrCode(result)" max-width="250"
-                                    max-height="160"></w-qr-code-read>
-                </div>
+        <w-input-container ng-if="!$ctrl.toBankMode">
+            <div class="read-address-wrap">
+                <w-input type="text"
+                         name="recipient"
+                         ng-model="$ctrl.state.singleSend.recipient"
+                         placeholder="modal.send.placeholderRecipient"
+                         w-i18n-attr="placeholder"
+                         w-validate
+                         w-validator-any-address="{{$ctrl.state.assetId}}"
+                         required></w-input>
 
-                <w-input-error message="anyAddress">
-                    <span w-i18n="modal.send.errors.address"></span>
-                </w-input-error>
-                <w-input-error message="required">
-                    <span w-i18n="modal.send.errors.required"></span>
-                </w-input-error>
-            </w-input-container>
+                <w-qr-code-read on-read="$ctrl.onReadQrCode(text)" max-width="415"
+                                max-height="310"></w-qr-code-read>
+            </div>
+
+            <w-input-error message="anyAddress">
+                <span w-i18n="modal.send.errors.address"></span>
+            </w-input-error>
+            <w-input-error message="required">
+                <span w-i18n="modal.send.errors.required"></span>
+            </w-input-error>
+        </w-input-container>
+    </div>
+
+    <div class="row relative" style="min-height: 60px;" ng-if="$ctrl.toBankMode && $ctrl.termsIsPending && !$ctrl.isLira">
+        <w-loader class="asd"></w-loader>
+    </div>
+
+    <div ng-if="$ctrl.toBankMode && !$ctrl.isBankPendingOrError && $ctrl.isVerified" class="margin-1">
+        <div class="warning-plate">
+            <div class="body-2 warning-500" w-i18n="modal.send.coinomatWarningHeader"></div>
+            <div class="footnote-1 basic-500" w-i18n="modal.send.coinomatWarningText"></div>
+        </div>
+    </div>
+
+    <div ng-if="$ctrl.toBankMode && !$ctrl.isBankPendingOrError && $ctrl.isVerified" class="row">
+        <div class="warning-plate">
+            <div class="body-2 warning-500" w-i18n="modal.send.coinomatLimits"></div>
         </div>
     </div>
 
@@ -73,7 +111,7 @@
         </w-button>
     </div>
 
-    <div ng-if="$ctrl.outerSendMode && $ctrl.isOldMoneroAddress() && !$ctrl.gatewayDetailsError">
+    <div ng-if="$ctrl.outerSendMode && $ctrl.isMoneroAddress() && !$ctrl.gatewayDetailsError">
         <div class="body-2" w-i18n="modal.send.moneroPaymentId"></div>
         <w-input-container class="row">
             <div>
@@ -104,7 +142,8 @@
         </w-input-container>
     </div>
 
-    <w-input-container class="row" ng-if="!$ctrl.gatewayDetailsError">
+    <w-input-container ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending"
+                       class="margin-top-2">
         <div class="body-2" w-i18n="modal.send.amount"></div>
         <div class="amount-wrap" ng-class="{'no-mirror': $ctrl.noMirror}">
 
@@ -113,6 +152,7 @@
                              max-balance="$ctrl.maxAmount"
                              fee="$ctrl.feeList"
                              input-classes="big"
+                             disabled="$ctrl.toBankMode && (!$ctrl.isVerified || !$ctrl.termsAccepted)"
                              min="$ctrl.minAmount"
                              on-focus="$ctrl.focus = 'amount'"
                              on-blur="$ctrl.focus = ''"
@@ -127,6 +167,7 @@
                              fill-max="$ctrl.fillMax()"
                              fee="$ctrl.tx.fee"
                              input-classes="big"
+                             disabled="$ctrl.toBankMode && (!$ctrl.isVerified || !$ctrl.termsAccepted)"
                              amount="$ctrl.mirror">
             </w-balance-input>
 
@@ -138,27 +179,47 @@
         <w-input-error name="amount" message="gt">
             <span ng-if="$ctrl.tx.amount.getTokens().eq(0)" w-i18n="inputs.errors.required"></span>
             <span ng-if="$ctrl.tx.amount.getTokens().gt(0)" w-i18n="inputs.errors.gtGatewayMin"
-                  params="{min: $ctrl.gatewayDetails.minimumAmount, assetName: $ctrl.tx.amount.asset.displayName}">
+                  params="{min: $ctrl.minimumAmount, assetName: $ctrl.tx.amount.asset.displayName}">
             </span>
         </w-input-error>
         <w-input-error name="amount" message="precision">
             <span w-i18n="modal.send.errors.precision"
                   params="{precision: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.precision}"></span>
         </w-input-error>
-        <w-input-error name="amountMirror" message="precision">
-            <span w-i18n="modal.send.errors.precision"
-                  params="{precision: $ctrl.state.moneyHash[$ctrl.state.mirrorId].asset.precision}"></span>
-        </w-input-error>
         <w-input-error name="amount" message="lte">
-            <span ng-if="$ctrl.tx.amount.getTokens().gt($ctrl.moneyHash[$ctrl.assetId].getTokens())"
+            <span ng-if="!$ctrl.tx.amount.getTokens().gte($ctrl.gatewayDetails.maximumAmount)"
                   w-i18n="modal.send.errors.max"></span>
-            <span ng-if="!$ctrl.tx.amount.getTokens().gt($ctrl.moneyHash[$ctrl.assetId].getTokens())"
+            <span ng-if="$ctrl.tx.amount.getTokens().gte($ctrl.gatewayDetails.maximumAmount)"
                   params="{money: $ctrl.maxGatewayAmount}"
                   w-i18n="modal.send.errors.maxCoinomat"></span>
         </w-input-error>
     </w-input-container>
 
-    <div ng-if="!$ctrl.outerSendMode && !$ctrl.gatewayDetailsError" class="row margin-1">
+    <w-input-container ng-if="$ctrl.toBankMode && !$ctrl.isBankPendingOrError"
+                       class="margin-top-2">
+        <div class="body-2">
+            <span w-i18n="modal.send.idNumberTitle"></span>
+            <w-help-icon>
+                <div w-i18n="modal.send.idNumber.helpIcon.title"
+                     class="help-icon__row headline-3"></div>
+                <div w-i18n="modal.send.idNumber.helpIcon.description"
+                     class="help-icon__row"></div>
+            </w-help-icon>
+        </div>
+        <w-input required
+                 w-validate
+                 ng-disabled="!$ctrl.termsAccepted"
+                 w-validator-pattern="\d*"
+                 ng-model="$ctrl.state.singleSend.attachment"
+                 name="id-number"
+                 type="text"></w-input>
+        <w-input-error name="idNumber" message="required">
+            <span w-i18n="inputs.errors.required"></span>
+        </w-input-error>
+    </w-input-container>
+
+    <div ng-if="!$ctrl.toBankMode && !$ctrl.hasOuterError"
+         class="margin-top-2">
         <div class="body-2" w-i18n="modal.send.description"></div>
         <w-input-container>
             <w-input textarea="true"
@@ -175,27 +236,65 @@
         </w-input-container>
     </div>
 
-    <div class="row fee margin-1" ng-if="!$ctrl.gatewayDetailsError">
-        <div class="body basic-500">
-            <span w-i18n="modal.send.fee" params="{fee: $ctrl.tx.fee}"></span>
-        </div>
+    <div class="fee margin-1 margin-top-1" ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending">
+        <w-fee-list type="::$ctrl.txType"
+                    disabled="$ctrl.toBankMode && (!$ctrl.isVerified || !$ctrl.termsAccepted)"
+                    balance-hash="$ctrl.state.moneyHash"
+                    fee="$ctrl.tx.fee"></w-fee-list>
     </div>
 
-    <div class="row commission-error margin-2 footnote error-500" ng-if="!$ctrl.hasComission && !$ctrl.gatewayDetailsError">
+    <div class="commission-error margin-top-1 margin-2 footnote error-500"
+         ng-if="!$ctrl.hasComission && !$ctrl.gatewayDetailsError">
         <span w-i18n="modal.send.validationError.notEnoughFundsWithdraw"
               ng-show="$ctrl.outerSendMode"
-              params="{fee: $ctrl.state.singleSend.fee, getawayFee: $ctrl.gatewayDetails.gatewayFee, currency: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.displayName}"></span>
+              params="{
+                fee: $ctrl.state.singleSend.fee,
+                getawayFee: $ctrl.gatewayDetails.gatewayFee,
+                currency: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.displayName,
+                minGatewayAmount: $ctrl.gatewayDetails.minimumAmount
+              }"></span>
         <span w-i18n="modal.send.validationError.notEnoughFunds"
               ng-hide="$ctrl.outerSendMode"
               params="{fee: $ctrl.state.singleSend.fee}"></span>
     </div>
 
-    <w-button ng-if="!$ctrl.gatewayDetailsError"
-              on-click="$ctrl.createTx()"
-              disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission)"
-              type="submit"
-              class="big submit long">
-        <span w-i18n="button.continue"></span>
-    </w-button>
+    <div ng-if="$ctrl.toBankMode && !$ctrl.isLira"" class="margin-top-2">
+        <w-coinomat-terms force-show-terms="::false"
+                          terms-pending="$ctrl.termsIsPending"
+                          load-error="$ctrl.termsLoadError"
+                          show-accepted-checkbox="::false"
+                          is-verified="$ctrl.isVerified"
+                          terms-accepted="$ctrl.termsAccepted"
+                          on-sign-start="$ctrl.onSignCoinomatStart()"
+                          on-sign-end="$ctrl.onSignCoinomatEnd()"></w-coinomat-terms>
+    </div>
 
+    <div ng-if="$ctrl.toBankMode && $ctrl.isLira" class="margin-top-2">
+        <div class="warning-plate margin-2">
+            <div class="body-2 warning-500" w-i18n="modal.receive.wtryPlate1Header"></div>
+            <div class="footnote-1 basic-500" w-i18n="modal.receive.wtryPlate1Text"></div>
+        </div>
+
+        <div class="row margin-3 caption-1 info-block">
+            <i class="icon-info"></i>
+            <div w-i18n="modal.receive.wtry.info"></div>
+        </div>
+    </div>
+
+    <div class="margin-top-3">
+        <a href="{{$ctrl.digiLiraUserLink}}"
+           target="_blank"
+           ng-if="$ctrl.toBankMode && $ctrl.isLira"
+           class="fake-button long">
+            <span class="fake-button-content big submit long" w-i18n="button.continue"></span>
+        </a>
+
+        <w-button ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending && !$ctrl.signInProgress && !($ctrl.toBankMode && $ctrl.isLira)"
+                  on-click="$ctrl.createTx()"
+                  disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission) || ($ctrl.toBankMode && !$ctrl.termsAccepted)"
+                  type="submit"
+                  class="big submit long">
+            <span w-i18n="button.continue"></span>
+        </w-button>
+    </div>
 </form>

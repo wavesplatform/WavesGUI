@@ -13,12 +13,15 @@
      * @param {$rootScope.Scope} $scope
      * @param {User} user
      * @param {app.utils} utils
+     * @param {$mdDialog} $mdDialog
      * @return {GatewaySignCtrl}
      */
-    const controller = function (Base, $scope, user, utils) {
+    const controller = function (Base, $scope, user, utils, $mdDialog) {
 
         const isEmpty = (value) => !value;
         const tsApiValidator = require('ts-api-validator');
+        const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const ds = require('data-service');
         const schema = new tsApiValidator.Schema({
             type: tsApiValidator.ObjectPart,
             required: true,
@@ -35,6 +38,61 @@
         class GatewaySignCtrl extends Base {
 
             /**
+             * @type {boolean}
+             */
+            isSeed = false;
+            /**
+             * @type {boolean}
+             */
+            signAdapterError = false;
+            /**
+             * @type {boolean}
+             */
+            signPending = false;
+            /**
+             * @type {boolean}
+             */
+            isDesktop = WavesApp.isDesktop();
+            /**
+             * @type {boolean}
+             */
+            hasError = false;
+            /**
+             * @type {string}
+             */
+            imageSrc = '';
+            /**
+             * @type {string}
+             */
+            referrer = '';
+            /**
+             * @type {string}
+             */
+            name = '';
+            /**
+             * @type {string}
+             * @private
+             */
+            successUrl = '';
+            /**
+             * @readonly
+             * @type {boolean}
+             */
+            debug = false;
+            /**
+             * @type {Object}
+             */
+            search = null;
+            /**
+             * @type {string}
+             */
+            userType = null;
+            /**
+             * @type {string}
+             */
+            titleLiteral = LOCALIZATION.title.normal;
+
+            /**
              * @param {object} search
              * @param {string} search.n Gateaway application name
              * @param {string} search.r Gateaway referrer
@@ -45,38 +103,10 @@
              */
             constructor(search) {
                 super($scope);
-
-                this.hasError = false;
-                /**
-                 * @type {string}
-                 */
-                this.imageSrc = '';
-                /**
-                 * @type {string}
-                 */
-                this.successPath = '';
-                /**
-                 * @type {string}
-                 */
-                this.referrer = '';
-                /**
-                 * @type {string}
-                 */
-                this.name = '';
-                /**
-                 * @type {string}
-                 * @private
-                 */
-                this._successUrl = '';
-                /**
-                 * @type {boolean}
-                 */
+                this.search = search;
+                this.userType = user.userType;
                 this.debug = !!search.debug;
-                /**
-                 * @type {string}
-                 */
-                this.titleLiteral = LOCALIZATION.title.normal;
-
+                this.isSeed = user.userType === 'seed';
                 this.observe('hasError', (value) => {
                     if (value) {
                         this.titleLiteral = LOCALIZATION.title.error;
@@ -86,38 +116,76 @@
                 });
 
                 schema.parse(search)
-                    .then((data) => {
-                        return ds.signature.getSignatureApi().getSeed().then((seed) => ({ seed, data }));
-                    })
                     .then((params) => {
-                        const seed = new ds.Seed(params.seed);
-                        const search = params.data;
-                        const { referrer, name, data, iconPath, successPath } = search;
-
+                        this.urlParams = params;
+                        const { referrer, name, iconPath } = params;
                         this.referrer = referrer;
                         this.name = name;
 
                         this._setImageUrl(referrer, iconPath);
 
-                        const prefix = 'WavesWalletAuthentication';
-                        const host = GatewaySignCtrl._getDomain(referrer);
+                        return this.createUrl();
+                    }).catch((e) => {
+                        this._sendError(e.message || e);
+                        this.signPending = false;
+                    }).finally(() => $scope.$apply());
+            }
 
-                        return ds.signature.getSignatureApi().sign({ data: { prefix, host, data }, type: 1000 })
-                            .then((signature) => {
-                                const publicKey = seed.keyPair.publicKey;
-                                const search = `?s=${signature}&p=${publicKey}&a=${user.address}&d=${data}`;
-                                const path = successPath || '';
-                                const url = `${referrer}/${path}${search}`;
-                                this._successUrl = GatewaySignCtrl._normalizeUrl(url);
-                            });
-                    })
+            sign() {
+                this.createUrl()
                     .catch((e) => {
                         this._sendError(e.message || e);
-                    });
+                        this.signPending = false;
+                    }).finally(() => $scope.$apply());
+            }
+
+            signAuth(adapter, data) {
+                this.signPending = true;
+                const signable = adapter.makeSignable(data);
+                signable.getId().then(id => {
+                    this.id = id;
+                    $scope.$apply();
+                });
+                return signable.getSignature();
+            }
+
+            createUrl() {
+                const { referrer, data, successPath } = this.urlParams;
+                const prefix = 'WavesWalletAuthentication';
+                const host = GatewaySignCtrl._getDomain(referrer);
+                const signData = {
+                    type: SIGN_TYPE.AUTH,
+                    data: { prefix, host, data }
+                };
+                const adapter = ds.signature.getSignatureApi();
+                const sign = this.signAuth(adapter, signData);
+
+                return Promise.all([sign, adapter.getPublicKey()]).then(([signature, publicKey]) => {
+                    const search = `?s=${signature}&p=${publicKey}&a=${user.address}`;
+                    const path = successPath || '';
+                    const url = `${referrer}/${path}${search}`;
+                    this.signPending = false;
+                    this.signAdapterError = false;
+                    this.successUrl = GatewaySignCtrl._normalizeUrl(url);
+
+                    if (!this.isSeed) {
+                        this.send();
+                        $mdDialog.cancel();
+                    }
+
+                }).catch(e => {
+                    this.signPending = false;
+
+                    if (this.isSeed) {
+                        return Promise.reject(e);
+                    }
+
+                    this.signAdapterError = true;
+                });
             }
 
             send() {
-                utils.redirect(this._successUrl);
+                utils.redirect(this.successUrl);
             }
 
             /**
@@ -185,7 +253,7 @@
         return new GatewaySignCtrl(this.search);
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'utils'];
+    controller.$inject = ['Base', '$scope', 'user', 'utils', '$mdDialog'];
 
     angular.module('app.utils').controller('GatewaySignCtrl', controller);
 })();

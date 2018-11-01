@@ -13,8 +13,15 @@ md-dialog.settings-modal {
   min-width: 740px;
   color: @color-disabled-900;
 
-  md-dialog-content::after {
-    display: none;
+  md-dialog-content {
+    padding-top: 20px;
+    &::after {
+      display: none;
+    }
+  }
+
+  w-web-only {
+    display: block;
   }
 
   w-select {
@@ -117,7 +124,7 @@ md-dialog.settings-modal {
     flex-direction: row;
     flex-shrink: 0;
     position: relative;
-    min-height: 390px;
+    min-height: 380px;
 
     .settings-content {
       position: relative;
@@ -141,38 +148,29 @@ md-dialog.settings-modal {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    align-items: center;
+
+    &.unit-checkbox {
+      min-height: auto;
+    }
+
+    &:not(.unit-checkbox) {
+      align-items: center;
+    }
+  }
+
+  .row {
+    min-height: 44px;
   }
 
   .row-style {
-    padding: 12px 0;
     border-bottom: 1px dashed @color-basic-200;
 
-    &:last-child {
-      border-bottom-style: solid;
-      align-items: center;
+    &.solid-border {
+      border-bottom: 1px solid @color-basic-200;
     }
 
-    &.unit-checkbox {
-      // TODO : make it work properly without magic
-      padding-top: 5px;
-
-      w-checkbox-submit {
-        flex-grow: 0;
-        display: block;
-        margin-right: 18px;
-        padding-right: 18px;
-        align-self: flex-start;
-      }
-
-      label {
-        flex-grow: 1;
-      }
-    }
-
-    &.unit-select {
-      // TODO : align to the middle without magic
-      padding: 5px 0;
+    &.no-border {
+      border: 0 none;
     }
   }
 
@@ -216,6 +214,10 @@ md-dialog.settings-modal {
   }
 
   .network {
+    & > div {
+      margin: 0 0 40px;
+    }
+
     .row-style {
       border-bottom: 0 none;
       padding: 0;
@@ -301,7 +303,7 @@ md-dialog.settings-modal {
       min-width: 360px;
       border-bottom: 1px solid @color-accent-50;
       left: 0;
-      top:81px;
+      top:79px;
       position: fixed;
       margin: -20px -10px 0 -20px;
       border-right: 0 none;

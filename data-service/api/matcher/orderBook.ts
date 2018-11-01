@@ -6,11 +6,17 @@ import { request } from '../../utils/request';
 
 
 export function get(asset1: string, asset2: string): Promise<IOrderBook> {
-    return getAssetPair(asset1, asset2)
+    const timeout = new Promise<IOrderBook>((_, reject) => {
+        setTimeout(() => reject(new Error('Request timeout!')), 3000);
+    });
+
+    const promise = getAssetPair(asset1, asset2)
         .then((pair) => {
             return request({ url: `${getConfig('matcher')}/orderbook/${pair.toString()}` })
                 .then(addParam(remapOrderBook, pair));
         });
+
+    return Promise.race([promise, timeout]);
 }
 
 function remapOrderBook(orderBook, pair: AssetPair): IOrderBook {

@@ -46,18 +46,50 @@
 
             </div>
 
-            <div class="buttons-wrapper">
-                <w-button class="big" on-click="$ctrl.onClickBack()">
-                    <span w-i18n="confirmGatewayTransaction.back"></span>
-                </w-button>
-                <w-button class="big submit" w-next-step on-click="$ctrl.confirm()">
-                    <span w-i18n="confirmGatewayTransaction.confirm"></span>
-                </w-button>
+            <div class="bottom-wrapper">
+                <div class="bottom-warning margin-3" ng-if="$ctrl.deviceSignFail">
+                    <div class="warning-plate warning-plate-red">
+                        <div class="body-2 error-400" w-i18n-ns="app.ui"
+                             w-i18n="confirmTransaction.ledgerUnconfirmed.header"></div>
+                        <div class="footnote-1 basic-500" w-i18n-ns="app.ui"
+                             w-i18n="confirmTransaction.ledgerUnconfirmed.description"></div>
+                    </div>
+                </div>
+
+                <div class="device-loader-wrapper" ng-if="$ctrl.loadingSignFromDevice">
+                    <div class="info basic-700">
+                        <span w-i18n-ns="app.utils" w-i18n="confirmTransaction.signLedger"></span>
+                    </div>
+                    <w-loader></w-loader>
+                </div>
+
+                <div class="buttons-wrapper" ng-if="!$ctrl.loadingSignFromDevice">
+                    <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
+                        <span w-i18n="confirmGatewayTransaction.back"></span>
+                    </w-button>
+                    <w-button ng-if="!$ctrl.deviceSignFail"
+                              class="big submit"
+                              ng-class="{long: $ctrl.noBackButton}"
+                              w-next-step
+                              on-click="$ctrl.confirm()">
+                        <span w-i18n="confirmGatewayTransaction.confirm"></span>
+                    </w-button>
+                    <w-button class="big submit"
+                              ng-if="$ctrl.deviceSignFail"
+                              on-click="$ctrl.trySign()">
+                        <span w-i18n-ns="app.wallet.transactions" w-i18n="confirmTransaction.retrySign"></span>
+                    </w-button>
+                </div>
             </div>
         </w-step>
         <w-step>
             <div class="icon icon-tx-success margin-2"></div>
-            <h2 class="text-center basic-900" w-i18n="confirmGatewayTransaction.success"></h2>
+            <h2 class="text-center basic-900 margin-4" w-i18n="confirmGatewayTransaction.success"></h2>
+            <div class="text-center">
+                <w-button class="submit half big" on-click="$ctrl.showTxInfo()">
+                    <span w-i18n="confirmTransaction.details"></span>
+                </w-button>
+            </div>
         </w-step>
     </w-step-by-step>
 </div>

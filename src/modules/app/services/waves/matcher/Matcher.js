@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const ds = require('data-service');
+
     /**
      * @param {app.utils} utils
      * @param {app.utils.decorators} decorators
@@ -21,9 +23,10 @@
             /**
              * @return {Promise<Array<IOrder>>}
              */
+            @decorators.cachable(1)
             getOrders() {
                 if (user.address) {
-                    return ds.dataManager.getOrders();
+                    return ds.api.matcher.getOrders().then(ds.processOrdersWithStore);
                 } else {
                     return Promise.resolve([]);
                 }

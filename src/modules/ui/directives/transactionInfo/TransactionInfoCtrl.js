@@ -16,6 +16,9 @@
      */
     const controller = function (Base, $scope, $filter, explorerLinks, baseAssetService, dexService, waves) {
 
+        const ds = require('data-service');
+        const { Money } = require('@waves/data-entities');
+
         class TransactionInfoCtrl extends Base {
 
             constructor() {
@@ -25,11 +28,11 @@
                  * @type {ITransaction}
                  */
                 this.transaction = null;
+                this.txId = null;
             }
 
             $postLink() {
                 const transaction = this.transaction;
-
                 this.templateUrl = `${PATH}/${transaction.templateType}.html`;
                 this.datetime = $filter('date')(transaction.timestamp, 'dd.MM.yyyy, HH:mm');
                 this.shownAddress = transaction.shownAddress;
@@ -37,7 +40,6 @@
                 this.numberOfRecipients = transaction.numberOfRecipients;
                 this.isScam = !!WavesApp.scam[this.transaction.assetId];
                 this.explorerLink = explorerLinks.getTxLink(transaction.id);
-
                 if (transaction.amount || (transaction.lease && transaction.lease.amount)) {
                     const amount = transaction.amount || transaction.lease.amount;
                     baseAssetService.convertToBaseAsset(amount)
@@ -67,6 +69,15 @@
                     } else {
                         this.calculatedFee = this.transaction.sellMatcherFee;
                     }
+                } else if (this.typeName === TYPES.SPONSORSHIP_FEE) {
+                    this.calculatedFee = null;
+                    ds.api.assets.get('WAVES').then((asset) => {
+                        this.calculatedFee = new Money(100000, asset); // TODO hardcode fee
+                        $scope.$digest();
+                    });
+                } else if (this.typeName === TYPES.SPONSORSHIP_START) {
+                    this.isSponsoredFee = true;
+                    this.calculatedFee = this.transaction.fee;
                 } else {
                     this.calculatedFee = this.transaction.fee;
                 }
@@ -82,6 +93,7 @@
     angular.module('app.ui').component('wTransactionInfo', {
         bindings: {
             transaction: '<',
+            txId: '<',
             warning: '<'
         },
         templateUrl: 'modules/ui/directives/transactionInfo/transaction-info.html',

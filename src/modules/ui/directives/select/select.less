@@ -16,6 +16,11 @@ w-select {
     height: @height-control-big;
   }
 
+  &.disabled .select {
+    background: @color-basic-50;
+    cursor: default;
+  }
+
   @media screen and (max-width: 768px) {
     &.big {
       height: @height-control-big-responsive;
@@ -140,6 +145,4 @@ w-select {
       }
     }
   }
-
-
 }

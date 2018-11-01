@@ -11,7 +11,7 @@
             i18next.on('initialized', resolve);
         });
 
-        const escape = function (text) {
+        const escape = function (text = '') {
             return text.split('').map((char) => {
                 switch (char.charCodeAt(0)) {
                     case 34: // "

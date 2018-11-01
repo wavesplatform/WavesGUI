@@ -16,12 +16,27 @@
      */
     const controller = function (Base, waves, $attrs, $mdDialog, modalManager, user, $scope, utils, validateService) {
 
-        const TYPES = WavesApp.TRANSACTION_TYPES.NODE;
+        const ds = require('data-service');
+        const { Asset } = require('@waves/data-entities');
+        const { TRANSACTION_TYPE_NUMBER } = require('@waves/signature-adapter');
+        const { SIGN_TYPE } = require('@waves/signature-adapter');
 
         class ConfirmTransaction extends Base {
 
             constructor() {
                 super();
+                /**
+                 * @type {boolean}
+                 */
+                this.deviceBufferOverflow = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.rejectByUser = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.signError = false;
                 /**
                  * @type {function}
                  */
@@ -51,30 +66,100 @@
                  * @type {string}
                  */
                 this.txId = '';
+                /**
+                 * @type {string}
+                 */
+                this.type = user.userType;
+                /**
+                 * @type {boolean}
+                 */
+                this.loadingSignFromDevice = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.deviceSignFail = false;
+                /**
+                 * @type {Signable}
+                 * @private
+                 */
+                this._signable = null;
+                // /**
+                //  * @type {boolean}
+                //  */
+                // this.has2fa = null;
 
+                this.observe('tx', this._onChangeTx);
                 this.observe('showValidationErrors', this._showErrors);
             }
 
-            $postLink() {
-                const timestamp = ds.utils.normalizeTime(this.tx.timestamp || Date.now());
-                const tx = { ...this.tx, timestamp };
+            /**
+             * @return {boolean}
+             */
+            canSignFromDevice() {
+                return this.type && this.type !== 'seed' || false;
+            }
 
-                Promise.all([
-                    ConfirmTransaction.switchOnTxType(ds.prepareForBroadcast, tx.transactionType, tx),
-                    ConfirmTransaction.switchOnTxType(ds.getTransactionId, tx.transactionType, tx)
-                ]).then(([preparedTx, txId]) => {
-                    this.preparedTx = preparedTx;
-                    this.txId = txId;
-                });
+            /**
+             * @return {Promise<string>}
+             */
+            getTxId() {
+                return this._signable.getId();
+            }
+
+            signTx() {
+                this.loadingSignFromDevice = this.canSignFromDevice();
+                return this._signable.getDataForApi();
+            }
+
+            getTxData() {
+                this.getTxId()
+                    .then(() => {
+                        this.deviceSignFail = false;
+                        this.loadingSignFromDevice = this.canSignFromDevice();
+                        if (this.errors.length && this.loadingSignFromDevice) {
+                            throw new Error('No money');
+                        }
+                        $scope.$digest();
+                        return this.signTx();
+                    })
+                    .then(preparedTx => {
+                        this.preparedTx = preparedTx;
+
+                        if (this.canSignFromDevice() && !this.wasDestroed) {
+                            this.confirm();
+                        }
+                    })
+                    .catch((e) => {
+                        this.loadingSignFromDevice = false;
+                        this.deviceSignFail = true;
+                        this.deviceBufferOverflow = e && e.statusCode === 27024;
+                        this.rejectByUser = e && e.statusCode === 37120;
+                        this.signError = !(this.deviceBufferOverflow || this.rejectByUser);
+                        $scope.$digest();
+                    });
+            }
+
+            trySign() {
+                return this.getTxData();
+            }
+
+            $postLink() {
+                this.trySign();
             }
 
             confirm() {
-                return this.sendTransaction().then(({ id }) => {
-                    this.tx.id = id;
+                return this.sendTransaction().then(tx => {
+                    this.tx.id = tx.id;
+
+                    if (this._isIssueTx()) {
+                        this._saveIssueAsset(tx);
+                    }
+
                     this.step++;
-                    this.onTxSent({ id });
+                    this.onTxSent({ id: tx.id });
                     $scope.$apply();
                 }).catch((e) => {
+                    this.loadingSignFromDevice = false;
                     console.error(e);
                     console.error('Transaction error!');
                     $scope.$apply();
@@ -89,21 +174,52 @@
             }
 
             sendTransaction() {
-                const txType = ConfirmTransaction.upFirstChar(this.tx.transactionType);
                 const amount = ConfirmTransaction.toBigNumber(this.tx.amount);
 
                 return ds.broadcast(this.preparedTx).then((data) => {
                     analytics.push(
-                        'Transaction', `Transaction.${txType}.${WavesApp.type}`,
-                        `Transaction.${txType}.${WavesApp.type}.Success`, amount
+                        'Transaction', `Transaction.${this.tx.type}.${WavesApp.type}`,
+                        `Transaction.${this.tx.type}.${WavesApp.type}.Success`, amount
                     );
                     return data;
                 }, (error) => {
                     analytics.push(
-                        'Transaction', `Transaction.${txType}.${WavesApp.type}`,
-                        `Transaction.${txType}.${WavesApp.type}.Error`, amount
+                        'Transaction', `Transaction.${this.tx.type}.${WavesApp.type}`,
+                        `Transaction.${this.tx.type}.${WavesApp.type}.Error`, amount
                     );
                     return Promise.reject(error);
+                });
+            }
+
+            _isIssueTx() {
+                return this.tx.type === SIGN_TYPE.ISSUE;
+            }
+
+            _saveIssueAsset(tx) {
+                waves.node.height().then(height => {
+                    ds.assetStorage.save(tx.id, new Asset({
+                        ...tx,
+                        ticker: null,
+                        precision: tx.decimals,
+                        height
+                    }));
+                });
+            }
+
+            /**
+             * @private
+             */
+            _onChangeTx() {
+                const timestamp = ds.utils.normalizeTime(this.tx.timestamp || Date.now());
+                const data = { ...this.tx, timestamp };
+                const type = this.tx.type;
+
+                this._signable = ds.signature.getSignatureApi()
+                    .makeSignable({ type, data });
+
+                this._signable.getId().then(id => {
+                    this.txId = id;
+                    $scope.$digest();
                 });
             }
 
@@ -111,79 +227,71 @@
              * @private
              */
             _showErrors() {
-                if (this.showValidationErrors) {
-                    if (this.tx.transactionType === TYPES.TRANSFER) {
-                        const errors = [];
-                        Promise.all([
-                            waves.node.assets.userBalances()
-                                .then((list) => list.map(({ available }) => available))
-                                .then((list) => {
-                                    const hash = utils.toHash(list, 'asset.id');
-                                    const amount = this.tx.amount;
-                                    if (!hash[amount.asset.id] ||
-                                        hash[amount.asset.id].lt(amount) ||
-                                        amount.getTokens().lte(0)) {
-
-                                        errors.push({
-                                            literal: 'confirmTransaction.send.errors.balance.invalid'
-                                        });
-                                    }
-                                }),
-                            utils.resolve(utils.when(validateService.wavesAddress(this.tx.recipient)))
-                                .then(({ state }) => {
-                                    if (!state) {
-                                        errors.push({
-                                            literal: 'confirmTransaction.send.errors.recipient.invalid'
-                                        });
-                                    }
-                                })
-                        ]).then(() => {
-                            this.errors = errors;
-                            $scope.$apply();
-                        });
-                    }
-                } else {
-                    this.errors = [];
-                }
-            }
-
-            /**
-             * @param {Function} fn
-             * @param {string} typeName
-             * @param {object} tx
-             * @return {*}
-             */
-            static switchOnTxType(fn, typeName, tx) {
-                switch (typeName) {
-                    case TYPES.TRANSFER:
-                        return fn(4, tx);
-                    case TYPES.MASS_TRANSFER:
-                        return fn(11, tx);
-                    case TYPES.EXCHANGE:
-                        throw new Error('Can\'t create exchange transaction!');
-                    case TYPES.LEASE:
-                        return fn(8, tx);
-                    case TYPES.CANCEL_LEASING:
-                        return fn(9, tx);
-                    case TYPES.CREATE_ALIAS:
-                        return fn(10, tx);
-                    case TYPES.ISSUE:
-                        return fn(3, tx);
-                    case TYPES.REISSUE:
-                        return fn(5, tx);
-                    case TYPES.BURN:
-                        return fn(6, tx);
+                let promise;
+                switch (true) {
+                    case (this.tx.type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP):
+                        promise = this._validateAmount(this.tx.fee);
+                        break;
+                    case (this.tx.transactionType === TRANSACTION_TYPE_NUMBER.TRANSFER && this.showValidationErrors):
+                        promise = Promise.all([
+                            this._validateAmount(this.tx.amount),
+                            this._validateAddress()
+                        ]).then(([errors1, errors2]) => [...errors1, ...errors2]);
+                        break;
                     default:
-                        throw new Error('Wrong transaction type!');
+                        promise = Promise.resolve([]);
                 }
+
+                return promise.then((errors) => {
+                    this.errors = errors;
+                    $scope.$apply();
+                });
             }
 
             /**
-             * @param {string} str
-             * @returns {string}
+             * @return {Promise<Array | never>}
+             * @private
              */
-            static upFirstChar(str) {
-                return str.charAt(0).toUpperCase() + str.slice(1);
+            _validateAddress() {
+                const errors = [];
+                return utils.resolve(utils.when(validateService.wavesAddress(this.tx.recipient)))
+                    .then(({ state }) => {
+                        if (!state) {
+                            errors.push({
+                                literal: 'confirmTransaction.send.errors.recipient.invalid'
+                            });
+                        }
+                        return errors;
+                    });
+            }
+
+            /**
+             * @param amount
+             * @return {*}
+             * @private
+             */
+            _validateAmount(amount) {
+                const errors = [];
+
+                if (this.tx.type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP) {
+                    return waves.node.assets.userBalances()
+                        .then((list) => list.map(({ available }) => available))
+                        .then((list) => {
+                            const hash = utils.toHash(list, 'asset.id');
+                            if (!hash[amount.asset.id] ||
+                                hash[amount.asset.id].lt(amount) ||
+                                amount.getTokens().lte(0)) {
+
+                                errors.push({
+                                    literal: 'confirmTransaction.send.errors.balance.invalid'
+                                });
+                            }
+
+                            return errors;
+                        });
+                } else {
+                    return Promise.resolve([]);
+                }
             }
 
             static toBigNumber(amount) {

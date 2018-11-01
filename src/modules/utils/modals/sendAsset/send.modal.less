@@ -1,5 +1,5 @@
 @import (reference) '../../../app/less/typography';
-@import (reference) "../../../app/less/app-icons";
+@import (reference) '../../../app/less/app-icons';
 @import (reference) '../../../ui/directives/transactionInfo/transactionInfo';
 @import (reference) 'config';
 @import (reference) 'icons';
@@ -27,9 +27,12 @@ md-dialog.modal-send {
       display: none;
     }
 
+    .tab-container {
+      padding-top: 60px;
+    }
+
     .modal-content {
       overflow: auto;
-      padding-top: 60px;
 
       .error-title {
         position: fixed;
@@ -46,6 +49,29 @@ md-dialog.modal-send {
       .error-content {
         padding: 30px 40px;
       }
+
+      .note-plate {
+        position: relative;
+        margin: 0 0 20px;
+        background: @color-basic-50;
+        border: 1px dashed @color-basic-200;
+        padding: 14px;
+        border-radius: @border-radius;
+        min-height: 54px;
+        display: flex;
+        width: 100%;
+        align-items: center;
+
+        &.transparent {
+          background: transparent;
+          padding: 12px;
+        }
+      }
+
+      .help-icon__content {
+        left: 40px;
+        width: calc(100% ~'- 80px');
+      }
     }
 
     .icon-close {
@@ -61,9 +87,9 @@ md-dialog.modal-send {
     w-confirm-gateway-transaction,
     w-confirm-transaction {
       display: block;
-      padding: 60px 40px 0;
+      padding: 0 40px;
       max-height: calc(74vh ~'- 60px');
-      margin-top: -60px;
+      //margin-top: -60px;
 
       &::after {
         content: '';
@@ -134,11 +160,32 @@ md-dialog.modal-send {
       margin-top: -17px;
       border-left: 1px solid @color-basic-200;
 
-      .btn:before {
-        width: 38px;
-        height: 32px;
-        background-size: 38px;
-        cursor: pointer;
+      .btn {
+        &::before {
+          width: 38px;
+          height: 32px;
+          background-size: 38px;
+          cursor: pointer;
+        }
+
+        &.active {
+          &::before {
+            background: @modal-qr-active-close no-repeat center;
+          }
+
+          &::after {
+            width: 10px;
+            height: 10px;
+            content: '';
+            display: block;
+            background: @color-basic-200;
+            left: -8px;
+            position: absolute;
+            top: 50%;
+            z-index: 1;
+            transform: rotate(45deg) translateY(-50%);
+          }
+        }
       }
     }
 
@@ -149,19 +196,9 @@ md-dialog.modal-send {
     .read-address-wrap {
       position: relative;
 
-    .w-input-wrap input {
-      padding-right: 54px;
-    }
-  }
-
-    w-input-container .error.active {
-      display: inline-block;
-    }
-
-    textarea {
-      resize: vertical;
-      height: 47px;
-      max-height: 250px;
+      .w-input-wrap input {
+        padding-right: 54px;
+      }
     }
 
     .flex-row {
@@ -195,32 +232,42 @@ md-dialog.modal-send {
       &.margin-1 {
         margin-bottom: 10px;
       }
+    }
 
-      textarea {
-        resize: vertical;
-        min-height: 77px;
-        max-height: 300px;
-      }
+    textarea {
+      resize: vertical;
+      min-height: 77px;
+      max-height: 300px;
     }
 
     .asset-name {
       margin-left: 10px;
     }
 
-  .input-like {
-    position: relative;
-    padding: 0 20px;
-    border-radius: @border-radius;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    overflow-x: hidden;
-  }
+    .input-like {
+      position: relative;
+      padding: 0 20px;
+      border-radius: @border-radius;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      overflow-x: hidden;
+    }
 
     w-select {
       .title {
         overflow-x: hidden;
+
+        span {
+          white-space: nowrap;
+        }
+      }
+
+      .expanded {
+        .select-list {
+          margin-bottom: 40px;
+        }
       }
 
       .select-list {
@@ -237,7 +284,7 @@ md-dialog.modal-send {
     }
 
     .amount-modal-icon {
-      background-image: url(/img/icons/arrow.svg);
+      background-image: @double-arrow;
       background-size: 100% 100%;
       width: 24px;
       height: 20px;
@@ -325,13 +372,17 @@ md-dialog.modal-send {
 
       div {
         flex-grow: 1;
-
       }
 
       w-import-file,
       a {
         flex-grow: 0;
         margin: 4px 0;
+      }
+
+      .toggle-mode-container {
+        display: block;
+        text-align: right;
       }
     }
 
@@ -444,7 +495,6 @@ md-dialog.modal-send {
       w-select .select .title {
         font-size: @font-size-caption-1;
       }
-
     }
   }
 }

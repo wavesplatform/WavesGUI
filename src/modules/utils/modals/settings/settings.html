@@ -29,9 +29,22 @@
     <div class="settings-content">
         <w-step-by-step active-step="$ctrl.tab">
             <w-step step-id="general" class="general">
-                <div class="row flex-row row-style unit-checkbox">
+
+                <div class="row flex-row row-style unit-checkbox no-border">
                     <w-checkbox-submit id="shareStat" ng-model="$ctrl.shareStat"></w-checkbox-submit>
                     <label for="shareStat" w-i18n="modal.termsAccept.body.analytics"></label>
+                </div>
+
+                <w-web-only>
+                    <div class="row flex-row row-style unit-checkbox no-border">
+                        <w-checkbox-submit id="openLinkViaWeb" ng-model="$ctrl.openLinkViaWeb"></w-checkbox-submit>
+                        <label for="openLinkViaWeb" w-i18n="modal.settings.general.openLinkViaWeb"></label>
+                    </div>
+                </w-web-only>
+
+                <div class="row flex-row row-style unit-checkbox no-border">
+                    <w-checkbox-submit id="advancedMode" ng-model="$ctrl.advancedMode"></w-checkbox-submit>
+                    <label for="advancedMode" w-i18n="modal.termsAccept.body.advancedMode"></label>
                 </div>
 
                 <div class="row flex-row row-style unit-select">
@@ -44,19 +57,24 @@
                     <div>
                         <w-select class="with-scroll" ng-model="$ctrl.logoutAfterMin">
                             <w-option value="::5">
-                                <span w-i18n="modal.settings.general.minutes" w-i18n-ns="app.utils" params="{minutes: 5}"></span>
+                                <span w-i18n="modal.settings.general.minutes" w-i18n-ns="app.utils"
+                                      params="{minutes: 5}"></span>
                             </w-option>
                             <w-option value="::10">
-                                <span w-i18n="modal.settings.general.minutes" w-i18n-ns="app.utils" params="{minutes: 10}"></span>
+                                <span w-i18n="modal.settings.general.minutes" w-i18n-ns="app.utils"
+                                      params="{minutes: 10}"></span>
                             </w-option>
                             <w-option value="::20">
-                                <span w-i18n="modal.settings.general.minutes" w-i18n-ns="app.utils" params="{minutes: 20}"></span>
+                                <span w-i18n="modal.settings.general.minutes" w-i18n-ns="app.utils"
+                                      params="{minutes: 20}"></span>
                             </w-option>
                             <w-option value="::40">
-                                <span w-i18n="modal.settings.general.minutes" w-i18n-ns="app.utils" params="{minutes: 40}"></span>
+                                <span w-i18n="modal.settings.general.minutes" w-i18n-ns="app.utils"
+                                      params="{minutes: 40}"></span>
                             </w-option>
                             <w-option value="::60">
-                                <span w-i18n="modal.settings.general.hours" w-i18n-ns="app.utils" params="{hours: 1}"></span>
+                                <span w-i18n="modal.settings.general.hours" w-i18n-ns="app.utils"
+                                      params="{hours: 1}"></span>
                             </w-option>
                         </w-select>
                     </div>
@@ -89,14 +107,14 @@
                     </div>
                 </div-->
 
-                <div class="row flex-row row-style">
+                <div class="row flex-row row-style solid-border">
                     <div class="footnote-1 disabled-600" w-i18n="modal.settings.general.blockHeight"></div>
                     <div><span class="label">{{$ctrl.blockHeight}}</span></div>
                 </div>
             </w-step>
 
             <w-step step-id="security" class="security">
-                <div class="row margin-1">
+                <div class="row margin-1" ng-if="$ctrl.phrase">
                     <div class="footnote-1 disabled-600 label">
                         <span w-i18n="modal.settings.security.backupPhrase"></span>
                         <a class="settings-copy" w-copy="::$ctrl.phrase" w-i18n="modal.settings.network.copy"></a>
@@ -109,7 +127,7 @@
                     </div>
                 </div>
 
-                <div class="row margin-1">
+                <div class="row margin-1" ng-if="$ctrl.privateKey">
                     <div class="footnote-1 disabled-600 label">
                         <span w-i18n="modal.settings.security.privateKey"></span>
                         <a class="settings-copy"
@@ -164,7 +182,7 @@
                     </div>
                 </div>
 
-                <div class="row margin-2">
+                <div class="margin-3 margin-top-2">
                     <div class="row flex-row row-style unit-checkbox">
                         <w-checkbox-submit id="spamFilterToggle" ng-model="$ctrl.withScam"></w-checkbox-submit>
                         <label for="spamFilterToggle" w-i18n="modal.settings.network.spamFilterInputDescr"></label>
@@ -187,6 +205,7 @@
                     <div><a href="{{::$ctrl.supportLink}}" target="_blank">{{::$ctrl.supportLinkName}}</a></div>
                 </div>
 
+                .ct-golden-section:before {display:none;}
                 <div class="row flex-row row-style">
                     <div class="footnote-1 disabled-600">&copy; 2018 Waves Platform</div>
                     <div><span class="waves-logo"></span></div>

@@ -44,7 +44,6 @@
                  * @private
                  */
                 this._startDate = null;
-
                 /**
                  * @type {string}
                  */
@@ -69,6 +68,10 @@
                  * @type {string}
                  */
                 this.changePercent = '0.00';
+                /**
+                 * @type {boolean}
+                 */
+                this.advancedMode = false;
 
                 const hours = tsUtils.date('hh:mm');
                 const dates = tsUtils.date('DD/MM');
@@ -87,7 +90,8 @@
                     activeChartAssetId: 'wallet.assets.activeChartAssetId',
                     chartAssetIdList: 'wallet.assets.chartAssetIdList',
                     chartMode: 'wallet.assets.chartMode',
-                    pinnedAssetIdList: 'pinnedAssetIdList'
+                    pinnedAssetIdList: 'pinnedAssetIdList',
+                    advancedMode: 'advancedMode'
                 });
 
                 this.mirrorId = user.getSetting('baseAssetId');
@@ -109,6 +113,10 @@
                 });
 
                 this.observe(['interval', 'intervalCount', 'activeChartAssetId'], this._onChangeInterval);
+            }
+
+            openScriptModal() {
+                return modalManager.showScriptModal();
             }
 
             abs(num) {

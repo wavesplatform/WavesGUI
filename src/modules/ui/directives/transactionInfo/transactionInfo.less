@@ -5,12 +5,31 @@
 
 @tx-icon-size: 80px;
 
+md-dialog.txinfo {
+  md-dialog-content {
+    padding-top: 0;
+  }
+}
+
 .txinfo {
   display: block;
   width: 100%;
 
   &__data {
     width: 100%;
+  }
+
+  .note-plate {
+    position: relative;
+    margin: 0 0 20px;
+    background: @color-basic-50;
+    border: 1px dashed @color-basic-200;
+    padding: 14px;
+    border-radius: @border-radius;
+    min-height: 54px;
+    display: flex;
+    width: 100%;
+    align-items: center;
   }
 
   .noborder {
@@ -36,6 +55,7 @@
     align-items: center;
 
     w-transaction-info {
+      margin-top: 60px;
       width: 100%;
 
       .bottom-warning {
@@ -43,7 +63,7 @@
         background: @color-white;
         margin-bottom: -1px;
         padding-top: 30px;
-        border-top: 1px solid #dae1e9;
+        border-top: 1px solid @color-basic-100;
       }
     }
   }
@@ -54,6 +74,11 @@
     border-bottom: 1px solid @color-basic-100;
     .noborder();
     z-index: 2;
+
+    &.noborder {
+      border-bottom: 0 none;
+      margin: 0;
+    }
 
     h3 {
       margin: 0 0 6px;
@@ -109,7 +134,7 @@
       .key-props {
         flex-basis: auto;
         flex-grow: 0;
-        padding-right: 10px;
+        padding-right: 20px;
         overflow: hidden;
         .footnote-1();
       }
@@ -127,11 +152,15 @@
       &__value {
         flex-basis: auto;
         flex-grow: 0;
-        padding-left: 10px;
         text-align: right;
         word-break: break-all;
         .footnote-1();
         color: @color-basic-900;
+
+        &-name {
+          margin-left: 5px;
+          display: inline-block;
+        }
       }
 
       &__text {
@@ -157,7 +186,7 @@
     background: none transparent;
     position: relative;
     border-radius: 50%;
-    margin: 10px auto 30px auto;
+    margin: 0 auto 30px;
 
     &.send {
       .icon-tx-send();
@@ -220,6 +249,30 @@
       .icon-tx-data();
     }
 
+    &.sponsorship-start {
+      .icon-tx-sponsorship-start();
+    }
+
+    &.sponsorship-stop {
+      .icon-tx-sponsorship-stop();
+    }
+
+    &.sponsorship-fee {
+      .icon-tx-sponsorship-plus();
+    }
+
+    &.set-script {
+      .icon-tx-set-script();
+    }
+
+    &.set-script-cancel {
+      .icon-tx-cancel-script();
+    }
+
+    //&.sponsorship-minus {
+    //  .icon-tx-sponsorship-minus();
+    //}
+
     &::before {
       width: @tx-icon-size;
       height: @tx-icon-size;
@@ -256,11 +309,10 @@
     }
 
     &.unconfirmed {
-      background: @color-warning-50;
+      background: rgba(255, 175, 0, 0.1);
       color: @color-warning-500;
     }
   }
-
 }
 
 @media screen and (max-width: 540px) {

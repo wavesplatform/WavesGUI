@@ -70,6 +70,11 @@
   }
 }
 
+.btn-script {
+  float: right;
+  margin-right: 3px;
+}
+
 .icon-qr::before {
   background-image: url(/img/icons/qr-code-small.svg);
 }
@@ -79,7 +84,7 @@
   width: 80px;
   height: 80px;
   background-size: 100% 100%;
-  margin: 10px auto 20px auto;
+  margin: 60px auto 20px auto;
 }
 
 .icon-tx-bg {
@@ -189,7 +194,7 @@
     .icon-tx-bg();
     background-position: -@tx-icon-size * 12 center;
   }
-  background-color: rgba(255, 175, 0, 0.1); // TODO : specify the exact color (this one is taken from the send tx)
+  background-color: rgba(255, 175, 0, 0.1);
 }
 
 .icon-tx-mass-receive {
@@ -224,6 +229,54 @@
   background-color: rgba(90, 129, 234, 0.1);
 }
 
+.icon-tx-sponsorship-start {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 17 center;
+  }
+  background-color: rgba(129, 201, 38, 0.1);
+}
+
+.icon-tx-sponsorship-stop {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 18 center;
+  }
+  background-color: rgba(239, 72, 41, 0.1);
+}
+
+.icon-tx-sponsorship-plus {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 19 center;
+  }
+  background-color: rgba(129, 201, 38, 0.1);
+}
+
+.icon-tx-set-script {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 21 center;
+  }
+  background-color: rgba(129, 201, 38, 0.1);
+}
+
+.icon-tx-cancel-script {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 22 center;
+  }
+  background-color: rgba(239, 72, 41, 0.1);
+}
+
+//.icon-tx-sponsorship-minus {
+//  &::before {
+//    .icon-tx-bg();
+//    background-position: -@tx-icon-size * 20 center;
+//  }
+//  background-color: rgba(90, 129, 234, 0.1);
+//}
+
 .icon-info {
   width: 20px;
   height: 20px;
@@ -241,7 +294,21 @@
 .icon-lock {
   width: 16px;
   height: 16px;
-  background: url(/img/icons/icon-lock.svg) center no-repeat;
+  background: url(/img/icons/icon-lock.svg) left center no-repeat;
+  display: block;
+}
+
+.icon-browser {
+  width: 80px;
+  height: 80px;
+  background: url(/img/icons/userimg-browsershare-80-submit-300.svg) center no-repeat;
+  display: block;
+}
+
+.icon-grey-warning {
+  width: 16px;
+  height: 16px;
+  background: url(/img/icons/info-14-basic-700.svg) left center no-repeat;
   display: block;
 }
 

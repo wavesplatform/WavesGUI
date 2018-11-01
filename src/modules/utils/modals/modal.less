@@ -22,12 +22,23 @@ md-dialog {
     }
   }
 
+  .confirm-tx {
+    position: relative;
+    .icon-close {
+      right: 0;
+      top: 10px;
+      position: absolute;
+    }
+  }
+
   md-dialog-content {
     display: block;
     overflow-x: hidden;
-    padding: 20px 40px 0 40px;
+    padding-left: 40px;
+    padding-right: 40px;
+    min-height: 360px;
 
-    //FF ignores padding bottom fix
+    //FF padding bottom fix
     &::after {
       content: '';
       min-height: 40px;

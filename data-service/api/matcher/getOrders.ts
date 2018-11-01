@@ -1,4 +1,4 @@
-import { WAVES_ID } from '@waves/waves-signature-generator';
+import { WAVES_ID } from '@waves/signature-generator';
 import { Asset, AssetPair, BigNumber, Money, OrderPrice } from '@waves/data-entities';
 import { IHash, IMoneyFactory, IPriceMoneyFactory } from '../../interface';
 import { coinsMoneyFactory, normalizeAssetId, normalizeTime, priceMoneyFactory, toHash } from '../../utils/utils';
@@ -55,8 +55,8 @@ export function clearSignature() {
 
 export const signatureTimeout: Signal<{}> = new Signal();
 
-const fetch = (url: string): Promise<Array<api.IOrder>> => {
-    return request<Array<api.IOrder>>({
+const fetch = <T>(url: string): Promise<T> => {
+    return request<T>({
         url: `${configGet('matcher')}/${url}`,
         fetchOptions: {
             headers: {
@@ -80,7 +80,7 @@ export function getOrders(): Promise<Array<IOrder>> {
     if (!signatureData) {
         throw new Error('Get orders without signature! Call method "addSignature"!');
     }
-    return fetch(`orderbook/${signatureData.publicKey}`)
+    return fetch<Array<api.IOrder>>(`orderbook/${signatureData.publicKey}?activeOnly=true`)
         .then(parse);
 }
 
@@ -88,8 +88,28 @@ export function getOrdersByPair(pair: AssetPair): Promise<Array<IOrder>> {
     if (!signatureData) {
         throw new Error('Get orders without signature! Call method "addSignature"!');
     }
-    return fetch(`orderbook/${pair.amountAsset.id}/${pair.priceAsset.id}/publicKey/${signatureData.publicKey}`)
+    return fetch<Array<api.IOrder>>(`orderbook/${pair.amountAsset.id}/${pair.priceAsset.id}/publicKey/${signatureData.publicKey}`)
         .then(parse);
+}
+
+export function getReservedBalance(): Promise<IHash<Money>> {
+    if (!signatureData) {
+        throw new Error('Get orders without signature! Call method "addSignature"!');
+    }
+    return fetch<IReservedBalanceApi>(`/balance/reserved/${signatureData.publicKey}`)
+        .then(prepareReservedBalance);
+}
+
+export function prepareReservedBalance(data: IReservedBalanceApi): Promise<IHash<Money>> {
+    const assetIdList = Object.keys(data);
+    return getAsset(assetIdList)
+        .then(assets => {
+            return assets.reduce((acc, asset) => {
+                const count = data[asset.id];
+                acc[asset.id] = new Money(count, asset);
+                return acc;
+            }, Object.create(null));
+        });
 }
 
 function getAssetsFromOrderList(orders: Array<api.IOrder>): Array<string> {
@@ -122,4 +142,8 @@ interface ISignatureData {
     publicKey: string;
     timestamp: number;
     signature: string;
+}
+
+export interface IReservedBalanceApi {
+    [key: string]: string | number;
 }

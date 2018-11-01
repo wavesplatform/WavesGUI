@@ -9,38 +9,61 @@
      * @param {IPollCreate} createPoll
      * @param {*} $templateRequest
      * @param {app.utils} utils
+     * @param {Storage} storage
      * @return {SettingsCtrl}
      */
-    const controller = function (Base, $scope, waves, user, createPoll, $templateRequest, utils) {
+    const controller = function (Base, $scope, waves, user, createPoll, $templateRequest, utils, storage) {
 
         class SettingsCtrl extends Base {
 
+            get openLinkViaWeb() {
+                return this.openClientMode === 'web';
+            }
+
+            set openLinkViaWeb(value) {
+                if (value) {
+                    this.openClientMode = 'web';
+                } else {
+                    this.openClientMode = null;
+                }
+                storage.save('openClientMode', this.openClientMode);
+            }
+
+            get advancedMode() {
+                return user.getSetting('advancedMode');
+            }
+
+            set advancedMode(mode) {
+                user.setSetting('advancedMode', mode);
+            }
+
+            tab = 'general';
+            address = user.address;
+            publicKey = user.publicKey;
+            shownSeed = false;
+            shownKey = false;
+            node = '';
+            matcher = '';
+            scamListUrl = '';
+            withScam = false;
+            theme = user.getSetting('theme');
+            candle = user.getSetting('candle');
+            shareStat = user.getSetting('shareAnalytics');
+            templatePromise = $templateRequest('modules/utils/modals/settings/loader.html');
+            openClientMode = null;
+            /**
+             * @type {number}
+             */
+            logoutAfterMin = null;
+
+            appName = WavesApp.name;
+            appVersion = WavesApp.version;
+            supportLink = WavesApp.network.support;
+            supportLinkName = WavesApp.network.support.replace(/^https?:\/\//, '');
+            blockHeight = 0;
+
             constructor() {
                 super($scope);
-                this.tab = 'general';
-                this.address = user.address;
-                this.publicKey = user.publicKey;
-                this.shownSeed = false;
-                this.shownKey = false;
-                this.node = '';
-                this.matcher = '';
-                this.scamListUrl = '';
-                this.withScam = false;
-                this.theme = user.getSetting('theme');
-                this.candle = user.getSetting('candle');
-                this.shareStat = user.getSetting('shareAnalytics');
-                this.templatePromise = $templateRequest('modules/utils/modals/settings/loader.html');
-
-                /**
-                 * @type {number}
-                 */
-                this.logoutAfterMin = null;
-
-                this.appName = WavesApp.name;
-                this.appVersion = WavesApp.version;
-                this.supportLink = WavesApp.network.support;
-                this.supportLinkName = WavesApp.network.support.replace(/^https?:\/\//, '');
-                this.blockHeight = 0;
 
                 this.syncSettings({
                     node: 'network.node',
@@ -50,6 +73,10 @@
                     withScam: 'withScam',
                     theme: 'theme',
                     candle: 'candle'
+                });
+
+                storage.load('openClientMode').then(mode => {
+                    this.openClientMode = mode;
                 });
 
                 this.observe('theme', () => {
@@ -108,10 +135,12 @@
 
                 Promise.all([
                     ds.signature.getSignatureApi().getSeed(),
-                    ds.signature.getSignatureApi().getPrivateKey()
-                ]).then(([seed, key]) => {
+                    ds.signature.getSignatureApi().getPrivateKey(),
+                    ds.signature.getSignatureApi().getPublicKey()
+                ]).then(([seed, privateKey, publicKey]) => {
                     this.phrase = seed;
-                    this.privateKey = key;
+                    this.privateKey = privateKey;
+                    this.publicKey = publicKey;
                     $scope.$digest();
                 });
             }
@@ -142,7 +171,7 @@
         return new SettingsCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'waves', 'user', 'createPoll', '$templateRequest', 'utils'];
+    controller.$inject = ['Base', '$scope', 'waves', 'user', 'createPoll', '$templateRequest', 'utils', 'storage'];
 
     angular.module('app.utils').controller('SettingsCtrl', controller);
 

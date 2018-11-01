@@ -8,7 +8,10 @@
         </div>
 
         <div class="body-2 disabled-600">
-            <span w-i18n="createAccount.signUp"></span>
+            <a ui-sref="welcome">
+                <span w-i18n="createAccount.signIn"></span>
+            </a>
+            <span w-i18n="createAccount.toWalet"></span>
             <a ui-sref="restore">
                 <span w-i18n="createAccount.restore"></span>
             </a>
@@ -38,7 +41,7 @@
     <div class="body-2 basic-900" w-i18n="createAccount.address"></div>
     <div class="input-like margin-2">{{$ctrl.address}}</div>
 
-    <div class="margin-2 flex">
+    <div class="margin-3 flex">
         <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
         <label for="save-user-data" class="footnote-1 basic-500">
             <span w-i18n="createAccount.saveUserData"></span>
@@ -60,8 +63,9 @@
             <span w-i18n="noBackupNoMoney.or"></span>
         </div>
         <div class="text-center body-2 flex-column-center-min margin-2">
-            <a ui-sref="welcome" w-i18n="createAccount.signIn"></a>
-            <span w-i18n="createAccount.tosaved"></span>
+            <a ui-sref="import">
+                <span w-i18n="createAccount.import"></span>
+            </a>
         </div>
     </div>
 

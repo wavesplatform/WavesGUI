@@ -107,6 +107,30 @@ w-transaction .transaction {
     &.data {
       .icon-tx-data();
     }
+
+    &.sponsorship-start {
+      .icon-tx-sponsorship-start();
+    }
+
+    &.sponsorship-stop {
+      .icon-tx-sponsorship-stop();
+    }
+
+    &.sponsorship-fee {
+      .icon-tx-sponsorship-plus();
+    }
+
+    &.set-script {
+      .icon-tx-set-script();
+    }
+
+    &.set-script-cancel {
+      .icon-tx-cancel-script();
+    }
+
+    //&.sponsorship-minus {
+    //  .icon-tx-sponsorship-minus();
+    //}
   }
 
   &.spam .icon {
@@ -195,7 +219,6 @@ w-transaction .transaction {
       }
     }
   }
-
 }
 
 @media screen and (max-width: 960px) {

@@ -1,6 +1,16 @@
 @import (reference) 'config';
 
-w-asset-logo .asset-logo {
+w-asset-logo {
+  position: relative;
+
+  &.marker-hide {
+    .marker {
+      opacity: 0;
+    }
+  }
+}
+
+.asset-logo {
   background-size: 100% 100%;
   text-align: center;
   border-radius: 50%;
@@ -9,4 +19,30 @@ w-asset-logo .asset-logo {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  .marker {
+    display: none;
+  }
+
+  &.little {
+    .marker {
+      display: none;
+    }
+  }
+}
+
+.sponsored-asset {
+  .asset-logo {
+    .marker {
+      display: block;
+      width: 15px;
+      height: 15px;
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      border: 2px solid @color-white;
+      border-radius: 50%;
+      background: url(/img/icons/sponosred-asset-marker.svg) center no-repeat;
+    }
+  }
 }

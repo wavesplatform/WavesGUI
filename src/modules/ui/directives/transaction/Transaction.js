@@ -19,6 +19,8 @@
     const controller = function (Base, $filter, modalManager, notification,
                                  waves, user, baseAssetService, dexService, $scope) {
 
+        const { SIGN_TYPE } = require('@waves/signature-adapter');
+
         class Transaction extends Base {
 
             $postLink() {
@@ -29,16 +31,6 @@
                 this.typeName = this.transaction.typeName;
                 this.isScam = !!WavesApp.scam[this.transaction.assetId];
 
-                const TYPES = waves.node.transactions.TYPES;
-                if (this.typeName === TYPES.BURN || this.typeName === TYPES.ISSUE || this.typeName === TYPES.REISSUE) {
-                    this.titleAssetName = this.getAssetName(tsUtils.get(this.transaction, 'amount.asset') ||
-                        tsUtils.get(this.transaction, 'quantity.asset'));
-                    this.name = tsUtils.get(this.transaction, 'amount.asset.name') ||
-                        tsUtils.get(this.transaction, 'quantity.asset.name');
-                    this.amount = (tsUtils.get(this.transaction, 'amount') ||
-                        tsUtils.get(this.transaction, 'quantity')).toFormat();
-                }
-
                 if (this.transaction.amount && this.transaction.amount instanceof ds.wavesDataEntities.Money) {
                     baseAssetService.convertToBaseAsset(this.transaction.amount)
                         .then((baseMoney) => {
@@ -47,9 +39,56 @@
                         });
                 }
 
-                if (this.typeName === TYPES.EXCHANGE_BUY || this.typeName === TYPES.EXCHANGE_SELL) {
-                    this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
+                const TYPES = waves.node.transactions.TYPES;
+
+                switch (this.typeName) {
+                    case TYPES.BURN:
+                    case TYPES.ISSUE:
+                    case TYPES.REISSUE:
+                        this.tokens();
+                        break;
+                    case TYPES.EXCHANGE_BUY:
+                    case TYPES.EXCHANGE_SELL:
+                        this.exchange();
+                        break;
+                    case TYPES.SPONSORSHIP_START:
+                    case TYPES.SPONSORSHIP_STOP:
+                        this.sponsored();
+                        break;
+                    case TYPES.SPONSORSHIP_FEE:
+                        this.sponsoredFee();
+                        break;
+                    default:
                 }
+            }
+
+            sponsoredFee() {
+            }
+
+            sponsored() {
+                this.sponsorshipFee = this.transaction.minSponsoredAssetFee;
+                this.titleAssetName = this.getAssetName(
+                    tsUtils.get(this.transaction, 'minSponsoredAssetFee.asset')
+                );
+            }
+
+            exchange() {
+                this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
+            }
+
+            tokens() {
+                this.titleAssetName = this.getAssetName(
+                    tsUtils.get(this.transaction, 'amount.asset') ||
+                    tsUtils.get(this.transaction, 'quantity.asset')
+                );
+                this.name = tsUtils.get(
+                    this.transaction, 'amount.asset.name') ||
+                    tsUtils.get(this.transaction, 'quantity.asset.name'
+                    );
+                this.amount = (
+                    tsUtils.get(this.transaction, 'amount') ||
+                    tsUtils.get(this.transaction, 'quantity')
+                ).toFormat();
             }
 
             getAssetName(asset) {
@@ -61,12 +100,13 @@
             }
 
             cancelLeasing() {
-                const leaseTransactionAmount = this.transaction.amount;
-                const leaseId = this.transaction.id;
+                const lease = this.transaction;
+                const leaseId = lease.id;
                 return waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING })
-                    .then((fee) => modalManager.showConfirmTx(WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING, {
+                    .then((fee) => modalManager.showConfirmTx({
                         fee,
-                        leaseTransactionAmount,
+                        type: SIGN_TYPE.CANCEL_LEASING,
+                        lease,
                         leaseId
                     }));
             }

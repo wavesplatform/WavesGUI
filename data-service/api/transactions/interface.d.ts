@@ -1,6 +1,6 @@
 import { Money, BigNumber } from '@waves/data-entities';
 import { IAssetPair, TLeasingStatus, TOrderType } from '../../interface';
-import { TRANSACTION_TYPE_NUMBER } from '@waves/waves-signature-generator';
+import { TRANSACTION_TYPE_NUMBER } from '@waves/signature-generator';
 
 
 export type T_API_TX =
@@ -14,7 +14,9 @@ export type T_API_TX =
     txApi.ICancelLeasing |
     txApi.ICreateAlias |
     txApi.IMassTransfer |
-    txApi.IData;
+    txApi.IData |
+    txApi.ISponsorship |
+    txApi.ISetScript;
 
 export type T_TX =
     IIssue |
@@ -26,7 +28,9 @@ export type T_TX =
     ICancelLeasing |
     ICreateAlias |
     IMassTransfer |
-    IData;
+    IData |
+    ISponsorship |
+    ISetScript;
 
 export module txApi {
 
@@ -131,7 +135,19 @@ export module txApi {
         type: TRANSACTION_TYPE_NUMBER.DATA;
         version?: number;
         data: Array<TDataEntry>;
-        fee: string;
+    }
+
+    export interface ISponsorship extends IBaseTransaction {
+        type: TRANSACTION_TYPE_NUMBER.SPONSORSHIP;
+        version?: number;
+        minSponsoredAssetFee: string | number;
+        assetId: string;
+    }
+
+    export interface ISetScript extends IBaseTransaction {
+        type: TRANSACTION_TYPE_NUMBER.SET_SCRIPT;
+        version?: number;
+        script: string;
     }
 
     export interface IExchangeOrder {
@@ -260,6 +276,19 @@ export interface IData extends IBaseTransaction {
     data: Array<TDataEntry>;
     stringifiedData: string;
     fee: Money;
+}
+
+export interface ISponsorship extends IBaseTransaction {
+    type: TRANSACTION_TYPE_NUMBER.SPONSORSHIP;
+    version?: number;
+    assetId: string
+    minSponsoredAssetFee: Money;
+}
+
+export interface ISetScript extends IBaseTransaction {
+    type: TRANSACTION_TYPE_NUMBER.SET_SCRIPT;
+    version?: number;
+    script: string;
 }
 
 export interface IExchangeOrder {

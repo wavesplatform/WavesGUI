@@ -1,0 +1,12 @@
+<div class="camera-popup" w-i18n-ns="app.ui">
+    <div ng-class="{pending: $ctrl.videoPending, error: $ctrl.videoError}"
+         class="camera-popup__video-wrapper js-camera-wrapper">
+        <w-loader ng-if="$ctrl.videoPending"></w-loader>
+        <div ng-if="!$ctrl.videoError && !$ctrl.videoPending"
+             class="camera-popup__target-square"></div>
+
+        <w-button class="transparent" on-click="$ctrl.stopWatchQrCode()">
+            <span w-i18n="qrCodeRead.closeRead"></span>
+        </w-button>
+    </div>
+</div>

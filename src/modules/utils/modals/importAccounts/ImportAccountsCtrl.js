@@ -27,23 +27,26 @@
 
                 this.pending = true;
                 this.userList = [];
-                this.wasImportBeta = false;
+                this.wasImportBeta = true;
                 this.wasImportOld = false;
                 this.checkedHash = Object.create(null);
                 this._myUserList = [];
 
-                Promise.all([
-                    utils.importAccountByIframe(WavesApp.betaOrigin, 5000)
-                        .catch(() => []),
-                    utils.importAccountByIframe('https://waveswallet.io', 5000)
-                        .catch(() => []),
-                    user.getUserList()
-                ])
-                    .then(([beta, old, userList]) => {
-                        this.pending = false;
+                // const betaPromise = (
+                //     this._getFromBeta ?
+                //         utils.importAccountByIframe(WavesApp.betaOrigin, 5000) :
+                //         Promise.resolve([])
+                // ).catch(() => []);
+                // const oldWaletPromise = utils.importAccountByIframe('https://waveswallet.io', 5000)
+                //     .catch(() => []);
+                const userlistPromise = user.getUserList().catch(() => []);
+
+                userlistPromise.then(
+                    (userList) => {
                         this._myUserList = userList;
-                        this._addAccountList({ beta, old });
-                    });
+                        return this.importFromOld();
+                    }
+                );
             }
 
             importAccounts() {

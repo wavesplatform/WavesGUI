@@ -7,5 +7,5 @@ export function height(): Promise<number> {
 
 export function time(): Promise<Date> {
     return request({ url: `${get('node')}/utils/time` })
-        .then(({ system }) => new Date(system));
+        .then(({ NTP }) => new Date(NTP));
 }

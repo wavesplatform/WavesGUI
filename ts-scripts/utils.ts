@@ -1,7 +1,7 @@
 import * as gulp from 'gulp';
 import { getType } from 'mime';
 import { exec, spawn } from 'child_process';
-import { existsSync, readdirSync, statSync } from 'fs';
+import { existsSync, readdirSync, readFileSync, statSync } from 'fs';
 import { join, relative, extname, dirname } from 'path';
 import { IPackageJSON, IMetaJSON, ITaskFunction, TBuild, TConnection, TPlatform } from './interface';
 import { readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync, copy } from 'fs-extra';
@@ -263,7 +263,9 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
     return function (req: IncomingMessage, res: ServerResponse) {
         const url = req.url.replace(/\?.*/, '');
 
-        if (isTradingView(url)) {
+        if (url.includes('/package.json')) {
+            res.end(readFileSync(join(__dirname, '..', 'package.json')));
+        } else if (isTradingView(url)) {
             get(`https://client.wavesplatform.com/${url}`, (resp: IncomingMessage) => {
                 let data = new Buffer('');
 

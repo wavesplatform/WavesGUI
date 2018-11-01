@@ -15,6 +15,8 @@
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
+        const { Money } = require('@waves/data-entities');
+        const { SIGN_TYPE } = require('@waves/signature-adapter');
 
         const DEFAULT_OPTIONS = {
             clickOutsideToClose: true,
@@ -56,6 +58,14 @@
                 });
             }
 
+            showScriptModal() {
+                return this._getModal({
+                    id: 'script-modal',
+                    templateUrl: 'modules/utils/modals/script/script.html',
+                    controller: 'ScriptModalCtrl'
+                });
+            }
+
             showTryDesktopModal() {
                 return this._getModal({
                     id: 'try-desktop',
@@ -65,6 +75,33 @@
                     clickOutsideToClose: false,
                     escapeToClose: false,
                     mod: 'try-desktop-modal'
+                });
+            }
+
+            showSignLedger(options) {
+                return this._getModal({
+                    id: 'sign-ledger',
+                    contentUrl: 'modules/utils/modals/signLedger/signLedger.html',
+                    controller: 'SignLedgerCtrl',
+                    locals: {
+                        ledgerPromise: () => options.promise,
+                        mode: options.mode,
+                        id: options.id,
+                        data: options.data
+                    },
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
+            showLedgerError(locals) {
+                return this._getModal({
+                    id: 'error-ledger',
+                    contentUrl: 'modules/utils/modals/ledgerError/ledgerError.html',
+                    controller: 'LedgerErrorCtrl',
+                    locals: { ...locals },
+                    clickOutsideToClose: false,
+                    escapeToClose: false
                 });
             }
 
@@ -151,13 +188,13 @@
                     });
             }
 
-            showConfirmDeleteUser(hasBackup) {
+            showConfirmDeleteUser(user) {
                 return this._getModal({
                     id: 'delete-user-confirm',
                     templateUrl: 'modules/utils/modals/confirmDeleteUser/confirmDeleteUser.modal.html',
                     controller: 'confirmDeleteUserCtrl',
                     locals: {
-                        hasBackup
+                        user
                     }
                 });
             }
@@ -303,15 +340,15 @@
                 });
             }
 
-            showConfirmTx(type, txData) {
-                const tx = $injector.get('waves').node.transactions.createTransaction(type, txData);
+            showConfirmTx(txData, showValidationErrors) {
+                const tx = $injector.get('waves').node.transactions.createTransaction(txData);
 
                 return this._getModal({
                     id: 'confirm-tx',
                     ns: 'app.ui',
-                    locals: { tx },
+                    locals: { tx, showValidationErrors },
                     controller: 'ConfirmTxCtrl',
-                    contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
+                    templateUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
                 });
             }
 
@@ -335,6 +372,39 @@
                     contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
                     controller: 'TokenChangeModalCtrl'
                 }));
+            }
+
+            showSponsorshipModal(assetId, isEdit) {
+                const title = isEdit ? 'modal.sponsorship_edit.title' : 'modal.sponsorship.title';
+                return ds.api.assets.get(assetId).then((asset) => {
+                    return this._getModal({
+                        id: 'sponsorship',
+                        mod: 'sponsorship',
+                        locals: { asset, assetId, isCreateSponsored: !isEdit },
+                        titleContent: `<span w-i18n="${title}"></span>`,
+                        controller: 'SponsoredModalCtrl',
+                        contentUrl: 'modules/utils/modals/sponsored/sponsored.html'
+                    });
+                });
+            }
+
+            showSponsorshipStopModal(assetId) {
+                const waves = $injector.get('waves');
+
+                return Promise.all([
+                    ds.api.assets.get(assetId),
+                    waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP })
+                ]).then(([asset, fee]) => {
+                    const money = new Money(0, asset);
+
+                    return this.showConfirmTx({
+                        type: SIGN_TYPE.SPONSORSHIP,
+                        assetId,
+                        asset,
+                        minSponsoredAssetFee: money,
+                        fee
+                    }, true);
+                });
             }
 
             showImportAccountsModal() {
