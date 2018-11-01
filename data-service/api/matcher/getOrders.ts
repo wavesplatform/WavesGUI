@@ -80,7 +80,7 @@ export function getOrders(): Promise<Array<IOrder>> {
     if (!signatureData) {
         throw new Error('Get orders without signature! Call method "addSignature"!');
     }
-    return fetch(`orderbook/${signatureData.publicKey}`)
+    return fetch(`orderbook/${signatureData.publicKey}?activeOnly=true`)
         .then(parse);
 }
 

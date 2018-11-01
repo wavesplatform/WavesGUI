@@ -70,6 +70,11 @@
   }
 }
 
+.btn-script {
+  float: right;
+  margin-right: 3px;
+}
+
 .icon-qr::before {
   background-image: url(/img/icons/qr-code-small.svg);
 }
@@ -189,7 +194,7 @@
     .icon-tx-bg();
     background-position: -@tx-icon-size * 12 center;
   }
-  background-color: rgba(255, 175, 0, 0.1); // TODO : specify the exact color (this one is taken from the send tx)
+  background-color: rgba(255, 175, 0, 0.1);
 }
 
 .icon-tx-mass-receive {
@@ -246,6 +251,22 @@
     background-position: -@tx-icon-size * 19 center;
   }
   background-color: rgba(129, 201, 38, 0.1);
+}
+
+.icon-tx-set-script {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 21 center;
+  }
+  background-color: rgba(129, 201, 38, 0.1);
+}
+
+.icon-tx-cancel-script {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 22 center;
+  }
+  background-color: rgba(239, 72, 41, 0.1);
 }
 
 //.icon-tx-sponsorship-minus {
