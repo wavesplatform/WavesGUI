@@ -1,33 +1,23 @@
 (function () {
     'use strict';
 
-    const PATH = 'modules/ui/directives/transactionInfo/types';
+    const controller = function (BaseTxInfo, $scope) {
 
-    const controller = function (waves) {
+        class TransactionInfoHeader extends BaseTxInfo {
 
-        class TransactionInfoHeader {
+            constructor() {
+                super($scope);
 
-            /**
-             * @type {boolean}
-             */
-            isScam = false;
-            /**
-             * @type {string}
-             */
-            typeName = '';
-            /**
-             * @type {Signable}
-             */
-            signable = null;
+                /**
+                 * @type {ITransaction}
+                 */
+                this.transaction = null;
+                /**
+                 * @type {string}
+                 */
+                this.txId = null;
 
-            $postLink() {
-                if (!this.signable) {
-                    throw new Error('Has no signable!');
-                }
-                const tx = waves.node.transactions.createTransaction(this.signable.getTxData());
-                this.isScam = !!WavesApp.scam[tx.assetId];
-                this.typeName = tx.typeName;
-                this.templateUrl = `${PATH}/${tx.templateType}-header.html`;
+                this.templatePostfix = '-header';
             }
 
         }
@@ -35,7 +25,7 @@
         return new TransactionInfoHeader();
     };
 
-    controller.$inject = ['waves'];
+    controller.$inject = ['BaseTxInfo', '$scope'];
 
     angular.module('app.ui').component('wTransactionInfoHeader', {
         bindings: {
