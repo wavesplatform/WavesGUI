@@ -148,7 +148,8 @@
             initExportLink() {
                 this.signable.getDataForApi().then(data => {
                     this.exportLink = `${WavesApp.targetOrigin}/#tx${utils.createQS(data)}`;
-                    this.canCreateLink = this.exportLink.length <= WavesApp.MAX_URL_LENGTH;
+                    this.canCreateLink = data.type !== SIGN_TYPE.MASS_TRANSFER &&
+                        this.exportLink.length <= WavesApp.MAX_URL_LENGTH;
                     this.__$scope.$apply();
                 });
             }
