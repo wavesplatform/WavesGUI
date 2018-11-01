@@ -1,4 +1,4 @@
-<div class="tab-container">
+<div class="tab-container" ng-class="$ctrl.mod">
     <div class="titles-wrap">
         <a ng-repeat="tab in $ctrl.tabs.components track by tab.id"
            ng-class="{active: tab.selected}"

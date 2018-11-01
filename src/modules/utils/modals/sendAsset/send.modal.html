@@ -4,7 +4,7 @@
             <div class="btn icon-close ng-scope" w-modal-close></div>
             <w-step-by-step active-step="$ctrl.step" ng-if="!$ctrl.errorOccured">
                 <w-step>
-                    <w-tabs ng-model="$ctrl.tab">
+                    <w-tabs class="header" ng-model="$ctrl.tab">
                         <w-tab title-name="::'modal.send.sendTitle'" id="::'singleSend'">
                             <w-single-send state="$ctrl.state"
                                            on-continue="$ctrl.nextStep(signable)">

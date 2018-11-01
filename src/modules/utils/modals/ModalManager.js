@@ -352,9 +352,9 @@
             }
 
             showConfirmTx(signable, showValidationErrors) {
-
                 return this._getModal({
                     id: 'confirm-tx',
+                    mod: 'confirm-tx',
                     ns: 'app.ui',
                     locals: { signable, showValidationErrors },
                     controller: 'ConfirmTxCtrl',

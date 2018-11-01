@@ -1,11 +1,5 @@
-<div class="txinfo__lead">
-    <h3 class="basic-700"
-        w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
-        params="{amount: $ctrl.transaction.amount.toFormat(), name: $ctrl.transaction.amount.asset.name}"></h3>
-    <div class="body-2 basic-500">≈ {{::$ctrl.mirrorBalance.toFormat()}} {{::$ctrl.mirrorBalance.asset.name}}</div>
-</div>
 
-<div ng-if="$ctrl.warning" class="" w-i18n="{{$ctrl.warning}}"></div>
+<div ng-if="$ctrl.warning" w-i18n="{{$ctrl.warning}}"></div>
 
 <div class="txinfo__row txinfo__row-header" ng-if="::$ctrl.typeName === 'mass-send'">
     <div w-i18n="recipient"></div>
