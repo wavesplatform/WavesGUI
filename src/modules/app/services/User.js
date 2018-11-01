@@ -470,19 +470,15 @@
 
                     if (this.userType && this.userType === 'ledger') {
                         modalPromise = ds.app.getSignIdForMatcher(maxIntervalTimeStamp).then((id) => {
-                            return modalManager.showSignLedger({ promise, mode: 'signable-matcher', id });
+                            return modalManager.showSignLedger({ promise, mode: 'sign-matcher', id });
                         });
 
                         ledgerPromise = modalPromise
                             .then(() => promise)
                             .catch(
-                                () => modalManager.showLedgerError({ error: 'signable-error' }).then(
+                                () => modalManager.showLedgerError({ error: 'sign-error' }).then(
                                     () => {
                                         return this.addMatcherSign();
-                                    },
-                                    () => {
-                                        // No matcher signable, may be other modal
-                                        Promise.resolve();
                                     }
                                 ));
                     }

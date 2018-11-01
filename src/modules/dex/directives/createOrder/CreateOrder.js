@@ -392,7 +392,7 @@
                     return modalPromise
                         .then(() => signPromise)
                         .catch(() => {
-                            return modalManager.showLedgerError({ error: 'signable-error' })
+                            return modalManager.showLedgerError({ error: 'sign-error' })
                                 .then(() => Promise.resolve(), () => Promise.reject({ error: 'signAbort' }))
                                 .then(() => this._createTxData(data));
                         });

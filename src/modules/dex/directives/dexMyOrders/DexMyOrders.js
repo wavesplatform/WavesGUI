@@ -259,10 +259,10 @@
                         .catch(() => Promise.reject());
                 })
                     .catch(() => {
-                        return modalManager.showLedgerError({ error: 'signable-error' }).then(
+                        return modalManager.showLedgerError({ error: 'sign-error' }).then(
                             () => this.dropOrderGetSignData(order),
                             () => {
-                                return Promise.reject({ error: 'no signable' });
+                                return Promise.reject({ error: 'no sign' });
                             });
                     });
             }
