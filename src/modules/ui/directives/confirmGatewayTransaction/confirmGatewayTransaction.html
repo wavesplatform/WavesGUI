@@ -100,12 +100,11 @@
 
             </div>
 
+            <div ng-if="$ctrl.errorMessage" class="error-400 margin-top-1 margin-2">
+                {{$ctrl.errorMessage}}
+            </div>
+
             <div class="bottom-wrapper">
-
-                <div ng-if="$ctrl.errorMessage" class="error">
-                    {{$ctrl.errorMessage}}
-                </div>
-
                 <div class="buttons-wrapper">
                     <w-button class="big" on-click="$ctrl.onClickBack()">
                         <span w-i18n="confirmGatewayTransaction.back"></span>

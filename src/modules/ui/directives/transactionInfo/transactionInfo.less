@@ -59,13 +59,15 @@ w-transaction-info-json {
   }
 
   .code-wrapper {
-    border: 1px solid @color-basic-200;
+    border: 1px dashed @color-basic-200;
     border-radius: @border-radius;
+    background: @color-basic-50;
     height: auto;
     max-height: 300px;
     word-break: break-all;
     padding: 17px;
     display: block;
+    overflow: scroll;
   }
 
   &__wrapper {
@@ -74,6 +76,7 @@ w-transaction-info-json {
     align-items: center;
 
     .bottom-warning {
+      width: 100%;
       position: relative;
       background: @color-white;
       margin-bottom: -1px;
