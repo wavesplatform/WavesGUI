@@ -34,10 +34,10 @@
         <div class="footnote-1 basic-500" w-i18n="directives.anyTransaction.warning.body"></div>
     </div>
 
-    <div ng-if="$ctrl.fee"
-         class="margin-top-2 basic-500 footnote-1"
-         w-i18n="directives.anyTransaction.fee"
-         params="{fee: $ctrl.fee}"></div>
+    <div  class="margin-top-2 basic-500 footnote-1">
+        <span ng-if="$ctrl.fee" w-i18n="directives.anyTransaction.fee" params="{fee: $ctrl.fee}"></span>
+        <span ng-if="!$ctrl.fee || !!$ctrl.anyTx.$invalid" w-i18n="directives.anyTransaction.calculatingFee"></span>
+    </div>
 
     <div class="margin-top-3">
         <w-button class="big long submit"
