@@ -24,5 +24,6 @@
     <w-sign signable="$ctrl.signable"
             on-success="$ctrl.onSignSuccess(signature)"
             on-cancel="$ctrl.onSignCancel()"
-            class="margin-top-3 block"></w-sign>
+            ng-class="{'margin-top-3': !$ctrl.isVerified}"
+            class="block"></w-sign>
 </div>

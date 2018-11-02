@@ -8,6 +8,15 @@
     position: absolute;
   }
 
+  .device-img {
+    width: 278px;
+    height: 146px;
+    background: @ledger-step1;
+    position: relative;
+    display: block;
+    margin: 60px auto 20px calc(50% ~'- 193px');
+  }
+
   .connect-mode {
     text-align: center;
 
@@ -22,15 +31,6 @@
       animation-name: showLedger;
       animation-fill-mode: both;
       animation-iteration-count: infinite;
-    }
-
-    .device-img {
-      width: 278px;
-      height: 146px;
-      background: @ledger-step1;
-      position: relative;
-      display: block;
-      margin: 30px auto 20px calc(50% ~'- 193px');
     }
 
     .display {
@@ -157,16 +157,6 @@
   }
 
   .matcher-mode {
-
-    .device-img {
-      width: 278px;
-      height: 146px;
-      background: @ledger-step1;
-      position: relative;
-      display: block;
-      margin: 30px auto 20px calc(50% ~'- 193px');
-    }
-
     .txinfo__row.one-line-border {
       border-top: 1px solid @color-basic-100;
       border-bottom: 1px solid @color-basic-100;

@@ -172,6 +172,7 @@
       "node": "https://pool.testnet.wavesnodes.com",
       "matcher": "https://matcher.testnet.wavesnodes.com/matcher",
       "api": "https://api.testnet.wavesplatform.com",
+      "explorer": "https://testnet.wavesexplorer.com",
       "coinomat": "/coinomat",
       "support": "https://support.wavesplatform.com",
       "nodeList": "http://dev.pywaves.org/testnet/generators/",
@@ -188,7 +189,7 @@
         "DASH": "DGgBtwVoXKAKKvV2ayUpSoPzTJxt7jo9KiXMJRzTH2ET",
         "EFYT": "FvKx3cerSVYGfXKFvUgp7koNuTAcLs8DmtmwRrFVCqJv",
         "WNET": "3P8gkhcLhFQvBkDzMnWeqqwvq3qxkpTNQPs4LUQ95tKD",
-        "XMR": "8oPbSCKFHkXBy1hCGSg9pJkSARE7zhTQTLpc8KZwdtr7"
+        "XMR": "DvQwL95pf7AdT4KfiNzQEhMmcShBEdKsHxDFj91ynyLX"
       }
     },
     "mainnet": {
@@ -197,6 +198,7 @@
       "node": "https://nodes.wavesplatform.com",
       "matcher": "https://matcher.wavesplatform.com/matcher",
       "api": "https://api.wavesplatform.com",
+      "explorer": "https://wavesexplorer.com",
       "coinomat": "https://coinomat.com",
       "support": "https://support.wavesplatform.com",
       "nodeList": "https://forum.wavesplatform.com/c/pools",
