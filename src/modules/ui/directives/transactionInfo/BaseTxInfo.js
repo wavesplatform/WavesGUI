@@ -3,7 +3,8 @@
 
     const PATH = 'modules/ui/directives/transactionInfo/types';
     const ds = require('data-service');
-    const { Money } = require('@waves/data-entities');
+    const { Money, BigNumber } = require('@waves/data-entities');
+    const { get } = require('ts-utils');
 
     /**
      * @param Base
@@ -94,14 +95,22 @@
             }
 
             _tokens() {
-                this.name = tsUtils.get(this.transaction, 'amount.asset.name') ||
-                    tsUtils.get(this.transaction, 'quantity.asset.name') ||
+                this.name = get(this.transaction, 'amount.asset.name') ||
+                    get(this.transaction, 'quantity.asset.name') ||
                     this.transaction.name;
-                this.amount = (tsUtils.get(this.transaction, 'amount') ||
-                    tsUtils.get(this.transaction, 'quantity')).toFormat();
-                this.quantity = this.transaction.quantity &&
-                    this.transaction.quantity.div(Math.pow(10, this.transaction.precision)) ||
+                this.amount = (get(this.transaction, 'amount') ||
+                    get(this.transaction, 'quantity')).toFormat();
+
+                const quantity = this.transaction.quantity ||
                     this.transaction.amount;
+
+                if (quantity instanceof Money) {
+                    this.quantity = quantity;
+                } else if (quantity instanceof BigNumber) {
+                    this.quantity = quantity.div(Math.pow(10, this.transaction.precision));
+                } else {
+                    this.quantity = this.transaction.amount;
+                }
                 this.precision = this.transaction.precision ||
                     (this.quantity.asset ? this.quantity.asset.precision : 0);
             }
