@@ -19,6 +19,9 @@
         class BaseTxInfo extends Base {
 
             transaction = null;
+            /**
+             * @type {$rootScope.Scope}
+             */
             $scope = null;
             txId = null;
             templatePostfix = '';
@@ -43,6 +46,7 @@
 
                 this.signable.getId().then(id => {
                     this.txId = id;
+                    this.$scope.$apply();
                 });
 
                 this.templateUrl = `${PATH}/${transaction.templateType}${this.templatePostfix}.html`;
