@@ -82,12 +82,14 @@
                     </w-input-error>
                 </w-input-container>
             </div>
-            <div class="row basic-500 margin-2">
+            <div class="row basic-500">
                 <span w-i18n="modal.startLease.fee"></span>&nbsp;0.001 WAVES
             </div>
-            <w-button disabled="lease.$invalid" on-click="$ctrl.next()" class="submit big long">
-                <span w-i18n="modal.startLease.start"></span>
-            </w-button>
+            <div class="margin-top-3">
+                <w-button disabled="lease.$invalid" on-click="$ctrl.next()" class="submit big long">
+                    <span w-i18n="modal.startLease.start"></span>
+                </w-button>
+            </div>
         </form>
     </w-step>
     <w-step>
