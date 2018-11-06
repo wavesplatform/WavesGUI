@@ -3,6 +3,7 @@
 
     const PATH = 'modules/ui/directives/transaction/types';
     const tsUtils = require('ts-utils');
+    const { Money } = require('@waves/data-entities');
 
     /**
      * @param Base
@@ -86,10 +87,13 @@
                     this.transaction, 'amount.asset.name') ||
                     tsUtils.get(this.transaction, 'quantity.asset.name'
                     );
-                this.amount = (
-                    tsUtils.get(this.transaction, 'amount') ||
-                    tsUtils.get(this.transaction, 'quantity')
-                ).toFormat();
+
+                const amount = tsUtils.get(this.transaction, 'amount') || tsUtils.get(this.transaction, 'quantity');
+                if (amount instanceof Money) {
+                    this.amount = amount.toFormat();
+                } else {
+                    this.amount = amount.div(Math.pow(10, this.transaction.precision));
+                }
             }
 
             /**

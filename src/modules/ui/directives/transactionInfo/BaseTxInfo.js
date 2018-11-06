@@ -65,14 +65,7 @@
                 const TYPES = waves.node.transactions.TYPES;
 
                 if (this.typeName === TYPES.BURN || this.typeName === TYPES.ISSUE || this.typeName === TYPES.REISSUE) {
-                    this.name = tsUtils.get(this.transaction, 'amount.asset.name') ||
-                        tsUtils.get(this.transaction, 'quantity.asset.name') ||
-                        this.transaction.name;
-                    this.amount = (tsUtils.get(this.transaction, 'amount') ||
-                        tsUtils.get(this.transaction, 'quantity')).toFormat();
-                    this.quantity = this.transaction.quantity || this.transaction.amount;
-                    this.precision = this.transaction.precision ||
-                        (this.quantity.asset ? this.quantity.asset.precision : 0);
+                    this._tokens();
                 }
 
                 if (this.typeName === TYPES.EXCHANGE_BUY || this.typeName === TYPES.EXCHANGE_SELL) {
@@ -94,6 +87,19 @@
                 } else {
                     this.calculatedFee = this.transaction.fee;
                 }
+            }
+
+            _tokens() {
+                this.name = tsUtils.get(this.transaction, 'amount.asset.name') ||
+                    tsUtils.get(this.transaction, 'quantity.asset.name') ||
+                    this.transaction.name;
+                this.amount = (tsUtils.get(this.transaction, 'amount') ||
+                    tsUtils.get(this.transaction, 'quantity')).toFormat();
+                this.quantity = this.transaction.quantity &&
+                    this.transaction.quantity.div(Math.pow(10, this.transaction.precision)) ||
+                    this.transaction.amount;
+                this.precision = this.transaction.precision ||
+                    (this.quantity.asset ? this.quantity.asset.precision : 0);
             }
 
         }
