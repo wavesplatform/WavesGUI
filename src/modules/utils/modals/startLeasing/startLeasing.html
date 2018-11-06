@@ -38,59 +38,61 @@
                                  ng-model="$ctrl.recipient"
                                  required></w-input>
 
-                    <w-input-error message="wavesAddress">
-                        <span w-i18n="modal.send.errors.address"></span>
-                    </w-input-error>
-                    <w-input-error message="required">
-                        <span w-i18n="modal.send.errors.required"></span>
-                    </w-input-error>
-                </w-input-container>
-            </div>
-            <div class="row">
+                        <w-input-error message="wavesAddress">
+                            <span w-i18n="modal.send.errors.address"></span>
+                        </w-input-error>
+                        <w-input-error message="required">
+                            <span w-i18n="modal.send.errors.required"></span>
+                        </w-input-error>
+                    </w-input-container>
+                </div>
+                <div class="row">
 
                     <div class="body-2 basic-900" w-i18n="modal.startLease.amount"></div>
 
-                <w-input-container>
-                    <w-balance-input name="amount"
-                                     asset-id="$ctrl.assetId"
-                                     max-balance="$ctrl.balance"
-                                     min="0"
-                                     fee="$ctrl.fee"
-                                     input-classes="big"
-                                     amount="$ctrl.amount"></w-balance-input>
+                    <w-input-container>
+                        <w-balance-input name="amount"
+                                         asset-id="$ctrl.assetId"
+                                         max-balance="$ctrl.balance"
+                                         min="0"
+                                         fee="$ctrl.fee"
+                                         input-classes="big"
+                                         amount="$ctrl.amount"></w-balance-input>
 
-                    <w-input-error name="amount" message="required">
-                        <span w-i18n="inputs.errors.required"></span>
-                    </w-input-error>
-                    <w-input-error name="amount" message="gt">
-                        <span ng-if="$ctrl.tx.amount.getTokens().eq(0)" w-i18n="inputs.errors.required"></span>
-                        <span ng-if="$ctrl.tx.amount.getTokens().gt(0)" w-i18n="inputs.errors.gtGatewayMin"
-                              params="{min: $ctrl.minimumAmount, assetName: $ctrl.tx.amount.asset.displayName}">
+                        <w-input-error name="amount" message="required">
+                            <span w-i18n="inputs.errors.required"></span>
+                        </w-input-error>
+                        <w-input-error name="amount" message="gt">
+                            <span ng-if="$ctrl.tx.amount.getTokens().eq(0)" w-i18n="inputs.errors.required"></span>
+                            <span ng-if="$ctrl.tx.amount.getTokens().gt(0)" w-i18n="inputs.errors.gtGatewayMin"
+                                  params="{min: $ctrl.minimumAmount, assetName: $ctrl.tx.amount.asset.displayName}">
                         </span>
-                    </w-input-error>
-                    <w-input-error name="amount" message="precision">
-                        <span w-i18n="modal.send.errors.precision" params="{precision: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.precision}"></span>
-                    </w-input-error>
-                    <w-input-error name="amount" message="lte">
+                        </w-input-error>
+                        <w-input-error name="amount" message="precision">
+                            <span w-i18n="modal.send.errors.precision"
+                                  params="{precision: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.precision}"></span>
+                        </w-input-error>
+                        <w-input-error name="amount" message="lte">
                         <span ng-if="!$ctrl.tx.amount.getTokens().gte($ctrl.gatewayDetails.maximumAmount)"
                               w-i18n="modal.send.errors.max">
                         </span>
-                        <span ng-if="$ctrl.tx.amount.getTokens().gte($ctrl.gatewayDetails.maximumAmount)"
-                              params="{money: $ctrl.maxGatewayAmount}"
-                              w-i18n="modal.send.errors.maxCoinomat">
+                            <span ng-if="$ctrl.tx.amount.getTokens().gte($ctrl.gatewayDetails.maximumAmount)"
+                                  params="{money: $ctrl.maxGatewayAmount}"
+                                  w-i18n="modal.send.errors.maxCoinomat">
                         </span>
-                    </w-input-error>
-                </w-input-container>
-            </div>
-            <div class="row basic-500">
-                <span w-i18n="modal.startLease.fee"></span>&nbsp;0.001 WAVES
-            </div>
-            <div class="margin-top-3">
-                <w-button disabled="lease.$invalid" on-click="$ctrl.next()" class="submit big long">
-                    <span w-i18n="modal.startLease.start"></span>
-                </w-button>
-            </div>
-        </form>
+                        </w-input-error>
+                    </w-input-container>
+                </div>
+                <div class="row basic-500">
+                    <span w-i18n="modal.startLease.fee"></span>&nbsp;0.001 WAVES
+                </div>
+                <div class="margin-top-3">
+                    <w-button disabled="lease.$invalid" on-click="$ctrl.next()" class="submit big long">
+                        <span w-i18n="modal.startLease.start"></span>
+                    </w-button>
+                </div>
+            </form>
+        </div>
     </w-step>
     <w-step>
         <w-confirm-transaction on-click-back="$ctrl.back()" tx="$ctrl.tx"></w-confirm-transaction>
