@@ -99,9 +99,15 @@
                     this.transaction.name;
                 this.amount = (tsUtils.get(this.transaction, 'amount') ||
                     tsUtils.get(this.transaction, 'quantity')).toFormat();
-                this.quantity = this.transaction.quantity &&
-                    this.transaction.quantity.div(Math.pow(10, this.transaction.precision)) ||
+
+                const quantity = this.transaction.quantity ||
                     this.transaction.amount;
+
+                if (quantity instanceof Money) {
+                    this.quantity = quantity;
+                } else {
+                    this.quantity = quantity.div(Math.pow(10, this.transaction.precision));
+                }
                 this.precision = this.transaction.precision ||
                     (this.quantity.asset ? this.quantity.asset.precision : 0);
             }
