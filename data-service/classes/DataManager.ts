@@ -1,7 +1,7 @@
 import { Money } from '@waves/data-entities';
 import { IPollAPI, Poll } from '../utils/Poll';
 import { balanceList } from '../api/assets/assets';
-import { hasSignature, getOrders } from '../api/matcher/getOrders';
+import { getReservedBalance } from '../api/matcher/getOrders';
 import { IBalanceItem } from '../api/assets/interface';
 import { IHash } from '../interface';
 import { IOrder } from '../api/matcher/interface';
@@ -10,7 +10,6 @@ import { MoneyHash } from '../utils/MoneyHash';
 import { UTXManager } from './UTXManager';
 import { getAliasesByAddress } from '../api/aliases/aliases';
 import { PollControl } from './PollControl';
-import { processOrdersWithStore } from '../store';
 
 
 export class DataManager {
@@ -39,9 +38,8 @@ export class DataManager {
         return this.pollControl.getPollHash().balance.getDataPromise();
     }
 
-    public getOrders(): Promise<Array<IOrder>> {
-        return this.pollControl.getPollHash().orders.getDataPromise()
-            .then(processOrdersWithStore);
+    public getReservedInOrders(): Promise<IHash<Money>> {
+        return this.pollControl.getPollHash().orders.getDataPromise();
     }
 
     public getAliasesPromise(): Promise<Array<string>> {
@@ -55,16 +53,15 @@ export class DataManager {
     private _getPollBalanceApi(): IPollAPI<Array<IBalanceItem>> {
         const get = () => {
             const hash = this.pollControl.getPollHash();
-            const orders = hash && hash.orders.lastData || [];
-            const inOrdersHash = this._getOrdersHash(orders);
+            const inOrdersHash = hash && hash.orders.lastData || Object.create(null);
             return balanceList(this._address, Object.create(null), inOrdersHash);
         };
         return { get, set: () => null };
     }
 
-    private _getPollOrdersApi(): IPollAPI<Array<IOrder>> {
+    private _getPollOrdersApi(): IPollAPI<IHash<Money>> {
         return {
-            get: () => getOrders(),
+            get: () => getReservedBalance(),
             set: () => null
         };
     }
@@ -74,26 +71,6 @@ export class DataManager {
             get: () => getAliasesByAddress(this._address),
             set: () => null
         };
-    }
-
-    private _getOrdersHash(orders: Array<IOrder>): IHash<Money> {
-        const hash = new MoneyHash();
-
-        orders.filter(contains({ isActive: true })).forEach((order) => {
-            const amountWithoutFilled = order.amount.sub(order.filled);
-
-            switch (order.type) {
-                case 'sell':
-                    hash.add(amountWithoutFilled);
-                    break;
-                case 'buy':
-                    const amountForSell = amountWithoutFilled.getTokens().times(order.price.getTokens());
-                    hash.add(order.price.cloneWithTokens(amountForSell));
-                    break;
-            }
-        });
-
-        return hash.toHash();
     }
 
     private _createPolls(): TPollHash {
@@ -108,6 +85,6 @@ export class DataManager {
 
 type TPollHash = {
     balance: Poll<Array<IBalanceItem>>;
-    orders: Poll<Array<IOrder>>;
+    orders: Poll<IHash<Money>>;
     aliases: Poll<Array<string>>;
 }
