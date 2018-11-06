@@ -14,50 +14,48 @@
 
             <w-tabs class="inner" ng-model="$ctrl.activeTab" ng-if="::$ctrl.advancedMode">
                 <w-tab title-name="::'confirmTransaction.details'" id="::'details'">
-                    <div ng-if="$ctrl.tx && $ctrl.gatewayDetails && $ctrl.targetRecipient" class="row margin-top-4 margin-2">
-
-                        <div class="section">
-                            <div class="key"
-                                 w-i18n="confirmGatewayTransaction.fieldAddress"></div>
-                            <div class="value">{{::$ctrl.targetRecipient}}</div>
-                        </div>
-
-                        <div class="section">
-                            <div class="key"
-                                 w-i18n="confirmGatewayTransaction.fieldAmount"></div>
-                            <div class="value">{{::$ctrl.tx.amount.toFormat()}}
-                                {{::$ctrl.tx.amount.asset.displayName}}
+                    <div ng-if="$ctrl.tx && $ctrl.gatewayDetails && $ctrl.targetRecipient" class="row margin-2">
+                        <div class="margin-top-4">
+                            <div class="section">
+                                <div class="key"
+                                     w-i18n="confirmGatewayTransaction.fieldAddress"></div>
+                                <div class="value">{{::$ctrl.targetRecipient}}</div>
                             </div>
-                        </div>
 
-                        <div class="section">
-                            <div class="key"
-                                 w-i18n="confirmGatewayTransaction.fieldFee"></div>
-                            <div class="value">{{::$ctrl.tx.fee.toFormat()}} {{::$ctrl.tx.fee.asset.displayName}}</div>
-                        </div>
+                            <div class="section">
+                                <div class="key"
+                                     w-i18n="confirmGatewayTransaction.fieldAmount"></div>
+                                <div class="value">{{::$ctrl.tx.amount.toFormat()}}
+                                    {{::$ctrl.tx.amount.asset.displayName}}
+                                </div>
+                            </div>
 
-                        <div class="section">
-                            <div class="key"
-                                 w-i18n="confirmGatewayTransaction.fieldGatewayAddress"></div>
-                            <div class="value">{{::$ctrl.gatewayDetails.address}}</div>
-                        </div>
+                            <div class="section">
+                                <div class="key"
+                                     w-i18n="confirmGatewayTransaction.fieldFee"></div>
+                                <div class="value">{{::$ctrl.tx.fee.toFormat()}} {{::$ctrl.tx.fee.asset.displayName}}
+                                </div>
+                            </div>
 
-                        <div class="section">
-                            <div class="key"
-                                 w-i18n="confirmGatewayTransaction.fieldGatewayFee"></div>
-                            <div class="value">{{::$ctrl.gatewayDetails.gatewayFee}}
-                                {{::$ctrl.tx.amount.asset.displayName}}
+                            <div class="section">
+                                <div class="key"
+                                     w-i18n="confirmGatewayTransaction.fieldGatewayAddress"></div>
+                                <div class="value">{{::$ctrl.gatewayDetails.address}}</div>
+                            </div>
+
+                            <div class="section">
+                                <div class="key"
+                                     w-i18n="confirmGatewayTransaction.fieldGatewayFee"></div>
+                                <div class="value">{{::$ctrl.gatewayDetails.gatewayFee}}
+                                    {{::$ctrl.tx.amount.asset.displayName}}
+                                </div>
                             </div>
                         </div>
 
                     </div>
                 </w-tab>
                 <w-tab title-name="::'confirmTransaction.JSON'" id="::'JSON'">
-                    <div class="margin-top-4 lex flex-between body-2">
-                        <div w-i18n="directives.anyTransaction.textAreaTitle"></div>
-                        <div><span class="link" on-click="" w-i18n="directives.anyTransaction.copy"></span></div>
-                    </div>
-                    <w-transaction-info-json signable="$ctrl.signable"></w-transaction-info-json>
+                    <w-transaction-info-json signable="$ctrl.signable" class="margin-top-4"></w-transaction-info-json>
                 </w-tab>
                 <w-tab ng-if="$ctrl.canCreateLink" title-name="::'confirmTransaction.export'" id="::'export'">
                     <w-transaction-export class="margin-top-4" link="$ctrl.exportLink"></w-transaction-export>

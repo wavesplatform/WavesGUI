@@ -28,6 +28,13 @@
                 <w-transaction-info-content ng-if="::!$ctrl.advancedMode"
                                             signable="$ctrl.signable"></w-transaction-info-content>
 
+                <div class="bottom-warning" ng-if="::$ctrl.isSetScript">
+                    <div class="warning-plate">
+                        <div class="body-2 warning-500" w-i18n-ns="app.utils" w-i18n="directives.scriptForm.warning.title"></div>
+                        <div class="footnote-1 basic-500" w-i18n-ns="app.utils" w-i18n="directives.scriptForm.warning.body"></div>
+                    </div>
+                </div>
+
                 <div class="bottom-warning" ng-if="::$ctrl.isTockenIssue">
                     <div class="warning-plate">
                         <div class="body-2 warning-500" w-i18n="modal.token.warning.header"></div>
@@ -36,29 +43,19 @@
                     </div>
                 </div>
 
-                <div class="bottom-warning" ng-if="::$ctrl.isSetScript">
-                    <div class="warning-plate">
-                        <div class="body-2 warning-500" w-i18n-ns="app.utils" w-i18n="directives.scriptForm.warning.title"></div>
-                        <div class="footnote-1 basic-500" w-i18n-ns="app.utils" w-i18n="directives.scriptForm.warning.body"></div>
-                    </div>
-                </div>
-
-
                 <h3 class="info margin-4 basic-700" ng-if="$ctrl.referrer">
                     <span w-i18n="confirmTransaction.redirect" params="{referrer: $ctrl.referrer}"></span>
                 </h3>
 
-                <div class="error-500 footnote-1"
+                <div class="error-500 margin-2 footnote-1"
                      ng-repeat="error in $ctrl.errors"
                      w-i18n="{{::error.literal}}"></div>
 
-                <div ng-if="$ctrl.errorMessage" class="error-400 margin-top-1 margin-2">
-                    {{$ctrl.errorMessage}}
-                </div>
-
                 <div class="bottom-wrapper">
-
-                    <div class="buttons-wrapper" ng-if="!$ctrl.loadingSignFromDevice">
+                    <div ng-if="$ctrl.errorMessage" class="error-500 margin-2 margin-top-2">
+                        {{$ctrl.errorMessage}}
+                    </div>
+                    <div class="buttons-wrapper margin-top-3" ng-if="!$ctrl.loadingSignFromDevice">
                         <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
                             <span w-i18n="confirmTransaction.back"></span>
                         </w-button>

@@ -30,16 +30,16 @@
         <div class="footnote-1 basic-500" w-i18n="directives.scriptForm.warning.body"></div>
     </div>
 
-    <div class="basic-500 footnote-1 margin-3"
+    <div class="basic-500 footnote-1 margin-1"
          w-i18n="directives.scriptForm.fee"
          params="{fee: $ctrl.state.tx.fee}"></div>
 
-    <div class="error-300"
+    <div class="error-500"
          ng-if="!$ctrl.hasFee"
          params="{fee: $ctrl.state.tx.fee}"
          w-i18n="directives.scriptForm.errors.fee"></div>
 
-    <w-sign-button class="big long submit"
+    <w-sign-button class="big long submit margin-top-3"
                    disabled="setScript.$invalid || $ctrl.validationPending || !$ctrl.hasFee"
                    on-click="$ctrl.getSignable()"
                    on-success="$ctrl.next(signable)">
