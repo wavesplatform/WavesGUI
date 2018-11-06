@@ -36,8 +36,8 @@ w-asset-logo.asset-logo-large {
       text-transform: uppercase;
       position: absolute;
       top: 50%;
-      transform: translateY(-50%);
       right: 15px;
+      transform: translateY(-50%);
       overflow: hidden;
       white-space: nowrap;
     }
@@ -63,6 +63,17 @@ w-asset-logo.asset-logo-large {
     margin: 0 -40px;
     width: calc(100% ~'+ 80px');
     border-bottom: 1px solid @color-submit-300;
+
+    &::before {
+      display: block;
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 10px;
+      z-index: 2;
+    }
   }
 
   &__interactive-stop {

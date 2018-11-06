@@ -100,14 +100,14 @@
             }
 
             cancelLeasing() {
-                const leaseTransactionAmount = this.transaction.amount;
-                const leaseId = this.transaction.id;
+                const lease = this.transaction;
+                const leaseId = lease.id;
                 return waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING })
                     .then((fee) => modalManager.showConfirmTx({
                         fee,
-                        leaseTransactionAmount,
-                        leaseId,
-                        type: SIGN_TYPE.CANCEL_LEASING
+                        type: SIGN_TYPE.CANCEL_LEASING,
+                        lease,
+                        leaseId
                     }));
             }
 

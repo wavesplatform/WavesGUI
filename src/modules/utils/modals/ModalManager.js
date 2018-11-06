@@ -242,7 +242,8 @@
                         amount: data.amount,
                         recipient: data.recipient,
                         strict: data.strict,
-                        referrer: data.referrer
+                        referrer: data.referrer,
+                        attachment: data.attachment
                     }
                 });
             }
@@ -348,7 +349,7 @@
                     ns: 'app.ui',
                     locals: { tx, showValidationErrors },
                     controller: 'ConfirmTxCtrl',
-                    contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
+                    templateUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
                 });
             }
 
