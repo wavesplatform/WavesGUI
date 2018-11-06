@@ -74,15 +74,23 @@
                 const json = this.json;
                 this.fee = null;
 
+                if (!this.json) {
+                    this.isValidJSON = true;
+                    return null;
+                }
+
                 WavesApp.parseJSON(json)
-                    .then(data => {
-                        this._updateSignable(data);
-                        this.state.tx = data;
-                        this.isValidJSON = true;
-                    })
+                    .then(data => this._updateSignable(data)
+                        .then(() => {
+                            this.state.tx = data;
+                            this.isValidJSON = true;
+                        }))
                     .catch(() => {
                         this.state.tx = null;
                         this.isValidJSON = false;
+                    })
+                    .then(() => {
+                        $scope.$apply();
                     });
             }
 
@@ -91,7 +99,7 @@
              */
             _updateSignable(data) {
                 if (!data) {
-                    return null;
+                    return Promise.resolve(null);
                 }
 
                 const clone = Object.keys(data).reduce((acc, name) => {
@@ -107,11 +115,15 @@
                 ])
                     .then(([data, lease]) => {
                         this.fee = data.fee;
-                        this.signable = ds.signature.getSignatureApi().makeSignable({
-                            type: data.type,
-                            data: { ...data, lease }
-                        });
-                        $scope.$apply();
+
+                        try {
+                            this.signable = ds.signature.getSignatureApi().makeSignable({
+                                type: data.type,
+                                data: { ...data, lease }
+                            });
+                        } catch (e) {
+                            return Promise.reject(e);
+                        }
                     });
             }
 

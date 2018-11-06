@@ -15,17 +15,16 @@
                  w-validate
                  w-validator-custom="{{$ctrl.isValidJSON}}"
                  name="script"
-                 textarea="true"
+                 textarea
+                 required
                  class="large"></w-input>
 
-        <w-input-error name="custom">
-            <span ng-if="$ctrl.requiredError"
-                  w-i18n="directives.anyTransaction.errors.invalidScript"></span>
+        <w-input-error name="required">
+            <span w-i18n="directives.anyTransaction.errors.invalidScript"></span>
         </w-input-error>
 
         <w-input-error name="custom">
-            <span ng-if="$ctrl.validationError"
-                  w-i18n="directives.anyTransaction.errors.invalidScript"></span>
+            <span w-i18n="directives.anyTransaction.errors.invalidScript"></span>
         </w-input-error>
     </w-input-container>
 
@@ -34,7 +33,7 @@
         <div class="footnote-1 basic-500" w-i18n="directives.anyTransaction.warning.body"></div>
     </div>
 
-    <div  class="margin-top-2 basic-500 footnote-1">
+    <div class="margin-top-2 basic-500 footnote-1">
         <span ng-if="$ctrl.fee" w-i18n="directives.anyTransaction.fee" params="{fee: $ctrl.fee}"></span>
         <span ng-if="!$ctrl.fee || !!$ctrl.anyTx.$invalid" w-i18n="directives.anyTransaction.calculatingFee"></span>
     </div>
