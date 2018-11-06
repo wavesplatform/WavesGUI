@@ -12,7 +12,9 @@
 
         const { head } = require('ramda');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const { Money } = require('@waves/data-entities');
         const ds = require('data-service');
+
 
         class AnyTransactionForm extends Base {
 
@@ -119,7 +121,7 @@
                         try {
                             this.signable = ds.signature.getSignatureApi().makeSignable({
                                 type: data.type,
-                                data: { ...data, lease }
+                                data: { ...data, ...lease }
                             });
                         } catch (e) {
                             return Promise.reject(e);
@@ -130,7 +132,12 @@
             static _loadTxData(tx) {
                 switch (tx.type) {
                     case SIGN_TYPE.CANCEL_LEASING:
-                        return waves.node.transactions.get(tx.leaseId);
+                        return waves.node.transactions.get(tx.leaseId)
+                            .then(lease => ({ lease }));
+                    case SIGN_TYPE.BURN:
+                        return waves.node.assets.getAsset(tx.assetId).then(asset => ({
+                            amount: new Money(tx.quantity, asset)
+                        }));
                     default:
                         return Promise.resolve(Object.create(null));
                 }

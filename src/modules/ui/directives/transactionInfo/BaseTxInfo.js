@@ -3,7 +3,7 @@
 
     const PATH = 'modules/ui/directives/transactionInfo/types';
     const ds = require('data-service');
-    const { Money } = require('@waves/data-entities');
+    const { Money, BigNumber } = require('@waves/data-entities');
 
     /**
      * @param Base
@@ -105,8 +105,10 @@
 
                 if (quantity instanceof Money) {
                     this.quantity = quantity;
-                } else {
+                } else if (quantity instanceof BigNumber) {
                     this.quantity = quantity.div(Math.pow(10, this.transaction.precision));
+                } else {
+                    this.quantity = this.transaction.amount;
                 }
                 this.precision = this.transaction.precision ||
                     (this.quantity.asset ? this.quantity.asset.precision : 0);
