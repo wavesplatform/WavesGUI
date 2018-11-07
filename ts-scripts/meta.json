@@ -129,7 +129,7 @@
     "ts-scripts/loginDaemon.js",
     "ts-scripts/mobileConsole.js"
   ],
-  "domain": "https://beta.wavesplatform.com",
+  "domain": "https://client.wavesplatform.com",
   "copyNodeModules": [
     "node_modules/qrcode-reader/dist/index.min.js",
     "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js"
