@@ -118,16 +118,50 @@ w-dex-order-book {
 
       &:hover {
         div.tooltip{
-          z-index: 2;
+          z-index: 4;
           bottom: 100%;
           display: block;
           left: 100%;
-          transform: translateX(-50%);
+          transform: translate(calc(-100% ~'- 10px'), -28px);
+          right: auto;
+          padding-bottom: 0;
+          height: 28px;
+          white-space: nowrap;
+
+          &::before {
+            bottom: -3px;
+          }
         }
+      }
+
+      &:first-child,
+      &:first-child + w-row {
+        &:hover {
+          div.tooltip {
+            bottom: 0;
+            top: auto;
+            transform: translate(calc(-100% - 10px), 28px);
+
+            &::before {
+              top: -3px;
+            }
+          }
+        }
+      }
+
+    }
+
+    .asks w-row {
+      div.tooltip-bid {
+        display: none;
       }
     }
 
-    .asks w-row {}
+    .bids w-row {
+      div.tooltip-ask {
+        display: none;
+      }
+    }
 
     .dex-layout {
       &__line-graph {
