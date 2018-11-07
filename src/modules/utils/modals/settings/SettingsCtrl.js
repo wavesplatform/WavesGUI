@@ -36,6 +36,7 @@
             }
 
             set advancedMode(mode) {
+                analytics.push('Settings', 'Settings.ChangeAdvancedMode', String(!mode));
                 user.setSetting('advancedMode', mode);
             }
 
