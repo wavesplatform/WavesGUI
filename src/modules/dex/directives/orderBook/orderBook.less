@@ -114,7 +114,20 @@ w-dex-order-book {
     .asks w-row,
     .bids w-row {
       cursor: pointer;
+      position: relative;
+
+      &:hover {
+        div.tooltip{
+          z-index: 2;
+          bottom: 100%;
+          display: block;
+          left: 100%;
+          transform: translateX(-50%);
+        }
+      }
     }
+
+    .asks w-row {}
 
     .dex-layout {
       &__line-graph {
