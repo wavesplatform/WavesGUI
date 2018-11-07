@@ -29,6 +29,11 @@
                       w-i18n-ns="app.wallet.portfolio"
                       params="{count: $ctrl.details.spam.length || 0}"></span>
             </w-option>
+            <w-option value="::'my'">
+                <span w-i18n="myassets"
+                      w-i18n-ns="app.wallet.portfolio"
+                      params="{count: $ctrl.details.my.length || 0}"></span>
+            </w-option>
         </w-select>
     </div>
     <w-smart-table class="smart-table smart-table__mode-large" name="portfolio-balance-list" data="$ctrl.balanceList"

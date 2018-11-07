@@ -263,6 +263,9 @@
                     case 'spam':
                         balanceList = details.spam.slice();
                         break;
+                    case 'my':
+                        balanceList = details.my.slice();
+                        break;
                     case 'notLiquid':
                         balanceList = details.notLiquid.slice();
                         break;
@@ -304,13 +307,17 @@
                 ]).then(([activeList]) => {
 
                     const spam = [];
+                    const my = [];
 
                     for (let i = activeList.length - 1; i >= 0; i--) {
+                        if (activeList[i].asset.sender === user.address) {
+                            my.push(activeList[i]);
+                        }
                         if (activeList[i].isOnScamList || activeList[i].isSpam) {
                             spam.push(activeList.splice(i, 1)[0]);
                         }
                     }
-                    return { active: activeList, spam };
+                    return { active: activeList, spam, my };
                 });
             }
 
@@ -377,4 +384,5 @@
  * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} active
  * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} pinned // TODO when available assets store
  * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} spam
+ * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} my
  */
