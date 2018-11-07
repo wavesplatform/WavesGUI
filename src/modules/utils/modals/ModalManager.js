@@ -78,6 +78,16 @@
                 });
             }
 
+            showPairingWithMobile() {
+                return this._getModal({
+                    id: 'pairing-with-mobile',
+                    title: '',
+                    contentUrl: 'modules/utils/modals/pairingWithMobile/pairingWithMobile.html',
+                    controller: 'PairingWithMobileCtrl',
+                    mod: 'pairing-with-mobile'
+                });
+            }
+
             showSignLedger(options) {
                 return this._getModal({
                     id: 'sign-ledger',
