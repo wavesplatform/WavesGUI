@@ -179,15 +179,24 @@
                 this._createActiveValidationXHR(script);
             }
 
+            /**
+             * @private
+             */
             _clearActiveValidationXHR() {
                 this._activeXHR_Id = null;
                 this._validateXHR = null;
                 this.validationPending = false;
             }
 
+            /**
+             * @param code
+             * @return {null}
+             * @private
+             */
             _createActiveValidationXHR(code) {
                 if (code === '') {
                     this.validationError = false;
+                    this.state.tx.script = '';
                     return null;
                 }
 
