@@ -407,14 +407,19 @@
                     waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP })
                 ]).then(([asset, fee]) => {
                     const money = new Money(0, asset);
-
-                    return this.showConfirmTx({
+                    const tx = waves.node.transactions.createTransaction({
                         type: SIGN_TYPE.SPONSORSHIP,
                         assetId,
                         asset,
                         minSponsoredAssetFee: money,
                         fee
-                    }, true);
+                    });
+                    const signable = ds.signature.getSignatureApi().makeSignable({
+                        type: tx.type,
+                        data: tx
+                    });
+
+                    return this.showConfirmTx(signable, true);
                 });
             }
 

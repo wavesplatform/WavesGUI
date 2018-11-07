@@ -125,8 +125,14 @@
                         this.state.singleSend.amount = money;
                         this.state.singleSend.fee = fee;
 
+                        const tx = waves.node.transactions.createTransaction(this.state.singleSend);
+                        const signable = ds.signature.getSignatureApi().makeSignable({
+                            type: SIGN_TYPE.TRANSFER,
+                            data: tx
+                        });
+
                         if (this.strict) {
-                            this.nextStep();
+                            this.nextStep(signable);
                         }
                     })
                         .catch(() => {
