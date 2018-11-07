@@ -24,11 +24,16 @@ md-dialog.modal-send {
       height: 100%;
     }
 
+    .error-content,
     w-mass-send,
     w-single-send {
       padding: 40px 40px 0;
       display: block;
       max-height: calc(74vh ~'- 60px');
+    }
+
+    .icon-browser-warning {
+      margin-top: 60px;
     }
 
     &::after {
@@ -49,10 +54,6 @@ md-dialog.modal-send {
         height: 60px;
         line-height: 60px;
         border-bottom: 1px solid @color-disabled-200;
-      }
-
-      .error-content {
-        padding: 30px 40px;
       }
 
       .note-plate {
@@ -90,11 +91,19 @@ md-dialog.modal-send {
     }
 
     w-transaction-info {
-      margin-top: -60px;
       display: block;
     }
 
-    .buttons-wrapper w-button,
+    w-confirm-transaction {
+      .buttons-wrapper w-button {
+        &::after {
+          display: block;
+          content: '';
+          height: 40px;
+        }
+      }
+    }
+
     w-sign-button {
       &::after {
         display: block;
