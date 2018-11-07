@@ -55,10 +55,5 @@ Promise.all([
         process.exit(1);
     }
 
-    if (/[a-z0-9]/.test(project)) {
-        console.warn('\x1b[31m%s\x1b[0m', ERROR_MESSAGE);
-        process.exit(1);
-    }
-
     process.exit(0);
 });
