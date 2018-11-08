@@ -5,6 +5,10 @@
 
         class TransactionExport extends Base {
 
+            copyLink() {
+                analytics.push('ExportTransaction', 'ExportTransaction.CopyTransactionLink');
+            }
+
         }
 
         return new TransactionExport();
