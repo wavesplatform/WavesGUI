@@ -1,0 +1,10 @@
+<w-sign signable="$ctrl.signable"
+        on-success="$ctrl.onSignSuccess()"
+        on-cancel="$ctrl.onSignCancel()">
+</w-sign>
+<w-button ng-if="!$ctrl.signPending"
+          on-click="$ctrl.onClickButton()"
+          disabled="$ctrl.disabled"
+          class="big long submit">
+    <ng-transclude></ng-transclude>
+</w-button>

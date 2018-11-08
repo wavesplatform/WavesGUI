@@ -1,0 +1,56 @@
+w-transaction-export {
+  .qr-wrapper {
+    transition: all .3s;
+    height: auto;
+
+    w-qr-code {
+      display: block;
+      margin: 0 auto 30px;
+      text-align: center;
+      width: 200px;
+      height: 200px;
+      overflow: hidden;
+      transition: all .3s;
+
+      .qr-code-wrap,
+      img {
+        width: 200px;
+        height: 200px;
+        transition: all .3s;
+        cursor: pointer;
+      }
+    }
+
+    &.zoomed-in {
+      w-qr-code {
+        width: 400px;
+        height: 400px;
+
+        .qr-code-wrap,
+        img {
+          width: 400px;
+          height: 400px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  w-transaction-export {
+    .qr-wrapper {
+      &.zoomed-in {
+        w-qr-code {
+          width: 340px;
+          height: 340px;
+
+          .qr-code-wrap,
+          img {
+            width: 340px;
+            height: 340px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -164,11 +164,12 @@
             </div>
 
             <div class="row">
-                <w-button disabled="$ctrl.createForm.$invalid || $ctrl.invalid"
-                          class="submit long margin-2"
-                          on-click="$ctrl.generate()">
+                <w-sign-button disabled="$ctrl.createForm.$invalid || $ctrl.invalid"
+                                      class="submit long margin-4"
+                                      on-success="$ctrl.generate(signable)"
+                                      on-click="$ctrl.createSignable()">
                     <span w-i18n="create"></span>
-                </w-button>
+                </w-sign-button>
             </div>
 
         </form>

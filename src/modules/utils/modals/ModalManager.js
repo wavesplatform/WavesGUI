@@ -61,8 +61,9 @@
             showScriptModal() {
                 return this._getModal({
                     id: 'script-modal',
-                    templateUrl: 'modules/utils/modals/script/script.html',
-                    controller: 'ScriptModalCtrl'
+                    contentUrl: 'modules/utils/modals/script/script.html',
+                    controller: 'ScriptModalCtrl',
+                    title: 'modal.script.setScript'
                 });
             }
 
@@ -80,7 +81,7 @@
 
             showSignLedger(options) {
                 return this._getModal({
-                    id: 'sign-ledger',
+                    id: 'signable-ledger',
                     contentUrl: 'modules/utils/modals/signLedger/signLedger.html',
                     controller: 'SignLedgerCtrl',
                     locals: {
@@ -107,7 +108,7 @@
 
             showGatewaySign(search) {
                 return this._getModal({
-                    id: 'gateway-sign-in',
+                    id: 'gateway-signable-in',
                     title: '{{$ctrl.titleLiteral}}',
                     contentUrl: 'modules/utils/modals/gateway/gatewaySign.html',
                     controller: 'GatewaySignCtrl',
@@ -330,6 +331,16 @@
                 });
             }
 
+            showAnyTx(tx) {
+                return this._getModal({
+                    id: 'any-tx-modal',
+                    controller: 'AnyTxModalCtrl',
+                    contentUrl: 'modules/utils/modals/anyTxModal/any-tx-modal.html',
+                    title: 'modals.anyTx.title',
+                    locals: tx
+                });
+            }
+
             showStartLeasing() {
                 return this._getModal({
                     id: 'start-leasing',
@@ -341,15 +352,14 @@
                 });
             }
 
-            showConfirmTx(txData, showValidationErrors) {
-                const tx = $injector.get('waves').node.transactions.createTransaction(txData);
-
+            showConfirmTx(signable, showValidationErrors) {
                 return this._getModal({
                     id: 'confirm-tx',
+                    mod: 'confirm-tx',
                     ns: 'app.ui',
-                    locals: { tx, showValidationErrors },
+                    locals: { signable, showValidationErrors },
                     controller: 'ConfirmTxCtrl',
-                    templateUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
+                    contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
                 });
             }
 
@@ -397,14 +407,19 @@
                     waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP })
                 ]).then(([asset, fee]) => {
                     const money = new Money(0, asset);
-
-                    return this.showConfirmTx({
+                    const tx = waves.node.transactions.createTransaction({
                         type: SIGN_TYPE.SPONSORSHIP,
                         assetId,
                         asset,
                         minSponsoredAssetFee: money,
                         fee
-                    }, true);
+                    });
+                    const signable = ds.signature.getSignatureApi().makeSignable({
+                        type: tx.type,
+                        data: tx
+                    });
+
+                    return this.showConfirmTx(signable, true);
                 });
             }
 
