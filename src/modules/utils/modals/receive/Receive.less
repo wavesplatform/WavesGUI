@@ -4,9 +4,15 @@
 md-dialog.modal-receive {
   md-dialog-content {
 
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+    color: @color-disabled-900;
+
     .modal-content,
     .tab-container,
     .tab-body-wrap,
+    w-tabs,
     w-tab,
     .step-list,
     w-step-by-step,
@@ -28,13 +34,57 @@ md-dialog.modal-receive {
       }
     }
 
-    .modal-content {
+    .tab-tem {
+      padding: 40px 40px 0;
+      display: block;
+      max-height: calc(74vh ~'- 60px');
       overflow: auto;
+
+      &::after {
+        display: block;
+        content: '';
+        width: 100%;
+        height: 40px;
+      }
     }
 
-    position: relative;
-    padding: 0;
-    overflow: hidden;
+    .modal-content {
+      overflow: auto;
+      position: relative;
+
+      .qr-code-wrap {
+        margin: auto;
+        box-shadow: 0 0 0 5px #FFF;
+        border-radius: 1px;
+      }
+
+      .warning-plate {
+        margin: 10px 0 20px;
+        &.server-error {
+          margin-bottom: 30px;
+        }
+      }
+
+      .warning-plate.margin-1 {
+        margin-bottom: 10px;
+      }
+
+      .note-plate {
+        position: relative;
+        margin: 10px 0 20px;
+        background: @color-basic-50;
+        border: 1px dashed @color-basic-200;
+        padding: 0 14px;
+        border-radius: @border-radius;
+        line-height: 54px;
+        min-height: 54px;
+
+        &.transparent {
+          background: transparent;
+          padding: 12px;
+        }
+      }
+    }
 
     &::after {
       display: none;
@@ -59,48 +109,6 @@ md-dialog.modal-receive {
       display: flex;
       flex-direction: row;
       align-items: center;
-    }
-
-    w-tabs {
-      .titles-wrap {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        padding: 0 40px;
-        z-index: 10;
-        height: 60px;
-
-        .title {
-          .headline-2();
-          line-height: 30px;
-          padding: 20px 0 10px;
-          margin: 0 40px 0 0;
-          color: @color-info-500;
-          min-height: 60px;
-          cursor: pointer;
-
-          &.active {
-            color: @color-submit-400;
-          }
-        }
-
-        &::before {
-          display: none;
-        }
-      }
-
-      .tab-body-wrap .tab-tem {
-        max-height: calc(74vh ~'- 60px');
-        display: block;
-        overflow: auto;
-        padding: 40px 40px 0;
-
-        &::after {
-          display: block;
-          content: '';
-          height: 40px;
-        }
-      }
     }
 
     .amount-wrap {
@@ -194,43 +202,6 @@ md-dialog.modal-receive {
       }
     }
 
-    .modal-content {
-      padding-top: 60px;
-
-      .qr-code-wrap {
-        margin: auto;
-        box-shadow: 0 0 0 5px #FFF;
-        border-radius: 1px;
-      }
-
-      .warning-plate {
-        margin: 10px 0 20px;
-        &.server-error {
-          margin-bottom: 30px;
-        }
-      }
-
-      .warning-plate.margin-1 {
-        margin-bottom: 10px;
-      }
-
-      .note-plate {
-        position: relative;
-        margin: 10px 0 20px;
-        background: @color-basic-50;
-        border: 1px dashed @color-basic-200;
-        padding: 0 14px;
-        border-radius: @border-radius;
-        line-height: 54px;
-        min-height: 54px;
-
-        &.transparent {
-          background: transparent;
-          padding: 12px;
-        }
-      }
-    }
-
     .verified-input {
       align-items: center;
       display: flex;
@@ -302,6 +273,10 @@ md-dialog.modal-receive {
           }
         }
 
+        .tab-tem {
+          padding: 40px 20px 0;
+        }
+
         .receive-confirm {
           margin-top: -60px;
           min-height: 220px;
@@ -310,35 +285,6 @@ md-dialog.modal-receive {
 
         .icon-close {
           right: 10px;
-        }
-
-        w-tabs {
-          .titles-wrap {
-            width: 100%;
-            padding: 0 20px;
-
-            .title {
-              .body-2();
-              margin: 0;
-              margin-right: 20px;
-              font-family: @font-roboto-medium;
-              color: @color-info-500;
-              padding: 30px 0 0;
-
-              &.active {
-                color: @color-submit-400;
-              }
-            }
-          }
-
-          .tab-body-wrap .tab-tem {
-            padding: 20px 20px 0;
-            max-height: 100%;
-
-            &::after {
-              height: 20px;
-            }
-          }
         }
       }
     }

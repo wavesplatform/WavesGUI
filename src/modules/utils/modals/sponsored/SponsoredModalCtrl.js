@@ -73,6 +73,10 @@
                 this._updateFee();
             }
 
+            getSignable() {
+                return this.signable;
+            }
+
             onConfirm() {
                 this.step++;
             }
@@ -87,16 +91,20 @@
 
             _createTx() {
                 if (!this.fee || !this.minSponsoredAssetFee) {
-                    this._tx = null;
+                    this.signable = null;
                     return null;
                 }
 
                 const { fee, minSponsoredAssetFee } = this;
                 const type = SIGN_TYPE.SPONSORSHIP;
-                this._tx = waves.node.transactions.createTransaction({
+                const tx = waves.node.transactions.createTransaction({
                     fee,
                     type,
                     minSponsoredAssetFee
+                });
+                this.signable = ds.signature.getSignatureApi().makeSignable({
+                    type,
+                    data: tx
                 });
             }
 

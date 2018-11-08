@@ -68,7 +68,8 @@
                 SEND_ASSET: '/send/:assetId',
                 ASSET_INFO: '/asset/:assetId',
                 ACCOUNT: '/account',
-                GATEWAY_AUTH: '/gateway/auth'
+                GATEWAY_AUTH: '/gateway/auth',
+                ANY_TX: '/tx'
             };
 
         }
