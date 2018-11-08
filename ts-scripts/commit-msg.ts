@@ -1,5 +1,5 @@
 import { readFile } from 'fs-extra';
-import {version} from "punycode";
+import { getBranchDetail } from './utils';
 
 
 const enum ARGUMENTS {
@@ -7,6 +7,7 @@ const enum ARGUMENTS {
     FILE_PATH,
     COMMIT_MESSAGE_PATH
 }
+
 const path = process.argv[ARGUMENTS.COMMIT_MESSAGE_PATH];
 
 
@@ -14,11 +15,14 @@ function isVersion(data: string): boolean {
     return data.split('.').map(Number).every((version) => !isNaN(version)) && data.split('.').length === 3;
 }
 
-readFile(path, 'utf8').then((message) => {
+Promise.all([
+    getBranchDetail(),
+    readFile(path, 'utf8')
+]).then(([details, message]) => {
 
     const ERROR_MESSAGE = `Wrong commit message!
- Message: "${message}"
- Message pattern "PROJECT-TICKET: description"`;
+ Message: "${message.trim()}"
+ Message pattern "${details.project.toUpperCase()}-${details.ticket}: description"`;
 
     if (message.includes('Merge ')) {
         process.exit(0);
@@ -41,7 +45,12 @@ readFile(path, 'utf8').then((message) => {
         process.exit(1);
     }
 
-    if (/[a-z0-9]/.test(project)) {
+    if (project !== details.project.toUpperCase()) {
+        console.warn('\x1b[31m%s\x1b[0m', ERROR_MESSAGE);
+        process.exit(1);
+    }
+
+    if (Number(ticket) !== details.ticket) {
         console.warn('\x1b[31m%s\x1b[0m', ERROR_MESSAGE);
         process.exit(1);
     }

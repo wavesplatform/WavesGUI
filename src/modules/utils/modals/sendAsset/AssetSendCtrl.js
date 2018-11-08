@@ -77,8 +77,8 @@
                     outerSendMode: false,
                     gatewayDetails: null,
                     moneyHash: null,
-                    singleSend: Object.create(null),
-                    massSend: Object.create(null),
+                    singleSend: utils.liteObject({ type: SIGN_TYPE.TRANSFER }),
+                    massSend: utils.liteObject({ type: SIGN_TYPE.MASS_TRANSFER }),
                     toBankMode: false
                 };
                 /**
@@ -125,8 +125,14 @@
                         this.state.singleSend.amount = money;
                         this.state.singleSend.fee = fee;
 
+                        const tx = waves.node.transactions.createTransaction(this.state.singleSend);
+                        const signable = ds.signature.getSignatureApi().makeSignable({
+                            type: SIGN_TYPE.TRANSFER,
+                            data: tx
+                        });
+
                         if (this.strict) {
-                            this.nextStep();
+                            this.nextStep(signable);
                         }
                     })
                         .catch(() => {
@@ -143,17 +149,8 @@
                 this.step--;
             }
 
-            nextStep(tx) {
-                const type = this.tab === 'singleSend' ? SIGN_TYPE.TRANSFER : SIGN_TYPE.MASS_TRANSFER;
-
-                tx = tx || (this.tab === 'singleSend' ? { ...this.state.singleSend } : { ...this.state.massSend });
-
-                this.txInfo = waves.node.transactions.createTransaction({
-                    ...tx,
-                    type,
-                    sender: user.address
-                });
-
+            nextStep(signable) {
+                this.signable = signable;
                 this.step++;
             }
 
@@ -252,6 +249,7 @@
 
 /**
  * @typedef {object} ISingleSendTx
+ * @property {number} type
  * @property {string} recipient
  * @property {Money} amount
  * @property {Money} fee

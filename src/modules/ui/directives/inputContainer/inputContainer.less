@@ -10,8 +10,9 @@ w-input-container {
 
   .like-input-error,
   w-input-error {
-    &.multiline {
+    position: absolute;
 
+    &.multiline {
       .error {
         padding: 16px 25px 16px 16px;
         overflow: auto;
@@ -32,9 +33,6 @@ w-input-container {
       }
     }
 
-    position: absolute;
-    width: 100%;
-
     &::before {
       display: block;
       width: 10px;
@@ -46,7 +44,6 @@ w-input-container {
       left: 20px;
       position: absolute;
     }
-
 
     .error {
       background: @color-error-400;

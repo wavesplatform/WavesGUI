@@ -93,9 +93,6 @@ export function parseTx(transactions: Array<T_API_TX>, isUTX: boolean, isTokens?
 export function getAssetsHashFromTx(transaction: T_API_TX, hash = Object.create(null)): IHash<boolean> {
     hash[WAVES_ID] = true;
     switch (transaction.type) {
-        case TRANSACTION_TYPE_NUMBER.ISSUE:
-            hash[normalizeAssetId(transaction.id)] = true;
-            break;
         case TRANSACTION_TYPE_NUMBER.REISSUE:
         case TRANSACTION_TYPE_NUMBER.BURN:
         case TRANSACTION_TYPE_NUMBER.MASS_TRANSFER:
@@ -104,7 +101,7 @@ export function getAssetsHashFromTx(transaction: T_API_TX, hash = Object.create(
             break;
         case TRANSACTION_TYPE_NUMBER.TRANSFER:
             hash[normalizeAssetId(transaction.assetId)] = true;
-            hash[normalizeAssetId(transaction.feeAsset)] = true;
+            hash[normalizeAssetId(transaction.feeAssetId)] = true;
             break;
         case TRANSACTION_TYPE_NUMBER.EXCHANGE:
             hash[normalizeAssetId(transaction.order1.assetPair.amountAsset)] = true;
@@ -117,13 +114,13 @@ export function getAssetsHashFromTx(transaction: T_API_TX, hash = Object.create(
 export function remapOldTransfer(tx: txApi.IOldTransferTx): txApi.ITransfer {
     const type = TRANSACTION_TYPE_NUMBER.TRANSFER;
     const assetId = WAVES_ID;
-    return { ...tx, type, assetId, attachment: '', feeAsset: WAVES_ID };
+    return { ...tx, type, assetId, attachment: '', feeAssetId: WAVES_ID };
 }
 
 export function parseIssueTx(tx: txApi.IIssue, assetsHash: IHash<Asset>, isUTX: boolean): IIssue {
-    const quantity = new Money(tx.quantity, assetsHash[normalizeAssetId(tx.id)]);
+    const quantity = new BigNumber(tx.quantity);
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
-    return { ...tx, quantity, fee, isUTX };
+    return { ...tx, precision: tx.decimals, quantity, fee, isUTX } as IIssue;
 }
 
 export function parseTransferTx(tx: txApi.ITransfer, assetsHash: IHash<Asset>, isUTX: boolean): ITransfer {
@@ -137,7 +134,7 @@ export function parseTransferTx(tx: txApi.ITransfer, assetsHash: IHash<Asset>, i
     const rawAttachment = tx.attachment;
     const recipient = normalizeRecipient(tx.recipient);
     const amount = new Money(tx.amount, assetsHash[normalizeAssetId(tx.assetId)]);
-    const fee = new Money(tx.fee, assetsHash[normalizeAssetId(tx.feeAsset)]);
+    const fee = new Money(tx.fee, assetsHash[normalizeAssetId(tx.feeAssetId)]);
     const assetId = normalizeAssetId(tx.assetId);
     return { ...tx, amount, fee, assetId, isUTX, attachment, rawAttachment, recipient };
 }
@@ -211,7 +208,7 @@ export function parseLeasingTx(tx: txApi.ILease, assetsHash: IHash<Asset>, isUTX
 }
 
 export function parseCancelLeasingTx(tx: txApi.ICancelLeasing, assetsHash: IHash<Asset>, isUTX: boolean): ICancelLeasing {
-    const lease = parseLeasingTx(tx.lease, assetsHash, false);
+    const lease = tx.lease && parseLeasingTx(tx.lease, assetsHash, false) || null;
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
     return { ...tx, lease, fee, isUTX };
 }
@@ -223,11 +220,15 @@ export function parseCreateAliasTx(tx: txApi.ICreateAlias, assetsHash: IHash<Ass
 
 export function parseMassTransferTx(tx: txApi.IMassTransfer, assetsHash: IHash<Asset>, isUTX: boolean): IMassTransfer {
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
-    const totalAmount = new Money(tx.totalAmount, assetsHash[normalizeAssetId(tx.assetId)]);
+    const asset = assetsHash[normalizeAssetId(tx.assetId)];
+
     const transfers = tx.transfers.map((transfer) => ({
         recipient: normalizeRecipient(transfer.recipient),
         amount: new Money(transfer.amount, assetsHash[normalizeAssetId(tx.assetId)])
     }));
+
+    const totalAmount = new Money(tx.totalAmount || transfers.reduce((acc, item) => acc.add(item.amount), new Money(0, asset)).toCoins(), asset);
+
     const bytes = libs.base58.decode(tx.attachment);
     let attachment;
     try {

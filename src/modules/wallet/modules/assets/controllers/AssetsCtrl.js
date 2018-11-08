@@ -119,6 +119,10 @@
                 return modalManager.showScriptModal();
             }
 
+            openAnyTxModal() {
+                return modalManager.showAnyTx(null);
+            }
+
             abs(num) {
                 return Math.abs(num);
             }
