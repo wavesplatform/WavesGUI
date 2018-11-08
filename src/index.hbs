@@ -431,6 +431,7 @@
             },
             parseJSON: null,
             stateTree: null,
+            MAX_URL_LENGTH: 1200,
             sign: {
                 openTimeout: 3000,
                 listenTimeout: 25000,
@@ -580,8 +581,8 @@
             }, str);
         };
 
-        WavesApp.stringifyJSON = function (data) {
-            return stringify(data);
+        WavesApp.stringifyJSON = function () {
+            return stringify.apply(this, arguments);
         };
     })();
 
@@ -756,6 +757,7 @@
      * @property {Object.<{separators: {group: string, decimal: string}}>} localize
      * @property {number} minAliasLength
      * @property {number} maxAliasLength
+     * @property {number} MAX_URL_LENGTH
      * @property {number} maxAddressLength
      * @property {\{count: number, timeType: string\}} matcherSignInterval
      * @property {BigNumber} maxCoinsCount
@@ -775,7 +777,7 @@
      * @property {Function} getController
      * @property {function():{name: string, separators: {group: string, decimal: string}}} getLocaleData
      * @property {function(data: string): Promise<object>} parseJSON
-     * @property {function(data: object): Promise<string>} stringifyJSON
+     * @property {function(data: object, [a], [b]): string} stringifyJSON
      * @property {Tree} stateTree
      */
 </script>

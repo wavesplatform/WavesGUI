@@ -3,6 +3,7 @@
 
     const PATH = 'modules/ui/directives/transaction/types';
     const tsUtils = require('ts-utils');
+    const { Money } = require('@waves/data-entities');
 
     /**
      * @param Base
@@ -79,18 +80,26 @@
             tokens() {
                 this.titleAssetName = this.getAssetName(
                     tsUtils.get(this.transaction, 'amount.asset') ||
-                    tsUtils.get(this.transaction, 'quantity.asset')
+                    tsUtils.get(this.transaction, 'quantity.asset') ||
+                    this.transaction
                 );
                 this.name = tsUtils.get(
                     this.transaction, 'amount.asset.name') ||
                     tsUtils.get(this.transaction, 'quantity.asset.name'
                     );
-                this.amount = (
-                    tsUtils.get(this.transaction, 'amount') ||
-                    tsUtils.get(this.transaction, 'quantity')
-                ).toFormat();
+
+                const amount = tsUtils.get(this.transaction, 'amount') || tsUtils.get(this.transaction, 'quantity');
+                if (amount instanceof Money) {
+                    this.amount = amount.toFormat();
+                } else {
+                    this.amount = amount.div(Math.pow(10, this.transaction.precision));
+                }
             }
 
+            /**
+             * @param {{id: string, name: string}} asset
+             * @return {string}
+             */
             getAssetName(asset) {
                 try {
                     return !WavesApp.scam[asset.id] ? asset.name : '';
@@ -103,12 +112,19 @@
                 const lease = this.transaction;
                 const leaseId = lease.id;
                 return waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING })
-                    .then((fee) => modalManager.showConfirmTx({
-                        fee,
-                        type: SIGN_TYPE.CANCEL_LEASING,
-                        lease,
-                        leaseId
-                    }));
+                    .then((fee) => {
+                        const tx = waves.node.transactions.createTransaction({
+                            fee,
+                            type: SIGN_TYPE.CANCEL_LEASING,
+                            lease,
+                            leaseId
+                        });
+                        const signable = ds.signature.getSignatureApi().makeSignable({
+                            type: tx.type,
+                            data: tx
+                        });
+                        return modalManager.showConfirmTx(signable);
+                    });
             }
 
             showTransaction() {

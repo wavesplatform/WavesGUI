@@ -2,7 +2,8 @@
     <w-step>
         <div class="sponsorship__asset-content asset-content margin-4">
             <div class="sponsorship__top-content">
-                <w-asset-logo class="asset-logo-large" ng-cloak asset-id="{{::$ctrl.asset.id}}" size="65"></w-asset-logo>
+                <w-asset-logo class="asset-logo-large" ng-cloak asset-id="{{::$ctrl.asset.id}}"
+                              size="65"></w-asset-logo>
 
                 <div class="sponsorship__asset-data">
                     <h4 ng-cloak class="basic-900">{{::$ctrl.asset.name}}</h4>
@@ -80,17 +81,18 @@
             </div>
 
             <div class="margin-top-3">
-                <w-button class="big submit long"
-                          disabled="sponsored.$invalid"
-                          on-click="$ctrl.onConfirm()">
+                <w-sign-button class="big submit long"
+                               disabled="sponsored.$invalid"
+                               on-click="$ctrl.getSignable()"
+                               on-success="$ctrl.onConfirm()">
                     <span w-i18n="modal.sponsorship.continue"></span>
-                </w-button>
+                </w-sign-button>
             </div>
 
         </form>
     </w-step>
     <w-step>
         <w-confirm-transaction on-click-back="$ctrl.onBack()"
-                               tx="$ctrl.getSponsoredTx()"></w-confirm-transaction>
+                               signable="$ctrl.signable"></w-confirm-transaction>
     </w-step>
 </w-step-by-step>
