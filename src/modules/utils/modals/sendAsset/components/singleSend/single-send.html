@@ -15,11 +15,16 @@
     <div class="row">
         <div class="flex-row-title">
             <div class="body-2" w-i18n="modal.send.recipient"></div>
-            <div ng-click="$ctrl.toBankMode = !$ctrl.toBankMode"
-                 ng-if="$ctrl.hasSendToBank"
+            <div ng-if="$ctrl.hasSendToBank"
                  class="toggle-mode-container">
-                <span class="link" ng-if="!$ctrl.toBankMode" w-i18n="modal.send.toBank"></span>
-                <span class="link" ng-if="$ctrl.toBankMode" w-i18n="modal.send.toWaves"></span>
+                <span class="link"
+                      ng-click="$ctrl.toBankMode = !$ctrl.toBankMode"
+                      ng-if="!$ctrl.toBankMode"
+                      w-i18n="modal.send.toBank"></span>
+                <span class="link"
+                      ng-click="$ctrl.toBankMode = !$ctrl.toBankMode"
+                      ng-if="$ctrl.toBankMode"
+                      w-i18n="modal.send.toWaves"></span>
             </div>
         </div>
 
@@ -52,7 +57,8 @@
         </w-input-container>
     </div>
 
-    <div class="row relative" style="min-height: 60px;" ng-if="$ctrl.toBankMode && $ctrl.termsIsPending && !$ctrl.isLira">
+    <div class="row relative" style="min-height: 60px;"
+         ng-if="$ctrl.toBankMode && $ctrl.termsIsPending && !$ctrl.isLira">
         <w-loader class="asd"></w-loader>
     </div>
 
@@ -204,10 +210,10 @@
         <w-input required
                  w-validate
                  ng-disabled="!$ctrl.termsAccepted"
-                 w-validator-number
+                 w-validator-pattern="\d*"
                  ng-model="$ctrl.state.singleSend.attachment"
                  name="id-number"
-                 type="number"></w-input>
+                 type="text"></w-input>
         <w-input-error name="idNumber" message="required">
             <span w-i18n="inputs.errors.required"></span>
         </w-input-error>
@@ -231,14 +237,14 @@
         </w-input-container>
     </div>
 
-    <div class="fee" ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending">
+    <div class="fee margin-1 margin-top-1" ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending">
         <w-fee-list type="::$ctrl.txType"
                     disabled="$ctrl.toBankMode && (!$ctrl.isVerified || !$ctrl.termsAccepted)"
                     balance-hash="$ctrl.state.moneyHash"
                     fee="$ctrl.tx.fee"></w-fee-list>
     </div>
 
-    <div class="commission-error margin-2 footnote error-500"
+    <div class="commission-error margin-top-1 margin-2 footnote error-500"
          ng-if="!$ctrl.hasComission && !$ctrl.gatewayDetailsError">
         <span w-i18n="modal.send.validationError.notEnoughFundsWithdraw"
               ng-show="$ctrl.outerSendMode"
@@ -253,7 +259,7 @@
               params="{fee: $ctrl.state.singleSend.fee}"></span>
     </div>
 
-    <div ng-if="$ctrl.toBankMode && !$ctrl.isLira"" class="margin-top-2">
+    <div ng-if="$ctrl.toBankMode && !$ctrl.isLira" class="margin-top-2">
         <w-coinomat-terms force-show-terms="::false"
                           terms-pending="$ctrl.termsIsPending"
                           load-error="$ctrl.termsLoadError"
@@ -284,12 +290,12 @@
             <span class="fake-button-content big submit long" w-i18n="button.continue"></span>
         </a>
 
-        <w-button ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending && !$ctrl.signInProgress && !($ctrl.toBankMode && $ctrl.isLira)"
-                  on-click="$ctrl.createTx()"
-                  disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission) || ($ctrl.toBankMode && !$ctrl.termsAccepted)"
-                  type="submit"
-                  class="big submit long">
+        <w-sign-button
+            ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending && !($ctrl.toBankMode && $ctrl.isLira)"
+            on-click="$ctrl.createTx()"
+            on-success="$ctrl.onSignTx(signable)"
+            disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission) || ($ctrl.toBankMode && !$ctrl.termsAccepted)">
             <span w-i18n="button.continue"></span>
-        </w-button>
+        </w-sign-button>
     </div>
 </form>

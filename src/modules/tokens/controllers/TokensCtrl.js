@@ -12,60 +12,62 @@
     const controller = function (Base, $scope, modalManager, createPoll, waves) {
 
         const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const ds = require('data-service');
 
         class TokensCtrl extends Base {
 
+            /**
+             * Link to angular form object
+             * @type {form.FormController}
+             */
+            createForm = null;
+            /**
+             * Token name
+             * @type {string}
+             */
+            name = '';
+            /**
+             * Token description
+             * @type {string}
+             */
+            description = '';
+            /**
+             * Can reissue this token
+             * @type {boolean}
+             */
+            issue = true;
+            /**
+             * Count of generated tokens
+             * @type {BigNumber}
+             */
+            count = null;
+            /**
+             * Precision of token
+             * @type {BigNumber}
+             */
+            precision = null;
+            /**
+             * @type {BigNumber}
+             */
+            maxCoinsCount = null;
+            /**
+             * Has money for fee
+             * @type {boolean}
+             */
+            invalid = false;
+            /**
+             * @type {Money}
+             * @private
+             */
+            _balance = null;
+            /**
+             * @type {Money}
+             * @private
+             */
+            _fee = null;
+
             constructor() {
                 super($scope);
-                /**
-                 * Link to angular form object
-                 * @type {form.FormController}
-                 */
-                this.createForm = null;
-                /**
-                 * Token name
-                 * @type {string}
-                 */
-                this.name = '';
-                /**
-                 * Token description
-                 * @type {string}
-                 */
-                this.description = '';
-                /**
-                 * Can reissue this token
-                 * @type {boolean}
-                 */
-                this.issue = true;
-                /**
-                 * Count of generated tokens
-                 * @type {BigNumber}
-                 */
-                this.count = null;
-                /**
-                 * Precision of token
-                 * @type {BigNumber}
-                 */
-                this.precision = null;
-                /**
-                 * @type {BigNumber}
-                 */
-                this.maxCoinsCount = null;
-                /**
-                 * Has money for fee
-                 * @type {boolean}
-                 */
-                this.invalid = false;
-                /**
-                 * @type {Money}
-                 * @private
-                 */
-                this._balance = null;
-                /**
-                 * @type {Money}
-                 * @private
-                 */
-                this._fee = null;
 
                 const poll = createPoll(this, this._getBalance, '_balance', 5000, { isBalance: true, $scope });
 
@@ -81,19 +83,26 @@
                     });
             }
 
-            generate() {
-                const precision = Number(this.precision.toString());
+            generate(signable) {
+                return modalManager.showConfirmTx(signable).then(() => this._reset());
+            }
 
-                return modalManager.showConfirmTx({
+            createSignable() {
+                const precision = Number(this.precision.toString());
+                const quantity = this.count.times(Math.pow(10, precision));
+
+                const tx = waves.node.transactions.createTransaction({
                     type: SIGN_TYPE.ISSUE,
                     name: this.name,
                     description: this.description,
                     reissuable: this.issue,
-                    quantity: this.count,
+                    quantity,
                     precision,
                     fee: this._fee,
                     createToken: true
-                }).then(() => this._reset());
+                });
+
+                return ds.signature.getSignatureApi().makeSignable({ type: tx.type, data: tx });
             }
 
             /**

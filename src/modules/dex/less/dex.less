@@ -183,9 +183,22 @@ body.dex, body.dex-demo {
           overflow-x: auto;
           height: 39px;
           padding: 0;
+          display: flex;
+          position: relative;
 
           &::before {
             display: none;
+          }
+
+          &:after {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            left: 0;
+            bottom: 0;
+            background: @color-basic-100;
           }
 
           .title {
@@ -390,11 +403,9 @@ body.dex, body.dex-demo {
                     .progress-bar {
                       background: @color-submit-50;
                     }
-
                   }
                 }
               }
-
             }
           }
           // end

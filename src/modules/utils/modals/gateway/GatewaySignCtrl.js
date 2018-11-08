@@ -13,9 +13,10 @@
      * @param {$rootScope.Scope} $scope
      * @param {User} user
      * @param {app.utils} utils
+     * @param {$mdDialog} $mdDialog
      * @return {GatewaySignCtrl}
      */
-    const controller = function (Base, $scope, user, utils) {
+    const controller = function (Base, $scope, user, utils, $mdDialog) {
 
         const isEmpty = (value) => !value;
         const tsApiValidator = require('ts-api-validator');
@@ -36,6 +37,18 @@
 
         class GatewaySignCtrl extends Base {
 
+            /**
+             * @type {boolean}
+             */
+            isSeed = false;
+            /**
+             * @type {boolean}
+             */
+            signAdapterError = false;
+            /**
+             * @type {boolean}
+             */
+            signPending = false;
             /**
              * @type {boolean}
              */
@@ -67,6 +80,14 @@
              */
             debug = false;
             /**
+             * @type {Object}
+             */
+            search = null;
+            /**
+             * @type {string}
+             */
+            userType = null;
+            /**
              * @type {string}
              */
             titleLiteral = LOCALIZATION.title.normal;
@@ -76,15 +97,16 @@
              * @param {string} search.n Gateaway application name
              * @param {string} search.r Gateaway referrer
              * @param {string} search.i Gateaway icon path
-             * @param {string} search.d Gateaway data for sign
+             * @param {string} search.d Gateaway data for signable
              * @param {string} search.s Gateaway path for success auth
              * @param {string} search.debug Gateaway show errors
              */
             constructor(search) {
                 super($scope);
-
+                this.search = search;
+                this.userType = user.userType;
                 this.debug = !!search.debug;
-
+                this.isSeed = user.userType === 'seed';
                 this.observe('hasError', (value) => {
                     if (value) {
                         this.titleLiteral = LOCALIZATION.title.error;
@@ -93,38 +115,73 @@
                     }
                 });
 
-                const adapter = ds.signature.getSignatureApi();
-
                 schema.parse(search)
                     .then((params) => {
-                        const { referrer, name, data, iconPath, successPath } = params;
-                        const prefix = 'WavesWalletAuthentication';
-                        const host = GatewaySignCtrl._getDomain(referrer);
-
-                        const signable = adapter.makeSignable({
-                            type: SIGN_TYPE.AUTH,
-                            data: { prefix, host, data }
-                        });
-
+                        this.urlParams = params;
+                        const { referrer, name, iconPath } = params;
                         this.referrer = referrer;
                         this.name = name;
 
                         this._setImageUrl(referrer, iconPath);
 
-                        return Promise.all([
-                            signable.getSignature(),
-                            adapter.getPublicKey()
-                        ])
-                            .then(([signature, publicKey]) => {
-                                const search = `?s=${signature}&p=${publicKey}&a=${user.address}`;
-                                const path = successPath || '';
-                                const url = `${referrer}/${path}${search}`;
-                                this.successUrl = GatewaySignCtrl._normalizeUrl(url);
-                            });
-                    })
+                        return this.createUrl();
+                    }).catch((e) => {
+                        this._sendError(e.message || e);
+                        this.signPending = false;
+                    }).finally(() => $scope.$apply());
+            }
+
+            sign() {
+                this.createUrl()
                     .catch((e) => {
                         this._sendError(e.message || e);
-                    });
+                        this.signPending = false;
+                    }).finally(() => $scope.$apply());
+            }
+
+            signAuth(adapter, data) {
+                this.signPending = true;
+                const signable = adapter.makeSignable(data);
+                signable.getId().then(id => {
+                    this.id = id;
+                    $scope.$apply();
+                });
+                return signable.getSignature();
+            }
+
+            createUrl() {
+                const { referrer, data, successPath } = this.urlParams;
+                const prefix = 'WavesWalletAuthentication';
+                const host = GatewaySignCtrl._getDomain(referrer);
+                const signData = {
+                    type: SIGN_TYPE.AUTH,
+                    data: { prefix, host, data }
+                };
+                const adapter = ds.signature.getSignatureApi();
+                const sign = this.signAuth(adapter, signData);
+
+                return Promise.all([sign, adapter.getPublicKey()]).then(([signature, publicKey]) => {
+                    const search = `?s=${signature}&p=${publicKey}&a=${user.address}`;
+                    const path = successPath || '';
+                    const url = `${referrer}/${path}${search}`;
+                    this.signPending = false;
+                    this.signAdapterError = false;
+                    this.successUrl = GatewaySignCtrl._normalizeUrl(url);
+
+                    if (!this.isSeed) {
+                        this.send();
+                        $mdDialog.cancel();
+                    }
+
+                }).catch(e => {
+                    this.signPending = false;
+
+                    if (this.isSeed) {
+                        return Promise.reject(e);
+                    }
+
+                    this.signAdapterError = true;
+                });
             }
 
             send() {
@@ -196,8 +253,7 @@
         return new GatewaySignCtrl(this.search);
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'utils'];
+    controller.$inject = ['Base', '$scope', 'user', 'utils', '$mdDialog'];
 
     angular.module('app.utils').controller('GatewaySignCtrl', controller);
 })();
-

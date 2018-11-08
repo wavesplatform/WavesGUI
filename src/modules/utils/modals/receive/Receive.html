@@ -4,7 +4,7 @@
             <div class="btn icon-close ng-scope" w-modal-close></div>
             <w-step-by-step active-step="$ctrl.step">
                 <w-step>
-                    <w-tabs ng-model="$ctrl.activeTab">
+                    <w-tabs class="header" ng-model="$ctrl.activeTab">
 
                         <w-tab ng-if="$ctrl.showCryptocurrencyTab" title-name="::'modal.receive.cryptocurrency.title'" id="::'cryptocurrency'">
                             <div class="receive-crypto">
@@ -241,7 +241,7 @@
                                         </w-input-container>
                                     </div>
 
-                                    <div class="row margin-2">
+                                    <div class="row margin-3">
                                         <div class="body-2 basic-900">
                                             <span w-i18n="modal.receive.youWillGet"></span>
                                         </div>

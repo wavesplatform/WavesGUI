@@ -1,0 +1,16 @@
+<div class="txinfo__lead">
+    <h3 class="basic-700"
+        w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
+        params="{
+          sign: $ctrl.typeName === 'exchange-buy' ? '+' : '–',
+          amount: $ctrl.transaction.amount.toFormat(),
+          name: $ctrl.transaction.amount.asset.name
+        }"></h3>
+    <div class="body-2 basic-500"
+         w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
+         params="{
+           sign: $ctrl.typeName === 'exchange-buy' ? '–' : '+',
+           amount: $ctrl.totalPrice,
+           name: $ctrl.transaction.price.asset.name
+         }"></div>
+</div>

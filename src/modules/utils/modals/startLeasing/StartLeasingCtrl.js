@@ -13,6 +13,7 @@
     const controller = function (Base, $scope, user, utils, waves, i18n) {
 
         const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const ds = require('data-service');
 
         class StartLeasingCtrl extends Base {
 
@@ -47,7 +48,7 @@
                 this.step--;
             }
 
-            next() {
+            sign() {
                 const tx = waves.node.transactions.createTransaction({
                     recipient: this.recipient,
                     fee: this.fee,
@@ -55,7 +56,14 @@
                     type: SIGN_TYPE.LEASE
                 });
 
-                this.tx = tx;
+                return ds.signature.getSignatureApi().makeSignable({
+                    type: tx.type,
+                    data: tx
+                });
+            }
+
+            next(signable) {
+                this.signable = signable;
                 this.step++;
             }
 

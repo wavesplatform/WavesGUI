@@ -102,7 +102,7 @@ md-input-container {
 
 pre {
   margin: 0;
-  font-family: 'Roboto Regular';
+  font-family: 'Arial';
   font-size: 14px;
 }
 
@@ -174,8 +174,25 @@ w-scroll-box {
   background: @color-white;
 }
 
+.code-wrapper {
+  border: 1px dashed @color-basic-200;
+  border-radius: @border-radius;
+  background: @color-basic-50;
+  height: auto;
+  max-height: 300px;
+  word-break: break-all;
+  padding: 17px;
+  display: block;
+  overflow: scroll;
+}
+
+w-sign-button,
 .block {
   display: block;
+}
+
+.overflow-h {
+  overflow: hidden;
 }
 
 .flex-column-center {
@@ -236,6 +253,10 @@ w-scroll-box {
     right: 0;
     bottom: 0;
   }
+}
+
+.asset-content {
+  padding-top: 20px;
 }
 
 .md-dialog-backdrop:nth-of-type(even) {
@@ -365,6 +386,10 @@ md-toolbar:not(.md-menu-toolbar) {
   display: flex;
 }
 
+.flex-between {
+  justify-content: space-between;
+}
+
 .content ui-view[name="mainContent"],
 .content ui-view[name="mainContent"] ui-view[name="content"] {
   display: block;
@@ -405,6 +430,16 @@ md-toolbar:not(.md-menu-toolbar) {
 
 .nowrap {
   white-space: nowrap;
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 .assets-wrapper {

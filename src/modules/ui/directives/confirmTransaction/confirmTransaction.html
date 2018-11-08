@@ -1,61 +1,87 @@
 <div w-i18n-ns="{{::$ctrl.locale}}" class="transaction-confirm txinfo">
     <w-step-by-step active-step="$ctrl.step">
         <w-step>
+            <w-transaction-info signable="$ctrl.signable"></w-transaction-info>
+            <w-sign-button on-success="$ctrl.nextStep()"
+                           class="margin-top-3 block"
+                           on-click="$ctrl.getSignable()">
+                <span w-i18n="confirmTransaction.sign"></span>
+            </w-sign-button>
+        </w-step>
+        <w-step>
             <div class="txinfo__wrapper">
-                <w-transaction-info warning="$ctrl.warning" transaction="$ctrl.tx" tx-id="$ctrl.txId"></w-transaction-info>
+
+                <w-transaction-info-header signable="$ctrl.signable"></w-transaction-info-header>
+
+                <w-tabs class="inner" ng-model="$ctrl.activeTab" ng-if="::$ctrl.advancedMode">
+                    <w-tab title-name="::'confirmTransaction.details'" id="::'details'">
+                        <w-transaction-info-content class="margin-top-4" signable="$ctrl.signable"></w-transaction-info-content>
+                    </w-tab>
+                    <w-tab title-name="::'confirmTransaction.JSON'" id="::'JSON'">
+                        <w-transaction-info-json class="margin-top-4" signable="$ctrl.signable"></w-transaction-info-json>
+                    </w-tab>
+                    <w-tab ng-if="$ctrl.canCreateLink" title-name="::'confirmTransaction.export'" id="::'export'">
+                        <w-transaction-export class="margin-top-4" link="$ctrl.exportLink"></w-transaction-export>
+                    </w-tab>
+                </w-tabs>
+
+                <w-transaction-info-content ng-if="::!$ctrl.advancedMode"
+                                            signable="$ctrl.signable"></w-transaction-info-content>
+
+                <div class="bottom-warning" ng-if="::$ctrl.isSetScript">
+                    <div class="warning-plate">
+                        <div class="body-2 warning-500" w-i18n-ns="app.utils" w-i18n="directives.scriptForm.warning.title"></div>
+                        <div class="footnote-1 basic-500" w-i18n-ns="app.utils" w-i18n="directives.scriptForm.warning.body"></div>
+                    </div>
+                </div>
+
+                <div class="bottom-warning" ng-if="::$ctrl.isTockenIssue">
+                    <div class="warning-plate">
+                        <div class="body-2 warning-500" w-i18n="modal.token.warning.header"></div>
+                        <div class="footnote-1 basic-500" w-i18n="modal.token.warning.text"></div>
+                        <div class="body-2 warning-500" w-i18n="modal.token.warning.textWarning"></div>
+                    </div>
+                </div>
 
                 <h3 class="info margin-4 basic-700" ng-if="$ctrl.referrer">
                     <span w-i18n="confirmTransaction.redirect" params="{referrer: $ctrl.referrer}"></span>
                 </h3>
 
-                <div class="error error-500 text-center body-2"
+                <div class="error-500 margin-2 footnote-1"
                      ng-repeat="error in $ctrl.errors"
                      w-i18n="{{::error.literal}}"></div>
 
                 <div class="bottom-wrapper">
-                    <div class="bottom-warning margin-3" ng-if="$ctrl.deviceSignFail">
-                        <div class="warning-plate warning-plate-red">
-                            <div class="body-2 error-400" w-i18n-ns="app.ui" w-i18n="confirmTransaction.ledgerUnconfirmed.header"></div>
-                            <div class="footnote-1 basic-500" w-i18n-ns="app.ui" w-i18n="confirmTransaction.ledgerUnconfirmed.description"></div>
-                        </div>
+                    <div ng-if="$ctrl.errorMessage" class="error-500 margin-2 margin-top-2">
+                        {{$ctrl.errorMessage}}
                     </div>
-                    <div class="device-loader-wrapper" ng-if="$ctrl.loadingSignFromDevice">
-                        <div class="info basic-700">
-                            <span w-i18n-ns="app.utils" w-i18n="confirmTransaction.signLedger"></span>
-                        </div>
-                        <w-loader></w-loader>
-                    </div>
-                    <div class="buttons-wrapper" ng-if="!$ctrl.loadingSignFromDevice">
+                    <div class="buttons-wrapper margin-top-3" ng-if="!$ctrl.loadingSignFromDevice">
                         <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
                             <span w-i18n="confirmTransaction.back"></span>
                         </w-button>
-                        <w-button ng-if="!$ctrl.deviceSignFail"
-                                  class="big submit"
-                                  disabled="$ctrl.errors.length > 0 || !$ctrl.txId || !$ctrl.preparedTx"
+                        <w-button class="big submit"
+                                  disabled="$ctrl.errors.length > 0 || !$ctrl.txId"
                                   ng-class="{long: $ctrl.noBackButton}"
                                   w-next-step
                                   on-click="$ctrl.confirm()">
                             <span w-i18n="confirmTransaction.confirm"></span>
-                        </w-button>
-                        <w-button class="big submit"
-                                  disabled="$ctrl.errors.length > 0 || !$ctrl.txId"
-                                  ng-if="$ctrl.deviceSignFail"
-                                  on-click="$ctrl.trySign()">
-                            <span w-i18n-ns="app.wallet.transactions" w-i18n="confirmTransaction.retrySign"></span>
                         </w-button>
                     </div>
                 </div>
             </div>
         </w-step>
         <w-step>
-            <div class="text-center">
+            <div class="text-center overflow-h">
                 <div class="icon-tx-success"></div>
                 <h2 class="text-center basic-900" w-i18n="confirmTransaction.success"></h2>
                 <div class="disabled-600 margin-4 body-2 text-center"
                      w-i18n="confirmTransaction.description.{{::$ctrl.tx.typeName}}" params="$ctrl.tx"></div>
-                <w-button class="submit half big" on-click="$ctrl.showTxInfo()">
-                    <span w-i18n="confirmTransaction.details"></span>
-                </w-button>
+                <div class="">
+                    <w-button class="submit half big" on-click="$ctrl.showTxInfo()">
+                        <span w-i18n="confirmTransaction.details"></span>
+                    </w-button>
+                </div>
+
             </div>
         </w-step>
     </w-step-by-step>

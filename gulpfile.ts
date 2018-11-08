@@ -2,7 +2,7 @@ import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
 import { exec, execSync } from 'child_process';
-import { download, getAllLessFiles, getFilesFrom, prepareExport, prepareHTML, run, task } from './ts-scripts/utils';
+import { download, getAllLessFiles, getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
 import { basename, extname, join, sep } from 'path';
 import { copy, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
@@ -140,30 +140,29 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                     });
                 }
 
-                Promise.all([indexPromise.then(() => {
+                indexPromise
+                    .then(() => {
 
-                    const styles = [{ name: join('/css', vendorCssName), theme: null }];
+                        const styles = [{ name: join('/css', vendorCssName), theme: null }];
 
-                    for (const theme of THEMES) {
-                        styles.push({
-                            name: join('/css', `${theme}-${cssName}`), theme
+                        for (const theme of THEMES) {
+                            styles.push({
+                                name: join('/css', `${theme}-${cssName}`), theme
+                            });
+                        }
+
+                        return prepareHTML({
+                            buildType: type,
+                            target: targetPath,
+                            connection: configName,
+                            scripts: scripts,
+                            type: buildName,
+                            styles,
+                            themes: THEMES
                         });
-                    }
-
-                    return prepareHTML({
-                        buildType: type,
-                        target: targetPath,
-                        connection: configName,
-                        scripts: scripts,
-                        type: buildName,
-                        styles,
-                        themes: THEMES
-                    });
-                }).then((file) => {
-                    outputFile(`${targetPath}/index.html`, file);
-                }),
-                    prepareExport().then(file => outputFile(`${targetPath}/export.html`, file))
-                ]).then(() => done());
+                    })
+                    .then((file) => outputFile(`${targetPath}/index.html`, file))
+                    .then(() => done());
             });
             taskHash.html.push(`html-${taskPostfix}`);
 
@@ -280,7 +279,7 @@ task('downloadLocales', ['concat-develop-sources'], function (done) {
                     .catch(() => console.error(`Error load module with name ${name}!`));
             }));
         };
-        return Promise.all(modules.map(load))
+        return Promise.all(modules.map(load));
     }).then(() => done());
 });
 

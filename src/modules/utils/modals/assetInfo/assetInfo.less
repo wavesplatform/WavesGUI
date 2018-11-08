@@ -4,11 +4,18 @@
 html body md-dialog.asset-info-modal {
 
   md-dialog-content {
-    padding: 20px 30px 0 30px;
+    padding: 0 30px;
     overflow-y: hidden;
 
     &::after {
       display: none;
+    }
+  }
+
+  w-tabs.inner {
+    .titles-wrap {
+      width: 100%;
+      margin: 0;
     }
   }
 
@@ -34,6 +41,7 @@ html body md-dialog.asset-info-modal {
 
   .asset-content {
     height: 100%;
+
 
     .tab-tem {
       .footnote-1();
@@ -222,24 +230,30 @@ html body md-dialog.asset-info-modal {
     md-dialog-content {
       overflow-y: auto;
       height: auto;
+      padding: 0 20px;
     }
 
-    w-tabs .titles-wrap {
-      padding-left: 0;
+    w-tabs.inner {
+      .titles-wrap {
+        padding: 0 10px;
+        margin: 0 -10px;
+        width: calc(100% ~'+ 20px');
+      }
+
+      .tab-body-wrap {
+        height: auto;
+      }
     }
 
     .chart-wrapper {
-      margin-left: -20px;
-      margin-right: -20px;
+      margin-left: -30px;
+      margin-right: 0;
+      width: calc(100% ~'+ 60px');
     }
 
     .asset-content {
       .padding-content .tab-tem {
         padding: 20px;
-      }
-
-      w-tabs .tab-body-wrap {
-        height: auto;
       }
 
       .tab-tem {

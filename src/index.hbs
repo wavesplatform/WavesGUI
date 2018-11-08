@@ -4,8 +4,8 @@
 <html ng-app="app">
 <head>
     <meta charset="utf-8">
-    <title>Waves Client</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>Waves Client</title>
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
 
     <script>
@@ -431,6 +431,7 @@
             },
             parseJSON: null,
             stateTree: null,
+            MAX_URL_LENGTH: 1200,
             sign: {
                 openTimeout: 3000,
                 listenTimeout: 25000,
@@ -504,7 +505,12 @@
     <div class="waves-logo"><img src="/img/icons/waves_logo.svg"/></div>
     <img src="/img/no-preload/connection-error.svg" class="margin-3"/>
     <div class="headline-1">We couldn't connect to the server</div>
-    <div class="body-1 margin-4 disabled-600">Check your internet connection and try again</div>
+        <div class="body-1 basic-500">Check your internet connection and try again.</div>
+        <div class="body-1 margin-4 basic-500">
+            <div>If you have been using the Waves Desktop app and refreshing does</div>
+            <div>not help, try reinstalling the app. Download the latest version from</div>
+            <div>the official Waves site.</div>
+        </div>
     <button class="submit big submit" onclick="WavesApp.reload();">Refresh page</button>
 </div>
 
@@ -575,8 +581,8 @@
             }, str);
         };
 
-        WavesApp.stringifyJSON = function (data) {
-            return stringify(data);
+        WavesApp.stringifyJSON = function () {
+            return stringify.apply(this, arguments);
         };
     })();
 
@@ -751,6 +757,7 @@
      * @property {Object.<{separators: {group: string, decimal: string}}>} localize
      * @property {number} minAliasLength
      * @property {number} maxAliasLength
+     * @property {number} MAX_URL_LENGTH
      * @property {number} maxAddressLength
      * @property {\{count: number, timeType: string\}} matcherSignInterval
      * @property {BigNumber} maxCoinsCount
@@ -770,7 +777,7 @@
      * @property {Function} getController
      * @property {function():{name: string, separators: {group: string, decimal: string}}} getLocaleData
      * @property {function(data: string): Promise<object>} parseJSON
-     * @property {function(data: object): Promise<string>} stringifyJSON
+     * @property {function(data: object, [a], [b]): string} stringifyJSON
      * @property {Tree} stateTree
      */
 </script>

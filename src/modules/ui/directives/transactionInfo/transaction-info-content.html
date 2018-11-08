@@ -1,0 +1,22 @@
+<div ng-if="$ctrl.transaction" class="txinfo__content" ng-class="::{'spam': $ctrl.isScam}">
+
+    <ng-include src="$ctrl.templateUrl"></ng-include>
+
+    <div class="txinfo__row" ng-if="$ctrl.transaction.height">
+        <div class="txinfo__key" w-i18n="transaction.modals.height"></div>
+        <div class="txinfo__value">{{::$ctrl.transaction.height}}</div>
+    </div>
+
+    <div class="txinfo__row" ng-if="$ctrl.txId">
+        <div class="txinfo__key" w-i18n="transaction.modals.txId"></div>
+        <div class="txinfo__value">{{$ctrl.txId}}</div>
+    </div>
+
+    <div class="txinfo__row" ng-if="$ctrl.calculatedFee">
+        <div class="txinfo__key" w-i18n="transaction.modals.fee"></div>
+        <div class="txinfo__value">
+            <span w-i18n="fee" params="{money: $ctrl.calculatedFee}"></span>
+        </div>
+    </div>
+
+</div>
