@@ -14,7 +14,8 @@ import {
     writeJSON,
     readdir,
     parseElectronUrl,
-    changeLanguage, localeReady
+    changeLanguage,
+    localeReady
 } from './utils';
 import { homedir } from 'os';
 import { execSync } from 'child_process';
