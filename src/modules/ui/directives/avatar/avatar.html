@@ -1,3 +1,5 @@
-<div class="avatar-wrap" ng-style="$ctrl.style">
+<div ng-class="$ctrl.hasScript ? 'true-style' : 'false-style'"
+     class="avatar-wrap"
+     ng-style="$ctrl.style"><!-- TODO ISKANDER -->
     <img width="{{$ctrl.size}}" height="{{$ctrl.size}}" ng-src="{{$ctrl.src}}">
 </div>
