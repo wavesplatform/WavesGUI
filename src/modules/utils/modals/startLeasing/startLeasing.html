@@ -64,6 +64,7 @@
                 <span w-i18n="modal.startLease.fee"></span>&nbsp;0.001 WAVES
             </div>
             <w-sign-button disabled="lease.$invalid"
+                           ns="::'app.utils'"
                            on-click="$ctrl.sign()"
                            on-success="$ctrl.next(signable)"
                            class="submit big long">
