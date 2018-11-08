@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const controller = function (Base, $scope) {
+    const controller = function (Base, $scope, $element) {
 
         class SignButton extends Base {
 
@@ -29,7 +29,18 @@
              * @type {boolean}
              */
             signPending = false;
+            /**
+             * @type {string}
+             */
+            ns = null;
 
+
+            constructor() {
+                super();
+
+                this.observe('ns', this._updateNs);
+                this._updateNs();
+            }
 
             onSignSuccess() {
                 this.signPending = false;
@@ -62,6 +73,21 @@
                 this.signPending = true;
             }
 
+            /**
+             * @return {string}
+             * @private
+             */
+            _getNs() {
+                return this.ns || 'app.ui';
+            }
+
+            /**
+             * @private
+             */
+            _updateNs() {
+                $element.attr('w-i18n-ns', this._getNs());
+            }
+
             static isPromiseLike(some) {
                 return some && some.then && typeof some.then === 'function';
             }
@@ -71,12 +97,13 @@
         return new SignButton();
     };
 
-    controller.$inject = ['Base', '$scope'];
+    controller.$inject = ['Base', '$scope', '$element'];
 
     angular.module('app.ui').component('wSignButton', {
         controller,
         scope: false,
         bindings: {
+            ns: '<',
             disabled: '<',
             onClick: '&',
             onSuccess: '&',

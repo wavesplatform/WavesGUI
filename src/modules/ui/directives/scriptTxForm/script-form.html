@@ -40,6 +40,7 @@
          w-i18n="directives.scriptForm.errors.fee"></div>
 
     <w-sign-button class="big long submit margin-top-3"
+                   ns="::'app.utils'"
                    disabled="setScript.$invalid || $ctrl.validationPending || !$ctrl.hasFee"
                    on-click="$ctrl.getSignable()"
                    on-success="$ctrl.next(signable)">

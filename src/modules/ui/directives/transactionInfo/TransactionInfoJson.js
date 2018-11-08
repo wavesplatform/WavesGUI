@@ -25,6 +25,10 @@
                 });
             }
 
+            addAnalytic() {
+                analytics.push('ConfirmTransaction', 'ConfirmTransaction.CopyTransactionJSON');
+            }
+
         }
 
         return new TransactionInfoJson();
