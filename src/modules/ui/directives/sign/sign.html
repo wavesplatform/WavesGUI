@@ -5,21 +5,27 @@
 
 <div ng-if="!$ctrl.signPending && $ctrl.signError"
      class="warning-plate warning-plate-red">
-    <div w-i18n="modal.sign.confirmRequestLedger.errorHeader" class="error-400 body-2"></div>
-    <div w-i18n="modal.sign.confirmRequestLedger.errorDescription" class="basic-500"></div>
+    <div  ng-if="::$ctrl.isLedger" w-i18n="modal.sign.confirmRequestLedger.errorHeader" class="error-400 body-2"></div>
+    <div  ng-if="::$ctrl.isLedger" w-i18n="modal.sign.confirmRequestLedger.errorDescription" class="basic-500"></div>
+
+    <div ng-if="::$ctrl.isKeeper" w-i18n="modal.sign.confirmRequestKeeper.errorHeader" class="error-400 body-2"></div>
+    <div ng-if="::$ctrl.isKeeper" w-i18n="modal.sign.confirmRequestKeeper.errorDescription" class="basic-500"></div>
 </div>
 
 <div ng-if="!$ctrl.signPending && $ctrl.signError"
      class="buttons-wrapper">
     <w-button class="big" on-click="$ctrl.cancel()">
-        <span w-i18n="modal.sign.confirmRequestLedger.cancel"></span>
+        <span ng-if="::$ctrl.isLedger" w-i18n="modal.sign.confirmRequestLedger.cancel"></span>
+        <span ng-if="::$ctrl.isKeeper" w-i18n="modal.sign.confirmRequestKeeper.cancel"></span>
     </w-button>
     <w-button class="big submit" on-click="$ctrl.trySign()">
-        <span w-i18n="modal.sign.confirmRequestLedger.sign"></span>
+        <span ng-if="::$ctrl.isLedger" w-i18n="modal.sign.confirmRequestLedger.sign"></span>
+        <span ng-if="::$ctrl.isKeeper" w-i18n="modal.sign.confirmRequestKeeper.sign"></span>
     </w-button>
 </div>
 
 <div ng-if="$ctrl.signPending" class="relative sign-loader">
-    <div w-i18n="modal.sign.confirmRequestLedger.waiting" class="center basic-500"></div>
+    <div ng-if="::$ctrl.isLedger" w-i18n="modal.sign.confirmRequestLedger.waiting" class="center basic-500"></div>
+    <div ng-if="::$ctrl.isKeeper" w-i18n="modal.sign.confirmRequestKeeper.waiting" class="center basic-500"></div>
     <w-loader></w-loader>
 </div>

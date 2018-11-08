@@ -6,25 +6,28 @@
      * @param $scope
      * @param {User} user
      * @param {$mdDialog} $mdDialog
-     * @return {LedgerErrorCtrl}
+     * @return {SignDeviceErrorCtrl}
      */
     const controller = function (Base, $scope) {
 
-        class LedgerErrorCtrl extends Base {
+        class SignDeviceErrorCtrl extends Base {
 
             constructor({ locals }) {
                 super($scope);
                 this.mode = locals.error;
+                this.userType = locals.userType;
+                this.isLedger = this.userType === 'ledger';
+                this.isKeeper = this.userType === 'wavesKeeper';
                 this.loading = true;
             }
 
         }
 
-        return new LedgerErrorCtrl(this);
+        return new SignDeviceErrorCtrl(this);
     };
 
     controller.$inject = ['Base', '$scope', '$mdDialog'];
 
     angular.module('app.ui')
-        .controller('LedgerErrorCtrl', controller);
+        .controller('SignDeviceError', controller);
 })();
