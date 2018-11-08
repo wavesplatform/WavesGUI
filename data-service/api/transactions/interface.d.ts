@@ -55,7 +55,7 @@ export module txApi {
 
     export interface IIssue extends IBaseTransaction {
         type: TRANSACTION_TYPE_NUMBER.ISSUE;
-        precision: number;
+        decimals: number;
         description: string;
         name: string;
         quantity: string;
@@ -69,7 +69,7 @@ export module txApi {
         assetId: string;
         attachment: string;
         fee: string;
-        feeAsset: string;
+        feeAssetId: string;
         recipient: string;
     }
 
@@ -190,7 +190,7 @@ export interface IIssue extends IBaseTransaction {
     precision: number;
     description: string;
     name: string;
-    quantity: Money;
+    quantity: BigNumber;
     reissuable: boolean;
     fee: Money;
 }
@@ -202,7 +202,7 @@ export interface ITransfer extends IBaseTransaction {
     attachment: string;
     rawAttachment: string;
     fee: Money;
-    feeAsset: string;
+    feeAssetId: string;
     recipient: string;
 }
 
@@ -249,7 +249,7 @@ export interface ICancelLeasing extends IBaseTransaction {
     type: TRANSACTION_TYPE_NUMBER.CANCEL_LEASING;
     fee: Money;
     leaseId: string;
-    lease: ILease;
+    lease?: ILease;
 }
 
 export interface ICreateAlias extends IBaseTransaction {

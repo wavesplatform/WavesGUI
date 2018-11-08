@@ -129,7 +129,7 @@
     "ts-scripts/loginDaemon.js",
     "ts-scripts/mobileConsole.js"
   ],
-  "domain": "https://beta.wavesplatform.com",
+  "domain": "https://client.wavesplatform.com",
   "copyNodeModules": [
     "node_modules/qrcode-reader/dist/index.min.js",
     "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js"
@@ -189,7 +189,7 @@
         "DASH": "DGgBtwVoXKAKKvV2ayUpSoPzTJxt7jo9KiXMJRzTH2ET",
         "EFYT": "FvKx3cerSVYGfXKFvUgp7koNuTAcLs8DmtmwRrFVCqJv",
         "WNET": "3P8gkhcLhFQvBkDzMnWeqqwvq3qxkpTNQPs4LUQ95tKD",
-        "XMR": "DvQwL95pf7AdT4KfiNzQEhMmcShBEdKsHxDFj91ynyLX"
+        "XMR": "8oPbSCKFHkXBy1hCGSg9pJkSARE7zhTQTLpc8KZwdtr7"
       }
     },
     "mainnet": {

@@ -105,13 +105,16 @@
                     <div class="error-400" ng-if="$ctrl.noFee" w-i18n="modal.token.validation.noMoney"></div>
                 </div>
 
-                <w-button disabled="burn.$invalid || $ctrl.noFee" class="submit big long" type="submit" w-step-next>
+                <w-sign-button disabled="burn.$invalid || $ctrl.noFee"
+                               on-click="$ctrl.getSignable()"
+                               on-success="$ctrl.next()">
                     <span w-i18n="button.continue"></span>
-                </w-button>
+                </w-sign-button>
             </form>
         </div>
     </w-step>
     <w-step>
-        <w-confirm-transaction tx="$ctrl.tx" on-click-back="$ctrl.step = $ctrl.step - 1"></w-confirm-transaction>
+        <w-confirm-transaction signable="$ctrl.signable"
+                               on-click-back="$ctrl.step = $ctrl.step - 1"></w-confirm-transaction>
     </w-step>
 </w-step-by-step>

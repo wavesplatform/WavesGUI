@@ -157,7 +157,17 @@
             }
 
             nextStep() {
-                this.onContinue({ tx: { ...this.tx } });
+                const tx = waves.node.transactions.createTransaction(this.tx);
+                const signable = ds.signature.getSignatureApi().makeSignable({
+                    type: tx.type,
+                    data: tx
+                });
+
+                return signable;
+            }
+
+            onTxSign(signable) {
+                this.onContinue({ signable });
             }
 
             /**

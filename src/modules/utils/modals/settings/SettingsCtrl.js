@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const ds = require('data-service');
+
     /**
      * @param Base
      * @param {$rootScope.Scope} $scope
@@ -43,6 +45,7 @@
             }
 
             set advancedMode(mode) {
+                analytics.push('Settings', 'Settings.ChangeAdvancedMode', String(mode));
                 user.setSetting('advancedMode', mode);
             }
 
@@ -142,9 +145,17 @@
                     $scope.$digest();
                 }, 5000);
 
+                const catchProcessor = method => {
+                    try {
+                        return method().catch(() => null);
+                    } catch (e) {
+                        return Promise.resolve(null);
+                    }
+                };
+
                 Promise.all([
-                    ds.signature.getSignatureApi().getSeed(),
-                    ds.signature.getSignatureApi().getPrivateKey(),
+                    catchProcessor(() => ds.signature.getSignatureApi().getSeed()),
+                    catchProcessor(() => ds.signature.getSignatureApi().getPrivateKey()),
                     ds.signature.getSignatureApi().getPublicKey()
                 ]).then(([seed, privateKey, publicKey]) => {
                     this.phrase = seed;
