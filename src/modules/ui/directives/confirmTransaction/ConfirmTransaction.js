@@ -3,228 +3,76 @@
     'use strict';
 
     /**
-     * @param Base
-     * @param {Waves} waves
-     * @param $attrs
-     * @param {$mdDialog} $mdDialog
-     * @param {ModalManager} modalManager
-     * @param {User} user
+     * @param {typeof ConfirmTxService} ConfirmTxService
      * @param {$rootScope.Scope} $scope
+     * @param {validateService} validateService
      * @param {app.utils} utils
-     * @param {ValidateService} validateService
+     * @param {Waves} waves
      * @returns {ConfirmTransaction}
      */
-    const controller = function (Base, waves, $attrs, $mdDialog, modalManager, user, $scope, utils, validateService) {
+    const controller = function (ConfirmTxService, $scope, validateService, utils, waves, $attrs) {
 
-        const ds = require('data-service');
-        const { Asset } = require('@waves/data-entities');
-        const { TRANSACTION_TYPE_NUMBER } = require('@waves/signature-adapter');
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const { TRANSACTION_TYPE_NUMBER, SIGN_TYPE } = require('@waves/signature-adapter');
 
-        class ConfirmTransaction extends Base {
+
+        class ConfirmTransaction extends ConfirmTxService {
+
+            locale = $attrs.ns || 'app.ui';
+            step = 0;
+            isSetScript = false;
 
             constructor() {
-                super();
-                /**
-                 * @type {function}
-                 */
-                this.onTxSent = null;
-                /**
-                 * @type {*|string}
-                 */
-                this.locale = $attrs.locale || 'app.ui';
-                /**
-                 * @type {number}
-                 */
-                this.step = 0;
-                /**
-                 * @type {boolean}
-                 */
-                this.showValidationErrors = false;
-                /**
-                 * @type {Array}
-                 */
-                this.errors = [];
+                super($scope);
 
-                /**
-                 * @type {object}
-                 */
-                this.preparedTx = null;
-                /**
-                 * @type {string}
-                 */
-                this.txId = '';
-                /**
-                 * @type {string}
-                 */
-                this.type = user.userType;
-                /**
-                 * @type {boolean}
-                 */
-                this.loadingSignFromDevice = false;
-                /**
-                 * @type {boolean}
-                 */
-                this.deviceSignFail = false;
-                /**
-                 * @type {Signable}
-                 * @private
-                 */
-                this._signable = null;
-                /**
-                 * @type {string}
-                 */
-                this.permissionName = '';
-                // /**
-                //  * @type {boolean}
-                //  */
-                // this.has2fa = null;
-
-                this.observe('tx', this._onChangeTx);
-                this.observe('showValidationErrors', this._showErrors);
-            }
-
-            /**
-             * @return {boolean}
-             */
-            canSignFromDevice() {
-                return this.type && this.type !== 'seed' || false;
-            }
-
-            /**
-             * @return {Promise<string>}
-             */
-            getTxId() {
-                return this._signable.getId();
-            }
-
-            signTx() {
-                this.loadingSignFromDevice = this.canSignFromDevice();
-                return this._signable.getDataForApi();
-            }
-
-            getTxData() {
-                this.getTxId()
-                    .then(() => {
-                        this.deviceSignFail = false;
-                        this.loadingSignFromDevice = this.canSignFromDevice();
-                        if (this.errors.length && this.loadingSignFromDevice) {
-                            throw new Error('No money');
-                        }
-                        $scope.$digest();
-                        return this.signTx();
-                    })
-                    .then(preparedTx => {
-                        this.preparedTx = preparedTx;
-
-                        if (this.canSignFromDevice() && !this.wasDestroed) {
-                            this.confirm();
-                        }
-                    })
-                    .catch(() => {
-                        this.loadingSignFromDevice = false;
-                        this.deviceSignFail = true;
-                        $scope.$digest();
-                    });
-            }
-
-            trySign() {
-                return this.getTxData();
+                this.observe(['showValidationErrors', 'signable'], this._showErrors);
             }
 
             $postLink() {
-                this.trySign();
-            }
-
-            confirm() {
-                return this.sendTransaction().then(tx => {
-                    this.tx.id = tx.id;
-
-                    if (this._isIssueTx()) {
-                        this._saveIssueAsset(tx);
-                    }
-
-                    this.step++;
-                    this.onTxSent({ id: tx.id });
-                    $scope.$apply();
-                }).catch((e) => {
-                    this.loadingSignFromDevice = false;
-                    console.error(e);
-                    console.error('Transaction error!');
+                const tx = this.signable.getTxData();
+                const type = tx.type;
+                this.isSetScript = type === SIGN_TYPE.SET_SCRIPT && tx.script;
+                this.isTockenIssue = type === SIGN_TYPE.ISSUE;
+                this.signable.hasMySignature().then(state => {
+                    this.step = state ? 1 : 0;
                     $scope.$apply();
                 });
             }
 
-            showTxInfo() {
-                $mdDialog.hide();
-                setTimeout(() => { // Timeout for routing (if modal has route)
-                    modalManager.showTransactionInfo(this.tx.id);
-                }, 1000);
+            onChangeSignable() {
+                super.onChangeSignable();
+                if (this.tx) {
+                    this.permissionName = ConfirmTransaction._getPermissionNameByTx(this.tx);
+                }
             }
 
-            sendTransaction() {
-                const amount = ConfirmTransaction.toBigNumber(this.tx.amount);
-
-                return ds.broadcast(this.preparedTx).then((data) => {
-                    analytics.push(
-                        'Transaction', `Transaction.${this.tx.type}.${WavesApp.type}`,
-                        `Transaction.${this.tx.type}.${WavesApp.type}.Success`, amount
-                    );
-                    return data;
-                }, (error) => {
-                    analytics.push(
-                        'Transaction', `Transaction.${this.tx.type}.${WavesApp.type}`,
-                        `Transaction.${this.tx.type}.${WavesApp.type}.Error`, amount
-                    );
-                    return Promise.reject(error);
-                });
+            getSignable() {
+                return this.signable;
             }
 
-            _isIssueTx() {
-                return this.tx.type === SIGN_TYPE.ISSUE;
-            }
-
-            _saveIssueAsset(tx) {
-                waves.node.height().then(height => {
-                    ds.assetStorage.save(tx.id, new Asset({
-                        ...tx,
-                        ticker: null,
-                        precision: tx.decimals,
-                        height
-                    }));
-                });
-            }
-
-            /**
-             * @private
-             */
-            _onChangeTx() {
-                const timestamp = ds.utils.normalizeTime(this.tx.timestamp || Date.now());
-                const data = { ...this.tx, timestamp };
-                const type = this.tx.type;
-                this.permissionName = ConfirmTransaction._getPermissionNameByTx(this.tx);
-
-                this._signable = ds.signature.getSignatureApi()
-                    .makeSignable({ type, data });
-
-                this._signable.getId().then(id => {
-                    this.txId = id;
-                    $scope.$digest();
-                });
+            nextStep() {
+                this.step++;
+                this.initExportLink();
             }
 
             /**
              * @private
              */
             _showErrors() {
+                if (!this.signable) {
+                    return null;
+                }
+
                 let promise;
+
+                const { type, amount, fee } = this.signable.getTxData();
+
                 switch (true) {
-                    case (this.tx.type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP):
-                        promise = this._validateAmount(this.tx.fee);
+                    case (type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP):
+                        promise = this._validateAmount(fee);
                         break;
-                    case (this.tx.transactionType === TRANSACTION_TYPE_NUMBER.TRANSFER && this.showValidationErrors):
+                    case (type === TRANSACTION_TYPE_NUMBER.TRANSFER && this.showValidationErrors):
                         promise = Promise.all([
-                            this._validateAmount(this.tx.amount),
+                            this._validateAmount(amount),
                             this._validateAddress()
                         ]).then(([errors1, errors2]) => [...errors1, ...errors2]);
                         break;
@@ -243,8 +91,9 @@
              * @private
              */
             _validateAddress() {
+                const { recipient } = this.signable.getTxData();
                 const errors = [];
-                return utils.resolve(utils.when(validateService.wavesAddress(this.tx.recipient)))
+                return utils.resolve(utils.when(validateService.wavesAddress(recipient)))
                     .then(({ state }) => {
                         if (!state) {
                             errors.push({
@@ -262,8 +111,9 @@
              */
             _validateAmount(amount) {
                 const errors = [];
+                const { type } = this.signable.getTxData();
 
-                if (this.tx.type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP) {
+                if (type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP) {
                     return waves.node.assets.userBalances()
                         .then((list) => list.map(({ available }) => available))
                         .then((list) => {
@@ -284,35 +134,32 @@
                 }
             }
 
-            static toBigNumber(amount) {
-                return amount && amount.getTokens().toFixed() || undefined;
-            }
 
             static _getPermissionNameByTx(tx) {
                 switch (tx.type) {
-                    case 3:
+                    case SIGN_TYPE.ISSUE:
                         return 'CAN_ISSUE_TRANSACTION';
-                    case 4:
+                    case SIGN_TYPE.TRANSFER:
                         return 'CAN_TRANSFER_TRANSACTION';
-                    case 5:
+                    case SIGN_TYPE.REISSUE:
                         return 'CAN_REISSUE_TRANSACTION';
-                    case 6:
+                    case SIGN_TYPE.BURN:
                         return 'CAN_BURN_TRANSACTION';
                     case 7:
                         throw new Error('Can\' confirm exchange transaction!');
-                    case 8:
+                    case SIGN_TYPE.LEASE:
                         return 'CAN_LEASE_TRANSACTION';
-                    case 9:
+                    case SIGN_TYPE.CANCEL_LEASING:
                         return 'CAN_CANCEL_LEASE_TRANSACTION';
-                    case 10:
+                    case SIGN_TYPE.CREATE_ALIAS:
                         return 'CAN_CREATE_ALIAS_TRANSACTION';
-                    case 11:
+                    case SIGN_TYPE.MASS_TRANSFER:
                         return 'CAN_MASS_TRANSFER_TRANSACTION';
-                    case 12:
+                    case SIGN_TYPE.DATA:
                         return 'CAN_DATA_TRANSACTION';
-                    case 13:
+                    case SIGN_TYPE.SET_SCRIPT:
                         return 'CAN_SET_SCRIPT_TRANSACTION';
-                    case 14:
+                    case SIGN_TYPE.SPONSORSHIP:
                         return 'CAN_SPONSORSHIP_TRANSACTION';
                     default:
                         return '';
@@ -325,20 +172,17 @@
     };
 
     controller.$inject = [
-        'Base',
-        'waves',
-        '$attrs',
-        '$mdDialog',
-        'modalManager',
-        'user',
+        'ConfirmTxService',
         '$scope',
+        'validateService',
         'utils',
-        'validateService'
+        'waves',
+        '$attrs'
     ];
 
     angular.module('app.ui').component('wConfirmTransaction', {
         bindings: {
-            tx: '<',
+            signable: '<',
             onClickBack: '&',
             onTxSent: '&',
             noBackButton: '<',

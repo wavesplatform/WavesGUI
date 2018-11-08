@@ -3,10 +3,12 @@
 
     const FIAT_ASSETS = {
         [WavesApp.defaultAssets.USD]: true,
-        [WavesApp.defaultAssets.EUR]: true
+        [WavesApp.defaultAssets.EUR]: true,
+        [WavesApp.defaultAssets.TRY]: true
     };
 
     const { Money } = require('@waves/data-entities');
+    const ds = require('data-service');
 
     const BANK_RECIPIENT = '3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us';
     const MIN_TOKEN_COUNT = 100;
@@ -38,6 +40,13 @@
              */
             get hasSendToBank() {
                 return FIAT_ASSETS[this.assetId] || false;
+            }
+
+            /**
+             * @return {boolean}
+             */
+            get isLira() {
+                return this.assetId === WavesApp.defaultAssets.TRY;
             }
 
             /**
@@ -163,6 +172,10 @@
             }
 
             /**
+             * @type {string}
+             */
+            digiLiraUserLink = 'https://www.digilira.com/';
+            /**
              * @type {Function}
              */
             onContinue = null;
@@ -272,13 +285,22 @@
             createTx() {
                 const toGateway = this.outerSendMode && this.gatewayDetails;
 
-                const tx = {
+                const tx = waves.node.transactions.createTransaction({
                     ...this.tx,
                     recipient: toGateway ? this.gatewayDetails.address : this.tx.recipient,
                     attachment: toGateway ? this.gatewayDetails.attachment : this.tx.attachment
-                };
+                });
 
-                this.onContinue({ tx });
+                const signable = ds.signature.getSignatureApi().makeSignable({
+                    type: tx.type,
+                    data: tx
+                });
+
+                return signable;
+            }
+
+            onSignTx(signable) {
+                this.onContinue({ signable });
             }
 
             fillMax() {
@@ -372,7 +394,7 @@
                 const maxCoinomatAmount = this.balance.cloneWithTokens(50000);
                 const minCoinomatAmount = this.balance.cloneWithTokens(100);
 
-                if (this.toBankMode) {
+                if (this.toBankMode && !this.isLira) {
                     this.tx.recipient = BANK_RECIPIENT;
                     this.termsIsPending = true;
                     this.maxAmount = Money.min(maxCoinomatAmount, this.balance);

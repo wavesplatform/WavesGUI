@@ -8,7 +8,8 @@
 
     const NOT_SYNC_FIELDS = [
         'changeSetting',
-        'extraFee'
+        'extraFee',
+        'networkError'
     ];
 
     /**
@@ -45,6 +46,10 @@
                 return this._settings.change;
             }
 
+            /**
+             * @type {boolean}
+             */
+            networkError = false;
             /**
              * @type {string}
              */
@@ -285,6 +290,7 @@
              *
              */
             login(data) {
+                this.networkError = false;
                 return this._addUserData(data)
                     .then(() => analytics.push('User', `Login.${WavesApp.type}.${data.userType}`));
             }
@@ -422,15 +428,25 @@
             /**
              * @return {Promise<any>}
              */
-            updateScriptAccountData() {
-                return Promise.all([
-                    ds.fetch(`${ds.config.get('node')}/addresses/scriptInfo/${this.address}`),
-                    ds.api.assets.get(WavesApp.defaultAssets.WAVES)
-                ])
-                    .then(([response, waves]) => {
-                        this.extraFee = Money.fromCoins(response.extraFee, waves);
-                        this._hasScript = response.extraFee !== 0;
-                    });
+            async updateScriptAccountData(item = null) {
+                let waves;
+                const address = item ? item.address : this.address;
+                try {
+                    this.networkError = false;
+                    waves = await ds.api.assets.get(WavesApp.defaultAssets.WAVES);
+                } catch (e) {
+                    this.networkError = true;
+                    throw new Error('Can\'t get Waves asset');
+                }
+
+                try {
+                    const response = await ds.fetch(`${ds.config.get('node')}/addresses/scriptInfo/${address}`);
+                    this.extraFee = Money.fromCoins(response.extraFee, waves);
+                    this._hasScript = response.extraFee !== 0;
+                } catch (e) {
+                    this._hasScript = !!this._hasScript;
+                    this.extraFee = this.extraFee || Money.fromCoins(0, waves);
+                }
             }
 
             /**
@@ -463,10 +479,6 @@
                                 () => modalManager.showLedgerError({ error: 'sign-error' }).then(
                                     () => {
                                         return this.addMatcherSign();
-                                    },
-                                    () => {
-                                        // No matcher sign, may be other modal
-                                        Promise.resolve();
                                     }
                                 ));
                     }
@@ -516,8 +528,7 @@
                             this._password = data.password;
                         }
 
-                        const states = WavesApp.stateTree.find('main')
-                            .getChildren();
+                        const states = WavesApp.stateTree.find('main').getChildren();
                         this._stateList = states.map((baseTree) => {
                             const id = baseTree.id;
                             return new UserRouteState('main', id, this._settings.get(`${id}.activeState`));
@@ -535,11 +546,13 @@
                                 this.changeCandle();
                                 return this._save();
                             })
-                            .then(() => {
-                                this._logoutTimer();
-                                return this.updateScriptAccountData();
-                            })
-                            .then(this._dfr.resolve);
+                            .then(() => this._logoutTimer())
+                            .then(() => this.updateScriptAccountData())
+                            .then(this._dfr.resolve)
+                            .catch((e) => {
+                                ds.app.logOut();
+                                return Promise.reject(e);
+                            });
                     });
             }
 

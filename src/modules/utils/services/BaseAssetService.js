@@ -11,10 +11,24 @@
 
         class BaseAssetService {
 
+            /**
+             * @return {string}
+             */
+            getBaseAssetId() {
+                return user.getSetting('baseAssetId');
+            }
+
+            /**
+             * @return {Promise<Asset>}
+             */
             getBaseAsset() {
                 return waves.node.assets.getAsset(user.getSetting('baseAssetId'));
             }
 
+            /**
+             * @param {Money} money
+             * @return {Promise<Money>}
+             */
             convertToBaseAsset(money) {
                 return this.getBaseAsset().then((baseAsset) => {
                     // TODO : change to getRateByDate()

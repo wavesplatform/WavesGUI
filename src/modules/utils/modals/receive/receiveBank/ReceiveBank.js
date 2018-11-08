@@ -51,6 +51,10 @@
              * @type {boolean}
              */
             signInProgress = false;
+            /**
+             * @type {string}
+             */
+            digiLiraUserLink = 'https://www.digilira.com/';
 
 
             constructor() {

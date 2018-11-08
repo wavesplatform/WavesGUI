@@ -4,29 +4,31 @@
             <div class="btn icon-close ng-scope" w-modal-close></div>
             <w-step-by-step active-step="$ctrl.step" ng-if="!$ctrl.errorOccured">
                 <w-step>
-                    <w-tabs ng-model="$ctrl.tab">
 
+                    <w-tabs class="header" ng-model="$ctrl.tab">
                         <w-tab title-name="::'modal.send.sendTitle'" id="::'singleSend'">
                             <w-permit name="CAN_TRANSFER_TRANSACTION" mode="on">
                                 <w-single-send state="$ctrl.state"
-                                               on-continue="$ctrl.nextStep(tx)">
-                                        <ng-include src="::$ctrl.headerPath"></ng-include>
+                                               on-continue="$ctrl.nextStep(signable)">
+                                    <ng-include src="::$ctrl.headerPath"></ng-include>
                                 </w-single-send>
                             </w-permit>
                             <w-permit name="CAN_TRANSFER_TRANSACTION" mode="off">
-                                <div class="warning-plate body-1 warning-500" w-i18n="modal.disabledFeatures.transfer"></div>
+                                <div class="warning-plate body-1 warning-500"
+                                     w-i18n="modal.disabledFeatures.transfer"></div>
                             </w-permit>
                         </w-tab>
 
                         <w-tab title-name="::'modal.send.massSendTitle'" id="::'massSend'">
                             <w-permit name="CAN_MASS_TRANSFER_TRANSACTION" mode="on">
                                 <w-mass-send state="$ctrl.state"
-                                             on-continue="$ctrl.nextStep(tx)">
-                                        <ng-include src="::$ctrl.headerPath"></ng-include>
+                                             on-continue="$ctrl.nextStep(signable)">
+                                    <ng-include src="::$ctrl.headerPath"></ng-include>
                                 </w-mass-send>
                             </w-permit>
                             <w-permit name="CAN_MASS_TRANSFER_TRANSACTION" mode="off">
-                                <div class="warning-plate body-1 warning-500" w-i18n="modal.disabledFeatures.massTransfer"></div>
+                                <div class="warning-plate body-1 warning-500"
+                                     w-i18n="modal.disabledFeatures.massTransfer"></div>
                             </w-permit>
                         </w-tab>
 
@@ -40,13 +42,13 @@
                                            referrer="$ctrl.referrer"
                                            warning="$ctrl.state.warning || ''"
                                            show-validation-errors="$ctrl.strict"
-                                           tx="$ctrl.txInfo"></w-confirm-transaction>
+                                           signable="$ctrl.signable"></w-confirm-transaction>
 
                     <w-confirm-gateway-transaction ng-if="$ctrl.outerSendMode"
                                                    on-click-back="$ctrl.back()"
                                                    gateway-details="$ctrl.gatewayDetails"
                                                    target-recipient="$ctrl.state.singleSend.recipient"
-                                                   tx="$ctrl.txInfo"></w-confirm-gateway-transaction>
+                                                   signable="$ctrl.signable"></w-confirm-gateway-transaction>
                 </w-step>
             </w-step-by-step>
             <div class="error-content" ng-if="$ctrl.errorOccured">

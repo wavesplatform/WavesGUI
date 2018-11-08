@@ -1,8 +1,9 @@
 <w-step-by-step active-step="$ctrl.step">
     <w-step>
-        <div class="sponsorship__asset-content margin-4">
+        <div class="sponsorship__asset-content asset-content margin-4">
             <div class="sponsorship__top-content">
-                <w-asset-logo class="asset-logo-large" ng-cloak asset-id="{{::$ctrl.asset.id}}" size="65"></w-asset-logo>
+                <w-asset-logo class="asset-logo-large" ng-cloak asset-id="{{::$ctrl.asset.id}}"
+                              size="65"></w-asset-logo>
 
                 <div class="sponsorship__asset-data">
                     <h4 ng-cloak class="basic-900">{{::$ctrl.asset.name}}</h4>
@@ -68,25 +69,30 @@
                 </w-input-error>
             </w-input-container>
 
-            <div class="basic-500 margin-3" w-i18n="modal.sponsorship.fee" params="{fee: $ctrl.fee}"></div>
+            <div class="basic-500 margin-top-1"
+                 w-i18n="modal.sponsorship.fee"
+                 params="{fee: $ctrl.fee}"></div>
 
-            <div class="row commission-error margin-2 footnote error-500"
+            <div class="row commission-error margin-top-1 footnote error-500"
                  ng-if="!$ctrl.canSendTransaction">
                 <span params="{fee: $ctrl.fee, currency: $ctrl.fee.asset}"
                       w-i18n="modal.sponsorship.errors.noMoney">
                 </span>
             </div>
 
-            <w-button class="big submit long"
-                      disabled="sponsored.$invalid"
-                      on-click="$ctrl.onConfirm()">
-                <span w-i18n="modal.sponsorship.continue"></span>
-            </w-button>
+            <div class="margin-top-3">
+                <w-sign-button class="big submit long"
+                               disabled="sponsored.$invalid"
+                               on-click="$ctrl.getSignable()"
+                               on-success="$ctrl.onConfirm()">
+                    <span w-i18n="modal.sponsorship.continue"></span>
+                </w-sign-button>
+            </div>
 
         </form>
     </w-step>
     <w-step>
         <w-confirm-transaction on-click-back="$ctrl.onBack()"
-                               tx="$ctrl.getSponsoredTx()"></w-confirm-transaction>
+                               signable="$ctrl.signable"></w-confirm-transaction>
     </w-step>
 </w-step-by-step>

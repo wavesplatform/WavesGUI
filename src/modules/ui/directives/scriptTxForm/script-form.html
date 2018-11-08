@@ -1,6 +1,6 @@
 <form w-i18n-ns="app.utils" novalidate name="setScript">
 
-    <div class="body-2" w-i18n="directives.scriptForm.textAreaTitle"></div>
+    <div class="body-2 margin-top-4" w-i18n="directives.scriptForm.textAreaTitle"></div>
 
     <w-input-container class="margin-2">
         <w-input ng-model="$ctrl.script"
@@ -16,12 +16,9 @@
         <w-input-error ng-if="$ctrl.requiredError" message="custom">
             <span w-i18n="directives.scriptForm.errors.required"></span>
         </w-input-error>
-
-        <!-- todo @tsigel - another error -->
         <w-input-error ng-if="$ctrl.validationError" message="custom">
             <span w-i18n="directives.scriptForm.errors.invalidScript"></span>
         </w-input-error>
-
     </w-input-container>
 
     <div class="note-plate transparent margin-1 body-2">
@@ -33,18 +30,20 @@
         <div class="footnote-1 basic-500" w-i18n="directives.scriptForm.warning.body"></div>
     </div>
 
-    <div class="basic-500 footnote-1 margin-2"
+    <div class="basic-500 footnote-1 margin-1"
          w-i18n="directives.scriptForm.fee"
          params="{fee: $ctrl.state.tx.fee}"></div>
 
-    <div class="error-300"
+    <div class="error-500"
          ng-if="!$ctrl.hasFee"
          params="{fee: $ctrl.state.tx.fee}"
          w-i18n="directives.scriptForm.errors.fee"></div>
 
-    <w-button class="big long submit"
-              disabled="setScript.$invalid || $ctrl.validationPending || !$ctrl.hasFee"
-              on-click="$ctrl.next()">
+    <w-sign-button class="big long submit margin-top-3"
+                   ns="::'app.utils'"
+                   disabled="setScript.$invalid || $ctrl.validationPending || !$ctrl.hasFee"
+                   on-click="$ctrl.getSignable()"
+                   on-success="$ctrl.next(signable)">
         <span w-i18n="directives.scriptForm.ok"></span>
-    </w-button>
+    </w-sign-button>
 </form>

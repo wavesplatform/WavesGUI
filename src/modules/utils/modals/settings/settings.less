@@ -13,8 +13,11 @@ md-dialog.settings-modal {
   min-width: 740px;
   color: @color-disabled-900;
 
-  md-dialog-content::after {
-    display: none;
+  md-dialog-content {
+    padding-top: 20px;
+    &::after {
+      display: none;
+    }
   }
 
   w-web-only {
