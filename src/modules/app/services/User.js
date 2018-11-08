@@ -479,10 +479,6 @@
                                 () => modalManager.showLedgerError({ error: 'sign-error' }).then(
                                     () => {
                                         return this.addMatcherSign();
-                                    },
-                                    () => {
-                                        // No matcher sign, may be other modal
-                                        Promise.resolve();
                                     }
                                 ));
                     }

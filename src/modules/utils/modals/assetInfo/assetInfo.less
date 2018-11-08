@@ -12,6 +12,13 @@ html body md-dialog.asset-info-modal {
     }
   }
 
+  w-tabs.inner {
+    .titles-wrap {
+      width: 100%;
+      margin: 0;
+    }
+  }
+
   .chart-wrapper {
     opacity: 0.2;
     position: relative;
@@ -223,11 +230,19 @@ html body md-dialog.asset-info-modal {
     md-dialog-content {
       overflow-y: auto;
       height: auto;
+      padding: 0 20px;
     }
 
-    w-tabs .titles-wrap {
-      padding-left: 10px;
-      margin: 0 -10px;
+    w-tabs.inner {
+      .titles-wrap {
+        padding: 0 10px;
+        margin: 0 -10px;
+        width: calc(100% ~'+ 20px');
+      }
+
+      .tab-body-wrap {
+        height: auto;
+      }
     }
 
     .chart-wrapper {
@@ -239,10 +254,6 @@ html body md-dialog.asset-info-modal {
     .asset-content {
       .padding-content .tab-tem {
         padding: 20px;
-      }
-
-      w-tabs .tab-body-wrap {
-        height: auto;
       }
 
       .tab-tem {

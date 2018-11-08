@@ -46,7 +46,7 @@
                 this.signError = false;
                 this.signPending = true;
 
-                return this.signable.getSignature()
+                return this.signable.addMyProof()
                     .then(signature => {
                         this.signPending = false;
                         this.onSuccess({ signature });
