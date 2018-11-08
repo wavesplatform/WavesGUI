@@ -43,14 +43,16 @@
                            class="multiline multiline-error-input-padding">
 
                 <span w-i18n="modal.send.errors.max"
-                      ng-if="!$ctrl.isValidAmounts && $ctrl.tx.transfers.length"></span>
+                    ng-if="!$ctrl.isValidAmounts && $ctrl.tx.transfers.length"></span>
+
                 <span ng-if="$ctrl.transfers.length && !$ctrl.tx.transfers.length"
                       w-i18n="modal.send.errors.allAddressesInvalid"></span>
-                <span ng-if="$ctrl.errors.length" w-i18n="modal.send.massSend.errors.invalidAddress" class="error-list-row"></span>
+
+                <span ng-if="$ctrl.errors.length" w-i18n="modal.send.massSend.errors.invalidAddress"
+                      class="error-list-row"></span>
+
                 <span ng-repeat="error in $ctrl.errors|limitTo: ($ctrl.view.errors.showAll && $ctrl.errors.length || 2) track by error.recipient"
-                      class="error-list-row">
-                             {{::error.recipient}}
-                        </span>
+                      class="error-list-row">{{::error.recipient}}</span>
 
                 <span ng-if="$ctrl.errors.length > 2"
                       class="error-list-row show-all-errors-link link"
@@ -115,10 +117,10 @@
     </div>
 
     <div class="margin-top-3">
-        <w-button disabled="!$ctrl.isValidAmounts || !$ctrl.tx.transfers.length || !$ctrl.hasFee"
-                  class="submit long big"
-                  on-click="$ctrl.nextStep()">
+        <w-sign-button disabled="!$ctrl.isValidAmounts || !$ctrl.tx.transfers.length || !$ctrl.hasFee"
+                       on-success="$ctrl.onTxSign(signable)"
+                       on-click="$ctrl.nextStep()">
             <span w-i18n="button.continue"></span>
-        </w-button>
+        </w-sign-button>
     </div>
 </form>

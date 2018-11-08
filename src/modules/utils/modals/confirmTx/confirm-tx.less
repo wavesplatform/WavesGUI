@@ -1,14 +1,19 @@
-.tx-modal {
-  .modal-content {
-    position: relative;
-  }
+.confirm-tx {
   md-dialog-content {
-    padding-top: 0;
+    position: relative;
   }
   .icon-close {
     position: absolute;
     top: 20px;
-    right: 0;
+    right: 40px;
     z-index: 1;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .confirm-tx {
+    .icon-close {
+      right: 20px;
+    }
   }
 }
