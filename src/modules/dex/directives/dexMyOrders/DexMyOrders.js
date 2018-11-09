@@ -6,7 +6,7 @@
     const ds = require('data-service');
 
     /**
-     * @param Base
+     * @param {typeof Base} Base
      * @param {Waves} waves
      * @param {User} user
      * @param {IPollCreate} createPoll
@@ -14,8 +14,7 @@
      * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
      * @param {DexDataService} dexDataService
-     * @return {DexMyOrders}
-     * @return {modalManager}
+     * @param {ModalManager} modalManager
      */
     const controller = function (
         Base,
@@ -34,35 +33,41 @@
 
         class DexMyOrders extends Base {
 
+            /**
+             * @type {{amount: string, price: string}}
+             * @private
+             */
+            _assetIdPair = null;
+            /**
+             * @type {Array}
+             */
+            orders = null;
+            /**
+             * @type {boolean}
+             */
+            isDemo = !user.address;
+            /**
+             * @type {boolean}
+             */
+            pending = !user.address && !user.hasScript();
+            /**
+             * @type {Object.<string, boolean>}
+             */
+            shownOrderDetails = Object.create(null);
+            /**
+             * @type {boolean}
+             */
+            loadingError = false;
+            /**
+             * @type {boolean}
+             */
+            hasScript = user.hasScript();
+            /**
+             * @type (boolean)
+             */
+
             constructor() {
                 super();
-
-                /**
-                 * @type {{amount: string, price: string}}
-                 * @private
-                 */
-                this._assetIdPair = null;
-
-                /**
-                 * @type {Array}
-                 */
-                this.orders = null;
-                /**
-                 * @type {boolean}
-                 */
-                this.isDemo = !user.address;
-                /**
-                 * @type {boolean}
-                 */
-                this.pending = !this.isDemo;
-                /**
-                 * @type {Object.<string, boolean>}
-                 */
-                this.shownOrderDetails = Object.create(null);
-                /**
-                 * @type {boolean}
-                 */
-                this.loadingError = false;
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
@@ -131,15 +136,14 @@
                     }
                 ];
 
-                if (!this.isDemo) {
-                    const poll = createPoll(this, this._getOrders, 'orders', 1000, { $scope });
+                this.observe(['isDemo', 'hasScripot'], this._getAllOrders)
 
+                if (!this.isDemo && !this.hasScript) {
+                    const poll = createPoll(this, this._getOrders, 'orders', 1000, { $scope });
                     poll.ready.then(() => {
                         this.pending = false;
                     });
-
                     this.receive(dexDataService.createOrder, () => poll.restart());
-
                     this.poll = poll;
                 }
             }

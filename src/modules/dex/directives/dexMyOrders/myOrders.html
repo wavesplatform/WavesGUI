@@ -5,7 +5,13 @@
                data="$ctrl.orders"
                header-info="$ctrl.headers">
 
-    <w-empty-block ng-if="!$ctrl.orders.length && !$ctrl.isDemo && !$ctrl.loadingError"></w-empty-block>
+    <div ng-if="$ctrl.hasScript"
+         w-i18n="directives.myOrders.withScript"
+         class="cannot-use-exchange-message">
+    </div>
+
+    <w-empty-block ng-if="!$ctrl.orders.length && !$ctrl.isDemo && !$ctrl.loadingError && $ctrl.user.hasScript"></w-empty-block>
+
     <w-error-block ng-if="$ctrl.loadingError"></w-error-block>
 
     <div class="sign-in-message" ng-if="$ctrl.isDemo">

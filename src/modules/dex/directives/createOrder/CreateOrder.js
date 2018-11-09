@@ -44,6 +44,12 @@
                 return this.amountBalance && this.priceBalance;
             }
 
+            hasScript = user.hasScript();
+
+            /**
+             * @type (boolean)
+             */
+
             constructor() {
                 super();
                 /**
