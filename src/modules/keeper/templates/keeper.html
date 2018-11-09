@@ -1,29 +1,42 @@
-<div w-i18n-ns="app.keeper" class="import-content">
+<div w-i18n-ns="app.utils" class="import-content">
     <w-change-language></w-change-language>
     <div class="center">
         <a class="waves-logo" ui-sref="welcome"></a>
-        <div class="headline-1 margin-4">Import an account from the Waves Keeper</div>
+        <div ng-if="$ctrl.isInit && !$ctrl.error"
+             class="headline-1 margin-4"
+             w-i18n="keeperForm.heading"></div>
     </div>
 
-    <div class="error-500 footnote-1 center margin-2" ng-if="$ctrl.error">
-        <div ng-if="$ctrl.noKeeper">
-            <div>Error no installed keeper</div>
-        </div>
-        <div ng-if="$ctrl.noKeeperPermission">
-            <div>Error no has keeper permissions</div>
-        </div>
+    <div class="center margin-2" ng-if="$ctrl.error">
+
+        <i class="error-icon margin-3 block"></i>
+
         <div ng-if="$ctrl.noKeeperAccounts">
-            <div>Error keeper no has users</div>
+            <h3 w-i18n="keeperForm.error.hasNoUsersHeader"></h3>
+            <div w-i18n="keeperForm.error.hasNoUsersDescription">Error keeper no has users</div>
         </div>
+
+        <div ng-if="$ctrl.noKeeper">
+            <h3 w-i18n="keeperForm.error.notInstalledHeader"></h3>
+            <div class="error-500 footnote-1" w-i18n="keeperForm.error.notInstalledDescription">Error no installed keeper</div>
+        </div>
+
+        <div ng-if="$ctrl.noKeeperPermission">
+            <h3 w-i18n="keeperForm.error.hasNoPrimissionsHeader"></h3>
+            <div w-i18n="keeperForm.error.hasNoPrimissionsDescription">Error no has keeper permissions</div>
+        </div>
+
         <div ng-if="$ctrl.incorrectKeeperNetwork">
-            <div>Error change keeper networks</div>
+            <h3 w-i18n="keeperForm.error.wrongNetHeader"></h3>
+            <div w-i18n="keeperForm.error.wrongNetDesription">Error change keeper networks</div>
         </div>
+
         <a ui-sref="import" class="block margin-top-3" w-i18n="keeperForm.back"></a>
     </div>
 
     <div class="import-wrapper margin-3" ng-if="$ctrl.isInit && !$ctrl.error">
 
-        <div class="body-2 basic-900" w-i18n="keeperForm.address">Account address</div>
+        <div class="body-2 basic-900" w-i18n="keeperForm.address"></div>
         <div class="input-like address basic-900 mobile-caption-2 flex margin-2">
             <w-avatar address="$ctrl.selectedUser.address"
                       size="30"
@@ -33,7 +46,7 @@
         </div>
 
         <div class="margin-2">
-            <div class="body-2 basic-900" w-i18n="keeperForm.name">Account name</div>
+            <div class="body-2 basic-900" w-i18n="keeperForm.name"></div>
             <w-input w-autofocus
                      class="big no-validate no-icon flex"
                      type="text"
@@ -55,7 +68,7 @@
         </div>
 
         <div class="or margin-2">
-            <span w-i18n="newUser.or"></span>
+            <span w-i18n="keeperForm.or"></span>
         </div>
         <div class="text-center margin-2">
             <a w-i18n="keeperForm.back" ui-sref="import"></a>
