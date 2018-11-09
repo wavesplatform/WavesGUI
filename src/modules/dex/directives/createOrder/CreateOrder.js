@@ -294,26 +294,16 @@
                 const notify = $element.find('.js-order-notification');
                 notify.removeClass('success').removeClass('error');
 
-                return Promise.all([
-                    ds.orderPriceFromTokens(
-                        this.price.getTokens(),
-                        this._assetIdPair.amount,
-                        this._assetIdPair.price
-                    ),
-                    ds.fetch(ds.config.get('matcher'))
-                ])
-                    .then(([price, matcherPublicKey]) => {
-                        const amount = this.amount;
+                return ds.fetch(ds.config.get('matcher'))
+                    .then((matcherPublicKey) => {
                         form.$setUntouched();
                         $scope.$apply();
 
                         const data = {
-                            amountAsset: this.amountBalance.asset.id,
-                            priceAsset: this.priceBalance.asset.id,
                             orderType: this.type,
-                            price: price.toMatcherCoins(),
-                            amount: amount.toCoins(),
-                            matcherFee: this.fee.getCoins(),
+                            price: this.price,
+                            amount: this.amount,
+                            matcherFee: this.fee,
                             matcherPublicKey
                         };
 
@@ -382,7 +372,8 @@
                         expiration
                     };
 
-                    const modalPromise = modalManager.showSignLedger({
+                    const modalPromise = modalManager.showSignByDevice({
+                        userType: user.userType,
                         promise: signPromise,
                         mode: 'create-order',
                         data: transactionData,
@@ -392,7 +383,7 @@
                     return modalPromise
                         .then(() => signPromise)
                         .catch(() => {
-                            return modalManager.showLedgerError({ error: 'sign-error' })
+                            return modalManager.showSignDeviceError({ error: 'sign-error', userType: user.userType })
                                 .then(() => Promise.resolve(), () => Promise.reject({ error: 'signAbort' }))
                                 .then(() => this._createTxData(data));
                         });

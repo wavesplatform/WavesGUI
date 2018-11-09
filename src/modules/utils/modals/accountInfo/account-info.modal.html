@@ -61,8 +61,14 @@
 
                                 <div class="errors-margin text-center caption-1 basic-700"
                                      w-i18n="modal.sign.signByLedger"
-                                     ng-if="$ctrl.signLoader">
+                                     ng-if="$ctrl.signLoader && $ctrl.isLedger">
                                 </div>
+
+                                <div class="errors-margin text-center caption-1 basic-700"
+                                     w-i18n="modal.sign.signByKeeper"
+                                     ng-if="$ctrl.signLoader && $ctrl.isKeeper">
+                                </div>
+
                                 <div class="text-center basic-800 body-2" ng-if="$ctrl.signLoader">{{$ctrl.transactionId}}</div>
 
                                 <div class="sign-loader" ng-if="$ctrl.signLoader">
@@ -72,8 +78,8 @@
                                 <div class="errors-margin">
                                     <div class="bottom-warning margin-3" ng-if="$ctrl.signDeviceFail">
                                         <div class="warning-plate warning-plate-red">
-                                            <div class="body-2 error-400" w-i18n-ns="app.ui" w-i18n="confirmTransaction.ledgerUnconfirmed.header"></div>
-                                            <div class="footnote-1 basic-500" w-i18n-ns="app.ui" w-i18n="confirmTransaction.ledgerUnconfirmed.description"></div>
+                                            <div class="body-2 error-400" w-i18n-ns="app.ui" w-i18n="confirmTransaction.{{::$ctrl.userType}}Unconfirmed.header"></div>
+                                            <div class="footnote-1 basic-500" w-i18n-ns="app.ui" w-i18n="confirmTransaction.{{::$ctrl.userType}}Unconfirmed.description"></div>
                                         </div>
                                     </div>
                                     <w-input-error message="custom">
