@@ -324,7 +324,7 @@
                     publicKey: data.publicKey,
                     settings: {
                         termsAccepted: false,
-                        hasBackup: hasBackup,
+                        hasBackup,
                         lng: i18next.language,
                         theme: themes.getDefaultTheme(),
                         candle: 'blue'
@@ -537,6 +537,10 @@
                         });
 
                         ds.app.login(data.address, data.api);
+
+                        data.api.onDestroy(() => {
+                            this.logout();
+                        });
 
                         return this.addMatcherSign()
                             .catch(() => Promise.resolve())
