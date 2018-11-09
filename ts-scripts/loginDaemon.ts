@@ -17,9 +17,9 @@ window.addEventListener('load', function () {
 
         $(document).on('mouseenter', '[w-i18n]', function () {
             const $element = $(this);
-            const literla = $element.attr('w-i18n');
+            const literal = $element.attr('w-i18n');
             const ns = $element.attr(nsAttr) || $element.closest(`[${nsAttr}]`).attr(nsAttr);
-            console.log(`Namespace "${ns}", literal "${literla}"`);
+            console.log(`Namespace "${ns}", literal "${literal}"`);
         });
 
         const fill = function () {
