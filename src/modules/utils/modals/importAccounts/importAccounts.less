@@ -12,6 +12,11 @@
   }
 }
 
+.import-wrapper {
+  max-width: 460px;
+  margin: 0 auto;
+}
+
 .import-modal {
   position: relative;
 
@@ -34,6 +39,14 @@
 
     &-ledger {
       background: url(/img/icons/logo-ledger.svg) center no-repeat;
+      width: 60px;
+      height: 60px;
+      display: block;
+      margin: 0 auto 30px auto;
+    }
+
+    &-keeper {
+      background: url(/img/icons/keeper-icon.svg) center no-repeat;
       width: 60px;
       height: 60px;
       display: block;
@@ -127,6 +140,7 @@
     border: 1px solid @color-basic-100;
     border-radius: @border-radius * 2;
     max-width: 210px;
+    cursor: pointer;
 
     & + .import-modal__block {
       margin-left: 30px;

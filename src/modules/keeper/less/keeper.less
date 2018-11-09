@@ -2,8 +2,20 @@
 @import (reference) 'icons';
 
 body.keeper {
+  .import-content {
+    max-width: 460px;
+    margin: 0 auto;
+  }
+
   ui-view[name="main"]  {
     position: relative;
+  }
+
+  .address {
+    align-items: center;
+    w-avatar {
+      flex-grow: 0;
+    }
   }
 }
 
