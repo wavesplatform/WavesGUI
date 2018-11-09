@@ -12,7 +12,6 @@
             tx = null;
             state = Object.create(null);
             step = 0;
-            activeTab = 'script';
 
 
             constructor() {
@@ -26,8 +25,8 @@
                 this.step--;
             }
 
-            nextStep(tx) {
-                this.tx = tx;
+            nextStep(signable) {
+                this.signable = signable;
                 this.step++;
             }
 
