@@ -166,10 +166,9 @@
             <div class="row">
                 <w-sign-button disabled="$ctrl.createForm.$invalid || $ctrl.invalid"
                                class="submit long margin-4"
-                               ns="::'app.tokens'"
                                on-success="$ctrl.generate(signable)"
                                on-click="$ctrl.createSignable()">
-                    <span w-i18n="create"></span>
+                    <span w-i18n-ns="app.tokens" w-i18n="create"></span>
                 </w-sign-button>
             </div>
 

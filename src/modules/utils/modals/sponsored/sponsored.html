@@ -83,10 +83,9 @@
             <div class="margin-top-3">
                 <w-sign-button class="big submit long"
                                disabled="sponsored.$invalid"
-                               ns="::'app.utils'"
                                on-click="$ctrl.getSignable()"
                                on-success="$ctrl.onConfirm()">
-                    <span w-i18n="modal.sponsorship.continue"></span>
+                    <span w-i18n-ns="app.utils" w-i18n="modal.sponsorship.continue"></span>
                 </w-sign-button>
             </div>
 
