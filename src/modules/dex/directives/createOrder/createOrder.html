@@ -200,16 +200,23 @@
                         </w-select>
                     </div>
 
-                    <w-button disabled="$ctrl.order.$invalid || $ctrl.order.$pristine"
-                              class="place-order small footnote-3"
-                              on-click="$ctrl.createOrder($event, order)">
+                    <w-permit name="CAN_CREATE_ORDER" mode="on">
+                        <w-button disabled="$ctrl.order.$invalid || $ctrl.order.$pristine"
+                                  class="place-order small footnote-3"
+                                  on-click="$ctrl.createOrder($event, order)">
                         <span ng-if="$ctrl.type === 'sell'"
                               w-i18n="directives.createOrder.placeSellOrder"
                               params="{name: $ctrl.amountBalance.asset.displayName}"></span>
-                        <span ng-if="$ctrl.type === 'buy'"
-                              w-i18n="directives.createOrder.placeBuyOrder"
-                              params="{name: $ctrl.amountBalance.asset.displayName}"></span>
-                    </w-button>
+                            <span ng-if="$ctrl.type === 'buy'"
+                                  w-i18n="directives.createOrder.placeBuyOrder"
+                                  params="{name: $ctrl.amountBalance.asset.displayName}"></span>
+                        </w-button>
+                    </w-permit>
+                    <w-permit name="CAN_CREATE_ORDER" mode="off">
+                        <div class="note-plate body-3 basic-700 margin-top-1">
+                            <w-permit-message literal="directives.createOrder.createOrderNotPermitted"></w-permit-message>
+                        </div>
+                    </w-permit>
                 </form>
             </div>
         </div>

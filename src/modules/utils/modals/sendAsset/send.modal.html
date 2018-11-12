@@ -4,19 +4,34 @@
             <div class="btn icon-close ng-scope" w-modal-close></div>
             <w-step-by-step active-step="$ctrl.step" ng-if="!$ctrl.errorOccured">
                 <w-step>
+
                     <w-tabs class="header" ng-model="$ctrl.tab">
                         <w-tab title-name="::'modal.send.sendTitle'" id="::'singleSend'">
-                            <w-single-send state="$ctrl.state"
-                                           on-continue="$ctrl.nextStep(signable)">
-                                <ng-include src="::$ctrl.headerPath"></ng-include>
-                            </w-single-send>
+                            <w-permit name="CAN_TRANSFER_TRANSACTION" mode="on">
+                                <w-single-send state="$ctrl.state"
+                                               on-continue="$ctrl.nextStep(signable)">
+                                    <ng-include src="::$ctrl.headerPath"></ng-include>
+                                </w-single-send>
+                            </w-permit>
+                            <w-permit name="CAN_TRANSFER_TRANSACTION" mode="off">
+                                <div class="warning-plate body-1 warning-500"
+                                     w-i18n="modal.disabledFeatures.transfer"></div>
+                            </w-permit>
                         </w-tab>
+
                         <w-tab title-name="::'modal.send.massSendTitle'" id="::'massSend'">
-                            <w-mass-send state="$ctrl.state"
-                                         on-continue="$ctrl.nextStep(signable)">
-                                <ng-include src="::$ctrl.headerPath"></ng-include>
-                            </w-mass-send>
+                            <w-permit name="CAN_MASS_TRANSFER_TRANSACTION" mode="on">
+                                <w-mass-send state="$ctrl.state"
+                                             on-continue="$ctrl.nextStep(signable)">
+                                    <ng-include src="::$ctrl.headerPath"></ng-include>
+                                </w-mass-send>
+                            </w-permit>
+                            <w-permit name="CAN_MASS_TRANSFER_TRANSACTION" mode="off">
+                                <div class="warning-plate body-1 warning-500"
+                                     w-i18n="modal.disabledFeatures.massTransfer"></div>
+                            </w-permit>
                         </w-tab>
+
                     </w-tabs>
                 </w-step>
                 <w-step>
