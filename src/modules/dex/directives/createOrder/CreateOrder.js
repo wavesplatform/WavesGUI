@@ -114,6 +114,11 @@
                 /**
                  * @type {[]}
                  */
+                this.hasScript=user.hasScript();
+                /**
+                 *
+                 * @type {*[]}
+                 */
                 this.expirationValues = [
                     { name: '5min', value: () => utils.moment().add().minute(5).getDate().getTime() },
                     { name: '30min', value: () => utils.moment().add().minute(30).getDate().getTime() },
