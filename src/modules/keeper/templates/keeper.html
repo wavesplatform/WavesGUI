@@ -7,31 +7,39 @@
              w-i18n="keeperForm.heading"></div>
     </div>
 
-    <div class="center margin-2" ng-if="$ctrl.error">
-
-        <i class="error-icon margin-3 block"></i>
-
-        <div ng-if="$ctrl.noKeeperAccounts">
-            <h3 w-i18n="keeperForm.error.hasNoUsersHeader"></h3>
-            <div w-i18n="keeperForm.error.hasNoUsersDescription">Error keeper no has users</div>
-        </div>
-
+    <div class="center margin-2">
         <div ng-if="$ctrl.noKeeper">
-            <h3 w-i18n="keeperForm.error.notInstalledHeader"></h3>
-            <div class="error-500 footnote-1" w-i18n="keeperForm.error.notInstalledDescription">Error no installed keeper</div>
+            <i class="keeper-icon margin-3 block"></i>
+            <h3 class="basic-700" w-i18n="keeperForm.error.notInstalledHeader"></h3>
+            <div class="basic-500 footnote-1" w-i18n="keeperForm.error.notInstalledDescription"></div>
+            <a class="fake-button half margin-top-4" href="http://wavesplatform.com">
+                <span w-i18n="keeperForm.error.install" class="fake-button-content big long submit"></span>
+            </a>
+            <div class="or margin-top-4" w-i18n="or"></div>
+            <a ui-sref="import" class="block margin-top-2" w-i18n="keeperForm.back"></a>
         </div>
 
-        <div ng-if="$ctrl.noKeeperPermission">
-            <h3 w-i18n="keeperForm.error.hasNoPrimissionsHeader"></h3>
-            <div w-i18n="keeperForm.error.hasNoPrimissionsDescription">Error no has keeper permissions</div>
+        <div ng-if="$ctrl.noKeeperAccounts || $ctrl.noKeeperPermission">
+            <i class="error-icon margin-3 block"></i>
+            <h3 class="basic-700" w-i18n="keeperForm.error.hasNoUsersHeader"></h3>
+            <div class="basic-500" w-i18n="keeperForm.error.hasNoUsersDescription"></div>
+            <a class="fake-button half margin-top-4" onclick="window.location.reload()">
+                <span w-i18n="keeperForm.error.refresh" class="fake-button-content big long submit"></span>
+            </a>
+            <div class="or margin-top-4" w-i18n="or"></div>
+            <a ui-sref="import" class="block margin-top-2" w-i18n="keeperForm.back"></a>
         </div>
 
         <div ng-if="$ctrl.incorrectKeeperNetwork">
-            <h3 w-i18n="keeperForm.error.wrongNetHeader"></h3>
-            <div w-i18n="keeperForm.error.wrongNetDesription">Error change keeper networks</div>
+            <i class="error-icon margin-3 block"></i>
+            <h3 class="basic-700" w-i18n="keeperForm.error.networkHeader"></h3>
+            <div class="basic-500" w-i18n="keeperForm.error.networkDescription"></div>
+            <a class="fake-button half margin-top-4" onclick="window.location.reload()">
+                <span w-i18n="keeperForm.error.refresh" class="fake-button-content big long submit"></span>
+            </a>
+            <div class="or margin-top-4" w-i18n="or"></div>
+            <a ui-sref="import" class="block margin-top-2" w-i18n="keeperForm.back"></a>
         </div>
-
-        <a ui-sref="import" class="block margin-top-3" w-i18n="keeperForm.back"></a>
     </div>
 
     <div class="import-wrapper margin-3" ng-if="$ctrl.isInit && !$ctrl.error">

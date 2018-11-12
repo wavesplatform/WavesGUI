@@ -2,7 +2,7 @@
     <div class="btn icon-close" w-modal-close></div>
 
     <div class="connect-mode" ng-if="$ctrl.mode === 'sign-error' && $ctrl.isLedger">
-        <div class="ledger-error-icon ledger-icons"></div>
+        <div class="sign-error-icon ledger-icons"></div>
         <h3 class="text-center basic-700" w-i18n="modal.sign.signError"></h3>
         <p class="body-2 basic-500" w-i18n="modal.sign.signErrorText"></p>
         <div class="buttons-wrapper">
@@ -16,7 +16,7 @@
     </div>
 
     <div class="connect-mode" ng-if="$ctrl.mode === 'load-user-error' && $ctrl.isLedger">
-        <div class="ledger-error-icon ledger-icons"></div>
+        <div class="sign-error-icon ledger-icons"></div>
 
         <h3 class="text-center basic-700" w-i18n="modal.sign.connectionError"></h3>
         <div class="title-wrapper margin-4 body-2 basic-500">
@@ -35,7 +35,7 @@
     </div>
 
     <div class="connect-mode" ng-if="$ctrl.mode === 'sign-error' && $ctrl.isKeeper">
-        <div class="ledger-error-icon ledger-icons"></div>
+        <div class="sign-error-icon ledger-icons"></div>
         <h3 class="text-center basic-700" w-i18n="modal.sign.signErrorKeeper"></h3>
         <p class="body-2 basic-500" w-i18n="modal.sign.signErrorTextKeeper"></p>
         <div class="buttons-wrapper">
@@ -49,7 +49,7 @@
     </div>
 
     <div class="connect-mode" ng-if="$ctrl.mode === 'load-user-error' && $ctrl.isKeeper">
-        <div class="ledger-error-icon ledger-icons"></div>
+        <div class="sign-error-icon ledger-icons"></div>
 
         <h3 class="text-center basic-700" w-i18n="modal.sign.connectionError"></h3>
         <div class="title-wrapper margin-4 body-2 basic-500">
