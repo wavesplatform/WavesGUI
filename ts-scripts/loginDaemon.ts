@@ -13,6 +13,15 @@ window.addEventListener('load', function () {
     };
 
     if (location.href.indexOf('loginDaemon=false') === -1) {
+        const nsAttr = 'w-i18n-ns';
+
+        $(document).on('mouseenter', '[w-i18n]', function () {
+            const $element = $(this);
+            const literal = $element.attr('w-i18n');
+            const ns = $element.attr(nsAttr) || $element.closest(`[${nsAttr}]`).attr(nsAttr);
+            console.log(`Namespace "${ns}", literal "${literal}"`);
+        });
+
         const fill = function () {
             find()
                 .then(($input) => {
