@@ -115,6 +115,13 @@
                     .finally(() => {
                         this.isInit = true;
                         this.loading = false;
+                        this.adapter.onUpdate((state) => {
+                            if (state.account) {
+                                this.selectedUser = state.account;
+                                delete this.selectedUser.type;
+                                $scope.$apply();
+                            }
+                        });
                         $scope.$apply();
                     });
             }
