@@ -136,7 +136,7 @@
                     }
                 ];
 
-                this.observe(['isDemo', 'hasScripot'], this._getAllOrders)
+                this.observe(['isDemo', 'hasScripot'], this._getAllOrders);
 
                 if (!this.isDemo && !this.hasScript) {
                     const poll = createPoll(this, this._getOrders, 'orders', 1000, { $scope });
