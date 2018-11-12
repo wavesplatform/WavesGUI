@@ -1,21 +1,14 @@
 <div class="btn icon-close ng-scope" w-modal-close></div>
 <div class="center">
 
-    <w-qr-code
-        style="border: 3px solid black;
-        background: url(https://photos.gograph.com/thumbs/CSP/CSP991/orange-crazy-smile-eps-vector_k12508015.jpg) center no-repeat;
-        width: 200px;
-        height: 200px;
-        display: block;">
-        <!-- todo @tsigel => add QR, remove style -->
-    </w-qr-code>
+    <w-qr-code size="200" url="$ctrl.exportUrl"></w-qr-code>
 
     <h3 class="basic-700 margin-top-3 margin-1" w-i18n="modal.settings.pairing.header"></h3>
     <div class="basic-500 margin-2 body-2" w-i18n="modal.pairing.scanCodeDescription"></div>
     <div class="basic-500 margin-1 body-2" w-i18n="modal.pairing.downloadAppDescription"></div>
 
-    <div class="flex buttons-wrapper mobile-logos"> <!-- max-width: 275px -->
-        <!-- todo @somebody => add appName to links below -->
+    <!-- TODO add names for apps -->
+    <div class="flex buttons-wrapper mobile-logos">
         <a href="itms://itunes.com/apps/_______"
            target="_blank"
            class="apple-store-btn margin-right-1"></a>
