@@ -68,9 +68,10 @@
                                    on-click="$ctrl.sign()"
                                    on-success="$ctrl.next(signable)"
                                    class="submit big long">
-                        <span w-i18n="modal.startLease.start"></span>
+                        <span w-i18n-ns="app.utils" w-i18n="modal.startLease.start"></span>
                     </w-sign-button>
                 </form>
+            </div>
         </w-step>
         <w-step>
             <w-confirm-transaction on-click-back="$ctrl.back()" signable="$ctrl.signable"></w-confirm-transaction>

@@ -21,7 +21,8 @@
         <div w-i18n="modal.sepa.warning"></div>
     </div>
 
-    <w-sign signable="$ctrl.signable"
+    <w-sign w-i18n-ns="app.ui"
+            signable="$ctrl.signable"
             on-success="$ctrl.onSignSuccess(signature)"
             on-cancel="$ctrl.onSignCancel()"
             ng-class="{'margin-top-3': !$ctrl.isVerified}"
