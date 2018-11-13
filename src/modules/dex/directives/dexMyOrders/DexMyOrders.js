@@ -333,7 +333,7 @@
                                 order.exchange = transactionsByOrderHash[order.id];
                                 return order;
                             });
-                        });
+                        }).catch(() => result);
                     })
                     .catch(() => {
                         this.loadingError = true;
@@ -342,11 +342,7 @@
             }
 
             _getAllOrders() {
-                return Promise.all([
-                    waves.matcher.getOrders().then(R.filter(R.whereEq({ isActive: true }))),
-                    ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price)
-                ])
-                    .then(([list]) => list)
+                return waves.matcher.getOrders().then(R.filter(R.whereEq({ isActive: true })));
             }
 
             static _parseError(error) {
