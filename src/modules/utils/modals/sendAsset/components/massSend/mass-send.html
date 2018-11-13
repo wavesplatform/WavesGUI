@@ -29,7 +29,7 @@
                  name="recipientCsv"
                  w-validate
                  required
-                 w-validator-custom="{{$ctrl.isValidAmounts}}"
+                 w-validator-custom="{{$ctrl.isValidAmounts && !$ctrl.errors.length}}"
                  ng-model="$ctrl.recipientCsv"
                  ng-model-options="{updateOn: 'input blur', debounce: { 'input': 5000, 'blur': 0 }}"
                  w-i18n-attr="placeholder"
@@ -42,21 +42,18 @@
                            message="custom"
                            class="multiline multiline-error-input-padding">
 
-                <span w-i18n="modal.send.errors.max" ng-if="$ctrl.tx.transfers.length"></span>
+                <span w-i18n="modal.send.errors.max"
+                    ng-if="!$ctrl.isValidAmounts && $ctrl.tx.transfers.length"></span>
+
                 <span ng-if="$ctrl.transfers.length && !$ctrl.tx.transfers.length"
                       w-i18n="modal.send.errors.allAddressesInvalid"></span>
-                <span w-i18n="modal.send.massSend.errors.invalidAddress" class="error-list-row"></span>
-                <span ng-if="$ctrl.view.errors.showAll"
-                      ng-repeat="error in $ctrl.errors track by error.recipient"
-                      class="error-list-row">
-                             {{::error.recipient}}
-                        </span>
-                <span ng-if="!$ctrl.view.errors.showAll" class="error-list-row">
-                            {{$ctrl.errors[0].recipient}}
-                        </span>
-                <span ng-if="!$ctrl.view.errors.showAll && $ctrl.errors[1]" class="error-list-row">
-                            {{$ctrl.errors[1].recipient}}
-                        </span>
+
+                <span ng-if="$ctrl.errors.length" w-i18n="modal.send.massSend.errors.invalidAddress"
+                      class="error-list-row"></span>
+
+                <span ng-repeat="error in $ctrl.errors|limitTo: ($ctrl.view.errors.showAll && $ctrl.errors.length || 2) track by error.recipient"
+                      class="error-list-row">{{::error.recipient}}</span>
+
                 <span ng-if="$ctrl.errors.length > 2"
                       class="error-list-row show-all-errors-link link"
                       w-i18n="modal.send.massSend.showAllErrors.{{$ctrl.view.errors.showAll}}"
@@ -108,14 +105,19 @@
         <w-balance money="$ctrl.totalAmount"></w-balance>
     </div>
 
-    <div class="fee">
-        <div class="body basic-500">
-            <span w-i18n="modal.send.fee" params="{fee: $ctrl.tx.fee}"></span>
-        </div>
+    <div params="{fee: $ctrl.tx.fee}"
+         w-i18n="modal.send.fee"
+         class="fee row margin-1 basic-500">
+    </div>
+
+    <div ng-if="!$ctrl.hasFee"
+         params="{fee: $ctrl.tx.fee}"
+         w-i18n="modal.send.validationError.notEnoughFunds"
+         class="commission-error margin-2 footnote error-500">
     </div>
 
     <div class="margin-top-3">
-        <w-sign-button disabled="$ctrl.massSend.$invalid || !$ctrl.tx.transfers.length"
+        <w-sign-button disabled="!$ctrl.isValidAmounts || !$ctrl.tx.transfers.length || !$ctrl.hasFee"
                        on-success="$ctrl.onTxSign(signable)"
                        on-click="$ctrl.nextStep()">
             <span w-i18n="button.continue"></span>
