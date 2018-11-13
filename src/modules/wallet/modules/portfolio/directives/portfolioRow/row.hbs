@@ -11,6 +11,9 @@
             </div>
         {{/if}}
         <span class="asset-name-desktop">{{assetName}}</span></div>
+        {{#if isSpam}}
+            <span> SPAM ASSET! </span> <!-- TODO @Iskander -->
+        {{/if}}
 </div>
 <div class="smart-table__available smart-table__cell" data-column-id="balance">
     <div class="cell">

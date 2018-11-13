@@ -308,16 +308,20 @@
 
                     const spam = [];
                     const my = [];
+                    const active = [];
 
-                    for (let i = activeList.length - 1; i >= 0; i--) {
-                        if (activeList[i].asset.sender === user.address) {
-                            my.push(activeList[i]);
+                    activeList.forEach(item => {
+                        if (item.asset.sender === user.address) {
+                            my.push(item);
                         }
-                        if (activeList[i].isOnScamList || activeList[i].isSpam) {
-                            spam.push(activeList.splice(i, 1)[0]);
+                        if (item.isOnScamList || item.isSpam) {
+                            spam.push(item);
+                        } else {
+                            active.push(item);
                         }
-                    }
-                    return { active: activeList, spam, my };
+                    });
+
+                    return { active, spam, my };
                 });
             }
 
