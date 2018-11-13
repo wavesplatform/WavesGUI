@@ -50,7 +50,7 @@
                                 <w-loader ng-if="$ctrl.pendingAlias"></w-loader>
 
                                 <div class="create-alias-wrap">
-                                    <w-button disabled="$ctrl.signLoader || $ctrl.invalid || $ctrl.pendingAlias || !$ctrl.newAlias"
+                                    <w-button disabled="$ctrl.signLoader || $ctrl.invalid || $ctrl.pendingAlias || !$ctrl.newAlias || $ctrl.hasScript"
                                               class="tiny submit margin-right-1" type="submit">
                                         <span w-i18n="modal.account.create"></span>
                                     </w-button>
@@ -82,6 +82,8 @@
                                         <span ng-if="$ctrl.invalidMaxLength" w-i18n="modal.account.maxLength"></span>
                                         <span ng-if="$ctrl.invalidPattern" w-i18n="modal.account.invalidSymbols"></span>
                                         <span ng-if="$ctrl.invalidExist" w-i18n="modal.account.hasAlias"></span>
+                                        <span ng-if="$ctrl.hasScript && !$ctrl.invalidExist && !$ctrl.invalidPattern && !$ctrl.invalidMaxLength && !$ctrl.invalidMinLength && !$ctrl.noMoneyForFee"
+                                              w-i18n="modal.account.hasScript"></span>
                                     </w-input-error>
                                 </div>
 

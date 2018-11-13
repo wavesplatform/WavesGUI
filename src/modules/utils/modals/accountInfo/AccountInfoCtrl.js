@@ -82,6 +82,11 @@
                  */
                 this._balance = null;
 
+                /**
+                 * @type {boolean}
+                 */
+                this.hasScript = user.hasScript();
+
                 const poll = createPoll(this, this._getBalance, '_balance', 5000, { isBalance: true, $scope });
                 const feePromise = waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS });
 
@@ -160,7 +165,7 @@
             _onChangeBalance() {
                 this.noMoneyForFee = (!this.fee || !this._balance) ||
                     this._balance.available.getTokens().lt(this.fee.getTokens());
-                this.invalid = this.invalid || this.noMoneyForFee;
+                this.invalid = this.invalid || this.noMoneyForFee || this.hasScript;
                 $scope.$digest();
             }
 
