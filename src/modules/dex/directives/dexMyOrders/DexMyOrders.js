@@ -333,7 +333,7 @@
                                 order.exchange = transactionsByOrderHash[order.id];
                                 return order;
                             });
-                        });
+                        }).catch( () => result);
                     })
                     .catch(() => {
                         this.loadingError = true;
