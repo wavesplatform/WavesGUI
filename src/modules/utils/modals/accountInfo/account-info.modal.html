@@ -59,17 +59,21 @@
                                           w-i18n="modal.account.fee"></span>
                                 </div>
 
-                                <div class="errors-margin text-center caption-1 basic-700"
+                                <div class="flex-row split-half data margin-top-2" ng-if="$ctrl.signLoader">
+                                    <div class="basic-500" w-i18n-ns="app.ui" w-i18n="directives.sign.txId"></div>
+                                    <div>{{$ctrl.transactionId}}</div>
+                                </div>
+
+                                <div class="errors-margin text-center footnote-1 basic-500"
                                      w-i18n="modal.sign.signByLedger"
                                      ng-if="$ctrl.signLoader && $ctrl.isLedger">
                                 </div>
 
-                                <div class="errors-margin text-center caption-1 basic-700"
-                                     w-i18n="modal.sign.signByKeeper"
+                                <div class="errors-margin text-center footnote-1 basic-500"
+                                     w-i18n-ns="app.ui"
+                                     w-i18n="directives.sign.confirmRequestKeeper.waiting"
                                      ng-if="$ctrl.signLoader && $ctrl.isKeeper">
                                 </div>
-
-                                <div class="text-center basic-800 body-2" ng-if="$ctrl.signLoader">{{$ctrl.transactionId}}</div>
 
                                 <div class="sign-loader" ng-if="$ctrl.signLoader">
                                     <w-loader></w-loader>
@@ -90,10 +94,8 @@
                                         <span ng-if="$ctrl.invalidExist" w-i18n="modal.account.hasAlias"></span>
                                     </w-input-error>
                                 </div>
-
                             </w-input-container>
                         </div>
-
                     </form>
                 </w-step>
             </w-step-by-step>
