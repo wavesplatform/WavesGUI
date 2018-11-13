@@ -74,10 +74,6 @@
             onError(error) {
 
                 const { code } = error;
-                this.noKeeper = false;
-                this.noKeeperPermission = false;
-                this.noKeeperAccounts = false;
-                this.incorrectKeeperNetwork = false;
 
                 switch (code) {
                     case 0:
@@ -104,6 +100,10 @@
             getUsers() {
                 this.loading = true;
                 this.error = false;
+                this.noKeeper = false;
+                this.noKeeperPermission = false;
+                this.noKeeperAccounts = false;
+                this.incorrectKeeperNetwork = false;
 
                 this.isAvilableAdapter()
                     .then(() => this.adapter.getUserList())
