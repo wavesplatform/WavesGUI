@@ -20,7 +20,7 @@
             _initAdapters() {
 
                 const Transport = window.TransportNodeHid;
-                const extension = typeof Waves === 'undefined' ? null : Waves;
+
                 ds.signAdapters.adapterList.forEach((Adapter) => Adapter.initOptions({
                     networkCode: WavesApp.network.code.charCodeAt(0),
                     openTimeout: WavesApp.sign.openTimeout,
@@ -28,7 +28,7 @@
                     exchangeTimeout: WavesApp.sign.exchangeTimeout,
                     debug: !WavesApp.isProduction(),
                     transport: Transport && Transport.default,
-                    extension
+                    extension: () => typeof Waves === 'undefined' ? null : Waves
                 }));
             }
 
