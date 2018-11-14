@@ -98,7 +98,7 @@
                 const promise = this.adapter.getUserList(start, end);
                 const modalPromise = this.isInit ?
                     Promise.resolve() :
-                    modalManager.showSignLedger({ promise, mode: 'connect-ledger' });
+                    modalManager.showSignByDevice({ promise, mode: 'connect-ledger', userType: this.adapter.type });
 
                 Promise.all([promise, modalPromise]).then(
                     ([users]) => {

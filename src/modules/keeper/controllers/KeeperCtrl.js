@@ -35,6 +35,10 @@
              */
             incorrectKeeperNetwork = false;
             /**
+             * @type {boolean}
+             */
+            lockedKeeper = false;
+            /**
              * @type {WavesKeeperAdapter}
              */
             adapter = signatureAdapter.WavesKeeperAdapter;
@@ -62,6 +66,9 @@
             constructor() {
                 super($scope);
                 this.getUsers();
+                this.adapter.onUpdate(() => {
+                    this.getUsers();
+                });
             }
 
             /**
@@ -74,10 +81,6 @@
             onError(error) {
 
                 const { code } = error;
-                this.noKeeper = false;
-                this.noKeeperPermission = false;
-                this.noKeeperAccounts = false;
-                this.incorrectKeeperNetwork = false;
 
                 switch (code) {
                     case 0:
@@ -92,6 +95,9 @@
                     case 3:
                         this.incorrectKeeperNetwork = true;
                         break;
+                    case 'locked':
+                        this.lockedKeeper = true;
+                        break;
                     default:
                 }
 
@@ -104,10 +110,18 @@
             getUsers() {
                 this.loading = true;
                 this.error = false;
+                this.noKeeper = false;
+                this.noKeeperPermission = false;
+                this.noKeeperAccounts = false;
+                this.incorrectKeeperNetwork = false;
+                this.lockedKeeper = false;
 
                 this.isAvilableAdapter()
                     .then(() => this.adapter.getUserList())
                     .then(([user]) => {
+                        if (!user) {
+                            return Promise.reject({ code: 'locked' });
+                        }
                         this.selectedUser = user;
                         delete this.selectedUser.type;
                     })
@@ -115,13 +129,6 @@
                     .finally(() => {
                         this.isInit = true;
                         this.loading = false;
-                        this.adapter.onUpdate((state) => {
-                            if (state.account) {
-                                this.selectedUser = state.account;
-                                delete this.selectedUser.type;
-                                $scope.$apply();
-                            }
-                        });
                         $scope.$apply();
                     });
             }

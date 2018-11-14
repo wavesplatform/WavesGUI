@@ -23,9 +23,20 @@
             <i class="error-icon margin-3 block"></i>
             <h3 class="basic-700" w-i18n="keeperForm.error.hasNoUsersHeader"></h3>
             <div class="basic-500" w-i18n="keeperForm.error.hasNoUsersDescription"></div>
-            <a class="fake-button half margin-top-4" onclick="window.location.reload()">
-                <span w-i18n="keeperForm.error.refresh" class="fake-button-content big long submit"></span>
-            </a>
+            <!--<a class="fake-button half margin-top-4" onclick="window.location.reload()">-->
+                <!--<span w-i18n="keeperForm.error.refresh" class="fake-button-content big long submit"></span>-->
+            <!--</a>-->
+            <div class="or margin-top-4" w-i18n="or"></div>
+            <a ui-sref="import" class="block margin-top-2" w-i18n="keeperForm.back"></a>
+        </div>
+
+        <div ng-if="$ctrl.lockedKeeper">
+            <i class="error-icon margin-3 block"></i>
+            <h3 class="basic-700" w-i18n="keeperForm.error.hasLockedKeeperHeader"></h3>
+            <div class="basic-500" w-i18n="keeperForm.error.hasLockedKeeperDescription"></div>
+            <!--<a class="fake-button half margin-top-4" onclick="window.location.reload()">-->
+                <!--<span w-i18n="keeperForm.error.refresh" class="fake-button-content big long submit"></span>-->
+            <!--</a>-->
             <div class="or margin-top-4" w-i18n="or"></div>
             <a ui-sref="import" class="block margin-top-2" w-i18n="keeperForm.back"></a>
         </div>
@@ -34,9 +45,9 @@
             <i class="error-icon margin-3 block"></i>
             <h3 class="basic-700" w-i18n="keeperForm.error.networkHeader"></h3>
             <div class="basic-500" w-i18n="keeperForm.error.networkDescription"></div>
-            <a class="fake-button half margin-top-4" onclick="window.location.reload()">
-                <span w-i18n="keeperForm.error.refresh" class="fake-button-content big long submit"></span>
-            </a>
+            <!--<a class="fake-button half margin-top-4" onclick="window.location.reload()">-->
+                <!--<span w-i18n="keeperForm.error.refresh" class="fake-button-content big long submit"></span>-->
+            <!--</a>-->
             <div class="or margin-top-4" w-i18n="or"></div>
             <a ui-sref="import" class="block margin-top-2" w-i18n="keeperForm.back"></a>
         </div>
