@@ -1,6 +1,6 @@
 {
   "name": "waves-client",
-  "version": "3.0.1",
+  "version": "1.0.24",
   "description": "The official client application for the Waves platform",
   "private": true,
   "repository": {
