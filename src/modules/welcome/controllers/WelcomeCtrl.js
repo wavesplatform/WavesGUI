@@ -102,7 +102,12 @@
                         });
                     }, () => {
                         if (!this._isSeedAdapter(api)) {
-                            return modalManager.showSignDeviceError({ error: 'load-user-error', userType: api.type })
+                            const errorData = {
+                                error: 'load-user-error',
+                                userType: api.type,
+                                address: activeUser.address
+                            };
+                            return modalManager.showSignDeviceError(errorData)
                                 .catch(() => Promise.resolve());
                         } else {
                             this._showPasswordError();

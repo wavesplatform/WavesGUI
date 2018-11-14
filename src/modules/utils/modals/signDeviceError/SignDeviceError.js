@@ -16,6 +16,7 @@
                 super($scope);
                 this.mode = locals.error;
                 this.userType = locals.userType;
+                this.userAddress = locals.address;
                 this.isLedger = this.userType === 'ledger';
                 this.isKeeper = this.userType === 'wavesKeeper';
                 this.loading = true;
