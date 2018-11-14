@@ -51,6 +51,7 @@
                 return waves.node.assets.userBalances()
                     .then((list) => list.map(({ available }) => available))
                     .then((list) => list.filter((money) => money.getTokens().gt(0)));
+
             }
 
             /**
