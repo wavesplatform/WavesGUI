@@ -263,7 +263,7 @@
                         return modalManager.showSignDeviceError({ error: 'sign-error', userType: user.userType }).then(
                             () => this.dropOrderGetSignData(order),
                             () => {
-                                return Promise.reject({ message: 'Your transaction is rejected!' });
+                                return Promise.reject({ message: 'Your sign is not confirmed!' });
                             });
                     });
             }

@@ -384,7 +384,8 @@
                         .then(() => signPromise)
                         .catch(() => {
                             return modalManager.showSignDeviceError({ error: 'sign-error', userType: user.userType })
-                                .then(() => Promise.resolve(), () => Promise.reject({ error: 'signAbort' }))
+                                .then(() => Promise.resolve())
+                                .catch(() => Promise.reject({ message: 'Your sign is not confirmed!' }))
                                 .then(() => this._createTxData(data));
                         });
                 });
