@@ -102,7 +102,10 @@
             </div>
         </div>
         <div class="bottom-wrapper">
-            <div class="loading-text text-center body-2 caption-1 margin-3" w-i18n="modal.sign.signByLedger"></div>
+            <div ng-if="$ctrl.isLedger" class="loading-text text-center body-2 caption-1 margin-3"
+                 w-i18n="modal.sign.signByLedger"></div>
+            <div ng-if="$ctrl.isKeeper" class="loading-text text-center body-2 caption-1 margin-3"
+                 w-i18n="modal.sign.signByKeeper"></div>
             <w-loader></w-loader>
         </div>
     </div>
@@ -122,11 +125,12 @@
             </div>
         </div>
         <div class="bottom-wrapper">
-            <div class="loading-text text-center body-2 caption-1 margin-3" w-i18n="modal.sign.signByLedger"></div>
+            <div ng-if="$ctrl.isLedger"  class="loading-text text-center body-2 caption-1 margin-3"
+                 w-i18n="modal.sign.signByLedger"></div>
+            <div ng-if="$ctrl.isKeeper" class="loading-text text-center body-2 caption-1 margin-3"
+                 w-i18n="modal.sign.signByKeeper"></div>
             <w-loader></w-loader>
         </div>
-
-
     </div>
 
 </div>
