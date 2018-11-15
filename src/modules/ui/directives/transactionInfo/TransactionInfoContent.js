@@ -27,12 +27,10 @@
                  * @type {string}
                  */
                 this.txId = null;
-
                 this.receive(balanceWatcher.change, this._updateBalance, this);
             }
 
             tokens() {
-
                 function reformatToTokens(parameter) {
                     return (parameter.slice(0, -2).concat('.')).concat(parameter.slice(-2));
                 }
@@ -46,16 +44,15 @@
                     this.totalInSystemTokens = reformatToTokens(totalInSystemCopecs.toString());
                     this.toBeReissuedTokens = reformatToTokens(toBeReissuedCopecs.toString());
                     this.totalAfterIssueTokens = reformatToTokens(totalAfterIssueCopecs);
-
                 }
             }
-
             /**
              * @private
              */
             _updateBalance() {
                 const tokenID = this.transaction.quantity.asset.id;
                 this.toRemainOnBalance = balanceWatcher.getBalance()[tokenID]._tokens.toString();
+
             }
 
         }
