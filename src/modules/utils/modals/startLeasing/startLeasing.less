@@ -3,6 +3,10 @@
 @import (reference) 'icons';
 
 md-dialog.start-leasing {
+  md-dialog-content {
+    padding-top: 40px;
+  }
+
   .flex-row {
     display: flex;
     flex-direction: row;
@@ -98,14 +102,18 @@ md-dialog.start-leasing {
 }
 
 @media screen and (max-width: 768px) {
-  .start-leasing .flex-row.split-half {
-    white-space: nowrap;
-    font-size: 12px;
+  md-dialog.start-leasing  {
+    .flex-row.split-half {
+      white-space: nowrap;
+      font-size: 12px;
+    }
   }
 }
 
 @media screen and (max-width: 480px) {
-  w-input .w-input-wrap input[type="text"].big {
-    font-size: 12px;
+  md-dialog.start-leasing {
+    w-input .w-input-wrap input[type="text"].big {
+      font-size: 12px;
+    }
   }
 }
