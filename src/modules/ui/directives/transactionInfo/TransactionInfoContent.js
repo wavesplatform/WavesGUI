@@ -27,32 +27,36 @@
                  * @type {string}
                  */
                 this.txId = null;
-                this.receive(balanceWatcher.change, this._updateBalance, this);
-            }
+                this.toReissue = null;
+                this.toRemainOnBalance = null;
 
-            tokens() {
-                function reformatToTokens(parameter) {
-                    return (parameter.slice(0, -2).concat('.')).concat(parameter.slice(-2));
-                }
-
-                super.tokens();
-                if (this.isConfirm) {
-                    const totalInSystemCopecs = parseInt(this.transaction.quantity.asset.quantity.toFixed(), 10);
-                    const toBeReissuedCopecs = parseInt(this.transaction.quantity.toCoins(), 10);
-                    const totalAfterIssueCopecs = (totalInSystemCopecs + toBeReissuedCopecs).toString();
-
-                    this.totalInSystemTokens = reformatToTokens(totalInSystemCopecs.toString());
-                    this.toBeReissuedTokens = reformatToTokens(toBeReissuedCopecs.toString());
-                    this.totalAfterIssueTokens = reformatToTokens(totalAfterIssueCopecs);
-                }
             }
             /**
              * @private
              */
             _updateBalance() {
                 const tokenID = this.transaction.quantity.asset.id;
-                this.toRemainOnBalance = balanceWatcher.getBalance()[tokenID]._tokens.toString();
+                const myBalance = balanceWatcher.getBalance()[tokenID];
 
+                if (!myBalance) {
+                    return null;
+                }
+                this.toReissue = this.transaction.quantity;
+                this.toRemainOnBalance = myBalance.add(this.toReissue);
+            }
+
+            tokens() {
+                super.tokens();
+                const all = this.transaction.quantity.asset.quantity;
+                const cloned = this.transaction.quantity.cloneWithCoins(all);
+                this.totalAfterIssueTokens = this.transaction.quantity.add(cloned);
+
+                if (this.transaction.typeName === 'reissue') {
+                    this.isReissueModal = true;
+                }
+                if (this.isConfirm) {
+                    this.receive(balanceWatcher.change, this._updateBalance, this);
+                }
             }
 
         }
