@@ -87,6 +87,7 @@
                     locals: {
                         devicePromise: () => options.promise,
                         userType: options.userType,
+                        address: options.address,
                         mode: options.mode,
                         id: options.id,
                         data: options.data
