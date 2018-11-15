@@ -43,6 +43,7 @@
                 }
                 this.toReissue = this.transaction.quantity;
                 this.toRemainOnBalance = myBalance.add(this.toReissue);
+                $scope.$apply();
             }
 
             tokens() {
