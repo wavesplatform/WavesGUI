@@ -39,9 +39,9 @@
 
                 super.tokens();
                 if (this.isConfirm) {
-                    var totalInSystemCopecs = parseInt(this.transaction.quantity.asset.quantity.toFixed(), 10);
-                    var toBeReissuedCopecs = parseInt(this.transaction.quantity.toCoins(), 10);
-                    var totalAfterIssueCopecs = (totalInSystemCopecs + toBeReissuedCopecs).toString();
+                    const totalInSystemCopecs = parseInt(this.transaction.quantity.asset.quantity.toFixed(), 10);
+                    const toBeReissuedCopecs = parseInt(this.transaction.quantity.toCoins(), 10);
+                    const totalAfterIssueCopecs = (totalInSystemCopecs + toBeReissuedCopecs).toString();
 
                     this.totalInSystemTokens = reformatToTokens(totalInSystemCopecs.toString());
                     this.toBeReissuedTokens = reformatToTokens(toBeReissuedCopecs.toString());
