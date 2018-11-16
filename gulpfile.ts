@@ -291,7 +291,6 @@ task('eslint', function (done) {
     run('sh', ['scripts/eslint.sh']).then(() => done());
 });
 
-
 task('less', function () {
     const files = getAllLessFiles().join('\n');
     for (const theme of THEMES) {
@@ -317,7 +316,7 @@ task('babel', ['concat-develop'], function () {
 task('less', function () {
     const files = getAllLessFiles().join('\n');
     for (const theme of THEMES) {
-        var less = require('gulp-less');
+        const less = require('gulp-less');
 
         gulp.task('less', function () {
             return gulp.src('./less/**/*.less')
@@ -329,8 +328,6 @@ task('less', function () {
         steelSheetsFiles[cssName] = { theme };
     }
 });
-
-
 
 task('uglify', ['babel', 'templates'], function (done) {
     const PATH_HASH = {
