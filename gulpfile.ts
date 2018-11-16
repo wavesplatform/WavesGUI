@@ -294,7 +294,15 @@ task('eslint', function (done) {
 task('less', function () {
     const files = getAllLessFiles().join('\n');
     for (const theme of THEMES) {
-        execSync(`sh ${join('scripts', `less.sh -t=${theme} -n=${cssName} -f="${files}"`)}`);
+        const less = require('gulp-less');
+
+        gulp.task('less', function () {
+            return gulp.src('./less/**/*.less')
+                .pipe(less({
+                    paths: [ files ]
+                }))
+                .pipe(gulp.dest('./public/css'));
+        });
         steelSheetsFiles[cssName] = { theme };
     }
 });
@@ -311,22 +319,6 @@ task('babel', ['concat-develop'], function () {
             ]
         }))
         .pipe(gulp.dest(tmpJsPath));
-});
-
-task('less', function () {
-    const files = getAllLessFiles().join('\n');
-    for (const theme of THEMES) {
-        const less = require('gulp-less');
-
-        gulp.task('less', function () {
-            return gulp.src('./less/**/*.less')
-                .pipe(less({
-                    paths: [ files ]
-                }))
-                .pipe(gulp.dest('./public/css'));
-        });
-        steelSheetsFiles[cssName] = { theme };
-    }
 });
 
 task('uglify', ['babel', 'templates'], function (done) {
