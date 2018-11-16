@@ -2,7 +2,7 @@
     <w-step-by-step active-step="$ctrl.step">
         <w-step>
             <w-permit name="{{::$ctrl.permissionName}}" mode="on">
-                <w-transaction-info signable="$ctrl.signable"></w-transaction-info>
+                <w-transaction-info is-confirm="::true" signable="$ctrl.signable"></w-transaction-info>
                 <w-sign-button on-success="$ctrl.nextStep()"
                                class="margin-top-3 block"
                                on-click="$ctrl.getSignable()">
@@ -39,7 +39,8 @@
 
                     <w-tabs class="inner" ng-model="$ctrl.activeTab" ng-if="::$ctrl.advancedMode">
                         <w-tab title-name="::'confirmTransaction.details'" id="::'details'">
-                            <w-transaction-info-content class="margin-top-4"
+                            <w-transaction-info-content is-confirm="::true"
+                                                        class="margin-top-4"
                                                         signable="$ctrl.signable"></w-transaction-info-content>
                         </w-tab>
                         <w-tab title-name="::'confirmTransaction.JSON'" id="::'JSON'">
@@ -52,6 +53,7 @@
                     </w-tabs>
 
                     <w-transaction-info-content ng-if="::!$ctrl.advancedMode"
+                                                is-confirm="::true"
                                                 signable="$ctrl.signable"></w-transaction-info-content>
 
                     <div class="bottom-warning" ng-if="::$ctrl.isSetScript">
