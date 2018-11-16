@@ -177,7 +177,7 @@
       "support": "https://support.wavesplatform.com",
       "nodeList": "http://dev.pywaves.org/testnet/generators/",
       "scamListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv",
-      "featuresConfigUrl": "https://localhost:8080/waves-client-config/master/config.json",
+      "featuresConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/config.json",
       "assets": {
         "EUR": "AsuWyM9MUUsMmWkK7jS48L3ky6gA1pxx7QtEYPbfLjAJ",
         "USD": "D6N2rAqWN6ZCWnCeNFWLGqqjS6nJLeK4m19XiuhdDenr",

@@ -230,6 +230,10 @@ w-create-order {
       }
 
       .making-order {
+        .create-order-notification {
+          z-index: 1;
+        }
+
         .areas {
           display: flex;
           flex-direction: row;
@@ -270,44 +274,6 @@ w-create-order {
               .spread-label {
                 font-size: 9px;
               }
-            }
-          }
-        }
-
-        .create-order-notification {
-          will-change: transform;
-          position: absolute;
-          transform: translate(0, -100%);
-          color: @white-only;
-          z-index: 1;
-          width: 100%;
-          padding: 10px 0;
-          text-align: center;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background-color: @color-submit-400;
-          font-family: @font-roboto-medium;
-
-          i {
-            margin-right: 5px;
-            display: inline-block;
-            width: 13px;
-            height: 13px;
-            vertical-align: middle;
-          }
-
-          &.success {
-            background-color: @color-submit-400;
-            i {
-              background: url(/img/icons/checkbox-icon.svg) no-repeat center center;
-            }
-          }
-
-          &.error {
-            background-color: @color-error-400;
-            i {
-              background: url(/img/icons/white-cancel-icon.svg) no-repeat center center;
             }
           }
         }
