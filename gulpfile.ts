@@ -297,12 +297,8 @@ const files = getAllLessFiles().join('\n');
 for (const theme of THEMES) {
     steelSheetsFiles[cssName] = {theme};
 
-    task('less', function () {
-        return gulp.src('./less/**/*.less')
-            .pipe(less({
-                paths: [files]
-            }))
-            .pipe(gulp.dest('./public/css'));
+    const gulpTask = task('less', function () {
+        return gulp.src(cssName).pipe(less({paths: [files]})).pipe(gulp.dest(theme));
     });
 }
 
