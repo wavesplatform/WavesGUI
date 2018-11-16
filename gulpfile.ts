@@ -291,21 +291,20 @@ task('eslint', function (done) {
     run('sh', ['scripts/eslint.sh']).then(() => done());
 });
 
-task('less', function () {
-    const files = getAllLessFiles().join('\n');
-    for (const theme of THEMES) {
-        const less = require('gulp-less');
+const less = require('gulp-less');
+const files = getAllLessFiles().join('\n');
 
-        gulp.task('less', function () {
-            return gulp.src('./less/**/*.less')
-                .pipe(less({
-                    paths: [ files ]
-                }))
-                .pipe(gulp.dest('./public/css'));
-        });
-        steelSheetsFiles[cssName] = { theme };
-    }
-});
+for (const theme of THEMES) {
+    steelSheetsFiles[cssName] = {theme};
+
+    task('less', function () {
+        return gulp.src('./less/**/*.less')
+            .pipe(less({
+                paths: [files]
+            }))
+            .pipe(gulp.dest('./public/css'));
+    });
+}
 
 task('babel', ['concat-develop'], function () {
     return gulp.src(bundlePath)
