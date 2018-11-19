@@ -291,16 +291,17 @@ task('eslint', function (done) {
     run('sh', ['scripts/eslint.sh']).then(() => done());
 });
 
-const less = require('gulp-less');
-const files = getAllLessFiles().join('\n');
-
-for (const theme of THEMES) {
-    steelSheetsFiles[cssName] = {theme};
-
-    task('less', function () {
-        return gulp.src(cssName).pipe(less({paths: [files]})).pipe(gulp.dest(theme));
-    });
-}
+task('less', function () {
+    const files = getAllLessFiles();
+    for (const theme of THEMES) {
+        execSync(`sh ${join('scripts/lesssteps', `first.sh -t=${theme} -n=${cssName}`)}`);
+        for (const file of files){
+            execSync(`sh ${join('scripts/lesssteps', `second.sh -t=${theme} -n=${cssName} -f="${file}"`)}`);
+            steelSheetsFiles[cssName] = { theme };
+        }
+        execSync(`sh ${join('scripts/lesssteps', `third.sh -t=${theme} -n=${cssName}`)}`);
+    }
+});
 
 task('babel', ['concat-develop'], function () {
     return gulp.src(bundlePath)
