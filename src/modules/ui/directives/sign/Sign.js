@@ -19,6 +19,18 @@
             }
 
             /**
+             * @type {string}
+             */
+            userType = user.userType;
+            /**
+             * @type {boolean}
+             */
+            isLedger = user.userType === 'ledger';
+            /**
+             * @type {boolean}
+             */
+            isKeeper = user.userType === 'wavesKeeper';
+            /**
              * @type {boolean}
              */
             signPending = false;
@@ -46,7 +58,7 @@
                 this.signError = false;
                 this.signPending = true;
 
-                return this.signable.getSignature()
+                return this.signable.addMyProof()
                     .then(signature => {
                         this.signPending = false;
                         this.onSuccess({ signature });

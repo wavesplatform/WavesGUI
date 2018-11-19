@@ -14,6 +14,7 @@
 
         const entities = require('@waves/data-entities');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const ds = require('data-service');
 
         class TokenChangeModalCtrl extends Base {
 
@@ -105,7 +106,15 @@
                 createPoll(this, this._getWavesBalance, '_waves', 1000);
 
                 this.observe(['input', 'issue'], this._createTx);
-                this.observe('_waves', this._changeHasFee);
+                this.observe(['_waves', 'fee'], this._changeHasFee);
+            }
+
+            getSignable() {
+                return this.signable;
+            }
+
+            next() {
+                this.step++;
             }
 
             _getWavesBalance() {
@@ -113,25 +122,36 @@
             }
 
             _changeHasFee() {
+                if (!this._waves || !this.fee) {
+                    return null;
+                }
+
                 this.noFee = this._waves.lt(this.fee);
             }
 
             _createTx() {
                 const input = this.input;
                 const type = this.txType === 'burn' ? SIGN_TYPE.BURN : SIGN_TYPE.REISSUE;
+                const quantityField = this.txType === 'burn' ? 'amount' : 'quantity';
+
 
                 if (input) {
-                    this.tx = waves.node.transactions.createTransaction({
+                    const tx = waves.node.transactions.createTransaction({
                         type,
                         assetId: input.asset.id,
                         description: input.asset.description,
                         fee: this.fee,
-                        quantity: input,
+                        [quantityField]: input,
                         precision: input.asset.precision,
                         reissuable: this.issue
                     });
+                    this.signable = ds.signature.getSignatureApi().makeSignable({
+                        type,
+                        data: tx
+                    });
                 } else {
                     this.tx = null;
+                    this.signable = null;
                 }
             }
 

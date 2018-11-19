@@ -45,6 +45,10 @@
                     .then(({ transaction, confirmations }) => {
 
                         this.transaction = transaction;
+                        this.signable = ds.signature.getSignatureApi().makeSignable({
+                            type: transaction.type,
+                            data: transaction
+                        });
                         this.confirmations = confirmations;
                         this.confirmed = !transaction.isUTX;
                         this.explorerLink = explorerLinks.getTxLink(transaction.id);

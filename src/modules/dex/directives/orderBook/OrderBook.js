@@ -333,7 +333,9 @@
                         total,
                         width,
                         priceNum,
-                        totalAmountNum
+                        totalAmountNum,
+                        priceAsset: this.priceAsset.displayName,
+                        amountAsset: this.amountAsset.displayName
                     });
                 });
             }
