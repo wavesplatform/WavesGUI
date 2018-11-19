@@ -2,9 +2,10 @@
        data-price="{{priceNum}}"
        data-type="{{type}}"
        data-amount="{{totalAmountNum}}">
-    <div class="tooltip">
-        <span class="tooltip-ask" w-i18n="orderbook.ask.tooltipText">Ask text</span>
-        <span class="tooltip-bid" w-i18n="orderbook.bid.tooltipText">Bid text</span>
+    <!-- todo @tsigel - add params -->
+    <div class="tooltip-dex">
+        <span class="tooltip-ask" w-i18n="orderbook.ask.tooltipText" params="">Buy Waves for {{0.00291234 BTC}} </span>
+        <span class="tooltip-bid" w-i18n="orderbook.bid.tooltipText" params="">Sell Waves for ({0.00283333 BTC})</span>
     </div>
     <div class="table-row">
         <div class="dex-layout__line-graph">

@@ -342,6 +342,78 @@ w-layout {
         margin-top: 0;
       }
     }
+
+    .tooltip-dex {
+      display: none;
+      position: absolute;
+      padding: 0 10px;
+      top: 25px;
+      right: 149px;
+      transform-origin: center;
+      color: @color-white;
+      font-size: @font-size-caption-2;
+      line-height: 25px;
+      cursor: pointer;
+      text-shadow: 0 1px 6px rgba(78, 92, 110, 0.6);
+      z-index: 10;
+
+      &::before {
+        position: absolute;
+        content: '';
+        z-index: -1;
+        top: -5px;
+        right: 10px;
+        opacity: .6;
+        width: 0;
+        height: 0;
+        border: 5px solid transparent;
+        border-bottom-color: @color-basic-700;
+        border-top: 0 none;
+        transform: translate(0);
+      }
+
+      &::after {
+        opacity: .6;
+        border-radius: @border-radius;
+        position: absolute;
+        background: @color-basic-700;
+        width: 100%;
+        height: 26px;
+        content: '';
+        left: 0;
+        top: 0;
+        z-index: -1;
+      }
+
+      &.right {
+        right: 10px;
+      }
+    }
+
+      .orderbook-table w-row:hover,
+      .smart-table__cell[data-column-id="volume"]:hover {
+        .tooltip-dex {
+          display: block;
+        }
+      }
+
+      //last-line tooltip fix
+      .orderbook-table,
+      .smart-table {
+        w-row:last-child,
+        &__row:last-child {
+          .tooltip-dex {
+            bottom: 100%;
+            top: auto;
+            &::before {
+              top: auto;
+              bottom: -6px;
+              transform: rotate(180deg);
+            }
+          }
+        }
+    }
+    //end
   }
 
   .dex-layout__watchlist-collapsed.dex-layout__orderbook-collapsed {
@@ -405,6 +477,7 @@ html body.dex-demo .notifications {
   transition: all 0.3s;
   cursor: pointer;
 }
+
 .tradehistory-fullscreen-toggler:hover {
   background-color: @color-basic-100;
 }
@@ -412,14 +485,16 @@ html body.dex-demo .notifications {
 .tradehistory-fullscreen .tradehistory-fullscreen-toggler {
   background-image: @dex-fullscreenclose-icon;
 }
+
 .dex-layout__tradehistory {
   transition: .3s !important;
 }
+
 //end
 
 .tradehistory-fullscreen {
   .dex-layout__column:not(.dex-layout__tradehistory) {
-    transition:.3s;
+    transition: .3s;
     opacity: 0.1;
   }
 
@@ -985,10 +1060,12 @@ html body.dex-demo .notifications {
 .loading {
   opacity: 0;
 }
+
 .dex-loader {
   position: absolute;
   z-index: 0;
 }
+
 .dex-loader.loading {
   opacity: 1;
   position: absolute;
