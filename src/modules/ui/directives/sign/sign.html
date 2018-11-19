@@ -1,25 +1,31 @@
 <div class="flex-row split-half data margin-top-2" ng-if="$ctrl.signPending">
-    <div w-i18n="modal.sign.txId"></div>
+    <div w-i18n="directives.sign.txId"></div>
     <div>{{$ctrl.id}}</div>
 </div>
 
 <div ng-if="!$ctrl.signPending && $ctrl.signError"
-     class="warning-plate warning-plate-red">
-    <div w-i18n="modal.sign.confirmRequestLedger.errorHeader" class="error-400 body-2"></div>
-    <div w-i18n="modal.sign.confirmRequestLedger.errorDescription" class="basic-500"></div>
+     class="warning-plate warning-plate-red  margin-3">
+    <div  ng-if="::$ctrl.isLedger" w-i18n="directives.sign.confirmRequestLedger.errorHeader" class="error-400 body-2"></div>
+    <div  ng-if="::$ctrl.isLedger" w-i18n="directives.sign.confirmRequestLedger.errorDescription" class="basic-500"></div>
+
+    <div ng-if="::$ctrl.isKeeper" w-i18n="directives.sign.confirmRequestKeeper.errorHeader" class="error-400 body-2"></div>
+    <div ng-if="::$ctrl.isKeeper" w-i18n="directives.sign.confirmRequestKeeper.errorDescription" class="basic-500"></div>
 </div>
 
 <div ng-if="!$ctrl.signPending && $ctrl.signError"
      class="buttons-wrapper">
     <w-button class="big" on-click="$ctrl.cancel()">
-        <span w-i18n="modal.sign.confirmRequestLedger.cancel"></span>
+        <span ng-if="::$ctrl.isLedger" w-i18n="directives.sign.confirmRequestLedger.cancel"></span>
+        <span ng-if="::$ctrl.isKeeper" w-i18n="directives.sign.confirmRequestKeeper.cancel"></span>
     </w-button>
     <w-button class="big submit" on-click="$ctrl.trySign()">
-        <span w-i18n="modal.sign.confirmRequestLedger.sign"></span>
+        <span ng-if="::$ctrl.isLedger" w-i18n="directives.sign.confirmRequestLedger.sign"></span>
+        <span ng-if="::$ctrl.isKeeper" w-i18n="directives.sign.confirmRequestKeeper.sign"></span>
     </w-button>
 </div>
 
 <div ng-if="$ctrl.signPending" class="relative sign-loader">
-    <div w-i18n="modal.sign.confirmRequestLedger.waiting" class="center basic-500"></div>
+    <div ng-if="::$ctrl.isLedger" w-i18n="directives.sign.confirmRequestLedger.waiting" class="center basic-500"></div>
+    <div ng-if="::$ctrl.isKeeper" w-i18n="directives.sign.confirmRequestKeeper.waiting" class="center basic-500"></div>
     <w-loader></w-loader>
 </div>

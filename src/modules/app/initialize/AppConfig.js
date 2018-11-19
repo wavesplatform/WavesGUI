@@ -27,7 +27,8 @@
                     listenTimeout: WavesApp.sign.listenTimeout,
                     exchangeTimeout: WavesApp.sign.exchangeTimeout,
                     debug: !WavesApp.isProduction(),
-                    transport: Transport && Transport.default
+                    transport: Transport && Transport.default,
+                    extension: () => typeof Waves === 'undefined' ? null : Waves
                 }));
             }
 

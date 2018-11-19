@@ -94,9 +94,17 @@
                 this._initScript();
             }
 
-            next() {
+            getSignable() {
                 const tx = waves.node.transactions.createTransaction({ ...this.state.tx, type: SIGN_TYPE.SET_SCRIPT });
-                this.onSuccess({ tx });
+                const signable = ds.signature.getSignatureApi().makeSignable({
+                    type: tx.type,
+                    data: tx
+                });
+                return signable;
+            }
+
+            next(signable) {
+                this.onSuccess({ signable });
             }
 
             /**
@@ -171,15 +179,24 @@
                 this._createActiveValidationXHR(script);
             }
 
+            /**
+             * @private
+             */
             _clearActiveValidationXHR() {
                 this._activeXHR_Id = null;
                 this._validateXHR = null;
                 this.validationPending = false;
             }
 
+            /**
+             * @param code
+             * @return {null}
+             * @private
+             */
             _createActiveValidationXHR(code) {
                 if (code === '') {
                     this.validationError = false;
+                    this.state.tx.script = '';
                     return null;
                 }
 
