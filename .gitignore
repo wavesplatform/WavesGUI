@@ -15,7 +15,6 @@
 /server.js
 *.pdx
 *.cer
-*.sh
 *.p12
 *.pfx
 **/**/.DS_Store
