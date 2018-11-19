@@ -12,6 +12,11 @@
   }
 }
 
+.import-wrapper {
+  max-width: 460px;
+  margin: 0 auto;
+}
+
 .import-modal {
   position: relative;
 
@@ -40,6 +45,14 @@
       margin: 0 auto 30px auto;
     }
 
+    &-keeper {
+      background: url(/img/icons/keeper-icon.svg) center no-repeat;
+      width: 60px;
+      height: 60px;
+      display: block;
+      margin: 0 auto 30px auto;
+    }
+
     &-error {
       background: url(/img/icons/icon-error-import.svg) center no-repeat;
       width: 80px;
@@ -52,7 +65,7 @@
   &__blocks-wrapper {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: inherit;
 
     w-button {
       width: 100%;
@@ -109,8 +122,6 @@
         background: @color-basic-50;
       }
 
-      w-avatar {}
-
       w-checkbox-submit {
         position: absolute;
         right: 30px;
@@ -127,6 +138,7 @@
     border: 1px solid @color-basic-100;
     border-radius: @border-radius * 2;
     max-width: 210px;
+    cursor: pointer;
 
     & + .import-modal__block {
       margin-left: 30px;
@@ -167,15 +179,14 @@
       flex-basis: 100%;
       max-width: calc(100% ~'- 40px');
       width: 100%;
-      margin-top: 0;
-      margin-bottom: @padding-main-layout * 2;
+      margin: 0 auto 20px auto;
 
       &:last-of-type {
         margin-bottom: @padding-main-layout * 4;
       }
 
       & + .import-modal__block {
-        margin-left: 0;
+        margin-left: auto;
       }
     }
 

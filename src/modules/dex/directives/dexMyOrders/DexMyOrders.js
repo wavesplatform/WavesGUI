@@ -249,20 +249,21 @@
                         return signPromise;
                     }
 
-                    return modalManager.showSignLedger({
+                    return modalManager.showSignByDevice({
                         promise: signPromise,
                         data: order,
                         id,
-                        mode: 'cancel-order'
+                        mode: 'cancel-order',
+                        userType: user.userType
                     })
                         .then(() => signPromise)
                         .catch(() => Promise.reject());
                 })
                     .catch(() => {
-                        return modalManager.showLedgerError({ error: 'sign-error' }).then(
+                        return modalManager.showSignDeviceError({ error: 'sign-error', userType: user.userType }).then(
                             () => this.dropOrderGetSignData(order),
                             () => {
-                                return Promise.reject({ error: 'no sign' });
+                                return Promise.reject({ message: 'Your sign is not confirmed!' });
                             });
                     });
             }

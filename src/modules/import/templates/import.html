@@ -7,35 +7,26 @@
     <div class="body-2 text-center margin-5 basic-500" w-i18n="importAccountInfo"></div>
 
     <div class="import-modal__blocks-wrapper text-center">
-        <div class="import-modal__block import-modal__block-beta">
+        <div class="import-modal__block" ui-sref="restore">
             <div class="import-modal__icon-beta"></div>
             <div class="body-2 basic-700" w-i18n="wavesSeedClient"></div>
             <div class="caption-1 basic-500 margin-2" w-i18n="wavesSeedClientDescription"></div>
-            <span ui-sref="restore">
-                <w-button class="submit tiny">
-                    <span w-i18n="selectButton"></span>
-                </w-button>
-            </span>
         </div>
-        <div class="import-modal__block import-modal__block-old">
+        <div class="import-modal__block" ng-click="$ctrl.importFromOld()">
             <div class="import-modal__icon-old"></div>
             <div class="body-2 basic-700" w-i18n="wavesLiteClient"></div>
             <div class="caption-1 basic-500 margin-2" w-i18n="wavesLiteClientDescription"></div>
-            <w-button class="submit tiny"
-                      on-click="$ctrl.importFromOld()">
-                <span w-i18n="selectButton"></span>
-            </w-button>
         </div>
-        <div class="import-modal__block import-modal__block-ledger">
+        <div class="import-modal__block" ui-sref="ledger">
             <div class="import-modal__icon-ledger"></div>
             <div class="body-2 basic-700" w-i18n="LedgerClient"></div>
             <div class="caption-1 basic-500 margin-2" w-i18n="ledgerDescription"></div>
-            <span ui-sref="ledger">
-                <w-button class="submit tiny">
-                    <span w-i18n="selectButton"></span>
-                </w-button>
-            </span>
         </div>
+        <w-web-only w-web-only-class="import-modal__block" ui-sref="keeper">
+            <div class="import-modal__icon-keeper"></div>
+            <div class="body-2 basic-700" w-i18n="KeeperClient"></div>
+            <div class="caption-1 basic-500 margin-2" w-i18n="keeperDescription"></div>
+        </w-web-only>
     </div>
 
     <div class="import-footer">
