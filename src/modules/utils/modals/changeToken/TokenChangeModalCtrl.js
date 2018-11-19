@@ -132,6 +132,8 @@
             _createTx() {
                 const input = this.input;
                 const type = this.txType === 'burn' ? SIGN_TYPE.BURN : SIGN_TYPE.REISSUE;
+                const quantityField = this.txType === 'burn' ? 'amount' : 'quantity';
+
 
                 if (input) {
                     const tx = waves.node.transactions.createTransaction({
@@ -139,7 +141,7 @@
                         assetId: input.asset.id,
                         description: input.asset.description,
                         fee: this.fee,
-                        quantity: input,
+                        [quantityField]: input,
                         precision: input.asset.precision,
                         reissuable: this.issue
                     });

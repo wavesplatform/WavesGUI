@@ -81,6 +81,18 @@
                  * @private
                  */
                 this._balance = null;
+                /**
+                 * @type {string}
+                 */
+                this.userType = user.userType;
+                /**
+                 * @type {boolean}
+                 */
+                this.isLedger = user.userType === 'ledger';
+                /**
+                 * @type {boolean}
+                 */
+                this.isKeeper = user.userType === 'wavesKeeper';
 
                 const poll = createPoll(this, this._getBalance, '_balance', 5000, { isBalance: true, $scope });
                 const feePromise = waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS });
