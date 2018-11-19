@@ -7,10 +7,10 @@
 
     <div ng-if="$ctrl.hasScript"
          w-i18n="directives.myOrders.withScript"
-         class="cannot-use-exchange-message">
+         class="centered">
     </div>
 
-    <w-empty-block ng-if="!$ctrl.orders.length && !$ctrl.isDemo && !$ctrl.loadingError && $ctrl.hasScript"></w-empty-block>
+    <w-empty-block ng-if="!$ctrl.orders.length && !$ctrl.isDemo && !$ctrl.loadingError && !$ctrl.hasScript && $ctrl.hasScript"></w-empty-block>
     <w-error-block ng-if="$ctrl.loadingError"></w-error-block>
 
     <div class="sign-in-message" ng-if="$ctrl.isDemo">
