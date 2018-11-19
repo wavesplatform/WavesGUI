@@ -13,7 +13,11 @@ export function request<T>(params: IRequestParams<T>): Promise<T> {
                 if (response.ok) {
                     return response.text().then((data) => isJSON ? parse(data) : data);
                 } else {
-                    return response.text().then((text) => Promise.reject(text));
+                    if (response.status >= 500){
+                        return  Promise.reject('An unexpected error has occured: #' + response.status);
+                    } else {
+                        return  response.text().then((text) => Promise.reject(text));
+                    }
                 }
             });
     } else if (params.method) {
