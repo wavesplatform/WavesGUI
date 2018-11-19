@@ -1,11 +1,15 @@
 (function () {
     'use strict';
 
+    const container = '<div class="container" ng-transclude></div>';
+    const copyButton = '<div ng-click="$ctrl.onCopy()" w-copy="$ctrl.info" class="copy-icon"></div>';
+
     angular.module('app.ui').component('wCopyWrap', {
         bindings: {
-            info: '<'
+            info: '<',
+            onCopy: '&'
         },
-        template: '<div class="container" ng-transclude></div><div w-copy="$ctrl.info" class="copy-icon"></div>',
+        template: `${container}${copyButton}`,
         transclude: true
     });
 })();
