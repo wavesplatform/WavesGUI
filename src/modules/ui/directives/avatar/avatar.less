@@ -11,6 +11,7 @@
   }
 }
 
+w-avatar[type='scripted'],
 w-avatar[type='wavesKeeper'],
 w-avatar[type='ledger'] {
   position: relative;
@@ -39,5 +40,11 @@ w-avatar[type='ledger'] {
 w-avatar[type='wavesKeeper'] {
   &::after {
     background-image: @keeper-mini-icon;
+  }
+}
+
+w-avatar[type='scripted'] {
+  &::after {
+    background-image: @scripted-mini-icon;
   }
 }
