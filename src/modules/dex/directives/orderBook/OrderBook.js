@@ -12,9 +12,18 @@
      * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
      * @param {function(path: string): Promise<string>} $templateRequest
+     * @param {app.i18n} i18n
      * @return {OrderBook}
      */
-    const controller = function (Base, createPoll, $element, waves, dexDataService, utils, $scope, $templateRequest) {
+    const controller = function (Base,
+                                 createPoll,
+                                 $element,
+                                 waves,
+                                 dexDataService,
+                                 utils,
+                                 $scope,
+                                 $templateRequest,
+                                 i18n) {
 
         const SECTIONS = {
             ASKS: '.asks',
@@ -322,6 +331,14 @@
                     const total = utils.getNiceNumberTemplate(order.total, this.priceAsset.precision, true);
                     const priceNum = order.price.toFixed();
                     const totalAmountNum = order.totalAmount && order.totalAmount.toFixed();
+                    const amountAsset = this.amountAsset.displayName;
+                    const priceAsset = this.priceAsset.displayName;
+                    const buyTooltip = i18n.translate('orderbook.ask.tooltipText', 'app.dex', {
+                        amountAsset, priceAsset, price: order.price.toFormat(this.priceAsset.precision)
+                    });
+                    const sellTooltip = i18n.translate('orderbook.bid.tooltipText', 'app.dex', {
+                        amountAsset, priceAsset, price: order.price.toFormat(this.priceAsset.precision)
+                    });
 
                     return this._template({
                         hasOrder,
@@ -334,8 +351,8 @@
                         width,
                         priceNum,
                         totalAmountNum,
-                        priceAsset: this.priceAsset.displayName,
-                        amountAsset: this.amountAsset.displayName
+                        buyTooltip,
+                        sellTooltip
                     });
                 });
             }
@@ -418,7 +435,8 @@
         'dexDataService',
         'utils',
         '$scope',
-        '$templateRequest'
+        '$templateRequest',
+        'i18n'
     ];
 
     angular.module('app.dex').component('wDexOrderBook', {
