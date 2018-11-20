@@ -18,6 +18,16 @@
   }
 }
 
+w-button.inactive-order-button {
+  width: 100%;
+  & > *:not(.transparent):disabled {
+    width: 100%;
+    background-color: @color-basic-50;
+    border: 0 none;
+    color: @color-basic-500;
+  }
+}
+
 w-create-order {
   display: block;
   width: 100%;
@@ -219,6 +229,10 @@ w-create-order {
 
           &.buy {
             background: @color-submit-400;
+          }
+
+          &.inactive {
+            background: black;
           }
         }
 
@@ -601,13 +615,13 @@ w-create-order {
           w-create-order {
             .create-order {
 
-             .body {
-               .making-order {
-                 .create-order-notification {
+              .body {
+                .making-order {
+                  .create-order-notification {
                     z-index: 1;
-                 }
-               }
-             }
+                  }
+                }
+              }
 
               .expandable {
                 display: block;

@@ -67,12 +67,21 @@
                                           w-i18n="modal.account.fee"></span>
                                 </div>
 
-                                <div class="errors-margin text-center caption-1 basic-700"
-                                     w-i18n="modal.sign.signByLedger"
-                                     ng-if="$ctrl.signLoader">
+                                <div class="flex-row split-half data margin-top-2" ng-if="$ctrl.signLoader">
+                                    <div class="basic-500" w-i18n-ns="app.ui" w-i18n="directives.sign.txId"></div>
+                                    <div>{{$ctrl.transactionId}}</div>
                                 </div>
-                                <div class="text-center basic-800 body-2" ng-if="$ctrl.signLoader">
-                                    {{$ctrl.transactionId}}
+
+                                <div class="errors-margin text-center footnote-1 basic-500"
+                                     w-i18n="modal.sign.signByLedger"
+                                     w-i18n-ns="app.ui"
+                                     ng-if="$ctrl.signLoader && $ctrl.isLedger">
+                                </div>
+
+                                <div class="errors-margin text-center footnote-1 basic-500"
+                                     w-i18n-ns="app.ui"
+                                     w-i18n="directives.sign.confirmRequestKeeper.waiting"
+                                     ng-if="$ctrl.signLoader && $ctrl.isKeeper">
                                 </div>
 
                                 <div class="sign-loader" ng-if="$ctrl.signLoader">
@@ -82,10 +91,8 @@
                                 <div class="errors-margin">
                                     <div class="bottom-warning margin-3" ng-if="$ctrl.signDeviceFail">
                                         <div class="warning-plate warning-plate-red">
-                                            <div class="body-2 error-400" w-i18n-ns="app.ui"
-                                                 w-i18n="confirmTransaction.ledgerUnconfirmed.header"></div>
-                                            <div class="footnote-1 basic-500" w-i18n-ns="app.ui"
-                                                 w-i18n="confirmTransaction.ledgerUnconfirmed.description"></div>
+                                            <div class="body-2 error-400" w-i18n-ns="app.ui" w-i18n="confirmTransaction.{{::$ctrl.userType}}Unconfirmed.header"></div>
+                                            <div class="footnote-1 basic-500" w-i18n-ns="app.ui" w-i18n="confirmTransaction.{{::$ctrl.userType}}Unconfirmed.description"></div>
                                         </div>
                                     </div>
                                     <w-input-error message="custom">
@@ -96,10 +103,8 @@
                                         <span ng-if="$ctrl.invalidExist" w-i18n="modal.account.hasAlias"></span>
                                     </w-input-error>
                                 </div>
-
                             </w-input-container>
                         </div>
-
                     </form>
                 </w-step>
             </w-step-by-step>

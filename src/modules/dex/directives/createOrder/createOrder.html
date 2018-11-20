@@ -25,7 +25,8 @@
             </div>
 
             <div class="choice">
-                <div class="choose buy" ng-click="$ctrl.expand('buy')">
+                <div class="choose buy"
+                     ng-click="$ctrl.expand('buy')">
                     <div class="name" w-i18n="directives.createOrder.buy"></div>
                     <div class="price"
                          w-nice-number="$ctrl.ask.price"
@@ -200,8 +201,16 @@
                         </w-select>
                     </div>
 
+                    <w-button ng-if="$ctrl.hasScript"
+                              disabled="true"
+                              class="inactive-order-button footnote-1">
+                        <span w-i18n="directives.createOrder.hasScript"
+                              params="{name: $ctrl.amountBalance.asset.displayName}"></span>
+                    </w-button>
+
                     <w-permit name="CAN_CREATE_ORDER" mode="on">
-                        <w-button disabled="$ctrl.order.$invalid || $ctrl.order.$pristine"
+                        <w-button ng-if="!$ctrl.hasScript"
+                                  disabled="$ctrl.order.$invalid || $ctrl.order.$pristine"
                                   class="place-order small footnote-3"
                                   on-click="$ctrl.createOrder($event, order)">
                         <span ng-if="$ctrl.type === 'sell'"
@@ -214,7 +223,8 @@
                     </w-permit>
                     <w-permit name="CAN_CREATE_ORDER" mode="off">
                         <div class="note-plate body-3 basic-700 margin-top-1">
-                            <w-permit-message literal="directives.createOrder.createOrderNotPermitted"></w-permit-message>
+                            <w-permit-message
+                                    literal="directives.createOrder.createOrderNotPermitted"></w-permit-message>
                         </div>
                     </w-permit>
                 </form>

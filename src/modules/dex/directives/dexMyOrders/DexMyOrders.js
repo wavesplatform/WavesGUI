@@ -64,6 +64,11 @@
                  */
                 this.loadingError = false;
 
+                this.hasScript = user.hasScript();
+                /**
+                 * @type (boolean)
+                 */
+
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
                 });
@@ -249,20 +254,21 @@
                         return signPromise;
                     }
 
-                    return modalManager.showSignLedger({
+                    return modalManager.showSignByDevice({
                         promise: signPromise,
                         data: order,
                         id,
-                        mode: 'cancel-order'
+                        mode: 'cancel-order',
+                        userType: user.userType
                     })
                         .then(() => signPromise)
                         .catch(() => Promise.reject());
                 })
                     .catch(() => {
-                        return modalManager.showLedgerError({ error: 'sign-error' }).then(
+                        return modalManager.showSignDeviceError({ error: 'sign-error', userType: user.userType }).then(
                             () => this.dropOrderGetSignData(order),
                             () => {
-                                return Promise.reject({ error: 'no sign' });
+                                return Promise.reject({ message: 'Your sign is not confirmed!' });
                             });
                     });
             }
@@ -333,7 +339,7 @@
                                 order.exchange = transactionsByOrderHash[order.id];
                                 return order;
                             });
-                        });
+                        }).catch(() => result);
                     })
                     .catch(() => {
                         this.loadingError = true;
@@ -342,27 +348,7 @@
             }
 
             _getAllOrders() {
-                return Promise.all([
-                    waves.matcher.getOrders().then(R.filter(R.whereEq({ isActive: true }))),
-                    ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price)
-                ])
-                    .then(([list, pair]) => {
-                        if (list.length === 100) {
-                            const hash = utils.toHash(list, 'id');
-                            return ds.api.matcher.getOrdersByPair(pair)
-                                .then((pairList) => {
-                                    const newList = pairList.filter((order) => {
-                                        return order.isActive &&
-                                            order.assetPair.amountAsset.id === pair.amountAsset.id &&
-                                            order.assetPair.priceAsset.id === pair.priceAsset.id &&
-                                            !hash[order.id];
-                                    });
-                                    return list.concat(newList);
-                                });
-                        } else {
-                            return list;
-                        }
-                    });
+                return waves.matcher.getOrders().then(R.filter(R.whereEq({ isActive: true })));
             }
 
             static _parseError(error) {
