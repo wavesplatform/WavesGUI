@@ -264,25 +264,25 @@ task('downloadLocales', ['concat-develop-sources'], function (done) {
 
     readFile(path, 'utf8').then(file => {
 
-                const modules = file.match(/angular\.module\('app\.?((\w|\.)+?)?',/g)
-                    .map(str => str.replace('angular.module(\'', '')
-                        .replace('\',', ''));
+        const modules = file.match(/angular\.module\('app\.?((\w|\.)+?)?',/g)
+            .map(str => str.replace('angular.module(\'', '')
+            .replace('\',', ''));
 
-                modules.push('electron');
+        modules.push('electron');
 
-                const load = name => {
-                    const langs = Object.keys(meta.langList);
+        const load = name => {
+            const langs = Object.keys(meta.langList);
 
-                    return Promise.all(langs.map(lang => {
-                        const url = `https://locize.wvservices.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/${name}`;
-                        const out = join('dist', 'locale', lang, `${name}.json`);
+            return Promise.all(langs.map(lang => {
+                const url = `https://locize.wvservices.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/${name}`;
+                const out = join('dist', 'locale', lang, `${name}.json`);
 
-                        return download(url, out)
-                            .then(() => console.log(`Module ${lang} ${name} loaded!`))
-                            .catch(() => console.error(`Error load module with name ${name}!`));
-                    }));
-                };
-                return Promise.all(modules.map(load));
+                return download(url, out)
+                    .then(() => console.log(`Module ${lang} ${name} loaded!`))
+                    .catch(() => console.error(`Error load module with name ${name}!`));
+            }));
+        };
+        return Promise.all(modules.map(load));
             }).then(() => done());
         });
 
