@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon/Asset Logo/keeperlogo-60</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="50%" x2="2.20375723%" y2="97.7962428%" id="linearGradient-1">
+            <stop stop-color="#0055FF" offset="0%"></stop>
+            <stop stop-color="#0055FF" stop-opacity="0.8" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-2" points="16.40625 16.40625 43.59375 16.40625 43.59375 43.59375 16.40625 43.59375"></polygon>
+        <filter x="-82.8%" y="-126.9%" width="309.7%" height="309.7%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="6" dy="-6" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="8.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.2 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Icon/Asset-Logo/keeperlogo-60" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="ico-zone" fill-opacity="0" fill="#D8D8D8" fill-rule="nonzero" x="0" y="0" width="60" height="60"></rect>
+        <path d="M23.4412361,2.60565968e-15 L36.5587639,4.49976767e-15 C44.7097924,3.00244803e-15 47.6655523,0.848691302 50.6454464,2.44235615 C53.6253406,4.036021 55.963979,6.37465939 57.5576439,9.35455357 C59.1513087,12.3344477 60,15.2902076 60,23.4412361 L60,36.5587639 C60,44.7097924 59.1513087,47.6655523 57.5576439,50.6454464 C55.963979,53.6253406 53.6253406,55.963979 50.6454464,57.5576439 C47.6655523,59.1513087 44.7097924,60 36.5587639,60 L23.4412361,60 C15.2902076,60 12.3344477,59.1513087 9.35455357,57.5576439 C6.37465939,55.963979 4.036021,53.6253406 2.44235615,50.6454464 C0.848691302,47.6655523 5.24982962e-15,44.7097924 6.31832734e-16,36.5587639 L4.18408301e-15,23.4412361 C3.18586992e-15,15.2902076 0.848691302,12.3344477 2.44235615,9.35455357 C4.036021,6.37465939 6.37465939,4.036021 9.35455357,2.44235615 C12.3344477,0.848691302 15.2902076,4.10297932e-15 23.4412361,2.60565968e-15 Z" id="white-block" fill="#F8F9FB"></path>
+        <g id="waves-logo" fill-rule="nonzero" transform="translate(30.000000, 30.000000) rotate(135.000000) translate(-30.000000, -30.000000) ">
+            <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+            <use fill="url(#linearGradient-1)" xlink:href="#path-2"></use>
+        </g>
+    </g>
+</svg>

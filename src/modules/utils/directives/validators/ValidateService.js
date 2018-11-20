@@ -144,7 +144,7 @@
                     return false;
                 }
 
-                if (address.length >= WavesApp.maxAddressLength) {
+                if (address.length > WavesApp.maxAddressLength) {
                     return false;
                 }
 

@@ -62,7 +62,6 @@
                         this._$button.attr(name, $attrs[name]);
                     }
                 });
-
                 $element.get(0)
                     .addEventListener('click', (e) => {
                         if (!this._canClick) {

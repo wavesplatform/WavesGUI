@@ -70,7 +70,7 @@
                 const TYPES = waves.node.transactions.TYPES;
 
                 if (this.typeName === TYPES.BURN || this.typeName === TYPES.ISSUE || this.typeName === TYPES.REISSUE) {
-                    this._tokens();
+                    this.tokens();
                 }
 
                 if (this.typeName === TYPES.EXCHANGE_BUY || this.typeName === TYPES.EXCHANGE_SELL) {
@@ -94,7 +94,7 @@
                 }
             }
 
-            _tokens() {
+            tokens() {
                 this.name = get(this.transaction, 'amount.asset.name') ||
                     get(this.transaction, 'quantity.asset.name') ||
                     this.transaction.name;

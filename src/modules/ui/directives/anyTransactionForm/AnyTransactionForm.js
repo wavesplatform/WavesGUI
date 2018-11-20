@@ -118,6 +118,10 @@
                     .then(([data, lease]) => {
                         this.fee = data.fee;
 
+                        if (data.type === SIGN_TYPE.SET_SCRIPT && !data.script) {
+                            data.script = '';
+                        }
+
                         try {
                             this.signable = ds.signature.getSignatureApi().makeSignable({
                                 type: data.type,

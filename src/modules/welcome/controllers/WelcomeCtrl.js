@@ -9,12 +9,9 @@
      * @param $state
      * @param user
      * @param modalManager
-     * @param $element
-     * @param storage
-     * @param {app.utils} utils
      * @return {WelcomeCtrl}
      */
-    const controller = function (Base, $scope, $state, user, modalManager, $element, storage, utils) {
+    const controller = function (Base, $scope, $state, user, modalManager) {
 
         const ds = require('data-service');
 
@@ -60,18 +57,7 @@
                 this.observe('activeUserAddress', this._calculateActiveIndex);
                 this.observe('password', this._updatePassword);
 
-                if (WavesApp.isWeb()) {
-                    storage.load('accountImportComplete')
-                        .then((complete) => {
-                            if (complete) {
-                                this._initUserList();
-                            } else {
-                                this._loadUserListFromBeta();
-                            }
-                        });
-                } else {
-                    this._initUserList();
-                }
+                this._initUserList();
             }
 
             showTutorialModals() {
@@ -100,9 +86,10 @@
                         canLoginPromise = adapterAvailablePromise.then(() => api.getAddress())
                             .then(address => address === activeUser.address ? true : Promise.resolve('Wrong address!'));
                     } else {
-                        canLoginPromise = modalManager.showSignLedger({
+                        canLoginPromise = modalManager.showSignByDevice({
                             promise: adapterAvailablePromise,
-                            mode: `connect-${api.type}`
+                            mode: `connect-${api.type}`,
+                            userType: api.type
                         }).then(() => adapterAvailablePromise);
                     }
 
@@ -115,7 +102,12 @@
                         });
                     }, () => {
                         if (!this._isSeedAdapter(api)) {
-                            return modalManager.showLedgerError({ error: 'load-user-error' })
+                            const errorData = {
+                                error: 'load-user-error',
+                                userType: api.type,
+                                address: activeUser.address
+                            };
+                            return modalManager.showSignDeviceError(errorData)
                                 .catch(() => Promise.resolve());
                         } else {
                             this._showPasswordError();
@@ -175,25 +167,6 @@
                     });
             }
 
-            _loadUserListFromBeta() {
-                this.pendingRestore = true;
-                utils.importAccountByIframe(WavesApp.betaOrigin, 5000)
-                    .then((userList) => {
-                        this.userList = userList || [];
-                        this.pendingRestore = false;
-                        this._updateActiveUserAddress();
-
-                        $scope.$apply();
-
-                        storage.save('accountImportComplete', true);
-                        storage.save('userList', userList);
-                    })
-                    .catch(() => {
-                        storage.save('accountImportComplete', true);
-                        this._initUserList();
-                    });
-            }
-
             /**
              * @private
              */
@@ -247,7 +220,7 @@
         return new WelcomeCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', '$element', 'storage', 'utils'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager'];
 
     angular.module('app.welcome')
         .controller('WelcomeCtrl', controller);
