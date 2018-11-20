@@ -1,11 +1,11 @@
 import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
-import {exec, execSync} from 'child_process';
-import {download, getAllLessFiles, getFilesFrom, prepareHTML, run, task} from './ts-scripts/utils';
-import {basename, extname, join, sep} from 'path';
-import {copy, mkdirpSync, outputFile, outputFileSync, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON} from 'fs-extra';
-import {IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform} from './ts-scripts/interface';
+import { exec, execSync } from 'child_process';
+import { download, getAllLessFiles, getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
+import { basename, extname, join, sep } from 'path';
+import { copy, mkdirpSync, outputFile, outputFileSync, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
+import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
 import {readFileSync} from "fs";
@@ -146,7 +146,7 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                 indexPromise
                     .then(() => {
 
-                        const styles = [{name: join('/css', vendorCssName), theme: null}];
+                        const styles = [{ name: join('/css', vendorCssName), theme: null }];
 
                         for (const theme of THEMES) {
                             styles.push({
@@ -233,7 +233,7 @@ task('up-version-json', function (done) {
 
 task('templates', function () {
     return gulp.src(['src/**/*.html', 'src/!(index.hbs)/**/*.hbs'])
-        .pipe(htmlmin({collapseWhitespace: true}))
+        .pipe(htmlmin({ collapseWhitespace: true }))
         .pipe(templateCache({
             module: 'app.templates'
         }))
@@ -241,7 +241,7 @@ task('templates', function () {
 });
 
 task('concat-style', ['less'], function () {
-    steelSheetsFiles[vendorCssName] = {theme: false};
+    steelSheetsFiles[vendorCssName] = { theme: false };
     return gulp.src(meta.stylesheets)
         .pipe(concat(vendorCssName))
         .pipe(gulp.dest(tmpCssPath));
@@ -367,13 +367,13 @@ task('uglify', ['babel', 'templates'], function (done) {
 task('s3-testnet', function () {
     const bucket = 'testnet.waveswallet.io';
     return gulp.src('./dist/testnet/**/*')
-        .pipe(s3({...AWS, bucket}));
+        .pipe(s3({ ...AWS, bucket }));
 });
 
 task('s3-mainnet', function () {
     const bucket = 'waveswallet.io';
     return gulp.src('./dist/mainnet/**/*')
-        .pipe(s3({...AWS, bucket}));
+        .pipe(s3({ ...AWS, bucket }));
 });
 
 task('s3', ['s3-testnet', 's3-mainnet']);
