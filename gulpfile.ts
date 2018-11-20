@@ -266,7 +266,7 @@ task('downloadLocales', ['concat-develop-sources'], function (done) {
 
         const modules = file.match(/angular\.module\('app\.?((\w|\.)+?)?',/g)
             .map(str => str.replace('angular.module(\'', '')
-            .replace('\',', ''));
+                .replace('\',', ''));
 
         modules.push('electron');
 
