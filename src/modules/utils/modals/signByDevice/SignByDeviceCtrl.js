@@ -4,13 +4,12 @@
     /**
      * @param Base
      * @param $scope
-     * @param {User} user
      * @param {$mdDialog} $mdDialog
-     * @return {SignLedgerCtrl}
+     * @return {SignByDeviceCtrl}
      */
     const controller = function (Base, $scope, $mdDialog) {
 
-        class SignLedgerCtrl extends Base {
+        class SignByDeviceCtrl extends Base {
 
             constructor({ locals }) {
                 super($scope);
@@ -18,14 +17,16 @@
                 this.loading = true;
                 this.txId = locals.id;
                 this.txData = locals.data;
-
+                this.userType = locals.userType;
+                this.isLedger = this.userType === 'ledger';
+                this.isKeeper = this.userType === 'wavesKeeper';
                 this.deferred = {};
                 this.deferred.promise = new Promise((res, rej) => {
                     this.deferred.resolve = res;
                     this.deferred.reject = rej;
                 });
 
-                locals.ledgerPromise().then(
+                locals.devicePromise().then(
                     () => this.deferred.resolve(),
                     () => this.deferred.reject()
                 );
@@ -52,11 +53,11 @@
 
         }
 
-        return new SignLedgerCtrl(this);
+        return new SignByDeviceCtrl(this);
     };
 
     controller.$inject = ['Base', '$scope', '$mdDialog'];
 
     angular.module('app.ui')
-        .controller('SignLedgerCtrl', controller);
+        .controller('SignByDeviceCtrl', controller);
 })();
