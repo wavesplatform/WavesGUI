@@ -31,10 +31,12 @@
                 this.toRemainOnBalance = null;
 
             }
+
             /**
              * @private
              */
-            _updateBalance() {
+            _updateBalance(options) {
+                const noApply = options && options.noApply || false;
                 const tokenID = this.transaction.quantity.asset.id;
                 const myBalance = balanceWatcher.getBalance()[tokenID];
 
@@ -43,20 +45,26 @@
                 }
                 this.toReissue = this.transaction.quantity;
                 this.toRemainOnBalance = myBalance.add(this.toReissue);
-                $scope.$apply();
+
+                if (!noApply) {
+                    $scope.$apply();
+                }
             }
 
             tokens() {
                 super.tokens();
+
+                if (this.transaction.typeName !== 'reissue') {
+                    return null;
+                }
+
                 const all = this.transaction.quantity.asset.quantity;
                 const cloned = this.transaction.quantity.cloneWithCoins(all);
                 this.totalAfterIssueTokens = this.transaction.quantity.add(cloned);
 
-                if (this.transaction.typeName === 'reissue') {
-                    this.isReissueModal = true;
-                }
                 if (this.isConfirm) {
                     this.receive(balanceWatcher.change, this._updateBalance, this);
+                    this._updateBalance({ noApply: true });
                 }
             }
 

@@ -95,6 +95,10 @@
             }
 
             tokens() {
+                if (this.transaction.typeName === 'reissue') {
+                    this.isReissueModal = true;
+                }
+
                 this.name = get(this.transaction, 'amount.asset.name') ||
                     get(this.transaction, 'quantity.asset.name') ||
                     this.transaction.name;
