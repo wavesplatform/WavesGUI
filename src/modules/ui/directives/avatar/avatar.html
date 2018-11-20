@@ -1,5 +1,5 @@
-<div ng-class="$ctrl.hasScript ? 'true-style' : 'false-style'"
+<div ng-class="{scripted: $ctrl.hasScript}"
      class="avatar-wrap"
-     ng-style="$ctrl.style"><!-- TODO ISKANDER -->
+     ng-style="$ctrl.style">
     <img width="{{$ctrl.size}}" height="{{$ctrl.size}}" ng-src="{{$ctrl.src}}">
 </div>
