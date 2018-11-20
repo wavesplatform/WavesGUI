@@ -283,8 +283,8 @@ task('downloadLocales', ['concat-develop-sources'], function (done) {
             }));
         };
         return Promise.all(modules.map(load));
-            }).then(() => done());
-        });
+    }).then(() => done());
+});
 
 task('clean', function () {
     execSync(`sh ${join('scripts', 'clean.sh')}`);
@@ -296,13 +296,10 @@ task('eslint', function (done) {
 
 task('less', function () {
     const files = getAllLessFiles();
-
     for (const theme of THEMES) {
-
         outputFileSync(join(__dirname, 'tmp', theme), '');
         let bigFile = "";
         const promises = [];
-
         for (const file of files) {
             let readFile = readFileSync(file).toString();
 
