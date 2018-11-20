@@ -4,17 +4,7 @@ import * as babel from 'gulp-babel';
 import {exec, execSync} from 'child_process';
 import {download, getAllLessFiles, getFilesFrom, prepareHTML, run, task} from './ts-scripts/utils';
 import {basename, extname, join, sep} from 'path';
-import {
-    copy, mkdirpSync,
-    outputFile,
-    outputFileSync,
-    readdir,
-    readFile,
-    readJSON,
-    readJSONSync,
-    writeFile,
-    writeJSON
-} from 'fs-extra';
+import {copy, mkdirpSync, outputFile, outputFileSync, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON} from 'fs-extra';
 import {IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform} from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
@@ -25,7 +15,7 @@ import {render} from "less";
 const zip = require('gulp-zip');
 const s3 = require('gulp-s3');
 
-const {themes: THEMES} = readJSONSync(join(__dirname, 'src/themeConfig', 'theme.json'));
+const { themes: THEMES } = readJSONSync(join(__dirname, 'src/themeConfig', 'theme.json'));
 const meta: IMetaJSON = readJSONSync(join(__dirname, 'ts-scripts', 'meta.json'));
 const pack: IPackageJSON = readJSONSync(join(__dirname, 'package.json'));
 const configurations = Object.keys(meta.configurations);
@@ -65,7 +55,7 @@ const getFileName = (name, type) => {
 };
 
 
-const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), {encoding: 'utf8'});
+const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: 'utf8' });
 
 ['web', 'desktop'].forEach((buildName: TPlatform) => {
 
@@ -84,7 +74,7 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), {encoding: 'u
                     .pipe(gulp.dest(join(targetPath, 'js')));
 
                 stream.on('end', function () {
-                    readFile(join(targetPath, 'js', jsFileName), {encoding: 'utf8'}).then((file) => {
+                    readFile(join(targetPath, 'js', jsFileName), { encoding: 'utf8' }).then((file) => {
                         if (buildName === 'desktop') {
                             file = `(function () {\nvar module = undefined;\n${file}})();`;
                         }
