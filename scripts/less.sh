@@ -7,31 +7,21 @@ do
 case $i in
     -t=*|--theme=*)
         THEME="${i#*=}"
-        CONFIG_PATH="./src/themeConfig/$THEME"
     ;;
     -n=*|--name=*)
         FILENAME="${i#*=}"
     ;;
-    -f=*|--files=*)
-        FILENAMES="${i#*=}"
-    ;;
 esac
 done
-FILENAME="$THEME-$FILENAME"
-FILE="$TMP_PATH/$FILENAME"
 
-echo 'compile less'
-mkdir -p tmp
-cat /dev/null > $FILE
-for s in $FILENAMES; do node_modules/.bin/lessc --include-path=$CONFIG_PATH $s >> $FILE; done
-#find src -name "*.less" -exec node_modules/.bin/lessc --include-path=$CONFIG_PATH {} \; > $FILE
-echo 'auto prefix'
-node_modules/.bin/postcss $FILE -o $FILE || exit 1
-echo 'uglify css'
+FILENAME="$THEME-$FILENAME"
+
+FILE_SOURCE="$TMP_PATH/$THEME"
+
+node_modules/.bin/postcss $FILE_SOURCE -o $FILE_SOURCE || exit 1
 mkdir -p dist
 mkdir -p dist/tmp
 mkdir -p dist/tmp/css
-node_modules/.bin/uglifycss $FILE > dist/tmp/css/$FILENAME || exit 1
-echo 'less >> DONE'
+node_modules/.bin/uglifycss $FILE_SOURCE >> dist/tmp/css/$FILENAME || exit 1
 
 exit 0;

@@ -1,18 +1,31 @@
 import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
-import { exec, execSync } from 'child_process';
-import { download, getAllLessFiles, getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
-import { basename, extname, join, sep } from 'path';
-import { copy, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
-import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
+import {exec, execSync} from 'child_process';
+import {download, getAllLessFiles, getFilesFrom, prepareHTML, run, task} from './ts-scripts/utils';
+import {basename, extname, join, sep} from 'path';
+import {
+    copy, mkdirpSync,
+    outputFile,
+    outputFileSync,
+    readdir,
+    readFile,
+    readJSON,
+    readJSONSync,
+    writeFile,
+    writeJSON
+} from 'fs-extra';
+import {IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform} from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
+import {readFileSync} from "fs";
+import {node} from "./data-service/api/API";
+import {render} from "less";
 
 const zip = require('gulp-zip');
 const s3 = require('gulp-s3');
 
-const { themes: THEMES } = readJSONSync(join(__dirname, 'src/themeConfig', 'theme.json'));
+const {themes: THEMES} = readJSONSync(join(__dirname, 'src/themeConfig', 'theme.json'));
 const meta: IMetaJSON = readJSONSync(join(__dirname, 'ts-scripts', 'meta.json'));
 const pack: IPackageJSON = readJSONSync(join(__dirname, 'package.json'));
 const configurations = Object.keys(meta.configurations);
@@ -52,7 +65,7 @@ const getFileName = (name, type) => {
 };
 
 
-const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: 'utf8' });
+const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), {encoding: 'utf8'});
 
 ['web', 'desktop'].forEach((buildName: TPlatform) => {
 
@@ -71,7 +84,7 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                     .pipe(gulp.dest(join(targetPath, 'js')));
 
                 stream.on('end', function () {
-                    readFile(join(targetPath, 'js', jsFileName), { encoding: 'utf8' }).then((file) => {
+                    readFile(join(targetPath, 'js', jsFileName), {encoding: 'utf8'}).then((file) => {
                         if (buildName === 'desktop') {
                             file = `(function () {\nvar module = undefined;\n${file}})();`;
                         }
@@ -143,7 +156,7 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                 indexPromise
                     .then(() => {
 
-                        const styles = [{ name: join('/css', vendorCssName), theme: null }];
+                        const styles = [{name: join('/css', vendorCssName), theme: null}];
 
                         for (const theme of THEMES) {
                             styles.push({
@@ -230,7 +243,7 @@ task('up-version-json', function (done) {
 
 task('templates', function () {
     return gulp.src(['src/**/*.html', 'src/!(index.hbs)/**/*.hbs'])
-        .pipe(htmlmin({ collapseWhitespace: true }))
+        .pipe(htmlmin({collapseWhitespace: true}))
         .pipe(templateCache({
             module: 'app.templates'
         }))
@@ -238,7 +251,7 @@ task('templates', function () {
 });
 
 task('concat-style', ['less'], function () {
-    steelSheetsFiles[vendorCssName] = { theme: false };
+    steelSheetsFiles[vendorCssName] = {theme: false};
     return gulp.src(meta.stylesheets)
         .pipe(concat(vendorCssName))
         .pipe(gulp.dest(tmpCssPath));
@@ -261,27 +274,27 @@ task('downloadLocales', ['concat-develop-sources'], function (done) {
 
     readFile(path, 'utf8').then(file => {
 
-        const modules = file.match(/angular\.module\('app\.?((\w|\.)+?)?',/g)
-            .map(str => str.replace('angular.module(\'', '')
-                .replace('\',', ''));
+                const modules = file.match(/angular\.module\('app\.?((\w|\.)+?)?',/g)
+                    .map(str => str.replace('angular.module(\'', '')
+                        .replace('\',', ''));
 
-        modules.push('electron');
+                modules.push('electron');
 
-        const load = name => {
-            const langs = Object.keys(meta.langList);
+                const load = name => {
+                    const langs = Object.keys(meta.langList);
 
-            return Promise.all(langs.map(lang => {
-                const url = `https://locize.wvservices.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/${name}`;
-                const out = join('dist', 'locale', lang, `${name}.json`);
+                    return Promise.all(langs.map(lang => {
+                        const url = `https://locize.wvservices.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/${name}`;
+                        const out = join('dist', 'locale', lang, `${name}.json`);
 
-                return download(url, out)
-                    .then(() => console.log(`Module ${lang} ${name} loaded!`))
-                    .catch(() => console.error(`Error load module with name ${name}!`));
-            }));
-        };
-        return Promise.all(modules.map(load));
-    }).then(() => done());
-});
+                        return download(url, out)
+                            .then(() => console.log(`Module ${lang} ${name} loaded!`))
+                            .catch(() => console.error(`Error load module with name ${name}!`));
+                    }));
+                };
+                return Promise.all(modules.map(load));
+            }).then(() => done());
+        });
 
 task('clean', function () {
     execSync(`sh ${join('scripts', 'clean.sh')}`);
@@ -293,13 +306,34 @@ task('eslint', function (done) {
 
 task('less', function () {
     const files = getAllLessFiles();
+
     for (const theme of THEMES) {
-        execSync(`sh ${join('scripts/lesssteps', `first.sh -t=${theme} -n=${cssName}`)}`);
-        for (const file of files){
-            execSync(`sh ${join('scripts/lesssteps', `second.sh -t=${theme} -n=${cssName} -f="${file}"`)}`);
-            steelSheetsFiles[cssName] = { theme };
+
+        outputFileSync(join(__dirname, 'tmp', theme), '');
+        let bigFile = "";
+        const promises = [];
+
+        for (const file of files) {
+            let readFile = readFileSync(file).toString();
+
+            const rendered = (render as any)(readFile, {
+                filename: join(file),
+                paths: join(__dirname, `src/themeConfig/${theme}`)
+            } as any)
+                .then(function (output) {
+                        bigFile = bigFile + output.css
+                    },
+                    function (error) {
+                        console.log(error)
+                    });
+            promises.push(rendered);
         }
-        execSync(`sh ${join('scripts/lesssteps', `third.sh -t=${theme} -n=${cssName}`)}`);
+
+        Promise.all(promises).then(() => {
+            outputFileSync(join(__dirname, 'tmp', `${theme}`), bigFile);
+            execSync(`sh ${join(__dirname, 'scripts', `less.sh -t=${theme} -n=${cssName}`)}`);
+            steelSheetsFiles[cssName] = {theme};
+        });
     }
 });
 
@@ -343,13 +377,13 @@ task('uglify', ['babel', 'templates'], function (done) {
 task('s3-testnet', function () {
     const bucket = 'testnet.waveswallet.io';
     return gulp.src('./dist/testnet/**/*')
-        .pipe(s3({ ...AWS, bucket }));
+        .pipe(s3({...AWS, bucket}));
 });
 
 task('s3-mainnet', function () {
     const bucket = 'waveswallet.io';
     return gulp.src('./dist/mainnet/**/*')
-        .pipe(s3({ ...AWS, bucket }));
+        .pipe(s3({...AWS, bucket}));
 });
 
 task('s3', ['s3-testnet', 's3-mainnet']);
