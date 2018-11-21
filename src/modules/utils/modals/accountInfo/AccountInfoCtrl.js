@@ -85,7 +85,7 @@
                 /**
                  * @type {boolean}
                  */
-                this.hasScript = user.hasScript();
+                this.errorCreateAlias = false;
 
                 const poll = createPoll(this, this._getBalance, '_balance', 5000, { isBalance: true, $scope });
                 const feePromise = waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS });
@@ -144,7 +144,14 @@
                             this.signDeviceFail = true;
                             this.signLoader = false;
                             $scope.$digest();
-                        });
+                        })
+                    .catch((error) => {
+                        const errorJson = JSON.parse(error);
+
+                        if (errorJson.error === 307) {
+                            this.errorCreateAlias = true;
+                        }
+                    });
             }
 
             onCopyAddress() {
