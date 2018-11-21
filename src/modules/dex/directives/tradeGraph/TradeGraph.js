@@ -133,11 +133,13 @@
             }
 
             _getOrderBook() {
-                this.loadingError = false;
-                return (
+                const returned = (
                     waves.matcher
                         .getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
-                        .then((orderBook) => this._cutOffOutlyingOrdersIfNecessary(orderBook))
+                        .then(
+                            (orderBook) => this._cutOffOutlyingOrdersIfNecessary(orderBook),
+                            this.loadingError = false
+                        )
                         .then(TradeGraph._buildCumulativeOrderBook)
                         .catch(() => {
                             this.loadingError = true;
@@ -145,6 +147,7 @@
                             $scope.$apply();
                         })
                 );
+                return returned;
             }
 
             _setOrderBook(orderBook) {
