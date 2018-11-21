@@ -4,10 +4,13 @@ import * as babel from 'gulp-babel';
 import { exec, execSync } from 'child_process';
 import { download, getAllLessFiles, getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
 import { basename, extname, join, sep } from 'path';
-import { copy, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
+import { copy, mkdirpSync, outputFile, outputFileSync, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
+import {readFileSync} from "fs";
+import {node} from "./data-service/api/API";
+import {render} from "less";
 
 const zip = require('gulp-zip');
 const s3 = require('gulp-s3');
@@ -292,10 +295,32 @@ task('eslint', function (done) {
 });
 
 task('less', function () {
-    const files = getAllLessFiles().join('\n');
+    const files = getAllLessFiles();
     for (const theme of THEMES) {
-        execSync(`sh ${join('scripts', `less.sh -t=${theme} -n=${cssName} -f="${files}"`)}`);
-        steelSheetsFiles[cssName] = { theme };
+        outputFileSync(join(__dirname, 'tmp', theme), '');
+        let bigFile = "";
+        const promises = [];
+        for (const file of files) {
+            let readFile = readFileSync(file).toString();
+
+            const rendered = (render as any)(readFile, {
+                filename: join(file),
+                paths: join(__dirname, `src/themeConfig/${theme}`)
+            } as any)
+                .then(function (output) {
+                        bigFile = bigFile + output.css
+                    },
+                    function (error) {
+                        console.log(error)
+                    });
+            promises.push(rendered);
+        }
+
+        Promise.all(promises).then(() => {
+            outputFileSync(join(__dirname, 'tmp', `${theme}`), bigFile);
+            execSync(`sh ${join(__dirname, 'scripts', `less.sh -t=${theme} -n=${cssName}`)}`);
+            steelSheetsFiles[cssName] = {theme};
+        });
     }
 });
 
