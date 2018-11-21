@@ -77,7 +77,7 @@
     "postversion": "sh scripts/postversion.sh",
     "watchts": "sh scripts/watch-typescript.sh",
     "lessc": "sh scripts/lessc",
-    "build": "node_modules/.bin/tsc -p ./ && node_modules/.bin/gulp all",
+    "build": "tsc -p ./ && gulp all",
     "server": "npm run build && node server",
     "electron:linux": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.png --platform=linux --out=./dist/linux",
     "electron:win": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.ico --platform=win32 --out=./dist/win",
