@@ -5,9 +5,8 @@
                data="$ctrl.orders"
                header-info="$ctrl.headers">
 
-    <!-- todo @tsigel - add animation if orders is premitted like create order notification -->
     <div class="order-permission-error error js-order-notification">
-        <i></i><span w-i18n="directives.myOrders.noPermissionCancelOrder"></span>
+        <i class="icon"></i><span w-i18n="directives.myOrders.noPermissionCancelOrder"></span>
     </div>
 
     <div ng-if="$ctrl.hasScript"
