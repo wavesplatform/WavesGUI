@@ -133,14 +133,12 @@
             }
 
             _getOrderBook() {
+                this.loadingError = false;
                 return (
                     waves.matcher
                         .getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
                         .then((orderBook) => this._cutOffOutlyingOrdersIfNecessary(orderBook))
-                        .then(
-                            TradeGraph._buildCumulativeOrderBook,
-                            this.loadingError = false
-                        )
+                        .then(TradeGraph._buildCumulativeOrderBook)
                         .catch(() => {
                             this.loadingError = true;
                             this.pending = false;
