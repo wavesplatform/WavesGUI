@@ -165,7 +165,7 @@
             _onChangeBalance() {
                 this.noMoneyForFee = (!this.fee || !this._balance) ||
                     this._balance.available.getTokens().lt(this.fee.getTokens());
-                this.invalid = this.invalid || this.noMoneyForFee || this.hasScript;
+                this.invalid = this.invalid || this.noMoneyForFee;
                 $scope.$digest();
             }
 
