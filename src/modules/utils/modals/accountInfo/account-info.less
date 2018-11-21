@@ -31,6 +31,28 @@ md-dialog.account-info {
       }
     }
 
+    .flex-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      &.split-half {
+        justify-content: space-between;
+        width: 100%;
+
+        & > div.flex-row:last-child {
+          text-align: right;
+          justify-content: flex-end;
+        }
+      }
+
+      &.data {
+        border-top: 1px solid @color-basic-200;
+        border-bottom: 1px solid @color-basic-200;
+        height: 44px;
+      }
+    }
+
     .errors-margin {
       margin-top: @padding-main-layout * 1.5;
     }

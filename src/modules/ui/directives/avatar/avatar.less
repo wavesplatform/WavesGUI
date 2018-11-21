@@ -11,21 +11,33 @@
   }
 }
 
+w-avatar[type='wavesKeeper'],
 w-avatar[type='ledger'] {
   position: relative;
 
-  &:after {
+  &::after {
     position: absolute;
     content: '';
     width: 16px;
     height: 16px;
     bottom: 0;
     left: calc(100% ~'- 15px');
-    background-image: @ledger-mini-icon;
     border-radius: 50%;
     background-color: @color-white;
     background-position: center center;
     background-repeat: no-repeat;
     box-shadow: 0 0 3px 0 rgba(34, 34, 34, 0.24);
+  }
+}
+
+w-avatar[type='ledger'] {
+  &::after {
+    background-image: @ledger-mini-icon;
+  }
+}
+
+w-avatar[type='wavesKeeper'] {
+  &::after {
+    background-image: @keeper-mini-icon;
   }
 }

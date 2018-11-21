@@ -32,16 +32,9 @@
                 this.checkedHash = Object.create(null);
                 this._myUserList = [];
 
-                // const betaPromise = (
-                //     this._getFromBeta ?
-                //         utils.importAccountByIframe(WavesApp.betaOrigin, 5000) :
-                //         Promise.resolve([])
-                // ).catch(() => []);
-                // const oldWaletPromise = utils.importAccountByIframe('https://waveswallet.io', 5000)
-                //     .catch(() => []);
-                const userlistPromise = user.getUserList().catch(() => []);
+                const userListPromise = user.getUserList().catch(() => []);
 
-                userlistPromise.then(
+                userListPromise.then(
                     (userList) => {
                         this._myUserList = userList;
                         return this.importFromOld();
@@ -56,16 +49,10 @@
 
                 return user.getUserList()
                     .then((list) => storage.save('userList', list.concat(users)))
-                    .then(() => storage.save('accountImportComplete', true))
                     .then(() => {
                         $mdDialog.hide();
                         $state.go('welcome');
                     });
-            }
-
-            importFromBeta() {
-                this.wasImportBeta = true;
-                return this._import(WavesApp.betaOrigin, 'beta');
             }
 
             importFromOld() {
