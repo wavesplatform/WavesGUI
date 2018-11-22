@@ -113,7 +113,7 @@
                     this.onTxSent({ id: tx.id });
                     this.__$scope.$apply();
                 }).catch(e => {
-                    this.errorMessage = ConfirmTxService._parseError(e);
+                    this.errorMessage = utils._parseError(e);
                     this.__$scope.$apply();
                 });
             }
@@ -184,15 +184,6 @@
              */
             static _isIssueTx(tx) {
                 return tx.type === SIGN_TYPE.ISSUE;
-            }
-
-            static _parseError(error) {
-                try {
-                    const e = JSON.parse(error);
-                    return e && e.message;
-                } catch (e) {
-                    return error;
-                }
             }
 
             static toBigNumber(amount) {

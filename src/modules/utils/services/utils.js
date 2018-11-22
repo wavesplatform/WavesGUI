@@ -1135,7 +1135,21 @@
              * @param {*} oldValue
              * @param {*} newValue
              */
-            isNotEqualValue: isNotEqualValue
+            isNotEqualValue: isNotEqualValue,
+
+            /**
+             * @name app.utils#_parseError
+             * @param error
+             * @returns {*}
+             * @private
+             */
+            _parseError(error) {
+                try {
+                    return typeof error === 'string' ? JSON.parse(error) : error;
+                } catch (e) {
+                    return error;
+                }
+            }
         };
 
         /**

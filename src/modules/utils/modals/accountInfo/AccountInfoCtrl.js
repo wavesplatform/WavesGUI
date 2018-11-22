@@ -14,7 +14,7 @@
      * @param {createPoll} createPoll
      * @return {AccountInfoCtrl}
      */
-    const controller = function (Base, $scope, user, waves, notification, createPoll) {
+    const controller = function (Base, $scope, user, waves, notification, createPoll, utils) {
 
         class AccountInfoCtrl extends Base {
 
@@ -146,7 +146,7 @@
                             $scope.$digest();
                         })
                     .catch((error) => {
-                        this.errorCreateAliasMsg = JSON.parse(error).message;
+                        this.errorCreateAliasMsg = utils._parseError(error);
                     });
             }
 
@@ -215,7 +215,7 @@
         return new AccountInfoCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'waves', 'notification', 'createPoll'];
+    controller.$inject = ['Base', '$scope', 'user', 'waves', 'notification', 'createPoll', 'utils'];
 
     angular.module('app.utils')
         .controller('AccountInfoCtrl', controller);
