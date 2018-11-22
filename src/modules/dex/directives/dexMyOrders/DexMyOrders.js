@@ -365,14 +365,6 @@
                     });
             }
 
-            // static _parseError(error) {
-            //     try {
-            //         return typeof error === 'string' ? JSON.parse(error) : error;
-            //     } catch (e) {
-            //         return error;
-            //     }
-            // }
-
         }
 
         return new DexMyOrders();
