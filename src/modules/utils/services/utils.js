@@ -1141,9 +1141,10 @@
              * @name app.utils#_parseError
              * @param error
              * @returns {*}
-             * @private
              */
-            _parseError(error) {
+            parseError(error) {
+                console.log(error);
+                console.log(typeof error);
                 try {
                     return typeof error === 'string' ? JSON.parse(error) : error;
                 } catch (e) {

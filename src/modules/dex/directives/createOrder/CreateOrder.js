@@ -327,7 +327,7 @@
                                 dexDataService.createOrder.dispatch();
                             })
                             .catch(e => {
-                                const error = utils._parseError(e);
+                                const error = utils.parseError(e);
                                 notification.error({
                                     ns: 'app.dex',
                                     title: {

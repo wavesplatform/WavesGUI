@@ -113,7 +113,7 @@
                     this.onTxSent({ id: tx.id });
                     this.__$scope.$apply();
                 }).catch(e => {
-                    this.errorMessage = utils._parseError(e);
+                    this.errorMessage = utils.parseError(e);
                     this.__$scope.$apply();
                 });
             }
