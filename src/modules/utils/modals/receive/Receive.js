@@ -257,7 +257,7 @@
 
                 const invoiceAmount = (this.invoiceAmount && this.invoiceAmount.toTokens()) || '0';
 
-                const WAVES_URL = 'https://client.wavesplatform.com';
+                const WAVES_URL = location.origin;
 
                 this.sendLink = `${WAVES_URL}/#send/${assetId}?recipient=${this.chosenAlias}&amount=${invoiceAmount}`;
             }
