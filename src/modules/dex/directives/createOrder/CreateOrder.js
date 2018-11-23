@@ -312,7 +312,15 @@
                             matcherPublicKey
                         };
 
-                        this._createTxData(data)
+                        if (data.price.asset.id !== this._assetIdPair.price) {
+                            throw new Error('Wrong price asset id!');
+                        }
+
+                        if (data.amount.asset.id !== this._assetIdPair.amount) {
+                            throw new Error('Wrong amount asset id!');
+                        }
+
+                        return this._createTxData(data)
                             .then((txData) => ds.createOrder(txData))
                             .then(() => {
                                 notify.addClass('success');
@@ -320,27 +328,27 @@
                                 const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                                 analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Success`, pair);
                                 dexDataService.createOrder.dispatch();
-                            })
-                            .catch(e => {
-                                const error = CreateOrder._parseError(e);
-                                notification.error({
-                                    ns: 'app.dex',
-                                    title: {
-                                        literal: 'directives.createOrder.notifications.error.title'
-                                    },
-                                    body: {
-                                        literal: error && error.message || error
-                                    }
-                                }, -1);
-                                this.createOrderFailed = true;
-                                notify.addClass('error');
-                                const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
-                                analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Error`, pair);
-
-                            })
-                            .finally(() => {
-                                CreateOrder._animateNotification(notify);
                             });
+                    })
+                    .catch(e => {
+                        const error = CreateOrder._parseError(e);
+                        notification.error({
+                            ns: 'app.dex',
+                            title: {
+                                literal: 'directives.createOrder.notifications.error.title'
+                            },
+                            body: {
+                                literal: error && error.message || error
+                            }
+                        }, -1);
+                        this.createOrderFailed = true;
+                        notify.addClass('error');
+                        const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
+                        analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Error`, pair);
+
+                    })
+                    .finally(() => {
+                        CreateOrder._animateNotification(notify);
                     });
             }
 
