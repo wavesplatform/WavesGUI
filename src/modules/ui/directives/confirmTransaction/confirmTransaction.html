@@ -1,74 +1,127 @@
 <div w-i18n-ns="{{::$ctrl.locale}}" class="transaction-confirm txinfo">
     <w-step-by-step active-step="$ctrl.step">
         <w-step>
-            <w-transaction-info signable="$ctrl.signable"></w-transaction-info>
-            <w-sign-button on-success="$ctrl.nextStep()"
-                           class="margin-top-3 block"
-                           on-click="$ctrl.getSignable()">
-                <span w-i18n="confirmTransaction.sign"></span>
-            </w-sign-button>
+            <w-permit name="{{::$ctrl.permissionName}}" mode="on">
+                <w-transaction-info is-confirm="::true" signable="$ctrl.signable"></w-transaction-info>
+                <w-sign-button on-success="$ctrl.nextStep()"
+                               class="margin-top-3 block"
+                               on-click="$ctrl.getSignable()">
+                    <span w-i18n="confirmTransaction.sign"></span>
+                </w-sign-button>
+            </w-permit>
+            <w-permit name="{{::$ctrl.permissionName}}" mode="off">
+                <div class="center">
+                    <svg width="80px" height="80px" viewBox="0 0 80 80" version="1.1" class="margin-3 margin-top-6"
+                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <title>Icon/80/error-80-error500</title>
+                        <defs></defs>
+                        <g id="Icon/80/error-80-error500" stroke="none" stroke-width="1" fill="none"
+                           fill-rule="evenodd">
+                            <path d="M40,77 C60.4345357,77 77,60.4345357 77,40 C77,19.5654643 60.4345357,3 40,3 C19.5654643,3 3,19.5654643 3,40 C3,60.4345357 19.5654643,77 40,77 Z M40,80 C17.90861,80 0,62.09139 0,40 C0,17.90861 17.90861,0 40,0 C62.09139,0 80,17.90861 80,40 C80,62.09139 62.09139,80 40,80 Z"
+                                  id="Oval" fill="#EF4829" fill-rule="nonzero"></path>
+                            <path d="M42.1213203,40 L55.5563492,53.4350288 C56.1421356,54.0208153 56.1421356,54.9705627 55.5563492,55.5563492 C54.9705627,56.1421356 54.0208153,56.1421356 53.4350288,55.5563492 L40,42.1213203 L26.5649712,55.5563492 C25.9791847,56.1421356 25.0294373,56.1421356 24.4436508,55.5563492 C23.8578644,54.9705627 23.8578644,54.0208153 24.4436508,53.4350288 L37.8786797,40 L24.4436508,26.5649712 C23.8578644,25.9791847 23.8578644,25.0294373 24.4436508,24.4436508 C25.0294373,23.8578644 25.9791847,23.8578644 26.5649712,24.4436508 L40,37.8786797 L53.4350288,24.4436508 C54.0208153,23.8578644 54.9705627,23.8578644 55.5563492,24.4436508 C56.1421356,25.0294373 56.1421356,25.9791847 55.5563492,26.5649712 L42.1213203,40 Z"
+                                  id="Combined-Shape" fill="#EF4829"></path>
+                        </g>
+                    </svg>
+                </div>
+                <h3 class="basic-700 margin-3 center"
+                    w-i18n="confirmTransaction.notPermitted.{{::$ctrl.tx.typeName}}-title"></h3>
+                <div class="warning-plate warning-400 body-1">
+                    <w-permit-message
+                            literal="confirmTransaction.notPermitted.{{::$ctrl.tx.typeName}}"></w-permit-message>
+                </div>
+            </w-permit>
         </w-step>
         <w-step>
-            <div class="txinfo__wrapper">
+            <w-permit name="{{::$ctrl.permissionName}}" mode="on">
+                <div class="txinfo__wrapper">
+                    <w-transaction-info-header signable="$ctrl.signable"></w-transaction-info-header>
 
-                <w-transaction-info-header signable="$ctrl.signable"></w-transaction-info-header>
+                    <w-tabs class="inner" ng-model="$ctrl.activeTab" ng-if="::$ctrl.advancedMode">
+                        <w-tab title-name="::'confirmTransaction.details'" id="::'details'">
+                            <w-transaction-info-content is-confirm="::true"
+                                                        class="margin-top-4"
+                                                        signable="$ctrl.signable"></w-transaction-info-content>
+                        </w-tab>
+                        <w-tab title-name="::'confirmTransaction.JSON'" id="::'JSON'">
+                            <w-transaction-info-json class="margin-top-4"
+                                                     signable="$ctrl.signable"></w-transaction-info-json>
+                        </w-tab>
+                        <w-tab ng-if="$ctrl.canCreateLink" title-name="::'confirmTransaction.export'" id="::'export'">
+                            <w-transaction-export class="margin-top-4" link="$ctrl.exportLink"></w-transaction-export>
+                        </w-tab>
+                    </w-tabs>
 
-                <w-tabs class="inner" ng-model="$ctrl.activeTab" ng-if="::$ctrl.advancedMode">
-                    <w-tab title-name="::'confirmTransaction.details'" id="::'details'">
-                        <w-transaction-info-content class="margin-top-4" signable="$ctrl.signable"></w-transaction-info-content>
-                    </w-tab>
-                    <w-tab title-name="::'confirmTransaction.JSON'" id="::'JSON'">
-                        <w-transaction-info-json class="margin-top-4" signable="$ctrl.signable"></w-transaction-info-json>
-                    </w-tab>
-                    <w-tab ng-if="$ctrl.canCreateLink" title-name="::'confirmTransaction.export'" id="::'export'">
-                        <w-transaction-export class="margin-top-4" link="$ctrl.exportLink"></w-transaction-export>
-                    </w-tab>
-                </w-tabs>
+                    <w-transaction-info-content ng-if="::!$ctrl.advancedMode"
+                                                is-confirm="::true"
+                                                signable="$ctrl.signable"></w-transaction-info-content>
 
-                <w-transaction-info-content ng-if="::!$ctrl.advancedMode"
-                                            signable="$ctrl.signable"></w-transaction-info-content>
+                    <div class="bottom-warning" ng-if="::$ctrl.isSetScript">
+                        <div class="warning-plate">
+                            <div class="body-2 warning-500" w-i18n-ns="app.utils"
+                                 w-i18n="directives.scriptForm.warning.title"></div>
+                            <div class="footnote-1 basic-500" w-i18n-ns="app.utils"
+                                 w-i18n="directives.scriptForm.warning.body"></div>
+                        </div>
+                    </div>
 
-                <div class="bottom-warning" ng-if="::$ctrl.isSetScript">
-                    <div class="warning-plate">
-                        <div class="body-2 warning-500" w-i18n-ns="app.utils" w-i18n="directives.scriptForm.warning.title"></div>
-                        <div class="footnote-1 basic-500" w-i18n-ns="app.utils" w-i18n="directives.scriptForm.warning.body"></div>
+                    <div class="bottom-warning" ng-if="::$ctrl.isTockenIssue">
+                        <div class="warning-plate">
+                            <div class="body-2 warning-500" w-i18n="modal.token.warning.header"></div>
+                            <div class="footnote-1 basic-500" w-i18n="modal.token.warning.text"></div>
+                            <div class="body-2 warning-500" w-i18n="modal.token.warning.textWarning"></div>
+                        </div>
+                    </div>
+
+                    <h3 class="info margin-4 basic-700" ng-if="$ctrl.referrer">
+                        <span w-i18n="confirmTransaction.redirect" params="{referrer: $ctrl.referrer}"></span>
+                    </h3>
+
+                    <div class="error-500 margin-2 footnote-1"
+                         ng-repeat="error in $ctrl.errors"
+                         w-i18n="{{::error.literal}}"></div>
+
+                    <div class="bottom-wrapper">
+                        <div ng-if="$ctrl.errorMessage" class="error-500 margin-2 margin-top-2">
+                            {{$ctrl.errorMessage}}
+                        </div>
+                        <div class="buttons-wrapper margin-top-3" ng-if="!$ctrl.loadingSignFromDevice">
+                            <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
+                                <span w-i18n="confirmTransaction.back"></span>
+                            </w-button>
+                            <w-button class="big submit"
+                                      disabled="$ctrl.errors.length > 0 || !$ctrl.txId"
+                                      ng-class="{long: $ctrl.noBackButton}"
+                                      w-next-step
+                                      on-click="$ctrl.confirm()">
+                                <span w-i18n="confirmTransaction.confirm"></span>
+                            </w-button>
+                        </div>
                     </div>
                 </div>
-
-                <div class="bottom-warning" ng-if="::$ctrl.isTockenIssue">
-                    <div class="warning-plate">
-                        <div class="body-2 warning-500" w-i18n="modal.token.warning.header"></div>
-                        <div class="footnote-1 basic-500" w-i18n="modal.token.warning.text"></div>
-                        <div class="body-2 warning-500" w-i18n="modal.token.warning.textWarning"></div>
-                    </div>
+            </w-permit>
+            <w-permit name="{{::$ctrl.permissionName}}" mode="off">
+                <div class="center">
+                    <svg width="80px" height="80px" viewBox="0 0 80 80" version="1.1" class="margin-3 margin-top-6"
+                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <title>Icon/80/error-80-error500</title>
+                        <defs></defs>
+                        <g id="Icon/80/error-80-error500" stroke="none" stroke-width="1" fill="none"
+                           fill-rule="evenodd">
+                            <path d="M40,77 C60.4345357,77 77,60.4345357 77,40 C77,19.5654643 60.4345357,3 40,3 C19.5654643,3 3,19.5654643 3,40 C3,60.4345357 19.5654643,77 40,77 Z M40,80 C17.90861,80 0,62.09139 0,40 C0,17.90861 17.90861,0 40,0 C62.09139,0 80,17.90861 80,40 C80,62.09139 62.09139,80 40,80 Z"
+                                  id="Oval" fill="#EF4829" fill-rule="nonzero"></path>
+                            <path d="M42.1213203,40 L55.5563492,53.4350288 C56.1421356,54.0208153 56.1421356,54.9705627 55.5563492,55.5563492 C54.9705627,56.1421356 54.0208153,56.1421356 53.4350288,55.5563492 L40,42.1213203 L26.5649712,55.5563492 C25.9791847,56.1421356 25.0294373,56.1421356 24.4436508,55.5563492 C23.8578644,54.9705627 23.8578644,54.0208153 24.4436508,53.4350288 L37.8786797,40 L24.4436508,26.5649712 C23.8578644,25.9791847 23.8578644,25.0294373 24.4436508,24.4436508 C25.0294373,23.8578644 25.9791847,23.8578644 26.5649712,24.4436508 L40,37.8786797 L53.4350288,24.4436508 C54.0208153,23.8578644 54.9705627,23.8578644 55.5563492,24.4436508 C56.1421356,25.0294373 56.1421356,25.9791847 55.5563492,26.5649712 L42.1213203,40 Z"
+                                  id="Combined-Shape" fill="#EF4829"></path>
+                        </g>
+                    </svg>
                 </div>
-
-                <h3 class="info margin-4 basic-700" ng-if="$ctrl.referrer">
-                    <span w-i18n="confirmTransaction.redirect" params="{referrer: $ctrl.referrer}"></span>
-                </h3>
-
-                <div class="error-500 margin-2 footnote-1"
-                     ng-repeat="error in $ctrl.errors"
-                     w-i18n="{{::error.literal}}"></div>
-
-                <div class="bottom-wrapper">
-                    <div ng-if="$ctrl.errorMessage" class="error-500 margin-2 margin-top-2">
-                        {{$ctrl.errorMessage}}
-                    </div>
-                    <div class="buttons-wrapper margin-top-3" ng-if="!$ctrl.loadingSignFromDevice">
-                        <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
-                            <span w-i18n="confirmTransaction.back"></span>
-                        </w-button>
-                        <w-button class="big submit"
-                                  disabled="$ctrl.errors.length > 0 || !$ctrl.txId"
-                                  ng-class="{long: $ctrl.noBackButton}"
-                                  w-next-step
-                                  on-click="$ctrl.confirm()">
-                            <span w-i18n="confirmTransaction.confirm"></span>
-                        </w-button>
-                    </div>
+                <h3 class="basic-700 margin-3 center"
+                    w-i18n="confirmTransaction.notPermitted.{{::$ctrl.tx.typeName}}-title"></h3>
+                <div class="warning-plate warning-400 body-1">
+                    <w-permit-message
+                            literal="confirmTransaction.notPermitted.{{::$ctrl.tx.typeName}}"></w-permit-message>
                 </div>
-            </div>
+            </w-permit>
         </w-step>
         <w-step>
             <div class="text-center overflow-h">

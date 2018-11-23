@@ -27,9 +27,13 @@ md-dialog.modal-send {
     .error-content,
     w-mass-send,
     w-single-send {
-      padding: 40px 40px 0;
       display: block;
       max-height: calc(74vh ~'- 60px');
+    }
+
+    w-step.send-form .tab-body-wrap {
+      padding: 40px 40px 0;
+      display: block;
     }
 
     .icon-browser-warning {
@@ -371,8 +375,7 @@ md-dialog.modal-send {
   md-dialog.modal-send {
     md-dialog-content {
 
-      w-mass-send,
-      w-single-send {
+      .tab-body-wrap {
         padding: 20px 20px 0;
         display: block;
       }

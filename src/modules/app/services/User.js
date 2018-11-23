@@ -324,7 +324,7 @@
                     publicKey: data.publicKey,
                     settings: {
                         termsAccepted: false,
-                        hasBackup: hasBackup,
+                        hasBackup,
                         lng: i18next.language,
                         theme: themes.getDefaultTheme(),
                         candle: 'blue'
@@ -455,7 +455,7 @@
             addMatcherSign() {
                 let promise;
                 let modalPromise;
-                let ledgerPromise;
+                let devicePromise;
 
                 const dayForwardTime = ds.app.getTimeStamp(1, 'day');
                 if (!this.matcherSign || this.matcherSign.timestamp - dayForwardTime < 0) {
@@ -468,23 +468,21 @@
                             return { signature, timestamp: maxIntervalTimeStamp };
                         });
 
-                    if (this.userType && this.userType === 'ledger') {
+                    if (this.userType && this.userType !== 'seed') {
                         modalPromise = ds.app.getSignIdForMatcher(maxIntervalTimeStamp).then((id) => {
-                            return modalManager.showSignLedger({ promise, mode: 'sign-matcher', id });
+                            return modalManager
+                                .showSignByDevice({ promise, mode: 'sign-matcher', id, userType: this.userType });
                         });
 
-                        ledgerPromise = modalPromise
+                        devicePromise = modalPromise
                             .then(() => promise)
-                            .catch(
-                                () => modalManager.showLedgerError({ error: 'sign-error' }).then(
-                                    () => {
-                                        return this.addMatcherSign();
-                                    }
-                                ));
+                            .catch(() => modalManager
+                                .showSignDeviceError({ error: 'sign-error', userType: this.userType })
+                                .then(() => this.addMatcherSign()));
                     }
                 }
 
-                return (ledgerPromise || promise || Promise.resolve(this.matcherSign))
+                return (devicePromise || promise || Promise.resolve(this.matcherSign))
                     .then((matcherSign) => {
                         this.matcherSign = matcherSign || this.matcherSign || { timestamp: 0, signature: '' };
                         return ds.app.addMatcherSign(this.matcherSign.timestamp, this.matcherSign.signature);
@@ -540,7 +538,12 @@
 
                         ds.app.login(data.address, data.api);
 
+                        data.api.onDestroy(() => {
+                            this.logout();
+                        });
+
                         return this.addMatcherSign()
+                            .catch(() => Promise.resolve())
                             .then(() => {
                                 this.changeTheme();
                                 this.changeCandle();

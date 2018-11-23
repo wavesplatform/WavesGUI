@@ -14,8 +14,11 @@
      * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
      * @param {DexDataService} dexDataService
+     * @param {ModalManager} modalManager
+     * @param {PermissionManager} permissionManager,
+     * @param {Ease} ease
+     * @param {JQuery} $element
      * @return {DexMyOrders}
-     * @return {modalManager}
      */
     const controller = function (
         Base,
@@ -26,7 +29,10 @@
         utils,
         $scope,
         dexDataService,
-        modalManager
+        modalManager,
+        permissionManager,
+        ease,
+        $element
     ) {
 
         const R = require('ramda');
@@ -63,6 +69,11 @@
                  * @type {boolean}
                  */
                 this.loadingError = false;
+
+                this.hasScript = user.hasScript();
+                /**
+                 * @type (boolean)
+                 */
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
@@ -216,6 +227,12 @@
             }
 
             cancelAllOrders() {
+                if (!permissionManager.isPermitted('CAN_CANCEL_ORDER')) {
+                    const $notify = $element.find('.js-order-notification');
+                    DexMyOrders._animateNotification($notify);
+                    return null;
+                }
+
                 this.orders.filter(tsUtils.contains({ isActive: true })).forEach((order) => {
                     this.dropOrder(order);
                 });
@@ -249,20 +266,21 @@
                         return signPromise;
                     }
 
-                    return modalManager.showSignLedger({
+                    return modalManager.showSignByDevice({
                         promise: signPromise,
                         data: order,
                         id,
-                        mode: 'cancel-order'
+                        mode: 'cancel-order',
+                        userType: user.userType
                     })
                         .then(() => signPromise)
                         .catch(() => Promise.reject());
                 })
                     .catch(() => {
-                        return modalManager.showLedgerError({ error: 'sign-error' }).then(
+                        return modalManager.showSignDeviceError({ error: 'sign-error', userType: user.userType }).then(
                             () => this.dropOrderGetSignData(order),
                             () => {
-                                return Promise.reject({ error: 'no sign' });
+                                return Promise.reject({ message: 'Your sign is not confirmed!' });
                             });
                     });
             }
@@ -271,6 +289,12 @@
              * @param order
              */
             dropOrder(order) {
+
+                if (!permissionManager.isPermitted('CAN_CANCEL_ORDER')) {
+                    const $notify = $element.find('.js-order-notification');
+                    DexMyOrders._animateNotification($notify);
+                    return null;
+                }
 
                 const dataPromise = this.dropOrderGetSignData(order);
 
@@ -333,7 +357,7 @@
                                 order.exchange = transactionsByOrderHash[order.id];
                                 return order;
                             });
-                        });
+                        }).catch(() => result);
                     })
                     .catch(() => {
                         this.loadingError = true;
@@ -342,27 +366,7 @@
             }
 
             _getAllOrders() {
-                return Promise.all([
-                    waves.matcher.getOrders().then(R.filter(R.whereEq({ isActive: true }))),
-                    ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price)
-                ])
-                    .then(([list, pair]) => {
-                        if (list.length === 100) {
-                            const hash = utils.toHash(list, 'id');
-                            return ds.api.matcher.getOrdersByPair(pair)
-                                .then((pairList) => {
-                                    const newList = pairList.filter((order) => {
-                                        return order.isActive &&
-                                            order.assetPair.amountAsset.id === pair.amountAsset.id &&
-                                            order.assetPair.priceAsset.id === pair.priceAsset.id &&
-                                            !hash[order.id];
-                                    });
-                                    return list.concat(newList);
-                                });
-                        } else {
-                            return list;
-                        }
-                    });
+                return waves.matcher.getOrders().then(R.filter(R.whereEq({ isActive: true })));
             }
 
             static _parseError(error) {
@@ -371,6 +375,26 @@
                 } catch (e) {
                     return error;
                 }
+            }
+
+            static _animateNotification($element) {
+                return utils.animate($element, { t: 100 }, {
+                    duration: 1200,
+                    step: function (tween) {
+                        const progress = ease.bounceOut(tween / 100);
+                        $element.css('transform', `translate(0, ${-100 + progress * 100}%)`);
+                    }
+                })
+                    .then(() => utils.wait(700))
+                    .then(() => {
+                        return utils.animate($element, { t: 0 }, {
+                            duration: 500,
+                            step: function (tween) {
+                                const progress = ease.linear(tween / 100);
+                                $element.css('transform', `translate(0, ${(-((1 - progress) * 100))}%)`);
+                            }
+                        });
+                    });
             }
 
         }
@@ -387,7 +411,10 @@
         'utils',
         '$scope',
         'dexDataService',
-        'modalManager'
+        'modalManager',
+        'permissionManager',
+        'ease',
+        '$element'
     ];
 
     angular.module('app.dex').component('wDexMyOrders', {

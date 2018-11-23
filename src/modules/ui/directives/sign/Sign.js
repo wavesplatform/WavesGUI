@@ -19,6 +19,18 @@
             }
 
             /**
+             * @type {string}
+             */
+            userType = user.userType;
+            /**
+             * @type {boolean}
+             */
+            isLedger = user.userType === 'ledger';
+            /**
+             * @type {boolean}
+             */
+            isKeeper = user.userType === 'wavesKeeper';
+            /**
              * @type {boolean}
              */
             signPending = false;

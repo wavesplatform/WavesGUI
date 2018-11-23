@@ -106,11 +106,13 @@ function parseCookie(header = ''): IRequestData {
 
 const handlers = [
     coinomat,
+    wavesClientConfig,
     handler as any
 ];
 
 function request(req, res) {
-    let index= 0;
+    let index = 0;
+
     function next() {
         index++;
         if (handlers[index - 1]) {
@@ -121,13 +123,31 @@ function request(req, res) {
     next();
 }
 
+function wavesClientConfig(req, res, next) {
+    if (!req.url.includes('waves-client-config')) {
+        next();
+        return null;
+    }
+    let response_json = { error: 'oops' };
+
+    const path = join(__dirname, 'mocks/waves-client-config/master/config.json');
+    if (fs.existsSync(path)) {
+        response_json = JSON.parse(fs.readFileSync(path, 'utf8')) || '';
+    }
+
+    const cType = 'text/html; charset=utf-8;';
+    res.setHeader('Content-Type', cType);
+    res.end(JSON.stringify(response_json));
+    return false;
+}
+
 function coinomat(req, res, next): boolean {
     const url = parse(req.url) as any;
     if (!url.href.includes('/coinomat/')) {
         next();
         return null;
     }
-    let response_json = {error: 'oops'};
+    let response_json = { error: 'oops' };
     const path = url.pathname.split('/').pop();
     const filename = `./mocks/coinomat/${path}.json`;
 
@@ -135,7 +155,7 @@ function coinomat(req, res, next): boolean {
         response_json = JSON.parse(fs.readFileSync(filename, 'utf8')) || '';
     }
 
-    if(path === 'rate.php') {
+    if (path === 'rate.php') {
         const data = qs.parse(url.query);
         response_json = (data.amount * 0.32258064) as any;
     }

@@ -331,7 +331,8 @@
                 support: '{{network.support}}',
                 nodeList: '{{network.nodeList}}',
                 scamListUrl: '{{network.scamListUrl}}',
-                explorer: '{{network.explorer}}'
+                explorer: '{{network.explorer}}',
+                featuresConfigUrl: '{{network.featuresConfigUrl}}'
             },
             defaultAssets: {
                 WAVES: 'WAVES',
@@ -674,6 +675,14 @@
                 id: 'ledger',
                 data: {
                     url: '/import/ledger',
+                    noLogin: true,
+                    views: [{ name: 'main' }]
+                }
+            },
+            {
+                id: 'keeper',
+                data: {
+                    url: '/import/waveskeeper',
                     noLogin: true,
                     views: [{ name: 'main' }]
                 }

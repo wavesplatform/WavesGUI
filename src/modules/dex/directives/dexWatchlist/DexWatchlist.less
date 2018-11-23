@@ -10,77 +10,6 @@ body.dex-demo .dex-wrapper {
     height: 100%;
     position: relative;
 
-    .tooltip-dex {
-      display: none;
-      position: absolute;
-      padding: 0 10px;
-      top: 25px;
-      right: 149px;
-      transform-origin: center;
-      z-index: 1;
-      color: @color-white;
-      font-size: @font-size-caption-2;
-      line-height: 25px;
-      cursor: pointer;
-      text-shadow: 0 1px 6px rgba(78, 92, 110, 0.6);
-
-      &::before {
-        position: absolute;
-        content: '';
-        z-index: -1;
-        top: -5px;
-        right: 10px;
-        opacity: .6;
-        width: 0;
-        height: 0;
-        border: 5px solid transparent;
-        border-bottom-color: @color-basic-700;
-        border-top: 0 none;
-        transform: translate(0);
-      }
-
-      &::after {
-        opacity: .6;
-        border-radius: @border-radius;
-        position: absolute;
-        background: @color-basic-700;
-        width: 100%;
-        height: 26px;
-        content: '';
-        left: 0;
-        top: 0;
-        z-index: -1;
-      }
-
-      &.right {
-        right: 10px;
-      }
-    }
-
-    .smart-table {
-      &__cell[data-column-id="volume"]:hover {
-        .tooltip-dex {
-          display: block;
-        }
-      }
-    }
-
-    //last-line tooltip fix
-    .smart-table {
-      &__row:last-child {
-        .tooltip-dex {
-          bottom: 100%;
-          top: auto;
-          &::before {
-            top: auto;
-            bottom: -6px;
-            transform: rotate(180deg);
-          }
-        }
-      }
-    }
-    //end
-
     .wrapper {
       width: 100%;
       height: 100%;
@@ -311,7 +240,6 @@ body.dex-demo .dex-wrapper {
 
         &__w-tbody {
           .smart-table {
-
             &__row:not(.selected) {
               &:hover {
                 background-color: @hover-default;
@@ -415,6 +343,11 @@ body.dex-demo .dex-wrapper {
               }
             }
           }
+        }
+
+        .tooltip-dex > span {
+          display: inline-block;
+          margin-right: 3px;
         }
       }
     }
