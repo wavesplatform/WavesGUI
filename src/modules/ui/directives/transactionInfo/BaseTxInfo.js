@@ -2,7 +2,6 @@
     'use strict';
 
     const PATH = 'modules/ui/directives/transactionInfo/types';
-    const ds = require('data-service');
     const { Money, BigNumber } = require('@waves/data-entities');
     const { get } = require('ts-utils');
 
@@ -70,7 +69,7 @@
                 const TYPES = waves.node.transactions.TYPES;
 
                 if (this.typeName === TYPES.BURN || this.typeName === TYPES.ISSUE || this.typeName === TYPES.REISSUE) {
-                    this._tokens();
+                    this.tokens();
                 }
 
                 if (this.typeName === TYPES.EXCHANGE_BUY || this.typeName === TYPES.EXCHANGE_SELL) {
@@ -80,21 +79,16 @@
                     } else {
                         this.calculatedFee = this.transaction.sellMatcherFee;
                     }
-                } else if (this.typeName === TYPES.SPONSORSHIP_FEE) {
-                    this.calculatedFee = null;
-                    ds.api.assets.get('WAVES').then((asset) => {
-                        this.calculatedFee = new Money(100000, asset); // TODO hardcode fee
-                        $scope.$digest();
-                    });
-                } else if (this.typeName === TYPES.SPONSORSHIP_START) {
-                    this.isSponsoredFee = true;
-                    this.calculatedFee = this.transaction.fee;
                 } else {
                     this.calculatedFee = this.transaction.fee;
                 }
             }
 
-            _tokens() {
+            tokens() {
+                if (this.transaction.typeName === 'reissue') {
+                    this.isReissueModal = true;
+                }
+
                 this.name = get(this.transaction, 'amount.asset.name') ||
                     get(this.transaction, 'quantity.asset.name') ||
                     this.transaction.name;

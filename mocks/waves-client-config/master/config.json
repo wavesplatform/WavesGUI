@@ -22,6 +22,7 @@
     "CAN_DATA_TRANSACTION": true,
     "CAN_CREATE_ORDER": true,
     "CAN_CANCEL_ORDER": true,
+    "CAN_ANY_TRANSACTION": true,
     "CAN_PAIRING_WITH_MOBILE": true
   },
   "DEX_BLACK_LIST": []

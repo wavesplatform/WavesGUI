@@ -215,7 +215,8 @@
                     canShowToggleSpam: this._canShowToggleSpam(),
                     canSponsored: this._isMyAsset,
                     canPayFee,
-                    canStopSponsored
+                    canStopSponsored,
+                    isSpam: this.balance.isOnScamList
                 });
 
                 this.node.innerHTML = html;
@@ -490,6 +491,10 @@
          * @private
          */
         _canShowToggleSpam() {
+            if (this._isMyAsset) {
+                return false;
+            }
+
             return !Object.values(WavesApp.defaultAssets).includes(this.balance.asset.id) &&
                 !WavesApp.scam[this.balance.asset.id];
         }

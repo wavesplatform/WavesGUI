@@ -2,6 +2,10 @@
        data-price="{{priceNum}}"
        data-type="{{type}}"
        data-amount="{{totalAmountNum}}">
+    <div class="tooltip-dex">
+        <span class="tooltip-ask" w-i18n="orderbook.ask.tooltipText">{{buyTooltip}}</span>
+        <span class="tooltip-bid" w-i18n="orderbook.bid.tooltipText">{{sellTooltip}}</span>
+    </div>
     <div class="table-row">
         <div class="dex-layout__line-graph">
             <div style="width: {{{width}}}%" class="dex-layout__line-graph-fill"></div>

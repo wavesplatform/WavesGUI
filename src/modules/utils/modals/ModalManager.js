@@ -91,11 +91,13 @@
 
             showSignLedger(options) {
                 return this._getModal({
-                    id: 'signable-ledger',
-                    contentUrl: 'modules/utils/modals/signLedger/signLedger.html',
-                    controller: 'SignLedgerCtrl',
+                    id: 'signable-by-device',
+                    contentUrl: 'modules/utils/modals/signByDevice/signByDevice.html',
+                    controller: 'SignByDeviceCtrl',
                     locals: {
-                        ledgerPromise: () => options.promise,
+                        devicePromise: () => options.promise,
+                        userType: options.userType,
+                        address: options.address,
                         mode: options.mode,
                         id: options.id,
                         data: options.data
@@ -105,11 +107,11 @@
                 });
             }
 
-            showLedgerError(locals) {
+            showSignDeviceError(locals) {
                 return this._getModal({
-                    id: 'error-ledger',
-                    contentUrl: 'modules/utils/modals/ledgerError/ledgerError.html',
-                    controller: 'LedgerErrorCtrl',
+                    id: 'error-sign-device',
+                    contentUrl: 'modules/utils/modals/signDeviceError/signDeviceError.html',
+                    controller: 'SignDeviceError',
                     locals: { ...locals },
                     clickOutsideToClose: false,
                     escapeToClose: false

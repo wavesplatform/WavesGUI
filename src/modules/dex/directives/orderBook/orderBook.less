@@ -114,6 +114,26 @@ w-dex-order-book {
     .asks w-row,
     .bids w-row {
       cursor: pointer;
+      position: relative;
+
+      .tooltip-dex,
+      .tooltip-dex::before {
+        right: 50%;
+        transform: translate(50%,0);
+        color: @color-white;
+      }
+    }
+
+    .asks w-row {
+      .tooltip-bid {
+        display: none;
+      }
+    }
+
+    .bids w-row {
+      .tooltip-ask {
+        display: none;
+      }
     }
 
     .dex-layout {
