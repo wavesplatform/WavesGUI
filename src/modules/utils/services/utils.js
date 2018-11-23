@@ -1138,13 +1138,11 @@
             isNotEqualValue: isNotEqualValue,
 
             /**
-             * @name app.utils#_parseError
+             * @name app.utils#parseError
              * @param error
              * @returns {*}
              */
             parseError(error) {
-                console.log(error);
-                console.log(typeof error);
                 try {
                     return typeof error === 'string' ? JSON.parse(error) : error;
                 } catch (e) {
