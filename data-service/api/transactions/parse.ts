@@ -247,7 +247,7 @@ export function parseDataTx(tx: txApi.IData, assetsHash: IHash<Asset>, isUTX: bo
 }
 
 function parseSponsorshipTx(tx: txApi.ISponsorship, assetsHash: IHash<Asset>, isUTX: boolean): ISponsorship {
-    const minSponsoredAssetFee = new Money(tx.minSponsoredAssetFee, assetsHash[tx.assetId]);
+    const minSponsoredAssetFee = new Money(tx.minSponsoredAssetFee || 0, assetsHash[tx.assetId]);
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
 
     return { ...tx, fee, minSponsoredAssetFee, isUTX };

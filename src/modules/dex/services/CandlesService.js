@@ -38,7 +38,7 @@
                     .catch(reject); // TODO
             }
 
-            getBars(symbolInfo, resolution, from, to = Date.now(), onHistoryCallback, onErrorCallback) {
+            getBars(symbolInfo, resolution, from, to = (Date.now() / 1000), onHistoryCallback, onErrorCallback) {
                 from = CandlesService.convertToMilliseconds(from);
                 to = CandlesService.convertToMilliseconds(to);
                 const handleCandles = (candles) => {
@@ -72,7 +72,7 @@
                 this._subscriber = subscriberUID;
 
                 const from = this._lastTime;
-                const to = CandlesService.convertToMilliseconds(Date.now());
+                const to = Date.now();
 
                 const handleCandles = (candles) => {
                     if (this._subscriber !== subscriberUID) {
