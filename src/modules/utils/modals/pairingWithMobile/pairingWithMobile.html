@@ -1,18 +1,30 @@
 <div class="btn icon-close ng-scope" w-modal-close></div>
 <div class="center">
 
-    <w-qr-code size="200" url="$ctrl.exportUrl"></w-qr-code>
+    <div class="center qr-wrapper" w-toggle-class-container>
+        <w-qr-code size="200" w-toggle-class="zoomed-in" url="$ctrl.exportUrl"></w-qr-code>
+
+        <div class="hide-qr-block flex relative">
+            <w-button class="interface" w-toggle-class="show-qr">
+                <span w-i18n="modal.pairing.showQr"></span>
+            </w-button>
+        </div>
+
+        <div class="pointer zoom-in-link center footnote-1 margin-top-1 basic-500"
+             w-toggle-class="zoomed-in"
+             w-i18n-ns="app.ui"
+             w-i18n="directives.transactionExport.qrZoomBtn"></div>
+    </div>
 
     <h3 class="basic-700 margin-top-3 margin-1" w-i18n="modal.settings.pairing.header"></h3>
     <div class="basic-500 margin-2 body-2" w-i18n="modal.pairing.scanCodeDescription"></div>
     <div class="basic-500 margin-1 body-2" w-i18n="modal.pairing.downloadAppDescription"></div>
 
-    <!-- TODO add names for apps -->
     <div class="flex buttons-wrapper mobile-logos">
-        <a href="itms://itunes.com/apps/_______"
+        <a href="https://itunes.apple.com/us/app/waves-wallet/id1233158971?mt=8"
            target="_blank"
            class="apple-store-btn margin-right-1"></a>
-        <a href="http://play.google.com/store/apps/details?id=_______"
+        <a href="https://play.google.com/store/apps/details?id=com.wavesplatform.wallet"
            target="_blank"
            class="google-play-btn"></a>
     </div>

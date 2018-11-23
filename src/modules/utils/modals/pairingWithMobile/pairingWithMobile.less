@@ -2,25 +2,46 @@
 @import (reference) 'config';
 
 .pairing-with-mobile {
-
   .icon-close {
     position: absolute;
     right: 40px;
     top: 20px;
+    z-index: 10;
   }
 
-  .mobile-logos {
+  .hide-qr-block {
+    background: @color-basic-50;
+    width: 200px;
+    height: 200px;
+    border: 1px dashed @color-basic-200;
+    border-radius: @border-radius;
 
+    w-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%)
+    }
   }
 
-  w-qr-code {
+  w-qr-code,
+  .hide-qr-block {
     margin-top: 60px;
   }
 
-}
+  .zoom-in-link,
+  w-qr-code {
+    display: none;
+  }
 
-@media screen and (max-width: 480px) {
-  .pairing-with-mobile {
+  .show-qr {
+    .hide-qr-block {
+      display: none;
+    }
 
+    w-qr-code,
+    .zoom-in-link {
+      display: block;
+    }
   }
 }
