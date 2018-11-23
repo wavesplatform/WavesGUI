@@ -5,6 +5,10 @@
                data="$ctrl.orders"
                header-info="$ctrl.headers">
 
+    <div class="order-permission-error error js-order-notification">
+        <i class="icon"></i><span w-i18n="directives.myOrders.noPermissionCancelOrder"></span>
+    </div>
+
     <div ng-if="$ctrl.hasScript"
          w-i18n="directives.myOrders.withScript"
          class="centered">
