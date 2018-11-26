@@ -4,14 +4,15 @@
     const ds = require('data-service');
 
     /**
-     *
+     * @param {typeof Base} Base
      * @param $q
      * @param {$rootScope.Scope} $scope
+     * @param {User} user
      * @return {Avatar}
      */
-    const controller = function ($q, $scope) {
+    const controller = function (Base, $q, $scope, user) {
 
-        class Avatar {
+        class Avatar extends Base {
 
             /**
              * @type {boolean}
@@ -36,6 +37,13 @@
 
             $postLink() {
                 this.style = { width: `${this.size}px`, height: `${this.size}px` };
+
+                if (!user.address) {
+                    this.receive(user.changeScript, () => {
+                        this.hasScript = user.hasScript();
+                        $scope.$apply();
+                    });
+                }
             }
 
             $onChanges() {
@@ -64,7 +72,7 @@
 
     };
 
-    controller.$inject = ['$q', '$scope'];
+    controller.$inject = ['Base', '$q', '$scope', 'user'];
 
     angular.module('app.ui')
         .component('wAvatar', {
