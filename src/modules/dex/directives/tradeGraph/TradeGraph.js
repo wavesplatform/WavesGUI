@@ -133,17 +133,19 @@
             }
 
             _getOrderBook() {
-                return (
-                    waves.matcher
-                        .getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
-                        .then((orderBook) => this._cutOffOutlyingOrdersIfNecessary(orderBook))
-                        .then(TradeGraph._buildCumulativeOrderBook)
-                        .catch(() => {
-                            this.loadingError = true;
-                            this.pending = false;
-                            $scope.$apply();
-                        })
-                );
+                return (waves.matcher
+                    .getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
+                    .then((orderBook) => this._cutOffOutlyingOrdersIfNecessary(orderBook))
+                    .then(TradeGraph._buildCumulativeOrderBook)
+                    .then(data => {
+                        this.loadingError = false;
+                        return data;
+                    })
+                    .catch(() => {
+                        this.loadingError = true;
+                        this.pending = false;
+                        $scope.$apply();
+                    }));
             }
 
             _setOrderBook(orderBook) {

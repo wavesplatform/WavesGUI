@@ -62,7 +62,7 @@
                     advancedMode: 'advancedMode'
                 });
 
-                this.observe('signable', this._onChangeSignable);
+                this.observe('signable', this.onChangeSignable);
             }
 
             sendTransaction() {
@@ -155,9 +155,9 @@
             }
 
             /**
-             * @private
+             * @protected
              */
-            _onChangeSignable() {
+            onChangeSignable() {
                 if (this.signable) {
                     if (this.advancedMode) {
                         this.signable.hasMySignature().then(state => {

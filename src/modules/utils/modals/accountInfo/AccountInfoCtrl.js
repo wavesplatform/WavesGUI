@@ -81,6 +81,18 @@
                  * @private
                  */
                 this._balance = null;
+                /**
+                 * @type {string}
+                 */
+                this.userType = user.userType;
+                /**
+                 * @type {boolean}
+                 */
+                this.isLedger = user.userType === 'ledger';
+                /**
+                 * @type {boolean}
+                 */
+                this.isKeeper = user.userType === 'wavesKeeper';
 
                 /**
                  * @type {boolean}

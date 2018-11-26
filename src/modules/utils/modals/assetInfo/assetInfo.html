@@ -64,7 +64,11 @@
             </div>
             <div ng-if="$ctrl.asset.description" class="line line-description">
                 <div class="basic-500" w-i18n="modal.assetInfo.description"></div>
-                <div class="basic-900">{{::$ctrl.asset.description}}</div>
+                <div class="basic-900"
+                     w-i18n="{{::$ctrl.asset.id}}.description"
+                     default-value="{{::$ctrl.asset.description}}"
+                     w-i18n-ns="app.ui"
+                     skip-errors></div>
             </div>
         </w-tab>
         <w-tab ng-if="!$ctrl.isDemo"

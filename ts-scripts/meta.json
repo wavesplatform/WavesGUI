@@ -35,8 +35,7 @@
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
     "node_modules/i18next/dist/umd/i18next.js",
     "node_modules/n3-charts/build/LineChart.min.js",
-    "node_modules/@waves/event-sender/dist/umd.js",
-    "node_modules/babel-polyfill/dist/polyfill.min.js"
+    "node_modules/@waves/event-sender/dist/umd.js"
   ],
   "exportPageVendors": [
     "node_modules/ts-utils/dist/ts-utils.min.js",
@@ -177,6 +176,7 @@
       "support": "https://support.wavesplatform.com",
       "nodeList": "http://dev.pywaves.org/testnet/generators/",
       "scamListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv",
+      "featuresConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/config.json",
       "assets": {
         "EUR": "AsuWyM9MUUsMmWkK7jS48L3ky6gA1pxx7QtEYPbfLjAJ",
         "USD": "D6N2rAqWN6ZCWnCeNFWLGqqjS6nJLeK4m19XiuhdDenr",
@@ -203,6 +203,7 @@
       "support": "https://support.wavesplatform.com",
       "nodeList": "https://forum.wavesplatform.com/c/pools",
       "scamListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv",
+      "featuresConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/config.json",
       "assets": {
         "EUR": "Gtb1WRznfchDnTh37ezoDTJ4wcoKaRsKqKjJjy7nm2zU",
         "USD": "Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck",

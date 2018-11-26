@@ -86,9 +86,10 @@
                         canLoginPromise = adapterAvailablePromise.then(() => api.getAddress())
                             .then(address => address === activeUser.address ? true : Promise.resolve('Wrong address!'));
                     } else {
-                        canLoginPromise = modalManager.showSignLedger({
+                        canLoginPromise = modalManager.showSignByDevice({
                             promise: adapterAvailablePromise,
-                            mode: `connect-${api.type}`
+                            mode: `connect-${api.type}`,
+                            userType: api.type
                         }).then(() => adapterAvailablePromise);
                     }
 
@@ -101,7 +102,12 @@
                         });
                     }, () => {
                         if (!this._isSeedAdapter(api)) {
-                            return modalManager.showLedgerError({ error: 'load-user-error' })
+                            const errorData = {
+                                error: 'load-user-error',
+                                userType: api.type,
+                                address: activeUser.address
+                            };
+                            return modalManager.showSignDeviceError(errorData)
                                 .catch(() => Promise.resolve());
                         } else {
                             this._showPasswordError();

@@ -105,6 +105,7 @@
         'app.restore',
         'app.desktop',
         'app.ledger',
+        'app.keeper',
         'app.import',
         'app.wallet',
         'app.dex',

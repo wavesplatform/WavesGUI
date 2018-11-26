@@ -4,16 +4,18 @@
         <div class="modal-content">
 
             <i class="icon-remove margin-3"></i>
-            <h3 ng-if="$ctrl.isSeed" w-i18n="modal.removeAccount.heading"></h3>
-            <h3 ng-if="$ctrl.isLedger" w-i18n="modal.removeLedgerAccount.heading"></h3>
+            <h3 ng-if="$ctrl.isSeed" w-i18n="modal.removeAccount.heading" class="basic-700"></h3>
+            <h3 ng-if="$ctrl.isLedger" w-i18n="modal.removeLedgerAccount.heading" class="basic-700"></h3>
+            <h3 ng-if="$ctrl.isKeeper" w-i18n="modal.removeKeeperAccount.heading" class="basic-700"></h3>
 
             <div class="warning-500 body-2 margin-1" ng-if="!$ctrl.hasBackup">
                 <i class="icon-warning footnote-1"></i>
                 <span w-i18n="modal.removeAccount.warning"></span>
             </div>
 
-            <div ng-if="$ctrl.isSeed" class="margin-3 disabled-600 body-2" w-i18n="modal.removeAccount.text"></div>
-            <div  ng-if="$ctrl.isLedger" class="margin-3 disabled-600 body-2" w-i18n="modal.removeLedgerAccount.text"></div>
+            <div ng-if="$ctrl.isSeed" class="margin-3 basic-500 body-2" w-i18n="modal.removeAccount.text"></div>
+            <div  ng-if="$ctrl.isLedger" class="margin-3 basic-500 body-2" w-i18n="modal.removeLedgerAccount.text"></div>
+            <div  ng-if="$ctrl.isKeeper" class="margin-3 basic-500 body-2" w-i18n="modal.removeKeeperAccount.text"></div>
 
             <div class="buttons-wrapper">
                 <w-button w-modal-close
