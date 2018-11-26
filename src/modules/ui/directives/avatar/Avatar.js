@@ -38,12 +38,10 @@
             $postLink() {
                 this.style = { width: `${this.size}px`, height: `${this.size}px` };
 
-                if (!user.address) {
-                    this.receive(user.changeScript, () => {
-                        this.hasScript = user.hasScript();
-                        $scope.$apply();
-                    });
-                }
+                this.receive(user.changeScript, () => {
+                    this.hasScript = user.hasScript();
+                    $scope.$apply();
+                });
             }
 
             $onChanges() {
