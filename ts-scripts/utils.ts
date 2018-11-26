@@ -195,6 +195,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                 matcherPriorityList: JSON.stringify(param.connection === 'mainnet' ? MAINNET_DATA : TESTNET_DATA, null, 4),
                 betaOrigin: meta.betaOrigin,
                 targetOrigin: meta.targetOrigin,
+                bankRecipient: meta.configurations[param.connection].bankRecipient,
                 build: {
                     type: param.type
                 },

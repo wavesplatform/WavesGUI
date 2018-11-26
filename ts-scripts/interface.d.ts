@@ -51,10 +51,19 @@ export interface IHash<T> {
 }
 
 export interface IConfItem {
+    apiVersion: string;
     code: string;
+    bankRecipient: string;
     node: string;
-    coinomat: string;
     matcher: string;
+    api: string;
+    explorer: string;
+    coinomat: string;
+    support: string;
+    nodeList: string;
+    scamListUrl: string;
+    featuresConfigUrl: string;
+    assets: IHash<string>;
 }
 
 export type TConnection = 'mainnet' | 'testnet';
