@@ -1,5 +1,12 @@
 <w-step-by-step active-step="$ctrl.step">
     <w-step>
+        <h1 w-i18n="warning"></h1>
+        <h2>TODO MAX</h2>
+        <w-button class="submit big long" on-click="$ctrl.nextStep()">
+            <span w-i18n="directives.scriptForm.acceptAndContinue"></span>
+        </w-button>
+    </w-step>
+    <w-step>
         <w-script-tx-form on-success="$ctrl.nextStep(signable)"
                           state="$ctrl.activeState"></w-script-tx-form>
     </w-step>

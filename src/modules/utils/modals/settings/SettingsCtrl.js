@@ -14,7 +14,7 @@
      * @param {Storage} storage
      * @return {SettingsCtrl}
      */
-    const controller = function (Base, $scope, waves, user, createPoll, $templateRequest, utils, storage) {
+    const controller = function (Base, $scope, waves, user, createPoll, $templateRequest, utils, storage, modalManager) {
 
         class SettingsCtrl extends Base {
 
@@ -176,13 +176,17 @@
                     document.body.removeChild(loaderEl);
                 }, 4100);
             }
+            showScriptModal() {
+                modalManager.showScriptModal();
+            }
 
         }
 
         return new SettingsCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'waves', 'user', 'createPoll', '$templateRequest', 'utils', 'storage'];
+    controller.$inject = ['Base', '$scope', 'waves', 'user', 'createPoll', '$templateRequest', 'utils', 'storage',
+        'modalManager'];
 
     angular.module('app.utils').controller('SettingsCtrl', controller);
 
