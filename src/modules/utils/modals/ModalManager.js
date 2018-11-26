@@ -89,9 +89,9 @@
                 });
             }
 
-            showSignLedger(options) {
+            showSignByDevice(options) {
                 return this._getModal({
-                    id: 'signable-by-device',
+                    id: 'sign-by-device',
                     contentUrl: 'modules/utils/modals/signByDevice/signByDevice.html',
                     controller: 'SignByDeviceCtrl',
                     locals: {
@@ -120,7 +120,7 @@
 
             showGatewaySign(search) {
                 return this._getModal({
-                    id: 'gateway-signable-in',
+                    id: 'gateway-sign-in',
                     title: '{{$ctrl.titleLiteral}}',
                     contentUrl: 'modules/utils/modals/gateway/gatewaySign.html',
                     controller: 'GatewaySignCtrl',
