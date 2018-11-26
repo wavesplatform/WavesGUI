@@ -3,7 +3,7 @@
 
     /**
      * @param Base
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param {User} user
      * @return {PairingWithMobileCtrl}
      */
@@ -12,13 +12,26 @@
         class PairingWithMobileCtrl extends Base {
 
             exportUrl = '';
+            userType = user.userType;
+            canShowPairing = true;
+
 
             constructor() {
                 super($scope);
 
-                const name = user.name ? `&name=${user.name}` : '';
-                const base = window.location.origin;
-                this.exportUrl = `${base}/export/${user.address}?encryptedSeed=${user.encryptedSeed}${name}`;
+                // const name = user.name ? `&name=${user.name}` : '';
+                // const base = window.location.origin;
+
+                ds.signature.getSignatureApi().getSeed()
+                    .then(seed => {
+                        this.exportUrl = seed;
+                    })
+                    .catch(() => {
+                        this.canShowPairing = false;
+                    })
+                    .then(() => {
+                        $scope.$apply();
+                    });
             }
 
         }

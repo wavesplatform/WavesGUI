@@ -1,6 +1,6 @@
 <div class="btn icon-close ng-scope" w-modal-close></div>
-<div class="center">
-
+<div ng-if="$ctrl.canShowPairing"
+     class="center">
     <div class="center qr-wrapper" w-toggle-class-container>
         <w-qr-code size="200" w-toggle-class="zoomed-in" url="$ctrl.exportUrl"></w-qr-code>
 
@@ -28,5 +28,18 @@
            target="_blank"
            class="google-play-btn"></a>
     </div>
+</div>
 
+<div ng-if="!$ctrl.canShowPairing"
+     class="center unavailable">
+    <div class="icon pairing-unavailable"></div>
+
+    <h3 class="basic-700 margin-top-3 margin-1"
+        w-i18n="modal.settings.pairing.unavailable.header.{{$ctrl.userType}}"></h3>
+    <div class="basic-500 margin-2 body-2"
+         w-i18n="modal.settings.pairing.unavailable.description.{{$ctrl.userType}}"></div>
+
+    <w-button class="submit big" w-modal-close>
+        <span w-i18n="modal.settings.pairing.unavailable.ok"></span>
+    </w-button>
 </div>
