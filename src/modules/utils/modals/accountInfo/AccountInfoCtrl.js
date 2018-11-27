@@ -158,7 +158,7 @@
                             $scope.$digest();
                         })
                     .catch((error) => {
-                        this.errorCreateAliasMsg = utils.parseError(error).message;
+                        this.errorCreateAliasMsg = utils.parseError(error);
                     });
             }
 

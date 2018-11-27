@@ -1144,7 +1144,7 @@
              */
             parseError(error) {
                 try {
-                    return typeof error === 'string' ? JSON.parse(error) : error;
+                    return typeof error === 'string' ? JSON.parse(error).message : error;
                 } catch (e) {
                     return error;
                 }
