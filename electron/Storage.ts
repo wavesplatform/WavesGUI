@@ -40,7 +40,7 @@ export class Storage {
     private initializeStorageCache(): Promise<void> {
         this.storageCache = Object.create(null);
 
-        const applybackup = () => {
+        const applyBackup = () => {
             this.createNotification();
             return readJSON(this.backupPath).then(cache => {
                 Object.assign(this.storageCache, cache);
@@ -56,9 +56,9 @@ export class Storage {
                         Object.assign(this.storageCache, cache);
                         return writeJSON(this.backupPath, cache);
                     })
-                    .catch(applybackup);
+                    .catch(applyBackup);
             })
-            .catch(() => exist(this.backupPath).then(applybackup))
+            .catch(() => exist(this.backupPath).then(applyBackup))
             .catch(() => writeJSON(this.storagePath, this.storageCache));
     }
 
