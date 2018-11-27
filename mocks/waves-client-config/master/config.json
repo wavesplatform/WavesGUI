@@ -6,7 +6,8 @@
       "LTC",
       "ZEC",
       "BCH",
-      "DASH"
+      "DASH",
+      "XMR"
     ],
     "CAN_TRANSFER_TRANSACTION": true,
     "CAN_MASS_TRANSFER_TRANSACTION": true,
@@ -21,7 +22,8 @@
     "CAN_DATA_TRANSACTION": true,
     "CAN_CREATE_ORDER": true,
     "CAN_CANCEL_ORDER": true,
-    "CAN_ANY_TRANSACTION": true
+    "CAN_ANY_TRANSACTION": true,
+    "CAN_PAIRING_WITH_MOBILE": true
   },
   "DEX_BLACK_LIST": []
 }
