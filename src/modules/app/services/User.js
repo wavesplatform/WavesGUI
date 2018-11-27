@@ -9,7 +9,8 @@
     const NOT_SYNC_FIELDS = [
         'changeSetting',
         'extraFee',
-        'networkError'
+        'networkError',
+        'changeScript'
     ];
 
     /**
@@ -94,6 +95,10 @@
              * @type {Money}
              */
             extraFee = null;
+            /**
+             * @type {Signal<void>}
+             */
+            changeScript = new tsUtils.Signal();
             /**
              * @type {DefaultSettings}
              * @private
@@ -439,12 +444,19 @@
                     throw new Error('Can\'t get Waves asset');
                 }
 
+                const addHasScript = value => {
+                    if (this._hasScript !== value) {
+                        this._hasScript = value;
+                        this.changeScript.dispatch();
+                    }
+                };
+
                 try {
                     const response = await ds.fetch(`${ds.config.get('node')}/addresses/scriptInfo/${address}`);
                     this.extraFee = Money.fromCoins(response.extraFee, waves);
-                    this._hasScript = response.extraFee !== 0;
+                    addHasScript(response.extraFee !== 0);
                 } catch (e) {
-                    this._hasScript = !!this._hasScript;
+                    addHasScript(!!this._hasScript);
                     this.extraFee = this.extraFee || Money.fromCoins(0, waves);
                 }
             }

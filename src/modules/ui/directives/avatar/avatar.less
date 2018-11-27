@@ -1,7 +1,22 @@
 @import (reference) 'icons';
 @import (reference) 'config';
 
-.avatar-wrap {
+.avatar-label {
+  position: absolute;
+  content: '';
+  width: 16px;
+  height: 16px;
+  bottom: 0;
+  left: calc(100% ~'- 15px');
+  border-radius: 50%;
+  background-color: @color-white;
+  background-position: center center;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 3px 0 rgba(34, 34, 34, 0.24);
+}
+
+w-avatar .avatar-wrap {
+  position: relative;
   overflow: hidden;
   margin: auto;
   cursor: pointer;
@@ -11,33 +26,36 @@
   }
 }
 
-w-avatar[type='wavesKeeper'],
-w-avatar[type='ledger'] {
-  position: relative;
-
-  &::after {
-    position: absolute;
-    content: '';
-    width: 16px;
-    height: 16px;
-    bottom: 0;
-    left: calc(100% ~'- 15px');
-    border-radius: 50%;
-    background-color: @color-white;
-    background-position: center center;
-    background-repeat: no-repeat;
-    box-shadow: 0 0 3px 0 rgba(34, 34, 34, 0.24);
-  }
-}
-
-w-avatar[type='ledger'] {
-  &::after {
-    background-image: @ledger-mini-icon;
-  }
-}
-
+w-avatar[type='ledger'],
 w-avatar[type='wavesKeeper'] {
-  &::after {
-    background-image: @keeper-mini-icon;
+  .avatar-wrap:not(.scripted) {
+    &::after {
+      .avatar-label;
+    }
+  }
+}
+
+w-avatar {
+  &[type='ledger'] {
+    .avatar-wrap:not(.scripted)::after {
+      background-image: @ledger-mini-icon;
+    }
+  }
+
+  &[type='wavesKeeper'] {
+    .avatar-wrap:not(.scripted)::after {
+      background-image: @keeper-mini-icon;
+    }
+  }
+}
+
+w-avatar[type='seed'],
+w-avatar[type='ledger'],
+w-avatar[type='wavesKeeper'] {
+  .avatar-wrap.scripted {
+    &::after {
+      .avatar-label;
+      background-image: @scripted-mini-icon;
+    }
   }
 }
