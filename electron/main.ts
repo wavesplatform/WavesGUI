@@ -5,16 +5,24 @@ import { app, BrowserWindow, screen, Menu } from 'electron';
 import { Bridge } from './Bridge';
 import { ISize, IMetaJSON, ILastOpen } from './package';
 import { join } from 'path';
-import { hasProtocol, read, readJSON, removeProtocol, write, writeJSON, readdir, parseElectronUrl } from './utils';
+import {
+    hasProtocol,
+    read,
+    readJSON,
+    removeProtocol,
+    write,
+    writeJSON,
+    parseElectronUrl,
+    changeLanguage,
+    localeReady
+} from './utils';
 import { homedir } from 'os';
-import { execSync } from 'child_process'
+import { execSync } from 'child_process';
 import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST } from './constansts';
 import { get } from 'https';
 
-const i18next = require(join(__dirname, 'i18next', 'commonjs', 'index.js'));
-
 import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOptions;
-import { IPackageJSON } from "../ts-scripts/interface";
+import { IPackageJSON } from '../ts-scripts/interface';
 
 
 const META_PATH = join(app.getPath('userData'), META_NAME);
@@ -25,22 +33,18 @@ class Main implements IMain {
     public mainWindow: BrowserWindow;
     public menu: Menu;
     public bridge: Bridge;
-    private i18next: any;
     private initializeUrl: string = '';
     private hasDevTools: boolean = false;
     private dataPromise: Promise<IMetaJSON>;
-    private localeReadyPromise: Promise<Function>;
     private lastLoadedVersion: string;
     private readonly pack: IPackageJSON;
     private readonly ignoreSslError: boolean;
     private readonly noReplaceDesktopFile: boolean;
-    private readonly server: string;
 
     constructor() {
         const canOpenElectron = this.makeSingleInstance();
 
         if (!canOpenElectron) {
-            console.log('null')
             return null;
         }
 
@@ -55,7 +59,6 @@ class Main implements IMain {
         this.mainWindow = null;
         this.bridge = new Bridge(this);
         this.dataPromise = Main.loadMeta();
-        this.localeReadyPromise = this.getLocaleReadyPromise();
 
         this.setHandlers();
     }
@@ -68,48 +71,20 @@ class Main implements IMain {
                     this.mainWindow.reload();
                 } else {
                     const url = this.mainWindow.webContents.getURL();
-                    this.mainWindow.loadURL(url, {'extraHeaders': 'pragma: no-cache\n'});
+                    this.mainWindow.loadURL(url, { 'extraHeaders': 'pragma: no-cache\n' });
                     this.lastLoadedVersion = version;
                 }
             });
     }
 
     public setLanguage(lng: string): void {
-        i18next.changeLanguage(lng);
+        changeLanguage(lng);
         this.addApplicationMenu();
     }
 
     public addDevTools() {
         this.hasDevTools = true;
         this.addApplicationMenu();
-    }
-
-    private getLocaleReadyPromise(): Promise<Function> {
-        return readdir(join(__dirname, 'locales'))
-            .then(list => {
-                const resources = list.map(lang => ({
-                    lang,
-                    value: require(join(__dirname, 'locales', lang, 'electron.json'))
-                }));
-
-                const instance = i18next.init({
-                    fallbackLng: 'en',
-                    lng: 'en',
-                    ns: ['electron']
-                });
-
-                this.i18next = instance;
-
-                resources.forEach(({ lang, value }) => {
-                    instance.addResourceBundle(lang, 'electron', value, true);
-                });
-
-                return new Promise((resolve) => {
-                    i18next.on('initialized', () => {
-                        resolve((literal, options) => instance.t(`electron:${literal}`, options));
-                    });
-                }) as Promise<Function>;
-            })
     }
 
     private makeSingleInstance(): boolean {
@@ -154,9 +129,12 @@ class Main implements IMain {
             const url = `${path}${parts.search}${parts.hash}`;
 
             this.mainWindow.loadURL(`https://${pack.server}/#!${url}`, { 'extraHeaders': 'pragma: no-cache\n' });
-            Main.loadVersion(pack).then(version => {
-                this.lastLoadedVersion = version;
-            });
+
+            Main.loadVersion(pack)
+                .catch(() => null)
+                .then(version => {
+                    this.lastLoadedVersion = version;
+                });
 
             this.mainWindow.on('closed', () => {
                 this.mainWindow = null;
@@ -205,7 +183,7 @@ class Main implements IMain {
         app.on('open-url', (event, url) => {
             event.preventDefault();
             this.openProtocolIn(url);
-        })
+        });
     }
 
     private onAppReady() {
@@ -216,7 +194,7 @@ class Main implements IMain {
 
     private addApplicationMenu(): Promise<void> {
         Menu.setApplicationMenu(null);
-        return this.localeReadyPromise.then(t => {
+        return localeReady.then(t => {
             const menuList = GET_MENU_LIST(app, t, this.hasDevTools);
             this.menu = Menu.buildFromTemplate(menuList);
             Menu.setApplicationMenu(this.menu);
@@ -338,7 +316,11 @@ class Main implements IMain {
 
                 // The whole response has been received. Print out the result.
                 res.on('end', () => {
-                    resolve(JSON.parse(data.toString()).version);
+                    try {
+                        resolve(JSON.parse(data.toString()).version);
+                    } catch (e) {
+                        reject();
+                    }
                 });
 
                 res.on('error', e => {
