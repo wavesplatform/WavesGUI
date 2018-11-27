@@ -36,6 +36,12 @@ const remapPairInfo = (pairs: Array<AssetPair>, volumeFactory: (data: TMoneyInpu
     const firstPrice = moneyFactory(data.firstPrice);
     const volume = volumeFactory(data.volumeWaves);
     const change24 = change24F(firstPrice && firstPrice.getTokens(), lastPrice && lastPrice.getTokens());
+
+    if (change24 > 1000) {
+        const change24 = new BigNumber(change24.toFormat(0));
+    }
+
+
     const id = [amountAsset.id, priceAsset.id].sort().join();
 
     return { amountAsset, priceAsset, lastPrice, firstPrice, volume, change24, id };
