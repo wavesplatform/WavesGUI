@@ -79,9 +79,19 @@
                 });
             }
 
+            showPairingWithMobile() {
+                return this._getModal({
+                    id: 'pairing-with-mobile',
+                    title: '',
+                    contentUrl: 'modules/utils/modals/pairingWithMobile/pairingWithMobile.html',
+                    controller: 'PairingWithMobileCtrl',
+                    mod: 'pairing-with-mobile'
+                });
+            }
+
             showSignByDevice(options) {
                 return this._getModal({
-                    id: 'signable-by-device',
+                    id: 'sign-by-device',
                     contentUrl: 'modules/utils/modals/signByDevice/signByDevice.html',
                     controller: 'SignByDeviceCtrl',
                     locals: {
@@ -110,7 +120,7 @@
 
             showGatewaySign(search) {
                 return this._getModal({
-                    id: 'gateway-signable-in',
+                    id: 'gateway-sign-in',
                     title: '{{$ctrl.titleLiteral}}',
                     contentUrl: 'modules/utils/modals/gateway/gatewaySign.html',
                     controller: 'GatewaySignCtrl',
