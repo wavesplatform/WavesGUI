@@ -426,7 +426,7 @@ task('electron-debug', function (done) {
 });
 
 task('data-service', function () {
-    execSync(`${join('node_modules', '.bin', 'tsc')} -p data-service && ${join('node_modules', '.bin', 'browserify')} ${join('data-service', 'index.js')} -s ds -u ts-utils -u bignumber.js -u @waves/data-entities -u ramda -u @waves/signature-generator -u @waves/signature-adapter -o ${join('data-service-dist', 'data-service.js')}`);
+    execSync('npm run data-service');
 });
 
 task('all', [
