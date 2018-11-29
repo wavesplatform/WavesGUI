@@ -320,26 +320,73 @@
              * @private
              */
             _toTemplate(list, crop, priceHash, maxAmount) {
+
+                const viewPortHeight = this._dom.$box.prevObject[0].clientHeight;
+                const fix = Math.floor(viewPortHeight / 50);
+                const type = list[0].type;
+
+                const fakeOrder = { type: type, amount: '-', price: '-', total: '-', totalAmount: '-' };
+                const diff = fix - list.length;
+
+                if (list.length < fix && list.length > 0) {
+                    for (let i = 0; i < diff; i++) {
+                        if (type === 'buy') {
+                            list.unshift(fakeOrder);
+                        } else {
+                            list.push(fakeOrder);
+                        }
+                    }
+                }
+
                 return list.map((order) => {
-                    const hasOrder = !!priceHash[order.price.toFixed(this.priceAsset.precision)];
-                    const inRange = order.price.gte(crop.min) && order.price.lte(crop.max);
-                    const type = order.type;
-                    const totalAmount = order.totalAmount && order.totalAmount.toFixed();
-                    const width = order.amount.div(maxAmount).times(100).toFixed(2);
-                    const amount = utils.getNiceNumberTemplate(order.amount, this.amountAsset.precision, true);
-                    const price = utils.getNiceNumberTemplate(order.price, this.priceAsset.precision, true);
-                    const total = utils.getNiceNumberTemplate(order.total, this.priceAsset.precision, true);
-                    const priceNum = order.price.toFixed();
-                    const totalAmountNum = order.totalAmount && order.totalAmount.toFixed();
+
                     const amountAsset = this.amountAsset.displayName;
                     const priceAsset = this.priceAsset.displayName;
-                    const buyTooltip = i18n.translate('orderbook.ask.tooltipText', 'app.dex', {
-                        amountAsset, priceAsset, price: order.price.toFormat(this.priceAsset.precision)
-                    });
-                    const sellTooltip = i18n.translate('orderbook.bid.tooltipText', 'app.dex', {
-                        amountAsset, priceAsset, price: order.price.toFormat(this.priceAsset.precision)
-                    });
+                    const type = order.type;
 
+                    let hasOrder = null;
+                    let inRange = null;
+                    let totalAmount  = null;
+                    let amount  = null;
+                    let price = null;
+                    let total = null;
+                    let width = null;
+                    let priceNum = null;
+                    let totalAmountNum = null;
+                    let buyTooltip = null;
+                    let sellTooltip = null;
+
+                    if (typeof order.price === 'object' ){
+                        hasOrder = !!priceHash[order.price.toFixed(this.priceAsset.precision)];
+                        inRange = order.price.gte(crop.min) && order.price.lte(crop.max);
+                        totalAmount = order.totalAmount && order.totalAmount.toFixed();
+                        width = order.amount.div(maxAmount).times(100).toFixed(2);
+                        amount = utils.getNiceNumberTemplate(order.amount, this.amountAsset.precision, true);
+                        price = utils.getNiceNumberTemplate(order.price, this.priceAsset.precision, true);
+                        total = utils.getNiceNumberTemplate(order.total, this.priceAsset.precision, true);
+                        priceNum = order.price.toFixed();
+                        totalAmountNum = order.totalAmount && order.totalAmount.toFixed();
+
+                        buyTooltip = i18n.translate('orderbook.ask.tooltipText', 'app.dex', {
+                            amountAsset, priceAsset, price: order.price.toFormat(this.priceAsset.precision)
+                        });
+                        sellTooltip = i18n.translate('orderbook.bid.tooltipText', 'app.dex', {
+                            amountAsset, priceAsset, price: order.price.toFormat(this.priceAsset.precision)
+                        });
+
+                    } else {
+                        hasOrder = false;
+                        inRange = false;
+                        totalAmount = '-';
+                        amount = '<span>-</span>';
+                        price = '<span>-</span>';
+                        total = '<span>-</span>';
+                        width = 0;
+                        priceNum = '-';
+                        totalAmountNum = '-';
+                        buyTooltip = '';
+                        sellTooltip = '';
+                    }
                     return this._template({
                         hasOrder,
                         inRange,
