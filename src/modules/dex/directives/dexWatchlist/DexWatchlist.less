@@ -18,6 +18,33 @@ body.dex-demo .dex-wrapper {
         position: relative;
         display: inline-block;
         width: 100%;
+        z-index: 4;
+
+        w-help-icon {
+          position: absolute;
+          top: 50%;
+          right: 10px;
+          z-index: 2;
+          transform: translate(0, -50%);
+
+          .help-icon {
+            &__content {
+              left: 0;
+              margin-top: 7px;
+              padding: 12px 12px 8px;
+              min-width: 235px;
+              transform: translate(calc(-50% ~'+ 15px'), 0);
+            }
+          }
+
+          .label-background {
+            background: @color-basic-50;
+            display: inline-block;
+            padding: 2px 3px;
+            border-radius: @border-radius / 2;
+            margin: 0 4px 2px 0;
+          }
+        }
        }
 
       input {
@@ -365,6 +392,16 @@ body.dex-demo .dex-wrapper {
 
       &.active {
         background: @dex-star-active-icon center no-repeat;
+      }
+    }
+  }
+
+  div[data-block="watchlist"] {
+    w-dex-block {
+      .block-wrapper {
+        .dex-block-content {
+          overflow: visible;
+        }
       }
     }
   }

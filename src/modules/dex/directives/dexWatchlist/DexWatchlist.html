@@ -27,6 +27,24 @@
         <i ng-if="$ctrl.search.length > 0"
            class="input-clear"
            ng-click="$ctrl.search = ''"></i>
+        <w-help-icon ng-if="!$ctrl.search.length">
+            <div class="help-icon__row bold caption-2 basic-700" w-i18n="directives.watchlist.helpIcon.header"></div>
+            <div ng-if="$ctrl.activeTab === 'all'" class="help-icon__row caption-2 basic-700">
+                <div>
+                    <span class="label-background" w-i18n="directives.watchlist.helpIcon.name"></span>
+                    <span class="label-background" w-i18n="directives.watchlist.helpIcon.name1Name2"></span>
+                </div>
+                <div>
+                    <span class="label-background" w-i18n="directives.watchlist.helpIcon.assetId"></span>
+                    <span class="label-background" w-i18n="directives.watchlist.helpIcon.AssetId1AssetId2"></span>
+                </div>
+            </div>
+            <div ng-if="!$ctrl.activeTab === 'all'" class="help-icon__row caption-2 basic-700">
+                <span class="label-background" w-i18n="directives.watchlist.helpIcon.name">Name</span>/
+                <span class="label-background" w-i18n="directives.watchlist.helpIcon.assetId">AssetID</span>
+            </div>
+            <div class="help-icon__row caption-2 basic-700" w-i18n="directives.watchlist.helpIcon.description"></div>
+        </w-help-icon>
     </div>
     <w-loader ng-if="$ctrl.pending"></w-loader>
     <w-smart-table ng-if="!$ctrl.pending"
