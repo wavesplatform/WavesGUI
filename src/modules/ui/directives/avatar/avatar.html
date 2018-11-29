@@ -1,3 +1,5 @@
-<div class="avatar-wrap" ng-style="$ctrl.style">
+<div ng-class="{scripted: $ctrl.hasScript}"
+     class="avatar-wrap"
+     ng-style="$ctrl.style">
     <img width="{{$ctrl.size}}" height="{{$ctrl.size}}" ng-src="{{$ctrl.src}}">
 </div>

@@ -33,10 +33,10 @@ function removeFromStoreById<T>(container: TStore<T>, idKey: keyof T, item: Part
     }
 }
 
-function creteClearStore<T>(addContainre: TStore<T>, addRemoveF: IRemoveOrderFunc<Partial<T>>, idKey: keyof T) {
+function createClearStore<T>(addContainer: TStore<T>, addRemoveF: IRemoveOrderFunc<Partial<T>>, idKey: keyof T) {
     return (item: Partial<T> | Array<Partial<T>>) => {
         toArray(item).forEach((item) => {
-            removeFromStoreById(addContainre, idKey, item);
+            removeFromStoreById(addContainer, idKey, item);
         });
         addRemoveF(item);
         return item;
@@ -53,7 +53,7 @@ function createProcessStore<T>(toAddContainer: TStore<T>, toRemoveContainer: TSt
 
 const addToRemoveStore = createAddStore(toRemoveOrders, 10000);
 export const addOrderToStore = createAddStore(ordersStore, 10000);
-export const removeOrderFromStore = creteClearStore(ordersStore, addToRemoveStore, 'id');
+export const removeOrderFromStore = createClearStore(ordersStore, addToRemoveStore, 'id');
 export const processOrdersWithStore = createProcessStore(ordersStore, toRemoveOrders, 'id');
 
 export interface IStoreContainerItem<T> {
