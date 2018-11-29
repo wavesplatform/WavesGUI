@@ -38,6 +38,13 @@
                 });
             }
 
+            onChangeSignable() {
+                super.onChangeSignable();
+                if (this.tx) {
+                    this.permissionName = ConfirmTransaction._getPermissionNameByTx(this.tx);
+                }
+            }
+
             getSignable() {
                 return this.signable;
             }
@@ -127,6 +134,37 @@
                 }
             }
 
+
+            static _getPermissionNameByTx(tx) {
+                switch (tx.type) {
+                    case SIGN_TYPE.ISSUE:
+                        return 'CAN_ISSUE_TRANSACTION';
+                    case SIGN_TYPE.TRANSFER:
+                        return 'CAN_TRANSFER_TRANSACTION';
+                    case SIGN_TYPE.REISSUE:
+                        return 'CAN_REISSUE_TRANSACTION';
+                    case SIGN_TYPE.BURN:
+                        return 'CAN_BURN_TRANSACTION';
+                    case 7:
+                        throw new Error('Can\' confirm exchange transaction!');
+                    case SIGN_TYPE.LEASE:
+                        return 'CAN_LEASE_TRANSACTION';
+                    case SIGN_TYPE.CANCEL_LEASING:
+                        return 'CAN_CANCEL_LEASE_TRANSACTION';
+                    case SIGN_TYPE.CREATE_ALIAS:
+                        return 'CAN_CREATE_ALIAS_TRANSACTION';
+                    case SIGN_TYPE.MASS_TRANSFER:
+                        return 'CAN_MASS_TRANSFER_TRANSACTION';
+                    case SIGN_TYPE.DATA:
+                        return 'CAN_DATA_TRANSACTION';
+                    case SIGN_TYPE.SET_SCRIPT:
+                        return 'CAN_SET_SCRIPT_TRANSACTION';
+                    case SIGN_TYPE.SPONSORSHIP:
+                        return 'CAN_SPONSORSHIP_TRANSACTION';
+                    default:
+                        return '';
+                }
+            }
 
         }
 

@@ -14,8 +14,11 @@
      * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
      * @param {DexDataService} dexDataService
+     * @param {ModalManager} modalManager
+     * @param {PermissionManager} permissionManager,
+     * @param {Ease} ease
+     * @param {JQuery} $element
      * @return {DexMyOrders}
-     * @return {modalManager}
      */
     const controller = function (
         Base,
@@ -26,7 +29,10 @@
         utils,
         $scope,
         dexDataService,
-        modalManager
+        modalManager,
+        permissionManager,
+        ease,
+        $element
     ) {
 
         const R = require('ramda');
@@ -221,6 +227,12 @@
             }
 
             cancelAllOrders() {
+                if (!permissionManager.isPermitted('CAN_CANCEL_ORDER')) {
+                    const $notify = $element.find('.js-order-notification');
+                    DexMyOrders._animateNotification($notify);
+                    return null;
+                }
+
                 this.orders.filter(tsUtils.contains({ isActive: true })).forEach((order) => {
                     this.dropOrder(order);
                 });
@@ -277,6 +289,12 @@
              * @param order
              */
             dropOrder(order) {
+
+                if (!permissionManager.isPermitted('CAN_CANCEL_ORDER')) {
+                    const $notify = $element.find('.js-order-notification');
+                    DexMyOrders._animateNotification($notify);
+                    return null;
+                }
 
                 const dataPromise = this.dropOrderGetSignData(order);
 
@@ -359,6 +377,26 @@
                 }
             }
 
+            static _animateNotification($element) {
+                return utils.animate($element, { t: 100 }, {
+                    duration: 1200,
+                    step: function (tween) {
+                        const progress = ease.bounceOut(tween / 100);
+                        $element.css('transform', `translate(0, ${-100 + progress * 100}%)`);
+                    }
+                })
+                    .then(() => utils.wait(700))
+                    .then(() => {
+                        return utils.animate($element, { t: 0 }, {
+                            duration: 500,
+                            step: function (tween) {
+                                const progress = ease.linear(tween / 100);
+                                $element.css('transform', `translate(0, ${(-((1 - progress) * 100))}%)`);
+                            }
+                        });
+                    });
+            }
+
         }
 
         return new DexMyOrders();
@@ -373,7 +411,10 @@
         'utils',
         '$scope',
         'dexDataService',
-        'modalManager'
+        'modalManager',
+        'permissionManager',
+        'ease',
+        '$element'
     ];
 
     angular.module('app.dex').component('wDexMyOrders', {
