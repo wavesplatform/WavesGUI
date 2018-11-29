@@ -17,7 +17,7 @@ import {
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
-import { readFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { render } from 'less';
 
 const zip = require('gulp-zip');
@@ -339,7 +339,10 @@ task('babel', ['concat-develop'], function () {
                 'transform-object-rest-spread'
             ]
         }))
-        .pipe(gulp.dest(tmpJsPath));
+        .pipe(gulp.dest(tmpJsPath))
+        .on('end', () => {
+            writeFileSync(bundlePath, `(function () {${readFileSync(bundlePath, 'utf8')}})()`);
+        });
 });
 
 task('uglify', ['babel', 'templates'], function (done) {
