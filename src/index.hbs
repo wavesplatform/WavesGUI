@@ -470,14 +470,15 @@
                 }
             }
 
-            function runMainProcessEvent(...args) {
+            function runMainProcessEvent() {
+                var args = Array.prototype.slice.call(arguments);
                 __mainListeners.slice().forEach(function (cb) {
                     try {
-                        cb(...args);
+                        cb.apply(this, args);
                     } catch (e) {
                         console.error(e);
                     }
-                });
+                }, this);
             }
         }
 
