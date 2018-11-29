@@ -48,12 +48,12 @@
                 </div>
 
                 <div class="row flex-row row-style unit-select">
-                    <div class="footnote-1 disabled-600" w-i18n="modal.settings.general.language"></div>
+                    <div class="footnote-1 basic-500" w-i18n="modal.settings.general.language"></div>
                     <w-change-language on-change="$ctrl.onChangeLanguage(language)"></w-change-language>
                 </div>
 
                 <div class="row flex-row row-style unit-select">
-                    <div class="footnote-1 disabled-600" w-i18n="modal.settings.general.timeout"></div>
+                    <div class="footnote-1 basic-500" w-i18n="modal.settings.general.timeout"></div>
                     <div>
                         <w-select class="with-scroll" ng-model="$ctrl.logoutAfterMin">
                             <w-option value="::5">
@@ -81,7 +81,7 @@
                 </div>
 
                 <div class="row flex-row row-style unit-select">
-                    <div class="footnote-1 disabled-600" w-i18n="modal.settings.general.theme"></div>
+                    <div class="footnote-1 basic-500" w-i18n="modal.settings.general.theme"></div>
                     <div>
                         <w-select ng-model="$ctrl.theme">
                             <w-option value="::'default'">
@@ -98,7 +98,7 @@
                 </div>
 
                 <!--div class="row flex-row row-style unit-select">
-                    <div class="footnote-1 disabled-600" w-i18n="modal.settings.general.color"></div>
+                    <div class="footnote-1 basic-500" w-i18n="modal.settings.general.color"></div>
                     <div>
                         <w-select ng-model="$ctrl.candle">
                             <w-option value="::'blue'"><i class="blue"></i><span w-i18n="modal.settings.general.blue"></span></w-option>
@@ -107,15 +107,30 @@
                     </div>
                 </div-->
 
+                <w-permit name="CAN_PAIRING_WITH_MOBILE" mode="on">
+                    <div class="row flex-row row-style solid-border">
+                        <div class="footnote-1 basic-500" w-i18n="modal.settings.pairing.devicePairing"></div>
+                        <div>
+                            <a class="label link"
+                                w-i18n="modal.settings.pairing.showCodeLink"
+                                w-modal-close
+                                ng-click="$ctrl.showPairingWithMobile()"></a>
+                        </div>
+                    </div>
+                </w-permit>
+
+
                 <div class="row flex-row row-style solid-border">
-                    <div class="footnote-1 disabled-600" w-i18n="modal.settings.general.blockHeight"></div>
+                    <div class="footnote-1 basic-500" w-i18n="modal.settings.general.blockHeight"></div>
                     <div><span class="label">{{$ctrl.blockHeight}}</span></div>
                 </div>
+                <div class="bottom-padding"></div>
+
             </w-step>
 
             <w-step step-id="security" class="security">
                 <div class="row margin-1" ng-if="$ctrl.phrase">
-                    <div class="footnote-1 disabled-600 label">
+                    <div class="footnote-1 basic-500 label">
                         <span w-i18n="modal.settings.security.backupPhrase"></span>
                         <a class="settings-copy" w-copy="::$ctrl.phrase" w-i18n="modal.settings.network.copy"></a>
                     </div>
@@ -128,7 +143,7 @@
                 </div>
 
                 <div class="row margin-1" ng-if="$ctrl.privateKey">
-                    <div class="footnote-1 disabled-600 label">
+                    <div class="footnote-1 basic-500 label">
                         <span w-i18n="modal.settings.security.privateKey"></span>
                         <a class="settings-copy"
                            w-copy="::$ctrl.privateKey"
@@ -142,18 +157,18 @@
                     </div>
                 </div>
                 <div class="row flex-row row-style row-mobile">
-                    <div class="footnote disabled-600" w-i18n="modal.settings.security.publicKey"></div>
+                    <div class="footnote basic-500" w-i18n="modal.settings.security.publicKey"></div>
                     <div class="mobile-low-fsize">{{::$ctrl.publicKey}}</div>
                 </div>
                 <div class="row flex-row row-style row-mobile">
-                    <div class="footnote disabled-600" w-i18n="modal.settings.security.address"></div>
+                    <div class="footnote basic-500" w-i18n="modal.settings.security.address"></div>
                     <div class="mobile-low-fsize">{{::$ctrl.address}}</div>
                 </div>
             </w-step>
 
             <w-step step-id="network" class="network">
                 <div class="row margin-1">
-                    <div class="footnote-1 disabled-600 label">
+                    <div class="footnote-1 basic-500 label">
                         <span w-i18n="modal.settings.network.nodeAddress"></span>
                         <a class="settings-copy" w-copy="$ctrl.node" w-i18n="modal.settings.network.copy"></a>
                     </div>
@@ -163,7 +178,7 @@
                 </div>
 
                 <div class="row margin-1">
-                    <div class="footnote-1 disabled-600 label">
+                    <div class="footnote-1 basic-500 label">
                         <span w-i18n="modal.settings.network.matcherAddress"></span>
                         <a class="settings-copy" w-copy="$ctrl.matcher" w-i18n="modal.settings.network.copy"></a>
                     </div>
@@ -173,7 +188,7 @@
                 </div>
 
                 <div class="row margin-1">
-                    <div class="footnote-1 disabled-600 label">
+                    <div class="footnote-1 basic-500 label">
                         <span w-i18n="modal.settings.network.spamFilter"></span>
                         <a class="settings-copy" w-copy="$ctrl.scamListUrl" w-i18n="modal.settings.network.copy"></a>
                     </div>
@@ -196,17 +211,17 @@
 
             <w-step step-id="info" class="info">
                 <div class="row flex-row row-style">
-                    <div class="footnote-1 disabled-600" w-i18n="modal.settings.info.version"></div>
+                    <div class="footnote-1 basic-500" w-i18n="modal.settings.info.version"></div>
                     <div>{{::$ctrl.appName}} {{::$ctrl.appVersion}}</div>
                 </div>
 
                 <div class="row flex-row row-style">
-                    <div class="footnote-1 disabled-600" w-i18n="modal.settings.info.support"></div>
+                    <div class="footnote-1 basic-500" w-i18n="modal.settings.info.support"></div>
                     <div><a href="{{::$ctrl.supportLink}}" target="_blank">{{::$ctrl.supportLinkName}}</a></div>
                 </div>
 
                 <div class="row flex-row row-style">
-                    <div class="footnote-1 disabled-600">&copy; 2018 Waves Platform</div>
+                    <div class="footnote-1 basic-500">&copy; 2018 Waves Platform</div>
                     <div><span class="waves-logo"></span></div>
                 </div>
             </w-step>

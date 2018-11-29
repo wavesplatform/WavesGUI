@@ -12,9 +12,18 @@
      * @param {*} $templateRequest
      * @param {app.utils} utils
      * @param {Storage} storage
+     * @param {ModalManager} modalManager
      * @return {SettingsCtrl}
      */
-    const controller = function (Base, $scope, waves, user, createPoll, $templateRequest, utils, storage) {
+    const controller = function (Base,
+                                 $scope,
+                                 waves,
+                                 user,
+                                 createPoll,
+                                 $templateRequest,
+                                 utils,
+                                 storage,
+                                 modalManager) {
 
         class SettingsCtrl extends Base {
 
@@ -168,6 +177,10 @@
                 this.scamListUrl = WavesApp.network.scamListUrl;
             }
 
+            showPairingWithMobile() {
+                return modalManager.showPairingWithMobile();
+            }
+
             showLoader(template) {
                 const loaderEl = document.createElement('div');
                 loaderEl.innerHTML = template;
@@ -182,7 +195,17 @@
         return new SettingsCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'waves', 'user', 'createPoll', '$templateRequest', 'utils', 'storage'];
+    controller.$inject = [
+        'Base',
+        '$scope',
+        'waves',
+        'user',
+        'createPoll',
+        '$templateRequest',
+        'utils',
+        'storage',
+        'modalManager'
+    ];
 
     angular.module('app.utils').controller('SettingsCtrl', controller);
 
