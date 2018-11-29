@@ -1,8 +1,40 @@
-import { PROTOCOL } from './constansts'
+import { PROTOCOL } from './constansts';
 import { readFile, writeFile as fsWriteFile, existsSync, readdir as fsReadDir } from 'fs';
+import { join } from 'path';
 
-import { BrowserWindow } from 'electron';
+const i18next = require(join(__dirname, 'i18next', 'commonjs', 'index.js'));
 
+function initLocale(): Promise<(literal: string, options?: any) => string> {
+    return readdir(join(__dirname, 'locales'))
+        .then(list => {
+            const resources = list.map(lang => ({
+                lang,
+                value: require(join(__dirname, 'locales', lang, 'electron.json'))
+            }));
+
+            const i18n = i18next.init({
+                fallbackLng: 'en',
+                lng: 'en',
+                ns: ['electron']
+            });
+
+            resources.forEach(({ lang, value }) => {
+                i18n.addResourceBundle(lang, 'electron', value, true);
+            });
+
+            return new Promise((resolve) => {
+                i18next.on('initialized', () => {
+                    resolve((literal, options) => i18n.t(`electron:${literal}`, options));
+                });
+            }) as any;
+        });
+}
+
+export const localeReady = initLocale();
+
+export function changeLanguage(lng: string) {
+    i18next.changeLanguage(lng);
+}
 
 export function hasProtocol(str: string): boolean {
     return str.indexOf(PROTOCOL) === 0;
