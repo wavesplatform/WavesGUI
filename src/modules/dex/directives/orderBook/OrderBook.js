@@ -39,6 +39,8 @@
             BUY: 'buy'
         };
 
+        const MINORDERSINVIEW = 15;
+
         class OrderBook extends Base {
 
             constructor() {
@@ -256,10 +258,10 @@
                 const maxAmount = OrderBook._getMaxAmount(bids, asks, crop);
 
                 return {
-                    bids: this._toTemplate(bids, crop, priceHash, maxAmount).join(''),
+                    bids: this._toTemplate(bids, crop, priceHash, maxAmount, 'buy').join(''),
                     lastTrade,
                     spread: orderbook.spread && orderbook.spread.percent,
-                    asks: this._toTemplate(asks, crop, priceHash, maxAmount).join('')
+                    asks: this._toTemplate(asks, crop, priceHash, maxAmount, 'sell').join('')
                 };
             }
 
@@ -316,78 +318,37 @@
              * @param {OrderBook.ICrop} crop
              * @param {Object.<string, string>} priceHash
              * @param {BigNumber} maxAmount
+             * @param type<string>
              * @return Array<string>
              * @private
              */
-            _toTemplate(list, crop, priceHash, maxAmount) {
+            _toTemplate(list, crop, priceHash, maxAmount, type) {
 
-                const viewPortHeight = this._dom.$box.prevObject[0].clientHeight;
-                const fix = Math.floor(viewPortHeight / 50);
-                const type = list[0].type;
+                const mappedList = list.map((order) => {
 
-                const emptyOrderRow = { type: type, amount: '-', price: '-', total: '-', totalAmount: '-' };
-                const diff = fix - list.length;
-
-                if (list.length < fix && list.length > 0) {
-                    for (let i = 0; i < diff; i++) {
-                        if (type === 'buy') {
-                            list.unshift(emptyOrderRow);
-                        } else {
-                            list.push(emptyOrderRow);
-                        }
-                    }
-                }
-
-                return list.map((order) => {
+                    const hasOrder = !!priceHash[order.price.toFixed(this.priceAsset.precision)];
+                    const inRange = order.price.gte(crop.min) && order.price.lte(crop.max);
+                    const type = order.type;
+                    const totalAmount = order.totalAmount && order.totalAmount.toFixed();
+                    const width = order.amount.div(maxAmount).times(100).toFixed(2);
+                    const amount = utils.getNiceNumberTemplate(order.amount, this.amountAsset.precision, true);
+                    const price = utils.getNiceNumberTemplate(order.price, this.priceAsset.precision, true);
+                    const total = utils.getNiceNumberTemplate(order.total, this.priceAsset.precision, true);
+                    const priceNum = order.price.toFixed();
+                    const totalAmountNum = order.totalAmount && order.totalAmount.toFixed();
 
                     const amountAsset = this.amountAsset.displayName;
                     const priceAsset = this.priceAsset.displayName;
-                    const type = order.type;
 
-                    let hasOrder = null;
-                    let inRange = null;
-                    let totalAmount = null;
-                    let amount = null;
-                    let price = null;
-                    let total = null;
-                    let width = null;
-                    let priceNum = null;
-                    let totalAmountNum = null;
-                    let buyTooltip = null;
-                    let sellTooltip = null;
+                    const buyTooltip = i18n.translate('orderbook.ask.tooltipText', 'app.dex', {
+                        amountAsset, priceAsset, price: order.price.toFormat(this.priceAsset.precision)
+                    });
+                    const sellTooltip = i18n.translate('orderbook.bid.tooltipText', 'app.dex', {
+                        amountAsset, priceAsset, price: order.price.toFormat(this.priceAsset.precision)
+                    });
 
-                    if (typeof order.price === 'object') {
-                        hasOrder = !!priceHash[order.price.toFixed(this.priceAsset.precision)];
-                        inRange = order.price.gte(crop.min) && order.price.lte(crop.max);
-                        totalAmount = order.totalAmount && order.totalAmount.toFixed();
-                        width = order.amount.div(maxAmount).times(100).toFixed(2);
-                        amount = utils.getNiceNumberTemplate(order.amount, this.amountAsset.precision, true);
-                        price = utils.getNiceNumberTemplate(order.price, this.priceAsset.precision, true);
-                        total = utils.getNiceNumberTemplate(order.total, this.priceAsset.precision, true);
-                        priceNum = order.price.toFixed();
-                        totalAmountNum = order.totalAmount && order.totalAmount.toFixed();
 
-                        buyTooltip = i18n.translate('orderbook.ask.tooltipText', 'app.dex', {
-                            amountAsset, priceAsset, price: order.price.toFormat(this.priceAsset.precision)
-                        });
-                        sellTooltip = i18n.translate('orderbook.bid.tooltipText', 'app.dex', {
-                            amountAsset, priceAsset, price: order.price.toFormat(this.priceAsset.precision)
-                        });
-
-                    } else {
-                        hasOrder = false;
-                        inRange = false;
-                        totalAmount = '-';
-                        amount = '-';
-                        price = '-';
-                        total = '-';
-                        width = 0;
-                        priceNum = '-';
-                        totalAmountNum = '-';
-                        buyTooltip = '-';
-                        sellTooltip = '-';
-                    }
-                    return this._template({
+                    const template = this._template({
                         hasOrder,
                         inRange,
                         type,
@@ -401,7 +362,23 @@
                         buyTooltip,
                         sellTooltip
                     });
+                    return template;
                 });
+
+                const emptyLine = '<w-row class="no-market-price"><div class="table-row"><w-cell class="cell-0">' +
+                    '-</w-cell><w-cell class="cell-1">-</w-cell><w-cell class="cell-2">-</w-cell></div></w-row>';
+
+                if (mappedList.length < MINORDERSINVIEW) {
+                    for (let i = 0; i < MINORDERSINVIEW; i++) {
+                        if (type === 'sell') {
+                            mappedList.unshift(emptyLine);
+                        } else {
+                            mappedList.push(emptyLine);
+                        }
+                    }
+                }
+
+                return mappedList;
             }
 
             /**
