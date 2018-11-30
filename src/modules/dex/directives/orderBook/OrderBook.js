@@ -104,10 +104,6 @@
                  * @private
                  */
                 this._dom = null;
-                /**
-                 * @type {null}
-                 */
-                this.emptyRowTemplate = null;
 
                 this.receive(dexDataService.showSpread, () => {
                     this._dom.$box.stop().animate({ scrollTop: this._getSpreadScrollPosition() }, 300);
@@ -331,9 +327,7 @@
              * @private
              */
             _toTemplate(list, crop, priceHash, maxAmount) {
-
                 const mappedList = list.map((order) => {
-
                     const hasOrder = !!priceHash[order.price.toFixed(this.priceAsset.precision)];
                     const inRange = order.price.gte(crop.min) && order.price.lte(crop.max);
                     const type = order.type;
@@ -344,10 +338,8 @@
                     const total = utils.getNiceNumberTemplate(order.total, this.priceAsset.precision, true);
                     const priceNum = order.price.toFixed();
                     const totalAmountNum = order.totalAmount && order.totalAmount.toFixed();
-
                     const amountAsset = this.amountAsset.displayName;
                     const priceAsset = this.priceAsset.displayName;
-
                     const buyTooltip = i18n.translate('orderbook.ask.tooltipText', 'app.dex', {
                         amountAsset, priceAsset, price: order.price.toFormat(this.priceAsset.precision)
                     });
@@ -464,7 +456,7 @@
         'utils',
         '$scope',
         '$templateRequest',
-        'i18n',
+        'i18n'
     ];
 
     angular.module('app.dex').component('wDexOrderBook', {
