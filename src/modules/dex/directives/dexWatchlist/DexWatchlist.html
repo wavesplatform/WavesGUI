@@ -39,9 +39,9 @@
                     <span class="label-background" w-i18n="directives.watchlist.helpIcon.AssetId1AssetId2"></span>
                 </div>
             </div>
-            <div ng-if="!$ctrl.activeTab === 'all'" class="help-icon__row caption-2 basic-700">
-                <span class="label-background" w-i18n="directives.watchlist.helpIcon.name">Name</span>/
-                <span class="label-background" w-i18n="directives.watchlist.helpIcon.assetId">AssetID</span>
+            <div ng-if="$ctrl.activeTab !== 'all'" class="help-icon__row caption-2 basic-700">
+                <span class="label-background" w-i18n="directives.watchlist.helpIcon.name"></span>/
+                <span class="label-background" w-i18n="directives.watchlist.helpIcon.assetId"></span>
             </div>
             <div class="help-icon__row caption-2 basic-700" w-i18n="directives.watchlist.helpIcon.description"></div>
         </w-help-icon>
