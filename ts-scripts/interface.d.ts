@@ -51,6 +51,7 @@ export interface IHash<T> {
 export interface IConfItem {
     apiVersion: string;
     code: string;
+    bankRecipient: string;
     node: string;
     matcher: string;
     api: string;
@@ -59,6 +60,7 @@ export interface IConfItem {
     support: string;
     nodeList: string;
     scamListUrl: string;
+    featuresConfigUrl: string;
     origin: string;
     assets: IHash<string>;
 }
