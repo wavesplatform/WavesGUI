@@ -165,6 +165,7 @@
     "testnet": {
       "apiVersion": "v0",
       "code": "T",
+      "bankRecipient": "",
       "node": "https://pool.testnet.wavesnodes.com",
       "matcher": "https://matcher.testnet.wavesnodes.com/matcher",
       "api": "https://api.testnet.wavesplatform.com",
@@ -192,6 +193,7 @@
     },
     "mainnet": {
       "apiVersion": "v0",
+      "bankRecipient": "3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us",
       "code": "W",
       "node": "https://nodes.wavesplatform.com",
       "matcher": "https://matcher.wavesplatform.com/matcher",

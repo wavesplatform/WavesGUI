@@ -10,7 +10,7 @@
     const { Money } = require('@waves/data-entities');
     const ds = require('data-service');
 
-    const BANK_RECIPIENT = '3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us';
+    const BANK_RECIPIENT = WavesApp.bankRecipient;
     const MIN_TOKEN_COUNT = 100;
     const MAX_TOKEN_COUNT = 50000;
 
