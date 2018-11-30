@@ -325,15 +325,15 @@
                 const fix = Math.floor(viewPortHeight / 50);
                 const type = list[0].type;
 
-                const fakeOrder = { type: type, amount: '-', price: '-', total: '-', totalAmount: '-' };
+                const emptyOrderRow = { type: type, amount: '-', price: '-', total: '-', totalAmount: '-' };
                 const diff = fix - list.length;
 
                 if (list.length < fix && list.length > 0) {
                     for (let i = 0; i < diff; i++) {
                         if (type === 'buy') {
-                            list.unshift(fakeOrder);
+                            list.unshift(emptyOrderRow);
                         } else {
-                            list.push(fakeOrder);
+                            list.push(emptyOrderRow);
                         }
                     }
                 }
@@ -346,8 +346,8 @@
 
                     let hasOrder = null;
                     let inRange = null;
-                    let totalAmount  = null;
-                    let amount  = null;
+                    let totalAmount = null;
+                    let amount = null;
                     let price = null;
                     let total = null;
                     let width = null;
@@ -356,7 +356,7 @@
                     let buyTooltip = null;
                     let sellTooltip = null;
 
-                    if (typeof order.price === 'object' ){
+                    if (typeof order.price === 'object') {
                         hasOrder = !!priceHash[order.price.toFixed(this.priceAsset.precision)];
                         inRange = order.price.gte(crop.min) && order.price.lte(crop.max);
                         totalAmount = order.totalAmount && order.totalAmount.toFixed();
@@ -378,14 +378,14 @@
                         hasOrder = false;
                         inRange = false;
                         totalAmount = '-';
-                        amount = '<span>-</span>';
-                        price = '<span>-</span>';
-                        total = '<span>-</span>';
+                        amount = '-';
+                        price = '-';
+                        total = '-';
                         width = 0;
                         priceNum = '-';
                         totalAmountNum = '-';
-                        buyTooltip = '';
-                        sellTooltip = '';
+                        buyTooltip = '-';
+                        sellTooltip = '-';
                     }
                     return this._template({
                         hasOrder,
