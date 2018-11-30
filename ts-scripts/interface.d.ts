@@ -9,8 +9,6 @@ export interface IMetaJSON {
     debugInjections: Array<string>;
     electronScripts: Array<string>;
     langList: object,
-    betaOrigin: string;
-    targetOrigin: string;
     configurations: {
         testnet: IConfItem;
         mainnet: IConfItem;
@@ -63,6 +61,7 @@ export interface IConfItem {
     nodeList: string;
     scamListUrl: string;
     featuresConfigUrl: string;
+    origin: string;
     assets: IHash<string>;
 }
 
