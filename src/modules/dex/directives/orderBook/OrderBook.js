@@ -39,7 +39,7 @@
             BUY: 'buy'
         };
 
-        const MINORDERSINVIEW = 15;
+        const MIN_LINES = 15;
 
         class OrderBook extends Base {
 
@@ -104,6 +104,10 @@
                  * @private
                  */
                 this._dom = null;
+                /**
+                 * @type {null}
+                 */
+                this.emptyRowTemplate = null;
 
                 this.receive(dexDataService.showSpread, () => {
                     this._dom.$box.stop().animate({ scrollTop: this._getSpreadScrollPosition() }, 300);
@@ -118,6 +122,11 @@
 
                 this._onChangeVisibleElements();
                 this._updateAssetData();
+
+                $templateRequest('modules/dex/directives/orderBook/emptyRow.html')
+                    .then(stringTemplate => {
+                        this.emptyRowTemplate = stringTemplate;
+                    });
 
                 $templateRequest('modules/dex/directives/orderBook/orderbook.row.hbs')
                     .then((templateString) => {
@@ -258,10 +267,10 @@
                 const maxAmount = OrderBook._getMaxAmount(bids, asks, crop);
 
                 return {
-                    bids: this._toTemplate(bids, crop, priceHash, maxAmount, 'buy').join(''),
+                    bids: this._toTemplate(bids, crop, priceHash, maxAmount).join(''),
                     lastTrade,
                     spread: orderbook.spread && orderbook.spread.percent,
-                    asks: this._toTemplate(asks, crop, priceHash, maxAmount, 'sell').join('')
+                    asks: this._toTemplate(asks, crop, priceHash, maxAmount).join('')
                 };
             }
 
@@ -318,11 +327,10 @@
              * @param {OrderBook.ICrop} crop
              * @param {Object.<string, string>} priceHash
              * @param {BigNumber} maxAmount
-             * @param type<string>
              * @return Array<string>
              * @private
              */
-            _toTemplate(list, crop, priceHash, maxAmount, type) {
+            _toTemplate(list, crop, priceHash, maxAmount) {
 
                 const mappedList = list.map((order) => {
 
@@ -347,8 +355,7 @@
                         amountAsset, priceAsset, price: order.price.toFormat(this.priceAsset.precision)
                     });
 
-
-                    const template = this._template({
+                    return this._template({
                         hasOrder,
                         inRange,
                         type,
@@ -362,18 +369,15 @@
                         buyTooltip,
                         sellTooltip
                     });
-                    return template;
                 });
+                const diff = MIN_LINES - mappedList.length;
 
-                const emptyLine = '<w-row class="no-market-price"><div class="table-row"><w-cell class="cell-0">' +
-                    '-</w-cell><w-cell class="cell-1">-</w-cell><w-cell class="cell-2">-</w-cell></div></w-row>';
-
-                if (mappedList.length < MINORDERSINVIEW) {
-                    for (let i = 0; i < MINORDERSINVIEW; i++) {
-                        if (type === 'sell') {
-                            mappedList.unshift(emptyLine);
+                if (diff > 0) {
+                    for (let i = 0; i < diff; i++) {
+                        if (list[0].type === 'buy') {
+                            mappedList.unshift(this.emptyRowTemplate);
                         } else {
-                            mappedList.push(emptyLine);
+                            mappedList.push(this.emptyRowTemplate);
                         }
                     }
                 }
@@ -460,7 +464,7 @@
         'utils',
         '$scope',
         '$templateRequest',
-        'i18n'
+        'i18n',
     ];
 
     angular.module('app.dex').component('wDexOrderBook', {
