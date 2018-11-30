@@ -89,6 +89,9 @@
                                 </div>
 
                                 <div class="errors-margin">
+                                    <div class="bottom-warning margin-3" ng-if="!!$ctrl.errorCreateAliasMsg">
+                                            <div class="body-2 error-400">{{$ctrl.errorCreateAliasMsg}}</div>
+                                    </div>
                                     <div class="bottom-warning margin-3" ng-if="$ctrl.signDeviceFail">
                                         <div class="warning-plate warning-plate-red">
                                             <div class="body-2 error-400" w-i18n-ns="app.ui" w-i18n="confirmTransaction.{{::$ctrl.userType}}Unconfirmed.header"></div>
