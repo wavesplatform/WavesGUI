@@ -30,34 +30,17 @@
             }
 
             $onChanges() {
-                QRCode.toDataURL(this.url, (error, encrypted) => {
-                    this.qrNode.classList.add('qr-code-wrap');
-                    this.qrNode.style.width = `${this.size}px`;
-                    this.qrNode.style.height = `${this.size}px`;
-                    this.qrNode.innerHTML = `<img style="display: block" src="${encrypted}">`;
-                });
+                if (!this.url) {
+                    return null;
+                } else {
+                    QRCode.toDataURL(this.url, (error, encrypted) => {
+                        this.qrNode.classList.add('qr-code-wrap');
+                        this.qrNode.style.width = `${this.size}px`;
+                        this.qrNode.style.height = `${this.size}px`;
+                        this.qrNode.innerHTML = `<img style="display: block" src="${encrypted}">`;
+                    });
+                }
             }
-
-            // create() {
-            //     console.log("CREATING");
-            //
-            //     const node = document.createElement('DIV');
-            //     node.classList.add('qr-code-wrap');
-            //     node.style.width = `${this.size}px`;
-            //     node.style.height = `${this.size}px`;
-            //     $element.append(node);
-            //
-            //     QRCode.toDataURL(this.url, function (error, encrypted) {
-            //         node.innerHTML = `<img style="display: block" src="${encrypted}">`;
-            //     });
-            //
-            //     this.notnode = document.createElement('DIV');
-            // }
-
-            // update() {
-            //     this.qrcode.clear();
-            //     this.qrcode.makeCode(this.url);
-            // }
 
         }
 
