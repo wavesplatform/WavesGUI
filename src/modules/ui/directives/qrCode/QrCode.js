@@ -1,6 +1,7 @@
 (function () {
     'use strict';
 
+
     /**
      * @param {JQuery} $element
      * @return {QrCode}
@@ -20,39 +21,45 @@
                  * @type {number}
                  */
                 this.size = null;
+
+                this.qrNode = document.createElement('DIV');
+                this.qrNode.innerHTML = ``;
+
+                $element.append(this.qrNode);
             }
 
             $onChanges() {
                 if (!this.url) {
                     return null;
-                }
-                if (this.qrcode) {
-                    this.update();
-                } else {
-                    this.create();
-                }
+                };
+
+                if (this.qrNode) {
+                    QRCode.toDataURL(this.url, (error, encrypted) => {
+                        this.qrNode.innerHTML = `<img style="display: block" src="${encrypted}">`;
+                    });
+                };
             }
 
-            create() {
-                const node = document.createElement('DIV');
-                node.classList.add('qr-code-wrap');
-                node.style.width = `${this.size}px`;
-                node.style.height = `${this.size}px`;
-                $element.append(node);
-                this.qrcode = new QRCode(node, {
-                    text: this.url,
-                    width: this.size,
-                    height: this.size,
-                    colorDark: '#000000',
-                    colorLight: '#ffffff',
-                    correctLevel: QRCode.CorrectLevel.H
-                });
-            }
+            // create() {
+            //     console.log("CREATING");
+            //
+            //     const node = document.createElement('DIV');
+            //     node.classList.add('qr-code-wrap');
+            //     node.style.width = `${this.size}px`;
+            //     node.style.height = `${this.size}px`;
+            //     $element.append(node);
+            //
+            //     QRCode.toDataURL(this.url, function (error, encrypted) {
+            //         node.innerHTML = `<img style="display: block" src="${encrypted}">`;
+            //     });
+            //
+            //     this.notnode = document.createElement('DIV');
+            // }
 
-            update() {
-                this.qrcode.clear();
-                this.qrcode.makeCode(this.url);
-            }
+            // update() {
+            //     this.qrcode.clear();
+            //     this.qrcode.makeCode(this.url);
+            // }
 
         }
 
