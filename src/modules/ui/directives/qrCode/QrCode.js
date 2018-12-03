@@ -21,23 +21,21 @@
                  * @type {number}
                  */
                 this.size = null;
-
+                /**
+                 * @type {HTMLElement}
+                 */
                 this.qrNode = document.createElement('DIV');
-                this.qrNode.innerHTML = ``;
 
                 $element.append(this.qrNode);
             }
 
             $onChanges() {
-                if (!this.url) {
-                    return null;
-                };
-
-                if (this.qrNode) {
-                    QRCode.toDataURL(this.url, (error, encrypted) => {
-                        this.qrNode.innerHTML = `<img style="display: block" src="${encrypted}">`;
-                    });
-                };
+                QRCode.toDataURL(this.url, (error, encrypted) => {
+                    this.qrNode.classList.add('qr-code-wrap');
+                    this.qrNode.style.width = `${this.size}px`;
+                    this.qrNode.style.height = `${this.size}px`;
+                    this.qrNode.innerHTML = `<img style="display: block" src="${encrypted}">`;
+                });
             }
 
             // create() {
