@@ -20,7 +20,7 @@
     "node_modules/@waves/ledger/dist/waves-ledger.js",
     "node_modules/@waves/signature-adapter/dist/signature-adapter.min.js",
     "data-service-dist/data-service.js",
-    "vendors/qrcode.min.js",
+    "node_modules/qrcode/build/qrcode.min.js",
     "node_modules/ts-api-validator/dist/ts-api-validator.partial.min.js",
     "node_modules/jquery/dist/jquery.min.js",
     "node_modules/d3/d3.min.js",

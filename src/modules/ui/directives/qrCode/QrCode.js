@@ -1,6 +1,7 @@
 (function () {
     'use strict';
 
+
     /**
      * @param {JQuery} $element
      * @return {QrCode}
@@ -20,38 +21,25 @@
                  * @type {number}
                  */
                 this.size = null;
+                /**
+                 * @type {HTMLElement}
+                 */
+                this.qrNode = document.createElement('DIV');
+
+                $element.append(this.qrNode);
             }
 
             $onChanges() {
                 if (!this.url) {
                     return null;
-                }
-                if (this.qrcode) {
-                    this.update();
                 } else {
-                    this.create();
+                    QRCode.toDataURL(this.url, (error, encrypted) => {
+                        this.qrNode.classList.add('qr-code-wrap');
+                        this.qrNode.style.width = `${this.size}px`;
+                        this.qrNode.style.height = `${this.size}px`;
+                        this.qrNode.innerHTML = `<img style="display: block" src="${encrypted}">`;
+                    });
                 }
-            }
-
-            create() {
-                const node = document.createElement('DIV');
-                node.classList.add('qr-code-wrap');
-                node.style.width = `${this.size}px`;
-                node.style.height = `${this.size}px`;
-                $element.append(node);
-                this.qrcode = new QRCode(node, {
-                    text: this.url,
-                    width: this.size,
-                    height: this.size,
-                    colorDark: '#000000',
-                    colorLight: '#ffffff',
-                    correctLevel: QRCode.CorrectLevel.H
-                });
-            }
-
-            update() {
-                this.qrcode.clear();
-                this.qrcode.makeCode(this.url);
             }
 
         }
