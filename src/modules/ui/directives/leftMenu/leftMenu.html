@@ -1,15 +1,15 @@
 <div class="logo-wrapper">
     <w-avatar type="{{$ctrl.userType}}" ng-click="$ctrl.avatarClick()" size="40" address="$ctrl.address"></w-avatar>
     <w-help-icon class="avatar-options-list" ng-if="($ctrl.hasTypeHelp)">
-        <div class="help-icon__row keeper-row" ng-if="$ctrl.isKeeper">
+        <div class="help-icon__row row-keeper" ng-if="$ctrl.isKeeper">
             <span class="acount-option-icon"></span>
             <span w-i18n="leftmenu.keeperAccount"></span>
         </div>
-        <div class="help-icon__row ledger-row" ng-if="$ctrl.isLedger">
+        <div class="help-icon__row row-ledger" ng-if="$ctrl.isLedger">
             <span class="acount-option-icon"></span>
             <span w-i18n="leftmenu.ledgerAccount"></span>
         </div>
-        <div class="help-icon__row script-row" ng-if="$ctrl.isScript">
+        <div class="help-icon__row row-script" ng-if="$ctrl.isScript">
             <span class="acount-option-icon"></span>
             <span w-i18n="leftmenu.scriptAccount"></span>
         </div>

@@ -167,82 +167,84 @@ w-left-menu {
     }
   }
 
-  // account options tooltip
+  // account type helper tooltip
   .logo-wrapper {
     w-help-icon {
-      width: 130px;
       position: absolute;
       left: 100%;
       top: 0;
 
-      i.help-icon__icon {
-        display: block;
-        position: absolute;
-        top: 24px;
-        left: -22px;
+      .help-icon {
+        &__icon {
+          position: absolute;
+          top: 24px;
+          left: -22px;
 
-        &::after {
-          left: 19px;
-          top: 50%;
-          margin-top: -5px;
+          &::after {
+            left: 19px;
+            top: 50%;
+            margin-top: -5px;
+          }
+
+          &::before {
+            font-size: 11px;
+            content: '+';
+            color: @color-black;
+            background-color: @color-white;
+          }
         }
 
-        &::before {
+        &__content {
+          display: none;
+          width: 150px;
+          left: 6px;
+          top: 31px;
+          margin-top: 1px;
+          padding: 11px;
+          line-height: 1em;
           font-size: 11px;
-          content: '+';
-          color: @color-black;
-          background-color: @color-white;
+          border-left: 4px solid @color-submit-300;
+          border-top: 0 none;
+          transform: translateY(-50%);
         }
-      }
 
-      .help-icon__content {
-        display: none;
-        width: 150px;
-        left: 6px;
-        margin-top: 1px;
-        padding: 11px;
-        line-height: 1em;
-        font-size: 11px;
-        border-left: 4px solid @color-submit-300;
-        border-top: 0 none;
-        top: 31px;
-        transform: translateY(-50%);
-      }
-    }
+        &__row {
+          display: flex;
+          align-items: center;
+          &:last-child {
+            margin: 0;
+          }
 
-    .help-icon__row {
-      display: flex;
-      align-items: center;
-      &:last-child {
-        margin: 0;
-      }
+          .acount-option-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-right: 10px;
+            background-color: @color-basic-50;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 50%;
+          }
 
-      .acount-option-icon {
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        margin-right: 10px;
-        background: @color-basic-50;
-        border-radius: 50%;
-        background-repeat: no-repeat;
-        background-position: center;
-      }
+          &.row {
+            &-keeper {
+              .acount-option-icon {
+                background-image: @keeper-mini-icon;
+              }
+            }
 
-      &.keeper-row {
-        .acount-option-icon {
-          background-image: @keeper-mini-icon;
-        }
-      }
+            &-keeper {
+              .acount-option-icon {
+                background-image: @ledger-mini-icon;
+              }
+            }
 
-      &.ledger-row {
-        .acount-option-icon {
-          background-image: @ledger-mini-icon;
-        }
-      }
-
-      &.script-row {
-        .acount-option-icon {
-          background-image: @scripted-mini-icon;
+            &-script {
+              .acount-option-icon {
+                background-image: @scripted-mini-icon;
+              }
+            }
+          }
         }
       }
     }
