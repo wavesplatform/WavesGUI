@@ -8,7 +8,11 @@ process.once('loaded', () => {
         shell.openExternal(url);
     };
     g.isDesktop = true;
-    g.TransportNodeHid = require('@ledgerhq/hw-transport-node-hid');
+    try {
+        g.TransportNodeHid = require('@ledgerhq/hw-transport-node-hid');
+    } catch (e) {
+        
+    }
 
     const transferModule = remote.require('./transfer');
 

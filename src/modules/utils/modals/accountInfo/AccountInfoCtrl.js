@@ -14,7 +14,7 @@
      * @param {createPoll} createPoll
      * @return {AccountInfoCtrl}
      */
-    const controller = function (Base, $scope, user, waves, notification, createPoll) {
+    const controller = function (Base, $scope, user, waves, notification, createPoll, utils) {
 
         class AccountInfoCtrl extends Base {
 
@@ -94,6 +94,11 @@
                  */
                 this.isKeeper = user.userType === 'wavesKeeper';
 
+                /**
+                 * @type {boolean}
+                 */
+                this.errorCreateAliasMsg = '';
+
                 const poll = createPoll(this, this._getBalance, '_balance', 5000, { isBalance: true, $scope });
                 const feePromise = waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS });
 
@@ -151,7 +156,10 @@
                             this.signDeviceFail = true;
                             this.signLoader = false;
                             $scope.$digest();
-                        });
+                        })
+                    .catch((error) => {
+                        this.errorCreateAliasMsg = utils.parseError(error);
+                    });
             }
 
             onCopyAddress() {
@@ -219,7 +227,7 @@
         return new AccountInfoCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'waves', 'notification', 'createPoll'];
+    controller.$inject = ['Base', '$scope', 'user', 'waves', 'notification', 'createPoll', 'utils'];
 
     angular.module('app.utils')
         .controller('AccountInfoCtrl', controller);

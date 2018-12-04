@@ -9,7 +9,6 @@ import { compile } from 'handlebars';
 import { transform } from 'babel-core';
 import { render } from 'less';
 import { minify } from 'html-minifier';
-import { Readable, Writable } from 'stream';
 import { get, ServerResponse, IncomingMessage } from 'https';
 import { MAINNET_DATA, TESTNET_DATA } from '@waves/assets-pairs-order';
 
@@ -193,8 +192,8 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                 isProduction: param.buildType && param.buildType === 'min',
                 domain: meta.domain,
                 matcherPriorityList: JSON.stringify(param.connection === 'mainnet' ? MAINNET_DATA : TESTNET_DATA, null, 4),
-                betaOrigin: meta.betaOrigin,
-                targetOrigin: meta.targetOrigin,
+                bankRecipient: meta.configurations[param.connection].bankRecipient,
+                origin: meta.configurations[param.connection].origin,
                 build: {
                     type: param.type
                 },

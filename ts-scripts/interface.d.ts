@@ -9,8 +9,6 @@ export interface IMetaJSON {
     debugInjections: Array<string>;
     electronScripts: Array<string>;
     langList: object,
-    betaOrigin: string;
-    targetOrigin: string;
     configurations: {
         testnet: IConfItem;
         mainnet: IConfItem;
@@ -51,10 +49,20 @@ export interface IHash<T> {
 }
 
 export interface IConfItem {
+    apiVersion: string;
     code: string;
+    bankRecipient: string;
     node: string;
-    coinomat: string;
     matcher: string;
+    api: string;
+    explorer: string;
+    coinomat: string;
+    support: string;
+    nodeList: string;
+    scamListUrl: string;
+    featuresConfigUrl: string;
+    origin: string;
+    assets: IHash<string>;
 }
 
 export type TConnection = 'mainnet' | 'testnet';

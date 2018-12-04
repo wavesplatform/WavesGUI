@@ -565,7 +565,7 @@
             importUsersByWindow(win, origin, timeout) {
                 return new Promise((resolve, reject) => {
                     const adapter = new WindowAdapter(
-                        { win: window, origin: WavesApp.targetOrigin },
+                        { win: window, origin: WavesApp.origin },
                         { win, origin }
                     );
                     const bus = new Bus(adapter);
@@ -672,11 +672,7 @@
                         return [];
                     }
 
-                    if (origin === WavesApp.betaOrigin) {
-                        resolve(response);
-                    } else {
-                        resolve(response.accounts && response.accounts.map(utils.remapOldClientAccounts) || []);
-                    }
+                    resolve(response.accounts && response.accounts.map(utils.remapOldClientAccounts) || []);
                 };
             },
 
@@ -1135,7 +1131,20 @@
              * @param {*} oldValue
              * @param {*} newValue
              */
-            isNotEqualValue: isNotEqualValue
+            isNotEqualValue: isNotEqualValue,
+
+            /**
+             * @name app.utils#parseError
+             * @param error
+             * @returns {*}
+             */
+            parseError(error) {
+                try {
+                    return typeof error === 'string' ? JSON.parse(error).message : error;
+                } catch (e) {
+                    return error;
+                }
+            }
         };
 
         /**
