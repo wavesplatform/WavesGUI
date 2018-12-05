@@ -164,10 +164,13 @@
                     <div class="mobile-low-fsize">{{::$ctrl.address}}</div>
                 </div>
 
-                <div class="row flex-row row-style row-mobile solid-border text-right">
-                    <w-button ng-if="$ctrl.advancedMode" on-click="$ctrl.showScriptModal()" class="tiny submit" w-modal-close>
-                        <span w-i18n-ns="app.wallet.assets" w-i18n="modal.settings.security.script"></span>
-                    </w-button>
+                <div class="row flex-row row-style solid-border text-right">
+                    <div class="footnote basic-500" w-i18n="modal.settings.security.script"></div>
+                    <div>
+                        <w-button ng-if="$ctrl.advancedMode" on-click="$ctrl.showScriptModal()" class="tiny submit" w-modal-close>
+                            <span w-i18n="modal.settings.security.scriptButton"></span>
+                        </w-button>
+                    </div>
                 </div>
 
             </w-step>
