@@ -13,7 +13,7 @@
     "node_modules/js-cookie/src/js.cookie.js",
     "vendors/require-modules.js",
     "node_modules/ts-utils/dist/ts-utils.min.js",
-    "node_modules/@waves/data-entities/dist/data-entities.js",
+    "node_modules/@waves/data-entities/dist/data-entities.min.js",
     "node_modules/@waves/signature-generator/dist/signature-generator.partial.min.js",
     "node_modules/@waves/waves-browser-bus/dist/browser-bus.min.js",
     "node_modules/@waves/ledger/dist/transport-u2f.js",

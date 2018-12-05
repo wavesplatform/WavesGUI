@@ -470,13 +470,18 @@
 
             static getLoadImagePromise(length) {
                 return function (path) {
-                    return new Promise((resolve, reject) => {
+                    return new Promise(resolve => {
                         const img = new Image();
-                        img.onload = () => {
+                        const apply = () => {
                             LOADER.addProgress(PROGRESS_MAP.IMAGES_LOADED / length);
                             resolve();
                         };
-                        img.onerror = reject;
+
+                        img.onload = apply;
+                        img.onerror = () => {
+                            console.warn(`Can't load image! "${path}"`);
+                            apply();
+                        };
                         img.src = path;
                     });
                 };

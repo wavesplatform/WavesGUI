@@ -457,28 +457,29 @@
 
         if (window.isDesktop || !window.buildIsWeb) {
 
-            const __mainListeners = [];
+            var __mainListeners = [];
 
             function listenMainProcessEvent(cb) {
                 __mainListeners.push(cb);
             }
 
             function stopListenMainProcessEvent(cb) {
-                for (let i = __mainListeners.length - 1; i >= 0; i--) {
+                for (var i = __mainListeners.length - 1; i >= 0; i--) {
                     if (__mainListeners[i] === cb) {
                         __mainListeners.splice(i, 1);
                     }
                 }
             }
 
-            function runMainProcessEvent(...args) {
+            function runMainProcessEvent() {
+                var args = Array.prototype.slice.call(arguments);
                 __mainListeners.slice().forEach(function (cb) {
                     try {
-                        cb(...args);
+                        cb.apply(this, args);
                     } catch (e) {
                         console.error(e);
                     }
-                });
+                }, this);
             }
         }
 
