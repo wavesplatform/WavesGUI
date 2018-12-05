@@ -322,7 +322,7 @@
                                 dexDataService.createOrder.dispatch();
                             })
                             .catch(e => {
-                                const error = CreateOrder._parseError(e);
+                                const error = utils.parseError(e);
                                 notification.error({
                                     ns: 'app.dex',
                                     title: {
@@ -678,14 +678,6 @@
                             }
                         });
                     });
-            }
-
-            static _parseError(error) {
-                try {
-                    return typeof error === 'string' ? JSON.parse(error) : error;
-                } catch (e) {
-                    return error;
-                }
             }
 
         }

@@ -313,7 +313,7 @@
                         }
                     })
                     .catch(e => {
-                        const error = DexMyOrders._parseError(e);
+                        const error = utils.parseError(e);
                         notification.error({
                             ns: 'app.dex',
                             title: { literal: 'directives.myOrders.notifications.somethingWentWrong' },
@@ -367,14 +367,6 @@
 
             _getAllOrders() {
                 return waves.matcher.getOrders().then(R.filter(R.whereEq({ isActive: true })));
-            }
-
-            static _parseError(error) {
-                try {
-                    return typeof error === 'string' ? JSON.parse(error) : error;
-                } catch (e) {
-                    return error;
-                }
             }
 
             static _animateNotification($element) {
