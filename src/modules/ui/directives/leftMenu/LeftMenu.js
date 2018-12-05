@@ -30,9 +30,9 @@
                     this.activeState = this.activeState.replace('-demo', '');
                 }
 
-                this.isScript = user.hasScript();
-                this.isKeeper = user.userType === 'wavesKeeper';
-                this.isLedger = user.userType === 'ledger';
+                this.isScript = true;
+                this.isKeeper = true;
+                this.isLedger = true;
 
                 this.hasTypeHelp = this.isScript && (this.isLedger || this.isKeeper);
             }

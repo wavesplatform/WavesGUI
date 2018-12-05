@@ -15,7 +15,7 @@ w-left-menu {
   z-index: 30;
   box-shadow: @shadow-menu-left;
 
-  .logo-wrapper {
+  .avatar-container {
     margin: 15px auto 20px auto;
     position: relative;
     width: 40px;
@@ -168,7 +168,7 @@ w-left-menu {
   }
 
   // account type helper tooltip
-  .logo-wrapper {
+  .avatar-container.has-helper {
     w-help-icon {
       position: absolute;
       left: 100%;
@@ -176,79 +176,21 @@ w-left-menu {
 
       .help-icon {
         &__icon {
-          position: absolute;
-          top: 24px;
-          left: -22px;
-
           &::after {
             left: 19px;
             top: 50%;
             margin-top: -5px;
           }
-
-          &::before {
-            font-size: 11px;
-            content: '+';
-            color: @color-black;
-            background-color: @color-white;
-          }
         }
 
         &__content {
-          display: none;
-          width: 150px;
           left: 6px;
           top: 31px;
-          margin-top: 1px;
-          padding: 11px;
-          line-height: 1em;
-          font-size: 11px;
-          border-left: 4px solid @color-submit-300;
-          border-top: 0 none;
-          transform: translateY(-50%);
-        }
-
-        &__row {
-          display: flex;
-          align-items: center;
-          &:last-child {
-            margin: 0;
-          }
-
-          .acount-option-icon {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            margin-right: 10px;
-            background-color: @color-basic-50;
-            background-repeat: no-repeat;
-            background-position: center;
-            border-radius: 50%;
-          }
-
-          &.row {
-            &-keeper {
-              .acount-option-icon {
-                background-image: @keeper-mini-icon;
-              }
-            }
-
-            &-keeper {
-              .acount-option-icon {
-                background-image: @ledger-mini-icon;
-              }
-            }
-
-            &-script {
-              .acount-option-icon {
-                background-image: @scripted-mini-icon;
-              }
-            }
-          }
         }
       }
     }
   }
+  // end
 }
 
 @media screen and (max-width: 768px) {
@@ -264,7 +206,7 @@ w-left-menu {
     position: fixed;
     box-shadow: @shadow-menu-top;
 
-    .logo-wrapper {
+    .avatar-container {
       margin: @padding-main-layout;
     }
 
@@ -512,7 +454,7 @@ w-left-menu {
       box-shadow: @shadow-menu-left;
       border: none;
 
-      .logo-wrapper {
+      .avatar-container {
         margin: @padding-main-layout;
       }
 

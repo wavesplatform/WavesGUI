@@ -25,36 +25,121 @@ w-avatar .avatar-wrap {
   }
 }
 
-w-avatar[type='ledger'],
-w-avatar[type='wavesKeeper'] {
-  .avatar-wrap:not(.scripted) {
-    &::after {
-      .avatar-label;
+// account type helper tooltip
+.avatar-container.has-helper {
+  w-help-icon {
+    position: absolute;
+    left: 100%;
+    top: 0;
+
+
+
+    .help-icon {
+      &__icon {
+        position: absolute;
+        top: 24px;
+        left: -22px;
+
+        &::after {
+          left: 19px;
+          top: 50%;
+          margin-top: -5px;
+        }
+
+        &::before {
+          font-size: 11px;
+          content: '+';
+          color: @color-black;
+          background-color: @color-white;
+        }
+      }
+
+      &__content {
+        width: 150px;
+        left: 6px;
+        top: 31px;
+        margin-top: 1px;
+        padding: 11px;
+        line-height: 1em;
+        font-size: 11px;
+        border-left: 4px solid @color-submit-300;
+        border-top: 0 none;
+        transform: translateY(-50%);
+      }
+
+      &__row {
+        display: flex;
+        align-items: center;
+        &:last-child {
+          margin: 0;
+        }
+
+        .acount-option-icon {
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          margin-right: 10px;
+          background-color: @color-basic-50;
+          background-repeat: no-repeat;
+          background-position: center;
+          border-radius: 50%;
+        }
+
+        &.row {
+          &-keeper {
+            .acount-option-icon {
+              background-image: @keeper-mini-icon;
+            }
+          }
+
+          &-ledger {
+            .acount-option-icon {
+              background-image: @ledger-mini-icon;
+            }
+          }
+
+          &-script {
+            .acount-option-icon {
+              background-image: @scripted-mini-icon;
+            }
+          }
+        }
+      }
     }
   }
 }
-
-w-avatar {
-  &[type='ledger'] {
-    .avatar-wrap:not(.scripted)::after {
-      background-image: @ledger-mini-icon;
-    }
-  }
-
-  &[type='wavesKeeper'] {
-    .avatar-wrap:not(.scripted)::after {
-      background-image: @keeper-mini-icon;
-    }
-  }
-}
-
-w-avatar[type='seed'],
-w-avatar[type='ledger'],
-w-avatar[type='wavesKeeper'] {
-  .avatar-wrap.scripted {
-    &::after {
-      .avatar-label;
-      background-image: @scripted-mini-icon;
-    }
-  }
-}
+// end
+//
+//w-avatar[type='ledger'],
+//w-avatar[type='wavesKeeper'] {
+//  .avatar-wrap:not(.scripted) {
+//    &::after {
+//      .avatar-label;
+//    }
+//  }
+//}
+//
+//w-avatar {
+//  &[type='ledger'] {
+//    .avatar-wrap:not(.scripted)::after {
+//      background-image: @ledger-mini-icon;
+//    }
+//  }
+//
+//  &[type='wavesKeeper'] {
+//    .avatar-wrap:not(.scripted)::after {
+//      background-image: @keeper-mini-icon;
+//    }
+//  }
+//}
+//
+//w-avatar[type='seed'],
+//w-avatar[type='ledger'],
+//w-avatar[type='wavesKeeper'] {
+//  .avatar-wrap.scripted {
+//    &::after {
+//      .avatar-label;
+//      background-image: @scripted-mini-icon;
+//    }
+//  }
+//}
