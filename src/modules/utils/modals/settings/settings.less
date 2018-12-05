@@ -8,13 +8,22 @@
 @mobile-settings-item-height: 50px;
 
 md-dialog.settings-modal {
+  height: 100%;
   width: 100%;
   max-width: 740px;
   min-width: 740px;
   color: @color-disabled-900;
+  @media screen and(min-width: 541px) {
+    max-height: 540px;
+  }
 
   md-dialog-content {
     padding-top: 20px;
+    height: 100%;
+    @media screen and(min-width: 768px) {
+      min-height: 460px;
+    }
+
     &::after {
       display: none;
     }
@@ -120,6 +129,7 @@ md-dialog.settings-modal {
   }
 
   .modal-content {
+    height: 100%;
     display: flex;
     flex-direction: row;
     flex-shrink: 0;
@@ -167,6 +177,10 @@ md-dialog.settings-modal {
     justify-content: space-between;
     width: 100%;
 
+    &.text-right {
+      justify-content: flex-end;
+    }
+
     &.unit-checkbox {
       min-height: auto;
     }
@@ -192,11 +206,11 @@ md-dialog.settings-modal {
     }
   }
 
-  .white,
-  .dark,
-  .auto,
-  .blue,
-  .green {
+  .white-dot,
+  .dark-dot,
+  .auto-dot,
+  .blue-dot,
+  .green-dot {
     display: inline-block;
     vertical-align: middle;
     border-radius: 50%;
@@ -209,25 +223,25 @@ md-dialog.settings-modal {
     margin-top: -2px;
   }
 
-  .white {
+  .white-dot {
     background: white;
     border: 1px solid @color-basic-200;
   }
 
-  .dark {
+  .dark-dot {
     background: #2d2d2d; //basic-900
     border: 1px solid @color-disabled-200;
   }
 
-  .auto {
+  .auto-dot {
     background: url(/img/icons/mode-toggler-auto.svg) center no-repeat;
   }
 
-  .blue {
+  .blue-dot {
     background: #1f5af6; //submit-400
   }
 
-  .green {
+  .green-dot {
     background: #4aad02; //success-400
   }
 

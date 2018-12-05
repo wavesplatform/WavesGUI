@@ -85,14 +85,14 @@
                     <div>
                         <w-select ng-model="$ctrl.theme">
                             <w-option value="::'default'">
-                                <i class="white"></i>
+                                <i class="white-dot"></i>
                                 <span w-i18n-ns="app.utils" w-i18n="modal.settings.general.white"></span>
                             </w-option>
                             <w-option value="::'black'">
-                                <i class="dark"></i>
+                                <i class="dark-dot"></i>
                                 <span w-i18n-ns="app.utils" w-i18n="modal.settings.general.dark"></span>
                             </w-option>
-                            <!--w-option value="::'auto'"><i class="auto"></i><span w-i18n="modal.settings.general.auto"></span></w-option-->
+                            <!--w-option value="::'auto'"><i class="auto-dot"></i><span w-i18n="modal.settings.general.auto"></span></w-option-->
                         </w-select>
                     </div>
                 </div>
@@ -118,7 +118,6 @@
                         </div>
                     </div>
                 </w-permit>
-
 
                 <div class="row flex-row row-style solid-border">
                     <div class="footnote-1 basic-500" w-i18n="modal.settings.general.blockHeight"></div>
@@ -164,12 +163,12 @@
                     <div class="footnote basic-500" w-i18n="modal.settings.security.address"></div>
                     <div class="mobile-low-fsize">{{::$ctrl.address}}</div>
                 </div>
-                <w-button ng-if="$ctrl.advancedMode" on-click="$ctrl.showScriptModal()" class="interface btn-script" w-modal-close>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                        <path d="M9.158 3.615a.5.5 0 1 1 .684-.73l4 3.75a.5.5 0 0 1 0 .73l-4 3.75a.5.5 0 0 1-.684-.73L12.768 7l-3.61-3.385zM4.842 10.385a.5.5 0 0 1-.684.73l-4-3.75a.5.5 0 0 1 0-.73l4-3.75a.5.5 0 1 1 .684.73L1.232 7l3.61 3.385z"/>
-                    </svg>
-                    <span w-i18n-ns="app.wallet.assets" w-i18n="directives.asset.script"></span>
-                </w-button>
+
+                <div class="row flex-row row-style row-mobile solid-border text-right">
+                    <w-button ng-if="$ctrl.advancedMode" on-click="$ctrl.showScriptModal()" class="tiny submit" w-modal-close>
+                        <span w-i18n-ns="app.wallet.assets" w-i18n="modal.settings.security.script"></span>
+                    </w-button>
+                </div>
 
             </w-step>
 
