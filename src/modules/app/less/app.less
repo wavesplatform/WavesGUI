@@ -522,6 +522,30 @@ w-permit {
   }
 }
 
+.veryfied-asset {
+  &-wrapper {
+    display: flex;
+    align-items: flex-end;
+    @media screen and (max-width: 768px) {
+      flex-direction: row;
+    }
+  }
+  &-label {
+    display: block;
+    color: @color-submit-400;
+    background-color: @color-submit-50;
+    line-height: 1;
+    font-size: @font-size-caption-4;
+    padding: 4px 4px 3px 4px;
+    border-radius: @border-radius / 2;
+    margin: 0 0 -3px 5px;
+    text-transform: uppercase;
+    @media screen and (max-width: 768px) {
+        margin: 0 0 1px 5px;
+    }
+  }
+}
+
 .scroll {
   ::-webkit-scrollbar {
     width: 4px;

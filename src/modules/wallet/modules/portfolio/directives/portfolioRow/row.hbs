@@ -10,14 +10,24 @@
                 <div class="marker" style="background-color: {{charColor}}"></div>
             </div>
         {{/if}}
-        <div class="asset-name-desktop">
-            {{assetName}}
+        <div class="asset-name-desktop veryfied-asset-wrapper">
+            <div>{{assetName}}</div>
+            <div><!-- todo @oracle this div = ng-if isVerified token -->
+                <span class="veryfied-asset-label">qualified</span>
+            </div>
         </div>
     </div>
 </div>
 <div class="smart-table__available smart-table__cell" data-column-id="balance">
     <div class="cell">
-        <span class="mobiles-only basic-500 footnote-3">{{assetName}}</span>
+        <div class="veryfied-asset-wrapper mobiles-only">
+            <div>
+                <span class="basic-500 footnote-3">{{assetName}}</span>
+            </div>
+            <div><!-- todo @oracle this div = ng-if isVerified token -->
+                <span class="veryfied-asset-label">qualified</span>
+            </div>
+        </div>
         <span class="{{SELECTORS.AVAILABLE}}"></span>
     </div>
 </div>
