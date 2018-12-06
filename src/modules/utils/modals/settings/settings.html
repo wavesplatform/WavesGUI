@@ -159,15 +159,16 @@
                     <div class="footnote basic-500" w-i18n="modal.settings.security.publicKey"></div>
                     <div class="mobile-low-fsize">{{::$ctrl.publicKey}}</div>
                 </div>
-                <div class="row flex-row row-style row-mobile">
+
+                <div class="row flex-row row-style row-mobile" ng-class="{'solid-border': !$ctrl.advancedMode}">
                     <div class="footnote basic-500" w-i18n="modal.settings.security.address"></div>
                     <div class="mobile-low-fsize">{{::$ctrl.address}}</div>
                 </div>
 
-                <div class="row flex-row row-style solid-border text-right">
+                <div ng-if="$ctrl.advancedMode" class="row flex-row row-style solid-border text-right">
                     <div class="footnote basic-500" w-i18n="modal.settings.security.script"></div>
                     <div>
-                        <w-button ng-if="$ctrl.advancedMode" on-click="$ctrl.showScriptModal()" class="tiny submit" w-modal-close>
+                        <w-button on-click="$ctrl.showScriptModal()" class="tiny submit" w-modal-close>
                             <span w-i18n="modal.settings.security.scriptButton"></span>
                         </w-button>
                     </div>
@@ -229,7 +230,7 @@
                     <div><a href="{{::$ctrl.supportLink}}" target="_blank">{{::$ctrl.supportLinkName}}</a></div>
                 </div>
 
-                <div class="row flex-row row-style">
+                <div class="row flex-row row-style solid-border">
                     <div class="footnote-1 basic-500">&copy; 2018 Waves Platform</div>
                     <div><span class="waves-logo"></span></div>
                 </div>
