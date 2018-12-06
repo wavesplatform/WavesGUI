@@ -85,14 +85,14 @@
                     <div>
                         <w-select ng-model="$ctrl.theme">
                             <w-option value="::'default'">
-                                <i class="white"></i>
+                                <i class="white-dot"></i>
                                 <span w-i18n-ns="app.utils" w-i18n="modal.settings.general.white"></span>
                             </w-option>
                             <w-option value="::'black'">
-                                <i class="dark"></i>
+                                <i class="dark-dot"></i>
                                 <span w-i18n-ns="app.utils" w-i18n="modal.settings.general.dark"></span>
                             </w-option>
-                            <!--w-option value="::'auto'"><i class="auto"></i><span w-i18n="modal.settings.general.auto"></span></w-option-->
+                            <!--w-option value="::'auto'"><i class="auto-dot"></i><span w-i18n="modal.settings.general.auto"></span></w-option-->
                         </w-select>
                     </div>
                 </div>
@@ -118,7 +118,6 @@
                         </div>
                     </div>
                 </w-permit>
-
 
                 <div class="row flex-row row-style solid-border">
                     <div class="footnote-1 basic-500" w-i18n="modal.settings.general.blockHeight"></div>
@@ -164,6 +163,16 @@
                     <div class="footnote basic-500" w-i18n="modal.settings.security.address"></div>
                     <div class="mobile-low-fsize">{{::$ctrl.address}}</div>
                 </div>
+
+                <div class="row flex-row row-style solid-border text-right">
+                    <div class="footnote basic-500" w-i18n="modal.settings.security.script"></div>
+                    <div>
+                        <w-button ng-if="$ctrl.advancedMode" on-click="$ctrl.showScriptModal()" class="tiny submit" w-modal-close>
+                            <span w-i18n="modal.settings.security.scriptButton"></span>
+                        </w-button>
+                    </div>
+                </div>
+
             </w-step>
 
             <w-step step-id="network" class="network">
