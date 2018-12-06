@@ -11,22 +11,8 @@
         <w-option ng-repeat="user in $ctrl.userList track by user.address"
                   value="::user.address">
 
-            <div class="avatar-container has-helper margin-right-1">
+            <div class="avatar-container margin-right-1">
                 <w-avatar type="{{user.userType}}" class="margin-right-1" address="user.address" size="30"></w-avatar>
-                <w-help-icon class="avatar-options-list">
-                    <div class="help-icon__row row-keeper">
-                        <span class="acount-option-icon"></span>
-                        <span w-i18n="leftmenu.keeperAccount"></span>
-                    </div>
-                    <div class="help-icon__row row-ledger">
-                        <span class="acount-option-icon"></span>
-                        <span w-i18n="leftmenu.ledgerAccount"></span>
-                    </div>
-                    <div class="help-icon__row row-script">
-                        <span class="acount-option-icon"></span>
-                        <span w-i18n="leftmenu.scriptAccount"></span>
-                    </div>
-                </w-help-icon>
             </div>
 
             <div ng-class="::{'has-name': !!user.name}">

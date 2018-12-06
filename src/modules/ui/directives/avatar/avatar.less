@@ -32,8 +32,6 @@ w-avatar .avatar-wrap {
     left: 100%;
     top: 0;
 
-
-
     .help-icon {
       &__icon {
         position: absolute;
@@ -108,38 +106,37 @@ w-avatar .avatar-wrap {
     }
   }
 }
-// end
-//
-//w-avatar[type='ledger'],
-//w-avatar[type='wavesKeeper'] {
-//  .avatar-wrap:not(.scripted) {
-//    &::after {
-//      .avatar-label;
-//    }
-//  }
-//}
-//
-//w-avatar {
-//  &[type='ledger'] {
-//    .avatar-wrap:not(.scripted)::after {
-//      background-image: @ledger-mini-icon;
-//    }
-//  }
-//
-//  &[type='wavesKeeper'] {
-//    .avatar-wrap:not(.scripted)::after {
-//      background-image: @keeper-mini-icon;
-//    }
-//  }
-//}
-//
-//w-avatar[type='seed'],
-//w-avatar[type='ledger'],
-//w-avatar[type='wavesKeeper'] {
-//  .avatar-wrap.scripted {
-//    &::after {
-//      .avatar-label;
-//      background-image: @scripted-mini-icon;
-//    }
-//  }
-//}
+
+w-avatar[type='ledger'],
+w-avatar[type='wavesKeeper'] {
+  .avatar-wrap:not(.scripted) {
+    &::after {
+      .avatar-label;
+    }
+  }
+}
+
+w-avatar {
+  &[type='ledger'] {
+    .avatar-wrap:not(.scripted)::after {
+      background-image: @ledger-mini-icon;
+    }
+  }
+
+  &[type='wavesKeeper'] {
+    .avatar-wrap:not(.scripted)::after {
+      background-image: @keeper-mini-icon;
+    }
+  }
+}
+
+w-avatar[type='seed'],
+w-avatar[type='ledger'],
+w-avatar[type='wavesKeeper'] {
+  .avatar-wrap.scripted {
+    &::after {
+      .avatar-label;
+      background-image: @scripted-mini-icon;
+    }
+  }
+}
