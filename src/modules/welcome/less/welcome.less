@@ -84,49 +84,12 @@
     width: 460px;
     margin: auto;
 
-    w-select .expanded .title {
-      position: relative;
-      z-index: 11;
-    }
-
     .avatar-container {
       width: 30px;
       height: 30px;
       position: relative;
       w-avatar {
         position: absolute;
-      }
-      w-help-icon {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        z-index: 1;
-
-        .help-icon {
-          &__icon {
-            top: auto;
-            bottom: -3px;
-
-            &::before {
-              font-size: 11px;
-              content: '+';
-              color: @color-black;
-              background-color: @color-white;
-            }
-
-            &.hovered::after,
-            &.hovered + div.help-icon__content {
-              display: none;
-            }
-            &:hover.hovered::after,
-            &:hover.hovered + div.help-icon__content {
-              display: block;
-            }
-          }
-          &__content {
-            top: 21px;
-          }
-        }
       }
     }
 
