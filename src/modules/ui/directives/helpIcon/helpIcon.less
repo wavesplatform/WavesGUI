@@ -27,10 +27,7 @@
       line-height: 13px;
     }
 
-    &.hovered::before,
-    &:hover::before {
-      background: @color-submit-300;
-    }
+
 
     &:after {
       display: none;
@@ -43,6 +40,11 @@
       position: absolute;
       content: '';
       z-index: 0;
+    }
+
+    &.hovered::before,
+    &:hover::before {
+      background: @color-submit-300;
     }
 
     &.hovered::after,

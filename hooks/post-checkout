@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-echo "post checkout hook"
-npm install || exit 1
-echo "post checkout hook >> DONE"
-
-exit 0

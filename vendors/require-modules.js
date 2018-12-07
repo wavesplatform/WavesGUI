@@ -19,8 +19,7 @@
         'data-service': 'ds',
         'handlebars': 'Handlebars',
         '@waves/waves-browser-bus': 'bus',
-        'worker-wrapper': 'workerWrapper',
-        '@waves/assets-pairs-order': 'OrderPairs'
+        'worker-wrapper': 'workerWrapper'
     };
 
     function getModule(require) {
