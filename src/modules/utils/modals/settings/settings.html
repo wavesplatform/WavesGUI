@@ -112,9 +112,9 @@
                         <div class="footnote-1 basic-500" w-i18n="modal.settings.pairing.devicePairing"></div>
                         <div>
                             <a class="label link"
-                                w-i18n="modal.settings.pairing.showCodeLink"
-                                w-modal-close
-                                ng-click="$ctrl.showPairingWithMobile()"></a>
+                               w-i18n="modal.settings.pairing.showCodeLink"
+                               w-modal-close
+                               ng-click="$ctrl.showPairingWithMobile()"></a>
                         </div>
                     </div>
                 </w-permit>
@@ -194,6 +194,56 @@
                     </div>
                     <div class="data-field">
                         <w-input ng-model="$ctrl.matcher"></w-input>
+                    </div>
+                </div>
+
+                <div class="row margin-1">
+                    <div class="footnote-1 basic-500 label">
+                        <span w-i18n="modal.settings.network.dataProvider"></span>
+                        <a class="settings-copy" w-copy="" w-i18n="modal.settings.network.copy"></a>
+                    </div>
+                    <div class="data-field has-helper">
+                        <form novalidate name="dataProvder">
+                            <w-input-container class="relative">
+                                <w-input name="dataProviderInput" ng-model="$ctrl.dataProvider"></w-input> <!-- todo @tsigel - ng-model -->
+                                <div class="input-state"><!-- todo @tsigel - change classes here:
+                                        .pending
+                                        .success (add success for some seconds, then remove)
+                                 -->
+                                    <div class="input-state__icon">
+                                        <svg class="animate" width="10px" height="10px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <g id="Icon/10/check-submit300" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline id="Path" stroke="#1F5AF6" stroke-width="1.5" points="2.38 5.16363636 4.01636364 6.8 7.61636364 3.2"></polyline>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                    <w-help-icon> <!-- todo @uIsk - content styles -->
+                                        <div class="flex">
+                                            <w-asset-logo size="30" style="width: 30px; height: 30px; background: blue; border-radius: 50%;"> <!-- todo @tsigel - oracle avatar -->
+                                                <!-- todo @uIsk - remove styles -->
+                                            </w-asset-logo>
+                                            <div>
+                                                <div class="basic-700">Super oracle</div> <!-- todo @uIsk - literal and params -->
+                                                <div class="basic-500">3PCAB4sHXgvtu5NPoen6EXR5yaNbvsEA8Fj</div> <!-- todo @uIsk - literal and params -->
+                                            </div>
+                                        </div>
+                                        <div class="help-icon__row">
+                                            <span>Sviblovo</span> <!-- todo @uIsk - literal and params -->
+                                            <span>- a blockchain-powered & cloud-based social ecosystem. <!-- todo @uIsk - literal -->
+                                                This ecosystem includes Moscow SVAO supporting instant money
+                                                transfer and high efficient blockchain-based storage.
+                                                Transactions are fully confirmed in about 60 seconds.</span>
+                                        </div>
+                                        <div class="help-icon__row">
+                                            <a href="#">Show more</a><!-- todo @uIsk - literal and link address -->
+                                        </div>
+                                    </w-help-icon>
+                                </div>
+                                <w-input-error>
+                                    <span>Failed to get provider information. Please check the link and try again</span> <!-- todo @uIsk - literal -->
+                                </w-input-error>
+                            </w-input-container>
+                        </form>
                     </div>
                 </div>
 
