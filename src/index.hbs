@@ -320,6 +320,7 @@
             state: 'loading',
             origin: '{{{origin}}}',
             localize: {{{langList}}},
+            bankRecipient: '{{{bankRecipient}}}',
             network: {
                 apiVersion: '{{network.apiVersion}}',
                 code: '{{network.code}}',
@@ -456,28 +457,29 @@
 
         if (window.isDesktop || !window.buildIsWeb) {
 
-            const __mainListeners = [];
+            var __mainListeners = [];
 
             function listenMainProcessEvent(cb) {
                 __mainListeners.push(cb);
             }
 
             function stopListenMainProcessEvent(cb) {
-                for (let i = __mainListeners.length - 1; i >= 0; i--) {
+                for (var i = __mainListeners.length - 1; i >= 0; i--) {
                     if (__mainListeners[i] === cb) {
                         __mainListeners.splice(i, 1);
                     }
                 }
             }
 
-            function runMainProcessEvent(...args) {
+            function runMainProcessEvent() {
+                var args = Array.prototype.slice.call(arguments);
                 __mainListeners.slice().forEach(function (cb) {
                     try {
-                        cb(...args);
+                        cb.apply(this, args);
                     } catch (e) {
                         console.error(e);
                     }
-                });
+                }, this);
             }
         }
 
@@ -505,12 +507,12 @@
     <div class="waves-logo"><img src="/img/icons/waves_logo.svg"/></div>
     <img src="/img/no-preload/connection-error.svg" class="margin-3"/>
     <div class="headline-1">We couldn't connect to the server</div>
-        <div class="body-1 basic-500">Check your internet connection and try again.</div>
-        <div class="body-1 margin-4 basic-500">
-            <div>If you have been using the Waves Desktop app and refreshing does</div>
-            <div>not help, try reinstalling the app. Download the latest version from</div>
-            <div>the official Waves site.</div>
-        </div>
+    <div class="body-1 basic-500">Check your internet connection and try again.</div>
+    <div class="body-1 margin-4 basic-500">
+        <div>If you have been using the Waves Desktop app and refreshing does</div>
+        <div>not help, try reinstalling the app. Download the latest version from</div>
+        <div>the official Waves site.</div>
+    </div>
     <button class="submit big submit" onclick="WavesApp.reload();">Refresh page</button>
 </div>
 
@@ -765,6 +767,7 @@
      * @property {number} minAliasLength
      * @property {number} maxAliasLength
      * @property {number} MAX_URL_LENGTH
+     * @property {string} bankRecipient
      * @property {number} maxAddressLength
      * @property {\{count: number, timeType: string\}} matcherSignInterval
      * @property {BigNumber} maxCoinsCount

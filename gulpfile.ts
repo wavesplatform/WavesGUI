@@ -6,7 +6,6 @@ import { download, getAllLessFiles, getFilesFrom, prepareHTML, run, task } from 
 import { basename, extname, join, sep } from 'path';
 import {
     copy,
-    mkdirpSync,
     outputFile,
     outputFileSync,
     readdir,
@@ -14,27 +13,19 @@ import {
     readJSON,
     readJSONSync,
     writeFile,
-    writeJSON
 } from 'fs-extra';
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
-import { readFileSync } from 'fs';
-import { node } from './data-service/api/API';
+import { readFileSync, writeFileSync } from 'fs';
 import { render } from 'less';
 
 const zip = require('gulp-zip');
-const s3 = require('gulp-s3');
 
 const { themes: THEMES } = readJSONSync(join(__dirname, 'src/themeConfig', 'theme.json'));
 const meta: IMetaJSON = readJSONSync(join(__dirname, 'ts-scripts', 'meta.json'));
 const pack: IPackageJSON = readJSONSync(join(__dirname, 'package.json'));
 const configurations = Object.keys(meta.configurations);
-const AWS = {
-    key: process.env.AWS_ACCESS_KEY_ID,
-    secret: process.env.AWS_SECRET_ACCESS_KEY,
-    region: 'eu-central-1'
-};
 
 const SOURCE_FILES = getFilesFrom(join(__dirname, 'src'), '.js');
 const IMAGE_LIST = getFilesFrom(join(__dirname, 'src', 'img'), ['.png', '.svg', '.jpg'], (name, path) => path.indexOf('no-preload') === -1);
@@ -348,7 +339,10 @@ task('babel', ['concat-develop'], function () {
                 'transform-object-rest-spread'
             ]
         }))
-        .pipe(gulp.dest(tmpJsPath));
+        .pipe(gulp.dest(tmpJsPath))
+        .on('end', () => {
+            writeFileSync(bundlePath, `(function () {${readFileSync(bundlePath, 'utf8')}})()`);
+        });
 });
 
 task('uglify', ['babel', 'templates'], function (done) {
@@ -373,20 +367,6 @@ task('uglify', ['babel', 'templates'], function (done) {
         run(templatePath, getFileName(templatesName, 'min'))
     ]).then(() => done());
 });
-
-task('s3-testnet', function () {
-    const bucket = 'testnet.waveswallet.io';
-    return gulp.src('./dist/testnet/**/*')
-        .pipe(s3({ ...AWS, bucket }));
-});
-
-task('s3-mainnet', function () {
-    const bucket = 'waveswallet.io';
-    return gulp.src('./dist/mainnet/**/*')
-        .pipe(s3({ ...AWS, bucket }));
-});
-
-task('s3', ['s3-testnet', 's3-mainnet']);
 
 task('zip', configurations.map(name => `zip-${name}`));
 
@@ -449,7 +429,7 @@ task('electron-debug', function (done) {
 });
 
 task('data-service', function () {
-    execSync(`${join('node_modules', '.bin', 'tsc')} -p data-service && ${join('node_modules', '.bin', 'browserify')} ${join('data-service', 'index.js')} -s ds -u ts-utils -u bignumber.js -u @waves/data-entities -u ramda -u @waves/signature-generator -u @waves/signature-adapter -o ${join('data-service-dist', 'data-service.js')}`);
+    execSync('npm run data-service');
 });
 
 task('all', [

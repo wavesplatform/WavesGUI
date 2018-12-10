@@ -189,6 +189,9 @@
                     document.body.removeChild(loaderEl);
                 }, 4100);
             }
+            showScriptModal() {
+                modalManager.showScriptModal();
+            }
 
         }
 
