@@ -1,7 +1,6 @@
 {
   "vendors": [
     "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js",
-    "node_modules/@waves/assets-pairs-order/dist/browser.js",
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
     "node_modules/handlebars/dist/handlebars.min.js",
     "node_modules/ramda/dist/ramda.min.js",
