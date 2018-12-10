@@ -4,8 +4,7 @@ w-portfolio-row {
   display: flex;
   width: 100%;
 
-
-  .sponsored-asset{
+  .sponsored-asset {
     .asset-logo {
       .marker {
         position: absolute;
@@ -96,7 +95,7 @@ w-portfolio-row {
         &:hover {
           background-color: @color-basic-50;
         }
-        
+
         &.icon-hide {
           .unspam {
             display: none;
@@ -142,6 +141,22 @@ w-portfolio-row {
 
         .dot {
           background-color: @color-white;
+        }
+      }
+    }
+  }
+}
+
+//fix actions position
+.smart-table__w-tbody .w-visible:first-child {
+  .smart-table__row {
+    .actions-wrapper {
+      .actions-container {
+        &.expanded {
+          &.to-up {
+            top: 0;
+            bottom: auto;
+          }
         }
       }
     }
