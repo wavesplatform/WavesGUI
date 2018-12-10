@@ -208,7 +208,7 @@
                                 <w-input name="dataProviderInput" ng-model="$ctrl.dataProvider"></w-input> <!-- todo @tsigel - ng-model -->
                                 <div class="input-state"><!-- todo @tsigel - change classes here:
                                         .pending
-                                        .success (add success for some seconds, then remove)
+                                        .success (add success for 2-3 seconds, then remove)
                                  -->
                                     <div class="input-state__icon">
                                         <svg class="animate" width="10px" height="10px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -217,30 +217,24 @@
                                             </g>
                                         </svg>
                                     </div>
-                                    <w-help-icon> <!-- todo @uIsk - content styles -->
+                                    <w-help-icon>
                                         <div class="flex">
-                                            <w-asset-logo size="30" style="width: 30px; height: 30px; background: blue; border-radius: 50%;"> <!-- todo @tsigel - oracle avatar -->
-                                                <!-- todo @uIsk - remove styles -->
-                                            </w-asset-logo>
+                                            <w-asset-logo class="margin-right-1" size="30"></w-asset-logo><!-- todo @tsigel - oracle avatar -->
                                             <div>
-                                                <div class="basic-700">Super oracle</div> <!-- todo @uIsk - literal and params -->
-                                                <div class="basic-500">3PCAB4sHXgvtu5NPoen6EXR5yaNbvsEA8Fj</div> <!-- todo @uIsk - literal and params -->
+                                                <div class="data-provider-name basic-700" w-i18n="modal.settings.network.dataProviderName"></div> <!-- todo @tsigel // в лосайз добавил {{dataProviderName}} params="$ctrl.dataProviderName" -->
+                                                <div class="data-provider-id basic-500" w-i18n="modal.settings.network.dataProviderId"></div> <!-- todo @tsigel // в лосайз добавил {{dataProviderId}} params="$ctrl.dataProviderId" -->
                                             </div>
                                         </div>
-                                        <div class="help-icon__row">
-                                            <span>Sviblovo</span> <!-- todo @uIsk - literal and params -->
-                                            <span>- a blockchain-powered & cloud-based social ecosystem. <!-- todo @uIsk - literal -->
-                                                This ecosystem includes Moscow SVAO supporting instant money
-                                                transfer and high efficient blockchain-based storage.
-                                                Transactions are fully confirmed in about 60 seconds.</span>
+                                        <div class="data-provider-info help-icon__row">
+                                            <span w-i18n="modal.settings.network.dataProviderDescription"></span> <!-- todo @tsigel // в лосайз добавил {{dataProviderDescription}} params="$ctrl.dataProviderDescription" -->
                                         </div>
                                         <div class="help-icon__row">
-                                            <a href="#">Show more</a><!-- todo @uIsk - literal and link address -->
+                                            <a href="#" w-i18n="modal.settings.network.showMore"></a><!-- todo @tsigel - link address to oracle profile -->
                                         </div>
                                     </w-help-icon>
                                 </div>
                                 <w-input-error>
-                                    <span>Failed to get provider information. Please check the link and try again</span> <!-- todo @uIsk - literal -->
+                                    <span w-i18n="modal.settings.network.dataProviderInvalid"></span>
                                 </w-input-error>
                             </w-input-container>
                         </form>
