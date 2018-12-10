@@ -26,35 +26,24 @@
 
       .slide-icon {
         margin: 0 auto;
-        //border: 1px solid red;
-        background-size: cover!important;
-        //background-color: red;
-        width: 340px!important;
-        height: 300px!important;
-      }
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        width: 340px;
+        height: 300px;
 
-      .slide-icon-0 {
-        background: @slider-icon-1 no-repeat center center;
-        //width: 122px;
-        //height: 112px;
-      }
-
-      .slide-icon-1 {
-        background: @slider-icon-2 no-repeat center center;
-        //width: 132px;
-        //height: 111px;
-      }
-
-      .slide-icon-2 {
-        background: @slider-icon-3 no-repeat center center;
-        //width: 112px;
-        //height: 100px;
-      }
-
-      .slide-icon-3 {
-        background: @slider-icon-4 no-repeat center center;
-        //width: 132px;
-        //height: 112px;
+        &-1 {
+          background-image: @slider-icon-1;
+        }
+        &-2 {
+          background-image: @slider-icon-2;
+        }
+        &-3 {
+          background-image: @slider-icon-3;
+        }
+        &-4 {
+          background-image: @slider-icon-4;
+        }
       }
 
       .slide-description {
