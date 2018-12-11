@@ -9,6 +9,7 @@ import { get as getOrderBook } from './matcher/orderBook';
 import { addSignature, clearSignature, getOrders, getOrdersByPair, signatureTimeout } from './matcher/getOrders';
 import { getAddressByAlias, getAliasesByAddress } from './aliases/aliases';
 import * as pairsModule from './pairs/pairs';
+import * as dataModule from './data';
 
 
 export const aliases = { getAliasesByAddress, getAddressByAlias };
@@ -27,4 +28,8 @@ export const utils = { ...utilsFunctions, request, assetStorage };
 
 export const pairs = {
     ...pairsModule
+};
+
+export const data = {
+    ...dataModule
 };

@@ -205,35 +205,51 @@
                     <div class="data-field has-helper">
                         <form novalidate name="dataProvder">
                             <w-input-container class="relative">
-                                <w-input name="dataProviderInput" ng-model="$ctrl.dataProvider"></w-input> <!-- todo @tsigel - ng-model -->
-                                <div class="input-state"><!-- todo @tsigel - change classes here:
-                                        .pending
-                                        .success (add success for 2-3 seconds, then remove)
-                                 -->
+                                <w-input name="dataProviderInput"
+                                         w-validate
+                                         w-validator-custom="{{!$ctrl.oracleError}}"
+                                         ng-model="$ctrl.assetsOracleTmp"></w-input>
+                                <div class="input-state"
+                                     ng-class="{pending: $ctrl.oraclePending, success: $ctrl.oracleSuccess}">
                                     <div class="input-state__icon">
-                                        <svg class="animate" width="10px" height="10px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <g id="Icon/10/check-submit300" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline id="Path" stroke="#1F5AF6" stroke-width="1.5" points="2.38 5.16363636 4.01636364 6.8 7.61636364 3.2"></polyline>
+                                        <svg class="animate" width="10px" height="10px" viewBox="0 0 10 10"
+                                             version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                             xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <g id="Icon/10/check-submit300" stroke="none" stroke-width="1" fill="none"
+                                               fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline id="Path" stroke="#1F5AF6" stroke-width="1.5"
+                                                          points="2.38 5.16363636 4.01636364 6.8 7.61636364 3.2"></polyline>
                                             </g>
                                         </svg>
                                     </div>
-                                    <w-help-icon>
+                                    <w-help-icon ng-if="!$ctrl.oracleError && $ctrl.oracleData">
                                         <div class="flex">
-                                            <w-asset-logo class="margin-right-1" size="30"></w-asset-logo><!-- todo @tsigel - oracle avatar -->
+                                            <div class="icon">
+                                                <!-- TODO Iscander, move size!-->
+                                                <img style="width: 30px; height: 30px" src="{{$ctrl.oracleData.logo}}">
+                                            </div>
+
                                             <div>
-                                                <div class="data-provider-name basic-700" w-i18n="modal.settings.network.dataProviderName"></div> <!-- todo @tsigel // в лосайз добавил {{dataProviderName}} params="$ctrl.dataProviderName" -->
-                                                <div class="data-provider-id basic-500" w-i18n="modal.settings.network.dataProviderId"></div> <!-- todo @tsigel // в лосайз добавил {{dataProviderId}} params="$ctrl.dataProviderId" -->
+                                                <div class="data-provider-name basic-700">
+                                                    {{$ctrl.oracleData.name}}
+                                                </div>
+                                                <div class="data-provider-id basic-500">
+                                                    {{$ctrl.assetsOracle}}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="data-provider-info help-icon__row">
-                                            <span w-i18n="modal.settings.network.dataProviderDescription"></span> <!-- todo @tsigel // в лосайз добавил {{dataProviderDescription}} params="$ctrl.dataProviderDescription" -->
+                                            <span>
+                                                {{$ctrl.oracleData.description.en}}
+                                            </span>
                                         </div>
                                         <div class="help-icon__row">
-                                            <a href="#" w-i18n="modal.settings.network.showMore"></a><!-- todo @tsigel - link address to oracle profile -->
+                                            <a href="{{$ctrl.oracleData.link}}"
+                                               w-i18n="modal.settings.network.showMore"></a>
                                         </div>
                                     </w-help-icon>
                                 </div>
-                                <w-input-error>
+                                <w-input-error message="custom">
                                     <span w-i18n="modal.settings.network.dataProviderInvalid"></span>
                                 </w-input-error>
                             </w-input-container>

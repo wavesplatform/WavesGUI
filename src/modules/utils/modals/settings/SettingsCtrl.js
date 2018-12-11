@@ -2,6 +2,7 @@
     'use strict';
 
     const ds = require('data-service');
+    const { path } = require('ramda');
 
     /**
      * @param Base
@@ -49,6 +50,7 @@
                 user.setSetting('advancedMode', mode);
             }
 
+            assetsOracle = '';
             tab = 'general';
             address = user.address;
             publicKey = user.publicKey;
@@ -73,6 +75,11 @@
             supportLink = WavesApp.network.support;
             supportLinkName = WavesApp.network.support.replace(/^https?:\/\//, '');
             blockHeight = 0;
+            assetsOracleTmp = '';
+            oracleData = path(['oracle'], ds.dataManager.getOracleData());
+            oracleError = false;
+            oraclePending = false;
+            oracleSuccess = false;
 
             constructor() {
                 super($scope);
@@ -84,8 +91,11 @@
                     scamListUrl: 'scamListUrl',
                     withScam: 'withScam',
                     theme: 'theme',
-                    candle: 'candle'
+                    candle: 'candle',
+                    assetsOracle: 'assetsOracle'
                 });
+
+                this.assetsOracleTmp = this.assetsOracle;
 
                 storage.load('openClientMode').then(mode => {
                     this.openClientMode = mode;
@@ -100,6 +110,35 @@
                         },
                         () => user.changeTheme(this.theme)
                     );
+                });
+
+                this.observe('assetsOracleTmp', () => {
+                    const address = this.assetsOracleTmp;
+                    this.oraclePending = true;
+                    ds.api.data.getOracleData(address)
+                        .then(data => {
+                            if (data.oracle.logo &&
+                                data.oracle.name &&
+                                data.oracle.site &&
+                                data.oracle.description &&
+                                data.oracle.description.en) {
+                                this.oracleData = data.oracle;
+                                this.assetsOracle = this.assetsOracleTmp;
+                                this.oracleError = false;
+                                this.oracleSuccess = true;
+                                setTimeout(() => {
+                                    this.oracleSuccess = false;
+                                    $scope.$apply();
+                                }, 1500);
+                            }
+                        })
+                        .catch(() => {
+                            this.oracleError = true;
+                        })
+                        .then(() => {
+                            this.oraclePending = false;
+                            $scope.$apply();
+                        });
                 });
 
                 // this.observe('candle', () => {
@@ -189,6 +228,7 @@
                     document.body.removeChild(loaderEl);
                 }, 4100);
             }
+
             showScriptModal() {
                 modalManager.showScriptModal();
             }

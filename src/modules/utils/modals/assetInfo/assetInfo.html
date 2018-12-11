@@ -4,17 +4,13 @@
         <div class="asset-data">
             <h4 ng-cloak class="veryfied-asset-wrapper basic-900">
                 <div>{{::$ctrl.asset.name}}</div>
-                <div><!-- todo @oracle this div = ng-if isVerified token -->
+                <div ng-if="$ctrl.isVerified">
                     <span class="veryfied-asset-label" w-i18n="modal.assetInfo.qualified"></span>
                 </div>
             </h4>
 
-            <div ng-cloak
-                 class="body-2 basic-500 one-line"
-                 default-value="{{::$ctrl.asset.description}}"
-                 w-i18n="{{::$ctrl.asset.id}}.description"
-                 w-i18n-ns="app.ui"
-                 skip-errors>
+            <div class="body-2 basic-500 one-line">
+                {{::$ctrl.ticker}}
             </div>
         </div>
         <!--<div ng-if="$ctrl.asset.id !== $ctrl.wavesId"
@@ -68,13 +64,16 @@
                 <div class="basic-500" w-i18n="modal.assetInfo.date"></div>
                 <div class="basic-900">{{::$ctrl.asset.timestamp | date:'dd.MM.yyyy HH:mm'}}</div>
             </div>
-            <div ng-if="$ctrl.asset.description" class="line line-description">
-                <div class="basic-500" w-i18n="modal.assetInfo.description"></div>
-                <div class="basic-900"
-                     w-i18n="{{::$ctrl.asset.id}}.description"
-                     default-value="{{::$ctrl.asset.description}}"
-                     w-i18n-ns="app.ui"
-                     skip-errors></div>
+            <div class="line" ng-if="$ctrl.site">
+                <div class="basic-500" w-i18n="modal.assetInfo.site"></div>
+                <a target="_blank" href="{{::$ctrl.site}}">{{::$ctrl.site}}</a>
+            </div>
+            <div class="line" ng-if="$ctrl.email">
+                <div class="basic-500" w-i18n="modal.assetInfo.site"></div>
+                <a target="_blank" href="mailto:{{::$ctrl.site}}">{{::$ctrl.email}}</a>
+            </div>
+            <div ng-if="$ctrl.description" class="line line-description">
+                {{::$ctrl.description}}
             </div>
         </w-tab>
         <w-tab ng-if="!$ctrl.isDemo"

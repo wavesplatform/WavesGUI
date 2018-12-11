@@ -13,9 +13,13 @@
     const controller = function (Base, $scope, user, createPoll, utils, waves) {
 
         const ds = require('data-service');
+        const { path } = require('ramda');
 
         class AssetInfoCtrl extends Base {
 
+            /**
+             * @param {Asset} asset
+             */
             constructor(asset) {
                 super($scope);
                 this.asset = asset;
@@ -31,6 +35,15 @@
                 this.totalBalance = null;
                 this.transactions = [];
                 this.transactionsPending = true;
+                const data = ds.dataManager.getOracleAssetData(asset.id);
+                this.isVerified = path(['status'], data) === 1 || asset.id === 'WAVES';
+
+                // this.ticker = path(['ticker'], data); // TODO STEP 2
+                this.ticker = asset.ticker; // TODO STEP 2
+                this.site = path(['site'], data);
+                this.email = path(['email'], data);
+                this.description = path(['description', 'en'], data) || asset.description;
+
                 /**
                  * @type {string}
                  */

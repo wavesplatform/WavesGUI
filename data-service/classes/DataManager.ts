@@ -4,12 +4,11 @@ import { balanceList } from '../api/assets/assets';
 import { getReservedBalance } from '../api/matcher/getOrders';
 import { IBalanceItem } from '../api/assets/interface';
 import { IHash } from '../interface';
-import { IOrder } from '../api/matcher/interface';
-import { contains } from 'ts-utils';
-import { MoneyHash } from '../utils/MoneyHash';
 import { UTXManager } from './UTXManager';
 import { getAliasesByAddress } from '../api/aliases/aliases';
 import { PollControl } from './PollControl';
+import { change, get } from '../config';
+import { getOracleData } from '../api/data';
 
 
 export class DataManager {
@@ -21,7 +20,6 @@ export class DataManager {
     constructor() {
         this.pollControl = new PollControl<TPollHash>(() => this._createPolls());
     }
-
 
     public applyAddress(address: string): void {
         this._address = address;
@@ -50,6 +48,14 @@ export class DataManager {
         return this.pollControl.getPollHash().aliases.lastData || [];
     }
 
+    public getOracleAssetData(id: string) {
+        return this.pollControl.getPollHash().oracle.lastData.assets[id];
+    }
+
+    public getOracleData() {
+        return this.pollControl.getPollHash().oracle.lastData;
+    }
+
     private _getPollBalanceApi(): IPollAPI<Array<IBalanceItem>> {
         const get = () => {
             const hash = this.pollControl.getPollHash();
@@ -73,12 +79,29 @@ export class DataManager {
         };
     }
 
+    private _getPollOracleApi(): IPollAPI<IOracleData> {
+        return {
+            get: () => {
+                const address = get('oracleAddress');
+                return address ? getOracleData(address) : Promise.resolve({ assets: Object.create(null) }) as any;
+            },
+            set: () => null
+        };
+    }
+
     private _createPolls(): TPollHash {
         const balance = new Poll(this._getPollBalanceApi(), 1000);
         const orders = new Poll(this._getPollOrdersApi(), 1000);
         const aliases = new Poll(this._getPollAliasesApi(), 5000);
+        const oracle = new Poll(this._getPollOracleApi(), 30000);
 
-        return { balance, orders, aliases };
+        change.on((key) => {
+            if (key === 'oracleAddress') {
+                oracle.restart();
+            }
+        });
+
+        return { balance, orders, aliases, oracle };
     }
 
 }
@@ -87,4 +110,26 @@ type TPollHash = {
     balance: Poll<Array<IBalanceItem>>;
     orders: Poll<IHash<Money>>;
     aliases: Poll<Array<string>>;
+    oracle: Poll<IOracleData>
+}
+
+export interface IOracleData {
+    oracle: {
+        name: string;
+        site: string;
+        email: string;
+        description?: Record<string, string> | null;
+        logo: string;
+    }
+    assets: Record<string, IOracleAsset>;
+}
+
+export interface IOracleAsset {
+    id: string;
+    status: number; // TODO! Add enum
+    logo: string;
+    site: string;
+    ticker: string;
+    email: string;
+    description?: Record<string, string>;
 }
