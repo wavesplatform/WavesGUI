@@ -180,6 +180,9 @@
                 return !(this.hasOrderBook || this.pending || this.loadingError);
             }
 
+            /**
+             * @private
+             */
             _updateAssetData() {
                 ds.api.assets.get([this._assetIdPair.price, this._assetIdPair.amount])
                     .then(([priceAsset, amountAsset]) => {
@@ -312,6 +315,10 @@
                 }
             }
 
+            /**
+             * @return {number}
+             * @private
+             */
             _getSpreadScrollPosition() {
                 const box = this._dom.$box.get(0);
                 const info = this._dom.$info.get(0);
@@ -363,16 +370,16 @@
                     });
                 });
                 const diff = MIN_LINES - mappedList.length;
+                const type = list.length ? list[0].type : 'sell';
 
-                if (diff > 0) {
-                    for (let i = 0; i < diff; i++) {
-                        if (list[0].type === 'buy') {
-                            mappedList.unshift(this.emptyRowTemplate);
-                        } else {
-                            mappedList.push(this.emptyRowTemplate);
-                        }
+                for (let i = 0; i < diff; i++) {
+                    if (type === 'buy') {
+                        mappedList.unshift(this.emptyRowTemplate);
+                    } else {
+                        mappedList.push(this.emptyRowTemplate);
                     }
                 }
+
 
                 return mappedList;
             }
@@ -429,17 +436,6 @@
              */
             static _cropFilterOrders(list, crop) {
                 return list.filter((o) => o.price.gte(crop.min) && o.price.lte(crop.max));
-            }
-
-            /**
-             * @param {OrderBook.IOrder[]} list
-             * @return {BigNumber}
-             * @private
-             */
-            static _getMedianAmount(list) {
-                const len = list.length;
-                const l = len % 2 ? len - 1 : len;
-                return list[l / 2].amount;
             }
 
         }
