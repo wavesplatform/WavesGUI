@@ -1,5 +1,15 @@
 <w-step-by-step active-step="$ctrl.step">
     <w-step>
+        <div class="text-center">
+            <div class="icon-script-warning"></div>
+            <h2 class="basic-900" w-i18n="directives.scriptForm.warningHeader"></h2>
+            <div class="disabled-600 margin-4 body-2 margin-4" w-i18n="directives.scriptForm.warningDescription"></div>
+            <w-button class="submit big long" on-click="$ctrl.nextStep()">
+                <span w-i18n="directives.scriptForm.acceptAndContinue"></span>
+            </w-button>
+        </div>
+    </w-step>
+    <w-step>
         <w-script-tx-form on-success="$ctrl.nextStep(signable)"
                           state="$ctrl.activeState"></w-script-tx-form>
     </w-step>

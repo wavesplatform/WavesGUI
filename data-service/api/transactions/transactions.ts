@@ -19,7 +19,7 @@ import {
 import { contains } from 'ts-utils';
 import { TRANSACTION_TYPE_NUMBER } from '@waves/signature-generator';
 import { pipe, prop, uniqBy, tap } from 'ramda';
-import { TransactionFilters } from '@waves/data-service-client-js/src/types';
+import { ExchangeTxFilters } from '@waves/data-service-client-js';
 
 
 export function list(address: string, limit = 100): Promise<Array<T_TX>> {
@@ -31,7 +31,7 @@ export function list(address: string, limit = 100): Promise<Array<T_TX>> {
         .then(transactions => parseTx(transactions as any, false));
 }
 
-export function getExchangeTxList(options: TransactionFilters = Object.create(null)): Promise<Array<IExchange>> {
+export function getExchangeTxList(options: ExchangeTxFilters = Object.create(null)): Promise<Array<IExchange>> {
     return request({ method: () => getDataService().getExchangeTxs(options).then(r => r.data) })
         .then((transactions: any) => parseTx(transactions, false, true) as any);
 }
