@@ -150,12 +150,12 @@ body.dex-demo .dex-wrapper {
               &::before {
                 content: '';
                 display: block;
-                width: calc(100% - 2px);
+                width: calc(100% ~'- 2px');
                 height: 2px;
                 background: @color-white;
                 position: absolute;
                 z-index: 1;
-                bottom: -1px;
+                bottom: -2px;
                 left: 1px;
               }
             }
@@ -189,7 +189,7 @@ body.dex-demo .dex-wrapper {
         }
       }
 
-      a.title {
+      div.title {
         font-size: @font-size-caption-2;
         color: @color-basic-700;
         font-family: @font-roboto-medium;
