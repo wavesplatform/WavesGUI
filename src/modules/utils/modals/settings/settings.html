@@ -224,11 +224,9 @@
                                     </div>
                                     <w-help-icon ng-if="!$ctrl.oracleError && $ctrl.oracleData">
                                         <div class="flex">
-                                            <div class="icon">
-                                                <!-- TODO Iscander, move size!-->
-                                                <img style="width: 30px; height: 30px" src="{{$ctrl.oracleData.logo}}">
+                                            <div class="avatar-icon margin-right-1">
+                                                <img src="{{$ctrl.oracleData.logo}}">
                                             </div>
-
                                             <div>
                                                 <div class="data-provider-name basic-700">
                                                     {{$ctrl.oracleData.name}}
