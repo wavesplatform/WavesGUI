@@ -96,7 +96,7 @@
 
             </div>
 
-            <div ng-if="$ctrl.isLira" class="bank-account wtry">
+            <div ng-if="$ctrl.isLira" class="bank-account">
 
                 <div class="warning-plate">
                     <div class="body-2 warning-500" w-i18n="modal.receive.wtryPlate1Header"></div>
@@ -108,10 +108,8 @@
                     <div w-i18n="modal.receive.wtry.info"></div>
                 </div>
 
-                <a href="{{$ctrl.digiLiraUserLink}}" target="_blank">
-                    <w-button class="big submit long" on-click="$ctrl.step++">
-                        <span w-i18n="modal.receive.card.continue"></span>
-                    </w-button>
+                <a class="fake-button long" href="{{$ctrl.digiLiraUserLink}}" target="_blank">
+                    <span class="fake-button-content big long submit" w-i18n="modal.receive.card.continue"></span>
                 </a>
 
             </div>
