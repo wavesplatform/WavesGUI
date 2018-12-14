@@ -117,11 +117,7 @@
                     this.oraclePending = true;
                     ds.api.data.getOracleData(address)
                         .then(data => {
-                            if (data.oracle.logo &&
-                                data.oracle.name &&
-                                data.oracle.site &&
-                                data.oracle.description &&
-                                data.oracle.description.en) {
+                            if (data.oracle) {
                                 this.oracleData = data.oracle;
                                 this.assetsOracle = this.assetsOracleTmp;
                                 this.oracleError = false;

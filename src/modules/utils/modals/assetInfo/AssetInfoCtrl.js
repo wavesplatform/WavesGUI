@@ -14,6 +14,7 @@
 
         const ds = require('data-service');
         const { path } = require('ramda');
+        const { STATUS_LIST } = require('@waves/oracle-data');
 
         class AssetInfoCtrl extends Base {
 
@@ -36,7 +37,7 @@
                 this.transactions = [];
                 this.transactionsPending = true;
                 const data = ds.dataManager.getOracleAssetData(asset.id);
-                this.isVerified = path(['status'], data) === 1 || asset.id === 'WAVES';
+                this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED || asset.id === 'WAVES';
 
                 // this.ticker = path(['ticker'], data); // TODO STEP 2
                 this.ticker = asset.ticker; // TODO STEP 2

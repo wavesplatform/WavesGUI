@@ -8,7 +8,7 @@ import { UTXManager } from './UTXManager';
 import { getAliasesByAddress } from '../api/aliases/aliases';
 import { PollControl } from './PollControl';
 import { change, get } from '../config';
-import { getOracleData } from '../api/data';
+import { getOracleData, IOracleData } from '../api/data';
 
 
 export class DataManager {
@@ -49,7 +49,7 @@ export class DataManager {
     }
 
     public getOracleAssetData(id: string) {
-        return this.pollControl.getPollHash().oracle.lastData.assets[id];
+        return (this.pollControl.getPollHash().oracle.lastData || { assets: {} }).assets[id];
     }
 
     public getOracleData() {
@@ -111,17 +111,6 @@ type TPollHash = {
     orders: Poll<IHash<Money>>;
     aliases: Poll<Array<string>>;
     oracle: Poll<IOracleData>
-}
-
-export interface IOracleData {
-    oracle: {
-        name: string;
-        site: string;
-        email: string;
-        description?: Record<string, string> | null;
-        logo: string;
-    }
-    assets: Record<string, IOracleAsset>;
 }
 
 export interface IOracleAsset {

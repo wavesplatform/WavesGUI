@@ -1,5 +1,6 @@
 {
   "vendors": [
+    "node_modules/@waves/oracle-data/dist/oracle-data.min.js",
     "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js",
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
     "node_modules/handlebars/dist/handlebars.min.js",
@@ -162,7 +163,7 @@
   },
   "configurations": {
     "testnet": {
-      "oracle": "3Mz9N7YPfZPWGd4yYaX6H53Gcgrq6ifYiH7",
+      "oracle": "3NApQXCdH5P5LMtrawTUVLvh7UMdKidygmK",
       "apiVersion": "v0",
       "code": "T",
       "bankRecipient": "",
