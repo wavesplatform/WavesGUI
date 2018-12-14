@@ -163,7 +163,7 @@
   },
   "configurations": {
     "testnet": {
-      "oracle": "3NApQXCdH5P5LMtrawTUVLvh7UMdKidygmK",
+      "oracle": "3N5net4nzSeeqxPfGZrvVvnGavsinipQHbE",
       "apiVersion": "v0",
       "code": "T",
       "bankRecipient": "",
