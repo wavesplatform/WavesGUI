@@ -99,11 +99,11 @@
                                         </div>
                                     </div>
                                     <w-input-error message="custom">
-                                        <span ng-if="$ctrl.noMoneyForFee" w-i18n="modal.account.noMoney"></span>
-                                        <span ng-if="$ctrl.invalidMinLength" w-i18n="modal.account.minLength"></span>
-                                        <span ng-if="$ctrl.invalidMaxLength" w-i18n="modal.account.maxLength"></span>
-                                        <span ng-if="$ctrl.invalidPattern" w-i18n="modal.account.invalidSymbols"></span>
-                                        <span ng-if="$ctrl.invalidExist" w-i18n="modal.account.hasAlias"></span>
+                                        <div ng-if="$ctrl.noMoneyForFee" w-i18n="modal.account.noMoney"></div>
+                                        <div ng-if="$ctrl.invalidMinLength" w-i18n="modal.account.minLength"></div>
+                                        <div ng-if="$ctrl.invalidMaxLength" w-i18n="modal.account.maxLength"></div>
+                                        <div ng-if="$ctrl.invalidPattern" w-i18n="modal.account.invalidSymbols"></div>
+                                        <div ng-if="$ctrl.invalidExist" w-i18n="modal.account.hasAlias"></div>
                                     </w-input-error>
                                 </div>
                             </w-input-container>
