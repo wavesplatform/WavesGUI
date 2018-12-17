@@ -33,6 +33,15 @@
             }
 
             /**
+             * @param {AssetPair} pair
+             * @return {Promise<Money | never>}
+             */
+            @decorators.cachable(0.5)
+            getLastPrice(pair) {
+                return ds.api.matcher.getLastPrice(pair);
+            }
+
+            /**
              * @param {string} asset1
              * @param {string} asset2
              * @return {Promise<Matcher.IOrderBookResult>}

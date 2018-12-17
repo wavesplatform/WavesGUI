@@ -7,6 +7,7 @@ import { assetStorage } from '../utils/AssetStorage';
 import { height } from './node/node';
 import { get as getOrderBook } from './matcher/orderBook';
 import { addSignature, clearSignature, getOrders, getOrdersByPair, signatureTimeout } from './matcher/getOrders';
+import { getLastPrice } from './matcher/getLastPrice';
 import { getAddressByAlias, getAliasesByAddress } from './aliases/aliases';
 import * as pairsModule from './pairs/pairs';
 
@@ -16,7 +17,7 @@ export const aliases = { getAliasesByAddress, getAddressByAlias };
 export const node = { height };
 
 export const matcher = {
-    getOrderBook, getOrdersByPair, addSignature, clearSignature, getOrders, signatureTimeout
+    getOrderBook, getOrdersByPair, addSignature, clearSignature, getOrders, signatureTimeout, getLastPrice
 };
 
 export const assets = { ...assetsApi };

@@ -39,6 +39,8 @@
             BUY: 'buy'
         };
 
+        const { AssetPair } = require('@waves/data-entities');
+
         class OrderBook extends Base {
 
             constructor() {
@@ -178,6 +180,7 @@
                     .then(([priceAsset, amountAsset]) => {
                         this.priceAsset = priceAsset;
                         this.amountAsset = amountAsset;
+                        this.pair = new AssetPair(amountAsset, priceAsset);
                     });
             }
 
@@ -188,17 +191,15 @@
             _getOrders() {
                 const amountAsset = this._assetIdPair.amount;
                 const priceAsset = this._assetIdPair.price;
-                const limit = 1;
 
                 return Promise.all([
                     waves.matcher.getOrderBook(amountAsset, priceAsset),
                     waves.matcher.getOrders().catch(() => null),
-                    ds.api.transactions.getExchangeTxList({ amountAsset, priceAsset, limit })
-                        .then(([tx]) => tx).catch(() => null)
+                    waves.matcher.getLastPrice(this.pair).catch(() => null)
                 ])
-                    .then(([orderbook, orders, trades]) => {
+                    .then(([orderbook, orders, lastPrice]) => {
                         this.loadingError = false;
-                        return this._remapOrderBook(orderbook, orders, trades);
+                        return this._remapOrderBook(orderbook, orders, lastPrice);
                     })
                     .catch(() => {
                         this.loadingError = true;
@@ -231,7 +232,7 @@
              * @return {OrderBook.OrdersData}
              * @private
              */
-            _remapOrderBook(orderbook, orders = [], tx = null) {
+            _remapOrderBook(orderbook, orders = [], lastPrice) {
 
                 const crop = utils.getOrderBookRangeByCropRate({
                     bids: orderbook.bids,
@@ -249,7 +250,7 @@
                     return result;
                 }, Object.create(null));
 
-                const lastTrade = tx || null;
+                const lastTrade = lastPrice;
                 const bids = OrderBook._sumAllOrders(orderbook.bids, 'sell');
                 const asks = OrderBook._sumAllOrders(orderbook.asks, 'buy').reverse();
 
@@ -282,8 +283,8 @@
                 this._dom.$asks.html(data.asks);
 
                 if (data.lastTrade) {
-                    const isBuy = data.lastTrade.exchangeType === 'buy';
-                    const isSell = data.lastTrade.exchangeType === 'sell';
+                    const isBuy = data.lastTrade.lastSide === 'buy';
+                    const isSell = data.lastTrade.lastSide === 'sell';
                     this._dom.$lastPrice.toggleClass(CLASSES.BUY, isBuy)
                         .toggleClass(CLASSES.SELL, isSell)
                         .text(data.lastTrade.price.toFormat());
@@ -468,6 +469,6 @@
  * @typedef {object} OrderBook#OrdersData
  * @property {string} asks
  * @property {string} bids
- * @property {IExchange} lastTrade
+ * @property {{price: Money, lastSide: string}} lastTrade
  * @property {BigNumber} spread
  */
