@@ -20,11 +20,15 @@
 
 w-button.inactive-order-button {
   width: 100%;
-  & > *:not(.transparent):disabled {
+  & > *:not(.transparent) {
     width: 100%;
     background-color: @color-basic-50;
     border: 0 none;
+    cursor: default;
     color: @color-basic-500;
+    &:hover {
+      color: @color-basic-500;
+    }
   }
 }
 

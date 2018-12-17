@@ -23,4 +23,3 @@ WavesGUI.iml
 /data-service/**/*.js
 /data-service/**/*.js.map
 /data-service-dist
-package-lock.json

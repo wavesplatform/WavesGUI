@@ -255,7 +255,7 @@
                         values = values.map((item) => {
                             return {
                                 ...item,
-                                rate: item.rate.toFixed(precision)
+                                rate: +item.rate.toFixed(precision)
                             };
                         });
 
