@@ -3,7 +3,7 @@
 
     /**
      *
-     * @param BaseTxInfo
+     * @param {typeof BaseTxInfo} BaseTxInfo
      * @param {$rootScope.Scope} $scope
      * @param {BalanceWatcher} balanceWatcher
      * @return {TransactionInfoContent}
