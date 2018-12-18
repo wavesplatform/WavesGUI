@@ -1,7 +1,7 @@
 @import (reference) 'config';
 
 w-asset-logo.asset-logo-large {
-  margin-right: 20px;
+  margin: -3px 20px 0 10px;
   float: left;
   z-index: 1;
   position: relative;
@@ -43,10 +43,19 @@ w-asset-logo.asset-logo-large {
     }
   }
 
-  &__asset-data h4 {
-    font-weight: normal;
-    padding-top: 9px;
-    margin-bottom: 2px;
+  &__asset-data {
+    display: flex;
+    flex-direction: column;
+    height: 65px;
+    justify-content: center;
+    h2 {
+      margin: 0;
+      font-weight: normal;
+    }
+  }
+
+  &__top-content {
+    padding-top: @padding-main-layout * 4;
   }
 
   &__one-line {
@@ -98,5 +107,11 @@ w-asset-logo.asset-logo-large {
     padding: 5px 0;
     align-items: center;
     min-height: 38px;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  w-asset-logo.asset-logo-large {
+    margin: -3px 20px 0 0;
   }
 }
