@@ -52,6 +52,11 @@ export class DataManager {
     public getOracleAssetData(id: string): TProviderAsset & { provider: string } {
         const lastData = this.pollControl.getPollHash().oracle.lastData;
         const assets = lastData && lastData.assets || Object.create(null);
+
+        const descriptionHash = {
+            'WAVES': { en: 'Waves is a blockchain ecosystem that offers comprehensive and effective blockchain-based tools for businesses, individuals and developers. Waves Platform offers unprecedented throughput and flexibility. Features include the LPoS consensus algorithm, Waves-NG protocol and advanced smart contract functionality.' }
+        };
+
         const gatewayAsset = {
             status: STATUS_LIST.VERIFIED,
             version: DATA_PROVIDER_VERSIONS.BETA,
@@ -61,12 +66,12 @@ export class DataManager {
             link: null,
             email: null,
             logo: null,
-            description: null
+            description: descriptionHash[id]
         };
 
-        // if (Object.values((window as any).WavesApp.defaultAssets).includes(id)) {
-        //     return gatewayAsset;
-        // }
+        if (Object.values((window as any).WavesApp.defaultAssets).includes(id)) {
+            return gatewayAsset;
+        }
 
         return assets[id] ? { ...assets[id], provider: lastData.oracle.name } : null;
     }

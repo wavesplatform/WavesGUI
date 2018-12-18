@@ -45,8 +45,7 @@ export const cancelOrder = cancelOrderSend;
 
 wavesDataEntitiesModule.config.set('remapAsset', (data: IAssetInfo) => {
     const name = get('remappedAssetNames')[data.id] || data.name;
-    const description = data.id === 'WAVES' ? 'Waves is a blockchain ecosystem that offers comprehensive and effective blockchain-based tools for businesses, individuals and developers. Waves Platform offers unprecedented throughput and flexibility. Features include the LPoS consensus algorithm, Waves-NG protocol and advanced smart contract functionality.' : data.description;
-    return { ...data, description, name };
+    return { ...data, name };
 });
 
 export function fetch<T>(url: string, fetchOptions?: IFetchOptions): Promise<T> {
