@@ -37,7 +37,7 @@
                 this.transactions = [];
                 this.transactionsPending = true;
                 const data = ds.dataManager.getOracleAssetData(asset.id);
-                this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED || asset.id === 'WAVES';
+                this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
                 this.isGateway = path(['status'], data) === 3;
 
                 // this.ticker = path(['ticker'], data); // TODO STEP 2
