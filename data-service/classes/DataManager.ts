@@ -4,12 +4,12 @@ import { balanceList } from '../api/assets/assets';
 import { getReservedBalance } from '../api/matcher/getOrders';
 import { IBalanceItem } from '../api/assets/interface';
 import { IHash } from '../interface';
-import { IOrder } from '../api/matcher/interface';
-import { contains } from 'ts-utils';
-import { MoneyHash } from '../utils/MoneyHash';
 import { UTXManager } from './UTXManager';
 import { getAliasesByAddress } from '../api/aliases/aliases';
 import { PollControl } from './PollControl';
+import { change, get } from '../config';
+import { getOracleData, IOracleData } from '../api/data';
+import { DATA_PROVIDER_VERSIONS, STATUS_LIST, TProviderAsset } from '@waves/oracle-data';
 
 
 export class DataManager {
@@ -21,7 +21,6 @@ export class DataManager {
     constructor() {
         this.pollControl = new PollControl<TPollHash>(() => this._createPolls());
     }
-
 
     public applyAddress(address: string): void {
         this._address = address;
@@ -50,6 +49,56 @@ export class DataManager {
         return this.pollControl.getPollHash().aliases.lastData || [];
     }
 
+    public getOracleAssetData(id: string): TProviderAsset & { provider: string } {
+        const lastData = this.pollControl.getPollHash().oracle.lastData;
+        const assets = lastData && lastData.assets || Object.create(null);
+
+        const WavesApp = (window as any).WavesApp;
+
+        const gateways = {
+            [WavesApp.defaultAssets.USD]: true,
+            [WavesApp.defaultAssets.EUR]: true,
+            [WavesApp.defaultAssets.TRY]: true,
+            [WavesApp.defaultAssets.BTC]: true,
+            [WavesApp.defaultAssets.ETH]: true,
+            [WavesApp.defaultAssets.LTC]: true,
+            [WavesApp.defaultAssets.ZEC]: true,
+            [WavesApp.defaultAssets.BCH]: true,
+            [WavesApp.defaultAssets.DASH]: true,
+            [WavesApp.defaultAssets.XMR]: true,
+        };
+
+        const descriptionHash = {
+            WAVES: { en: 'Waves is a blockchain ecosystem that offers comprehensive and effective blockchain-based tools for businesses, individuals and developers. Waves Platform offers unprecedented throughput and flexibility. Features include the LPoS consensus algorithm, Waves-NG protocol and advanced smart contract functionality.' }
+        };
+
+        const gatewayAsset = {
+            status: 3,
+            version: DATA_PROVIDER_VERSIONS.BETA,
+            id,
+            provider: 'WavesPlatform',
+            ticker: null,
+            link: null,
+            email: null,
+            logo: null,
+            description: descriptionHash[id]
+        };
+
+        if (id === 'WAVES') {
+            return { status: STATUS_LIST.VERIFIED, description: descriptionHash.WAVES } as any;
+        }
+
+        if (gateways[id]) {
+            return gatewayAsset;
+        }
+
+        return assets[id] ? { ...assets[id], provider: lastData.oracle.name } : null;
+    }
+
+    public getOracleData() {
+        return this.pollControl.getPollHash().oracle.lastData;
+    }
+
     private _getPollBalanceApi(): IPollAPI<Array<IBalanceItem>> {
         const get = () => {
             const hash = this.pollControl.getPollHash();
@@ -73,12 +122,29 @@ export class DataManager {
         };
     }
 
+    private _getPollOracleApi(): IPollAPI<IOracleData> {
+        return {
+            get: () => {
+                const address = get('oracleAddress');
+                return address ? getOracleData(address) : Promise.resolve({ assets: Object.create(null) }) as any;
+            },
+            set: () => null
+        };
+    }
+
     private _createPolls(): TPollHash {
         const balance = new Poll(this._getPollBalanceApi(), 1000);
         const orders = new Poll(this._getPollOrdersApi(), 1000);
         const aliases = new Poll(this._getPollAliasesApi(), 5000);
+        const oracle = new Poll(this._getPollOracleApi(), 30000);
 
-        return { balance, orders, aliases };
+        change.on((key) => {
+            if (key === 'oracleAddress') {
+                oracle.restart();
+            }
+        });
+
+        return { balance, orders, aliases, oracle };
     }
 
 }
@@ -87,4 +153,15 @@ type TPollHash = {
     balance: Poll<Array<IBalanceItem>>;
     orders: Poll<IHash<Money>>;
     aliases: Poll<Array<string>>;
+    oracle: Poll<IOracleData>
+}
+
+export interface IOracleAsset {
+    id: string;
+    status: number; // TODO! Add enum
+    logo: string;
+    site: string;
+    ticker: string;
+    email: string;
+    description?: Record<string, string>;
 }

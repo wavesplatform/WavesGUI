@@ -2,6 +2,7 @@
     'use strict';
 
     const ds = require('data-service');
+    const { path } = require('ramda');
 
     /**
      * @param Base
@@ -49,6 +50,7 @@
                 user.setSetting('advancedMode', mode);
             }
 
+            assetsOracle = '';
             tab = 'general';
             address = user.address;
             publicKey = user.publicKey;
@@ -73,6 +75,11 @@
             supportLink = WavesApp.network.support;
             supportLinkName = WavesApp.network.support.replace(/^https?:\/\//, '');
             blockHeight = 0;
+            assetsOracleTmp = '';
+            oracleData = path(['oracle'], ds.dataManager.getOracleData());
+            oracleError = false;
+            oraclePending = false;
+            oracleSuccess = false;
 
             constructor() {
                 super($scope);
@@ -84,8 +91,11 @@
                     scamListUrl: 'scamListUrl',
                     withScam: 'withScam',
                     theme: 'theme',
-                    candle: 'candle'
+                    candle: 'candle',
+                    assetsOracle: 'assetsOracle'
                 });
+
+                this.assetsOracleTmp = this.assetsOracle;
 
                 storage.load('openClientMode').then(mode => {
                     this.openClientMode = mode;
@@ -100,6 +110,37 @@
                         },
                         () => user.changeTheme(this.theme)
                     );
+                });
+
+                this.observe('assetsOracle', () => {
+                    ds.config.set('oracleAddress', this.assetsOracle);
+                    this.assetsOracleTmp = this.assetsOracle;
+                });
+
+                this.observe('assetsOracleTmp', () => {
+                    const address = this.assetsOracleTmp;
+                    this.oraclePending = true;
+                    ds.api.data.getOracleData(address)
+                        .then(data => {
+                            if (data.oracle) {
+                                this.oracleData = data.oracle;
+                                ds.config.set('oracleAddress', address);
+                                this.assetsOracle = this.assetsOracleTmp;
+                                this.oracleError = false;
+                                this.oracleSuccess = true;
+                                setTimeout(() => {
+                                    this.oracleSuccess = false;
+                                    $scope.$apply();
+                                }, 1500);
+                            }
+                        })
+                        .catch(() => {
+                            this.oracleError = true;
+                        })
+                        .then(() => {
+                            this.oraclePending = false;
+                            $scope.$apply();
+                        });
                 });
 
                 // this.observe('candle', () => {
@@ -175,6 +216,7 @@
                 this.matcher = WavesApp.network.matcher;
                 this.withScam = false;
                 this.scamListUrl = WavesApp.network.scamListUrl;
+                this.assetsOracle = WavesApp.oracle;
             }
 
             showPairingWithMobile() {
@@ -189,6 +231,7 @@
                     document.body.removeChild(loaderEl);
                 }, 4100);
             }
+
             showScriptModal() {
                 modalManager.showScriptModal();
             }
