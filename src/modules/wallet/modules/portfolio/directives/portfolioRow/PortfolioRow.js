@@ -209,6 +209,7 @@
 
                 const html = template({
                     isVerified: data && data.status === STATUS_LIST.VERIFIED || balance.asset.id === 'WAVES',
+                    isGateway: data && data.status === 3,
                     assetIconPath: logo || ASSET_IMAGES_MAP[this.balance.asset.id],
                     firstAssetChar,
                     canBurn: !this._isWaves,

@@ -53,12 +53,27 @@ export class DataManager {
         const lastData = this.pollControl.getPollHash().oracle.lastData;
         const assets = lastData && lastData.assets || Object.create(null);
 
+        const WavesApp = (window as any).WavesApp;
+
+        const gateways = {
+            [WavesApp.defaultAssets.USD]: true,
+            [WavesApp.defaultAssets.EUR]: true,
+            [WavesApp.defaultAssets.TRY]: true,
+            [WavesApp.defaultAssets.BTC]: true,
+            [WavesApp.defaultAssets.ETH]: true,
+            [WavesApp.defaultAssets.LTC]: true,
+            [WavesApp.defaultAssets.ZEC]: true,
+            [WavesApp.defaultAssets.BCH]: true,
+            [WavesApp.defaultAssets.DASH]: true,
+            [WavesApp.defaultAssets.XMR]: true,
+        };
+
         const descriptionHash = {
             'WAVES': { en: 'Waves is a blockchain ecosystem that offers comprehensive and effective blockchain-based tools for businesses, individuals and developers. Waves Platform offers unprecedented throughput and flexibility. Features include the LPoS consensus algorithm, Waves-NG protocol and advanced smart contract functionality.' }
         };
 
         const gatewayAsset = {
-            status: STATUS_LIST.VERIFIED,
+            status: 3,
             version: DATA_PROVIDER_VERSIONS.BETA,
             id,
             provider: 'WavesPlatform',
@@ -69,7 +84,7 @@ export class DataManager {
             description: descriptionHash[id]
         };
 
-        if (Object.values((window as any).WavesApp.defaultAssets).includes(id)) {
+        if (gateways[id]) {
             return gatewayAsset;
         }
 
