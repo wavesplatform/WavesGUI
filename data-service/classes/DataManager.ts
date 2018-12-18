@@ -9,7 +9,7 @@ import { getAliasesByAddress } from '../api/aliases/aliases';
 import { PollControl } from './PollControl';
 import { change, get } from '../config';
 import { getOracleData, IOracleData } from '../api/data';
-import { TProviderAsset, STATUS_LIST, DATA_PROVIDER_VERSIONS } from '@waves/oracle-data';
+import { DATA_PROVIDER_VERSIONS, STATUS_LIST, TProviderAsset } from '@waves/oracle-data';
 
 
 export class DataManager {
@@ -69,7 +69,7 @@ export class DataManager {
         };
 
         const descriptionHash = {
-            'WAVES': { en: 'Waves is a blockchain ecosystem that offers comprehensive and effective blockchain-based tools for businesses, individuals and developers. Waves Platform offers unprecedented throughput and flexibility. Features include the LPoS consensus algorithm, Waves-NG protocol and advanced smart contract functionality.' }
+            WAVES: { en: 'Waves is a blockchain ecosystem that offers comprehensive and effective blockchain-based tools for businesses, individuals and developers. Waves Platform offers unprecedented throughput and flexibility. Features include the LPoS consensus algorithm, Waves-NG protocol and advanced smart contract functionality.' }
         };
 
         const gatewayAsset = {
@@ -83,6 +83,10 @@ export class DataManager {
             logo: null,
             description: descriptionHash[id]
         };
+
+        if (id === 'WAVES') {
+            return { status: STATUS_LIST.VERIFIED, description: descriptionHash.WAVES } as any;
+        }
 
         if (gateways[id]) {
             return gatewayAsset;
