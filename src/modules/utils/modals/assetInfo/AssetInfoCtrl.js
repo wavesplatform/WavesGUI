@@ -41,7 +41,7 @@
 
                 // this.ticker = path(['ticker'], data); // TODO STEP 2
                 this.ticker = asset.ticker; // TODO STEP 2
-                this.site = path(['site'], data);
+                this.link = path(['link'], data);
                 this.email = path(['email'], data);
                 this.description = path(['description', 'en'], data) || asset.description;
 

@@ -64,13 +64,13 @@
                 <div class="basic-500" w-i18n="modal.assetInfo.date"></div>
                 <div class="basic-900">{{::$ctrl.asset.timestamp | date:'dd.MM.yyyy HH:mm'}}</div>
             </div>
-            <div class="line" ng-if="$ctrl.site">
+            <div class="line" ng-if="::$ctrl.link">
                 <div class="basic-500" w-i18n="modal.assetInfo.site"></div>
-                <a target="_blank" href="{{::$ctrl.site}}">{{::$ctrl.site}}</a>
+                <a target="_blank" href="{{::$ctrl.link}}">{{::$ctrl.link}}</a>
             </div>
-            <div class="line" ng-if="$ctrl.email">
+            <div class="line" ng-if="::$ctrl.email">
                 <div class="basic-500" w-i18n="modal.assetInfo.email"></div>
-                <a target="_blank" href="mailto:{{::$ctrl.site}}">{{::$ctrl.email}}</a>
+                <a target="_blank" href="mailto:{{::$ctrl.email}}">{{::$ctrl.email}}</a>
             </div>
             <div ng-if="$ctrl.description" class="line line-description">
                 {{::$ctrl.description}}
