@@ -10,16 +10,16 @@
                 <div class="marker" style="background-color: {{charColor}}"></div>
             </div>
         {{/if}}
-        <div class="asset-name-desktop veryfied-asset-wrapper">
+        <div class="asset-name-desktop asset-wrapper">
             <div>{{assetName}}</div>
             {{#if isVerified}}
                 <div>
-                    <span class="veryfied-asset-label" w-i18n-literal="qualified"></span>
+                    <span class="asset-label" w-i18n-literal="qualified"></span>
                 </div>
             {{/if}}
             {{#if isGateway}}
                 <div>
-                    <span class="veryfied-asset-label" w-i18n-literal="gateway"></span>
+                    <span class="asset-label" w-i18n-literal="gateway"></span>
                 </div>
             {{/if}}
         </div>
@@ -27,13 +27,13 @@
 </div>
 <div class="smart-table__available smart-table__cell" data-column-id="balance">
     <div class="cell">
-        <div class="veryfied-asset-wrapper mobiles-only">
+        <div class="asset-wrapper mobiles-only">
             <div>
                 <span class="basic-500 footnote-3">{{assetName}}</span>
             </div>
             {{#if isVerified}}
                 <div>
-                    <span class="veryfied-asset-label" w-i18n-literal="qualified"></span>
+                    <span class="asset-label" w-i18n-literal="qualified"></span>
                 </div>
             {{/if}}
         </div>

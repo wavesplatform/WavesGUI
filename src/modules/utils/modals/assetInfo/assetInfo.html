@@ -2,14 +2,13 @@
     <div class="top-content">
         <w-asset-logo class="asset-logo-large" ng-cloak asset-id="{{::$ctrl.asset.id}}" size="65"></w-asset-logo>
         <div class="asset-data">
-            <h2 ng-cloak class="veryfied-asset-wrapper basic-900">
+            <h2 ng-cloak class="asset-wrapper basic-900">
                 <div>{{::$ctrl.asset.name}}</div>
-                <div class="veryfied-asset-label" ng-if="$ctrl.isVerified">
-                    <span  w-i18n="modal.assetInfo.qualified"></span>
-                    <span>{{::$ctrl.provider}}</span>
+                <div class="asset-label" ng-if="$ctrl.isVerified">
+                    <span  w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>
                 </div>
-                <div ng-if="$ctrl.isGateway">
-                    <span class="veryfied-asset-label" w-i18n="modal.assetInfo.gateway"></span>
+                <div class="asset-label" ng-if="$ctrl.isGateway">
+                    <span w-i18n-ns="app.utils" w-i18n="modal.assetInfo.gateway"></span>
                 </div>
             </h2>
 
@@ -76,9 +75,14 @@
                 <div class="basic-500" w-i18n="modal.assetInfo.email"></div>
                 <a target="_blank" href="mailto:{{::$ctrl.email}}">{{::$ctrl.email}}</a>
             </div>
+            <div class="line" ng-if="::$ctrl.provider">
+                <span class="basic-500" w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>
+                <span class="basic-900">{{::$ctrl.provider}}</span>
+            </div>
             <div ng-if="$ctrl.description" class="line line-description">
                 {{::$ctrl.description}}
             </div>
+
         </w-tab>
         <w-tab ng-if="!$ctrl.isDemo"
                id="::'balance'"
