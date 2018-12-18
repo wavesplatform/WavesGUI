@@ -138,15 +138,35 @@ w-asset {
   }
 }
 
-.unpin {
+.asset-card-top {
   display: flex;
+  width: 100%;
   align-items: center;
-  text-align: center;
+  justify-content: space-between;
+
+  .asset-card-top-left {
+    background: red;
+  }
+
+  .asset-card-top-right {
+    background: yellow;
+    display: flex;
+    position: absolute;
+    max-width: 100px;
+    top: 20px;
+    right:  12px;
+  }
+}
+
+.unpin {
+  //display: flex;
+  //align-items: center;
+  //text-align: center;
   width: 30px;
   height: 30px;
-  position: absolute;
-  right: 12px;
-  top: 12px;
+  //position: absolute;
+  //right: 12px;
+  //top: 12px;
   cursor: pointer;
 
   span {
