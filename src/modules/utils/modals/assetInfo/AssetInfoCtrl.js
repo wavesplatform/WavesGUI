@@ -43,6 +43,7 @@
                 this.ticker = asset.ticker; // TODO STEP 2
                 this.link = path(['link'], data);
                 this.email = path(['email'], data);
+                // this.provider = path(['provider'], data);
                 this.description = path(['description', 'en'], data) || asset.description;
 
                 /**

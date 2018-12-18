@@ -9,6 +9,7 @@ import { getAliasesByAddress } from '../api/aliases/aliases';
 import { PollControl } from './PollControl';
 import { change, get } from '../config';
 import { getOracleData, IOracleData } from '../api/data';
+import { TProviderAsset, STATUS_LIST, DATA_PROVIDER_VERSIONS } from '@waves/oracle-data';
 
 
 export class DataManager {
@@ -48,8 +49,26 @@ export class DataManager {
         return this.pollControl.getPollHash().aliases.lastData || [];
     }
 
-    public getOracleAssetData(id: string) {
-        return (this.pollControl.getPollHash().oracle.lastData || { assets: {} }).assets[id];
+    public getOracleAssetData(id: string): TProviderAsset & { provider: string } {
+        const lastData = this.pollControl.getPollHash().oracle.lastData;
+        const assets = lastData && lastData.assets || Object.create(null);
+        const gatewayAsset = {
+            status: STATUS_LIST.VERIFIED,
+            version: DATA_PROVIDER_VERSIONS.BETA,
+            id,
+            provider: 'WavesPlatform',
+            ticker: null,
+            link: null,
+            email: null,
+            logo: null,
+            description: null
+        };
+
+        // if (Object.values((window as any).WavesApp.defaultAssets).includes(id)) {
+        //     return gatewayAsset;
+        // }
+
+        return assets[id] ? { ...assets[id], provider: lastData.oracle.name } : null;
     }
 
     public getOracleData() {

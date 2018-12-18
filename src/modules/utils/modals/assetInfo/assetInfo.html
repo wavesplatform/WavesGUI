@@ -6,6 +6,7 @@
                 <div>{{::$ctrl.asset.name}}</div>
                 <div ng-if="$ctrl.isVerified">
                     <span class="veryfied-asset-label" w-i18n="modal.assetInfo.qualified"></span>
+                    {{::$ctrl.provider}}
                 </div>
             </h2>
 

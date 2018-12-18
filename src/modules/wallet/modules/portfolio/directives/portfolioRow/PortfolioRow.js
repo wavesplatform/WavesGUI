@@ -3,6 +3,7 @@
 
     const Handlebars = require('handlebars');
     const { STATUS_LIST } = require('@waves/oracle-data');
+    const { path } = require('ramda');
 
     // TODO @xenohunter : remove that when icons are in @dvshur's service
     const ASSET_IMAGES_MAP = {
@@ -266,13 +267,16 @@
         }
 
         _getCanShowDex() {
+            const statusPath = ['assets', this.balance.asset.id, 'status'];
+
             return this.balance.isPinned ||
                 this._isMyAsset ||
                 this.balance.asset.isMyAsset ||
                 this.balance.asset.id === WavesApp.defaultAssets.WAVES ||
                 this.gatewayService.getPurchasableWithCards()[this.balance.asset.id] ||
                 this.gatewayService.getCryptocurrencies()[this.balance.asset.id] ||
-                this.gatewayService.getFiats()[this.balance.asset.id];
+                this.gatewayService.getFiats()[this.balance.asset.id] ||
+                path(statusPath, ds.dataManager.getOracleData()) === STATUS_LIST.VERIFIED;
 
         }
 
