@@ -200,10 +200,12 @@
                 <div class="row margin-1">
                     <div class="footnote-1 basic-500 label">
                         <span w-i18n="modal.settings.network.dataProvider"></span>
-                        <a class="settings-copy" w-copy="" w-i18n="modal.settings.network.copy"></a>
+                        <a class="settings-copy"
+                           w-copy="$ctrl.assetsOracleTmp"
+                           w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field has-helper">
-                        <form novalidate name="dataProvder">
+                        <form novalidate name="dataProvider">
                             <w-input-container class="relative">
                                 <w-input name="dataProviderInput"
                                          w-validate
@@ -242,7 +244,7 @@
                                             </span>
                                         </div>
                                         <div class="help-icon__row">
-                                            <a href="{{$ctrl.oracleData.link}}"
+                                            <a target="_blank" href="{{$ctrl.oracleData.link}}"
                                                w-i18n="modal.settings.network.showMore"></a>
                                         </div>
                                     </w-help-icon>
