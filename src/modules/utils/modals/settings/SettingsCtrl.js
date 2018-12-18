@@ -112,6 +112,11 @@
                     );
                 });
 
+                this.observe('assetsOracle', () => {
+                    ds.config.set('oracleAddress', this.assetsOracle);
+                    this.assetsOracleTmp = this.assetsOracle;
+                });
+
                 this.observe('assetsOracleTmp', () => {
                     const address = this.assetsOracleTmp;
                     this.oraclePending = true;
@@ -119,6 +124,7 @@
                         .then(data => {
                             if (data.oracle) {
                                 this.oracleData = data.oracle;
+                                ds.config.set('oracleAddress', address);
                                 this.assetsOracle = this.assetsOracleTmp;
                                 this.oracleError = false;
                                 this.oracleSuccess = true;
@@ -210,6 +216,7 @@
                 this.matcher = WavesApp.network.matcher;
                 this.withScam = false;
                 this.scamListUrl = WavesApp.network.scamListUrl;
+                this.assetsOracle = WavesApp.oracle;
             }
 
             showPairingWithMobile() {

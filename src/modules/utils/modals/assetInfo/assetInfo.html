@@ -8,6 +8,9 @@
                     <span  w-i18n="modal.assetInfo.qualified"></span>
                     <span>{{::$ctrl.provider}}</span>
                 </div>
+                <div ng-if="$ctrl.isGateway">
+                    <span class="veryfied-asset-label" w-i18n="modal.assetInfo.gateway"></span>
+                </div>
             </h2>
 
             <div class="body-2 basic-500 one-line">
