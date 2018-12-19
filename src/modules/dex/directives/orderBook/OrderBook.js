@@ -39,6 +39,7 @@
             BUY: 'buy'
         };
 
+        const ds = require('data-service');
         const { AssetPair } = require('@waves/data-entities');
 
         class OrderBook extends Base {
@@ -195,7 +196,8 @@
                 return Promise.all([
                     waves.matcher.getOrderBook(amountAsset, priceAsset),
                     waves.matcher.getOrders().catch(() => null),
-                    waves.matcher.getLastPrice(this.pair).catch(() => null)
+                    ds.api.pairs.get(amountAsset, priceAsset).then(waves.matcher.getLastPrice)
+                        .catch(() => null)
                 ])
                     .then(([orderbook, orders, lastPrice]) => {
                         this.loadingError = false;
