@@ -83,9 +83,10 @@
 
                 <div ng-if="!$ctrl.isVerified && !$ctrl.signInProgress"
                      class="margin-top-3 relative button-wrapper-height">
+
                     <a ng-if="!$ctrl.signInProgress && !$ctrl.pending"
+                       ng-click="$ctrl.nextStep()"
                        href="{{$ctrl.idNowUserLink}}"
-                       on-click="$ctrl.step++"
                        target="_blank"
                        class="flex">
                         <w-buttwon class="big submit long" disabled="!$ctrl.termsAccepted">
@@ -108,8 +109,10 @@
                     <div w-i18n="modal.receive.wtry.info"></div>
                 </div>
 
-                <a class="fake-button long" href="{{$ctrl.digiLiraUserLink}}" target="_blank">
-                    <span class="fake-button-content big long submit" w-i18n="modal.receive.card.continue"></span>
+                <a href="{{$ctrl.digiLiraUserLink}}" target="_blank">
+                    <w-button class="big submit long" on-click="$ctrl.nextStep()">
+                        <span w-i18n="modal.receive.card.continue"></span>
+                    </w-button>
                 </a>
 
             </div>
