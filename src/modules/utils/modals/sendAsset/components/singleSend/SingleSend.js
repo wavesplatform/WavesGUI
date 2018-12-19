@@ -284,11 +284,13 @@
 
             createTx() {
                 const toGateway = this.outerSendMode && this.gatewayDetails;
+                const fee = toGateway ? this.tx.amount.cloneWithTokens(toGateway.gatewayFee) : null;
 
                 const tx = waves.node.transactions.createTransaction({
                     ...this.tx,
                     recipient: toGateway ? this.gatewayDetails.address : this.tx.recipient,
-                    attachment: toGateway ? this.gatewayDetails.attachment : this.tx.attachment
+                    attachment: toGateway ? this.gatewayDetails.attachment : this.tx.attachment,
+                    amount: toGateway ? this.tx.amount.add(fee) : this.tx.amount
                 });
 
                 const signable = ds.signature.getSignatureApi().makeSignable({

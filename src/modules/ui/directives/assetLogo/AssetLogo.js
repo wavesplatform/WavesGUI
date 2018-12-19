@@ -100,6 +100,12 @@
              */
             _addLogo() {
                 if (this.assetId) {
+                    const data = ds.dataManager.getOracleAssetData(this.assetId);
+                    if (data && data.logo) {
+                        $element.find('.asset-logo')
+                            .css('backgroundImage', `url(${data.logo})`);
+                        return null;
+                    }
                     waves.node.assets.getAsset(this.assetId)
                         .then((asset) => {
                             if (ASSET_IMAGES_MAP[asset.id]) {

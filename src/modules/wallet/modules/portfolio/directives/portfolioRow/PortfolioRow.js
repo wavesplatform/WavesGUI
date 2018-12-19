@@ -2,6 +2,8 @@
     'use strict';
 
     const Handlebars = require('handlebars');
+    const { STATUS_LIST } = require('@waves/oracle-data');
+    const { path } = require('ramda');
 
     // TODO @xenohunter : remove that when icons are in @dvshur's service
     const ASSET_IMAGES_MAP = {
@@ -202,9 +204,13 @@
                 let balance = this.balance;
                 const firstAssetChar = this.balance.asset.name.slice(0, 1);
                 const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
+                const data = ds.dataManager.getOracleAssetData(this.balance.asset.id);
+                const logo = data && data.logo;
 
                 const html = template({
-                    assetIconPath: ASSET_IMAGES_MAP[this.balance.asset.id],
+                    isVerified: data && data.status === STATUS_LIST.VERIFIED,
+                    isGateway: data && data.status === 3,
+                    assetIconPath: logo || ASSET_IMAGES_MAP[this.balance.asset.id],
                     firstAssetChar,
                     canBurn: !this._isWaves,
                     canReissue: this._isMyAsset && this.balance.asset.reissuable,
@@ -262,13 +268,16 @@
         }
 
         _getCanShowDex() {
+            const statusPath = ['assets', this.balance.asset.id, 'status'];
+
             return this.balance.isPinned ||
                 this._isMyAsset ||
                 this.balance.asset.isMyAsset ||
                 this.balance.asset.id === WavesApp.defaultAssets.WAVES ||
                 this.gatewayService.getPurchasableWithCards()[this.balance.asset.id] ||
                 this.gatewayService.getCryptocurrencies()[this.balance.asset.id] ||
-                this.gatewayService.getFiats()[this.balance.asset.id];
+                this.gatewayService.getFiats()[this.balance.asset.id] ||
+                path(statusPath, ds.dataManager.getOracleData()) === STATUS_LIST.VERIFIED;
 
         }
 

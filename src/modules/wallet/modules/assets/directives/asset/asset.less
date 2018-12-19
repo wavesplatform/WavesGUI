@@ -138,15 +138,44 @@ w-asset {
   }
 }
 
-.unpin {
+.asset-card-top {
   display: flex;
-  align-items: center;
-  text-align: center;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  .name {
+    flex-grow: 1;
+  }
+
+  .asset-label {
+    margin-top: 8px;
+  }
+
+  .asset-card-top-left {
+    background: red;
+    height: 30px;
+  }
+
+  .asset-card-top-right {
+    background: yellow;
+    display: flex;
+    position: absolute;
+    max-width: 100px;
+    top: 20px;
+    right:  12px;
+  }
+}
+
+.unpin {
+  //display: flex;
+  //align-items: center;
+  //text-align: center;
   width: 30px;
   height: 30px;
-  position: absolute;
-  right: 12px;
-  top: 12px;
+  //position: absolute;
+  //right: 12px;
+  //top: 12px;
   cursor: pointer;
 
   span {
