@@ -147,3 +147,19 @@ w-portfolio-row {
     }
   }
 }
+
+//fix actions position
+.smart-table__w-tbody .w-visible {
+  .smart-table__row {
+    .actions-wrapper {
+      .actions-container {
+        &.expanded {
+          &.to-up {
+            top: 0;
+            bottom: auto;
+          }
+        }
+      }
+    }
+  }
+}
