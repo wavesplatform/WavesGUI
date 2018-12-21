@@ -8,7 +8,8 @@
 <div ng-if="$ctrl.expanded"
      class="{{::$ctrl.DROP_DOWN_CLASS}}"
      ng-class="{
-        'open-up': $ctrl.openUp
+        'to-up': $ctrl.openUp,
+        'expanded': $ctrl.expanded
      }"
      ng-mouseleave="$ctrl.onMouseLeave()"
      ng-mouseenter="$ctrl.onMouseEnter()"
