@@ -1,6 +1,10 @@
 (function () {
     'use strict';
 
+    const { path } = require('ramda');
+    const ds = require('data-service');
+    const { STATUS_LIST } = require('@waves/oracle-data');
+
     /**
      * @return {Asset}
      */
@@ -13,6 +17,12 @@
                  * @type {IBalanceDetails}
                  */
                 this.balance = null;
+            }
+
+            $postLink() {
+                const data = ds.dataManager.getOracleAssetData(this.balance.asset.id);
+                this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED || this.balance.asset.id === 'WAVES';
+                this.isGateway = path(['status'], data) === 3;
             }
 
             isUnpinned() {

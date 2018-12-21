@@ -76,7 +76,7 @@
 
                     <w-confirm-gateway-transaction ng-if="$ctrl.outerSendMode"
                                                    on-click-back="$ctrl.back()"
-                                                   gateway-details="$ctrl.gatewayDetails"
+                                                   gateway-details="$ctrl.state.gatewayDetails"
                                                    target-recipient="$ctrl.state.singleSend.recipient"
                                                    signable="$ctrl.signable"></w-confirm-gateway-transaction>
                 </w-step>

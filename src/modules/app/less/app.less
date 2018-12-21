@@ -293,10 +293,6 @@ w-sign-button,
   }
 }
 
-.asset-content {
-  padding-top: 20px;
-}
-
 .md-dialog-backdrop:nth-of-type(even) {
   z-index: 81;
 }
@@ -519,6 +515,30 @@ w-permit {
 
   label {
     flex-grow: 1;
+  }
+}
+
+.asset {
+  &-wrapper {
+    display: flex;
+    align-items: flex-end;
+    @media screen and (max-width: 768px) {
+      flex-direction: row;
+    }
+  }
+  &-label {
+    display: block;
+    color: @color-submit-400;
+    background-color: @color-submit-50;
+    line-height: 1;
+    font-size: @font-size-caption-4;
+    padding: 4px 4px 3px 4px;
+    border-radius: @border-radius / 2;
+    margin: 0 0 -3px 6px;
+    text-transform: uppercase;
+    @media screen and (max-width: 768px) {
+      margin: 0 0 1px 6px;
+    }
   }
 }
 

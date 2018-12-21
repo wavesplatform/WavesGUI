@@ -3,6 +3,7 @@ import { IHash } from './interface';
 import { time } from './api/node/node';
 import { request } from './utils/request';
 import { MAINNET_DATA } from '@waves/assets-pairs-order';
+import { Signal } from 'ts-utils';
 
 
 const config: IConfigParams = Object.create(null);
@@ -41,6 +42,7 @@ export function set<K extends keyof IConfigParams>(key: K, value: IConfigParams[
             dataService = new DataServiceClient({ rootUrl: `${config.api}/${config.apiVersion}`, parse });
         }
     }
+    change.dispatch(key);
 }
 
 export function setConfig(props: Partial<IConfigParams>): void {
@@ -52,6 +54,8 @@ export function setConfig(props: Partial<IConfigParams>): void {
 export function getDataService(): DataServiceClient {
     return dataService;
 }
+
+export const change: Signal<keyof IConfigParams> = new Signal<keyof IConfigParams>();
 
 export interface IConfigParams {
     code: string;
@@ -65,4 +69,5 @@ export interface IConfigParams {
     assets: IHash<string>;
     minimalSeedLength: number;
     remappedAssetNames: IHash<string>;
+    oracleAddress: string;
 }
