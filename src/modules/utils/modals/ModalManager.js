@@ -89,6 +89,15 @@
                 });
             }
 
+            showConfirmOrder(options) {
+                return this._getModal({
+                    id: 'confirm-correct-order',
+                    contentUrl: 'modules/utils/modals/confirmOrder/confirmOrder.html',
+                    controller: 'ConfirmOrderCtrl',
+                    locals: options
+                });
+            }
+
             showSignByDevice(options) {
                 return this._getModal({
                     id: 'sign-by-device',

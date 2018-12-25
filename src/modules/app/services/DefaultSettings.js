@@ -45,6 +45,7 @@
                     send: {
                         defaultTab: 'singleSend'
                     },
+                    orderLimit: 0.05,
                     pinnedAssetIdList: [
                         WavesApp.defaultAssets.WAVES,
                         WavesApp.defaultAssets.BTC,
