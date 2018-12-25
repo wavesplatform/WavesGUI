@@ -13,12 +13,12 @@
      * @param {Waves} waves
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
-     * @param {DexService} dexService
+     * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
      * @return {Transaction}
      */
     const controller = function (Base, $filter, modalManager, notification,
-                                 waves, user, baseAssetService, dexService, $scope) {
+                                 waves, user, baseAssetService, utils, $scope) {
 
         const { SIGN_TYPE } = require('@waves/signature-adapter');
 
@@ -74,7 +74,7 @@
             }
 
             exchange() {
-                this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
+                this.totalPrice = utils.getExchangeTotalPrice(this.transaction.amount, this.transaction.price);
             }
 
             tokens() {
@@ -200,7 +200,7 @@
         'waves',
         'user',
         'baseAssetService',
-        'dexService',
+        'utils',
         '$scope'
     ];
 

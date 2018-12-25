@@ -70,11 +70,6 @@
                  */
                 this.loadingError = false;
 
-                this.hasScript = user.hasScript();
-                /**
-                 * @type (boolean)
-                 */
-
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
                 });

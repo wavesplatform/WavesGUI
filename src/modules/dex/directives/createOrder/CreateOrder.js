@@ -20,7 +20,6 @@
                                  $element, notification, dexDataService, ease, $state, modalManager) {
 
         const entities = require('@waves/data-entities');
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
         const ds = require('data-service');
 
         class CreateOrder extends Base {
@@ -111,10 +110,6 @@
                  * @type {string}
                  */
                 this.focusedInputName = null;
-                /**
-                 * @type {[]}
-                 */
-                this.hasScript = user.hasScript();
                 /**
                  *
                  * @type {boolean}
@@ -312,8 +307,7 @@
                             matcherPublicKey
                         };
 
-                        this._createTxData(data)
-                            .then((txData) => ds.createOrder(txData))
+                        this._sendOrder(data)
                             .then(() => {
                                 notify.addClass('success');
                                 this.createOrderFailed = false;
@@ -321,17 +315,7 @@
                                 analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Success`, pair);
                                 dexDataService.createOrder.dispatch();
                             })
-                            .catch(e => {
-                                const error = utils.parseError(e);
-                                notification.error({
-                                    ns: 'app.dex',
-                                    title: {
-                                        literal: 'directives.createOrder.notifications.error.title'
-                                    },
-                                    body: {
-                                        literal: error && error.message || error
-                                    }
-                                }, -1);
+                            .catch(() => {
                                 this.createOrderFailed = true;
                                 notify.addClass('error');
                                 const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
@@ -344,56 +328,11 @@
                     });
             }
 
-            _createTxData(data) {
-
-                const timestamp = ds.utils.normalizeTime(Date.now());
+            _sendOrder(data) {
                 const expiration = ds.utils.normalizeTime(this.expiration());
-                const clone = { ...data, timestamp, expiration };
+                const clone = { ...data, expiration };
 
-                const signable = ds.signature.getSignatureApi().makeSignable({
-                    type: SIGN_TYPE.CREATE_ORDER,
-                    data: clone
-                });
-
-                return signable.getId().then(id => {
-                    const signPromise = signable.getDataForApi();
-
-                    if (user.userType === 'seed' || !user.userType) {
-                        return signPromise;
-                    }
-
-                    const transactionData = {
-                        fee: this.fee.toFormat(),
-                        amount: this.amount.toFormat(),
-                        price: this.price.toFormat(),
-                        total: this.totalPrice.toFormat(),
-                        orderType: this.type,
-                        totalAsset: this.totalPrice.asset,
-                        amountAsset: this.amountBalance.asset,
-                        priceAsset: this.priceBalance.asset,
-                        feeAsset: this.fee.asset,
-                        type: this.type,
-                        timestamp,
-                        expiration
-                    };
-
-                    const modalPromise = modalManager.showSignByDevice({
-                        userType: user.userType,
-                        promise: signPromise,
-                        mode: 'create-order',
-                        data: transactionData,
-                        id
-                    });
-
-                    return modalPromise
-                        .then(() => signPromise)
-                        .catch(() => {
-                            return modalManager.showSignDeviceError({ error: 'sign-error', userType: user.userType })
-                                .then(() => Promise.resolve())
-                                .catch(() => Promise.reject({ message: 'Your sign is not confirmed!' }))
-                                .then(() => this._createTxData(data));
-                        });
-                });
+                return utils.createOrder(clone);
             }
 
             _showDemoModal() {

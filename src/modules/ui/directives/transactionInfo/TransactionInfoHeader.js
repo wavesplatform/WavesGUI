@@ -1,23 +1,22 @@
 (function () {
     'use strict';
 
-    const controller = function (BaseTxInfo, $scope) {
+    /**
+     * @param {app.utils} utils
+     * @return {TransactionInfoHeader}
+     */
+    const controller = function (utils) {
 
-        class TransactionInfoHeader extends BaseTxInfo {
+        class TransactionInfoHeader {
 
-            constructor() {
-                super($scope);
+            /**
+             * @type {Signable}
+             */
+            signable;
 
-                /**
-                 * @type {ITransaction}
-                 */
-                this.transaction = null;
-                /**
-                 * @type {string}
-                 */
-                this.txId = null;
 
-                this.templatePostfix = '-header';
+            $postLink() {
+                this.typeName = utils.getTransactionTypeName(this.signable.getTxData());
             }
 
         }
@@ -25,7 +24,7 @@
         return new TransactionInfoHeader();
     };
 
-    controller.$inject = ['BaseTxInfo', '$scope'];
+    controller.$inject = ['utils'];
 
     angular.module('app.ui').component('wTransactionInfoHeader', {
         bindings: {

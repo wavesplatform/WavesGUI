@@ -89,19 +89,31 @@
                 });
             }
 
-            showSignByDevice(options) {
+            /**
+             * @param {Signable} signable
+             * @return {Promise<Signable>}
+             */
+            showSignByDevice(signable) {
                 return this._getModal({
                     id: 'sign-by-device',
                     contentUrl: 'modules/utils/modals/signByDevice/signByDevice.html',
                     controller: 'SignByDeviceCtrl',
-                    locals: {
-                        devicePromise: () => options.promise,
-                        userType: options.userType,
-                        address: options.address,
-                        mode: options.mode,
-                        id: options.id,
-                        data: options.data
-                    },
+                    locals: { signable },
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
+            /**
+             * @param {Promise} promise
+             * @return {Promise}
+             */
+            showLoginByDevice(promise) {
+                return this._getModal({
+                    id: 'login-by-device',
+                    contentUrl: 'modules/utils/modals/loginByDevice/loginByDevice.html',
+                    controller: 'LoginByDeviceCtrl',
+                    locals: promise,
                     clickOutsideToClose: false,
                     escapeToClose: false
                 });

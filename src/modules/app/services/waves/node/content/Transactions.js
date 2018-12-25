@@ -122,7 +122,7 @@
                 return (tx) => {
 
                     tx.timestamp = new Date(tx.timestamp);
-                    tx.typeName = Transactions._getTransactionType(tx);
+                    tx.typeName = utils.getTransactionTypeName(tx);
                     tx.templateType = Transactions._getTemplateType(tx);
                     tx.shownAddress = Transactions._getTransactionAddress(tx);
 
@@ -156,55 +156,6 @@
                 };
             }
 
-            /**
-             * @param {object} tx
-             * @param {string} tx.transactionType
-             * @param {string} tx.sender
-             * @param {string} tx.recipient
-             * @param {object} tx.buyOrder
-             * @param {object} tx.sellOrder
-             * @return {string}
-             * @private
-             */
-            static _getTransactionType(tx) {
-                switch (tx.type) {
-                    case 4:
-                        return Transactions._getTransferType(tx);
-                    case 11:
-                        return Transactions._getMassTransferType(tx.sender);
-                    case 7:
-                        return Transactions._getExchangeType(tx);
-                    case 8:
-                        return Transactions._getLeaseType(tx);
-                    case 9:
-                        return TYPES.CANCEL_LEASING;
-                    case 10:
-                        return TYPES.CREATE_ALIAS;
-                    case 3:
-                        return TYPES.ISSUE;
-                    case 5:
-                        return TYPES.REISSUE;
-                    case 6:
-                        return TYPES.BURN;
-                    case 12:
-                        return TYPES.DATA;
-                    case 13:
-                        return Transactions._getScriptType(tx);
-                    case 14:
-                        return Transactions._getSponsorshipType(tx);
-                    default:
-                        return TYPES.UNKNOWN;
-                }
-            }
-
-            static _getSponsorshipType(tx) {
-                if (tx.minSponsoredAssetFee.getTokens().gt(0)) {
-                    return TYPES.SPONSORSHIP_START;
-                } else {
-                    return TYPES.SPONSORSHIP_STOP;
-                }
-            }
-
             static _getTypeByName(txTypeName) {
                 switch (txTypeName) {
                     case WavesApp.TRANSACTION_TYPES.NODE.TRANSFER:
@@ -231,65 +182,6 @@
                         return 14;
                     default:
                         throw new Error('Wrong tx name!');
-                }
-            }
-
-            /**
-             * @param {string} address
-             * @return {boolean}
-             * @private
-             */
-            static isMe(address) {
-                const aliasList = ds.dataManager.getLastAliases();
-                return address === user.address || aliasList.includes(address);
-            }
-
-            /**
-             * @param {string} sender
-             * @param {string} recipient
-             * @return {string}
-             * @private
-             */
-            static _getTransferType({ sender, recipient }) {
-                const meIsSender = Transactions.isMe(sender);
-                const meIsRecipient = Transactions.isMe(recipient);
-
-                if (!meIsSender && !meIsRecipient) {
-                    return TYPES.SPONSORSHIP_FEE;
-                } else if (meIsSender && meIsRecipient) {
-                    return TYPES.CIRCULAR;
-                } else {
-                    return meIsSender ? TYPES.SEND : TYPES.RECEIVE;
-                }
-            }
-
-            static _getMassTransferType(sender) {
-                return Transactions.isMe(sender) ? TYPES.MASS_SEND : TYPES.MASS_RECEIVE;
-            }
-
-            static _getScriptType({ script }) {
-                return (script || '').replace('base64:', '') ? TYPES.SET_SCRIPT : TYPES.SCRIPT_CANCEL;
-            }
-
-            /**
-             * @param {string} sender
-             * @return {string}
-             * @private
-             */
-            static _getLeaseType({ sender }) {
-                return Transactions.isMe(sender) ? TYPES.LEASE_OUT : TYPES.LEASE_IN;
-            }
-
-            /**
-             * @param {object} tx
-             * @return {string}
-             * @private
-             */
-            static _getExchangeType({ exchangeType }) {
-                if (exchangeType === 'buy') {
-                    return TYPES.EXCHANGE_BUY;
-                } else {
-                    return TYPES.EXCHANGE_SELL;
                 }
             }
 

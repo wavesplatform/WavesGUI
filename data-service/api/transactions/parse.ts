@@ -240,6 +240,16 @@ export function parseMassTransferTx(tx: txApi.IMassTransfer, assetsHash: IHash<A
     return { ...tx, totalAmount, transfers, fee, isUTX, attachment, rawAttachment };
 }
 
+export function parseExchangeOrder(factory: IFactory, order: txApi.IExchangeOrder, assetsHash: IHash<Asset>): IExchangeOrder {
+    const assetPair = normalizeAssetPair(order.assetPair);
+    const pair = new AssetPair(assetsHash[assetPair.amountAsset], assetsHash[assetPair.priceAsset]);
+    const price = factory.price(order.price, pair);
+    const amount = factory.money(order.amount, assetsHash[assetPair.amountAsset]);
+    const total = Money.fromTokens(amount.getTokens().times(price.getTokens()), price.asset);
+    const matcherFee = factory.money(order.matcherFee, assetsHash[WAVES_ID]);
+    return { ...order, price, amount, matcherFee, assetPair, total };
+}
+
 export function parseDataTx(tx: txApi.IData, assetsHash: IHash<Asset>, isUTX: boolean): IData {
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
     const stringifiedData = JSON.stringify(tx.data, null, 4);
@@ -251,16 +261,6 @@ function parseSponsorshipTx(tx: txApi.ISponsorship, assetsHash: IHash<Asset>, is
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
 
     return { ...tx, fee, minSponsoredAssetFee, isUTX };
-}
-
-function parseExchangeOrder(factory: IFactory, order: txApi.IExchangeOrder, assetsHash: IHash<Asset>): IExchangeOrder {
-    const assetPair = normalizeAssetPair(order.assetPair);
-    const pair = new AssetPair(assetsHash[assetPair.amountAsset], assetsHash[assetPair.priceAsset]);
-    const price = factory.price(order.price, pair);
-    const amount = factory.money(order.amount, assetsHash[assetPair.amountAsset]);
-    const total = Money.fromTokens(amount.getTokens().times(price.getTokens()), price.asset);
-    const matcherFee = factory.money(order.matcherFee, assetsHash[WAVES_ID]);
-    return { ...order, price, amount, matcherFee, assetPair, total };
 }
 
 function getExchangeType(order1: IExchangeOrder, order2: IExchangeOrder, sender: string): TOrderType {
