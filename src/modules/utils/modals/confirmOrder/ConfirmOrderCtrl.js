@@ -13,7 +13,9 @@
 
             constructor({ locals }) {
                 super($scope);
-                this.price = locals.price;
+                this.type = locals.orderType;
+                this.orderLimit = locals.orderLimit;
+                this.isSell = this.type === 'sell';
             }
 
             agree() {

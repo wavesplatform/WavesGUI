@@ -361,9 +361,10 @@
                 }
 
                 return modalManager.showConfirmOrder({
-                    ...orderData
-                }).then(() => {
-                    throw new Error('Test');
+                    ...orderData,
+                    orderLimit: Number(user.getSetting('orderLimit')) * 100
+                }).catch(() => {
+                    throw new Error('You have cancelled the creation of this order');
                 });
             }
 
