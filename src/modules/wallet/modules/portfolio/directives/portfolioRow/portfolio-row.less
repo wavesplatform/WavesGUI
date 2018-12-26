@@ -4,28 +4,32 @@ w-portfolio-row {
   display: flex;
   width: 100%;
 
-  .sponsored-asset{
-    .asset-logo {
-      .marker {
-        position: absolute;
-        left: 37px;
-        bottom: calc(50% ~'- 16px');
+  .sponsored-asset {
+    .asset {
+      &__logo {
+        .marker {
+          position: absolute;
+          left: 37px;
+          bottom: calc(50% ~'- 16px');
+        }
       }
     }
   }
 
-  .asset-logo {
-    background-size: 100% 100%;
-    flex-shrink: 0;
-    text-align: center;
-    border-radius: 50%;
-    left: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: @white-only;
-    .marker {
-      display: none;
+  .asset {
+    &__logo {
+      background-size: 100% 100%;
+      flex-shrink: 0;
+      text-align: center;
+      border-radius: 50%;
+      left: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: @white-only;
+      .marker {
+        display: none;
+      }
     }
   }
 
@@ -95,7 +99,7 @@ w-portfolio-row {
         &:hover {
           background-color: @color-basic-50;
         }
-        
+
         &.icon-hide {
           .unspam {
             display: none;
