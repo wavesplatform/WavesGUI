@@ -1,4 +1,19 @@
 <div class="select" ng-class="$ctrl.upDirection ? 'to-up' : ''">
     <div class="title"></div>
+    <div class="filter">
+        <w-input placeholder="Search"></w-input>
+        <i class="input-clear"></i>
+        <!-- ng-if="$ctrl.search.length > 0"
+             ng-click="$ctrl.search = ''"-->
+        <w-help-icon> <!-- ng-if="!$ctrl.search.length" -->
+            <div class="help-icon__row bold caption-2 basic-700" w-i18n="directives.filter.helpIcon.header">Header</div>
+            <div class="help-icon__row caption-2 basic-700">
+                <span class="label-background" w-i18n="directives.filter.helpIcon.name"></span>/
+                <span class="label-background" w-i18n="directives.filter.helpIcon.assetId"></span>/
+                <span class="label-background" w-i18n="directives.filter.helpIcon.ticker"></span>
+            </div>
+            <!--div class="help-icon__row caption-2 basic-700" w-i18n="directives.filter.helpIcon.description"></div--> <!-- TODO add wavesWiki doc and link to locize -->
+        </w-help-icon>
+    </div>
     <div class="select-list" ng-transclude></div>
 </div>

@@ -84,9 +84,15 @@ md-dialog.modal-receive {
       display: none;
     }
 
-    w-select .select-list {
-      max-height: 325px;
-      overflow: auto;
+    w-select {
+      .select-list {
+        max-height: 325px;
+        overflow: auto;
+      }
+
+      &.has-filter {
+
+      }
     }
 
     .icon-close {
@@ -138,8 +144,19 @@ md-dialog.modal-receive {
       width: 204px;
     }
 
-    .asset-name {
-      margin-left: 10px;
+    .asset {
+      &__name {
+        margin-left: 10px;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      &__id {
+        line-height: 1em;
+        font-size: @font-size-caption-2;
+        margin-top: 3px;
+      }
     }
 
     .card-icons {

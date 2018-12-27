@@ -5,7 +5,7 @@
         <div class="input-like big flex-row split-half" ng-if="$ctrl.singleAsset">
             <div class="flex-row">
                 <w-asset-logo class="marker-hide" size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
-                <div class="asset-name">{{::$ctrl.asset.name}}</div>
+                <div class="asset__name">{{::$ctrl.asset.name}}</div>
             </div>
         </div>
         <w-select
@@ -16,7 +16,7 @@
                 <div class="flex-row split-half">
                     <div class="flex-row">
                         <w-asset-logo class="marker-hide" size="24" asset-id="{{::fiat.id}}"></w-asset-logo>
-                        <div class="asset-name">{{::fiat.name}}</div>
+                        <div class="asset__name">{{::fiat.name}}</div>
                     </div>
                 </div>
             </w-option>
@@ -89,9 +89,6 @@
                 </w-button>
             </a>
         </div>
-
-
-
     </div>
 
     <div ng-if="$ctrl.isLira" class="bank-account wtry">
