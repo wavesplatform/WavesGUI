@@ -39,6 +39,7 @@
                     hasBackup: true,
                     termsAccepted: true,
                     baseAssetId: WavesApp.defaultAssets.USD,
+                    assetsOracle: WavesApp.oracle,
                     events: Object.create(null),
                     lng: 'en',
                     send: {

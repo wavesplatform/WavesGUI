@@ -548,6 +548,8 @@
                             ds.config.set(key, this._settings.get(`network.${key}`));
                         });
 
+                        ds.config.set('oracleAddress', this.getSetting('assetsOracle'));
+
                         ds.app.login(data.address, data.api);
 
                         data.api.onDestroy(() => {
