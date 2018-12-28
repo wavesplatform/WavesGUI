@@ -180,7 +180,7 @@ w-scroll-box {
 
   w-qr-code {
     display: block;
-    margin: 0 auto 30px;
+    margin: @qr-margin;
     text-align: center;
     width: 200px;
     height: 200px;
@@ -519,14 +519,14 @@ w-permit {
 }
 
 .asset {
-  &__wrapper {
+  &-wrapper {
     display: flex;
     align-items: flex-end;
     @media screen and (max-width: 768px) {
       flex-direction: row;
     }
   }
-  &__label {
+  &-label {
     display: block;
     color: @color-submit-400;
     background-color: @color-submit-50;
