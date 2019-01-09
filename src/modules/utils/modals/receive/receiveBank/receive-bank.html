@@ -1,5 +1,4 @@
 <div class="receive-bank">
-
     <w-step-by-step active-step="$ctrl.step">
         <w-step>
             <div class="row margin-2">
@@ -10,6 +9,7 @@
                         <div class="asset-name">{{::$ctrl.asset.name}}</div>
                     </div>
                 </div>
+
                 <w-select
                     class="big"
                     ng-if="!$ctrl.singleAsset"
@@ -23,7 +23,6 @@
                         </div>
                     </w-option>
                 </w-select>
-
             </div>
 
             <div ng-if="$ctrl.pending || $ctrl.error"
@@ -81,11 +80,8 @@
                                   on-sign-end="$ctrl.onSignEnd()"
                                   force-show-terms="!$ctrl.isVerified"></w-coinomat-terms>
 
-                <div ng-if="!$ctrl.isVerified && !$ctrl.signInProgress"
-                     class="margin-top-3 relative button-wrapper-height">
-
+                <div ng-if="!$ctrl.isVerified" class="margin-top-3 relative button-wrapper-height">
                     <a ng-if="!$ctrl.signInProgress && !$ctrl.pending"
-                       ng-click="$ctrl.nextStep()"
                        href="{{$ctrl.idNowUserLink}}"
                        target="_blank"
                        class="flex">
@@ -95,26 +91,24 @@
                     </a>
                 </div>
 
-            </div>
+                <div ng-if="$ctrl.isLira" class="bank-account">
+                    <div class="warning-plate">
+                        <div class="body-2 warning-500" w-i18n="modal.receive.wtryPlate1Header"></div>
+                        <div class="footnote-1 basic-500" w-i18n="modal.receive.wtryPlate1Text"></div>
+                    </div>
 
-            <div ng-if="$ctrl.isLira" class="bank-account">
+                    <div class="row margin-3 caption-1 info-block">
+                        <i class="icon-info"></i>
+                        <div w-i18n="modal.receive.wtry.info"></div>
+                    </div>
 
-                <div class="warning-plate">
-                    <div class="body-2 warning-500" w-i18n="modal.receive.wtryPlate1Header"></div>
-                    <div class="footnote-1 basic-500" w-i18n="modal.receive.wtryPlate1Text"></div>
-                </div>
-
-                <div class="row margin-3 caption-1 info-block">
-                    <i class="icon-info"></i>
-                    <div w-i18n="modal.receive.wtry.info"></div>
-                </div>
-
-                <a href="{{$ctrl.digiLiraUserLink}}"
-                   ng-click="$ctrl.nextStep()"
-                   target="_blank"
-                   class="fake-button long">
+                    <a href="{{$ctrl.digiLiraUserLink}}"
+                       ng-click="$ctrl.nextStep()"
+                       target="_blank"
+                       class="fake-button long">
                         <span class="fake-button-content big submit long" w-i18n="modal.receive.card.continue"></span>
-                </a>
+                    </a>
+                </div>
 
             </div>
         </w-step>
@@ -133,5 +127,4 @@
 
         </w-step>
     </w-step-by-step>
-
 </div>
