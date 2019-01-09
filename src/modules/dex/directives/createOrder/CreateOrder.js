@@ -345,8 +345,9 @@
             }
 
             _checkOrder(orderData) {
-                const limit = 1 + (Number(user.getSetting('orderLimit')) || 0);
                 const isBuy = orderData.orderType === 'buy';
+                const coef = isBuy ? 1 : -1;
+                const limit = 1 + coef * (Number(user.getSetting('orderLimit')) || 0);
                 const price = (new BigNumber(isBuy ? this.ask.price : this.bid.price)).times(limit);
                 const orderPrice = orderData.price.getTokens();
 

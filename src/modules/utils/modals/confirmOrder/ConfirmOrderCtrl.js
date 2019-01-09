@@ -19,7 +19,7 @@
             }
 
             agree() {
-                $mdDialog.confirm();
+                $mdDialog.hide();
             }
 
             close() {
