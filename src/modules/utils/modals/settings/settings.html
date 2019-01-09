@@ -169,7 +169,8 @@
                     <div class="footnote basic-500" w-i18n="modal.settings.security.script"></div>
                     <div>
                         <w-button on-click="$ctrl.showScriptModal()" class="tiny submit" w-modal-close>
-                            <span w-i18n="modal.settings.security.scriptButton"></span>
+                            <span ng-if="$ctrl.isScript" w-i18n="modal.settings.security.scriptButtonUpdate"></span>
+                            <span ng-if="!$ctrl.isScript" w-i18n="modal.settings.security.scriptButton"></span>
                         </w-button>
                     </div>
                 </div>
