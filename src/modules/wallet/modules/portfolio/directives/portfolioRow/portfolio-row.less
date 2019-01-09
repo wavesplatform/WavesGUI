@@ -50,16 +50,97 @@ w-portfolio-row {
   }
 
   .actions-wrapper {
-    .action {
-      &.icon-hide {
-        .unspam {
-          display: none;
+    display: block;
+    height: 16px;
+    width: 4px;
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    margin-top: -8px;
+    cursor: pointer;
+
+    .actions-container {
+      z-index: 3;
+      min-width: 215px;
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 0;
+      margin-bottom: 10px;
+      padding: 17px 0;
+      background-color: @color-white;
+      box-shadow: @shadow-buttons-default;
+
+      &.expanded {
+        display: block;
+
+        &.to-up {
+          top: auto;
+          bottom: 0;
         }
       }
 
-      &.icon-show {
-        .tospam {
-          display: none;
+      &.open-up {
+        top: auto;
+        bottom: 0;
+      }
+
+      .action {
+        padding: 8px 20px;
+
+        a {
+          color: @color-disabled-900;
+        }
+
+        &:hover {
+          background-color: @color-basic-50;
+        }
+
+        &.icon-hide {
+          .unspam {
+            display: none;
+          }
+        }
+
+        &.icon-show {
+          .tospam {
+            display: none;
+          }
+        }
+      }
+
+      &.expanded {
+        display: block;
+      }
+    }
+
+    .click-area {
+      display: flex;
+      justify-content: center;
+      width: 24px;
+      height: 16px;
+      cursor: pointer;
+
+      .dots {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+
+        .dot {
+          width: 4px;
+          height: 4px;
+          border-radius: 100%;
+          background-color: @color-basic-500;
+        }
+      }
+
+      .dots.white.horizontal {
+        flex-direction: row;
+        width: 30px;
+
+        .dot {
+          background-color: @color-white;
         }
       }
     }
