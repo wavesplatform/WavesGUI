@@ -351,7 +351,7 @@
                 const price = (new BigNumber(isBuy ? this.ask.price : this.bid.price)).times(limit);
                 const orderPrice = orderData.price.getTokens();
 
-                if (price.isNaN()) {
+                if (price.isNaN() || price.eq(0)) {
                     return Promise.resolve();
                 }
 
