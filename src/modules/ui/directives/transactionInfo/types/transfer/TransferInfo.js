@@ -36,6 +36,9 @@
                 this.transaction = this.signable.getTxData();
                 const typeName = utils.getTransactionTypeName(this.transaction);
                 switch (typeName) {
+                    case WavesApp.TRANSACTION_TYPES.EXTENDED.CIRCULAR:
+                        this.isSelf = true;
+                        break;
                     case WavesApp.TRANSACTION_TYPES.EXTENDED.SEND:
                         this.isSend = true;
                         break;

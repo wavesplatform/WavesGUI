@@ -1199,6 +1199,19 @@
             },
 
             /**
+             * @name app.utils#isMyPublicKey
+             * @param publicKey
+             * @return {boolean}
+             */
+            isMyPublicKey(publicKey) {
+                /**
+                 * @type {User}
+                 */
+                const user = $injector.get('user');
+                return user.publicKey === publicKey;
+            },
+
+            /**
              * @name app.utils#isMyAddressOrAlias
              * @param {string} addressOrAlias
              * @return boolean
@@ -1350,7 +1363,7 @@
          * @private
          */
         function _getTransferType(tx) {
-            const meIsSender = utils.isMyAddressOrAlias(tx.sender);
+            const meIsSender = utils.isMyPublicKey(tx.senderPublicKey);
             const meIsRecipient = utils.isMyAddressOrAlias(tx.recipient);
             const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
 

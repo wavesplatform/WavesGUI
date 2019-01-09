@@ -65,7 +65,7 @@
                         this.onError(error);
                     });
 
-                signable.getDataForApi()
+                signable.getSignature()
                     .then(() => {
                         this.deferred.resolve(signable);
                     })
