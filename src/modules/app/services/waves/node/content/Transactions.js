@@ -238,6 +238,7 @@
                     case TYPES.REISSUE:
                     case TYPES.LEASE_IN:
                     case TYPES.CREATE_ALIAS:
+                    case TYPES.SPONSORSHIP_FEE:
                         return sender;
                     default:
                         return recipient;
