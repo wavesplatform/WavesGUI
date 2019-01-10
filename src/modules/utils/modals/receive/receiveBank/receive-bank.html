@@ -90,27 +90,28 @@
                         </w-button>
                     </a>
                 </div>
+            </div>
 
-                <div ng-if="$ctrl.isLira" class="bank-account">
-                    <div class="warning-plate">
-                        <div class="body-2 warning-500" w-i18n="modal.receive.wtryPlate1Header"></div>
-                        <div class="footnote-1 basic-500" w-i18n="modal.receive.wtryPlate1Text"></div>
-                    </div>
-
-                    <div class="row margin-3 caption-1 info-block">
-                        <i class="icon-info"></i>
-                        <div w-i18n="modal.receive.wtry.info"></div>
-                    </div>
-
-                    <a href="{{$ctrl.digiLiraUserLink}}"
-                       ng-click="$ctrl.nextStep()"
-                       target="_blank"
-                       class="fake-button long">
-                        <span class="fake-button-content big submit long" w-i18n="modal.receive.card.continue"></span>
-                    </a>
+            <div ng-if="$ctrl.isLira && !$ctrl.error" class="bank-account">
+                <div class="warning-plate">
+                    <div class="body-2 warning-500" w-i18n="modal.receive.wtryPlate1Header"></div>
+                    <div class="footnote-1 basic-500" w-i18n="modal.receive.wtryPlate1Text"></div>
                 </div>
 
+                <div class="row margin-3 caption-1 info-block">
+                    <i class="icon-info"></i>
+                    <div w-i18n="modal.receive.wtry.info"></div>
+                </div>
+
+                <a href="{{$ctrl.digiLiraUserLink}}"
+                   ng-click="$ctrl.nextStep()"
+                   target="_blank"
+                   class="fake-button long">
+                        <span class="fake-button-content big submit long"
+                              w-i18n="modal.receive.card.continue"></span>
+                </a>
             </div>
+
         </w-step>
         <w-step>
 
