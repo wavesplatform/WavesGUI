@@ -34,7 +34,7 @@
 
             /**
              * @param {AssetPair} pair
-             * @return {Promise<Money | never>}
+             * @return {Promise<{price: Money, lastSide: string}r>}
              */
             @decorators.cachable(0.5)
             getLastPrice(pair) {

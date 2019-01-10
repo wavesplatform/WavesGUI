@@ -192,11 +192,24 @@
             _getOrders() {
                 const amountAsset = this._assetIdPair.amount;
                 const priceAsset = this._assetIdPair.price;
+                const limit = 1;
 
                 return Promise.all([
                     waves.matcher.getOrderBook(amountAsset, priceAsset),
                     waves.matcher.getOrders().catch(() => null),
-                    ds.api.pairs.get(amountAsset, priceAsset).then(waves.matcher.getLastPrice)
+                    ds.api.pairs.get(amountAsset, priceAsset)
+                        .then(waves.matcher.getLastPrice)
+                        .then(lastPrice => {
+                            const tokens = lastPrice.price.getTokens();
+                            if (tokens.isNaN()) {
+                                return ds.api.transactions
+                                    .getExchangeTxList({ amountAsset, priceAsset, limit })
+                                    .then(([tx]) => ({ price: tx.price, lastSide: tx.exchangeType }))
+                                    .catch(() => null);
+                            }
+                            return lastPrice;
+                        })
+                        .then(lastPrice => lastPrice)
                         .catch(() => null)
                 ])
                     .then(([orderbook, orders, lastPrice]) => {
@@ -230,7 +243,7 @@
              *
              * @param {Matcher.IOrderBookResult} orderbook
              * @param {Array<Matcher.IOrder>} orders
-             * @param {Array<DataFeed.ITrade>} trades
+             * @param {Array<{price: Money, lastSide: string}>} lastPrice
              * @return {OrderBook.OrdersData}
              * @private
              */
