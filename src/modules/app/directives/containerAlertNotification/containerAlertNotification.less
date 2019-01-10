@@ -23,8 +23,16 @@ w-container-alert-notification {
     overflow: hidden;
 
     &.error {
-      div:not(:last-child) {
-        margin-bottom: 10px;
+      .content {
+        margin-top: 10px;
+        span {
+          word-break: break-all;
+          max-height: 92px;
+          overflow: auto;
+          display: block;
+          margin-right: -14px;
+          padding-right: 10px;
+        }
       }
 
       & [w-notification-action] {

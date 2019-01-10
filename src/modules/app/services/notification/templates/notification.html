@@ -1,21 +1,20 @@
 <div w-i18n-ns="{{::ns}}" class="notification {{::type}}">
     <div class="icon-close" ng-if="::!noCloseIcon" w-notification-close></div>
-    <div>
+    <div class="header">
         <span ng-if="::!!title"
               class="headline-3 basic-900"
               w-i18n="{{::title.literal}}"
               params="::title.params">
         </span>
     </div>
-    <div>
+    <div class="content">
         <span ng-if="::!!body"
               w-i18n="{{::body.literal}}"
-              class="footnote-1 basic-700"
+              class="footnote-1 basic-700 content"
               params="::body.params">
-
         </span>
     </div>
-    <div>
+    <div class="action">
         <span ng-if="::!!action"
               w-i18n="{{::action.literal}}"
               w-notification-action
