@@ -2,6 +2,11 @@
 
 html body md-dialog.change-token {
 
+
+  md-dialog-content {
+    padding: 0 30px;
+  }
+
   //TODO refactor input-like
   .input-like {
     padding: 0;
@@ -48,8 +53,6 @@ html body md-dialog.change-token {
   }
 
   .rows {
-    margin-top: 50px;
-
     .flex-row {
       display: flex;
       justify-content: space-between;
@@ -57,6 +60,14 @@ html body md-dialog.change-token {
     }
 
     .row-style {
+
+      //&.description { width: 100%;
+      //  padding: 13px 16px;
+      //  border: 1px dashed #edf0f4;
+      //  border-radius: 4px;
+      //  background: #f8f9fb;
+      //}
+
       padding: 12px 0;
       border-bottom: 1px dashed @color-basic-200;
       align-items: center;
@@ -74,13 +85,11 @@ html body md-dialog.change-token {
   .chart-wrapper {
     opacity: 0.2;
     position: relative;
-    margin-left: -40px;
-    margin-right: -40px;
-    padding-bottom: 4px;
-    height: 76px;
-    border-bottom: 1px solid @color-basic-200;
+    margin: 0 -30px 0;
+    height: 60px;
+    border-bottom: @color-basic-200;
 
-    .token-burn__chart-overlay {
+    .interactive-stop {
       position: absolute;
       top: 0;
       left: 0;
@@ -88,20 +97,39 @@ html body md-dialog.change-token {
       bottom: 0;
     }
 
-    .chart-tooltip, .chart-legend { // Lib ng3-charts
+    .chart-tooltip,
+    .chart-legend { // Lib ng3-charts
       display: none !important;
     }
   }
 
   .asset-content {
     height: 100%;
+    padding-top: @padding-main-layout * 4;
 
-    .one-line {
-      max-height: 1.3em;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    .top-content {
+      w-asset-logo {
+        margin: -3px 20px 0 10px;
+        float: left;
+        z-index: 1;
+        position: relative;
+      }
+
+      .asset-data {
+        display: flex;
+        flex-direction: column;
+        height: 65px;
+        justify-content: center;
+        h2 {
+          margin: 0;
+          font-weight: normal;
+        }
+      }
     }
   }
-}
 
+  .token-burn__info {
+    padding: 40px 10px 0;
+  }
+
+}

@@ -5,13 +5,23 @@
                 <w-asset-logo class="asset-logo-large" asset-id="{{::$ctrl.asset.id}}" size="65"></w-asset-logo>
 
                 <div class="asset-data">
-                    <h4 class="basic-900">{{::$ctrl.asset.name}}</h4>
-                    <div class="body-2 basic-500 one-line"> {{::$ctrl.asset.description}}</div>
+                    <h2 class="basic-900">{{::$ctrl.asset.name}}
+                        <div class="asset__label" ng-if="$ctrl.isVerified">
+                            <span  w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>
+                        </div>
+                        <div class="asset__label" ng-if="$ctrl.isGateway">
+                            <span w-i18n-ns="app.utils" w-i18n="modal.assetInfo.gateway"></span>
+                        </div>
+                    </h2>
+
+                    <div class="body-2 basic-500 one-line">
+                        {{::$ctrl.ticker}}
+                    </div>
                 </div>
 
                 <div class="chart-wrapper">
-                    <linechart ng-if="$ctrl.chartData" options="$ctrl.options" data="$ctrl.chartData"></linechart>
-                    <div class="token-burn__chart-overlay"></div>
+                    <linechart ng-if="$ctrl.chartData" options="$ctrl.options" data="$ctrl.chartData" class="linechart"></linechart>
+                    <div class="interactive-stop"></div>
                 </div>
             </div>
         </div>
@@ -28,11 +38,15 @@
                     <div>{{::$ctrl.quantity.toFormat($ctrl.asset.precision)}}</div>
                 </div>
 
-                <div class="row row-style flex-row margin-2 token-burn__info-line">
+                <div class="row row-style flex-row  token-burn__info-line">
                     <div class="footnote-1 disabled-500" w-i18n="modal.token.balance"></div>
                     <div class="bold">
                         <w-balance money="$ctrl.balance"></w-balance>
                     </div>
+                </div>
+
+                <div class="row row-style flex-row margin-2 token-burn__info-line">
+                    <div class="footnote-1" style="color: red;"> {{::$ctrl.asset.description}}</div>
                 </div>
             </div>
 
