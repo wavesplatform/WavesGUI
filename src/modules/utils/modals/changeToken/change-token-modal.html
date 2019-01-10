@@ -5,7 +5,8 @@
                 <w-asset-logo class="asset-logo-large" asset-id="{{::$ctrl.asset.id}}" size="65"></w-asset-logo>
 
                 <div class="asset-data">
-                    <h2 class="basic-900">{{::$ctrl.asset.name}}
+                    <h2 class="asset__wrapper basic-900">
+                        <div>{{::$ctrl.asset.name}}</div>
                         <div class="asset__label" ng-if="$ctrl.isVerified">
                             <span  w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>
                         </div>
