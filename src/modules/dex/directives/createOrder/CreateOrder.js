@@ -344,6 +344,31 @@
                     });
             }
 
+            _checkOrder(orderData) {
+                const isBuy = orderData.orderType === 'buy';
+                const coef = isBuy ? 1 : -1;
+                const limit = 1 + coef * (Number(user.getSetting('orderLimit')) || 0);
+                const price = (new BigNumber(isBuy ? this.ask.price : this.bid.price)).times(limit);
+                const orderPrice = orderData.price.getTokens();
+
+                if (price.isNaN() || price.eq(0)) {
+                    return Promise.resolve();
+                }
+
+                const delta = isBuy ? orderPrice.minus(price) : price.minus(orderPrice);
+
+                if (delta.isNegative()) {
+                    return Promise.resolve();
+                }
+
+                return modalManager.showConfirmOrder({
+                    ...orderData,
+                    orderLimit: Number(user.getSetting('orderLimit')) * 100
+                }).catch(() => {
+                    throw new Error('You have cancelled the creation of this order');
+                });
+            }
+
             _createTxData(data) {
 
                 const timestamp = ds.utils.normalizeTime(Date.now());
@@ -355,45 +380,50 @@
                     data: clone
                 });
 
-                return signable.getId().then(id => {
-                    const signPromise = signable.getDataForApi();
+                return this._checkOrder(clone)
+                    .then(signable.getId())
+                    .then(id => {
+                        const signPromise = signable.getDataForApi();
 
-                    if (user.userType === 'seed' || !user.userType) {
-                        return signPromise;
-                    }
+                        if (user.userType === 'seed' || !user.userType) {
+                            return signPromise;
+                        }
 
-                    const transactionData = {
-                        fee: this.fee.toFormat(),
-                        amount: this.amount.toFormat(),
-                        price: this.price.toFormat(),
-                        total: this.totalPrice.toFormat(),
-                        orderType: this.type,
-                        totalAsset: this.totalPrice.asset,
-                        amountAsset: this.amountBalance.asset,
-                        priceAsset: this.priceBalance.asset,
-                        feeAsset: this.fee.asset,
-                        type: this.type,
-                        timestamp,
-                        expiration
-                    };
+                        const transactionData = {
+                            fee: this.fee.toFormat(),
+                            amount: this.amount.toFormat(),
+                            price: this.price.toFormat(),
+                            total: this.totalPrice.toFormat(),
+                            orderType: this.type,
+                            totalAsset: this.totalPrice.asset,
+                            amountAsset: this.amountBalance.asset,
+                            priceAsset: this.priceBalance.asset,
+                            feeAsset: this.fee.asset,
+                            type: this.type,
+                            timestamp,
+                            expiration
+                        };
 
-                    const modalPromise = modalManager.showSignByDevice({
-                        userType: user.userType,
-                        promise: signPromise,
-                        mode: 'create-order',
-                        data: transactionData,
-                        id
-                    });
-
-                    return modalPromise
-                        .then(() => signPromise)
-                        .catch(() => {
-                            return modalManager.showSignDeviceError({ error: 'sign-error', userType: user.userType })
-                                .then(() => Promise.resolve())
-                                .catch(() => Promise.reject({ message: 'Your sign is not confirmed!' }))
-                                .then(() => this._createTxData(data));
+                        const modalPromise = modalManager.showSignByDevice({
+                            userType: user.userType,
+                            promise: signPromise,
+                            mode: 'create-order',
+                            data: transactionData,
+                            id
                         });
-                });
+
+                        return modalPromise
+                            .then(() => signPromise)
+                            .catch(() => {
+                                return modalManager.showSignDeviceError({
+                                    error: 'sign-error',
+                                    userType: user.userType
+                                })
+                                    .then(() => Promise.resolve())
+                                    .catch(() => Promise.reject({ message: 'Your sign is not confirmed!' }))
+                                    .then(() => this._createTxData(data));
+                            });
+                    });
             }
 
             _showDemoModal() {
