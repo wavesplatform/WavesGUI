@@ -29,29 +29,30 @@
 
             <div class="rows">
                 <div class="row row-style flex-row token-burn__info-line">
-                    <div class="footnote-1 disabled-500" w-i18n="modal.token.id"></div>
-                    <div>{{::$ctrl.asset.id}}</div>
+                    <div class="footnote-1 basic-500" w-i18n="modal.token.id"></div>
+                    <div class="footnote-1 basic-900">{{::$ctrl.asset.id}}</div>
+                </div>
+
+                <div class="margin-top-1 footnote-1 basic-500" w-i18n="modal.token.description"></div>
+                <div class="row row-style flex-row token-burn__info-line description">
+                    <div class="footnote-1 basic-900"> {{::$ctrl.asset.description}}</div>
                 </div>
 
                 <div class="row row-style flex-row token-burn__info-line">
-                    <div class="footnote-1 disabled-500" w-i18n="modal.token.quantity"></div>
-                    <div>{{::$ctrl.quantity.toFormat($ctrl.asset.precision)}}</div>
-                </div>
-
-                <div class="row row-style flex-row  token-burn__info-line">
-                    <div class="footnote-1 disabled-500" w-i18n="modal.token.balance"></div>
-                    <div class="bold">
-                        <w-balance money="$ctrl.balance"></w-balance>
-                    </div>
+                    <div class="footnote-1 basic-500" w-i18n="modal.token.quantity"></div>
+                    <div class="footnote-1 basic-900">{{::$ctrl.quantity.toFormat($ctrl.asset.precision)}}</div>
                 </div>
 
                 <div class="row row-style flex-row margin-2 token-burn__info-line">
-                    <div class="footnote-1" style="color: red;"> {{::$ctrl.asset.description}}</div>
+                    <div class="footnote-1 basic-500" w-i18n="modal.token.balance"></div>
+                    <div class="bold footnote-1 basic-900">
+                        <w-balance money="$ctrl.balance"></w-balance>
+                    </div>
                 </div>
             </div>
 
             <form name="burn">
-                <div class="body-2">
+                <div class="body-2 basic-900">
                     <span w-i18n="modal.token.{{::$ctrl.txType}}.label"></span>
                 </div>
                 <w-input-container class="margin-2">
@@ -113,7 +114,7 @@
 
                 <div class="footnote-1 margin-2">
                     <div ng-class="{'error-400': $ctrl.noFee}"
-                         class="disabled-500"
+                         class="basic-500"
                          w-i18n="modal.token.fee"
                          params="{fee: $ctrl.fee}"></div>
                     <div class="error-400" ng-if="$ctrl.noFee" w-i18n="modal.token.validation.noMoney"></div>
