@@ -381,7 +381,7 @@
                 });
 
                 return this._checkOrder(clone)
-                    .then(signable.getId())
+                    .then(() => signable.getId())
                     .then(id => {
                         const signPromise = signable.getDataForApi();
 
