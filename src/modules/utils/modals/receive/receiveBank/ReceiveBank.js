@@ -64,6 +64,10 @@
             }
 
 
+            nextStep() {
+                this.step += 1;
+            }
+
             onSignStart() {
                 this.signInProgress = true;
             }
