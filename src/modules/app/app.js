@@ -57,7 +57,7 @@
 
             newController = function ($element, $compile, $scope, ...args) {
 
-                const onError = (e) => {
+                const onError = () => {
                     $element.addClass('_internal-error');
                     // const content = $compile('<w-component-error></w-component-error>')($scope);
                     // $element.append(content);
