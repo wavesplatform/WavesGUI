@@ -1,6 +1,6 @@
 import * as assetsApi from './assets/assets';
 import * as transactionsApi from './transactions/transactions';
-import { parseTx } from './transactions/parse';
+import { parseTx, parseExchangeOrder } from './transactions/parse';
 import * as utilsFunctions from '../utils/utils';
 import { request } from '../utils/request';
 import { assetStorage } from '../utils/AssetStorage';
@@ -29,7 +29,7 @@ export const matcher = {
 
 export const assets = { ...assetsApi };
 
-export const transactions = { ...transactionsApi, parseTx };
+export const transactions = { ...transactionsApi, parseTx, parseExchangeOrder };
 
 export const utils = { ...utilsFunctions, request, assetStorage };
 

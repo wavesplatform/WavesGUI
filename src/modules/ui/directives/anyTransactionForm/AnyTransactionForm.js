@@ -10,7 +10,7 @@
      */
     const controller = function (Base, $scope, waves) {
 
-        const { indexBy, propEq, head } = require('ramda');
+        const { indexBy, prop, head } = require('ramda');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
         const { Money } = require('@waves/data-entities');
         const ds = require('data-service');
@@ -146,9 +146,9 @@
             static _parse(type, data) {
                 switch (type) {
                     case SIGN_TYPE.CREATE_ORDER:
-                        return Promise.resolve(data);
-                    case SIGN_TYPE.CANCEL_ORDER:
                         return AnyTransactionForm._parseOrder(data);
+                    case SIGN_TYPE.CANCEL_ORDER:
+                        return Promise.resolve(data);
                     default:
                         return AnyTransactionForm._parseTransaction(data);
                 }
@@ -158,12 +158,12 @@
                 const moneyFactory = ds.api.matcher.factory;
                 return Promise.all([
                     waves.node.assets.getAsset('WAVES'),
-                    waves.node.assets.getAsset(data.assetPair.amountAsset),
-                    waves.node.assets.getAsset(data.assetPair.priceAsset)
+                    waves.node.assets.getAsset(ds.utils.normalizeAssetId(data.assetPair.amountAsset)),
+                    waves.node.assets.getAsset(ds.utils.normalizeAssetId(data.assetPair.priceAsset))
                 ])
-                    .then(indexBy(propEq('id')))
+                    .then(indexBy(prop('id')))
                     .then(hash => {
-                        return ds.api.matcher.parseExchangeOrder(moneyFactory, data, hash);
+                        return ds.api.transactions.parseExchangeOrder(moneyFactory, data, hash);
                     });
             }
 

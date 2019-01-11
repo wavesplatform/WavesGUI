@@ -5,6 +5,10 @@
     const { Asset } = require('@waves/data-entities');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
 
+    const NO_EXPORT_TYPES = [
+        SIGN_TYPE.MASS_TRANSFER,
+        SIGN_TYPE.CREATE_ORDER
+    ];
 
     const factory = function (Base, waves, utils, $mdDialog, modalManager) {
 
@@ -151,9 +155,12 @@
              * @protected
              */
             initExportLink() {
+                const type = this.signable.type;
                 this.signable.getDataForApi().then(data => {
+
                     this.exportLink = `${WavesApp.origin}/#tx${utils.createQS(data)}`;
-                    this.canCreateLink = data.type !== SIGN_TYPE.MASS_TRANSFER &&
+
+                    this.canCreateLink = !NO_EXPORT_TYPES.includes(type) &&
                         this.exportLink.length <= WavesApp.MAX_URL_LENGTH;
                     this.__$scope.$apply();
                 });

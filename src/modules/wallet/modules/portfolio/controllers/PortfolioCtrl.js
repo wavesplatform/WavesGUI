@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const { get } = require('ts-utils');
+
     const searchByNameAndId = ($scope, key, list) => {
         const query = $scope[key];
         if (!query) {
@@ -8,8 +10,8 @@
         }
 
         return list.filter((item) => {
-            const name = tsUtils.get({ item }, 'item.asset.name');
-            const id = tsUtils.get({ item }, 'item.asset.id');
+            const name = get({ item }, 'item.asset.name');
+            const id = get({ item }, 'item.asset.id');
             return String(name).toLowerCase().indexOf(query.toLowerCase()) !== -1 || String(id) === query;
         });
     };

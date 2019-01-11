@@ -38,20 +38,20 @@
 
         <div class="create-order-amounts">
             <h3 class="basic-700 text-center">
-                <span ng-if="$ctrl.txData.type === 'buy'">
-                    +{{::$ctrl.txData.amount}} {{::$ctrl.txData.amountAsset.name}}
+                <span ng-if="$ctrl.txData.orderType === 'buy'">
+                    +<span w-i18n="money-currency" params="{money: $ctrl.txData.amount}"></span>
                 </span>
-                <span ng-if="$ctrl.txData.type === 'sell'">
-                    +{{::$ctrl.txData.total}} {{::$ctrl.txData.totalAsset.name}}
+                <span ng-if="$ctrl.txData.orderType === 'sell'">
+                    +<span w-i18n="money-currency" params="{money: $ctrl.total}"></span>
                 </span>
             </h3>
 
             <div class="text-center body-2 basic-500">
-                 <span ng-if="$ctrl.txData.type === 'sell'">
-                    -{{::$ctrl.txData.amount}} {{::$ctrl.txData.amountAsset.name}}
+                 <span ng-if="$ctrl.txData.orderType === 'sell'">
+                    —<span w-i18n="money-currency" params="{money: $ctrl.txData.amount}"></span>
                 </span>
-                <span ng-if="$ctrl.txData.type === 'buy'">
-                    -{{::$ctrl.txData.total}} {{::$ctrl.txData.totalAsset.name}}
+                <span ng-if="$ctrl.txData.orderType === 'buy'">
+                    —<span w-i18n="money-currency" params="{money: $ctrl.total}"></span>
                 </span>
             </div>
         </div>
@@ -61,7 +61,7 @@
                 <div class="txinfo__key">
                     <span>{{::$ctrl.txData.priceAsset.name}}</span> <span w-i18n="modal.sign.price"></span>
                 </div>
-                <div class="txinfo__value nowrap">{{::$ctrl.txData.price}}</div>
+                <div class="txinfo__value nowrap" w-i18n="money-currency" params="{money: $ctrl.txData.price}"></div>
             </div>
 
             <div class="txinfo__row">
@@ -75,9 +75,10 @@
                 <div class="txinfo__key"
                      w-i18n="modal.sign.fee">
                 </div>
-                <div class="txinfo__value nowrap">{{::$ctrl.txData.fee}} {{::$ctrl.txData.feeAsset.name}}</div>
+                <div class="txinfo__value nowrap" w-i18n="money-currency" params="{money: $ctrl.txData.matcherFee}"></div>
             </div>
         </div>
+
         <div class="bottom-wrapper">
             <div ng-if="$ctrl.isLedger" class="loading-text text-center body-2 caption-1 margin-3"
                  w-i18n="modal.sign.signByLedger"></div>
@@ -102,7 +103,7 @@
             </div>
         </div>
         <div class="bottom-wrapper">
-            <div ng-if="$ctrl.isLedger"  class="loading-text text-center body-2 caption-1 margin-3"
+            <div ng-if="$ctrl.isLedger" class="loading-text text-center body-2 caption-1 margin-3"
                  w-i18n="modal.sign.signByLedger"></div>
             <div ng-if="$ctrl.isKeeper" class="loading-text text-center body-2 caption-1 margin-3"
                  w-i18n="modal.sign.signByKeeper"></div>
