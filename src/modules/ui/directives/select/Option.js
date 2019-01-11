@@ -9,7 +9,8 @@
 
         return {
             scope: {
-                value: '<'
+                value: '<',
+                searchValue: '<'
             },
             require: {
                 select: '^wSelect'
@@ -22,20 +23,22 @@
 
                 class Option extends Base {
 
+                    /**
+                     * @type {Select}
+                     */
+                    wSelect = select;
+                    /**
+                     * @type {string|number}
+                     */
+                    value = $scope.value;
+                    /**
+                     * @type {Signal<Option>}
+                     */
+                    changeValue = new tsUtils.Signal();
+
+
                     constructor() {
                         super();
-                        /**
-                         * @type {Select}
-                         */
-                        this.wSelect = select;
-                        /**
-                         * @type {string|number}
-                         */
-                        this.value = $scope.value;
-                        /**
-                         * @type {Signal<Option>}
-                         */
-                        this.changeValue = new tsUtils.Signal();
 
                         this._setHandlers();
 
@@ -62,6 +65,18 @@
                         const index = this.wSelect.getOptionIndex(this);
                         // Get the active option to the top of the dropdown list
                         $element.css('order', active ? -index : 0).toggleClass('active', active);
+                    }
+
+                    hittest(query) {
+                        if ($scope.searchValue.toLocaleLowerCase().includes(query.toLocaleLowerCase())) {
+                            $element.show();
+                        } else {
+                            $element.hide();
+                        }
+                    }
+
+                    show() {
+                        $element.show();
                     }
 
                     /**

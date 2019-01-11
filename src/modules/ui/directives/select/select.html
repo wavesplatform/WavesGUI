@@ -1,5 +1,6 @@
 <div class="select" ng-class="$ctrl.upDirection ? 'to-up' : ''">
     <div class="title"></div>
-    <w-select-filter></w-select-filter>
+    <w-select-filter ng-if="$ctrl.canSearch"
+                     search="$ctrl.filter"></w-select-filter>
     <div class="select-list" ng-transclude></div>
 </div>
