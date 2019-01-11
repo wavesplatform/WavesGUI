@@ -19,11 +19,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <w-select class="big has-filter"
+                                    <w-select class="big"
+                                              can-search="::true"
                                               ng-if="!$ctrl.singleAsset"
                                               ng-model="$ctrl.chosenAssetId">
 
-                                        <w-option ng-repeat="cryptocurrency in $ctrl.cryptocurrencies track by $index" value="::cryptocurrency.id">
+                                        <w-option ng-repeat="cryptocurrency in $ctrl.cryptocurrencies track by $index"
+                                                  search-value="::cryptocurrency.id + cryptocurrency.ticker + cryptocurrency.name" value="::cryptocurrency.id">
                                             <div class="flex-row split-half">
                                                 <div class="flex-row">
                                                     <w-asset-logo class="marker-hide" size="24" asset-id="{{::cryptocurrency.id}}"></w-asset-logo>
@@ -112,10 +114,13 @@
                                             </div>
                                         </div>
                                         <w-select
-                                            class="big has-filter"
+                                            class="big"
+                                            can-search="::true"
                                             ng-if="!$ctrl.singleAsset"
                                             ng-model="$ctrl.chosenAssetId">
-                                            <w-option ng-repeat="invoice in $ctrl.invoicables track by $index" value="::invoice.id">
+                                            <w-option ng-repeat="invoice in $ctrl.invoicables track by $index"
+                                                      search-value="::invoice.id + invoice.ticker + invoice.name"
+                                                      value="::invoice.id">
                                                 <div class="flex-row split-half">
                                                     <div class="flex-row">
                                                         <w-asset-logo class="marker-hide" size="24" asset-id="{{::invoice.id}}"></w-asset-logo>

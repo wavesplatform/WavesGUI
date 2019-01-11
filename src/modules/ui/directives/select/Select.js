@@ -72,14 +72,13 @@
 
                 this.observe('filter', () => {
                     const filter = this.filter;
-
                     this._options.forEach(option => {
                         if (filter) {
                             option.hittest(filter);
                         } else {
                             option.show();
                         }
-                    })
+                    });
                 });
             }
 

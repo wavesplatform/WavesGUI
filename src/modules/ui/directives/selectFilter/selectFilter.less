@@ -11,22 +11,22 @@ w-select {
   }
 }
 
-w-select.has-filter {
+w-select {
   div.select.expanded {
 
     w-select-filter {
       display: block;
-
+      position: relative;
       &:before {
         content: '';
         display: block;
-        width: 18px;
-        height: 18px;
+        width: 14px;
+        height: 14px;
         top: 50%;
-        left: 28px;
+        left: 16px;
         position: absolute;
         z-index: 12;
-        transform: translate(-50%, -50%);
+        transform: translateY(-50%);
         background: url(../../../../img/icons/icon-search-dex.svg) center no-repeat;
         background-size: cover;
       }
@@ -38,8 +38,12 @@ w-select.has-filter {
         border: 0 none;
       }
 
+      .w-input-wrap.focused {
+        outline: 1px solid #1f5af6;
+      }
+
       input {
-        padding: 0 14px 0 50px;
+        padding: 0 14px 0 40px;
         margin: 0 auto;
         font-size: 15px;
         &::-webkit-input-placeholder {
@@ -54,6 +58,9 @@ w-select.has-filter {
           color: @color-basic-500;
           opacity: 1;
         }
+        //&:focus {
+        //  border: 1px solid #1f5af6;
+        //}
       }
 
       .help-icon__icon,
@@ -81,8 +88,8 @@ w-select.has-filter {
       }
     }
 
-    .select-list {
-      top: 103px;
-    }
+    //.select-list {
+    //  top: 103px;
+    //}
   }
 }
