@@ -2,21 +2,24 @@
     'use strict';
 
     /**
-     * @param {Poll} Poll
+     * @param {ConfigService} configService
+     * @param {app.utils} utils
      * @return {PermissionManager}
      */
-    const factory = function (Poll) {
+    const factory = function (configService, utils) {
 
-        const tsUtils = require('ts-utils');
-        const ds = require('data-service');
+        const { Signal } = require('ts-utils');
+
 
         class PermissionManager {
 
-            constructor() {
-                this.change = new tsUtils.Signal();
-                this._permissions = {};
+            change = new Signal();
+            _permissions = Object.create(null);
 
-                new Poll(this._getFeaturesConfig, this._applyPermissions.bind(this), 10000);
+
+            constructor() {
+                this._permissions = configService.get('PERMISSIONS') || Object.create(null);
+                configService.change.on(utils.debounce(this._onChangeConfig), this);
             }
 
             /**
@@ -28,18 +31,17 @@
                 return permission == null || permission; // Fallback for the case when config is failed to download
             }
 
-            _getFeaturesConfig() {
-                return ds.fetch(WavesApp.network.featuresConfigUrl);
-            }
-
-            _applyPermissions(features) {
-                try {
-                    const permissions = JSON.parse(features).PERMISSIONS;
-                    this._permissions = PermissionManager._parsePermissions(permissions);
-                    this.change.dispatch();
-                } catch (e) {
-                    throw new Error('Cannot parse features config');
+            /**
+             * @param {string} path
+             * @private
+             */
+            _onChangeConfig(path) {
+                if (!path.includes('PERMISSIONS')) {
+                    return null;
                 }
+                const permissions = configService.get('PERMISSIONS') || Object.create(null);
+                this._permissions = PermissionManager._parsePermissions(permissions);
+                this.change.dispatch();
             }
 
             static _parsePermissions(raw) {
@@ -61,7 +63,7 @@
         return new PermissionManager();
     };
 
-    factory.$inject = ['Poll'];
+    factory.$inject = ['configService', 'utils'];
 
     angular.module('app.ui').factory('permissionManager', factory);
 })();
