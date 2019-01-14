@@ -16,6 +16,8 @@
         });
     };
 
+    const ds = require('data-service');
+
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
@@ -319,7 +321,7 @@
                         if (item.asset.sender === user.address) {
                             my.push(item);
                         }
-                        if (oracleData && oracleData.status === 1 || item.asset.id === 'WAVES') {
+                        if (oracleData && oracleData.status > 0) {
                             verified.push(item);
                         }
                         if (item.isOnScamList || item.isSpam) {
