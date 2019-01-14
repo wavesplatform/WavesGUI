@@ -1,32 +1,29 @@
-<div ng-cloak class="asset-content">
-    <div class="top-content">
-        <w-asset-logo class="asset-logo-large" ng-cloak asset-id="{{::$ctrl.asset.id}}" size="65"></w-asset-logo>
-        <div class="asset-data">
-            <h2 ng-cloak class="asset__wrapper basic-900">
-                <div>{{::$ctrl.asset.name}}</div>
-                <div class="asset__label" ng-if="$ctrl.isVerified">
-                    <span  w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>
-                </div>
-                <div class="asset__label" ng-if="$ctrl.isGateway">
-                    <span w-i18n-ns="app.utils" w-i18n="modal.assetInfo.gateway"></span>
-                </div>
-            </h2>
+<div ng-cloak class="asset-modal">
+    <div class="asset-modal__head">
+        <div class="asset-modal__head-content">
+            <w-asset-logo ng-cloak asset-id="{{::$ctrl.asset.id}}"
+                          size="65"
+                          class="asset-modal__logo"></w-asset-logo>
 
-            <div class="body-2 basic-500 one-line">
-                {{::$ctrl.ticker}}
+            <div class="asset-modal__data">
+                <h2 ng-cloak class="asset-modal__name basic-900">{{::$ctrl.asset.name}}
+                    <span class="asset__label" ng-if="$ctrl.isVerified" w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>
+                    <span class="asset__label" ng-if="$ctrl.isGateway" w-i18n-ns="app.utils" w-i18n="modal.assetInfo.gateway"></span>
+                </h2>
+
+                <div ng-if="$ctrl.ticker" class="body-2 basic-500">
+                    {{::$ctrl.ticker}}
+                </div>
             </div>
-        </div>
-        <!--<div ng-if="$ctrl.asset.id !== $ctrl.wavesId"
-             ng-click="$ctrl.togglePin()"
-             ng-class="{pinned: $ctrl.pinned}" class="pin">
-            <span w-i18n="modal.assetInfo.unpinned" ng-if="!$ctrl.pinned"></span>
-            <span w-i18n="modal.assetInfo.pinned" ng-if="$ctrl.pinned"></span>
-        </div>-->
-        <div class="chart-wrapper">
-            <w-asset-rate-chart no-update="::true" asset-id="::$ctrl.asset.id"></w-asset-rate-chart>
-            <div class="interactive-stop"></div>
+
+            <div class="chart-wrapper">
+                <w-asset-rate-chart no-update="::true" asset-id="::$ctrl.asset.id"></w-asset-rate-chart>
+                <div class="interactive-stop"></div>
+            </div>
+
         </div>
     </div>
+
     <w-tabs class="inner" ng-model="$ctrl.tab">
         <w-tab id="::'info'"
                title-name="::'modal.assetInfo.details'"
@@ -79,7 +76,7 @@
                 <span class="basic-500" w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>
                 <span class="basic-900">{{::$ctrl.provider}}</span>
             </div>
-            <div ng-if="$ctrl.description" class="line line-description">
+            <div ng-if="$ctrl.description" class="line margin-top-2 basic-900">
                 {{::$ctrl.description}}
             </div>
 

@@ -52,7 +52,7 @@ w-asset {
   hr {
     border: none;
     width: 100%;
-    margin: 8px 0;
+    margin: 0 0 8px 0;
     border-bottom: 1px dashed @color-disabled-200;
   }
 
@@ -91,8 +91,13 @@ w-asset {
   width: 100%;
   height: 108px;
 
+  &__wrapper {
+    width: 100%;
+    cursor: pointer;
+  }
+
   &__name {
-    flex-grow: 1;
+    flex-grow: 0;
     font-weight: 500;
     font-size: 17px;
     display: flex;
@@ -129,7 +134,7 @@ w-asset {
   }
 
   &__middle {
-    min-height: 74px;
+    min-height: 82px;
   }
 
   &__footer {
