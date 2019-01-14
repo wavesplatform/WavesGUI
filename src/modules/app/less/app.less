@@ -180,7 +180,7 @@ w-scroll-box {
 
   w-qr-code {
     display: block;
-    margin: 0 auto 30px;
+    margin: @qr-margin;
     text-align: center;
     width: 200px;
     height: 200px;
@@ -521,7 +521,7 @@ w-permit {
 .asset {
   &__wrapper {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     @media screen and (max-width: 768px) {
       flex-direction: row;
     }
@@ -529,16 +529,14 @@ w-permit {
   &__label {
     display: block;
     color: @color-submit-400;
-    background-color: @color-submit-50;
+    background-color: @color-bluebar-200;
     line-height: 1;
     font-size: @font-size-caption-4;
     padding: 4px 4px 3px 4px;
     border-radius: @border-radius / 2;
-    margin: 0 0 -3px 6px;
+    margin: 0 0 -1px 6px;
     text-transform: uppercase;
-    @media screen and (max-width: 768px) {
-      margin: 0 0 1px 6px;
-    }
+    white-space: nowrap;
   }
 }
 

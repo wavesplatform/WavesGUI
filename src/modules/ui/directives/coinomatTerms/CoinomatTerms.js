@@ -86,6 +86,7 @@
 
             $postLink() {
                 this.termsPending = true;
+
                 Promise.all([
                     coinomatService.hasConfirmation(user.address),
                     coinomatService.isVerified(user.address)
@@ -104,6 +105,10 @@
                     $scope.$apply();
                 }).catch(e => {
                     this.loadError = e;
+                    this.termsPending = false;
+                    this._currentCanShowTerms();
+                    this._currentCanShowCheckbox();
+                    $scope.$apply();
                 });
             }
 
