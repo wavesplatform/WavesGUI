@@ -3,10 +3,9 @@
 
     /**
      * @param {ConfigService} configService
-     * @param {app.utils} utils
      * @return {PermissionManager}
      */
-    const factory = function (configService, utils) {
+    const factory = function (configService) {
 
         const { Signal } = require('ts-utils');
 
@@ -19,7 +18,7 @@
 
             constructor() {
                 this._permissions = configService.get('PERMISSIONS') || Object.create(null);
-                configService.change.on(utils.debounce(this._onChangeConfig), this);
+                configService.change.on(this._onChangeConfig, this);
             }
 
             /**
@@ -63,7 +62,7 @@
         return new PermissionManager();
     };
 
-    factory.$inject = ['configService', 'utils'];
+    factory.$inject = ['configService'];
 
     angular.module('app.ui').factory('permissionManager', factory);
 })();

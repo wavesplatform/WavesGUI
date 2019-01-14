@@ -54,17 +54,11 @@
              */
             _setConfig(config) {
                 const paths = getPaths(config);
-                const dispatchList = paths.filter(path => {
-                    return get(this._config, path) !== get(config, path);
-                });
-
-                if (dispatchList.length) {
-                    dispatchList.forEach(path => {
-                        this.change.dispatch(String(path));
-                    });
-                }
-
+                const myConfig = this._config;
                 this._config = config;
+
+                paths.filter(path => get(myConfig, path) !== get(config, path))
+                    .forEach(path => this.change.dispatch(String(path)));
             }
 
         }
