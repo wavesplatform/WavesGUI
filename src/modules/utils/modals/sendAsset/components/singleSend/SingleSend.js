@@ -244,6 +244,7 @@
             }
 
             $postLink() {
+
                 this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
 
                 this.receiveOnce(utils.observe(this.state, 'moneyHash'), () => {
@@ -267,10 +268,6 @@
                     this._currentHasCommission();
                     this._onChangeBaseAssets();
                     this._updateGatewayDetails();
-
-                    if (this.tx.amount.getTokens().gt(0) || this.tx.recipient) {
-                        this.send.$setSubmitted(true);
-                    }
                 });
             }
 
@@ -389,24 +386,44 @@
                 this._onChangeAssetId();
             }
 
+            _validateForm() {
+                if (this.tx.amount.getTokens().gt(0) || this.tx.recipient) {
+                    this.send.$setDirty(true);
+                    this.send.$setSubmitted(true);
+                }
+            }
+
             /**
              * @private
              */
             _onChangeBankMode() {
-                const maxCoinomatAmount = this.balance.cloneWithTokens(50000);
-                const minCoinomatAmount = this.balance.cloneWithTokens(100);
-
                 if (this.toBankMode && !this.isLira) {
                     this.tx.recipient = BANK_RECIPIENT;
                     this.termsIsPending = true;
-                    this.maxAmount = Money.min(maxCoinomatAmount, this.balance);
-                    this.minAmount = minCoinomatAmount;
                 } else {
                     this.tx.recipient = '';
                     this.termsIsPending = false;
+                }
+
+                this._setMinAmount();
+            }
+
+            /**
+             * @private
+             */
+            _setMinAmount() {
+                if (this.toBankMode && !this.isLira) {
+                    const maxCoinomatAmount = this.balance.cloneWithTokens(50000);
+                    const minCoinomatAmount = this.balance.cloneWithTokens(100);
+
+                    this.maxAmount = Money.min(maxCoinomatAmount, this.balance);
+                    this.minAmount = minCoinomatAmount;
+                } else {
                     this.minAmount = this.state.moneyHash[this.assetId].cloneWithTokens('0');
                     this.maxAmount = this.moneyHash[this.assetId];
                 }
+
+                this._validateForm();
             }
 
             /**
@@ -547,6 +564,11 @@
              * @private
              */
             _updateGatewayDetails() {
+                if (this.toBankMode && !this.isLira) {
+                    this._setMinAmount();
+                    return;
+                }
+
                 const outerChain = outerBlockchains[this.assetId];
                 const isValidWavesAddress = waves.node.isValidAddress(this.tx.recipient);
 
@@ -558,7 +580,7 @@
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
-                    gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.paymentId)
+                    return gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.paymentId)
                         .then((details) => {
                             const max = BigNumber.min(
                                 details.maximumAmount.plus(details.gatewayFee),
@@ -570,18 +592,17 @@
                                 .cloneWithTokens(details.minimumAmount.minus('0.00000001'));
                             this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
                             this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
-
-                            $scope.$digest();
                         }, () => {
                             this.gatewayDetails = null;
                             this.gatewayDetailsError = true;
-                            $scope.$digest();
                         });
                 } else {
                     this.minAmount = this.state.moneyHash[this.assetId].cloneWithTokens('0');
                     this.maxAmount = this.moneyHash[this.assetId];
                     this.gatewayDetails = null;
+                    this._validateForm();
                 }
+                return Promise.resolve();
             }
 
         }

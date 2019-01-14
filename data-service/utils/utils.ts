@@ -37,7 +37,7 @@ export function normalizeAssetPair(assetPair: IAssetPair): IAssetPair {
 }
 
 export function normalizeUrl(url: string): string {
-    const urlObject = new URL(url);
+    const urlObject = new URL(url, document.location.origin);
     const parts = [
         urlObject.host,
         urlObject.pathname,

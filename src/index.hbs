@@ -32,7 +32,7 @@
             background: #1a4ac8;
         }
 
-        .connetion-problem__headline {
+        .connection-problem__headline {
             font-family: 'Roboto-Regular', sans-serif;
             font-size: 34px;
             line-height: 40px;
@@ -40,11 +40,14 @@
             color: #2d2d2d;
         }
 
-        .connetion-problem__description {
+        .connection-problem__description {
             color: #8c8c8c;
-            margin-bottom: 40px;
             font-size: 17px;
             line-height: 22px;
+        }
+
+        .connetion-problem__button {
+            margin-top: 40px;
         }
 
         .connection-problem {
@@ -507,14 +510,14 @@
 <div class="connection-problem">
     <div class="waves-logo"><img src="/img/icons/waves_logo.svg"/></div>
     <img src="/img/no-preload/connection-error.svg" class="margin-3"/>
-    <div class="headline-1">We couldn't connect to the server</div>
-    <div class="body-1 basic-500">Check your internet connection and try again.</div>
-    <div class="body-1 margin-4 basic-500">
-        <div>If you have been using the Waves Desktop app and refreshing does</div>
-        <div>not help, try reinstalling the app. Download the latest version from</div>
-        <div>the official Waves site.</div>
-    </div>
-    <button class="submit big submit" onclick="WavesApp.reload();">Refresh page</button>
+    <div class="connection-problem__headline">We couldn't connect to the server</div>
+        <div class="connection-problem__description">Check your internet connection and try again.</div>
+        <div class="connection-problem__description">
+            <div>If you have been using the Waves Desktop app and refreshing does</div>
+            <div>not help, try reinstalling the app. Download the latest version from</div>
+            <div>the official Waves site.</div>
+        </div>
+    <button class="submit big submit connetion-problem__button" onclick="WavesApp.reload();">Refresh page</button>
 </div>
 
 <div class="not-supported-browser">
