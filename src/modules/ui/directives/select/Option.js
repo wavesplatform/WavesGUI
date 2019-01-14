@@ -68,7 +68,22 @@
                     }
 
                     hittest(query) {
-                        if ($scope.searchValue.toLocaleLowerCase().includes(query.toLocaleLowerCase())) {
+                        const searchValue = $scope.searchValue;
+                        const queryValue = query.toLocaleLowerCase();
+
+                        if (Array.isArray(searchValue)) {
+                            const match = searchValue
+                                .filter(str => !!str)
+                                .some(str => str.toLocaleLowerCase().includes(queryValue));
+
+                            if (match) {
+                                $element.show();
+                            } else {
+                                $element.hide();
+                            }
+                            return;
+                        }
+                        if (searchValue.toLocaleLowerCase().includes(queryValue)) {
                             $element.show();
                         } else {
                             $element.hide();
