@@ -2,9 +2,8 @@
 
 html body md-dialog.change-token {
 
-
   md-dialog-content {
-    padding: 0 30px;
+    padding: 0 40px;
   }
 
   //TODO refactor input-like
@@ -81,55 +80,12 @@ html body md-dialog.change-token {
       }
     }
   }
+}
 
-  .chart-wrapper {
-    opacity: 0.2;
-    position: relative;
-    margin: 0 -30px 0;
-    height: 60px;
-    border-bottom: 1px solid @color-submit-300;
-
-    .interactive-stop {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    }
-
-    .chart-tooltip,
-    .chart-legend { // Lib ng3-charts
-      display: none !important;
+@media screen and (max-width: 540px) {
+  html body md-dialog.change-token {
+    md-dialog-content {
+      padding: 0 20px;
     }
   }
-
-  .asset-content {
-    height: 100%;
-    padding-top: @padding-main-layout * 4;
-
-    .top-content {
-      w-asset-logo {
-        margin: -3px 20px 0 10px;
-        float: left;
-        z-index: 1;
-        position: relative;
-      }
-
-      .asset-data {
-        display: flex;
-        flex-direction: column;
-        height: 65px;
-        justify-content: center;
-        h2 {
-          margin: 0;
-          font-weight: normal;
-        }
-      }
-    }
-  }
-
-  .token-burn__info {
-    padding: 40px 10px 0;
-  }
-
 }

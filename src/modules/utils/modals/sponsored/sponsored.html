@@ -1,37 +1,35 @@
 <w-step-by-step active-step="$ctrl.step">
     <w-step>
-        <div class="sponsorship__asset-content asset-content margin-4">
-            <div class="sponsorship__top-content">
-                <w-asset-logo class="asset-logo-large"
-                              ng-cloak asset-id="{{::$ctrl.asset.id}}"
-                              size="65"></w-asset-logo>
+        <div class="asset-modal">
+            <div class="asset-modal__head">
+                <div class="asset-modal__head-content">
+                    <w-asset-logo ng-cloak asset-id="{{::$ctrl.asset.id}}"
+                                  size="65"
+                                  class="asset-modal__logo"></w-asset-logo>
 
-                <div class="sponsorship__asset-data">
-                    <h2 ng-cloak class="asset__wrapper basic-900">
-                        <div>{{::$ctrl.asset.name}}</div>
-                        <div class="asset__label" ng-if="$ctrl.isVerified">
-                            <span  w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>
-                        </div>
-                        <div class="asset__label" ng-if="$ctrl.isGateway">
-                            <span w-i18n-ns="app.utils" w-i18n="modal.assetInfo.gateway"></span>
-                        </div>
-                    </h2>
+                    <div class="asset-modal__data">
+                        <h2 ng-cloak class="asset-modal__name basic-900">{{::$ctrl.asset.name}}
+                            <span class="asset__label"  w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>
+                            <span class="asset__label" ng-if="$ctrl.isGateway" w-i18n-ns="app.utils" w-i18n="modal.assetInfo.gateway"></span>
+                        </h2>
 
-                    <div class="body-2 basic-500 one-line">
-                        {{::$ctrl.ticker}}
+                        <div class="body-2 basic-500">
+                            asd{{::$ctrl.ticker}}
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="sponsorship__chart-wrapper">
-                <w-asset-rate-chart no-update="::true" asset-id="::$ctrl.asset.id"></w-asset-rate-chart>
-                <div class="sponsorship__interactive-stop"></div>
+                    <div class="chart-wrapper">
+                        <w-asset-rate-chart no-update="::true" asset-id="::$ctrl.asset.id"></w-asset-rate-chart>
+                        <div class="interactive-stop"></div>
+                    </div>
+
+                </div>
             </div>
         </div>
 
         <form novalidate name="sponsored">
 
-            <div class="sponsorship__content">
+            <div class="sponsorship__content margin-top-4">
                 <div class="sponsorship__line">
                     <div class="basic-500" w-i18n="modal.sponsorship.assetId"></div>
                     <div class="basic-900 fs-mobile ng-binding">{{::$ctrl.asset.id}}</div>
@@ -39,15 +37,13 @@
 
                 <div class="basic-500 margin-top-1" w-i18n="modal.token.description"></div>
                 <div class="sponsorship__line description margin-3">
-                    <div class="basic-900 fs-mobile ng-binding">{{::$ctrl.asset.description}}</div>
+                    <div class="basic-900 fs-mobile ng-binding">{{::$ctrl.description}}</div>
                 </div>
 
                 <div class="warning-plate margin-3 body-1">
                     <div class="body-2 warning-500"
                          w-i18n="modal.sponsorship.warningHeader"
-                         params="{name: $ctrl.asset.name}"
-
-                    ></div>
+                         params="{name: $ctrl.asset.name}"></div>
                     <div class="footnote-1 basic-500" w-i18n="modal.sponsorship.warningText"
                          params="{name: $ctrl.asset.name}"></div>
                 </div>

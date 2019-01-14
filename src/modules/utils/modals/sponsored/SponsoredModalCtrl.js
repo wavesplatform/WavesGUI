@@ -70,6 +70,7 @@
                 this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
                 this.isGateway = path(['status'], data) === 3;
                 this.ticker = asset.ticker;
+                this.description = path(['description', 'en'], data) || asset.description;
 
                 if (isEmpty(this.assetId)) {
                     throw new Error('Wrong modal params!');

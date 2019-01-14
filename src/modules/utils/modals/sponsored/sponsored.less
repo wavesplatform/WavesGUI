@@ -1,31 +1,9 @@
 @import (reference) 'config';
 
-w-asset-logo.asset-logo-large {
-  margin: -3px 20px 0 10px;
-  float: left;
-  z-index: 1;
-  position: relative;
-
-  &.sponsored-asset {
-    .asset__logo {
-      .marker {
-        width: 24px;
-        height: 24px;
-        background-size: 12px;
-        border: 2px solid @color-white;
-      }
-    }
-  }
-}
-
 .sponsorship {
 
   md-dialog-content {
-    padding: 0 30px;
-  }
-
-  w-asset-rate-chart {
-    position: absolute;
+    padding: 0 40px;
   }
 
   w-input-container {
@@ -48,66 +26,6 @@ w-asset-logo.asset-logo-large {
     }
   }
 
-  &__asset-data {
-    display: flex;
-    flex-direction: column;
-    height: 65px;
-    justify-content: center;
-    h2 {
-      margin: 0;
-      font-weight: normal;
-    }
-  }
-
-  &__top-content {
-    height: 100%;
-    padding-top: @padding-main-layout * 4;
-  }
-
-  &__one-line {
-    max-height: 1.3em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  &__content {
-    padding: 0 10px;
-  }
-
-  &__chart-wrapper {
-    opacity: 0.2;
-    position: relative;
-    height: 60px;
-    margin: 0 -30px;
-    width: calc(100% ~'+ 60px');
-    border-bottom: 1px solid @color-submit-300;
-
-    &::before {
-      display: block;
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      top: 10px;
-      z-index: 2;
-    }
-  }
-
-  &__interactive-stop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-
-  &__chart-tooltip,
-  &__chart-legend { // Lib ng3-charts
-    display: none !important;
-  }
-
   &__line {
     display: flex;
     flex-direction: row;
@@ -128,7 +46,9 @@ w-asset-logo.asset-logo-large {
 }
 
 @media screen and (max-width: 540px) {
-  w-asset-logo.asset-logo-large {
-    margin: -3px 20px 0 0;
+  html body md-dialog.sponsorship {
+    md-dialog-content {
+      padding: 0 20px;
+    }
   }
 }
