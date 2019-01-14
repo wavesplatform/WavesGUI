@@ -95,7 +95,7 @@
     "@waves/event-sender": "^0.4.4",
     "@waves/ledger": "^2.0.0",
     "@waves/oracle-data": "^0.0.6",
-    "@waves/signature-adapter": "^4.0.0-beta",
+    "@waves/signature-adapter": "^4.0.0-beta-3",
     "@waves/signature-generator": "^3.0.1-beta",
     "@waves/ts-types": "0.0.2",
     "@waves/waves-browser-bus": "0.0.7",

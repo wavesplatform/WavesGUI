@@ -59,9 +59,11 @@
 
                 this.txData = signable.getTxData();
 
-                this.total = this.txData.price.cloneWithTokens(
-                    this.txData.price.getTokens().times(this.txData.amount.getTokens())
-                );
+                if (this.txData.price) {
+                    this.total = this.txData.price.cloneWithTokens(
+                        this.txData.price.getTokens().times(this.txData.amount.getTokens())
+                    );
+                }
 
                 this.isLedger = user.userType === 'ledger';
                 this.isKeeper = user.userType === 'wavesKeeper';

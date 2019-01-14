@@ -1259,46 +1259,86 @@
                  * @type {boolean}
                  */
                 const isAdvancedMode = user.getSetting('advancedMode');
+                /**
+                 * @type {number | undefined}
+                 */
+                const version = user.hasScript() ? 2 : undefined;
 
                 const scriptedErrorMessage = 'Can\'t process order with signature from scripted account';
 
-                const signable = ds.signature.getSignatureApi().makeSignable({
+                const signableData = {
                     type: SIGN_TYPE.CREATE_ORDER,
-                    data: { ...data, timestamp }
-                });
+                    data: { ...data, version, timestamp }
+                };
 
-                return utils.signMatcher(signable)
-                    .then(signable => signable.getDataForApi())
-                    .then(ds.createOrder)
-                    .catch(error => {
-                        if (!isAdvancedMode || error.message !== scriptedErrorMessage) {
-                            notification.error({
-                                ns: 'app.dex',
-                                title: {
-                                    literal: 'directives.createOrder.notifications.error.title'
-                                },
-                                body: {
-                                    literal: error && error.message || error
-                                }
-                            }, -1);
-                            return Promise.reject(error);
-                        }
+                const { ERRORS } = require('@waves/signature-adapter');
 
-                        return modalManager.showConfirmTx(signable, false)
+                const onError = error => {
+
+                    if (error.code === ERRORS.VERSION_IS_NOT_SUPPORTED) {
+                        notification.error({
+                            ns: 'app.dex',
+                            title: {
+                                literal: 'directives.createOrder.notifications.error.title'
+                            },
+                            body: {
+                                literal: 'directives.createOrder.notifications.error.notSupportedVersion'
+                            }
+                        }, -1);
+                    } else {
+                        notification.error({
+                            ns: 'app.dex',
+                            title: {
+                                literal: 'directives.createOrder.notifications.error.title'
+                            },
+                            body: {
+                                literal: error && error.message || error
+                            }
+                        }, -1);
+                    }
+
+                    return Promise.reject(error);
+                };
+
+                return utils.createSignable(signableData)
+                    .then(signable => {
+                        return utils.signMatcher(signable)
+                            .then(signable => signable.getDataForApi())
                             .then(ds.createOrder)
                             .catch(error => {
-                                notification.error({
-                                    ns: 'app.dex',
-                                    title: {
-                                        literal: 'directives.createOrder.notifications.error.title'
-                                    },
-                                    body: {
-                                        literal: error && error.message || error
-                                    }
-                                }, -1);
-                                return Promise.reject(error);
+                                if (!isAdvancedMode || error.message !== scriptedErrorMessage) {
+                                    notification.error({
+                                        ns: 'app.dex',
+                                        title: {
+                                            literal: 'directives.createOrder.notifications.error.title'
+                                        },
+                                        body: {
+                                            literal: error && error.message || error
+                                        }
+                                    }, -1);
+                                    return Promise.reject(error);
+                                }
+
+                                return modalManager.showConfirmTx(signable, false)
+                                    .then(ds.createOrder)
+                                    .catch(onError);
                             });
-                    });
+                    })
+                    .catch(onError);
+
+            },
+
+            /**
+             * @name app.utils#createSignable
+             * @param {*} data
+             * @return {Promise<Signable>}
+             */
+            createSignable(data) {
+                try {
+                    return Promise.resolve(ds.signature.getSignatureApi().makeSignable(data));
+                } catch (e) {
+                    return Promise.reject(e);
+                }
             },
 
             /**
