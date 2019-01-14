@@ -1271,31 +1271,17 @@
                     data: { ...data, version, timestamp }
                 };
 
-                const { ERRORS } = require('@waves/signature-adapter');
-
                 const onError = error => {
 
-                    if (error.code === ERRORS.VERSION_IS_NOT_SUPPORTED) {
-                        notification.error({
-                            ns: 'app.dex',
-                            title: {
-                                literal: 'directives.createOrder.notifications.error.title'
-                            },
-                            body: {
-                                literal: 'directives.createOrder.notifications.error.notSupportedVersion'
-                            }
-                        }, -1);
-                    } else {
-                        notification.error({
-                            ns: 'app.dex',
-                            title: {
-                                literal: 'directives.createOrder.notifications.error.title'
-                            },
-                            body: {
-                                literal: error && error.message || error
-                            }
-                        }, -1);
-                    }
+                    notification.error({
+                        ns: 'app.dex',
+                        title: {
+                            literal: 'directives.createOrder.notifications.error.title'
+                        },
+                        body: {
+                            literal: error && error.message || error
+                        }
+                    }, -1);
 
                     return Promise.reject(error);
                 };
