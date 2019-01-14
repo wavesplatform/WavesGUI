@@ -84,6 +84,7 @@
             constructor() {
                 super($scope);
 
+                this.isScript = user.hasScript();
                 this.syncSettings({
                     node: 'network.node',
                     matcher: 'network.matcher',

@@ -160,9 +160,7 @@ function coinomat(req, res, next): boolean {
         response_json = (data.amount * 0.32258064) as any;
     }
 
-    const cType = typeof response_json === 'string' || path === 'limits.php'
-        ? 'text/html; charset=utf-8;'
-        : 'application/json; charset=utf-8;';
+    const cType = 'application/json; charset=utf-8;';
     res.setHeader('Content-Type', cType);
     res.end(JSON.stringify(response_json));
     return false;

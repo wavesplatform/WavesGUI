@@ -77,6 +77,12 @@
           .smart-table {
             &__row:hover {
               background: @hover-default;
+
+             .asset__logo {
+               .marker {
+                 border: 2px solid @custom-asset-marker-border;
+               }
+             }
             }
           }
         }
@@ -390,6 +396,7 @@
 
     .mobiles-only {
       display: flex;
+      align-items: center;
       font-family: @font-roboto-regular;
     }
 
@@ -540,5 +547,3 @@
     }
   }
 }
-
-
