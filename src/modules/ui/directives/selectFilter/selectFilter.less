@@ -36,6 +36,9 @@ w-select {
         height: 48px;
         width: 100%;
         border: 0 none;
+        @media screen and (max-width: 540px) {
+          height: 42px;
+        }
       }
 
       .w-input-wrap.focused {
@@ -46,6 +49,9 @@ w-select {
         padding: 0 14px 0 40px;
         margin: 0 auto;
         font-size: 15px;
+        @media screen and (max-width: 540px) {
+          font-size: 13px;
+        }
         &::-webkit-input-placeholder {
           color: @color-basic-500;
           opacity: 1;
@@ -58,9 +64,6 @@ w-select {
           color: @color-basic-500;
           opacity: 1;
         }
-        //&:focus {
-        //  border: 1px solid #1f5af6;
-        //}
       }
 
       .help-icon__icon,
@@ -87,9 +90,5 @@ w-select {
         min-width: 200px;
       }
     }
-
-    //.select-list {
-    //  top: 103px;
-    //}
   }
 }

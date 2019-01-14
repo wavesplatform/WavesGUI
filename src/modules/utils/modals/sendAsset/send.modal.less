@@ -32,8 +32,10 @@ md-dialog.modal-send {
     }
 
     w-step.send-form .tab-body-wrap {
-      padding: 40px 40px 0;
       display: block;
+      @media screen and (min-width: 541px) {
+        padding: 40px 40px 0;
+      }
     }
 
     .icon-browser-warning {
@@ -415,9 +417,10 @@ md-dialog.modal-send {
           width: 45%;
         }
 
+        .asset__name,
         .flex-row.split-half {
           white-space: nowrap;
-          font-size: 12px;
+          font-size: 13px;
 
           span {
             vertical-align: top;

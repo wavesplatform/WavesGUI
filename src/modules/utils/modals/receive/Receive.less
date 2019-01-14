@@ -3,7 +3,6 @@
 
 md-dialog.modal-receive {
   md-dialog-content {
-
     position: relative;
     padding: 0;
     overflow: hidden;
@@ -89,10 +88,6 @@ md-dialog.modal-receive {
         max-height: 325px;
         overflow: auto;
       }
-
-      &.has-filter {
-
-      }
     }
 
     .icon-close {
@@ -150,6 +145,9 @@ md-dialog.modal-receive {
         display: flex;
         align-items: flex-start;
         flex-direction: column;
+        @media screen and (max-width: 540px) {
+          font-size: 13px;
+        }
       }
 
       &__id {
