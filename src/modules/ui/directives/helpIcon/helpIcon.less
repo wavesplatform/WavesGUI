@@ -9,6 +9,12 @@
     margin-left: 7px;
     z-index: 1;
 
+    &.info {
+      &::before {
+        content: 'i';
+      }
+    }
+
     &::before {
       content: '?';
       background: @color-accent-100;
@@ -89,6 +95,18 @@
   }
 
 
+}
+
+w-help-icon {
+  &.info {
+    .help-icon {
+      &__icon {
+        &::before {
+          content: 'i';
+        }
+      }
+    }
+  }
 }
 
 md-dialog {
