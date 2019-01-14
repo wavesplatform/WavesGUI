@@ -1,6 +1,4 @@
 <div class="txinfo__content" ng-class="::{'spam': $ctrl.isScam}">
-
-
     <w-issue-info ng-if="$ctrl.signable.type === 3" signable="$ctrl.signable"></w-issue-info>
     <w-transfer-info ng-if="$ctrl.signable.type === 4" signable="$ctrl.signable"></w-transfer-info>
     <w-reissue-info ng-if="$ctrl.signable.type === 5" signable="$ctrl.signable"></w-reissue-info>

@@ -35,6 +35,6 @@
             signable: '<'
         },
         controller,
-        templateUrl: 'modules/ui/directives/transactionInfo/types/create-order/create-order.html'
+        templateUrl: 'modules/ui/directives/transactionInfo/types/create-order/createOrder.html'
     });
 })();

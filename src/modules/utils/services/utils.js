@@ -1262,7 +1262,8 @@
                 /**
                  * @type {number | undefined}
                  */
-                const version = user.hasScript() ? 2 : undefined;
+                // const version = user.hasScript() ? 2 : undefined;
+                const version = user.hasScript() ? 0 : undefined;
 
                 const scriptedErrorMessage = 'Can\'t process order with signature from scripted account';
 
