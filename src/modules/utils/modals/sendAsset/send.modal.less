@@ -229,19 +229,22 @@ md-dialog.modal-send {
       max-height: 300px;
     }
 
-    select {
-       .asset__name {
-        margin-left: 10px;
-        font-size: 15px;
-        @media screen and (max-width: 540px) {
-          font-size: 13px;
-        }
-      }
+    w-select {
 
-      w-balance {
-        font-size: 15px;
-        @media screen and (max-width: 540px) {
-          font-size: 13px;
+      .asset {
+        &__name {
+          margin-left: 10px;
+          font-size: 15px;
+          @media screen and (max-width: 540px) {
+            font-size: 13px;
+          }
+        }
+
+        &__balance {
+          font-size: 15px;
+          @media screen and (max-width: 540px) {
+            font-size: 13px;
+          }
         }
       }
     }

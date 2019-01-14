@@ -6,7 +6,7 @@
             <w-asset-logo class="marker-hide" size="24" asset-id="{{::$ctrl.state.assetId}}"></w-asset-logo>
             <div class="asset__name">{{$ctrl.balance.asset.name}}</div>
         </div>
-        <div ng-click="$ctrl.activate()" class="flex-row">
+        <div ng-click="$ctrl.activate()" class="flex-row asset__balance">
             <w-balance money="$ctrl.balance"></w-balance>
             <span class="mobile-ellipsis ellipsis">&nbsp;{{$ctrl.balance.asset.displayName}}</span>
         </div>
@@ -23,7 +23,7 @@
                     <w-asset-logo class="marker-hide" size="24" asset-id="{{::option.asset.id}}"></w-asset-logo>
                     <div class="asset__name">{{::option.asset.name}}</div>
                 </div>
-                <div>
+                <div class="asset__balance">
                     <w-balance money="option"></w-balance>
                     <span class="mobile-ellipsis ellipsis">&nbsp;{{::option.asset.displayName}}</span>
                 </div>
