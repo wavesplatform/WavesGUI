@@ -243,7 +243,7 @@
         </w-input-container>
     </div>
 
-    <div class="fee margin-1" ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending">
+    <div class="fee margin-top-1 margin-1" ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending">
         <w-fee-list type="::$ctrl.txType"
                     disabled="$ctrl.toBankMode && (!$ctrl.isVerified || !$ctrl.termsAccepted)"
                     balance-hash="$ctrl.state.moneyHash"
