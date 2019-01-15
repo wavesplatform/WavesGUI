@@ -9,6 +9,12 @@
     margin-left: 7px;
     z-index: 1;
 
+    &.info {
+      &::before {
+        content: 'i';
+      }
+    }
+
     &::before {
       content: '?';
       background: @color-accent-100;
@@ -78,6 +84,18 @@
   &__row {
     margin-bottom: 5px;
     margin-top: 0;
+  }
+}
+
+w-help-icon {
+  &.info {
+    .help-icon {
+      &__icon {
+        &::before {
+          content: 'i';
+        }
+      }
+    }
   }
 }
 

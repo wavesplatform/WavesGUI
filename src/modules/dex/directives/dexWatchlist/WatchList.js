@@ -24,10 +24,11 @@
      * @param {IPollCreate} createPoll
      * @param {JQuery} $element
      * @param {ModalManager} modalManager
+     * @param {ConfigService} configService
      * @returns {WatchList}
      */
     const controller = function (Base, $scope, utils, waves, stService, PromiseControl, createPoll, $element,
-                                 modalManager) {
+                                 modalManager, configService) {
 
         const R = require('ramda');
         const ds = require('data-service');
@@ -536,10 +537,11 @@
              * @private
              */
             _getPairList() {
+                const defaultAssets = configService.get('SETTINGS.DEX.WATCH_LIST_PAIRS') || [];
                 const favorite = (this._favourite || []).map(p => p.sort());
                 const chosen = [this._assetIdPair.amount, this._assetIdPair.price].sort();
                 const searchIdList = Object.keys(this._searchAssetsHash);
-                const idList = R.uniq(this._assetsIds.concat(searchIdList, Object.values(WavesApp.defaultAssets)));
+                const idList = R.uniq(this._assetsIds.concat(searchIdList, defaultAssets));
                 const other = WatchList._getAllCombinations(idList);
                 return R.uniq(favorite.concat(other, [chosen]));
             }
@@ -729,7 +731,8 @@
         'PromiseControl',
         'createPoll',
         '$element',
-        'modalManager'
+        'modalManager',
+        'configService'
     ];
 
     angular.module('app.dex')

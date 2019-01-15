@@ -64,6 +64,7 @@
             }
 
             sponsoredFee() {
+                this.isScam = false;
             }
 
             sponsored() {
