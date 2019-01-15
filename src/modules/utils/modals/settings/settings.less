@@ -13,12 +13,13 @@ md-dialog.settings-modal {
   max-width: 740px;
   min-width: 740px;
   color: @color-disabled-900;
+  overflow: hidden;
   @media screen and(min-width: 541px) {
     max-height: 540px;
   }
 
   md-dialog-content {
-    padding-top: 20px;
+    padding: 0;
     height: 100%;
     @media screen and(min-width: 768px) {
       min-height: 460px;
@@ -48,11 +49,9 @@ md-dialog.settings-modal {
 
   w-responsive-menu {
     width: 199px;
-    height: calc(100% ~' + 20px');
-    position: absolute;
+    height: 100%;
+    position: fixed;
     font-size: 15px;
-    left: -40px;
-    top: -20px;
     border-right: 1px solid @color-disabled-200;
 
     w-responsive-menu-item {
@@ -140,15 +139,15 @@ md-dialog.settings-modal {
       position: relative;
       margin-left: 200px;
       right: 0;
-      margin-top: 10px;
+      padding: 30px 40px 40px;
       width: 100%;
 
       .info {
-        margin-top: -12px;
+        margin-top: -1px;
         display: block;
 
         .row-style:first-child {
-          padding-top: 3px;
+          margin-top: -7px;
         }
 
         span.waves-logo {
@@ -242,10 +241,6 @@ md-dialog.settings-modal {
   }
 
   .network {
-    & > div {
-      margin: 0 0 40px;
-    }
-
     .row-style {
       border-bottom: 0 none;
       padding: 0;
@@ -440,10 +435,6 @@ md-dialog.settings-modal {
       }
     }
   }
-
-  .bottom-padding {
-    height: 67px;
-  }
 }
 
 @media screen and (max-width: 767px) {
@@ -558,10 +549,6 @@ md-dialog.settings-modal {
           flex-direction: column;
           align-items: flex-start;
           padding: 4px 0;
-        }
-
-        .step-list .info .flex-row:first-child {
-          padding-top: 3px;
         }
       }
     }

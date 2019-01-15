@@ -2,6 +2,10 @@
 
 html body md-dialog.change-token {
 
+  md-dialog-content {
+    padding: 0 40px;
+  }
+
   //TODO refactor input-like
   .input-like {
     padding: 0;
@@ -48,8 +52,6 @@ html body md-dialog.change-token {
   }
 
   .rows {
-    margin-top: 50px;
-
     .flex-row {
       display: flex;
       justify-content: space-between;
@@ -57,51 +59,33 @@ html body md-dialog.change-token {
     }
 
     .row-style {
+
+      &.description {
+        padding: 13px 16px;
+        border: 1px dashed @color-basic-100;
+        border-radius: @border-radius;
+        background: @color-basic-50;
+      }
+
       padding: 12px 0;
-      border-bottom: 1px dashed @color-basic-200;
+      border-bottom: 1px dashed @color-basic-100;
       align-items: center;
 
       &:first-child {
-        border-top: 1px solid @color-basic-200;
+        border-top: 1px solid @color-basic-100;
       }
 
       &:last-child {
-        border-bottom: 1px solid @color-basic-200;
+        border-bottom: 1px solid @color-basic-100;
       }
-    }
-  }
-
-  .chart-wrapper {
-    opacity: 0.2;
-    position: relative;
-    margin-left: -40px;
-    margin-right: -40px;
-    padding-bottom: 4px;
-    height: 76px;
-    border-bottom: 1px solid @color-basic-200;
-
-    .token-burn__chart-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    }
-
-    .chart-tooltip, .chart-legend { // Lib ng3-charts
-      display: none !important;
-    }
-  }
-
-  .asset-content {
-    height: 100%;
-
-    .one-line {
-      max-height: 1.3em;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
     }
   }
 }
 
+@media screen and (max-width: 540px) {
+  html body md-dialog.change-token {
+    md-dialog-content {
+      padding: 0 20px;
+    }
+  }
+}
