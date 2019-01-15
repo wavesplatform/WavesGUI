@@ -119,16 +119,13 @@
                 this._onChangeVisibleElements();
                 this._updateAssetData();
 
-                $templateRequest('modules/dex/directives/orderBook/emptyRow.html')
-                    .then(stringTemplate => {
-                        this.emptyRowTemplate = stringTemplate;
-                    });
+                const filledRow = $templateRequest('modules/dex/directives/orderBook/orderbook.row.hbs');
+                const emptyRow = $templateRequest('modules/dex/directives/orderBook/emptyRow.html');
 
-                $templateRequest('modules/dex/directives/orderBook/orderbook.row.hbs')
-                    .then((templateString) => {
+                Promise.all([filledRow, emptyRow])
+                    .then(([templateString, stringTemplateEmpty]) => {
 
                         this._template = Handlebars.compile(templateString);
-
                         const poll = createPoll(this, this._getOrders, this._setOrders, 1000, { $scope });
 
                         this.observe('_assetIdPair', () => {
@@ -161,6 +158,8 @@
                                 dexDataService.chooseOrderBook.dispatch({ amount, price, type });
                             }
                         });
+
+                        this.emptyRowTemplate = stringTemplateEmpty;
                     });
             }
 
