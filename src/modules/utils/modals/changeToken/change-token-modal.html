@@ -1,43 +1,60 @@
 <w-step-by-step active-step="$ctrl.step">
     <w-step>
-        <div class="asset-content">
-            <div class="top-content">
-                <w-asset-logo class="asset-logo-large" asset-id="{{::$ctrl.asset.id}}" size="65"></w-asset-logo>
+        <div class="asset-modal">
+            <div class="asset-modal__head">
+                <div class="asset-modal__head-content">
+                    <w-asset-logo ng-cloak asset-id="{{::$ctrl.asset.id}}"
+                                  size="65"
+                                  class="asset-modal__logo"></w-asset-logo>
 
-                <div class="asset-data">
-                    <h4 class="basic-900">{{::$ctrl.asset.name}}</h4>
-                    <div class="body-2 basic-500 one-line"> {{::$ctrl.asset.description}}</div>
-                </div>
+                    <div class="asset-modal__data">
+                        <h2 ng-cloak class="asset-modal__name basic-900">{{::$ctrl.asset.name}}
+                            <span class="asset__label" ng-if="$ctrl.isVerified" w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>
+                            <span class="asset__label" ng-if="$ctrl.isGateway" w-i18n-ns="app.utils" w-i18n="modal.assetInfo.gateway"></span>
+                        </h2>
 
-                <div class="chart-wrapper">
-                    <linechart ng-if="$ctrl.chartData" options="$ctrl.options" data="$ctrl.chartData"></linechart>
-                    <div class="token-burn__chart-overlay"></div>
+                        <div ng-if="$ctrl.ticker" class="body-2 basic-500">
+                            {{::$ctrl.ticker}}
+                        </div>
+                    </div>
+
+                    <div class="chart-wrapper">
+                        <w-asset-rate-chart no-update="::true" asset-id="::$ctrl.asset.id"></w-asset-rate-chart>
+                        <div class="interactive-stop"></div>
+                    </div>
+
                 </div>
             </div>
         </div>
-        <div class="token-burn__info">
+
+        <div class="asset-info margin-top-4">
 
             <div class="rows">
                 <div class="row row-style flex-row token-burn__info-line">
-                    <div class="footnote-1 disabled-500" w-i18n="modal.token.id"></div>
-                    <div>{{::$ctrl.asset.id}}</div>
+                    <div class="footnote-1 basic-500" w-i18n="modal.token.id"></div>
+                    <div class="footnote-1 basic-900">{{::$ctrl.asset.id}}</div>
+                </div>
+
+                <div class="margin-top-1 footnote-1 basic-500" w-i18n="modal.token.description"></div>
+                <div class="row row-style flex-row token-burn__info-line description">
+                    <div class="footnote-1 basic-900"> {{::$ctrl.description}}</div>
                 </div>
 
                 <div class="row row-style flex-row token-burn__info-line">
-                    <div class="footnote-1 disabled-500" w-i18n="modal.token.quantity"></div>
-                    <div>{{::$ctrl.quantity.toFormat($ctrl.asset.precision)}}</div>
+                    <div class="footnote-1 basic-500" w-i18n="modal.token.quantity"></div>
+                    <div class="footnote-1 basic-900">{{::$ctrl.quantity.toFormat($ctrl.asset.precision)}}</div>
                 </div>
 
                 <div class="row row-style flex-row margin-2 token-burn__info-line">
-                    <div class="footnote-1 disabled-500" w-i18n="modal.token.balance"></div>
-                    <div class="bold">
+                    <div class="footnote-1 basic-500" w-i18n="modal.token.balance"></div>
+                    <div class="bold footnote-1 basic-900">
                         <w-balance money="$ctrl.balance"></w-balance>
                     </div>
                 </div>
             </div>
 
             <form name="burn">
-                <div class="body-2">
+                <div class="body-2 basic-900">
                     <span w-i18n="modal.token.{{::$ctrl.txType}}.label"></span>
                 </div>
                 <w-input-container class="margin-2">
@@ -99,10 +116,13 @@
 
                 <div class="footnote-1 margin-2">
                     <div ng-class="{'error-400': $ctrl.noFee}"
-                         class="disabled-500"
                          w-i18n="modal.token.fee"
-                         params="{fee: $ctrl.fee}"></div>
-                    <div class="error-400" ng-if="$ctrl.noFee" w-i18n="modal.token.validation.noMoney"></div>
+                         params="{fee: $ctrl.fee}"
+                         class="basic-500">
+                    </div>
+                    <div ng-if="$ctrl.noFee"
+                         w-i18n="modal.token.validation.noMoney"
+                         class="error-400" ></div>
                 </div>
 
                 <w-sign-button disabled="burn.$invalid || $ctrl.noFee"
@@ -115,6 +135,7 @@
     </w-step>
     <w-step>
         <w-confirm-transaction signable="$ctrl.signable"
-                               on-click-back="$ctrl.step = $ctrl.step - 1"></w-confirm-transaction>
+                               on-click-back="$ctrl.step = $ctrl.step - 1">
+        </w-confirm-transaction>
     </w-step>
 </w-step-by-step>
