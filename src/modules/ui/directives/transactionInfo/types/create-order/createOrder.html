@@ -1,27 +1,18 @@
 <div class="txinfo__row">
-    <div class="txinfo__key"
-         params="{name: $ctrl.transaction.price.asset.name}">Pair</div>
-    <div class="txinfo__value">{{::$ctrl.transaction.price.toFormat()}}</div>
+    <div class="txinfo__key" w-i18n="transaction.modals.pair"></div>
+    <div class="txinfo__value">{{$ctrl.order.amount.asset.displayName}}/{{$ctrl.order.price.asset.displayName}}</div>
 </div>
 
 <div class="txinfo__row">
-    <div class="txinfo__key"
-         params="{name: $ctrl.transaction.price.asset.name}">Order Type</div>
-    <div class="txinfo__value">Buy /Sell</div>
+    <div class="txinfo__key" w-i18n="transaction.modals.orderType"></div>
+    <div class="txinfo__value capitalize">{{::$ctrl.order.orderType}}</div>
 </div>
 
 <div class="txinfo__row">
-    <div class="txinfo__key"
-         params="{name: $ctrl.transaction.price.asset.name}">Timestamp</div>
-    <div class="txinfo__value">123123123123123</div>
-</div>
-
-<div class="txinfo__row">
-    <div class="txinfo__key"
-         w-i18n="transaction.modals.price"
-         params="{name: $ctrl.transaction.price.asset.name}"></div>
-    <div class="txinfo__value">{{::$ctrl.transaction.price.toFormat()}}</div>
+    <div class="txinfo__key" w-i18n="transaction.modals.price"></div>
+    <div class="txinfo__value" w-i18n="money-currency" params="{money: $ctrl.order.price}"></div>
 </div>
 
 <w-transaction-info-general id="$ctrl.id"
+                            timestamp="$ctrl.order.timestamp"
                             fee="$ctrl.order.matcherFee"></w-transaction-info-general>

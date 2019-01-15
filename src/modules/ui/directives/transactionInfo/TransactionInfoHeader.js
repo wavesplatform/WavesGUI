@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const { SIGN_TYPE } = require('@waves/signature-adapter');
+
     /**
      * @param {app.utils} utils
      * @return {TransactionInfoHeader}
@@ -16,7 +18,8 @@
 
 
             $postLink() {
-                this.typeName = utils.getTransactionTypeName(this.signable.getTxData());
+                const isOrder = this.signable.type === SIGN_TYPE.CREATE_ORDER;
+                this.typeName = isOrder ? 'create-order' : utils.getTransactionTypeName(this.signable.getTxData());
             }
 
         }

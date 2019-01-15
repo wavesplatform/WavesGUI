@@ -29,7 +29,7 @@
 
             $postLink() {
                 this.transaction = this.signable.getTxData();
-                this.typeName = utils.getTransactionTypeName(this.transaction);
+                this.typeName = 'create-order';
                 this.totalPrice = utils.getExchangeTotalPrice(this.transaction.amount, this.transaction.price);
                 this.signPrice = this.typeName === 'exchange-buy' ? '–' : '+';
                 this.signAmount = this.typeName === 'exchange-buy' ? '+' : '–';
