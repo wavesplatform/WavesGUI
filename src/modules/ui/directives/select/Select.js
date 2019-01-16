@@ -74,7 +74,7 @@
                     const filter = this.filter;
                     this._options.forEach(option => {
                         if (filter) {
-                            option.hittest(filter);
+                            option.getIndex(filter);
                         } else {
                             option.show();
                         }
@@ -200,7 +200,9 @@
                     if (this.isOpend) {
                         this.listenEventEmitter($_DOCUMENT, 'click', (e) => this._checkOutClick(e));
                     } else {
+                        this.filter = '';
                         this.stopListenEventEmitter('click', $_DOCUMENT);
+                        $scope.$apply();
                     }
                 }
             }

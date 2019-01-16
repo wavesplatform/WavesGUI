@@ -3,14 +3,15 @@
 
     /**
      * @param {Base} Base
-     * @param {$rootScope.Scope} $scope
+     * @param {app.utils} utils
      */
-    const directive = (Base) => {
+    const directive = (Base, utils) => {
+        const { findIndex } = require('ramda');
 
         return {
             scope: {
                 value: '<',
-                searchValue: '<'
+                searchValue: '='
             },
             require: {
                 select: '^wSelect'
@@ -31,17 +32,19 @@
                      * @type {string|number}
                      */
                     value = $scope.value;
+
                     /**
                      * @type {Signal<Option>}
                      */
                     changeValue = new tsUtils.Signal();
 
+                    index = 1;
+
 
                     constructor() {
-                        super();
+                        super($scope);
 
                         this._setHandlers();
-
                         this.wSelect.registerOption(this);
                     }
 
@@ -56,6 +59,10 @@
                         return $element;
                     }
 
+                    getNode() {
+                        return $element;
+                    }
+
                     onClick() {
                         this.wSelect.setActive(this);
                         $scope.$apply();
@@ -67,23 +74,14 @@
                         $element.css('order', active ? -index : 0).toggleClass('active', active);
                     }
 
-                    hittest(query) {
-                        const searchValue = $scope.searchValue;
+                    getIndex(query) {
+                        const searchValue = utils.toArray($scope.searchValue);
                         const queryValue = query.toLocaleLowerCase();
 
-                        if (Array.isArray(searchValue)) {
-                            const match = searchValue
-                                .filter(str => !!str)
-                                .some(str => str.toLocaleLowerCase().includes(queryValue));
-
-                            if (match) {
-                                $element.show();
-                            } else {
-                                $element.hide();
-                            }
-                            return;
-                        }
-                        if (searchValue.toLocaleLowerCase().includes(queryValue)) {
+                        const findOrder = searchVal => str => str.toLocaleLowerCase().includes(searchVal);
+                        this.index = findIndex(findOrder(queryValue))(searchValue.filter(Boolean));
+                        $element.css('order', this.index);
+                        if (this.index > -1) {
                             $element.show();
                         } else {
                             $element.hide();
@@ -125,7 +123,7 @@
         };
     };
 
-    directive.$inject = ['Base'];
+    directive.$inject = ['Base', 'utils'];
 
     angular.module('app.ui').directive('wOption', directive);
 

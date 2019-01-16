@@ -15,9 +15,10 @@
               can-search="::true"
               ng-if="$ctrl.canChooseAsset && $ctrl.choosableMoneyList.length > 1"
               ng-model="$ctrl.state.assetId">
-        <w-option ng-repeat="option in $ctrl.choosableMoneyList track by option.asset.id"
-                  search-value="::[option.asset.name, option.asset.id, option.asset.ticker]"
-                  value="::option.asset.id">
+        <w-option
+                ng-repeat="option in $ctrl.choosableMoneyList track by option.asset.id"
+                search-value="::[option.asset.name, option.asset.ticker, option.asset.id]"
+                value="::option.asset.id">
             <div class="flex-row split-half">
                 <div class="flex-row">
                     <w-asset-logo class="marker-hide" size="24" asset-id="{{::option.asset.id}}"></w-asset-logo>

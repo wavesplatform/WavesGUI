@@ -161,6 +161,10 @@
                 }
             }
 
+            clearSearch() {
+
+            }
+
             /**
              * @private
              */

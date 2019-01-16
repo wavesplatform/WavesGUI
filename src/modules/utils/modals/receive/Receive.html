@@ -25,7 +25,7 @@
                                               ng-model="$ctrl.chosenAssetId">
 
                                         <w-option ng-repeat="cryptocurrency in $ctrl.cryptocurrencies track by $index"
-                                                  search-value="::[cryptocurrency.id, cryptocurrency.ticker, cryptocurrency.name]" value="::cryptocurrency.id">
+                                                  search-value="::[cryptocurrency.name, cryptocurrency.ticker, cryptocurrency.id]" value="::cryptocurrency.id">
                                             <div class="flex-row split-half">
                                                 <div class="flex-row">
                                                     <w-asset-logo class="marker-hide" size="24" asset-id="{{::cryptocurrency.id}}"></w-asset-logo>
@@ -119,7 +119,7 @@
                                             ng-if="!$ctrl.singleAsset"
                                             ng-model="$ctrl.chosenAssetId">
                                             <w-option ng-repeat="invoice in $ctrl.invoicables track by $index"
-                                                      search-value="::[invoice.id, invoice.ticker, invoice.name]"
+                                                      search-value="::[invoice.name, invoice.ticker, invoice.id]"
                                                       value="::invoice.id">
                                                 <div class="flex-row split-half">
                                                     <div class="flex-row">
