@@ -72,6 +72,7 @@
     "uglifycss": "0.0.27"
   },
   "scripts": {
+    "start": "node server.js startSimple",
     "postinstall": "sh scripts/postinstall.sh",
     "preversion": "sh scripts/preversion.sh",
     "postversion": "sh scripts/postversion.sh",
@@ -112,6 +113,7 @@
     "mousetrap": "1.6.1",
     "n3-charts": "2.0.28",
     "ng-i18next": "1.0.5",
+    "opn": "^5.4.0",
     "papaparse": "4.3.7",
     "parse-json-bignumber": "^0.1.2",
     "qrcode": "1.3.2",
