@@ -1,10 +1,15 @@
-import { AssetPair, Money } from '@waves/data-entities';
+import { AssetPair, Money, BigNumber, OrderPrice } from '@waves/data-entities';
 import { request } from '../../utils/request';
 import { get } from '../../config';
+
 
 
 export function getLastPrice(pair: AssetPair) {
     return request({
         url: `${get('matcher')}/orderbook/${pair.amountAsset.id}/${pair.priceAsset.id}/status`
-    }).then(({ lastPrice, lastSide }) => ({ price: new Money(lastPrice, pair.priceAsset), lastSide }));
+    }).then(({ lastPrice, lastSide }) => {
+        const orderPrice = (new OrderPrice(new BigNumber(lastPrice), pair)).getTokens();
+        const price = (new Money(0, pair.priceAsset)).cloneWithTokens(orderPrice);
+        return { price, lastSide };
+    });
 }
