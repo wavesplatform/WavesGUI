@@ -10,6 +10,7 @@ import { addSignature, clearSignature, getOrders, getOrdersByPair, signatureTime
 import { getLastPrice } from './matcher/getLastPrice';
 import { getAddressByAlias, getAliasesByAddress } from './aliases/aliases';
 import * as pairsModule from './pairs/pairs';
+import * as dataModule from './data';
 
 
 export const aliases = { getAliasesByAddress, getAddressByAlias };
@@ -28,4 +29,8 @@ export const utils = { ...utilsFunctions, request, assetStorage };
 
 export const pairs = {
     ...pairsModule
+};
+
+export const data = {
+    ...dataModule
 };

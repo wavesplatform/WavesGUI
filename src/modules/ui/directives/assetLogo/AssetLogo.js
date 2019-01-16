@@ -87,7 +87,7 @@
 
                 $element.toggleClass('sponsored-asset', this.assetId !== 'WAVES' && canPayFee);
 
-                $element.find('.asset-logo')
+                $element.find('.asset__logo')
                     .css({
                         width: `${this.size}px`,
                         height: `${this.size}px`
@@ -100,12 +100,19 @@
              */
             _addLogo() {
                 if (this.assetId) {
+                    const data = ds.dataManager.getOracleAssetData(this.assetId);
+                    if (data && data.logo) {
+                        $element.find('.asset__logo')
+                            .addClass('custom')
+                            .css('backgroundImage', `url(${data.logo})`);
+                        return null;
+                    }
                     waves.node.assets.getAsset(this.assetId)
                         .then((asset) => {
                             if (ASSET_IMAGES_MAP[asset.id]) {
                                 utils.loadImage(ASSET_IMAGES_MAP[asset.id])
                                     .then(() => {
-                                        $element.find('.asset-logo')
+                                        $element.find('.asset__logo')
                                             .css('backgroundImage', `url(${ASSET_IMAGES_MAP[asset.id]})`);
                                     })
                                     .catch(() => this._addLetter(asset.name));
@@ -128,16 +135,16 @@
                     .toUpperCase();
                 const color = COLORS_MAP[letter] || DEFAULT_COLOR;
                 const fontSize = Math.round((Number(this.size) || 0) * 0.43);
-                $element.find('.asset-logo')
+                $element.find('.asset__logo')
                     .css({
                         'background-color': color
                     });
-                $element.find('.asset-logo .letter')
+                $element.find('.asset__logo .letter')
                     .text(letter)
                     .css({
                         'font-size': `${fontSize}px`
                     });
-                $element.find('.asset-logo .marker')
+                $element.find('.asset__logo .marker')
                     .css({
                         'background-color': color
                     });
@@ -152,7 +159,7 @@
 
     angular.module('app.ui')
         .component('wAssetLogo', {
-            template: '<div class="asset-logo footnote-3"><div class="letter"></div><div class="marker"></div></div>',
+            template: '<div class="asset__logo footnote-3"><div class="letter"></div><div class="marker"></div></div>',
             controller: controller,
             bindings: {
                 assetId: '@',

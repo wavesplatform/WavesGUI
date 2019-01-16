@@ -9,6 +9,12 @@
     margin-left: 7px;
     z-index: 1;
 
+    &.info {
+      &::before {
+        content: 'i';
+      }
+    }
+
     &::before {
       content: '?';
       background: @color-accent-100;
@@ -26,8 +32,6 @@
       font-size: @font-size-caption-2;
       line-height: 13px;
     }
-
-
 
     &:after {
       display: none;
@@ -56,13 +60,13 @@
     &:hover + .help-icon__content {
       display: block;
     }
-
   }
 
   &__content {
     display: none;
     z-index: 19;
     position: absolute;
+    color: @color-basic-700;
     background: @color-white;
     border-top: 5px solid @color-submit-300;
     border-radius: @border-radius;
@@ -80,6 +84,18 @@
   &__row {
     margin-bottom: 5px;
     margin-top: 0;
+  }
+}
+
+w-help-icon {
+  &.info {
+    .help-icon {
+      &__icon {
+        &::before {
+          content: 'i';
+        }
+      }
+    }
   }
 }
 

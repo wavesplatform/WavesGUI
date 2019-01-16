@@ -49,6 +49,7 @@ export interface IHash<T> {
 }
 
 export interface IConfItem {
+    oracle: string;
     apiVersion: string;
     code: string;
     bankRecipient: string;

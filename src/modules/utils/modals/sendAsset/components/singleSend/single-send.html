@@ -174,26 +174,32 @@
 
         </div>
 
-        <w-input-error name="amount" message="required">
-            <span w-i18n="inputs.errors.required"></span>
-        </w-input-error>
-        <w-input-error name="amount" message="gt">
-            <span ng-if="$ctrl.tx.amount.getTokens().eq(0)" w-i18n="inputs.errors.required"></span>
-            <span ng-if="$ctrl.tx.amount.getTokens().gt(0)" w-i18n="inputs.errors.gtGatewayMin"
-                  params="{min: $ctrl.minimumAmount, assetName: $ctrl.tx.amount.asset.displayName}">
-            </span>
-        </w-input-error>
-        <w-input-error name="amount" message="precision">
-            <span w-i18n="modal.send.errors.precision"
-                  params="{precision: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.precision}"></span>
-        </w-input-error>
-        <w-input-error name="amount" message="lte">
-            <span ng-if="!$ctrl.tx.amount.getTokens().gte($ctrl.gatewayDetails.maximumAmount)"
-                  w-i18n="modal.send.errors.max"></span>
-            <span ng-if="$ctrl.tx.amount.getTokens().gte($ctrl.gatewayDetails.maximumAmount)"
-                  params="{money: $ctrl.maxGatewayAmount}"
-                  w-i18n="modal.send.errors.maxCoinomat"></span>
-        </w-input-error>
+        <div class="like-input-error multiline "
+             ng-if="$ctrl.send.amount.$touched && $ctrl.send.amount.$invalid && $ctrl.focus !== 'amount'">
+            <div class="error">
+            <span ng-if="$ctrl.send.amount.$error.required"
+                  class="error-list-row"
+                  w-i18n="inputs.errors.required"></span>
+                <span ng-if="$ctrl.send.amount.$error.gt && $ctrl.tx.amount.getTokens().eq(0)"
+                      class="error-list-row"
+                      w-i18n="inputs.errors.required"></span>
+                <span ng-if="$ctrl.send.amount.$error.gt && $ctrl.tx.amount.getTokens().gt(0)"
+                      class="error-list-row"
+                      w-i18n="inputs.errors.gtGatewayMin"
+                      params="{min: $ctrl.minimumAmount, assetName: $ctrl.tx.amount.asset.displayName}"></span>
+                <span ng-if="$ctrl.send.amount.$error.precision"
+                      class="error-list-row"
+                      w-i18n="modal.send.errors.precision"
+                      params="{precision: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.precision}"></span>
+                <span ng-if="$ctrl.send.amount.$error.lte && !$ctrl.tx.amount.getTokens().gte($ctrl.gatewayDetails.maximumAmount)"
+                      class="error-list-row"
+                      w-i18n="modal.send.errors.max"></span>
+                <span ng-if="$ctrl.send.amount.$error.lte && $ctrl.tx.amount.getTokens().gte($ctrl.gatewayDetails.maximumAmount)"
+                      params="{money: $ctrl.maxGatewayAmount}"
+                      class="error-list-row"
+                      w-i18n="modal.send.errors.maxCoinomat"></span>
+            </div>
+        </div>
     </w-input-container>
 
     <w-input-container ng-if="$ctrl.toBankMode && !$ctrl.isBankPendingOrError"
@@ -237,7 +243,7 @@
         </w-input-container>
     </div>
 
-    <div class="fee margin-1 margin-top-1" ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending">
+    <div class="fee margin-1" ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending">
         <w-fee-list type="::$ctrl.txType"
                     disabled="$ctrl.toBankMode && (!$ctrl.isVerified || !$ctrl.termsAccepted)"
                     balance-hash="$ctrl.state.moneyHash"
@@ -286,15 +292,15 @@
         <a href="{{$ctrl.digiLiraUserLink}}"
            target="_blank"
            ng-if="$ctrl.toBankMode && $ctrl.isLira"
-           class="fake-button long">
+           class="fake-button long margin-4">
             <span class="fake-button-content big submit long" w-i18n="button.continue"></span>
         </a>
 
         <w-sign-button
-            ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending && !($ctrl.toBankMode && $ctrl.isLira)"
-            on-click="$ctrl.createTx()"
-            on-success="$ctrl.onSignTx(signable)"
-            disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission) || ($ctrl.toBankMode && !$ctrl.termsAccepted)">
+                ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending && !($ctrl.toBankMode && $ctrl.isLira)"
+                on-click="$ctrl.createTx()"
+                on-success="$ctrl.onSignTx(signable)"
+                disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission) || ($ctrl.toBankMode && !$ctrl.termsAccepted)">
             <span w-i18n="button.continue"></span>
         </w-sign-button>
     </div>

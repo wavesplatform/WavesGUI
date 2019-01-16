@@ -13,6 +13,8 @@
         const { isEmpty } = require('ts-utils');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
         const { Money } = require('@waves/data-entities');
+        const ds = require('data-service');
+        const { path } = require('ramda');
 
         class SponsoredModalCtrl extends Base {
 
@@ -62,6 +64,14 @@
                 this.assetId = asset.id;
                 this.asset = asset;
                 this.isCreateSponsored = isCreateSponsored;
+
+                const { STATUS_LIST } = require('@waves/oracle-data');
+                const data = ds.dataManager.getOracleAssetData(asset.id);
+                this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
+                this.isGateway = path(['status'], data) === 3;
+                this.ticker = asset.ticker;
+                this.description = path(['description', 'en'], data) || asset.description;
+
                 if (isEmpty(this.assetId)) {
                     throw new Error('Wrong modal params!');
                 }

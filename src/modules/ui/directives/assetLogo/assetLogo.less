@@ -10,39 +10,68 @@ w-asset-logo {
   }
 }
 
-.asset-logo {
-  background-size: 100% 100%;
-  text-align: center;
-  border-radius: 50%;
-  color: @white-only;
-  left: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.asset {
+  &__logo {
+    background-size: 100% 100%;
+    text-align: center;
+    border-radius: 50%;
+    color: @white-only;
+    left: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  .marker {
-    display: none;
-  }
+    &.custom {
+      .marker {
+        background-color: @custom-asset-marker-bg;
+      }
+    }
 
-  &.little {
     .marker {
       display: none;
+    }
+
+    &.little {
+      .marker {
+        display: none;
+      }
     }
   }
 }
 
 .sponsored-asset {
-  .asset-logo {
+  .asset {
+    &__logo {
+      .marker {
+        display: block;
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        bottom: -2px;
+        right: -2px;
+        border: 2px solid @color-white;
+        border-radius: 50%;
+        background-image: url(/img/icons/sponosred-asset-marker.svg);
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      &-custom {
+        .marker {
+          background-color: @custom-asset-marker-bg;
+        }
+      }
+    }
+  }
+}
+
+.asset-modal {
+  .sponsored-asset {
     .marker {
-      display: block;
-      width: 15px;
-      height: 15px;
-      position: absolute;
-      bottom: -2px;
-      right: -2px;
+      width: 24px;
+      height: 24px;
+      background-size: 12px;
       border: 2px solid @color-white;
-      border-radius: 50%;
-      background: url(/img/icons/sponosred-asset-marker.svg) center no-repeat;
     }
   }
 }

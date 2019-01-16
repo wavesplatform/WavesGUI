@@ -14,6 +14,8 @@
         });
     };
 
+    const ds = require('data-service');
+
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
@@ -266,8 +268,8 @@
                     case 'my':
                         balanceList = details.my.slice();
                         break;
-                    case 'notLiquid':
-                        balanceList = details.notLiquid.slice();
+                    case 'verified':
+                        balanceList = details.verified.slice();
                         break;
                     default:
                         throw new Error('Wrong filter name!');
@@ -309,10 +311,16 @@
                     const spam = [];
                     const my = [];
                     const active = [];
+                    const verified = [];
 
                     activeList.forEach(item => {
+                        const oracleData = ds.dataManager.getOracleAssetData(item.asset.id);
+
                         if (item.asset.sender === user.address) {
                             my.push(item);
+                        }
+                        if (oracleData && oracleData.status > 0) {
+                            verified.push(item);
                         }
                         if (item.isOnScamList || item.isSpam) {
                             spam.push(item);
@@ -321,7 +329,7 @@
                         }
                     });
 
-                    return { active, spam, my };
+                    return { active, spam, my, verified };
                 });
             }
 
@@ -389,4 +397,5 @@
  * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} pinned // TODO when available assets store
  * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} spam
  * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} my
+ * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} verified
  */

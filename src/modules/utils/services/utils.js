@@ -215,6 +215,9 @@
                 const params = Object.create(null);
 
                 const normalizeValue = value => {
+                    if (value === 'null') {
+                        return null;
+                    }
                     const num = Number(value);
                     return String(num) === value ? num : value;
                 };
