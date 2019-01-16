@@ -312,15 +312,12 @@
                     this._dom.$lastPrice.toggleClass(CLASSES.BUY, isBuy)
                         .toggleClass(CLASSES.SELL, isSell)
                         .text(data.lastTrade.price.toFormat());
-                    if (data.spread) {
-                        this._dom.$spread.text(data.spread.toFixed(2));
-                    }
                 } else {
                     this._dom.$lastPrice.removeClass(CLASSES.BUY)
                         .removeClass(CLASSES.SELL)
                         .text(0);
                 }
-
+                this._dom.$spread.text(data.spread && data.lastTrade ? data.spread.toFixed(2) : '');
                 this._dom.$bids.html(data.bids);
 
                 if (this._showSpread) {
