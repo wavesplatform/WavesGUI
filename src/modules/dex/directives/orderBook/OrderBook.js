@@ -42,6 +42,8 @@
         const ds = require('data-service');
         const { AssetPair } = require('@waves/data-entities');
 
+        const MIN_LINES = 15;
+
         class OrderBook extends Base {
 
             constructor() {
@@ -120,11 +122,13 @@
                 this._onChangeVisibleElements();
                 this._updateAssetData();
 
-                $templateRequest('modules/dex/directives/orderBook/orderbook.row.hbs')
-                    .then((templateString) => {
+                const filledRow = $templateRequest('modules/dex/directives/orderBook/orderbook.row.hbs');
+                const emptyRow = $templateRequest('modules/dex/directives/orderBook/emptyRow.html');
+
+                Promise.all([filledRow, emptyRow])
+                    .then(([templateString, stringTemplateEmpty]) => {
 
                         this._template = Handlebars.compile(templateString);
-
                         const poll = createPoll(this, this._getOrders, this._setOrders, 1000, { $scope });
 
                         this.observe('_assetIdPair', () => {
@@ -157,6 +161,8 @@
                                 dexDataService.chooseOrderBook.dispatch({ amount, price, type });
                             }
                         });
+
+                        this.emptyRowTemplate = stringTemplateEmpty;
                     });
             }
 
@@ -176,6 +182,9 @@
                 return !(this.hasOrderBook || this.pending || this.loadingError);
             }
 
+            /**
+             * @private
+             */
             _updateAssetData() {
                 ds.api.assets.get([this._assetIdPair.price, this._assetIdPair.amount])
                     .then(([priceAsset, amountAsset]) => {
@@ -303,15 +312,12 @@
                     this._dom.$lastPrice.toggleClass(CLASSES.BUY, isBuy)
                         .toggleClass(CLASSES.SELL, isSell)
                         .text(data.lastTrade.price.toFormat());
-                    if (data.spread) {
-                        this._dom.$spread.text(data.spread.toFixed(2));
-                    }
                 } else {
                     this._dom.$lastPrice.removeClass(CLASSES.BUY)
                         .removeClass(CLASSES.SELL)
                         .text(0);
                 }
-
+                this._dom.$spread.text(data.spread && data.lastTrade ? data.spread.toFixed(2) : '');
                 this._dom.$bids.html(data.bids);
 
                 if (this._showSpread) {
@@ -321,6 +327,10 @@
                 }
             }
 
+            /**
+             * @return {number}
+             * @private
+             */
             _getSpreadScrollPosition() {
                 const box = this._dom.$box.get(0);
                 const info = this._dom.$info.get(0);
@@ -336,7 +346,7 @@
              * @private
              */
             _toTemplate(list, crop, priceHash, maxAmount) {
-                return list.map((order) => {
+                const mappedList = list.map((order) => {
                     const hasOrder = !!priceHash[order.price.toFixed(this.priceAsset.precision)];
                     const inRange = order.price.gte(crop.min) && order.price.lte(crop.max);
                     const type = order.type;
@@ -371,6 +381,19 @@
                         sellTooltip
                     });
                 });
+                const diff = MIN_LINES - mappedList.length;
+                const type = list.length ? list[0].type : 'sell';
+
+                for (let i = 0; i < diff; i++) {
+                    if (type === 'buy') {
+                        mappedList.unshift(this.emptyRowTemplate);
+                    } else {
+                        mappedList.push(this.emptyRowTemplate);
+                    }
+                }
+
+
+                return mappedList;
             }
 
             /**
@@ -425,17 +448,6 @@
              */
             static _cropFilterOrders(list, crop) {
                 return list.filter((o) => o.price.gte(crop.min) && o.price.lte(crop.max));
-            }
-
-            /**
-             * @param {OrderBook.IOrder[]} list
-             * @return {BigNumber}
-             * @private
-             */
-            static _getMedianAmount(list) {
-                const len = list.length;
-                const l = len % 2 ? len - 1 : len;
-                return list[l / 2].amount;
             }
 
         }
