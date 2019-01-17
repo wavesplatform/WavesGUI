@@ -4,7 +4,7 @@
 (function () {
     'use strict';
 
-    const tsUtils = require('ts-utils');
+    const { isEmpty, getPaths, get, Signal } = require('ts-utils');
     const tsApiValidator = require('ts-api-validator');
     const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
     const { splitEvery, pipe, path } = require('ramda');
@@ -429,11 +429,11 @@
                     return a === b;
                 }
 
-                const pathsA = tsUtils.getPaths(a);
-                const pathsB = tsUtils.getPaths(b);
+                const pathsA = getPaths(a);
+                const pathsB = getPaths(b);
 
                 return pathsA.length === pathsB.length && pathsA.every((path, index) => {
-                    return tsUtils.get(a, path) === tsUtils.get(b, path) && (String(path) === String(pathsB[index]));
+                    return get(a, path) === get(b, path) && (String(path) === String(pathsB[index]));
                 });
             },
 
@@ -779,7 +779,7 @@
              */
             toHash(list, key) {
                 return list.reduce((result, item) => {
-                    result[tsUtils.get(item, key)] = item;
+                    result[get(item, key)] = item;
                     return result;
                 }, Object.create(null));
             },
@@ -837,7 +837,7 @@
              */
             parseAngularParam(attribute, $scope, destroy) {
                 const exp = _hasExp(attribute) && attribute;
-                const change = new tsUtils.Signal();
+                const change = new Signal();
 
                 const result = utils.liteObject({
                     attribute, exp, change, value: null
@@ -1392,7 +1392,7 @@
          * @private
          */
         function _getTransferType(tx) {
-            const meIsSender = utils.isMyPublicKey(tx.senderPublicKey);
+            const meIsSender = isEmpty(tx.senderPublicKey) || utils.isMyPublicKey(tx.senderPublicKey);
             const meIsRecipient = utils.isMyAddressOrAlias(tx.recipient);
             const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
 
@@ -1467,7 +1467,7 @@
                 }
 
                 if (!observer.__events[event]) {
-                    observer.__events[event] = new tsUtils.Signal();
+                    observer.__events[event] = new Signal();
                     keys.forEach((key) => {
                         observer[key].signal.on(() => {
                             observer.__events[event].dispatch();
@@ -1522,7 +1522,7 @@
                     }
 
                     const item = Object.create(null);
-                    item.signal = new tsUtils.Signal();
+                    item.signal = new Signal();
                     item.timer = null;
                     item.value = target[key];
 
