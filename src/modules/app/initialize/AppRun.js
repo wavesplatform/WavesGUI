@@ -516,6 +516,7 @@
         'decorators',
         'waves',
         'ModalRouter',
+        'configService',
         'whatsNew'
     ];
 
