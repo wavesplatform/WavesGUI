@@ -1,5 +1,6 @@
 <div class="txinfo__lead">
     <h3 class="basic-700"
+        w-i18n-ns="app.utils"
         w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
         params="{
           sign: $ctrl.signPrice,
@@ -7,9 +8,10 @@
           name: $ctrl.transaction.amount.asset.name
         }"></h3>
     <div class="body-2 basic-500"
+         w-i18n-ns="app.utils"
          w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
          params="{
-           sign: $ctrl.signPrice,
+           sign: $ctrl.signAmount,
            amount: $ctrl.totalPrice,
            name: $ctrl.transaction.price.asset.name
          }"></div>
