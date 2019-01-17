@@ -1372,7 +1372,7 @@
                 const modalManager = $injector.get('modalManager');
 
                 if (user.userType === 'seed') {
-                    return signable.getDataForApi()
+                    return signable.addMyProof()
                         .then(() => signable);
                 }
 

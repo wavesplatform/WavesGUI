@@ -11,18 +11,7 @@
     <div class="txinfo__value txinfo__text">{{$ctrl.transaction.description}}</div>
 </div>
 <w-transaction-info-general height="$ctrl.transaction.height"
+                            timestamp="$ctrl.transaction.timestamp"
                             id="$ctrl.id"
                             fee="$ctrl.transaction.fee"></w-transaction-info-general>
 
-<!--<div class="txinfo__row" ng-if="::$ctrl.isConfirm && $ctrl.isReissueModal">-->
-<!--<div class="txinfo__key" w-i18n="transaction.modals.toBeReissued"></div>-->
-<!--<div class="txinfo__value">{{::$ctrl.toReissue.toFixed()}}</div>-->
-<!--</div>-->
-<!--<div class="txinfo__row" ng-if="::$ctrl.isConfirm && $ctrl.isReissueModal">-->
-<!--<div class="txinfo__key" w-i18n="transaction.modals.toRemainOnBalance"></div>-->
-<!--<div class="txinfo__value">{{::$ctrl.toRemainOnBalance.toFixed()}}</div>-->
-<!--</div>-->
-<!--<div class="txinfo__row" ng-if="::$ctrl.isConfirm && $ctrl.isReissueModal">-->
-<!--<div class="txinfo__key" w-i18n="transaction.modals.totalAfterReissue"></div>-->
-<!--<div class="txinfo__value">{{::$ctrl.totalAfterIssueTokens.toFixed()}}</div>-->
-<!--</div>-->

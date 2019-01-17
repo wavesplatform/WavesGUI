@@ -25,6 +25,7 @@
 
     angular.module('app.ui').component('wTransactionInfoGeneral', {
         bindings: {
+            timestamp: '<',
             height: '<',
             id: '<',
             fee: '<'
