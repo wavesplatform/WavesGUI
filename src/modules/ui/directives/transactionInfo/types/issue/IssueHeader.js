@@ -21,7 +21,7 @@
             $postLink() {
                 this._tx = this.signable.getTxData();
                 this.name = this._tx.name;
-                this.quantity = this._tx.quantity.toFormat(this._tx.precision);
+                this.quantity = this._tx.quantity.div(Math.pow(10, this._tx.precision)).toFormat(this._tx.precision);
             }
 
         }
