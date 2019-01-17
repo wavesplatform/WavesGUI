@@ -709,6 +709,43 @@
             },
 
             /**
+             * @name app.utils#currentCandleInterval
+             * @param {number} from
+             * @param {number} to
+             * @return {string}
+             */
+            currentCandleInterval(from, to) {
+                const MAX_INTERVAL = 1440;
+                const INTERVAL_PRESETS = {
+                    '1m': 1000 * 60,
+                    '5m': 1000 * 60 * 5,
+                    '15m': 1000 * 60 * 15,
+                    '30m': 1000 * 60 * 30,
+                    '1h': 1000 * 60 * 60,
+                    '3h': 1000 * 60 * 60 * 3,
+                    '6h': 1000 * 60 * 60 * 6,
+                    '12h': 1000 * 60 * 60 * 12,
+                    '1d': 1000 * 60 * 60 * 24
+                };
+                const delta = to - from;
+                const sortedIntervals = Object.entries(INTERVAL_PRESETS).sort((a, b) => a[1] - b[1]);
+                let interval = '1m';
+
+                const valid = sortedIntervals.some(([key, value]) => {
+                    if ((delta / value) <= MAX_INTERVAL) {
+                        interval = key;
+                        return true;
+                    }
+                    return false;
+                });
+
+                if (!valid) {
+                    throw new Error('interval is too long');
+                }
+                return interval;
+            },
+
+            /**
              * @name app.utils#getNiceNumberTemplate
              * @param {BigNumber|string|number} num
              * @param {number} precision

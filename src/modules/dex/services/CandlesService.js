@@ -2,6 +2,7 @@
 (function () {
     'use strict';
 
+    const { config } = require('data-service');
     const POLL_DELAY = 3000;
 
     /**
@@ -130,25 +131,28 @@
                         symbolInfo,
                         from,
                         to,
-                        resolution
                     )
                     .then(handleCandles)
                     .catch(handleError);
             }
 
-            static _getCandles(symbolInfo, from, to, resolution) {
+            static _getCandles(symbolInfo, from, to) {
                 const amountId = symbolInfo._wavesData.amountAsset.id;
                 const priceId = symbolInfo._wavesData.priceAsset.id;
-                const interval = CandlesService._normalizeInterval(resolution);
+                const interval = utils.currentCandleInterval(from, to);
+                /**
+                 * @type {Promise}
+                 */
+                const promise = config.getDataService().getCandles(amountId, priceId, {
+                    interval: interval,
+                    timeEnd: to,
+                    timeStart: from
+                });
 
-                const path = `${WavesApp.network.api}/candles/${amountId}/${priceId}`;
-                return ds.fetch(`${path}?timeStart=${from}&timeEnd=${to}&interval=${interval}`)
-                    .then((res) => res.candles);
-            }
-
-            static _normalizeInterval(interval) {
-                const char = interval.charAt(interval.length - 1);
-                return interval + (isNaN(+char) ? '' : 'm');
+                return promise.then(results => (results.data.map(candle => ({
+                    ...candle.data,
+                    time: new Date(candle.data.time)
+                }))));
             }
 
             static convertToMilliseconds(seconds) {
