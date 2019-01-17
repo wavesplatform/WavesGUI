@@ -2,15 +2,16 @@
 (function () {
     'use strict';
 
-    const POLL_DELAY = 3000;
+    const POLL_DELAY = 400;
 
     /**
      * @param {app.utils} utils
      * @param {TimeLine} timeLine
      * @param {SymbolInfoService} symbolInfoService
+     * @param {Waves} waves
      * @return {CandlesService}
      */
-    const factory = function (utils, timeLine, symbolInfoService) {
+    const factory = function (utils, timeLine, symbolInfoService, waves) {
 
         class CandlesService {
 
@@ -142,8 +143,18 @@
                 const interval = CandlesService._normalizeInterval(resolution);
 
                 const path = `${WavesApp.network.api}/candles/${amountId}/${priceId}`;
-                return ds.fetch(`${path}?timeStart=${from}&timeEnd=${to}&interval=${interval}`)
-                    .then((res) => res.candles);
+                return Promise.all([
+                    ds.fetch(`${path}?timeStart=${from}&timeEnd=${to}&interval=${interval}`),
+                    ds.api.pairs.get(amountId, priceId)
+                        .then(pair => waves.matcher.getLastPrice(pair))
+                ])
+                    .then(([res, { price }]) => {
+                        const candles = res.candles;
+                        if (candles.length) {
+                            candles[candles.length - 1].close = Number(price.toTokens());
+                        }
+                        return candles;
+                    });
             }
 
             static _normalizeInterval(interval) {
@@ -160,7 +171,7 @@
         return new CandlesService();
     };
 
-    factory.$inject = ['utils', 'timeLine', 'symbolInfoService'];
+    factory.$inject = ['utils', 'timeLine', 'symbolInfoService', 'waves'];
 
     angular.module('app.dex').factory('candlesService', factory);
 })();
