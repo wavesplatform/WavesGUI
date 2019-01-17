@@ -22,7 +22,7 @@
             <div class="body-2 basic-700" w-i18n="LedgerClient"></div>
             <div class="caption-1 basic-500 margin-2" w-i18n="ledgerDescription"></div>
         </div>
-        <w-web-only w-web-only-class="import-modal__block" ui-sref="keeper">
+        <w-web-only ng-if="isNotPhone" w-web-only-class="import-modal__block" ui-sref="keeper">
             <div class="import-modal__icon-keeper"></div>
             <div class="body-2 basic-700" w-i18n="KeeperClient"></div>
             <div class="caption-1 basic-500 margin-2" w-i18n="keeperDescription"></div>
