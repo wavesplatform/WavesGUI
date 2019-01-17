@@ -17,7 +17,7 @@
             <div class="body-2 basic-700" w-i18n="wavesLiteClient"></div>
             <div class="caption-1 basic-500 margin-2" w-i18n="wavesLiteClientDescription"></div>
         </div>
-        <div class="import-modal__block" ui-sref="ledger">
+        <div ng-if="isDesktop" class="import-modal__block" ui-sref="ledger">
             <div class="import-modal__icon-ledger"></div>
             <div class="body-2 basic-700" w-i18n="LedgerClient"></div>
             <div class="caption-1 basic-500 margin-2" w-i18n="ledgerDescription"></div>
@@ -30,7 +30,7 @@
     </div>
 
     <div class="import-footer">
-        <div class="or margin-2" w-i18n="or"></div>
+        <div class="or margin-2 margin-top-4" w-i18n="or"></div>
         <div class="center">
             <a ui-sref="welcome" w-i18n="back"></a>
         </div>
