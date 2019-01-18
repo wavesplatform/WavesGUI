@@ -1,7 +1,8 @@
 <div ng-if="::!$ctrl.isSelf && !$ctrl.isSponsor" class="txinfo__row">
     <div class="txinfo__key" w-i18n="transaction.modals.to" ng-if="::$ctrl.isSend"></div>
     <div class="txinfo__key" w-i18n="transaction.modals.from" ng-if="::$ctrl.isReceive"></div>
-    <div class="txinfo__value">{{::$ctrl.transaction.sender}}</div>
+    <div ng-if="::$ctrl.isSend" class="txinfo__value">{{::$ctrl.transaction.recipient}}</div>
+    <div ng-if="::$ctrl.isReceive" class="txinfo__value">{{::$ctrl.transaction.sender}}</div>
 </div>
 
 <div class="txinfo__row" ng-if="$ctrl.isSponsor">
