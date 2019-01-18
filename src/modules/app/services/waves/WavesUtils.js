@@ -230,40 +230,42 @@
              * @private
              */
             _getRateHistory(fromId, toId, from, to) {
-                const minuteTime = 1000 * 60;
-                const interval = Math.round((to.getDate().getTime() - from.getDate().getTime()) / (200 * minuteTime));
-
+                const formattedFrom = from.getDate().getTime();
+                const formattedTo = to.getDate().getTime();
+                const interval = utils.currentCandleInterval(formattedFrom, formattedTo);
                 return ds.api.pairs.get(fromId, toId)
-                    .then((pair) => {
+                    .then(pair => {
                         const amountId = pair.amountAsset.id;
                         const priceId = pair.priceAsset.id;
-                        const path = `${WavesApp.network.api}/candles/${amountId}/${priceId}`;
 
-                        return ds.fetch(`${path}?timeStart=${from}&timeEnd=${to}&interval=${interval}m`)
-                            .then((data) => {
-                                const list = data.candles;
+                        return ds.config.getDataService().getCandles(amountId, priceId, {
+                            interval: interval,
+                            timeEnd: formattedTo,
+                            timeStart: formattedFrom
+                        }).then((res) => {
+                            const list = res.data;
 
-                                if (!list || !list.length) {
-                                    return Promise.reject(list);
+                            if (!list || !list.length) {
+                                return Promise.reject(list);
+                            }
+
+                            const result = [];
+
+                            list.forEach(({ data }) => {
+                                const close = Number(data.close);
+                                const rate = fromId !== pair.priceAsset.id ? close : 1 / close;
+
+                                if (close !== 0) {
+                                    result.push({
+                                        timestamp: new Date(data.time),
+                                        rate: rate
+                                    });
                                 }
-
-                                const result = [];
-
-                                list.forEach((item) => {
-                                    const close = Number(item.close);
-                                    const rate = fromId !== pair.priceAsset.id ? close : 1 / close;
-
-                                    if (close !== 0) {
-                                        result.push({
-                                            timestamp: new Date(item.time),
-                                            rate: rate
-                                        });
-                                    }
-                                });
-
-                                return result.filter((item) => item.timestamp > from && item.timestamp < to)
-                                    .sort(utils.comparators.process(({ timestamp }) => timestamp).asc);
                             });
+
+                            return result.filter((item) => item.timestamp > from && item.timestamp < to)
+                                .sort(utils.comparators.process(({ timestamp }) => timestamp).asc);
+                        });
                     });
             }
 
