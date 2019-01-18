@@ -1264,7 +1264,7 @@
                  */
                 const version = user.hasScript() ? 2 : undefined;
 
-                const scriptedErrorMessage = 'Can\'t process order with signature from scripted account';
+                const scriptedErrorMessage = `Order rejected by script for ${user.address}`;
 
                 const signableData = {
                     type: SIGN_TYPE.CREATE_ORDER,
@@ -1272,7 +1272,6 @@
                 };
 
                 const onError = error => {
-
                     notification.error({
                         ns: 'app.dex',
                         title: {
@@ -1293,21 +1292,11 @@
                             .then(ds.createOrder)
                             .catch(error => {
                                 if (!isAdvancedMode || error.message !== scriptedErrorMessage) {
-                                    notification.error({
-                                        ns: 'app.dex',
-                                        title: {
-                                            literal: 'directives.createOrder.notifications.error.title'
-                                        },
-                                        body: {
-                                            literal: error && error.message || error
-                                        }
-                                    }, -1);
                                     return Promise.reject(error);
                                 }
 
                                 return modalManager.showConfirmTx(signable, false)
-                                    .then(ds.createOrder)
-                                    .catch(onError);
+                                    .then(ds.createOrder, () => null);
                             });
                     })
                     .catch(onError);
