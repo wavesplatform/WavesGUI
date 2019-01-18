@@ -38,8 +38,10 @@
                      */
                     changeValue = new tsUtils.Signal();
 
+                    /*
+                     * @type { number }
+                     */
                     index = 1;
-
 
                     constructor() {
                         super($scope);
@@ -74,7 +76,7 @@
                         $element.css('order', active ? -index : 0).toggleClass('active', active);
                     }
 
-                    getIndex(query) {
+                    filterAndSort(query) {
                         const searchValue = utils.toArray($scope.searchValue);
                         const queryValue = query.toLocaleLowerCase();
 

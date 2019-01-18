@@ -74,7 +74,7 @@
                     const filter = this.filter;
                     this._options.forEach(option => {
                         if (filter) {
-                            option.getIndex(filter);
+                            option.filterAndSort(filter);
                         } else {
                             option.show();
                         }
