@@ -181,6 +181,24 @@
             },
 
             /**
+             * @name app.utils#timeoutPromise
+             * @param {Promise} promise
+             * @param {number} timeout
+             */
+            timeoutPromise(promise, timeout) {
+                let timer;
+                const timeoutPromise = new Promise((_, reject) => {
+                    timer = setTimeout(() => {
+                        reject(new Error('Timeout error!'));
+                    }, timeout);
+                });
+                promise.finally(() => {
+                    clearTimeout(timer);
+                });
+                return Promise.race([promise, timeoutPromise]);
+            },
+
+            /**
              * @name app.utils#parseElectronUrl
              * @param {string} url
              * @return {{path: string, search: string, hash: string}}
