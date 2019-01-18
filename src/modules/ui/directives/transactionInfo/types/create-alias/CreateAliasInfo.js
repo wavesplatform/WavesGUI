@@ -13,18 +13,6 @@
              * @type {Signable}
              */
             signable;
-            /**
-             * @type {boolean}
-             */
-            isLeaseIn = false;
-            /**
-             * @type {boolean}
-             */
-            isLeaseOut = false;
-            /**
-             * @type {string}
-             */
-            address = '';
 
 
             $postLink() {
