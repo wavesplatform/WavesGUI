@@ -39,6 +39,7 @@ w-asset-logo {
   }
 }
 
+.smart-asset,
 .sponsored-asset {
   .asset {
     &__logo {
@@ -51,7 +52,6 @@ w-asset-logo {
         right: -2px;
         border: 2px solid @color-white;
         border-radius: 50%;
-        background-image: url(/img/icons/sponosred-asset-marker.svg);
         background-position: center;
         background-repeat: no-repeat;
       }
@@ -65,7 +65,28 @@ w-asset-logo {
   }
 }
 
+.sponsored-asset {
+  .asset {
+    &__logo {
+      .marker {
+        background-image: url(/img/icons/sponosred-asset-marker.svg);
+      }
+    }
+  }
+}
+
+.smart-asset {
+  .asset {
+    &__logo {
+      .marker {
+        background: mediumvioletred!important; //TODO @uIsk add bg image
+      }
+    }
+  }
+}
+
 .asset-modal {
+  .smart-asset,
   .sponsored-asset {
     .marker {
       width: 24px;
