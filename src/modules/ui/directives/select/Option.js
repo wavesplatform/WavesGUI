@@ -6,7 +6,6 @@
      * @param {app.utils} utils
      */
     const directive = (Base, utils) => {
-        const { findIndex } = require('ramda');
 
         return {
             scope: {
@@ -73,11 +72,10 @@
                     }
 
                     filterAndSort(query) {
-                        const searchValue = utils.toArray($scope.searchValue);
+                        const searchValue = utils.toArray($scope.searchValue.filter(Boolean));
                         const queryValue = query.toLocaleLowerCase();
 
-                        const findOrder = searchVal => str => str.toLocaleLowerCase().includes(searchVal);
-                        this.index = findIndex(findOrder(queryValue))(searchValue.filter(Boolean));
+                        this.index = searchValue.findIndex(str => str.toLocaleLowerCase().includes(queryValue));
                         $element.css('order', this.index);
                         if (this.index > -1) {
                             $element.show();
