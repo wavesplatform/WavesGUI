@@ -56,7 +56,7 @@ export function parseTx(transactions: Array<T_API_TX>, isUTX: boolean, isTokens?
     ])
         .then(([hash, sender]) => {
             return transactions.map((transaction) => {
-                if (transaction.type !== TRANSACTION_TYPE_NUMBER.EXCHANGE && 'version' in transaction) {
+                if ('version' in transaction) {
                     transaction.version = transaction.version === 1 ? transaction.version = 2 : transaction.version;
                 }
 
