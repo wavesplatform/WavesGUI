@@ -61,10 +61,6 @@
                         return $element;
                     }
 
-                    getNode() {
-                        return $element;
-                    }
-
                     onClick() {
                         this.wSelect.setActive(this);
                         $scope.$apply();
