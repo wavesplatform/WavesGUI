@@ -232,18 +232,18 @@
             _getRateHistory(fromId, toId, from, to) {
                 const formattedFrom = from.getDate().getTime();
                 const formattedTo = to.getDate().getTime();
-                const interval = utils.currentCandleInterval(formattedFrom, formattedTo);
+
                 return ds.api.pairs.get(fromId, toId)
                     .then(pair => {
                         const amountId = pair.amountAsset.id;
                         const priceId = pair.priceAsset.id;
+                        const options = utils.getValidCandleOptions(formattedFrom, formattedTo);
 
-                        return ds.config.getDataService().getCandles(amountId, priceId, {
-                            interval: interval,
-                            timeEnd: formattedTo,
-                            timeStart: formattedFrom
-                        }).then((res) => {
-                            const list = res.data;
+                        const promises = options.map(option => (
+                            ds.config.getDataService().getCandles(amountId, priceId, option)));
+
+                        return Promise.all(promises).then((res) => {
+                            const list = res.reduce((acc, el) => acc.concat(el.data), []);
 
                             if (!list || !list.length) {
                                 return Promise.reject(list);
