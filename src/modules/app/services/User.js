@@ -483,7 +483,7 @@
 
             /**
              * @param {object} data
-             * @param {ISignatureApi} data.api
+             * @param {Adapter} data.api
              * @param {string} data.address
              * @param {string} data.userType
              * @param {string} [data.encryptedSeed]
@@ -496,7 +496,8 @@
              * @private
              */
             _addUserData(data) {
-                return this._loadUserByAddress(data.address)
+                return data.api.getPublicKey().then(publicKey => (data.publicKey = publicKey))
+                    .then(() => this._loadUserByAddress(data.address))
                     .then((item) => {
                         this._fieldsForSave.forEach((propertyName) => {
                             if (data[propertyName] != null) {
