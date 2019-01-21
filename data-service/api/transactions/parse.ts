@@ -186,7 +186,8 @@ export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, i
 
 export function parseScriptTx(tx: txApi.ISetScript, assetsHash: IHash<Asset>, isUTX?: boolean): ISetScript {
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
-    return { ...tx, fee, isUTX };
+    const script = tx.script || '';
+    return { ...tx, fee, isUTX, script };
 }
 
 export function getExchangeTxMoneys(factory: IFactory, tx: txApi.IExchange, assetsHash: IHash<Asset>) {
