@@ -52,12 +52,16 @@ export function parseTx(transactions: Array<T_API_TX>, isUTX: boolean, isTokens?
 
     return Promise.all([
         get(Object.keys(hash)).then((assets) => toHash(assets, 'id')),
-        api && api.getPublicKey() || Promise.resolve(null)
+        api && api.getPublicKey() || Promise.resolve(null),
+        api && api.getSignVersions() || Promise.resolve({})
     ])
-        .then(([hash, sender]) => {
+        .then(([hash, sender, versions]) => {
             return transactions.map((transaction) => {
+
                 if ('version' in transaction) {
-                    transaction.version = transaction.version === 1 ? transaction.version = 2 : transaction.version;
+                    const versionList = versions[transaction.type];
+                    const version = versionList.includes(transaction.version) ? transaction.version : versionList[versionList.lenght - 1];
+                    transaction.version = version;
                 }
 
                 switch (transaction.type) {
