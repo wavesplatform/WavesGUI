@@ -2,6 +2,7 @@
     'use strict';
 
     const { Money } = require('@waves/data-entities');
+    const ds = require('data-service');
 
     /**
      * @param {typeof Base} Base
@@ -67,11 +68,15 @@
                 }
 
                 const assetId = this.transaction.assetId;
-                const quantity = new Money(hash[assetId].asset.quantity, hash[assetId].asset);
-                const toBurn = this.transaction.amount;
+                ds.api.assets.get(assetId).then(asset => {
+                    const quantity = new Money(asset.quantity, asset);
+                    const toReissue = this.transaction.amount;
 
-                this.toRemainOnBalance = hash[assetId].minus(toBurn);
-                this.totalAfterIssueTokens = quantity.minus(toBurn);
+                    this.toRemainOnBalance = (hash[assetId] || new Money(0, asset)).add(toReissue);
+                    this.totalAfterIssueTokens = quantity.add(toReissue);
+
+                    $scope.$apply();
+                });
             }
 
         }
