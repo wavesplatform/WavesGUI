@@ -58,7 +58,7 @@ export function parseTx(transactions: Array<T_API_TX>, isUTX: boolean, isTokens?
         .then(([hash, sender, versions]) => {
             return transactions.map((transaction) => {
 
-                if ('version' in transaction) {
+                if ('version' in transaction && versions[transaction.type] != null) {
                     const versionList = versions[transaction.type];
                     const version = versionList.includes(transaction.version) ? transaction.version : versionList[versionList.lenght - 1];
                     transaction.version = version;
