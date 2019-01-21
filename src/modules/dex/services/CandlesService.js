@@ -139,20 +139,17 @@
             static _getCandles(symbolInfo, from, to) {
                 const amountId = symbolInfo._wavesData.amountAsset.id;
                 const priceId = symbolInfo._wavesData.priceAsset.id;
-                const interval = utils.currentCandleInterval(from, to);
-                /**
-                 * @type {Promise}
-                 */
-                const promise = config.getDataService().getCandles(amountId, priceId, {
-                    interval: interval,
-                    timeEnd: to,
-                    timeStart: from
-                });
+                const options = utils.getValidCandleOptions(from, to);
 
-                return promise.then(results => (results.data.map(candle => ({
-                    ...candle.data,
-                    time: new Date(candle.data.time)
-                }))));
+                const promises = options.map(option => (
+                    config.getDataService().getCandles(amountId, priceId, option)));
+
+                return Promise.all(promises).then(results => (results
+                    .reduce((acc, el) => acc.concat(el.data), [])
+                    .map(candle => ({
+                        ...candle.data,
+                        time: new Date(candle.data.time)
+                    }))));
             }
 
             static convertToMilliseconds(seconds) {

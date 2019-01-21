@@ -754,8 +754,8 @@
              */
             getValidCandleOptions(from, to) {
                 const options = {
-                    from,
-                    to,
+                    timeStart: from,
+                    timeEnd: to,
                     interval: null
                 };
                 const MAX_RESOLUTION = 1440;
@@ -809,8 +809,8 @@
                 };
                 calcValidStartEnd(from, to);
                 return validStartEndList.map(startEnd => ({
-                    from: startEnd.from,
-                    to: startEnd.to,
+                    timeStart: startEnd.from,
+                    timeEnd: startEnd.to,
                     interval: maxInterval[0]
                 }));
             },
