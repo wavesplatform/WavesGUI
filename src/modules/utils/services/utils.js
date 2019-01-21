@@ -6,7 +6,7 @@
     const tsUtils = require('ts-utils');
     const tsApiValidator = require('ts-api-validator');
     const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
-    const { splitEvery, pipe } = require('ramda');
+    const { splitEvery, pipe, last } = require('ramda');
     const { libs } = require('@waves/signature-generator');
 
     class BigNumberPart extends tsApiValidator.BasePart {
@@ -740,9 +740,79 @@
                 });
 
                 if (!valid) {
-                    throw new Error('interval is too long');
+                    return false;
                 }
                 return interval;
+            },
+
+
+            /**
+             * @name app.utils#getValidCandleOptions
+             * @param {number} from
+             * @param {number} to
+             * @return {Array.<Object>}
+             */
+            getValidCandleOptions(from, to) {
+                const options = {
+                    from,
+                    to,
+                    interval: null
+                };
+                const MAX_RESOLUTION = 1440;
+                const INTERVAL_PRESETS = {
+                    '1m': 1000 * 60,
+                    '5m': 1000 * 60 * 5,
+                    '15m': 1000 * 60 * 15,
+                    '30m': 1000 * 60 * 30,
+                    '1h': 1000 * 60 * 60,
+                    '3h': 1000 * 60 * 60 * 3,
+                    '6h': 1000 * 60 * 60 * 6,
+                    '12h': 1000 * 60 * 60 * 12,
+                    '1d': 1000 * 60 * 60 * 24
+                };
+                const delta = to - from;
+                const sortedIntervals = Object.entries(INTERVAL_PRESETS).sort((a, b) => a[1] - b[1]);
+
+                const calcInterval = () => {
+                    let interval = false;
+                    sortedIntervals.some(([key, value]) => {
+                        if (Math.ceil(delta / value) <= MAX_RESOLUTION) {
+                            interval = key;
+                            return true;
+                        }
+                        return false;
+                    });
+                    return interval;
+                };
+
+                const interval = calcInterval();
+                if (interval) {
+                    return [{
+                        ...options,
+                        interval
+                    }];
+                }
+                const maxInterval = last(sortedIntervals);
+                const validStartEndList = [];
+                /**
+                 * @param {number} from
+                 * @param {number} to
+                 */
+                const calcValidStartEnd = (from, to) => {
+                    const delta = to - from;
+                    if ((delta / maxInterval[1]) > MAX_RESOLUTION) {
+                        const from1 = Math.ceil(to - MAX_RESOLUTION * maxInterval[1]);
+                        validStartEndList.push({ from: from1, to });
+                        return calcValidStartEnd(from, from1);
+                    }
+                    validStartEndList.push({ from, to });
+                };
+                calcValidStartEnd(from, to);
+                return validStartEndList.map(startEnd => ({
+                    from: startEnd.from,
+                    to: startEnd.to,
+                    interval: maxInterval[0]
+                }));
             },
 
             /**
