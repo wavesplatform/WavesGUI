@@ -12,9 +12,9 @@ import {
     ILease,
     IMassTransfer,
     IReissue,
-    ITransfer,
-    ISponsorship,
     ISetScript,
+    ISponsorship,
+    ITransfer,
     T_API_TX,
     T_TX,
     txApi
@@ -56,6 +56,10 @@ export function parseTx(transactions: Array<T_API_TX>, isUTX: boolean, isTokens?
     ])
         .then(([hash, sender]) => {
             return transactions.map((transaction) => {
+                if (transaction.type !== TRANSACTION_TYPE_NUMBER.EXCHANGE && 'version' in transaction) {
+                    transaction.version = transaction.version === 1 ? transaction.version = 2 : transaction.version;
+                }
+
                 switch (transaction.type) {
                     case TRANSACTION_TYPE_NUMBER.SEND_OLD:
                         return parseTransferTx(remapOldTransfer(transaction), hash, isUTX);

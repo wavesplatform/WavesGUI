@@ -1,7 +1,7 @@
 <div class="ledger-modal">
     <div class="btn icon-close" ng-click="$ctrl.onClose()"></div>
 
-    <div class="connect-mode">
+    <div class="connect-mode" ng-if="::$ctrl.isLedger">
         <div class="ledger">
             <div class="device-img">
                 <div class="display display1 animate-show">

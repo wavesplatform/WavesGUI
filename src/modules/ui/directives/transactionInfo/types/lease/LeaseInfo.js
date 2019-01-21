@@ -45,10 +45,11 @@
                         break;
                 }
 
-                this.signable.getId().then(id => {
-                    this.id = id;
-                    $scope.$apply();
-                });
+                (this.transaction.id ? Promise.resolve(this.transaction.id) : this.signable.getId())
+                    .then(id => {
+                        this.id = id;
+                        $scope.$apply();
+                    });
             }
 
         }

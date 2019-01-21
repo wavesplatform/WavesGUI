@@ -24,10 +24,11 @@
                 this.hasScript = !!((this.transaction.script || '').replace('base64:', ''));
                 this.transaction.script = this.transaction.script || '';
 
-                this.signable.getId().then(id => {
-                    this.id = id;
-                    $scope.$apply();
-                });
+                (this.transaction.id ? Promise.resolve(this.transaction.id) : this.signable.getId())
+                    .then(id => {
+                        this.id = id;
+                        $scope.$apply();
+                    });
             }
 
         }

@@ -7,10 +7,9 @@
      * @param Base
      * @param {$rootScope.Scope} $scope
      * @param {$mdDialog} $mdDialog
-     * @param {User} user
      * @return {LoginByDeviceCtrl}
      */
-    const controller = function (Base, $scope, $mdDialog, user) {
+    const controller = function (Base, $scope, $mdDialog) {
 
         class LoginByDeviceCtrl extends Base {
 
@@ -33,12 +32,13 @@
 
             /**
              * @param {Promise} promise
+             * @param {Adapter} adapter
              */
-            constructor(promise) {
+            constructor({ promise, adapter }) {
                 super($scope);
 
-                this.isLedger = user.userType === 'ledger';
-                this.isKeeper = user.userType === 'wavesKeeper';
+                this.isLedger = adapter.type === 'ledger';
+                this.isKeeper = adapter.type === 'wavesKeeper';
 
                 this.deferred.promise()
                     .then(() => this.onLoad())
@@ -66,7 +66,7 @@
         return new LoginByDeviceCtrl(this.locals);
     };
 
-    controller.$inject = ['Base', '$scope', '$mdDialog', 'user'];
+    controller.$inject = ['Base', '$scope', '$mdDialog'];
 
     angular.module('app.ui')
         .controller('LoginByDeviceCtrl', controller);

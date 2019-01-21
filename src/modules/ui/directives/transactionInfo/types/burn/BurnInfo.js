@@ -44,7 +44,7 @@
                 const $apply = () => $scope.$apply();
                 const addConfirm = isConfirm => (this.isConfirm = isConfirm);
 
-                this.signable.getId()
+                (this.transaction.id ? Promise.resolve(this.transaction.id) : this.signable.getId())
                     .then(addId)
                     .then(getTx)
                     .then(() => false, () => true)
