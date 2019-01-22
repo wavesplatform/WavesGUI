@@ -309,21 +309,24 @@
 
                         this._checkOrder(data)
                             .then(() => this._sendOrder(data))
-                            .then(() => {
+                            .then(data => {
+
+                                if (!data) {
+                                    return null;
+                                }
+
                                 notify.addClass('success');
                                 this.createOrderFailed = false;
                                 const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                                 analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Success`, pair);
                                 dexDataService.createOrder.dispatch();
+                                CreateOrder._animateNotification(notify);
                             })
                             .catch(() => {
                                 this.createOrderFailed = true;
                                 notify.addClass('error');
                                 const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                                 analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Error`, pair);
-
-                            })
-                            .finally(() => {
                                 CreateOrder._animateNotification(notify);
                             });
                     });

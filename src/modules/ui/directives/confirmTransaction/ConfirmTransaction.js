@@ -19,6 +19,7 @@
 
             locale = $attrs.ns || 'app.ui';
             step = 0;
+            type = 0;
             isSetScript = false;
 
             constructor() {
@@ -29,10 +30,10 @@
 
             $postLink() {
                 const tx = this.signable.getTxData();
-                const type = this.signable.type;
+                this.type = this.signable.type;
 
-                this.isSetScript = type === SIGN_TYPE.SET_SCRIPT && tx.script;
-                this.isTockenIssue = type === SIGN_TYPE.ISSUE;
+                this.isSetScript = this.type === SIGN_TYPE.SET_SCRIPT && tx.script;
+                this.isTockenIssue = this.type === SIGN_TYPE.ISSUE;
 
                 this.signable.hasMySignature().then(state => {
                     this.step = state ? 1 : 0;
