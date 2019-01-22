@@ -100,7 +100,7 @@
 
                 const modalPromise = this.isInit ?
                     Promise.resolve() :
-                    modalManager.showLoginByDevice(promise);
+                    modalManager.showLoginByDevice(promise, this.adapter.type);
 
                 Promise.all([promise, modalPromise])
                     .then(([users]) => {

@@ -86,7 +86,7 @@
                         canLoginPromise = adapterAvailablePromise.then(() => api.getAddress())
                             .then(address => address === activeUser.address ? true : Promise.reject('Wrong address!'));
                     } else {
-                        canLoginPromise = modalManager.showLoginByDevice(adapterAvailablePromise, api);
+                        canLoginPromise = modalManager.showLoginByDevice(adapterAvailablePromise, api.type);
                     }
 
                     return canLoginPromise.then(() => {

@@ -32,13 +32,14 @@
 
             /**
              * @param {Promise} promise
-             * @param {Adapter} adapter
+             * @param {string} adapterType
              */
-            constructor({ promise, adapter }) {
+            constructor(callback) {
                 super($scope);
 
-                this.isLedger = adapter.type === 'ledger';
-                this.isKeeper = adapter.type === 'wavesKeeper';
+                const { promise, type } = callback();
+                this.isLedger = type === 'ledger';
+                this.isKeeper = type === 'wavesKeeper';
 
                 this.deferred.promise()
                     .then(() => this.onLoad())
@@ -68,6 +69,6 @@
 
     controller.$inject = ['Base', '$scope', '$mdDialog'];
 
-    angular.module('app.ui')
+    angular.module('app.utils')
         .controller('LoginByDeviceCtrl', controller);
 })();

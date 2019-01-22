@@ -115,15 +115,15 @@
 
             /**
              * @param {Promise} promise
-             * @param {Adapter} adapter
+             * @param {string} type
              * @return {Promise}
              */
-            showLoginByDevice(promise, adapter) {
+            showLoginByDevice(promise, type) {
                 return this._getModal({
                     id: 'login-by-device',
                     contentUrl: 'modules/utils/modals/loginByDevice/loginByDevice.html',
                     controller: 'LoginByDeviceCtrl',
-                    locals: { promise, adapter },
+                    locals: () => ({ promise, type }),
                     clickOutsideToClose: false,
                     escapeToClose: false
                 });
