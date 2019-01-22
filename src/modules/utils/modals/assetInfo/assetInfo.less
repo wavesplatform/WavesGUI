@@ -25,6 +25,24 @@ html body md-dialog.asset-info-modal {
     width: calc(100% ~'+ 80px');
   }
 
+  @media screen and (max-width: 768px) {
+    .asset {
+      &-modal__name {
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 20px;
+      }
+
+      &__label {
+        margin: 5px 0 0;
+      }
+
+      &__ticker {
+        margin-top: 5px;
+      }
+    }
+  }
+
   .padding-content .tab-tem {
     padding: 40px;
 
