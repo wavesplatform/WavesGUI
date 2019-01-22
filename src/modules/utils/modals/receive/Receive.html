@@ -14,18 +14,25 @@
                                     <div ng-if="$ctrl.singleAsset" class="input-like big flex-row split-half">
                                         <div class="flex-row">
                                             <w-asset-logo class="marker-hide" size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
-                                            <div class="asset-name">{{::$ctrl.asset.name}}</div>
+                                            <div class="asset__name">
+                                                <span>{{::$ctrl.asset.name}}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <w-select
-                                        class="big"
-                                        ng-if="!$ctrl.singleAsset"
-                                        ng-model="$ctrl.chosenAssetId">
-                                        <w-option ng-repeat="cryptocurrency in $ctrl.cryptocurrencies track by $index" value="::cryptocurrency.id">
+                                    <w-select class="big"
+                                              can-search="::true"
+                                              ng-if="!$ctrl.singleAsset"
+                                              ng-model="$ctrl.chosenAssetId">
+
+                                        <w-option ng-repeat="cryptocurrency in $ctrl.cryptocurrencies track by $index"
+                                                  search-value="::[cryptocurrency.name, cryptocurrency.ticker, cryptocurrency.id]" value="::cryptocurrency.id">
                                             <div class="flex-row split-half">
                                                 <div class="flex-row">
                                                     <w-asset-logo class="marker-hide" size="24" asset-id="{{::cryptocurrency.id}}"></w-asset-logo>
-                                                    <div class="asset-name">{{::cryptocurrency.name}}</div>
+                                                    <div class="asset__name">
+                                                        <span>{{::cryptocurrency.name}}</span>
+                                                        <span class="asset__id basic-500">{{::cryptocurrency.id}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </w-option>
@@ -103,18 +110,24 @@
                                         <div class="input-like big flex-row split-half" ng-if="$ctrl.singleAsset">
                                             <div class="flex-row">
                                                 <w-asset-logo class="marker-hide" size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
-                                                <div class="asset-name">{{::$ctrl.asset.name}}</div>
+                                                <div class="asset__name">{{::$ctrl.asset.name}}</div>
                                             </div>
                                         </div>
                                         <w-select
                                             class="big"
+                                            can-search="::true"
                                             ng-if="!$ctrl.singleAsset"
                                             ng-model="$ctrl.chosenAssetId">
-                                            <w-option ng-repeat="invoice in $ctrl.invoicables track by $index" value="::invoice.id">
+                                            <w-option ng-repeat="invoice in $ctrl.invoicables track by $index"
+                                                      search-value="::[invoice.name, invoice.ticker, invoice.id]"
+                                                      value="::invoice.id">
                                                 <div class="flex-row split-half">
                                                     <div class="flex-row">
                                                         <w-asset-logo class="marker-hide" size="24" asset-id="{{::invoice.id}}"></w-asset-logo>
-                                                        <div class="asset-name">{{::invoice.name}}</div>
+                                                        <div class="asset__name">
+                                                            <span>{{::invoice.name}}</span>
+                                                            <span class="asset__id basic-500">{{::invoice.id}}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </w-option>
@@ -177,11 +190,11 @@
                                         <div ng-if="$ctrl.singleAsset" class="input-like big flex-row split-half">
                                             <div class="flex-row">
                                                 <w-asset-logo class="marker-hide" size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
-                                                <div class="asset-name">{{::$ctrl.asset.name}}</div>
+                                                <div class="asset__name">{{::$ctrl.asset.name}}</div>
                                             </div>
                                         </div>
                                         <w-select
-                                            class="big"
+                                            class="big has-fliter"
                                             ng-if="!$ctrl.singleAsset"
                                             ng-model="$ctrl.chosenAssetId">
                                             <w-option ng-repeat="purchasableByCard in $ctrl.purchasablesByCards track by $index"
@@ -189,7 +202,9 @@
                                                 <div class="flex-row split-half">
                                                     <div class="flex-row">
                                                         <w-asset-logo class="marker-hide" size="24" asset-id="{{::purchasableByCard.id}}"></w-asset-logo>
-                                                        <div class="asset-name">{{::purchasableByCard.name}}</div>
+                                                        <div class="asset__name">
+                                                            <span>{{::purchasableByCard.name}}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </w-option>
