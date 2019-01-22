@@ -138,9 +138,27 @@ md-dialog.modal-receive {
       width: 204px;
     }
 
-    .asset-name {
-      margin-left: 10px;
+    .asset {
+      &__name {
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 15px;
+        @media screen and (max-width: 540px) {
+          font-size: 13px;
+        }
+      }
+
+      &__id {
+        font-size: 11px;
+        line-height: 1em;
+        @media screen and (max-width: 540px) {
+          font-size: @font-size-caption-4;
+        }
+      }
     }
+
 
     .card-icons {
       position: absolute;
@@ -151,7 +169,7 @@ md-dialog.modal-receive {
     }
 
     .receive-confirm,
-    w-confirm-transaction {
+    w-confirm-tran.saction {
       display: block;
       padding: 0 40px 0;
       max-height: calc(90vh ~'- 60px');

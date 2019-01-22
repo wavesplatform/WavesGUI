@@ -117,7 +117,7 @@
 
                 const balanceHash = balanceWatcher.getBalance();
                 const fee = this.state.tx.fee;
-                this.hasFee = balanceHash[fee.asset.id] && balanceHash[fee.asset.id].gt(fee);
+                this.hasFee = balanceHash[fee.asset.id] && balanceHash[fee.asset.id].gte(fee);
             }
 
             /**
