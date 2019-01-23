@@ -70,11 +70,6 @@
                  */
                 this.loadingError = false;
 
-                this.hasScript = user.hasScript();
-                /**
-                 * @type (boolean)
-                 */
-
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
                 });
@@ -259,30 +254,8 @@
                     data
                 });
 
-                return signable.getId().then(id => {
-                    const signPromise = signable.getDataForApi();
-
-                    if (user.userType === 'seed' || !user.userType) {
-                        return signPromise;
-                    }
-
-                    return modalManager.showSignByDevice({
-                        promise: signPromise,
-                        data: order,
-                        id,
-                        mode: 'cancel-order',
-                        userType: user.userType
-                    })
-                        .then(() => signPromise)
-                        .catch(() => Promise.reject());
-                })
-                    .catch(() => {
-                        return modalManager.showSignDeviceError({ error: 'sign-error', userType: user.userType }).then(
-                            () => this.dropOrderGetSignData(order),
-                            () => {
-                                return Promise.reject({ message: 'Your sign is not confirmed!' });
-                            });
-                    });
+                return utils.signMatcher(signable)
+                    .then(signable => signable.getDataForApi());
             }
 
             /**

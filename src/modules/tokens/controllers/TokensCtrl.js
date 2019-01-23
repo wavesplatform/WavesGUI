@@ -56,10 +56,10 @@
              */
             invalid = false;
             /**
-             * @type {Money}
+             * @type {IBalanceDetails}
              * @private
              */
-            _balance = null;
+            _balance;
             /**
              * @type {Money}
              * @private

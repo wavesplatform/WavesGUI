@@ -9,16 +9,10 @@
      */
     const controller = function (Base, $scope) {
 
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
-
         class TransactionInfoCtrl extends Base {
 
             constructor() {
                 super($scope);
-                /**
-                 * @type {boolean}
-                 */
-                this.isTockenIssue = false;
                 /**
                  * @type {Signable}
                  */
@@ -29,9 +23,6 @@
                 if (!this.signable) {
                     throw new Error('Has no signable!');
                 }
-
-                const { type } = this.signable.getTxData();
-                this.isTockenIssue = type === SIGN_TYPE.ISSUE;
             }
 
         }

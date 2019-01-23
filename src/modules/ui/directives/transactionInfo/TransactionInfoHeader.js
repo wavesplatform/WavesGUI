@@ -1,23 +1,25 @@
 (function () {
     'use strict';
 
-    const controller = function (BaseTxInfo, $scope) {
+    const { SIGN_TYPE } = require('@waves/signature-adapter');
 
-        class TransactionInfoHeader extends BaseTxInfo {
+    /**
+     * @param {app.utils} utils
+     * @return {TransactionInfoHeader}
+     */
+    const controller = function (utils) {
 
-            constructor() {
-                super($scope);
+        class TransactionInfoHeader {
 
-                /**
-                 * @type {ITransaction}
-                 */
-                this.transaction = null;
-                /**
-                 * @type {string}
-                 */
-                this.txId = null;
+            /**
+             * @type {Signable}
+             */
+            signable;
 
-                this.templatePostfix = '-header';
+
+            $postLink() {
+                const isOrder = this.signable.type === SIGN_TYPE.CREATE_ORDER;
+                this.typeName = isOrder ? 'create-order' : utils.getTransactionTypeName(this.signable.getTxData());
             }
 
         }
@@ -25,7 +27,7 @@
         return new TransactionInfoHeader();
     };
 
-    controller.$inject = ['BaseTxInfo', '$scope'];
+    controller.$inject = ['utils'];
 
     angular.module('app.ui').component('wTransactionInfoHeader', {
         bindings: {
