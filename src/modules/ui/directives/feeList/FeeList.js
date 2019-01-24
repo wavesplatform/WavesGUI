@@ -13,9 +13,9 @@
         class FeeList extends Base {
 
             /**
-             * @type {number}
+             * @type {*}
              */
-            type = null;
+            tx = null;
             /**
              * @type {Money}
              */
@@ -32,18 +32,27 @@
 
             constructor() {
                 super();
-                this.observe('type', this._onChangeTxType);
+                $scope.$watch('$ctrl.tx', () => this._onChangeTx(), true);
                 this.observe('balanceHash', this._onChangeBalanceHash);
             }
 
-            _onChangeTxType() {
-                if (!this.type) {
+            /**
+             * @return {null}
+             * @private
+             */
+            _onChangeTx() {
+                if (!this.tx) {
                     return null;
                 }
 
-                waves.node.getFeeList({ type: this.type }).then(list => {
+                waves.node.getFeeList(this.tx).then(list => {
                     this.originalFeeList = list;
                     this._setActualFeeList();
+
+                    if (this.fee && !find(list, item => item.asset.id === this.fee.asset.id && !item.eq(this.fee))) {
+                        this.fee = null;
+                    }
+
                     if (!(this.fee && find(this.feeList, item => item.asset.id === this.fee.asset.id))) {
                         const fee = this.balanceHash && Object.keys(this.balanceHash).length && list.find(item => {
                             const balance = this.balanceHash[item.asset.id];
@@ -81,6 +90,11 @@
                 }
             }
 
+            /**
+             * @param {Array<Money>} list
+             * @return {null}
+             * @private
+             */
             _setActualFeeList(list = this.originalFeeList) {
                 const hasBalances = this.balanceHash && Object.keys(this.balanceHash).length;
 
@@ -112,7 +126,7 @@
 
     angular.module('app.ui').component('wFeeList', {
         bindings: {
-            type: '<',
+            tx: '<',
             balanceHash: '<',
             disabled: '<',
             fee: '='

@@ -142,7 +142,7 @@
              */
             _updateFee() {
                 return this._getTxForFee()
-                    .then(tx => waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP, tx }))
+                    .then(tx => waves.node.getFee(tx))
                     .then(fee => {
                         this.fee = fee;
                         this._updateAvilableFee();

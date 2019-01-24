@@ -112,7 +112,7 @@
             cancelLeasing() {
                 const lease = this.transaction;
                 const leaseId = lease.id;
-                return waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING })
+                return waves.node.getFee({ type: SIGN_TYPE.CANCEL_LEASING })
                     .then((fee) => {
                         const tx = waves.node.transactions.createTransaction({
                             fee,

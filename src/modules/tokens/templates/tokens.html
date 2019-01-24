@@ -140,6 +140,21 @@
             </div>
 
             <div class="row">
+                <div class="body-2 basic-900" w-i18n="script"></div>
+                <w-input-container>
+                    <w-input textarea
+                             w-validate
+                             w-validator-custom="{{$ctrl.isValidScript}}"
+                             ng-model="$ctrl.script"
+                             name="script"></w-input>
+
+                    <w-input-error message="custom">
+                        <span w-i18n="validators.invalidScript"></span>
+                    </w-input-error>
+                </w-input-container>
+            </div>
+
+            <div class="row">
                 <div class="body-2 basic-900" w-i18n="preview"></div>
                 <div class="preview">
                     <div class="avatar-wrap">

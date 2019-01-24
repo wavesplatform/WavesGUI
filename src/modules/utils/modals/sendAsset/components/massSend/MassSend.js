@@ -15,7 +15,6 @@
     const controller = function (Base, readFile, $scope, utils, validateService, waves, user, decorators) {
 
         const Papa = require('papaparse');
-        const TYPE = WavesApp.TRANSACTION_TYPES.NODE.MASS_TRANSFER;
 
         class MassSend extends Base {
 
@@ -106,21 +105,23 @@
                 this.tx.transfers = transfers;
 
                 const onHasMoneyHash = () => {
-                    const signal = utils.observe(this.state.massSend, 'transfers');
+                    const changeTransfers = utils.observe(this.state.massSend, 'transfers');
+                    const changeAssetId = utils.observe(this.state, 'assetId');
 
-                    this.receive(utils.observe(this.state, 'assetId'), this._onChangeAssetId, this);
+                    this.receive(changeAssetId, this._onChangeAssetId, this);
 
                     this.observe(['transfers', 'errors'], this._updateTxList);
                     this.observe('totalAmount', this._validate);
                     this.observe('transfers', this._updateTextAreaContent);
                     this.observe('recipientCsv', this._onChangeCSVText);
-                    this.receive(signal, this._calculateTotalAmount, this);
-                    this.receive(signal, this._validate, this);
-                    this.receive(signal, this._calculateFee, this);
+                    this.receive(changeTransfers, this._calculateTotalAmount, this);
+                    this.receive(changeTransfers, this._validate, this);
+                    this.receive(changeTransfers, this._calculateFee, this);
+                    this.receive(changeAssetId, this._calculateFee, this);
                     this.receive(utils.observe(this.state.massSend, 'fee'), this._currentHasFee, this);
 
                     this.transfers = this.tx.transfers.slice();
-                    signal.dispatch();
+                    changeTransfers.dispatch();
                 };
 
                 if (this.state.moneyHash) {
@@ -245,7 +246,7 @@
              */
             @decorators.async()
             _calculateFee() {
-                waves.node.getFee({ type: TYPE, tx: this.tx }).then((fee) => {
+                waves.node.getFee(this.tx).then((fee) => {
                     this.tx.fee = fee;
                     $scope.$digest();
                 });

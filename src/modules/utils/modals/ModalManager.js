@@ -438,7 +438,7 @@
 
                 return Promise.all([
                     ds.api.assets.get(assetId),
-                    waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP })
+                    waves.node.getFee({ type: SIGN_TYPE.SPONSORSHIP })
                 ]).then(([asset, fee]) => {
                     const money = new Money(0, asset);
                     const tx = waves.node.transactions.createTransaction({

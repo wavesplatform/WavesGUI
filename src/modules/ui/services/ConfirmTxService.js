@@ -146,6 +146,7 @@
                         ...tx,
                         ticker: null,
                         precision: tx.decimals,
+                        hasScript: !!(tx.script && tx.script.replace('base64:', '')),
                         height
                     }));
                 });

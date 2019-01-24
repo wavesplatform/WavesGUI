@@ -1,6 +1,6 @@
 import * as assetsApi from './assets/assets';
 import * as transactionsApi from './transactions/transactions';
-import { parseTx, parseExchangeOrder } from './transactions/parse';
+import { parseTx, parseExchangeOrder, getAssetsHashFromTx } from './transactions/parse';
 import * as utilsFunctions from '../utils/utils';
 import { request } from '../utils/request';
 import { assetStorage } from '../utils/AssetStorage';
@@ -14,6 +14,7 @@ import {
     signatureTimeout,
     factory
 } from './matcher/getOrders';
+import * as addressModule from './address';
 import { getLastPrice } from './matcher/getLastPrice';
 import { getAddressByAlias, getAliasesByAddress } from './aliases/aliases';
 import * as pairsModule from './pairs/pairs';
@@ -30,7 +31,7 @@ export const matcher = {
 
 export const assets = { ...assetsApi };
 
-export const transactions = { ...transactionsApi, parseTx, parseExchangeOrder };
+export const transactions = { ...transactionsApi, parseTx, parseExchangeOrder, getAssetsHashFromTx };
 
 export const utils = { ...utilsFunctions, request, assetStorage };
 
@@ -41,3 +42,5 @@ export const pairs = {
 export const data = {
     ...dataModule
 };
+
+export const address = addressModule;
