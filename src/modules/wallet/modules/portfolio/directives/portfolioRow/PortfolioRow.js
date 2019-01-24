@@ -243,9 +243,8 @@
                         ) {
                             balance = value;
                             this._onUpdateBalance();
+                            this._initSponsorShips();
                         }
-
-                        this._initSponsorShips();
                     }
                 });
 

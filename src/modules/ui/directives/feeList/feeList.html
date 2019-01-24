@@ -7,7 +7,7 @@
               ng-model="$ctrl.fee"
               class="big">
         <w-option ng-repeat="fee in $ctrl.feeList track by fee.asset.id"
-                  value="::fee">
+                  value="fee">
             <span>{{::fee.asset.displayName}}</span>
             <span w-i18n="money-currency" class="money-currency" params="{money: fee}"></span>
         </w-option>

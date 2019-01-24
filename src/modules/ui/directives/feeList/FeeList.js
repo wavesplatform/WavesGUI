@@ -8,8 +8,6 @@
      */
     const controller = function (Base, waves, $scope) {
 
-        const { find } = require('ts-utils');
-
         class FeeList extends Base {
 
             /**
@@ -46,14 +44,21 @@
                 }
 
                 waves.node.getFeeList(this.tx).then(list => {
+
                     this.originalFeeList = list;
                     this._setActualFeeList();
 
-                    if (this.fee && !find(list, item => item.asset.id === this.fee.asset.id && !item.eq(this.fee))) {
+                    const isEqualAssetId = (asset1, asset2) => asset1.id === asset2.id;
+                    const isEqualMoney = (money1, money2) =>
+                        isEqualAssetId(money1.asset, money2.asset) && money1.eq(money2);
+
+                    const hasMyFeeInList = this.fee && list.some(item => isEqualMoney(item, this.fee));
+
+                    if (!hasMyFeeInList) {
                         this.fee = null;
                     }
 
-                    if (!(this.fee && find(this.feeList, item => item.asset.id === this.fee.asset.id))) {
+                    if (!(this.fee && list.find(item => item.asset.id === this.fee.asset.id))) {
                         const fee = this.balanceHash && Object.keys(this.balanceHash).length && list.find(item => {
                             const balance = this.balanceHash[item.asset.id];
                             return balance && balance.gte(item);

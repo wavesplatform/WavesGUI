@@ -71,6 +71,10 @@
              */
             scriptPending = false;
             /**
+             * @type {Money}
+             */
+            fee = null;
+            /**
              * @type {JQueryXHR | null}
              * @private
              */
@@ -80,11 +84,7 @@
              * @private
              */
             _balance;
-            /**
-             * @type {Money}
-             * @private
-             */
-            _fee = null;
+
 
             constructor() {
                 super($scope);
@@ -96,7 +96,7 @@
 
                 waves.node.getFee({ type: SIGN_TYPE.ISSUE })
                     .then(money => {
-                        this._fee = money;
+                        this.fee = money;
 
                         this._onChangeBalance();
                         $scope.$digest();
@@ -120,12 +120,16 @@
                     quantity,
                     precision,
                     script,
-                    fee: this._fee
+                    fee: this.fee
                 });
 
                 return ds.signature.getSignatureApi().makeSignable({ type: tx.type, data: tx });
             }
 
+            /**
+             * @return {null}
+             * @private
+             */
             _onChangeScript() {
                 if (this._scriptValidationXHR) {
                     this._scriptValidationXHR.abort();
@@ -177,10 +181,13 @@
             _onChangeBalance() {
                 this._balance = balanceWatcher.getBalance()[WAVES_ID];
 
-                this.invalid = (!this._fee || !this._balance) ||
-                    this._balance.getTokens().lt(this._fee.getTokens());
+                this.invalid = (!this.fee || !this._balance) ||
+                    this._balance.getTokens().lt(this.fee.getTokens());
             }
 
+            /**
+             * @private
+             */
             _reset() {
 
                 this.name = '';

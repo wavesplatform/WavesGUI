@@ -51,7 +51,7 @@
                                 .then(assetList => assetList.map(asset => asset.id)),
                             ds.signature.getSignatureApi().makeSignable({ type: tx.type, data: tx }).getBytes(),
                             ds.api.assets.get('WAVES'),
-                            this._isSmartAccount(tx),
+                            this._isSmartAccount(tx)
                         ]).then(([smartAssetsIdList, bytes, wavesAsset, hasScript]) => {
                             const bigNumberFee = currentFee(bytes, hasScript, smartAssetsIdList);
                             const count = bigNumberFee
@@ -230,7 +230,7 @@
             _fillReissue(tx) {
                 return ds.api.assets.get('WAVES').then(asset => ({
                     type: tx.type,
-                    assetId: tx.assets || 'DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn',
+                    assetId: tx.assetId || 'DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn',
                     reissuable: tx.reissue || true,
                     quantity: tx.quantity || new BigNumber(1),
                     fee: tx.fee || new Money(1, asset)
@@ -245,7 +245,7 @@
             _fillBurn(tx) {
                 return ds.api.assets.get('WAVES').then(asset => ({
                     type: tx.type,
-                    assetId: tx.assets || 'DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn',
+                    assetId: tx.assetId || 'DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn',
                     amount: tx.amount || new BigNumber(1),
                     fee: tx.fee || new Money(1, asset)
                 }));

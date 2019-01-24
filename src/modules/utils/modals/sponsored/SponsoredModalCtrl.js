@@ -162,8 +162,9 @@
              * @private
              */
             _getTxForFee() {
-                return Promise.resolve(() => {
-                    return { type: SIGN_TYPE.SPONSORSHIP, minSponsoredAssetFee: new Money(0, this.asset) };
+                return Promise.resolve({
+                    type: SIGN_TYPE.SPONSORSHIP,
+                    minSponsoredAssetFee: new Money(0, this.asset)
                 });
             }
 
