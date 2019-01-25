@@ -1,0 +1,14 @@
+<div w-i18n-ns="app.ui" class="range-slider">
+    <div class="range-slider__title"></div>
+    <div class="range-slider__inner">
+        <div class="range-slider__track"></div>
+        <div class="range-slider__handler handler">
+            <div class="handler__value">{{value}}</div>
+        </div>
+        <div class="range-slider__number"
+             ng-repeat="num in $ctrl.numbers"
+             ng-cloak>
+            {{num + 1}}
+        </div>
+    </div>
+</div>
