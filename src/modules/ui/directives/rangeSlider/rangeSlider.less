@@ -1,0 +1,44 @@
+@import (reference) 'config';
+
+.range-slider {
+  background-color: @color-white;
+  padding-top: 40px;
+
+  &__inner {
+    position: relative;
+    height: 53px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  &__title {
+    font-size: @font-size-control-big;
+  }
+
+  &__handler {
+    position: absolute;
+    top: 0;
+    border: 2px solid #1f5af6;
+    border-radius: 50%;
+    height: 18px;
+    width: 18px;
+    background: #ffffff;
+    cursor: pointer;
+  }
+
+  &__track {
+    background: @color-basic-200;
+    display: inline-block;
+    width: 100%;
+    height: 2px;
+    margin: 0 13px;
+  }
+
+  &__number {
+    font-size: 11px;
+    color: @color-basic-200;
+  }
+}
