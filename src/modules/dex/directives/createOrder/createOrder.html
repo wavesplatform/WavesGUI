@@ -143,7 +143,7 @@
                                          ng-model="$ctrl.price"
                                          required></w-input>
                                 <div class="asset-name-wrap">
-                                    <div class="caption-1 disabled-500">{{$ctrl.priceDisplayName}}</div>
+                                    <div class="caption-1 basic-500">{{$ctrl.priceDisplayName}}</div>
                                 </div>
                             </div>
                             <w-input-error message="precision" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
@@ -198,20 +198,13 @@
                         </w-select>
                     </div>
 
-                    <w-button ng-if="$ctrl.hasScript"
-                              class="inactive-order-button footnote-1">
-                        <span w-i18n="directives.createOrder.hasScript"
-                              params="{name: $ctrl.amountBalance.asset.displayName}"></span>
-                    </w-button>
-
                     <w-permit name="CAN_CREATE_ORDER" mode="on">
-                        <w-button ng-if="!$ctrl.hasScript"
-                                  disabled="$ctrl.order.$invalid || $ctrl.order.$pristine"
+                        <w-button disabled="$ctrl.order.$invalid || $ctrl.order.$pristine"
                                   class="place-order small footnote-3"
                                   on-click="$ctrl.createOrder($event, order)">
                             <span ng-if="$ctrl.type === 'sell'"
-                              w-i18n="directives.createOrder.placeSellOrder"
-                              params="{name: $ctrl.amountBalance.asset.displayName}"></span>
+                                  w-i18n="directives.createOrder.placeSellOrder"
+                                  params="{name: $ctrl.amountBalance.asset.displayName}"></span>
                             <span ng-if="$ctrl.type === 'buy'"
                                   w-i18n="directives.createOrder.placeBuyOrder"
                                   params="{name: $ctrl.amountBalance.asset.displayName}"></span>

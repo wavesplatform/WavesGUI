@@ -69,6 +69,7 @@
         $rootScope.isDesktop = isDesktop;
         $rootScope.isNotDesktop = !isDesktop;
         $rootScope.isPhone = isPhone;
+        $rootScope.isNotPhone = !isPhone;
         $rootScope.isTablet = isTablet;
 
         if (isPhone) {
@@ -515,6 +516,7 @@
         'decorators',
         'waves',
         'ModalRouter',
+        'configService',
         'whatsNew'
     ];
 
@@ -526,5 +528,6 @@
  * @property {boolean} $rootScope.Scope#isDesktop
  * @property {boolean} $rootScope.Scope#isNotDesktop
  * @property {boolean} $rootScope.Scope#isPhone
+ * @property {boolean} $rootScope.Scope#isNotPhone
  * @property {boolean} $rootScope.Scope#isTablet
  */

@@ -14,7 +14,10 @@
 
         const entities = require('@waves/data-entities');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
+
         const ds = require('data-service');
+        const { path } = require('ramda');
+        const { STATUS_LIST } = require('@waves/oracle-data');
 
         class TokenChangeModalCtrl extends Base {
 
@@ -65,6 +68,12 @@
                  * @private
                  */
                 this._waves = null;
+
+                const data = ds.dataManager.getOracleAssetData(money.asset.id);
+                this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
+                this.isGateway = path(['status'], data) === 3;
+                this.ticker = money.asset.ticker;
+                this.description = path(['description', 'en'], data) || money.asset.description;
 
                 const { TokenChangeModalCtrl = {} } = user.getThemeSettings();
 

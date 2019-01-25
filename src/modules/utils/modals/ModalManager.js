@@ -89,6 +89,21 @@
                 });
             }
 
+            /**
+             * @param {Signable} signable
+             * @return {Promise<Signable>}
+             */
+            showSignByDevice(signable) {
+                return this._getModal({
+                    id: 'sign-by-device',
+                    contentUrl: 'modules/utils/modals/signByDevice/signByDevice.html',
+                    controller: 'SignByDeviceCtrl',
+                    locals: { signable },
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
             showConfirmOrder(options) {
                 return this._getModal({
                     id: 'confirm-correct-order',
@@ -98,19 +113,17 @@
                 });
             }
 
-            showSignByDevice(options) {
+            /**
+             * @param {Promise} promise
+             * @param {string} type
+             * @return {Promise}
+             */
+            showLoginByDevice(promise, type) {
                 return this._getModal({
-                    id: 'sign-by-device',
-                    contentUrl: 'modules/utils/modals/signByDevice/signByDevice.html',
-                    controller: 'SignByDeviceCtrl',
-                    locals: {
-                        devicePromise: () => options.promise,
-                        userType: options.userType,
-                        address: options.address,
-                        mode: options.mode,
-                        id: options.id,
-                        data: options.data
-                    },
+                    id: 'login-by-device',
+                    contentUrl: 'modules/utils/modals/loginByDevice/loginByDevice.html',
+                    controller: 'LoginByDeviceCtrl',
+                    locals: () => ({ promise, type }),
                     clickOutsideToClose: false,
                     escapeToClose: false
                 });

@@ -1,62 +1,127 @@
 (function () {
     'use strict';
 
+    const { SIGN_TYPE } = require('@waves/signature-adapter');
+    const $ = require('jquery');
+
     /**
      * @param Base
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param {$mdDialog} $mdDialog
+     * @param {User} user
      * @return {SignByDeviceCtrl}
      */
-    const controller = function (Base, $scope, $mdDialog) {
+    const controller = function (Base, $scope, $mdDialog, user) {
 
         class SignByDeviceCtrl extends Base {
 
-            constructor({ locals }) {
+            /**
+             * @type {JQuery.Deferred<Signable>}
+             */
+            deferred = $.Deferred();
+            /**
+             * @type {string}
+             */
+            mode = '';
+            /**
+             * @type {boolean}
+             */
+            loading = true;
+            /**
+             * @type {boolean}
+             */
+            isLedger = false;
+            /**
+             * @type {boolean}
+             */
+            isKeeper = false;
+            /**
+             * @type {*}
+             */
+            txData = null;
+            /**
+             * @type {Money}
+             */
+            total;
+
+            /**
+             * @param {Signable} signable
+             */
+            constructor(signable) {
                 super($scope);
-                this.mode = locals.mode;
-                this.loading = true;
-                this.txId = locals.id;
-                this.txData = locals.data;
-                this.userType = locals.userType;
-                this.isLedger = this.userType === 'ledger';
-                this.isKeeper = this.userType === 'wavesKeeper';
-                this.deferred = {};
-                this.deferred.promise = new Promise((res, rej) => {
-                    this.deferred.resolve = res;
-                    this.deferred.reject = rej;
+
+                this.mode = SignByDeviceCtrl.getSignMode(signable.type);
+
+                signable.getId().then(id => {
+                    this.txId = id;
+                    $scope.$apply();
                 });
 
-                locals.devicePromise().then(
-                    () => this.deferred.resolve(),
-                    () => this.deferred.reject()
-                );
+                this.txData = signable.getTxData();
 
-                this.deferred.promise.then(
-                    () => this.onLoad(),
-                    () => this.onError()
-                );
+                if (this.txData.price) {
+                    this.total = this.txData.price.cloneWithTokens(
+                        this.txData.price.getTokens().times(this.txData.amount.getTokens())
+                    );
+                }
+
+                this.isLedger = user.userType === 'ledger';
+                this.isKeeper = user.userType === 'wavesKeeper';
+
+                this.deferred.promise()
+                    .then(signable => {
+                        this.onLoad(signable);
+                    })
+                    .catch(error => {
+                        this.onError(error);
+                    });
+
+                signable.getSignature()
+                    .then(() => {
+                        this.deferred.resolve(signable);
+                    })
+                    .catch(error => {
+                        this.deferred.reject(error);
+                    });
             }
 
             onClose() {
                 this.deferred.reject();
             }
 
-            onLoad() {
-                $mdDialog.hide();
+            onLoad(signable) {
+                $mdDialog.hide(signable);
                 $scope.$destroy();
             }
 
-            onError() {
-                $mdDialog.cancel();
+            onError(error) {
+                $mdDialog.cancel(error);
                 $scope.$destroy();
+            }
+
+            /**
+             * @param {SIGN_TYPE} type
+             * @return string
+             */
+            static getSignMode(type) {
+                switch (type) {
+                    case SIGN_TYPE.CREATE_ORDER:
+                        return 'create-order';
+                    case SIGN_TYPE.CANCEL_ORDER:
+                        return 'cancel-order';
+                    case SIGN_TYPE.MATCHER_ORDERS:
+                        return 'sign-matcher';
+                    default:
+                        throw new Error('Wrong sign type!');
+                }
             }
 
         }
 
-        return new SignByDeviceCtrl(this);
+        return new SignByDeviceCtrl(this.signable);
     };
 
-    controller.$inject = ['Base', '$scope', '$mdDialog'];
+    controller.$inject = ['Base', '$scope', '$mdDialog', 'user'];
 
     angular.module('app.ui')
         .controller('SignByDeviceCtrl', controller);

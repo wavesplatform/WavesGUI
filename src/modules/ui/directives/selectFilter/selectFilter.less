@@ -1,0 +1,97 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+
+w-select {
+  w-select-filter {
+    display: none;
+    position: relative;
+    z-index: 11;
+    border: 1px solid @color-basic-200;
+    border-top: 0 none;
+  }
+}
+
+w-select {
+  div.select.expanded {
+
+    w-select-filter {
+      display: block;
+      position: relative;
+      &:before {
+        content: '';
+        display: block;
+        width: 14px;
+        height: 14px;
+        top: 50%;
+        left: 16px;
+        position: absolute;
+        z-index: 12;
+        transform: translateY(-50%);
+        background: url(../../../../img/icons/icon-search-dex.svg) center no-repeat;
+        background-size: cover;
+      }
+
+      w-input,
+      input {
+        height: 48px;
+        width: 100%;
+        border: 0 none;
+        @media screen and (max-width: 540px) {
+          height: 42px;
+        }
+      }
+
+      .w-input-wrap.focused {
+        outline: 1px solid #1f5af6;
+      }
+
+      input {
+        background: @filter-select-background;
+        padding: 0 34px 0 40px;
+        color: @color-black;
+        margin: 0 auto;
+        font-size: 15px;
+        @media screen and (max-width: 540px) {
+          font-size: 13px;
+        }
+        &::-webkit-input-placeholder {
+          color: @color-basic-500;
+          opacity: 1;
+        }
+        &:-ms-input-placeholder {
+          color: @color-basic-500;
+          opacity: 1;
+        }
+        &::-moz-placeholder {
+          color: @color-basic-500;
+          opacity: 1;
+        }
+      }
+
+      .help-icon__icon,
+      .input-clear {
+        width: 14px;
+        height: 14px;
+        color: @white-only;
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .input-clear {
+        cursor: pointer;
+        background: url(../../../../img/icons/order_cancel.svg) center no-repeat;
+        background-size: 8px 8px;
+      }
+
+      .help-icon__content {
+        left: auto;
+        right: -20px;
+        top: calc(50% ~'+ 13px');
+        width: 40%;
+        min-width: 200px;
+      }
+    }
+  }
+}

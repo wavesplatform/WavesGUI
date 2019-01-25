@@ -123,8 +123,6 @@
                     <div class="footnote-1 basic-500" w-i18n="modal.settings.general.blockHeight"></div>
                     <div><span class="label">{{$ctrl.blockHeight}}</span></div>
                 </div>
-                <div class="bottom-padding"></div>
-
             </w-step>
 
             <w-step step-id="security" class="security">
@@ -225,7 +223,7 @@
                                             </g>
                                         </svg>
                                     </div>
-                                    <w-help-icon ng-if="!$ctrl.oracleError && $ctrl.oracleData">
+                                    <w-help-icon class="info" ng-if="!$ctrl.oracleError && $ctrl.oracleData">
                                         <div class="flex">
                                             <div>
                                                 <div class="data-provider-name basic-700">
@@ -272,9 +270,11 @@
                     </div>
                 </div>
 
-                <w-button class="interface bordered" on-click="$ctrl.setNetworkDefault()">
-                    <span w-i18n="modal.settings.setDefault"></span>
-                </w-button>
+                <div class="margin-4">
+                    <w-button class="interface bordered" on-click="$ctrl.setNetworkDefault()">
+                        <span w-i18n="modal.settings.setDefault"></span>
+                    </w-button>
+                </div>
             </w-step>
 
             <w-step step-id="info" class="info">

@@ -9,12 +9,7 @@
         <i class="icon"></i><span w-i18n="directives.myOrders.noPermissionCancelOrder"></span>
     </div>
 
-    <div ng-if="$ctrl.hasScript"
-         w-i18n="directives.myOrders.withScript"
-         class="centered">
-    </div>
-
-    <w-empty-block ng-if="!$ctrl.orders.length && !$ctrl.isDemo && !$ctrl.loadingError && !$ctrl.hasScript && $ctrl.hasScript"></w-empty-block>
+    <w-empty-block ng-if="!$ctrl.orders.length && !$ctrl.isDemo && !$ctrl.loadingError"></w-empty-block>
     <w-error-block ng-if="$ctrl.loadingError"></w-error-block>
 
     <div class="sign-in-message" ng-if="$ctrl.isDemo">
@@ -24,7 +19,7 @@
         <span w-i18n="directives.demo.to.openorders"></span>
     </div>
 
-    <div class="order-row" ng-if="!$ctrl.loadingError && !$ctrl.hasScript" ng-repeat="order in $data track by order.id">
+    <div class="order-row" ng-if="!$ctrl.loadingError" ng-repeat="order in $data track by order.id">
         <w-table-row class="{{::order.type}}"
                      ng-class="{'new-order': order.isNew, 'can-expand': !!order.exchange.length}">
             <w-table-cell>

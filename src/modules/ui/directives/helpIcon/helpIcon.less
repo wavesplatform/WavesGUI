@@ -9,6 +9,12 @@
     margin-left: 7px;
     z-index: 1;
 
+    &.info {
+      &::before {
+        content: 'i';
+      }
+    }
+
     &::before {
       content: '?';
       background: @color-accent-100;
@@ -70,6 +76,14 @@
     left: 40px;
     width: calc(100% ~'- 80px');
 
+    .label-background {
+      background: @label-background-color;
+      display: inline-block;
+      padding: 3px 5px;
+      border-radius: @border-radius / 2;
+      margin: 0 4px 2px 0;
+    }
+
     &:hover {
       display: block;
     }
@@ -78,6 +92,20 @@
   &__row {
     margin-bottom: 5px;
     margin-top: 0;
+  }
+
+
+}
+
+w-help-icon {
+  &.info {
+    .help-icon {
+      &__icon {
+        &::before {
+          content: 'i';
+        }
+      }
+    }
   }
 }
 

@@ -30,8 +30,11 @@
                 user.onLogin().then(() => this._watch());
             }
 
+            /**
+             * @return {Record<string, Money>}
+             */
             getBalance() {
-                return utils.toHash(this._balance, 'asset.id');
+                return this._getHash();
             }
 
             /**
@@ -54,6 +57,21 @@
             }
 
             /**
+             * @private
+             */
+            _dispatch() {
+                this.change.dispatch(this._getHash());
+            }
+
+            /**
+             * @return {*}
+             * @private
+             */
+            _getHash() {
+                return utils.toHash(this._balance, 'asset.id');
+            }
+
+            /**
              * @param {Array<Money>} balances
              * @return {null}
              * @private
@@ -63,8 +81,8 @@
                 const list = balances.slice().sort(comparator);
 
                 const apply = () => {
-                    this.change.dispatch(utils.toHash(list, 'asset.id'));
                     this._balance = list;
+                    this._dispatch();
                 };
 
                 if (list.length !== this._balance.length) {
@@ -72,10 +90,10 @@
                     return null;
                 }
 
-                const isEqual = list.some((money, i) => money.asset.id !== this._balance[i].asset.id ||
+                const notEqual = list.some((money, i) => money.asset.id !== this._balance[i].asset.id ||
                     !money.getTokens().eq(this._balance[i].getTokens()));
 
-                if (!isEqual) {
+                if (notEqual) {
                     apply();
                 }
             }
