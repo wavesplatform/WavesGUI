@@ -49,7 +49,7 @@
             </w-table-cell>
             <w-table-cell>
                 <span class="cell-label"><span w-i18n="directives.myOrders.fee"></span></span>
-                0.003
+                {{ ::order.fee.toFormat() }}
             </w-table-cell>
             <w-table-cell ng-click="$ctrl.toggleDetails(order)">
                 <div class="status">

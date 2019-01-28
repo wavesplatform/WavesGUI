@@ -178,12 +178,15 @@
              * @param {IOrder} order
              * @private
              */
-            static _remapOrders(order) {
-                const assetPair = order.assetPair;
-                const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
-                const isNew = Date.now() < (order.timestamp.getTime() + 1000 * 8);
-                const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
-                return { ...order, isNew, percent, pair };
+            static _remapOrders(matcherPublicKey) {
+                return order => {
+                    const assetPair = order.assetPair;
+                    const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
+                    const isNew = Date.now() < (order.timestamp.getTime() + 1000 * 8);
+                    const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
+                    return waves.matcher.getCreateOrderFee({ ...order, matcherPublicKey })
+                        .then(fee => ({ ...order, isNew, percent, pair, fee }));
+                };
             }
 
             static _getFeeByType(type) {
@@ -300,12 +303,17 @@
              * @private
              */
             _getOrders() {
-                return this._getAllOrders()
-                    .then((orders) => {
-                        const remap = R.map(DexMyOrders._remapOrders);
+                return Promise.all([
+                    this._getAllOrders(),
+                    ds.fetch(ds.config.get('matcher'))
+                ])
+                    .then(([orders, matcherPublicKey]) => {
+                        const remap = R.map(DexMyOrders._remapOrders(matcherPublicKey));
 
                         orders.sort(utils.comparators.process(a => a.timestamp).desc);
-                        const result = remap(orders);
+                        return Promise.all(remap(orders));
+                    })
+                    .then(result => {
                         const last = result.length ? result[result.length - 1] : null;
 
                         if (!last) {
