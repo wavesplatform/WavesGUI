@@ -2,43 +2,68 @@
 
 .range-slider {
   background-color: @color-white;
-  padding-top: 40px;
+  padding-top: 28px;
+  margin: 10px 0 20px;
+
+  &_drag {
+    cursor: pointer;
+  }
 
   &__inner {
     position: relative;
-    height: 53px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    //height: 53px;
+    //width: 100%;
+    //padding-top: 28px;
+    //display: flex;
+    //align-items: center;
+    //justify-content: space-between;
+    //flex-wrap: wrap;
   }
 
   &__title {
     font-size: @font-size-control-big;
   }
 
-  &__handler {
+  &__handle {
     position: absolute;
-    top: 0;
+    top: -8px;
+    left: 0;
     border: 2px solid #1f5af6;
     border-radius: 50%;
     height: 18px;
     width: 18px;
     background: #ffffff;
     cursor: pointer;
+    user-select: none;
   }
 
   &__track {
     background: @color-basic-200;
-    display: inline-block;
+    //display: inline-block;
     width: 100%;
     height: 2px;
-    margin: 0 13px;
+    //margin: 0 13px;
+  }
+
+
+  &__numbers-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 10px 5.5px 0;
   }
 
   &__number {
     font-size: 11px;
     color: @color-basic-200;
+    line-height: 13px;
+    user-select: none;
+  }
+}
+
+.handle {
+  &_drag {
+
   }
 }
