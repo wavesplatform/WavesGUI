@@ -58,7 +58,7 @@
                     return user.address ? user.addMatcherSign() : Promise.resolve();
                 };
 
-                matcherSign
+                matcherSign()
                     .catch(() => Promise.resolve())
                     .then(() => {
                         this._initializePair().then(() => {
