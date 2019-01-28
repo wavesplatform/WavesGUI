@@ -111,7 +111,7 @@
                 const address = generator.utils.crypto.buildRawAddress(generator.libs.base58.decode(publicKey));
 
                 return ds.api.address.getScriptInfo(address)
-                    .then(data => data.extraFee.getTokens().eq(0));
+                    .then(data => data.extraFee.getTokens().gt(0));
             }
 
             /**
@@ -126,6 +126,11 @@
                 };
             }
 
+            /**
+             * @param tx
+             * @return {*}
+             * @private
+             */
             _fillTransaction(tx) {
                 switch (tx.type) {
                     case SIGN_TYPE.ISSUE:
@@ -355,6 +360,11 @@
                 }));
             }
 
+            /**
+             * @param tx
+             * @return {*}
+             * @private
+             */
             _fillSetAssetScript(tx) {
                 return ds.api.assets.get('WAVES').then(asset => ({
                     type: tx.type,

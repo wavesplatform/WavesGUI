@@ -158,7 +158,10 @@
                 <div class="body-2 basic-900" w-i18n="preview"></div>
                 <div class="preview">
                     <div class="avatar-wrap">
-                        <w-asset-logo ng-if="$ctrl.name" size="30" asset-name="$ctrl.name"></w-asset-logo>
+                        <w-asset-logo ng-if="$ctrl.name"
+                                      has-script="$ctrl.script"
+                                      size="30"
+                                      asset-name="$ctrl.name"></w-asset-logo>
                     </div>
                     <div class="token-info-wrap" ng-class="{empty: $ctrl.createForm.$invalid}">
                         <div class="line token-name headline-3 basic-900">
