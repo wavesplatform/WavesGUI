@@ -330,11 +330,11 @@
                                 if (!transactionsByOrderHash[order.id]) {
                                     transactionsByOrderHash[order.id] = [];
                                 }
-                                if (transactionsByOrderHash[order.id].length) {
-                                    order.fee = transactionsByOrderHash[order.id]
-                                        .map(DexMyOrders._getFeeByType(order.type))
-                                        .reduce((sum, fee) => sum.add(fee));
-                                }
+                                // if (transactionsByOrderHash[order.id].length) {
+                                //     order.fee = transactionsByOrderHash[order.id]
+                                //         .map(DexMyOrders._getFeeByType(order.type))
+                                //         .reduce((sum, fee) => sum.add(fee));
+                                // }
                                 order.exchange = transactionsByOrderHash[order.id];
                                 return order;
                             });
