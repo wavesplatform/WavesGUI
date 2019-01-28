@@ -66,4 +66,30 @@
   &_drag {
 
   }
+  &__value {
+    position: relative;
+    top: -22px;
+    left: 50%;
+    width: 24px;
+    height: 16px;
+    background-color: @color-submit-400;
+    font-size: @font-size-control-tiny;
+    line-height: 16px;
+    color: @color-white;
+    border-radius: 4px;
+    text-align: center;
+    transform: translateX(-50%);
+    pointer-events: none;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 9px;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 4px 3px 0 3px;
+      border-color:  @color-submit-400 transparent transparent transparent;
+    }
+  }
 }

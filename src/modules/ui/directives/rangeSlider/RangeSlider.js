@@ -11,7 +11,7 @@
      */
     const controller = function ($element, $scope, Base, utils, $document) {
 
-        const { subtract, divide, range, slice, add, last } = require('ramda');
+        const { subtract, divide, range, last } = require('ramda');
 
         class RangeSlider extends Base {
 
@@ -60,6 +60,7 @@
                 this.numbers = range(0, this.amount);
                 this.numbersValues = range(1, this.amount + 1).map(num => num * this.step);
                 this.scale = divide((this.track.width() - this.handle.outerWidth()), (this.amount - 1));
+                this.value = this.numbersValues[0];
                 this._calcPosition();
                 this._initEvents();
             }
@@ -74,11 +75,9 @@
 
             _initEvents() {
                 let startPos = null;
-
                 const setDragState = ev => {
                     this.container.addClass('range-slider_drag');
                     startPos = startPos ? startPos : ev.pageX;
-
                     const drag = event => {
                         const position = Math.round(this.handle.position().left + (this.handle.width() / 2));
                         let newPosition = Math.round(event.pageX - startPos);
@@ -88,9 +87,11 @@
                         if (position > last(this.sections)) {
                             newPosition = last(this.sections);
                         }
+                        this.value = Math.round((newPosition + this.sections[1]) / this.scale);
                         this.handle.css({
                             left: newPosition
                         });
+                        $scope.$apply();
                     };
 
                     const afterDrag = async pos => {
@@ -124,7 +125,7 @@
             min: '<',
             max: '<',
             step: '<',
-            value: '='
+            value: '<'
         },
         templateUrl: 'modules/ui/directives/rangeSlider/rangeSlider.html',
         controller
