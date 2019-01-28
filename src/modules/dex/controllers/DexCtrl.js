@@ -54,7 +54,11 @@
                     this.tab = 'tradeHistory';
                 }
 
-                user.addMatcherSign()
+                const matcherSign = () => {
+                    return user.address ? user.addMatcherSign() : Promise.resolve();
+                };
+
+                matcherSign
                     .catch(() => Promise.resolve())
                     .then(() => {
                         this._initializePair().then(() => {
