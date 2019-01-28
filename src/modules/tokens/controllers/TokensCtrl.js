@@ -75,6 +75,10 @@
              */
             fee = null;
             /**
+             * @type {boolean}
+             */
+            hasAssetScript = false;
+            /**
              * @type {JQueryXHR | null}
              * @private
              */
@@ -110,7 +114,7 @@
             createSignable() {
                 const precision = Number(this.precision.toString());
                 const quantity = this.count.times(Math.pow(10, precision));
-                const script = this.script ? `${BASE_64_PREFIX}${this.script}` : '';
+                const script = this.hasAssetScript && this.script ? `${BASE_64_PREFIX}${this.script}` : '';
 
                 const tx = waves.node.transactions.createTransaction({
                     type: SIGN_TYPE.ISSUE,
@@ -197,6 +201,7 @@
                 this.precision = null;
                 this.maxCoinsCount = null;
                 this.script = '';
+                this.hasAssetScript = false;
 
                 this.createForm.$setPristine();
                 this.createForm.$setUntouched();

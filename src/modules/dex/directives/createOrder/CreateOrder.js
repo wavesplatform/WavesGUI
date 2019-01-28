@@ -164,6 +164,19 @@
                     });
                 });
 
+                const currentFee = () => Promise.all([
+                    waves.node.assets.getAsset(this._assetIdPair.amount),
+                    waves.node.assets.getAsset(this._assetIdPair.price),
+                    ds.fetch(ds.config.get('matcher'))
+                ]).then(([amount, price, matcherPublicKey]) => waves.matcher.getCreateOrderFee({
+                    amount: new entities.Money(0, amount),
+                    price: new entities.Money(0, price),
+                    matcherPublicKey
+                })).then(fee => {
+                    this.fee = fee;
+                    $scope.$apply();
+                });
+
                 Promise.all([
                     balancesPoll.ready,
                     lastTradePromise,
@@ -199,18 +212,7 @@
                             $scope.$apply();
                         }
                     }));
-                    Promise.all([
-                        waves.node.assets.getAsset(this._assetIdPair.amount),
-                        waves.node.assets.getAsset(this._assetIdPair.price),
-                        ds.fetch(ds.config.get('matcher'))
-                    ]).then(([amount, price, matcherPublicKey]) => waves.matcher.getCreateOrderFee({
-                        amount: new entities.Money(0, amount),
-                        price: new entities.Money(0, price),
-                        matcherPublicKey
-                    })).then(fee => {
-                        this.fee = fee;
-                        $scope.$apply();
-                    });
+                    currentFee();
                 });
 
                 this.observe(['priceBalance', 'totalPrice', 'maxPriceBalance'], this._setIfCanBuyOrder);
@@ -223,18 +225,7 @@
                     e.stopPropagation();
                 });
 
-                Promise.all([
-                    waves.node.assets.getAsset(this._assetIdPair.amount),
-                    waves.node.assets.getAsset(this._assetIdPair.price),
-                    ds.fetch(ds.config.get('matcher'))
-                ]).then(([amount, price, matcherPublicKey]) => waves.matcher.getCreateOrderFee({
-                    amount: new entities.Money(0, amount),
-                    price: new entities.Money(0, price),
-                    matcherPublicKey
-                })).then(fee => {
-                    this.fee = fee;
-                    $scope.$apply();
-                });
+                currentFee();
             }
 
             expand(type) {
