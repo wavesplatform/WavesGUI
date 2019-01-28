@@ -444,7 +444,7 @@
                 this.modalManager.showSponsorshipModal(this.balance.asset.id);
             });
 
-            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_CREATE}`, () => {
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SET_ASSET_SCRIPT}`, () => {
                 this.modalManager.showSetAssetScriptModal(this.balance.asset.id);
             });
 

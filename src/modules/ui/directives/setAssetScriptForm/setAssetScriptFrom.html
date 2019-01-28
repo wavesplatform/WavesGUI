@@ -6,7 +6,7 @@
                  ng-model="$ctrl.script"
                  w-validate
                  required
-                 w-validator-custom="$ctrl.isValidScript"></w-input>
+                 w-validator-custom="{{$ctrl.isValidScript}}"></w-input>
 
         <w-input-error message="required">
             <span w-i18n="directives.setAssetScriptForm.required"></span>

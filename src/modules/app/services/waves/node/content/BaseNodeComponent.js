@@ -368,7 +368,7 @@
             _fillSetAssetScript(tx) {
                 return ds.api.assets.get('WAVES').then(asset => ({
                     type: tx.type,
-                    script: tx.script || '',
+                    script: tx.script || 'base64:AQa3b8tH',
                     assetId: tx.assetId || 'DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn',
                     fee: tx.fee || new Money(1, asset)
                 }));

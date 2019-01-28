@@ -20,10 +20,10 @@
             step = 0;
 
 
-            constructor(tx) {
+            constructor(assetId) {
                 super($scope);
 
-                this.state = { tx };
+                this.state = { assetId };
             }
 
             onFillTxForm(signable) {

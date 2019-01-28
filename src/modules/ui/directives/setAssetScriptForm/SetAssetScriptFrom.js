@@ -92,7 +92,7 @@
                     data: script
                 });
 
-                this._scriptValidationXHR
+                this._activeXHR
                     .then(() => {
                         this.isValidScript = true;
                     })
@@ -134,7 +134,8 @@
                 return {
                     type: SIGN_TYPE.SET_ASSET_SCRIPT,
                     assetId: this.state.assetId,
-                    script: this.isAllOk ? this.script : 'AQa3b8tH'
+                    script: this.isAllOk && this.script ? `base64:${this.script}` : 'base64:AQa3b8tH',
+                    fee: this.fee || null
                 };
             }
 
