@@ -164,6 +164,13 @@
                             <span w-i18n-literal="sponsorshipStop"></span>
                         </div>
 
+                        {{#if canSetAssetScript}}
+                            <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SET_ASSET_SCRIPT}}"
+                                 role="button" tabindex="0">
+                                <span w-i18n-literal="setAssetScript"></span>
+                            </div>
+                        {{/if}}
+
                         {{#if canShowDex}}
                             <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.DEX}}"
                                  role="button" tabindex="0">

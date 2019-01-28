@@ -79,7 +79,8 @@
             TOGGLE_SPAM: 'js-action-button-toggle-spam',
             SPONSORSHIP_CREATE: 'js-action-button-sponsorship_create',
             SPONSORSHIP_EDIT: 'js-action-button-sponsorship_edit',
-            SPONSORSHIP_STOP: 'js-action-button-cancel-sponsorship'
+            SPONSORSHIP_STOP: 'js-action-button-cancel-sponsorship',
+            SET_ASSET_SCRIPT: 'js-action-button-set-asset-script'
         }
     };
 
@@ -215,6 +216,7 @@
                 const logo = data && data.logo;
 
                 const html = template({
+                    canSetAssetScript: this._isMyAsset && this.isSmart,
                     isVerified: data && data.status === STATUS_LIST.VERIFIED,
                     isGateway: data && data.status === 3,
                     assetIconPath: logo || ASSET_IMAGES_MAP[this.balance.asset.id],
@@ -439,6 +441,10 @@
 
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_CREATE}`, () => {
                 this.modalManager.showSponsorshipModal(this.balance.asset.id);
+            });
+
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_CREATE}`, () => {
+                this.modalManager.showSetAssetScriptModal(this.balance.asset.id);
             });
 
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_EDIT}`, () => {

@@ -1,0 +1,26 @@
+<form name="setAssetScriptForm" novalidate>
+
+    <w-input-container>
+        <w-input textarea
+                 name="script"
+                 ng-model="$ctrl.script"
+                 w-validate
+                 required
+                 w-validator-custom="$ctrl.isValidScript"></w-input>
+
+        <w-input-error message="required">
+            <span w-i18n="directives.setAssetScriptForm.required"></span>
+        </w-input-error>
+
+        <w-input-error message="custom">
+            <span w-i18n="directives.setAssetScriptForm.invalid"></span>
+        </w-input-error>
+    </w-input-container>
+
+    <w-button on-click="$ctrl.onClickNext()"
+              disabled="setAssetScriptForm.$invalid || $ctrl.isPendingScrip"
+              class="submit big long">
+        <span w-i18n="directives.setAssetScriptForm.ok"></span>
+    </w-button>
+
+</form>

@@ -433,6 +433,18 @@
                 });
             }
 
+            showSetAssetScriptModal(assetId) {
+                const title = 'modal.setAssetScript.title';
+                return this._getModal({
+                    id: 'setAssetScript',
+                    mod: 'setAssetScript',
+                    locals: assetId,
+                    titleContent: `<span w-i18n="${title}"></span>`,
+                    controller: 'SetAssetScriptModalCtrl',
+                    contentUrl: 'modules/utils/modals/setAssetScript/setAssetScript.html'
+                });
+            }
+
             showSponsorshipStopModal(assetId) {
                 const waves = $injector.get('waves');
 
