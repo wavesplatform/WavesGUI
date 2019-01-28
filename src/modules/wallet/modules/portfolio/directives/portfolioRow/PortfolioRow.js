@@ -217,6 +217,7 @@
 
                 const html = template({
                     canSetAssetScript: this._isMyAsset && this.isSmart,
+                    isSmart: this.isSmart,
                     isVerified: data && data.status === STATUS_LIST.VERIFIED,
                     isGateway: data && data.status === 3,
                     assetIconPath: logo || ASSET_IMAGES_MAP[this.balance.asset.id],
