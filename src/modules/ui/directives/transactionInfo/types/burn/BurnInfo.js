@@ -72,8 +72,8 @@
                     const quantity = new Money(asset.quantity, asset);
                     const toReissue = this.transaction.amount;
 
-                    this.toRemainOnBalance = (hash[assetId] || new Money(0, asset)).add(toReissue);
-                    this.totalAfterIssueTokens = quantity.add(toReissue);
+                    this.toRemainOnBalance = (hash[assetId] || new Money(0, asset)).minus(toReissue);
+                    this.totalAfterIssueTokens = quantity.minus(toReissue);
 
                     $scope.$apply();
                 });
