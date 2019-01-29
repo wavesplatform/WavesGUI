@@ -7,25 +7,11 @@
 
   md-dialog-content {
     overflow-y: hidden;
-    &::after {
-      display: none;
-    }
   }
 
   .setAssetScript__input {
     height: 200px;
     overflow: auto;
-  }
-
-  .tab-tem {
-    .footnote-1();
-    overflow-y: auto;
-    max-height: calc(~'90vh - 280px');
-  }
-
-  w-tabs {
-    margin: -1px 0 0 -40px;
-    width: calc(100% ~'+ 80px');
   }
 
   @media screen and (max-width: 768px) {
@@ -59,6 +45,7 @@
     flex-direction: row;
     justify-content: space-between;
     border-bottom: 1px solid @color-basic-100;
+    border-top: 1px solid @color-basic-100;
     padding: 5px 0;
     align-items: center;
     min-height: 44px;
@@ -66,13 +53,14 @@
     &-description {
       width: 100%;
       padding: 13px 16px;
-      border: 1px dashed @color-basic-100;
       border-radius: @border-radius;
       background: @color-basic-50;
+      margin-top: 4px;
+      border: 1px solid @color-basic-100;
     }
 
-    &:first-child {
-      margin-top: -10px;
+    &-no-border {
+      border-top: 0 none;
     }
 
     &.chart-container {
@@ -92,26 +80,10 @@
       }
     }
 
-    &-description {
-      padding-top: 20px;
-
-      div:last-child {
-        padding-top: 6px;
-        min-height: 30px;
-      }
-    }
-
     &:last-child {
       border-bottom: 0 none;
     }
 
-  }
-
-  .no-transactions {
-    w-empty-block,
-    w-error-block {
-      margin: 20px auto;
-    }
   }
 }
 

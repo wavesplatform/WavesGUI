@@ -1,6 +1,6 @@
 <form name="setAssetScriptForm" novalidate>
 
-    <div class="asset-modal__head">
+    <div class="asset-modal__head margin-4">
         <div class="asset-modal__head-content">
             <w-asset-logo ng-cloak asset-id="{{::$ctrl.asset.id}}"
                           size="65"
@@ -25,17 +25,19 @@
         </div>
     </div>
 
-    <div class="line line-description">
+    <div class="line">
         <div class="basic-500">Asset ID</div>
         <div class="basic-900 break-all fs-mobile ng-binding">txid_hardcode</div>
     </div>
 
-    <div class="lin">
-        <div class="basic-500">Description</div>
-        <div class="basic-900 break-all fs-mobile ng-binding">Description HARDCODE</div>
+    <div class="basic-500 margin-top-1">Description</div>
+    <div class="line line-no-border ">
+        <div class="line-description margin-1">
+            <div class="basic-900 break-all fs-mobile ng-binding">Description HARDCODE</div>
+        </div>
     </div>
 
-    <div class="body-2">Script</div>
+    <div class="body-2 margin-top-1">Script</div>
 
     <w-input-container>
         <w-input textarea
@@ -55,14 +57,13 @@
         </w-input-error>
     </w-input-container>
 
-    <div class="basic-500 margin-1 margin-top-1">Script can be developed with Waves IDE <span style="color: red;">LINK!</span></div>
+    <div class="basic-500 margin-1 margin-top-1" w-i18n="directives.scriptForm.ideLink"></div>
 
     <div class="warning-plate warning-500">
-
         <span class="body-1">
             Warning: actions can lead to loss of access to this asset.
         </span>
-        <span class="footnote-1">
+        <span class="footnote-1 basic-500">
             We do not recommend installing a script on an asset unless you are an experienced user. Errors can lead to permanent loss of control over the asset.
         </span>
     </div>

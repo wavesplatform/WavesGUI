@@ -29,20 +29,6 @@ w-asset-logo {
 
     .marker {
       display: none;
-    }
-
-    &.little {
-      .marker {
-        display: none;
-      }
-    }
-  }
-}
-
-.asset {
-  &__logo {
-    .marker {
-      display: block;
       width: 15px;
       height: 15px;
       position: absolute;
@@ -54,9 +40,9 @@ w-asset-logo {
       background-repeat: no-repeat;
     }
 
-    &-custom {
+    &.little {
       .marker {
-        background-color: @custom-asset-marker-bg;
+        display: none;
       }
     }
   }
@@ -64,10 +50,12 @@ w-asset-logo {
 
 .smart-asset {
   background-image: url(/img/icons/smart-asset-marker.svg);
+  display: block;
 }
 
 .sponsored-asset {
   background-image: url(/img/icons/sponosred-asset-marker.svg);
+  display: block;
 }
 
 .asset {
