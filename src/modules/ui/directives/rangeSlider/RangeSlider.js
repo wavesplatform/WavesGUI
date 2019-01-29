@@ -76,6 +76,9 @@
                 this._initEvents();
             }
 
+            /**
+             * @private
+             */
             _onChangeParams() {
                 if (this.max == null) {
                     $element.hide();
@@ -119,12 +122,16 @@
                 });
             }
 
+            /**
+             * @private
+             */
             _initEvents() {
                 const onDragStart = () => {
                     const startPos = this._track.offset().left;
                     this._container.addClass('range-slider_drag');
                     const onDrag = utils.debounceRequestAnimationFrame(event => {
-                        const position = Math.round(event.pageX - startPos - (this._handle.width() / 2));
+                        const utilEvent = utils.getEventInfo(event);
+                        const position = Math.round(utilEvent.pageX - startPos - (this._handle.width() / 2));
                         const newPosition = Math.min(Math.max(head(this._coords), position), last(this._coords));
 
                         this.ngModel = this._numberValues[this._findClosestIndex(newPosition)];
@@ -147,16 +154,17 @@
                         }, { duration: 100 });
                     };
 
-                    $document.on('mousemove', onDrag);
-                    $document.on('mouseup', utils.debounceRequestAnimationFrame(event => {
+                    $document.on('mousemove touchmove', onDrag);
+                    $document.on('mouseup touchend', utils.debounceRequestAnimationFrame(event => {
+                        const utilEvent = utils.getEventInfo(event);
                         this._container.removeClass('range-slider_drag');
-                        $document.off('mousemove mouseup');
-                        onDragEnd(event.pageX - startPos - (this._handle.width() / 2));
+                        $document.off('mousemove mouseup touchmove touchend');
+                        onDragEnd(utilEvent.pageX - startPos - (this._handle.width() / 2));
                         $scope.$apply();
                     }));
                 };
 
-                this.listenEventEmitter(this._handle, 'mousedown', onDragStart);
+                this.listenEventEmitter(this._handle, 'mousedown touchstart', onDragStart);
             }
 
             /*
