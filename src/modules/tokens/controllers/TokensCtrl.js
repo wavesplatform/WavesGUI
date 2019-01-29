@@ -45,7 +45,7 @@
              * Precision of token
              * @type {BigNumber}
              */
-            precision = null;
+            precision = 0;
             /**
              * @type {BigNumber}
              */
