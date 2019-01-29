@@ -107,10 +107,12 @@
 
             checkNext() {
                 const step = ORDER_LIST[this.stepIndex];
-                if (step === 'noBackupNoMoney') {
-                    return this.showBackupWarningPopup();
+                switch (step) {
+                    case 'noBackupNoMoney':
+                        return this.showBackupWarningPopup();
+                    default:
+                        return $q.when();
                 }
-                return $q.when();
             }
 
             resetAddress() {

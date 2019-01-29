@@ -307,7 +307,8 @@
             animateTransform($element, to) {
                 const prefixis = ['', '-ms-', '-moz-', '-o-', '-webkit-'];
                 return $q((resolve) => {
-                    const from = { x: 0, y: 0 };
+                    const transform = $element.css('transform');
+                    const from = transform === 'none' ? { x: 0, y: 0 } : { x: 0, y: 0 };
                     $element.stop(true, true).animate({}, {
                         progress: function (tween, progress) {
                             const x = (to.x - from.x) * progress + from.x;
@@ -998,7 +999,11 @@
                             return -1;
                         }
                     } else if (b == null) {
-                        return 1;
+                        if (a == null) {
+                            return 0;
+                        } else {
+                            return 1;
+                        }
                     }
 
                     if (a > b) {
@@ -1019,7 +1024,11 @@
                             return 1;
                         }
                     } else if (b == null) {
-                        return -1;
+                        if (a == null) {
+                            return 0;
+                        } else {
+                            return -1;
+                        }
                     }
 
                     if (a > b) {
