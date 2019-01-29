@@ -1,5 +1,42 @@
 <form name="setAssetScriptForm" novalidate>
 
+
+
+    <div class="asset-modal__head">
+        <div class="asset-modal__head-content">
+            <w-asset-logo ng-cloak asset-id="{{::$ctrl.asset.id}}"
+                          size="65"
+                          class="asset-modal__logo"></w-asset-logo>
+
+            <div class="asset-modal__data">
+                <h2 ng-cloak class="asset-modal__name basic-900" ng-class="{'has-label': $ctrl.hasLabel}">
+                    <span class="name">{{::$ctrl.asset.name}}</span>
+                    <span ng-if="$ctrl.isVerified" class="asset__label" w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>
+                    <span ng-if="$ctrl.isGateway" class="asset__label"  w-i18n-ns="app.utils" w-i18n="modal.assetInfo.gateway"></span>
+                    <span ng-if="$ctrl.isSuspicious" class="asset__label asset__label-suspicious" w-i18n="modal.assetInfo.suspicious"></span>
+                </h2>
+
+                <div ng-if="$ctrl.ticker" class="body-2 basic-500 asset__ticker">{{::$ctrl.ticker}}</div>
+            </div>
+
+            <div class="chart-wrapper">
+                <w-asset-rate-chart no-update="::true" asset-id="::$ctrl.asset.id"></w-asset-rate-chart>
+                <div class="interactive-stop"></div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    <div class="line ng-scope">
+        <div class="basic-500" w-i18n="modal.assetInfo.identifier">ID</div>
+        <div class="basic-900 break-all fs-mobile ng-binding">txid_hardcode</div>
+    </div>
+
+
+
     <w-input-container>
         <w-input textarea
                  name="script"
