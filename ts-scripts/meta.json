@@ -111,6 +111,27 @@
         "group": ",",
         "decimal": "."
       }
+    },
+    "it": {
+      "name": "It",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
+    "de": {
+      "name": "De",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
+    "id": {
+      "name": "Id",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
     }
   },
   "electronScripts": [
