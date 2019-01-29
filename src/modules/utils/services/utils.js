@@ -988,6 +988,29 @@
             },
 
             /**
+             * @name app.utils#getEventInfo
+             * @param {object} event
+             * @return {object}
+             */
+            getEventInfo(event) {
+                let newEvent;
+                if ('changedTouches' in event.originalEvent) {
+                    newEvent = {
+                        ...event,
+                        pageX: event.changedTouches[0].pageX,
+                        pageY: event.changedTouches[0].pageY,
+                        screenX: event.changedTouches[0].screenX,
+                        screenY: event.changedTouches[0].screenY,
+                        clientX: event.changedTouches[0].clientX,
+                        clientY: event.changedTouches[0].clientY
+                    };
+                } else {
+                    newEvent = event;
+                }
+                return newEvent;
+            },
+
+            /**
              * @name app.utils#comparators
              */
             comparators: {
