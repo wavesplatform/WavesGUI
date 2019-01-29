@@ -1,7 +1,5 @@
 <form name="setAssetScriptForm" novalidate>
 
-
-
     <div class="asset-modal__head">
         <div class="asset-modal__head-content">
             <w-asset-logo ng-cloak asset-id="{{::$ctrl.asset.id}}"
@@ -27,15 +25,17 @@
         </div>
     </div>
 
-
-
-
     <div class="line ng-scope">
-        <div class="basic-500" w-i18n="modal.assetInfo.identifier">ID</div>
+        <div class="basic-500">Asset ID</div>
         <div class="basic-900 break-all fs-mobile ng-binding">txid_hardcode</div>
     </div>
 
+    <div class="line ng-scope">
+        <div class="basic-500" w-i18n="modal.assetInfo.identifier">Description</div>
+        <div class="basic-900 break-all fs-mobile ng-binding">Description HARDCODE</div>
+    </div>
 
+    <div class="body-2">Script</div>
 
     <w-input-container>
         <w-input textarea
@@ -43,6 +43,7 @@
                  ng-model="$ctrl.script"
                  w-validate
                  required
+                 class="setAssetScript__input"
                  w-validator-custom="{{$ctrl.isValidScript}}"></w-input>
 
         <w-input-error message="required">
@@ -54,9 +55,23 @@
         </w-input-error>
     </w-input-container>
 
+    <div lass="basic-500 margin-1 margin-top-1"?Script can be developed with Waves IDE <<<<< LINK!</div>
+
+    <div class="warning-plate warning-500">
+
+        <span class="body-1">
+            Warning: actions can lead to loss of access to this asset.
+        </span>
+        <span class="footnote-1">
+            We do not recommend installing a script on an asset unless you are an experienced user. Errors can lead to permanent loss of control over the asset.
+        </span>
+    </div>
+
+    <div class="basic-500 margin-1 margin-top-1">Fee 0.001 WAVES | hardcode</div>
+
     <w-button on-click="$ctrl.onClickNext()"
               disabled="setAssetScriptForm.$invalid || $ctrl.isPendingScrip"
-              class="submit big long">
+              class="submit big long margin-4">
         <span w-i18n="directives.setAssetScriptForm.ok"></span>
     </w-button>
 
