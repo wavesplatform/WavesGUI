@@ -1342,27 +1342,31 @@
              * @return {Promise<{signature: string, timestamp: number}>}
              */
             signUserOrders(data) {
-                const dayForwardTime = ds.app.getTimeStamp(1, 'day');
-                const lastSignedTs = path(['matcherSign', 'timestamp'], data);
-                const isNeedSign = !lastSignedTs || lastSignedTs - dayForwardTime < 0;
+                try {
+                    const dayForwardTime = ds.app.getTimeStamp(1, 'day');
+                    const lastSignedTs = path(['matcherSign', 'timestamp'], data);
+                    const isNeedSign = !lastSignedTs || lastSignedTs - dayForwardTime < 0;
 
-                if (!isNeedSign) {
-                    return Promise.resolve(data.matcherSign);
+                    if (!isNeedSign) {
+                        return Promise.resolve(data.matcherSign);
+                    }
+
+                    const timestamp = ds.app.getTimeStamp(
+                        WavesApp.matcherSignInterval.count,
+                        WavesApp.matcherSignInterval.timeType
+                    );
+
+                    const signable = ds.signature.getSignatureApi().makeSignable({
+                        type: SIGN_TYPE.MATCHER_ORDERS,
+                        data: { timestamp }
+                    });
+
+                    return utils.signMatcher(signable)
+                        .then(signable => signable.getSignature())
+                        .then(signature => ({ signature, timestamp }));
+                } catch (e) {
+                    return Promise.reject(e);
                 }
-
-                const timestamp = ds.app.getTimeStamp(
-                    WavesApp.matcherSignInterval.count,
-                    WavesApp.matcherSignInterval.timeType
-                );
-
-                const signable = ds.signature.getSignatureApi().makeSignable({
-                    type: SIGN_TYPE.MATCHER_ORDERS,
-                    data: { timestamp }
-                });
-
-                return utils.signMatcher(signable)
-                    .then(signable => signable.getSignature())
-                    .then(signature => ({ signature, timestamp }));
             },
 
             /**
