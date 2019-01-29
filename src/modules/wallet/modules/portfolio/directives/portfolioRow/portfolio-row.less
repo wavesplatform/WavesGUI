@@ -4,18 +4,23 @@ w-portfolio-row {
   display: flex;
   width: 100%;
 
-  .smart-asset,
-  .sponsored-asset {
     .asset {
       &__logo {
+        position: relative;
+        left: 0;
+
         .marker {
+          display: none;
           position: absolute;
-          left: 37px;
           bottom: calc(50% ~'- 16px');
+
+          &.smart-asset,
+          &.sponsored-asset {
+            display: block;
+          }
         }
       }
     }
-  }
 
   .asset {
     &__logo {
@@ -23,14 +28,11 @@ w-portfolio-row {
       flex-shrink: 0;
       text-align: center;
       border-radius: 50%;
-      left: 100%;
+      left: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       color: @white-only;
-      .marker {
-        display: none;
-      }
     }
   }
 

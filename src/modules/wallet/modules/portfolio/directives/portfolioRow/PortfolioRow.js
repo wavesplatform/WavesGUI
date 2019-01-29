@@ -496,7 +496,7 @@
             const btnCreate = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_CREATE}`);
             const btnEdit = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_EDIT}`);
             const btnStop = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_STOP}`);
-            const icon = this.node.querySelector(`.${SELECTORS.SPONSORED}`);
+            const icon = this.node.querySelector(`.${SELECTORS.SPONSORED} .marker`);
 
             btnCreate.classList.toggle('hidden', isSmart || !(canSponsored && !canStopSponsored));
             btnEdit.classList.toggle('hidden', !(canSponsored && canStopSponsored));

@@ -181,7 +181,7 @@
              * @private
              */
             _onChangeCanPayFee() {
-                $element.toggleClass('sponsored-asset', this._canPayFee);
+                $element.find('.marker').toggleClass('sponsored-asset', this._canPayFee);
             }
 
             /**
@@ -189,7 +189,7 @@
              */
             _onChangeIsSmart() {
                 const isSmart = isEmpty(this.hasScript) ? this._isSmart : this.hasScript;
-                $element.toggleClass('smart-asset', isSmart);
+                $element.find('.marker').toggleClass('smart-asset', isSmart);
             }
 
         }

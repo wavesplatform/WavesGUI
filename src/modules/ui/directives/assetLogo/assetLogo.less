@@ -39,56 +39,53 @@ w-asset-logo {
   }
 }
 
-.smart-asset,
-.sponsored-asset {
-  .asset {
-    &__logo {
-      .marker {
-        display: block;
-        width: 15px;
-        height: 15px;
-        position: absolute;
-        bottom: -2px;
-        right: -2px;
-        border: 2px solid @color-white;
-        border-radius: 50%;
-        background-position: center;
-        background-repeat: no-repeat;
-      }
-
-      &-custom {
-        .marker {
-          background-color: @custom-asset-marker-bg;
-        }
-      }
+.asset {
+  &__logo {
+    .marker {
+      display: block;
+      width: 15px;
+      height: 15px;
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      border: 2px solid @color-white;
+      border-radius: 50%;
+      background-position: center;
+      background-repeat: no-repeat;
     }
-  }
-}
 
-.sponsored-asset {
-  .asset {
-    &__logo {
+    &-custom {
       .marker {
-        background-image: url(/img/icons/sponosred-asset-marker.svg);
+        background-color: @custom-asset-marker-bg;
       }
     }
   }
 }
 
 .smart-asset {
-  .asset {
-    &__logo {
-      .marker {
-        background: mediumvioletred!important; //TODO @uIsk add bg image
+  background-image: url(/img/icons/smart-asset-marker.svg);
+}
+
+.sponsored-asset {
+  background-image: url(/img/icons/sponosred-asset-marker.svg);
+}
+
+.asset {
+  &__logo {
+    .marker {
+      &.sponsored-asset,
+      &.smart-asset {
+        display: block;
       }
     }
   }
 }
 
 .asset-modal {
-  .smart-asset,
-  .sponsored-asset {
+  .sponsored-asset,
+  .smart-asset {
     .marker {
+      display: block;
       width: 24px;
       height: 24px;
       background-size: 12px;
