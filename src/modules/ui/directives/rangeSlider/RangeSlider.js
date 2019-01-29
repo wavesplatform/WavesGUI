@@ -11,115 +11,146 @@
      */
     const controller = function ($element, $scope, Base, utils, $document) {
 
-        const { range, last } = require('ramda');
+        const { range, last, head } = require('ramda');
 
         class RangeSlider extends Base {
 
             /**
              * @type {number}
              */
-            min = 0;
-
+            min;
             /**
              * @type {number}
              */
-            max = 100;
-
+            max;
             /**
              * @type {number}
              */
-            step = 100;
-
+            step;
             /**
              * @type {number}
              */
-            value = 0;
+            precision;
+            /**
+             * @type {number}
+             */
+            ngModel;
+            /**
+             * @type {Array<number>}
+             */
+            numberValues;
+            /**
+             * @type {number}
+             * @private
+             */
+            _amount;
+            /**
+             * @type {number}
+             * @private
+             */
+            _scale;
+            /**
+             * @type {JQuery}
+             * @private
+             */
+            _track;
+            /**
+             * @type {JQuery}
+             * @private
+             */
+            _handle;
+            /**
+             * @type {JQuery}
+             * @private
+             */
+            _container;
+            /**
+             * @type {Array<number>}
+             * @private
+             */
+            _sections;
 
-            constructor() {
-                super();
-                this.title = '';
-                this.amount = null;
-                this.scale = null;
-                this.numbers = [];
-                this.numberValues = [];
-                this.track = {};
-                this.handle = {};
-                this.sections = [];
-            }
 
             $postLink() {
-                this._init();
+                this._track = $element.find('.range-slider__track');
+                this._handle = $element.find('.range-slider__handle');
+                this._container = $element.find('.range-slider');
                 // this._arrangementOfNumber();
-            }
-
-            _init() {
-                this.track = $element.find('.range-slider__track');
-                this.handle = $element.find('.range-slider__handle');
-                this.container = $element.find('.range-slider');
-
-                this.amount = (this.max - this.min) / this.step;
-                const startValue = (this.min / this.step);
-                this.numberValues = range(startValue, this.amount + 2)
-                    .map(num => num * this.step);
-                this.scale = (this.track.width() - this.handle.outerWidth()) / this.amount;
-
-                this._calcPosition();
+                this.observe(['min', 'max', 'step', 'precision'], this._onChangeParams);
+                this._onChangeParams();
                 this._initEvents();
             }
 
+            _onChangeParams() {
+                if (this.max == null) {
+                    $element.hide();
+                    return null;
+                } else {
+                    $element.show();
+                }
+
+                const min = this.min || 0;
+                const max = this.max;
+                const step = this.step || 1;
+                // const precision = this.precision || 0;
+
+                this._amount = (max - min) / step;
+                const startValue = (min / step);
+                this.numberValues = range(startValue, this._amount + 1)
+                    .map(num => num * step);
+                this._scale = (this._track.width() - this._handle.outerWidth()) / this._amount;
+
+                this._calcPosition();
+            }
+
             _calcPosition() {
-                this.sections = range(0, this.amount + 1)
-                    .map(num => Math.round(this.track.position().left + num * this.scale));
-                this.handle.css({
-                    left: this.sections[0]
+                this._sections = range(0, this._amount + 1)
+                    .map(num => Math.round(this._track.position().left + num * this._scale));
+                this._handle.css({
+                    left: this._sections[0]
                 });
             }
 
             _initEvents() {
-                let startPos = null;
-                const setDragState = ev => {
-                    this.container.addClass('range-slider_drag');
-                    startPos = startPos ? startPos : ev.pageX;
-                    const drag = event => {
-                        const position = Math.round(event.pageX - startPos + (this.handle.width() / 2));
-                        let newPosition;
-                        if (position < this.sections[0]) {
-                            newPosition = this.sections[0];
-                        } else if (position > last(this.sections)) {
-                            newPosition = last(this.sections);
-                        } else {
-                            newPosition = position;
-                        }
-                        this.value = this.numberValues[this._findClosestIndex(newPosition)];
-                        this.handle.css({
+                const onDragStart = ev => {
+                    this._container.addClass('range-slider_drag');
+                    const startPos = ev.pageX;
+                    const onDrag = utils.debounceRequestAnimationFrame(event => {
+                        const position = Math.round(event.pageX - this._track.offset().left);
+                        // console.log('%c pos', 'background: #222; color: #bada55', position);
+                        const newPosition = Math.min(Math.max(head(this._sections), position), last(this._sections));
+
+                        this.ngModel = this.numberValues[this._findClosestIndex(newPosition)];
+                        this._handle.css({
                             left: newPosition
                         });
                         $scope.$apply();
-                    };
+                    });
 
-                    const afterDrag = async pos => {
-                        const newPos = this.sections[this._findClosestIndex(pos)];
-                        await utils.animate(this.handle, {
+                    const onDragEnd = pos => {
+                        const newPos = this._sections[this._findClosestIndex(pos)];
+                        utils.animate(this._handle, {
                             left: newPos
                         }, { duration: 100 });
                     };
 
-                    $document.on('mousemove', drag);
-                    $document.on('mouseup', async () => {
-                        this.container.removeClass('range-slider_drag');
+                    $document.on('mousemove', onDrag);
+                    $document.on('mouseup', utils.debounceRequestAnimationFrame(event => {
+                        this._container.removeClass('range-slider_drag');
                         $document.off('mousemove mouseup');
-                        await afterDrag(event.pageX - startPos);
-                    });
+                        onDragEnd(event.pageX - startPos);
+                        $scope.$apply();
+                    }));
                 };
 
-                this.handle.on('mousedown', setDragState);
+                this.listenEventEmitter(this._handle, 'mousedown', onDragStart);
             }
 
             /*
              * @param {number} pos
              */
             _findClosestIndex(pos) {
-                return this.sections.findIndex(section => Math.abs(pos - section) <= (this.scale / 2));
+                return this._sections.findIndex(section => Math.abs(pos - section) <= (this._scale / 2));
             }
 
         }
@@ -134,7 +165,8 @@
             min: '<',
             max: '<',
             step: '<',
-            value: '<'
+            precision: '<',
+            ngModel: '='
         },
         templateUrl: 'modules/ui/directives/rangeSlider/rangeSlider.html',
         controller
