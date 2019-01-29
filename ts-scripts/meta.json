@@ -132,20 +132,6 @@
         "group": ",",
         "decimal": "."
       }
-    },
-    "fr": {
-      "name": "Fr",
-      "separators": {
-        "group": ",",
-        "decimal": "."
-      }
-    },
-    "est": {
-      "name": "Est",
-      "separators": {
-        "group": ",",
-        "decimal": "."
-      }
     }
   },
   "electronScripts": [
