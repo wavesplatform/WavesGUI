@@ -100,44 +100,6 @@
                     </w-input-error>
                 </w-input-container>
             </div>
-
-            <div class="row">
-                <div class="body-2 basic-900 relative">
-                    <span w-i18n="precision"></span>
-                    <w-help-icon>
-                        <div class="help-icon__row headline-3">
-                            <span w-i18n="helpIcon.demicals"></span>
-                        </div>
-                    </w-help-icon>
-                </div>
-                <w-input-container>
-                    <w-input type="text"
-                             class="medium"
-                             name="precision"
-                             ng-model="$ctrl.precision"
-                             required
-                             w-validate
-                             w-validator-lte="8"
-                             w-validator-gte="0"
-                             w-validator-integer
-                             w-validator-number
-                             placeholder="placeholders.precision"
-                             w-i18n-attr="placeholder"></w-input>
-
-                    <w-input-error message="lte">
-                        <span w-i18n="validators.minValuePrecision"></span>
-                    </w-input-error>
-                    <w-input-error message="gte">
-                        <span w-i18n="validators.maxValuePrecision"></span>
-                    </w-input-error>
-                    <w-input-error message="required">
-                        <span w-i18n="validators.required"></span>
-                    </w-input-error>
-                    <w-input-error message="integer">
-                        <span w-i18n="validators.required"></span>
-                    </w-input-error>
-                </w-input-container>
-            </div>
             <div class="row">
                 <div class="body-2 basic-900 relative">
                     <span w-i18n="precision"></span>

@@ -26,11 +26,11 @@
             /**
              * @type {number}
              */
-            step;
+            scaleInterval;
             /**
              * @type {number}
              */
-            precision;
+            intervals;
             /**
              * @type {number}
              */
@@ -38,12 +38,7 @@
             /**
              * @type {Array<number>}
              */
-            numberValues;
-            /**
-             * @type {number}
-             * @private
-             */
-            _amount;
+            _numberValues;
             /**
              * @type {number}
              * @private
@@ -68,15 +63,15 @@
              * @type {Array<number>}
              * @private
              */
-            _sections;
+            _coords;
 
 
             $postLink() {
                 this._track = $element.find('.range-slider__track');
+                this._trackColor = $element.find('.range-slider__track_colorize');
                 this._handle = $element.find('.range-slider__handle');
                 this._container = $element.find('.range-slider');
-                // this._arrangementOfNumber();
-                this.observe(['min', 'max', 'step', 'precision'], this._onChangeParams);
+                this.observe(['min', 'max', 'scaleInterval', 'intervals'], this._onChangeParams);
                 this._onChangeParams();
                 this._initEvents();
             }
@@ -91,46 +86,64 @@
 
                 const min = this.min || 0;
                 const max = this.max;
-                const step = this.step || 1;
-                // const precision = this.precision || 0;
+                const scaleInterval = this.scaleInterval || 1;
 
-                this._amount = (max - min) / step;
-                const startValue = (min / step);
-                this.numberValues = range(startValue, this._amount + 1)
-                    .map(num => num * step);
-                this._scale = (this._track.width() - this._handle.outerWidth()) / this._amount;
-
-                this._calcPosition();
+                this._amount = (max - min) / scaleInterval;
+                const startValue = min / scaleInterval;
+                this.gridValues = range(startValue, this._amount + 1)
+                    .map(num => num * scaleInterval);
+                this._calcPosition(max, min, scaleInterval);
             }
 
-            _calcPosition() {
-                this._sections = range(0, this._amount + 1)
-                    .map(num => Math.round(this._track.position().left + num * this._scale));
+            /*
+             * @param {number} max
+             * @param {number} min
+             * @param {number} scaleInterval
+             */
+            _calcPosition(max, min, scaleInterval) {
+                const intervals = this.intervals || 1;
+                const sliderLength = this._track.width() - this._handle.outerWidth();
+                const amountOfPoints = this._amount * intervals;
+                const oneInterval = scaleInterval / intervals;
+
+                this._numberValues = range(min, amountOfPoints + 1)
+                    .map(num => (Math.round((num * oneInterval) * 100) / 100));
+
+                this._scale = sliderLength / amountOfPoints;
+
+                this._coords = range(0, amountOfPoints + 1)
+                    .map(num => this._track.position().left + num * this._scale);
+
                 this._handle.css({
-                    left: this._sections[0]
+                    left: head(this._coords)
                 });
             }
 
             _initEvents() {
-                const onDragStart = ev => {
+                const onDragStart = () => {
+                    const startPos = this._track.offset().left;
                     this._container.addClass('range-slider_drag');
-                    const startPos = ev.pageX;
                     const onDrag = utils.debounceRequestAnimationFrame(event => {
-                        const position = Math.round(event.pageX - this._track.offset().left);
-                        // console.log('%c pos', 'background: #222; color: #bada55', position);
-                        const newPosition = Math.min(Math.max(head(this._sections), position), last(this._sections));
+                        const position = Math.round(event.pageX - startPos - (this._handle.width() / 2));
+                        const newPosition = Math.min(Math.max(head(this._coords), position), last(this._coords));
 
-                        this.ngModel = this.numberValues[this._findClosestIndex(newPosition)];
+                        this.ngModel = this._numberValues[this._findClosestIndex(newPosition)];
                         this._handle.css({
                             left: newPosition
+                        });
+                        this._trackColor.css({
+                            width: newPosition
                         });
                         $scope.$apply();
                     });
 
                     const onDragEnd = pos => {
-                        const newPos = this._sections[this._findClosestIndex(pos)];
+                        const newPos = this._coords[this._findClosestIndex(pos)];
                         utils.animate(this._handle, {
                             left: newPos
+                        }, { duration: 100 });
+                        utils.animate(this._trackColor, {
+                            width: newPos
                         }, { duration: 100 });
                     };
 
@@ -138,7 +151,7 @@
                     $document.on('mouseup', utils.debounceRequestAnimationFrame(event => {
                         this._container.removeClass('range-slider_drag');
                         $document.off('mousemove mouseup');
-                        onDragEnd(event.pageX - startPos);
+                        onDragEnd(event.pageX - startPos - (this._handle.width() / 2));
                         $scope.$apply();
                     }));
                 };
@@ -150,7 +163,7 @@
              * @param {number} pos
              */
             _findClosestIndex(pos) {
-                return this._sections.findIndex(section => Math.abs(pos - section) <= (this._scale / 2));
+                return this._coords.findIndex(section => Math.abs(pos - section) <= (this._scale / 2));
             }
 
         }
@@ -164,8 +177,8 @@
         bindings: {
             min: '<',
             max: '<',
-            step: '<',
-            precision: '<',
+            scaleInterval: '<',
+            intervals: '<',
             ngModel: '='
         },
         templateUrl: 'modules/ui/directives/rangeSlider/rangeSlider.html',

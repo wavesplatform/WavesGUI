@@ -4,6 +4,10 @@
   background-color: @color-white;
   padding-top: 28px;
   margin: 10px 0 20px;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 
   &_drag {
     cursor: pointer;
@@ -11,13 +15,6 @@
 
   &__inner {
     position: relative;
-    //height: 53px;
-    //width: 100%;
-    //padding-top: 28px;
-    //display: flex;
-    //align-items: center;
-    //justify-content: space-between;
-    //flex-wrap: wrap;
   }
 
   &__title {
@@ -28,21 +25,25 @@
     position: absolute;
     top: -8px;
     left: 0;
-    border: 2px solid #1f5af6;
+    border: 2px solid @color-submit-400;
     border-radius: 50%;
     height: 18px;
     width: 18px;
-    background: #ffffff;
+    background: @color-white;
     cursor: pointer;
-    user-select: none;
+
   }
 
   &__track {
     background: @color-basic-200;
-    //display: inline-block;
     width: 100%;
     height: 2px;
-    //margin: 0 13px;
+    &_colorize {
+      position: relative;
+      top: -2px;
+      width: 0;
+      background-color: @color-submit-400;
+    }
   }
 
 
@@ -56,11 +57,11 @@
 
   &__number {
     font-size: 11px;
-    color: @color-basic-200;
+    color: @color-disabled-600;
     line-height: 13px;
-    user-select: none;
   }
 }
+
 
 .handle {
   &_drag {
@@ -68,23 +69,26 @@
   }
   &__value {
     position: relative;
-    top: -22px;
+    display: inline-block;
+    text-align: center;
+    top: -23px;
     left: 50%;
-    width: 24px;
+    padding: 0 9px;
     height: 16px;
     background-color: @color-submit-400;
     font-size: @font-size-control-tiny;
     line-height: 16px;
-    color: @color-white;
+    color: #fff;
     border-radius: 4px;
-    text-align: center;
     transform: translateX(-50%);
     pointer-events: none;
+    transition: width 0.1s;
     &::after {
       content: '';
       position: absolute;
       top: 100%;
-      left: 9px;
+      left: 50%;
+      transform: translateX(-50%);
       width: 0;
       height: 0;
       border-style: solid;
