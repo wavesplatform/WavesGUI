@@ -25,13 +25,13 @@
         </div>
     </div>
 
-    <div class="line ng-scope">
+    <div class="line line-description">
         <div class="basic-500">Asset ID</div>
         <div class="basic-900 break-all fs-mobile ng-binding">txid_hardcode</div>
     </div>
 
-    <div class="line ng-scope">
-        <div class="basic-500" w-i18n="modal.assetInfo.identifier">Description</div>
+    <div class="lin">
+        <div class="basic-500">Description</div>
         <div class="basic-900 break-all fs-mobile ng-binding">Description HARDCODE</div>
     </div>
 
@@ -55,7 +55,7 @@
         </w-input-error>
     </w-input-container>
 
-    <div lass="basic-500 margin-1 margin-top-1"?Script can be developed with Waves IDE <<<<< LINK!</div>
+    <div class="basic-500 margin-1 margin-top-1">Script can be developed with Waves IDE <span style="color: red;">LINK!</span></div>
 
     <div class="warning-plate warning-500">
 
@@ -71,7 +71,7 @@
 
     <w-button on-click="$ctrl.onClickNext()"
               disabled="setAssetScriptForm.$invalid || $ctrl.isPendingScrip"
-              class="submit big long margin-4">
+              class="submit big long">
         <span w-i18n="directives.setAssetScriptForm.ok"></span>
     </w-button>
 
