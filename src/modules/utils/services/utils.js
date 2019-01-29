@@ -1214,6 +1214,8 @@
                         return (tx.script || '').replace('base64:', '') ? TYPES.SET_SCRIPT : TYPES.SCRIPT_CANCEL;
                     case SIGN_TYPE.SPONSORSHIP:
                         return tx.minSponsoredAssetFee.getCoins().gt(0) ? SPONSOR_START : SPONSOR_STOP;
+                    case SIGN_TYPE.SET_ASSET_SCRIPT:
+                        return TYPES.SET_ASSET_SCRIPT;
                     default:
                         return TYPES.UNKNOWN;
                 }
@@ -1340,27 +1342,31 @@
              * @return {Promise<{signature: string, timestamp: number}>}
              */
             signUserOrders(data) {
-                const dayForwardTime = ds.app.getTimeStamp(1, 'day');
-                const lastSignedTs = path(['matcherSign', 'timestamp'], data);
-                const isNeedSign = !lastSignedTs || lastSignedTs - dayForwardTime < 0;
+                try {
+                    const dayForwardTime = ds.app.getTimeStamp(1, 'day');
+                    const lastSignedTs = path(['matcherSign', 'timestamp'], data);
+                    const isNeedSign = !lastSignedTs || lastSignedTs - dayForwardTime < 0;
 
-                if (!isNeedSign) {
-                    return Promise.resolve(data.matcherSign);
+                    if (!isNeedSign) {
+                        return Promise.resolve(data.matcherSign);
+                    }
+
+                    const timestamp = ds.app.getTimeStamp(
+                        WavesApp.matcherSignInterval.count,
+                        WavesApp.matcherSignInterval.timeType
+                    );
+
+                    const signable = ds.signature.getSignatureApi().makeSignable({
+                        type: SIGN_TYPE.MATCHER_ORDERS,
+                        data: { timestamp }
+                    });
+
+                    return utils.signMatcher(signable)
+                        .then(signable => signable.getSignature())
+                        .then(signature => ({ signature, timestamp }));
+                } catch (e) {
+                    return Promise.reject(e);
                 }
-
-                const timestamp = ds.app.getTimeStamp(
-                    WavesApp.matcherSignInterval.count,
-                    WavesApp.matcherSignInterval.timeType
-                );
-
-                const signable = ds.signature.getSignatureApi().makeSignable({
-                    type: SIGN_TYPE.MATCHER_ORDERS,
-                    data: { timestamp }
-                });
-
-                return utils.signMatcher(signable)
-                    .then(signable => signable.getSignature())
-                    .then(signature => ({ signature, timestamp }));
             },
 
             /**
