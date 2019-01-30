@@ -30,6 +30,7 @@
                     network: WavesApp.network,
                     lastOpenVersion: '',
                     whatsNewList: [],
+                    closedNotification: [],
                     withScam: false,
                     scamListUrl: WavesApp.network.scamListUrl,
                     shareAnalytics: false,

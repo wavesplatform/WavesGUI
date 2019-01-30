@@ -54,11 +54,14 @@
      * @param {app.utils.decorators} decorators
      * @param {Waves} waves
      * @param {ModalRouter} ModalRouter
+     * @param {ConfigService} configService
+     * @param {INotification} userNotification
      * @return {AppRun}
      */
     const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
-                          notification, decorators, waves, ModalRouter) {
+                          notification, decorators, waves, ModalRouter, configService, userNotification) {
 
+        const i18next = require('i18next');
         const phone = WavesApp.device.phone();
         const tablet = WavesApp.device.tablet();
 
@@ -82,9 +85,18 @@
 
         class AppRun {
 
+            /**
+             * @type {Promise<void>}
+             */
+            i18nReady;
+
             constructor() {
                 const identityImg = require('identity-img');
 
+                this.i18nReady = new Promise(resolve => {
+                    i18next.on('initialized', resolve);
+                    i18next.off('initialized', resolve);
+                });
                 LOADER.addProgress(PROGRESS_MAP.APP_RUN);
 
                 /**
@@ -107,6 +119,14 @@
                 this._stopLoader();
                 this._initializeLogin();
                 this._initializeOutLinks();
+
+                Promise.all([
+                    user.onLogin(),
+                    this.i18nReady
+                ]).then(() => {
+                    this._initUserNotifications();
+                    setInterval(() => this._initUserNotifications(), 10000);
+                });
 
                 if (WavesApp.isDesktop()) {
                     window.listenMainProcessEvent((type, url) => {
@@ -168,6 +188,9 @@
              */
             _setHandlers() {
                 $rootScope.$on('$stateChangeSuccess', this._onChangeStateSuccess.bind(this));
+                user.onLogin().then(() => {
+                    configService.change.on(utils.debounce(this._initUserNotifications), this);
+                });
             }
 
             /**
@@ -183,6 +206,49 @@
                         openInBrowser($link.attr('href'));
                     });
                 }
+            }
+
+            /**
+             * @private
+             */
+            _initUserNotifications() {
+                const notifications = configService.get('NOTIFICATIONS') || [];
+                const time = ds.utils.normalizeTime(Date.now());
+
+                const closed = user.getSetting('closedNotification')
+                    .slice()
+                    .filter(id => notifications.some(item => item.id === id));
+                user.setSetting('closedNotification', closed);
+
+                notifications
+                    .filter(item => {
+                        return time > new Date(item.start_date) && time < new Date(item.end_date) &&
+                            !userNotification.has(item.id) &&
+                            !closed.includes(item.id);
+                    })
+                    .forEach(item => {
+                        const method = ['warn', 'success', 'error', 'info'].find(m => m === item.type) || 'warn';
+                        const en = tsUtils.get(item, 'text.en');
+                        const lang = tsUtils.get(item, `text.${i18next.language}`) || en;
+
+                        userNotification[method]({
+                            ...item,
+                            body: {
+                                literal: lang
+                            }
+                        }).then(() => {
+                            const closed = user.getSetting('closedNotification').slice();
+                            closed.push(item.id);
+                            user.setSetting('closedNotification', closed);
+
+                            this._initUserNotifications();
+                        });
+                    });
+
+                notifications.filter(item => time > new Date(item.end_date))
+                    .forEach(item => {
+                        userNotification.remove(item.id);
+                    });
             }
 
             /**
@@ -517,6 +583,7 @@
         'waves',
         'ModalRouter',
         'configService',
+        'userNotification',
         'whatsNew'
     ];
 
