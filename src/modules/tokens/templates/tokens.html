@@ -155,7 +155,9 @@
                                        ng-model="$ctrl.hasAssetScript">
                     </w-checkbox-submit>
                     <label for="has-script" class="margin-right-1" w-toggle-class></label>
-                    <div class="footnote-1">Switch off to disable script</div> <!-- TODO -->
+                    <div ng-if="$ctrl.hasAssetScript" class="footnote-1">Switch off to disable script</div>
+                    <div ng-if="!$ctrl.hasAssetScript" class="footnote-1">Switch on to disable script</div><!-- TODO -->
+
                 </div>
 
                 <div ng-if="$ctrl.hasAssetScript" class="row row-script">
