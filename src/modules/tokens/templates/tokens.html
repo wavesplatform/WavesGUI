@@ -139,29 +139,44 @@
                 </w-input-container>
             </div>
 
-            <w-checkbox-submit id="has-script"
-                               ng-model="$ctrl.hasAssetScript"></w-checkbox-submit>
+            <div class="row">
+                <div class="body-2 basic-900 relative">
+                    <span w-i18n="script">Script</span> <!-- TODO --->
+                    <w-help-icon>
+                        <div class="help-icon__row headline-3">
+                            <span w-i18n="helpIcon.script">DESCRIPTIO</span> <!-- TODO --->
+                        </div>
+                    </w-help-icon>
+                </div>
 
-            <div ng-if="$ctrl.hasAssetScript"
-                 class="row">
-                <div class="body-2 basic-900" w-i18n="script"></div>
-                <w-input-container>
-                    <w-input textarea
-                             w-validate
-                             required
-                             w-validator-custom="{{$ctrl.isValidScript}}"
-                             ng-model="$ctrl.script"
-                             name="script"></w-input>
+                <w-checkbox-submit id="has-script"
+                                   class="input-toggle"
+                                   ng-model="$ctrl.hasAssetScript"></w-checkbox-submit>
 
-                    <w-input-error message="required">
-                        <span w-i18n="validators.required"></span>
-                    </w-input-error>
+                <div ng-if="$ctrl.hasAssetScript"
+                     class="row">
+                    <div class="body-2 basic-900" w-i18n="script"></div>
+                    <w-input-container>
+                        <w-input textarea
+                                 w-validate
+                                 required
+                                 w-validator-custom="{{$ctrl.isValidScript}}"
+                                 ng-model="$ctrl.script"
+                                 name="script"></w-input>
 
-                    <w-input-error message="custom">
-                        <span w-i18n="validators.invalidScript"></span>
-                    </w-input-error>
-                </w-input-container>
+                        <w-input-error message="required">
+                            <span w-i18n="validators.required"></span>
+                        </w-input-error>
+                        <w-input-error message="custom">
+                            <span w-i18n="validators.invalidScript"></span>
+                        </w-input-error>
+                    </w-input-container>
+                </div>
             </div>
+
+
+
+
 
             <div class="row">
                 <div class="body-2 basic-900" w-i18n="preview"></div>
