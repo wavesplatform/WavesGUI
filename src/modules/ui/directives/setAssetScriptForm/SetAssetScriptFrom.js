@@ -182,11 +182,11 @@
             _currentHasFee() {
                 const waves = balanceWatcher.getBalance().WAVES;
 
-                if (!this.fee || !waves) {
+                if (!this.fee) {
                     return null;
                 }
 
-                this.hasFee = waves.gte(this.fee);
+                this.hasFee = waves ? waves.gte(this.fee) : false;
             }
 
         }
