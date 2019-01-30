@@ -60,18 +60,19 @@
         <span class="footnote-1 basic-500" w-i18n="modal.setAssetScript.warningDescription"></span>
     </div>
 
-    <div ng-if="!$ctrl.hasFee" class="error no-fee">
-        No fee
-    </div>
-
-    <div class="basic-500 margin-1 margin-top-1"
+    <div class="basic-500 margin-top-2"
          params="{fee: $ctrl.fee}"
          w-i18n="directives.setAssetScriptForm.fee"></div>
+
+    <div ng-if="!$ctrl.hasFee"
+         params="{fee: $ctrl.fee}"
+         class="error-400 margin-top-1"
+         w-i18n="modal.setAssetScript.errorNoMoney"></div>
 
     <w-sign-button on-click="$ctrl.onClickSign()"
                    disabled="setAssetScriptForm.$invalid || $ctrl.isPendingScrip || !$ctrl.hasFee"
                    on-success="$ctrl.onSuccess({signable: signable})"
-                   class="submit big long">
+                   class="submit big long margin-top-3">
         <span w-i18n="directives.setAssetScriptForm.ok"></span>
     </w-sign-button>
 
