@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const ds = require('data-service');
+
     /**
      * @param {$rootScope.Scope} $scope
      * @return {SetAssetScriptInfo}
@@ -13,11 +15,20 @@
              * @type {Signable}
              */
             signable;
+            /**
+             * @type {Asset}
+             */
+            asset;
 
 
             $postLink() {
                 this.transaction = this.signable.getTxData();
                 this.transaction.script = this.transaction.script || '';
+
+                ds.api.assets.get(this.transaction.assetId).then(asset => {
+                    this.asset = asset;
+                    $scope.$apply();
+                });
 
                 (this.transaction.id ? Promise.resolve(this.transaction.id) : this.signable.getId())
                     .then(id => {

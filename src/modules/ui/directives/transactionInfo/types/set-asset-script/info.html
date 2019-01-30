@@ -1,8 +1,16 @@
-<div class="body-2" w-i18n="transactions.script.txJson"></div>
-<div class="note-plate break-all">
-    {{$ctrl.transaction.script}}
-</div>
+{{$ctrl.asset.id}}}
+{{$ctrl.asset.reissuable}}}
 
+
+<div class="flex flex-between">
+    <div class="footnote-1 basic-500" w-i18n="directives.anyTransaction.textAreaTitle"></div>
+    <div>
+        <span class="link">Show All</span>
+    </div>
+</div>
+<div class="code-wrapper">
+    <pre>{{$ctrl.transaction.script}}</pre>
+</div>
 
 <w-transaction-info-general height="$ctrl.transaction.height"
                             id="$ctrl.id"
