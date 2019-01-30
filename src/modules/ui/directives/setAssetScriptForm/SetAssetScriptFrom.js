@@ -13,8 +13,9 @@
      * @param {Waves} waves
      * @param {$rootScope.Scope} $scope
      * @param {User} user
+     * @param {BalanceWatcher} balanceWatcher
      */
-    const controller = function (Base, waves, $scope, user) {
+    const controller = function (Base, waves, $scope, user, balanceWatcher) {
 
         class SetAssetScriptFrom extends Base {
 
@@ -70,6 +71,10 @@
              */
             onSuccess;
             /**
+             * @type {boolean}
+             */
+            hasFee = true;
+            /**
              * @type {JQueryXHR | null}
              * @private
              */
@@ -80,6 +85,9 @@
                 super();
                 this.observe('state', this._onChangeState);
                 this.observe('script', this._onChangeScript);
+                this.observe('fee', this._currentHasFee);
+                this.receive(balanceWatcher.change, this._currentHasFee, this);
+                this._currentHasFee();
             }
 
             onClickSign() {
@@ -91,6 +99,10 @@
                 return signable;
             }
 
+            /**
+             * @return
+             * @private
+             */
             _onChangeScript() {
                 const script = this.script.replace('base64:', '');
 
@@ -164,12 +176,25 @@
                 };
             }
 
+            /**
+             * @private
+             */
+            _currentHasFee() {
+                const waves = balanceWatcher.getBalance().WAVES;
+
+                if (!this.fee || !waves) {
+                    return null;
+                }
+
+                this.hasFee = waves.gte(this.fee);
+            }
+
         }
 
         return new SetAssetScriptFrom();
     };
 
-    controller.$inject = ['Base', 'waves', '$scope', 'user'];
+    controller.$inject = ['Base', 'waves', '$scope', 'user', 'balanceWatcher'];
 
     angular.module('app.ui').component('wSetAssetScriptFrom', {
         bindings: {
