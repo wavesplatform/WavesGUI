@@ -3,6 +3,9 @@
 
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const { signature } = require('data-service');
+    const { STATUS_LIST } = require('@waves/oracle-data');
+    const { path } = require('ramda');
+    const ds = require('data-service');
     const $ = require('jquery');
 
     /**
@@ -47,6 +50,22 @@
              */
             fee;
             /**
+             * @type {boolean}
+             */
+            isVerified;
+            /**
+             * @type {boolean}
+             */
+            isGateway;
+            /**
+             * @type {boolean}
+             */
+            isSuspicious;
+            /**
+             * @type {boolean}
+             */
+            hasLabel;
+            /**
              * @type {function(data: {signable: Signable}): void}
              */
             onSuccess;
@@ -63,13 +82,13 @@
                 this.observe('script', this._onChangeScript);
             }
 
-            onClickNext() {
+            onClickSign() {
                 const tx = this._getTx();
                 const signable = signature.getSignatureApi().makeSignable({
                     type: tx.type,
                     data: tx
                 });
-                this.onSuccess({ signable });
+                return signable;
             }
 
             _onChangeScript() {
@@ -117,6 +136,11 @@
                     if (!asset.hasScript) {
                         throw new Error('This asset has no script!');
                     }
+                    const data = ds.dataManager.getOracleAssetData(asset.id);
+                    this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
+                    this.isGateway = path(['status'], data) === 3;
+                    this.isSuspicious = WavesApp.scam[asset.id];
+                    this.hasLabel = this.isVerified || this.isGateway || this.isSuspicious;
                     this.asset = asset;
                     $scope.$apply();
                 });
