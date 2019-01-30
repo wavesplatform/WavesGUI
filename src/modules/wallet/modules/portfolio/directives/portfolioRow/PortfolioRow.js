@@ -246,8 +246,9 @@
                         ) {
                             balance = value;
                             this._onUpdateBalance();
-                            this._initSponsorShips();
                         }
+                        // TODO Optimize this
+                        this._initSponsorShips();
                     }
                 });
 
