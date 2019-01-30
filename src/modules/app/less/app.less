@@ -232,6 +232,57 @@ w-scroll-box {
   }
 }
 
+.input-toggle {
+  display: flex;
+  align-items: center;
+
+  w-checkbox-submit {
+    display: none;
+  }
+
+  w-checkbox-submit + label {
+    width: 40px;
+    height: 20px;
+    border: 1px solid @color-basic-200;
+    background: @color-basic-200;
+    border-radius: 10px;
+    display: block;
+    position: relative;
+    transition: .3s;
+
+    &:hover {
+      border: 1px solid @color-basic-300;
+      background: @color-basic-300;
+    }
+
+    &::before {
+      transition: .3s;
+      background: @color-white;
+      width: 18px;
+      height: 18px;
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: 50%;
+      display: block;
+    }
+  }
+}
+
+.input-toggle {
+  &.active {
+    w-checkbox-submit + label {
+      border: 1px solid @color-submit-400;
+      background: @color-submit-400;
+
+      &::before {
+        transform: translateX(20px);
+      }
+    }
+  }
+}
+
 w-sign-button,
 .block {
   display: block;

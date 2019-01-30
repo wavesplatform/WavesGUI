@@ -40,6 +40,13 @@
                         });
                 }
 
+                if (this.transaction.assetId) {
+                    waves.node.assets.getAsset(this.transaction.assetId).then(asset => {
+                        this.asset = asset;
+                        $scope.$apply();
+                    });
+                }
+
                 const TYPES = waves.node.transactions.TYPES;
 
                 switch (this.typeName) {

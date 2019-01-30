@@ -141,7 +141,7 @@
 
             <div class="row">
                 <div class="body-2 basic-900 relative">
-                    <span w-i18n="script">Script</span> <!-- TODO --->
+                    <span w-i18n="script">Smart asset</span> <!-- TODO --->
                     <w-help-icon>
                         <div class="help-icon__row headline-3">
                             <span w-i18n="helpIcon.script">DESCRIPTIO</span> <!-- TODO --->
@@ -149,13 +149,18 @@
                     </w-help-icon>
                 </div>
 
-                <w-checkbox-submit id="has-script"
-                                   class="input-toggle"
-                                   ng-model="$ctrl.hasAssetScript"></w-checkbox-submit>
+                <div class="input-toggle" w-toggle-class-container>
+                    <w-checkbox-submit id="has-script"
+                                       name="has-script"
+                                       ng-model="$ctrl.hasAssetScript">
+                    </w-checkbox-submit>
+                    <label for="has-script" class="margin-right-1" w-toggle-class></label>
+                    <div ng-if="$ctrl.hasAssetScript" class="footnote-1">Switch off to disable script</div>
+                    <div ng-if="!$ctrl.hasAssetScript" class="footnote-1">Switch on to disable script</div><!-- TODO -->
 
-                <div ng-if="$ctrl.hasAssetScript"
-                     class="row">
-                    <div class="body-2 basic-900" w-i18n="script"></div>
+                </div>
+
+                <div ng-if="$ctrl.hasAssetScript" class="row row-script">
                     <w-input-container>
                         <w-input textarea
                                  w-validate
@@ -174,11 +179,7 @@
                 </div>
             </div>
 
-
-
-
-
-            <div class="row">
+            <div class="row margin-top-1">
                 <div class="body-2 basic-900" w-i18n="preview"></div>
                 <div class="preview">
                     <div class="avatar-wrap">
