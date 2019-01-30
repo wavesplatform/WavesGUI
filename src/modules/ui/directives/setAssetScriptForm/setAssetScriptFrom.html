@@ -64,7 +64,7 @@
          params="{fee: $ctrl.fee}"
          w-i18n="directives.setAssetScriptForm.fee"></div>
 
-    <div ng-if="$ctrl.hasFee"
+    <div ng-if="!$ctrl.hasFee"
          params="{fee: $ctrl.fee}"
          class="error-400 margin-top-1"
          w-i18n="modal.setAssetScript.errorNoMoney"></div>

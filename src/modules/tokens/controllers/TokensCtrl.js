@@ -108,7 +108,8 @@
             }
 
             generate(signable) {
-                return modalManager.showConfirmTx(signable).then(() => this._reset());
+                return modalManager.showConfirmTx(signable)
+                    .then(() => this._reset());
             }
 
             createSignable() {
