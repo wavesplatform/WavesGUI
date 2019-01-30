@@ -32,12 +32,11 @@
     </div>
 
     <div class="line">
-        <div class="basic-500">Asset ID</div>
+        <div class="basic-500" w-i18n="directives.filter.helpIcon.assetId"></div>
         <div class="basic-900 break-all fs-mobile ng-binding">{{$ctrl.asset.id}}</div>
     </div>
 
-    <div class="body-2 margin-top-1">Script</div>
-
+    <div class="body-2 margin-top-1" w-i18n="modal.setAssetScript."></div>
     <w-input-container>
         <w-input textarea
                  name="script"
@@ -48,24 +47,18 @@
                  w-validator-custom="{{$ctrl.isValidScript}}"></w-input>
 
         <w-input-error message="required">
-            <span w-i18n="directives.setAssetScriptForm.required"></span>
+            <span w-i18n="directives.scriptForm.errors.required"></span>
         </w-input-error>
-
         <w-input-error message="custom">
-            <span w-i18n="directives.setAssetScriptForm.invalid"></span>
+            <span w-i18n="directives.scriptForm.errors.invalidScript"></span>
         </w-input-error>
     </w-input-container>
 
     <div class="basic-500 margin-1 margin-top-1" w-i18n="directives.scriptForm.ideLink"></div>
 
     <div class="warning-plate warning-500">
-        <span class="body-1">
-            Warning: actions can lead to loss of access to this asset.
-        </span>
-        <span class="footnote-1 basic-500">
-            We do not recommend installing a script on an asset unless you are an experienced user.
-            Errors can lead to permanent loss of control over the asset.
-        </span>
+        <span class="body-1" w-i18n="modal.setAssetScript.warningHeader"></span>
+        <span class="footnote-1 basic-500" w-i18n="modal.setAssetScript.warningDescription"></span>
     </div>
 
     <div class="basic-500 margin-1 margin-top-1"
