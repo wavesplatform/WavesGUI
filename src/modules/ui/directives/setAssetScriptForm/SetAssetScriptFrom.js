@@ -92,7 +92,7 @@
             }
 
             _onChangeScript() {
-                const script = this.script;
+                const script = this.script.replace('base64:', '');
 
                 if (this._activeXHR) {
                     this._activeXHR.abort();
@@ -155,10 +155,11 @@
              * @private
              */
             _getTx() {
+                const script = this.script.replace('base64:', '');
                 return {
                     type: SIGN_TYPE.SET_ASSET_SCRIPT,
                     assetId: this.state.assetId,
-                    script: this.isAllOk && this.script ? `base64:${this.script}` : 'base64:AQa3b8tH',
+                    script: this.isAllOk && this.script ? `base64:${script}` : 'base64:AQa3b8tH',
                     fee: this.fee || null
                 };
             }

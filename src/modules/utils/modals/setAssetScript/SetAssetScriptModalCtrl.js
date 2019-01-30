@@ -9,11 +9,11 @@
              * @param {object}
              * @type {null}
              */
-            state = null;
+            state;
             /**
-             * @type {null}
+             * @type {Signable}
              */
-            signable = null;
+            signable;
             /**
              * @type {number}
              */
@@ -26,8 +26,13 @@
                 this.state = { assetId };
             }
 
+            /**
+             * @param {Signable} signable
+             */
             onFillTxForm(signable) {
                 this.signable = signable;
+                const { assetId, script } = this.signable.getTxData();
+                this.state = { assetId, script };
                 this.step++;
             }
 
