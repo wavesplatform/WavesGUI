@@ -141,7 +141,7 @@
 
             <div class="row">
                 <div class="body-2 basic-900 relative">
-                    <span w-i18n="script">Smart asset</span> <!-- TODO --->
+                    <span w-i18n="script"></span>
                     <w-help-icon>
                         <div class="help-icon__row headline-3">
                             <span w-i18n="helpIcon.script">DESCRIPTIO</span> <!-- TODO --->
@@ -155,9 +155,8 @@
                                        ng-model="$ctrl.hasAssetScript">
                     </w-checkbox-submit>
                     <label for="has-script" class="margin-right-1" w-toggle-class></label>
-                    <div ng-if="$ctrl.hasAssetScript" class="footnote-1">Switch off to disable script</div>
-                    <div ng-if="!$ctrl.hasAssetScript" class="footnote-1">Switch on to disable script</div><!-- TODO -->
-
+                    <div ng-if="$ctrl.hasAssetScript" class="footnote-1" w-i18n="switchScriptOff"></div>
+                    <div ng-if="!$ctrl.hasAssetScript" class="footnote-1" w-i18n="switchScriptOn"></div>
                 </div>
 
                 <div ng-if="$ctrl.hasAssetScript" class="row row-script">
@@ -169,13 +168,15 @@
                                  ng-model="$ctrl.script"
                                  name="script"></w-input>
 
-                        <w-input-error message="required">
+                        <w-input-error ng-if="$ctrl.hasAssetScript" message="required">
                             <span w-i18n="validators.required"></span>
                         </w-input-error>
                         <w-input-error message="custom">
                             <span w-i18n="validators.invalidScript"></span>
                         </w-input-error>
                     </w-input-container>
+
+                    <!-- toDO WARNING -->
                 </div>
             </div>
 
