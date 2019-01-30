@@ -10,10 +10,11 @@
      * @param Base
      * @param $scope
      * @param {User} user
-     * @param {modalManager} modalManager
+     * @param {ModalManager} modalManager
+     * @param {app.utils} utils
      * @return {LedgerCtrl}
      */
-    const controller = function (Base, $scope, user, modalManager) {
+    const controller = function (Base, $scope, user, modalManager, utils) {
 
         class LedgerCtrl extends Base {
 
@@ -95,13 +96,14 @@
                 this.error = false;
                 const start = this.users.length;
                 const end = start + (count || USERS_COUNT) - 1;
-                const promise = this.adapter.getUserList(start, end);
+                const promise = utils.timeoutPromise(this.adapter.getUserList(start, end), 25000);
+
                 const modalPromise = this.isInit ?
                     Promise.resolve() :
-                    modalManager.showSignByDevice({ promise, mode: 'connect-ledger', userType: this.adapter.type });
+                    modalManager.showLoginByDevice(promise, this.adapter.type);
 
-                Promise.all([promise, modalPromise]).then(
-                    ([users]) => {
+                Promise.all([promise, modalPromise])
+                    .then(([users]) => {
                         this.isInit = true;
                         this.users = [...this.users, ...users];
                         this.loading = false;
@@ -109,15 +111,14 @@
                         this.showVisibleUsers();
                         this.selectUser();
                         $scope.$digest();
-                    },
-                    (err = {}) => {
+                    })
+                    .catch((err = {}) => {
                         const error = { ...err, count };
                         this.loading = false;
                         this.error = error;
                         $scope.$digest();
                         throw error;
-                    }
-                );
+                    });
             }
 
             /**
@@ -128,7 +129,7 @@
             }
 
             /**
-             * @param user
+             * @param [user]
              * @param user.id
              * @param user.path
              * @param user.address
@@ -142,8 +143,8 @@
 
                 if (!user && !this.selectedUser && this.users.length) {
                     this.selectedUser = this.users[0];
-                // } else if (this.selectedUser === user) {
-                //     this.selectedUser = null;
+                    // } else if (this.selectedUser === user) {
+                    //     this.selectedUser = null;
                 } else if (user) {
                     this.selectedUser = user;
                 }
@@ -250,7 +251,7 @@
         return new LedgerCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'modalManager'];
+    controller.$inject = ['Base', '$scope', 'user', 'modalManager', 'utils'];
 
     angular.module('app.ledger').controller('LedgerCtrl', controller);
 })();

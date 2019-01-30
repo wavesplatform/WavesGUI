@@ -10,7 +10,7 @@
      */
     const controller = function (Base, $scope, waves) {
 
-        const { head } = require('ramda');
+        const { indexBy, prop, head } = require('ramda');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
         const { Money } = require('@waves/data-entities');
         const ds = require('data-service');
@@ -110,41 +110,24 @@
                     return acc;
                 }, Object.create(null));
 
-                return Promise.all([
-                    ds.api.transactions.parseTx([clone])
-                        .then(head),
-                    AnyTransactionForm._loadTxData(clone)
-                ])
-                    .then(([data, lease]) => {
-                        this.fee = data.fee;
+                const type = AnyTransactionForm._normalizeSignType(clone);
 
-                        if (data.type === SIGN_TYPE.SET_SCRIPT && !data.script) {
-                            data.script = '';
-                        }
+                return AnyTransactionForm._parse(type, clone).then(data => {
+                    this.fee = data.fee;
 
-                        try {
-                            this.signable = ds.signature.getSignatureApi().makeSignable({
-                                type: data.type,
-                                data: { ...data, ...lease }
-                            });
-                        } catch (e) {
-                            return Promise.reject(e);
-                        }
-                    });
-            }
+                    if (data.type === SIGN_TYPE.SET_SCRIPT && !data.script) {
+                        data.script = '';
+                    }
 
-            static _loadTxData(tx) {
-                switch (tx.type) {
-                    case SIGN_TYPE.CANCEL_LEASING:
-                        return waves.node.transactions.get(tx.leaseId)
-                            .then(lease => ({ lease }));
-                    case SIGN_TYPE.BURN:
-                        return waves.node.assets.getAsset(tx.assetId).then(asset => ({
-                            amount: new Money(tx.quantity, asset)
-                        }));
-                    default:
-                        return Promise.resolve(Object.create(null));
-                }
+                    try {
+                        this.signable = ds.signature.getSignatureApi().makeSignable({
+                            type,
+                            data
+                        });
+                    } catch (e) {
+                        return Promise.reject(e);
+                    }
+                });
             }
 
             static _normalizeValue = value => {
@@ -159,6 +142,69 @@
                 const num = Number(value);
                 return String(num) === value ? num : value;
             };
+
+            static _parse(type, data) {
+                switch (type) {
+                    case SIGN_TYPE.CREATE_ORDER:
+                        return AnyTransactionForm._parseOrder(data);
+                    case SIGN_TYPE.CANCEL_ORDER:
+                        return Promise.resolve(data);
+                    default:
+                        return AnyTransactionForm._parseTransaction(data);
+                }
+            }
+
+            static _parseOrder(data) {
+                const moneyFactory = ds.api.matcher.factory;
+                return Promise.all([
+                    waves.node.assets.getAsset('WAVES'),
+                    waves.node.assets.getAsset(ds.utils.normalizeAssetId(data.assetPair.amountAsset)),
+                    waves.node.assets.getAsset(ds.utils.normalizeAssetId(data.assetPair.priceAsset))
+                ])
+                    .then(indexBy(prop('id')))
+                    .then(hash => {
+                        return ds.api.transactions.parseExchangeOrder(moneyFactory, data, hash);
+                    });
+            }
+
+            static _parseTransaction(data) {
+                switch (data.type) {
+                    case SIGN_TYPE.CANCEL_LEASING:
+                        return Promise.all([
+                            AnyTransactionForm._parseDefaultTransaction(data),
+                            waves.node.transactions.get(data.leaseId)
+                        ]).then(([tx, lease]) => ({ ...tx, lease }));
+                    case SIGN_TYPE.BURN:
+                        return Promise.all([
+                            AnyTransactionForm._parseDefaultTransaction(data),
+                            waves.node.assets.getAsset(data.assetId)
+                        ]).then(([tx, asset]) => ({ ...tx, amount: new Money(tx.quantity, asset) }));
+                    default:
+                        return AnyTransactionForm._parseDefaultTransaction(data);
+                }
+            }
+
+            static _parseDefaultTransaction(data) {
+                return ds.api.transactions.parseTx([data])
+                    .then(head);
+            }
+
+            /**
+             * @param {{[type]: number, [orderType]: string, [id]: string}} data
+             * @return number
+             * @private
+             */
+            static _normalizeSignType(data) {
+                if (data.type && SIGN_TYPE[data.type]) {
+                    return data.type;
+                }
+                if (data.orderType && ['sell', 'buy'].includes(data.orderType)) {
+                    return SIGN_TYPE.CREATE_ORDER;
+                }
+                if (data.id && typeof data.id === 'string') {
+                    return SIGN_TYPE.CANCEL_ORDER;
+                }
+            }
 
         }
 

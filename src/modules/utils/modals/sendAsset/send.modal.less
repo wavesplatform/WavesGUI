@@ -32,8 +32,10 @@ md-dialog.modal-send {
     }
 
     w-step.send-form .tab-body-wrap {
-      padding: 40px 40px 0;
       display: block;
+      @media screen and (min-width: 541px) {
+        padding: 40px 40px 0;
+      }
     }
 
     .icon-browser-warning {
@@ -188,6 +190,10 @@ md-dialog.modal-send {
       }
     }
 
+    .asset__name {
+      margin-left: 10px;
+    }
+
     .flex-row {
       display: flex;
       flex-direction: row;
@@ -227,8 +233,23 @@ md-dialog.modal-send {
       max-height: 300px;
     }
 
-    .asset-name {
-      margin-left: 10px;
+    w-select {
+
+      .asset {
+        &__name {
+          font-size: 15px;
+          @media screen and (max-width: 540px) {
+            font-size: 13px;
+          }
+        }
+
+        &__balance {
+          font-size: 15px;
+          @media screen and (max-width: 540px) {
+            font-size: 13px;
+          }
+        }
+      }
     }
 
     .input-like {
@@ -416,9 +437,10 @@ md-dialog.modal-send {
           width: 45%;
         }
 
+        .asset__name,
         .flex-row.split-half {
           white-space: nowrap;
-          font-size: 12px;
+          font-size: 13px;
 
           span {
             vertical-align: top;

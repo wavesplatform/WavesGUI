@@ -16,6 +16,7 @@ import { broadcast as broadcastF, createOrderSend, cancelOrderSend } from './bro
 import { utils as cryptoUtils } from '@waves/signature-generator';
 import * as signatureAdapters from '@waves/signature-adapter';
 import { Adapter, SIGN_TYPE } from '@waves/signature-adapter';
+import { TTimeType } from './utils/utils';
 
 export { getAdapterByType, getAvailableList } from '@waves/signature-adapter';
 export { Seed } from './classes/Seed';
@@ -110,7 +111,7 @@ class App {
             });
     }
 
-    public getTimeStamp(count: number, timeType) {
+    public getTimeStamp(count: number, timeType: TTimeType): number {
         return utilsModule.addTime(normalizeTime(new Date().getTime()), count, timeType).valueOf();
     }
 
@@ -123,22 +124,6 @@ class App {
                 }
             })
             .getId();
-    }
-
-    public signForMatcher(timestamp: number): Promise<string> {
-        const signApi = sign.getSignatureApi();
-
-        if (!signApi) {
-            return Promise.reject({ error: 'Not exist signature api' });
-        }
-
-        return signApi.makeSignable({
-            type: SIGN_TYPE.MATCHER_ORDERS,
-            data: {
-                timestamp
-            }
-        })
-            .getSignature();
     }
 
     private _initializeDataManager(address: string): void {

@@ -40,14 +40,6 @@ body.dex-demo .dex-wrapper {
               }
             }
           }
-
-          .label-background {
-            background: @label-background-color;
-            display: inline-block;
-            padding: 3px 5px;
-            border-radius: @border-radius / 2;
-            margin: 0 4px 2px 0;
-          }
         }
       }
 
@@ -94,6 +86,7 @@ body.dex-demo .dex-wrapper {
 
         w-select {
           position: relative;
+          user-select: none;
 
           .select-list {
             max-height: 155px;

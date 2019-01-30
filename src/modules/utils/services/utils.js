@@ -1,13 +1,16 @@
 /* eslint-disable no-console */
 /* global BigNumber */
+
 (function () {
     'use strict';
 
-    const tsUtils = require('ts-utils');
+    const { isEmpty, getPaths, get, Signal } = require('ts-utils');
     const tsApiValidator = require('ts-api-validator');
     const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
-    const { splitEvery, pipe } = require('ramda');
+    const { splitEvery, pipe, path } = require('ramda');
     const { libs } = require('@waves/signature-generator');
+    const ds = require('data-service');
+    const { SIGN_TYPE } = require('@waves/signature-adapter');
 
     class BigNumberPart extends tsApiValidator.BasePart {
 
@@ -175,6 +178,24 @@
                     }
                     control.queued = true;
                 };
+            },
+
+            /**
+             * @name app.utils#timeoutPromise
+             * @param {Promise} promise
+             * @param {number} timeout
+             */
+            timeoutPromise(promise, timeout) {
+                let timer;
+                const timeoutPromise = new Promise((_, reject) => {
+                    timer = setTimeout(() => {
+                        reject(new Error('Timeout error!'));
+                    }, timeout);
+                });
+                promise.finally(() => {
+                    clearTimeout(timer);
+                });
+                return Promise.race([promise, timeoutPromise]);
             },
 
             /**
@@ -425,11 +446,11 @@
                     return a === b;
                 }
 
-                const pathsA = tsUtils.getPaths(a);
-                const pathsB = tsUtils.getPaths(b);
+                const pathsA = getPaths(a);
+                const pathsB = getPaths(b);
 
                 return pathsA.length === pathsB.length && pathsA.every((path, index) => {
-                    return tsUtils.get(a, path) === tsUtils.get(b, path) && (String(path) === String(pathsB[index]));
+                    return get(a, path) === get(b, path) && (String(path) === String(pathsB[index]));
                 });
             },
 
@@ -775,7 +796,7 @@
              */
             toHash(list, key) {
                 return list.reduce((result, item) => {
-                    result[tsUtils.get(item, key)] = item;
+                    result[get(item, key)] = item;
                     return result;
                 }, Object.create(null));
             },
@@ -833,7 +854,7 @@
              */
             parseAngularParam(attribute, $scope, destroy) {
                 const exp = _hasExp(attribute) && attribute;
-                const change = new tsUtils.Signal();
+                const change = new Signal();
 
                 const result = utils.liteObject({
                     attribute, exp, change, value: null
@@ -1121,6 +1142,103 @@
             },
 
             /**
+             * @name app.utils#getExchangeTotalPrice
+             * @oaram {Money} amount
+             * @param {Money} price
+             * @return string
+             */
+            getExchangeTotalPrice(amount, price) {
+                const amountTokens = amount.getTokens();
+                const priceTokens = price.getTokens();
+                const precision = price.asset.precision;
+                return amountTokens.times(priceTokens).toFormat(precision);
+            },
+
+            /**
+             * @name app.utils#getExchangeFee
+             * @param {IExchange} tx
+             * @return Money
+             */
+            getExchangeFee(tx) {
+                /**
+                 * @type {User}
+                 */
+                const user = $injector.get('user');
+                return [tx.order1, tx.order2]
+                    .filter(order => user.publicKey === order.senderPublicKey)
+                    .map(order => order.matcherFee)
+                    .reduce((acc, item) => acc.add(item), tx.fee.cloneWithTokens(0));
+            },
+
+            /**
+             * @name app.utils#getTransactionTypeName
+             * @param tx
+             * @return string
+             */
+            getTransactionTypeName(tx) {
+                const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
+                const SPONSOR_START = TYPES.SPONSORSHIP_START;
+                const SPONSOR_STOP = TYPES.SPONSORSHIP_STOP;
+
+                switch (tx.type) {
+                    case SIGN_TYPE.TRANSFER:
+                        return _getTransferType(tx);
+                    case SIGN_TYPE.MASS_TRANSFER:
+                        return utils.isMyAddressOrAlias(tx.sender) ? TYPES.MASS_SEND : TYPES.MASS_RECEIVE;
+                    case SIGN_TYPE.EXCHANGE:
+                        return tx.exchangeType === 'buy' ? TYPES.EXCHANGE_BUY : TYPES.EXCHANGE_SELL;
+                    case SIGN_TYPE.LEASE:
+                        return utils.isMyAddressOrAlias(tx.sender) ? TYPES.LEASE_OUT : TYPES.LEASE_IN;
+                    case SIGN_TYPE.CANCEL_LEASING:
+                        return TYPES.CANCEL_LEASING;
+                    case SIGN_TYPE.CREATE_ALIAS:
+                        return TYPES.CREATE_ALIAS;
+                    case SIGN_TYPE.ISSUE:
+                        return TYPES.ISSUE;
+                    case SIGN_TYPE.REISSUE:
+                        return TYPES.REISSUE;
+                    case SIGN_TYPE.BURN:
+                        return TYPES.BURN;
+                    case SIGN_TYPE.DATA:
+                        return TYPES.DATA;
+                    case SIGN_TYPE.SET_SCRIPT:
+                        return (tx.script || '').replace('base64:', '') ? TYPES.SET_SCRIPT : TYPES.SCRIPT_CANCEL;
+                    case SIGN_TYPE.SPONSORSHIP:
+                        return tx.minSponsoredAssetFee.getCoins().gt(0) ? SPONSOR_START : SPONSOR_STOP;
+                    default:
+                        return TYPES.UNKNOWN;
+                }
+            },
+
+            /**
+             * @name app.utils#isMyPublicKey
+             * @param publicKey
+             * @return {boolean}
+             */
+            isMyPublicKey(publicKey) {
+                /**
+                 * @type {User}
+                 */
+                const user = $injector.get('user');
+                return user.publicKey === publicKey;
+            },
+
+            /**
+             * @name app.utils#isMyAddressOrAlias
+             * @param {string} addressOrAlias
+             * @return boolean
+             */
+            isMyAddressOrAlias(addressOrAlias) {
+                /**
+                 * @type {User}
+                 */
+                const user = $injector.get('user');
+                const aliasList = ds.dataManager.getLastAliases();
+
+                return addressOrAlias === user.address || aliasList.includes(addressOrAlias);
+            },
+
+            /**
              * @name app.utils#isNotEqualValue
              * @param {*} oldValue
              * @param {*} newValue
@@ -1128,18 +1246,166 @@
             isNotEqualValue: isNotEqualValue,
 
             /**
-             * @name app.utils#parseError
-             * @param error
-             * @returns {*}
+             * @name app.utils#createOrder
+             * @param {app.utils.IOrderData} data
+             * @return {Promise}
              */
-            parseError(error) {
+            createOrder(data) {
+                const timestamp = ds.utils.normalizeTime(Date.now());
+                /**
+                 * @type {INotification}
+                 */
+                const notification = $injector.get('notification');
+                /**
+                 * @type {ModalManager}
+                 */
+                const modalManager = $injector.get('modalManager');
+                /**
+                 * @type {User}
+                 */
+                const user = $injector.get('user');
+                /**
+                 * @type {boolean}
+                 */
+                const isAdvancedMode = user.getSetting('advancedMode');
+                /**
+                 * @type {number | undefined}
+                 */
+                const version = user.hasScript() ? 2 : undefined;
+
+                const scriptedErrorMessage = `Order rejected by script for ${user.address}`;
+
+                const signableData = {
+                    type: SIGN_TYPE.CREATE_ORDER,
+                    data: { ...data, version, timestamp }
+                };
+
+                const onError = error => {
+                    notification.error({
+                        ns: 'app.dex',
+                        title: {
+                            literal: 'directives.createOrder.notifications.error.title'
+                        },
+                        body: {
+                            literal: error && error.message || error
+                        }
+                    }, -1);
+
+                    return Promise.reject(error);
+                };
+
+                return utils.createSignable(signableData)
+                    .then(signable => {
+                        return utils.signMatcher(signable)
+                            .then(signable => signable.getDataForApi())
+                            .then(ds.createOrder)
+                            .catch(error => {
+                                if (!isAdvancedMode || error.message !== scriptedErrorMessage) {
+                                    return Promise.reject(error);
+                                }
+
+                                return modalManager.showConfirmTx(signable, false)
+                                    .then(ds.createOrder, () => null);
+                            });
+                    })
+                    .catch(onError);
+
+            },
+
+            /**
+             * @name app.utils#createSignable
+             * @param {*} data
+             * @return {Promise<Signable>}
+             */
+            createSignable(data) {
                 try {
-                    return typeof error === 'string' ? JSON.parse(error).message : error;
+                    return Promise.resolve(ds.signature.getSignatureApi().makeSignable(data));
                 } catch (e) {
-                    return error;
+                    return Promise.reject(e);
                 }
+            },
+
+            /**
+             * @name app.utils#signUserOrders
+             * @param {{[matcherSign]: {[timestamp]: number, [timestamp]: number}}} data
+             * @return {Promise<{signature: string, timestamp: number}>}
+             */
+            signUserOrders(data) {
+                try {
+                    const dayForwardTime = ds.app.getTimeStamp(1, 'day');
+                    const lastSignedTs = path(['matcherSign', 'timestamp'], data);
+                    const isNeedSign = !lastSignedTs || lastSignedTs - dayForwardTime < 0;
+
+                    if (!isNeedSign) {
+                        return Promise.resolve(data.matcherSign);
+                    }
+
+                    const timestamp = ds.app.getTimeStamp(
+                        WavesApp.matcherSignInterval.count,
+                        WavesApp.matcherSignInterval.timeType
+                    );
+
+                    const signable = ds.signature.getSignatureApi().makeSignable({
+                        type: SIGN_TYPE.MATCHER_ORDERS,
+                        data: { timestamp }
+                    });
+
+                    return utils.signMatcher(signable)
+                        .then(signable => signable.getSignature())
+                        .then(signature => ({ signature, timestamp }));
+                } catch (e) {
+                    return Promise.reject(e);
+                }
+            },
+
+            /**
+             * @name app.utils#sign
+             * @param {Signable} signable
+             * @return {Promise<Signable>}
+             */
+            signMatcher(signable) {
+                /**
+                 * @type {User}
+                 */
+                const user = $injector.get('user');
+                /**
+                 * @type {ModalManager}
+                 */
+                const modalManager = $injector.get('modalManager');
+
+                if (user.userType === 'seed') {
+                    return signable.addMyProof()
+                        .then(() => signable);
+                }
+
+                const errorParams = { error: 'sign-error', userType: user.userType };
+
+                const signByDeviceLoop = () => modalManager.showSignByDevice(signable)
+                    .catch(() => modalManager.showSignDeviceError(errorParams)
+                        .then(signByDeviceLoop))
+                    .catch(() => Promise.reject({ message: 'Your sign is not confirmed!' }));
+
+                return signByDeviceLoop();
             }
         };
+
+        /**
+         * @param {api.ITransferTransaction<string>} tx
+         * @private
+         */
+        function _getTransferType(tx) {
+            const meIsSender = isEmpty(tx.senderPublicKey) || utils.isMyPublicKey(tx.senderPublicKey);
+            const meIsRecipient = utils.isMyAddressOrAlias(tx.recipient);
+            const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
+
+            if (!meIsSender && !meIsRecipient) {
+                return TYPES.SPONSORSHIP_FEE;
+            } else if (meIsSender && meIsRecipient) {
+                return TYPES.CIRCULAR;
+            } else {
+                return meIsSender ? TYPES.SEND : TYPES.RECEIVE;
+            }
+        }
 
         /**
          * @param value
@@ -1203,7 +1469,7 @@
                 }
 
                 if (!observer.__events[event]) {
-                    observer.__events[event] = new tsUtils.Signal();
+                    observer.__events[event] = new Signal();
                     keys.forEach((key) => {
                         observer[key].signal.on(() => {
                             observer.__events[event].dispatch();
@@ -1258,7 +1524,7 @@
                     }
 
                     const item = Object.create(null);
-                    item.signal = new tsUtils.Signal();
+                    item.signal = new Signal();
                     item.timer = null;
                     item.value = target[key];
 
@@ -1314,4 +1580,14 @@
     angular.module('app.utils')
         .factory('utils', factory);
 })();
+
+/**
+ * @typedef {object} app.utils#IOrderData
+ * @property {string} orderType
+ * @property {Money} price
+ * @property {Money} amount
+ * @property {Money} matcherFee
+ * @property {string} matcherPublicKey
+ * @property {number} expiration
+ */
 

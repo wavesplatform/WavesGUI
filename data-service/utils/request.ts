@@ -13,10 +13,12 @@ export function request<T>(params: IRequestParams<T>): Promise<T> {
                 if (response.ok) {
                     return response.text().then((data) => isJSON ? parse(data) : data);
                 } else {
-                    if (response.status >= 500){
-                        return  Promise.reject('An unexpected error has occured: #' + response.status);
+                    if (response.status >= 500) {
+                        return Promise.reject(new Error(`An unexpected error has occurred: # + ${response.status}`));
                     } else {
-                        return  response.text().then((text) => Promise.reject(text));
+                        return response.text()
+                            .then(tryParseError)
+                            .then(error => Promise.reject(error));
                     }
                 }
             });
@@ -28,6 +30,14 @@ export function request<T>(params: IRequestParams<T>): Promise<T> {
     // TODO catch errors
 
     return promise;
+}
+
+function tryParseError(error: string): string | object {
+    try {
+        return JSON.parse(error);
+    } catch (e) {
+        return error;
+    }
 }
 
 function addDefaultRequestParams(url: string, options: IFetchOptions = Object.create(null)): IFetchOptions {

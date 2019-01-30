@@ -334,7 +334,7 @@ w-sign-button,
   &__data {
     display: flex;
     flex-direction: column;
-    height: 65px;
+    min-height: 65px;
     justify-content: center;
   }
 
@@ -606,6 +606,11 @@ w-permit {
     margin: 0 0 -1px 6px;
     text-transform: uppercase;
     white-space: nowrap;
+
+    &-suspicious {
+      background-color: @asset-label-suspicious;
+      color: @color-black;
+    }
   }
 }
 
