@@ -149,13 +149,15 @@
                     </w-help-icon>
                 </div>
 
-                <w-checkbox-submit id="has-script"
-                                   class="input-toggle"
-                                   ng-model="$ctrl.hasAssetScript"></w-checkbox-submit>
+                <div class="flex">
+                    <w-checkbox-submit id="has-script"
+                                       name="has-script"
+                                       class="input-toggle"
+                                       ng-model="$ctrl.hasAssetScript"></w-checkbox-submit>
+                    <label for="has-script"></label>
+                </div>
 
-                <div ng-if="$ctrl.hasAssetScript"
-                     class="row">
-                    <div class="body-2 basic-900" w-i18n="script"></div>
+                <div ng-if="$ctrl.hasAssetScript" class="row">
                     <w-input-container>
                         <w-input textarea
                                  w-validate
