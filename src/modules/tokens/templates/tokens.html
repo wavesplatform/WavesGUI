@@ -175,7 +175,13 @@
                         </w-input-error>
                     </w-input-container>
 
-                    <!-- toDO WARNING -->
+                    <div ng-if="$ctrl.hasAssetScript" w-i18n-ns="app.utils">
+                        <div class="basic-500 margin-1 margin-top-1" w-i18n="directives.scriptForm.ideLink"></div>
+                        <div class="warning-plate warning-500">
+                            <span class="body-1" w-i18n="modal.setAssetScript.warningHeader"></span>
+                            <span class="footnote-1 basic-500" w-i18n="modal.setAssetScript.warningDescription"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
