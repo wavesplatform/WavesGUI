@@ -2,23 +2,29 @@
 
     <div class="asset-modal__head margin-4">
         <div class="asset-modal__head-content">
-            <w-asset-logo ng-cloak asset-id="{{::$ctrl.asset.id}}"
+            <w-asset-logo ng-if="$ctrl.asset.id"
+                          ng-cloak asset-id="{{::$ctrl.asset.id}}"
                           size="65"
                           class="asset-modal__logo"></w-asset-logo>
 
             <div class="asset-modal__data">
                 <h2 ng-cloak class="asset-modal__name basic-900" ng-class="{'has-label': $ctrl.hasLabel}">
                     <span class="name">{{::$ctrl.asset.name}}</span>
-                    <span ng-if="$ctrl.isVerified" class="asset__label" w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>
-                    <span ng-if="$ctrl.isGateway" class="asset__label"  w-i18n-ns="app.utils" w-i18n="modal.assetInfo.gateway"></span>
-                    <span ng-if="$ctrl.isSuspicious" class="asset__label asset__label-suspicious" w-i18n="modal.assetInfo.suspicious"></span>
+                    <span ng-if="$ctrl.isVerified" class="asset__label" w-i18n-ns="app.utils"
+                          w-i18n="modal.assetInfo.qualified"></span>
+                    <span ng-if="$ctrl.isGateway" class="asset__label" w-i18n-ns="app.utils"
+                          w-i18n="modal.assetInfo.gateway"></span>
+                    <span ng-if="$ctrl.isSuspicious" class="asset__label asset__label-suspicious"
+                          w-i18n="modal.assetInfo.suspicious"></span>
                 </h2>
 
                 <div ng-if="$ctrl.ticker" class="body-2 basic-500 asset__ticker">{{::$ctrl.ticker}}</div>
             </div>
 
             <div class="chart-wrapper">
-                <w-asset-rate-chart no-update="::true" asset-id="::$ctrl.asset.id"></w-asset-rate-chart>
+                <w-asset-rate-chart ng-if="$ctrl.asset.id"
+                                    no-update="::true"
+                                    asset-id="::$ctrl.asset.id"></w-asset-rate-chart>
                 <div class="interactive-stop"></div>
             </div>
 
@@ -27,7 +33,7 @@
 
     <div class="line">
         <div class="basic-500">Asset ID</div>
-        <div class="basic-900 break-all fs-mobile ng-binding">txid_hardcode</div>
+        <div class="basic-900 break-all fs-mobile ng-binding">{{$ctrl.asset.id}}</div>
     </div>
 
     <div class="basic-500 margin-top-1">Description</div>
@@ -64,16 +70,20 @@
             Warning: actions can lead to loss of access to this asset.
         </span>
         <span class="footnote-1 basic-500">
-            We do not recommend installing a script on an asset unless you are an experienced user. Errors can lead to permanent loss of control over the asset.
+            We do not recommend installing a script on an asset unless you are an experienced user.
+            Errors can lead to permanent loss of control over the asset.
         </span>
     </div>
 
-    <div class="basic-500 margin-1 margin-top-1">Fee 0.001 WAVES | hardcode</div>
+    <div class="basic-500 margin-1 margin-top-1"
+         params="{fee: $ctrl.fee}"
+         w-i18n="directives.setAssetScriptForm.fee"></div>
 
-    <w-button on-click="$ctrl.onClickNext()"
-              disabled="setAssetScriptForm.$invalid || $ctrl.isPendingScrip"
-              class="submit big long">
+    <w-sign-button on-click="$ctrl.onClickSign()"
+                   disabled="setAssetScriptForm.$invalid || $ctrl.isPendingScrip"
+                   on-success="$ctrl.onSuccess({signable: signable})"
+                   class="submit big long">
         <span w-i18n="directives.setAssetScriptForm.ok"></span>
-    </w-button>
+    </w-sign-button>
 
 </form>
