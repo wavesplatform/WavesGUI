@@ -18,41 +18,6 @@ body.tokens {
   }
 
   .token-page {
-
-    .input-toggle {
-      display: none;
-    }
-
-    .input-toggle + label {
-      width: 40px;
-      height: 20px;
-      border: 1px solid @color-submit-400;
-      background: @color-submit-400;
-      border-radius: 10px;
-      display: block;
-      position: relative;
-
-      &::before {
-        transition: .3s;
-        background: @color-white;
-        width: 18px;
-        height: 18px;
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0px;
-        border-radius: 50%;
-        display: block;
-      }
-    }
-
-    .input-toggle:checked + label {
-      &::before {
-        right: 0px;
-        left: auto;
-      }
-    }
-
     width: 100%;
     height: 100%;
     background-color: @color-white;
@@ -198,6 +163,10 @@ body.tokens {
 
       .row {
         margin-top: 20px;
+
+        &-script {
+          margin-top: 10px;
+        }
       }
     }
   }
