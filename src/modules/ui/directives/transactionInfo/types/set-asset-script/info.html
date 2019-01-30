@@ -1,14 +1,24 @@
-{{$ctrl.asset.id}}}
-{{$ctrl.asset.reissuable}}}
-
-
-<div class="flex flex-between">
-    <div class="footnote-1 basic-500" w-i18n="directives.anyTransaction.textAreaTitle"></div>
-    <div>
-        <span class="link">Show All</span>
-    </div>
+<div class="txinfo__row ng-scope">
+    <div class="txinfo__key" w-i18n="transaction.modals.assetId">Asset ID</div>
+    <div class="txinfo__value">{{$ctrl.asset.id}}</div>
 </div>
-<div class="code-wrapper">
+
+<div class="txinfo__row ng-scope">
+    <div class="txinfo__key" w-i18n="transaction.modals.type">Reissuable</div>
+    <div class="txinfo__value" w-i18n="transaction.reissuable.{{::$ctrl.transaction.reissuable}}"></div>
+</div>
+
+<div class="txinfo__row ng-scope">
+    <div class="txinfo__key" w-i18n="transaction.modals.type">Reissuable</div>
+    <div class="txinfo__value">Description</div>
+</div>
+
+<div class="txinfo__row ng-scope">
+    <div class="txinfo__key">Script</div>
+    <div class="txinfo__value"><span class="link">Show All</span></div>
+</div>
+
+<div class="code-wrapper txinfo-code-wrapper margin-1">
     <pre>{{$ctrl.transaction.script}}</pre>
 </div>
 
