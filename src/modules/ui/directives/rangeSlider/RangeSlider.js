@@ -134,7 +134,7 @@
                         const position = Math.round(utilEvent.pageX - startPos - (this._handle.width() / 2));
                         const newPosition = Math.min(Math.max(head(this._coords), position), last(this._coords));
 
-                        this.ngModel = this._numberValues[this._findClosestIndex(newPosition)];
+                        this._updateModel(newPosition);
                         this._handle.css({
                             left: newPosition
                         });
@@ -152,6 +152,7 @@
                         utils.animate(this._trackColor, {
                             width: newPos
                         }, { duration: 100 });
+                        this._updateModel(pos);
                     };
 
                     $document.on('mousemove touchmove', onDrag);
@@ -164,14 +165,22 @@
                     }));
                 };
 
-                this.listenEventEmitter(this._handle, 'mousedown touchstart', onDragStart);
+                this.listenEventEmitter($element, 'mousedown touchstart', onDragStart);
             }
 
             /*
              * @param {number} pos
              */
-            _findClosestIndex(pos) {
-                return this._coords.findIndex(section => Math.abs(pos - section) <= (this._scale / 2));
+            _findClosestIndex(position) {
+                return this._coords.findIndex(section => Math.abs(position - section) <= (this._scale / 2));
+            }
+
+            /*
+             * @param private
+             * @param {number} pos
+             */
+            _updateModel(position) {
+                this.ngModel = this._numberValues[this._findClosestIndex(position)];
             }
 
         }
