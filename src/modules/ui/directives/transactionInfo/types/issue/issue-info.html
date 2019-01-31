@@ -2,22 +2,25 @@
     <div class="txinfo__key" w-i18n="transaction.modals.assetId"></div>
     <div class="txinfo__value">{{::$ctrl.transaction.assetId}}</div>
 </div>
+
 <div class="txinfo__row" ng-if="::$ctrl.transaction.reissuable != null">
     <div class="txinfo__key" w-i18n="transaction.modals.type"></div>
     <div class="txinfo__value" w-i18n="transaction.reissuable.{{::$ctrl.transaction.reissuable}}"></div>
 </div>
-<div class="txinfo__row txinfo__row-contains-text" ng-if="::$ctrl.transaction.description">
-    <div class="txinfo__key" w-i18n="transaction.modals.description"></div>
-    <div class="txinfo__value txinfo__text">{{$ctrl.transaction.description}}</div>
-</div>
+
 <div ng-show="$ctrl.transaction.script"
      class="txinfo__row ">
     <div class="txinfo__key" w-i18n="transaction.modals.script"></div>
     <div class="txinfo__value">
-<span class="link"
-      ng-click="$ctrl.toggleScript()"
-      w-i18n="transaction.modals.setAssetScript.showScript-{{$ctrl.shownScript}}"></span>
+        <span class="link"
+              ng-click="$ctrl.toggleScript()"
+              w-i18n="transaction.modals.setAssetScript.showScript-{{$ctrl.shownScript}}"></span>
+    </div>
 </div>
+
+<div class="txinfo__row txinfo__row-contains-text" ng-if="::$ctrl.transaction.description">
+    <div class="txinfo__key" w-i18n="transaction.modals.description"></div>
+    <div class="txinfo__value txinfo__text">{{$ctrl.transaction.description}}</div>
 </div>
 
 <div ng-show="$ctrl.transaction.script" class="js-script-container">
