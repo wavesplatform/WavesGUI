@@ -75,8 +75,8 @@
                 createPoll(this, this._getBalances, this._setLeasingData, 1000, { isBalance: true });
                 createPoll(this, this._getTransactions, this._setTxList, 3000, { isBalance: true });
 
-                this.observe(['txList', 'allActiveLeasing, filter'], this._currentLeasingList);
-                this.observe(['filter'], this._filterLeasingList);
+                this.observe(['txList', 'allActiveLeasing', 'filter'], this._currentLeasingList);
+                // this.observe(['filter'], this._filterLeasingList);
             }
 
             startLeasing() {
@@ -161,6 +161,7 @@
                 });
 
                 this.transactions = result;
+                this._filterLeasingList();
             }
 
             /*
@@ -168,21 +169,11 @@
              */
             _filterLeasingList() {
                 const filter = this.filter;
-                switch (filter) {
-                    case 'all':
-                        this._currentLeasingList();
-                        break;
-                    case 'active':
-                        this.transactions = this.transactions.filter(tx => {
-                            console.log('%c tx', 'background: #222; color: #bada55',tx);
-                            return tx.status === 'active';
-                        });
-                        break;
-                    case 'canceled':
-                        this.transactions = this.transactions.filter(tx => tx.status === 'canceled');
-                        break;
-                    default:
-                        break;
+                if (filter === 'active') {
+                    this.transactions = this.transactions.filter(tx => tx.status === 'active');
+                } else if (filter === 'canceled') {
+                    this.transactions = this.transactions
+                        .filter(tx => tx.status !== 'active' || tx.typeName === 'cancel-leasing');
                 }
             }
 
