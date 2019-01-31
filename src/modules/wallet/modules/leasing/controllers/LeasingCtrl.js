@@ -21,7 +21,7 @@
             /**
              * @type {string}
              */
-            filter = null;
+            filter;
             /**
              * @type {ITransaction[]}
              * @private
@@ -43,6 +43,7 @@
             constructor() {
                 super($scope);
 
+                this.syncSettings({ filter: 'wallet.leasing.filter' });
                 this.pending = true;
                 this.chartOptions = {
                     items: {
@@ -65,18 +66,22 @@
                 };
 
                 this.nodeListLink = WavesApp.network.nodeList;
-                this.syncSettings({ filter: 'wallet.transactions.filter' });
 
                 waves.node.transactions.getActiveLeasingTx().then((txList) => {
                     this.allActiveLeasing = txList;
+                    $scope.$apply();
                 });
 
                 createPoll(this, this._getBalances, this._setLeasingData, 1000, { isBalance: true });
                 createPoll(this, this._getTransactions, this._setTxList, 3000, { isBalance: true });
 
-                this.observe(['txList', 'allActiveLeasing', 'filter'], this._currentLeasingList);
+                this.observe(['_txList', 'allActiveLeasing', 'filter'], this._currentLeasingList);
             }
 
+            /**
+             * @return {object}
+             * @public
+             */
             startLeasing() {
                 return modalManager.showStartLeasing();
             }
@@ -93,7 +98,7 @@
              * @private
              */
             _getTransactions() {
-                return waves.node.transactions.list(10000);
+                return waves.node.transactions.list(500);
             }
 
             /**
@@ -113,7 +118,7 @@
                     { id: 'leased', value: leasedOut },
                     { id: 'leasedIn', value: leasedIn }
                 ];
-                $scope.$digest();
+                $scope.$apply();
             }
 
             /**
@@ -128,7 +133,7 @@
                 };
 
                 this._txList = txList.filter(({ typeName }) => AVAILABLE_TYPES_HASH[typeName]);
-                $scope.$digest();
+                $scope.$apply();
             }
 
             /**
