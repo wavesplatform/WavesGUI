@@ -1,15 +1,15 @@
 <div class="txinfo__row ng-scope">
-    <div class="txinfo__key" w-i18n="transaction.modals.assetId"></div>
-    <div class="txinfo__value">{{$ctrl.asset.id}}</div>
+    <div class="txinfo__key" w-i18n="transaction.modals.script"></div>
+    <div class="txinfo__value">
+            <span class="link"
+                  ng-click="$ctrl.toggleScript()"
+                  w-i18n="transaction.modals.setAssetScript.showScript-{{$ctrl.shownScript}}"></span>
+    </div>
 </div>
 
 <div class="txinfo__row ng-scope">
-    <div class="txinfo__key" w-i18n="transaction.modals.script"></div>
-    <div class="txinfo__value">
-        <span class="link"
-              ng-click="$ctrl.toggleScript()"
-              w-i18n="transaction.modals.setAssetScript.showScript-{{$ctrl.shownScript}}"></span>
-    </div>
+    <div class="txinfo__key" w-i18n="transaction.modals.assetId"></div>
+    <div class="txinfo__value">{{$ctrl.asset.id}}</div>
 </div>
 
 <div class="js-script-container code-wrapper code-wrapper-vertical margin-1">
