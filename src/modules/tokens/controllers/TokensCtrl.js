@@ -46,9 +46,9 @@
             count = null;
             /**
              * Precision of token
-             * @type {BigNumber}
+             * @type {number}
              */
-            precision = null;
+            precision = 0;
             /**
              * @type {BigNumber}
              */
@@ -174,7 +174,7 @@
              * @private
              */
             _onChangePrecision({ value }) {
-                if (value && value.lte(8)) {
+                if (value && value <= 8) {
                     this.maxCoinsCount = WavesApp.maxCoinsCount.div(Math.pow(10, Number(value)));
                 }
             }
