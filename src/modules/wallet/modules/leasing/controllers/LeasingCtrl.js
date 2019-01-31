@@ -22,6 +22,23 @@
              * @type {string}
              */
             filter = null;
+            /**
+             * @type {ITransaction[]}
+             * @private
+             */
+            _txList = null;
+            /**
+             * @type {ITransaction[]}
+             */
+            allActiveLeasing = null;
+            /**
+             * @type {ITransaction[]}
+             */
+            transactions = [];
+            /**
+             * @type {string}
+             */
+            nodeListLink = '';
 
             constructor() {
                 super($scope);
@@ -47,25 +64,7 @@
                     startFrom: Math.PI / 2
                 };
 
-                /**
-                 * @type {ITransaction[]}
-                 * @private
-                 */
-                this.txList = null;
-                /**
-                 * @type {ITransaction[]}
-                 */
-                this.allActiveLeasing = null;
-                /**
-                 * @type {ITransaction[]}
-                 */
-                this.transactions = [];
-
-                /**
-                 * @type {string}
-                 */
                 this.nodeListLink = WavesApp.network.nodeList;
-
                 this.syncSettings({ filter: 'wallet.transactions.filter' });
 
                 waves.node.transactions.getActiveLeasingTx().then((txList) => {
@@ -76,7 +75,6 @@
                 createPoll(this, this._getTransactions, this._setTxList, 3000, { isBalance: true });
 
                 this.observe(['txList', 'allActiveLeasing', 'filter'], this._currentLeasingList);
-                // this.observe(['filter'], this._filterLeasingList);
             }
 
             startLeasing() {
@@ -129,7 +127,7 @@
                     [waves.node.transactions.TYPES.CANCEL_LEASING]: true
                 };
 
-                this.txList = txList.filter(({ typeName }) => AVAILABLE_TYPES_HASH[typeName]);
+                this._txList = txList.filter(({ typeName }) => AVAILABLE_TYPES_HASH[typeName]);
                 $scope.$digest();
             }
 
@@ -137,7 +135,7 @@
              * @private
              */
             _currentLeasingList() {
-                const txList = this.txList;
+                const txList = this._txList;
                 const allActiveLeasing = this.allActiveLeasing;
 
                 if (!txList) {
