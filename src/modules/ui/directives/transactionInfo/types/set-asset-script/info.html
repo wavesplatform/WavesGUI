@@ -7,13 +7,13 @@
     </div>
 </div>
 
+<div class="js-script-container code-wrapper code-wrapper-vertical margin-1">
+    {{$ctrl.transaction.script}}
+</div>
+
 <div class="txinfo__row ng-scope">
     <div class="txinfo__key" w-i18n="transaction.modals.assetId"></div>
     <div class="txinfo__value">{{$ctrl.asset.id}}</div>
-</div>
-
-<div class="js-script-container code-wrapper code-wrapper-vertical margin-1">
-    {{$ctrl.transaction.script}}
 </div>
 
 <w-transaction-info-general height="$ctrl.transaction.height"
