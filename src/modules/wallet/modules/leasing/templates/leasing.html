@@ -49,7 +49,19 @@
         </w-leasing-block>
     </div>
     <div class="transactions-container">
-        <div class="transactions-title headline-4 basic-700" w-i18n="title"></div>
+        <div  w-i18n-ns="app.ui" class="controls margin-1">
+            <w-radio-wrap class="split-mode interface" ng-model="$ctrl.filter">
+                <w-radio value="'all'">
+                    <span w-i18n="all"></span>
+                </w-radio>
+                <w-radio value="'active'">
+                    <span w-i18n="transaction.headers.activeLeasing"></span>
+                </w-radio>
+                <w-radio value="'cancel-leasing,lease-out'">
+                    <span w-i18n="transaction.headers.canceled"></span>
+                </w-radio>
+            </w-radio-wrap>
+        </div>
         <w-scroll-box>
             <div class="scroll-list">
                 <w-transaction-list transaction-date-pattern="dd.MM.yyyy HH:mm"
