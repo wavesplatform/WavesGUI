@@ -40,6 +40,13 @@
                         });
                 }
 
+                if (this.transaction.assetId) {
+                    waves.node.assets.getAsset(this.transaction.assetId).then(asset => {
+                        this.asset = asset;
+                        $scope.$apply();
+                    });
+                }
+
                 const TYPES = waves.node.transactions.TYPES;
 
                 switch (this.typeName) {
@@ -112,7 +119,7 @@
             cancelLeasing() {
                 const lease = this.transaction;
                 const leaseId = lease.id;
-                return waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING })
+                return waves.node.getFee({ type: SIGN_TYPE.CANCEL_LEASING })
                     .then((fee) => {
                         const tx = waves.node.transactions.createTransaction({
                             fee,

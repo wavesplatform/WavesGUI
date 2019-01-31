@@ -335,7 +335,8 @@
                 nodeList: '{{network.nodeList}}',
                 scamListUrl: '{{network.scamListUrl}}',
                 explorer: '{{network.explorer}}',
-                featuresConfigUrl: '{{network.featuresConfigUrl}}'
+                featuresConfigUrl: '{{network.featuresConfigUrl}}',
+                feeConfigUrl: '{{{feeConfigUrl}}}'
             },
             defaultAssets: {
                 WAVES: 'WAVES',
@@ -399,6 +400,7 @@
                     SPONSORSHIP_START: 'sponsorship-start',
                     SPONSORSHIP_STOP: 'sponsorship-stop',
                     SPONSORSHIP_FEE: 'sponsorship-fee',
+                    SET_ASSET_SCRIPT: 'set-asset-script',
                     UNKNOWN: 'unknown'
                 },
                 NODE: {
@@ -413,7 +415,8 @@
                     EXCHANGE: 'exchange',
                     DATA: 'data',
                     SET_SCRIPT: 'setScript',
-                    SPONSORSHIP: 'sponsorship'
+                    SPONSORSHIP: 'sponsorship',
+                    SET_ASSET_SCRIPT: 'set-asset-script',
                 }
             },
             getLocaleData: function () {

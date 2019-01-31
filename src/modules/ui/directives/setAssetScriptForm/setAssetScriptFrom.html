@@ -1,0 +1,79 @@
+<form name="setAssetScriptForm" novalidate>
+
+    <div class="asset-modal__head asset-modal margin-4">
+        <div class="asset-modal__head-content">
+            <w-asset-logo ng-if="$ctrl.asset.id"
+                          ng-cloak asset-id="{{::$ctrl.asset.id}}"
+                          size="65"
+                          class="asset-modal__logo"></w-asset-logo>
+
+            <div class="asset-modal__data">
+                <h2 ng-cloak class="asset-modal__name basic-900" ng-class="{'has-label': $ctrl.hasLabel}">
+                    <span class="name">{{::$ctrl.asset.name}}</span>
+                    <span ng-if="$ctrl.isVerified" class="asset__label" w-i18n-ns="app.utils"
+                          w-i18n="modal.assetInfo.qualified"></span>
+                    <span ng-if="$ctrl.isGateway" class="asset__label" w-i18n-ns="app.utils"
+                          w-i18n="modal.assetInfo.gateway"></span>
+                    <span ng-if="$ctrl.isSuspicious" class="asset__label asset__label-suspicious"
+                          w-i18n="modal.assetInfo.suspicious"></span>
+                </h2>
+
+                <div ng-if="$ctrl.ticker" class="body-2 basic-500 asset__ticker">{{::$ctrl.ticker}}</div>
+            </div>
+
+            <div class="chart-wrapper">
+                <w-asset-rate-chart ng-if="$ctrl.asset.id"
+                                    no-update="::true"
+                                    asset-id="::$ctrl.asset.id"></w-asset-rate-chart>
+                <div class="interactive-stop"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="line">
+        <div class="basic-500" w-i18n="directives.filter.helpIcon.assetId"></div>
+        <div class="basic-900 break-all fs-mobile ng-binding">{{$ctrl.asset.id}}</div>
+    </div>
+
+    <div class="body-2 margin-top-1" w-i18n="modal.setAssetScript.script"></div>
+    <w-input-container>
+        <w-input textarea
+                 name="script"
+                 ng-model="$ctrl.script"
+                 w-validate
+                 required
+                 class="setAssetScript__input"
+                 w-validator-custom="{{$ctrl.isValidScript}}"></w-input>
+
+        <w-input-error message="required">
+            <span w-i18n="directives.scriptForm.errors.required"></span>
+        </w-input-error>
+        <w-input-error message="custom">
+            <span w-i18n="directives.scriptForm.errors.invalidScript"></span>
+        </w-input-error>
+    </w-input-container>
+
+    <div class="basic-500 margin-1 margin-top-1" w-i18n="directives.scriptForm.ideLink"></div>
+
+    <div class="warning-plate warning-500">
+        <span class="body-1" w-i18n="modal.setAssetScript.warningHeader"></span>
+        <span class="footnote-1 basic-500" w-i18n="modal.setAssetScript.warningDescription"></span>
+    </div>
+
+    <div class="basic-500 margin-top-2"
+         params="{fee: $ctrl.fee}"
+         w-i18n="directives.setAssetScriptForm.fee"></div>
+
+    <div ng-if="!$ctrl.hasFee"
+         params="{fee: $ctrl.fee}"
+         class="error-400 margin-top-1"
+         w-i18n="modal.setAssetScript.errorNoMoney"></div>
+
+    <w-sign-button on-click="$ctrl.onClickSign()"
+                   disabled="setAssetScriptForm.$invalid || $ctrl.isPendingScrip || !$ctrl.hasFee"
+                   on-success="$ctrl.onSuccess({signable: signable})"
+                   class="submit big long margin-top-3">
+        <span w-i18n="directives.setAssetScriptForm.ok"></span>
+    </w-sign-button>
+
+</form>

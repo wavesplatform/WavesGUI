@@ -142,7 +142,7 @@
              */
             _updateFee() {
                 return this._getTxForFee()
-                    .then(tx => waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP, tx }))
+                    .then(tx => waves.node.getFee(tx))
                     .then(fee => {
                         this.fee = fee;
                         this._updateAvilableFee();
@@ -162,8 +162,9 @@
              * @private
              */
             _getTxForFee() {
-                return Promise.resolve(() => {
-                    return { type: SIGN_TYPE.SPONSORSHIP, minSponsoredAssetFee: new Money(0, this.asset) };
+                return Promise.resolve({
+                    type: SIGN_TYPE.SPONSORSHIP,
+                    minSponsoredAssetFee: new Money(0, this.asset)
                 });
             }
 

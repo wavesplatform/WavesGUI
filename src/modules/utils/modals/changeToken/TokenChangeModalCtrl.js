@@ -106,7 +106,8 @@
                     }
                 };
 
-                waves.node.getFee({ type: this.txType }).then((fee) => {
+                const type = this.txType === 'burn' ? SIGN_TYPE.BURN : SIGN_TYPE.REISSUE;
+                waves.node.getFee({ type, assetId: money.asset.id }).then((fee) => {
                     this.fee = fee;
                     $scope.$digest();
                 });

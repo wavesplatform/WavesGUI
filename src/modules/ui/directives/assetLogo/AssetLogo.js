@@ -19,6 +19,7 @@
     };
 
     const ds = require('data-service');
+    const { isEmpty } = require('ts-utils');
 
     const COLORS_MAP = {
         A: '#39a12c',
@@ -62,36 +63,62 @@
 
         class AssetLogo extends Base {
 
+            /**
+             * @type {string}
+             */
+            assetId;
+            /**
+             * @type {string}
+             */
+            assetName;
+            /**
+             * @type {number}
+             */
+            size;
+            /**
+             * @type {boolean}
+             */
+            hasScript;
+            /**
+             * @type {boolean}
+             * @private
+             */
+            _canPayFee = false;
+            /**
+             * @type {boolean}
+             * @private
+             */
+            _isSmart = false;
+
+
             constructor() {
                 super();
-                /**
-                 * @type {string}
-                 */
-                this.assetId = null;
-                /**
-                 * @type {string}
-                 */
-                this.assetName = null;
-                /**
-                 * @type {number}
-                 */
-                this.size = null;
+
+                this.observe('_canPayFee', this._onChangeCanPayFee);
+                this.observe(['_isSmart', 'hasScript'], this._onChangeIsSmart);
             }
+
 
             $postLink() {
                 if (!this.size || !(this.assetName || this.assetId)) {
                     throw new Error('Wrong params!');
                 }
 
-                const canPayFee = !!ds.utils.getTransferFeeList().find(money => money.asset.id === this.assetId);
+                this._canPayFee = !!ds.utils.getTransferFeeList()
+                    .find(money => money.asset.id === this.assetId);
 
-                $element.toggleClass('sponsored-asset', this.assetId !== 'WAVES' && canPayFee);
+                if (this.assetId) {
+                    waves.node.assets.getAsset(this.assetId).then(asset => {
+                        this._isSmart = asset.hasScript;
+                    });
+                }
 
                 $element.find('.asset__logo')
                     .css({
                         width: `${this.size}px`,
                         height: `${this.size}px`
                     });
+
                 this._addLogo();
             }
 
@@ -150,6 +177,21 @@
                     });
             }
 
+            /**
+             * @private
+             */
+            _onChangeCanPayFee() {
+                $element.find('.marker').toggleClass('sponsored-asset', this._canPayFee);
+            }
+
+            /**
+             * @private
+             */
+            _onChangeIsSmart() {
+                const isSmart = isEmpty(this.hasScript) ? this._isSmart : this.hasScript;
+                $element.find('.marker').toggleClass('smart-asset', isSmart);
+            }
+
         }
 
         return new AssetLogo();
@@ -163,6 +205,7 @@
             controller: controller,
             bindings: {
                 assetId: '@',
+                hasScript: '<',
                 assetName: '<',
                 size: '@'
             }

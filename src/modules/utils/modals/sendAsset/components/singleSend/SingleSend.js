@@ -525,6 +525,7 @@
                 if (!this._noCurrentRate && !this.noMirror && this.focus === 'amount') {
                     this._fillMirror();
                 }
+
             }
 
             /**

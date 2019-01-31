@@ -4,6 +4,7 @@
     const Handlebars = require('handlebars');
     const { STATUS_LIST } = require('@waves/oracle-data');
     const { path } = require('ramda');
+    const { SIGN_TYPE } = require('@waves/signature-adapter');
 
     // TODO @xenohunter : remove that when icons are in @dvshur's service
     const ASSET_IMAGES_MAP = {
@@ -78,7 +79,8 @@
             TOGGLE_SPAM: 'js-action-button-toggle-spam',
             SPONSORSHIP_CREATE: 'js-action-button-sponsorship_create',
             SPONSORSHIP_EDIT: 'js-action-button-sponsorship_edit',
-            SPONSORSHIP_STOP: 'js-action-button-cancel-sponsorship'
+            SPONSORSHIP_STOP: 'js-action-button-cancel-sponsorship',
+            SET_ASSET_SCRIPT: 'js-action-button-set-asset-script'
         }
     };
 
@@ -140,6 +142,10 @@
         gatewayService = null;
         /**
          * @type {boolean}
+         */
+        isSmart = false;
+        /**
+         * @type {boolean}
          * @private
          */
         _isMyAsset = false;
@@ -197,17 +203,21 @@
             const canStopSponsored = this._getCanStopSponsored();
 
             Promise.all([
-                this.waves.node.getFeeList({ type: 'transfer' }),
+                this.waves.node.getFeeList({ type: SIGN_TYPE.TRANSFER }),
                 PortfolioRow.templatePromise
             ]).then(([list, template]) => {
 
                 let balance = this.balance;
+
+                this.isSmart = balance.asset.hasScript;
                 const firstAssetChar = this.balance.asset.name.slice(0, 1);
                 const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
                 const data = ds.dataManager.getOracleAssetData(this.balance.asset.id);
                 const logo = data && data.logo;
 
                 const html = template({
+                    canSetAssetScript: this._isMyAsset && this.isSmart,
+                    isSmart: this.isSmart,
                     isVerified: data && data.status === STATUS_LIST.VERIFIED,
                     isGateway: data && data.status === 3,
                     assetIconPath: logo || ASSET_IMAGES_MAP[this.balance.asset.id],
@@ -237,7 +247,7 @@
                             balance = value;
                             this._onUpdateBalance();
                         }
-
+                        // TODO Optimize this
                         this._initSponsorShips();
                     }
                 });
@@ -254,6 +264,9 @@
             this.$node.off();
         }
 
+        /**
+         * @private
+         */
         _onChangeLanguage() {
             const nodeList = this.node.querySelectorAll('[w-i18n-literal]');
 
@@ -262,11 +275,19 @@
             });
         }
 
+        /**
+         * @return {boolean}
+         * @private
+         */
         _getCanStopSponsored() {
             return this._isMyAsset && ds.utils.getTransferFeeList()
                 .find(item => item.asset.id === this.balance.asset.id);
         }
 
+        /**
+         * @return {boolean}
+         * @private
+         */
         _getCanShowDex() {
             const statusPath = ['assets', this.balance.asset.id, 'status'];
 
@@ -330,6 +351,9 @@
             });
         }
 
+        /**
+         * @private
+         */
         _initActions() {
             let expanded = false;
 
@@ -368,6 +392,9 @@
             });
         }
 
+        /**
+         * @private
+         */
         _setHandlers() {
             this._initActions();
 
@@ -418,6 +445,10 @@
                 this.modalManager.showSponsorshipModal(this.balance.asset.id);
             });
 
+            this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SET_ASSET_SCRIPT}`, () => {
+                this.modalManager.showSetAssetScriptModal(this.balance.asset.id);
+            });
+
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_EDIT}`, () => {
                 this.modalManager.showSponsorshipModal(this.balance.asset.id, true);
             });
@@ -454,20 +485,25 @@
             });
         }
 
+        /**
+         * @param list
+         * @private
+         */
         _initSponsorShips(list) {
             const canStopSponsored = !!this._getCanStopSponsored();
             const canSponsored = !!this._isMyAsset;
+            const isSmart = this.isSmart;
 
             const btnCreate = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_CREATE}`);
             const btnEdit = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_EDIT}`);
             const btnStop = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_STOP}`);
-            const icon = this.node.querySelector(`.${SELECTORS.SPONSORED}`);
+            const icon = this.node.querySelector(`.${SELECTORS.SPONSORED} .marker`);
 
-            btnCreate.classList.toggle('hidden', !(canSponsored && !canStopSponsored));
+            btnCreate.classList.toggle('hidden', isSmart || !(canSponsored && !canStopSponsored));
             btnEdit.classList.toggle('hidden', !(canSponsored && canStopSponsored));
-            btnStop.classList.toggle('hidden', !canStopSponsored);
+            btnStop.classList.toggle('hidden', isSmart || !canStopSponsored);
 
-            Promise.resolve(list || this.waves.node.getFeeList({ type: 'transfer', address: this.user.address }))
+            Promise.resolve(list || this.waves.node.getFeeList({ type: SIGN_TYPE.TRANSFER }))
                 .then((list) => {
                     const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
                     icon.classList.toggle('sponsored-asset', !!canPayFee);

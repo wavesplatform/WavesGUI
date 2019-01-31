@@ -5,14 +5,17 @@
      * @param Base
      * @param {$rootScope.Scope} $scope
      * @param {ModalManager} modalManager
-     * @param {IPollCreate} createPoll
+     * @param {BalanceWatcher} balanceWatcher
      * @param {Waves} waves
-     * @return {TokensCtrl}
+     * @param {User} user
      */
-    const controller = function (Base, $scope, modalManager, createPoll, waves) {
+    const controller = function (Base, $scope, modalManager, waves, balanceWatcher, user) {
 
         const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const { WAVES_ID } = require('@waves/signature-generator');
         const ds = require('data-service');
+        const $ = require('jquery');
+        const BASE_64_PREFIX = 'base64:';
 
         class TokensCtrl extends Base {
 
@@ -56,27 +59,48 @@
              */
             invalid = false;
             /**
-             * @type {IBalanceDetails}
+             * @type {string}
+             */
+            script = '';
+            /**
+             * @type {boolean}
+             */
+            isValidScript = true;
+            /**
+             * @type {boolean}
+             */
+            scriptPending = false;
+            /**
+             * @type {Money}
+             */
+            fee = null;
+            /**
+             * @type {boolean}
+             */
+            hasAssetScript = false;
+            /**
+             * @type {JQueryXHR | null}
              * @private
              */
-            _balance;
+            _scriptValidationXHR = null;
             /**
              * @type {Money}
              * @private
              */
-            _fee = null;
+            _balance;
+
 
             constructor() {
                 super($scope);
 
-                const poll = createPoll(this, this._getBalance, '_balance', 5000, { isBalance: true, $scope });
+                this.receive(balanceWatcher.change, this._onChangeBalance, this);
 
                 this.observe('precision', this._onChangePrecision);
+                this.observe('script', this._onChangeScript);
 
-                Promise.all([waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.ISSUE }), poll.ready])
-                    .then(([money]) => {
-                        this._fee = money;
-                        this.observe(['_balance', '_fee'], this._onChangeBalance);
+                waves.node.getFee({ type: SIGN_TYPE.ISSUE })
+                    .then(money => {
+                        this.fee = money;
 
                         this._onChangeBalance();
                         $scope.$digest();
@@ -84,12 +108,14 @@
             }
 
             generate(signable) {
-                return modalManager.showConfirmTx(signable).then(() => this._reset());
+                return modalManager.showConfirmTx(signable)
+                    .then(() => this._reset());
             }
 
             createSignable() {
                 const precision = Number(this.precision.toString());
                 const quantity = this.count.times(Math.pow(10, precision));
+                const script = this.hasAssetScript && this.script ? `${BASE_64_PREFIX}${this.script}` : '';
 
                 const tx = waves.node.transactions.createTransaction({
                     type: SIGN_TYPE.ISSUE,
@@ -98,19 +124,49 @@
                     reissuable: this.issue,
                     quantity,
                     precision,
-                    fee: this._fee,
-                    createToken: true
+                    script,
+                    fee: this.fee
                 });
 
                 return ds.signature.getSignatureApi().makeSignable({ type: tx.type, data: tx });
             }
 
             /**
-             * @return {Promise<Money>}
+             * @return {null}
              * @private
              */
-            _getBalance() {
-                return waves.node.assets.balance(WavesApp.defaultAssets.WAVES);
+            _onChangeScript() {
+                if (this._scriptValidationXHR) {
+                    this._scriptValidationXHR.abort();
+                    this.scriptPending = false;
+                }
+                const script = this.script.replace(BASE_64_PREFIX, '');
+
+                if (!script) {
+                    this.isValidScript = true;
+                    this.scriptPending = false;
+                    return null;
+                }
+
+                this.isValidScript = true;
+                this.scriptPending = true;
+                this._scriptValidationXHR = $.ajax({
+                    method: 'POST',
+                    url: `${user.getSetting('network.node')}/utils/script/estimate`,
+                    data: script
+                });
+
+                this._scriptValidationXHR
+                    .then(() => {
+                        this.isValidScript = true;
+                    })
+                    .catch(() => {
+                        this.isValidScript = false;
+                    })
+                    .always(() => {
+                        this.scriptPending = false;
+                        $scope.$apply();
+                    });
             }
 
             /**
@@ -128,10 +184,15 @@
              * @private
              */
             _onChangeBalance() {
-                this.invalid = (!this._fee || !this._balance) ||
-                    this._balance.available.getTokens().lt(this._fee.getTokens());
+                this._balance = balanceWatcher.getBalance()[WAVES_ID];
+
+                this.invalid = (!this.fee || !this._balance) ||
+                    this._balance.getTokens().lt(this.fee.getTokens());
             }
 
+            /**
+             * @private
+             */
             _reset() {
 
                 this.name = '';
@@ -140,6 +201,8 @@
                 this.count = null;
                 this.precision = null;
                 this.maxCoinsCount = null;
+                this.script = '';
+                this.hasAssetScript = false;
 
                 this.createForm.$setPristine();
                 this.createForm.$setUntouched();
@@ -150,7 +213,7 @@
         return new TokensCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'modalManager', 'createPoll', 'waves'];
+    controller.$inject = ['Base', '$scope', 'modalManager', 'waves', 'balanceWatcher', 'user'];
 
     angular.module('app.tokens')
         .controller('TokensCtrl', controller);

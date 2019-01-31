@@ -64,6 +64,7 @@ export interface IConfItem {
     featuresConfigUrl: string;
     origin: string;
     assets: IHash<string>;
+    feeConfigUrl: string;
 }
 
 export type TConnection = 'mainnet' | 'testnet';

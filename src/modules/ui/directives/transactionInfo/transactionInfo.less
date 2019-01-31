@@ -20,6 +20,18 @@ w-transaction-info-json {
   width: 100%;
 }
 
+w-transaction-info-general {
+  .txinfo__row:first-child {
+    border-top-style: dashed;
+  }
+}
+
+w-transaction-info-header + w-transaction-info-general {
+  .txinfo__row:first-child {
+    border-top-style: solid;
+  }
+}
+
 .txinfo {
   display: block;
   width: 100%;
@@ -97,6 +109,10 @@ w-transaction-info-json {
     justify-content: space-between;
     padding: 13px 0;
     border-top: 1px dashed @color-basic-100;
+
+    &:first-child {
+      border-top: 1px solid @color-basic-100;
+    }
 
     &-header {
       border-bottom: 1px solid @color-basic-100;
@@ -273,6 +289,10 @@ w-transaction-info-json {
 
     &.set-script-cancel {
       .icon-tx-cancel-script();
+    }
+
+    &.set-asset-script {
+      .icon-tx-set-asset-script();
     }
 
     //&.sponsorship-minus {

@@ -1214,6 +1214,8 @@
                         return (tx.script || '').replace('base64:', '') ? TYPES.SET_SCRIPT : TYPES.SCRIPT_CANCEL;
                     case SIGN_TYPE.SPONSORSHIP:
                         return tx.minSponsoredAssetFee.getCoins().gt(0) ? SPONSOR_START : SPONSOR_STOP;
+                    case SIGN_TYPE.SET_ASSET_SCRIPT:
+                        return TYPES.SET_ASSET_SCRIPT;
                     default:
                         return TYPES.UNKNOWN;
                 }

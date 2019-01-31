@@ -125,11 +125,6 @@
 
                 this.expiration = this.expirationValues[this.expirationValues.length - 1].value;
 
-                ds.moneyFromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
-                    this.fee = money;
-                    $scope.$digest();
-                });
-
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.expand(type);
                     switch (type) {
@@ -169,6 +164,19 @@
                     });
                 });
 
+                const currentFee = () => Promise.all([
+                    waves.node.assets.getAsset(this._assetIdPair.amount),
+                    waves.node.assets.getAsset(this._assetIdPair.price),
+                    ds.fetch(ds.config.get('matcher'))
+                ]).then(([amount, price, matcherPublicKey]) => waves.matcher.getCreateOrderFee({
+                    amount: new entities.Money(0, amount),
+                    price: new entities.Money(0, price),
+                    matcherPublicKey
+                })).then(fee => {
+                    this.fee = fee;
+                    $scope.$apply();
+                });
+
                 Promise.all([
                     balancesPoll.ready,
                     lastTradePromise,
@@ -204,9 +212,10 @@
                             $scope.$apply();
                         }
                     }));
+                    currentFee();
                 });
 
-                this.observe(['priceBalance', 'totalPrice'], this._setIfCanBuyOrder);
+                this.observe(['priceBalance', 'totalPrice', 'maxPriceBalance'], this._setIfCanBuyOrder);
 
                 this.observe(['amount', 'price', 'type'], this._currentTotal);
                 this.observe('totalPrice', this._currentAmount);
@@ -215,6 +224,8 @@
                 $element.on('mousedown touchstart', '.body', (e) => {
                     e.stopPropagation();
                 });
+
+                currentFee();
             }
 
             expand(type) {
@@ -587,9 +598,11 @@
                     this.priceBalance &&
                     this.totalPrice.asset.id === this.priceBalance.asset.id) {
 
-                    this.canBuyOrder = (
-                        this.totalPrice.lte(this.maxPriceBalance) && this.maxPriceBalance.getTokens().gt(0)
-                    );
+                    if (this.maxPriceBalance) {
+                        this.canBuyOrder = (
+                            this.totalPrice.lte(this.maxPriceBalance) && this.maxPriceBalance.getTokens().gt(0)
+                        );
+                    }
                 } else {
                     this.canBuyOrder = true;
                 }

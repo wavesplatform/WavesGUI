@@ -33,6 +33,7 @@ export function getAssetFromNode(assetId: string): Promise<Asset> {
             precision: 8,
             description: '',
             height: 0,
+            hasScript: false,
             timestamp: new Date('2016-04-11T21:00:00.000Z'),
             sender: '',
             quantity: 10000000000000000,
@@ -48,6 +49,7 @@ export function getAssetFromNode(assetId: string): Promise<Asset> {
             height: data.issueHeight,
             precision: data.decimals,
             quantity: data.quantity,
+            hasScript: !!data.script,
             reissuable: data.reissuable,
             sender: data.issuer,
             timestamp: new Date(data.issueTimestamp)
@@ -222,4 +224,5 @@ export interface INodeAssetData {
     name: string;
     quantity: string | number;
     reissuable: boolean;
+    script: string | null;
 }

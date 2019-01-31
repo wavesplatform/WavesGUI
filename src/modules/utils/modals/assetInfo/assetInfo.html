@@ -54,6 +54,12 @@
                     <span w-i18n="modal.assetInfo.reissue.{{::$ctrl.asset.reissuable ? 'yes' : 'no'}}"></span>
                 </div>
             </div>
+            <div class="line" ng-if="$ctrl.asset.hasScript">
+                <div class="basic-500" w-i18n="modal.setAssetScript.script"></div>
+                <div class="basic-900">
+                    <span w-i18n="modal.setAssetScript.scripted"></span>
+                </div>
+            </div>
             <div class="line" ng-if="::$ctrl.minFee">
                 <div class="basic-500" w-i18n="modal.assetInfo.sponsorshipFee"></div>
                 <div class="basic-900">

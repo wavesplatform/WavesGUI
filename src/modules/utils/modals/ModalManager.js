@@ -433,12 +433,24 @@
                 });
             }
 
+            showSetAssetScriptModal(assetId) {
+                const title = 'modal.setAssetScript.title';
+                return this._getModal({
+                    id: 'setAssetScript',
+                    mod: 'setAssetScript',
+                    locals: assetId,
+                    titleContent: `<span w-i18n="${title}"></span>`,
+                    controller: 'SetAssetScriptModalCtrl',
+                    contentUrl: 'modules/utils/modals/setAssetScript/setAssetScript.html'
+                });
+            }
+
             showSponsorshipStopModal(assetId) {
                 const waves = $injector.get('waves');
 
                 return Promise.all([
                     ds.api.assets.get(assetId),
-                    waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP })
+                    waves.node.getFee({ type: SIGN_TYPE.SPONSORSHIP })
                 ]).then(([asset, fee]) => {
                     const money = new Money(0, asset);
                     const tx = waves.node.transactions.createTransaction({
