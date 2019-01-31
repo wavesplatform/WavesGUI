@@ -60,11 +60,20 @@
              */
             _container;
             /**
+             * @type {number}
+             * @private
+             */
+            _amountOfPoints;
+            /**
              * @type {Array<number>}
              * @private
              */
             _coords;
-
+            /**
+             * @type {number}
+             * @private
+             */
+            _currentIndexOfCoords;
 
             $postLink() {
                 this._track = $element.find('.range-slider__track');
@@ -92,8 +101,7 @@
                 const scaleInterval = this.scaleInterval || 1;
 
                 this._amount = (max - min) / scaleInterval;
-                const startValue = min / scaleInterval;
-                this.gridValues = range(startValue, this._amount + 1)
+                this.gridValues = range(min, max + 1)
                     .map(num => num * scaleInterval);
                 this._calcPosition(max, min, scaleInterval);
             }
@@ -106,19 +114,36 @@
             _calcPosition(max, min, scaleInterval) {
                 const intervals = this.intervals || 1;
                 const sliderLength = this._track.width() - this._handle.outerWidth();
-                const amountOfPoints = this._amount * intervals;
+                this._amountOfPoints = this._amount * intervals;
                 const oneInterval = scaleInterval / intervals;
 
-                this._numberValues = range(min, amountOfPoints + 1)
+                this._numberValues = range(min, this._amountOfPoints + 1)
                     .map(num => (Math.round((num * oneInterval) * 100) / 100));
 
-                this._scale = sliderLength / amountOfPoints;
+                this._scale = sliderLength / this._amountOfPoints;
 
-                this._coords = range(0, amountOfPoints + 1)
+                this._coords = range(0, this._amountOfPoints + 1)
                     .map(num => this._track.position().left + num * this._scale);
 
                 this._handle.css({
                     left: head(this._coords)
+                });
+            }
+
+            /*
+             * @private
+             */
+            _resizePosition() {
+                const sliderLength = this._track.width() - this._handle.outerWidth();
+                this._scale = sliderLength / this._amountOfPoints;
+                this._coords = range(0, this._amountOfPoints + 1)
+                    .map(num => this._track.position().left + num * this._scale);
+                const updatedPosition = this._coords[this._currentIndexOfCoords];
+                this._handle.css({
+                    left: updatedPosition
+                });
+                this._trackColor.css({
+                    width: updatedPosition
                 });
             }
 
@@ -129,6 +154,7 @@
                 const onDragStart = () => {
                     const startPos = this._track.offset().left;
                     this._container.addClass('range-slider_drag');
+
                     const onDrag = utils.debounceRequestAnimationFrame(event => {
                         const utilEvent = utils.getEventInfo(event);
                         const position = Math.round(utilEvent.pageX - startPos - (this._handle.width() / 2));
@@ -144,10 +170,12 @@
                         $scope.$apply();
                     });
 
-                    const onDragEnd = pos => {
-                        let newPos = this._coords[this._findClosestIndex(pos)];
+                    const afterDrag = pos => {
+                        this._currentIndexOfCoords = this._findClosestIndex(pos);
+                        let newPos = this._coords[this._currentIndexOfCoords];
                         if (newPos === undefined) {
                             newPos = Math.min(Math.max(head(this._coords), pos), last(this._coords));
+                            this._currentIndexOfCoords = newPos === head(this._coords) ? 0 : this._coords.length - 1;
                         }
                         utils.animate(this._handle, {
                             left: newPos
@@ -158,17 +186,23 @@
                         this._updateModel(newPos);
                     };
 
-                    $document.on('mousemove touchmove', onDrag);
-                    $document.on('mouseup touchend', utils.debounceRequestAnimationFrame(event => {
+                    const onDragEnd = utils.debounceRequestAnimationFrame(event => {
                         const utilEvent = utils.getEventInfo(event);
                         this._container.removeClass('range-slider_drag');
-                        $document.off('mousemove mouseup touchmove touchend');
-                        onDragEnd(utilEvent.pageX - startPos - (this._handle.width() / 2));
+                        $document.off('mousemove touchmove', onDrag);
+                        $document.off('mouseup touchend', onDragEnd);
+                        afterDrag(utilEvent.pageX - startPos - (this._handle.width() / 2));
                         $scope.$apply();
-                    }));
+                    });
+
+                    $document.on('mousemove touchmove', onDrag);
+                    $document.on('mouseup touchend', onDragEnd);
                 };
 
+                const onResize = utils.debounceRequestAnimationFrame(() => this._resizePosition());
+
                 this.listenEventEmitter($element, 'mousedown touchstart', onDragStart);
+                this.listenEventEmitter($(window), 'resize', onResize);
             }
 
             /*
