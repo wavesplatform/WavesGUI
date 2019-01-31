@@ -10,6 +10,20 @@
     <div class="txinfo__key" w-i18n="transaction.modals.description"></div>
     <div class="txinfo__value txinfo__text">{{$ctrl.transaction.description}}</div>
 </div>
+<div ng-show="$ctrl.transaction.script"
+     class="txinfo__row ng-scope">
+    <div class="txinfo__key" w-i18n="transaction.modals.script"></div>
+    <div class="txinfo__value">
+        <span class="link"
+              ng-click="$ctrl.toggleScript()"
+              w-i18n="transaction.modals.setAssetScript.showScript-{{$ctrl.shownScript}}"></span>
+    </div>
+</div>
+
+<div ng-show="$ctrl.transaction.script"
+     class="js-script-container code-wrapper code-wrapper-vertical margin-1">
+    {{$ctrl.transaction.script}}
+</div>
 <w-transaction-info-general height="$ctrl.transaction.height"
                             timestamp="$ctrl.transaction.timestamp"
                             id="$ctrl.id"
