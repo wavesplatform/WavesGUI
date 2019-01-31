@@ -192,7 +192,7 @@
                 const [firstBid] = bids;
                 const sell = new BigNumber(firstBid && firstBid.price);
                 const buy = new BigNumber(lastAsk && lastAsk.price);
-                const percent = (sell && buy && buy.gt(0)) ? buy.minus(sell).times(100).div(buy) : new BigNumber(0);
+                const percent = (buy.gt(0)) ? buy.minus(sell).times(100).div(buy) : new BigNumber(0);
 
                 return firstBid && lastAsk && {
                     lastAsk,

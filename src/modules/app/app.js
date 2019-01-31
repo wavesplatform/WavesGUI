@@ -73,14 +73,14 @@
                             try {
                                 return originalPostLink.apply(instance, args);
                             } catch (e) {
-                                return onError(e);
+                                return onError();
                             }
                         };
                     }
 
                     return instance;
                 } catch (e) {
-                    return onError(e);
+                    return onError();
                 }
             };
 
