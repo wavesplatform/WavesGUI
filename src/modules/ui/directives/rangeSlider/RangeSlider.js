@@ -145,14 +145,17 @@
                     });
 
                     const onDragEnd = pos => {
-                        const newPos = this._coords[this._findClosestIndex(pos)];
+                        let newPos = this._coords[this._findClosestIndex(pos)];
+                        if (newPos === undefined) {
+                            newPos = Math.min(Math.max(head(this._coords), pos), last(this._coords));
+                        }
                         utils.animate(this._handle, {
                             left: newPos
                         }, { duration: 100 });
                         utils.animate(this._trackColor, {
                             width: newPos
                         }, { duration: 100 });
-                        this._updateModel(pos);
+                        this._updateModel(newPos);
                     };
 
                     $document.on('mousemove touchmove', onDrag);
@@ -169,7 +172,7 @@
             }
 
             /*
-             * @param {number} pos
+             * @param {number} position
              */
             _findClosestIndex(position) {
                 return this._coords.findIndex(section => Math.abs(position - section) <= (this._scale / 2));
@@ -177,7 +180,7 @@
 
             /*
              * @param private
-             * @param {number} pos
+             * @param {number} position
              */
             _updateModel(position) {
                 this.ngModel = this._numberValues[this._findClosestIndex(position)];
