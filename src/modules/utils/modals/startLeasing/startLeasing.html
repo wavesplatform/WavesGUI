@@ -63,8 +63,8 @@
                                 <span w-i18n="inputs.errors.required"></span>
                             </w-input-error>
                             <w-input-error name="amount" message="gt">
-                                <span ng-if="$ctrl.tx.amount.getTokens().eq(0)" w-i18n="inputs.errors.required"></span>
-                                <span ng-if="$ctrl.tx.amount.getTokens().gt(0)" w-i18n="inputs.errors.gtGatewayMin"
+                                <span ng-if="$ctrl.amount.getTokens().eq(0)" w-i18n="inputs.errors.required"></span>
+                                <span ng-if="$ctrl.amount.getTokens().gt(0)" w-i18n="inputs.errors.gtGatewayMin"
                                       params="{min: $ctrl.minimumAmount, assetName: $ctrl.tx.amount.asset.displayName}">
                         </span>
                             </w-input-error>
