@@ -75,7 +75,8 @@
              * @return {ComponentList}
              */
             where(props) {
-                const filter = tsUtils.contains(props);
+                const keys = Object.keys(props);
+                const filter = item => keys.every(key => utils.isEqual(props[key], item[key]));
                 return new ComponentList(this.components.filter(filter));
             }
 
