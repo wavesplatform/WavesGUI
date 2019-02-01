@@ -35,15 +35,6 @@ module.exports = function (config) {
             files = meta.vendors.concat(jsFiles);
             break;
         case 'dist':
-            files = [
-                `dist/${name}/js/${pack.name}-${name}-${pack.version}.js`,
-                'src/js/test/mock/module.js',
-                'src/js/**/*.spec.js'
-            ];
-            Object.keys(global).forEach((key) => {
-                global[key] = 0;
-            });
-            break;
         case 'min':
             files = [
                 `dist/${name}/js/${pack.name}-${name}-${pack.version}.js`,

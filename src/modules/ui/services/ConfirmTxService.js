@@ -5,6 +5,10 @@
     const { Asset } = require('@waves/data-entities');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
 
+    const NO_EXPORT_TYPES = [
+        SIGN_TYPE.MASS_TRANSFER,
+        SIGN_TYPE.CREATE_ORDER
+    ];
 
     const factory = function (Base, waves, utils, $mdDialog, modalManager) {
 
@@ -47,6 +51,10 @@
              */
             errorMessage = null;
             /**
+             * @type {boolean}
+             */
+            isTransaction = false;
+            /**
              * @type {$rootScope.Scope}
              * @private
              */
@@ -66,9 +74,10 @@
             }
 
             sendTransaction() {
+                const method = ConfirmTxService._getSendMethod(this.signable.type);
 
                 return this.signable.getDataForApi()
-                    .then(ds.broadcast)
+                    .then(method)
                     .then((data) => {
                         analytics.push(...this.getAnalytics(true));
                         return data;
@@ -88,15 +97,15 @@
                 if (success) {
                     return [
                         NAME,
-                        `${NAME}.${this.tx.type}.${WavesApp.type}`,
-                        `${NAME}.${this.tx.type}.${WavesApp.type}.Success`,
+                        `${NAME}.${this.signable.type}.${WavesApp.type}`,
+                        `${NAME}.${this.signable.type}.${WavesApp.type}.Success`,
                         amount
                     ];
                 } else {
                     return [
                         NAME,
-                        `${NAME}.${this.tx.type}.${WavesApp.type}`,
-                        `${NAME}.${this.tx.type}.${WavesApp.type}.Error`,
+                        `${NAME}.${this.signable.type}.${WavesApp.type}`,
+                        `${NAME}.${this.signable.type}.${WavesApp.type}.Error`,
                         amount
                     ];
                 }
@@ -113,7 +122,7 @@
                     this.onTxSent({ id: tx.id });
                     this.__$scope.$apply();
                 }).catch(e => {
-                    this.errorMessage = utils.parseError(e);
+                    this.errorMessage = e.message;
                     this.__$scope.$apply();
                 });
             }
@@ -137,6 +146,7 @@
                         ...tx,
                         ticker: null,
                         precision: tx.decimals,
+                        hasScript: !!(tx.script && tx.script.replace('base64:', '')),
                         height
                     }));
                 });
@@ -146,9 +156,12 @@
              * @protected
              */
             initExportLink() {
+                const type = this.signable.type;
                 this.signable.getDataForApi().then(data => {
+
                     this.exportLink = `${WavesApp.origin}/#tx${utils.createQS(data)}`;
-                    this.canCreateLink = data.type !== SIGN_TYPE.MASS_TRANSFER &&
+
+                    this.canCreateLink = !NO_EXPORT_TYPES.includes(type) &&
                         this.exportLink.length <= WavesApp.MAX_URL_LENGTH;
                     this.__$scope.$apply();
                 });
@@ -159,6 +172,7 @@
              */
             onChangeSignable() {
                 if (this.signable) {
+                    this.isTransaction = this.signable.type < 100;
                     if (this.advancedMode) {
                         this.signable.hasMySignature().then(state => {
                             if (state) {
@@ -186,6 +200,21 @@
                 return tx.type === SIGN_TYPE.ISSUE;
             }
 
+            static _getSendMethod(type) {
+                switch (type) {
+                    case SIGN_TYPE.CREATE_ORDER:
+                        return ds.createOrder;
+                    case SIGN_TYPE.CANCEL_ORDER:
+                        return ds.cancelOrder;
+                    default:
+                        return ds.broadcast;
+                }
+            }
+
+            /**
+             * @param {Money} [amount]
+             * @return {string | undefined}
+             */
             static toBigNumber(amount) {
                 return amount && amount.getTokens().toFixed() || undefined;
             }

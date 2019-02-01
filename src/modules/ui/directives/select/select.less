@@ -3,6 +3,7 @@
 
 w-select {
   display: block;
+
   &.tiny {
     height: @height-control-tiny;
   }
@@ -28,6 +29,7 @@ w-select {
 
   .select {
     height: 100%;
+    position: relative;
 
     .title {
       position: relative;
@@ -71,7 +73,7 @@ w-select {
 
     .select-list {
       display: none;
-      position: relative;
+      position: absolute;
       border: 1px solid @color-basic-200;
       border-top: none;
       border-radius: 0 0 @border-radius @border-radius;

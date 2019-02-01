@@ -2,6 +2,7 @@
     'use strict';
 
     const PATH = 'modules/welcome/templates';
+    const { utils } = require('@waves/signature-generator');
 
     /**
      * @param Base
@@ -84,13 +85,9 @@
 
                     if (this._isSeedAdapter(api)) {
                         canLoginPromise = adapterAvailablePromise.then(() => api.getAddress())
-                            .then(address => address === activeUser.address ? true : Promise.resolve('Wrong address!'));
+                            .then(address => address === activeUser.address ? true : Promise.reject('Wrong address!'));
                     } else {
-                        canLoginPromise = modalManager.showSignByDevice({
-                            promise: adapterAvailablePromise,
-                            mode: `connect-${api.type}`,
-                            userType: api.type
-                        }).then(() => adapterAvailablePromise);
+                        canLoginPromise = modalManager.showLoginByDevice(adapterAvailablePromise, api.type);
                     }
 
                     return canLoginPromise.then(() => {
@@ -158,7 +155,7 @@
             _initUserList() {
                 user.getUserList()
                     .then((list) => {
-                        this.userList = list;
+                        this.userList = list.filter(user => utils.crypto.isValidAddress(user.address));
                         this.pendingRestore = false;
                         this._updateActiveUserAddress();
                         setTimeout(() => {

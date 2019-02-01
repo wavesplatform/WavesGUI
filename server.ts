@@ -14,7 +14,7 @@ import * as opn from 'opn';
 
 const ip = require('my-local-ip')();
 
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const connectionTypes: Array<TConnection> = ['mainnet', 'testnet'];
 const buildTypes: Array<TBuild> = ['dev', 'normal', 'min'];
 const privateKey = readFileSync('localhost.key').toString();

@@ -55,6 +55,7 @@ export class AssetStorage {
                     height: asset.height,
                     timestamp: asset.timestamp,
                     sender: asset.sender,
+                    hasScript: asset.hasScript,
                     quantity,
                     reissuable
                 };

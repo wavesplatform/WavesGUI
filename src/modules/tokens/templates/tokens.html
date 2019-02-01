@@ -100,7 +100,6 @@
                     </w-input-error>
                 </w-input-container>
             </div>
-
             <div class="row">
                 <div class="body-2 basic-900 relative">
                     <span w-i18n="precision"></span>
@@ -110,40 +109,70 @@
                         </div>
                     </w-help-icon>
                 </div>
-                <w-input-container>
-                    <w-input type="text"
-                             class="medium"
-                             name="precision"
-                             ng-model="$ctrl.precision"
-                             required
-                             w-validate
-                             w-validator-lte="8"
-                             w-validator-gte="0"
-                             w-validator-integer
-                             w-validator-number
-                             placeholder="placeholders.precision"
-                             w-i18n-attr="placeholder"></w-input>
+                <w-range-slider
+                        ng-model="$ctrl.precision"
+                        max="::8">
+            </div>
+            <div class="row">
+                <div class="body-2 basic-900 relative">
+                    <span w-i18n="script"></span>
+                    <w-help-icon>
+                        <div class="help-icon__row headline-3" w-i18n="helpIcon.scriptHeader"></div>
+                        <div class="help-icon__row" w-i18n="helpIcon.scriptDescription"></div>
+                        <div class="help-icon__row">
+                            <a href="https://docs.wavesplatform.com/en/technical-details/smart-assets.html"
+                               class="link"
+                               w-i18n="helpIcon.scriptLearnMore"
+                               target="blank"></a>
+                        </div>
+                    </w-help-icon>
+                </div>
 
-                    <w-input-error message="lte">
-                        <span w-i18n="validators.minValuePrecision"></span>
-                    </w-input-error>
-                    <w-input-error message="gte">
-                        <span w-i18n="validators.maxValuePrecision"></span>
-                    </w-input-error>
-                    <w-input-error message="required">
-                        <span w-i18n="validators.required"></span>
-                    </w-input-error>
-                    <w-input-error message="integer">
-                        <span w-i18n="validators.required"></span>
-                    </w-input-error>
-                </w-input-container>
+                <div class="input-toggle" w-toggle-class-container>
+                    <w-checkbox-submit id="has-script"
+                                       name="has-script"
+                                       ng-model="$ctrl.hasAssetScript">
+                    </w-checkbox-submit>
+                    <label for="has-script" class="margin-right-1" w-toggle-class></label>
+                    <div ng-if="$ctrl.hasAssetScript" class="footnote-1" w-i18n="switchScriptOff"></div>
+                    <div ng-if="!$ctrl.hasAssetScript" class="footnote-1" w-i18n="switchScriptOn"></div>
+                </div>
+
+                <div ng-if="$ctrl.hasAssetScript" class="row row-script">
+                    <w-input-container>
+                        <w-input textarea
+                                 w-validate
+                                 required
+                                 w-validator-custom="{{$ctrl.isValidScript}}"
+                                 ng-model="$ctrl.script"
+                                 name="script"></w-input>
+
+                        <w-input-error ng-if="$ctrl.hasAssetScript" message="required">
+                            <span w-i18n="validators.required"></span>
+                        </w-input-error>
+                        <w-input-error message="custom">
+                            <span w-i18n="validators.invalidScript"></span>
+                        </w-input-error>
+                    </w-input-container>
+
+                    <div ng-if="$ctrl.hasAssetScript" w-i18n-ns="app.utils">
+                        <div class="basic-500 margin-1 margin-top-1" w-i18n="directives.scriptForm.ideLink"></div>
+                        <div class="warning-plate warning-500">
+                            <span class="body-1" w-i18n="modal.setAssetScript.warningHeader"></span>
+                            <span class="footnote-1 basic-500" w-i18n="modal.setAssetScript.warningDescription"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="row">
+            <div class="row margin-top-1">
                 <div class="body-2 basic-900" w-i18n="preview"></div>
                 <div class="preview">
                     <div class="avatar-wrap">
-                        <w-asset-logo ng-if="$ctrl.name" size="30" asset-name="$ctrl.name"></w-asset-logo>
+                        <w-asset-logo ng-if="$ctrl.name"
+                                      has-script="$ctrl.hasAssetScript"
+                                      size="30"
+                                      asset-name="$ctrl.name"></w-asset-logo>
                     </div>
                     <div class="token-info-wrap" ng-class="{empty: $ctrl.createForm.$invalid}">
                         <div class="line token-name headline-3 basic-900">
@@ -159,7 +188,10 @@
             </div>
 
             <div class="row">
-                <div ng-class="{'error-400': $ctrl.invalid}" class="footnote-1 basic-500" w-i18n="fee"></div>
+                <div ng-class="{'error-400': $ctrl.invalid}"
+                     class="footnote-1 basic-500"
+                     params="{fee: $ctrl.fee}"
+                     w-i18n="fee"></div>
                 <div ng-if="$ctrl.invalid" class="error-400" w-i18n="validators.noMoney"></div>
             </div>
 

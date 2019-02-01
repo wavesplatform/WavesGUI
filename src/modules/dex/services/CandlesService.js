@@ -146,12 +146,13 @@
                 return Promise.all([
                     ds.fetch(`${path}?timeStart=${from}&timeEnd=${to}&interval=${interval}`),
                     ds.api.pairs.get(amountId, priceId)
-                        .then(pair => waves.matcher.getLastPrice(pair))
+                        .then(pair => waves.matcher.getLastPrice(pair)
+                            .catch(() => null))
                 ])
-                    .then(([res, { price }]) => {
+                    .then(([res, data]) => {
                         const candles = res.candles;
-                        if (candles.length) {
-                            candles[candles.length - 1].close = Number(price.toTokens());
+                        if (candles.length && data) {
+                            candles[candles.length - 1].close = Number(data.price.toTokens());
                         }
                         return candles;
                     });

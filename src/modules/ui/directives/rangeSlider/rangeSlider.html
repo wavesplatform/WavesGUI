@@ -1,0 +1,17 @@
+<div w-i18n-ns="app.ui" class="range-slider">
+    <div class="range-slider__title"></div>
+    <div class="range-slider__inner">
+        <div class="range-slider__track"></div>
+        <div class="range-slider__track range-slider__track_colorize"></div>
+        <div class="range-slider__handle handle">
+            <div class="handle__value">{{$ctrl.ngModel}}</div>
+        </div>
+        <div class="range-slider__numbers-wrapper">
+            <div class="range-slider__number"
+                 ng-repeat="num in $ctrl.gridValues"
+                 ng-cloak>
+                {{num}}
+            </div>
+        </div>
+    </div>
+</div>

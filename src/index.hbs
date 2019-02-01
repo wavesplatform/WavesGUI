@@ -335,7 +335,8 @@
                 nodeList: '{{network.nodeList}}',
                 scamListUrl: '{{network.scamListUrl}}',
                 explorer: '{{network.explorer}}',
-                featuresConfigUrl: '{{network.featuresConfigUrl}}'
+                featuresConfigUrl: '{{network.featuresConfigUrl}}',
+                feeConfigUrl: '{{{feeConfigUrl}}}'
             },
             defaultAssets: {
                 WAVES: 'WAVES',
@@ -399,6 +400,7 @@
                     SPONSORSHIP_START: 'sponsorship-start',
                     SPONSORSHIP_STOP: 'sponsorship-stop',
                     SPONSORSHIP_FEE: 'sponsorship-fee',
+                    SET_ASSET_SCRIPT: 'set-asset-script',
                     UNKNOWN: 'unknown'
                 },
                 NODE: {
@@ -413,7 +415,8 @@
                     EXCHANGE: 'exchange',
                     DATA: 'data',
                     SET_SCRIPT: 'setScript',
-                    SPONSORSHIP: 'sponsorship'
+                    SPONSORSHIP: 'sponsorship',
+                    SET_ASSET_SCRIPT: 'set-asset-script',
                 }
             },
             getLocaleData: function () {
@@ -762,43 +765,6 @@
             }
         ]
     });
-
-    /**
-     * @typedef {object} IWavesApp
-     * @property {string} name
-     * @property {string} oracle
-     * @property {string} version
-     * @property {string} type
-     * @property {string} origin
-     * @property {Object.<boolean>} scam
-     * @property {MobileDetect} device
-     * @property {Object.<{separators: {group: string, decimal: string}}>} localize
-     * @property {number} minAliasLength
-     * @property {number} maxAliasLength
-     * @property {number} MAX_URL_LENGTH
-     * @property {string} bankRecipient
-     * @property {number} maxAddressLength
-     * @property {\{count: number, timeType: string\}} matcherSignInterval
-     * @property {BigNumber} maxCoinsCount
-     * @property {typeof WavesApp.TRANSACTION_TYPES} TRANSACTION_TYPES
-     * @property {typeof WavesApp.network} network
-     * @property {typeof WavesApp.defaultAssets} defaultAssets
-     * @property {Array<string>} ALWAYS_PINNED_ASSETS
-     * @property {object} remappedAssetNames
-     * @property {object} dex
-     * @property {Array<string>} dex.resolutions
-     * @property {string} dex.defaultResolution
-     * @property {Array<string>} modules
-     * @property {function():boolean} isWeb
-     * @property {function():boolean} isDesktop
-     * @property {function():boolean} isProduction
-     * @property {Function} addController
-     * @property {Function} getController
-     * @property {function():{name: string, separators: {group: string, decimal: string}}} getLocaleData
-     * @property {function(data: string): Promise<object>} parseJSON
-     * @property {function(data: object, [a], [b]): string} stringifyJSON
-     * @property {Tree} stateTree
-     */
 </script>
 
 </body>

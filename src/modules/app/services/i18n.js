@@ -51,7 +51,7 @@
                     ns = 'app';
                 }
                 const translate = [`${ns}:${literal}`];
-                if (ns && ns !== 'app') {
+                if (ns !== 'app') {
                     translate.push(`app:${literal}`);
                 }
                 if (skipErrors) {

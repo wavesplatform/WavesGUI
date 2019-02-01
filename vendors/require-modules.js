@@ -20,7 +20,8 @@
         'handlebars': 'Handlebars',
         '@waves/waves-browser-bus': 'bus',
         'worker-wrapper': 'workerWrapper',
-        '@waves/oracle-data': 'OracleDataProvider'
+        '@waves/oracle-data': 'OracleDataProvider',
+        'jquery': '$'
     };
 
     function getModule(require) {

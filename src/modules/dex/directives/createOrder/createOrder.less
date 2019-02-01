@@ -112,6 +112,7 @@ w-create-order {
 
     w-select {
       flex-grow: 0;
+      user-select: none;
 
       .select {
         min-width: 82px;
@@ -310,12 +311,6 @@ w-create-order {
 
             span:last-child {
               margin-left: 5px;
-            }
-          }
-
-          w-input-container.invalid {
-            .input-like:not(.embed) {
-              border: 1px solid @color-error-200;
             }
           }
 
@@ -590,19 +585,6 @@ w-create-order {
                   .create-order-notification {
                     z-index: 1;
                   }
-                }
-              }
-
-              .expandable {
-                display: block;
-              }
-
-              .head {
-                display: flex;
-              }
-
-              .body {
-                .making-order {
                   .choice {
                     display: flex;
 
@@ -618,6 +600,15 @@ w-create-order {
                   }
                 }
               }
+
+              .expandable {
+                display: block;
+              }
+
+              .head {
+                display: flex;
+              }
+
             }
           }
         }
