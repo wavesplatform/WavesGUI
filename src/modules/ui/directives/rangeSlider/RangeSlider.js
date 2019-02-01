@@ -70,10 +70,11 @@
              */
             _coords;
             /**
-             * @type {number}
+             * @type {boolean}
              * @private
              */
-            _currentIndexOfCoords;
+            _applyValueMode = false;
+
 
             $postLink() {
                 this._track = $element.find('.range-slider__track');
@@ -81,8 +82,32 @@
                 this._handle = $element.find('.range-slider__handle');
                 this._container = $element.find('.range-slider');
                 this.observe(['min', 'max', 'scaleInterval', 'intervals'], this._onChangeParams);
+                this.observe('ngModel', this._onChangeModel);
                 this._onChangeParams();
                 this._initEvents();
+            }
+
+            /**
+             * @private
+             */
+            _onChangeModel() {
+                if (this._applyValueMode) {
+                    return null;
+                }
+                this._drawModelState();
+            }
+
+            /**
+             * @private
+             */
+            _drawModelState() {
+                const newPos = this._coords[this._numberValues[this.ngModel]];
+                utils.animate(this._handle, {
+                    left: newPos
+                }, { duration: 100 });
+                utils.animate(this._trackColor, {
+                    width: newPos
+                }, { duration: 100 });
             }
 
             /**
@@ -106,7 +131,7 @@
                 this._calcPosition(max, min, scaleInterval);
             }
 
-            /*
+            /**
              * @param {number} max
              * @param {number} min
              * @param {number} scaleInterval
@@ -130,7 +155,7 @@
                 });
             }
 
-            /*
+            /**
              * @private
              */
             _resizePosition() {
@@ -138,13 +163,7 @@
                 this._scale = sliderLength / this._amountOfPoints;
                 this._coords = range(0, this._amountOfPoints + 1)
                     .map(num => this._track.position().left + num * this._scale);
-                const updatedPosition = this._coords[this._currentIndexOfCoords];
-                this._handle.css({
-                    left: updatedPosition
-                });
-                this._trackColor.css({
-                    width: updatedPosition
-                });
+                this._drawModelState();
             }
 
             /**
@@ -160,7 +179,9 @@
                         const position = Math.round(utilEvent.pageX - startPos - (this._handle.width() / 2));
                         const newPosition = Math.min(Math.max(head(this._coords), position), last(this._coords));
 
-                        this._updateModel(newPosition);
+
+                        this._updateModel(this._numberValues[this._findClosestIndex(newPosition)]);
+
                         this._handle.css({
                             left: newPosition
                         });
@@ -171,19 +192,8 @@
                     });
 
                     const afterDrag = pos => {
-                        this._currentIndexOfCoords = this._findClosestIndex(pos);
-                        let newPos = this._coords[this._currentIndexOfCoords];
-                        if (newPos === undefined) {
-                            newPos = Math.min(Math.max(head(this._coords), pos), last(this._coords));
-                            this._currentIndexOfCoords = newPos === head(this._coords) ? 0 : this._coords.length - 1;
-                        }
-                        utils.animate(this._handle, {
-                            left: newPos
-                        }, { duration: 100 });
-                        utils.animate(this._trackColor, {
-                            width: newPos
-                        }, { duration: 100 });
-                        this._updateModel(newPos);
+                        this._updateModel(this._numberValues[this._findClosestIndex(pos)]);
+                        this._drawModelState();
                     };
 
                     const onDragEnd = utils.debounceRequestAnimationFrame(event => {
@@ -205,19 +215,23 @@
                 this.listenEventEmitter($(window), 'resize', onResize);
             }
 
-            /*
+            /**
              * @param {number} position
+             * @return number
              */
             _findClosestIndex(position) {
+                position = Math.min(Math.max(position, head(this._coords)), last(this._coords));
                 return this._coords.findIndex(section => Math.abs(position - section) <= (this._scale / 2));
             }
 
-            /*
+            /**
              * @param private
              * @param {number} position
              */
-            _updateModel(position) {
-                this.ngModel = this._numberValues[this._findClosestIndex(position)];
+            _updateModel(value) {
+                this._applyValueMode = true;
+                this.ngModel = this._numberValues[value];
+                this._applyValueMode = false;
             }
 
         }
