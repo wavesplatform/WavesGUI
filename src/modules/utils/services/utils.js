@@ -11,6 +11,7 @@
     const { libs } = require('@waves/signature-generator');
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
+    const { Money, BigNumber } = require('@waves/data-entities');
 
     class BigNumberPart extends tsApiValidator.BasePart {
 
@@ -25,8 +26,6 @@
         }
 
     }
-
-    const dataEntities = require('@waves/data-entities');
 
     /**
      * @name app.utils
@@ -444,6 +443,14 @@
 
                 if (typeA !== 'object') {
                     return a === b;
+                }
+
+                if (a instanceof Money && b instanceof Money) {
+                    return a.asset.id === b.asset.id && a.eq(b);
+                }
+
+                if (a instanceof BigNumber && b instanceof BigNumber) {
+                    return a.eq(b);
                 }
 
                 const pathsA = getPaths(a);
@@ -1110,7 +1117,7 @@
                 },
                 smart: {
                     asc: function (a, b) {
-                        if (a instanceof ds.wavesDataEntities.Money && b instanceof ds.wavesDataEntities.Money) {
+                        if (a instanceof Money && b instanceof Money) {
                             return utils.comparators.money.asc(a, b);
                         } else if (a instanceof BigNumber && b instanceof BigNumber) {
                             return utils.comparators.bigNumber.asc(a, b);
@@ -1119,7 +1126,7 @@
                         return utils.comparators.asc(a, b);
                     },
                     desc: function (a, b) {
-                        if (a instanceof ds.wavesDataEntities.Money && b instanceof ds.wavesDataEntities.Money) {
+                        if (a instanceof Money && b instanceof Money) {
                             return utils.comparators.money.desc(a, b);
                         } else if (a instanceof BigNumber && b instanceof BigNumber) {
                             return utils.comparators.bigNumber.desc(a, b);
@@ -1510,7 +1517,7 @@
 
         function isNotEqualValue(oldValue, newValue) {
             if (typeof oldValue === typeof newValue) {
-                if (oldValue instanceof dataEntities.Money && newValue instanceof dataEntities.Money) {
+                if (oldValue instanceof Money && newValue instanceof Money) {
                     return oldValue.asset.id !== newValue.asset.id || oldValue.toTokens() !== newValue.toTokens();
                 } else if (oldValue instanceof BigNumber && newValue instanceof BigNumber) {
                     return !oldValue.eq(newValue);
