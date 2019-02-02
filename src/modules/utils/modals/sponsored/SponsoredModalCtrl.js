@@ -59,6 +59,7 @@
              */
             asset = null;
 
+
             constructor({ asset, isCreateSponsored }) {
                 super($scope);
                 this.assetId = asset.id;
@@ -134,7 +135,7 @@
             _setBalances([waves, assetBalance]) {
                 this.wavesBalance = waves.available;
                 this.assetBalance = assetBalance;
-                this._updateAvilableFee();
+                this._updateAvailableFee();
             }
 
             /**
@@ -145,14 +146,14 @@
                     .then(tx => waves.node.getFee(tx))
                     .then(fee => {
                         this.fee = fee;
-                        this._updateAvilableFee();
+                        this._updateAvailableFee();
                     });
             }
 
             /**
              * @private
              */
-            _updateAvilableFee() {
+            _updateAvailableFee() {
                 if (this.fee && this.wavesBalance) {
                     this.canSendTransaction = this.wavesBalance.gte(this.fee);
                 }
