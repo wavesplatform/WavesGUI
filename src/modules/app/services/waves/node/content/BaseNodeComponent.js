@@ -235,7 +235,7 @@
             _fillReissue(tx) {
                 return ds.api.assets.get('WAVES').then(asset => ({
                     type: tx.type,
-                    assetId: tx.assetId || 'DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn',
+                    assetId: tx.assetId || WavesApp.defaultAssets.BTC,
                     reissuable: tx.reissue || true,
                     quantity: tx.quantity || new BigNumber(1),
                     fee: tx.fee || new Money(1, asset)
@@ -250,7 +250,7 @@
             _fillBurn(tx) {
                 return ds.api.assets.get('WAVES').then(asset => ({
                     type: tx.type,
-                    assetId: tx.assetId || 'DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn',
+                    assetId: tx.assetId || WavesApp.defaultAssets.BTC,
                     amount: tx.amount || new BigNumber(1),
                     fee: tx.fee || new Money(1, asset)
                 }));
@@ -278,7 +278,7 @@
             _fillCancelLease(tx) {
                 return ds.api.assets.get('WAVES').then(asset => ({
                     type: tx.type,
-                    leaseId: tx.leaseId || 'DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn',
+                    leaseId: tx.leaseId || WavesApp.defaultAssets.BTC,
                     fee: tx.fee || new Money(1, asset)
                 }));
             }
@@ -354,7 +354,7 @@
             _fillSponsorship(tx) {
                 return ds.api.assets.get('WAVES').then(asset => ({
                     type: tx.type,
-                    assetId: tx.assetId || 'DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn',
+                    assetId: tx.assetId || WavesApp.defaultAssets.BTC,
                     minSponsoredAssetFee: tx.minSponsoredAssetFee || new Money(1, asset),
                     fee: tx.fee || new Money(1, asset)
                 }));
@@ -369,7 +369,7 @@
                 return ds.api.assets.get('WAVES').then(asset => ({
                     type: tx.type,
                     script: tx.script || 'base64:AQa3b8tH',
-                    assetId: tx.assetId || 'DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn',
+                    assetId: tx.assetId || WavesApp.defaultAssets.BTC,
                     fee: tx.fee || new Money(1, asset)
                 }));
             }
