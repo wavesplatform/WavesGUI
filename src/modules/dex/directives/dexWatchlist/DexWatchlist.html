@@ -8,7 +8,9 @@
             <span w-i18n="{{::tab.name}}"></span>
         </div>
 
-        <w-select ng-model="$ctrl.dropDownId" ng-class="{'active': $ctrl.isActiveSelect}">
+        <w-select ng-model="$ctrl.dropDownId"
+                  ng-class="{'active': $ctrl.isActiveSelect}"
+                  class="select__no-select">
             <w-option ng-repeat="option in $ctrl.dropDown track by option.id"
                       value="::option.id">
                 {{::option.name}}
