@@ -139,6 +139,11 @@
     border-radius: @border-radius * 2;
     max-width: 210px;
     cursor: pointer;
+    transition: .3s;
+
+    &:hover {
+      box-shadow: 0 2px 26px -6px rgba(187, 193, 208, 0.3);
+    }
 
     & + .import-modal__block {
       margin-left: 30px;
