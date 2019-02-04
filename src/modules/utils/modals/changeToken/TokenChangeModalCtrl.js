@@ -127,10 +127,16 @@
                 this.step++;
             }
 
+            /**
+             * @private
+             */
             _getWavesBalance() {
                 return waves.node.assets.balance(WavesApp.defaultAssets.WAVES).then(({ available }) => available);
             }
 
+            /**
+             * @private
+             */
             _changeHasFee() {
                 if (!this._waves || !this.fee) {
                     return null;
@@ -139,6 +145,9 @@
                 this.noFee = this._waves.lt(this.fee);
             }
 
+            /**
+             * @private
+             */
             _createTx() {
                 const input = this.input;
                 const type = this.txType === 'burn' ? SIGN_TYPE.BURN : SIGN_TYPE.REISSUE;
