@@ -27,7 +27,7 @@
      * @param {ConfigService} configService
      * @returns {WatchList}
      */
-    const controller = function (Base, $scope, utils, waves, stService, PromiseControl, createPoll, $element, $window,
+    const controller = function (Base, $scope, utils, waves, stService, PromiseControl, createPoll, $element,
                                  modalManager, configService) {
 
         const R = require('ramda');
@@ -202,12 +202,7 @@
                 });
 
                 this._initializeActiveTab();
-                this._getPairData().then(result => {
-                    const pairData = result.find(el => (
-                        el.pairIdList[0] === this._assetIdPair.amount && el.pairIdList[1] === this._assetIdPair.price
-                    ));
-                    this._setTitle(pairData);
-                });
+
                 this.observe('_assetIdPair', this._onChangeChosenPair);
                 this.observe('activeTab', this._onChangeActiveTab);
 
@@ -219,10 +214,6 @@
                 this._poll.ready.then(() => {
                     this.pending = false;
                 });
-            }
-
-            $onDestroy() {
-                $window.document.title = 'Waves Client';
             }
 
             showAssetInfo(event, asset) {
@@ -251,7 +242,6 @@
                 this._isSelfSetPair = true;
                 this._assetIdPair = pair;
                 this._isSelfSetPair = false;
-                this._setTitle(pairData);
             }
 
             chooseSelect() {
@@ -294,14 +284,6 @@
              */
             isFavourite(pair) {
                 return !!this._favoriteHash[WatchList._getKeyByPair(pair.pairIdList)];
-            }
-
-            /**
-             * @private
-             * {object} pairData
-             */
-            _setTitle(pairData) {
-                $window.document.title = `${pairData.lastPrice.toFormat()} | ${pairData.pairNames.replace(/\s/g, '')}`;
             }
 
             /**
@@ -747,7 +729,6 @@
         'PromiseControl',
         'createPoll',
         '$element',
-        '$window',
         'modalManager',
         'configService'
     ];
