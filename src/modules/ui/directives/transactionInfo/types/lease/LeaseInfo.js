@@ -26,10 +26,15 @@
              * @type {string}
              */
             address = '';
+            /**
+             * @type {boolean}
+             */
+            isActive;
 
 
             $postLink() {
                 this.transaction = this.signable.getTxData();
+                this.isActive = this.transaction.status === 'active';
                 const typeName = utils.getTransactionTypeName(this.transaction);
 
                 switch (typeName) {

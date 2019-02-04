@@ -161,7 +161,9 @@ w-transaction-info-json {
         word-break: break-all;
         .footnote-1();
         color: @color-basic-900;
-
+        &:first-letter {
+          text-transform: uppercase;
+        }
         &-name {
           margin-left: 5px;
           display: inline-block;
