@@ -5,6 +5,15 @@
 
     const locationHref = location.href;
     const tsUtils = require('ts-utils');
+    const i18next = require('i18next');
+
+    const i18nextReady = new Promise(resolve => {
+        const handler = data => {
+            resolve(data);
+            i18next.off('initialized', handler);
+        };
+        i18next.on('initialized', handler);
+    });
 
     const PROGRESS_MAP = {
         RUN_SCRIPT: 10,
@@ -61,7 +70,6 @@
     const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
                           notification, decorators, waves, ModalRouter, configService, userNotification) {
 
-        const i18next = require('i18next');
         const phone = WavesApp.device.phone();
         const tablet = WavesApp.device.tablet();
 
@@ -85,18 +93,9 @@
 
         class AppRun {
 
-            /**
-             * @type {Promise<void>}
-             */
-            i18nReady;
-
             constructor() {
                 const identityImg = require('identity-img');
 
-                this.i18nReady = new Promise(resolve => {
-                    i18next.on('initialized', resolve);
-                    i18next.off('initialized', resolve);
-                });
                 LOADER.addProgress(PROGRESS_MAP.APP_RUN);
 
                 /**
@@ -122,7 +121,7 @@
 
                 Promise.all([
                     user.onLogin(),
-                    this.i18nReady
+                    i18nextReady
                 ]).then(() => {
                     this._initUserNotifications();
                     setInterval(() => this._initUserNotifications(), 10000);
