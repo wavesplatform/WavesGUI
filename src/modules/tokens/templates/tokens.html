@@ -128,12 +128,12 @@
                     </w-help-icon>
                 </div>
 
-                <div class="input-toggle" w-toggle-class-container>
+                <div class="input-toggle" ng-class="{active: $ctrl.hasAssetScript}">
                     <w-checkbox-submit id="has-script"
                                        name="has-script"
                                        ng-model="$ctrl.hasAssetScript">
                     </w-checkbox-submit>
-                    <label for="has-script" class="margin-right-1" w-toggle-class></label>
+                    <label for="has-script" class="margin-right-1"></label>
                     <div ng-if="$ctrl.hasAssetScript" class="footnote-1" w-i18n="switchScriptOff"></div>
                     <div ng-if="!$ctrl.hasAssetScript" class="footnote-1" w-i18n="switchScriptOn"></div>
                 </div>
