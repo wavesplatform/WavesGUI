@@ -330,7 +330,17 @@
                 this.focus = '';
             }
 
+            /**
+             * @param {string} url
+             * @return {null}
+             */
             onReadQrCode(url) {
+                if (!url.includes('https://')) {
+                    this.tx.recipient = url;
+                    $scope.$apply();
+                    return null;
+                }
+
                 const routeData = utils.getRouterParams(utils.getUrlForRoute(url));
 
                 if (!routeData || routeData.name !== 'SEND_ASSET') {
@@ -515,6 +525,7 @@
                 if (!this._noCurrentRate && !this.noMirror && this.focus === 'amount') {
                     this._fillMirror();
                 }
+
             }
 
             /**

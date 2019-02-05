@@ -208,6 +208,7 @@
                     waves.matcher.getOrders().catch(() => null),
                     ds.api.pairs.get(amountAsset, priceAsset)
                         .then(waves.matcher.getLastPrice)
+                        .catch(() => null)
                         .then(lastPrice => {
                             const tokens = lastPrice.price.getTokens();
                             if (tokens.isNaN()) {

@@ -4,6 +4,7 @@
     const MIN_ALIAS_LENGTH = 4;
     const MAX_ALIAS_LENGTH = 30;
     const ALIAS_PATTERN = /^[a-z0-9-@_.]*$/;
+    const { SIGN_TYPE } = require('@waves/signature-adapter');
 
     /**
      * @param Base
@@ -100,7 +101,7 @@
                 this.errorCreateAliasMsg = '';
 
                 const poll = createPoll(this, this._getBalance, '_balance', 5000, { isBalance: true, $scope });
-                const feePromise = waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS });
+                const feePromise = waves.node.getFee({ type: SIGN_TYPE.CREATE_ALIAS });
 
                 Promise.all([feePromise, poll.ready])
                     .then(([fee]) => {

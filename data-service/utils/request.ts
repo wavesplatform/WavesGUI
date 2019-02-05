@@ -13,8 +13,16 @@ export function request<T>(params: IRequestParams<T>): Promise<T> {
                 if (response.ok) {
                     return response.text().then((data) => isJSON ? parse(data) : data);
                 } else {
-                    if (response.status >= 500) {
-                        return Promise.reject(new Error(`An unexpected error has occurred: # + ${response.status}`));
+                    if (response.status >= 500 && response.status <= 599) {
+                        return response.text()
+                            .then(tryParseError)
+                            .then(error => {
+                                if (typeof error === 'object' && error.message) {
+                                    return Promise.reject(error);
+                                } else {
+                                    return Promise.reject(new Error(`An unexpected error has occurred: #${response.status}`));
+                                }
+                            });
                     } else {
                         return response.text()
                             .then(tryParseError)

@@ -161,7 +161,7 @@
                 }
 
                 if (!state.tx.fee) {
-                    waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.SET_SCRIPT }).then(fee => {
+                    waves.node.getFee({ type: SIGN_TYPE.SET_SCRIPT }).then(fee => {
                         state.tx.fee = fee;
                         this._currentHasFee();
                         $scope.$apply();

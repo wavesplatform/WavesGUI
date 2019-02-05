@@ -27,10 +27,13 @@
                      * @type {Select}
                      */
                     wSelect = select;
+
                     /**
-                     * @type {string|number}
+                     * @type {*}
                      */
-                    value = $scope.value;
+                    get value() {
+                        return $scope.value;
+                    }
 
                     /**
                      * @type {Signal<Option>}

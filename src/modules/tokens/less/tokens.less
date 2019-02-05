@@ -24,8 +24,11 @@ body.tokens {
     border-radius: @border-radius;
     box-shadow: @shadow-type-1;
 
-    w-select.issue-select {
-      white-space: nowrap;
+    w-select {
+      user-select: none;
+      .issue-select {
+        white-space: nowrap;
+      }
     }
 
     .token-page__content {
@@ -160,6 +163,10 @@ body.tokens {
 
       .row {
         margin-top: 20px;
+
+        &-script {
+          margin-top: 10px;
+        }
       }
     }
   }

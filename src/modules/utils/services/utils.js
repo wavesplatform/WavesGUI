@@ -11,6 +11,7 @@
     const { libs } = require('@waves/signature-generator');
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
+    const { Money, BigNumber } = require('@waves/data-entities');
 
     class BigNumberPart extends tsApiValidator.BasePart {
 
@@ -25,8 +26,6 @@
         }
 
     }
-
-    const dataEntities = require('@waves/data-entities');
 
     /**
      * @name app.utils
@@ -328,8 +327,7 @@
             animateTransform($element, to) {
                 const prefixis = ['', '-ms-', '-moz-', '-o-', '-webkit-'];
                 return $q((resolve) => {
-                    const transform = $element.css('transform');
-                    const from = transform === 'none' ? { x: 0, y: 0 } : { x: 0, y: 0 };
+                    const from = { x: 0, y: 0 };
                     $element.stop(true, true).animate({}, {
                         progress: function (tween, progress) {
                             const x = (to.x - from.x) * progress + from.x;
@@ -445,6 +443,14 @@
 
                 if (typeA !== 'object') {
                     return a === b;
+                }
+
+                if (a instanceof Money && b instanceof Money) {
+                    return a.asset.id === b.asset.id && a.eq(b);
+                }
+
+                if (a instanceof BigNumber && b instanceof BigNumber) {
+                    return a.eq(b);
                 }
 
                 const pathsA = getPaths(a);
@@ -1009,6 +1015,29 @@
             },
 
             /**
+             * @name app.utils#getEventInfo
+             * @param {object} event
+             * @return {object}
+             */
+            getEventInfo(event) {
+                let newEvent;
+                if ('changedTouches' in event.originalEvent) {
+                    newEvent = {
+                        ...event,
+                        pageX: event.changedTouches[0].pageX,
+                        pageY: event.changedTouches[0].pageY,
+                        screenX: event.changedTouches[0].screenX,
+                        screenY: event.changedTouches[0].screenY,
+                        clientX: event.changedTouches[0].clientX,
+                        clientY: event.changedTouches[0].clientY
+                    };
+                } else {
+                    newEvent = event;
+                }
+                return newEvent;
+            },
+
+            /**
              * @name app.utils#comparators
              */
             comparators: {
@@ -1020,11 +1049,7 @@
                             return -1;
                         }
                     } else if (b == null) {
-                        if (a == null) {
-                            return 0;
-                        } else {
-                            return 1;
-                        }
+                        return 1;
                     }
 
                     if (a > b) {
@@ -1045,11 +1070,7 @@
                             return 1;
                         }
                     } else if (b == null) {
-                        if (a == null) {
-                            return 0;
-                        } else {
-                            return -1;
-                        }
+                        return -1;
                     }
 
                     if (a > b) {
@@ -1096,7 +1117,7 @@
                 },
                 smart: {
                     asc: function (a, b) {
-                        if (a instanceof ds.wavesDataEntities.Money && b instanceof ds.wavesDataEntities.Money) {
+                        if (a instanceof Money && b instanceof Money) {
                             return utils.comparators.money.asc(a, b);
                         } else if (a instanceof BigNumber && b instanceof BigNumber) {
                             return utils.comparators.bigNumber.asc(a, b);
@@ -1105,7 +1126,7 @@
                         return utils.comparators.asc(a, b);
                     },
                     desc: function (a, b) {
-                        if (a instanceof ds.wavesDataEntities.Money && b instanceof ds.wavesDataEntities.Money) {
+                        if (a instanceof Money && b instanceof Money) {
                             return utils.comparators.money.desc(a, b);
                         } else if (a instanceof BigNumber && b instanceof BigNumber) {
                             return utils.comparators.bigNumber.desc(a, b);
@@ -1214,6 +1235,8 @@
                         return (tx.script || '').replace('base64:', '') ? TYPES.SET_SCRIPT : TYPES.SCRIPT_CANCEL;
                     case SIGN_TYPE.SPONSORSHIP:
                         return tx.minSponsoredAssetFee.getCoins().gt(0) ? SPONSOR_START : SPONSOR_STOP;
+                    case SIGN_TYPE.SET_ASSET_SCRIPT:
+                        return TYPES.SET_ASSET_SCRIPT;
                     default:
                         return TYPES.UNKNOWN;
                 }
@@ -1340,27 +1363,31 @@
              * @return {Promise<{signature: string, timestamp: number}>}
              */
             signUserOrders(data) {
-                const dayForwardTime = ds.app.getTimeStamp(1, 'day');
-                const lastSignedTs = path(['matcherSign', 'timestamp'], data);
-                const isNeedSign = !lastSignedTs || lastSignedTs - dayForwardTime < 0;
+                try {
+                    const dayForwardTime = ds.app.getTimeStamp(1, 'day');
+                    const lastSignedTs = path(['matcherSign', 'timestamp'], data);
+                    const isNeedSign = !lastSignedTs || lastSignedTs - dayForwardTime < 0;
 
-                if (!isNeedSign) {
-                    return Promise.resolve(data.matcherSign);
+                    if (!isNeedSign) {
+                        return Promise.resolve(data.matcherSign);
+                    }
+
+                    const timestamp = ds.app.getTimeStamp(
+                        WavesApp.matcherSignInterval.count,
+                        WavesApp.matcherSignInterval.timeType
+                    );
+
+                    const signable = ds.signature.getSignatureApi().makeSignable({
+                        type: SIGN_TYPE.MATCHER_ORDERS,
+                        data: { timestamp }
+                    });
+
+                    return utils.signMatcher(signable)
+                        .then(signable => signable.getSignature())
+                        .then(signature => ({ signature, timestamp }));
+                } catch (e) {
+                    return Promise.reject(e);
                 }
-
-                const timestamp = ds.app.getTimeStamp(
-                    WavesApp.matcherSignInterval.count,
-                    WavesApp.matcherSignInterval.timeType
-                );
-
-                const signable = ds.signature.getSignatureApi().makeSignable({
-                    type: SIGN_TYPE.MATCHER_ORDERS,
-                    data: { timestamp }
-                });
-
-                return utils.signMatcher(signable)
-                    .then(signable => signable.getSignature())
-                    .then(signature => ({ signature, timestamp }));
             },
 
             /**
@@ -1490,7 +1517,7 @@
 
         function isNotEqualValue(oldValue, newValue) {
             if (typeof oldValue === typeof newValue) {
-                if (oldValue instanceof dataEntities.Money && newValue instanceof dataEntities.Money) {
+                if (oldValue instanceof Money && newValue instanceof Money) {
                     return oldValue.asset.id !== newValue.asset.id || oldValue.toTokens() !== newValue.toTokens();
                 } else if (oldValue instanceof BigNumber && newValue instanceof BigNumber) {
                     return !oldValue.eq(newValue);

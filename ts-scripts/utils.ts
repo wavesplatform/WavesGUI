@@ -200,7 +200,8 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                 network: networks[param.connection],
                 themesConf: JSON.stringify(themesConf),
                 langList: JSON.stringify(meta.langList),
-                oracle: meta.configurations[param.connection].oracle
+                oracle: meta.configurations[param.connection].oracle,
+                feeConfigUrl: meta.configurations[param.connection].feeConfigUrl
             });
 
             return replaceStyles(fileTpl, param.styles);

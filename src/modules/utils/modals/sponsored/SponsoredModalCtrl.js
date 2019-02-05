@@ -59,6 +59,7 @@
              */
             asset = null;
 
+
             constructor({ asset, isCreateSponsored }) {
                 super($scope);
                 this.assetId = asset.id;
@@ -99,6 +100,9 @@
                 return this._tx;
             }
 
+            /**
+             * @private
+             */
             _createTx() {
                 if (!this.fee || !this.minSponsoredAssetFee) {
                     this.signable = null;
@@ -134,7 +138,7 @@
             _setBalances([waves, assetBalance]) {
                 this.wavesBalance = waves.available;
                 this.assetBalance = assetBalance;
-                this._updateAvilableFee();
+                this._updateAvailableFee();
             }
 
             /**
@@ -142,17 +146,17 @@
              */
             _updateFee() {
                 return this._getTxForFee()
-                    .then(tx => waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP, tx }))
+                    .then(tx => waves.node.getFee(tx))
                     .then(fee => {
                         this.fee = fee;
-                        this._updateAvilableFee();
+                        this._updateAvailableFee();
                     });
             }
 
             /**
              * @private
              */
-            _updateAvilableFee() {
+            _updateAvailableFee() {
                 if (this.fee && this.wavesBalance) {
                     this.canSendTransaction = this.wavesBalance.gte(this.fee);
                 }
@@ -162,8 +166,9 @@
              * @private
              */
             _getTxForFee() {
-                return Promise.resolve(() => {
-                    return { type: SIGN_TYPE.SPONSORSHIP, minSponsoredAssetFee: new Money(0, this.asset) };
+                return Promise.resolve({
+                    type: SIGN_TYPE.SPONSORSHIP,
+                    minSponsoredAssetFee: new Money(0, this.asset)
                 });
             }
 

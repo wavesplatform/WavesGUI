@@ -14,6 +14,7 @@ import {
     IReissue,
     ISetScript,
     ISponsorship,
+    ISetAssetScript,
     ITransfer,
     T_API_TX,
     T_TX,
@@ -91,6 +92,8 @@ export function parseTx(transactions: Array<T_API_TX>, isUTX: boolean, isTokens?
                         return parseSponsorshipTx(transaction, hash, isUTX);
                     case TRANSACTION_TYPE_NUMBER.SET_SCRIPT:
                         return parseScriptTx(transaction, hash, isUTX);
+                    case TRANSACTION_TYPE_NUMBER.SET_ASSET_SCRIPT:
+                        return parseAssetScript(transaction, hash, isUTX);
                     default:
                         return transaction;
                 }
@@ -193,6 +196,12 @@ export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, i
 }
 
 export function parseScriptTx(tx: txApi.ISetScript, assetsHash: IHash<Asset>, isUTX?: boolean): ISetScript {
+    const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
+    const script = tx.script || '';
+    return { ...tx, fee, isUTX, script };
+}
+
+export function parseAssetScript(tx: txApi.ISetAssetScript, assetsHash: IHash<Asset>, isUTX?: boolean): ISetAssetScript {
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
     const script = tx.script || '';
     return { ...tx, fee, isUTX, script };
