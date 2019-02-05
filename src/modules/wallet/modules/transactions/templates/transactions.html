@@ -22,7 +22,7 @@
             </w-radio>
         </w-radio-wrap>
 
-        <w-select class="split-mode interface select__no-select" ng-model="$ctrl.filter">
+        <w-select class="split-mode interface select__no-user-select" ng-model="$ctrl.filter">
             <w-option value="::'all'">
                 <span w-i18n="all" w-i18n-ns="app.wallet.transactions"></span>
             </w-option>
@@ -43,7 +43,7 @@
             </w-option>
         </w-select>
 
-        <w-select ng-model="$ctrl.limit" class="tx-filter interface select__no-select">
+        <w-select ng-model="$ctrl.limit" class="tx-filter interface select__no-user-select">
             <w-option value="::100">
                 <span w-i18n="filter.value1" w-i18n-ns="app.wallet.transactions" params="{count: 100}"></span>
             </w-option>

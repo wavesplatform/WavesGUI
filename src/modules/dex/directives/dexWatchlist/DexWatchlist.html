@@ -10,7 +10,7 @@
 
         <w-select ng-model="$ctrl.dropDownId"
                   ng-class="{'active': $ctrl.isActiveSelect}"
-                  class="select__no-select">
+                  class="select__no-user-select">
             <w-option ng-repeat="option in $ctrl.dropDown track by option.id"
                       value="::option.id">
                 {{::option.name}}
