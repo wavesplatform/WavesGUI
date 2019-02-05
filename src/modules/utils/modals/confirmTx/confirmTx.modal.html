@@ -1,6 +1,6 @@
-<div class="btn icon-close" w-modal-close></div>
 <div class="confirm-tx">
     <w-confirm-transaction on-click-back="$ctrl.back()"
+                           on-transaction-send="$ctrl.onSendTransaction()"
                            show-validation-errors="$ctrl.showValidationErrors"
                            signable="$ctrl.signable"></w-confirm-transaction>
 </div>

@@ -89,6 +89,21 @@
                 });
             }
 
+            /**
+             * @param {Signable} signable
+             * @return {Promise<Signable>}
+             */
+            showSignByDevice(signable) {
+                return this._getModal({
+                    id: 'sign-by-device',
+                    contentUrl: 'modules/utils/modals/signByDevice/signByDevice.html',
+                    controller: 'SignByDeviceCtrl',
+                    locals: { signable },
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
             showConfirmOrder(options) {
                 return this._getModal({
                     id: 'confirm-correct-order',
@@ -98,19 +113,17 @@
                 });
             }
 
-            showSignByDevice(options) {
+            /**
+             * @param {Promise} promise
+             * @param {string} type
+             * @return {Promise}
+             */
+            showLoginByDevice(promise, type) {
                 return this._getModal({
-                    id: 'sign-by-device',
-                    contentUrl: 'modules/utils/modals/signByDevice/signByDevice.html',
-                    controller: 'SignByDeviceCtrl',
-                    locals: {
-                        devicePromise: () => options.promise,
-                        userType: options.userType,
-                        address: options.address,
-                        mode: options.mode,
-                        id: options.id,
-                        data: options.data
-                    },
+                    id: 'login-by-device',
+                    contentUrl: 'modules/utils/modals/loginByDevice/loginByDevice.html',
+                    controller: 'LoginByDeviceCtrl',
+                    locals: () => ({ promise, type }),
                     clickOutsideToClose: false,
                     escapeToClose: false
                 });
@@ -380,6 +393,7 @@
                     ns: 'app.ui',
                     locals: { signable, showValidationErrors },
                     controller: 'ConfirmTxCtrl',
+                    headerUrl: 'modules/utils/modals/confirmTx/confirmTx.header.modal.html',
                     contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
                 });
             }
@@ -420,12 +434,24 @@
                 });
             }
 
+            showSetAssetScriptModal(assetId) {
+                const title = 'modal.setAssetScript.title';
+                return this._getModal({
+                    id: 'setAssetScript',
+                    mod: 'setAssetScript',
+                    locals: assetId,
+                    titleContent: `<span w-i18n="${title}"></span>`,
+                    controller: 'SetAssetScriptModalCtrl',
+                    contentUrl: 'modules/utils/modals/setAssetScript/setAssetScript.html'
+                });
+            }
+
             showSponsorshipStopModal(assetId) {
                 const waves = $injector.get('waves');
 
                 return Promise.all([
                     ds.api.assets.get(assetId),
-                    waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP })
+                    waves.node.getFee({ type: SIGN_TYPE.SPONSORSHIP })
                 ]).then(([asset, fee]) => {
                     const money = new Money(0, asset);
                     const tx = waves.node.transactions.createTransaction({

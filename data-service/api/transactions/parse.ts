@@ -12,9 +12,10 @@ import {
     ILease,
     IMassTransfer,
     IReissue,
-    ITransfer,
-    ISponsorship,
     ISetScript,
+    ISponsorship,
+    ISetAssetScript,
+    ITransfer,
     T_API_TX,
     T_TX,
     txApi
@@ -52,10 +53,18 @@ export function parseTx(transactions: Array<T_API_TX>, isUTX: boolean, isTokens?
 
     return Promise.all([
         get(Object.keys(hash)).then((assets) => toHash(assets, 'id')),
-        api && api.getPublicKey() || Promise.resolve(null)
+        api && api.getPublicKey() || Promise.resolve(null),
+        api && api.getSignVersions() || Promise.resolve({})
     ])
-        .then(([hash, sender]) => {
+        .then(([hash, sender, versions]) => {
             return transactions.map((transaction) => {
+
+                if ('version' in transaction && versions[transaction.type] != null) {
+                    const versionList = versions[transaction.type];
+                    const version = versionList.includes(transaction.version) ? transaction.version : versionList[versionList.lenght - 1];
+                    transaction.version = version;
+                }
+
                 switch (transaction.type) {
                     case TRANSACTION_TYPE_NUMBER.SEND_OLD:
                         return parseTransferTx(remapOldTransfer(transaction), hash, isUTX);
@@ -83,6 +92,8 @@ export function parseTx(transactions: Array<T_API_TX>, isUTX: boolean, isTokens?
                         return parseSponsorshipTx(transaction, hash, isUTX);
                     case TRANSACTION_TYPE_NUMBER.SET_SCRIPT:
                         return parseScriptTx(transaction, hash, isUTX);
+                    case TRANSACTION_TYPE_NUMBER.SET_ASSET_SCRIPT:
+                        return parseAssetScript(transaction, hash, isUTX);
                     default:
                         return transaction;
                 }
@@ -186,7 +197,14 @@ export function parseExchangeTx(tx: txApi.IExchange, assetsHash: IHash<Asset>, i
 
 export function parseScriptTx(tx: txApi.ISetScript, assetsHash: IHash<Asset>, isUTX?: boolean): ISetScript {
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
-    return { ...tx, fee, isUTX };
+    const script = tx.script || '';
+    return { ...tx, fee, isUTX, script };
+}
+
+export function parseAssetScript(tx: txApi.ISetAssetScript, assetsHash: IHash<Asset>, isUTX?: boolean): ISetAssetScript {
+    const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
+    const script = tx.script || '';
+    return { ...tx, fee, isUTX, script };
 }
 
 export function getExchangeTxMoneys(factory: IFactory, tx: txApi.IExchange, assetsHash: IHash<Asset>) {
@@ -240,6 +258,16 @@ export function parseMassTransferTx(tx: txApi.IMassTransfer, assetsHash: IHash<A
     return { ...tx, totalAmount, transfers, fee, isUTX, attachment, rawAttachment };
 }
 
+export function parseExchangeOrder(factory: IFactory, order: txApi.IExchangeOrder, assetsHash: IHash<Asset>): IExchangeOrder {
+    const assetPair = normalizeAssetPair(order.assetPair);
+    const pair = new AssetPair(assetsHash[assetPair.amountAsset], assetsHash[assetPair.priceAsset]);
+    const price = factory.price(order.price, pair);
+    const amount = factory.money(order.amount, assetsHash[assetPair.amountAsset]);
+    const total = Money.fromTokens(amount.getTokens().times(price.getTokens()), price.asset);
+    const matcherFee = factory.money(order.matcherFee, assetsHash[WAVES_ID]);
+    return { ...order, price, amount, matcherFee, assetPair, total };
+}
+
 export function parseDataTx(tx: txApi.IData, assetsHash: IHash<Asset>, isUTX: boolean): IData {
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
     const stringifiedData = JSON.stringify(tx.data, null, 4);
@@ -251,16 +279,6 @@ function parseSponsorshipTx(tx: txApi.ISponsorship, assetsHash: IHash<Asset>, is
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
 
     return { ...tx, fee, minSponsoredAssetFee, isUTX };
-}
-
-function parseExchangeOrder(factory: IFactory, order: txApi.IExchangeOrder, assetsHash: IHash<Asset>): IExchangeOrder {
-    const assetPair = normalizeAssetPair(order.assetPair);
-    const pair = new AssetPair(assetsHash[assetPair.amountAsset], assetsHash[assetPair.priceAsset]);
-    const price = factory.price(order.price, pair);
-    const amount = factory.money(order.amount, assetsHash[assetPair.amountAsset]);
-    const total = Money.fromTokens(amount.getTokens().times(price.getTokens()), price.asset);
-    const matcherFee = factory.money(order.matcherFee, assetsHash[WAVES_ID]);
-    return { ...order, price, amount, matcherFee, assetPair, total };
 }
 
 function getExchangeType(order1: IExchangeOrder, order2: IExchangeOrder, sender: string): TOrderType {

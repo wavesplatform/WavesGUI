@@ -97,7 +97,7 @@
                     if (time > 0) {
                         descriptor.value = function (...args) {
                             const key = toString ? toString(args) : stringify(args);
-                            if (cache[key] && cache[key]) {
+                            if (cache[key]) {
                                 return cache[key].value;
                             } else {
                                 cache[key] = Object.create(null);

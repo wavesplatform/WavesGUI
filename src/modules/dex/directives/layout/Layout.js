@@ -54,6 +54,7 @@
                 this.isPhone = $rootScope.isPhone;
                 this.isTablet = $rootScope.isTablet;
                 this.isDesktop = $rootScope.isDesktop;
+                this.isNotPhone = $rootScope.isNotPhone;
                 this.isNotDesktop = $rootScope.isNotDesktop;
 
                 this.syncSettings({

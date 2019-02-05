@@ -2,6 +2,9 @@
     'use strict';
 
     const ds = require('data-service');
+    const { BigNumber, Money } = require('@waves/data-entities');
+    const { currentCreateOrderFactory } = require('@waves/signature-adapter');
+    const generator = require('@waves/signature-generator');
 
     /**
      * @param {app.utils} utils
@@ -9,9 +12,10 @@
      * @param {app.i18n} i18n
      * @param {User} user
      * @param {PollCache} PollCache
+     * @param {ConfigService} configService
      * @return {Matcher}
      */
-    const factory = function (utils, decorators, i18n, user, PollCache) {
+    const factory = function (utils, decorators, i18n, user, PollCache, configService) {
 
         class Matcher {
 
@@ -30,6 +34,59 @@
                 } else {
                     return Promise.resolve([]);
                 }
+            }
+
+            /**
+             * @param {AssetPair} pair
+             * @return {Promise<{price: Money, lastSide: string}r>}
+             */
+            @decorators.cachable(0.5)
+            getLastPrice(pair) {
+                return ds.api.matcher.getLastPrice(pair);
+            }
+
+            /**
+             * @param order
+             * @return {Promise<Money>}
+             */
+            getCreateOrderFee(order) {
+                const config = configService.getFeeConfig();
+                return this.getMinOrderFee()
+                    .then(minFee => {
+                        const currentFee = currentCreateOrderFactory(config, minFee);
+                        const publicKeyBytes = generator.libs.base58.decode(order.matcherPublicKey);
+                        const matcherAddress = generator.utils.crypto.buildRawAddress(publicKeyBytes);
+
+                        return Promise.all([
+                            ds.api.address.getScriptInfo(matcherAddress),
+                            ds.api.assets.get('WAVES')
+                        ]).then(([info, asset]) => ({
+                            asset,
+                            hasScript: info.extraFee.getTokens().gt(0),
+                            currentFee
+                        }));
+                    })
+                    .then(({ hasScript, currentFee, asset }) => {
+                        const smartAssetIdList = [order.amount.asset, order.price.asset]
+                            .filter(asset => asset.hasScript)
+                            .map(asset => asset.id);
+                        const fee = currentFee({
+                            assetPair: {
+                                amountAsset: order.amount.asset.id,
+                                priceAsset: order.price.asset.id
+                            },
+                            matcherPublicKey: order.matcherPublicKey
+                        }, hasScript, smartAssetIdList);
+
+                        return new Money(fee, asset);
+                    });
+            }
+
+            /**
+             * @return {Promise<BigNumber>}
+             */
+            getMinOrderFee() {
+                return Promise.resolve(new BigNumber(300000));
             }
 
             /**
@@ -135,7 +192,7 @@
                 const [firstBid] = bids;
                 const sell = new BigNumber(firstBid && firstBid.price);
                 const buy = new BigNumber(lastAsk && lastAsk.price);
-                const percent = (sell && buy && buy.gt(0)) ? buy.minus(sell).times(100).div(buy) : new BigNumber(0);
+                const percent = (buy.gt(0)) ? buy.minus(sell).times(100).div(buy) : new BigNumber(0);
 
                 return firstBid && lastAsk && {
                     lastAsk,
@@ -151,7 +208,7 @@
         return new Matcher();
     };
 
-    factory.$inject = ['utils', 'decorators', 'i18n', 'user', 'PollCache'];
+    factory.$inject = ['utils', 'decorators', 'i18n', 'user', 'PollCache', 'configService'];
 
     angular.module('app').factory('matcher', factory);
 })();

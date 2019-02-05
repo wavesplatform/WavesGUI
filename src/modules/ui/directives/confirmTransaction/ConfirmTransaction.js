@@ -19,7 +19,12 @@
 
             locale = $attrs.ns || 'app.ui';
             step = 0;
+            type = 0;
             isSetScript = false;
+            /**
+             * @type {Function}
+             */
+            onTransactionSend;
 
             constructor() {
                 super($scope);
@@ -29,19 +34,28 @@
 
             $postLink() {
                 const tx = this.signable.getTxData();
-                const type = tx.type;
-                this.isSetScript = type === SIGN_TYPE.SET_SCRIPT && tx.script;
-                this.isTockenIssue = type === SIGN_TYPE.ISSUE;
+                this.type = this.signable.type;
+
+                this.isSetScript = this.type === SIGN_TYPE.SET_SCRIPT && tx.script;
+                this.isTockenIssue = this.type === SIGN_TYPE.ISSUE;
+
                 this.signable.hasMySignature().then(state => {
                     this.step = state ? 1 : 0;
                     $scope.$apply();
                 });
             }
 
+            sendTransaction() {
+                return super.sendTransaction().then(data => {
+                    this.onTransactionSend();
+                    return data;
+                });
+            }
+
             onChangeSignable() {
                 super.onChangeSignable();
                 if (this.tx) {
-                    this.permissionName = ConfirmTransaction._getPermissionNameByTx(this.tx);
+                    this.permissionName = ConfirmTransaction._getPermissionNameByTx(this.signable.type);
                 }
             }
 
@@ -135,8 +149,8 @@
             }
 
 
-            static _getPermissionNameByTx(tx) {
-                switch (tx.type) {
+            static _getPermissionNameByTx(type) {
+                switch (type) {
                     case SIGN_TYPE.ISSUE:
                         return 'CAN_ISSUE_TRANSACTION';
                     case SIGN_TYPE.TRANSFER:
@@ -161,6 +175,10 @@
                         return 'CAN_SET_SCRIPT_TRANSACTION';
                     case SIGN_TYPE.SPONSORSHIP:
                         return 'CAN_SPONSORSHIP_TRANSACTION';
+                    case SIGN_TYPE.CREATE_ORDER:
+                        return 'CAN_CREATE_ORDER';
+                    case SIGN_TYPE.CANCEL_ORDER:
+                        return 'CAN_CANCEL_ORDER';
                     default:
                         return '';
                 }
@@ -188,6 +206,7 @@
             noBackButton: '<',
             warning: '<',
             showValidationErrors: '<',
+            onTransactionSend: '&',
             referrer: '<'
         },
         templateUrl: 'modules/ui/directives/confirmTransaction/confirmTransaction.html',

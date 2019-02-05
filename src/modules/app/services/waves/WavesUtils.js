@@ -237,7 +237,7 @@
                     .then(pair => {
                         const amountId = pair.amountAsset.id;
                         const priceId = pair.priceAsset.id;
-                        const options = utils.getValidCandleOptions(formattedFrom, formattedTo);
+                        const { options } = utils.getValidCandleOptions(formattedFrom, formattedTo);
 
                         const promises = options.map(option => (
                             ds.config.getDataService().getCandles(amountId, priceId, option)));

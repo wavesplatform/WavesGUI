@@ -33,7 +33,7 @@
                  */
                 this.nodeListLink = WavesApp.network.nodeList;
 
-                waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.LEASE })
+                waves.node.getFee({ type: SIGN_TYPE.LEASE })
                     .then((money) => {
                         this.fee = money;
                     });

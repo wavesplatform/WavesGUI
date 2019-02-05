@@ -16,7 +16,8 @@ export type T_API_TX =
     txApi.IMassTransfer |
     txApi.IData |
     txApi.ISponsorship |
-    txApi.ISetScript;
+    txApi.ISetScript |
+    txApi.ISetAssetScript;
 
 export type T_TX =
     IIssue |
@@ -30,7 +31,8 @@ export type T_TX =
     IMassTransfer |
     IData |
     ISponsorship |
-    ISetScript;
+    ISetScript |
+    ISetAssetScript;
 
 export module txApi {
 
@@ -146,6 +148,12 @@ export module txApi {
 
     export interface ISetScript extends IBaseTransaction {
         type: TRANSACTION_TYPE_NUMBER.SET_SCRIPT;
+        version?: number;
+        script: string;
+    }
+
+    export interface ISetAssetScript extends IBaseTransaction {
+        type: TRANSACTION_TYPE_NUMBER.SET_ASSET_SCRIPT;
         version?: number;
         script: string;
     }
@@ -287,6 +295,12 @@ export interface ISponsorship extends IBaseTransaction {
 
 export interface ISetScript extends IBaseTransaction {
     type: TRANSACTION_TYPE_NUMBER.SET_SCRIPT;
+    version?: number;
+    script: string;
+}
+
+export interface ISetAssetScript extends IBaseTransaction {
+    type: TRANSACTION_TYPE_NUMBER.SET_ASSET_SCRIPT;
     version?: number;
     script: string;
 }

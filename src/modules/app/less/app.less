@@ -102,7 +102,7 @@ md-input-container {
 
 pre {
   margin: 0;
-  font-family: 'Arial';
+  font-family: 'Arial', sans-serif;
   font-size: 14px;
 }
 
@@ -222,6 +222,65 @@ w-scroll-box {
   padding: 17px;
   display: block;
   overflow: scroll;
+
+  &-vertical {
+    overflow-y: auto;
+    overflow-x: hidden;
+    pre {
+      white-space: normal;
+    }
+  }
+}
+
+.input-toggle {
+  display: flex;
+  align-items: center;
+
+  w-checkbox-submit {
+    display: none;
+  }
+
+  w-checkbox-submit + label {
+    width: 40px;
+    height: 20px;
+    border: 1px solid @color-basic-200;
+    background: @color-basic-200;
+    border-radius: 10px;
+    display: block;
+    position: relative;
+    transition: .3s;
+
+    &:hover {
+      border: 1px solid @color-basic-300;
+      background: @color-basic-300;
+    }
+
+    &::before {
+      transition: .3s;
+      background: @color-white;
+      width: 18px;
+      height: 18px;
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: 50%;
+      display: block;
+    }
+  }
+}
+
+.input-toggle {
+  &.active {
+    w-checkbox-submit + label {
+      border: 1px solid @color-submit-400;
+      background: @color-submit-400;
+
+      &::before {
+        transform: translateX(20px);
+      }
+    }
+  }
 }
 
 w-sign-button,
@@ -293,7 +352,6 @@ w-sign-button,
   }
 }
 
-
 .asset-modal {
   height: 100%;
 
@@ -306,6 +364,7 @@ w-sign-button,
   &__head-content {
     display: flex;
 
+    &.smart-asset,
     &.sponsored-asset {
       .marker {
         width: 24px;
@@ -321,7 +380,6 @@ w-sign-button,
     margin: 0 20px 0 0;
     left: 0;
     z-index: 1;
-
   }
 
   &__name {
@@ -334,7 +392,7 @@ w-sign-button,
   &__data {
     display: flex;
     flex-direction: column;
-    height: 65px;
+    min-height: 65px;
     justify-content: center;
   }
 
@@ -431,6 +489,12 @@ md-toolbar:not(.md-menu-toolbar) {
     display: block;
     height: 38px;
   }
+}
+
+.asset-modal__head .asset__logo .marker {
+  width: 24px;
+  height: 24px;
+  background-size: 12px;
 }
 
 .btn-wrap.btn-group {
@@ -606,6 +670,11 @@ w-permit {
     margin: 0 0 -1px 6px;
     text-transform: uppercase;
     white-space: nowrap;
+
+    &-suspicious {
+      background-color: @asset-label-suspicious;
+      color: @color-black;
+    }
   }
 }
 

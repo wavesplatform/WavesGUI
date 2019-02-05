@@ -381,15 +381,13 @@
             _filterDataItemByTab(item) {
                 const canShow = this.showOnlyFavorite ? this.isFavourite(item) : true;
 
-                switch (this.activeTab) {
-                    case 'all':
-                        return canShow;
-                    default:
-                        return canShow && (
-                            item.amountAsset.id === this.activeTab ||
-                            item.priceAsset.id === this.activeTab
-                        );
+                if (this.activeTab === 'all') {
+                    return canShow;
                 }
+                return canShow && (
+                    item.amountAsset.id === this.activeTab ||
+                    item.priceAsset.id === this.activeTab
+                );
             }
 
             /**

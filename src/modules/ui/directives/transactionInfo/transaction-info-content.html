@@ -1,22 +1,17 @@
-<div ng-if="$ctrl.transaction" class="txinfo__content" ng-class="::{'spam': $ctrl.isScam}">
-
-    <ng-include src="$ctrl.templateUrl"></ng-include>
-
-    <div class="txinfo__row" ng-if="$ctrl.transaction.height">
-        <div class="txinfo__key" w-i18n="transaction.modals.height"></div>
-        <div class="txinfo__value">{{::$ctrl.transaction.height}}</div>
-    </div>
-
-    <div class="txinfo__row" ng-if="$ctrl.txId">
-        <div class="txinfo__key" w-i18n="transaction.modals.txId"></div>
-        <div class="txinfo__value">{{$ctrl.txId}}</div>
-    </div>
-
-    <div class="txinfo__row" ng-if="$ctrl.calculatedFee">
-        <div class="txinfo__key" w-i18n="transaction.modals.fee"></div>
-        <div class="txinfo__value">
-            <span w-i18n="fee" params="{money: $ctrl.calculatedFee}"></span>
-        </div>
-    </div>
-
+<div class="txinfo__content" ng-class="::{'spam': $ctrl.isScam}">
+    <w-issue-info ng-if="$ctrl.signable.type === 3" signable="$ctrl.signable"></w-issue-info>
+    <w-transfer-info ng-if="$ctrl.signable.type === 4" signable="$ctrl.signable"></w-transfer-info>
+    <w-reissue-info ng-if="$ctrl.signable.type === 5" signable="$ctrl.signable"></w-reissue-info>
+    <w-burn-info ng-if="$ctrl.signable.type === 6" signable="$ctrl.signable"></w-burn-info>
+    <w-exchange-info ng-if="$ctrl.signable.type === 7" signable="$ctrl.signable"></w-exchange-info>
+    <w-lease-info ng-if="$ctrl.signable.type === 8" signable="$ctrl.signable"></w-lease-info>
+    <w-cancel-lease-info ng-if="$ctrl.signable.type === 9" signable="$ctrl.signable"></w-cancel-lease-info>
+    <w-create-alias-info ng-if="$ctrl.signable.type === 10" signable="$ctrl.signable"></w-create-alias-info>
+    <w-mass-transfer-info ng-if="$ctrl.signable.type === 11" signable="$ctrl.signable"></w-mass-transfer-info>
+    <w-data-info ng-if="$ctrl.signable.type === 12" signable="$ctrl.signable"></w-data-info>
+    <w-set-script-info ng-if="$ctrl.signable.type === 13" signable="$ctrl.signable"></w-set-script-info>
+    <w-sponsorship-info ng-if="$ctrl.signable.type === 14" signable="$ctrl.signable"></w-sponsorship-info>
+    <w-set-asset-script-info ng-if="$ctrl.signable.type === 15" signable="$ctrl.signable"></w-set-asset-script-info>
+    <w-create-order-info ng-if="$ctrl.signable.type === 1002" signable="$ctrl.signable"></w-create-order-info>
+    <w-cancel-order-info ng-if="$ctrl.signable.type === 1003" signable="$ctrl.signable"></w-cancel-order-info>
 </div>

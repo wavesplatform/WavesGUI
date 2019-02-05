@@ -126,15 +126,19 @@
         <w-step>
             <div class="text-center overflow-h">
                 <div class="icon-tx-success"></div>
-                <h2 class="text-center basic-900" w-i18n="confirmTransaction.success"></h2>
-                <div class="disabled-600 margin-4 body-2 text-center"
-                     w-i18n="confirmTransaction.description.{{::$ctrl.tx.typeName}}" params="$ctrl.tx"></div>
-                <div class="">
-                    <w-button class="submit half big" on-click="$ctrl.showTxInfo()">
-                        <span w-i18n="confirmTransaction.details"></span>
-                    </w-button>
+                <div ng-if="$ctrl.type === 1002">
+                    <h2 class="text-center basic-900" w-i18n="confirmTransaction.orderSuccess"></h2>
                 </div>
-
+                <div ng-if="$ctrl.type !== 1002">
+                    <h2 class="text-center basic-900" w-i18n="confirmTransaction.success"></h2>
+                    <div class="basic-500 margin-4 body-2 text-center"
+                         w-i18n="confirmTransaction.description.{{::$ctrl.tx.typeName}}" params="$ctrl.tx"></div>
+                    <div>
+                        <w-button class="submit half big" on-click="$ctrl.showTxInfo()">
+                            <span w-i18n="confirmTransaction.details"></span>
+                        </w-button>
+                    </div>
+                </div>
             </div>
         </w-step>
     </w-step-by-step>

@@ -67,10 +67,6 @@
   .btn-icon::before {
     transition: .3s;
   }
-  &:hover {
-    .btn-icon::before {
-    }
-  }
 }
 
 .btn-receive {
@@ -80,7 +76,7 @@
   }
 }
 
-.btn-script {
+.btn-json {
   float: right;
   margin-right: 3px;
 }
@@ -286,6 +282,14 @@
     background-position: -@tx-icon-size * 22 center;
   }
   background-color: rgba(239, 72, 41, 0.1);
+}
+
+.icon-tx-set-asset-script {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 23 center;
+  }
+  background-color: rgba(90, 129, 234, 0.1);
 }
 
 //.icon-tx-sponsorship-minus {

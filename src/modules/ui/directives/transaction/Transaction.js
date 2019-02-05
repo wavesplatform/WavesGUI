@@ -13,12 +13,12 @@
      * @param {Waves} waves
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
-     * @param {DexService} dexService
+     * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
      * @return {Transaction}
      */
     const controller = function (Base, $filter, modalManager, notification,
-                                 waves, user, baseAssetService, dexService, $scope) {
+                                 waves, user, baseAssetService, utils, $scope) {
 
         const { SIGN_TYPE } = require('@waves/signature-adapter');
 
@@ -38,6 +38,13 @@
                             this.mirrorBalance = baseMoney;
                             $scope.$digest();
                         });
+                }
+
+                if (this.transaction.assetId) {
+                    waves.node.assets.getAsset(this.transaction.assetId).then(asset => {
+                        this.asset = asset;
+                        $scope.$apply();
+                    });
                 }
 
                 const TYPES = waves.node.transactions.TYPES;
@@ -75,7 +82,7 @@
             }
 
             exchange() {
-                this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
+                this.totalPrice = utils.getExchangeTotalPrice(this.transaction.amount, this.transaction.price);
             }
 
             tokens() {
@@ -112,7 +119,7 @@
             cancelLeasing() {
                 const lease = this.transaction;
                 const leaseId = lease.id;
-                return waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING })
+                return waves.node.getFee({ type: SIGN_TYPE.CANCEL_LEASING })
                     .then((fee) => {
                         const tx = waves.node.transactions.createTransaction({
                             fee,
@@ -201,7 +208,7 @@
         'waves',
         'user',
         'baseAssetService',
-        'dexService',
+        'utils',
         '$scope'
     ];
 

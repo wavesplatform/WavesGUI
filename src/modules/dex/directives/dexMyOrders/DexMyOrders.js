@@ -70,11 +70,6 @@
                  */
                 this.loadingError = false;
 
-                this.hasScript = user.hasScript();
-                /**
-                 * @type (boolean)
-                 */
-
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
                 });
@@ -183,12 +178,15 @@
              * @param {IOrder} order
              * @private
              */
-            static _remapOrders(order) {
-                const assetPair = order.assetPair;
-                const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
-                const isNew = Date.now() < (order.timestamp.getTime() + 1000 * 8);
-                const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
-                return { ...order, isNew, percent, pair };
+            static _remapOrders(matcherPublicKey) {
+                return order => {
+                    const assetPair = order.assetPair;
+                    const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
+                    const isNew = Date.now() < (order.timestamp.getTime() + 1000 * 8);
+                    const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
+                    return waves.matcher.getCreateOrderFee({ ...order, matcherPublicKey })
+                        .then(fee => ({ ...order, isNew, percent, pair, fee }));
+                };
             }
 
             static _getFeeByType(type) {
@@ -259,30 +257,8 @@
                     data
                 });
 
-                return signable.getId().then(id => {
-                    const signPromise = signable.getDataForApi();
-
-                    if (user.userType === 'seed' || !user.userType) {
-                        return signPromise;
-                    }
-
-                    return modalManager.showSignByDevice({
-                        promise: signPromise,
-                        data: order,
-                        id,
-                        mode: 'cancel-order',
-                        userType: user.userType
-                    })
-                        .then(() => signPromise)
-                        .catch(() => Promise.reject());
-                })
-                    .catch(() => {
-                        return modalManager.showSignDeviceError({ error: 'sign-error', userType: user.userType }).then(
-                            () => this.dropOrderGetSignData(order),
-                            () => {
-                                return Promise.reject({ message: 'Your sign is not confirmed!' });
-                            });
-                    });
+                return utils.signMatcher(signable)
+                    .then(signable => signable.getDataForApi());
             }
 
             /**
@@ -327,12 +303,17 @@
              * @private
              */
             _getOrders() {
-                return this._getAllOrders()
-                    .then((orders) => {
-                        const remap = R.map(DexMyOrders._remapOrders);
+                return Promise.all([
+                    this._getAllOrders(),
+                    ds.fetch(ds.config.get('matcher'))
+                ])
+                    .then(([orders, matcherPublicKey]) => {
+                        const remap = R.map(DexMyOrders._remapOrders(matcherPublicKey));
 
                         orders.sort(utils.comparators.process(a => a.timestamp).desc);
-                        const result = remap(orders);
+                        return Promise.all(remap(orders));
+                    })
+                    .then(result => {
                         const last = result.length ? result[result.length - 1] : null;
 
                         if (!last) {
@@ -349,11 +330,11 @@
                                 if (!transactionsByOrderHash[order.id]) {
                                     transactionsByOrderHash[order.id] = [];
                                 }
-                                if (transactionsByOrderHash[order.id].length) {
-                                    order.fee = transactionsByOrderHash[order.id]
-                                        .map(DexMyOrders._getFeeByType(order.type))
-                                        .reduce((sum, fee) => sum.add(fee));
-                                }
+                                // if (transactionsByOrderHash[order.id].length) {
+                                //     order.fee = transactionsByOrderHash[order.id]
+                                //         .map(DexMyOrders._getFeeByType(order.type))
+                                //         .reduce((sum, fee) => sum.add(fee));
+                                // }
                                 order.exchange = transactionsByOrderHash[order.id];
                                 return order;
                             });

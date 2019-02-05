@@ -3,13 +3,14 @@
 
     /**
      * @param {Base} Base
-     * @param {$rootScope.Scope} $scope
+     * @param {app.utils} utils
      */
-    const directive = (Base) => {
+    const directive = (Base, utils) => {
 
         return {
             scope: {
-                value: '<'
+                value: '<',
+                searchValue: '='
             },
             require: {
                 select: '^wSelect'
@@ -22,23 +23,32 @@
 
                 class Option extends Base {
 
+                    /**
+                     * @type {Select}
+                     */
+                    wSelect = select;
+
+                    /**
+                     * @type {*}
+                     */
+                    get value() {
+                        return $scope.value;
+                    }
+
+                    /**
+                     * @type {Signal<Option>}
+                     */
+                    changeValue = new tsUtils.Signal();
+
+                    /*
+                     * @type { number }
+                     */
+                    index = 1;
+
                     constructor() {
-                        super();
-                        /**
-                         * @type {Select}
-                         */
-                        this.wSelect = select;
-                        /**
-                         * @type {string|number}
-                         */
-                        this.value = $scope.value;
-                        /**
-                         * @type {Signal<Option>}
-                         */
-                        this.changeValue = new tsUtils.Signal();
+                        super($scope);
 
                         this._setHandlers();
-
                         this.wSelect.registerOption(this);
                     }
 
@@ -62,6 +72,23 @@
                         const index = this.wSelect.getOptionIndex(this);
                         // Get the active option to the top of the dropdown list
                         $element.css('order', active ? -index : 0).toggleClass('active', active);
+                    }
+
+                    filterAndSort(query) {
+                        const searchValue = utils.toArray($scope.searchValue.filter(Boolean));
+                        const queryValue = query.toLocaleLowerCase();
+
+                        this.index = searchValue.findIndex(str => str.toLocaleLowerCase().includes(queryValue));
+                        $element.css('order', this.index);
+                        if (this.index > -1) {
+                            $element.show();
+                        } else {
+                            $element.hide();
+                        }
+                    }
+
+                    show() {
+                        $element.show();
                     }
 
                     /**
@@ -95,7 +122,7 @@
         };
     };
 
-    directive.$inject = ['Base'];
+    directive.$inject = ['Base', 'utils'];
 
     angular.module('app.ui').directive('wOption', directive);
 

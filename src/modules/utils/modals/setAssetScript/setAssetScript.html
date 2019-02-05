@@ -1,0 +1,15 @@
+<w-permit name="CAN_SET_ASSET_SCRIPT_TRANSACTION" mode="on">
+    <w-step-by-step active-step="$ctrl.step">
+        <w-step>
+            <w-set-asset-script-from state="$ctrl.state"
+                                    on-success="$ctrl.onFillTxForm(signable)"></w-set-asset-script-from>
+        </w-step>
+        <w-step>
+            <w-confirm-transaction on-click-back="$ctrl.onConfirmBack()"
+                                   signable="$ctrl.signable"></w-confirm-transaction>
+        </w-step>
+    </w-step-by-step>
+</w-permit>
+<w-permit name="CAN_SET_ASSET_SCRIPT_TRANSACTION" mode="off">
+    <!-- TODO -->
+</w-permit>
