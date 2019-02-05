@@ -1197,7 +1197,7 @@
                     case SIGN_TYPE.EXCHANGE:
                         return tx.exchangeType === 'buy' ? TYPES.EXCHANGE_BUY : TYPES.EXCHANGE_SELL;
                     case SIGN_TYPE.LEASE:
-                        return utils.isMyAddressOrAlias(tx.sender) ? TYPES.LEASE_OUT : TYPES.LEASE_IN;
+                        return utils.isMyPublicKeyOrAddress(tx) ? TYPES.LEASE_OUT : TYPES.LEASE_IN;
                     case SIGN_TYPE.CANCEL_LEASING:
                         return TYPES.CANCEL_LEASING;
                     case SIGN_TYPE.CREATE_ALIAS:
@@ -1245,6 +1245,15 @@
                 const aliasList = ds.dataManager.getLastAliases();
 
                 return addressOrAlias === user.address || aliasList.includes(addressOrAlias);
+            },
+
+            /**
+             * @name app.utils#isMyPublicKeyOrAddress
+             * @param tx
+             * @return boolean
+             */
+            isMyPublicKeyOrAddress(tx) {
+                return tx.sender ? this.isMyAddressOrAlias(tx.sender) : this.isMyPublicKey(tx.senderPublicKey);
             },
 
             /**
