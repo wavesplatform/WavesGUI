@@ -21,6 +21,10 @@ w-select {
     cursor: default;
   }
 
+  &.select__no-user-select {
+    user-select: none;
+  }
+
   @media screen and (max-width: 768px) {
     &.big {
       height: @height-control-big-responsive;
@@ -142,9 +146,5 @@ w-select {
         border-radius: @border-radius @border-radius 0 0;
       }
     }
-  }
-
-  &.select__no-user-select {
-    user-select: none;
   }
 }
