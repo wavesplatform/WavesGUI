@@ -2,6 +2,8 @@
     'use strict';
 
     const { Signal } = require('ts-utils');
+    const { Money } = require('@waves/data-entities');
+    const { not } = require('ramda');
 
     /**
      * @param {User} user
@@ -13,9 +15,16 @@
 
         class BalanceWatcher {
 
+            /**
+             * @type {Signal<any>}
+             */
             change = new Signal();
             /**
-             * @type {Array}
+             * @type {Promise}
+             */
+            ready;
+            /**
+             * @type {Array<IBalanceItem>}
              * @private
              */
             _balance = [];
@@ -38,22 +47,46 @@
             }
 
             /**
-             * @private
+             * @param {Asset} asset
+             * @return Money
              */
-            _watch() {
-                const get = () => this._getBalanceList();
-                const set = list => this._setBalanceList(list);
-                this._poll = new Poll(get, set, 1000);
+            getBalanceByAsset(asset) {
+                const hash = this.getBalance();
+                return hash[asset.id] ? hash[asset.id] : new Money(0, asset);
             }
 
             /**
-             * @return {Promise<Money[]>}
+             * @param {Array<Asset>} assetList
+             * @return Array<Money>
+             */
+            getBalanceByAssetList(assetList) {
+                return assetList.map(this.getBalanceByAsset, this);
+            }
+
+            /**
+             * @param {string} id
+             * @return {Promise<Money>}
+             */
+            getBalanceByAssetId(id) {
+                return waves.node.assets.getAsset(id)
+                    .then(this.getBalanceByAsset.bind(this));
+            }
+
+            /**
+             * @return {Array<IBalanceDetails>}
+             */
+            getFullBalanceList() {
+                return this._balance.map(item => ({ ...item }));
+            }
+
+            /**
              * @private
              */
-            _getBalanceList() {
-                return waves.node.assets.userBalances()
-                    .then((list) => list.map(({ available }) => available))
-                    .then((list) => list.filter((money) => money.getTokens().gt(0)));
+            _watch() {
+                const get = () => BalanceWatcher._getBalanceList();
+                const set = list => this._setBalanceList(list);
+                this._poll = new Poll(get, set, 1000);
+                this.ready = this._poll.ready;
             }
 
             /**
@@ -68,34 +101,41 @@
              * @private
              */
             _getHash() {
-                return utils.toHash(this._balance, 'asset.id');
+                return utils.toHash(this._balance, 'available.asset.id');
             }
 
             /**
-             * @param {Array<Money>} balances
+             * @param {Array<IBalanceItem>} list
              * @return {null}
              * @private
              */
-            _setBalanceList(balances) {
-                const comparator = utils.comparators.process(money => money.asset.id).asc;
-                const list = balances.slice().sort(comparator);
-
-                const apply = () => {
+            _setBalanceList(list) {
+                const dispatch = () => {
                     this._balance = list;
                     this._dispatch();
                 };
 
                 if (list.length !== this._balance.length) {
-                    apply();
+                    dispatch();
                     return null;
                 }
 
-                const notEqual = list.some((money, i) => money.asset.id !== this._balance[i].asset.id ||
-                    !money.getTokens().eq(this._balance[i].getTokens()));
 
-                if (notEqual) {
-                    apply();
+                const itemNotEqual = (a, b) => not(utils.isEqual(a.available, b.available));
+                const isNeedDispatch = list.length &&
+                    list.some((item, i) => itemNotEqual(item, this._balance[i]));
+
+                if (isNeedDispatch) {
+                    dispatch();
                 }
+            }
+
+            /**
+             * @return {Promise<Money[]>}
+             * @private
+             */
+            static _getBalanceList() {
+                return waves.node.assets.userBalances();
             }
 
         }
