@@ -251,8 +251,8 @@ w-scroll-box {
     transition: .3s;
 
     &:hover {
-      border: 1px solid @color-basic-300;
-      background: @color-basic-300;
+      border: 1px solid @input-toggle-bg-hover;
+      background: @input-toggle-bg-hover;
     }
 
     &::before {
@@ -268,9 +268,7 @@ w-scroll-box {
       display: block;
     }
   }
-}
 
-.input-toggle {
   &.active {
     w-checkbox-submit + label {
       border: 1px solid @color-submit-400;

@@ -186,21 +186,15 @@ md-dialog.modal-receive {
       max-height: auto;
     }
 
-    .receive-crypto {
-      w-copy-wrap {
-        .container {
-          overflow-x: scroll;
-        }
-      }
-    }
-
+    .receive-crypto,
     .receive-invoice {
       w-copy-wrap {
-        span {
-          display: inline-block;
+        .container {
+          display: flex;
+          align-items: center;
           width: 100%;
-          overflow: auto;
           white-space: nowrap;
+          overflow: auto;
         }
       }
     }
