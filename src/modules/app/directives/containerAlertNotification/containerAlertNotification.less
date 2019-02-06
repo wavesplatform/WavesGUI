@@ -1,4 +1,5 @@
 @import (reference) 'config';
+@import (reference) 'icons';
 
 w-container-alert-notification {
   display: flex;
@@ -125,7 +126,7 @@ w-container-alert-notification {
       height: 40px;
 
       .icon-close {
-        background: url(../../../../img/icons/close-white.svg) center no-repeat;
+        background: url(/img/icons/close-white.svg) center no-repeat;
         width: 40px;
         height: 40px;
         padding: 7px;
@@ -161,28 +162,28 @@ w-container-alert-notification {
       &.info {
         background-color: @color-submit-300;
         span.content-body::before {
-          background: url(../../../../img/icons/info-notification-icon.svg) center no-repeat;
+          background: @notification-icon-info center no-repeat;
         }
       }
 
       &.success {
         background-color: @color-success-400;
         span.content-body::before {
-          background: url(../../../../img/icons/success-notification-icon.svg) center no-repeat;
+          background: @notification-icon-success center no-repeat;
         }
       }
 
       &.warn {
         background-color: @color-warning-600;
         span.content-body::before {
-          background: url(../../../../img/icons/warning-notification-icon.svg) center no-repeat;
+          background: @notification-icon-warning center no-repeat;
         }
       }
 
       &.error {
         background-color: @color-error-500;
         span.content-body::before {
-          background: url(../../../../img/icons/error-notification-icon.svg) center no-repeat;
+          background: @notification-icon-error center no-repeat;
         }
       }
     }
