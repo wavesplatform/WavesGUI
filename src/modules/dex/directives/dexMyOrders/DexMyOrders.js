@@ -49,7 +49,7 @@
              */
             _matcherPublicKeyPromise = ds.fetch(user.getSetting('network.matcher'));
             /**
-             * @type {Array<IOrder>}
+             * @type {Array<IDexOrders>}
              */
             orders = [];
             /**
@@ -257,6 +257,18 @@
                     .every((item, i) => whereEq(pick(['id', 'progress'], item), orders[i]));
 
                 if (isEqual) {
+                    let needApply = false;
+
+                    this.orders.forEach(order => {
+                        const isNew = DexMyOrders._isNewOrder(order.timestamp.getTime());
+                        needApply = needApply || isNew !== order.isNew;
+                        order.isNew = isNew;
+                    });
+
+                    if (needApply) {
+                        $scope.$apply();
+                    }
+
                     return null;
                 }
 
@@ -272,10 +284,10 @@
                         return ds.api.transactions.getExchangeTxList({
                             sender: user.address,
                             timeStart: ds.utils.normalizeTime(lastOrder.timestamp.getTime())
-                        }).then((txList) => {
+                        }).then(txList => {
                             const transactionsByOrderHash = DexMyOrders._getTransactionsByOrderIdHash(txList);
                             this.loadingError = false;
-                            return result.map((order) => {
+                            return result.map(order => {
                                 if (!transactionsByOrderHash[order.id]) {
                                     transactionsByOrderHash[order.id] = [];
                                 }
@@ -284,11 +296,8 @@
                             });
                         }).catch(() => result);
                     })
-                    .then(result => {
-                        this.orders = result;
-                    }, () => {
-                        this.loadingError = true;
-                    })
+                    .then(orders => (this.orders = orders))
+                    .catch(() => (this.loadingError = true))
                     .then(() => {
                         this.pending = false;
                         $scope.$apply();
@@ -356,11 +365,20 @@
                 return order => {
                     const assetPair = order.assetPair;
                     const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
-                    const isNew = Date.now() < (order.timestamp.getTime() + 1000 * 8);
+                    const isNew = DexMyOrders._isNewOrder(order.timestamp.getTime());
                     const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
                     return waves.matcher.getCreateOrderFee({ ...order, matcherPublicKey })
                         .then(fee => ({ ...order, isNew, percent, pair, fee }));
                 };
+            }
+
+            /**
+             * @param {number} timestamp
+             * @return {boolean}
+             * @private
+             */
+            static _isNewOrder(timestamp) {
+                return ds.utils.normalizeTime(Date.now()) < timestamp + 1000 * 8;
             }
 
         }
@@ -389,3 +407,10 @@
         controller
     });
 })();
+
+/**
+ * @typedef {IOrder} IDexOrders
+ * @property {boolean} isNew
+ * @property {string} pair
+ * @property {Array} exchange
+ */

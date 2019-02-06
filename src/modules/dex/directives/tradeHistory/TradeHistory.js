@@ -3,7 +3,7 @@
     'use strict';
 
     const entities = require('@waves/data-entities');
-    const R = require('ramda');
+    const { propEq, uniqBy, map, pipe, prop } = require('ramda');
 
     /**
      * @param {Base} Base
@@ -170,8 +170,8 @@
             _setTradeHistory(history) {
                 this.pending = false;
 
-                const isEqual = this.history.length === history.length && this.history.every((item, i) =>
-                    item.id === history[i].id);
+                const isEqual = this.history.length === history.length &&
+                    this.history.every((item, i) => propEq('id', item, this.history[i]));
 
                 if (isEqual) {
                     return null;
@@ -200,9 +200,9 @@
              * @private
              */
             static _remapTxList() {
-                const filter = R.uniqBy(R.prop('id'));
-                const map = R.map(TradeHistory._remapTx);
-                return R.pipe(filter, map);
+                const filter = uniqBy(prop('id'));
+                const mapFunc = map(TradeHistory._remapTx);
+                return pipe(filter, mapFunc);
             }
 
             static _remapTx(tx) {
