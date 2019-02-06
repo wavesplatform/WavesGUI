@@ -6,6 +6,7 @@
     const locationHref = location.href;
     const tsUtils = require('ts-utils');
     const i18next = require('i18next');
+    const { propEq, where, gte, lte, equals, path } = require('ramda');
 
     const i18nextReady = new Promise(resolve => {
         const handler = data => {
@@ -123,8 +124,8 @@
                     user.onLogin(),
                     i18nextReady
                 ]).then(() => {
-                    this._initUserNotifications();
-                    setInterval(() => this._initUserNotifications(), 10000);
+                    this._updateUserNotifications();
+                    setInterval(() => this._updateUserNotifications(), 10000);
                 });
 
                 if (WavesApp.isDesktop()) {
@@ -187,9 +188,6 @@
              */
             _setHandlers() {
                 $rootScope.$on('$stateChangeSuccess', this._onChangeStateSuccess.bind(this));
-                user.onLogin().then(() => {
-                    configService.change.on(utils.debounce(this._initUserNotifications), this);
-                });
             }
 
             /**
@@ -210,25 +208,31 @@
             /**
              * @private
              */
-            _initUserNotifications() {
+            _updateUserNotifications() {
                 const notifications = configService.get('NOTIFICATIONS') || [];
                 const time = ds.utils.normalizeTime(Date.now());
 
                 const closed = user.getSetting('closedNotification')
-                    .slice()
-                    .filter(id => notifications.some(item => item.id === id));
+                    .filter(id => notifications.some(propEq('id', id)));
                 user.setSetting('closedNotification', closed);
 
-                notifications
-                    .filter(item => {
-                        return time > new Date(item.start_date) && time < new Date(item.end_date) &&
-                            !userNotification.has(item.id) &&
-                            !closed.includes(item.id);
-                    })
+                const notificationsWithDate = notifications
+                    .map(item => ({
+                        ...item,
+                        start_date: new Date(item.start_date),
+                        end_date: new Date(item.end_date)
+                    }));
+
+                notificationsWithDate
+                    .filter(where({
+                        start_date: gte(time),
+                        end_date: lte(time),
+                        id: id => !(userNotification.has(id) || closed.includes(id))
+                    }))
                     .forEach(item => {
-                        const method = ['warn', 'success', 'error', 'info'].find(m => m === item.type) || 'warn';
-                        const en = tsUtils.get(item, 'text.en');
-                        const lang = tsUtils.get(item, `text.${i18next.language}`) || en;
+                        const method = ['warn', 'success', 'error', 'info'].find(equals(item.type)) || 'warn';
+                        const en = path(['text', 'en'], item);
+                        const lang = path(['text', i18next.language], item) || en;
 
                         userNotification[method]({
                             ...item,
@@ -236,18 +240,15 @@
                                 literal: lang
                             }
                         }).then(() => {
-                            const closed = user.getSetting('closedNotification').slice();
-                            closed.push(item.id);
-                            user.setSetting('closedNotification', closed);
-
-                            this._initUserNotifications();
+                            user.setSetting('closedNotification', [
+                                item.id,
+                                ...user.getSetting('closedNotification')
+                            ]);
                         });
                     });
 
-                notifications.filter(item => time > new Date(item.end_date))
-                    .forEach(item => {
-                        userNotification.remove(item.id);
-                    });
+                notificationsWithDate.filter(where({ end_date: lte(time) }))
+                    .forEach(item => userNotification.remove(item.id));
             }
 
             /**
