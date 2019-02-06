@@ -837,6 +837,19 @@
 
 
             /**
+             * @name app.utils#getMaxInterval
+             * @param {number} from
+             * @param {number} to
+             * @param {number} amount
+             * @return {number}
+             */
+            getMaxInterval(from, to, amount = 200) {
+                return Number(Object.entries(INTERVAL_MAP)
+                    .find(intObj => (((to - from) / intObj[1].interval <= amount)))[0]);
+            },
+
+
+            /**
              * @name app.utils#getNiceNumberTemplate
              * @param {BigNumber|string|number} num
              * @param {number} precision
