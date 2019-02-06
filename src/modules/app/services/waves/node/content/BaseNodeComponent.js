@@ -182,11 +182,15 @@
                         }
 
                         if (typeof value === 'string') {
-                            return ds.api.assets.get(value);
+                            return ds.api.assets.get(value)
+                                .catch(() => ({ id: value, hasScript: false }));
                         }
 
                         if (value instanceof Money) {
-                            return value.asset;
+                            return {
+                                id: value.asset.id,
+                                hasScript: value.asset.hasScript
+                            };
                         }
 
                         return null;

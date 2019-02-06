@@ -100,6 +100,9 @@
                 return this._tx;
             }
 
+            /**
+             * @private
+             */
             _createTx() {
                 if (!this.fee || !this.minSponsoredAssetFee) {
                     this.signable = null;

@@ -103,7 +103,7 @@
                         this.fee = money;
 
                         this._onChangeBalance();
-                        $scope.$digest();
+                        $scope.$apply();
                     });
             }
 
@@ -188,6 +188,8 @@
 
                 this.invalid = (!this.fee || !this._balance) ||
                     this._balance.getTokens().lt(this.fee.getTokens());
+
+                $scope.$apply();
             }
 
             /**
@@ -198,14 +200,16 @@
                 this.name = '';
                 this.description = '';
                 this.issue = true;
-                this.count = null;
-                this.precision = null;
+                this.count = new BigNumber(0);
+                this.precision = 0;
                 this.maxCoinsCount = null;
                 this.script = '';
                 this.hasAssetScript = false;
 
                 this.createForm.$setPristine();
                 this.createForm.$setUntouched();
+
+                $scope.$apply();
             }
 
         }

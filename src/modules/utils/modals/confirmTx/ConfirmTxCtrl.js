@@ -11,6 +11,13 @@
 
         class ConfirmTxCtrl extends Base {
 
+            /**
+             * @type {boolean}
+             * @private
+             */
+            _resolveOnClose = false;
+
+
             constructor({ signable, showValidationErrors }) {
                 super($scope);
                 this.signable = signable;
@@ -19,6 +26,18 @@
 
             back() {
                 $mdDialog.cancel();
+            }
+
+            close() {
+                if (this._resolveOnClose) {
+                    $mdDialog.hide();
+                } else {
+                    $mdDialog.cancel();
+                }
+            }
+
+            onSendTransaction() {
+                this._resolveOnClose = true;
             }
 
         }

@@ -21,6 +21,10 @@
             step = 0;
             type = 0;
             isSetScript = false;
+            /**
+             * @type {Function}
+             */
+            onTransactionSend;
 
             constructor() {
                 super($scope);
@@ -38,6 +42,13 @@
                 this.signable.hasMySignature().then(state => {
                     this.step = state ? 1 : 0;
                     $scope.$apply();
+                });
+            }
+
+            sendTransaction() {
+                return super.sendTransaction().then(data => {
+                    this.onTransactionSend();
+                    return data;
                 });
             }
 
@@ -195,6 +206,7 @@
             noBackButton: '<',
             warning: '<',
             showValidationErrors: '<',
+            onTransactionSend: '&',
             referrer: '<'
         },
         templateUrl: 'modules/ui/directives/confirmTransaction/confirmTransaction.html',
