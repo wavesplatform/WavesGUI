@@ -3,6 +3,7 @@
 
     const { Money } = require('@waves/data-entities');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
+    const { filter, whereEq, uniqBy, prop, where, gt, pick, __ } = require('ramda');
     const ds = require('data-service');
 
     /**
@@ -34,9 +35,6 @@
         ease,
         $element
     ) {
-
-        const { filter, whereEq, uniqBy, prop } = require('ramda');
-        const tsUtils = require('ts-utils');
 
         class DexMyOrders extends Base {
 
@@ -184,9 +182,8 @@
                     return null;
                 }
 
-                this.orders.filter(tsUtils.contains({ isActive: true })).forEach((order) => {
-                    this.dropOrder(order);
-                });
+                this.orders.filter(whereEq({ isActive: true }))
+                    .forEach((order) => this.dropOrder(order));
             }
 
             round(data) {
@@ -230,7 +227,7 @@
                 dataPromise
                     .then((signedTxData) => ds.cancelOrder(signedTxData, order.amount.asset.id, order.price.asset.id))
                     .then(() => {
-                        const canceledOrder = tsUtils.find(this.orders, { id: order.id });
+                        const canceledOrder = this.orders.find(whereEq({ id: order.id }));
                         canceledOrder.state = 'Canceled';
                         notification.info({
                             ns: 'app.dex',
@@ -256,8 +253,8 @@
              * @private
              */
             _setOrders(orders) {
-                const isEqual = this.orders.length === orders.length && this.orders.every((item, i) =>
-                    orders[i].id === item.id || orders[i].progress === item.progress);
+                const isEqual = this.orders.length === orders.length && this.orders
+                    .every((item, i) => whereEq(pick(['id', 'progress'], item), orders[i]));
 
                 if (isEqual) {
                     return null;
@@ -266,7 +263,7 @@
                 return this._matcherPublicKeyPromise
                     .then(matcherPublicKey => Promise.all(orders.map(DexMyOrders._remapOrders(matcherPublicKey))))
                     .then(result => {
-                        const lastOrder = result.slice().reverse().find(item => item.progress !== 0);
+                        const lastOrder = result.slice().reverse().find(where({ progress: gt(__, 0) }));
 
                         if (!lastOrder) {
                             return result;
