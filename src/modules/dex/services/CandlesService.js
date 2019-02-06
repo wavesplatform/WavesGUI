@@ -3,6 +3,7 @@
     'use strict';
 
     const { config } = require('data-service');
+    const { flatten } = require('ramda');
     const POLL_DELAY = 400;
 
     /**
@@ -39,12 +40,12 @@
                 const { options } = utils.getValidCandleOptions(from, to, interval);
                 const promises = options.map(option => config.getDataService().getCandles(amountId, priceId, option));
 
-                const candles = Promise.all(promises).then(results => (
-                    results.reduce((acc, el) => acc.concat(el.data), [])
-                        .map(candle => ({
-                            ...candle.data,
-                            time: new Date(candle.data.time).valueOf()
-                        }))));
+                const candles = Promise.all(promises)
+                    .then(flatten)
+                    .then(list => list.map(candle => ({
+                        ...candle.data,
+                        time: new Date(candle.data.time).getTime()
+                    })));
 
                 const lastTrade = ds.api.pairs.get(amountId, priceId)
                     .then(pair => waves.matcher.getLastPrice(pair)

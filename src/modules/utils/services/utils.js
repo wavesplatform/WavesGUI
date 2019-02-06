@@ -796,15 +796,15 @@
 
             /**
              * @name app.utils#getValidCandleOptions
-             * @param {number} from
-             * @param {number} to
+             * @param {number|Date} from
+             * @param {number|Date} to
              * @return {Array.<Object>}
              */
             getValidCandleOptions(from, to, interval = 60) {
                 const config = INTERVAL_MAP[interval];
                 const options = {
-                    timeStart: from instanceof Date ? from.valueOf() : from,
-                    timeEnd: to instanceof Date ? to.valueOf() : to,
+                    timeStart: from instanceof Date ? from.getTime() : from,
+                    timeEnd: to instanceof Date ? to.getTime() : to,
                     interval
                 };
 

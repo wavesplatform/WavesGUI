@@ -11,6 +11,7 @@
 
         const ds = require('data-service');
         const entities = require('@waves/data-entities');
+        const { flatten } = require('ramda');
 
         class WavesUtils {
 
@@ -237,35 +238,37 @@
                     .then(pair => {
                         const amountId = pair.amountAsset.id;
                         const priceId = pair.priceAsset.id;
+                        const dataService = ds.config.getDataService();
+
                         const { options } = utils.getValidCandleOptions(formattedFrom, formattedTo);
+                        const promises = options.map(option => dataService.getCandles(amountId, priceId, option));
 
-                        const promises = options.map(option => (
-                            ds.config.getDataService().getCandles(amountId, priceId, option)));
+                        return Promise.all(promises)
+                            .then(flatten)
+                            .then(list => {
 
-                        return Promise.all(promises).then((res) => {
-                            const list = res.reduce((acc, el) => acc.concat(el.data), []);
-
-                            if (!list || !list.length) {
-                                return Promise.reject(list);
-                            }
-
-                            const result = [];
-
-                            list.forEach(({ data }) => {
-                                const close = Number(data.close);
-                                const rate = fromId !== pair.priceAsset.id ? close : 1 / close;
-
-                                if (close !== 0) {
-                                    result.push({
-                                        timestamp: new Date(data.time),
-                                        rate: rate
-                                    });
+                                if (!list.length) {
+                                    return Promise.reject(list);
                                 }
-                            });
 
-                            return result.filter((item) => item.timestamp > from && item.timestamp < to)
-                                .sort(utils.comparators.process(({ timestamp }) => timestamp).asc);
-                        });
+                                const result = [];
+
+                                // TODO @Maks optimize this
+                                list.forEach(({ data }) => {
+                                    const close = Number(data.close);
+                                    const rate = fromId !== pair.priceAsset.id ? close : 1 / close;
+
+                                    if (close !== 0) {
+                                        result.push({
+                                            timestamp: new Date(data.time),
+                                            rate: rate
+                                        });
+                                    }
+                                });
+
+                                return result.filter((item) => item.timestamp > from && item.timestamp < to)
+                                    .sort(utils.comparators.process(({ timestamp }) => timestamp).asc);
+                            });
                     });
             }
 
