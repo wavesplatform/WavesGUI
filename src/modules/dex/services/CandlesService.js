@@ -34,6 +34,14 @@
                     .catch(handleError);
             }
 
+            /**
+             * @param {string} symbolInfo
+             * @param {number} from
+             * @param {number} to
+             * @param {number} interval
+             * @return {Promise<T | Array>}
+             * @private
+             */
             static _getCandles(symbolInfo, from, to, interval) {
                 const amountId = symbolInfo._wavesData.amountAsset.id;
                 const priceId = symbolInfo._wavesData.priceAsset.id;
@@ -62,7 +70,7 @@
             }
 
             static convertToMilliseconds(seconds) {
-                return seconds * 1000;
+                return seconds != null ? seconds * 1000 : Date.now();
             }
 
             onReady(callback) {
@@ -84,7 +92,7 @@
                     .catch(reject); // TODO
             }
 
-            getBars(symbolInfo, resolution, from, to = Date.now(), onHistoryCallback, onErrorCallback) {
+            getBars(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback) {
                 from = CandlesService.convertToMilliseconds(from);
                 to = CandlesService.convertToMilliseconds(to);
                 const handleCandles = (candles) => {

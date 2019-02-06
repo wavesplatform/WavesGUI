@@ -798,6 +798,7 @@
              * @name app.utils#getValidCandleOptions
              * @param {number|Date} from
              * @param {number|Date} to
+             * @param {number} interval
              * @return {Array.<Object>}
              */
             getValidCandleOptions(from, to, interval = 60) {
