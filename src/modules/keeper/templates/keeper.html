@@ -8,6 +8,12 @@
     </div>
 
     <div class="center margin-2">
+
+        <div class="text-center" ng-if="$ctrl.loading">
+            <h3 class="basic-700" w-i18n="keeperForm.loading"></h3>
+            <w-loader></w-loader>
+        </div>
+
         <div ng-if="$ctrl.noKeeper">
             <i class="keeper-icon margin-3 block"></i>
             <h3 class="basic-700" w-i18n="keeperForm.error.notInstalledHeader"></h3>
