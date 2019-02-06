@@ -6,7 +6,7 @@
     const locationHref = location.href;
     const tsUtils = require('ts-utils');
     const i18next = require('i18next');
-    const { propEq, where, gte, lte, equals, path } = require('ramda');
+    const { propEq, where, gte, lte, equals, path, __ } = require('ramda');
 
     const i18nextReady = new Promise(resolve => {
         const handler = data => {
@@ -225,8 +225,8 @@
 
                 notificationsWithDate
                     .filter(where({
-                        start_date: gte(time),
-                        end_date: lte(time),
+                        start_date: gte(__, time),
+                        end_date: lte(__, time),
                         id: id => !(userNotification.has(id) || closed.includes(id))
                     }))
                     .forEach(item => {
@@ -247,7 +247,7 @@
                         });
                     });
 
-                notificationsWithDate.filter(where({ end_date: lte(time) }))
+                notificationsWithDate.filter(where({ end_date: lte(__, time) }))
                     .forEach(item => userNotification.remove(item.id));
             }
 
