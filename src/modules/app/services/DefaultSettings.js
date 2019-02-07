@@ -74,6 +74,9 @@
                         transactions: {
                             filter: 'all'
                         },
+                        leasing: {
+                            filter: 'all'
+                        },
                         portfolio: {
                             spam: [],
                             filter: 'active'

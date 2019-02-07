@@ -265,11 +265,10 @@
             initCardTab() {
                 if (gatewayService.hasSupportOf(this.asset, 'card')) {
                     this.showCardTab = true;
+                    this.setCardObserver();
                     this.updateCardDetails().then(() => {
                         gatewayService.getCardFiatWithLimits(this.asset, user.address, FIAT_LIST).then((fiatList) => {
                             this.cardFiatList = fiatList;
-                            this.updateCardTab();
-                            this.setCardObserver();
                         });
                     });
                 }
@@ -282,6 +281,9 @@
             }
 
             updateCardTab() {
+                if (!this.cardPayment) {
+                    return null;
+                }
                 this.updateApproximateAmount();
                 this.indacoinLink = gatewayService.getCardBuyLink(
                     this.asset,
@@ -292,7 +294,15 @@
             }
 
             setCardObserver() {
+                if (this.cardObserver) {
+                    return null;
+                }
+                this.cardObserver = true;
                 this.observe(['chosenCurrencyIndex', 'cardPayment', 'asset'], () => {
+                    if (!this.cardPayment) {
+                        return null;
+                    }
+
                     if (!Number(this._tokenizeCardPayment())) {
                         this.approximateAmount = new ds.wavesDataEntities.Money(0, this.asset);
                     }
@@ -440,7 +450,7 @@
             }
 
             _tokenizeCardPayment() {
-                return (this.cardPayment && this.cardPayment.toTokens()) || 0;
+                return (this.cardPayment && this.cardPayment.toTokens());
             }
 
             /**

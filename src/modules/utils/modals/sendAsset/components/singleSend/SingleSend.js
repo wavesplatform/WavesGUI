@@ -315,11 +315,12 @@
                     amount = this.moneyHash[this.assetId].cloneWithTokens('0');
                 }
 
-                waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
+                waves.utils.getRate(this.assetId, this.mirrorId).then(rate => {
                     this._noCurrentRate = true;
                     this.mirror = amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
                     this.tx.amount = amount;
                     this._noCurrentRate = false;
+                    $scope.$apply();
                 });
             }
 
@@ -396,6 +397,9 @@
                 this._onChangeAssetId();
             }
 
+            /**
+             * @private
+             */
             _validateForm() {
                 if (this.tx.amount.getTokens().gt(0) || this.tx.recipient) {
                     this.send.$setDirty(true);
