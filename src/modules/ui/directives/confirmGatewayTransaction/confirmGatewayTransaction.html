@@ -108,6 +108,7 @@
                         <span w-i18n="confirmGatewayTransaction.back"></span>
                     </w-button>
                     <w-button class="big submit"
+                              hasLoader="true"
                               w-next-step
                               on-click="$ctrl.confirm()">
                         <span w-i18n="confirmGatewayTransaction.confirm"></span>
@@ -119,7 +120,7 @@
             <div class="icon icon-tx-success margin-2"></div>
             <h2 class="text-center basic-900 margin-4" w-i18n="confirmGatewayTransaction.success"></h2>
             <div class="text-center">
-                <w-button class="submit half big" on-click="$ctrl.showTxInfo()">
+                <w-button class="submit half big" hasLoader="true" on-click="$ctrl.showTxInfo()">
                     <span w-i18n="confirmTransaction.details"></span>
                 </w-button>
             </div>

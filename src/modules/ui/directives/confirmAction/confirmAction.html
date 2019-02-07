@@ -8,7 +8,7 @@
                 <w-button class="submit tiny" on-click="$ctrl.removeClicked()">
                     <span w-i18n="{{$ctrl.literalBack}}"></span>
                 </w-button>
-                <w-button class="warning tiny" on-click="$ctrl.runAction()">
+                <w-button class="warning tiny" hasLoader="true" on-click="$ctrl.runAction()">
                     <span w-i18n="{{$ctrl.literalConfirm}}"></span>
                 </w-button>
             </div>

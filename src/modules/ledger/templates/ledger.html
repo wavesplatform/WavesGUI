@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <w-button class="submit big" on-click="$ctrl.retryGetUsers()">
+        <w-button class="submit big" hasLoader="true" on-click="$ctrl.retryGetUsers()">
             <span w-i18n="ledgerForm.retry"></span>
         </w-button>
         <div class="or margin-2" w-i18n="or"></div>
@@ -93,6 +93,7 @@
 
         <div class="margin-3">
             <w-button disabled="$ctrl.disabledLogin"
+                      hasLoader="true"
                       class="submit big long" on-click="$ctrl.login()">
                 <span w-i18n="ledgerForm.login"></span>
             </w-button>

@@ -51,10 +51,10 @@
             <w-button class="big" w-modal-close>
                 <span w-i18n="modal.gatewaySign.cancel"></span>
             </w-button>
-            <w-button ng-if="!$ctrl.signAdapterError" class="big submit" w-modal-close on-click="$ctrl.send()">
+            <w-button ng-if="!$ctrl.signAdapterError" hasLoader="true" class="big submit" w-modal-close on-click="$ctrl.send()">
                 <span w-i18n="modal.gatewaySign.continue"></span>
             </w-button>
-            <w-button ng-if="$ctrl.signAdapterError" class="big submit" w-modal-close on-click="$ctrl.sign()">
+            <w-button ng-if="$ctrl.signAdapterError" hasLoader="true" class="big submit" w-modal-close on-click="$ctrl.sign()">
                 <span w-i18n="modal.gatewaySign.retrySign"></span>
             </w-button>
         </div>

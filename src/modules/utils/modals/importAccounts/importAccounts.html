@@ -23,7 +23,7 @@
             <w-button w-modal-close class="big">
                 <span w-i18n="modal.import.importCancel"></span>
             </w-button>
-            <w-button disabled="!$ctrl.hasSelected" on-click="$ctrl.importAccounts()" class="big submit">
+            <w-button hasLoader="true" disabled="!$ctrl.hasSelected" on-click="$ctrl.importAccounts()" class="big submit">
                 <span w-i18n="modal.import.importButton"></span>
             </w-button>
         </div>
@@ -47,7 +47,7 @@
             <div class="basic-500 body-2 text-center margin-4"
                  w-i18n="modal.import.errorUnable"></div>
 
-            <w-button w-modal-close class="big long submit">
+            <w-button w-modal-close hasLoader="true" class="big long submit">
                 <span w-i18n="modal.import.iUnderstandButton"></span>
             </w-button>
 

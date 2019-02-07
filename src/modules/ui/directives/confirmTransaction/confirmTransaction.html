@@ -91,6 +91,7 @@
                             </w-button>
                             <w-button class="big submit"
                                       disabled="$ctrl.errors.length > 0 || !$ctrl.txId"
+                                      hasLoader="true"
                                       ng-class="{long: $ctrl.noBackButton}"
                                       w-next-step
                                       on-click="$ctrl.confirm()">
@@ -134,7 +135,7 @@
                     <div class="basic-500 margin-4 body-2 text-center"
                          w-i18n="confirmTransaction.description.{{::$ctrl.tx.typeName}}" params="$ctrl.tx"></div>
                     <div>
-                        <w-button class="submit half big" on-click="$ctrl.showTxInfo()">
+                        <w-button class="submit half big" hasLoader="true" on-click="$ctrl.showTxInfo()">
                             <span w-i18n="confirmTransaction.details"></span>
                         </w-button>
                     </div>

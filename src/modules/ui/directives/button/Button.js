@@ -21,6 +21,11 @@
 
         class Button extends Base {
 
+            /**
+             * @type {boolean}
+             */
+            hasLoader;
+
             constructor() {
                 super();
 
@@ -109,7 +114,9 @@
              * @private
              */
             _togglePendingClass() {
-                this._$button.toggleClass('pending', this._pending);
+                if (this.hasLoader) {
+                    this._$button.toggleClass('pending', this._pending);
+                }
             }
 
             /**
@@ -131,7 +138,8 @@
         transclude: true,
         bindings: {
             _disabled: '<disabled',
-            onClick: '&'
+            onClick: '&',
+            hasLoader: '<'
         },
         controller
     });

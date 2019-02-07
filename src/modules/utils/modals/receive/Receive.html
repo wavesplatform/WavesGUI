@@ -94,6 +94,7 @@
                                          w-i18n="modal.receive.serverError"></div>
                                 </div>
                                 <w-button ng-if="$ctrl.gatewayServerError"
+                                          hasLoader="true"
                                           on-click="$ctrl.updateGatewayAddress()"
                                           type="submit"
                                           class="big submit long">
