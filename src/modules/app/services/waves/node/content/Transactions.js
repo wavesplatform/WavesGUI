@@ -76,6 +76,7 @@
             getActiveLeasingTx() {
                 return ds.fetch(`${this.node}/leasing/active/${user.address}`)
                     .then(R.uniqBy(R.prop('id')))
+                    .then(R.map(item => ({ ...item, status: 'active' })))
                     .then(list => ds.api.transactions.parseTx(list, false))
                     .then(list => list.map(this._pipeTransaction()));
             }
