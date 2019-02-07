@@ -55,7 +55,7 @@
                 <div class="row flex-row row-style unit-select">
                     <div class="footnote-1 basic-500" w-i18n="modal.settings.general.timeout"></div>
                     <div>
-                        <w-select class="with-scroll" ng-model="$ctrl.logoutAfterMin">
+                        <w-select class="with-scroll select__no-user-select" ng-model="$ctrl.logoutAfterMin">
                             <w-option value="::5">
                                 <span w-i18n="modal.settings.general.minutes" w-i18n-ns="app.utils"
                                       params="{minutes: 5}"></span>
@@ -83,7 +83,7 @@
                 <div class="row flex-row row-style unit-select">
                     <div class="footnote-1 basic-500" w-i18n="modal.settings.general.theme"></div>
                     <div>
-                        <w-select ng-model="$ctrl.theme">
+                        <w-select class="select__no-user-select" ng-model="$ctrl.theme">
                             <w-option value="::'default'">
                                 <i class="white-dot"></i>
                                 <span w-i18n-ns="app.utils" w-i18n="modal.settings.general.white"></span>
