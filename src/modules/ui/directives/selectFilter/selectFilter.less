@@ -17,18 +17,14 @@ w-select {
     w-select-filter {
       display: block;
       position: relative;
-      &:before {
-        content: '';
+      svg.search-icon {
         display: block;
-        width: 14px;
-        height: 14px;
         top: 50%;
         left: 16px;
         position: absolute;
         z-index: 12;
         transform: translateY(-50%);
-        background: url(../../../../img/icons/icon-search-dex.svg) center no-repeat;
-        background-size: cover;
+        fill: @input-search-icon-bg;
       }
 
       w-input,
@@ -42,7 +38,7 @@ w-select {
       }
 
       .w-input-wrap.focused {
-        outline: 1px solid #1f5af6;
+        outline: 1px solid @input-focused-border;
       }
 
       input {
