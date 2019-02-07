@@ -225,8 +225,8 @@
 
                 notificationsWithDate
                     .filter(where({
-                        start_date: gte(__, time),
-                        end_date: lte(__, time),
+                        start_date: lte(__, time),
+                        end_date: gte(__, time),
                         id: id => !(userNotification.has(id) || closed.includes(id))
                     }))
                     .forEach(item => {
