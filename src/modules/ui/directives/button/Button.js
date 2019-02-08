@@ -92,12 +92,10 @@
              * @private
              */
             _applyClick(result) {
-                console.log('%c pending', 'background: #222; color: #bada55');
                 this._pending = true;
 
                 const onEnd = () => {
                     if (this._pending) {
-                        console.log('%c pending end', 'background: #222; color: #bada55');
                         this._pending = false;
                     } else {
                         throw new Error('Already drop pending state!');
