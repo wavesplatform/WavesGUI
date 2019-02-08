@@ -246,14 +246,18 @@
                         const dataService = ds.config.getDataService();
                         const int = utils.getMaxInterval(formattedFrom, formattedTo);
                         const { options } = utils.getValidCandleOptions(formattedFrom, formattedTo, int);
+                        /**
+                         * @type {Array<Promise<Response<Candle>>>}
+                         */
                         const promises = options
                             .map(option => dataService.getCandles(amountId, priceId, option));
 
                         return Promise.all(promises)
-                            .then(pipe(map(prop('data')), flatten, map(pipe(prop('data'), item => ({
+                            .then(pipe(map(prop('data')), flatten))
+                            .then(map(item => ({
                                 close: item.close,
                                 timestamp: new Date(item.time).getTime()
-                            })))))
+                            })))
                             .then(filter(where({
                                 close: gt(__, 0),
                                 timestamp: allPass([gte(__, formattedFrom), lte(__, formattedTo)])
