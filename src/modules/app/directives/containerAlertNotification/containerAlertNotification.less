@@ -1,5 +1,6 @@
 @import (reference) 'config';
 @import (reference) 'icons';
+@import (reference) '../../less/typography.less';
 
 w-container-alert-notification {
   display: flex;
@@ -122,14 +123,17 @@ w-container-alert-notification {
       box-shadow: none;
       margin: 0;
       text-align: center;
-      padding: 0 10px;
-      height: 40px;
+      padding: 10px;
+      min-height: 40px;
+      max-height: 200px;
+      overflow-y: auto;
 
       .icon-close {
         background: @notification-icon-close center no-repeat;
         width: 40px;
         height: 40px;
         padding: 7px;
+        position: fixed;
         top: 0;
         right: 0;
         opacity: .5;
@@ -143,47 +147,52 @@ w-container-alert-notification {
       }
 
       span.content-body {
-        min-height: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 15px;
         color: @white-only;
+        padding: 0 10px;
+
+        @media screen and(max-width: 480px) {
+          font-size: @font-size-caption-1;
+          line-height: normal;
+        }
 
         &::before {
           content: '';
           display: inline-block;
           width: 14px;
           height: 14px;
-          margin-right: 10px;
+          min-width: 24px;
         }
       }
 
       &.info {
         background-color: @color-submit-300;
         span.content-body::before {
-          background: @notification-icon-info center no-repeat;
+          background: @notification-icon-info center left no-repeat;
         }
       }
 
       &.success {
         background-color: @color-success-400;
         span.content-body::before {
-          background: @notification-icon-success center no-repeat;
+          background: @notification-icon-success center left no-repeat;
         }
       }
 
       &.warn {
         background-color: @color-warning-600;
         span.content-body::before {
-          background: @notification-icon-warning center no-repeat;
+          background: @notification-icon-warning center left no-repeat;
         }
       }
 
       &.error {
         background-color: @color-error-500;
         span.content-body::before {
-          background: @notification-icon-error center no-repeat;
+          background: @notification-icon-error center left no-repeat;
         }
       }
     }
