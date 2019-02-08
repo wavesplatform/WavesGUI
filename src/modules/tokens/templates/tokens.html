@@ -73,7 +73,7 @@
                                  w-validator-number
                                  required></w-input>
 
-                        <div class="select-wrap">
+                        <div class="select-wrap no-user-select">
                             <w-select class="issue-select tiny" ng-model="$ctrl.issue">
                                 <w-option value="::false">
                                     <span class="caption-1 mobile-caption-4 basic-700" w-i18n-ns="app.tokens"
@@ -114,7 +114,7 @@
                         max="::8">
             </div>
             <div class="row">
-                <div class="body-2 basic-900 relative">
+                <div class="body-2 basic-900 margin-1 relative">
                     <span w-i18n="script"></span>
                     <w-help-icon>
                         <div class="help-icon__row headline-3" w-i18n="helpIcon.scriptHeader"></div>
@@ -158,8 +158,8 @@
                     <div ng-if="$ctrl.hasAssetScript" w-i18n-ns="app.utils">
                         <div class="basic-500 margin-1 margin-top-1" w-i18n="directives.scriptForm.ideLink"></div>
                         <div class="warning-plate warning-500">
-                            <span class="body-1" w-i18n="modal.setAssetScript.warningHeader"></span>
-                            <span class="footnote-1 basic-500" w-i18n="modal.setAssetScript.warningDescription"></span>
+                            <div class="body-2" w-i18n="modal.setAssetScript.warningHeader"></div>
+                            <div class="footnote-1 basic-500" w-i18n="modal.setAssetScript.warningDescription"></div>
                         </div>
                     </div>
                 </div>

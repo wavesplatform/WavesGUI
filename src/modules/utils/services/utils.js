@@ -1328,11 +1328,11 @@
                     case SIGN_TYPE.TRANSFER:
                         return _getTransferType(tx);
                     case SIGN_TYPE.MASS_TRANSFER:
-                        return utils.isMyAddressOrAlias(tx.sender) ? TYPES.MASS_SEND : TYPES.MASS_RECEIVE;
+                        return utils.isMyPublicKey(tx.senderPublicKey) ? TYPES.MASS_SEND : TYPES.MASS_RECEIVE;
                     case SIGN_TYPE.EXCHANGE:
                         return tx.exchangeType === 'buy' ? TYPES.EXCHANGE_BUY : TYPES.EXCHANGE_SELL;
                     case SIGN_TYPE.LEASE:
-                        return utils.isMyAddressOrAlias(tx.sender) ? TYPES.LEASE_OUT : TYPES.LEASE_IN;
+                        return utils.isMyPublicKey(tx.senderPublicKey) ? TYPES.LEASE_OUT : TYPES.LEASE_IN;
                     case SIGN_TYPE.CANCEL_LEASING:
                         return TYPES.CANCEL_LEASING;
                     case SIGN_TYPE.CREATE_ALIAS:
@@ -1366,7 +1366,7 @@
                  * @type {User}
                  */
                 const user = $injector.get('user');
-                return user.publicKey === publicKey;
+                return !publicKey || user.publicKey === publicKey;
             },
 
             /**
@@ -1383,6 +1383,7 @@
 
                 return addressOrAlias === user.address || aliasList.includes(addressOrAlias);
             },
+
 
             /**
              * @name app.utils#isNotEqualValue

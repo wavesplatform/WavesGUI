@@ -4,7 +4,11 @@
     <div class="txinfo__value">{{::$ctrl.address}}</div>
 </div>
 
-<!--TODO : isActive-->
+<div class="txinfo__row" ng-if="$ctrl.inBlockChain">
+    <div class="txinfo__key" w-i18n="transaction.modals.leasingStatus"></div>
+    <div ng-if="!$ctrl.isActive" class="txinfo__value" w-i18n="transaction.headers.canceled"></div>
+    <div ng-if="$ctrl.isActive" class="txinfo__value" w-i18n="transaction.headers.activeLeasing"></div>
+</div>
 
 <w-transaction-info-general height="$ctrl.transaction.height"
                             timestamp="$ctrl.transaction.timestamp"
