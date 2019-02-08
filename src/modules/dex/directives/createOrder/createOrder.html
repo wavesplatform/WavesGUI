@@ -201,7 +201,7 @@
                     <w-permit name="CAN_CREATE_ORDER" mode="on">
                         <w-button disabled="$ctrl.order.$invalid || $ctrl.order.$pristine"
                                   class="place-order small footnote-3"
-                                  hasLoader="true"
+                                  has-loader="true"
                                   on-click="$ctrl.createOrder($event, order)">
                             <span ng-if="$ctrl.type === 'sell'"
                                   w-i18n="directives.createOrder.placeSellOrder"

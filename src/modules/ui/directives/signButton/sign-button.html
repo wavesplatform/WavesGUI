@@ -3,6 +3,7 @@
         on-cancel="$ctrl.onSignCancel()">
 </w-sign>
 <w-button ng-if="!$ctrl.signPending"
+          has-loader="true"
           on-click="$ctrl.onClickButton()"
           disabled="$ctrl.disabled"
           class="big long submit">

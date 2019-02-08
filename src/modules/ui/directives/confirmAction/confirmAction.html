@@ -5,10 +5,10 @@
             <div class="title basic-900 margin-1" w-i18n="{{$ctrl.literalHeader}}"></div>
             <div class="descr basic-500 margin-1" w-i18n="{{$ctrl.literalDescription}}"></div>
             <div class="buttons-wrapper">
-                <w-button class="submit tiny" on-click="$ctrl.removeClicked()">
+                <w-button class="submit tiny" has-loader="true" on-click="$ctrl.removeClicked()">
                     <span w-i18n="{{$ctrl.literalBack}}"></span>
                 </w-button>
-                <w-button class="warning tiny" hasLoader="true" on-click="$ctrl.runAction()">
+                <w-button class="warning tiny" has-loader="true" on-click="$ctrl.runAction()">
                     <span w-i18n="{{$ctrl.literalConfirm}}"></span>
                 </w-button>
             </div>

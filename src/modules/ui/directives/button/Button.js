@@ -61,7 +61,6 @@
 
             $postLink() {
                 this._$button = $element.find('button:first');
-
                 SYNC_ATTRS.forEach((name) => {
                     if (name in $attrs) {
                         this._$button.attr(name, $attrs[name]);
@@ -93,10 +92,12 @@
              * @private
              */
             _applyClick(result) {
+                console.log('%c pending', 'background: #222; color: #bada55');
                 this._pending = true;
 
                 const onEnd = () => {
                     if (this._pending) {
+                        console.log('%c pending end', 'background: #222; color: #bada55');
                         this._pending = false;
                     } else {
                         throw new Error('Already drop pending state!');
