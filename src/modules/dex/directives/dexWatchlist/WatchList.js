@@ -2,7 +2,7 @@
     'use strict';
 
 
-    const DROP_DOWN_ORDER_LIST = ['ETH', 'BCH', 'LTC', 'USD', 'EUR'];
+    const DROP_DOWN_ORDER_LIST = ['ETH', 'BCH', 'LTC', 'USD', 'EUR', 'BSV'];
     const DROP_DOWN_LIST = [];
 
     DROP_DOWN_ORDER_LIST.forEach((name) => {
