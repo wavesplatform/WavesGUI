@@ -33,9 +33,23 @@
              * @private
              */
             _poll = null;
+            /**
+             * @type {Function}
+             * @private
+             */
+            _reslolve;
+            /**
+             * @type {Function}
+             * @private
+             */
+            _reject;
 
 
             constructor() {
+                this.ready = new Promise((resolve, reject) => {
+                    this._reslolve = resolve;
+                    this._reject = reject;
+                });
                 user.onLogin().then(() => this._watch());
             }
 
@@ -86,7 +100,7 @@
                 const get = () => BalanceWatcher._getBalanceList();
                 const set = list => this._setBalanceList(list);
                 this._poll = new Poll(get, set, 1000);
-                this.ready = this._poll.ready;
+                this._poll.ready.then(this._reslolve, this._reject);
             }
 
             /**
