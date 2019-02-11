@@ -101,7 +101,7 @@
              * @private
              */
             _getHash() {
-                return utils.toHash(this._balance, 'available.asset.id');
+                return utils.toHash(this._balance.map(item => item.available), 'asset.id');
             }
 
             /**
