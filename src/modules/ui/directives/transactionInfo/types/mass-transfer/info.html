@@ -1,6 +1,6 @@
 <div class="txinfo__row txinfo__row-header" ng-if="::$ctrl.isSend">
     <div w-i18n="recipient"></div>
-    <div w-i18n="amount"></div>
+    <w-expand-btn ng-model="$ctrl.transaction.transfers.length"></w-expand-btn>
 </div>
 
 <div ng-if="::$ctrl.isReceive" class="txinfo__data">
@@ -25,7 +25,6 @@
         </div>
 
         <div ng-if="!$ctrl.showAllTX">
-
             <div class="txinfo__row" ng-if="::$ctrl.transaction.transfers[0]">
                 <div class="txinfo__key-mass">{{::$ctrl.transaction.transfers[0].recipient}}</div>
                 <div class="txinfo__value">

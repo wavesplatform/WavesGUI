@@ -1,0 +1,24 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+
+
+.expand-btn {
+  border-radius: 6px;
+  background-color: @color-submit-400;
+  display: flex;
+  justify-content: space-around;
+  cursor: pointer;
+  &__txt {
+    color: @color-white;
+    font-size: @font-size-control-small;
+    line-height: 18px;
+  }
+  &__arrow {
+    background: @dropdown-icon no-repeat;
+    background-position: center;
+    background-size: 10px 5px;
+    width: 17px;
+    height: 18px;
+    z-index: 10;
+  }
+}
