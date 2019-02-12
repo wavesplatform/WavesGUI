@@ -7,6 +7,7 @@
   max-height: 179px;
   overflow-y: auto;
   background-color: @color-basic-50;
+  transition: max-height 0.3s, margin 0.3s;
   &.ng-hide {
     max-height: 0;
     margin-bottom: 0;
@@ -14,7 +15,15 @@
   &.ng-hide-add {
     overflow-y: hidden;
   }
-  transition: all 0.3s;
+  &.ng-hide-remove {
+    overflow-y: hidden;
+  }
+  .recipients-row__key {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+  }
 }
 
 .recipients-row {
@@ -41,10 +50,6 @@
     }
     &:last-child {
       padding-bottom: 12px;
-    }
-    &__key {
-      max-width: 70%;
-      overflow-x: auto;
     }
   }
 }
