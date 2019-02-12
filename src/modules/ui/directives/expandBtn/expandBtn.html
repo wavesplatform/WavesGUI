@@ -1,4 +1,4 @@
-<button class="expand-btn" ng-click="$ctrl.toggleOpen()">
+<button class="expand-btn" ng-class="{'up': $ctrl.isUp}" ng-click="$ctrl.toggleOpen()">
     <div class="expand-btn__txt">{{$ctrl.btnTxt}}</div>
     <div class="expand-btn__arrow"></div>
 </button>

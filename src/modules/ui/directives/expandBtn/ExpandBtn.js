@@ -3,9 +3,8 @@
 
     /**
      * @param {typeof Base} Base
-     * @param {jQuery} $element
      */
-    const controller = function (Base, $element) {
+    const controller = function (Base) {
 
         class ExpandBtn extends Base {
 
@@ -15,10 +14,15 @@
             btnTxt;
 
             /**
+             * @type {boolean}
+             */
+            isUp;
+
+            /**
              * @public
              */
             toggleOpen() {
-                $element.find('.expand-btn__arrow').toggleClass('up');
+                this.isUp = !this.isUp;
             }
 
         }
@@ -26,13 +30,14 @@
         return new ExpandBtn();
     };
 
-    controller.$inject = ['Base', '$element'];
+    controller.$inject = ['Base'];
 
     angular.module('app.ui').component('wExpandBtn', {
         templateUrl: 'modules/ui/directives/expandBtn/expandBtn.html',
         transclude: true,
         bindings: {
-            btnTxt: '<'
+            btnTxt: '<',
+            isUp: '<'
         },
         controller
     });
