@@ -6,7 +6,7 @@
     const locationHref = location.href;
     const tsUtils = require('ts-utils');
     const i18next = require('i18next');
-    const { propEq, where, gte, lte, equals, path, __ } = require('ramda');
+    const { propEq, where, gte, lte, equals, __ } = require('ramda');
 
     const i18nextReady = new Promise(resolve => {
         const handler = data => {
@@ -231,13 +231,16 @@
                     }))
                     .forEach(item => {
                         const method = ['warn', 'success', 'error', 'info'].find(equals(item.type)) || 'warn';
-                        const en = path(['text', 'en'], item);
-                        const lang = path(['text', i18next.language], item) || en;
+                        const literal = `user-notification.${item.id}`;
+
+                        Object.entries(item.text).forEach(([lang, message]) => {
+                            i18next.addResource(lang, 'app', literal, message);
+                        });
 
                         userNotification[method]({
                             ...item,
                             body: {
-                                literal: lang
+                                literal: literal
                             }
                         }).then(() => {
                             user.setSetting('closedNotification', [

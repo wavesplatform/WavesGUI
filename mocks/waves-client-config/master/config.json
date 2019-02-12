@@ -32,8 +32,8 @@
       "id": "BCH_WARNING",
       "end_date": "Tue Feb 14 2019 13:02:15 GMT+0300",
       "text": {
-        "en": "Notification text",
-        "ru": "Текст уведомления"
+        "en": "Notification text [digilira.com](https://digilira.com)",
+        "ru": "Текст уведомления [digilira.com](https://digilira.com)"
       }
     }
   ],
