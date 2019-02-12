@@ -3,28 +3,36 @@
 
     /**
      * @param {typeof Base} Base
+     * @param {jQuery} $element
      */
-    const controller = function (Base) {
+    const controller = function (Base, $element) {
 
         class ExpandBtn extends Base {
 
             /**
              * @type {string}
              */
-            ngModel;
+            btnTxt;
+
+            /**
+             * @public
+             */
+            toggleOpen() {
+                $element.find('.expand-btn__arrow').toggleClass('up');
+            }
 
         }
 
         return new ExpandBtn();
     };
 
-    controller.$inject = ['Base'];
+    controller.$inject = ['Base', '$element'];
 
     angular.module('app.ui').component('wExpandBtn', {
         templateUrl: 'modules/ui/directives/expandBtn/expandBtn.html',
         transclude: true,
         bindings: {
-            ngModel: '<'
+            btnTxt: '<'
         },
         controller
     });

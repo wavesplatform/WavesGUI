@@ -3,22 +3,28 @@
 
 
 .expand-btn {
+  border: 0;
   border-radius: 6px;
   background-color: @color-submit-400;
   display: flex;
   justify-content: space-around;
   cursor: pointer;
+  padding: 0 4px 0 6px;
+  align-items: center;
   &__txt {
-    color: @color-white;
+    color: @white-only;
     font-size: @font-size-control-small;
-    line-height: 18px;
+    margin-right: 4px;
   }
   &__arrow {
-    background: @dropdown-icon no-repeat;
-    background-position: center;
-    background-size: 10px 5px;
-    width: 17px;
+    background: @expand-icon no-repeat;
+    background-position: center 5px;
+    width: 10px;
     height: 18px;
     z-index: 10;
+    transition: transform 0.3s;
+    &.up {
+     transform: rotate(180deg);
+    }
   }
 }
