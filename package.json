@@ -94,7 +94,7 @@
     "@waves/data-entities": "^1.7.0",
     "@waves/data-service-client-js": "^1.0.1",
     "@waves/event-sender": "^0.4.4",
-    "@waves/ledger": "^3.0.1",
+    "@waves/ledger": "^3.2.0",
     "@waves/oracle-data": "^0.0.6",
     "@waves/signature-adapter": "^4.1.6",
     "@waves/signature-generator": "^5.0.0",
