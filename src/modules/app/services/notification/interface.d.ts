@@ -7,7 +7,7 @@ declare class BaseNotificationManager<T> {
 
     public error(data: T, delay: number): Promise<void>;
 
-    public getActiveNotificationsList(): Promise<Array<T>>;
+    public getActiveNotificationsList(): Array<T>;
 }
 
 declare class INotification extends BaseNotificationManager<INotificationObj> {
