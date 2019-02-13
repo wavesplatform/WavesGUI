@@ -196,6 +196,7 @@ w-scroll-box {
       transition: all .3s;
       cursor: pointer;
     }
+    }
   }
 
   &.zoomed-in {
@@ -210,7 +211,7 @@ w-scroll-box {
       }
     }
   }
-}
+
 
 .code-wrapper {
   border: 1px dashed @color-basic-200;
@@ -328,23 +329,11 @@ w-sign-button,
   min-height: 355px;
 
   .content {
-    width: calc(~"100% - " @width-left-menu);
+    width: 100%;
     height: calc(~"100% - " @height-header);
     padding: @padding-main-layout;
     overflow: hidden;
     position: absolute;
-    right: 0;
-    bottom: 0;
-  }
-}
-
-.wallet.assets {
-  .main-content .content {
-    width: calc(100% ~'- 70px');
-    height: calc(100% ~'- 70px');
-    padding: @padding-main-layout;
-    overflow-y: auto;
-    top: 70px;
     right: 0;
     bottom: 0;
   }

@@ -62,11 +62,7 @@
                 /**
                  * @type {[*]}
                  */
-                this.tabs = [
-                    { name: 'directives.watchlist.all', value: 'all' },
-                    { name: 'WAVES', value: WavesApp.defaultAssets.WAVES },
-                    { name: 'BTC', value: WavesApp.defaultAssets.BTC }
-                ];
+                this.tabs = [{ name: 'directives.watchlist.all', value: 'all' }];
                 /**
                  * @type {function}
                  * @private

@@ -430,10 +430,10 @@
                 return __controllers[name];
             },
             isWeb: function () {
-                return this.type === 'web';
+                return true;
             },
             isDesktop: function () {
-                return this.type === 'desktop';
+                return false;
             },
             isProduction: function () {
             return {{#if isProduction}}true;{{else}}false;{{/if}}
@@ -623,24 +623,24 @@
         modal.parentNode.removeChild(modal);
     }
 
-    if (WavesApp.isDesktop()) {
-        var listenDevTools = false;
-        Mousetrap.bind('i d d q d', function () {
-            if (!listenDevTools) {
-                transfer('addDevToolsMenu');
-                listenDevTools = true;
-            }
-        });
-    }
+    // if (WavesApp.isDesktop()) {
+    //     var listenDevTools = false;
+    //     Mousetrap.bind('i d d q d', function () {
+    //         if (!listenDevTools) {
+    //             transfer('addDevToolsMenu');
+    //             listenDevTools = true;
+    //         }
+    //     });
+    // }
 
-    Mousetrap.bind('c l e a n a l l', function () {
-        localStorage.clear();
-        if (WavesApp.isDesktop()) {
-            transfer('reload');
-        } else {
-            window.location.reload();
-        }
-    });
+    // Mousetrap.bind('c l e a n a l l', function () {
+    //     localStorage.clear();
+    //     if (WavesApp.isDesktop()) {
+    //         transfer('reload');
+    //     } else {
+    //         window.location.reload();
+    //     }
+    // });
 
     /**
      * @type {EventSender}
@@ -650,14 +650,14 @@
     WavesApp.stateTree = new tsUtils.Tree({
         id: 'root',
         children: [
-            {
-                id: 'welcome',
-                data: {
-                    url: '/',
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
+            // {
+            //     id: 'welcome',
+            //     data: {
+            //         url: '/',
+            //         noLogin: true,
+            //         views: [{ name: 'main' }]
+            //     }
+            // },
             // {
             //     id: 'sessions',
             //     data: {
@@ -665,51 +665,51 @@
             //         views: [{ name: 'main' }]
             //     }
             // },
-            {
-                id: 'create',
-                data: {
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            {
-                id: 'restore',
-                data: {
-                    url: '/import/restore',
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            {
-                id: 'ledger',
-                data: {
-                    url: '/import/ledger',
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            {
-                id: 'keeper',
-                data: {
-                    url: '/import/waveskeeper',
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            {
-                id: 'import',
-                data: {
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            {
-                id: 'desktop',
-                data: {
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
+            // {
+            //     id: 'create',
+            //     data: {
+            //         noLogin: true,
+            //         views: [{ name: 'main' }]
+            //     }
+            // },
+            // {
+            //     id: 'restore',
+            //     data: {
+            //         url: '/import/restore',
+            //         noLogin: true,
+            //         views: [{ name: 'main' }]
+            //     }
+            // },
+            // {
+            //     id: 'ledger',
+            //     data: {
+            //         url: '/import/ledger',
+            //         noLogin: true,
+            //         views: [{ name: 'main' }]
+            //     }
+            // },
+            // {
+            //     id: 'keeper',
+            //     data: {
+            //         url: '/import/waveskeeper',
+            //         noLogin: true,
+            //         views: [{ name: 'main' }]
+            //     }
+            // },
+            // {
+            //     id: 'import',
+            //     data: {
+            //         noLogin: true,
+            //         views: [{ name: 'main' }]
+            //     }
+            // },
+            // {
+            //     id: 'desktop',
+            //     data: {
+            //         noLogin: true,
+            //         views: [{ name: 'main' }]
+            //     }
+            // },
             {
                 id: 'main',
                 data: {
@@ -717,23 +717,23 @@
                     views: [{ name: 'main', templateUrl: 'modules/app/templates/main.html' }]
                 },
                 children: [
-                    {
-                        id: 'wallet',
-                        data: {
-                            views: [{
-                                name: 'mainContent',
-                                noController: true,
-                                template: '<ui-view name="content"></ui-view>'
-                            }],
-                            redirectTo: 'main.wallet.assets'
-                        },
-                        children: [
-                            { id: 'assets', data: { views: [{ name: 'content' }] } },
-                            { id: 'portfolio', data: { views: [{ name: 'content' }] } },
-                            { id: 'transactions', data: { views: [{ name: 'content' }] } },
-                            { id: 'leasing', data: { views: [{ name: 'content' }] } }
-                        ]
-                    },
+                    // {
+                    //     id: 'wallet',
+                    //     data: {
+                    //         views: [{
+                    //             name: 'mainContent',
+                    //             noController: true,
+                    //             template: '<ui-view name="content"></ui-view>'
+                    //         }],
+                    //         redirectTo: 'main.wallet.assets'
+                    //     },
+                    //     children: [
+                    //         { id: 'assets', data: { views: [{ name: 'content' }] } },
+                    //         { id: 'portfolio', data: { views: [{ name: 'content' }] } },
+                    //         { id: 'transactions', data: { views: [{ name: 'content' }] } },
+                    //         { id: 'leasing', data: { views: [{ name: 'content' }] } }
+                    //     ]
+                    // },
                     {
                         id: 'dex',
                         data: {
@@ -752,12 +752,12 @@
                             views: [{ name: 'mainContent', templateUrl: 'modules/dex/templates/dex.html' }]
                         }
                     },
-                    {
-                        id: 'tokens',
-                        data: {
-                            views: [{ name: 'mainContent' }]
-                        }
-                    }
+                    // {
+                    //     id: 'tokens',
+                    //     data: {
+                    //         views: [{ name: 'mainContent' }]
+                    //     }
+                    // }
                 ]
             }
         ]

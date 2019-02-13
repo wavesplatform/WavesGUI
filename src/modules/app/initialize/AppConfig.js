@@ -138,7 +138,7 @@
              */
             _initStates() {
 
-                const defaultUrl = AppConfig.getUrlFromState(WavesApp.stateTree.find('welcome'));
+                const defaultUrl = AppConfig.getUrlFromState(WavesApp.stateTree.find('main'));
                 $urlRouterProvider.when('', defaultUrl);
 
                 WavesApp.stateTree.toArray()

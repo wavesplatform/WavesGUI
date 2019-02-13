@@ -1,7 +1,0 @@
-[Desktop Entry]
-Name=Waves Client
-Exec={{APP_PATH}} %u
-Type=Application
-NoDisplay=true
-Categories=System;
-MimeType=x-scheme-handler/waves;

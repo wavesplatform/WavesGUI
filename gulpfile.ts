@@ -59,7 +59,7 @@ const getFileName = (name, type) => {
 
 const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: 'utf8' });
 
-['web', 'desktop'].forEach((buildName: TPlatform) => {
+['web'].forEach((buildName: TPlatform) => {
 
     configurations.forEach((configName: TConnection) => {
 
@@ -77,9 +77,6 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
 
                 stream.on('end', function () {
                     readFile(join(targetPath, 'js', jsFileName), { encoding: 'utf8' }).then((file) => {
-                        if (buildName === 'desktop') {
-                            file = `(function () {\nvar module = undefined;\n${file}})();`;
-                        }
                         outputFile(join(targetPath, 'js', jsFileName), file)
                             .then(() => done());
                     });
@@ -100,17 +97,6 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
 
                     forCopy.push(copy(join('dist', 'locale'), join(targetPath, 'locales')));
                     forCopy.push(copy(join(__dirname, 'tradingview-style'), join(targetPath, 'tradingview-style')));
-
-                    if (buildName === 'desktop') {
-                        const electronFiles = getFilesFrom(join(__dirname, 'electron'), '.js');
-                        electronFiles.forEach((path) => {
-                            const name = basename(path);
-                            forCopy.push(copy(path, join(targetPath, name)));
-                        });
-                        forCopy.push(copy(join(__dirname, 'electron', 'icons'), join(targetPath, 'img', 'icon.png')));
-                        forCopy.push(copy(join(__dirname, 'electron', 'waves.desktop'), join(targetPath, 'waves.desktop')));
-                        forCopy.push(copy(join(__dirname, 'node_modules', 'i18next', 'dist'), join(targetPath, 'i18next')));
-                    }
 
                     Promise.all([
                         Promise.all(meta.copyNodeModules.map((path) => {
@@ -138,13 +124,7 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
 
             task(`html-${taskPostfix}`, htmlDeps, function (done) {
                 const scripts = [jsFilePath];
-
-                if (buildName === 'desktop') {
-                    meta.electronScripts.forEach((fileName) => {
-                        scripts.push(join(targetPath, fileName));
-                    });
-                }
-
+                
                 indexPromise
                     .then(() => {
 
@@ -171,23 +151,6 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
             });
             taskHash.html.push(`html-${taskPostfix}`);
 
-            if (buildName === 'desktop') {
-                task(`electron-create-package-json-${taskPostfix}`, [`html-${taskPostfix}`], function (done) {
-                    const targetPackage = Object.create(null);
-
-                    meta.electron.createPackageJSONFields.forEach((name) => {
-                        targetPackage[name] = pack[name];
-                    });
-
-                    Object.assign(targetPackage, meta.electron.defaults);
-                    targetPackage.server = meta.electron.server;
-
-                    writeFile(join(targetPath, 'package.json'), JSON.stringify(targetPackage, null, 4))
-                        .then(() => done());
-                });
-                taskHash.forElectron.push(`electron-create-package-json-${taskPostfix}`);
-            }
-
             function getName(name) {
                 return getFileName(name, type);
             }
@@ -212,9 +175,7 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
 task('up-version-json', function (done) {
     console.log('new version: ', pack.version);
 
-    const promises = [
-        './src/desktop/package.json'
-    ].map((path) => {
+    const promises = [].map((path) => {
         return readJSON(path).then((json) => {
             json.version = pack.version;
             return outputFile(path, JSON.stringify(json, null, 2));
@@ -378,55 +339,9 @@ task('concat-develop', [
 task('build-main', getTasksFrom('build', taskHash.concat, taskHash.copy, taskHash.html));
 
 task('concat', taskHash.concat.concat('concat-develop'));
-task('electron-task-list', taskHash.forElectron);
 task('copy', taskHash.copy);
 task('html', taskHash.html);
 task('zip', taskHash.zip);
-
-task('electron-debug', function (done) {
-    const root = join(__dirname, 'dist', 'desktop', 'electron-debug');
-    const srcDir = join(__dirname, 'electron');
-
-    const copyItem = name => copy(join(srcDir, name), join(root, name));
-    const makePackageJSON = () => {
-        const targetPackage = Object.create(null);
-
-        meta.electron.createPackageJSONFields.forEach((name) => {
-            targetPackage[name] = pack[name];
-        });
-
-        Object.assign(targetPackage, meta.electron.defaults);
-        targetPackage.server = 'localhost:8080';
-
-        return writeFile(join(root, 'package.json'), JSON.stringify(targetPackage));
-    };
-
-    const excludeTypeScrip = list => list.filter(name => extname(name) !== '.ts');
-    const loadLocales = () => {
-        const list = Object.keys(require(join(__dirname, 'ts-scripts', 'meta.json')).langList);
-
-        return Promise.all(list.map(loadLocale));
-    };
-
-    const loadLocale = lang => {
-        const url = `https://locize.wvservices.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/electron`;
-        const out = join(root, 'locales', lang, `electron.json`);
-
-        return download(url, out);
-    };
-
-    const copyNodeModules = () => Promise.all(meta.copyNodeModules.map(name => copy(name, join(root, name))));
-    const copyI18next = () => copy(join(__dirname, 'node_modules', 'i18next', 'dist'), join(root, 'i18next'));
-
-    readdir(srcDir)
-        .then(excludeTypeScrip)
-        .then(list => Promise.all(list.map(copyItem)))
-        .then(makePackageJSON)
-        .then(loadLocales)
-        .then(copyNodeModules)
-        .then(copyI18next)
-        .then(() => done());
-});
 
 task('data-service', function () {
     execSync('npm run data-service');
@@ -439,8 +354,6 @@ task('all', [
     'concat',
     'copy',
     'html',
-    'electron-task-list',
-    'electron-debug',
     'zip'
 ]);
 

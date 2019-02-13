@@ -95,21 +95,19 @@
         'ngMaterial',
         'ui.router',
         'ui.router.state.events',
-        'n3-line-chart',
-
         'app.templates',
         'app.utils',
         'app.ui',
-        'app.welcome',
-        'app.create',
-        'app.restore',
-        'app.desktop',
-        'app.ledger',
-        'app.keeper',
-        'app.import',
-        'app.wallet',
-        'app.dex',
-        'app.tokens'
+        // 'app.welcome',
+        // 'app.create',
+        // 'app.restore',
+        // 'app.desktop',
+        // 'app.ledger',
+        // 'app.keeper',
+        // 'app.import',
+        // 'app.wallet',
+        'app.dex'
+        // 'app.tokens'
     ]);
 })();
 

@@ -3,7 +3,6 @@
 (function () {
     'use strict';
 
-    const locationHref = location.href;
     const tsUtils = require('ts-utils');
 
     const PROGRESS_MAP = {
@@ -134,26 +133,7 @@
             }
 
             _initTryDesktop() {
-                if (!isDesktop || WavesApp.isDesktop()) {
-                    return Promise.resolve(true);
-                }
-
-                const url = new URL(locationHref);
-                const href = `waves://${url.pathname}${url.search}${url.hash}`.replace('///', '//');
-
-                return storage.load('openClientMode').then(clientMode => {
-                    switch (clientMode) {
-                        case 'desktop':
-                            window.open(href);
-                            return this._runDesktop();
-                        case 'web':
-                            return Promise.resolve(true);
-                        default:
-                            return modalManager.showTryDesktopModal()
-                                .then(() => this._runDesktop())
-                                .catch(() => true);
-                    }
-                });
+                return Promise.resolve(true);
             }
 
             _runDesktop() {
@@ -222,15 +202,8 @@
 
                 const stop = $rootScope.$on('$stateChangeStart', (event, toState, params) => {
 
-                    let tryDesktop;
-
                     if (START_STATES.indexOf(toState.name) === -1) {
                         event.preventDefault();
-                    }
-
-                    if (toState.name === 'desktop' && !this._canOpenDesktopPage) {
-                        event.preventDefault();
-                        $state.go(START_STATES[0]);
                     }
 
                     if (waiting) {
@@ -242,15 +215,9 @@
                         needShowTutorial = false;
                     }
 
-                    if (toState.name === 'main.dex-demo') {
-                        tryDesktop = Promise.resolve();
-                    } else {
-                        tryDesktop = this._initTryDesktop();
-                    }
-
                     const promise = Promise.all([
                         storage.onReady(),
-                        tryDesktop
+                        Promise.resolve()
                     ]).then(([oldVersion, canOpenTutorial]) => {
                         needShowTutorial = canOpenTutorial && !oldVersion;
                     });
@@ -264,7 +231,7 @@
 
                     waiting = true;
 
-                    tryDesktop
+                    Promise.resolve()
                         .then((canChangeState) => this._login(toState, canChangeState))
                         .then(() => {
                             stop();

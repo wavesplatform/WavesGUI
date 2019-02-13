@@ -1,3 +1,5 @@
+process.exit(0);
+/*
 import { readFile } from 'fs-extra';
 import { getBranchDetail } from './utils';
 
@@ -57,3 +59,4 @@ Promise.all([
 
     process.exit(0);
 });
+*/
