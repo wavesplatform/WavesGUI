@@ -433,6 +433,7 @@
                 this.setSetting('theme', newTheme);
             }
 
+
             /**
              * @return {Promise<any>}
              */
@@ -455,7 +456,7 @@
                 };
 
                 try {
-                    const response = await waves.node.scriptInfo(address);
+                    const response = await ds.fetch(`${ds.config.get('node')}/addresses/scriptInfo/${address}`);
                     this.extraFee = Money.fromCoins(response.extraFee, waves);
                     addHasScript(response.extraFee !== 0);
                 } catch (e) {
