@@ -364,7 +364,8 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                             'transform-decorators-legacy',
                             'transform-class-properties',
                             'transform-decorators',
-                            'transform-object-rest-spread'
+                            'transform-object-rest-spread',
+                            'transform-async-to-generator'
                         ]
                     }).code;
                     return result;
