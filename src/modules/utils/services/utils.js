@@ -401,7 +401,7 @@
              * @return {boolean}
              */
             isPromise(data) {
-                return data.then && typeof data.then === 'function';
+                return data && data.then && typeof data.then === 'function';
             },
 
             /**

@@ -435,6 +435,8 @@
             isDesktop: function () {
                 return false;
             },
+            isMock: false,
+            usePostMessageStorage: false,
             isProduction: function () {
             return {{#if isProduction}}true;{{else}}false;{{/if}}
             },
