@@ -14,6 +14,16 @@
             btnTxt;
 
             /**
+             * @type {string}
+             */
+            i18key;
+
+            /**
+             * @type {string}
+             */
+            i18nParams;
+
+            /**
              * @type {boolean}
              */
             isUp;
@@ -37,7 +47,9 @@
         transclude: true,
         bindings: {
             btnTxt: '<',
-            isUp: '<'
+            i18key: '<',
+            isUp: '<',
+            i18nParams: '<'
         },
         controller
     });
