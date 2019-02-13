@@ -8,10 +8,9 @@
      * @param {Assets} assets
      * @param {User} user
      * @param {app.utils} utils
-     * @param {app.utils.decorators} decorators
      * @return {Node}
      */
-    const factory = function (BaseNodeComponent, aliases, transactions, assets, user, utils, decorators) {
+    const factory = function (BaseNodeComponent, aliases, transactions, assets, user, utils) {
 
         const ds = require('data-service');
 
@@ -31,15 +30,6 @@
                  * @type {Transactions}
                  */
                 this.transactions = transactions;
-            }
-
-            /**
-             * @param {string} address
-             * @return {Promise<IScriptInfo<Money>>}
-             */
-            @decorators.cachable(2)
-            scriptInfo(address) {
-                return ds.api.address.getScriptInfo(address);
             }
 
             /**
@@ -67,7 +57,7 @@
         return utils.bind(new Node());
     };
 
-    factory.$inject = ['BaseNodeComponent', 'aliases', 'transactions', 'assets', 'user', 'utils', 'decorators'];
+    factory.$inject = ['BaseNodeComponent', 'aliases', 'transactions', 'assets', 'user', 'utils'];
 
     angular.module('app')
         .factory('node', factory);

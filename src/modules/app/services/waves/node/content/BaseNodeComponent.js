@@ -4,12 +4,13 @@
     /**
      * @param {Base} Base
      * @param {app.utils} utils
+     * @param {app.utils.decorators} decorators
      * @param {EventManager} eventManager
      * @param {User} user
      * @param {ConfigService} configService
      * @return {BaseNodeComponent}
      */
-    const factory = function (Base, utils, eventManager, user, configService) {
+    const factory = function (Base, utils, eventManager, user, configService, decorators) {
 
         const ds = require('data-service');
         const { Money } = require('@waves/data-entities');
@@ -30,6 +31,16 @@
 
             get node() {
                 return user.getSetting('network.node');
+            }
+
+
+            /**
+             * @param {string} address
+             * @return {Promise<IScriptInfo<Money>>}
+             */
+            @decorators.cachable(2)
+            scriptInfo(address) {
+                return ds.api.address.getScriptInfo(address);
             }
 
             /**
@@ -110,7 +121,7 @@
 
                 const address = generator.utils.crypto.buildRawAddress(generator.libs.base58.decode(publicKey));
 
-                return ds.api.address.getScriptInfo(address)
+                return this.scriptInfo(address)
                     .then(data => data.extraFee.getTokens().gt(0));
             }
 
@@ -383,7 +394,7 @@
         return BaseNodeComponent;
     };
 
-    factory.$inject = ['Base', 'utils', 'eventManager', 'user', 'configService'];
+    factory.$inject = ['Base', 'utils', 'eventManager', 'user', 'configService', 'decorators'];
 
     angular.module('app')
         .factory('BaseNodeComponent', factory);
