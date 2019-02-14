@@ -85,6 +85,13 @@
                 }
             }
 
+            /**
+             * @param {User} user
+             */
+            setUser(user) {
+                this.user = user;
+            }
+
             static getStorage() {
                 if (!LocalStorage.storage) {
                     LocalStorage.storage = getStorageApi();

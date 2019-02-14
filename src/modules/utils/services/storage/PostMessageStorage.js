@@ -9,6 +9,11 @@
         class PostMessageStorage {
 
             /**
+             * @type {User}
+             */
+            user;
+
+            /**
              * @type {Promise<any>}
              */
             readyPromise;
@@ -48,7 +53,11 @@
             write(key, value) {
                 const api = PostMessageStorage._getStorage();
                 return this.readyPromise
-                    .then(() => api.request('updateData', { key: value }));
+                    .then(() => api.request('writeData', { [key]: value }))
+                    .then((data) => {
+                        return data;
+                    })
+                    .then(data => (this._data = data));
             }
 
             /**
@@ -66,20 +75,48 @@
              */
             onUpdate(cb) {
                 const api = PostMessageStorage._getStorage();
-                api.on('setData', cb);
+                api.on('data', cb);
             }
 
             /**
-             * @return {void}
+             * @return {PostMessageStorage}
              */
             init() {
                 const api = PostMessageStorage._getStorage();
-                api.once('init', () => api.request('getData'));
+
                 this.readyPromise = new Promise((resolve) => {
-                    api.once('setData', (data) => {
-                        this._data = data;
-                        resolve(data);
+                    api.once('logout', () => this.user.logout());
+
+                    api.registerRequestHandler('demo', () => {
+                        this.user.showDemo();
                     });
+
+                    api.registerRequestHandler('login', (user) => {
+                        resolve();
+                        this._data = { user };
+                        this.user.loginByData(user)
+                            .then(() => api.dispatchEvent('loginOk', { status: 'ok' }))
+                            .catch(error => api.dispatchEvent('loginError', { status: 'error', error }));
+
+                        return { status: 'ok' };
+                    });
+                });
+            }
+
+            /**
+             * @param {User} user
+             */
+            setUser(user) {
+                this.user = user;
+            }
+
+            _setUserSettings(settings) {
+                if (!settings) {
+                    return this.clear();
+                }
+
+                Object.entries(settings).forEach(([key, value]) => {
+                    this.user.setSetting(key, value);
                 });
             }
 
@@ -98,8 +135,8 @@
         const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
 
         const adapter = new WindowAdapter(
-            { win: window, origin: location.origin },
-            { win: window.opener, origin: '*' }
+            { win: window.opener || window, origin: location.origin },
+            { win: window, origin: location.origin }
         );
 
         return new Bus(adapter);

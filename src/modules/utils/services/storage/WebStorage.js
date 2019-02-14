@@ -60,6 +60,13 @@
                 WebStorage._getStorage();
             }
 
+            /**
+             * @param {User} user
+             */
+            setUser(user) {
+                this.user = user;
+            }
+
             static _getStorage() {
                 if (!WebStorage.storage) {
                     WebStorage.storage = _getStorageApi();

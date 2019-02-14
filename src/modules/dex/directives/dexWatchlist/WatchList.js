@@ -2,7 +2,7 @@
     'use strict';
 
 
-    const DROP_DOWN_ORDER_LIST = ['ETH', 'BCH', 'LTC', 'USD', 'EUR'];
+    const DROP_DOWN_ORDER_LIST = [];
     const DROP_DOWN_LIST = [];
 
     DROP_DOWN_ORDER_LIST.forEach((name) => {
@@ -28,7 +28,7 @@
      * @returns {WatchList}
      */
     const controller = function (Base, $scope, utils, waves, stService, PromiseControl, createPoll, $element,
-                                 modalManager, configService) {
+                                 modalManager) {
 
         const R = require('ramda');
         const ds = require('data-service');
@@ -531,13 +531,10 @@
              * @private
              */
             _getPairList() {
-                const defaultAssets = configService.get('SETTINGS.DEX.WATCH_LIST_PAIRS') || [];
-                const favorite = (this._favourite || []).map(p => p.sort());
                 const chosen = [this._assetIdPair.amount, this._assetIdPair.price].sort();
-                const searchIdList = Object.keys(this._searchAssetsHash);
-                const idList = R.uniq(this._assetsIds.concat(searchIdList, defaultAssets));
+                const idList = R.uniq(this._assetsIds);
                 const other = WatchList._getAllCombinations(idList);
-                return R.uniq(favorite.concat(other, [chosen]));
+                return R.uniq(other.concat([chosen]));
             }
 
             /**

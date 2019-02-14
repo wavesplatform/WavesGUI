@@ -23,7 +23,7 @@
      * @param {TimeLine} timeLine
      * @param {$injector} $injector
      * @param {app.utils} utils
-     * @param {/} themes
+     * @param {Themes} themes
      * @return {User}
      */
     const factory = function (storage,
@@ -154,7 +154,7 @@
             _scriptInfoPoll = null;
 
             constructor() {
-
+                storage.setUser(this);
                 this._setObserve();
                 this._settings.change.on(() => this._onChangeSettings());
 
@@ -288,6 +288,31 @@
              */
             onLogin() {
                 return this._dfr.promise();
+            }
+
+            loginByData(user) {
+                try {
+                    const userSettings = this.getSettingsByUser(user);
+                    const activeUser = { ...user, settings: userSettings };
+                    const api = ds.signature.getDefaultSignatureApi(activeUser);
+                    const adapterAvailablePromise = api.isAvailable();
+                    return adapterAvailablePromise
+                        .then(() => this.login({ api, userType: api.type, address: activeUser.address }))
+                        .then(() => {
+                            $state.go('main.dex');
+                        })
+                        .catch(() => modalManager.showSignDeviceError({
+                            error: 'load-user-error',
+                            userType: api.type,
+                            address: activeUser.address
+                        }));
+                } catch (e) {
+                    return Promise.reject(e);
+                }
+            }
+
+            showDemo() {
+                $state.go('main.dex-demo');
             }
 
             /**
@@ -497,7 +522,7 @@
              */
             _addUserData(data) {
                 return data.api.getPublicKey().then(publicKey => (data.publicKey = publicKey))
-                    .then(() => this._loadUserByAddress(data.address))
+                    .then(() => this._loadUser(data.address))
                     .then((item) => {
                         this._fieldsForSave.forEach((propertyName) => {
                             if (data[propertyName] != null) {
@@ -622,27 +647,20 @@
                     return Promise.resolve();
                 }
 
-                return storage.load('userList')
-                    .then((list) => {
-                        list = list || [];
-                        list = list.filter(tsUtils.notContains({ address: this.address }));
-                        const props = this._fieldsForSave.reduce((result, propertyName) => {
-                            const property = this[propertyName];
-                            if (property != null) {
-                                result[propertyName] = property;
-                            }
-                            return result;
-                        }, Object.create(null));
-                        list.push(props);
-                        return storage.save('userList', list);
-                    });
+                const props = this._fieldsForSave.reduce((result, propertyName) => {
+                    const property = this[propertyName];
+                    if (property != null) {
+                        result[propertyName] = property;
+                    }
+                    return result;
+                }, Object.create(null));
+
+                return storage.save('user', props);
             }
 
-            _loadUserByAddress(address) {
-                return storage.load('userList')
-                    .then((list) => {
-                        return tsUtils.find(list || [], { address }) || Object.create(null);
-                    });
+            _loadUser() {
+                return storage.load('user')
+                    .then(settings => settings || Object.create(null));
             }
 
         }

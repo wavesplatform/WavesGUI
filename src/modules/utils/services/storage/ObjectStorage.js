@@ -64,6 +64,13 @@
                 ObjectStorage.getStorage();
             }
 
+            /**
+             * @param {User} user
+             */
+            setUser(user) {
+                this.user = user;
+            }
+
             static getStorage() {
                 if (!ObjectStorage.storage) {
                     ObjectStorage.storage = Object.create(null);
