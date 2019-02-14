@@ -8,7 +8,7 @@
     );
 
     const api = new Bus(adapter);
-    const state = {
+    const state = JSON.parse(localStorage.getItem('data')) || {
         user: {
             address: '3PCAB4sHXgvtu5NPoen6EXR5yaNbvsEA8Fj',
             publicKey: '2M25DqL2W4rGFLCFadgATboS8EPqyWAN3DjH12AH5Kdr',
@@ -47,6 +47,7 @@
 
     api.registerRequestHandler('writeData', (data) => {
         state.user = data.user;
+        localStorage.setItem('data', JSON.stringify(state));
         return state;
     });
 
