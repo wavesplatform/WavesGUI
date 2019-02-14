@@ -46,6 +46,15 @@
             }
 
             /**
+             * @param {string} address
+             * @return {Promise<IScriptInfo<Money>>}
+             */
+            @decorators.cachable(2)
+            _scriptInfo(address) {
+                return ds.api.address.getScriptInfo(address);
+            }
+
+            /**
              * @param order
              * @return {Promise<Money>}
              */
@@ -58,7 +67,7 @@
                         const matcherAddress = generator.utils.crypto.buildRawAddress(publicKeyBytes);
 
                         return Promise.all([
-                            ds.api.address.getScriptInfo(matcherAddress),
+                            this._scriptInfo(matcherAddress),
                             ds.api.assets.get('WAVES')
                         ]).then(([info, asset]) => ({
                             asset,
