@@ -16,11 +16,32 @@
              */
             signable;
 
+            /**
+             * @type {boolean}
+             */
+            isScam;
+
+            /**
+             * @type {boolean}
+             */
+            isScamAmount;
+
+            /**
+             * @type {boolean}
+             */
+            isScamPrice;
 
             $postLink() {
                 const isOrder = this.signable.type === SIGN_TYPE.CREATE_ORDER;
                 this.typeName = isOrder ? 'create-order' : utils.getTransactionTypeName(this.signable.getTxData());
+                this.transaction = this.signable.getTxData();
+                this.isScam = !!WavesApp.scam[this.transaction.assetId];
+                if (this.transaction.type === 7) {
+                    this.isScamAmount = !!WavesApp.scam[this.transaction.amount.asset];
+                    this.isScamPrice = !!WavesApp.scam[this.transaction.price.asset];
+                }
             }
+
 
         }
 
