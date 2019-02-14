@@ -1,12 +1,19 @@
 <div class="line-wrapper">
     <div class="line">
         <div class="body-2 top fs-mobile">
-            <span w-i18n="transaction.headers.{{::$ctrl.typeName}}"
-                  params="{
-                    amountAsset: $ctrl.getAssetName($ctrl.transaction.amount.asset),
-                    priceAsset: $ctrl.getAssetName($ctrl.transaction.price.asset)
-                  }"></span>
-            <span class="spam-label" w-i18n="transaction.headers.spam"></span>
+            <span w-i18n="transaction.headers.{{::$ctrl.typeName}}"></span>
+            <span>
+                {{$ctrl.getAssetName($ctrl.transaction.amount.asset)}}
+            </span>
+            <span  ng-if="$ctrl.isScamAmount"
+                   class="spam-label"
+                   w-i18n="transaction.headers.suspicious"></span>&nbsp;/
+            <span>
+                {{$ctrl.getAssetName($ctrl.transaction.price.asset)}}
+            </span>&nbsp;
+            <span ng-if="$ctrl.isScamPrice"
+                  class="spam-label"
+                  w-i18n="transaction.headers.suspicious"></span>
         </div>
         <div class="footnote-1 bottom fs-mobile">
             <span w-i18n="transaction.subheaders.{{::$ctrl.typeName}}"
