@@ -18,10 +18,9 @@
             _resolveOnClose = false;
 
 
-            constructor({ signable, showValidationErrors }) {
+            constructor({ signable }) {
                 super($scope);
                 this.signable = signable;
-                this.showValidationErrors = showValidationErrors;
             }
 
             back() {

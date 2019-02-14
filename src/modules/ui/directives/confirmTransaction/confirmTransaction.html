@@ -79,6 +79,7 @@
 
                     <div class="error-500 margin-2 footnote-1"
                          ng-repeat="error in $ctrl.errors"
+                         params="error.data"
                          w-i18n="{{::error.literal}}"></div>
 
                     <div class="bottom-wrapper">
