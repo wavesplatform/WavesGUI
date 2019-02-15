@@ -52,13 +52,13 @@
                     .then(pipe(map(prop('data')), flatten))
                     .then(list => list.map(candle => ({
                         ...candle,
-                        high: candle.high.toString(),
-                        low: candle.low.toString(),
-                        close: candle.close.toString(),
-                        open: candle.open.toString(),
-                        volume: candle.volume.toString(),
-                        quoteVolume: candle.quoteVolume.toString(),
-                        weightedAveragePrice: candle.weightedAveragePrice.toString(),
+                        high: candle.high.toNumber(),
+                        low: candle.low.toNumber(),
+                        close: candle.close.toNumber(),
+                        open: candle.open.toNumber(),
+                        volume: candle.volume.toNumber(),
+                        quoteVolume: candle.quoteVolume.toNumber(),
+                        weightedAveragePrice: candle.weightedAveragePrice.toNumber(),
                         time: new Date(candle.time).getTime()
                     })));
 
