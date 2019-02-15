@@ -6,11 +6,45 @@
     const { isEmpty, getPaths, get, Signal } = require('ts-utils');
     const tsApiValidator = require('ts-api-validator');
     const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
-    const { splitEvery, pipe, path } = require('ramda');
+    const { splitEvery, pipe, path, map } = require('ramda');
     const { libs } = require('@waves/signature-generator');
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const { Money, BigNumber } = require('@waves/data-entities');
+
+    const nullOrCb = (name, cb) => (val1, val2) => {
+        const v1 = val1[name];
+        const v2 = val2[name];
+        return v1 === v2 && v1 == null ? null : cb(v1, v2);
+    };
+
+    const valOrNullOpen = (v1, v2) => v1 == null ? v2 : v1;
+    const valOrNullClose = (v1, v2) => valOrNullOpen(v2, v1);
+    const maxOrNull = name => nullOrCb(name, (v1, v2) => Math.max(v1 || 0, v2 || 0));
+    const minOrNull = name => nullOrCb(name, (v1, v2) => {
+        if (v1 == null) {
+            return v2;
+        }
+
+        return v2 == null ? v1 : Math.min(v1, v2);
+    });
+    const nullOrSum = name => nullOrCb(name, (v1, v2) => {
+        if (v1 == null) {
+            return v2;
+        }
+
+        return v2 == null ? v1 : v1 + v2;
+    });
+
+    const joinCandles = ([c1, c2 = c1]) => ({
+        txsCount: c1.txsCount + c2.txsCount,
+        high: maxOrNull('high')(c1, c2),
+        low: minOrNull('low')(c1, c2),
+        close: nullOrCb('close', valOrNullClose)(c1, c2),
+        open: nullOrCb('open', valOrNullOpen)(c1, c2),
+        volume: nullOrSum('volume')(c1, c2),
+        time: c1.time
+    });
 
     const MAX_RESOLUTION = 1440;
     const INTERVAL_PRESETS = {
@@ -27,47 +61,58 @@
     const INTERVAL_MAP = {
         1: {
             interval: INTERVAL_PRESETS['1m'],
-            intervalName: '1m'
+            intervalName: '1m',
+            converter: el => el
         },
         5: {
             interval: INTERVAL_PRESETS['5m'],
-            intervalName: '5m'
+            intervalName: '5m',
+            converter: el => el
         },
         15: {
             interval: INTERVAL_PRESETS['15m'],
-            intervalName: '15m'
+            intervalName: '15m',
+            converter: el => el
         },
         30: {
             interval: INTERVAL_PRESETS['30m'],
-            intervalName: '30m'
+            intervalName: '30m',
+            converter: el => el
         },
         60: {
             interval: INTERVAL_PRESETS['1h'],
-            intervalName: '1h'
+            intervalName: '1h',
+            converter: el => el
         },
         120: {
             interval: INTERVAL_PRESETS['1h'],
-            intervalName: '1h'
+            intervalName: '1h',
+            converter: (candles) => splitEvery(2, candles).map(joinCandles)
         },
         180: {
             interval: INTERVAL_PRESETS['3h'],
-            intervalName: '3h'
+            intervalName: '3h',
+            converter: el => el
         },
         240: {
             interval: INTERVAL_PRESETS['1h'],
-            intervalName: '1h'
+            intervalName: '1h',
+            converter: pipe(splitEvery(2), map(joinCandles), splitEvery(2), map(joinCandles))
         },
         360: {
             interval: INTERVAL_PRESETS['6h'],
-            intervalName: '6h'
+            intervalName: '6h',
+            converter: el => el
         },
         720: {
             interval: INTERVAL_PRESETS['12h'],
-            intervalName: '12h'
+            intervalName: '12h',
+            converter: el => el
         },
         1440: {
             interval: INTERVAL_PRESETS['1d'],
-            intervalName: '1d'
+            intervalName: '1d',
+            converter: el => el
         }
     };
 

@@ -45,20 +45,20 @@
             static _getCandles(symbolInfo, from, to, interval) {
                 const amountId = symbolInfo._wavesData.amountAsset.id;
                 const priceId = symbolInfo._wavesData.priceAsset.id;
-                const { options } = utils.getValidCandleOptions(from, to, interval);
+                const { options, config: candleConfig } = utils.getValidCandleOptions(from, to, interval);
                 const promises = options.map(option => config.getDataService().getCandles(amountId, priceId, option));
+
+                const convertBigNumber = (num) => num.isNaN() ? null : num.toNumber();
 
                 const candles = Promise.all(promises)
                     .then(pipe(map(prop('data')), flatten))
                     .then(list => list.map(candle => ({
-                        ...candle,
-                        high: candle.high.toNumber(),
-                        low: candle.low.toNumber(),
-                        close: candle.close.toNumber(),
-                        open: candle.open.toNumber(),
-                        volume: candle.volume.toNumber(),
-                        quoteVolume: candle.quoteVolume.toNumber(),
-                        weightedAveragePrice: candle.weightedAveragePrice.toNumber(),
+                        txsCount: candle.txsCount || 0,
+                        high: convertBigNumber(candle.high),
+                        low: convertBigNumber(candle.low),
+                        close: convertBigNumber(candle.close),
+                        open: convertBigNumber(candle.open),
+                        volume: convertBigNumber(candle.volume),
                         time: new Date(candle.time).getTime()
                     })));
 
@@ -70,7 +70,12 @@
                     .then(([candles, lastTrade]) => {
                         if (candles.length === 1 && lastTrade) {
                             const lastCandle = candles[candles.length - 1];
-                            lastCandle.close = Number(lastTrade.price.toTokens());
+
+                            if (lastCandle.open != null) {
+                                lastCandle.close = Number(lastTrade.price.toTokens());
+                            }
+                        } else {
+                            candles = candleConfig.converter(candles);
                         }
                         return candles;
                     }).catch(() => []);
