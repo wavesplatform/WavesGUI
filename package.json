@@ -72,7 +72,7 @@
     "uglifycss": "0.0.27"
   },
   "scripts": {
-    "start": "node server.js startSimple",
+    "start": "node server.js startSimple openUrl",
     "postinstall": "sh scripts/postinstall.sh",
     "preversion": "sh scripts/preversion.sh",
     "postversion": "sh scripts/postversion.sh",
