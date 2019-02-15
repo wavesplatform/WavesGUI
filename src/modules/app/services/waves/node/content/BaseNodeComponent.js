@@ -32,6 +32,7 @@
                 return user.getSetting('network.node');
             }
 
+
             /**
              * Get list of available fee for transaction
              * @param {*} tx

@@ -115,7 +115,7 @@ w-input {
         &:focus, &.focus {
           background-color: @color-white;
           color: @color-basic-900;
-          border-color: @color-submit-400;
+          border-color: @input-focused-border;
         }
 
         &.disabled {
@@ -223,7 +223,7 @@ w-input {
 
   div.focused .byte-validator__help {
     display: block;
-    color: @color-disabled-500;
+    color: @color-basic-500;
   }
 
   div.touched.invalid .byte-validator__help,

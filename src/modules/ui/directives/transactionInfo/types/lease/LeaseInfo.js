@@ -4,9 +4,10 @@
     /**
      * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
+     * @param {Waves} waves
      * @return {LeaseInfo}
      */
-    const controller = function ($scope, utils) {
+    const controller = function ($scope, utils, waves) {
 
         class LeaseInfo {
 
@@ -26,10 +27,20 @@
              * @type {string}
              */
             address = '';
+            /**
+             * @type {boolean}
+             */
+            isActive;
+            /**
+             * @type {boolean}
+             */
+            inBlockChain;
 
 
             $postLink() {
                 this.transaction = this.signable.getTxData();
+
+                this.isActive = this.transaction.status === 'active';
                 const typeName = utils.getTransactionTypeName(this.transaction);
 
                 switch (typeName) {
@@ -46,10 +57,16 @@
                 }
 
                 (this.transaction.id ? Promise.resolve(this.transaction.id) : this.signable.getId())
-                    .then(id => {
+                    .then(async id => {
                         this.id = id;
+                        this.inBlockChain = await waves.node.transactions.getAlways(this.id)
+                            .then(() => true)
+                            .catch(() => false);
+
                         $scope.$apply();
                     });
+
+
             }
 
         }
@@ -57,7 +74,7 @@
         return new LeaseInfo();
     };
 
-    controller.$inject = ['$scope', 'utils'];
+    controller.$inject = ['$scope', 'utils', 'waves'];
 
     angular.module('app.ui').component('wLeaseInfo', {
         bindings: {
