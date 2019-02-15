@@ -837,6 +837,22 @@
 
 
             /**
+             * @name app.utils#getMaxInterval
+             * @param {number} from
+             * @param {number} to
+             * @param {number} amount
+             * @return {number}
+             */
+            getMaxInterval(from, to, amount = 100) {
+                const delta = to - from;
+                const findDif = interval => Math.abs((delta / interval) - amount);
+                const intObj = Object.values(INTERVAL_MAP)
+                    .reduce((prev, cur) => (findDif(cur.interval) < findDif(prev.interval) ? cur : prev));
+                return Object.keys(INTERVAL_MAP).find(key => INTERVAL_MAP[key].interval === intObj.interval);
+            },
+
+
+            /**
              * @name app.utils#getNiceNumberTemplate
              * @param {BigNumber|string|number} num
              * @param {number} precision

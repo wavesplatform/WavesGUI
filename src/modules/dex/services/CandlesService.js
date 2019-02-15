@@ -3,7 +3,7 @@
     'use strict';
 
     const { config } = require('data-service');
-    const { flatten } = require('ramda');
+    const { flatten, pipe, prop, map } = require('ramda');
     const POLL_DELAY = 400;
 
     /**
@@ -49,7 +49,7 @@
                 const promises = options.map(option => config.getDataService().getCandles(amountId, priceId, option));
 
                 const candles = Promise.all(promises)
-                    .then(flatten)
+                    .then(pipe(map(prop('data')), flatten))
                     .then(list => list.map(candle => ({
                         ...candle.data,
                         time: new Date(candle.data.time).getTime()

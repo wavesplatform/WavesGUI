@@ -11,7 +11,12 @@
 
         const ds = require('data-service');
         const entities = require('@waves/data-entities');
-        const { flatten } = require('ramda');
+        const {
+            flatten, pipe, map,
+            where, prop, gt, gte, allPass,
+            lte, filter, length, equals,
+            __
+        } = require('ramda');
 
         class WavesUtils {
 
@@ -239,36 +244,34 @@
                         const amountId = pair.amountAsset.id;
                         const priceId = pair.priceAsset.id;
                         const dataService = ds.config.getDataService();
-
-                        const { options } = utils.getValidCandleOptions(formattedFrom, formattedTo);
-                        const promises = options.map(option => dataService.getCandles(amountId, priceId, option));
+                        const int = utils.getMaxInterval(formattedFrom, formattedTo);
+                        const { options } = utils.getValidCandleOptions(formattedFrom, formattedTo, int);
+                        /**
+                         * @type {Array<Promise<Response<Candle>>>}
+                         */
+                        const promises = options
+                            .map(option => dataService.getCandles(amountId, priceId, option));
 
                         return Promise.all(promises)
-                            .then(flatten)
+                            .then(pipe(map(prop('data')), flatten))
+                            .then(map(item => ({
+                                close: item.close,
+                                timestamp: new Date(item.time).getTime()
+                            })))
+                            .then(filter(where({
+                                close: gt(__, 0),
+                                timestamp: allPass([gte(__, formattedFrom), lte(__, formattedTo)])
+                            })))
                             .then(list => {
-
-                                if (!list.length) {
-                                    return Promise.reject(list);
+                                if (equals(length(list), 0)) {
+                                    return Promise.reject(new Error('Nor found!'));
                                 }
-
-                                const result = [];
-
-                                // TODO @Maks optimize this
-                                list.forEach(({ data }) => {
-                                    const close = Number(data.close);
-                                    const rate = fromId !== pair.priceAsset.id ? close : 1 / close;
-
-                                    if (close !== 0) {
-                                        result.push({
-                                            timestamp: new Date(data.time),
-                                            rate: rate
-                                        });
-                                    }
-                                });
-
-                                return result.filter((item) => item.timestamp > from && item.timestamp < to)
-                                    .sort(utils.comparators.process(({ timestamp }) => timestamp).asc);
-                            });
+                                return list;
+                            })
+                            .then(map(({ timestamp, close }) => ({
+                                timestamp: new Date(timestamp),
+                                rate: fromId !== pair.priceAsset.id ? close : 1 / close
+                            })));
                     });
             }
 
