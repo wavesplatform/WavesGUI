@@ -51,8 +51,15 @@
                 const candles = Promise.all(promises)
                     .then(pipe(map(prop('data')), flatten))
                     .then(list => list.map(candle => ({
-                        ...candle.data,
-                        time: new Date(candle.data.time).getTime()
+                        ...candle,
+                        high: candle.high.toString(),
+                        low: candle.low.toString(),
+                        close: candle.close.toString(),
+                        open: candle.open.toString(),
+                        volume: candle.volume.toString(),
+                        quoteVolume: candle.quoteVolume.toString(),
+                        weightedAveragePrice: candle.weightedAveragePrice.toString(),
+                        time: new Date(candle.time).getTime()
                     })));
 
                 const lastTrade = ds.api.pairs.get(amountId, priceId)
@@ -70,7 +77,7 @@
             }
 
             static convertToMilliseconds(seconds) {
-                return seconds != null ? seconds * 1000 : Date.now();
+                return Number(seconds) ? seconds * 1000 : Date.now();
             }
 
             onReady(callback) {
@@ -160,7 +167,7 @@
 
             _updateLastTime(candles) {
                 const lastTime = candles[candles.length - 1].time;
-                if (this._lastTime >= lastTime) {
+                if (this._lastTime && this._lastTime >= lastTime) {
                     return false;
                 }
                 this._lastTime = lastTime;
