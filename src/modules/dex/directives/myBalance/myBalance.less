@@ -6,6 +6,10 @@ body.dex .dex-wrapper,
 body.dex-demo .dex-wrapper {
   w-dex-my-balance {
 
+    .visible-row-container {
+      min-height: 30px;
+    }
+
     .smart-table {
       &__row {
         padding: 6px 14px;
@@ -215,6 +219,7 @@ body.dex-demo .dex-wrapper {
 
         &__cell[data-column-id="available"] {
           flex-basis: calc(50% ~'- 20px');
+
           w-balance {
             min-width: 74px;
           }
