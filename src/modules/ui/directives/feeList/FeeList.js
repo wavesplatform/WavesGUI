@@ -4,9 +4,10 @@
     /**
      * @param {typeof Base} Base
      * @param {Waves} waves
+     * @param {User} user
      * @param {$rootScope.Scope} $scope
      */
-    const controller = function (Base, waves, $scope) {
+    const controller = function (Base, waves, $scope, user) {
 
         class FeeList extends Base {
 
@@ -53,7 +54,6 @@
                         isEqualAssetId(money1.asset, money2.asset) && money1.eq(money2);
 
                     const hasMyFeeInList = this.fee && list.some(item => isEqualMoney(item, this.fee));
-
                     if (!hasMyFeeInList) {
                         this.fee = null;
                     }
@@ -64,6 +64,12 @@
                             return balance && balance.gte(item);
                         });
                         this.fee = fee || this.feeList[0];
+                    }
+
+                    const wavesFee = list.find(item => item.asset.id === 'WAVES');
+                    const noWaves = this.balanceHash.WAVES.lt(wavesFee);
+                    if (noWaves && user.address === this.fee.asset.sender) {
+                        this.fee = this.originalFeeList.find(item => item.asset.id === 'WAVES');
                     }
 
                     $scope.$apply();
@@ -127,7 +133,7 @@
         return new FeeList();
     };
 
-    controller.$inject = ['Base', 'waves', '$scope'];
+    controller.$inject = ['Base', 'waves', '$scope', 'user'];
 
     angular.module('app.ui').component('wFeeList', {
         bindings: {
