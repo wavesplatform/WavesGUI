@@ -30,43 +30,110 @@
     const controller = function (Base, $scope, utils, waves, stService, PromiseControl, createPoll, $element,
                                  modalManager, configService) {
 
-        const R = require('ramda');
+        const {
+            equals, uniq, not,
+            find, propEq, filter,
+            whereEq, uniqBy, prop,
+            path, flatten, splitEvery
+        } = require('ramda');
         const ds = require('data-service');
 
         $scope.WavesApp = WavesApp;
 
         class WatchList extends Base {
 
+            /**
+             * @type {boolean}
+             */
+            pending = false;
+            /**
+             * @type {null}
+             */
+            dropDownId = null;
+            /**
+             * @type {Array}
+             */
+            dropDown = DROP_DOWN_LIST;
+            /**
+             * @type {boolean}
+             */
+            isActiveSelect = false;
+            /**
+             * @type {PromiseControl}
+             */
+            searchRequest = null;
+            /**
+             * @type {{name: string, value: string}[]}
+             */
+            tabs = [
+                { name: 'directives.watchlist.all', value: 'all' },
+                { name: 'WAVES', value: WavesApp.defaultAssets.WAVES },
+                { name: 'BTC', value: WavesApp.defaultAssets.BTC }
+            ];
+            /**
+             * @type {string}
+             */
+            search = '';
+            /**
+             * @type {boolean}
+             */
+            searchInProgress = false;
+            /**
+             * @type {string}
+             */
+            activeTab = 'all';
+            /**
+             * @type {boolean}
+             */
+            showOnlyFavorite = false;
+            /**
+             * @type {Array<WatchList.IPairDataItem>}
+             */
+            pairDataList = null; // TODO Remove disgusting hack
+            /**
+             * @type {boolean}
+             * @private
+             */
+            _isSelfSetPair = false;
+            /**
+             * @type {Array<string>}
+             * @private
+             */
+            _searchAssets = [];
+            /**
+             * @type {Object}
+             * @private
+             */
+            _searchAssetsHash = Object.create(null);
+            // /**
+            //  * @type {Array<string>}
+            //  * @private
+            //  */
+            // _lastUserBalanceIdList = [];
+            /**
+             * @type {Array<string>}
+             * @private
+             */
+            _favourite = [];
+            /**
+             * @type {Object}
+             * @private
+             */
+            _favoriteHash = Object.create(null);
+            /**
+             * @type {{amount: string, price: string}}
+             * @private
+             */
+            _assetIdPair;
+            /**
+             * @type {Poll}
+             * @private
+             */
+            _poll;
+
+
             constructor() {
                 super($scope);
-                /**
-                 * @type {boolean}
-                 */
-                this.pending = false;
-                /**
-                 * @type {null}
-                 */
-                this.dropDownId = null;
-                /**
-                 * @type {Array}
-                 */
-                this.dropDown = DROP_DOWN_LIST;
-                /**
-                 * @type {boolean}
-                 */
-                this.isActiveSelect = false;
-                /**
-                 * @type {PromiseControl}
-                 */
-                this.searchRequest = null;
-                /**
-                 * @type {[*]}
-                 */
-                this.tabs = [
-                    { name: 'directives.watchlist.all', value: 'all' },
-                    { name: 'WAVES', value: WavesApp.defaultAssets.WAVES },
-                    { name: 'BTC', value: WavesApp.defaultAssets.BTC }
-                ];
                 /**
                  * @type {function}
                  * @private
@@ -76,7 +143,7 @@
                     WatchList._loadDataByPairs,
                     WatchList._getKeyByPair,
                     1000 * 30,
-                    pair => list => list.find((p) => R.equals(p.pairIdList.slice().sort(), pair.slice().sort()))
+                    pair => list => list.find(p => equals(p.pairIdList.slice().sort(), pair.slice().sort()))
                 );
                 /**
                  * @type {*[]}
@@ -125,69 +192,12 @@
                 this.tableOptions = {
                     filter: this._getTableFilter()
                 };
-                /**
-                 * @type {string}
-                 */
-                this.search = '';
-                /**
-                 * @type {boolean}
-                 */
-                this.searchInProgress = false;
-                /**
-                 * @type {string}
-                 */
-                this.activeTab = 'all';
-                /**
-                 * @type {boolean}
-                 */
-                this.showOnlyFavorite = false;
-                /**
-                 * @type {Array<WatchList.IPairDataItem>}
-                 */
-                this.pairDataList = null; // TODO Remove disgusting hack
-                /**
-                 * @type {boolean}
-                 * @private
-                 */
-                this._isSelfSetPair = false;
-                /**
-                 * @type {Array}
-                 * @private
-                 */
-                this._searchAssets = [];
-                /**
-                 * @type {Object}
-                 * @private
-                 */
-                this._searchAssetsHash = Object.create(null);
-                /**
-                 * @type {Array}
-                 * @private
-                 */
-                this._assetsIds = [];
-                /**
-                 * @type {Array}
-                 * @private
-                 */
-                this._favourite = [];
-                /**
-                 * @type {Object}
-                 * @private
-                 */
-                this._favoriteHash = Object.create(null);
-                /**
-                 * @type {{amount: string, price: string}}
-                 * @private
-                 */
-                this._assetIdPair = null;
-                /**
-                 * @type {Poll}
-                 * @private
-                 */
-                this._poll = null;
             }
 
             $postLink() {
+                // this._lastUserBalanceIdList = WatchList._getUserBalanceAssetIdList();
+
+                // this.receive(balanceWatcher.change, this._onChangeUserBalances, this);
                 this.observe('dropDownId', this._onChangeDropDown);
                 this.observe('_favourite', this._updateFavoriteHash);
                 this.observe('_searchAssets', this._updateSearchAssetHash);
@@ -197,7 +207,6 @@
                     activeTab: 'dex.watchlist.activeTab',
                     showOnlyFavorite: 'dex.watchlist.showOnlyFavorite',
                     _favourite: 'dex.watchlist.favourite',
-                    _assetsIds: 'dex.watchlist.list',
                     _assetIdPair: 'dex.assetIdPair'
                 });
 
@@ -268,12 +277,12 @@
                 const favorite = this._favourite.slice();
 
                 if (this._favoriteHash[key]) {
-                    const isEqualPair = p => R.equals(p, pair.pairIdList) || R.equals(p, pair.pairIdList.reverse());
-                    const predicate = (p) => R.not(isEqualPair(p));
+                    const isEqualPair = p => equals(p, pair.pairIdList) || equals(p, pair.pairIdList.reverse());
+                    const predicate = p => not(isEqualPair(p));
                     this._favourite = favorite.filter(predicate);
                 } else {
                     favorite.push(pair.pairIdList);
-                    this._favourite = R.uniq(favorite);
+                    this._favourite = uniq(favorite);
                 }
                 WatchList._renderSmartTable();
             }
@@ -290,7 +299,7 @@
              * @private
              */
             _initializeActiveTab() {
-                this.isActiveSelect = !R.find(R.propEq('value', this.activeTab), this.tabs);
+                this.isActiveSelect = !find(propEq('value', this.activeTab), this.tabs);
                 if (this.isActiveSelect) {
                     this.dropDownId = this.activeTab;
                 }
@@ -307,7 +316,7 @@
                     this.showOnlyFavorite = false;
                 }
 
-                if (!R.find(R.propEq('id', id), this.pairDataList)) {
+                if (!find(propEq('id', id), this.pairDataList)) {
                     this._cache([id.split(',')]).then(([item]) => {
                         this.pairDataList.push(item);
                         WatchList._renderSmartTable();
@@ -331,6 +340,24 @@
                 }
             }
 
+            // /**
+            //  * @private
+            //  */
+            // _onChangeUserBalances() {
+            //     const assetIdList = WatchList._getUserBalanceAssetIdList();
+            //
+            //     if (equals(this._lastUserBalanceIdList, assetIdList)) {
+            //         return null;
+            //     }
+            //
+            //     this._lastUserBalanceIdList = assetIdList;
+            //     this._poll.restart();
+            // }
+
+            /**
+             * @return {Promise<T | never>}
+             * @private
+             */
             _getPairData() {
                 const pairs = this._getPairList();
                 return Promise.all([
@@ -340,6 +367,10 @@
                     .then(([rate, pairs]) => pairs.map(WatchList._addRateForPair(rate)));
             }
 
+            /**
+             * @return {*}
+             * @private
+             */
             _getTabRate() {
                 const activeTab = this.activeTab;
                 return waves.node.assets.getAsset(activeTab === 'all' ? WavesApp.defaultAssets.WAVES : activeTab)
@@ -425,7 +456,7 @@
                         if (WatchList._isId(query)) {
                             return item.pairIdList.includes(query);
                         } else {
-                            return R.filter(R.whereEq({ success: false }), searchPair).some((searchItem) => {
+                            return filter(whereEq({ success: false }), searchPair).some((searchItem) => {
                                 searchItem.success = searchItem.names.some(n => n.indexOf(q) === 0);
                                 return searchItem.success;
                             });
@@ -486,7 +517,7 @@
 
                 this.searchRequest = new PromiseControl(Promise.all(queryParts.map(waves.node.assets.search)))
                     .then(([d1 = [], d2 = []]) => {
-                        this._searchAssets = R.uniqBy(R.prop('id'), d1.concat(d2));
+                        this._searchAssets = uniqBy(prop('id'), d1.concat(d2));
                         return this._poll.restart().then(() => {
                             this.searchInProgress = false;
                             this.pending = false;
@@ -513,6 +544,9 @@
                 }, Object.create(null));
             }
 
+            /**
+             * @private
+             */
             _updateSearchAssetHash() {
                 this._searchAssetsHash = this._searchAssets.reduce((acc, asset) => {
                     acc[asset.id] = asset;
@@ -539,22 +573,23 @@
                 const favorite = (this._favourite || []).map(p => p.sort());
                 const chosen = [this._assetIdPair.amount, this._assetIdPair.price].sort();
                 const searchIdList = Object.keys(this._searchAssetsHash);
-                const idList = R.uniq(this._assetsIds.concat(searchIdList, defaultAssets));
+                // const userBalances = this._lastUserBalanceIdList;
+                const idList = defaultAssets.concat(searchIdList);
                 const other = WatchList._getAllCombinations(idList);
-                return R.uniq(favorite.concat(other, [chosen]));
+                return WatchList._uniqPairs(favorite.concat(other, [chosen]));
             }
 
             /**
-             * @param {string} path
+             * @param {string} dataPath
              * @returns {function(list: Array, isAsc: boolean): Array}
              * @private
              */
-            _getComparatorByPath(path) {
+            _getComparatorByPath(dataPath) {
                 return (list, isAsc) => {
                     const method = isAsc ? 'asc' : 'desc';
                     const favorite = [];
                     const other = [];
-                    const comparator = utils.comparators.process(R.path(path.split('.'))).smart[method];
+                    const comparator = utils.comparators.process(path(dataPath.split('.'))).smart[method];
 
                     list.forEach((item) => {
                         if (this.isFavourite(item)) {
@@ -656,15 +691,15 @@
              * @private
              */
             static _loadDataByPairs(pairs) {
-                const ids = R.uniq(R.flatten(pairs));
+                const ids = flatten(pairs);
                 return ds.api.assets.get(ids)
                     .then(() => {
-                        const promiseList = R.uniq(pairs.filter(p => p.length === 2))
+                        const promiseList = pairs.filter(p => p.length === 2)
                             .map(([assetId1, assetId2]) => ds.api.pairs.get(assetId1, assetId2));
                         return Promise.all(promiseList);
                     })
                     .then((pairs) => {
-                        const promiseList = R.splitEvery(20, R.uniq(pairs)).map((pairs) => {
+                        const promiseList = splitEvery(20, pairs).map((pairs) => {
                             return ds.api.pairs.info(...pairs)
                                 .then(infoList => infoList.map((data, i) => ({
                                     ...data,
@@ -677,7 +712,7 @@
 
                         return Promise.all(promiseList);
                     })
-                    .then(R.flatten);
+                    .then(flatten);
             }
 
             static _getEmptyPairData(pair) {
@@ -706,12 +741,30 @@
                     assetIdList
                         .slice(index + 1)
                         .forEach((anotherAssetId) => {
-                            pairs.push([assetId, anotherAssetId].sort());
+                            pairs.push([assetId, anotherAssetId].sort(utils.comparators.asc));
                         });
                 });
 
                 return pairs;
             }
+
+            /**
+             * @param {Array<Array<string>>} pairs
+             * @return {Array<Array<string>>}
+             * @private
+             */
+            static _uniqPairs(pairs) {
+                return Object.values(pairs.reduce((acc, pair) => {
+                    acc[pair.join(',')] = pair;
+                    return acc;
+                }, {}));
+            }
+
+            // static _getUserBalanceAssetIdList() {
+            //     return Object.keys(balanceWatcher.getBalance())
+            //         .filter(id => !WavesApp.scam[id])
+            //         .sort(utils.comparators.asc);
+            // }
 
         }
 
