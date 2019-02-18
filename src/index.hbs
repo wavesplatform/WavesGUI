@@ -566,36 +566,6 @@
 <!-- JAVASCRIPT -->
 
 <script>
-    window.BigNumber = ds.wavesDataEntities.BigNumber;
-
-    // Signed 64-bit integer.
-    WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
-
-    WavesApp.device = new MobileDetect(navigator.userAgent);
-
-    (function () {
-        var wrapper = require('worker-wrapper');
-
-        var worker = wrapper.create({
-            libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js?v' + WavesApp.version]
-        });
-
-        worker.process(function () {
-            self.parse = parseJsonBignumber().parse;
-        });
-
-        var stringify = parseJsonBignumber({ BigNumber: BigNumber }).stringify;
-        WavesApp.parseJSON = function (str) {
-            return worker.process(function (str) {
-                return parse(str);
-            }, str);
-        };
-
-        WavesApp.stringifyJSON = function () {
-            return stringify.apply(this, arguments);
-        };
-    })();
-
     var isBrowserSupported = (function () {
 
         var USE_NATIVE_API = [
@@ -621,147 +591,178 @@
     } else {
         var modal = document.body.querySelector(notSupportedSelector);
         modal.parentNode.removeChild(modal);
-    }
+        window.BigNumber = ds.wavesDataEntities.BigNumber;
 
-    if (WavesApp.isDesktop()) {
-        var listenDevTools = false;
-        Mousetrap.bind('i d d q d', function () {
-            if (!listenDevTools) {
-                transfer('addDevToolsMenu');
-                listenDevTools = true;
+        // Signed 64-bit integer.
+        WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
+
+        WavesApp.device = new MobileDetect(navigator.userAgent);
+
+        (function () {
+            var wrapper = require('worker-wrapper');
+
+            var worker = wrapper.create({
+                libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js?v' + WavesApp.version]
+            });
+
+            worker.process(function () {
+                self.parse = parseJsonBignumber().parse;
+            });
+
+            var stringify = parseJsonBignumber({ BigNumber: BigNumber }).stringify;
+            WavesApp.parseJSON = function (str) {
+                return worker.process(function (str) {
+                    return parse(str);
+                }, str);
+            };
+
+            WavesApp.stringifyJSON = function () {
+                return stringify.apply(this, arguments);
+            };
+        })();
+
+
+        if (WavesApp.isDesktop()) {
+            var listenDevTools = false;
+            Mousetrap.bind('i d d q d', function () {
+                if (!listenDevTools) {
+                    transfer('addDevToolsMenu');
+                    listenDevTools = true;
+                }
+            });
+        }
+
+        Mousetrap.bind('c l e a n a l l', function () {
+            localStorage.clear();
+            if (WavesApp.isDesktop()) {
+                transfer('reload');
+            } else {
+                window.location.reload();
             }
+        });
+
+        /**
+         * @type {EventSender}
+         */
+        var analytics = eventSender.default.inactive();
+
+        WavesApp.stateTree = new tsUtils.Tree({
+            id: 'root',
+            children: [
+                {
+                    id: 'welcome',
+                    data: {
+                        url: '/',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                // {
+                //     id: 'sessions',
+                //     data: {
+                //         noLogin: true,
+                //         views: [{ name: 'main' }]
+                //     }
+                // },
+                {
+                    id: 'create',
+                    data: {
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'restore',
+                    data: {
+                        url: '/import/restore',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'ledger',
+                    data: {
+                        url: '/import/ledger',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'keeper',
+                    data: {
+                        url: '/import/waveskeeper',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'import',
+                    data: {
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'desktop',
+                    data: {
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'main',
+                    data: {
+                        abstract: true,
+                        views: [{ name: 'main', templateUrl: 'modules/app/templates/main.html' }]
+                    },
+                    children: [
+                        {
+                            id: 'wallet',
+                            data: {
+                                views: [{
+                                    name: 'mainContent',
+                                    noController: true,
+                                    template: '<ui-view name="content"></ui-view>'
+                                }],
+                                redirectTo: 'main.wallet.assets'
+                            },
+                            children: [
+                                { id: 'assets', data: { views: [{ name: 'content' }] } },
+                                { id: 'portfolio', data: { views: [{ name: 'content' }] } },
+                                { id: 'transactions', data: { views: [{ name: 'content' }] } },
+                                { id: 'leasing', data: { views: [{ name: 'content' }] } }
+                            ]
+                        },
+                        {
+                            id: 'dex',
+                            data: {
+                                url: '/dex?assetId1&assetId2',
+                                reloadOnSearch: false,
+                                views: [{ name: 'mainContent' }]
+                            }
+                        },
+                        {
+                            id: 'dex-demo',
+                            data: {
+                                noLogin: true,
+                                controller: 'Dex',
+                                url: '/dex-demo?assetId1&assetId2',
+                                reloadOnSearch: false,
+                                views: [{ name: 'mainContent', templateUrl: 'modules/dex/templates/dex.html' }]
+                            }
+                        },
+                        {
+                            id: 'tokens',
+                            data: {
+                                views: [{ name: 'mainContent' }]
+                            }
+                        }
+                    ]
+                }
+            ]
         });
     }
 
-    Mousetrap.bind('c l e a n a l l', function () {
-        localStorage.clear();
-        if (WavesApp.isDesktop()) {
-            transfer('reload');
-        } else {
-            window.location.reload();
-        }
-    });
-
-    /**
-     * @type {EventSender}
-     */
-    var analytics = eventSender.default.inactive();
-
-    WavesApp.stateTree = new tsUtils.Tree({
-        id: 'root',
-        children: [
-            {
-                id: 'welcome',
-                data: {
-                    url: '/',
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            // {
-            //     id: 'sessions',
-            //     data: {
-            //         noLogin: true,
-            //         views: [{ name: 'main' }]
-            //     }
-            // },
-            {
-                id: 'create',
-                data: {
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            {
-                id: 'restore',
-                data: {
-                    url: '/import/restore',
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            {
-                id: 'ledger',
-                data: {
-                    url: '/import/ledger',
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            {
-                id: 'keeper',
-                data: {
-                    url: '/import/waveskeeper',
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            {
-                id: 'import',
-                data: {
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            {
-                id: 'desktop',
-                data: {
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            {
-                id: 'main',
-                data: {
-                    abstract: true,
-                    views: [{ name: 'main', templateUrl: 'modules/app/templates/main.html' }]
-                },
-                children: [
-                    {
-                        id: 'wallet',
-                        data: {
-                            views: [{
-                                name: 'mainContent',
-                                noController: true,
-                                template: '<ui-view name="content"></ui-view>'
-                            }],
-                            redirectTo: 'main.wallet.assets'
-                        },
-                        children: [
-                            { id: 'assets', data: { views: [{ name: 'content' }] } },
-                            { id: 'portfolio', data: { views: [{ name: 'content' }] } },
-                            { id: 'transactions', data: { views: [{ name: 'content' }] } },
-                            { id: 'leasing', data: { views: [{ name: 'content' }] } }
-                        ]
-                    },
-                    {
-                        id: 'dex',
-                        data: {
-                            url: '/dex?assetId1&assetId2',
-                            reloadOnSearch: false,
-                            views: [{ name: 'mainContent' }]
-                        }
-                    },
-                    {
-                        id: 'dex-demo',
-                        data: {
-                            noLogin: true,
-                            controller: 'Dex',
-                            url: '/dex-demo?assetId1&assetId2',
-                            reloadOnSearch: false,
-                            views: [{ name: 'mainContent', templateUrl: 'modules/dex/templates/dex.html' }]
-                        }
-                    },
-                    {
-                        id: 'tokens',
-                        data: {
-                            views: [{ name: 'mainContent' }]
-                        }
-                    }
-                ]
-            }
-        ]
-    });
 </script>
 
 </body>
