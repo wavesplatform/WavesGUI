@@ -348,7 +348,7 @@
                     this.chartOptions,
                     values
                 );
-            });
+            }).catch(() => null);
         }
 
         /**
