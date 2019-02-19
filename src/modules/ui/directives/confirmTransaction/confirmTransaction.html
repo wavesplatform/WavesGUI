@@ -4,6 +4,7 @@
             <w-permit name="{{::$ctrl.permissionName}}" mode="on">
                 <w-transaction-info is-confirm="::true" signable="$ctrl.signable"></w-transaction-info>
                 <w-sign-button on-success="$ctrl.nextStep()"
+                               hide-id="::true"
                                class="margin-top-3 block"
                                on-click="$ctrl.getSignable()">
                     <span w-i18n="confirmTransaction.sign"></span>
