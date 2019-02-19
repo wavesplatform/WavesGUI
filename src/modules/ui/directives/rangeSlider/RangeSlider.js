@@ -102,9 +102,12 @@
              */
             _drawModelState() {
                 const newPos = this._coords[this._numberValues[this.ngModel]];
-                utils.animate(this._handle, {
-                    left: newPos
-                }, { duration: 100 });
+                this._handle.animate({
+                    translateX: newPos
+                }, {
+                    duration: 100,
+                    step: (now, fx) => this._handle.css('transform', `${fx.prop}(${newPos}${fx.unit})`)
+                });
                 utils.animate(this._trackColor, {
                     width: newPos
                 }, { duration: 100 });
@@ -137,6 +140,7 @@
              * @param {number} scaleInterval
              */
             _calcPosition(max, min, scaleInterval) {
+                this._handle[0].style.transform = 'translateX(0)';
                 const intervals = this.intervals || 1;
                 const sliderLength = this._track.width() - this._handle.outerWidth();
                 this._amountOfPoints = this._amount * intervals;
@@ -151,7 +155,7 @@
                     .map(num => this._track.position().left + num * this._scale);
 
                 this._handle.css({
-                    left: head(this._coords)
+                    transform: `translateX(${head(this._coords)})`
                 });
             }
 
@@ -179,11 +183,9 @@
                         const position = Math.round(utilEvent.pageX - startPos - (this._handle.width() / 2));
                         const newPosition = Math.min(Math.max(head(this._coords), position), last(this._coords));
 
-
                         this._updateModel(this._numberValues[this._findClosestIndex(newPosition)]);
-
                         this._handle.css({
-                            left: newPosition
+                            transform: `translateX(${newPosition}px)`
                         });
                         this._trackColor.css({
                             width: newPosition
