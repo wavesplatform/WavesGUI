@@ -10,6 +10,26 @@
 
     <script>
         window.buildIsWeb = {{isWeb}};
+
+        var isBrowserSupported = (function () {
+
+            var USE_NATIVE_API = [
+                window.Promise,
+                window.fetch,
+                Object.values,
+                Object.assign,
+                Object.getOwnPropertyDescriptor,
+                Object.entries,
+                URL,
+                window.crypto || window.msCrypto
+            ];
+
+            return function () {
+                return USE_NATIVE_API.every(Boolean);
+            };
+        })();
+
+        var notSupportedSelector = '.not-supported-browser';
     </script>
 
     <style>
@@ -294,9 +314,11 @@
                     case 'loading':
                     case 'loadingError':
                         clearInterval(__interval);
-                        document.querySelector('.app-loader').style.display = 'none';
-                        document.querySelector('.connection-problem').style.display = 'block';
-                        document.querySelector('[name=main]').style.display = 'none';
+                        if (isBrowserSupported()) {
+                            document.querySelector('.app-loader').style.display = 'none';
+                            document.querySelector('.connection-problem').style.display = 'block';
+                            document.querySelector('[name=main]').style.display = 'none';
+                        }
                         break;
                     case 'appRun':
                         clearInterval(__interval);
@@ -566,26 +588,6 @@
 <!-- JAVASCRIPT -->
 
 <script>
-    var isBrowserSupported = (function () {
-
-        var USE_NATIVE_API = [
-            window.Promise,
-            window.fetch,
-            Object.values,
-            Object.assign,
-            Object.getOwnPropertyDescriptor,
-            Object.entries,
-            URL,
-            window.crypto || window.msCrypto
-        ];
-
-        return function () {
-            return USE_NATIVE_API.every(Boolean);
-        };
-    })();
-
-    var notSupportedSelector = '.not-supported-browser';
-
     if (!isBrowserSupported()) {
         document.body.querySelector(notSupportedSelector).style.display = 'block';
     } else {
