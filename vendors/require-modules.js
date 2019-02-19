@@ -21,7 +21,8 @@
         '@waves/waves-browser-bus': 'bus',
         'worker-wrapper': 'workerWrapper',
         '@waves/oracle-data': 'OracleDataProvider',
-        'jquery': '$'
+        'jquery': '$',
+        'i18next': 'i18next'
     };
 
     function getModule(require) {

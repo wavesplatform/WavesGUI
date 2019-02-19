@@ -1,4 +1,4 @@
-<div class="flex-row split-half data margin-top-2" ng-if="$ctrl.signPending">
+<div class="flex-row split-half data margin-top-2" ng-if="$ctrl.signPending && !$ctrl.hideId">
     <div w-i18n="directives.sign.txId"></div>
     <div>{{$ctrl.id}}</div>
 </div>
