@@ -26,6 +26,10 @@
              * @type {boolean}
              */
             showAllTX = false;
+            /**
+             * @type {boolean}
+             */
+            expandList = false;
 
 
             $postLink() {

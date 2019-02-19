@@ -46,6 +46,10 @@
              * @type {string}
              */
             id = '';
+            /**
+             * @type {boolean}
+             */
+            hideId = false;
 
 
             constructor() {
@@ -107,6 +111,7 @@
         scope: false,
         bindings: {
             signable: '<',
+            hideId: '<',
             onSuccess: '&',
             onCancel: '&'
         },

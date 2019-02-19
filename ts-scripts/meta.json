@@ -191,7 +191,7 @@
       "node": "https://pool.testnet.wavesnodes.com",
       "matcher": "https://matcher.testnet.wavesnodes.com/matcher",
       "api": "https://api.testnet.wavesplatform.com",
-      "explorer": "https://testnet.wavesexplorer.com",
+      "explorer": "https://wavesexplorer.com/testnet",
       "coinomat": "https://localhost:8080/coinomat",
       "support": "https://support.wavesplatform.com",
       "nodeList": "http://dev.pywaves.org/testnet/generators/",

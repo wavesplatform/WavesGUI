@@ -1,0 +1,35 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+
+
+.expand-btn {
+  border: 0;
+  border-radius: 6px;
+  background-color: @color-submit-400;
+  display: flex;
+  justify-content: space-around;
+  cursor: pointer;
+  padding: 0 4px 0 6px;
+  align-items: center;
+  &__txt {
+    color: @white-only;
+    font-size: @font-size-control-small;
+    margin-right: 4px;
+  }
+  &__arrow {
+    background: @expand-icon no-repeat;
+    background-position: center 5px;
+    width: 10px;
+    height: 18px;
+    z-index: 10;
+    transition: transform 0.3s;
+  }
+  &:hover {
+    background-color: @color-submit-500;
+  }
+  &.up {
+    .expand-btn__arrow {
+      transform: rotate(-180deg);
+    }
+  }
+}
