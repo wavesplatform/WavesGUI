@@ -83,7 +83,7 @@
     const factory = function ($q, utils, migration, state) {
 
         const MIGRATION_MAP = {
-            '1.0.40': function (storage) {
+            '1.0.41': function (storage) {
                 return addNewGateway(storage, WavesApp.defaultAssets.BSV);
             }
         };
