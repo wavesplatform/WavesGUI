@@ -182,8 +182,31 @@
                     return null;
                 }
 
-                this.orders.filter(whereEq({ isActive: true }))
-                    .forEach((order) => this.dropOrder(order));
+                // const dataPromise = this._dropAllOrderGetSignData();
+
+                ds.cancelAllOrders({
+                    sender: user.publicKey,
+                    timestamp: user.matcherSign.timestamp,
+                    signature: user.matcherSign.signature
+                })
+                    .then(() => {
+                        notification.info({
+                            ns: 'app.dex',
+                            title: { literal: 'directives.myOrders.notifications.isCanceled' }
+                        });
+
+                        if (this.poll) {
+                            this.poll.restart();
+                        }
+                    })
+                    .catch(e => {
+                        const error = utils.parseError(e);
+                        notification.error({
+                            ns: 'app.dex',
+                            title: { literal: 'directives.myOrders.notifications.somethingWentWrong' },
+                            body: { literal: error && error.message || error }
+                        });
+                    });
             }
 
             round(data) {
@@ -199,6 +222,11 @@
                     this._assetIdPair.price === order.price.asset.id;
             }
 
+            /**
+             *
+             * @param order
+             * @return {Promise<Object | never>}
+             */
             dropOrderGetSignData(order) {
                 const { id } = order;
                 const data = { id };
@@ -209,6 +237,23 @@
 
                 return utils.signMatcher(signable)
                     .then(signable => signable.getDataForApi());
+            }
+
+
+            /**
+             * @return {Promise<Object | never>}
+             * @private
+             */
+            _dropAllOrderGetSignData() {
+                const data = user.matcherSign;
+                console.log('%c user.matcherSign', 'background: #222; color: #bada55', user.matcherSign);
+                const signable = ds.signature.getSignatureApi().makeSignable({
+                    type: SIGN_TYPE.MATCHER_ORDERS,
+                    data
+                });
+
+                return utils.signMatcher(signable)
+                    .then(signable => signable.getSignature());
             }
 
             /**

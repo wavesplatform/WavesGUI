@@ -1,7 +1,7 @@
 import { request } from '../utils/request';
 import { parse } from '../api/matcher/getOrders';
 import { get } from '../config';
-import { addOrderToStore, removeOrderFromStore } from '../store';
+import { addOrderToStore, removeOrderFromStore, removeAllOrdersFromStore } from '../store';
 import { stringifyJSON } from "../utils/utils";
 
 
@@ -55,6 +55,23 @@ export function cancelOrderSend(txData, amountId, priceId, type: 'cancel' | 'del
         }
     }).then((data) => {
         removeOrderFromStore({ id: txData.orderId });
+        return data;
+    });
+}
+
+export function cancelAllOrdersSend(txData) {
+    return request({
+        url: `${get('matcher')}/orderbook/cancel`,
+        fetchOptions: {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
+            body: stringifyJSON(txData)
+        }
+    }).then((data) => {
+        removeAllOrdersFromStore();
         return data;
     });
 }
