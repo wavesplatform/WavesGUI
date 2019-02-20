@@ -7,9 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>Waves Client</title>
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
-
     <script>
-        window.buildIsWeb = {{isWeb}};
+        document.write('<script src="init.js?_t=' + Date.now() + '"/>' );
+    </script>
+    <script>
+        var config = getConfig();
+        window.buildIsWeb = config.isWeb;
+        if (config.isProduction) {
+            document.write('<script src="https://cdn.ravenjs.com/3.22.3/raven.min.js" crossorigin="anonymous"/>');
+            document.write('<script>' + 'Raven.config(\'https://edc3970622f446d7aa0c9cb38be44a4f@sentry.io/291068\').install();' + '<\/script>');
+        }
     </script>
 
     <style>
@@ -278,12 +285,6 @@
         }
     </style>
 
-    {{#if isProduction}}
-        <!-- Sentry error logging -->
-        <script src="https://cdn.ravenjs.com/3.22.3/raven.min.js" crossorigin="anonymous"></script>
-        <script>Raven.config('https://edc3970622f446d7aa0c9cb38be44a4f@sentry.io/291068').install();</script>
-    {{/if}}
-
     <script>
         window.addEventListener('load', function () {
             var __interval = setInterval(function () {
@@ -309,64 +310,66 @@
             }, 2000);
         });
 
+        var config = getConfig();
         var __controllers = Object.create(null);
+
+        var remappedAssetNames = {};
+        remappedAssetNames[config.network.assets.EUR] = 'Euro';
+        remappedAssetNames[config.network.assets.USD] = 'US Dollar';
+        remappedAssetNames[config.network.assets.TRY] = 'TRY';
+        remappedAssetNames[config.network.assets.BTC] = 'Bitcoin';
+        remappedAssetNames[config.network.assets.ETH] = 'Ethereum';
 
         /**
          * @type {IWavesApp}
          */
         var WavesApp = {
             name: 'Waves Client',
-            version: '{{pack.version}}',
-            type: (window.isDesktop || !window.buildIsWeb) ? 'desktop' : 'web',
-            matcherPriorityList: {{{matcherPriorityList}}},
-            themesConf: {{{themesConf}}},
+            version: config.pack.version,
+            type: !config.isWeb ? 'desktop' : 'web',
+            matcherPriorityList: config.matcherPriorityList,
+            themesConf: config.themesConf,
             progress: 0,
             state: 'loading',
-            origin: '{{{origin}}}',
-            localize: {{{langList}}},
-            bankRecipient: '{{{bankRecipient}}}',
+            origin: config.origin,
+            localize: config.langList,
+            bankRecipient: config.bankRecipient,
             network: {
-                apiVersion: '{{network.apiVersion}}',
-                code: '{{network.code}}',
-                node: '{{network.node}}',
-                matcher: '{{network.matcher}}',
-                api: '{{network.api}}',
-                coinomat: '{{network.coinomat}}',
-                support: '{{network.support}}',
-                nodeList: '{{network.nodeList}}',
-                scamListUrl: '{{network.scamListUrl}}',
-                explorer: '{{network.explorer}}',
-                featuresConfigUrl: '{{network.featuresConfigUrl}}',
-                feeConfigUrl: '{{{feeConfigUrl}}}'
+                apiVersion: config.network.apiVersion,
+                code: config.network.code,
+                node: config.network.node,
+                matcher: config.network.matcher,
+                api: config.network.api,
+                coinomat: config.network.coinomat,
+                support: config.network.support,
+                nodeList: config.network.nodeList,
+                scamListUrl: config.network.scamListUrl,
+                explorer: config.network.explorer,
+                featuresConfigUrl: config.network.featuresConfigUrl,
+                feeConfigUrl: config.feeConfigUrl,
             },
             defaultAssets: {
                 WAVES: 'WAVES',
-                EUR: '{{network.assets.EUR}}',
-                USD: '{{network.assets.USD}}',
-                BTC: '{{network.assets.BTC}}',
-                ETH: '{{network.assets.ETH}}',
-                LTC: '{{network.assets.LTC}}',
-                ZEC: '{{network.assets.ZEC}}',
-                BCH: '{{network.assets.BCH}}',
-                DASH: '{{network.assets.DASH}}',
-                TRY: '{{network.assets.TRY}}',
-                XMR: '{{network.assets.XMR}}'
+                EUR: config.network.assets.EUR,
+                USD: config.network.assets.USD,
+                BTC: config.network.assets.BTC,
+                ETH: config.network.assets.ETH,
+                LTC: config.network.assets.LTC,
+                ZEC: config.network.assets.ZEC,
+                BCH: config.network.assets.BCH,
+                DASH: config.network.assets.DASH,
+                TRY: config.network.assets.TRY,
+                XMR: config.network.assets.XMR
             },
 
             ALWAYS_PINNED_ASSETS: ['WAVES'],
 
             otherAssetsWithIcons: {
                 // TODO @xenohunter : remove that when icons are in @dvshur's service
-                EFYT: '{{network.assets.EFYT}}',
-                WNET: '{{network.assets.WNET}}'
+                EFYT: config.network.assets.EFYT,
+                WNET: config.network.assets.WNET
             },
-            remappedAssetNames: {
-                '{{network.assets.EUR}}': 'Euro',
-                '{{network.assets.USD}}': 'US Dollar',
-                '{{network.assets.TRY}}': 'TRY',
-                '{{network.assets.BTC}}': 'Bitcoin',
-                '{{network.assets.ETH}}': 'Ethereum'
-            },
+            remappedAssetNames: remappedAssetNames,
             matcherSignInterval: { count: 20, timeType: 'day' },
             scam: Object.create(null),
             dex: {
@@ -374,7 +377,7 @@
                 defaultResolution: '60'
             },
             modules: [],
-            oracle: '{{oracle}}',
+            oracle: config.oracle,
             minAliasLength: 4,
             maxAliasLength: 30,
             maxAddressLength: 45,
@@ -436,7 +439,7 @@
                 return this.type === 'desktop';
             },
             isProduction: function () {
-            return {{#if isProduction}}true;{{else}}false;{{/if}}
+                return config.isProduction;
             },
             parseJSON: null,
             stateTree: null,
@@ -454,6 +457,11 @@
                 }
             }
         };
+
+        getConfig().styles.forEach(function (style) {
+            document.write(style);
+        })
+
     </script>
 
     <!-- CSS -->
@@ -564,6 +572,12 @@
 </div>
 
 <!-- JAVASCRIPT -->
+
+<script>
+    getConfig().scripts.forEach(function (script) {
+        document.write(script);
+    });
+</script>
 
 <script>
     window.BigNumber = ds.wavesDataEntities.BigNumber;

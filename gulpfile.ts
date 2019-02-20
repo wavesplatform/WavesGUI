@@ -2,7 +2,17 @@ import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
 import { exec, execSync } from 'child_process';
-import { download, getAllLessFiles, getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
+import {
+    download,
+    getAllLessFiles,
+    getFilesFrom,
+    prepareHTML,
+    run,
+    task,
+    getScripts,
+    getStyles,
+    getInitScript
+} from './ts-scripts/utils';
 import { basename, extname, join, sep } from 'path';
 import {
     copy,
@@ -156,19 +166,27 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                             });
                         }
 
-                        return prepareHTML({
+                        const params = {
                             buildType: type,
                             target: targetPath,
                             connection: configName,
-                            scripts: scripts,
                             type: buildName,
+                            scripts,
                             styles,
                             themes: THEMES
-                        });
+                        };
+
+                        const filePromise = prepareHTML(params);
+                        const initScript = getInitScript(null, null, null, params);
+                        return Promise.all([filePromise, initScript]);
                     })
-                    .then((file) => outputFile(`${targetPath}/index.html`, file))
+                    .then(([file, initScript]) => Promise.all([
+                        outputFile(`${targetPath}/index.html`, file),
+                        outputFile(`${targetPath}/init.js`, initScript),
+                    ]))
                     .then(() => done());
             });
+
             taskHash.html.push(`html-${taskPostfix}`);
 
             if (buildName === 'desktop') {
