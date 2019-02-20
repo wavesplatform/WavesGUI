@@ -148,6 +148,10 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
 
             task(`html-${taskPostfix}`, htmlDeps, function (done) {
                 const scripts = [jsFilePath];
+                const outerScripts = [
+                    '<script src="https://cdn.ravenjs.com/3.22.3/raven.min.js" crossorigin="anonymous"/>',
+                    '<script>Raven.config("https://edc3970622f446d7aa0c9cb38be44a4f@sentry.io/291068").install();<\/script>'
+                ];
 
                 if (buildName === 'desktop') {
                     meta.electronScripts.forEach((fileName) => {
@@ -171,6 +175,7 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                             target: targetPath,
                             connection: configName,
                             type: buildName,
+                            outerScripts,
                             scripts,
                             styles,
                             themes: THEMES

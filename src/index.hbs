@@ -8,15 +8,7 @@
     <title>Waves Client</title>
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
     <script>
-        document.write('<script src="init.js?_t=' + Date.now() + '"/>' );
-    </script>
-    <script>
-        var config = getConfig();
-        window.buildIsWeb = config.isWeb;
-        if (config.isProduction) {
-            document.write('<script src="https://cdn.ravenjs.com/3.22.3/raven.min.js" crossorigin="anonymous"/>');
-            document.write('<script>' + 'Raven.config(\'https://edc3970622f446d7aa0c9cb38be44a4f@sentry.io/291068\').install();' + '<\/script>');
-        }
+        document.write('<script src="init.js?_t=' + Date.now() + '"><\/script>');
     </script>
 
     <style>
@@ -357,6 +349,7 @@
                 LTC: config.network.assets.LTC,
                 ZEC: config.network.assets.ZEC,
                 BCH: config.network.assets.BCH,
+                BSV: config.network.assets.BSV,
                 DASH: config.network.assets.DASH,
                 TRY: config.network.assets.TRY,
                 XMR: config.network.assets.XMR
@@ -458,10 +451,7 @@
             }
         };
 
-        getConfig().styles.forEach(function (style) {
-            document.write(style);
-        })
-
+        _initStyles();
     </script>
 
     <!-- CSS -->
@@ -470,7 +460,6 @@
         <base href="/">{{/if}}
 
     <script>
-
         if (window.isDesktop || !window.buildIsWeb) {
 
             var __mainListeners = [];
@@ -510,6 +499,10 @@
 </head>
 
 <body>
+
+<div class="notifications notifications-top">
+    <w-container-alert-notification type="userNotification"></w-container-alert-notification>
+</div>
 
 <div class="app-loader">
     <div class="progress"></div>
@@ -574,9 +567,7 @@
 <!-- JAVASCRIPT -->
 
 <script>
-    getConfig().scripts.forEach(function (script) {
-        document.write(script);
-    });
+    _initScripts();
 </script>
 
 <script>

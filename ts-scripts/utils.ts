@@ -196,7 +196,7 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
 
     const { themes } = themesConf;
     const { domain } = meta;
-    const { connection, type, buildType } = param;
+    const { connection, type, buildType, outerScripts = [] } = param;
     const config = meta.configurations[connection];
 
     const networks = ['mainnet', 'testnet'].reduce((result, connection) => {
@@ -204,11 +204,11 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
         return result;
     }, Object.create(null));
 
-    const scripts = getScripts(param, pack, meta);
+    const scripts = getScripts(param, pack, meta).concat(outerScripts);
     const styles = getStyles(param, meta, themes);
     const isWeb = type === 'web';
     const isProduction = buildType && buildType === 'min';
-    const matcherPriorityList =connection === 'mainnet' ? MAINNET_DATA : TESTNET_DATA;
+    const matcherPriorityList = connection === 'mainnet' ? MAINNET_DATA : TESTNET_DATA;
     const { origin, oracle, feeConfigUrl, bankRecipient } = config;
 
     return {
@@ -285,9 +285,25 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
     const config = await getBuildParams(params);
 
     function initConfig(config) {
+        debugger;
         (window as any).getConfig = function () {
             return config;
-        }
+        };
+
+        (window as any)._initScripts = function () {
+            for (var i = 0; i < config.scripts.length; i++) {
+                document.write(config.scripts[i]);
+            }
+        };
+
+        (window as any)._initStyles = function () {
+            for (var i = 0; i < config.styles.length; i++) {
+                document.write(config.styles[i]);
+            }
+        };
+
+        (window as any).buildIsWeb = config.isWeb;
+        (window as any).isDesktop = !config.isWeb;
     }
 
     const func = initConfig.toString();
@@ -575,6 +591,7 @@ export interface IPrepareHTMLOptions {
     target: string;
     type: TPlatform;
     themes?: Array<string>;
+    outerScripts?: Array<string>;
 }
 
 export interface IFilter {

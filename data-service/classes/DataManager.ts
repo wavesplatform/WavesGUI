@@ -64,6 +64,7 @@ export class DataManager {
             [WavesApp.defaultAssets.LTC]: true,
             [WavesApp.defaultAssets.ZEC]: true,
             [WavesApp.defaultAssets.BCH]: true,
+            [WavesApp.defaultAssets.BSV]: true,
             [WavesApp.defaultAssets.DASH]: true,
             [WavesApp.defaultAssets.XMR]: true,
         };

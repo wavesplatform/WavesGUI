@@ -383,6 +383,17 @@
             },
 
             /**
+             * @name app.utils#safeApply
+             * @param {$rootScope.Scope} $scope
+             */
+            safeApply($scope) {
+                const phase = $scope.$root.$$phase;
+                if (phase !== '$apply' && phase !== '$digest') {
+                    $scope.$apply();
+                }
+            },
+
+            /**
              * @name app.utils#when
              * @param {*} [data]
              * @return {Promise}
