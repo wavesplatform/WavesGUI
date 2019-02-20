@@ -542,7 +542,7 @@
                 return false;
             }
 
-            return !this.isVerifiedOrGateway && !WavesApp.scam[this.balance.asset.id];
+            return !this.isVerifiedOrGateway && !this.user.scam[this.balance.asset.id];
         }
 
     }

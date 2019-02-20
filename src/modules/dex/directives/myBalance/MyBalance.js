@@ -132,7 +132,7 @@
                         r[id] = true;
                         return r;
                     }, Object.create(null));
-                return item => !WavesApp.scam[item.asset.id] && !spamHash[item.asset.id];
+                return item => !user.scam[item.asset.id] && !spamHash[item.asset.id];
             }
 
         }
