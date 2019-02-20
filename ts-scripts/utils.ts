@@ -285,21 +285,21 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
     const config = await getBuildParams(params);
 
     function initConfig(config) {
-        debugger;
         (window as any).getConfig = function () {
+
+            config._initScripts = function () {
+                for (var i = 0; i < config.scripts.length; i++) {
+                    document.write(config.scripts[i]);
+                }
+            };
+
+            config._initStyles = function () {
+                for (var i = 0; i < config.styles.length; i++) {
+                    document.write(config.styles[i]);
+                }
+            };
+
             return config;
-        };
-
-        (window as any)._initScripts = function () {
-            for (var i = 0; i < config.scripts.length; i++) {
-                document.write(config.scripts[i]);
-            }
-        };
-
-        (window as any)._initStyles = function () {
-            for (var i = 0; i < config.styles.length; i++) {
-                document.write(config.styles[i]);
-            }
         };
 
         (window as any).buildIsWeb = config.isWeb;

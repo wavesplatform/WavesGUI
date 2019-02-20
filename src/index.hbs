@@ -451,10 +451,8 @@
             }
         };
 
-        _initStyles();
+        config._initStyles();
     </script>
-
-    <!-- CSS -->
 
     {{#if isWeb}}
         <base href="/">{{/if}}
@@ -564,10 +562,9 @@
     <w-container-alert-notification type="notification"></w-container-alert-notification>
 </div>
 
-<!-- JAVASCRIPT -->
 
 <script>
-    _initScripts();
+    getConfig()._initScripts();
 </script>
 
 <script>
