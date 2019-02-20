@@ -106,10 +106,12 @@
              */
             _getLastPrice() {
                 return this._getPair().then(pair => {
+                    const pairText = `| ${pair.amountAsset.displayName}/${pair.priceAsset.displayName}`;
                     return waves.matcher.getLastPrice(pair).then(data => {
-                        const pairText = `| ${pair.amountAsset.displayName}/${pair.priceAsset.displayName}`;
-                        const priceText = data.price.isNaN() ? '-' : data.price.toFormat();
+                        const priceText = data.price.getTokens().isNaN() ? '-' : data.price.toFormat();
                         return `${priceText} ${pairText}`;
+                    }, () => {
+                        return `- ${pairText}`;
                     });
                 });
             }
