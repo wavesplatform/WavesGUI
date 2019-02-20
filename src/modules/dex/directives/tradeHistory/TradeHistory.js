@@ -141,6 +141,9 @@
                  * @type {Poll}
                  */
                 this.poll = createPoll(this, this._getTradeHistory, this._setTradeHistory, 1000);
+                this.poll.ready.then(() => {
+                    this.pending = false;
+                });
             }
 
             /**
@@ -168,8 +171,6 @@
              * @private
              */
             _setTradeHistory(history) {
-                this.pending = false;
-
                 const isEqual = this.history.length === history.length &&
                     this.history.every((item, i) => propEq('id', item, this.history[i]));
 
