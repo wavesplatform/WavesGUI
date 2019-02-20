@@ -12,6 +12,15 @@ import { minify } from 'html-minifier';
 import { get, ServerResponse, IncomingMessage } from 'https';
 import { MAINNET_DATA, TESTNET_DATA } from '@waves/assets-pairs-order';
 
+declare const parseJsonBignumber;
+declare const BigNumber;
+declare const WavesApp;
+declare const ds;
+declare const parse;
+declare const Mousetrap;
+declare const MobileDetect;
+declare const transfer;
+
 export const task: ITaskFunction = gulp.task.bind(gulp) as any;
 
 export function getBranch(): Promise<string> {
@@ -285,9 +294,47 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
     const config = await getBuildParams(params);
 
     function initConfig(config) {
+        var global = (window) as any;
+        var __controllers = Object.create(null);
+
+        global.buildIsWeb = config.isWeb;
+        global.isDesktop = !config.isWeb;
+
+        var USE_NATIVE_API = [
+            global.Promise,
+            global.fetch,
+            Object.values,
+            Object.assign,
+            Object.getOwnPropertyDescriptor,
+            Object.entries,
+            global.URL,
+            global.crypto || global.msCrypto
+        ];
+
+        var isSupported = true;
+
+        try {
+            for (var i = 0; i < USE_NATIVE_API.length; i++) {
+                if (!USE_NATIVE_API[i]) {
+                    throw new Error('Not supported');
+                }
+            }
+        } catch (e) {
+            isSupported = false;
+        }
+
+        config.notSupportedSelector = '.not-supported-browser';
+
         (window as any).getConfig = function () {
 
+            config.isBrowserSupported = function() {
+                return isSupported;
+            };
+
             config._initScripts = function () {
+                if (!isSupported) {
+                    return null;
+                }
                 for (var i = 0; i < config.scripts.length; i++) {
                     document.write(config.scripts[i]);
                 }
@@ -299,11 +346,99 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
                 }
             };
 
+            config._initApp = function () {
+                global.BigNumber = ds.wavesDataEntities.BigNumber;
+
+                // Signed 64-bit integer.
+                WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
+
+                WavesApp.device = new MobileDetect(navigator.userAgent);
+
+                (function () {
+                    var wrapper = require('worker-wrapper');
+
+                    var worker = wrapper.create({
+                        libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js?v' + WavesApp.version]
+                    });
+
+                    worker.process(function () {
+                        (self as any).parse = parseJsonBignumber().parse;
+                    });
+
+                    var stringify = parseJsonBignumber({BigNumber: BigNumber}).stringify;
+                    WavesApp.parseJSON = function (str) {
+                        return worker.process(function (str) {
+                            return parse(str);
+                        }, str);
+                    };
+
+                    WavesApp.stringifyJSON = function () {
+                        return stringify.apply(this, arguments);
+                    };
+                })();
+
+
+                if (WavesApp.isDesktop()) {
+                    var listenDevTools = false;
+                    Mousetrap.bind('i d d q d', function () {
+                        if (!listenDevTools) {
+                            transfer('addDevToolsMenu');
+                            listenDevTools = true;
+                        }
+                    });
+                }
+
+                global.Mousetrap.bind('c l e a n a l l', function () {
+                    localStorage.clear();
+                    if (WavesApp.isDesktop()) {
+                        transfer('reload');
+                    } else {
+                        window.location.reload();
+                    }
+                });
+            };
+
+            config.getLocaleData = function () {
+                return WavesApp.localize[global.i18next.language];
+            };
+
+            config.addController = function (name, controller) {
+                __controllers[name] = controller;
+            };
+
+            config.getController = function (name) {
+                return __controllers[name];
+            };
+
+            config.isWeb = function () {
+                return config.build.type === 'web';
+            };
+
+            config.isDesktop = function () {
+                return config.build.type === 'desktop';
+            };
+
+            config._isProduction = function () {
+                return config.isProduction;
+            };
+
+            config.reload = function () {
+                if (WavesApp.isDesktop()) {
+                    transfer('reload');
+                } else {
+                    window.location.reload();
+                }
+            };
+
+            config.remappedAssetNames = {};
+            config.remappedAssetNames[config.network.assets.EUR] = 'Euro';
+            config.remappedAssetNames[config.network.assets.USD] = 'US Dollar';
+            config.remappedAssetNames[config.network.assets.TRY] = 'TRY';
+            config.remappedAssetNames[config.network.assets.BTC] = 'Bitcoin';
+            config.remappedAssetNames[config.network.assets.ETH] = 'Ethereum';
+
             return config;
         };
-
-        (window as any).buildIsWeb = config.isWeb;
-        (window as any).isDesktop = !config.isWeb;
     }
 
     const func = initConfig.toString();
