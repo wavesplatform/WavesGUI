@@ -148,6 +148,9 @@
 
                 if (!this.isDemo) {
                     const poll = createPoll(this, DexMyOrders._getAllOrders, this._setOrders, 1000);
+                    poll.ready.then(() => {
+                        this.pending = false;
+                    });
                     this.receive(dexDataService.createOrder, () => poll.restart());
                     this.poll = poll;
                 }
@@ -299,7 +302,6 @@
                     .then(orders => (this.orders = orders))
                     .catch(() => (this.loadingError = true))
                     .then(() => {
-                        this.pending = false;
                         $scope.$apply();
                     });
             }
