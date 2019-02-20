@@ -56,6 +56,7 @@
                         WavesApp.defaultAssets.LTC,
                         WavesApp.defaultAssets.ZEC,
                         WavesApp.defaultAssets.BCH,
+                        WavesApp.defaultAssets.BSV,
                         WavesApp.defaultAssets.TRY,
                         WavesApp.defaultAssets.DASH,
                         WavesApp.defaultAssets.XMR
