@@ -138,7 +138,10 @@
                 balanceWatcher.ready
                     .then(() => {
                         this.receive(balanceWatcher.change, this._updateBalances, this);
-                        this.observe(['pinned', 'spam'], this._updateBalances);
+                        this.observe(['pinned', 'spam'], () => {
+                            this._updateBalances();
+                            visibleService.updateSort();
+                        });
                         this._updateBalances();
                     });
 
