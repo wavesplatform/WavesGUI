@@ -161,6 +161,23 @@ class Main implements IMain {
         });
     }
 
+    private createCtxMenu() {
+        const ctxMenuTemplate = [
+            { role: 'cut' },
+            { role: 'copy' },
+            { role: 'paste' },
+        ];
+        const ctxMenu = Menu.buildFromTemplate(ctxMenuTemplate);
+        this.mainWindow.webContents.on('context-menu',  (e, params) => {
+            ctxMenu.popup({
+                window: this.mainWindow,
+                x: params.x,
+                y: params.y
+            });
+        })
+    }
+
+
     // private log(message: string): void {
     //     const command = `console.log('${message}');`
     //     this.mainWindow.webContents.executeJavaScript(command);
@@ -189,7 +206,8 @@ class Main implements IMain {
     private onAppReady() {
         this.registerProtocol()
             .then(() => this.createWindow())
-            .then(() => this.addApplicationMenu());
+            .then(() => this.addApplicationMenu())
+            .then(() => this.createCtxMenu());
     }
 
     private addApplicationMenu(): Promise<void> {
