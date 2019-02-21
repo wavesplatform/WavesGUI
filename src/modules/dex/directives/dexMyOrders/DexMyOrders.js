@@ -163,26 +163,39 @@
                 });
             }
 
+            /**
+             * @public
+             * @param order
+             */
             showDetails(order) {
                 this.shownOrderDetails[order.id] = true;
             }
 
+            /**
+             * @public
+             * @param order
+             */
             hideDetails(order) {
                 this.shownOrderDetails[order.id] = false;
             }
 
+            /**
+             * @public
+             * @param order
+             */
             toggleDetails(order) {
                 this.shownOrderDetails[order.id] = !this.shownOrderDetails[order.id];
             }
 
+            /**
+             * @public
+             */
             cancelAllOrders() {
                 if (!permissionManager.isPermitted('CAN_CANCEL_ORDER')) {
                     const $notify = $element.find('.js-order-notification');
                     DexMyOrders._animateNotification($notify);
                     return null;
                 }
-
-                // const dataPromise = this._dropAllOrderGetSignData();
 
                 ds.cancelAllOrders({
                     sender: user.publicKey,
@@ -209,6 +222,10 @@
                     });
             }
 
+            /**
+             * @param data
+             * @return {number}
+             */
             round(data) {
                 return Math.round(Number(data));
             }
@@ -239,28 +256,10 @@
                     .then(signable => signable.getDataForApi());
             }
 
-
-            /**
-             * @return {Promise<Object | never>}
-             * @private
-             */
-            _dropAllOrderGetSignData() {
-                const data = user.matcherSign;
-                console.log('%c user.matcherSign', 'background: #222; color: #bada55', user.matcherSign);
-                const signable = ds.signature.getSignatureApi().makeSignable({
-                    type: SIGN_TYPE.MATCHER_ORDERS,
-                    data
-                });
-
-                return utils.signMatcher(signable)
-                    .then(signable => signable.getSignature());
-            }
-
             /**
              * @param order
              */
             dropOrder(order) {
-
                 if (!permissionManager.isPermitted('CAN_CANCEL_ORDER')) {
                     const $notify = $element.find('.js-order-notification');
                     DexMyOrders._animateNotification($notify);

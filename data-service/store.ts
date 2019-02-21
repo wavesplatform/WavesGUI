@@ -33,10 +33,9 @@ function removeFromStoreById<T>(container: TStore<T>, idKey: keyof T, item: Part
     }
 }
 
-function removeFromStoreAll<T>(container: TStore<T>, addRemoveF: IRemoveOrderFunc<Partial<T>>) {
+function removeFromStoreAll<T>(container: TStore<T>) {
     for (let i = container.length - 1; i >= 0; i--) {
         window.clearTimeout(container[i].expiration);
-        // addRemoveF(container[i]);
         container.splice(i, 1);
     }
 }
@@ -53,7 +52,7 @@ function createClearStore<T>(addContainer: TStore<T>, addRemoveF: IRemoveOrderFu
 
 function createClearStoreAll<T>(container: TStore<T>, addRemoveF: IRemoveOrderFunc<Partial<T>>) {
     return () => {
-        removeFromStoreAll(container, addRemoveF);
+        removeFromStoreAll(container);
     };
 }
 
