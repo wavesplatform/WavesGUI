@@ -18,7 +18,7 @@ import {
 } from './utils';
 import { homedir } from 'os';
 import { execSync } from 'child_process';
-import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST } from './constansts';
+import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST, CONTEXT_MENU } from './constansts';
 import { get } from 'https';
 
 import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOptions;
@@ -79,12 +79,12 @@ class Main implements IMain {
 
     public setLanguage(lng: string): void {
         changeLanguage(lng);
-        this.addApplicationMenu();
+        this.addContextMenu();
     }
 
     public addDevTools() {
         this.hasDevTools = true;
-        this.addApplicationMenu();
+        this.addContextMenu();
     }
 
     private makeSingleInstance(): boolean {
@@ -161,22 +161,6 @@ class Main implements IMain {
         });
     }
 
-    private createCtxMenu() {
-        const ctxMenuTemplate = [
-            { role: 'cut' },
-            { role: 'copy' },
-            { role: 'paste' },
-        ];
-        const ctxMenu = Menu.buildFromTemplate(ctxMenuTemplate);
-        this.mainWindow.webContents.on('context-menu',  (e, params) => {
-            ctxMenu.popup({
-                window: this.mainWindow,
-                x: params.x,
-                y: params.y
-            });
-        })
-    }
-
 
     // private log(message: string): void {
     //     const command = `console.log('${message}');`
@@ -206,17 +190,33 @@ class Main implements IMain {
     private onAppReady() {
         this.registerProtocol()
             .then(() => this.createWindow())
-            .then(() => this.addApplicationMenu())
-            .then(() => this.createCtxMenu());
+            .then(() => this.addContextMenu())
     }
 
-    private addApplicationMenu(): Promise<void> {
+    private addContextMenu(): Promise<void> {
         Menu.setApplicationMenu(null);
         return localeReady.then(t => {
-            const menuList = GET_MENU_LIST(app, t, this.hasDevTools);
-            this.menu = Menu.buildFromTemplate(menuList);
-            Menu.setApplicationMenu(this.menu);
+            this.createAppMenu(t);
+            this.createCtxMenu(t);
         });
+    }
+
+    private createAppMenu(locale) {
+        const menuList = GET_MENU_LIST(app, locale, this.hasDevTools);
+        this.menu = Menu.buildFromTemplate(menuList);
+        Menu.setApplicationMenu(this.menu);
+    }
+
+    private createCtxMenu(locale) {
+        const ctxMenuTemplate = CONTEXT_MENU(locale);
+        const ctxMenu = Menu.buildFromTemplate(ctxMenuTemplate);
+        this.mainWindow.webContents.on('context-menu',  (e, params) => {
+            ctxMenu.popup({
+                window: this.mainWindow,
+                x: params.x,
+                y: params.y
+            });
+        })
     }
 
     private registerProtocol(): Promise<void> {
