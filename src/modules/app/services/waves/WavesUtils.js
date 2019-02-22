@@ -149,14 +149,6 @@
              * @private
              */
             _getChange(from, to) {
-                const getChange = (open, close) => {
-                    if (open.eq(0)) {
-                        return new BigNumber(0);
-                    } else {
-                        return close.minus(open).div(open).times(100).dp(2);
-                    }
-                };
-
                 return ds.api.pairs.get(from, to)
                     .then((pair) => {
                         return ds.api.pairs.info(pair)
@@ -167,9 +159,7 @@
                                     return 0;
                                 }
 
-                                const open = data.firstPrice || new entities.Money(0, pair.priceAsset);
-                                const close = data.lastPrice || new entities.Money(0, pair.priceAsset);
-                                const change24 = getChange(open.getTokens(), close.getTokens()).toNumber();
+                                const change24 = data.change24;
 
                                 if (pair.amountAsset.id === from) {
                                     return change24;
