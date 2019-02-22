@@ -221,10 +221,11 @@ w-button {
     display: none;
   }
 
-  &.pending {
+  .pending {
+    position: relative;
 
     .button__content {
-      display: none;
+      visibility: hidden;
     }
 
     w-loader {

@@ -21,6 +21,11 @@
 
         class Button extends Base {
 
+            /**
+             * @type {boolean}
+             */
+            hasLoader;
+
             constructor() {
                 super();
 
@@ -56,7 +61,6 @@
 
             $postLink() {
                 this._$button = $element.find('button:first');
-
                 SYNC_ATTRS.forEach((name) => {
                     if (name in $attrs) {
                         this._$button.attr(name, $attrs[name]);
@@ -109,7 +113,9 @@
              * @private
              */
             _togglePendingClass() {
-                this._$button.toggleClass('pending', this._pending);
+                if (this.hasLoader) {
+                    this._$button.toggleClass('pending', this._pending);
+                }
             }
 
             /**
@@ -131,7 +137,8 @@
         transclude: true,
         bindings: {
             _disabled: '<disabled',
-            onClick: '&'
+            onClick: '&',
+            hasLoader: '<'
         },
         controller
     });
