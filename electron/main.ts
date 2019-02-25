@@ -35,6 +35,7 @@ class Main implements IMain {
     public mainWindow: BrowserWindow;
     public menu: Menu;
     public bridge: Bridge;
+    private ctxMenuList: Array<Menu> = [];
     private initializeUrl: string = '';
     private hasDevTools: boolean = false;
     private dataPromise: Promise<IMetaJSON>;
@@ -210,15 +211,14 @@ class Main implements IMain {
     }
 
     private createCtxMenu(locale) {
+        const onContextMenu = (menu: Menu): () => void => () => menu.popup({});
+        if (this.ctxMenuList.length > 0) {
+            this.mainWindow.webContents.removeAllListeners('context-menu');
+        }
         const ctxMenuTemplate = CONTEXT_MENU(locale);
         const ctxMenu = Menu.buildFromTemplate(ctxMenuTemplate);
-        this.mainWindow.webContents.on('context-menu',  (e, params) => {
-            ctxMenu.popup({
-                window: this.mainWindow,
-                x: params.x,
-                y: params.y
-            });
-        })
+        this.ctxMenuList.push(ctxMenu);
+        this.mainWindow.webContents.on('context-menu',  onContextMenu(ctxMenu));
     }
 
     private registerProtocol(): Promise<void> {
