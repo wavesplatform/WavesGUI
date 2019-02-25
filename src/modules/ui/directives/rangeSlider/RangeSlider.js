@@ -81,11 +81,11 @@
                 return this.__handlePosition;
             }
 
-            set _handleTranslateX(v) {
-                if (v !== this.__handlePosition) {
-                    this.__handlePosition = v;
-                    this._handle.css('transform', `translateX(${v}px)`);
-                    this._trackColor.css('width', v);
+            set _handleTranslateX(translate) {
+                if (translate !== this.__handlePosition) {
+                    this.__handlePosition = translate;
+                    this._handle.css('transform', `translateX(${translate}px)`);
+                    this._trackColor.css('width', translate);
                 }
             }
 
@@ -123,8 +123,8 @@
                     progress: 1
                 }, {
                     duration: 100,
-                    step: now => {
-                        this._handleTranslateX = start + ((newPos - start) * now);
+                    step: progress => {
+                        this._handleTranslateX = start + ((newPos - start) * progress);
                     }
                 });
 
@@ -160,7 +160,6 @@
              * @param {number} scaleInterval
              */
             _calcPosition(max, min, scaleInterval) {
-                this._handle[0].style.transform = 'translateX(0)';
                 const intervals = this.intervals || 1;
                 const sliderLength = this._track.width() - this._handle.outerWidth();
                 this._amountOfPoints = this._amount * intervals;
@@ -173,10 +172,6 @@
 
                 this._coords = range(0, this._amountOfPoints + 1)
                     .map(num => this._track.position().left + num * this._scale);
-
-                this._handle.css({
-                    transform: `translateX(${head(this._coords)})`
-                });
             }
 
             /**
@@ -196,7 +191,7 @@
             _initEvents() {
                 const onDragStart = () => {
                     this._handle.stop(true, false);
-                    this._track.stop(true, false);
+                    this._trackColor.stop(true, false);
                     const startPos = this._track.offset().left;
                     this._container.addClass('range-slider_drag');
 
