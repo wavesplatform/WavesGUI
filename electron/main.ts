@@ -29,7 +29,6 @@ import { IPackageJSON } from '../ts-scripts/interface';
 const META_PATH = join(app.getPath('userData'), META_NAME);
 const argv = Array.prototype.slice.call(process.argv);
 
-@loggable
 class Main implements IMain {
 
     public mainWindow: BrowserWindow;
