@@ -98,7 +98,6 @@
                  * @private
                  */
                 this.loadingTradingView = true;
-
                 /**
                  * @type {string}
                  * @private
@@ -169,6 +168,7 @@
              * @private
              */
             _removeTradingView() {
+                candlesService.unsubscribeBars();
                 try {
                     if (this._chart) {
                         this._chart.remove();
@@ -180,6 +180,9 @@
                 return this;
             }
 
+            /**
+             * @private
+             */
             _refreshTradingView() {
                 if (!this._chart) {
                     return null;
@@ -190,6 +193,7 @@
                 this._chart.applyOverrides(overrides);
                 this._chart.applyStudiesOverrides(studiesOverrides);
             }
+
             /**
              * @return {DexCandleChart}
              * @private

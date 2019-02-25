@@ -106,9 +106,13 @@
              */
             _getLastPrice() {
                 return this._getPair().then(pair => {
-                    return waves.matcher.getLastPrice(pair).then(data => (
-                        `${data.price.toFormat()} | ${pair.amountAsset.displayName}/${pair.priceAsset.displayName}`
-                    ));
+                    const pairText = `| ${pair.amountAsset.displayName}/${pair.priceAsset.displayName}`;
+                    return waves.matcher.getLastPrice(pair).then(data => {
+                        const priceText = data.price.getTokens().isNaN() ? '-' : data.price.toFormat();
+                        return `${priceText} ${pairText}`;
+                    }, () => {
+                        return `- ${pairText}`;
+                    });
                 });
             }
 

@@ -3,7 +3,7 @@
 
     const { Signal } = require('ts-utils');
     const { Money } = require('@waves/data-entities');
-    const { not } = require('ramda');
+    const { not, pathEq } = require('ramda');
 
     /**
      * @param {User} user
@@ -84,6 +84,28 @@
             getBalanceByAssetId(id) {
                 return waves.node.assets.getAsset(id)
                     .then(this.getBalanceByAsset.bind(this));
+            }
+
+            /**
+             * @param {string} id
+             * @return {Promise<IBalanceDetails>}
+             */
+            getFullBalanceByAssetId(id) {
+                const balance = this._balance.find(pathEq(['asset', 'id'], id));
+                if (balance) {
+                    return Promise.resolve(balance);
+                }
+                return waves.node.assets.getAsset(id).then(asset => {
+                    const empty = new Money(0, asset);
+                    return {
+                        asset,
+                        regular: empty,
+                        available: empty,
+                        inOrders: empty,
+                        leasedOut: empty,
+                        leasedIn: empty
+                    };
+                });
             }
 
             /**
