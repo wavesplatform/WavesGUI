@@ -4,11 +4,12 @@
     /**
      * @param {typeof Base} Base
      * @param {$rootScope.Scope} $scope
-     * @param {IPollCreate} createPoll
      * @param {Waves} waves
+     * @param {BalanceWatcher} balanceWatcher
+     * @param {app.utils} utils
      * @return {SponsoredModalCtrl}
      */
-    const controller = function (Base, $scope, createPoll, waves) {
+    const controller = function (Base, $scope, waves, balanceWatcher, utils) {
 
         const { isEmpty } = require('ts-utils');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
@@ -77,7 +78,8 @@
                     throw new Error('Wrong modal params!');
                 }
 
-                createPoll(this, this._getBalances, this._setBalances, 1000, { $scope });
+                this.receive(balanceWatcher.change, this._updateBalances, this);
+                this._updateBalances();
 
                 this.observe(['fee', 'minSponsoredAssetFee'], this._createTx);
 
@@ -122,23 +124,16 @@
                 });
             }
 
-            /**
-             * @return {Promise}
-             * @private
-             */
-            _getBalances() {
-                return waves.node.assets.balanceList([WavesApp.defaultAssets.WAVES, this.assetId]);
-            }
-
-            /**
-             * @param waves
-             * @param assetBalance
-             * @private
-             */
-            _setBalances([waves, assetBalance]) {
-                this.wavesBalance = waves.available;
-                this.assetBalance = assetBalance;
-                this._updateAvailableFee();
+            _updateBalances() {
+                Promise.all([
+                    balanceWatcher.getBalanceByAssetId(WavesApp.defaultAssets.WAVES),
+                    balanceWatcher.getBalanceByAssetId(this.assetId)
+                ]).then(([waves, asset]) => {
+                    this.wavesBalance = waves;
+                    this.assetBalance = asset;
+                    this._updateAvailableFee();
+                    utils.safeApply($scope);
+                });
             }
 
             /**
@@ -177,7 +172,7 @@
         return new SponsoredModalCtrl(this.locals);
     };
 
-    controller.$inject = ['Base', '$scope', 'createPoll', 'waves'];
+    controller.$inject = ['Base', '$scope', 'waves', 'balanceWatcher', 'utils'];
 
     angular.module('app.utils').controller('SponsoredModalCtrl', controller);
 })();

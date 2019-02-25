@@ -3,7 +3,7 @@
     'use strict';
 
     const entities = require('@waves/data-entities');
-    const R = require('ramda');
+    const { propEq, uniqBy, map, pipe, prop } = require('ramda');
 
     /**
      * @param {Base} Base
@@ -77,11 +77,11 @@
                  */
                 this.isMy = false;
                 /**
-                 * @type {Array}
+                 * @type {IExchangeTransaction[]}
                  */
                 this.history = [];
                 /**
-                 * @type {function}
+                 * @type {function(tx: IExchangeTransaction[], [index]: number): boolean}
                  */
                 this.remapTransactions = TradeHistory._remapTxList();
                 /**
@@ -129,6 +129,9 @@
                 });
             }
 
+            /**
+             * @private
+             */
             _initializePoll() {
                 if (this.isMy && this.isDemo) {
                     return null;
@@ -137,7 +140,10 @@
                 /**
                  * @type {Poll}
                  */
-                this.poll = createPoll(this, this._getTradeHistory, this._setTradeHistory, 1000, { $scope });
+                this.poll = createPoll(this, this._getTradeHistory, this._setTradeHistory, 1000);
+                this.poll.ready.then(() => {
+                    this.pending = false;
+                });
             }
 
             /**
@@ -160,11 +166,26 @@
                     .then(this.remapTransactions);
             }
 
+            /**
+             * @param {IExchangeTransaction[]} history
+             * @private
+             */
             _setTradeHistory(history) {
-                this.pending = false;
+                const isEqual = this.history.length === history.length &&
+                    this.history.every((item, i) => propEq('id', item, this.history[i]));
+
+                if (isEqual) {
+                    return null;
+                }
+
                 this.history = history;
+                $scope.$apply();
             }
 
+            /**
+             * @return {*}
+             * @private
+             */
             _getTransactionsFilter() {
                 if (this.isMy) {
                     return { sender: user.address };
@@ -175,10 +196,14 @@
                 };
             }
 
+            /**
+             * @return {function(tx: IExchangeTransaction[], [index]: number): boolean}
+             * @private
+             */
             static _remapTxList() {
-                const filter = R.uniqBy(R.prop('id'));
-                const map = R.map(TradeHistory._remapTx);
-                return R.pipe(filter, map);
+                const filter = uniqBy(prop('id'));
+                const mapFunc = map(TradeHistory._remapTx);
+                return pipe(filter, mapFunc);
             }
 
             static _remapTx(tx) {

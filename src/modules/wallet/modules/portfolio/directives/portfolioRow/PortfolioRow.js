@@ -17,6 +17,7 @@
         [WavesApp.defaultAssets.USD]: '/img/assets/usd.svg',
         [WavesApp.defaultAssets.DASH]: '/img/assets/dash.svg',
         [WavesApp.defaultAssets.BCH]: '/img/assets/bitcoin-cash.svg',
+        [WavesApp.defaultAssets.BSV]: '/img/assets/bitcoin-cash-sv.svg',
         [WavesApp.defaultAssets.TRY]: '/img/assets/try.svg',
         [WavesApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
         [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
@@ -214,6 +215,7 @@
                 const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
                 const data = ds.dataManager.getOracleAssetData(this.balance.asset.id);
                 const logo = data && data.logo;
+                this.isVerifiedOrGateway = data && data.status >= STATUS_LIST.VERIFIED;
 
                 const html = template({
                     canSetAssetScript: this._isMyAsset && this.isSmart,
@@ -348,7 +350,7 @@
                     this.chartOptions,
                     values
                 );
-            });
+            }).catch(() => null);
         }
 
         /**
@@ -540,8 +542,7 @@
                 return false;
             }
 
-            return !Object.values(WavesApp.defaultAssets).includes(this.balance.asset.id) &&
-                !WavesApp.scam[this.balance.asset.id];
+            return !this.isVerifiedOrGateway && !WavesApp.scam[this.balance.asset.id];
         }
 
     }

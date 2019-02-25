@@ -117,9 +117,9 @@
                 if (this._poll) {
                     this._poll.restart();
                 } else {
-                    this._getGraphData().then((values) => {
+                    this._getGraphData().then(values => {
                         this.chartData = values;
-                    });
+                    }, () => null);
                 }
             }
 
@@ -137,7 +137,7 @@
                 }
 
                 return waves.utils.getRateHistory(assetId, baseAssetId, startDate)
-                    .then((values) => ({ values }));
+                    .then(values => ({ values }));
             }
 
             /**

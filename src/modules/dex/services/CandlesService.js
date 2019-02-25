@@ -164,10 +164,8 @@
                 }, POLL_DELAY);
             }
 
-            unsubscribeBars(subscriberUID) {
-                if (this._subscriber === subscriberUID) {
-                    this._subscriber = null;
-                }
+            unsubscribeBars() {
+                this._subscriber = null;
             }
 
             _updateLastTime(candles) {
