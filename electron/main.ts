@@ -2,6 +2,7 @@
 
 
 import { app, BrowserWindow, screen, Menu } from 'electron';
+import loggable from './decorators/loggable';
 import { Bridge } from './Bridge';
 import { ISize, IMetaJSON, ILastOpen } from './package';
 import { join } from 'path';
@@ -28,6 +29,7 @@ import { IPackageJSON } from '../ts-scripts/interface';
 const META_PATH = join(app.getPath('userData'), META_NAME);
 const argv = Array.prototype.slice.call(process.argv);
 
+@loggable
 class Main implements IMain {
 
     public mainWindow: BrowserWindow;
