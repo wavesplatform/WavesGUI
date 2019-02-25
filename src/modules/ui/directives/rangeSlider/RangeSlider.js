@@ -75,6 +75,20 @@
              */
             _applyValueMode = false;
 
+            __handlePosition = 0;
+
+            get _handleTranslateX() {
+                return this.__handlePosition;
+            }
+
+            set _handleTranslateX(v) {
+                if (v !== this.__handlePosition) {
+                    this.__handlePosition = v;
+                    this._handle.css('transform', `translateX(${v}px)`);
+                    this._trackColor.css('width', v);
+                }
+            }
+
 
             $postLink() {
                 this._track = $element.find('.range-slider__track');
@@ -102,12 +116,18 @@
              */
             _drawModelState() {
                 const newPos = this._coords[this._numberValues[this.ngModel]];
-                this._handle.animate({
-                    translateX: newPos
+                const start = this._handleTranslateX;
+                this._handle.prop('progress', 0);
+
+                utils.animate(this._handle, {
+                    progress: 1
                 }, {
                     duration: 100,
-                    step: (now, fx) => this._handle.css('transform', `${fx.prop}(${newPos}${fx.unit})`)
+                    step: now => {
+                        this._handleTranslateX = start + ((newPos - start) * now);
+                    }
                 });
+
                 utils.animate(this._trackColor, {
                     width: newPos
                 }, { duration: 100 });
@@ -175,6 +195,8 @@
              */
             _initEvents() {
                 const onDragStart = () => {
+                    this._handle.stop(true, false);
+                    this._track.stop(true, false);
                     const startPos = this._track.offset().left;
                     this._container.addClass('range-slider_drag');
 
@@ -184,12 +206,7 @@
                         const newPosition = Math.min(Math.max(head(this._coords), position), last(this._coords));
 
                         this._updateModel(this._numberValues[this._findClosestIndex(newPosition)]);
-                        this._handle.css({
-                            transform: `translateX(${newPosition}px)`
-                        });
-                        this._trackColor.css({
-                            width: newPosition
-                        });
+                        this._handleTranslateX = newPosition;
                         $scope.$apply();
                     });
 
