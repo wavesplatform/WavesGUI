@@ -91,7 +91,7 @@
     "@types/ramda": "0.25.34",
     "@uirouter/angularjs": "1.0.8",
     "@waves/assets-pairs-order": "4.0.0",
-    "@waves/data-entities": "^1.10.0",
+    "@waves/data-entities": "^1.10.1",
     "@waves/data-service-client-js": "^2.0.0",
     "@waves/event-sender": "^0.4.4",
     "@waves/ledger": "^3.0.1",
