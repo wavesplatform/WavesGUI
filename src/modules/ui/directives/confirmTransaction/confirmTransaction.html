@@ -78,15 +78,16 @@
                         <span w-i18n="confirmTransaction.redirect" params="{referrer: $ctrl.referrer}"></span>
                     </h3>
 
-                    <div class="error-500 margin-2 footnote-1"
-                         ng-repeat="error in $ctrl.errors"
-                         params="error.data"
-                         w-i18n="{{::error.literal}}"></div>
-
                     <div class="bottom-wrapper">
                         <div ng-if="$ctrl.errorMessage" class="error-500 margin-2 margin-top-2">
                             {{$ctrl.errorMessage}}
                         </div>
+                        <div ng-if="$ctrl.errors" class="margin-top-2 error-500 footnote-1">
+                             <div params="error.data"
+                                  ng-repeat="error in $ctrl.errors"
+                                  w-i18n="{{::error.literal}}"></div>
+                        </div>
+
                         <div class="buttons-wrapper margin-top-3" ng-if="!$ctrl.loadingSignFromDevice">
                             <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
                                 <span w-i18n="confirmTransaction.back"></span>
