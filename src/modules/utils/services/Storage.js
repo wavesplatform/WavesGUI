@@ -82,21 +82,25 @@
      */
     const factory = function ($q, utils, migration, state) {
 
-        const MIGRATION_MAP = {};
+        const MIGRATION_MAP = {
+            '1.0.41': function (storage) {
+                return addNewGateway(storage, WavesApp.defaultAssets.BSV);
+            }
+        };
 
-        // function addNewGateway(storage, gateway) {
-        //     return storage.load('userList').then((users = []) => {
-        //         users.forEach((user) => {
-        //             const settings = user.settings || Object.create(null);
-        //             const idList = settings.pinnedAssetIdList;
-        //             if (idList && !idList.includes(gateway)) {
-        //                 idList.push(gateway);
-        //             }
-        //         });
-        //
-        //         return storage.save('userList', users);
-        //     });
-        // }
+        function addNewGateway(storage, gateway) {
+            return storage.load('userList').then((users = []) => {
+                users.forEach((user) => {
+                    const settings = user.settings || Object.create(null);
+                    const idList = settings.pinnedAssetIdList;
+                    if (idList && !idList.includes(gateway)) {
+                        idList.push(gateway);
+                    }
+                });
+
+                return storage.save('userList', users);
+            });
+        }
 
         class Storage {
 

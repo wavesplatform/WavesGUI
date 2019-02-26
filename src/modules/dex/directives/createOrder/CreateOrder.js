@@ -14,12 +14,13 @@
      * @param {Ease} ease
      * @param {$state} $state
      * @param {ModalManager} modalManager
+     * @param {BalanceWatcher} balanceWatcher
      * @return {CreateOrder}
      */
     const controller = function (Base, waves, user, utils, createPoll, $scope,
-                                 $element, notification, dexDataService, ease, $state, modalManager) {
+                                 $element, notification, dexDataService, ease, $state, modalManager, balanceWatcher) {
 
-        const entities = require('@waves/data-entities');
+        const { Money } = require('@waves/data-entities');
         const ds = require('data-service');
 
         class CreateOrder extends Base {
@@ -151,26 +152,24 @@
                 /**
                  * @type {Poll}
                  */
-                const balancesPoll = createPoll(this, this._getBalances, this._setBalances, 1000);
-                /**
-                 * @type {Poll}
-                 */
                 const spreadPoll = createPoll(this, this._getData, this._setData, 1000);
 
+                this.receive(balanceWatcher.change, this._updateBalances, this);
+                this._updateBalances();
+
                 const lastTradePromise = new Promise((resolve) => {
-                    balancesPoll.ready.then(() => {
+                    balanceWatcher.ready.then(() => {
                         lastTraderPoll = createPoll(this, this._getLastPrice, 'lastTradePrice', 1000);
                         resolve();
                     });
                 });
 
                 const currentFee = () => Promise.all([
-                    waves.node.assets.getAsset(this._assetIdPair.amount),
-                    waves.node.assets.getAsset(this._assetIdPair.price),
+                    ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price),
                     ds.fetch(ds.config.get('matcher'))
-                ]).then(([amount, price, matcherPublicKey]) => waves.matcher.getCreateOrderFee({
-                    amount: new entities.Money(0, amount),
-                    price: new entities.Money(0, price),
+                ]).then(([pair, matcherPublicKey]) => waves.matcher.getCreateOrderFee({
+                    amount: new Money(0, pair.amountAsset),
+                    price: new Money(0, pair.priceAsset),
                     matcherPublicKey
                 })).then(fee => {
                     this.fee = fee;
@@ -178,11 +177,11 @@
                 });
 
                 Promise.all([
-                    balancesPoll.ready,
+                    ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price),
                     lastTradePromise,
                     spreadPoll.ready
-                ]).then(() => {
-                    this.amount = this.amountBalance.cloneWithTokens('0');
+                ]).then(([pair]) => {
+                    this.amount = new Money(0, pair.amountAsset);
                     if (this.lastTradePrice && this.lastTradePrice.getTokens().gt(0)) {
                         this.price = this.lastTradePrice;
                     } else {
@@ -197,7 +196,7 @@
                     this.price = null;
                     this.bid = null;
                     this.ask = null;
-                    balancesPoll.restart();
+                    this._updateBalances();
                     spreadPoll.restart();
                     const form = this.order;
                     form.$setUntouched();
@@ -426,7 +425,7 @@
              */
             _onClickBuyOrder(price, amount) {
                 const minAmount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens().div(price));
-                this._setDirtyAmount(entities.Money.min(this.amountBalance.cloneWithTokens(amount), minAmount));
+                this._setDirtyAmount(Money.min(this.amountBalance.cloneWithTokens(amount), minAmount));
                 this._setDirtyPrice(this.priceBalance.cloneWithTokens(price));
             }
 
@@ -437,7 +436,7 @@
              */
             _onClickSellOrder(price, amount) {
                 const amountMoney = this.amountBalance.cloneWithTokens(amount);
-                this._setDirtyAmount(entities.Money.min(amountMoney, this._getMaxAmountForSell()));
+                this._setDirtyAmount(Money.min(amountMoney, this._getMaxAmountForSell()));
                 this._setDirtyPrice(this.priceBalance.cloneWithTokens(price));
             }
 
@@ -519,36 +518,19 @@
              * @return {Promise<IAssetPair>}
              * @private
              */
-            _getBalances() {
+            _updateBalances() {
                 if (!this.idDemo) {
-                    return ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
-                        return utils.whenAll([
-                            waves.node.assets.balance(pair.amountAsset.id),
-                            waves.node.assets.balance(pair.priceAsset.id)
-                        ]).then(([amountMoney, priceMoney]) => ({
-                            amountBalance: amountMoney.available,
-                            priceBalance: priceMoney.available
-                        }));
+                    return ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price).then(pair => {
+                        this.amountBalance = balanceWatcher.getBalanceByAsset(pair.amountAsset);
+                        this.priceBalance = balanceWatcher.getBalanceByAsset(pair.priceAsset);
+                        utils.safeApply($scope);
                     });
                 } else {
-                    return ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
-                        return {
-                            amountBalance: entities.Money.fromTokens(10, pair.amountAsset),
-                            priceBalance: entities.Money.fromTokens(10, pair.priceAsset)
-                        };
+                    return ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price).then(pair => {
+                        this.amountBalance = Money.fromTokens(10, pair.amountAsset);
+                        this.priceBalance = Money.fromTokens(10, pair.priceAsset);
+                        utils.safeApply($scope);
                     });
-                }
-            }
-
-            /**
-             * @param data
-             * @private
-             */
-            _setBalances(data) {
-                if (data) {
-                    this.amountBalance = data.amountBalance;
-                    this.priceBalance = data.priceBalance;
-                    $scope.$digest();
                 }
             }
 
@@ -694,7 +676,8 @@
         'dexDataService',
         'ease',
         '$state',
-        'modalManager'
+        'modalManager',
+        'balanceWatcher'
     ];
 
     angular.module('app.dex').component('wCreateOrder', {

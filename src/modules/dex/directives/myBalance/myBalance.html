@@ -11,36 +11,37 @@
         <span w-i18n="directives.demo.to.mybalance"></span>
     </div>
 
-    <w-table-row ng-repeat="balance in $data track by balance.asset.id"
-                 w-toggle-class-container>
-        <w-table-cell ng-click="$ctrl.setPair(balance.asset.id)">
-            <w-asset-logo class="marker-hide" size="20" asset-id="{{::balance.asset.id}}"></w-asset-logo>
-            <span ng-class="{underline: !$ctrl.isSelected(balance.asset)}">
-                <a href="#">{{::balance.asset.name}}</a>
+    <w-visible class="visible-row-container" ng-repeat="balance in $data track by balance.asset.id" once>
+        <w-table-row ng-cloak w-toggle-class-container>
+            <w-table-cell ng-click="$ctrl.setPair(balance.asset.id)">
+                <w-asset-logo ng-cloak class="marker-hide" size="20" asset-id="{{::balance.asset.id}}"></w-asset-logo>
+                <span ng-class="{underline: !$ctrl.isSelected(balance.asset)}">
+                <a ng-cloak href="#">{{::balance.asset.name}}</a>
             </span>
-        </w-table-cell>
-        <w-table-cell>
-            <span class="cell-label"><span w-i18n="directives.balance.assetId"></span></span>
-            <w-copy-wrap info="::balance.asset.id">
+            </w-table-cell>
+            <w-table-cell>
+                <span class="cell-label"><span w-i18n="directives.balance.assetId"></span></span>
+                <w-copy-wrap info="::balance.asset.id">
                 <span class="underline">
                     <a ng-click="$ctrl.showAssetInfo(balance.asset)" href="#">{{::balance.asset.id}}</a>
                 </span>
-            </w-copy-wrap>
-        </w-table-cell>
-        <w-table-cell>
-            <span class="cell-label"><span w-i18n="directives.balance.available"></span></span>
-            <w-balance short-mode="::true" money="balance.available"></w-balance>
-            <div class="dropdown" w-toggle-class></div>
-        </w-table-cell>
-        <w-table-cell>
+                </w-copy-wrap>
+            </w-table-cell>
+            <w-table-cell>
+                <span class="cell-label"><span w-i18n="directives.balance.available"></span></span>
+                <w-balance short-mode="::true" money="balance.available"></w-balance>
+                <div class="dropdown" w-toggle-class></div>
+            </w-table-cell>
+            <w-table-cell>
             <span class="cell-label">
                 <span w-i18n="directives.balance.inOrders"></span>
             </span>
-            <w-balance short-mode="::true" money="balance.inOrders"></w-balance>
-        </w-table-cell>
-        <w-table-cell>
-            <span class="cell-label"><span w-i18n="directives.balance.total"></span></span>
-            <w-balance short-mode="::true" money="balance.regular"></w-balance>
-        </w-table-cell>
-    </w-table-row>
+                <w-balance short-mode="::true" money="balance.inOrders"></w-balance>
+            </w-table-cell>
+            <w-table-cell>
+                <span class="cell-label"><span w-i18n="directives.balance.total"></span></span>
+                <w-balance short-mode="::true" money="balance.regular"></w-balance>
+            </w-table-cell>
+        </w-table-row>
+    </w-visible>
 </w-smart-table>

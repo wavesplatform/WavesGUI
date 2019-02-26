@@ -8,12 +8,12 @@
      * @param {Waves} waves
      * @param {Base} Base
      * @param {app.utils} utils
-     * @param {IPollCreate} createPoll
      * @param {User} user
      * @param {$mdDialog} $mdDialog
+     * @param {BalanceWatcher} balanceWatcher
      * @return {AssetSendCtrl}
      */
-    const controller = function ($scope, waves, Base, utils, createPoll, user, $mdDialog) {
+    const controller = function ($scope, waves, Base, utils, user, $mdDialog, balanceWatcher) {
 
         class AssetSendCtrl extends Base {
 
@@ -81,10 +81,8 @@
                     massSend: utils.liteObject({ type: SIGN_TYPE.MASS_TRANSFER }),
                     toBankMode: false
                 };
-                /**
-                 * @type {Poll}
-                 */
-                this.poll = createPoll(this, this._getBalanceList, 'state.moneyHash', 1000, { isBalance: true });
+                this.receive(balanceWatcher.change, this._updateBalanceList, this);
+                this._updateBalanceList();
                 /**
                  * @type {*}
                  */
@@ -142,7 +140,6 @@
                 }
 
                 this.receive(utils.observe(this.state, 'moneyHash'), this._onChangeMoneyHash, this);
-                this.receive(utils.observe(this.state, 'assetId'), () => this.poll.restart());
             }
 
             back() {
@@ -187,13 +184,26 @@
              * @return {Promise<Money[]>}
              * @private
              */
-            _getBalanceList() {
-                return waves.node.assets.userBalances()
-                    .then((list) => list.map(({ available }) => available))
-                    .then((list) => list.filter((money) => money.getTokens().gt(0)))
-                    .then((list) => utils.toHash(list, 'asset.id'))
-                    .then(AssetSendCtrl._getAddMoneyProcessor(this.state.assetId))
-                    .then(AssetSendCtrl._getAddMoneyProcessor(this.state.mirrorId));
+            _updateBalanceList() {
+                const hash = balanceWatcher.getBalance();
+
+                const loadBalances = [this.state.assetId, this.state.mirrorId].reduce((acc, assetId) => {
+                    return acc.then(hash => {
+                        if (hash[assetId]) {
+                            return Promise.resolve(hash);
+                        }
+                        return balanceWatcher.getBalanceByAssetId(assetId)
+                            .then(money => {
+                                hash[assetId] = money;
+                                return hash;
+                            });
+                    });
+                }, Promise.resolve(hash));
+
+                loadBalances.then(hash => {
+                    this.state.moneyHash = hash;
+                    utils.safeApply($scope);
+                });
             }
 
             /**
@@ -202,24 +212,6 @@
              */
             static _isNotScam(item) {
                 return !WavesApp.scam[item.asset.id];
-            }
-
-            /**
-             * @param {string} assetId
-             * @return {AssetSendCtrl.IMoneyProcessor}
-             * @private
-             */
-            static _getAddMoneyProcessor(assetId) {
-                return (hash) => {
-                    if (!hash[assetId]) {
-                        return ds.moneyFromTokens('0', assetId).then((money) => {
-                            hash[assetId] = money;
-                            return hash;
-                        });
-                    } else {
-                        return hash;
-                    }
-                };
             }
 
         }
@@ -232,9 +224,9 @@
         'waves',
         'Base',
         'utils',
-        'createPoll',
         'user',
-        '$mdDialog'
+        '$mdDialog',
+        'balanceWatcher'
     ];
 
     angular.module('app.utils')

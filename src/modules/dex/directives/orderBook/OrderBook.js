@@ -305,7 +305,7 @@
 
                 this.hasOrderBook = Boolean(data.bids || data.asks);
 
-                this._dom.$asks.html(data.asks);
+                this._dom.$asks.get(0).innerHTML = data.asks;
 
                 if (data.lastTrade) {
                     const isBuy = data.lastTrade.lastSide === 'buy';
@@ -319,7 +319,7 @@
                         .text(0);
                 }
                 this._dom.$spread.text(data.spread && data.lastTrade ? data.spread.toFixed(2) : '');
-                this._dom.$bids.html(data.bids);
+                this._dom.$bids.get(0).innerHTML = data.bids;
 
                 if (this._showSpread) {
                     this._showSpread = false;

@@ -105,6 +105,7 @@
         bindings: {
             ns: '<',
             disabled: '<',
+            hideId: '<',
             onClick: '&',
             onSuccess: '&',
             onCancel: '&'
