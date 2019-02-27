@@ -59,17 +59,12 @@
                     }
 
                     if (!(this.fee && list.find(item => item.asset.id === this.fee.asset.id))) {
-                        const fee = this.balanceHash && Object.keys(this.balanceHash).length && list.find(item => {
-                            const balance = this.balanceHash[item.asset.id];
-                            return balance && balance.gte(item);
-                        });
+                        const fee = this.balanceHash && Object.keys(this.balanceHash).length && this.feeList
+                            .find(item => {
+                                const balance = this.balanceHash[item.asset.id];
+                                return balance && balance.gte(item);
+                            });
                         this.fee = fee || this.feeList[0];
-                    }
-
-                    const wavesFee = list.find(item => item.asset.id === 'WAVES');
-                    const noWaves = this.balanceHash.WAVES.lt(wavesFee);
-                    if (noWaves && user.address === this.fee.asset.sender) {
-                        this.fee = this.originalFeeList.find(item => item.asset.id === 'WAVES');
                     }
 
                     $scope.$apply();
@@ -115,11 +110,10 @@
                 }
 
                 const wavesFee = list.find(item => item.asset.id === 'WAVES');
-                const filteredList = list.filter((fee) => {
+                const filteredList = list.filter(fee => {
                     const feeBalance = this.balanceHash[fee.asset.id];
-                    const canUseOwnFee = !(this.balanceHash.WAVES.lt(wavesFee) && user.address === fee.asset.sender);
-
-                    return !(!hasBalances || !feeBalance || feeBalance.lt(fee)) && canUseOwnFee;
+                    const canUseOwnFee = user.address !== fee.asset.sender || this.balanceHash.WAVES.gte(wavesFee);
+                    return hasBalances && feeBalance && feeBalance.gte(fee) && canUseOwnFee;
                 });
 
 
