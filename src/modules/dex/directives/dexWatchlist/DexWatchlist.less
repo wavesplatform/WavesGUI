@@ -311,6 +311,10 @@ body.dex-demo .dex-wrapper {
           &[data-column-id="price"] {
             flex-basis: 24%;
             text-align: right;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            max-width: 24%;
           }
 
           &[data-column-id="change"] {
