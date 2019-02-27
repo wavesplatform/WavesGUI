@@ -72,7 +72,7 @@
     "uglifycss": "0.0.27"
   },
   "scripts": {
-    "start": "node server.js startSimple",
+    "start": "node server.js startSimple openUrl",
     "postinstall": "sh scripts/postinstall.sh",
     "preversion": "sh scripts/preversion.sh",
     "postversion": "sh scripts/postversion.sh",
@@ -91,8 +91,8 @@
     "@types/ramda": "0.25.34",
     "@uirouter/angularjs": "1.0.8",
     "@waves/assets-pairs-order": "4.0.0",
-    "@waves/data-entities": "^1.7.0",
-    "@waves/data-service-client-js": "^1.0.1",
+    "@waves/data-entities": "^1.10.1",
+    "@waves/data-service-client-js": "^2.0.0",
     "@waves/event-sender": "^0.4.4",
     "@waves/ledger": "^3.0.1",
     "@waves/oracle-data": "^0.0.6",
