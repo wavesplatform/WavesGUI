@@ -21,13 +21,13 @@
   &__handle {
     position: absolute;
     top: -8px;
-    left: 0;
     border: 2px solid @color-submit-400;
     border-radius: 50%;
     height: 18px;
     width: 18px;
     background: @color-white;
     cursor: pointer;
+    will-change: transform;
   }
 
   &__track {
@@ -39,6 +39,7 @@
       top: -2px;
       width: 0;
       background-color: @color-submit-400;
+      will-change: width;
     }
   }
 
