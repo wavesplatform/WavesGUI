@@ -137,11 +137,16 @@
 
                 balanceWatcher.ready
                     .then(() => {
-                        this.receive(balanceWatcher.change, this._updateBalances, this);
-                        this.observe(['pinned', 'spam'], () => {
+
+                        const onChange = () => {
                             this._updateBalances();
                             visibleService.updateSort();
-                        });
+                        };
+
+                        this.receive(balanceWatcher.change, onChange);
+                        this.receive(utils.observe(user, 'scam'), onChange);
+                        this.observe(['pinned', 'spam'], onChange);
+
                         this._updateBalances();
                     });
 
@@ -294,7 +299,7 @@
                     .map(item => {
                         const isPinned = this._isPinned(item.asset.id);
                         const isSpam = this._isSpam(item.asset.id);
-                        const isOnScamList = WavesApp.scam[item.asset.id];
+                        const isOnScamList = user.scam[item.asset.id];
 
                         return {
                             available: item.available,
