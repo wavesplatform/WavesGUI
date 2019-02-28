@@ -301,6 +301,10 @@ w-transaction-info-header + w-transaction-info-general {
     //  .icon-tx-sponsorship-minus();
     //}
 
+    //spam
+
+    //end spam
+
     &::before {
       width: @tx-icon-size;
       height: @tx-icon-size;
@@ -308,6 +312,59 @@ w-transaction-info-header + w-transaction-info-general {
       background-color: @color-white;
       content: '';
       display: block;
+    }
+  }
+
+  .spam {
+    .txinfo__icon {
+
+      &.send {
+        .icon-tx-send-spam();
+      }
+
+      &.receive {
+        .icon-tx-receive-spam();
+      }
+
+      &.exchange-buy,
+      &.exchange-sell,
+      &.create-order {
+        .icon-tx-exchange-spam();
+      }
+
+      &.reissue {
+        .icon-tx-reissue-spam();
+      }
+
+      &.sponsorship-start {
+        .icon-tx-sponsorship-start-spam();
+      }
+
+      &.sponsorship-stop {
+        .icon-tx-sponsorship-stop-spam();
+      }
+
+      &.sponsorship-fee {
+        .icon-tx-sponsorship-plus-spam();
+      }
+
+      &.set-asset-script {
+        .icon-tx-set-asset-script-spam();
+      }
+
+      &.mass-send {
+        .icon-tx-mass-transfer-spam();
+      }
+
+      &::before {
+        width: @tx-icon-size;
+        height: @tx-icon-size;
+        background-size: @tx-icon-size;
+                                      background-color: red; // @color-white
+        content: '';
+        display: block;
+      }
+
     }
   }
 

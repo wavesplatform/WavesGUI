@@ -139,6 +139,7 @@ w-transaction .transaction {
     //&.sponsorship-minus {
     //  .icon-tx-sponsorship-minus();
     //}
+
   }
 
   &.spam .icon {
@@ -150,6 +151,55 @@ w-transaction .transaction {
       .icon-tx-mass-spam();
     }
   }
+
+  // spam
+
+  &.spam {
+    .icon {
+      &.send {
+        .icon-tx-send-spam();
+      }
+
+      &.receive {
+        .icon-tx-receive-spam();
+      }
+
+      &.circular {
+        .icon-tx-circular-spam();
+      }
+
+      &.exchange-buy,
+      &.exchange-sell {
+        .icon-tx-exchange-spam();
+      }
+
+      &.reissue {
+        .icon-tx-reissue-spam();
+      }
+
+      &.sponsorship-start {
+        .icon-tx-sponsorship-start-spam();
+      }
+
+      &.sponsorship-stop {
+        .icon-tx-sponsorship-stop-spam();
+      }
+
+      &.sponsorship-fee {
+        .icon-tx-sponsorship-plus-spam();
+      }
+
+      &.set-asset-script {
+        .icon-tx-set-asset-script-spam();
+      }
+
+      &.mass-send {
+        .icon-tx-mass-transfer-spam();
+      }
+    }
+  }
+
+  // end spam
 
   .transaction-info {
     display: flex;
@@ -195,9 +245,7 @@ w-transaction .transaction {
           flex-grow: 0;
         }
       }
-
     }
-
   }
 
   &.spam {
