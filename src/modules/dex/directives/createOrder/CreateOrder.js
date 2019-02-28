@@ -112,6 +112,10 @@
                  */
                 this.focusedInputName = null;
                 /**
+                 * @type {string}
+                 */
+                this.changedInputName = null;
+                /**
                  *
                  * @type {boolean}
                  */
@@ -214,16 +218,14 @@
                     currentFee();
                 });
 
-                this.observe(['priceBalance', 'totalPrice', 'maxPriceBalance'], this._setIfCanBuyOrder);
-
-                this.observe(['amount', 'price', 'type'], this._currentTotal);
-                this.observe('totalPrice', this._currentAmount);
+                this.observe(['priceBalance', 'maxPriceBalance'], this._setIfCanBuyOrder);
+                this.observe(['amount', 'price', 'totalPrice', 'type'], this._updateField);
 
                 // TODO Add directive for stop propagation (catch move for draggable)
                 $element.on('mousedown touchstart', '.body', (e) => {
                     e.stopPropagation();
                 });
-
+                this.changedInputName = 'price';
                 currentFee();
             }
 
@@ -534,40 +536,44 @@
                 }
             }
 
+
             /**
              * @private
              */
-            _currentTotal() {
-                if (this.focusedInputName === 'total') {
+            _updateField() {
+                if (!this.focusedInputName) {
+                    this.totalPrice = this.priceBalance.cloneWithTokens('0');
                     return null;
                 }
 
-                if (!this.price || !this.amount) {
-                    this.totalPrice = this.priceBalance.cloneWithTokens('0');
-                } else {
+                const changed = this.changedInputName;
+                const inputsMap = {
+                    price: this.price,
+                    amount: this.amount,
+                    total: this.totalPrice
+                };
+                const currentValue = inputsMap[this.focusedInputName];
+                if (!changed || !currentValue) {
+                    return null;
+                }
+
+                const valueByTotalPrice = field => this.totalPrice.getTokens().div(field.getTokens());
+                const changingValue = ['price', 'total', 'amount']
+                    .find(name => name !== this.changedInputName && name !== this.focusedInputName);
+
+                if (changingValue === 'total') {
                     this.totalPrice = this.priceBalance.cloneWithTokens(
                         this.price.getTokens().times(this.amount.getTokens())
                     );
+                } else {
+                    const fieldValue = changed === 'total' ?
+                        valueByTotalPrice(this[this.focusedInputName]) :
+                        valueByTotalPrice(this[changed]);
+                    if (fieldValue.toFormat() === 'Infinity' || fieldValue.toFormat() === 'NaN') {
+                        return null;
+                    }
+                    this[changingValue] = this.amountBalance.cloneWithTokens(fieldValue);
                 }
-                this._setIfCanBuyOrder();
-            }
-
-            /**
-             * @returns {null}
-             * @private
-             */
-            _currentAmount() {
-                if (this.focusedInputName !== 'total') {
-                    return null;
-                }
-
-                if (!this.totalPrice || !this.price || this.price.getTokens().eq('0')) {
-                    return null;
-                }
-
-                const amount = this.totalPrice.getTokens().div(this.price.getTokens());
-                this._setDirtyAmount(this.amountBalance.cloneWithTokens(amount));
-
                 this._setIfCanBuyOrder();
             }
 
