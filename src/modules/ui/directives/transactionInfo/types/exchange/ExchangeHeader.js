@@ -26,6 +26,15 @@
              */
             signAmount = '+';
 
+            /**
+             * @type {boolean}
+             */
+            isScamAmount;
+
+            /**
+             * @type {boolean}
+             */
+            isScamPrice;
 
             $postLink() {
                 this.transaction = this.signable.getTxData();
@@ -33,6 +42,8 @@
                 this.totalPrice = utils.getExchangeTotalPrice(this.transaction.amount, this.transaction.price);
                 this.signPrice = this.typeName === 'exchange-buy' ? '–' : '+';
                 this.signAmount = this.typeName === 'exchange-buy' ? '+' : '–';
+                this.isScamAmount = !!WavesApp.scam[this.transaction.amount.asset];
+                this.isScamPrice = !!WavesApp.scam[this.transaction.price.asset];
             }
 
         }

@@ -31,6 +31,10 @@
                 this.shownAddress = this.transaction.shownAddress;
                 this.typeName = this.transaction.typeName;
                 this.isScam = !!WavesApp.scam[this.transaction.assetId];
+                if (this.transaction.type === 7) {
+                    this.isScamAmount = !!WavesApp.scam[this.transaction.amount.asset];
+                    this.isScamPrice = !!WavesApp.scam[this.transaction.price.asset];
+                }
 
                 if (this.transaction.amount && this.transaction.amount instanceof ds.wavesDataEntities.Money) {
                     baseAssetService.convertToBaseAsset(this.transaction.amount)
