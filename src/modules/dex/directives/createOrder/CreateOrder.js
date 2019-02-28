@@ -217,8 +217,7 @@
                 this.observe(['priceBalance', 'totalPrice', 'maxPriceBalance'], this._setIfCanBuyOrder);
 
                 this.observe(['amount', 'price', 'type'], this._currentTotal);
-                this.observe('totalPrice', this._currentAmount);
-
+                this.observe('totalPrice', this._currentAmountOrPrice);
                 // TODO Add directive for stop propagation (catch move for draggable)
                 $element.on('mousedown touchstart', '.body', (e) => {
                     e.stopPropagation();
@@ -289,6 +288,17 @@
 
             setLastPrice() {
                 this._setDirtyPrice(this.lastTradePrice);
+            }
+
+            _toggleDirty() {
+                const focusedInputName = this.focusedInputName;
+                if (focusedInputName === 'amount') {
+                    this.order[focusedInputName].$setDirty();
+                    this.order.price.$setPristine();
+                } else if (focusedInputName === 'price') {
+                    this.order[focusedInputName].$setDirty();
+                    this.order.amount.$setPristine();
+                }
             }
 
             /**
@@ -549,6 +559,7 @@
                         this.price.getTokens().times(this.amount.getTokens())
                     );
                 }
+                this._toggleDirty();
                 this._setIfCanBuyOrder();
             }
 
@@ -556,7 +567,7 @@
              * @returns {null}
              * @private
              */
-            _currentAmount() {
+            _currentAmountOrPrice() {
                 if (this.focusedInputName !== 'total') {
                     return null;
                 }
@@ -565,8 +576,13 @@
                     return null;
                 }
 
-                const amount = this.totalPrice.getTokens().div(this.price.getTokens());
-                this._setDirtyAmount(this.amountBalance.cloneWithTokens(amount));
+                if (this.order.price.$dirty) {
+                    const amount = this.totalPrice.getTokens().div(this.price.getTokens());
+                    this._setDirtyAmount(this.amountBalance.cloneWithTokens(amount));
+                } else if (this.order.amount.$dirty) {
+                    const price = this.totalPrice.getTokens().div(this.amount.getTokens());
+                    this._setDirtyPrice(this.amountBalance.cloneWithTokens(price));
+                }
 
                 this._setIfCanBuyOrder();
             }
