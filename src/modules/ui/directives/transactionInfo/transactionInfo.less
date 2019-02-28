@@ -301,19 +301,18 @@ w-transaction-info-header + w-transaction-info-general {
     //  .icon-tx-sponsorship-minus();
     //}
 
-    //spam
-
-    //end spam
-
     &::before {
       width: @tx-icon-size;
       height: @tx-icon-size;
-      background-size: @tx-icon-size;
+      background-size: calc(722px * (8 / 3)) auto;
       background-color: @color-white;
+      background-position-y: 0;
       content: '';
       display: block;
     }
   }
+
+  //spam
 
   .spam {
     .txinfo__icon {
@@ -357,16 +356,12 @@ w-transaction-info-header + w-transaction-info-general {
       }
 
       &::before {
-        width: @tx-icon-size;
-        height: @tx-icon-size;
-        background-size: @tx-icon-size;
-                                      background-color: red; // @color-white
-        content: '';
-        display: block;
+        background-position-y: -@tx-icon-size;
       }
-
     }
   }
+
+  // end spam
 
   .exchange-header-row {
     margin: 0 0 6px;

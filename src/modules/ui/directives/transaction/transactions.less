@@ -47,8 +47,9 @@ w-transaction .transaction {
       width: @tx-icon-size;
       height: @tx-icon-size;
       overflow: hidden;
-      left: 10px;
+      left: 9px;
       top: 9px;
+      background-position-y: 0;
     }
 
     &.send {
@@ -157,6 +158,22 @@ w-transaction .transaction {
 
   &.spam {
     .icon {
+
+      &.send,
+      &.receive,
+      &.circular,
+      &.exchange-buy,
+      &.exchange-sell,
+      &.reissue,
+      &.sponsorship-start,
+      &.sponsorship-stop,
+      &.sponsorship-fee,
+      &.mass-send {
+        &::before {
+          background-position-y: -@tx-icon-size;
+        }
+      }
+
       &.send {
         .icon-tx-send-spam();
       }
