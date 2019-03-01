@@ -140,7 +140,7 @@
                 /**
                  * @type {Poll}
                  */
-                this.poll = createPoll(this, this._getTradeHistory, this._setTradeHistory, 1000);
+                this.poll = createPoll(this, this._getTradeHistory, this._setTradeHistory, 5000);
                 this.poll.ready.then(() => {
                     this.pending = false;
                 });

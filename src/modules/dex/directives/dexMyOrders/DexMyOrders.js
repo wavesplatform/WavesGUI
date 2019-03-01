@@ -147,7 +147,7 @@
                 ];
 
                 if (!this.isDemo) {
-                    const poll = createPoll(this, DexMyOrders._getAllOrders, this._setOrders, 1000);
+                    const poll = createPoll(this, DexMyOrders._getAllOrders, this._setOrders, 3000);
                     poll.ready.then(() => {
                         this.pending = false;
                     });

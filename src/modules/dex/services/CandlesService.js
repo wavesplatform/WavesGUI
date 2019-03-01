@@ -81,7 +81,7 @@
                             candles = candleConfig.converter(candles);
                         }
                         return candles;
-                    }).catch(() => []);
+                    });
             }
 
             static convertToMilliseconds(seconds) {

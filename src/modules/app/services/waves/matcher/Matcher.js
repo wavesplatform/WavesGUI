@@ -40,7 +40,7 @@
              * @param {AssetPair} pair
              * @return {Promise<{price: Money, lastSide: string}r>}
              */
-            @decorators.cachable(0.5)
+            @decorators.cachable(2)
             getLastPrice(pair) {
                 return ds.api.matcher.getLastPrice(pair);
             }
@@ -49,7 +49,7 @@
              * @param {string} address
              * @return {Promise<IScriptInfo<Money>>}
              */
-            @decorators.cachable(2)
+            @decorators.cachable(5)
             _scriptInfo(address) {
                 return ds.api.address.getScriptInfo(address);
             }
@@ -145,10 +145,10 @@
                         timer: setTimeout(() => {
                             hash[id].cache.destroy();
                             delete hash[id];
-                        }, 5000),
+                        }, 2000),
                         cache: new PollCache({
                             getData: () => this._getOrderBook(asset1, asset2),
-                            timeout: 1000
+                            timeout: 5000
                         })
                     };
                     return hash[id].cache;
