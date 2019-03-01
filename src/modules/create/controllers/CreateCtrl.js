@@ -2,6 +2,8 @@
     'use strict';
 
     /**
+     * @param {typeof Base} Base
+     * @param {$rootScope.Scope} $scope
      * @param $q
      * @param $mdDialog
      * @param $timeout

@@ -1,6 +1,6 @@
 import { createSecureServer } from 'http2';
 import { createServer } from 'https';
-import { route, parseArguments } from './ts-scripts/utils';
+import { route, parseArguments, stat } from './ts-scripts/utils';
 import { readFileSync } from 'fs';
 import { serialize, parse as parserCookie } from 'cookie';
 import { compile } from 'handlebars';
@@ -23,6 +23,11 @@ const args = parseArguments() || Object.create(null);
 
 const handler = function (req, res) {
     const url = parse(req.url);
+
+    if (url.href.includes('event-sender') || url.href.includes('amplitude')) {
+        stat(req, res, [__dirname, join(__dirname, 'node_modules/@waves')]);
+        return null;
+    }
 
     if (url.href.includes('/choose/')) {
         const [platform, connection, build] = url.href.replace('/choose/', '').split('/');

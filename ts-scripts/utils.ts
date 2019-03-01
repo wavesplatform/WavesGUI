@@ -9,8 +9,9 @@ import { compile } from 'handlebars';
 import { transform } from 'babel-core';
 import { render } from 'less';
 import { minify } from 'html-minifier';
-import { get, ServerResponse, IncomingMessage } from 'https';
+import { get, ServerResponse, IncomingMessage, ClientRequest } from 'https';
 import { MAINNET_DATA, TESTNET_DATA } from '@waves/assets-pairs-order';
+import { Http2ServerRequest, Http2ServerResponse } from 'http2';
 
 export const task: ITaskFunction = gulp.task.bind(gulp) as any;
 
@@ -479,14 +480,8 @@ export function isPage(url: string): boolean {
     });
 }
 
-function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, platform: TPlatform) {
-    const ROOTS = [join(__dirname, '..')];
-    if (buildType !== 'dev') {
-        ROOTS.push(join(__dirname, '..', 'dist', platform, connectionType, buildType));
-    } else {
-        ROOTS.push(join(__dirname, '..', 'src'));
-    }
-
+export function stat(req: Http2ServerRequest, res: Http2ServerResponse, roots: Array<string>): void {
+    const copyRoots = roots.slice();
     const [url] = req.url.split('?');
     const contentType = getType(url);
 
@@ -498,8 +493,8 @@ function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, p
             res.end(file);
         })
             .catch(() => {
-                if (ROOTS.length) {
-                    check(ROOTS.pop());
+                if (copyRoots.length) {
+                    check(copyRoots.pop());
                 } else {
                     res.writeHead(404, { 'Content-Type': 'text/plain' });
                     res.end('404 Not Found\n');
@@ -507,7 +502,17 @@ function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, p
             });
     };
 
-    check(ROOTS.pop());
+    check(copyRoots.pop());
+}
+
+function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, platform: TPlatform) {
+    const ROOTS = [join(__dirname, '..')];
+    if (buildType !== 'dev') {
+        ROOTS.push(join(__dirname, '..', 'dist', platform, connectionType, buildType));
+    } else {
+        ROOTS.push(join(__dirname, '..', 'src'));
+    }
+    stat(req, res, ROOTS);
 }
 
 export interface IRouteOptions {

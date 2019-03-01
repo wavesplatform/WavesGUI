@@ -216,16 +216,14 @@
                         case v instanceof Date:
                             return v.getTime();
                         default:
-                            return v;
+                            return encodeURIComponent(v);
                     }
                 };
                 const createKeyValue = (key, v) => `${key}=${customSerialize(v)}`;
                 const createArrayKeyValue = (key, values) => values.map(v => createKeyValue(`${key}[]`, v)).join('&');
                 const qs = Object.entries(obj)
                     .filter(([_, value]) => value !== undefined)
-                    .map(([key, value]) => {
-                        return Array.isArray(value) ? createArrayKeyValue(key, value) : createKeyValue(key, value);
-                    })
+                    .map(([key, value]) => Array.isArray(value) ? createArrayKeyValue(key, value) : createKeyValue(key, value))
                     .join('&');
                 return qs === '' ? qs : `?${qs}`;
                 /* eslint-enable */
