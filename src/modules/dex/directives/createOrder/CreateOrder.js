@@ -124,7 +124,7 @@
                     { name: '30day', value: () => utils.moment().add().day(29).getDate().getTime() }
                 ];
 
-                this.expiration = this.expirationValues[this.expirationValues.length - 1].value;
+                // this.expiration = this.expirationValues[this.expirationValues.length - 1].value;
 
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.expand(type);
@@ -349,7 +349,9 @@
              * @private
              */
             _sendOrder(data) {
-                const expiration = ds.utils.normalizeTime(this.expirationValues.find(this.expiration).value());
+                const expiration = ds.utils.normalizeTime(
+                    this.expirationValues.find(el => el.name === this.expiration).value()
+                );
                 const clone = { ...data, expiration };
 
                 return utils.createOrder(clone);
