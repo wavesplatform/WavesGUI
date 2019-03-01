@@ -31,6 +31,9 @@
                         resolution
                     )
                     .then(handleCandles)
+                    .catch(e => {
+                        return utils.wait(5000).then(() => Promise.reject(e));
+                    })
                     .catch(handleError);
             }
 
