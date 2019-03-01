@@ -60,17 +60,17 @@ export class Poll<T> {
                 this._setTimeout();
             }, (e) => {
                 this.signals.requestError.dispatch(e);
-                this._setTimeout();
+                this._setTimeout(true);
             });
         } catch (e) {
             this.signals.requestError.dispatch(e);
-            this._setTimeout();
+            this._setTimeout(true);
         }
     }
 
-    private _setTimeout() {
+    private _setTimeout(isError?: boolean) {
         this._clear();
-        this._timer = window.setTimeout(() => this._run(), this._timeout);
+        this._timer = window.setTimeout(() => this._run(), isError ? this._timeout * 10 : this._timeout);
     }
 
     private _clear() {

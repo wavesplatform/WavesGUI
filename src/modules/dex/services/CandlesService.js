@@ -4,7 +4,7 @@
 
     const { config } = require('data-service');
     const { flatten, pipe, prop, map } = require('ramda');
-    const POLL_DELAY = 400;
+    const POLL_DELAY = 1400;
 
     /**
      * @param {app.utils} utils

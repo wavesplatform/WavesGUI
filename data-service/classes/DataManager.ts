@@ -134,9 +134,9 @@ export class DataManager {
     }
 
     private _createPolls(): TPollHash {
-        const balance = new Poll(this._getPollBalanceApi(), 1000);
-        const orders = new Poll(this._getPollOrdersApi(), 1000);
-        const aliases = new Poll(this._getPollAliasesApi(), 5000);
+        const balance = new Poll(this._getPollBalanceApi(), 5000);
+        const orders = new Poll(this._getPollOrdersApi(), 5000);
+        const aliases = new Poll(this._getPollAliasesApi(), 15000);
         const oracle = new Poll(this._getPollOracleApi(), 30000);
 
         change.on((key) => {
