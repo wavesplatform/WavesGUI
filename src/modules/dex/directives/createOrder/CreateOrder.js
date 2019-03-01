@@ -327,16 +327,16 @@
 
                                 notify.addClass('success');
                                 this.createOrderFailed = false;
-                                const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
-                                analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Success`, pair);
+                                // const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
+                                // analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Success`, pair);
                                 dexDataService.createOrder.dispatch();
                                 CreateOrder._animateNotification(notify);
                             })
                             .catch(() => {
                                 this.createOrderFailed = true;
                                 notify.addClass('error');
-                                const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
-                                analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Error`, pair);
+                                // const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
+                                // analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Error`, pair);
                                 CreateOrder._animateNotification(notify);
                             });
                     });

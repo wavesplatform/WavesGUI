@@ -73,6 +73,7 @@
 
         const phone = WavesApp.device.phone();
         const tablet = WavesApp.device.tablet();
+        const analytics = require('@waves/event-sender');
 
         const isPhone = !!phone;
         const isTablet = !!tablet;
@@ -476,11 +477,17 @@
              * @private
              */
             _onChangeStateSuccess(event, toState, some, fromState) {
-                if (fromState.name) {
-                    analytics.pushPageView(
-                        `${AppRun._getUrlFromState(toState)}.${WavesApp.type}`,
-                        `${AppRun._getUrlFromState(fromState)}.${WavesApp.type}`
-                    );
+                switch (toState.name) {
+                    case 'create':
+                        analytics.send({
+                            name: 'Create New Account Show',
+                            params: {
+                                from: fromState.name || document.referrer
+                            }
+                        });
+                        break;
+                    default:
+                        break;
                 }
                 this.activeClasses.forEach((className) => {
                     document.body.classList.remove(className);

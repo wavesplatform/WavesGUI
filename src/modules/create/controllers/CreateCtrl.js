@@ -14,6 +14,7 @@
      */
     const controller = function (Base, $scope, $q, $mdDialog, $timeout, user, modalManager, seedService) {
 
+        const analytics = require('@waves/event-sender');
         const PATH = 'modules/create/templates';
         const ORDER_LIST = [
             'createAccount',
@@ -22,6 +23,14 @@
             'backupSeed',
             'confirmBackup'
         ];
+
+        const STATE_HASH = {
+            CREATE_ACCOUNT: 0,
+            CREATE_ACCOUNT_DATA: 1,
+            SHOW_NO_BACKUP_NOW_MONEY: 2,
+            BACKUP: 3,
+            CONFIRM_BACKUP: 4
+        };
 
         class CreateCtrl extends Base {
 
@@ -77,17 +86,55 @@
             }
 
             create() {
+                analytics.send({ name: 'Create Confirm Phrase Confirm Click' });
                 return this._create(true);
             }
 
             createWithoutBackup() {
+                analytics.send({
+                    name: 'Create Do It Later Click'
+                });
                 return this._create(false);
+            }
+
+            clickCopySeed() {
+                analytics.send({ name: 'Create Backup Phrase Copy Click' });
             }
 
             /**
              * @param {number} [index]
              */
             next(index) {
+
+                if (index === STATE_HASH.CREATE_ACCOUNT && index > STATE_HASH.CREATE_ACCOUNT) {
+                    analytics.send({
+                        name: 'Create New Continue Click',
+                        params: {
+                            guestMode: !this.saveUserData
+                        }
+                    });
+                }
+                if (index === STATE_HASH.CREATE_ACCOUNT_DATA) {
+                    analytics.send({ name: 'Create Protect Your Account Show' });
+                }
+                if (this.stepIndex === STATE_HASH.CREATE_ACCOUNT_DATA && index > this.stepIndex) {
+                    analytics.send({ name: 'Create Protect Your Account Continue Click' });
+                }
+                if (index === STATE_HASH.SHOW_NO_BACKUP_NOW_MONEY) {
+                    analytics.send({ name: 'Create No Backup Show' });
+                }
+                if (this.stepIndex === STATE_HASH.SHOW_NO_BACKUP_NOW_MONEY && index > this.stepIndex) {
+                    analytics.send({ name: 'Create Back Up Now Click' });
+                }
+                if (index === STATE_HASH.BACKUP) {
+                    analytics.send({ name: 'Create Backup Phrase Show' });
+                }
+                if (this.stepIndex === STATE_HASH.BACKUP && index > this.stepIndex) {
+                    analytics.send({ name: 'Create Backup Phrase I Written Click' });
+                }
+                if (index === STATE_HASH.CONFIRM_BACKUP) {
+                    analytics.send({ name: 'Create Confirm Phrase Show' });
+                }
 
                 if (!index) {
                     index = this.stepIndex + 1;
@@ -110,7 +157,11 @@
             checkNext() {
                 const step = ORDER_LIST[this.stepIndex];
                 if (step === 'noBackupNoMoney') {
-                    return this.showBackupWarningPopup();
+                    analytics.send({ name: 'Create Warning Show' });
+                    return this.showBackupWarningPopup()
+                        .then(() => {
+                            analytics.send({ name: 'Create Warning I Understand Click' });
+                        });
                 }
                 return $q.when();
             }

@@ -17,6 +17,7 @@
         const ds = require('data-service');
         const { Money } = require('@waves/data-entities');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const analytics = require('@waves/event-sender');
 
         const DEFAULT_OPTIONS = {
             clickOutsideToClose: true,
@@ -189,6 +190,11 @@
                  * @type {User}
                  */
                 const user = $injector.get('user');
+
+                analytics.send({
+                    name: 'Create Done Show', params: { hasBackup: user.getSetting('hasBackup') }
+                });
+
                 return this._getModal({
                     id: 'terms-accept',
                     templateUrl: 'modules/utils/modals/termsAccept/terms-accept.html',
@@ -196,7 +202,10 @@
                     clickOutsideToClose: false,
                     escapeToClose: false
                 })
-                    .then(() => user.setSetting('termsAccepted', true));
+                    .then(() => {
+                        user.setSetting('termsAccepted', true);
+                        analytics.send({ name: 'Create Done Confirm and Begin Click' });
+                    });
             }
 
             showTutorialModals() {
@@ -542,7 +551,7 @@
                             this._counter--;
 
                             if (options.id) {
-                                analytics.push('Modal', `Modal.Close.${WavesApp.type}`, options.id);
+                                // analytics.push('Modal', `Modal.Close.${WavesApp.type}`, options.id);
                             }
                         };
 
@@ -554,7 +563,7 @@
                         const modal = $mdDialog.show(target);
 
                         if (options.id) {
-                            analytics.push('Modal', `Modal.Open.${WavesApp.type}`, options.id);
+                            // analytics.push('Modal', `Modal.Open.${WavesApp.type}`, options.id);
                         }
 
                         modal.then(changeCounter, changeCounter);

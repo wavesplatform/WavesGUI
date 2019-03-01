@@ -2,7 +2,17 @@ import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
 import { exec, execSync } from 'child_process';
-import { download, getAllLessFiles, getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
+import {
+    download,
+    getAllLessFiles,
+    getFilesFrom,
+    prepareHTML,
+    run,
+    task,
+    getScripts,
+    getStyles,
+    getInitScript
+} from './ts-scripts/utils';
 import { basename, extname, join, sep } from 'path';
 import {
     copy,
@@ -138,6 +148,10 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
 
             task(`html-${taskPostfix}`, htmlDeps, function (done) {
                 const scripts = [jsFilePath];
+                const outerScripts = [
+                    '<script src="https://cdn.ravenjs.com/3.22.3/raven.min.js" crossorigin="anonymous"><\/script>',
+                    '<script>Raven.config("https://edc3970622f446d7aa0c9cb38be44a4f@sentry.io/291068").install();<\/script>'
+                ];
 
                 if (buildName === 'desktop') {
                     meta.electronScripts.forEach((fileName) => {
@@ -156,19 +170,28 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                             });
                         }
 
-                        return prepareHTML({
+                        const params = {
                             buildType: type,
                             target: targetPath,
                             connection: configName,
-                            scripts: scripts,
                             type: buildName,
+                            outerScripts,
+                            scripts,
                             styles,
                             themes: THEMES
-                        });
+                        };
+
+                        const filePromise = prepareHTML(params);
+                        const initScript = getInitScript(null, null, null, params);
+                        return Promise.all([filePromise, initScript]);
                     })
-                    .then((file) => outputFile(`${targetPath}/index.html`, file))
+                    .then(([file, initScript]) => Promise.all([
+                        outputFile(`${targetPath}/index.html`, file),
+                        outputFile(`${targetPath}/init.js`, initScript),
+                    ]))
                     .then(() => done());
             });
+
             taskHash.html.push(`html-${taskPostfix}`);
 
             if (buildName === 'desktop') {

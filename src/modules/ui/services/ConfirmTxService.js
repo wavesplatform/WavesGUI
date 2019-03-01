@@ -79,10 +79,10 @@
                 return this.signable.getDataForApi()
                     .then(method)
                     .then((data) => {
-                        analytics.push(...this.getAnalytics(true));
+                        // analytics.push(...this.getAnalytics(true));
                         return data;
                     }, (error) => {
-                        analytics.push(...this.getAnalytics(false));
+                        // analytics.push(...this.getAnalytics(false));
                         return Promise.reject(error);
                     });
             }
@@ -91,25 +91,25 @@
                 return 'Transaction';
             }
 
-            getAnalytics(success) {
-                const NAME = this.getEventName();
-                const amount = ConfirmTxService.toBigNumber(this.tx.amount);
-                if (success) {
-                    return [
-                        NAME,
-                        `${NAME}.${this.signable.type}.${WavesApp.type}`,
-                        `${NAME}.${this.signable.type}.${WavesApp.type}.Success`,
-                        amount
-                    ];
-                } else {
-                    return [
-                        NAME,
-                        `${NAME}.${this.signable.type}.${WavesApp.type}`,
-                        `${NAME}.${this.signable.type}.${WavesApp.type}.Error`,
-                        amount
-                    ];
-                }
-            }
+            // getAnalytics(success) {
+            //     const NAME = this.getEventName();
+            //     const amount = ConfirmTxService.toBigNumber(this.tx.amount);
+            //     if (success) {
+            //         return [
+            //             NAME,
+            //             `${NAME}.${this.signable.type}.${WavesApp.type}`,
+            //             `${NAME}.${this.signable.type}.${WavesApp.type}.Success`,
+            //             amount
+            //         ];
+            //     } else {
+            //         return [
+            //             NAME,
+            //             `${NAME}.${this.signable.type}.${WavesApp.type}`,
+            //             `${NAME}.${this.signable.type}.${WavesApp.type}.Error`,
+            //             amount
+            //         ];
+            //     }
+            // }
 
             confirm() {
                 return this.sendTransaction().then(tx => {

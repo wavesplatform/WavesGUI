@@ -13,6 +13,15 @@ import { get, ServerResponse, IncomingMessage, ClientRequest } from 'https';
 import { MAINNET_DATA, TESTNET_DATA } from '@waves/assets-pairs-order';
 import { Http2ServerRequest, Http2ServerResponse } from 'http2';
 
+declare const parseJsonBignumber;
+declare const BigNumber;
+declare const WavesApp;
+declare const ds;
+declare const parse;
+declare const Mousetrap;
+declare const MobileDetect;
+declare const transfer;
+
 export const task: ITaskFunction = gulp.task.bind(gulp) as any;
 
 export function getBranch(): Promise<string> {
@@ -119,9 +128,9 @@ export function moveTo(path: string): (relativePath: string) => string {
 }
 
 export function replaceScripts(file: string, paths: Array<string>): string {
-    return file.replace('<!-- JAVASCRIPT -->', paths.map((path) => {
-        return `<script src="${path}"></script>`;
-    }).join('\n'));
+    return file.replace('<!-- JAVASCRIPT -->',
+        paths.map((path) => `<script src="${path}"></script>`).join('\n')
+    );
 }
 
 export function replaceStyles(file: string, paths: Array<{ theme: string, name: string, hasGet?: boolean }>): string {
@@ -142,74 +151,99 @@ export function getAllLessFiles() {
     return getFilesFrom(join(__dirname, '../src'), '.less');
 }
 
-export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
+export function getScripts(param:  IPrepareHTMLOptions, pack, meta) {
     const filter = moveTo(param.target);
-    return Promise.all([
-        readFile(join(__dirname, '../src/index.hbs'), 'utf8') as Promise<string>,
+    let { scripts } = param  || Object.create(null);
+    if (!scripts) {
+        const sourceFiles = getFilesFrom(join(__dirname, '../src'), '.js', function (name, path) {
+            return !name.includes('.spec') && !path.includes('/test/');
+        });
+        const cacheKiller = `?v${pack.version}`;
+        scripts = meta.vendors.map((i) => join(__dirname, '..', i)).concat(sourceFiles);
+        meta.debugInjections.forEach((path) => {
+            scripts.unshift(join(__dirname, '../', path));
+        });
+        scripts = scripts.map((path) => `${path}${cacheKiller}`);
+    }
+    return scripts.map(filter).map(path => `<script src="${path}"></script>`);
+}
+
+export function getStyles(param:  IPrepareHTMLOptions, meta, themes) {
+    const filter = moveTo(param.target);
+    let { styles } = param || Object.create(null);
+
+    if (!styles) {
+        const _styles = meta.stylesheets.concat(getFilesFrom(join(__dirname, '../src'), '.less'));
+        styles = [];
+        for (const style of _styles) {
+            for (const theme of themes) {
+                const name = filter(style);
+
+                if (!isLess(style)) {
+                    styles.push({ name: `/${name}`, theme: null });
+                    break;
+                }
+                styles.push({ name: `/${name}`, theme, hasGet: true });
+            }
+        }
+    }
+
+    return styles.map(({ theme, name, hasGet }) => {
+        if (hasGet) {
+            return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}?theme=${theme || ''}">`;
+        }
+
+        return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}">`;
+    });
+}
+
+export async function getBuildParams(param: IPrepareHTMLOptions) {
+    const [pack, meta, themesConf] = await Promise.all([
         readJSON(join(__dirname, '../package.json')) as Promise<IPackageJSON>,
         readJSON(join(__dirname, './meta.json')) as Promise<IMetaJSON>,
         readJSON(join(__dirname, '../src/themeConfig/theme.json'))
-    ])
-        .then(([file, pack, meta, themesConf]) => {
-            const { themes } = themesConf;
-            const connectionTypes = ['mainnet', 'testnet'];
+    ]);
 
-            if (!param.scripts) {
-                const sourceFiles = getFilesFrom(join(__dirname, '../src'), '.js', function (name, path) {
-                    return !name.includes('.spec') && !path.includes('/test/');
-                });
-                const cacheKiller = `?v${pack.version}`;
-                param.scripts = meta.vendors.map((i) => join(__dirname, '..', i)).concat(sourceFiles);
-                meta.debugInjections.forEach((path) => {
-                    param.scripts.unshift(join(__dirname, '../', path));
-                });
-                param.scripts = param.scripts.map((path) => `${path}${cacheKiller}`);
-            }
+    const { themes } = themesConf;
+    const { domain } = meta;
+    const { connection, type, buildType, outerScripts = [] } = param;
+    const config = meta.configurations[connection];
 
-            if (!param.styles) {
-                const styles = meta.stylesheets.concat(getFilesFrom(join(__dirname, '../src'), '.less'));
-                param.styles = [];
-                for (const style of styles) {
-                    for (const theme of themes) {
-                        const name = filter(style);
+    const networks = ['mainnet', 'testnet'].reduce((result, connection) => {
+        result[connection] = meta.configurations[connection];
+        return result;
+    }, Object.create(null));
 
-                        if (!isLess(style)) {
-                            param.styles.push({ name: `/${name}`, theme: null });
-                            break;
-                        }
-                        param.styles.push({ name: `/${name}`, theme, hasGet: true });
-                    }
-                }
-            }
+    const scripts = getScripts(param, pack, meta).concat(outerScripts);
+    const styles = getStyles(param, meta, themes);
+    const isWeb = type === 'web';
+    const isProduction = buildType && buildType === 'min';
+    const matcherPriorityList = connection === 'mainnet' ? MAINNET_DATA : TESTNET_DATA;
+    const { origin, oracle, feeConfigUrl, bankRecipient } = config;
 
-            const networks = connectionTypes.reduce((result, connection) => {
-                result[connection] = meta.configurations[connection];
-                return result;
-            }, Object.create(null));
+    return {
+        pack,
+        isWeb,
+        origin,
+        oracle,
+        domain,
+        styles,
+        scripts,
+        isProduction,
+        feeConfigUrl,
+        bankRecipient,
+        build: { type },
+        matcherPriorityList,
+        network: networks[connection],
+        themesConf: themesConf,
+        langList: meta.langList,
+    };
+}
 
-            const fileTpl = compile(file)({
-                pack: pack,
-                isWeb: param.type === 'web',
-                isProduction: param.buildType && param.buildType === 'min',
-                domain: meta.domain,
-                matcherPriorityList: JSON.stringify(param.connection === 'mainnet' ? MAINNET_DATA : TESTNET_DATA, null, 4),
-                bankRecipient: meta.configurations[param.connection].bankRecipient,
-                origin: meta.configurations[param.connection].origin,
-                build: {
-                    type: param.type
-                },
-                network: networks[param.connection],
-                themesConf: JSON.stringify(themesConf),
-                langList: JSON.stringify(meta.langList),
-                oracle: meta.configurations[param.connection].oracle,
-                feeConfigUrl: meta.configurations[param.connection].feeConfigUrl
-            });
-
-            return replaceStyles(fileTpl, param.styles);
-        })
-        .then((file) => {
-            return replaceScripts(file, param.scripts.map(filter));
-        });
+export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
+    const pFile = readFile(join(__dirname, '../src/index.hbs'), 'utf8');
+    const pConfig = getBuildParams(param);
+    return Promise.all([pFile, pConfig]).then(([file, config]) => compile(file)(config));
 }
 
 export function download(url: string, filePath: string): Promise<void> {
@@ -251,6 +285,169 @@ export function parseArguments<T>(): T {
     return result;
 }
 
+export async function getInitScript(connectionType: TConnection, buildType: TBuild, type: TPlatform, paramsIn?) {
+    const params = paramsIn || {
+        target: join(__dirname, '..', 'src'),
+        connection: connectionType,
+        type,
+    };
+
+    const config = await getBuildParams(params);
+
+    function initConfig(config) {
+        var global = (window) as any;
+        var __controllers = Object.create(null);
+
+        global.buildIsWeb = config.isWeb;
+        global.isDesktop = !config.isWeb;
+
+        var USE_NATIVE_API = [
+            global.Promise,
+            global.fetch,
+            Object.values,
+            Object.assign,
+            Object.getOwnPropertyDescriptor,
+            Object.entries,
+            global.URL,
+            global.crypto || global.msCrypto
+        ];
+
+        var isSupported = true;
+
+        try {
+            for (var i = 0; i < USE_NATIVE_API.length; i++) {
+                if (!USE_NATIVE_API[i]) {
+                    throw new Error('Not supported');
+                }
+            }
+        } catch (e) {
+            isSupported = false;
+        }
+
+        config.notSupportedSelector = '.not-supported-browser';
+
+        (window as any).getConfig = function () {
+
+            config.isBrowserSupported = function() {
+                return isSupported;
+            };
+
+            config._initScripts = function () {
+                if (!isSupported) {
+                    return null;
+                }
+                for (var i = 0; i < config.scripts.length; i++) {
+                    document.write(config.scripts[i]);
+                }
+            };
+
+            config._initStyles = function () {
+                for (var i = 0; i < config.styles.length; i++) {
+                    document.write(config.styles[i]);
+                }
+            };
+
+            config._initApp = function () {
+                global.BigNumber = ds.wavesDataEntities.BigNumber;
+
+                // Signed 64-bit integer.
+                WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
+
+                WavesApp.device = new MobileDetect(navigator.userAgent);
+
+                (function () {
+                    var wrapper = require('worker-wrapper');
+
+                    var worker = wrapper.create({
+                        libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js?v' + WavesApp.version]
+                    });
+
+                    worker.process(function () {
+                        (self as any).parse = parseJsonBignumber().parse;
+                    });
+
+                    var stringify = parseJsonBignumber({BigNumber: BigNumber}).stringify;
+                    WavesApp.parseJSON = function (str) {
+                        return worker.process(function (str) {
+                            return parse(str);
+                        }, str);
+                    };
+
+                    WavesApp.stringifyJSON = function () {
+                        return stringify.apply(this, arguments);
+                    };
+                })();
+
+
+                if (WavesApp.isDesktop()) {
+                    var listenDevTools = false;
+                    Mousetrap.bind('i d d q d', function () {
+                        if (!listenDevTools) {
+                            transfer('addDevToolsMenu');
+                            listenDevTools = true;
+                        }
+                    });
+                }
+
+                global.Mousetrap.bind('c l e a n a l l', function () {
+                    localStorage.clear();
+                    if (WavesApp.isDesktop()) {
+                        transfer('reload');
+                    } else {
+                        window.location.reload();
+                    }
+                });
+            };
+
+            config.getLocaleData = function () {
+                return WavesApp.localize[global.i18next.language];
+            };
+
+            config.addController = function (name, controller) {
+                __controllers[name] = controller;
+            };
+
+            config.getController = function (name) {
+                return __controllers[name];
+            };
+
+            config.isWeb = function () {
+                return config.build.type === 'web';
+            };
+
+            config.isDesktop = function () {
+                return config.build.type === 'desktop';
+            };
+
+            config._isProduction = function () {
+                return config.isProduction;
+            };
+
+            config.reload = function () {
+                if (WavesApp.isDesktop()) {
+                    transfer('reload');
+                } else {
+                    window.location.reload();
+                }
+            };
+
+            config.remappedAssetNames = {};
+            config.remappedAssetNames[config.network.assets.EUR] = 'Euro';
+            config.remappedAssetNames[config.network.assets.USD] = 'US Dollar';
+            config.remappedAssetNames[config.network.assets.TRY] = 'TRY';
+            config.remappedAssetNames[config.network.assets.BTC] = 'Bitcoin';
+            config.remappedAssetNames[config.network.assets.ETH] = 'Ethereum';
+
+            return config;
+        };
+    }
+
+    const func = initConfig.toString();
+    const conf = JSON.stringify(config, null, 4);
+
+    return `(${func})(${conf})`;
+}
+
 export function route(connectionType: TConnection, buildType: TBuild, type: TPlatform) {
     return function (req: IncomingMessage, res: ServerResponse) {
         const url = req.url.replace(/\?.*/, '');
@@ -287,6 +484,12 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                 });
             }
             return routeStatic(req, res, connectionType, buildType, type);
+        } else {
+            if (buildType === 'dev' && req.url.includes('init.js')) {
+                return getInitScript(connectionType, buildType, type).then((script) => {
+                    res.end(script);
+                });
+            }
         }
 
         if (url.indexOf('/locales') === 0) {
@@ -473,7 +676,8 @@ export function isPage(url: string): boolean {
         'transfer.js',
         'tradingview-style',
         'data-service-dist',
-        'locale'
+        'locale',
+        'init.js'
     ];
     return !staticPathPartial.some((path) => {
         return url.includes(`/${path}`);
@@ -528,6 +732,7 @@ export interface IPrepareHTMLOptions {
     target: string;
     type: TPlatform;
     themes?: Array<string>;
+    outerScripts?: Array<string>;
 }
 
 export interface IFilter {

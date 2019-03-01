@@ -304,8 +304,8 @@
              */
             login(data) {
                 this.networkError = false;
-                return this._addUserData(data)
-                    .then(() => analytics.push('User', `Login.${WavesApp.type}.${data.userType}`));
+                return this._addUserData(data);
+                // .then(() => analytics.push('User', `Login.${WavesApp.type}.${data.userType}`));
             }
 
             /**
@@ -342,10 +342,10 @@
                         theme: themes.getDefaultTheme(),
                         candle: 'blue'
                     }
-                }).then(() => analytics.push(
+                }); /* .then(() => analytics.push(
                     'User',
                     `${restore ? 'Restore' : 'Create'}.${WavesApp.type}.${data.userType}`,
-                    document.referrer));
+                    document.referrer)) */
             }
 
             logout() {
@@ -421,7 +421,7 @@
                 if (currentTheme !== newTheme) {
                     this.setSetting('theme', newTheme);
                 }
-                analytics.push('Settings', 'Settings.ChangeTheme', newTheme);
+                // analytics.push('Settings', 'Settings.ChangeTheme', newTheme);
             }
 
             changeCandle(name) {

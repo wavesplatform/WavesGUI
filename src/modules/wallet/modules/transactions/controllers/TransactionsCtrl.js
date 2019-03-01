@@ -46,7 +46,7 @@
             }
 
             exportTransactions() {
-                analytics.push('TransactionsPage', `TransactionsPage.CSV.${WavesApp.type}`, 'download');
+                // analytics.push('TransactionsPage', `TransactionsPage.CSV.${WavesApp.type}`, 'download');
                 transactionsCsvGen.generate(this.transactions);
             }
 

@@ -11,8 +11,9 @@
 
     <div class="body-2 basic-900">
         <span w-i18n="backupSeed.writeSeed"></span>
-        <span>&nbsp;<span w-i18n="backupSeed.or"></span>&nbsp;<a w-copy="::$ctrl.seed"
-                                                           w-i18n="backupSeed.copySeed"></a></span>
+        <span>&nbsp;<span w-i18n="backupSeed.or"></span>&nbsp;<a ng-click="$ctrl.clickCopySeed()"
+                                                                 w-copy="::$ctrl.seed"
+                                                                 w-i18n="backupSeed.copySeed"></a></span>
     </div>
 
     <w-seed-read type="read" seed="{{::$ctrl.seed}}" class="no-user-select"></w-seed-read>
