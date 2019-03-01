@@ -196,7 +196,7 @@
                     </div>
                 </div>
 
-                <div class="row margin-1">
+                <div class="row margin-1 asset-verification">
                     <div class="footnote-1 basic-500 label">
                         <span w-i18n="modal.settings.network.dataProvider"></span>
                         <a class="settings-copy"
@@ -204,6 +204,29 @@
                            w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field has-helper">
+
+                        <w-help-icon class="info" ng-if="!$ctrl.oracleError && $ctrl.oracleData">
+                            <div class="flex">
+                                <div>
+                                    <div class="data-provider-name basic-700">
+                                        {{$ctrl.oracleData.name}}
+                                    </div>
+                                    <div class="data-provider-id basic-500">
+                                        {{$ctrl.assetsOracle}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="data-provider-info help-icon__row">
+                                            <span>
+                                                {{$ctrl.oracleData.description.en}}
+                                            </span>
+                            </div>
+                            <div class="help-icon__row">
+                                <a target="_blank" href="{{$ctrl.oracleData.link}}"
+                                   w-i18n="modal.settings.network.showMore"></a>
+                            </div>
+                        </w-help-icon>
+
                         <form novalidate name="dataProvider">
                             <w-input-container class="relative">
                                 <w-input name="dataProviderInput"
@@ -223,27 +246,6 @@
                                             </g>
                                         </svg>
                                     </div>
-                                    <w-help-icon class="info" ng-if="!$ctrl.oracleError && $ctrl.oracleData">
-                                        <div class="flex">
-                                            <div>
-                                                <div class="data-provider-name basic-700">
-                                                    {{$ctrl.oracleData.name}}
-                                                </div>
-                                                <div class="data-provider-id basic-500">
-                                                    {{$ctrl.assetsOracle}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="data-provider-info help-icon__row">
-                                            <span>
-                                                {{$ctrl.oracleData.description.en}}
-                                            </span>
-                                        </div>
-                                        <div class="help-icon__row">
-                                            <a target="_blank" href="{{$ctrl.oracleData.link}}"
-                                               w-i18n="modal.settings.network.showMore"></a>
-                                        </div>
-                                    </w-help-icon>
                                 </div>
                                 <w-input-error message="custom">
                                     <span w-i18n="modal.settings.network.dataProviderInvalid"></span>
@@ -253,17 +255,18 @@
                     </div>
                 </div>
 
-                <div class="row margin-1">
+                <div class="row margin-1 asset-filter">
                     <div class="footnote-1 basic-500 label">
                         <span w-i18n="modal.settings.network.spamFilter"></span>
                         <a class="settings-copy" w-copy="$ctrl.scamListUrl" w-i18n="modal.settings.network.copy"></a>
                     </div>
-                    <div class="data-field">
-                        <w-input ng-model="$ctrl.scamListUrl"></w-input>
+
+                    <div class="data-field has-helper">
+                            <w-input ng-model="$ctrl.scamListUrl"></w-input>
+                            <w-help-icon class="info">
+                                <div class="help-icon__row headline-3" w-i18n="modal.settings.network.spamListHelp"></div>
+                            </w-help-icon>
                     </div>
-                    <w-help-icon class="info">
-                        <span w-i18n="modal.settings.network.spamListHelp"></span>
-                    </w-help-icon>
                 </div>
 
                 <div class="margin-3 margin-top-2">
