@@ -6,6 +6,7 @@
     "skipLibCheck": true,
     "lib": [
       "dom",
+      "webworker",
       "es2017"
     ],
     "sourceMap": true,
