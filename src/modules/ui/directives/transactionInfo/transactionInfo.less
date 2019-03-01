@@ -203,6 +203,7 @@ w-transaction-info-header + w-transaction-info-general {
     }
   }
 
+
   &__icon {
     width: @tx-icon-size;
     height: @tx-icon-size;
@@ -297,71 +298,36 @@ w-transaction-info-header + w-transaction-info-general {
       .icon-tx-set-asset-script();
     }
 
-    //&.sponsorship-minus {
-    //  .icon-tx-sponsorship-minus();
-    //}
-
     &::before {
       width: @tx-icon-size;
       height: @tx-icon-size;
-      background-size: calc(722px * (8 / 3)) auto;
+      background-size: auto;
       background-color: @color-white;
-      background-position-y: 0;
+      background-repeat: no-repeat;
+      background-image: url(/img/icons/transaction-icons-80.svg);
       content: '';
       display: block;
     }
   }
 
-  //spam
-
   .spam {
     .txinfo__icon {
-
-      &.send {
-        .icon-tx-send-spam();
-      }
-
-      &.receive {
-        .icon-tx-receive-spam();
-      }
-
+      &.send,
+      &.receive,
+      &.circular,
       &.exchange-buy,
       &.exchange-sell,
-      &.create-order {
-        .icon-tx-exchange-spam();
-      }
-
-      &.reissue {
-        .icon-tx-reissue-spam();
-      }
-
-      &.sponsorship-start {
-        .icon-tx-sponsorship-start-spam();
-      }
-
-      &.sponsorship-stop {
-        .icon-tx-sponsorship-stop-spam();
-      }
-
-      &.sponsorship-fee {
-        .icon-tx-sponsorship-plus-spam();
-      }
-
-      &.set-asset-script {
-        .icon-tx-set-asset-script-spam();
-      }
-
+      &.reissue,
+      &.sponsorship-start,
+      &.sponsorship-stop,
+      &.sponsorship-fee,
       &.mass-send {
-        .icon-tx-mass-transfer-spam();
-      }
-
-      &::before {
-        background-position-y: -@tx-icon-size;
+        &::before {
+          background-position-y: bottom;
+        }
       }
     }
   }
-
-  // end spam
 
   .exchange-header-row {
     margin: 0 0 6px;
