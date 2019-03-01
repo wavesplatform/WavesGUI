@@ -142,7 +142,8 @@
                 });
 
                 this.syncSettings({
-                    _assetIdPair: 'dex.assetIdPair'
+                    _assetIdPair: 'dex.assetIdPair',
+                    expiration: 'dex.createOrder.expiration'
                 });
 
                 /**
@@ -348,7 +349,7 @@
              * @private
              */
             _sendOrder(data) {
-                const expiration = ds.utils.normalizeTime(this.expiration());
+                const expiration = ds.utils.normalizeTime(this.expirationValues.find(this.expiration).value());
                 const clone = { ...data, expiration };
 
                 return utils.createOrder(clone);
