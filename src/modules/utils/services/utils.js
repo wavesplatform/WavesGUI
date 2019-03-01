@@ -1,17 +1,120 @@
 /* eslint-disable no-console */
 /* global BigNumber */
-
 (function () {
     'use strict';
 
     const { isEmpty, getPaths, get, Signal } = require('ts-utils');
     const tsApiValidator = require('ts-api-validator');
     const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
-    const { splitEvery, pipe, path } = require('ramda');
+    const { splitEvery, pipe, path, map } = require('ramda');
     const { libs } = require('@waves/signature-generator');
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const { Money, BigNumber } = require('@waves/data-entities');
+
+    const nullOrCb = (name, cb) => (val1, val2) => {
+        const v1 = val1[name];
+        const v2 = val2[name];
+        return v1 === v2 && v1 == null ? null : cb(v1, v2);
+    };
+
+    const valOrNullOpen = (v1, v2) => v1 == null ? v2 : v1;
+    const valOrNullClose = (v1, v2) => valOrNullOpen(v2, v1);
+    const maxOrNull = name => nullOrCb(name, (v1, v2) => Math.max(v1 || 0, v2 || 0));
+    const minOrNull = name => nullOrCb(name, (v1, v2) => {
+        if (v1 == null) {
+            return v2;
+        }
+
+        return v2 == null ? v1 : Math.min(v1, v2);
+    });
+    const nullOrSum = name => nullOrCb(name, (v1, v2) => {
+        if (v1 == null) {
+            return v2;
+        }
+
+        return v2 == null ? v1 : v1 + v2;
+    });
+
+    const joinCandles = ([c1, c2 = c1]) => ({
+        txsCount: c1.txsCount + c2.txsCount,
+        high: maxOrNull('high')(c1, c2),
+        low: minOrNull('low')(c1, c2),
+        close: nullOrCb('close', valOrNullClose)(c1, c2),
+        open: nullOrCb('open', valOrNullOpen)(c1, c2),
+        volume: nullOrSum('volume')(c1, c2),
+        time: c1.time
+    });
+
+    const MAX_RESOLUTION = 1440;
+    const INTERVAL_PRESETS = {
+        '1m': 1000 * 60,
+        '5m': 1000 * 60 * 5,
+        '15m': 1000 * 60 * 15,
+        '30m': 1000 * 60 * 30,
+        '1h': 1000 * 60 * 60,
+        '3h': 1000 * 60 * 60 * 3,
+        '6h': 1000 * 60 * 60 * 6,
+        '12h': 1000 * 60 * 60 * 12,
+        '1d': 1000 * 60 * 60 * 24
+    };
+    const INTERVAL_MAP = {
+        1: {
+            interval: INTERVAL_PRESETS['1m'],
+            intervalName: '1m',
+            converter: el => el
+        },
+        5: {
+            interval: INTERVAL_PRESETS['5m'],
+            intervalName: '5m',
+            converter: el => el
+        },
+        15: {
+            interval: INTERVAL_PRESETS['15m'],
+            intervalName: '15m',
+            converter: el => el
+        },
+        30: {
+            interval: INTERVAL_PRESETS['30m'],
+            intervalName: '30m',
+            converter: el => el
+        },
+        60: {
+            interval: INTERVAL_PRESETS['1h'],
+            intervalName: '1h',
+            converter: el => el
+        },
+        120: {
+            interval: INTERVAL_PRESETS['1h'],
+            intervalName: '1h',
+            converter: (candles) => splitEvery(2, candles).map(joinCandles)
+        },
+        180: {
+            interval: INTERVAL_PRESETS['3h'],
+            intervalName: '3h',
+            converter: el => el
+        },
+        240: {
+            interval: INTERVAL_PRESETS['1h'],
+            intervalName: '1h',
+            converter: pipe(splitEvery(2), map(joinCandles), splitEvery(2), map(joinCandles))
+        },
+        360: {
+            interval: INTERVAL_PRESETS['6h'],
+            intervalName: '6h',
+            converter: el => el
+        },
+        720: {
+            interval: INTERVAL_PRESETS['12h'],
+            intervalName: '12h',
+            converter: el => el
+        },
+        1440: {
+            interval: INTERVAL_PRESETS['1d'],
+            intervalName: '1d',
+            converter: el => el
+        }
+    };
 
     class BigNumberPart extends tsApiValidator.BasePart {
 
@@ -745,6 +848,65 @@
                     $state.go('main.dex', { assetId1: asset1, assetId2: asset2 });
                 }, 50);
             },
+
+
+            /**
+             * @name app.utils#getValidCandleOptions
+             * @param {number|Date} from
+             * @param {number|Date} to
+             * @param {number} interval
+             * @return {Array.<Object>}
+             */
+            getValidCandleOptions(from, to, interval = 60) {
+                const config = INTERVAL_MAP[interval];
+                const options = {
+                    timeStart: from instanceof Date ? from.getTime() : from,
+                    timeEnd: to instanceof Date ? to.getTime() : to,
+                    interval
+                };
+
+                if (options.timeEnd - options.timeStart < config.interval) {
+                    options.timeStart = options.timeEnd - config.interval;
+                }
+
+                const intervals = [];
+                const newInterval = {
+                    timeStart: options.timeStart,
+                    interval: config.intervalName
+                };
+
+                while (newInterval.timeStart <= options.timeEnd) {
+                    newInterval.timeEnd = Math.min(
+                        options.timeEnd,
+                        newInterval.timeStart + config.interval * MAX_RESOLUTION
+                    );
+
+                    intervals.push({ ...newInterval });
+                    newInterval.timeStart = newInterval.timeEnd + config.interval;
+                }
+
+                return {
+                    options: intervals,
+                    config
+                };
+            },
+
+
+            /**
+             * @name app.utils#getMaxInterval
+             * @param {number} from
+             * @param {number} to
+             * @param {number} amount
+             * @return {number}
+             */
+            getMaxInterval(from, to, amount = 100) {
+                const delta = to - from;
+                const findDif = interval => Math.abs((delta / interval) - amount);
+                const intObj = Object.values(INTERVAL_MAP)
+                    .reduce((prev, cur) => (findDif(cur.interval) < findDif(prev.interval) ? cur : prev));
+                return Object.keys(INTERVAL_MAP).find(key => INTERVAL_MAP[key].interval === intObj.interval);
+            },
+
 
             /**
              * @name app.utils#getNiceNumberTemplate

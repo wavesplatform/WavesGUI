@@ -10,13 +10,13 @@ const R = require('ramda');
      *
      * @param Base
      * @param $scope
-     * @param {ExplorerLinks} explorerLinks
      * @param {Waves} waves
      * @param {IPollCreate} PromiseControl
      * @param $mdDialog
+     * @param {User} user
      * @return {PinAssetCtrl}
      */
-    const controller = function (Base, $scope, waves, PromiseControl, $mdDialog) {
+    const controller = function (Base, $scope, waves, PromiseControl, $mdDialog, user) {
 
         class PinAssetCtrl extends Base {
 
@@ -188,7 +188,7 @@ const R = require('ramda');
              * @static
              */
             static _isScam(asset) {
-                return (WavesApp.scam || {})[asset.id];
+                return (user.scam || {})[asset.id];
             }
 
         }
@@ -196,6 +196,6 @@ const R = require('ramda');
         return new PinAssetCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'waves', 'PromiseControl', '$mdDialog'];
+    controller.$inject = ['Base', '$scope', 'waves', 'PromiseControl', '$mdDialog', 'user'];
     angular.module('app.utils').controller('PinAssetCtrl', controller);
 })();

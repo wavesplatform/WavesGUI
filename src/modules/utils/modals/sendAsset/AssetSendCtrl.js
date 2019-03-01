@@ -211,7 +211,7 @@
              * @private
              */
             static _isNotScam(item) {
-                return !WavesApp.scam[item.asset.id];
+                return !user.scam[item.asset.id];
             }
 
         }

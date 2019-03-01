@@ -336,7 +336,8 @@ task('babel', ['concat-develop'], function () {
                 'transform-decorators-legacy',
                 'transform-class-properties',
                 'transform-decorators',
-                'transform-object-rest-spread'
+                'transform-object-rest-spread',
+                'transform-async-to-generator'
             ]
         }))
         .pipe(gulp.dest(tmpJsPath))
