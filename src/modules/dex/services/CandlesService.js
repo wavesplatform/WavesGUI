@@ -31,9 +31,6 @@
                         resolution
                     )
                     .then(handleCandles)
-                    .catch(e => {
-                        return utils.wait(5000).then(() => Promise.reject(e));
-                    })
                     .catch(handleError);
             }
 
@@ -46,6 +43,7 @@
              * @private
              */
             static _getCandles(symbolInfo, from, to, interval) {
+                from = from || to;
                 const amountId = symbolInfo._wavesData.amountAsset.id;
                 const priceId = symbolInfo._wavesData.priceAsset.id;
                 const { options, config: candleConfig } = utils.getValidCandleOptions(from, to, interval);
@@ -81,6 +79,9 @@
                             candles = candleConfig.converter(candles);
                         }
                         return candles;
+                    })
+                    .catch(() => {
+                        return utils.wait(5000).then(() => []);
                     });
             }
 
