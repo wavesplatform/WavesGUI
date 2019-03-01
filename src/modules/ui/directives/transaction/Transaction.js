@@ -30,7 +30,7 @@
                 this.time = $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm');
                 this.shownAddress = this.transaction.shownAddress;
                 this.typeName = this.transaction.typeName;
-                this.isScam = !!WavesApp.scam[this.transaction.assetId];
+                this.isScam = !!user.scam[this.transaction.assetId];
 
                 if (this.transaction.amount && this.transaction.amount instanceof ds.wavesDataEntities.Money) {
                     baseAssetService.convertToBaseAsset(this.transaction.amount)
@@ -110,7 +110,7 @@
              */
             getAssetName(asset) {
                 try {
-                    return !WavesApp.scam[asset.id] ? asset.name : '';
+                    return !user.scam[asset.id] ? asset.name : '';
                 } catch (e) {
                     return '';
                 }

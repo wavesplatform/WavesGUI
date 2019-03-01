@@ -762,7 +762,7 @@
 
             // static _getUserBalanceAssetIdList() {
             //     return Object.keys(balanceWatcher.getBalance())
-            //         .filter(id => !WavesApp.scam[id])
+            //         .filter(id => !user.scam[id])
             //         .sort(utils.comparators.asc);
             // }
 

@@ -215,6 +215,7 @@
                 const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
                 const data = ds.dataManager.getOracleAssetData(this.balance.asset.id);
                 const logo = data && data.logo;
+                this.isVerifiedOrGateway = data && data.status >= STATUS_LIST.VERIFIED;
 
                 const html = template({
                     canSetAssetScript: this._isMyAsset && this.isSmart,
@@ -541,8 +542,7 @@
                 return false;
             }
 
-            return !Object.values(WavesApp.defaultAssets).includes(this.balance.asset.id) &&
-                !WavesApp.scam[this.balance.asset.id];
+            return !this.isVerifiedOrGateway && !this.user.scam[this.balance.asset.id];
         }
 
     }

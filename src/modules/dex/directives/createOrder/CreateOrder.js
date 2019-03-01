@@ -196,6 +196,7 @@
                     this.price = null;
                     this.bid = null;
                     this.ask = null;
+                    this._updateBalances();
                     spreadPoll.restart();
                     const form = this.order;
                     form.$setUntouched();

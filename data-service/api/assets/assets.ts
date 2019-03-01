@@ -35,6 +35,7 @@ export function getAssetFromNode(assetId: string): Promise<Asset> {
             height: 0,
             hasScript: false,
             timestamp: new Date('2016-04-11T21:00:00.000Z'),
+            minSponsoredFee: new BigNumber(0),
             sender: '',
             quantity: 10000000000000000,
             reissuable: false
@@ -51,6 +52,7 @@ export function getAssetFromNode(assetId: string): Promise<Asset> {
             quantity: data.quantity,
             hasScript: !!data.script,
             reissuable: data.reissuable,
+            minSponsoredFee: data.minSponsoredFee,
             sender: data.issuer,
             timestamp: new Date(data.issueTimestamp)
         }));
@@ -222,6 +224,7 @@ export interface INodeAssetData {
     issueTimestamp: number;
     issuer: string;
     name: string;
+    minSponsoredFee: string | number;
     quantity: string | number;
     reissuable: boolean;
     script: string | null;

@@ -3,6 +3,7 @@
     'use strict';
 
     const entities = require('@waves/data-entities');
+    const { equals } = require('ramda');
 
     /**
      * @param {BaseNodeComponent} BaseNodeComponent
@@ -124,7 +125,7 @@
             }
 
             giveMyScamBack() {
-                WavesApp.scam = Object.create(null);
+                user.scam = Object.create(null);
                 if (this._pollScam) {
                     this._pollScam.destroy();
                     this._pollScam = null;
@@ -165,7 +166,9 @@
              * @private
              */
             _setScamAssetList(hash) {
-                WavesApp.scam = hash;
+                if (!equals(hash, user.scam)) {
+                    user.scam = hash;
+                }
             }
 
             /**
