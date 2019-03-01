@@ -153,7 +153,9 @@
                 if (!this.isMy) {
                     this.pending = true;
                     this.history = [];
-                    this.poll.restart();
+                    this.poll.restart().then(() => {
+                        this.pending = false;
+                    });
                 }
             }
 
