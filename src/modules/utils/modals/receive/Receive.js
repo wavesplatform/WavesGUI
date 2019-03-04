@@ -16,14 +16,14 @@
             assetId: WavesApp.defaultAssets.USD,
             fiatCode: FIAT_CODES[WavesApp.defaultAssets.USD],
             min: '30',
-            max: '50'
+            max: '3000'
         },
         {
             name: 'EUR',
             assetId: WavesApp.defaultAssets.EUR,
             fiatCode: FIAT_CODES[WavesApp.defaultAssets.EUR],
             min: '30',
-            max: '50'
+            max: '3000'
         }
     ];
 
