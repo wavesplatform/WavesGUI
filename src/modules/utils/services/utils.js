@@ -858,8 +858,10 @@
              * @return {Array.<Object>}
              */
             getValidCandleOptions(from, to, interval = 60) {
-                to = Math.floor(to / 1000) * 1000;
-                from = Math.floor(from / 1000) * 1000;
+                const minute = 1000 * 60;
+
+                from = Math.floor(from / minute) * minute;
+                to = Math.ceil(to / minute) * minute;
 
                 const config = INTERVAL_MAP[interval];
                 const options = {
