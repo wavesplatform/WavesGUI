@@ -90,7 +90,7 @@
                             price: WavesApp.defaultAssets.BTC
                         },
                         createOrder: {
-                            expirationName: '30day'
+                            expirationName: '5min'
                         },
                         watchlist: {
                             showOnlyFavorite: false,
