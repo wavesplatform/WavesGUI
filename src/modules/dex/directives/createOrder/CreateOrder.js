@@ -347,7 +347,6 @@
              * @private
              */
             _sendOrder(data) {
-                console.log(this.expiration);
                 const expiration = ds.utils.normalizeTime(
                     this.expirationValues.find(el => el.name === this.expiration).value()
                 );
