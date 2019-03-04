@@ -198,7 +198,7 @@ const getAssetRequestCb = (list: Array<string>): Promise<Array<Asset>> => {
                 }
             });
 
-            return Promise.all(fails.map(getAssetFromNode))
+            return queueRequest(fails)
                 .then((reloadedAssets) => {
                     let failCount = 0;
                     return list.map((id, index) => {
@@ -211,6 +211,15 @@ const getAssetRequestCb = (list: Array<string>): Promise<Array<Asset>> => {
                 });
         });
 };
+
+export async function queueRequest(list: Array<string>) {
+    const result = [];
+    for (const assetId of list) {
+        const asset = await getAssetFromNode(assetId);
+        result.push(asset);
+    }
+    return result;
+}
 
 export const wait = time => new Promise(resolve => setTimeout(resolve, time));
 
