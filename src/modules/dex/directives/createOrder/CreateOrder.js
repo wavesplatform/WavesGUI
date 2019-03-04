@@ -330,6 +330,7 @@
                                 const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                                 analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Success`, pair);
                                 dexDataService.createOrder.dispatch();
+                                $scope.$apply();
                                 CreateOrder._animateNotification(notify);
                             })
                             .catch(() => {
@@ -337,6 +338,7 @@
                                 notify.addClass('error');
                                 const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                                 analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Error`, pair);
+                                $scope.$apply();
                                 CreateOrder._animateNotification(notify);
                             });
                     });
