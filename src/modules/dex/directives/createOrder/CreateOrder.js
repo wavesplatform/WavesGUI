@@ -141,7 +141,7 @@
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair',
-                    expiration: 'dex.createOrder.expiration'
+                    expiration: 'dex.createOrder.expirationName'
                 });
 
                 /**
@@ -347,6 +347,7 @@
              * @private
              */
             _sendOrder(data) {
+                console.log(this.expiration);
                 const expiration = ds.utils.normalizeTime(
                     this.expirationValues.find(el => el.name === this.expiration).value()
                 );
