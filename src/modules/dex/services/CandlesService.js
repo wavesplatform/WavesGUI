@@ -4,7 +4,7 @@
 
     const { config } = require('data-service');
     const { flatten, pipe, prop, map } = require('ramda');
-    const POLL_DELAY = 400;
+    const POLL_DELAY = 800;
 
     /**
      * @param {app.utils} utils
@@ -43,6 +43,7 @@
              * @private
              */
             static _getCandles(symbolInfo, from, to, interval) {
+                from = from || to;
                 const amountId = symbolInfo._wavesData.amountAsset.id;
                 const priceId = symbolInfo._wavesData.priceAsset.id;
                 const { options, config: candleConfig } = utils.getValidCandleOptions(from, to, interval);
@@ -78,7 +79,7 @@
                             candles = candleConfig.converter(candles);
                         }
                         return candles;
-                    }).catch(() => []);
+                    }).catch(() => utils.wait(5000).then(() => []));
             }
 
             static convertToMilliseconds(seconds) {
