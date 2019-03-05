@@ -13,7 +13,7 @@
             }
 
             confirm() {
-                // user.setSetting('shareAnalytics', this.shareAnalytics);
+                user.setSetting('shareAnalytics', this.shareAnalytics);
                 $mdDialog.hide();
             }
 

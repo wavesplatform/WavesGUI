@@ -342,10 +342,11 @@
                         theme: themes.getDefaultTheme(),
                         candle: 'blue'
                     }
-                }); /* .then(() => analytics.push(
-                    'User',
-                    `${restore ? 'Restore' : 'Create'}.${WavesApp.type}.${data.userType}`,
-                    document.referrer)) */
+                }).then(() => {
+                    if (restore) {
+                        // TODO LOG ANALYTIC CREATE FROM RESTORE
+                    }
+                });
             }
 
             logout() {
@@ -512,6 +513,12 @@
                                 this[propertyName] = item[propertyName];
                             }
                         });
+
+                        analytics.init('https://10.56.0.217:8000/event-sender/analytics-sandbox.html', {
+                            platform: WavesApp.type,
+                            userType: data.userType
+                        });
+
                         this.lastLogin = Date.now();
 
                         if (this._settings) {

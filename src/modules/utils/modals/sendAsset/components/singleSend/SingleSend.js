@@ -352,7 +352,8 @@
 
                 this.tx.recipient = result.recipient;
 
-                // analytics.push('Send', `Send.QrCodeRead.${WavesApp.type}`, `Send.QrCodeRead.${WavesApp.type}.Success`);
+                // analytics.push('Send', `Send.QrCodeRead.${WavesApp.type}`,
+                // `Send.QrCodeRead.${WavesApp.type}.Success`);
 
                 if (result) {
 
