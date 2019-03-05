@@ -225,7 +225,7 @@
                 $element.on('mousedown touchstart', '.body', (e) => {
                     e.stopPropagation();
                 });
-                this.changedInputName = 'price';
+
                 currentFee();
             }
 
@@ -291,6 +291,16 @@
 
             setLastPrice() {
                 this._setDirtyPrice(this.lastTradePrice);
+            }
+
+            /**
+             * @public
+             * @param field {string}
+             */
+            setChangedInput(field) {
+                if (this.changedInputName !== field) {
+                    this.changedInputName = field;
+                }
             }
 
             /**
@@ -546,14 +556,14 @@
                     return null;
                 }
 
-                const changed = this.changedInputName;
+                this.changedInputName = this.changedInputName ? this.changedInputName : 'price';
                 const inputsMap = {
                     price: this.price,
                     amount: this.amount,
                     total: this.totalPrice
                 };
                 const currentValue = inputsMap[this.focusedInputName];
-                if (!changed || !currentValue) {
+                if (!currentValue) {
                     return null;
                 }
 
@@ -566,9 +576,9 @@
                         this.price.getTokens().times(this.amount.getTokens())
                     );
                 } else {
-                    const fieldValue = changed === 'total' ?
+                    const fieldValue = this.changedInputName === 'total' ?
                         valueByTotalPrice(this[this.focusedInputName]) :
-                        valueByTotalPrice(this[changed]);
+                        valueByTotalPrice(this[this.changedInputName]);
                     if (fieldValue.toFormat() === 'Infinity' || fieldValue.toFormat() === 'NaN') {
                         return null;
                     }
