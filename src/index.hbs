@@ -7,9 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>Waves Client</title>
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
-
     <script>
-        window.buildIsWeb = {{isWeb}};
+        document.write('<script src="/init.js?_t=' + Date.now() + '"><\/script>');
     </script>
 
     <style>
@@ -278,226 +277,204 @@
         }
     </style>
 
-    {{#if isProduction}}
-        <!-- Sentry error logging -->
-        <script src="https://cdn.ravenjs.com/3.22.3/raven.min.js" crossorigin="anonymous"></script>
-        <script>Raven.config('https://edc3970622f446d7aa0c9cb38be44a4f@sentry.io/291068').install();</script>
-    {{/if}}
-
     <script>
-        window.addEventListener('load', function () {
-            var __interval = setInterval(function () {
+        try {
+            var config = getConfig();
+            window.addEventListener('load', function () {
+                var __interval = setInterval(function () {
 
-                WavesApp = WavesApp || { state: 'loading' };
+                    WavesApp = WavesApp || { state: 'loading' };
 
-                switch (WavesApp.state) {
-                    case 'loading':
-                    case 'loadingError':
-                        clearInterval(__interval);
-                        document.querySelector('.app-loader').style.display = 'none';
-                        document.querySelector('.connection-problem').style.display = 'block';
-                        document.querySelector('[name=main]').style.display = 'none';
-                        break;
-                    case 'appRun':
-                        clearInterval(__interval);
-                        var errorModal = document.querySelector('.connection-problem');
-                        if (errorModal.parentNode) {
-                            errorModal.parentNode.removeChild(errorModal);
-                        }
-                        break;
-                }
-            }, 2000);
-        });
+                    switch (WavesApp.state) {
+                        case 'loading':
+                        case 'loadingError':
+                            clearInterval(__interval);
+                            if (config.isBrowserSupported()) {
+                                document.querySelector('.app-loader').style.display = 'none';
+                                document.querySelector('.connection-problem').style.display = 'block';
+                                document.querySelector('[name=main]').style.display = 'none';
+                            }
+                            break;
+                        case 'appRun':
+                            clearInterval(__interval);
+                            var errorModal = document.querySelector('.connection-problem');
+                            if (errorModal.parentNode) {
+                                errorModal.parentNode.removeChild(errorModal);
+                            }
+                            break;
+                    }
+                }, 2000);
+            });
 
-        var __controllers = Object.create(null);
-
-        /**
-         * @type {IWavesApp}
-         */
-        var WavesApp = {
-            name: 'Waves Client',
-            version: '{{pack.version}}',
-            type: (window.isDesktop || !window.buildIsWeb) ? 'desktop' : 'web',
-            matcherPriorityList: {{{matcherPriorityList}}},
-            themesConf: {{{themesConf}}},
-            progress: 0,
-            state: 'loading',
-            origin: '{{{origin}}}',
-            localize: {{{langList}}},
-            bankRecipient: '{{{bankRecipient}}}',
-            network: {
-                apiVersion: '{{network.apiVersion}}',
-                code: '{{network.code}}',
-                node: '{{network.node}}',
-                matcher: '{{network.matcher}}',
-                api: '{{network.api}}',
-                coinomat: '{{network.coinomat}}',
-                support: '{{network.support}}',
-                nodeList: '{{network.nodeList}}',
-                scamListUrl: '{{network.scamListUrl}}',
-                explorer: '{{network.explorer}}',
-                featuresConfigUrl: '{{network.featuresConfigUrl}}',
-                feeConfigUrl: '{{{feeConfigUrl}}}'
-            },
-            defaultAssets: {
-                WAVES: 'WAVES',
-                EUR: '{{network.assets.EUR}}',
-                USD: '{{network.assets.USD}}',
-                BTC: '{{network.assets.BTC}}',
-                ETH: '{{network.assets.ETH}}',
-                LTC: '{{network.assets.LTC}}',
-                ZEC: '{{network.assets.ZEC}}',
-                BCH: '{{network.assets.BCH}}',
-                BSV: '{{network.assets.BSV}}',
-                DASH: '{{network.assets.DASH}}',
-                TRY: '{{network.assets.TRY}}',
-                XMR: '{{network.assets.XMR}}'
-            },
-
-            ALWAYS_PINNED_ASSETS: ['WAVES'],
-
-            otherAssetsWithIcons: {
-                // TODO @xenohunter : remove that when icons are in @dvshur's service
-                EFYT: '{{network.assets.EFYT}}',
-                WNET: '{{network.assets.WNET}}'
-            },
-            remappedAssetNames: {
-                '{{network.assets.EUR}}': 'Euro',
-                '{{network.assets.USD}}': 'US Dollar',
-                '{{network.assets.TRY}}': 'TRY',
-                '{{network.assets.BTC}}': 'Bitcoin',
-                '{{network.assets.ETH}}': 'Ethereum'
-            },
-            matcherSignInterval: { count: 20, timeType: 'day' },
-            dex: {
-                resolutions: ['5', '15', '30', '60', '120', '180', '240', '360', '720', '1440'], // TODO : add months
-                defaultResolution: '60'
-            },
-            modules: [],
-            oracle: '{{oracle}}',
-            minAliasLength: 4,
-            maxAliasLength: 30,
-            maxAddressLength: 45,
-            maxCoinCount: null,
-            TRANSACTION_TYPES: {
-                EXTENDED: {
-                    SEND: 'send',
-                    RECEIVE: 'receive',
-                    MASS_SEND: 'mass-send',
-                    MASS_RECEIVE: 'mass-receive',
-                    CIRCULAR: 'circular',
-                    ISSUE: 'issue',
-                    REISSUE: 'reissue',
-                    BURN: 'burn',
-                    EXCHANGE_BUY: 'exchange-buy',
-                    EXCHANGE_SELL: 'exchange-sell',
-                    LEASE_IN: 'lease-in',
-                    LEASE_OUT: 'lease-out',
-                    CANCEL_LEASING: 'cancel-leasing',
-                    CREATE_ALIAS: 'create-alias',
-                    DATA: 'data',
-                    SET_SCRIPT: 'set-script',
-                    SCRIPT_CANCEL: 'set-script-cancel',
-                    SPONSORSHIP_START: 'sponsorship-start',
-                    SPONSORSHIP_STOP: 'sponsorship-stop',
-                    SPONSORSHIP_FEE: 'sponsorship-fee',
-                    SET_ASSET_SCRIPT: 'set-asset-script',
-                    UNKNOWN: 'unknown'
+            /**
+             * @type {IWavesApp}
+             */
+            var WavesApp = {
+                name: 'Waves Client',
+                version: config.pack.version,
+                type: !config.isWeb ? 'desktop' : 'web',
+                matcherPriorityList: config.matcherPriorityList,
+                themesConf: config.themesConf,
+                progress: 0,
+                state: 'loading',
+                origin: config.origin,
+                localize: config.langList,
+                bankRecipient: config.bankRecipient,
+                network: {
+                    apiVersion: config.network.apiVersion,
+                    code: config.network.code,
+                    node: config.network.node,
+                    matcher: config.network.matcher,
+                    api: config.network.api,
+                    coinomat: config.network.coinomat,
+                    support: config.network.support,
+                    nodeList: config.network.nodeList,
+                    scamListUrl: config.network.scamListUrl,
+                    explorer: config.network.explorer,
+                    featuresConfigUrl: config.network.featuresConfigUrl,
+                    feeConfigUrl: config.feeConfigUrl
                 },
-                NODE: {
-                    TRANSFER: 'transfer',
-                    MASS_TRANSFER: 'massTransfer',
-                    ISSUE: 'issue',
-                    REISSUE: 'reissue',
-                    BURN: 'burn',
-                    CREATE_ALIAS: 'createAlias',
-                    LEASE: 'lease',
-                    CANCEL_LEASING: 'cancelLeasing',
-                    EXCHANGE: 'exchange',
-                    DATA: 'data',
-                    SET_SCRIPT: 'setScript',
-                    SPONSORSHIP: 'sponsorship',
-                    SET_ASSET_SCRIPT: 'set-asset-script',
-                }
-            },
-            getLocaleData: function () {
-                return WavesApp.localize[i18next.language];
-            },
-            addController: function (name, controller) {
-                __controllers[name] = controller;
-            },
-            getController: function (name) {
-                return __controllers[name];
-            },
-            isWeb: function () {
-                return this.type === 'web';
-            },
-            isDesktop: function () {
-                return this.type === 'desktop';
-            },
-            isProduction: function () {
-            return {{#if isProduction}}true;{{else}}false;{{/if}}
-            },
-            parseJSON: null,
-            stateTree: null,
-            MAX_URL_LENGTH: 1200,
-            sign: {
-                openTimeout: 3000,
-                listenTimeout: 25000,
-                exchangeTimeout: 100000,
-            },
-            reload: function () {
-                if (WavesApp.isDesktop()) {
-                    transfer('reload');
-                } else {
-                    window.location.reload();
-                }
-            }
-        };
-    </script>
+                defaultAssets: {
+                    WAVES: 'WAVES',
+                    EUR: config.network.assets.EUR,
+                    USD: config.network.assets.USD,
+                    BTC: config.network.assets.BTC,
+                    ETH: config.network.assets.ETH,
+                    LTC: config.network.assets.LTC,
+                    ZEC: config.network.assets.ZEC,
+                    BCH: config.network.assets.BCH,
+                    BSV: config.network.assets.BSV,
+                    DASH: config.network.assets.DASH,
+                    TRY: config.network.assets.TRY,
+                    XMR: config.network.assets.XMR
+                },
 
-    <!-- CSS -->
+                ALWAYS_PINNED_ASSETS: ['WAVES'],
+
+                otherAssetsWithIcons: {
+                    // TODO @xenohunter : remove that when icons are in @dvshur's service
+                    EFYT: config.network.assets.EFYT,
+                    WNET: config.network.assets.WNET
+                },
+                remappedAssetNames: config.remappedAssetNames,
+                matcherSignInterval: { count: 20, timeType: 'day' },
+                dex: {
+                    resolutions: ['5', '15', '30', '60', '120', '180', '240', '360', '720', '1440'], // TODO : add months
+                    defaultResolution: '60'
+                },
+                modules: [],
+                oracle: config.oracle,
+                minAliasLength: 4,
+                maxAliasLength: 30,
+                maxAddressLength: 45,
+                maxCoinCount: null,
+                TRANSACTION_TYPES: {
+                    EXTENDED: {
+                        SEND: 'send',
+                        RECEIVE: 'receive',
+                        MASS_SEND: 'mass-send',
+                        MASS_RECEIVE: 'mass-receive',
+                        CIRCULAR: 'circular',
+                        ISSUE: 'issue',
+                        REISSUE: 'reissue',
+                        BURN: 'burn',
+                        EXCHANGE_BUY: 'exchange-buy',
+                        EXCHANGE_SELL: 'exchange-sell',
+                        LEASE_IN: 'lease-in',
+                        LEASE_OUT: 'lease-out',
+                        CANCEL_LEASING: 'cancel-leasing',
+                        CREATE_ALIAS: 'create-alias',
+                        DATA: 'data',
+                        SET_SCRIPT: 'set-script',
+                        SCRIPT_CANCEL: 'set-script-cancel',
+                        SPONSORSHIP_START: 'sponsorship-start',
+                        SPONSORSHIP_STOP: 'sponsorship-stop',
+                        SPONSORSHIP_FEE: 'sponsorship-fee',
+                        SET_ASSET_SCRIPT: 'set-asset-script',
+                        UNKNOWN: 'unknown'
+                    },
+                    NODE: {
+                        TRANSFER: 'transfer',
+                        MASS_TRANSFER: 'massTransfer',
+                        ISSUE: 'issue',
+                        REISSUE: 'reissue',
+                        BURN: 'burn',
+                        CREATE_ALIAS: 'createAlias',
+                        LEASE: 'lease',
+                        CANCEL_LEASING: 'cancelLeasing',
+                        EXCHANGE: 'exchange',
+                        DATA: 'data',
+                        SET_SCRIPT: 'setScript',
+                        SPONSORSHIP: 'sponsorship',
+                        SET_ASSET_SCRIPT: 'set-asset-script'
+                    }
+                },
+                getLocaleData: config.getLocaleData,
+                addController: config.addController,
+                getController: config.getController,
+                isWeb: config.isWeb,
+                isDesktop: config.isDesktop,
+                isProduction: config._isProduction,
+                parseJSON: null,
+                stateTree: null,
+                MAX_URL_LENGTH: 1200,
+                sign: {
+                    openTimeout: 3000,
+                    listenTimeout: 25000,
+                    exchangeTimeout: 100000
+                },
+                reload: config.reload
+            };
+        } catch (e) {
+            console.warn(e);
+        }
+
+        config._initStyles();
+    </script>
 
     {{#if isWeb}}
         <base href="/">{{/if}}
 
     <script>
+        try {
+            if (window.isDesktop || !window.buildIsWeb) {
 
-        if (window.isDesktop || !window.buildIsWeb) {
+                var __mainListeners = [];
 
-            var __mainListeners = [];
+                function listenMainProcessEvent(cb) {
+                    __mainListeners.push(cb);
+                }
 
-            function listenMainProcessEvent(cb) {
-                __mainListeners.push(cb);
-            }
-
-            function stopListenMainProcessEvent(cb) {
-                for (var i = __mainListeners.length - 1; i >= 0; i--) {
-                    if (__mainListeners[i] === cb) {
-                        __mainListeners.splice(i, 1);
+                function stopListenMainProcessEvent(cb) {
+                    for (var i = __mainListeners.length - 1; i >= 0; i--) {
+                        if (__mainListeners[i] === cb) {
+                            __mainListeners.splice(i, 1);
+                        }
                     }
+                }
+
+                function runMainProcessEvent() {
+                    var args = Array.prototype.slice.call(arguments);
+                    __mainListeners.slice().forEach(function (cb) {
+                        try {
+                            cb.apply(this, args);
+                        } catch (e) {
+                            console.error(e);
+                        }
+                    }, this);
                 }
             }
 
-            function runMainProcessEvent() {
-                var args = Array.prototype.slice.call(arguments);
-                __mainListeners.slice().forEach(function (cb) {
-                    try {
-                        cb.apply(this, args);
-                    } catch (e) {
-                        console.error(e);
-                    }
-                }, this);
-            }
+            Array.prototype.slice.apply(document.querySelectorAll('[rel=stylesheet]'))
+                    .filter(function (el) {
+                        return el.getAttribute('theme');
+                    })
+                    .forEach(function (el) {
+                        el.disabled = el.getAttribute('theme') !== 'default';
+                    });
+        } catch (err) {
+            console.warn(e);
         }
-
-        Array.prototype.slice.apply(document.querySelectorAll('[rel=stylesheet]'))
-                .filter(function (el) {
-                    return el.getAttribute('theme');
-                })
-                .forEach(function (el) {
-                    el.disabled = el.getAttribute('theme') !== 'default';
-                });
     </script>
 </head>
 
@@ -519,16 +496,16 @@
     <div class="waves-logo"><img src="/img/icons/waves_logo.svg"/></div>
     <img src="/img/no-preload/connection-error.svg" class="margin-3"/>
     <div class="connection-problem__headline">We couldn't connect to the server</div>
-        <div class="connection-problem__description">Check your internet connection and try again.</div>
-        <div class="connection-problem__description">
-            <div>If you have been using the Waves Desktop app and refreshing does</div>
-            <div>not help, try reinstalling the app. Download the latest version from</div>
-            <div>the official Waves site.</div>
-        </div>
+    <div class="connection-problem__description">Check your internet connection and try again.</div>
+    <div class="connection-problem__description">
+        <div>If you have been using the Waves Desktop app and refreshing does</div>
+        <div>not help, try reinstalling the app. Download the latest version from</div>
+        <div>the official Waves site.</div>
+    </div>
     <button class="submit big submit connetion-problem__button" onclick="WavesApp.reload();">Refresh page</button>
 </div>
 
-<div class="not-supported-browser">
+<div class="not-supported-browser" id="not-supported-browser">
     <div class="overlay"></div>
     <div class="not-supported-modal">
         <i></i>
@@ -567,205 +544,145 @@
     <w-container-alert-notification type="notification"></w-container-alert-notification>
 </div>
 
-<!-- JAVASCRIPT -->
 
 <script>
-    window.BigNumber = ds.wavesDataEntities.BigNumber;
+    var appConfig = getConfig();
 
-    // Signed 64-bit integer.
-    WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
+    if (!appConfig.isBrowserSupported()) {
+        document.getElementById('not-supported-browser').style.display = 'block';
+    }
+    appConfig._initScripts();
+</script>
 
-    WavesApp.device = new MobileDetect(navigator.userAgent);
-
-    (function () {
-        var wrapper = require('worker-wrapper');
-
-        var worker = wrapper.create({
-            libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js?v' + WavesApp.version]
-        });
-
-        worker.process(function () {
-            self.parse = parseJsonBignumber().parse;
-        });
-
-        var stringify = parseJsonBignumber({ BigNumber: BigNumber }).stringify;
-        WavesApp.parseJSON = function (str) {
-            return worker.process(function (str) {
-                return parse(str);
-            }, str);
-        };
-
-        WavesApp.stringifyJSON = function () {
-            return stringify.apply(this, arguments);
-        };
-    })();
-
-    var isBrowserSupported = (function () {
-
-        var USE_NATIVE_API = [
-            window.Promise,
-            window.fetch,
-            Object.values,
-            Object.assign,
-            Object.getOwnPropertyDescriptor,
-            Object.entries,
-            URL,
-            window.crypto || window.msCrypto
-        ];
-
-        return function () {
-            return USE_NATIVE_API.every(Boolean);
-        };
-    })();
-
-    var notSupportedSelector = '.not-supported-browser';
-
-    if (!isBrowserSupported()) {
-        document.body.querySelector(notSupportedSelector).style.display = 'block';
-    } else {
-        var modal = document.body.querySelector(notSupportedSelector);
+<script>
+    var appConfig = getConfig();
+    if (appConfig.isBrowserSupported()) {
+        var modal = document.body.querySelector(appConfig.notSupportedSelector);
         modal.parentNode.removeChild(modal);
-    }
+        appConfig._initApp();
 
-    if (WavesApp.isDesktop()) {
-        var listenDevTools = false;
-        Mousetrap.bind('i d d q d', function () {
-            if (!listenDevTools) {
-                transfer('addDevToolsMenu');
-                listenDevTools = true;
-            }
+        /**
+         * @type {EventSender}
+         */
+        var analytics = eventSender.default.inactive();
+
+        WavesApp.stateTree = new tsUtils.Tree({
+            id: 'root',
+            children: [
+                {
+                    id: 'welcome',
+                    data: {
+                        url: '/',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                // {
+                //     id: 'sessions',
+                //     data: {
+                //         noLogin: true,
+                //         views: [{ name: 'main' }]
+                //     }
+                // },
+                {
+                    id: 'create',
+                    data: {
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'restore',
+                    data: {
+                        url: '/import/restore',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'ledger',
+                    data: {
+                        url: '/import/ledger',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'keeper',
+                    data: {
+                        url: '/import/waveskeeper',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'import',
+                    data: {
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'desktop',
+                    data: {
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'main',
+                    data: {
+                        abstract: true,
+                        views: [{ name: 'main', templateUrl: 'modules/app/templates/main.html' }]
+                    },
+                    children: [
+                        {
+                            id: 'wallet',
+                            data: {
+                                views: [{
+                                    name: 'mainContent',
+                                    noController: true,
+                                    template: '<ui-view name="content"></ui-view>'
+                                }],
+                                redirectTo: 'main.wallet.assets'
+                            },
+                            children: [
+                                { id: 'assets', data: { views: [{ name: 'content' }] } },
+                                { id: 'portfolio', data: { views: [{ name: 'content' }] } },
+                                { id: 'transactions', data: { views: [{ name: 'content' }] } },
+                                { id: 'leasing', data: { views: [{ name: 'content' }] } }
+                            ]
+                        },
+                        {
+                            id: 'dex',
+                            data: {
+                                url: '/dex?assetId1&assetId2',
+                                reloadOnSearch: false,
+                                views: [{ name: 'mainContent' }]
+                            }
+                        },
+                        {
+                            id: 'dex-demo',
+                            data: {
+                                noLogin: true,
+                                controller: 'Dex',
+                                url: '/dex-demo?assetId1&assetId2',
+                                reloadOnSearch: false,
+                                views: [{ name: 'mainContent', templateUrl: 'modules/dex/templates/dex.html' }]
+                            }
+                        },
+                        {
+                            id: 'tokens',
+                            data: {
+                                views: [{ name: 'mainContent' }]
+                            }
+                        }
+                    ]
+                }
+            ]
         });
     }
 
-    Mousetrap.bind('c l e a n a l l', function () {
-        localStorage.clear();
-        if (WavesApp.isDesktop()) {
-            transfer('reload');
-        } else {
-            window.location.reload();
-        }
-    });
-
-    /**
-     * @type {EventSender}
-     */
-    var analytics = eventSender.default.inactive();
-
-    WavesApp.stateTree = new tsUtils.Tree({
-        id: 'root',
-        children: [
-            {
-                id: 'welcome',
-                data: {
-                    url: '/',
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            // {
-            //     id: 'sessions',
-            //     data: {
-            //         noLogin: true,
-            //         views: [{ name: 'main' }]
-            //     }
-            // },
-            {
-                id: 'create',
-                data: {
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            {
-                id: 'restore',
-                data: {
-                    url: '/import/restore',
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            {
-                id: 'ledger',
-                data: {
-                    url: '/import/ledger',
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            {
-                id: 'keeper',
-                data: {
-                    url: '/import/waveskeeper',
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            {
-                id: 'import',
-                data: {
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            {
-                id: 'desktop',
-                data: {
-                    noLogin: true,
-                    views: [{ name: 'main' }]
-                }
-            },
-            {
-                id: 'main',
-                data: {
-                    abstract: true,
-                    views: [{ name: 'main', templateUrl: 'modules/app/templates/main.html' }]
-                },
-                children: [
-                    {
-                        id: 'wallet',
-                        data: {
-                            views: [{
-                                name: 'mainContent',
-                                noController: true,
-                                template: '<ui-view name="content"></ui-view>'
-                            }],
-                            redirectTo: 'main.wallet.assets'
-                        },
-                        children: [
-                            { id: 'assets', data: { views: [{ name: 'content' }] } },
-                            { id: 'portfolio', data: { views: [{ name: 'content' }] } },
-                            { id: 'transactions', data: { views: [{ name: 'content' }] } },
-                            { id: 'leasing', data: { views: [{ name: 'content' }] } }
-                        ]
-                    },
-                    {
-                        id: 'dex',
-                        data: {
-                            url: '/dex?assetId1&assetId2',
-                            reloadOnSearch: false,
-                            views: [{ name: 'mainContent' }]
-                        }
-                    },
-                    {
-                        id: 'dex-demo',
-                        data: {
-                            noLogin: true,
-                            controller: 'Dex',
-                            url: '/dex-demo?assetId1&assetId2',
-                            reloadOnSearch: false,
-                            views: [{ name: 'mainContent', templateUrl: 'modules/dex/templates/dex.html' }]
-                        }
-                    },
-                    {
-                        id: 'tokens',
-                        data: {
-                            views: [{ name: 'mainContent' }]
-                        }
-                    }
-                ]
-            }
-        ]
-    });
 </script>
 
 </body>
