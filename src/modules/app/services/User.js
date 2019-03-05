@@ -41,6 +41,7 @@
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
         const { Money } = require('@waves/data-entities');
+        const analytics = require('@waves/event-sender');
 
         class User {
 
@@ -343,9 +344,7 @@
                         candle: 'blue'
                     }
                 }).then(() => {
-                    if (restore) {
-                        // TODO LOG ANALYTIC CREATE FROM RESTORE
-                    }
+                    analytics.send({ name: 'Create Success', params: { restore, hasBackup } });
                 });
             }
 
