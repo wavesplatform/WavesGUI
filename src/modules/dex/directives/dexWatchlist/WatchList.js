@@ -47,6 +47,10 @@
              */
             pending = false;
             /**
+             * @type {boolean}
+             */
+            loadingError = false;
+            /**
              * @type {null}
              */
             dropDownId = null;
@@ -364,7 +368,11 @@
                     this._getTabRate(),
                     this._cache(pairs)
                 ])
-                    .then(([rate, pairs]) => pairs.map(WatchList._addRateForPair(rate)));
+                    .then(([rate, pairs]) => {
+                        this.loadingError = false;
+                        return pairs.map(WatchList._addRateForPair(rate));
+                    })
+                    .catch(() => (this.loadingError = true));
             }
 
             /**
@@ -514,6 +522,7 @@
 
                 this.searchInProgress = true;
                 this.pending = true;
+                this.loadingError = false;
 
                 this.searchRequest = new PromiseControl(Promise.all(queryParts.map(waves.node.assets.search)))
                     .then(([d1 = [], d2 = []]) => {
@@ -559,6 +568,7 @@
              */
             _onChangeActiveTab() {
                 this.pending = true;
+                this.loadingError = false;
                 this._poll.restart().then(() => {
                     this.pending = false;
                     $scope.$apply();
