@@ -5,7 +5,7 @@
 
     const { isEmpty, getPaths, get, Signal } = require('ts-utils');
     const tsApiValidator = require('ts-api-validator');
-    const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
+    const { WindowAdapter, Bus, WindowProtocol } = require('@waves/waves-browser-bus');
     const { splitEvery, pipe, path, map } = require('ramda');
     const { libs } = require('@waves/signature-generator');
     const ds = require('data-service');
@@ -706,10 +706,9 @@
              */
             importUsersByWindow(win, origin, timeout) {
                 return new Promise((resolve, reject) => {
-                    const adapter = new WindowAdapter(
-                        { win: window, origin: WavesApp.origin },
-                        { win, origin }
-                    );
+                    const listen = new WindowProtocol(window, WindowProtocol.PROTOCOL_TYPES.LISTEN);
+                    const dispatch = new WindowProtocol(win, WindowProtocol.PROTOCOL_TYPES.DISPATCH);
+                    const adapter = new WindowAdapter([listen], [dispatch], { origins: '*' });
                     const bus = new Bus(adapter);
 
                     bus.once('export-ready', () => {
