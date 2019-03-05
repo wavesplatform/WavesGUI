@@ -4,7 +4,7 @@
             <span>
                 <span w-i18n="transaction.headers.{{::$ctrl.typeName}}"></span>
                 <span>
-                    {{$ctrl.transaction.amount.asset.name}}
+                    {{$ctrl.getAssetName($ctrl.transaction.amount.asset)}}
                 </span>
                 <span ng-if="$ctrl.isScamAmount"
                       class="spam-label"
@@ -12,7 +12,7 @@
             </span>/
             <span>
                 <span>
-                    {{$ctrl.transaction.price.asset.name}}
+                    {{$ctrl.getAssetName($ctrl.transaction.price.asset)}}
                 </span>
                 <span ng-if="$ctrl.isScamPrice"
                       class="spam-label"
