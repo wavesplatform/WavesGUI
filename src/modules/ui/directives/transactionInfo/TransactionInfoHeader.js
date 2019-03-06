@@ -35,6 +35,9 @@
                 const isOrder = this.signable.type === SIGN_TYPE.CREATE_ORDER;
                 this.typeName = isOrder ? 'create-order' : utils.getTransactionTypeName(this.signable.getTxData());
                 this.transaction = this.signable.getTxData();
+                if (!this.transaction.assetId) {
+                    this._addAssetId(this.transaction.type);
+                }
                 this.isScam = !!WavesApp.scam[this.transaction.assetId];
                 if (this.transaction.type === 7) {
                     this.isScamAmount = !!WavesApp.scam[this.transaction.amount.asset];
@@ -42,6 +45,26 @@
                 }
             }
 
+            _addAssetId(typeName) {
+                switch (typeName) {
+                    case 4:
+                    case 11:
+                        this.transaction = {
+                            ...this.transaction,
+                            assetId: this.transaction.amount.asset.id
+                        };
+                        break;
+                    case 14:
+                        this.transaction = {
+                            ...this.transaction,
+                            assetId: this.transaction.minSponsoredAssetFee.asset.id
+                        };
+                        break;
+                    default:
+                        break;
+                }
+
+            }
 
         }
 
