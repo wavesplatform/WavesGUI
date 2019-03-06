@@ -2,13 +2,21 @@
     <w-step-by-step active-step="$ctrl.step">
         <w-step>
             <w-permit name="{{::$ctrl.permissionName}}" mode="on">
-                <w-transaction-info is-confirm="::true" signable="$ctrl.signable"></w-transaction-info>
-                <w-sign-button on-success="$ctrl.nextStep()"
-                               hide-id="::true"
-                               class="margin-top-3 block"
-                               on-click="$ctrl.getSignable()">
-                    <span w-i18n="confirmTransaction.sign"></span>
-                </w-sign-button>
+                <div class="txinfo__wrapper">
+                    <w-transaction-info is-confirm="::true" signable="$ctrl.signable"></w-transaction-info>
+                    <div class="error-500 margin-2 footnote-1"
+                         ng-repeat="error in $ctrl.errors"
+                         w-i18n="{{::error.literal}}"></div>
+                    <div class="bottom-wrapper">
+                        <w-sign-button on-success="$ctrl.nextStep()"
+                                       hide-id="::true"
+                                       disabled="$ctrl.errors.length > 0 || !$ctrl.txId"
+                                       class="margin-top-3 block"
+                                       on-click="$ctrl.getSignable()">
+                            <span w-i18n="confirmTransaction.sign"></span>
+                        </w-sign-button>
+                    </div>
+                </div>
             </w-permit>
             <w-permit name="{{::$ctrl.permissionName}}" mode="off">
                 <div class="center">
@@ -78,14 +86,16 @@
                         <span w-i18n="confirmTransaction.redirect" params="{referrer: $ctrl.referrer}"></span>
                     </h3>
 
-                    <div class="error-500 margin-2 footnote-1"
-                         ng-repeat="error in $ctrl.errors"
-                         w-i18n="{{::error.literal}}"></div>
-
                     <div class="bottom-wrapper">
                         <div ng-if="$ctrl.errorMessage" class="error-500 margin-2 margin-top-2">
                             {{$ctrl.errorMessage}}
                         </div>
+                        <div ng-if="$ctrl.errors" class="margin-top-2 error-500 footnote-1">
+                             <div params="error.data"
+                                  ng-repeat="error in $ctrl.errors"
+                                  w-i18n="{{::error.literal}}"></div>
+                        </div>
+
                         <div class="buttons-wrapper margin-top-3" ng-if="!$ctrl.loadingSignFromDevice">
                             <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
                                 <span w-i18n="confirmTransaction.back"></span>
