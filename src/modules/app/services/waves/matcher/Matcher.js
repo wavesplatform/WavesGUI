@@ -138,14 +138,14 @@
                     hash[id].timer = setTimeout(() => {
                         hash[id].cache.destroy();
                         delete hash[id];
-                    }, 5000);
+                    }, 2000);
                     return hash[id].cache;
                 } else {
                     hash[id] = {
                         timer: setTimeout(() => {
                             hash[id].cache.destroy();
                             delete hash[id];
-                        }, 5000),
+                        }, 2000),
                         cache: new PollCache({
                             getData: () => this._getOrderBook(asset1, asset2),
                             timeout: 1000

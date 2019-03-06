@@ -53,24 +53,24 @@ export class Poll<T> {
     private _run() {
         try {
             const promise = this._api.get();
-            promise.then((data) => {
+            promise.then(data => {
                 this._api.set(data);
                 this.lastData = data;
                 this.signals.requestSuccess.dispatch(data);
                 this._setTimeout();
-            }, (e) => {
+            }, e => {
                 this.signals.requestError.dispatch(e);
-                this._setTimeout();
+                this._setTimeout(true);
             });
         } catch (e) {
             this.signals.requestError.dispatch(e);
-            this._setTimeout();
+            this._setTimeout(true);
         }
     }
 
-    private _setTimeout() {
+    private _setTimeout(isError?: boolean) {
         this._clear();
-        this._timer = window.setTimeout(() => this._run(), this._timeout);
+        this._timer = window.setTimeout(() => this._run(), isError ? this._timeout * 10 : this._timeout);
     }
 
     private _clear() {
