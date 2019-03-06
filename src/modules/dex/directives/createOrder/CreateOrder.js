@@ -220,7 +220,7 @@
 
                 this.observe(['priceBalance', 'maxPriceBalance'], this._setIfCanBuyOrder);
                 this.observe(['amount', 'price', 'totalPrice', 'type'], this._updateField);
-
+                // this.observe('totalPrice', this._currentAmount);
                 // TODO Add directive for stop propagation (catch move for draggable)
                 $element.on('mousedown touchstart', '.body', (e) => {
                     e.stopPropagation();
@@ -274,10 +274,12 @@
             }
 
             setMaxAmount() {
+                // this.changedInputName = 'amount';
                 this._setDirtyAmount(this._getMaxAmountForSell());
             }
 
             setMaxPrice() {
+                // this.changedInputName = 'amount';
                 this._setDirtyAmount(this._getMaxAmountForBuy());
             }
 
@@ -301,6 +303,7 @@
                 if (this.changedInputName !== field) {
                     this.changedInputName = field;
                 }
+                this.focusedInputName = null;
             }
 
             /**
@@ -551,38 +554,88 @@
              * @private
              */
             _updateField() {
-                if (!this.focusedInputName) {
-                    this.totalPrice = this.priceBalance.cloneWithTokens('0');
-                    return null;
-                }
-
                 this.changedInputName = this.changedInputName ? this.changedInputName : 'price';
-                const inputsMap = {
-                    price: this.price,
-                    amount: this.amount,
-                    total: this.totalPrice
-                };
-                const currentValue = inputsMap[this.focusedInputName];
-                if (!currentValue) {
+                if (!this.focusedInputName) {
+                    this._currentAmountOrTotal();
                     return null;
                 }
 
-                const valueByTotalPrice = field => this.totalPrice.getTokens().div(field.getTokens());
+                const inputsMap = {
+                    price: 'price',
+                    amount: 'amount',
+                    total: 'totalPrice'
+                };
+                const currentField = inputsMap[this.focusedInputName];
+                const erased = this.order[this.focusedInputName].$viewValue === '';
+                if (erased) {
+                    this[currentField] = this.focusedInputName === 'amount' ?
+                        this.amountBalance.cloneWithTokens('0') :
+                        this.priceBalance.cloneWithTokens('0');
+                }
                 const changingValue = ['price', 'total', 'amount']
                     .find(name => name !== this.changedInputName && name !== this.focusedInputName);
 
-                if (changingValue === 'total') {
-                    this.totalPrice = this.priceBalance.cloneWithTokens(
-                        this.price.getTokens().times(this.amount.getTokens())
-                    );
-                } else {
-                    const fieldValue = this.changedInputName === 'total' ?
-                        valueByTotalPrice(this[this.focusedInputName]) :
-                        valueByTotalPrice(this[this.changedInputName]);
-                    if (fieldValue.toFormat() === 'Infinity' || fieldValue.toFormat() === 'NaN') {
-                        return null;
-                    }
-                    this[changingValue] = this.amountBalance.cloneWithTokens(fieldValue);
+                this._calculateField(changingValue);
+                this._setIfCanBuyOrder();
+            }
+
+            /**
+             * @param {string} fieldName
+             * @private
+             */
+            _calculateField(fieldName) {
+                switch (fieldName) {
+                    case 'total':
+                        this._calculateTotal();
+                        break;
+                    case 'price':
+                        this._calculatePrice();
+                        break;
+                    case 'amount':
+                        this._calculateAmount();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+
+            _calculateTotal() {
+                this._setDirtyTotal(this.priceBalance.cloneWithTokens(
+                    this.price.getTokens().times(this.amount.getTokens())
+                ));
+            }
+
+            _calculatePrice() {
+                this._setDirtyPrice(this.priceBalance.cloneWithTokens(
+                    this.totalPrice.getTokens().div(this.amount.getTokens())
+                ));
+            }
+
+            _calculateAmount() {
+                this._setDirtyAmount(this.amountBalance.cloneWithTokens(
+                    this.totalPrice.getTokens().div(this.price.getTokens())
+                ));
+            }
+
+            /**
+             * @private
+             */
+            _currentAmountOrTotal() {
+                switch (true) {
+                    case (!this.price || !this.amount):
+                        this.totalPrice = this.priceBalance.cloneWithTokens('0');
+                        break;
+                    case (this.price && this.changedInputName === 'total'):
+                        this._setDirtyAmount(this.amountBalance.cloneWithTokens(
+                            this.totalPrice.getTokens().div(this.price.getTokens())
+                        ));
+                        break;
+                    default:
+                        this.totalPrice = this.priceBalance.cloneWithTokens(
+                            this.price.getTokens().times(this.amount.getTokens())
+                        );
+                        break;
                 }
                 this._setIfCanBuyOrder();
             }
@@ -642,7 +695,20 @@
              * @private
              */
             _setDirtyAmount(amount) {
+                if (amount.toFormat() === 'Infinity' || amount.toFormat() === 'NaN') {
+                    return null;
+                }
                 this.amount = amount;
+                this.order.$setDirty();
+            }
+
+            /**
+             * Set only non-zero total values
+             * @param {Money} amount
+             * @private
+             */
+            _setDirtyTotal(totalPrice) {
+                this.totalPrice = totalPrice;
                 this.order.$setDirty();
             }
 
@@ -651,6 +717,9 @@
              * @private
              */
             _setDirtyPrice(price) {
+                if (price.toFormat() === 'Infinity' || price.toFormat() === 'NaN') {
+                    return null;
+                }
                 this.price = price;
                 this.order.$setDirty();
             }
