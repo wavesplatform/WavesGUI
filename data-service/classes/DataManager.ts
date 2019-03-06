@@ -50,8 +50,13 @@ export class DataManager {
     }
 
     public getOracleAssetData(id: string): TProviderAsset & { provider: string } {
-        const lastData = this.pollControl.getPollHash().oracle.lastData;
-        const assets = lastData && lastData.assets || Object.create(null);
+        let pollHash = this.pollControl.getPollHash();
+        let assets;
+        let lastData;
+        if (pollHash) {
+            lastData = pollHash.oracle.lastData;
+            assets = lastData && lastData.assets || Object.create(null);
+        }
 
         const WavesApp = (window as any).WavesApp;
 
