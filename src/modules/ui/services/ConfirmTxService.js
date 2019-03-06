@@ -4,11 +4,29 @@
     const ds = require('data-service');
     const { Asset } = require('@waves/data-entities');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
+    const analytics = require('@waves/event-sender');
 
     const NO_EXPORT_TYPES = [
         SIGN_TYPE.MASS_TRANSFER,
         SIGN_TYPE.CREATE_ORDER
     ];
+
+    const ANALYTICS_TX_NAMES = {
+        [SIGN_TYPE.CREATE_ORDER]: 'Create order',
+        [SIGN_TYPE.ISSUE]: 'Issue',
+        [SIGN_TYPE.TRANSFER]: 'Transfer',
+        [SIGN_TYPE.REISSUE]: 'Reissue',
+        [SIGN_TYPE.BURN]: 'Burn',
+        [SIGN_TYPE.EXCHANGE]: 'Exchange',
+        [SIGN_TYPE.LEASE]: 'Leasing',
+        [SIGN_TYPE.CANCEL_LEASING]: 'Cancel Leasing',
+        [SIGN_TYPE.CREATE_ALIAS]: 'Create Alias',
+        [SIGN_TYPE.MASS_TRANSFER]: 'Mass Transfer',
+        [SIGN_TYPE.DATA]: 'Data',
+        [SIGN_TYPE.SET_SCRIPT]: 'Set Script',
+        [SIGN_TYPE.SPONSORSHIP]: 'Sponsorship',
+        [SIGN_TYPE.SET_ASSET_SCRIPT]: 'Set Asset Script'
+    };
 
     const factory = function (Base, waves, utils, $mdDialog, modalManager) {
 
@@ -78,38 +96,28 @@
 
                 return this.signable.getDataForApi()
                     .then(method)
-                    .then((data) => {
-                        // analytics.push(...this.getAnalytics(true));
+                    .then(data => {
+                        analytics.send(this.getAnalytics(data, true));
                         return data;
                     }, (error) => {
-                        // analytics.push(...this.getAnalytics(false));
+                        analytics.send(this.getAnalytics(this.signable.getTxData(), false));
                         return Promise.reject(error);
                     });
             }
 
-            getEventName() {
-                return 'Transaction';
+            getEventName(data) {
+                if (data.type) {
+                    return data.type in ANALYTICS_TX_NAMES ? ANALYTICS_TX_NAMES[data.type] : 'Unknown';
+                } else {
+                    return ANALYTICS_TX_NAMES[SIGN_TYPE.CREATE_ORDER];
+                }
             }
 
-            // getAnalytics(success) {
-            //     const NAME = this.getEventName();
-            //     const amount = ConfirmTxService.toBigNumber(this.tx.amount);
-            //     if (success) {
-            //         return [
-            //             NAME,
-            //             `${NAME}.${this.signable.type}.${WavesApp.type}`,
-            //             `${NAME}.${this.signable.type}.${WavesApp.type}.Success`,
-            //             amount
-            //         ];
-            //     } else {
-            //         return [
-            //             NAME,
-            //             `${NAME}.${this.signable.type}.${WavesApp.type}`,
-            //             `${NAME}.${this.signable.type}.${WavesApp.type}.Error`,
-            //             amount
-            //         ];
-            //     }
-            // }
+            getAnalytics(data, success) {
+                const NAME = this.getEventName(data);
+                const name = success ? `${NAME} Popup Success Show` : `${NAME} Popup Error Show`;
+                return { name, params: { type: data.type } };
+            }
 
             confirm() {
                 return this.sendTransaction().then(tx => {

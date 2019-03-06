@@ -305,8 +305,8 @@
              */
             login(data) {
                 this.networkError = false;
-                return this._addUserData(data);
-                // .then(() => analytics.push('User', `Login.${WavesApp.type}.${data.userType}`));
+                return this._addUserData(data)
+                    .then(() => analytics.send({ name: 'Sign In Success' }));
             }
 
             /**
