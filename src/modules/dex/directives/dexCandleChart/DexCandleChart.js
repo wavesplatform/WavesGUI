@@ -243,7 +243,9 @@
                         this._chartReady = true;
                     }
                 });
-
+                this._chart.options.datafeed.onLoadError = () => {
+                    this.notLoaded = true;
+                };
                 return this;
             }
 
