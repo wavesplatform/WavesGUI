@@ -20,6 +20,7 @@
     const controller = function (Base, waves, user, utils, createPoll, $scope,
                                  $element, notification, dexDataService, ease, $state, modalManager, balanceWatcher) {
 
+        const { without, pipe, keys } = require('ramda');
         const { Money } = require('@waves/data-entities');
         const ds = require('data-service');
 
@@ -110,11 +111,11 @@
                 /**
                  * @type {string}
                  */
-                this.focusedInputName = null;
-                /**
-                 * @type {string}
-                 */
                 this.changedInputName = null;
+                /**
+                 * @type {boolean}
+                 */
+                this._fieldChanged = false;
                 /**
                  *
                  * @type {boolean}
@@ -219,8 +220,19 @@
                 });
 
                 this.observe(['priceBalance', 'maxPriceBalance'], this._setIfCanBuyOrder);
-                this.observe(['amount', 'price', 'totalPrice', 'type'], this._updateField);
-                // this.observe('totalPrice', this._currentAmount);
+
+                this.observe('amount', () => (
+                    this._isFieldChanged() && this._updateField({ amount: this.amount })
+                ));
+
+                this.observe('price', () => (
+                    this._isFieldChanged() && this._updateField({ price: this.price })
+                ));
+
+                this.observe('totalPrice', () => (
+                    this._isFieldChanged() && this._updateField({ total: this.totalPrice })
+                ));
+
                 // TODO Add directive for stop propagation (catch move for draggable)
                 $element.on('mousedown touchstart', '.body', (e) => {
                     e.stopPropagation();
@@ -274,25 +286,31 @@
             }
 
             setMaxAmount() {
-                // this.changedInputName = 'amount';
-                this._setDirtyAmount(this._getMaxAmountForSell());
+                const amount = this._getMaxAmountForSell();
+                this._updateField({ amount });
             }
 
             setMaxPrice() {
-                // this.changedInputName = 'amount';
-                this._setDirtyAmount(this._getMaxAmountForBuy());
+                const amount = this._getMaxAmountForBuy();
+                const total = this.priceBalance.cloneWithTokens(
+                    this.price.getTokens().times(amount.getTokens())
+                );
+                this._updateField({ amount, total });
             }
 
             setBidPrice() {
-                this._setDirtyPrice(this.priceBalance.cloneWithTokens(String(this.bid.price)));
+                const price = this.priceBalance.cloneWithTokens(String(this.bid.price));
+                this._updateField({ price });
             }
 
             setAskPrice() {
-                this._setDirtyPrice(this.priceBalance.cloneWithTokens(String(this.ask.price)));
+                const price = this.priceBalance.cloneWithTokens(String(this.ask.price));
+                this._updateField({ price });
             }
 
             setLastPrice() {
-                this._setDirtyPrice(this.lastTradePrice);
+                const price = this.lastTradePrice;
+                this._updateField({ price });
             }
 
             /**
@@ -300,10 +318,7 @@
              * @param field {string}
              */
             setChangedInput(field) {
-                if (this.changedInputName !== field) {
-                    this.changedInputName = field;
-                }
-                this.focusedInputName = null;
+                this.changedInputName = field;
             }
 
             /**
@@ -434,25 +449,29 @@
             }
 
             /**
-             * @param {string} price
-             * @param {string} amount
+             * @param {string} priceStr
+             * @param {string} amountStr
              * @private
              */
-            _onClickBuyOrder(price, amount) {
-                const minAmount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens().div(price));
-                this._setDirtyAmount(Money.min(this.amountBalance.cloneWithTokens(amount), minAmount));
-                this._setDirtyPrice(this.priceBalance.cloneWithTokens(price));
+            _onClickBuyOrder(priceStr, amountStr) {
+                this.changedInputName = 'price';
+                const price = this.priceBalance.cloneWithTokens(priceStr);
+                const minAmount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens().div(priceStr));
+                const amount = Money.min(this.amountBalance.cloneWithTokens(amountStr), minAmount);
+                this._updateField({ amount, price });
             }
 
             /**
-             * @param {string} price
-             * @param {string} amount
+             * @param {string} priceStr
+             * @param {string} amountStr
              * @private
              */
-            _onClickSellOrder(price, amount) {
-                const amountMoney = this.amountBalance.cloneWithTokens(amount);
-                this._setDirtyAmount(Money.min(amountMoney, this._getMaxAmountForSell()));
-                this._setDirtyPrice(this.priceBalance.cloneWithTokens(price));
+            _onClickSellOrder(priceStr, amountStr) {
+                this.changedInputName = 'price';
+                const price = this.priceBalance.cloneWithTokens(priceStr);
+                const amountMoney = this.amountBalance.cloneWithTokens(amountStr);
+                const amount = Money.min(amountMoney, this._getMaxAmountForSell());
+                this._updateField({ amount, price });
             }
 
             /**
@@ -549,35 +568,60 @@
                 }
             }
 
-
             /**
+             * @return {boolean}
              * @private
              */
-            _updateField() {
-                this.changedInputName = this.changedInputName ? this.changedInputName : 'price';
-                if (!this.focusedInputName) {
-                    this._currentAmountOrTotal();
+            _isFieldChanged() {
+                if (this._fieldChanged) {
+                    this._fieldChanged = false;
+                    return false;
+                }
+                return true;
+            }
+
+
+            /**
+             * @param {object} newState
+             * @private
+             */
+            _updateField(newState) {
+                if (!this.price && !this.amount) {
+                    this.totalPrice = this.priceBalance.cloneWithTokens('0');
                     return null;
                 }
+                this._applyState(newState);
 
+                const inputKeys = ['price', 'total', 'amount'];
+                const changingValues = pipe(without)(keys(newState), inputKeys);
+
+                if (changingValues.length === 1) {
+                    this._calculateField(changingValues[0]);
+                } else {
+                    this.changedInputName = this.changedInputName ? this.changedInputName : 'price';
+                    this._calculateField(changingValues.find(val => val !== this.changedInputName));
+                }
+                this._fieldChanged = false;
+                this._setIfCanBuyOrder();
+            }
+
+            /**
+             * @param {object} newState
+             * @private
+             */
+            _applyState(newState) {
+                this._fieldChanged = true;
                 const inputsMap = {
                     price: 'price',
                     amount: 'amount',
                     total: 'totalPrice'
                 };
-                const currentField = inputsMap[this.focusedInputName];
-                const erased = this.order[this.focusedInputName].$viewValue === '';
-                if (erased) {
-                    this[currentField] = this.focusedInputName === 'amount' ?
-                        this.amountBalance.cloneWithTokens('0') :
-                        this.priceBalance.cloneWithTokens('0');
-                }
-                const changingValue = ['price', 'total', 'amount']
-                    .find(name => name !== this.changedInputName && name !== this.focusedInputName);
-
-                this._calculateField(changingValue);
-                this._setIfCanBuyOrder();
+                keys(newState).forEach(key => {
+                    this[inputsMap[key]] = newState[key];
+                });
+                this.order.$setDirty();
             }
+
 
             /**
              * @param {string} fieldName
@@ -599,45 +643,58 @@
                 }
             }
 
-
+            /**
+             * @private
+             */
             _calculateTotal() {
+                const price = this._validPrice();
+                const amount = this._validAmount();
+
+                this._fieldChanged = true;
                 this._setDirtyTotal(this.priceBalance.cloneWithTokens(
-                    this.price.getTokens().times(this.amount.getTokens())
+                    price.getTokens().times(amount.getTokens())
                 ));
             }
 
             _calculatePrice() {
+                const totalPrice = this._validTotal();
+                const amount = this._validAmount();
+
                 this._setDirtyPrice(this.priceBalance.cloneWithTokens(
-                    this.totalPrice.getTokens().div(this.amount.getTokens())
+                    totalPrice.getTokens().div(amount.getTokens())
                 ));
+                this._fieldChanged = true;
             }
 
             _calculateAmount() {
+                const totalPrice = this._validTotal();
+                const price = this._validPrice();
+
                 this._setDirtyAmount(this.amountBalance.cloneWithTokens(
-                    this.totalPrice.getTokens().div(this.price.getTokens())
+                    totalPrice.getTokens().div(price.getTokens())
                 ));
+                this._fieldChanged = true;
             }
 
             /**
              * @private
              */
-            _currentAmountOrTotal() {
-                switch (true) {
-                    case (!this.price || !this.amount):
-                        this.totalPrice = this.priceBalance.cloneWithTokens('0');
-                        break;
-                    case (this.price && this.changedInputName === 'total'):
-                        this._setDirtyAmount(this.amountBalance.cloneWithTokens(
-                            this.totalPrice.getTokens().div(this.price.getTokens())
-                        ));
-                        break;
-                    default:
-                        this.totalPrice = this.priceBalance.cloneWithTokens(
-                            this.price.getTokens().times(this.amount.getTokens())
-                        );
-                        break;
-                }
-                this._setIfCanBuyOrder();
+            _validTotal() {
+                return this.order.total.$viewValue === '' ?
+                    this.priceBalance.cloneWithTokens('0') :
+                    this.totalPrice;
+            }
+
+            _validPrice() {
+                return this.order.price.$viewValue === '' ?
+                    this.amountBalance.cloneWithTokens('0') :
+                    this.price;
+            }
+
+            _validAmount() {
+                return this.order.amount.$viewValue === '' ?
+                    this.amountBalance.cloneWithTokens('0') :
+                    this.amount;
             }
 
             /**

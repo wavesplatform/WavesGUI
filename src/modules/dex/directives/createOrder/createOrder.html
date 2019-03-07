@@ -76,7 +76,6 @@
                                 <w-input tabindex="1"
                                          class="tiny embed no-validate-icons"
                                          type="text"
-                                         ng-focus="$ctrl.focusedInputName = 'amount'"
                                          ng-blur="$ctrl.setChangedInput('amount')"
                                          w-validate
                                          w-validator-asset="{{$ctrl.amountBalance.asset}}"
@@ -84,6 +83,7 @@
                                          w-validator-gt="0"
                                          name="amount"
                                          ng-model="$ctrl.amount"
+                                         autocomplete="off"
                                          required></w-input>
                                 <div class="asset-name-wrap">
                                     <div class="caption-1 basic-500">{{$ctrl.amountDisplayName}}</div>
@@ -134,13 +134,13 @@
                                 <w-input class="tiny embed no-validate-icons"
                                          tabindex="2"
                                          type="text"
-                                         ng-focus="$ctrl.focusedInputName = 'price'"
                                          ng-blur="$ctrl.setChangedInput('price')"
                                          w-validate
                                          w-validator-asset="{{$ctrl.priceBalance.asset}}"
                                          w-validator-gt="0"
                                          name="price"
                                          ng-model="$ctrl.price"
+                                         autocomplete="off"
                                          required></w-input>
                                 <div class="asset-name-wrap">
                                     <div class="caption-1 basic-500">{{$ctrl.priceDisplayName}}</div>
@@ -170,11 +170,11 @@
                                          name="total"
                                          ng-model="$ctrl.totalPrice"
                                          w-validate
-                                         ng-focus="$ctrl.focusedInputName = 'total'"
                                          ng-blur="$ctrl.setChangedInput('total')"
                                          w-validator-asset="{{$ctrl.priceBalance.asset}}"
                                          w-validator-custom="{{$ctrl.canBuyOrder}}"
                                          w-validator-gt="0"
+                                         autocomplete="off"
                                          required></w-input>
                                 <div class="asset-name-wrap">
                                     <div class="caption-1 basic-500">{{$ctrl.priceDisplayName}}</div>
