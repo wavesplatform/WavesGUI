@@ -12,23 +12,15 @@ w-transaction .transaction {
   align-items: center;
   position: relative;
 
-  .status {
-    .caption-3();
-    padding: 3px 6px;
-    margin-top: 4px;
-    border-radius: @border-radius / 2;
-    text-transform: uppercase;
-    position: absolute;
-    right: 43px;
-    bottom: 15px;
-
-    &.active {
-      background: @color-success-50;
-      color: @color-success-400;
+  .status-label-min {
+    &.inactive {
+      margin-bottom: -1px;
     }
-    &.canceled {
-      background: rgba(239, 72, 41, 0.1);
-      color: @color-error-500;
+    &:not(.inactive) {
+      margin-top: 4px;
+      position: absolute;
+      right: 43px;
+      bottom: 15px;
     }
   }
 
@@ -195,9 +187,7 @@ w-transaction .transaction {
           flex-grow: 0;
         }
       }
-
     }
-
   }
 
   &.spam {
@@ -208,12 +198,8 @@ w-transaction .transaction {
             color: @color-basic-500;
             word-break: break-all;
 
-            .spam-label {
-              .status();
+            .status-label-min {
               display: inline-block;
-              background-color: @color-disabled-200;
-              color: @color-basic-900;
-              position: relative;
               top: auto;
               bottom: 3px;
               margin-top: 0;
@@ -235,7 +221,7 @@ w-transaction .transaction {
       margin-right: 20px;
     }
 
-    .status {
+    .status-label-min {
       right: 40px;
       top: 24px;
       bottom: auto;
@@ -319,7 +305,7 @@ w-transaction .transaction {
         .line-wrapper {
           .line {
             .top {
-              .spam-label {
+              .status-label-min {
                 position: absolute;
                 right: 43px;
                 bottom: 44px;
@@ -335,7 +321,7 @@ w-transaction .transaction {
 @media screen and (max-width: 540px) {
   md-dialog {
     w-transaction .transaction {
-      .status {
+      .status-label-min {
         right: 10px;
       }
     }

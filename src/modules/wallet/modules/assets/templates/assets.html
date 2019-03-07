@@ -1,144 +1,112 @@
-<style>
-    .components-wrapper {
-        max-width: 360px;
-    }
-    h1 {
-        color: grey;
-    }
-</style>
-
-<div class="components-wrapper">
-
-    <h1>Select</h1>
-    <w-select class="big long">
-        <w-option>option 1</w-option>
-        <w-option>option 2</w-option>
-        <w-option>option 3</w-option>
-        <w-option>option 4</w-option>
-        <w-option>option 5</w-option>
-    </w-select>
-
-                            <div class="margin-2"></div>
-
-    <w-select class="big long">
-        <w-option>option 1</w-option>
-        <w-option>option 2</w-option>
-        <w-option>option 3</w-option>
-        <w-option>option 4</w-option>
-        <w-option>option 5</w-option>
-    </w-select>
-
-                            <div class="margin-2"></div>
-
-    <h1>Buttons</h1>
-
+<div w-i18n-ns="app.wallet.assets" class="toolbar">
     <w-button class="interface btn-send" on-click="$ctrl.showSend()">
-        <svg width="15px" height="14px" viewBox="0 0 15 14" version="1.1" xmlns="http://www.w3.org/2000/svg"
-             xmlns:xlink="http://www.w3.org/1999/xlink">
-            <path d="M15.7261538,5.95734828 L15.7261538,5.95734828 C15.9214159,6.15261042 15.9214159,6.46919291 15.7261538,6.66445506 L8.50013244,13.8904765 L1.3118034,6.70753193 C1.1164681,6.51234296 1.11634949,6.19576049 1.31153846,6.0004252 L1.31153846,6.0004252 C1.50672743,5.80508991 1.8233099,5.8049713 2.01864519,6.00016027 L8.49986756,12.4765278 L15.019047,5.95734828 C15.2143092,5.76208613 15.5308917,5.76208613 15.7261538,5.95734828 Z"
-                id="Shape-Copy-2" transform="translate(8.518912, 9.747136) scale(-1, 1) rotate(-180.000000) translate(-8.518912, -9.747136) "></path>
-            <path d="M8.49986756,7.47652778 L15.019047,0.957348251 C15.2143092,0.762086104 15.5308917,0.762086102 15.7261538,0.957348247 L15.7261538,0.957348247 C15.9214159,1.15261039 15.9214159,1.46919288 15.7261538,1.66445503 L8.50013244,8.89047647 L1.31180339,1.70753191 C1.1164681,1.51234293 1.11634949,1.19576047 1.31153846,1.00042518 L1.31153846,1.00042518 C1.50672744,0.805089886 1.8233099,0.804971272 2.01864519,1.00016024 L8.49986756,7.47652778 Z"
-                id="Shape-Copy-3" transform="translate(8.518912, 4.747136) scale(-1, 1) rotate(-180.000000) translate(-8.518912, -4.747136) "></path>
+        <svg width="15px" height="14px" viewBox="0 0 15 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <path d="M15.7261538,5.95734828 L15.7261538,5.95734828 C15.9214159,6.15261042 15.9214159,6.46919291 15.7261538,6.66445506 L8.50013244,13.8904765 L1.3118034,6.70753193 C1.1164681,6.51234296 1.11634949,6.19576049 1.31153846,6.0004252 L1.31153846,6.0004252 C1.50672743,5.80508991 1.8233099,5.8049713 2.01864519,6.00016027 L8.49986756,12.4765278 L15.019047,5.95734828 C15.2143092,5.76208613 15.5308917,5.76208613 15.7261538,5.95734828 Z" id="Shape-Copy-2" transform="translate(8.518912, 9.747136) scale(-1, 1) rotate(-180.000000) translate(-8.518912, -9.747136) "></path>
+            <path d="M8.49986756,7.47652778 L15.019047,0.957348251 C15.2143092,0.762086104 15.5308917,0.762086102 15.7261538,0.957348247 L15.7261538,0.957348247 C15.9214159,1.15261039 15.9214159,1.46919288 15.7261538,1.66445503 L8.50013244,8.89047647 L1.31180339,1.70753191 C1.1164681,1.51234293 1.11634949,1.19576047 1.31153846,1.00042518 L1.31153846,1.00042518 C1.50672744,0.805089886 1.8233099,0.804971272 2.01864519,1.00016024 L8.49986756,7.47652778 Z" id="Shape-Copy-3" transform="translate(8.518912, 4.747136) scale(-1, 1) rotate(-180.000000) translate(-8.518912, -4.747136) "></path>
         </svg>
-        <span class="btn-icon">Send</span>
+        <span class="btn-icon" w-i18n="send"></span>
     </w-button>
-
-                            <div class="margin-2"></div>
-
-    <w-button class="small submit">
-        <span class="button">Small</span>
+    <w-button class="interface btn-receive" on-click="$ctrl.showReceivePopup()">
+        <svg width="15px" height="14px" viewBox="0 0 15 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <path d="M15.7261538,5.95734828 L15.7261538,5.95734828 C15.9214159,6.15261042 15.9214159,6.46919291 15.7261538,6.66445506 L8.50013244,13.8904765 L1.3118034,6.70753193 C1.1164681,6.51234296 1.11634949,6.19576049 1.31153846,6.0004252 L1.31153846,6.0004252 C1.50672743,5.80508991 1.8233099,5.8049713 2.01864519,6.00016027 L8.49986756,12.4765278 L15.019047,5.95734828 C15.2143092,5.76208613 15.5308917,5.76208613 15.7261538,5.95734828 Z" id="Shape-Copy-2" transform="translate(8.518912, 9.747136) scale(-1, 1) rotate(-180.000000) translate(-8.518912, -9.747136) "></path>
+            <path d="M8.49986756,7.47652778 L15.019047,0.957348251 C15.2143092,0.762086104 15.5308917,0.762086102 15.7261538,0.957348247 L15.7261538,0.957348247 C15.9214159,1.15261039 15.9214159,1.46919288 15.7261538,1.66445503 L8.50013244,8.89047647 L1.31180339,1.70753191 C1.1164681,1.51234293 1.11634949,1.19576047 1.31153846,1.00042518 L1.31153846,1.00042518 C1.50672744,0.805089886 1.8233099,0.804971272 2.01864519,1.00016024 L8.49986756,7.47652778 Z" id="Shape-Copy-3" transform="translate(8.518912, 4.747136) scale(-1, 1) rotate(-180.000000) translate(-8.518912, -4.747136) "></path>
+        </svg>
+        <span class="btn-icon" w-i18n="directives.asset.receive"></span>
     </w-button>
-
-                            <div class="margin-2"></div>
-
-    <w-button class="tiny submit">
-        <span class="button">Tiny</span>
+    <!--<w-button ng-if="$ctrl.advancedMode" on-click="$ctrl.openScriptModal()" class="interface btn-script">-->
+        <!--<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">-->
+            <!--<path d="M9.158 3.615a.5.5 0 1 1 .684-.73l4 3.75a.5.5 0 0 1 0 .73l-4 3.75a.5.5 0 0 1-.684-.73L12.768 7l-3.61-3.385zM4.842 10.385a.5.5 0 0 1-.684.73l-4-3.75a.5.5 0 0 1 0-.73l4-3.75a.5.5 0 1 1 .684.73L1.232 7l3.61 3.385z"/>-->
+        <!--</svg>-->
+        <!--<span w-i18n="directives.asset.script"></span>-->
+    <!--</w-button>-->
+    <w-button ng-if="$ctrl.advancedMode" on-click="$ctrl.openAnyTxModal()" class="interface btn-json">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+            <path d="M4.394 1.7a.591.591 0 1 1 0 1.182c-.665 0-1.182.517-1.182 1.182v1.182a2.35 2.35 0 0 1-.82 1.772c.498.435.82 1.066.82 1.773v1.182c0 .665.517 1.182 1.182 1.182a.591.591 0 1 1 0 1.181A2.372 2.372 0 0 1 2.03 9.973V8.79A1.167 1.167 0 0 0 .807 7.609a.591.591 0 0 1-.115-.02.591.591 0 0 1-.257-.141.591.591 0 0 1 .413-1.018c.666 0 1.182-.517 1.182-1.182V4.066c0-1.3 1.065-2.364 2.364-2.364V1.7zm5.15.002a2.372 2.372 0 0 1 2.424 2.364v1.182c0 .665.517 1.182 1.182 1.182a.591.591 0 1 1 0 1.181c-.665 0-1.182.517-1.182 1.182v1.182c0 1.3-1.064 2.364-2.364 2.364a.591.591 0 1 1 0-1.182c.665 0 1.182-.517 1.182-1.182V8.793c0-.707.323-1.338.82-1.772a2.35 2.35 0 0 1-.82-1.773V4.066c0-.665-.517-1.182-1.182-1.182a.592.592 0 0 1-.06-1.182z"/>
+        </svg>
+        <span class="btn-icon" w-i18n="directives.asset.anyTx"></span>
     </w-button>
-
-                            <div class="margin-2"></div>
-    <w-button class="medium submit">
-        <span class="button">Medium</span>
-    </w-button>
-
-                            <div class="margin-2"></div>
-
-    <w-button class="big long submit">
-        <span class="button">Big button</span>
-    </w-button>
-
-                            <div class="margin-2"></div>
-
-    <w-button class="big long warning">
-        <span class="button">Big warning</span>
-    </w-button>
-
-                            <div class="margin-2"></div>
-
-    <w-button class="big long bordered">
-        <span class="button">bordered</span>
-    </w-button>
-
-    <div class="margin-2"></div>
-
-                            <div class="margin-2"></div>
-
-                            <div class="margin-2"></div>
-
-                            <div class="margin-2"></div>
-
-                            <div class="margin-2"></div>
-
-                            <div class="margin-2"></div>
-
-                            <div class="margin-2"></div>
-
-                            <div class="margin-2"></div>
-
-    <h1>Inputs</h1>
-
-    <w-input type="text" class="big long"></w-input>
-
-                            <div class="margin-2"></div>
-
-    <w-checkbox-submit id="check1"></w-checkbox-submit>
-    <label for="check1">Unchecked</label>
-
-    <w-checkbox-submit id="check2" checked></w-checkbox-submit>
-    <label for="check2">Checked</label>
-
-                            <div class="margin-2"></div>
-
-    <!-- todo -->
-    <div class="input-toggle" ng-class="{active: $ctrl.hasAssetScript}">
-        <w-checkbox-submit id="has-script"
-                           name="has-script"
-                           ng-model="$ctrl.hasAssetScript">
-        </w-checkbox-submit>
-        <label for="has-script" class="margin-right-1"></label>
-        <div ng-if="$ctrl.hasAssetScript" class="footnote-1">ON</div>
-        <div ng-if="!$ctrl.hasAssetScript" class="footnote-1">OFF</div>
-    </div>
-
-
-                            <div class="margin-2"></div>
-
-    <h1>Range input</h1>
-
-    <w-range-slider ng-model="$ctrl.precision" max="::8">
-
-    <div class="margin-6"></div>
-
 </div>
 
+<div w-i18n-ns="app.wallet.assets" class="assets-wrapper">
 
+    <div class="chart-rate" w-toggle-class-container>
 
+        <div class="toolbar">
+            <div>
+                <w-radio-wrap class="toolbar-balance-radio"
+                              mode="tab-mode"
+                              ng-model="$ctrl.activeChartAssetId">
+                    <w-radio ng-repeat="asset in $ctrl.chartAssetList track by asset.id"
+                             value="::asset.id">
+                        <span class="radio-name">{{::asset.name}}<span class="radio-dot">•</span></span>
+                        <span class="radio-symb">$</span>
+                        <w-change-rate asset-id="::asset.id"></w-change-rate>
+                    </w-radio>
+                </w-radio-wrap>
 
-<w-asset></w-asset>
+                <w-select class="toolbar-balance-select"
+                          ng-model="$ctrl.activeChartAssetId">
+                    <w-option w-add-class ng-repeat="asset in $ctrl.chartAssetList track by asset.id"
+                              value="::asset.id">
+                        <span class="radio-name">{{::asset.name}}</span>
+                    </w-option>
+                </w-select>
 
+            </div>
 
+            <div class="date-btns">
+                <w-radio-wrap mode="tab-mode" ng-model="$ctrl.chartMode">
+                    <w-radio value="'day'" w-add-class>
+                        <span w-i18n="chart.intervals.day"></span>
+                    </w-radio>
+                    <w-radio value="'week'" w-add-class>
+                        <span w-i18n="chart.intervals.week"></span>
+                    </w-radio>
+                    <w-radio value="'month'" w-add-class>
+                        <span w-i18n="chart.intervals.month"></span>
+                    </w-radio>
+                </w-radio-wrap>
+            </div>
+        </div>
 
+        <i class="toggler" w-toggle-class></i>
 
+        <div class="chart-info">
+            <div class="rate">
+                <h1>
+                    $&nbsp;<w-change-rate asset-id="$ctrl.activeChartAssetId"></w-change-rate>
+                </h1>
+                <div class="tag-1 info-500">
+                    <span w-i18n="price" params="{currency: $ctrl.activeChartBalance.asset.name.toUpperCase()}"></span>
+                </div>
+            </div>
+            <div class="change">
+                <h1>{{$ctrl.change > 0 ? '+' : '-'}}$ {{$ctrl.abs($ctrl.change)}}</h1>
+                <div class="tag-1 info-500">
+                    <span w-i18n="since.{{$ctrl.chartMode}}"></span>&nbsp;(USD)
+                </div>
+            </div>
+            <div class="change-percent">
+                <h1>{{$ctrl.change > 0 ? '+' : '-'}}{{$ctrl.abs($ctrl.changePercent)}}%</h1>
+                <div class="tag-1 info-500">
+                    <span w-i18n="since.{{$ctrl.chartMode}}"></span>&nbsp;(%)
+                </div>
+            </div>
+        </div>
 
+        <div class="chart-wrapper">
+            <linechart ng-if="$ctrl.chartMode && $ctrl.data" options="$ctrl.options" data="$ctrl.data"></linechart>
+        </div>
+    </div>
 
+    <div class="assets-list">
+        <w-asset ng-repeat="balance in $ctrl.pinnedAssetBalances track by balance.asset.id"
+                 on-click="$ctrl.onAssetActionClick(event, balance.asset, action)"
+                 on-unpin-click="$ctrl.unpin(balance.asset)"
+                 balance="balance"></w-asset>
+        <div class="new-asset" ng-click="$ctrl.newAssetOnClick()" role="button">
+            <span></span>
+        </div>
+    </div>
 
 </div>
