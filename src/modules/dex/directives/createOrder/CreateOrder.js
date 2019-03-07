@@ -295,7 +295,8 @@
                 const total = this.priceBalance.cloneWithTokens(
                     this.price.getTokens().times(amount.getTokens())
                 );
-                this._updateField({ amount, total });
+                const price = this.price;
+                this._updateField({ amount, total, price });
             }
 
             setBidPrice() {
@@ -594,7 +595,9 @@
 
                 const inputKeys = ['price', 'total', 'amount'];
                 const changingValues = pipe(without)(keys(newState), inputKeys);
-
+                if (changingValues.length === 0) {
+                    return null;
+                }
                 if (changingValues.length === 1) {
                     this._calculateField(changingValues[0]);
                 } else {
