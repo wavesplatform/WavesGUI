@@ -20,7 +20,7 @@
     const controller = function (Base, waves, user, utils, createPoll, $scope,
                                  $element, notification, dexDataService, ease, $state, modalManager, balanceWatcher) {
 
-        const { without, pipe, keys } = require('ramda');
+        const { without, keys } = require('ramda');
         const { Money } = require('@waves/data-entities');
         const ds = require('data-service');
 
@@ -81,7 +81,7 @@
                  * Total price (amount multiply price)
                  * @type {Money}
                  */
-                this.totalPrice = null;
+                this.total = null;
                 /**
                  * @type {Money}
                  */
@@ -229,8 +229,8 @@
                     this._isFieldChanged() && this._updateField({ price: this.price })
                 ));
 
-                this.observe('totalPrice', () => (
-                    this._isFieldChanged() && this._updateField({ total: this.totalPrice })
+                this.observe('total', () => (
+                    this._isFieldChanged() && this._updateField({ total: this.total })
                 ));
 
                 // TODO Add directive for stop propagation (catch move for draggable)
@@ -588,13 +588,13 @@
              */
             _updateField(newState) {
                 if (!this.price && !this.amount) {
-                    this.totalPrice = this.priceBalance.cloneWithTokens('0');
+                    this.total = this.priceBalance.cloneWithTokens('0');
                     return null;
                 }
                 this._applyState(newState);
 
                 const inputKeys = ['price', 'total', 'amount'];
-                const changingValues = pipe(without)(keys(newState), inputKeys);
+                const changingValues = without(keys(newState), inputKeys);
                 if (changingValues.length === 0) {
                     return null;
                 }
@@ -614,13 +614,8 @@
              */
             _applyState(newState) {
                 this._fieldChanged = true;
-                const inputsMap = {
-                    price: 'price',
-                    amount: 'amount',
-                    total: 'totalPrice'
-                };
                 keys(newState).forEach(key => {
-                    this[inputsMap[key]] = newState[key];
+                    this[key] = newState[key];
                 });
                 this.order.$setDirty();
             }
@@ -654,27 +649,27 @@
                 const amount = this._validAmount();
 
                 this._fieldChanged = true;
-                this._setDirtyTotal(this.priceBalance.cloneWithTokens(
+                this._setDirtyField('total', this.priceBalance.cloneWithTokens(
                     price.getTokens().times(amount.getTokens())
                 ));
             }
 
             _calculatePrice() {
-                const totalPrice = this._validTotal();
+                const total = this._validTotal();
                 const amount = this._validAmount();
 
-                this._setDirtyPrice(this.priceBalance.cloneWithTokens(
-                    totalPrice.getTokens().div(amount.getTokens())
+                this._setDirtyField('price', this.priceBalance.cloneWithTokens(
+                    total.getTokens().div(amount.getTokens())
                 ));
                 this._fieldChanged = true;
             }
 
             _calculateAmount() {
-                const totalPrice = this._validTotal();
+                const total = this._validTotal();
                 const price = this._validPrice();
 
-                this._setDirtyAmount(this.amountBalance.cloneWithTokens(
-                    totalPrice.getTokens().div(price.getTokens())
+                this._setDirtyField('amount', this.amountBalance.cloneWithTokens(
+                    total.getTokens().div(price.getTokens())
                 ));
                 this._fieldChanged = true;
             }
@@ -685,7 +680,7 @@
             _validTotal() {
                 return this.order.total.$viewValue === '' ?
                     this.priceBalance.cloneWithTokens('0') :
-                    this.totalPrice;
+                    this.total;
             }
 
             _validPrice() {
@@ -705,13 +700,13 @@
              */
             _setIfCanBuyOrder() {
                 if (this.type === 'buy' &&
-                    this.totalPrice &&
+                    this.total &&
                     this.priceBalance &&
-                    this.totalPrice.asset.id === this.priceBalance.asset.id) {
+                    this.total.asset.id === this.priceBalance.asset.id) {
 
                     if (this.maxPriceBalance) {
                         this.canBuyOrder = (
-                            this.totalPrice.lte(this.maxPriceBalance) && this.maxPriceBalance.getTokens().gt(0)
+                            this.total.lte(this.maxPriceBalance) && this.maxPriceBalance.getTokens().gt(0)
                         );
                     }
                 } else {
@@ -751,36 +746,15 @@
 
             /**
              * Set only non-zero amount values
-             * @param {Money} amount
+             * @param {string} field
+             * @param {Money} value
              * @private
              */
-            _setDirtyAmount(amount) {
-                if (amount.toFormat() === 'Infinity' || amount.toFormat() === 'NaN') {
+            _setDirtyField(field, value) {
+                if (value.getTokens().isNaN() || !value.getTokens().isFinite()) {
                     return null;
                 }
-                this.amount = amount;
-                this.order.$setDirty();
-            }
-
-            /**
-             * Set only non-zero total values
-             * @param {Money} amount
-             * @private
-             */
-            _setDirtyTotal(totalPrice) {
-                this.totalPrice = totalPrice;
-                this.order.$setDirty();
-            }
-
-            /**
-             * @param {Money} price
-             * @private
-             */
-            _setDirtyPrice(price) {
-                if (price.toFormat() === 'Infinity' || price.toFormat() === 'NaN') {
-                    return null;
-                }
-                this.price = price;
+                this[field] = value;
                 this.order.$setDirty();
             }
 
