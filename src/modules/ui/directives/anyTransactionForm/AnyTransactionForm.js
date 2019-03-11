@@ -118,6 +118,9 @@
                     if (data.type === SIGN_TYPE.SET_SCRIPT && !data.script) {
                         data.script = '';
                     }
+                    if (data.type === SIGN_TYPE.TRANSFER || data.type === SIGN_TYPE.MASS_TRANSFER) {
+                        data.attachment = Array.from(data.attachment);
+                    }
 
                     try {
                         this.signable = ds.signature.getSignatureApi().makeSignable({

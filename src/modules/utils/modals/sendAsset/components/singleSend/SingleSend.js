@@ -286,7 +286,7 @@
                 const tx = waves.node.transactions.createTransaction({
                     ...this.tx,
                     recipient: toGateway ? this.gatewayDetails.address : this.tx.recipient,
-                    attachment: toGateway ? this.gatewayDetails.attachment : this.tx.attachment,
+                    attachment: utils.stringToBytes(toGateway ? this.gatewayDetails.attachment : this.tx.attachment),
                     amount: toGateway ? this.tx.amount.add(fee) : this.tx.amount
                 });
 

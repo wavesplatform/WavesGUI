@@ -333,6 +333,9 @@
                     change24Node.classList.toggle('minus', isLessZero);
                     change24Node.classList.toggle('plus', isMoreZero);
                     change24Node.innerHTML = `${change24.toFixed(2)}%`;
+                }, () => {
+                    const change24Node = this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
+                    change24Node.innerHTML = '0.00%';
                 });
 
             this.waves.utils.getRate(balance.asset.id, baseAssetId)
