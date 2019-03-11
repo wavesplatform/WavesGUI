@@ -6,7 +6,7 @@
     const { isEmpty, getPaths, get, Signal } = require('ts-utils');
     const tsApiValidator = require('ts-api-validator');
     const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
-    const { splitEvery, pipe, path, map, ifElse, not, concat, defaultTo, identity } = require('ramda');
+    const { splitEvery, pipe, path, map, ifElse, concat, defaultTo, identity, isNil } = require('ramda');
     const { libs } = require('@waves/signature-generator');
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
@@ -224,7 +224,7 @@
                 pipe(
                     identity,
                     bytesToString,
-                    not
+                    isNil,
                 ),
                 pipe(
                     identity,

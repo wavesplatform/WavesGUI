@@ -43,7 +43,7 @@
                 if (!this.tx) {
                     return null;
                 }
-                this.tx.attachment = this.tx.attachment ? this.tx.attachment.toString() : '';
+
                 waves.node.getFeeList(this.tx).then(list => {
 
                     this.originalFeeList = list;
