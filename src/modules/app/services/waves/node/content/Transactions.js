@@ -112,6 +112,8 @@
                         .reduce((result, item) => result.add(item));
                 }
 
+                tx.attachment = tx.attachment.toString();
+
                 return this._pipeTransaction(false)(tx);
             }
 
