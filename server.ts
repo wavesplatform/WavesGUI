@@ -24,7 +24,7 @@ const args = parseArguments() || Object.create(null);
 const handler = function (req, res) {
     const url = parse(req.url);
 
-    const parts = ['event-sender', 'amplitude'];
+    const parts = ['event-sender', 'amplitude', 'googleAnalytics'];
 
     if (parts.some(item => req.url.includes(item))) {
         stat(req, res, [__dirname, join(__dirname, 'node_modules/@waves')]);

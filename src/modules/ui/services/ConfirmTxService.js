@@ -13,10 +13,10 @@
 
     const ANALYTICS_TX_NAMES = {
         [SIGN_TYPE.CREATE_ORDER]: 'Create order',
-        [SIGN_TYPE.ISSUE]: 'Issue',
+        [SIGN_TYPE.ISSUE]: 'Token Generation',
         [SIGN_TYPE.TRANSFER]: 'Transfer',
         [SIGN_TYPE.REISSUE]: 'Reissue',
-        [SIGN_TYPE.BURN]: 'Burn',
+        [SIGN_TYPE.BURN]: 'Burn Token',
         [SIGN_TYPE.EXCHANGE]: 'Exchange',
         [SIGN_TYPE.LEASE]: 'Leasing',
         [SIGN_TYPE.CANCEL_LEASING]: 'Cancel Leasing',
@@ -115,7 +115,7 @@
 
             getAnalytics(data, success) {
                 const NAME = this.getEventName(data);
-                const name = success ? `${NAME} Popup Success Show` : `${NAME} Popup Error Show`;
+                const name = success ? `${NAME} Transaction Success` : `${NAME} Transaction Error`;
                 return { name, params: { type: data.type } };
             }
 

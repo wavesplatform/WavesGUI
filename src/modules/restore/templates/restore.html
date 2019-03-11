@@ -45,16 +45,20 @@
 
                 <div class="flex margin-3">
                     <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
-                    <label
-                        for="save-user-data"
-                        w-i18n="seedForm.saveUserData"
-                        class="footnote-1 basic-500"></label>
+                    <label for="save-user-data"
+                           w-i18n="seedForm.saveUserData"
+                           class="footnote-1 basic-500"></label>
                 </div>
 
                 <div class="margin-3">
-                    <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">
-                        <span w-i18n="seedForm.continue"></span>
-                    </w-button>
+                    <w-analytics
+                            event-target="'ui'"
+                            event-params="{guestMode: !$ctrl.saveUserData}"
+                            event="'Import Backup Continue Click'">
+                        <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">
+                            <span w-i18n="seedForm.continue"></span>
+                        </w-button>
+                    </w-analytics>
                 </div>
             </form>
 

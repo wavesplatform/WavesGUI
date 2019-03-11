@@ -69,6 +69,7 @@
             }
 
             showTryDesktopModal() {
+                analytics.send({ name: 'Onboarding Platform Popup Show', target: 'ui' });
                 return this._getModal({
                     id: 'try-desktop',
                     title: '',
@@ -209,6 +210,7 @@
             }
 
             showTutorialModals() {
+                analytics.send({ name: 'Onboarding SEED Popup Show', target: 'ui' });
                 return this._getModal({
                     id: 'tutorial-modals',
                     templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',

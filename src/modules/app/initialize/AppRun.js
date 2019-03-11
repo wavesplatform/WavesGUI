@@ -412,6 +412,8 @@
 
                     modalManager.openModal.once(changeModalsHandler);
 
+                    analytics.send({ name: 'Create Save Phrase Show', target: 'ui' });
+
                     notification.error({
                         id,
                         ns: 'app.utils',
@@ -424,10 +426,12 @@
                         action: {
                             literal: 'notification.backup.action',
                             callback: () => {
+                                analytics.send({ name: 'Create Save Phrase Yes Click', target: 'ui' });
                                 modalManager.showSeedBackupModal();
                             }
                         },
                         onClose: () => {
+                            analytics.send({ name: 'Create Save Phrase No Click', target: 'ui' });
                             if (scope.closeByModal || user.getSetting('hasBackup')) {
                                 return null;
                             }
@@ -477,13 +481,27 @@
              * @private
              */
             _onChangeStateSuccess(event, toState, some, fromState) {
+                const from = fromState.name || document.referrer;
+
                 switch (toState.name) {
                     case 'create':
                         analytics.send({
                             name: 'Create New Account Show',
-                            params: {
-                                from: fromState.name || document.referrer
-                            }
+                            params: { from }
+                        });
+                        break;
+                    case 'import':
+                        analytics.send({
+                            name: 'Import Accounts Show',
+                            params: { from },
+                            target: 'ui'
+                        });
+                        break;
+                    case 'restore':
+                        analytics.send({
+                            name: 'Import Backup Show',
+                            params: { from },
+                            target: 'ui'
                         });
                         break;
                     default:
