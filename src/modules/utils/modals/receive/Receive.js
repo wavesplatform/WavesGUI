@@ -16,14 +16,14 @@
             assetId: WavesApp.defaultAssets.USD,
             fiatCode: FIAT_CODES[WavesApp.defaultAssets.USD],
             min: '30',
-            max: '3000'
+            max: '50'
         },
         {
             name: 'EUR',
             assetId: WavesApp.defaultAssets.EUR,
             fiatCode: FIAT_CODES[WavesApp.defaultAssets.EUR],
             min: '30',
-            max: '3000'
+            max: '50'
         }
     ];
 
@@ -269,6 +269,7 @@
                     this.updateCardDetails().then(() => {
                         gatewayService.getCardFiatWithLimits(this.asset, user.address, FIAT_LIST).then((fiatList) => {
                             this.cardFiatList = fiatList;
+                            $scope.$apply();
                         });
                     });
                 }
