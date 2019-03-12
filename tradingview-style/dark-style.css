@@ -457,6 +457,12 @@ button._tv-button {
 }
 .tv-search-row__input {
   background: #2d2d2d;
+  color: #FFF;
+}
+.tv-search-row__input:focus,
+.tv-search-row__input:active {
+  background: #353535;
+  box-shadow: 0px 0px 0px 1px #5a81ea;
 }
 .tv-insert-study-item {
   color: #FFF;
@@ -498,6 +504,9 @@ button._tv-button {
 .feature-no-touch .tv-dropdown__item:hover {
   color: #FFF;
   background-color: #353535;
+}
+.feature-no-touch :focus, .feature-touch :focus {
+  border-color: #5a81ea;
 }
 .tv-control-checkbox__input:checked+.tv-control-checkbox__box {
   background-color: #5a81ea;
@@ -591,4 +600,10 @@ div.symbol-edit-popup .table-wrapper{
 }
 .chart-widget {
   background: #2d2d2d;
+}
+.tv-insert-study-item__title-text .i-match {
+  color: #5a81ea;
+}
+.feature-no-touch .tv-control-input {
+  color: #FFF;
 }
