@@ -219,7 +219,7 @@
                     currentFee();
                 });
 
-                this.observe(['priceBalance', 'maxPriceBalance'], this._setIfCanBuyOrder);
+                this.observe(['priceBalance', 'total', 'maxPriceBalance'], this._setIfCanBuyOrder);
 
                 this.observe('amount', () => (
                     this._isFieldChanged() && this._updateField({ amount: this.amount })
@@ -595,15 +595,20 @@
 
                 const inputKeys = ['price', 'total', 'amount'];
                 const changingValues = without(keys(newState), inputKeys);
+
                 if (changingValues.length === 0) {
                     return null;
                 }
+
+                let changingValue;
                 if (changingValues.length === 1) {
-                    this._calculateField(changingValues[0]);
+                    changingValue = changingValues[0];
                 } else {
                     this.changedInputName = this.changedInputName ? this.changedInputName : 'price';
-                    this._calculateField(changingValues.find(val => val !== this.changedInputName));
+                    changingValue = changingValues.find(val => val !== this.changedInputName);
                 }
+
+                this._calculateField(changingValue);
                 this._fieldChanged = false;
                 this._setIfCanBuyOrder();
             }
@@ -645,31 +650,38 @@
              * @private
              */
             _calculateTotal() {
+                if (!this.price || !this.amount) {
+                    return null;
+                }
                 const price = this._validPrice();
                 const amount = this._validAmount();
-
-                this._fieldChanged = true;
                 this._setDirtyField('total', this.priceBalance.cloneWithTokens(
-                    price.getTokens().times(amount.getTokens())
+                    price.times(amount)
                 ));
+                this._fieldChanged = true;
             }
 
             _calculatePrice() {
+                if (!this.total || !this.amount) {
+                    return null;
+                }
                 const total = this._validTotal();
                 const amount = this._validAmount();
-
                 this._setDirtyField('price', this.priceBalance.cloneWithTokens(
-                    total.getTokens().div(amount.getTokens())
+                    total.div(amount)
                 ));
                 this._fieldChanged = true;
             }
 
             _calculateAmount() {
+                if (!this.total || !this.price) {
+                    return null;
+                }
                 const total = this._validTotal();
                 const price = this._validPrice();
 
                 this._setDirtyField('amount', this.amountBalance.cloneWithTokens(
-                    total.getTokens().div(price.getTokens())
+                    total.div(price)
                 ));
                 this._fieldChanged = true;
             }
@@ -679,20 +691,20 @@
              */
             _validTotal() {
                 return this.order.total.$viewValue === '' ?
-                    this.priceBalance.cloneWithTokens('0') :
-                    this.total;
+                    this.priceBalance.cloneWithTokens('0').getTokens() :
+                    this.total.getTokens();
             }
 
             _validPrice() {
                 return this.order.price.$viewValue === '' ?
-                    this.amountBalance.cloneWithTokens('0') :
-                    this.price;
+                    this.amountBalance.cloneWithTokens('0').getTokens() :
+                    this.price.getTokens();
             }
 
             _validAmount() {
                 return this.order.amount.$viewValue === '' ?
-                    this.amountBalance.cloneWithTokens('0') :
-                    this.amount;
+                    this.amountBalance.cloneWithTokens('0').getTokens() :
+                    this.amount.getTokens();
             }
 
             /**
