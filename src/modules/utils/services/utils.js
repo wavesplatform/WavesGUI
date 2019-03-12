@@ -6,7 +6,7 @@
     const { isEmpty, getPaths, get, Signal } = require('ts-utils');
     const tsApiValidator = require('ts-api-validator');
     const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
-    const { splitEvery, pipe, path, map } = require('ramda');
+    const { splitEvery, pipe, path, map, ifElse, concat, defaultTo, identity, isNil } = require('ramda');
     const { libs } = require('@waves/signature-generator');
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
@@ -142,6 +142,11 @@
      */
     const factory = function ($q, Moment, $injector) {
 
+        const base58ToBytes = libs.base58.decode;
+        const stringToBytes = libs.converters.stringToByteArray;
+        const bytesToBase58 = libs.base58.encode;
+        const bytesToString = libs.converters.byteArrayToString;
+
         const utils = {
 
             /**
@@ -150,7 +155,93 @@
             apiValidatorParts: {
                 BigNumberPart
             },
+            /**
+             * @name app.utils#base58ToBytes
+             * @function
+             * @param {string} data
+             * @return {Uint8Array}
+             */
+            base58ToBytes: pipe(
+                defaultTo(''),
+                base58ToBytes
+            ),
+            /**
+             * @name app.utils#base58ToString
+             * @function
+             * @param {string|number} data
+             * @return {string}
+             */
+            base58ToString: pipe(
+                defaultTo(''),
+                base58ToBytes,
+                bytesToString
+            ),
+            /**
+             * @name app.utils#stringToBytes
+             * @function
+             * @param {string|number} data
+             * @return {Uint8Array}
+             */
+            stringToBytes: pipe(
+                defaultTo(''),
+                stringToBytes
+            ),
+            /**
+             * @name app.utils#stringToBase58
+             * @function
+             * @param {string|number} data
+             * @return {string}
+             */
+            stringToBase58: pipe(
+                defaultTo(''),
+                String,
+                stringToBytes,
+                bytesToBase58
+            ),
+            /**
+             * @name app.utils#bytesToBase58
+             * @function
+             * @param {Uint8Array} data
+             * @return {string}
+             */
+            bytesToBase58: pipe(
+                defaultTo(new Uint8Array([])),
+                bytesToBase58
+            ),
+            /**
+             * @name app.utils#bytesToString
+             * @function(data: Uint8Array): string
+             */
+            bytesToString: pipe(
+                defaultTo(new Uint8Array([])),
+                bytesToString
+            ),
+            /**
+             * @name app.utils#bytesToSafeString
+             * @function(data: Uint8Array): string
+             */
+            bytesToSafeString: ifElse(
+                pipe(
+                    identity,
+                    bytesToString,
+                    isNil,
+                ),
+                pipe(
+                    identity,
+                    bytesToBase58,
+                    concat('base58:')
+                ),
+                pipe(
+                    identity,
+                    bytesToString
+                )
+            ),
 
+            /**
+             * @name app.utils#removeUrlProtocol
+             * @param {string} url
+             * @return {string}
+             */
             removeUrlProtocol(url) {
                 return url.replace(/.+?(:\/\/)/, '');
             },
@@ -858,6 +949,11 @@
              * @return {Array.<Object>}
              */
             getValidCandleOptions(from, to, interval = 60) {
+                const minute = 1000 * 60;
+
+                from = Math.floor(from / minute) * minute;
+                to = Math.ceil(to / minute) * minute;
+
                 const config = INTERVAL_MAP[interval];
                 const options = {
                     timeStart: from instanceof Date ? from.getTime() : from,

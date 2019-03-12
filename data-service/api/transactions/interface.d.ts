@@ -207,8 +207,7 @@ export interface ITransfer extends IBaseTransaction {
     type: TRANSACTION_TYPE_NUMBER.TRANSFER;
     amount: Money;
     assetId: string;
-    attachment: string;
-    rawAttachment: string;
+    attachment: Uint8Array;
     fee: Money;
     feeAssetId: string;
     recipient: string;
@@ -270,8 +269,7 @@ export interface IMassTransfer extends IBaseTransaction {
     type: TRANSACTION_TYPE_NUMBER.MASS_TRANSFER;
     version?: number;
     assetId: string;
-    attachment: string;
-    rawAttachment: string;
+    attachment: Uint8Array;
     fee: Money;
     totalAmount: Money;
     transferCount: number;

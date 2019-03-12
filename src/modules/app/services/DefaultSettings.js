@@ -89,6 +89,9 @@
                             amount: WavesApp.defaultAssets.WAVES,
                             price: WavesApp.defaultAssets.BTC
                         },
+                        createOrder: {
+                            expirationName: '30day'
+                        },
                         watchlist: {
                             showOnlyFavorite: false,
                             favourite: [

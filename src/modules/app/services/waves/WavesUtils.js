@@ -164,26 +164,24 @@
                 };
 
                 return ds.api.pairs.get(from, to)
-                    .then((pair) => {
-                        return ds.api.pairs.info(pair)
-                            .catch(() => null)
-                            .then(([data]) => {
+                    .then(pair => ds.api.pairs.info(pair)
+                        .then(([data]) => {
 
-                                if (!data || data.status === 'error') {
-                                    return 0;
-                                }
+                            if (!data || data.status === 'error') {
+                                return 0;
+                            }
 
-                                const open = data.firstPrice || new entities.Money(0, pair.priceAsset);
-                                const close = data.lastPrice || new entities.Money(0, pair.priceAsset);
-                                const change24 = getChange(open.getTokens(), close.getTokens()).toNumber();
+                            const open = data.firstPrice || new entities.Money(0, pair.priceAsset);
+                            const close = data.lastPrice || new entities.Money(0, pair.priceAsset);
+                            const change24 = getChange(open.getTokens(), close.getTokens()).toNumber();
 
-                                if (pair.amountAsset.id === from) {
-                                    return change24;
-                                } else {
-                                    return -change24;
-                                }
-                            });
-                    });
+                            if (pair.amountAsset.id === from) {
+                                return change24;
+                            } else {
+                                return -change24;
+                            }
+                        }))
+                    .catch(() => 0);
             }
 
             /**
