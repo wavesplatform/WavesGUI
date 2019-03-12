@@ -98,8 +98,8 @@
         "decimal": "."
       }
     },
-    "pt": {
-      "name": "Pt",
+    "pt-br": {
+      "name": "Pt-Br",
       "separators": {
         "group": ",",
         "decimal": "."
