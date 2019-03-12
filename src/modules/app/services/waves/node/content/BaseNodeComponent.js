@@ -227,7 +227,7 @@
                     recipient: tx.recipient || user.address,
                     amount: tx.amount || new Money(1, asset),
                     fee: tx.fee || new Money(1, asset),
-                    attachment: tx.attachment,
+                    attachment: tx.attachment instanceof Uint8Array ? Array.from(tx.attachment) : String(tx.attachment),
                     senderPublicKey: tx.senderPublicKey || user.publicKey
                 }));
             }

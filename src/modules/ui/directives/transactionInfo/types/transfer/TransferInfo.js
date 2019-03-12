@@ -39,6 +39,7 @@
             $postLink() {
                 this.transaction = this.signable.getTxData();
                 this.attachment = utils.bytesToSafeString(this.transaction.attachment);
+
                 const typeName = utils.getTransactionTypeName(this.transaction);
                 switch (typeName) {
                     case WavesApp.TRANSACTION_TYPES.EXTENDED.CIRCULAR:

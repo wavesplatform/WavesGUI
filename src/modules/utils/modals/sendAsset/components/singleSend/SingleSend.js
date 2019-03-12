@@ -282,11 +282,11 @@
             createTx() {
                 const toGateway = this.outerSendMode && this.gatewayDetails;
                 const fee = toGateway ? this.tx.amount.cloneWithTokens(toGateway.gatewayFee) : null;
-
+                const attachmentString = this.tx.attachment ? this.tx.attachment.toString() : '';
                 const tx = waves.node.transactions.createTransaction({
                     ...this.tx,
                     recipient: toGateway ? this.gatewayDetails.address : this.tx.recipient,
-                    attachment: utils.stringToBytes(toGateway ? this.gatewayDetails.attachment : this.tx.attachment),
+                    attachment: utils.stringToBytes(toGateway ? this.gatewayDetails.attachment : attachmentString),
                     amount: toGateway ? this.tx.amount.add(fee) : this.tx.amount
                 });
 
