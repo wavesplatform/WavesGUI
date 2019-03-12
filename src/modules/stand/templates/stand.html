@@ -1,52 +1,6 @@
 <style>
 
 
-        div.stand {
-            padding-bottom: 400px;
-        }
-
-        .stand h1 {
-            color: grey;
-        }
-
-        .stand .components-wrapper {
-            display: flex;
-            width: 100%;
-            overflow-x: auto;
-            min-width: 1200px;
-        }
-
-        .stand .column1,
-        .stand .column2,
-        .stand .column3 {
-            flex-basis: 33.33%;
-            padding: 20px 80px;
-            height: 100vh;
-            min-width: 400px;
-        }
-
-        .stand .column1,
-        .stand .column2 {
-            border-right: 1px dashed #ccc;
-        }
-
-        .stand .unit-checkbox {
-            width: 300px !important;
-        }
-
-        html body .stand .hidden {
-            display: block !important;
-        }
-
-        .stand .loader-wrapper-example {
-            position: relative;
-            border: 1px dashed #cccccc;
-            height: 140px;
-        }
-
-    .stand w-error-block {
-        margin-top: 130px;
-    }
 
 
 </style>
@@ -112,11 +66,33 @@
 
             <div class="margin-2"></div>
 
+            <div class="flex">
+                <span class="margin-right-1">Expand button</span>
+                <w-expand-btn btn-txt="99"></w-expand-btn>
+            </div>
+
+            <div class="margin-2"></div>
+
             <h1>Selects</h1>
 
+            <w-change-language></w-change-language>
+
+            <div class="margin-2"></div>
+
             <div class="body-2">Select title</div>
+            <w-select class="with-scroll select__no-usuer-select"> <!-- .with-scroll / select__no-usuer-select --->
+                <w-option><span>Default</span></w-option>
+                <w-option><span>Value 1</span></w-option>
+                <w-option><span>Value 2</span></w-option>
+                <w-option><span>Value 3</span></w-option>
+                <w-option><span>Value 4</span></w-option>
+                <w-option><span>Value 4</span></w-option>
+            </w-select>
+
+            <div class="margin-2"></div>
+
             <w-select class="big long">
-                <w-option>option 1</w-option>
+                <w-option>Big</w-option>
                 <w-option>option 2</w-option>
                 <w-option>option 3</w-option>
                 <w-option>option 4</w-option>
@@ -125,12 +101,53 @@
 
             <div class="margin-2"></div>
 
-            <w-select class="big long">
-                <w-option>option 1</w-option>
+            <w-select class="big long" disabled>
+                <w-option>Big disabled</w-option>
                 <w-option>option 2</w-option>
                 <w-option>option 3</w-option>
                 <w-option>option 4</w-option>
                 <w-option>option 5</w-option>
+            </w-select>
+
+            <div class="margin-2"></div>
+
+            <w-select class="long interface">
+                <w-option>Interface</w-option>
+                <w-option>option 2</w-option>
+                <w-option>option 3</w-option>
+                <w-option>option 4</w-option>
+                <w-option>option 5</w-option>
+            </w-select>
+
+            <div class="margin-2"></div>
+
+            <w-select class="long interface" disabled>
+                <w-option>Interface disabled</w-option>
+                <w-option>option 2</w-option>
+                <w-option>option 3</w-option>
+                <w-option>option 4</w-option>
+                <w-option>option 5</w-option>
+            </w-select>
+
+            <div class="margin-2"></div>
+
+            <div class="body-2">Select with filter title</div>
+            <w-select class="big long">
+                <w-select-filter></w-select-filter>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/bitcoin.svg" />Bitcoin</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/waves.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/bitcoin-cash.svg" />Bitcoin</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/bitcoin-cash-sv.svg" />Bitcoin</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/euro.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/usd.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/ltc.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/ethereum.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/zec.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/xmr.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/try.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/wnet.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/efyt.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/dash.svg" />Waves</w-option>
             </w-select>
 
             <div class="margin-2"></div>
@@ -142,6 +159,34 @@
 
             <div class="margin-2"></div>
 
+            <div class="body-2">Textarea title</div>
+            <w-input textarea="true"
+                     name="textarea"
+                     ng-model="$ctrl.tx.attachment"
+                     class="normal"></w-input> <!-- .normal /.tall / .large / .medium -->
+
+            <div class="margin-2"></div>
+
+            <form action="action">
+                <w-input-container>
+                    <div class="input-like input-like-with-select">
+                        <w-input type="text"
+                                 class="medium"
+                                 ng-model="$ctrl.inputModel"></w-input>
+
+                        <w-select class="no-user-select tiny" ng-model="$ctrl.selectModel">
+                            <w-option>
+                                <span class="caption-1 mobile-caption-4 basic-700">Value 1</span>
+                            </w-option>
+                            <w-option>
+                                <span class="caption-1 mobile-caption-4 basic-700">Value 2</span>
+                            </w-option>
+                        </w-select>
+                    </div>
+                </w-input-container>
+            </form>
+
+            <div class="margin-2"></div>
 
             <div class="unit-checkbox">
                 <w-checkbox-submit id="check1" ng-model="$ctrl.checkboxModel1"></w-checkbox-submit>
@@ -151,25 +196,16 @@
                 <label for="check2">Checkbox checked</label>
             </div>
 
-
             <div class="margin-2"></div>
 
-            <!-- todo -->
-            <div class="input-toggle" ng-class="{active: $ctrl.hasAssetScript}">
-                <w-checkbox-submit id="has-script"
-                                   name="has-script"
-                                   ng-model="$ctrl.hasAssetScript">
-                </w-checkbox-submit>
-                <label for="has-script" class="margin-right-1"></label>
-                <div ng-if="$ctrl.hasAssetScript" class="footnote-1">ON</div>
-                <div ng-if="!$ctrl.hasAssetScript" class="footnote-1">OFF</div>
+            <div class="input-toggle">
+                <w-checkbox-submit ng-model="$ctrl.checkboxModel3" id="toggler"></w-checkbox-submit>
+                <label for="toggler" class="margin-right-1"></label>
+                <div class="footnote-1">ON</div>
+                <div class="footnote-1">OFF</div>
             </div>
 
-            <div class="margin-2"></div>
-
-            <h1>Range input</h1>
-
-            <w-range-slider ng-model="$ctrl.precision" max="::8">
+            <div class="margin-6"></div>
 
         </div>
         <div class="column2">
@@ -177,8 +213,6 @@
             <h1>Errors</h1>
 
             <form novalidate name="$ctrl.form">
-
-
                 <w-input-container>
                     <w-input class="long"
                              placeholder="I'm inValid input"
@@ -237,13 +271,13 @@
 
             <h1>Loader</h1>
 
-            <div class="loader-wrapper-example"> <!-- any relative block -->
+            <div class="relative-wrapper"> <!-- any relative block -->
                 <w-loader></w-loader>
             </div>
 
             <div class="margin-2"></div>
 
-            <h1>Helper</h1>
+            <h1>Helpers</h1>
 
             <div class="relative body-2">
                 <span>Some title</span>
@@ -255,10 +289,19 @@
                 </w-help-icon>
             </div>
 
+            <div class="relative body-2">
+                <span>Some title Info</span>
+                <w-help-icon class="info">
+                    <div class="help-icon__row headline-3">Helper header</div>
+                    <div class="help-icon__row">Helper description first row</div>
+                    <div class="help-icon__row">Helper description second row</div>
+                    <div class="help-icon__row">Helper description third row</div>
+                </w-help-icon>
+            </div>
+
         </div>
 
         <div class="column3">
-
 
             <h1>Tags & Labels</h1>
 
@@ -280,7 +323,7 @@
 
                 <div class="margin-right-2"></div>
 
-                <span class="status-label" ng-class="{inactive: $ctrl.inactive}"">INACTIVE</span>
+                <span class="status-label" ng-class="{inactive: $ctrl.inactive}">INACTIVE</span>
 
             </div>
 
@@ -302,73 +345,55 @@
 
                 <div class="margin-right-2"></div>
 
-                <span class="status-label-min" ng-class="{inactive: $ctrl.inactive}"">INACTIVE</span>
+                <span class="status-label-min" ng-class="{inactive: $ctrl.inactive}">INACTIVE</span>
 
             </div>
 
             <div class="margin-4"></div>
-
             <h1>Plates</h1>
 
                 <div class="plate-transparent">
-                    <div class="body-2 basic-700">Plate header</div>
-                    <div class="footnote-1 basic-500">Plate content Plate content Plate content Plate content Plate content Plate content Plate content Plate content Plate content </div>
+                    <div class="body-2 basic-700">Plate-transparent</div>
+                    <div class="footnote-1 basic-500">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen <a class="link" href="#">book</a>.</div>
                 </div>
 
                 <div class="margin-2"></div>
 
                 <div class="plate-note">
-                    <div class="body-2 basic-700">Plate header</div>
-                    <div class="footnote-1 basic-500">Plate content Plate content Plate content Plate content Plate content Plate content Plate content Plate content Plate content </div>
+                    <div class="body-2 basic-700">Plate-note</div>
+                    <div class="footnote-1 basic-500">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen <a class="link" href="#">book</a>.</div>
                 </div>
 
                 <div class="margin-2"></div>
 
                 <div class="plate-warning">
-                    <div class="body-2 warning-500">Plate header</div>
-                    <div class="footnote-1 basic-500">Plate content Plate content Plate content Plate content Plate content Plate content Plate content Plate content Plate content </div>
+                    <div class="body-2 warning-500">Plate-warningr</div>
+                    <div class="footnote-1 basic-500">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen <a class="link" href="#">book</a>.</div>
                 </div>
 
                 <div class="margin-2"></div>
 
                 <div class="plate-error">
-                    <div class="body-2 error-500">Plate header</div>
-                    <div class="footnote-1 basic-500">Plate content Plate content Plate content Plate content Plate content Plate content Plate content Plate content Plate content </div>
+                    <div class="body-2 error-500">Plate-error</div>
+                    <div class="footnote-1 basic-500">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen <a class="link" href="#">book</a>.</div>
                 </div>
 
             <div class="margin-2"></div>
 
+            <h1>Actions</h1>
 
-            <h1>Notifications</h1>
+            <div class="relative-wrapper">
+                <w-actions class="actions">
+                    <w-action><span>Action 1</span></w-action>
+                    <w-action><span>Action 3</span></w-action>
+                    <w-action ><span>Action 4</span></w-action>
+                    <div w-copy="">
+                        <w-action><span>Copy</span></w-action>
+                    </div>
+                </w-actions>
+            </div>
 
             <div class="margin-2"></div>
-
-
-
-
-
-            <h1>QR</h1>
-            <div class="margin-2"></div>
-
-
-
-
         </div>
-
-
-
-
-
-<!-- 1) проверить лйблы - еррор / саццесс/ варнинг / спам / квалифайд везде где они отображаются < + адаптив -->
-<!-- 2) проверить все плашки plate-* // особенно plate-note -->
-
-
-        <!--notifications -->
-        <!--helpIcon-->
-        <!--qr-->
-
-
     </div>
-
-
 </div>

@@ -19,10 +19,11 @@
                 this.active = true;
                 this.inactive = true;
 
-                this.observeOnce('form', () => {
-                    this.form.invalid.$setTouched(true);
-                });
+                // this.observeOnce('form', () => {
+                //     this.form.invalid.$setTouched(true);
+                // });
             }
+
         }
 
         return new StandCtrl();
