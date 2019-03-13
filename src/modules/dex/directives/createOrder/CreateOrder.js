@@ -115,7 +115,7 @@
                 /**
                  * @type {boolean}
                  */
-                this._fieldChanged = false;
+                this._silenceNow = false;
                 /**
                  *
                  * @type {boolean}
@@ -222,15 +222,15 @@
                 this.observe(['priceBalance', 'total', 'maxPriceBalance'], this._setIfCanBuyOrder);
 
                 this.observe('amount', () => (
-                    this._isFieldChanged() && this._updateField({ amount: this.amount })
+                    !this._silenceNow && this._updateField({ amount: this.amount })
                 ));
 
                 this.observe('price', () => (
-                    this._isFieldChanged() && this._updateField({ price: this.price })
+                    !this._silenceNow && this._updateField({ price: this.price })
                 ));
 
                 this.observe('total', () => (
-                    this._isFieldChanged() && this._updateField({ total: this.total })
+                    !this._silenceNow && this._updateField({ total: this.total })
                 ));
 
                 // TODO Add directive for stop propagation (catch move for draggable)
@@ -569,48 +569,29 @@
                 }
             }
 
-            /**
-             * @return {boolean}
-             * @private
-             */
-            _isFieldChanged() {
-                if (this._fieldChanged) {
-                    this._fieldChanged = false;
-                    return false;
-                }
-                return true;
-            }
-
 
             /**
              * @param {object} newState
              * @private
              */
             _updateField(newState) {
-                if (!this.price && !this.amount) {
-                    this.total = this.priceBalance.cloneWithTokens('0');
-                    return null;
-                }
-                this._applyState(newState);
+                this._setSilence(() => {
+                    this._applyState(newState);
 
-                const inputKeys = ['price', 'total', 'amount'];
-                const changingValues = without(keys(newState), inputKeys);
+                    const inputKeys = ['price', 'total', 'amount'];
+                    const changingValues = without(keys(newState), inputKeys);
 
-                if (changingValues.length === 0) {
-                    return null;
-                }
+                    let changingValue;
+                    if (changingValues.length === 1) {
+                        changingValue = changingValues[0];
+                    } else {
+                        this.changedInputName = this.changedInputName ? this.changedInputName : 'price';
+                        changingValue = changingValues.find(val => val !== this.changedInputName);
+                    }
 
-                let changingValue;
-                if (changingValues.length === 1) {
-                    changingValue = changingValues[0];
-                } else {
-                    this.changedInputName = this.changedInputName ? this.changedInputName : 'price';
-                    changingValue = changingValues.find(val => val !== this.changedInputName);
-                }
-
-                this._calculateField(changingValue);
-                this._fieldChanged = false;
-                this._setIfCanBuyOrder();
+                    this._calculateField(changingValue);
+                    this._setIfCanBuyOrder();
+                });
             }
 
             /**
@@ -618,11 +599,21 @@
              * @private
              */
             _applyState(newState) {
-                this._fieldChanged = true;
                 keys(newState).forEach(key => {
                     this[key] = newState[key];
                 });
                 this.order.$setDirty();
+            }
+
+
+            /**
+             * @param {function} cb
+             * @private
+             */
+            _setSilence(cb) {
+                this._silenceNow = true;
+                cb();
+                this._silenceNow = false;
             }
 
 
@@ -658,9 +649,12 @@
                 this._setDirtyField('total', this.priceBalance.cloneWithTokens(
                     price.times(amount)
                 ));
-                this._fieldChanged = true;
+                this._silenceNow = true;
             }
 
+            /**
+             * @private
+             */
             _calculatePrice() {
                 if (!this.total || !this.amount) {
                     return null;
@@ -670,9 +664,12 @@
                 this._setDirtyField('price', this.priceBalance.cloneWithTokens(
                     total.div(amount)
                 ));
-                this._fieldChanged = true;
+                this._silenceNow = true;
             }
 
+            /**
+             * @private
+             */
             _calculateAmount() {
                 if (!this.total || !this.price) {
                     return null;
@@ -683,7 +680,7 @@
                 this._setDirtyField('amount', this.amountBalance.cloneWithTokens(
                     total.div(price)
                 ));
-                this._fieldChanged = true;
+                this._silenceNow = true;
             }
 
             /**
@@ -695,12 +692,18 @@
                     this.total.getTokens();
             }
 
+            /**
+             * @private
+             */
             _validPrice() {
                 return this.order.price.$viewValue === '' ?
                     this.amountBalance.cloneWithTokens('0').getTokens() :
                     this.price.getTokens();
             }
 
+            /**
+             * @private
+             */
             _validAmount() {
                 return this.order.amount.$viewValue === '' ?
                     this.amountBalance.cloneWithTokens('0').getTokens() :
