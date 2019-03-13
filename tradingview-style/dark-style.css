@@ -458,10 +458,11 @@ button._tv-button {
 .tv-search-row__input {
   background: #2d2d2d;
   color: #FFF;
+  box-shadow: 0px 1px 0px 0px #424242, 0px -1px 0px 0px #424242;
+  transition: all 0.3s;
 }
 .tv-search-row__input:focus,
 .tv-search-row__input:active {
-  background: #353535;
   box-shadow: 0px 0px 0px 1px #5a81ea;
 }
 .tv-insert-study-item {
@@ -605,5 +606,14 @@ div.symbol-edit-popup .table-wrapper{
   color: #5a81ea;
 }
 .feature-no-touch .tv-control-input {
+  color: #FFF;
+}
+._tv-dialog-content textarea {
+  border-color: #777;
+  background: #2d2d2d;
+  color: #FFF;
+}
+._tv-dialog-content textarea._tv-dialog-content-textareaactive {
+  border-color: #5a81ea;
   color: #FFF;
 }
