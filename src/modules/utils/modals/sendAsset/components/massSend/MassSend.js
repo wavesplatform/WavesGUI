@@ -166,7 +166,7 @@
                 const tx = waves.node.transactions.createTransaction(this.tx);
                 const signable = ds.signature.getSignatureApi().makeSignable({
                     type: tx.type,
-                    data: tx
+                    data: { ...tx, attachment: utils.stringToBytes(tx.attachment) }
                 });
 
                 return signable;

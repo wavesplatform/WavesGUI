@@ -30,7 +30,13 @@ import {
 import { IHash, TOrderType } from '../../interface';
 import { factory, IFactory } from '../matcher/getOrders';
 import { getSignatureApi } from '../../sign';
+import { pipe } from 'ramda';
 
+
+const parseAttachment: (data: string | number) => Uint8Array = pipe(
+    String,
+    libs.base58.decode
+);
 
 const getFactory = (isTokens: boolean): IFactory => {
     if (isTokens) {
@@ -135,19 +141,12 @@ export function parseIssueTx(tx: txApi.IIssue, assetsHash: IHash<Asset>, isUTX: 
 }
 
 export function parseTransferTx(tx: txApi.ITransfer, assetsHash: IHash<Asset>, isUTX: boolean): ITransfer {
-    const bytes = libs.base58.decode(tx.attachment);
-    let attachment;
-    try {
-        attachment = libs.converters.byteArrayToString(bytes);
-    } catch (e) {
-        attachment = null;
-    }
-    const rawAttachment = tx.attachment;
+    const attachment = parseAttachment(tx.attachment);
     const recipient = normalizeRecipient(tx.recipient);
     const amount = new Money(tx.amount, assetsHash[normalizeAssetId(tx.assetId)]);
     const fee = new Money(tx.fee, assetsHash[normalizeAssetId(tx.feeAssetId)]);
     const assetId = normalizeAssetId(tx.assetId);
-    return { ...tx, amount, fee, assetId, isUTX, attachment, rawAttachment, recipient };
+    return { ...tx, amount, fee, assetId, isUTX, attachment, recipient };
 }
 
 export function parseReissueTx(tx: txApi.IReissue, assetsHash: IHash<Asset>, isUTX: boolean): IReissue {
@@ -237,6 +236,7 @@ export function parseCreateAliasTx(tx: txApi.ICreateAlias, assetsHash: IHash<Ass
 }
 
 export function parseMassTransferTx(tx: txApi.IMassTransfer, assetsHash: IHash<Asset>, isUTX: boolean): IMassTransfer {
+    const attachment = parseAttachment(tx.attachment);
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
     const asset = assetsHash[normalizeAssetId(tx.assetId)];
 
@@ -246,16 +246,7 @@ export function parseMassTransferTx(tx: txApi.IMassTransfer, assetsHash: IHash<A
     }));
 
     const totalAmount = new Money(tx.totalAmount || transfers.reduce((acc, item) => acc.add(item.amount), new Money(0, asset)).toCoins(), asset);
-
-    const bytes = libs.base58.decode(tx.attachment);
-    let attachment;
-    try {
-        attachment = libs.converters.byteArrayToString(bytes);
-    } catch (e) {
-        attachment = null;
-    }
-    const rawAttachment = tx.attachment;
-    return { ...tx, totalAmount, transfers, fee, isUTX, attachment, rawAttachment };
+    return { ...tx, totalAmount, transfers, fee, isUTX, attachment };
 }
 
 export function parseExchangeOrder(factory: IFactory, order: txApi.IExchangeOrder, assetsHash: IHash<Asset>): IExchangeOrder {
