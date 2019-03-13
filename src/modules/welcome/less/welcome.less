@@ -17,48 +17,52 @@
 
     w-carousel {
       display: block;
-      width: 358px;
-      height: 312px;
+      width: 100%;
+      max-width: 440px;
+      height: 420px;
 
       .slide {
         text-align: center;
-      }
+        overflow: hidden;
+        transform: translate3d(0, 0, 0);
+        will-change: contents;
 
-      .slide-icon-0 {
-        background: @slide-start-icon no-repeat center center;
-        width: 122px;
-        height: 112px;
-        margin: 0 auto 45px;
-      }
+        &-icon-0,
+        &-icon-1,
+        &-icon-2,
+        &-icon-3 {
+          width: 260px;
+          height: 216px;
+          margin: 0 auto 45px;
+        }
 
-      .slide-icon-1 {
-        background: @slide-wallet-icon no-repeat center center;
-        width: 132px;
-        height: 111px;
-        margin: 0 auto 45px;
-      }
+        &-icon-0 {
+          background: @slide-start-icon no-repeat center center;
+        }
 
-      .slide-icon-2 {
-        background: @slide-dex-icon no-repeat center center;
-        width: 112px;
-        height: 100px;
-        margin: 0 auto 45px;
-      }
+        &-icon-1 {
+          background: @slide-wallet-icon no-repeat center center;
+        }
 
-      .slide-icon-3 {
-        background: @slide-token-icon no-repeat center center;
-        width: 132px;
-        height: 112px;
-        margin: 0 auto 45px;
-      }
+        &-icon-2 {
+          background: @slide-dex-icon no-repeat center center;
+        }
 
-      .slide-description {
-        width: 358px;
-        height: 60px;
+        &-icon-3 {
+          background: @slide-token-icon no-repeat center center;
+        }
+
+        &-description {
+          max-width: 400px;
+          margin: 0 auto;
+          padding: 10px 20px;
+        }
       }
     }
 
-    w-carousel-dots, w-button.submit, .or {
+    w-carousel-dots,
+    w-button.submit,
+    .or {
       margin-bottom: 22px;
     }
 
@@ -202,6 +206,11 @@
 }
 
 @media screen and (max-width: 480px) {
+  .slide-title {
+    font-size: 24px;
+    line-height: normal;
+  }
+
   .welcome .user-list {
     width: calc(100% ~'- 20px');
     padding: 0 10px;
