@@ -321,10 +321,6 @@ task('downloadLocales', ['concat-develop-sources'], function (done) {
                 forEachObjIndexed(((value, key: string) => {
                     testVariablesAfterFirst(value, key, correctLang);
                 }), correctValuesWhichInterpolation);
-
-                forEachObjIndexed(((value, key) => {
-                    testVariablesAfterFirst(value, key, correctLang);
-                }),);
                 res.filter(el => el.lang !== correctLang).forEach(el => {
                     const { lang, json } = el;
                     const valuesWhichInterpolation = getAllValWithInterpolation(json);
