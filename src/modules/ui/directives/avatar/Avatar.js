@@ -8,9 +8,10 @@
      * @param $q
      * @param {$rootScope.Scope} $scope
      * @param {User} user
+     * @param {Waves} waves
      * @return {Avatar}
      */
-    const controller = function (Base, $q, $scope, user) {
+    const controller = function (Base, $q, $scope, user, waves) {
 
         class Avatar extends Base {
 
@@ -49,7 +50,13 @@
                     this.size = 67;
                 }
                 if (this.address) {
-                    ds.fetch(`${ds.config.get('node')}/addresses/scriptInfo/${this.address}`).then(data => {
+                    ds.fetch(`${ds.config.get('node')}/addresses/scriptInfo/${this.address}`)
+                        .then(data => {
+                            this.hasScript = !!data.script;
+                            $scope.$apply();
+                        });
+
+                    waves.node.scriptInfo(this.address).then(data => {
                         this.hasScript = !!data.script;
                         $scope.$apply();
                     });
@@ -70,7 +77,7 @@
 
     };
 
-    controller.$inject = ['Base', '$q', '$scope', 'user'];
+    controller.$inject = ['Base', '$q', '$scope', 'user', 'waves'];
 
     angular.module('app.ui')
         .component('wAvatar', {

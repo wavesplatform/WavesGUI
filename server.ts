@@ -1,6 +1,6 @@
 import { createSecureServer } from 'http2';
 import { createServer } from 'https';
-import { route, parseArguments } from './ts-scripts/utils';
+import { route, parseArguments, getBuildParams, getInitScript } from './ts-scripts/utils';
 import { readFileSync } from 'fs';
 import { serialize, parse as parserCookie } from 'cookie';
 import { compile } from 'handlebars';
@@ -19,7 +19,7 @@ const connectionTypes: Array<TConnection> = ['mainnet', 'testnet'];
 const buildTypes: Array<TBuild> = ['dev', 'normal', 'min'];
 const privateKey = readFileSync('localhost.key').toString();
 const certificate = readFileSync('localhost.crt').toString();
-
+const args = parseArguments() || Object.create(null);
 
 const handler = function (req, res) {
     const url = parse(req.url);
@@ -63,9 +63,11 @@ function createMyServer(port) {
     server.listen(port);
     console.log(`Listen port ${port}...`);
     console.log('Available urls:');
-
     console.log(url);
-    opn(url);
+
+    if (args.openUrl) {
+        opn(url);
+    }
 }
 
 function createSimpleServer({ port = 8000 }) {
@@ -77,7 +79,7 @@ function createSimpleServer({ port = 8000 }) {
 }
 
 createMyServer(8080);
-const args = parseArguments() || Object.create(null);
+
 if (args.startSimple) {
     createSimpleServer(args);
 }

@@ -30,7 +30,7 @@
                 this.time = $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm');
                 this.shownAddress = this.transaction.shownAddress;
                 this.typeName = this.transaction.typeName;
-                this.isScam = !!WavesApp.scam[this.transaction.assetId];
+                this.isScam = !!user.scam[this.transaction.assetId];
                 if (this.transaction.type === 7) {
                     this.isScamAmount = !!WavesApp.scam[this.transaction.amount.asset];
                     this.isScamPrice = !!WavesApp.scam[this.transaction.price.asset];
@@ -114,7 +114,7 @@
              */
             getAssetName(asset) {
                 try {
-                    return !WavesApp.scam[asset.id] ? asset.name : '';
+                    return !user.scam[asset.id] ? asset.name : '';
                 } catch (e) {
                     return '';
                 }

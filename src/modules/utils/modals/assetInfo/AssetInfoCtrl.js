@@ -39,7 +39,7 @@
                 const data = ds.dataManager.getOracleAssetData(asset.id);
                 this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
                 this.isGateway = path(['status'], data) === 3;
-                this.isSuspicious = WavesApp.scam[this.asset.id];
+                this.isSuspicious = user.scam[this.asset.id];
                 this.hasLabel = this.isVerified || this.isGateway || this.isSuspicious;
 
                 // this.ticker = path(['ticker'], data); // TODO STEP 2

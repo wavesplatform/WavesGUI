@@ -1,0 +1,7 @@
+<button class="expand-btn" ng-class="{'up': $ctrl.isUp}" ng-click="$ctrl.toggleOpen()">
+    <div ng-if="$ctrl.btnTxt && !$ctrl.i18key" class="expand-btn__txt">{{$ctrl.btnTxt}}</div>
+    <div ng-if="$ctrl.i18key" class="expand-btn__txt">
+        <span w-i18n="{{$ctrl.i18key}}" params="{{$ctrl.i18nParams}}"></span>
+    </div>
+    <div class="expand-btn__arrow"></div>
+</button>

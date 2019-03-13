@@ -1,6 +1,9 @@
-<div class="txinfo__row txinfo__row-header" ng-if="::$ctrl.isSend">
-    <div w-i18n="recipient"></div>
-    <div w-i18n="amount"></div>
+<div class="txinfo__row" ng-if="::$ctrl.isSend">
+    <div class="txinfo__key" w-i18n="recipient"></div>
+    <w-expand-btn
+            ng-click="$ctrl.expandList = !$ctrl.expandList"
+            is-up="false"
+            btn-txt="$ctrl.transaction.transfers.length"></w-expand-btn>
 </div>
 
 <div ng-if="::$ctrl.isReceive" class="txinfo__data">
@@ -13,46 +16,15 @@
 </div>
 
 <div class="txinfo__data">
-    <div ng-if="::$ctrl.isSend" ng-init="$ctrl.showAllTX = false">
+    <div ng-show="::$ctrl.isSend" ng-init="$ctrl.showAllTX = false">
 
-        <div ng-if="$ctrl.showAllTX">
-            <div class="txinfo__row" ng-repeat="transfer in $ctrl.transaction.transfers track by transfer.recipient">
-                <div class="txinfo__key-mass">{{::transfer.recipient}}</div>
-                <div class="txinfo__value">
+        <div class="recipients-list ng-hide" ng-show="$ctrl.expandList">
+            <div class="recipients-row" ng-repeat="transfer in $ctrl.transaction.transfers track by transfer.recipient">
+                <div class="recipients-row__key">{{::transfer.recipient}}</div>
+                <div class="recipients-row__value">
                     <w-balance money="::transfer.amount"></w-balance>
                 </div>
             </div>
-        </div>
-
-        <div ng-if="!$ctrl.showAllTX">
-
-            <div class="txinfo__row" ng-if="::$ctrl.transaction.transfers[0]">
-                <div class="txinfo__key-mass">{{::$ctrl.transaction.transfers[0].recipient}}</div>
-                <div class="txinfo__value">
-                    <w-balance money="::$ctrl.transaction.transfers[0].amount"></w-balance>
-                </div>
-            </div>
-            <div class="txinfo__row" ng-if="::$ctrl.transaction.transfers[1]">
-                <div class="txinfo__key-mass">{{::$ctrl.transaction.transfers[1].recipient}}</div>
-                <div class="txinfo__value">
-                    <w-balance money="::$ctrl.transaction.transfers[1].amount"></w-balance>
-                </div>
-            </div>
-            <div class="txinfo__row" ng-if="::$ctrl.transaction.transfers[2]">
-                <div class="txinfo__key-mass">{{::$ctrl.transaction.transfers[2].recipient}}</div>
-                <div class="txinfo__value">
-                    <w-balance money="::$ctrl.transaction.transfers[2].amount"></w-balance>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="txinfo__row txinfo__row-padder"
-             ng-if="$ctrl.transaction.transfers.length && $ctrl.transaction.transfers.length > 3">
-            <span class="link"
-                  ng-click="$ctrl.showAllTX = !$ctrl.showAllTX"
-                  params="{count: $ctrl.transaction.transfers.length}"
-                  w-i18n="transaction.modals.massSend.showAll.{{$ctrl.showAllTX}}"></span>
         </div>
 
         <div class="txinfo__row">
@@ -64,9 +36,9 @@
     </div>
 </div>
 
-<div class="txinfo__row txinfo__row-contains-text" ng-if="$ctrl.transaction.attachment">
+<div class="txinfo__row txinfo__row-contains-text" ng-if="$ctrl.attachment">
     <div class="txinfo__key" w-i18n="transaction.modals.description"></div>
-    <div class="txinfo__value txinfo__text">{{::$ctrl.transaction.attachment}}</div>
+    <div class="txinfo__value txinfo__text">{{::$ctrl.attachment}}</div>
 </div>
 
 

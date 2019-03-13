@@ -46,6 +46,15 @@
             }
 
             /**
+             * @param {string} address
+             * @return {Promise<IScriptInfo<Money>>}
+             */
+            @decorators.cachable(2)
+            _scriptInfo(address) {
+                return ds.api.address.getScriptInfo(address);
+            }
+
+            /**
              * @param order
              * @return {Promise<Money>}
              */
@@ -58,7 +67,7 @@
                         const matcherAddress = generator.utils.crypto.buildRawAddress(publicKeyBytes);
 
                         return Promise.all([
-                            ds.api.address.getScriptInfo(matcherAddress),
+                            this._scriptInfo(matcherAddress),
                             ds.api.assets.get('WAVES')
                         ]).then(([info, asset]) => ({
                             asset,
@@ -129,14 +138,14 @@
                     hash[id].timer = setTimeout(() => {
                         hash[id].cache.destroy();
                         delete hash[id];
-                    }, 5000);
+                    }, 2000);
                     return hash[id].cache;
                 } else {
                     hash[id] = {
                         timer: setTimeout(() => {
                             hash[id].cache.destroy();
                             delete hash[id];
-                        }, 5000),
+                        }, 2000),
                         cache: new PollCache({
                             getData: () => this._getOrderBook(asset1, asset2),
                             timeout: 1000

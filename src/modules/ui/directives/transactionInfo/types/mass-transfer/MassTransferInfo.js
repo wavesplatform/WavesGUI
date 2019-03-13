@@ -26,10 +26,15 @@
              * @type {boolean}
              */
             showAllTX = false;
+            /**
+             * @type {boolean}
+             */
+            expandList = false;
 
 
             $postLink() {
                 this.transaction = this.signable.getTxData();
+                this.attachment = utils.bytesToSafeString(this.transaction.attachment);
                 const typeName = utils.getTransactionTypeName(this.transaction);
 
                 switch (typeName) {

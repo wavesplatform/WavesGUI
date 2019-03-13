@@ -2,9 +2,11 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es6",
+    "experimentalDecorators": true,
     "skipLibCheck": true,
     "lib": [
       "dom",
+      "webworker",
       "es2017"
     ],
     "sourceMap": true,

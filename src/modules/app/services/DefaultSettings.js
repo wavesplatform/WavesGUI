@@ -30,6 +30,7 @@
                     network: WavesApp.network,
                     lastOpenVersion: '',
                     whatsNewList: [],
+                    closedNotification: [],
                     withScam: false,
                     scamListUrl: WavesApp.network.scamListUrl,
                     shareAnalytics: false,
@@ -55,6 +56,7 @@
                         WavesApp.defaultAssets.LTC,
                         WavesApp.defaultAssets.ZEC,
                         WavesApp.defaultAssets.BCH,
+                        WavesApp.defaultAssets.BSV,
                         WavesApp.defaultAssets.TRY,
                         WavesApp.defaultAssets.DASH,
                         WavesApp.defaultAssets.XMR
@@ -87,13 +89,15 @@
                             amount: WavesApp.defaultAssets.WAVES,
                             price: WavesApp.defaultAssets.BTC
                         },
+                        createOrder: {
+                            expirationName: '30day'
+                        },
                         watchlist: {
                             showOnlyFavorite: false,
                             favourite: [
                                 [WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC]
                             ],
-                            activeTab: 'all',
-                            list: Object.values(WavesApp.defaultAssets)
+                            activeTab: 'all'
                         },
                         layout: {
                             watchlist: {

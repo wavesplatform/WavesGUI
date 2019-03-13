@@ -8,9 +8,12 @@
      * @param {Waves} waves
      * @param {ModalManager} modalManager
      * @param {IPollCreate} createPoll
+     * @param {BalanceWatcher} balanceWatcher
      * @return {LeasingCtrl}
      */
-    const controller = function (Base, $scope, utils, waves, modalManager, createPoll) {
+    const controller = function (Base, $scope, utils, waves, modalManager, createPoll, balanceWatcher) {
+
+        const { pathEq } = require('ramda');
 
         class LeasingCtrl extends Base {
 
@@ -39,6 +42,7 @@
              * @type {string}
              */
             nodeListLink = '';
+
 
             constructor() {
                 super($scope);
@@ -72,10 +76,12 @@
                     $scope.$apply();
                 });
 
-                createPoll(this, this._getBalances, this._setLeasingData, 1000, { isBalance: true });
                 createPoll(this, this._getTransactions, this._setTxList, 3000, { isBalance: true });
 
+                this.receive(balanceWatcher.change, this._updateLeasingData, this);
                 this.observe(['_txList', 'allActiveLeasing', 'filter'], this._currentLeasingList);
+
+                this._updateLeasingData();
             }
 
             /**
@@ -87,14 +93,6 @@
             }
 
             /**
-             * @return {Promise<IBalanceDetails>}
-             * @private
-             */
-            _getBalances() {
-                return waves.node.assets.balance(WavesApp.defaultAssets.WAVES);
-            }
-
-            /**
              * @private
              */
             _getTransactions() {
@@ -102,12 +100,17 @@
             }
 
             /**
-             * @param {BigNumber} available
-             * @param {BigNumber} leasedIn
-             * @param {BigNumber} leased
              * @private
              */
-            _setLeasingData({ leasedOut, leasedIn, available }) {
+            _updateLeasingData() {
+                const waves = balanceWatcher.getFullBalanceList().find(pathEq(['asset', 'id'], 'WAVES'));
+
+                if (!waves) {
+                    return null;
+                }
+
+                const { available, leasedOut, leasedIn } = waves;
+
                 this.available = available;
                 this.leased = leasedOut;
                 this.leasedIn = leasedIn;
@@ -118,7 +121,7 @@
                     { id: 'leased', value: leasedOut },
                     { id: 'leasedIn', value: leasedIn }
                 ];
-                $scope.$apply();
+                utils.safeApply($scope);
             }
 
             /**
@@ -185,7 +188,7 @@
         return new LeasingCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'utils', 'waves', 'modalManager', 'createPoll'];
+    controller.$inject = ['Base', '$scope', 'utils', 'waves', 'modalManager', 'createPoll', 'balanceWatcher'];
 
     angular.module('app.wallet.leasing').controller('LeasingCtrl', controller);
 })();

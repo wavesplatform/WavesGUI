@@ -50,8 +50,13 @@ export class DataManager {
     }
 
     public getOracleAssetData(id: string): TProviderAsset & { provider: string } {
-        const lastData = this.pollControl.getPollHash().oracle.lastData;
-        const assets = lastData && lastData.assets || Object.create(null);
+        let pollHash = this.pollControl.getPollHash();
+        let assets;
+        let lastData;
+        if (pollHash) {
+            lastData = pollHash.oracle.lastData;
+            assets = lastData && lastData.assets || Object.create(null);
+        }
 
         const WavesApp = (window as any).WavesApp;
 
@@ -64,6 +69,7 @@ export class DataManager {
             [WavesApp.defaultAssets.LTC]: true,
             [WavesApp.defaultAssets.ZEC]: true,
             [WavesApp.defaultAssets.BCH]: true,
+            [WavesApp.defaultAssets.BSV]: true,
             [WavesApp.defaultAssets.DASH]: true,
             [WavesApp.defaultAssets.XMR]: true,
         };
@@ -135,7 +141,7 @@ export class DataManager {
     private _createPolls(): TPollHash {
         const balance = new Poll(this._getPollBalanceApi(), 1000);
         const orders = new Poll(this._getPollOrdersApi(), 1000);
-        const aliases = new Poll(this._getPollAliasesApi(), 5000);
+        const aliases = new Poll(this._getPollAliasesApi(), 10000);
         const oracle = new Poll(this._getPollOracleApi(), 30000);
 
         change.on((key) => {
