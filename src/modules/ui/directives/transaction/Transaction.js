@@ -32,8 +32,8 @@
                 this.typeName = this.transaction.typeName;
                 this.isScam = !!user.scam[this.transaction.assetId];
                 if (this.transaction.type === 7) {
-                    this.isScamAmount = !!WavesApp.scam[this.transaction.amount.asset];
-                    this.isScamPrice = !!WavesApp.scam[this.transaction.price.asset];
+                    this.isScamAmount = !!user.scam[this.transaction.amount.asset];
+                    this.isScamPrice = !!user.scam[this.transaction.price.asset];
                 }
 
                 if (this.transaction.amount && this.transaction.amount instanceof ds.wavesDataEntities.Money) {

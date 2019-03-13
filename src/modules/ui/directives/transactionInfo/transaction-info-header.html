@@ -1,6 +1,6 @@
 <div class="txinfo__content" ng-class="::{'spam': $ctrl.isScam || $ctrl.isScamAmount || $ctrl.isScamPrice}">
 
-    <div class="txinfo__icon " ng-class="$ctrl.typeName"></div>
+    <div class="txinfo__icon" ng-class="$ctrl.typeName"></div>
 
     <w-issue-header ng-if="$ctrl.signable.type === 3" signable="$ctrl.signable"></w-issue-header>
     <w-transfer-header ng-if="$ctrl.signable.type === 4" signable="$ctrl.signable"></w-transfer-header>

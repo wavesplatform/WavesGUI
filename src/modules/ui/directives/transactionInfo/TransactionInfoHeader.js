@@ -7,7 +7,7 @@
      * @param {app.utils} utils
      * @return {TransactionInfoHeader}
      */
-    const controller = function (utils) {
+    const controller = function (utils, user) {
 
         class TransactionInfoHeader {
 
@@ -38,10 +38,10 @@
                 if (!this.transaction.assetId) {
                     this._addAssetId(this.transaction.type);
                 }
-                this.isScam = !!WavesApp.scam[this.transaction.assetId];
+                this.isScam = !!user.scam[this.transaction.assetId];
                 if (this.transaction.type === 7) {
-                    this.isScamAmount = !!WavesApp.scam[this.transaction.amount.asset];
-                    this.isScamPrice = !!WavesApp.scam[this.transaction.price.asset];
+                    this.isScamAmount = !!user.scam[this.transaction.amount.asset];
+                    this.isScamPrice = !!user.scam[this.transaction.price.asset];
                 }
             }
 
@@ -71,7 +71,7 @@
         return new TransactionInfoHeader();
     };
 
-    controller.$inject = ['utils'];
+    controller.$inject = ['utils', 'user'];
 
     angular.module('app.ui').component('wTransactionInfoHeader', {
         bindings: {
