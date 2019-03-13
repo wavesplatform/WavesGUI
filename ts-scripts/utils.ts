@@ -11,6 +11,7 @@ import { render } from 'less';
 import { minify } from 'html-minifier';
 import { get, ServerResponse, IncomingMessage } from 'https';
 import { MAINNET_DATA, TESTNET_DATA } from '@waves/assets-pairs-order';
+import { forEachObjIndexed, is } from 'ramda';
 
 declare const parseJsonBignumber;
 declare const BigNumber;
@@ -732,4 +733,47 @@ export interface IPrepareHTMLOptions {
 
 export interface IFilter {
     (name: string, path: string): boolean;
+}
+
+export function getAllValWithInterpolation(obj, keyPath = '') {
+
+    let arrValWithInterpolation: {
+        [key: string]: {
+            value: string;
+            variables: string[];
+        }
+    } = {};
+
+    forEachObjIndexed((value: any, key: string) => {
+            if (is(Object, value)) {
+                forEachObjIndexed((value: any, key: string) => {
+                        arrValWithInterpolation[key] = value;
+                    },
+                    getAllValWithInterpolation(value, !keyPath ? key : `${keyPath}.${key}`)
+                );
+            }
+            if (/{{.*}}/.test(value)) {
+                arrValWithInterpolation[!keyPath ? key : `${keyPath}.${key}`] = {
+                    value: value,
+                    variables: value.match(/{{.*?}}/g).map(el => el.replace(/{{(.*?)}}/, '$1')),
+                };
+            }
+        },
+        obj
+    );
+    return arrValWithInterpolation;
+}
+
+export function testVariablesAfterFirst(obj, keyPath: string, correctLang: string) {
+    const allowableValues = ['money', 'money-currency', 'money-fee', 'BigNumber'];
+    obj.variables.forEach(variable => {
+        const afterComma = variable.match(/,\s+(.*)/);
+        if (afterComma && !allowableValues.includes(afterComma[1])) {
+            console.error(
+                `invalid key name ${variable} file ${name} in locale ${correctLang}\n` +
+                `json.${keyPath} === ${obj.value}\n` +
+                `allowable values ${allowableValues}`
+            );
+        }
+    });
 }

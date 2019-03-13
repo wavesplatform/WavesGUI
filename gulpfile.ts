@@ -11,7 +11,9 @@ import {
     task,
     getScripts,
     getStyles,
-    getInitScript
+    getInitScript,
+    getAllValWithInterpolation,
+    testVariablesAfterFirst,
 } from './ts-scripts/utils';
 import { basename, extname, join, sep } from 'path';
 import {
@@ -29,6 +31,7 @@ import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
 import { readFileSync, writeFileSync } from 'fs';
 import { render } from 'less';
+import { forEachObjIndexed, equals } from 'ramda';
 
 const zip = require('gulp-zip');
 
@@ -303,9 +306,43 @@ task('downloadLocales', ['concat-develop-sources'], function (done) {
                 const out = join('dist', 'locale', lang, `${name}.json`);
 
                 return download(url, out)
-                    .then(() => console.log(`Module ${lang} ${name} loaded!`))
-                    .catch(() => console.error(`Error load module with name ${name}!`));
-            }));
+                    .then(() => {
+                        console.log(`Module ${lang} ${name} loaded!`);
+                        return readJSON(out);
+                    })
+                    .catch(() => console.error(`Error load module with name ${name}!`))
+                    .then(json => {
+                        return { lang, json };
+                    });
+            })).then(res => {
+                const correctLang = 'en';
+                const correctJson = res.find(el => el.lang === correctLang).json;
+                const correctValuesWhichInterpolation = getAllValWithInterpolation(correctJson);
+                forEachObjIndexed(((value, key: string) => {
+                    testVariablesAfterFirst(value, key, correctLang);
+                }), correctValuesWhichInterpolation);
+
+                forEachObjIndexed(((value, key) => {
+                    testVariablesAfterFirst(value, key, correctLang);
+                }),);
+                res.filter(el => el.lang !== correctLang).forEach(el => {
+                    const { lang, json } = el;
+                    const valuesWhichInterpolation = getAllValWithInterpolation(json);
+                    forEachObjIndexed((correct, key) => {
+                            if (valuesWhichInterpolation[key]) {
+                                const testing = valuesWhichInterpolation[key];
+                                if (!equals(testing.variables.sort(), correct.variables.sort())) {
+                                    console.error(
+                                        `wrong key in ${name} lang ${lang}\n` +
+                                        `lang:${lang} json.${key} === ${testing.value}\n` +
+                                        `lang:${correctLang} json.${key} === ${correct!.value}`
+                                    );
+                                }
+                            }
+                        }, correctValuesWhichInterpolation
+                    );
+                });
+            });
         };
         return Promise.all(modules.map(load));
     }).then(() => done());
