@@ -24,13 +24,16 @@ import {
     readJSONSync,
     writeFile,
 } from 'fs-extra';
+import { request } from 'https';
+// import extract from 'extract-zip';
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, unlink } from 'fs';
 import { render } from 'less';
 
 const zip = require('gulp-zip');
+const extract = require('extract-zip');
 
 const { themes: THEMES } = readJSONSync(join(__dirname, 'src/themeConfig', 'theme.json'));
 const meta: IMetaJSON = readJSONSync(join(__dirname, 'ts-scripts', 'meta.json'));
@@ -285,30 +288,62 @@ task('concat-develop-vendors', function () {
 });
 
 task('downloadLocales', ['concat-develop-sources'], function (done) {
-    const path = join(tmpJsPath, bundleName);
-
-    readFile(path, 'utf8').then(file => {
-
-        const modules = file.match(/angular\.module\('app\.?((\w|\.)+?)?',/g)
-            .map(str => str.replace('angular.module(\'', '')
-                .replace('\',', ''));
-
-        modules.push('electron');
-
-        const load = name => {
-            const langs = Object.keys(meta.langList);
-
-            return Promise.all(langs.map(lang => {
-                const url = `https://locize.wvservices.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/${name}`;
-                const out = join('dist', 'locale', lang, `${name}.json`);
-
-                return download(url, out)
-                    .then(() => console.log(`Module ${lang} ${name} loaded!`))
-                    .catch(() => console.error(`Error load module with name ${name}!`));
-            }));
+    const load = () => {
+        const postOptions = {
+            method: 'POST',
+            hostname: 'api.lokalise.co',
+            path: '/api2/projects/389876335c7d2c119edf16.76978095/files/download',
+            headers:
+                {
+                    'x-api-token': '3ffba358636086e35054412e37db76d933cfe3b5',
+                    'content-type': 'application/json'
+                }
         };
-        return Promise.all(modules.map(load));
-    }).then(() => done());
+        const zipName = `locale.zip`;
+        const postPromise = () => {
+            return new Promise((resolve, reject) => {
+                const req = request(postOptions, response => {
+                    response.on('data', (d: string) => {
+                        const url = JSON.parse(d).bundle_url;
+                        const out = join('dist', zipName);
+
+                        download(url, out).then(() => {
+                            extract(`./dist/${zipName}`, { dir: `${__dirname}/dist` }, error => {
+                                if (error) {
+                                    reject(error);
+                                }
+                                resolve();
+                            });
+                        });
+
+                    });
+                });
+
+                req.on('error', error => {
+                    reject(error);
+                });
+
+                req.write(JSON.stringify({
+                    format: 'json',
+                    original_filenames: true,
+                    directory_prefix: '/'
+                }));
+
+                req.end();
+            });
+        };
+
+        return postPromise()
+            .then(() => console.log(`Module lokalise loaded!`))
+            .then(() => {
+                unlink(`./dist/${zipName}`, error=> {
+                    if (error) throw error;
+                    console.log('locale.zip was deleted');
+                });
+            })
+            .catch(err => console.error(`Error load module with name lokalise: ${err}`));
+    };
+    load().then(() => done());
 });
 
 task('clean', function () {
