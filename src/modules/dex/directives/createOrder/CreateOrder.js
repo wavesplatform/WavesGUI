@@ -422,6 +422,15 @@
             }
 
             /**
+             * param {string} assetId1
+             * param {string} assetId2
+             * @private
+             */
+            _dexScriptedPair() {
+                return modalManager.showDexScriptedPair();
+            }
+
+            /**
              * @param {string} price
              * @param {string} amount
              * @private
@@ -452,6 +461,7 @@
                 const balance = this.amountBalance;
                 return balance.safeSub(fee).toNonNegative();
             }
+
 
             /**
              * @return {Money}
