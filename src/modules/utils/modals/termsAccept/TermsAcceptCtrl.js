@@ -9,11 +9,10 @@
                 super($scope);
                 this.security = false;
                 this.backup = false;
-                this.shareAnalytics = false;
+                this.readTermsAndConditions = false;
             }
 
             confirm() {
-                user.setSetting('shareAnalytics', this.shareAnalytics);
                 $mdDialog.hide();
             }
 
