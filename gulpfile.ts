@@ -12,7 +12,7 @@ import {
     getScripts,
     getStyles,
     getInitScript,
-    getAllValWithInterpolation,
+    parseJsonToTestingObj,
     testVariablesAfterFirst,
 } from './ts-scripts/utils';
 import { basename, extname, join, sep } from 'path';
@@ -317,13 +317,13 @@ task('downloadLocales', ['concat-develop-sources'], function (done) {
             })).then(res => {
                 const correctLang = 'en';
                 const correctJson = res.find(propEq('lang', correctLang)).json;
-                const correctValuesWhichInterpolation = getAllValWithInterpolation(correctJson);
+                const correctValuesWhichInterpolation = parseJsonToTestingObj(correctJson);
                 forEachObjIndexed(((value, key: string) => {
                     testVariablesAfterFirst(value, key, correctLang);
                 }), correctValuesWhichInterpolation);
                 res.filter(pipe(propEq('lang', correctLang), not)).forEach(el => {
                     const { lang, json } = el;
-                    const valuesWhichInterpolation = getAllValWithInterpolation(json);
+                    const valuesWhichInterpolation = parseJsonToTestingObj(json);
                     forEachObjIndexed((correct, key) => {
                             if (valuesWhichInterpolation[key]) {
                                 const testing = valuesWhichInterpolation[key];

@@ -151,9 +151,9 @@ export function getAllLessFiles() {
     return getFilesFrom(join(__dirname, '../src'), '.less');
 }
 
-export function getScripts(param:  IPrepareHTMLOptions, pack, meta) {
+export function getScripts(param: IPrepareHTMLOptions, pack, meta) {
     const filter = moveTo(param.target);
-    let { scripts } = param  || Object.create(null);
+    let { scripts } = param || Object.create(null);
     if (!scripts) {
         const sourceFiles = getFilesFrom(join(__dirname, '../src'), '.js', function (name, path) {
             return !name.includes('.spec') && !path.includes('/test/');
@@ -168,7 +168,7 @@ export function getScripts(param:  IPrepareHTMLOptions, pack, meta) {
     return scripts.map(filter).map(path => `<script src="${path}"></script>`);
 }
 
-export function getStyles(param:  IPrepareHTMLOptions, meta, themes) {
+export function getStyles(param: IPrepareHTMLOptions, meta, themes) {
     const filter = moveTo(param.target);
     let { styles } = param || Object.create(null);
 
@@ -328,7 +328,7 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
 
         (window as any).getConfig = function () {
 
-            config.isBrowserSupported = function() {
+            config.isBrowserSupported = function () {
                 return isSupported;
             };
 
@@ -366,7 +366,7 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
                         (self as any).parse = parseJsonBignumber().parse;
                     });
 
-                    var stringify = parseJsonBignumber({BigNumber: BigNumber}).stringify;
+                    var stringify = parseJsonBignumber({ BigNumber: BigNumber }).stringify;
                     WavesApp.parseJSON = function (str) {
                         return worker.process(function (str) {
                             return parse(str);
@@ -735,7 +735,7 @@ export interface IFilter {
     (name: string, path: string): boolean;
 }
 
-export function getAllValWithInterpolation(obj, keyPath = '') {
+export function parseJsonToTestObj(obj: object, keyPath: string = '') {
 
     let arrValWithInterpolation: {
         [key: string]: {
@@ -746,13 +746,11 @@ export function getAllValWithInterpolation(obj, keyPath = '') {
 
     forEachObjIndexed((value: any, key: string) => {
             if (is(Object, value)) {
-                forEachObjIndexed((value: any, key: string) => {
-                        arrValWithInterpolation[key] = value;
-                    },
-                    getAllValWithInterpolation(value, !keyPath ? key : `${keyPath}.${key}`)
+                forEachObjIndexed(
+                    (value: any, key: string) => arrValWithInterpolation[key] = value,
+                    parseJsonToTestObj(value, !keyPath ? key : `${keyPath}.${key}`)
                 );
-            }
-            if (/{{.*}}/.test(value)) {
+            } else if (/{{.*}}/.test(value)) {
                 arrValWithInterpolation[!keyPath ? key : `${keyPath}.${key}`] = {
                     value: value,
                     variables: value.match(/{{.*?}}/g).map(el => el.replace(/{{(.*?)}}/, '$1')),
