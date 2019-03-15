@@ -262,10 +262,10 @@
                     </div>
 
                     <div class="data-field has-helper">
-                            <w-input ng-model="$ctrl.scamListUrl"></w-input>
-                            <w-help-icon class="info">
-                                <div class="help-icon__row headline-3" w-i18n="modal.settings.network.spamListHelp"></div>
-                            </w-help-icon>
+                        <w-input ng-model="$ctrl.scamListUrl"></w-input>
+                        <w-help-icon class="info">
+                            <div class="help-icon__row headline-3" w-i18n="modal.settings.network.spamListHelp"></div>
+                        </w-help-icon>
                     </div>
                 </div>
 
@@ -292,6 +292,13 @@
                 <div class="row flex-row row-style">
                     <div class="footnote-1 basic-500" w-i18n="modal.settings.info.support"></div>
                     <div><a href="{{::$ctrl.supportLink}}" target="_blank">{{::$ctrl.supportLinkName}}</a></div>
+                </div>
+
+                <div class="row flex-row row-style">
+                    <div class="footnote-1 basic-500" w-i18n="modal.settings.info.legal"></div>
+                    <div><a href="{{::$ctrl.termsAndConditionsLink}}" target="_blank">
+                        <span w-i18n="modal.settings.info.termsAndConditions"></span>
+                    </a></div>
                 </div>
 
                 <div class="row flex-row row-style solid-border">
