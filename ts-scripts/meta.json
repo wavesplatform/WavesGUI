@@ -63,7 +63,7 @@
         "decimal": "."
       }
     },
-    "zh-Hans-CN": {
+    "zh_CN": {
       "name": "Zh",
       "separators": {
         "group": ",",
@@ -77,14 +77,14 @@
         "decimal": "."
       }
     },
-    "nl": {
+    "nl_NL": {
       "name": "Nl",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
-    "hi": {
+    "hi_IN": {
       "name": "Hi",
       "separators": {
         "group": ",",
@@ -98,7 +98,7 @@
         "decimal": "."
       }
     },
-    "pt": {
+    "pt_PT": {
       "name": "Pt",
       "separators": {
         "group": ",",

@@ -11,7 +11,8 @@ import {
     task,
     getScripts,
     getStyles,
-    getInitScript
+    getInitScript,
+    getLocales
 } from './ts-scripts/utils';
 import { basename, extname, join, sep } from 'path';
 import {
@@ -24,8 +25,7 @@ import {
     readJSONSync,
     writeFile,
 } from 'fs-extra';
-import { request } from 'https';
-// import extract from 'extract-zip';
+
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
@@ -288,62 +288,8 @@ task('concat-develop-vendors', function () {
 });
 
 task('downloadLocales', ['concat-develop-sources'], function (done) {
-    const load = () => {
-        const postOptions = {
-            method: 'POST',
-            hostname: 'api.lokalise.co',
-            path: '/api2/projects/389876335c7d2c119edf16.76978095/files/download',
-            headers:
-                {
-                    'x-api-token': '3ffba358636086e35054412e37db76d933cfe3b5',
-                    'content-type': 'application/json'
-                }
-        };
-        const zipName = `locale.zip`;
-        const postPromise = () => {
-            return new Promise((resolve, reject) => {
-                const req = request(postOptions, response => {
-                    response.on('data', (d: string) => {
-                        const url = JSON.parse(d).bundle_url;
-                        const out = join('dist', zipName);
-
-                        download(url, out).then(() => {
-                            extract(`./dist/${zipName}`, { dir: `${__dirname}/dist` }, error => {
-                                if (error) {
-                                    reject(error);
-                                }
-                                resolve();
-                            });
-                        });
-
-                    });
-                });
-
-                req.on('error', error => {
-                    reject(error);
-                });
-
-                req.write(JSON.stringify({
-                    format: 'json',
-                    original_filenames: true,
-                    directory_prefix: '/'
-                }));
-
-                req.end();
-            });
-        };
-
-        return postPromise()
-            .then(() => console.log(`Module lokalise loaded!`))
-            .then(() => {
-                unlink(`./dist/${zipName}`, error=> {
-                    if (error) throw error;
-                    console.log('locale.zip was deleted');
-                });
-            })
-            .catch(err => console.error(`Error load module with name lokalise: ${err}`));
-    };
-    load().then(() => done());
+    const dist = join(__dirname, 'dist');
+    getLocales(dist).then(() => done());
 });
 
 task('clean', function () {
@@ -461,18 +407,6 @@ task('electron-debug', function (done) {
     };
 
     const excludeTypeScrip = list => list.filter(name => extname(name) !== '.ts');
-    const loadLocales = () => {
-        const list = Object.keys(require(join(__dirname, 'ts-scripts', 'meta.json')).langList);
-
-        return Promise.all(list.map(loadLocale));
-    };
-
-    const loadLocale = lang => {
-        const url = `https://locize.wvservices.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/electron`;
-        const out = join(root, 'locales', lang, `electron.json`);
-
-        return download(url, out);
-    };
 
     const copyNodeModules = () => Promise.all(meta.copyNodeModules.map(name => copy(name, join(root, name))));
     const copyI18next = () => copy(join(__dirname, 'node_modules', 'i18next', 'dist'), join(root, 'i18next'));
@@ -481,7 +415,7 @@ task('electron-debug', function (done) {
         .then(excludeTypeScrip)
         .then(list => Promise.all(list.map(copyItem)))
         .then(makePackageJSON)
-        .then(loadLocales)
+        .then(() => getLocales(root, { include_tags: ['electron'] }))
         .then(copyNodeModules)
         .then(copyI18next)
         .then(() => done());
