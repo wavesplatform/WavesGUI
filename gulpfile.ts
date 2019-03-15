@@ -31,7 +31,7 @@ import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
 import { readFileSync, writeFileSync } from 'fs';
 import { render } from 'less';
-import { forEachObjIndexed, equals } from 'ramda';
+import { forEachObjIndexed, equals, propEq, pipe,not } from 'ramda';
 
 const zip = require('gulp-zip');
 
@@ -316,12 +316,12 @@ task('downloadLocales', ['concat-develop-sources'], function (done) {
                     });
             })).then(res => {
                 const correctLang = 'en';
-                const correctJson = res.find(el => el.lang === correctLang).json;
+                const correctJson = res.find(propEq('lang', correctLang)).json;
                 const correctValuesWhichInterpolation = getAllValWithInterpolation(correctJson);
                 forEachObjIndexed(((value, key: string) => {
                     testVariablesAfterFirst(value, key, correctLang);
                 }), correctValuesWhichInterpolation);
-                res.filter(el => el.lang !== correctLang).forEach(el => {
+                res.filter(pipe(propEq('lang', correctLang), not)).forEach(el => {
                     const { lang, json } = el;
                     const valuesWhichInterpolation = getAllValWithInterpolation(json);
                     forEachObjIndexed((correct, key) => {
