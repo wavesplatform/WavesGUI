@@ -334,8 +334,8 @@ task('downloadLocales', ['concat-develop-sources'], function (done) {
                                 }).sort())) {
                                     console.error(
                                         `wrong key in ${name} lang ${lang}\n` +
-                                        `lang:${lang} json.${key} === ${testing.value}\n` +
-                                        `lang:${correctLang} json.${key} === ${correct!.value}\n` +
+                                        `lang:${lang} ${key} === ${testing.value}\n` +
+                                        `lang:${correctLang} ${key} === ${correct!.value}\n` +
                                         `<<<<---------------====x====---------------->>>>`
                                     );
                                 }

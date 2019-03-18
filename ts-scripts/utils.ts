@@ -748,10 +748,10 @@ export function parseJsonToTestObj(obj: object, keyPath: string = '') {
             if (is(Object, value)) {
                 forEachObjIndexed(
                     (value: any, key: string) => arrValWithInterpolation[key] = value,
-                    parseJsonToTestObj(value, !keyPath ? key : `${keyPath}.${key}`)
+                    parseJsonToTestObj(value, !keyPath ? key : `${keyPath}::${key}`)
                 );
             } else if (/{{.*}}/.test(value)) {
-                arrValWithInterpolation[!keyPath ? key : `${keyPath}.${key}`] = {
+                arrValWithInterpolation[!keyPath ? key : `${keyPath}::${key}`] = {
                     value: value,
                     variables: value.match(/{{.*?}}/g).map(el => el.replace(/{{(.*?)}}/, '$1')),
                 };
