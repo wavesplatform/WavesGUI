@@ -726,6 +726,7 @@ export function getLocales(path: string, options?: object) {
         format: 'json',
         original_filenames: true,
         directory_prefix: '/',
+        export_empty_as: 'base',
         ...options
     };
 
