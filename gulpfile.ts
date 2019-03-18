@@ -31,7 +31,7 @@ import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
 import { readFileSync, writeFileSync } from 'fs';
 import { render } from 'less';
-import { forEachObjIndexed, equals, propEq, pipe,not } from 'ramda';
+import { forEachObjIndexed, equals, propEq, pipe, not } from 'ramda';
 
 const zip = require('gulp-zip');
 
@@ -327,11 +327,16 @@ task('downloadLocales', ['concat-develop-sources'], function (done) {
                     forEachObjIndexed((correct, key) => {
                             if (valuesWhichInterpolation[key]) {
                                 const testing = valuesWhichInterpolation[key];
-                                if (!equals(testing.variables.sort(), correct.variables.sort())) {
+                                if (!equals(testing.variables.filter((value, index, self) => {
+                                    return self.indexOf(value) === index;
+                                }).sort(), correct.variables.filter((value, index, self) => {
+                                    return self.indexOf(value) === index;
+                                }).sort())) {
                                     console.error(
                                         `wrong key in ${name} lang ${lang}\n` +
                                         `lang:${lang} json.${key} === ${testing.value}\n` +
-                                        `lang:${correctLang} json.${key} === ${correct!.value}`
+                                        `lang:${correctLang} json.${key} === ${correct!.value}\n` +
+                                        `<<<<---------------====x====---------------->>>>`
                                     );
                                 }
                             }
