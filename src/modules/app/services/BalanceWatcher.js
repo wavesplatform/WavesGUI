@@ -3,7 +3,7 @@
 
     const { Signal } = require('ts-utils');
     const { Money } = require('@waves/data-entities');
-    const { not, pathEq } = require('ramda');
+    const { not, pathEq, equals } = require('ramda');
 
     /**
      * @param {User} user
@@ -157,7 +157,7 @@
                 }
 
 
-                const itemNotEqual = (a, b) => not(utils.isEqual(a.available, b.available));
+                const itemNotEqual = (a, b) => not(equals(a.available, b.available));
                 const isNeedDispatch = list.length &&
                     list.some((item, i) => itemNotEqual(item, this._balance[i]));
 
