@@ -1,16 +1,16 @@
 import * as gulp from 'gulp';
-import {getType} from 'mime';
-import {exec, spawn} from 'child_process';
-import {existsSync, readdirSync, readFileSync, statSync, unlink} from 'fs';
-import {join, relative, extname, dirname} from 'path';
-import {IPackageJSON, IMetaJSON, ITaskFunction, TBuild, TConnection, TPlatform} from './interface';
-import {readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync, copy} from 'fs-extra';
-import {compile} from 'handlebars';
-import {transform} from 'babel-core';
-import {render} from 'less';
-import {minify} from 'html-minifier';
-import {get, ServerResponse, IncomingMessage, request} from 'https';
-import {MAINNET_DATA, TESTNET_DATA} from '@waves/assets-pairs-order';
+import { getType } from 'mime';
+import { exec, spawn } from 'child_process';
+import { existsSync, readdirSync, readFileSync, statSync, unlink } from 'fs';
+import { join, relative, extname, dirname } from 'path';
+import { IPackageJSON, IMetaJSON, ITaskFunction, TBuild, TConnection, TPlatform } from './interface';
+import { readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync, copy } from 'fs-extra';
+import { compile } from 'handlebars';
+import { transform } from 'babel-core';
+import { render } from 'less';
+import { minify } from 'html-minifier';
+import { get, ServerResponse, IncomingMessage, request } from 'https';
+import { MAINNET_DATA, TESTNET_DATA } from '@waves/assets-pairs-order';
 
 const extract = require('extract-zip');
 
@@ -28,7 +28,7 @@ export const task: ITaskFunction = gulp.task.bind(gulp) as any;
 export function getBranch(): Promise<string> {
     return new Promise((resolve, reject) => {
         const command = 'git symbolic-ref --short HEAD';
-        exec(command, {encoding: 'utf8'}, (error: Error, stdout: string, stderr: string) => {
+        exec(command, { encoding: 'utf8' }, (error: Error, stdout: string, stderr: string) => {
             if (error) {
                 console.log(stderr);
                 console.log(error);
@@ -45,7 +45,7 @@ export function getBranchDetail(): Promise<{ branch: string; project: string; ti
         const parts = branch.split('-');
         const [project, ticket] = parts;
         const description = parts.slice(2).join(' ');
-        return {branch, project: project.toUpperCase(), ticket: Number(ticket), description};
+        return { branch, project: project.toUpperCase(), ticket: Number(ticket), description };
     });
 }
 
@@ -117,7 +117,7 @@ export function run(command: string, args: Array<string>, noLog?: boolean): Prom
         });
 
         task.on('close', (code: number) => {
-            resolve({code, data});
+            resolve({ code, data });
         });
     });
 }
@@ -130,17 +130,17 @@ export function moveTo(path: string): (relativePath: string) => string {
 
 export function replaceScripts(file: string, paths: Array<string>): string {
     return file.replace('<!-- JAVASCRIPT -->',
-        paths.map((path) => `<script src="${path}"></script>`).join('\n')
+        paths.map((path) => `<script src="${ path }"></script>`).join('\n')
     );
 }
 
 export function replaceStyles(file: string, paths: Array<{ theme: string, name: string, hasGet?: boolean }>): string {
-    return file.replace('<!-- CSS -->', paths.map(({theme, name, hasGet}) => {
+    return file.replace('<!-- CSS -->', paths.map(({ theme, name, hasGet }) => {
         if (hasGet) {
-            return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}?theme=${theme || ''}">`;
+            return `<link ${ theme ? `theme="${ theme }"` : '' } rel="stylesheet" href="${ name }?theme=${ theme || '' }">`;
         }
 
-        return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}">`;
+        return `<link ${ theme ? `theme="${ theme }"` : '' } rel="stylesheet" href="${ name }">`;
     }).join('\n'));
 }
 
@@ -154,24 +154,24 @@ export function getAllLessFiles() {
 
 export function getScripts(param: IPrepareHTMLOptions, pack, meta) {
     const filter = moveTo(param.target);
-    let {scripts} = param || Object.create(null);
+    let { scripts } = param || Object.create(null);
     if (!scripts) {
         const sourceFiles = getFilesFrom(join(__dirname, '../src'), '.js', function (name, path) {
             return !name.includes('.spec') && !path.includes('/test/');
         });
-        const cacheKiller = `?v${pack.version}`;
+        const cacheKiller = `?v${ pack.version }`;
         scripts = meta.vendors.map((i) => join(__dirname, '..', i)).concat(sourceFiles);
         meta.debugInjections.forEach((path) => {
             scripts.unshift(join(__dirname, '../', path));
         });
-        scripts = scripts.map((path) => `${path}${cacheKiller}`);
+        scripts = scripts.map((path) => `${ path }${ cacheKiller }`);
     }
-    return scripts.map(filter).map(path => `<script src="${path}"></script>`);
+    return scripts.map(filter).map(path => `<script src="${ path }"></script>`);
 }
 
 export function getStyles(param: IPrepareHTMLOptions, meta, themes) {
     const filter = moveTo(param.target);
-    let {styles} = param || Object.create(null);
+    let { styles } = param || Object.create(null);
 
     if (!styles) {
         const _styles = meta.stylesheets.concat(getFilesFrom(join(__dirname, '../src'), '.less'));
@@ -181,20 +181,20 @@ export function getStyles(param: IPrepareHTMLOptions, meta, themes) {
                 const name = filter(style);
 
                 if (!isLess(style)) {
-                    styles.push({name: `/${name}`, theme: null});
+                    styles.push({ name: `/${ name }`, theme: null });
                     break;
                 }
-                styles.push({name: `/${name}`, theme, hasGet: true});
+                styles.push({ name: `/${ name }`, theme, hasGet: true });
             }
         }
     }
 
-    return styles.map(({theme, name, hasGet}) => {
+    return styles.map(({ theme, name, hasGet }) => {
         if (hasGet) {
-            return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}?theme=${theme || ''}">`;
+            return `<link ${ theme ? `theme="${ theme }"` : '' } rel="stylesheet" href="${ name }?theme=${ theme || '' }">`;
         }
 
-        return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}">`;
+        return `<link ${ theme ? `theme="${ theme }"` : '' } rel="stylesheet" href="${ name }">`;
     });
 }
 
@@ -205,9 +205,9 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
         readJSON(join(__dirname, '../src/themeConfig/theme.json'))
     ]);
 
-    const {themes} = themesConf;
-    const {domain} = meta;
-    const {connection, type, buildType, outerScripts = []} = param;
+    const { themes } = themesConf;
+    const { domain } = meta;
+    const { connection, type, buildType, outerScripts = [] } = param;
     const config = meta.configurations[connection];
 
     const networks = ['mainnet', 'testnet'].reduce((result, connection) => {
@@ -220,7 +220,7 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
     const isWeb = type === 'web';
     const isProduction = buildType && buildType === 'min';
     const matcherPriorityList = connection === 'mainnet' ? MAINNET_DATA : TESTNET_DATA;
-    const {origin, oracle, feeConfigUrl, bankRecipient} = config;
+    const { origin, oracle, feeConfigUrl, bankRecipient } = config;
 
     return {
         pack,
@@ -233,7 +233,7 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
         isProduction,
         feeConfigUrl,
         bankRecipient,
-        build: {type},
+        build: { type },
         matcherPriorityList,
         network: networks[connection],
         themesConf: themesConf,
@@ -367,7 +367,7 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
                         (self as any).parse = parseJsonBignumber().parse;
                     });
 
-                    var stringify = parseJsonBignumber({BigNumber: BigNumber}).stringify;
+                    var stringify = parseJsonBignumber({ BigNumber: BigNumber }).stringify;
                     WavesApp.parseJSON = function (str) {
                         return worker.process(function (str) {
                             return parse(str);
@@ -446,7 +446,7 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
     const func = initConfig.toString();
     const conf = JSON.stringify(config, null, 4);
 
-    return `(${func})(${conf})`;
+    return `(${ func })(${ conf })`;
 }
 
 export function route(connectionType: TConnection, buildType: TBuild, type: TPlatform) {
@@ -456,7 +456,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
         if (url.includes('/package.json')) {
             res.end(readFileSync(join(__dirname, '..', 'package.json')));
         } else if (isTradingView(url)) {
-            get(`https://client.wavesplatform.com/${url}`, (resp: IncomingMessage) => {
+            get(`https://client.wavesplatform.com/${ url }`, (resp: IncomingMessage) => {
                 let data = new Buffer('');
 
                 // A chunk of data has been recieved.
@@ -498,7 +498,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                 .replace(/\?.*/, '')
                 .replace('.json', '')
                 .split('/');
-            const cachePath = join(process.cwd(), '.cache-download', 'locale', lang, `${ns}.json`);
+            const cachePath = join(process.cwd(), '.cache-download', 'locale', lang, `${ ns }.json`);
 
             if (existsSync(cachePath)) {
                 const data = readFileSync(cachePath);
@@ -541,7 +541,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                 .then((style) => {
                     (render as any)(style, {
                         filename: join(__dirname, '../src', url),
-                        paths: join(__dirname, `../src/themeConfig/${theme}`)
+                        paths: join(__dirname, `../src/themeConfig/${ theme }`)
                     } as any)
                         .then(function (out) {
                             res.setHeader('Content-type', 'text/css');
@@ -574,7 +574,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                     console.log(e.message, url);
                 });
         } else if (isApiMock(url)) {
-            mock(req, res, {connection: connectionType, meta: readJSONSync(join(__dirname, 'meta.json'))});
+            mock(req, res, { connection: connectionType, meta: readJSONSync(join(__dirname, 'meta.json')) });
         } else {
             routeStatic(req, res, connectionType, buildType, type);
         }
@@ -589,7 +589,7 @@ export function getRouter() {
     const mocks = getFilesFrom(join(__dirname, '../api'), '.js');
     const routes = Object.create(null);
     mocks.forEach((path) => {
-        routes[`/${moveTo(join(__dirname, '..'))(path).replace('.js', '.json')}`] = require(path);
+        routes[`/${ moveTo(join(__dirname, '..'))(path).replace('.js', '.json') }`] = require(path);
     });
     return routes;
 }
@@ -600,7 +600,7 @@ export function applyRoute(route, req, res, options) {
     const urls = Object.keys(route)
         .sort((a, b) => {
             const reg = /:/g;
-            return (a.match(reg) || {length: 0}).length - (b.match(reg) || {length: 0}).length;
+            return (a.match(reg) || { length: 0 }).length - (b.match(reg) || { length: 0 }).length;
         })
         .map((url) => url.split('/'))
         .filter((routeParts) => routeParts.length === parts.length);
@@ -675,7 +675,7 @@ export function isPage(url: string): boolean {
         'init.js'
     ];
     return !staticPathPartial.some((path) => {
-        return url.includes(`/${path}`);
+        return url.includes(`/${ path }`);
     });
 }
 
@@ -694,14 +694,14 @@ function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, p
         const path = join(root, url);
         readFile(path).then((file: Buffer) => {
             res.setHeader('Cache-Control', 'public, max-age=31557600');
-            res.writeHead(200, {'Content-Type': contentType});
+            res.writeHead(200, { 'Content-Type': contentType });
             res.end(file);
         })
             .catch(() => {
                 if (ROOTS.length) {
                     check(ROOTS.pop());
                 } else {
-                    res.writeHead(404, {'Content-Type': 'text/plain'});
+                    res.writeHead(404, { 'Content-Type': 'text/plain' });
                     res.end('404 Not Found\n');
                 }
             });
@@ -743,7 +743,7 @@ export function getLocales(path: string, options?: object) {
                     get(url, (response) => {
                         response.pipe(file);
                         response.on('end', () => {
-                            extract(filePath, {dir: `${path}/`}, error => {
+                            extract(filePath, { dir: `${ path }/` }, error => {
                                 if (error) {
                                     reject(error);
                                 }
@@ -773,7 +773,7 @@ export function getLocales(path: string, options?: object) {
                 }
             });
         })
-        .catch(err => console.error(`Locales did not loaded: ${err}`));
+        .catch(err => console.error(`Locales did not loaded: ${ err }`));
 }
 
 export interface IRouteOptions {
