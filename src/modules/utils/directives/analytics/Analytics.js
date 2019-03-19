@@ -6,7 +6,7 @@
     /**
      * @param {typeof Base} Base
      */
-    const directive = (Base) => ({
+    const directive = Base => ({
         priority: 100000,
         scope: {
             eventTarget: '<',

@@ -482,7 +482,6 @@
              */
             _onChangeStateSuccess(event, toState, some, fromState) {
                 const from = fromState.name || document.referrer;
-
                 switch (toState.name) {
                     case 'create':
                         analytics.send({
@@ -500,6 +499,13 @@
                     case 'restore':
                         analytics.send({
                             name: 'Import Backup Show',
+                            params: { from },
+                            target: 'ui'
+                        });
+                        break;
+                    case 'main.wallet.leasing':
+                        analytics.send({
+                            name: 'Leasing Show',
                             params: { from },
                             target: 'ui'
                         });

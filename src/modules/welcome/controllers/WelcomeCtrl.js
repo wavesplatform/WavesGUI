@@ -15,6 +15,7 @@
     const controller = function (Base, $scope, $state, user, modalManager) {
 
         const ds = require('data-service');
+        const analytics = require('@waves/event-sender');
 
         class WelcomeCtrl extends Base {
 
@@ -58,13 +59,20 @@
                 this.observe('activeUserAddress', this._calculateActiveIndex);
                 this.observe('password', this._updatePassword);
 
+                analytics.send({ name: 'Sign In Show', target: 'ui', params: { from: 'welcome' } });
                 this._initUserList();
             }
 
+            /**
+             * @public
+             */
             showTutorialModals() {
                 return modalManager.showTutorialModals();
             }
 
+            /**
+             * @private
+             */
             _updatePassword() {
                 if (this.password) {
                     this.showPasswordError = false;
