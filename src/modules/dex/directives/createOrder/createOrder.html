@@ -192,7 +192,7 @@
                         <div w-i18n="directives.createOrder.expiration"></div>
                         <w-select class="select__no-user-select" ng-model="$ctrl.expiration" up-direction="true">
                             <w-option ng-repeat="option in $ctrl.expirationValues track by option.name"
-                                      value="::option.value">
+                                      value="::option.name">
                                 <span w-i18n="directives.createOrder.{{::option.name}}" w-i18n-ns="app.dex"></span>
                             </w-option>
                         </w-select>

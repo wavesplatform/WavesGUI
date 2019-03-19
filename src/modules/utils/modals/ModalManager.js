@@ -397,12 +397,12 @@
                 });
             }
 
-            showConfirmTx(signable, showValidationErrors) {
+            showConfirmTx(signable) {
                 return this._getModal({
                     id: 'confirm-tx',
                     mod: 'confirm-tx',
                     ns: 'app.ui',
-                    locals: { signable, showValidationErrors },
+                    locals: { signable },
                     controller: 'ConfirmTxCtrl',
                     headerUrl: 'modules/utils/modals/confirmTx/confirmTx.header.modal.html',
                     contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
