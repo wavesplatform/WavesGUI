@@ -312,7 +312,8 @@
              */
             static _getAllOrders() {
                 return waves.matcher.getOrders()
-                    .then(filter(whereEq({ isActive: true })));
+                    .then(filter(whereEq({ isActive: true })))
+                    .catch(() => (this.loadingError = true));
             }
 
             static _animateNotification($element) {
