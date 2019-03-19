@@ -1,7 +1,7 @@
 import { createSecureServer } from 'http2';
 import { createServer } from 'https';
 import { route, parseArguments, getBuildParams, getInitScript, getLocales } from './ts-scripts/utils';
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync,mkdirSync } from 'fs';
 import { serialize, parse as parserCookie } from 'cookie';
 import { compile } from 'handlebars';
 import { parse } from 'url';
@@ -65,8 +65,10 @@ function createMyServer(port) {
     console.log(`Listen port ${port}...`);
     console.log('Available urls:');
     console.log(url);
-
     const cachePath = join(process.cwd(), '.cache-download');
+    if (!existsSync(cachePath)){
+        mkdirSync(cachePath);
+    }
     getLocales(cachePath).then(() => {
         const localesTimer = setInterval(function() {
             getLocales(cachePath)
