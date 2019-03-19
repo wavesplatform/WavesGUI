@@ -92,6 +92,10 @@
                 /**
                  * @type {boolean}
                  */
+                this.loadingError = false;
+                /**
+                 * @type {boolean}
+                 */
                 this.idDemo = !user.address;
                 /**
                  * @type {number}
@@ -482,7 +486,7 @@
                     amountAsset: this._assetIdPair.amount,
                     priceAsset: this._assetIdPair.price,
                     limit: 1
-                }).then(([tx]) => tx && tx.price || null);
+                }).then(([tx]) => tx && tx.price || null).catch(() => (this.loadingError = false));
             }
 
             /**
@@ -597,13 +601,14 @@
              * @private
              */
             _getData() {
+                this.loadingError = false;
                 return waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
                     .then(({ bids, asks, spread }) => {
                         const [lastAsk] = asks;
                         const [firstBid] = bids;
 
                         return { lastAsk, firstBid, spread };
-                    });
+                    }).catch(() => (this.loadingError = true));
             }
 
             /**
