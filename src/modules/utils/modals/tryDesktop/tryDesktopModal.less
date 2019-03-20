@@ -18,10 +18,6 @@
     text-align: center;
   }
 
-  &__button {
-    flex-basis: 49%;
-  }
-
   &__label {
     display: inline-block;
     vertical-align: top;
@@ -38,12 +34,12 @@
 
 @media screen and (max-width: 480px) {
   .try-desktop-modal {
-    &__buttons-wrapper {
+    .buttons-wrapper {
       flex-direction: column;
     }
 
     &__button {
-      width: 100%;
+      min-width: 100%;
       margin-bottom: 10px;
     }
   }
