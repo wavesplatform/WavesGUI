@@ -658,7 +658,7 @@ w-permit {
     }
   }
   &__label {
-    display: block;
+    display: inline-block;
     color: @color-submit-400;
     background-color: @color-bluebar-200;
     line-height: 1;
@@ -672,6 +672,9 @@ w-permit {
     &-suspicious {
       background-color: @asset-label-suspicious;
       color: @color-basic-900;
+      &_small {
+        transform: scale(0.8);
+      }
     }
   }
 }

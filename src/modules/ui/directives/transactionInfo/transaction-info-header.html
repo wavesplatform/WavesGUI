@@ -5,8 +5,8 @@
     <w-issue-header ng-if="$ctrl.signable.type === 3" signable="$ctrl.signable"></w-issue-header>
     <w-transfer-header ng-if="$ctrl.signable.type === 4" signable="$ctrl.signable"></w-transfer-header>
     <w-reissue-header ng-if="$ctrl.signable.type === 5" signable="$ctrl.signable"></w-reissue-header>
-    <w-burn-header ng-if="$ctrl.signable.type === 6" signable="$ctrl.signable"></w-burn-header>
-    <w-exchange-header ng-if="$ctrl.signable.type === 7" signable="$ctrl.signable"></w-exchange-header>
+    <w-burn-header ng-if="$ctrl.signable.type === 6" signable="$ctrl.signable" is-scam="$ctrl.isScam"></w-burn-header>
+    <w-exchange-header ng-if="$ctrl.signable.type === 7" signable="$ctrl.signable" is-scam-amount="$ctrl.isScamAmount" is-scam-price="$ctrl.isScamPrice"></w-exchange-header>
     <w-lease-header ng-if="$ctrl.signable.type === 8" signable="$ctrl.signable"></w-lease-header>
     <w-cancel-lease-header ng-if="$ctrl.signable.type === 9" signable="$ctrl.signable"></w-cancel-lease-header>
     <!--<w-create-alias-header ng-if="$ctrl.signable.type === 10" signable="$ctrl.signable"></w-create-alias-header>-->
