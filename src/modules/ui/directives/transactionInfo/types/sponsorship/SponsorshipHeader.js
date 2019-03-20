@@ -29,7 +29,8 @@
 
     angular.module('app.ui').component('wSponsorshipHeader', {
         bindings: {
-            signable: '<'
+            signable: '<',
+            isScam: '<'
         },
         controller,
         templateUrl: 'modules/ui/directives/transactionInfo/types/sponsorship/header.html'
