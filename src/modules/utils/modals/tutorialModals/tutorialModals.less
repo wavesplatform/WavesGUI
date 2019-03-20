@@ -16,12 +16,12 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  min-height: 40px;
 }
 
 .cell {
   background-repeat: no-repeat;
   flex-basis: calc(50% ~'- 10px');
+  min-height: 40px;
 }
 .cell-001 {
   background: @modal-anonymus-icon no-repeat;
@@ -179,7 +179,6 @@ body md-dialog.tutorial-modals {
 
     .buttons-wrapper {
       flex-direction: column;
-      align-items: center;
       w-button {
         min-width: 100%;
         &:last-child {
