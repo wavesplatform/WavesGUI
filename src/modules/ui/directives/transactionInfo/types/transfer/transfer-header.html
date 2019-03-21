@@ -1,8 +1,14 @@
 <div class="txinfo__lead">
-    <h3 class="basic-700"
-        w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
-        params="{amount: $ctrl.amount, name: $ctrl.name, sign: '+'}"></h3>
+    <div class="txinfo__header-wrapper">
+        <h3 class="basic-700"
+            w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
+            params="{amount: $ctrl.amount, name: $ctrl.name, sign: '+'}"></h3>
+        <span ng-if="$ctrl.isScam"
+              class="asset__label asset__label-suspicious"
+              w-i18n="transaction.headers.suspicious"></span>
+    </div>
     <div ng-if="$ctrl.needShowMirror" class="body-2 basic-500">
         ≈ {{::$ctrl.mirrorBalance.toFormat()}} {{::$ctrl.mirrorBalance.asset.name}}
     </div>
+
 </div>

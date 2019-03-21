@@ -67,7 +67,8 @@
 
     angular.module('app.ui').component('wTransferHeader', {
         bindings: {
-            signable: '<'
+            signable: '<',
+            isScam: '<'
         },
         controller,
         templateUrl: 'modules/ui/directives/transactionInfo/types/transfer/transfer-header.html'
