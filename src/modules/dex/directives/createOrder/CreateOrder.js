@@ -461,7 +461,7 @@
              * @private
              */
             _onClickBuyOrder(priceStr, amountStr) {
-                this.changedInputName = 'price';
+                this.changedInputName = ['price'];
                 const price = this.priceBalance.cloneWithTokens(priceStr);
                 const minAmount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens().div(priceStr));
                 const amount = Money.min(this.amountBalance.cloneWithTokens(amountStr), minAmount);
@@ -474,7 +474,7 @@
              * @private
              */
             _onClickSellOrder(priceStr, amountStr) {
-                this.changedInputName = 'price';
+                this.changedInputName = ['price'];
                 const price = this.priceBalance.cloneWithTokens(priceStr);
                 const amountMoney = this.amountBalance.cloneWithTokens(amountStr);
                 const amount = Money.min(amountMoney, this._getMaxAmountForSell());
