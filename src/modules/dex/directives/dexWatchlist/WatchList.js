@@ -754,10 +754,12 @@
              * @private
              */
             static _uniqPairs(pairs) {
-                return Object.values(pairs.reduce((acc, pair) => {
-                    acc[pair.join(',')] = pair;
-                    return acc;
-                }, {}));
+                return Object
+                    .values(pairs.reduce((acc, pair) => {
+                        acc[pair.join(',')] = pair;
+                        return acc;
+                    }, {}))
+                    .filter(pair => pair[0] !== pair[1]);
             }
 
             // static _getUserBalanceAssetIdList() {
