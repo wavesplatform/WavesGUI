@@ -34,7 +34,10 @@
              * @type {boolean}
              */
             isSuspicious;
-
+            /**
+             * @type {string}
+             */
+            assetName;
 
             constructor(assetId) {
                 super($scope);

@@ -28,8 +28,7 @@
                     <span ng-if="$ctrl.isSuspicious" class="asset__label asset__label-suspicious"
                           w-i18n="modal.assetInfo.suspicious"></span>
                 </h2>
-
-                <div ng-if="$ctrl.ticker" class="body-2 basic-500 asset__ticker">{{::$ctrl.ticker}}</div>
+                <div ng-if="$ctrl.ticker" class="body-2 basic-500 asset__ticker">{{$ctrl.ticker}}</div>
             </div>
 
             <div class="chart-wrapper">
