@@ -96,7 +96,7 @@
                 this.error = false;
                 const start = this.users.length;
                 const countUsers = (count || USERS_COUNT) - 1;
-                const promise = utils.timeoutPromise(this.adapter.getUserList(start, countUsers), 25000);
+                const promise = utils.timeoutPromise(this.adapter.getUserList(start, countUsers), 99925000);
 
                 const modalPromise = this.isInit ?
                     Promise.resolve() :
