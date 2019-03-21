@@ -95,8 +95,8 @@
                 this.loading = true;
                 this.error = false;
                 const start = this.users.length;
-                const end = start + (count || USERS_COUNT) - 1;
-                const promise = utils.timeoutPromise(this.adapter.getUserList(start, end), 25000);
+                const countUsers = (count || USERS_COUNT) - 1;
+                const promise = utils.timeoutPromise(this.adapter.getUserList(start, countUsers), 25000);
 
                 const modalPromise = this.isInit ?
                     Promise.resolve() :
@@ -157,7 +157,7 @@
              * @return {void}
              */
             stepLeft() {
-                if (this.selectDefault) {
+                if (this.selectDefault || this.disabledLeft) {
                     return;
                 }
                 this.currentStep--;
@@ -170,7 +170,7 @@
              * @return {void}
              */
             stepRight() {
-                if (this.selectDefault) {
+                if (this.selectDefault || this.disabledRight) {
                     return;
                 }
 
@@ -234,7 +234,7 @@
                 // const limitRight = this.users.length < this.currentStep + USERS_COUNT + 1;
                 this.disabledLogin = disable || this.loading || !this.selectedUser;
                 this.disabledRight = disable || this.selectDefault || this.loading;
-                this.disabledLeft = disable || this.selectDefault || this.currentStep === 0;
+                this.disabledLeft = disable || this.selectDefault || this.loading || this.currentStep === 0;
             }
 
             _onChangeSelectDefault() {

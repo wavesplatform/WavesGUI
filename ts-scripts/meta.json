@@ -98,6 +98,13 @@
         "decimal": "."
       }
     },
+    "est": {
+      "name": "Est",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
     "pt-BR": {
       "name": "Pt-Br",
       "separators": {

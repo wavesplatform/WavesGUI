@@ -225,7 +225,8 @@
                     // enabled_features: ENABLED_FEATURES,
                     overrides,
                     studies_overrides,
-                    custom_css_url
+                    custom_css_url,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
                 });
 
                 this._chart.onChartReady(() => {
@@ -243,7 +244,9 @@
                         this._chartReady = true;
                     }
                 });
-
+                this._chart.options.datafeed.onLoadError = () => {
+                    this.notLoaded = true;
+                };
                 return this;
             }
 

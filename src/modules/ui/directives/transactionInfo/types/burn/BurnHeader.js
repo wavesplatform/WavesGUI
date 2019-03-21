@@ -13,6 +13,10 @@
              * @type {Signable}
              */
             signable;
+            /**
+             * @type {boolean}
+             */
+            isScam;
 
 
             $postLink() {
@@ -31,7 +35,8 @@
 
     angular.module('app.ui').component('wBurnHeader', {
         bindings: {
-            signable: '<'
+            signable: '<',
+            isScam: '<'
         },
         controller,
         templateUrl: 'modules/ui/directives/transactionInfo/types/burn/burn-header.html'
