@@ -373,12 +373,10 @@
             _initializeTermsAccepted() {
                 if (!user.getSetting('termsAccepted')) {
                     return modalManager.showTermsAccept(user).then(() => {
-                        if (user.getSetting('shareAnalytics')) {
-                            analytics.activate();
-                        }
+                        analytics.activate();
                     })
                         .catch(() => false);
-                } else if (user.getSetting('shareAnalytics')) {
+                } else {
                     analytics.activate();
                 }
                 return Promise.resolve();
