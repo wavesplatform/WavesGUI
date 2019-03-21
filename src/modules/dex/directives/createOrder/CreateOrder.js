@@ -20,7 +20,7 @@
     const controller = function (Base, waves, user, utils, createPoll, $scope,
                                  $element, notification, dexDataService, ease, $state, modalManager, balanceWatcher) {
 
-        const { without, keys } = require('ramda');
+        const { without, keys, last } = require('ramda');
         const { Money } = require('@waves/data-entities');
         const ds = require('data-service');
 
@@ -109,9 +109,9 @@
                  */
                 this.lastTradePrice = null;
                 /**
-                 * @type {string}
+                 * @type {Array}
                  */
-                this.changedInputName = null;
+                this.changedInputName = [];
                 /**
                  * @type {boolean}
                  */
@@ -319,7 +319,13 @@
              * @param field {string}
              */
             setChangedInput(field) {
-                this.changedInputName = field;
+                if (last(this.changedInputName) === field) {
+                    return null;
+                }
+                if (this.changedInputName.length === 2) {
+                    this.changedInputName.shift();
+                }
+                this.changedInputName.push(field);
             }
 
             /**
@@ -585,8 +591,15 @@
                     if (changingValues.length === 1) {
                         changingValue = changingValues[0];
                     } else {
-                        this.changedInputName = this.changedInputName ? this.changedInputName : 'price';
-                        changingValue = changingValues.find(val => val !== this.changedInputName);
+                        if (this.changedInputName.length === 0) {
+                            this.changedInputName.push('price');
+                        }
+
+                        if (changingValues.some(el => el === last(this.changedInputName))) {
+                            changingValue = changingValues.find(el => el !== last(this.changedInputName));
+                        } else {
+                            changingValue = without(this.changedInputName, changingValues)[0];
+                        }
                     }
 
                     this._calculateField(changingValue);
