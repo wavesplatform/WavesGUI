@@ -10,6 +10,10 @@
   background: @information-icon center no-repeat;
   width: 16px;
   height: 16px;
+
+  &:hover + .tooltip {
+    display: inline-block;
+  }
 }
 
 .flex-cols {
@@ -99,10 +103,6 @@
   }
 }
 
-.icon-information:hover + .tooltip {
-  display: inline-block;
-}
-
 body md-dialog.tutorial-modals {
   .icon-close {
     z-index: 120;
@@ -179,8 +179,8 @@ body md-dialog.tutorial-modals {
 
     .buttons-wrapper {
       flex-direction: column;
+
       w-button {
-        min-width: 100%;
         &:last-child {
           margin-top: 20px;
         }
