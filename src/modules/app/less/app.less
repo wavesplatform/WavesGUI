@@ -581,14 +581,22 @@ w-permit {
   display: block;
 }
 
-.buttons-wrapper() {
+.buttons-wrapper {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  w-button {
+  w-button,
+  .fake-button {
+    display: block;
     flex-basis: 48%;
     max-width: 48%;
+
+    &.long {
+      width: 100%;
+      max-width: 100%;
+    }
   }
 }
 
