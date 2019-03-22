@@ -371,7 +371,13 @@
              * @private
              */
             _initializeTermsAccepted() {
-                if (!user.getSetting('termsAccepted')) {
+                if (true) {
+                    return modalManager.showAcceptNewTerms(user).then(() => {
+                        analytics.activate();
+                    })
+                        .catch(() => false);
+
+                } else if (!user.getSetting('termsAccepted')) {
                     return modalManager.showTermsAccept(user).then(() => {
                         analytics.activate();
                     })

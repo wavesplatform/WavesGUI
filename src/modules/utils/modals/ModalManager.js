@@ -198,6 +198,20 @@
                 })
                     .then(() => user.setSetting('termsAccepted', true));
             }
+            showAcceptNewTerms() {
+                /**
+                 * @type {User}
+                 */
+                const user = $injector.get('user');
+                return this._getModal({
+                    id: 'terms-accept',
+                    templateUrl: 'modules/utils/modals/acceptNewTerms/accept-new-terms.html',
+                    controller: 'AcceptNewTermsCtrl',
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                })
+                    .then(() => user.setSetting('termsAccepted', true));
+            }
 
             showTutorialModals() {
                 return this._getModal({
