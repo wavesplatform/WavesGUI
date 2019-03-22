@@ -94,7 +94,8 @@
         function newTerms(storage) {
             return storage.load('userList').then((users = []) => {
                 users.forEach((user) => {
-                    user.newTerms = true;
+                    const settings = user.settings || Object.create(null);
+                    settings.needReadNewTerms = true;
                 });
                 return storage.save('userList', users);
             });

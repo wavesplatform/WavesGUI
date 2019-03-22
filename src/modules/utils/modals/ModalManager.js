@@ -211,7 +211,7 @@
                     clickOutsideToClose: false,
                     escapeToClose: false
                 })
-                    .then(() => (user.newTerms = false));
+                    .then(() => user.setSetting('needReadNewTerms', false));
             }
 
             showTutorialModals() {

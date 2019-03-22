@@ -371,7 +371,7 @@
              * @private
              */
             _initializeTermsAccepted() {
-                if (user.newTerms) {
+                if (user.getSetting('needReadNewTerms')) {
                     return modalManager.showAcceptNewTerms(user).then(() => {
                         analytics.activate();
                     })
