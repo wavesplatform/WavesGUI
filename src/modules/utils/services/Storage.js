@@ -87,15 +87,14 @@
                 return addNewGateway(storage, WavesApp.defaultAssets.BSV);
             },
             '1.2.0': function (storage) {
-                return resetTermsAccepted(storage);
+                return newTerms(storage);
             }
         };
 
-        function resetTermsAccepted(storage) {
+        function newTerms(storage) {
             return storage.load('userList').then((users = []) => {
                 users.forEach((user) => {
-                    const settings = user.settings || Object.create(null);
-                    settings.termsAccepted = false;
+                    user.newTerms = true;
                 });
                 return storage.save('userList', users);
             });

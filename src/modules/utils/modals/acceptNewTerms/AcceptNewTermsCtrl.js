@@ -3,7 +3,7 @@
 
     const controller = function (Base, $scope, user, $mdDialog) {
 
-        class TermsAcceptCtrl extends Base {
+        class AcceptNewTermsCtrl extends Base {
 
             constructor() {
                 super($scope);
@@ -16,7 +16,7 @@
 
         }
 
-        return new TermsAcceptCtrl();
+        return new AcceptNewTermsCtrl();
     };
 
     controller.$inject = ['Base', '$scope', 'user', '$mdDialog'];

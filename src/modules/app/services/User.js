@@ -108,6 +108,10 @@
              */
             scam = Object.create(null);
             /**
+             * @type {boolean}
+             */
+            newTerms = false;
+            /**
              * @type {DefaultSettings}
              * @private
              */
