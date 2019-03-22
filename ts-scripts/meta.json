@@ -105,8 +105,8 @@
         "decimal": "."
       }
     },
-    "pt": {
-      "name": "Pt",
+    "pt-BR": {
+      "name": "Pt-Br",
       "separators": {
         "group": ",",
         "decimal": "."

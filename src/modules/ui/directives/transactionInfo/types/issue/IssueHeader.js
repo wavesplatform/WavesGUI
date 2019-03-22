@@ -33,7 +33,8 @@
 
     angular.module('app.ui').component('wIssueHeader', {
         bindings: {
-            signable: '<'
+            signable: '<',
+            isScam: '<'
         },
         controller,
         templateUrl: 'modules/ui/directives/transactionInfo/types/issue/issue-header.html'

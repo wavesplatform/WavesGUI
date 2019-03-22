@@ -44,7 +44,7 @@
 
                 this.isSetScript = this.type === SIGN_TYPE.SET_SCRIPT && tx.script;
                 this.isTockenIssue = this.type === SIGN_TYPE.ISSUE;
-
+                console.log('%c signable', 'background: #222; color: #bada55', this.signable.getTxData());
                 this.signable.hasMySignature().then(state => {
                     this.step = state ? 1 : 0;
                     $scope.$apply();
