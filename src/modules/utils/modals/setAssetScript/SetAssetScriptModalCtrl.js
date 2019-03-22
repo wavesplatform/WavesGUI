@@ -42,8 +42,8 @@
             constructor(assetId) {
                 super($scope);
                 waves.node.assets.getAsset(assetId).then(asset => {
-                    this.assetName = asset[0].displayName;
-                    this.ticker = asset[0].ticker;
+                    this.assetName = asset.displayName;
+                    this.ticker = asset.ticker;
                     $scope.$apply();
                 });
                 const data = ds.dataManager.getOracleAssetData(assetId);
