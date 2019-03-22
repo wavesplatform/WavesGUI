@@ -574,7 +574,8 @@
                 const chosen = [this._assetIdPair.amount, this._assetIdPair.price].sort();
                 const searchIdList = Object.keys(this._searchAssetsHash);
                 // const userBalances = this._lastUserBalanceIdList;
-                const idList = defaultAssets.concat(searchIdList);
+                const assetsIds = Object.values(WavesApp.defaultAssets);
+                const idList = uniq(assetsIds.concat(searchIdList, defaultAssets));
                 const other = WatchList._getAllCombinations(idList);
                 return WatchList._uniqPairs(favorite.concat(other, [chosen]));
             }
@@ -758,8 +759,7 @@
                     .values(pairs.reduce((acc, pair) => {
                         acc[pair.join(',')] = pair;
                         return acc;
-                    }, {}))
-                    .filter(pair => pair[0] !== pair[1]);
+                    }, {}));
             }
 
             // static _getUserBalanceAssetIdList() {
