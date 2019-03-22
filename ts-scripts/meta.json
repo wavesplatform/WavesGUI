@@ -98,8 +98,15 @@
         "decimal": "."
       }
     },
-    "pt": {
-      "name": "Pt",
+    "est": {
+      "name": "Est",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
+    "pt-BR": {
+      "name": "Pt-Br",
       "separators": {
         "group": ",",
         "decimal": "."
