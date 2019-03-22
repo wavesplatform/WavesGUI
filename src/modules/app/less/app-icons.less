@@ -1,13 +1,20 @@
 @import (reference) 'icons';
 
 .icon-close {
-  width: 16px;
-  height: 16px;
-  background-image: @close-icon;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  width: 40px;
+  height: 40px;
+  background: url(/img/icons/close.svg) center no-repeat;
+  background-size: 16px;
   display: inline-block;
   cursor: pointer;
+  right: 30px;
+  position: absolute;
+  top: 10px;
+  z-index: 13;
+  @media screen and (max-width: 540px) {
+    right: 8px;
+    top: 8px;
+  }
 }
 
 .visa-icon {
