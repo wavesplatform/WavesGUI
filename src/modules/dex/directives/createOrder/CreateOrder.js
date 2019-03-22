@@ -199,6 +199,7 @@
                 this.observe('_assetIdPair', () => {
                     this.amount = null;
                     this.price = null;
+                    this.total = null;
                     this.bid = null;
                     this.ask = null;
                     this._updateBalances();
@@ -213,6 +214,7 @@
                         if (this.type) {
                             this.amount = this.amountBalance.cloneWithTokens('0');
                             this.price = this._getCurrentPrice();
+                            this.total = this.priceBalance.cloneWithTokens('0');
                             $scope.$apply();
                         }
                     }));
