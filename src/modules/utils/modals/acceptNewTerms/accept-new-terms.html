@@ -1,0 +1,25 @@
+<md-dialog w-i18n-ns="app.utils" class="terms-accept" aria-label="modal">
+    <w-step-by-step active-step="0">
+        <w-step>
+            <md-dialog-content>
+                <div>
+                    <i class="icon-document margin-3 margin-top-6 margin-auto"></i>
+                    <h3 class="center margin-2 basic-700" w-i18n="modal.acceptNewTerms.title"></h3>
+
+                    <div class="basic-500 body-2 unit-checkbox margin-3">
+                        <w-checkbox-submit id="readTermsAndConditions"
+                                           ng-model="$ctrl.readTermsAndConditions"></w-checkbox-submit>
+                        <label for="readTermsAndConditions"
+                               w-i18n="modal.termsAccept.body.readTermsAndConditions"></label>
+                    </div>
+
+                    <w-button class="submit long big"
+                              on-click="$ctrl.confirm()"
+                              disabled="!$ctrl.readTermsAndConditions">
+                        <span w-i18n="modal.termsAccept.body.ok"></span>
+                    </w-button>
+                </div>
+            </md-dialog-content>
+        </w-step>
+    </w-step-by-step>
+</md-dialog>
