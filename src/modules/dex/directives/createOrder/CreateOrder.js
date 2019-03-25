@@ -112,6 +112,11 @@
                  */
                 this.focusedInputName = null;
                 /**
+                 * @type {Array}
+                 * @public
+                 */
+                this.scriptAssets = [];
+                /**
                  *
                  * @type {boolean}
                  */
@@ -203,6 +208,7 @@
                     if (lastTraderPoll) {
                         lastTraderPoll.restart();
                     }
+                    this.hasScript();
                     this.observeOnce(['bid', 'ask'], utils.debounce(() => {
                         if (this.type) {
                             this.amount = this.amountBalance.cloneWithTokens('0');
@@ -223,6 +229,7 @@
                     e.stopPropagation();
                 });
 
+                this.hasScript();
                 currentFee();
             }
 
@@ -290,6 +297,16 @@
                 this._setDirtyPrice(this.lastTradePrice);
             }
 
+            hasScript() {
+                // this._assetIdPair.filter(assetId => waves.node.assets(assetId).hasScript());
+                const { amount: amountId, price: priceId } = this._assetIdPair;
+                Promise.all(
+                    [amountId, priceId].map(assetId => waves.node.assets.getAsset(assetId)))
+                    .then(assets => {
+                        this.scriptAssets = assets.filter(asset => asset.hasScript);
+                    });
+            }
+
             /**
              * @return {*}
              */
@@ -319,7 +336,6 @@
                         this._checkOrder(data)
                             .then(() => this._sendOrder(data))
                             .then(data => {
-
                                 if (!data) {
                                     return null;
                                 }
@@ -329,7 +345,7 @@
                                 const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                                 analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Success`, pair);
                                 dexDataService.createOrder.dispatch();
-                                $scope.$apply();
+                                // $scope.$apply();
                                 CreateOrder._animateNotification(notify);
                             })
                             .catch(() => {
@@ -337,7 +353,7 @@
                                 notify.addClass('error');
                                 const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                                 analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Error`, pair);
-                                $scope.$apply();
+                                // $scope.$apply();
                                 CreateOrder._animateNotification(notify);
                             });
                     });
@@ -367,6 +383,10 @@
                 const limit = 1 + factor * (Number(user.getSetting('orderLimit')) || 0);
                 const price = (new BigNumber(isBuy ? this.ask.price : this.bid.price)).times(limit);
                 const orderPrice = orderData.price.getTokens();
+
+                if (!user.getSetting('tradeWithScriptAssets') && this.scriptAssets.length > 0) {
+                    return modalManager.showDexScriptedPair(this.scriptAssets);
+                }
 
                 if (price.isNaN() || price.eq(0)) {
                     return Promise.resolve();
@@ -419,15 +439,6 @@
                         form.$setUntouched();
                         form.$setPristine();
                     });
-            }
-
-            /**
-             * param {string} assetId1
-             * param {string} assetId2
-             * @private
-             */
-            _dexScriptedPair() {
-                return modalManager.showDexScriptedPair();
             }
 
             /**

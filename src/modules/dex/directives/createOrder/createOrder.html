@@ -199,10 +199,6 @@
                     </div>
 
                     <w-permit name="CAN_CREATE_ORDER" mode="on">
-
-                        <!-- TODO @max - Вызвать $ctrl._dexScriptedPair() по клику на кнопку если какой-то ассет заскриптован -->
-                        <a href="#" ng-click="$ctrl._dexScriptedPair()">dex scripted pair modal</a>
-
                         <w-button disabled="$ctrl.order.$invalid || $ctrl.order.$pristine"
                                   class="place-order small footnote-3"
                                   on-click="$ctrl.createOrder($event, order)">

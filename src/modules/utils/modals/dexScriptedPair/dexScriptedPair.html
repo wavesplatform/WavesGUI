@@ -4,35 +4,26 @@
         <div class="modal-content">
 
             <div class="pair-wrapper text-center margin-3 margin-top-6">
-                <w-asset-logo asset-id="{{::$ctrl.assetId2}}" size="65"></w-asset-logo>
-                <w-asset-logo asset-id="{{::$ctrl.assetId2}}" size="65"></w-asset-logo> <!-- if 2 assets is scripted -->
+                <w-asset-logo
+                        ng-repeat="asset in $ctrl.assets track by asset.id"
+                        asset-id="{{::asset.id}}" size="65"></w-asset-logo>
             </div>
-
-            <h3 class="margin-1 text-center basic-700">Order placement for a pair that includes a Smart Asset</h3> <!-- w-i18n="modal.dexScriptedPair.heading" -->
-
-            <div class="margin-1 body-2 basic-500">Smart assets are assets that include a script that sets the conditions for the circulation of the token.</div>
-            <div class="margin-2 body-2 basic-500">We do not recommend you perform operations with smart assets if you are an inexperienced user. Before making a transaction, please read the information about the asset and its script carefully.</div>
-
+            <h3 class="margin-1 text-center basic-700" w-i18n="modal.dexScriptedPair.heading"></h3>
+            <div class="margin-1 body-2 basic-500"  w-i18n="modal.dexScriptedPair.body"></div>
             <div class="buttons-wrapper margin-4">
-                <w-button w-modal-close class="big long"> <!-- Cancel order -->
+                <w-button w-modal-close class="big long">
                     <span>Cancel</span>
                 </w-button>
-                <w-button w-modal-hide class="big long submit"> <!-- Ok, lets create this scary order! -->
+                <w-button on-click="$ctrl.confirm()" class="big long submit">
                     <span>Continue</span>
                 </w-button>
             </div>
 
             <div class="margin-2 body-2 basic-500 flex">
-                <w-checkbox-submit ng-model="$ctrl.rememberChoice" id="remember-my-choice"></w-checkbox-submit>
+                <w-checkbox-submit ng-model="$ctrl.tradeWithScriptAssets" id="remember-my-choice"></w-checkbox-submit>
                 <label for="remember-my-choice">Remember my choice and do not remind me again</label>
             </div>
 
         </div>
     </md-dialog-content>
 </md-dialog>
-
-<!-- todo @uisk
-    1) locize
-    2) написать максу добавленный литералы
-    3) показать максуАкс
--->

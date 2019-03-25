@@ -2,27 +2,26 @@
     'use strict';
 
 
-    const controller = function (Base, $scope) {
+    const controller = function (Base, user, $mdDialog) {
 
-        class DexScriptedPair extends Base {
+        class DexScriptedPair {
 
-            constructor() {
-                super($scope);
+            constructor({ assets }) {
+                this.assets = assets;
+                this.tradeWithScriptAssets = false;
+            }
 
-                /**
-                 * @type {boolean}
-                 */
-                this.assetId1 = null;
-                this.assetId2 = null;
-
+            confirm() {
+                user.setSetting('tradeWithScriptAssets', this.tradeWithScriptAssets);
+                $mdDialog.hide();
             }
 
         }
 
-        return new DexScriptedPair();
+        return new DexScriptedPair(this.locals);
     };
 
-    controller.$inject = ['Base', '$scope'];
+    controller.$inject = ['Base', 'user', '$mdDialog'];
 
     angular.module('app.utils').controller('DexScriptedPairCtrl', controller);
 })();

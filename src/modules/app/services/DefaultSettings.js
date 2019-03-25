@@ -39,6 +39,7 @@
                     savePassword: true,
                     hasBackup: true,
                     termsAccepted: true,
+                    tradeWithScriptAssets: false,
                     baseAssetId: WavesApp.defaultAssets.USD,
                     assetsOracle: WavesApp.oracle,
                     events: Object.create(null),
