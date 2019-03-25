@@ -373,6 +373,10 @@
             }
 
 
+            /**
+             * @return {Promise}
+             * @private
+             */
             _checkScriptAssets() {
                 if (!user.getSetting('tradeWithScriptAssets') && this.scriptAssets.length > 0) {
                     return modalManager.showDexScriptedPair(this.scriptAssets);
