@@ -208,7 +208,7 @@
                     if (lastTraderPoll) {
                         lastTraderPoll.restart();
                     }
-                    this.hasScript();
+                    this._getListOfScriptAssets();
                     this.observeOnce(['bid', 'ask'], utils.debounce(() => {
                         if (this.type) {
                             this.amount = this.amountBalance.cloneWithTokens('0');
@@ -229,7 +229,6 @@
                     e.stopPropagation();
                 });
 
-                this.hasScript();
                 currentFee();
             }
 
@@ -297,13 +296,15 @@
                 this._setDirtyPrice(this.lastTradePrice);
             }
 
-            hasScript() {
-                const { amount: amountId, price: priceId } = this._assetIdPair;
-                Promise.all(
-                    [amountId, priceId].map(assetId => waves.node.assets.getAsset(assetId)))
-                    .then(assets => {
-                        this.scriptAssets = assets.filter(asset => asset.hasScript);
-                    });
+            /**
+             * _getListOfScriptAssets
+             * @private
+             */
+            _getListOfScriptAssets() {
+                this.scriptAssets = [
+                    this.amountBalance.asset,
+                    this.priceBalance.asset
+                ].filter(asset => asset.hasScript);
             }
 
             /**
@@ -332,7 +333,8 @@
                             matcherPublicKey
                         };
 
-                        this._checkOrder(data)
+                        this._checkScriptAssets()
+                            .then(() => this._checkOrder(data))
                             .then(() => this._sendOrder(data))
                             .then(data => {
                                 if (!data) {
@@ -370,6 +372,15 @@
                 return utils.createOrder(clone);
             }
 
+
+            _checkScriptAssets() {
+                if (!user.getSetting('tradeWithScriptAssets') && this.scriptAssets.length > 0) {
+                    return modalManager.showDexScriptedPair(this.scriptAssets);
+                } else {
+                    return Promise.resolve();
+                }
+            }
+
             /**
              * @param orderData
              * @private
@@ -380,10 +391,6 @@
                 const limit = 1 + factor * (Number(user.getSetting('orderLimit')) || 0);
                 const price = (new BigNumber(isBuy ? this.ask.price : this.bid.price)).times(limit);
                 const orderPrice = orderData.price.getTokens();
-
-                if (!user.getSetting('tradeWithScriptAssets') && this.scriptAssets.length > 0) {
-                    return modalManager.showDexScriptedPair(this.scriptAssets);
-                }
 
                 if (price.isNaN() || price.eq(0)) {
                     return Promise.resolve();
@@ -518,6 +525,7 @@
                     this.maxAmountBalance = null;
                     this.maxPriceBalance = this.priceBalance.safeSub(this.fee).toNonNegative();
                 }
+                this._getListOfScriptAssets();
             }
 
             /**

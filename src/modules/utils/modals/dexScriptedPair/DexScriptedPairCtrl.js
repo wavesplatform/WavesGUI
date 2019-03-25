@@ -1,12 +1,18 @@
 (function () {
     'use strict';
 
-
+    /**
+     * @param Base
+     * @param user
+     * @param {$mdDialog} $mdDialog
+     * @return {DexScriptedPair}
+     */
     const controller = function (Base, user, $mdDialog) {
 
-        class DexScriptedPair {
+        class DexScriptedPair extends Base {
 
             constructor({ assets }) {
+                super();
                 this.assets = assets;
                 this.tradeWithScriptAssets = false;
             }
