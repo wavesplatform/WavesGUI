@@ -43,10 +43,7 @@
              * @private
              */
             _reject;
-            /**
-             * @type {number}
-             */
-            dispatchCount = 0;
+
 
             constructor() {
                 this.ready = new Promise((resolve, reject) => {
@@ -164,8 +161,7 @@
                 const isNeedDispatch = list.length &&
                     list.some((item, i) => itemNotEqual(item, this._balance[i]));
 
-                if (isNeedDispatch || !(++this.dispatchCount % 5)) {
-                    this.dispatchCount = 0;
+                if (isNeedDispatch) {
                     dispatch();
                 }
             }
