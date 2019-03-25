@@ -513,7 +513,7 @@
                             }
                         });
 
-                        analytics.init('https://iframe-test.wvservices.com/event-sender/analytics-sandbox.html', {
+                        analytics.init('https://iframe-test.wvservices.com/index.html', {
                             platform: WavesApp.type,
                             userType: data.userType
                         });
