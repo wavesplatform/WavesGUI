@@ -298,7 +298,6 @@
             }
 
             hasScript() {
-                // this._assetIdPair.filter(assetId => waves.node.assets(assetId).hasScript());
                 const { amount: amountId, price: priceId } = this._assetIdPair;
                 Promise.all(
                     [amountId, priceId].map(assetId => waves.node.assets.getAsset(assetId)))
@@ -345,7 +344,6 @@
                                 const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                                 analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Success`, pair);
                                 dexDataService.createOrder.dispatch();
-                                // $scope.$apply();
                                 CreateOrder._animateNotification(notify);
                             })
                             .catch(() => {
@@ -353,7 +351,6 @@
                                 notify.addClass('error');
                                 const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                                 analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Error`, pair);
-                                // $scope.$apply();
                                 CreateOrder._animateNotification(notify);
                             });
                     });
