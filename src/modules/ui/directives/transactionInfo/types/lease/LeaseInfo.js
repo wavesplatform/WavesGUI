@@ -40,7 +40,7 @@
             $postLink() {
                 this.transaction = this.signable.getTxData();
 
-                this.isActive = true;
+                this.isActive = this.transaction.status === 'active';
                 const typeName = utils.getTransactionTypeName(this.transaction);
 
                 switch (typeName) {
