@@ -352,23 +352,6 @@
                 });
             }
 
-            /**
-             * @param {User} user
-             * @return {Promise}
-             */
-            showAddressQrCode(user) {
-                return user.onLogin().then(() => {
-                    return this._getModal({
-                        id: 'user-address-qr-code',
-                        locals: { address: user.address },
-                        title: 'modal.qr.title',
-                        contentUrl: 'modules/utils/modals/addressQrCode/address-qr-code.modal.html',
-                        controller: 'AddressQrCode',
-                        mod: 'modal-address-qr-code'
-                    });
-                });
-            }
-
             showTransactionInfo(transactionId) {
                 return this._getModal({
                     id: 'transaction-info',
