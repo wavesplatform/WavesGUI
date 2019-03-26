@@ -132,6 +132,8 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                         }),
                         copy(tmpCssPath, join(targetPath, 'css')),
                         copy('LICENSE', join(`${targetPath}`, 'LICENSE')),
+                        copy('googleAnalytics.js', join(`${targetPath}`, 'googleAnalytics.js')),
+                        copy('amplitude.js', join(`${targetPath}`, 'amplitude.js')),
                     ].concat(forCopy)).then(() => {
                         done();
                     }, (e) => {
@@ -441,7 +443,6 @@ task('electron-debug', function (done) {
 
     const copyNodeModules = () => Promise.all(meta.copyNodeModules.map(name => copy(name, join(root, name))));
     const copyI18next = () => copy(join(__dirname, 'node_modules', 'i18next', 'dist'), join(root, 'i18next'));
-
     readdir(srcDir)
         .then(excludeTypeScrip)
         .then(list => Promise.all(list.map(copyItem)))

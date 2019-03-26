@@ -12,6 +12,7 @@
      */
     const controller = function (Base, $timeout, $element, $scope) {
 
+        const analytics = require('@waves/event-sender');
         class Actions extends Base {
 
             constructor() {
@@ -45,6 +46,9 @@
 
                 this.observe('expanded', () => {
                     if (this.expanded) {
+                        if (this.analyticsName) {
+                            analytics.send({ name: this.analyticsName, target: 'ui' });
+                        }
                         $(document).on('mousedown', this._handler);
                     } else {
                         $(document).off('mousedown', this._handler);
@@ -124,7 +128,9 @@
     controller.$inject = ['Base', '$timeout', '$element', '$scope'];
 
     angular.module('app.ui').component('wActions', {
-        bindings: {},
+        bindings: {
+            analyticsName: '<'
+        },
         templateUrl: 'modules/ui/directives/actions/actions.html',
         transclude: true,
         controller

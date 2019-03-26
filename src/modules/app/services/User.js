@@ -344,7 +344,20 @@
                         candle: 'blue'
                     }
                 }).then(() => {
-                    analytics.send({ name: 'Create Success', params: { restore, hasBackup } });
+                    if (restore) {
+                        analytics.send({
+                            name: 'Import Backup Success',
+                            params: { userType: data.userType }
+                        });
+                    } else {
+                        analytics.send({
+                            name: 'Create Success',
+                            params: {
+                                hasBackup,
+                                userType: data.userType
+                            }
+                        });
+                    }
                 });
             }
 
@@ -513,9 +526,10 @@
                             }
                         });
 
-                        analytics.init('https://iframe-test.wvservices.com/index.html', {
+                        analytics.init(WavesApp.analyticsIframe, {
                             platform: WavesApp.type,
-                            userType: data.userType
+                            userType: data.userType,
+                            networkByte: ds.config.get('code')
                         });
 
                         this.lastLogin = Date.now();

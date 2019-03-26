@@ -205,7 +205,7 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
     ]);
 
     const { themes } = themesConf;
-    const { domain } = meta;
+    const { domain, analyticsIframe } = meta as any;
     const { connection, type, buildType, outerScripts = [] } = param;
     const config = meta.configurations[connection];
 
@@ -225,6 +225,7 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
         pack,
         isWeb,
         origin,
+        analyticsIframe,
         oracle,
         domain,
         styles,
@@ -352,7 +353,7 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
 
                 // Signed 64-bit integer.
                 WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
-
+                WavesApp.analyticsIframe = config.analyticsIframe;
                 WavesApp.device = new MobileDetect(navigator.userAgent);
 
                 (function () {
