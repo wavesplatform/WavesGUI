@@ -33,7 +33,6 @@ w-transaction .transaction {
 
     &::before {
       content: '';
-      display: block;
       position: absolute;
       width: @tx-icon-size;
       height: @tx-icon-size;
@@ -41,6 +40,7 @@ w-transaction .transaction {
       left: 9px;
       top: 9px;
       background-position-y: 0;
+      display: none;
       background: url(/img/icons/transaction-icons-30.svg);
       background-repeat: no-repeat;
     }
@@ -139,10 +139,6 @@ w-transaction .transaction {
     &.mass-receive {
       .icon-tx-mass-spam();
     }
-  }
-
-  &.spam {
-
   }
 
   .transaction-info {
