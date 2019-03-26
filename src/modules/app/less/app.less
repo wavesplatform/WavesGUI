@@ -73,7 +73,7 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  border: 1px solid green;
+  border: @color-success-500;
   -webkit-text-fill-color: @color-disabled-900;
   -webkit-box-shadow: 0 0 0px 1000px #000 inset;
   transition: background-color 5000s ease-in-out 0s;
@@ -407,6 +407,12 @@ w-sign-button,
     position: relative;
   }
 
+  .asset__logo .marker {
+    width: 24px;
+    height: 24px;
+    background-size: 12px;
+  }
+
   &__head-content {
     display: flex;
 
@@ -537,12 +543,6 @@ md-toolbar:not(.md-menu-toolbar) {
   }
 }
 
-.asset-modal__head .asset__logo .marker {
-  width: 24px;
-  height: 24px;
-  background-size: 12px;
-}
-
 .btn-wrap.btn-group {
   box-sizing: border-box;
   padding: 0;
@@ -653,14 +653,22 @@ w-permit {
   display: block;
 }
 
-.buttons-wrapper() {
+.buttons-wrapper {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  w-button {
+  w-button,
+  .fake-button {
+    display: block;
     flex-basis: 48%;
     max-width: 48%;
+
+    &.long {
+      width: 100%;
+      max-width: 100%;
+    }
   }
 }
 

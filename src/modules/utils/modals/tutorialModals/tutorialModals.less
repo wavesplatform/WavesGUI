@@ -10,16 +10,26 @@
   background: @information-icon center no-repeat;
   width: 16px;
   height: 16px;
+
+  &:hover + .tooltip {
+    display: inline-block;
+  }
+}
+
+.flex-cols {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .cell {
   background-repeat: no-repeat;
+  flex-basis: calc(50% ~'- 10px');
+  min-height: 40px;
 }
-
 .cell-001 {
- background: @modal-anonymus-icon no-repeat;
+  background: @modal-anonymus-icon no-repeat;
 }
-
 .cell-002 {
   background: @modal-password-icon no-repeat;
 }
@@ -29,7 +39,6 @@
 .cell-004 {
   background: @modal-paper-icon no-repeat;
 }
-
 .cell-005 {
   background: @modal-url-icon no-repeat;
 }
@@ -94,24 +103,7 @@
   }
 }
 
-.icon-information:hover + .tooltip {
-  display: inline-block;
-}
-
 body md-dialog.tutorial-modals {
-
-  .icon-close {
-    z-index: 120;
-    display: block;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    width: 36px;
-    height: 36px;
-    background-size: 16px 16px;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
 
   .mobile-only {
     display: none;
@@ -126,22 +118,13 @@ body md-dialog.tutorial-modals {
     color: @color-black;
   }
 
-  .flex-cols {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
   .cell {
     padding-left: 60px;
     position: relative;
   }
 
-  img {
-    max-width: 100%;
-    height: auto;
-    position: absolute;
-    left: 0;
-    top: 5px;
+  img.computer {
+    margin-right: 40px;
   }
 }
 
@@ -164,20 +147,6 @@ body md-dialog.tutorial-modals {
       min-height: 550px;
     }
   }
-
-  .flex-cols {
-    & > div {
-      flex-basis: calc(50% ~'- 20px');
-
-      &:nth-child(odd) {
-        margin-right: 20px;
-      }
-      &:nth-child(even) {
-        margin-left: 20px;
-      }
-    }
-  }
-
 }
 
 @media screen and (max-width: 800px) {
@@ -189,6 +158,20 @@ body md-dialog.tutorial-modals {
 
       &::after {
         height: 30px;
+      }
+    }
+
+    .flex-cols {
+      flex-direction: column;
+    }
+
+    .buttons-wrapper {
+      flex-direction: column;
+
+      w-button {
+        &:last-child {
+          margin-top: 20px;
+        }
       }
     }
 
@@ -205,37 +188,21 @@ body md-dialog.tutorial-modals {
     }
 
     img.computer {
-      position: relative;
-      margin: 0 auto 20px auto;
+      margin: 20px auto;
       display: block;
     }
 
-    .flex-cols {
+    .flex {
       flex-direction: column;
-      & > div {
-        flex-basis: 100%;
-      }
     }
-
-    .buttons-wrapper {
-      & > div:last-child {
-        w-button {
-          margin-top: 20px;
-        }
-      }
-    }
-
   }
-
 }
 
 @media screen and (max-width: 480px) {
-
   body md-dialog.tutorial-modals {
-
     img.computer {
       transform: scale(.75);
-      margin: -30px auto -10px auto;
+      margin: 0 auto 20px auto;
     }
   }
 
@@ -261,5 +228,4 @@ body md-dialog.tutorial-modals {
       display: none;
     }
   }
-
 }

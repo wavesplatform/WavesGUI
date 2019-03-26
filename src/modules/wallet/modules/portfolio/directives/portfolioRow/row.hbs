@@ -19,6 +19,9 @@
             {{#if isGateway}}
                 <span class="status-label-min active" w-i18n-literal="gateway"></span>
             {{/if}}
+            {{#if isSpam}}
+                <span class="asset__label asset__label-suspicious" w-i18n-literal="suspicious"></span>
+            {{/if}}
         </div>
     </div>
 </div>
