@@ -18,7 +18,7 @@
 
         const { flatten } = require('ramda');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
-
+        const analytics = require('@waves/event-sender');
 
         class ConfirmTransaction extends ConfirmTxService {
 
@@ -53,6 +53,7 @@
 
             sendTransaction() {
                 return super.sendTransaction().then(data => {
+                    analytics.send(this._getConfirmAnalytics(data, true));
                     this.onTransactionSend();
                     return data;
                 });
@@ -72,6 +73,18 @@
             nextStep() {
                 this.step++;
                 this.initExportLink();
+            }
+
+            /**
+             * @param data
+             * @param success
+             * @private
+             * @return {{name: string, params: {type: *}, target: string}}
+             */
+            _getConfirmAnalytics(data, success) {
+                const NAME = this.getEventName(data);
+                const name = success ? `${NAME} Popup Send Click` : `${NAME} Popup Go Back Click`;
+                return { name, params: { type: data.type }, target: 'ui' };
             }
 
             /**
@@ -155,6 +168,14 @@
                 }
 
                 return errors;
+            }
+
+            /**
+             * @public
+             */
+            back() {
+                analytics.send(this._getConfirmAnalytics(this.signable.getTxData(), false));
+                this.onClickBack();
             }
 
 
