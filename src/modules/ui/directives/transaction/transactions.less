@@ -47,8 +47,11 @@ w-transaction .transaction {
       width: @tx-icon-size;
       height: @tx-icon-size;
       overflow: hidden;
-      left: 10px;
+      left: 9px;
       top: 9px;
+      background-position-y: 0;
+      background: url(/img/icons/transaction-icons-30.svg);
+      background-repeat: no-repeat;
     }
 
     &.send {
@@ -135,10 +138,6 @@ w-transaction .transaction {
     &.set-asset-script {
       .icon-tx-set-asset-script();
     }
-
-    //&.sponsorship-minus {
-    //  .icon-tx-sponsorship-minus();
-    //}
   }
 
   &.spam .icon {
@@ -149,6 +148,10 @@ w-transaction .transaction {
     &.mass-receive {
       .icon-tx-mass-spam();
     }
+  }
+
+  &.spam {
+
   }
 
   .transaction-info {
@@ -168,6 +171,7 @@ w-transaction .transaction {
       .line {
         height: 50%;
         flex-basis: 50%;
+        color: @color-basic-700;
 
         &:last-child {
           padding-right: @padding-main-layout * 4.4;
@@ -175,9 +179,7 @@ w-transaction .transaction {
         }
 
         .top {
-          color: @color-basic-700;
           word-break: break-all;
-
           .spam-label {
             display: none;
           }
@@ -199,27 +201,44 @@ w-transaction .transaction {
   }
 
   &.spam {
+    .icon {
+      &.send,
+      &.receive,
+      &.circular,
+      &.exchange-buy,
+      &.exchange-sell,
+      &.reissue,
+      &.sponsorship-start,
+      &.sponsorship-stop,
+      &.sponsorship-fee,
+      &.mass-send,
+      &.set-asset-script {
+        background-color: @color-disabled-50;
+        &::before {
+          background-position-y: bottom;
+        }
+      }
+    }
+
     .transaction-info {
       .line-wrapper {
         .line {
-          .top {
-            color: @color-basic-500;
-            word-break: break-all;
+          color: @color-basic-500;
 
-            .spam-label {
-              .status();
-              display: inline-block;
-              background-color: @color-disabled-200;
-              color: @color-basic-900;
-              position: relative;
-              top: auto;
-              bottom: 3px;
-              margin-top: 0;
-              right: auto;
-            }
-          }
           .bottom {
             color: @color-accent-100;
+          }
+
+          .spam-label {
+            .status();
+            display: inline-block;
+            background-color: @color-disabled-200;
+            color: @color-basic-900;
+            position: relative;
+            top: auto;
+            bottom: 3px;
+            margin-top: 0;
+            right: auto;
           }
         }
       }
