@@ -1,22 +1,18 @@
 .dex-scripted-pair {
 
-  .icon-close {
-    position: absolute;
-    top: 30px;
-    right: 30px;
+  .pair-wrapper {
+    width: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
   }
 
-  .pair-wrapper {
-    display: inline-block;
-    width: 100%;
-
-    w-asset-logo {
+  w-asset-logo {
       display: inline-block;
       & + w-asset-logo {
         margin-left: 24px;
       }
     }
-  }
 
   &__text {
     div {

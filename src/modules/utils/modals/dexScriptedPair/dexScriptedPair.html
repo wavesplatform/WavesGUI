@@ -6,20 +6,22 @@
             <div class="pair-wrapper text-center margin-3 margin-top-6">
                 <w-asset-logo
                         ng-repeat="asset in $ctrl.assets track by asset.id"
-                        asset-id="{{::asset.id}}" size="65"></w-asset-logo>
+                        asset-id="{{::asset.id}}"
+                        size="65" class="big"></w-asset-logo>
             </div>
             <h3 class="margin-1 text-center basic-700" w-i18n="modal.dexScriptedPair.heading"></h3>
-            <div class="margin-1 body-2 basic-500 dex-scripted-pair__text"  w-i18n="modal.dexScriptedPair.body"></div>
-            <div class="buttons-wrapper margin-4">
+            <div class="margin-3 body-2 basic-500 dex-scripted-pair__text"  w-i18n="modal.dexScriptedPair.body"></div>
+
+            <div class="buttons-wrapper margin-3">
                 <w-button w-modal-close class="big long">
-                    <span>Cancel</span>
+                    <span w-i18n="modal.confirmOrder.cancel">Cancel</span>
                 </w-button>
                 <w-button on-click="$ctrl.confirm()" class="big long submit">
-                    <span>Continue</span>
+                    <span w-i18n="modal.confirmOrder.continue">Continue</span>
                 </w-button>
             </div>
 
-            <div class="margin-2 body-2 basic-500 flex">
+            <div class="body-2 basic-500 flex">
                 <w-checkbox-submit ng-model="$ctrl.tradeWithScriptAssets" id="remember-my-choice"></w-checkbox-submit>
                 <label for="remember-my-choice" w-i18n="modal.tryDesktop.label"></label>
             </div>
