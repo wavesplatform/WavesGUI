@@ -121,11 +121,6 @@
                  */
                 this._silenceNow = false;
                 /**
-                 * @type {Array}
-                 * @public
-                 */
-                this.scriptAssets = [];
-                /**
                  *
                  * @type {boolean}
                  */
@@ -218,7 +213,6 @@
                     if (lastTraderPoll) {
                         lastTraderPoll.restart();
                     }
-                    this._getListOfScriptAssets();
                     this.observeOnce(['bid', 'ask'], utils.debounce(() => {
                         if (this.type) {
                             this.amount = this.amountBalance.cloneWithTokens('0');
@@ -340,17 +334,6 @@
             }
 
             /**
-             * _getListOfScriptAssets
-             * @private
-             */
-            _getListOfScriptAssets() {
-                this.scriptAssets = [
-                    this.amountBalance.asset,
-                    this.priceBalance.asset
-                ].filter(asset => asset.hasScript);
-            }
-
-            /**
              * @return {*}
              */
             createOrder($event) {
@@ -421,8 +404,17 @@
              * @private
              */
             _checkScriptAssets() {
-                if (!user.getSetting('tradeWithScriptAssets') && this.scriptAssets.length > 0) {
-                    return modalManager.showDexScriptedPair(this.scriptAssets);
+                if (user.getSetting('tradeWithScriptAssets')) {
+                    return Promise.resolve();
+                }
+
+                const scriptAssets = [
+                    this.amountBalance.asset,
+                    this.priceBalance.asset
+                ].filter(asset => asset.hasScript);
+
+                if (scriptAssets.length > 0) {
+                    return modalManager.showDexScriptedPair(scriptAssets);
                 } else {
                     return Promise.resolve();
                 }
@@ -576,7 +568,6 @@
                     this.maxAmountBalance = null;
                     this.maxPriceBalance = this.priceBalance.safeSub(this.fee).toNonNegative();
                 }
-                this._getListOfScriptAssets();
             }
 
             /**
