@@ -3,12 +3,10 @@
 
     const controller = function (Base, $scope, user, $mdDialog) {
 
-        class TermsAcceptCtrl extends Base {
+        class AcceptNewTermsCtrl extends Base {
 
             constructor() {
                 super($scope);
-                this.security = false;
-                this.backup = false;
                 this.readTermsAndConditions = false;
             }
 
@@ -18,10 +16,10 @@
 
         }
 
-        return new TermsAcceptCtrl();
+        return new AcceptNewTermsCtrl();
     };
 
     controller.$inject = ['Base', '$scope', 'user', '$mdDialog'];
 
-    angular.module('app.utils').controller('TermsAcceptCtrl', controller);
+    angular.module('app.utils').controller('AcceptNewTermsCtrl', controller);
 })();

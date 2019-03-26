@@ -33,7 +33,6 @@
                     closedNotification: [],
                     withScam: false,
                     scamListUrl: WavesApp.network.scamListUrl,
-                    shareAnalytics: false,
                     logoutAfterMin: 5,
                     encryptionRounds: 5000,
                     savePassword: true,
