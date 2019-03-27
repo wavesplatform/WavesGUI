@@ -22,7 +22,7 @@
 
                     <w-button class="submit long big"
                               on-click="$ctrl.confirm()"
-                              disabled="!$ctrl.readTermsAndConditions">
+                              disabled="!$ctrl.readTermsAndConditions || !$ctrl.privacyPolicy">
                         <span w-i18n="modal.termsAccept.body.ok"></span>
                     </w-button>
                 </div>
