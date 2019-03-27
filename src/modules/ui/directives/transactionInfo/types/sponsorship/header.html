@@ -1,3 +1,8 @@
 <div class="txinfo__lead">
-    <h3 w-i18n="transaction.amounts.{{::$ctrl.typeName}}" class="basic-700"></h3>
+    <div class="txinfo__header-wrapper">
+        <h3 w-i18n="transaction.amounts.{{::$ctrl.typeName}}" class="basic-700"></h3>
+        <span ng-if="$ctrl.isScam"
+              class="asset__label asset__label-suspicious"
+              w-i18n="transaction.headers.suspicious"></span>
+    </div>
 </div>
