@@ -199,10 +199,6 @@
                 return modalManager.showSepaAsset(user, asset);
             }
 
-            showQR() {
-                return modalManager.showAddressQrCode(user);
-            }
-
             /**
              * @param value
              * @private
