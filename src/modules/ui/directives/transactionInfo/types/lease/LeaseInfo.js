@@ -39,8 +39,8 @@
 
 
             $postLink() {
-
                 this.transaction = this.signable.getTxData();
+
                 this.isActive = this.transaction.status === 'active';
                 const typeName = utils.getTransactionTypeName(this.transaction);
 
@@ -57,7 +57,6 @@
                         break;
                 }
                 this.observe('isConfirm', () => {
-
                     (this.transaction.id ? Promise.resolve(this.transaction.id) : this.signable.getId())
                         .then(id => {
                             this.id = id;
