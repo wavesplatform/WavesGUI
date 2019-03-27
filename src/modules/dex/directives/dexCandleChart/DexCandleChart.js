@@ -136,6 +136,9 @@
 
             $onDestroy() {
                 super.$onDestroy();
+                if (!this.loadingTradingView) {
+                    user.setSetting('lastInterval', this._chart.symbolInterval().interval);
+                }
                 this._removeTradingView();
             }
 
@@ -215,7 +218,7 @@
                     // debug: true,
                     locale: DexCandleChart._remapLanguageCode(i18next.language),
                     symbol: `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
-                    interval: WavesApp.dex.defaultResolution,
+                    interval: user.getSetting('lastInterval'),
                     container_id: this.elementId,
                     datafeed: candlesService,
                     library_path: 'trading-view/',
