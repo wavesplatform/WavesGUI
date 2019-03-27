@@ -2,7 +2,7 @@
      ng-class="{'spam': $ctrl.isScam || $ctrl.isScamAmount || $ctrl.isScamPrice}">
     <div class="icon {{::$ctrl.transaction.typeName}}"></div>
     <div class="transaction-info">
-        <ng-include class="full-width" is-confirm="$ctrl.isConfirm" src="$ctrl.templateUrl"></ng-include>
+        <ng-include class="full-width" src="$ctrl.templateUrl"></ng-include>
     </div>
     <w-actions class="actions">
         <w-action ng-click="$ctrl.showTransaction()">
