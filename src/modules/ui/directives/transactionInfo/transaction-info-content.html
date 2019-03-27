@@ -4,7 +4,7 @@
     <w-reissue-info ng-if="$ctrl.signable.type === 5" signable="$ctrl.signable"></w-reissue-info>
     <w-burn-info ng-if="$ctrl.signable.type === 6" signable="$ctrl.signable"></w-burn-info>
     <w-exchange-info ng-if="$ctrl.signable.type === 7" signable="$ctrl.signable"></w-exchange-info>
-    <w-lease-info ng-if="$ctrl.signable.type === 8" signable="$ctrl.signable"></w-lease-info>
+    <w-lease-info ng-if="$ctrl.signable.type === 8" is-confirm="$ctrl.isConfirm" signable="$ctrl.signable"></w-lease-info>
     <w-cancel-lease-info ng-if="$ctrl.signable.type === 9" signable="$ctrl.signable"></w-cancel-lease-info>
     <w-create-alias-info ng-if="$ctrl.signable.type === 10" signable="$ctrl.signable"></w-create-alias-info>
     <w-mass-transfer-info ng-if="$ctrl.signable.type === 11" signable="$ctrl.signable"></w-mass-transfer-info>
