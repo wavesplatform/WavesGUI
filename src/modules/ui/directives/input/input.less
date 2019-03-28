@@ -36,7 +36,6 @@ input[type="checkbox"] {
   }
 
   &:not(.embed) {
-    background-color: @color-white;
     border: 1px solid @color-basic-200;
     border-radius: @border-radius;
 
@@ -68,6 +67,49 @@ input[type="checkbox"] {
 
     &::placeholder {
       font-size: @font-size-control-small;
+    }
+  }
+
+  &-with-select {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-color: @color-disabled-50;
+    border-top-right-radius: @border-radius;
+    border-bottom-right-radius: @border-radius;
+    padding: 0;
+    display: flex;
+    align-items: center;
+
+    w-select {
+      position: absolute;
+      right: 6px;
+      width: calc(50% ~'- 12px');
+
+      .title-content {
+        display: flex;
+        align-items: center;
+      }
+
+      .title {
+        background-color: @color-white;
+      }
+    }
+
+    w-input .w-input-wrap {
+      width: 50%;
+    }
+    w-input .w-input-wrap input[type="text"] {
+      display: block;
+      //width: 50%;
+
+      &:not(.embed) {
+        height: 40px;
+        border-radius: @border-radius 0 0 @border-radius;
+        &:not(:focus) {
+          border: 0 none;
+        }
+      }
     }
   }
 
@@ -141,23 +183,6 @@ w-input {
         background-color: @color-basic-50;
       }
     }
-
-    &::after {
-      content: '';
-      display: block;
-      position: absolute;
-      right: 21px;
-      top: 50%;
-      transform: translateY(-50%);
-      background-size: 100% 100%;
-    }
-
-    @media screen and (max-width: 768px) {
-      &::after {
-        top: 14px;
-        transform: translateY(0);
-      }
-    }
   }
 
   &[textarea="true"] {
@@ -200,16 +225,6 @@ w-input {
     &.input-type-password input[type="password"] {
       padding-right: 50px;
     }
-    // &.valid.touched::after {
-    //   background: url(/img/icons/input-valid-icon.svg) no-repeat center center;
-    //    width: 13px;
-    //   height: 10px;
-    // }
-    // &.touched.invalid:not(.focused)::after {
-    //   background: url(/img/icons/input-invalid-icon.svg) no-repeat center center;
-    //   width: 11px;
-    //   height: 11px;
-    // }
   }
 
   .byte-validator__help {
