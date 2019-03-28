@@ -93,10 +93,11 @@
 
         function newTerms(storage) {
             return storage.load('userList').then((users = []) => {
-                if (users.some((user) => {
+                const needShowNewTerms = users.some((user) => {
                     const settings = user.settings || Object.create(null);
                     return typeof settings.termsAccepted === 'undefined';
-                })) {
+                });
+                if (needShowNewTerms) {
                     return storage.save('needReadNewTerms', true);
                 }
             });
