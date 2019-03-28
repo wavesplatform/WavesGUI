@@ -2,29 +2,30 @@
 @import (reference) 'icons';
 @import (reference) '../../../app/less/typography';
 
-.welcome,
-.create,
-.restore,
-.desktop {
-  .important-information {
-    position: absolute;
-    right: 0;
-    min-width: 170px;
-    top: 43px;
-  }
+.important-information {
+  position: absolute;
+  right: 0;
+  min-width: 170px;
+  top: 43px;
+}
 
-  @media screen and (max-width: 480px) {
+@media screen and (max-width: 480px) {
+  .welcome,
+  .create,
+  .restore,
+  .desktop {
     w-change-language w-select {
       right: 20px;
     }
-    .important-information {
-      left: 20px;
-      right: auto;
-      .tooltip {
-        transform: translate(-10px, -6px);
-        &::before {
-          left: 13px;
-        }
+  }
+
+  .important-information {
+    left: 20px;
+    right: auto;
+    .tooltip {
+      transform: translate(-10px, -6px);
+      &::before {
+        left: 13px;
       }
     }
   }
