@@ -374,19 +374,18 @@
                 return Promise.all([
                     storage.load('needReadNewTerms'),
                     storage.load('termsAccepted')
-                ]).then(storageSettings => {
-                    const [needReadNewTerms, termsAccepted] = storageSettings;
-                    if (needReadNewTerms) {
-                        return modalManager.showAcceptNewTerms(user).then(() => {
+                ]).then(([needReadNewTerms, termsAccepted]) => {
+                    const autoPromise = (promise) => {
+                        return promise.then(() => {
                             analytics.activate();
                         })
                             .catch(() => false);
+                    };
+                    if (needReadNewTerms) {
+                        return autoPromise(modalManager.showAcceptNewTerms(user));
 
                     } else if (!termsAccepted) {
-                        return modalManager.showTermsAccept(user).then(() => {
-                            analytics.activate();
-                        })
-                            .catch(() => false);
+                        return autoPromise(modalManager.showTermsAccept(user));
                     } else {
                         analytics.activate();
                     }
