@@ -371,14 +371,18 @@
              * @private
              */
             _initializeTermsAccepted() {
-                return (async () => {
-                    if (await storage.load('needReadNewTerms')) {
+                return Promise.all([
+                    storage.load('needReadNewTerms'),
+                    storage.load('termsAccepted')
+                ]).then(storageSettings => {
+                    const [needReadNewTerms, termsAccepted] = storageSettings;
+                    if (needReadNewTerms) {
                         return modalManager.showAcceptNewTerms(user).then(() => {
                             analytics.activate();
                         })
                             .catch(() => false);
 
-                    } else if (!await storage.load('termsAccepted')) {
+                    } else if (!termsAccepted) {
                         return modalManager.showTermsAccept(user).then(() => {
                             analytics.activate();
                         })
@@ -387,7 +391,7 @@
                         analytics.activate();
                     }
                     return Promise.resolve();
-                })();
+                });
             }
 
             /**
