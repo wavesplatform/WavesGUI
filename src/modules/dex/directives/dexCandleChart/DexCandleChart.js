@@ -108,6 +108,7 @@
                  * @private
                  */
                 this.candle = user.getSetting('candle');
+
                 this.observe('_assetIdPair', this._onChangeAssetPair);
                 this.observe('theme', () => {
                     this._changeTheme = true;
@@ -270,9 +271,11 @@
 
             static _remapLanguageCode(code) {
                 switch (code) {
-                    case 'hi_IN':
+                    case 'hi':
                         return 'en';
-                    case 'zh_CN':
+                    case 'nl':
+                        return 'nl_NL';
+                    case 'zh-Hans-CN':
                         return 'zh';
                     default:
                         return code;
