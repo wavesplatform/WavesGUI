@@ -268,12 +268,14 @@
 
             static _remapLanguageCode(code) {
                 switch (code) {
-                    case 'hi':
+                    case 'hi_IN':
                         return 'en';
-                    case 'nl':
-                        return 'nl_NL';
-                    case 'zh-Hans-CN':
+                    case 'id':
+                        return 'en';
+                    case 'zh_CN':
                         return 'zh';
+                    case 'pt_BR':
+                        return 'pt';
                     default:
                         return code;
                 }
