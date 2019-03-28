@@ -15,12 +15,12 @@
 
                 super($scope);
 
-                const seed = "merry evil keep lost fox tech absent trololo both field get input div cosmic"
+                const seed = 'merry evil keep lost fox tech absent trololo both field get input div cosmic';
                 /**
                  * @type {string}
                  */
                 this.tab = 'info';
-                this.qrData = 'Keep on waving, we\`ll take care of the bad guys'
+                this.qrData = 'Keep on waving, we`ll take care of the bad guys';
                 /**
                  * @type {boolean}
                  */
@@ -36,9 +36,6 @@
                  * @type {string}
                  */
                 this.seed = seed;
-                // this.observeOnce('form', () => {
-                //     this.form.invalid.$setTouched(true);
-                // });
             }
 
         }

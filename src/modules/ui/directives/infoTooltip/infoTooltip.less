@@ -3,17 +3,18 @@
 @import (reference) '../../../app/less/typography';
 
 w-info-tooltip {
-  width: 16px;
-  height: 16px;
-  display: block;
-  position: relative;
-  cursor: pointer;
-  background: @information-icon center no-repeat;
+  .information-icon {
+    width: 16px;
+    height: 16px;
+    display: block;
+    background: @information-icon center no-repeat;
+    cursor: pointer;
 
-  &:hover {
-    .tooltip {
-      display: flex;
-      align-items: center;
+    &:hover {
+      & + .tooltip {
+        display: flex;
+        align-items: center;
+      }
     }
   }
 
@@ -24,14 +25,16 @@ w-info-tooltip {
     padding: 5px 0 5px 10px;
     transform: translate(calc(-50%~'+ 8px'), -6px);
     z-index: 2;
+    cursor: pointer;
     border-radius: @border-radius;
     background: @color-basic-700;
 
-    &-content {
+    &__content {
       color: @color-white;
       font-size: @font-size-caption-2;
       max-width: 240px;
       max-height: 150px;
+      width: max-content;
       overflow: auto;
       display: block;
       padding-right: 10px;
@@ -52,27 +55,6 @@ w-info-tooltip {
 
     &:hover {
       display: flex;
-    }
-  }
-}
-
-@media screen and (max-width: 480px) {
-  w-info-tooltip {
-    right: auto;
-    left: 20px;
-
-    .tooltip {
-      width: 36px;
-      right: auto;
-      left: 10px;
-      transform: translate(0, 28px);
-      font-size: 0;
-      opacity: 0;
-
-      &::after,
-      &::before {
-        display: none;
-      }
     }
   }
 }

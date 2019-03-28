@@ -3,7 +3,7 @@
 
     const controller = function (Base, $scope, $element) {
 
-        class infoTooltipController extends Base {
+        class InfoTooltipController extends Base {
 
             constructor() {
                 super();
@@ -25,13 +25,13 @@
             }
 
             $postLink() {
-                $element.on('mouseover', () => this.hoverIn());
-                $element.on('mouseout', () => this.hoverOut());
+                $element.find('i').on('mouseover', () => this.hoverIn());
+                $element.find('i').on('mouseout', () => this.hoverOut());
             }
 
         }
 
-        return new HelpIconController();
+        return new InfoTooltipController();
     };
 
     controller.$inject = ['Base', '$scope', '$element'];
