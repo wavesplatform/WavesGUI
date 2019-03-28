@@ -370,14 +370,14 @@
              * @return Promise
              * @private
              */
-            _initializeTermsAccepted() {
-                if (user.getSetting('needReadNewTerms')) {
+            async _initializeTermsAccepted() {
+                if (await storage.load('needReadNewTerms')) {
                     return modalManager.showAcceptNewTerms(user).then(() => {
                         analytics.activate();
                     })
                         .catch(() => false);
 
-                } else if (!user.getSetting('termsAccepted')) {
+                } else if (!await storage.load('termsAccepted')) {
                     return modalManager.showTermsAccept(user).then(() => {
                         analytics.activate();
                     })
