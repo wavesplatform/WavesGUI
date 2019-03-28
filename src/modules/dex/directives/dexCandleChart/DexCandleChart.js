@@ -270,6 +270,8 @@
                 switch (code) {
                     case 'hi_IN':
                         return 'en';
+                    case 'id':
+                        return 'en';
                     case 'zh_CN':
                         return 'zh';
                     case 'pt_BR':
