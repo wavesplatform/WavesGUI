@@ -64,7 +64,14 @@
                     .init({
                         lng: localStorage.getItem('lng') || AppConfig.getUserLang(),
                         debug: !WavesApp.isProduction(),
-                        ns: WavesApp.modules.filter(tsUtils.notContains('app.templates')),
+                        ns: WavesApp.modules
+                            .filter(
+                                tsUtils.filterList(
+                                    tsUtils.notContains('app.templates'),
+                                    tsUtils.notContains('app.keeper'),
+                                    tsUtils.notContains('app.wallet')
+                                )
+                            ),
                         fallbackLng: 'en',
                         whitelist: Object.keys(WavesApp.localize),
                         defaultNS: 'app',
