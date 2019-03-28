@@ -95,7 +95,7 @@
             return storage.load('userList').then((users = []) => {
                 if (users.some((user) => {
                     const settings = user.settings || Object.create(null);
-                    return settings.termsAccepted;
+                    return typeof settings.termsAccepted === 'undefined';
                 })) {
                     return storage.save('needReadNewTerms', true);
                 }
