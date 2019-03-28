@@ -1,0 +1,78 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../app/less/typography';
+
+w-info-tooltip {
+  width: 16px;
+  height: 16px;
+  display: block;
+  position: relative;
+  cursor: pointer;
+  background: @information-icon center no-repeat;
+
+  &:hover {
+    .tooltip {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .tooltip {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    padding: 5px 0 5px 10px;
+    transform: translate(calc(-50%~'+ 8px'), -6px);
+    z-index: 2;
+    border-radius: @border-radius;
+    background: @color-basic-700;
+
+    &-content {
+      color: @color-white;
+      font-size: @font-size-caption-2;
+      max-width: 240px;
+      max-height: 150px;
+      overflow: auto;
+      display: block;
+      padding-right: 10px;
+    }
+
+    &::before {
+      position: absolute;
+      bottom: -3px;
+      left: calc(50% ~'- 5px');
+      width: 10px;
+      height: 10px;
+      content: '';
+      transform-origin: center;
+      transform: rotate(45deg);
+      background: @color-basic-700;
+      z-index: -1;
+    }
+
+    &:hover {
+      display: flex;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  w-info-tooltip {
+    right: auto;
+    left: 20px;
+
+    .tooltip {
+      width: 36px;
+      right: auto;
+      left: 10px;
+      transform: translate(0, 28px);
+      font-size: 0;
+      opacity: 0;
+
+      &::after,
+      &::before {
+        display: none;
+      }
+    }
+  }
+}

@@ -1,11 +1,8 @@
-<style>
+<div class="stand">
 
-
-
-
-</style>
-
-<div w-i18n-ns="app.stand" class="stand">
+    <div class="notifications notifications-top">
+        <w-container-alert-notification type="userNotification"></w-container-alert-notification>
+    </div>
 
     <div class="components-wrapper">
         <div class="column1">
@@ -80,7 +77,7 @@
             <div class="margin-2"></div>
 
             <div class="body-2">Select title</div>
-            <w-select class="with-scroll select__no-usuer-select"> <!-- .with-scroll / select__no-usuer-select --->
+            <w-select class="with-scroll select__no-usuer-select"> <!-- .with-scroll / .select__no-usuer-select --->
                 <w-option><span>Default</span></w-option>
                 <w-option><span>Value 1</span></w-option>
                 <w-option><span>Value 2</span></w-option>
@@ -208,6 +205,12 @@
                 <div ng-if="!$ctrl.hasAssetScript" class="footnote-1">OFF</div>
             </div>
 
+            <div class="margin-2"></div>
+
+            <h1>Range</h1>
+
+            <w-range-slider ng-model="$ctrl.precision" max="::8">
+
             <div class="margin-6"></div>
 
         </div>
@@ -280,6 +283,12 @@
 
             <div class="margin-2"></div>
 
+            <h1>Information tooltip</h1>
+
+            <w-info-tooltip></w-info-tooltip>
+
+            <div class="margin-2"></div>
+
             <h1>Helpers</h1>
 
             <div class="relative body-2">
@@ -301,6 +310,19 @@
                     <div class="help-icon__row">Helper description third row</div>
                 </w-help-icon>
             </div>
+
+            <div class="margin-4"></div>
+
+            <h1>QR Code</h1>
+            <div w-toggle-class-container class="qr-wrapper center">
+                <div class="body-2 basic-900">Отсканируйте QR код</div>
+                <w-qr-code w-toggle-class="zoomed-in" size="200" url="$ctrl.qrData"></w-qr-code>
+                <div class="pointer center footnote-1 margin-top-1 basic-500"
+                     w-toggle-class="zoomed-in">Нажмите чтобы увеличить/уменьшить</div>
+                <!-- <w-loader ng-if="!$ctrl.qrData"></w-loader> -->
+            </div>
+
+            <div class="margin-2"></div>
 
         </div>
 
@@ -397,6 +419,45 @@
             </div>
 
             <div class="margin-2"></div>
+
+            <h1>Seed Backup</h1>
+
+            <div class="body-2">Seed previrew</div>
+            <w-seed-read type="read" seed="{{::$ctrl.seed}}" class="no-user-select margin-3"></w-seed-read>
+
+            <div class="body-2 margin-top-2">Seed confirmation</div>
+            <w-seed-write class="margin-4"
+                          on-fulfilled="$ctrl.onSeedConfirmFulfilled(isValid)"
+                          on-touch="$ctrl.seedOnTouch()"
+                          seed="{{::$ctrl.seed}}"></w-seed-write>
+            <w-seed-read type="random" seed="{{::$ctrl.seed}}" class="no-user-select"></w-seed-read>
+
+
+            <div class="margin-2"></div>
+
+            <h1>Tabs</h1>
+
+            <w-tabs w-i18n-ns="app.utils" class="inner" ng-model="$ctrl.tab">
+                <w-tab id="::'tab1'" title-name="::'modal.assetInfo.details'">
+                    <div class="tab-content">🙉</div>
+                </w-tab>
+                <w-tab id="::'tab2'" title-name="::'modal.assetInfo.balance'">
+                    <div class="tab-content">🙈</div>
+                </w-tab>
+                <w-tab id="::'tab3'" title-name="::'modal.assetInfo.transactions'">
+                    <div class="tab-content">🙊</div>
+                </w-tab>
+            </w-tabs>
+
+            <div class="margin-2"></div>
+
+
+
+
+
+
+
+
         </div>
     </div>
 </div>
