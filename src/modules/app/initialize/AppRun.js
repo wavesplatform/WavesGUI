@@ -371,18 +371,14 @@
              * @private
              */
             _initializeTermsAccepted() {
-                if (user.getSetting('needReadNewTerms')) {
-                    return modalManager.showAcceptNewTerms(user).then(() => {
-                        analytics.activate();
-                    })
-                        .catch(() => false);
-
-                } else if (!user.getSetting('termsAccepted')) {
+                if (!user.getSetting('termsAccepted')) {
                     return modalManager.showTermsAccept(user).then(() => {
-                        analytics.activate();
+                        if (user.getSetting('shareAnalytics')) {
+                            analytics.activate();
+                        }
                     })
                         .catch(() => false);
-                } else {
+                } else if (user.getSetting('shareAnalytics')) {
                     analytics.activate();
                 }
                 return Promise.resolve();
