@@ -193,7 +193,10 @@
                     clickOutsideToClose: false,
                     escapeToClose: false
                 })
-                    .then(() => storage.save('termsAccepted', true));
+                    .then(() => {
+                        storage.save('needReadNewTerms', false);
+                        storage.save('termsAccepted', true);
+                    });
             }
 
             showAcceptNewTerms() {

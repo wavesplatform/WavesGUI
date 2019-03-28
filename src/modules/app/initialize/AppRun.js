@@ -370,22 +370,24 @@
              * @return Promise
              * @private
              */
-            async _initializeTermsAccepted() {
-                if (await storage.load('needReadNewTerms')) {
-                    return modalManager.showAcceptNewTerms(user).then(() => {
-                        analytics.activate();
-                    })
-                        .catch(() => false);
+            _initializeTermsAccepted() {
+                (async () => {
+                    if (await storage.load('needReadNewTerms')) {
+                        return modalManager.showAcceptNewTerms(user).then(() => {
+                            analytics.activate();
+                        })
+                            .catch(() => false);
 
-                } else if (!await storage.load('termsAccepted')) {
-                    return modalManager.showTermsAccept(user).then(() => {
+                    } else if (!await storage.load('termsAccepted')) {
+                        return modalManager.showTermsAccept(user).then(() => {
+                            analytics.activate();
+                        })
+                            .catch(() => false);
+                    } else {
                         analytics.activate();
-                    })
-                        .catch(() => false);
-                } else {
-                    analytics.activate();
-                }
-                return Promise.resolve();
+                    }
+                    return Promise.resolve();
+                })();
             }
 
             /**
