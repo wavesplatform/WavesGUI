@@ -48,7 +48,7 @@
 
                     <w-tabs class="inner" ng-model="$ctrl.activeTab" ng-if="::$ctrl.advancedMode">
                         <w-tab title-name="::'confirmTransaction.details'" id="::'details'">
-                            <w-transaction-info-content is-confirm="::true"
+                            <w-transaction-info-content is-confirm="::false"
                                                         class="margin-top-4"
                                                         signable="$ctrl.signable"></w-transaction-info-content>
                         </w-tab>
@@ -62,7 +62,7 @@
                     </w-tabs>
 
                     <w-transaction-info-content ng-if="::!$ctrl.advancedMode"
-                                                is-confirm="::true"
+                                                is-confirm="::false"
                                                 signable="$ctrl.signable"></w-transaction-info-content>
 
                     <div class="bottom-warning" ng-if="::$ctrl.isSetScript">
