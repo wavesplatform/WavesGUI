@@ -86,7 +86,7 @@
             '1.0.41': function (storage) {
                 return addNewGateway(storage, WavesApp.defaultAssets.BSV);
             },
-            '1.2.0': function (storage) {
+            '1.2.1': function (storage) {
                 return newTerms(storage);
             }
         };
