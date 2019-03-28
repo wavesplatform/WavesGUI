@@ -371,7 +371,7 @@
              * @private
              */
             _initializeTermsAccepted() {
-                (async () => {
+                return (async () => {
                     if (await storage.load('needReadNewTerms')) {
                         return modalManager.showAcceptNewTerms(user).then(() => {
                             analytics.activate();
