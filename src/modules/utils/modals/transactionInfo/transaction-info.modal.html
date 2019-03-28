@@ -25,7 +25,7 @@
 
                 <div class="txinfo__row txinfo__row-border-ts ">
                     <time>{{::$ctrl.transaction.timestamp | date: 'dd.MM.yyyy, HH:mm'}}</time>
-                    <div class="status"
+                    <div class="status-label"
                          ng-class="{confirmed: $ctrl.confirmed, unconfirmed: !$ctrl.confirmed}"
                          w-i18n="transaction.confirmed.{{$ctrl.confirmed}}"></div>
                 </div>

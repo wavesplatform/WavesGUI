@@ -40,17 +40,8 @@ w-transaction-info-header + w-transaction-info-general {
     width: 100%;
   }
 
-  .note-plate {
-    position: relative;
+  .plate-note {
     margin: 0 0 20px;
-    background: @color-basic-50;
-    border: 1px dashed @color-basic-200;
-    padding: 14px;
-    border-radius: @border-radius;
-    min-height: 54px;
-    display: flex;
-    width: 100%;
-    align-items: center;
   }
 
   .noborder {
@@ -365,21 +356,8 @@ w-transaction-info-header + w-transaction-info-general {
     }
   }
 
-  .status {
-    .tag-1();
+  .status-label {
     margin-top: -4px;
-    padding: 4px 11px;
-    border-radius: @border-radius;
-
-    &.confirmed {
-      background: @color-success-50;
-      color: @color-success-400;
-    }
-
-    &.unconfirmed {
-      background: rgba(255, 175, 0, 0.1);
-      color: @color-warning-500;
-    }
   }
 }
 
