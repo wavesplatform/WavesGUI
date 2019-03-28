@@ -77,6 +77,13 @@
         "decimal": "."
       }
     },
+    "ja": {
+      "name": "Jp",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
     "nl_NL": {
       "name": "Nl",
       "separators": {
