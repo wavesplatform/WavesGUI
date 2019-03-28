@@ -4,7 +4,7 @@
     angular.module('app.ui').component('wTransactionInfoContent', {
         bindings: {
             signable: '<',
-            isConfirm: '<'
+            confirmed: '<'
         },
         templateUrl: 'modules/ui/directives/transactionInfo/transaction-info-content.html'
     });

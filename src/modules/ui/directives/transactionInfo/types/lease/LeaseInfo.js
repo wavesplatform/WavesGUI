@@ -35,7 +35,7 @@
             /**
              * @type {boolean}
              */
-            isConfirm;
+            confirmed;
 
 
             $postLink() {
@@ -56,7 +56,7 @@
                     default:
                         break;
                 }
-                this.observe('isConfirm', () => {
+                this.observe('confirmed', () => {
                     (this.transaction.id ? Promise.resolve(this.transaction.id) : this.signable.getId())
                         .then(id => {
                             this.id = id;
@@ -80,7 +80,7 @@
     angular.module('app.ui').component('wLeaseInfo', {
         bindings: {
             signable: '<',
-            isConfirm: '<'
+            confirmed: '<'
         },
         controller,
         templateUrl: 'modules/ui/directives/transactionInfo/types/lease/lease-info.html'

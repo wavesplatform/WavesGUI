@@ -4,7 +4,7 @@
     <div class="txinfo__value">{{::$ctrl.address}}</div>
 </div>
 
-<div class="txinfo__row" ng-if="$ctrl.isConfirm">
+<div class="txinfo__row" ng-if="$ctrl.confirmed">
     <div class="txinfo__key" w-i18n="transaction.modals.leasingStatus"></div>
     <div ng-if="!$ctrl.isActive" class="txinfo__value txinfo__value-uppercase" w-i18n="transaction.headers.canceled"></div>
     <div ng-if="$ctrl.isActive" class="txinfo__value txinfo__value-uppercase" w-i18n="transaction.headers.activeLeasing"></div>
