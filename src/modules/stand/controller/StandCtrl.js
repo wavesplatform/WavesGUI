@@ -21,6 +21,7 @@
                  */
                 this.tab = 'info';
                 this.qrData = 'Keep on waving, we`ll take care of the bad guys';
+                this.info = this.dataCopy = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                 /**
                  * @type {boolean}
                  */

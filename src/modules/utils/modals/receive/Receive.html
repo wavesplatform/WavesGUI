@@ -68,7 +68,7 @@
                                     </w-help-icon>
                                 </div>
 
-                                <w-copy-wrap class="body-1 basic-900 mobile-low-fsize"
+                                <w-copy-wrap class="overflow body-1 basic-900 mobile-low-fsize"
                                              info="$ctrl.gatewayAddress"
                                              ng-if="!$ctrl.gatewayServerError">
                                     {{$ctrl.gatewayAddress}}
@@ -161,7 +161,7 @@
 
                                     <div class="row margin-2">
                                         <div class="body-2 basic-900" w-i18n="modal.receive.shareInvoiceLink"></div>
-                                        <w-copy-wrap class="body-1 basic-900 mobile-low-fsize" info="$ctrl.sendLink"
+                                        <w-copy-wrap class="overflow body-1 basic-900 mobile-low-fsize" info="$ctrl.sendLink"
                                                      ng-click="$ctrl.onCopyAddress()">
                                             <span>{{$ctrl.sendLink}}</span>
                                         </w-copy-wrap>

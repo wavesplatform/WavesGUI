@@ -68,14 +68,25 @@ html body.stand {
     border-right: 1px dashed @color-basic-200;
   }
 
+  .column2 {
+    background: @color-basic-50;
+    .relative-wrapper {
+      background: @color-white;
+    }
+  }
+
   .unit-checkbox {
     width: 300px !important;
   }
 
+  .qr-wrapper,
   .relative-wrapper {
+    background: @color-white;
     position: relative;
     border: 1px dashed @color-basic-200;
-    height: 140px;
+    min-height: 100px;
+    padding: 20px 0;
+    border-radius: @border-radius;
   }
 
   ._internal-error {

@@ -26,17 +26,18 @@
 
             <div class="margin-2"></div>
 
+            <w-button class="tiny submit">
+                <span class="button">Tiny</span>
+            </w-button>
+
+            <div class="margin-2"></div>
+
             <w-button class="small submit">
                 <span class="button">Small</span>
             </w-button>
 
             <div class="margin-2"></div>
 
-            <w-button class="tiny submit">
-                <span class="button">Tiny</span>
-            </w-button>
-
-            <div class="margin-2"></div>
             <w-button class="medium submit">
                 <span class="button">Medium</span>
             </w-button>
@@ -161,6 +162,14 @@
                      name="textarea"
                      ng-model="$ctrl.tx.attachment"
                      class="normal"></w-input> <!-- .normal /.tall / .large / .medium -->
+
+            <div class="margin-2"></div>
+
+            <w-copy-wrap class="overflow body-1 basic-900 mobile-low-fsize"
+                         info="$ctrl.dataCopy">
+                {{$ctrl.dataCopy}}
+                <!--w-loader></w-loader-->
+            </w-copy-wrap>
 
             <div class="margin-2"></div>
 
@@ -326,7 +335,27 @@
                 <!-- <w-loader ng-if="!$ctrl.qrData"></w-loader> -->
             </div>
 
+            <div class="margin-3"></div>
+
+            <h1>Expandable block</h1>
+
+            <w-expandable-block title="'Find the monkey!'">
+                <span style="display: flex;
+                             height: 200px;
+                             align-items: center;
+                             justify-content: center;
+                             font-size: 200px;
+                             margin-top: -37px;
+                             transform: rotate(180deg)">🙈</span>
+            </w-expandable-block>
+
             <div class="margin-2"></div>
+
+            <h1>Modal window killer</h1>
+
+            <div class="relative-wrapper">
+                <i class="icon-close" w-modal-close></i>
+            </div>
 
         </div>
 
