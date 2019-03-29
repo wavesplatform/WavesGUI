@@ -42,6 +42,11 @@
                 this.data = null;
                 this.options = assetsData.getGraphOptions();
                 this.mirrorId = null;
+
+                /**
+                 * @type {boolean}
+                 */
+                this.invalid = true;
                 /**
                  * @type {Moment}
                  * @private

@@ -32,7 +32,7 @@
                         </div>
                     </w-permit>
                     <w-permit name="CAN_CREATE_ALIAS_TRANSACTION" mode="off">
-                        <div class="warning-plate warning-400 body-1 margin-top-2">
+                        <div class="plate-warning warning-400 body-1 margin-top-2">
                             <w-permit-message literal="modal.account.createAliasNotPermitted"></w-permit-message>
                         </div>
                     </w-permit>
@@ -93,7 +93,7 @@
                                             <div class="body-2 error-400">{{$ctrl.errorCreateAliasMsg}}</div>
                                     </div>
                                     <div class="bottom-warning margin-3" ng-if="$ctrl.signDeviceFail">
-                                        <div class="warning-plate warning-plate-red">
+                                        <div class="plate-error">
                                             <div class="body-2 error-400" w-i18n-ns="app.ui" w-i18n="confirmTransaction.{{::$ctrl.userType}}Unconfirmed.header"></div>
                                             <div class="footnote-1 basic-500" w-i18n-ns="app.ui" w-i18n="confirmTransaction.{{::$ctrl.userType}}Unconfirmed.description"></div>
                                         </div>

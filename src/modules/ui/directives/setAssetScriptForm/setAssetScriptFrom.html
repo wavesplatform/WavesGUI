@@ -10,11 +10,11 @@
             <div class="asset-modal__data">
                 <h2 ng-cloak class="asset-modal__name basic-900" ng-class="{'has-label': $ctrl.hasLabel}">
                     <span class="name">{{::$ctrl.asset.name}}</span>
-                    <span ng-if="$ctrl.isVerified" class="asset__label" w-i18n-ns="app.utils"
+                    <span ng-if="$ctrl.isVerified" class="status-label-min active" w-i18n-ns="app.utils"
                           w-i18n="modal.assetInfo.qualified"></span>
-                    <span ng-if="$ctrl.isGateway" class="asset__label" w-i18n-ns="app.utils"
+                    <span ng-if="$ctrl.isGateway" class="status-label-min active" w-i18n-ns="app.utils"
                           w-i18n="modal.assetInfo.gateway"></span>
-                    <span ng-if="$ctrl.isSuspicious" class="asset__label asset__label-suspicious"
+                    <span ng-if="$ctrl.isSuspicious" class="status-label-min inactive"
                           w-i18n="modal.assetInfo.suspicious"></span>
                 </h2>
 
@@ -55,7 +55,7 @@
 
     <div class="basic-500 margin-1 margin-top-1" w-i18n="directives.scriptForm.ideLink"></div>
 
-    <div class="warning-plate warning-500">
+    <div class="plate-warning warning-500">
         <span class="body-1" w-i18n="modal.setAssetScript.warningHeader"></span>
         <span class="footnote-1 basic-500" w-i18n="modal.setAssetScript.warningDescription"></span>
     </div>

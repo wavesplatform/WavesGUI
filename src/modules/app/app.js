@@ -109,7 +109,8 @@
         'app.import',
         'app.wallet',
         'app.dex',
-        'app.tokens'
+        'app.tokens',
+        'app.stand'
     ]);
 })();
 

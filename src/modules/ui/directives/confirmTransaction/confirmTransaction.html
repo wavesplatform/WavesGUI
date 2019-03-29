@@ -35,7 +35,7 @@
                 </div>
                 <h3 class="basic-700 margin-3 center"
                     w-i18n="confirmTransaction.notPermitted.{{::$ctrl.tx.typeName}}-title"></h3>
-                <div class="warning-plate warning-400 body-1">
+                <div class="plate-warning warning-400 body-1">
                     <w-permit-message
                             literal="confirmTransaction.notPermitted.{{::$ctrl.tx.typeName}}"></w-permit-message>
                 </div>
@@ -66,7 +66,7 @@
                                                 signable="$ctrl.signable"></w-transaction-info-content>
 
                     <div class="bottom-warning" ng-if="::$ctrl.isSetScript">
-                        <div class="warning-plate">
+                        <div class="plate-warning">
                             <div class="body-2 warning-500" w-i18n-ns="app.utils"
                                  w-i18n="directives.scriptForm.warning.title"></div>
                             <div class="footnote-1 basic-500" w-i18n-ns="app.utils"
@@ -75,7 +75,7 @@
                     </div>
 
                     <div class="bottom-warning" ng-if="::$ctrl.isTockenIssue">
-                        <div class="warning-plate">
+                        <div class="plate-warning">
                             <div class="body-2 warning-500" w-i18n="modal.token.warning.header"></div>
                             <div class="footnote-1 basic-500" w-i18n="modal.token.warning.text"></div>
                             <div class="body-2 warning-500" w-i18n="modal.token.warning.textWarning"></div>
@@ -128,7 +128,7 @@
                 </div>
                 <h3 class="basic-700 margin-3 center"
                     w-i18n="confirmTransaction.notPermitted.{{::$ctrl.tx.typeName}}-title"></h3>
-                <div class="warning-plate warning-400 body-1">
+                <div class="plate-warning warning-400 body-1">
                     <w-permit-message
                             literal="confirmTransaction.notPermitted.{{::$ctrl.tx.typeName}}"></w-permit-message>
                 </div>
