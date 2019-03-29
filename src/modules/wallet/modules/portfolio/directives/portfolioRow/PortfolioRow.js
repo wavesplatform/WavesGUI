@@ -253,7 +253,13 @@
                         this._initSponsorShips();
                     }
                 });
-
+                const updateSponsorShips = () => {
+                    setTimeout(() => {
+                        this._initSponsorShips();
+                        updateSponsorShips();
+                    }, 5000);
+                };
+                updateSponsorShips();
                 this._onUpdateBalance();
                 this._initSponsorShips();
                 this._setHandlers();
