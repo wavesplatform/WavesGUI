@@ -56,9 +56,7 @@
                     default:
                         break;
                 }
-                console.log('%c this.confirmed', 'background: #222; color: #bada55', this.confirmed);
                 this.observe('confirmed', () => {
-                    console.log('%c this.confirmed', 'background: #222; color: #bada55', this.confirmed);
                     (this.transaction.id ? Promise.resolve(this.transaction.id) : this.signable.getId())
                         .then(id => {
                             this.id = id;
