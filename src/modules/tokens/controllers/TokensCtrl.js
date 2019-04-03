@@ -108,11 +108,13 @@
             }
 
             generate(signable) {
-                return modalManager.showConfirmTx(signable)
+                return modalManager.showConfirmTx(signable, 'Token Generation Info Show')
                     .then(() => this._reset());
             }
 
             createSignable() {
+                analytics.send({ name: 'Token Generation Generate Click', target: 'ui' });
+
                 const precision = Number(this.precision.toString());
                 const quantity = this.count.times(Math.pow(10, precision));
                 const script = this.hasAssetScript && this.script ? `${BASE_64_PREFIX}${this.script}` : '';
