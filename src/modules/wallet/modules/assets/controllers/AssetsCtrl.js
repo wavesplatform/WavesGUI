@@ -42,6 +42,11 @@
                 this.data = null;
                 this.options = assetsData.getGraphOptions();
                 this.mirrorId = null;
+
+                /**
+                 * @type {boolean}
+                 */
+                this.invalid = true;
                 /**
                  * @type {Moment}
                  * @private
@@ -124,7 +129,7 @@
             }
 
             openAnyTxModal() {
-                return modalManager.showAnyTx(null);
+                return modalManager.showAnyTx(null, 'Wallet Assets JSON Continue Click');
             }
 
             abs(num) {

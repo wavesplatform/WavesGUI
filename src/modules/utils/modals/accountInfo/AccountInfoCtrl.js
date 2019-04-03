@@ -17,6 +17,7 @@
      * @return {AccountInfoCtrl}
      */
     const controller = function (Base, $scope, user, waves, notification, utils, balanceWatcher) {
+        const analytics = require('@waves/event-sender');
 
         class AccountInfoCtrl extends Base {
 
@@ -116,6 +117,7 @@
 
                 this.aliases = waves.node.aliases.getAliasList();
                 this.observe(['newAlias'], this._validateNewAlias);
+                analytics.send({ name: 'Account Show', target: 'ui' });
             }
 
             getSignableTx() {
@@ -146,6 +148,7 @@
                             this.signLoader = false;
                             return ds.broadcast(preparedTx).then(() => {
                                 // analytics.push('User', `User.CreateAlias.Success.${WavesApp.type}`);
+                                analytics.send({ name: 'Account Alias Create Transaction Success', target: 'ui' });
                                 this.aliases.push(this.newAlias);
                                 this.newAlias = '';
                                 this.createAliasStep = 0;
@@ -162,6 +165,7 @@
                             $scope.$digest();
                         })
                     .catch((error) => {
+                        analytics.send({ name: 'Account Alias Create Transaction Error', target: 'ui' });
                         this.errorCreateAliasMsg = utils.parseError(error);
                     });
             }

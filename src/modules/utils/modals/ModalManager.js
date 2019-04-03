@@ -209,6 +209,21 @@
                     });
             }
 
+            showAcceptNewTerms() {
+                /**
+                 * @type {User}
+                 */
+                const user = $injector.get('user');
+                return this._getModal({
+                    id: 'accept-new-terms',
+                    templateUrl: 'modules/utils/modals/acceptNewTerms/accept-new-terms.html',
+                    controller: 'AcceptNewTermsCtrl',
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                })
+                    .then(() => user.setSetting('needReadNewTerms', false));
+            }
+
             showTutorialModals() {
                 analytics.send({ name: 'Onboarding SEED Popup Show', target: 'ui' });
                 return this._getModal({
@@ -376,13 +391,13 @@
                 });
             }
 
-            showAnyTx(tx) {
+            showAnyTx(tx, analyticsText) {
                 return this._getModal({
                     id: 'any-tx-modal',
                     controller: 'AnyTxModalCtrl',
                     contentUrl: 'modules/utils/modals/anyTxModal/any-tx-modal.html',
                     title: 'modals.anyTx.title',
-                    locals: tx
+                    locals: { tx, analyticsText }
                 });
             }
 
@@ -397,12 +412,12 @@
                 });
             }
 
-            showConfirmTx(signable) {
+            showConfirmTx(signable, analyticsText) {
                 return this._getModal({
                     id: 'confirm-tx',
                     mod: 'confirm-tx',
                     ns: 'app.ui',
-                    locals: { signable },
+                    locals: { signable, analyticsText },
                     controller: 'ConfirmTxCtrl',
                     headerUrl: 'modules/utils/modals/confirmTx/confirmTx.header.modal.html',
                     contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'

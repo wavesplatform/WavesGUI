@@ -23,16 +23,18 @@
                 <w-step>
                     <w-permit name="CAN_CREATE_ALIAS_TRANSACTION" mode="on">
                         <div class="create-alias-wrap">
-                            <w-button class="tiny margin-right-1" w-step-next>
-                                <span w-i18n="modal.account.create"></span>
-                            </w-button>
+                            <w-analytics event="'Account Alias New Click'" event-target="'ui'">
+                                <w-button class="tiny margin-right-1" w-step-next>
+                                    <span w-i18n="modal.account.create"></span>
+                                </w-button>
+                            </w-analytics>
                             <span class="caption-1 basic-700"
                                   params="{price: $ctrl.fee.toFormat(), name: $ctrl.fee.asset.name}"
                                   w-i18n="modal.account.fee"></span>
                         </div>
                     </w-permit>
                     <w-permit name="CAN_CREATE_ALIAS_TRANSACTION" mode="off">
-                        <div class="warning-plate warning-400 body-1 margin-top-2">
+                        <div class="plate-warning warning-400 body-1 margin-top-2">
                             <w-permit-message literal="modal.account.createAliasNotPermitted"></w-permit-message>
                         </div>
                     </w-permit>
@@ -57,11 +59,13 @@
                                 <w-loader ng-if="$ctrl.pendingAlias"></w-loader>
 
                                 <div class="create-alias-wrap">
-                                    <w-button
-                                            disabled="$ctrl.signLoader || $ctrl.invalid || $ctrl.pendingAlias || !$ctrl.newAlias"
-                                            class="tiny submit margin-right-1" type="submit">
-                                        <span w-i18n="modal.account.create"></span>
-                                    </w-button>
+                                    <w-analytics event="'Account Alias New Click With Name'" event-target="'ui'">
+                                        <w-button
+                                                disabled="$ctrl.signLoader || $ctrl.invalid || $ctrl.pendingAlias || !$ctrl.newAlias"
+                                                class="tiny submit margin-right-1" type="submit">
+                                            <span w-i18n="modal.account.create"></span>
+                                        </w-button>
+                                    </w-analytics>
                                     <span class="caption-1 basic-700"
                                           params="{price: $ctrl.fee.toFormat(), name: $ctrl.fee.asset.name}"
                                           w-i18n="modal.account.fee"></span>
@@ -90,12 +94,14 @@
 
                                 <div class="errors-margin">
                                     <div class="bottom-warning margin-3" ng-if="!!$ctrl.errorCreateAliasMsg">
-                                            <div class="body-2 error-400">{{$ctrl.errorCreateAliasMsg}}</div>
+                                        <div class="body-2 error-400">{{$ctrl.errorCreateAliasMsg}}</div>
                                     </div>
                                     <div class="bottom-warning margin-3" ng-if="$ctrl.signDeviceFail">
-                                        <div class="warning-plate warning-plate-red">
-                                            <div class="body-2 error-400" w-i18n-ns="app.ui" w-i18n="confirmTransaction.{{::$ctrl.userType}}Unconfirmed.header"></div>
-                                            <div class="footnote-1 basic-500" w-i18n-ns="app.ui" w-i18n="confirmTransaction.{{::$ctrl.userType}}Unconfirmed.description"></div>
+                                        <div class="plate-error">
+                                            <div class="body-2 error-400" w-i18n-ns="app.ui"
+                                                 w-i18n="confirmTransaction.{{::$ctrl.userType}}Unconfirmed.header"></div>
+                                            <div class="footnote-1 basic-500" w-i18n-ns="app.ui"
+                                                 w-i18n="confirmTransaction.{{::$ctrl.userType}}Unconfirmed.description"></div>
                                         </div>
                                     </div>
                                     <w-input-error message="custom">

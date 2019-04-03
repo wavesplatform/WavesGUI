@@ -11,6 +11,8 @@
      */
     const controller = function (Base, $scope, transactionsCsvGen, waves, createPoll) {
 
+        const analytics = require('@waves/event-sender');
+
         class TransactionsCtrl extends Base {
 
             constructor() {
@@ -37,6 +39,8 @@
                  */
                 this.limit = 100;
 
+                this.observe(['filter'], this._sendAnalytics);
+
                 this.syncSettings({ filter: 'wallet.transactions.filter' });
 
                 const poll = createPoll(this, this._getTxList, this._setTxList, 4000, { isBalance: true });
@@ -47,6 +51,7 @@
 
             exportTransactions() {
                 // analytics.push('TransactionsPage', `TransactionsPage.CSV.${WavesApp.type}`, 'download');
+                analytics.send({ name: 'Transactions Export Click', target: 'ui' });
                 transactionsCsvGen.generate(this.transactions);
             }
 
@@ -72,6 +77,36 @@
                 } else {
                     this.transactions = list.filter(({ typeName }) => availableTypes[typeName]);
                 }
+            }
+
+            /**
+             * @private
+             */
+            _sendAnalytics() {
+                let actionName;
+                switch (this.filter) {
+                    case 'all':
+                        actionName = 'Transactions All Show';
+                        break;
+                    case 'send,mass-send':
+                        actionName = 'Transactions Sent Show';
+                        break;
+                    case 'receive,mass-receive,sponsorship-fee':
+                        actionName = 'Transactions Received Show';
+                        break;
+                    case 'exchange-buy,exchange-sell':
+                        actionName = 'Transactions Exchanged Show';
+                        break;
+                    case 'lease-in,lease-out,cancel-leasing':
+                        actionName = 'Transactions Leased Show';
+                        break;
+                    case 'issue,reissue,burn,sponsorship-stop,sponsorship-start':
+                        actionName = 'Transactions Issued Show';
+                        break;
+                    default:
+                        break;
+                }
+                analytics.send({ name: actionName, target: 'ui' });
             }
 
             /**

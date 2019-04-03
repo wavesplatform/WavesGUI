@@ -225,7 +225,8 @@
                     // enabled_features: ENABLED_FEATURES,
                     overrides,
                     studies_overrides,
-                    custom_css_url
+                    custom_css_url,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
                 });
 
                 this._chart.onChartReady(() => {
@@ -243,7 +244,9 @@
                         this._chartReady = true;
                     }
                 });
-
+                this._chart.options.datafeed.onLoadError = () => {
+                    this.notLoaded = true;
+                };
                 return this;
             }
 
@@ -265,12 +268,14 @@
 
             static _remapLanguageCode(code) {
                 switch (code) {
-                    case 'hi':
+                    case 'hi_IN':
                         return 'en';
-                    case 'nl':
-                        return 'nl_NL';
-                    case 'zh-Hans-CN':
+                    case 'id':
+                        return 'en';
+                    case 'zh_CN':
                         return 'zh';
+                    case 'pt_BR':
+                        return 'pt';
                     default:
                         return code;
                 }

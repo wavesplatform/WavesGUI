@@ -1,7 +1,7 @@
 import { createSecureServer } from 'http2';
 import { createServer } from 'https';
-import { route, parseArguments, stat } from './ts-scripts/utils';
-import { readFileSync } from 'fs';
+import { route, parseArguments, stat, getLocales } from './ts-scripts/utils';
+import { readFileSync, existsSync, mkdirSync } from 'fs';
 import { serialize, parse as parserCookie } from 'cookie';
 import { compile } from 'handlebars';
 import { parse } from 'url';
@@ -52,6 +52,7 @@ const handler = function (req, res) {
     }
 
     const parsed = parseCookie(req.headers.cookie);
+
     if (!parsed) {
         readFile(join(__dirname, 'chooseBuild.hbs'), 'utf8').then((file) => {
             res.end(compile(file)({ links: getBuildsLinks(req.headers['user-agent']) }));
@@ -71,6 +72,18 @@ function createMyServer(port) {
     console.log(`Listen port ${port}...`);
     console.log('Available urls:');
     console.log(url);
+    const cachePath = join(process.cwd(), '.cache-download');
+    if (!existsSync(cachePath)){
+        mkdirSync(cachePath);
+    }
+    getLocales(cachePath).then(() => {
+        const localesTimer = setInterval(function() {
+            getLocales(cachePath)
+                .catch(err => console.log(err))
+        }, 60 * 10000);
+
+        localesTimer.unref();
+    });
 
     if (args.openUrl) {
         opn(url);

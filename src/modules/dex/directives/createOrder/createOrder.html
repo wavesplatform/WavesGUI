@@ -1,5 +1,5 @@
 <w-loader ng-if="!$ctrl.loaded"></w-loader>
-
+<w-error-block ng-show="$ctrl.loadingError"></w-error-block>
 <div class="create-order"
      w-i18n-ns="app.dex"
      ng-if="$ctrl.loaded">
@@ -76,14 +76,14 @@
                                 <w-input tabindex="1"
                                          class="tiny embed no-validate-icons"
                                          type="text"
-                                         ng-focus="$ctrl.focusedInputName = 'amount'"
-                                         ng-blur="$ctrl.focusedInputName = null"
+                                         ng-blur="$ctrl.setChangedInput('amount')"
                                          w-validate
                                          w-validator-asset="{{$ctrl.amountBalance.asset}}"
                                          w-validator-lte="{{$ctrl.maxAmountBalance}}"
                                          w-validator-gt="0"
                                          name="amount"
                                          ng-model="$ctrl.amount"
+                                         autocomplete="off"
                                          required></w-input>
                                 <div class="asset-name-wrap">
                                     <div class="caption-1 basic-500">{{$ctrl.amountDisplayName}}</div>
@@ -134,13 +134,13 @@
                                 <w-input class="tiny embed no-validate-icons"
                                          tabindex="2"
                                          type="text"
-                                         ng-focus="$ctrl.focusedInputName = 'price'"
-                                         ng-blur="$ctrl.focusedInputName = null"
+                                         ng-blur="$ctrl.setChangedInput('price')"
                                          w-validate
                                          w-validator-asset="{{$ctrl.priceBalance.asset}}"
                                          w-validator-gt="0"
                                          name="price"
                                          ng-model="$ctrl.price"
+                                         autocomplete="off"
                                          required></w-input>
                                 <div class="asset-name-wrap">
                                     <div class="caption-1 basic-500">{{$ctrl.priceDisplayName}}</div>
@@ -168,13 +168,13 @@
                                          tabindex="3"
                                          type="text"
                                          name="total"
-                                         ng-model="$ctrl.totalPrice"
+                                         ng-model="$ctrl.total"
                                          w-validate
-                                         ng-focus="$ctrl.focusedInputName = 'total'"
-                                         ng-blur="$ctrl.focusedInputName = null"
+                                         ng-blur="$ctrl.setChangedInput('total')"
                                          w-validator-asset="{{$ctrl.priceBalance.asset}}"
                                          w-validator-custom="{{$ctrl.canBuyOrder}}"
                                          w-validator-gt="0"
+                                         autocomplete="off"
                                          required></w-input>
                                 <div class="asset-name-wrap">
                                     <div class="caption-1 basic-500">{{$ctrl.priceDisplayName}}</div>
@@ -211,7 +211,7 @@
                         </w-button>
                     </w-permit>
                     <w-permit name="CAN_CREATE_ORDER" mode="off">
-                        <div class="note-plate body-3 basic-700 margin-top-1">
+                        <div class="plate-note body-3 basic-700 margin-top-1">
                             <w-permit-message
                                     literal="directives.createOrder.createOrderNotPermitted"></w-permit-message>
                         </div>

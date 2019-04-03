@@ -47,7 +47,7 @@
             }
 
             set advancedMode(mode) {
-                // analytics.push('Settings', 'Settings.ChangeAdvancedMode', String(mode));
+                analytics.send({ name: `Settings Advanced Features ${mode ? 'On' : 'Off'}`, target: 'ui' });
                 user.setSetting('advancedMode', mode);
             }
 
@@ -63,7 +63,6 @@
             withScam = false;
             theme = user.getSetting('theme');
             candle = user.getSetting('candle');
-            shareStat = user.getSetting('shareAnalytics');
             templatePromise = $templateRequest('modules/utils/modals/settings/loader.html');
             openClientMode = null;
             /**
@@ -74,6 +73,7 @@
             appName = WavesApp.name;
             appVersion = WavesApp.version;
             supportLink = WavesApp.network.support;
+            termsAndConditionsLink = WavesApp.network.termsAndConditions;
             supportLinkName = WavesApp.network.support.replace(/^https?:\/\//, '');
             blockHeight = 0;
             assetsOracleTmp = '';
@@ -84,6 +84,12 @@
 
             constructor() {
                 super($scope);
+                analytics.send({ name: 'Settings General Show', target: 'ui' });
+
+                this.observe('tab', () => {
+                    const tabName = this.tab.slice(0, 1).toUpperCase() + this.tab.slice(1);
+                    analytics.send({ name: `Settings ${tabName} Show`, target: 'ui' });
+                });
 
                 this.isScript = user.hasScript();
                 this.syncSettings({
@@ -163,16 +169,6 @@
                         node: this.node,
                         matcher: this.matcher
                     });
-                });
-
-                this.observe('shareStat', () => {
-                    if (this.shareStat) {
-                        analytics.activate();
-                        user.setSetting('shareAnalytics', true);
-                    } else {
-                        analytics.deactivate();
-                        user.setSetting('shareAnalytics', false);
-                    }
                 });
 
                 this.observe('shownSeed', () => {
