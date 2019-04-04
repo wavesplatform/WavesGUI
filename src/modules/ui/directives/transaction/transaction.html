@@ -4,7 +4,7 @@
     <div class="transaction-info">
         <ng-include class="full-width" src="$ctrl.templateUrl"></ng-include>
     </div>
-        <w-actions analytics-name="'Leasing Menu Click'" class="actions">
+        <w-actions analytics-text="'Leasing Menu Click'" class="actions">
             <w-analytics event="'Leasing Menu Tx Click'" event-target="'ui'">
                 <w-action ng-click="$ctrl.showTransaction()">
                     <span w-i18n="transaction.actions.showTx"></span>

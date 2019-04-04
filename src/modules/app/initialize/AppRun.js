@@ -528,6 +528,18 @@
                             target: 'ui'
                         });
                         break;
+                    case 'main.wallet.portfolio':
+                        analytics.send({
+                            name: 'Wallet Portfolio Show',
+                            target: 'ui'
+                        });
+                        break;
+                    case 'main.dex':
+                        analytics.send({
+                            name: 'DEX Show',
+                            target: 'ui'
+                        });
+                        break;
                     default:
                         break;
                 }

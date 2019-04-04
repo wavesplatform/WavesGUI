@@ -46,8 +46,8 @@
 
                 this.observe('expanded', () => {
                     if (this.expanded) {
-                        if (this.analyticsName) {
-                            analytics.send({ name: this.analyticsName, target: 'ui' });
+                        if (this.analyticsText) {
+                            analytics.send({ name: this.analyticsText, target: 'ui' });
                         }
                         $(document).on('mousedown', this._handler);
                     } else {
@@ -129,7 +129,7 @@
 
     angular.module('app.ui').component('wActions', {
         bindings: {
-            analyticsName: '<'
+            analyticsText: '<'
         },
         templateUrl: 'modules/ui/directives/actions/actions.html',
         transclude: true,

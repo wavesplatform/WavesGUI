@@ -18,6 +18,8 @@ const R = require('ramda');
      */
     const controller = function (Base, $scope, waves, PromiseControl, $mdDialog, user) {
 
+        const analytics = require('@waves/event-sender');
+
         class PinAssetCtrl extends Base {
 
             constructor() {
@@ -79,7 +81,13 @@ const R = require('ramda');
              * return {void}
              */
             onSubmit() {
-                this.pinnedAssetIdList = R.uniq([...this.pinnedAssetIdList, ...Object.keys(this.selectedHash)]);
+                const selectedAssets = Object.keys(this.selectedHash);
+                analytics.send({
+                    name: 'Wallet Assets Pin',
+                    params: { Currency: selectedAssets },
+                    target: 'ui'
+                });
+                this.pinnedAssetIdList = R.uniq([...this.pinnedAssetIdList, ...selectedAssets]);
                 this.spam = this.spam.filter((spamId) => !this.pinnedAssetIdList.includes(spamId));
                 $mdDialog.hide({ selected: this.selected.length });
             }

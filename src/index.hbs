@@ -582,6 +582,12 @@
                 type: 'ui'
             });
 
+            const send = analytics.send;
+            analytics.send = data => {
+                console.log('Analytics: ', data);
+                return send.call(analytics, data);
+            };
+
             if (location.pathname.replace('/', '') === '') {
                 analytics.send({ name: 'Onboarding Show', target: 'ui' });
             }
