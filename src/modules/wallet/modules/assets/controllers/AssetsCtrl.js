@@ -18,6 +18,7 @@
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
+        const analytics = require('@waves/event-sender');
 
         class Assets extends Base {
 
@@ -134,6 +135,7 @@
             onAssetActionClick(event, asset, action) {
                 event.preventDefault();
                 if (action === 'send') {
+                    analytics.send({ name: 'Wallet Assets Send Click', params: { Currency: asset.id }, target: 'ui' });
                     return this.showSend(asset);
                 }
 
@@ -142,6 +144,11 @@
                 }
 
                 if (action === 'receive') {
+                    analytics.send({
+                        name: 'Wallet Assets Receive Click',
+                        params: { Currency: asset.id },
+                        target: 'ui'
+                    });
                     return this.showReceivePopup(asset);
                 }
 
@@ -152,6 +159,7 @@
              * @param {Asset} asset
              */
             unpin(asset) {
+                analytics.send({ name: 'Wallet Assets Unpin', params: { Currency: asset.id }, target: 'ui' });
                 this.pinnedAssetIdList = this.pinnedAssetIdList.filter((fAsset) => fAsset !== asset.id);
             }
 

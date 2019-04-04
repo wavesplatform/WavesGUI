@@ -5,6 +5,7 @@
     const { STATUS_LIST } = require('@waves/oracle-data');
     const { path } = require('ramda');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
+    const analytics = require('@waves/event-sender');
 
     // TODO @xenohunter : remove that when icons are in @dvshur's service
     const ASSET_IMAGES_MAP = {
@@ -427,6 +428,11 @@
             });
 
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SEND}`, () => {
+                analytics.send({
+                    name: 'Transfer Click',
+                    params: { Currency: this.balance.asset.id },
+                    target: 'ui'
+                });
                 this.modalManager.showSendAsset({ assetId: this.balance.asset.id });
             });
 
@@ -435,30 +441,65 @@
             });
 
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.BURN}`, () => {
+                analytics.send({
+                    name: 'Burn Token Click',
+                    params: { Currency: this.balance.asset.id },
+                    target: 'ui'
+                });
                 this.modalManager.showBurnModal(this.balance.asset.id);
             });
 
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.REISSUE}`, () => {
+                analytics.send({
+                    name: 'Burn Reissue Click',
+                    params: { Currency: this.balance.asset.id },
+                    target: 'ui'
+                });
                 this.modalManager.showReissueModal(this.balance.asset.id);
             });
 
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.DEX}`, () => {
+                analytics.send({
+                    name: 'Wallet Portfolio Open in DEX Click',
+                    params: { Currency: this.balance.asset.id },
+                    target: 'ui'
+                });
                 this.$state.go('main.dex', this._getSrefParams(this.balance.asset));
             });
 
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_CREATE}`, () => {
+                analytics.send({
+                    name: 'Enable Sponsorship Click',
+                    params: { Currency: this.balance.asset.id },
+                    target: 'ui'
+                });
                 this.modalManager.showSponsorshipModal(this.balance.asset.id);
             });
 
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SET_ASSET_SCRIPT}`, () => {
+                analytics.send({
+                    name: 'Update Script Click',
+                    params: { Currency: this.balance.asset.id },
+                    target: 'ui'
+                });
                 this.modalManager.showSetAssetScriptModal(this.balance.asset.id);
             });
 
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_EDIT}`, () => {
+                analytics.send({
+                    name: 'Change Sponsorship Click',
+                    params: { Currency: this.balance.asset.id },
+                    target: 'ui'
+                });
                 this.modalManager.showSponsorshipModal(this.balance.asset.id, true);
             });
 
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_STOP}`, () => {
+                analytics.send({
+                    name: 'Disable Sponsorship Click',
+                    params: { Currency: this.balance.asset.id },
+                    target: 'ui'
+                });
                 this.modalManager.showSponsorshipStopModal(this.balance.asset.id);
             });
 

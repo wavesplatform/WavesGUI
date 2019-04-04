@@ -20,6 +20,12 @@
         const { SIGN_TYPE } = require('@waves/signature-adapter');
         const analytics = require('@waves/event-sender');
 
+        const ANALYTICS_TABS_NAMES = {
+            details: 'View Details',
+            JSON: 'JSON',
+            export: 'Export'
+        };
+
         class ConfirmTransaction extends ConfirmTxService {
 
             locale = $attrs.ns || 'app.ui';
@@ -45,6 +51,13 @@
                 this.isSetScript = this.type === SIGN_TYPE.SET_SCRIPT && tx.script;
                 this.isTockenIssue = this.type === SIGN_TYPE.ISSUE;
 
+                if (this.isAnyTx) {
+                    this.observe('activeTab', () => {
+                        const name = `Wallet Assets JSON ${ANALYTICS_TABS_NAMES[this.activeTab]} Show`;
+                        analytics.send({ name, target: 'ui' });
+                    });
+                }
+
                 this.signable.hasMySignature().then(state => {
                     this.step = state ? 1 : 0;
                     $scope.$apply();
@@ -53,6 +66,10 @@
 
             sendTransaction() {
                 return super.sendTransaction().then(data => {
+                    if (this.isAnyTx) {
+                        const name = `Wallet Assets JSON ${ANALYTICS_TABS_NAMES[this.activeTab]} Send Click`;
+                        analytics.send({ name, target: 'ui' });
+                    }
                     analytics.send(this._getConfirmAnalytics(data, true));
                     this.onTransactionSend();
                     return data;
@@ -238,7 +255,9 @@
             noBackButton: '<',
             warning: '<',
             onTransactionSend: '&',
-            referrer: '<'
+            referrer: '<',
+            activeTab: '<',
+            isAnyTx: '<'
         },
         templateUrl: 'modules/ui/directives/confirmTransaction/confirmTransaction.html',
         transclude: false,

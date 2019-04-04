@@ -16,6 +16,15 @@
      */
     const controller = function (Base, $element, $state, $location, user, $scope, createPoll, waves) {
 
+        const analytics = require('@waves/event-sender');
+
+        const ANALYTICS_TABS_NAMES = {
+            myOpenOrders: 'My Open Orders',
+            myTradeHistory: 'My Trade History',
+            tradeHistory: 'Trade History',
+            myBalance: 'My Balance'
+        };
+
         class DexCtrl extends Base {
 
             /**
@@ -49,6 +58,7 @@
                  */
                 this._assetIdPair = null;
 
+                this.observe('tab', this._onChangeTab);
 
                 this.syncSettings({
                     tab: 'dex.layout.bottomleft.tab',
@@ -98,6 +108,12 @@
                 const pair = await this._getPair();
                 $location.search('assetId2', pair.amountAsset.id);
                 $location.search('assetId1', pair.priceAsset.id);
+            }
+            /**
+             * @private
+             */
+            _onChangeTab() {
+                analytics.send({ name: `DEX ${ANALYTICS_TABS_NAMES[this.tab]} Show`, target: 'ui' });
             }
 
             /**
