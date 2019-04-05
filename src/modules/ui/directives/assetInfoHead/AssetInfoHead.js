@@ -13,6 +13,7 @@
         const ds = require('data-service');
         const { path } = require('ramda');
         const { STATUS_LIST } = require('@waves/oracle-data');
+        const GATEWAY = 3;
 
         class AssetInfoHead extends Base {
 
@@ -54,8 +55,7 @@
                 });
                 const data = ds.dataManager.getOracleAssetData(this.assetId);
                 this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
-                // TODO this.isGateway = path(['status'], data) === STATUS_LIST.GATEWAY;
-                this.isGateway = path(['status'], data) === 3;
+                this.isGateway = path(['status'], data) === GATEWAY;
                 this.isSuspicious = user.scam[this.assetId];
                 this.hasLabel = this.isVerified || this.isGateway || this.isSuspicious;
 
