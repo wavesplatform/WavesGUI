@@ -9,8 +9,8 @@
                         <span w-i18n="modal.tutorialModals.step1.title"></span>
                     </h1>
 
-                    <div class="flex-cols">
-                        <div class="relative">
+                    <div class="flex">
+                        <div>
                             <img class="computer" src="/img/icons/tutorial-modals/tutorial-computer.svg"/>
                         </div>
                         <div>
@@ -26,16 +26,14 @@
                         </div>
                     </div>
                 </div>
-
-                <div w-analytics event="'Onboarding SEED Click'" target="'ui'" class="buttons-wrapper">
-                    <w-button class="big long submit desktop-only" w-step-next>
+                <w-analytics event="'Onboarding SEED Click'" target="'ui'"></w-analytics>
+                    <w-button class="big long submit margin-auto desktop-only" w-step-next>
                         <span w-i18n="modal.tutorialModals.step1.button"></span>
                     </w-button>
                     <w-button class="big long submit mobile-only" w-step-next>
                         <span w-i18n="modal.tutorialModals.step1.buttonMobile"></span>
                     </w-button>
-                </div>
-
+                </w-analytics>
             </md-dialog-content>
         </w-step>
 
@@ -69,17 +67,13 @@
                     </div>
                 </div>
 
-                <div class="flex-cols buttons-wrapper">
-                    <div>
-                        <w-button class="big long" w-step-prev>
-                            <span w-i18n="modal.tutorialModals.step2.backButton"></span>
-                        </w-button>
-                    </div>
-                    <div>
-                        <w-button class="big long submit" w-step-next>
-                            <span w-i18n="modal.tutorialModals.step2.nextButton"></span>
-                        </w-button>
-                    </div>
+                <div class="buttons-wrapper">
+                    <w-button class="big long" w-step-prev>
+                        <span w-i18n="modal.tutorialModals.step2.backButton"></span>
+                    </w-button>
+                    <w-button class="big long submit" w-step-next>
+                        <span w-i18n="modal.tutorialModals.step2.nextButton"></span>
+                    </w-button>
                 </div>
 
             </md-dialog-content>
@@ -124,17 +118,13 @@
                     </div>
                 </div>
 
-                <div class="flex-cols buttons-wrapper">
-                    <div>
-                        <w-button class="big long" w-step-prev>
-                            <span w-i18n="modal.tutorialModals.step3.backButton"></span>
-                        </w-button>
-                    </div>
-                    <div>
-                        <w-button class="big long submit" w-modal-hide>
-                            <span w-i18n="modal.tutorialModals.step3.nextButton"></span>
-                        </w-button>
-                    </div>
+                <div class="buttons-wrapper">
+                    <w-button class="big long" w-step-prev>
+                        <span w-i18n="modal.tutorialModals.step3.backButton"></span>
+                    </w-button>
+                    <w-button class="big long submit" w-modal-hide>
+                        <span w-i18n="modal.tutorialModals.step3.nextButton"></span>
+                    </w-button>
                 </div>
 
             </md-dialog-content>

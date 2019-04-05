@@ -20,6 +20,7 @@
             constructor() {
                 this._lastTime = 0;
                 this._subscriber = null;
+                this.onLoadError = angular.noop;
             }
 
             static _getAndHandleCandles(symbolInfo, from, to, resolution, handleCandles, handleError = angular.noop) {
@@ -102,7 +103,10 @@
 
                 symbolInfoService.get(symbolName)
                     .then(resolve)
-                    .catch(reject); // TODO
+                    .catch(() => {
+                        this.onLoadError();
+                        reject();
+                    }); // TODO
             }
 
             getBars(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback) {

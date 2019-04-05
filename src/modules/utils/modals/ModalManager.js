@@ -209,6 +209,21 @@
                     });
             }
 
+            showAcceptNewTerms() {
+                /**
+                 * @type {User}
+                 */
+                const user = $injector.get('user');
+                return this._getModal({
+                    id: 'accept-new-terms',
+                    templateUrl: 'modules/utils/modals/acceptNewTerms/accept-new-terms.html',
+                    controller: 'AcceptNewTermsCtrl',
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                })
+                    .then(() => user.setSetting('needReadNewTerms', false));
+            }
+
             showTutorialModals() {
                 analytics.send({ name: 'Onboarding SEED Popup Show', target: 'ui' });
                 return this._getModal({

@@ -63,7 +63,6 @@
             withScam = false;
             theme = user.getSetting('theme');
             candle = user.getSetting('candle');
-            shareStat = user.getSetting('shareAnalytics');
             templatePromise = $templateRequest('modules/utils/modals/settings/loader.html');
             openClientMode = null;
             /**
@@ -74,6 +73,7 @@
             appName = WavesApp.name;
             appVersion = WavesApp.version;
             supportLink = WavesApp.network.support;
+            termsAndConditionsLink = WavesApp.network.termsAndConditions;
             supportLinkName = WavesApp.network.support.replace(/^https?:\/\//, '');
             blockHeight = 0;
             assetsOracleTmp = '';
@@ -169,16 +169,6 @@
                         node: this.node,
                         matcher: this.matcher
                     });
-                });
-
-                this.observe('shareStat', () => {
-                    if (this.shareStat) {
-                        analytics.activate();
-                        user.setSetting('shareAnalytics', true);
-                    } else {
-                        analytics.deactivate();
-                        user.setSetting('shareAnalytics', false);
-                    }
                 });
 
                 this.observe('shownSeed', () => {
