@@ -486,7 +486,7 @@
              */
             _onChangeStateSuccess(event, toState, some, fromState) {
                 const from = fromState.name || document.referrer;
-                console.log('%c toState.name', 'color: #e5b6ed', toState.name);
+
                 switch (toState.name) {
                     case 'create':
                         analytics.send({

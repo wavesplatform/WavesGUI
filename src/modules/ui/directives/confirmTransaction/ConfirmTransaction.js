@@ -58,6 +58,9 @@
                     });
                 }
 
+                const NAME = this.getEventName(tx);
+                analytics.send({ name: `${NAME} Info`, target: 'ui' });
+
                 this.signable.hasMySignature().then(state => {
                     this.step = state ? 1 : 0;
                     $scope.$apply();
