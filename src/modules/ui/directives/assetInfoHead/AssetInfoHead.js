@@ -54,7 +54,8 @@
                 });
                 const data = ds.dataManager.getOracleAssetData(this.assetId);
                 this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
-                this.isGateway = path(['status'], data) === STATUS_LIST.GATEWAY;
+                // TODO this.isGateway = path(['status'], data) === STATUS_LIST.GATEWAY;
+                this.isGateway = path(['status'], data) === 3;
                 this.isSuspicious = user.scam[this.assetId];
                 this.hasLabel = this.isVerified || this.isGateway || this.isSuspicious;
 
