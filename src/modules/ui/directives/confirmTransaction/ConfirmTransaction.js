@@ -101,9 +101,9 @@
              * @private
              * @return {{name: string, params: {type: *}, target: string}}
              */
-            _getConfirmAnalytics(data, success) {
+            _getConfirmAnalytics(data, isOnSendClick) {
                 const NAME = this.getEventName(data);
-                const name = success ? `${NAME} Popup Send Click` : `${NAME} Popup Go Back Click`;
+                const name = isOnSendClick ? `${NAME} Popup Send Click` : `${NAME} Popup Go Back Click`;
                 return { name, params: { type: data.type }, target: 'ui' };
             }
 

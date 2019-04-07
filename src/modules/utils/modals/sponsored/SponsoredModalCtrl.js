@@ -16,6 +16,7 @@
         const { Money } = require('@waves/data-entities');
         const ds = require('data-service');
         const { path } = require('ramda');
+        const analytics = require('@waves/event-sender');
 
         class SponsoredModalCtrl extends Base {
 
@@ -91,17 +92,7 @@
             }
 
             onConfirm() {
-                // let name;
-                // switch (this.signable.getTxData().typeName) {
-                //     case 'sponsorship-start':
-                //         name = 'Enable Spons
-                //     case 'sponsorship-start':
-                //         name = 'Enable Sponsorship Continue Click';
-                //     break;
-                // }
-                // console.log('%c this.signable', 'color: #e5b6ed', this.signable.getTxData().typeName);
-                // const name = this.signable.slice(0, 1).toUpperCase() + this.txType.slice(1);
-                // analytics.send({ name: `${name} Token Continue Click`, target: 'ui' });
+                analytics.send({ name: 'Enable Sponsorship Continue Click', target: 'ui' });
                 this.step++;
             }
 

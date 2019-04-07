@@ -492,7 +492,7 @@
                         data: tx
                     });
 
-                    return this.showConfirmTx(signable, true);
+                    return this.showConfirmTx(signable);
                 });
             }
 

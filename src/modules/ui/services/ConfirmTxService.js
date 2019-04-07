@@ -87,7 +87,6 @@
                 this.syncSettings({
                     advancedMode: 'advancedMode'
                 });
-
                 this.observe('signable', this.onChangeSignable);
             }
 

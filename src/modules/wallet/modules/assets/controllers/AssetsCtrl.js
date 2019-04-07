@@ -140,7 +140,6 @@
             onAssetActionClick(event, asset, action) {
                 event.preventDefault();
                 if (action === 'send') {
-                    analytics.send({ name: 'Wallet Assets Send Click', params: { Currency: asset.id }, target: 'ui' });
                     return this.showSend(asset);
                 }
 
@@ -149,11 +148,6 @@
                 }
 
                 if (action === 'receive') {
-                    analytics.send({
-                        name: 'Wallet Assets Receive Click',
-                        params: { Currency: asset.id },
-                        target: 'ui'
-                    });
                     return this.showReceivePopup(asset);
                 }
 
@@ -177,6 +171,11 @@
             }
 
             showReceivePopup(asset) {
+                analytics.send({
+                    name: 'Wallet Assets Receive Click',
+                    params: { Currency: asset ? asset.id : 'All' },
+                    target: 'ui'
+                });
                 return modalManager.showReceiveModal(user, asset);
             }
 
@@ -195,6 +194,11 @@
              * @param {Asset} asset
              */
             showSend(asset) {
+                analytics.send({
+                    name: 'Wallet Assets Send Click',
+                    params: { Currency: asset ? asset.id : 'All' },
+                    target: 'ui'
+                });
                 return modalManager.showSendAsset({ assetId: asset && asset.id || null });
             }
 
