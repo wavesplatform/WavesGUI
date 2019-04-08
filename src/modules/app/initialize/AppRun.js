@@ -524,7 +524,6 @@
                     case 'main.wallet.assets':
                         analytics.send({
                             name: 'Wallet Assets Show',
-                            params: { from: user.userType },
                             target: 'ui'
                         });
                         break;

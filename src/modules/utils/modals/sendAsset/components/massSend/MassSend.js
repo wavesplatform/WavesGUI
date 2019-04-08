@@ -15,6 +15,7 @@
     const controller = function (Base, readFile, $scope, utils, validateService, waves, user, decorators) {
 
         const Papa = require('papaparse');
+        const analytics = require('@waves/event-sender');
 
         class MassSend extends Base {
 
@@ -103,7 +104,7 @@
                     item.amount = this.state.moneyHash[assetId].cloneWithTokens(item.amount.toTokens());
                 });
                 this.tx.transfers = transfers;
-
+                analytics.send({ name: 'MassTransfer Click', target: 'ui' });
                 const onHasMoneyHash = () => {
                     const changeTransfers = utils.observe(this.state.massSend, 'transfers');
                     const changeAssetId = utils.observe(this.state, 'assetId');
@@ -173,6 +174,7 @@
             }
 
             onTxSign(signable) {
+                analytics.send({ name: 'Mass Transfer Transaction Continue Click', target: 'ui' });
                 this.onContinue({ signable });
             }
 

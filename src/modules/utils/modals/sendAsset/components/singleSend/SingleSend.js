@@ -9,6 +9,7 @@
 
     const { Money } = require('@waves/data-entities');
     const ds = require('data-service');
+    const analytics = require('@waves/event-sender');
 
     const BANK_RECIPIENT = WavesApp.bankRecipient;
     const MIN_TOKEN_COUNT = 100;
@@ -299,6 +300,7 @@
             }
 
             onSignTx(signable) {
+                analytics.send({ name: 'Transfer Transaction Continue Click', target: 'ui' });
                 this.onContinue({ signable });
             }
 
