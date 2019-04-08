@@ -130,7 +130,7 @@
                                          type="text"
                                          ng-blur="$ctrl.setChangedInput('amount')"
                                          w-validate
-                                         w-validator-asset="{{$ctrl.amountBalance.asset}}"amount
+                                         w-validator-asset="{{$ctrl.amountBalance.asset}}" amount
                                          w-validator-lte="{{$ctrl.maxAmountBalance}}"
                                          w-validator-gt="0"
                                          name="amount"
@@ -159,16 +159,24 @@
                         </w-input-container>
 
                         <div class="field-buttons">
-                            <w-button class="micro">
+                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.25)}"
+                                      on-click="$ctrl.setAmountByBalance(0.25)"
+                                      class="micro">
                                 <span class="button">25%</span>
                             </w-button>
-                            <w-button class="micro">
+                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.5)}"
+                                      on-click="$ctrl.setAmountByBalance(0.5)"
+                                      class="micro">
                                 <span class="button">50%</span>
                             </w-button>
-                            <w-button class="micro">
+                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.75)}"
+                                      on-click="$ctrl.setAmountByBalance(0.75)"
+                                      class="micro">
                                 <span class="button">75%</span>
                             </w-button>
-                            <w-button class="micro">
+                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(1)}"
+                                      on-click="$ctrl.setAmountByBalance(1)"
+                                      class="micro">
                                 <span class="button">100%</span>
                             </w-button>
                         </div>
