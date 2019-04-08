@@ -91,6 +91,9 @@
                 if (this.signable.type === 14) {
                     analytics.send({ name: 'Disable Sponsorship Continue Click', target: 'ui' });
                 }
+                if (this.signable.type === 9) {
+                    analytics.send({ name: 'Leasing Cancel Sign Click', target: 'ui' });
+                }
                 return this.signable;
             }
 

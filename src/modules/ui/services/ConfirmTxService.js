@@ -19,7 +19,7 @@
         [SIGN_TYPE.BURN]: 'Burn Token',
         [SIGN_TYPE.EXCHANGE]: 'Exchange',
         [SIGN_TYPE.LEASE]: 'Leasing',
-        [SIGN_TYPE.CANCEL_LEASING]: 'Cancel Leasing',
+        [SIGN_TYPE.CANCEL_LEASING]: 'Leasing cancel',
         [SIGN_TYPE.CREATE_ALIAS]: 'Create Alias',
         [SIGN_TYPE.MASS_TRANSFER]: 'Mass Transfer',
         [SIGN_TYPE.DATA]: 'Data',

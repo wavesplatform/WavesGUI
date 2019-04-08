@@ -8,7 +8,7 @@
 
     <div class="import-modal__blocks-wrapper text-center">
         <div class="import-modal__block" ui-sref="restore"
-            w-analytics event="'Import Backup Click'" event-target="'ui'">
+             w-analytics event="'Import Backup Click'" event-target="'ui'">
             <div class="import-modal__icon-beta"></div>
             <div class="body-2 basic-700" w-i18n="wavesSeedClient"></div>
             <div class="caption-1 basic-500 margin-2" w-i18n="wavesSeedClientDescription"></div>
@@ -19,19 +19,21 @@
             <div class="body-2 basic-700" w-i18n="wavesLiteClient"></div>
             <div class="caption-1 basic-500 margin-2" w-i18n="wavesLiteClientDescription"></div>
         </div>
-            <div ng-if="isDesktop" class="import-modal__block" ui-sref="ledger"
-                 w-analytics event="'Import Ledger Click'" event-target="'ui'" >
+
+        <div ng-if="isDesktop" class="import-modal__block" ui-sref="ledger">
+            <w-analytics event="'Import Ledger Click'" event-target="'ui'">
                 <div class="import-modal__icon-ledger"></div>
                 <div class="body-2 basic-700" w-i18n="LedgerClient"></div>
                 <div class="caption-1 basic-500 margin-2" w-i18n="ledgerDescription"></div>
-            </div>
-            <w-web-only ng-if="isNotPhone" w-web-only-class="import-modal__block" ui-sref="keeper" w-analytics event="'Import Keeper Click'" event-target="'ui'">
-                <w-analytics event="'Import Keeper Click'" event-target="'ui'">
+            </w-analytics>
+        </div>
+        <w-web-only ng-if="isNotPhone" w-web-only-class="import-modal__block" ui-sref="keeper">
+            <w-analytics event="'Import Keeper Click'" event-target="'ui'">
                 <div class="import-modal__icon-keeper"></div>
                 <div class="body-2 basic-700" w-i18n="KeeperClient"></div>
                 <div class="caption-1 basic-500 margin-2" w-i18n="keeperDescription"></div>
-                </w-analytics>
-            </w-web-only>
+            </w-analytics>
+        </w-web-only>
     </div>
 
     <div class="import-footer">

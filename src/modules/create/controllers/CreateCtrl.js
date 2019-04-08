@@ -105,7 +105,6 @@
              * @param {number} [index]
              */
             next(index) {
-
                 if (index === STATE_HASH.CREATE_ACCOUNT && index > STATE_HASH.CREATE_ACCOUNT) {
                     analytics.send({
                         name: 'Create New Continue Click',
@@ -123,19 +122,12 @@
                 if (index === STATE_HASH.SHOW_NO_BACKUP_NOW_MONEY) {
                     analytics.send({ name: 'Create No Backup Show' });
                 }
-                if (this.stepIndex === STATE_HASH.SHOW_NO_BACKUP_NOW_MONEY && index > this.stepIndex) {
+                if (this.stepIndex === STATE_HASH.SHOW_NO_BACKUP_NOW_MONEY && !index) {
                     analytics.send({ name: 'Create Back Up Now Click' });
                 }
-                if (index === STATE_HASH.BACKUP) {
-                    analytics.send({ name: 'Create Backup Phrase Show' });
-                }
-                if (this.stepIndex === STATE_HASH.BACKUP && index > this.stepIndex) {
+                if (this.stepIndex === STATE_HASH.BACKUP && !index) {
                     analytics.send({ name: 'Create Backup Phrase I Written Click' });
                 }
-                if (index === STATE_HASH.CONFIRM_BACKUP) {
-                    analytics.send({ name: 'Create Confirm Phrase Show' });
-                }
-
                 if (!index) {
                     index = this.stepIndex + 1;
                 }
@@ -150,6 +142,12 @@
                     return this.checkNext()
                         .then(() => {
                             this.stepIndex = index;
+                            if (index === STATE_HASH.BACKUP) {
+                                analytics.send({ name: 'Create Backup Phrase Show' });
+                            }
+                            if (index === STATE_HASH.CONFIRM_BACKUP) {
+                                analytics.send({ name: 'Create Confirm Phrase Show' });
+                            }
                         });
                 }
             }

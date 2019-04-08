@@ -51,14 +51,9 @@
                 </div>
 
                 <div class="margin-3">
-                    <w-analytics
-                            event-target="'ui'"
-                            event-params="{guestMode: !$ctrl.saveUserData}"
-                            event="'Import Backup Continue Click'">
-                        <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">
-                            <span w-i18n="seedForm.continue"></span>
-                        </w-button>
-                    </w-analytics>
+                    <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">
+                        <span w-i18n="seedForm.continue"></span>
+                    </w-button>
                 </div>
             </form>
 

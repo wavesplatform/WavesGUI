@@ -100,11 +100,16 @@
             }
 
             nextStep() {
+                analytics.send({
+                    name: 'Import Backup Continue Click',
+                    params: { guestMode: !this.saveUserData },
+                    target: 'ui'
+                });
                 if (!this.saveUserData) {
                     return this.restore();
                 }
-                analytics.send({ name: 'Import Backup Protect Your Account Show', target: 'ui' });
                 this.activeStep++;
+                analytics.send({ name: 'Import Backup Protect Your Account Show', target: 'ui' });
             }
 
             importAccounts() {
