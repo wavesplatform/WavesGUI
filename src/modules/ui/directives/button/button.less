@@ -96,11 +96,6 @@ w-button {
           color: @color-basic-700;
         }
 
-        &:active, &.active {
-          border-color: @color-submit-300;
-          color: @color-submit-300;
-        }
-
         &:disabled, &.disabled {
           border: 1px solid @color-accent-50;
           color: @color-basic-500;
@@ -237,6 +232,18 @@ w-button {
       background: transparent;
       border: 1px solid @color-white;
       color: @color-white;
+    }
+  }
+
+  &:active, &.active {
+    &:not(.transparent) {
+      button {
+        &,
+        &:hover {
+          border-color: @color-submit-300;
+          color: @color-submit-300;
+        }
+      }
     }
   }
 }
