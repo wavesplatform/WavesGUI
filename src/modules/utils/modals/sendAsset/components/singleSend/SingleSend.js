@@ -246,9 +246,7 @@
             $postLink() {
 
                 this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
-
-                this.receiveOnce(utils.observe(this.state, 'moneyHash'), () => {
-
+                const onHasMoneyHash = () => {
                     this.receive(utils.observe(this.state, 'toBankMode'), this._onChangeBankMode, this);
                     this.observe('gatewayDetails', this._currentHasCommission);
 
@@ -268,7 +266,12 @@
                     this._currentHasCommission();
                     this._onChangeBaseAssets();
                     this._updateGatewayDetails();
-                });
+                };
+                if (!this.state.moneyHash) {
+                    this.receiveOnce(utils.observe(this.state, 'moneyHash'), onHasMoneyHash);
+                } else {
+                    onHasMoneyHash();
+                }
             }
 
             onSignCoinomatStart() {
@@ -607,6 +610,7 @@
                                 .cloneWithTokens(details.minimumAmount.minus('0.00000001'));
                             this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
                             this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
+                            $scope.$apply();
                         }, () => {
                             this.gatewayDetails = null;
                             this.gatewayDetailsError = true;
