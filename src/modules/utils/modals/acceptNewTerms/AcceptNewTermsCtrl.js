@@ -8,6 +8,7 @@
             constructor() {
                 super($scope);
                 this.readTermsAndConditions = false;
+                this.privacyPolicy = false;
             }
 
             confirm() {

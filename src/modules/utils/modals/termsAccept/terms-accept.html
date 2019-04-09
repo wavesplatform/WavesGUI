@@ -10,12 +10,8 @@
                 <hr>
 
                 <div class="row">
-                    <w-checkbox-submit id="security" ng-model="$ctrl.security"></w-checkbox-submit>
-                    <label for="security" w-i18n="modal.termsAccept.body.security"></label>
-                </div>
-                <div class="row">
-                    <w-checkbox-submit id="backup" ng-model="$ctrl.backup"></w-checkbox-submit>
-                    <label for="backup" w-i18n="modal.termsAccept.body.backup"></label>
+                    <w-checkbox-submit id="securityAndBackup" ng-model="$ctrl.securityAndBackup"></w-checkbox-submit>
+                    <label for="securityAndBackup" w-i18n="modal.termsAccept.body.securityAndBackup"></label>
                 </div>
 
                 <div class="row">
@@ -23,8 +19,13 @@
                     <label for="readTermsAndConditions" w-i18n="modal.termsAccept.body.readTermsAndConditions"></label>
                 </div>
 
+                <div class="row">
+                    <w-checkbox-submit id="privacyPolicy" ng-model="$ctrl.privacyPolicy"></w-checkbox-submit>
+                    <label for="privacyPolicy" w-i18n="modal.termsAccept.body.privacyPolicy"></label>
+                </div>
+
                 <w-button class="submit long big" on-click="$ctrl.confirm()"
-                          disabled="!$ctrl.security || !$ctrl.backup || !$ctrl.readTermsAndConditions">
+                          disabled="!$ctrl.securityAndBackup || !$ctrl.readTermsAndConditions || !$ctrl.privacyPolicy">
                     <span w-i18n="modal.termsAccept.body.ok"></span>
                 </w-button>
             </md-dialog-content>
