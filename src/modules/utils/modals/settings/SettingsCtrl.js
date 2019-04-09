@@ -73,6 +73,7 @@
             appVersion = WavesApp.version;
             supportLink = WavesApp.network.support;
             termsAndConditionsLink = WavesApp.network.termsAndConditions;
+            privacyPolicy = WavesApp.network.privacyPolicy;
             supportLinkName = WavesApp.network.support.replace(/^https?:\/\//, '');
             blockHeight = 0;
             assetsOracleTmp = '';
