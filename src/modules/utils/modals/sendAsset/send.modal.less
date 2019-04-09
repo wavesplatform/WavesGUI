@@ -224,6 +224,7 @@ md-dialog.modal-send {
 
         &__balance {
           font-size: 15px;
+          display: flex;
           @media screen and (max-width: 540px) {
             font-size: 13px;
           }
@@ -245,10 +246,11 @@ md-dialog.modal-send {
     w-select {
       .title {
         overflow-x: hidden;
+      }
 
-        span {
-          white-space: nowrap;
-        }
+      span {
+        max-width: 82px;
+        white-space: nowrap;
       }
 
       .expanded {

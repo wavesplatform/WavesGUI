@@ -173,12 +173,23 @@ w-transaction .transaction {
         &:last-child {
           padding-right: @padding-main-layout * 4.4;
           text-align: right;
+
+          .top {
+            word-break: break-all;
+          }
         }
 
         .top {
-          word-break: break-all;
           .spam-label {
             display: none;
+          }
+
+          .flex {
+            flex: 0;
+
+            .ellipsis {
+              max-width: 120px;
+            }
           }
         }
         .bottom {
