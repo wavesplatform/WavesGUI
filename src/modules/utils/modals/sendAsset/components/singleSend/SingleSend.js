@@ -300,7 +300,7 @@
             }
 
             onSignTx(signable) {
-                analytics.send({ name: 'Transfer Transaction Continue Click', target: 'ui' });
+                analytics.send({ name: 'Transfer Continue Click', target: 'ui' });
                 this.onContinue({ signable });
             }
 

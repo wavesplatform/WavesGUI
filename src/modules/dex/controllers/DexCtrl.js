@@ -113,7 +113,9 @@
              * @private
              */
             _onChangeTab() {
-                analytics.send({ name: `DEX ${ANALYTICS_TABS_NAMES[this.tab]} Show`, target: 'ui' });
+                if (ANALYTICS_TABS_NAMES[this.tab]) {
+                    analytics.send({ name: `DEX ${ANALYTICS_TABS_NAMES[this.tab]} Show`, target: 'ui' });
+                }
             }
 
             /**

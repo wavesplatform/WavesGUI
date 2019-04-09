@@ -15,7 +15,7 @@
         [SIGN_TYPE.CREATE_ORDER]: 'Create order',
         [SIGN_TYPE.ISSUE]: 'Token Generation',
         [SIGN_TYPE.TRANSFER]: 'Transfer',
-        [SIGN_TYPE.REISSUE]: 'Reissue',
+        [SIGN_TYPE.REISSUE]: 'Reissue Token',
         [SIGN_TYPE.BURN]: 'Burn Token',
         [SIGN_TYPE.EXCHANGE]: 'Exchange',
         [SIGN_TYPE.LEASE]: 'Leasing',

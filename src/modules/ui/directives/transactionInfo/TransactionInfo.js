@@ -43,7 +43,7 @@
                 if (!this.signable) {
                     throw new Error('Has no signable!');
                 }
-                const name = `${this.getEventName(this.signable)} Transaction Info Show`;
+                const name = `${this.getEventName(this.signable)} Info Show`;
                 analytics.send({ name, target: 'ui' });
             }
 

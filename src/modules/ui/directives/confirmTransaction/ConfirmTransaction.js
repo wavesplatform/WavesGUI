@@ -59,7 +59,7 @@
                 }
 
                 const NAME = this.getEventName(tx);
-                analytics.send({ name: `${NAME} Transaction Info`, target: 'ui' });
+                analytics.send({ name: `${NAME} Info Show`, target: 'ui' });
 
                 this.signable.hasMySignature().then(state => {
                     this.step = state ? 1 : 0;
@@ -68,13 +68,12 @@
             }
 
             sendTransaction() {
+                if (this.isAnyTx) {
+                    const name = `Wallet Assets JSON ${ANALYTICS_TABS_NAMES[this.activeTab]} Send Click`;
+                    analytics.send({ name, target: 'ui' });
+                }
+                analytics.send(this._getConfirmAnalytics(this.signable.getTxData(), true));
                 return super.sendTransaction().then(data => {
-                    if (this.isAnyTx) {
-                        const name = `Wallet Assets JSON ${ANALYTICS_TABS_NAMES[this.activeTab]} Send Click`;
-                        analytics.send({ name, target: 'ui' });
-                    }
-
-                    analytics.send(this._getConfirmAnalytics(data, true));
                     this.onTransactionSend();
                     return data;
                 });
@@ -88,11 +87,19 @@
             }
 
             getSignable() {
-                if (this.signable.type === 14) {
-                    analytics.send({ name: 'Disable Sponsorship Continue Click', target: 'ui' });
-                }
-                if (this.signable.type === 9) {
-                    analytics.send({ name: 'Leasing Cancel Sign Click', target: 'ui' });
+                return this.signable;
+            }
+
+            getSignableAndSendEvent() {
+                switch (this.signable.type) {
+                    case 14:
+                        analytics.send({ name: 'Disable Sponsorship Continue Click', target: 'ui' });
+                        break;
+                    case 9:
+                        analytics.send({ name: 'Leasing Cancel Sign Click', target: 'ui' });
+                        break;
+                    default:
+                        break;
                 }
                 return this.signable;
             }
@@ -111,8 +118,8 @@
             _getConfirmAnalytics(data, isOnSendClick) {
                 const NAME = this.getEventName(data);
                 const name = isOnSendClick ?
-                    `${NAME} Transaction Popup Send Click` :
-                    `${NAME} Transaction Popup Go Back Click`;
+                    `${NAME} Info Send Click` :
+                    `${NAME} Info Go Back Click`;
 
                 return { name, params: { type: data.type }, target: 'ui' };
             }

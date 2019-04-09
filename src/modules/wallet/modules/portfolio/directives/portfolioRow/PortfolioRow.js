@@ -451,7 +451,7 @@
 
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.REISSUE}`, () => {
                 analytics.send({
-                    name: 'Burn Reissue Click',
+                    name: 'Reissue Token Click',
                     params: { Currency: this.balance.asset.id },
                     target: 'ui'
                 });
