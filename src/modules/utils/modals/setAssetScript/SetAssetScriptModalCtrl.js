@@ -1,11 +1,7 @@
 (function () {
     'use strict';
 
-    const controller = function (Base, $scope, user, waves) {
-
-        const ds = require('data-service');
-        const { path } = require('ramda');
-        const { STATUS_LIST } = require('@waves/oracle-data');
+    const controller = function (Base, $scope) {
 
         class SetAssetScriptModalCtrl extends Base {
 
@@ -22,35 +18,10 @@
              * @type {number}
              */
             step = 0;
-            /**
-             * @type {boolean}
-             */
-            isVerified;
-            /**
-             * @type {boolean}
-             */
-            isGateway;
-            /**
-             * @type {boolean}
-             */
-            isSuspicious;
-            /**
-             * @type {string}
-             */
-            assetName;
+
 
             constructor(assetId) {
                 super($scope);
-                waves.node.assets.getAsset(assetId).then(asset => {
-                    this.assetName = asset.displayName;
-                    this.ticker = asset.ticker;
-                    $scope.$apply();
-                });
-                const data = ds.dataManager.getOracleAssetData(assetId);
-                this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
-                this.isGateway = path(['status'], data) === 3;
-                this.isSuspicious = user.scam[assetId];
-                this.hasLabel = this.isVerified || this.isGateway || this.isSuspicious;
 
                 this.state = { assetId };
             }
@@ -74,7 +45,7 @@
         return new SetAssetScriptModalCtrl(this.locals);
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'waves'];
+    controller.$inject = ['Base', '$scope'];
 
     angular.module('app.utils').controller('SetAssetScriptModalCtrl', controller);
 })();

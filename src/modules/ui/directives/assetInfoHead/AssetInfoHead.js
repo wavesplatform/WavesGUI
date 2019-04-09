@@ -47,6 +47,10 @@
              */
             assetName;
 
+            constructor() {
+                super($scope);
+            }
+
             $postLink() {
                 waves.node.assets.getAsset(this.assetId).then(asset => {
                     this.assetName = asset.displayName;
@@ -61,21 +65,6 @@
 
                 this.state = { assetId: this.assetId };
             }
-
-            /**
-             * @param {Signable} signable
-             */
-            onFillTxForm(signable) {
-                this.signable = signable;
-                const { assetId, script } = this.signable.getTxData();
-                this.state = { assetId, script };
-                this.step++;
-            }
-
-            onConfirmBack() {
-                this.step--;
-            }
-
         }
 
         return new AssetInfoHead();
