@@ -192,6 +192,17 @@ w-transaction-info-header + w-transaction-info-general {
     &-border-ts {
       border-top: 1px solid @color-basic-100;
     }
+
+    &-data {
+      .txinfo__row {
+        &:first-child {
+          border-top: 0;
+        }
+        &:last-child {
+          border-bottom: 1px solid @color-basic-100;
+        }
+      }
+    }
   }
 
 
@@ -358,6 +369,25 @@ w-transaction-info-header + w-transaction-info-general {
 
   .status-label {
     margin-top: -4px;
+  }
+
+  &__item {
+    display: flex;
+    flex: 1 1 0;
+    overflow: hidden;
+
+    span {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .txinfo__key {
+      padding-right: 0;
+    }
+
+    &:last-child {
+      justify-content: flex-end;
+    }
   }
 }
 
