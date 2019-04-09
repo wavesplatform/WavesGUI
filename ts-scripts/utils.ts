@@ -381,6 +381,31 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
                     };
                 })();
 
+                (function () {
+                    var analytics = require('@waves/event-sender');
+
+                    analytics.addApi({
+                        apiToken: '56bc30688ef3d7127feaa8f0dc2e5fc0',
+                        libraryUrl: location.origin + '/amplitude.js',
+                        initializeMethod: 'amplitudeInit',
+                        sendMethod: 'amplitudePushEvent',
+                        type: 'logic'
+                    });
+
+                    analytics.addApi({
+                        apiToken: 'UA-75283398-21',
+                        libraryUrl: location.origin + '/googleAnalytics.js',
+                        initializeMethod: 'gaInit',
+                        sendMethod: 'gaPushEvent',
+                        type: 'ui'
+                    });
+
+                    if (location.pathname.replace('/', '') === '') {
+                        analytics.send({ name: 'Onboarding Show', target: 'ui' });
+                    }
+
+                })();
+
 
                 if (WavesApp.isDesktop()) {
                     var listenDevTools = false;
