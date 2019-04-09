@@ -44,27 +44,30 @@
                 const currentFee = currentFeeFactory(feeConfig);
 
                 return this._fillTransaction(tx)
-                    .then(tx => {
+                    .then(async tx => {
+                        try {
+                            return await Promise.all([
+                                this._getAssets(tx)
+                                    .then(assetList => assetList.filter(asset => asset.hasScript))
+                                    .then(assetList => assetList.map(asset => asset.id)),
+                                ds.signature.getSignatureApi().makeSignable({ type: tx.type, data: tx }).getBytes(),
+                                ds.api.assets.get('WAVES'),
+                                this._isSmartAccount(tx)
+                            ]).then(([smartAssetsIdList, bytes, wavesAsset, hasScript]) => {
+                                const bigNumberFee = currentFee(bytes, hasScript, smartAssetsIdList);
+                                const count = bigNumberFee
+                                    .div(feeConfig.calculate_fee_rules.default.fee)
+                                    .dp(0, BigNumber.ROUND_UP);
 
-                        return Promise.all([
-                            this._getAssets(tx)
-                                .then(assetList => assetList.filter(asset => asset.hasScript))
-                                .then(assetList => assetList.map(asset => asset.id)),
-                            ds.signature.getSignatureApi().makeSignable({ type: tx.type, data: tx }).getBytes(),
-                            ds.api.assets.get('WAVES'),
-                            this._isSmartAccount(tx)
-                        ]).then(([smartAssetsIdList, bytes, wavesAsset, hasScript]) => {
-                            const bigNumberFee = currentFee(bytes, hasScript, smartAssetsIdList);
-                            const count = bigNumberFee
-                                .div(feeConfig.calculate_fee_rules.default.fee)
-                                .dp(0, BigNumber.ROUND_UP);
+                                const fee = new Money(bigNumberFee, wavesAsset);
+                                const feeList = ds.utils.getTransferFeeList()
+                                    .map(money => money.cloneWithTokens(money.getTokens().times(count)));
 
-                            const fee = new Money(bigNumberFee, wavesAsset);
-                            const feeList = ds.utils.getTransferFeeList()
-                                .map(money => money.cloneWithTokens(money.getTokens().times(count)));
-
-                            return MULTY_FEE_TRANSACTIONS[tx.type] ? [fee, ...feeList] : [fee];
-                        });
+                                return MULTY_FEE_TRANSACTIONS[tx.type] ? [fee, ...feeList] : [fee];
+                            });
+                        } catch (e) {
+                            return [];
+                        }
                     });
             }
 
