@@ -65,6 +65,7 @@
 
                 this.state = { assetId: this.assetId };
             }
+
         }
 
         return new AssetInfoHead();
