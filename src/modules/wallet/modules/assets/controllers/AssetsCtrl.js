@@ -42,6 +42,11 @@
                 this.data = null;
                 this.options = assetsData.getGraphOptions();
                 this.mirrorId = null;
+
+                /**
+                 * @type {boolean}
+                 */
+                this.invalid = true;
                 /**
                  * @type {Moment}
                  * @private
@@ -197,10 +202,6 @@
              */
             showSepa(asset) {
                 return modalManager.showSepaAsset(user, asset);
-            }
-
-            showQR() {
-                return modalManager.showAddressQrCode(user);
             }
 
             /**

@@ -9,9 +9,10 @@
      * @param $rootScope
      * @param {$injector} $injector
      * @param {State} state
+     * @param {Storage} storage
      * @return {ModalManager}
      */
-    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state) {
+    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state, storage) {
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
@@ -185,10 +186,6 @@
             }
 
             showTermsAccept() {
-                /**
-                 * @type {User}
-                 */
-                const user = $injector.get('user');
                 return this._getModal({
                     id: 'terms-accept',
                     templateUrl: 'modules/utils/modals/termsAccept/terms-accept.html',
@@ -196,14 +193,13 @@
                     clickOutsideToClose: false,
                     escapeToClose: false
                 })
-                    .then(() => user.setSetting('termsAccepted', true));
+                    .then(() => {
+                        storage.save('needReadNewTerms', false);
+                        storage.save('termsAccepted', true);
+                    });
             }
 
             showAcceptNewTerms() {
-                /**
-                 * @type {User}
-                 */
-                const user = $injector.get('user');
                 return this._getModal({
                     id: 'accept-new-terms',
                     templateUrl: 'modules/utils/modals/acceptNewTerms/accept-new-terms.html',
@@ -211,7 +207,10 @@
                     clickOutsideToClose: false,
                     escapeToClose: false
                 })
-                    .then(() => user.setSetting('needReadNewTerms', false));
+                    .then(() => {
+                        storage.save('needReadNewTerms', false);
+                        storage.save('termsAccepted', true);
+                    });
             }
 
             showTutorialModals() {
@@ -348,23 +347,6 @@
                         contentUrl: 'modules/utils/modals/sepaAsset/sepa-asset.modal.html',
                         controller: 'SepaAsset',
                         mod: 'modal-sepa-asset'
-                    });
-                });
-            }
-
-            /**
-             * @param {User} user
-             * @return {Promise}
-             */
-            showAddressQrCode(user) {
-                return user.onLogin().then(() => {
-                    return this._getModal({
-                        id: 'user-address-qr-code',
-                        locals: { address: user.address },
-                        title: 'modal.qr.title',
-                        contentUrl: 'modules/utils/modals/addressQrCode/address-qr-code.modal.html',
-                        controller: 'AddressQrCode',
-                        mod: 'modal-address-qr-code'
                     });
                 });
             }
@@ -762,7 +744,14 @@
         return utils.bind(new ModalManager());
     };
 
-    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope', '$injector', 'state'];
+    factory.$inject = ['$mdDialog',
+        'utils',
+        'decorators',
+        '$templateRequest',
+        '$rootScope',
+        '$injector',
+        'state',
+        'storage'];
 
     angular.module('app.utils')
         .factory('modalManager', factory);

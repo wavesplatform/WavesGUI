@@ -9,7 +9,7 @@
         }">
         </h3>
         <span ng-if="$ctrl.isScamAmount"
-              class="asset__label asset__label-suspicious"
+              class="status-label-min inactive"
               w-i18n="transaction.headers.suspicious"></span>
     </div>
     <div class="exchange-header-row">
@@ -21,7 +21,7 @@
            name: $ctrl.transaction.price.asset.name
          }"></div>
         <span ng-if="$ctrl.isScamPrice"
-              class="asset__label asset__label-suspicious asset__label-suspicious_small"
+              class="status-label-min inactive"
               w-i18n="transaction.headers.suspicious"></span>
     </div>
 </div>

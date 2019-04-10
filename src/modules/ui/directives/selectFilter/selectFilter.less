@@ -13,6 +13,8 @@ w-select {
 
 w-select {
   div.select.expanded {
+    position: relative;
+    z-index: 1;
 
     w-select-filter {
       display: block;
@@ -27,6 +29,10 @@ w-select {
         fill: @input-search-icon-bg;
       }
 
+      .filter {
+        overflow: visible;
+      }
+
       w-input,
       input {
         height: 48px;
@@ -37,16 +43,21 @@ w-select {
         }
       }
 
-      .w-input-wrap.focused {
-        outline: 1px solid @input-focused-border;
-      }
-
       input {
         background: @filter-select-background;
         padding: 0 34px 0 40px;
         color: @color-black;
         margin: 0 auto;
         font-size: 15px;
+        margin: 0 -1px;
+        width: calc(100% ~'+ 2px');
+        box-shadow: 0 0 0 1px @color-basic-200 inset;
+        transition: .3s;
+
+        &:focus {
+          box-shadow: 0 0 0 1px @color-submit-400 inset;
+        }
+
         @media screen and (max-width: 540px) {
           font-size: 13px;
         }

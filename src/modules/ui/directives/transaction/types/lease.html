@@ -1,6 +1,6 @@
 <div class="line-wrapper grow">
-    <div class="status active" ng-if="$ctrl.transaction.isActive" w-i18n="transaction.headers.activeLeasing"></div>
-    <div class="status canceled" ng-if="!$ctrl.transaction.isActive" w-i18n="transaction.headers.canceled"></div>
+    <div class="status-label-min success" ng-if="$ctrl.transaction.isActive" w-i18n="transaction.headers.activeLeasing"></div>
+    <div class="status-label-min error" ng-if="!$ctrl.transaction.isActive" w-i18n="transaction.headers.canceled"></div>
     <div class="line">
         <div class="body-2 top fs-mobile">
             <span w-i18n="transaction.headers.{{::$ctrl.typeName}}"></span>

@@ -52,7 +52,7 @@
             /**
              * @type {BigNumber}
              */
-            maxCoinsCount = null;
+            maxCoinsCount = WavesApp.maxCoinsCount;
             /**
              * Has money for fee
              * @type {boolean}
@@ -202,7 +202,7 @@
                 this.issue = true;
                 this.count = new BigNumber(0);
                 this.precision = 0;
-                this.maxCoinsCount = null;
+                this.maxCoinsCount = WavesApp.maxCoinsCount;
                 this.script = '';
                 this.hasAssetScript = false;
 
