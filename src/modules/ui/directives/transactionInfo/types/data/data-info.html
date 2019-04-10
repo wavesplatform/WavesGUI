@@ -6,9 +6,9 @@
     </div>
     <div class="txinfo__wrapper txinfo__wrapper-scrolled">
         <div class="txinfo__row" ng-repeat="transaction in $ctrl.transaction.data">
-            <div class="txinfo__item"><span>{{transaction.key}}</span></div>
-            <div class="txinfo__item"><span>{{transaction.type}}</span></div>
-            <div class="txinfo__item"><span>{{transaction.value}}</span></div>
+            <div class="txinfo__item"><span class="txinfo__unit">{{transaction.key}}</span></div>
+            <div class="txinfo__item"><span class="txinfo__unit">{{transaction.type}}</span></div>
+            <div class="txinfo__item"><span class="txinfo__unit">{{transaction.value}}</span></div>
         </div>
     </div>
 </div>
