@@ -1,4 +1,5 @@
 import { Money } from '@waves/data-entities';
+import { path } from 'ramda';
 import { IPollAPI, Poll } from '../utils/Poll';
 import { balanceList } from '../api/assets/assets';
 import { getReservedBalance } from '../api/matcher/getOrders';
@@ -61,12 +62,8 @@ export class DataManager {
 
     public getOracleAssetData(id: string): TProviderAsset & { provider: string } {
         let pollHash = this.pollControl.getPollHash();
-        let assets;
-        let lastData;
-        if (pollHash) {
-            lastData = pollHash.oracle.lastData;
-            assets = lastData && lastData.assets || Object.create(null);
-        }
+        const lastData = <any>path(['oracle', 'lastData'], pollHash);
+        const assets = lastData && lastData.assets || Object.create(null);
 
         const WavesApp = (window as any).WavesApp;
 

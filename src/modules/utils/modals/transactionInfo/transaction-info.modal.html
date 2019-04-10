@@ -7,7 +7,7 @@
             </div>
             <div ng-if="$ctrl.signable" class="txinfo__wrapper">
 
-                <w-transaction-info signable="::$ctrl.signable"></w-transaction-info>
+                <w-transaction-info confirmed="$ctrl.confirmed" signable="::$ctrl.signable"></w-transaction-info>
 
                 <div class="txinfo__row" ng-if="$ctrl.confirmed">
                     <div class="txinfo__key" w-i18n="transaction.modals.confirmations"></div>

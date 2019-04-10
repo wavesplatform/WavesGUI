@@ -35,7 +35,8 @@
     angular.module('app.ui').component('wTransactionInfo', {
         bindings: {
             signable: '<',
-            isConfirm: '<'
+            isConfirm: '<',
+            confirmed: '<'
         },
         templateUrl: 'modules/ui/directives/transactionInfo/transaction-info.html',
         scope: false,
