@@ -23,13 +23,13 @@ import {
     readFile,
     readJSON,
     readJSONSync,
-    writeFile,
+    writeFile
 } from 'fs-extra';
 
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
-import { readFileSync, writeFileSync, unlink } from 'fs';
+import { readFileSync, writeFileSync, unlink, rename } from 'fs';
 import { render } from 'less';
 
 const zip = require('gulp-zip');
@@ -415,7 +415,15 @@ task('electron-debug', function (done) {
         .then(excludeTypeScrip)
         .then(list => Promise.all(list.map(copyItem)))
         .then(makePackageJSON)
-        .then(() => getLocales(root, { include_tags: ['electron'] }))
+        .then(() => getLocales(root))
+        .then(() => {
+            rename(join(root, 'locale'), join(root, 'locales'), error => {
+                if (error) {
+                    console.error('renaming of locale error', error);
+                    return;
+                }
+            });
+        })
         .then(copyNodeModules)
         .then(copyI18next)
         .then(() => done());
