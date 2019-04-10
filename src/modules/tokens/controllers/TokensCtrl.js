@@ -108,8 +108,12 @@
             }
 
             generate(signable) {
-                return modalManager.showConfirmTx(signable, 'Token Generation Info Show')
+                return modalManager.showConfirmTx(signable)
                     .then(() => this._reset());
+            }
+
+            sendAnalytics() {
+                analytics.send({ name: 'Token Generation Info Show', target: 'ui' });
             }
 
             createSignable() {
