@@ -407,14 +407,29 @@
             i18next.on('languageChanged', this.changeLanguageHandler);
 
             this.$node.on('click', `.${SELECTORS.BUTTONS.SEND}`, () => {
+                analytics.send({
+                    name: 'Transfer Click',
+                    params: { Currency: this.balance.asset.id },
+                    target: 'ui'
+                });
                 this.modalManager.showSendAsset({ assetId: this.balance.asset.id });
             });
 
             this.$node.on('click', `.${SELECTORS.BUTTONS.DEX}`, () => {
+                analytics.send({
+                    name: 'Wallet Portfolio Open in DEX Click',
+                    params: { Currency: this.balance.asset.id },
+                    target: 'ui'
+                });
                 this.$state.go('main.dex', this._getSrefParams(this.balance.asset));
             });
 
             this.$node.on('click', `.${SELECTORS.BUTTONS.RECEIVE}`, () => {
+                analytics.send({
+                    name: 'Transfer Click',
+                    params: { Currency: this.balance.asset.id },
+                    target: 'ui'
+                });
                 this.modalManager.showReceiveModal(this.user, this.balance.asset);
             });
 
@@ -437,6 +452,11 @@
             });
 
             this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.RECEIVE}`, () => {
+                analytics.send({
+                    name: 'Transfer Click',
+                    params: { Currency: this.balance.asset.id },
+                    target: 'ui'
+                });
                 this.modalManager.showReceiveModal(this.user, this.balance.asset);
             });
 
