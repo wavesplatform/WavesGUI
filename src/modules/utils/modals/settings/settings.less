@@ -143,7 +143,6 @@ md-dialog.settings-modal {
       width: 100%;
 
       .info {
-        margin-top: -1px;
         display: block;
 
         .row-style:first-child {
@@ -211,6 +210,7 @@ md-dialog.settings-modal {
     border-radius: 50%;
     margin-right: 8px;
     width: 12px;
+    min-width: 12px;
     height: 12px;
   }
 
@@ -254,6 +254,16 @@ md-dialog.settings-modal {
     right: 0;
   }
 
+  .asset-verification {
+    z-index: 2;
+    position: relative;
+  }
+
+  .asset-filter {
+    z-index: 1;
+    position: relative;
+  }
+
   .data-field {
     height: 54px;
     display: flex;
@@ -270,7 +280,17 @@ md-dialog.settings-modal {
     }
 
     &.has-helper {
-      z-index: 1;
+      w-help-icon {
+        position: absolute;
+        top: 50%;
+        right: 26px;
+        transform: translateY(-50%);
+        z-index: 1;
+      }
+
+    input {
+        padding-right: 30px;
+      }
     }
 
     .data-provider-info {
@@ -334,16 +354,6 @@ md-dialog.settings-modal {
       right: 6px;
       top: 50%;
       transform: translate(-50%, -50%);
-
-      w-help-icon {
-        display: block;
-        position: absolute;
-        left: 0;
-        top: 0;
-        .help-icon__icon {
-          margin:0;
-        }
-      }
 
       &__icon {
         display: flex;
@@ -409,18 +419,18 @@ md-dialog.settings-modal {
       }
     }
 
-    .w-input-wrap {
-      input {
-        border-radius: @border-radius;
-        padding: 0 @padding-main-layout;
-        background: @color-white;
-        color: @color-disabled-900;
-        height: 30px;
-        line-height: 30px;
-        width: 100%;
-        border: 1px solid @color-basic-200;
-      }
+    input {
+      border-radius: @border-radius;
+      padding: 0 @padding-main-layout;
+      background: @color-white;
+      color: @color-disabled-900;
+      height: 30px;
+      line-height: 30px;
+      width: 100%;
+      border: 1px solid @color-basic-200;
+    }
 
+    .w-input-wrap {
       &.focused {
         input {
           border-color: @color-submit-400;
@@ -444,10 +454,6 @@ md-dialog.settings-modal {
 
     md-toolbar {
       padding: 20px;
-
-      .icon-close {
-        right: 10px;
-      }
     }
 
     md-dialog-content {

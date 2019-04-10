@@ -5,13 +5,13 @@
 
 <div class="txinfo__row" ng-if="::$ctrl.transaction.reissuable != null">
     <div class="txinfo__key" w-i18n="transaction.modals.type"></div>
-    <div class="txinfo__value" w-i18n="transaction.reissuable.{{::$ctrl.transaction.reissuable}}"></div>
+    <div class="txinfo__value txinfo__value-uppercase" w-i18n="transaction.reissuable.{{::$ctrl.transaction.reissuable}}"></div>
 </div>
 
 <div ng-show="$ctrl.transaction.script"
      class="txinfo__row ">
     <div class="txinfo__key" w-i18n="transaction.modals.script"></div>
-    <div class="txinfo__value">
+    <div class="txinfo__value txinfo__value-uppercase">
         <span class="link"
               ng-click="$ctrl.toggleScript()"
               w-i18n="transaction.modals.setAssetScript.showScript-{{$ctrl.shownScript}}"></span>

@@ -5,6 +5,16 @@
 
     const locationHref = location.href;
     const tsUtils = require('ts-utils');
+    const i18next = require('i18next');
+    const { propEq, where, gte, lte, equals, __ } = require('ramda');
+
+    const i18nextReady = new Promise(resolve => {
+        const handler = data => {
+            resolve(data);
+            i18next.off('initialized', handler);
+        };
+        i18next.on('initialized', handler);
+    });
 
     const PROGRESS_MAP = {
         RUN_SCRIPT: 10,
@@ -54,10 +64,12 @@
      * @param {app.utils.decorators} decorators
      * @param {Waves} waves
      * @param {ModalRouter} ModalRouter
+     * @param {ConfigService} configService
+     * @param {INotification} userNotification
      * @return {AppRun}
      */
     const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
-                          notification, decorators, waves, ModalRouter) {
+                          notification, decorators, waves, ModalRouter, configService, userNotification) {
 
         const phone = WavesApp.device.phone();
         const tablet = WavesApp.device.tablet();
@@ -107,6 +119,14 @@
                 this._stopLoader();
                 this._initializeLogin();
                 this._initializeOutLinks();
+
+                Promise.all([
+                    user.onLogin(),
+                    i18nextReady
+                ]).then(() => {
+                    this._updateUserNotifications();
+                    setInterval(() => this._updateUserNotifications(), 10000);
+                });
 
                 if (WavesApp.isDesktop()) {
                     window.listenMainProcessEvent((type, url) => {
@@ -183,6 +203,55 @@
                         openInBrowser($link.attr('href'));
                     });
                 }
+            }
+
+            /**
+             * @private
+             */
+            _updateUserNotifications() {
+                const notifications = configService.get('NOTIFICATIONS') || [];
+                const time = ds.utils.normalizeTime(Date.now());
+
+                const closed = user.getSetting('closedNotification')
+                    .filter(id => notifications.some(propEq('id', id)));
+                user.setSetting('closedNotification', closed);
+
+                const notificationsWithDate = notifications
+                    .map(item => ({
+                        ...item,
+                        start_date: new Date(item.start_date),
+                        end_date: new Date(item.end_date)
+                    }));
+
+                notificationsWithDate
+                    .filter(where({
+                        start_date: lte(__, time),
+                        end_date: gte(__, time),
+                        id: id => !(userNotification.has(id) || closed.includes(id))
+                    }))
+                    .forEach(item => {
+                        const method = ['warn', 'success', 'error', 'info'].find(equals(item.type)) || 'warn';
+                        const literal = `user-notification.${item.id}`;
+
+                        Object.entries(item.text).forEach(([lang, message]) => {
+                            i18next.addResource(lang, 'app', literal, message);
+                        });
+
+                        userNotification[method]({
+                            ...item,
+                            body: {
+                                literal: literal
+                            }
+                        }).then(() => {
+                            user.setSetting('closedNotification', [
+                                item.id,
+                                ...user.getSetting('closedNotification')
+                            ]);
+                        });
+                    });
+
+                notificationsWithDate.filter(where({ end_date: lte(__, time) }))
+                    .forEach(item => userNotification.remove(item.id));
             }
 
             /**
@@ -302,17 +371,26 @@
              * @private
              */
             _initializeTermsAccepted() {
-                if (!user.getSetting('termsAccepted')) {
-                    return modalManager.showTermsAccept(user).then(() => {
-                        if (user.getSetting('shareAnalytics')) {
+                return Promise.all([
+                    storage.load('needReadNewTerms'),
+                    storage.load('termsAccepted')
+                ]).then(([needReadNewTerms, termsAccepted]) => {
+                    const autoPromise = (promise) => {
+                        return promise.then(() => {
                             analytics.activate();
-                        }
-                    })
-                        .catch(() => false);
-                } else if (user.getSetting('shareAnalytics')) {
-                    analytics.activate();
-                }
-                return Promise.resolve();
+                        })
+                            .catch(() => false);
+                    };
+                    if (needReadNewTerms) {
+                        return autoPromise(modalManager.showAcceptNewTerms(user));
+
+                    } else if (!termsAccepted) {
+                        return autoPromise(modalManager.showTermsAccept(user));
+                    } else {
+                        analytics.activate();
+                    }
+                    return Promise.resolve();
+                });
             }
 
             /**
@@ -517,6 +595,7 @@
         'waves',
         'ModalRouter',
         'configService',
+        'userNotification',
         'whatsNew'
     ];
 

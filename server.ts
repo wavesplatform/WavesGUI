@@ -1,7 +1,7 @@
 import { createSecureServer } from 'http2';
 import { createServer } from 'https';
-import { route, parseArguments } from './ts-scripts/utils';
-import { readFileSync } from 'fs';
+import { route, parseArguments, getBuildParams, getInitScript, getLocales } from './ts-scripts/utils';
+import { readFileSync, existsSync,mkdirSync } from 'fs';
 import { serialize, parse as parserCookie } from 'cookie';
 import { compile } from 'handlebars';
 import { parse } from 'url';
@@ -19,7 +19,7 @@ const connectionTypes: Array<TConnection> = ['mainnet', 'testnet'];
 const buildTypes: Array<TBuild> = ['dev', 'normal', 'min'];
 const privateKey = readFileSync('localhost.key').toString();
 const certificate = readFileSync('localhost.crt').toString();
-
+const args = parseArguments() || Object.create(null);
 
 const handler = function (req, res) {
     const url = parse(req.url);
@@ -45,6 +45,7 @@ const handler = function (req, res) {
     }
 
     const parsed = parseCookie(req.headers.cookie);
+
     if (!parsed) {
         readFile(join(__dirname, 'chooseBuild.hbs'), 'utf8').then((file) => {
             res.end(compile(file)({ links: getBuildsLinks(req.headers['user-agent']) }));
@@ -63,9 +64,23 @@ function createMyServer(port) {
     server.listen(port);
     console.log(`Listen port ${port}...`);
     console.log('Available urls:');
-
     console.log(url);
-    opn(url);
+    const cachePath = join(process.cwd(), '.cache-download');
+    if (!existsSync(cachePath)){
+        mkdirSync(cachePath);
+    }
+    getLocales(cachePath).then(() => {
+        const localesTimer = setInterval(function() {
+            getLocales(cachePath)
+                .catch(err => console.log(err))
+        }, 60 * 10000);
+
+        localesTimer.unref();
+    });
+
+    if (args.openUrl) {
+        opn(url);
+    }
 }
 
 function createSimpleServer({ port = 8000 }) {
@@ -77,7 +92,7 @@ function createSimpleServer({ port = 8000 }) {
 }
 
 createMyServer(8080);
-const args = parseArguments() || Object.create(null);
+
 if (args.startSimple) {
     createSimpleServer(args);
 }

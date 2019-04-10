@@ -12,7 +12,7 @@ let dataService = null;
 export let timeDiff = 0;
 export let matcherSettingsPromise: Promise<Array<string>> = Promise.resolve(MAINNET_DATA);
 
-export const parse = str => (window as any).WavesApp.parseJSON(str);
+export const parse: <T>(str: string) => Promise<T> = str => (window as any).WavesApp.parseJSON(str);
 
 export function get<K extends keyof IConfigParams>(key: K): IConfigParams[K] {
     return config[key];

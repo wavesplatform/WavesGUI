@@ -1,4 +1,5 @@
 import { Money } from '@waves/data-entities';
+import { path } from 'ramda';
 import { IPollAPI, Poll } from '../utils/Poll';
 import { balanceList } from '../api/assets/assets';
 import { getReservedBalance } from '../api/matcher/getOrders';
@@ -50,7 +51,8 @@ export class DataManager {
     }
 
     public getOracleAssetData(id: string): TProviderAsset & { provider: string } {
-        const lastData = this.pollControl.getPollHash().oracle.lastData;
+        let pollHash = this.pollControl.getPollHash();
+        const lastData = <any>path(['oracle', 'lastData'], pollHash);
         const assets = lastData && lastData.assets || Object.create(null);
 
         const WavesApp = (window as any).WavesApp;
@@ -64,6 +66,7 @@ export class DataManager {
             [WavesApp.defaultAssets.LTC]: true,
             [WavesApp.defaultAssets.ZEC]: true,
             [WavesApp.defaultAssets.BCH]: true,
+            [WavesApp.defaultAssets.BSV]: true,
             [WavesApp.defaultAssets.DASH]: true,
             [WavesApp.defaultAssets.XMR]: true,
         };
@@ -135,7 +138,7 @@ export class DataManager {
     private _createPolls(): TPollHash {
         const balance = new Poll(this._getPollBalanceApi(), 1000);
         const orders = new Poll(this._getPollOrdersApi(), 1000);
-        const aliases = new Poll(this._getPollAliasesApi(), 5000);
+        const aliases = new Poll(this._getPollAliasesApi(), 10000);
         const oracle = new Poll(this._getPollOracleApi(), 30000);
 
         change.on((key) => {

@@ -8,11 +8,16 @@
      * @param {validateService} validateService
      * @param {app.utils} utils
      * @param {Waves} waves
+     * @param {*} $attrs
+     * @param {BalanceWatcher} balanceWatcher
+     * @param {User} user
      * @returns {ConfirmTransaction}
      */
-    const controller = function (ConfirmTxService, $scope, validateService, utils, waves, $attrs) {
+    const controller = function (ConfirmTxService, $scope, validateService, utils, waves, $attrs,
+                                 balanceWatcher, user) {
 
-        const { TRANSACTION_TYPE_NUMBER, SIGN_TYPE } = require('@waves/signature-adapter');
+        const { flatten } = require('ramda');
+        const { SIGN_TYPE } = require('@waves/signature-adapter');
 
 
         class ConfirmTransaction extends ConfirmTxService {
@@ -29,7 +34,8 @@
             constructor() {
                 super($scope);
 
-                this.observe(['showValidationErrors', 'signable'], this._showErrors);
+                this.observe(['signable'], this._showErrors);
+                this.receive(balanceWatcher.change, this._showErrors, this);
             }
 
             $postLink() {
@@ -38,7 +44,7 @@
 
                 this.isSetScript = this.type === SIGN_TYPE.SET_SCRIPT && tx.script;
                 this.isTockenIssue = this.type === SIGN_TYPE.ISSUE;
-
+                console.log('%c signable', 'background: #222; color: #bada55', this.signable.getTxData());
                 this.signable.hasMySignature().then(state => {
                     this.step = state ? 1 : 0;
                     $scope.$apply();
@@ -78,23 +84,29 @@
 
                 let promise;
 
-                const { type, amount, fee } = this.signable.getTxData();
+                const { type, amount, fee, senderPublicKey } = this.signable.getTxData();
 
-                switch (true) {
-                    case (type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP):
-                        promise = this._validateAmount(fee);
-                        break;
-                    case (type === TRANSACTION_TYPE_NUMBER.TRANSFER && this.showValidationErrors):
-                        promise = Promise.all([
-                            this._validateAmount(amount),
-                            this._validateAddress()
-                        ]).then(([errors1, errors2]) => [...errors1, ...errors2]);
-                        break;
-                    default:
-                        promise = Promise.resolve([]);
+                if (senderPublicKey && senderPublicKey !== user.publicKey) {
+                    return null;
                 }
 
-                return promise.then((errors) => {
+                switch (type) {
+                    case SIGN_TYPE.TRANSFER:
+                        promise = Promise.all([
+                            this._validateAmount(amount, false),
+                            this._validateAmount(fee, true),
+                            this._validateAddress()
+                        ]);
+                        break;
+                    case SIGN_TYPE.CREATE_ORDER:
+                    case SIGN_TYPE.CANCEL_LEASING:
+                        promise = Promise.all([]);
+                        break;
+                    default:
+                        promise = Promise.all([this._validateAmount(fee, true)]);
+                }
+
+                return promise.then(flatten).then((errors) => {
                     this.errors = errors;
                     $scope.$apply();
                 });
@@ -119,33 +131,30 @@
             }
 
             /**
-             * @param amount
+             * @param {Money} amount
+             * @param {boolean} isFee
              * @return {*}
              * @private
              */
-            _validateAmount(amount) {
+            _validateAmount(amount, isFee) {
                 const errors = [];
-                const { type } = this.signable.getTxData();
+                const hash = balanceWatcher.getBalance();
 
-                if (type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP) {
-                    return waves.node.assets.userBalances()
-                        .then((list) => list.map(({ available }) => available))
-                        .then((list) => {
-                            const hash = utils.toHash(list, 'asset.id');
-                            if (!hash[amount.asset.id] ||
-                                hash[amount.asset.id].lt(amount) ||
-                                amount.getTokens().lte(0)) {
+                if (!hash[amount.asset.id] ||
+                    hash[amount.asset.id].lt(amount) ||
+                    amount.getTokens().lte(0)) {
 
-                                errors.push({
-                                    literal: 'confirmTransaction.send.errors.balance.invalid'
-                                });
-                            }
+                    const feeLiteral = 'confirmTransaction.send.errors.fee';
+                    const balanceLiteral = 'confirmTransaction.send.errors.balance.invalid';
+                    const literal = isFee ? feeLiteral : balanceLiteral;
 
-                            return errors;
-                        });
-                } else {
-                    return Promise.resolve([]);
+                    errors.push({
+                        literal: literal,
+                        data: { fee: amount }
+                    });
                 }
+
+                return errors;
             }
 
 
@@ -195,7 +204,9 @@
         'validateService',
         'utils',
         'waves',
-        '$attrs'
+        '$attrs',
+        'balanceWatcher',
+        'user'
     ];
 
     angular.module('app.ui').component('wConfirmTransaction', {
@@ -205,7 +216,6 @@
             onTxSent: '&',
             noBackButton: '<',
             warning: '<',
-            showValidationErrors: '<',
             onTransactionSend: '&',
             referrer: '<'
         },

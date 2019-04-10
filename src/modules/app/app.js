@@ -109,7 +109,8 @@
         'app.import',
         'app.wallet',
         'app.dex',
-        'app.tokens'
+        'app.tokens',
+        'app.stand'
     ]);
 })();
 
@@ -138,7 +139,6 @@
  * @property {string} version
  * @property {string} type
  * @property {string} origin
- * @property {Object.<boolean>} scam
  * @property {MobileDetect} device
  * @property {Object.<{separators: {group: string, decimal: string}}>} localize
  * @property {number} minAliasLength

@@ -30,14 +30,16 @@
                     network: WavesApp.network,
                     lastOpenVersion: '',
                     whatsNewList: [],
+                    closedNotification: [],
                     withScam: false,
                     scamListUrl: WavesApp.network.scamListUrl,
-                    shareAnalytics: false,
                     logoutAfterMin: 5,
                     encryptionRounds: 5000,
                     savePassword: true,
                     hasBackup: true,
                     termsAccepted: true,
+                    needReadNewTerms: false,
+                    lastInterval: WavesApp.dex.defaultResolution,
                     baseAssetId: WavesApp.defaultAssets.USD,
                     assetsOracle: WavesApp.oracle,
                     events: Object.create(null),
@@ -55,6 +57,7 @@
                         WavesApp.defaultAssets.LTC,
                         WavesApp.defaultAssets.ZEC,
                         WavesApp.defaultAssets.BCH,
+                        WavesApp.defaultAssets.BSV,
                         WavesApp.defaultAssets.TRY,
                         WavesApp.defaultAssets.DASH,
                         WavesApp.defaultAssets.XMR
@@ -87,13 +90,15 @@
                             amount: WavesApp.defaultAssets.WAVES,
                             price: WavesApp.defaultAssets.BTC
                         },
+                        createOrder: {
+                            expirationName: '30day'
+                        },
                         watchlist: {
                             showOnlyFavorite: false,
                             favourite: [
                                 [WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC]
                             ],
-                            activeTab: 'all',
-                            list: Object.values(WavesApp.defaultAssets)
+                            activeTab: 'all'
                         },
                         layout: {
                             watchlist: {

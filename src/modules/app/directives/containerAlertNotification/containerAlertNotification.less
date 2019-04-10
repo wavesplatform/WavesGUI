@@ -1,4 +1,6 @@
 @import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../less/typography.less';
 
 w-container-alert-notification {
   display: flex;
@@ -6,7 +8,6 @@ w-container-alert-notification {
   flex-direction: column;
 
   &.welcome-notifications {
-    // TODO
     position: absolute;
     right: 16px;
     bottom: 16px;
@@ -64,9 +65,8 @@ w-container-alert-notification {
     }
 
     .icon-close {
-      position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 0;
+      right: 0;
     }
 
     &:before {
@@ -88,7 +88,7 @@ w-container-alert-notification {
     }
 
     &.warn:before {
-      background-color: @color-warning-400;
+      background-color: @color-warning-600;
     }
 
     &.error:before {
@@ -97,6 +97,119 @@ w-container-alert-notification {
 
     [ng-click] {
       cursor: pointer;
+    }
+  }
+}
+
+// Top notifications
+.notifications-top {
+  width: 100%;
+  min-width: 340px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 0;
+  overflow: visible;
+
+  w-container-alert-notification {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+
+    .notification {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: @color-white;
+      border-radius: 0;
+      box-shadow: none;
+      margin: 0;
+      padding: 10px;
+      min-height: 40px;
+      max-height: 200px;
+      overflow-y: auto;
+
+      .icon-close {
+        background: @notification-icon-close center no-repeat;
+        width: 40px;
+        height: 40px;
+        padding: 7px;
+        position: fixed;
+        top: 0;
+        right: 0;
+        opacity: .5;
+        transition: .3s;
+        z-index: 2;
+      }
+
+      &:hover {
+        .icon-close {
+          opacity: 1;
+        }
+      }
+
+      span.content-body {
+        display: block;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        color: @white-only;
+        padding: 0 10px 0 20px;
+        position: relative;
+        max-height: calc(100% ~'- 40px');
+
+        @media screen and(max-width: 480px) {
+          font-size: @font-size-caption-1;
+          line-height: normal;
+        }
+
+        &::before {
+          content: '';
+          display: inline-block;
+          width: 14px;
+          height: 14px;
+          min-width: 24px;
+          position: absolute;
+          left: 0;
+          padding-left: 18px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        a {
+          color: @white-only;
+          text-decoration: underline;
+          word-break: break-all;
+        }
+      }
+
+      &.info {
+        background-color: @color-submit-300;
+        span.content-body::before {
+          background: @notification-icon-info center left no-repeat;
+        }
+      }
+
+      &.success {
+        background-color: @color-success-400;
+        span.content-body::before {
+          background: @notification-icon-success center left no-repeat;
+        }
+      }
+
+      &.warn {
+        background-color: @color-warning-600;
+        span.content-body::before {
+          background: @notification-icon-warning center left no-repeat;
+        }
+      }
+
+      &.error {
+        background-color: @color-error-500;
+        span.content-body::before {
+          background: @notification-icon-error center left no-repeat;
+        }
+      }
     }
   }
 }

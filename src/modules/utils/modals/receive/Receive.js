@@ -269,6 +269,7 @@
                     this.updateCardDetails().then(() => {
                         gatewayService.getCardFiatWithLimits(this.asset, user.address, FIAT_LIST).then((fiatList) => {
                             this.cardFiatList = fiatList;
+                            $scope.$apply();
                         });
                     });
                 }
@@ -458,7 +459,7 @@
              * @private
              */
             static _isNotScam(item) {
-                return !WavesApp.scam[item.asset.id];
+                return !user.scam[item.asset.id];
             }
 
         }

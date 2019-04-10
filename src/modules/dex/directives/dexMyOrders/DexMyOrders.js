@@ -1,8 +1,9 @@
 (function () {
     'use strict';
 
-    const entities = require('@waves/data-entities');
+    const { Money } = require('@waves/data-entities');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
+    const { filter, whereEq, uniqBy, prop, where, gt, pick, __ } = require('ramda');
     const ds = require('data-service');
 
     /**
@@ -35,43 +36,51 @@
         $element
     ) {
 
-        const R = require('ramda');
-        const tsUtils = require('ts-utils');
-
         class DexMyOrders extends Base {
+
+            /**
+             * @type {{amount: string, price: string}}
+             * @private
+             */
+            _assetIdPair;
+            /**
+             * @type {Promise<string>}
+             * @private
+             */
+            _matcherPublicKeyPromise = ds.fetch(user.getSetting('network.matcher'));
+            /**
+             * @type {Array<IDexOrders>}
+             */
+            orders = [];
+            /**
+             * @type {boolean}
+             */
+            isDemo = !user.address;
+            /**
+             * @type {boolean}
+             */
+            pending = !!user.address;
+            /**
+             * @type {Object.<string, boolean>}
+             */
+            shownOrderDetails = Object.create(null);
+            /**
+             * @type {boolean}
+             */
+            loadingError = false;
+
 
             constructor() {
                 super();
 
-                /**
-                 * @type {{amount: string, price: string}}
-                 * @private
-                 */
-                this._assetIdPair = null;
-
-                /**
-                 * @type {Array}
-                 */
-                this.orders = null;
-                /**
-                 * @type {boolean}
-                 */
-                this.isDemo = !user.address;
-                /**
-                 * @type {boolean}
-                 */
-                this.pending = !this.isDemo;
-                /**
-                 * @type {Object.<string, boolean>}
-                 */
-                this.shownOrderDetails = Object.create(null);
-                /**
-                 * @type {boolean}
-                 */
-                this.loadingError = false;
 
                 this.syncSettings({
-                    _assetIdPair: 'dex.assetIdPair'
+                    _assetIdPair: 'dex.assetIdPair',
+                    _matcherUrl: 'network.matcher'
+                });
+
+                this.observe('_matcherUrl', () => {
+                    this._matcherPublicKeyPromise = ds.fetch(user.getSetting('network.matcher'));
                 });
 
                 this.headers = [
@@ -138,68 +147,13 @@
                 ];
 
                 if (!this.isDemo) {
-                    const poll = createPoll(this, this._getOrders, 'orders', 1000, { $scope });
-
+                    const poll = createPoll(this, DexMyOrders._getAllOrders, this._setOrders, 1000);
                     poll.ready.then(() => {
                         this.pending = false;
                     });
-
                     this.receive(dexDataService.createOrder, () => poll.restart());
-
                     this.poll = poll;
                 }
-            }
-
-            static _getTransactionsByOrderIdHash(txList) {
-                const uniqueList = R.uniqBy(R.prop('id'), txList);
-                const transactionsByOrderHash = Object.create(null);
-                uniqueList.forEach((tx) => {
-                    ['order1', 'order2'].forEach((orderFieldName) => {
-                        if (!transactionsByOrderHash[tx[orderFieldName].id]) {
-                            transactionsByOrderHash[tx[orderFieldName].id] = [];
-                        }
-                        transactionsByOrderHash[tx[orderFieldName].id].push(DexMyOrders._remapTx(tx));
-                    });
-                });
-                return transactionsByOrderHash;
-            }
-
-            static _remapTx(tx) {
-                const fee = (tx, order) => order.orderType === 'sell' ? tx.sellMatcherFee : tx.buyMatcherFee;
-                const emptyFee = new entities.Money(0, tx.fee.asset);
-                const userFee = [tx.order1, tx.order2]
-                    .filter((order) => order.sender === user.address)
-                    .reduce((acc, order) => acc.add(fee(tx, order)), emptyFee);
-
-                return { ...tx, userFee };
-            }
-
-            /**
-             * @param {IOrder} order
-             * @private
-             */
-            static _remapOrders(matcherPublicKey) {
-                return order => {
-                    const assetPair = order.assetPair;
-                    const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
-                    const isNew = Date.now() < (order.timestamp.getTime() + 1000 * 8);
-                    const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
-                    return waves.matcher.getCreateOrderFee({ ...order, matcherPublicKey })
-                        .then(fee => ({ ...order, isNew, percent, pair, fee }));
-                };
-            }
-
-            static _getFeeByType(type) {
-                return function (tx) {
-                    switch (type) {
-                        case 'buy':
-                            return tx.buyMatcherFee;
-                        case 'sell':
-                            return tx.sellMatcherFee;
-                        default:
-                            throw new Error('Wrong order type!');
-                    }
-                };
             }
 
             /**
@@ -231,9 +185,8 @@
                     return null;
                 }
 
-                this.orders.filter(tsUtils.contains({ isActive: true })).forEach((order) => {
-                    this.dropOrder(order);
-                });
+                this.orders.filter(whereEq({ isActive: true }))
+                    .forEach((order) => this.dropOrder(order));
             }
 
             round(data) {
@@ -277,7 +230,7 @@
                 dataPromise
                     .then((signedTxData) => ds.cancelOrder(signedTxData, order.amount.asset.id, order.price.asset.id))
                     .then(() => {
-                        const canceledOrder = tsUtils.find(this.orders, { id: order.id });
+                        const canceledOrder = this.orders.find(whereEq({ id: order.id }));
                         canceledOrder.state = 'Canceled';
                         notification.info({
                             ns: 'app.dex',
@@ -299,55 +252,68 @@
             }
 
             /**
-             * @returns {Promise}
+             * @param {Array<IOrder>} orders
              * @private
              */
-            _getOrders() {
-                return Promise.all([
-                    this._getAllOrders(),
-                    ds.fetch(ds.config.get('matcher'))
-                ])
-                    .then(([orders, matcherPublicKey]) => {
-                        const remap = R.map(DexMyOrders._remapOrders(matcherPublicKey));
+            _setOrders(orders) {
+                const isEqual = this.orders.length === orders.length && this.orders
+                    .every((item, i) => whereEq(pick(['id', 'progress'], item), orders[i]));
 
-                        orders.sort(utils.comparators.process(a => a.timestamp).desc);
-                        return Promise.all(remap(orders));
-                    })
+                if (isEqual) {
+                    let needApply = false;
+
+                    this.orders.forEach(order => {
+                        const isNew = DexMyOrders._isNewOrder(order.timestamp.getTime());
+                        needApply = needApply || isNew !== order.isNew;
+                        order.isNew = isNew;
+                    });
+
+                    if (needApply) {
+                        $scope.$apply();
+                    }
+
+                    return null;
+                }
+
+                return this._matcherPublicKeyPromise
+                    .then(matcherPublicKey => Promise.all(orders.map(DexMyOrders._remapOrders(matcherPublicKey))))
                     .then(result => {
-                        const last = result.length ? result[result.length - 1] : null;
+                        const lastOrder = result.slice().reverse().find(where({ progress: gt(__, 0) }));
 
-                        if (!last) {
+                        if (!lastOrder) {
                             return result;
                         }
 
                         return ds.api.transactions.getExchangeTxList({
                             sender: user.address,
-                            timeStart: ds.utils.normalizeTime(last.timestamp.getTime())
-                        }).then((txList) => {
+                            timeStart: ds.utils.normalizeTime(lastOrder.timestamp.getTime())
+                        }).then(txList => {
                             const transactionsByOrderHash = DexMyOrders._getTransactionsByOrderIdHash(txList);
                             this.loadingError = false;
-                            return result.map((order) => {
+                            return result.map(order => {
                                 if (!transactionsByOrderHash[order.id]) {
                                     transactionsByOrderHash[order.id] = [];
                                 }
-                                // if (transactionsByOrderHash[order.id].length) {
-                                //     order.fee = transactionsByOrderHash[order.id]
-                                //         .map(DexMyOrders._getFeeByType(order.type))
-                                //         .reduce((sum, fee) => sum.add(fee));
-                                // }
                                 order.exchange = transactionsByOrderHash[order.id];
                                 return order;
                             });
                         }).catch(() => result);
                     })
-                    .catch(() => {
-                        this.loadingError = true;
+                    .then(orders => (this.orders = orders))
+                    .catch(() => (this.loadingError = true))
+                    .then(() => {
                         $scope.$apply();
                     });
             }
 
-            _getAllOrders() {
-                return waves.matcher.getOrders().then(R.filter(R.whereEq({ isActive: true })));
+            /**
+             * @return {Promise<Array<IOrder> | never>}
+             * @private
+             */
+            static _getAllOrders() {
+                return waves.matcher.getOrders()
+                    .then(filter(whereEq({ isActive: true })))
+                    .catch(() => (this.loadingError = true));
             }
 
             static _animateNotification($element) {
@@ -368,6 +334,54 @@
                             }
                         });
                     });
+            }
+
+            static _getTransactionsByOrderIdHash(txList) {
+                const uniqueList = uniqBy(prop('id'), txList);
+                const transactionsByOrderHash = Object.create(null);
+                uniqueList.forEach((tx) => {
+                    ['order1', 'order2'].forEach((orderFieldName) => {
+                        if (!transactionsByOrderHash[tx[orderFieldName].id]) {
+                            transactionsByOrderHash[tx[orderFieldName].id] = [];
+                        }
+                        transactionsByOrderHash[tx[orderFieldName].id].push(DexMyOrders._remapTx(tx));
+                    });
+                });
+                return transactionsByOrderHash;
+            }
+
+            static _remapTx(tx) {
+                const fee = (tx, order) => order.orderType === 'sell' ? tx.sellMatcherFee : tx.buyMatcherFee;
+                const emptyFee = new Money(0, tx.fee.asset);
+                const userFee = [tx.order1, tx.order2]
+                    .filter((order) => order.sender === user.address)
+                    .reduce((acc, order) => acc.add(fee(tx, order)), emptyFee);
+
+                return { ...tx, userFee };
+            }
+
+            /**
+             * @param {IOrder} order
+             * @private
+             */
+            static _remapOrders(matcherPublicKey) {
+                return order => {
+                    const assetPair = order.assetPair;
+                    const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
+                    const isNew = DexMyOrders._isNewOrder(order.timestamp.getTime());
+                    const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
+                    return waves.matcher.getCreateOrderFee({ ...order, matcherPublicKey })
+                        .then(fee => ({ ...order, isNew, percent, pair, fee }));
+                };
+            }
+
+            /**
+             * @param {number} timestamp
+             * @return {boolean}
+             * @private
+             */
+            static _isNewOrder(timestamp) {
+                return ds.utils.normalizeTime(Date.now()) < timestamp + 1000 * 8;
             }
 
         }
@@ -396,3 +410,10 @@
         controller
     });
 })();
+
+/**
+ * @typedef {IOrder} IDexOrders
+ * @property {boolean} isNew
+ * @property {string} pair
+ * @property {Array} exchange
+ */

@@ -59,9 +59,8 @@
                     </w-help-icon>
                 </div>
                 <w-input-container>
-                    <div class="input-like medium">
-                        <w-input class="embed"
-                                 class="medium"
+                    <div class="input-like input-like-with-select">
+                        <w-input class="medium"
                                  type="text"
                                  name="count"
                                  ng-model="$ctrl.count"
@@ -73,19 +72,18 @@
                                  w-validator-number
                                  required></w-input>
 
-                        <div class="select-wrap no-user-select">
-                            <w-select class="issue-select tiny" ng-model="$ctrl.issue">
-                                <w-option value="::false">
-                                    <span class="caption-1 mobile-caption-4 basic-700" w-i18n-ns="app.tokens"
-                                          w-i18n="reissuable.false"></span>
-                                </w-option>
-                                <w-option value="::true">
-                                    <span class="caption-1 mobile-caption-4 basic-700" w-i18n-ns="app.tokens"
-                                          w-i18n="reissuable.true"></span>
-                                </w-option>
-                            </w-select>
-                        </div>
+                        <w-select class="no-user-select tiny" ng-model="$ctrl.issue">
+                            <w-option value="::false">
+                                 <span class="caption-1 mobile-caption-4 basic-700" w-i18n-ns="app.tokens"
+                                       w-i18n="reissuable.false"></span>
+                            </w-option>
+                            <w-option value="::true">
+                                 <span class="caption-1 mobile-caption-4 basic-700" w-i18n-ns="app.tokens"
+                                       w-i18n="reissuable.true"></span>
+                            </w-option>
+                        </w-select>
                     </div>
+
                     <w-input-error message="required">
                         <span w-i18n="validators.required"></span>
                     </w-input-error>
@@ -109,9 +107,7 @@
                         </div>
                     </w-help-icon>
                 </div>
-                <w-range-slider
-                        ng-model="$ctrl.precision"
-                        max="::8">
+                <w-range-slider ng-model="$ctrl.precision" max="::8">
             </div>
             <div class="row">
                 <div class="body-2 basic-900 margin-1 relative">
@@ -157,7 +153,7 @@
 
                     <div ng-if="$ctrl.hasAssetScript" w-i18n-ns="app.utils">
                         <div class="basic-500 margin-1 margin-top-1" w-i18n="directives.scriptForm.ideLink"></div>
-                        <div class="warning-plate warning-500">
+                        <div class="plate-warning warning-500">
                             <div class="body-2" w-i18n="modal.setAssetScript.warningHeader"></div>
                             <div class="footnote-1 basic-500" w-i18n="modal.setAssetScript.warningDescription"></div>
                         </div>
@@ -191,7 +187,7 @@
                 <div ng-class="{'error-400': $ctrl.invalid}"
                      class="footnote-1 basic-500"
                      params="{fee: $ctrl.fee}"
-                     w-i18n="fee"></div>
+                     w-i18n="fee_tokens"></div>
                 <div ng-if="$ctrl.invalid" class="error-400" w-i18n="validators.noMoney"></div>
             </div>
 

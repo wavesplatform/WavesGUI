@@ -7,7 +7,6 @@
   &__icon {
     position: relative;
     margin-left: 7px;
-    z-index: 1;
 
     &.info {
       &::before {
@@ -22,15 +21,13 @@
       border-radius: 50%;
       display: inline-block;
       width: @text-icon-size;
-      height: 14px;
-      padding-top: 2px;
+      height: @text-icon-size;
       text-align: center;
       font-style: normal;
       font-weight: bold;
-      vertical-align: middle;
       margin-top: -3px;
       font-size: @font-size-caption-2;
-      line-height: 13px;
+      line-height: 17px;
     }
 
     &:after {
@@ -93,8 +90,6 @@
     margin-bottom: 5px;
     margin-top: 0;
   }
-
-
 }
 
 w-help-icon {

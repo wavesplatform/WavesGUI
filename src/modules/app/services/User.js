@@ -10,7 +10,8 @@
         'changeSetting',
         'extraFee',
         'networkError',
-        'changeScript'
+        'changeScript',
+        'scam'
     ];
 
     /**
@@ -102,6 +103,10 @@
              * @type {Signal<void>}
              */
             changeScript = new tsUtils.Signal();
+            /**
+             * @type {Record<string, boolean>}
+             */
+            scam = Object.create(null);
             /**
              * @type {DefaultSettings}
              * @private
@@ -432,6 +437,7 @@
                 const newTheme = themes.switchNext();
                 this.setSetting('theme', newTheme);
             }
+
 
             /**
              * @return {Promise<any>}

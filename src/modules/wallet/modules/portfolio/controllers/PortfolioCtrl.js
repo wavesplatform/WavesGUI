@@ -26,15 +26,16 @@
      * @param {ModalManager} modalManager
      * @param {User} user
      * @param {EventManager} eventManager
-     * @param {IPollCreate} createPoll
      * @param {GatewayService} gatewayService
      * @param {$state} $state
      * @param {STService} stService
      * @param {VisibleService} visibleService
+     * @param {BalanceWatcher} balanceWatcher
      * @return {PortfolioCtrl}
      */
     const controller = function (Base, $scope, waves, utils, modalManager, user,
-                                 eventManager, createPoll, gatewayService, $state, stService, visibleService) {
+                                 eventManager, gatewayService, $state,
+                                 stService, visibleService, balanceWatcher) {
 
         class PortfolioCtrl extends Base {
 
@@ -134,12 +135,22 @@
                     filter: 'wallet.portfolio.filter'
                 });
 
-                /**
-                 * @type {Poll}
-                 */
-                this.poll = createPoll(this, this._getPortfolio, 'details', 1000, { isBalance: true, $scope });
+                balanceWatcher.ready
+                    .then(() => {
 
-                this.poll.ready.then(() => {
+                        const onChange = () => {
+                            this._updateBalances();
+                            visibleService.updateSort();
+                        };
+
+                        this.receive(balanceWatcher.change, onChange);
+                        this.receive(utils.observe(user, 'scam'), onChange);
+                        this.observe(['pinned', 'spam'], onChange);
+
+                        this._updateBalances();
+                    });
+
+                balanceWatcher.ready.then(() => {
                     this.pending = false;
                     this.observe('details', this._onChangeDetails);
                     this.observe('filter', this._onChangeDetails);
@@ -185,10 +196,6 @@
              */
             showSepa(asset) {
                 return modalManager.showSepaAsset(user, asset);
-            }
-
-            showQR() {
-                return modalManager.showAddressQrCode(user);
             }
 
             showBurn(assetId) {
@@ -281,58 +288,46 @@
             }
 
             /**
-             * @return {Promise<Money[]>}
              * @private
              */
-            _getPortfolio() {
-                /**
-                 * @param {IBalanceDetails} item
-                 * @return {PortfolioCtrl.IPortfolioBalanceDetails}
-                 */
-                const remapBalances = (item) => {
-                    const isPinned = this._isPinned(item.asset.id);
-                    const isSpam = this._isSpam(item.asset.id);
-                    const isOnScamList = WavesApp.scam[item.asset.id];
+            _updateBalances() {
+                const details = balanceWatcher.getFullBalanceList()
+                    .map(item => {
+                        const isPinned = this._isPinned(item.asset.id);
+                        const isSpam = this._isSpam(item.asset.id);
+                        const isOnScamList = user.scam[item.asset.id];
 
-                    return Promise.resolve({
-                        available: item.available,
-                        asset: item.asset,
-                        inOrders: item.inOrders,
-                        isPinned,
-                        isSpam,
-                        isOnScamList,
-                        minSponsoredAssetFee: item.minSponsoredAssetFee,
-                        sponsorBalance: item.sponsorBalance
-                    });
-                };
-
-                return Promise.all([
-                    waves.node.assets.userBalances().then((list) => Promise.all(list.map(remapBalances)))
-                ]).then(([activeList]) => {
-
-                    const spam = [];
-                    const my = [];
-                    const active = [];
-                    const verified = [];
-
-                    activeList.forEach(item => {
+                        return {
+                            available: item.available,
+                            asset: item.asset,
+                            inOrders: item.inOrders,
+                            isPinned,
+                            isSpam,
+                            isOnScamList,
+                            minSponsoredAssetFee: item.asset.minSponsoredAssetFee,
+                            sponsorBalance: item.asset.sponsorBalance
+                        };
+                    })
+                    .reduce((acc, item) => {
                         const oracleData = ds.dataManager.getOracleAssetData(item.asset.id);
 
                         if (item.asset.sender === user.address) {
-                            my.push(item);
+                            acc.my.push(item);
                         }
                         if (oracleData && oracleData.status > 0) {
-                            verified.push(item);
+                            acc.verified.push(item);
                         }
                         if (item.isOnScamList || item.isSpam) {
-                            spam.push(item);
+                            acc.spam.push(item);
                         } else {
-                            active.push(item);
+                            acc.active.push(item);
                         }
-                    });
 
-                    return { active, spam, my, verified };
-                });
+                        return acc;
+                    }, { spam: [], my: [], active: [], verified: [] });
+
+                this.details = details;
+                utils.safeApply($scope);
             }
 
             /**
@@ -366,11 +361,11 @@
         'modalManager',
         'user',
         'eventManager',
-        'createPoll',
         'gatewayService',
         '$state',
         'stService',
-        'visibleService'
+        'visibleService',
+        'balanceWatcher'
     ];
 
     angular.module('app.wallet.portfolio')

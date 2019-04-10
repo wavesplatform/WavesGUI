@@ -10,11 +10,14 @@
      * @param {User} user
      * @param {ModalManager} modalManager
      * @param {IPollCreate} createPoll
+     * @param {BalanceWatcher} balanceWatcher
      * @return {Assets}
      */
-    const controller = function (waves, assetsData, $scope, utils, Base, user, modalManager, createPoll) {
+    const controller = function (waves, assetsData, $scope, utils, Base, user, modalManager, createPoll,
+                                 balanceWatcher) {
 
         const tsUtils = require('ts-utils');
+        const ds = require('data-service');
 
         class Assets extends Base {
 
@@ -39,6 +42,11 @@
                 this.data = null;
                 this.options = assetsData.getGraphOptions();
                 this.mirrorId = null;
+
+                /**
+                 * @type {boolean}
+                 */
+                this.invalid = true;
                 /**
                  * @type {Moment}
                  * @private
@@ -57,9 +65,9 @@
                  */
                 this.chartAssetIdList = null;
                 /**
-                 * @type {Money[]}
+                 * @type {Asset[]}
                  */
-                this.chartBalanceList = null;
+                this.chartAssetList = null;
                 /**
                  * @type {string}
                  */
@@ -99,18 +107,19 @@
 
                 this.updateGraph = createPoll(this, this._getGraphData, 'data', 15000, { $scope });
 
-                const isBalance = true;
-                createPoll(this, this._getChartBalances, 'chartBalanceList', 15000, { isBalance, $scope });
-                const assetPoll = createPoll(this, this._getBalances, 'pinnedAssetBalances', 5000, {
-                    isBalance,
-                    $scope
+                ds.api.assets.get(this.chartAssetIdList).then(assets => {
+                    this.chartAssetList = assets;
+                    utils.safeApply($scope);
+                });
+
+                balanceWatcher.ready.then(() => {
+                    this.receive(balanceWatcher.change, this._updateBalances, this);
+                    this._updateBalances();
                 });
 
                 this.observe('chartMode', this._onChangeMode);
                 this.observe('_startDate', this._onChangeInterval);
-                this.observe('pinnedAssetIdList', () => {
-                    assetPoll.restart();
-                });
+                this.observe('pinnedAssetIdList', this._updateBalances);
 
                 this.observe(['interval', 'intervalCount', 'activeChartAssetId'], this._onChangeInterval);
             }
@@ -195,10 +204,6 @@
                 return modalManager.showSepaAsset(user, asset);
             }
 
-            showQR() {
-                return modalManager.showAddressQrCode(user);
-            }
-
             /**
              * @param value
              * @private
@@ -211,20 +216,28 @@
             }
 
             /**
-             * @return {Promise<Money[]>}
              * @private
              */
-            _getChartBalances() {
-                return waves.node.assets.balanceList(this.chartAssetIdList)
-                    .then((list) => list.map(({ available }) => available));
-            }
+            _updateBalances() {
+                const hash = utils.toHash(balanceWatcher.getFullBalanceList(), 'asset.id');
 
-            /**
-             * @return {Promise}
-             * @private
-             */
-            _getBalances() {
-                return waves.node.assets.balanceList(this.pinnedAssetIdList);
+                const balances = this.pinnedAssetIdList.reduce((acc, assetId) => {
+                    return acc.then(list => {
+                        if (hash[assetId]) {
+                            list.push(hash[assetId]);
+                            return list;
+                        }
+                        return balanceWatcher.getFullBalanceByAssetId(assetId).then(balance => {
+                            list.push(balance);
+                            return list;
+                        });
+                    });
+                }, Promise.resolve([]));
+
+                balances.then(list => {
+                    this.pinnedAssetBalances = list;
+                    utils.safeApply($scope);
+                });
             }
 
             /**
@@ -311,7 +324,8 @@
         'Base',
         'user',
         'modalManager',
-        'createPoll'
+        'createPoll',
+        'balanceWatcher'
     ];
 
     angular.module('app.wallet.assets')

@@ -12,6 +12,7 @@
         [WavesApp.defaultAssets.USD]: '/img/assets/usd.svg',
         [WavesApp.defaultAssets.DASH]: '/img/assets/dash.svg',
         [WavesApp.defaultAssets.BCH]: '/img/assets/bitcoin-cash.svg',
+        [WavesApp.defaultAssets.BSV]: '/img/assets/bitcoin-cash-sv.svg',
         [WavesApp.defaultAssets.TRY]: '/img/assets/try.svg',
         [WavesApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
         [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',

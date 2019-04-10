@@ -111,7 +111,6 @@
                     tx.totalAmount = tx.totalAmount || tx.transfers.map(({ amount }) => amount)
                         .reduce((result, item) => result.add(item));
                 }
-
                 return this._pipeTransaction(false)(tx);
             }
 

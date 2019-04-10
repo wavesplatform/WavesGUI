@@ -1,12 +1,13 @@
 @import (reference) 'config';
 
 .range-slider {
-  background-color: @color-white;
   padding-top: 28px;
   margin: 10px 0 20px;
   user-select: none;
 
-  &_drag {
+  &__drag,
+  &__numbers-wrapper,
+  &__track {
     cursor: pointer;
   }
 
@@ -21,13 +22,13 @@
   &__handle {
     position: absolute;
     top: -8px;
-    left: 0;
     border: 2px solid @color-submit-400;
     border-radius: 50%;
     height: 18px;
     width: 18px;
     background: @color-white;
     cursor: pointer;
+    will-change: transform;
   }
 
   &__track {
@@ -39,6 +40,7 @@
       top: -2px;
       width: 0;
       background-color: @color-submit-400;
+      will-change: width;
     }
   }
 
