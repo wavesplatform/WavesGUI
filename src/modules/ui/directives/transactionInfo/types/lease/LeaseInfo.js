@@ -57,7 +57,7 @@
                         break;
                 }
 
-                const applyConfirmed = () => this.getId()
+                const applyConfirmed = () => this._getId()
                     .then(id => {
                         this.id = id;
                         waves.node.transactions.getAlways(this.id)
@@ -75,7 +75,11 @@
                 }
             }
 
-            getId() {
+            /**
+             * @return {Promise<string>}
+             * @private
+             */
+            _getId() {
                 return this.transaction.id ? Promise.resolve(this.transaction.id) : this.signable.getId();
             }
 
