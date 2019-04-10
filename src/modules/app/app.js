@@ -110,6 +110,7 @@
         'app.wallet',
         'app.dex',
         'app.tokens',
+        'app.unavailable',
         'app.stand'
     ]);
 })();
