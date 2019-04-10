@@ -1,13 +1,15 @@
 <div class="txinfo__row-contains-text txinfo__row-data" ng-if="::$ctrl.transaction.stringifiedData">
-    <div class="txinfo__row">
-        <div class="txinfo__item"><span class="txinfo__key">Key</span></div>
-        <div class="txinfo__item"><span class="txinfo__key">Type</span></div>
-        <div class="txinfo__item"><span class="txinfo__key">Value</span></div>
+    <div class="txinfo__row txinfo__row-header">
+        <div class="txinfo__item"><span class="txinfo__key" w-i18n="transaction.modals.dataKey"></span></div>
+        <div class="txinfo__item"><span class="txinfo__key" w-i18n="transaction.modals.dataType"></span></div>
+        <div class="txinfo__item"><span class="txinfo__key" w-i18n="transaction.modals.dataValue"></span></div>
     </div>
-    <div class="txinfo__row" ng-repeat="transaction in $ctrl.transaction.data">
-        <div class="txinfo__item"><span>{{transaction.key}}</span></div>
-        <div class="txinfo__item"><span>{{transaction.type}}</span></div>
-        <div class="txinfo__item"><span>{{transaction.value}}</span></div>
+    <div class="txinfo__wrapper txinfo__wrapper-scrolled">
+        <div class="txinfo__row" ng-repeat="transaction in $ctrl.transaction.data">
+            <div class="txinfo__item"><span>{{transaction.key}}</span></div>
+            <div class="txinfo__item"><span>{{transaction.type}}</span></div>
+            <div class="txinfo__item"><span>{{transaction.value}}</span></div>
+        </div>
     </div>
 </div>
 
