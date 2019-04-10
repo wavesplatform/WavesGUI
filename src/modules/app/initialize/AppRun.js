@@ -372,21 +372,26 @@
              * @private
              */
             _initializeTermsAccepted() {
-                if (user.getSetting('needReadNewTerms')) {
-                    return modalManager.showAcceptNewTerms(user).then(() => {
-                        analytics.activate();
-                    })
-                        .catch(() => false);
+                return Promise.all([
+                    storage.load('needReadNewTerms'),
+                    storage.load('termsAccepted')
+                ]).then(([needReadNewTerms, termsAccepted]) => {
+                    const autoPromise = (promise) => {
+                        return promise.then(() => {
+                            analytics.activate();
+                        })
+                            .catch(() => false);
+                    };
+                    if (needReadNewTerms) {
+                        return autoPromise(modalManager.showAcceptNewTerms(user));
 
-                } else if (!user.getSetting('termsAccepted')) {
-                    return modalManager.showTermsAccept(user).then(() => {
+                    } else if (!termsAccepted) {
+                        return autoPromise(modalManager.showTermsAccept(user));
+                    } else {
                         analytics.activate();
-                    })
-                        .catch(() => false);
-                } else {
-                    analytics.activate();
-                }
-                return Promise.resolve();
+                    }
+                    return Promise.resolve();
+                });
             }
 
             /**

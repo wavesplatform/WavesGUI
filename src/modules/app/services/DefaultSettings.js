@@ -39,6 +39,7 @@
                     hasBackup: true,
                     termsAccepted: true,
                     needReadNewTerms: false,
+                    lastInterval: WavesApp.dex.defaultResolution,
                     baseAssetId: WavesApp.defaultAssets.USD,
                     assetsOracle: WavesApp.oracle,
                     events: Object.create(null),
