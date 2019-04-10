@@ -40,6 +40,7 @@
                     termsAccepted: true,
                     tradeWithScriptAssets: false,
                     needReadNewTerms: false,
+                    lastInterval: WavesApp.dex.defaultResolution,
                     baseAssetId: WavesApp.defaultAssets.USD,
                     assetsOracle: WavesApp.oracle,
                     events: Object.create(null),

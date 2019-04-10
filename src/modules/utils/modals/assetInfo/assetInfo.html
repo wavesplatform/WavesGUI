@@ -8,9 +8,9 @@
             <div class="asset-modal__data">
                 <h2 ng-cloak class="asset-modal__name basic-900" ng-class="{'has-label': $ctrl.hasLabel}">
                     <span class="name">{{::$ctrl.asset.name}}</span>
-                    <span ng-if="$ctrl.isVerified" class="asset__label" w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>
-                    <span ng-if="$ctrl.isGateway" class="asset__label"  w-i18n-ns="app.utils" w-i18n="modal.assetInfo.gateway"></span>
-                    <span ng-if="$ctrl.isSuspicious" class="asset__label asset__label-suspicious" w-i18n="modal.assetInfo.suspicious"></span>
+                    <span ng-if="$ctrl.isVerified" class="status-label-min active" w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>
+                    <span ng-if="$ctrl.isGateway" class="status-label-min active"  w-i18n-ns="app.utils" w-i18n="modal.assetInfo.gateway"></span>
+                    <span ng-if="$ctrl.isSuspicious" class="status-label-min inactive" w-i18n="modal.assetInfo.suspicious"></span>
                 </h2>
 
                 <div ng-if="$ctrl.ticker" class="body-2 basic-500 asset__ticker">{{::$ctrl.ticker}}</div>

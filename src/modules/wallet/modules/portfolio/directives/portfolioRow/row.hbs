@@ -14,13 +14,13 @@
         <div class="asset-name-desktop asset__wrapper">
             <div>{{assetName}}</div>
             {{#if isVerified}}
-                <span class="asset__label" w-i18n-literal="qualified"></span>
+                <span class="status-label-min active" w-i18n-literal="qualified"></span>
             {{/if}}
             {{#if isGateway}}
-                <span class="asset__label" w-i18n-literal="gateway"></span>
+                <span class="status-label-min active" w-i18n-literal="gateway"></span>
             {{/if}}
             {{#if isSpam}}
-                <span class="asset__label asset__label-suspicious" w-i18n-literal="suspicious"></span>
+                <span class="status-label-min inactive" w-i18n-literal="suspicious"></span>
             {{/if}}
         </div>
     </div>
@@ -32,7 +32,7 @@
                 <span class="basic-500 footnote-3">{{assetName}}</span>
             </div>
             {{#if isVerified}}
-                <span class="asset__label" w-i18n-literal="qualified"></span>
+                <span class="status-label-min active" w-i18n-literal="qualified"></span>
             {{/if}}
         </div>
         <span class="{{SELECTORS.AVAILABLE}}"></span>

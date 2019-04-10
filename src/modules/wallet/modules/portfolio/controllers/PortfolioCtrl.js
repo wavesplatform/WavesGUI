@@ -198,10 +198,6 @@
                 return modalManager.showSepaAsset(user, asset);
             }
 
-            showQR() {
-                return modalManager.showAddressQrCode(user);
-            }
-
             showBurn(assetId) {
                 return modalManager.showBurnModal(assetId);
             }
