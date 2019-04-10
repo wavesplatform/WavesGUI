@@ -118,6 +118,7 @@
                     link.setAttribute('href', content);
                     link.setAttribute('download', name);
                     link.setAttribute('target', '_blank');
+                    link.setAttribute('rel', 'noopener noreferrer');
                     link.style.position = 'absolute';
                     link.style.opacity = '0';
                     document.body.appendChild(link);
