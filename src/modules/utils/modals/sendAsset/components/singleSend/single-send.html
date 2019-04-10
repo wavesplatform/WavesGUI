@@ -244,7 +244,7 @@
     </div>
 
     <div class="fee margin-top-1 margin-1" ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending">
-        <w-fee-list tx="{tx:this.tx,type:4}"
+        <w-fee-list tx="$ctrl.wavesTx"
                     disabled="$ctrl.toBankMode && (!$ctrl.isVerified || !$ctrl.termsAccepted)"
                     balance-hash="$ctrl.state.moneyHash"
                     fee="$ctrl.tx.fee"></w-fee-list>

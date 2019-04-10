@@ -9,6 +9,7 @@
 
     const { Money } = require('@waves/data-entities');
     const ds = require('data-service');
+    const { SIGN_TYPE } = require('@waves/signature-adapter');
 
     const BANK_RECIPIENT = WavesApp.bankRecipient;
     const MIN_TOKEN_COUNT = 100;
@@ -232,6 +233,16 @@
              */
             signInProgress = false;
             /**
+             * @type {ISingleSendTx}
+             */
+            wavesTx = {
+                type: SIGN_TYPE.TRANSFER,
+                amount: null,
+                attachment: '',
+                fee: null,
+                recipient: ''
+            };
+            /**
              * @type {boolean}
              * @private
              */
@@ -261,6 +272,12 @@
                     this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayDetails, this);
 
                     this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
+
+                    this.observe('gatewayDetails', this._updateWavesTxObject);
+                    this.receive(utils.observe(this.tx, 'amount'), this._updateWavesTxObject, this);
+                    this.receive(utils.observe(this.tx, 'recipient'), this._updateWavesTxObject, this);
+                    this.receive(utils.observe(this.tx, 'attachment'), this._updateWavesTxObject, this);
+
                     this.observe('mirror', this._onChangeAmountMirror);
 
                     this._currentHasCommission();
@@ -398,6 +415,23 @@
 
             getGatewayDetails() {
                 this._onChangeAssetId();
+            }
+
+            /**
+             * @private
+             */
+            _updateWavesTxObject() {
+                const toGateway = this.outerSendMode && this.gatewayDetails;
+                const fee = toGateway ? this.tx.amount.cloneWithTokens(toGateway.gatewayFee) : null;
+                const attachmentString = this.tx.attachment ? this.tx.attachment.toString() : '';
+                const isWavesAddress = waves.node.isValidAddress(this.tx.recipient);
+
+                this.wavesTx = {
+                    ...this.wavesTx,
+                    recipient: toGateway ? this.gatewayDetails.address : isWavesAddress && this.tx.recipient || '',
+                    attachment: utils.stringToBytes(toGateway ? this.gatewayDetails.attachment : attachmentString),
+                    amount: toGateway ? this.tx.amount.add(fee) : this.tx.amount
+                };
             }
 
             /**
