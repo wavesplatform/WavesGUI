@@ -52,18 +52,22 @@
             }
 
             $postLink() {
-                waves.node.assets.getAsset(this.assetId).then(asset => {
-                    this.assetName = asset.displayName;
-                    this.ticker = asset.ticker;
-                    $scope.$apply();
-                });
-                const data = ds.dataManager.getOracleAssetData(this.assetId);
-                this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
-                this.isGateway = path(['status'], data) === GATEWAY;
-                this.isSuspicious = user.scam[this.assetId];
-                this.hasLabel = this.isVerified || this.isGateway || this.isSuspicious;
+                const getAssetInfo = () => {
+                    waves.node.assets.getAsset(this.assetId).then(asset => {
+                        this.assetName = asset.displayName;
+                        this.ticker = asset.ticker;
+                        $scope.$apply();
+                    });
+                    const data = ds.dataManager.getOracleAssetData(this.assetId);
+                    this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
+                    this.isGateway = path(['status'], data) === GATEWAY;
+                    this.isSuspicious = user.scam[this.assetId];
+                    this.hasLabel = this.isVerified || this.isGateway || this.isSuspicious;
 
-                this.state = { assetId: this.assetId };
+                    this.state = { assetId: this.assetId };
+                };
+                getAssetInfo();
+                this.observe(this.assetId, getAssetInfo);
             }
 
         }
@@ -78,7 +82,7 @@
             controller: controller,
             templateUrl: 'modules/ui/directives/assetInfoHead/asset-info-head.html',
             bindings: {
-                assetId: '@'
+                assetId: '<'
             }
         });
 })();
