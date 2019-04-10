@@ -1,1 +1,38 @@
 @import (reference) 'config';
+@import (reference) "icons";
+
+.unavailable-page {
+  padding-top: 40px;
+  width: 564px;
+  height: 100%;
+  margin: auto;
+
+  &__waves-logo {
+    margin-top: 0;
+    margin-bottom: 90px;
+  }
+
+  &__icon {
+    width: 100%;
+    height: 349px;
+    background: @unavailable-page-icon no-repeat center;
+  }
+
+  &__title {
+    font-weight: 400;
+  }
+
+  &__message {
+    width: 420px;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  &__text-center {
+    text-align: center;
+  }
+}
+
+
+
