@@ -18,6 +18,7 @@
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
+        const analytics = require('@waves/event-sender');
 
         class Assets extends Base {
 
@@ -157,6 +158,7 @@
              * @param {Asset} asset
              */
             unpin(asset) {
+                analytics.send({ name: 'Wallet Assets Unpin', params: { Currency: asset.id }, target: 'ui' });
                 this.pinnedAssetIdList = this.pinnedAssetIdList.filter((fAsset) => fAsset !== asset.id);
             }
 
@@ -169,6 +171,11 @@
             }
 
             showReceivePopup(asset) {
+                analytics.send({
+                    name: 'Wallet Assets Receive Click',
+                    params: { Currency: asset ? asset.id : 'All' },
+                    target: 'ui'
+                });
                 return modalManager.showReceiveModal(user, asset);
             }
 
@@ -187,6 +194,11 @@
              * @param {Asset} asset
              */
             showSend(asset) {
+                analytics.send({
+                    name: 'Wallet Assets Send Click',
+                    params: { Currency: asset ? asset.id : 'All' },
+                    target: 'ui'
+                });
                 return modalManager.showSendAsset({ assetId: asset && asset.id || null });
             }
 

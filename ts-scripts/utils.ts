@@ -9,8 +9,9 @@ import { compile } from 'handlebars';
 import { transform } from 'babel-core';
 import { render } from 'less';
 import { minify } from 'html-minifier';
-import { get, ServerResponse, IncomingMessage, request } from 'https';
+import { get, ServerResponse, IncomingMessage, request, ClientRequest } from 'https';
 import { MAINNET_DATA, TESTNET_DATA } from '@waves/assets-pairs-order';
+import { Http2ServerRequest, Http2ServerResponse } from 'http2';
 
 const extract = require('extract-zip');
 
@@ -206,7 +207,7 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
     ]);
 
     const { themes } = themesConf;
-    const { domain } = meta;
+    const { domain, analyticsIframe } = meta as any;
     const { connection, type, buildType, outerScripts = [] } = param;
     const config = meta.configurations[connection];
 
@@ -226,6 +227,7 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
         pack,
         isWeb,
         origin,
+        analyticsIframe,
         oracle,
         domain,
         styles,
@@ -353,7 +355,7 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
 
                 // Signed 64-bit integer.
                 WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
-
+                WavesApp.analyticsIframe = config.analyticsIframe;
                 WavesApp.device = new MobileDetect(navigator.userAgent);
 
                 (function () {
@@ -377,6 +379,31 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
                     WavesApp.stringifyJSON = function () {
                         return stringify.apply(this, arguments);
                     };
+                })();
+
+                (function () {
+                    var analytics = require('@waves/event-sender');
+
+                    analytics.addApi({
+                        apiToken: '7a280fdf83a5efc5b8dfd52fc89de3d7',
+                        libraryUrl: location.origin + '/amplitude.js',
+                        initializeMethod: 'amplitudeInit',
+                        sendMethod: 'amplitudePushEvent',
+                        type: 'logic'
+                    });
+
+                    analytics.addApi({
+                        apiToken: 'UA-75283398-20',
+                        libraryUrl: location.origin + '/googleAnalytics.js',
+                        initializeMethod: 'gaInit',
+                        sendMethod: 'gaPushEvent',
+                        type: 'ui'
+                    });
+
+                    if (location.pathname.replace('/', '') === '') {
+                        analytics.send({ name: 'Onboarding Show', target: 'ui' });
+                    }
+
                 })();
 
 
@@ -679,14 +706,8 @@ export function isPage(url: string): boolean {
     });
 }
 
-function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, platform: TPlatform) {
-    const ROOTS = [join(__dirname, '..')];
-    if (buildType !== 'dev') {
-        ROOTS.push(join(__dirname, '..', 'dist', platform, connectionType, buildType));
-    } else {
-        ROOTS.push(join(__dirname, '..', 'src'));
-    }
-
+export function stat(req: Http2ServerRequest, res: Http2ServerResponse, roots: Array<string>): void {
+    const copyRoots = roots.slice();
     const [url] = req.url.split('?');
     const contentType = getType(url);
 
@@ -698,8 +719,8 @@ function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, p
             res.end(file);
         })
             .catch(() => {
-                if (ROOTS.length) {
-                    check(ROOTS.pop());
+                if (copyRoots.length) {
+                    check(copyRoots.pop());
                 } else {
                     res.writeHead(404, { 'Content-Type': 'text/plain' });
                     res.end('404 Not Found\n');
@@ -707,7 +728,17 @@ function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, p
             });
     };
 
-    check(ROOTS.pop());
+    check(copyRoots.pop());
+}
+
+function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, platform: TPlatform) {
+    const ROOTS = [join(__dirname, '..')];
+    if (buildType !== 'dev') {
+        ROOTS.push(join(__dirname, '..', 'dist', platform, connectionType, buildType));
+    } else {
+        ROOTS.push(join(__dirname, '..', 'src'));
+    }
+    stat(req, res, ROOTS);
 }
 
 export function getLocales(path: string, options?: object) {

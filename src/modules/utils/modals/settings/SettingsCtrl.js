@@ -3,6 +3,7 @@
 
     const ds = require('data-service');
     const { path } = require('ramda');
+    const analytics = require('@waves/event-sender');
 
     /**
      * @param Base
@@ -46,7 +47,7 @@
             }
 
             set advancedMode(mode) {
-                analytics.push('Settings', 'Settings.ChangeAdvancedMode', String(mode));
+                analytics.send({ name: `Settings Advanced Features ${mode ? 'On' : 'Off'}`, target: 'ui' });
                 user.setSetting('advancedMode', mode);
             }
 
@@ -84,6 +85,12 @@
 
             constructor() {
                 super($scope);
+                analytics.send({ name: 'Settings General Show', target: 'ui' });
+
+                this.observe('tab', () => {
+                    const tabName = this.tab.slice(0, 1).toUpperCase() + this.tab.slice(1);
+                    analytics.send({ name: `Settings ${tabName} Show`, target: 'ui' });
+                });
 
                 this.isScript = user.hasScript();
                 this.syncSettings({
@@ -166,11 +173,11 @@
                 });
 
                 this.observe('shownSeed', () => {
-                    analytics.push('Settings', `Settings.ShowSeed.${WavesApp.type}`);
+                    // analytics.push('Settings', `Settings.ShowSeed.${WavesApp.type}`);
                 });
 
                 this.observe('shownKey', () => {
-                    analytics.push('Settings', `Settings.ShowKeyPair.${WavesApp.type}`);
+                    // analytics.push('Settings', `Settings.ShowKeyPair.${WavesApp.type}`);
                 });
 
                 createPoll(this, waves.node.height, (height) => {
@@ -200,7 +207,7 @@
 
             onChangeLanguage(language) {
                 user.setSetting('lng', language);
-                analytics.push('Settings', `Settings.ChangeLanguage.${WavesApp.type}`, language);
+                // analytics.push('Settings', `Settings.ChangeLanguage.${WavesApp.type}`, language);
             }
 
             setNetworkDefault() {

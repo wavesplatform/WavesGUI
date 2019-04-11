@@ -36,6 +36,7 @@ body.tokens,
 body.wallet {
   .scroll();
 }
+body.tokens,
 
 body.dex,
 body.dex-demo {
@@ -407,24 +408,8 @@ w-sign-button,
     position: relative;
   }
 
-  .asset__logo .marker {
-    width: 24px;
-    height: 24px;
-    background-size: 12px;
-  }
-
   &__head-content {
     display: flex;
-
-    &.smart-asset,
-    &.sponsored-asset {
-      .marker {
-        width: 24px;
-        height: 24px;
-        background-size: 12px;
-        border: 2px solid @color-white;
-      }
-    }
   }
 
   &__logo {
@@ -661,14 +646,8 @@ w-permit {
 
   w-button,
   .fake-button {
-    display: block;
     flex-basis: 48%;
     max-width: 48%;
-
-    &.long {
-      width: 100%;
-      max-width: 100%;
-    }
   }
 }
 
