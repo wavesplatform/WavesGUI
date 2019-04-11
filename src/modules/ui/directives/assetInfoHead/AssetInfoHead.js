@@ -52,8 +52,8 @@
                 this.observe('assetId', this._getAssetInfo);
             }
 
-            /*
-            ** private
+            /**
+             * @private
              */
             _getAssetInfo() {
                 waves.node.assets.getAsset(this.assetId).then(asset => {
