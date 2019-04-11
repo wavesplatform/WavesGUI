@@ -86,18 +86,20 @@
             '1.0.41': function (storage) {
                 return addNewGateway(storage, WavesApp.defaultAssets.BSV);
             },
-            '1.2.0': function (storage) {
+            '1.2.1': function (storage) {
                 return newTerms(storage);
             }
         };
 
         function newTerms(storage) {
             return storage.load('userList').then((users = []) => {
-                users.forEach((user) => {
+                const needShowNewTerms = users.some((user) => {
                     const settings = user.settings || Object.create(null);
-                    settings.needReadNewTerms = true;
+                    return typeof settings.termsAccepted === 'undefined';
                 });
-                return storage.save('userList', users);
+                if (needShowNewTerms) {
+                    return storage.save('needReadNewTerms', true);
+                }
             });
         }
 
