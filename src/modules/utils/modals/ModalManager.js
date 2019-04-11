@@ -411,6 +411,7 @@
                     id: 'confirm-tx',
                     mod: 'confirm-tx',
                     ns: 'app.ui',
+                    title: '{{$ctrl.title}}',
                     locals: { signable, analyticsText },
                     controller: 'ConfirmTxCtrl',
                     headerUrl: 'modules/utils/modals/confirmTx/confirmTx.header.modal.html',
