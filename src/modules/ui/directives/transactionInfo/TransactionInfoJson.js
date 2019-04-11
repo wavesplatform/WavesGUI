@@ -26,10 +26,10 @@
             }
 
             addAnalytic() {
-                analytics.push(
-                    'ConfirmTransaction',
-                    `ConfirmTransaction.${this.signable.type}.CopyTransactionJSON`
-                );
+                // analytics.push(
+                //     'ConfirmTransaction',
+                //     `ConfirmTransaction.${this.signable.type}.CopyTransactionJSON`
+                // );
             }
 
         }

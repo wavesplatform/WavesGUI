@@ -23,6 +23,7 @@
         const { without, keys, last } = require('ramda');
         const { Money } = require('@waves/data-entities');
         const ds = require('data-service');
+        const analytics = require('@waves/event-sender');
 
         class CreateOrder extends Base {
 
@@ -108,6 +109,11 @@
                  */
                 this._assetIdPair = null;
                 /**
+                 * @type string
+                 * @private
+                 */
+                this.analyticsPair = null;
+                /**
                  * @type {Money}
                  * @private
                  */
@@ -152,6 +158,8 @@
                     _assetIdPair: 'dex.assetIdPair',
                     expiration: 'dex.createOrder.expirationName'
                 });
+
+                this.analyticsPair = `${this._assetIdPair.amount} / ${this._assetIdPair.price}`;
 
                 /**
                  * @type {Poll}
@@ -213,6 +221,7 @@
                     if (lastTraderPoll) {
                         lastTraderPoll.restart();
                     }
+                    this.analyticsPair = `${this._assetIdPair.amount} / ${this._assetIdPair.price}`;
                     this.observeOnce(['bid', 'ask'], utils.debounce(() => {
                         if (this.type) {
                             this.amount = this.amountBalance.cloneWithTokens('0');
@@ -369,16 +378,21 @@
 
                                 notify.addClass('success');
                                 this.createOrderFailed = false;
-                                const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
-                                analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Success`, pair);
+                                analytics.send({
+                                    name: `DEX ${this.type} Order Transaction Success`,
+                                    params: this.analyticsPair
+                                });
                                 dexDataService.createOrder.dispatch();
                                 CreateOrder._animateNotification(notify);
                             })
                             .catch(() => {
                                 this.createOrderFailed = true;
                                 notify.addClass('error');
-                                const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
-                                analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Error`, pair);
+                                analytics.send({
+                                    name: `DEX ${this.type} Order Transaction Error`,
+                                    params: this.analyticsPair
+                                });
+                                $scope.$apply();
                                 CreateOrder._animateNotification(notify);
                             });
                     });

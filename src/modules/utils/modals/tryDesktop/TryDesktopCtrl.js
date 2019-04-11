@@ -2,6 +2,7 @@
     'use strict';
 
     const locationHref = location.href;
+    const analytics = require('@waves/event-sender');
 
     const controller = function (Base, $scope, storage, $element) {
 
@@ -18,6 +19,10 @@
                 const href = `waves://${url.pathname}${url.search}${url.hash}`.replace('///', '//');
 
                 $element.find('a').attr('href', href);
+            }
+
+            onOpenLink() {
+                analytics.send({ name: 'Onboarding Popup Official Site Click', target: 'ui' });
             }
 
             tryWeb() {

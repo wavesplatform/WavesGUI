@@ -136,6 +136,8 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                         }),
                         copy(tmpCssPath, join(targetPath, 'css')),
                         copy('LICENSE', join(`${targetPath}`, 'LICENSE')),
+                        copy('googleAnalytics.js', join(`${targetPath}`, 'googleAnalytics.js')),
+                        copy('amplitude.js', join(`${targetPath}`, 'amplitude.js')),
                     ].concat(forCopy)).then(() => {
                         done();
                     }, (e) => {
