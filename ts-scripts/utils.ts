@@ -385,7 +385,7 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
                     var analytics = require('@waves/event-sender');
 
                     analytics.addApi({
-                        apiToken: '56bc30688ef3d7127feaa8f0dc2e5fc0',
+                        apiToken: '7a280fdf83a5efc5b8dfd52fc89de3d7',
                         libraryUrl: location.origin + '/amplitude.js',
                         initializeMethod: 'amplitudeInit',
                         sendMethod: 'amplitudePushEvent',
@@ -393,7 +393,7 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
                     });
 
                     analytics.addApi({
-                        apiToken: 'UA-75283398-21',
+                        apiToken: 'UA-75283398-20',
                         libraryUrl: location.origin + '/googleAnalytics.js',
                         initializeMethod: 'gaInit',
                         sendMethod: 'gaPushEvent',
