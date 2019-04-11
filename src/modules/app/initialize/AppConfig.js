@@ -211,7 +211,7 @@
                 const available = Object.keys(WavesApp.localize);
                 const langFromStorage = localStorage.getItem('lng');
                 if (available.indexOf(langFromStorage) !== -1) {
-                    return localStorage.getItem('lng');
+                    return langFromStorage;
                 }
                 const cookieLng = Cookies.get('locale');
                 const userLang = navigator.language || navigator.userLanguage;
