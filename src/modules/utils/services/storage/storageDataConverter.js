@@ -48,7 +48,7 @@
          */
         function parse(data) {
             if (typeof data === 'object') {
-                let result;
+                let result = null;
                 tsUtils.each(data, (value, path) => {
                     if (!result) {
                         result = tsUtils.Path.parse(path).getItemData(0).container;

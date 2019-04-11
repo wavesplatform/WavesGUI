@@ -19,7 +19,7 @@
              */
             read(key) {
                 const api = WebStorage._getStorage();
-                api.readStorage(key).then((result) => {
+                return api.readStorage(key).then((result) => {
                     let data = result;
                     try {
                         data = JSON.parse(result);
