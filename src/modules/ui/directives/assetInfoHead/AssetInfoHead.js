@@ -47,27 +47,27 @@
              */
             assetName;
 
-            constructor() {
-                super($scope);
+            $postLink() {
+                this._getAssetInfo();
+                this.observe('assetId', this._getAssetInfo);
             }
 
-            $postLink() {
-                const getAssetInfo = () => {
-                    waves.node.assets.getAsset(this.assetId).then(asset => {
-                        this.assetName = asset.displayName;
-                        this.ticker = asset.ticker;
-                        $scope.$apply();
-                    });
-                    const data = ds.dataManager.getOracleAssetData(this.assetId);
-                    this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
-                    this.isGateway = path(['status'], data) === GATEWAY;
-                    this.isSuspicious = user.scam[this.assetId];
-                    this.hasLabel = this.isVerified || this.isGateway || this.isSuspicious;
+            /*
+            ** private
+             */
+            _getAssetInfo() {
+                waves.node.assets.getAsset(this.assetId).then(asset => {
+                    this.assetName = asset.displayName;
+                    this.ticker = asset.ticker;
+                    $scope.$apply();
+                });
+                const data = ds.dataManager.getOracleAssetData(this.assetId);
+                this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
+                this.isGateway = path(['status'], data) === GATEWAY;
+                this.isSuspicious = user.scam[this.assetId];
+                this.hasLabel = this.isVerified || this.isGateway || this.isSuspicious;
 
-                    this.state = { assetId: this.assetId };
-                };
-                getAssetInfo();
-                this.observe(this.assetId, getAssetInfo);
+                this.state = { assetId: this.assetId };
             }
 
         }
