@@ -56,18 +56,38 @@
                     default:
                         break;
                 }
-                this.observe('confirmed', () => {
-                    (this.transaction.id ? Promise.resolve(this.transaction.id) : this.signable.getId())
-                        .then(id => {
-                            this.id = id;
-                            waves.node.transactions.getAlways(this.id)
-                                .then(res => {
-                                    this.transaction = res;
-                                    this.isActive = this.transaction.status === 'active';
-                                    $scope.$apply();
-                                });
-                        });
+
+                this._getId().then(id => {
+                    this.id = id;
+
+                    if (this.confirmed) {
+                        this._applyConfirmed();
+                    } else {
+                        this.observeOnce('confirmed', this._applyConfirmed);
+                    }
+
+                    $scope.$apply();
                 });
+            }
+
+            /**
+             * @private
+             */
+            _applyConfirmed() {
+                waves.node.transactions.getAlways(this.id)
+                    .then(res => {
+                        this.transaction = res;
+                        this.isActive = this.transaction.status === 'active';
+                        $scope.$apply();
+                    });
+            }
+
+            /**
+             * @return {Promise<string>}
+             * @private
+             */
+            _getId() {
+                return this.transaction.id ? Promise.resolve(this.transaction.id) : this.signable.getId();
             }
 
         }

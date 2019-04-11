@@ -62,7 +62,7 @@
                 i18next
                     .use(i18nextLocizeBackend)
                     .init({
-                        lng: localStorage.getItem('lng') || AppConfig.getUserLang(),
+                        lng: AppConfig.getUserLang(),
                         debug: !WavesApp.isProduction(),
                         ns: WavesApp.modules
                             .filter(
@@ -208,8 +208,11 @@
             }
 
             static getUserLang() {
-
                 const available = Object.keys(WavesApp.localize);
+                const langFromStorage = localStorage.getItem('lng');
+                if (available.indexOf(langFromStorage) !== -1) {
+                    return langFromStorage;
+                }
                 const cookieLng = Cookies.get('locale');
                 const userLang = navigator.language || navigator.userLanguage;
 

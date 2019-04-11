@@ -3,7 +3,7 @@
         <div class="asset-modal__head-content">
             <w-asset-logo ng-cloak asset-id="{{::$ctrl.asset.id}}"
                           size="65"
-                          class="asset-modal__logo"></w-asset-logo>
+                          class="asset-modal__logo big"></w-asset-logo>
 
             <div class="asset-modal__data">
                 <h2 ng-cloak class="asset-modal__name basic-900" ng-class="{'has-label': $ctrl.hasLabel}">
@@ -82,7 +82,7 @@
                 <span class="basic-500" w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>
                 <span class="basic-900">{{::$ctrl.provider}}</span>
             </div>
-            <div ng-if="$ctrl.description" class="line margin-top-2 basic-900">
+            <div ng-if="$ctrl.description" class="asset-description line margin-top-2 basic-900">
                 {{::$ctrl.description}}
             </div>
 

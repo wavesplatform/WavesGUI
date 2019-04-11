@@ -359,10 +359,10 @@
                             matcherPublicKey
                         };
 
-                        this._checkOrder(data)
+                        this._checkScriptAssets()
+                            .then(() => this._checkOrder(data))
                             .then(() => this._sendOrder(data))
                             .then(data => {
-
                                 if (!data) {
                                     return null;
                                 }
@@ -372,7 +372,6 @@
                                 const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                                 analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Success`, pair);
                                 dexDataService.createOrder.dispatch();
-                                $scope.$apply();
                                 CreateOrder._animateNotification(notify);
                             })
                             .catch(() => {
@@ -380,7 +379,6 @@
                                 notify.addClass('error');
                                 const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                                 analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Error`, pair);
-                                $scope.$apply();
                                 CreateOrder._animateNotification(notify);
                             });
                     });
@@ -398,6 +396,28 @@
                 const clone = { ...data, expiration };
 
                 return utils.createOrder(clone);
+            }
+
+
+            /**
+             * @return {Promise}
+             * @private
+             */
+            _checkScriptAssets() {
+                if (user.getSetting('tradeWithScriptAssets')) {
+                    return Promise.resolve();
+                }
+
+                const scriptAssets = [
+                    this.amountBalance.asset,
+                    this.priceBalance.asset
+                ].filter(asset => asset.hasScript);
+
+                if (scriptAssets.length > 0) {
+                    return modalManager.showDexScriptedPair(scriptAssets);
+                } else {
+                    return Promise.resolve();
+                }
             }
 
             /**
@@ -499,6 +519,7 @@
                 const balance = this.amountBalance;
                 return balance.safeSub(fee).toNonNegative();
             }
+
 
             /**
              * @return {Money}
