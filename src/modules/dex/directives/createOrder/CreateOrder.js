@@ -368,10 +368,10 @@
                             matcherPublicKey
                         };
 
-                        this._checkOrder(data)
+                        this._checkScriptAssets()
+                            .then(() => this._checkOrder(data))
                             .then(() => this._sendOrder(data))
                             .then(data => {
-
                                 if (!data) {
                                     return null;
                                 }
@@ -383,7 +383,6 @@
                                     params: this.analyticsPair
                                 });
                                 dexDataService.createOrder.dispatch();
-                                $scope.$apply();
                                 CreateOrder._animateNotification(notify);
                             })
                             .catch(() => {
@@ -411,6 +410,28 @@
                 const clone = { ...data, expiration };
 
                 return utils.createOrder(clone);
+            }
+
+
+            /**
+             * @return {Promise}
+             * @private
+             */
+            _checkScriptAssets() {
+                if (user.getSetting('tradeWithScriptAssets')) {
+                    return Promise.resolve();
+                }
+
+                const scriptAssets = [
+                    this.amountBalance.asset,
+                    this.priceBalance.asset
+                ].filter(asset => asset.hasScript);
+
+                if (scriptAssets.length > 0) {
+                    return modalManager.showDexScriptedPair(scriptAssets);
+                } else {
+                    return Promise.resolve();
+                }
             }
 
             /**
@@ -512,6 +533,7 @@
                 const balance = this.amountBalance;
                 return balance.safeSub(fee).toNonNegative();
             }
+
 
             /**
              * @return {Money}

@@ -260,6 +260,17 @@
                 });
             }
 
+            showDexScriptedPair(assets) {
+                return this._getModal({
+                    id: 'dex-scripted-pair',
+                    templateUrl: 'modules/utils/modals/dexScriptedPair/dexScriptedPair.html',
+                    controller: 'DexScriptedPairCtrl',
+                    locals: {
+                        assets
+                    }
+                });
+            }
+
             showAccountInfo() {
                 /**
                  * @type {User}
