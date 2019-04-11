@@ -196,7 +196,7 @@
              */
             _initializeOutLinks() {
                 if (WavesApp.isDesktop()) {
-                    $(document).on('click', '[target="_blank" rel="noopener noreferrer"]', (e) => {
+                    $(document).on('click', '[target="_blank"]', (e) => {
                         const $link = $(e.currentTarget);
                         e.preventDefault();
 
