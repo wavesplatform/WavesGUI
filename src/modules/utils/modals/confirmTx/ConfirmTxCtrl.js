@@ -13,6 +13,7 @@
         const analytics = require('@waves/event-sender');
 
         class ConfirmTxCtrl extends Base {
+
             /**
              * @type {string}
              */
