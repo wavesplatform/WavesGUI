@@ -9,7 +9,7 @@
      * @param {IPollCreate} createPoll
      * @return {TransactionsCtrl}
      */
-    const controller = function (Base, $scope, transactionsCsvGen, waves, createPoll) {
+    const controller = function (user, Base, $scope, transactionsCsvGen, waves, createPoll) {
 
         const analytics = require('@waves/event-sender');
 
@@ -52,7 +52,27 @@
             exportTransactions() {
                 // analytics.push('TransactionsPage', `TransactionsPage.CSV.${WavesApp.type}`, 'download');
                 analytics.send({ name: 'Transactions Export Click', target: 'ui' });
-                transactionsCsvGen.generate(this.transactions);
+                const scamListProm = ds.fetch(`${user.getSetting('scamListUrl')}?${WavesApp.version}-${Date.now()}`);
+                const MAX_LIMIT = 1000;
+                const allTransactions = [];
+
+                /**
+                 * @returns {void}
+                 */
+                const getSeries = async (after = '') => {
+                    const transactions = await waves.node.transactions.list(MAX_LIMIT, after);
+                    allTransactions.push(...transactions);
+
+                    if (transactions.length < MAX_LIMIT || allTransactions.length > 10000) {
+                        const scamList = (await scamListProm).split('\n');
+                        transactionsCsvGen.generate(allTransactions.filter(el => !scamList.includes(el.assetId)));
+                    } else {
+                        getSeries(transactions[transactions.length - 1].id);
+                    }
+
+                };
+
+                getSeries();
             }
 
             _getTxList() {
@@ -124,7 +144,7 @@
         return new TransactionsCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'transactionsCsvGen', 'waves', 'createPoll'];
+    controller.$inject = ['user', 'Base', '$scope', 'transactionsCsvGen', 'waves', 'createPoll'];
 
     angular.module('app.wallet.transactions').controller('TransactionsCtrl', controller);
 })();
