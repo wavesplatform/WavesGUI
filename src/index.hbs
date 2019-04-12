@@ -414,6 +414,7 @@
                 getLocaleData: config.getLocaleData,
                 addController: config.addController,
                 getController: config.getController,
+                analyticsIframe: config.analyticsIframe,
                 isWeb: config.isWeb,
                 isDesktop: config.isDesktop,
                 isProduction: config._isProduction,
@@ -562,11 +563,6 @@
         var modal = document.body.querySelector(appConfig.notSupportedSelector);
         modal.parentNode.removeChild(modal);
         appConfig._initApp();
-
-        /**
-         * @type {EventSender}
-         */
-        var analytics = eventSender.default.inactive();
 
         WavesApp.stateTree = new tsUtils.Tree({
             id: 'root',

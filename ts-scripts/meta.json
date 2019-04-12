@@ -16,6 +16,7 @@
     "node_modules/@waves/data-entities/dist/data-entities.min.js",
     "node_modules/@waves/signature-generator/dist/signature-generator.partial.min.js",
     "node_modules/@waves/waves-browser-bus/dist/browser-bus.min.js",
+    "node_modules/@waves/event-sender/dist/analytics.js",
     "node_modules/@waves/ledger/dist/transport-u2f.js",
     "node_modules/@waves/ledger/dist/waves-ledger.js",
     "node_modules/@waves/signature-adapter/dist/signature-adapter.min.js",
@@ -34,13 +35,13 @@
     "node_modules/@uirouter/angularjs/release/stateEvents.min.js",
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
     "node_modules/i18next/dist/umd/i18next.js",
-    "node_modules/n3-charts/build/LineChart.min.js",
-    "node_modules/@waves/event-sender/dist/umd.js"
+    "node_modules/n3-charts/build/LineChart.min.js"
   ],
   "exportPageVendors": [
     "node_modules/ts-utils/dist/ts-utils.min.js",
     "node_modules/@waves/waves-browser-bus/dist/browser-bus.min.js"
   ],
+  "analyticsIframe": "https://iframe-test.wvservices.com/index.html",
   "langList": {
     "en": {
       "name": "En",

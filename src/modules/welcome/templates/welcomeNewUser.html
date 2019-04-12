@@ -43,16 +43,22 @@
 
     <w-carousel-dots class="square"></w-carousel-dots>
 
-    <w-button class="submit big" ui-sref="create">
-        <span w-i18n="newUser.getStarted"></span>
-    </w-button>
+    <w-analytics event="'Onboarding Get Started Click'"
+                 event-target="'ui'">
+        <w-button class="submit big" ui-sref="create">
+            <span w-i18n="newUser.getStarted"></span>
+        </w-button>
+    </w-analytics>
 
     <div class="or">
         <span w-i18n="newUser.or"></span>
     </div>
 
     <div class="restore margin-2 body-2 basic-900">
-        <a ui-sref="import">
+        <a w-analytics
+           event="'Onboarding Import Accounts Click'"
+           event-target="'ui'"
+           ui-sref="import">
             <span w-i18n="newUser.import"></span>
         </a>
     </div>
