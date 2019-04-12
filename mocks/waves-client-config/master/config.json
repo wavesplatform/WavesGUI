@@ -7,7 +7,10 @@
       "ZEC",
       "BCH",
       "DASH",
-      "XMR"
+      "XMR",
+      "USD",
+      "EUR",
+      "TRY"
     ],
     "CAN_TRANSFER_TRANSACTION": true,
     "CAN_SET_ASSET_SCRIPT_TRANSACTION": true,
