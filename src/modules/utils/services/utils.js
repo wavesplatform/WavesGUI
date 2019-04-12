@@ -5,7 +5,7 @@
 
     const { isEmpty, getPaths, get, Signal } = require('ts-utils');
     const tsApiValidator = require('ts-api-validator');
-    const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
+    const { WindowAdapter, Bus, WindowProtocol } = require('@waves/waves-browser-bus');
     const { splitEvery, pipe, path, map, ifElse, concat, defaultTo, identity, isNil } = require('ramda');
     const { libs } = require('@waves/signature-generator');
     const ds = require('data-service');
@@ -307,16 +307,14 @@
                         case v instanceof Date:
                             return v.getTime();
                         default:
-                            return v;
+                            return encodeURIComponent(v);
                     }
                 };
                 const createKeyValue = (key, v) => `${key}=${customSerialize(v)}`;
                 const createArrayKeyValue = (key, values) => values.map(v => createKeyValue(`${key}[]`, v)).join('&');
                 const qs = Object.entries(obj)
                     .filter(([_, value]) => value !== undefined)
-                    .map(([key, value]) => {
-                        return Array.isArray(value) ? createArrayKeyValue(key, value) : createKeyValue(key, value);
-                    })
+                    .map(([key, value]) => Array.isArray(value) ? createArrayKeyValue(key, value) : createKeyValue(key, value))
                     .join('&');
                 return qs === '' ? qs : `?${qs}`;
                 /* eslint-enable */
@@ -799,10 +797,9 @@
              */
             importUsersByWindow(win, origin, timeout) {
                 return new Promise((resolve, reject) => {
-                    const adapter = new WindowAdapter(
-                        { win: window, origin: WavesApp.origin },
-                        { win, origin }
-                    );
+                    const listen = new WindowProtocol(window, WindowProtocol.PROTOCOL_TYPES.LISTEN);
+                    const dispatch = new WindowProtocol(win, WindowProtocol.PROTOCOL_TYPES.DISPATCH);
+                    const adapter = new WindowAdapter([listen], [dispatch], { origins: '*' });
                     const bus = new Bus(adapter);
 
                     bus.once('export-ready', () => {

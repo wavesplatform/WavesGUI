@@ -1,13 +1,20 @@
 @import (reference) 'icons';
 
 .icon-close {
-  width: 16px;
-  height: 16px;
-  background-image: @close-icon;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  width: 40px;
+  height: 40px;
+  background: url(/img/icons/close.svg) center no-repeat;
+  background-size: 16px;
   display: inline-block;
   cursor: pointer;
+  right: 30px;
+  position: absolute;
+  top: 10px;
+  z-index: 13;
+  @media screen and (max-width: 540px) {
+    right: 8px;
+    top: 8px;
+  }
 }
 
 .visa-icon {
@@ -105,12 +112,14 @@
 .icon-tx-create-alias {
   &::before {
     background-position-x: 0;
+    display: block;
   }
   background-color: rgba(53, 165, 245, 0.1);
 }
 
 .icon-tx-cancel-leasing {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size;
   }
   background-color: rgba(239, 72, 41, 0.1);
@@ -118,6 +127,7 @@
 
 .icon-tx-exchange {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 2;
   }
   background-color: rgba(171, 125, 246, 0.1);
@@ -125,6 +135,7 @@
 
 .icon-tx-receive {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 3;
   }
   background-color: rgba(129, 201, 38, 0.1);
@@ -132,6 +143,7 @@
 
 .icon-tx-circular {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 4;
   }
   background-color: rgba(239, 72, 41, 0.1);
@@ -139,6 +151,7 @@
 
 .icon-tx-send {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 5;
   }
   background-color: rgba(255, 175, 0, 0.1);
@@ -146,6 +159,7 @@
 
 .icon-tx-lease {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 6;
   }
   background-color: rgba(129, 201, 38, 0.1);
@@ -153,6 +167,7 @@
 
 .icon-tx-burn {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 7;
   }
   background-color: rgba(255, 175, 0, 0.1);
@@ -160,6 +175,7 @@
 
 .icon-tx-issue {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 8;
   }
   background-color: rgba(38, 193, 201, 0.1);
@@ -167,6 +183,7 @@
 
 .icon-tx-reissue {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 9;
   }
   background-color: rgba(129, 201, 38, 0.1);
@@ -174,6 +191,7 @@
 
 .icon-tx-incoming-leasing {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 10;
   }
   background-color: rgba(90, 129, 234, 0.1);
@@ -181,6 +199,7 @@
 
 .icon-tx-unknown {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 11;
   }
   background-color: rgba(153, 153, 153, 0.1);
@@ -188,6 +207,7 @@
 
 .icon-tx-mass-transfer {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 12;
   }
   background-color: rgba(255, 175, 0, 0.1);
@@ -195,6 +215,7 @@
 
 .icon-tx-mass-receive {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 13;
   }
   background-color: rgba(129, 201, 38, 0.1);
@@ -202,6 +223,7 @@
 
 .icon-tx-spam {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 3;
     background-position-y: bottom;
   }
@@ -210,6 +232,7 @@
 
 .icon-tx-mass-spam {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 13;
     background-position-y: bottom;
   }
@@ -218,6 +241,7 @@
 
 .icon-tx-data {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 14;
   }
   background-color: rgba(90, 129, 234, 0.1);
@@ -225,6 +249,7 @@
 
 .icon-tx-sponsorship-start {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 15;
   }
   background-color: rgba(129, 201, 38, 0.1);
@@ -232,6 +257,7 @@
 
 .icon-tx-sponsorship-stop {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 18;
 
   }
@@ -240,6 +266,7 @@
 
 .icon-tx-sponsorship-plus {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 17;
   }
   background-color: rgba(129, 201, 38, 0.1);
@@ -247,6 +274,7 @@
 
 .icon-tx-set-script {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 19;
   }
   background-color: rgba(129, 201, 38, 0.1);
@@ -254,6 +282,7 @@
 
 .icon-tx-cancel-script {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 20;
   }
   background-color: rgba(239, 72, 41, 0.1);
@@ -261,6 +290,7 @@
 
 .icon-tx-set-asset-script {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 21;
   }
   background-color: rgba(90, 129, 234, 0.1);
@@ -319,10 +349,17 @@
 
 .icon-connected {
   display: block;
-  margin: 20px auto 20px auto;
   width: 80px;
   height: 80px;
   background: url(/img/icons/icon-connected.svg) center top no-repeat;
+}
+
+.icon-document {
+  display: block;
+  margin: 60px auto 20px auto;
+  width: 80px;
+  height: 80px;
+  background: url(/img/icons/icon-document.svg) center no-repeat;
 }
 
 .icon-sorting {
@@ -366,3 +403,4 @@
 .keeper-icon {
   background: url(/img/icons/keeper-icon.svg) center no-repeat;
 }
+

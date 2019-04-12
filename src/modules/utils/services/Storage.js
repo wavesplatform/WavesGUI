@@ -85,8 +85,23 @@
         const MIGRATION_MAP = {
             '1.0.41': function (storage) {
                 return addNewGateway(storage, WavesApp.defaultAssets.BSV);
+            },
+            '1.2.1': function (storage) {
+                return newTerms(storage);
             }
         };
+
+        function newTerms(storage) {
+            return storage.load('userList').then((users = []) => {
+                const needShowNewTerms = users.some((user) => {
+                    const settings = user.settings || Object.create(null);
+                    return typeof settings.termsAccepted === 'undefined';
+                });
+                if (needShowNewTerms) {
+                    return storage.save('needReadNewTerms', true);
+                }
+            });
+        }
 
         function addNewGateway(storage, gateway) {
             return storage.load('userList').then((users = []) => {

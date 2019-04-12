@@ -73,6 +73,7 @@
 
         const phone = WavesApp.device.phone();
         const tablet = WavesApp.device.tablet();
+        const analytics = require('@waves/event-sender');
 
         const isPhone = !!phone;
         const isTablet = !!tablet;
@@ -371,17 +372,26 @@
              * @private
              */
             _initializeTermsAccepted() {
-                if (!user.getSetting('termsAccepted')) {
-                    return modalManager.showTermsAccept(user).then(() => {
-                        if (user.getSetting('shareAnalytics')) {
+                return Promise.all([
+                    storage.load('needReadNewTerms'),
+                    storage.load('termsAccepted')
+                ]).then(([needReadNewTerms, termsAccepted]) => {
+                    const autoPromise = (promise) => {
+                        return promise.then(() => {
                             analytics.activate();
-                        }
-                    })
-                        .catch(() => false);
-                } else if (user.getSetting('shareAnalytics')) {
-                    analytics.activate();
-                }
-                return Promise.resolve();
+                        })
+                            .catch(() => false);
+                    };
+                    if (needReadNewTerms) {
+                        return autoPromise(modalManager.showAcceptNewTerms(user));
+
+                    } else if (!termsAccepted) {
+                        return autoPromise(modalManager.showTermsAccept(user));
+                    } else {
+                        analytics.activate();
+                    }
+                    return Promise.resolve();
+                });
             }
 
             /**
@@ -411,6 +421,8 @@
 
                     modalManager.openModal.once(changeModalsHandler);
 
+                    analytics.send({ name: 'Create Save Phrase Show', target: 'ui' });
+
                     notification.error({
                         id,
                         ns: 'app.utils',
@@ -423,10 +435,12 @@
                         action: {
                             literal: 'notification.backup.action',
                             callback: () => {
+                                analytics.send({ name: 'Create Save Phrase Yes Click', target: 'ui' });
                                 modalManager.showSeedBackupModal();
                             }
                         },
                         onClose: () => {
+                            analytics.send({ name: 'Create Save Phrase No Click', target: 'ui' });
                             if (scope.closeByModal || user.getSetting('hasBackup')) {
                                 return null;
                             }
@@ -476,11 +490,62 @@
              * @private
              */
             _onChangeStateSuccess(event, toState, some, fromState) {
-                if (fromState.name) {
-                    analytics.pushPageView(
-                        `${AppRun._getUrlFromState(toState)}.${WavesApp.type}`,
-                        `${AppRun._getUrlFromState(fromState)}.${WavesApp.type}`
-                    );
+                const from = fromState.name || document.referrer;
+
+                switch (toState.name) {
+                    case 'create':
+                        analytics.send({
+                            name: 'Create New Account Show',
+                            params: { from }
+                        });
+                        break;
+                    case 'import':
+                        analytics.send({
+                            name: 'Import Accounts Show',
+                            params: { from },
+                            target: 'ui'
+                        });
+                        break;
+                    case 'restore':
+                        analytics.send({
+                            name: 'Import Backup Show',
+                            params: { from },
+                            target: 'ui'
+                        });
+                        break;
+                    case 'main.wallet.leasing':
+                        analytics.send({
+                            name: 'Leasing Show',
+                            params: { from },
+                            target: 'ui'
+                        });
+                        break;
+                    case 'main.tokens':
+                        analytics.send({
+                            name: 'Token Generation Show',
+                            target: 'ui'
+                        });
+                        break;
+                    case 'main.wallet.assets':
+                        analytics.send({
+                            name: 'Wallet Assets Show',
+                            target: 'ui'
+                        });
+                        break;
+                    case 'main.wallet.portfolio':
+                        analytics.send({
+                            name: 'Wallet Portfolio Show',
+                            target: 'ui'
+                        });
+                        break;
+                    case 'main.dex':
+                        analytics.send({
+                            name: 'DEX Show',
+                            target: 'ui'
+                        });
+                        break;
+                    default:
+                        break;
                 }
                 this.activeClasses.forEach((className) => {
                     document.body.classList.remove(className);

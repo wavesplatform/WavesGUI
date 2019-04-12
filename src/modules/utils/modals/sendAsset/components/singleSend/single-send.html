@@ -6,7 +6,7 @@
 
     <div class="row" ng-if="!$ctrl.isLira">
         <div ng-if="$ctrl.toBankMode && !$ctrl.isVerified && !$ctrl.isBankPendingOrError"
-             class="warning-plate warning-plate-red">
+             class="plate-error">
             <div class="body-2 error-500" w-i18n="modal.send.notVerifiedHeader"></div>
             <div class="footnote-1 basic-500" w-i18n="modal.send.notVerifiedText"></div>
         </div>
@@ -63,20 +63,20 @@
     </div>
 
     <div ng-if="$ctrl.toBankMode && !$ctrl.isBankPendingOrError && $ctrl.isVerified" class="margin-1">
-        <div class="warning-plate">
+        <div class="plate-warning">
             <div class="body-2 warning-500" w-i18n="modal.send.coinomatWarningHeader"></div>
             <div class="footnote-1 basic-500" w-i18n="modal.send.coinomatWarningText"></div>
         </div>
     </div>
 
     <div ng-if="$ctrl.toBankMode && !$ctrl.isBankPendingOrError && $ctrl.isVerified" class="row">
-        <div class="warning-plate">
+        <div class="plate-warning">
             <div class="body-2 warning-500" w-i18n="modal.send.coinomatLimits"></div>
         </div>
     </div>
 
     <div ng-if="$ctrl.outerSendMode && !$ctrl.gatewayDetailsError" class="row">
-        <div class="warning-plate margin-2">
+        <div class="plate-warning margin-2">
             <div class="body-2 warning-500"
                  w-i18n="modal.send.coinomat.feeTitle"
                  params="{
@@ -93,14 +93,14 @@
                              }"></div>
         </div>
 
-        <div class="warning-plate basic-500">
+        <div class="plate-warning basic-500">
             <span w-i18n="modal.send.icoWarning"
                   params="{assetName: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.name}"></span>
         </div>
     </div>
 
     <div ng-if="$ctrl.outerSendMode && $ctrl.gatewayDetailsError" class="row">
-        <div class="warning-plate server-error">
+        <div class="plate-warning server-error">
             <div class="body-2 warning-500"
                  w-i18n="modal.receive.serverError">
             </div>
@@ -244,7 +244,7 @@
     </div>
 
     <div class="fee margin-top-1 margin-1" ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending">
-        <w-fee-list tx="::$ctrl.tx"
+        <w-fee-list tx="$ctrl.wavesTx"
                     disabled="$ctrl.toBankMode && (!$ctrl.isVerified || !$ctrl.termsAccepted)"
                     balance-hash="$ctrl.state.moneyHash"
                     fee="$ctrl.tx.fee"></w-fee-list>
@@ -277,7 +277,7 @@
     </div>
 
     <div ng-if="$ctrl.toBankMode && $ctrl.isLira" class="margin-top-2">
-        <div class="warning-plate margin-2">
+        <div class="plate-warning margin-2">
             <div class="body-2 warning-500" w-i18n="modal.receive.wtryPlate1Header"></div>
             <div class="footnote-1 basic-500" w-i18n="modal.receive.wtryPlate1Text"></div>
         </div>
