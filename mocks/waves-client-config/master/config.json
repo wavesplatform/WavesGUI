@@ -9,8 +9,7 @@
       "DASH",
       "XMR",
       "USD",
-      "EUR",
-      "TRY"
+      "EUR"
     ],
     "CAN_TRANSFER_TRANSACTION": true,
     "CAN_SET_ASSET_SCRIPT_TRANSACTION": true,
