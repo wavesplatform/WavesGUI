@@ -19,7 +19,7 @@
                           class="asset-modal__logo"></w-asset-logo>
 
             <div class="asset-modal__data">
-                <h2 ng-cloak class="asset-modal__name basic-900" ng-class="{'has-label': $ctrl.hasLabel}">
+                <h3 ng-cloak class="asset-modal__name basic-900" ng-class="{'has-label': $ctrl.hasLabel}">
                     <span class="name">{{$ctrl.assetName}}</span>
                     <span ng-if="$ctrl.isVerified" class="asset__label" w-i18n-ns="app.utils"
                           w-i18n="modal.assetInfo.qualified"></span>
@@ -27,7 +27,7 @@
                           w-i18n="modal.assetInfo.gateway"></span>
                     <span ng-if="$ctrl.isSuspicious" class="asset__label asset__label-suspicious"
                           w-i18n="modal.assetInfo.suspicious"></span>
-                </h2>
+                </h3>
                 <div ng-if="$ctrl.ticker" class="body-2 basic-500 asset__ticker">{{$ctrl.ticker}}</div>
             </div>
 
@@ -40,7 +40,7 @@
         </div>
     </div>
     <div class="warning-plate">
-        <div class="body-2 warning-500" w-i18n-ns="app.utils" w-i18n="modal.setAssetScript.unavailable"></div>
+        <div class="warning-text body-2 warning-500" w-i18n-ns="app.utils" w-i18n="modal.setAssetScript.unavailable"></div>
     </div>
 
 </w-permit>
