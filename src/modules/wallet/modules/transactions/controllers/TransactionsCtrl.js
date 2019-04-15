@@ -55,7 +55,7 @@
                 analytics.send({ name: 'Transactions Export Click', target: 'ui' });
                 const MAX_LIMIT = 1000;
 
-                const getSeriesTransactions = async (allTransactions = [], after = '') => {
+                const getSeriesTransactions = async ({ allTransactions = [], after = '' }) => {
 
                     let transactions;
                     try {
@@ -69,7 +69,10 @@
                     if (transactions.length < MAX_LIMIT || allTransactions.length > maxTransactions) {
                         return allTransactions;
                     } else {
-                        return getSeriesTransactions(allTransactions, transactions[transactions.length - 1].id);
+                        return getSeriesTransactions({
+                            allTransactions,
+                            after: transactions[transactions.length - 1].id
+                        });
                     }
                 };
 
