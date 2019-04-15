@@ -2,6 +2,7 @@
     'use strict';
 
     /**
+     * @param {User} user
      * @param Base
      * @param {$rootScope.Scope} $scope
      * @param {TransactionsCsvGen} transactionsCsvGen
@@ -52,7 +53,8 @@
             exportTransactions() {
                 // analytics.push('TransactionsPage', `TransactionsPage.CSV.${WavesApp.type}`, 'download');
                 analytics.send({ name: 'Transactions Export Click', target: 'ui' });
-                const scamListProm = ds.fetch(`${user.getSetting('scamListUrl')}?${WavesApp.version}-${Date.now()}`);
+
+                const scamList = Object.keys(user.scam);
                 const MAX_LIMIT = 1000;
                 const allTransactions = [];
 
@@ -60,12 +62,16 @@
                  * @returns {void}
                  */
                 const getSeries = async (after = '') => {
-                    const transactions = await waves.node.transactions.list(MAX_LIMIT, after);
-                    allTransactions.push(...transactions);
+                    let loadFailed = false;
+                    const transactions = await waves.node.transactions.list(MAX_LIMIT, after)
+                        .catch(() => {
+                            loadFailed = true;
+                            return [];
+                        });
+                    allTransactions.push(...transactions.filter(el => !scamList.includes(el.assetId)));
 
-                    if (transactions.length < MAX_LIMIT || allTransactions.length > 10000) {
-                        const scamList = (await scamListProm).split('\n');
-                        transactionsCsvGen.generate(allTransactions.filter(el => !scamList.includes(el.assetId)));
+                    if (transactions.length < MAX_LIMIT || allTransactions.length > 10000 || loadFailed) {
+                        transactionsCsvGen.generate(allTransactions);
                     } else {
                         getSeries(transactions[transactions.length - 1].id);
                     }
