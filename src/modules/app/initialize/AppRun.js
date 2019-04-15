@@ -6,6 +6,7 @@
     const locationHref = location.href;
     const tsUtils = require('ts-utils');
     const i18next = require('i18next');
+    const ds = require('data-service');
     const { propEq, where, gte, lte, equals, __ } = require('ramda');
 
     const i18nextReady = new Promise(resolve => {
@@ -95,6 +96,12 @@
 
         class AppRun {
 
+            /**
+             * @type {boolean}
+             * @private
+             */
+            _unavailable = false;
+
             constructor() {
                 const identityImg = require('identity-img');
 
@@ -134,10 +141,11 @@
                         const parts = utils.parseElectronUrl(url);
                         const path = parts.path.replace(/\/$/, '') || parts.path;
                         if (path) {
-                            const noLogin = path === '/' || WavesApp.stateTree.where({ noLogin: true }).some(item => {
-                                const url = item.get('url') || item.id;
-                                return path === url;
-                            });
+                            const noLogin = path === '/' || WavesApp.stateTree.where({ noLogin: true })
+                                .some(item => {
+                                    const url = item.get('url') || item.id;
+                                    return path === url;
+                                });
                             if (noLogin) {
                                 location.hash = `#!${path}${parts.search}`;
                             } else {
@@ -189,6 +197,32 @@
              */
             _setHandlers() {
                 $rootScope.$on('$stateChangeSuccess', this._onChangeStateSuccess.bind(this));
+                configService.change.on(this._updateServiceAvailable, this);
+            }
+
+            /**
+             * @param {string} [path]
+             * @private
+             */
+            _updateServiceAvailable(path) {
+                if (path !== 'SERVICE_TEMPORARILY_UNAVAILABLE') {
+                    return null;
+                }
+                const unavailable = configService.get('SERVICE_TEMPORARILY_UNAVAILABLE');
+
+                if (unavailable === this._unavailable) {
+                    return null;
+                }
+
+                this._unavailable = unavailable;
+                ds.dataManager.setSilentMode(unavailable);
+
+                if (unavailable && !user.address) {
+                    $state.go('unavailable');
+                } else {
+                    // TODO Fix State Tree
+                    user.logout();
+                }
             }
 
             /**
@@ -200,7 +234,6 @@
                     $(document).on('click', '[target="_blank"]', (e) => {
                         const $link = $(e.currentTarget);
                         e.preventDefault();
-
                         openInBrowser($link.attr('href'));
                     });
                 }
@@ -290,12 +323,20 @@
 
                 let waiting = false;
 
-                const stop = $rootScope.$on('$stateChangeStart', (event, toState, params) => {
+                const stop = $rootScope.$on('$stateChangeStart', (event, toState, params, fromState) => {
 
                     let tryDesktop;
 
                     if (START_STATES.indexOf(toState.name) === -1) {
                         event.preventDefault();
+                        if (fromState.name === 'unavailable') {
+                            $state.go(START_STATES[0]);
+                        }
+                    }
+
+                    if (toState.name === 'unavailable' && !this._unavailable) {
+                        event.preventDefault();
+                        $state.go(START_STATES[0]);
                     }
 
                     if (toState.name === 'desktop' && !this._canOpenDesktopPage) {
