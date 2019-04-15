@@ -63,7 +63,7 @@
         "decimal": "."
       }
     },
-    "zh-Hans-CN": {
+    "zh_CN": {
       "name": "Zh",
       "separators": {
         "group": ",",
@@ -77,14 +77,21 @@
         "decimal": "."
       }
     },
-    "nl": {
+    "ja": {
+      "name": "Jp",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
+    "nl_NL": {
       "name": "Nl",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
-    "hi": {
+    "hi_IN": {
       "name": "Hi",
       "separators": {
         "group": ",",
@@ -98,15 +105,15 @@
         "decimal": "."
       }
     },
-    "est": {
+    "et_EE": {
       "name": "Est",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
-    "pt-BR": {
-      "name": "Pt-Br",
+    "pt_BR": {
+      "name": "Br",
       "separators": {
         "group": ",",
         "decimal": "."
