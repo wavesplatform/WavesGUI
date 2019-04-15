@@ -360,6 +360,7 @@
                 },
                 remappedAssetNames: config.remappedAssetNames,
                 matcherSignInterval: { count: 20, timeType: 'day' },
+                scam: Object.create(null),
                 dex: {
                     resolutions: ['5', '15', '30', '60', '120', '180', '240', '360', '720', '1440'], // TODO : add months
                     defaultResolution: '60'
@@ -420,6 +421,8 @@
                 isProduction: config._isProduction,
                 parseJSON: null,
                 stateTree: null,
+                isMock: false,
+                usePostMessageStorage: false,
                 MAX_URL_LENGTH: 1200,
                 sign: {
                     openTimeout: 3000,
