@@ -9,6 +9,7 @@
 
     const { Money } = require('@waves/data-entities');
     const ds = require('data-service');
+    const analytics = require('@waves/event-sender');
 
     const BANK_RECIPIENT = WavesApp.bankRecipient;
     const MIN_TOKEN_COUNT = 100;
@@ -299,6 +300,7 @@
             }
 
             onSignTx(signable) {
+                analytics.send({ name: 'Transfer Continue Click', target: 'ui' });
                 this.onContinue({ signable });
             }
 
@@ -352,7 +354,8 @@
 
                 this.tx.recipient = result.recipient;
 
-                analytics.push('Send', `Send.QrCodeRead.${WavesApp.type}`, `Send.QrCodeRead.${WavesApp.type}.Success`);
+                // analytics.push('Send', `Send.QrCodeRead.${WavesApp.type}`,
+                // `Send.QrCodeRead.${WavesApp.type}.Success`);
 
                 if (result) {
 
@@ -476,7 +479,7 @@
                 this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
                 this._updateGatewayDetails();
 
-                analytics.push('Send', `Send.ChangeCurrency.${WavesApp.type}`, this.assetId);
+                // analytics.push('Send', `Send.ChangeCurrency.${WavesApp.type}`, this.assetId);
             }
 
             /**

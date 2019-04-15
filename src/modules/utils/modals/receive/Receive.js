@@ -269,6 +269,7 @@
                     this.updateCardDetails().then(() => {
                         gatewayService.getCardFiatWithLimits(this.asset, user.address, FIAT_LIST).then((fiatList) => {
                             this.cardFiatList = fiatList;
+                            $scope.$apply();
                         });
                     });
                 }

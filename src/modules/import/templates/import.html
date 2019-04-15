@@ -7,32 +7,39 @@
     <div class="body-2 text-center margin-5 basic-500" w-i18n="importAccountInfo"></div>
 
     <div class="import-modal__blocks-wrapper text-center">
-        <div class="import-modal__block" ui-sref="restore">
+        <div class="import-modal__block" ui-sref="restore"
+             w-analytics event="'Import Backup Click'" event-target="'ui'">
             <div class="import-modal__icon-beta"></div>
             <div class="body-2 basic-700" w-i18n="wavesSeedClient"></div>
             <div class="caption-1 basic-500 margin-2" w-i18n="wavesSeedClientDescription"></div>
         </div>
-        <div class="import-modal__block" ng-click="$ctrl.importFromOld()">
+        <div class="import-modal__block" ng-click="$ctrl.importFromOld()"
+             w-analytics event="'Import Lite Click'" event-target="'ui'">
             <div class="import-modal__icon-old"></div>
             <div class="body-2 basic-700" w-i18n="wavesLiteClient"></div>
             <div class="caption-1 basic-500 margin-2" w-i18n="wavesLiteClientDescription"></div>
         </div>
+
         <div ng-if="isDesktop" class="import-modal__block" ui-sref="ledger">
-            <div class="import-modal__icon-ledger"></div>
-            <div class="body-2 basic-700" w-i18n="LedgerClient"></div>
-            <div class="caption-1 basic-500 margin-2" w-i18n="ledgerDescription"></div>
+            <w-analytics event="'Import Ledger Click'" event-target="'ui'">
+                <div class="import-modal__icon-ledger"></div>
+                <div class="body-2 basic-700" w-i18n="LedgerClient"></div>
+                <div class="caption-1 basic-500 margin-2" w-i18n="ledgerDescription"></div>
+            </w-analytics>
         </div>
         <w-web-only ng-if="isNotPhone" w-web-only-class="import-modal__block" ui-sref="keeper">
-            <div class="import-modal__icon-keeper"></div>
-            <div class="body-2 basic-700" w-i18n="KeeperClient"></div>
-            <div class="caption-1 basic-500 margin-2" w-i18n="keeperDescription"></div>
+            <w-analytics event="'Import Keeper Click'" event-target="'ui'">
+                <div class="import-modal__icon-keeper"></div>
+                <div class="body-2 basic-700" w-i18n="KeeperClient"></div>
+                <div class="caption-1 basic-500 margin-2" w-i18n="keeperDescription"></div>
+            </w-analytics>
         </w-web-only>
     </div>
 
     <div class="import-footer">
         <div class="or margin-2 margin-top-4" w-i18n="or"></div>
         <div class="center">
-            <a ui-sref="welcome" w-i18n="back"></a>
+            <a ui-sref="welcome" w-i18n="back_import"></a>
         </div>
     </div>
 

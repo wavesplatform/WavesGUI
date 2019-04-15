@@ -11,7 +11,8 @@ import {
     task,
     getScripts,
     getStyles,
-    getInitScript
+    getInitScript,
+    getLocales
 } from './ts-scripts/utils';
 import { basename, extname, join, sep } from 'path';
 import {
@@ -22,15 +23,18 @@ import {
     readFile,
     readJSON,
     readJSONSync,
-    writeFile,
+    writeFile
 } from 'fs-extra';
+
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, unlink, rename, existsSync } from 'fs';
 import { render } from 'less';
+import { exist } from './electron/utils';
 
 const zip = require('gulp-zip');
+const extract = require('extract-zip');
 
 const { themes: THEMES } = readJSONSync(join(__dirname, 'src/themeConfig', 'theme.json'));
 const meta: IMetaJSON = readJSONSync(join(__dirname, 'ts-scripts', 'meta.json'));
@@ -132,6 +136,8 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                         }),
                         copy(tmpCssPath, join(targetPath, 'css')),
                         copy('LICENSE', join(`${targetPath}`, 'LICENSE')),
+                        copy('googleAnalytics.js', join(`${targetPath}`, 'googleAnalytics.js')),
+                        copy('amplitude.js', join(`${targetPath}`, 'amplitude.js')),
                     ].concat(forCopy)).then(() => {
                         done();
                     }, (e) => {
@@ -285,30 +291,8 @@ task('concat-develop-vendors', function () {
 });
 
 task('downloadLocales', ['concat-develop-sources'], function (done) {
-    const path = join(tmpJsPath, bundleName);
-
-    readFile(path, 'utf8').then(file => {
-
-        const modules = file.match(/angular\.module\('app\.?((\w|\.)+?)?',/g)
-            .map(str => str.replace('angular.module(\'', '')
-                .replace('\',', ''));
-
-        modules.push('electron');
-
-        const load = name => {
-            const langs = Object.keys(meta.langList);
-
-            return Promise.all(langs.map(lang => {
-                const url = `https://locize.wvservices.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/${name}`;
-                const out = join('dist', 'locale', lang, `${name}.json`);
-
-                return download(url, out)
-                    .then(() => console.log(`Module ${lang} ${name} loaded!`))
-                    .catch(() => console.error(`Error load module with name ${name}!`));
-            }));
-        };
-        return Promise.all(modules.map(load));
-    }).then(() => done());
+    const dist = join(__dirname, 'dist');
+    getLocales(dist).then(() => done());
 });
 
 task('clean', function () {
@@ -426,27 +410,29 @@ task('electron-debug', function (done) {
     };
 
     const excludeTypeScrip = list => list.filter(name => extname(name) !== '.ts');
-    const loadLocales = () => {
-        const list = Object.keys(require(join(__dirname, 'ts-scripts', 'meta.json')).langList);
-
-        return Promise.all(list.map(loadLocale));
-    };
-
-    const loadLocale = lang => {
-        const url = `https://locize.wvservices.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/electron`;
-        const out = join(root, 'locales', lang, `electron.json`);
-
-        return download(url, out);
-    };
 
     const copyNodeModules = () => Promise.all(meta.copyNodeModules.map(name => copy(name, join(root, name))));
     const copyI18next = () => copy(join(__dirname, 'node_modules', 'i18next', 'dist'), join(root, 'i18next'));
+
+    const renameLocaleDirectory = () => {
+        const localesPath = join(root, 'locales');
+        const localePath = join(root, 'locale');
+        if (!existsSync(localesPath)) {
+            rename(localePath, localesPath, error => {
+                if (error) {
+                    console.error('renaming of locale error', error);
+                    return;
+                }
+            });
+        }
+    };
 
     readdir(srcDir)
         .then(excludeTypeScrip)
         .then(list => Promise.all(list.map(copyItem)))
         .then(makePackageJSON)
-        .then(loadLocales)
+        .then(() => getLocales(root))
+        .then(() => renameLocaleDirectory())
         .then(copyNodeModules)
         .then(copyI18next)
         .then(() => done());

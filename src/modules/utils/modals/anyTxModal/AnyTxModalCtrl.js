@@ -3,6 +3,8 @@
 
     const controller = function (Base, $scope) {
 
+        const analytics = require('@waves/event-sender');
+
         class AnyTxModalCtrl extends Base {
 
             /**
@@ -20,13 +22,16 @@
             step = 0;
 
 
-            constructor(tx) {
+            constructor({ tx, analyticsText }) {
                 super($scope);
-
+                this.analyticsText = analyticsText;
                 this.state = { tx };
             }
 
             onFillTxForm(signable) {
+                if (this.analyticsText) {
+                    analytics.send({ name: this.analyticsText, target: 'ui' });
+                }
                 this.signable = signable;
                 this.step++;
             }

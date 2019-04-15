@@ -16,6 +16,7 @@
         const entities = require('@waves/data-entities');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
 
+        const analytics = require('@waves/event-sender');
         const ds = require('data-service');
         const { path } = require('ramda');
         const { STATUS_LIST } = require('@waves/oracle-data');
@@ -124,6 +125,8 @@
             }
 
             getSignable() {
+                const name = this.txType.slice(0, 1).toUpperCase() + this.txType.slice(1);
+                analytics.send({ name: `${name} Token Continue Click`, target: 'ui' });
                 return this.signable;
             }
 

@@ -7,13 +7,12 @@
 
             constructor() {
                 super($scope);
-                this.security = false;
-                this.backup = false;
-                this.shareAnalytics = false;
+                this.securityAndBackup = false;
+                this.readTermsAndConditions = false;
+                this.privacyPolicy = false;
             }
 
             confirm() {
-                user.setSetting('shareAnalytics', this.shareAnalytics);
                 $mdDialog.hide();
             }
 

@@ -328,6 +328,8 @@
                     api: config.network.api,
                     coinomat: config.network.coinomat,
                     support: config.network.support,
+                    termsAndConditions: config.network.termsAndConditions,
+                    privacyPolicy: config.network.privacyPolicy,
                     nodeList: config.network.nodeList,
                     scamListUrl: config.network.scamListUrl,
                     explorer: config.network.explorer,
@@ -412,6 +414,7 @@
                 getLocaleData: config.getLocaleData,
                 addController: config.addController,
                 getController: config.getController,
+                analyticsIframe: config.analyticsIframe,
                 isWeb: config.isWeb,
                 isDesktop: config.isDesktop,
                 isProduction: config._isProduction,
@@ -561,11 +564,6 @@
         modal.parentNode.removeChild(modal);
         appConfig._initApp();
 
-        /**
-         * @type {EventSender}
-         */
-        var analytics = eventSender.default.inactive();
-
         WavesApp.stateTree = new tsUtils.Tree({
             id: 'root',
             children: [
@@ -617,6 +615,13 @@
                 },
                 {
                     id: 'import',
+                    data: {
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'stand',
                     data: {
                         noLogin: true,
                         views: [{ name: 'main' }]

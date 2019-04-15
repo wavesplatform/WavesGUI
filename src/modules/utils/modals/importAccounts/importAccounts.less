@@ -7,8 +7,8 @@
 
   .icon-close {
     position: absolute;
-    right: 0;
-    top: -40px;
+    right: -10px;
+    top: -50px;
   }
 }
 
@@ -21,38 +21,28 @@
   position: relative;
 
   &__icon {
+    &-beta,
+    &-old,
+    &-ledger,
+    &-keeper {
+      width: 60px;
+      height: 60px;
+      display: block;
+      margin: 0 auto 30px auto;
+    }
+
     &-beta {
       background: url(/img/icons/logo-beta.svg) center no-repeat;
-      width: 60px;
-      height: 60px;
-      display: block;
-      margin: 0 auto 30px auto;
     }
-
     &-old {
       background: url(/img/icons/logo-alfa.svg) center no-repeat;
-      width: 60px;
-      height: 60px;
-      display: block;
-      margin: 0 auto 30px auto;
     }
-
     &-ledger {
       background: url(/img/icons/logo-ledger.svg) center no-repeat;
-      width: 60px;
-      height: 60px;
-      display: block;
-      margin: 0 auto 30px auto;
     }
-
     &-keeper {
       background: url(/img/icons/keeper-icon.svg) center no-repeat;
-      width: 60px;
-      height: 60px;
-      display: block;
-      margin: 0 auto 30px auto;
     }
-
     &-error {
       background: url(/img/icons/icon-error-import.svg) center no-repeat;
       width: 80px;
@@ -69,19 +59,6 @@
 
     w-button {
       width: 100%;
-      & > * {
-        font-family: @font-roboto-medium;
-      }
-    }
-  }
-
-  &__buttons-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    w-button {
-      width: 48%;
     }
   }
 
@@ -170,7 +147,6 @@
   h3 {
     margin-top: 40px;
   }
-
 }
 
 @media screen and (max-width: 768px) {
@@ -198,7 +174,5 @@
         width: 100%;
       }
     }
-
   }
-
 }

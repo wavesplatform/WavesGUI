@@ -1,0 +1,71 @@
+@import (reference) 'config';
+
+html body .stand .hidden {
+  display: block !important;
+}
+
+.stand {
+  h1 {
+    color: grey;
+  }
+
+  w-change-language w-select {
+    position: relative;
+    top: 0;
+    right: 0;
+  }
+
+  w-select img {
+    width: 30px;
+    height: 30px;
+    display: block;
+    margin-right: 10px;
+  }
+
+  w-checkbox-submit {
+    margin-right: @padding-main-layout;
+  }
+
+  w-error-block {
+     margin-top: 130px;
+  }
+
+  .components-wrapper {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    min-width: 1200px;
+  }
+
+  .select-list {
+    margin-bottom: 40px;
+  }
+
+  .column1,
+  .column2,
+  .column3 {
+    flex-basis: 33.33%;
+    padding: 20px 80px;
+    min-height: 100vh;
+    min-width: 400px;
+  }
+
+  .column1,
+  .column2 {
+    border-right: 1px dashed @color-basic-200;
+  }
+
+  .unit-checkbox {
+    width: 300px !important;
+  }
+
+  .relative-wrapper {
+    position: relative;
+    border: 1px dashed @color-basic-200;
+    height: 140px;
+  }
+
+  ._internal-error {
+    display: block !important;
+  }
+}
