@@ -17,6 +17,7 @@
     "node_modules/@waves/signature-generator/dist/signature-generator.partial.min.js",
     "node_modules/@waves/waves-browser-bus/dist/browser-bus.min.js",
     "node_modules/@waves/event-sender/dist/analytics.js",
+    "node_modules/howler/dist/howler.min.js",
     "node_modules/@waves/ledger/dist/transport-u2f.js",
     "node_modules/@waves/ledger/dist/waves-ledger.js",
     "node_modules/@waves/signature-adapter/dist/signature-adapter.min.js",

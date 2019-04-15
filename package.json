@@ -109,6 +109,7 @@
     "clipboard": "1.7.1",
     "d3": "3.5.17",
     "extract-zip": "^1.6.7",
+    "howler": "^2.1.1",
     "i18next": "9.1.0",
     "i18next-locize-backend": "1.2.1",
     "identity-img": "1.0.0",

@@ -5,6 +5,7 @@
     const { Asset } = require('@waves/data-entities');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const analytics = require('@waves/event-sender');
+    const Howl = require('Howl');
 
     const NO_EXPORT_TYPES = [
         SIGN_TYPE.MASS_TRANSFER,
@@ -96,6 +97,7 @@
                 return this.signable.getDataForApi()
                     .then(method)
                     .then(data => {
+                        this._playSound(data);
                         analytics.send(this.getAnalytics(data, true));
                         return data;
                     }, (error) => {
@@ -144,22 +146,6 @@
             }
 
             /**
-             * @param tx
-             * @private
-             */
-            _saveIssueAsset(tx) {
-                waves.node.height().then(height => {
-                    ds.assetStorage.save(tx.id, new Asset({
-                        ...tx,
-                        ticker: null,
-                        precision: tx.decimals,
-                        hasScript: !!(tx.script && tx.script.replace('base64:', '')),
-                        height
-                    }));
-                });
-            }
-
-            /**
              * @protected
              */
             initExportLink() {
@@ -196,6 +182,35 @@
                     this.txId = '';
                     this.tx = null;
                 }
+            }
+
+            /**
+             * @param tx
+             * @private
+             */
+            _saveIssueAsset(tx) {
+                waves.node.height().then(height => {
+                    ds.assetStorage.save(tx.id, new Asset({
+                        ...tx,
+                        ticker: null,
+                        precision: tx.decimals,
+                        hasScript: !!(tx.script && tx.script.replace('base64:', '')),
+                        height
+                    }));
+                });
+            }
+
+            /**
+             * @param data
+             * @private
+             */
+            _playSound(data) {
+                const typeName = SIGN_TYPE[data.type].toLocaleLowerCase();
+                const sound = new Howl({
+                    src: [`src/audio/tx-success/${typeName}.mp3`]
+                });
+
+                sound.play();
             }
 
             /**

@@ -23,7 +23,8 @@
         '@waves/oracle-data': 'OracleDataProvider',
         'jquery': '$',
         'i18next': 'i18next',
-        '@waves/event-sender': 'analytics'
+        '@waves/event-sender': 'analytics',
+        'Howl': 'Howl'
     };
 
     function getModule(require) {
