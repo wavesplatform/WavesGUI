@@ -360,6 +360,7 @@
                 },
                 remappedAssetNames: config.remappedAssetNames,
                 matcherSignInterval: { count: 20, timeType: 'day' },
+                scam: Object.create(null),
                 dex: {
                     resolutions: ['5', '15', '30', '60', '120', '180', '240', '360', '720', '1440'], // TODO : add months
                     defaultResolution: '60'
@@ -414,11 +415,14 @@
                 getLocaleData: config.getLocaleData,
                 addController: config.addController,
                 getController: config.getController,
+                analyticsIframe: config.analyticsIframe,
                 isWeb: config.isWeb,
                 isDesktop: config.isDesktop,
                 isProduction: config._isProduction,
                 parseJSON: null,
                 stateTree: null,
+                isMock: false,
+                usePostMessageStorage: false,
                 MAX_URL_LENGTH: 1200,
                 sign: {
                     openTimeout: 3000,
@@ -519,22 +523,30 @@
             <div class="browser-icon-block">
                 <img src="/img/no-preload/chrome-icon.svg"/>
                 <div>Chrome</div>
-                <div><a href="https://www.google.com/chrome/index.html" target="_blank">Install or update</a></div>
+                <div><a href="https://www.google.com/chrome/index.html"
+                        target="_blank"
+                        rel="noopener noreferrer">Install or update</a></div>
             </div>
             <div class="browser-icon-block">
                 <img src="/img/no-preload/firefox-icon.svg"/>
                 <div>Firefox</div>
-                <div><a href="https://www.mozilla.org/en-US/firefox/" target="_blank">Install or update</a></div>
+                <div><a href="https://www.mozilla.org/en-US/firefox/"
+                        target="_blank"
+                        rel="noopener noreferrer">Install or update</a></div>
             </div>
             <div class="browser-icon-block">
                 <img src="/img/no-preload/safari-icon.svg"/>
                 <div>Safari</div>
-                <div><a href="https://support.apple.com/downloads/safari" target="_blank">Install or update</a></div>
+                <div><a href="https://support.apple.com/downloads/safari"
+                        target="_blank"
+                        rel="noopener noreferrer">Install or update</a></div>
             </div>
             <div class="browser-icon-block">
                 <img src="/img/no-preload/opera-icon.svg"/>
                 <div>Opera</div>
-                <div><a href="http://www.opera.com/" target="_blank">Install or update</a></div>
+                <div><a href="http://www.opera.com/"
+                        target="_blank"
+                        rel="noopener noreferrer">Install or update</a></div>
             </div>
         </div>
     </div>
@@ -562,11 +574,6 @@
         var modal = document.body.querySelector(appConfig.notSupportedSelector);
         modal.parentNode.removeChild(modal);
         appConfig._initApp();
-
-        /**
-         * @type {EventSender}
-         */
-        var analytics = eventSender.default.inactive();
 
         WavesApp.stateTree = new tsUtils.Tree({
             id: 'root',
@@ -626,6 +633,13 @@
                 },
                 {
                     id: 'stand',
+                    data: {
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'unavailable',
                     data: {
                         noLogin: true,
                         views: [{ name: 'main' }]

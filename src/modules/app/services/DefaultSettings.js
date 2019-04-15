@@ -38,6 +38,7 @@
                     savePassword: true,
                     hasBackup: true,
                     termsAccepted: true,
+                    tradeWithScriptAssets: false,
                     needReadNewTerms: false,
                     lastInterval: WavesApp.dex.defaultResolution,
                     baseAssetId: WavesApp.defaultAssets.USD,

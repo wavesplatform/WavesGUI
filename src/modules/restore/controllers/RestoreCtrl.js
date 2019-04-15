@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const analytics = require('@waves/event-sender');
+
     /**
      * @param Base
      * @param $scope
@@ -64,6 +66,8 @@
 
                 if (!this.saveUserData) {
                     this.password = Date.now().toString();
+                } else {
+                    analytics.send({ name: 'Import Backup Protect Your Account Continue Click', target: 'ui' });
                 }
 
                 const encryptedSeed = new ds.Seed(this.seed).encrypt(this.password);
@@ -96,11 +100,16 @@
             }
 
             nextStep() {
+                analytics.send({
+                    name: 'Import Backup Continue Click',
+                    params: { guestMode: !this.saveUserData },
+                    target: 'ui'
+                });
                 if (!this.saveUserData) {
                     return this.restore();
                 }
-
                 this.activeStep++;
+                analytics.send({ name: 'Import Backup Protect Your Account Show', target: 'ui' });
             }
 
             importAccounts() {

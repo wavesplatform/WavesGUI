@@ -9,8 +9,9 @@ import { compile } from 'handlebars';
 import { transform } from 'babel-core';
 import { render } from 'less';
 import { minify } from 'html-minifier';
-import { get, ServerResponse, IncomingMessage, request } from 'https';
+import { get, ServerResponse, IncomingMessage, request, ClientRequest } from 'https';
 import { MAINNET_DATA, TESTNET_DATA } from '@waves/assets-pairs-order';
+import { Http2ServerRequest, Http2ServerResponse } from 'http2';
 
 const extract = require('extract-zip');
 
@@ -130,17 +131,17 @@ export function moveTo(path: string): (relativePath: string) => string {
 
 export function replaceScripts(file: string, paths: Array<string>): string {
     return file.replace('<!-- JAVASCRIPT -->',
-        paths.map((path) => `<script src="${ path }"></script>`).join('\n')
+        paths.map((path) => `<script src="${path}"></script>`).join('\n')
     );
 }
 
 export function replaceStyles(file: string, paths: Array<{ theme: string, name: string, hasGet?: boolean }>): string {
     return file.replace('<!-- CSS -->', paths.map(({ theme, name, hasGet }) => {
         if (hasGet) {
-            return `<link ${ theme ? `theme="${ theme }"` : '' } rel="stylesheet" href="${ name }?theme=${ theme || '' }">`;
+            return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}?theme=${theme || ''}">`;
         }
 
-        return `<link ${ theme ? `theme="${ theme }"` : '' } rel="stylesheet" href="${ name }">`;
+        return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}">`;
     }).join('\n'));
 }
 
@@ -159,14 +160,14 @@ export function getScripts(param: IPrepareHTMLOptions, pack, meta) {
         const sourceFiles = getFilesFrom(join(__dirname, '../src'), '.js', function (name, path) {
             return !name.includes('.spec') && !path.includes('/test/');
         });
-        const cacheKiller = `?v${ pack.version }`;
+        const cacheKiller = `?v${pack.version}`;
         scripts = meta.vendors.map((i) => join(__dirname, '..', i)).concat(sourceFiles);
         meta.debugInjections.forEach((path) => {
             scripts.unshift(join(__dirname, '../', path));
         });
-        scripts = scripts.map((path) => `${ path }${ cacheKiller }`);
+        scripts = scripts.map((path) => `${path}${cacheKiller}`);
     }
-    return scripts.map(filter).map(path => `<script src="${ path }"></script>`);
+    return scripts.map(filter).map(path => `<script src="${path}"></script>`);
 }
 
 export function getStyles(param: IPrepareHTMLOptions, meta, themes) {
@@ -181,20 +182,20 @@ export function getStyles(param: IPrepareHTMLOptions, meta, themes) {
                 const name = filter(style);
 
                 if (!isLess(style)) {
-                    styles.push({ name: `/${ name }`, theme: null });
+                    styles.push({ name: `/${name}`, theme: null });
                     break;
                 }
-                styles.push({ name: `/${ name }`, theme, hasGet: true });
+                styles.push({ name: `/${name}`, theme, hasGet: true });
             }
         }
     }
 
     return styles.map(({ theme, name, hasGet }) => {
         if (hasGet) {
-            return `<link ${ theme ? `theme="${ theme }"` : '' } rel="stylesheet" href="${ name }?theme=${ theme || '' }">`;
+            return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}?theme=${theme || ''}">`;
         }
 
-        return `<link ${ theme ? `theme="${ theme }"` : '' } rel="stylesheet" href="${ name }">`;
+        return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}">`;
     });
 }
 
@@ -206,7 +207,7 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
     ]);
 
     const { themes } = themesConf;
-    const { domain } = meta;
+    const { domain, analyticsIframe } = meta as any;
     const { connection, type, buildType, outerScripts = [] } = param;
     const config = meta.configurations[connection];
 
@@ -226,6 +227,7 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
         pack,
         isWeb,
         origin,
+        analyticsIframe,
         oracle,
         domain,
         styles,
@@ -353,7 +355,7 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
 
                 // Signed 64-bit integer.
                 WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
-
+                WavesApp.analyticsIframe = config.analyticsIframe;
                 WavesApp.device = new MobileDetect(navigator.userAgent);
 
                 (function () {
@@ -377,6 +379,31 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
                     WavesApp.stringifyJSON = function () {
                         return stringify.apply(this, arguments);
                     };
+                })();
+
+                (function () {
+                    var analytics = require('@waves/event-sender');
+
+                    analytics.addApi({
+                        apiToken: '7a280fdf83a5efc5b8dfd52fc89de3d7',
+                        libraryUrl: location.origin + '/amplitude.js',
+                        initializeMethod: 'amplitudeInit',
+                        sendMethod: 'amplitudePushEvent',
+                        type: 'logic'
+                    });
+
+                    analytics.addApi({
+                        apiToken: 'UA-75283398-20',
+                        libraryUrl: location.origin + '/googleAnalytics.js',
+                        initializeMethod: 'gaInit',
+                        sendMethod: 'gaPushEvent',
+                        type: 'ui'
+                    });
+
+                    if (location.pathname.replace('/', '') === '') {
+                        analytics.send({ name: 'Onboarding Show', target: 'ui' });
+                    }
+
                 })();
 
 
@@ -446,7 +473,7 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
     const func = initConfig.toString();
     const conf = JSON.stringify(config, null, 4);
 
-    return `(${ func })(${ conf })`;
+    return `(${func})(${conf})`;
 }
 
 export function route(connectionType: TConnection, buildType: TBuild, type: TPlatform) {
@@ -456,7 +483,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
         if (url.includes('/package.json')) {
             res.end(readFileSync(join(__dirname, '..', 'package.json')));
         } else if (isTradingView(url)) {
-            get(`https://client.wavesplatform.com/${ url }`, (resp: IncomingMessage) => {
+            get(`https://client.wavesplatform.com/${url}`, (resp: IncomingMessage) => {
                 let data = new Buffer('');
 
                 // A chunk of data has been recieved.
@@ -498,11 +525,14 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                 .replace(/\?.*/, '')
                 .replace('.json', '')
                 .split('/');
-            const cachePath = join(process.cwd(), '.cache-download', 'locale', lang, `${ ns }.json`);
+            const cachePath = join(process.cwd(), '.cache-download', 'locale', lang, `${ns}.json`);
 
             if (existsSync(cachePath)) {
                 const data = readFileSync(cachePath);
                 res.end(data);
+            } else {
+                res.statusCode = 404;
+                res.end('Not found!');
             }
             return null;
         }
@@ -541,7 +571,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                 .then((style) => {
                     (render as any)(style, {
                         filename: join(__dirname, '../src', url),
-                        paths: join(__dirname, `../src/themeConfig/${ theme }`)
+                        paths: join(__dirname, `../src/themeConfig/${theme}`)
                     } as any)
                         .then(function (out) {
                             res.setHeader('Content-type', 'text/css');
@@ -589,7 +619,7 @@ export function getRouter() {
     const mocks = getFilesFrom(join(__dirname, '../api'), '.js');
     const routes = Object.create(null);
     mocks.forEach((path) => {
-        routes[`/${ moveTo(join(__dirname, '..'))(path).replace('.js', '.json') }`] = require(path);
+        routes[`/${moveTo(join(__dirname, '..'))(path).replace('.js', '.json')}`] = require(path);
     });
     return routes;
 }
@@ -675,18 +705,12 @@ export function isPage(url: string): boolean {
         'init.js'
     ];
     return !staticPathPartial.some((path) => {
-        return url.includes(`/${ path }`);
+        return url.includes(`/${path}`);
     });
 }
 
-function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, platform: TPlatform) {
-    const ROOTS = [join(__dirname, '..')];
-    if (buildType !== 'dev') {
-        ROOTS.push(join(__dirname, '..', 'dist', platform, connectionType, buildType));
-    } else {
-        ROOTS.push(join(__dirname, '..', 'src'));
-    }
-
+export function stat(req: Http2ServerRequest, res: Http2ServerResponse, roots: Array<string>): void {
+    const copyRoots = roots.slice();
     const [url] = req.url.split('?');
     const contentType = getType(url);
 
@@ -698,8 +722,8 @@ function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, p
             res.end(file);
         })
             .catch(() => {
-                if (ROOTS.length) {
-                    check(ROOTS.pop());
+                if (copyRoots.length) {
+                    check(copyRoots.pop());
                 } else {
                     res.writeHead(404, { 'Content-Type': 'text/plain' });
                     res.end('404 Not Found\n');
@@ -707,7 +731,17 @@ function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, p
             });
     };
 
-    check(ROOTS.pop());
+    check(copyRoots.pop());
+}
+
+function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, platform: TPlatform) {
+    const ROOTS = [join(__dirname, '..')];
+    if (buildType !== 'dev') {
+        ROOTS.push(join(__dirname, '..', 'dist', platform, connectionType, buildType));
+    } else {
+        ROOTS.push(join(__dirname, '..', 'src'));
+    }
+    stat(req, res, ROOTS);
 }
 
 export function getLocales(path: string, options?: object) {
@@ -745,7 +779,7 @@ export function getLocales(path: string, options?: object) {
                     get(url, (response) => {
                         response.pipe(file);
                         response.on('end', () => {
-                            extract(filePath, { dir: `${ path }/` }, error => {
+                            extract(filePath, { dir: `${path}/` }, error => {
                                 if (error) {
                                     reject(error);
                                 }
@@ -775,7 +809,7 @@ export function getLocales(path: string, options?: object) {
                 }
             });
         })
-        .catch(err => console.error(`Locales did not loaded: ${ err }`));
+        .catch(err => console.error(`Locales did not loaded: ${err}`));
 }
 
 export interface IRouteOptions {

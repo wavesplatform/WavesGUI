@@ -21,8 +21,6 @@ import { TTimeType } from './utils/utils';
 export { getAdapterByType, getAvailableList } from '@waves/signature-adapter';
 export { Seed } from './classes/Seed';
 export { assetStorage } from './utils/AssetStorage';
-export * from './store';
-
 export const wavesDataEntities = {
     ...wavesDataEntitiesModule
 };

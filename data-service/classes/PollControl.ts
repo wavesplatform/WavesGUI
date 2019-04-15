@@ -3,18 +3,35 @@ import { Poll } from '../utils/Poll';
 
 export class PollControl<T extends IHash<Poll<any>>> {
 
-    private _create: ICreatePoll<T>;
+    private readonly _create: ICreatePoll<T>;
     private _hash: T;
+    private paused: boolean = false;
 
 
     constructor(create: ICreatePoll<T>) {
         this._create = create;
     }
 
-    public restart() {
+    public restart(): void {
         if (this._hash) {
             Object.values(this._hash)
                 .forEach(poll => poll.restart());
+        }
+    }
+
+    public pause(): void {
+        this.paused = true;
+        if (this._hash) {
+            Object.values(this._hash)
+                .forEach(poll => poll.pause());
+        }
+    }
+
+    public play(): void {
+        this.paused = false;
+        if (this._hash) {
+            Object.values(this._hash)
+                .forEach(poll => poll.play());
         }
     }
 
@@ -26,9 +43,12 @@ export class PollControl<T extends IHash<Poll<any>>> {
         }
     }
 
-    public create() {
+    public create(): void {
         this.destroy();
         this._hash = this._create();
+        if (this.paused) {
+            this.pause();
+        }
     }
 
     public getPollHash(): T {

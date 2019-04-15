@@ -26,14 +26,14 @@
                         </div>
                     </div>
                 </div>
-
-                <w-button class="big long submit margin-auto desktop-only" w-step-next>
-                    <span w-i18n="modal.tutorialModals.step1.button"></span>
-                </w-button>
-                <w-button class="big long submit mobile-only" w-step-next>
-                    <span w-i18n="modal.tutorialModals.step1.buttonMobile"></span>
-                </w-button>
-
+                <w-analytics event="'Onboarding SEED Click'" target="'ui'"></w-analytics>
+                    <w-button class="big long submit margin-auto desktop-only" w-step-next>
+                        <span w-i18n="modal.tutorialModals.step1.button"></span>
+                    </w-button>
+                    <w-button class="big long submit mobile-only" w-step-next>
+                        <span w-i18n="modal.tutorialModals.step1.buttonMobile"></span>
+                    </w-button>
+                </w-analytics>
             </md-dialog-content>
         </w-step>
 
