@@ -55,7 +55,7 @@
                 analytics.send({ name: 'Transactions Export Click', target: 'ui' });
                 const MAX_LIMIT = 1000;
 
-                const getSeriesTransactions = async ({ allTransactions = [], after = '' }) => {
+                const getSeriesTransactions = async ({ allTransactions = [], after = '' } = {}) => {
 
                     let transactions;
                     try {
