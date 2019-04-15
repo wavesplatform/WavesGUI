@@ -73,7 +73,7 @@
                     if (transactions.length < MAX_LIMIT || allTransactions.length > 1000) {
                         transactionsCsvGen.generate(allTransactions);
                     } else {
-                        getSeries(transactions[transactions.length - 900].id);
+                        getSeries(transactions[transactions.length - 1].id);
                     }
 
                 };
