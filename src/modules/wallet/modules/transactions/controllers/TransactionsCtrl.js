@@ -54,7 +54,6 @@
                 // analytics.push('TransactionsPage', `TransactionsPage.CSV.${WavesApp.type}`, 'download');
                 analytics.send({ name: 'Transactions Export Click', target: 'ui' });
 
-                const scamList = Object.keys(user.scam);
                 const MAX_LIMIT = 1000;
                 const allTransactions = [];
 
@@ -62,18 +61,19 @@
                  * @returns {void}
                  */
                 const getSeries = async (after = '') => {
-                    let loadFailed = false;
-                    const transactions = await waves.node.transactions.list(MAX_LIMIT, after)
-                        .catch(() => {
-                            loadFailed = true;
-                            return [];
-                        });
-                    allTransactions.push(...transactions.filter(el => !scamList.includes(el.assetId)));
+                    let transactions;
+                    try {
+                        transactions = await waves.node.transactions.list(MAX_LIMIT, after);
+                    } catch (e) {
+                        transactions = [];
+                    }
 
-                    if (transactions.length < MAX_LIMIT || allTransactions.length > 10000 || loadFailed) {
+                    allTransactions.push(...transactions.filter(el => !user.scam[el.assetId]));
+
+                    if (transactions.length < MAX_LIMIT || allTransactions.length > 1000) {
                         transactionsCsvGen.generate(allTransactions);
                     } else {
-                        getSeries(transactions[transactions.length - 1].id);
+                        getSeries(transactions[transactions.length - 900].id);
                     }
 
                 };
