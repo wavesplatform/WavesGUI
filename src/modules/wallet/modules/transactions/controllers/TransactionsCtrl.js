@@ -50,17 +50,13 @@
                 this.observe('limit', () => poll.restart());
             }
 
-            exportTransactions() {
+            exportTransactions(maxTransactions = 10000) {
                 // analytics.push('TransactionsPage', `TransactionsPage.CSV.${WavesApp.type}`, 'download');
                 analytics.send({ name: 'Transactions Export Click', target: 'ui' });
-
                 const MAX_LIMIT = 1000;
-                const allTransactions = [];
 
-                /**
-                 * @returns {void}
-                 */
-                const getSeries = async (after = '') => {
+                const getSeriesTransactions = async (allTransactions = [], after = '') => {
+
                     let transactions;
                     try {
                         transactions = await waves.node.transactions.list(MAX_LIMIT, after);
@@ -68,17 +64,20 @@
                         transactions = [];
                     }
 
-                    allTransactions.push(...transactions.filter(el => !user.scam[el.assetId]));
+                    allTransactions = allTransactions.concat(transactions.filter(el => !user.scam[el.assetId]));
 
-                    if (transactions.length < MAX_LIMIT || allTransactions.length > 1000) {
-                        transactionsCsvGen.generate(allTransactions);
+                    if (transactions.length < MAX_LIMIT || allTransactions.length > maxTransactions) {
+                        return allTransactions;
                     } else {
-                        getSeries(transactions[transactions.length - 1].id);
+                        return getSeriesTransactions(allTransactions, transactions[transactions.length - 1].id);
                     }
-
                 };
 
-                getSeries();
+                const promiseGetTransactions = getSeriesTransactions();
+                promiseGetTransactions.then((allTransactions) => {
+                    transactionsCsvGen.generate(allTransactions);
+                });
+                return promiseGetTransactions;
             }
 
             _getTxList() {
