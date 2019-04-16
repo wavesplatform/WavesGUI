@@ -280,16 +280,17 @@
                     this.receive(utils.observe(this.tx, 'attachment'), this._updateWavesTxObject, this);
 
                     this.observe('mirror', this._onChangeAmountMirror);
-
-                    this._currentHasCommission();
-                    this._onChangeBaseAssets();
-                    this._updateGatewayDetails();
                 };
                 if (!this.state.moneyHash) {
                     this.receiveOnce(utils.observe(this.state, 'moneyHash'), onHasMoneyHash);
                 } else {
                     onHasMoneyHash();
                 }
+                this.receive(utils.observe(this.state, 'moneyHash'), () => {
+                    this._currentHasCommission();
+                    this._onChangeBaseAssets();
+                    this._updateGatewayDetails();
+                });
             }
 
             onSignCoinomatStart() {
