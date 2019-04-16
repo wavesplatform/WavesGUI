@@ -12,6 +12,10 @@
         SIGN_TYPE.CREATE_ORDER
     ];
 
+    const TX_AUDIO = [
+        'burn'
+    ];
+
     const ANALYTICS_TX_NAMES = {
         [SIGN_TYPE.CREATE_ORDER]: 'Create order',
         [SIGN_TYPE.ISSUE]: 'Token Generation',
@@ -79,6 +83,12 @@
              */
             __$scope = null;
 
+            /**
+             * @type {object}
+             * @param $scope
+             */
+            _sound = null;
+
 
             constructor($scope) {
                 super($scope);
@@ -97,7 +107,9 @@
                 return this.signable.getDataForApi()
                     .then(method)
                     .then(data => {
-                        this._playSound(data);
+                        if (this._sound) {
+                            this._sound.play();
+                        }
                         analytics.send(this.getAnalytics(data, true));
                         return data;
                     }, (error) => {
@@ -122,7 +134,6 @@
 
             confirm() {
                 return this.sendTransaction().then(tx => {
-
                     if (ConfirmTxService._isIssueTx(tx)) {
                         this._saveIssueAsset(tx);
                     }
@@ -176,6 +187,7 @@
                     this.tx = waves.node.transactions.createTransaction(this.signable.getTxData());
                     this.signable.getId().then(id => {
                         this.txId = id;
+                        this._loadSound(this.signable.getTxData());
                         this.__$scope.$digest();
                     });
                 } else {
@@ -204,13 +216,11 @@
              * @param data
              * @private
              */
-            _playSound(data) {
+            _loadSound(data) {
                 const typeName = SIGN_TYPE[data.type].toLocaleLowerCase();
-                const sound = new Howl({
-                    src: [`src/audio/tx-success/${typeName}.mp3`]
-                });
-
-                sound.play();
+                if (TX_AUDIO.indexOf(typeName) !== -1) {
+                    this._sound = new Howl({ src: [`src/audio/tx-success/${typeName}.mp3`] });
+                }
             }
 
             /**
