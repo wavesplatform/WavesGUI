@@ -13,7 +13,7 @@
     </div>
     <div class="txinfo__show-fields margin-top-1" ng-if="$ctrl.transaction.data.length > 3" ng-click="$ctrl.isShowAllFields = !$ctrl.isShowAllFields">
         <span ng-if="$ctrl.isShowAllFields" class="txinfo__show-text body-3 submit-300" w-i18n="transaction.modals.showFirstTree"></span>
-        <span ng-if="!$ctrl.isShowAllFields" class="txinfo__show-text body-3 submit-300" w-i18n="transaction.modals.showAll ({{$ctrl.transaction.data.length}})"></span>
+        <span ng-if="!$ctrl.isShowAllFields" class="txinfo__show-text body-3 submit-300" params="{count: $ctrl.transaction.data.length}" w-i18n="transaction.modals.showAll"></span>
     </div>
 </div>
 
