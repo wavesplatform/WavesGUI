@@ -134,6 +134,7 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                             const images = IMAGE_LIST.map((path) => path.replace(reg, ''));
                             return writeFile(join(targetPath, 'img', 'images-list.json'), JSON.stringify(images));
                         }),
+                        copy(join(__dirname, 'src/audio'), join(targetPath, 'audio')),
                         copy(tmpCssPath, join(targetPath, 'css')),
                         copy('LICENSE', join(`${targetPath}`, 'LICENSE')),
                         copy('googleAnalytics.js', join(`${targetPath}`, 'googleAnalytics.js')),
