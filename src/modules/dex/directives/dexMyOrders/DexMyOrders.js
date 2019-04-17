@@ -230,6 +230,7 @@
                 dataPromise
                     .then((signedTxData) => ds.cancelOrder(signedTxData, order.amount.asset.id, order.price.asset.id))
                     .then(() => {
+                        row.classList.add('force-leave');
                         const canceledOrder = this.orders.find(whereEq({ id: order.id }));
                         canceledOrder.state = 'Canceled';
                         notification.info({
@@ -242,6 +243,7 @@
                         }
                     })
                     .catch(e => {
+                        row.classList.remove('pre-leave');
                         const error = utils.parseError(e);
                         notification.error({
                             ns: 'app.dex',
