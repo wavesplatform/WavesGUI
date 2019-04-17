@@ -36,9 +36,11 @@
                 this.totalBalance = null;
                 this.transactions = [];
                 this.transactionsPending = true;
-                const data = ds.dataManager.getOracleAssetData(asset.id);
+                const data = ds.dataManager.getOracleAssetData(asset.id, 'oracle');
+                const tokenomikaData = ds.dataManager.getOracleAssetData(asset.id, 'oracleTokenomica');
                 this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
                 this.isGateway = path(['status'], data) === 3;
+                this.isTokenomica = path(['status'], tokenomikaData) === STATUS_LIST.VERIFIED;
                 this.isSuspicious = user.scam[this.asset.id];
                 this.hasLabel = this.isVerified || this.isGateway || this.isSuspicious;
 

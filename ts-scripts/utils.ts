@@ -221,7 +221,7 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
     const isWeb = type === 'web';
     const isProduction = buildType && buildType === 'min';
     const matcherPriorityList = connection === 'mainnet' ? MAINNET_DATA : TESTNET_DATA;
-    const { origin, oracle, feeConfigUrl, bankRecipient } = config;
+    const { origin, oracle, feeConfigUrl, bankRecipient, oracleTokenomica } = config;
 
     return {
         pack,
@@ -229,6 +229,7 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
         origin,
         analyticsIframe,
         oracle,
+        oracleTokenomica,
         domain,
         styles,
         scripts,

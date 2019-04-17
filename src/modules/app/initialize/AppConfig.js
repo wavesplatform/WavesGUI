@@ -7,6 +7,7 @@
 
         ds.config.setConfig(WavesApp.network);
         ds.config.set('remappedAssetNames', WavesApp.remappedAssetNames);
+        ds.config.set('oracleTokenomica', WavesApp.oracleTokenomica);
 
         class AppConfig {
 

@@ -51,6 +51,7 @@ export interface IHash<T> {
 
 export interface IConfItem {
     oracle: string;
+    oracleTokenomica: string;
     apiVersion: string;
     code: string;
     bankRecipient: string;

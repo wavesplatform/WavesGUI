@@ -234,6 +234,7 @@
     },
     "mainnet": {
       "oracle": "3P6t5mKGwVDkyjFhtUqw4NnecyC3DRpLfkw",
+      "oracleTokenomica": "3P5yz6NiyBoT3KWBrc1iwQeMAen56FcMGTW",
       "apiVersion": "v0",
       "bankRecipient": "3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us",
       "code": "W",

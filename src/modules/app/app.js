@@ -137,6 +137,7 @@
  * @typedef {object} IWavesApp
  * @property {string} name
  * @property {string} oracle
+ * @property {string} oracleTokenomica
  * @property {string} version
  * @property {string} type
  * @property {string} origin

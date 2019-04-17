@@ -70,4 +70,5 @@ export interface IConfigParams {
     minimalSeedLength: number;
     remappedAssetNames: IHash<string>;
     oracleAddress: string;
+    oracleTokenomica: string;
 }
