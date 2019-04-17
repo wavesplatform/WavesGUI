@@ -10,6 +10,7 @@ w-dex-my-orders {
 
   /* ngRepeat animation*/
 
+  .repeatItemTransition.ng-enter,
   .repeatItemTransition.ng-leave {
     transition: ease-in-out 0.4s;
   }
@@ -24,7 +25,20 @@ w-dex-my-orders {
   .repeatItemTransition.ng-leave,
   .repeatItemTransition.ng-enter.ng-enter-active {
     opacity: 1;
+
+    &.pre-leave {
+      opacity: 0.3;
+    }
+
     max-height: 30px;
+
+    @media screen and (max-width: 1024px) {
+      max-height: 69px;
+    }
+  }
+
+  .pre-leave {
+    opacity: 0.3;
   }
 
   //end

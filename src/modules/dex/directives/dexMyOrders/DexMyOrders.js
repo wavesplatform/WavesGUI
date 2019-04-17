@@ -217,8 +217,7 @@
             /**
              * @param order
              */
-            dropOrder(order) {
-
+            dropOrder(order, element) {
                 if (!permissionManager.isPermitted('CAN_CANCEL_ORDER')) {
                     const $notify = $element.find('.js-order-notification');
                     DexMyOrders._animateNotification($notify);
@@ -226,7 +225,8 @@
                 }
 
                 const dataPromise = this.dropOrderGetSignData(order);
-
+                const row = element.closest('.order-row');
+                row.classList.add('pre-leave');
                 dataPromise
                     .then((signedTxData) => ds.cancelOrder(signedTxData, order.amount.asset.id, order.price.asset.id))
                     .then(() => {
