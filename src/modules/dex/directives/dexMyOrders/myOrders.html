@@ -19,7 +19,8 @@
         <span w-i18n="directives.demo.to.openorders"></span>
     </div>
 
-    <div class="order-row repeatItemTransition" ng-if="!$ctrl.loadingError" ng-repeat="order in $data track by order.id">
+    <div class="order-row" ng-class="{'repeatItemTransition': $ctrl.showAnims}" ng-if="!$ctrl.loadingError"
+         ng-repeat="order in $data track by order.id">
         <w-table-row class="{{::order.type}}"
                      ng-class="{'new-order': order.isNew, 'can-expand': !!order.exchange.length}">
             <w-table-cell>

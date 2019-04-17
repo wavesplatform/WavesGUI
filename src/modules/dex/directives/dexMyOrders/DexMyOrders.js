@@ -68,6 +68,10 @@
              * @type {boolean}
              */
             loadingError = false;
+            /**
+             * @type {boolean}
+             */
+            showAnims = false;
 
 
             constructor() {
@@ -273,7 +277,7 @@
                     if (needApply) {
                         $scope.$apply();
                     }
-
+                    this.showAnims = true;
                     return null;
                 }
 
