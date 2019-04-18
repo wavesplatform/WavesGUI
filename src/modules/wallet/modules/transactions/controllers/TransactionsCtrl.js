@@ -65,7 +65,8 @@
                         if (!allTransactions.length) {
                             notification.error({
                                 ns: 'app.wallet.transactions',
-                                title: { literal: 'exportError' }
+                                title: { literal: 'errors.download.title' },
+                                body: { literal: 'errors.download.body' }
                             });
                             return [];
                         }
@@ -73,7 +74,8 @@
                         transactions = [];
                         notification.error({
                             ns: 'app.wallet.transactions',
-                            title: { literal: 'exportError' }
+                            title: { literal: 'errors.complete.title' },
+                            body: { literal: 'errors.complete.body' }
                         });
 
                     }
