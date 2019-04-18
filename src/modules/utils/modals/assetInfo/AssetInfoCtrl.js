@@ -36,20 +36,21 @@
                 this.totalBalance = null;
                 this.transactions = [];
                 this.transactionsPending = true;
-                const data = ds.dataManager.getOracleAssetData(asset.id, 'oracle');
-                const tokenomikaData = ds.dataManager.getOracleAssetData(asset.id, 'oracleTokenomica');
-                this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
-                this.isGateway = path(['status'], data) === 3;
-                this.isTokenomica = path(['status'], tokenomikaData) === STATUS_LIST.VERIFIED;
+                const dataOracleWaves = ds.dataManager.getOracleAssetData(asset.id);
+                const dataOracleTokenomica = ds.dataManager.getOracleAssetData(asset.id, 'oracleTokenomica');
+                this.isVerified = path(['status'], dataOracleWaves) === STATUS_LIST.VERIFIED;
+                this.isGateway = path(['status'], dataOracleWaves) === 3;
+                this.isTokenomica = path(['status'], dataOracleTokenomica) === STATUS_LIST.VERIFIED;
                 this.isSuspicious = user.scam[this.asset.id];
-                this.hasLabel = this.isVerified || this.isGateway || this.isSuspicious;
+                this.hasLabel = this.isVerified || this.isGateway || this.isSuspicious || this.isTokenomica;
 
                 // this.ticker = path(['ticker'], data); // TODO STEP 2
                 this.ticker = asset.ticker; // TODO STEP 2
-                this.link = path(['link'], data);
-                this.email = path(['email'], data);
-                this.provider = this.isVerified && path(['provider'], data) || null;
-                this.description = path(['description', 'en'], data) || asset.description;
+                const dataOracle = dataOracleWaves || dataOracleTokenomica;
+                this.link = path(['link'], dataOracle);
+                this.email = path(['email'], dataOracle);
+                this.provider = this.isVerified && path(['provider'], dataOracle) || null;
+                this.description = path(['description', 'en'], dataOracle) || asset.description;
 
                 this.withScam = null;
                 this.spam = [];

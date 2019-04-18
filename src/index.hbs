@@ -366,8 +366,10 @@
                     defaultResolution: '60'
                 },
                 modules: [],
-                oracle: config.oracle,
-                oracleTokenomica: config.oracleTokenomica,
+                oracles: {
+                    waves: config.oracles.waves,
+                    tokenomica: config.oracles.tokenomica
+                },
                 minAliasLength: 4,
                 maxAliasLength: 30,
                 maxAddressLength: 45,

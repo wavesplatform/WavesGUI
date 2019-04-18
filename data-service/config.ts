@@ -69,6 +69,7 @@ export interface IConfigParams {
     assets: IHash<string>;
     minimalSeedLength: number;
     remappedAssetNames: IHash<string>;
-    oracleAddress: string;
+    // oracleAddress: string;
+    oracleWaves: string;
     oracleTokenomica: string;
 }

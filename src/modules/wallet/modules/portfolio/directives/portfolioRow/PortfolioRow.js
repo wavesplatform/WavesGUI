@@ -227,15 +227,19 @@
                     this.isSmart = balance.asset.hasScript;
                     const firstAssetChar = this.balance.asset.name.slice(0, 1);
                     const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
-                    const data = ds.dataManager.getOracleAssetData(this.balance.asset.id);
-                    const logo = data && data.logo;
-                    this.isVerifiedOrGateway = data && data.status >= STATUS_LIST.VERIFIED;
+                    const dataOracleWaves = ds.dataManager.getOracleAssetData(this.balance.asset.id);
+                    const dataOracleTokenomica = ds.dataManager
+                        .getOracleAssetData(this.balance.asset.id, 'oracleTokenomica');
+                    const dataOracle = dataOracleWaves || dataOracleTokenomica;
+                    const logo = dataOracle && dataOracle.logo;
+                    this.isVerifiedOrGateway = dataOracleWaves && dataOracleWaves.status >= STATUS_LIST.VERIFIED;
 
                     const html = template({
                         canSetAssetScript: this._isMyAsset && this.isSmart,
                         isSmart: this.isSmart,
-                        isVerified: data && data.status === STATUS_LIST.VERIFIED,
-                        isGateway: data && data.status === 3,
+                        isVerified: dataOracleWaves && dataOracleWaves.status === STATUS_LIST.VERIFIED,
+                        isGateway: dataOracleWaves && dataOracleWaves.status === 3,
+                        isTokenomica: dataOracleTokenomica && dataOracleTokenomica.status === STATUS_LIST.VERIFIED,
                         assetIconPath: logo || ASSET_IMAGES_MAP[this.balance.asset.id],
                         firstAssetChar,
                         canBurn: !this._isWaves,
@@ -320,7 +324,7 @@
                     this.gatewayService.getPurchasableWithCards()[this.balance.asset.id] ||
                     this.gatewayService.getCryptocurrencies()[this.balance.asset.id] ||
                     this.gatewayService.getFiats()[this.balance.asset.id] ||
-                    path(statusPath, ds.dataManager.getOracleData()) === STATUS_LIST.VERIFIED;
+                    path(statusPath, ds.dataManager.getOracleData('oracleWaves')) === STATUS_LIST.VERIFIED;
 
             }
 

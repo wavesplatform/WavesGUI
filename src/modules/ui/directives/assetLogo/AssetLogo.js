@@ -128,7 +128,8 @@
              */
             _addLogo() {
                 if (this.assetId) {
-                    const data = ds.dataManager.getOracleAssetData(this.assetId);
+                    const data = ds.dataManager.getOracleAssetData(this.assetId) ||
+                        ds.dataManager.getOracleAssetData(this.assetId, 'oracleTokenomica');
                     if (data && data.logo) {
                         $element.find('.asset__logo')
                             .addClass('custom')
