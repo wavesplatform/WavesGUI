@@ -178,11 +178,8 @@
                         <span w-i18n="modal.settings.network.nodeAddress"></span>
                         <a class="settings-copy" w-copy="$ctrl.node" w-i18n="modal.settings.network.copy"></a>
                     </div>
-                    <div class="data-field has-helper">
+                    <div class="data-field">
                         <w-input ng-model="$ctrl.node"></w-input>
-                        <w-help-icon class="info">
-                            <div class="help-icon__row headline-3" w-i18n="modal.settings.network.nodeAddressHelp"></div>
-                        </w-help-icon>
                     </div>
                 </div>
 
@@ -191,11 +188,8 @@
                         <span w-i18n="modal.settings.network.matcherAddress"></span>
                         <a class="settings-copy" w-copy="$ctrl.matcher" w-i18n="modal.settings.network.copy"></a>
                     </div>
-                    <div class="data-field has-helper">
+                    <div class="data-field">
                         <w-input ng-model="$ctrl.matcher"></w-input>
-                        <w-help-icon class="info">
-                            <div class="help-icon__row headline-3" w-i18n="modal.settings.network.matcherAddressHelp"></div>
-                        </w-help-icon>
                     </div>
                 </div>
 
@@ -258,6 +252,19 @@
                     </div>
                 </div>
 
+                <div class="row margin-1 asset-api">
+                    <div class="footnote-1 basic-500 label">
+                        <span w-i18n="modal.settings.network.apiAddress"></span>
+                        <a class="settings-copy" w-copy="$ctrl.api" w-i18n="modal.settings.network.copy"></a>
+                    </div>
+                    <div class="data-field has-helper">
+                        <w-input ng-model="$ctrl.api"></w-input>
+                        <w-help-icon class="info">
+                            <div class="help-icon__row headline-3" w-i18n="modal.settings.network.apiAddressHelp"></div>
+                        </w-help-icon>
+                    </div>
+                </div>
+
                 <div class="row margin-1 asset-filter">
                     <div class="footnote-1 basic-500 label">
                         <span w-i18n="modal.settings.network.spamFilter"></span>
@@ -268,19 +275,6 @@
                         <w-input ng-model="$ctrl.scamListUrl"></w-input>
                         <w-help-icon class="info">
                             <div class="help-icon__row headline-3" w-i18n="modal.settings.network.spamListHelp"></div>
-                        </w-help-icon>
-                    </div>
-                </div>
-
-                <div class="row margin-1">
-                    <div class="footnote-1 basic-500 label">
-                        <span w-i18n="modal.settings.network.apiAddress"></span>
-                        <a class="settings-copy" w-copy="$ctrl.api" w-i18n="modal.settings.network.copy"></a>
-                    </div>
-                    <div class="data-field has-helper">
-                        <w-input ng-model="$ctrl.api"></w-input>
-                        <w-help-icon class="info">
-                            <div class="help-icon__row headline-3" w-i18n="modal.settings.network.apiAddressHelp"></div>
                         </w-help-icon>
                     </div>
                 </div>
