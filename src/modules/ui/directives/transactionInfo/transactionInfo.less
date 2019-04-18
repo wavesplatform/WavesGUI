@@ -361,6 +361,26 @@ w-transaction-info-header + w-transaction-info-general {
   }
 }
 
+.code-wrapper {
+  border: 1px dashed @color-basic-200;
+  border-radius: @border-radius;
+  background: @color-basic-50;
+  height: auto;
+  max-height: 300px;
+  word-break: break-all;
+  padding: 17px;
+  display: block;
+  overflow: scroll;
+
+  &-vertical {
+    overflow-y: auto;
+    overflow-x: hidden;
+    .pre {
+      white-space: normal;
+    }
+  }
+}
+
 @media screen and (max-width: 540px) {
   .txinfo {
     &__lead {
