@@ -314,11 +314,21 @@
             @decorators.async()
             _draw() {
                 $scope.$parent.$data = this._visibleList;
-                $scope.$parent.$digest();
-                $scope.$parent.$$postDigest(() => {
+                SmartTable._postDraw().then(() => {
                     if (this.name) {
                         stService.draw.dispatch(this.name);
                     }
+                });
+                $scope.$parent.$digest();
+            }
+
+            /**
+             * @return {Promise<void>}
+             * @private
+             */
+            static _postDraw() {
+                return new Promise(resolve => {
+                    $scope.$parent.$$postDigest(resolve);
                 });
             }
 

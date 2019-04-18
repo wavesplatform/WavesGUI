@@ -137,7 +137,6 @@
 
                 balanceWatcher.ready
                     .then(() => {
-
                         const onChange = () => {
                             this._updateBalances();
                             visibleService.updateSort();
@@ -156,6 +155,7 @@
                     this.observe('filter', this._onChangeDetails);
 
                     this._onChangeDetails();
+                    utils.safeApply($scope);
                 });
 
                 this.receive(stService.sort, () => {
