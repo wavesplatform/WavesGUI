@@ -8,9 +8,10 @@
      * @param {TransactionsCsvGen} transactionsCsvGen
      * @param {Waves} waves
      * @param {IPollCreate} createPoll
+     * @param {INotification} notification
      * @return {TransactionsCtrl}
      */
-    const controller = function (user, Base, $scope, transactionsCsvGen, waves, createPoll) {
+    const controller = function (user, Base, $scope, transactionsCsvGen, waves, createPoll, notification) {
 
         const analytics = require('@waves/event-sender');
 
@@ -62,6 +63,10 @@
                         transactions = await waves.node.transactions.list(MAX_LIMIT, after);
                     } catch (e) {
                         transactions = [];
+                        notification.error({
+                            ns: 'app.wallet.transactions',
+                            title: { literal: 'exportError' }
+                        });
                     }
 
                     allTransactions = allTransactions.concat(transactions.filter(el => !user.scam[el.assetId]));
@@ -152,7 +157,7 @@
         return new TransactionsCtrl();
     };
 
-    controller.$inject = ['user', 'Base', '$scope', 'transactionsCsvGen', 'waves', 'createPoll'];
+    controller.$inject = ['user', 'Base', '$scope', 'transactionsCsvGen', 'waves', 'createPoll', 'notification'];
 
     angular.module('app.wallet.transactions').controller('TransactionsCtrl', controller);
 })();
