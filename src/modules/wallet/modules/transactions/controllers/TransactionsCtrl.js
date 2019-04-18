@@ -62,11 +62,20 @@
                     try {
                         transactions = await waves.node.transactions.list(MAX_LIMIT, after);
                     } catch (e) {
+                        if (!allTransactions.length) {
+                            notification.error({
+                                ns: 'app.wallet.transactions',
+                                title: { literal: 'exportError' }
+                            });
+                            return [];
+                        }
+
                         transactions = [];
                         notification.error({
                             ns: 'app.wallet.transactions',
                             title: { literal: 'exportError' }
                         });
+
                     }
 
                     allTransactions = allTransactions.concat(transactions.filter(el => !user.scam[el.assetId]));
@@ -83,7 +92,9 @@
 
                 const promiseGetTransactions = getSeriesTransactions();
                 promiseGetTransactions.then((allTransactions) => {
-                    transactionsCsvGen.generate(allTransactions);
+                    if (allTransactions.length) {
+                        transactionsCsvGen.generate(allTransactions);
+                    }
                 });
                 return promiseGetTransactions;
             }
