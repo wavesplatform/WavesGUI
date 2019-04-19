@@ -201,7 +201,7 @@
     "testnet": {
       "oracles": {
         "waves": "3N5net4nzSeeqxPfGZrvVvnGavsinipQHbE",
-        "tokenomica": "3P5yz6NiyBoT3KWBrc1iwQeMAen56FcMGTW"
+        "tokenomica": "3Mq2ikxDH6rV5VBUNX1Ef8Ag1Vjntbh4MvD"
       },
       "apiVersion": "v0",
       "code": "T",
