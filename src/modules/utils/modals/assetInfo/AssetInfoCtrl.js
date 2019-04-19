@@ -13,8 +13,6 @@
     const controller = function (Base, $scope, user, createPoll, utils, waves) {
 
         const ds = require('data-service');
-        const { path } = require('ramda');
-        const { STATUS_LIST } = require('@waves/oracle-data');
 
         class AssetInfoCtrl extends Base {
 
@@ -36,21 +34,24 @@
                 this.totalBalance = null;
                 this.transactions = [];
                 this.transactionsPending = true;
-                const dataOracleWaves = ds.dataManager.getOracleAssetData(asset.id);
-                const dataOracleTokenomica = ds.dataManager.getOracleAssetData(asset.id, 'oracleTokenomica');
-                this.isVerified = path(['status'], dataOracleWaves) === STATUS_LIST.VERIFIED;
-                this.isGateway = path(['status'], dataOracleWaves) === 3;
-                this.isTokenomica = path(['status'], dataOracleTokenomica) === STATUS_LIST.VERIFIED;
-                this.isSuspicious = user.scam[this.asset.id];
-                this.hasLabel = this.isVerified || this.isGateway || this.isSuspicious || this.isTokenomica;
+
+                const {
+                    isVerified, isGateway, isTokenomica, isSuspicious,
+                    hasLabel, ticker, link, email, provider, description
+                } = utils.getDataFromOracles(asset);
+
+                this.isVerified = isVerified;
+                this.isGateway = isGateway;
+                this.isTokenomica = isTokenomica;
+                this.isSuspicious = isSuspicious;
+                this.hasLabel = hasLabel;
 
                 // this.ticker = path(['ticker'], data); // TODO STEP 2
-                this.ticker = asset.ticker; // TODO STEP 2
-                const dataOracle = dataOracleWaves || dataOracleTokenomica;
-                this.link = path(['link'], dataOracle);
-                this.email = path(['email'], dataOracle);
-                this.provider = this.isVerified && path(['provider'], dataOracle) || null;
-                this.description = path(['description', 'en'], dataOracle) || asset.description;
+                this.ticker = ticker; // TODO STEP 2
+                this.link = link;
+                this.email = email;
+                this.provider = provider;
+                this.description = description || asset.description;
 
                 this.withScam = null;
                 this.spam = [];
