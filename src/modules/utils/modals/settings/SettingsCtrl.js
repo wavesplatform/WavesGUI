@@ -59,7 +59,6 @@
             shownKey = false;
             node = '';
             matcher = '';
-            api = '';
             scamListUrl = '';
             withScam = false;
             theme = user.getSetting('theme');
@@ -97,7 +96,6 @@
                 this.syncSettings({
                     node: 'network.node',
                     matcher: 'network.matcher',
-                    api: 'network.api',
                     logoutAfterMin: 'logoutAfterMin',
                     scamListUrl: 'scamListUrl',
                     withScam: 'withScam',
@@ -170,8 +168,7 @@
                 this.observe(['node', 'matcher', 'api'], () => {
                     ds.config.setConfig({
                         node: this.node,
-                        matcher: this.matcher,
-                        api: this.api
+                        matcher: this.matcher
                     });
                 });
 
@@ -219,7 +216,6 @@
                 this.withScam = false;
                 this.scamListUrl = WavesApp.network.scamListUrl;
                 this.assetsOracle = WavesApp.oracle;
-                this.api = WavesApp.network.api;
             }
 
             showPairingWithMobile() {
