@@ -79,7 +79,6 @@
             blockHeight = 0;
             assetsOracleTmp = '';
             oracleWavesData = path(['oracle'], ds.dataManager.getOracleData('oracleWaves'));
-            // oracleWavesData = path(['oracle'], ds.dataManager.getOracleData('oracleWaves'));
             oracleError = false;
             oraclePending = false;
             oracleSuccess = false;
