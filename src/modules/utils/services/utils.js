@@ -1063,19 +1063,21 @@
                  * @type {User}
                  */
                 const user = $injector.get('user');
-                const dataOracleWaves = ds.dataManager.getOracleAssetData(assetId);
+                const dataOracleWaves = ds.dataManager.getOracleAssetData(assetId, 'oracleWaves');
                 const dataOracleTokenomica = ds.dataManager.getOracleAssetData(assetId, 'oracleTokenomica');
+
                 const isVerified = path(['status'], dataOracleWaves) === STATUS_LIST.VERIFIED;
                 const isGateway = path(['status'], dataOracleWaves) === 3;
                 const isTokenomica = path(['status'], dataOracleTokenomica) === STATUS_LIST.VERIFIED;
                 const isSuspicious = user.scam[assetId];
                 const hasLabel = isVerified || isGateway || isSuspicious || isTokenomica;
                 const ticker = path(['ticker'], dataOracle);
+
                 const dataOracle = dataOracleWaves || dataOracleTokenomica;
                 const link = path(['link'], dataOracle);
                 const email = path(['email'], dataOracle);
                 const logo = path(['logo'], dataOracle);
-                const provider = isVerified && path(['provider'], dataOracle) || null;
+                const provider = isVerified || isTokenomica && path(['provider'], dataOracleWaves) || null;
                 const description = path(['description', 'en'], dataOracle);
 
                 return {

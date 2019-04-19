@@ -11,6 +11,9 @@
                 <div ng-if="$ctrl.isGateway" class="status-label-min active">
                     <span w-i18n="modal.assetInfo.gateway" w-i18n-ns="app.utils"></span>
                 </div>
+                <div ng-if="$ctrl.isTokenomica" class="status-label-min active">
+                    <span w-i18n="modal.assetInfo.isTokenomica" w-i18n-ns="app.utils"></span>
+                </div>
             </div>
             <div ng-click="$ctrl.onUnpinClick($ctrl.balance.asset)"
                  ng-if="$ctrl.isUnpinned()"

@@ -18,8 +18,6 @@
 
         const analytics = require('@waves/event-sender');
         const ds = require('data-service');
-        const { path } = require('ramda');
-        const { STATUS_LIST } = require('@waves/oracle-data');
 
         class TokenChangeModalCtrl extends Base {
 
@@ -71,11 +69,19 @@
                  */
                 this._waves = null;
 
-                const data = ds.dataManager.getOracleAssetData(money.asset.id);
-                this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
-                this.isGateway = path(['status'], data) === 3;
-                this.ticker = money.asset.ticker;
-                this.description = path(['description', 'en'], data) || money.asset.description;
+                const {
+                    isVerified,
+                    isGateway,
+                    isTokenomica,
+                    ticker,
+                    description
+                } = utils.getDataFromOracles(money.asset);
+
+                this.isVerified = isVerified;
+                this.isGateway = isGateway;
+                this.isTokenomica = isTokenomica;
+                this.ticker = ticker || money.asset.ticker;
+                this.description = description || money.asset.description;
 
                 const { TokenChangeModalCtrl = {} } = user.getThemeSettings();
 

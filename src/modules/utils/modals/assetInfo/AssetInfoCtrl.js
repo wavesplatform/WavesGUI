@@ -38,7 +38,7 @@
                 const {
                     isVerified, isGateway, isTokenomica, isSuspicious,
                     hasLabel, ticker, link, email, provider, description
-                } = utils.getDataFromOracles(asset);
+                } = utils.getDataFromOracles(this.asset.id);
 
                 this.isVerified = isVerified;
                 this.isGateway = isGateway;
@@ -47,9 +47,10 @@
                 this.hasLabel = hasLabel;
 
                 // this.ticker = path(['ticker'], data); // TODO STEP 2
-                this.ticker = ticker; // TODO STEP 2
+                this.ticker = this.asset.ticker || ticker; // TODO STEP 2
                 this.link = link;
                 this.email = email;
+
                 this.provider = provider;
                 this.description = description || asset.description;
 

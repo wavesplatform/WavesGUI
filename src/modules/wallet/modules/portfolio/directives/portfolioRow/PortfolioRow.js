@@ -227,19 +227,17 @@
                     this.isSmart = balance.asset.hasScript;
                     const firstAssetChar = this.balance.asset.name.slice(0, 1);
                     const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
-                    const dataOracleWaves = ds.dataManager.getOracleAssetData(this.balance.asset.id);
-                    const dataOracleTokenomica = ds.dataManager
-                        .getOracleAssetData(this.balance.asset.id, 'oracleTokenomica');
-                    const dataOracle = dataOracleWaves || dataOracleTokenomica;
-                    const logo = dataOracle && dataOracle.logo;
-                    this.isVerifiedOrGateway = dataOracleWaves && dataOracleWaves.status >= STATUS_LIST.VERIFIED;
+                    const { isVerified, isGateway,
+                        isTokenomica, logo } = utils.getDataFromOracles(this.balance.asset.id);
+
+                    this.isVerifiedOrGateway = isVerified && isGateway;
 
                     const html = template({
                         canSetAssetScript: this._isMyAsset && this.isSmart,
                         isSmart: this.isSmart,
-                        isVerified: dataOracleWaves && dataOracleWaves.status === STATUS_LIST.VERIFIED,
-                        isGateway: dataOracleWaves && dataOracleWaves.status === 3,
-                        isTokenomica: dataOracleTokenomica && dataOracleTokenomica.status === STATUS_LIST.VERIFIED,
+                        isVerified: isVerified,
+                        isGateway: isGateway,
+                        isTokenomica: isTokenomica,
                         assetIconPath: logo || ASSET_IMAGES_MAP[this.balance.asset.id],
                         firstAssetChar,
                         canBurn: !this._isWaves,
