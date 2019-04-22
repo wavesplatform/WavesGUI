@@ -60,7 +60,7 @@ export class DataManager {
         return this.pollControl.getPollHash().aliases.lastData || [];
     }
 
-    public getOracleAssetData(id: string, oracleName: string = 'oracleWaves'): TProviderAsset & { provider: string } {
+    public getOracleAssetDataByOracleName(id: string, oracleName: string = 'oracleWaves'): TProviderAsset & { provider: string } {
         let pollHash = this.pollControl.getPollHash();
         const lastData = <any>path([oracleName, 'lastData'], pollHash);
         const assets = lastData && lastData.assets || Object.create(null);
@@ -96,7 +96,7 @@ export class DataManager {
             description: descriptionHash[id]
         };
 
-        if (id === 'WAVES' && oracleName === 'oracleWaves') {
+        if (id === 'WAVES') {
             return { status: STATUS_LIST.VERIFIED, description: descriptionHash.WAVES } as any;
         }
 
@@ -105,6 +105,12 @@ export class DataManager {
         }
 
         return assets[id] ? { ...assets[id], provider: lastData.oracle.name } : null;
+    }
+
+    public getOraclesAssetData (id: string) {
+        const dataOracleWaves = this.getOracleAssetDataByOracleName(id, 'oracleWaves');
+        const dataOracleTokenomica = this.getOracleAssetDataByOracleName(id, 'oracleTokenomica');
+        return dataOracleWaves || dataOracleTokenomica;
     }
 
     public getOracleData(oracleName: string) {

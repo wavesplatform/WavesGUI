@@ -148,8 +148,13 @@
                     if (!asset.hasScript) {
                         throw new Error('This asset has no script!');
                     }
-                    const { isVerified, isGateway,
-                        isTokenomica, isSuspicious, hasLabel } = utils.getDataFromOracles(asset.id);
+                    const {
+                        isVerified,
+                        isGateway,
+                        isTokenomica,
+                        isSuspicious,
+                        hasLabel
+                    } = utils.getDataFromOracles(asset.id);
                     this.isVerified = isVerified;
                     this.isGateway = isGateway;
                     this.isTokenomica = isTokenomica;
