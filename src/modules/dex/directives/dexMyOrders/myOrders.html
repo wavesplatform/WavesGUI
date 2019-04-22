@@ -75,8 +75,9 @@
                 </div>
             </w-table-cell>
             <w-table-cell ng-if="$ctrl.orders.length">
-                <div ng-click="$ctrl.dropOrder(order,$event.target)"
+                <div ng-click="$ctrl.dropOrder(order)"
                      w-i18n="directives.myOrders.cancel"
+                     ng-class="'order_' + order.id"
                      class="stop"></div>
             </w-table-cell>
         </w-table-row>
