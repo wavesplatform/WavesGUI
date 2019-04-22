@@ -6,6 +6,7 @@
         'bignumber.js': 'BigNumber',
         'ts-api-validator': 'tsApiValidator',
         'parse-json-bignumber': 'parseJsonBignumber',
+        '@waves/marshall': 'WavesMarshall',
         'papaparse': 'Papa',
         'waves-api': 'WavesAPI',
         'identity-img': 'identityImg',
