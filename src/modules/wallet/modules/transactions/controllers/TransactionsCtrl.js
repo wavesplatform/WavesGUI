@@ -57,11 +57,13 @@
                 const MAX_LIMIT = 1000;
 
                 const getSeriesTransactions = async ({ allTransactions = [], after = '' } = {}) => {
-
                     let transactions;
+                    let downloadError = false;
+
                     try {
                         transactions = await waves.node.transactions.list(MAX_LIMIT, after);
                     } catch (e) {
+                        downloadError = true;
                         if (!allTransactions.length) {
                             notification.error({
                                 ns: 'app.wallet.transactions',
@@ -83,7 +85,7 @@
                     allTransactions = allTransactions.concat(transactions.filter(el => !user.scam[el.assetId]));
 
                     if (transactions.length < MAX_LIMIT || allTransactions.length > maxTransactions) {
-                        return allTransactions;
+                        return { allTransactions, downloadError };
                     } else {
                         return getSeriesTransactions({
                             allTransactions,
@@ -93,9 +95,15 @@
                 };
 
                 const promiseGetTransactions = getSeriesTransactions();
-                promiseGetTransactions.then((allTransactions) => {
+                promiseGetTransactions.then(({ allTransactions, downloadError }) => {
                     if (allTransactions.length) {
                         transactionsCsvGen.generate(allTransactions);
+                    } else if (!downloadError) {
+                        notification.info({
+                            ns: 'app.wallet.transactions',
+                            title: { literal: 'errors.download.title' },
+                            body: { literal: 'errors.download.body' }
+                        });
                     }
                 });
                 return promiseGetTransactions;
