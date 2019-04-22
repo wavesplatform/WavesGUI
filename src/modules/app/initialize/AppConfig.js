@@ -2,7 +2,7 @@
     'use strict';
 
     const config = function ($urlRouterProvider, $stateProvider, $locationProvider) {
-        const TransportU2F = require('@waves/ledger/dist/transport-u2f');
+        const TransportU2F = require('@ledgerhq/hw-transport-u2f');
         const tsUtils = require('ts-utils');
 
         ds.config.setConfig(WavesApp.network);
