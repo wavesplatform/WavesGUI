@@ -99,10 +99,10 @@
                     if (allTransactions.length) {
                         transactionsCsvGen.generate(allTransactions);
                     } else if (!downloadError) {
-                        notification.info({
+                        notification.error({
                             ns: 'app.wallet.transactions',
-                            title: { literal: 'errors.download.title' },
-                            body: { literal: 'errors.download.body' }
+                            title: { literal: 'errors.empty.title' },
+                            body: { literal: 'errors.empty.body' }
                         });
                     }
                 });
