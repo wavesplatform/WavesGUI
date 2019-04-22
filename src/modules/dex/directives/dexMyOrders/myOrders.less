@@ -25,13 +25,12 @@ w-dex-my-orders {
   .repeatItemTransition.ng-leave,
   .repeatItemTransition.ng-enter.ng-enter-active {
     opacity: 1;
+    max-height: 30px;
     pointer-events: none;
 
     &.pre-leave {
       opacity: 0.3;
     }
-
-    max-height: 30px;
 
     @media screen and (max-width: 1024px) {
       max-height: 69px;
