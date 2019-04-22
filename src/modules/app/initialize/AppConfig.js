@@ -2,7 +2,7 @@
     'use strict';
 
     const config = function ($urlRouterProvider, $stateProvider, $locationProvider) {
-
+        const TransportU2F = require('@waves/ledger/dist/transport-u2f');
         const tsUtils = require('ts-utils');
 
         ds.config.setConfig(WavesApp.network);
@@ -19,7 +19,7 @@
 
             _initAdapters() {
 
-                const Transport = window.TransportNodeHid;
+                const Transport = window.TransportNodeHid || TransportU2F;
 
                 ds.signAdapters.adapterList.forEach((Adapter) => Adapter.initOptions({
                     networkCode: WavesApp.network.code.charCodeAt(0),
