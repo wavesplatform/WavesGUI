@@ -14,31 +14,6 @@
         class AssetInfoHead extends Base {
 
             /**
-             * @param {object}
-             * @type {{this}}
-             */
-            state;
-            /**
-             * @type {Signable}
-             */
-            signable;
-            /**
-             * @type {number}
-             */
-            step = 0;
-            /**
-             * @type {boolean}
-             */
-            isVerified;
-            /**
-             * @type {boolean}
-             */
-            isGateway;
-            /**
-             * @type {boolean}
-             */
-            isSuspicious;
-            /**
              * @type {string}
              */
             assetName;
@@ -55,17 +30,7 @@
                 waves.node.assets.getAsset(this.assetId).then(asset => {
                     this.assetName = asset.displayName;
                     this.ticker = asset.ticker;
-                    const {
-                        isVerified,
-                        isGateway,
-                        isTokenomica,
-                        isSuspicious,
-                        hasLabel
-                    } = utils.getDataFromOracles(asset.id);
-                    this.isVerified = isVerified;
-                    this.isGateway = isGateway;
-                    this.isTokenomica = isTokenomica;
-                    this.isSuspicious = isSuspicious;
+                    const { hasLabel } = utils.getDataFromOracles(asset.id);
                     this.hasLabel = hasLabel;
                     $scope.$apply();
                 });
