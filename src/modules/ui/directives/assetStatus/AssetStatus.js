@@ -13,36 +13,6 @@
 
         class AssetInfoHead extends Base {
 
-            /**
-             * @param {object}
-             * @type {{this}}
-             */
-            state;
-            /**
-             * @type {Signable}
-             */
-            signable;
-            /**
-             * @type {number}
-             */
-            step = 0;
-            /**
-             * @type {boolean}
-             */
-            isVerified;
-            /**
-             * @type {boolean}
-             */
-            isGateway;
-            /**
-             * @type {boolean}
-             */
-            isSuspicious;
-            /**
-             * @type {string}
-             */
-            assetName;
-
             $postLink() {
                 this._getAssetInfo();
                 this.observe('assetId', this._getAssetInfo);
