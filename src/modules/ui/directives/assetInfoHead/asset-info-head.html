@@ -7,6 +7,7 @@
         <div class="asset-modal__data">
             <h2 ng-cloak class="asset-modal__name basic-900" ng-class="{'has-label': $ctrl.hasLabel}">
                 <span class="name">{{$ctrl.assetName}}</span>
+                <w-asset-status asset-id="$ctrl.assetId"></w-asset-status>
                 <span ng-if="$ctrl.isVerified"
                       class="status-label-min active"
                       w-i18n-ns="app.utils"
