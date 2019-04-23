@@ -21,6 +21,7 @@ const privateKey = readFileSync('localhost.key').toString();
 const certificate = readFileSync('localhost.crt').toString();
 const args = parseArguments() || Object.create(null);
 
+let startDate = new Date();
 const handler = function (req, res) {
     const url = parse(req.url);
 
@@ -78,11 +79,18 @@ function createMyServer(port) {
     }
     getLocales(cachePath).then(() => {
         const localesTimer = setInterval(function() {
-            getLocales(cachePath)
-                .catch(err => console.log(err))
-        }, 60 * 10000);
+            const currentDate = new Date();
+            if ((currentDate.getTime() - startDate.getTime()) >  60 * 10000) {
+                startDate = currentDate;
+                getLocales(cachePath)
+                    .catch(err => console.log(err))
+            }
+
+        }, 10000);
 
         localesTimer.unref();
+
+
     });
 
     if (args.openUrl) {
