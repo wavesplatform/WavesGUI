@@ -1,24 +1,24 @@
 <div class="line-wrapper">
     <div class="line">
         <div class="body-2 top fs-mobile">
-            <w-transaction-header type-name="$ctrl.typeName" asset-name="$ctrl.assetName"></w-transaction-header>
+            <w-transaction-header type-name="$ctrl.typeName"
+                                  asset-name="$ctrl.assetName"></w-transaction-header>
             <!--TODO: forwhat?-->
             <span class="status-label-min inactive" w-i18n="transaction.headers.suspicious"></span>
         </div>
         <div class="footnote-1 bottom fs-mobile">
-             <w-transaction-subheader type-name="$ctrl.typeName"s></w-transaction-subheader>
-<!--             <span w-i18n="transaction.subheaders.{{::$ctrl.typeName}}"-->
-<!--               params="{time: $ctrl.time, address: $ctrl.shownAddress}"></span>-->
+             <w-transaction-subheader params="$ctrl.subheaderParams"
+                                      type-name="$ctrl.typeName"></w-transaction-subheader>
         </div>
-<!--    </div>-->
-<!--    <div class="line">-->
-<!--        <div class="body-2 top fs-mobile">-->
-<!--                <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"-->
-<!--                      params="{amount: $ctrl.transaction.amount.toFormat(), name: $ctrl.transaction.amount.asset.name}"></span>-->
-<!--        </div>-->
-<!--        <div ng-if="$ctrl.mirrorBalance" class="footnote-1 bottom fs-mobile">-->
-<!--                <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"-->
-<!--                      params="{amount: $ctrl.mirrorBalance.toFormat(), name: $ctrl.mirrorBalance.asset.name}"></span>-->
-<!--        </div>-->
+    </div>
+    <div class="line">
+        <div class="body-2 top fs-mobile">
+            <w-transaction-amount params="$ctrl.amountParams"
+                                  type-name="$ctrl.typeName"></w-transaction-amount>
+        </div>
+        <div class="footnote-1 bottom fs-mobile">
+            <w-transaction-amount params="$ctrl.mirrorBalanceParams"
+                                  type-name="$ctrl.typeName"></w-transaction-amount>
+        </div>
     </div>
 </div>

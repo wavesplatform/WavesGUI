@@ -3,16 +3,41 @@
 
     /**
      * @param {User} user
+     * @param {BaseAssetService} baseAssetService
+     * @param {$rootScope.Scope} $scope
      * @return {Transfer}
      */
 
-    const controller = function (user) {
+    const controller = function (user, baseAssetService, $scope) {
 
         class Transfer {
 
+            /**
+             * {object}
+             */
+            props = null;
+
             $postLink() {
-                this.typeName = this.transaction.typeName;
-                this.assetName = this.getAssetName(this.transaction.amount.asset);
+                this.typeName = this.props.typeName;
+                this.assetName = this.getAssetName(this.props.amount.asset);
+                this.subheaderParams = {
+                    time: this.props.time,
+                    address: this.props.shownAddress
+                };
+                this.amountParams = {
+                    amount: this.props.formatedAmount,
+                    name: this.props.amount.asset.name
+                };
+                if (this.props.amount && this.props.amount instanceof ds.wavesDataEntities.Money) {
+                    baseAssetService.convertToBaseAsset(this.props.amount)
+                        .then((baseMoney) => {
+                            this.mirrorBalanceParams = {
+                                amount: baseMoney.toFormat(),
+                                name: baseMoney.asset.name
+                            };
+                            $scope.$digest();
+                        });
+                }
             }
 
             /**
@@ -33,12 +58,14 @@
     };
 
     controller.$inject = [
-        'user'
+        'user',
+        'baseAssetService',
+        '$scope'
     ];
 
     angular.module('app.ui').component('wTransfer', {
         bindings: {
-            transaction: '<'
+            props: '<'
         },
         templateUrl: 'modules/ui/directives/transaction/types/transfer/transfer.html',
         controller
