@@ -50,19 +50,21 @@
                 const { options, config: candleConfig } = utils.getValidCandleOptions(from, to, interval);
                 const promises = options.map(option => config.getDataService().getCandles(amountId, priceId, option));
 
-                const convertBigNumber = (num) => num.isNaN() ? null : num.toNumber();
+                const convertBigNumber = num => num.isNaN() ? null : num.toNumber();
 
                 const candles = Promise.all(promises)
                     .then(pipe(map(prop('data')), flatten))
-                    .then(list => list.map(candle => ({
-                        txsCount: candle.txsCount || 0,
-                        high: convertBigNumber(candle.high),
-                        low: convertBigNumber(candle.low),
-                        close: convertBigNumber(candle.close),
-                        open: convertBigNumber(candle.open),
-                        volume: convertBigNumber(candle.volume),
-                        time: new Date(candle.time).getTime()
-                    })));
+                    .then(list => list
+                        .filter(candle => !candle.open.isNaN())
+                        .map(candle => ({
+                            txsCount: candle.txsCount || 0,
+                            high: convertBigNumber(candle.high),
+                            low: convertBigNumber(candle.low),
+                            close: convertBigNumber(candle.close),
+                            open: convertBigNumber(candle.open),
+                            volume: convertBigNumber(candle.volume),
+                            time: new Date(candle.time).getTime()
+                        })));
 
                 const lastTrade = ds.api.pairs.get(amountId, priceId)
                     .then(pair => waves.matcher.getLastPrice(pair)
