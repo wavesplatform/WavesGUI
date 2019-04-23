@@ -55,7 +55,6 @@
                 const candles = Promise.all(promises)
                     .then(pipe(map(prop('data')), flatten))
                     .then(list => list
-                        .filter(candle => !candle.open.isNaN())
                         .map(candle => ({
                             txsCount: candle.txsCount || 0,
                             high: convertBigNumber(candle.high),
@@ -73,15 +72,12 @@
                 return Promise.all([candles, lastTrade])
                     .then(([candles, lastTrade]) => {
                         if (candles.length === 1 && lastTrade) {
-                            const lastCandle = candles[candles.length - 1];
-
-                            if (lastCandle.open != null) {
-                                lastCandle.close = Number(lastTrade.price.toTokens());
-                            }
+                            candles[candles.length - 1].close = Number(lastTrade.price.toTokens());
                         } else {
                             candles = candleConfig.converter(candles);
                         }
-                        return candles;
+                        return candles
+                            .filter(candle => candle.open != null);
                     }).catch(() => utils.wait(5000).then(() => []));
             }
 
