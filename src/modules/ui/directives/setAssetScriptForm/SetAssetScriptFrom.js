@@ -12,7 +12,7 @@
      * @param {User} user
      * @param {BalanceWatcher} balanceWatcher
      */
-    const controller = function (Base, waves, $scope, user, balanceWatcher, utils) {
+    const controller = function (Base, waves, $scope, user, balanceWatcher) {
 
         const analytics = require('@waves/event-sender');
 
@@ -49,22 +49,6 @@
              * @type {Money}
              */
             fee;
-            /**
-             * @type {boolean}
-             */
-            isVerified;
-            /**
-             * @type {boolean}
-             */
-            isGateway;
-            /**
-             * @type {boolean}
-             */
-            isSuspicious;
-            /**
-             * @type {boolean}
-             */
-            hasLabel;
             /**
              * @type {function(data: {signable: Signable}): void}
              */
@@ -148,18 +132,6 @@
                     if (!asset.hasScript) {
                         throw new Error('This asset has no script!');
                     }
-                    const {
-                        isVerified,
-                        isGateway,
-                        isTokenomica,
-                        isSuspicious,
-                        hasLabel
-                    } = utils.getDataFromOracles(asset.id);
-                    this.isVerified = isVerified;
-                    this.isGateway = isGateway;
-                    this.isTokenomica = isTokenomica;
-                    this.isSuspicious = isSuspicious;
-                    this.hasLabel = hasLabel;
                     this.asset = asset;
                     $scope.$apply();
                 });
@@ -201,7 +173,7 @@
         return new SetAssetScriptFrom();
     };
 
-    controller.$inject = ['Base', 'waves', '$scope', 'user', 'balanceWatcher', 'utils'];
+    controller.$inject = ['Base', 'waves', '$scope', 'user', 'balanceWatcher'];
 
     angular.module('app.ui').component('wSetAssetScriptFrom', {
         bindings: {
