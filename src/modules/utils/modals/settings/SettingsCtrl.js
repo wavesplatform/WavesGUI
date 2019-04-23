@@ -165,7 +165,7 @@
                     }
                 });
 
-                this.observe(['node', 'matcher', 'api'], () => {
+                this.observe(['node', 'matcher'], () => {
                     ds.config.setConfig({
                         node: this.node,
                         matcher: this.matcher
