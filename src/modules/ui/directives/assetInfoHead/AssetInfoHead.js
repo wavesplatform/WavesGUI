@@ -6,14 +6,10 @@
      * @param $scope
      * @param user
      * @param waves
+     * @param utils
      * @return {AssetInfoHead}
      */
-    const controller = function (Base, $scope, user, waves) {
-
-        const ds = require('data-service');
-        const { path } = require('ramda');
-        const { STATUS_LIST } = require('@waves/oracle-data');
-        const GATEWAY = 3;
+    const controller = function (Base, $scope, user, waves, utils) {
 
         class AssetInfoHead extends Base {
 
@@ -59,13 +55,20 @@
                 waves.node.assets.getAsset(this.assetId).then(asset => {
                     this.assetName = asset.displayName;
                     this.ticker = asset.ticker;
+                    const {
+                        isVerified,
+                        isGateway,
+                        isTokenomica,
+                        isSuspicious,
+                        hasLabel
+                    } = utils.getDataFromOracles(asset.id);
+                    this.isVerified = isVerified;
+                    this.isGateway = isGateway;
+                    this.isTokenomica = isTokenomica;
+                    this.isSuspicious = isSuspicious;
+                    this.hasLabel = hasLabel;
                     $scope.$apply();
                 });
-                const data = ds.dataManager.getOracleAssetData(this.assetId);
-                this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
-                this.isGateway = path(['status'], data) === GATEWAY;
-                this.isSuspicious = user.scam[this.assetId];
-                this.hasLabel = this.isVerified || this.isGateway || this.isSuspicious;
 
                 this.state = { assetId: this.assetId };
             }
@@ -75,7 +78,7 @@
         return new AssetInfoHead();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'waves'];
+    controller.$inject = ['Base', '$scope', 'user', 'waves', 'utils'];
 
     angular.module('app.ui')
         .component('wAssetInfoHead', {
