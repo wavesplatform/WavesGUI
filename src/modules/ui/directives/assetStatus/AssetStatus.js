@@ -29,10 +29,10 @@
                     isSuspicious,
                     hasLabel
                 } = utils.getDataFromOracles(this.assetId);
-                this.isVerified = isVerified;
                 this.isGateway = isGateway;
-                this.isTokenomica = isTokenomica;
-                this.isSuspicious = isSuspicious;
+                this.isTokenomica = isGateway ? false : isTokenomica;
+                this.isVerified = isTokenomica ? false : isVerified;
+                this.isSuspicious = isVerified ? false : isSuspicious;
                 this.hasLabel = hasLabel;
             }
 
