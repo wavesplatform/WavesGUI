@@ -4,11 +4,12 @@
     /**
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
+     * @param {Waves} waves
      * @param {$rootScope.Scope} $scope
      * @return {Transfer}
      */
 
-    const controller = function (user, baseAssetService, $scope) {
+    const controller = function (user, baseAssetService, waves, $scope) {
 
         class Transfer {
 
@@ -19,11 +20,45 @@
 
             $postLink() {
                 this.typeName = this.props.typeName;
-                this.assetName = this.getAssetName(this.props.amount.asset);
                 this.subheaderParams = {
                     time: this.props.time,
                     address: this.props.shownAddress
                 };
+
+                const TYPES = waves.node.transactions.TYPES;
+
+                switch (this.typeName) {
+                    case TYPES.SPONSORSHIP_FEE:
+                        this.sponsoredFee();
+                        break;
+                    default:
+                        this.transfered();
+                }
+            }
+
+            /**
+             * @param {{id: string, name: string}} asset
+             * @return {string}
+             */
+            getAssetName(asset) {
+                try {
+                    return !user.scam[asset.id] ? asset.name : '';
+                } catch (e) {
+                    return '';
+                }
+            }
+
+            sponsoredFee() {
+                this.assetName = this.getAssetName(this.props.fee.asset);
+                this.amountParams = {
+                    sign: '+',
+                    amount: this.props.fee.toFormat(),
+                    name: this.props.fee.asset.name
+                };
+            }
+
+            transfered() {
+                this.assetName = this.getAssetName(this.props.amount.asset);
                 this.amountParams = {
                     amount: this.props.amount.toFormat(),
                     name: this.props.amount.asset.name
@@ -40,18 +75,6 @@
                 }
             }
 
-            /**
-             * @param {{id: string, name: string}} asset
-             * @return {string}
-             */
-            getAssetName(asset) {
-                try {
-                    return !user.scam[asset.id] ? asset.name : '';
-                } catch (e) {
-                    return '';
-                }
-            }
-
         }
 
         return new Transfer();
@@ -60,6 +83,7 @@
     controller.$inject = [
         'user',
         'baseAssetService',
+        'waves',
         '$scope'
     ];
 
