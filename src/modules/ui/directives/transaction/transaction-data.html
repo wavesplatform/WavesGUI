@@ -1,5 +1,6 @@
 <div class="full-width">
     <w-transfer ng-if="$ctrl.type === 4 || $ctrl.type === 11" props="$ctrl.props"></w-transfer>
+    <w-exchange-data ng-if="$ctrl.type === 7" props="$ctrl.props"></w-exchange-data>
     <w-lease ng-if="$ctrl.type === 8" props="$ctrl.props"></w-lease>
     <w-cancel-leasing ng-if="$ctrl.type === 9" props="$ctrl.props"></w-cancel-leasing>
     <w-create-alias ng-if="$ctrl.type === 10" props="$ctrl.props"></w-create-alias>
