@@ -95,7 +95,7 @@
     "@waves/assets-pairs-order": "4.0.0",
     "@waves/data-entities": "^1.10.1",
     "@waves/data-service-client-js": "^2.0.0",
-    "@waves/event-sender": "^0.5.0-a4",
+    "@waves/event-sender": "^0.5.0",
     "@waves/ledger": "^3.2.0",
     "@waves/oracle-data": "^0.0.6",
     "@waves/signature-adapter": "^4.2.1",
