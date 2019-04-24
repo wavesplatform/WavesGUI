@@ -21,7 +21,6 @@
                                  waves, user, baseAssetService, utils, $scope) {
 
         const { SIGN_TYPE } = require('@waves/signature-adapter');
-
         class Transaction extends Base {
 
             $postLink() {

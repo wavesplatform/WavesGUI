@@ -1,11 +1,9 @@
 <div w-i18n-ns="app.ui"class="transaction"
      ng-class="{'spam': $ctrl.isScam || $ctrl.isScamAmount || $ctrl.isScamPrice}">
     <w-transaction-icon type-name="$ctrl.typeName"></w-transaction-icon>
-<!--    <div class="transaction-info">-->
-<!--        <ng-include class="full-width" src="$ctrl.templateUrl"></ng-include>-->
-<!--    </div>-->
     <!--TODO: cssClass transaction-info -> transaction-data-->
-    <w-transaction-data transaction="$ctrl.transaction" class="transaction-info"></w-transaction-data>
+    <w-transaction-data class="transaction-info" transaction="$ctrl.transaction"
+                        date-pattern="$ctrl.datePattern"></w-transaction-data>
         <w-actions analytics-text="'Leasing Menu Click'" class="actions">
             <w-analytics event="'Leasing Menu Tx Click'" event-target="'ui'">
                 <w-action ng-click="$ctrl.showTransaction()">

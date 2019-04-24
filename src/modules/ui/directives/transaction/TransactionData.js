@@ -30,7 +30,7 @@
     angular.module('app.ui').component('wTransactionData', {
         bindings: {
             transaction: '<',
-            datePattern: '@'
+            datePattern: '<'
         },
         templateUrl: 'modules/ui/directives/transaction/transaction-data.html',
         controller
