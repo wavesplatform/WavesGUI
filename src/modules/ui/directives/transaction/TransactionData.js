@@ -14,8 +14,7 @@
                 this.type = this.transaction.type;
                 this.props = {
                     ...this.transaction,
-                    time: $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm'),
-                    formatedAmount: this.transaction.amount.toFormat()
+                    time: $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm')
                 };
             }
 
@@ -30,7 +29,8 @@
 
     angular.module('app.ui').component('wTransactionData', {
         bindings: {
-            transaction: '<'
+            transaction: '<',
+            datePattern: '@'
         },
         templateUrl: 'modules/ui/directives/transaction/transaction-data.html',
         controller

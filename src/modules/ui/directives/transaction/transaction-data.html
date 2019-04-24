@@ -1,4 +1,5 @@
 <div class="full-width">
-    <div ng-if="$ctrl.type !== 4">kek</div>
+    <div ng-if="$ctrl.type !== 4 && $ctrl.type !== 10">kek</div>
     <w-transfer ng-if="$ctrl.type === 4" props="$ctrl.props"></w-transfer>
+    <w-create-alias ng-if="$ctrl.type === 10" props="$ctrl.props"></w-create-alias>
 </div>

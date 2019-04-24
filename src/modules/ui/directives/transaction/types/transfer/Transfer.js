@@ -25,7 +25,7 @@
                     address: this.props.shownAddress
                 };
                 this.amountParams = {
-                    amount: this.props.formatedAmount,
+                    amount: this.props.amount.toFormat(),
                     name: this.props.amount.asset.name
                 };
                 if (this.props.amount && this.props.amount instanceof ds.wavesDataEntities.Money) {
