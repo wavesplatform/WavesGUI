@@ -1,4 +1,5 @@
 <div class="full-width">
+    <w-issue ng-if="$ctrl.type === 3" props="$ctrl.props"></w-issue>
     <w-transfer ng-if="$ctrl.type === 4 || $ctrl.type === 11" props="$ctrl.props"></w-transfer>
     <w-exchange-data ng-if="$ctrl.type === 7" props="$ctrl.props"></w-exchange-data>
     <w-lease ng-if="$ctrl.type === 8" props="$ctrl.props"></w-lease>
