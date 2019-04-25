@@ -525,11 +525,28 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                 .replace(/\?.*/, '')
                 .replace('.json', '')
                 .split('/');
-            const cachePath = join(process.cwd(), '.cache-download', 'locale', lang, `${ns}.json`);
+
+            const localePath = join(process.cwd(), '.cache-download', 'locale');
+            const cachePath = join(localePath, lang, `${ns}.json`);
+
+            const isModified = path => {
+                const { mtime } = statSync(path);
+                const dateNow = new Date();
+                return (dateNow.getTime() - mtime.getTime()) > 30 * 1000;
+            };
 
             if (existsSync(cachePath)) {
-                const data = readFileSync(cachePath);
-                res.end(data);
+                if (isModified(cachePath) && lang === 'ru' && ns === 'app') {
+                    getLocales(localePath)
+                        .then(() => {
+                            const data = readFileSync(cachePath);
+                            res.end(data);
+                        });
+                } else {
+                    const data = readFileSync(cachePath);
+                    res.end(data);
+                }
+
             } else {
                 res.statusCode = 404;
                 res.end('Not found!');

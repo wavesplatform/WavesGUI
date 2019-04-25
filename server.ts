@@ -77,21 +77,7 @@ function createMyServer(port) {
     if (!existsSync(cachePath)){
         mkdirSync(cachePath);
     }
-    getLocales(cachePath).then(() => {
-        const localesTimer = setInterval(function() {
-            const currentDate = new Date();
-            if ((currentDate.getTime() - startDate.getTime()) >  60 * 10000) {
-                startDate = currentDate;
-                getLocales(cachePath)
-                    .catch(err => console.log(err))
-            }
-
-        }, 10000);
-
-        localesTimer.unref();
-
-
-    });
+    getLocales(cachePath);
 
     if (args.openUrl) {
         opn(url);
