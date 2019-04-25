@@ -393,7 +393,7 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
                     });
 
                     analytics.addApi({
-                        apiToken: 'UA-75283398-21',
+                        apiToken: 'UA-75283398-20',
                         libraryUrl: location.origin + '/googleAnalytics.js',
                         initializeMethod: 'gaInit',
                         sendMethod: 'gaPushEvent',
