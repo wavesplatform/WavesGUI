@@ -532,7 +532,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
             const isModified = path => {
                 const { mtime } = statSync(path);
                 const dateNow = new Date();
-                return (dateNow.getTime() - mtime.getTime()) > 30 * 1000;
+                return (dateNow.getTime() - mtime.getTime()) > 60 * 10000;
             };
 
             if (existsSync(cachePath)) {
