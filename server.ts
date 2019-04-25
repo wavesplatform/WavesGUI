@@ -21,7 +21,6 @@ const privateKey = readFileSync('localhost.key').toString();
 const certificate = readFileSync('localhost.crt').toString();
 const args = parseArguments() || Object.create(null);
 
-let startDate = new Date();
 const handler = function (req, res) {
     const url = parse(req.url);
 
