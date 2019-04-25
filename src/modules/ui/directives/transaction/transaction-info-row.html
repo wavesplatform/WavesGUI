@@ -1,12 +1,13 @@
 <div class="full-width">
     <w-issue ng-if="$ctrl.type === 3" props="$ctrl.props"></w-issue>
-    <w-transfer ng-if="$ctrl.type === 4 || $ctrl.type === 11" props="$ctrl.props"></w-transfer>
+    <w-transfer ng-if="$ctrl.type === 4" props="$ctrl.props"></w-transfer>
     <w-reissue ng-if="$ctrl.type === 5" props="$ctrl.props"></w-reissue>
     <w-burn ng-if="$ctrl.type === 6" props="$ctrl.props"></w-burn>
     <w-exchange-data ng-if="$ctrl.type === 7" props="$ctrl.props"></w-exchange-data>
     <w-lease ng-if="$ctrl.type === 8" props="$ctrl.props"></w-lease>
     <w-cancel-leasing ng-if="$ctrl.type === 9" props="$ctrl.props"></w-cancel-leasing>
     <w-create-alias ng-if="$ctrl.type === 10" props="$ctrl.props"></w-create-alias>
+    <w-mass-transfer ng-if="$ctrl.type === 11" props="$ctrl.props"></w-mass-transfer>
     <w-data ng-if="$ctrl.type === 12" props="$ctrl.props"></w-data>
     <w-set-script ng-if="$ctrl.type === 13" props="$ctrl.props"></w-set-script>
     <w-sponsorship ng-if="$ctrl.type === 14" props="$ctrl.props"></w-sponsorship>
