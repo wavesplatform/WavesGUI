@@ -3,12 +3,12 @@
 
     /**
      * @param $filter
-     * @return {TransactionData}
+     * @return {TransactionInfoRow}
      */
 
     const controller = function ($filter) {
 
-        class TransactionData {
+        class TransactionInfoRow {
 
             $postLink() {
                 this.type = this.transaction.type;
@@ -20,19 +20,19 @@
 
         }
 
-        return new TransactionData();
+        return new TransactionInfoRow();
     };
 
     controller.$inject = [
         '$filter'
     ];
 
-    angular.module('app.ui').component('wTransactionData', {
+    angular.module('app.ui').component('wTransactionInfoRow', {
         bindings: {
             transaction: '<',
             datePattern: '<'
         },
-        templateUrl: 'modules/ui/directives/transaction/transaction-data.html',
+        templateUrl: 'modules/ui/directives/transaction/transaction-info-row.html',
         controller
     });
 })();
