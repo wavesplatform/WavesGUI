@@ -25,36 +25,34 @@
         [WavesApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
     };
 
-    const COLORS_MAP = {
-        A: '#39a12c',
-        B: '#6a737b',
-        C: '#e49616',
-        D: '#008ca7',
-        E: '#ff5b38',
-        F: '#ff6a00',
-        G: '#c74124',
-        H: '#00a78e',
-        I: '#b01e53',
-        J: '#e0c61b',
-        K: '#5a81ea',
-        L: '#72b7d2',
-        M: '#a5b5c3',
-        N: '#81c926',
-        O: '#86a3bd',
-        P: '#c1d82f',
-        Q: '#5c84a8',
-        R: '#267e1b',
-        S: '#fbb034',
-        T: '#ff846a',
-        U: '#47c1ff',
-        V: '#00a0af',
-        W: '#85d7c6',
-        X: '#8a7967',
-        Y: '#26c1c9',
-        Z: '#72d28b'
-    };
-
-    const DEFAULT_COLOR = '#96bca0';
+    const COLORS_LIST = [
+        '#39a12c',
+        '#6a737b',
+        '#e49616',
+        '#008ca7',
+        '#ff5b38',
+        '#ff6a00',
+        '#c74124',
+        '#00a78e',
+        '#b01e53',
+        '#e0c61b',
+        '#5a81ea',
+        '#72b7d2',
+        '#a5b5c3',
+        '#81c926',
+        '#86a3bd',
+        '#c1d82f',
+        '#5c84a8',
+        '#267e1b',
+        '#fbb034',
+        '#ff846a',
+        '#47c1ff',
+        '#00a0af',
+        '#85d7c6',
+        '#8a7967',
+        '#26c1c9',
+        '#72d28b'
+    ];
 
     const TEMPLATE_PATH = 'modules/wallet/modules/portfolio/directives/portfolioRow/row.hbs';
     const SELECTORS = {
@@ -240,7 +238,7 @@
                         firstAssetChar,
                         canBurn: !this._isWaves,
                         canReissue: this._isMyAsset && this.balance.asset.reissuable,
-                        charColor: COLORS_MAP[firstAssetChar.toUpperCase()] || DEFAULT_COLOR,
+                        charColor: this._getColor(),
                         assetName: this.balance.asset.name,
                         SELECTORS: { ...SELECTORS },
                         canShowDex: this.canShowDex,
@@ -295,6 +293,18 @@
                         element.getAttribute('w-i18n-literal'),
                         'app.wallet.portfolio');
                 });
+            }
+
+            /**
+             * @return {string}
+             * @private
+             */
+            _getColor() {
+                const sum = this.balance.asset.id.split('')
+                    .slice(3)
+                    .map(char => char.charCodeAt(0))
+                    .reduce((acc, code) => acc + code, 0);
+                return COLORS_LIST[sum % COLORS_LIST.length];
             }
 
             /**
