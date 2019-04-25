@@ -1,0 +1,22 @@
+<div class="line-wrapper">
+    <div class="line">
+        <div class="body-2 top fs-mobile">
+            <w-transaction-header type-name="$ctrl.typeName" asset-name="$ctrl.assetName"></w-transaction-header>
+            <span class="spam-label" w-i18n="transaction.headers.suspicious"></span>
+        </div>
+        <div class="footnote-1 bottom fs-mobile">
+             <span w-i18n="transaction.subheaders.{{::$ctrl.typeName}}"
+                   params="{time: $ctrl.time}"></span>
+        </div>
+    </div>
+    <div class="line">
+        <div class="body-2 top fs-mobile">
+            <w-transaction-amount params="$ctrl.amountParams"
+                                  type-name="$ctrl.typeName"></w-transaction-amount>
+            <span class="nowrap">{{$ctrl.name}}</span>
+        </div>
+        <div class="footnote-1 bottom fs-mobile">
+            <span w-i18n="transaction.reissuable.{{::$ctrl.props.reissuable}}"></span>
+        </div>
+    </div>
+</div>
