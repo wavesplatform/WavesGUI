@@ -52,7 +52,7 @@
             /**
              * @type {BigNumber}
              */
-            maxCoinsCount = null;
+            maxCoinsCount = WavesApp.maxCoinsCount;
             /**
              * Has money for fee
              * @type {boolean}
@@ -112,7 +112,13 @@
                     .then(() => this._reset());
             }
 
+            sendAnalytics() {
+                analytics.send({ name: 'Token Generation Info Show', target: 'ui' });
+            }
+
             createSignable() {
+                analytics.send({ name: 'Token Generation Generate Click', target: 'ui' });
+
                 const precision = Number(this.precision.toString());
                 const quantity = this.count.times(Math.pow(10, precision));
                 const script = this.hasAssetScript && this.script ? `${BASE_64_PREFIX}${this.script}` : '';
@@ -202,7 +208,7 @@
                 this.issue = true;
                 this.count = new BigNumber(0);
                 this.precision = 0;
-                this.maxCoinsCount = null;
+                this.maxCoinsCount = WavesApp.maxCoinsCount;
                 this.script = '';
                 this.hasAssetScript = false;
 

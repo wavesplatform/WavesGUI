@@ -244,7 +244,7 @@
     </div>
 
     <div class="fee margin-top-1 margin-1" ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending">
-        <w-fee-list tx="::$ctrl.tx"
+        <w-fee-list tx="$ctrl.wavesTx"
                     disabled="$ctrl.toBankMode && (!$ctrl.isVerified || !$ctrl.termsAccepted)"
                     balance-hash="$ctrl.state.moneyHash"
                     fee="$ctrl.tx.fee"></w-fee-list>
@@ -290,7 +290,7 @@
 
     <div class="margin-top-3">
         <a href="{{$ctrl.digiLiraUserLink}}"
-           target="_blank"
+           target="_blank" rel="noopener noreferrer"
            ng-if="$ctrl.toBankMode && $ctrl.isLira"
            class="fake-button long margin-4">
             <span class="fake-button-content big submit long" w-i18n="button.continue"></span>

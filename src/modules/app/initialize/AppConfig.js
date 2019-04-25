@@ -2,7 +2,7 @@
     'use strict';
 
     const config = function ($urlRouterProvider, $stateProvider, $locationProvider) {
-
+        const TransportU2F = require('@ledgerhq/hw-transport-u2f');
         const tsUtils = require('ts-utils');
 
         ds.config.setConfig(WavesApp.network);
@@ -19,7 +19,7 @@
 
             _initAdapters() {
 
-                const Transport = window.TransportNodeHid;
+                const Transport = window.TransportNodeHid || TransportU2F;
 
                 ds.signAdapters.adapterList.forEach((Adapter) => Adapter.initOptions({
                     networkCode: WavesApp.network.code.charCodeAt(0),
@@ -62,7 +62,7 @@
                 i18next
                     .use(i18nextLocizeBackend)
                     .init({
-                        lng: localStorage.getItem('lng') || AppConfig.getUserLang(),
+                        lng: AppConfig.getUserLang(),
                         debug: !WavesApp.isProduction(),
                         ns: WavesApp.modules
                             .filter(
@@ -208,8 +208,11 @@
             }
 
             static getUserLang() {
-
                 const available = Object.keys(WavesApp.localize);
+                const langFromStorage = localStorage.getItem('lng');
+                if (available.indexOf(langFromStorage) !== -1) {
+                    return langFromStorage;
+                }
                 const cookieLng = Cookies.get('locale');
                 const userLang = navigator.language || navigator.userLanguage;
 

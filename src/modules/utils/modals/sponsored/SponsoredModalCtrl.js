@@ -16,6 +16,7 @@
         const { Money } = require('@waves/data-entities');
         const ds = require('data-service');
         const { path } = require('ramda');
+        const analytics = require('@waves/event-sender');
 
         class SponsoredModalCtrl extends Base {
 
@@ -91,6 +92,7 @@
             }
 
             onConfirm() {
+                analytics.send({ name: 'Enable Sponsorship Continue Click', target: 'ui' });
                 this.step++;
             }
 

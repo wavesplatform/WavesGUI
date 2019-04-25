@@ -1,4 +1,5 @@
 import { Money } from '@waves/data-entities';
+import { path } from 'ramda';
 import { IPollAPI, Poll } from '../utils/Poll';
 import { balanceList } from '../api/assets/assets';
 import { getReservedBalance } from '../api/matcher/getOrders';
@@ -17,9 +18,19 @@ export class DataManager {
     public transactions: UTXManager = new UTXManager();
     public pollControl: PollControl<TPollHash>;
     private _address: string;
+    private _silentMode: boolean = false;
 
     constructor() {
         this.pollControl = new PollControl<TPollHash>(() => this._createPolls());
+    }
+
+    public setSilentMode(silent: boolean): void {
+        this._silentMode = silent;
+        if (silent) {
+            this.pollControl.pause();
+        } else {
+            this.pollControl.play();
+        }
     }
 
     public applyAddress(address: string): void {
@@ -51,12 +62,8 @@ export class DataManager {
 
     public getOracleAssetData(id: string): TProviderAsset & { provider: string } {
         let pollHash = this.pollControl.getPollHash();
-        let assets;
-        let lastData;
-        if (pollHash) {
-            lastData = pollHash.oracle.lastData;
-            assets = lastData && lastData.assets || Object.create(null);
-        }
+        const lastData = <any>path(['oracle', 'lastData'], pollHash);
+        const assets = lastData && lastData.assets || Object.create(null);
 
         const WavesApp = (window as any).WavesApp;
 
