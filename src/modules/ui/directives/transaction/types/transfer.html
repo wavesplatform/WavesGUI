@@ -12,7 +12,7 @@
     </div>
     <div class="line">
         <div class="body-2 top fs-mobile">
-                <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
+                <span class="transaction-amounts ellipsis" w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
                       params="{amount: $ctrl.transaction.amount.toFormat(), name: $ctrl.transaction.amount.asset.name}"></span>
         </div>
         <div ng-if="$ctrl.mirrorBalance" class="footnote-1 bottom fs-mobile">
