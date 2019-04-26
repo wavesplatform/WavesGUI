@@ -1,0 +1,34 @@
+<div class="line-wrapper">
+    <div class="line">
+        <div class="body-2 top fs-mobile">
+            <span>
+                <w-transaction-header type-name="$ctrl.typeName"></w-transaction-header>
+                <span>{{$ctrl.amountAssetName}}</span>
+                <span ng-if="$ctrl.isScamAmount"
+                      class="spam-label"
+                      w-i18n="transaction.headers.suspicious"></span>
+            </span>/
+            <span>
+                <span>{{$ctrl.priceAssetName}}</span>
+                <span ng-if="$ctrl.isScamPrice"
+                      class="spam-label"
+                      w-i18n="transaction.headers.suspicious">
+                </span>
+            </span>
+        </div>
+        <div class="footnote-1 bottom fs-mobile">
+            <w-transaction-subheader params="$ctrl.subheaderParams"
+                                     type-name="$ctrl.typeName"></w-transaction-subheader>
+        </div>
+    </div>
+    <div class="line">
+        <div class="body-2 top fs-mobile">
+            <w-transaction-amount params="$ctrl.amountParams"
+                                  type-name="$ctrl.typeName"></w-transaction-amount>
+        </div>
+        <div class="footnote-1 bottom fs-mobile">
+            <w-transaction-amount params="$ctrl.priceParams"
+                                  type-name="$ctrl.typeName"></w-transaction-amount>
+        </div>
+    </div>
+</div>
