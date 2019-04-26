@@ -1,9 +1,26 @@
-<div class="txinfo__row txinfo__row-contains-text" ng-if="::$ctrl.transaction.stringifiedData">
-    <div class="txinfo__key" w-i18n="transaction.modals.data"></div>
-    <pre class="txinfo__value txinfo__text txinfo__data">{{::$ctrl.transaction.stringifiedData}}</pre>
+<div class="txinfo__row-contains-text txinfo__row-data" ng-if="::$ctrl.transaction.stringifiedData">
+    <div class="txinfo__row txinfo__row-header">
+        <div class="txinfo__item"><span class="txinfo__key" w-i18n="transaction.modals.dataKey"></span></div>
+        <div class="txinfo__item"><span class="txinfo__key" w-i18n="transaction.modals.dataType"></span></div>
+        <div class="txinfo__item"><span class="txinfo__key" w-i18n="transaction.modals.dataValue"></span></div>
+    </div>
+    <div class="txinfo__wrapper txinfo__wrapper-scrolled">
+        <div class="txinfo__row" ng-repeat="transaction in $ctrl.getShownFields()">
+            <div class="txinfo__item"><span class="txinfo__unit">{{transaction.key}}</span></div>
+            <div class="txinfo__item"><span class="txinfo__unit">{{transaction.type}}</span></div>
+            <div class="txinfo__item"><span class="txinfo__unit">{{transaction.value}}</span></div>
+        </div>
+    </div>
+    <div class="txinfo__show-fields margin-top-1" ng-if="$ctrl.transaction.data.length > 3" ng-click="$ctrl.isShowAllFields = !$ctrl.isShowAllFields">
+        <span ng-if="$ctrl.isShowAllFields" class="txinfo__show-text body-3 submit-300" w-i18n="transaction.modals.showFirstTree"></span>
+        <span ng-if="!$ctrl.isShowAllFields" class="txinfo__show-text body-3 submit-300" params="{count: $ctrl.transaction.data.length}" w-i18n="transaction.modals.showAll"></span>
+    </div>
 </div>
 
 <w-transaction-info-general height="$ctrl.transaction.height"
                             timestamp="$ctrl.transaction.timestamp"
                             id="$ctrl.id"
                             fee="$ctrl.transaction.fee"></w-transaction-info-general>
+
+
+

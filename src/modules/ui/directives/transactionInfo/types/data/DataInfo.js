@@ -13,6 +13,10 @@
              * @type {Signable}
              */
             signable;
+            /**
+             * @type {boolean}
+             */
+            isShowAllFields = false;
 
 
             $postLink() {
@@ -22,6 +26,10 @@
                         this.id = id;
                         $scope.$apply();
                     });
+            }
+
+            getShownFields() {
+                return this.isShowAllFields ? this.transaction.data : this.transaction.data.slice(0, 3);
             }
 
         }
