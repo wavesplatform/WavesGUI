@@ -265,6 +265,12 @@ export function parseDataTx(tx: txApi.IData, assetsHash: IHash<Asset>, isUTX: bo
     return { ...tx, stringifiedData, fee, isUTX };
 }
 
+export function parseInvocationTx(tx: txApi.IData, assetsHash: IHash<Asset>, isUTX: boolean): IData {
+    const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
+    const stringifiedData = JSON.stringify(tx.data, null, 4);
+    return { ...tx, stringifiedData, fee, isUTX };
+}
+
 function parseSponsorshipTx(tx: txApi.ISponsorship, assetsHash: IHash<Asset>, isUTX: boolean): ISponsorship {
     const minSponsoredAssetFee = new Money(tx.minSponsoredAssetFee || 0, assetsHash[tx.assetId]);
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);

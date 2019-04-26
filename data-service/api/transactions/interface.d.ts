@@ -158,6 +158,12 @@ export module txApi {
         script: string;
     }
 
+    export interface IScriptInvocation extends IBaseTransaction {
+        type: TRANSACTION_TYPE_NUMBER.SCRIPT_INVOCATION;
+        version?: number;
+        script: string;
+    }
+
     export interface IExchangeOrder {
         amount: string;
         assetPair: IAssetPair;
