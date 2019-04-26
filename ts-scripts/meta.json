@@ -42,7 +42,7 @@
     "node_modules/ts-utils/dist/ts-utils.min.js",
     "node_modules/@waves/waves-browser-bus/dist/browser-bus.min.js"
   ],
-  "analyticsIframe": "https://iframe-test.wvservices.com/index.html",
+  "analyticsIframe": "https://iframe.wavesplatform.com",
   "langList": {
     "en": {
       "name": "En",
