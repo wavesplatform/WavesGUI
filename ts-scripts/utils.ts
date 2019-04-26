@@ -525,11 +525,32 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                 .replace(/\?.*/, '')
                 .replace('.json', '')
                 .split('/');
-            const cachePath = join(process.cwd(), '.cache-download', 'locale', lang, `${ns}.json`);
+
+            const localePath = join(process.cwd(), '.cache-download', 'locale');
+            const cachePath = join(localePath, lang, `${ns}.json`);
+
+            const isModified = path => {
+                const { mtime } = statSync(path);
+                const dateNow = new Date();
+                return (dateNow.getTime() - mtime.getTime()) > 60 * 10000;
+            };
 
             if (existsSync(cachePath)) {
-                const data = readFileSync(cachePath);
-                res.end(data);
+                if (isModified(cachePath) && lang === 'ru' && ns === 'app') {
+                    loadLocales(localePath)
+                        .then(() => {
+                            const data = readFileSync(cachePath);
+                            res.end(data);
+                        })
+                        .catch(error => {
+                            res.statusCode = 404;
+                            res.end(error);
+                        });
+                } else {
+                    const data = readFileSync(cachePath);
+                    res.end(data);
+                }
+
             } else {
                 res.statusCode = 404;
                 res.end('Not found!');
@@ -744,7 +765,7 @@ function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, p
     stat(req, res, ROOTS);
 }
 
-export function getLocales(path: string, options?: object) {
+export function loadLocales(path: string, options?: object) {
     const postOptions = {
         method: 'POST',
         hostname: 'api.lokalise.co',
