@@ -2,7 +2,7 @@
     <w-step-by-step active-step="$ctrl.step">
         <w-step>
             <w-set-asset-script-from state="$ctrl.state"
-                                    on-success="$ctrl.onFillTxForm(signable)"></w-set-asset-script-from>
+                                     on-success="$ctrl.onFillTxForm(signable)"></w-set-asset-script-from>
         </w-step>
         <w-step>
             <w-confirm-transaction on-click-back="$ctrl.onConfirmBack()"
@@ -11,5 +11,36 @@
     </w-step-by-step>
 </w-permit>
 <w-permit name="CAN_SET_ASSET_SCRIPT_TRANSACTION" mode="off">
-    <!-- TODO -->
+    <div class="asset-modal__head asset-modal margin-4">
+        <div class="asset-modal__head-content">
+            <w-asset-logo ng-if="$ctrl.state.assetId"
+                          ng-cloak asset-id="{{::$ctrl.state.assetId}}"
+                          size="65"
+                          class="asset-modal__logo"></w-asset-logo>
+
+            <div class="asset-modal__data">
+                <h3 ng-cloak class="asset-modal__name basic-900" ng-class="{'has-label': $ctrl.hasLabel}">
+                    <span class="name">{{$ctrl.assetName}}</span>
+                    <span ng-if="$ctrl.isVerified" class="asset__label" w-i18n-ns="app.utils"
+                          w-i18n="modal.assetInfo.qualified"></span>
+                    <span ng-if="$ctrl.isGateway" class="asset__label" w-i18n-ns="app.utils"
+                          w-i18n="modal.assetInfo.gateway"></span>
+                    <span ng-if="$ctrl.isSuspicious" class="asset__label asset__label-suspicious"
+                          w-i18n="modal.assetInfo.suspicious"></span>
+                </h3>
+                <div ng-if="$ctrl.ticker" class="body-2 basic-500 asset__ticker">{{$ctrl.ticker}}</div>
+            </div>
+
+            <div class="chart-wrapper">
+                <w-asset-rate-chart ng-if="$ctrl.asset.id"
+                                    no-update="::true"
+                                    asset-id="::$ctrl.asset.id"></w-asset-rate-chart>
+                <div class="interactive-stop"></div>
+            </div>
+        </div>
+    </div>
+    <div class="warning-plate">
+        <div class="warning-text body-2 warning-500" w-i18n-ns="app.utils" w-i18n="modal.setAssetScript.unavailable"></div>
+    </div>
+
 </w-permit>

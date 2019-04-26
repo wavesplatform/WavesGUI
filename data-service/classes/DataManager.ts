@@ -18,9 +18,19 @@ export class DataManager {
     public transactions: UTXManager = new UTXManager();
     public pollControl: PollControl<TPollHash>;
     private _address: string;
+    private _silentMode: boolean = false;
 
     constructor() {
         this.pollControl = new PollControl<TPollHash>(() => this._createPolls());
+    }
+
+    public setSilentMode(silent: boolean): void {
+        this._silentMode = silent;
+        if (silent) {
+            this.pollControl.pause();
+        } else {
+            this.pollControl.play();
+        }
     }
 
     public applyAddress(address: string): void {

@@ -304,6 +304,11 @@
                 } else {
                     onHasMoneyHash();
                 }
+                this.receive(utils.observe(this.state, 'moneyHash'), () => {
+                    this._currentHasCommission();
+                    this._onChangeBaseAssets();
+                    this._updateGatewayDetails();
+                });
             }
 
             onSignCoinomatStart() {
