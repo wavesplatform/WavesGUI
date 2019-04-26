@@ -1,0 +1,20 @@
+<div class="line-wrapper grow">
+    <div class="status-label-min success" ng-if="$ctrl.props.isActive" w-i18n="transaction.headers.activeLeasing"></div>
+    <div class="status-label-min error" ng-if="!$ctrl.props.isActive" w-i18n="transaction.headers.canceled"></div>
+    <div class="line">
+        <div class="body-2 top fs-mobile">
+            <w-transaction-header type-name="$ctrl.typeName"></w-transaction-header>
+        </div>
+        <div class="footnote-1 bottom fs-mobile">
+            <w-transaction-subheader params="$ctrl.subheaderParams"
+                                     type-name="$ctrl.typeName"></w-transaction-subheader>
+        </div>
+    </div>
+    <div class="line">
+        <div class="body-2 top fs-mobile">
+            <w-transaction-amount params="$ctrl.amountParams"
+                                  type-name="$ctrl.typeName"></w-transaction-amount>
+        </div>
+    </div>
+</div>
+
