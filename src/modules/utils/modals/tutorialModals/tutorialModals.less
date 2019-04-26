@@ -75,6 +75,51 @@
   }
 }
 
+.tooltip {
+  display: none;
+  position: absolute;
+  padding: 0 10px;
+  top: 0;
+  right: 158px;
+  transform-origin: center;
+  transform: translate(50%, 8px);
+  z-index: 2;
+  padding-bottom: 20px;
+  color: @color-white;
+  font-size: @font-size-caption-2;
+  line-height: 28px;
+  cursor: pointer;
+
+  &::before {
+    position: absolute;
+    bottom: 17px;
+    left: calc(50% ~'- 5px');
+    width: 10px;
+    height: 10px;
+    content: '';
+    transform-origin: center;
+    transform: rotate(45deg);
+    background: @color-basic-700;
+    z-index: -1;
+  }
+
+  &::after {
+    border-radius: @border-radius;
+    position: absolute;
+    background: @color-basic-700;
+    width: 100%;
+    height: 28px;
+    content: '';
+    left: 0;
+    top: 0;
+    z-index: -1;
+  }
+
+  &:hover {
+    display: inline-block;
+  }
+}
+
 body md-dialog.tutorial-modals {
   .mobile-only {
     display: none;
@@ -143,6 +188,11 @@ body md-dialog.tutorial-modals {
         &:last-child {
           margin-top: 20px;
         }
+      }
+
+      .fake-button.long,
+      w-button.long {
+        min-width: 100%;
       }
     }
 

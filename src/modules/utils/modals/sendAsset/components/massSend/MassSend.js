@@ -15,6 +15,7 @@
     const controller = function (Base, readFile, $scope, utils, validateService, waves, user, decorators) {
 
         const Papa = require('papaparse');
+        const analytics = require('@waves/event-sender');
 
         class MassSend extends Base {
 
@@ -103,7 +104,7 @@
                     item.amount = this.state.moneyHash[assetId].cloneWithTokens(item.amount.toTokens());
                 });
                 this.tx.transfers = transfers;
-
+                analytics.send({ name: 'Mass Transfer Click', target: 'ui' });
                 const onHasMoneyHash = () => {
                     const changeTransfers = utils.observe(this.state.massSend, 'transfers');
                     const changeAssetId = utils.observe(this.state, 'assetId');
@@ -173,6 +174,7 @@
             }
 
             onTxSign(signable) {
+                analytics.send({ name: 'Mass Transfer Continue Click', target: 'ui' });
                 this.onContinue({ signable });
             }
 
@@ -414,10 +416,16 @@
              */
             static _parseAmount(amountString) {
                 const data = WavesApp.getLocaleData();
+                const validate = /^([0-9]+\.)?[0-9]+$/;
                 const amount = amountString
                     .replace(new RegExp(`\\${data.separators.group}`, 'g'), '')
                     .replace(new RegExp(`\\${data.separators.decimal}`), '.')
                     .replace(',', '.');
+
+                if (!validate.test(amount)) {
+                    return new BigNumber(0);
+                }
+
                 return new BigNumber(amount);
             }
 

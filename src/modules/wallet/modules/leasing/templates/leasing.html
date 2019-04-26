@@ -1,32 +1,35 @@
 <div w-i18n-ns="app.wallet.leasing" class="leasing-page">
     <div class="left-panel">
-
-        <w-leasing-block class="margin-1">
-            <div class="leasing-block__title center headline-4"
-                 w-i18n="chart.title"></div>
-            <div class="balance-container text-center margin-4">
-                <w-balance money="$ctrl.total"></w-balance>
-            </div>
-            <div class="chart-wrapper margin-3">
-                <w-circle-chart options="$ctrl.chartOptions" data="$ctrl.chartData"></w-circle-chart>
-            </div>
-            <div class="legend-container margin-2">
-                <div ng-repeat="legend in $ctrl.chartData track by legend.id"
-                     ng-if="!legend.value.getTokens().eq(0)"
-                     class="legend-item">
-                    <div class="part disabled-600 footnote-1">
-                        <div class="legend-color margin-right-1"
-                             style="background-color: {{::$ctrl.chartOptions.items[legend.id].color}}"></div>
-                        <span w-i18n="{{::legend.id}}"></span>
-                    </div>
-                    <div class="part">
-                        <w-balance money="legend.value"></w-balance>
+        <w-leasing-block class="noheader margin-1">
+            <div>
+                <div class="leasing-block-title headline-4">
+                    <span w-i18n="chart.title"></span>
+                </div>
+                <div class="balance-container text-center margin-4">
+                    <w-balance money="$ctrl.total"></w-balance>
+                </div>
+                <div class="chart-wrapper margin-3">
+                    <w-circle-chart options="$ctrl.chartOptions" data="$ctrl.chartData"></w-circle-chart>
+                </div>
+                <div class="legend-container margin-2">
+                    <div ng-repeat="legend in $ctrl.chartData track by legend.id"
+                         ng-if="!legend.value.getTokens().eq(0)"
+                         class="legend-item">
+                        <div class="part disabled-600 footnote-1">
+                            <div class="legend-color margin-right-1"
+                                 style="background-color: {{::$ctrl.chartOptions.items[legend.id].color}}"></div>
+                            <span w-i18n="{{::legend.id}}"></span>
+                        </div>
+                        <div class="part">
+                            <w-balance money="legend.value"></w-balance>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <w-button class="submit long" on-click="$ctrl.startLeasing()">
-                <span w-i18n="chart.create"></span>
-            </w-button>
+                <w-analytics event="'Leasing Start Click'" event-target="'ui'">
+                    <w-button class="submit long" on-click="$ctrl.startLeasing()">
+                        <span w-i18n="chart.create"></span>
+                    </w-button>
+                </w-analytics>
         </w-leasing-block>
 
         <w-expandable-block title="'description.title'">

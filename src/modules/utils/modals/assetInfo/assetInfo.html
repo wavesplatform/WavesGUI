@@ -3,7 +3,7 @@
         <div class="asset-modal__head-content">
             <w-asset-logo ng-cloak asset-id="{{::$ctrl.asset.id}}"
                           size="65"
-                          class="asset-modal__logo"></w-asset-logo>
+                          class="asset-modal__logo big"></w-asset-logo>
 
             <div class="asset-modal__data">
                 <h2 ng-cloak class="asset-modal__name basic-900" ng-class="{'has-label': $ctrl.hasLabel}">
@@ -72,17 +72,17 @@
             </div>
             <div class="line" ng-if="::$ctrl.link">
                 <div class="basic-500" w-i18n="modal.assetInfo.site"></div>
-                <a target="_blank" href="{{::$ctrl.link}}">{{::$ctrl.link}}</a>
+                <a target="_blank" rel="noopener noreferrer" href="{{::$ctrl.link}}">{{::$ctrl.link}}</a>
             </div>
             <div class="line" ng-if="::$ctrl.email">
                 <div class="basic-500" w-i18n="modal.assetInfo.email"></div>
-                <a target="_blank" href="mailto:{{::$ctrl.email}}">{{::$ctrl.email}}</a>
+                <a target="_blank" rel="noopener noreferrer" href="mailto:{{::$ctrl.email}}">{{::$ctrl.email}}</a>
             </div>
             <div class="line" ng-if="::$ctrl.provider">
                 <span class="basic-500" w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>
                 <span class="basic-900">{{::$ctrl.provider}}</span>
             </div>
-            <div ng-if="$ctrl.description" class="line margin-top-2 basic-900">
+            <div ng-if="$ctrl.description" class="asset-description line margin-top-2 basic-900">
                 {{::$ctrl.description}}
             </div>
 
