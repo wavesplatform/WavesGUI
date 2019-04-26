@@ -1,6 +1,6 @@
 import { createSecureServer } from 'http2';
 import { createServer } from 'https';
-import { route, parseArguments, stat, getLocales } from './ts-scripts/utils';
+import { route, parseArguments, stat, loadLocales } from './ts-scripts/utils';
 import { readFileSync, existsSync,mkdirSync } from 'fs';
 import { serialize, parse as parserCookie } from 'cookie';
 import { compile } from 'handlebars';
@@ -76,7 +76,7 @@ function createMyServer(port) {
     if (!existsSync(cachePath)){
         mkdirSync(cachePath);
     }
-    getLocales(cachePath);
+    loadLocales(cachePath);
 
     if (args.openUrl) {
         opn(url);

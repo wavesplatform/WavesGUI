@@ -537,10 +537,14 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
 
             if (existsSync(cachePath)) {
                 if (isModified(cachePath) && lang === 'ru' && ns === 'app') {
-                    getLocales(localePath)
+                    loadLocales(localePath)
                         .then(() => {
                             const data = readFileSync(cachePath);
                             res.end(data);
+                        })
+                        .catch(error => {
+                            res.statusCode = 404;
+                            res.end(error);
                         });
                 } else {
                     const data = readFileSync(cachePath);
@@ -761,7 +765,7 @@ function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, p
     stat(req, res, ROOTS);
 }
 
-export function getLocales(path: string, options?: object) {
+export function loadLocales(path: string, options?: object) {
     const postOptions = {
         method: 'POST',
         hostname: 'api.lokalise.co',
