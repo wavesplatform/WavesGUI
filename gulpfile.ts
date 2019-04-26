@@ -43,7 +43,7 @@ const configurations = Object.keys(meta.configurations);
 
 const SOURCE_FILES = getFilesFrom(join(__dirname, 'src'), '.js');
 const IMAGE_LIST = getFilesFrom(join(__dirname, 'src', 'img'), ['.png', '.svg', '.jpg'], (name, path) => path.indexOf('no-preload') === -1);
-const JSON_LIST = getFilesFrom(join(__digrname, 'src'), '.json');
+const JSON_LIST = getFilesFrom(join(__dirname, 'src'), '.json');
 
 const taskHash = {
     concat: [],
