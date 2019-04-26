@@ -2,7 +2,7 @@
     <div class="left-panel">
         <w-leasing-block class="noheader margin-1">
             <div>
-                <div class="leasing-block-title headline-4">
+                <div class="center basic-500 body-2">
                     <span w-i18n="chart.title"></span>
                 </div>
                 <div class="balance-container text-center margin-4">
@@ -29,27 +29,24 @@
                     <w-button class="submit long" on-click="$ctrl.startLeasing()">
                         <span w-i18n="chart.create"></span>
                     </w-button>
-                    <w-analytics/>
-        </w-leasing-block>
-        <w-leasing-block class="leasingNote" w-toggle-class-container>
-            <div class="transactions-title headline-4 basic-700">
-                <span w-i18n="description.title"></span>
-            </div>
-            <i class="collapse-trigger" w-toggle-class></i>
-            <div class="collapse-container" class="collapseable">
-                <div class="footnote-1 basic-500" w-i18n="description.text1"></div>
-                <div class="description-split"></div>
-                <div class="icon-description footnote-1 basic-500" w-i18n="description.text2"></div>
-                <div class="description-split"></div>
-                <div class="footnote-1 basic-500 margin-1" w-i18n="description.text3"></div>
-                <a class="link"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   ng-href="{{::$ctrl.nodeListLink}}">
-                    <span w-i18n="nodeListLink"></span>
-                </a>
+                </w-analytics>
             </div>
         </w-leasing-block>
+
+        <w-expandable-block title="'description.title'">
+            <div class="footnote-1 basic-500" w-i18n="description.text1"></div>
+            <div class="description-split"></div>
+            <div class="icon-description footnote-1 basic-500" w-i18n="description.text2"></div>
+            <div class="description-split"></div>
+            <div class="footnote-1 basic-500 margin-1" w-i18n="description.text3"></div>
+            <a class="link"
+               target="_blank"
+               rel="noopener noreferrer"
+               ng-href="{{::$ctrl.nodeListLink}}">
+                <span w-i18n="nodeListLink"></span>
+            </a>
+        </w-expandable-block>
+
     </div>
     <div class="transactions-container">
         <div w-i18n-ns="app.ui" class="controls margin-1">
