@@ -24,6 +24,7 @@
                     time: this.props.time,
                     address: this.props.shownAddress
                 };
+                this.isScam = this.props.isScam;
 
                 const TYPES = waves.node.transactions.TYPES;
 

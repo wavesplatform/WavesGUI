@@ -14,7 +14,8 @@
                 this.type = this.transaction.type;
                 this.props = {
                     ...this.transaction,
-                    time: $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm')
+                    time: $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm'),
+                    isScam: this.isScam
                 };
             }
 
@@ -30,7 +31,8 @@
     angular.module('app.ui').component('wTransactionInfoRow', {
         bindings: {
             transaction: '<',
-            datePattern: '<'
+            datePattern: '<',
+            isScam: '<'
         },
         templateUrl: 'modules/ui/directives/transaction/transaction-info-row.html',
         controller
