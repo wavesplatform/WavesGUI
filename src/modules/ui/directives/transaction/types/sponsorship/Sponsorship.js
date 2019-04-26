@@ -19,7 +19,6 @@
 
             $postLink() {
                 this.typeName = this.props.typeName;
-                this.sponsorshipFee = this.props.minSponsoredAssetFee;
                 this.assetName = this.getAssetName(
                     tsUtils.get(this.props, 'minSponsoredAssetFee.asset')
                 );

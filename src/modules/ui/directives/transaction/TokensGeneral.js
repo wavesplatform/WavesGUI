@@ -25,9 +25,8 @@
                     tsUtils.get(this.props, 'quantity.asset') ||
                     this.props
                 );
-                this.time = this.props.time;
                 this.name = tsUtils.get(this.props, 'amount.asset.name') ||
-                    tsUtils.get(this.props, 'quantity.asset.name');
+                            tsUtils.get(this.props, 'quantity.asset.name');
 
                 const amount = tsUtils.get(this.props, 'amount') || tsUtils.get(this.props, 'quantity');
                 this.amountParams = {
