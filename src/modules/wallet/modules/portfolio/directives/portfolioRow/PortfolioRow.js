@@ -346,9 +346,9 @@
                 }
 
                 if (balance.isOnScamList) {
-                    this.node.querySelector(`.${SELECTORS.CHANGE_24}`).innerHTML = '0.00%';
-                    this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '0.00';
-                    this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '0.00';
+                    this.node.querySelector(`.${SELECTORS.CHANGE_24}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
 
                     return null;
                 }
