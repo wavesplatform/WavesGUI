@@ -70,17 +70,9 @@
                 this._waves = null;
 
                 const {
-                    isVerified,
-                    isGateway,
-                    isTokenomica,
-                    ticker,
                     description
                 } = utils.getDataFromOracles(money.asset);
 
-                this.isVerified = isVerified;
-                this.isGateway = isGateway;
-                this.isTokenomica = isTokenomica;
-                this.ticker = ticker || money.asset.ticker;
                 this.description = description || money.asset.description;
 
                 const { TokenChangeModalCtrl = {} } = user.getThemeSettings();

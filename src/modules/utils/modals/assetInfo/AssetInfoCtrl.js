@@ -36,18 +36,10 @@
                 this.transactionsPending = true;
 
                 const {
-                    isVerified, isGateway, isTokenomica, isSuspicious,
-                    hasLabel, ticker, link, email, provider, description
+                    link, email, provider, description
                 } = utils.getDataFromOracles(this.asset.id);
 
-                this.isVerified = isVerified;
-                this.isGateway = isGateway;
-                this.isTokenomica = isTokenomica;
-                this.isSuspicious = isSuspicious;
-                this.hasLabel = hasLabel;
-
-                // this.ticker = path(['ticker'], data); // TODO STEP 2
-                this.ticker = this.asset.ticker || ticker; // TODO STEP 2
+                // this.ticker = path(['ticker'], data); // TODO STEP 2=
                 this.link = link;
                 this.email = email;
 
