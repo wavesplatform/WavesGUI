@@ -1,7 +1,7 @@
 import { createSecureServer } from 'http2';
 import { createServer } from 'https';
-import { route, parseArguments, stat, getLocales } from './ts-scripts/utils';
-import { readFileSync, existsSync, mkdirSync } from 'fs';
+import { route, parseArguments, stat, loadLocales } from './ts-scripts/utils';
+import { readFileSync, existsSync,mkdirSync } from 'fs';
 import { serialize, parse as parserCookie } from 'cookie';
 import { compile } from 'handlebars';
 import { parse } from 'url';
@@ -76,14 +76,7 @@ function createMyServer(port) {
     if (!existsSync(cachePath)) {
         mkdirSync(cachePath);
     }
-    getLocales(cachePath).then(() => {
-        const localesTimer = setInterval(function () {
-            getLocales(cachePath)
-                .catch(err => console.log(err))
-        }, 60 * 10000);
-
-        localesTimer.unref();
-    });
+    loadLocales(cachePath);
 
     if (args.openUrl) {
         opn(url);

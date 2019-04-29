@@ -165,7 +165,7 @@ w-input {
         }
 
         &.ng-touched {
-          &.ng-valid:not(:focus):not(.focus) {
+          &.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
             border-color: @color-success-300;
           }
           &.ng-invalid:not(:focus):not(.focus) {
@@ -251,7 +251,7 @@ w-input {
 
 form.ng-submitted {
   input[type="text"], input[type="password"], input[type="number"], textarea {
-    &.ng-invalid:not(.embed):not(:focus):not(.focus):not(.no-validate) {
+    &.ng-touched.ng-invalid:not(.embed):not(:focus):not(.focus):not(.no-validate) {
       border-color: @color-error-200;
     }
   }

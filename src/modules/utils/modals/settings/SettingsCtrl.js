@@ -51,7 +51,7 @@
                 user.setSetting('advancedMode', mode);
             }
 
-            assetsOracle = '';
+            oracleWaves = '';
             tab = 'general';
             address = user.address;
             publicKey = user.publicKey;
@@ -78,7 +78,7 @@
             supportLinkName = WavesApp.network.support.replace(/^https?:\/\//, '');
             blockHeight = 0;
             assetsOracleTmp = '';
-            oracleData = path(['oracle'], ds.dataManager.getOracleData());
+            oracleWavesData = path(['oracle'], ds.dataManager.getOracleData('oracleWaves'));
             oracleError = false;
             oraclePending = false;
             oracleSuccess = false;
@@ -101,10 +101,10 @@
                     withScam: 'withScam',
                     theme: 'theme',
                     candle: 'candle',
-                    assetsOracle: 'assetsOracle'
+                    oracleWaves: 'oracleWaves'
                 });
 
-                this.assetsOracleTmp = this.assetsOracle;
+                this.assetsOracleTmp = this.oracleWaves;
 
                 storage.load('openClientMode').then(mode => {
                     this.openClientMode = mode;
@@ -121,9 +121,9 @@
                     );
                 });
 
-                this.observe('assetsOracle', () => {
-                    ds.config.set('oracleAddress', this.assetsOracle);
-                    this.assetsOracleTmp = this.assetsOracle;
+                this.observe('oracleWaves', () => {
+                    ds.config.set('oracleWaves', this.oracleWaves);
+                    this.assetsOracleTmp = this.oracleWaves;
                 });
 
                 this.observe('assetsOracleTmp', () => {
@@ -132,9 +132,9 @@
                     ds.api.data.getOracleData(address)
                         .then(data => {
                             if (data.oracle) {
-                                this.oracleData = data.oracle;
-                                ds.config.set('oracleAddress', address);
-                                this.assetsOracle = this.assetsOracleTmp;
+                                this.oracleWavesData = data.oracle;
+                                ds.config.set('oracleWaves', address);
+                                this.oracleWaves = this.assetsOracleTmp;
                                 this.oracleError = false;
                                 this.oracleSuccess = true;
                                 setTimeout(() => {
@@ -215,7 +215,7 @@
                 this.matcher = WavesApp.network.matcher;
                 this.withScam = false;
                 this.scamListUrl = WavesApp.network.scamListUrl;
-                this.assetsOracle = WavesApp.oracle;
+                this.oracleWaves = WavesApp.oracles.waves;
             }
 
             showPairingWithMobile() {
