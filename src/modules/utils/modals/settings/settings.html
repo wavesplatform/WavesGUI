@@ -30,11 +30,6 @@
         <w-step-by-step active-step="$ctrl.tab">
             <w-step step-id="general" class="general">
 
-                <div class="row flex-row row-style unit-checkbox no-border">
-                    <w-checkbox-submit id="shareStat" ng-model="$ctrl.shareStat"></w-checkbox-submit>
-                    <label for="shareStat" w-i18n="modal.termsAccept.body.analytics"></label>
-                </div>
-
                 <w-web-only>
                     <div class="row flex-row row-style unit-checkbox no-border">
                         <w-checkbox-submit id="openLinkViaWeb" ng-model="$ctrl.openLinkViaWeb"></w-checkbox-submit>
@@ -114,6 +109,8 @@
                             <a class="label link"
                                w-i18n="modal.settings.pairing.showCodeLink"
                                w-modal-close
+                               w-analytics event="'Settings Pairing Code Click'"
+                               event-target="'ui'"
                                ng-click="$ctrl.showPairingWithMobile()"></a>
                         </div>
                     </div>
@@ -222,7 +219,7 @@
                                             </span>
                             </div>
                             <div class="help-icon__row">
-                                <a target="_blank" href="{{$ctrl.oracleData.link}}"
+                                <a target="_blank" rel="noopener noreferrer" href="{{$ctrl.oracleData.link}}"
                                    w-i18n="modal.settings.network.showMore"></a>
                             </div>
                         </w-help-icon>
@@ -262,10 +259,10 @@
                     </div>
 
                     <div class="data-field has-helper">
-                            <w-input ng-model="$ctrl.scamListUrl"></w-input>
-                            <w-help-icon class="info">
-                                <div class="help-icon__row headline-3" w-i18n="modal.settings.network.spamListHelp"></div>
-                            </w-help-icon>
+                        <w-input ng-model="$ctrl.scamListUrl"></w-input>
+                        <w-help-icon class="info">
+                            <div class="help-icon__row headline-3" w-i18n="modal.settings.network.spamListHelp"></div>
+                        </w-help-icon>
                     </div>
                 </div>
 
@@ -291,7 +288,19 @@
 
                 <div class="row flex-row row-style">
                     <div class="footnote-1 basic-500" w-i18n="modal.settings.info.support"></div>
-                    <div><a href="{{::$ctrl.supportLink}}" target="_blank">{{::$ctrl.supportLinkName}}</a></div>
+                    <div><a href="{{::$ctrl.supportLink}}"
+                            target="_blank"
+                            rel="noopener noreferrer">{{::$ctrl.supportLinkName}}</a></div>
+                </div>
+
+                <div class="row flex-row row-style">
+                    <div class="footnote-1 basic-500" w-i18n="modal.settings.info.legal"></div>
+                    <div class="basic-500">
+                        <a href="{{::$ctrl.termsAndConditionsLink}}" target="_blank" rel="noopener noreferrer">
+                        <span w-i18n="modal.settings.info.termsAndConditions"></span>
+                    </a>|<a href="{{::$ctrl.privacyPolicy}}" target="_blank" rel="noopener noreferrer">
+                        <span w-i18n="modal.settings.info.privacyPolicy"></span>
+                    </a></div>
                 </div>
 
                 <div class="row flex-row row-style solid-border">

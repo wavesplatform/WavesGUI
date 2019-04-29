@@ -62,7 +62,8 @@
 
     angular.module('app.ui').component('wMassTransferHeader', {
         bindings: {
-            signable: '<'
+            signable: '<',
+            isScam: '<'
         },
         controller,
         templateUrl: 'modules/ui/directives/transactionInfo/types/mass-transfer/header.html'

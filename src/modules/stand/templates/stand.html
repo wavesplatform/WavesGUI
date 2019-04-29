@@ -1,0 +1,402 @@
+<style>
+
+
+
+
+</style>
+
+<div class="stand">
+
+    <div class="components-wrapper">
+        <div class="column1">
+
+            <h1>Buttons</h1>
+
+            <w-button class="interface btn-send" on-click="$ctrl.showSend()">
+                <svg width="15px" height="14px" viewBox="0 0 15 14" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <path
+                        d="M15.7261538,5.95734828 L15.7261538,5.95734828 C15.9214159,6.15261042 15.9214159,6.46919291 15.7261538,6.66445506 L8.50013244,13.8904765 L1.3118034,6.70753193 C1.1164681,6.51234296 1.11634949,6.19576049 1.31153846,6.0004252 L1.31153846,6.0004252 C1.50672743,5.80508991 1.8233099,5.8049713 2.01864519,6.00016027 L8.49986756,12.4765278 L15.019047,5.95734828 C15.2143092,5.76208613 15.5308917,5.76208613 15.7261538,5.95734828 Z"
+                        id="Shape-Copy-2"
+                        transform="translate(8.518912, 9.747136) scale(-1, 1) rotate(-180.000000) translate(-8.518912, -9.747136) "></path>
+                    <path
+                        d="M8.49986756,7.47652778 L15.019047,0.957348251 C15.2143092,0.762086104 15.5308917,0.762086102 15.7261538,0.957348247 L15.7261538,0.957348247 C15.9214159,1.15261039 15.9214159,1.46919288 15.7261538,1.66445503 L8.50013244,8.89047647 L1.31180339,1.70753191 C1.1164681,1.51234293 1.11634949,1.19576047 1.31153846,1.00042518 L1.31153846,1.00042518 C1.50672744,0.805089886 1.8233099,0.804971272 2.01864519,1.00016024 L8.49986756,7.47652778 Z"
+                        id="Shape-Copy-3"
+                        transform="translate(8.518912, 4.747136) scale(-1, 1) rotate(-180.000000) translate(-8.518912, -4.747136) "></path>
+                </svg>
+                <span class="btn-icon">Send</span>
+            </w-button>
+
+            <div class="margin-2"></div>
+
+            <w-button class="small submit">
+                <span class="button">Small</span>
+            </w-button>
+
+            <div class="margin-2"></div>
+
+            <w-button class="tiny submit">
+                <span class="button">Tiny</span>
+            </w-button>
+
+            <div class="margin-2"></div>
+            <w-button class="medium submit">
+                <span class="button">Medium</span>
+            </w-button>
+
+                                        <!-- add candy effect-->
+
+            <div class="margin-2"></div>
+
+            <w-button class="big long submit">
+                <span class="button">Big button</span>
+            </w-button>
+
+            <div class="margin-2"></div>
+
+            <w-button class="big long warning">
+                <span class="button">Big warning</span>
+            </w-button>
+
+            <div class="margin-2"></div>
+
+            <w-button class="big long bordered">
+                <span class="button">bordered</span>
+            </w-button>
+
+            <div class="margin-2"></div>
+
+            <div class="flex">
+                <span class="margin-right-1">Expand button</span>
+                <w-expand-btn btn-txt="99"></w-expand-btn>
+            </div>
+
+            <div class="margin-2"></div>
+
+            <h1>Selects</h1>
+
+            <w-change-language></w-change-language>
+
+            <div class="margin-2"></div>
+
+            <div class="body-2">Select title</div>
+            <w-select class="with-scroll select__no-usuer-select"> <!-- .with-scroll / select__no-usuer-select --->
+                <w-option><span>Default</span></w-option>
+                <w-option><span>Value 1</span></w-option>
+                <w-option><span>Value 2</span></w-option>
+                <w-option><span>Value 3</span></w-option>
+                <w-option><span>Value 4</span></w-option>
+                <w-option><span>Value 4</span></w-option>
+            </w-select>
+
+            <div class="margin-2"></div>
+
+            <w-select class="big long">
+                <w-option>Big</w-option>
+                <w-option>option 2</w-option>
+                <w-option>option 3</w-option>
+                <w-option>option 4</w-option>
+                <w-option>option 5</w-option>
+            </w-select>
+
+            <div class="margin-2"></div>
+
+            <w-select class="big long" disabled>
+                <w-option>Big disabled</w-option>
+                <w-option>option 2</w-option>
+                <w-option>option 3</w-option>
+                <w-option>option 4</w-option>
+                <w-option>option 5</w-option>
+            </w-select>
+
+            <div class="margin-2"></div>
+
+            <w-select class="long interface">
+                <w-option>Interface</w-option>
+                <w-option>option 2</w-option>
+                <w-option>option 3</w-option>
+                <w-option>option 4</w-option>
+                <w-option>option 5</w-option>
+            </w-select>
+
+            <div class="margin-2"></div>
+
+            <w-select class="long interface" disabled>
+                <w-option>Interface disabled</w-option>
+                <w-option>option 2</w-option>
+                <w-option>option 3</w-option>
+                <w-option>option 4</w-option>
+                <w-option>option 5</w-option>
+            </w-select>
+
+            <div class="margin-2"></div>
+
+            <div class="body-2">Select with filter title</div>
+            <w-select class="big long">
+                <w-select-filter></w-select-filter>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/bitcoin.svg" />Bitcoin</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/waves.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/bitcoin-cash.svg" />Bitcoin</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/bitcoin-cash-sv.svg" />Bitcoin</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/euro.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/usd.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/ltc.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/ethereum.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/zec.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/xmr.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/try.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/wnet.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/efyt.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/dash.svg" />Waves</w-option>
+            </w-select>
+
+            <div class="margin-2"></div>
+
+            <h1>Inputs</h1>
+
+            <div class="body-2">Input title</div>
+            <w-input type="text" class="big long"></w-input>
+
+            <div class="margin-2"></div>
+
+            <div class="body-2">Textarea title</div>
+            <w-input textarea="true"
+                     name="textarea"
+                     ng-model="$ctrl.tx.attachment"
+                     class="normal"></w-input> <!-- .normal /.tall / .large / .medium -->
+
+            <div class="margin-2"></div>
+
+            <form action="action">
+                <w-input-container>
+                    <div class="input-like input-like-with-select">
+                        <w-input type="text"
+                                 class="medium"
+                                 ng-model="$ctrl.inputModel"></w-input>
+
+                        <w-select class="no-user-select tiny" ng-model="$ctrl.selectModel">
+                            <w-option>
+                                <span class="caption-1 mobile-caption-4 basic-700">Value 1</span>
+                            </w-option>
+                            <w-option>
+                                <span class="caption-1 mobile-caption-4 basic-700">Value 2</span>
+                            </w-option>
+                        </w-select>
+                    </div>
+                </w-input-container>
+            </form>
+
+            <div class="margin-2"></div>
+
+            <div class="unit-checkbox">
+                <w-checkbox-submit id="check1" ng-model="$ctrl.checkboxModel1"></w-checkbox-submit>
+                <label for="check1">Checkbox</label>
+
+                <w-checkbox-submit id="check2" checked ng-model="$ctrl.checkboxModel2"></w-checkbox-submit>
+                <label for="check2">Checkbox checked</label>
+            </div>
+
+            <div class="margin-2"></div>
+
+            <div class="input-toggle" ng-class="{active: $ctrl.hasAssetScript}">
+                <w-checkbox-submit id="has-script"
+                                   name="has-script"
+                                   ng-model="$ctrl.hasAssetScript">
+                </w-checkbox-submit>
+                <label for="has-script" class="margin-right-1"></label>
+                <div ng-if="$ctrl.hasAssetScript" class="footnote-1">ON</div>
+                <div ng-if="!$ctrl.hasAssetScript" class="footnote-1">OFF</div>
+            </div>
+
+            <div class="margin-6"></div>
+
+        </div>
+        <div class="column2">
+
+            <h1>Errors</h1>
+
+            <form novalidate name="$ctrl.form">
+                <w-input-container>
+                    <w-input class="long"
+                             placeholder="I'm inValid input"
+                             name="invalid"
+                             type="text"
+                             w-validate
+                             ng-model="$ctrl.inputModel"
+                             w-validator-custom="{{$ctrl.invalid}}"
+                             required></w-input>
+                    <span class="error-500 body-2">This field is requied</span>
+
+                    <div class="margin-2"></div>
+
+                    <w-input class="long"
+                             placeholder="I'm inValid input"
+                             name="invalid"
+                             type="text"
+                             w-validate
+                             ng-model="$ctrl.inputModel"
+                             w-validator-custom="{{$ctrl.invalid}}"
+                             required></w-input>
+
+                    <w-input-error>
+                        <span>This field is requied</span>
+                    </w-input-error>
+
+                    <div class="margin-6"></div>
+
+                    <w-input class="big long"
+                             placeholder="I'm inValid input with multierror"
+                             name="invalid"
+                             type="text"
+                             w-validate
+                             ng-model="$ctrl.inputModel"
+                             w-validator-custom="{{$ctrl.invalid}}"
+                             required></w-input>
+
+                    <w-input-error class="multiline">
+                        <span class="error-list-row">First error</span>
+                        <span class="error-list-row">Second error</span>
+                        <span class="error-list-row">Another error</span>
+                        <span class="error-list-row">One more error</span>
+                    </w-input-error>
+
+                </w-input-container>
+            </form>
+
+
+            <w-error-block></w-error-block>
+
+            <h1>Empty block</h1>
+
+            <w-empty-block></w-empty-block>
+
+            <div class="margin-2"></div>
+
+            <h1>Loader</h1>
+
+            <div class="relative-wrapper"> <!-- any relative block -->
+                <w-loader></w-loader>
+            </div>
+
+            <div class="margin-2"></div>
+
+            <h1>Helpers</h1>
+
+            <div class="relative body-2">
+                <span>Some title</span>
+                <w-help-icon>
+                    <div class="help-icon__row headline-3">Helper header</div>
+                    <div class="help-icon__row">Helper description first row</div>
+                    <div class="help-icon__row">Helper description second row</div>
+                    <div class="help-icon__row">Helper description third row</div>
+                </w-help-icon>
+            </div>
+
+            <div class="relative body-2">
+                <span>Some title Info</span>
+                <w-help-icon class="info">
+                    <div class="help-icon__row headline-3">Helper header</div>
+                    <div class="help-icon__row">Helper description first row</div>
+                    <div class="help-icon__row">Helper description second row</div>
+                    <div class="help-icon__row">Helper description third row</div>
+                </w-help-icon>
+            </div>
+
+        </div>
+
+        <div class="column3">
+
+            <h1>Tags & Labels</h1>
+
+            <div class="flex margin-2">
+
+                <div class="status-label" ng-class="{success: $ctrl.success}">SUCCESS</div>
+
+                <div class="margin-right-2"></div>
+
+                <div class="status-label" ng-class="{warning: $ctrl.warning}">WARNING</div>
+
+                <div class="margin-right-2"></div>
+
+                <div class="status-label" ng-class="{error: $ctrl.error}">ERROR</div>
+
+                <div class="margin-right-2"></div>
+
+                <span class="status-label" ng-class="{active: $ctrl.active}">ACTIVE</span>
+
+                <div class="margin-right-2"></div>
+
+                <span class="status-label" ng-class="{inactive: $ctrl.inactive}">INACTIVE</span>
+
+            </div>
+
+            <div class="flex">
+
+                <div class="status-label-min" ng-class="{success: $ctrl.success}">SUCCESS</div>
+
+                <div class="margin-right-2"></div>
+
+                <div class="status-label-min" ng-class="{warning: $ctrl.warning}">WARNING</div>
+
+                <div class="margin-right-2"></div>
+
+                <div class="status-label-min" ng-class="{error: $ctrl.error}">ERROR</div>
+
+                <div class="margin-right-2"></div>
+
+                <span class="status-label-min" ng-class="{active: $ctrl.active}">ACTIVE</span>
+
+                <div class="margin-right-2"></div>
+
+                <span class="status-label-min" ng-class="{inactive: $ctrl.inactive}">INACTIVE</span>
+
+            </div>
+
+            <div class="margin-4"></div>
+            <h1>Plates</h1>
+
+                <div class="plate-transparent">
+                    <div class="body-2 basic-700">Plate-transparent</div>
+                    <div class="footnote-1 basic-500">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen <a class="link" href="#">book</a>.</div>
+                </div>
+
+                <div class="margin-2"></div>
+
+                <div class="plate-note">
+                    <div class="body-2 basic-700">Plate-note</div>
+                    <div class="footnote-1 basic-500">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen <a class="link" href="#">book</a>.</div>
+                </div>
+
+                <div class="margin-2"></div>
+
+                <div class="plate-warning">
+                    <div class="body-2 warning-500">Plate-warningr</div>
+                    <div class="footnote-1 basic-500">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen <a class="link" href="#">book</a>.</div>
+                </div>
+
+                <div class="margin-2"></div>
+
+                <div class="plate-error">
+                    <div class="body-2 error-500">Plate-error</div>
+                    <div class="footnote-1 basic-500">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen <a class="link" href="#">book</a>.</div>
+                </div>
+
+            <div class="margin-2"></div>
+
+            <h1>Actions</h1>
+
+            <div class="relative-wrapper">
+                <w-actions class="actions">
+                    <w-action><span>Action 1</span></w-action>
+                    <w-action><span>Action 3</span></w-action>
+                    <w-action ><span>Action 4</span></w-action>
+                    <div w-copy="">
+                        <w-action><span>Copy</span></w-action>
+                    </div>
+                </w-actions>
+            </div>
+
+            <div class="margin-2"></div>
+        </div>
+    </div>
+</div>

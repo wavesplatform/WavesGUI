@@ -1,7 +1,6 @@
 import { request } from '../utils/request';
 import { parse } from '../api/matcher/getOrders';
 import { get } from '../config';
-import { addOrderToStore, removeOrderFromStore } from '../store';
 import { stringifyJSON } from "../utils/utils";
 
 
@@ -39,7 +38,6 @@ export function createOrderSend(txData) {
                 filled: 0
             }]);
         })
-        .then(addOrderToStore);
 }
 
 export function cancelOrderSend(txData, amountId, priceId, type: 'cancel' | 'delete' = 'cancel') {
@@ -54,7 +52,6 @@ export function cancelOrderSend(txData, amountId, priceId, type: 'cancel' | 'del
             body: stringifyJSON(txData)
         }
     }).then((data) => {
-        removeOrderFromStore({ id: txData.orderId });
         return data;
     });
 }

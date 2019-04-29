@@ -3,16 +3,19 @@
 <h3 class="basic-700 try-desktop-modal__title try-desktop-modal__center"
     w-i18n="modal.tryDesktop.title"></h3>
 
-<div class="body-2 basic-500 try-desktop-modal__message margin-3 try-desktop-modal__center"
-     w-i18n="modal.tryDesktop.message"></div>
+<w-delegate event="'click'" selector="'a'" handler="$ctrl.onOpenLink()">
+    <div class="body-2 basic-500 try-desktop-modal__message margin-3 try-desktop-modal__center"
+         w-i18n="modal.tryDesktop.message"></div>
+</w-delegate>
 
-<div class="try-desktop-modal__buttons-wrapper headline-2 margin-4">
+<div class="buttons-wrapper headline-2 margin-4">
     <w-button class="try-desktop-modal__button big"
               on-click="$ctrl.tryWeb()" w-modal-close>
         <span w-i18n="modal.tryDesktop.cancel"></span>
     </w-button>
     <a class="try-desktop-modal__button fake-button"
        target="_blank"
+       rel="noopener noreferrer"
        ng-click="$ctrl.tryDesktop()" w-modal-hide>
         <span w-i18n="modal.tryDesktop.try" class="big submit fake-button-content"></span>
     </a>

@@ -31,7 +31,8 @@
 
     angular.module('app.ui').component('wReissueHeader', {
         bindings: {
-            signable: '<'
+            signable: '<',
+            isScam: '<'
         },
         controller,
         templateUrl: 'modules/ui/directives/transactionInfo/types/reissue/reissue-header.html'

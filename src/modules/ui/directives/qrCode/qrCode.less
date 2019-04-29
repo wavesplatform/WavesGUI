@@ -1,0 +1,39 @@
+@import (reference) 'config';
+
+.qr-wrapper {
+  transition: all .3s;
+  height: auto;
+
+  w-qr-code {
+    display: block;
+    margin: @qr-margin;
+    text-align: center;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    transition: all .3s;
+    box-shadow: 0 0 0 5px #FFF;
+    border-radius: 1px;
+
+    .qr-code-wrap,
+    img {
+      width: 200px;
+      height: 200px;
+      transition: all .3s;
+      cursor: pointer;
+    }
+  }
+
+  &.zoomed-in {
+    w-qr-code {
+      width: 400px;
+      height: 400px;
+
+      .qr-code-wrap,
+      img {
+        width: 400px;
+        height: 400px;
+      }
+    }
+  }
+}

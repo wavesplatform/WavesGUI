@@ -123,7 +123,7 @@
                     throw new Error(`Locale parser: Wrong url protocol! ${url.protocol}`);
                 }
 
-                return `<a href="${content}" target="_blank">${main}</a>`;
+                return `<a href="${content}" target="_blank" rel="noopener noreferrer">${main}</a>`;
             } catch (e) {
                 return '';
             }

@@ -18,7 +18,13 @@
 
         const { flatten } = require('ramda');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const analytics = require('@waves/event-sender');
 
+        const ANALYTICS_TABS_NAMES = {
+            details: 'View Details',
+            JSON: 'JSON',
+            export: 'Export'
+        };
 
         class ConfirmTransaction extends ConfirmTxService {
 
@@ -45,6 +51,16 @@
                 this.isSetScript = this.type === SIGN_TYPE.SET_SCRIPT && tx.script;
                 this.isTockenIssue = this.type === SIGN_TYPE.ISSUE;
 
+                if (this.isAnyTx) {
+                    this.observe('activeTab', () => {
+                        const name = `Wallet Assets JSON ${ANALYTICS_TABS_NAMES[this.activeTab]} Show`;
+                        analytics.send({ name, target: 'ui' });
+                    });
+                }
+
+                const NAME = this.getEventName(tx);
+                analytics.send({ name: `${NAME} Info Show`, target: 'ui' });
+
                 this.signable.hasMySignature().then(state => {
                     this.step = state ? 1 : 0;
                     $scope.$apply();
@@ -52,6 +68,11 @@
             }
 
             sendTransaction() {
+                if (this.isAnyTx) {
+                    const name = `Wallet Assets JSON ${ANALYTICS_TABS_NAMES[this.activeTab]} Send Click`;
+                    analytics.send({ name, target: 'ui' });
+                }
+                analytics.send(this._getConfirmAnalytics(this.signable.getTxData(), true));
                 return super.sendTransaction().then(data => {
                     this.onTransactionSend();
                     return data;
@@ -69,9 +90,38 @@
                 return this.signable;
             }
 
+            getSignableAndSendEvent() {
+                switch (this.signable.type) {
+                    case 14:
+                        analytics.send({ name: 'Disable Sponsorship Continue Click', target: 'ui' });
+                        break;
+                    case 9:
+                        analytics.send({ name: 'Leasing Cancel Sign Click', target: 'ui' });
+                        break;
+                    default:
+                        break;
+                }
+                return this.signable;
+            }
+
             nextStep() {
                 this.step++;
                 this.initExportLink();
+            }
+
+            /**
+             * @param data
+             * @param success
+             * @private
+             * @return {{name: string, params: {type: *}, target: string}}
+             */
+            _getConfirmAnalytics(data, isOnSendClick) {
+                const NAME = this.getEventName(data);
+                const name = isOnSendClick ?
+                    `${NAME} Info Send Click` :
+                    `${NAME} Info Go Back Click`;
+
+                return { name, params: { type: data.type }, target: 'ui' };
             }
 
             /**
@@ -157,6 +207,14 @@
                 return errors;
             }
 
+            /**
+             * @public
+             */
+            back() {
+                analytics.send(this._getConfirmAnalytics(this.signable.getTxData(), false));
+                this.onClickBack();
+            }
+
 
             static _getPermissionNameByTx(type) {
                 switch (type) {
@@ -217,7 +275,9 @@
             noBackButton: '<',
             warning: '<',
             onTransactionSend: '&',
-            referrer: '<'
+            referrer: '<',
+            activeTab: '<',
+            isAnyTx: '<'
         },
         templateUrl: 'modules/ui/directives/confirmTransaction/confirmTransaction.html',
         transclude: false,

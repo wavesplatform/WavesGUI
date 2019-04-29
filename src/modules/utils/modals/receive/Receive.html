@@ -39,14 +39,14 @@
                                     </w-select>
                                 </div>
 
-                                <div class="warning-plate margin-1" ng-if="!$ctrl.gatewayServerError">
+                                <div class="plate-warning margin-1" ng-if="!$ctrl.gatewayServerError">
                                     <div class="body-2 warning-500"
                                          w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningTitle"></div>
                                     <div class="footnote-1 basic-500"
                                          w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningText"></div>
                                 </div>
 
-                                <div class="warning-plate" ng-if="!$ctrl.gatewayServerError">
+                                <div class="plate-warning" ng-if="!$ctrl.gatewayServerError">
                                     <div class="body-2 warning-500"
                                          w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountTitle"></div>
                                     <div class="footnote-1 basic-500"
@@ -89,7 +89,7 @@
                                     <w-loader ng-if="!$ctrl.gatewayAddress"></w-loader>
                                 </div>
 
-                                <div class="warning-plate server-error" ng-if="$ctrl.gatewayServerError">
+                                <div class="plate-warning server-error" ng-if="$ctrl.gatewayServerError">
                                     <div class="body-2 warning-500"
                                          w-i18n="modal.receive.serverError"></div>
                                 </div>
@@ -269,7 +269,7 @@
                                             <span w-i18n="modal.receive.youWillGet"></span>
                                         </div>
 
-                                        <div class="note-plate body-2">
+                                        <div class="plate-note body-2">
                                             <span ng-if="$ctrl.approximateAmount"
                                                   w-i18n="money-currency"
                                                   params="{money: $ctrl.approximateAmount}"></span>
@@ -279,7 +279,7 @@
 
                                 </form>
 
-                                <a href="{{$ctrl.indacoinLink}}" target="_blank">
+                                <a href="{{$ctrl.indacoinLink}}" target="_blank" rel="noopener noreferrer">
                                     <w-button disabled="card.$invalid" class="big submit long"
                                               on-click="$ctrl.confirmIndacoin()">
                                         <span w-i18n="modal.receive.card.continue"></span>

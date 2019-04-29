@@ -25,12 +25,15 @@
              * @type {Signal<string>}
              */
             change = new Signal();
+            /**
+             * @type Promise<IConfig>
+             */
+            configReady;
 
 
             constructor() {
                 super();
-
-                createPoll(this, this._getConfig, this._setConfig, 30000);
+                this.configReady = createPoll(this, this._getConfig, this._setConfig, 30000);
                 createPoll(this, this._getFeeConfig, this._setFeeConfig, 30000);
             }
 
@@ -138,6 +141,7 @@
  * @typedef {object} ConfigService#IConfig
  * @property {object} PERMISSIONS
  * @property {object} SETTINGS
+ * @property {boolean} SERVICE_TEMPORARILY_UNAVAILABLE
  * @property {object} SETTINGS.DEX
  * @property {Array<string>} SETTINGS.DEX.WATCH_LIST_PAIRS
  */

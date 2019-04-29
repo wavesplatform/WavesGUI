@@ -11,6 +11,8 @@
      */
     const controller = function (Base, $element, utils, i18n, dexDataService) {
 
+        const analytics = require('@waves/event-sender');
+
         class DexBlock extends Base {
 
             constructor() {
@@ -67,12 +69,14 @@
                     this.collapsed = !collapsed;
                     utils.wait(100)
                         .then(() => {
+                            analytics.send({ name: `${this.analyticsText} Show`, target: 'ui' });
                             this._parent.collapseBlock(this.block, this.collapsed);
                         });
                 } else {
                     this._parent.collapseBlock(this.block, !this.collapsed);
                     utils.wait(300)
                         .then(() => {
+                            analytics.send({ name: `${this.analyticsText} Hide`, target: 'ui' });
                             this.collapsed = !collapsed;
                         });
                 }
@@ -94,7 +98,8 @@
                 titleLiteral: '@titleName',
                 block: '@',
                 hasSearch: '@',
-                canCollapse: '@'
+                canCollapse: '@',
+                analyticsText: '<'
             },
             templateUrl: 'modules/dex/directives/dexBlock/dexBlock.html',
             transclude: true,

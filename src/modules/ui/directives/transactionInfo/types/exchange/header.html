@@ -1,16 +1,27 @@
 <div class="txinfo__lead">
-    <h3 class="basic-700"
-        w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
-        params="{
+    <div class="exchange-header-row">
+        <h3 class="basic-700"
+            w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
+            params="{
           sign: $ctrl.signAmount,
           amount: $ctrl.transaction.amount.toFormat(),
           name: $ctrl.transaction.amount.asset.name
-        }"></h3>
-    <div class="body-2 basic-500"
-         w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
-         params="{
+        }">
+        </h3>
+        <span ng-if="$ctrl.isScamAmount"
+              class="status-label-min inactive"
+              w-i18n="transaction.headers.suspicious"></span>
+    </div>
+    <div class="exchange-header-row">
+        <div class="body-2 basic-500"
+             w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
+             params="{
            sign: $ctrl.signPrice,
            amount: $ctrl.totalPrice,
            name: $ctrl.transaction.price.asset.name
          }"></div>
+        <span ng-if="$ctrl.isScamPrice"
+              class="status-label-min inactive"
+              w-i18n="transaction.headers.suspicious"></span>
+    </div>
 </div>
