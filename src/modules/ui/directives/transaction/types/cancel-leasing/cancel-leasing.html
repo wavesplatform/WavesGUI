@@ -2,17 +2,19 @@
     <div class="status-label-min error" w-i18n="transaction.headers.canceled"></div>
     <div class="line">
         <div class="body-2 top fs-mobile">
-            <w-transaction-header type-name="$ctrl.typeName"></w-transaction-header>
+            <span w-i18n="transaction.headers.cancel-leasing"></span>
         </div>
         <div class="footnote-1 bottom fs-mobile">
-            <w-transaction-subheader params="$ctrl.subheaderParams"
-                                     type-name="$ctrl.typeName"></w-transaction-subheader>
+            <span w-i18n="transaction.subheaders.cancel-leasing"
+                  params="{time: $ctrl.props.time,
+                           transactionId: $ctrl.props.leaseId}"></span>
         </div>
     </div>
     <div class="line">
         <div class="body-2 top fs-mobile">
-            <w-transaction-amount params="$ctrl.amountParams"
-                                  type-name="$ctrl.typeName"></w-transaction-amount>
+            <span w-i18n="transaction.amounts.cancel-leasing"
+                  params="{amount: $ctrl.props.lease.amount.toFormat(),
+                           name: $ctrl.props.lease.amount.asset.name}"></span>
         </div>
     </div>
 </div>

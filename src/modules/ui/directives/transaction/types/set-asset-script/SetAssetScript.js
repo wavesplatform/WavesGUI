@@ -16,13 +16,9 @@
             props = null;
 
             $postLink() {
-                this.typeName = this.props.typeName;
-                this.subheaderParams = {
-                    time: this.props.time
-                };
                 if (this.props.assetId) {
                     waves.node.assets.getAsset(this.props.assetId).then(asset => {
-                        this.subheaderParams.name = asset.name;
+                        this.name = asset.name;
                     });
                 }
             }

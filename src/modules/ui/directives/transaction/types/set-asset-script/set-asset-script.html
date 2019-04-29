@@ -1,11 +1,11 @@
 <div class="line-wrapper">
     <div class="line">
         <div class="body-2 top fs-mobile">
-            <w-transaction-header type-name="$ctrl.typeName"></w-transaction-header>
+            <span w-i18n="transaction.headers.set-asset-script"></span>
             <span class="spam-label" w-i18n="transaction.headers.suspicious"></span>
             <div class="footnote-1 bottom fs-mobile">
-                <w-transaction-subheader params="$ctrl.subheaderParams"
-                                         type-name="$ctrl.typeName"></w-transaction-subheader>
+                <span w-i18n="transaction.subheaders.set-asset-script"
+                      params="{time: $ctrl.props.time, name: $ctrl.name}"></span>
             </div>
         </div>
     </div>

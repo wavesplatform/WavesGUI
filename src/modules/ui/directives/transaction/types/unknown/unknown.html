@@ -1,13 +1,13 @@
 <div class="line-wrapper">
     <div class="line">
         <div class="body-2 top fs-mobile">
-            <w-transaction-header type-name="$ctrl.typeName"></w-transaction-header>
+            <span w-i18n="transaction.headers.unknown"></span>
         </div>
     </div>
     <div class="line">
         <div class="footnote-1 bottom fs-mobile">
-            <w-transaction-subheader params="$ctrl.subheaderParams"
-                                     type-name="$ctrl.typeName"></w-transaction-subheader>
+            <span w-i18n="transaction.subheaders.unknown"
+                  params="{time: $ctrl.props.time}"></span>
         </div>
     </div>
 </div>
