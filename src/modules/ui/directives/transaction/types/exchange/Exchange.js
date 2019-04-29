@@ -22,9 +22,6 @@
                 this.priceAssetName = this.getAssetName(this.props.price.asset);
                 this.isScamAmount = !!user.scam[this.props.amount.asset];
                 this.isScamPrice = !!user.scam[this.props.price.asset];
-                this.subheaderParams = {
-                    time: this.props.time
-                };
                 this.amountParams = {
                     sign: this.typeName === 'exchange-buy' ? '+' : '–',
                     amount: this.props.amount.toFormat(),

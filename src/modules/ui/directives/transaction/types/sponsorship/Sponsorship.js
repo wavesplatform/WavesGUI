@@ -18,11 +18,9 @@
             props = null;
 
             $postLink() {
-                this.typeName = this.props.typeName;
                 this.assetName = this.getAssetName(
                     tsUtils.get(this.props, 'minSponsoredAssetFee.asset')
                 );
-                this.time = this.props.time;
             }
 
             /**

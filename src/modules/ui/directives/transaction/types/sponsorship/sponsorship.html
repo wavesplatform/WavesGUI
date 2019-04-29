@@ -1,11 +1,11 @@
 <div class="line-wrapper">
     <div class="line">
         <div class="body-2 top fs-mobile">
-            <w-transaction-header type-name="$ctrl.typeName" asset-name="$ctrl.assetName"></w-transaction-header>
+            <span w-i18n="transaction.headers.{{::$ctrl.props.typeName}}" params="{name: $ctrl.assetName}"></span>
             <span class="spam-label" w-i18n="transaction.headers.suspicious"></span>
         </div>
         <div class="footnote-1 bottom fs-mobile">
-            <span>{{::$ctrl.time}}</span>
+            <span>{{::$ctrl.props.time}}</span>
         </div>
     </div>
     <div class="line"></div>

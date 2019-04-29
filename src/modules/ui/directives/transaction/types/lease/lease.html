@@ -3,17 +3,18 @@
     <div class="status-label-min error" ng-if="!$ctrl.props.isActive" w-i18n="transaction.headers.canceled"></div>
     <div class="line">
         <div class="body-2 top fs-mobile">
-            <w-transaction-header type-name="$ctrl.typeName"></w-transaction-header>
+            <span w-i18n="transaction.headers.{{::$ctrl.props.typeName}}"></span>
         </div>
         <div class="footnote-1 bottom fs-mobile">
-            <w-transaction-subheader params="$ctrl.subheaderParams"
-                                     type-name="$ctrl.typeName"></w-transaction-subheader>
+            <span w-i18n="transaction.subheaders.{{::$ctrl.props.typeName}}"
+                  params="{time: $ctrl.props.time, address: $ctrl.props.shownAddress}"></span>
         </div>
     </div>
     <div class="line">
         <div class="body-2 top fs-mobile">
-            <w-transaction-amount params="$ctrl.amountParams"
-                                  type-name="$ctrl.typeName"></w-transaction-amount>
+            <span w-i18n="transaction.amounts.{{::$ctrl.props.typeName}}"
+                  params="{amount: $ctrl.props.amount.toFormat(),
+                    name: $ctrl.props.amount.asset.name}"></span>
         </div>
     </div>
 </div>
