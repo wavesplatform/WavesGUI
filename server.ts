@@ -154,7 +154,12 @@ function wavesClientConfig(req, res, next) {
     }
     let response_json = { error: 'oops' };
 
-    const path = join(__dirname, 'mocks/waves-client-config/master/config.json');
+    const connection: string = parseCookie(req.headers.cookie).connection;
+    const path = join(
+        __dirname,
+        `mocks/waves-client-config/master/${connection === 'mainnet' ? '' : 'testnet.'}config.json`
+    );
+
     if (fs.existsSync(path)) {
         response_json = JSON.parse(fs.readFileSync(path, 'utf8')) || '';
     }

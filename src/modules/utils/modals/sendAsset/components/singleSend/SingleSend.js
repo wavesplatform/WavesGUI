@@ -142,7 +142,7 @@
 
             get isCoinomatAccepted() {
                 return configService
-                    .get('PERMISSIONS.CAN_TRANSFER_COINOMAT').indexOf(this.balance.asset.displayName) !== -1;
+                    .get('PERMISSIONS.CAN_TRANSFER_COINOMAT').indexOf(this.balance.asset.id) !== -1;
             }
 
             get isBankAccepted() {
