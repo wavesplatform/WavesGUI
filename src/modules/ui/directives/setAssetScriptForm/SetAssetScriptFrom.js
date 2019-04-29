@@ -3,9 +3,6 @@
 
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const { signature } = require('data-service');
-    const { STATUS_LIST } = require('@waves/oracle-data');
-    const { path } = require('ramda');
-    const ds = require('data-service');
     const $ = require('jquery');
 
     /**
@@ -15,7 +12,7 @@
      * @param {User} user
      * @param {BalanceWatcher} balanceWatcher
      */
-    const controller = function (Base, waves, $scope, user, balanceWatcher) {
+    const controller = function (Base, waves, $scope, user, balanceWatcher, utils) {
 
         const analytics = require('@waves/event-sender');
 
@@ -151,11 +148,18 @@
                     if (!asset.hasScript) {
                         throw new Error('This asset has no script!');
                     }
-                    const data = ds.dataManager.getOracleAssetData(asset.id);
-                    this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
-                    this.isGateway = path(['status'], data) === 3;
-                    this.isSuspicious = user.scam[asset.id];
-                    this.hasLabel = this.isVerified || this.isGateway || this.isSuspicious;
+                    const {
+                        isVerified,
+                        isGateway,
+                        isTokenomica,
+                        isSuspicious,
+                        hasLabel
+                    } = utils.getDataFromOracles(asset.id);
+                    this.isVerified = isVerified;
+                    this.isGateway = isGateway;
+                    this.isTokenomica = isTokenomica;
+                    this.isSuspicious = isSuspicious;
+                    this.hasLabel = hasLabel;
                     this.asset = asset;
                     $scope.$apply();
                 });
@@ -197,7 +201,7 @@
         return new SetAssetScriptFrom();
     };
 
-    controller.$inject = ['Base', 'waves', '$scope', 'user', 'balanceWatcher'];
+    controller.$inject = ['Base', 'waves', '$scope', 'user', 'balanceWatcher', 'utils'];
 
     angular.module('app.ui').component('wSetAssetScriptFrom', {
         bindings: {
