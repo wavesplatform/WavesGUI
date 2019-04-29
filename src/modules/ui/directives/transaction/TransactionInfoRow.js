@@ -17,6 +17,10 @@
                     time: $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm'),
                     isScam: this.isScam
                 };
+
+                setTimeout(() => {
+                    this.props.isScam = this.isScam;
+                }, 0);
             }
 
         }
