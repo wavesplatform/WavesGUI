@@ -5,6 +5,67 @@
 @cell-height: 64px;
 @responsive-cell-height: auto;
 
+.search {
+  &-wrapper {
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+  }
+
+  &-input {
+    background: @input-search-icon 8px center no-repeat @color-white;
+    height: 100%;
+    width: 100%;
+    padding-left: 31px;
+    cursor: pointer;
+    color: @color-disabled-900;
+    transition: .3s;
+    border: 1px solid transparent;
+    font-size: @font-size-caption-2;
+
+    &:focus {
+      border-color: @color-submit-300;
+      cursor: default;
+    }
+  }
+}
+
+.portfolio {
+  .smart-table {
+    .search-input {
+      width: 36px;
+      border-radius: @border-radius;
+      margin-right: 10px;
+      text-indent: -999px;
+      border-color: @color-basic-200;
+      z-index: 1;
+      background-position: 10px center;
+      padding-left: 35px;
+      .footnote-1();
+
+      &:focus {
+        width: 200px;
+        text-indent: 0;
+        border-color: @color-submit-300;
+      }
+
+      &.not-empty {
+        border-color: @color-submit-300;
+      }
+    }
+  }
+}
+
+.dex {
+  .smart-table {
+    .search-input {
+      &:focus {
+        border-color: transparent;
+      }
+    }
+  }
+}
+
 .smart-table {
   display: block;
   height: 100%;
@@ -139,32 +200,7 @@
         left: 20px;
         top: 13px;
         z-index: 1;
-
-        input {
-          height: 36px;
-          width: 36px;
-          border-radius: @border-radius;
-          color: @color-disabled-900;
-          background: @input-search-icon 10px center no-repeat @color-white;
-          border: 1px solid @color-basic-200;
-          cursor: pointer;
-          margin-right: 10px;
-          transition: .3s;
-          font-size: 0;
-          z-index: 1;
-
-          &:focus {
-            width: 200px;
-            padding-left: 35px;
-            cursor: default;
-            border-color: @color-submit-300;
-            .footnote-1();
-          }
-
-          &.not-empty {
-            border-color: @color-submit-300;
-          }
-        }
+        height: 36px;
       }
     }
 
