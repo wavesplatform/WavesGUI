@@ -1529,7 +1529,7 @@
                     case SIGN_TYPE.MASS_TRANSFER:
                         return utils.isMyPublicKey(tx.senderPublicKey) ? TYPES.MASS_SEND : TYPES.MASS_RECEIVE;
                     case SIGN_TYPE.EXCHANGE:
-                        return tx.exchangeType === 'buy' ? TYPES.EXCHANGE_BUY : TYPES.EXCHANGE_SELL;
+                        return utils.typOfExchange(tx);
                     case SIGN_TYPE.LEASE:
                         return utils.isMyPublicKey(tx.senderPublicKey) ? TYPES.LEASE_OUT : TYPES.LEASE_IN;
                     case SIGN_TYPE.CANCEL_LEASING:
@@ -1550,9 +1550,21 @@
                         return tx.minSponsoredAssetFee.getCoins().gt(0) ? SPONSOR_START : SPONSOR_STOP;
                     case SIGN_TYPE.SET_ASSET_SCRIPT:
                         return TYPES.SET_ASSET_SCRIPT;
+                    case SIGN_TYPE.SCRIPT_INVOCATION:
+                        return TYPES.SCRIPT_INVOCATION;
                     default:
                         return TYPES.UNKNOWN;
                 }
+            },
+
+            /**
+             * @name app.utils#typOfExchange
+             * @param tx
+             * @return string
+             */
+            typOfExchange({ exchangeType }) {
+                const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
+                return exchangeType === 'buy' ? TYPES.EXCHANGE_BUY : TYPES.EXCHANGE_SELL;
             },
 
             /**
