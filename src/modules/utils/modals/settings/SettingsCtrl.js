@@ -60,7 +60,7 @@
             node = '';
             matcher = '';
             scamListUrl = '';
-            withScam = false;
+            dontShowSpam = true;
             theme = user.getSetting('theme');
             candle = user.getSetting('candle');
             templatePromise = $templateRequest('modules/utils/modals/settings/loader.html');
@@ -98,10 +98,11 @@
                     matcher: 'network.matcher',
                     logoutAfterMin: 'logoutAfterMin',
                     scamListUrl: 'scamListUrl',
-                    withScam: 'withScam',
+                    dontShowSpam: 'dontShowSpam',
                     theme: 'theme',
                     candle: 'candle',
                     oracleWaves: 'oracleWaves'
+
                 });
 
                 this.assetsOracleTmp = this.oracleWaves;
@@ -156,12 +157,12 @@
                 //     user.changeCandle(this.candle);
                 // });
 
-                this.observe('withScam', () => {
-                    const withScam = this.withScam;
-                    if (withScam) {
-                        waves.node.assets.giveMyScamBack();
-                    } else {
+                this.observe('dontShowSpam', () => {
+                    const dontShowSpam = this.dontShowSpam;
+                    if (dontShowSpam) {
                         waves.node.assets.stopScam();
+                    } else {
+                        waves.node.assets.giveMyScamBack();
                     }
                 });
 
@@ -213,7 +214,7 @@
             setNetworkDefault() {
                 this.node = WavesApp.network.node;
                 this.matcher = WavesApp.network.matcher;
-                this.withScam = false;
+                this.dontShowSpam = true;
                 this.scamListUrl = WavesApp.network.scamListUrl;
                 this.oracleWaves = WavesApp.oracles.waves;
             }
