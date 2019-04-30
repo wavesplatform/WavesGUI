@@ -54,7 +54,6 @@
              */
             getCopyAllData() {
                 const tx = this.transaction;
-
                 const id = `Transaction ID: ${tx.id}`;
                 const type = `Type: ${tx.type} (${this.typeName})`;
 

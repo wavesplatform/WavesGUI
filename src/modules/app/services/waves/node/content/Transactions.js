@@ -120,7 +120,6 @@
              */
             _pipeTransaction() {
                 return (tx) => {
-
                     tx.timestamp = new Date(tx.timestamp);
                     tx.typeName = utils.getTransactionTypeName(tx);
                     tx.templateType = Transactions._getTemplateType(tx);
@@ -218,7 +217,7 @@
                     case TYPES.SPONSORSHIP_FEE:
                         return 'sponsorship_fee';
                     case TYPES.SCRIPT_INVOCATION:
-                        return 'script_invocation';
+                        return 'script-invocation';
                     case TYPES.UNKNOWN:
                         return 'unknown';
                     default:
