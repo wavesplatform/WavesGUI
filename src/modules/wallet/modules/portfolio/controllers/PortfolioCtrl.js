@@ -137,7 +137,6 @@
 
                 balanceWatcher.ready
                     .then(() => {
-
                         const onChange = () => {
                             this._updateBalances();
                             visibleService.updateSort();
@@ -156,6 +155,7 @@
                     this.observe('filter', this._onChangeDetails);
 
                     this._onChangeDetails();
+                    utils.safeApply($scope);
                 });
 
                 this.receive(stService.sort, () => {
@@ -309,7 +309,7 @@
                         };
                     })
                     .reduce((acc, item) => {
-                        const oracleData = ds.dataManager.getOracleAssetData(item.asset.id);
+                        const oracleData = ds.dataManager.getOraclesAssetData(item.asset.id);
 
                         if (item.asset.sender === user.address) {
                             acc.my.push(item);

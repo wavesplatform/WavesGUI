@@ -131,17 +131,17 @@ export function moveTo(path: string): (relativePath: string) => string {
 
 export function replaceScripts(file: string, paths: Array<string>): string {
     return file.replace('<!-- JAVASCRIPT -->',
-        paths.map((path) => `<script src="${ path }"></script>`).join('\n')
+        paths.map((path) => `<script src="${path}"></script>`).join('\n')
     );
 }
 
 export function replaceStyles(file: string, paths: Array<{ theme: string, name: string, hasGet?: boolean }>): string {
     return file.replace('<!-- CSS -->', paths.map(({ theme, name, hasGet }) => {
         if (hasGet) {
-            return `<link ${ theme ? `theme="${ theme }"` : '' } rel="stylesheet" href="${ name }?theme=${ theme || '' }">`;
+            return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}?theme=${theme || ''}">`;
         }
 
-        return `<link ${ theme ? `theme="${ theme }"` : '' } rel="stylesheet" href="${ name }">`;
+        return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}">`;
     }).join('\n'));
 }
 
@@ -160,14 +160,14 @@ export function getScripts(param: IPrepareHTMLOptions, pack, meta) {
         const sourceFiles = getFilesFrom(join(__dirname, '../src'), '.js', function (name, path) {
             return !name.includes('.spec') && !path.includes('/test/');
         });
-        const cacheKiller = `?v${ pack.version }`;
+        const cacheKiller = `?v${pack.version}`;
         scripts = meta.vendors.map((i) => join(__dirname, '..', i)).concat(sourceFiles);
         meta.debugInjections.forEach((path) => {
             scripts.unshift(join(__dirname, '../', path));
         });
-        scripts = scripts.map((path) => `${ path }${ cacheKiller }`);
+        scripts = scripts.map((path) => `${path}${cacheKiller}`);
     }
-    return scripts.map(filter).map(path => `<script src="${ path }"></script>`);
+    return scripts.map(filter).map(path => `<script src="${path}"></script>`);
 }
 
 export function getStyles(param: IPrepareHTMLOptions, meta, themes) {
@@ -182,20 +182,20 @@ export function getStyles(param: IPrepareHTMLOptions, meta, themes) {
                 const name = filter(style);
 
                 if (!isLess(style)) {
-                    styles.push({ name: `/${ name }`, theme: null });
+                    styles.push({ name: `/${name}`, theme: null });
                     break;
                 }
-                styles.push({ name: `/${ name }`, theme, hasGet: true });
+                styles.push({ name: `/${name}`, theme, hasGet: true });
             }
         }
     }
 
     return styles.map(({ theme, name, hasGet }) => {
         if (hasGet) {
-            return `<link ${ theme ? `theme="${ theme }"` : '' } rel="stylesheet" href="${ name }?theme=${ theme || '' }">`;
+            return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}?theme=${theme || ''}">`;
         }
 
-        return `<link ${ theme ? `theme="${ theme }"` : '' } rel="stylesheet" href="${ name }">`;
+        return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}">`;
     });
 }
 
@@ -221,14 +221,14 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
     const isWeb = type === 'web';
     const isProduction = buildType && buildType === 'min';
     const matcherPriorityList = connection === 'mainnet' ? MAINNET_DATA : TESTNET_DATA;
-    const { origin, oracle, feeConfigUrl, bankRecipient } = config;
+    const { origin, oracles, feeConfigUrl, bankRecipient } = config;
 
     return {
         pack,
         isWeb,
         origin,
         analyticsIframe,
-        oracle,
+        oracles,
         domain,
         styles,
         scripts,
@@ -473,7 +473,7 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
     const func = initConfig.toString();
     const conf = JSON.stringify(config, null, 4);
 
-    return `(${ func })(${ conf })`;
+    return `(${func})(${conf})`;
 }
 
 export function route(connectionType: TConnection, buildType: TBuild, type: TPlatform) {
@@ -483,7 +483,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
         if (url.includes('/package.json')) {
             res.end(readFileSync(join(__dirname, '..', 'package.json')));
         } else if (isTradingView(url)) {
-            get(`https://client.wavesplatform.com/${ url }`, (resp: IncomingMessage) => {
+            get(`https://client.wavesplatform.com/${url}`, (resp: IncomingMessage) => {
                 let data = new Buffer('');
 
                 // A chunk of data has been recieved.
@@ -525,11 +525,35 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                 .replace(/\?.*/, '')
                 .replace('.json', '')
                 .split('/');
-            const cachePath = join(process.cwd(), '.cache-download', 'locale', lang, `${ ns }.json`);
+
+            const localePath = join(process.cwd(), '.cache-download', 'locale');
+            const cachePath = join(localePath, lang, `${ns}.json`);
+
+            const isModified = path => {
+                const { mtime } = statSync(path);
+                const dateNow = new Date();
+                return (dateNow.getTime() - mtime.getTime()) > 60 * 10000;
+            };
 
             if (existsSync(cachePath)) {
-                const data = readFileSync(cachePath);
-                res.end(data);
+                if (isModified(cachePath) && lang === 'ru' && ns === 'app') {
+                    loadLocales(localePath)
+                        .then(() => {
+                            const data = readFileSync(cachePath);
+                            res.end(data);
+                        })
+                        .catch(error => {
+                            res.statusCode = 404;
+                            res.end(error);
+                        });
+                } else {
+                    const data = readFileSync(cachePath);
+                    res.end(data);
+                }
+
+            } else {
+                res.statusCode = 404;
+                res.end('Not found!');
             }
             return null;
         }
@@ -568,7 +592,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                 .then((style) => {
                     (render as any)(style, {
                         filename: join(__dirname, '../src', url),
-                        paths: join(__dirname, `../src/themeConfig/${ theme }`)
+                        paths: join(__dirname, `../src/themeConfig/${theme}`)
                     } as any)
                         .then(function (out) {
                             res.setHeader('Content-type', 'text/css');
@@ -616,7 +640,7 @@ export function getRouter() {
     const mocks = getFilesFrom(join(__dirname, '../api'), '.js');
     const routes = Object.create(null);
     mocks.forEach((path) => {
-        routes[`/${ moveTo(join(__dirname, '..'))(path).replace('.js', '.json') }`] = require(path);
+        routes[`/${moveTo(join(__dirname, '..'))(path).replace('.js', '.json')}`] = require(path);
     });
     return routes;
 }
@@ -702,7 +726,7 @@ export function isPage(url: string): boolean {
         'init.js'
     ];
     return !staticPathPartial.some((path) => {
-        return url.includes(`/${ path }`);
+        return url.includes(`/${path}`);
     });
 }
 
@@ -741,7 +765,7 @@ function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, p
     stat(req, res, ROOTS);
 }
 
-export function getLocales(path: string, options?: object) {
+export function loadLocales(path: string, options?: object) {
     const postOptions = {
         method: 'POST',
         hostname: 'api.lokalise.co',
@@ -776,7 +800,7 @@ export function getLocales(path: string, options?: object) {
                     get(url, (response) => {
                         response.pipe(file);
                         response.on('end', () => {
-                            extract(filePath, { dir: `${ path }/` }, error => {
+                            extract(filePath, { dir: `${path}/` }, error => {
                                 if (error) {
                                     reject(error);
                                 }
@@ -806,7 +830,7 @@ export function getLocales(path: string, options?: object) {
                 }
             });
         })
-        .catch(err => console.error(`Locales did not loaded: ${ err }`));
+        .catch(err => console.error(`Locales did not loaded: ${err}`));
 }
 
 export interface IRouteOptions {

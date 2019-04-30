@@ -1,12 +1,9 @@
 <div class="desktop-page" w-i18n-ns="app.desktop">
 
     <div class="desktop-page__controls">
-        <i class="icon-information"></i>
-        <span ng-click="$ctrl.showTutorialModals()"
-              w-i18n-ns="app.welcome"
-              w-i18n="infoTooltip"
-              class="tooltip">
-        </span>
+        <w-info-tooltip ng-click="$ctrl.showTutorialModals()" class="important-information">
+            <span class="tooltip__content" w-i18n-ns="app.welcome" w-i18n="infoTooltip"></span>
+        </w-info-tooltip>
         <w-change-language></w-change-language>
     </div>
 

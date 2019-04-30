@@ -10,8 +10,8 @@ export class Poll<T> {
 
     public lastData: T;
 
+    private readonly _timeout: number;
     private _api: IPollAPI<T>;
-    private _timeout: number;
     private _timer: number;
 
 
@@ -20,6 +20,15 @@ export class Poll<T> {
         this._timeout = timeout;
 
         this._run();
+    }
+
+    public pause(): void {
+        this._clear();
+    }
+
+    public play(): void {
+        this._clear();
+        this._run()
     }
 
     public getDataPromise(): Promise<T> {

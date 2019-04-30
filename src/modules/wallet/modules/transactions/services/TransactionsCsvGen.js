@@ -113,9 +113,10 @@
                 if (window.navigator && typeof window.navigator.msSaveOrOpenBlob === 'function') {
                     this._downloadInMsEdge(csv, name);
                 } else {
-                    const content = encodeURI(`data:text/csv;charset=utf-8,${csv}`);
+                    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                    const url = URL.createObjectURL(blob);
                     const link = document.createElement('a');
-                    link.setAttribute('href', content);
+                    link.setAttribute('href', url);
                     link.setAttribute('download', name);
                     link.setAttribute('target', '_blank');
                     link.style.position = 'absolute';
