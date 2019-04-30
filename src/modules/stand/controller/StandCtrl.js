@@ -7,7 +7,7 @@
      * @param $scope
      * @return {StandCtrl}
      */
-        const controller = function (Base, $scope, userNotification, notification) {
+    const controller = function (Base, $scope, userNotification, notification) {
 
         class StandCtrl extends Base {
 
