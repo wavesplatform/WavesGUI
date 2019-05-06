@@ -1,13 +1,21 @@
 <div class="line-wrapper">
-    <!--<div class="line">-->
-        <!--<div class="body-2 top fs-mobile">-->
-            <!--<w-transaction-header type-name="$ctrl.typeName"></w-transaction-header>-->
-            <!--<span class="spam-label" w-i18n="transaction.headers.suspicious"></span>-->
-        <!--</div>-->
-        <!--<div class="footnote-1 bottom fs-mobile">-->
-            <!--<w-transaction-subheader params="$ctrl.subheaderParams"-->
-                                     <!--type-name="$ctrl.typeName"></w-transaction-subheader>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--<div class="line"></div>-->
+    <div class="line">
+        <div class="body-2 top fs-mobile">
+            <span w-i18n="transaction.headers.{{::$ctrl.props.typeName}}"></span>
+        </div>
+        <div class="footnote-1 bottom fs-mobile">
+            <span w-i18n="transaction.subheaders.{{::$ctrl.props.typeName}}"
+                  params="{time: $ctrl.props.time, address: $ctrl.props.dappAddress}"></span>
+        </div>
+    </div>
+    <div class="line">
+        <div class="body-2 top fs-mobile">
+            <span w-i18n="transaction.amounts.{{::$ctrl.props.typeName}}"
+                  params="$ctrl.props.amount.toFormat()"></span>
+        </div>
+        <div class="footnote-1 bottom fs-mobile">
+            <span w-i18n="transaction.amounts.{{::$ctrl.props.typeName}}"
+                  params="$ctrl.mirrorBalanceParams"></span>
+        </div>
+    </div>
 </div>
