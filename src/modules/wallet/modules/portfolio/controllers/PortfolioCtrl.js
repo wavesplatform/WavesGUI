@@ -317,20 +317,21 @@
                         const oracleData = ds.dataManager.getOraclesAssetData(item.asset.id);
                         const spam = item.isOnScamList || item.isSpam;
 
-                        if (item.asset.sender === user.address) {
-                            acc.my.push(item);
-                        }
                         if (oracleData && oracleData.status > 0) {
                             acc.verified.push(item);
                         }
 
-                        if (this.dontShowSpam) {
-                            if (!spam) {
+                        if (spam) {
+                            if (!this.dontShowSpam) {
+                                if (item.asset.sender === user.address) {
+                                    acc.my.push(item);
+                                }
+                                acc.spam.push(item);
                                 acc.active.push(item);
                             }
                         } else {
-                            if (spam) {
-                                acc.spam.push(item);
+                            if (item.asset.sender === user.address) {
+                                acc.my.push(item);
                             }
                             acc.active.push(item);
                         }
