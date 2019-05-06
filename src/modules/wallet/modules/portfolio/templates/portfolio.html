@@ -39,7 +39,7 @@
                       w-i18n-ns="app.wallet.portfolio"
                       params="{count: $ctrl.details.verified.length || 0}"></span>
             </w-option>
-            <w-option value="::'spam'">
+            <w-option value="::'spam'" ng-if="!$ctrl.dontShowSpam">
                 <span w-i18n="spamselect"
                       w-i18n-ns="app.wallet.portfolio"
                       params="{count: $ctrl.details.spam.length || 0}"></span>

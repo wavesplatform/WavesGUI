@@ -341,7 +341,8 @@
                         hasBackup,
                         lng: i18next.language,
                         theme: themes.getDefaultTheme(),
-                        candle: 'blue'
+                        candle: 'blue',
+                        dontShowSpam: true
                     }
                 }).then(() => {
                     if (restore) {

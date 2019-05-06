@@ -81,6 +81,10 @@
                  * @type {boolean}
                  */
                 this.pending = true;
+                /**
+                 * @type {boolean}
+                 */
+                this.dontShowSpam = user.getSetting('dontShowSpam');
 
                 waves.node.assets.getAsset(this.mirrorId)
                     .then((mirror) => {
@@ -132,7 +136,8 @@
                 this.syncSettings({
                     pinned: 'pinnedAssetIdList',
                     spam: 'wallet.portfolio.spam',
-                    filter: 'wallet.portfolio.filter'
+                    filter: 'wallet.portfolio.filter',
+                    dontShowSpam: 'dontShowSpam'
                 });
 
                 balanceWatcher.ready
@@ -144,7 +149,7 @@
 
                         this.receive(balanceWatcher.change, onChange);
                         this.receive(utils.observe(user, 'scam'), onChange);
-                        this.observe(['pinned', 'spam'], onChange);
+                        this.observe(['pinned', 'spam', 'dontShowSpam'], onChange);
 
                         this._updateBalances();
                     });
@@ -310,6 +315,7 @@
                     })
                     .reduce((acc, item) => {
                         const oracleData = ds.dataManager.getOraclesAssetData(item.asset.id);
+                        const spam = item.isOnScamList || item.isSpam;
 
                         if (item.asset.sender === user.address) {
                             acc.my.push(item);
@@ -317,9 +323,15 @@
                         if (oracleData && oracleData.status > 0) {
                             acc.verified.push(item);
                         }
-                        if (item.isOnScamList || item.isSpam) {
-                            acc.spam.push(item);
+
+                        if (this.dontShowSpam) {
+                            if (!spam) {
+                                acc.active.push(item);
+                            }
                         } else {
+                            if (spam) {
+                                acc.spam.push(item);
+                            }
                             acc.active.push(item);
                         }
 

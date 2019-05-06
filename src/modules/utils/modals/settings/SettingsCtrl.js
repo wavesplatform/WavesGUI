@@ -159,11 +159,12 @@
 
                 this.observe('dontShowSpam', () => {
                     const dontShowSpam = this.dontShowSpam;
-                    if (dontShowSpam) {
-                        waves.node.assets.stopScam();
-                    } else {
-                        waves.node.assets.giveMyScamBack();
-                    }
+                    // if (dontShowSpam) {
+                    //     waves.node.assets.stopScam();
+                    // } else {
+                    //     waves.node.assets.giveMyScamBack();
+                    // }
+                    user.setSetting('dontShowSpam', dontShowSpam);
                 });
 
                 this.observe(['node', 'matcher'], () => {
