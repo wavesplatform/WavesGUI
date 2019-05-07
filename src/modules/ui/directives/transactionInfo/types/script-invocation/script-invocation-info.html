@@ -1,0 +1,27 @@
+<div class="txinfo__row">
+    <div class="txinfo__key" w-i18n="transaction.modals.function"></div>
+    <div class="txinfo__value">{{::$ctrl.function}}</div>
+</div>
+<div class="txinfo__row">
+    <div class="txinfo__key" w-i18n="transaction.modals.functionCall"></div>
+    <div class="txinfo__value" w-i18n="transaction.modals.show"
+         ng-click="$ctrl.dataVisible = !$ctrl.dataVisible"></div>
+</div>
+
+<div class="txinfo__data">
+    <div class="transaction-details invoke-args-list ng-hide" ng-show="$ctrl.dataVisible">
+        <ul ng-class="{'show-all': $ctrl.allVisible}">
+            <li class="transaction-details__item invoke-args-list__item" ng-repeat="arg in $ctrl.args track by $index">
+                <span class="invoke-args-list__item-key">{{::arg.type}}</span>
+                <span class="invoke-args-list__item-value">{{::arg.value}}</span>
+            </li>
+        </ul>
+        <span class="copy-code" w-copy="::$ctrl.args" w-i18n="transaction.modals.copyCode"></span>
+        <span class="see-all" ng-click="$ctrl.allVisible = !$ctrl.allVisible" w-i18n="transaction.modals.seeAll"></span>
+    </div>
+</div>
+
+<w-transaction-info-general height="$ctrl.transaction.height"
+                            timestamp="$ctrl.transaction.timestamp"
+                            id="$ctrl.id"
+                            fee="$ctrl.transaction.fee"></w-transaction-info-general>
