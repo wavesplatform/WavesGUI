@@ -16,13 +16,25 @@
         const { SIGN_TYPE } = require('@waves/signature-adapter');
         class Transaction extends Base {
 
-            $postLink() {
-                this.typeName = this.transaction.typeName;
+            setScam() {
                 this.isScam = !!user.scam[this.transaction.assetId];
                 if (this.transaction.type === 7) {
                     this.isScamAmount = !!user.scam[this.transaction.amount.asset];
                     this.isScamPrice = !!user.scam[this.transaction.price.asset];
                 }
+            }
+
+            $postLink() {
+                this.typeName = this.transaction.typeName;
+                this.setScam();
+
+                this.syncSettings({
+                    scam: 'scam'
+                });
+
+                this.observe('scam', () => {
+                    this.setScam();
+                });
 
             }
 
