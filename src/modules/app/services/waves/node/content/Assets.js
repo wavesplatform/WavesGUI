@@ -170,6 +170,7 @@
             _setScamAssetList(hash) {
                 if (!equals(hash, user.scam)) {
                     user.scam = hash;
+                    user.setSetting('scam', hash);
                 }
             }
 
