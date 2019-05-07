@@ -19,8 +19,9 @@
             setScam() {
                 this.isScam = !!user.scam[this.transaction.assetId];
                 if (this.transaction.type === 7) {
-                    this.isScamAmount = !!user.scam[this.transaction.amount.asset];
-                    this.isScamPrice = !!user.scam[this.transaction.price.asset];
+                    const isScamAmount = !!user.scam[this.transaction.amount.asset];
+                    const isScamPrice = !!user.scam[this.transaction.price.asset];
+                    this.isScam = this.isScam || isScamAmount || isScamPrice;
                 }
             }
 
@@ -35,7 +36,6 @@
                 this.observe('scam', () => {
                     this.setScam();
                 });
-
             }
 
             cancelLeasing() {

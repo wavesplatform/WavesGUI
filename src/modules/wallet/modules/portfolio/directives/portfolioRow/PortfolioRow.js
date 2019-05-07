@@ -347,6 +347,14 @@
                     return null;
                 }
 
+                if (balance.isOnScamList) {
+                    this.node.querySelector(`.${SELECTORS.CHANGE_24}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
+
+                    return null;
+                }
+
                 this.waves.utils.getChange(balance.asset.id, baseAssetId)
                     .then(change24 => {
                         const change24Node = this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
