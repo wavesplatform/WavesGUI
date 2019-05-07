@@ -1,18 +1,19 @@
 <div class="txinfo__row">
     <div class="txinfo__key" w-i18n="transaction.modals.function"></div>
-    <div class="txinfo__value">{{::$ctrl.function}}</div>
+    <div class="txinfo__value">{{::$ctrl.transaction.call.function}}</div>
 </div>
+
 <div class="txinfo__row">
     <div class="txinfo__key" w-i18n="transaction.modals.functionCall"></div>
     <div class="txinfo__value"
          w-i18n="{{$ctrl.dataVisible ? 'transaction.modals.hide' : 'transaction.modals.show'}}"
          ng-click="$ctrl.dataVisible = !$ctrl.dataVisible"></div>
 </div>
-
-<div class="txinfo__data">
+<div class="txinfo__data" ng-if="$ctrl.transaction.call.args">
     <div class="transaction-details invoke-args-list ng-hide" ng-show="$ctrl.dataVisible">
         <ul ng-class="{'show-all': $ctrl.allVisible}">
-            <li class="transaction-details__item invoke-args-list__item" ng-repeat="arg in $ctrl.args track by $index">
+            <li class="transaction-details__item invoke-args-list__item"
+                ng-repeat="arg in $ctrl.transaction.call.args track by $index">
                 <span class="invoke-args-list__item-key">{{::arg.type}}</span>
                 <span class="invoke-args-list__item-value">{{::arg.value}}</span>
             </li>
@@ -21,6 +22,19 @@
         <span class="see-all" ng-click="$ctrl.allVisible = !$ctrl.allVisible" w-i18n="transaction.modals.seeAll"></span>
     </div>
 </div>
+<div class="txinfo__row">
+    <div class="txinfo__key" w-i18n="transaction.modals.scriptAddress"></div>
+    <div class="txinfo__value">{{::$ctrl.transaction.dappAddress}}</div>
+</div>
+<div class="txinfo__row" ng-if="$ctrl.transaction.payment.length > 0">
+    <div class="txinfo__key" w-i18n="transaction.modals.payment"></div>
+    <div class="txinfo__value">{{::$ctrl.payment}} </div>
+</div>
+<div class="txinfo__row">
+    <div class="txinfo__key" w-i18n="transaction.modals.txId"></div>
+    <div class="txinfo__value">{{::$ctrl.transaction.id}}</div>
+</div>
+
 
 <w-transaction-info-general height="$ctrl.transaction.height"
                             timestamp="$ctrl.transaction.timestamp"

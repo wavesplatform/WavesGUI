@@ -2,7 +2,6 @@
     'use strict';
 
     /**
-     * @param {$rootScope.Scope} $scope
      * @return {DataInfo}
      */
     const controller = function () {
@@ -29,15 +28,21 @@
              * @type {string}
              */
             json;
+            /**
+             * @type {string}
+             */
+            payment;
 
 
             $postLink() {
                 this.transaction = this.signable.getTxData();
-                this.args = this.transaction.call.args;
-                this.function = this.transaction.call.function;
                 this.signable.getDataForApi().then(json => {
                     this.json = WavesApp.stringifyJSON(json, null, 4);
                 });
+                if (this.transaction.payment.length > 0) {
+                    const payment = this.transaction.payment[0];
+                    this.payment = `${payment.getTokens().toFormat()} ${payment.asset.displayName}`;
+                }
             }
 
         }
