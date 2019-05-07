@@ -1,5 +1,6 @@
 @import (reference) '../../../app/less/typography';
 @import (reference) "../../../app/less/app-icons";
+@import (reference) '../../../app/less/app';
 @import (reference) 'config';
 @import (reference) 'icons';
 
@@ -193,6 +194,11 @@ w-transaction-info-header + w-transaction-info-general {
       &__data {
         max-height: 140px;
         overflow: scroll;
+      }
+
+      &__button {
+        color: @color-submit-300;
+        cursor: pointer;
       }
     }
 
@@ -411,7 +417,7 @@ w-transaction-info-header + w-transaction-info-general {
   display: flex;
   flex-direction: column;
   margin-bottom: 13px;
-  padding: 0 16px;
+  padding: 0 16px 16px;
   border-radius: 4px;
   max-height: 179px;
   overflow-y: auto;
@@ -427,7 +433,10 @@ w-transaction-info-header + w-transaction-info-general {
   &.ng-hide-remove {
     overflow-y: hidden;
   }
-
+  &__list {
+    padding-left: 0;
+    margin: 0;
+  }
   &__item {
     width: 100%;
     display: flex;
@@ -443,6 +452,30 @@ w-transaction-info-header + w-transaction-info-general {
       padding-bottom: 16px;
     }
   }
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  &__action {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+
+    &:not(:first-child) {
+      &:before {
+        content: '';
+        background: @color-basic-500;
+        width: 1px;
+        height: 12px;
+        margin: 0 10px;
+      }
+    }
+  }
+}
+
+.invoke-args-list__item-value {
+  max-width: 216px;
+  .ellipsis();
 }
 
 @media screen and (max-width: @width-media-tiny) {
