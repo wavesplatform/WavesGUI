@@ -21,9 +21,10 @@
             constructor() {
                 super();
                 user.onLogin().then(() => {
-
-                    if (!user.getSetting('withScam')) {
+                    if (user.getSetting('scamListUrl')) {
                         this.stopScam();
+                    } else {
+                        this.giveMyScamBack();
                     }
                 });
             }
@@ -133,9 +134,9 @@
             }
 
             stopScam() {
-                if (this._pollScam) {
-                    return null;
-                }
+                // if (this._pollScam) {
+                //     return null;
+                // }
                 /**
                  * @type {Poll}
                  * @private
@@ -158,7 +159,8 @@
                             }
                         });
                         return hash;
-                    });
+                    })
+                    .catch(() => Object.create(null));
             }
 
             /**
