@@ -5,7 +5,7 @@
      * @param {$rootScope.Scope} $scope
      * @return {DataInfo}
      */
-    const controller = function ($scope) {
+    const controller = function () {
 
         class DataInfo {
 
@@ -25,25 +25,25 @@
              * @type {string}
              */
             function;
+            /**
+             * @type {string}
+             */
+            json;
 
 
             $postLink() {
                 this.transaction = this.signable.getTxData();
                 this.args = this.transaction.call.args;
                 this.function = this.transaction.call.function;
-                (this.transaction.id ? Promise.resolve(this.transaction.id) : this.signable.getId())
-                    .then(id => {
-                        this.id = id;
-                        $scope.$apply();
-                    });
+                this.signable.getDataForApi().then(json => {
+                    this.json = WavesApp.stringifyJSON(json, null, 4);
+                });
             }
 
         }
 
         return new DataInfo();
     };
-
-    controller.$inject = ['$scope'];
 
     angular.module('app.ui').component('wScriptInvocationInfo', {
         bindings: {

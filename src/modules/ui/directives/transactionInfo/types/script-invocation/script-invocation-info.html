@@ -4,7 +4,8 @@
 </div>
 <div class="txinfo__row">
     <div class="txinfo__key" w-i18n="transaction.modals.functionCall"></div>
-    <div class="txinfo__value" w-i18n="transaction.modals.show"
+    <div class="txinfo__value"
+         w-i18n="{{$ctrl.dataVisible ? 'transaction.modals.hide' : 'transaction.modals.show'}}"
          ng-click="$ctrl.dataVisible = !$ctrl.dataVisible"></div>
 </div>
 
@@ -16,7 +17,7 @@
                 <span class="invoke-args-list__item-value">{{::arg.value}}</span>
             </li>
         </ul>
-        <span class="copy-code" w-copy="::$ctrl.args" w-i18n="transaction.modals.copyCode"></span>
+        <span class="copy-code" w-copy="::$ctrl.json" w-i18n="transaction.modals.copyCode"></span>
         <span class="see-all" ng-click="$ctrl.allVisible = !$ctrl.allVisible" w-i18n="transaction.modals.seeAll"></span>
     </div>
 </div>
