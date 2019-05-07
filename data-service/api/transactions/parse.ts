@@ -270,7 +270,7 @@ export function parseDataTx(tx: txApi.IData, assetsHash: IHash<Asset>, isUTX: bo
 
 export function parseInvocationTx(tx: txApi.IScriptInvocation, assetsHash: IHash<Asset>, isUTX: boolean): IScriptInvocation {
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
-    const payment = tx.payment.map(payment => new Money(payment.amount, assetsHash[WAVES_ID]));
+    const payment = tx.payment.map(payment => new Money(payment.amount, assetsHash[normalizeAssetId(payment.assetId)]));
     return { ...tx, fee, payment, isUTX };
 }
 
