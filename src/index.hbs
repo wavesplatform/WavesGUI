@@ -643,9 +643,17 @@
         id: 'root',
         children: [
             {
-                id: 'welcome',
+                id: 'landing',
                 data: {
                     url: '/',
+                    noLogin: true,
+                    views: [{ name: 'main' }]
+                }
+            },
+            {
+                id: 'welcome',
+                data: {
+                    url: '/welcome',
                     noLogin: true,
                     views: [{ name: 'main' }]
                 }
