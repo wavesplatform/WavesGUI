@@ -2,6 +2,8 @@
     'use strict';
 
     const ds = require('data-service');
+    const { path } = require('ramda');
+    const analytics = require('@waves/event-sender');
 
     /**
      * @param Base
@@ -45,10 +47,11 @@
             }
 
             set advancedMode(mode) {
-                analytics.push('Settings', 'Settings.ChangeAdvancedMode', String(mode));
+                analytics.send({ name: `Settings Advanced Features ${mode ? 'On' : 'Off'}`, target: 'ui' });
                 user.setSetting('advancedMode', mode);
             }
 
+            oracleWaves = '';
             tab = 'general';
             address = user.address;
             publicKey = user.publicKey;
@@ -60,7 +63,6 @@
             withScam = false;
             theme = user.getSetting('theme');
             candle = user.getSetting('candle');
-            shareStat = user.getSetting('shareAnalytics');
             templatePromise = $templateRequest('modules/utils/modals/settings/loader.html');
             openClientMode = null;
             /**
@@ -71,12 +73,26 @@
             appName = WavesApp.name;
             appVersion = WavesApp.version;
             supportLink = WavesApp.network.support;
+            termsAndConditionsLink = WavesApp.network.termsAndConditions;
+            privacyPolicy = WavesApp.network.privacyPolicy;
             supportLinkName = WavesApp.network.support.replace(/^https?:\/\//, '');
             blockHeight = 0;
+            assetsOracleTmp = '';
+            oracleWavesData = path(['oracle'], ds.dataManager.getOracleData('oracleWaves'));
+            oracleError = false;
+            oraclePending = false;
+            oracleSuccess = false;
 
             constructor() {
                 super($scope);
+                analytics.send({ name: 'Settings General Show', target: 'ui' });
 
+                this.observe('tab', () => {
+                    const tabName = this.tab.slice(0, 1).toUpperCase() + this.tab.slice(1);
+                    analytics.send({ name: `Settings ${tabName} Show`, target: 'ui' });
+                });
+
+                this.isScript = user.hasScript();
                 this.syncSettings({
                     node: 'network.node',
                     matcher: 'network.matcher',
@@ -84,8 +100,11 @@
                     scamListUrl: 'scamListUrl',
                     withScam: 'withScam',
                     theme: 'theme',
-                    candle: 'candle'
+                    candle: 'candle',
+                    oracleWaves: 'oracleWaves'
                 });
+
+                this.assetsOracleTmp = this.oracleWaves;
 
                 storage.load('openClientMode').then(mode => {
                     this.openClientMode = mode;
@@ -100,6 +119,37 @@
                         },
                         () => user.changeTheme(this.theme)
                     );
+                });
+
+                this.observe('oracleWaves', () => {
+                    ds.config.set('oracleWaves', this.oracleWaves);
+                    this.assetsOracleTmp = this.oracleWaves;
+                });
+
+                this.observe('assetsOracleTmp', () => {
+                    const address = this.assetsOracleTmp;
+                    this.oraclePending = true;
+                    ds.api.data.getOracleData(address)
+                        .then(data => {
+                            if (data.oracle) {
+                                this.oracleWavesData = data.oracle;
+                                ds.config.set('oracleWaves', address);
+                                this.oracleWaves = this.assetsOracleTmp;
+                                this.oracleError = false;
+                                this.oracleSuccess = true;
+                                setTimeout(() => {
+                                    this.oracleSuccess = false;
+                                    $scope.$apply();
+                                }, 1500);
+                            }
+                        })
+                        .catch(() => {
+                            this.oracleError = true;
+                        })
+                        .then(() => {
+                            this.oraclePending = false;
+                            $scope.$apply();
+                        });
                 });
 
                 // this.observe('candle', () => {
@@ -122,22 +172,12 @@
                     });
                 });
 
-                this.observe('shareStat', () => {
-                    if (this.shareStat) {
-                        analytics.activate();
-                        user.setSetting('shareAnalytics', true);
-                    } else {
-                        analytics.deactivate();
-                        user.setSetting('shareAnalytics', false);
-                    }
-                });
-
                 this.observe('shownSeed', () => {
-                    analytics.push('Settings', `Settings.ShowSeed.${WavesApp.type}`);
+                    // analytics.push('Settings', `Settings.ShowSeed.${WavesApp.type}`);
                 });
 
                 this.observe('shownKey', () => {
-                    analytics.push('Settings', `Settings.ShowKeyPair.${WavesApp.type}`);
+                    // analytics.push('Settings', `Settings.ShowKeyPair.${WavesApp.type}`);
                 });
 
                 createPoll(this, waves.node.height, (height) => {
@@ -167,7 +207,7 @@
 
             onChangeLanguage(language) {
                 user.setSetting('lng', language);
-                analytics.push('Settings', `Settings.ChangeLanguage.${WavesApp.type}`, language);
+                // analytics.push('Settings', `Settings.ChangeLanguage.${WavesApp.type}`, language);
             }
 
             setNetworkDefault() {
@@ -175,6 +215,7 @@
                 this.matcher = WavesApp.network.matcher;
                 this.withScam = false;
                 this.scamListUrl = WavesApp.network.scamListUrl;
+                this.oracleWaves = WavesApp.oracles.waves;
             }
 
             showPairingWithMobile() {
@@ -189,6 +230,7 @@
                     document.body.removeChild(loaderEl);
                 }, 4100);
             }
+
             showScriptModal() {
                 modalManager.showScriptModal();
             }

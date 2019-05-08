@@ -4,10 +4,9 @@
 .ledger-modal {
   .icon-close {
     right: 30px;
-    top: 30px;
+    top: 10px;
     position: absolute;
   }
-
   .device-img {
     width: 278px;
     height: 146px;
@@ -15,109 +14,6 @@
     position: relative;
     display: block;
     margin: 60px auto 20px calc(50% ~'- 193px');
-  }
-
-  .connect-mode {
-    text-align: center;
-
-    .texts-wrapper {
-      position: relative;
-      height: 20px;
-      margin-bottom: 30px;
-    }
-
-    .animate-show {
-      animation-duration: 9s;
-      animation-name: showLedger;
-      animation-fill-mode: both;
-      animation-iteration-count: infinite;
-    }
-
-    .display {
-      position: absolute;
-      width: 70px;
-      height: 26px;
-      margin: 0 auto;
-      text-align: center;
-      top: 99px;
-      left: 140px;
-      font-size: 7px;
-      font-family: @font-roboto-medium;
-      color: @color-submit-300;
-    }
-
-    .text1 {
-      animation-delay: 0s;
-    }
-
-    .display1 {
-      padding-top: 5px;
-    }
-
-    .display2 {
-      animation-delay: 3s;
-      background: @ledger-pin no-repeat;
-      background-position-y: 15px;
-      background-position-x: center;
-    }
-
-    .text2 {
-      animation-delay: 3s;
-    }
-
-    .display3 {
-      animation-delay: 6s;
-      background: @ledger-apps no-repeat;
-      background-position-y: 6px;
-      background-position-x: center;
-      top: 97px;
-      left: 138px;
-      line-height: 43px;
-    }
-
-    .text3 {
-      animation-delay: 6s;
-    }
-
-    .dot {
-      animation-duration: 9s;
-      animation-name: showDot;
-      display: inline-block;
-      width: 3px;
-      height: 3px;
-      background-color: #5a81ea;
-      position: relative;
-      margin: 2px;
-      opacity: 0;
-    }
-
-    .dot1 {
-      animation-delay: 0s;
-    }
-    .dot2 {
-      animation-delay: 0.5s;
-    }
-    .dot3 {
-      animation-delay: 1s;
-    }
-    .dot4 {
-      animation-delay: 1.5s;
-    }
-    .dot5 {
-      animation-delay: 2s;
-    }
-
-    .info-text {
-      position: absolute;
-      width: 100%;
-      text-align: center;
-      margin: 0;
-    }
-
-    w-loader {
-      top: 5px;
-      position: relative;
-    }
   }
   .ledger-icons {
     height: 80px;
@@ -149,8 +45,6 @@
     background: @cancelorder-icon;
   }
   .bottom-wrapper {
-    padding-top: 20px;
-
     w-loader {
       position: relative;
     }
@@ -220,7 +114,7 @@
     w-loader {
       position: relative;
       margin: 30px auto 0;
-      transform: translate(0) translate3d(0,0,0);
+      transform: translate(0) translate3d(0, 0, 0);
       left: auto;
     }
 
@@ -232,45 +126,5 @@
       display: inline-block;
       padding-right: 40px;
     }
-  }
-}
-
-@keyframes showDot {
-  0% {
-    opacity: 0;
-  }
-
-  3% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 1;
-  }
-
-  51% {
-    opacity: 0;
-  }
-
-    100% {
-    opacity: 0;
-  }
-}
-
-@keyframes showLedger {
-  0% {
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  30% {
-    opacity: 1;
-  }
-  35% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
   }
 }

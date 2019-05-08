@@ -4,29 +4,35 @@ w-portfolio-row {
   display: flex;
   width: 100%;
 
+    .asset {
+      &__logo {
+        position: relative;
+        left: 0;
 
-  .sponsored-asset{
-    .asset-logo {
-      .marker {
-        position: absolute;
-        left: 37px;
-        bottom: calc(50% ~'- 16px');
+        .marker {
+          display: none;
+          position: absolute;
+          bottom: calc(50% ~'- 16px');
+
+          &.smart-asset,
+          &.sponsored-asset {
+            display: block;
+          }
+        }
       }
     }
-  }
 
-  .asset-logo {
-    background-size: 100% 100%;
-    flex-shrink: 0;
-    text-align: center;
-    border-radius: 50%;
-    left: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: @white-only;
-    .marker {
-      display: none;
+  .asset {
+    &__logo {
+      background-size: 100% 100%;
+      flex-shrink: 0;
+      text-align: center;
+      border-radius: 50%;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: @white-only;
     }
   }
 
@@ -51,97 +57,16 @@ w-portfolio-row {
   }
 
   .actions-wrapper {
-    display: block;
-    height: 16px;
-    width: 4px;
-    position: absolute;
-    right: 30px;
-    top: 50%;
-    margin-top: -8px;
-    cursor: pointer;
-
-    .actions-container {
-      z-index: 3;
-      min-width: 215px;
-      display: none;
-      position: absolute;
-      right: 0;
-      top: 0;
-      margin-bottom: 10px;
-      padding: 17px 0;
-      background-color: @color-white;
-      box-shadow: @shadow-buttons-default;
-
-      &.expanded {
-        display: block;
-
-        &.to-up {
-          top: auto;
-          bottom: 0;
+    .action {
+      &.icon-hide {
+        .unspam {
+          display: none;
         }
       }
 
-      &.open-up {
-        top: auto;
-        bottom: 0;
-      }
-
-      .action {
-        padding: 8px 20px;
-
-        a {
-          color: @color-disabled-900;
-        }
-
-        &:hover {
-          background-color: @color-basic-50;
-        }
-        
-        &.icon-hide {
-          .unspam {
-            display: none;
-          }
-        }
-
-        &.icon-show {
-          .tospam {
-            display: none;
-          }
-        }
-      }
-
-      &.expanded {
-        display: block;
-      }
-    }
-
-    .click-area {
-      display: flex;
-      justify-content: center;
-      width: 24px;
-      height: 16px;
-      cursor: pointer;
-
-      .dots {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: 100%;
-
-        .dot {
-          width: 4px;
-          height: 4px;
-          border-radius: 100%;
-          background-color: @color-basic-500;
-        }
-      }
-
-      .dots.white.horizontal {
-        flex-direction: row;
-        width: 30px;
-
-        .dot {
-          background-color: @color-white;
+      &.icon-show {
+        .tospam {
+          display: none;
         }
       }
     }

@@ -1,10 +1,10 @@
-<div class="flex-row split-half data margin-top-2" ng-if="$ctrl.signPending">
+<div class="flex-row split-half data margin-top-2" ng-if="$ctrl.signPending && !$ctrl.hideId">
     <div w-i18n="directives.sign.txId"></div>
     <div>{{$ctrl.id}}</div>
 </div>
 
 <div ng-if="!$ctrl.signPending && $ctrl.signError"
-     class="warning-plate warning-plate-red  margin-3">
+     class="plate-error margin-3">
     <div  ng-if="::$ctrl.isLedger" w-i18n="directives.sign.confirmRequestLedger.errorHeader" class="error-400 body-2"></div>
     <div  ng-if="::$ctrl.isLedger" w-i18n="directives.sign.confirmRequestLedger.errorDescription" class="basic-500"></div>
 

@@ -4,6 +4,7 @@
     const MIN_ALIAS_LENGTH = 4;
     const MAX_ALIAS_LENGTH = 30;
     const ALIAS_PATTERN = /^[a-z0-9-@_.]*$/;
+    const { SIGN_TYPE } = require('@waves/signature-adapter');
 
     /**
      * @param Base
@@ -11,10 +12,12 @@
      * @param {User} user
      * @param {Waves} waves
      * @param {INotification} notification
-     * @param {createPoll} createPoll
+     * @param {app.utils} utils
+     * @param {BalanceWatcher} balanceWatcher
      * @return {AccountInfoCtrl}
      */
-    const controller = function (Base, $scope, user, waves, notification, createPoll, utils) {
+    const controller = function (Base, $scope, user, waves, notification, utils, balanceWatcher) {
+        const analytics = require('@waves/event-sender');
 
         class AccountInfoCtrl extends Base {
 
@@ -99,10 +102,12 @@
                  */
                 this.errorCreateAliasMsg = '';
 
-                const poll = createPoll(this, this._getBalance, '_balance', 5000, { isBalance: true, $scope });
-                const feePromise = waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS });
+                this.receive(balanceWatcher.change, this._updateBalance, this);
+                this._updateBalance();
 
-                Promise.all([feePromise, poll.ready])
+                const feePromise = waves.node.getFee({ type: SIGN_TYPE.CREATE_ALIAS });
+
+                Promise.all([feePromise, balanceWatcher.ready])
                     .then(([fee]) => {
                         this.fee = fee;
                         this.observe(['_balance', 'fee'], this._onChangeBalance);
@@ -112,6 +117,7 @@
 
                 this.aliases = waves.node.aliases.getAliasList();
                 this.observe(['newAlias'], this._validateNewAlias);
+                analytics.send({ name: 'Account Show', target: 'ui' });
             }
 
             getSignableTx() {
@@ -141,7 +147,8 @@
 
                             this.signLoader = false;
                             return ds.broadcast(preparedTx).then(() => {
-                                analytics.push('User', `User.CreateAlias.Success.${WavesApp.type}`);
+                                // analytics.push('User', `User.CreateAlias.Success.${WavesApp.type}`);
+                                analytics.send({ name: 'Account Alias Create Transaction Success', target: 'ui' });
                                 this.aliases.push(this.newAlias);
                                 this.newAlias = '';
                                 this.createAliasStep = 0;
@@ -158,16 +165,17 @@
                             $scope.$digest();
                         })
                     .catch((error) => {
+                        analytics.send({ name: 'Account Alias Create Transaction Error', target: 'ui' });
                         this.errorCreateAliasMsg = utils.parseError(error);
                     });
             }
 
             onCopyAddress() {
-                analytics.push('User', `User.CopyAddress.${WavesApp.type}`);
+                // analytics.push('User', `User.CopyAddress.${WavesApp.type}`);
             }
 
             onCopyAlias() {
-                analytics.push('User', `User.CopyAlias.${WavesApp.type}`);
+                // analytics.push('User', `User.CopyAlias.${WavesApp.type}`);
             }
 
             reset() {
@@ -179,17 +187,17 @@
              */
             _onChangeBalance() {
                 this.noMoneyForFee = (!this.fee || !this._balance) ||
-                    this._balance.available.getTokens().lt(this.fee.getTokens());
+                    this._balance.getTokens().lt(this.fee.getTokens());
                 this.invalid = this.invalid || this.noMoneyForFee;
                 $scope.$digest();
             }
 
-            /**
-             * @return {Promise<Money>}
-             * @private
-             */
-            _getBalance() {
-                return waves.node.assets.balance(WavesApp.defaultAssets.WAVES);
+            _updateBalance() {
+                balanceWatcher.getBalanceByAssetId(WavesApp.defaultAssets.WAVES)
+                    .then(money => {
+                        this._balance = money;
+                        utils.safeApply($scope);
+                    });
             }
 
             /**
@@ -201,7 +209,7 @@
                 this.invalidMaxLength = this.newAlias && this.newAlias.length > MAX_ALIAS_LENGTH;
                 this.invalidPattern = this.newAlias && !ALIAS_PATTERN.test(this.newAlias);
                 const invalid = this.noMoneyForFee || this.invalidMinLength ||
-                this.invalidMaxLength || this.invalidPattern;
+                    this.invalidMaxLength || this.invalidPattern;
 
                 if (this.newAlias && !invalid) {
                     this.pendingAlias = true;
@@ -227,7 +235,7 @@
         return new AccountInfoCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'waves', 'notification', 'createPoll', 'utils'];
+    controller.$inject = ['Base', '$scope', 'user', 'waves', 'notification', 'utils', 'balanceWatcher'];
 
     angular.module('app.utils')
         .controller('AccountInfoCtrl', controller);

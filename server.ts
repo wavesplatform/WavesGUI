@@ -1,7 +1,7 @@
 import { createSecureServer } from 'http2';
 import { createServer } from 'https';
-import { route, parseArguments } from './ts-scripts/utils';
-import { readFileSync } from 'fs';
+import { route, parseArguments, stat, loadLocales } from './ts-scripts/utils';
+import { readFileSync, existsSync,mkdirSync } from 'fs';
 import { serialize, parse as parserCookie } from 'cookie';
 import { compile } from 'handlebars';
 import { parse } from 'url';
@@ -10,18 +10,26 @@ import { readFile } from 'fs-extra';
 import { join } from 'path';
 import * as fs from 'fs';
 import * as qs from 'querystring';
+import * as opn from 'opn';
 
 const ip = require('my-local-ip')();
 
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const connectionTypes: Array<TConnection> = ['mainnet', 'testnet'];
 const buildTypes: Array<TBuild> = ['dev', 'normal', 'min'];
 const privateKey = readFileSync('localhost.key').toString();
 const certificate = readFileSync('localhost.crt').toString();
-
+const args = parseArguments() || Object.create(null);
 
 const handler = function (req, res) {
     const url = parse(req.url);
+
+    const parts = ['event-sender', 'amplitude', 'googleAnalytics'];
+
+    if (parts.some(item => req.url.includes(item))) {
+        stat(req, res, [__dirname, join(__dirname, 'node_modules/@waves')]);
+        return null;
+    }
 
     if (url.href.includes('/choose/')) {
         const [platform, connection, build] = url.href.replace('/choose/', '').split('/');
@@ -44,6 +52,7 @@ const handler = function (req, res) {
     }
 
     const parsed = parseCookie(req.headers.cookie);
+
     if (!parsed) {
         readFile(join(__dirname, 'chooseBuild.hbs'), 'utf8').then((file) => {
             res.end(compile(file)({ links: getBuildsLinks(req.headers['user-agent']) }));
@@ -56,14 +65,22 @@ const handler = function (req, res) {
 function createMyServer(port) {
 
     const server = createSecureServer({ key: privateKey, cert: certificate });
+    const url = `https://localhost:${port}`;
 
     server.addListener('request', request);
     server.listen(port);
-
     console.log(`Listen port ${port}...`);
     console.log('Available urls:');
+    console.log(url);
+    const cachePath = join(process.cwd(), '.cache-download');
+    if (!existsSync(cachePath)){
+        mkdirSync(cachePath);
+    }
+    loadLocales(cachePath);
 
-    console.log(`https://localhost:${port}`);
+    if (args.openUrl) {
+        opn(url);
+    }
 }
 
 function createSimpleServer({ port = 8000 }) {
@@ -75,7 +92,7 @@ function createSimpleServer({ port = 8000 }) {
 }
 
 createMyServer(8080);
-const args = parseArguments() || Object.create(null);
+
 if (args.startSimple) {
     createSimpleServer(args);
 }
@@ -160,9 +177,7 @@ function coinomat(req, res, next): boolean {
         response_json = (data.amount * 0.32258064) as any;
     }
 
-    const cType = typeof response_json === 'string' || path === 'limits.php'
-        ? 'text/html; charset=utf-8;'
-        : 'application/json; charset=utf-8;';
+    const cType = 'application/json; charset=utf-8;';
     res.setHeader('Content-Type', cType);
     res.end(JSON.stringify(response_json));
     return false;

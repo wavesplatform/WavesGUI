@@ -22,7 +22,7 @@
             </w-radio>
         </w-radio-wrap>
 
-        <w-select class="split-mode interface" ng-model="$ctrl.filter">
+        <w-select class="split-mode interface select__no-user-select" ng-model="$ctrl.filter">
             <w-option value="::'all'">
                 <span w-i18n="all" w-i18n-ns="app.wallet.transactions"></span>
             </w-option>
@@ -43,7 +43,7 @@
             </w-option>
         </w-select>
 
-        <w-select ng-model="$ctrl.limit" class="tx-filter interface">
+        <w-select ng-model="$ctrl.limit" class="tx-filter interface select__no-user-select">
             <w-option value="::100">
                 <span w-i18n="filter.value1" w-i18n-ns="app.wallet.transactions" params="{count: 100}"></span>
             </w-option>
@@ -55,7 +55,7 @@
             </w-option>
         </w-select>
 
-        <w-button disabled="$ctrl.pending" class="download interface" on-click="$ctrl.exportTransactions()">
+        <w-button disabled="$ctrl.pending" class="download interface" on-click="$ctrl.exportTransactions(10000)">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14px" height="14px" viewBox="0 0 14 14" version="1.1">
                 <path d="M13,14 L1,14 L0,14 L0,9 L1,9 L1,13 L13,13 L13,9 L14,9 L14,14 L13,14 Z" id="Combined-Shape" fill-rule="nonzero"/>
                 <path d="M6.5,8.29289322 L6.5,0 L7.5,0 L7.5,8.29289322 L9.41421356,6.37867966 L10.1213203,7.08578644 L6.99975548,10.2073513 L6.64027359,9.84738037 L3.87867966,7.08578644 L4.58578644,6.37867966 L6.5,8.29289322 Z" id="Combined-Shape"/>

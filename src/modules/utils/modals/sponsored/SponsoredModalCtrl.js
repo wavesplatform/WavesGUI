@@ -4,15 +4,18 @@
     /**
      * @param {typeof Base} Base
      * @param {$rootScope.Scope} $scope
-     * @param {IPollCreate} createPoll
      * @param {Waves} waves
+     * @param {BalanceWatcher} balanceWatcher
+     * @param {app.utils} utils
      * @return {SponsoredModalCtrl}
      */
-    const controller = function (Base, $scope, createPoll, waves) {
+    const controller = function (Base, $scope, waves, balanceWatcher, utils) {
 
         const { isEmpty } = require('ts-utils');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
         const { Money } = require('@waves/data-entities');
+        const ds = require('data-service');
+        const analytics = require('@waves/event-sender');
 
         class SponsoredModalCtrl extends Base {
 
@@ -57,16 +60,27 @@
              */
             asset = null;
 
+
             constructor({ asset, isCreateSponsored }) {
                 super($scope);
                 this.assetId = asset.id;
                 this.asset = asset;
                 this.isCreateSponsored = isCreateSponsored;
+
+                const { isVerified, isGateway,
+                    isTokenomica, ticker, description } = utils.getDataFromOracles(this.balance.asset.id);
+                this.isVerified = isVerified;
+                this.isGateway = isGateway;
+                this.isTokenomica = isTokenomica;
+                this.ticker = ticker || asset.ticker;
+                this.description = description || asset.description;
+
                 if (isEmpty(this.assetId)) {
                     throw new Error('Wrong modal params!');
                 }
 
-                createPoll(this, this._getBalances, this._setBalances, 1000, { $scope });
+                this.receive(balanceWatcher.change, this._updateBalances, this);
+                this._updateBalances();
 
                 this.observe(['fee', 'minSponsoredAssetFee'], this._createTx);
 
@@ -78,6 +92,7 @@
             }
 
             onConfirm() {
+                analytics.send({ name: 'Enable Sponsorship Continue Click', target: 'ui' });
                 this.step++;
             }
 
@@ -89,6 +104,9 @@
                 return this._tx;
             }
 
+            /**
+             * @private
+             */
             _createTx() {
                 if (!this.fee || !this.minSponsoredAssetFee) {
                     this.signable = null;
@@ -108,23 +126,16 @@
                 });
             }
 
-            /**
-             * @return {Promise}
-             * @private
-             */
-            _getBalances() {
-                return waves.node.assets.balanceList([WavesApp.defaultAssets.WAVES, this.assetId]);
-            }
-
-            /**
-             * @param waves
-             * @param assetBalance
-             * @private
-             */
-            _setBalances([waves, assetBalance]) {
-                this.wavesBalance = waves.available;
-                this.assetBalance = assetBalance;
-                this._updateAvilableFee();
+            _updateBalances() {
+                Promise.all([
+                    balanceWatcher.getBalanceByAssetId(WavesApp.defaultAssets.WAVES),
+                    balanceWatcher.getBalanceByAssetId(this.assetId)
+                ]).then(([waves, asset]) => {
+                    this.wavesBalance = waves;
+                    this.assetBalance = asset;
+                    this._updateAvailableFee();
+                    utils.safeApply($scope);
+                });
             }
 
             /**
@@ -132,17 +143,17 @@
              */
             _updateFee() {
                 return this._getTxForFee()
-                    .then(tx => waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP, tx }))
+                    .then(tx => waves.node.getFee(tx))
                     .then(fee => {
                         this.fee = fee;
-                        this._updateAvilableFee();
+                        this._updateAvailableFee();
                     });
             }
 
             /**
              * @private
              */
-            _updateAvilableFee() {
+            _updateAvailableFee() {
                 if (this.fee && this.wavesBalance) {
                     this.canSendTransaction = this.wavesBalance.gte(this.fee);
                 }
@@ -152,8 +163,9 @@
              * @private
              */
             _getTxForFee() {
-                return Promise.resolve(() => {
-                    return { type: SIGN_TYPE.SPONSORSHIP, minSponsoredAssetFee: new Money(0, this.asset) };
+                return Promise.resolve({
+                    type: SIGN_TYPE.SPONSORSHIP,
+                    minSponsoredAssetFee: new Money(0, this.asset)
                 });
             }
 
@@ -162,7 +174,7 @@
         return new SponsoredModalCtrl(this.locals);
     };
 
-    controller.$inject = ['Base', '$scope', 'createPoll', 'waves'];
+    controller.$inject = ['Base', '$scope', 'waves', 'balanceWatcher', 'utils'];
 
     angular.module('app.utils').controller('SponsoredModalCtrl', controller);
 })();

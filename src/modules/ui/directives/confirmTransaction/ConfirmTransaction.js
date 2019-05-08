@@ -8,40 +8,81 @@
      * @param {validateService} validateService
      * @param {app.utils} utils
      * @param {Waves} waves
+     * @param {*} $attrs
+     * @param {BalanceWatcher} balanceWatcher
+     * @param {User} user
      * @returns {ConfirmTransaction}
      */
-    const controller = function (ConfirmTxService, $scope, validateService, utils, waves, $attrs) {
+    const controller = function (ConfirmTxService, $scope, validateService, utils, waves, $attrs,
+                                 balanceWatcher, user) {
 
-        const { TRANSACTION_TYPE_NUMBER, SIGN_TYPE } = require('@waves/signature-adapter');
+        const { flatten } = require('ramda');
+        const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const analytics = require('@waves/event-sender');
 
+        const ANALYTICS_TABS_NAMES = {
+            details: 'View Details',
+            JSON: 'JSON',
+            export: 'Export'
+        };
 
         class ConfirmTransaction extends ConfirmTxService {
 
             locale = $attrs.ns || 'app.ui';
             step = 0;
+            type = 0;
             isSetScript = false;
+            /**
+             * @type {Function}
+             */
+            onTransactionSend;
 
             constructor() {
                 super($scope);
 
-                this.observe(['showValidationErrors', 'signable'], this._showErrors);
+                this.observe(['signable'], this._showErrors);
+                this.receive(balanceWatcher.change, this._showErrors, this);
             }
 
             $postLink() {
                 const tx = this.signable.getTxData();
-                const type = tx.type;
-                this.isSetScript = type === SIGN_TYPE.SET_SCRIPT && tx.script;
-                this.isTockenIssue = type === SIGN_TYPE.ISSUE;
+                this.type = this.signable.type;
+
+                this.isSetScript = this.type === SIGN_TYPE.SET_SCRIPT && tx.script;
+                this.isTockenIssue = this.type === SIGN_TYPE.ISSUE;
+
+                if (this.isAnyTx) {
+                    this.observe('activeTab', () => {
+                        const name = `Wallet Assets JSON ${ANALYTICS_TABS_NAMES[this.activeTab]} Show`;
+                        analytics.send({ name, target: 'ui' });
+                    });
+                }
+
+                const NAME = this.getEventName(tx);
+                analytics.send({ name: `${NAME} Info Show`, target: 'ui' });
+
                 this.signable.hasMySignature().then(state => {
                     this.step = state ? 1 : 0;
                     $scope.$apply();
                 });
             }
 
+            sendTransaction() {
+                if (this.isAnyTx) {
+                    const name = `Wallet Assets JSON ${ANALYTICS_TABS_NAMES[this.activeTab]} Send Click`;
+                    analytics.send({ name, target: 'ui' });
+                }
+                analytics.send(this._getConfirmAnalytics(this.signable.getTxData(), true));
+                return super.sendTransaction().then(data => {
+                    this.onTransactionSend();
+                    return data;
+                });
+            }
+
             onChangeSignable() {
                 super.onChangeSignable();
                 if (this.tx) {
-                    this.permissionName = ConfirmTransaction._getPermissionNameByTx(this.tx);
+                    this.permissionName = ConfirmTransaction._getPermissionNameByTx(this.signable.type);
                 }
             }
 
@@ -49,9 +90,38 @@
                 return this.signable;
             }
 
+            getSignableAndSendEvent() {
+                switch (this.signable.type) {
+                    case 14:
+                        analytics.send({ name: 'Disable Sponsorship Continue Click', target: 'ui' });
+                        break;
+                    case 9:
+                        analytics.send({ name: 'Leasing Cancel Sign Click', target: 'ui' });
+                        break;
+                    default:
+                        break;
+                }
+                return this.signable;
+            }
+
             nextStep() {
                 this.step++;
                 this.initExportLink();
+            }
+
+            /**
+             * @param data
+             * @param success
+             * @private
+             * @return {{name: string, params: {type: *}, target: string}}
+             */
+            _getConfirmAnalytics(data, isOnSendClick) {
+                const NAME = this.getEventName(data);
+                const name = isOnSendClick ?
+                    `${NAME} Info Send Click` :
+                    `${NAME} Info Go Back Click`;
+
+                return { name, params: { type: data.type }, target: 'ui' };
             }
 
             /**
@@ -64,23 +134,29 @@
 
                 let promise;
 
-                const { type, amount, fee } = this.signable.getTxData();
+                const { type, amount, fee, senderPublicKey } = this.signable.getTxData();
 
-                switch (true) {
-                    case (type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP):
-                        promise = this._validateAmount(fee);
-                        break;
-                    case (type === TRANSACTION_TYPE_NUMBER.TRANSFER && this.showValidationErrors):
-                        promise = Promise.all([
-                            this._validateAmount(amount),
-                            this._validateAddress()
-                        ]).then(([errors1, errors2]) => [...errors1, ...errors2]);
-                        break;
-                    default:
-                        promise = Promise.resolve([]);
+                if (senderPublicKey && senderPublicKey !== user.publicKey) {
+                    return null;
                 }
 
-                return promise.then((errors) => {
+                switch (type) {
+                    case SIGN_TYPE.TRANSFER:
+                        promise = Promise.all([
+                            this._validateAmount(amount, false),
+                            this._validateAmount(fee, true),
+                            this._validateAddress()
+                        ]);
+                        break;
+                    case SIGN_TYPE.CREATE_ORDER:
+                    case SIGN_TYPE.CANCEL_LEASING:
+                        promise = Promise.all([]);
+                        break;
+                    default:
+                        promise = Promise.all([this._validateAmount(fee, true)]);
+                }
+
+                return promise.then(flatten).then((errors) => {
                     this.errors = errors;
                     $scope.$apply();
                 });
@@ -105,38 +181,43 @@
             }
 
             /**
-             * @param amount
+             * @param {Money} amount
+             * @param {boolean} isFee
              * @return {*}
              * @private
              */
-            _validateAmount(amount) {
+            _validateAmount(amount, isFee) {
                 const errors = [];
-                const { type } = this.signable.getTxData();
+                const hash = balanceWatcher.getBalance();
 
-                if (type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP) {
-                    return waves.node.assets.userBalances()
-                        .then((list) => list.map(({ available }) => available))
-                        .then((list) => {
-                            const hash = utils.toHash(list, 'asset.id');
-                            if (!hash[amount.asset.id] ||
-                                hash[amount.asset.id].lt(amount) ||
-                                amount.getTokens().lte(0)) {
+                if (!hash[amount.asset.id] ||
+                    hash[amount.asset.id].lt(amount) ||
+                    amount.getTokens().lte(0)) {
 
-                                errors.push({
-                                    literal: 'confirmTransaction.send.errors.balance.invalid'
-                                });
-                            }
+                    const feeLiteral = 'confirmTransaction.send.errors.fee';
+                    const balanceLiteral = 'confirmTransaction.send.errors.balance.invalid';
+                    const literal = isFee ? feeLiteral : balanceLiteral;
 
-                            return errors;
-                        });
-                } else {
-                    return Promise.resolve([]);
+                    errors.push({
+                        literal: literal,
+                        data: { fee: amount }
+                    });
                 }
+
+                return errors;
+            }
+
+            /**
+             * @public
+             */
+            back() {
+                analytics.send(this._getConfirmAnalytics(this.signable.getTxData(), false));
+                this.onClickBack();
             }
 
 
-            static _getPermissionNameByTx(tx) {
-                switch (tx.type) {
+            static _getPermissionNameByTx(type) {
+                switch (type) {
                     case SIGN_TYPE.ISSUE:
                         return 'CAN_ISSUE_TRANSACTION';
                     case SIGN_TYPE.TRANSFER:
@@ -161,6 +242,10 @@
                         return 'CAN_SET_SCRIPT_TRANSACTION';
                     case SIGN_TYPE.SPONSORSHIP:
                         return 'CAN_SPONSORSHIP_TRANSACTION';
+                    case SIGN_TYPE.CREATE_ORDER:
+                        return 'CAN_CREATE_ORDER';
+                    case SIGN_TYPE.CANCEL_ORDER:
+                        return 'CAN_CANCEL_ORDER';
                     default:
                         return '';
                 }
@@ -177,7 +262,9 @@
         'validateService',
         'utils',
         'waves',
-        '$attrs'
+        '$attrs',
+        'balanceWatcher',
+        'user'
     ];
 
     angular.module('app.ui').component('wConfirmTransaction', {
@@ -187,8 +274,10 @@
             onTxSent: '&',
             noBackButton: '<',
             warning: '<',
-            showValidationErrors: '<',
-            referrer: '<'
+            onTransactionSend: '&',
+            referrer: '<',
+            activeTab: '<',
+            isAnyTx: '<'
         },
         templateUrl: 'modules/ui/directives/confirmTransaction/confirmTransaction.html',
         transclude: false,

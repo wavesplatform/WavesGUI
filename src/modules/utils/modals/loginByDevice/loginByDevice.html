@@ -1,0 +1,34 @@
+<div class="ledger-modal">
+    <div class="btn icon-close" ng-click="$ctrl.onClose()"></div>
+
+    <div class="connect-mode" ng-if="::$ctrl.isLedger">
+        <div class="ledger">
+            <div class="device-img">
+                <div class="display display1 animate-show">
+                    <div class="dot dot1 animate-show"></div>
+                    <div class="dot dot2 animate-show"></div>
+                    <div class="dot dot3 animate-show"></div>
+                    <div class="dot dot4 animate-show"></div>
+                    <div class="dot dot5 animate-show"></div>
+                </div>
+                <div class="display display2 animate-show">PIN code</div>
+                <div class="display display3 animate-show">Waves</div>
+            </div>
+        </div>
+        <h3 class="text-center basic-700" w-i18n="modal.sign.connecting"></h3>
+        <div class="texts-wrapper">
+            <div class="info-text text1 animate-show body-2 basic-500" w-i18n="modal.sign.connectLedger"></div>
+            <div class="info-text text2 animate-show body-2 basic-500" w-i18n="modal.sign.enterPin"></div>
+            <div class="info-text text3 animate-show body-2 basic-500" w-i18n="modal.sign.openApp"></div>
+        </div>
+        <w-loader></w-loader>
+    </div>
+
+    <div class="connect-mode text-center" ng-if="::$ctrl.isKeeper">
+        <div class="keeper-img"></div>
+        <h3 class="margin-1 basic-700" w-i18n="modal.sign.connectingKeeper"></h3>
+        <div class="margin-4 basic-500 body2" w-i18n="modal.sign.signByKeeper"></div>
+        <w-loader></w-loader>
+    </div>
+
+</div>

@@ -9,14 +9,16 @@
      * @param $rootScope
      * @param {$injector} $injector
      * @param {State} state
+     * @param {Storage} storage
      * @return {ModalManager}
      */
-    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state) {
+    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state, storage) {
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
         const { Money } = require('@waves/data-entities');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const analytics = require('@waves/event-sender');
 
         const DEFAULT_OPTIONS = {
             clickOutsideToClose: true,
@@ -68,6 +70,7 @@
             }
 
             showTryDesktopModal() {
+                analytics.send({ name: 'Onboarding Platform Popup Show', target: 'ui' });
                 return this._getModal({
                     id: 'try-desktop',
                     title: '',
@@ -89,19 +92,41 @@
                 });
             }
 
-            showSignByDevice(options) {
+            /**
+             * @param {Signable} signable
+             * @return {Promise<Signable>}
+             */
+            showSignByDevice(signable) {
                 return this._getModal({
                     id: 'sign-by-device',
                     contentUrl: 'modules/utils/modals/signByDevice/signByDevice.html',
                     controller: 'SignByDeviceCtrl',
-                    locals: {
-                        devicePromise: () => options.promise,
-                        userType: options.userType,
-                        address: options.address,
-                        mode: options.mode,
-                        id: options.id,
-                        data: options.data
-                    },
+                    locals: { signable },
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
+            showConfirmOrder(options) {
+                return this._getModal({
+                    id: 'confirm-correct-order',
+                    contentUrl: 'modules/utils/modals/confirmOrder/confirmOrder.html',
+                    controller: 'ConfirmOrderCtrl',
+                    locals: options
+                });
+            }
+
+            /**
+             * @param {Promise} promise
+             * @param {string} type
+             * @return {Promise}
+             */
+            showLoginByDevice(promise, type) {
+                return this._getModal({
+                    id: 'login-by-device',
+                    contentUrl: 'modules/utils/modals/loginByDevice/loginByDevice.html',
+                    controller: 'LoginByDeviceCtrl',
+                    locals: () => ({ promise, type }),
                     clickOutsideToClose: false,
                     escapeToClose: false
                 });
@@ -167,6 +192,11 @@
                  * @type {User}
                  */
                 const user = $injector.get('user');
+
+                analytics.send({
+                    name: 'Create Done Show', params: { hasBackup: user.getSetting('hasBackup') }
+                });
+
                 return this._getModal({
                     id: 'terms-accept',
                     templateUrl: 'modules/utils/modals/termsAccept/terms-accept.html',
@@ -174,7 +204,25 @@
                     clickOutsideToClose: false,
                     escapeToClose: false
                 })
-                    .then(() => user.setSetting('termsAccepted', true));
+                    .then(() => {
+                        analytics.send({ name: 'Create Done Confirm and Begin Click' });
+                        storage.save('needReadNewTerms', false);
+                        storage.save('termsAccepted', true);
+                    });
+            }
+
+            showAcceptNewTerms() {
+                return this._getModal({
+                    id: 'accept-new-terms',
+                    templateUrl: 'modules/utils/modals/acceptNewTerms/accept-new-terms.html',
+                    controller: 'AcceptNewTermsCtrl',
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                })
+                    .then(() => {
+                        storage.save('needReadNewTerms', false);
+                        storage.save('termsAccepted', true);
+                    });
             }
 
             showTutorialModals() {
@@ -208,6 +256,17 @@
                     controller: 'confirmDeleteUserCtrl',
                     locals: {
                         user
+                    }
+                });
+            }
+
+            showDexScriptedPair(assets) {
+                return this._getModal({
+                    id: 'dex-scripted-pair',
+                    templateUrl: 'modules/utils/modals/dexScriptedPair/dexScriptedPair.html',
+                    controller: 'DexScriptedPairCtrl',
+                    locals: {
+                        assets
                     }
                 });
             }
@@ -315,23 +374,6 @@
                 });
             }
 
-            /**
-             * @param {User} user
-             * @return {Promise}
-             */
-            showAddressQrCode(user) {
-                return user.onLogin().then(() => {
-                    return this._getModal({
-                        id: 'user-address-qr-code',
-                        locals: { address: user.address },
-                        title: 'modal.qr.title',
-                        contentUrl: 'modules/utils/modals/addressQrCode/address-qr-code.modal.html',
-                        controller: 'AddressQrCode',
-                        mod: 'modal-address-qr-code'
-                    });
-                });
-            }
-
             showTransactionInfo(transactionId) {
                 return this._getModal({
                     id: 'transaction-info',
@@ -343,13 +385,13 @@
                 });
             }
 
-            showAnyTx(tx) {
+            showAnyTx(tx, analyticsText) {
                 return this._getModal({
                     id: 'any-tx-modal',
                     controller: 'AnyTxModalCtrl',
                     contentUrl: 'modules/utils/modals/anyTxModal/any-tx-modal.html',
                     title: 'modals.anyTx.title',
-                    locals: tx
+                    locals: { tx, analyticsText }
                 });
             }
 
@@ -364,13 +406,14 @@
                 });
             }
 
-            showConfirmTx(signable, showValidationErrors) {
+            showConfirmTx(signable, analyticsText) {
                 return this._getModal({
                     id: 'confirm-tx',
                     mod: 'confirm-tx',
                     ns: 'app.ui',
-                    locals: { signable, showValidationErrors },
+                    locals: { signable, analyticsText },
                     controller: 'ConfirmTxCtrl',
+                    headerUrl: 'modules/utils/modals/confirmTx/confirmTx.header.modal.html',
                     contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
                 });
             }
@@ -411,12 +454,24 @@
                 });
             }
 
+            showSetAssetScriptModal(assetId) {
+                const title = 'modal.setAssetScript.title';
+                return this._getModal({
+                    id: 'setAssetScript',
+                    mod: 'setAssetScript',
+                    locals: assetId,
+                    titleContent: `<span w-i18n="${title}"></span>`,
+                    controller: 'SetAssetScriptModalCtrl',
+                    contentUrl: 'modules/utils/modals/setAssetScript/setAssetScript.html'
+                });
+            }
+
             showSponsorshipStopModal(assetId) {
                 const waves = $injector.get('waves');
 
                 return Promise.all([
                     ds.api.assets.get(assetId),
-                    waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP })
+                    waves.node.getFee({ type: SIGN_TYPE.SPONSORSHIP })
                 ]).then(([asset, fee]) => {
                     const money = new Money(0, asset);
                     const tx = waves.node.transactions.createTransaction({
@@ -431,7 +486,7 @@
                         data: tx
                     });
 
-                    return this.showConfirmTx(signable, true);
+                    return this.showConfirmTx(signable);
                 });
             }
 
@@ -507,7 +562,7 @@
                             this._counter--;
 
                             if (options.id) {
-                                analytics.push('Modal', `Modal.Close.${WavesApp.type}`, options.id);
+                                // analytics.push('Modal', `Modal.Close.${WavesApp.type}`, options.id);
                             }
                         };
 
@@ -519,7 +574,7 @@
                         const modal = $mdDialog.show(target);
 
                         if (options.id) {
-                            analytics.push('Modal', `Modal.Open.${WavesApp.type}`, options.id);
+                            // analytics.push('Modal', `Modal.Open.${WavesApp.type}`, options.id);
                         }
 
                         modal.then(changeCounter, changeCounter);
@@ -712,7 +767,14 @@
         return utils.bind(new ModalManager());
     };
 
-    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope', '$injector', 'state'];
+    factory.$inject = ['$mdDialog',
+        'utils',
+        'decorators',
+        '$templateRequest',
+        '$rootScope',
+        '$injector',
+        'state',
+        'storage'];
 
     angular.module('app.utils')
         .factory('modalManager', factory);

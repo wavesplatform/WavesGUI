@@ -409,30 +409,28 @@ w-layout {
       }
     }
 
-      .orderbook-table w-row:hover,
-      .smart-table__cell[data-column-id="volume"]:hover {
-        .tooltip-dex {
-          display: flex;
-        }
+    .orderbook-table w-row:hover,
+    .smart-table__cell[data-column-id="volume"]:hover {
+      .tooltip-dex {
+        display: flex;
       }
+    }
 
-      //last-line tooltip fix
-      .orderbook-table,
-      .smart-table {
-        w-row:last-child,
-        &__row:last-child {
-          .tooltip-dex {
-            bottom: 100%;
+    .orderbook-table,
+    .smart-table {
+      w-row:last-child,
+      &__row:last-child {
+        .tooltip-dex {
+          bottom: 100%;
+          top: auto;
+          &::before {
             top: auto;
-            &::before {
-              top: auto;
-              bottom: -6px;
-              transform: rotate(180deg);
-            }
+            bottom: -6px;
+            transform: rotate(180deg);
           }
         }
+      }
     }
-    //end
   }
 
   .dex-layout__watchlist-collapsed.dex-layout__orderbook-collapsed {
@@ -509,8 +507,6 @@ html body.dex-demo .notifications {
   transition: .3s !important;
 }
 
-//end
-
 .tradehistory-fullscreen {
   .dex-layout__column:not(.dex-layout__tradehistory) {
     transition: .3s;
@@ -526,9 +522,11 @@ html body.dex-demo .notifications {
     transition: .3s;
   }
 }
+//end
 
 //hi-res
 @media screen and (min-width: 2400px) {
+
   w-layout {
     .dex-layout {
 
@@ -605,7 +603,7 @@ html body.dex-demo .notifications {
 
           .fields {
             .input-like {
-              height: 44px;
+              height: 42px;
 
               .asset-name-wrap div {
                 line-height: 28px;
@@ -701,7 +699,7 @@ html body.dex-demo .notifications {
             }
 
             .title {
-              height: 40px;
+              height: 41px;
               font-size: 13px;
             }
           }

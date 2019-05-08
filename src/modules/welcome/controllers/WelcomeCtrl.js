@@ -2,6 +2,7 @@
     'use strict';
 
     const PATH = 'modules/welcome/templates';
+    const { utils } = require('@waves/signature-generator');
 
     /**
      * @param Base
@@ -14,6 +15,7 @@
     const controller = function (Base, $scope, $state, user, modalManager) {
 
         const ds = require('data-service');
+        const analytics = require('@waves/event-sender');
 
         class WelcomeCtrl extends Base {
 
@@ -57,13 +59,20 @@
                 this.observe('activeUserAddress', this._calculateActiveIndex);
                 this.observe('password', this._updatePassword);
 
+                analytics.send({ name: 'Sign In Show', target: 'ui', params: { from: 'welcome' } });
                 this._initUserList();
             }
 
+            /**
+             * @public
+             */
             showTutorialModals() {
                 return modalManager.showTutorialModals();
             }
 
+            /**
+             * @private
+             */
             _updatePassword() {
                 if (this.password) {
                     this.showPasswordError = false;
@@ -84,13 +93,9 @@
 
                     if (this._isSeedAdapter(api)) {
                         canLoginPromise = adapterAvailablePromise.then(() => api.getAddress())
-                            .then(address => address === activeUser.address ? true : Promise.resolve('Wrong address!'));
+                            .then(address => address === activeUser.address ? true : Promise.reject('Wrong address!'));
                     } else {
-                        canLoginPromise = modalManager.showSignByDevice({
-                            promise: adapterAvailablePromise,
-                            mode: `connect-${api.type}`,
-                            userType: api.type
-                        }).then(() => adapterAvailablePromise);
+                        canLoginPromise = modalManager.showLoginByDevice(adapterAvailablePromise, api.type);
                     }
 
                     return canLoginPromise.then(() => {
@@ -158,7 +163,7 @@
             _initUserList() {
                 user.getUserList()
                     .then((list) => {
-                        this.userList = list;
+                        this.userList = list.filter(user => utils.crypto.isValidAddress(user.address));
                         this.pendingRestore = false;
                         this._updateActiveUserAddress();
                         setTimeout(() => {

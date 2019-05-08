@@ -4,7 +4,29 @@
     const ds = require('data-service');
     const { Asset } = require('@waves/data-entities');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
+    const analytics = require('@waves/event-sender');
 
+    const NO_EXPORT_TYPES = [
+        SIGN_TYPE.MASS_TRANSFER,
+        SIGN_TYPE.CREATE_ORDER
+    ];
+
+    const ANALYTICS_TX_NAMES = {
+        [SIGN_TYPE.CREATE_ORDER]: 'Create order',
+        [SIGN_TYPE.ISSUE]: 'Token Generation',
+        [SIGN_TYPE.TRANSFER]: 'Transfer',
+        [SIGN_TYPE.REISSUE]: 'Reissue Token',
+        [SIGN_TYPE.BURN]: 'Burn Token',
+        [SIGN_TYPE.EXCHANGE]: 'Exchange',
+        [SIGN_TYPE.LEASE]: 'Leasing',
+        [SIGN_TYPE.CANCEL_LEASING]: 'Leasing cancel',
+        [SIGN_TYPE.CREATE_ALIAS]: 'Create Alias',
+        [SIGN_TYPE.MASS_TRANSFER]: 'Mass Transfer',
+        [SIGN_TYPE.DATA]: 'Data',
+        [SIGN_TYPE.SET_SCRIPT]: 'Set Script',
+        [SIGN_TYPE.SPONSORSHIP]: 'Sponsorship',
+        [SIGN_TYPE.SET_ASSET_SCRIPT]: 'Set Asset Script'
+    };
 
     const factory = function (Base, waves, utils, $mdDialog, modalManager) {
 
@@ -47,6 +69,10 @@
              */
             errorMessage = null;
             /**
+             * @type {boolean}
+             */
+            isTransaction = false;
+            /**
              * @type {$rootScope.Scope}
              * @private
              */
@@ -61,45 +87,35 @@
                 this.syncSettings({
                     advancedMode: 'advancedMode'
                 });
-
                 this.observe('signable', this.onChangeSignable);
             }
 
             sendTransaction() {
+                const method = ConfirmTxService._getSendMethod(this.signable.type);
 
                 return this.signable.getDataForApi()
-                    .then(ds.broadcast)
-                    .then((data) => {
-                        analytics.push(...this.getAnalytics(true));
+                    .then(method)
+                    .then(data => {
+                        analytics.send(this.getAnalytics(data, true));
                         return data;
                     }, (error) => {
-                        analytics.push(...this.getAnalytics(false));
+                        analytics.send(this.getAnalytics(this.signable.getTxData(), false));
                         return Promise.reject(error);
                     });
             }
 
-            getEventName() {
-                return 'Transaction';
+            getEventName(data) {
+                if (data.type) {
+                    return data.type in ANALYTICS_TX_NAMES ? ANALYTICS_TX_NAMES[data.type] : 'Unknown';
+                } else {
+                    return ANALYTICS_TX_NAMES[SIGN_TYPE.CREATE_ORDER];
+                }
             }
 
-            getAnalytics(success) {
-                const NAME = this.getEventName();
-                const amount = ConfirmTxService.toBigNumber(this.tx.amount);
-                if (success) {
-                    return [
-                        NAME,
-                        `${NAME}.${this.tx.type}.${WavesApp.type}`,
-                        `${NAME}.${this.tx.type}.${WavesApp.type}.Success`,
-                        amount
-                    ];
-                } else {
-                    return [
-                        NAME,
-                        `${NAME}.${this.tx.type}.${WavesApp.type}`,
-                        `${NAME}.${this.tx.type}.${WavesApp.type}.Error`,
-                        amount
-                    ];
-                }
+            getAnalytics(data, success) {
+                const NAME = this.getEventName(data);
+                const name = success ? `${NAME} Transaction Success` : `${NAME} Transaction Error`;
+                return { name, params: { type: data.type } };
             }
 
             confirm() {
@@ -113,7 +129,7 @@
                     this.onTxSent({ id: tx.id });
                     this.__$scope.$apply();
                 }).catch(e => {
-                    this.errorMessage = utils.parseError(e);
+                    this.errorMessage = e.message;
                     this.__$scope.$apply();
                 });
             }
@@ -137,6 +153,7 @@
                         ...tx,
                         ticker: null,
                         precision: tx.decimals,
+                        hasScript: !!(tx.script && tx.script.replace('base64:', '')),
                         height
                     }));
                 });
@@ -146,9 +163,12 @@
              * @protected
              */
             initExportLink() {
+                const type = this.signable.type;
                 this.signable.getDataForApi().then(data => {
+
                     this.exportLink = `${WavesApp.origin}/#tx${utils.createQS(data)}`;
-                    this.canCreateLink = data.type !== SIGN_TYPE.MASS_TRANSFER &&
+
+                    this.canCreateLink = !NO_EXPORT_TYPES.includes(type) &&
                         this.exportLink.length <= WavesApp.MAX_URL_LENGTH;
                     this.__$scope.$apply();
                 });
@@ -159,6 +179,7 @@
              */
             onChangeSignable() {
                 if (this.signable) {
+                    this.isTransaction = this.signable.type < 100;
                     if (this.advancedMode) {
                         this.signable.hasMySignature().then(state => {
                             if (state) {
@@ -186,6 +207,21 @@
                 return tx.type === SIGN_TYPE.ISSUE;
             }
 
+            static _getSendMethod(type) {
+                switch (type) {
+                    case SIGN_TYPE.CREATE_ORDER:
+                        return ds.createOrder;
+                    case SIGN_TYPE.CANCEL_ORDER:
+                        return ds.cancelOrder;
+                    default:
+                        return ds.broadcast;
+                }
+            }
+
+            /**
+             * @param {Money} [amount]
+             * @return {string | undefined}
+             */
             static toBigNumber(amount) {
                 return amount && amount.getTokens().toFixed() || undefined;
             }

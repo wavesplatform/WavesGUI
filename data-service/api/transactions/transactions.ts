@@ -22,13 +22,13 @@ import { pipe, prop, uniqBy, tap } from 'ramda';
 import { ExchangeTxFilters } from '@waves/data-service-client-js';
 
 
-export function list(address: string, limit = 100): Promise<Array<T_TX>> {
-    return request({ url: `${configGet('node')}/transactions/address/${address}/limit/${limit}` })
-        .then(pipe(
-            prop('0'),
-            uniqBy(prop('id')) as any,
-        ))
-        .then(transactions => parseTx(transactions as any, false));
+export function list(address: string, limit = 100, after: string): Promise<Array<T_TX>> {
+    return request({
+        url: `${configGet('node')}/transactions/address/${address}/limit/${limit}${after ? `?after=${after}` : ''}`
+    }).then(pipe(
+        prop('0'),
+        uniqBy(prop('id')) as any,
+    )).then(transactions => parseTx(transactions as any, false));
 }
 
 export function getExchangeTxList(options: ExchangeTxFilters = Object.create(null)): Promise<Array<IExchange>> {

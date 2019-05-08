@@ -6,6 +6,10 @@ body.dex .dex-wrapper,
 body.dex-demo .dex-wrapper {
   w-dex-my-balance {
 
+    .visible-row-container {
+      min-height: 30px;
+    }
+
     .smart-table {
       &__row {
         padding: 6px 14px;
@@ -22,6 +26,7 @@ body.dex-demo .dex-wrapper {
 
       &__cell[data-column-id="assetId"] {
         flex-basis: 35%;
+        min-width: 35%;
       }
 
       &__cell[data-column-id="total"],
@@ -52,6 +57,18 @@ body.dex-demo .dex-wrapper {
           text-overflow: ellipsis;
           overflow: hidden;
 
+          @media screen and (min-width: 1025px) and (max-width: 1550px) {
+            max-width: 250px;
+          }
+
+          @media screen and (max-width: 400px) {
+            max-width: 300px;
+          }
+
+          @media screen and (min-width: 660px) and (max-width: 820px) {
+            max-width: 220px;
+          }
+
           span {
             text-overflow: ellipsis;
             overflow: hidden;
@@ -64,7 +81,8 @@ body.dex-demo .dex-wrapper {
         .copy-icon {
           border-left: 0 none;
           flex-basis: 24px;
-          height: 12px;
+          position: relative;
+          height: 18px;
           margin-top: -4px;
           background: @dex-copybalance-icon no-repeat right center;
         }
@@ -82,15 +100,14 @@ body.dex-demo .dex-wrapper {
   }
 }
 
-@media screen and (max-width: 1400px) {
-  body.dex .dex-wrapper,
-  body.dex-demo .dex-wrapper {
-    w-dex-my-balance {
-      .smart-table {
-        &__cell[data-column-id="assetId"] {
-          w-copy-wrap .container span {
-            max-width: 200px;
-          }
+@media screen and (min-width: 1024px) {
+  body.dex,
+  body.dex-demo {
+    .dex-wrapper {
+      .tradehistory-fullscreen {
+        w-dex-my-balance .smart-table w-copy-wrap .container {
+          max-width: 300px;
+          width: 300px;
         }
       }
     }
@@ -202,6 +219,7 @@ body.dex-demo .dex-wrapper {
 
         &__cell[data-column-id="available"] {
           flex-basis: calc(50% ~'- 20px');
+
           w-balance {
             min-width: 74px;
           }

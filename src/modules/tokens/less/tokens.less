@@ -24,8 +24,10 @@ body.tokens {
     border-radius: @border-radius;
     box-shadow: @shadow-type-1;
 
-    w-select.issue-select {
-      white-space: nowrap;
+    w-select {
+      .issue-select {
+        white-space: nowrap;
+      }
     }
 
     .token-page__content {
@@ -40,7 +42,6 @@ body.tokens {
     }
 
     textarea {
-      resize: vertical;
       min-height: 77px;
       max-height: 300px;
     }
@@ -51,53 +52,6 @@ body.tokens {
       padding-left: 13px;
       height: @height-title;
       border-bottom: 1px solid @color-basic-100;
-    }
-
-    .input-like {
-      padding: 0;
-      display: flex;
-      align-items: center;
-
-      w-input {
-        display: block;
-        width: 50%;
-
-        input {
-          height: 40px;
-          background: @color-white;
-          border-radius: @border-radius;
-        }
-
-        input:not(:focus) {
-          border: none;
-        }
-      }
-
-      .select-wrap {
-        position: relative;
-        height: 100%;
-        width: 50%;
-        background-color: @color-disabled-50;
-        border-top-right-radius: @border-radius;
-        border-bottom-right-radius: @border-radius;
-
-        .issue-select {
-          width: 216px;
-          height: 30px;
-          position: absolute;
-          right: 6px;
-          top: 6px;
-
-          .title-content {
-            display: flex;
-            align-items: center;
-          }
-
-          .title {
-            background-color: @color-white;
-          }
-        }
-      }
     }
 
     .preview {
@@ -160,6 +114,10 @@ body.tokens {
 
       .row {
         margin-top: 20px;
+
+        &-script {
+          margin-top: 10px;
+        }
       }
     }
   }

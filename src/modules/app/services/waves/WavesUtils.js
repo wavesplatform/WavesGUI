@@ -11,6 +11,12 @@
 
         const ds = require('data-service');
         const entities = require('@waves/data-entities');
+        const {
+            flatten, pipe, map,
+            where, prop, gt, gte, allPass,
+            lte, filter, length, equals,
+            __
+        } = require('ramda');
 
         class WavesUtils {
 
@@ -158,26 +164,24 @@
                 };
 
                 return ds.api.pairs.get(from, to)
-                    .then((pair) => {
-                        return ds.api.pairs.info(pair)
-                            .catch(() => null)
-                            .then(([data]) => {
+                    .then(pair => ds.api.pairs.info(pair)
+                        .then(([data]) => {
 
-                                if (!data || data.status === 'error') {
-                                    return 0;
-                                }
+                            if (!data || data.status === 'error') {
+                                return 0;
+                            }
 
-                                const open = data.firstPrice || new entities.Money(0, pair.priceAsset);
-                                const close = data.lastPrice || new entities.Money(0, pair.priceAsset);
-                                const change24 = getChange(open.getTokens(), close.getTokens()).toNumber();
+                            const open = data.firstPrice || new entities.Money(0, pair.priceAsset);
+                            const close = data.lastPrice || new entities.Money(0, pair.priceAsset);
+                            const change24 = getChange(open.getTokens(), close.getTokens()).toNumber();
 
-                                if (pair.amountAsset.id === from) {
-                                    return change24;
-                                } else {
-                                    return -change24;
-                                }
-                            });
-                    });
+                            if (pair.amountAsset.id === from) {
+                                return change24;
+                            } else {
+                                return -change24;
+                            }
+                        }))
+                    .catch(() => 0);
             }
 
             /**
@@ -230,40 +234,42 @@
              * @private
              */
             _getRateHistory(fromId, toId, from, to) {
-                const minuteTime = 1000 * 60;
-                const interval = Math.round((to.getDate().getTime() - from.getDate().getTime()) / (200 * minuteTime));
+                const formattedFrom = from.getDate().getTime();
+                const formattedTo = to.getDate().getTime();
 
                 return ds.api.pairs.get(fromId, toId)
-                    .then((pair) => {
+                    .then(pair => {
                         const amountId = pair.amountAsset.id;
                         const priceId = pair.priceAsset.id;
-                        const path = `${WavesApp.network.api}/candles/${amountId}/${priceId}`;
+                        const dataService = ds.config.getDataService();
+                        const int = utils.getMaxInterval(formattedFrom, formattedTo);
+                        const { options } = utils.getValidCandleOptions(formattedFrom, formattedTo, int);
+                        /**
+                         * @type {Array<Promise<Response<Candle>>>}
+                         */
+                        const promises = options
+                            .map(option => dataService.getCandles(amountId, priceId, option));
 
-                        return ds.fetch(`${path}?timeStart=${from}&timeEnd=${to}&interval=${interval}m`)
-                            .then((data) => {
-                                const list = data.candles;
-
-                                if (!list || !list.length) {
-                                    return Promise.reject(list);
+                        return Promise.all(promises)
+                            .then(pipe(map(prop('data')), flatten))
+                            .then(map(item => ({
+                                close: item.close,
+                                timestamp: new Date(item.time).getTime()
+                            })))
+                            .then(filter(where({
+                                close: gt(__, 0),
+                                timestamp: allPass([gte(__, formattedFrom), lte(__, formattedTo)])
+                            })))
+                            .then(list => {
+                                if (equals(length(list), 0)) {
+                                    return Promise.reject(new Error('Nor found!'));
                                 }
-
-                                const result = [];
-
-                                list.forEach((item) => {
-                                    const close = Number(item.close);
-                                    const rate = fromId !== pair.priceAsset.id ? close : 1 / close;
-
-                                    if (close !== 0) {
-                                        result.push({
-                                            timestamp: new Date(item.time),
-                                            rate: rate
-                                        });
-                                    }
-                                });
-
-                                return result.filter((item) => item.timestamp > from && item.timestamp < to)
-                                    .sort(utils.comparators.process(({ timestamp }) => timestamp).asc);
-                            });
+                                return list;
+                            })
+                            .then(map(({ timestamp, close }) => ({
+                                timestamp: new Date(timestamp),
+                                rate: fromId !== pair.priceAsset.id ? close : 1 / close
+                            })));
                     });
             }
 

@@ -36,7 +36,6 @@
       width: calc(~"100% + "@padding-main-layout / 2);
       position: relative;
       height: 42px;
-
       w-button:not(:last-child) {
         margin-right: 5px;
       }
@@ -276,10 +275,12 @@ i.toggler {
 
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 560px) {
   .main.wallet.assets {
     .content {
       .interface {
+        width: 54px;
+        padding: 0;
         .btn-icon {
           display: none;
         }

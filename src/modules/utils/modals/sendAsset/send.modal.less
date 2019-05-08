@@ -32,8 +32,10 @@ md-dialog.modal-send {
     }
 
     w-step.send-form .tab-body-wrap {
-      padding: 40px 40px 0;
       display: block;
+      @media screen and (min-width: 541px) {
+        padding: 40px 40px 0;
+      }
     }
 
     .icon-browser-warning {
@@ -60,38 +62,14 @@ md-dialog.modal-send {
         border-bottom: 1px solid @color-disabled-200;
       }
 
-      .note-plate {
-        position: relative;
+      .plate-note {
         margin: 0 0 20px;
-        background: @color-basic-50;
-        border: 1px dashed @color-basic-200;
-        padding: 14px;
-        border-radius: @border-radius;
-        min-height: 54px;
-        display: flex;
-        width: 100%;
-        align-items: center;
-
-        &.transparent {
-          background: transparent;
-          padding: 12px;
-        }
       }
 
       .help-icon__content {
         left: 40px;
         width: calc(100% ~'- 80px');
       }
-    }
-
-    .icon-close {
-      position: absolute;
-      top: 10px;
-      right: 30px;
-      z-index: 13;
-      padding: 20px;
-      background-size: 16px;
-      background-position: center;
     }
 
     w-transaction-info {
@@ -129,7 +107,7 @@ md-dialog.modal-send {
       border: 1px solid @color-basic-200;
     }
 
-    .warning-plate {
+    .plate-warning {
       &.server-error {
         margin-bottom: 30px;
       }
@@ -191,6 +169,10 @@ md-dialog.modal-send {
       }
     }
 
+    .asset__name {
+      margin-left: 10px;
+    }
+
     .flex-row {
       display: flex;
       flex-direction: row;
@@ -230,8 +212,23 @@ md-dialog.modal-send {
       max-height: 300px;
     }
 
-    .asset-name {
-      margin-left: 10px;
+    w-select {
+
+      .asset {
+        &__name {
+          font-size: 15px;
+          @media screen and (max-width: 540px) {
+            font-size: 13px;
+          }
+        }
+
+        &__balance {
+          font-size: 15px;
+          @media screen and (max-width: 540px) {
+            font-size: 13px;
+          }
+        }
+      }
     }
 
     .input-like {
@@ -374,10 +371,11 @@ md-dialog.modal-send {
 @media screen and (max-width: 540px) {
   md-dialog.modal-send {
     md-dialog-content {
-
-      .tab-body-wrap {
-        padding: 20px 20px 0;
-        display: block;
+      w-step.send-form{
+        .tab-body-wrap {
+          padding: 20px 20px 0;
+          display: block;
+        }
       }
 
       .qr-code-wrap {
@@ -418,9 +416,10 @@ md-dialog.modal-send {
           width: 45%;
         }
 
+        .asset__name,
         .flex-row.split-half {
           white-space: nowrap;
-          font-size: 12px;
+          font-size: 13px;
 
           span {
             vertical-align: top;

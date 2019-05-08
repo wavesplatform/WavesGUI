@@ -73,14 +73,14 @@
                             try {
                                 return originalPostLink.apply(instance, args);
                             } catch (e) {
-                                return onError(e);
+                                return onError();
                             }
                         };
                     }
 
                     return instance;
                 } catch (e) {
-                    return onError(e);
+                    return onError();
                 }
             };
 
@@ -109,7 +109,9 @@
         'app.import',
         'app.wallet',
         'app.dex',
-        'app.tokens'
+        'app.tokens',
+        'app.unavailable',
+        'app.stand'
     ]);
 })();
 
@@ -129,4 +131,42 @@
  * @typedef {function} _$ICompileResult
  * @param {$rootScope.Scope} $scope
  * @return JQuery
+ */
+
+/**
+ * @typedef {object} IWavesApp
+ * @property {string} name
+ * @property {object} oracles
+ * @property {string} version
+ * @property {string} type
+ * @property {string} origin
+ * @property {MobileDetect} device
+ * @property {Object.<{separators: {group: string, decimal: string}}>} localize
+ * @property {number} minAliasLength
+ * @property {number} maxAliasLength
+ * @property {number} MAX_URL_LENGTH
+ * @property {string} bankRecipient
+ * @property {number} maxAddressLength
+ * @property {{count: number, timeType: 'day'}} matcherSignInterval
+ * @property {BigNumber} maxCoinsCount
+ * @property {typeof WavesApp.TRANSACTION_TYPES} TRANSACTION_TYPES
+ * @property {typeof WavesApp.network} network
+ * @property {typeof WavesApp.defaultAssets} defaultAssets
+ * @property {Array<string>} ALWAYS_PINNED_ASSETS
+ * @property {object} remappedAssetNames
+ * @property {object} dex
+ * @property {Array<string>} dex.resolutions
+ * @property {string} dex.defaultResolution
+ * @property {Array<string>} modules
+ * @property {function():boolean} isWeb
+ * @property {function():boolean} isDesktop
+ * @property {function():boolean} isProduction
+ * @property {boolean} usePostMessageStorage
+ * @property {boolean} isMock
+ * @property {Function} addController
+ * @property {Function} getController
+ * @property {function():{name: string, separators: {group: string, decimal: string}}} getLocaleData
+ * @property {function(data: string): Promise<object>} parseJSON
+ * @property {function(data: object, [a], [b]): string} stringifyJSON
+ * @property {Tree} stateTree
  */

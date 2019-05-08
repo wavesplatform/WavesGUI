@@ -1,23 +1,69 @@
 (function () {
     'use strict';
 
-    const controller = function (BaseTxInfo, $scope) {
+    const { SIGN_TYPE } = require('@waves/signature-adapter');
 
-        class TransactionInfoHeader extends BaseTxInfo {
+    /**
+     * @param {app.utils} utils
+     * @return {TransactionInfoHeader}
+     */
+    const controller = function (utils, user) {
 
-            constructor() {
-                super($scope);
+        class TransactionInfoHeader {
 
-                /**
-                 * @type {ITransaction}
-                 */
-                this.transaction = null;
-                /**
-                 * @type {string}
-                 */
-                this.txId = null;
+            /**
+             * @type {Signable}
+             */
+            signable;
 
-                this.templatePostfix = '-header';
+            /**
+             * @type {boolean}
+             */
+            isScam;
+
+            /**
+             * @type {boolean}
+             */
+            isScamAmount;
+
+            /**
+             * @type {boolean}
+             */
+            isScamPrice;
+
+            $postLink() {
+                const isOrder = this.signable.type === SIGN_TYPE.CREATE_ORDER;
+                this.typeName = isOrder ? 'create-order' : utils.getTransactionTypeName(this.signable.getTxData());
+                this.transaction = this.signable.getTxData();
+                if (!this.transaction.assetId) {
+                    this._addAssetId(this.transaction.type);
+                }
+                this.isScam = !!user.scam[this.transaction.assetId];
+                if (this.transaction.type === 7) {
+                    this.isScamAmount = !!user.scam[this.transaction.amount.asset];
+                    this.isScamPrice = !!user.scam[this.transaction.price.asset];
+                }
+            }
+
+            _addAssetId(typeName) {
+                switch (typeName) {
+                    case 4:
+                    case 11:
+                        this.transaction = {
+                            ...this.transaction,
+                            assetId: this.transaction.amount.asset.id
+                        };
+                        break;
+                    case 14:
+                        this.transaction = {
+                            ...this.transaction,
+                            assetId: this.transaction.minSponsoredAssetFee.asset.id
+                        };
+                        break;
+                    default:
+                        break;
+                }
+
             }
 
         }
@@ -25,7 +71,7 @@
         return new TransactionInfoHeader();
     };
 
-    controller.$inject = ['BaseTxInfo', '$scope'];
+    controller.$inject = ['utils', 'user'];
 
     angular.module('app.ui').component('wTransactionInfoHeader', {
         bindings: {

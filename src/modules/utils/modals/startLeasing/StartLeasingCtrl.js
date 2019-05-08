@@ -14,6 +14,7 @@
 
         const { SIGN_TYPE } = require('@waves/signature-adapter');
         const ds = require('data-service');
+        const analytics = require('@waves/event-sender');
 
         class StartLeasingCtrl extends Base {
 
@@ -33,7 +34,7 @@
                  */
                 this.nodeListLink = WavesApp.network.nodeList;
 
-                waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.LEASE })
+                waves.node.getFee({ type: SIGN_TYPE.LEASE })
                     .then((money) => {
                         this.fee = money;
                     });
@@ -49,6 +50,7 @@
             }
 
             sign() {
+                analytics.send({ name: 'Leasing Popup Start Click', target: 'ui' });
                 const tx = waves.node.transactions.createTransaction({
                     recipient: this.recipient,
                     fee: this.fee,

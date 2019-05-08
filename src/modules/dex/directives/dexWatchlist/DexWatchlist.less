@@ -40,14 +40,6 @@ body.dex-demo .dex-wrapper {
               }
             }
           }
-
-          .label-background {
-            background: @label-background-color;
-            display: inline-block;
-            padding: 3px 5px;
-            border-radius: @border-radius / 2;
-            margin: 0 4px 2px 0;
-          }
         }
       }
 
@@ -94,6 +86,7 @@ body.dex-demo .dex-wrapper {
 
         w-select {
           position: relative;
+          z-index: 6;
 
           .select-list {
             max-height: 155px;
@@ -151,12 +144,12 @@ body.dex-demo .dex-wrapper {
               &::before {
                 content: '';
                 display: block;
-                width: calc(100% - 2px);
+                width: calc(100% ~'- 2px');
                 height: 2px;
                 background: @color-white;
                 position: absolute;
                 z-index: 1;
-                bottom: -1px;
+                bottom: -2px;
                 left: 1px;
               }
             }
@@ -190,7 +183,7 @@ body.dex-demo .dex-wrapper {
         }
       }
 
-      a.title {
+      div.title {
         font-size: @font-size-caption-2;
         color: @color-basic-700;
         font-family: @font-roboto-medium;
@@ -252,7 +245,7 @@ body.dex-demo .dex-wrapper {
         width: 50px;
         height: 36px;
         left: 179px;
-        z-index: 5;
+        z-index: 7;
         top: 3px;
       }
 
@@ -309,10 +302,6 @@ body.dex-demo .dex-wrapper {
             flex-basis: 30px;
           }
 
-          &[data-column-id="volume"] {
-            padding-right: 10px;
-          }
-
           &[data-column-id="pair"] {
             flex-basis: calc(34% ~'- 30px');
             text-overflow: ellipsis;
@@ -323,6 +312,10 @@ body.dex-demo .dex-wrapper {
           &[data-column-id="price"] {
             flex-basis: 24%;
             text-align: right;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            max-width: 24%;
           }
 
           &[data-column-id="change"] {
@@ -345,6 +338,7 @@ body.dex-demo .dex-wrapper {
           &[data-column-id="volume"] {
             flex-basis: 25%;
             text-align: right;
+            padding-right: 10px;
           }
 
           &[data-column-id="info"] {

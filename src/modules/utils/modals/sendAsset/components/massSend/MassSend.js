@@ -15,7 +15,7 @@
     const controller = function (Base, readFile, $scope, utils, validateService, waves, user, decorators) {
 
         const Papa = require('papaparse');
-        const TYPE = WavesApp.TRANSACTION_TYPES.NODE.MASS_TRANSFER;
+        const analytics = require('@waves/event-sender');
 
         class MassSend extends Base {
 
@@ -104,23 +104,25 @@
                     item.amount = this.state.moneyHash[assetId].cloneWithTokens(item.amount.toTokens());
                 });
                 this.tx.transfers = transfers;
-
+                analytics.send({ name: 'Mass Transfer Click', target: 'ui' });
                 const onHasMoneyHash = () => {
-                    const signal = utils.observe(this.state.massSend, 'transfers');
+                    const changeTransfers = utils.observe(this.state.massSend, 'transfers');
+                    const changeAssetId = utils.observe(this.state, 'assetId');
 
-                    this.receive(utils.observe(this.state, 'assetId'), this._onChangeAssetId, this);
+                    this.receive(changeAssetId, this._onChangeAssetId, this);
 
                     this.observe(['transfers', 'errors'], this._updateTxList);
                     this.observe('totalAmount', this._validate);
                     this.observe('transfers', this._updateTextAreaContent);
                     this.observe('recipientCsv', this._onChangeCSVText);
-                    this.receive(signal, this._calculateTotalAmount, this);
-                    this.receive(signal, this._validate, this);
-                    this.receive(signal, this._calculateFee, this);
+                    this.receive(changeTransfers, this._calculateTotalAmount, this);
+                    this.receive(changeTransfers, this._validate, this);
+                    this.receive(changeTransfers, this._calculateFee, this);
+                    this.receive(changeAssetId, this._calculateFee, this);
                     this.receive(utils.observe(this.state.massSend, 'fee'), this._currentHasFee, this);
 
                     this.transfers = this.tx.transfers.slice();
-                    signal.dispatch();
+                    changeTransfers.dispatch();
                 };
 
                 if (this.state.moneyHash) {
@@ -165,13 +167,14 @@
                 const tx = waves.node.transactions.createTransaction(this.tx);
                 const signable = ds.signature.getSignatureApi().makeSignable({
                     type: tx.type,
-                    data: tx
+                    data: { ...tx, attachment: utils.stringToBytes(tx.attachment) }
                 });
 
                 return signable;
             }
 
             onTxSign(signable) {
+                analytics.send({ name: 'Mass Transfer Continue Click', target: 'ui' });
                 this.onContinue({ signable });
             }
 
@@ -205,7 +208,6 @@
                 const fee = this.state.massSend.fee;
                 const moneyHash = this.state.moneyHash;
                 this.hasFee = moneyHash[fee.asset.id] && moneyHash[fee.asset.id].gte(fee);
-                $scope.$digest();
             }
 
             /**
@@ -221,6 +223,7 @@
                 if (MassSend._isNotEqual(this.tx.transfers, transfers)) {
                     this.tx.transfers = transfers;
                 }
+                this._currentHasFee();
             }
 
             /**
@@ -245,7 +248,7 @@
              */
             @decorators.async()
             _calculateFee() {
-                waves.node.getFee({ type: TYPE, tx: this.tx }).then((fee) => {
+                waves.node.getFee(this.tx).then((fee) => {
                     this.tx.fee = fee;
                     $scope.$digest();
                 });
@@ -413,10 +416,16 @@
              */
             static _parseAmount(amountString) {
                 const data = WavesApp.getLocaleData();
+                const validate = /^([0-9]+\.)?[0-9]+$/;
                 const amount = amountString
                     .replace(new RegExp(`\\${data.separators.group}`, 'g'), '')
                     .replace(new RegExp(`\\${data.separators.decimal}`), '.')
                     .replace(',', '.');
+
+                if (!validate.test(amount)) {
+                    return new BigNumber(0);
+                }
+
                 return new BigNumber(amount);
             }
 

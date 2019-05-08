@@ -98,7 +98,6 @@
                  * @private
                  */
                 this.loadingTradingView = true;
-
                 /**
                  * @type {string}
                  * @private
@@ -137,6 +136,9 @@
 
             $onDestroy() {
                 super.$onDestroy();
+                if (!this.loadingTradingView) {
+                    user.setSetting('lastInterval', this._chart.symbolInterval().interval);
+                }
                 this._removeTradingView();
             }
 
@@ -169,6 +171,7 @@
              * @private
              */
             _removeTradingView() {
+                candlesService.unsubscribeBars();
                 try {
                     if (this._chart) {
                         this._chart.remove();
@@ -180,6 +183,9 @@
                 return this;
             }
 
+            /**
+             * @private
+             */
             _refreshTradingView() {
                 if (!this._chart) {
                     return null;
@@ -190,6 +196,7 @@
                 this._chart.applyOverrides(overrides);
                 this._chart.applyStudiesOverrides(studiesOverrides);
             }
+
             /**
              * @return {DexCandleChart}
              * @private
@@ -211,7 +218,7 @@
                     // debug: true,
                     locale: DexCandleChart._remapLanguageCode(i18next.language),
                     symbol: `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
-                    interval: WavesApp.dex.defaultResolution,
+                    interval: user.getSetting('lastInterval'),
                     container_id: this.elementId,
                     datafeed: candlesService,
                     library_path: 'trading-view/',
@@ -221,7 +228,8 @@
                     // enabled_features: ENABLED_FEATURES,
                     overrides,
                     studies_overrides,
-                    custom_css_url
+                    custom_css_url,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
                 });
 
                 this._chart.onChartReady(() => {
@@ -239,7 +247,9 @@
                         this._chartReady = true;
                     }
                 });
-
+                this._chart.options.datafeed.onLoadError = () => {
+                    this.notLoaded = true;
+                };
                 return this;
             }
 
@@ -261,12 +271,14 @@
 
             static _remapLanguageCode(code) {
                 switch (code) {
-                    case 'hi':
+                    case 'hi_IN':
                         return 'en';
-                    case 'nl':
-                        return 'nl_NL';
-                    case 'zh-Hans-CN':
+                    case 'id':
+                        return 'en';
+                    case 'zh_CN':
                         return 'zh';
+                    case 'pt_BR':
+                        return 'pt';
                     default:
                         return code;
                 }

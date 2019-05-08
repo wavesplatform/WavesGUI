@@ -38,12 +38,8 @@ w-create-order {
   max-height: 100%;
   overflow: hidden;
 
-  .note-plate {
-    position: relative;
-    background: @color-basic-50;
-    border: 1px dashed @color-basic-200;
+  .plate-note {
     padding: 6px 14px;
-    border-radius: @border-radius;
     font-family: 'Roboto-Medium', sans-serif;
   }
 
@@ -102,7 +98,7 @@ w-create-order {
     & > div {
       margin-left: 7px;
       font-size: @font-size-caption-2;
-      color: @color-disabled-600;
+      color: @color-basic-500;
 
       &:first-child {
         flex-grow: 1;
@@ -319,12 +315,6 @@ w-create-order {
             }
           }
 
-          w-input-container.invalid {
-            .input-like:not(.embed) {
-              border: 1px solid @color-error-200;
-            }
-          }
-
           .input-like {
             padding: 0;
             display: flex;
@@ -346,7 +336,7 @@ w-create-order {
               height: 100%;
               width: 50%;
               padding: 6px 11px;
-              background-color: @color-disabled-50;
+              background-color: @color-basic-50;
               border-top-right-radius: @border-radius;
               border-bottom-right-radius: @border-radius;
               text-align: right;
@@ -590,19 +580,6 @@ w-create-order {
                   .create-order-notification {
                     z-index: 1;
                   }
-                }
-              }
-
-              .expandable {
-                display: block;
-              }
-
-              .head {
-                display: flex;
-              }
-
-              .body {
-                .making-order {
                   .choice {
                     display: flex;
 
@@ -618,6 +595,15 @@ w-create-order {
                   }
                 }
               }
+
+              .expandable {
+                display: block;
+              }
+
+              .head {
+                display: flex;
+              }
+
             }
           }
         }

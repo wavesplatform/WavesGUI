@@ -10,6 +10,7 @@
 w-button {
   display: inline-block;
   border-radius: @border-radius;
+  white-space: nowrap;
 
   &.long {
     width: 100%;
@@ -34,9 +35,17 @@ w-button {
     padding: 0;
     border: 0 none;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+    &.tiny {
+      font-size: @font-size-control-tiny;
+      padding: @padding-control-tiny;
+    }
+
+    &.small {
+      font-size: @font-size-control-small;
+      padding: @padding-control-button-small;
+    }
+
 
     background-color: @color-white;
     box-shadow: 0 0 0 1px @color-basic-200 inset;
@@ -194,7 +203,7 @@ w-button {
         margin-top: -3px;
         margin-left: -4px;
 
-        @media screen and (max-width: 768px) {
+        @media screen and (max-width: 560px) {
           margin-right: 0;
           margin-left: 0;
         }

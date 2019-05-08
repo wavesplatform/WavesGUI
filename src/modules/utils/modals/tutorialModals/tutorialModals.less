@@ -2,117 +2,80 @@
 @import (reference) 'icons';
 @import (reference) '../../../app/less/typography';
 
-.icon-information {
+.important-information {
   position: absolute;
-  display: block;
-  right: 141px;
+  right: 0;
+  min-width: 170px;
   top: 43px;
-  background: @information-icon center no-repeat;
-  width: 16px;
-  height: 16px;
 }
 
-.cell {
-  background-repeat: no-repeat;
-}
-
-.cell-001 {
- background: @modal-anonymus-icon no-repeat;
-}
-
-.cell-002 {
-  background: @modal-password-icon no-repeat;
-}
-.cell-003 {
-  background: @modal-backup-icon no-repeat;
-}
-.cell-004 {
-  background: @modal-paper-icon no-repeat;
-}
-
-.cell-005 {
-  background: @modal-url-icon no-repeat;
-}
-.cell-006 {
-  background: @modal-plugin-icon no-repeat;
-}
-.cell-007 {
-  background: @modal-mail-icon no-repeat;
-}
-.cell-008 {
-  background: @modal-refresh-icon no-repeat;
-}
-.cell-009 {
-  background: @modal-os-icon no-repeat;
-}
-.cell-010 {
-  background: @modal-wifi-icon no-repeat;
-}
-
-.tooltip {
-  display: none;
-  position: absolute;
-  padding: 0 10px;
-  top: 0;
-  right: 149px;
-  transform-origin: center;
-  transform: translate(50%, 8px);
-  z-index: 1;
-  padding-bottom: 20px;
-  color: @color-white;
-  font-size: @font-size-caption-2;
-  line-height: 28px;
-  cursor: pointer;
-
-  &::before {
-    position: absolute;
-    bottom: 17px;
-    left: calc(50% ~'- 5px');
-    width: 10px;
-    height: 10px;
-    content: '';
-    transform-origin: center;
-    transform: rotate(45deg);
-    background: @color-basic-700;
-    z-index: -1;
+@media screen and (max-width: 480px) {
+  .welcome,
+  .create,
+  .restore,
+  .desktop {
+    w-change-language w-select {
+      right: 20px;
+    }
   }
 
-  &::after {
-    border-radius: @border-radius;
-    position: absolute;
-    background: @color-basic-700;
-    width: 100%;
-    height: 28px;
-    content: '';
-    left: 0;
-    top: 0;
-    z-index: -1;
-  }
-
-  &:hover {
-    display: inline-block;
+  .important-information {
+    left: 20px;
+    right: auto;
+    .tooltip {
+      transform: translate(-10px, -6px);
+      &::before {
+        left: 13px;
+      }
+    }
   }
 }
 
-.icon-information:hover + .tooltip {
-  display: inline-block;
+.flex-cols {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.tutorial-modals {
+  .cell {
+    background-repeat: no-repeat;
+    flex-basis: calc(50% ~'- 10px');
+    min-height: 40px;
+  }
+  .cell-001 {
+    background: @modal-anonymus-icon no-repeat;
+  }
+  .cell-002 {
+    background: @modal-password-icon no-repeat;
+  }
+  .cell-003 {
+    background: @modal-backup-icon no-repeat;
+  }
+  .cell-004 {
+    background: @modal-paper-icon no-repeat;
+  }
+  .cell-005 {
+    background: @modal-url-icon no-repeat;
+  }
+  .cell-006 {
+    background: @modal-plugin-icon no-repeat;
+  }
+  .cell-007 {
+    background: @modal-mail-icon no-repeat;
+  }
+  .cell-008 {
+    background: @modal-refresh-icon no-repeat;
+  }
+  .cell-009 {
+    background: @modal-os-icon no-repeat;
+  }
+  .cell-010 {
+    background: @modal-wifi-icon no-repeat;
+  }
 }
 
 body md-dialog.tutorial-modals {
-
-  .icon-close {
-    z-index: 120;
-    display: block;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    width: 36px;
-    height: 36px;
-    background-size: 16px 16px;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-
   .mobile-only {
     display: none;
   }
@@ -126,22 +89,13 @@ body md-dialog.tutorial-modals {
     color: @color-black;
   }
 
-  .flex-cols {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
   .cell {
     padding-left: 60px;
     position: relative;
   }
 
-  img {
-    max-width: 100%;
-    height: auto;
-    position: absolute;
-    left: 0;
-    top: 5px;
+  img.computer {
+    margin-right: 40px;
   }
 }
 
@@ -164,20 +118,6 @@ body md-dialog.tutorial-modals {
       min-height: 550px;
     }
   }
-
-  .flex-cols {
-    & > div {
-      flex-basis: calc(50% ~'- 20px');
-
-      &:nth-child(odd) {
-        margin-right: 20px;
-      }
-      &:nth-child(even) {
-        margin-left: 20px;
-      }
-    }
-  }
-
 }
 
 @media screen and (max-width: 800px) {
@@ -189,6 +129,25 @@ body md-dialog.tutorial-modals {
 
       &::after {
         height: 30px;
+      }
+    }
+
+    .flex-cols {
+      flex-direction: column;
+    }
+
+    .buttons-wrapper {
+      flex-direction: column;
+
+      w-button {
+        &:last-child {
+          margin-top: 20px;
+        }
+      }
+
+      .fake-button.long,
+      w-button.long {
+        min-width: 100%;
       }
     }
 
@@ -205,61 +164,25 @@ body md-dialog.tutorial-modals {
     }
 
     img.computer {
-      position: relative;
-      margin: 0 auto 20px auto;
+      margin: 20px auto;
       display: block;
     }
 
-    .flex-cols {
+    .flex {
       flex-direction: column;
-      & > div {
-        flex-basis: 100%;
-      }
     }
-
-    .buttons-wrapper {
-      & > div:last-child {
-        w-button {
-          margin-top: 20px;
-        }
-      }
-    }
-
   }
-
 }
 
 @media screen and (max-width: 480px) {
-
   body md-dialog.tutorial-modals {
-
     img.computer {
       transform: scale(.75);
-      margin: -30px auto -10px auto;
+      margin: 0 auto 20px auto;
     }
   }
 
   body w-button.mobile-mid-fsize > *.big {
     font-size: 14px;
   }
-
-  .icon-information {
-    right: auto;
-    left: 20px;
-  }
-
-  .tooltip {
-    width: 36px;
-    right: auto;
-    left: 10px;
-    transform: translate(0, 28px);
-    font-size: 0;
-    opacity: 0;
-
-    &::after,
-    &::before {
-      display: none;
-    }
-  }
-
 }

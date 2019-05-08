@@ -16,9 +16,14 @@ w-select {
     height: @height-control-big;
   }
 
-  &.disabled .select {
+  &[disabled] .select .title,
+  &.disabled .select .title {
     background: @color-basic-50;
     cursor: default;
+  }
+
+  &.select__no-user-select {
+    user-select: none;
   }
 
   @media screen and (max-width: 768px) {
@@ -28,12 +33,14 @@ w-select {
   }
 
   .select {
-    position: relative;
     height: 100%;
+    position: relative;
 
     .title {
+      position: relative;
       border: 1px solid @color-basic-200;
       height: 100%;
+      background: @color-white;
       font-size: @font-size-control;
       padding: 8px 35px 8px 15px;
       border-radius: @border-radius;
@@ -76,8 +83,6 @@ w-select {
       border: 1px solid @color-basic-200;
       border-top: none;
       border-radius: 0 0 @border-radius @border-radius;
-      left: 0;
-      top: 100%;
       width: 100%;
       background-color: @color-white;
       z-index: 10;
@@ -98,6 +103,8 @@ w-select {
         padding: 8px 35px 8px 15px;
         white-space: nowrap;
         color: @color-disabled-900;
+        display: flex;
+        align-items: center;
         &:hover {
           background-color: @color-basic-50;
         }
@@ -105,7 +112,6 @@ w-select {
     }
 
     &.to-up {
-
       .select-list {
         border: 1px solid @color-basic-100;
         border-bottom: none;
@@ -123,18 +129,22 @@ w-select {
       box-shadow: @shadow-buttons-default;
       width: 100%;
     }
+
     &:hover {
       border-radius: @border-radius @border-radius 0 0;
       color: @color-basic-700;
+
       .title {
         box-shadow: @shadow-buttons-hover;
         transition: all 0.3s;
         color: @color-basic-700;
       }
+
       .select:not(.expanded) {
         border-radius: 0 0 @border-radius @border-radius;
       }
     }
+
     .select.expanded {
       .title {
         border-top: 1px solid @color-basic-200;
@@ -142,6 +152,16 @@ w-select {
         border-right: 1px solid @color-basic-200;
         border-bottom: 1px solid @color-white;
         border-radius: @border-radius @border-radius 0 0;
+      }
+    }
+
+    &[disabled],
+    &.disabled {
+      &:hover {
+        .select .title {
+          box-shadow: @shadow-buttons-default; //@color-basic-50;
+          color: @color-basic-500;
+        }
       }
     }
   }

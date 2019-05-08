@@ -10,7 +10,8 @@
         'changeSetting',
         'extraFee',
         'networkError',
-        'changeScript'
+        'changeScript',
+        'scam'
     ];
 
     /**
@@ -22,6 +23,8 @@
      * @param {ModalManager} modalManager
      * @param {TimeLine} timeLine
      * @param {$injector} $injector
+     * @param {app.utils} utils
+     * @param {/} themes
      * @return {User}
      */
     const factory = function (storage,
@@ -32,11 +35,13 @@
                               modalManager,
                               timeLine,
                               $injector,
+                              utils,
                               themes) {
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
         const { Money } = require('@waves/data-entities');
+        const analytics = require('@waves/event-sender');
 
         class User {
 
@@ -99,6 +104,10 @@
              * @type {Signal<void>}
              */
             changeScript = new tsUtils.Signal();
+            /**
+             * @type {Record<string, boolean>}
+             */
+            scam = Object.create(null);
             /**
              * @type {DefaultSettings}
              * @private
@@ -297,7 +306,7 @@
             login(data) {
                 this.networkError = false;
                 return this._addUserData(data)
-                    .then(() => analytics.push('User', `Login.${WavesApp.type}.${data.userType}`));
+                    .then(() => analytics.send({ name: 'Sign In Success' }));
             }
 
             /**
@@ -334,10 +343,22 @@
                         theme: themes.getDefaultTheme(),
                         candle: 'blue'
                     }
-                }).then(() => analytics.push(
-                    'User',
-                    `${restore ? 'Restore' : 'Create'}.${WavesApp.type}.${data.userType}`,
-                    document.referrer));
+                }).then(() => {
+                    if (restore) {
+                        analytics.send({
+                            name: 'Import Backup Success',
+                            params: { userType: data.userType }
+                        });
+                    } else {
+                        analytics.send({
+                            name: 'Create Success',
+                            params: {
+                                hasBackup,
+                                userType: data.userType
+                            }
+                        });
+                    }
+                });
             }
 
             logout() {
@@ -413,7 +434,7 @@
                 if (currentTheme !== newTheme) {
                     this.setSetting('theme', newTheme);
                 }
-                analytics.push('Settings', 'Settings.ChangeTheme', newTheme);
+                // analytics.push('Settings', 'Settings.ChangeTheme', newTheme);
             }
 
             changeCandle(name) {
@@ -429,6 +450,7 @@
                 const newTheme = themes.switchNext();
                 this.setSetting('theme', newTheme);
             }
+
 
             /**
              * @return {Promise<any>}
@@ -465,45 +487,22 @@
              * @return {Promise<{signature, timestamp}>}
              */
             addMatcherSign() {
-                let promise;
-                let modalPromise;
-                let devicePromise;
+                /**
+                 * @type {Promise<{signature: string, timestamp: number}>}
+                 */
+                const promise = utils.signUserOrders({ matcherSign: this.matcherSign });
 
-                const dayForwardTime = ds.app.getTimeStamp(1, 'day');
-                if (!this.matcherSign || this.matcherSign.timestamp - dayForwardTime < 0) {
-                    const maxIntervalTimeStamp = ds.app.getTimeStamp(
-                        WavesApp.matcherSignInterval.count,
-                        WavesApp.matcherSignInterval.timeType
-                    );
-                    promise = ds.app.signForMatcher(maxIntervalTimeStamp).then(
-                        (signature) => {
-                            return { signature, timestamp: maxIntervalTimeStamp };
-                        });
+                promise.then(matcherSign => {
+                    this.matcherSign = matcherSign;
+                    ds.app.addMatcherSign(matcherSign.timestamp, matcherSign.signature);
+                });
 
-                    if (this.userType && this.userType !== 'seed') {
-                        modalPromise = ds.app.getSignIdForMatcher(maxIntervalTimeStamp).then((id) => {
-                            return modalManager
-                                .showSignByDevice({ promise, mode: 'sign-matcher', id, userType: this.userType });
-                        });
-
-                        devicePromise = modalPromise
-                            .then(() => promise)
-                            .catch(() => modalManager
-                                .showSignDeviceError({ error: 'sign-error', userType: this.userType })
-                                .then(() => this.addMatcherSign()));
-                    }
-                }
-
-                return (devicePromise || promise || Promise.resolve(this.matcherSign))
-                    .then((matcherSign) => {
-                        this.matcherSign = matcherSign || this.matcherSign || { timestamp: 0, signature: '' };
-                        return ds.app.addMatcherSign(this.matcherSign.timestamp, this.matcherSign.signature);
-                    });
+                return promise;
             }
 
             /**
              * @param {object} data
-             * @param {ISignatureApi} data.api
+             * @param {Adapter} data.api
              * @param {string} data.address
              * @param {string} data.userType
              * @param {string} [data.encryptedSeed]
@@ -516,7 +515,8 @@
              * @private
              */
             _addUserData(data) {
-                return this._loadUserByAddress(data.address)
+                return data.api.getPublicKey().then(publicKey => (data.publicKey = publicKey))
+                    .then(() => this._loadUserByAddress(data.address))
                     .then((item) => {
                         this._fieldsForSave.forEach((propertyName) => {
                             if (data[propertyName] != null) {
@@ -525,6 +525,13 @@
                                 this[propertyName] = item[propertyName];
                             }
                         });
+
+                        analytics.init(WavesApp.analyticsIframe, {
+                            platform: WavesApp.type,
+                            userType: data.userType,
+                            networkByte: ds.config.get('code')
+                        });
+
                         this.lastLogin = Date.now();
 
                         if (this._settings) {
@@ -547,6 +554,8 @@
                         Object.keys(WavesApp.network).forEach((key) => {
                             ds.config.set(key, this._settings.get(`network.${key}`));
                         });
+
+                        ds.config.set('oracleWaves', this.getSetting('oracleWaves'));
 
                         ds.app.login(data.address, data.api);
 
@@ -692,6 +701,7 @@
         'modalManager',
         'timeLine',
         '$injector',
+        'utils',
         'themes'
     ];
 

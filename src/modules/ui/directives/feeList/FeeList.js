@@ -4,18 +4,17 @@
     /**
      * @param {typeof Base} Base
      * @param {Waves} waves
+     * @param {User} user
      * @param {$rootScope.Scope} $scope
      */
-    const controller = function (Base, waves, $scope) {
-
-        const { find } = require('ts-utils');
+    const controller = function (Base, waves, $scope, user) {
 
         class FeeList extends Base {
 
             /**
-             * @type {number}
+             * @type {*}
              */
-            type = null;
+            tx = null;
             /**
              * @type {Money}
              */
@@ -32,23 +31,39 @@
 
             constructor() {
                 super();
-                this.observe('type', this._onChangeTxType);
+                $scope.$watch('$ctrl.tx', () => this._onChangeTx(), true);
                 this.observe('balanceHash', this._onChangeBalanceHash);
             }
 
-            _onChangeTxType() {
-                if (!this.type) {
+            /**
+             * @return {null}
+             * @private
+             */
+            _onChangeTx() {
+                if (!this.tx) {
                     return null;
                 }
 
-                waves.node.getFeeList({ type: this.type }).then(list => {
+                waves.node.getFeeList(this.tx).then(list => {
+
                     this.originalFeeList = list;
                     this._setActualFeeList();
-                    if (!(this.fee && find(this.feeList, item => item.asset.id === this.fee.asset.id))) {
-                        const fee = this.balanceHash && Object.keys(this.balanceHash).length && list.find(item => {
-                            const balance = this.balanceHash[item.asset.id];
-                            return balance && balance.gte(item);
-                        });
+
+                    const isEqualAssetId = (asset1, asset2) => asset1.id === asset2.id;
+                    const isEqualMoney = (money1, money2) =>
+                        isEqualAssetId(money1.asset, money2.asset) && money1.eq(money2);
+
+                    const hasMyFeeInList = this.fee && list.some(item => isEqualMoney(item, this.fee));
+                    if (!hasMyFeeInList) {
+                        this.fee = null;
+                    }
+
+                    if (!(this.fee && list.find(item => item.asset.id === this.fee.asset.id))) {
+                        const fee = this.balanceHash && Object.keys(this.balanceHash).length && this.feeList
+                            .find(item => {
+                                const balance = this.balanceHash[item.asset.id];
+                                return balance && balance.gte(item);
+                            });
                         this.fee = fee || this.feeList[0];
                     }
 
@@ -81,6 +96,11 @@
                 }
             }
 
+            /**
+             * @param {Array<Money>} list
+             * @return {null}
+             * @private
+             */
             _setActualFeeList(list = this.originalFeeList) {
                 const hasBalances = this.balanceHash && Object.keys(this.balanceHash).length;
 
@@ -90,9 +110,10 @@
                 }
 
                 const wavesFee = list.find(item => item.asset.id === 'WAVES');
-                const filteredList = list.filter((fee) => {
+                const filteredList = list.filter(fee => {
                     const feeBalance = this.balanceHash[fee.asset.id];
-                    return !(!hasBalances || !feeBalance || feeBalance.lt(fee));
+                    const canUseOwnFee = user.address !== fee.asset.sender || this.balanceHash.WAVES.gte(wavesFee);
+                    return hasBalances && feeBalance && feeBalance.gte(fee) && canUseOwnFee;
                 });
 
 
@@ -108,11 +129,11 @@
         return new FeeList();
     };
 
-    controller.$inject = ['Base', 'waves', '$scope'];
+    controller.$inject = ['Base', 'waves', '$scope', 'user'];
 
     angular.module('app.ui').component('wFeeList', {
         bindings: {
-            type: '<',
+            tx: '<',
             balanceHash: '<',
             disabled: '<',
             fee: '='

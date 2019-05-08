@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const { get } = require('ts-utils');
+
     const searchByNameAndId = ($scope, key, list) => {
         const query = $scope[key];
         if (!query) {
@@ -8,11 +10,13 @@
         }
 
         return list.filter((item) => {
-            const name = tsUtils.get({ item }, 'item.asset.name');
-            const id = tsUtils.get({ item }, 'item.asset.id');
+            const name = get({ item }, 'item.asset.name');
+            const id = get({ item }, 'item.asset.id');
             return String(name).toLowerCase().indexOf(query.toLowerCase()) !== -1 || String(id) === query;
         });
     };
+
+    const ds = require('data-service');
 
     /**
      * @param {Base} Base
@@ -22,15 +26,16 @@
      * @param {ModalManager} modalManager
      * @param {User} user
      * @param {EventManager} eventManager
-     * @param {IPollCreate} createPoll
      * @param {GatewayService} gatewayService
      * @param {$state} $state
      * @param {STService} stService
      * @param {VisibleService} visibleService
+     * @param {BalanceWatcher} balanceWatcher
      * @return {PortfolioCtrl}
      */
     const controller = function (Base, $scope, waves, utils, modalManager, user,
-                                 eventManager, createPoll, gatewayService, $state, stService, visibleService) {
+                                 eventManager, gatewayService, $state,
+                                 stService, visibleService, balanceWatcher) {
 
         class PortfolioCtrl extends Base {
 
@@ -130,17 +135,27 @@
                     filter: 'wallet.portfolio.filter'
                 });
 
-                /**
-                 * @type {Poll}
-                 */
-                this.poll = createPoll(this, this._getPortfolio, 'details', 1000, { isBalance: true, $scope });
+                balanceWatcher.ready
+                    .then(() => {
+                        const onChange = () => {
+                            this._updateBalances();
+                            visibleService.updateSort();
+                        };
 
-                this.poll.ready.then(() => {
+                        this.receive(balanceWatcher.change, onChange);
+                        this.receive(utils.observe(user, 'scam'), onChange);
+                        this.observe(['pinned', 'spam'], onChange);
+
+                        this._updateBalances();
+                    });
+
+                balanceWatcher.ready.then(() => {
                     this.pending = false;
                     this.observe('details', this._onChangeDetails);
                     this.observe('filter', this._onChangeDetails);
 
                     this._onChangeDetails();
+                    utils.safeApply($scope);
                 });
 
                 this.receive(stService.sort, () => {
@@ -181,10 +196,6 @@
              */
             showSepa(asset) {
                 return modalManager.showSepaAsset(user, asset);
-            }
-
-            showQR() {
-                return modalManager.showAddressQrCode(user);
             }
 
             showBurn(assetId) {
@@ -266,8 +277,8 @@
                     case 'my':
                         balanceList = details.my.slice();
                         break;
-                    case 'notLiquid':
-                        balanceList = details.notLiquid.slice();
+                    case 'verified':
+                        balanceList = details.verified.slice();
                         break;
                     default:
                         throw new Error('Wrong filter name!');
@@ -277,52 +288,46 @@
             }
 
             /**
-             * @return {Promise<Money[]>}
              * @private
              */
-            _getPortfolio() {
-                /**
-                 * @param {IBalanceDetails} item
-                 * @return {PortfolioCtrl.IPortfolioBalanceDetails}
-                 */
-                const remapBalances = (item) => {
-                    const isPinned = this._isPinned(item.asset.id);
-                    const isSpam = this._isSpam(item.asset.id);
-                    const isOnScamList = WavesApp.scam[item.asset.id];
+            _updateBalances() {
+                const details = balanceWatcher.getFullBalanceList()
+                    .map(item => {
+                        const isPinned = this._isPinned(item.asset.id);
+                        const isSpam = this._isSpam(item.asset.id);
+                        const isOnScamList = user.scam[item.asset.id];
 
-                    return Promise.resolve({
-                        available: item.available,
-                        asset: item.asset,
-                        inOrders: item.inOrders,
-                        isPinned,
-                        isSpam,
-                        isOnScamList,
-                        minSponsoredAssetFee: item.minSponsoredAssetFee,
-                        sponsorBalance: item.sponsorBalance
-                    });
-                };
+                        return {
+                            available: item.available,
+                            asset: item.asset,
+                            inOrders: item.inOrders,
+                            isPinned,
+                            isSpam,
+                            isOnScamList,
+                            minSponsoredAssetFee: item.asset.minSponsoredAssetFee,
+                            sponsorBalance: item.asset.sponsorBalance
+                        };
+                    })
+                    .reduce((acc, item) => {
+                        const oracleData = ds.dataManager.getOraclesAssetData(item.asset.id);
 
-                return Promise.all([
-                    waves.node.assets.userBalances().then((list) => Promise.all(list.map(remapBalances)))
-                ]).then(([activeList]) => {
-
-                    const spam = [];
-                    const my = [];
-                    const active = [];
-
-                    activeList.forEach(item => {
                         if (item.asset.sender === user.address) {
-                            my.push(item);
+                            acc.my.push(item);
+                        }
+                        if (oracleData && oracleData.status > 0) {
+                            acc.verified.push(item);
                         }
                         if (item.isOnScamList || item.isSpam) {
-                            spam.push(item);
+                            acc.spam.push(item);
                         } else {
-                            active.push(item);
+                            acc.active.push(item);
                         }
-                    });
 
-                    return { active, spam, my };
-                });
+                        return acc;
+                    }, { spam: [], my: [], active: [], verified: [] });
+
+                this.details = details;
+                utils.safeApply($scope);
             }
 
             /**
@@ -356,11 +361,11 @@
         'modalManager',
         'user',
         'eventManager',
-        'createPoll',
         'gatewayService',
         '$state',
         'stService',
-        'visibleService'
+        'visibleService',
+        'balanceWatcher'
     ];
 
     angular.module('app.wallet.portfolio')
@@ -389,4 +394,5 @@
  * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} pinned // TODO when available assets store
  * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} spam
  * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} my
+ * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} verified
  */

@@ -30,11 +30,6 @@
         <w-step-by-step active-step="$ctrl.tab">
             <w-step step-id="general" class="general">
 
-                <div class="row flex-row row-style unit-checkbox no-border">
-                    <w-checkbox-submit id="shareStat" ng-model="$ctrl.shareStat"></w-checkbox-submit>
-                    <label for="shareStat" w-i18n="modal.termsAccept.body.analytics"></label>
-                </div>
-
                 <w-web-only>
                     <div class="row flex-row row-style unit-checkbox no-border">
                         <w-checkbox-submit id="openLinkViaWeb" ng-model="$ctrl.openLinkViaWeb"></w-checkbox-submit>
@@ -55,7 +50,7 @@
                 <div class="row flex-row row-style unit-select">
                     <div class="footnote-1 basic-500" w-i18n="modal.settings.general.timeout"></div>
                     <div>
-                        <w-select class="with-scroll" ng-model="$ctrl.logoutAfterMin">
+                        <w-select class="with-scroll select__no-user-select" ng-model="$ctrl.logoutAfterMin">
                             <w-option value="::5">
                                 <span w-i18n="modal.settings.general.minutes" w-i18n-ns="app.utils"
                                       params="{minutes: 5}"></span>
@@ -83,7 +78,7 @@
                 <div class="row flex-row row-style unit-select">
                     <div class="footnote-1 basic-500" w-i18n="modal.settings.general.theme"></div>
                     <div>
-                        <w-select ng-model="$ctrl.theme">
+                        <w-select class="select__no-user-select" ng-model="$ctrl.theme">
                             <w-option value="::'default'">
                                 <i class="white-dot"></i>
                                 <span w-i18n-ns="app.utils" w-i18n="modal.settings.general.white"></span>
@@ -112,9 +107,11 @@
                         <div class="footnote-1 basic-500" w-i18n="modal.settings.pairing.devicePairing"></div>
                         <div>
                             <a class="label link"
-                                w-i18n="modal.settings.pairing.showCodeLink"
-                                w-modal-close
-                                ng-click="$ctrl.showPairingWithMobile()"></a>
+                               w-i18n="modal.settings.pairing.showCodeLink"
+                               w-modal-close
+                               w-analytics event="'Settings Pairing Code Click'"
+                               event-target="'ui'"
+                               ng-click="$ctrl.showPairingWithMobile()"></a>
                         </div>
                     </div>
                 </w-permit>
@@ -123,8 +120,6 @@
                     <div class="footnote-1 basic-500" w-i18n="modal.settings.general.blockHeight"></div>
                     <div><span class="label">{{$ctrl.blockHeight}}</span></div>
                 </div>
-                <div class="bottom-padding"></div>
-
             </w-step>
 
             <w-step step-id="security" class="security">
@@ -169,7 +164,8 @@
                     <div class="footnote basic-500" w-i18n="modal.settings.security.script"></div>
                     <div>
                         <w-button on-click="$ctrl.showScriptModal()" class="tiny submit" w-modal-close>
-                            <span w-i18n="modal.settings.security.scriptButton"></span>
+                            <span ng-if="$ctrl.isScript" w-i18n="modal.settings.security.scriptButtonUpdate"></span>
+                            <span ng-if="!$ctrl.isScript" w-i18n="modal.settings.security.scriptButton"></span>
                         </w-button>
                     </div>
                 </div>
@@ -197,13 +193,76 @@
                     </div>
                 </div>
 
-                <div class="row margin-1">
+                <div class="row margin-1 asset-verification">
+                    <div class="footnote-1 basic-500 label">
+                        <span w-i18n="modal.settings.network.dataProvider"></span>
+                        <a class="settings-copy"
+                           w-copy="$ctrl.assetsOracleTmp"
+                           w-i18n="modal.settings.network.copy"></a>
+                    </div>
+                    <div class="data-field has-helper">
+
+                        <w-help-icon class="info" ng-if="!$ctrl.oracleError && $ctrl.oracleData">
+                            <div class="flex">
+                                <div>
+                                    <div class="data-provider-name basic-700">
+                                        {{$ctrl.oracleData.name}}
+                                    </div>
+                                    <div class="data-provider-id basic-500">
+                                        {{$ctrl.oracleWaves}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="data-provider-info help-icon__row">
+                                            <span>
+                                                {{$ctrl.oracleData.description.en}}
+                                            </span>
+                            </div>
+                            <div class="help-icon__row">
+                                <a target="_blank" rel="noopener noreferrer" href="{{$ctrl.oracleData.link}}"
+                                   w-i18n="modal.settings.network.showMore"></a>
+                            </div>
+                        </w-help-icon>
+
+                        <form novalidate name="dataProvider">
+                            <w-input-container class="relative">
+                                <w-input name="dataProviderInput"
+                                         w-validate
+                                         w-validator-custom="{{!$ctrl.oracleError}}"
+                                         ng-model="$ctrl.assetsOracleTmp"></w-input>
+                                <div class="input-state"
+                                     ng-class="{pending: $ctrl.oraclePending, success: $ctrl.oracleSuccess}">
+                                    <div class="input-state__icon">
+                                        <svg class="animate" width="10px" height="10px" viewBox="0 0 10 10"
+                                             version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                             xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <g id="Icon/10/check-submit300" stroke="none" stroke-width="1" fill="none"
+                                               fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline id="Path" stroke="#1F5AF6" stroke-width="1.5"
+                                                          points="2.38 5.16363636 4.01636364 6.8 7.61636364 3.2"></polyline>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <w-input-error message="custom">
+                                    <span w-i18n="modal.settings.network.dataProviderInvalid"></span>
+                                </w-input-error>
+                            </w-input-container>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row margin-1 asset-filter">
                     <div class="footnote-1 basic-500 label">
                         <span w-i18n="modal.settings.network.spamFilter"></span>
                         <a class="settings-copy" w-copy="$ctrl.scamListUrl" w-i18n="modal.settings.network.copy"></a>
                     </div>
-                    <div class="data-field">
+
+                    <div class="data-field has-helper">
                         <w-input ng-model="$ctrl.scamListUrl"></w-input>
+                        <w-help-icon class="info">
+                            <div class="help-icon__row headline-3" w-i18n="modal.settings.network.spamListHelp"></div>
+                        </w-help-icon>
                     </div>
                 </div>
 
@@ -214,9 +273,11 @@
                     </div>
                 </div>
 
-                <w-button class="interface bordered" on-click="$ctrl.setNetworkDefault()">
-                    <span w-i18n="modal.settings.setDefault"></span>
-                </w-button>
+                <div class="margin-4">
+                    <w-button class="interface bordered" on-click="$ctrl.setNetworkDefault()">
+                        <span w-i18n="modal.settings.setDefault"></span>
+                    </w-button>
+                </div>
             </w-step>
 
             <w-step step-id="info" class="info">
@@ -227,11 +288,23 @@
 
                 <div class="row flex-row row-style">
                     <div class="footnote-1 basic-500" w-i18n="modal.settings.info.support"></div>
-                    <div><a href="{{::$ctrl.supportLink}}" target="_blank">{{::$ctrl.supportLinkName}}</a></div>
+                    <div><a href="{{::$ctrl.supportLink}}"
+                            target="_blank"
+                            rel="noopener noreferrer">{{::$ctrl.supportLinkName}}</a></div>
+                </div>
+
+                <div class="row flex-row row-style">
+                    <div class="footnote-1 basic-500" w-i18n="modal.settings.info.legal"></div>
+                    <div class="basic-500">
+                        <a href="{{::$ctrl.termsAndConditionsLink}}" target="_blank" rel="noopener noreferrer">
+                        <span w-i18n="modal.settings.info.termsAndConditions"></span>
+                    </a>|<a href="{{::$ctrl.privacyPolicy}}" target="_blank" rel="noopener noreferrer">
+                        <span w-i18n="modal.settings.info.privacyPolicy"></span>
+                    </a></div>
                 </div>
 
                 <div class="row flex-row row-style solid-border">
-                    <div class="footnote-1 basic-500">&copy; 2018 Waves Platform</div>
+                    <div class="footnote-1 basic-500">&copy; 2019 Waves Platform</div>
                     <div><span class="waves-logo"></span></div>
                 </div>
             </w-step>

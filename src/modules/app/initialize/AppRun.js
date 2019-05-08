@@ -5,6 +5,17 @@
 
     const locationHref = location.href;
     const tsUtils = require('ts-utils');
+    const i18next = require('i18next');
+    const ds = require('data-service');
+    const { propEq, where, gte, lte, equals, __ } = require('ramda');
+
+    const i18nextReady = new Promise(resolve => {
+        const handler = data => {
+            resolve(data);
+            i18next.off('initialized', handler);
+        };
+        i18next.on('initialized', handler);
+    });
 
     const PROGRESS_MAP = {
         RUN_SCRIPT: 10,
@@ -54,13 +65,16 @@
      * @param {app.utils.decorators} decorators
      * @param {Waves} waves
      * @param {ModalRouter} ModalRouter
+     * @param {ConfigService} configService
+     * @param {INotification} userNotification
      * @return {AppRun}
      */
     const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
-                          notification, decorators, waves, ModalRouter) {
+                          notification, decorators, waves, ModalRouter, configService, userNotification) {
 
         const phone = WavesApp.device.phone();
         const tablet = WavesApp.device.tablet();
+        const analytics = require('@waves/event-sender');
 
         const isPhone = !!phone;
         const isTablet = !!tablet;
@@ -69,6 +83,7 @@
         $rootScope.isDesktop = isDesktop;
         $rootScope.isNotDesktop = !isDesktop;
         $rootScope.isPhone = isPhone;
+        $rootScope.isNotPhone = !isPhone;
         $rootScope.isTablet = isTablet;
 
         if (isPhone) {
@@ -80,6 +95,12 @@
         }
 
         class AppRun {
+
+            /**
+             * @type {boolean}
+             * @private
+             */
+            _unavailable = false;
 
             constructor() {
                 const identityImg = require('identity-img');
@@ -107,15 +128,24 @@
                 this._initializeLogin();
                 this._initializeOutLinks();
 
+                Promise.all([
+                    user.onLogin(),
+                    i18nextReady
+                ]).then(() => {
+                    this._updateUserNotifications();
+                    setInterval(() => this._updateUserNotifications(), 10000);
+                });
+
                 if (WavesApp.isDesktop()) {
                     window.listenMainProcessEvent((type, url) => {
                         const parts = utils.parseElectronUrl(url);
                         const path = parts.path.replace(/\/$/, '') || parts.path;
                         if (path) {
-                            const noLogin = path === '/' || WavesApp.stateTree.where({ noLogin: true }).some(item => {
-                                const url = item.get('url') || item.id;
-                                return path === url;
-                            });
+                            const noLogin = path === '/' || WavesApp.stateTree.where({ noLogin: true })
+                                .some(item => {
+                                    const url = item.get('url') || item.id;
+                                    return path === url;
+                                });
                             if (noLogin) {
                                 location.hash = `#!${path}${parts.search}`;
                             } else {
@@ -167,6 +197,32 @@
              */
             _setHandlers() {
                 $rootScope.$on('$stateChangeSuccess', this._onChangeStateSuccess.bind(this));
+                configService.change.on(this._updateServiceAvailable, this);
+            }
+
+            /**
+             * @param {string} [path]
+             * @private
+             */
+            _updateServiceAvailable(path) {
+                if (path !== 'SERVICE_TEMPORARILY_UNAVAILABLE') {
+                    return null;
+                }
+                const unavailable = configService.get('SERVICE_TEMPORARILY_UNAVAILABLE');
+
+                if (unavailable === this._unavailable) {
+                    return null;
+                }
+
+                this._unavailable = unavailable;
+                ds.dataManager.setSilentMode(unavailable);
+
+                if (unavailable && !user.address) {
+                    $state.go('unavailable');
+                } else {
+                    // TODO Fix State Tree
+                    user.logout();
+                }
             }
 
             /**
@@ -178,10 +234,58 @@
                     $(document).on('click', '[target="_blank"]', (e) => {
                         const $link = $(e.currentTarget);
                         e.preventDefault();
-
                         openInBrowser($link.attr('href'));
                     });
                 }
+            }
+
+            /**
+             * @private
+             */
+            _updateUserNotifications() {
+                const notifications = configService.get('NOTIFICATIONS') || [];
+                const time = ds.utils.normalizeTime(Date.now());
+
+                const closed = user.getSetting('closedNotification')
+                    .filter(id => notifications.some(propEq('id', id)));
+                user.setSetting('closedNotification', closed);
+
+                const notificationsWithDate = notifications
+                    .map(item => ({
+                        ...item,
+                        start_date: new Date(item.start_date),
+                        end_date: new Date(item.end_date)
+                    }));
+
+                notificationsWithDate
+                    .filter(where({
+                        start_date: lte(__, time),
+                        end_date: gte(__, time),
+                        id: id => !(userNotification.has(id) || closed.includes(id))
+                    }))
+                    .forEach(item => {
+                        const method = ['warn', 'success', 'error', 'info'].find(equals(item.type)) || 'warn';
+                        const literal = `user-notification.${item.id}`;
+
+                        Object.entries(item.text).forEach(([lang, message]) => {
+                            i18next.addResource(lang, 'app', literal, message);
+                        });
+
+                        userNotification[method]({
+                            ...item,
+                            body: {
+                                literal: literal
+                            }
+                        }).then(() => {
+                            user.setSetting('closedNotification', [
+                                item.id,
+                                ...user.getSetting('closedNotification')
+                            ]);
+                        });
+                    });
+
+                notificationsWithDate.filter(where({ end_date: lte(__, time) }))
+                    .forEach(item => userNotification.remove(item.id));
             }
 
             /**
@@ -219,12 +323,20 @@
 
                 let waiting = false;
 
-                const stop = $rootScope.$on('$stateChangeStart', (event, toState, params) => {
+                const stop = $rootScope.$on('$stateChangeStart', (event, toState, params, fromState) => {
 
                     let tryDesktop;
 
                     if (START_STATES.indexOf(toState.name) === -1) {
                         event.preventDefault();
+                        if (fromState.name === 'unavailable') {
+                            $state.go(START_STATES[0]);
+                        }
+                    }
+
+                    if (toState.name === 'unavailable' && !this._unavailable) {
+                        event.preventDefault();
+                        $state.go(START_STATES[0]);
                     }
 
                     if (toState.name === 'desktop' && !this._canOpenDesktopPage) {
@@ -301,17 +413,26 @@
              * @private
              */
             _initializeTermsAccepted() {
-                if (!user.getSetting('termsAccepted')) {
-                    return modalManager.showTermsAccept(user).then(() => {
-                        if (user.getSetting('shareAnalytics')) {
+                return Promise.all([
+                    storage.load('needReadNewTerms'),
+                    storage.load('termsAccepted')
+                ]).then(([needReadNewTerms, termsAccepted]) => {
+                    const autoPromise = (promise) => {
+                        return promise.then(() => {
                             analytics.activate();
-                        }
-                    })
-                        .catch(() => false);
-                } else if (user.getSetting('shareAnalytics')) {
-                    analytics.activate();
-                }
-                return Promise.resolve();
+                        })
+                            .catch(() => false);
+                    };
+                    if (needReadNewTerms) {
+                        return autoPromise(modalManager.showAcceptNewTerms(user));
+
+                    } else if (!termsAccepted) {
+                        return autoPromise(modalManager.showTermsAccept(user));
+                    } else {
+                        analytics.activate();
+                    }
+                    return Promise.resolve();
+                });
             }
 
             /**
@@ -341,6 +462,8 @@
 
                     modalManager.openModal.once(changeModalsHandler);
 
+                    analytics.send({ name: 'Create Save Phrase Show', target: 'ui' });
+
                     notification.error({
                         id,
                         ns: 'app.utils',
@@ -353,10 +476,12 @@
                         action: {
                             literal: 'notification.backup.action',
                             callback: () => {
+                                analytics.send({ name: 'Create Save Phrase Yes Click', target: 'ui' });
                                 modalManager.showSeedBackupModal();
                             }
                         },
                         onClose: () => {
+                            analytics.send({ name: 'Create Save Phrase No Click', target: 'ui' });
                             if (scope.closeByModal || user.getSetting('hasBackup')) {
                                 return null;
                             }
@@ -406,11 +531,62 @@
              * @private
              */
             _onChangeStateSuccess(event, toState, some, fromState) {
-                if (fromState.name) {
-                    analytics.pushPageView(
-                        `${AppRun._getUrlFromState(toState)}.${WavesApp.type}`,
-                        `${AppRun._getUrlFromState(fromState)}.${WavesApp.type}`
-                    );
+                const from = fromState.name || document.referrer;
+
+                switch (toState.name) {
+                    case 'create':
+                        analytics.send({
+                            name: 'Create New Account Show',
+                            params: { from }
+                        });
+                        break;
+                    case 'import':
+                        analytics.send({
+                            name: 'Import Accounts Show',
+                            params: { from },
+                            target: 'ui'
+                        });
+                        break;
+                    case 'restore':
+                        analytics.send({
+                            name: 'Import Backup Show',
+                            params: { from },
+                            target: 'ui'
+                        });
+                        break;
+                    case 'main.wallet.leasing':
+                        analytics.send({
+                            name: 'Leasing Show',
+                            params: { from },
+                            target: 'ui'
+                        });
+                        break;
+                    case 'main.tokens':
+                        analytics.send({
+                            name: 'Token Generation Show',
+                            target: 'ui'
+                        });
+                        break;
+                    case 'main.wallet.assets':
+                        analytics.send({
+                            name: 'Wallet Assets Show',
+                            target: 'ui'
+                        });
+                        break;
+                    case 'main.wallet.portfolio':
+                        analytics.send({
+                            name: 'Wallet Portfolio Show',
+                            target: 'ui'
+                        });
+                        break;
+                    case 'main.dex':
+                        analytics.send({
+                            name: 'DEX Show',
+                            target: 'ui'
+                        });
+                        break;
+                    default:
+                        break;
                 }
                 this.activeClasses.forEach((className) => {
                     document.body.classList.remove(className);
@@ -515,6 +691,8 @@
         'decorators',
         'waves',
         'ModalRouter',
+        'configService',
+        'userNotification',
         'whatsNew'
     ];
 
@@ -526,5 +704,6 @@
  * @property {boolean} $rootScope.Scope#isDesktop
  * @property {boolean} $rootScope.Scope#isNotDesktop
  * @property {boolean} $rootScope.Scope#isPhone
+ * @property {boolean} $rootScope.Scope#isNotPhone
  * @property {boolean} $rootScope.Scope#isTablet
  */

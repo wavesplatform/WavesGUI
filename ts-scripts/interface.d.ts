@@ -8,6 +8,7 @@ export interface IMetaJSON {
     copyNodeModules: Array<string>;
     debugInjections: Array<string>;
     electronScripts: Array<string>;
+    analyticsIframe: string;
     langList: object,
     configurations: {
         testnet: IConfItem;
@@ -49,6 +50,7 @@ export interface IHash<T> {
 }
 
 export interface IConfItem {
+    oracles: object;
     apiVersion: string;
     code: string;
     bankRecipient: string;
@@ -63,6 +65,8 @@ export interface IConfItem {
     featuresConfigUrl: string;
     origin: string;
     assets: IHash<string>;
+    feeConfigUrl: string;
+    analyticsIframe: string;
 }
 
 export type TConnection = 'mainnet' | 'testnet';

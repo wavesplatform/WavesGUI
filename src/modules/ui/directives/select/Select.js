@@ -4,7 +4,7 @@
     'use strict';
 
     /**
-     * @param Base
+     * @param {typeof Base} Base
      * @param {ComponentList} ComponentList
      * @param {JQuery} $element
      * @param {app.utils} utils
@@ -18,35 +18,45 @@
 
         class Select extends Base {
 
+            /**
+             * @type {ComponentList}
+             */
+            _options = new ComponentList();
+            /**
+             * @type {JQuery}
+             * @private
+             */
+            _activeNode = null;
+            /**
+             * @type {JQuery}
+             * @private
+             */
+            _selectList = null;
+            /**
+             * @type {JQuery}
+             * @private
+             */
+            _select = null;
+            /**
+             * @type {boolean}
+             */
+            isOpend = false;
+            /**
+             * @type {boolean}
+             */
+            disabled = false;
+            /**
+             * @type {string}
+             */
+            filter = '';
+            /**
+             * @type {boolean}
+             */
+            canSearch = false;
+
+
             constructor() {
                 super();
-                /**
-                 * @type {ComponentList}
-                 */
-                this._options = new ComponentList();
-                /**
-                 * @type {JQuery}
-                 * @private
-                 */
-                this._activeNode = null;
-                /**
-                 * @type {JQuery}
-                 * @private
-                 */
-                this._selectList = null;
-                /**
-                 * @type {JQuery}
-                 * @private
-                 */
-                this._select = null;
-                /**
-                 * @type {boolean}
-                 */
-                this.isOpend = false;
-                /**
-                 * @type {boolean}
-                 */
-                this.disabled = false;
                 /**
                  * @type {Function}
                  * @private
@@ -58,6 +68,17 @@
 
                 this.observe('disabled', () => {
                     $element.toggleClass('disabled', !!this.disabled);
+                });
+
+                this.observe('filter', () => {
+                    const filter = this.filter;
+                    this._options.forEach(option => {
+                        if (filter) {
+                            option.filterAndSort(filter);
+                        } else {
+                            option.show();
+                        }
+                    });
                 });
             }
 
@@ -179,7 +200,9 @@
                     if (this.isOpend) {
                         this.listenEventEmitter($_DOCUMENT, 'click', (e) => this._checkOutClick(e));
                     } else {
+                        this.filter = '';
                         this.stopListenEventEmitter('click', $_DOCUMENT);
+                        $scope.$apply();
                     }
                 }
             }
@@ -222,7 +245,8 @@
         bindings: {
             ngModel: '=',
             disabled: '<',
-            upDirection: '<'
+            upDirection: '<',
+            canSearch: '<'
         },
         templateUrl: 'modules/ui/directives/select/select.html',
         transclude: true,

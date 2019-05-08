@@ -1,32 +1,12 @@
-<div ng-cloak class="asset-content">
-    <div class="top-content">
-        <w-asset-logo class="asset-logo-large" ng-cloak asset-id="{{::$ctrl.asset.id}}" size="65"></w-asset-logo>
-        <div class="asset-data">
-            <h4 ng-cloak class="basic-900">{{::$ctrl.asset.name}}</h4>
-            <div ng-cloak
-                 class="body-2 basic-500 one-line"
-                 default-value="{{::$ctrl.asset.description}}"
-                 w-i18n="{{::$ctrl.asset.id}}.description"
-                 w-i18n-ns="app.ui"
-                 skip-errors>
-            </div>
-        </div>
-        <!--<div ng-if="$ctrl.asset.id !== $ctrl.wavesId"
-             ng-click="$ctrl.togglePin()"
-             ng-class="{pinned: $ctrl.pinned}" class="pin">
-            <span w-i18n="modal.assetInfo.unpinned" ng-if="!$ctrl.pinned"></span>
-            <span w-i18n="modal.assetInfo.pinned" ng-if="$ctrl.pinned"></span>
-        </div>-->
-        <div class="chart-wrapper">
-            <w-asset-rate-chart no-update="::true" asset-id="::$ctrl.asset.id"></w-asset-rate-chart>
-            <div class="interactive-stop"></div>
-        </div>
-    </div>
+<div ng-cloak class="asset-modal">
+
+    <w-asset-info-head ng-cloak asset-id="$ctrl.asset.id"></w-asset-info-head>
+
     <w-tabs class="inner" ng-model="$ctrl.tab">
         <w-tab id="::'info'"
                title-name="::'modal.assetInfo.details'"
                class="padding-content tab-details">
-            <div class="line">
+            <div class="line ">
                 <div class="basic-500" w-i18n="modal.assetInfo.issuer"></div>
                 <div class="basic-900 break-all fs-mobile">{{::$ctrl.asset.sender}}</div>
             </div>
@@ -52,6 +32,12 @@
                     <span w-i18n="modal.assetInfo.reissue.{{::$ctrl.asset.reissuable ? 'yes' : 'no'}}"></span>
                 </div>
             </div>
+            <div class="line" ng-if="$ctrl.asset.hasScript">
+                <div class="basic-500" w-i18n="modal.setAssetScript.script"></div>
+                <div class="basic-900">
+                    <span w-i18n="modal.setAssetScript.scripted"></span>
+                </div>
+            </div>
             <div class="line" ng-if="::$ctrl.minFee">
                 <div class="basic-500" w-i18n="modal.assetInfo.sponsorshipFee"></div>
                 <div class="basic-900">
@@ -62,14 +48,22 @@
                 <div class="basic-500" w-i18n="modal.assetInfo.date"></div>
                 <div class="basic-900">{{::$ctrl.asset.timestamp | date:'dd.MM.yyyy HH:mm'}}</div>
             </div>
-            <div ng-if="$ctrl.asset.description" class="line line-description">
-                <div class="basic-500" w-i18n="modal.assetInfo.description"></div>
-                <div class="basic-900"
-                     w-i18n="{{::$ctrl.asset.id}}.description"
-                     default-value="{{::$ctrl.asset.description}}"
-                     w-i18n-ns="app.ui"
-                     skip-errors></div>
+            <div class="line" ng-if="::$ctrl.link">
+                <div class="basic-500" w-i18n="modal.assetInfo.site"></div>
+                <a target="_blank" rel="noopener noreferrer" href="{{::$ctrl.link}}">{{::$ctrl.link}}</a>
             </div>
+            <div class="line" ng-if="::$ctrl.email">
+                <div class="basic-500" w-i18n="modal.assetInfo.email"></div>
+                <a target="_blank" rel="noopener noreferrer" href="mailto:{{::$ctrl.email}}">{{::$ctrl.email}}</a>
+            </div>
+            <div class="line" ng-if="::$ctrl.provider">
+                <span class="basic-500" w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>
+                <span class="basic-900">{{::$ctrl.provider}}</span>
+            </div>
+            <div ng-if="$ctrl.description" class="asset-description line margin-top-2 basic-900">
+                {{::$ctrl.description}}
+            </div>
+
         </w-tab>
         <w-tab ng-if="!$ctrl.isDemo"
                id="::'balance'"

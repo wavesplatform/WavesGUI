@@ -14,14 +14,16 @@
      * @param {Ease} ease
      * @param {$state} $state
      * @param {ModalManager} modalManager
+     * @param {BalanceWatcher} balanceWatcher
      * @return {CreateOrder}
      */
     const controller = function (Base, waves, user, utils, createPoll, $scope,
-                                 $element, notification, dexDataService, ease, $state, modalManager) {
+                                 $element, notification, dexDataService, ease, $state, modalManager, balanceWatcher) {
 
-        const entities = require('@waves/data-entities');
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const { without, keys, last } = require('ramda');
+        const { Money } = require('@waves/data-entities');
         const ds = require('data-service');
+        const analytics = require('@waves/event-sender');
 
         class CreateOrder extends Base {
 
@@ -80,7 +82,7 @@
                  * Total price (amount multiply price)
                  * @type {Money}
                  */
-                this.totalPrice = null;
+                this.total = null;
                 /**
                  * @type {Money}
                  */
@@ -89,6 +91,10 @@
                  * @type {Money}
                  */
                 this.price = null;
+                /**
+                 * @type {boolean}
+                 */
+                this.loadingError = false;
                 /**
                  * @type {boolean}
                  */
@@ -103,18 +109,23 @@
                  */
                 this._assetIdPair = null;
                 /**
+                 * @type string
+                 * @private
+                 */
+                this.analyticsPair = null;
+                /**
                  * @type {Money}
                  * @private
                  */
                 this.lastTradePrice = null;
                 /**
-                 * @type {string}
+                 * @type {Array}
                  */
-                this.focusedInputName = null;
+                this.changedInputName = [];
                 /**
-                 * @type {[]}
+                 * @type {boolean}
                  */
-                this.hasScript = user.hasScript();
+                this._silenceNow = false;
                 /**
                  *
                  * @type {boolean}
@@ -127,13 +138,6 @@
                     { name: '1week', value: () => utils.moment().add().week(1).getDate().getTime() },
                     { name: '30day', value: () => utils.moment().add().day(29).getDate().getTime() }
                 ];
-
-                this.expiration = this.expirationValues[this.expirationValues.length - 1].value;
-
-                ds.moneyFromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
-                    this.fee = money;
-                    $scope.$digest();
-                });
 
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.expand(type);
@@ -151,8 +155,11 @@
                 });
 
                 this.syncSettings({
-                    _assetIdPair: 'dex.assetIdPair'
+                    _assetIdPair: 'dex.assetIdPair',
+                    expiration: 'dex.createOrder.expirationName'
                 });
+
+                this.analyticsPair = `${this._assetIdPair.amount} / ${this._assetIdPair.price}`;
 
                 /**
                  * @type {Poll}
@@ -161,25 +168,36 @@
                 /**
                  * @type {Poll}
                  */
-                const balancesPoll = createPoll(this, this._getBalances, this._setBalances, 1000);
-                /**
-                 * @type {Poll}
-                 */
                 const spreadPoll = createPoll(this, this._getData, this._setData, 1000);
 
+                this.receive(balanceWatcher.change, this._updateBalances, this);
+                this._updateBalances();
+
                 const lastTradePromise = new Promise((resolve) => {
-                    balancesPoll.ready.then(() => {
+                    balanceWatcher.ready.then(() => {
                         lastTraderPoll = createPoll(this, this._getLastPrice, 'lastTradePrice', 1000);
                         resolve();
                     });
                 });
 
+                const currentFee = () => Promise.all([
+                    ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price),
+                    ds.fetch(ds.config.get('matcher'))
+                ]).then(([pair, matcherPublicKey]) => waves.matcher.getCreateOrderFee({
+                    amount: new Money(0, pair.amountAsset),
+                    price: new Money(0, pair.priceAsset),
+                    matcherPublicKey
+                })).then(fee => {
+                    this.fee = fee;
+                    $scope.$apply();
+                });
+
                 Promise.all([
-                    balancesPoll.ready,
+                    ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price),
                     lastTradePromise,
                     spreadPoll.ready
-                ]).then(() => {
-                    this.amount = this.amountBalance.cloneWithTokens('0');
+                ]).then(([pair]) => {
+                    this.amount = new Money(0, pair.amountAsset);
                     if (this.lastTradePrice && this.lastTradePrice.getTokens().gt(0)) {
                         this.price = this.lastTradePrice;
                     } else {
@@ -192,9 +210,10 @@
                 this.observe('_assetIdPair', () => {
                     this.amount = null;
                     this.price = null;
+                    this.total = null;
                     this.bid = null;
                     this.ask = null;
-                    balancesPoll.restart();
+                    this._updateBalances();
                     spreadPoll.restart();
                     const form = this.order;
                     form.$setUntouched();
@@ -202,24 +221,38 @@
                     if (lastTraderPoll) {
                         lastTraderPoll.restart();
                     }
+                    this.analyticsPair = `${this._assetIdPair.amount} / ${this._assetIdPair.price}`;
                     this.observeOnce(['bid', 'ask'], utils.debounce(() => {
                         if (this.type) {
                             this.amount = this.amountBalance.cloneWithTokens('0');
                             this.price = this._getCurrentPrice();
+                            this.total = this.priceBalance.cloneWithTokens('0');
                             $scope.$apply();
                         }
                     }));
+                    currentFee();
                 });
 
-                this.observe(['priceBalance', 'totalPrice'], this._setIfCanBuyOrder);
+                this.observe(['priceBalance', 'total', 'maxPriceBalance'], this._setIfCanBuyOrder);
 
-                this.observe(['amount', 'price', 'type'], this._currentTotal);
-                this.observe('totalPrice', this._currentAmount);
+                this.observe('amount', () => (
+                    !this._silenceNow && this._updateField({ amount: this.amount })
+                ));
+
+                this.observe('price', () => (
+                    !this._silenceNow && this._updateField({ price: this.price })
+                ));
+
+                this.observe('total', () => (
+                    !this._silenceNow && this._updateField({ total: this.total })
+                ));
 
                 // TODO Add directive for stop propagation (catch move for draggable)
                 $element.on('mousedown touchstart', '.body', (e) => {
                     e.stopPropagation();
                 });
+
+                currentFee();
             }
 
             expand(type) {
@@ -267,23 +300,46 @@
             }
 
             setMaxAmount() {
-                this._setDirtyAmount(this._getMaxAmountForSell());
+                const amount = this._getMaxAmountForSell();
+                this._updateField({ amount });
             }
 
             setMaxPrice() {
-                this._setDirtyAmount(this._getMaxAmountForBuy());
+                const amount = this._getMaxAmountForBuy();
+                const total = this.priceBalance.cloneWithTokens(
+                    this.price.getTokens().times(amount.getTokens())
+                );
+                const price = this.price;
+                this._updateField({ amount, total, price });
             }
 
             setBidPrice() {
-                this._setDirtyPrice(this.priceBalance.cloneWithTokens(String(this.bid.price)));
+                const price = this.priceBalance.cloneWithTokens(String(this.bid.price));
+                this._updateField({ price });
             }
 
             setAskPrice() {
-                this._setDirtyPrice(this.priceBalance.cloneWithTokens(String(this.ask.price)));
+                const price = this.priceBalance.cloneWithTokens(String(this.ask.price));
+                this._updateField({ price });
             }
 
             setLastPrice() {
-                this._setDirtyPrice(this.lastTradePrice);
+                const price = this.lastTradePrice;
+                this._updateField({ price });
+            }
+
+            /**
+             * @public
+             * @param field {string}
+             */
+            setChangedInput(field) {
+                if (last(this.changedInputName) === field) {
+                    return null;
+                }
+                if (this.changedInputName.length === 2) {
+                    this.changedInputName.shift();
+                }
+                this.changedInputName.push(field);
             }
 
             /**
@@ -312,90 +368,108 @@
                             matcherPublicKey
                         };
 
-                        this._createTxData(data)
-                            .then((txData) => ds.createOrder(txData))
-                            .then(() => {
+                        this._checkScriptAssets()
+                            .then(() => this._checkOrder(data))
+                            .then(() => this._sendOrder(data))
+                            .then(data => {
+                                if (!data) {
+                                    return null;
+                                }
+
                                 notify.addClass('success');
                                 this.createOrderFailed = false;
-                                const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
-                                analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Success`, pair);
+                                analytics.send({
+                                    name: `DEX ${this.type} Order Transaction Success`,
+                                    params: this.analyticsPair
+                                });
                                 dexDataService.createOrder.dispatch();
+                                CreateOrder._animateNotification(notify);
                             })
-                            .catch(e => {
-                                const error = utils.parseError(e);
-                                notification.error({
-                                    ns: 'app.dex',
-                                    title: {
-                                        literal: 'directives.createOrder.notifications.error.title'
-                                    },
-                                    body: {
-                                        literal: error && error.message || error
-                                    }
-                                }, -1);
+                            .catch(() => {
                                 this.createOrderFailed = true;
                                 notify.addClass('error');
-                                const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
-                                analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Error`, pair);
-
-                            })
-                            .finally(() => {
+                                analytics.send({
+                                    name: `DEX ${this.type} Order Transaction Error`,
+                                    params: this.analyticsPair
+                                });
+                                $scope.$apply();
                                 CreateOrder._animateNotification(notify);
                             });
                     });
             }
 
-            _createTxData(data) {
+            /**
+             * @param data
+             * @return {*|Promise}
+             * @private
+             */
+            _sendOrder(data) {
+                const expiration = ds.utils.normalizeTime(
+                    this.expirationValues.find(el => el.name === this.expiration).value()
+                );
+                const clone = { ...data, expiration };
 
-                const timestamp = ds.utils.normalizeTime(Date.now());
-                const expiration = ds.utils.normalizeTime(this.expiration());
-                const clone = { ...data, timestamp, expiration };
+                return utils.createOrder(clone);
+            }
 
-                const signable = ds.signature.getSignatureApi().makeSignable({
-                    type: SIGN_TYPE.CREATE_ORDER,
-                    data: clone
-                });
 
-                return signable.getId().then(id => {
-                    const signPromise = signable.getDataForApi();
+            /**
+             * @return {Promise}
+             * @private
+             */
+            _checkScriptAssets() {
+                if (user.getSetting('tradeWithScriptAssets')) {
+                    return Promise.resolve();
+                }
 
-                    if (user.userType === 'seed' || !user.userType) {
-                        return signPromise;
-                    }
+                const scriptAssets = [
+                    this.amountBalance.asset,
+                    this.priceBalance.asset
+                ].filter(asset => asset.hasScript);
 
-                    const transactionData = {
-                        fee: this.fee.toFormat(),
-                        amount: this.amount.toFormat(),
-                        price: this.price.toFormat(),
-                        total: this.totalPrice.toFormat(),
-                        orderType: this.type,
-                        totalAsset: this.totalPrice.asset,
-                        amountAsset: this.amountBalance.asset,
-                        priceAsset: this.priceBalance.asset,
-                        feeAsset: this.fee.asset,
-                        type: this.type,
-                        timestamp,
-                        expiration
-                    };
+                if (scriptAssets.length > 0) {
+                    return modalManager.showDexScriptedPair(scriptAssets);
+                } else {
+                    return Promise.resolve();
+                }
+            }
 
-                    const modalPromise = modalManager.showSignByDevice({
-                        userType: user.userType,
-                        promise: signPromise,
-                        mode: 'create-order',
-                        data: transactionData,
-                        id
-                    });
+            /**
+             * @param orderData
+             * @private
+             */
+            _checkOrder(orderData) {
+                const isBuy = orderData.orderType === 'buy';
+                const factor = isBuy ? 1 : -1;
+                const limit = 1 + factor * (Number(user.getSetting('orderLimit')) || 0);
+                const price = (new BigNumber(isBuy ? this.ask.price : this.bid.price)).times(limit);
+                const orderPrice = orderData.price.getTokens();
 
-                    return modalPromise
-                        .then(() => signPromise)
-                        .catch(() => {
-                            return modalManager.showSignDeviceError({ error: 'sign-error', userType: user.userType })
-                                .then(() => Promise.resolve())
-                                .catch(() => Promise.reject({ message: 'Your sign is not confirmed!' }))
-                                .then(() => this._createTxData(data));
-                        });
+                if (price.isNaN() || price.eq(0)) {
+                    return Promise.resolve();
+                }
+
+                /**
+                 * @type {BigNumber}
+                 */
+                const delta = isBuy ? orderPrice.minus(price) : price.minus(orderPrice);
+
+                if (delta.isNegative()) {
+                    return Promise.resolve();
+                }
+
+                return modalManager.showConfirmOrder({
+                    ...orderData,
+                    orderLimit: Number(user.getSetting('orderLimit')) * 100
+                }).catch(() => {
+                    throw new Error('You have cancelled the creation of this order');
                 });
             }
 
+            /**
+             * @return {Promise<T | never>}
+             * @private
+             */
             _showDemoModal() {
                 return modalManager.showDialogModal({
                     iconClass: 'open-main-dex-account-info',
@@ -425,25 +499,29 @@
             }
 
             /**
-             * @param {string} price
-             * @param {string} amount
+             * @param {string} priceStr
+             * @param {string} amountStr
              * @private
              */
-            _onClickBuyOrder(price, amount) {
-                const minAmount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens().div(price));
-                this._setDirtyAmount(entities.Money.min(this.amountBalance.cloneWithTokens(amount), minAmount));
-                this._setDirtyPrice(this.priceBalance.cloneWithTokens(price));
+            _onClickBuyOrder(priceStr, amountStr) {
+                this.changedInputName = ['price'];
+                const price = this.priceBalance.cloneWithTokens(priceStr);
+                const minAmount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens().div(priceStr));
+                const amount = Money.min(this.amountBalance.cloneWithTokens(amountStr), minAmount);
+                this._updateField({ amount, price });
             }
 
             /**
-             * @param {string} price
-             * @param {string} amount
+             * @param {string} priceStr
+             * @param {string} amountStr
              * @private
              */
-            _onClickSellOrder(price, amount) {
-                const amountMoney = this.amountBalance.cloneWithTokens(amount);
-                this._setDirtyAmount(entities.Money.min(amountMoney, this._getMaxAmountForSell()));
-                this._setDirtyPrice(this.priceBalance.cloneWithTokens(price));
+            _onClickSellOrder(priceStr, amountStr) {
+                this.changedInputName = ['price'];
+                const price = this.priceBalance.cloneWithTokens(priceStr);
+                const amountMoney = this.amountBalance.cloneWithTokens(amountStr);
+                const amount = Money.min(amountMoney, this._getMaxAmountForSell());
+                this._updateField({ amount, price });
             }
 
             /**
@@ -455,6 +533,7 @@
                 const balance = this.amountBalance;
                 return balance.safeSub(fee).toNonNegative();
             }
+
 
             /**
              * @return {Money}
@@ -485,7 +564,7 @@
                     amountAsset: this._assetIdPair.amount,
                     priceAsset: this._assetIdPair.price,
                     limit: 1
-                }).then(([tx]) => tx && tx.price || null);
+                }).then(([tx]) => tx && tx.price || null).catch(() => (this.loadingError = false));
             }
 
             /**
@@ -524,74 +603,168 @@
              * @return {Promise<IAssetPair>}
              * @private
              */
-            _getBalances() {
+            _updateBalances() {
                 if (!this.idDemo) {
-                    return ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
-                        return utils.whenAll([
-                            waves.node.assets.balance(pair.amountAsset.id),
-                            waves.node.assets.balance(pair.priceAsset.id)
-                        ]).then(([amountMoney, priceMoney]) => ({
-                            amountBalance: amountMoney.available,
-                            priceBalance: priceMoney.available
-                        }));
+                    return ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price).then(pair => {
+                        this.amountBalance = balanceWatcher.getBalanceByAsset(pair.amountAsset);
+                        this.priceBalance = balanceWatcher.getBalanceByAsset(pair.priceAsset);
+                        utils.safeApply($scope);
                     });
                 } else {
-                    return ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
-                        return {
-                            amountBalance: entities.Money.fromTokens(10, pair.amountAsset),
-                            priceBalance: entities.Money.fromTokens(10, pair.priceAsset)
-                        };
+                    return ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price).then(pair => {
+                        this.amountBalance = Money.fromTokens(10, pair.amountAsset);
+                        this.priceBalance = Money.fromTokens(10, pair.priceAsset);
+                        utils.safeApply($scope);
                     });
                 }
             }
 
+
             /**
-             * @param data
+             * @param {object} newState
              * @private
              */
-            _setBalances(data) {
-                if (data) {
-                    this.amountBalance = data.amountBalance;
-                    this.priceBalance = data.priceBalance;
-                    $scope.$digest();
+            _updateField(newState) {
+                this._setSilence(() => {
+                    this._applyState(newState);
+
+                    const inputKeys = ['price', 'total', 'amount'];
+                    const changingValues = without(keys(newState), inputKeys);
+
+                    let changingValue;
+                    if (changingValues.length === 1) {
+                        changingValue = changingValues[0];
+                    } else {
+                        if (this.changedInputName.length === 0) {
+                            this.changedInputName.push('price');
+                        }
+
+                        if (changingValues.some(el => el === last(this.changedInputName))) {
+                            changingValue = changingValues.find(el => el !== last(this.changedInputName));
+                        } else {
+                            changingValue = without(this.changedInputName, changingValues)[0];
+                        }
+                    }
+
+                    this._calculateField(changingValue);
+                    this._setIfCanBuyOrder();
+                });
+            }
+
+            /**
+             * @param {object} newState
+             * @private
+             */
+            _applyState(newState) {
+                keys(newState).forEach(key => {
+                    this[key] = newState[key];
+                });
+                this.order.$setDirty();
+            }
+
+
+            /**
+             * @param {function} cb
+             * @private
+             */
+            _setSilence(cb) {
+                this._silenceNow = true;
+                cb();
+                this._silenceNow = false;
+            }
+
+
+            /**
+             * @param {string} fieldName
+             * @private
+             */
+            _calculateField(fieldName) {
+                switch (fieldName) {
+                    case 'total':
+                        this._calculateTotal();
+                        break;
+                    case 'price':
+                        this._calculatePrice();
+                        break;
+                    case 'amount':
+                        this._calculateAmount();
+                        break;
+                    default:
+                        break;
                 }
             }
 
             /**
              * @private
              */
-            _currentTotal() {
-                if (this.focusedInputName === 'total') {
-                    return null;
-                }
-
+            _calculateTotal() {
                 if (!this.price || !this.amount) {
-                    this.totalPrice = this.priceBalance.cloneWithTokens('0');
-                } else {
-                    this.totalPrice = this.priceBalance.cloneWithTokens(
-                        this.price.getTokens().times(this.amount.getTokens())
-                    );
+                    return null;
                 }
-                this._setIfCanBuyOrder();
+                const price = this._validPrice();
+                const amount = this._validAmount();
+                this._setDirtyField('total', this.priceBalance.cloneWithTokens(
+                    price.times(amount)
+                ));
+                this._silenceNow = true;
             }
 
             /**
-             * @returns {null}
              * @private
              */
-            _currentAmount() {
-                if (this.focusedInputName !== 'total') {
+            _calculatePrice() {
+                if (!this.total || !this.amount) {
                     return null;
                 }
+                const total = this._validTotal();
+                const amount = this._validAmount();
+                this._setDirtyField('price', this.priceBalance.cloneWithTokens(
+                    total.div(amount)
+                ));
+                this._silenceNow = true;
+            }
 
-                if (!this.totalPrice || !this.price || this.price.getTokens().eq('0')) {
+            /**
+             * @private
+             */
+            _calculateAmount() {
+                if (!this.total || !this.price) {
                     return null;
                 }
+                const total = this._validTotal();
+                const price = this._validPrice();
 
-                const amount = this.totalPrice.getTokens().div(this.price.getTokens());
-                this._setDirtyAmount(this.amountBalance.cloneWithTokens(amount));
+                this._setDirtyField('amount', this.amountBalance.cloneWithTokens(
+                    total.div(price)
+                ));
+                this._silenceNow = true;
+            }
 
-                this._setIfCanBuyOrder();
+            /**
+             * @private
+             */
+            _validTotal() {
+                return this.order.total.$viewValue === '' ?
+                    this.priceBalance.cloneWithTokens('0').getTokens() :
+                    this.total.getTokens();
+            }
+
+            /**
+             * @private
+             */
+            _validPrice() {
+                return this.order.price.$viewValue === '' ?
+                    this.amountBalance.cloneWithTokens('0').getTokens() :
+                    this.price.getTokens();
+            }
+
+            /**
+             * @private
+             */
+            _validAmount() {
+                return this.order.amount.$viewValue === '' ?
+                    this.amountBalance.cloneWithTokens('0').getTokens() :
+                    this.amount.getTokens();
             }
 
             /**
@@ -599,13 +772,15 @@
              */
             _setIfCanBuyOrder() {
                 if (this.type === 'buy' &&
-                    this.totalPrice &&
+                    this.total &&
                     this.priceBalance &&
-                    this.totalPrice.asset.id === this.priceBalance.asset.id) {
+                    this.total.asset.id === this.priceBalance.asset.id) {
 
-                    this.canBuyOrder = (
-                        this.totalPrice.lte(this.maxPriceBalance) && this.maxPriceBalance.getTokens().gt(0)
-                    );
+                    if (this.maxPriceBalance) {
+                        this.canBuyOrder = (
+                            this.total.lte(this.maxPriceBalance) && this.maxPriceBalance.getTokens().gt(0)
+                        );
+                    }
                 } else {
                     this.canBuyOrder = true;
                 }
@@ -615,13 +790,14 @@
              * @private
              */
             _getData() {
+                this.loadingError = false;
                 return waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
                     .then(({ bids, asks, spread }) => {
                         const [lastAsk] = asks;
                         const [firstBid] = bids;
 
                         return { lastAsk, firstBid, spread };
-                    });
+                    }).catch(() => (this.loadingError = true));
             }
 
             /**
@@ -643,20 +819,15 @@
 
             /**
              * Set only non-zero amount values
-             * @param {Money} amount
+             * @param {string} field
+             * @param {Money} value
              * @private
              */
-            _setDirtyAmount(amount) {
-                this.amount = amount;
-                this.order.$setDirty();
-            }
-
-            /**
-             * @param {Money} price
-             * @private
-             */
-            _setDirtyPrice(price) {
-                this.price = price;
+            _setDirtyField(field, value) {
+                if (value.getTokens().isNaN() || !value.getTokens().isFinite()) {
+                    return null;
+                }
+                this[field] = value;
                 this.order.$setDirty();
             }
 
@@ -697,7 +868,8 @@
         'dexDataService',
         'ease',
         '$state',
-        'modalManager'
+        'modalManager',
+        'balanceWatcher'
     ];
 
     angular.module('app.dex').component('wCreateOrder', {

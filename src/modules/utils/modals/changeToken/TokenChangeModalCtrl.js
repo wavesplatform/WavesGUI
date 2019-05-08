@@ -8,12 +8,15 @@
      * @param {app.utils} utils
      * @param {Waves} waves
      * @param {User} user
+     * @param {BalanceWatcher} balanceWatcher
      * @return {TokenChangeModalCtrl}
      */
-    const controller = function (Base, $scope, createPoll, utils, waves, user) {
+    const controller = function (Base, $scope, createPoll, utils, waves, user, balanceWatcher) {
 
         const entities = require('@waves/data-entities');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
+
+        const analytics = require('@waves/event-sender');
         const ds = require('data-service');
 
         class TokenChangeModalCtrl extends Base {
@@ -66,6 +69,12 @@
                  */
                 this._waves = null;
 
+                const {
+                    description
+                } = utils.getDataFromOracles(money.asset);
+
+                this.description = description || money.asset.description;
+
                 const { TokenChangeModalCtrl = {} } = user.getThemeSettings();
 
                 this.options = {
@@ -97,19 +106,25 @@
                     }
                 };
 
-                waves.node.getFee({ type: this.txType }).then((fee) => {
+                const type = this.txType === 'burn' ? SIGN_TYPE.BURN : SIGN_TYPE.REISSUE;
+                waves.node.getFee({ type, assetId: money.asset.id }).then((fee) => {
                     this.fee = fee;
                     $scope.$digest();
                 });
 
                 createPoll(this, this._getGraphData, 'chartData', 15000);
-                createPoll(this, this._getWavesBalance, '_waves', 1000);
+                ds.api.assets.get(WavesApp.defaultAssets.WAVES).then(asset => {
+                    this.receive(balanceWatcher.change, () => this._updateWavesBalance(asset));
+                    this._updateWavesBalance(asset);
+                });
 
                 this.observe(['input', 'issue'], this._createTx);
                 this.observe(['_waves', 'fee'], this._changeHasFee);
             }
 
             getSignable() {
+                const name = this.txType.slice(0, 1).toUpperCase() + this.txType.slice(1);
+                analytics.send({ name: `${name} Token Continue Click`, target: 'ui' });
                 return this.signable;
             }
 
@@ -117,10 +132,18 @@
                 this.step++;
             }
 
-            _getWavesBalance() {
-                return waves.node.assets.balance(WavesApp.defaultAssets.WAVES).then(({ available }) => available);
+            /**
+             * @param {Asset} asset
+             * @private
+             */
+            _updateWavesBalance(asset) {
+                this._waves = balanceWatcher.getBalanceByAsset(asset);
+                utils.safeApply($scope);
             }
 
+            /**
+             * @private
+             */
             _changeHasFee() {
                 if (!this._waves || !this.fee) {
                     return null;
@@ -129,6 +152,9 @@
                 this.noFee = this._waves.lt(this.fee);
             }
 
+            /**
+             * @private
+             */
             _createTx() {
                 const input = this.input;
                 const type = this.txType === 'burn' ? SIGN_TYPE.BURN : SIGN_TYPE.REISSUE;
@@ -171,7 +197,7 @@
         return new TokenChangeModalCtrl({ money, txType });
     };
 
-    controller.$inject = ['Base', '$scope', 'createPoll', 'utils', 'waves', 'user'];
+    controller.$inject = ['Base', '$scope', 'createPoll', 'utils', 'waves', 'user', 'balanceWatcher'];
 
     angular.module('app.utils').controller('TokenChangeModalCtrl', controller);
 })();

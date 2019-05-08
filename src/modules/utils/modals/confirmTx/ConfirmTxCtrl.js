@@ -8,17 +8,39 @@
      * @returns {ConfirmTxCtrl}
      */
     const controller = function (Base, $scope, $mdDialog) {
+        const analytics = require('@waves/event-sender');
 
         class ConfirmTxCtrl extends Base {
 
-            constructor({ signable, showValidationErrors }) {
+            /**
+             * @type {boolean}
+             * @private
+             */
+            _resolveOnClose = false;
+
+
+            constructor({ signable, analyticsText }) {
                 super($scope);
                 this.signable = signable;
-                this.showValidationErrors = showValidationErrors;
+                if (analyticsText) {
+                    analytics.send({ name: analyticsText, target: 'ui' });
+                }
             }
 
             back() {
                 $mdDialog.cancel();
+            }
+
+            close() {
+                if (this._resolveOnClose) {
+                    $mdDialog.hide();
+                } else {
+                    $mdDialog.cancel();
+                }
+            }
+
+            onSendTransaction() {
+                this._resolveOnClose = true;
             }
 
         }

@@ -97,7 +97,7 @@
                     if (time > 0) {
                         descriptor.value = function (...args) {
                             const key = toString ? toString(args) : stringify(args);
-                            if (cache[key] && cache[key]) {
+                            if (cache[key]) {
                                 return cache[key].value;
                             } else {
                                 cache[key] = Object.create(null);
@@ -106,16 +106,14 @@
                                     cache[key].value.then &&
                                     typeof cache[key].value.then === 'function') {
 
-                                    cache[key].value.catch(() => {
-                                        timeLine.cancel(cache[key].timer);
-                                        delete cache[key];
-                                    });
-
                                     cache[key].value
                                         .then(() => {
                                             cache[key].timer = timeLine.timeout(() => {
                                                 delete cache[key];
                                             }, timeout);
+                                        }, () => {
+                                            timeLine.cancel(cache[key].timer);
+                                            delete cache[key];
                                         });
                                 } else {
                                     cache[key].timer = timeLine.timeout(() => {

@@ -20,6 +20,18 @@ w-transaction-info-json {
   width: 100%;
 }
 
+w-transaction-info-general {
+  .txinfo__row:first-child {
+    border-top-style: dashed;
+  }
+}
+
+w-transaction-info-header + w-transaction-info-general {
+  .txinfo__row:first-child {
+    border-top-style: solid;
+  }
+}
+
 .txinfo {
   display: block;
   width: 100%;
@@ -28,17 +40,8 @@ w-transaction-info-json {
     width: 100%;
   }
 
-  .note-plate {
-    position: relative;
+  .plate-note {
     margin: 0 0 20px;
-    background: @color-basic-50;
-    border: 1px dashed @color-basic-200;
-    padding: 14px;
-    border-radius: @border-radius;
-    min-height: 54px;
-    display: flex;
-    width: 100%;
-    align-items: center;
   }
 
   .noborder {
@@ -46,16 +49,6 @@ w-transaction-info-json {
     background: @color-white;
     position: relative;
     z-index: 1;
-  }
-
-  .icon-close {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    z-index: 11;
-    padding: 20px;
-    background-size: 16px;
-    background-position: center;
   }
 
   &__wrapper {
@@ -70,6 +63,13 @@ w-transaction-info-json {
       margin-bottom: -1px;
       padding-top: 30px;
       border-top: 1px solid @color-basic-100;
+    }
+
+    &-scrolled {
+      max-height: 248px;
+      overflow: auto;
+      margin-right: -13px;
+      padding-right: 13px;
     }
   }
 
@@ -90,6 +90,16 @@ w-transaction-info-json {
     }
   }
 
+  &__header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 6px;
+    h3 {
+      margin: 0;
+    }
+  }
+
   &__row {
     width: 100%;
     display: flex;
@@ -97,6 +107,10 @@ w-transaction-info-json {
     justify-content: space-between;
     padding: 13px 0;
     border-top: 1px dashed @color-basic-100;
+
+    &:first-child:not(.txinfo__row-header) {
+      border-top: 1px solid @color-basic-100;
+    }
 
     &-header {
       border-bottom: 1px solid @color-basic-100;
@@ -161,7 +175,9 @@ w-transaction-info-json {
         word-break: break-all;
         .footnote-1();
         color: @color-basic-900;
-
+        &-uppercase:first-letter {
+          text-transform: uppercase;
+        }
         &-name {
           margin-left: 5px;
           display: inline-block;
@@ -183,7 +199,16 @@ w-transaction-info-json {
     &-border-ts {
       border-top: 1px solid @color-basic-100;
     }
+
+    &-data {
+      .txinfo__row {
+        &:last-child {
+          border-bottom: 1px dashed @color-basic-100;
+        }
+      }
+    }
   }
+
 
   &__icon {
     width: @tx-icon-size;
@@ -226,7 +251,8 @@ w-transaction-info-json {
     }
 
     &.exchange-buy,
-    &.exchange-sell {
+    &.exchange-sell,
+    &.create-order {
       .icon-tx-exchange();
     }
 
@@ -274,18 +300,61 @@ w-transaction-info-json {
       .icon-tx-cancel-script();
     }
 
-    //&.sponsorship-minus {
-    //  .icon-tx-sponsorship-minus();
-    //}
+    &.set-asset-script {
+      .icon-tx-set-asset-script();
+    }
 
     &::before {
       width: @tx-icon-size;
       height: @tx-icon-size;
-      background-size: @tx-icon-size;
+      background-size: auto;
       background-color: @color-white;
+      background-repeat: no-repeat;
+      background-image: url(/img/icons/transaction-icons-80.svg);
       content: '';
       display: block;
     }
+  }
+
+  .spam {
+    .txinfo__icon {
+      &.send,
+      &.receive,
+      &.circular,
+      &.exchange-buy,
+      &.exchange-sell,
+      &.reissue,
+      &.sponsorship-start,
+      &.sponsorship-stop,
+      &.sponsorship-fee,
+      &.set-asset-script,
+      &.mass-send {
+        &::before {
+          background-position-y: bottom;
+        }
+      }
+    }
+  }
+
+  .exchange-header-row {
+    margin: 0 0 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    h3 {
+      margin: 0;
+    }
+  }
+
+  .spam-label {
+    display: inline-block;
+    background-color: @color-disabled-200;
+    color: @color-basic-900;
+    position: relative;
+    top: auto;
+    bottom: 3px;
+    margin-top: 0;
+    right: auto;
   }
 
   &__content.spam {
@@ -302,31 +371,40 @@ w-transaction-info-json {
     }
   }
 
-  .status {
-    .tag-1();
+  .status-label {
     margin-top: -4px;
-    padding: 4px 11px;
-    border-radius: @border-radius;
+  }
 
-    &.confirmed {
-      background: @color-success-50;
-      color: @color-success-400;
+  &__item {
+    display: flex;
+    flex: 1 1 0;
+    overflow: hidden;
+
+    .txinfo__unit {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      padding-right: 0;
     }
 
-    &.unconfirmed {
-      background: rgba(255, 175, 0, 0.1);
-      color: @color-warning-500;
+    &:last-child {
+      justify-content: flex-end;
+    }
+  }
+
+  &__show {
+    &-fields {
+      margin-bottom: -1px;
+      padding-bottom: 10px;
+    }
+
+    &-text {
+      cursor: pointer;
     }
   }
 }
 
 @media screen and (max-width: 540px) {
   .txinfo {
-    .icon-close {
-      top: 5px;
-      right: 5px;
-    }
-
     &__lead {
       padding: 10px 0;
     }

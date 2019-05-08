@@ -3,6 +3,7 @@
 
     const GATEWAYS = {
         [WavesApp.defaultAssets.BTC]: { waves: 'WBTC', gateway: 'BTC' },
+        [WavesApp.defaultAssets.BSV]: { waves: 'WBSV', gateway: 'BSV' },
         [WavesApp.defaultAssets.ETH]: { waves: 'WETH', gateway: 'ETH' },
         [WavesApp.defaultAssets.LTC]: { waves: 'WLTC', gateway: 'LTC' },
         [WavesApp.defaultAssets.ZEC]: { waves: 'WZEC', gateway: 'ZEC' },
@@ -71,7 +72,7 @@
                         minimumAmount: new BigNumber(rate.in_min),
                         maximumAmount: new BigNumber(rate.in_max),
                         exchangeRate: new BigNumber(rate.xrate),
-                        gatewayFee: new BigNumber(rate.fee_in + rate.fee_out)
+                        gatewayFee: new BigNumber(rate.fee_out)
                     };
                 });
             }

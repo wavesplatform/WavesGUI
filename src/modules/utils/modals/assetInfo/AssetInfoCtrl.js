@@ -16,6 +16,9 @@
 
         class AssetInfoCtrl extends Base {
 
+            /**
+             * @param {Asset} asset
+             */
             constructor(asset) {
                 super($scope);
                 this.asset = asset;
@@ -31,6 +34,21 @@
                 this.totalBalance = null;
                 this.transactions = [];
                 this.transactionsPending = true;
+
+                const {
+                    link, email, provider, description
+                } = utils.getDataFromOracles(this.asset.id);
+
+                // this.ticker = path(['ticker'], data); // TODO STEP 2=
+                this.link = link;
+                this.email = email;
+
+                this.provider = provider;
+                this.description = description || asset.description;
+
+                this.withScam = null;
+                this.spam = [];
+
                 /**
                  * @type {string}
                  */

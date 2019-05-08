@@ -26,18 +26,20 @@ export function get(assets: string | Array<string>): Promise<any> {
 
 export function getAssetFromNode(assetId: string): Promise<Asset> {
     if (assetId === WAVES_ID) {
-        return Promise.resolve( new Asset({
+        return Promise.resolve(new Asset({
             ticker: 'WAVES',
             id: 'WAVES',
             name: 'Waves',
             precision: 8,
             description: '',
             height: 0,
+            hasScript: false,
             timestamp: new Date('2016-04-11T21:00:00.000Z'),
+            minSponsoredFee: new BigNumber(0),
             sender: '',
             quantity: 10000000000000000,
             reissuable: false
-        } ));
+        }));
     }
 
     return request<INodeAssetData>({ url: `${configGet('node')}/assets/details/${assetId}` })
@@ -48,7 +50,9 @@ export function getAssetFromNode(assetId: string): Promise<Asset> {
             height: data.issueHeight,
             precision: data.decimals,
             quantity: data.quantity,
+            hasScript: !!data.script,
             reissuable: data.reissuable,
+            minSponsoredFee: data.minSponsoredFee,
             sender: data.issuer,
             timestamp: new Date(data.issueTimestamp)
         }));
@@ -194,7 +198,7 @@ const getAssetRequestCb = (list: Array<string>): Promise<Array<Asset>> => {
                 }
             });
 
-            return Promise.all(fails.map(getAssetFromNode))
+            return queueRequest(fails)
                 .then((reloadedAssets) => {
                     let failCount = 0;
                     return list.map((id, index) => {
@@ -208,6 +212,15 @@ const getAssetRequestCb = (list: Array<string>): Promise<Array<Asset>> => {
         });
 };
 
+export async function queueRequest(list: Array<string>) {
+    const result = [];
+    for (const assetId of list) {
+        const asset = await getAssetFromNode(assetId);
+        result.push(asset);
+    }
+    return result;
+}
+
 export const wait = time => new Promise(resolve => setTimeout(resolve, time));
 
 export interface INodeAssetData {
@@ -220,6 +233,8 @@ export interface INodeAssetData {
     issueTimestamp: number;
     issuer: string;
     name: string;
+    minSponsoredFee: string | number;
     quantity: string | number;
     reissuable: boolean;
+    script: string | null;
 }

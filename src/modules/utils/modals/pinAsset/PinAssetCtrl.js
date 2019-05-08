@@ -10,13 +10,15 @@ const R = require('ramda');
      *
      * @param Base
      * @param $scope
-     * @param {ExplorerLinks} explorerLinks
      * @param {Waves} waves
      * @param {IPollCreate} PromiseControl
      * @param $mdDialog
+     * @param {User} user
      * @return {PinAssetCtrl}
      */
-    const controller = function (Base, $scope, waves, PromiseControl, $mdDialog) {
+    const controller = function (Base, $scope, waves, PromiseControl, $mdDialog, user) {
+
+        const analytics = require('@waves/event-sender');
 
         class PinAssetCtrl extends Base {
 
@@ -79,7 +81,13 @@ const R = require('ramda');
              * return {void}
              */
             onSubmit() {
-                this.pinnedAssetIdList = R.uniq([...this.pinnedAssetIdList, ...Object.keys(this.selectedHash)]);
+                const selectedAssets = Object.keys(this.selectedHash);
+                analytics.send({
+                    name: 'Wallet Assets Pin',
+                    params: { Currency: selectedAssets },
+                    target: 'ui'
+                });
+                this.pinnedAssetIdList = R.uniq([...this.pinnedAssetIdList, ...selectedAssets]);
                 this.spam = this.spam.filter((spamId) => !this.pinnedAssetIdList.includes(spamId));
                 $mdDialog.hide({ selected: this.selected.length });
             }
@@ -188,7 +196,7 @@ const R = require('ramda');
              * @static
              */
             static _isScam(asset) {
-                return (WavesApp.scam || {})[asset.id];
+                return (user.scam || {})[asset.id];
             }
 
         }
@@ -196,6 +204,6 @@ const R = require('ramda');
         return new PinAssetCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'waves', 'PromiseControl', '$mdDialog'];
+    controller.$inject = ['Base', '$scope', 'waves', 'PromiseControl', '$mdDialog', 'user'];
     angular.module('app.utils').controller('PinAssetCtrl', controller);
 })();

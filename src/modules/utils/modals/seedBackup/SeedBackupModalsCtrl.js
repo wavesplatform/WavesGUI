@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const analytics = require('@waves/event-sender');
+
     /**
      * @param Base
      * @param {ng.$scope} $scope
@@ -42,6 +44,12 @@
                 this.observe('step', this._onChangeStep);
 
                 this.step = 0;
+
+                this.observe('step', () => {
+                    if (this.step === 2) {
+                        analytics.send({ name: 'Create Save Phrase Success Show', target: 'ui' });
+                    }
+                });
             }
 
             onSeedConfirmFulfilled(isValid) {

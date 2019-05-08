@@ -42,6 +42,7 @@
       position: absolute;
       right: 0;
       top: 0;
+      z-index: 3;
 
       .title {
         display: flex;
@@ -77,6 +78,12 @@
           .smart-table {
             &__row:hover {
               background: @hover-default;
+
+             .asset__logo {
+               .marker {
+                 border: 2px solid @custom-asset-marker-border;
+               }
+             }
             }
           }
         }
@@ -280,7 +287,6 @@
               position: absolute;
               left: 50%;
               transform: translate(-50%, 5px) rotate(45deg);
-
             }
           }
 
@@ -389,7 +395,8 @@
     }
 
     .mobiles-only {
-      display: block;
+      display: flex;
+      align-items: center;
       font-family: @font-roboto-regular;
     }
 
@@ -540,5 +547,3 @@
     }
   }
 }
-
-

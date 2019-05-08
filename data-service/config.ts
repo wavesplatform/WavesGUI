@@ -3,6 +3,7 @@ import { IHash } from './interface';
 import { time } from './api/node/node';
 import { request } from './utils/request';
 import { MAINNET_DATA } from '@waves/assets-pairs-order';
+import { Signal } from 'ts-utils';
 
 
 const config: IConfigParams = Object.create(null);
@@ -11,7 +12,7 @@ let dataService = null;
 export let timeDiff = 0;
 export let matcherSettingsPromise: Promise<Array<string>> = Promise.resolve(MAINNET_DATA);
 
-export const parse = str => (window as any).WavesApp.parseJSON(str);
+export const parse: <T>(str: string) => Promise<T> = str => (window as any).WavesApp.parseJSON(str);
 
 export function get<K extends keyof IConfigParams>(key: K): IConfigParams[K] {
     return config[key];
@@ -41,6 +42,7 @@ export function set<K extends keyof IConfigParams>(key: K, value: IConfigParams[
             dataService = new DataServiceClient({ rootUrl: `${config.api}/${config.apiVersion}`, parse });
         }
     }
+    change.dispatch(key);
 }
 
 export function setConfig(props: Partial<IConfigParams>): void {
@@ -52,6 +54,8 @@ export function setConfig(props: Partial<IConfigParams>): void {
 export function getDataService(): DataServiceClient {
     return dataService;
 }
+
+export const change: Signal<keyof IConfigParams> = new Signal<keyof IConfigParams>();
 
 export interface IConfigParams {
     code: string;
@@ -65,4 +69,7 @@ export interface IConfigParams {
     assets: IHash<string>;
     minimalSeedLength: number;
     remappedAssetNames: IHash<string>;
+    // oracleAddress: string;
+    oracleWaves: string;
+    oracleTokenomica: string;
 }

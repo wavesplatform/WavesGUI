@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="10px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53 (72520) - https://sketchapp.com -->
+    <title>Icon/10/arrow-down-white</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Icon/10/arrow-down-white" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="zona" fill-opacity="0" fill="#D8D8D8" x="0" y="0" width="10" height="10"></rect>
+        <path d="M7.57573593,3.07573593 C7.81005051,2.84142136 8.18994949,2.84142136 8.42426407,3.07573593 C8.65857864,3.31005051 8.65857864,3.68994949 8.42426407,3.92426407 L5.42426407,6.92426407 C5.18994949,7.15857864 4.81005051,7.15857864 4.57573593,6.92426407 L1.57573593,3.92426407 C1.34142136,3.68994949 1.34142136,3.31005051 1.57573593,3.07573593 C1.81005051,2.84142136 2.18994949,2.84142136 2.42426407,3.07573593 L5,5.65147186 L7.57573593,3.07573593 Z" id="Path" fill="#FFFFFF" fill-rule="nonzero"></path>
+    </g>
+</svg>

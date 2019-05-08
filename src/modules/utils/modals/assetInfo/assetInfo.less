@@ -1,10 +1,12 @@
 @import (reference) 'config';
 @import (reference) '../../../app/less/typography';
 
+// do not forget add all the same changes to 'sponsored.less'
+
 html body md-dialog.asset-info-modal {
 
   md-dialog-content {
-    padding: 0 30px;
+    padding: 0 40px;
     overflow-y: hidden;
 
     &::after {
@@ -12,48 +14,35 @@ html body md-dialog.asset-info-modal {
     }
   }
 
-  w-tabs.inner {
-    .titles-wrap {
-      width: 100%;
-      margin: 0;
-    }
+  .asset-description {
+    word-wrap: break-word;
+    word-break: break-word;
   }
 
-  .chart-wrapper {
-    opacity: 0.2;
-    position: relative;
-    margin: 0 -30px 0;
-    height: 76px;
-
-    .interactive-stop {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    }
-
-    .chart-tooltip,
-    .chart-legend { // Lib ng3-charts
-      display: none !important;
-    }
+  .tab-tem {
+    .footnote-1();
+    overflow-y: auto;
+    max-height: calc(~'90vh - 280px');
   }
 
-  .asset-content {
-    height: 100%;
+  w-tabs {
+    margin: -1px 0 0 -40px;
+    width: calc(100% ~'+ 80px');
+  }
 
-
-    .tab-tem {
-      .footnote-1();
-      overflow-y: auto;
-      max-height: calc(~'90vh - 300px');
+  @media screen and (max-width: 768px) {
+    .asset {
+      &-modal__name {
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 20px;
+      }
+      &__ticker {
+        margin-top: 5px;
+      }
     }
-
-    .one-line {
-      max-height: 1.3em;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    .status-label-min {
+      margin: 5px 0 0;
     }
   }
 
@@ -67,6 +56,18 @@ html body md-dialog.asset-info-modal {
       border-bottom: 1px solid @color-basic-100;
       padding: 5px 0;
       align-items: center;
+
+      &-description {
+        width: 100%;
+        padding: 13px 16px;
+        border: 1px dashed @color-basic-100;
+        border-radius: @border-radius;
+        background: @color-basic-50;
+      }
+
+      &:first-child {
+        margin-top: -10px;
+      }
 
       &.chart-container {
         .legend-item {
@@ -85,9 +86,13 @@ html body md-dialog.asset-info-modal {
         }
       }
 
-      &-description div:last-child {
-        padding-top: 6px;
-        min-height: 30px;
+      &-description {
+        padding-top: 20px;
+
+        div:last-child {
+          padding-top: 6px;
+          min-height: 30px;
+        }
       }
 
       &:last-child {
@@ -158,9 +163,6 @@ html body md-dialog.asset-info-modal {
   }
 
   .tab-container {
-    width: calc(~'100% + 60px');
-    margin-left: -30px;
-
     w-transaction-list ul {
       border-top: none;
 
@@ -235,36 +237,30 @@ html body md-dialog.asset-info-modal {
 
     w-tabs.inner {
       .titles-wrap {
-        padding: 0 10px;
-        margin: 0 -10px;
-        width: calc(100% ~'+ 20px');
+        padding: 0;
       }
-
       .tab-body-wrap {
         height: auto;
       }
     }
 
-    .chart-wrapper {
-      margin-left: -30px;
-      margin-right: 0;
-      width: calc(100% ~'+ 60px');
+    w-tabs {
+      margin: 0;
+      width: 100%;
     }
 
-    .asset-content {
-      .padding-content .tab-tem {
-        padding: 20px;
-      }
+    .padding-content .tab-tem {
+      padding: 40px 20px;
+    }
 
-      .tab-tem {
-        overflow-y: visible;
-        max-height: 100%;
-        padding: 0;
+    .tab-tem {
+      overflow-y: visible;
+      max-height: 100%;
+      padding: 0;
 
-        .line {
-          w-circle-chart {
-            margin: 0 auto;
-          }
+      .line {
+        w-circle-chart {
+          margin: 0 auto;
         }
       }
 

@@ -16,7 +16,8 @@ export type T_API_TX =
     txApi.IMassTransfer |
     txApi.IData |
     txApi.ISponsorship |
-    txApi.ISetScript;
+    txApi.ISetScript |
+    txApi.ISetAssetScript;
 
 export type T_TX =
     IIssue |
@@ -30,7 +31,8 @@ export type T_TX =
     IMassTransfer |
     IData |
     ISponsorship |
-    ISetScript;
+    ISetScript |
+    ISetAssetScript;
 
 export module txApi {
 
@@ -150,6 +152,12 @@ export module txApi {
         script: string;
     }
 
+    export interface ISetAssetScript extends IBaseTransaction {
+        type: TRANSACTION_TYPE_NUMBER.SET_ASSET_SCRIPT;
+        version?: number;
+        script: string;
+    }
+
     export interface IExchangeOrder {
         amount: string;
         assetPair: IAssetPair;
@@ -199,8 +207,7 @@ export interface ITransfer extends IBaseTransaction {
     type: TRANSACTION_TYPE_NUMBER.TRANSFER;
     amount: Money;
     assetId: string;
-    attachment: string;
-    rawAttachment: string;
+    attachment: Uint8Array;
     fee: Money;
     feeAssetId: string;
     recipient: string;
@@ -262,8 +269,7 @@ export interface IMassTransfer extends IBaseTransaction {
     type: TRANSACTION_TYPE_NUMBER.MASS_TRANSFER;
     version?: number;
     assetId: string;
-    attachment: string;
-    rawAttachment: string;
+    attachment: Uint8Array;
     fee: Money;
     totalAmount: Money;
     transferCount: number;
@@ -287,6 +293,12 @@ export interface ISponsorship extends IBaseTransaction {
 
 export interface ISetScript extends IBaseTransaction {
     type: TRANSACTION_TYPE_NUMBER.SET_SCRIPT;
+    version?: number;
+    script: string;
+}
+
+export interface ISetAssetScript extends IBaseTransaction {
+    type: TRANSACTION_TYPE_NUMBER.SET_ASSET_SCRIPT;
     version?: number;
     script: string;
 }

@@ -8,9 +8,12 @@
      * @param {Waves} waves
      * @param {ModalManager} modalManager
      * @param {IPollCreate} createPoll
+     * @param {BalanceWatcher} balanceWatcher
      * @return {LeasingCtrl}
      */
-    const controller = function (Base, $scope, utils, waves, modalManager, createPoll) {
+    const controller = function (Base, $scope, utils, waves, modalManager, createPoll, balanceWatcher) {
+
+        const { pathEq } = require('ramda');
 
         class LeasingCtrl extends Base {
 
@@ -18,9 +21,33 @@
                 return !this.pending && this.allActiveLeasing == null;
             }
 
+            /**
+             * @type {string}
+             */
+            filter;
+            /**
+             * @type {ITransaction[]}
+             * @private
+             */
+            _txList = null;
+            /**
+             * @type {ITransaction[]}
+             */
+            allActiveLeasing = null;
+            /**
+             * @type {ITransaction[]}
+             */
+            transactions = [];
+            /**
+             * @type {string}
+             */
+            nodeListLink = '';
+
+
             constructor() {
                 super($scope);
 
+                this.syncSettings({ filter: 'wallet.leasing.filter' });
                 this.pending = true;
                 this.chartOptions = {
                     items: {
@@ -42,61 +69,48 @@
                     startFrom: Math.PI / 2
                 };
 
-                /**
-                 * @type {ITransaction[]}
-                 * @private
-                 */
-                this.txList = null;
-                /**
-                 * @type {ITransaction[]}
-                 */
-                this.allActiveLeasing = null;
-                /**
-                 * @type {ITransaction[]}
-                 */
-                this.transactions = [];
-
-                /**
-                 * @type {string}
-                 */
                 this.nodeListLink = WavesApp.network.nodeList;
 
                 waves.node.transactions.getActiveLeasingTx().then((txList) => {
                     this.allActiveLeasing = txList;
+                    $scope.$apply();
                 });
 
-                createPoll(this, this._getBalances, this._setLeasingData, 1000, { isBalance: true });
                 createPoll(this, this._getTransactions, this._setTxList, 3000, { isBalance: true });
 
-                this.observe(['txList', 'allActiveLeasing'], this._currentLeasingList);
-            }
+                this.receive(balanceWatcher.change, this._updateLeasingData, this);
+                this.observe(['_txList', 'allActiveLeasing', 'filter'], this._currentLeasingList);
 
-            startLeasing() {
-                return modalManager.showStartLeasing();
+                this._updateLeasingData();
             }
 
             /**
-             * @return {Promise<IBalanceDetails>}
-             * @private
+             * @return {object}
+             * @public
              */
-            _getBalances() {
-                return waves.node.assets.balance(WavesApp.defaultAssets.WAVES);
+            startLeasing() {
+                return modalManager.showStartLeasing();
             }
 
             /**
              * @private
              */
             _getTransactions() {
-                return waves.node.transactions.list(10000);
+                return waves.node.transactions.list(500);
             }
 
             /**
-             * @param {BigNumber} available
-             * @param {BigNumber} leasedIn
-             * @param {BigNumber} leased
              * @private
              */
-            _setLeasingData({ leasedOut, leasedIn, available }) {
+            _updateLeasingData() {
+                const waves = balanceWatcher.getFullBalanceList().find(pathEq(['asset', 'id'], 'WAVES'));
+
+                if (!waves) {
+                    return null;
+                }
+
+                const { available, leasedOut, leasedIn } = waves;
+
                 this.available = available;
                 this.leased = leasedOut;
                 this.leasedIn = leasedIn;
@@ -107,7 +121,7 @@
                     { id: 'leased', value: leasedOut },
                     { id: 'leasedIn', value: leasedIn }
                 ];
-                $scope.$digest();
+                utils.safeApply($scope);
             }
 
             /**
@@ -121,15 +135,15 @@
                     [waves.node.transactions.TYPES.CANCEL_LEASING]: true
                 };
 
-                this.txList = txList.filter(({ typeName }) => AVAILABLE_TYPES_HASH[typeName]);
-                $scope.$digest();
+                this._txList = txList.filter(({ typeName }) => AVAILABLE_TYPES_HASH[typeName]);
+                $scope.$apply();
             }
 
             /**
              * @private
              */
             _currentLeasingList() {
-                const txList = this.txList;
+                const txList = this._txList;
                 const allActiveLeasing = this.allActiveLeasing;
 
                 if (!txList) {
@@ -153,6 +167,20 @@
                 });
 
                 this.transactions = result;
+                this._filterLeasingList();
+            }
+
+            /*
+             * @private
+             */
+            _filterLeasingList() {
+                const filter = this.filter;
+                if (filter === 'active') {
+                    this.transactions = this.transactions.filter(tx => tx.status === 'active');
+                } else if (filter === 'canceled') {
+                    this.transactions = this.transactions
+                        .filter(tx => tx.status !== 'active' || tx.typeName === 'cancel-leasing');
+                }
             }
 
         }
@@ -160,7 +188,7 @@
         return new LeasingCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'utils', 'waves', 'modalManager', 'createPoll'];
+    controller.$inject = ['Base', '$scope', 'utils', 'waves', 'modalManager', 'createPoll', 'balanceWatcher'];
 
     angular.module('app.wallet.leasing').controller('LeasingCtrl', controller);
 })();

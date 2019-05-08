@@ -6,6 +6,7 @@
         </w-step>
         <w-step>
             <w-confirm-transaction on-click-back="$ctrl.onConfirmBack()"
+                                   is-any-tx="true"
                                    signable="$ctrl.signable"></w-confirm-transaction>
         </w-step>
     </w-step-by-step>
@@ -26,7 +27,7 @@
     </div>
     <h3 class="basic-700 margin-3 center"
         w-i18n="modals.anyTx.title"></h3>
-    <div class="warning-plate warning-500">
+    <div class="plate-warning warning-500">
         <span w-i18n="modal.disabledFeature.anyTransaction" class="body-1"></span>
     </div>
 </w-permit>

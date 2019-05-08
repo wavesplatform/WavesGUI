@@ -4,7 +4,7 @@
     /**
      * @return {Asset}
      */
-    const controller = function () {
+    const controller = function (utils) {
 
         class Asset {
 
@@ -13,6 +13,13 @@
                  * @type {IBalanceDetails}
                  */
                 this.balance = null;
+            }
+
+            $postLink() {
+                const { isVerified, isGateway, isTokenomica } = utils.getDataFromOracles(this.balance.asset.id);
+                this.isVerified = isVerified;
+                this.isGateway = isGateway;
+                this.isTokenomica = isTokenomica;
             }
 
             isUnpinned() {
@@ -24,7 +31,7 @@
         return new Asset();
     };
 
-    controller.$inject = [];
+    controller.$inject = ['utils'];
 
     angular.module('app.wallet.assets').component('wAsset', {
         bindings: {

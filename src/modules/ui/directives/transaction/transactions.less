@@ -12,19 +12,14 @@ w-transaction .transaction {
   align-items: center;
   position: relative;
 
-  .status {
-    .caption-3();
-    padding: 3px 6px;
-    margin-top: 4px;
-    border-radius: @border-radius / 2;
-    text-transform: uppercase;
-    position: absolute;
-    right: 43px;
-    bottom: 15px;
-
-    &.active {
-      background: @color-success-50;
-      color: @color-success-400;
+  .status-label-min {
+    &.inactive {
+      margin-bottom: -1px;
+    }
+    &:not(.inactive) {
+      position: absolute;
+      right: 43px;
+      bottom: 15px;
     }
   }
 
@@ -38,13 +33,16 @@ w-transaction .transaction {
 
     &::before {
       content: '';
-      display: block;
       position: absolute;
       width: @tx-icon-size;
       height: @tx-icon-size;
       overflow: hidden;
-      left: 10px;
+      left: 9px;
       top: 9px;
+      background-position-y: 0;
+      display: none;
+      background: url(/img/icons/transaction-icons-30.svg);
+      background-repeat: no-repeat;
     }
 
     &.send {
@@ -128,9 +126,9 @@ w-transaction .transaction {
       .icon-tx-cancel-script();
     }
 
-    //&.sponsorship-minus {
-    //  .icon-tx-sponsorship-minus();
-    //}
+    &.set-asset-script {
+      .icon-tx-set-asset-script();
+    }
   }
 
   &.spam .icon {
@@ -140,6 +138,16 @@ w-transaction .transaction {
 
     &.mass-receive {
       .icon-tx-mass-spam();
+    }
+  }
+
+  .status-label-min.inactive {
+    display: none;
+  }
+
+  .spam {
+    .status-label-min.inactive {
+      display: block;
     }
   }
 
@@ -160,6 +168,7 @@ w-transaction .transaction {
       .line {
         height: 50%;
         flex-basis: 50%;
+        color: @color-basic-700;
 
         &:last-child {
           padding-right: @padding-main-layout * 4.4;
@@ -167,9 +176,7 @@ w-transaction .transaction {
         }
 
         .top {
-          color: @color-basic-700;
           word-break: break-all;
-
           .spam-label {
             display: none;
           }
@@ -187,33 +194,44 @@ w-transaction .transaction {
           flex-grow: 0;
         }
       }
-
     }
-
   }
 
   &.spam {
+    .icon {
+      &.send,
+      &.receive,
+      &.circular,
+      &.exchange-buy,
+      &.exchange-sell,
+      &.reissue,
+      &.sponsorship-start,
+      &.sponsorship-stop,
+      &.sponsorship-fee,
+      &.mass-send,
+      &.set-asset-script {
+        background-color: @color-disabled-50;
+        &::before {
+          background-position-y: bottom;
+        }
+      }
+    }
+
     .transaction-info {
       .line-wrapper {
         .line {
-          .top {
-            color: @color-basic-500;
-            word-break: break-all;
+          color: @color-basic-500;
 
-            .spam-label {
-              .status();
-              display: inline-block;
-              background-color: @color-disabled-200;
-              color: @color-basic-900;
-              position: relative;
-              top: auto;
-              bottom: 3px;
-              margin-top: 0;
-              right: auto;
-            }
-          }
           .bottom {
             color: @color-accent-100;
+          }
+
+          .status-label-min {
+            display: inline-block;
+            top: auto;
+            bottom: 3px;
+            margin-top: 0;
+            right: auto;
           }
         }
       }
@@ -227,7 +245,7 @@ w-transaction .transaction {
       margin-right: 20px;
     }
 
-    .status {
+    .status-label-min {
       right: 40px;
       top: 24px;
       bottom: auto;
@@ -311,7 +329,7 @@ w-transaction .transaction {
         .line-wrapper {
           .line {
             .top {
-              .spam-label {
+              .status-label-min {
                 position: absolute;
                 right: 43px;
                 bottom: 44px;
@@ -327,7 +345,7 @@ w-transaction .transaction {
 @media screen and (max-width: 540px) {
   md-dialog {
     w-transaction .transaction {
-      .status {
+      .status-label-min {
         right: 10px;
       }
     }

@@ -2,11 +2,12 @@
     'use strict';
 
     const config = function ($urlRouterProvider, $stateProvider, $locationProvider) {
-
+        const TransportU2F = require('@ledgerhq/hw-transport-u2f');
         const tsUtils = require('ts-utils');
 
         ds.config.setConfig(WavesApp.network);
         ds.config.set('remappedAssetNames', WavesApp.remappedAssetNames);
+        ds.config.set('oracleTokenomica', WavesApp.oracles.tokenomica);
 
         class AppConfig {
 
@@ -19,7 +20,7 @@
 
             _initAdapters() {
 
-                const Transport = window.TransportNodeHid;
+                const Transport = window.TransportNodeHid || TransportU2F;
 
                 ds.signAdapters.adapterList.forEach((Adapter) => Adapter.initOptions({
                     networkCode: WavesApp.network.code.charCodeAt(0),
@@ -62,9 +63,17 @@
                 i18next
                     .use(i18nextLocizeBackend)
                     .init({
-                        lng: localStorage.getItem('lng') || AppConfig.getUserLang(),
+                        lng: AppConfig.getUserLang(),
                         debug: !WavesApp.isProduction(),
-                        ns: WavesApp.modules.filter(tsUtils.notContains('app.templates')),
+                        ns: WavesApp.modules
+                            .filter(
+                                tsUtils.filterList(
+                                    tsUtils.notContains('app.templates'),
+                                    tsUtils.notContains('app.keeper'),
+                                    tsUtils.notContains('app.wallet'),
+                                    tsUtils.notContains('app.stand')
+                                )
+                            ),
                         fallbackLng: 'en',
                         whitelist: Object.keys(WavesApp.localize),
                         defaultNS: 'app',
@@ -200,8 +209,11 @@
             }
 
             static getUserLang() {
-
                 const available = Object.keys(WavesApp.localize);
+                const langFromStorage = localStorage.getItem('lng');
+                if (available.indexOf(langFromStorage) !== -1) {
+                    return langFromStorage;
+                }
                 const cookieLng = Cookies.get('locale');
                 const userLang = navigator.language || navigator.userLanguage;
 

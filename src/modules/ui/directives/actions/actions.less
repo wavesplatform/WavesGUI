@@ -1,5 +1,6 @@
 @import (reference) 'config';
 
+.w-actions,
 w-actions {
   display: block;
   height: 16px;
@@ -9,11 +10,12 @@ w-actions {
   top: 50%;
   margin-top: -8px;
   cursor: pointer;
+  user-select: none;
 
   .actions-container {
-    z-index: 2;
+    z-index: 4;
     min-width: 215px;
-    display: block;
+    display: none;
     position: absolute;
     right: 0;
     top: 0;
@@ -23,23 +25,15 @@ w-actions {
     box-shadow: @shadow-buttons-default;
     border-radius: @border-radius;
 
-    &.open-up {
-      top: auto;
-      bottom: 0;
-    }
-
     .action {
       padding: 8px 20px;
-
       a {
         color: @color-disabled-900;
       }
-
       &:hover {
         background-color: @color-basic-50;
       }
     }
-
     &.expanded {
       display: block;
     }
@@ -67,25 +61,23 @@ w-actions {
     }
 
     .dots.white.horizontal {
-        flex-direction: row;
-        width: 30px;
+      flex-direction: row;
+      width: 30px;
 
-        .dot {
-          background-color: @color-white;
-        }
+      .dot {
+        background-color: @color-white;
+      }
     }
   }
 }
 
-@media screen and (max-width: 659px) {
-  .smart-table {
-    &__mode-large {
-      .smart-table__w-tbody {
-        w-actions {
-          right: 10px;
-          top: 39px;
-          width: 24px;
-        }
+@media screen and (min-height: 590px) {
+  .w-actions,
+  w-actions {
+    .actions-container {
+      &.to-up {
+        top: auto;
+        bottom: -10px;
       }
     }
   }

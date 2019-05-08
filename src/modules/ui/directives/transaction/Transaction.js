@@ -13,12 +13,12 @@
      * @param {Waves} waves
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
-     * @param {DexService} dexService
+     * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
      * @return {Transaction}
      */
     const controller = function (Base, $filter, modalManager, notification,
-                                 waves, user, baseAssetService, dexService, $scope) {
+                                 waves, user, baseAssetService, utils, $scope) {
 
         const { SIGN_TYPE } = require('@waves/signature-adapter');
 
@@ -30,7 +30,11 @@
                 this.time = $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm');
                 this.shownAddress = this.transaction.shownAddress;
                 this.typeName = this.transaction.typeName;
-                this.isScam = !!WavesApp.scam[this.transaction.assetId];
+                this.isScam = !!user.scam[this.transaction.assetId];
+                if (this.transaction.type === 7) {
+                    this.isScamAmount = !!user.scam[this.transaction.amount.asset];
+                    this.isScamPrice = !!user.scam[this.transaction.price.asset];
+                }
 
                 if (this.transaction.amount && this.transaction.amount instanceof ds.wavesDataEntities.Money) {
                     baseAssetService.convertToBaseAsset(this.transaction.amount)
@@ -38,6 +42,13 @@
                             this.mirrorBalance = baseMoney;
                             $scope.$digest();
                         });
+                }
+
+                if (this.transaction.assetId) {
+                    waves.node.assets.getAsset(this.transaction.assetId).then(asset => {
+                        this.asset = asset;
+                        $scope.$apply();
+                    });
                 }
 
                 const TYPES = waves.node.transactions.TYPES;
@@ -64,6 +75,7 @@
             }
 
             sponsoredFee() {
+                this.isScam = false;
             }
 
             sponsored() {
@@ -74,7 +86,7 @@
             }
 
             exchange() {
-                this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
+                this.totalPrice = utils.getExchangeTotalPrice(this.transaction.amount, this.transaction.price);
             }
 
             tokens() {
@@ -102,7 +114,7 @@
              */
             getAssetName(asset) {
                 try {
-                    return !WavesApp.scam[asset.id] ? asset.name : '';
+                    return !user.scam[asset.id] ? asset.name : '';
                 } catch (e) {
                     return '';
                 }
@@ -111,7 +123,7 @@
             cancelLeasing() {
                 const lease = this.transaction;
                 const leaseId = lease.id;
-                return waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING })
+                return waves.node.getFee({ type: SIGN_TYPE.CANCEL_LEASING })
                     .then((fee) => {
                         const tx = waves.node.transactions.createTransaction({
                             fee,
@@ -200,7 +212,7 @@
         'waves',
         'user',
         'baseAssetService',
-        'dexService',
+        'utils',
         '$scope'
     ];
 

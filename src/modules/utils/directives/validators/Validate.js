@@ -87,6 +87,11 @@
                             $scope.$watch($attrs.ngModel, () => this._validate());
                         }
 
+                        /**
+                         * @param pattern
+                         * @return {Promise<any>}
+                         * @private
+                         */
                         _addInputPattern(pattern) {
                             return new Promise((resolve) => {
                                 const create = () => {
@@ -123,7 +128,7 @@
                                             $ngModel.$setValidity(`pending-${name}`, false);
                                             const onEnd = () => {
                                                 $ngModel.$setValidity(`pending-${name}`, true);
-                                                $scope.$digest();
+                                                $scope.$apply();
                                             };
                                             utils.when(result).then(() => {
                                                 $ngModel.$setValidity(name, true);
@@ -148,7 +153,7 @@
                         @decorators.async()
                         _validate() {
                             this._applyValidators(Object.keys(this._validators).map((name) => this._validators[name]));
-                            $scope.$digest();
+                            $scope.$apply();
                         }
 
                         /**
@@ -509,6 +514,11 @@
                             return validator;
                         }
 
+                        /**
+                         * @param name
+                         * @return {{handler: *, name: *, value: null}}
+                         * @private
+                         */
                         _createByteValidator(name) {
                             const validator = this._createSimpleValidator(name);
                             const $byteScope = $rootScope.$new(true);
@@ -528,7 +538,7 @@
                             validator.handler = function (modelValue) {
                                 const stringBytes = validateService.getByteFromString(modelValue || '');
                                 $byteScope.bytes = Number(validator.value) - stringBytes;
-                                $byteScope.$digest();
+                                $byteScope.$apply();
                                 return origin(modelValue);
                             };
 

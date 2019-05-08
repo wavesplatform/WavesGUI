@@ -36,7 +36,7 @@ w-dex-order-book {
       line-height: 23px;
       font-size: @font-size-caption-2;
 
-      &:hover {
+      &[data-price]:hover {
         background-color: @hover-default;
         border-color: @color-basic-200;
       }
@@ -113,8 +113,11 @@ w-dex-order-book {
 
     .asks w-row,
     .bids w-row {
-      cursor: pointer;
       position: relative;
+
+      &[data-price] {
+        cursor: pointer;
+      }
 
       .tooltip-dex,
       .tooltip-dex::before {
@@ -214,6 +217,8 @@ w-dex-order-book {
       font-weight: bold;
       font-size: 15px;
       position: relative;
+      white-space: nowrap;
+      padding-left: 5px;
 
       &:after {
         background-repeat: no-repeat;

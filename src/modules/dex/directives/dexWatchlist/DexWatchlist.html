@@ -1,15 +1,16 @@
 <div class="wrapper">
 
     <div class="titles-wrap">
-        <a href="#"
-           ng-repeat="tab in $ctrl.tabs track by tab.value"
+        <div ng-repeat="tab in $ctrl.tabs track by tab.value"
            class="title"
            ng-class="{'active': $ctrl.activeTab === tab.value}"
            ng-click="$ctrl.chooseTab(tab.value)">
             <span w-i18n="{{::tab.name}}"></span>
-        </a>
+        </div>
 
-        <w-select ng-model="$ctrl.dropDownId" ng-class="{'active': $ctrl.isActiveSelect}">
+        <w-select ng-model="$ctrl.dropDownId"
+                  ng-class="{'active': $ctrl.isActiveSelect}"
+                  class="select__no-user-select">
             <w-option ng-repeat="option in $ctrl.dropDown track by option.id"
                       value="::option.id">
                 {{::option.name}}
@@ -47,13 +48,14 @@
         </w-help-icon>
     </div>
     <w-loader ng-if="$ctrl.pending"></w-loader>
+    <w-error-block ng-show="$ctrl.loadingError"></w-error-block>
     <w-smart-table ng-if="!$ctrl.pending"
                    name="watchlist"
                    options="$ctrl.tableOptions"
                    data="$ctrl.pairDataList"
                    header-info="$ctrl.headers"
                    class="smart-table">
-        <div class="not-found basic-500" ng-if="$data && !$data.length">
+        <div class="not-found basic-500" ng-if="$data && !$data.length && !$ctrl.loadingError">
             <span w-i18n="directives.watchlist.placeholders.noMarkets"></span>
         </div>
         <w-table-row ng-repeat="pair in $data track by pair.id"

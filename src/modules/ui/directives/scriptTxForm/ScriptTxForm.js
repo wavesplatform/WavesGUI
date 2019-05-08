@@ -117,7 +117,7 @@
 
                 const balanceHash = balanceWatcher.getBalance();
                 const fee = this.state.tx.fee;
-                this.hasFee = balanceHash[fee.asset.id] && balanceHash[fee.asset.id].gt(fee);
+                this.hasFee = balanceHash[fee.asset.id] && balanceHash[fee.asset.id].gte(fee);
             }
 
             /**
@@ -161,7 +161,7 @@
                 }
 
                 if (!state.tx.fee) {
-                    waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.SET_SCRIPT }).then(fee => {
+                    waves.node.getFee({ type: SIGN_TYPE.SET_SCRIPT }).then(fee => {
                         state.tx.fee = fee;
                         this._currentHasFee();
                         $scope.$apply();
