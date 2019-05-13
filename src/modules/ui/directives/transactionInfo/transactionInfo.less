@@ -389,7 +389,7 @@ w-transaction-info-header + w-transaction-info-general {
     display: flex;
     flex: 1 1 0;
     overflow: hidden;
-
+    margin-right: 10px;
     .txinfo__unit {
       text-overflow: ellipsis;
       overflow: hidden;
@@ -398,6 +398,7 @@ w-transaction-info-header + w-transaction-info-general {
 
     &:last-child {
       justify-content: flex-end;
+      margin-right: 0;
     }
   }
 
@@ -448,6 +449,9 @@ w-transaction-info-header + w-transaction-info-general {
     justify-content: space-between;
     border-top: 1px dashed @color-basic-100;
     padding: 12px 0 13px;
+    &_header {
+      color: @color-basic-500;
+    }
     &:first-child {
       padding-top: 16px;
       border-top: 0;
