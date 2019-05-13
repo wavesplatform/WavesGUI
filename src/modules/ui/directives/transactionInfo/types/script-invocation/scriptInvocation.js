@@ -2,9 +2,10 @@
     'use strict';
 
     /**
+     * @param {JQuery} $element
      * @return {DataInfo}
      */
-    const controller = function () {
+    const controller = function ($element) {
 
         class DataInfo {
 
@@ -50,10 +51,28 @@
                 this.args = this.transaction.call.args;
             }
 
+            /**
+             * @public
+             */
+            toggleAll() {
+                this.allVisible = !this.allVisible;
+                $element.find('.transaction-details__list').stop().animate({ scrollTop: 0 }, 300);
+            }
+
+            /**
+             * @public
+             */
+            toggleVisible() {
+                this.allVisible = false;
+                this.dataVisible = !this.dataVisible;
+            }
+
         }
 
         return new DataInfo();
     };
+
+    controller.$inject = ['$element'];
 
     angular.module('app.ui').component('wScriptInvocationInfo', {
         bindings: {

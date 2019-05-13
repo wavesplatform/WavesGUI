@@ -7,7 +7,7 @@
     <div class="txinfo__key" w-i18n="transaction.modals.functionCall"></div>
     <div class="txinfo__value txinfo__button"
          w-i18n="{{$ctrl.dataVisible ? 'transaction.modals.hide' : 'transaction.modals.show'}}"
-         ng-click="$ctrl.dataVisible = !$ctrl.dataVisible"></div>
+         ng-click="$ctrl.toggleVisible()"></div>
 </div>
 <div class="txinfo__data" ng-if="$ctrl.args.length > 0">
     <div class="transaction-details invoke-args-list ng-hide"
@@ -27,7 +27,7 @@
                   w-i18n="transaction.modals.copyCode"></span>
             <span class="transaction-details__action see-all submit-300"
                   ng-if="$ctrl.args.length > 4"
-                  ng-click="$ctrl.allVisible = !$ctrl.allVisible"
+                  ng-click="$ctrl.toggleAll()"
                   w-i18n="{{$ctrl.allVisible ? 'transaction.modals.hideAll' : 'transaction.modals.seeAll'}}">
             </span>
         </div>
