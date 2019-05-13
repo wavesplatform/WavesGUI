@@ -2,6 +2,8 @@
 (function () {
     'use strict';
 
+    const { equals } = require('ramda');
+
     /* global
         Mousetrap
      */
@@ -11,6 +13,7 @@
         'extraFee',
         'networkError',
         'changeScript',
+        'setScamSignal',
         'scam'
     ];
 
@@ -105,6 +108,10 @@
              */
             changeScript = new tsUtils.Signal();
             /**
+             * @type {Signal<void>}
+             */
+            setScamSignal = new tsUtils.Signal();
+            /**
              * @type {Record<string, boolean>}
              */
             scam = Object.create(null);
@@ -174,7 +181,16 @@
                     setTimeout(() => {
                         this._scriptInfoPoll = new Poll(() => this.updateScriptAccountData(), () => null, 10000);
                     }, 30000);
+
                 });
+
+            }
+
+            setScam(hash) {
+                if (!equals(hash, this.scam)) {
+                    this.scam = hash;
+                    this.setScamSignal.dispatch();
+                }
             }
 
             /**

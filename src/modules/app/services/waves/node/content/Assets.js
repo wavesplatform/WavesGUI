@@ -3,7 +3,6 @@
     'use strict';
 
     const entities = require('@waves/data-entities');
-    const { equals } = require('ramda');
 
     /**
      * @param {BaseNodeComponent} BaseNodeComponent
@@ -168,10 +167,7 @@
              * @private
              */
             _setScamAssetList(hash) {
-                if (!equals(hash, user.scam)) {
-                    user.scam = hash;
-                    user.setSetting('scam', hash);
-                }
+                user.setScam(hash);
             }
 
             /**
