@@ -163,7 +163,7 @@ export module txApi {
         type: 16;
         version?: number;
         call: ICall;
-        dappAddress: string;
+        dApp: string;
         payment?: Array<{ amount: number; assetId: string; }>;
     }
 
@@ -330,7 +330,7 @@ export interface IExchangeOrder {
 export interface IScriptInvocation extends IBaseTransaction {
     version?: number;
     call: ICall;
-    dappAddress: string;
+    dApp: string;
     payment?: Array<Money>;
 }
 

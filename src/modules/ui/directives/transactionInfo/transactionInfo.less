@@ -419,8 +419,8 @@ w-transaction-info-header + w-transaction-info-general {
   margin-bottom: 13px;
   padding: 0 16px 16px;
   border-radius: 4px;
-  max-height: 179px;
-  overflow-y: auto;
+  max-height: 217px;
+  overflow-y: hidden;
   background-color: @color-basic-50;
   transition: max-height 0.3s, margin 0.3s;
   &.ng-hide {
@@ -436,6 +436,9 @@ w-transaction-info-header + w-transaction-info-general {
   &__list {
     padding-left: 0;
     margin: 0;
+    max-height: 179px;
+    overflow: hidden;
+    transition: max-height 0.3s, margin 0.3s;
   }
   &__item {
     width: 100%;
@@ -471,11 +474,71 @@ w-transaction-info-header + w-transaction-info-general {
       }
     }
   }
+  &.show-all {
+    max-height: 304px;
+    .transaction-details__list {
+      overflow-y: auto;
+      max-height: 270px;
+    }
+  }
 }
 
 .invoke-args-list__item-value {
   max-width: 216px;
+  &:hover ~ .tooltip {
+    display: block;
+  }
   .ellipsis();
+}
+
+.invoke-args-list__item {
+  position: relative;
+}
+
+
+.tooltip {
+  display: none;
+  width: auto;
+  position: absolute;
+  padding: 6px 12px;
+  top: 35px;
+  right: 149px;
+  transform-origin: center;
+  color: @color-white;
+  font-size: @font-size-caption-2;
+  line-height: 13px;
+  cursor: pointer;
+  text-shadow: 0 1px 6px rgba(78, 92, 110, 0.6);
+  z-index: 10;
+  text-align: left;
+  word-wrap: break-word;
+  border-radius: @border-radius;
+  background: rgba(78, 92, 110, 0.8);
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    text-align: center;
+  }
+
+  &::before {
+    position: absolute;
+    content: '';
+    z-index: -1;
+    top: -5px;
+    right: 10px;
+    opacity: .8;
+    width: 0;
+    height: 0;
+    border: 5px solid transparent;
+    border-bottom-color: @color-basic-700;
+    border-top: 0 none;
+    transform: translate(0);
+  }
+
+  &.right {
+    right: 0;
+  }
 }
 
 @media screen and (max-width: @width-media-tiny) {

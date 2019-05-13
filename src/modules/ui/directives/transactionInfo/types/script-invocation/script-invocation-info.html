@@ -3,34 +3,41 @@
     <div class="txinfo__value">{{::$ctrl.transaction.call.function}}</div>
 </div>
 
-<div class="txinfo__row">
+<div class="txinfo__row" ng-if="$ctrl.transaction.call.args.length > 0">
     <div class="txinfo__key" w-i18n="transaction.modals.functionCall"></div>
     <div class="txinfo__value txinfo__button"
          w-i18n="{{$ctrl.dataVisible ? 'transaction.modals.hide' : 'transaction.modals.show'}}"
          ng-click="$ctrl.dataVisible = !$ctrl.dataVisible"></div>
 </div>
-<div class="txinfo__data" ng-if="$ctrl.transaction.call.args">
-    <div class="transaction-details invoke-args-list ng-hide" ng-show="$ctrl.dataVisible">
-        <ul ng-class="{'show-all': $ctrl.allVisible}" class="transaction-details__list">
+<div class="txinfo__data" ng-if="$ctrl.transaction.call.args.length > 0">
+    <div class="transaction-details invoke-args-list ng-hide"
+         ng-class="{'show-all': $ctrl.allVisible}"
+         ng-show="$ctrl.dataVisible">
+        <ul class="transaction-details__list">
             <li class="transaction-details__item invoke-args-list__item"
                 ng-repeat="arg in $ctrl.transaction.call.args track by $index">
                 <span class="invoke-args-list__item-key">{{::arg.type}}</span>
                 <span class="invoke-args-list__item-value">{{::arg.value}}</span>
+                <div  class="tooltip right">{{arg.value}}</div>
             </li>
         </ul>
         <div class="transaction-details__actions">
-            <span class="transaction-details__action copy-code submit-300" w-copy="::$ctrl.json" w-i18n="transaction.modals.copyCode"></span>
-            <span class="transaction-details__action see-all submit-300" ng-click="$ctrl.allVisible = !$ctrl.allVisible" w-i18n="transaction.modals.seeAll"></span>
+            <span class="transaction-details__action copy-code submit-300"
+                  w-copy="::$ctrl.json"
+                  w-i18n="transaction.modals.copyCode"></span>
+            <span class="transaction-details__action see-all submit-300"
+                  ng-click="$ctrl.allVisible = !$ctrl.allVisible"
+                  w-i18n="transaction.modals.seeAll"></span>
         </div>
     </div>
 </div>
 <div class="txinfo__row">
     <div class="txinfo__key" w-i18n="transaction.modals.scriptAddress"></div>
-    <div class="txinfo__value">{{::$ctrl.transaction.dappAddress}}</div>
+    <div class="txinfo__value">{{::$ctrl.transaction.dApp}}</div>
 </div>
 <div class="txinfo__row" ng-if="$ctrl.transaction.payment.length > 0">
     <div class="txinfo__key" w-i18n="transaction.modals.payment"></div>
-    <div class="txinfo__value">{{::$ctrl.payment}} </div>
+    <div class="txinfo__value">{{::$ctrl.payment}}</div>
 </div>
 <div class="txinfo__row">
     <div class="txinfo__key" w-i18n="transaction.modals.txId"></div>
