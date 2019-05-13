@@ -15,7 +15,7 @@
     }
   }
 
-  &__search:not(input) {
+  .search-wrapper {
     border: 1px solid @color-basic-100;
     border-radius: @border-radius @border-radius 0 0;
     padding: 8px 15px 8px 35px;
@@ -24,11 +24,8 @@
     height: 48px;
     width: 100%;
 
-    input {
+    .search-input {
       .body-2();
-      border: 0 none;
-      width: 100%;
-      background: @color-white;
       color: @color-basic-700;
     }
   }

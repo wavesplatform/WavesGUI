@@ -5,11 +5,14 @@
             <div class="add-asset__header">
                 <h3 class="text-center basic-700" w-i18n="modal.pinAsset.title"></h3>
             </div>
-            <w-input class="add-asset__search"
-                     w-i18n-ns="app.utils"
-                     w-i18n-attr="placeholder"
-                     placeholder="modal.pinAsset.placeholder"
-                     ng-model="$ctrl.search"></w-input>
+            <w-search class="search-wrapper">
+                <input class="search-input"
+                       type="w-search"
+                       w-i18n-ns="app.utils"
+                       w-i18n-attr="placeholder"
+                       placeholder="modal.pinAsset.placeholder"
+                       ng-model="$ctrl.search">
+            </w-search>
             <ul class="add-asset__select">
                 <li ng-repeat="asset in $ctrl.pinnedAssetNewList track by asset.id">
                     <label class="mobile-caption-2">
