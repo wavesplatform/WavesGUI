@@ -422,10 +422,11 @@ w-transaction-info-header + w-transaction-info-general {
   max-height: 217px;
   overflow-y: hidden;
   background-color: @color-basic-50;
-  transition: max-height 0.3s, margin 0.3s;
+  transition: max-height 0.3s, margin 0.3s, padding 0.3s;
   &.ng-hide {
     max-height: 0;
     margin-bottom: 0;
+    padding: 0;
   }
   &.ng-hide-add {
     overflow-y: hidden;
@@ -459,6 +460,7 @@ w-transaction-info-header + w-transaction-info-general {
     display: flex;
     justify-content: flex-end;
     padding: 0 16px;
+    max-height: 100%;
   }
   &__action {
     cursor: pointer;
