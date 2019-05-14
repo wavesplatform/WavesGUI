@@ -62,6 +62,12 @@
   }
 }
 
+.portfolio-list w-scroll-box {
+  overflow: auto;
+  min-height: calc(~'100vh - 207px');
+  max-height: calc(~'100vh - 207px');
+}
+
 .smart-table {
   &__mode-large {
     max-height: calc(100vh ~'- 142px');
@@ -377,6 +383,18 @@
         .smart-table__cell[data-column-id="mirror"],
         .smart-table__cell[data-column-id="inOrders"] {
           display: none;
+        }
+      }
+    }
+  }
+
+  body {
+
+    &.portfolio {
+      .portfolio-list {
+        w-scroll-box {
+          min-height: calc(100vh ~'- 130px');
+          max-height: 100%;
         }
       }
     }

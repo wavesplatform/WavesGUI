@@ -1,10 +1,3 @@
-<style>
-
-
-
-
-</style>
-
 <div class="stand">
 
     <div class="components-wrapper">
@@ -29,6 +22,12 @@
 
             <div class="margin-2"></div>
 
+            <w-button class="tiny submit">
+                <span class="button">Tiny</span>
+            </w-button>
+
+            <div class="margin-2"></div>
+
             <w-button class="micro">
                 <span class="button">Micro</span>
             </w-button>
@@ -41,11 +40,6 @@
 
             <div class="margin-2"></div>
 
-            <w-button class="tiny submit">
-                <span class="button">Tiny</span>
-            </w-button>
-
-            <div class="margin-2"></div>
             <w-button class="medium submit">
                 <span class="button">Medium</span>
             </w-button>
@@ -86,7 +80,7 @@
             <div class="margin-2"></div>
 
             <div class="body-2">Select title</div>
-            <w-select class="with-scroll select__no-usuer-select"> <!-- .with-scroll / select__no-usuer-select --->
+            <w-select class="with-scroll select__no-usuer-select"> <!-- .with-scroll / .select__no-usuer-select --->
                 <w-option><span>Default</span></w-option>
                 <w-option><span>Value 1</span></w-option>
                 <w-option><span>Value 2</span></w-option>
@@ -173,6 +167,14 @@
 
             <div class="margin-2"></div>
 
+            <w-copy-wrap class="overflow body-1 basic-900 mobile-low-fsize"
+                         info="$ctrl.dataCopy">
+                {{$ctrl.dataCopy}}
+                <!--w-loader></w-loader-->
+            </w-copy-wrap>
+
+            <div class="margin-2"></div>
+
             <form action="action">
                 <w-input-container>
                     <div class="input-like input-like-with-select">
@@ -214,6 +216,12 @@
                 <div ng-if="!$ctrl.hasAssetScript" class="footnote-1">OFF</div>
             </div>
 
+            <div class="margin-2"></div>
+
+            <h1>Range</h1>
+
+            <w-range-slider ng-model="$ctrl.precision" max="::8">
+
             <div class="margin-6"></div>
 
         </div>
@@ -231,7 +239,7 @@
                              ng-model="$ctrl.inputModel"
                              w-validator-custom="{{$ctrl.invalid}}"
                              required></w-input>
-                    <span class="error-500 body-2">This field is requied</span>
+                    <div class="error-500 body-2">This field is requied</div>
 
                     <div class="margin-2"></div>
 
@@ -269,7 +277,6 @@
                 </w-input-container>
             </form>
 
-
             <w-error-block></w-error-block>
 
             <h1>Empty block</h1>
@@ -282,6 +289,17 @@
 
             <div class="relative-wrapper"> <!-- any relative block -->
                 <w-loader></w-loader>
+            </div>
+
+            <div class="margin-2"></div>
+
+            <h1>Tooltip</h1>
+
+            <div class="body-2 flex relative" style="align-items: center;">
+                <span class="margin-right-1">Important information</span>
+                <w-info-tooltip>
+                    <span class="tooltip__content">Hi, I'm Tooltip. I need a relative container</span>
+                </w-info-tooltip>
             </div>
 
             <div class="margin-2"></div>
@@ -306,6 +324,39 @@
                     <div class="help-icon__row">Helper description second row</div>
                     <div class="help-icon__row">Helper description third row</div>
                 </w-help-icon>
+            </div>
+
+            <div class="margin-4"></div>
+
+            <h1>QR Code</h1>
+            <div w-toggle-class-container class="qr-wrapper center">
+                <div class="body-2 basic-900">Отсканируйте QR код</div>
+                <w-qr-code w-toggle-class="zoomed-in" size="200" url="$ctrl.qrData"></w-qr-code>
+                <div class="pointer center footnote-1 margin-top-1 basic-500"
+                     w-toggle-class="zoomed-in">Нажмите чтобы увеличить/уменьшить</div>
+                <!-- <w-loader ng-if="!$ctrl.qrData"></w-loader> -->
+            </div>
+
+            <div class="margin-3"></div>
+
+            <h1>Expandable block</h1>
+
+            <w-expandable-block title="'Find the monkey!'">
+                <span style="display: flex;
+                             height: 200px;
+                             align-items: center;
+                             justify-content: center;
+                             font-size: 200px;
+                             margin-top: -37px;
+                             transform: rotate(180deg)">🙈</span>
+            </w-expandable-block>
+
+            <div class="margin-2"></div>
+
+            <h1>Close modal button</h1>
+
+            <div class="relative-wrapper">
+                <i class="icon-close" w-modal-close></i>
             </div>
 
         </div>
@@ -403,6 +454,63 @@
             </div>
 
             <div class="margin-2"></div>
+
+            <h1>Seed Backup</h1>
+
+            <div class="body-2">Seed previrew</div>
+            <w-seed-read type="read" seed="{{::$ctrl.seed}}" class="no-user-select margin-3"></w-seed-read>
+
+            <div class="body-2 margin-top-2">Seed confirmation</div>
+            <w-seed-write class="margin-4"
+                          on-fulfilled="$ctrl.onSeedConfirmFulfilled(isValid)"
+                          on-touch="$ctrl.seedOnTouch()"
+                          seed="{{::$ctrl.seed}}"></w-seed-write>
+            <w-seed-read type="random" seed="{{::$ctrl.seed}}" class="no-user-select"></w-seed-read>
+
+
+            <div class="margin-2"></div>
+
+            <h1>Tabs</h1>
+
+            <w-tabs w-i18n-ns="app.utils" class="inner" ng-model="$ctrl.tab">
+                <w-tab id="::'tab1'" title-name="::'modal.assetInfo.details'">
+                    <div class="tab-content">🙉</div>
+                </w-tab>
+                <w-tab id="::'tab2'" title-name="::'modal.assetInfo.balance'">
+                    <div class="tab-content">🙈</div>
+                </w-tab>
+                <w-tab id="::'tab3'" title-name="::'modal.assetInfo.transactions'">
+                    <div class="tab-content">🙊</div>
+                </w-tab>
+            </w-tabs>
+
+            <div class="margin-2"></div>
+
+
+            <h1>Search</h1>
+
+            <div style="height: 35px">
+                <w-search class="search-wrapper">
+                    <input class="search-input" type="w-search" placeholder="Поиск">
+                </w-search>
+            </div>
+
+            <div class="margin-2"></div>
+
+            <h1>Notifications</h1>
+
+            <div style="position: relative; height: 200px">
+                <div class="notifications">
+                    <w-container-alert-notification type="notification"></w-container-alert-notification>
+                </div>
+            </div>
+
+            <div class="margin-2"></div>
+
+            <div class="notifications notifications-top">
+                <w-container-alert-notification type="userNotification"></w-container-alert-notification>
+            </div>
+
         </div>
     </div>
 </div>

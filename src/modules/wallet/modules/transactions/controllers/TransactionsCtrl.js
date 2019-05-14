@@ -2,14 +2,18 @@
     'use strict';
 
     /**
+     * @param {User} user
      * @param Base
      * @param {$rootScope.Scope} $scope
      * @param {TransactionsCsvGen} transactionsCsvGen
      * @param {Waves} waves
      * @param {IPollCreate} createPoll
+     * @param {INotification} notification
      * @return {TransactionsCtrl}
      */
-    const controller = function (Base, $scope, transactionsCsvGen, waves, createPoll) {
+    const controller = function (user, Base, $scope, transactionsCsvGen, waves, createPoll, notification) {
+
+        const analytics = require('@waves/event-sender');
 
         class TransactionsCtrl extends Base {
 
@@ -37,6 +41,8 @@
                  */
                 this.limit = 100;
 
+                this.observe(['filter'], this._sendAnalytics);
+
                 this.syncSettings({ filter: 'wallet.transactions.filter' });
 
                 const poll = createPoll(this, this._getTxList, this._setTxList, 4000, { isBalance: true });
@@ -45,9 +51,62 @@
                 this.observe('limit', () => poll.restart());
             }
 
-            exportTransactions() {
-                analytics.push('TransactionsPage', `TransactionsPage.CSV.${WavesApp.type}`, 'download');
-                transactionsCsvGen.generate(this.transactions);
+            exportTransactions(maxTransactions = 10000) {
+                // analytics.push('TransactionsPage', `TransactionsPage.CSV.${WavesApp.type}`, 'download');
+                analytics.send({ name: 'Transactions Export Click', target: 'ui' });
+                const MAX_LIMIT = 1000;
+
+                const getSeriesTransactions = async ({ allTransactions = [], after = '' } = {}) => {
+                    let transactions;
+                    let downloadError = false;
+
+                    try {
+                        transactions = await waves.node.transactions.list(MAX_LIMIT, after);
+                    } catch (e) {
+                        downloadError = true;
+                        if (!allTransactions.length) {
+                            notification.error({
+                                ns: 'app.wallet.transactions',
+                                title: { literal: 'errors.download.title' },
+                                body: { literal: 'errors.download.body' }
+                            });
+                            return [];
+                        }
+
+                        transactions = [];
+                        notification.error({
+                            ns: 'app.wallet.transactions',
+                            title: { literal: 'errors.complete.title' },
+                            body: { literal: 'errors.complete.body' }
+                        });
+
+                    }
+
+                    allTransactions = allTransactions.concat(transactions.filter(el => !user.scam[el.assetId]));
+
+                    if (transactions.length < MAX_LIMIT || allTransactions.length > maxTransactions) {
+                        return { allTransactions, downloadError };
+                    } else {
+                        return getSeriesTransactions({
+                            allTransactions,
+                            after: transactions[transactions.length - 1].id
+                        });
+                    }
+                };
+
+                const promiseGetTransactions = getSeriesTransactions();
+                promiseGetTransactions.then(({ allTransactions, downloadError }) => {
+                    if (allTransactions.length) {
+                        transactionsCsvGen.generate(allTransactions);
+                    } else if (!downloadError) {
+                        notification.error({
+                            ns: 'app.wallet.transactions',
+                            title: { literal: 'errors.empty.title' },
+                            body: { literal: 'errors.empty.body' }
+                        });
+                    }
+                });
+                return promiseGetTransactions;
             }
 
             _getTxList() {
@@ -75,6 +134,36 @@
             }
 
             /**
+             * @private
+             */
+            _sendAnalytics() {
+                let actionName;
+                switch (this.filter) {
+                    case 'all':
+                        actionName = 'Transactions All Show';
+                        break;
+                    case 'send,mass-send':
+                        actionName = 'Transactions Sent Show';
+                        break;
+                    case 'receive,mass-receive,sponsorship-fee':
+                        actionName = 'Transactions Received Show';
+                        break;
+                    case 'exchange-buy,exchange-sell':
+                        actionName = 'Transactions Exchanged Show';
+                        break;
+                    case 'lease-in,lease-out,cancel-leasing':
+                        actionName = 'Transactions Leased Show';
+                        break;
+                    case 'issue,reissue,burn,sponsorship-stop,sponsorship-start':
+                        actionName = 'Transactions Issued Show';
+                        break;
+                    default:
+                        break;
+                }
+                analytics.send({ name: actionName, target: 'ui' });
+            }
+
+            /**
              * @param {ITransaction[]} transactions
              * @private
              */
@@ -89,7 +178,7 @@
         return new TransactionsCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'transactionsCsvGen', 'waves', 'createPoll'];
+    controller.$inject = ['user', 'Base', '$scope', 'transactionsCsvGen', 'waves', 'createPoll', 'notification'];
 
     angular.module('app.wallet.transactions').controller('TransactionsCtrl', controller);
 })();

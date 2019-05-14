@@ -110,6 +110,7 @@
         'app.wallet',
         'app.dex',
         'app.tokens',
+        'app.unavailable',
         'app.stand'
     ]);
 })();
@@ -135,7 +136,7 @@
 /**
  * @typedef {object} IWavesApp
  * @property {string} name
- * @property {string} oracle
+ * @property {object} oracles
  * @property {string} version
  * @property {string} type
  * @property {string} origin
@@ -160,6 +161,8 @@
  * @property {function():boolean} isWeb
  * @property {function():boolean} isDesktop
  * @property {function():boolean} isProduction
+ * @property {boolean} usePostMessageStorage
+ * @property {boolean} isMock
  * @property {Function} addController
  * @property {Function} getController
  * @property {function():{name: string, separators: {group: string, decimal: string}}} getLocaleData

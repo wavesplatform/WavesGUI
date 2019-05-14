@@ -3,6 +3,7 @@
 
     const ds = require('data-service');
     const { path } = require('ramda');
+    const analytics = require('@waves/event-sender');
 
     /**
      * @param Base
@@ -46,11 +47,11 @@
             }
 
             set advancedMode(mode) {
-                analytics.push('Settings', 'Settings.ChangeAdvancedMode', String(mode));
+                analytics.send({ name: `Settings Advanced Features ${mode ? 'On' : 'Off'}`, target: 'ui' });
                 user.setSetting('advancedMode', mode);
             }
 
-            assetsOracle = '';
+            oracleWaves = '';
             tab = 'general';
             address = user.address;
             publicKey = user.publicKey;
@@ -73,16 +74,23 @@
             appVersion = WavesApp.version;
             supportLink = WavesApp.network.support;
             termsAndConditionsLink = WavesApp.network.termsAndConditions;
+            privacyPolicy = WavesApp.network.privacyPolicy;
             supportLinkName = WavesApp.network.support.replace(/^https?:\/\//, '');
             blockHeight = 0;
             assetsOracleTmp = '';
-            oracleData = path(['oracle'], ds.dataManager.getOracleData());
+            oracleWavesData = path(['oracle'], ds.dataManager.getOracleData('oracleWaves'));
             oracleError = false;
             oraclePending = false;
             oracleSuccess = false;
 
             constructor() {
                 super($scope);
+                analytics.send({ name: 'Settings General Show', target: 'ui' });
+
+                this.observe('tab', () => {
+                    const tabName = this.tab.slice(0, 1).toUpperCase() + this.tab.slice(1);
+                    analytics.send({ name: `Settings ${tabName} Show`, target: 'ui' });
+                });
 
                 this.isScript = user.hasScript();
                 this.syncSettings({
@@ -93,10 +101,10 @@
                     withScam: 'withScam',
                     theme: 'theme',
                     candle: 'candle',
-                    assetsOracle: 'assetsOracle'
+                    oracleWaves: 'oracleWaves'
                 });
 
-                this.assetsOracleTmp = this.assetsOracle;
+                this.assetsOracleTmp = this.oracleWaves;
 
                 storage.load('openClientMode').then(mode => {
                     this.openClientMode = mode;
@@ -113,9 +121,9 @@
                     );
                 });
 
-                this.observe('assetsOracle', () => {
-                    ds.config.set('oracleAddress', this.assetsOracle);
-                    this.assetsOracleTmp = this.assetsOracle;
+                this.observe('oracleWaves', () => {
+                    ds.config.set('oracleWaves', this.oracleWaves);
+                    this.assetsOracleTmp = this.oracleWaves;
                 });
 
                 this.observe('assetsOracleTmp', () => {
@@ -124,9 +132,9 @@
                     ds.api.data.getOracleData(address)
                         .then(data => {
                             if (data.oracle) {
-                                this.oracleData = data.oracle;
-                                ds.config.set('oracleAddress', address);
-                                this.assetsOracle = this.assetsOracleTmp;
+                                this.oracleWavesData = data.oracle;
+                                ds.config.set('oracleWaves', address);
+                                this.oracleWaves = this.assetsOracleTmp;
                                 this.oracleError = false;
                                 this.oracleSuccess = true;
                                 setTimeout(() => {
@@ -165,11 +173,11 @@
                 });
 
                 this.observe('shownSeed', () => {
-                    analytics.push('Settings', `Settings.ShowSeed.${WavesApp.type}`);
+                    // analytics.push('Settings', `Settings.ShowSeed.${WavesApp.type}`);
                 });
 
                 this.observe('shownKey', () => {
-                    analytics.push('Settings', `Settings.ShowKeyPair.${WavesApp.type}`);
+                    // analytics.push('Settings', `Settings.ShowKeyPair.${WavesApp.type}`);
                 });
 
                 createPoll(this, waves.node.height, (height) => {
@@ -199,7 +207,7 @@
 
             onChangeLanguage(language) {
                 user.setSetting('lng', language);
-                analytics.push('Settings', `Settings.ChangeLanguage.${WavesApp.type}`, language);
+                // analytics.push('Settings', `Settings.ChangeLanguage.${WavesApp.type}`, language);
             }
 
             setNetworkDefault() {
@@ -207,7 +215,7 @@
                 this.matcher = WavesApp.network.matcher;
                 this.withScam = false;
                 this.scamListUrl = WavesApp.network.scamListUrl;
-                this.assetsOracle = WavesApp.oracle;
+                this.oracleWaves = WavesApp.oracles.waves;
             }
 
             showPairingWithMobile() {

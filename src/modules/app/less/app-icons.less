@@ -17,6 +17,15 @@
   }
 }
 
+.sign-error-icon {
+  background: @error-circle-icon;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 80px;
+  width: 80px;
+  margin: 60px auto 30px auto;
+}
+
 .visa-icon {
   display: block;
   width: 42px;
@@ -257,6 +266,7 @@
 
 .icon-tx-sponsorship-stop {
   &::before {
+    display: block;
     background-position-x: -@tx-icon-size * 18;
 
   }
@@ -291,6 +301,14 @@
   &::before {
     display: block;
     background-position-x: -@tx-icon-size * 21;
+  }
+  background-color: rgba(90, 129, 234, 0.1);
+}
+
+.icon-tx-script-invocation {
+  &::before {
+    display: block;
+    background-position-x: -@tx-icon-size * 22;
   }
   background-color: rgba(90, 129, 234, 0.1);
 }
@@ -402,4 +420,3 @@
 .keeper-icon {
   background: url(/img/icons/keeper-icon.svg) center no-repeat;
 }
-
