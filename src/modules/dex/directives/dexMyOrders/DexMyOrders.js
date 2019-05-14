@@ -68,6 +68,10 @@
              * @type {boolean}
              */
             loadingError = false;
+            /**
+             * @type {boolean}
+             */
+            showAnims = false;
 
 
             constructor() {
@@ -157,156 +161,6 @@
             }
 
             /**
-             * @param {IOrder} order
-             */
-            setPair(order) {
-                user.setSetting('dex.assetIdPair', {
-                    amount: order.assetPair.amountAsset.id,
-                    price: order.assetPair.priceAsset.id
-                });
-            }
-
-            showDetails(order) {
-                this.shownOrderDetails[order.id] = true;
-            }
-
-            hideDetails(order) {
-                this.shownOrderDetails[order.id] = false;
-            }
-
-            toggleDetails(order) {
-                this.shownOrderDetails[order.id] = !this.shownOrderDetails[order.id];
-            }
-
-            cancelAllOrders() {
-                if (!permissionManager.isPermitted('CAN_CANCEL_ORDER')) {
-                    const $notify = $element.find('.js-order-notification');
-                    DexMyOrders._animateNotification($notify);
-                    return null;
-                }
-
-                this.orders.filter(whereEq({ isActive: true }))
-                    .forEach((order) => this.dropOrder(order));
-            }
-
-            round(data) {
-                return Math.round(Number(data));
-            }
-
-            /**
-             * @param {IOrder} order
-             * @return boolean
-             */
-            isSelected(order) {
-                return this._assetIdPair.amount === order.amount.asset.id &&
-                    this._assetIdPair.price === order.price.asset.id;
-            }
-
-            dropOrderGetSignData(order) {
-                const { id } = order;
-                const data = { id };
-                const signable = ds.signature.getSignatureApi().makeSignable({
-                    type: SIGN_TYPE.CANCEL_ORDER,
-                    data
-                });
-
-                return utils.signMatcher(signable)
-                    .then(signable => signable.getDataForApi());
-            }
-
-            /**
-             * @param order
-             */
-            dropOrder(order) {
-
-                if (!permissionManager.isPermitted('CAN_CANCEL_ORDER')) {
-                    const $notify = $element.find('.js-order-notification');
-                    DexMyOrders._animateNotification($notify);
-                    return null;
-                }
-
-                const dataPromise = this.dropOrderGetSignData(order);
-
-                dataPromise
-                    .then((signedTxData) => ds.cancelOrder(signedTxData, order.amount.asset.id, order.price.asset.id))
-                    .then(() => {
-                        const canceledOrder = this.orders.find(whereEq({ id: order.id }));
-                        canceledOrder.state = 'Canceled';
-                        notification.info({
-                            ns: 'app.dex',
-                            title: { literal: 'directives.myOrders.notifications.isCanceled' }
-                        });
-
-                        if (this.poll) {
-                            this.poll.restart();
-                        }
-                    })
-                    .catch(e => {
-                        const error = utils.parseError(e);
-                        notification.error({
-                            ns: 'app.dex',
-                            title: { literal: 'directives.myOrders.notifications.somethingWentWrong' },
-                            body: { literal: error && error.message || error }
-                        });
-                    });
-            }
-
-            /**
-             * @param {Array<IOrder>} orders
-             * @private
-             */
-            _setOrders(orders) {
-                const isEqual = this.orders.length === orders.length && this.orders
-                    .every((item, i) => whereEq(pick(['id', 'progress'], item), orders[i]));
-
-                if (isEqual) {
-                    let needApply = false;
-
-                    this.orders.forEach(order => {
-                        const isNew = DexMyOrders._isNewOrder(order.timestamp.getTime());
-                        needApply = needApply || isNew !== order.isNew;
-                        order.isNew = isNew;
-                    });
-
-                    if (needApply) {
-                        $scope.$apply();
-                    }
-
-                    return null;
-                }
-
-                return this._matcherPublicKeyPromise
-                    .then(matcherPublicKey => Promise.all(orders.map(DexMyOrders._remapOrders(matcherPublicKey))))
-                    .then(result => {
-                        const lastOrder = result.slice().reverse().find(where({ progress: gt(__, 0) }));
-
-                        if (!lastOrder) {
-                            return result;
-                        }
-
-                        return ds.api.transactions.getExchangeTxList({
-                            sender: user.address,
-                            timeStart: ds.utils.normalizeTime(lastOrder.timestamp.getTime())
-                        }).then(txList => {
-                            const transactionsByOrderHash = DexMyOrders._getTransactionsByOrderIdHash(txList);
-                            this.loadingError = false;
-                            return result.map(order => {
-                                if (!transactionsByOrderHash[order.id]) {
-                                    transactionsByOrderHash[order.id] = [];
-                                }
-                                order.exchange = transactionsByOrderHash[order.id];
-                                return order;
-                            });
-                        }).catch(() => result);
-                    })
-                    .then(orders => (this.orders = orders))
-                    .catch(() => (this.loadingError = true))
-                    .then(() => {
-                        $scope.$apply();
-                    });
-            }
-
-            /**
              * @return {Promise<Array<IOrder> | never>}
              * @private
              */
@@ -382,6 +236,169 @@
              */
             static _isNewOrder(timestamp) {
                 return ds.utils.normalizeTime(Date.now()) < timestamp + 1000 * 8;
+            }
+
+            /**
+             * @param {IOrder} order
+             */
+            setPair(order) {
+                user.setSetting('dex.assetIdPair', {
+                    amount: order.assetPair.amountAsset.id,
+                    price: order.assetPair.priceAsset.id
+                });
+            }
+
+            showDetails(order) {
+                this.shownOrderDetails[order.id] = true;
+            }
+
+            hideDetails(order) {
+                this.shownOrderDetails[order.id] = false;
+            }
+
+            toggleDetails(order) {
+                this.shownOrderDetails[order.id] = !this.shownOrderDetails[order.id];
+            }
+
+            cancelAllOrders() {
+                if (!permissionManager.isPermitted('CAN_CANCEL_ORDER')) {
+                    const $notify = $element.find('.js-order-notification');
+                    DexMyOrders._animateNotification($notify);
+                    return null;
+                }
+
+                this.orders.filter(whereEq({ isActive: true }))
+                    .forEach((order) => this.dropOrder(order));
+            }
+
+            round(data) {
+                return Math.round(Number(data));
+            }
+
+            /**
+             * @param {IOrder} order
+             * @return boolean
+             */
+            isSelected(order) {
+                return this._assetIdPair.amount === order.amount.asset.id &&
+                    this._assetIdPair.price === order.price.asset.id;
+            }
+
+            dropOrderGetSignData(order) {
+                const { id } = order;
+                const data = { id };
+                const signable = ds.signature.getSignatureApi().makeSignable({
+                    type: SIGN_TYPE.CANCEL_ORDER,
+                    data
+                });
+
+                return utils.signMatcher(signable)
+                    .then(signable => signable.getDataForApi());
+            }
+
+            /**
+             * @param order
+             */
+            dropOrder(order) {
+                if (!permissionManager.isPermitted('CAN_CANCEL_ORDER')) {
+                    const $notify = $element.find('.js-order-notification');
+                    DexMyOrders._animateNotification($notify);
+                    return null;
+                }
+
+                const dataPromise = this.dropOrderGetSignData(order);
+
+                const classNameToOrder = (className, isRemove = false) => {
+                    const $row = $element.find(`.order_${order.id}`).closest('.order-row');
+
+                    if (isRemove) {
+                        $row.removeClass(className);
+                    } else {
+                        $row.addClass(className);
+                    }
+                };
+
+                classNameToOrder('pre-leave');
+
+                dataPromise
+                    .then((signedTxData) => ds.cancelOrder(signedTxData, order.amount.asset.id, order.price.asset.id))
+                    .then(() => {
+                        classNameToOrder('force-leave');
+                        const canceledOrder = this.orders.find(whereEq({ id: order.id }));
+                        canceledOrder.state = 'Canceled';
+                        notification.info({
+                            ns: 'app.dex',
+                            title: { literal: 'directives.myOrders.notifications.isCanceled' }
+                        });
+
+                        if (this.poll) {
+                            this.poll.restart();
+                        }
+                    })
+                    .catch(e => {
+                        classNameToOrder('pre-leave', true);
+                        const error = utils.parseError(e);
+                        notification.error({
+                            ns: 'app.dex',
+                            title: { literal: 'directives.myOrders.notifications.somethingWentWrong' },
+                            body: { literal: error && error.message || error }
+                        });
+                    });
+            }
+
+            /**
+             * @param {Array<IOrder>} orders
+             * @private
+             */
+            _setOrders(orders) {
+                const isEqual = this.orders.length === orders.length && this.orders
+                    .every((item, i) => whereEq(pick(['id', 'progress'], item), orders[i]));
+
+                if (isEqual) {
+                    let needApply = false;
+
+                    this.orders.forEach(order => {
+                        const isNew = DexMyOrders._isNewOrder(order.timestamp.getTime());
+                        needApply = needApply || isNew !== order.isNew;
+                        order.isNew = isNew;
+                    });
+
+                    if (needApply) {
+                        $scope.$apply();
+                    }
+                    this.showAnims = true;
+                    return null;
+                }
+
+                return this._matcherPublicKeyPromise
+                    .then(matcherPublicKey => Promise.all(orders.map(DexMyOrders._remapOrders(matcherPublicKey))))
+                    .then(result => {
+                        const lastOrder = result.slice().reverse().find(where({ progress: gt(__, 0) }));
+
+                        if (!lastOrder) {
+                            return result;
+                        }
+
+                        return ds.api.transactions.getExchangeTxList({
+                            sender: user.address,
+                            timeStart: ds.utils.normalizeTime(lastOrder.timestamp.getTime())
+                        }).then(txList => {
+                            const transactionsByOrderHash = DexMyOrders._getTransactionsByOrderIdHash(txList);
+                            this.loadingError = false;
+                            return result.map(order => {
+                                if (!transactionsByOrderHash[order.id]) {
+                                    transactionsByOrderHash[order.id] = [];
+                                }
+                                order.exchange = transactionsByOrderHash[order.id];
+                                return order;
+                            });
+                        }).catch(() => result);
+                    })
+                    .then(orders => (this.orders = orders))
+                    .catch(() => (this.loadingError = true))
+                    .then(() => {
+                        $scope.$apply();
+                    });
             }
 
         }

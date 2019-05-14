@@ -60,11 +60,10 @@ export class DataManager {
         return this.pollControl.getPollHash().aliases.lastData || [];
     }
 
-    public getOracleAssetData(id: string): TProviderAsset & { provider: string } {
+    public getOracleAssetDataByOracleName(id: string, oracleName: string = 'oracleWaves'): TProviderAsset & { provider: string } {
         let pollHash = this.pollControl.getPollHash();
-        const lastData = <any>path(['oracle', 'lastData'], pollHash);
+        const lastData = <any>path([oracleName, 'lastData'], pollHash);
         const assets = lastData && lastData.assets || Object.create(null);
-
         const WavesApp = (window as any).WavesApp;
 
         const gateways = {
@@ -108,8 +107,14 @@ export class DataManager {
         return assets[id] ? { ...assets[id], provider: lastData.oracle.name } : null;
     }
 
-    public getOracleData() {
-        return this.pollControl.getPollHash().oracle.lastData;
+    public getOraclesAssetData (id: string) {
+        const dataOracleWaves = this.getOracleAssetDataByOracleName(id, 'oracleWaves');
+        const dataOracleTokenomica = this.getOracleAssetDataByOracleName(id, 'oracleTokenomica');
+        return dataOracleWaves || dataOracleTokenomica;
+    }
+
+    public getOracleData(oracleName: string) {
+        return this.pollControl.getPollHash()[oracleName].lastData;
     }
 
     private _getPollBalanceApi(): IPollAPI<Array<IBalanceItem>> {
@@ -135,10 +140,9 @@ export class DataManager {
         };
     }
 
-    private _getPollOracleApi(): IPollAPI<IOracleData> {
+    private _getPollOracleApi(address: string): IPollAPI<IOracleData> {
         return {
             get: () => {
-                const address = get('oracleAddress');
                 return address ? getOracleData(address) : Promise.resolve({ assets: Object.create(null) }) as any;
             },
             set: () => null
@@ -149,15 +153,16 @@ export class DataManager {
         const balance = new Poll(this._getPollBalanceApi(), 1000);
         const orders = new Poll(this._getPollOrdersApi(), 1000);
         const aliases = new Poll(this._getPollAliasesApi(), 10000);
-        const oracle = new Poll(this._getPollOracleApi(), 30000);
+        const oracleWaves = new Poll(this._getPollOracleApi(get('oracleWaves')), 30000);
+        const oracleTokenomica = new Poll(this._getPollOracleApi(get('oracleTokenomica')), 30000);
 
         change.on((key) => {
-            if (key === 'oracleAddress') {
-                oracle.restart();
+            if (key === 'oracleWaves') {
+                oracleWaves.restart();
             }
         });
 
-        return { balance, orders, aliases, oracle };
+        return { balance, orders, aliases, oracleWaves, oracleTokenomica };
     }
 
 }
@@ -166,7 +171,8 @@ type TPollHash = {
     balance: Poll<Array<IBalanceItem>>;
     orders: Poll<IHash<Money>>;
     aliases: Poll<Array<string>>;
-    oracle: Poll<IOracleData>
+    oracleWaves: Poll<IOracleData>
+    oracleTokenomica: Poll<IOracleData>
 }
 
 export interface IOracleAsset {
