@@ -1,14 +1,10 @@
 (function () {
     'use strict';
 
-    const { path } = require('ramda');
-    const ds = require('data-service');
-    const { STATUS_LIST } = require('@waves/oracle-data');
-
     /**
      * @return {Asset}
      */
-    const controller = function () {
+    const controller = function (utils) {
 
         class Asset {
 
@@ -20,9 +16,10 @@
             }
 
             $postLink() {
-                const data = ds.dataManager.getOracleAssetData(this.balance.asset.id);
-                this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED || this.balance.asset.id === 'WAVES';
-                this.isGateway = path(['status'], data) === 3;
+                const { isVerified, isGateway, isTokenomica } = utils.getDataFromOracles(this.balance.asset.id);
+                this.isVerified = isVerified;
+                this.isGateway = isGateway;
+                this.isTokenomica = isTokenomica;
             }
 
             isUnpinned() {
@@ -34,7 +31,7 @@
         return new Asset();
     };
 
-    controller.$inject = [];
+    controller.$inject = ['utils'];
 
     angular.module('app.wallet.assets').component('wAsset', {
         bindings: {

@@ -6,6 +6,16 @@
 @asset-block-wide50: calc(~"50% - " @padding-main-layout);
 @asset-block-full: calc(~"100% - " @padding-main-layout);
 
+.asset {
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    @media screen and (max-width: 768px) {
+      flex-direction: row;
+    }
+  }
+}
+
 .new-asset,
 w-asset {
   box-sizing: border-box;

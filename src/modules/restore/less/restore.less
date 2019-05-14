@@ -28,28 +28,13 @@ body.restore {
         resize: vertical;
       }
 
-      .address-block-info {
-        background-color: @color-disabled-50;
-        border-top: 1px solid @color-basic-200;
-        height: 76px;
-        display: flex;
-        flex-direction: row;
-        padding: 18px 14px;
-
-        .avatar-fake {
-          width: 40px;
-          height: 40px;
-          border-radius: 100%;
-          background-color: @color-basic-100;
-        }
-
-        .address-block {
+      .address {
+        &-block {
           height: 30px;
           position: relative;
           top: -5px;
 
           .address {
-
             &.empty {
               position: relative;
               top: 3px;
@@ -60,9 +45,24 @@ body.restore {
             }
           }
         }
+
+        &-block-info {
+          background-color: @color-disabled-50;
+          border-top: 1px solid @color-basic-200;
+          height: 76px;
+          display: flex;
+          flex-direction: row;
+          padding: 18px 14px;
+        }
+
+        .avatar-fake {
+          width: 40px;
+          height: 40px;
+          border-radius: 100%;
+          background-color: @color-basic-100;
+        }
       }
     }
-
   }
 }
 

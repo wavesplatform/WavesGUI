@@ -64,3 +64,68 @@ w-checkbox-switcher {
   height: 30px;
   overflow: hidden;
 }
+
+.unit-checkbox {
+  display: flex;
+  min-height: auto;
+  margin-bottom: 20px;
+
+  w-checkbox-submit {
+    flex-grow: 0;
+    align-self: flex-start;
+    display: block;
+  }
+
+  label {
+    flex-grow: 1;
+  }
+}
+
+.input-toggle {
+  display: flex;
+  align-items: center;
+
+  w-checkbox-submit {
+    display: none;
+  }
+
+  w-checkbox-submit + label {
+    width: 40px;
+    height: 20px;
+    border: 1px solid @color-basic-200;
+    background: @color-basic-200;
+    border-radius: 10px;
+    display: block;
+    position: relative;
+    transition: .3s;
+
+    &:hover {
+      border: 1px solid @input-toggle-bg-hover;
+      background: @input-toggle-bg-hover;
+    }
+
+    &::before {
+      transition: .3s;
+      background: @color-white;
+      width: 18px;
+      height: 18px;
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: 50%;
+      display: block;
+    }
+  }
+
+  &.active {
+    w-checkbox-submit + label {
+      border: 1px solid @color-submit-400;
+      background: @color-submit-400;
+
+      &::before {
+        transform: translateX(20px);
+      }
+    }
+  }
+}
