@@ -1018,15 +1018,11 @@
                 } else {
                     const separatorDecimal = WavesApp.getLocaleData().separators.decimal;
                     const [int, decimal] = formatted.split(separatorDecimal);
-                    if (decimal) {
-                        const decimalTpl = _processDecimal(decimal, separatorDecimal);
-                        return (
-                            `<span class="int">${int}</span>` +
-                            `<span class="decimal">${decimalTpl}</span>`
-                        );
-                    } else {
-                        return `<span class="int">${int}</span>`;
-                    }
+                    const decimalTpl = _processDecimal(decimal, separatorDecimal);
+                    return (
+                        `<span class="int">${int}</span>` +
+                        `<span class="decimal">${decimalTpl}</span>`
+                    );
                 }
             },
 
@@ -1776,6 +1772,18 @@
          */
         function _processDecimal(decimal, separator) {
             const mute = [];
+            const maxPrecision = 8;
+
+            const getZerosString = (length) => {
+                return Array(length).fill('0').join('');
+            };
+
+            if (!decimal) {
+                decimal = getZerosString(maxPrecision);
+            } else if (decimal.length < maxPrecision) {
+                decimal += getZerosString(maxPrecision - decimal.length);
+            }
+
             decimal.split('')
                 .reverse()
                 .some((char) => {
@@ -1785,11 +1793,10 @@
                     }
                     return true;
                 });
+
             const end = decimal.length - mute.length;
-            if (end) {
-                return `${separator}${decimal.substr(0, end)}<span class="decimal-muted">${mute.join('')}</span>`;
-            }
-            return `<span class="decimal-muted">${separator}${mute.join('')}</span>`;
+
+            return `${separator}${decimal.substr(0, end)}<span class="decimal-muted">${mute.join('')}</span>`;
         }
 
         function _getObserver(target) {
