@@ -19,7 +19,12 @@
             </g>
         </g>
     </svg>
-    <w-input ng-model="$ctrl.search" placeholder="Search"></w-input>
+    <w-search class="search-wrapper">
+        <input class="search-input"
+               type="w-search"
+               ng-model="$ctrl.search"
+               placeholder="Search">
+    </w-search>
     <i class="input-clear" ng-click="$ctrl.search=''"></i>
     <w-help-icon ng-if="!$ctrl.search">
         <div class="help-icon__row bold caption-2 basic-700" w-i18n="directives.filter.helpIcon.header"></div>

@@ -42,7 +42,7 @@
     "node_modules/ts-utils/dist/ts-utils.min.js",
     "node_modules/@waves/waves-browser-bus/dist/browser-bus.min.js"
   ],
-  "analyticsIframe": "https://iframe-test.wvservices.com/index.html",
+  "analyticsIframe": "https://iframe.wavesplatform.com",
   "langList": {
     "en": {
       "name": "En",
@@ -200,7 +200,10 @@
   },
   "configurations": {
     "testnet": {
-      "oracle": "3N5net4nzSeeqxPfGZrvVvnGavsinipQHbE",
+      "oracles": {
+        "waves": "3N5net4nzSeeqxPfGZrvVvnGavsinipQHbE",
+        "tokenomica": "3Mq2ikxDH6rV5VBUNX1Ef8Ag1Vjntbh4MvD"
+      },
       "apiVersion": "v0",
       "code": "T",
       "bankRecipient": "",
@@ -234,7 +237,10 @@
       }
     },
     "mainnet": {
-      "oracle": "3P6t5mKGwVDkyjFhtUqw4NnecyC3DRpLfkw",
+      "oracles": {
+        "waves": "3P6t5mKGwVDkyjFhtUqw4NnecyC3DRpLfkw",
+        "tokenomica": "3P5yz6NiyBoT3KWBrc1iwQeMAen56FcMGTW"
+      },
       "apiVersion": "v0",
       "bankRecipient": "3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us",
       "code": "W",

@@ -2,73 +2,42 @@
 @import (reference) 'icons';
 @import (reference) '../../../app/less/typography';
 
-.icon-information {
+.important-information {
   position: absolute;
-  display: block;
-  right: 150px;
+  right: 0;
+  min-width: 170px;
   top: 43px;
-  background: @information-icon center no-repeat;
-  width: 16px;
-  height: 16px;
+}
 
-  &:hover + .tooltip {
-    display: inline-block;
+@media screen and (max-width: 480px) {
+  .welcome,
+  .create,
+  .restore,
+  .desktop {
+    w-change-language w-select {
+      right: 20px;
+    }
+  }
+
+  .important-information {
+    left: 20px;
+    right: auto;
+    .tooltip {
+      transform: translate(-10px, -6px);
+      &::before {
+        left: 13px;
+      }
+    }
   }
 }
 
-.tooltip {
-  display: none;
-  position: absolute;
-  padding: 0 10px;
-  top: 0;
-  right: 158px;
-  transform-origin: center;
-  transform: translate(50%, 8px);
-  z-index: 2;
-  padding-bottom: 20px;
-  color: @color-white;
-  font-size: @font-size-caption-2;
-  line-height: 28px;
-  cursor: pointer;
-
-  &::before {
-    position: absolute;
-    bottom: 17px;
-    left: calc(50% ~'- 5px');
-    width: 10px;
-    height: 10px;
-    content: '';
-    transform-origin: center;
-    transform: rotate(45deg);
-    background: @color-basic-700;
-    z-index: -1;
-  }
-
-  &::after {
-    border-radius: @border-radius;
-    position: absolute;
-    background: @color-basic-700;
-    width: 100%;
-    height: 28px;
-    content: '';
-    left: 0;
-    top: 0;
-    z-index: -1;
-  }
-
-  &:hover {
-    display: inline-block;
-  }
+.flex-cols {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
-body md-dialog.tutorial-modals {
-
-  .flex-cols {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
+.tutorial-modals {
   .cell {
     background-repeat: no-repeat;
     flex-basis: calc(50% ~'- 10px');
@@ -107,7 +76,6 @@ body md-dialog.tutorial-modals {
 }
 
 body md-dialog.tutorial-modals {
-
   .mobile-only {
     display: none;
   }
@@ -216,24 +184,5 @@ body md-dialog.tutorial-modals {
 
   body w-button.mobile-mid-fsize > *.big {
     font-size: 14px;
-  }
-
-  .icon-information {
-    right: auto;
-    left: 20px;
-  }
-
-  .tooltip {
-    width: 36px;
-    right: auto;
-    left: 10px;
-    transform: translate(0, 28px);
-    font-size: 0;
-    opacity: 0;
-
-    &::after,
-    &::before {
-      display: none;
-    }
   }
 }

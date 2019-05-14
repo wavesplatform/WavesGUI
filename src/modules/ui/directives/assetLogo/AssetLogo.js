@@ -79,11 +79,12 @@
              */
             _addLogo() {
                 if (this.assetId) {
-                    const data = ds.dataManager.getOracleAssetData(this.assetId);
-                    if (data && data.logo) {
+                    const { logo } = utils.getDataFromOracles(this.assetId);
+
+                    if (logo) {
                         $element.find('.asset__logo')
                             .addClass('custom')
-                            .css('backgroundImage', `url(${data.logo})`);
+                            .css('backgroundImage', `url(${logo})`);
                         return null;
                     }
                     waves.node.assets.getAsset(this.assetId)

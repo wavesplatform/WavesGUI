@@ -3,17 +3,13 @@
         <div class="body-2 top fs-mobile">
             <span>
                 <span w-i18n="transaction.headers.{{::$ctrl.typeName}}"></span>
-                <span>
-                    {{$ctrl.getAssetName($ctrl.transaction.amount.asset)}}
-                </span>
+                <span>{{$ctrl.amountAssetName}}</span>
                 <span ng-if="$ctrl.isScamAmount"
                       class="spam-label"
                       w-i18n="transaction.headers.suspicious"></span>
             </span>/
             <span>
-                <span>
-                    {{$ctrl.getAssetName($ctrl.transaction.price.asset)}}
-                </span>
+                <span>{{$ctrl.priceAssetName}}</span>
                 <span ng-if="$ctrl.isScamPrice"
                       class="spam-label"
                       w-i18n="transaction.headers.suspicious">
@@ -22,25 +18,17 @@
         </div>
         <div class="footnote-1 bottom fs-mobile">
             <span w-i18n="transaction.subheaders.{{::$ctrl.typeName}}"
-                  params="{time: $ctrl.time}"></span>
+                  params="{time: $ctrl.props.time}"></span>
         </div>
     </div>
     <div class="line">
         <div class="body-2 top fs-mobile">
             <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
-                  params="{
-                    sign: $ctrl.typeName === 'exchange-buy' ? '+' : '–',
-                    amount: $ctrl.transaction.amount.toFormat(),
-                    name: $ctrl.transaction.amount.asset.name
-                  }"></span>
+                  params="$ctrl.amountParams"></span>
         </div>
         <div class="footnote-1 bottom fs-mobile">
-           <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
-                 params="{
-                    sign: $ctrl.typeName === 'exchange-buy' ? '–' : '+',
-                    amount: $ctrl.totalPrice,
-                    name: $ctrl.transaction.price.asset.name
-                  }"></span>
+            <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
+                  params="$ctrl.priceParams"></span>
         </div>
     </div>
 </div>

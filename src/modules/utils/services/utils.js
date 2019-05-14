@@ -11,6 +11,7 @@
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const { Money, BigNumber } = require('@waves/data-entities');
+    const { STATUS_LIST } = require('@waves/oracle-data');
 
     const GOOD_COLORS_LIST = [
         '#39a12c',
@@ -1118,6 +1119,52 @@
             },
 
             /**
+             * @name app.utils#getDataFromOracles
+             * @param {string} assetId
+             * @return {object}
+             */
+            getDataFromOracles(assetId) {
+                /**
+                 * @type {User}
+                 */
+                const user = $injector.get('user');
+
+                const dataOracle = ds.dataManager.getOraclesAssetData(assetId);
+
+                const isGateway = path(['status'], dataOracle) === 3;
+
+                const isTokenomica = path(['status'], dataOracle) === STATUS_LIST.VERIFIED &&
+                    path(['provider'], dataOracle) === 'Tokenomica';
+
+                const isVerified = path(['status'], dataOracle) === STATUS_LIST.VERIFIED &&
+                    path(['provider'], dataOracle) !== 'Tokenomica';
+
+                const isSuspicious = user.scam[assetId];
+                const hasLabel = isVerified || isGateway || isSuspicious || isTokenomica;
+
+                const ticker = path(['ticker'], dataOracle);
+                const link = path(['link'], dataOracle);
+                const email = path(['email'], dataOracle);
+                const logo = path(['logo'], dataOracle);
+                const provider = isVerified || isTokenomica && path(['provider'], dataOracle) || null;
+                const description = path(['description', 'en'], dataOracle);
+
+                return {
+                    isVerified,
+                    isGateway,
+                    isTokenomica,
+                    isSuspicious,
+                    hasLabel,
+                    ticker,
+                    link,
+                    email,
+                    provider,
+                    description,
+                    logo
+                };
+            },
+
+            /**
              * @name app.utils#toArray
              * @param {*} some
              * @return {[*]}
@@ -1547,7 +1594,7 @@
                     case SIGN_TYPE.MASS_TRANSFER:
                         return utils.isMyPublicKey(tx.senderPublicKey) ? TYPES.MASS_SEND : TYPES.MASS_RECEIVE;
                     case SIGN_TYPE.EXCHANGE:
-                        return tx.exchangeType === 'buy' ? TYPES.EXCHANGE_BUY : TYPES.EXCHANGE_SELL;
+                        return utils.typOfExchange(tx);
                     case SIGN_TYPE.LEASE:
                         return utils.isMyPublicKey(tx.senderPublicKey) ? TYPES.LEASE_OUT : TYPES.LEASE_IN;
                     case SIGN_TYPE.CANCEL_LEASING:
@@ -1568,9 +1615,21 @@
                         return tx.minSponsoredAssetFee.getCoins().gt(0) ? SPONSOR_START : SPONSOR_STOP;
                     case SIGN_TYPE.SET_ASSET_SCRIPT:
                         return TYPES.SET_ASSET_SCRIPT;
+                    case SIGN_TYPE.SCRIPT_INVOCATION:
+                        return TYPES.SCRIPT_INVOCATION;
                     default:
                         return TYPES.UNKNOWN;
                 }
+            },
+
+            /**
+             * @name app.utils#typOfExchange
+             * @param tx
+             * @return string
+             */
+            typOfExchange({ exchangeType }) {
+                const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
+                return exchangeType === 'buy' ? TYPES.EXCHANGE_BUY : TYPES.EXCHANGE_SELL;
             },
 
             /**
