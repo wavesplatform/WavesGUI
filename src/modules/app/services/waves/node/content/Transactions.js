@@ -61,11 +61,12 @@
             /**
              * Get transactions list by user
              * @param {number} [limit]
+             * @param {string} [after]
              * @return {Promise<ITransaction[]>}
              */
             @decorators.cachable(1)
-            list(limit = 1000) {
-                return ds.api.transactions.list(user.address, limit)
+            list(limit = 1000, after) {
+                return ds.api.transactions.list(user.address, limit, after)
                     .then(list => list.map(this._pipeTransaction()));
             }
 

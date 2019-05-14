@@ -64,6 +64,13 @@ w-transaction-info-header + w-transaction-info-general {
       padding-top: 30px;
       border-top: 1px solid @color-basic-100;
     }
+
+    &-scrolled {
+      max-height: 248px;
+      overflow: auto;
+      margin-right: -13px;
+      padding-right: 13px;
+    }
   }
 
   &__lead {
@@ -101,7 +108,7 @@ w-transaction-info-header + w-transaction-info-general {
     padding: 13px 0;
     border-top: 1px dashed @color-basic-100;
 
-    &:first-child {
+    &:first-child:not(.txinfo__row-header) {
       border-top: 1px solid @color-basic-100;
     }
 
@@ -191,6 +198,14 @@ w-transaction-info-header + w-transaction-info-general {
 
     &-border-ts {
       border-top: 1px solid @color-basic-100;
+    }
+
+    &-data {
+      .txinfo__row {
+        &:last-child {
+          border-bottom: 1px dashed @color-basic-100;
+        }
+      }
     }
   }
 
@@ -358,6 +373,33 @@ w-transaction-info-header + w-transaction-info-general {
 
   .status-label {
     margin-top: -4px;
+  }
+
+  &__item {
+    display: flex;
+    flex: 1 1 0;
+    overflow: hidden;
+
+    .txinfo__unit {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      padding-right: 0;
+    }
+
+    &:last-child {
+      justify-content: flex-end;
+    }
+  }
+
+  &__show {
+    &-fields {
+      margin-bottom: -1px;
+      padding-bottom: 10px;
+    }
+
+    &-text {
+      cursor: pointer;
+    }
   }
 }
 

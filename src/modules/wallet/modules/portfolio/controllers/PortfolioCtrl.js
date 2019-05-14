@@ -309,7 +309,7 @@
                         };
                     })
                     .reduce((acc, item) => {
-                        const oracleData = ds.dataManager.getOracleAssetData(item.asset.id);
+                        const oracleData = ds.dataManager.getOraclesAssetData(item.asset.id);
 
                         if (item.asset.sender === user.address) {
                             acc.my.push(item);
