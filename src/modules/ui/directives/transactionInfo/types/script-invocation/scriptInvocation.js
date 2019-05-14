@@ -2,11 +2,10 @@
     'use strict';
 
     /**
-     * @param {$rootScope.Scope} $scope
      * @param {JQuery} $element
      * @return {DataInfo}
      */
-    const controller = function ($scope, $element) {
+    const controller = function ($element) {
 
         class DataInfo {
 
@@ -15,10 +14,6 @@
              */
             signable;
             /**
-             * @type {string}
-             */
-            json;
-            /**
              * @type {boolean}
              */
             dataVisible = false;
@@ -26,6 +21,22 @@
              * @type {boolean}
              */
             allVisible = false;
+            /**
+             * @type {string}
+             */
+            function;
+            /**
+             * @type {string}
+             */
+            json;
+            /**
+             * @type {string}
+             */
+            payment;
+            /**
+             * @type {string}
+             */
+            args;
 
 
             $postLink() {
@@ -33,11 +44,13 @@
                 this.signable.getDataForApi().then(json => {
                     this.json = WavesApp.stringifyJSON(json, null, 4);
                 });
-                (this.transaction.id ? Promise.resolve(this.transaction.id) : this.signable.getId())
-                    .then(id => {
-                        this.id = id;
-                        $scope.$apply();
-                    });
+                if (this.transaction.payment.length > 0) {
+                    const payment = this.transaction.payment[0];
+                    this.payment = `${payment.getTokens().toFormat()} ${payment.asset.displayName}`;
+                }
+                if (this.transaction.call) {
+                    this.args = this.transaction.call.args;
+                }
             }
 
             /**
@@ -61,13 +74,13 @@
         return new DataInfo();
     };
 
-    controller.$inject = ['$scope', '$element'];
+    controller.$inject = ['$element'];
 
-    angular.module('app.ui').component('wDataInfo', {
+    angular.module('app.ui').component('wScriptInvocationInfo', {
         bindings: {
             signable: '<'
         },
         controller,
-        templateUrl: 'modules/ui/directives/transactionInfo/types/data/data-info.html'
+        templateUrl: 'modules/ui/directives/transactionInfo/types/script-invocation/script-invocation-info.html'
     });
 })();
