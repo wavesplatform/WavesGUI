@@ -11,7 +11,6 @@ body.landing {
   .wrapper {
     background: @color-white;
     position: relative;
-    min-width: 1440px; //TEMP
   }
 
   a {
@@ -21,6 +20,13 @@ body.landing {
 
   ul {
     list-style-type: none;
+  }
+
+  section,
+  footer,
+  header {
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   section {
@@ -61,20 +67,20 @@ body.landing {
     display: block;
   }
 
+  header {
+    max-width: 1440px;
+  }
+
   header,
   footer {
     display: flex;
     width: 100%;
     align-items: center;
-    padding: 20px 0 0;
+    padding-top: 20px;
   }
 
   header {
-    max-width: 1440px;
     margin: 0 auto;
-    .submit {
-      margin-left: 15px;
-    }
 
     .dropdown {
       display: none;
@@ -153,10 +159,13 @@ body.landing {
   }
 
   .get-started-btn {
+    margin-right: 15px;
+
     .icon-arrow-right {
       margin-left: 10px;
       transition: .3s;
     }
+
     &:hover {
       .icon-arrow-right {
         transform: translateX(10px);
@@ -195,8 +204,14 @@ body.landing {
     section {
       display: flex;
       align-items: flex-start;
-      & > div {
-        flex-basis: calc(100% / 6);
+
+      .links {
+        display: flex;
+        WIDTH: 100%;
+        padding-left: 150px;
+        & > div {
+          flex-basis: 25%;
+        }
       }
     }
 
@@ -303,6 +318,26 @@ body.landing {
     &-markets {
       border-radius: 4px;
       background: @color-white;
+      width: 100%;
+
+      .cell {
+        width: ~"calc((100% - 190px) / 5)";
+        max-width: ~"calc((100% - 190px) / 5)";
+        overflow: hidden;
+        vertical-align: middle;
+        white-space: nowrap;
+      }
+
+      .graph {
+        width: 110px;
+        padding-left: 10px;
+      }
+
+      .change {
+        width: 80px;
+        max-width: 80px;
+        padding-left: 10px;
+      }
 
       .row {
         display: flex;
@@ -313,18 +348,18 @@ body.landing {
         position: relative;
 
         &.red {
-          .change-color {
+          .change {
             color: @color-error-500;
           }
         }
 
         &.blue {
-          .change-color {
+          .change {
             color: @color-submit-400;
           }
         }
 
-        &:not(.row-header)::after {
+        &:not(:last-child)::after {
           content: '';
           display: block;
           bottom: 0;
@@ -334,44 +369,31 @@ body.landing {
           background: @color-info-50;
         }
 
-        & > div {
-          flex-basis: calc(100% / 7);
-        }
-
         &-header {
           font-size: 13px;
           border-bottom: 1px solid @color-info-50;
         }
-
       }
     }
   }
 
   .section {
-    &-markets {
-      background: @color-basic-50;
-      max-width: 100%;
-      padding-bottom: 60px;
-      .content-wrapper {
-        max-width: 1440px;
-        margin: 0 auto;
-      }
-    }
-
-    &-slider {
-      max-width: 100%;
-      background: @color-basic-50;
-      padding: 60px 0;
-    }
-
     &-welcome {
       display: flex;
-      position: relative;
       height: 800px;
       align-items: center;
+      width: 100%;
+
+      .welcome-text {
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 1.4;
+        font-family: 'Roboto-Regular';
+      }
 
       .left-side {
-        max-width: 480px;
+        max-width: 540px;
+        z-index: 2;
       }
 
       .submit {
@@ -379,14 +401,74 @@ body.landing {
       }
 
       .dex-screenshot {
-        width: 1024px;
-        height: 581px;
+        left: calc(50% ~'- 80px');
+        max-width: calc(50% ~'+ 80px');
+        @dex-screenshot-width: 2732px;
+        @dex-screenshot-height: 1536px;
+        width: calc(@dex-screenshot-width / 2.7);
+        height: calc(@dex-screenshot-height / 2.7);
         display: block;
         position: absolute;
-        right: -10%;
+        top: 150px;
         box-shadow: 0 0 30px @color-basic-200;
-        top: 50%;
-        transform: translateY(-50%);
+        z-index: 1;
+        transition: .5s;
+        background: url(/img/landing/dex-screenshot.png) left center no-repeat @color-white; // image size = 2732 × 1536
+        background-size: cover;
+
+        //@media screen and (max-width: 1440px) {
+        //  right: auto;
+        //  left: calc(50% ~'- 50px');
+        //  max-width: calc(50% ~'+ 50px');
+        //}
+      }
+    }
+
+    &-markets {
+      background: @color-basic-50;
+      max-width: 100%;
+      padding-bottom: 60px;
+      .content-wrapper {
+        max-width: 1440px;
+        margin: 0 auto;
+        h2 {
+          margin: 0;
+        }
+      }
+    }
+
+    &-slider {
+      max-width: 100%;
+      background: @color-basic-50;
+      padding: 60px 0;
+      overflow: hidden;
+
+      .slider {
+        display: flex;
+        width: 100%;
+      }
+
+      .slide {
+        border-radius: @border-radius;
+        max-width: 350px;
+        min-width: 300px;
+        width: 100%;
+        background: @color-white;
+        padding: 30px;
+        margin: 0 15px;
+
+        .red {
+          color: @color-error-500;
+        }
+
+        .blue {
+          color: @color-submit-400;
+        }
+
+        h2 {
+          font-weight: normal;
+          margin: 0 0 7px;
+        }
       }
     }
 
@@ -400,5 +482,105 @@ body.landing {
         flex-basis: 33.33%;
       }
     }
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .landing {
+    section
+    footer,
+    header {
+      padding-left: 80px;
+      padding-right: 80px;
+    }
+
+    .welcome-text {
+      font-size: 44px;
+      line-height: 1.3;
+    }
+
+    .left-side {
+      max-width: 480px;
+    }
+
+    .section-welcome {
+      .dex-screenshot {
+        right: auto;
+        left: calc(50% - 100px);
+        max-width: calc(50% + 100px);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 860px) {
+  body.landing {
+    header {
+      .top-menu:not(.top-menu-mobile),
+      .buttons-wrapper {
+        display: none;
+      }
+    }
+
+    .table-markets {
+
+    }
+
+    .section-welcome {
+      height: auto;
+
+      .left-side {
+        max-width: 100%;
+      }
+
+      .buttons-wrapper {
+        flex-direction: column;
+        width: 100%;
+        margin-bottom: 82px;
+
+        .fake-button {
+          width: 100%;
+        }
+
+        .get-started-btn {
+          margin: 0 0 15px;
+        }
+      }
+
+      .welcome-text {
+        position: relative;
+        padding-top: 90px;
+        font-size: 28px;
+      }
+
+      .dex-screenshot {
+        display: none;
+      }
+    }
+
+    .section-promo {
+      flex-direction: column;
+      &-card {
+        padding: 30px;
+        width: 100%;
+      }
+    }
+
+    footer {
+      section {
+        flex-direction: column;
+
+        .links {
+          padding: 0;
+          flex-wrap: wrap;
+
+          & > div {
+            flex-basis: 50%;
+            margin-bottom: 30px;
+          }
+        }
+      }
+    }
+
   }
 }

@@ -35,17 +35,9 @@ w-button {
     padding: 0;
     border: 0 none;
     width: 100%;
-
-    &.tiny {
-      font-size: @font-size-control-tiny;
-      padding: @padding-control-tiny;
-    }
-
-    &.small {
-      font-size: @font-size-control-small;
-      padding: @padding-control-button-small;
-    }
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     background-color: @color-white;
     box-shadow: 0 0 0 1px @color-basic-200 inset;
@@ -70,7 +62,7 @@ w-button {
 
     &.small {
       font-size: 13px;
-      padding: 0 10px;
+      padding: 0 20px;
       height: 36px;
       line-height: 36px;
     }
@@ -99,15 +91,11 @@ w-button {
       padding: 0;
     }
 
-    // TODO - remove variables @uIsk
-
-
     &.transparent {
       background: transparent;
       color: @color-white;
       box-shadow: none;
     }
-
 
     &.success {
       box-shadow: none;

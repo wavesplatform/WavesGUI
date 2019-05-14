@@ -45,7 +45,6 @@
                  * @type {jQuery}
                  */
                 this.content = null;
-
             }
 
             $postLink() {

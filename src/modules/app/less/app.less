@@ -586,6 +586,10 @@ md-toolbar:not(.md-menu-toolbar) {
 
 .flex {
   display: flex;
+
+  .grow {
+    flex-Grow: 1;
+  }
 }
 
 .flex-between {
@@ -653,6 +657,17 @@ w-permit {
   .fake-button {
     flex-basis: 48%;
     max-width: 48%;
+  }
+
+  &-nowidth {
+    width: auto;
+    justify-content: flex-start;
+
+    w-button,
+    .fake-button {
+      flex-basis: auto;
+      max-width: none;
+    }
   }
 }
 

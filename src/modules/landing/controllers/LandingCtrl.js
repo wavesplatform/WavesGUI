@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    // const $ = require('jquery');
+
     /**
      * @param Base
      * @param $scope
@@ -8,12 +10,15 @@
      * @param {modalManager} modalManager
      * @return {LandingCtrl}
      */
+
     const controller = function (Base, $scope) {
+
 
         class LandingCtrl extends Base {
 
             constructor() {
                 super($scope);
+                this.isNotPhone = $rootScope.isNotPhone;
             }
 
         }
