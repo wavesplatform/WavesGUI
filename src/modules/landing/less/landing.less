@@ -201,6 +201,7 @@ body.landing {
     section {
       display: flex;
       align-items: flex-start;
+      font-size: 15px;
 
       .links {
         display: flex;
@@ -222,7 +223,6 @@ body.landing {
       margin-bottom: 14px;
       display: block;
       color: @color-basic-600;
-      font-size: 15px;
     }
 
     .footer-left {
@@ -516,8 +516,13 @@ body.landing {
 
     .section-welcome {
       .dex-screenshot {
-        left: 540px;
-        max-width: calc(100% ~'- 540px');
+        left: 580px;
+        max-width: calc(100% ~'- 580px');
+      }
+
+      .welcome-text {
+        font-size: 40px;
+        line-height: 1.2;
       }
     }
   }
@@ -525,14 +530,34 @@ body.landing {
 
 @media screen and (max-width: 1024px) {
   body.landing {
-    .section-welcome {
-      .welcome-text {
-        font-size: 40px;
-        line-height: 1.2;
-      }
+    section,
+    footer,
+    header,
+    .section-markets .content-wrapper {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
 
+    .section-promo-card {
+      padding: 56px 15px 66px;
+    }
+
+    .links {
+      padding-right: 30px;
+    }
+
+    .section-welcome {
       .left-side {
         max-width: 480px;
+      }
+    }
+
+    footer {
+      section {
+        padding: 0;
+        .links > div {
+          margin-left: 20px;
+        }
       }
     }
   }
@@ -600,15 +625,23 @@ body.landing {
 
     .section-promo {
       flex-direction: column;
+      padding: 25px 0;
       &-card {
-        padding: 30px;
+        padding: 15px 20px;
         width: 100%;
       }
     }
 
     footer {
+      paddng: 40px 0;
       section {
+        font-size: 13px;
         flex-direction: column;
+
+        .footer-title {
+          margin-bottom: 20px;
+          font-size: 11px;
+        }
 
         .links {
           padding: 0;
@@ -616,7 +649,7 @@ body.landing {
 
           & > div {
             flex-basis: 50%;
-            margin-bottom: 30px;
+            margin: 30px 0 30px;
           }
         }
       }
