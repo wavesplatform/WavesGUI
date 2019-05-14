@@ -165,10 +165,12 @@
                 <div class="body-2 basic-900" w-i18n="preview"></div>
                 <div class="preview">
                     <div class="avatar-wrap">
-                        <w-asset-logo ng-if="$ctrl.name"
-                                      has-script="$ctrl.hasAssetScript"
-                                      size="30"
-                                      asset-name="$ctrl.name"></w-asset-logo>
+                        <w-new-asset-logo ng-if="$ctrl.name"
+                                          ng-click="$ctrl.createSignable()"
+                                          asset-id="$ctrl.assetId"
+                                          has-script="$ctrl.hasAssetScript"
+                                          size="30"
+                                          asset-name="$ctrl.name"></w-new-asset-logo>
                     </div>
                     <div class="token-info-wrap" ng-class="{empty: $ctrl.createForm.$invalid}">
                         <div class="line token-name headline-3 basic-900">
@@ -192,13 +194,15 @@
             </div>
 
             <div class="row">
-                <w-sign-button disabled="$ctrl.createForm.$invalid || $ctrl.invalid"
-                               class="submit long margin-4"
-                               ng-click="$ctrl.sendAnalytics"
-                               on-success="$ctrl.generate(signable)"
-                               on-click="$ctrl.createSignable()">
-                    <span w-i18n-ns="app.tokens" w-i18n="create"></span>
-                </w-sign-button>
+                <w-analytics event="'Token Generation Generate Click'" event-target="'ui'">
+                    <w-sign-button disabled="$ctrl.createForm.$invalid || $ctrl.invalid"
+                                   class="submit long margin-4"
+                                   ng-click="$ctrl.sendAnalytics"
+                                   on-success="$ctrl.generate(signable)"
+                                   on-click="$ctrl.getSignable()">
+                        <span w-i18n-ns="app.tokens" w-i18n="create"></span>
+                    </w-sign-button>
+                </w-analytics>
             </div>
 
         </form>

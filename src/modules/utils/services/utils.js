@@ -39,7 +39,17 @@
         '#85d7c6',
         '#8a7967',
         '#26c1c9',
-        '#72d28b'
+        '#72d28b',
+        '#5B1909',
+        '#264764',
+        '#270774',
+        '#8763DE',
+        '#F04085',
+        '#1E6AFD',
+        '#FF1E43',
+        '#D3002D',
+        '#967400',
+        '#264163'
     ];
 
     const DEFAULT_ASSET_ICONS_MAP = Object.assign(Object.create(null), {
