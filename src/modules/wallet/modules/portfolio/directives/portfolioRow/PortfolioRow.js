@@ -230,7 +230,7 @@
                     const { isVerified, isGateway,
                         isTokenomica, logo } = utils.getDataFromOracles(this.balance.asset.id);
 
-                    this.isVerifiedOrGateway = isVerified && isGateway;
+                    this.isVerifiedOrGateway = isVerified || isGateway;
 
                     const html = template({
                         canSetAssetScript: this._isMyAsset && this.isSmart,
