@@ -35,10 +35,6 @@ body.landing {
     margin: 0 auto;
   }
 
-  header {
-    max-width: 1440px;
-  }
-
   header,
   footer {
     display: flex;
@@ -49,6 +45,7 @@ body.landing {
 
   header {
     margin: 0 auto;
+    max-width: 1440px;
 
     .dropdown {
       display: none;
@@ -204,7 +201,6 @@ body.landing {
     section {
       display: flex;
       align-items: flex-start;
-      padding: 0;
 
       .links {
         display: flex;
@@ -422,10 +418,11 @@ body.landing {
     &-markets {
       background: @color-basic-50;
       max-width: 100%;
-      padding-bottom: 60px;
+      padding: 0;
       .content-wrapper {
         max-width: 1440px;
         margin: 0 auto;
+        padding: 0 80px 60px;
         h2 {
           margin: 0;
         }
@@ -482,13 +479,6 @@ body.landing {
 
 @media screen and (max-width: 1440px) {
   body.landing {
-    section,
-    footer,
-    header {
-      padding-left: 40px;
-      padding-right: 40px;
-    }
-
     .section-welcome {
       .welcome-text {
         font-size: 44px;
@@ -508,8 +498,22 @@ body.landing {
   }
 }
 
-@media screen and (max-width: 1320px) {
+@media screen and (max-width: 1340px) {
   body.landing {
+    section,
+    footer,
+    header,
+    section-markets {
+      .content-wrapper {
+        padding-left: 40px;
+        padding-right: 40px;
+      }
+    }
+
+    footer section {
+
+    }
+
     .section-welcome {
       .dex-screenshot {
         left: 540px;
