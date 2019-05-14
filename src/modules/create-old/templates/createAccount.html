@@ -1,0 +1,72 @@
+<div class="create-account">
+
+    <a class="waves-logo" ui-sref="welcome"></a>
+
+    <div class="text-center">
+        <div class="headline-1">
+            <span w-i18n="createAccount.createNewAccount"></span>
+        </div>
+
+        <div class="body-2 disabled-600">
+            <a ui-sref="welcome">
+                <span w-i18n="createAccount.signIn"></span>
+            </a>
+            <span w-i18n="createAccount.toWalet"></span>
+            <a ui-sref="restore">
+                <span w-i18n="createAccount.restore"></span>
+            </a>
+            <span w-i18n="createAccount.from"></span>
+        </div>
+
+        <hr>
+    </div>
+
+    <div class="body-2">
+        <span w-i18n="createAccount.choose"></span>
+    </div>
+    <div class="footnote-1 disabled-500">
+        <span w-i18n="createAccount.avatarUnique"></span>
+    </div>
+
+    <div class="avatars-list">
+        <div class="avatar-wrapper"
+             ng-repeat="seed in $ctrl.seedList track by seed.address"
+             ng-class="{active: seed.active}"
+             ng-click="$ctrl.setActiveSeed(seed)">
+            <w-avatar size="49"
+                      address="seed.address"></w-avatar>
+        </div>
+    </div>
+
+    <div class="body-2 basic-900" w-i18n="createAccount.address"></div>
+    <div class="input-like margin-2">{{$ctrl.address}}</div>
+
+    <div class="margin-3 flex">
+        <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
+        <label for="save-user-data" class="footnote-1 basic-500">
+            <span w-i18n="createAccount.saveUserData"></span>
+        </label>
+    </div>
+
+    <div class="margin-3">
+        <w-button
+            on-click="$ctrl.next($ctrl.stepIndex + $ctrl.saveUserData ? 1 : 2)"
+            class="submit long big">
+            <span w-i18n="button.continue"></span>
+        </w-button>
+    </div>
+
+    <!--TODO #wrap-in-component-->
+
+    <div class="text-center">
+        <div class="or margin-2">
+            <span w-i18n="noBackupNoMoney.or"></span>
+        </div>
+        <div class="text-center body-2 flex-column-center-min margin-2">
+            <a ui-sref="import">
+                <span w-i18n="createAccount.import"></span>
+            </a>
+        </div>
+    </div>
+
+</div>

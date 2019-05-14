@@ -4,17 +4,6 @@
   width: 460px;
   margin: auto;
 
-  &-ng {
-    display: flex;
-    flex: 1;
-  }
-
-  &-wrapper {
-    display: flex;
-    flex-grow: 1;
-    background: @color-basic-50;
-  }
-
   .left {
     text-align: left;
   }
@@ -32,7 +21,7 @@
     .avatar-wrapper {
       width: 84px;
       height: 84px;
-      border: 4px solid transparent;
+      border: 1px solid transparent;
       border-radius: @border-radius;
       display: flex;
       flex-direction: column;
@@ -41,8 +30,8 @@
       cursor: pointer;
 
       &.active {
-        border: solid 4px @color-white;
-        box-shadow: 0 4px 18px 0 rgba(30, 41, 73, 0.15);
+        background-color: rgba(31, 90, 246, 0.05);
+        border: solid 1px @color-submit-400;
         cursor: default;
       }
     }

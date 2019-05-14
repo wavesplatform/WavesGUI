@@ -1,0 +1,104 @@
+@import (reference) 'config';
+@import (reference) '../../../app/less/typography';
+
+w-seed-read, w-seed-write {
+  display: block;
+
+  .seed-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 15px 10px;
+    border: 1px solid @color-disabled-200;
+    border-radius: @border-radius;
+    background-color: @color-disabled-50;
+    box-sizing: border-box;
+    user-select: none;
+
+    &.seed-confirmed {
+      .seed-item {
+        cursor: default;
+      }
+    }
+  }
+
+  &[type="read"] {
+    .seed-container {
+      padding: 25px 30px;
+    }
+
+    .seed-item {
+      .headline-1();
+      font-size: 17px;
+      line-height: 17px;
+      margin: 0;
+      color: @color-basic-900;
+      padding: 5px 8px;
+      font-weight: 500;
+    }
+  }
+
+  &[type="random"] {
+    user-select: none;
+
+    .seed-container {
+      background-color: transparent;
+      border: none;
+      padding: 10px 5px;
+    }
+
+    .seed-item {
+      .headline-1();
+      border-radius: @border-radius;
+      background-color: @color-submit-400;
+      font-weight: 500;
+      margin: 3px;
+      border: solid 1px @color-submit-400;
+      cursor: pointer;
+      font-size: 15px;
+      color: @white-only;
+      line-height: 34px;
+      padding: 0 15px;
+
+      &.moved {
+        border: dashed 1px @color-basic-500;
+        background-color: transparent;
+        color: transparent;
+        cursor: default;
+      }
+    }
+  }
+}
+
+w-seed-write {
+  user-select: none;
+
+  .seed-container {
+    height: 178px;
+    padding: 15px 5px;
+    position: relative;
+  }
+
+  .seed-item {
+    .headline-1();
+    border-radius: @border-radius;
+    padding: 0 15px;
+    margin: 3px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    background-color: @white-btn-bg;
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 36px;
+    font-weight: 500;
+    max-height: 36px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  w-seed-write .seed-container {
+    min-height: 178px;
+    height: auto;
+  }
+}
