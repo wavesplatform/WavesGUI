@@ -494,7 +494,9 @@ w-transaction-info-header + w-transaction-info-general {
   &:hover ~ .tooltip {
     display: block;
   }
-  .ellipsis();
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .invoke-args-list__item {
