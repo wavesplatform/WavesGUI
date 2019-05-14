@@ -18,7 +18,6 @@
 
             constructor() {
                 super($scope);
-                this.isNotPhone = $rootScope.isNotPhone;
             }
 
         }

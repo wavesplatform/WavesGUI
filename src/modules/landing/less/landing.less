@@ -25,46 +25,14 @@ body.landing {
   section,
   footer,
   header {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 80px;
+    padding-right: 80px;
   }
 
   section {
     max-width: 1440px;
     width: 100%;
     margin: 0 auto;
-  }
-
-  nav.top-menu {
-    height: 32px;
-    display: flex;
-    align-items: center;
-    margin-left: 50px;
-    flex-grow: 1;
-    position: relative;
-
-    a {
-      display: block;
-      margin-right: 30px;
-      color: @color-basic-900;
-      &:hover {
-        color: @color-submit-400;
-      }
-    }
-  }
-
-  .center {
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .width {
-    width: 100%;
-  }
-
-  .height {
-    height: 100%;
-    display: block;
   }
 
   header {
@@ -131,6 +99,38 @@ body.landing {
           font-weight: 300;
         }
       }
+    }
+
+    nav.top-menu {
+      height: 32px;
+      display: flex;
+      align-items: center;
+      margin-left: 50px;
+      flex-grow: 1;
+      position: relative;
+
+      a {
+        display: block;
+        margin-right: 30px;
+        color: @color-basic-900;
+        &:hover {
+          color: @color-submit-400;
+        }
+      }
+    }
+
+    .center {
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .width {
+      width: 100%;
+    }
+
+    .height {
+      height: 100%;
+      display: block;
     }
 
     .dropdown-btn {
@@ -204,6 +204,7 @@ body.landing {
     section {
       display: flex;
       align-items: flex-start;
+      padding: 0;
 
       .links {
         display: flex;
@@ -401,8 +402,8 @@ body.landing {
       }
 
       .dex-screenshot {
-        left: calc(50% ~'- 80px');
-        max-width: calc(50% ~'+ 80px');
+        left: calc(50% ~'- 50px');
+        max-width: calc(50% ~'+ 50px');
         @dex-screenshot-width: 2732px;
         @dex-screenshot-height: 1536px;
         width: calc(@dex-screenshot-width / 2.7);
@@ -415,12 +416,6 @@ body.landing {
         transition: .5s;
         background: url(/img/landing/dex-screenshot.png) left center no-repeat @color-white; // image size = 2732 × 1536
         background-size: cover;
-
-        //@media screen and (max-width: 1440px) {
-        //  right: auto;
-        //  left: calc(50% ~'- 50px');
-        //  max-width: calc(50% ~'+ 50px');
-        //}
       }
     }
 
@@ -486,28 +481,69 @@ body.landing {
 }
 
 @media screen and (max-width: 1440px) {
-  .landing {
-    section
+  body.landing {
+    section,
     footer,
     header {
-      padding-left: 80px;
-      padding-right: 80px;
-    }
-
-    .welcome-text {
-      font-size: 44px;
-      line-height: 1.3;
-    }
-
-    .left-side {
-      max-width: 480px;
+      padding-left: 40px;
+      padding-right: 40px;
     }
 
     .section-welcome {
+      .welcome-text {
+        font-size: 44px;
+        line-height: 1.3;
+      }
+
+      .left-side {
+        max-width: 480px;
+      }
+
       .dex-screenshot {
         right: auto;
-        left: calc(50% - 100px);
-        max-width: calc(50% + 100px);
+        left: calc(50% ~'- 100px');
+        max-width: calc(50% ~'+ 100px');
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1320px) {
+  body.landing {
+    .section-welcome {
+      .dex-screenshot {
+        left: 540px;
+        max-width: calc(100% ~'- 540px');
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  body.landing {
+    .section-welcome {
+      .welcome-text {
+        font-size: 40px;
+        line-height: 1.2;
+      }
+
+      .left-side {
+        max-width: 480px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1023px) and (min-width: 861px) {
+  body.landing {
+    .section-welcome {
+      .left-side {
+        max-width: 45%;
+      }
+
+      .dex-screenshot {
+        left: 50%;
+        max-width: 50%;
       }
     }
   }
@@ -581,6 +617,5 @@ body.landing {
         }
       }
     }
-
   }
 }
