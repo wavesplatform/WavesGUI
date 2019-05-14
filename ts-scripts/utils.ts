@@ -221,14 +221,14 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
     const isWeb = type === 'web';
     const isProduction = buildType && buildType === 'min';
     const matcherPriorityList = connection === 'mainnet' ? MAINNET_DATA : TESTNET_DATA;
-    const { origin, oracle, feeConfigUrl, bankRecipient } = config;
+    const { origin, oracles, feeConfigUrl, bankRecipient } = config;
 
     return {
         pack,
         isWeb,
         origin,
         analyticsIframe,
-        oracle,
+        oracles,
         domain,
         styles,
         scripts,
@@ -369,7 +369,12 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
                         (self as any).parse = parseJsonBignumber().parse;
                     });
 
-                    var stringify = parseJsonBignumber({ BigNumber: BigNumber }).stringify;
+                    var stringify = parseJsonBignumber({
+                        parse: (data: string) => new BigNumber(data),
+                        stringify: (data) => data.toFixed(),
+                        isInstance: (data) => BigNumber.isBigNumber(data)
+                    }).stringify;
+
                     WavesApp.parseJSON = function (str) {
                         return worker.process(function (str) {
                             return parse(str);
@@ -525,11 +530,32 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                 .replace(/\?.*/, '')
                 .replace('.json', '')
                 .split('/');
-            const cachePath = join(process.cwd(), '.cache-download', 'locale', lang, `${ns}.json`);
+
+            const localePath = join(process.cwd(), '.cache-download', 'locale');
+            const cachePath = join(localePath, lang, `${ns}.json`);
+
+            const isModified = path => {
+                const { mtime } = statSync(path);
+                const dateNow = new Date();
+                return (dateNow.getTime() - mtime.getTime()) > 60 * 10000;
+            };
 
             if (existsSync(cachePath)) {
-                const data = readFileSync(cachePath);
-                res.end(data);
+                if (isModified(cachePath) && lang === 'ru' && ns === 'app') {
+                    loadLocales(localePath)
+                        .then(() => {
+                            const data = readFileSync(cachePath);
+                            res.end(data);
+                        })
+                        .catch(error => {
+                            res.statusCode = 404;
+                            res.end(error);
+                        });
+                } else {
+                    const data = readFileSync(cachePath);
+                    res.end(data);
+                }
+
             } else {
                 res.statusCode = 404;
                 res.end('Not found!');
@@ -744,7 +770,7 @@ function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, p
     stat(req, res, ROOTS);
 }
 
-export function getLocales(path: string, options?: object) {
+export function loadLocales(path: string, options?: object) {
     const postOptions = {
         method: 'POST',
         hostname: 'api.lokalise.co',

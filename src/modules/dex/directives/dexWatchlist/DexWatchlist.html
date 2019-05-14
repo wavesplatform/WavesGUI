@@ -20,11 +20,15 @@
     </div>
 
     <div class="input-container">
-        <w-input placeholder="directives.watchlist.placeholders.coin"
-                 ng-model="$ctrl.search"
-                 ng-model-options="{updateOn: 'input blur', debounce: { 'input': 500, 'blur': 0 }}"
-                 ng-class="{'searching': $ctrl.searchInProgress }"
-                 w-i18n-attr="placeholder"></w-input>
+        <w-search class="search-wrapper">
+            <input class="search-input"
+                   type="w-search"
+                   placeholder="directives.watchlist.placeholders.coin"
+                   ng-model="$ctrl.search"
+                   ng-model-options="{updateOn: 'input blur', debounce: { 'input': 500, 'blur': 0 }}"
+                   ng-class="{'searching': $ctrl.searchInProgress }"
+                   w-i18n-attr="placeholder">
+        </w-search>
         <i ng-if="$ctrl.search.length > 0"
            class="input-clear"
            ng-click="$ctrl.search = ''"></i>

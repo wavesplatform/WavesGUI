@@ -132,7 +132,7 @@
                         <w-button ng-if="!$ctrl.shownSeed" class="tiny" on-click="$ctrl.shownSeed = true">
                             <span w-i18n="modal.settings.security.show"></span>
                         </w-button>
-                        <pre class="footnote-1" ng-if="$ctrl.shownSeed">{{::$ctrl.phrase}}</pre>
+                        <pre class="footnote-1 pre" ng-if="$ctrl.shownSeed">{{::$ctrl.phrase}}</pre>
                     </div>
                 </div>
 
@@ -209,7 +209,7 @@
                                         {{$ctrl.oracleData.name}}
                                     </div>
                                     <div class="data-provider-id basic-500">
-                                        {{$ctrl.assetsOracle}}
+                                        {{$ctrl.oracleWaves}}
                                     </div>
                                 </div>
                             </div>

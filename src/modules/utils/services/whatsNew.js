@@ -6,7 +6,6 @@
      * @param {INotification} notification
      * @param {User} user
      * @param {Migration} migration
-     * @param {app.utils} utils
      */
     const factory = function (notification, user, migration, utils) {
 
@@ -38,7 +37,9 @@
             '1.1.0',
             '1.2.0',
             '1.2.1',
-            '1.2.2'
+            '1.2.2',
+            '1.2.3',
+            '1.2.6'
         ];
 
         /**
@@ -70,7 +71,14 @@
         }
 
         user.onLogin().then(() => {
-            const notShownUpdates = user.getSetting('whatsNewList');
+            const notShownUpdates = user.getSetting('whatsNewList')
+                .filter(version => {
+                    if (migration.gt(version, WavesApp.version)) {
+                        removeVersion(version);
+                        return false;
+                    }
+                    return true;
+                });
             const lastOpenVersion = user.getSetting('lastOpenVersion');
             const newVersionList = migration.migrateFrom(lastOpenVersion || WavesApp.version, MIGRATION_LIST);
 
@@ -89,8 +97,8 @@
                     }
                 }, -1);
             });
-
             addVersions(newVersionList);
+
             user.setSetting('lastOpenVersion', WavesApp.version);
         });
 
