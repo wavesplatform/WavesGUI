@@ -48,7 +48,9 @@
                     const payment = this.transaction.payment[0];
                     this.payment = `${payment.getTokens().toFormat()} ${payment.asset.displayName}`;
                 }
-                this.args = this.transaction.call.args;
+                if (this.transaction.call) {
+                    this.args = this.transaction.call.args;
+                }
             }
 
             /**

@@ -1,6 +1,6 @@
 <div class="txinfo__row">
     <div class="txinfo__key" w-i18n="transaction.modals.function"></div>
-    <div class="txinfo__value">{{::$ctrl.transaction.call.function}}</div>
+    <div class="txinfo__value">{{::$ctrl.transaction.call.function || 'Default function'}}</div>
 </div>
 
 <div class="txinfo__row" ng-if="$ctrl.args.length > 0">
