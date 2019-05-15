@@ -127,181 +127,83 @@ ui-view[name="main"] {
   margin: 40px auto 80px auto;
 }
 
-// header
-header {
-  margin: 0 auto;
-  display: flex;
+md-input-container {
+  transform: translate3d(0, 0, 0);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+*:focus {
+  outline: none;
+}
+
+pre {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+}
+
+.break-all {
+  word-break: break-all;
+}
+
+.no-user-select {
+  user-select: none;
+}
+
+w-error-block,
+w-empty-block {
   width: 100%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  padding-top: 9px;
-  padding-bottom: 9px;
-  padding-left: 80px;
-  padding-right: 80px;
-  background: @color-white;
-  box-shadow: 0 1px 0 0 rgba(161, 181, 230, 0.05);
-
-  .dropdown {
-    display: none;
-    padding: 10px 0;
-    box-shadow: 0 2px 44px 0 rgba(31, 39, 61, 0.15);
-    background: @color-white;
-    border-radius: 8px;
-    position: absolute;
-    top: 36px;
-    left: 0;
-    transform: translateX(calc(50% + 25px));
-    z-index: 10;
-
-    &:hover {
-      display: block;
-    }
-
-    &-icon {
-      margin-right: 15px;
-    }
-
-    a {
-      display: flex;
-      align-items: center;
-      padding: 18px 0;
-      margin: 0 20px;
-      font-size: 15px;
-
-      &:first-child {
-        padding: 10px 0 18px;
-      }
-
-      &:last-child {
-        padding: 18px 0 10px;
-      }
-
-      &:hover {
-        color: @color-submit-400;
-      }
-
-      &:not(:last-child) {
-        border-bottom: 1px solid @color-info-50;
-      }
-
-      span.description {
-        color: @color-basic-500;
-        font-size: 13px;
-        font-weight: 300;
-      }
-    }
-  }
-
-  nav.top-menu {
-    height: 32px;
-    display: flex;
-    align-items: center;
-    margin-left: 50px;
-    flex-grow: 1;
-    position: relative;
-
-    a {
-      display: block;
-      margin-right: 30px;
-      color: @color-basic-900;
-      &:hover {
-        color: @color-submit-400;
-      }
-    }
-  }
-
-  .center {
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .width {
-    width: 100%;
-  }
-
-  .height {
-    height: 100%;
-    display: block;
-  }
-
-  .dropdown-btn {
-    padding-right: 17px;
-    background: url(/img/landing/arrow-down.svg) right center no-repeat;
-
-    &::after {
-      content: '';
-      display: none;
-      width: 91px;
-      height: 11px;
-      position: absolute;
-      z-index: 11;
-    }
-
-    &:hover {
-      background: url(/img/landing/arrow-down-blue.svg) right center no-repeat;
-      & + .dropdown {
-        display: block;
-      }
-      &::after {
-        display: block;
-      }
-    }
-  }
-
-  .logo {
-    width: 152px;
-    height: 32px;
-    display: block;
-    background: url(/img/dex/wavesdex-black-32.svg) center no-repeat;
-
-    &-white {
-      background: url(/img/dex/wavesdex-invert-32.svg) center no-repeat;
-    }
-  }
+  justify-content: center;
+  text-align: center;
 
   .icon {
-    display: block;
-
-    &-win {
-      width: 24px;
-      height: 24px;
-      display: block;
-      background: url(/img/dex/windows.svg) center no-repeat;
-    }
-
-    &-mac {
-      width: 24px;
-      height: 24px;
-      display: block;
-      background: url(/img/dex/apple.svg) center no-repeat;
-    }
-
-    &-linux {
-      width: 24px;
-      height: 24px;
-      display: block;
-      background: url(/img/dex/linux.svg) center no-repeat;
-    }
+    background-image: @empty-icon;
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 10px auto;
   }
 }
 
-@media screen and (max-width: 1440px) {
-  header {
-    padding-left: 40px;
-    padding-right: 40px;
+w-error-block {
+  .icon {
+    background-image: @error-icon;
   }
 }
 
-
-@media screen and (max-width: 860px) {
-  header {
-    .top-menu:not(.top-menu-mobile),
-    .buttons-wrapper {
-      display: none;
-    }
-  }
+.ghost {
+  opacity: 0 !important;
 }
 
-/* end header */
+.link {
+  .footnote-1();
+  color: @color-submit-300;
+  cursor: pointer;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
 
 w-scroll-box {
   display: flex;
