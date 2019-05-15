@@ -1,0 +1,120 @@
+@import (reference) '../../app/less/typography';
+
+.hidden {
+  display: none !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.pre {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+}
+
+.break-all {
+  word-break: break-all;
+}
+
+.no-user-select {
+  user-select: none;
+}
+
+.ghost {
+  opacity: 0 !important;
+}
+
+.link {
+  .footnote-1();
+  color: @color-submit-300;
+  cursor: pointer;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+.overflow-h {
+  overflow: hidden;
+}
+
+.overflow {
+  overflow: auto;
+}
+
+.flex-column-center {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-column-center-min {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+._internal-error {
+  display: none;
+}
+
+.flex {
+  display: flex;
+
+  .grow {
+    flex-grow: 1;
+  }
+}
+
+.flex-between {
+  justify-content: space-between;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.info-block {
+  position: relative;
+  padding-left: 30px;
+  color: @color-basic-500;
+
+  i {
+    position: absolute;
+    left: 0;
+    top: 2px;
+  }
+}
+
+.hide-selection {
+  background: none transparent;
+}

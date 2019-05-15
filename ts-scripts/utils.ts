@@ -369,7 +369,12 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
                         (self as any).parse = parseJsonBignumber().parse;
                     });
 
-                    var stringify = parseJsonBignumber({ BigNumber: BigNumber }).stringify;
+                    var stringify = parseJsonBignumber({
+                        parse: (data: string) => new BigNumber(data),
+                        stringify: (data) => data.toFixed(),
+                        isInstance: (data) => BigNumber.isBigNumber(data)
+                    }).stringify;
+
                     WavesApp.parseJSON = function (str) {
                         return worker.process(function (str) {
                             return parse(str);

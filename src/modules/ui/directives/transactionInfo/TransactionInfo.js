@@ -26,7 +26,8 @@
             [SIGN_TYPE.DATA]: 'Data',
             [SIGN_TYPE.SET_SCRIPT]: 'Set Script',
             [SIGN_TYPE.SPONSORSHIP]: 'Sponsorship',
-            [SIGN_TYPE.SET_ASSET_SCRIPT]: 'Set Asset Script'
+            [SIGN_TYPE.SET_ASSET_SCRIPT]: 'Set Asset Script',
+            [SIGN_TYPE.SCRIPT_INVOCATION]: 'Script Invocation'
         };
 
         class TransactionInfoCtrl extends Base {

@@ -24,7 +24,8 @@
     "CAN_CREATE_ORDER": true,
     "CAN_CANCEL_ORDER": true,
     "CAN_PAIRING_WITH_MOBILE": true,
-    "CAN_ANY_TRANSACTION": true
+    "CAN_ANY_TRANSACTION": true,
+    "CAN_SET_ASSET_SCRIPT": true
   },
   "NOTIFICATIONS": [
     {
