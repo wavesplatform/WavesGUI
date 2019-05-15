@@ -111,7 +111,8 @@
         'app.dex',
         'app.tokens',
         'app.unavailable',
-        'app.stand'
+        'app.stand',
+        'app.lending'
     ]);
 })();
 
