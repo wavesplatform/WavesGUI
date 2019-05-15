@@ -1,18 +1,13 @@
 (function () {
     'use strict';
 
-    // const $ = require('jquery');
-
     /**
      * @param Base
      * @param $scope
-     * @param {User} user
-     * @param {modalManager} modalManager
      * @return {LandingCtrl}
      */
 
     const controller = function (Base, $scope) {
-
 
         class LandingCtrl extends Base {
 
@@ -25,7 +20,7 @@
         return new LandingCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'modalManager'];
+    controller.$inject = ['Base', '$scope'];
 
     angular.module('app.landing').controller('LandingCtrl', controller);
 })();
