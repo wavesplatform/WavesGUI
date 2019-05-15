@@ -1,0 +1,132 @@
+@import (reference) 'config';
+@import (reference) '../../../app/less/typography';
+
+.help-icon {
+  display: inline-block;
+
+  &__icon {
+    position: relative;
+    margin-left: 7px;
+
+    &.info {
+      &::before {
+        content: 'i';
+      }
+    }
+
+    &::before {
+      content: '?';
+      background: @color-accent-100;
+      color: @color-white;
+      border-radius: 50%;
+      display: inline-block;
+      width: @text-icon-size;
+      height: @text-icon-size;
+      text-align: center;
+      font-style: normal;
+      font-weight: bold;
+      margin-top: -3px;
+      font-size: @font-size-caption-2;
+      line-height: 17px;
+    }
+
+    &:after {
+      display: none;
+      width: 10px;
+      height: 10px;
+      background: @color-submit-300;
+      transform: rotate(-45deg);
+      left: 3px;
+      top: 21px;
+      position: absolute;
+      content: '';
+      z-index: 0;
+    }
+
+    &.hovered::before,
+    &:hover::before {
+      background: @color-submit-300;
+    }
+
+    &.hovered::after,
+    &:hover::after {
+      display: block;
+    }
+
+    &.hovered + .help-icon__content,
+    &:hover + .help-icon__content {
+      display: block;
+    }
+  }
+
+  &__content {
+    display: none;
+    z-index: 19;
+    position: absolute;
+    color: @color-basic-700;
+    background: @color-white;
+    border-top: 5px solid @color-submit-300;
+    border-radius: @border-radius;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.18);
+    padding: 15px;
+    margin-top: 4px;
+    left: 40px;
+    width: calc(100% ~'- 80px');
+
+    .label-background {
+      background: @label-background-color;
+      display: inline-block;
+      padding: 3px 5px;
+      border-radius: @border-radius / 2;
+      margin: 0 4px 2px 0;
+    }
+
+    &:hover {
+      display: block;
+    }
+  }
+
+  &__row {
+    margin-bottom: 5px;
+    margin-top: 0;
+  }
+}
+
+w-help-icon {
+  &.info {
+    .help-icon {
+      &__icon {
+        &::before {
+          content: 'i';
+        }
+      }
+    }
+  }
+}
+
+md-dialog {
+  .help-icon {
+    &__content {
+      left: 80px;
+      width: calc(100% ~'- 160px');
+    }
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .help-icon {
+    &__content {
+      left: 20px;
+      width: calc(100% ~'- 40px');
+    }
+  }
+
+  md-dialog {
+    .help-icon {
+      &__content {
+        left: 40px;
+        width: calc(100% ~'- 80px');
+      }
+    }
+  }
+}

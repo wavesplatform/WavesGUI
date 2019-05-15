@@ -92,14 +92,8 @@ select:-webkit-autofill:focus {
 }
 
 // header
+
 header {
-  margin: 0 auto;
-  display: flex;
-  width: 100%;
-  align-items: center;
-  padding-top: 20px;
-  padding-left: 80px;
-  padding-right: 80px;
 
   .dropdown {
     display: none;
@@ -161,7 +155,7 @@ header {
     position: relative;
 
     a {
-      display: block;
+      display: flex;
       margin-right: 30px;
       color: @color-basic-900;
       &:hover {
@@ -195,6 +189,7 @@ header {
       height: 11px;
       position: absolute;
       z-index: 11;
+      bottom: -7px;
     }
 
     &:hover {
