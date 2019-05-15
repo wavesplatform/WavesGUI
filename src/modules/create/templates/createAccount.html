@@ -17,14 +17,6 @@
                 <span w-i18n="createAccount.from"></span>
             </div>
 
-            <hr>
-        </div>
-
-        <div class="body-2">
-            <span w-i18n="createAccount.choose"></span>
-        </div>
-        <div class="footnote-1 disabled-500">
-            <span w-i18n="createAccount.avatarUnique"></span>
         </div>
 
         <div class="avatars-list">
@@ -32,7 +24,7 @@
                  ng-repeat="seed in $ctrl.seedList track by seed.address"
                  ng-class="{active: seed.active}"
                  ng-click="$ctrl.setActiveSeed(seed)">
-                <w-avatar size="50"
+                <w-avatar size="60"
                           address="seed.address"></w-avatar>
             </div>
         </div>
@@ -62,8 +54,21 @@
                 <span w-i18n="noBackupNoMoney.or"></span>
             </div>
             <div class="text-center body-2 flex-column-center-min margin-2">
-                <a ui-sref="import">
-                    <span w-i18n="createAccount.import"></span>
+
+                <a ui-sref="sign" class="create-account-button margin-1">
+                    <div class="create-button-content">
+                        <i class="create-button-icon icon-create-lock"></i>
+                        <div w-i18n="createAccount.signIn" class="create-button-title">Sign in</div>
+                        <div w-i18n="createAccount.signDescription" class="create-button-description">to a saved account</div>
+                    </div>
+                </a>
+
+                <a ui-sref="import" class="create-account-button">
+                    <div class="create-button-content">
+                        <i class="create-button-icon icon-create-paper"></i>
+                        <div w-i18n="createAccount.import" class="create-button-title">Import accounts</div>
+                        <div w-i18n="createAccount.importDescription" class="create-button-description">via Seed phrase, Ledger and Keeper</div>
+                    </div>
                 </a>
             </div>
         </div>
