@@ -1,10 +1,276 @@
-<w-info-tooltip ng-click="$ctrl.showTutorialModals()" class="important-information">
-    <span class="tooltip__content"
-          w-analytics event="'Onboarding SEED Icon Click'"
-          .event-target="'ui'"
-          w-i18n-ns="app.welcome"
-          w-i18n="infoTooltip"></span>
-</w-info-tooltip>
-<w-change-language></w-change-language>
-<ng-include w-i18n-ns="app.welcome" src="$ctrl.pageUrl"></ng-include>
-<w-loader ng-if="$ctrl.pendingRestore"></w-loader>
+<!--<w-info-tooltip ng-click="$ctrl.showTutorialModals()" class="important-information">-->
+    <!--<span class="tooltip__content"-->
+          <!--w-analytics event="'Onboarding SEED Icon Click'"-->
+          <!--.event-target="'ui'"-->
+          <!--w-i18n-ns="app.welcome"-->
+          <!--w-i18n="infoTooltip"></span>-->
+<!--</w-info-tooltip>-->
+<!--<w-change-language></w-change-language>-->
+<!--<ng-include w-i18n-ns="app.welcome" src="$ctrl.pageUrl"></ng-include>-->
+<!--w-loader ng-if="$ctrl.pendingRestore"></w-loader-->
+<div w-i18n-ns="app.landing" class="wrapper">
+
+    <w-site-header></w-site-header>
+
+    <section class="section-welcome">
+        <div class="left-side">
+            <h1 class="margin-2 headline-0 welcome-text">Trade on the Waves Decentralised Exchange</h1>
+            <div class="basic-500 body-1 margin-5">
+                Trade quickly and securely. You retain complete control over your funds when trading them on our
+                decentralised
+                exchange.
+            </div>
+            <div class="buttons-wrapper buttons-wrapper-nowidth">
+                <a class="fake-button get-started-btn" href="#">
+                        <span class="fake-button-content big submit ">
+                          Get Started
+                          <i class="icon-arrow-right"></i>
+                        </span>
+                </a>
+                <a href="#" class="fake-button">
+                    <span class="fake-button-content big submit-light">Sign In</span>
+                </a>
+            </div>
+        </div>
+        <div class="dex-screenshot"></div>
+    </section>
+
+    <section class="section-slider">
+
+        <div class="slider">
+
+            <!-- TODO @maxAksenov insert carousel component -->
+
+            <w-carousel interval="2000">
+                <h1>asldiasd</h1>
+                <h1>asdijasod</h1>
+            </w-carousel>
+            <!--<w-carousel-dots class="square"></w-carousel-dots>-->
+
+            <div class="slide">
+                <div class="margin-1 body-2 flex">
+                    <div class="basic-700 grow">BTC/WAVES</div>
+                    <div class="red">-0.42%</div>
+                </div>
+                <div class="flex">
+                    <div class="grow">
+                        <h2 class="basic-900">0.00000001</h2>
+                        <div class="basic-500 footnote-1">Volume: 42 932.421</div>
+                    </div>
+                    <div class="graph"></div>  <!-- TODO add canvas graph -->
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="margin-1 body-2 flex">
+                    <div class="basic-700 grow">BTC/WAVES</div>
+                    <div class="blue">+0.42%</div>
+                </div>
+                <div class="flex">
+                    <div class="grow">
+                        <h2 class="basic-900">0.00000001</h2>
+                        <div class="basic-500 footnote-1">Volume: 42 932.421</div>
+                    </div>
+                    <div class="graph"></div>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="margin-1 body-2 flex">
+                    <div class="basic-700 grow">BTC/WAVES</div>
+                    <div class="red">-0.42%</div>
+                </div>
+                <div class="flex">
+                    <div class="grow">
+                        <h2 class="basic-900">0.00000001</h2>
+                        <div class="basic-500 footnote-1">Volume: 42 932.421</div>
+                    </div>
+                    <div class="graph"></div>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="margin-1 body-2 flex">
+                    <div class="basic-700 grow">BTC/WAVES</div>
+                    <div class="blue">+0.42%</div>
+                </div>
+                <div class="flex">
+                    <div class="grow">
+                        <h2 class="basic-900">0.00000001</h2>
+                        <div class="basic-500 footnote-1">Volume: 42 932.421</div>
+                    </div>
+                    <div class="graph"></div>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="margin-1 body-2 flex">
+                    <div class="basic-700 grow">BTC/WAVES</div>
+                    <div class="red">-0.42%</div>
+                </div>
+                <div class="flex">
+                    <div class="grow">
+                        <h2 class="basic-900">0.00000001</h2>
+                        <div class="basic-500 footnote-1">Volume: 42 932.421</div>
+                    </div>
+                    <div class="graph"></div>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="margin-1 body-2 flex">
+                    <div class="basic-700 grow">BTC/WAVES</div>
+                    <div class="blue">+0.42%</div>
+                </div>
+                <div class="flex">
+                    <div class="grow">
+                        <h2 class="basic-900">0.00000001</h2>
+                        <div class="basic-500 footnote-1">Volume: 42 932.421</div>
+                    </div>
+                    <div class="graph"></div>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="margin-1 body-2 flex">
+                    <div class="basic-700 grow">BTC/WAVES</div>
+                    <div class="red">-0.42%</div>
+                </div>
+                <div class="flex">
+                    <div class="grow">
+                        <h2 class="basic-900">0.00000001</h2>
+                        <div class="basic-500 footnote-1">Volume: 42 932.421</div>
+                    </div>
+                    <div class="graph"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section-markets">
+        <div class="content-wrapper">
+
+            <h2 class="margin-1">Markets</h2>
+            <div class="basic-500 body-2">Lorem Ipsum is not simply random text.
+                It has roots in a piece of classical Latin literature
+            </div>
+
+            <div class="table-markets margin-top-3 margin-3">
+                <div class="row row-header">
+                    <div class="cell pair">PAIR</div>
+                    <div class="cell last-price">LAST PRICE</div>
+                    <div class="cell change">CHANGE</div>
+                    <div class="cell height24">24 HIGHT</div>
+                    <div class="cell low24">24 LOW</div>
+                    <div class="cell volume">VOLUME</div>
+                    <div class="cell graph"></div>
+                </div>
+
+                <div class="row row-content blue"> <!-- add specific class here - red or blue -->
+                    <div class="cell pair">BTC/WAV</div>
+                    <div class="cell last-price">0.03<span class="basic-500"> / $1.16</span></div>
+                    <div class="cell change">+0.94%</div>
+                    <div class="cell height24">0.00050679</div>
+                    <div class="cell low24" d>0.000622</div>
+                    <div class="cell volume">45.2</div>
+                    <div class="cell graph"></div>
+                </div>
+
+                <div class="row row-content red">
+                    <div class="cell pair">BTC/WAVES</div>
+                    <div class="cell last-price">0.00050673<span class="basic-500"> / $176.16</span></div>
+                    <div class="cell change">-0.94%</div>
+                    <div class="cell height24">0.00050679</div>
+                    <div class="cell low24" d>0.00050622</div>
+                    <div class="cell volume">45 380.782</div>
+                    <div class="cell graph"></div>
+                </div>
+            </div>
+
+            <div class="center body-2 basic-500">
+                <span>Click <a href="">Show all</a> to view the full list of markets</span>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section-promo body-2">
+        <div class="section-promo-card">
+            <div class="icon icon-schield margin-2"></div>
+            <h2 class="margin-1">Secture Trading</h2>
+            <div class="basic-500">Funds are stored in the wallet, not on the exchange. All traffic and private keys are
+                encrypted and stored only
+                on device.
+            </div>
+        </div>
+        <div class="section-promo-card">
+            <div class="icon icon-dex margin-2"></div>
+            <h2 class="margin-1">Decentralized</h2>
+            <div class="basic-500">No third parties and no withdrawal limits — you are in full control of your finances
+                and
+                decision-making.
+            </div>
+        </div>
+        <div class="section-promo-card">
+            <div class="icon icon-wallet margin-2"></div>
+            <h2 class="margin-1">Low, fixed fees</h2>
+            <div class="basic-500">Insanely low fees less then $0.01 (0.003 WAVES) per order.</div>
+        </div>
+    </section>
+
+    <footer>
+        <section>
+
+            <div class="footer-left">
+                <a class="logo logo-white" href="/"></a>
+                <div class="margin-05">Brought to you by Waves Team.</div>
+                <div class="margin-1">&copy; 2019 Waves Platform</div>
+                <a href="mailto:support@wavesplatform.com">support@wavesplatform.com</a>
+
+                <!--<w-change-language></w-change-language>-->
+
+                <!--<w-select  ng-model="$ctrl.lang" class="language-switcher margin-top-2">-->
+                <!--<w-option class="flag flag-eng" value="English">English</w-option>-->
+                <!--<w-option value="Russian"><i class="flag flag-eng"></i>Russian</w-option>-->
+                <!--</w-select>-->
+            </div>
+
+            <div class="links">
+                <div>
+                    <div class="footer-title basic-700">Products & tools</div>
+                    <a href="https://wavesplatform.com/products-wallet">Waves Wallet</a>
+                    <a href="https://wavesplatform.com/products-keeper">Waves Keeper</a>
+                    <a href="https://wavesplatform.com/products-blockchain">Waves Blockchain</a>
+                    <a href="https://ide.wavesplatform.com">Waves IDE</a>
+                    <a href="http://wavesexplorer.com">Waves Explorer</a>
+                </div>
+
+                <div>
+                    <div class="footer-title basic-700">For developers</div>
+                    <a href="https://github.com/wavesplatform">GitHub</a>
+                    <a href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html">API</a>
+                    <a href="">Stack Overflow</a>
+                    <a href="https://docs.wavesplatform.com">Documentation</a>
+                    <a href="http://waveslabs.com">Waves Labs</a>
+                </div>
+
+                <div>
+                    <div class="footer-title basic-700">Legal</div>
+                    <a href="">Privacy Policy</a>
+                    <a href="">Terms of use</a>
+                    <a href="">Cookies</a>
+                    <a href="">GDPR</a>
+                </div>
+
+                <div>
+                    <div class="footer-title basic-700">GDPR</div>
+                    <a href="">Blog</a>
+                    <a href="">Twitter</a>
+                    <a href="">Telegram</a>
+                    <a href="">Forum</a>
+                </div>
+            </div>
+        </section>
+    </footer>
+</div>
