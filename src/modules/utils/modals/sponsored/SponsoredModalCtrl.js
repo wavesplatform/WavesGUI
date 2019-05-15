@@ -68,7 +68,7 @@
                 this.isCreateSponsored = isCreateSponsored;
 
                 const { isVerified, isGateway,
-                    isTokenomica, ticker, description } = utils.getDataFromOracles(this.balance.asset.id);
+                    isTokenomica, ticker, description } = utils.getDataFromOracles(asset.id);
                 this.isVerified = isVerified;
                 this.isGateway = isGateway;
                 this.isTokenomica = isTokenomica;
