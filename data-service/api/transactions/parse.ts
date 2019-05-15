@@ -264,8 +264,16 @@ export function parseExchangeOrder(factory: IFactory, order: txApi.IExchangeOrde
 
 export function parseDataTx(tx: txApi.IData, assetsHash: IHash<Asset>, isUTX: boolean): IData {
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
-    const stringifiedData = JSON.stringify(tx.data, null, 4);
-    return { ...tx, stringifiedData, fee, isUTX };
+    const data = tx.data.map((dataItem) => {
+        if (dataItem.type === 'integer') {
+            return { ...dataItem, value: new BigNumber(dataItem.value) };
+        } else {
+            return dataItem;
+        }
+    });
+    const txWithBigNumber = { ...tx, data };
+    const stringifiedData = JSON.stringify(txWithBigNumber.data, null, 4);
+    return { ...txWithBigNumber, stringifiedData, fee, isUTX };
 }
 
 export function parseInvocationTx(tx: txApi.IScriptInvocation, assetsHash: IHash<Asset>, isUTX: boolean): IScriptInvocation {
