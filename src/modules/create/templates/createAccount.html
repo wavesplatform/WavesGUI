@@ -6,7 +6,7 @@
                 <span w-i18n="createAccount.createNewAccount"></span>
             </div>
 
-            <div class="body-2 disabled-600">
+            <div class="body-2 margin-top-2 disabled-600">
                 <span w-i18n="createAccount.from"></span>
             </div>
 
@@ -25,14 +25,14 @@
         <div class="body-2 basic-900" w-i18n="createAccount.address"></div>
         <div class="input-like margin-2">{{$ctrl.address}}</div>
 
-        <div class="margin-3 flex">
+        <div class="margin-2 flex">
             <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
             <label for="save-user-data" class="footnote-1 basic-500">
                 <span w-i18n="createAccount.saveUserData"></span>
             </label>
         </div>
 
-        <div class="margin-3">
+        <div class="margin-2">
             <w-button
                 on-click="$ctrl.next($ctrl.stepIndex + $ctrl.saveUserData ? 1 : 2)"
                 class="submit long big">
