@@ -4,6 +4,7 @@
 w-site-header {
   header {
     padding: 9px 20px;
+    background: @color-white;
 
     .header-wrapper {
       margin: 0 auto;
@@ -134,6 +135,42 @@ w-site-header {
       display: block;
     }
 
+  }
+
+  .logo {
+    width: 152px;
+    height: 32px;
+    display: block;
+    background: url(/img/dex/wavesdex-black-32.svg) center no-repeat;
+
+    &-white {
+      background: url(/img/dex/wavesdex-invert-32.svg) center no-repeat;
+    }
+  }
+
+  .icon {
+    display: block;
+
+    &-win {
+      width: 24px;
+      height: 24px;
+      display: block;
+      background: url(/img/dex/windows.svg) center no-repeat;
+    }
+
+    &-mac {
+      width: 24px;
+      height: 24px;
+      display: block;
+      background: url(/img/dex/apple.svg) center no-repeat;
+    }
+
+    &-linux {
+      width: 24px;
+      height: 24px;
+      display: block;
+      background: url(/img/dex/linux.svg) center no-repeat;
+    }
   }
 }
 
