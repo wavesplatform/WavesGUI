@@ -248,10 +248,14 @@
              * @param {WatchList.IPairDataItem} pairData
              */
             choosePair(pairData) {
+                const isLocked = configService.get('SETTINGS.DEX.LOCKED_PAIRS') || [];
                 const pair = {
                     amount: pairData.amountAsset.id,
                     price: pairData.priceAsset.id
                 };
+                if (isLocked.indexOf(pair.amount) !== -1 || isLocked.indexOf(pair.price) !== -1) {
+                    return null;
+                }
                 this._isSelfSetPair = true;
                 this._assetIdPair = pair;
                 this._isSelfSetPair = false;
@@ -372,7 +376,9 @@
                         this.loadingError = false;
                         return pairs.map(WatchList._addRateForPair(rate));
                     })
-                    .catch(() => (this.loadingError = true));
+                    .catch(() => {
+                        this.loadingError = true;
+                    });
             }
 
             /**

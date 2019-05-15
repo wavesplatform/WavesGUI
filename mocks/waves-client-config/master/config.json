@@ -54,8 +54,11 @@
         "FvKx3cerSVYGfXKFvUgp7koNuTAcLs8DmtmwRrFVCqJv",
         "3P8gkhcLhFQvBkDzMnWeqqwvq3qxkpTNQPs4LUQ95tKD",
         "8oPbSCKFHkXBy1hCGSg9pJkSARE7zhTQTLpc8KZwdtr7"
+      ],
+      "LOCKED_PAIRS": [
+        "7FzrHF1pueRFrPEupz6oiVGTUZqe8epvC7ggWUx8n1bd"
       ]
     }
   },
-  "SERVICE_TEMPORARILY_UNAVAILABLE": true
+  "SERVICE_TEMPORARILY_UNAVAILABLE": false
 }
