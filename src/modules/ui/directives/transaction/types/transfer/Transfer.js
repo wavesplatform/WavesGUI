@@ -2,29 +2,33 @@
     'use strict';
 
     /**
+     * @param {typeof Base} Base
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
      * @param {Waves} waves
      * @param {$rootScope.Scope} $scope
+     * @param {app.utils} utils
      * @return {Transfer}
      */
 
-    const controller = function (user, baseAssetService, waves, $scope) {
+    const controller = function (Base, user, baseAssetService, waves, $scope, utils) {
 
-        class Transfer {
+        class Transfer extends Base {
 
             /**
-             * {object}
+             * @type object
              */
-            props = null;
+            props = Object.create(null);
 
             $postLink() {
                 this.typeName = this.props.typeName;
                 this.time = this.props.time;
                 this.address = this.props.shownAddress;
-                setTimeout(() => {
+
+                this.receive(utils.observe(this.props, 'isScam'), () => {
                     this.isScam = this.props.isScam;
-                }, 0);
+                    utils.safeApply($scope);
+                });
 
                 const TYPES = waves.node.transactions.TYPES;
 
@@ -82,10 +86,12 @@
     };
 
     controller.$inject = [
+        'Base',
         'user',
         'baseAssetService',
         'waves',
-        '$scope'
+        '$scope',
+        'utils'
     ];
 
     angular.module('app.ui').component('wTransferRow', {
