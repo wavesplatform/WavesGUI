@@ -117,17 +117,6 @@ ui-view[name="main"] {
   flex-direction: column;
 }
 
-.logo {
-  width: 152px;
-  height: 32px;
-  display: block;
-  background: url(/img/landing/wavesdex-black-32.svg) center no-repeat;
-
-  &-white {
-    background: url(/img/landing/wavesdex-invert-32.svg) center no-repeat;
-  }
-}
-
 .waves-logo {
   max-width: 1440px;
   width: 100px;
@@ -136,60 +125,6 @@ ui-view[name="main"] {
   background-repeat: no-repeat;
   display: block;
   margin: 40px auto 80px auto;
-}
-
-// header
-header {
-  margin: 0 auto;
-  display: flex;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-
-  .icon {
-    background-image: @empty-icon;
-    background-repeat: no-repeat;
-    background-position: center center;
-    width: 100px;
-    height: 100px;
-    margin: 0 auto 10px auto;
-  }
-}
-
-w-error-block {
-  .icon {
-    background-image: @error-icon;
-  }
-}
-
-.ghost {
-  opacity: 0 !important;
-}
-
-.link {
-  .footnote-1();
-  color: @color-submit-300;
-  cursor: pointer;
-}
-
-.center {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-}
-
-.relative {
-  position: relative;
-}
-
-.absolute {
-  position: absolute;
 }
 
 w-scroll-box {
