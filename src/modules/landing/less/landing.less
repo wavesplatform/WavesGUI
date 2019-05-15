@@ -1,8 +1,18 @@
 @import (reference) 'config';
 
+@keyframes header-animation {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translate(-50%, 82px);
+  }
+}
+
 body.landing {
   width: 100%;
   font-family: 'Roboto', 'Tahoma', 'Arial';
+  font-size: 15px;
   margin: 0 auto;
   font-weight: normal;
   color: @color-basic-900;
@@ -11,6 +21,7 @@ body.landing {
   .wrapper {
     background: @color-white;
     position: relative;
+    padding-top:62px;
   }
 
   a {
@@ -35,130 +46,39 @@ body.landing {
   }
 
   header {
-    box-shadow: none;
-    padding-top: 20px;
-    padding-bottom: 0;
-  //  max-width: 1440px;
-  }
 
-  //header,
-  footer {
-    display: flex;
     width: 100%;
-    align-items: center;
-    padding-top: 20px;
-  }
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    height: 82px;
+    display: block;
+    z-index: 11;
+    background: @color-white;
 
-  //header {
-  //  margin: 0 auto;
-  //
-  //  .dropdown {
-  //    display: none;
-  //    padding: 10px 0;
-  //    box-shadow: 0 2px 44px 0 rgba(31, 39, 61, 0.15);
-  //    background: @color-white;
-  //    border-radius: 8px;
-  //    position: absolute;
-  //    top: 36px;
-  //    left: 0;
-  //    transform: translateX(calc(50% + 25px));
-  //    z-index: 10;
-  //
-  //    &:hover {
-  //      display: block;
-  //    }
-  //
-  //    &-icon {
-  //      margin-right: 15px;
-  //    }
-  //
-  //    a {
-  //      display: flex;
-  //      align-items: center;
-  //      padding: 18px 0;
-  //      margin: 0 20px;
-  //      font-size: 15px;
-  //
-  //      &:first-child {
-  //        padding: 10px 0 18px;
-  //      }
-  //
-  //      &:last-child {
-  //        padding: 18px 0 10px;
-  //      }
-  //
-  //      &:hover {
-  //        color: @color-submit-400;
-  //      }
-  //
-  //      &:not(:last-child) {
-  //        border-bottom: 1px solid @color-info-50;
-  //      }
-  //
-  //      span.description {
-  //        color: @color-basic-500;
-  //        font-size: 13px;
-  //        font-weight: 300;
-  //      }
-  //    }
-  //  }
-  //
-  //  nav.top-menu {
-  //    height: 32px;
-  //    display: flex;
-  //    align-items: center;
-  //    margin-left: 50px;
-  //    flex-grow: 1;
-  //    position: relative;
-  //
-  //    a {
-  //      display: block;
-  //      margin-right: 30px;
-  //      color: @color-basic-900;
-  //      &:hover {
-  //        color: @color-submit-400;
-  //      }
-  //    }
-  //  }
-  //
-  //  .center {
-  //    margin: 0 auto;
-  //    text-align: center;
-  //  }
-  //
-  //  .width {
-  //    width: 100%;
-  //  }
-  //
-  //  .height {
-  //    height: 100%;
-  //    display: block;
-  //  }
-  //
-  //  .dropdown-btn {
-  //    padding-right: 17px;
-  //    background: url(/img/landing/arrow-down.svg) right center no-repeat;
-  //
-  //    &::after {
-  //      content: '';
-  //      display: none;
-  //      width: 91px;
-  //      height: 11px;
-  //      position: absolute;
-  //      z-index: 11;
-  //    }
-  //
-  //    &:hover {
-  //      background: url(/img/landing/arrow-down-blue.svg) right center no-repeat;
-  //      & + .dropdown {
-  //        display: block;
-  //      }
-  //      &::after {
-  //        display: block;
-  //      }
-  //    }
-  //  }
-  //}
+
+
+
+    .header-wrapper {
+      margin: 0 auto;
+      display: flex;
+      width: 100%;
+      align-items: center;
+      padding: 20px 80px;
+      max-width: 1440px;
+      background: @color-white;
+      z-index: 111;
+    }
+
+    &.fixed-header {
+      top: -82px;
+      position: fixed;
+      box-shadow: 0 0 10px 0 #000;
+
+      animation: header-animation 4s ease;
+    }
+  }
 
   .get-started-btn {
     margin-right: 15px;
@@ -202,15 +122,18 @@ body.landing {
     background: @color-basic-900;
     color: @color-basic-600;
     padding: 60px 0;
+    display: flex;
+    width: 100%;
+    align-items: center;
 
     section {
       display: flex;
       align-items: flex-start;
-      padding: 0;
+      font-size: 15px;
 
       .links {
         display: flex;
-        WIDTH: 100%;
+        width: calc(100% ~'- 250px');
         padding-left: 150px;
         & > div {
           flex-basis: 25%;
@@ -228,15 +151,25 @@ body.landing {
       margin-bottom: 14px;
       display: block;
       color: @color-basic-600;
-      font-size: 15px;
     }
 
     .footer-left {
-      flex-grow: 1;
+      width: 250px;
     }
 
     .logo {
       margin-top: -8px;
+    }
+  }
+
+  .logo {
+    width: 152px;
+    height: 32px;
+    display: block;
+    background: url(/img/landing/wavesdex-black-32.svg) center no-repeat;
+
+    &-white {
+      background: url(/img/landing/wavesdex-invert-32.svg) center no-repeat;
     }
   }
 
@@ -299,7 +232,9 @@ body.landing {
 
       .graph {
         width: 110px;
+        height: 36px;
         padding-left: 10px;
+        background: pink;
       }
 
       .change {
@@ -328,14 +263,21 @@ body.landing {
           }
         }
 
-        &:not(:last-child)::after {
-          content: '';
-          display: block;
-          bottom: 0;
-          position: absolute;
-          width: calc(100% ~'- 80px');
-          height: 1px;
-          background: @color-info-50;
+        &-content {
+          .pair {
+            font-weight: 600;
+            font-family: 'Roboto-regular';
+          }
+
+          &:not(:last-child)::after {
+            content: '';
+            display: block;
+            bottom: 0;
+            position: absolute;
+            width: calc(100% ~'- 80px');
+            height: 1px;
+            background: @color-info-50;
+          }
         }
 
         &-header {
@@ -390,10 +332,11 @@ body.landing {
     &-markets {
       background: @color-basic-50;
       max-width: 100%;
-      padding-bottom: 60px;
+      padding: 0;
       .content-wrapper {
         max-width: 1440px;
         margin: 0 auto;
+        padding: 0 80px 60px;
         h2 {
           margin: 0;
         }
@@ -419,6 +362,12 @@ body.landing {
         background: @color-white;
         padding: 30px;
         margin: 0 15px;
+
+        .graph {
+          width: 100px;
+          height: 46px;
+          background: pink;
+        }
 
         .red {
           color: @color-error-500;
@@ -475,12 +424,41 @@ body.landing {
   }
 }
 
-@media screen and (max-width: 1320px) {
+@media screen and (max-width: 1340px) {
   body.landing {
+    section,
+    footer,
+    header,
+    .section-markets .content-wrapper {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+
+    footer section {
+      padding: 0;
+    }
+
     .section-welcome {
       .dex-screenshot {
-        left: 540px;
-        max-width: calc(100% ~'- 540px');
+        left: 580px;
+        max-width: calc(100% ~'- 580px');
+      }
+
+      .welcome-text {
+        font-size: 40px;
+        line-height: 1.2;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1174px) {
+  body.landing {
+    footer {
+      section {
+        .links {
+          padding-left: 0;
+        }
       }
     }
   }
@@ -488,14 +466,27 @@ body.landing {
 
 @media screen and (max-width: 1024px) {
   body.landing {
-    .section-welcome {
-      .welcome-text {
-        font-size: 40px;
-        line-height: 1.2;
-      }
 
+    .section-promo-card {
+      padding: 56px 15px 66px;
+    }
+
+    .links {
+      padding-left: 30px;
+    }
+
+    .section-welcome {
       .left-side {
         max-width: 480px;
+      }
+    }
+
+    footer {
+      section {
+        padding: 0;
+        .links > div {
+          margin-left: 20px;
+        }
       }
     }
   }
@@ -518,15 +509,55 @@ body.landing {
 
 @media screen and (max-width: 860px) {
   body.landing {
-    //header {
-    //  .top-menu:not(.top-menu-mobile),
-    //  .buttons-wrapper {
-    //    display: none;
-    //  }
-    //}
+    font-size: 13px;
 
     .table-markets {
+      .row {
+        padding: 15px 86px 15px 15px;
+        flex-wrap: wrap;
 
+        &-header {
+          display: none;
+        }
+
+        .cell {
+          flex-basis: 50%;
+          width: 50%;
+          max-width: 50%;
+          font-size: 13px;
+          padding: 0;
+        }
+
+        .graph {
+          width: 50px;
+          height: 35px;
+          position: absolute;
+          right: 15px;
+        }
+
+        .volume {
+          order: 2;
+          color: @color-basic-500;
+        }
+
+        .last-price {
+          order: 1;
+          text-align: right;
+          span {
+            display: none;
+          }
+        }
+
+        .change {
+          order: 3;
+          text-align: right;
+        }
+
+        .height24,
+        .low24 {
+          display: none;
+        }
+      }
     }
 
     .section-welcome {
@@ -563,26 +594,47 @@ body.landing {
 
     .section-promo {
       flex-direction: column;
+      padding: 25px 0;
       &-card {
-        padding: 30px;
+        padding: 15px 20px;
         width: 100%;
       }
     }
 
     footer {
+      padding: 40px 40px 0;
       section {
+        font-size: 13px;
         flex-direction: column;
+
+        .footer-title {
+          margin-bottom: 20px;
+          font-size: 11px;
+        }
 
         .links {
           padding: 0;
           flex-wrap: wrap;
+          width: 100%;
 
           & > div {
             flex-basis: 50%;
-            margin-bottom: 30px;
+            margin: 30px 0 30px;
           }
         }
       }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  body.landing {
+    section,
+    footer,
+    header,
+    .section-markets .content-wrapper {
+      padding-left: 20px;
+      padding-right: 20px;
     }
   }
 }
