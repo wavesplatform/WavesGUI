@@ -23,7 +23,11 @@
         </div>
 
         <div class="body-2 basic-900" w-i18n="createAccount.address"></div>
-        <div class="input-like margin-2">{{$ctrl.address}}</div>
+
+        <w-copy-wrap class="body-1 mobile-low-fsize margin-2"
+             info="$ctrl.address">{{$ctrl.address}}
+            <w-loader ng-if="!$ctrl.address"></w-loader>
+        </w-copy-wrap>
 
         <div class="margin-2 flex">
             <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>

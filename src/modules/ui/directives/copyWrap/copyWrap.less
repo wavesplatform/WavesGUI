@@ -16,7 +16,7 @@ w-copy-wrap {
     display: flex;
     align-items: center;
     padding: 0 17px;
-    overflow: hidden;
+    overflow-x: auto;
     white-space: nowrap;
     width: 100%;
     max-width: calc(100% ~'- 45px');
@@ -24,7 +24,7 @@ w-copy-wrap {
 
   &.overflow {
     .container {
-      overflow: auto;
+      overflow-x: auto;
     }
   }
 
@@ -47,9 +47,9 @@ w-copy-wrap {
     height: @height-control-big-responsive;
     font-size: @font-size-control-big-responsive;
 
-    .container {
-      line-height: @height-control-big-responsive;
-    }
+    //.container {
+    //  line-height: @height-control-big-responsive;
+    //}
 
     .copy-icon {
       height: @height-control-big-responsive;
