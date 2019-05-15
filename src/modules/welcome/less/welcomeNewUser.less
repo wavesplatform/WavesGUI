@@ -1,4 +1,6 @@
 @import (reference) 'config';
+@import (reference) 'icons'; // TODO uIsk - move all icons to icons config
+@import (reference) '../../app/less/typography';
 
 @keyframes header-animation {
   from {
@@ -9,7 +11,7 @@
   }
 }
 
-body.landing {
+body.welcome {
   width: 100%;
   font-family: 'Roboto', 'Tahoma', 'Arial';
   font-size: 15px;
@@ -71,7 +73,6 @@ body.landing {
       top: -82px;
       position: fixed;
       box-shadow: 0 0 10px 0 #000;
-
       animation: header-animation 4s ease;
     }
   }
@@ -158,6 +159,17 @@ body.landing {
     }
   }
 
+  .logo {
+    width: 152px;
+    height: 32px;
+    display: block;
+    background: url(/img/landing/wavesdex-black-32.svg) center no-repeat;
+
+    &-white {
+      background: url(/img/landing/wavesdex-invert-32.svg) center no-repeat;
+    }
+  }
+
   .flex {
     display: flex;
     align-items: center;
@@ -167,11 +179,34 @@ body.landing {
   /* ICONS */
 
   .icon {
+    display: block;
+
     &-arrow-right {
       width: 24px;
       height: 24px;
       display: block;
       background: url(/img/landing/arrow-white-right.svg) center no-repeat;
+    }
+
+    &-win {
+      width: 24px;
+      height: 24px;
+      display: block;
+      background: url(/img/landing/windows.svg) center no-repeat;
+    }
+
+    &-mac {
+      width: 24px;
+      height: 24px;
+      display: block;
+      background: url(/img/landing/apple.svg) center no-repeat;
+    }
+
+    &-linux {
+      width: 24px;
+      height: 24px;
+      display: block;
+      background: url(/img/landing/linux.svg) center no-repeat;
     }
 
     &-schield {
@@ -383,7 +418,7 @@ body.landing {
 }
 
 @media screen and (max-width: 1440px) {
-  body.landing {
+  body.welcome {
     section,
     footer {
       padding-left: 40px;
@@ -410,7 +445,7 @@ body.landing {
 }
 
 @media screen and (max-width: 1340px) {
-  body.landing {
+  body.welcome {
     section,
     footer,
     header,
@@ -438,7 +473,7 @@ body.landing {
 }
 
 @media screen and (max-width: 1174px) {
-  body.landing {
+  body.welcome {
     footer {
       section {
         .links {
@@ -450,7 +485,7 @@ body.landing {
 }
 
 @media screen and (max-width: 1024px) {
-  body.landing {
+  body.welcome {
 
     .section-promo-card {
       padding: 56px 15px 66px;
@@ -478,7 +513,7 @@ body.landing {
 }
 
 @media screen and (max-width: 1023px) and (min-width: 861px) {
-  body.landing {
+  body.welcome {
     .section-welcome {
       .left-side {
         max-width: 45%;
@@ -493,7 +528,7 @@ body.landing {
 }
 
 @media screen and (max-width: 860px) {
-  body.landing {
+  body.welcome {
     font-size: 13px;
 
     .table-markets {
@@ -613,7 +648,7 @@ body.landing {
 }
 
 @media screen and (max-width: 480px) {
-  body.landing {
+  body.welcome {
     section,
     footer,
     header,
