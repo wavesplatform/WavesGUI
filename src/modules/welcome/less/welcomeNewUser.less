@@ -1,5 +1,6 @@
 @import (reference) 'config';
 @import (reference) 'icons'; // TODO uIsk - move all icons to icons config
+@import (reference) '../../app/less/typography';
 
 @keyframes header-animation {
   from {
@@ -47,7 +48,6 @@ body.welcome {
   }
 
   header {
-
     width: 100%;
     position: absolute;
     left: 50%;
@@ -57,9 +57,6 @@ body.welcome {
     display: block;
     z-index: 11;
     background: @color-white;
-
-
-
 
     .header-wrapper {
       margin: 0 auto;
@@ -76,7 +73,6 @@ body.welcome {
       top: -82px;
       position: fixed;
       box-shadow: 0 0 10px 0 #000;
-
       animation: header-animation 4s ease;
     }
   }

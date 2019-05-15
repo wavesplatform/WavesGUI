@@ -27,6 +27,7 @@
                 return this.user.encryptedSeed;
             }
 
+
             /**
              * @type {boolean}
              */
@@ -191,7 +192,7 @@
              */
             _updatePageUrl() {
                 if (this.userList.length) {
-                    this.pageUrl = `${PATH}/userList.html`;
+                    this.pageUrl = `${PATH}/welcomeHasUsers.html`;
                 } else {
                     this.pageUrl = `${PATH}/welcomeNewUser.html`;
                 }
