@@ -6,9 +6,42 @@ w-site-header {
     padding: 9px 20px;
 
     .header-wrapper {
+      margin: 0 auto;
       display: flex;
+      width: 100%;
       justify-content: space-between;
       align-items: center;
+      max-width: 1440px;
+      background: @color-white;
+      z-index: 111;
+    }
+
+    .dropdown-toggler {
+      &::after {
+        content: '';
+        display: none;
+        width: 84px;
+        height: 13px;
+        position: absolute;
+        z-index: 11;
+        bottom: -7px;
+      }
+
+      &:hover {
+        &::after {
+          display: block;
+        }
+        .dropdown {
+          display: block;
+        }
+      }
+
+
+      &::after {
+        .dropdown {
+          display: block;
+        }
+      }
     }
 
     .dropdown {
@@ -19,12 +52,18 @@ w-site-header {
       border-radius: 8px;
       position: absolute;
       top: 36px;
-      left: 0;
-      transform: translateX(calc(50% + 25px));
+      left: 50%;
+      transform: translateX(calc(-50%));
       z-index: 10;
+      min-width: 280px;
 
-      &:hover {
-        display: block;
+      &-btn {
+        padding-right: 17px;
+        background: url(/img/landing/arrow-down.svg) right center no-repeat;
+
+        &:hover {
+          background: url(/img/landing/arrow-down-blue.svg) right center no-repeat;
+        }
       }
 
       &-icon {
@@ -32,6 +71,7 @@ w-site-header {
       }
 
       a {
+        color: @color-basic-900;
         display: flex;
         align-items: center;
         padding: 18px 0;
@@ -70,7 +110,7 @@ w-site-header {
       flex-grow: 1;
       position: relative;
 
-      a {
+      & > a {
         display: flex;
         margin-right: 30px;
         color: @color-basic-900;
@@ -94,30 +134,6 @@ w-site-header {
       display: block;
     }
 
-    .dropdown-btn {
-      padding-right: 17px;
-      background: url(/img/landing/arrow-down.svg) right center no-repeat;
-
-      &::after {
-        content: '';
-        display: none;
-        width: 84px;
-        height: 13px;
-        position: absolute;
-        z-index: 11;
-        bottom: -7px;
-      }
-
-      &:hover {
-        background: url(/img/landing/arrow-down-blue.svg) right center no-repeat;
-        & + .dropdown {
-          display: block;
-        }
-        &::after {
-          display: block;
-        }
-      }
-    }
   }
 }
 
