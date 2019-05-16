@@ -32,6 +32,10 @@ w-site-header {
   .dropdown-toggler {
     cursor: pointer;
     margin: 0;
+    height: 40px;
+    display: flex;
+    align-items: center;
+
     &::after {
       content: '';
       display: none;
@@ -59,9 +63,9 @@ w-site-header {
     background: @color-white;
     border-radius: 8px;
     position: absolute;
-    top: 36px;
+    top: 100%;
     left: 50%;
-    transform: translateX(calc(-50%));
+    transform: translate(-50%, 11px);
     z-index: 10;
     min-width: 280px;
 
@@ -125,8 +129,9 @@ w-site-header {
   .avatar-container {
     display: none;
     position: relative;
-    width: 40px;
-    height: 40px;
+    padding-right: 39px;
+    cursor: pointer;
+    background: url(/img/icons/arrow-down-avatar.svg) 52px center no-repeat;
 
     w-avatar[type='scripted'],
     w-avatar[type='ledger'],

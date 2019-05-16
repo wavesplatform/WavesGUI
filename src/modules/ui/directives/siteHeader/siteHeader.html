@@ -80,7 +80,7 @@
             <a class="link-tokens" href="/tokens">Create token</a>
         </nav>
 
-        <div class="avatar-container has-helper">
+        <div class="avatar-container dropdown-toggler has-helper">
             <w-analytics event="'Account Picture Click'" event-target="'ui'">
                 <w-avatar
                     type="{{$ctrl.userType}}"
@@ -103,6 +103,30 @@
                     <span w-i18n="leftmenu.scriptAccount"></span>
                 </div>
             </w-help-icon>
+
+            <div class="dropdown">
+
+                <div class="center">
+                    <w-avatar
+                        type="{{$ctrl.userType}}"
+                        ng-click="$ctrl.avatarClick()"
+                        size="40"
+                        address="$ctrl.address"></w-avatar>
+                    <div>User Name</div>
+                    <div>User Address</div>
+                </div>
+
+
+                <a href="#">TEST</a>
+                <a href="#">TEST</a>
+                <a href="#">TEST</a>
+
+
+            </div>
+
+
+
+
         </div>
     </div>
 </header>
