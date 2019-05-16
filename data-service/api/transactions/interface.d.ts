@@ -288,7 +288,7 @@ export interface IMassTransfer extends IBaseTransaction {
 export interface IData extends IBaseTransaction {
     type: TRANSACTION_TYPE_NUMBER.DATA;
     version?: number;
-    data: Array<TDataReturned>;
+    data: Array<TDataEntry>;
     stringifiedData: string;
     fee: Money;
 }
@@ -340,12 +340,11 @@ export interface ICall {
 }
 
 export type TDataEntry = TDataEntryInteger | TDataEntryBoolean | TDataEntryBinary | TDataEntryString;
-export type TDataReturned = TDataBigNumber | TDataEntryBoolean | TDataEntryBinary | TDataEntryString;
 
 export interface TDataEntryInteger {
     type: 'integer';
     key: string;
-    value: number;
+    value: number | BigNumber;
 }
 
 export interface TDataEntryBoolean {
@@ -364,12 +363,6 @@ export interface TDataEntryString {
     type: 'string';
     key: string;
     value: string;
-}
-
-export interface TDataBigNumber {
-    type: 'integer';
-    key: string;
-    value: BigNumber;
 }
 
 export type TCallArgs = TCallArgsInteger | TCallArgsBoolean | TCallArgsBinary | TCallArgsString;
