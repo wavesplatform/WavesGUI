@@ -101,6 +101,7 @@
         'app.utils',
         'app.ui',
         'app.welcome',
+        'app.signInDex',
         'app.create',
         'app.restore',
         'app.desktop',
