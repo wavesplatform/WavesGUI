@@ -7,37 +7,13 @@
   .content {
     overflow-x: hidden;
 
-    .btn-icon {
-      font-family: @font-roboto-regular;
-      svg {
-        transition: .3s;
-        fill: @color-basic-500;
-      }
-
-      &:hover {
-        svg {
-          fill: @color-basic-700;
-        }
-      }
-    }
-
-    .interface .btn-icon {
-      font-family: @font-roboto-medium;
-    }
-
-    .icon-receive {
-      svg {
-        transform: rotate(-180deg);
-      }
-    }
-
     .toolbar {
       margin: 0 0 10px 0;
       width: calc(~"100% + "@padding-main-layout / 2);
       position: relative;
       height: 42px;
       w-button:not(:last-child) {
-        margin-right: 5px;
+        margin-right: 10px;
       }
     }
 
@@ -279,7 +255,6 @@ i.toggler {
   }
 
   body {
-
     &.wallet.assets {
       .main-content .content {
         top: 0;
@@ -297,6 +272,7 @@ i.toggler {
   }
 }
 
+// TODO @uIsk
 @media screen and (max-width: 560px) {
   .main.wallet.assets {
     .content {
