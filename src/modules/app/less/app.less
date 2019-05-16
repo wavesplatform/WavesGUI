@@ -17,7 +17,7 @@ body {
   min-width: 360px;
   overflow: auto;
   color: @color-basic-900;
-  background-color: @color-white;
+  background-color: @app-background;
 }
 
 a {
@@ -112,7 +112,6 @@ ui-view[name="main"] {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: @color-white;
   display: flex;
   flex-direction: column;
 }
@@ -144,7 +143,7 @@ w-scroll-box {
 .main-content {
   position: relative;
   width: 100%;
-  height: 100%;
+  max-height: calc(100% ~'- 58px');
   min-height: 355px;
 
   .content {
@@ -156,33 +155,19 @@ w-scroll-box {
   }
 }
 
-.main {
-  .main-content {
-    background-color: @app-background;
 
-    .header,
-    .left-menu {
-      background-color: @color-white;
-      backdrop-filter: blur(10px);
+@media screen and (max-width: 1440px) {
+  .main-content {
+    .content {
+      padding: 0 30px;
     }
   }
 }
 
-@media screen and (max-width: 768px) {
-
+@media screen and (max-width: 860px) {
   .main-content {
     display: flex;
     flex-direction: column;
-
-    & > w-header {
-      order: 1;
-    }
-    & > w-left-menu {
-      order: 0;
-    }
-    & > div.content {
-      order: 2;
-    }
 
     .content {
       overflow: auto;
@@ -194,7 +179,7 @@ w-scroll-box {
       top: 0;
       bottom: auto;
       margin: 0;
-      padding: 10px;
+      padding: 10px 20px;
       margin-top: 60px;
     }
   }
