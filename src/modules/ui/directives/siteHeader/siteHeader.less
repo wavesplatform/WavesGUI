@@ -115,7 +115,7 @@ w-site-header {
         display: none;
       }
 
-      .dropdown-toggler,
+      .dropdown-toggler > a,
       & > a {
         display: flex;
         margin-right: 30px;
@@ -239,8 +239,45 @@ w-site-header {
   }
 }
 
-body.wallet,
+body.wallet {
+  w-site-header {
+    header {
+      nav.top-menu {
+        a.wallet-active {
+          color: @color-submit-400;
+        }
+      }
+    }
+  }
+}
+
 body.dex {
+  w-site-header {
+    header {
+      nav.top-menu {
+        a.dex-active {
+          color: @color-submit-400;
+        }
+      }
+    }
+  }
+}
+
+body.tokens {
+  w-site-header {
+    header {
+      nav.top-menu {
+        a.tokens-active {
+          color: @color-submit-400;
+        }
+      }
+    }
+  }
+}
+
+body.wallet,
+body.dex,
+body.tokens {
   w-site-header {
     header {
       .login-buttons {
