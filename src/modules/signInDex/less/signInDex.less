@@ -81,8 +81,8 @@ body.signInDex {
   }
 
   .user-list {
-    width: 460px;
     margin: auto;
+    padding: 0 20px;
 
     .avatar-container {
       width: 30px;
@@ -91,11 +91,6 @@ body.signInDex {
       w-avatar {
         position: absolute;
       }
-    }
-
-    .waves-logo {
-      margin: 40px auto 70px auto;
-      transform: translateX(6px);
     }
 
     w-input-container {
@@ -201,14 +196,8 @@ body.signInDex {
   }
 }
 
-@media screen and (max-width: 480px) {
-  .signInDex .user-list {
-    width: calc(100% ~'- 20px');
-    padding: 0 10px;
-
-    .center {
-      margin: 0px auto 50px auto;
-      width: 100%;
-    }
+@media screen and (min-width: 480px) {
+  .user-list {
+    width: 440px;
   }
 }
