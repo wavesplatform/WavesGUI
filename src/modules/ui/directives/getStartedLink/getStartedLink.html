@@ -1,4 +1,4 @@
-<div class="text-center">
+<div w-i18n-ns="app.create" class="text-center">
     <div class="or margin-2">
         <span w-i18n="noBackupNoMoney.or"></span>
     </div>
@@ -12,7 +12,7 @@
             </div>
         </a>
 
-        <a ng-if="!$ctrl.import" ui-sref="import" class="get-started-btnLink margin-1">
+        <a ui-sref="import" class="get-started-btnLink margin-1">
             <div class="get-started-btnLink-content">
                 <i class="get-started-btnLink-icon icon-dex-paper"></i>
                 <div w-i18n="createAccount.import" class="get-started-btnLink-title">Import accounts</div>
@@ -20,7 +20,7 @@
             </div>
         </a>
 
-        <a ng-if="!$ctrl.create" ui-sref="create" class="get-started-btnLink">
+        <a ui-sref="create" class="get-started-btnLink">
             <div class="get-started-btnLink-content">
                 <i class="get-started-btnLink-icon icon-dex-create"></i>
                 <div w-i18n="createAccount.create" class="get-started-btnLink-title">Create a new account</div>
