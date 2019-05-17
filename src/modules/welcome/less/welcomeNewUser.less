@@ -291,15 +291,21 @@ body.welcome {
         width: 100%;
       }
 
+      w-carousel {
+        display: block;
+        height: 141px;
+      }
+
       .slide {
         border-radius: @border-radius;
-        max-width: 350px;
-        min-width: 300px;
-        width: 100%;
+        width: 350px;
         background: @color-white;
         padding: 30px;
-        margin: 0 15px;
-
+        margin-right: 30px;
+        &.abs {
+          position: absolute;
+          left: 0;
+        }
         .graph {
           width: 100px;
           height: 46px;
