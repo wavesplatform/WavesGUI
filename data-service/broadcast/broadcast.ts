@@ -5,9 +5,9 @@ import { addOrderToStore, removeOrderFromStore } from '../store';
 import { stringifyJSON } from '../utils/utils';
 
 
-export function broadcast(data) {
+export function broadcast(data, url) {
     return request({
-        url: `${get('node')}/transactions/broadcast`,
+        url: url ? url : `${get('node')}/transactions/broadcast`,
         fetchOptions: {
             method: 'POST',
             headers: {
