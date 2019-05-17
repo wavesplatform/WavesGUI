@@ -3,13 +3,13 @@
 @import (reference) 'icons';
 
 .get-started {
-  &-btnLink {
+  &-btnLink { // .get-started-btnLink
     width: 100%;
     background: @color-white;
 
     &-content {
-      height: 54px;
-      padding: 8px 15px 8px 60px;
+      height: 42px;
+      padding: 0 15px 0 60px;
       display: flex;
       flex-direction: column;
       align-items: start;
@@ -27,10 +27,12 @@
         position: absolute;
         right: 20px;
         background: @dex-arrow-right-icon;
+        transition: all 0.3s;
       }
     }
 
     &-description {
+      display: none;
       font-size: 13px;
       color: @color-basic-500;
     }
@@ -48,8 +50,21 @@
 
         &::before {
           background: @dex-arrow-right-hover-icon;
+          right: 15px;
         }
       }
+    }
+  }
+}
+
+@media screen and (min-width: 480px) {
+  .get-started-btnLink {
+    &-content {
+      height: 52px;
+    }
+
+    &-description {
+      display: block;
     }
   }
 }
