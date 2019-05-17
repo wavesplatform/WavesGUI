@@ -111,21 +111,35 @@
                         type="{{$ctrl.userType}}"
                         ng-click="$ctrl.avatarClick()"
                         size="40"
+                        class="margin-1 margin-top-2"
                         address="$ctrl.address"></w-avatar>
-                    <div class="basic-500">User Name</div>
-                    <div>User Address</div>
+                    <div class="basic-900">Pindos Nasosov</div>
+
+                    <div class="flex dropdown-user-address basic-500">
+                        <div>3PKh1ni1XzXGa1xE8rRoVAaeikSeAPVBrKB</div>
+                        <w-copy-wrap class="icon-copy icon-14"></w-copy-wrap>
+                    </div>
                 </div>
 
-
-                <a href="#">Aliases</a>
-                <a href="#">Settings</a>
-                <a href="#">Log Out</a>
-
-
+                <a class="link-aliases">
+                    <i class="dropdown-icon icon-18 icon-aliases"></i>
+                    <div>
+                        <div>Aliases</div>
+                    </div>
+                </a>
+                <a class="link-settings">
+                    <i class="dropdown-icon icon-18 icon-settings"></i>
+                    <div>
+                        <div>Settings</div>
+                    </div>
+                </a>
+                <a class="link-logout">
+                    <i class="dropdown-icon icon-18 icon-logout"></i>
+                    <div>
+                        <div>Log Out</div>
+                    </div>
+                </a>
             </div>
-
-
-
 
         </div>
     </div>
