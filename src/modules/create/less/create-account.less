@@ -10,17 +10,6 @@
   margin: auto;
   padding: 0 20px;
 
-  &-ng {
-    display: flex;
-    flex: 1;
-  }
-
-  &-wrapper {
-    display: flex;
-    flex-grow: 1;
-    background: @color-basic-50;
-  }
-
   .left {
     text-align: left;
   }
@@ -75,76 +64,11 @@
       }
     }
   }
-
-  &-button {
-    width: 100%;
-    background: @color-white;
-
-    .create-button-content {
-      height: 54px;
-      padding: 8px 15px 8px 60px;
-      display: flex;
-      flex-direction: column;
-      align-items: start;
-      justify-content: center;
-      box-shadow: 0 1px 4px 0 rgba(58, 78, 136, 0.1);
-      color: @color-basic-900;
-      font-size: 15px;
-      position: relative;
-      transition: box-shadow 0.3s;
-
-      &::before {
-        content: '';
-        width: 14px;
-        height: 14px;
-        position: absolute;
-        right: 20px;
-        background: @dex-create-arrow-right-icon;
-      }
-    }
-
-    .create-button-description {
-      font-size: 13px;
-      color: @color-basic-500;
-    }
-
-    .create-button-icon {
-      width: 24px;
-      height: 24px;
-      position: absolute;
-      left: 20px;
-    }
-
-    &:hover {
-      .create-button-content {
-        box-shadow: 0 2px 10px 0 rgba(58, 78, 136, 0.1);
-
-        &::before {
-          background: @dex-create-arrow-right-hover-icon;
-        }
-      }
-    }
-  }
 }
 
-@media screen and (min-width: 540px) {
+@media screen and (min-width: 480px) {
   .create-account {
     width: 440px;
   }
 }
-
-.icon-create-lock {
-  background: @dex-create-lock-icon;
-}
-
-.icon-create-paper {
-  background: @dex-create-paper-icon;
-}
-
-.create {
-  header {
-    box-shadow: 0 -1px 0 0 rgba(161, 181, 230, 0.15) inset;
-  }
-}
-
 

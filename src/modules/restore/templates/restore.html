@@ -1,85 +1,80 @@
-<div w-i18n-ns="app.restore" class="restore-content">
-    <w-info-tooltip ng-click="$ctrl.showTutorialModals()" class="important-information">
-        <span class="tooltip__content" w-i18n-ns="app.welcome" w-i18n="infoTooltip"></span>
-    </w-info-tooltip>
-    <w-change-language></w-change-language>
+<w-site-header></w-site-header>
+<div w-i18n-ns="app.restore" class="main-container">
+    <div class="main-container-wrapper">
 
-    <a class="waves-logo" ui-sref="welcome"></a>
+        <div class="restore-content">
 
-    <w-step-by-step active-step="$ctrl.activeStep">
-        <w-step>
+            <w-step-by-step active-step="$ctrl.activeStep">
+                <w-step>
 
-            <div class="headline-1 text-center" w-i18n="seedForm.title"></div>
-            <div class="body-2 text-center margin-5">
-                <span class="disabled-600" w-i18n="seedForm.description"></span>
-                <a ui-sref="create" w-i18n="seedForm.create"></a>
-            </div>
+                    <div class="headline-1 text-center" w-i18n="seedForm.title"></div>
+                    <div class="body-2 text-center margin-5">
+                        <span class="disabled-600" w-i18n="seedForm.description"></span>
+                        <a ui-sref="create" w-i18n="seedForm.create"></a>
+                    </div>
 
-            <div class="body-2 basic-900" w-i18n="seedForm.seedTitle"></div>
+                    <div class="body-2 basic-900" w-i18n="seedForm.seedTitle"></div>
 
-            <form name="$ctrl.seedForm">
-                <div class="seed-block margin-2">
-                    <w-input textarea
-                             w-autofocus
-                             class="embed no-icon big"
-                             ng-model="$ctrl.seed"
-                             placeholder="seedForm.placeholder"
-                             w-i18n-attr="placeholder"
-                             minlength="25"
-                             required></w-input>
-                    <div class="address-block-info">
-                        <w-avatar ng-if="$ctrl.address" class="margin-right-1" address="$ctrl.address"
-                                  size="40"></w-avatar>
-                        <div ng-if="!$ctrl.address" class="avatar-fake margin-right-1"></div>
-                        <div class="address-block">
-                            <div class="body-2 basic-900" w-i18n="seedForm.address"></div>
-                            <div ng-class="{empty: !$ctrl.address}" class="address body-1 basic-500 mobile-caption-2">
-                                {{$ctrl.address}}
+                    <form name="$ctrl.seedForm">
+                        <div class="seed-block margin-2">
+                            <w-input textarea
+                                     w-autofocus
+                                     class="embed no-icon big"
+                                     ng-model="$ctrl.seed"
+                                     placeholder="seedForm.placeholder"
+                                     w-i18n-attr="placeholder"
+                                     minlength="25"
+                                     required></w-input>
+                            <div class="address-block-info">
+                                <w-avatar ng-if="$ctrl.address" class="margin-right-1" address="$ctrl.address"
+                                          size="40"></w-avatar>
+                                <div ng-if="!$ctrl.address" class="avatar-fake margin-right-1"></div>
+                                <div class="address-block">
+                                    <div class="body-2 basic-900" w-i18n="seedForm.address"></div>
+                                    <div ng-class="{empty: !$ctrl.address}" class="address body-1 basic-500 mobile-caption-2">
+                                        {{$ctrl.address}}
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
+                        <div class="flex margin-3">
+                            <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
+                            <label for="save-user-data"
+                                   w-i18n="seedForm.saveUserData"
+                                   class="footnote-1 basic-500"></label>
+                        </div>
+
+                        <div class="margin-3">
+                            <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">
+                                <span w-i18n="seedForm.continue"></span>
+                            </w-button>
+                        </div>
+                    </form>
+
+                </w-step>
+                <w-step>
+
+                    <div class="headline-1 text-center" w-i18n="passwordForm.title"></div>
+                    <div class="body-2 text-center margin-5">
+                        <span class="disabled-600" w-i18n="passwordForm.description"></span>
+                        <a w-i18n="passwordForm.back" w-step-prev ng-click="$ctrl.resetNameAndPassword()"></a>
                     </div>
-                </div>
 
-                <div class="flex margin-3">
-                    <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
-                    <label for="save-user-data"
-                           w-i18n="seedForm.saveUserData"
-                           class="footnote-1 basic-500"></label>
-                </div>
+                    <w-password class="margin-2"
+                                name="$ctrl.name"
+                                password="$ctrl.password"
+                                on-submit="$ctrl.restore()">
+                        <span w-i18n-ns="app.restore">
+                            <span w-i18n="passwordForm.login"></span>
+                        </span>
+                    </w-password>
+                </w-step>
+            </w-step-by-step>
 
-                <div class="margin-3">
-                    <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">
-                        <span w-i18n="seedForm.continue"></span>
-                    </w-button>
-                </div>
-            </form>
+            <!--TODO #wrap-in-component-->
 
-        </w-step>
-        <w-step>
-
-            <div class="headline-1 text-center" w-i18n="passwordForm.title"></div>
-            <div class="body-2 text-center margin-5">
-                <span class="disabled-600" w-i18n="passwordForm.description"></span>
-                <a w-i18n="passwordForm.back" w-step-prev ng-click="$ctrl.resetNameAndPassword()"></a>
-            </div>
-
-            <w-password class="margin-2"
-                        name="$ctrl.name"
-                        password="$ctrl.password"
-                        on-submit="$ctrl.restore()">
-                <span w-i18n-ns="app.restore">
-                    <span w-i18n="passwordForm.login"></span>
-                </span>
-            </w-password>
-        </w-step>
-    </w-step-by-step>
-
-    <!--TODO #wrap-in-component-->
-
-    <div class="or margin-2">
-        <span w-i18n="seedForm.or"></span>
-    </div>
-    <div class="text-center body-2 flex-column-center-min margin-2">
-        <a ui-sref="import" w-i18n="seedForm.back"></a>
+            <w-get-started-link></w-get-started-link>
+        </div>
     </div>
 </div>
