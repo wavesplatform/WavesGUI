@@ -176,6 +176,7 @@ w-site-header {
 
     .dropdown {
       left: auto;
+      cursor: default;
       transform: translate(0, 11px);
       min-width: 280px;
       right: 0;
@@ -185,12 +186,29 @@ w-site-header {
         padding-bottom: 20px;
         border-bottom: 1px solid @color-info-50;
 
-        .copy-icon {
-          display: block;
-          width: 14px;
-          height: 14px;
-          background: red;
-          margin-left: 7px;
+        // TODO @uIsk - move this to copyWrap component
+        w-copy-wrap {
+          height: 12px;
+          width: 12px;
+          border: 0 none;
+          border-radius: 0;
+          background: none transparent;
+          margin: 1px 7px 0 0;
+
+          .container {
+            padding: 0;
+          }
+
+          .copy-icon {
+            background: url(/img/icons/copy-14-basic500.svg) center no-repeat;
+            position: relative;
+            display: block;
+            width: 14px;
+            height: 14px;
+            flex-basis: auto;
+            margin-right: 0;
+            border: 0 none;
+          }
         }
       }
     }
@@ -272,10 +290,6 @@ w-site-header {
 
     &-logout {
       background: url(/img/icons/logout.svg) center no-repeat;
-    }
-
-    &-copy {
-      background: url(/img/icons/copy-14-basic500.svg) center no-repeat;
     }
   }
 }
