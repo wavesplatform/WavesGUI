@@ -1,14 +1,14 @@
 @import (reference) 'config';
 @import (reference) 'icons';
+@import (reference) '../../app/less/app';
 
 body.keeper {
-  .import-content {
-    max-width: 460px;
-    margin: 0 auto;
-  }
-
   ui-view[name="main"]  {
     position: relative;
+  }
+
+  .import-content {
+    .getStartedContentWidth(@getStartedContentPadding)
   }
 
   .address {
@@ -38,5 +38,13 @@ body.keeper {
 
   .error-icon {
     background-image: @error-circle-icon;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  body.keeper {
+    .import-content {
+      max-width: @getStartedContentWidth;
+    }
   }
 }

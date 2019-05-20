@@ -1,6 +1,5 @@
 <div class="confirm-backup">
 
-    <a class="waves-logo" ui-sref="welcome"></a>
     <div class="headline-1">
         <span w-i18n="confirmBackup.confirm"></span>
     </div>
@@ -33,15 +32,6 @@
         </w-button>
     </div>
 
-    <div class="or margin-2">
-        <span w-i18n="noBackupNoMoney.or"></span>
-    </div>
-
-    <div class="body-2 margin-2">
-        <a class="submit-400"
-           ng-click="$ctrl.clearSeedConfirm()"
-           w-i18n="confirmBackup.clear"></a>
-        <span class="basic-900" w-i18n="confirmBackup.again"></span>
-    </div>
+    <w-get-started-link></w-get-started-link>
 
 </div>

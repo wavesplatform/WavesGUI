@@ -30,7 +30,7 @@
                                           size="40"></w-avatar>
                                 <div ng-if="!$ctrl.address" class="avatar-fake margin-right-1"></div>
                                 <div class="address-block">
-                                    <div class="body-2 basic-900" w-i18n="seedForm.address"></div>
+                                    <div class="footnote-1 basic-700" w-i18n="seedForm.address"></div>
                                     <div ng-class="{empty: !$ctrl.address}" class="address body-1 basic-500 mobile-caption-2">
                                         {{$ctrl.address}}
                                     </div>
@@ -45,7 +45,7 @@
                                    class="footnote-1 basic-500"></label>
                         </div>
 
-                        <div class="margin-3">
+                        <div class="margin-2">
                             <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">
                                 <span w-i18n="seedForm.continue"></span>
                             </w-button>

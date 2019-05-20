@@ -1,88 +1,15 @@
 @import (reference) 'config';
 @import (reference) 'icons'; // TODO uIsk - move all icons to icons config
 @import (reference) '../../app/less/typography';
+@import (reference) '../../app/less/app';
 
 body.signInDex {
-  background: @color-white;
-
   ui-view[name="main"] {
     position: relative;
   }
 
-  .new-user {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    w-carousel {
-      display: block;
-      width: 358px;
-      height: 312px;
-
-      .slide {
-        text-align: center;
-      }
-
-      .slide-icon-0 {
-        background: @slide-start-icon no-repeat center center;
-        width: 122px;
-        height: 112px;
-        margin: 0 auto 45px;
-      }
-
-      .slide-icon-1 {
-        background: @slide-wallet-icon no-repeat center center;
-        width: 132px;
-        height: 111px;
-        margin: 0 auto 45px;
-      }
-
-      .slide-icon-2 {
-        background: @slide-dex-icon no-repeat center center;
-        width: 112px;
-        height: 100px;
-        margin: 0 auto 45px;
-      }
-
-      .slide-icon-3 {
-        background: @slide-token-icon no-repeat center center;
-        width: 132px;
-        height: 112px;
-        margin: 0 auto 45px;
-      }
-
-      .slide-description {
-        width: 358px;
-        height: 60px;
-      }
-    }
-
-    w-carousel-dots, w-button.submit, .or {
-      margin-bottom: 22px;
-    }
-
-    @button-width: 224px;
-
-    .submit.big {
-      width: @button-width;
-    }
-
-    .or {
-      width: @button-width;
-    }
-
-    .restore {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      text-align: center;
-    }
-  }
-
   .user-list {
-    margin: auto;
-    padding: 0 20px;
+    .getStartedContentWidth(@getStartedContentPadding);
 
     .avatar-container {
       width: 30px;
@@ -147,9 +74,7 @@ body.signInDex {
     }
 
     .center {
-      text-align: center;
       margin: 0 auto 50px;
-      width: 380px;
     }
 
     .password-placeholder {
@@ -196,8 +121,10 @@ body.signInDex {
   }
 }
 
-@media screen and (min-width: 480px) {
-  .user-list {
-    width: 440px;
+@media screen and (min-width: 768px) {
+  body.signInDex {
+    .user-list {
+      max-width: @getStartedContentWidth;
+    }
   }
 }

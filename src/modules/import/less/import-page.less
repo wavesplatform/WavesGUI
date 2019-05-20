@@ -1,35 +1,42 @@
 @import (reference) 'config';
+@import (reference) '../../app/less/app';
 
 body.import {
   ui-view[name='main'] {
     position: relative;
   }
 
-  .flex {
-    display: flex;
-    align-items: center;
-  }
-
   .import-footer {
-    margin: 0 auto 20px;
-    padding: 0 20px;
-    width: 420px;
+    .getStartedContentWidth(0);
   }
 
   .import-content {
-    max-width: 868px;
-    margin: auto;
-    padding: 0 20px;
+    .getStartedContentWidth(@getStartedContentPadding);
+    max-width: 100%;
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 768px) {
   body.import {
     .import-content {
-      padding: 0;
+      .import-modal__block,
+      .import-modal__block-w {
+        flex-direction: row;
+        display: flex;
+      }
+
+      .import-modal__content {
+        text-align: left;
+        margin-left: 20px;
+      }
+
+      .import-modal__icon-beta {
+        margin: 0;
+      }
     }
+
     .import-footer {
-      width: calc(100% ~'- 40px');
+      max-width: @getStartedContentWidth;
     }
   }
 }

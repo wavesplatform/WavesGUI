@@ -1,5 +1,6 @@
 @import (reference) 'config';
 @import (reference) 'icons';
+@import (reference) '../../app/less/app';
 
 @createAvatarBorder: 4px;
 @createAvatarSize: 50px;
@@ -7,16 +8,7 @@
 @createAvatarWrapperSize: @createAvatarHoverSize + @createAvatarBorder * 2;
 
 .create-account {
-  margin: auto;
-  padding: 0 20px;
-
-  .left {
-    text-align: left;
-  }
-
-  .right {
-    text-align: right;
-  }
+  .getStartedContentWidth(@getStartedContentPadding);
 
   .avatar-img {
     width: @createAvatarSize;
@@ -66,9 +58,9 @@
   }
 }
 
-@media screen and (min-width: 480px) {
+@media screen and (min-width: 768px) {
   .create-account {
-    width: 440px;
+    max-width: @getStartedContentWidth;
   }
 }
 
