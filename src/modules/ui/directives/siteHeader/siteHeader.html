@@ -40,7 +40,7 @@
 
         <!-- TODO -->
         <div class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
-            <a href="#" class="submit-400 body-2 margin-right-3">Sign In</a>
+            <a href="#" class=" body-2 margin-right-3">Sign In</a>
             <a class="fake-button submit medium" href="/create">
                 <span class="fake-button-content medium submit">Get Started</span>
             </a>
@@ -80,7 +80,7 @@
             <a class="link-tokens" href="/tokens">Create token</a>
         </nav>
 
-        <div class="avatar-container dropdown-toggler has-helper">
+        <div class="avatar-container dropdown-toggler has-helper" ng-if="$ctrl.isLogined">
             <w-analytics event="'Account Picture Click'" event-target="'ui'">
                 <w-avatar
                     type="{{$ctrl.userType}}"
@@ -121,19 +121,19 @@
                     </div>
                 </div>
 
-                <a class="link-aliases">
+                <a class="link-aliases" ng-click="$ctrl.avatarClick()">
                     <i class="dropdown-icon icon-18 icon-aliases"></i>
                     <div>
                         <div>Aliases</div>
                     </div>
                 </a>
-                <a class="link-settings">
+                <a class="link-settings" ng-click="$ctrl.settings()">
                     <i class="dropdown-icon icon-18 icon-settings"></i>
                     <div>
                         <div>Settings</div>
                     </div>
                 </a>
-                <a class="link-logout">
+                <a class="link-logout" ng-click="$ctrl.logout()">
                     <i class="dropdown-icon icon-18 icon-logout"></i>
                     <div>
                         <div>Log Out</div>
