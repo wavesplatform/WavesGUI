@@ -8,7 +8,7 @@
      * @param {User} user
      * @return {SiteHeader}
      */
-    const controller = function (Base, stateManager, modalManager, user, $state) {
+    const controller = function (Base, stateManager, modalManager, user, $state, $element) {
 
         class SiteHeaderCtrl extends Base {
 
@@ -35,6 +35,7 @@
                 this.isLedger = user.userType === 'ledger';
 
                 this.hasTypeHelp = this.isScript && (this.isLedger || this.isKeeper);
+                this._addScrollHandler();
             }
 
             open(sref) {
@@ -86,12 +87,22 @@
                 });
             }
 
+            /**
+             * @private
+             */
+            _addScrollHandler() {
+                const scrolledView = document.querySelector('ui-view');
+                scrolledView.addEventListener('scroll', () => {
+                    $element.toggleClass('fixed', scrolledView.scrollTop > 300);
+                });
+            }
+
         }
 
         return new SiteHeaderCtrl();
     };
 
-    controller.$inject = ['Base', 'stateManager', 'modalManager', 'user', '$state'];
+    controller.$inject = ['Base', 'stateManager', 'modalManager', 'user', '$state', '$element'];
 
     angular.module('app.ui').component('wSiteHeader', {
         bindings: {},
