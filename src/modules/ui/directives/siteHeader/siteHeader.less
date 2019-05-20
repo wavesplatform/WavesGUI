@@ -7,18 +7,49 @@ w-site-header {
   box-shadow: @header-shadow;
 
   header {
-    padding: 9px 20px;
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    display: block;
+    z-index: 11;
     background: @color-white;
+    padding: 9px 20px;
+
+    &.fixed-header {
+      top: -82px;
+      position: fixed;
+      box-shadow: 0 0 10px 0 #000;
+      animation: header-animation 4s ease;
+    }
+
+    a,
+    .dropdown-toggler {
+      font-size: 15px;
+      color: @color-basic-900;
+      &:hover {
+        color: @color-submit-400;
+      }
+    }
+
+    a:not(:last-child) {
+      margin-right: 30px;
+    }
   }
 
-  a,
-  .dropdown-toggler {
-    display: flex;
-    margin-right: 30px;
-    color: @color-basic-900;
-    font-size: 15px;
+  .get-started-btn {
+    margin-right: 15px;
+
+    .icon-arrow-right {
+      margin-left: 10px;
+      transition: .3s;
+    }
+
     &:hover {
-      color: @color-submit-400;
+      .icon-arrow-right {
+        transform: translateX(10px);
+      }
     }
   }
 
@@ -31,6 +62,7 @@ w-site-header {
     max-width: 1440px;
     background: @color-white;
     z-index: 111;
+    padding: 0 80px;
   }
 
   .dropdown-toggler {
@@ -92,6 +124,7 @@ w-site-header {
       padding: 18px 0;
       margin: 0 20px;
       font-size: 15px;
+      color: @color-basic-900;
 
       &:first-child {
         padding: 10px 0 18px;
@@ -99,10 +132,6 @@ w-site-header {
 
       &:last-child {
         padding: 18px 0 10px;
-      }
-
-      &:hover {
-        color: @color-submit-400;
       }
 
       &:not(:last-child) {
@@ -124,7 +153,7 @@ w-site-header {
     margin-left: 50px;
     flex-grow: 1;
     position: relative;
-
+    a {}
     &-wallet {
       display: none;
     }
@@ -176,6 +205,7 @@ w-site-header {
 
     .dropdown {
       left: auto;
+      cursor: default;
       transform: translate(0, 11px);
       min-width: 280px;
       right: 0;
@@ -185,12 +215,29 @@ w-site-header {
         padding-bottom: 20px;
         border-bottom: 1px solid @color-info-50;
 
-        .copy-icon {
-          display: block;
-          width: 14px;
-          height: 14px;
-          background: red;
-          margin-left: 7px;
+        // TODO @uIsk - move this to copyWrap component
+        w-copy-wrap {
+          height: 12px;
+          width: 12px;
+          border: 0 none;
+          border-radius: 0;
+          background: none transparent;
+          margin: 1px 0 0 7px;
+
+          .container {
+            padding: 0;
+          }
+
+          .copy-icon {
+            background: url(/img/icons/copy-14-basic500.svg) center no-repeat;
+            position: relative;
+            display: block;
+            width: 14px;
+            height: 14px;
+            flex-basis: auto;
+            margin-right: 0;
+            border: 0 none;
+          }
         }
       }
     }
@@ -272,10 +319,6 @@ w-site-header {
 
     &-logout {
       background: url(/img/icons/logout.svg) center no-repeat;
-    }
-
-    &-copy {
-      background: url(/img/icons/copy-14-basic500.svg) center no-repeat;
     }
   }
 }
