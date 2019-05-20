@@ -1,6 +1,6 @@
 w-carousel {
   .slider {
-    overflow: hidden;
+    overflow: visible;
     width: 100%;
     height: 100%;
     position: relative;
@@ -8,18 +8,19 @@ w-carousel {
 
   .slider-content {
     display: flex;
-    position: relative;
+    position: absolute;
   }
 
   .slide-window {
     width: 100%;
     height: 100%;
-    position: absolute;
+    display: flex;
+    justify-content: space-between;
   }
 
-  .slide-window > * {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-  }
+  //.slide-window > * {
+  //  width: 100%;
+  //  height: 100%;
+  //  position: absolute;
+  //}
 }
