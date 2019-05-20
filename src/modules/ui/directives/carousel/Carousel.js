@@ -7,51 +7,57 @@
      * @param {CarouselManager} carouselManager
      * @return {Carousel}
      */
-    const controller = function ($element, $timeout, carouselManager) {
+    const controller = function ($element, $timeout, carouselManager, utils, Base) {
 
-        class Carousel {
+        const { range } = require('ramda');
 
-            constructor() {
-                /**
-                 * @type {number}
-                 */
-                this.length = null;
-                /**
-                 * @type {string}
-                 * @private
-                 */
-                this.id = null;
-                /**
-                 * @type {number}
-                 * @private
-                 */
-                this.interval = null;
-                /**
-                 * @type {number}
-                 * @private
-                 */
-                this.startFrom = null;
-                /**
-                 * @private
-                 */
-                this.timer = null;
-                /**
-                 * @private
-                 * @type {jQuery}
-                 */
-                this.node = null;
-                /**
-                 * @private
-                 * @type {jQuery}
-                 */
-                this.content = null;
-            }
+        class Carousel extends Base {
+
+            /**
+             * @type {number}
+             */
+            length = null;
+            /**
+             * @type {string}
+             * @private
+             */
+            id = null;
+            /**
+             * @type {number}
+             * @private
+             */
+            interval = null;
+            /**
+             * @type {number}
+             * @private
+             */
+            startFrom = null;
+            /**
+             * @private
+             */
+            timer = null;
+            /**
+             * @private
+             * @type {jQuery}
+             */
+            node = null;
+            /**
+             * @private
+             * @type {jQuery}
+             */
+            content = null;
+            /**
+             * @private
+             * @type {Array}
+             */
+            _coords = null;
 
             $postLink() {
                 carouselManager.registerSlider(this.id, this);
                 const start = Number(this.startFrom);
                 this.interval = Number(this.interval) || 0;
                 this.node = $element.find('.slide-window:first');
+                this.wrapper = $element.find('.slider-content:first');
                 this.content = $element.find('.slider-content:first')
                     .children();
                 this.length = this.content.length;
@@ -62,6 +68,9 @@
                     this.active = 0;
                 }
 
+                this._calcCoords();
+                const onResize = utils.debounceRequestAnimationFrame(() => this._calcCoords());
+                this.listenEventEmitter($(window), 'resize', onResize);
                 $element.hover(() => {
                     this.stopInterval();
                 }, () => {
@@ -69,8 +78,6 @@
                 });
 
                 this.initializeInterval();
-
-                this.content.eq(this.active).appendTo(this.node);
             }
 
             $onDestroy() {
@@ -120,42 +127,76 @@
             }
 
             /**
+             * @private
+             */
+            _calcCoords() {
+                let slidesAmount = 4;
+                switch (true) {
+                    case (window.innerWidth < 620):
+                        slidesAmount = 1;
+                        break;
+                    case (window.innerWidth < 1000):
+                        slidesAmount = 2;
+                        break;
+                    case (window.innerWidth < 1400):
+                        slidesAmount = 3;
+                        break;
+                    default:
+                        slidesAmount = 4;
+                }
+                const divs = range(0, slidesAmount).map(() => '<div class="slide"></div>');
+                this.node.append(divs);
+                const width = this.node.find('.slide').outerWidth();
+                const startCoords = this.node.find('.slide').toArray().map(element => {
+                    return $(element).offset().left;
+                });
+                this.node.empty();
+                this.diff = Math.round(startCoords[1] - startCoords[0]);
+                this._coords = this.content.toArray().map((element, i) => {
+                    const X = (i - 1) * this.diff;
+                    $(element).css('transform', `translateX(${X}px)`);
+                    $(element).css('width', width);
+                    $(element).data('translate', X);
+                    return X;
+                });
+
+                this.content.addClass('abs');
+            }
+
+            /**
              * @param {number} active
              * @param {number} old
              * @return Promise
              * @private
              */
-            _move(active, old) {
-                const direction = active > old;
-                const $active = this.content.eq(active);
-                const $old = this.content.eq(old);
+            _move() {
+                const lastPos = this._coords[this._coords.length - 1];
 
-                let collection;
-                let targetLeft;
-
-                if (direction) {
-                    $active.css('left', '100%');
-                    $old.css('left', '0');
-                    this.node.append($active);
-                    collection = $old.add($active);
-                    targetLeft = '-=100%';
-                } else {
-                    $old.css('left', '0');
-                    this.node.prepend($active);
-                    $active.css('left', '-100%');
-                    collection = $active.add($old);
-                    targetLeft = '+=100%';
-                }
-
-                return new Promise((resolve) => {
-                    collection.stop()
-                        .animate({ left: targetLeft }, () => {
-                            $old.remove();
-                            $active.css('left', '');
-                            resolve();
-                        });
-                });
+                return Promise.all(this.content.toArray().map(element => {
+                    const $element = $(element);
+                    const start = $element.data('translate');
+                    const duration = 1000;
+                    const newPos = start - this.diff;
+                    $element.prop('progress', 0);
+                    $element.data('translate', newPos);
+                    return utils.animate($element, {
+                        progress: 1
+                    }, {
+                        duration: duration,
+                        step: progress => {
+                            const translate = start + ((newPos - start) * progress);
+                            $element.css('transform', `translateX(${translate}px)`);
+                        },
+                        complete: () => {
+                            if (newPos < -this.diff) {
+                                $element.css('transform', `translateX(${lastPos}px)`);
+                                $element.data('translate', lastPos);
+                            }
+                        }
+                    });
+                }));
             }
+
 
             /**
              * @private
@@ -171,16 +212,16 @@
             /**
              * @private
              */
-            _getLeft() {
-                return { left: `${100 * this.active}%` };
-            }
+            // _getLeft() {
+            //     return { left: `${100 * this.active}%` };
+            // }
 
         }
 
         return new Carousel();
     };
 
-    controller.$inject = ['$element', '$timeout', 'carouselManager'];
+    controller.$inject = ['$element', '$timeout', 'carouselManager', 'utils', 'Base'];
 
     angular.module('app.ui').component('wCarousel', {
         transclude: true,
