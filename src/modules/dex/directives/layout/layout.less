@@ -21,8 +21,8 @@
   }
 }
 
-.dex.main,
-.dex-demo.main {
+html body.dex.main,
+html body.dex-demo.main {
   w-site-header {
     .header-wrapper {
       max-width: 100%;
@@ -772,13 +772,13 @@ html body.dex-demo .notifications {
 
   .dex.main .main-content,
   .dex-demo.main .main-content {
-    w-responsive-menu w-button.nav-toggler {
-      display: block;
-    }
-
     min-width: 645px;
     width: 100%;
     min-height: 100%;
+
+    w-responsive-menu w-button.nav-toggler {
+      display: block;
+    }
 
     .content {
       position: relative;
