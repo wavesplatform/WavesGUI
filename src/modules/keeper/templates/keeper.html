@@ -17,13 +17,16 @@
 
                 <div ng-if="$ctrl.noKeeper">
                     <i class="keeper-icon margin-3 block"></i>
-                    <h3 class="basic-700" w-i18n="keeperForm.error.notInstalledHeader"></h3>
-                    <div class="basic-500 footnote-1" w-i18n="keeperForm.error.notInstalledDescription"></div>
-                    <a class="fake-button half margin-top-4" href="https://chrome.google.com/webstore/detail/waves-keeper/lpilbniiabackdjcionkobglmddfbcjo?hl">
-                        <span w-i18n="keeperForm.error.install" class="fake-button-content big long submit"></span>
-                    </a>
-                    <div class="or margin-top-4" w-i18n="keeperForm.or"></div>
-                    <a ui-sref="import" class="block margin-top-2" w-i18n="keeperForm.back"></a>
+                    <div class="text-center">
+                        <h3 class="basic-700" w-i18n="keeperForm.error.notInstalledHeader"></h3>
+                        <div class="basic-500 footnote-1" w-i18n="keeperForm.error.notInstalledDescription"></div>
+                        <div class="margin-2 margin-top-3">
+                            <a class="fake-button half" href="https://chrome.google.com/webstore/detail/waves-keeper/lpilbniiabackdjcionkobglmddfbcjo?hl">
+                                <span w-i18n="keeperForm.error.install" class="fake-button-content big long submit"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <w-get-started-link></w-get-started-link>
                 </div>
 
                 <div class="text-center" ng-if="$ctrl.noKeeperAccounts || $ctrl.noKeeperPermission">
@@ -87,12 +90,7 @@
                     </w-button>
                 </div>
 
-                <div class="or margin-2">
-                    <span w-i18n="keeperForm.or"></span>
-                </div>
-                <div class="text-center margin-2">
-                    <a w-i18n="keeperForm.back" ui-sref="import"></a>
-                </div>
+                <w-get-started-link></w-get-started-link>
             </div>
 
         </div>

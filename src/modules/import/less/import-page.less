@@ -16,7 +16,7 @@ body.import {
   }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (max-width: 768px) {
   body.import {
     .import-content {
       .import-modal__block,
@@ -27,16 +27,27 @@ body.import {
 
       .import-modal__content {
         text-align: left;
-        margin-left: 20px;
+        margin-left: 18px;
       }
 
-      .import-modal__icon-beta {
+      .import-modal__icon {
         margin: 0;
+        width: 42px;
+        height: 42px;
       }
     }
+  }
+}
 
+@media screen and (min-width: 768px) {
+  body.import {
     .import-footer {
       max-width: @getStartedContentWidth;
+    }
+
+    .import-modal__block {
+      max-width: 235px;
+      padding: 40px 30px;
     }
   }
 }
