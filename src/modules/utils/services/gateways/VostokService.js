@@ -1,9 +1,6 @@
 (function () {
     'use strict';
 
-    // const { request } = require('../../../../../data-service/utils/request');
-    // const { stringifyJSON } = require('../../../../../data-service/utils/utils');
-
     const GATEWAYS = {
         [WavesApp.defaultAssets.VOSTOK]: { waves: 'WVOSTOK', gateway: 'VOSTOK' }
     };
@@ -32,6 +29,30 @@
             }
 
             /**
+             * From Vostok to Waves
+             * @param {Asset} asset
+             * @param {string} wavesAddress
+             * @return {Promise}
+             */
+            getDepositDetails(asset, wavesAddress) {
+                VostokService._assertAsset(asset.id);
+
+                const data = JSON.stringify({
+                    userAddress: wavesAddress,
+                    assetId: asset.id
+                });
+
+                return $.post(`${PATH}/external/deposit`, data).then((details) => {
+                    return {
+                        address: details.address,
+                        minimumAmount: new BigNumber(details.minAmount),
+                        maximumAmount: new BigNumber(details.maxAmount),
+                        gatewayFee: new BigNumber(details.fee)
+                    };
+                });
+            }
+
+            /**
              * From Waves to Vostok
              * @param {Asset} asset
              * @param {string} targetAddress
@@ -41,46 +62,27 @@
             getWithdrawDetails(asset, targetAddress) {
                 VostokService._assertAsset(asset.id);
 
-                // $.post(`${PATH}/external/withdraw`, {
-                //     userAddress: targetAddress,
-                //     assetId: asset.id
-                // }, (details) => {
-                //     return {
-                //         address: details.service.recipientAddress,
-                //         minimumAmount: new BigNumber(details.service.minAmount),
-                //         maximumAmount: new BigNumber(details.service.maxAmount),
-                //         gatewayFee: new BigNumber(details.service.fee),
-                //         processId: details.service.processId
-                //     };
-                // });
-
-                return $.post(`${PATH}/external/withdraw`, {
+                const data = JSON.stringify({
                     userAddress: targetAddress,
                     assetId: asset.id
-                }).then((details) => {
-                    return {
-                        address: details.service.recipientAddress,
-                        minimumAmount: new BigNumber(details.service.minAmount),
-                        maximumAmount: new BigNumber(details.service.maxAmount),
-                        gatewayFee: new BigNumber(details.service.fee),
-                        processId: details.service.processId
-                    };
                 });
+                return $.post(`${PATH}/external/withdraw`, data).then((details) => {
+                    return ({
+                        address: details.recipientAddress,
+                        minimumAmount: new BigNumber(details.minAmount),
+                        maximumAmount: new BigNumber(details.maxAmount),
+                        gatewayFee: new BigNumber(details.fee),
+                        attachment: details.processId
+                    });
+                });
+            }
 
-                // return request({
-                //     url: `${PATH}/external/withdraw`,
-                //     fetchOptions: {
-                //         method: 'POST',
-                //         headers: {
-                //             'Accept': 'application/json',
-                //             'Content-Type': 'application/json;charset=UTF-8'
-                //         },
-                //         body: stringifyJSON({
-                //             userAddress: targetAddress,
-                //             assetId: asset.id
-                //         }),
-                //     }
-                // });
+            /**
+             * @param {Asset} asset
+             * @return {string}
+             */
+            getAssetKeyName(asset) {
+                return `${GATEWAYS[asset.id].gateway}`;
             }
 
             static _assertAsset(assetId) {
