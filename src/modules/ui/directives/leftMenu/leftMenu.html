@@ -1,0 +1,46 @@
+<div class="avatar-container has-helper">
+    <w-avatar type="{{$ctrl.userType}}" ng-click="$ctrl.avatarClick()" size="40" address="$ctrl.address"></w-avatar>
+    <w-help-icon class="avatar-options-list" ng-if="($ctrl.hasTypeHelp)">
+        <div class="help-icon__row row-keeper" ng-if="$ctrl.isKeeper">
+            <span class="acount-option-icon"></span>
+            <span w-i18n="leftmenu.keeperAccount"></span>
+        </div>
+        <div class="help-icon__row row-ledger" ng-if="$ctrl.isLedger">
+            <span class="acount-option-icon"></span>
+            <span w-i18n="leftmenu.ledgerAccount"></span>
+        </div>
+        <div class="help-icon__row row-script" ng-if="$ctrl.isScript">
+            <span class="acount-option-icon"></span>
+            <span w-i18n="leftmenu.scriptAccount"></span>
+        </div>
+    </w-help-icon>
+</div>
+
+<w-responsive-menu w-toggle-class-container active-menu="$ctrl.activeState">
+
+    <i class="wallet-toggler" w-toggle-class="wallet-items-hide"></i>
+
+    <div class="menu-list"
+         ng-repeat="menu in $ctrl.menuList track by menu.id"
+         ng-include="'modules/ui/directives/leftMenu/reqursiveMenuItem.html'">
+    </div>
+
+    <w-responsive-menu-item class="settings" ng-click="$ctrl.settings()">
+        <div class="menu-item settings">
+            <span w-i18n="leftmenu.settings"></span>
+        </div>
+    </w-responsive-menu-item>
+
+    <w-responsive-menu-item ng-if="$ctrl.isLogined" class="logout" ng-click="$ctrl.logout()">
+        <div class="menu-item logout">
+            <span w-i18n="leftmenu.logout"></span>
+        </div>
+    </w-responsive-menu-item>
+
+    <w-responsive-menu-item ng-if="!$ctrl.isLogined" class="login">
+        <a class="menu-item login" ui-sref="welcome">
+            <span w-i18n="leftmenu.login"></span>
+        </a>
+    </w-responsive-menu-item>
+
+</w-responsive-menu>

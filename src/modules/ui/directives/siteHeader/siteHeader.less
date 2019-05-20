@@ -1,7 +1,11 @@
 @import (reference) 'config';
 @import (reference) '../../../app/less/typography';
 
+@header-shadow: 0 1px 0 0 rgba(161, 181, 230, 0.05);
+
 w-site-header {
+  box-shadow: @header-shadow;
+
   header {
     padding: 9px 20px;
     background: @color-white;
@@ -32,10 +36,14 @@ w-site-header {
   .dropdown-toggler {
     cursor: pointer;
     margin: 0;
+    height: 40px;
+    display: flex;
+    align-items: center;
+
     &::after {
       content: '';
       display: none;
-      width: calc(100% ~'- 30px');
+      width: 100%;
       height: 22px;
       position: absolute;
       z-index: 11;
@@ -59,9 +67,9 @@ w-site-header {
     background: @color-white;
     border-radius: 8px;
     position: absolute;
-    top: 36px;
+    top: 100%;
     left: 50%;
-    transform: translateX(calc(-50%));
+    transform: translate(-50%, 11px);
     z-index: 10;
     min-width: 280px;
 
@@ -125,8 +133,9 @@ w-site-header {
   .avatar-container {
     display: none;
     position: relative;
-    width: 40px;
-    height: 40px;
+    cursor: pointer;
+    width: 80px;
+    background: url(/img/icons/arrow-down-12.svg) 52px center no-repeat;
 
     w-avatar[type='scripted'],
     w-avatar[type='ledger'],
@@ -161,6 +170,27 @@ w-site-header {
             left: 6px;
             top: 31px;
           }
+        }
+      }
+    }
+
+    .dropdown {
+      left: auto;
+      transform: translate(0, 11px);
+      min-width: 280px;
+      right: 0;
+
+      &-user-address {
+        font-size: 11px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid @color-info-50;
+
+        .copy-icon {
+          display: block;
+          width: 14px;
+          height: 14px;
+          background: red;
+          margin-left: 7px;
         }
       }
     }
@@ -231,6 +261,22 @@ w-site-header {
     &-leasing {
       background: url(/img/icons/leasing.svg) center no-repeat;
     }
+
+    &-aliases {
+      background: url(/img/icons/alias.svg) center no-repeat;
+    }
+
+    &-settings {
+      background: url(/img/icons/settings.svg) center no-repeat;
+    }
+
+    &-logout {
+      background: url(/img/icons/logout.svg) center no-repeat;
+    }
+
+    &-copy {
+      background: url(/img/icons/copy-14-basic500.svg) center no-repeat;
+    }
   }
 }
 
@@ -255,7 +301,6 @@ body.wallet {
       color: @color-submit-400;
     }
   }
-
   a.link-wallet {
     color: @color-submit-400;
   }
@@ -284,7 +329,7 @@ body.tokens {
       }
 
       .avatar-container {
-        display: block;
+        display: flex;
       }
 
       nav.top-menu {

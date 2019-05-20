@@ -6,15 +6,15 @@
      * @param {StateManager} stateManager
      * @param {ModalManager} modalManager
      * @param {User} user
-     * @return {SiteHeader}
+     * @return {LeftMenu}
      */
     const controller = function (Base, stateManager, modalManager, user, $state) {
 
-        class SiteHeaderCtrl extends Base {
+        class LeftMenu extends Base {
 
             constructor() {
                 super();
-                this.hovered = false;
+
                 this.address = user.address || '3PHBX4uXhCyaANUxccLHNXw3sqyksV7YnDz';
                 this.isLogined = !!user.address;
                 this.receive(stateManager.changeRouteState, () => {
@@ -88,14 +88,14 @@
 
         }
 
-        return new SiteHeaderCtrl();
+        return new LeftMenu();
     };
 
     controller.$inject = ['Base', 'stateManager', 'modalManager', 'user', '$state'];
 
-    angular.module('app.ui').component('wSiteHeader', {
+    angular.module('app.ui').component('wLeftMenu', {
         bindings: {},
-        templateUrl: 'modules/ui/directives/siteHeader/siteHeader.html',
+        templateUrl: 'modules/ui/directives/leftMenu/leftMenu.html',
         transclude: false,
         controller
     });

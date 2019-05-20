@@ -4,12 +4,12 @@
 
         <nav class="top-menu top-menu-welcome">
             <a class="link-dex" href="/dex-demo">Exchange</a>
-            <a href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html">API</a>
-            <a href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html">Help</a>
+            <a href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html" target="_blank">API</a>
+            <a href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html" target="_blank">Help</a>
             <a href="#">News</a> <!-- TODO waves dex twitter channel -->
 
             <div class="relative dropdown-toggler">
-                <a class="dropdown-btn" href="https://wavesplatform.com/products-wallet">Download</a>
+                <a class="dropdown-btn" href="https://wavesplatform.com/products-wallet" target="_blank">Download</a>
                 <div class="dropdown">
                     <a href="https://wavesplatform.com/files/WavesClient-win.zip">
                         <i class="dropdown-icon icon-24 icon-win"></i>
@@ -80,7 +80,7 @@
             <a class="link-tokens" href="/tokens">Create token</a>
         </nav>
 
-        <div class="avatar-container has-helper">
+        <div class="avatar-container dropdown-toggler has-helper">
             <w-analytics event="'Account Picture Click'" event-target="'ui'">
                 <w-avatar
                     type="{{$ctrl.userType}}"
@@ -103,6 +103,44 @@
                     <span w-i18n="leftmenu.scriptAccount"></span>
                 </div>
             </w-help-icon>
+
+            <div class="dropdown">
+
+                <div class="center">
+                    <w-avatar
+                        type="{{$ctrl.userType}}"
+                        ng-click="$ctrl.avatarClick()"
+                        size="40"
+                        class="margin-1 margin-top-2"
+                        address="$ctrl.address"></w-avatar>
+                    <div class="basic-900">Pindos Nasosov</div>
+
+                    <div class="flex dropdown-user-address basic-500">
+                        <div>3PKh1ni1XzXGa1xE8rRoVAaeikSeAPVBrKB</div>
+                        <w-copy-wrap class="icon-copy icon-14"></w-copy-wrap>
+                    </div>
+                </div>
+
+                <a class="link-aliases">
+                    <i class="dropdown-icon icon-18 icon-aliases"></i>
+                    <div>
+                        <div>Aliases</div>
+                    </div>
+                </a>
+                <a class="link-settings">
+                    <i class="dropdown-icon icon-18 icon-settings"></i>
+                    <div>
+                        <div>Settings</div>
+                    </div>
+                </a>
+                <a class="link-logout">
+                    <i class="dropdown-icon icon-18 icon-logout"></i>
+                    <div>
+                        <div>Log Out</div>
+                    </div>
+                </a>
+            </div>
+
         </div>
     </div>
 </header>
