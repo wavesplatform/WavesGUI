@@ -28,7 +28,6 @@ body.welcome {
 
   a {
     text-decoration: none;
-    color: @color-submit-400;
   }
 
   ul {
@@ -57,11 +56,6 @@ body.welcome {
     display: block;
     z-index: 11;
     background: @color-white;
-    padding: 9px 20px;
-
-    .header-wrapper {
-      padding: 9px 20px;
-    }
 
     &.fixed-header {
       top: -82px;
@@ -175,8 +169,6 @@ body.welcome {
       }
 
       .change {
-        width: 80px;
-        max-width: 80px;
         padding-left: 10px;
       }
 
@@ -325,6 +317,10 @@ body.welcome {
       display: flex;
       align-items: flex-start;
       text-align: center;
+
+      h2 {
+        font-weight: 400;
+      }
 
       &-card {
         padding: 96px 30px 102px;
