@@ -52,32 +52,42 @@
              */
             _coords = null;
 
+            constructor() {
+                super();
+                this.observe('pending', () => {
+                    setTimeout(() => {
+                        const start = Number(this.startFrom);
+                        this.interval = Number(this.interval) || 0;
+                        this.node = $element.find('.slide-window:first');
+                        this.wrapper = $element.find('.slider-content:first');
+                        this.content = $element.find('.slider-content:first')
+                            .children();
+                        this.length = this.content.length;
+
+                        if (start && start > 0 && start < this.length) {
+                            this.active = start;
+                        } else {
+                            this.active = 0;
+                        }
+
+                        this._calcCoords();
+                        const onResize = utils.debounceRequestAnimationFrame(() => this._calcCoords());
+                        this.listenEventEmitter($(window), 'resize', onResize);
+                        $element.hover(() => {
+                            this.stopInterval();
+                        }, () => {
+                            this.initializeInterval();
+                        });
+
+                        this.initializeInterval();
+                    }, 100);
+                });
+            }
+
             $postLink() {
                 carouselManager.registerSlider(this.id, this);
-                const start = Number(this.startFrom);
-                this.interval = Number(this.interval) || 0;
-                this.node = $element.find('.slide-window:first');
-                this.wrapper = $element.find('.slider-content:first');
-                this.content = $element.find('.slider-content:first')
-                    .children();
-                this.length = this.content.length;
 
-                if (start && start > 0 && start < this.length) {
-                    this.active = start;
-                } else {
-                    this.active = 0;
-                }
 
-                this._calcCoords();
-                const onResize = utils.debounceRequestAnimationFrame(() => this._calcCoords());
-                this.listenEventEmitter($(window), 'resize', onResize);
-                $element.hover(() => {
-                    this.stopInterval();
-                }, () => {
-                    this.initializeInterval();
-                });
-
-                this.initializeInterval();
             }
 
             $onDestroy() {
@@ -115,7 +125,7 @@
                     if (this.timer) {
                         this.stopInterval();
                     }
-                    this.timer = $timeout(() => this._step(), this.interval);
+                    this.timer = $timeout(() => this._move(), this.interval);
                 }
             }
 
@@ -236,7 +246,8 @@
         bindings: {
             id: '@',
             interval: '@',
-            startFrom: '@'
+            startFrom: '@',
+            pending: '<'
         },
         controller: controller,
         templateUrl: 'modules/ui/directives/carousel/carousel.html'

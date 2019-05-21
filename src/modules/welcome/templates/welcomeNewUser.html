@@ -25,103 +25,22 @@
     </section>
 
     <section class="section-slider">
-            <w-carousel interval="2000">
+            <w-carousel interval="2000" pending="$ctrl.isPending">
 
-                <div class="slide">
+                <div ng-repeat="pair in $ctrl.pairsInfo track by $index" class="slide">
                     <div class="margin-1 body-2 flex">
-                        <div class="basic-700 grow">BTC/WAVES</div>
-                        <div class="red">-0.42%</div>
+                        <div class="basic-700 grow">{{pair.amountAsset.ticker}} / {{pair.priceAsset.ticker}} </div>
+                        <div class="red">{{pair.change24}}</div>
                     </div>
                     <div class="flex">
                         <div class="grow">
-                            <h2 class="basic-900">0.00000001</h2>
-                            <div class="basic-500 footnote-1">Volume: 42 932.421</div>
+                            <h2 class="basic-900">{{pair.lastPrice.toFormat()}}</h2>
+                            <div class="basic-500 footnote-1">Volume: {{pair.volume.getTokens()}}</div>
                         </div>
-                        <div class="graph"></div>  <!-- TODO add canvas graph -->
-                    </div>
-                </div>
-
-                <div class="slide">
-                    <div class="margin-1 body-2 flex">
-                        <div class="basic-700 grow">BTC/WAVES</div>
-                        <div class="blue">+0.42%</div>
-                    </div>
-                    <div class="flex">
-                        <div class="grow">
-                            <h2 class="basic-900">0.00000002</h2>
-                            <div class="basic-500 footnote-1">Volume: 42 932.421</div>
+                        <div class="graph">
+                            <w-asset-rate-chart no-update="::true" asset-id="pair.amountAsset.id"></w-asset-rate-chart>
                         </div>
-                        <div class="graph"></div>
-                    </div>
-                </div>
-
-                <div class="slide">
-                    <div class="margin-1 body-2 flex">
-                        <div class="basic-700 grow">BTC/WAVES</div>
-                        <div class="red">-0.42%</div>
-                    </div>
-                    <div class="flex">
-                        <div class="grow">
-                            <h2 class="basic-900">0.00000003</h2>
-                            <div class="basic-500 footnote-1">Volume: 42 932.421</div>
-                        </div>
-                        <div class="graph"></div>
-                    </div>
-                </div>
-
-                <div class="slide">
-                    <div class="margin-1 body-2 flex">
-                        <div class="basic-700 grow">BTC/WAVES</div>
-                        <div class="blue">+0.42%</div>
-                    </div>
-                    <div class="flex">
-                        <div class="grow">
-                            <h2 class="basic-900">0.00000004</h2>
-                            <div class="basic-500 footnote-1">Volume: 42 932.421</div>
-                        </div>
-                        <div class="graph"></div>
-                    </div>
-                </div>
-
-                <div class="slide">
-                    <div class="margin-1 body-2 flex">
-                        <div class="basic-700 grow">BTC/WAVES</div>
-                        <div class="red">-0.42%</div>
-                    </div>
-                    <div class="flex">
-                        <div class="grow">
-                            <h2 class="basic-900">0.00000005</h2>
-                            <div class="basic-500 footnote-1">Volume: 42 932.421</div>
-                        </div>
-                        <div class="graph"></div>
-                    </div>
-                </div>
-
-                <div class="slide">
-                    <div class="margin-1 body-2 flex">
-                        <div class="basic-700 grow">BTC/WAVES</div>
-                        <div class="blue">+0.42%</div>
-                    </div>
-                    <div class="flex">
-                        <div class="grow">
-                            <h2 class="basic-900">0.00000006</h2>
-                            <div class="basic-500 footnote-1">Volume: 42 932.421</div>
-                        </div>
-                        <div class="graph"></div>
-                    </div>
-                </div>
-
-                <div class="slide">
-                    <div class="margin-1 body-2 flex">
-                        <div class="basic-700 grow">BTC/WAVES</div>
-                        <div class="red">-0.42%</div>
-                    </div>
-                    <div class="flex">
-                        <div class="grow">
-                            <h2 class="basic-900">0.00000007</h2>
-                            <div class="basic-500 footnote-1">Volume: 42 932.421</div>
-                        </div>
-                        <div class="graph"></div>
+                        <!-- TODO add canvas graph -->
                     </div>
                 </div>
 
