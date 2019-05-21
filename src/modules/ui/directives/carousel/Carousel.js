@@ -130,16 +130,16 @@
              * @private
              */
             _calcCoords() {
-                const slidesAmount = this._getSlidesInWindowAmount(window.innerWidth);
-                const divs = range(0, slidesAmount).map(() => '<div class="slide"></div>');
+                this.slidesAmount = this._getSlidesInWindowAmount(window.innerWidth);
+                const divs = range(0, this.slidesAmount).map(() => '<div class="slide"></div>');
                 this.node.append(divs);
                 const slide = this.node.find('.slide');
                 const width = slide.outerWidth();
                 const startCoords = slide
                     .toArray()
-                    .map(element => $(element).offset().left);
+                    .map(element => Math.round($(element).offset().left));
                 this.node.empty();
-                this.diff = startCoords.length > 1 ? Math.round(startCoords[1] - startCoords[0]) : width + 10;
+                this.diff = startCoords.length > 1 ? startCoords[1] - startCoords[0] : width + 10;
                 this._coords = this.content.toArray().map((element, i) => {
                     const X = (i - 1) * this.diff;
                     $(element).css({
@@ -185,7 +185,9 @@
                     const newPos = start - this.diff;
                     $element.prop('progress', 0);
                     $element.data('translate', newPos);
+                    const opacity = newPos < 0 || newPos > this._coords[this.slidesAmount] ? 0.2 : 1;
                     return utils.animate($element, {
+                        opacity,
                         progress: 1
                     }, {
                         duration: duration,
