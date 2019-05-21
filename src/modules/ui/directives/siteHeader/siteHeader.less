@@ -15,15 +15,8 @@ w-site-header {
     display: block;
     z-index: 11;
     background: @color-white;
+
     padding: 9px 20px;
-
-    &.fixed-header {
-      top: -82px;
-      position: fixed;
-      box-shadow: 0 0 10px 0 #000;
-      animation: header-animation 4s ease;
-    }
-
     a,
     .dropdown-toggler {
       font-size: 15px;
@@ -33,7 +26,7 @@ w-site-header {
       }
     }
 
-    a:not(:last-child) {
+    a:not(.dropdown-btn):not(.last-child) {
       margin-right: 30px;
     }
   }
@@ -63,12 +56,18 @@ w-site-header {
     background: @color-white;
     z-index: 111;
     padding: 0 80px;
+
+  }
+
+  @media screen and (max-width: 1340px) {
+    .header-wrapper {
+      padding: 0;
+    }
   }
 
   .dropdown-toggler {
     cursor: pointer;
     margin: 0;
-    height: 40px;
     display: flex;
     align-items: center;
 
@@ -81,13 +80,23 @@ w-site-header {
       z-index: 11;
       bottom: -21px;
     }
+  }
 
+  .dropdown-toggler:hover {
     &:hover {
       &::after {
         display: block;
       }
       .dropdown {
         display: block;
+      }
+    }
+
+    .dropdown-btn {
+      color: @color-submit-400;
+      &::after {
+        transform: rotate(-180deg); // translateY(-50%)
+        background: url(/img/landing/arrow-down-blue.svg) right center no-repeat;
       }
     }
   }
@@ -107,10 +116,18 @@ w-site-header {
 
     &-btn {
       padding-right: 17px;
-      background: url(/img/landing/arrow-down.svg) right center no-repeat;
+      position: relative;
 
-      &:hover {
-        background: url(/img/landing/arrow-down-blue.svg) right center no-repeat;
+      &::after {
+        display: block;
+        width: 10px;
+        height: 10px;
+        content: '';
+        background: url(/img/landing/arrow-down.svg) right center no-repeat;
+        position: absolute;
+        top: 5px;
+        right: 0;
+        transition: .3s;
       }
     }
 
@@ -153,7 +170,8 @@ w-site-header {
     margin-left: 50px;
     flex-grow: 1;
     position: relative;
-    a {}
+    a {
+    }
     &-wallet {
       display: none;
     }

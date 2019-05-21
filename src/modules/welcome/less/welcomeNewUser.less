@@ -43,23 +43,20 @@ body.welcome {
     &.fixed header {
       top: -82px;
       position: fixed;
-      animation: header-animation 1s ease-in-out;
+      animation: header-down 1s ease-in-out;
       animation-fill-mode: forwards;
     }
 
     &.unfixed header {
       top: 0;
-      position: absolute;
+
       box-shadow: none;
-      animation: header-animation 1s ease-in-out;
+      animation: header-up 1s ease-in-out;
       animation-fill-mode: forwards;
-      animation-direction: reverse;
     }
   }
 
-
-
-  @keyframes header-animation {
+  @keyframes header-down {
     0% {
       transform: translateX(-50%);
       box-shadow: none;
@@ -71,8 +68,23 @@ body.welcome {
       transform: translate(-50%, 72px);
     }
     100% {
-      transform: translate(-50%, 82px);
       box-shadow: 0 0 10px 0 lightgrey;
+      transform: translate(-50%, 82px);
+      position: fixed;
+    }
+  }
+
+  @keyframes header-up {
+    0% {
+      box-shadow: 0 0 10px 0 lightgrey;
+      transform: translateX(-50%, 82px);
+      position: fixed;
+
+    }
+    100% {
+      transform: translate(-50%);
+      box-shadow: none;
+      position: absolute;
     }
   }
 
@@ -299,12 +311,14 @@ body.welcome {
 
     &-slider {
       background: @color-basic-50;
-      overflow: visible;
+      overflow: hidden;
       padding: 80px 0;
+      max-width: 100%;
 
       .slider {
         display: flex;
         width: 100%;
+        max-width: 1440px;
       }
 
       w-carousel {
