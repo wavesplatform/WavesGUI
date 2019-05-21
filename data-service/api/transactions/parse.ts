@@ -1,4 +1,4 @@
-import { Asset, AssetPair,  Money } from '@waves/data-entities';
+import { Asset, AssetPair, Money } from '@waves/data-entities';
 import { BigNumber } from '@waves/bignumber';
 import { libs, TRANSACTION_TYPE_NUMBER, WAVES_ID } from '@waves/signature-generator';
 import { get } from '../assets/assets';

@@ -1,4 +1,4 @@
-import { AssetPair, Money,  OrderPrice } from '@waves/data-entities';
+import { AssetPair, Money, OrderPrice } from '@waves/data-entities';
 import { BigNumber } from '@waves/bignumber';
 import { request } from '../../utils/request';
 import { get } from '../../config';

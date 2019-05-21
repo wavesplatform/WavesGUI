@@ -1,5 +1,5 @@
 import { WAVES_ID } from '@waves/signature-generator';
-import { Asset, AssetPair,  Money, OrderPrice } from '@waves/data-entities';
+import { Asset, AssetPair, Money, OrderPrice } from '@waves/data-entities';
 import { BigNumber } from '@waves/bignumber';
 import { IHash, IMoneyFactory, IPriceMoneyFactory } from '../../interface';
 import { coinsMoneyFactory, normalizeAssetId, normalizeTime, priceMoneyFactory, toHash } from '../../utils/utils';
