@@ -1,7 +1,7 @@
 import { createSecureServer } from 'http2';
 import { createServer } from 'https';
 import { route, parseArguments, stat, loadLocales } from './ts-scripts/utils';
-import { readFileSync, existsSync,mkdirSync } from 'fs';
+import { readFileSync, existsSync, mkdirSync } from 'fs';
 import { serialize, parse as parserCookie } from 'cookie';
 import { compile } from 'handlebars';
 import { parse } from 'url';
@@ -141,7 +141,7 @@ function request(req, res) {
 }
 
 function wavesClientConfig(req, res, next) {
-    const cookies =  parseCookie(req.headers.cookie);
+    const cookies = parseCookie(req.headers.cookie);
     const connection: string | null = cookies ? cookies.connection : null;
 
     if (!req.url.includes('waves-client-config') || !connection) {
