@@ -130,37 +130,43 @@
              * @private
              */
             _calcCoords() {
-                let slidesAmount = 4;
-                switch (true) {
-                    case (window.innerWidth < 659):
-                        slidesAmount = 1;
-                        break;
-                    case (window.innerWidth < 1024):
-                        slidesAmount = 2;
-                        break;
-                    case (window.innerWidth < 1440):
-                        slidesAmount = 3;
-                        break;
-                    default:
-                        slidesAmount = 4;
-                }
+                const slidesAmount = this._getSlidesInWindowAmount(window.innerWidth);
                 const divs = range(0, slidesAmount).map(() => '<div class="slide"></div>');
                 this.node.append(divs);
-                const width = this.node.find('.slide').outerWidth();
-                const startCoords = this.node.find('.slide').toArray().map(element => {
-                    return $(element).offset().left;
-                });
+                const slide = this.node.find('.slide');
+                const width = slide.outerWidth();
+                const startCoords = slide
+                    .toArray()
+                    .map(element => $(element).offset().left);
                 this.node.empty();
-                this.diff = Math.round(startCoords[1] - startCoords[0]);
+                this.diff = startCoords.length > 1 ? Math.round(startCoords[1] - startCoords[0]) : width + 10;
                 this._coords = this.content.toArray().map((element, i) => {
                     const X = (i - 1) * this.diff;
-                    $(element).css('transform', `translateX(${X}px)`);
-                    $(element).css('width', width);
+                    $(element).css({
+                        transform: `translateX(${X}px)`,
+                        width
+                    });
                     $(element).data('translate', X);
                     return X;
                 });
 
-                this.content.addClass('abs');
+                this.content.addClass('absolute');
+            }
+
+            /**
+             * @private
+             */
+            _getSlidesInWindowAmount(width) {
+                switch (true) {
+                    case (width < 620):
+                        return 1;
+                    case (width < 1000):
+                        return 2;
+                    case (width < 1400):
+                        return 3;
+                    default:
+                        return 4;
+                }
             }
 
             /**
