@@ -141,7 +141,8 @@ function request(req, res) {
 }
 
 function wavesClientConfig(req, res, next) {
-    const connection: string | null = parseCookie(req.headers.cookie).connection;
+    const connection: string | null = parseCookie(req.headers.cookie) ?
+        parseCookie(req.headers.cookie).connection : null;
 
     if (!req.url.includes('waves-client-config') || !connection) {
         next();
