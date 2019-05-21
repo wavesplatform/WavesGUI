@@ -5,7 +5,10 @@
 @createAvatarBorder: 4px;
 @createAvatarSize: 50px;
 @createAvatarHoverSize: 60px;
+@createAvatarSizePhone: @createAvatarSize - 10px;
+@createAvatarHoverSizePhone: @createAvatarHoverSize - 10px;
 @createAvatarWrapperSize: @createAvatarHoverSize + @createAvatarBorder * 2;
+@createAvatarWrapperSizePhone: @createAvatarHoverSizePhone + @createAvatarBorder * 2;
 
 .create-account {
   .getStartedContentWidth(@getStartedContentPadding);
@@ -14,7 +17,7 @@
     width: @createAvatarSize;
     height: @createAvatarSize;
     opacity: .8;
-    transition: width 0.3s, height 0.3s, opacity 0.3s;
+    transition: transform 0.3s, opacity 0.3s;
   }
 
   .avatar-wrap {
@@ -24,49 +27,53 @@
   }
 
   .avatars-list {
-    display: flex;
     flex-direction: row;
     justify-content: space-around;
-    margin: 40px 0;
+  }
 
-    .avatar-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border-radius: 50%;
-      width: @createAvatarWrapperSize;
-      height: @createAvatarWrapperSize;
+  .avatar-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    width: @createAvatarWrapperSize;
+    height: @createAvatarWrapperSize;
 
-      &:hover {
-        .avatar-img {
-          opacity: 1;
-        }
+    &:hover {
+      .avatar-img {
+        opacity: 1;
       }
+    }
 
-      &.active {
-        box-shadow: 0 4px 18px 0 rgba(30, 41, 73, 0.15);
-        cursor: default;
+    &.active {
+      box-shadow: 0 4px 18px 0 rgba(30, 41, 73, 0.15);
+      cursor: default;
 
-        .avatar-img {
-          width: @createAvatarHoverSize;
-          height: @createAvatarHoverSize;
-          opacity: 1;
-        }
+      .avatar-img {
+        transform: scale(1.25);
+        opacity: 1;
       }
     }
   }
 }
-
-@media screen and (min-width: 768px) {
+body.tablet {
   .create-account {
     max-width: @getStartedContentWidth;
   }
 }
 
-@media screen and (max-width: 480px) {
-  .create-account .avatars-list {
-    margin: 20px;
+body.phone {
+  .create-account {
+    .avatar-img {
+      width: @createAvatarSizePhone;
+      height: @createAvatarSizePhone;
+    }
+
+    .avatar-wrapper {
+      width: @createAvatarWrapperSizePhone;
+      height: @createAvatarWrapperSizePhone;
+    }
   }
 }
 

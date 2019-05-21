@@ -1,30 +1,31 @@
-<div class="no-backup-no-money text-center">
+<div class="no-backup-no-money">
 
     <div class="icon"></div>
 
-    <div class="headline-1 margin-1">
-        <span w-i18n="noBackupNoMoney.title"></span>
-    </div>
+    <div class="text-center">
+        <div class="headline-1 margin-1">
+            <span w-i18n="noBackupNoMoney.title"></span>
+        </div>
 
-    <div class="body-2 basic-500 margin-4">
-        <span w-i18n="noBackupNoMoney.description"></span>
-    </div>
+        <div class="body-2 basic-500 margin-4">
+            <span w-i18n="noBackupNoMoney.description"></span>
+        </div>
 
-    <div class="margin-2">
-        <w-button class="submit big long" on-click="$ctrl.next()">
-            <span w-i18n="noBackupNoMoney.backup"></span>
-        </w-button>
-    </div>
+        <div class="margin-2">
+            <w-button class="submit big long" on-click="$ctrl.next()">
+                <span w-i18n="noBackupNoMoney.backup"></span>
+            </w-button>
+        </div>
 
-    <div class="or margin-2">
-        <span w-i18n="noBackupNoMoney.or"></span>
-    </div>
+        <div class="or">
+            <span w-i18n="noBackupNoMoney.or"></span>
+        </div>
 
-    <div class="margin-2">
-        <a class="fake-button long" ng-click="$ctrl.createWithoutBackup()">
-            <span class="fake-button-content big long submit-light"
-                  w-i18n="noBackupNoMoney.skip"></span>
-        </a>
+        <div class="margin-2">
+            <a class="fake-button long" ng-click="$ctrl.createWithoutBackup()">
+                <span class="fake-button-content big long submit-light" w-i18n="noBackupNoMoney.skip"></span>
+            </a>
+        </div>
     </div>
 
 </div>
