@@ -1,52 +1,49 @@
-<div class="main-container-wrapper">
-    <div class="create-account">
+<div class="create-account">
 
-        <div class="text-center">
-            <div class="headline-1 margin-1">
-                <span w-i18n="createAccount.createNewAccount"></span>
-            </div>
-
-            <div class="body-2 margin-top-2 basic-500">
-                <span w-i18n="createAccount.from"></span>
-            </div>
-
+    <div class="text-center">
+        <div class="headline-1 margin-1">
+            <span w-i18n="createAccount.createNewAccount"></span>
         </div>
 
-        <div class="avatars-list">
-            <div class="avatar-wrapper"
-                 ng-repeat="seed in $ctrl.seedList track by seed.address"
-                 ng-class="{active: seed.active}"
-                 ng-click="$ctrl.setActiveSeed(seed)">
-                <w-avatar size="60"
-                          address="seed.address"></w-avatar>
-            </div>
+        <div class="body-2 margin-top-2 basic-500">
+            <span w-i18n="createAccount.from"></span>
         </div>
-
-        <div class="body-2 basic-900" w-i18n="createAccount.address"></div>
-
-        <w-copy-wrap class="body-1 mobile-low-fsize margin-2"
-             info="$ctrl.address">{{$ctrl.address}}
-            <w-loader ng-if="!$ctrl.address"></w-loader>
-        </w-copy-wrap>
-
-        <div class="margin-2 flex">
-            <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
-            <label for="save-user-data" class="footnote-1 basic-500">
-                <span w-i18n="createAccount.saveUserData"></span>
-            </label>
-        </div>
-
-        <div class="margin-2">
-            <w-button
-                on-click="$ctrl.next($ctrl.stepIndex + $ctrl.saveUserData ? 1 : 2)"
-                class="submit long big">
-                <span w-i18n="button.continue"></span>
-            </w-button>
-        </div>
-
-        <!--TODO #wrap-in-component-->
-
-        <w-get-started-link></w-get-started-link>
 
     </div>
+
+    <div class="avatars-list flex margin-4 margin-top-4">
+        <div class="avatar-wrapper"
+             ng-repeat="seed in $ctrl.seedList track by seed.address"
+             ng-class="{active: seed.active}"
+             ng-click="$ctrl.setActiveSeed(seed)">
+            <w-avatar address="seed.address"></w-avatar>
+        </div>
+    </div>
+
+    <div class="body-2 basic-900 margin-05" w-i18n="createAccount.address"></div>
+
+    <w-copy-wrap class="body-2 margin-2"
+         info="$ctrl.address">{{$ctrl.address}}
+        <w-loader ng-if="!$ctrl.address"></w-loader>
+    </w-copy-wrap>
+
+    <div class="margin-2 flex">
+        <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
+        <label for="save-user-data" class="footnote-1 basic-500">
+            <span w-i18n="createAccount.saveUserData"></span>
+        </label>
+    </div>
+
+    <div class="margin-2">
+        <w-button
+            on-click="$ctrl.next($ctrl.stepIndex + $ctrl.saveUserData ? 1 : 2)"
+            class="submit long big">
+            <span w-i18n="button.continue"></span>
+        </w-button>
+    </div>
+
+    <!--TODO #wrap-in-component-->
+
+    <w-get-started-link></w-get-started-link>
+
 </div>

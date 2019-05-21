@@ -128,29 +128,3 @@
 .hide-selection {
   background: none transparent;
 }
-
-.or {
-  text-transform: uppercase;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  white-space: nowrap;
-
-  &::before, &::after {
-    content: '';
-    display: inline-block;
-    height: 0;
-    border-bottom: 1px solid @color-disabled-200;
-    width: 100%;
-  }
-
-  &::before {
-    margin: 0 10px 0 0;
-  }
-
-  &::after {
-    margin: 0 0 0 10px;
-  }
-}
