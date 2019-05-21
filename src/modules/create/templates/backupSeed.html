@@ -3,7 +3,7 @@
         <span w-i18n="backupSeed.saveSecret"></span>
     </div>
 
-    <div class="body-2 basic-500 margin-2">
+    <div class="body-2 basic-500 margin-top-2 margin-2">
         <span w-i18n="backupSeed.warn"></span>
         <a ng-click="$ctrl.next(-1)" w-i18n="backupSeed.back"></a>
     </div>
@@ -19,16 +19,14 @@
         </span>
     </div>
 
-    <w-seed-read type="read" seed="{{::$ctrl.seed}}" class="no-user-select margin-4 margin-top-2"></w-seed-read>
+    <w-seed-read type="read" seed="{{::$ctrl.seed}}" class="no-user-select margin-1 margin-top-2"></w-seed-read>
 
     <div class="body-2 basic-900">
         <span w-i18n="backupSeed.needConfirm"></span>
     </div>
 
-    <div class="margin-2">
-        <w-button class="submit big long" on-click="$ctrl.next()">
-            <span w-i18n="backupSeed.ok"></span>
-        </w-button>
-    </div>
+    <w-button class="submit big long" on-click="$ctrl.next()">
+        <span w-i18n="backupSeed.ok"></span>
+    </w-button>
     <w-get-started-link></w-get-started-link>
 </div>
