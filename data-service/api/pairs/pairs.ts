@@ -1,4 +1,4 @@
-import { Asset, AssetPair, Money,  } from '@waves/data-entities';
+import { Asset, AssetPair, Money } from '@waves/data-entities';
 import { BigNumber } from '@waves/bignumber';
 import { getDataService, matcherSettingsPromise } from '../../config';
 import { request } from '../../utils/request';
