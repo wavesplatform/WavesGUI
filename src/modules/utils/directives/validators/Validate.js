@@ -265,7 +265,7 @@
                                 handler: (modelValue) => {
                                     try {
                                         const num = Validate._toBigNumber(modelValue);
-                                        return !modelValue || num.dp(0).eq(Validate._toBigNumber(modelValue));
+                                        return !modelValue || num.roundTo(0).eq(Validate._toBigNumber(modelValue));
                                     } catch (e) {
                                         return false;
                                     }

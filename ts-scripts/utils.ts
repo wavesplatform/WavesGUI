@@ -351,9 +351,8 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
             };
 
             config._initApp = function () {
-                global.BigNumber = ds.wavesDataEntities.BigNumber;
-
                 // Signed 64-bit integer.
+                const { BigNumber } = require('@waves/bignumber');
                 WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
                 WavesApp.analyticsIframe = config.analyticsIframe;
                 WavesApp.device = new MobileDetect(navigator.userAgent);

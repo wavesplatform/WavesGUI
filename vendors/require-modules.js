@@ -3,7 +3,7 @@
 
     var MODULES_MAP = {
         'ts-utils': 'tsUtils',
-        'bignumber.js': 'BigNumber',
+        '@waves/bignumber': 'BigNumber',
         'ts-api-validator': 'tsApiValidator',
         'parse-json-bignumber': 'parseJsonBignumber',
         '@waves/marshall': 'WavesMarshall',

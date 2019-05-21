@@ -1,4 +1,3 @@
-/* global BigNumber, tsUtils */
 (function () {
     'use strict';
 
@@ -40,6 +39,7 @@
         };
 
         const ds = require('data-service');
+        const { BigNumber } = require('@waves/bignumber');
         const { AssetPair } = require('@waves/data-entities');
 
         const MIN_LINES = 15;
@@ -352,7 +352,7 @@
                     const inRange = order.price.gte(crop.min) && order.price.lte(crop.max);
                     const type = order.type;
                     const totalAmount = order.totalAmount && order.totalAmount.toFixed();
-                    const width = order.amount.div(maxAmount).times(100).toFixed(2);
+                    const width = order.amount.div(maxAmount).mul(100).toFixed(2);
                     const amount = utils.getNiceNumberTemplate(order.amount, this.amountAsset.precision, true);
                     const price = utils.getNiceNumberTemplate(order.price, this.priceAsset.precision, true);
                     const total = utils.getNiceNumberTemplate(order.total, this.priceAsset.precision, true);

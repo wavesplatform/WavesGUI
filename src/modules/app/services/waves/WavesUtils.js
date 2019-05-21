@@ -11,6 +11,7 @@
 
         const ds = require('data-service');
         const entities = require('@waves/data-entities');
+        const { BigNumber } = require('@waves/bignumber');
         const {
             flatten, pipe, map,
             where, prop, gt, gte, allPass,
@@ -159,7 +160,7 @@
                     if (open.eq(0)) {
                         return new BigNumber(0);
                     } else {
-                        return close.minus(open).div(open).times(100).dp(2);
+                        return close.minus(open).div(open).mul(100).roundTo(2);
                     }
                 };
 
@@ -288,8 +289,8 @@
                      * @return {BigNumber}
                      */
                     exchange(balance) {
-                        return balance.times(rate.toFixed(8))
-                            .dp(to.precision);
+                        return balance.mul(rate.toFixed(8))
+                            .roundTo(to.precision);
                     },
 
                     /**
@@ -298,7 +299,7 @@
                      * @return {BigNumber}
                      */
                     exchangeReverse(balance) {
-                        return (rate ? balance.div(rate) : new BigNumber(0)).dp(from.precision);
+                        return (rate ? balance.div(rate) : new BigNumber(0)).roundTo(from.precision);
                     },
 
                     /**

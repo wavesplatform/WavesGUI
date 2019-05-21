@@ -12,7 +12,7 @@
         }
     };
 
-    const TIMES = {
+    const mul = {
         sec: 1000,
         min: 1000 * 60,
         hour: 1000 * 60 * 60,
@@ -96,24 +96,24 @@
                 const delta = Date.now() - date;
                 this.timerCallback = () => this._initTimeAgoMode();
 
-                if (delta < TIMES.min) {
-                    $element.html(`${Math.round(delta / TIMES.sec)} sec ago`);
+                if (delta < mul.min) {
+                    $element.html(`${Math.round(delta / mul.sec)} sec ago`);
                     this.handlerType = 'sec';
                     controller.once(this.handlerType, this.timerCallback);
-                } else if (delta < TIMES.hour) {
-                    $element.html(`${Math.round(delta / TIMES.min)} min ago`);
+                } else if (delta < mul.hour) {
+                    $element.html(`${Math.round(delta / mul.min)} min ago`);
                     this.handlerType = 'min';
                     controller.once(this.handlerType, this.timerCallback);
-                } else if (delta < TIMES.day) {
-                    $element.html(`${Math.round(delta / TIMES.hour)} hours ago`);
+                } else if (delta < mul.day) {
+                    $element.html(`${Math.round(delta / mul.hour)} hours ago`);
                     this.handlerType = 'hour';
                     controller.once(this.handlerType, this.timerCallback);
-                } else if (delta < TIMES.week) {
-                    $element.html(`${Math.round(delta / TIMES.day)} days ago`);
-                } else if (delta < TIMES.month) {
-                    $element.html(`${Math.round(delta / TIMES.week)} weeks ago`);
-                } else if (delta < TIMES.year) {
-                    $element.html(`${Math.round(delta / TIMES.month)} months ago`);
+                } else if (delta < mul.week) {
+                    $element.html(`${Math.round(delta / mul.day)} days ago`);
+                } else if (delta < mul.month) {
+                    $element.html(`${Math.round(delta / mul.week)} weeks ago`);
+                } else if (delta < mul.year) {
+                    $element.html(`${Math.round(delta / mul.month)} months ago`);
                 } else {
                     $element.html('A lot of time ago');
                 }
@@ -179,7 +179,7 @@
         controller.timers[type] = setTimeout(() => {
             controller.timers[type] = null;
             controller.trigger(type);
-        }, TIMES[type]);
+        }, mul[type]);
     };
 
     angular.module('app')

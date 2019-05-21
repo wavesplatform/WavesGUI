@@ -1,5 +1,6 @@
 {
   "vendors": [
+    "node_modules/@waves/bignumber/dist/bignumber.umd.js",
     "node_modules/@waves/oracle-data/dist/oracle-data.min.js",
     "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js",
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",

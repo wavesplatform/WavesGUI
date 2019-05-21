@@ -1,4 +1,3 @@
-/* global BigNumber */
 (function () {
     'use strict';
 
@@ -7,6 +6,9 @@
         startFrom: 0,
         center: 0
     };
+
+    const ds = require('data-service');
+    const { BigNumber } = require('@waves/bignumber');
 
     /**
      *

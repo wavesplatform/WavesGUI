@@ -362,7 +362,7 @@
 
                 this.waves.utils.getRate(balance.asset.id, baseAssetId)
                     .then(rate => {
-                        const baseAssetBalance = balance.available.getTokens().times(rate).toFormat(2);
+                        const baseAssetBalance = balance.available.getTokens().mul(rate).toFormat(2);
 
                         this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = rate.toFixed(2);
                         this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = baseAssetBalance;

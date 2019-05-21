@@ -8,6 +8,7 @@
     const factory = function (Base) {
 
         const { Money } = require('@waves/data-entities');
+        const { BigNumber } = require('@waves/bignumber');
         const tsUtils = require('ts-utils');
 
         class ChartFactory extends Base {
@@ -132,7 +133,7 @@
             _getChartData() {
                 const height = new BigNumber(this.canvas.height);
                 const width = new BigNumber(this.canvas.width);
-                const maxChartHeight = height.times(0.9);
+                const maxChartHeight = height.mul(0.9);
 
                 return this.options.charts.map(chartOptions => {
                     const xValues = [];
@@ -164,8 +165,8 @@
                         const xValue = xValues[i];
                         const yValue = yValues[i];
 
-                        const x = xValue.minus(xMin).times(xFactor).toNumber();
-                        const y = height.minus(yValue.minus(yMin).times(yFactor)).toNumber();
+                        const x = xValue.minus(xMin).mul(xFactor).toNumber();
+                        const y = height.minus(yValue.minus(yMin).mul(yFactor)).toNumber();
 
                         coordinates.push({ x, y });
                     }

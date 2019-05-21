@@ -307,7 +307,7 @@
             setMaxPrice() {
                 const amount = this._getMaxAmountForBuy();
                 const total = this.priceBalance.cloneWithTokens(
-                    this.price.getTokens().times(amount.getTokens())
+                    this.price.getTokens().mul(amount.getTokens())
                 );
                 const price = this.price;
                 this._updateField({ amount, total, price });
@@ -442,7 +442,7 @@
                 const isBuy = orderData.orderType === 'buy';
                 const factor = isBuy ? 1 : -1;
                 const limit = 1 + factor * (Number(user.getSetting('orderLimit')) || 0);
-                const price = (new BigNumber(isBuy ? this.ask.price : this.bid.price)).times(limit);
+                const price = (new BigNumber(isBuy ? this.ask.price : this.bid.price)).mul(limit);
                 const orderPrice = orderData.price.getTokens();
 
                 if (price.isNaN() || price.eq(0)) {
@@ -551,7 +551,7 @@
                         .toNonNegative()
                         .getTokens()
                         .div(this.price.getTokens())
-                        .dp(this.amountBalance.asset.precision)
+                        .roundTo(this.amountBalance.asset.precision)
                 );
             }
 
@@ -704,7 +704,7 @@
                 const price = this._validPrice();
                 const amount = this._validAmount();
                 this._setDirtyField('total', this.priceBalance.cloneWithTokens(
-                    price.times(amount)
+                    price.mul(amount)
                 ));
                 this._silenceNow = true;
             }

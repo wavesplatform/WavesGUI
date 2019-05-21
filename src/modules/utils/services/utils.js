@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-/* global BigNumber */
 (function () {
     'use strict';
 
@@ -10,8 +9,9 @@
     const { libs } = require('@waves/signature-generator');
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
-    const { Money, BigNumber } = require('@waves/data-entities');
+    const { Money } = require('@waves/data-entities');
     const { STATUS_LIST } = require('@waves/oracle-data');
+    const { BigNumber } = require('@waves/bignumber');
 
     const nullOrCb = (name, cb) => (val1, val2) => {
         const v1 = val1[name];
@@ -1293,7 +1293,7 @@
                 const spreadPrice = new BigNumber(data.asks[0].price)
                     .plus(data.bids[0].price)
                     .div(2);
-                const delta = spreadPrice.times(data.chartCropRate).div(2);
+                const delta = spreadPrice.mul(data.chartCropRate).div(2);
                 const max = spreadPrice.plus(delta);
                 const min = BigNumber.max(0, spreadPrice.minus(delta));
 
@@ -1494,7 +1494,7 @@
                 const amountTokens = amount.getTokens();
                 const priceTokens = price.getTokens();
                 const precision = price.asset.precision;
-                return amountTokens.times(priceTokens).toFormat(precision);
+                return amountTokens.mul(priceTokens).toFormat(precision);
             },
 
             /**

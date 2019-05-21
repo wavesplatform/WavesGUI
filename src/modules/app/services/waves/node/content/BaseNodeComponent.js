@@ -57,11 +57,11 @@
                             const bigNumberFee = currentFee(bytes, hasScript, smartAssetsIdList);
                             const count = bigNumberFee
                                 .div(feeConfig.calculate_fee_rules.default.fee)
-                                .dp(0, BigNumber.ROUND_UP);
+                                .roundTo(0, BigNumber.ROUND_MODE.ROUND_UP);
 
                             const fee = new Money(bigNumberFee, wavesAsset);
                             const feeList = ds.utils.getTransferFeeList()
-                                .map(money => money.cloneWithTokens(money.getTokens().times(count)));
+                                .map(money => money.cloneWithTokens(money.getTokens().mul(count)));
 
                             return MULTY_FEE_TRANSACTIONS[tx.type] ? [fee, ...feeList] : [fee];
                         });

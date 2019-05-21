@@ -1,4 +1,5 @@
-import { Asset, Money, BigNumber } from '@waves/data-entities';
+import { Asset, Money,  } from '@waves/data-entities';
+import { BigNumber } from '@waves/bignumber';
 import { get as configGet, getDataService } from '../../config';
 import { request } from '../../utils/request';
 import { IBalanceItem, assetsApi } from './interface';

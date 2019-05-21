@@ -120,7 +120,7 @@
                 analytics.send({ name: 'Token Generation Generate Click', target: 'ui' });
 
                 const precision = Number(this.precision.toString());
-                const quantity = this.count.times(Math.pow(10, precision));
+                const quantity = this.count.mul(Math.pow(10, precision));
                 const script = this.hasAssetScript && this.script ? `${BASE_64_PREFIX}${this.script}` : '';
 
                 const tx = waves.node.transactions.createTransaction({

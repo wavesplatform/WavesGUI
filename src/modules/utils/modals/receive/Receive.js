@@ -322,8 +322,8 @@
                     this._tokenizeCardPayment()
                 )
                     .then((approximateAmount) => {
-                        const coins = new BigNumber(approximateAmount).times(Math.pow(10, this.asset.precision));
-                        this.approximateAmount = new ds.wavesDataEntities.Money(coins.dp(0), this.asset);
+                        const coins = new BigNumber(approximateAmount).mul(Math.pow(10, this.asset.precision));
+                        this.approximateAmount = new ds.wavesDataEntities.Money(coins.roundTo(0), this.asset);
                         $scope.$digest();
                     });
             }
