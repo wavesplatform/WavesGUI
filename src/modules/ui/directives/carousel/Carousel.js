@@ -132,13 +132,13 @@
             _calcCoords() {
                 let slidesAmount = 4;
                 switch (true) {
-                    case (window.innerWidth < 620):
+                    case (window.innerWidth < 659):
                         slidesAmount = 1;
                         break;
-                    case (window.innerWidth < 1000):
+                    case (window.innerWidth < 1024):
                         slidesAmount = 2;
                         break;
-                    case (window.innerWidth < 1400):
+                    case (window.innerWidth < 1440):
                         slidesAmount = 3;
                         break;
                     default:

@@ -3,14 +3,13 @@
         <a class="logo" href="/"></a>
 
         <nav class="top-menu top-menu-welcome">
-            <a class="link-dex" href="/dex-demo">Exchange</a>
-            <a href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html" target="_blank">API</a>
-            <a href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html" target="_blank">Help</a>
-            <a href="#">News</a> <!-- TODO waves dex twitter channel -->
-
+            <a class="link-margin link-dex" href="/dex-demo">Exchange</a>
+            <a class="link-margin" href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html" target="_blank">API</a>
+            <a class="link-margin" href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html" target="_blank">Help</a>
+            <a class="link-margin" href="#">News</a> <!-- TODO waves dex twitter channel -->
             <div class="relative dropdown-toggler">
                 <a class="dropdown-btn" href="https://wavesplatform.com/products-wallet" target="_blank">Download</a>
-                <div class="dropdown">
+                <div class="dropdown menu-margin">
                     <a href="https://wavesplatform.com/files/WavesClient-win.zip">
                         <i class="dropdown-icon icon-24 icon-win"></i>
                         <div>
@@ -38,17 +37,9 @@
             </div>
         </nav>
 
-        <!-- TODO -->
-        <div class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
-            <a href="#" class="submit-400 body-2 margin-right-3">Sign In</a>
-            <a class="fake-button submit medium" href="/create">
-                <span class="fake-button-content medium submit">Get Started</span>
-            </a>
-        </div>
-
         <nav class="top-menu top-menu-wallet">
-            <a class="link-dex" href="/dex">Exchange</a>
-            <div class="relative dropdown-toggler">
+            <a class="link-margin link-dex" href="/dex">Exchange</a>
+            <div class="relative dropdown-toggler link-margin">
                 <a class="dropdown-btn link-wallet" href="/wallet/assets">Wallet</a>
                 <div class="dropdown">
                     <a class="link-assets" href="/wallet/assets">
@@ -77,10 +68,17 @@
                     </a>
                 </div>
             </div>
-            <a class="link-tokens" href="/tokens">Create token</a>
+            <a class="link-margin link-tokens" href="/tokens">Create token</a>
         </nav>
 
-        <div class="avatar-container dropdown-toggler has-helper">
+        <div class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
+            <a class="body-2 margin-right-3 submit-400" href="/signDex">Sign In</a>
+            <a class="fake-button submit medium" href="/create">
+                <span class="fake-button-content medium submit">Get Started</span>
+            </a>
+        </div>
+
+        <div ng-if="$ctrl.isLogined" class="avatar-container dropdown-toggler has-helper">
             <w-analytics event="'Account Picture Click'" event-target="'ui'">
                 <w-avatar
                     type="{{$ctrl.userType}}"
@@ -105,7 +103,6 @@
             </w-help-icon>
 
             <div class="dropdown">
-
                 <div class="center">
                     <w-avatar
                         type="{{$ctrl.userType}}"
@@ -121,19 +118,19 @@
                     </div>
                 </div>
 
-                <a class="link-aliases">
+                <a class="link-aliases" ng-click="$ctrl.avatarClick()">
                     <i class="dropdown-icon icon-18 icon-aliases"></i>
                     <div>
                         <div>Aliases</div>
                     </div>
                 </a>
-                <a class="link-settings">
+                <a class="link-settings" ng-click="$ctrl.settings()">
                     <i class="dropdown-icon icon-18 icon-settings"></i>
                     <div>
                         <div>Settings</div>
                     </div>
                 </a>
-                <a class="link-logout">
+                <a class="link-logout" ng-click="$ctrl.logout()">
                     <i class="dropdown-icon icon-18 icon-logout"></i>
                     <div>
                         <div>Log Out</div>

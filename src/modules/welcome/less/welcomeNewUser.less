@@ -2,14 +2,7 @@
 @import (reference) 'icons'; // TODO uIsk - move all icons to icons config
 @import (reference) '../../app/less/typography';
 
-@keyframes header-animation {
-  from {
-    transform: translateX(-50%);
-  }
-  to {
-    transform: translate(-50%, 82px);
-  }
-}
+
 
 body.welcome {
   width: 100%;
@@ -46,23 +39,64 @@ body.welcome {
     margin: 0 auto;
   }
 
+  w-site-header {
+    &.fixed header {
+      top: -82px;
+      position: fixed;
+      animation: header-down 1s ease-in-out;
+      animation-fill-mode: forwards;
+    }
+
+    &.unfixed header {
+      top: 0;
+
+      box-shadow: none;
+      animation: header-up 1s ease-in-out;
+      animation-fill-mode: forwards;
+    }
+  }
+
+  @keyframes header-down {
+    0% {
+      transform: translateX(-50%);
+      box-shadow: none;
+    }
+    50% {
+      transform: translate(-50%, 82px);
+    }
+    75% {
+      transform: translate(-50%, 72px);
+    }
+    100% {
+      box-shadow: 0 0 10px 0 lightgrey;
+      transform: translate(-50%, 82px);
+      position: fixed;
+    }
+  }
+
+  @keyframes header-up {
+    0% {
+      box-shadow: 0 0 10px 0 lightgrey;
+      transform: translateX(-50%, 82px);
+      position: fixed;
+
+    }
+    100% {
+      transform: translate(-50%);
+      box-shadow: none;
+      position: absolute;
+    }
+  }
+
   header {
     width: 100%;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     top: 0;
-    height: 82px;
     display: block;
     z-index: 11;
     background: @color-white;
-
-    &.fixed-header {
-      top: -82px;
-      position: fixed;
-      box-shadow: 0 0 10px 0 #000;
-      animation: header-animation 4s ease;
-    }
   }
 
   .get-started-btn {
@@ -277,17 +311,14 @@ body.welcome {
 
     &-slider {
       background: @color-basic-50;
-      overflow: visible;
-      max-width: 1440px;
-      margin: 0 auto;
-      padding-bottom: 80px;
-      padding-top: 80px;
-      padding-left: 80px;
-      padding-right: 80px;
+      overflow: hidden;
+      padding: 80px 0;
+      max-width: 100%;
 
       .slider {
         display: flex;
         width: 100%;
+        max-width: 1440px;
       }
 
       w-carousel {
