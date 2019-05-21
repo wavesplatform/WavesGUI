@@ -5,13 +5,13 @@
 
             <div class="margin-5 text-center">
                 <div class="headline-1 margin-1" w-i18n="userList.title"></div>
-                <div class="body-2 margin-top-2 disabled-600">
+                <div class="body-2 margin-top-2 basic-500">
                     <span w-i18n="userList.notHaveAccount"></span>
                     <a ui-sref="create" w-i18n="userList.createAccount"></a>
                 </div>
             </div>
 
-            <div class="body-2 basic-900" w-i18n="userList.address"></div>
+            <div class="body-2 basic-900 margin-05" w-i18n="userList.address"></div>
 
             <w-select ng-model="$ctrl.activeUserAddress" class="big margin-3">
                 <w-option ng-repeat="user in $ctrl.userList track by user.address"
@@ -35,7 +35,7 @@
             </w-select>
 
             <div class="password-placeholder" ng-if="$ctrl.needPassword">
-                <div class="body-2 basic-900" w-i18n="userList.password"></div>
+                <div class="body-2 basic-900 margin-05" w-i18n="userList.password"></div>
             </div>
             <form class="margin-2"
                   name="$ctrl.loginForm"

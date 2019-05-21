@@ -37,8 +37,8 @@
     justify-content: center;
     cursor: pointer;
     border-radius: 50%;
-    width: @createAvatarWrapperSize;
-    height: @createAvatarWrapperSize;
+    //width: @createAvatarWrapperSize;
+    //height: @createAvatarWrapperSize;
 
     &:hover {
       .avatar-img {
@@ -57,9 +57,12 @@
     }
   }
 }
-body.tablet {
-  .create-account {
-    max-width: @getStartedContentWidth;
+body {
+  &.tablet,
+  &.desktop {
+    .create-account {
+      max-width: @getStartedContentWidth;
+    }
   }
 }
 

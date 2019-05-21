@@ -34,13 +34,11 @@
         </label>
     </div>
 
-    <div class="margin-2">
-        <w-button
-            on-click="$ctrl.next($ctrl.stepIndex + $ctrl.saveUserData ? 1 : 2)"
-            class="submit long big">
-            <span w-i18n="button.continue"></span>
-        </w-button>
-    </div>
+    <w-button
+        on-click="$ctrl.next($ctrl.stepIndex + $ctrl.saveUserData ? 1 : 2)"
+        class="submit long big">
+        <span w-i18n="button.continue"></span>
+    </w-button>
 
     <!--TODO #wrap-in-component-->
 

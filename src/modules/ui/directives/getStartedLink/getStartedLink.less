@@ -6,6 +6,7 @@
   &-btnLink { // .get-started-btnLink
     width: 100%;
     background: @color-white;
+    border-radius: @border-radius;
     margin-bottom: 10px;
 
     &-content {
@@ -87,14 +88,17 @@
   }
 }
 
-body.tablet {
-  .get-started-btnLink {
-    &-content {
-      height: 52px;
-    }
+body {
+  &.desktop,
+  &.tablet {
+    .get-started-btnLink {
+      &-content {
+        height: 52px;
+      }
 
-    &-description {
-      display: block;
+      &-description {
+        display: block;
+      }
     }
   }
 }
