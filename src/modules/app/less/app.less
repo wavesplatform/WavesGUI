@@ -15,7 +15,7 @@ body {
   .footnote-1();
   width: 100%;
   height: 100%;
-  min-width: 360px;
+  min-width: 320px;
   overflow: auto;
   color: @color-basic-900;
   background-color: @app-background;
@@ -224,12 +224,26 @@ w-scroll-box {
 
 .main-container {
   display: flex;
+  width: 100%;
   flex: 1;
 
   &-wrapper {
     display: flex;
+    width: 100%;
     flex-grow: 1;
     box-shadow: 0 1px 0 0 rgba(161, 181, 230, 0.15) inset;
+  }
+}
+
+body {
+  .main-container-wrapper {
+    margin-top: 60px;
+  }
+
+  &.phone {
+    .main-container-wrapper {
+      margin-top: 50px;
+    }
   }
 }
 

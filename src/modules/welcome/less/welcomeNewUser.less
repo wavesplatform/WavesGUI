@@ -255,9 +255,13 @@ body.welcome {
 
     &-slider {
       background: @color-basic-50;
-      overflow: hidden;
-      padding: 80px 0;
-      max-width: 100%;
+      overflow: visible;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding-bottom: 80px;
+      padding-top: 80px;
+      padding-left: 80px;
+      padding-right: 80px;
 
       .slider {
         display: flex;
@@ -272,16 +276,14 @@ body.welcome {
 
       .slide {
         border-radius: @border-radius;
-        width: 22%;
-        min-width: 280px;
+        width: 23%;
+        min-width: 290px;
         max-width: 380px;
         height: 141px;
         background: @color-white;
         padding: 30px;
-        //margin-right: 30px;
-        &.abs {
+        &.absolute {
           position: absolute;
-          left: 0;
         }
         .graph {
           width: 100px;
