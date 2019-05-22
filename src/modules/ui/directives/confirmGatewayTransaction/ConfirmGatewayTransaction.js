@@ -46,7 +46,7 @@
                 return this.signable.getDataForApi()
                     .then(data => ds.broadcast(data, 'https://gateways-dev.wvservices.com/api/v1/external/send'))
                     .then(data => {
-                        analytics.send({ name: 'VOSTOK Transaction Success', params: { type: data.type } });
+                        analytics.send({ name: 'VOSTOK Transaction Success' });
                         return data;
                     }, (error) => {
                         analytics.send({ name: 'VOSTOK Transaction Error' });
