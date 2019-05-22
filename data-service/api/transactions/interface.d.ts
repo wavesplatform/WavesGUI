@@ -344,7 +344,7 @@ export type TDataEntry = TDataEntryInteger | TDataEntryBoolean | TDataEntryBinar
 export interface TDataEntryInteger {
     type: 'integer';
     key: string;
-    value: number;
+    value: number | BigNumber;
 }
 
 export interface TDataEntryBoolean {
