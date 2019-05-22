@@ -19,6 +19,7 @@ body.dex-demo .dex-wrapper {
         display: inline-block;
         width: 100%;
         z-index: 4;
+        height: 35px;
 
         w-help-icon {
           position: absolute;
@@ -43,19 +44,12 @@ body.dex-demo .dex-wrapper {
         }
       }
 
-      input {
-        background: @input-search-icon 8px 50% no-repeat;
-        border: 0 none;
-        width: 100%;
-        padding-left: 31px;
-        height: 35px;
-        color: @color-disabled-900;
-        font-size: @font-size-caption-1;
-        border-bottom: 1px solid @color-basic-100;
+      .search-input {
+        border-bottom-color: @color-basic-100;
 
         &:focus {
-          box-shadow: 0 0 0 1px @color-submit-400 inset;
           position: relative;
+          border-color: @color-submit-300;
           z-index: 2;
         }
 

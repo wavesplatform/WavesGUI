@@ -101,7 +101,6 @@
             }
 
             createTransaction(txData) {
-
                 const tx = {
                     sender: user.address,
                     timestamp: Date.now(),
@@ -121,7 +120,6 @@
              */
             _pipeTransaction() {
                 return (tx) => {
-
                     tx.timestamp = new Date(tx.timestamp);
                     tx.typeName = utils.getTransactionTypeName(tx);
                     tx.templateType = Transactions._getTemplateType(tx);
@@ -181,6 +179,8 @@
                         return 13;
                     case WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP:
                         return 14;
+                    case WavesApp.TRANSACTION_TYPES.NODE.SCRIPT_INVOCATION:
+                        return 16;
                     default:
                         throw new Error('Wrong tx name!');
                 }
@@ -216,6 +216,8 @@
                         return 'sponsorship';
                     case TYPES.SPONSORSHIP_FEE:
                         return 'sponsorship_fee';
+                    case TYPES.SCRIPT_INVOCATION:
+                        return 'script-invocation';
                     case TYPES.UNKNOWN:
                         return 'unknown';
                     default:

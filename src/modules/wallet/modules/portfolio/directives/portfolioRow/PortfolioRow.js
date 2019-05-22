@@ -231,7 +231,7 @@
                     const { isVerified, isGateway,
                         isTokenomica, logo } = utils.getDataFromOracles(this.balance.asset.id);
 
-                    this.isVerifiedOrGateway = isVerified && isGateway;
+                    this.isVerifiedOrGateway = isVerified || isGateway;
 
                     const html = template({
                         canSetAssetScript: this._isMyAsset && this.isSmart,
@@ -359,6 +359,14 @@
                     change24Node.classList.remove('plus');
                     this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
                     this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+
+                    return null;
+                }
+
+                if (balance.isOnScamList) {
+                    this.node.querySelector(`.${SELECTORS.CHANGE_24}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
 
                     return null;
                 }

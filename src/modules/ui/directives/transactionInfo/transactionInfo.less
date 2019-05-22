@@ -1,5 +1,6 @@
 @import (reference) '../../../app/less/typography';
 @import (reference) "../../../app/less/app-icons";
+@import (reference) '../../../app/less/app';
 @import (reference) 'config';
 @import (reference) 'icons';
 
@@ -194,6 +195,11 @@ w-transaction-info-header + w-transaction-info-general {
         max-height: 140px;
         overflow: scroll;
       }
+
+      &__button {
+        color: @color-submit-300;
+        cursor: pointer;
+      }
     }
 
     &-border-ts {
@@ -304,13 +310,17 @@ w-transaction-info-header + w-transaction-info-general {
       .icon-tx-set-asset-script();
     }
 
+    &.script-invocation {
+      .icon-tx-script-invocation();
+    }
+
     &::before {
       width: @tx-icon-size;
       height: @tx-icon-size;
       background-size: auto;
       background-color: @color-white;
       background-repeat: no-repeat;
-      background-image: url(/img/icons/transaction-icons-80.svg);
+      background-image: @transaction-icons;
       content: '';
       display: block;
     }
@@ -379,7 +389,7 @@ w-transaction-info-header + w-transaction-info-general {
     display: flex;
     flex: 1 1 0;
     overflow: hidden;
-
+    margin-right: 10px;
     .txinfo__unit {
       text-overflow: ellipsis;
       overflow: hidden;
@@ -388,6 +398,7 @@ w-transaction-info-header + w-transaction-info-general {
 
     &:last-child {
       justify-content: flex-end;
+      margin-right: 0;
     }
   }
 
@@ -399,6 +410,174 @@ w-transaction-info-header + w-transaction-info-general {
 
     &-text {
       cursor: pointer;
+    }
+  }
+
+  .transaction-details {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 13px;
+    padding: 0 0 16px;
+    border-radius: 4px;
+    max-height: 217px;
+    overflow-y: hidden;
+    background-color: @color-basic-50;
+    transition: max-height 0.3s, margin 0.3s, padding 0.3s;
+    &.ng-hide {
+      max-height: 0;
+      margin-bottom: 0;
+      padding: 0;
+    }
+    &.ng-hide-add {
+      overflow-y: hidden;
+    }
+    &.ng-hide-remove {
+      overflow-y: hidden;
+    }
+    &__list {
+      padding: 0 16px;
+      margin: 0;
+      max-height: 178px;
+      overflow: hidden;
+      transition: max-height 0.3s, margin 0.3s;
+    }
+    &__item {
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      border-top: 1px dashed @color-basic-100;
+      padding: 12px 0 13px;
+      &_header {
+        color: @color-basic-500;
+      }
+      &:first-child {
+        padding-top: 16px;
+        border-top: 0;
+      }
+      &:last-child {
+        padding-bottom: 16px;
+      }
+    }
+    &__actions {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 16px;
+      max-height: 100%;
+    }
+    &__action {
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      &:not(:first-child) {
+        &:before {
+          content: '';
+          background: @color-basic-500;
+          width: 1px;
+          height: 12px;
+          margin: 0 10px;
+        }
+      }
+    }
+    &.show-all {
+      max-height: 260px;
+      .transaction-details__list {
+        overflow-y: auto;
+        max-height: 226px;
+      }
+    }
+  }
+
+  .invoke-args-list__item-value {
+    max-width: 216px;
+    &:hover ~ .tooltip {
+      display: block;
+    }
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .invoke-args-list__item {
+    position: relative;
+  }
+
+  // TODO tooltip
+  //.tooltip {
+  //  display: none;
+  //  max-width: 100%;
+  //  position: absolute;
+  //  padding: 6px 12px;
+  //  top: 35px;
+  //  right: 149px;
+  //  transform-origin: center;
+  //  color: @color-white;
+  //  font-size: @font-size-caption-2;
+  //  line-height: 13px;
+  //  cursor: pointer;
+  //  text-shadow: 0 1px 6px rgba(78, 92, 110, 0.6);
+  //  z-index: 10;
+  //  text-align: left;
+  //  word-wrap: break-word;
+  //  border-radius: @border-radius;
+  //  background: rgba(78, 92, 110, 0.8);
+  //  span {
+  //    overflow: hidden;
+  //    text-overflow: ellipsis;
+  //    display: inline-block;
+  //    text-align: center;
+  //  }
+  //
+  //  &::before {
+  //    position: absolute;
+  //    content: '';
+  //    z-index: -1;
+  //    top: -5px;
+  //    right: 10px;
+  //    opacity: .8;
+  //    width: 0;
+  //    height: 0;
+  //    border: 5px solid transparent;
+  //    border-bottom-color: @color-basic-700;
+  //    border-top: 0 none;
+  //    transform: translate(0);
+  //  }
+  //
+  //  &.right {
+  //    right: 0;
+  //  }
+  //}
+}
+
+
+@media screen and (max-width: @width-media-tiny) {
+  .recipients-row {
+    padding: 9px 0 10px;
+    &:first-child {
+      padding-top: 12px;
+    }
+    &:last-child {
+      padding-bottom: 12px;
+    }
+  }
+}
+
+.code-wrapper {
+  border: 1px dashed @color-basic-200;
+  border-radius: @border-radius;
+  background: @color-basic-50;
+  height: auto;
+  max-height: 300px;
+  word-break: break-all;
+  padding: 17px;
+  display: block;
+  overflow: scroll;
+
+  &-vertical {
+    overflow-y: auto;
+    overflow-x: hidden;
+    .pre {
+      white-space: normal;
     }
   }
 }
