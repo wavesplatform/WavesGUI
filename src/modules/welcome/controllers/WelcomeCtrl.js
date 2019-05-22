@@ -10,7 +10,7 @@
      * @param {app.utils} utils
      * @return {WelcomeCtrl}
      */
-    const controller = function (Base, $scope, $state, user, modalManager, angularUtils) {
+    const controller = function (Base, $scope, $state, user, modalManager, angularUtils, waves) {
 
         const ds = require('data-service');
         const analytics = require('@waves/event-sender');
@@ -110,18 +110,13 @@
             constructor() {
                 super($scope);
 
+
                 this.observe('activeUserAddress', this._calculateActiveIndex);
                 this.observe('password', this._updatePassword);
 
                 analytics.send({ name: 'Sign In Show', target: 'ui', params: { from: 'welcome' } });
                 this._initUserList();
-
-                Promise.all(PAIRS_IN_SLIDER.map(pair => ds.api.pairs.get(pair.amount, pair.price)))
-                    .then(pairs => Promise.all(pairs.map(pair => ds.api.pairs.info(pair))))
-                    .then(infoList => {
-                        this.pairsInfoList = flatten(infoList);
-                        angularUtils.safeApply($scope);
-                    });
+                this._initPairs();
             }
 
             $postLink() {
@@ -133,6 +128,30 @@
              */
             showTutorialModals() {
                 return modalManager.showTutorialModals();
+            }
+
+            /**
+             * @private
+             */
+            _initPairs() {
+                const startDate = angularUtils.moment().add().day(-7);
+                Promise.all(PAIRS_IN_SLIDER.map(pair => ds.api.pairs.get(pair.amount, pair.price)))
+                    .then(pairs => Promise.all(pairs.map(pair => ds.api.pairs.info(pair))))
+                    .then(infoList => {
+                        const tempInfoList = flatten(infoList);
+                        Promise.all(tempInfoList.map(info => {
+                            return waves.utils.getRateHistory(info.amountAsset.id, info.priceAsset.id, startDate);
+                        })).then(rateHistory => {
+                            this.pairsInfoList = tempInfoList.map((info, i) => {
+                                return {
+                                    rateHistory: rateHistory[i],
+                                    ...info
+                                };
+                            });
+
+                            angularUtils.safeApply($scope);
+                        });
+                    });
             }
 
             /**
@@ -290,7 +309,7 @@
         return new WelcomeCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', 'utils'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', 'utils', 'waves'];
 
     angular.module('app.welcome')
         .controller('WelcomeCtrl', controller);

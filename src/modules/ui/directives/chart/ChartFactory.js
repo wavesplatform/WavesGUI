@@ -24,7 +24,7 @@
                 /**
                  * @type {ChartFactory.IOptions}
                  */
-                this.options = options;
+                this.options = Object.assign(Object.create(null), ChartFactory.defaultOptions, options);
                 /**
                  * @type {Array}
                  */
@@ -108,6 +108,8 @@
 
                 this.ctx.strokeStyle = data.lineColor;
 
+                this.ctx.lineWidth = data.lineWidth;
+
                 const first = data.coordinates[0];
                 this.ctx.moveTo(first.x, first.y);
 
@@ -119,7 +121,14 @@
 
                 if (data.fillColor) {
                     this.ctx.fillStyle = data.fillColor;
-
+                    if (data.gradientColor) {
+                        const grd = this.ctx.createLinearGradient(0, 0, 0, data.height.toNumber());
+                        grd.addColorStop(0, data.gradientColor[0]);
+                        grd.addColorStop(1, data.gradientColor[1]);
+                        this.ctx.fillStyle = grd;
+                    } else {
+                        this.ctx.fillStyle = data.fillColor;
+                    }
                     const last = data.coordinates[data.coordinates.length - 1];
                     this.ctx.lineTo(last.x, data.height.toNumber());
                     this.ctx.lineTo(first.x, data.height.toNumber());
@@ -191,6 +200,19 @@
                 });
             }
 
+            static defaultOptions = {
+                charts: [
+                    {
+                        axisX: 'timestamp',
+                        axisY: 'rate',
+                        lineColor: '#ef4829',
+                        fillColor: '#FFF',
+                        gradientColor: false,
+                        lineWidth: 2
+                    }
+                ]
+            };
+
             /**
              * @param item
              * @return {BigNumber}
@@ -236,6 +258,7 @@
  * @property {string} axisY
  * @property {string} lineColor
  * @property {string} [fillColor]
+ * @property {array} gradientColor
  */
 
 /**
@@ -259,4 +282,5 @@
  * @property {string} axisY
  * @property {string} lineColor
  * @property {string} [fillColor]
+ * @property {array} gradientColor
  */
