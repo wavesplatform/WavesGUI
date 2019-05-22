@@ -7,10 +7,21 @@
      * @param $state
      * @param user
      * @param modalManager
-     * @param {app.utils} utils
+     * @param ChartFactory
+     * @param {app.utils} angularUtils
+     * @param {JQuery} $element
+     * @param {Waves} waves
      * @return {WelcomeCtrl}
      */
-    const controller = function (Base, $scope, $state, user, modalManager, angularUtils, waves) {
+    const controller = function (Base,
+                                 $scope,
+                                 $state,
+                                 user,
+                                 modalManager,
+                                 angularUtils,
+                                 waves,
+                                 $element,
+                                 ChartFactory) {
 
         const ds = require('data-service');
         const analytics = require('@waves/event-sender');
@@ -60,6 +71,34 @@
                 price: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS'
             }
         ];
+
+
+        const chartOptions = {
+            red: {
+                charts: [
+                    {
+                        axisX: 'timestamp',
+                        axisY: 'rate',
+                        lineColor: '#ef4829',
+                        fillColor: '#FFF',
+                        gradientColor: ['#FEEFEC', '#FFF'],
+                        lineWidth: 3
+                    }
+                ]
+            },
+            blue: {
+                charts: [
+                    {
+                        axisX: 'timestamp',
+                        axisY: 'rate',
+                        lineColor: '#1f5af6',
+                        fillColor: '#FFF',
+                        gradientColor: ['#EAF0FE', '#FFF'],
+                        lineWidth: 3
+                    }
+                ]
+            }
+        };
 
         class WelcomeCtrl extends Base {
 
@@ -119,10 +158,6 @@
                 this._initPairs();
             }
 
-            $postLink() {
-
-            }
-
             /**
              * @public
              */
@@ -148,10 +183,25 @@
                                     ...info
                                 };
                             });
-
                             angularUtils.safeApply($scope);
+                            this._insertCharts();
                         });
                     });
+            }
+
+            /**
+             * @private
+             */
+            _insertCharts() {
+                const marketRows = $element.find('.table-markets .row-content');
+                PAIRS_IN_SLIDER.forEach((pair, i) => {
+                    const options = this.pairsInfoList[i].change24.gt(0) ? chartOptions.blue : chartOptions.red;
+                    new ChartFactory(
+                        marketRows.eq(i).find('.graph'),
+                        options,
+                        this.pairsInfoList[i].rateHistory
+                    );
+                });
             }
 
             /**
@@ -309,7 +359,17 @@
         return new WelcomeCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', 'utils', 'waves'];
+    controller.$inject = [
+        'Base',
+        '$scope',
+        '$state',
+        'user',
+        'modalManager',
+        'utils',
+        'waves',
+        '$element',
+        'ChartFactory'
+    ];
 
     angular.module('app.welcome')
         .controller('WelcomeCtrl', controller);

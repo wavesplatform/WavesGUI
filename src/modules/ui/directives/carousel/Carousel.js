@@ -2,9 +2,13 @@
     'use strict';
 
     /**
+     * @param Base
+     * @param {$rootScope.Scope} $scope
      * @param {jQuery} $element
      * @param $timeout
-     * @param {CarouselManager} carouselManager
+     * @param carouselManager
+     * @param ChartFactory
+     * @param {app.utils} utils
      * @return {Carousel}
      */
     const controller = function ($element, $timeout, carouselManager, utils, Base, $scope, ChartFactory) {
@@ -91,7 +95,7 @@
                         this.content.toArray().forEach((element, i) => {
                             const info = this.pairsInfoList[i];
                             const options = info.change24.gt(0) ? chartOptions.blue : chartOptions.red;
-                            this.chart = new ChartFactory(
+                            new ChartFactory(
                                 $(element).find('.graph'),
                                 options,
                                 this.pairsInfoList[i].rateHistory
