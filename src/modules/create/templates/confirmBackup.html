@@ -1,4 +1,4 @@
-<div class="confirm-backup">
+<div class="confirm-backup text-center">
 
     <div class="headline-1 margin-1">
         <span w-i18n="confirmBackup.confirm"></span>
@@ -20,7 +20,7 @@
 
     <w-seed-read type="random" class="margin-1" seed="{{::$ctrl.seed}}"></w-seed-read>
 
-    <div class="error-500 seed-error margin-3"
+    <div class="error-500 margin-3"
          ng-if="$ctrl.seedConfirmWasFilled && !$ctrl.seedIsValid"
          w-i18n="confirmBackup.error"></div>
 

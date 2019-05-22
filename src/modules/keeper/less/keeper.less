@@ -7,8 +7,12 @@ body.keeper {
     position: relative;
   }
 
-  .import-content {
-    .getStartedContentWidth(@getStartedContentPadding)
+  .keeper-content {
+    .getStartedContentWidth;
+  }
+
+  .keeper-footer {
+    .getStartedContentWidth;
   }
 
   .address {
@@ -41,10 +45,15 @@ body.keeper {
   }
 }
 
-@media screen and (min-width: 768px) {
-  body.keeper {
-    .import-content {
+body.keeper {
+  &.tablet,
+  &.desktop {
+    .keeper-content {
       max-width: @getStartedContentWidth;
+    }
+
+    .keeper-footer {
+      max-width: @getStartedFooterWidth;
     }
   }
 }
