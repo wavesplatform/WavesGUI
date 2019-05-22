@@ -5,6 +5,7 @@
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const { filter, whereEq, uniqBy, prop, where, gt, pick, __ } = require('ramda');
     const ds = require('data-service');
+    const { BigNumber } = require('@waves/bignumber');
 
     /**
      * @param Base

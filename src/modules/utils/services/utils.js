@@ -1291,11 +1291,11 @@
                 }
 
                 const spreadPrice = new BigNumber(data.asks[0].price)
-                    .plus(data.bids[0].price)
+                    .add(data.bids[0].price)
                     .div(2);
                 const delta = spreadPrice.mul(data.chartCropRate).div(2);
-                const max = spreadPrice.plus(delta);
-                const min = BigNumber.max(0, spreadPrice.minus(delta));
+                const max = spreadPrice.add(delta);
+                const min = BigNumber.max(0, spreadPrice.sub(delta));
 
                 return { min, max };
             },

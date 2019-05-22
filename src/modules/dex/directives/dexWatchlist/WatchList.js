@@ -37,6 +37,7 @@
             path, flatten, splitEvery
         } = require('ramda');
         const ds = require('data-service');
+        const { BigNumber } = require('@waves/bignumber');
 
         $scope.WavesApp = WavesApp;
 

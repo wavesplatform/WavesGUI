@@ -452,7 +452,7 @@
                 /**
                  * @type {BigNumber}
                  */
-                const delta = isBuy ? orderPrice.minus(price) : price.minus(orderPrice);
+                const delta = isBuy ? orderPrice.sub(price) : price.sub(orderPrice);
 
                 if (delta.isNegative()) {
                     return Promise.resolve();

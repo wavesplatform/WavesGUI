@@ -16,6 +16,7 @@
         const { currentFeeFactory, SIGN_TYPE } = require('@waves/signature-adapter');
         const generator = require('@waves/signature-generator');
         const { path } = require('ramda');
+        const { BigNumber } = require('@waves/bignumber');
 
         const MULTY_FEE_TRANSACTIONS = {
             [SIGN_TYPE.TRANSFER]: true
@@ -311,7 +312,7 @@
                 const transfers = tx.transfers && tx.transfers.length ? tx.transfers : null;
 
                 const totalAmount = transfers && transfers.reduce((acc, item) => {
-                    return acc.plus(item.amount);
+                    return acc.add(item.amount);
                 }, tx.transfers[0].amount.cloneWithTokens(0)) || null;
 
                 return ds.api.assets.get('WAVES').then(asset => ({

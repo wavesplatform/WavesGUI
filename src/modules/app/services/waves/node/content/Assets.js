@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    const entities = require('@waves/data-entities');
+    const { Money } = require('@waves/data-entities');
     const { equals } = require('ramda');
 
     /**
@@ -178,7 +178,7 @@
              */
             _getEmptyBalanceList(idList) {
                 return ds.api.assets.get(idList)
-                    .then((list) => list.map(asset => new entities.Money(0, asset)));
+                    .then((list) => list.map(asset => new Money(0, asset)));
             }
 
             /**

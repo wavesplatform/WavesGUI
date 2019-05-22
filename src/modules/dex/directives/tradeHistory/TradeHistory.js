@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    const entities = require('@waves/data-entities');
+    const { Money } = require('@waves/data-entities');
     const { propEq, uniqBy, map, pipe, prop } = require('ramda');
 
     /**
@@ -213,7 +213,7 @@
                 const price = tx => tx.price.asset.displayName;
                 const fee = (tx, order) => order.orderType === 'sell' ? tx.sellMatcherFee : tx.buyMatcherFee;
                 const pair = `${amount(tx)} / ${price(tx)}`;
-                const emptyFee = new entities.Money(0, tx.fee.asset);
+                const emptyFee = new Money(0, tx.fee.asset);
                 const userFee = [tx.order1, tx.order2]
                     .filter((order) => order.sender === user.address)
                     .reduce((acc, order) => acc.add(fee(tx, order)), emptyFee);

@@ -8,6 +8,7 @@
     };
 
     const { Money } = require('@waves/data-entities');
+    const { BigNumber } = require('@waves/bignumber');
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const analytics = require('@waves/event-sender');
@@ -639,13 +640,13 @@
                     return gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.paymentId)
                         .then((details) => {
                             const max = BigNumber.min(
-                                details.maximumAmount.plus(details.gatewayFee),
+                                details.maximumAmount.add(details.gatewayFee),
                                 this.moneyHash[this.assetId].getTokens()
                             );
 
                             this.gatewayDetails = details;
                             this.minAmount = this.moneyHash[this.assetId]
-                                .cloneWithTokens(details.minimumAmount.minus('0.00000001'));
+                                .cloneWithTokens(details.minimumAmount.sub('0.00000001'));
                             this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
                             this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
                             $scope.$apply();

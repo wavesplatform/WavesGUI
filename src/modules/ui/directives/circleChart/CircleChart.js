@@ -80,7 +80,7 @@
 
             _draw() {
                 const balances = this._getBalances();
-                const total = balances.reduce((result, item) => result.plus(item.value), new BigNumber(0));
+                const total = balances.reduce((result, item) => result.add(item.value), new BigNumber(0));
                 const center = this._canvas.height / 2 + 0.5;
                 const insightRadius = this._options.center || DEFAULT_OPTIONS.center;
 

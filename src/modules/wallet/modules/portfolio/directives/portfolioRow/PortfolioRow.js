@@ -86,6 +86,7 @@
         }
     };
 
+    const i18next = require('i18next');
     const ds = require('data-service');
     /**
      * @param Base
@@ -227,8 +228,10 @@
                     this.isSmart = balance.asset.hasScript;
                     const firstAssetChar = this.balance.asset.name.slice(0, 1);
                     const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
-                    const { isVerified, isGateway,
-                        isTokenomica, logo } = utils.getDataFromOracles(this.balance.asset.id);
+                    const {
+                        isVerified, isGateway,
+                        isTokenomica, logo
+                    } = utils.getDataFromOracles(this.balance.asset.id);
 
                     this.isVerifiedOrGateway = isVerified || isGateway;
 
@@ -369,11 +372,11 @@
                     });
 
                 const startDate = this.utils.moment().add().day(-7);
-                this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then((values) => {
+                this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then(values => {
                     this.chart = new this.ChartFactory(
                         this.$node.find(`.${SELECTORS.CHART_CONTAINER}`),
                         this.chartOptions,
-                        values
+                        values.map(item => ({ ...item, rate: Number(item.rate.toFixed()) }))
                     );
                 }).catch(() => null);
             }

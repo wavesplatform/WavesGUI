@@ -2,6 +2,7 @@
     'use strict';
 
     const DEFAULT_LINK = '#';
+    const { BigNumber } = require('@waves/bignumber');
 
     const FIAT_CODES = {
         [WavesApp.defaultAssets.USD]: 'USD',

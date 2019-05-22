@@ -2,6 +2,7 @@
 (function () {
     'use strict';
 
+    const { BigNumber } = require('@waves/bignumber');
     const AVAILABLE_VALIDATORS = [
         'gt',
         'gte',
