@@ -4,16 +4,30 @@
 
 body.welcome {
   width: 100%;
+  overflow: hidden;
   font-family: 'Roboto', 'Tahoma', 'Arial';
   font-size: 15px;
   margin: 0 auto;
   font-weight: normal;
   color: @color-basic-900;
 
+  .white-bg {
+    background: @color-white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 0;
+  }
+
   .wrapper {
     background: @color-white;
     position: relative;
-    padding-top:62px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 100%;
+    padding-top: 60px;
+    width: 100%;
   }
 
   a {
@@ -22,6 +36,10 @@ body.welcome {
 
   ul {
     list-style-type: none;
+  }
+
+  h2 {
+    font-weight: 400;
   }
 
   section,
@@ -34,6 +52,9 @@ body.welcome {
     max-width: 1440px;
     width: 100%;
     margin: 0 auto;
+
+    position: relative;
+    z-index: 1;
   }
 
   header {
@@ -56,29 +77,6 @@ body.welcome {
         transform: translateX(10px);
       }
     }
-  }
-
-  .language-switcher {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    width: 200px;
-    line-height: 40px;
-    height: 40px;
-    color: @color-white;
-    background: @color-basic-900;
-    border: 1px solid @color-basic-700;
-    border-radius: 2px;
-    font-size: 15px;
-    padding: 0 15px;
-
-    /* flags */
-    .flag {
-      padding-left: 28px;
-      &-eng {
-        background: url(/img/landing/flags/flag-18-britain.svg) center no-repeat;
-      }
-    }
-    /* end */
   }
 
   footer {
@@ -112,7 +110,7 @@ body.welcome {
 
     a {
       margin-bottom: 14px;
-      display: block;
+      display: inline-block;
       color: @color-basic-600;
         &:hover {
           color: @color-submit-500;
@@ -254,14 +252,42 @@ body.welcome {
     }
 
     &-slider {
+      padding: 0;
       background: @color-basic-50;
       overflow: visible;
-      max-width: 1440px;
-      margin: 0 auto;
-      padding-bottom: 80px;
-      padding-top: 80px;
-      padding-left: 80px;
-      padding-right: 80px;
+      position: relative;
+      max-width: 100%;
+
+      &:before {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: block;
+        content: '';
+        background: @color-basic-50;
+      }
+
+      @media screen and (max-width: 480px) {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .slider-wrapper {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 80px;
+      }
+
+      @media screen and (max-width: 1340px) {
+        .slider-wrapper {
+          max-width: 100%;
+          padding: 80px 0;
+        }
+      }
+
+      w-carousel {
+        height: 140px;
+      }
 
       .slider {
         display: flex;
@@ -269,22 +295,12 @@ body.welcome {
         max-width: 1440px;
       }
 
-      w-carousel {
-        display: block;
-        height: 141px;
-      }
-
       .slide {
         border-radius: @border-radius;
-        width: 23%;
-        min-width: 290px;
-        max-width: 380px;
-        height: 141px;
         background: @color-white;
         padding: 30px;
-        &.absolute {
-          position: absolute;
-        }
+        min-width: 290px;
+
         .graph {
           width: 100px;
           height: 46px;
@@ -326,10 +342,7 @@ body.welcome {
       display: flex;
       align-items: flex-start;
       text-align: center;
-
-      h2 {
-        font-weight: 400;
-      }
+      flex-wrap: wrap;
 
       &-card {
         padding: 96px 30px 102px;
@@ -579,6 +592,7 @@ body.welcome {
     section,
     footer,
     header,
+    .section-slider,
     .section-markets .content-wrapper {
       padding-left: 20px;
       padding-right: 20px;

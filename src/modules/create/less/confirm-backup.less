@@ -1,4 +1,5 @@
 @import (reference) 'config';
+@import (reference) '../../app/less/app';
 
 .seed-error {
   border-color: @color-error-500;
@@ -8,7 +9,7 @@ body.create {
   &.tablet,
   &.desktop {
     .confirm-backup {
-      max-width: @getStartedContentWidth;
+      .getStartedContentWidthDesktop;
     }
   }
 }

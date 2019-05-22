@@ -7,11 +7,11 @@ body.import {
   }
 
   .import-footer {
-    .getStartedContentWidth;
+    .getStartedContentWidth(0);
   }
 
   .import-content {
-    .getStartedContentWidth;
+    .getStartedContentWidth(@getStartedContentPadding);
   }
 }
 
@@ -42,7 +42,7 @@ body.import {
   &.tablet,
   &.desktop {
     .import-footer {
-      max-width: @getStartedContentWidth;
+      .getStartedContentWidthDesktop;
     }
 
     .import-modal__block {

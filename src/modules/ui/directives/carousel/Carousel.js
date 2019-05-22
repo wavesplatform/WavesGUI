@@ -165,7 +165,7 @@
              */
             _getSlidesInWindowAmount(width) {
                 switch (true) {
-                    case (width < 620):
+                    case (width < 860):
                         return 1;
                     case (width < 1000):
                         return 2;

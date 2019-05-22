@@ -8,7 +8,7 @@ body.restore {
   }
 
   .restore-content {
-    .getStartedContentWidth;
+    .getStartedContentWidth(@getStartedContentPadding);
 
     .seed-block {
       border-radius: @border-radius;
@@ -25,15 +25,12 @@ body.restore {
 
       .address {
         &-block {
-          height: 30px;
-          position: relative;
-          top: -5px;
+          width: 100%;
 
           .address {
             &.empty {
               position: relative;
               top: 3px;
-              width: 338px;
               height: 12px;
               border-radius: 100px;
               background-color: @color-basic-100;
@@ -47,7 +44,8 @@ body.restore {
           height: 76px;
           display: flex;
           flex-direction: row;
-          padding: 18px 14px;
+          align-items: center;
+          padding: 0 14px;
         }
       }
 
@@ -56,26 +54,17 @@ body.restore {
         height: 40px;
         border-radius: 100%;
         background-color: @color-basic-100;
+        flex-shrink: 0;
       }
     }
   }
 }
 
-@media screen and (max-width: 480px) {
-  body.restore {
-    .seed-block .address-block-info .address-block {
-      width: 80%;
-      .address.empty {
-        width: 100%;
-      }
-    }
-  }
-}
-
-@media screen and (min-width: 768px) {
-  body.restore {
+body.restore {
+  &.tablet,
+  &.desktop {
     .restore-content {
-      max-width: @getStartedContentWidth;
+      .getStartedContentWidthDesktop;
     }
   }
 }

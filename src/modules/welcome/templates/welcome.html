@@ -1,2 +1,5 @@
-<ng-include w-i18n-ns="app.welcome" src="$ctrl.pageUrl"></ng-include>
-<w-loader ng-if="$ctrl.pendingRestore"></w-loader>
+<w-site-header></w-site-header>
+<div class="main-container">
+    <ng-include w-i18n-ns="app.welcome" src="$ctrl.pageUrl" class="main-container-wrapper"></ng-include>
+    <w-loader ng-if="$ctrl.pendingRestore"></w-loader>
+</div>
