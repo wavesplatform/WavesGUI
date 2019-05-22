@@ -48,25 +48,20 @@
                     <div class="cell graph"></div>
                 </div>
 
-                <div class="row row-content blue"> <!-- add specific class here - red or blue -->
-                    <div class="cell pair">BTC/WAV</div>
-                    <div class="cell last-price">0.03<span class="basic-500"> / $1.16</span></div>
-                    <div class="cell change">+0.94%</div>
-                    <div class="cell height24">0.00050679</div>
-                    <div class="cell low24" d>0.000622</div>
-                    <div class="cell volume">45.2</div>
+                <div ng-repeat="pair in $ctrl.pairsInfoList track by $index"
+                     ng-class="pair.change24.gt(0) ? 'blue' : 'red'"
+                     class="row row-content">
+                    <div class="cell pair">{{pair.amountAsset.ticker}} / {{pair.priceAsset.ticker}}</div>
+                    <div class="cell last-price">
+                        {{pair.lastPrice.toFormat()}}<span class="basic-500"> / $1.16</span>
+                    </div>
+                    <div class="cell change">{{pair.change24}}%</div>
+                    <div class="cell height24">{{pair.high}}</div>
+                    <div class="cell low24">{{pair.low}}</div>
+                    <div class="cell volume">{{pair.volume.getTokens().toFixed(3)}}</div>
                     <div class="cell graph"></div>
                 </div>
 
-                <div class="row row-content red">
-                    <div class="cell pair">BTC/WAVES</div>
-                    <div class="cell last-price">0.00050673<span class="basic-500"> / $176.16</span></div>
-                    <div class="cell change">-0.94%</div>
-                    <div class="cell height24">0.00050679</div>
-                    <div class="cell low24" d>0.00050622</div>
-                    <div class="cell volume">45 380.782</div>
-                    <div class="cell graph"></div>
-                </div>
             </div>
 
             <div class="center body-2 basic-500">
@@ -152,11 +147,11 @@
                 </div>
 
                 <div>
-                   <div class="footer-title basic-700">Legal</div>
-                   <div><a href="">Privacy Policy</a></div>
-                   <div><a href="">Terms of use</a></div>
-                   <div><a href="">Cookies</a></div>
-                   <div><a href="">GDPR</a></div>
+                    <div class="footer-title basic-700">Legal</div>
+                    <div><a href="">Privacy Policy</a></div>
+                    <div><a href="">Terms of use</a></div>
+                    <div><a href="">Cookies</a></div>
+                    <div><a href="">GDPR</a></div>
                 </div>
 
                 <div>
