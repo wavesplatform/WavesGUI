@@ -8,11 +8,11 @@ body.keeper {
   }
 
   .keeper-content {
-    .getStartedContentWidth;
+    .getStartedContentWidth(@getStartedContentPadding);
   }
 
   .keeper-footer {
-    .getStartedContentWidth;
+    .getStartedContentWidth(0);
   }
 
   .address {
@@ -49,7 +49,7 @@ body.keeper {
   &.tablet,
   &.desktop {
     .keeper-content {
-      max-width: @getStartedContentWidth;
+      .getStartedContentWidthDesktop;
     }
 
     .keeper-footer {

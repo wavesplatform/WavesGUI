@@ -9,12 +9,14 @@ body.welcome {
   }
 
   .user-list {
-    .getStartedContentWidth;
+    .getStartedContentWidth(@getStartedContentPadding);
 
     .avatar-container {
       width: 30px;
       height: 30px;
       position: relative;
+      flex-shrink: 0;
+
       w-avatar {
         position: absolute;
       }
@@ -117,10 +119,11 @@ body.welcome {
   }
 }
 
-@media screen and (min-width: 768px) {
-  body.welcome {
-    .user-list {
-      max-width: @getStartedContentWidth;
+body.welcome {
+  &.tablet,
+  &.desktop {
+    .user-list  {
+      .getStartedContentWidthDesktop;
     }
   }
 }

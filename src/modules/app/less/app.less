@@ -29,7 +29,7 @@ a {
 
 ng-include {
   height: 100%;
-  display: block;
+  display: flex;
 }
 
 input:-webkit-autofill,
@@ -232,19 +232,27 @@ w-scroll-box {
   width: 100%;
   flex: 1;
   justify-content: center;
+  align-content: center;
 
   &-wrapper {
     height: 100%;
     display: flex;
     width: 100%;
-    padding: 0 @getStartedContentPadding;
     flex-grow: 1;
     box-shadow: 0 1px 0 0 rgba(161, 181, 230, 0.15) inset;
   }
 }
 
-.getStartedContentWidth {
-  margin: auto;
+.getStartedContentWidth(@padding) {
   max-width: 100%;
   width: 100%;
+  padding-left: @padding;
+  padding-right: @padding;
+}
+
+.getStartedContentWidthDesktop {
+  max-width: @getStartedContentWidth;
+  margin: auto;
+  padding-left: 0;
+  padding-right: 0;
 }
