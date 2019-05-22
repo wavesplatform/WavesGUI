@@ -5,7 +5,7 @@
 
 @keyframes header-down {
   0% {
-    box-shadow: none;
+    transform: translateY(0);
   }
   50% {
     transform: translateY(82px);
@@ -14,7 +14,6 @@
     transform: translateY(72px);
   }
   100% {
-    box-shadow: @header-shadow;
     transform: translateY(82px);
     position: fixed;
   }
@@ -22,41 +21,87 @@
 
 @keyframes header-up {
   0% {
-    box-shadow: @header-shadow;
     transform: translateY(82px);
     position: fixed;
   }
   100% {
-    box-shadow: none;
+    transform: translateY(0);
     position: absolute;
+  }
+}
+
+@keyframes header-down-shadow {
+  0% {
+    opacity: 0;
+    background: none transparent;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes header-up-shadow {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    background: none transparent;
   }
 }
 
 body.welcome {
   w-site-header {
+    .shadowed {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 10px;
+      top: 100%;
+      margin: 0 -20px 0 0;
+      opacity: 0;
+      transform: translate3d(0, 0, 0git stat);
+    }
+
+    .shadow {
+      background: -moz-linear-gradient(top,  rgba(218,225,233,0.65) 0%, rgba(0,0,0,0) 100%);
+      background: -webkit-linear-gradient(top,  rgba(218,225,233,0.65) 0%,rgba(0,0,0,0) 100%);
+      background: linear-gradient(to bottom,  rgba(218,225,233,0.65) 0%,rgba(0,0,0,0) 100%);
+    }
+
+    header {
+      width: calc(100% ~'- 20px');
+      padding-left: 20px;
+      &::after {
+        .shadowed;
+        .shadow;
+      }
+    }
+
     &.fixed header {
       top: -82px;
       position: fixed;
       animation: header-down 1s ease-in-out;
       animation-fill-mode: forwards;
+      &::after {
+        animation: header-down-shadow .5s ease-in-out;
+        animation-fill-mode: forwards;
+      }
     }
 
     &.unfixed header {
-      top: 0;
-      box-shadow: none;
-      animation: header-up 1s ease-in-out;
-      animation-fill-mode: forwards;
+      animation: header-up .5s ease-in-out;
+
+      &::after {
+        animation: header-up-shadow .5s ease-in-out;
+        animation-fill-mode: forwards;
+      }
     }
   }
 }
 
 w-site-header {
-  min-height: 60px;
   display: block;
-
-  &.shadowed {
-    box-shadow: @header-shadow;
-  }
 
   header {
     height: 60px;
@@ -68,7 +113,7 @@ w-site-header {
     align-items: center;
     z-index: 11;
     background: @color-white;
-    padding: 0 20px;
+    padding: 0;
 
     a,
     .dropdown-toggler {

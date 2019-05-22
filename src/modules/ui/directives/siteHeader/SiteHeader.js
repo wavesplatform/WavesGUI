@@ -93,9 +93,8 @@
             _addScrollHandler() {
                 const scrolledView = document.querySelector('ui-view');
                 scrolledView.addEventListener('scroll', () => {
-                    $element.toggleClass('fixed', scrolledView.scrollTop > 300);
-                    $element.toggleClass('unfixed', scrolledView.scrollTop <= 300);
-                    $element.toggleClass('shadowed', scrolledView.scrollTop > 70);
+                    $element.toggleClass('fixed', scrolledView.scrollTop > 60);
+                    $element.toggleClass('unfixed', scrolledView.scrollTop <= 60);
                 });
             }
 
