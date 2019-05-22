@@ -37,19 +37,20 @@
             getDepositDetails(asset, wavesAddress) {
                 VostokService._assertAsset(asset.id);
 
-                const data = JSON.stringify({
+                const body = JSON.stringify({
                     userAddress: wavesAddress,
                     assetId: asset.id
                 });
 
-                return $.post(`${PATH}/external/deposit`, data).then((details) => {
-                    return {
-                        address: details.address,
-                        minimumAmount: new BigNumber(details.minAmount),
-                        maximumAmount: new BigNumber(details.maxAmount),
-                        gatewayFee: new BigNumber(details.fee)
-                    };
-                });
+                return ds.fetch(`${PATH}/external/deposit`, { method: 'POST', body })
+                    .then(details => {
+                        return ({
+                            address: details.address,
+                            minimumAmount: new BigNumber(details.minAmount),
+                            maximumAmount: new BigNumber(details.maxAmount),
+                            gatewayFee: new BigNumber(details.fee)
+                        });
+                    });
             }
 
             /**
@@ -62,19 +63,21 @@
             getWithdrawDetails(asset, targetAddress) {
                 VostokService._assertAsset(asset.id);
 
-                const data = JSON.stringify({
+                const body = JSON.stringify({
                     userAddress: targetAddress,
                     assetId: asset.id
                 });
-                return $.post(`${PATH}/external/withdraw`, data).then((details) => {
-                    return ({
-                        address: details.recipientAddress,
-                        minimumAmount: new BigNumber(details.minAmount),
-                        maximumAmount: new BigNumber(details.maxAmount),
-                        gatewayFee: new BigNumber(details.fee),
-                        attachment: details.processId
+
+                return ds.fetch(`${PATH}/external/withdraw`, { method: 'POST', body })
+                    .then(details => {
+                        return ({
+                            address: details.recipientAddress,
+                            minimumAmount: new BigNumber(details.minAmount),
+                            maximumAmount: new BigNumber(details.maxAmount),
+                            gatewayFee: new BigNumber(details.fee),
+                            attachment: details.processId
+                        });
                     });
-                });
             }
 
             /**

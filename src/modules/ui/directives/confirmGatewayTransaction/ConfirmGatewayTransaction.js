@@ -44,7 +44,12 @@
                 }
 
                 return this.signable.getDataForApi()
-                    .then(data => ds.broadcast(data, 'https://gateways-dev.wvservices.com/api/v1/external/send'))
+                    .then(data => {
+                        return ds.fetch('https://gateways-dev.wvservices.com/api/v1/external/send', {
+                            method: 'POST',
+                            body: WavesApp.stringifyJSON(data)
+                        });
+                    })
                     .then(data => {
                         analytics.send({ name: 'VOSTOK Transaction Success' });
                         return data;
