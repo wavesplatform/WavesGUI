@@ -25,26 +25,8 @@
     </section>
 
     <section class="section-slider">
-            <w-carousel interval="2000" pending="$ctrl.isPending">
-
-                <div ng-repeat="pair in $ctrl.pairsInfo track by $index" class="slide">
-                    <div class="margin-1 body-2 flex">
-                        <div class="basic-700 grow">{{pair.amountAsset.ticker}} / {{pair.priceAsset.ticker}} </div>
-                        <div class="red">{{pair.change24}}</div>
-                    </div>
-                    <div class="flex">
-                        <div class="grow">
-                            <h2 class="basic-900">{{pair.lastPrice.toFormat()}}</h2>
-                            <div class="basic-500 footnote-1">Volume: {{pair.volume.getTokens()}}</div>
-                        </div>
-                        <div class="graph">
-                            <w-asset-rate-chart no-update="::true" asset-id="pair.amountAsset.id"></w-asset-rate-chart>
-                        </div>
-                        <!-- TODO add canvas graph -->
-                    </div>
-                </div>
-
-            </w-carousel>
+        <w-carousel interval="2000" pairs-info-list="$ctrl.pairsInfoList" >
+        </w-carousel>
     </section>
 
     <section class="section-markets">

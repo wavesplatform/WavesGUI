@@ -7,14 +7,16 @@
      * @param $state
      * @param user
      * @param modalManager
+     * @param {app.utils} utils
      * @return {WelcomeCtrl}
      */
-    const controller = function (Base, $scope, $state, user, modalManager) {
+    const controller = function (Base, $scope, $state, user, modalManager, angularUtils) {
 
         const ds = require('data-service');
         const analytics = require('@waves/event-sender');
         const PATH = 'modules/welcome/templates';
         const { utils } = require('@waves/signature-generator');
+        const { flatten } = require('ramda');
 
         const PAIRS_IN_SLIDER = [
             {
@@ -87,10 +89,10 @@
              */
             _activeUserIndex = null;
             /**
-             * @type {array}
+             * @type {Array}
              * @public
              */
-            pairsInfo = [];
+            pairsInfoList = [];
             /**
              * @type {boolean}
              * @public
@@ -113,15 +115,13 @@
 
                 analytics.send({ name: 'Sign In Show', target: 'ui', params: { from: 'welcome' } });
                 this._initUserList();
-                Promise.all(PAIRS_IN_SLIDER.map(pair => {
-                    return ds.api.pairs.get(pair.amount, pair.price).then(pair => {
-                        ds.api.pairs.info(pair).then(info => {
-                            this.pairsInfo.push(...info);
-                        });
+
+                Promise.all(PAIRS_IN_SLIDER.map(pair => ds.api.pairs.get(pair.amount, pair.price)))
+                    .then(pairs => Promise.all(pairs.map(pair => ds.api.pairs.info(pair))))
+                    .then(infoList => {
+                        this.pairsInfoList = flatten(infoList);
+                        angularUtils.safeApply($scope);
                     });
-                })).then(() => {
-                    this.isPending = false;
-                });
             }
 
             $postLink() {
@@ -290,7 +290,7 @@
         return new WelcomeCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', 'utils'];
 
     angular.module('app.welcome')
         .controller('WelcomeCtrl', controller);
