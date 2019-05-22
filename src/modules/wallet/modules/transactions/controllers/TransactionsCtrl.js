@@ -82,7 +82,10 @@
 
                     }
 
-                    allTransactions = allTransactions.concat(transactions.filter(el => !user.scam[el.assetId]));
+                    if (user.getSetting('dontShowSpam')) {
+                        transactions = transactions.filter(el => !user.scam[el.assetId]);
+                    }
+                    allTransactions = allTransactions.concat(transactions);
 
                     if (transactions.length < MAX_LIMIT || allTransactions.length > maxTransactions) {
                         return { allTransactions, downloadError };

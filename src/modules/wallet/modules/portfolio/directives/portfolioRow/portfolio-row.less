@@ -4,23 +4,27 @@ w-portfolio-row {
   display: flex;
   width: 100%;
 
-    .asset {
-      &__logo {
-        position: relative;
-        left: 0;
+  .asset {
+    &__logo {
+      position: relative;
+      left: 0;
 
-        .marker {
-          display: none;
-          position: absolute;
-          bottom: calc(50% ~'- 16px');
+      .marker {
+        display: none;
+        position: absolute;
+        bottom: calc(50% ~'- 16px');
 
-          &.smart-asset,
-          &.sponsored-asset {
-            display: block;
-          }
+        &.smart-asset,
+        &.sponsored-asset {
+          display: block;
         }
       }
+
+      .spam &, .spam & .marker {
+        background-color: @color-basic-200 !important;
+      }
     }
+  }
 
   .asset {
     &__logo {
@@ -71,4 +75,9 @@ w-portfolio-row {
       }
     }
   }
+
+  .spam & {
+    color: @color-basic-500;
+  }
+
 }
