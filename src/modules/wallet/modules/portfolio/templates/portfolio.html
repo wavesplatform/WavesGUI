@@ -39,7 +39,7 @@
                       w-i18n-ns="app.wallet.portfolio"
                       params="{count: $ctrl.details.verified.length || 0}"></span>
             </w-option>
-            <w-option value="::'spam'">
+            <w-option value="::'spam'" ng-if="!$ctrl.dontShowSpam">
                 <span w-i18n="spamselect"
                       w-i18n-ns="app.wallet.portfolio"
                       params="{count: $ctrl.details.spam.length || 0}"></span>
@@ -55,7 +55,7 @@
                    header-info="$ctrl.tableHeaders">
         <w-loader ng-if="$ctrl.pending"></w-loader>
         <w-visible ng-repeat="balance in $data track by balance.asset.id" once>
-            <w-table-row>
+            <w-table-row ng-class="{'spam': balance.isOnScamList}">
                 <w-portfolio-row balance="balance"></w-portfolio-row>
             </w-table-row>
         </w-visible>
