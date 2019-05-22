@@ -2,8 +2,6 @@
 @import (reference) 'icons'; // TODO uIsk - move all icons to icons config
 @import (reference) '../../app/less/typography';
 
-
-
 body.welcome {
   width: 100%;
   font-family: 'Roboto', 'Tahoma', 'Arial';
@@ -11,7 +9,6 @@ body.welcome {
   margin: 0 auto;
   font-weight: normal;
   color: @color-basic-900;
-  background: @color-white;
 
   .wrapper {
     background: @color-white;
@@ -39,64 +36,11 @@ body.welcome {
     margin: 0 auto;
   }
 
-  w-site-header {
-    &.fixed header {
-      top: -82px;
-      position: fixed;
-      animation: header-down 1s ease-in-out;
-      animation-fill-mode: forwards;
-    }
-
-    &.unfixed header {
-      top: 0;
-
-      box-shadow: none;
-      animation: header-up 1s ease-in-out;
-      animation-fill-mode: forwards;
-    }
-  }
-
-  @keyframes header-down {
-    0% {
-      transform: translateX(-50%);
-      box-shadow: none;
-    }
-    50% {
-      transform: translate(-50%, 82px);
-    }
-    75% {
-      transform: translate(-50%, 72px);
-    }
-    100% {
-      box-shadow: 0 0 10px 0 lightgrey;
-      transform: translate(-50%, 82px);
-      position: fixed;
-    }
-  }
-
-  @keyframes header-up {
-    0% {
-      box-shadow: 0 0 10px 0 lightgrey;
-      transform: translateX(-50%, 82px);
-      position: fixed;
-
-    }
-    100% {
-      transform: translate(-50%);
-      box-shadow: none;
-      position: absolute;
-    }
-  }
-
   header {
     width: 100%;
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
     top: 0;
-    display: block;
-    z-index: 11;
-    background: @color-white;
   }
 
   .get-started-btn {

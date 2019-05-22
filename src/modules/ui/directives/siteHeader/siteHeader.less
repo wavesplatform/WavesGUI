@@ -1,22 +1,75 @@
 @import (reference) 'config';
 @import (reference) '../../../app/less/typography';
 
-@header-shadow: 0 1px 0 0 rgba(161, 181, 230, 0.05);
+@header-shadow: 0 0 10px 0 lightgrey;
+
+@keyframes header-down {
+  0% {
+    box-shadow: none;
+  }
+  50% {
+    transform: translateY(82px);
+  }
+  75% {
+    transform: translateY(72px);
+  }
+  100% {
+    box-shadow: @header-shadow;
+    transform: translateY(82px);
+    position: fixed;
+  }
+}
+
+@keyframes header-up {
+  0% {
+    box-shadow: @header-shadow;
+    transform: translateY(82px);
+    position: fixed;
+  }
+  100% {
+    box-shadow: none;
+    position: absolute;
+  }
+}
+
+body.welcome {
+  w-site-header {
+    &.fixed header {
+      top: -82px;
+      position: fixed;
+      animation: header-down 1s ease-in-out;
+      animation-fill-mode: forwards;
+    }
+
+    &.unfixed header {
+      top: 0;
+      box-shadow: none;
+      animation: header-up 1s ease-in-out;
+      animation-fill-mode: forwards;
+    }
+  }
+}
 
 w-site-header {
-  box-shadow: @header-shadow;
+  min-height: 60px;
+  display: block;
+
+  &.shadowed {
+    box-shadow: @header-shadow;
+  }
 
   header {
+    height: 60px;
+    display: flex;
     width: 100%;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
+    left: 0;
     top: 0;
-    display: block;
+    align-items: center;
     z-index: 11;
     background: @color-white;
+    padding: 0 20px;
 
-    padding: 9px 20px;
     a,
     .dropdown-toggler {
       font-size: 15px;
@@ -52,11 +105,8 @@ w-site-header {
     width: 100%;
     justify-content: space-between;
     align-items: center;
-    max-width: 1440px;
     background: @color-white;
     z-index: 111;
-    padding: 0 80px;
-
   }
 
   @media screen and (max-width: 1340px) {

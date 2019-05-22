@@ -5,15 +5,13 @@
             <span w-i18n="createAccount.protectYourAccount"></span>
         </div>
 
-        <div class="body-2 basic-500">
+        <div class="body-2 basic-500 margin-top-2 margin-4">
             <span w-i18n="createAccount.protect"></span>
             <a ng-click="$ctrl.next(-1)" w-i18n="backupSeed.back"></a>
         </div>
     </div>
 
-    <hr class="hr">
-
-    <w-password class="margin-2"
+    <w-password
                 name="$ctrl.name"
                 password="$ctrl.password"
                 on-submit="$ctrl.next()">

@@ -1,15 +1,14 @@
-.confirm-backup {
-  width: 460px;
-  margin: auto;
-  text-align: center;
+@import (reference) 'config';
 
-  .seed-error {
-    margin-top: -40px;
-  }
+.seed-error {
+  border-color: @color-error-500;
 }
 
-@media screen and (max-width: 768px) {
-  .confirm-backup {
-    width: calc(100% ~'- 20px');
+body.create {
+  &.tablet,
+  &.desktop {
+    .confirm-backup {
+      max-width: @getStartedContentWidth;
+    }
   }
 }
