@@ -28,7 +28,7 @@
              */
             _getAssetInfo() {
                 waves.node.assets.getAsset(this.assetId).then(asset => {
-                    this.assetName = asset.displayName;
+                    this.assetName = asset.name;
                     this.ticker = asset.ticker;
                     const { hasLabel } = utils.getDataFromOracles(asset.id);
                     this.hasLabel = hasLabel;
