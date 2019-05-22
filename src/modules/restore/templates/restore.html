@@ -38,19 +38,22 @@
                             </div>
                         </div>
 
-                        <div class="flex margin-3">
-                            <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
-                            <label for="save-user-data"
-                                   w-i18n="seedForm.saveUserData"
-                                   class="footnote-1 basic-500"></label>
-                        </div>
-
-                        <div class="margin-2">
-                            <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">
-                                <span w-i18n="seedForm.continue"></span>
-                            </w-button>
-                        </div>
-                    </form>
+                <div class="flex margin-3">
+                    <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
+                    <label for="save-user-data"
+                           w-i18n="seedForm.saveUserData"
+                           class="footnote-1 basic-500"></label>
+                </div>
+                <div  ng-if="$ctrl.address && $ctrl.seed.length <= 59"  class="plate-warning warning-500 body-2 margin-3">
+                    <div class="body-2" w-i18n="warningSeed.title"></div>
+                    <div class="footnote-1 basic-500" w-i18n="warningSeed.message"></div>
+                </div>
+                <div class="margin-3">
+                    <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">
+                        <span w-i18n="seedForm.continue"></span>
+                    </w-button>
+                </div>
+            </form>
 
                 </w-step>
                 <w-step>

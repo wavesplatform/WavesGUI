@@ -8,11 +8,11 @@ body.ledger {
   }
 
   .import-content {
-    .getStartedContentWidth(@getStartedContentPadding);
+    .getStartedContentWidth;
   }
 
   .loader-error-footer {
-    .getStartedContentWidth(0);
+    .getStartedContentWidth;
   }
 
   .import-wrapper {
@@ -110,9 +110,8 @@ body.ledger {
   }
 }
 
-@media screen and (max-width: 480px) {
-  body.ledger {
-
+body.ledger {
+  &.phone {
     .import-wrapper {
       .icon {
         &-left,
@@ -141,14 +140,15 @@ body.ledger {
   }
 }
 
-@media screen and (min-width: 768px) {
-  body.ledger {
+body.ledger {
+  &.tablet,
+  &.desktop {
     .import-content {
       max-width: @getStartedContentWidth;
     }
 
     .loader-error-footer {
-      max-width: 224px;
+      max-width: @getStartedFooterWidth;
     }
   }
 }

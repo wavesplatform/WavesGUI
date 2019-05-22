@@ -7,17 +7,16 @@ body.import {
   }
 
   .import-footer {
-    .getStartedContentWidth(0);
+    .getStartedContentWidth;
   }
 
   .import-content {
-    .getStartedContentWidth(@getStartedContentPadding);
-    max-width: 100%;
+    .getStartedContentWidth;
   }
 }
 
-@media screen and (max-width: 768px) {
-  body.import {
+body.import {
+  &.phone {
     .import-content {
       .import-modal__block,
       .import-modal__block-w {
@@ -39,8 +38,9 @@ body.import {
   }
 }
 
-@media screen and (min-width: 768px) {
-  body.import {
+body.import {
+  &.tablet,
+  &.desktop {
     .import-footer {
       max-width: @getStartedContentWidth;
     }
@@ -48,6 +48,33 @@ body.import {
     .import-modal__block {
       max-width: 235px;
       padding: 40px 30px;
+      margin-top: 50px;
+    }
+  }
+}
+
+body.phone {
+  .import-modal {
+    &__blocks-wrapper {
+      flex-direction: column;
+    }
+
+    &__block {
+      flex-basis: 100%;
+      max-width: 100%;
+      width: 100%;
+
+      & + .import-modal__block {
+        margin-left: auto;
+      }
+    }
+
+    w-help-icon {
+      .help-icon__content {
+        right: 0;
+        left: 0;
+        width: 100%;
+      }
     }
   }
 }
