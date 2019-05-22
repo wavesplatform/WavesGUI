@@ -7,7 +7,7 @@
      * @param {CarouselManager} carouselManager
      * @return {Carousel}
      */
-    const controller = function ($element, $timeout, carouselManager, utils, Base) {
+    const controller = function ($element, $timeout, carouselManager, utils, Base, $scope) {
 
         const { range } = require('ramda');
 
@@ -40,7 +40,7 @@
              * @private
              * @type {jQuery}
              */
-            node = null;
+            tempWrapper = null;
             /**
              * @private
              * @type {jQuery}
@@ -53,61 +53,31 @@
             _coords = null;
 
             $postLink() {
-                carouselManager.registerSlider(this.id, this);
-                const start = Number(this.startFrom);
-                this.interval = Number(this.interval) || 0;
-                this.node = $element.find('.slide-window:first');
-                this.wrapper = $element.find('.slider-content:first');
-                this.content = $element.find('.slider-content:first')
-                    .children();
-                this.length = this.content.length;
+                this.observeOnce('pairsInfoList', () => {
+                    utils.postDigest($scope).then(() => {
+                        carouselManager.registerSlider(this.id, this);
+                        this.interval = Number(this.interval) || 0;
+                        this.tempWrapper = $element.find('.slide-window:first');
+                        this.wrapper = $element.find('.slider-content:first');
+                        this.content = $element.find('.slider-content:first').children();
 
-                if (start && start > 0 && start < this.length) {
-                    this.active = start;
-                } else {
-                    this.active = 0;
-                }
+                        this._remapSlides();
+                        const onResize = utils.debounceRequestAnimationFrame(() => this._remapSlides());
+                        this.listenEventEmitter($(window), 'resize', onResize);
 
-                this._calcCoords();
-                const onResize = utils.debounceRequestAnimationFrame(() => this._calcCoords());
-                this.listenEventEmitter($(window), 'resize', onResize);
-                $element.hover(() => {
-                    this.stopInterval();
-                }, () => {
-                    this.initializeInterval();
+                        $element.hover(() => {
+                            this.stopInterval();
+                        }, () => {
+                            this.initializeInterval();
+                        });
+                        this.initializeInterval();
+                    });
                 });
 
-                this.initializeInterval();
             }
 
             $onDestroy() {
                 carouselManager.removeSlider(this.id);
-            }
-
-            getActive() {
-                return this.active;
-            }
-
-            /**
-             * @param {number} index
-             */
-            goTo(index) {
-                if (index >= 0 && index < this.length && index !== this.active) {
-                    const old = this.active;
-                    this.active = index;
-                    this.stopInterval();
-                    this._move(this.active, old).then(() => {
-                        this.initializeInterval();
-                    });
-                }
-            }
-
-            next() {
-                this.goTo(this.active + 1);
-            }
-
-            prev() {
-                this.goTo(this.active - 1);
             }
 
             initializeInterval() {
@@ -129,16 +99,16 @@
             /**
              * @private
              */
-            _calcCoords() {
+            _remapSlides() {
                 this.slidesAmount = this._getSlidesInWindowAmount(window.innerWidth);
                 const divs = range(0, this.slidesAmount).map(() => '<div class="slide"></div>');
-                this.node.append(divs);
-                const slide = this.node.find('.slide');
+                this.tempWrapper.append(divs);
+                const slide = this.tempWrapper.find('.slide');
                 const width = slide.outerWidth();
                 const startCoords = slide
                     .toArray()
                     .map(element => Math.round($(element).offset().left));
-                this.node.empty();
+                this.tempWrapper.empty();
                 this.diff = startCoords.length > 1 ? startCoords[1] - startCoords[0] : width + 10;
                 this._coords = this.content.toArray().map((element, i) => {
                     const X = (i - 1) * this.diff;
@@ -158,7 +128,7 @@
              */
             _getSlidesInWindowAmount(width) {
                 switch (true) {
-                    case (width < 620):
+                    case (width < 860):
                         return 1;
                     case (width < 1000):
                         return 2;
@@ -177,7 +147,6 @@
              */
             _move() {
                 const lastPos = this._coords[this._coords.length - 1];
-
                 return Promise.all(this.content.toArray().map(element => {
                     const $element = $(element);
                     const start = $element.data('translate');
@@ -205,38 +174,30 @@
                 }));
             }
 
-
             /**
              * @private
              */
             _step() {
-                if (this.active === this.length - 1) {
-                    this.goTo(0);
-                } else {
-                    this.next();
-                }
+                this.stopInterval();
+                this._move().then(() => {
+                    this.initializeInterval();
+                });
             }
-
-            /**
-             * @private
-             */
-            // _getLeft() {
-            //     return { left: `${100 * this.active}%` };
-            // }
 
         }
 
         return new Carousel();
     };
 
-    controller.$inject = ['$element', '$timeout', 'carouselManager', 'utils', 'Base'];
+    controller.$inject = ['$element', '$timeout', 'carouselManager', 'utils', 'Base', '$scope'];
 
     angular.module('app.ui').component('wCarousel', {
         transclude: true,
         bindings: {
             id: '@',
             interval: '@',
-            startFrom: '@'
+            startFrom: '@',
+            pairsInfoList: '<'
         },
         controller: controller,
         templateUrl: 'modules/ui/directives/carousel/carousel.html'

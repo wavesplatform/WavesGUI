@@ -1,4 +1,20 @@
 <div class="slider">
     <div class="slide-window"></div>
-    <div ng-style="$ctrl._getLeft()" class="slider-content" ng-transclude></div>
+    <div class="slider-content">
+        <div ng-repeat="pair in $ctrl.pairsInfoList track by $index" class="slide">
+            <div class="margin-1 body-2 flex">
+                <div class="basic-700 grow">{{pair.amountAsset.ticker}} / {{pair.priceAsset.ticker}}</div>
+                <div ng-class="pair.change24.gt(0) ? 'blue' : 'red'">{{pair.change24}}%</div>
+            </div>
+            <div class="flex">
+                <div class="grow">
+                    <h2 class="basic-900">{{pair.lastPrice.toFormat()}}</h2>
+                    <div class="basic-500 footnote-1">Volume: {{pair.volume.getTokens().toFixed(3)}}</div>
+                </div>
+                <div class="graph">
+                    <w-asset-rate-chart no-update="::true" asset-id="pair.amountAsset.id"></w-asset-rate-chart>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

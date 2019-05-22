@@ -587,6 +587,16 @@
             },
 
             /**
+             * @name app.utils#safeApply
+             * @param {$rootScope.Scope} $scope
+             */
+            postDigest($scope) {
+                return new Promise(resolve => {
+                    $scope.$parent.$$postDigest(resolve);
+                });
+            },
+
+            /**
              * @name app.utils#when
              * @param {*} [data]
              * @return {Promise}
