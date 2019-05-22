@@ -134,10 +134,35 @@ body.welcome {
         right: 0;
         top: 0;
 
+        .select {
+          .select-list {
+            background: @color-basic-900;
+
+            w-option.active {
+              display: none;
+            }
+
+            .option {
+              color: #fff;
+              padding: 0 15px;
+
+              &:hover {
+                background: @color-basic-700;
+              }
+            }
+          }
+        }
+
         .title {
           border: 0 none;
           background: none transparent;
           padding: 0 15px;
+          color: @color-basic-600;
+        }
+
+        .lng-item {
+          display: flex;
+          align-items: center;
         }
       }
     }
