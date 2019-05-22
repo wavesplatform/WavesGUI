@@ -1,23 +1,103 @@
 (function () {
     'use strict';
 
-    const PATH = 'modules/welcome/templates';
-    const { utils } = require('@waves/signature-generator');
-
     /**
      * @param Base
      * @param $scope
      * @param $state
      * @param user
      * @param modalManager
+     * @param {app.utils} utils
      * @return {WelcomeCtrl}
      */
-    const controller = function (Base, $scope, $state, user, modalManager) {
+    const controller = function (Base, $scope, $state, user, modalManager, angularUtils) {
 
         const ds = require('data-service');
         const analytics = require('@waves/event-sender');
+        const PATH = 'modules/welcome/templates';
+        const { utils } = require('@waves/signature-generator');
+        const { flatten } = require('ramda');
+
+        const PAIRS_IN_SLIDER = [
+            {
+                amount: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS',
+                price: 'WAVES'
+            },
+            {
+                amount: 'DHgwrRvVyqJsepd32YbBqUeDH4GJ1N984X8QoekjgH8J',
+                price: 'WAVES'
+            },
+            {
+                amount: 'B3uGHFRpSUuGEDWjqB9LWWxafQj8VTvpMucEyoxzws5H',
+                price: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS'
+            },
+            {
+                amount: '474jTeYx2r2Va35794tCScAXWJG9hU2HcgxzMowaZUnu',
+                price: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS'
+            },
+            {
+                amount: 'zMFqXuoyrn5w17PFurTqxB7GsS71fp9dfk6XFwxbPCy',
+                price: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS'
+            },
+            {
+                amount: '474jTeYx2r2Va35794tCScAXWJG9hU2HcgxzMowaZUnu',
+                price: 'WAVES'
+            },
+            {
+                amount: 'WAVES',
+                price: 'Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck'
+            },
+            {
+                amount: 'BrjUWjndUanm5VsJkbUip8VRYy6LWJePtxya3FNv4TQa',
+                price: 'WAVES'
+            },
+            {
+                amount: '5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3',
+                price: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS'
+            },
+            {
+                amount: 'HZk1mbfuJpmxU1Fs4AX5MWLVYtctsNcg6e2C6VKqK8zk',
+                price: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS'
+            }
+        ];
 
         class WelcomeCtrl extends Base {
+
+            /**
+             * @type {boolean}
+             */
+            networkError = false;
+            /**
+             * @type {string}
+             */
+            password = '';
+            /**
+             * @type {null}
+             */
+            loginForm = null;
+            /**
+             * @type {string}
+             */
+            activeUserAddress = null;
+            /**
+             * @type {boolean}
+             */
+            needPassword = true;
+            /**
+             * @type {number}
+             * @private
+             */
+            _activeUserIndex = null;
+            /**
+             * @type {Array}
+             * @public
+             */
+            pairsInfoList = [];
+            /**
+             * @type {boolean}
+             * @public
+             */
+            isPending = true;
 
             get user() {
                 return this.userList[this._activeUserIndex];
@@ -27,41 +107,25 @@
                 return this.user.encryptedSeed;
             }
 
-
-            /**
-             * @type {boolean}
-             */
-            networkError = false;
-
             constructor() {
                 super($scope);
-                /**
-                 * @type {string}
-                 */
-                this.password = '';
-                /**
-                 * @type {null}
-                 */
-                this.loginForm = null;
-                /**
-                 * @type {string}
-                 */
-                this.activeUserAddress = null;
-                /**
-                 * @type {boolean}
-                 */
-                this.needPassword = true;
-                /**
-                 * @type {number}
-                 * @private
-                 */
-                this._activeUserIndex = null;
 
                 this.observe('activeUserAddress', this._calculateActiveIndex);
                 this.observe('password', this._updatePassword);
 
                 analytics.send({ name: 'Sign In Show', target: 'ui', params: { from: 'welcome' } });
                 this._initUserList();
+
+                Promise.all(PAIRS_IN_SLIDER.map(pair => ds.api.pairs.get(pair.amount, pair.price)))
+                    .then(pairs => Promise.all(pairs.map(pair => ds.api.pairs.info(pair))))
+                    .then(infoList => {
+                        this.pairsInfoList = flatten(infoList);
+                        angularUtils.safeApply($scope);
+                    });
+            }
+
+            $postLink() {
+
             }
 
             /**
@@ -226,7 +290,7 @@
         return new WelcomeCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', 'utils'];
 
     angular.module('app.welcome')
         .controller('WelcomeCtrl', controller);
