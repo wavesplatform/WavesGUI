@@ -2,7 +2,7 @@
 @import (reference) '../../app/less/app';
 
 .no-backup-no-money {
-  .getStartedContentWidth;
+  .getStartedContentWidth(@getStartedContentPadding);
 
   .icon {
     background: @slide-backup-icon no-repeat center center;
@@ -55,8 +55,11 @@
   }
 }
 
-@media screen and (min-width: 768px) {
-  .no-backup-no-money  {
-      max-width: @getStartedContentWidth;
+body {
+  &.tablet,
+  &.desktop {
+    .no-backup-no-money {
+      .getStartedContentWidthDesktop;
+    }
   }
 }

@@ -8,11 +8,11 @@ body.ledger {
   }
 
   .import-content {
-    .getStartedContentWidth;
+    .getStartedContentWidth(@getStartedContentPadding);
   }
 
   .loader-error-footer {
-    .getStartedContentWidth;
+    .getStartedContentWidth(0);
   }
 
   .import-wrapper {
@@ -144,7 +144,7 @@ body.ledger {
   &.tablet,
   &.desktop {
     .import-content {
-      max-width: @getStartedContentWidth;
+      .getStartedContentWidthDesktop;
     }
 
     .loader-error-footer {
