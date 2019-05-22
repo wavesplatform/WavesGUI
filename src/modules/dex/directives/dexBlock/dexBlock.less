@@ -59,6 +59,14 @@ w-dex-block {
       i.tospread:hover {
         background-color: @color-basic-100;
       }
+
+      &.active {
+        cursor: default;
+        i.tospread {
+          background: @color-submit-400;
+          .icon-dex-tospread-active();
+        }
+      }
     }
 
     .dex-block-content {

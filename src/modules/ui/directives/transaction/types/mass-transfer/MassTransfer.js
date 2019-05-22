@@ -22,6 +22,9 @@
                 this.typeName = this.props.typeName;
                 this.time = this.props.time;
                 this.address = this.props.shownAddress;
+                setTimeout(() => {
+                    this.isScam = this.props.isScam;
+                }, 0);
 
                 // TODO: delete setTimeout
                 setTimeout(() => {
