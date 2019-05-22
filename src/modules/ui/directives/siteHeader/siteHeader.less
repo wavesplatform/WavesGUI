@@ -51,7 +51,13 @@
 
 body.welcome {
   w-site-header {
-    .shadowed {
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    top:0;
+    left: 0;
+
+    .shadow {
       content: '';
       display: block;
       position: absolute;
@@ -61,19 +67,18 @@ body.welcome {
       margin: 0 -20px;
       opacity: 0;
       transform: translate3d(0, 0, 0);
-    }
-
-    .shadow {
       background: -moz-linear-gradient(top,  rgba(218,225,233,0.65) 0%, rgba(0,0,0,0) 100%);
       background: -webkit-linear-gradient(top,  rgba(218,225,233,0.65) 0%,rgba(0,0,0,0) 100%);
       background: linear-gradient(to bottom,  rgba(218,225,233,0.65) 0%,rgba(0,0,0,0) 100%);
     }
 
+    .shadow {
+
+    }
+
     header {
-      width: calc(100% ~'- 20px');
-      padding-left: 20px;
+      width: 100%;
       &::after {
-        .shadowed;
         .shadow;
       }
     }
@@ -113,7 +118,7 @@ w-site-header {
     align-items: center;
     z-index: 11;
     background: @color-white;
-    padding: 0;
+    padding: 0 20px;
 
     a,
     .dropdown-toggler {

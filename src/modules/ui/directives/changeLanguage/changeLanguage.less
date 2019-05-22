@@ -64,7 +64,7 @@ w-change-language {
     }
 
     .lng-zh_CN::before {
-      background: url(/img/icons/flags/zh-Hans-CN.svg)  no-repeat center;
+      background: url(/img/icons/flags/zh-Hans-CN.svg) no-repeat center;
     }
 
     .lng-ja::before,
@@ -111,6 +111,35 @@ w-change-language {
 
     .lng-it::before {
       background: url(/img/icons/flags/it.svg) no-repeat center;
+    }
+  }
+}
+
+body.welcome {
+  footer {
+    w-change-language {
+      w-select {
+        width: 200px;
+        position: relative;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        line-height: 40px;
+        height: 40px;
+        color: @color-white;
+        background: @color-basic-900;
+        border: 1px solid @color-basic-700;
+        border-radius: 2px;
+        font-size: 15px;
+        padding: 0;
+        right: 0;
+        top: 0;
+
+        .title {
+          border: 0 none;
+          background: none transparent;
+          padding: 0 15px;
+        }
+      }
     }
   }
 }

@@ -3,7 +3,22 @@
 @import (reference) '../../app/less/typography';
 
 body.welcome {
+
+  ui-view {
+    margin-top: 60px;
+  }
+
+  .white-bg {
+    background: @color-white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 0;
+  }
+
   width: 100%;
+  overflow: hidden;
   font-family: 'Roboto', 'Tahoma', 'Arial';
   font-size: 15px;
   margin: 0 auto;
@@ -13,8 +28,7 @@ body.welcome {
   .wrapper {
     background: @color-white;
     position: relative;
-    padding-top:62px;
-    overflow: hidden;
+    overflow-x: hidden;
   }
 
   a {
@@ -61,29 +75,6 @@ body.welcome {
         transform: translateX(10px);
       }
     }
-  }
-
-  .language-switcher {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    width: 200px;
-    line-height: 40px;
-    height: 40px;
-    color: @color-white;
-    background: @color-basic-900;
-    border: 1px solid @color-basic-700;
-    border-radius: 2px;
-    font-size: 15px;
-    padding: 0 15px;
-
-    /* flags */
-    .flag {
-      padding-left: 28px;
-      &-eng {
-        background: url(/img/landing/flags/flag-18-britain.svg) center no-repeat;
-      }
-    }
-    /* end */
   }
 
   footer {
