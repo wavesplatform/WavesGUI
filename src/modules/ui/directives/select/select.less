@@ -16,12 +16,6 @@ w-select {
     height: @height-control-big;
   }
 
-  &[disabled] .select .title,
-  &.disabled .select .title {
-    background: @color-basic-50;
-    cursor: default;
-  }
-
   &.select__no-user-select {
     user-select: none;
   }
@@ -116,6 +110,12 @@ w-select {
         border: 1px solid @color-basic-100;
         border-bottom: none;
       }
+    }
+
+    &[disabled] .title,
+    &.disabled .title {
+      background: @color-basic-50;
+      cursor: default;
     }
   }
 

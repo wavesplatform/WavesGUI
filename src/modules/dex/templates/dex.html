@@ -10,8 +10,9 @@
         </w-dex-block>
 
         <w-dex-block block="orderbook"
+                     is-active-scroll="$ctrl.isActiveScroll"
                      title-name="directives.orderBook.title">
-            <w-dex-order-book></w-dex-order-book>
+            <w-dex-order-book is-scrolled="$ctrl.isActiveScroll"></w-dex-order-book>
         </w-dex-block>
 
         <w-dex-block block="tradevolume"

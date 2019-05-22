@@ -305,6 +305,14 @@
   background-color: rgba(90, 129, 234, 0.1);
 }
 
+.icon-tx-script-invocation {
+  &::before {
+    display: block;
+    background-position-x: -@tx-icon-size * 22;
+  }
+  background-color: rgba(90, 129, 234, 0.1);
+}
+
 .icon-info {
   width: 20px;
   height: 20px;
@@ -394,6 +402,13 @@
   background-position: center center;
 }
 
+.icon-dex-tospread-active {
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: @orderbook-to-spread-icon-active;
+}
+
 .apple-store-btn,
 .google-play-btn {
   width: 135px;
@@ -412,4 +427,3 @@
 .keeper-icon {
   background: url(/img/icons/keeper-icon.svg) center no-repeat;
 }
-

@@ -21,6 +21,7 @@
      * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
      * @param {IPollCreate} createPoll
+     * @param {ConfigService} configService
      * @param {IOuterBlockchains} outerBlockchains
      * @param {User} user
      * @param {GatewayService} gatewayService
@@ -31,6 +32,7 @@
                                  utils,
                                  createPoll,
                                  waves,
+                                 configService,
                                  outerBlockchains,
                                  user,
                                  gatewayService) {
@@ -136,6 +138,15 @@
 
             get isBankError() {
                 return this.toBankMode && this.termsLoadError;
+            }
+
+            get isCoinomatAccepted() {
+                return configService
+                    .get('PERMISSIONS.CAN_TRANSFER_COINOMAT').indexOf(this.balance.asset.id) !== -1;
+            }
+
+            get isBankAccepted() {
+                return this.toBankMode ? this.isCoinomatAccepted : true;
             }
 
             get isBankPendingOrError() {
@@ -256,7 +267,6 @@
             }
 
             $postLink() {
-
                 this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
                 const onHasMoneyHash = () => {
                     this.receive(utils.observe(this.state, 'toBankMode'), this._onChangeBankMode, this);
@@ -272,6 +282,9 @@
                     this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayDetails, this);
                     this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayDetails, this);
 
+                    this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayPermisson, this);
+                    this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayPermisson, this);
+
                     this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
 
                     this.observe('gatewayDetails', this._updateWavesTxObject);
@@ -284,12 +297,18 @@
                     this._currentHasCommission();
                     this._onChangeBaseAssets();
                     this._updateGatewayDetails();
+                    this._updateGatewayPermisson();
                 };
                 if (!this.state.moneyHash) {
                     this.receiveOnce(utils.observe(this.state, 'moneyHash'), onHasMoneyHash);
                 } else {
                     onHasMoneyHash();
                 }
+                this.receive(utils.observe(this.state, 'moneyHash'), () => {
+                    this._currentHasCommission();
+                    this._onChangeBaseAssets();
+                    this._updateGatewayDetails();
+                });
             }
 
             onSignCoinomatStart() {
@@ -460,6 +479,7 @@
                 }
 
                 this._setMinAmount();
+                this._updateGatewayPermisson();
             }
 
             /**
@@ -515,6 +535,7 @@
                 this.tx.amount = this.moneyHash[this.assetId].cloneWithTokens('0');
                 this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
                 this._updateGatewayDetails();
+                this._updateGatewayPermisson();
 
                 // analytics.push('Send', `Send.ChangeCurrency.${WavesApp.type}`, this.assetId);
             }
@@ -661,6 +682,13 @@
                 return Promise.resolve();
             }
 
+            /**
+             * @private
+             */
+            _updateGatewayPermisson() {
+                this.gatewayDetailsError = !this.isCoinomatAccepted;
+            }
+
         }
 
         return new SingleSend();
@@ -672,6 +700,7 @@
         'utils',
         'createPoll',
         'waves',
+        'configService',
         'outerBlockchains',
         'user',
         'gatewayService'

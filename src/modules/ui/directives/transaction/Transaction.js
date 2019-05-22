@@ -1,10 +1,6 @@
 (function () {
     'use strict';
 
-    const PATH = 'modules/ui/directives/transaction/types';
-    const tsUtils = require('ts-utils');
-    const { Money } = require('@waves/data-entities');
-
     /**
      * @param Base
      * @param $filter
@@ -12,111 +8,21 @@
      * @param {INotification} notification
      * @param {Waves} waves
      * @param {User} user
-     * @param {BaseAssetService} baseAssetService
-     * @param {app.utils} utils
-     * @param {$rootScope.Scope} $scope
      * @return {Transaction}
      */
     const controller = function (Base, $filter, modalManager, notification,
-                                 waves, user, baseAssetService, utils, $scope) {
+                                 waves, user) {
 
         const { SIGN_TYPE } = require('@waves/signature-adapter');
-
         class Transaction extends Base {
 
             $postLink() {
-
-                this.templateUrl = `${PATH}/${this.transaction.templateType}.html`;
-                this.time = $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm');
-                this.shownAddress = this.transaction.shownAddress;
                 this.typeName = this.transaction.typeName;
                 this.isScam = !!user.scam[this.transaction.assetId];
                 if (this.transaction.type === 7) {
-                    this.isScamAmount = !!user.scam[this.transaction.amount.asset];
-                    this.isScamPrice = !!user.scam[this.transaction.price.asset];
-                }
-
-                if (this.transaction.amount && this.transaction.amount instanceof ds.wavesDataEntities.Money) {
-                    baseAssetService.convertToBaseAsset(this.transaction.amount)
-                        .then((baseMoney) => {
-                            this.mirrorBalance = baseMoney;
-                            $scope.$digest();
-                        });
-                }
-
-                if (this.transaction.assetId) {
-                    waves.node.assets.getAsset(this.transaction.assetId).then(asset => {
-                        this.asset = asset;
-                        $scope.$apply();
-                    });
-                }
-
-                const TYPES = waves.node.transactions.TYPES;
-
-                switch (this.typeName) {
-                    case TYPES.BURN:
-                    case TYPES.ISSUE:
-                    case TYPES.REISSUE:
-                        this.tokens();
-                        break;
-                    case TYPES.EXCHANGE_BUY:
-                    case TYPES.EXCHANGE_SELL:
-                        this.exchange();
-                        break;
-                    case TYPES.SPONSORSHIP_START:
-                    case TYPES.SPONSORSHIP_STOP:
-                        this.sponsored();
-                        break;
-                    case TYPES.SPONSORSHIP_FEE:
-                        this.sponsoredFee();
-                        break;
-                    default:
-                }
-            }
-
-            sponsoredFee() {
-                this.isScam = false;
-            }
-
-            sponsored() {
-                this.sponsorshipFee = this.transaction.minSponsoredAssetFee;
-                this.titleAssetName = this.getAssetName(
-                    tsUtils.get(this.transaction, 'minSponsoredAssetFee.asset')
-                );
-            }
-
-            exchange() {
-                this.totalPrice = utils.getExchangeTotalPrice(this.transaction.amount, this.transaction.price);
-            }
-
-            tokens() {
-                this.titleAssetName = this.getAssetName(
-                    tsUtils.get(this.transaction, 'amount.asset') ||
-                    tsUtils.get(this.transaction, 'quantity.asset') ||
-                    this.transaction
-                );
-                this.name = tsUtils.get(
-                    this.transaction, 'amount.asset.name') ||
-                    tsUtils.get(this.transaction, 'quantity.asset.name'
-                    );
-
-                const amount = tsUtils.get(this.transaction, 'amount') || tsUtils.get(this.transaction, 'quantity');
-                if (amount instanceof Money) {
-                    this.amount = amount.toFormat();
-                } else {
-                    this.amount = amount.div(Math.pow(10, this.transaction.precision));
-                }
-            }
-
-            /**
-             * @param {{id: string, name: string}} asset
-             * @return {string}
-             */
-            getAssetName(asset) {
-                try {
-                    return !user.scam[asset.id] ? asset.name : '';
-                } catch (e) {
-                    return '';
+                    const isScamAmount = !!user.scam[this.transaction.amount.asset];
+                    const isScamPrice = !!user.scam[this.transaction.price.asset];
+                    this.isScam = this.isScam || isScamAmount || isScamPrice;
                 }
             }
 
@@ -148,7 +54,6 @@
              */
             getCopyAllData() {
                 const tx = this.transaction;
-
                 const id = `Transaction ID: ${tx.id}`;
                 const type = `Type: ${tx.type} (${this.typeName})`;
 
@@ -210,10 +115,7 @@
         'modalManager',
         'notification',
         'waves',
-        'user',
-        'baseAssetService',
-        'utils',
-        '$scope'
+        'user'
     ];
 
     angular.module('app.ui')

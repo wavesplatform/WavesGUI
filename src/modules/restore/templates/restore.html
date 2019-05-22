@@ -1,10 +1,7 @@
 <div w-i18n-ns="app.restore" class="restore-content">
-    <i class="icon-information"></i>
-    <span ng-click="$ctrl.showTutorialModals()"
-          w-i18n-ns="app.welcome"
-          w-i18n="infoTooltip"
-          class="tooltip">
-    </span>
+    <w-info-tooltip ng-click="$ctrl.showTutorialModals()" class="important-information">
+        <span class="tooltip__content" w-i18n-ns="app.welcome" w-i18n="infoTooltip"></span>
+    </w-info-tooltip>
     <w-change-language></w-change-language>
 
     <a class="waves-logo" ui-sref="welcome"></a>
@@ -49,7 +46,10 @@
                            w-i18n="seedForm.saveUserData"
                            class="footnote-1 basic-500"></label>
                 </div>
-
+                <div  ng-if="$ctrl.address && $ctrl.seed.length <= 59"  class="plate-warning warning-500 body-2 margin-3">
+                    <div class="body-2" w-i18n="warningSeed.title"></div>
+                    <div class="footnote-1 basic-500" w-i18n="warningSeed.message"></div>
+                </div>
                 <div class="margin-3">
                     <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">
                         <span w-i18n="seedForm.continue"></span>

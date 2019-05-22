@@ -8,6 +8,56 @@ w-dex-my-orders {
   overflow: hidden;
   overflow-x: auto;
 
+  /* ngRepeat animation*/
+
+  .repeatItemTransition.ng-enter,
+  .repeatItemTransition.ng-leave {
+    transition: ease-in-out 0.4s;
+  }
+
+
+  .repeatItemTransition.ng-enter,
+  .repeatItemTransition.ng-leave.ng-leave-active {
+    opacity: 0;
+    max-height: 0;
+  }
+
+  .repeatItemTransition.ng-leave,
+  .repeatItemTransition.ng-enter.ng-enter-active {
+    opacity: 1;
+    max-height: 30px;
+    pointer-events: none;
+
+    &.pre-leave {
+      opacity: 0.3;
+    }
+
+    @media screen and (max-width: 1024px) {
+      max-height: 69px;
+    }
+  }
+
+  .repeatItemTransition.pre-leave {
+    transition: opacity 0.4s;
+    opacity: 0.3;
+    max-height: 30px;
+    pointer-events: none;
+
+    @media screen and (max-width: 1024px) {
+      max-height: 69px;
+    }
+
+    &.force-leave {
+      transition: ease-in-out 0.4s;
+      opacity: 0;
+      max-height: 0;
+      @media screen and (max-width: 1024px) {
+        max-height: 0 !important;
+      }
+    }
+  }
+
+  //end
   .centered {
     position: absolute;
     width: 100%;

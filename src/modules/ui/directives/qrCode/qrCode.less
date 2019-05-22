@@ -3,6 +3,12 @@
 .qr-wrapper {
   transition: all .3s;
   height: auto;
+  position: relative;
+  min-height: 240px;
+
+  .center {
+    height: auto;
+  }
 
   w-qr-code {
     display: block;
@@ -33,6 +39,23 @@
       img {
         width: 400px;
         height: 400px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .qr-wrapper {
+    &.zoomed-in {
+      w-qr-code {
+        width: 340px;
+        height: 340px;
+
+        .qr-code-wrap,
+        img {
+          width: 340px;
+          height: 340px;
+        }
       }
     }
   }

@@ -227,15 +227,17 @@
                     this.isSmart = balance.asset.hasScript;
                     const firstAssetChar = this.balance.asset.name.slice(0, 1);
                     const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
-                    const data = ds.dataManager.getOracleAssetData(this.balance.asset.id);
-                    const logo = data && data.logo;
-                    this.isVerifiedOrGateway = data && data.status >= STATUS_LIST.VERIFIED;
+                    const { isVerified, isGateway,
+                        isTokenomica, logo } = utils.getDataFromOracles(this.balance.asset.id);
+
+                    this.isVerifiedOrGateway = isVerified || isGateway;
 
                     const html = template({
                         canSetAssetScript: this._isMyAsset && this.isSmart,
                         isSmart: this.isSmart,
-                        isVerified: data && data.status === STATUS_LIST.VERIFIED,
-                        isGateway: data && data.status === 3,
+                        isVerified: isVerified,
+                        isGateway: isGateway,
+                        isTokenomica: isTokenomica,
                         assetIconPath: logo || ASSET_IMAGES_MAP[this.balance.asset.id],
                         firstAssetChar,
                         canBurn: !this._isWaves,
@@ -320,7 +322,7 @@
                     this.gatewayService.getPurchasableWithCards()[this.balance.asset.id] ||
                     this.gatewayService.getCryptocurrencies()[this.balance.asset.id] ||
                     this.gatewayService.getFiats()[this.balance.asset.id] ||
-                    path(statusPath, ds.dataManager.getOracleData()) === STATUS_LIST.VERIFIED;
+                    path(statusPath, ds.dataManager.getOracleData('oracleWaves')) === STATUS_LIST.VERIFIED;
 
             }
 
@@ -341,6 +343,14 @@
                     change24Node.classList.remove('plus');
                     this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
                     this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+
+                    return null;
+                }
+
+                if (balance.isOnScamList) {
+                    this.node.querySelector(`.${SELECTORS.CHANGE_24}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
 
                     return null;
                 }

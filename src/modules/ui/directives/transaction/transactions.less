@@ -3,6 +3,54 @@
 @import (reference) 'config';
 @import (reference) 'icons';
 
+.status-label,
+.status-label-min {
+  width: auto;
+  padding: 4px 11px;
+  border-radius: @border-radius;
+  text-transform: uppercase;
+  color: @color-submit-400;
+  background-color: @color-bluebar-200;
+  margin: -1px 0 0 6px;
+  white-space: nowrap;
+
+  &.success,
+  &.confirmed {
+    background: @color-success-50;
+    color: @color-success-400;
+  }
+
+  &.warning,
+  &.unconfirmed {
+    background: rgba(255, 175, 0, 0.1);
+    color: @color-warning-500;
+  }
+
+  &.error,
+  &.cancelled {
+    background: rgba(239, 72, 41, 0.1);
+    color: @color-error-500;
+  }
+
+  &.active {
+    color: @color-submit-400;
+    background-color: @color-bluebar-200;
+  }
+
+  &.inactive {
+    background-color: @asset-label-suspicious;
+    color: @color-black;
+  }
+}
+
+.status-label-min {
+  .caption-3();
+  padding: 3px 6px;
+  margin-top: 4px;
+  border-radius: @border-radius / 2;
+  text-transform: uppercase;
+}
+
 w-transaction .transaction {
   display: flex;
   flex-direction: row;
@@ -128,6 +176,10 @@ w-transaction .transaction {
 
     &.set-asset-script {
       .icon-tx-set-asset-script();
+    }
+
+    &.script-invocation {
+      .icon-tx-script-invocation();
     }
   }
 
