@@ -41,18 +41,21 @@ body.welcome {
     font-weight: 400;
   }
 
-  section,
+  .section-wrapper,
   footer {
     padding-left: 80px;
     padding-right: 80px;
   }
 
   section {
-    max-width: 1440px;
     width: 100%;
     margin: 0 auto;
     position: relative;
     z-index: 1;
+  }
+
+  .section-wrapper {
+    max-width: 1440px;
   }
 
   header {
@@ -194,27 +197,10 @@ body.welcome {
   }
 
   .section {
-    &-welcome,
-    &-promo {
-      &::before {
-        position: absolute;
-        background: @color-white;
-        width: 5000px;
-        height: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        top: 0;
-        display: block;
-        content: '';
-        z-index: -1;
-      }
-    }
 
-    &-welcome {
-      &::before {
-        max-height: 800px;
-      }
-    } // TODO @uIsk
+    .section-wrapper {
+      max-width: 1440px;
+    }
 
     &-welcome {
       display: flex;
@@ -364,6 +350,19 @@ body.welcome {
       text-align: center;
       flex-wrap: wrap;
 
+      &::before {
+        position: absolute;
+        background: @color-white;
+        width: 5000px;
+        height: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 0;
+        display: block;
+        content: '';
+        z-index: -1;
+      }
+
       &-card {
         padding: 96px 30px 102px;
         flex-basis: 33.33%;
@@ -374,7 +373,7 @@ body.welcome {
 
 @media screen and (max-width: 1440px) {
   body.welcome {
-    section,
+    .section-wrapper,
     footer {
       padding-left: 40px;
       padding-right: 40px;
@@ -401,9 +400,9 @@ body.welcome {
 
 @media screen and (max-width: 1340px) {
   body.welcome {
-    section,
     footer,
     header,
+    .section-wrapper,
     .section-slider,
     .section-markets .content-wrapper {
       padding-left: 40px;
@@ -612,9 +611,9 @@ body.welcome {
 
 @media screen and (max-width: 480px) {
   body.welcome {
-    section,
     footer,
     header,
+    .section-wrapper,
     .section-slider,
     .section-markets .content-wrapper {
       padding-left: 20px;
