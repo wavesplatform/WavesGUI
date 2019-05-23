@@ -94,8 +94,8 @@
 
             /**
              *
-             * @param value {number}
-             * @param pow {number}
+             * @param {number} value
+             * @param {number} pow
              * @returns {number}
              * @private
              */
