@@ -1,11 +1,11 @@
 @import (reference) 'config';
 @import (reference) '../../app/less/app';
 
-.seed-error {
-  border-color: @color-error-500;
-}
-
 body.create {
+  .confirm-backup {
+    .getStartedContentWidth(@getStartedContentPadding);
+  }
+
   &.tablet,
   &.desktop {
     .confirm-backup {

@@ -59,6 +59,7 @@ w-seed-read, w-seed-write {
       color: @white-only;
       line-height: 34px;
       padding: 0 15px;
+      transition: background-color 0.3s;
 
       &:hover {
         background-color: @color-submit-500;
@@ -94,9 +95,16 @@ w-seed-write {
     font-weight: 500;
     max-height: 36px;
     color: @color-submit-400;
+    transition: background-color 0.3s;
 
     &:hover {
       background-color: @color-submit-100;
+    }
+  }
+
+  &.seed-error {
+    .seed-container {
+      border-color: @color-error-500;
     }
   }
 }
