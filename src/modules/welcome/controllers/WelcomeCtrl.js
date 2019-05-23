@@ -100,6 +100,8 @@
             }
         };
 
+        const whenHeaderGetFix = 60;
+
         class WelcomeCtrl extends Base {
 
             /**
@@ -157,9 +159,10 @@
              */
             _addScrollHandler() {
                 const scrolledView = $element.find('.wrapper');
+                const header = $element.find('w-site-header');
                 scrolledView.on('scroll', () => {
-                    $element.find('w-site-header').toggleClass('fixed', scrolledView.scrollTop > 60);
-                    $element.find('w-site-header').toggleClass('unfixed', scrolledView.scrollTop <= 60);
+                    header.toggleClass('fixed', scrolledView.scrollTop() > whenHeaderGetFix);
+                    header.toggleClass('unfixed', scrolledView.scrollTop() <= whenHeaderGetFix);
                 });
             }
 
