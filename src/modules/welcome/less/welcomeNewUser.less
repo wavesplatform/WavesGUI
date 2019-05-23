@@ -1,5 +1,6 @@
 @import (reference) 'config';
-@import (reference) 'icons'; // TODO uIsk - move all icons to icons config
+@import (reference) 'icons';
+// TODO uIsk - move all icons to icons config
 @import (reference) '../../app/less/typography';
 
 body.welcome {
@@ -41,21 +42,11 @@ body.welcome {
     font-weight: 400;
   }
 
-  .section-wrapper,
-  footer {
-    padding-left: 80px;
-    padding-right: 80px;
-  }
-
   section {
     width: 100%;
     margin: 0 auto;
     position: relative;
     z-index: 1;
-  }
-
-  .section-wrapper {
-    max-width: 1440px;
   }
 
   header {
@@ -82,16 +73,16 @@ body.welcome {
 
   footer {
     background: @color-basic-900;
-    color: @color-basic-600;
     padding: 60px 0;
-    display: flex;
-    width: 100%;
-    align-items: center;
 
-    section {
+    .section-wrapper {
       display: flex;
+      color: @color-basic-600;
+      width: 100%;
       align-items: flex-start;
       font-size: 15px;
+      margin: 0 auto;
+      max-width: 1440px;
 
       .links {
         display: flex;
@@ -113,10 +104,10 @@ body.welcome {
       margin-bottom: 14px;
       display: inline-block;
       color: @color-basic-600;
-        &:hover {
-          color: @color-submit-500;
-        }
+      &:hover {
+        color: @color-submit-500;
       }
+    }
 
     .footer-left {
       width: 250px;
@@ -196,12 +187,15 @@ body.welcome {
     }
   }
 
+  .section-wrapper {
+    margin: 0 auto;
+    padding-left: 80px;
+    padding-right: 80px;
+    max-width: 1440px;
+    width: 100%;
+  }
+
   .section {
-
-    .section-wrapper {
-      max-width: 1440px;
-    }
-
     &-welcome {
       display: flex;
       height: 800px;
@@ -247,10 +241,10 @@ body.welcome {
       background: @color-basic-50;
       max-width: 100%;
       padding: 0;
-      .content-wrapper {
+      .section-wrapper {
         max-width: 1440px;
         margin: 0 auto;
-        padding: 0 80px 60px;
+        padding-bottom: 60px;
         h2 {
           margin: 0;
         }
@@ -345,10 +339,12 @@ body.welcome {
     }
 
     &-promo {
-      display: flex;
-      align-items: flex-start;
-      text-align: center;
-      flex-wrap: wrap;
+      .section-wrapper {
+        display: flex;
+        align-items: flex-start;
+        text-align: center;
+        flex-wrap: wrap;
+      }
 
       &::before {
         position: absolute;
@@ -373,8 +369,7 @@ body.welcome {
 
 @media screen and (max-width: 1440px) {
   body.welcome {
-    .section-wrapper,
-    footer {
+    .section-wrapper {
       padding-left: 40px;
       padding-right: 40px;
     }
@@ -400,7 +395,6 @@ body.welcome {
 
 @media screen and (max-width: 1340px) {
   body.welcome {
-    footer,
     header,
     .section-wrapper,
     .section-slider,
@@ -411,10 +405,6 @@ body.welcome {
 
     .slide {
       width: 30%;
-    }
-
-    footer section {
-      padding: 0;
     }
 
     .section-welcome {
@@ -434,7 +424,7 @@ body.welcome {
 @media screen and (max-width: 1174px) {
   body.welcome {
     footer {
-      section {
+      .section-wrapper {
         .links {
           padding-left: 0;
         }
@@ -445,7 +435,6 @@ body.welcome {
 
 @media screen and (max-width: 1024px) {
   body.welcome {
-
     .section-promo-card {
       padding: 56px 15px 66px;
     }
@@ -461,8 +450,7 @@ body.welcome {
     }
 
     footer {
-      section {
-        padding: 0;
+      .section-wrapper {
         .links > div {
           margin-left: 20px;
         }
@@ -575,8 +563,10 @@ body.welcome {
     }
 
     .section-promo {
-      flex-direction: column;
-      padding: 25px 0;
+      .section-wrapper {
+        flex-direction: column;
+        padding: 25px 0;
+      }
       &-card {
         padding: 15px 20px;
         width: 100%;
@@ -584,8 +574,8 @@ body.welcome {
     }
 
     footer {
-      padding: 40px 40px 0;
-      section {
+      .section-wrapper{
+        margin-top: 40px;
         font-size: 13px;
         flex-direction: column;
 
@@ -611,13 +601,17 @@ body.welcome {
 
 @media screen and (max-width: 480px) {
   body.welcome {
-    footer,
     header,
     .section-wrapper,
     .section-slider,
     .section-markets .content-wrapper {
       padding-left: 20px;
       padding-right: 20px;
+    }
+    footer {
+      .section-wrapper {
+        margin-top: 0px;
+      }
     }
   }
 }

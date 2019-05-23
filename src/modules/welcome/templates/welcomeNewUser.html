@@ -1,25 +1,29 @@
 <div w-i18n-ns="app.welcome" class="wrapper">
     <div class="white-bg"></div>
     <section class="section-welcome">
-        <div class="left-side">
-            <h1 class="margin-2 headline-0 welcome-text">Trade on the Waves Decentralised Exchange</h1>
-            <div class="basic-500 body-1 margin-5">
-                Trade quickly and securely.
-                You retain complete control over your funds when trading them on our decentralised exchange.
-            </div>
-            <div class="buttons-wrapper buttons-wrapper-nowidth">
-                <a class="fake-button get-started-btn" href="/create">
+
+        <div class="section-wrapper">
+            <div class="left-side">
+                <h1 class="margin-2 headline-0 welcome-text">Trade on the Waves Decentralised Exchange</h1>
+                <div class="basic-500 body-1 margin-5">
+                    Trade quickly and securely.
+                    You retain complete control over your funds when trading them on our decentralised exchange.
+                </div>
+                <div class="buttons-wrapper buttons-wrapper-nowidth">
+                    <a class="fake-button get-started-btn" href="/create">
                         <span class="fake-button-content big submit ">
                           Get Started
                           <i class="icon-arrow-right"></i>
                         </span>
-                </a>
-                <a href="/welcome" class="fake-button">
-                    <span class="fake-button-content big submit-light">Sign In</span>
-                </a>
+                    </a>
+                    <a href="/welcome" class="fake-button">
+                        <span class="fake-button-content big submit-light">Sign In</span>
+                    </a>
+                </div>
             </div>
+            <div class="dex-screenshot"></div>
         </div>
-        <div class="dex-screenshot"></div>
+
     </section>
 
     <section class="section-slider">
@@ -29,7 +33,7 @@
     </section>
 
     <section class="section-markets">
-        <div class="content-wrapper">
+        <div class="section-wrapper">
 
             <h2 class="margin-1">Markets</h2>
             <div class="basic-500 body-2">Lorem Ipsum is not simply random text.
@@ -54,14 +58,21 @@
                     <div class="cell last-price">
                         <w-balance money="pair.lastPrice"></w-balance>
                         <span class="basic-500">&nbsp;/&nbsp;
-                            <w-exchange balance="pair.lastPrice" target-asset-id="Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck"></w-exchange>
+                            <w-exchange balance="pair.lastPrice"
+                                        target-asset-id="Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck"></w-exchange>
                             &nbsp;$
                         </span>
                     </div>
                     <div class="cell change">{{pair.change24}}%</div>
-                    <div class="cell height24"><w-balance money="pair.high"></w-balance></div>
-                    <div class="cell low24"><w-balance money="pair.low"></w-balance></div>
-                    <div class="cell volume"><w-balance money="pair.volume"></w-balance></div>
+                    <div class="cell height24">
+                        <w-balance money="pair.high"></w-balance>
+                    </div>
+                    <div class="cell low24">
+                        <w-balance money="pair.low"></w-balance>
+                    </div>
+                    <div class="cell volume">
+                        <w-balance money="pair.volume"></w-balance>
+                    </div>
                     <div class="cell graph"></div>
                 </div>
 
@@ -70,99 +81,106 @@
             <div class="center body-2 basic-500">
                 <span>Click <a href="">Show all</a> to view the full list of markets</span>
             </div>
-
         </div>
     </section>
 
     <section class="section-promo body-2">
-        <div class="section-promo-card">
-            <div class="icon icon-schield margin-2"></div>
-            <h2 class="margin-1">Secture Trading</h2>
-            <div class="basic-500">Funds are stored in the wallet, not on the exchange. All traffic and private keys are
-                encrypted and stored only
-                on device.
+        <div class="section-wrapper">
+            <div class="section-promo-card">
+                <div class="icon icon-schield margin-2"></div>
+                <h2 class="margin-1">Secture Trading</h2>
+                <div class="basic-500">Funds are stored in the wallet, not on the exchange. All traffic and private keys
+                    are
+                    encrypted and stored only
+                    on device.
+                </div>
             </div>
-        </div>
-        <div class="section-promo-card">
-            <div class="icon icon-dex margin-2"></div>
-            <h2 class="margin-1">Decentralized</h2>
-            <div class="basic-500">No third parties and no withdrawal limits — you are in full control of your finances
-                and
-                decision-making.
+            <div class="section-promo-card">
+                <div class="icon icon-dex margin-2"></div>
+                <h2 class="margin-1">Decentralized</h2>
+                <div class="basic-500">No third parties and no withdrawal limits — you are in full control of your
+                    finances
+                    and
+                    decision-making.
+                </div>
             </div>
-        </div>
-        <div class="section-promo-card">
-            <div class="icon icon-wallet margin-2"></div>
-            <h2 class="margin-1">Low, fixed fees</h2>
-            <div class="basic-500">Insanely low fees less then $0.01 (0.003 WAVES) per order.</div>
-        </div>
-        <div class="section-promo-card">
-            <div class="icon icon-schield margin-2"></div>
-            <h2 class="margin-1">Плюшка раз</h2>
-            <div class="basic-500">Funds are stored in the wallet, not on the exchange. All traffic and private keys are
-                encrypted and stored only
-                on device.
+            <div class="section-promo-card">
+                <div class="icon icon-wallet margin-2"></div>
+                <h2 class="margin-1">Low, fixed fees</h2>
+                <div class="basic-500">Insanely low fees less then $0.01 (0.003 WAVES) per order.</div>
             </div>
-        </div>
-        <div class="section-promo-card">
-            <div class="icon icon-dex margin-2"></div>
-            <h2 class="margin-1">Плюшка два</h2>
-            <div class="basic-500">No third parties and no withdrawal limits — you are in full control of your finances
-                and
-                decision-making.
+            <div class="section-promo-card">
+                <div class="icon icon-schield margin-2"></div>
+                <h2 class="margin-1">Плюшка раз</h2>
+                <div class="basic-500">Funds are stored in the wallet, not on the exchange. All traffic and private keys
+                    are
+                    encrypted and stored only
+                    on device.
+                </div>
             </div>
-        </div>
-        <div class="section-promo-card">
-            <div class="icon icon-wallet margin-2"></div>
-            <h2 class="margin-1">Плюшка три</h2>
-            <div class="basic-500">Insanely low fees less then $0.01 (0.003 WAVES) per order.</div>
+            <div class="section-promo-card">
+                <div class="icon icon-dex margin-2"></div>
+                <h2 class="margin-1">Плюшка два</h2>
+                <div class="basic-500">No third parties and no withdrawal limits — you are in full control of your
+                    finances
+                    and
+                    decision-making.
+                </div>
+            </div>
+            <div class="section-promo-card">
+                <div class="icon icon-wallet margin-2"></div>
+                <h2 class="margin-1">Плюшка три</h2>
+                <div class="basic-500">Insanely low fees less then $0.01 (0.003 WAVES) per order.</div>
+            </div>
         </div>
     </section>
 
     <footer>
         <section>
-            <div class="footer-left">
-                <a class="logo logo-footer" href="/"></a>
-                <div class="margin-05">Brought to you by Waves Team.</div>
-                <div class="margin-1">&copy; 2019 Waves Platform</div>
-                <div class="margin-2"><a href="mailto:support@wavesplatform.com">support@wavesplatform.com</a></div>
+            <div class="section-wrapper">
+                <div class="footer-left">
+                    <a class="logo logo-footer" href="/"></a>
+                    <div class="margin-05">Brought to you by Waves Team.</div>
+                    <div class="margin-1">&copy; 2019 Waves Platform</div>
+                    <div class="margin-2"><a href="mailto:support@wavesplatform.com">support@wavesplatform.com</a></div>
 
-                <w-change-language></w-change-language>
-            </div>
-
-            <div class="links">
-                <div>
-                    <div class="footer-title basic-700">Products & tools</div>
-                    <div><a href="https://wavesplatform.com/products-wallet">Waves Wallet</a></div>
-                    <div><a href="https://wavesplatform.com/products-keeper">Waves Keeper</a></div>
-                    <div><a href="https://wavesplatform.com/products-blockchain">Waves Blockchain</a></div>
-                    <div><a href="https://ide.wavesplatform.com">Waves IDE</a></div>
-                    <div><a href="http://wavesexplorer.com">Waves Explorer</a></div>
+                    <w-change-language></w-change-language>
                 </div>
 
-                <div>
-                    <div class="footer-title basic-700">For developers</div>
-                    <div><a href="https://github.com/wavesplatform">GitHub</a></div>
-                    <div><a href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html">API</a></div>
-                    <div><a href="">Stack Overflow</a></div>
-                    <div><a href="https://docs.wavesplatform.com">Documentation</a></div>
-                    <div><a href="http://waveslabs.com">Waves Labs</a></div>
-                </div>
+                <div class="links">
+                    <div>
+                        <div class="footer-title basic-700">Products & tools</div>
+                        <div><a href="https://wavesplatform.com/products-wallet">Waves Wallet</a></div>
+                        <div><a href="https://wavesplatform.com/products-keeper">Waves Keeper</a></div>
+                        <div><a href="https://wavesplatform.com/products-blockchain">Waves Blockchain</a></div>
+                        <div><a href="https://ide.wavesplatform.com">Waves IDE</a></div>
+                        <div><a href="http://wavesexplorer.com">Waves Explorer</a></div>
+                    </div>
 
-                <div>
-                    <div class="footer-title basic-700">Legal</div>
-                    <div><a href="">Privacy Policy</a></div>
-                    <div><a href="">Terms of use</a></div>
-                    <div><a href="">Cookies</a></div>
-                    <div><a href="">GDPR</a></div>
-                </div>
+                    <div>
+                        <div class="footer-title basic-700">For developers</div>
+                        <div><a href="https://github.com/wavesplatform">GitHub</a></div>
+                        <div><a href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html">API</a></div>
+                        <div><a href="">Stack Overflow</a></div>
+                        <div><a href="https://docs.wavesplatform.com">Documentation</a></div>
+                        <div><a href="http://waveslabs.com">Waves Labs</a></div>
+                    </div>
 
-                <div>
-                    <div class="footer-title basic-700">SOCIAL</div>
-                    <div><a href="https://blog.wavesplatform.com/">Blog</a></div>
-                    <div><a href="">Twitter</a></div>
-                    <div><a href="">Telegram</a></div>
-                    <div><a href="">Forum</a></div>
+                    <div>
+                        <div class="footer-title basic-700">Legal</div>
+                        <div><a href="">Privacy Policy</a></div>
+                        <div><a href="">Terms of use</a></div>
+                        <div><a href="">Cookies</a></div>
+                        <div><a href="">GDPR</a></div>
+                    </div>
+
+                    <div>
+                        <div class="footer-title basic-700">SOCIAL</div>
+                        <div><a href="https://blog.wavesplatform.com/">Blog</a></div>
+                        <div><a href="">Twitter</a></div>
+                        <div><a href="">Telegram</a></div>
+                        <div><a href="">Forum</a></div>
+                    </div>
                 </div>
             </div>
         </section>
