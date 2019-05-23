@@ -3,20 +3,17 @@
 @import (reference) '../../../app/less/typography';
 
 .footer {
-  padding-left: 80px;
-  padding-right: 80px;
-  background: @color-basic-900;
-  color: @color-basic-600;
-  padding: 60px 0;
-  display: flex;
-  width: 100%;
-  align-items: center;
 
-  section {
+  background: @color-basic-900;
+
+
+  .section-wrapper {
+    color: @color-basic-600;
     display: flex;
+    width: 100%;
+    padding: 60px 80px;
     align-items: flex-start;
     font-size: 15px;
-    width: 100%;
     margin: 0 auto;
     position: relative;
     z-index: 1;
@@ -56,19 +53,14 @@
 }
 
 @media screen and (max-width: 1340px) {
-    .footer {
-      padding-left: 40px;
-      padding-right: 40px;
-    }
-
-    .footer section {
-      padding: 0;
-    }
+  .footer .section-wrapper {
+    padding: 40px;
+  }
 }
 
 @media screen and (max-width: 1174px) {
   .footer {
-    section {
+    .section-wrapper {
       .links {
         padding-left: 0;
       }
@@ -78,8 +70,7 @@
 
 @media screen and (max-width: 1024px) {
   .footer {
-    section {
-      padding: 0;
+    .section-wrapper {
       .links > div {
         margin-left: 20px;
       }
@@ -88,9 +79,9 @@
 }
 
 @media screen and (max-width: 860px) {
- .footer {
-    padding: 40px 40px 0;
-    section {
+  .footer {
+    .section-wrapper {
+      padding: 40px 40px 0;
       font-size: 13px;
       flex-direction: column;
 
@@ -106,7 +97,7 @@
 
         & > div {
           flex-basis: 50%;
-          margin: 30px 0 30px;
+          margin: 30px 0 0 0;
         }
       }
     }
@@ -114,7 +105,7 @@
 }
 
 @media screen and (max-width: 480px) {
-  .footer {
+  .footer .section-wrapper {
     padding-left: 20px;
     padding-right: 20px;
   }

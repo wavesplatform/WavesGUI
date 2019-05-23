@@ -2,52 +2,52 @@
 @import (reference) '../../../app/less/typography';
 
 // top menu
-@media screen and (max-width: 860px) { //~
-  nav.top-menu-mobile {
-    display: block;
-    position: fixed;
-    right: -200px;
-
-    &.expanded {
-      top-menu-mobile-wrapper {
-        right: 0;
-      }
-    }
-
-
-
-
-    .top-menu-mobile-toggler {
-      display: block;
-      height: 40px;
-      width: 40px;
-      top: 60px;
-      background: pink;
-    }
-
-    .top-menu-mobile-wrapper {
-      transition: .1s;
-
-      height: calc(100vh ~' - 60px');
-      background: @color-basic-900;
-      width: 200px;
-    }
-
-    a {
-      color: @color-white;
-      border-bottom: 1px solid red;
-      line-height: 40px;
-    }
-
-
-  }
-}
-
-@media screen and (min-width: 861px) { //~
-  nav.top-menu-mobile {
-    display: none;
-  }
-}
+//@media screen and (max-width: 860px) { //~
+//  nav.top-menu-mobile {
+//    display: block;
+//    position: fixed;
+//    right: -200px;
+//
+//    &.expanded {
+//      top-menu-mobile-wrapper {
+//        right: 0;
+//      }
+//    }
+//
+//
+//
+//
+//    .top-menu-mobile-toggler {
+//      display: block;
+//      height: 40px;
+//      width: 40px;
+//      top: 60px;
+//      background: pink;
+//    }
+//
+//    .top-menu-mobile-wrapper {
+//      transition: .1s;
+//
+//      height: calc(100vh ~' - 60px');
+//      background: @color-basic-900;
+//      width: 200px;
+//    }
+//
+//    a {
+//      color: @color-white;
+//      border-bottom: 1px solid red;
+//      line-height: 40px;
+//    }
+//
+//
+//  }
+//}
+//
+//@media screen and (min-width: 861px) { //~
+//  nav.top-menu-mobile {
+//    display: none;
+//  }
+//}
 
 
 
