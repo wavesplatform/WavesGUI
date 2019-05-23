@@ -25,9 +25,12 @@ body.restore {
 
       .address {
         &-block {
-          width: 100%;
+          width: calc(100% ~'- 45px');
 
           .address {
+            overflow: hidden;
+            text-overflow: ellipsis;
+
             &.empty {
               position: relative;
               top: 3px;
