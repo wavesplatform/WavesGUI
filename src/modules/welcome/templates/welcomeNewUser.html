@@ -52,12 +52,16 @@
                      class="row row-content">
                     <div class="cell pair">{{pair.amountAsset.ticker}} / {{pair.priceAsset.ticker}}</div>
                     <div class="cell last-price">
-                        {{pair.lastPrice.toFormat()}}<span class="basic-500"> / $1.16</span>
+                        <w-balance money="pair.lastPrice"></w-balance>
+                        <span class="basic-500">&nbsp;/&nbsp;
+                            <w-exchange balance="pair.lastPrice" target-asset-id="Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck"></w-exchange>
+                            &nbsp;$
+                        </span>
                     </div>
                     <div class="cell change">{{pair.change24}}%</div>
-                    <div class="cell height24">{{pair.high}}</div>
-                    <div class="cell low24">{{pair.low}}</div>
-                    <div class="cell volume">{{pair.volume.getTokens().toFixed(3)}}</div>
+                    <div class="cell height24"><w-balance money="pair.high"></w-balance></div>
+                    <div class="cell low24"><w-balance money="pair.low"></w-balance></div>
+                    <div class="cell volume"><w-balance money="pair.volume"></w-balance></div>
                     <div class="cell graph"></div>
                 </div>
 

@@ -149,13 +149,27 @@
             constructor() {
                 super($scope);
 
-
                 this.observe('activeUserAddress', this._calculateActiveIndex);
                 this.observe('password', this._updatePassword);
 
                 analytics.send({ name: 'Sign In Show', target: 'ui', params: { from: 'welcome' } });
                 this._initUserList();
                 this._initPairs();
+            }
+
+            $postLink() {
+                this._addScrollHandler();
+            }
+
+            /**
+             * @private
+             */
+            _addScrollHandler() {
+                const scrolledView = document.querySelector('body.welcome .wrapper');
+                scrolledView.addEventListener('scroll', () => {
+                    $element.toggleClass('fixed', scrolledView.scrollTop > 60);
+                    $element.toggleClass('unfixed', scrolledView.scrollTop <= 60);
+                });
             }
 
             /**
