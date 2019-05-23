@@ -252,6 +252,19 @@
                     </div>
                 </div>
 
+                <div class="row margin-1 asset-api">
+                    <div class="footnote-1 basic-500 label">
+                        <span w-i18n="modal.settings.network.apiAddress"></span>
+                        <a class="settings-copy" w-copy="$ctrl.api" w-i18n="modal.settings.network.copy"></a>
+                    </div>
+                    <div class="data-field has-helper">
+                        <w-input ng-model="$ctrl.api"></w-input>
+                        <w-help-icon>
+                            <div class="help-icon__row headline-3" w-i18n="modal.settings.network.apiAddressHelp"></div>
+                        </w-help-icon>
+                    </div>
+                </div>
+
                 <div class="row margin-1 asset-filter">
                     <div class="footnote-1 basic-500 label">
                         <span w-i18n="modal.settings.network.spamFilter"></span>
@@ -295,12 +308,20 @@
 
                 <div class="row flex-row row-style">
                     <div class="footnote-1 basic-500" w-i18n="modal.settings.info.legal"></div>
-                    <div class="basic-500">
-                        <a href="{{::$ctrl.termsAndConditionsLink}}" target="_blank" rel="noopener noreferrer">
-                        <span w-i18n="modal.settings.info.termsAndConditions"></span>
-                    </a>|<a href="{{::$ctrl.privacyPolicy}}" target="_blank" rel="noopener noreferrer">
-                        <span w-i18n="modal.settings.info.privacyPolicy"></span>
-                    </a></div>
+                    <div class="basic-500 text-right">
+                        <a href="{{::$ctrl.termsAndConditionsLink}}"
+                           target="_blank"
+                           class="nowrap"
+                           rel="noopener noreferrer">
+                            <span w-i18n="modal.settings.info.termsAndConditions"></span>
+                        </a>|
+                        <a href="{{::$ctrl.privacyPolicy}}"
+                           target="_blank"
+                           class="nowrap"
+                           rel="noopener noreferrer">
+                            <span w-i18n="modal.settings.info.privacyPolicy"></span>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="row flex-row row-style solid-border">

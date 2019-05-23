@@ -18,7 +18,11 @@
         <div ng-if="$ctrl.canCollapse"
              ng-click="$ctrl.toggleCollapse()"
              class="dex-block-top-btn"><i class="collapse"></i></div>
-        <div ng-click="$ctrl.scrollToSpread()" class="dex-block-top-btn"><i class="tospread"></i></div>
+        <div ng-click="$ctrl.scrollToSpread()"
+             ng-class="{'active': $ctrl.isActiveScroll}"
+             class="dex-block-top-btn">
+            <i class="tospread"></i>
+        </div>
     </div>
     <div ng-if="!$ctrl.collapsed" class="dex-block-content" ng-transclude></div>
 </div>
