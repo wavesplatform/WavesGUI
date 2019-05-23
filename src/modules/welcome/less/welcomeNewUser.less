@@ -491,8 +491,11 @@ body.welcome {
         .graph {
           width: 50px;
           height: 35px;
-          position: absolute;
+          position: absolute !important;
           right: 15px;
+          canvas {
+            position: static !important;
+          }
         }
 
         .volume {
