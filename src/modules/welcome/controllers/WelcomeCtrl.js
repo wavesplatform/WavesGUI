@@ -132,11 +132,6 @@
              * @public
              */
             pairsInfoList = [];
-            /**
-             * @type {boolean}
-             * @public
-             */
-            isPending = true;
 
             get user() {
                 return this.userList[this._activeUserIndex];
@@ -157,18 +152,14 @@
                 this._initPairs();
             }
 
-            $postLink() {
-                this._addScrollHandler();
-            }
-
             /**
              * @private
              */
             _addScrollHandler() {
-                const scrolledView = document.querySelector('body.welcome .wrapper');
-                scrolledView.addEventListener('scroll', () => {
-                    $element.toggleClass('fixed', scrolledView.scrollTop > 60);
-                    $element.toggleClass('unfixed', scrolledView.scrollTop <= 60);
+                const scrolledView = $element.find('.wrapper');
+                scrolledView.on('scroll', () => {
+                    $element.find('w-site-header').toggleClass('fixed', scrolledView.scrollTop > 60);
+                    $element.find('w-site-header').toggleClass('unfixed', scrolledView.scrollTop <= 60);
                 });
             }
 
@@ -199,6 +190,7 @@
                             });
                             angularUtils.safeApply($scope);
                             this._insertCharts();
+                            this._addScrollHandler();
                         });
                     });
             }
