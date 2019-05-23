@@ -1,0 +1,26 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../app/less/typography';
+@import (reference) '../../app/less/app';
+
+.not-account-content {
+  .getStartedContentWidth(@getStartedContentPadding);
+
+  .not-account-icon {
+    width: 150px;
+    height: 150px;
+    margin: 80px auto 30px;
+    background: @not-saved-account-icon;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+}
+
+body.welcome {
+  &.tablet,
+  &.desktop {
+    .not-account-content  {
+      .getStartedContentWidthDesktop;
+    }
+  }
+}
