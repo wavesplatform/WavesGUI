@@ -44,11 +44,13 @@
 
                 return ds.fetch(`${PATH}/external/deposit`, { method: 'POST', body })
                     .then(details => {
+                        const [minAmount, maxAmount, fee] = [details.minAmount, details.maxAmount, details.fee]
+                            .map(value => this._normalaizeValue(value, -asset.precision));
                         return ({
                             address: details.address,
-                            minimumAmount: new BigNumber(details.minAmount),
-                            maximumAmount: new BigNumber(details.maxAmount),
-                            gatewayFee: new BigNumber(details.fee)
+                            minimumAmount: new BigNumber(minAmount),
+                            maximumAmount: new BigNumber(maxAmount),
+                            gatewayFee: new BigNumber(fee)
                         });
                     });
             }
@@ -70,11 +72,13 @@
 
                 return ds.fetch(`${PATH}/external/withdraw`, { method: 'POST', body })
                     .then(details => {
+                        const [minAmount, maxAmount, fee] = [details.minAmount, details.maxAmount, details.fee]
+                            .map(value => this._normalaizeValue(value, -asset.precision));
                         return ({
                             address: details.recipientAddress,
-                            minimumAmount: new BigNumber(details.minAmount),
-                            maximumAmount: new BigNumber(details.maxAmount),
-                            gatewayFee: new BigNumber(details.fee),
+                            minimumAmount: new BigNumber(minAmount),
+                            maximumAmount: new BigNumber(maxAmount),
+                            gatewayFee: new BigNumber(fee),
                             attachment: details.processId
                         });
                     });
@@ -86,6 +90,17 @@
              */
             getAssetKeyName(asset) {
                 return `${GATEWAYS[asset.id].gateway}`;
+            }
+
+            /**
+             *
+             * @param value {number}
+             * @param pow {number}
+             * @returns {number}
+             * @private
+             */
+            _normalaizeValue(value, pow) {
+                return value * Math.pow(10, pow);
             }
 
             static _assertAsset(assetId) {
