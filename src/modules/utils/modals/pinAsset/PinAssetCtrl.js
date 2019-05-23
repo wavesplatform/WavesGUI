@@ -33,6 +33,10 @@ const R = require('ramda');
                  */
                 this.withScam = null;
                 /**
+                 * @type {boolean}
+                 */
+                this.dontShowSpam = null;
+                /**
                  * @type {Array<Asset>}
                  */
                 this.pinnedAssetNewList = [];
@@ -52,7 +56,8 @@ const R = require('ramda');
                 this.syncSettings({
                     pinnedAssetIdList: 'pinnedAssetIdList',
                     spam: 'wallet.portfolio.spam',
-                    withScam: 'withScam'
+                    withScam: 'withScam',
+                    dontShowSpam: 'dontShowSpam'
                 });
 
                 this.observe('search', this._fillList);

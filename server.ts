@@ -1,7 +1,7 @@
 import { createSecureServer } from 'http2';
 import { createServer } from 'https';
 import { route, parseArguments, stat, loadLocales } from './ts-scripts/utils';
-import { readFileSync, existsSync,mkdirSync } from 'fs';
+import { readFileSync, existsSync, mkdirSync } from 'fs';
 import { serialize, parse as parserCookie } from 'cookie';
 import { compile } from 'handlebars';
 import { parse } from 'url';
@@ -73,7 +73,7 @@ function createMyServer(port) {
     console.log('Available urls:');
     console.log(url);
     const cachePath = join(process.cwd(), '.cache-download');
-    if (!existsSync(cachePath)){
+    if (!existsSync(cachePath)) {
         mkdirSync(cachePath);
     }
     loadLocales(cachePath);
@@ -141,13 +141,20 @@ function request(req, res) {
 }
 
 function wavesClientConfig(req, res, next) {
-    if (!req.url.includes('waves-client-config')) {
+    const parsedCookie = parseCookie(req.headers.cookie);
+    const connection: string | null = parsedCookie ? parsedCookie.connection : null;
+
+    if (!req.url.includes('waves-client-config') || !connection) {
         next();
         return null;
     }
     let response_json = { error: 'oops' };
 
-    const path = join(__dirname, 'mocks/waves-client-config/master/config.json');
+    const path = join(
+        __dirname,
+        `mocks/waves-client-config/master/${connection === 'mainnet' ? '' : 'testnet.'}config.json`
+    );
+
     if (fs.existsSync(path)) {
         response_json = JSON.parse(fs.readFileSync(path, 'utf8')) || '';
     }
