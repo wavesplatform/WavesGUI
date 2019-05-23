@@ -1,4 +1,4 @@
-<div class="user-list">
+<div class="user-list wrapper">
 
     <div class="margin-5 text-center">
         <div class="headline-1 margin-1" w-i18n="userList.title"></div>
@@ -24,11 +24,6 @@
             </div>
             <div class="icon-remove-user icon-close" ng-click="$ctrl.removeUser(user.address)"></div>
         </w-option>
-        <div>
-            <a ui-sref="import"
-               class="add-account"
-               w-i18n="userList.import"></a>
-        </div>
     </w-select>
 
     <div class="password-placeholder" ng-if="$ctrl.needPassword">

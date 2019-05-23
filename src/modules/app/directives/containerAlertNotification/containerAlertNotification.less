@@ -4,7 +4,7 @@
 
 w-container-alert-notification {
   display: flex;
-  width: 330px;
+  width: 310px;
   flex-direction: column;
 
   &.welcome-notifications {
@@ -217,6 +217,15 @@ w-container-alert-notification {
           background: @notification-icon-error center left no-repeat;
         }
       }
+    }
+  }
+}
+
+body {
+  &.tablet,
+  &.desktop {
+    w-container-alert-notification {
+      width: 330px;
     }
   }
 }

@@ -21,7 +21,6 @@ body.welcome {
   }
 
   .wrapper {
-    background: @color-white;
     position: relative;
     overflow-x: hidden;
     overflow-y: auto;
@@ -52,7 +51,6 @@ body.welcome {
     max-width: 1440px;
     width: 100%;
     margin: 0 auto;
-
     position: relative;
     z-index: 1;
   }
@@ -196,12 +194,28 @@ body.welcome {
   }
 
   .section {
+    &-welcome,
+    &-promo {
+      &::before {
+        position: absolute;
+        background: @color-white;
+        width: 5000px;
+        height: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 0;
+        display: block;
+        content: '';
+        z-index: -1;
+      }
+    }
+
     &-welcome {
       display: flex;
       height: 800px;
       align-items: center;
       width: 100%;
-      max-width: 100%;
+      position: static;
 
       .welcome-text {
         font-size: 50px;
