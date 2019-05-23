@@ -1,5 +1,6 @@
 @import (reference) 'config';
-@import (reference) 'icons'; // TODO uIsk - move all icons to icons config
+@import (reference) 'icons';
+// TODO uIsk - move all icons to icons config
 @import (reference) '../../app/less/typography';
 
 body.welcome {
@@ -16,17 +17,16 @@ body.welcome {
     position: fixed;
     top: 0;
     width: 100%;
-    height: 60px;
     z-index: 0;
   }
 
-  .wrapper {
+  div.wrapper {
     position: relative;
     overflow-x: hidden;
     overflow-y: auto;
     max-height: 100%;
-    padding-top: 60px;
     width: 100%;
+    padding-top: 60px;
   }
 
   a {
@@ -51,17 +51,6 @@ body.welcome {
     margin: 0 auto;
     position: relative;
     z-index: 1;
-  }
-
-  .section-wrapper {
-    max-width: 1440px;
-  }
-
-  header {
-    width: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
   }
 
   .get-started-btn {
@@ -96,7 +85,8 @@ body.welcome {
       .graph {
         width: 110px;
         height: 36px;
-        padding-left: 10px;
+        margin-left: 10px;
+
       }
 
       .change {
@@ -148,18 +138,21 @@ body.welcome {
     }
   }
 
+  .section-wrapper {
+    margin: 0 auto;
+    padding-left: 80px;
+    padding-right: 80px;
+    max-width: 1440px;
+    width: 100%;
+  }
+
   .section {
-
-    .section-wrapper {
-      max-width: 1440px;
-    }
-
     &-welcome {
       display: flex;
       height: 800px;
       align-items: center;
       width: 100%;
-      position: static;
+      background: @color-white;
 
       .welcome-text {
         font-size: 50px;
@@ -186,7 +179,7 @@ body.welcome {
         height: calc(@dex-screenshot-height / 2.7);
         display: block;
         position: absolute;
-        top: 150px;
+        top: 90px;
         box-shadow: 0 0 30px @color-basic-200;
         z-index: 1;
         transition: .5s;
@@ -199,10 +192,10 @@ body.welcome {
       background: @color-basic-50;
       max-width: 100%;
       padding: 0;
-      .content-wrapper {
+      .section-wrapper {
         max-width: 1440px;
         margin: 0 auto;
-        padding: 0 80px 60px;
+        padding-bottom: 60px;
         h2 {
           margin: 0;
         }
@@ -297,10 +290,12 @@ body.welcome {
     }
 
     &-promo {
-      display: flex;
-      align-items: flex-start;
-      text-align: center;
-      flex-wrap: wrap;
+      .section-wrapper {
+        display: flex;
+        align-items: flex-start;
+        text-align: center;
+        flex-wrap: wrap;
+      }
 
       &::before {
         position: absolute;
@@ -379,7 +374,6 @@ body.welcome {
 
 @media screen and (max-width: 1024px) {
   body.welcome {
-
     .section-promo-card {
       padding: 56px 15px 66px;
     }
@@ -500,8 +494,10 @@ body.welcome {
     }
 
     .section-promo {
-      flex-direction: column;
-      padding: 25px 0;
+      .section-wrapper {
+        flex-direction: column;
+        padding: 25px 0;
+      }
       &-card {
         padding: 15px 20px;
         width: 100%;
@@ -518,6 +514,11 @@ body.welcome {
     .section-markets .content-wrapper {
       padding-left: 20px;
       padding-right: 20px;
+    }
+    footer {
+      .section-wrapper {
+        margin-top: 0px;
+      }
     }
   }
 }
