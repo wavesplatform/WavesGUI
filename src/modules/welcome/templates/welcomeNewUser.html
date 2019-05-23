@@ -1,4 +1,4 @@
-<div w-i18n-ns="app.welcome" class="wrapper">
+<div w-i18n-ns="app.welcome" class="wrapper scrolled-view">
     <div class="white-bg"></div>
     <section class="section-welcome">
         <div class="left-side">
@@ -61,14 +61,16 @@
                     <div class="cell change">{{pair.change24}}%</div>
                     <div class="cell height24"><w-balance money="pair.high"></w-balance></div>
                     <div class="cell low24"><w-balance money="pair.low"></w-balance></div>
-                    <div class="cell volume"><w-balance money="pair.volume"></w-balance></div>
+                    <div class="cell volume">
+                        <span w-nice-number="pair.volume.toFormat()" precision="3"></span>
+                    </div>
                     <div class="cell graph"></div>
                 </div>
 
             </div>
 
             <div class="center body-2 basic-500">
-                <span>Click <a href="">Show all</a> to view the full list of markets</span>
+                <span>Click <a href="/dex-demo">Show all</a> to view the full list of markets</span>
             </div>
 
         </div>
