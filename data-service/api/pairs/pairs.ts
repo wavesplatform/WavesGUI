@@ -34,8 +34,8 @@ const remapPairInfo = (pairs: Array<AssetPair>, volumeFactory: (data: TMoneyInpu
     const priceAsset = pair.priceAsset;
     const lastPrice = moneyFactory(data.lastPrice);
     const firstPrice = moneyFactory(data.firstPrice);
-    const high = moneyFactory(data.high);
-    const low = moneyFactory(data.low);
+    const high = data.high;
+    const low = data.low;
     const volume = volumeFactory(data.volumeWaves);
     let change24 = change24F(firstPrice && firstPrice.getTokens(), lastPrice && lastPrice.getTokens());
 
