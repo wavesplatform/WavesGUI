@@ -47,7 +47,10 @@
                     .then(data => {
                         return ds.fetch('https://gateways-dev.wvservices.com/api/v1/external/send', {
                             method: 'POST',
-                            body: WavesApp.stringifyJSON(data)
+                            body: WavesApp.stringifyJSON({
+                                ...data,
+                                sender: ds.app.address
+                            })
                         });
                     })
                     .then(data => {
