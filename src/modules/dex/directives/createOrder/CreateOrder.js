@@ -261,7 +261,7 @@
             isActiveBalanceButton(factor) {
                 const amount = this.amount;
 
-                if (!amount) {
+                if (!amount || amount.getTokens().eq(0)) {
                     return false;
                 }
 
