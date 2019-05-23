@@ -13,7 +13,7 @@
      */
     const controller = function ($element, $timeout, carouselManager, utils, Base, $scope, ChartFactory) {
 
-        const { range } = require('ramda');
+        const { range, last } = require('ramda');
 
         const chartOptions = {
             red: {
@@ -153,11 +153,10 @@
                 this.diff = startCoords.length > 1 ? startCoords[1] - startCoords[0] : width + 10;
                 this._coords = this.content.toArray().map((element, i) => {
                     const X = (i - 1) * this.diff;
-                    $(element).css({
-                        transform: `translateX(${X}px)`,
-                        width
-                    });
-                    $(element).data('translate', X);
+                    $(element)
+                        .css({ transform: `translateX(${X}px)`, width })
+                        .data('translate', X);
+
                     return X;
                 });
 
@@ -187,7 +186,7 @@
              * @private
              */
             _move() {
-                const lastPos = this._coords[this._coords.length - 1];
+                const lastPos = last(this._coords);
                 return Promise.all(this.content.toArray().map(element => {
                     const $element = $(element);
                     const start = $element.data('translate');
@@ -195,7 +194,18 @@
                     const newPos = start - this.diff;
                     $element.prop('progress', 0);
                     $element.data('translate', newPos);
-                    const opacity = newPos < 0 || newPos > this._coords[this.slidesAmount] ? 0.2 : 1;
+                    let opacity;
+                    switch (true) {
+                        case (newPos < -this.diff || newPos > this._coords[this.slidesAmount + 1]):
+                            opacity = 0;
+                            break;
+                        case (newPos < 0 || newPos > this._coords[this.slidesAmount]):
+                            opacity = 0.2;
+                            break;
+                        default:
+                            opacity = 1;
+                            break;
+                    }
                     return utils.animate($element, {
                         opacity,
                         progress: 1
