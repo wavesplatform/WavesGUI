@@ -3,10 +3,13 @@
 @import (reference) '../../app/less/typography';
 
 body.welcome {
-
-  ui-view {
-    margin-top: 60px;
-  }
+  width: 100%;
+  overflow: hidden;
+  font-family: 'Roboto', 'Tahoma', 'Arial';
+  font-size: 15px;
+  margin: 0 auto;
+  font-weight: normal;
+  color: @color-basic-900;
 
   .white-bg {
     background: @color-white;
@@ -17,18 +20,14 @@ body.welcome {
     z-index: 0;
   }
 
-  width: 100%;
-  //overflow: hidden;
-  font-family: 'Roboto', 'Tahoma', 'Arial';
-  font-size: 15px;
-  margin: 0 auto;
-  font-weight: normal;
-  color: @color-basic-900;
-
   .wrapper {
     background: @color-white;
     position: relative;
     overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 100%;
+    padding-top: 60px;
+    width: 100%;
   }
 
   a {
@@ -53,6 +52,15 @@ body.welcome {
     max-width: 1440px;
     width: 100%;
     margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  header {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
   }
 
   .get-started-btn {
@@ -135,7 +143,6 @@ body.welcome {
         width: 110px;
         height: 36px;
         padding-left: 10px;
-        background: pink;
       }
 
       .change {
@@ -193,6 +200,7 @@ body.welcome {
       height: 800px;
       align-items: center;
       width: 100%;
+      position: static;
 
       .welcome-text {
         font-size: 50px;
@@ -333,6 +341,7 @@ body.welcome {
       display: flex;
       align-items: flex-start;
       text-align: center;
+      flex-wrap: wrap;
 
       &-card {
         padding: 96px 30px 102px;
@@ -481,8 +490,11 @@ body.welcome {
         .graph {
           width: 50px;
           height: 35px;
-          position: absolute;
+          position: absolute !important;
           right: 15px;
+          canvas {
+            position: static !important;
+          }
         }
 
         .volume {

@@ -39,6 +39,7 @@
     opacity: 1;
   }
 }
+
 @keyframes header-up-shadow {
   0% {
     opacity: 1;
@@ -72,10 +73,6 @@ body.welcome {
       background: linear-gradient(to bottom,  rgba(218,225,233,0.65) 0%,rgba(0,0,0,0) 100%);
     }
 
-    .shadow {
-
-    }
-
     header {
       width: 100%;
       &::after {
@@ -95,10 +92,10 @@ body.welcome {
     }
 
     &.unfixed header {
-      animation: header-up .5s ease-in-out;
+      animation: header-up .3s ease-in-out;
 
       &::after {
-        animation: header-up-shadow .5s ease-in-out;
+        animation: header-up-shadow .3s ease-in-out;
         animation-fill-mode: forwards;
       }
     }
@@ -373,17 +370,6 @@ w-site-header {
   .height {
     height: 100%;
     display: block;
-  }
-
-  .logo {
-    width: 152px;
-    height: 32px;
-    display: block;
-    background: url(/img/icons/wavesdex-black-32.svg) center no-repeat;
-
-    &-white {
-      background: url(/img/icons/wavesdex-invert-32.svg) center no-repeat;
-    }
   }
 
   .icon {

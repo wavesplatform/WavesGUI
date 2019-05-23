@@ -2,14 +2,45 @@
     'use strict';
 
     /**
+     * @param Base
+     * @param {$rootScope.Scope} $scope
      * @param {jQuery} $element
      * @param $timeout
-     * @param {CarouselManager} carouselManager
+     * @param carouselManager
+     * @param ChartFactory
+     * @param {app.utils} utils
      * @return {Carousel}
      */
-    const controller = function ($element, $timeout, carouselManager, utils, Base, $scope) {
+    const controller = function ($element, $timeout, carouselManager, utils, Base, $scope, ChartFactory) {
 
         const { range } = require('ramda');
+
+        const chartOptions = {
+            red: {
+                charts: [
+                    {
+                        axisX: 'timestamp',
+                        axisY: 'rate',
+                        lineColor: '#ef4829',
+                        fillColor: '#FFF',
+                        gradientColor: ['#FEEFEC', '#FFF'],
+                        lineWidth: 3
+                    }
+                ]
+            },
+            blue: {
+                charts: [
+                    {
+                        axisX: 'timestamp',
+                        axisY: 'rate',
+                        lineColor: '#1f5af6',
+                        fillColor: '#FFF',
+                        gradientColor: ['#EAF0FE', '#FFF'],
+                        lineWidth: 3
+                    }
+                ]
+            }
+        };
 
         class Carousel extends Base {
 
@@ -60,6 +91,16 @@
                         this.tempWrapper = $element.find('.slide-window:first');
                         this.wrapper = $element.find('.slider-content:first');
                         this.content = $element.find('.slider-content:first').children();
+
+                        this.content.toArray().forEach((element, i) => {
+                            const info = this.pairsInfoList[i];
+                            const options = info.change24.gt(0) ? chartOptions.blue : chartOptions.red;
+                            new ChartFactory(
+                                $(element).find('.graph'),
+                                options,
+                                this.pairsInfoList[i].rateHistory
+                            );
+                        });
 
                         this._remapSlides();
                         const onResize = utils.debounceRequestAnimationFrame(() => this._remapSlides());
@@ -189,7 +230,7 @@
         return new Carousel();
     };
 
-    controller.$inject = ['$element', '$timeout', 'carouselManager', 'utils', 'Base', '$scope'];
+    controller.$inject = ['$element', '$timeout', 'carouselManager', 'utils', 'Base', '$scope', 'ChartFactory'];
 
     angular.module('app.ui').component('wCarousel', {
         transclude: true,
