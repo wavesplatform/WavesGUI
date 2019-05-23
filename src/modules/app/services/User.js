@@ -2,6 +2,8 @@
 (function () {
     'use strict';
 
+    const { equals } = require('ramda');
+
     /* global
         Mousetrap
      */
@@ -11,6 +13,7 @@
         'extraFee',
         'networkError',
         'changeScript',
+        'setScamSignal',
         'scam'
     ];
 
@@ -41,6 +44,7 @@
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
         const { Money } = require('@waves/data-entities');
+        const analytics = require('@waves/event-sender');
 
         class User {
 
@@ -103,6 +107,10 @@
              * @type {Signal<void>}
              */
             changeScript = new tsUtils.Signal();
+            /**
+             * @type {Signal<void>}
+             */
+            setScamSignal = new tsUtils.Signal();
             /**
              * @type {Record<string, boolean>}
              */
@@ -173,7 +181,16 @@
                     setTimeout(() => {
                         this._scriptInfoPoll = new Poll(() => this.updateScriptAccountData(), () => null, 10000);
                     }, 30000);
+
                 });
+
+            }
+
+            setScam(hash) {
+                if (!equals(hash, this.scam)) {
+                    this.scam = hash;
+                    this.setScamSignal.dispatch();
+                }
             }
 
             /**
@@ -305,7 +322,7 @@
             login(data) {
                 this.networkError = false;
                 return this._addUserData(data)
-                    .then(() => analytics.push('User', `Login.${WavesApp.type}.${data.userType}`));
+                    .then(() => analytics.send({ name: 'Sign In Success' }));
             }
 
             /**
@@ -340,12 +357,25 @@
                         hasBackup,
                         lng: i18next.language,
                         theme: themes.getDefaultTheme(),
-                        candle: 'blue'
+                        candle: 'blue',
+                        dontShowSpam: true
                     }
-                }).then(() => analytics.push(
-                    'User',
-                    `${restore ? 'Restore' : 'Create'}.${WavesApp.type}.${data.userType}`,
-                    document.referrer));
+                }).then(() => {
+                    if (restore) {
+                        analytics.send({
+                            name: 'Import Backup Success',
+                            params: { userType: data.userType }
+                        });
+                    } else {
+                        analytics.send({
+                            name: 'Create Success',
+                            params: {
+                                hasBackup,
+                                userType: data.userType
+                            }
+                        });
+                    }
+                });
             }
 
             logout() {
@@ -421,7 +451,7 @@
                 if (currentTheme !== newTheme) {
                     this.setSetting('theme', newTheme);
                 }
-                analytics.push('Settings', 'Settings.ChangeTheme', newTheme);
+                // analytics.push('Settings', 'Settings.ChangeTheme', newTheme);
             }
 
             changeCandle(name) {
@@ -512,6 +542,13 @@
                                 this[propertyName] = item[propertyName];
                             }
                         });
+
+                        analytics.init(WavesApp.analyticsIframe, {
+                            platform: WavesApp.type,
+                            userType: data.userType,
+                            networkByte: ds.config.get('code')
+                        });
+
                         this.lastLogin = Date.now();
 
                         if (this._settings) {
@@ -535,7 +572,7 @@
                             ds.config.set(key, this._settings.get(`network.${key}`));
                         });
 
-                        ds.config.set('oracleAddress', this.getSetting('assetsOracle'));
+                        ds.config.set('oracleWaves', this.getSetting('oracleWaves'));
 
                         ds.app.login(data.address, data.api);
 

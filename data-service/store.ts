@@ -51,8 +51,8 @@ function createProcessStore<T>(toAddContainer: TStore<T>, toRemoveContainer: TSt
     );
 }
 
-const addToRemoveStore = createAddStore(toRemoveOrders, 10000);
-export const addOrderToStore = createAddStore(ordersStore, 10000);
+const addToRemoveStore = createAddStore(toRemoveOrders, 3000);
+export const addOrderToStore = createAddStore(ordersStore, 3000);
 export const removeOrderFromStore = createClearStore(ordersStore, addToRemoveStore, 'id');
 export const processOrdersWithStore = createProcessStore(ordersStore, toRemoveOrders, 'id');
 

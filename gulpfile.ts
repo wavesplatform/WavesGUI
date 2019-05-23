@@ -12,7 +12,7 @@ import {
     getScripts,
     getStyles,
     getInitScript,
-    getLocales
+    loadLocales
 } from './ts-scripts/utils';
 import { basename, extname, join, sep } from 'path';
 import {
@@ -23,14 +23,15 @@ import {
     readFile,
     readJSON,
     readJSONSync,
-    writeFile,
+    writeFile
 } from 'fs-extra';
 
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
-import { readFileSync, writeFileSync, unlink } from 'fs';
+import { readFileSync, writeFileSync, unlink, rename, existsSync } from 'fs';
 import { render } from 'less';
+import { exist } from './electron/utils';
 
 const zip = require('gulp-zip');
 const extract = require('extract-zip');
@@ -135,6 +136,8 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                         }),
                         copy(tmpCssPath, join(targetPath, 'css')),
                         copy('LICENSE', join(`${targetPath}`, 'LICENSE')),
+                        copy('googleAnalytics.js', join(`${targetPath}`, 'googleAnalytics.js')),
+                        copy('amplitude.js', join(`${targetPath}`, 'amplitude.js')),
                     ].concat(forCopy)).then(() => {
                         done();
                     }, (e) => {
@@ -289,7 +292,7 @@ task('concat-develop-vendors', function () {
 
 task('downloadLocales', ['concat-develop-sources'], function (done) {
     const dist = join(__dirname, 'dist');
-    getLocales(dist).then(() => done());
+    loadLocales(dist).then(() => done());
 });
 
 task('clean', function () {
@@ -411,11 +414,25 @@ task('electron-debug', function (done) {
     const copyNodeModules = () => Promise.all(meta.copyNodeModules.map(name => copy(name, join(root, name))));
     const copyI18next = () => copy(join(__dirname, 'node_modules', 'i18next', 'dist'), join(root, 'i18next'));
 
+    const renameLocaleDirectory = () => {
+        const localesPath = join(root, 'locales');
+        const localePath = join(root, 'locale');
+        if (!existsSync(localesPath)) {
+            rename(localePath, localesPath, error => {
+                if (error) {
+                    console.error('renaming of locale error', error);
+                    return;
+                }
+            });
+        }
+    };
+
     readdir(srcDir)
         .then(excludeTypeScrip)
         .then(list => Promise.all(list.map(copyItem)))
         .then(makePackageJSON)
-        .then(() => getLocales(root, { include_tags: ['electron'] }))
+        .then(() => loadLocales(root))
+        .then(() => renameLocaleDirectory())
         .then(copyNodeModules)
         .then(copyI18next)
         .then(() => done());

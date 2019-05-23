@@ -12,7 +12,7 @@
                                        hide-id="::true"
                                        disabled="$ctrl.errors.length > 0 || !$ctrl.txId"
                                        class="margin-top-3 block"
-                                       on-click="$ctrl.getSignable()">
+                                       on-click="$ctrl.getSignableAndSendEvent()">
                             <span w-i18n="confirmTransaction.sign"></span>
                         </w-sign-button>
                     </div>
@@ -49,6 +49,7 @@
                     <w-tabs class="inner" ng-model="$ctrl.activeTab" ng-if="::$ctrl.advancedMode">
                         <w-tab title-name="::'confirmTransaction.details'" id="::'details'">
                             <w-transaction-info-content is-confirm="::true"
+                                                        confirmed="::false"
                                                         class="margin-top-4"
                                                         signable="$ctrl.signable"></w-transaction-info-content>
                         </w-tab>
@@ -63,6 +64,7 @@
 
                     <w-transaction-info-content ng-if="::!$ctrl.advancedMode"
                                                 is-confirm="::true"
+                                                confirmed="::false"
                                                 signable="$ctrl.signable"></w-transaction-info-content>
 
                     <div class="bottom-warning" ng-if="::$ctrl.isSetScript">
@@ -91,13 +93,13 @@
                             {{$ctrl.errorMessage}}
                         </div>
                         <div ng-if="$ctrl.errors" class="margin-top-2 error-500 footnote-1">
-                             <div params="error.data"
-                                  ng-repeat="error in $ctrl.errors"
-                                  w-i18n="{{::error.literal}}"></div>
+                            <div params="error.data"
+                                 ng-repeat="error in $ctrl.errors"
+                                 w-i18n="{{::error.literal}}"></div>
                         </div>
 
                         <div class="buttons-wrapper margin-top-3" ng-if="!$ctrl.loadingSignFromDevice">
-                            <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
+                            <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.back()">
                                 <span w-i18n="confirmTransaction.back"></span>
                             </w-button>
                             <w-button class="big submit"

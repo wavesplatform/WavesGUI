@@ -9,6 +9,8 @@
 
     const { Money } = require('@waves/data-entities');
     const ds = require('data-service');
+    const { SIGN_TYPE } = require('@waves/signature-adapter');
+    const analytics = require('@waves/event-sender');
 
     const BANK_RECIPIENT = WavesApp.bankRecipient;
     const MIN_TOKEN_COUNT = 100;
@@ -19,6 +21,7 @@
      * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
      * @param {IPollCreate} createPoll
+     * @param {ConfigService} configService
      * @param {IOuterBlockchains} outerBlockchains
      * @param {User} user
      * @param {GatewayService} gatewayService
@@ -29,6 +32,7 @@
                                  utils,
                                  createPoll,
                                  waves,
+                                 configService,
                                  outerBlockchains,
                                  user,
                                  gatewayService) {
@@ -136,6 +140,15 @@
                 return this.toBankMode && this.termsLoadError;
             }
 
+            get isCoinomatAccepted() {
+                return configService
+                    .get('PERMISSIONS.CAN_TRANSFER_COINOMAT').indexOf(this.balance.asset.id) !== -1;
+            }
+
+            get isBankAccepted() {
+                return this.toBankMode ? this.isCoinomatAccepted : true;
+            }
+
             get isBankPendingOrError() {
                 return this.isBankError || this.isBankPending;
             }
@@ -232,6 +245,16 @@
              */
             signInProgress = false;
             /**
+             * @type {ISingleSendTx}
+             */
+            wavesTx = {
+                type: SIGN_TYPE.TRANSFER,
+                amount: null,
+                attachment: '',
+                fee: null,
+                recipient: ''
+            };
+            /**
              * @type {boolean}
              * @private
              */
@@ -244,11 +267,8 @@
             }
 
             $postLink() {
-
                 this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
-
-                this.receiveOnce(utils.observe(this.state, 'moneyHash'), () => {
-
+                const onHasMoneyHash = () => {
                     this.receive(utils.observe(this.state, 'toBankMode'), this._onChangeBankMode, this);
                     this.observe('gatewayDetails', this._currentHasCommission);
 
@@ -262,9 +282,29 @@
                     this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayDetails, this);
                     this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayDetails, this);
 
+                    this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayPermisson, this);
+                    this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayPermisson, this);
+
                     this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
+
+                    this.observe('gatewayDetails', this._updateWavesTxObject);
+                    this.receive(utils.observe(this.tx, 'amount'), this._updateWavesTxObject, this);
+                    this.receive(utils.observe(this.tx, 'recipient'), this._updateWavesTxObject, this);
+                    this.receive(utils.observe(this.tx, 'attachment'), this._updateWavesTxObject, this);
+
                     this.observe('mirror', this._onChangeAmountMirror);
 
+                    this._currentHasCommission();
+                    this._onChangeBaseAssets();
+                    this._updateGatewayDetails();
+                    this._updateGatewayPermisson();
+                };
+                if (!this.state.moneyHash) {
+                    this.receiveOnce(utils.observe(this.state, 'moneyHash'), onHasMoneyHash);
+                } else {
+                    onHasMoneyHash();
+                }
+                this.receive(utils.observe(this.state, 'moneyHash'), () => {
                     this._currentHasCommission();
                     this._onChangeBaseAssets();
                     this._updateGatewayDetails();
@@ -299,6 +339,7 @@
             }
 
             onSignTx(signable) {
+                analytics.send({ name: 'Transfer Continue Click', target: 'ui' });
                 this.onContinue({ signable });
             }
 
@@ -352,7 +393,8 @@
 
                 this.tx.recipient = result.recipient;
 
-                analytics.push('Send', `Send.QrCodeRead.${WavesApp.type}`, `Send.QrCodeRead.${WavesApp.type}.Success`);
+                // analytics.push('Send', `Send.QrCodeRead.${WavesApp.type}`,
+                // `Send.QrCodeRead.${WavesApp.type}.Success`);
 
                 if (result) {
 
@@ -400,6 +442,23 @@
             /**
              * @private
              */
+            _updateWavesTxObject() {
+                const toGateway = this.outerSendMode && this.gatewayDetails;
+                const fee = toGateway ? this.tx.amount.cloneWithTokens(toGateway.gatewayFee) : null;
+                const attachmentString = this.tx.attachment ? this.tx.attachment.toString() : '';
+                const isWavesAddress = waves.node.isValidAddress(this.tx.recipient);
+
+                this.wavesTx = {
+                    ...this.wavesTx,
+                    recipient: toGateway ? this.gatewayDetails.address : isWavesAddress && this.tx.recipient || '',
+                    attachment: utils.stringToBytes(toGateway ? this.gatewayDetails.attachment : attachmentString),
+                    amount: toGateway ? this.tx.amount.add(fee) : this.tx.amount
+                };
+            }
+
+            /**
+             * @private
+             */
             _validateForm() {
                 if (this.tx.amount.getTokens().gt(0) || this.tx.recipient) {
                     this.send.$setDirty(true);
@@ -420,6 +479,7 @@
                 }
 
                 this._setMinAmount();
+                this._updateGatewayPermisson();
             }
 
             /**
@@ -475,8 +535,9 @@
                 this.tx.amount = this.moneyHash[this.assetId].cloneWithTokens('0');
                 this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
                 this._updateGatewayDetails();
+                this._updateGatewayPermisson();
 
-                analytics.push('Send', `Send.ChangeCurrency.${WavesApp.type}`, this.assetId);
+                // analytics.push('Send', `Send.ChangeCurrency.${WavesApp.type}`, this.assetId);
             }
 
             /**
@@ -607,6 +668,7 @@
                                 .cloneWithTokens(details.minimumAmount.minus('0.00000001'));
                             this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
                             this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
+                            $scope.$apply();
                         }, () => {
                             this.gatewayDetails = null;
                             this.gatewayDetailsError = true;
@@ -620,6 +682,13 @@
                 return Promise.resolve();
             }
 
+            /**
+             * @private
+             */
+            _updateGatewayPermisson() {
+                this.gatewayDetailsError = !this.isCoinomatAccepted;
+            }
+
         }
 
         return new SingleSend();
@@ -631,6 +700,7 @@
         'utils',
         'createPoll',
         'waves',
+        'configService',
         'outerBlockchains',
         'user',
         'gatewayService'

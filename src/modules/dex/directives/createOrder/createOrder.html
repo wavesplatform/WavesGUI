@@ -16,10 +16,19 @@
 
         <div class="making-order" ng-class="$ctrl.type">
             <div class="areas">
-                <div class="area buy" ng-click="$ctrl.expand('buy')">
+                <div w-analytics event="'DEX Buy Click'"
+                     event-target="'ui'"
+                     event-params='{Pair: $ctrl.analyticsPair}'
+                     class="area buy"
+                     ng-click="$ctrl.expand('buy')">
                     <div class="name headline-4 basic-700" w-i18n="directives.createOrder.buy"></div>
                 </div>
-                <div class="area sell" ng-click="$ctrl.expand('sell')">
+                <div w-analytics
+                     event="'DEX Sell Click'"
+                     event-params='{Pair: $ctrl.analyticsPair}'
+                     event-target="'ui'"
+                     class="area sell"
+                     ng-click="$ctrl.expand('sell')">
                     <div class="name headline-4 basic-700" w-i18n="directives.createOrder.sell"></div>
                 </div>
             </div>

@@ -187,13 +187,14 @@
                 <div ng-class="{'error-400': $ctrl.invalid}"
                      class="footnote-1 basic-500"
                      params="{fee: $ctrl.fee}"
-                     w-i18n="fee_tokens"></div>
+                     w-i18n="fee"></div>
                 <div ng-if="$ctrl.invalid" class="error-400" w-i18n="validators.noMoney"></div>
             </div>
 
             <div class="row">
                 <w-sign-button disabled="$ctrl.createForm.$invalid || $ctrl.invalid"
                                class="submit long margin-4"
+                               ng-click="$ctrl.sendAnalytics"
                                on-success="$ctrl.generate(signable)"
                                on-click="$ctrl.createSignable()">
                     <span w-i18n-ns="app.tokens" w-i18n="create"></span>

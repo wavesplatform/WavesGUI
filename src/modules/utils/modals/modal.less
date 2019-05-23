@@ -1,3 +1,5 @@
+@import (reference) 'config';
+
 md-dialog {
 
   md-toolbar {
@@ -46,6 +48,47 @@ md-dialog {
   }
 }
 
+.md-dialog-backdrop:nth-of-type(even) {
+  z-index: 81;
+}
+
+.md-dialog-backdrop:nth-of-type(odd) {
+  z-index: 79;
+  opacity: 0.7;
+}
+
+.md-dialog-container:first-child:nth-of-type(even) {
+  z-index: 75;
+}
+
+.md-dialog-container:nth-of-type(odd) {
+  z-index: 82;
+}
+
+.md-dialog-container {
+  md-dialog {
+    box-shadow: none;
+    position: absolute;
+    max-height: 90%;
+    width: 540px;
+    background: @color-white;
+    color: @color-disabled-900;
+
+    md-dialog-actions {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+}
+
+md-toolbar.md-default-theme:not(.md-menu-toolbar),
+md-toolbar:not(.md-menu-toolbar) {
+  background-color: @color-white;
+  color: @color-black;
+  border-bottom: 1px solid @color-basic-200;
+}
+
 @media screen and (max-width: 540px) {
   md-dialog {
 
@@ -65,4 +108,24 @@ md-dialog {
     }
   }
 
+  .md-dialog-container {
+    md-dialog {
+      width: 100%;
+      max-width: 100%;
+      min-width: 360px;
+      height: 100%;
+      max-height: 100%;
+      left: 0;
+      top: 0;
+      transform-origin: center;
+      transform: translateY(0) translateX(0);
+      border-radius: 0;
+
+      md-dialog-content {
+        padding: 20px 20px 0;
+        height: 100%;
+        color: @color-disabled-900;
+      }
+    }
+  }
 }

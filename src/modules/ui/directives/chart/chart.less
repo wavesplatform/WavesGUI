@@ -1,0 +1,27 @@
+@import (reference) 'config';
+
+.chart-legend {
+  display: none;
+  margin-left: 40px;
+
+  .legend-item {
+    display: block;
+    height: 38px;
+  }
+}
+
+svg.chart {
+  .axis {
+    .tick line {
+      display: none;
+    }
+    .domain {
+      stroke: transparent;
+    }
+
+    & > .tick > text {
+      fill: @color-disabled-700;
+      font-size: 13px;
+    }
+  }
+}

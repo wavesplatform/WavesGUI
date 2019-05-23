@@ -81,6 +81,10 @@
                  * @type {boolean}
                  */
                 this.pending = true;
+                /**
+                 * @type {boolean}
+                 */
+                this.dontShowSpam = user.getSetting('dontShowSpam');
 
                 waves.node.assets.getAsset(this.mirrorId)
                     .then((mirror) => {
@@ -132,12 +136,12 @@
                 this.syncSettings({
                     pinned: 'pinnedAssetIdList',
                     spam: 'wallet.portfolio.spam',
-                    filter: 'wallet.portfolio.filter'
+                    filter: 'wallet.portfolio.filter',
+                    dontShowSpam: 'dontShowSpam'
                 });
 
                 balanceWatcher.ready
                     .then(() => {
-
                         const onChange = () => {
                             this._updateBalances();
                             visibleService.updateSort();
@@ -145,7 +149,7 @@
 
                         this.receive(balanceWatcher.change, onChange);
                         this.receive(utils.observe(user, 'scam'), onChange);
-                        this.observe(['pinned', 'spam'], onChange);
+                        this.observe(['pinned', 'spam', 'dontShowSpam'], onChange);
 
                         this._updateBalances();
                     });
@@ -156,6 +160,7 @@
                     this.observe('filter', this._onChangeDetails);
 
                     this._onChangeDetails();
+                    utils.safeApply($scope);
                 });
 
                 this.receive(stService.sort, () => {
@@ -196,10 +201,6 @@
              */
             showSepa(asset) {
                 return modalManager.showSepaAsset(user, asset);
-            }
-
-            showQR() {
-                return modalManager.showAddressQrCode(user);
             }
 
             showBurn(assetId) {
@@ -313,17 +314,25 @@
                         };
                     })
                     .reduce((acc, item) => {
-                        const oracleData = ds.dataManager.getOracleAssetData(item.asset.id);
+                        const oracleData = ds.dataManager.getOraclesAssetData(item.asset.id);
+                        const spam = item.isOnScamList || item.isSpam;
 
-                        if (item.asset.sender === user.address) {
-                            acc.my.push(item);
-                        }
                         if (oracleData && oracleData.status > 0) {
                             acc.verified.push(item);
                         }
-                        if (item.isOnScamList || item.isSpam) {
-                            acc.spam.push(item);
+
+                        if (spam) {
+                            if (!this.dontShowSpam) {
+                                if (item.asset.sender === user.address) {
+                                    acc.my.push(item);
+                                }
+                                acc.spam.push(item);
+                                acc.active.push(item);
+                            }
                         } else {
+                            if (item.asset.sender === user.address) {
+                                acc.my.push(item);
+                            }
                             acc.active.push(item);
                         }
 

@@ -7,9 +7,9 @@
 
             constructor() {
                 super($scope);
-                this.security = false;
-                this.backup = false;
+                this.securityAndBackup = false;
                 this.readTermsAndConditions = false;
+                this.privacyPolicy = false;
             }
 
             confirm() {
