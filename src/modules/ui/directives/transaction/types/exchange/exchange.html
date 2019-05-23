@@ -1,8 +1,11 @@
 <div class="line-wrapper">
     <div class="line">
-        <div class="body-2 top fs-mobile">
-            <span>
+        <div class="body-2 top flex fs-mobile">
+            <span class="flex">
                 <span w-i18n="transaction.headers.{{::$ctrl.typeName}}"></span>
+                <span class="ellipsis">
+                    {{$ctrl.getAssetName($ctrl.transaction.amount.asset)}}
+                </span>
                 <span>{{$ctrl.amountAssetName}}</span>
                 <span ng-if="$ctrl.isScamAmount"
                       class="spam-label"

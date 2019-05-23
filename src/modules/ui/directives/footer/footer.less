@@ -1,0 +1,121 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../app/less/typography';
+
+.footer {
+  padding-left: 80px;
+  padding-right: 80px;
+  background: @color-basic-900;
+  color: @color-basic-600;
+  padding: 60px 0;
+  display: flex;
+  width: 100%;
+  align-items: center;
+
+  section {
+    display: flex;
+    align-items: flex-start;
+    font-size: 15px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+
+    .links {
+      display: flex;
+      width: calc(100% ~'- 250px');
+      padding-left: 150px;
+      & > div {
+        flex-basis: 25%;
+      }
+    }
+  }
+
+  .footer-title {
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    font-size: 13px;
+  }
+
+  a {
+    margin-bottom: 14px;
+    display: inline-block;
+    color: @color-basic-600;
+    &:hover {
+      color: @color-submit-500;
+    }
+  }
+
+  .footer-left {
+    width: 250px;
+  }
+
+  .logo {
+    margin-top: -8px;
+  }
+}
+
+@media screen and (max-width: 1340px) {
+    .footer {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+
+    .footer section {
+      padding: 0;
+    }
+}
+
+@media screen and (max-width: 1174px) {
+  .footer {
+    section {
+      .links {
+        padding-left: 0;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .footer {
+    section {
+      padding: 0;
+      .links > div {
+        margin-left: 20px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 860px) {
+ .footer {
+    padding: 40px 40px 0;
+    section {
+      font-size: 13px;
+      flex-direction: column;
+
+      .footer-title {
+        margin-bottom: 20px;
+        font-size: 11px;
+      }
+
+      .links {
+        padding: 0;
+        flex-wrap: wrap;
+        width: 100%;
+
+        & > div {
+          flex-basis: 50%;
+          margin: 30px 0 30px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .footer {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
