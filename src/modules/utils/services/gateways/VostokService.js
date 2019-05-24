@@ -5,7 +5,7 @@
         [WavesApp.defaultAssets.VOSTOK]: { waves: 'WVOSTOK', gateway: 'VOSTOK' }
     };
 
-    const PATH = `${WavesApp.network.vostokGateway}/api/v1`;
+    const PATH = `${WavesApp.network.vostok.gateway}/api/v1`;
 
     /**
      * @returns {VostokService}

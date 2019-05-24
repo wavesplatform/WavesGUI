@@ -212,7 +212,10 @@
       "api": "https://api.testnet.wavesplatform.com",
       "explorer": "https://wavesexplorer.com/testnet",
       "coinomat": "https://localhost:8080/coinomat",
-      "vostokGateway": "https://gateways-dev.wvservices.com",
+      "vostok": {
+        "gateway": "https://gateways-dev.wvservices.com",
+        "networkByte": "F"
+      },
       "support": "https://support.wavesplatform.com",
       "termsAndConditions": "https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf",
       "privacyPolicy": "https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf",
