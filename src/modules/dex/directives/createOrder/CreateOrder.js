@@ -127,6 +127,10 @@
                  */
                 this._silenceNow = false;
                 /**
+                 * @type {Object}
+                 */
+                this.pairRestrictions = {};
+                /**
                  *
                  * @type {boolean}
                  */
@@ -170,8 +174,12 @@
                  */
                 const spreadPoll = createPoll(this, this._getData, this._setData, 1000);
 
-                this.receive(balanceWatcher.change, this._updateBalances, this);
+                this.receive(balanceWatcher.change, () => {
+                    this._updateBalances();
+                    this._getPairRestrictions();
+                }, this);
                 this._updateBalances();
+                this._getPairRestrictions();
 
                 const lastTradePromise = new Promise((resolve) => {
                     balanceWatcher.ready.then(() => {
@@ -231,6 +239,7 @@
                         }
                     }));
                     currentFee();
+                    this._getPairRestrictions();
                 });
 
                 this.observe(['priceBalance', 'total', 'maxPriceBalance'], this._setIfCanBuyOrder);
@@ -829,6 +838,20 @@
                 }
                 this[field] = value;
                 this.order.$setDirty();
+            }
+
+            _getPairRestrictions() {
+                if (!this.loaded) {
+                    return false;
+                }
+
+                ds.api.matcher.getPairRestrictions({
+                    amountAsset: this.amountBalance.asset,
+                    priceAsset: this.priceBalance.asset
+                }).then(info => {
+                    this.pairRestrictions = info;
+                });
+
             }
 
             static _animateNotification($element) {
