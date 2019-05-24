@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const controller = function (Base, user, $scope) {
+    const controller = function (Base, user, $scope, angularUtils) {
 
         const { utils } = require('@waves/signature-generator');
 
@@ -26,7 +26,9 @@
                 user.getUserList()
                     .then((list) => {
                         this._userList = list.filter(user => utils.crypto.isValidAddress(user.address));
-                        $scope.$apply();
+                        angularUtils.postDigest($scope).then(() => {
+                            $scope.$apply();
+                        });
                     });
             }
 
@@ -35,7 +37,7 @@
         return new GetStartedLinkCtrl();
     };
 
-    controller.$inject = ['Base', 'user', '$scope'];
+    controller.$inject = ['Base', 'user', '$scope', 'utils'];
 
     angular.module('app.ui').component('wGetStartedLink', {
         templateUrl: 'modules/ui/directives/getStartedLink/getStartedLink.html',
