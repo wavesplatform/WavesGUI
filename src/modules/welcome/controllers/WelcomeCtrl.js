@@ -303,6 +303,9 @@
                 this._updateActiveUserAddress();
             }
 
+            /**
+             * @private
+             */
             _initUserList() {
                 user.getUserList()
                     .then((list) => {
@@ -337,17 +340,6 @@
                     this.pageUrl = `${PATH}/welcomeHasUsers.html`;
                 } else {
                     this.pageUrl = `${PATH}/welcomeNewUser.html`;
-                }
-            }
-
-            /**
-             * @public
-             */
-            toSignIn() {
-                if (this.userList.length) {
-                    this.pageUrl = `${PATH}/welcomeHasUsers.html`;
-                } else {
-                    this.pageUrl = `${PATH}/welcomeNotHaveAccounts.html`;
                 }
             }
 
