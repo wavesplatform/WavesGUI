@@ -21,7 +21,7 @@
                     isScam: this.isScam
                 };
 
-                this.receive(utils.observe(this, 'isScam'), () => {
+                this.observe('isScam', () => {
                     this.props.isScam = this.isScam;
                     utils.safeApply($scope);
                 });
