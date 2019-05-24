@@ -26,7 +26,7 @@
                 user.getUserList()
                     .then((list) => {
                         this._userList = list.filter(user => utils.crypto.isValidAddress(user.address));
-                        $scope.apply();
+                        $scope.$apply();
                     });
             }
 
