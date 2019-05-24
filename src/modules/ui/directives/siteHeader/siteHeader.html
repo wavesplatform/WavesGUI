@@ -2,11 +2,7 @@
     <div class="header-wrapper">
         <a class="logo" ui-sref="/"></a>
 
-        <div class="mobile-menu-toggler" w-toggle-class="expanded">
-            <span></span>
-        </div>
-
-        <nav class="top-menu top-menu-welcome">
+        <nav class="top-menu top-menu-welcome" ng-if="!$ctrl.isLogined">
             <a class="link-margin link-dex" href="/dex-demo">Exchange</a>
             <a class="link-margin" href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html" target="_blank">API</a>
             <a class="link-margin" href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html" target="_blank">Help</a>
@@ -41,18 +37,21 @@
             </div>
         </nav>
 
-        <nav class="mobile-menu" w-toggle-class-container>
+        <div class="mobile-menu-toggler" w-toggle-class="expanded">
+            <span></span>
+        </div>
 
+        <nav class="mobile-menu" w-toggle-class-container>
             <div class="mobile-menu-wrapper">  <!-- 1st -->
 
-                <ul ng-if="!$ctrl.isLogined"> <!-- unlogged -->
+                <ul ng-if="!$ctrl.isLogined">
                     <li><a href="#">Exchange</a></li>
                     <li><a href="#">API</a></li>
                     <li><a href="#">Help</a></li>
                     <li><a href="#">News</a></li>
                     <li><a class="has-child" w-toggle-class="mobile-menu-inner-expanded" href="#">Download</a>
                 </ul>
-                <ul ng-if="$ctrl.isLogined"> <!-- is logged  -->
+                <ul ng-if="$ctrl.isLogined">
                     <li>
                         <a class="has-child has-user-address"
                            w-toggle-class="mobile-menu-inner-expanded"
@@ -60,33 +59,43 @@
                            <div class="flex">
                                <w-avatar size="30" address="$ctrl.address"></w-avatar>
                                <div>
-                                   <div>@Lisicinz</div>
+                                   <div class="body-2">@Lisicinz</div>
                                    <w-copy-wrap info="::$ctrl.address" ng-click="$ctrl.onCopyAddress()">
-                                       <div class="body-1 basic-900 mobile-low-fsize">{{::$ctrl.address}}</div>
+                                       <div class="footnote-1 basic-600">{{::$ctrl.address}}</div>
                                    </w-copy-wrap>
                                </div>
                            </div>
                         </a>
                     </li>
                     <li><a href="#">Exchange</a></li>
-                    <li><a href="#">Exchange</a></li>
-                    <li><a href="#">Exchange</a></li>
-                    <li>two</li>
-                    <li>three</li>
-                    <li>four</li>
+                    <li><a href="#">Wallet</a></li>
+                    <li><a href="#">Create token</a></li>
                 </ul>
             </div>
-            <div ng-if="!$ctrl.isLogined" class="mobile-menu-wrapper mobile-menu-wrapper-inner"> <!-- 2nd -->
-                <ul> <!-- unlogged -->
+            <div class="mobile-menu-wrapper mobile-menu-wrapper-inner"> <!-- 2nd -->
+                <ul ng-if="!$ctrl.isLogined">
                     <li><a class="menu-link menu-link-menu" w-toggle-class="mobile-menu-inner-expanded" href="#">Menu</a>
                     <li><a href="#">Windows</a></li>
                     <li><a href="#">MacOS</a></li>
                     <li><a href="#">Linux</a></li>
                 </ul>
-                <ul ng-if="$ctrl.isLogined"> <!-- is logged -->
-                    <li></li>
+                <ul ng-if="$ctrl.isLogined">
+                    <li><a class="menu-link menu-link-menu" w-toggle-class="mobile-menu-inner-expanded" href="#">Menu</a>
+                    <li><a class="menu-link menu-link-aliases"href="#">Aliases</a></li>
+                    <li><a class="menu-link menu-link-settings" href="#">Settings</a></li>
+                    <li><a class="menu-link menu-link-logout" href="#">Log Out</a></li>
                 </ul>
             </div>
+
+            <div class="mobile-menu-wrapper mobile-menu-wrapper-inner"> <!-- 2nd -->
+                <ul ng-if="$ctrl.isLogined"> <!-- is logged -->
+                    <li><a class="menu-link menu-link-menu" w-toggle-class="mobile-menu-inner-expanded" href="#">Menu</a>
+                    <li><a class="menu-link menu-link-aliases" href="#">Aliases</a></li>
+                    <li><a class="menu-link menu-link-settings" href="#">Settings</a></li>
+                    <li><a class="menu-link menu-link-logout" href="#">Log Out</a></li>
+                </ul>
+            </div>
+
             <div class="mobile-menu-fader"></div>
 
         </nav>
@@ -97,7 +106,7 @@
 
 
 
-        <nav class="top-menu top-menu-wallet">
+        <nav class="top-menu top-menu-wallet" ng-if="$ctrl.isLogined">
             <a class="link-margin link-dex" href="/dex">Exchange</a>
             <div class="relative dropdown-toggler link-margin">
                 <a class="dropdown-btn link-wallet" href="/wallet/assets">Wallet</a>
@@ -131,7 +140,7 @@
             <a class="link-margin link-tokens" href="/tokens">Create token</a>
         </nav>
 
-        <div class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
+        <div ng-if="!$ctrl.isLogined" class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
             <a class="body-2 margin-right-3 submit-400" href="/welcome">Sign In</a>
             <a class="fake-button submit medium" href="/create">
                 <span class="fake-button-content medium submit">Get Started</span>

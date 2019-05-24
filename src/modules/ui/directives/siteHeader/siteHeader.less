@@ -41,10 +41,6 @@
     transition: .5s;
     z-index: 11;
 
-    @media screen and (max-width: 480px) {
-      right: 5px;
-    }
-
     span,
     &::before,
     &::after {
@@ -82,8 +78,8 @@
       transform: translate(-50%, 5px);
     }
   }
-  // end toggler button
 
+  // end toggler button
   // basic mobile menu styles
   .mobile-menu {
     display: block;
@@ -181,24 +177,10 @@
         }
       }
 
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
-
   }
-  // end basic mobile menu styles
 
+  // end basic mobile menu styles
   // EXPANDED
   header.expanded {
     .mobile-menu {
@@ -235,15 +217,25 @@
         animation-name: menu-toggler-animation-bottom;
       }
     }
-
   }
 
   // end expanded
+  w-site-header {
+    .avatar-container.dropdown-toggler {
+      display: none;
+    }
+  }
 }
 
 @media screen and (min-width: 861px) {
   nav.mobile-menu {
     display: none;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .mobile-menu-toggler {
+    right: 5px;
   }
 }
 
@@ -518,13 +510,9 @@ w-site-header {
     position: relative;
     a {
     }
-    &-wallet {
-      display: none;
-    }
   }
 
   .avatar-container {
-    display: none;
     position: relative;
     cursor: pointer;
     width: 80px;
@@ -716,39 +704,10 @@ body.tokens {
   }
 }
 
-body.wallet,
-body.dex,
-body.tokens {
-  w-site-header {
-    header {
-      .login-buttons {
-        display: none;
-      }
-
-      .avatar-container {
-        display: flex;
-      }
-
-      nav.top-menu {
-        &.top-menu-wallet {
-          display: flex;
-          .dropdown {
-            min-width: 215px;
-          }
-        }
-
-        &.top-menu-welcome {
-          display: none;
-        }
-      }
-    }
-  }
-}
-
 @media screen and (max-width: 860px) {
   w-site-header {
     header {
-      .top-menu:not(.mobile-menu),
+      .top-menu,
       .buttons-wrapper {
         display: none;
       }
