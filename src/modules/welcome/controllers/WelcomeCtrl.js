@@ -341,6 +341,17 @@
             }
 
             /**
+             * @public
+             */
+            toSignIn() {
+                if (this.userList.length) {
+                    this.pageUrl = `${PATH}/welcomeHasUsers.html`;
+                } else {
+                    this.pageUrl = `${PATH}/welcomeNotHaveAccounts.html`;
+                }
+            }
+
+            /**
              * @private
              */
             _calculateActiveIndex() {
