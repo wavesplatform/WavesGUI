@@ -31,6 +31,7 @@
                     lastOpenVersion: '',
                     whatsNewList: [],
                     closedNotification: [],
+                    dontShowSpam: true,
                     withScam: false,
                     scamListUrl: WavesApp.network.scamListUrl,
                     logoutAfterMin: 5,
