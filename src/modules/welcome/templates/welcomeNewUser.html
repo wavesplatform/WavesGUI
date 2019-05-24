@@ -47,11 +47,12 @@
                     <div class="cell height24">24 HIGHT</div>
                     <div class="cell low24">24 LOW</div>
                     <div class="cell volume">VOLUME</div>
-                    <div class="cell graph"></div>
+                    <div class="cell graph">CHART</div>
                 </div>
 
-                <div ng-repeat="pair in $ctrl.pairsInfoList track by $index"
+                <a ng-repeat="pair in $ctrl.pairsInfoList track by $index"
                      ng-class="pair.change24.gt(0) ? 'blue' : 'red'"
+                     href="/dex-demo?{{pair.amountAsset.id}}&{{pair.priceAsset.id}}"
                      class="row row-content">
                     <div class="cell pair">{{pair.amountAsset.ticker}} / {{pair.priceAsset.ticker}}</div>
                     <div class="cell last-price">
@@ -69,7 +70,7 @@
                         <span w-nice-number="pair.volume.toFormat()" precision="3"></span>
                     </div>
                     <div class="cell graph"></div>
-                </div>
+                </a>
 
             </div>
 
