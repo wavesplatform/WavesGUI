@@ -1,94 +1,243 @@
 @import (reference) 'config';
+@import (reference) 'icons';
 @import (reference) '../../../app/less/typography';
 
 // top menu
+
+@keyframes menu-toggler-animation-top {
+  0% {
+    transform: translate(-7px, -50%);
+  }
+  50% {
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+}
+
+@keyframes menu-toggler-animation-bottom {
+  0% {
+    transform: translate(5px, -50%);
+  }
+  50% {
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+}
+
 @media screen and (max-width: 860px) {
-  .top-menu-mobile-toggler {
+
+  // toggler button
+  .mobile-menu-toggler {
     display: block;
-    height: 40px;
-    width: 40px;
-    background: pink;
+    position: fixed;
+    right: 25px;
+    height: 60px;
+    width: 60px;
     cursor: pointer;
-  }
+    transition: .5s;
+    z-index: 11;
 
-
-  // EXPANDED
-  header.expanded {
-    nav.top-menu-mobile {
-      .top-menu-mobile-wrapper {
-        right: 0;
-      }
+    @media screen and (max-width: 480px) {
+      right: 5px;
     }
 
-    .top-menu-mobile-toggler {
-      background: green;
-      right: 220px;
+    span,
+    &::before,
+    &::after {
+      background: black;
+      position: absolute;
+      width: 22px;
+      top: 50%;
+      left: 50%;
+      transform-origin: center;
+      transform: translateX(-50%);
+      transition: .25s;
+      content: '';
+      display: block;
+      height: 2px;
+      background: @color-basic-900;
+    }
+
+    span {
+      transform: translate(-50%, -7px);
+    }
+
+    &::before {
+      transform: translate(-50%, -50%);
+    }
+
+    &::after {
+      transform: translate(-50%, 5px);
     }
   }
-  // end expanded
+  // end toggler button
 
-
-
-
-
-
-
-
-
-
-  nav.top-menu-mobile {
+  // basic mobile menu styles
+  .mobile-menu {
     display: block;
     position: fixed;
     right: 0;
 
     ul {
       list-style-type: none;
+      padding: 0;
       margin: 0;
     }
 
-    .top-menu-mobile-wrapper {
+    .mobile-menu-fader {
       position: fixed;
-      right: -200px;
-      transition: .1s;
-      height: calc(100vh ~' - 60px');
+      right: 0;
+      top: 0;
+      width: 100%;
+      height: 120vh;
+      background: grey;
+      opacity: 0.5;
+      display: none;
+      transition: .5s;
+    }
+
+    .mobile-menu-wrapper,
+    .mobile-menu-wrapper-inner {
+      position: fixed;
+      right: -260px;
+      transition: .5s;
+      height: 120vh;
       background: @color-basic-900;
-      width: 200px;
-      top: 60px;
+      width: 260px;
+      top: 0;
+      z-index: 1;
+      max-height: 120vh;
+      overflow: auto;
+    }
+
+    .mobile-menu-wrapper-inner {
+      right: -260px;
+      z-index: 2;
     }
 
     a {
       color: @color-white;
+      transition: .3s;
       border-bottom: 1px solid red;
-      line-height: 40px;
+      line-height: 50px;
       display: flex;
       width: 100%;
-      :hover {
+      padding: 0 20px;
+      font-size: 17px;
+      border-bottom: 1px solid fadein(@color-basic-700, 50%);
+
+      &:hover {
         color: @color-white;
+        background: fadein(@color-basic-700, 50%);
+      }
+
+      &.has-child {
+        position: relative;
+
+        &::after {
+          transition: .3s;
+          position: absolute;
+          display: block;
+          content: '';
+          background: @dex-arrow-right-icon; //todo change color
+          right: 20px;
+          top: 50%;
+          transform: translate(0, -50%);
+          width: 14px;
+          height: 14px;
+        }
+      }
+
+      // todo @uIsk - move icons to app-icons.less
+      &.menu-link {
+        background-position: 20px center;
+        background-repeat: no-repeat;
+
+        &-menu,
+        &-aliases,
+        &-settings,
+        &-dashmoard,
+        &-transactions,
+        &-portfolio,
+        &-leasing,
+        &-logout {
+          padding-left: 38px;
+        }
+
+        &-menu {
+          background-image: url(/img/icons/menu-back.svg);
+        }
+      }
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+  }
+  // end basic mobile menu styles
+
+  // EXPANDED
+  header.expanded {
+    .mobile-menu {
+      .mobile-menu-fader {
+        display: block;
+      }
+      .mobile-menu-wrapper:not(.mobile-menu-wrapper-inner) {
+        right: 0;
+      }
+
+      &.mobile-menu-inner-expanded {
+        .mobile-menu-wrapper.mobile-menu-wrapper-inner {
+          right: 0;
+        }
       }
     }
+
+    .mobile-menu-toggler {
+      right: 260px;
+
+      span {
+        animation-fill-mode: forwards;
+        animation-duration: .5s;
+        animation-name: menu-toggler-animation-top;
+      }
+
+      &::before {
+        opacity: 0;
+      }
+
+      &::after {
+        animation-fill-mode: forwards;
+        animation-duration: .5s;
+        animation-name: menu-toggler-animation-bottom;
+      }
+    }
+
   }
+
+  // end expanded
 }
 
 @media screen and (min-width: 861px) {
-  nav.top-menu-mobile {
+  nav.mobile-menu {
     display: none;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //header
 
@@ -165,6 +314,7 @@ body.welcome {
     }
 
     header {
+      font-family: 'Roboto-Regular';
       width: 100%;
       &::after {
         .shadow;
@@ -283,7 +433,7 @@ w-site-header {
     .dropdown-btn {
       color: @color-submit-400;
       &::after {
-        transform: rotate(-180deg); // translateY(-50%)
+        transform: rotate(-180deg);
         background: url(/img/landing/arrow-down-blue.svg) right center no-repeat;
       }
     }
@@ -599,7 +749,7 @@ body.tokens {
 @media screen and (max-width: 860px) {
   w-site-header {
     header {
-      .top-menu:not(.top-menu-mobile),
+      .top-menu:not(.mobile-menu),
       .buttons-wrapper {
         display: none;
       }

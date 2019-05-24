@@ -2,9 +2,7 @@
     <div class="header-wrapper">
         <a class="logo" href="/"></a>
 
-        <div class="top-menu-mobile-toggler" w-toggle-class="expanded">
-            <span></span>
-            <span></span>
+        <div class="mobile-menu-toggler" w-toggle-class="expanded">
             <span></span>
         </div>
 
@@ -43,36 +41,37 @@
             </div>
         </nav>
 
+        <nav class="mobile-menu" w-toggle-class-container>
 
+            <div class="mobile-menu-wrapper">  <!-- 1st -->
 
-
-
-
-        <nav class="top-menu-mobile">
-
-            <div class="top-menu-mobile-wrapper">
-                <ul>
+                <ul ng-if="!$ctrl.isLogined"> <!-- unlogged -->
                     <li><a href="#">Exchange</a></li>
                     <li><a href="#">API</a></li>
                     <li><a href="#">Help</a></li>
                     <li><a href="#">News</a></li>
-                    <li>
-                        <a href="#">Download</a>
-                        <ul>
-                            <li><a href="#">Windows</a></li>
-                            <li><a href="#">MacOS</a></li>
-                            <li><a href="#">Linux</a></li>
-                        </ul>
-                    </li>
+                    <li><a class="has-child" w-toggle-class="mobile-menu-inner-expanded" href="#">Download</a>
                 </ul>
-
-                <ul>
-                    <li><h1>Logged</h1></li>
-                    <li>two</li>
-                    <li>three</li>
-                    <li>four</li>
-                </ul>
+                <!--<ul ng-if="$ctrl.isLogined"> &lt;!&ndash; is logged  &ndash;&gt;-->
+                    <!--<li>Logged</li>-->
+                    <!--<li>two</li>-->
+                    <!--<li>three</li>-->
+                    <!--<li>four</li>-->
+                <!--</ul>-->
             </div>
+            <div ng-if="!$ctrl.isLogined" class="mobile-menu-wrapper mobile-menu-wrapper-inner"> <!-- 2nd -->
+                <ul> <!-- unlogged -->
+                    <li><a class="menu-link menu-link-menu" w-toggle-class="mobile-menu-inner-expanded" href="#">Menu</a>
+                    <li><a href="#">Windows</a></li>
+                    <li><a href="#">MacOS</a></li>
+                    <li><a href="#">Linux</a></li>
+                </ul>
+                <!--<ul ng-if="$ctrl.isLogined"> &lt;!&ndash; is logged &ndash;&gt;-->
+                    <!--<li></li>-->
+                <!--</ul>-->
+            </div>
+            <div class="mobile-menu-fader"></div>
+
         </nav>
 
 

@@ -21,6 +21,13 @@ body {
   background-color: @app-background;
 }
 
+body {
+  transition: .5s;
+  &.moved-by-mobile-menu {
+    transform: translateX(-260px);
+  }
+}
+
 a {
   text-decoration: none;
   color: @color-submit-300;
