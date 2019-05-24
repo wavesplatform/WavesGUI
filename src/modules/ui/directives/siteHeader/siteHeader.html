@@ -115,6 +115,13 @@
             <a class="link-margin link-tokens" href="/tokens">Create token</a>
         </nav>
 
+        <div class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
+            <a class="body-2 margin-right-3 submit-400" href="/welcome">Sign In</a>
+            <a class="fake-button submit medium" href="/create">
+                <span class="fake-button-content medium submit">Get Started</span>
+            </a>
+        </div>
+
         <div ng-if="$ctrl.isLogined" class="avatar-container dropdown-toggler has-helper">
             <w-analytics event="'Account Picture Click'" event-target="'ui'">
                 <w-avatar
