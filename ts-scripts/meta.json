@@ -45,105 +45,105 @@
   "analyticsIframe": "https://iframe.wavesplatform.com",
   "langList": {
     "en": {
-      "name": "En",
+      "name": "English",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "ru": {
-      "name": "Ru",
+      "name": "Russian",
       "separators": {
         "group": " ",
         "decimal": "."
       }
     },
     "ko": {
-      "name": "Ko",
+      "name": "Korean",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "zh_CN": {
-      "name": "Zh",
+      "name": "Chinese",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "tr": {
-      "name": "Tr",
+      "name": "Turkish",
       "separators": {
         "group": " ",
         "decimal": "."
       }
     },
     "ja": {
-      "name": "Jp",
+      "name": "Japanese",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "nl_NL": {
-      "name": "Nl",
+      "name": "Dutch",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "hi_IN": {
-      "name": "Hi",
+      "name": "Hindi",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "es": {
-      "name": "Es",
+      "name": "Spanish",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "et_EE": {
-      "name": "Est",
+      "name": "Estonian",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "pt_BR": {
-      "name": "Br",
+      "name": "Breton",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "pl": {
-      "name": "Pl",
+      "name": "Polish",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "it": {
-      "name": "It",
+      "name": "Italian",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "de": {
-      "name": "De",
+      "name": "German",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "id": {
-      "name": "Id",
+      "name": "Indonesian",
       "separators": {
         "group": ",",
         "decimal": "."

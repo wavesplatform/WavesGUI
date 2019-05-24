@@ -172,7 +172,7 @@
                         return 1;
                     case (width < 1000):
                         return 2;
-                    case (width < 1400):
+                    case (width < 1440):
                         return 3;
                     default:
                         return 4;

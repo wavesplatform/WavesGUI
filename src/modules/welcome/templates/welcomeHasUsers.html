@@ -19,7 +19,8 @@
                           value="::user.address">
 
                     <div class="avatar-container margin-right-1">
-                        <w-avatar type="{{user.userType}}" class="margin-right-1" address="user.address" size="30"></w-avatar>
+                        <w-avatar type="{{user.userType}}" class="margin-right-1" address="user.address"
+                                  size="30"></w-avatar>
                     </div>
 
                     <div ng-class="::{'has-name': !!user.name}" class="ellipsis">
@@ -64,7 +65,7 @@
                 </w-analytics>
             </form>
 
-            <w-get-started-link></w-get-started-link>
+            <w-get-started-link has-create="::true" has-import="::true"></w-get-started-link>
 
         </div>
     </div>

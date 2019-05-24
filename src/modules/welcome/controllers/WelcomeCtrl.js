@@ -303,6 +303,9 @@
                 this._updateActiveUserAddress();
             }
 
+            /**
+             * @private
+             */
             _initUserList() {
                 user.getUserList()
                     .then((list) => {

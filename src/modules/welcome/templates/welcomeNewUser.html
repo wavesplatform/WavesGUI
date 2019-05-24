@@ -10,13 +10,13 @@
                     You retain complete control over your funds when trading them on our decentralised exchange.
                 </div>
                 <div class="buttons-wrapper buttons-wrapper-nowidth">
-                    <a class="fake-button get-started-btn" href="/create">
+                    <a class="fake-button get-started-btn" ui-sref="create">
                         <span class="fake-button-content big submit ">
                           Get Started
                           <i class="icon-arrow-right"></i>
                         </span>
                     </a>
-                    <a href="/welcome" class="fake-button">
+                    <a ng-if="$ctrl.userList.length" ui-sref="welcome" class="fake-button">
                         <span class="fake-button-content big submit-light">Sign In</span>
                     </a>
                 </div>
@@ -74,7 +74,7 @@
             </div>
 
             <div class="center body-2 basic-500">
-                <span>Click <a href="/dex-demo">Show all</a> to view the full list of markets</span>
+                <span>Click <a ui-sref="import">Show all</a> to view the full list of markets</span>
             </div>
         </div>
     </section>
