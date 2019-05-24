@@ -9,7 +9,8 @@
         <a ng-click="$ctrl.next(-1)" w-i18n="confirmBackup.back"></a>
     </div>
 
-    <w-seed-write class="margin-4 seed-error"
+    <w-seed-write class="margin-4"
+                  ng-class="{'seed-error': $ctrl.seedConfirmWasFilled && !$ctrl.seedIsValid}"
                   on-fulfilled="$ctrl.onSeedConfirmFulfilled(isValid)"
                   on-touch="$ctrl.seedOnTouch()"
                   seed="{{::$ctrl.seed}}"></w-seed-write>
@@ -25,7 +26,7 @@
          w-i18n="confirmBackup.error"></div>
 
     <div class="body-2 margin-2">
-        <a ng-click="$ctrl.next(-1)" w-i18n="confirmBackup.clear"></a>
+        <a ng-click="$ctrl.clearSeedConfirm()" w-i18n="confirmBackup.clear"></a>
         <span w-i18n="confirmBackup.tapAgain"></span>
     </div>
 
