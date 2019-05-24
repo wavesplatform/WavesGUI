@@ -103,7 +103,7 @@ body.welcome {
         height: 70px;
         padding: 0 40px;
         position: relative;
-
+        color: inherit;
         &.red {
           .change {
             color: @color-error-500;
@@ -253,8 +253,16 @@ body.welcome {
       .slide {
         border-radius: @border-radius;
         background: @color-white;
-        padding: 30px;
         min-width: 290px;
+        overflow: visible;
+        &_css-anim {
+          padding: 30px;
+          transition: all 0.3s;
+          &:hover {
+            box-shadow: 0 1rem 2.5rem rgba(20,26,40,.1),0 .5rem 1rem -.75rem rgba(22,28,45,.1)!important;
+            transform: translate3d(0,-3px,0);
+          }
+        }
 
         .graph {
           width: 100px;
