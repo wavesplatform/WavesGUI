@@ -62,6 +62,14 @@
       background: @color-basic-900;
     }
 
+    &:hover {
+      span,
+      &::before,
+      &::after {
+        background: @color-submit-400;
+      }
+    }
+
     span {
       transform: translate(-50%, -7px);
     }
@@ -165,7 +173,7 @@
         &-portfolio,
         &-leasing,
         &-logout {
-          padding-left: 38px;
+          padding-left: 58px;
         }
 
         &-menu {
