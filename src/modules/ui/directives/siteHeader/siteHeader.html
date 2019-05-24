@@ -52,12 +52,29 @@
                     <li><a href="#">News</a></li>
                     <li><a class="has-child" w-toggle-class="mobile-menu-inner-expanded" href="#">Download</a>
                 </ul>
-                <!--<ul ng-if="$ctrl.isLogined"> &lt;!&ndash; is logged  &ndash;&gt;-->
-                    <!--<li>Logged</li>-->
-                    <!--<li>two</li>-->
-                    <!--<li>three</li>-->
-                    <!--<li>four</li>-->
-                <!--</ul>-->
+                <ul ng-if="$ctrl.isLogined"> <!-- is logged  -->
+                    <li>
+                        <a class="has-child has-user-address"
+                           w-toggle-class="mobile-menu-inner-expanded"
+                           href="#">
+                           <div class="flex">
+                               <w-avatar size="30" address="$ctrl.address"></w-avatar>
+                               <div>
+                                   <div>@Lisicinz</div>
+                                   <w-copy-wrap info="::$ctrl.address" ng-click="$ctrl.onCopyAddress()">
+                                       <div class="body-1 basic-900 mobile-low-fsize">{{::$ctrl.address}}</div>
+                                   </w-copy-wrap>
+                               </div>
+                           </div>
+                        </a>
+                    </li>
+                    <li><a href="#">Exchange</a></li>
+                    <li><a href="#">Exchange</a></li>
+                    <li><a href="#">Exchange</a></li>
+                    <li>two</li>
+                    <li>three</li>
+                    <li>four</li>
+                </ul>
             </div>
             <div ng-if="!$ctrl.isLogined" class="mobile-menu-wrapper mobile-menu-wrapper-inner"> <!-- 2nd -->
                 <ul> <!-- unlogged -->
@@ -66,9 +83,9 @@
                     <li><a href="#">MacOS</a></li>
                     <li><a href="#">Linux</a></li>
                 </ul>
-                <!--<ul ng-if="$ctrl.isLogined"> &lt;!&ndash; is logged &ndash;&gt;-->
-                    <!--<li></li>-->
-                <!--</ul>-->
+                <ul ng-if="$ctrl.isLogined"> <!-- is logged -->
+                    <li></li>
+                </ul>
             </div>
             <div class="mobile-menu-fader"></div>
 
