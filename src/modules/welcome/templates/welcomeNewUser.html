@@ -51,9 +51,10 @@
                 </div>
 
                 <a ng-repeat="pair in $ctrl.pairsInfoList track by $index"
-                     ng-class="pair.change24.gt(0) ? 'blue' : 'red'"
-                     href="/dex-demo?{{pair.amountAsset.id}}&{{pair.priceAsset.id}}"
-                     class="row row-content">
+                   w-analytics event="'Menu Exchange Click'"
+                   ng-class="pair.change24.gt(0) ? 'blue' : 'red'"
+                   href="/dex-demo?{{pair.amountAsset.id}}&{{pair.priceAsset.id}}"
+                   class="row row-content">
                     <div class="cell pair">{{pair.amountAsset.ticker}} / {{pair.priceAsset.ticker}}</div>
                     <div class="cell last-price">
                         <w-balance money="pair.lastPrice"></w-balance>
@@ -64,8 +65,12 @@
                         </span>
                     </div>
                     <div class="cell change">{{pair.change24}}%</div>
-                    <div class="cell height24"><w-balance money="pair.high"></w-balance></div>
-                    <div class="cell low24"><w-balance money="pair.low"></w-balance></div>
+                    <div class="cell height24">
+                        <w-balance money="pair.high"></w-balance>
+                    </div>
+                    <div class="cell low24">
+                        <w-balance money="pair.low"></w-balance>
+                    </div>
                     <div class="cell volume">
                         <span w-nice-number="pair.volume.toFormat()" precision="3"></span>
                     </div>
