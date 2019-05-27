@@ -88,8 +88,9 @@
                                          ng-blur="$ctrl.setChangedInput('amount')"
                                          w-validate
                                          w-validator-asset="{{$ctrl.amountBalance.asset}}"
-                                         w-validator-lte="{{$ctrl.maxAmountBalance}}"
-                                         w-validator-gt="0"
+                                         w-validator-lte="{{$ctrl.maxAmountBalance ? $ctrl.maxAmountBalance : $ctrl.pairRestrictions.maxAmount}}"
+                                         w-validator-gte="{{$ctrl.pairRestrictions.minAmount}}"
+                                         w-validator-custom="{{$ctrl.isValidStepSize}}"
                                          name="amount"
                                          ng-model="$ctrl.amount"
                                          autocomplete="off"
@@ -102,7 +103,7 @@
                             <w-input-error message="required" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.required"></span>
                             </w-input-error>
-                            <w-input-error message="gt" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                            <w-input-error message="gte" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.required"></span>
                             </w-input-error>
                             <w-input-error message="precision" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
@@ -112,6 +113,9 @@
                             <w-input-error message="lte" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.balance"
                                       params="{name: $ctrl.amountBalance.asset.displayName}"></span>
+                            </w-input-error>
+                            <w-input-error message="custom" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                <span w-i18n="directives.createOrder.errors.stepSize"></span>
                             </w-input-error>
                         </w-input-container>
                     </div>
@@ -146,7 +150,9 @@
                                          ng-blur="$ctrl.setChangedInput('price')"
                                          w-validate
                                          w-validator-asset="{{$ctrl.priceBalance.asset}}"
-                                         w-validator-gt="0"
+                                         w-validator-lte="{{$ctrl.pairRestrictions.maxPrice}}"
+                                         w-validator-gte="{{$ctrl.pairRestrictions.minPrice}}"
+                                         w-validator-custom="{{$ctrl.isValidTickSize}}"
                                          name="price"
                                          ng-model="$ctrl.price"
                                          autocomplete="off"
@@ -159,11 +165,17 @@
                                 <span w-i18n="directives.createOrder.errors.precision"
                                       params="{precision: $ctrl.priceBalance.asset.precision}"></span>
                             </w-input-error>
-                            <w-input-error message="gt" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.required"></span>
+                            <w-input-error message="lte" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                <span w-i18n="directives.createOrder.errors.lte"></span>
+                            </w-input-error>
+                            <w-input-error message="gte" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                <span w-i18n="directives.createOrder.errors.gte"></span>
                             </w-input-error>
                             <w-input-error message="required" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.required"></span>
+                            </w-input-error>
+                            <w-input-error message="custom" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                <span w-i18n="directives.createOrder.errors.tickSize"></span>
                             </w-input-error>
                         </w-input-container>
                     </div>

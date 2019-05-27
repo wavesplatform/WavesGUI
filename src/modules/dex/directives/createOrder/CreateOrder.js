@@ -127,6 +127,14 @@
                  */
                 this._silenceNow = false;
                 /**
+                 * @type {boolean}
+                 */
+                this.isValidStepSize = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.isValidTickSize = false;
+                /**
                  * @type {Object}
                  */
                 this.pairRestrictions = {};
@@ -213,6 +221,9 @@
                     }
                 });
 
+                this.isValidStepSize = this._validateStepSize();
+                this.isValidTickSize = this._validateTickSize();
+
                 this.observe(['amountBalance', 'type', 'fee', 'priceBalance'], this._updateMaxAmountOrPriceBalance);
 
                 this.observe('_assetIdPair', () => {
@@ -244,13 +255,23 @@
 
                 this.observe(['priceBalance', 'total', 'maxPriceBalance'], this._setIfCanBuyOrder);
 
-                this.observe('amount', () => (
-                    !this._silenceNow && this._updateField({ amount: this.amount })
-                ));
+                this.observe('amount', () => {
+                    if (!this._silenceNow) {
+                        this.isValidStepSize = this._validateStepSize();
+                        this._updateField({ amount: this.amount });
+                    }
+                });
 
                 this.observe('price', () => (
                     !this._silenceNow && this._updateField({ price: this.price })
                 ));
+
+                this.observe('price', () => {
+                    if (!this._silenceNow) {
+                        this.isValidTickSize = this._validateTickSize();
+                        this._updateField({ price: this.price });
+                    }
+                });
 
                 this.observe('total', () => (
                     !this._silenceNow && this._updateField({ total: this.total })
@@ -849,9 +870,26 @@
                     amountAsset: this.amountBalance.asset,
                     priceAsset: this.priceBalance.asset
                 }).then(info => {
-                    this.pairRestrictions = info;
+                    if (info) {
+                        this.pairRestrictions = info;
+                    }
                 });
+            }
 
+            _validateStepSize() {
+                if (!this.amount) {
+                    return false;
+                }
+                const step = new BigNumber(this.pairRestrictions.stepSize);
+                return this.amount.getTokens().modulo(step).isZero();
+            }
+
+            _validateTickSize() {
+                if (!this.price) {
+                    return false;
+                }
+                const step = new BigNumber(this.pairRestrictions.tickSize);
+                return this.price.getTokens().modulo(step).isZero();
             }
 
             static _animateNotification($element) {
