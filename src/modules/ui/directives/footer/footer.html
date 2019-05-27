@@ -5,7 +5,9 @@
                 <a class="logo logo-footer" href="/"></a>
                 <div class="margin-05">Brought to you by Waves Team.</div>
                 <div class="margin-1">&copy; 2019 Waves Platform</div>
-                <div class="margin-2"><a href="mailto:support@wavesplatform.com">support@wavesplatform.com</a></div>
+                <div class="margin-2">
+                    <a class="footer__link" target="_blank" href="mailto:support@wavesplatform.com">support@wavesplatform.com</a>
+                </div>
                 <w-change-language></w-change-language>
             </div>
             <div class="links">
@@ -13,23 +15,23 @@
                     <div class="footer-title basic-700">Products & tools</div>
                     <div><a w-analytics event="'Footer Wallet Click'"
                             event-target="'ui'"
-                            class="footer__link"
+                            class="footer__link" target="_blank"
                             href="https://wavesplatform.com/products-wallet">Waves Wallet</a></div>
                     <div><a w-analytics event="'Footer Keeper Click'"
                             event-target="'ui'"
-                            class="footer__link"
+                            class="footer__link" target="_blank"
                             href="https://wavesplatform.com/products-keeper">Waves Keeper</a></div>
                     <div><a w-analytics event="'Footer Blockchain Click'"
-                            class="footer__link"
+                            class="footer__link" target="_blank"
                             event-target="'ui'" href="https://wavesplatform.com/products-blockchain">Waves
                         Blockchain</a></div>
                     <div><a w-analytics event="'Footer IDE Click'"
                             event-target="'ui'"
-                            class="footer__link"
+                            class="footer__link" target="_blank"
                             href="https://ide.wavesplatform.com">Waves IDE</a></div>
                     <div><a w-analytics event="'Footer Explorer Click'"
                             event-target="'ui'"
-                            class="footer__link"
+                            class="footer__link" target="_blank"
                             href="http://wavesexplorer.com">Waves Explorer</a></div>
                 </div>
 
@@ -37,47 +39,47 @@
                     <div class="footer-title basic-700">For developers</div>
                     <div><a w-analytics event="'Footer GitHub Click'"
                             event-target="'ui'"
-                            class="footer__link"
+                            class="footer__link" target="_blank"
                             href="https://github.com/wavesplatform">GitHub</a></div>
                     <div><a w-analytics event="'Footer API Click'"
                             event-target="'ui'"
-                            class="footer__link"
+                            class="footer__link" target="_blank"
                             href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html">API</a>
                     </div>
                     <div><a w-analytics event="'Footer Stack Overflow Click'"
                             event-target="'ui'"
-                            class="footer__link"
-                            href="">Stack Overflow</a></div>
+                            class="footer__link" target="_blank"
+                            href="https://stackoverflow.com/questions/tagged/wavesplatform">Stack Overflow</a></div>
                     <div><a w-analytics event="'Footer Documentation Click'"
                             event-target="'ui'"
-                            class="footer__link"
+                            class="footer__link" target="_blank"
                             href="https://docs.wavesplatform.com">Documentation</a></div>
                     <div><a w-analytics event="'Footer Waves Labs Click'"
                             event-target="'ui'"
-                            class="footer__link"
+                            class="footer__link" target="_blank"
                             href="http://waveslabs.com">Waves Labs</a></div>
                 </div>
 
                 <div>
                     <div class="footer-title basic-700">Legal</div>
-                    <div><a class="footer__link" href="">Privacy Policy</a></div>
-                    <div><a class="footer__link" href="">Terms of use</a></div>
-                    <div><a class="footer__link" href="">Cookies</a></div>
-                    <div><a class="footer__link" href="">GDPR</a></div>
+                    <div><a class="footer__link" target="_blank" href="https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf">Privacy Policy</a></div>
+                    <div><a class="footer__link" target="_blank" href="https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf">Terms of use</a></div>
+<!--                    <div><a class="footer__link" target="_blank" href="">Cookies</a></div>-->
+<!--                    <div><a class="footer__link" target="_blank" href="">GDPR</a></div>-->
                 </div>
 
                 <div>
                     <div class="footer-title basic-700">SOCIAL</div>
-                    <div><a class="footer__link" href="https://blog.wavesplatform.com/">Blog</a></div>
-                    <div><a class="footer__link" href="">Twitter</a></div>
-                    <div><a class="footer__link" href="">Telegram</a></div>
-                    <div><a class="footer__link" href="">Forum</a></div>
+                    <div><a class="footer__link" target="_blank" href="https://blog.wavesplatform.com/">Blog</a></div>
+                    <div><a class="footer__link" target="_blank" href="https://twitter.com/wavesplatform">Twitter</a></div>
+                    <div><a class="footer__link" target="_blank" href="{{::$ctrl.telegramLink}}">Telegram</a></div>
+                    <div><a class="footer__link" target="_blank" href="https://forum.wavesplatform.com">Forum</a></div>
                 </div>
             </div>
         </div>
     </section>
     <div class="toaster-mobiles">
-        <a href="{{::$ctrl.link}}" class="toaster-mobiles__link">
+        <a href="{{::$ctrl.mobileAppLink}}" class="toaster-mobiles__link">
             <div class="toaster-mobiles__mobile-app-logo"></div>
             <div class="toaster-mobiles__text-wrapper">
                 <div class="toaster-mobiles__title">Download the mobile app</div>

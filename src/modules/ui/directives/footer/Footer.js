@@ -9,15 +9,24 @@
              * @public
              * @type {string}
              */
-            link;
+            mobileAppLink;
+            /**
+             * @public
+             * @type {string}
+             */
+            telegramLink;
 
             constructor() {
                 super();
                 this.hovered = false;
 
-                this.link = navigator.userAgent.match(/iPhone|iPad|iPod/i) ?
+                this.mobileAppLink = navigator.userAgent.match(/iPhone|iPad|iPod/i) ?
                     'https://itunes.apple.com/us/app/waves-wallet/id1233158971?mt=8' :
                     'https://play.google.com/store/apps/details?id=com.wavesplatform.wallet';
+
+                this.telegramLink = localStorage.getItem('lng') === 'ru' ?
+                    'https://t.me/WavesCommunityRU' :
+                    'https://t.me/WavesCommunity';
             }
 
             /**
