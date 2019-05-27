@@ -52,6 +52,7 @@
 
                 <a ng-repeat="pair in $ctrl.pairsInfoList track by $index"
                    w-analytics event="'Menu Exchange Click'"
+                   event-target="'ui'"
                    ng-class="pair.change24.gt(0) ? 'blue' : 'red'"
                    href="/dex-demo?{{pair.amountAsset.id}}&{{pair.priceAsset.id}}"
                    class="row row-content">

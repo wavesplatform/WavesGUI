@@ -4,6 +4,10 @@
 @import (reference) '../../app/less/app';
 
 body.welcome {
+  .main-container {
+    height: calc(100% ~' - 60px');
+  }
+
   .user-list {
     .avatar-container {
       width: 30px;
@@ -37,9 +41,9 @@ body.welcome {
         overflow: auto;
       }
 
-      .title-content .icon-remove-user {
-        display: none;
-      }
+    .title-content .icon-remove-user {
+      display: none;
+    }
 
       .title-content, .option {
         display: flex;

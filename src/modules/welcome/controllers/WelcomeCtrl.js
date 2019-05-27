@@ -82,7 +82,7 @@
                         lineColor: '#ef4829',
                         fillColor: '#FFF',
                         gradientColor: ['#FEEFEC', '#FFF'],
-                        lineWidth: 3
+                        lineWidth: 4
                     }
                 ]
             },
@@ -94,7 +94,7 @@
                         lineColor: '#1f5af6',
                         fillColor: '#FFF',
                         gradientColor: ['#EAF0FE', '#FFF'],
-                        lineWidth: 3
+                        lineWidth: 4
                     }
                 ]
             }

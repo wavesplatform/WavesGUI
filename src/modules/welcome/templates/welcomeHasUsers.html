@@ -14,14 +14,18 @@
 
             <div class="body-2 basic-900 margin-05" w-i18n="userList.address"></div>
 
-            <w-select ng-model="$ctrl.activeUserAddress" class="big margin-3">
+            <w-select ng-model="$ctrl.activeUserAddress"
+                      one-item="$ctrl.userList.length <= 1"
+                      disabled="$ctrl.userList.length <= 1"
+                      class="big margin-3">
                 <w-option ng-repeat="user in $ctrl.userList track by user.address"
                           value="::user.address">
 
                     <div class="avatar-container margin-right-1">
-                        <w-avatar type="{{user.userType}}" class="margin-right-1" address="user.address"
-                                  size="30"></w-avatar>
-                    </div>
+                        <w-avatar type="{{user.userType}}"
+                                  class="margin-right-1"
+                                  address="user.address"
+                                  size="30"></w-avatar></div>
 
                     <div ng-class="::{'has-name': !!user.name}" class="ellipsis">
                         <div class="name body-2 mobile-caption-2">{{::user.name}}</div>
@@ -68,6 +72,6 @@
             <w-get-started-link has-create="::true" has-import="::true"></w-get-started-link>
 
         </div>
+        <w-footer></w-footer>
     </div>
 </div>
-<w-footer></w-footer>

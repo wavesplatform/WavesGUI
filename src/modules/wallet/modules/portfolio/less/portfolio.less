@@ -62,21 +62,12 @@
   }
 }
 
-.portfolio-list w-scroll-box {
-  overflow: auto;
-  min-height: calc(~'100vh - 207px');
-  max-height: calc(~'100vh - 207px');
-}
-
 .smart-table {
   &__mode-large {
-    max-height: calc(100vh ~'- 142px');
-    margin-top: @padding-main-layout;
     box-shadow: @shadow-type-1;
 
     .smart-table {
       &__w-tbody {
-        max-height: calc(100vh ~'- 208px');
         transform: translate3d(0, 0, 0);
         will-change: transform;
 
@@ -85,11 +76,11 @@
             &__row:hover {
               background: @hover-default;
 
-             .asset__logo {
-               .marker {
-                 border: 2px solid @custom-asset-marker-border;
-               }
-             }
+              .asset__logo {
+                .marker {
+                  border: 2px solid @custom-asset-marker-border;
+                }
+              }
             }
           }
         }
@@ -416,6 +407,7 @@
   .portfolio-wrapper {
     padding: 10px 0 10px 10px;
   }
+
   .main.wallet.portfolio {
 
     .asset-name-desktop {
