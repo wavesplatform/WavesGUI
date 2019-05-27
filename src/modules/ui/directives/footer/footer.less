@@ -53,6 +53,49 @@
   }
 }
 
+.toaster-mobiles {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  justify-content: space-between;
+  background: @color-submit-400;
+  padding: 12px 10px;
+  display: none;
+  width: 100%;
+  z-index: 2;
+  &__mobile-app-logo {
+    // !TODO @uIsk вкорячить иконку
+    width: 36px;
+    height: 36px;
+    border-radius: @border-radius;
+    box-shadow: 0 2px 3px 0 rgba(10, 46, 141, 0.2);
+    margin-right: 16px;
+  }
+  &__title {
+    font-size: @mobile-mid-fsize;
+    color: @color-white;
+    line-height: 16px;
+  }
+  &__sub-title {
+    font-size: 12px;
+    color: @color-submit-200;
+    line-height: 16px;
+  }
+  &__close {
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    &-icon {
+      // !TODO @uIsk вкорячить крестик
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+  }
+}
+
 @media screen and (max-width: 1340px) {
   .footer .section-wrapper {
     padding: 40px;
