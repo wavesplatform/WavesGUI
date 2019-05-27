@@ -14,7 +14,10 @@
 
             <div class="body-2 basic-900 margin-05" w-i18n="userList.address"></div>
 
-            <w-select ng-model="$ctrl.activeUserAddress" class="big margin-3">
+            <w-select ng-model="$ctrl.activeUserAddress"
+                      one-item="$ctrl.userList.length <= 1"
+                      disabled="$ctrl.userList.length <= 1"
+                      class="big margin-3">
                 <w-option ng-repeat="user in $ctrl.userList track by user.address"
                           value="::user.address">
 

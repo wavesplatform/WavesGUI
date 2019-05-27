@@ -26,6 +26,17 @@ w-select {
     }
   }
 
+  &[one-item] .select .title,
+  &.one-item .select .title {
+    cursor: default;
+    &::after {
+      background-image: none;
+    }
+    w-avatar .avatar-wrap {
+      cursor: default;
+    }
+  }
+
   .select {
     height: 100%;
     position: relative;
