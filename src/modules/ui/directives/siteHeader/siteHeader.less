@@ -4,6 +4,30 @@
 
 // top menu
 
+@keyframes menu-toggler-animation-top {
+  0% {
+    transform: translate(-7px, -50%);
+  }
+  50% {
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+}
+
+@keyframes menu-toggler-animation-bottom {
+  0% {
+    transform: translate(5px, -50%);
+  }
+  50% {
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+}
+
 @media screen and (max-width: 860px) {
 
   // toggler button
@@ -62,16 +86,32 @@
     position: fixed;
     right: 0;
 
+    .has-user-address {
+      .flex {
+        align-items: center;
+      }
+    }
+
     w-copy-wrap {
       padding: 0;
       height: auto;
       border: 0 none;
       background: none transparent;
 
+
       .container {
         padding: 0;
-        max-width: none;
         height: auto;
+
+        div:first-child {
+          max-width: 200px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      .copy-icon {
+        display: none;
       }
     }
 
