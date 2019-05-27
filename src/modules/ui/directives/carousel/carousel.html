@@ -2,6 +2,8 @@
     <div class="slide-window"></div>
     <div class="slider-content">
         <a ng-repeat="pair in $ctrl.pairsInfoList track by $index"
+           w-analytics event="'Menu Exchange Click'"
+           event-target="'ui'"
            class="slide"
            href="/dex-demo?{{pair.amountAsset.id}}&{{pair.priceAsset.id}}">
             <div class="slide_css-anim">

@@ -3,14 +3,14 @@
         <a class="logo" ui-sref="/"></a>
 
         <nav class="top-menu top-menu-welcome" ng-if="!$ctrl.isLogined">
-            <a class="link-margin link-dex" href="/dex-demo">Exchange</a>
-            <a class="link-margin" href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html" target="_blank">API</a>
-            <a class="link-margin" href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html" target="_blank">Help</a>
-            <a class="link-margin" href="#">News</a> <!-- TODO waves dex twitter channel -->
+            <a w-analytics event-target="'ui'" event="'Menu Exchange Click'" class="link-margin link-dex" href="/dex-demo">Exchange</a>
+            <a w-analytics event-target="'ui'" event="'Menu API Click'" class="link-margin" href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html" target="_blank">API</a>
+            <a w-analytics event-target="'ui'" event="'Menu Help Click'" class="link-margin" href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html" target="_blank">Help</a>
+            <a w-analytics event-target="'ui'" event="'Menu News Click'" class="link-margin" href="#">News</a> <!-- TODO waves dex twitter channel -->
             <div class="relative dropdown-toggler">
                 <a class="dropdown-btn" href="https://wavesplatform.com/products-wallet" target="_blank">Download</a>
                 <div class="dropdown menu-margin">
-                    <a href="https://wavesplatform.com/files/WavesClient-win.zip">
+                    <a w-analytics event-target="'ui'" event="'Menu Download Windows Click'" href="https://wavesplatform.com/files/WavesClient-win.zip">
                         <i class="dropdown-icon icon-24 icon-win"></i>
                         <div>
                             <div>Windows</div>
@@ -18,7 +18,7 @@
                         </div>
                     </a>
 
-                    <a href="https://wavesplatform.com/files/WavesClient-mac.dmg">
+                    <a w-analytics event-target="'ui'" event="'Menu Download Mac OS Click'" href="https://wavesplatform.com/files/WavesClient-mac.dmg">
                         <i class="dropdown-icon icon-24 icon-mac"></i>
                         <div>
                             <div>MacOS</div>
@@ -26,7 +26,7 @@
                         </div>
                     </a>
 
-                    <a href="https://wavesplatform.com/files/WavesClient-linux.deb">
+                    <a w-analytics event-target="'ui'" event="'Menu Download Linux Click'" href="https://wavesplatform.com/files/WavesClient-linux.deb">
                         <i class="dropdown-icon icon-24 icon-linux"></i>
                         <div>
                             <div>Linux</div>
