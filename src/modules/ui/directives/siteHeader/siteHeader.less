@@ -3,7 +3,6 @@
 @import (reference) '../../../app/less/typography';
 
 // top menu
-
 @keyframes menu-toggler-animation-top {
   0% {
     transform: translate(-7px, -50%);
@@ -78,44 +77,44 @@
       transform: translate(-50%, 5px);
     }
   }
-      // end toggler button
-      // basic mobile menu styles
-      .mobile-menu {
-        display: block;
-        position: fixed;
-        right: 0;
 
-        .has-user-address {
-          .flex {
-            align-items: center;
-          }
+  // end toggler button
+  // basic mobile menu styles
+  .mobile-menu {
+    display: block;
+    position: fixed;
+    right: 0;
+
+    .has-user-address {
+      .flex {
+        align-items: center;
+      }
+    }
+
+    w-copy-wrap {
+      padding: 0;
+      height: auto;
+      border: 0 none;
+      background: none transparent;
+
+      .container {
+        padding: 0;
+        height: auto;
+
+        div:first-child {
+          max-width: 200px;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
+      }
 
-        w-copy-wrap {
-          padding: 0;
-          height: auto;
-          border: 0 none;
-          background: none transparent;
+      .copy-icon {
+        display: none;
+      }
+    }
 
-
-          .container {
-            padding: 0;
-            height: auto;
-
-            div:first-child {
-              max-width: 200px;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
-          }
-
-          .copy-icon {
-            display: none;
-          }
-        }
-
-        w-avatar {
-          margin: 14px 14px 14px 0;
+    w-avatar {
+      margin: 14px 14px 14px 0;
     }
 
     ul {
@@ -139,26 +138,27 @@
     .mobile-menu-wrapper,
     .mobile-menu-wrapper-inner {
       position: fixed;
-      right: -260px;
+      right: -261px;
       transition: .5s;
       height: 120vh;
       background: @color-basic-900;
-      width: 260px;
+      width: 261px;
       top: 0;
+      min-height: 250px;
+      overflow-y: auto;
       z-index: 1;
       max-height: 120vh;
       overflow: auto;
     }
 
     .mobile-menu-wrapper-inner {
-      right: -260px;
+      right: -261px;
       z-index: 2;
     }
 
     a {
       color: @color-white;
       transition: .3s;
-      border-bottom: 1px solid red;
       line-height: 50px;
       display: flex;
       width: 100%;
@@ -196,7 +196,7 @@
         &-menu,
         &-aliases,
         &-settings,
-        &-dashmoard,
+        &-dashboard,
         &-transactions,
         &-portfolio,
         &-leasing,
@@ -216,54 +216,90 @@
           background-image: url(/img/icons/settings.svg);
         }
 
+        &-leasing {
+          background-image: url(/img/icons/leasing.svg);
+        }
+
+        &-portfolio {
+          background-image: url(/img/icons/portfolio.svg);
+        }
+
+        &-dashboard {
+          background-image: url(/img/icons/dashboard.svg);
+        }
+
+        &-transactions {
+          background-image: url(/img/icons/transactions.svg);
+        }
+        // 7F8FA4
+
         &-logout {
           background-image: url(/img/icons/logout.svg);
+          border-top: 1px solid fadein(@color-basic-700, 50%);
+          border-bottom: 0 none;
+          position: absolute;
+          bottom: 0;
         }
       }
-
     }
   }
 
   // end basic mobile menu styles
   // EXPANDED
 
-  .show-aliases {
-    .aliases-menu {
-      right: -260px;
-    }
-    .aliases-menu {
-      right: 0;
+  body {
+    &.menu-is-shown {
+     .logo,
+     .main-content {
+       transform: translateX(-261px);
+     }
     }
   }
 
-  .show-wallet {
-    .wallet-menu {
-      right: 0;
-    }
-    .aliases-menu {
-      right: -260px;
+  .mobile-menu-wrapper {
+    &.mobile-menu-wrapper-inner {
+      right: -261px;
+      height: 100%;
+      border-left: 1px solid fadein(@color-basic-700, 50%);
     }
   }
 
   header.expanded {
+    &.show-wallet {
+      .mobile-menu-wrapper-inner {
+        &.wallet-menu {
+          right: 0;
+        }
+        &.aliases-menu {
+          right: -261px;
+        }
+      }
+    }
+
+    &.show-aliases {
+      .mobile-menu-wrapper-inner {
+        &.wallet-menu {
+          right: -261px;
+        }
+        &.aliases-menu {
+          right: 0;
+        }
+      }
+    }
+
+    .mobile-menu-wrapper:not(.mobile-menu-wrapper-inner) {
+      right: 0;
+    }
+
     .mobile-menu {
       .mobile-menu-fader {
         display: block;
       }
-
-      .mobile-menu-wrapper:not(.mobile-menu-wrapper-inner) {
-        right: 0;
-      }
-
-      &.mobile-menu-inner-expanded {
-        .mobile-menu-wrapper.mobile-menu-wrapper-inner {
-          right: 0;
-        }
-      }
-    } // end menu logic
+    }
+    // end menu logic
 
     .mobile-menu-toggler {
-      right: 260px;
+      right: 261px;
 
       span {
         animation-fill-mode: forwards;

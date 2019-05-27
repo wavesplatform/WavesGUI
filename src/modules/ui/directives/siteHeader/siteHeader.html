@@ -1,4 +1,4 @@
-<header>
+<header w-toggle-class-container>
     <div class="header-wrapper">
         <a class="logo" ui-sref="/"></a>
 
@@ -41,9 +41,8 @@
             <span></span>
         </div>
 
-        <nav class="mobile-menu" w-toggle-class-container>
-            <div class="mobile-menu-wrapper">  <!-- 1st -->
-
+        <nav class="mobile-menu">
+            <div class="mobile-menu-wrapper">
                 <ul ng-if="!$ctrl.isLogined">
                     <li><a href="#">Exchange</a></li>
                     <li><a href="#">API</a></li>
@@ -77,7 +76,33 @@
                 </ul>
             </div>
 
+            <div class="mobile-menu-wrapper mobile-menu-wrapper-inner download-menu" ng-if="!$ctrl.isLogined">
+                <ul>
+                    <li><a class="menu-link menu-link-menu" w-toggle-class="mobile-menu-inner-expanded" href="#">Menu</a>
+                    <li><a href="#">Windows</a></li>
+                    <li><a href="#">MacOS</a></li>
+                    <li><a href="#">Linux</a></li>
+                </ul>
+            </div>
 
+            <div class="mobile-menu-wrapper mobile-menu-wrapper-inner aliases-menu" ng-if="$ctrl.isLogined">
+                <ul>
+                    <li><a class="menu-link menu-link-menu" w-toggle-class="show-aliases" href="#">Menu</a>
+                    <li><a class="menu-link menu-link-aliases"href="#">Aliases</a></li>
+                    <li><a class="menu-link menu-link-settings" href="#">Settings</a></li>
+                    <li><a class="menu-link menu-link-logout" href="#">Log Out</a></li>
+                </ul>
+            </div>
+
+            <div class="mobile-menu-wrapper mobile-menu-wrapper-inner wallet-menu" class="wallet-menu" ng-if="$ctrl.isLogined">
+                <ul>
+                    <li><a class="menu-link menu-link-menu" w-toggle-class="show-wallet" href="#">Menu</a>
+                    <li><a class="menu-link menu-link-dashboard" href="#">Dashboard</a></li>
+                    <li><a class="menu-link menu-link-portfolio" href="#">Porfolio</a></li>
+                    <li><a class="menu-link menu-link-transactions" href="#">Transactions</a></li>
+                    <li><a class="menu-link menu-link-leasing" href="#">Leasing</a></li>
+                </ul>
+            </div>
 
             <div class="mobile-menu-fader"></div>
         </nav>
