@@ -54,7 +54,7 @@
                    w-analytics event="'Menu Exchange Click'"
                    event-target="'ui'"
                    ng-class="pair.change24.gt(0) ? 'blue' : 'red'"
-                   href="/dex-demo?{{pair.amountAsset.id}}&{{pair.priceAsset.id}}"
+                   href="/dex-demo?assetId1={{pair.amountAsset.id}}&assetId2={{pair.priceAsset.id}}"
                    class="row row-content">
                     <div class="cell pair">{{pair.amountAsset.ticker}} / {{pair.priceAsset.ticker}}</div>
                     <div class="cell last-price">

@@ -13,29 +13,49 @@
                     <div class="footer-title basic-700">Products & tools</div>
                     <div><a w-analytics event="'Footer Wallet Click'"
                             event-target="'ui'"
+                            class="footer__link"
                             href="https://wavesplatform.com/products-wallet">Waves Wallet</a></div>
                     <div><a w-analytics event="'Footer Keeper Click'"
-                            event-target="'ui'" href="https://wavesplatform.com/products-keeper">Waves Keeper</a></div>
+                            event-target="'ui'"
+                            class="footer__link"
+                            href="https://wavesplatform.com/products-keeper">Waves Keeper</a></div>
                     <div><a w-analytics event="'Footer Blockchain Click'"
-                            event-target="'ui'" href="https://wavesplatform.com/products-blockchain">Waves Blockchain</a></div>
+                            class="footer__link"
+                            event-target="'ui'" href="https://wavesplatform.com/products-blockchain">Waves
+                        Blockchain</a></div>
                     <div><a w-analytics event="'Footer IDE Click'"
-                            event-target="'ui'" href="https://ide.wavesplatform.com">Waves IDE</a></div>
+                            event-target="'ui'"
+                            class="footer__link"
+                            href="https://ide.wavesplatform.com">Waves IDE</a></div>
                     <div><a w-analytics event="'Footer Explorer Click'"
-                            event-target="'ui'" href="http://wavesexplorer.com">Waves Explorer</a></div>
+                            event-target="'ui'"
+                            class="footer__link"
+                            href="http://wavesexplorer.com">Waves Explorer</a></div>
                 </div>
 
                 <div>
                     <div class="footer-title basic-700">For developers</div>
                     <div><a w-analytics event="'Footer GitHub Click'"
-                             event-target="'ui'" href="https://github.com/wavesplatform">GitHub</a></div>
+                            event-target="'ui'"
+                            class="footer__link"
+                            href="https://github.com/wavesplatform">GitHub</a></div>
                     <div><a w-analytics event="'Footer API Click'"
-                            event-target="'ui'" href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html">API</a></div>
+                            event-target="'ui'"
+                            class="footer__link"
+                            href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html">API</a>
+                    </div>
                     <div><a w-analytics event="'Footer Stack Overflow Click'"
-                            event-target="'ui'" href="">Stack Overflow</a></div>
+                            event-target="'ui'"
+                            class="footer__link"
+                            href="">Stack Overflow</a></div>
                     <div><a w-analytics event="'Footer Documentation Click'"
-                            event-target="'ui'" href="https://docs.wavesplatform.com">Documentation</a></div>
+                            event-target="'ui'"
+                            class="footer__link"
+                            href="https://docs.wavesplatform.com">Documentation</a></div>
                     <div><a w-analytics event="'Footer Waves Labs Click'"
-                            event-target="'ui'" href="http://waveslabs.com">Waves Labs</a></div>
+                            event-target="'ui'"
+                            class="footer__link"
+                            href="http://waveslabs.com">Waves Labs</a></div>
                 </div>
 
                 <div>
@@ -57,13 +77,15 @@
         </div>
     </section>
     <div class="toaster-mobiles">
-        <div class="toaster-mobiles__mobile-app-logo"></div>
-        <div class="toaster-mobiles__text-wrapper">
-            <div class="toaster-mobiles__title">Download the mobile app</div>
-            <div class="toaster-mobiles__sub-title">Instant access to your wallet and DEX</div>
-        </div>
+        <a href="{{::$ctrl.link}}" class="toaster-mobiles__link">
+            <div class="toaster-mobiles__mobile-app-logo"></div>
+            <div class="toaster-mobiles__text-wrapper">
+                <div class="toaster-mobiles__title">Download the mobile app</div>
+                <div class="toaster-mobiles__sub-title">Instant access to your wallet and DEX</div>
+            </div>
+        </a>
         <div class="toaster-mobiles__close">
-            <div class="toaster-mobiles__close-icon"></div>
+            <button class="toaster-mobiles__close-icon" ng-click="$ctrl.hideToaster()"></button>
         </div>
     </div>
 </footer>

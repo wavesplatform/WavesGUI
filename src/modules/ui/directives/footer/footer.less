@@ -34,7 +34,7 @@
     font-size: 13px;
   }
 
-  a {
+  &__link {
     margin-bottom: 14px;
     display: inline-block;
     color: @color-basic-600;
@@ -63,6 +63,12 @@
   display: none;
   width: 100%;
   z-index: 2;
+  transform: translateY(0);
+  transition: transform 0.2s;
+  &__link {
+    display: flex;
+    justify-content: space-between;
+  }
   &__mobile-app-logo {
     // !TODO @uIsk вкорячить иконку
     width: 36px;
@@ -82,13 +88,17 @@
     line-height: 16px;
   }
   &__close {
-    width: 14px;
-    height: 14px;
     display: flex;
     align-items: center;
     &-icon {
+      background-color: rebeccapurple;
+      width: 14px;
+      height: 14px;
       // !TODO @uIsk вкорячить крестик
     }
+  }
+  &.hidden-toaster {
+    transform: translateY(100%);
   }
 
   @media screen and (max-width: 768px) {
