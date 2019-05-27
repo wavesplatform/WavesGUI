@@ -77,33 +77,7 @@
                 </ul>
             </div>
 
-            <div class="mobile-menu-wrapper mobile-menu-wrapper-inner"  ng-if="!$ctrl.isLogined">
-                <ul>
-                    <li><a class="menu-link menu-link-menu" w-toggle-class="mobile-menu-inner-expanded" href="#">Menu</a>
-                    <li><a href="#">Windows</a></li>
-                    <li><a href="#">MacOS</a></li>
-                    <li><a href="#">Linux</a></li>
-                </ul>
-            </div>
 
-            <div class="mobile-menu-wrapper mobile-menu-wrapper-inner aliases-menu" w-toggle-class-container ng-if="$ctrl.isLogined">
-                <ul>
-                    <li w-toggle-class="show-aliases"><a class="menu-link menu-link-menu" w-toggle-class="mobile-menu-inner-expanded" href="#">Menu</a>
-                    <li><a class="menu-link menu-link-aliases"href="#">Aliases</a></li>
-                    <li><a class="menu-link menu-link-settings" href="#">Settings</a></li>
-                    <li><a class="menu-link menu-link-logout" href="#">Log Out</a></li>
-                </ul>
-            </div>
-
-            <div class="mobile-menu-wrapper mobile-menu-wrapper-inner wallet-menu" w-toggle-class-container ng-if="$ctrl.isLogined">
-                <ul>
-                    <li w-toggle-class="show-wallet"><a class="menu-link menu-link-menu" w-toggle-class="mobile-menu-inner-expanded" href="#">Menu</a>
-                    <li><a class="menu-link menu-link-aliases" href="#">Dashboard</a></li>
-                    <li><a class="menu-link menu-link-settings" href="#">Porfolio</a></li>
-                    <li><a class="menu-link menu-link-logout" href="#">Transactions</a></li>
-                    <li><a class="menu-link menu-link-logout" href="#">Leasing</a></li>
-                </ul>
-            </div>
 
             <div class="mobile-menu-fader"></div>
         </nav>
