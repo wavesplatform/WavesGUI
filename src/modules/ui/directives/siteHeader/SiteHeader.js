@@ -6,9 +6,12 @@
      * @param {StateManager} stateManager
      * @param {ModalManager} modalManager
      * @param {User} user
+     * @param {$state} $state
+     * @param {JQuery} $document
+     * @param {JQuery} $element
      * @return {SiteHeader}
      */
-    const controller = function (Base, stateManager, modalManager, user, $state) {
+    const controller = function (Base, stateManager, modalManager, user, $state, $element, $document) {
 
         class SiteHeaderCtrl extends Base {
 
@@ -35,6 +38,7 @@
                 this.isLedger = user.userType === 'ledger';
 
                 this.hasTypeHelp = this.isScript && (this.isLedger || this.isKeeper);
+                this._initClickHandlers();
             }
 
             open(sref) {
@@ -86,12 +90,22 @@
                 });
             }
 
+            /**
+             * @private
+             */
+            _initClickHandlers() {
+                $element.find('.mobile-menu-fader, .mobile-menu-toggler').on('click', () => {
+                    $element.find('header').toggleClass('expanded');
+                    $document.find('body').toggleClass('menu-is-shown');
+                });
+            }
+
         }
 
         return new SiteHeaderCtrl();
     };
 
-    controller.$inject = ['Base', 'stateManager', 'modalManager', 'user', '$state'];
+    controller.$inject = ['Base', 'stateManager', 'modalManager', 'user', '$state', '$element', '$document'];
 
     angular.module('app.ui').component('wSiteHeader', {
         bindings: {},
