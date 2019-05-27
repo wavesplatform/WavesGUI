@@ -1,59 +1,31 @@
 @import (reference) 'config';
 @import (reference) '../../app/less/app';
 
-body.import {
-  ui-view[name='main'] {
-    position: relative;
-  }
-
-  .import-footer {
-    .getStartedContentWidth(0);
-  }
-
-  .import-content {
-    .getStartedContentWidth(@getStartedContentPadding);
-  }
+.import-content-ledger {
+  .getStartedContentWidth(@getStartedContentPadding);
+  margin: auto;
 }
 
-body.import {
-  &.phone {
-    .import-content {
-      .import-modal__block,
-      .import-modal__block-w {
-        flex-direction: row;
-        display: flex;
-      }
+@media screen and (max-width: 480px) {
+  .import-content-ledger {
+    .import-modal__block,
+    .import-modal__block-w {
+      flex-direction: row;
+      display: flex;
+    }
 
-      .import-modal__content {
-        text-align: left;
-        margin-left: 18px;
-      }
+    .import-modal__content {
+      text-align: left;
+      margin-left: 18px;
+    }
 
-      .import-modal__icon {
-        margin: 0;
-        width: 42px;
-        height: 42px;
-      }
+    .import-modal__icon {
+      margin: 0;
+      width: 42px;
+      height: 42px;
     }
   }
-}
 
-body.import {
-  &.tablet,
-  &.desktop {
-    .import-footer {
-      .getStartedContentWidthDesktop;
-    }
-
-    .import-modal__block {
-      max-width: 235px;
-      padding: 40px 30px;
-      margin-top: 50px;
-    }
-  }
-}
-
-body.phone {
   .import-modal {
     &__blocks-wrapper {
       flex-direction: column;
@@ -63,10 +35,6 @@ body.phone {
       flex-basis: 100%;
       max-width: 100%;
       width: 100%;
-
-      & + .import-modal__block {
-        margin-left: auto;
-      }
     }
 
     w-help-icon {
@@ -76,5 +44,19 @@ body.phone {
         width: 100%;
       }
     }
+  }
+}
+
+@media screen and (min-width: 480px) {
+  .import-modal__block {
+    max-width: 235px;
+    padding: 40px 30px;
+    margin-top: 50px;
+  }
+
+  .import-footer {
+    max-width: @getStartedContentWidth;
+    margin: auto;
+    text-align: center;
   }
 }

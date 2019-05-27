@@ -2,14 +2,7 @@
 @import (reference) '../../app/less/app';
 
 body.restore {
-
-  ui-view[name="main"] {
-    position: relative;
-  }
-
   .restore-content {
-    .getStartedContentWidth(@getStartedContentPadding);
-
     .seed-block {
       border-radius: @border-radius;
       border: 1px solid @color-basic-200;
@@ -59,15 +52,6 @@ body.restore {
         background-color: @color-basic-100;
         flex-shrink: 0;
       }
-    }
-  }
-}
-
-body.restore {
-  &.tablet,
-  &.desktop {
-    .restore-content {
-      .getStartedContentWidthDesktop;
     }
   }
 }

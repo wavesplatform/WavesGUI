@@ -2,12 +2,6 @@
 @import (reference) '../../app/less/app';
 
 .backup-seed {
-  .getStartedContentWidth(@getStartedContentPadding);
-
-  .body-2.disabled-600 {
-    margin-bottom: 50px;
-  }
-
   w-seed-read {
     display: block;
     margin: 10px 0 50px 0;
@@ -18,14 +12,5 @@ md-dialog-content {
   .backup-seed,
   .confirm-backup {
     margin-top: 30px;
-  }
-}
-
-body.create {
-  &.tablet,
-  &.desktop {
-    .backup-seed {
-      .getStartedContentWidthDesktop;
-    }
   }
 }

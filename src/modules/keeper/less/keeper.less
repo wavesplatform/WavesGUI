@@ -3,27 +3,11 @@
 @import (reference) '../../app/less/app';
 
 body.keeper {
-  ui-view[name="main"]  {
-    position: relative;
-  }
-
-  .keeper-content {
-    .getStartedContentWidth(@getStartedContentPadding);
-  }
-
-  .keeper-footer {
-    .getStartedContentWidth(0);
-  }
-
   .address {
     align-items: center;
     w-avatar {
       flex-grow: 0;
     }
-  }
-
-  .inline-link {
-    display: inline-block;
   }
 
   .error-icon,
@@ -42,18 +26,5 @@ body.keeper {
 
   .error-icon {
     background-image: @error-circle-icon;
-  }
-}
-
-body.keeper {
-  &.tablet,
-  &.desktop {
-    .keeper-content {
-      .getStartedContentWidthDesktop;
-    }
-
-    .keeper-footer {
-      max-width: @getStartedFooterWidth;
-    }
   }
 }

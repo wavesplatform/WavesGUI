@@ -105,10 +105,6 @@ body.welcome {
         position: relative;
         color: inherit;
 
-        &:hover {
-          background: #f9fbfd;
-          box-shadow: 0px 1px 0px 0px #f9fbfd, 0px -1px 0px 0px #f9fbfd;
-        }
         &.red {
           .change {
             color: @color-error-500;
@@ -122,6 +118,11 @@ body.welcome {
         }
 
         &-content {
+          &:hover {
+            background: #f9fbfd;
+            box-shadow: 0px 1px 0px 0px #f9fbfd, 0px -1px 0px 0px #f9fbfd;
+          }
+
           .pair {
             font-weight: 600;
             font-family: 'Roboto-regular';

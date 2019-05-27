@@ -75,7 +75,7 @@
     content: '';
     display: inline-block;
     height: 0;
-    border-bottom: 1px solid @color-info-50;
+    border-bottom: 1px solid @color-info-100;
     width: 100%;
   }
 
@@ -88,17 +88,14 @@
   }
 }
 
-body {
-  &.desktop,
-  &.tablet {
-    .get-started-btnLink {
-      &-content {
-        height: 52px;
-      }
+@media screen and (min-width: 480px) {
+  .get-started-btnLink {
+    &-content {
+      height: 52px;
+    }
 
-      &-description {
-        display: block;
-      }
+    &-description {
+      display: block;
     }
   }
 }

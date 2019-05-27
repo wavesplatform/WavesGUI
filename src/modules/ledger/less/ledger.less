@@ -3,67 +3,7 @@
 @import (reference) '../../app/less/app';
 
 body.ledger {
-  ui-view[name="main"]  {
-    position: relative;
-  }
-
-  .import-content {
-    .getStartedContentWidth(@getStartedContentPadding);
-  }
-
-  .loader-error-footer {
-    .getStartedContentWidth(0);
-  }
-
   .import-wrapper {
-    .ledger-avatars-list {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      margin: 10px 0 30px 0;
-      position: relative;
-
-      .loader-wrapper {
-        position: relative;
-        top: 50%;
-        width: 100px;
-        margin: 0 auto;
-        height: 84px;
-        transform: translate(0);
-        left: 0;
-        w-loader {
-          margin-top:2px;
-        }
-      }
-
-      .avatar-wrapper {
-        width: 84px;
-        height: 84px;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-
-        &.active {
-          background-color: rgba(31,90,246,0.05);
-          border: solid 1px #1f5af6;
-          cursor: default;
-        }
-
-        &.disabled {
-          opacity: 0.5;
-          cursor: default;
-
-          &.disabled .avatar-wrap {
-            cursor: default;
-          }
-        }
-      }
-    }
-
     .step {
       &-left,
       &-right {
@@ -108,10 +48,29 @@ body.ledger {
     flex-direction: column;
     align-items: center;
   }
+
+  .ledger-save {
+    margin: 20px 0;
+  }
+
+  w-avatar[type='ledger'] .avatar-wrap:not(.scripted)::after {
+    bottom: 8px;
+    left: calc(100% ~'- 23px');
+    transition: left 0.3s, bottom 0.3s;
+  }
+
+  .avatar-wrapper {
+    &.active {
+      w-avatar[type='ledger'] .avatar-wrap:not(.scripted)::after {
+        bottom: 3px;
+        left: calc(100% ~'- 18px');
+      }
+    }
+  }
 }
 
-body.ledger {
-  &.phone {
+@media screen and (max-width: 480px) {
+  body.ledger {
     .import-wrapper {
       .icon {
         &-left,
@@ -128,28 +87,23 @@ body.ledger {
         }
       }
 
-      .ledger-avatars-list {
-        margin: 10px 20px 30px 20px;
+      w-avatar[type='ledger'] .avatar-wrap:not(.scripted)::after {
+        bottom: 13px;
+        left: calc(100% ~'- 28px');
+      }
 
-        .avatar-wrapper {
-          width: 64px;
-          height: 64px;
+      .avatar-wrapper {
+        &.active {
+          w-avatar[type='ledger'] .avatar-wrap:not(.scripted)::after {
+            bottom: 8px;
+            left: calc(100% ~'- 23px');
+          }
         }
       }
     }
   }
-}
 
-body.ledger {
-  &.tablet,
-  &.desktop {
-    .import-content {
-      .getStartedContentWidthDesktop;
-    }
-
-    .loader-error-footer {
-      max-width: @getStartedFooterWidth;
-    }
+  .ledger-save {
+    margin-top: 15px;
   }
 }
-
