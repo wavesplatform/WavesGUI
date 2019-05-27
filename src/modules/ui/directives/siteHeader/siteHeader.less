@@ -4,30 +4,6 @@
 
 // top menu
 
-@keyframes menu-toggler-animation-top {
-  0% {
-    transform: translate(-7px, -50%);
-  }
-  50% {
-    transform: translate(-50%, -50%);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(45deg);
-  }
-}
-
-@keyframes menu-toggler-animation-bottom {
-  0% {
-    transform: translate(5px, -50%);
-  }
-  50% {
-    transform: translate(-50%, -50%);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(-45deg);
-  }
-}
-
 @media screen and (max-width: 860px) {
 
   // toggler button
@@ -85,6 +61,23 @@
     display: block;
     position: fixed;
     right: 0;
+
+    w-copy-wrap {
+      padding: 0;
+      height: auto;
+      border: 0 none;
+      background: none transparent;
+
+      .container {
+        padding: 0;
+        max-width: none;
+        height: auto;
+      }
+    }
+
+    w-avatar {
+      margin: 14px 14px 14px 0;
+    }
 
     ul {
       list-style-type: none;
@@ -322,22 +315,9 @@ body.welcome {
     }
 
     &.fixed header {
-      top: -82px;
       position: fixed;
-      animation: header-down 1s ease-in-out;
-      animation-fill-mode: forwards;
       &::after {
-        animation: header-down-shadow .5s ease-in-out;
-        animation-fill-mode: forwards;
-      }
-    }
-
-    &.unfixed header {
-      animation: header-up .3s ease-in-out;
-
-      &::after {
-        animation: header-up-shadow .3s ease-in-out;
-        animation-fill-mode: forwards;
+        background: none transparent;
       }
     }
   }
@@ -508,8 +488,6 @@ w-site-header {
     margin-left: 50px;
     flex-grow: 1;
     position: relative;
-    a {
-    }
   }
 
   .avatar-container {

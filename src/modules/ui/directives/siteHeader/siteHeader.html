@@ -51,17 +51,21 @@
                     <li><a href="#">News</a></li>
                     <li><a class="has-child" w-toggle-class="mobile-menu-inner-expanded" href="#">Download</a>
                 </ul>
+
                 <ul ng-if="$ctrl.isLogined">
                     <li>
                         <a class="has-child has-user-address"
                            w-toggle-class="mobile-menu-inner-expanded"
                            href="#">
                            <div class="flex">
-                               <w-avatar size="30" address="$ctrl.address"></w-avatar>
+                               <w-avatar size="30"
+                                         address="$ctrl.address"></w-avatar>
                                <div>
                                    <div class="body-2">@Lisicinz</div>
-                                   <w-copy-wrap info="::$ctrl.address" ng-click="$ctrl.onCopyAddress()">
-                                       <div class="footnote-1 basic-600">{{::$ctrl.address}}</div>
+                                   <w-copy-wrap class="ellipsis"
+                                                info="::$ctrl.address"
+                                                ng-click="$ctrl.onCopyAddress()">
+                                       <div class="caption-2 basic-600">{{::$ctrl.address}}</div>
                                    </w-copy-wrap>
                                </div>
                            </div>
@@ -87,6 +91,8 @@
                 </ul>
             </div>
 
+            <!-- TODO @uIsk - account menu -->
+
             <div class="mobile-menu-wrapper mobile-menu-wrapper-inner"> <!-- 2nd -->
                 <ul ng-if="$ctrl.isLogined"> <!-- is logged -->
                     <li><a class="menu-link menu-link-menu" w-toggle-class="mobile-menu-inner-expanded" href="#">Menu</a>
@@ -97,14 +103,7 @@
             </div>
 
             <div class="mobile-menu-fader"></div>
-
         </nav>
-
-
-
-
-
-
 
         <nav class="top-menu top-menu-wallet" ng-if="$ctrl.isLogined">
             <a class="link-margin link-dex" href="/dex">Exchange</a>
