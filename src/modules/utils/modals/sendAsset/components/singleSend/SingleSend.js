@@ -291,6 +291,7 @@
                     this._onChangeBaseAssets();
                     this._updateGatewayDetails();
                 });
+                this._onChangeBaseAssets();
             }
 
             onSignCoinomatStart() {
