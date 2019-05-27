@@ -34,7 +34,7 @@
     font-size: 13px;
   }
 
-  a {
+  &__link {
     margin-bottom: 14px;
     display: inline-block;
     color: @color-basic-600;
@@ -50,6 +50,59 @@
 
   .logo {
     margin-top: -8px;
+  }
+}
+
+.toaster-mobiles {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  justify-content: space-between;
+  background: @color-submit-400;
+  padding: 12px 10px;
+  display: none;
+  width: 100%;
+  z-index: 2;
+  transform: translateY(0);
+  transition: transform 0.2s;
+  &__link {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__mobile-app-logo {
+    // !TODO @uIsk вкорячить иконку
+    width: 36px;
+    height: 36px;
+    border-radius: @border-radius;
+    box-shadow: 0 2px 3px 0 rgba(10, 46, 141, 0.2);
+    margin-right: 16px;
+  }
+  &__title {
+    font-size: @mobile-mid-fsize;
+    color: @color-white;
+    line-height: 16px;
+  }
+  &__sub-title {
+    font-size: 12px;
+    color: @color-submit-200;
+    line-height: 16px;
+  }
+  &__close {
+    display: flex;
+    align-items: center;
+    &-icon {
+      background-color: rebeccapurple;
+      width: 14px;
+      height: 14px;
+      // !TODO @uIsk вкорячить крестик
+    }
+  }
+  &.hidden-toaster {
+    transform: translateY(100%);
+  }
+
+  @media screen and (max-width: 768px) {
+    display: flex;
   }
 }
 
