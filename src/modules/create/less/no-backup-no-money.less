@@ -2,8 +2,6 @@
 @import (reference) '../../app/less/app';
 
 .no-backup-no-money {
-  .getStartedContentWidth(@getStartedContentPadding);
-
   .icon {
     background: @slide-backup-icon no-repeat center center;
     width: 260px;
@@ -51,15 +49,6 @@
     //FF ignores padding bottom fix
     &::after {
       min-height: 20px;
-    }
-  }
-}
-
-body {
-  &.tablet,
-  &.desktop {
-    .no-backup-no-money {
-      .getStartedContentWidthDesktop;
     }
   }
 }

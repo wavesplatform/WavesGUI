@@ -4,13 +4,7 @@
 @import (reference) '../../app/less/app';
 
 body.welcome {
-  ui-view[name="main"] {
-    position: relative;
-  }
-
   .user-list {
-    .getStartedContentWidth(@getStartedContentPadding);
-
     .avatar-container {
       width: 30px;
       height: 30px;
@@ -115,15 +109,6 @@ body.welcome {
         border-radius: 50%;
         color: @color-submit-300;
       }
-    }
-  }
-}
-
-body.welcome {
-  &.tablet,
-  &.desktop {
-    .user-list  {
-      .getStartedContentWidthDesktop;
     }
   }
 }

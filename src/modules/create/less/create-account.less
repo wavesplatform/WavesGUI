@@ -10,68 +10,59 @@
 @createAvatarWrapperSize: @createAvatarHoverSize + @createAvatarBorder * 2;
 @createAvatarWrapperSizePhone: @createAvatarHoverSizePhone + @createAvatarBorder * 2;
 
+.avatars-list {
+  flex-direction: row;
+  justify-content: space-around;
+
+  .avatar {
+    &-img { // .avatar-img
+      width: @createAvatarSize;
+      height: @createAvatarSize;
+      opacity: .8;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    &-wrap { // .avatar-wrap
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &-wrapper { // .avatar-wrapper
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: box-shadow 0.3s;
+
+      &:hover {
+        .avatar-img {
+          opacity: 1;
+        }
+      }
+
+      &.active {
+        box-shadow: 0 4px 18px 0 rgba(30, 41, 73, 0.15);
+        cursor: default;
+
+        .avatar-img {
+          transform: scale(1.25);
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
 .create-account {
-  .getStartedContentWidth(@getStartedContentPadding);
-
-  .avatar-img {
-    width: @createAvatarSize;
-    height: @createAvatarSize;
-    opacity: .8;
-    transition: transform 0.3s, opacity 0.3s;
-  }
-
-  .avatar-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .avatars-list {
-    flex-direction: row;
-    justify-content: space-around;
-  }
-
-  .avatar-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      .avatar-img {
-        opacity: 1;
-      }
-    }
-
-    &.active {
-      box-shadow: 0 4px 18px 0 rgba(30, 41, 73, 0.15);
-      cursor: default;
-
-      .avatar-img {
-        transform: scale(1.25);
-        opacity: 1;
-      }
-    }
-  }
-
   &-save {
     margin: 20px 0;
   }
 }
 
-body {
-  &.tablet,
-  &.desktop {
-    .create-account {
-      .getStartedContentWidthDesktop;
-    }
-  }
-}
-
-body.phone {
-  .create-account {
+@media screen and (max-width: 480px) {
+  .avatars-list {
     .avatar-img {
       width: @createAvatarSizePhone;
       height: @createAvatarSizePhone;
@@ -81,7 +72,9 @@ body.phone {
       width: @createAvatarWrapperSizePhone;
       height: @createAvatarWrapperSizePhone;
     }
+  }
 
+  .create-account {
     &-save {
       margin-top: 17px;
     }

@@ -221,11 +221,8 @@ w-container-alert-notification {
   }
 }
 
-body {
-  &.tablet,
-  &.desktop {
-    w-container-alert-notification {
-      width: 330px;
-    }
+@media screen and (min-width: 480px) {
+  w-container-alert-notification {
+    width: 330px;
   }
 }

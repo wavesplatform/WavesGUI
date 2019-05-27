@@ -285,13 +285,10 @@ html {
   }
 }
 
-body {
-  &.desktop,
-  &.tablet {
-    .margin-classes(@margin-step);
-  }
+@media screen and (min-width: 480px) {
+  .margin-classes(@margin-step);
+}
 
-  &.phone {
-    .margin-classes(@margin-step-phone);
-  }
+@media screen and (max-width: 480px) {
+  .margin-classes(@margin-step-phone);
 }
