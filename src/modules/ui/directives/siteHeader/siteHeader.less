@@ -78,45 +78,44 @@
       transform: translate(-50%, 5px);
     }
   }
+      // end toggler button
+      // basic mobile menu styles
+      .mobile-menu {
+        display: block;
+        position: fixed;
+        right: 0;
 
-  // end toggler button
-  // basic mobile menu styles
-  .mobile-menu {
-    display: block;
-    position: fixed;
-    right: 0;
-
-    .has-user-address {
-      .flex {
-        align-items: center;
-      }
-    }
-
-    w-copy-wrap {
-      padding: 0;
-      height: auto;
-      border: 0 none;
-      background: none transparent;
-
-
-      .container {
-        padding: 0;
-        height: auto;
-
-        div:first-child {
-          max-width: 200px;
-          overflow: hidden;
-          text-overflow: ellipsis;
+        .has-user-address {
+          .flex {
+            align-items: center;
+          }
         }
-      }
 
-      .copy-icon {
-        display: none;
-      }
-    }
+        w-copy-wrap {
+          padding: 0;
+          height: auto;
+          border: 0 none;
+          background: none transparent;
 
-    w-avatar {
-      margin: 14px 14px 14px 0;
+
+          .container {
+            padding: 0;
+            height: auto;
+
+            div:first-child {
+              max-width: 200px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+
+          .copy-icon {
+            display: none;
+          }
+        }
+
+        w-avatar {
+          margin: 14px 14px 14px 0;
     }
 
     ul {
@@ -208,6 +207,18 @@
         &-menu {
           background-image: url(/img/icons/menu-back.svg);
         }
+
+        &-aliases {
+          background-image: url(/img/icons/alias.svg);
+        }
+
+        &-settings {
+          background-image: url(/img/icons/settings.svg);
+        }
+
+        &-logout {
+          background-image: url(/img/icons/logout.svg);
+        }
       }
 
     }
@@ -215,11 +226,31 @@
 
   // end basic mobile menu styles
   // EXPANDED
+
+  .show-aliases {
+    .aliases-menu {
+      right: -260px;
+    }
+    .aliases-menu {
+      right: 0;
+    }
+  }
+
+  .show-wallet {
+    .wallet-menu {
+      right: 0;
+    }
+    .aliases-menu {
+      right: -260px;
+    }
+  }
+
   header.expanded {
     .mobile-menu {
       .mobile-menu-fader {
         display: block;
       }
+
       .mobile-menu-wrapper:not(.mobile-menu-wrapper-inner) {
         right: 0;
       }
@@ -229,7 +260,7 @@
           right: 0;
         }
       }
-    }
+    } // end menu logic
 
     .mobile-menu-toggler {
       right: 260px;

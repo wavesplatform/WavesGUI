@@ -53,7 +53,7 @@
                 </ul>
 
                 <ul ng-if="$ctrl.isLogined">
-                    <li>
+                    <li w-toggle-class="show-aliases">
                         <a class="has-child has-user-address"
                            w-toggle-class="mobile-menu-inner-expanded"
                            href="#">
@@ -72,33 +72,36 @@
                         </a>
                     </li>
                     <li><a href="#">Exchange</a></li>
-                    <li><a href="#">Wallet</a></li>
+                    <li w-toggle-class="show-wallet"><a href="#" class="has-child" w-toggle-class="mobile-menu-inner-expanded">Wallet</a></li>
                     <li><a href="#">Create token</a></li>
                 </ul>
             </div>
-            <div class="mobile-menu-wrapper mobile-menu-wrapper-inner"> <!-- 2nd -->
-                <ul ng-if="!$ctrl.isLogined">
+
+            <div class="mobile-menu-wrapper mobile-menu-wrapper-inner"  ng-if="!$ctrl.isLogined">
+                <ul>
                     <li><a class="menu-link menu-link-menu" w-toggle-class="mobile-menu-inner-expanded" href="#">Menu</a>
                     <li><a href="#">Windows</a></li>
                     <li><a href="#">MacOS</a></li>
                     <li><a href="#">Linux</a></li>
                 </ul>
-                <ul ng-if="$ctrl.isLogined">
-                    <li><a class="menu-link menu-link-menu" w-toggle-class="mobile-menu-inner-expanded" href="#">Menu</a>
+            </div>
+
+            <div class="mobile-menu-wrapper mobile-menu-wrapper-inner aliases-menu" w-toggle-class-container ng-if="$ctrl.isLogined">
+                <ul>
+                    <li w-toggle-class="show-aliases"><a class="menu-link menu-link-menu" w-toggle-class="mobile-menu-inner-expanded" href="#">Menu</a>
                     <li><a class="menu-link menu-link-aliases"href="#">Aliases</a></li>
                     <li><a class="menu-link menu-link-settings" href="#">Settings</a></li>
                     <li><a class="menu-link menu-link-logout" href="#">Log Out</a></li>
                 </ul>
             </div>
 
-            <!-- TODO @uIsk - account menu -->
-
-            <div class="mobile-menu-wrapper mobile-menu-wrapper-inner"> <!-- 2nd -->
-                <ul ng-if="$ctrl.isLogined"> <!-- is logged -->
-                    <li><a class="menu-link menu-link-menu" w-toggle-class="mobile-menu-inner-expanded" href="#">Menu</a>
-                    <li><a class="menu-link menu-link-aliases" href="#">Aliases</a></li>
-                    <li><a class="menu-link menu-link-settings" href="#">Settings</a></li>
-                    <li><a class="menu-link menu-link-logout" href="#">Log Out</a></li>
+            <div class="mobile-menu-wrapper mobile-menu-wrapper-inner wallet-menu" w-toggle-class-container ng-if="$ctrl.isLogined">
+                <ul>
+                    <li w-toggle-class="show-wallet"><a class="menu-link menu-link-menu" w-toggle-class="mobile-menu-inner-expanded" href="#">Menu</a>
+                    <li><a class="menu-link menu-link-aliases" href="#">Dashboard</a></li>
+                    <li><a class="menu-link menu-link-settings" href="#">Porfolio</a></li>
+                    <li><a class="menu-link menu-link-logout" href="#">Transactions</a></li>
+                    <li><a class="menu-link menu-link-logout" href="#">Leasing</a></li>
                 </ul>
             </div>
 
@@ -180,10 +183,12 @@
                         address="$ctrl.address"></w-avatar>
                     <div class="basic-900">@Lisicinz</div>
 
-                    <div class="flex dropdown-user-address basic-500">
-                        <div>3PKh1ni1XzXGa1xE8rRoVAaeikSeAPVBrKB</div>
-                        <w-copy-wrap></w-copy-wrap>
-                    </div>
+
+                    <w-copy-wrap info="::$ctrl.address" ng-click="$ctrl.onCopyAddress()">
+                        <div class="flex dropdown-user-address basic-500">
+                            <div>3PKh1ni1XzXGa1xE8rRoVAaeikSeAPVBrKB</div>
+                        </div>
+                    </w-copy-wrap>
                 </div>
 
                 <a class="link-aliases" ng-click="$ctrl.avatarClick()">
