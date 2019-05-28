@@ -103,15 +103,9 @@
       }
     }
 
-    w-copy-wrap {
-      padding: 0;
-      height: auto;
-      border: 0 none;
-      background: none transparent;
-
+    .copywrap-default {
       .container {
-        padding: 0;
-        height: auto;
+        padding: 0 20px 0 0;
 
         div:first-child {
           max-width: 200px;
@@ -571,6 +565,7 @@ w-site-header {
       margin: 0 20px;
       font-size: 15px;
       color: @color-basic-900;
+      border-top: 1px solid @color-basic-100;
 
       &:first-child {
         padding: 10px 0 18px;
@@ -578,10 +573,6 @@ w-site-header {
 
       &:last-child {
         padding: 18px 0 10px;
-      }
-
-      &:not(:last-child) {
-        border-bottom: 1px solid @color-info-50;
       }
 
       span.description {
@@ -651,34 +642,10 @@ w-site-header {
       min-width: 280px;
       right: 0;
 
-      &-user-address {
-        font-size: 11px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid @color-info-50;
-
-        // TODO @uIsk - move this to copyWrap component
-        w-copy-wrap {
-          height: 12px;
-          width: 12px;
-          border: 0 none;
-          border-radius: 0;
-          background: none transparent;
-          margin: 1px 0 0 7px;
-
-          .container {
-            padding: 0;
-          }
-
-          .copy-icon {
-            background: url(/img/icons/copy-14-basic500.svg) center no-repeat;
-            position: relative;
-            display: block;
-            width: 14px;
-            height: 14px;
-            flex-basis: auto;
-            margin-right: 0;
-            border: 0 none;
-          }
+      w-copy-wrap {
+        .container {
+          max-width: 150px;
+          font-size: 11px;
         }
       }
     }

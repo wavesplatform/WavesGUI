@@ -236,9 +236,9 @@
                         address="$ctrl.address"></w-avatar>
                     <div class="basic-900">@Lisicinz</div>
 
-                    <w-copy-wrap info="::$ctrl.address" ng-click="$ctrl.onCopyAddress()">
-                        <div class="flex dropdown-user-address basic-500">
-                            <div>3PKh1ni1XzXGa1xE8rRoVAaeikSeAPVBrKB</div>
+                    <w-copy-wrap class="margin-2 copywrap-default" info="::$ctrl.address" ng-click="$ctrl.onCopyAddress()">
+                        <div class="flex container basic-500" ng-click="$ctrl.onCopy()" w-copy="$ctrl.info">
+                            3PKh1ni1XzXGa1xE8rRoVAaeikSeAPVBrKB
                         </div>
                     </w-copy-wrap>
                 </div>
