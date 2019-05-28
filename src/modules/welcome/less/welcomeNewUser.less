@@ -235,8 +235,8 @@ body.welcome {
       .slider-wrapper {
         max-width: 1440px;
         margin: 0 auto;
-        padding-top: 40px;
-        padding-bottom: 40px;
+        padding-top: 60px;
+        padding-bottom: 60px;
       }
 
       @media screen and (max-width: 1340px) {
@@ -313,6 +313,7 @@ body.welcome {
         align-items: flex-start;
         text-align: center;
         flex-wrap: wrap;
+        margin-bottom: 30px;
       }
 
       &::before {
@@ -329,8 +330,8 @@ body.welcome {
       }
 
       &-card {
-        padding: 96px 30px 102px;
-        flex-basis: 33.33%;
+        padding: 15px 20px;
+        width: 100%;
       }
     }
   }
@@ -391,10 +392,6 @@ body.welcome {
 
 @media screen and (max-width: 1024px) {
   body.welcome {
-    .section-promo-card {
-      padding: 56px 15px 66px;
-    }
-
     .links {
       padding-left: 30px;
     }
@@ -515,10 +512,6 @@ body.welcome {
         flex-direction: column;
         padding: 25px 0;
       }
-      &-card {
-        padding: 15px 20px;
-        width: 100%;
-      }
     }
   }
 }
@@ -538,6 +531,16 @@ body.welcome {
     }
   }
 }
+
+@media screen and (min-width: 860px) {
+  body.welcome {
+    .section-promo-card {
+      padding: 20px 30px 40px;
+      flex-basis: 33.33%;
+    }
+  }
+}
+
 
 @media screen and (min-width: 1440px) {
   .header-new-user {
