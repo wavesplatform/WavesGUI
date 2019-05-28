@@ -83,7 +83,8 @@
             SPONSORSHIP_EDIT: 'js-action-button-sponsorship_edit',
             SPONSORSHIP_STOP: 'js-action-button-cancel-sponsorship',
             SET_ASSET_SCRIPT: 'js-action-button-set-asset-script'
-        }
+        },
+        SUSPICIOUS_LABEL: 'js-suspicious-label'
     };
 
     const ds = require('data-service');
@@ -249,8 +250,7 @@
                         canShowToggleSpam: this._canShowToggleSpam(),
                         canSponsored: this._isMyAsset,
                         canPayFee,
-                        canStopSponsored,
-                        isSpam: this.balance.isOnScamList
+                        canStopSponsored
                     });
 
                     this.node.innerHTML = html;
@@ -260,7 +260,8 @@
                         set: (value) => {
                             if (this.balance.asset.id !== value.asset.id ||
                                 !this.balance.available.getTokens().eq(value.available.getTokens()) ||
-                                !this.balance.inOrders.getTokens().eq(value.inOrders.getTokens())
+                                !this.balance.inOrders.getTokens().eq(value.inOrders.getTokens()) ||
+                                this.balance.isOnScamList !== value.isOnScamList
                             ) {
                                 balance = value;
                                 this._onUpdateBalance();
@@ -334,6 +335,21 @@
                 this._initSpamState();
 
                 const balance = this.balance;
+
+                if (balance.isOnScamList) {
+                    this.node.querySelector(`.${SELECTORS.CHANGE_24}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.SUSPICIOUS_LABEL}`).classList.remove('hidden');
+
+                    return null;
+                } else {
+                    const suspiciousSelector = this.node.querySelector(`.${SELECTORS.SUSPICIOUS_LABEL}`);
+                    if (suspiciousSelector) {
+                        suspiciousSelector.classList.add('hidden');
+                    }
+                }
+
                 const baseAssetId = this.user.getSetting('baseAssetId');
 
                 if (baseAssetId === balance.asset.id) {
@@ -343,6 +359,14 @@
                     change24Node.classList.remove('plus');
                     this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
                     this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+
+                    return null;
+                }
+
+                if (balance.isOnScamList) {
+                    this.node.querySelector(`.${SELECTORS.CHANGE_24}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
 
                     return null;
                 }
@@ -565,10 +589,11 @@
                     this.node.querySelector(`.${SELECTORS.BUTTONS.TOGGLE_SPAM}`),
                     this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.TOGGLE_SPAM}`)
                 ];
-
                 elements.forEach(toggleSpam => {
-                    toggleSpam.classList.toggle('icon-hide', !isSpam);
-                    toggleSpam.classList.toggle('icon-show', isSpam);
+                    if (toggleSpam) {
+                        toggleSpam.classList.toggle('icon-hide', !isSpam);
+                        toggleSpam.classList.toggle('icon-show', isSpam);
+                    }
                 });
             }
 

@@ -99,7 +99,8 @@
                 block: '@',
                 hasSearch: '@',
                 canCollapse: '@',
-                analyticsText: '<'
+                analyticsText: '<',
+                isActiveScroll: '<'
             },
             templateUrl: 'modules/dex/directives/dexBlock/dexBlock.html',
             transclude: true,

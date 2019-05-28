@@ -8,22 +8,32 @@
      * @param {INotification} notification
      * @param {Waves} waves
      * @param {User} user
+     * @param {$rootScope.Scope} $scope
      * @return {Transaction}
      */
     const controller = function (Base, $filter, modalManager, notification,
-                                 waves, user) {
+                                 waves, user, $scope) {
 
         const { SIGN_TYPE } = require('@waves/signature-adapter');
         class Transaction extends Base {
 
             $postLink() {
                 this.typeName = this.transaction.typeName;
+                this.setScam();
+
+                this.receive(user.setScamSignal, () => {
+                    this.setScam();
+                    $scope.$apply();
+                });
+            }
+
+            setScam() {
                 this.isScam = !!user.scam[this.transaction.assetId];
                 if (this.transaction.type === 7) {
-                    this.isScamAmount = !!user.scam[this.transaction.amount.asset];
-                    this.isScamPrice = !!user.scam[this.transaction.price.asset];
+                    const isScamAmount = !!user.scam[this.transaction.amount.asset];
+                    const isScamPrice = !!user.scam[this.transaction.price.asset];
+                    this.isScam = this.isScam || isScamAmount || isScamPrice;
                 }
-
             }
 
             cancelLeasing() {
@@ -115,7 +125,8 @@
         'modalManager',
         'notification',
         'waves',
-        'user'
+        'user',
+        '$scope'
     ];
 
     angular.module('app.ui')

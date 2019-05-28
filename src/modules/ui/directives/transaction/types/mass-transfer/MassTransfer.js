@@ -1,16 +1,6 @@
 (function () {
     'use strict';
 
-    angular.module('app.ui').component('wTransfer', {
-        bindings: {
-            props: '<'
-        },
-        templateUrl: 'modules/ui/directives/transaction/types/transfer/transfer.html'
-    });
-})();
-(function () {
-    'use strict';
-
     /**
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
@@ -32,6 +22,14 @@
                 this.typeName = this.props.typeName;
                 this.time = this.props.time;
                 this.address = this.props.shownAddress;
+                setTimeout(() => {
+                    this.isScam = this.props.isScam;
+                }, 0);
+
+                // TODO: delete setTimeout
+                setTimeout(() => {
+                    this.isScam = this.props.isScam;
+                }, 0);
 
                 const TYPES = waves.node.transactions.TYPES;
 
