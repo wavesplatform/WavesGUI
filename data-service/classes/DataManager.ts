@@ -97,7 +97,7 @@ export class DataManager {
             description: descriptionHash[id]
         };
 
-        // TODO: delete when gateway will be ready
+        // TODO: delete when vostok gateway will be ready
         const gatewaySoonAsset = {
             status: 4,
             version: DATA_PROVIDER_VERSIONS.BETA,
