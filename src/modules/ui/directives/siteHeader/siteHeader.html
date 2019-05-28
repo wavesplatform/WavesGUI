@@ -72,7 +72,7 @@
                     <li><a href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html"
                            target="_blank">Help</a></li>
                     <li><a href="https://twitter.com/wavesplatform" target="_blank">News</a></li>
-                    <li><a class="has-child" w-toggle-class="mobile-menu-inner-expanded" href="#">Download</a>
+                    <li><a class="has-child" w-toggle-class="show-downloads" href="#">Download</a>
                 </ul>
 
                 <ul ng-if="$ctrl.isLogined">
@@ -124,7 +124,7 @@
             <div class="mobile-menu-wrapper mobile-menu-wrapper-inner download-menu" ng-if="!$ctrl.isLogined">
                 <ul>
                     <li><a class="menu-link menu-link-menu"
-                           w-toggle-class="mobile-menu-inner-expanded"
+                           w-toggle-class="show-downloads"
                            href="#">Menu</a>
                     <li><a w-analytics event-target="'ui'"
                            event="'Menu Download Windows Click'"
@@ -134,10 +134,6 @@
                            event="'Menu Download Mac OS Click'"
                            href="https://wavesplatform.com/files/WavesClient-mac.dmg"
                            target="_blank">MacOS</a></li>
-                    <li><a w-analytics event-target="'ui'"
-                           event="'Menu Download Linux Click'"
-                           href="https://wavesplatform.com/files/WavesClient-linux.deb"
-                           target="_blank">Linux</a></li>
                 </ul>
             </div>
 
