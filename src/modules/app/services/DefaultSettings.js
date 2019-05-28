@@ -62,7 +62,8 @@
                         WavesApp.defaultAssets.BSV,
                         WavesApp.defaultAssets.TRY,
                         WavesApp.defaultAssets.DASH,
-                        WavesApp.defaultAssets.XMR
+                        WavesApp.defaultAssets.XMR,
+                        WavesApp.defaultAssets.VOSTOK
                     ],
                     wallet: {
                         activeState: 'assets',
