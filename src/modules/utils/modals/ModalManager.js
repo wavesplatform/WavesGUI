@@ -499,6 +499,14 @@
                 });
             }
 
+            showConfirmLogout() {
+                return this._getModal({
+                    id: 'logout-modal',
+                    contentUrl: 'modules/utils/modals/confirmLogout/confirmLogout.modal.html',
+                    title: ''
+                });
+            }
+
             /**
              * @param {IDialogOptions} options
              * @return {Promise}

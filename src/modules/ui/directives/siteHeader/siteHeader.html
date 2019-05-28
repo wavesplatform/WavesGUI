@@ -1,6 +1,6 @@
 <header w-toggle-class-container>
     <div class="header-wrapper">
-        <a class="logo" href="/"></a>
+        <span class="logo" ng-class="{'can-click': $ctrl.isLogined}" ng-click="$ctrl.toWelcome()"></span>
 
         <nav class="top-menu top-menu-welcome" ng-if="!$ctrl.isLogined">
             <a w-analytics event-target="'ui'"
@@ -18,7 +18,7 @@
             <a w-analytics event-target="'ui'"
                event="'Menu News Click'"
                class="link-margin"
-               href="https://twitter.com/wavesplatform" target="_blank">News</a> <!-- TODO waves dex twitter channel -->
+               href="https://twitter.com/wavesplatform" target="_blank">News</a>
             <div class="relative dropdown-toggler">
                 <span class="dropdown-btn">Download</span>
                 <div class="dropdown menu-margin">
