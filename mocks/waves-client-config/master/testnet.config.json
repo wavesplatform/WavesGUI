@@ -28,7 +28,19 @@
     "CAN_PAIRING_WITH_MOBILE": true,
     "CAN_ANY_TRANSACTION": true
   },
-  "NOTIFICATIONS": [],
+  "NOTIFICATIONS": [
+    {
+      "id": "WSOC",
+      "end_date": "Thu Jun 20 2019 00:00:00 GMT+0300",
+      "start_date": "Thu Jun 13 2019 00:00:00 GMT+0300",
+      "type": "success",
+      "text": {
+        "en": "Win 5,000 WAVES in a trading contest on Waves DEX! Details can be found here: [wsoc.io](https://wsoc.io)",
+        "ru": "Выиграй 5 000 WAVES в конкурсе трейдеров на Waves DEX! Подробности по ссылке: [wsoc.io](https://wsoc.io)"
+      },
+      "noIcon": true
+    }
+  ],
   "SETTINGS": {
     "DEX": {
       "WATCH_LIST_PAIRS": [
