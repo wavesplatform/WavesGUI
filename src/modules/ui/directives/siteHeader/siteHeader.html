@@ -65,10 +65,10 @@
         <nav class="mobile-menu">
             <div class="mobile-menu-wrapper">
                 <ul ng-if="!$ctrl.isLogined">
-                    <li><a href="#" ng-click="$ctrl.removeBodyClass()">Exchange</a></li>
-                    <li><a href="#">API</a></li>
-                    <li><a href="#">Help</a></li>
-                    <li><a href="#">News</a></li>
+                    <li><a href="/dex-demo"ng-click="$ctrl.removeBodyClass()">Exchange</a></li>
+                    <li><a href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html" target="_blank">API</a></li>
+                    <li><a href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html" target="_blank">Help</a></li>
+                    <li><a href="https://twitter.com/wavesplatform" target="_blank">News</a></li>
                     <li><a class="has-child" w-toggle-class="mobile-menu-inner-expanded" href="#">Download</a>
                 </ul>
 
@@ -91,7 +91,7 @@
                            </div>
                         </a>
                     </li>
-                    <li><a href="#">Exchange</a></li>
+                    <li><a href="/dex">Exchange</a></li>
                     <li w-toggle-class="show-wallet"><a href="#" class="has-child" w-toggle-class="mobile-menu-inner-expanded">Wallet</a></li>
                     <li><a href="#">Create token</a></li>
                 </ul>
