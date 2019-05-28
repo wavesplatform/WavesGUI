@@ -105,6 +105,13 @@
                 });
             }
 
+            /**
+             * public
+             */
+            removeBodyClass() {
+                $document.find('body').removeClass('menu-is-shown');
+            }
+
         }
 
         return new SiteHeaderCtrl();
