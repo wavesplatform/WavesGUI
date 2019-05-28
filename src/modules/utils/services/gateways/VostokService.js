@@ -2,7 +2,7 @@
     'use strict';
 
     const GATEWAYS = {
-        [WavesApp.defaultAssets.VOSTOK]: { waves: 'WVOSTOK', gateway: 'VOSTOK' }
+        [WavesApp.defaultAssets.VST]: { waves: 'WVST', gateway: 'VST' }
     };
 
     const PATH = `${WavesApp.network.vostok.gateway}/api/v1`;

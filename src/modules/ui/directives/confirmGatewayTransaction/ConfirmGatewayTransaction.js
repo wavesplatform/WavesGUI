@@ -39,7 +39,7 @@
             }
 
             sendTransaction() {
-                if (this.signable.getTxData().amount.asset.id !== WavesApp.defaultAssets.VOSTOK) {
+                if (this.signable.getTxData().amount.asset.id !== WavesApp.defaultAssets.VST) {
                     return super.sendTransaction();
                 }
 

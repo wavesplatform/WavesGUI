@@ -78,7 +78,7 @@ export class DataManager {
             [WavesApp.defaultAssets.BSV]: true,
             [WavesApp.defaultAssets.DASH]: true,
             [WavesApp.defaultAssets.XMR]: true,
-            [WavesApp.defaultAssets.VOSTOK]: true,
+            [WavesApp.defaultAssets.VST]: true,
         };
 
         const descriptionHash = {
