@@ -41,6 +41,11 @@
                 this._initClickHandlers();
             }
 
+            $onDestroy() {
+                super.$onDestroy();
+                $element.find('.mobile-menu-fader, .mobile-menu-toggler').off();
+            }
+
             open(sref) {
                 if (this.isLogined) {
                     $state.go(sref);
