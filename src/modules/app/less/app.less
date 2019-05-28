@@ -21,12 +21,14 @@ body {
   background-color: @app-background;
 }
 
-body {
-  &.menu-is-shown {
-    .logo,
-    .movable {
-      transition: .25s;
-      transform: translateX(-261px);
+@media screen and (max-width: 860px) {
+  body {
+    &.menu-is-shown {
+      .logo,
+      .movable {
+        transition: .25s;
+        transform: translateX(-261px);
+      }
     }
   }
 }
