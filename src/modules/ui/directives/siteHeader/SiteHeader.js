@@ -96,6 +96,24 @@
             }
 
             /**
+             * public
+             */
+            toWelcome() {
+                if (this.isLogined) {
+                    return modalManager.showConfirmLogout().then(() => {
+                        user.logout();
+                    });
+                }
+            }
+
+            /**
+             * public
+             */
+            removeBodyClass() {
+                $document.find('body').removeClass('menu-is-shown');
+            }
+
+            /**
              * @private
              */
             _initClickHandlers() {
@@ -105,12 +123,6 @@
                 });
             }
 
-            /**
-             * public
-             */
-            removeBodyClass() {
-                $document.find('body').removeClass('menu-is-shown');
-            }
 
         }
 

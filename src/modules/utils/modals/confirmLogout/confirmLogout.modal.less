@@ -1,0 +1,24 @@
+@import (reference) 'config';
+@import (reference) '../../../app/less/typography';
+
+.confirm-logout {
+  text-align: center;
+
+ .icon-remove {
+   display: block;
+   width: 80px;
+   height: 80px;
+   margin: 60px auto 30px auto;
+   background: url(/img/icons/icon-removeacc.svg) center no-repeat;
+ }
+
+  h3 {
+    font-family: @font-roboto-regular;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .icon-remove {
+    margin-top: 30px;
+  }
+}
