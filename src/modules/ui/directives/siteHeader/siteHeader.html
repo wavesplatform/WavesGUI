@@ -137,9 +137,9 @@
             <a class="link-margin link-tokens" href="/tokens">Create token</a>
         </nav>
 
-        <div ng-if="!$ctrl.isLogined" class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
-            <a class="body-2 margin-right-3 submit-400" href="/welcome">Sign In</a>
-            <a class="fake-button submit medium" href="/create">
+        <div ng-if="$ctrl.signInBtn || $ctrl.getStartedBtn" class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
+            <a class="body-2 margin-right-3 submit-400" ng-if="$ctrl.signInBtn" href="/sign-in">Sign In</a>
+            <a class="fake-button submit medium"  ng-if="$ctrl.getStartedBtn" href="/create">
                 <span class="fake-button-content medium submit">Get Started</span>
             </a>
         </div>

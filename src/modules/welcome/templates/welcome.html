@@ -1,2 +1,143 @@
-<ng-include w-i18n-ns="app.welcome" src="$ctrl.pageUrl"></ng-include>
+<w-site-header class="header-new-user" sign-in-btn="$ctrl.userList.length > 0" get-started-btn="true"></w-site-header>
+<div w-i18n-ns="app.welcome" class="wrapper scrolled-view">
+    <div class="white-bg"></div>
+    <section class="section-welcome">
+        <div class="section-wrapper">
+            <div class="left-side">
+                <h1 class="margin-2 headline-0 welcome-text">Trade on the Waves Decentralised Exchange</h1>
+                <div class="basic-500 body-1 margin-5">
+                    Trade quickly and securely.
+                    You retain complete control over your funds when trading them on our decentralised exchange.
+                </div>
+                <div class="buttons-wrapper buttons-wrapper-nowidth">
+                    <a class="fake-button get-started-btn" ui-sref="create">
+                        <span class="fake-button-content big submit ">
+                          Get Started
+                          <i class="icon-arrow-right"></i>
+                        </span>
+                    </a>
+                    <a ng-if="$ctrl.userList.length" href="/sign-in" class="fake-button">
+                        <span class="fake-button-content big submit-light">Sign In</span>
+                    </a>
+                </div>
+            </div>
+            <div class="dex-screenshot"></div>
+        </div>
+    </section>
+
+    <section class="section-slider">
+        <div class="section-wrapper slider-wrapper">
+            <w-carousel interval="2000" pairs-info-list="$ctrl.pairsInfoList"></w-carousel>
+        </div>
+    </section>
+
+    <section class="section-markets">
+        <div class="section-wrapper">
+
+            <h2 class="margin-1">Markets</h2>
+            <div class="basic-500 body-2">Lorem Ipsum is not simply random text.
+                It has roots in a piece of classical Latin literature
+            </div>
+
+            <div class="table-markets margin-top-3 margin-3">
+                <div class="row row-header">
+                    <div class="cell pair">PAIR</div>
+                    <div class="cell last-price">LAST PRICE</div>
+                    <div class="cell change">CHANGE</div>
+                    <div class="cell height24">24 HIGHT</div>
+                    <div class="cell low24">24 LOW</div>
+                    <div class="cell volume">VOLUME</div>
+                    <div class="cell graph">CHART</div>
+                </div>
+
+                <a ng-repeat="pair in $ctrl.pairsInfoList track by $index"
+                   w-analytics event="'Menu Exchange Click'"
+                   event-target="'ui'"
+                   ng-class="pair.change24.gt(0) ? 'blue' : 'red'"
+                   href="/dex-demo?assetId1={{pair.amountAsset.id}}&assetId2={{pair.priceAsset.id}}"
+                   class="row row-content">
+                    <div class="cell pair">{{pair.amountAsset.ticker}} / {{pair.priceAsset.ticker}}</div>
+                    <div class="cell last-price">
+                        <w-balance money="pair.lastPrice"></w-balance>
+                        <span class="basic-500">&nbsp;/&nbsp;
+                            <w-exchange balance="pair.lastPrice"
+                                        target-asset-id="Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck"></w-exchange>
+                            &nbsp;$
+                        </span>
+                    </div>
+                    <div class="cell change">{{pair.change24}}%</div>
+                    <div class="cell height24">
+                        <w-balance money="pair.high"></w-balance>
+                    </div>
+                    <div class="cell low24">
+                        <w-balance money="pair.low"></w-balance>
+                    </div>
+                    <div class="cell volume">
+                        <span w-nice-number="pair.volume.toFormat()" precision="3"></span>
+                    </div>
+                    <div class="cell graph"></div>
+                </a>
+
+            </div>
+
+            <div class="center body-2 basic-500">
+                <span>Click <a href="/dex-demo?assetId1=8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS&assetId2=WAVES">Show all</a> to view the full list of markets</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-promo body-2">
+        <div class="section-wrapper">
+            <div class="section-promo-card">
+                <div class="icon icon-schield margin-2"></div>
+                <h2 class="margin-1">Secture Trading</h2>
+                <div class="basic-500">Funds are stored in the wallet, not on the exchange. All traffic and private keys
+                    are
+                    encrypted and stored only
+                    on device.
+                </div>
+            </div>
+            <div class="section-promo-card">
+                <div class="icon icon-dex margin-2"></div>
+                <h2 class="margin-1">Decentralized</h2>
+                <div class="basic-500">No third parties and no withdrawal limits — you are in full control of your
+                    finances
+                    and
+                    decision-making.
+                </div>
+            </div>
+            <div class="section-promo-card">
+                <div class="icon icon-wallet margin-2"></div>
+                <h2 class="margin-1">Low, fixed fees</h2>
+                <div class="basic-500">Insanely low fees less then $0.01 (0.003 WAVES) per order.</div>
+            </div>
+            <div class="section-promo-card">
+                <div class="icon icon-schield margin-2"></div>
+                <h2 class="margin-1">Плюшка раз</h2>
+                <div class="basic-500">Funds are stored in the wallet, not on the exchange. All traffic and private keys
+                    are
+                    encrypted and stored only
+                    on device.
+                </div>
+            </div>
+            <div class="section-promo-card">
+                <div class="icon icon-dex margin-2"></div>
+                <h2 class="margin-1">Плюшка два</h2>
+                <div class="basic-500">No third parties and no withdrawal limits — you are in full control of your
+                    finances
+                    and
+                    decision-making.
+                </div>
+            </div>
+            <div class="section-promo-card">
+                <div class="icon icon-wallet margin-2"></div>
+                <h2 class="margin-1">Плюшка три</h2>
+                <div class="basic-500">Insanely low fees less then $0.01 (0.003 WAVES) per order.</div>
+            </div>
+        </div>
+    </section>
+
+    <w-footer></w-footer>
+</div>
+
 <w-loader ng-if="$ctrl.pendingRestore"></w-loader>
