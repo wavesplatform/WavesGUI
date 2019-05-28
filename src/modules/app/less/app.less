@@ -21,12 +21,19 @@ body {
   background-color: @app-background;
 }
 
-body {
-  &.menu-is-shown {
-    .logo,
-    .movable {
-      transition: .25s;
-      transform: translateX(-261px);
+body.dex,
+body.dex-demo {
+  background-color: @dex-background;
+}
+
+@media screen and (max-width: 860px) {
+  body {
+    &.menu-is-shown {
+      .logo,
+      .movable {
+        transition: .25s;
+        transform: translateX(-261px);
+      }
     }
   }
 }
@@ -139,6 +146,7 @@ ui-view[name="main"] {
   height: 32px;
   transition: .5s;
   display: block;
+  cursor: pointer;
   background-repeat: no-repeat;
   background-position: center;
 }
