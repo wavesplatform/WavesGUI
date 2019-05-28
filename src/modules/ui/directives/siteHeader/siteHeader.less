@@ -29,6 +29,18 @@
 
 @media screen and (max-width: 860px) {
 
+  .link-border {
+    content: '';
+    width: 100%;
+    height: 1px;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: @color-basic-700;
+    opacity: .5;
+  }
+
   // toggler button
   .mobile-menu-toggler {
     display: block;
@@ -164,11 +176,19 @@
       width: 100%;
       padding: 0 20px;
       font-size: 17px;
-      border-bottom: 1px solid fadein(@color-basic-700, 50%);
+      position: relative;
+
+      &.menu-link-menu {
+        background: fadein(@color-basic-700, 80%);
+      }
+
+      &::before {
+        .link-border;
+      }
 
       &:hover {
         color: @color-white;
-        background: fadein(@color-basic-700, 50%);
+        background: fadein(@color-basic-700, 80%);
       }
 
       &.has-child {
@@ -192,6 +212,8 @@
       &.menu-link {
         background-position: 20px center;
         background-repeat: no-repeat;
+
+
 
         &-menu,
         &-aliases,
@@ -235,18 +257,23 @@
 
         &-logout {
           background-image: url(/img/icons/logout.svg);
-          border-top: 1px solid fadein(@color-basic-700, 50%);
           border-bottom: 0 none;
           position: absolute;
           bottom: 0;
+          &::before {
+            .link-border;
+            bottom: auto;
+            top: 0;
+          }
         }
+
+
       }
     }
   }
 
   // end basic mobile menu styles
   // EXPANDED
-
   body {
     &.menu-is-shown {
      .logo,
@@ -260,7 +287,11 @@
     &.mobile-menu-wrapper-inner {
       right: -261px;
       height: 100%;
-      border-left: 1px solid fadein(@color-basic-700, 50%);
+
+
+
+
+      border-left: 1px solid fadein(@color-basic-700, 80%);
     }
   }
 
@@ -491,7 +522,6 @@ w-site-header {
   }
 
   .dropdown-toggler {
-    cursor: pointer;
     margin: 0;
     display: flex;
     align-items: center;

@@ -108,7 +108,10 @@
     controller.$inject = ['Base', 'stateManager', 'modalManager', 'user', '$state', '$element', '$document'];
 
     angular.module('app.ui').component('wSiteHeader', {
-        bindings: {},
+        bindings: {
+            signInBtn: '<',
+            getStartedBtn: '<'
+        },
         templateUrl: 'modules/ui/directives/siteHeader/siteHeader.html',
         transclude: false,
         controller
