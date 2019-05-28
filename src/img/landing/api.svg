@@ -1,23 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42">
-    <g fill="none" fill-rule="evenodd">
-        <g transform="translate(2 2)">
-            <rect width="38" height="38" fill="#EEF5FE" fill-rule="nonzero" rx="2"/>
-            <path fill="#1F5AF6" d="M2 0h34a2 2 0 0 1 2 2v5H0V2a2 2 0 0 1 2-2z"/>
-            <g transform="translate(.5)">
-                <path stroke="#1F5AF6" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 17l3.5-3.5L20 10M12.5 10L9 13.5l3.5 3.5"/>
-                <circle cx="1.25" cy="1.5" r="1.25" fill="#CCDAFF"/>
-                <circle cx="5.25" cy="1.5" r="1.25" fill="#CCDAFF" opacity=".5"/>
-                <circle cx="9.25" cy="1.5" r="1.25" fill="#CCDAFF" opacity=".1"/>
-                <rect width="1.5" height="11" x="15.398" y="8.007" fill="#1F5AF6" rx=".75" transform="rotate(15 16.148 13.507)"/>
-            </g>
-        </g>
-        <g fill="#1F5AF6" transform="translate(7 27)">
-            <rect width="13" height="1.5" rx=".75"/>
-            <rect width="11" height="1.5" y="7" rx=".75"/>
-            <rect width="11" height="1.5" x="13" y="7" rx=".75"/>
-            <rect width="8" height="1.5" y="3.5" rx=".75"/>
-            <rect width="8" height="1.5" x="10" y="3.5" rx=".75"/>
-            <rect width="8" height="1.5" x="20" y="3.5" rx=".75"/>
-        </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55 (78076) - https://sketchapp.com -->
+    <title>Icon/42/Api</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Icon/42/Api" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" fill="#DFE8FF" fill-rule="nonzero" x="2" y="2" width="38" height="38" rx="2"></rect>
+        <path d="M4,2 L38,2 C39.1045695,2 40,2.8954305 40,4 L40,9 L2,9 L2,4 C2,2.8954305 2.8954305,2 4,2 Z" id="Rectangle" fill="#1F5AF6"></path>
+        <path d="M23.9696699,20.4696699 C23.6767767,20.7625631 23.6767767,21.2374369 23.9696699,21.5303301 C24.2625631,21.8232233 24.7374369,21.8232233 25.0303301,21.5303301 L28.5303301,18.0303301 C28.8232233,17.7374369 28.8232233,17.2625631 28.5303301,16.9696699 L25.0303301,13.4696699 C24.7374369,13.1767767 24.2625631,13.1767767 23.9696699,13.4696699 C23.6767767,13.7625631 23.6767767,14.2374369 23.9696699,14.5303301 L26.9393398,17.5 L23.9696699,20.4696699 Z" id="Path" fill="#1F5AF6" fill-rule="nonzero"></path>
+        <path d="M17.5303301,14.5303301 C17.8232233,14.2374369 17.8232233,13.7625631 17.5303301,13.4696699 C17.2374369,13.1767767 16.7625631,13.1767767 16.4696699,13.4696699 L12.9696699,16.9696699 C12.6767767,17.2625631 12.6767767,17.7374369 12.9696699,18.0303301 L16.4696699,21.5303301 C16.7625631,21.8232233 17.2374369,21.8232233 17.5303301,21.5303301 C17.8232233,21.2374369 17.8232233,20.7625631 17.5303301,20.4696699 L14.5606602,17.5 L17.5303301,14.5303301 Z" id="Path" fill="#1F5AF6" fill-rule="nonzero"></path>
+        <circle id="Oval" fill="#CCDAFF" cx="5.75" cy="5.5" r="1.25"></circle>
+        <circle id="Oval" fill="#CCDAFF" opacity="0.5" cx="9.75" cy="5.5" r="1.25"></circle>
+        <circle id="Oval" fill="#CCDAFF" opacity="0.1" cx="13.75" cy="5.5" r="1.25"></circle>
+        <rect id="Rectangle" fill="#1F5AF6" transform="translate(20.647949, 17.506706) rotate(15.000000) translate(-20.647949, -17.506706) " x="19.8979491" y="12.0067063" width="1.5" height="11" rx="0.75"></rect>
+        <rect id="Rectangle" fill="#1F5AF6" x="7" y="27" width="13" height="1.5" rx="0.75"></rect>
+        <rect id="Rectangle" fill="#1F5AF6" x="7" y="34" width="11" height="1.5" rx="0.75"></rect>
+        <rect id="Rectangle" fill="#1F5AF6" x="20" y="34" width="11" height="1.5" rx="0.75"></rect>
+        <rect id="Rectangle" fill="#1F5AF6" x="7" y="30.5" width="8" height="1.5" rx="0.75"></rect>
+        <rect id="Rectangle" fill="#1F5AF6" x="17" y="30.5" width="8" height="1.5" rx="0.75"></rect>
+        <rect id="Rectangle" fill="#1F5AF6" x="27" y="30.5" width="8" height="1.5" rx="0.75"></rect>
     </g>
 </svg>
