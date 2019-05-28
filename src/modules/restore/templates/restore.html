@@ -38,7 +38,7 @@
                             </div>
                         </div>
 
-                <div class="flex margin-3">
+                <div class="flex get-started-checkbox-save">
                     <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
                     <label for="save-user-data"
                            w-i18n="seedForm.saveUserData"
@@ -48,11 +48,9 @@
                     <div class="body-2" w-i18n="warningSeed.title"></div>
                     <div class="footnote-1 basic-500" w-i18n="warningSeed.message"></div>
                 </div>
-                <div class="margin-3">
-                    <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">
-                        <span w-i18n="seedForm.continue"></span>
-                    </w-button>
-                </div>
+                <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">
+                    <span w-i18n="seedForm.continue"></span>
+                </w-button>
             </form>
 
                 </w-step>
@@ -64,8 +62,7 @@
                         <a w-i18n="passwordForm.back" w-step-prev ng-click="$ctrl.resetNameAndPassword()"></a>
                     </div>
 
-                    <w-password class="margin-2"
-                                name="$ctrl.name"
+                    <w-password name="$ctrl.name"
                                 password="$ctrl.password"
                                 on-submit="$ctrl.restore()">
                         <span w-i18n-ns="app.restore">

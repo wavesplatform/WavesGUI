@@ -134,6 +134,7 @@ ui-view[name="main"] {
 .logo {
   width: 152px;
   height: 32px;
+  transition: .5s;
   display: block;
   background-repeat: no-repeat;
   background-position: center;
@@ -154,6 +155,7 @@ w-scroll-box {
 }
 
 .main-content {
+  transition: .5s;
   position: relative;
   width: 100%;
   min-height: 355px;
@@ -284,6 +286,10 @@ w-scroll-box {
   .getStartedContentWidth(@getStartedContentPadding);
 }
 
+.get-started-checkbox-save {
+  margin: 15px 0 20px;
+}
+
 @media screen and (min-width: 480px) {
   .get-started-content {
     .getStartedContentWidthDesktop;
@@ -291,5 +297,9 @@ w-scroll-box {
 
   .get-started-footer {
     max-width: @getStartedFooterWidth;
+  }
+
+  .get-started-checkbox-save {
+    margin: 20px 0 30px;
   }
 }
