@@ -1,4 +1,4 @@
-<w-site-header class="header-new-user"></w-site-header>
+<w-site-header class="header-new-user" sign-in-btn="$ctrl.userList.length > 0" get-started-btn="true"></w-site-header>
 <div w-i18n-ns="app.welcome" class="wrapper scrolled-view">
     <div class="white-bg"></div>
     <section class="section-welcome">
@@ -16,63 +16,12 @@
                           <i class="icon-arrow-right"></i>
                         </span>
                     </a>
-                    <a ng-if="$ctrl.userList.length" ui-sref="welcome" class="fake-button">
+                    <a ng-if="$ctrl.userList.length" href="/sign-in" class="fake-button">
                         <span class="fake-button-content big submit-light">Sign In</span>
                     </a>
                 </div>
             </div>
             <div class="dex-screenshot"></div>
-        </div>
-    </section>
-
-    <section class="section-promo body-2">
-        <div class="section-wrapper">
-            <div class="section-promo-card">
-                <div class="icon icon-schield margin-2"></div>
-                <h2 class="margin-1">Secture Trading</h2>
-                <div class="basic-500">Funds are stored in the wallet, not on the exchange. All traffic and private keys
-                    are
-                    encrypted and stored only
-                    on device.
-                </div>
-            </div>
-            <div class="section-promo-card">
-                <div class="icon icon-dex margin-2"></div>
-                <h2 class="margin-1">Decentralized</h2>
-                <div class="basic-500">No third parties and no withdrawal limits — you are in full control of your
-                    finances
-                    and
-                    decision-making.
-                </div>
-            </div>
-            <div class="section-promo-card">
-                <div class="icon icon-wallet margin-2"></div>
-                <h2 class="margin-1">Low, fixed fees</h2>
-                <div class="basic-500">Insanely low fees less then $0.01 (0.003 WAVES) per order.</div>
-            </div>
-            <div class="section-promo-card">
-                <div class="icon icon-schield margin-2"></div>
-                <h2 class="margin-1">Плюшка раз</h2>
-                <div class="basic-500">Funds are stored in the wallet, not on the exchange. All traffic and private keys
-                    are
-                    encrypted and stored only
-                    on device.
-                </div>
-            </div>
-            <div class="section-promo-card">
-                <div class="icon icon-dex margin-2"></div>
-                <h2 class="margin-1">Плюшка два</h2>
-                <div class="basic-500">No third parties and no withdrawal limits — you are in full control of your
-                    finances
-                    and
-                    decision-making.
-                </div>
-            </div>
-            <div class="section-promo-card">
-                <div class="icon icon-wallet margin-2"></div>
-                <h2 class="margin-1">Плюшка три</h2>
-                <div class="basic-500">Insanely low fees less then $0.01 (0.003 WAVES) per order.</div>
-            </div>
         </div>
     </section>
 
@@ -85,8 +34,8 @@
     <section class="section-markets">
         <div class="section-wrapper">
 
-            <h2 class="margin-1 text-center">Markets</h2>
-            <div class="basic-500 body-2 text-center">Lorem Ipsum is not simply random text.
+            <h2 class="margin-1">Markets</h2>
+            <div class="basic-500 body-2">Lorem Ipsum is not simply random text.
                 It has roots in a piece of classical Latin literature
             </div>
 
@@ -139,6 +88,5 @@
 
     <w-footer></w-footer>
 </div>
-
 
 <w-loader ng-if="$ctrl.pendingRestore"></w-loader>
