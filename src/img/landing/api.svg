@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42">
+    <g fill="none" fill-rule="evenodd">
+        <g transform="translate(2 2)">
+            <rect width="38" height="38" fill="#EEF5FE" fill-rule="nonzero" rx="2"/>
+            <path fill="#1F5AF6" d="M2 0h34a2 2 0 0 1 2 2v5H0V2a2 2 0 0 1 2-2z"/>
+            <g transform="translate(.5)">
+                <path stroke="#1F5AF6" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 17l3.5-3.5L20 10M12.5 10L9 13.5l3.5 3.5"/>
+                <circle cx="1.25" cy="1.5" r="1.25" fill="#CCDAFF"/>
+                <circle cx="5.25" cy="1.5" r="1.25" fill="#CCDAFF" opacity=".5"/>
+                <circle cx="9.25" cy="1.5" r="1.25" fill="#CCDAFF" opacity=".1"/>
+                <rect width="1.5" height="11" x="15.398" y="8.007" fill="#1F5AF6" rx=".75" transform="rotate(15 16.148 13.507)"/>
+            </g>
+        </g>
+        <g fill="#1F5AF6" transform="translate(7 27)">
+            <rect width="13" height="1.5" rx=".75"/>
+            <rect width="11" height="1.5" y="7" rx=".75"/>
+            <rect width="11" height="1.5" x="13" y="7" rx=".75"/>
+            <rect width="8" height="1.5" y="3.5" rx=".75"/>
+            <rect width="8" height="1.5" x="10" y="3.5" rx=".75"/>
+            <rect width="8" height="1.5" x="20" y="3.5" rx=".75"/>
+        </g>
+    </g>
+</svg>

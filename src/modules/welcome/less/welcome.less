@@ -42,6 +42,7 @@ body.welcome {
 
   h2 {
     font-weight: 400;
+    margin-top: 0;
   }
 
   .section-wrapper {
@@ -319,6 +320,7 @@ body.welcome {
         align-items: flex-start;
         text-align: center;
         flex-wrap: wrap;
+        padding-bottom: 40px;
       }
 
       &::before {
@@ -601,9 +603,21 @@ body.welcome {
 @media screen and (min-width: 860px) {
   body.welcome {
     .section {
-      &-promo-card {
-        padding: 20px 30px 40px;
-        flex-basis: 33.33%;
+      &-promo {
+        .section-wrapper {
+          text-align: left;
+        }
+
+        &-card {
+          padding: 20px 30px;
+          flex-basis: 33.33%;
+          display: flex;
+          flex-direction: row;
+        }
+
+        &-content {
+          margin-left: 20px;
+        }
       }
 
       &-roadmap {
