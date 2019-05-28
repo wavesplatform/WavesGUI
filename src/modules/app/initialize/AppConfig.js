@@ -71,7 +71,8 @@
                                     tsUtils.notContains('app.templates'),
                                     tsUtils.notContains('app.keeper'),
                                     tsUtils.notContains('app.wallet'),
-                                    tsUtils.notContains('app.stand')
+                                    tsUtils.notContains('app.stand'),
+                                    tsUtils.notContains('app.signIn'),
                                 )
                             ),
                         fallbackLng: 'en',

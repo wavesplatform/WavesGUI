@@ -1,5 +1,5 @@
 <w-site-header></w-site-header>
-<div class="main-container">
+<div w-i18n-ns="app.welcome" class="main-container">
     <div class="main-container-wrapper welcome-wrapper">
 
         <div class="user-list get-started-content">
@@ -75,3 +75,4 @@
         <w-footer></w-footer>
     </div>
 </div>
+<w-loader ng-if="$ctrl.pendingRestore"></w-loader>

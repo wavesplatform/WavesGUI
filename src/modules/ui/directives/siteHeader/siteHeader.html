@@ -1,16 +1,31 @@
 <header w-toggle-class-container>
     <div class="header-wrapper">
-        <a class="logo" ui-sref="/"></a>
+        <a class="logo" href="/"></a>
 
         <nav class="top-menu top-menu-welcome" ng-if="!$ctrl.isLogined">
-            <a w-analytics event-target="'ui'" event="'Menu Exchange Click'" class="link-margin link-dex" href="/dex-demo">Exchange</a>
-            <a w-analytics event-target="'ui'" event="'Menu API Click'" class="link-margin" href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html" target="_blank">API</a>
-            <a w-analytics event-target="'ui'" event="'Menu Help Click'" class="link-margin" href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html" target="_blank">Help</a>
-            <a w-analytics event-target="'ui'" event="'Menu News Click'" class="link-margin" href="#">News</a> <!-- TODO waves dex twitter channel -->
+            <a w-analytics event-target="'ui'"
+               event="'Menu Exchange Click'"
+               class="link-margin link-dex"
+               href="/dex-demo">Exchange</a>
+            <a w-analytics event-target="'ui'"
+               event="'Menu API Click'"
+               class="link-margin"
+               href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html" target="_blank">API</a>
+            <a w-analytics event-target="'ui'"
+               event="'Menu Help Click'"
+               class="link-margin"
+               href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html" target="_blank">Help</a>
+            <a w-analytics event-target="'ui'"
+               event="'Menu News Click'"
+               class="link-margin"
+               href="https://twitter.com/wavesplatform" target="_blank">News</a> <!-- TODO waves dex twitter channel -->
             <div class="relative dropdown-toggler">
-                <a class="dropdown-btn" href="https://wavesplatform.com/products-wallet" target="_blank">Download</a>
+                <span class="dropdown-btn" >Download</span>
                 <div class="dropdown menu-margin">
-                    <a w-analytics event-target="'ui'" event="'Menu Download Windows Click'" href="https://wavesplatform.com/files/WavesClient-win.zip">
+                    <a w-analytics event-target="'ui'"
+                       event="'Menu Download Windows Click'"
+                       href="https://wavesplatform.com/files/WavesClient-win.zip"
+                       target="_blank">
                         <i class="dropdown-icon icon-24 icon-win"></i>
                         <div>
                             <div>Windows</div>
@@ -18,7 +33,10 @@
                         </div>
                     </a>
 
-                    <a w-analytics event-target="'ui'" event="'Menu Download Mac OS Click'" href="https://wavesplatform.com/files/WavesClient-mac.dmg">
+                    <a w-analytics event-target="'ui'"
+                       event="'Menu Download Mac OS Click'"
+                       href="https://wavesplatform.com/files/WavesClient-mac.dmg"
+                       target="_blank">
                         <i class="dropdown-icon icon-24 icon-mac"></i>
                         <div>
                             <div>MacOS</div>
@@ -26,7 +44,10 @@
                         </div>
                     </a>
 
-                    <a w-analytics event-target="'ui'" event="'Menu Download Linux Click'" href="https://wavesplatform.com/files/WavesClient-linux.deb">
+                    <a w-analytics event-target="'ui'"
+                       event="'Menu Download Linux Click'"
+                       href="https://wavesplatform.com/files/WavesClient-linux.deb"
+                       target="_blank">
                         <i class="dropdown-icon icon-24 icon-linux"></i>
                         <div>
                             <div>Linux</div>
@@ -142,9 +163,9 @@
             <a class="link-margin link-tokens" href="/tokens">Create token</a>
         </nav>
 
-        <div ng-if="!$ctrl.isLogined" class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
-            <a class="body-2 margin-right-3 submit-400" href="/welcome">Sign In</a>
-            <a class="fake-button submit medium" href="/create">
+        <div ng-if="$ctrl.signInBtn || $ctrl.getStartedBtn" class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
+            <a class="body-2 margin-right-3 submit-400" ng-if="$ctrl.signInBtn" href="/sign-in">Sign In</a>
+            <a class="fake-button submit medium"  ng-if="$ctrl.getStartedBtn" href="/create">
                 <span class="fake-button-content medium submit">Get Started</span>
             </a>
         </div>
