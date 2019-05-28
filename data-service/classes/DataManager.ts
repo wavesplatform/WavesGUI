@@ -113,7 +113,7 @@ export class DataManager {
             return { status: STATUS_LIST.VERIFIED, description: descriptionHash.WAVES } as any;
         }
 
-        if (id === WavesApp.defaultAssets.VOSTOK) {
+        if (id === WavesApp.defaultAssets.VST) {
             return gatewaySoonAsset;
         }
 
