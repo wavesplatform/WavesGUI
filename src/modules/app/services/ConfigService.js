@@ -57,7 +57,24 @@
              */
             _getConfig() {
                 return fetch(WavesApp.network.featuresConfigUrl)
-                    .then(JSON.parse);
+                    .then(info => {
+                        const data = JSON.parse(info);
+                        const notification = {
+                            id: 'WSOC',
+                            end_date: new Date(2019, 5, 20),
+                            start_date: new Date(2019, 4, 28),
+                            type: 'success',
+                            text: {
+                                en: 'Win 5,000 WAVES in a trading contest on Waves DEX! Details can be found here: ' +
+                                    '[wsoc.io](https://wsoc.io)',
+                                ru: 'Выиграй 5 000 WAVES в конкурсе трейдеров на Waves DEX! Подробности по ссылке: ' +
+                                    '[wsoc.io](https://wsoc.io)'
+                            },
+                            noIcon: true
+                        };
+                        data.NOTIFICATIONS.push(notification);
+                        return data;
+                    });
             }
 
             /**
