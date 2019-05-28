@@ -71,7 +71,7 @@
     justify-content: space-between;
   }
   &__mobile-app-logo {
-    // !TODO @uIsk вкорячить иконку
+    background: #fff @waves-30-icon center no-repeat;
     width: 36px;
     height: 36px;
     border-radius: @border-radius;
@@ -92,10 +92,15 @@
     display: flex;
     align-items: center;
     &-icon {
-      background-color: rebeccapurple;
+      background: @notification-icon-close center no-repeat;
+      border: 0;
       width: 14px;
       height: 14px;
-      // !TODO @uIsk вкорячить крестик
+      opacity: .5;
+
+      &:hover {
+        opacity: 1;
+      }
     }
   }
   &.hidden-toaster {
