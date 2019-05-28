@@ -54,17 +54,17 @@ w-copy-wrap:not(.copywrap-default) {
 }
 
 w-copy-wrap.copywrap-default {
-  display: flex;
-  align-items: center;
   position: relative;
+  justify-content: center;
+  display: flex;
+
   .copy-icon {
     background: url(/img/icons/copy-14-basic500.svg) center no-repeat;
-    position: relative;
     display: block;
     width: 14px;
     height: 14px;
     flex-basis: auto;
-    margin-right: 0;
     border: 0 none;
+    cursor: pointer;
   }
 }
