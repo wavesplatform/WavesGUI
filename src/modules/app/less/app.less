@@ -22,10 +22,11 @@ body {
 }
 
 body {
-  transition: .5s;
-  &.moved-by-mobile-menu {
+  &.menu-is-shown {
+    .logo,
     .movable {
-      transform: translateX(-260px);
+      transition: .25s;
+      transform: translateX(-261px);
     }
   }
 }
@@ -138,6 +139,7 @@ ui-view[name="main"] {
   height: 32px;
   transition: .5s;
   display: block;
+  cursor: pointer;
   background-repeat: no-repeat;
   background-position: center;
 }
