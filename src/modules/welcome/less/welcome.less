@@ -342,6 +342,7 @@ body.welcome {
 
     &-roadmap {
       padding: 20px 0;
+      background: @color-white;
 
       .roadmap-slider {
         display: flex;
@@ -356,6 +357,11 @@ body.welcome {
           position: absolute;
           top: 38px;
           left: 0;
+        }
+
+        &-wrapper {
+          overflow: hidden;
+          margin: 0 210px;
         }
 
         &-icon {
@@ -379,7 +385,7 @@ body.welcome {
         }
 
         &-item {
-          flex-basis: 33.333%;
+          flex-basis: 280px;
           justify-items: center;
           align-items: center;
           display: flex;
