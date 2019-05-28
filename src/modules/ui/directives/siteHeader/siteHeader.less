@@ -213,8 +213,6 @@
         background-position: 20px center;
         background-repeat: no-repeat;
 
-
-
         &-menu,
         &-aliases,
         &-settings,
@@ -267,7 +265,6 @@
           }
         }
 
-
       }
     }
   }
@@ -276,10 +273,10 @@
   // EXPANDED
   body {
     &.menu-is-shown {
-     .logo,
-     .main-content {
-       transform: translateX(-261px);
-     }
+      .logo,
+      .main-content {
+        transform: translateX(-261px);
+      }
     }
   }
 
@@ -287,9 +284,6 @@
     &.mobile-menu-wrapper-inner {
       right: -261px;
       height: 100%;
-
-
-
 
       border-left: 1px solid fadein(@color-basic-700, 80%);
     }
@@ -374,37 +368,9 @@
 
 @header-shadow: 0 0 10px 0 lightgrey;
 
-@keyframes header-down {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(82px);
-  }
-  75% {
-    transform: translateY(72px);
-  }
-  100% {
-    transform: translateY(82px);
-    position: fixed;
-  }
-}
-
-@keyframes header-up {
-  0% {
-    transform: translateY(82px);
-    position: fixed;
-  }
-  100% {
-    transform: translateY(0);
-    position: absolute;
-  }
-}
-
 @keyframes header-down-shadow {
   0% {
     opacity: 0;
-    background: none transparent;
   }
   100% {
     opacity: 1;
@@ -417,7 +383,6 @@
   }
   100% {
     opacity: 0;
-    background: none transparent;
   }
 }
 
@@ -437,11 +402,22 @@ body.welcome {
       height: 4px;
       top: 100%;
       margin: 0 -20px;
-      opacity: 0;
+      transition: 1s;
       transform: translate3d(0, 0, 0);
       background: -moz-linear-gradient(top, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
       background: -webkit-linear-gradient(top, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
       background: linear-gradient(to bottom, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
+    }
+
+    &.unfixed header::after {
+      opacity: 0;
+    }
+
+    &.fixed header {
+      position: fixed;
+      &::after {
+        opacity: 1;
+      }
     }
 
     header {
@@ -449,13 +425,6 @@ body.welcome {
       width: 100%;
       &::after {
         .shadow;
-      }
-    }
-
-    &.fixed header {
-      position: fixed;
-      &::after {
-        background: none transparent;
       }
     }
   }
