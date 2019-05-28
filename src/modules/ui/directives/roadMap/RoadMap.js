@@ -9,9 +9,55 @@
      * @param {app.utils} utils
      * @return {RoadMap}
      */
-    const controller = function ($element, $timeout, carouselManager, utils, Base) {
+    const controller = function ($element, $timeout, carouselManager, utils, Base, $scope) {
 
         const { range, last } = require('ramda');
+
+        // TODO to config
+        const edges = [
+            {
+                date: 'roadmap.nov2018.date',
+                title: 'roadmap.nov2018.title',
+                text: 'roadmap.nov2018.text',
+                timeWhenMade: 'past'
+            },
+            {
+                date: 'roadmap.nov2018.date',
+                title: 'roadmap.nov2018.title',
+                text: 'roadmap.nov2018.text',
+                timeWhenMade: 'past'
+            },
+            {
+                date: 'roadmap.nov2018.date',
+                title: 'roadmap.nov2018.title',
+                text: 'roadmap.nov2018.text',
+                timeWhenMade: 'past'
+            },
+            {
+                date: 'roadmap.nov2018.date',
+                title: 'roadmap.nov2018.title',
+                text: 'roadmap.nov2018.text',
+                timeWhenMade: 'past'
+            },
+            {
+                date: 'roadmap.nov2018.date',
+                title: 'roadmap.nov2018.title',
+                text: 'roadmap.nov2018.text',
+                timeWhenMade: 'past'
+            },
+            {
+                date: 'roadmap.dec2018.date',
+                title: 'roadmap.dec2018.title',
+                text: 'roadmap.dec2018.text',
+                timeWhenMade: 'now'
+            },
+            {
+                date: 'roadmap.dec2019.date',
+                title: 'roadmap.dec2019.title',
+                text: 'roadmap.dec2019.text',
+                timeWhenMade: 'future'
+            }
+        ];
 
         class RoadMap extends Base {
 
@@ -55,23 +101,19 @@
             _coords = null;
 
             $postLink() {
+                this.edges = edges;
                 // carouselManager.registerSlider(this.id, this);
                 this.interval = Number(this.interval) || 0;
                 this.tempWrapper = $element.find('.slide-window:first');
                 this.wrapper = $element.find('.slider-content:first');
-                this.content = $element.find('.slider-content:first').children();
-
-
-                this._remapSlides();
-                const onResize = utils.debounceRequestAnimationFrame(() => this._remapSlides());
-                this.listenEventEmitter($(window), 'resize', onResize);
-
-                $element.hover(() => {
-                    this.stopInterval();
-                }, () => {
-                    this.initializeInterval();
+                utils.postDigest($scope).then(() => {
+                    this.content = this.wrapper.children();
+                    this.wrapper.css('height', this.content.css('height'));
+                    this._remapSlides();
                 });
-                this.initializeInterval();
+                // const onResize = utils.debounceRequestAnimationFrame(() => this._remapSlides());
+                // this.listenEventEmitter($(window), 'resize', onResize);
+
             }
 
             $onDestroy() {
@@ -99,9 +141,9 @@
              */
             _remapSlides() {
                 this.slidesAmount = this._getSlidesInWindowAmount(window.innerWidth);
-                const divs = range(0, this.slidesAmount).map(() => '<div class="slide"></div>');
+                const divs = range(0, this.slidesAmount).map(() => '<div class="roadmap-slider-item"></div>');
                 this.tempWrapper.append(divs);
-                const slide = this.tempWrapper.find('.slide');
+                const slide = this.tempWrapper.find('.roadmap-slider-item');
                 const width = slide.outerWidth();
                 const startCoords = slide
                     .toArray()
@@ -111,7 +153,7 @@
                 this._coords = this.content.toArray().map((element, i) => {
                     const X = (i - 1) * this.diff;
                     $(element)
-                        .css({ transform: `translateX(${X}px)`, width })
+                        .css({ transform: `translateX(${X}px)` })
                         .data('translate', X);
 
                     return X;
@@ -129,10 +171,8 @@
                         return 1;
                     case (width < 1000):
                         return 2;
-                    case (width < 1440):
-                        return 3;
                     default:
-                        return 4;
+                        return 3;
                 }
             }
 
@@ -197,16 +237,15 @@
         return new RoadMap();
     };
 
-    controller.$inject = ['$element', '$timeout', 'carouselManager', 'utils', 'Base'];
+    controller.$inject = ['$element', '$timeout', 'carouselManager', 'utils', 'Base', '$scope'];
 
     angular.module('app.ui').component('wRoadMap', {
-        transclude: true,
         bindings: {
             id: '@',
             interval: '@',
             startFrom: '@'
         },
         controller: controller,
-        templateUrl: 'modules/ui/directives/carousel/carousel.html'
+        templateUrl: 'modules/ui/directives/roadMap/roadMap.html'
     });
 })();
