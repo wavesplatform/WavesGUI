@@ -26,6 +26,11 @@
                     this.isScam = this.props.isScam;
                 }, 0);
 
+                // TODO: delete setTimeout
+                setTimeout(() => {
+                    this.isScam = this.props.isScam;
+                }, 0);
+
                 const TYPES = waves.node.transactions.TYPES;
 
                 switch (this.typeName) {

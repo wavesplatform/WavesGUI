@@ -18,6 +18,7 @@
                     isScam: this.isScam
                 };
 
+                // TODO: delete setTimeout
                 setTimeout(() => {
                     this.props.isScam = this.isScam;
                 }, 0);

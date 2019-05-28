@@ -97,8 +97,25 @@ export class DataManager {
             description: descriptionHash[id]
         };
 
+        // TODO: delete when vostok gateway will be ready
+        const gatewaySoonAsset = {
+            status: 4,
+            version: DATA_PROVIDER_VERSIONS.BETA,
+            id,
+            provider: 'WavesPlatform',
+            ticker: null,
+            link: null,
+            email: null,
+            logo: null,
+            description: descriptionHash[id]
+        };
+
         if (id === 'WAVES') {
             return { status: STATUS_LIST.VERIFIED, description: descriptionHash.WAVES } as any;
+        }
+
+        if (id === WavesApp.defaultAssets.VST) {
+            return gatewaySoonAsset;
         }
 
         if (gateways[id]) {

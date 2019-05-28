@@ -71,6 +71,11 @@ w-transaction .transaction {
     }
   }
 
+  .exchange-type {
+    white-space: nowrap;
+    margin-right: 5px;
+  }
+
   .icon {
     position: relative;
     width: 48px;
@@ -206,7 +211,7 @@ w-transaction .transaction {
   .transaction-info {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: ~'calc(100% - 88px)';
 
     .full-width {
       width: 100%;
@@ -220,17 +225,30 @@ w-transaction .transaction {
       .line {
         height: 50%;
         flex-basis: 50%;
+        box-sizing: border-box;
+        overflow: hidden;
         color: @color-basic-700;
 
         &:last-child {
           padding-right: @padding-main-layout * 4.4;
           text-align: right;
+
+          .top {
+            word-break: break-all;
+          }
         }
 
         .top {
-          word-break: break-all;
           .spam-label {
             display: none;
+          }
+
+          .flex {
+            flex: 0;
+
+            .ellipsis {
+              max-width: 120px;
+            }
           }
         }
         .bottom {
@@ -289,6 +307,11 @@ w-transaction .transaction {
       }
     }
   }
+}
+
+.transaction-amounts {
+  max-width: 100%;
+  display: inline-block;
 }
 
 @media screen and (max-width: 960px) {

@@ -275,14 +275,15 @@
                         <w-input ng-model="$ctrl.scamListUrl"></w-input>
                         <w-help-icon class="info">
                             <div class="help-icon__row headline-3" w-i18n="modal.settings.network.spamListHelp"></div>
+                            <div class="help-icon__row" w-i18n="modal.settings.network.forDisableClear"></div>
                         </w-help-icon>
                     </div>
                 </div>
 
                 <div class="margin-3 margin-top-2">
                     <div class="row flex-row row-style unit-checkbox">
-                        <w-checkbox-submit id="spamFilterToggle" ng-model="$ctrl.withScam"></w-checkbox-submit>
-                        <label for="spamFilterToggle" w-i18n="modal.settings.network.spamFilterInputDescr"></label>
+                        <w-checkbox-submit id="spamFilterToggle" ng-model="$ctrl.dontShowSpam"></w-checkbox-submit>
+                        <label for="spamFilterToggle" w-i18n="modal.settings.network.dontShowSpamCheckboxDescr"></label>
                     </div>
                 </div>
 
