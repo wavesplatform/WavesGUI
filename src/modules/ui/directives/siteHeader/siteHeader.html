@@ -65,7 +65,7 @@
         <nav class="mobile-menu">
             <div class="mobile-menu-wrapper">
                 <ul ng-if="!$ctrl.isLogined">
-                    <li><a href="/dex-demo">Exchange</a></li>
+                    <li><a href="/dex-demo"ng-click="$ctrl.removeBodyClass()">Exchange</a></li>
                     <li><a href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html" target="_blank">API</a></li>
                     <li><a href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html" target="_blank">Help</a></li>
                     <li><a href="https://twitter.com/wavesplatform" target="_blank">News</a></li>

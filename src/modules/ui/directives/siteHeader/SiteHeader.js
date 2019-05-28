@@ -41,6 +41,11 @@
                 this._initClickHandlers();
             }
 
+            $onDestroy() {
+                super.$onDestroy();
+                $element.find('.mobile-menu-fader, .mobile-menu-toggler').off();
+            }
+
             open(sref) {
                 if (this.isLogined) {
                     $state.go(sref);
@@ -98,6 +103,13 @@
                     $element.find('header').toggleClass('expanded');
                     $document.find('body').toggleClass('menu-is-shown');
                 });
+            }
+
+            /**
+             * public
+             */
+            removeBodyClass() {
+                $document.find('body').removeClass('menu-is-shown');
             }
 
         }
