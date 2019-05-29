@@ -168,24 +168,28 @@
                         </w-input-container>
 
                         <div class="field-buttons">
-                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.25)}"
+                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.25), disabled:!$ctrl.hasBalance()}"
                                       on-click="$ctrl.setAmountByBalance(0.25)"
-                                      class="micro">
-                                <span class="button">25%</span>
+                                      class="micro"
+                                      disabled="!$ctrl.hasBalance()">
+                                <span>25%</span>
                             </w-button>
-                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.5)}"
+                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.5), disabled:!$ctrl.hasBalance()}"
                                       on-click="$ctrl.setAmountByBalance(0.5)"
-                                      class="micro">
+                                      class="micro"
+                                      disabled="!$ctrl.hasBalance()">
                                 <span class="button">50%</span>
                             </w-button>
-                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.75)}"
+                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.75), disabled:!$ctrl.hasBalance()}"
                                       on-click="$ctrl.setAmountByBalance(0.75)"
-                                      class="micro">
+                                      class="micro"
+                                      disabled="!$ctrl.hasBalance()">
                                 <span class="button">75%</span>
                             </w-button>
-                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(1)}"
+                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(1), disabled:!$ctrl.hasBalance()}"
                                       on-click="$ctrl.setAmountByBalance(1)"
-                                      class="micro">
+                                      class="micro"
+                                      disabled="!$ctrl.hasBalance()">
                                 <span class="button">100%</span>
                             </w-button>
                         </div>

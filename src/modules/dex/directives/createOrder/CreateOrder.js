@@ -286,6 +286,13 @@
                 return Promise.resolve();
             }
 
+            /**
+             * @return {boolean}
+             */
+            hasBalance() {
+                return !this.maxAmount.getTokens().isZero();
+            }
+
 
             expand(type) {
                 this.type = type;
