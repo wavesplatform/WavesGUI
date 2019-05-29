@@ -2,86 +2,119 @@
 @import (reference) 'icons';
 @import (reference) '../../../app/less/typography';
 
+.section-roadmap {
+  margin: 0 auto;
+  padding: 60px 0 100px;
+  background: @color-white;
+}
+
 w-road-map {
   display: block;
   user-select: none;
+  cursor: move;
 }
 
-.slider {
-  max-width: 798px;
+.roadmap {
+  //max-width: 280px;
+  max-width: 540px;
   position: relative;
   overflow: hidden;
-  margin: 0 auto;
+  margin: 60px auto 0;
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 143px;
+    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+    z-index: 2;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40px;
+    height: 143px;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+    z-index: 2;
+  }
 }
 
-.slider-content {
+.roadmap-content {
   display: flex;
   //position: absolute;
 }
 
-.slide-window {
-  width: 100%;
-  height: 100%;
+
+.roadmap {
   display: flex;
-  justify-content: space-between;
-}
 
+  &-icon {
+    display: inline-flex;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid @color-submit-50;
+    background-color: @color-white;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: visible;
 
-.section-roadmap {
-  margin: 0 auto;
-  padding: 60px 0;
-  background: @color-white;
+    &-wrap {
+      display: flex;
+      justify-items: center;
+      position: relative;
+      margin-bottom: 15px;
+      padding: 0 50px;
+      background: @color-white;
+      z-index: 2;
+    }
+  }
 
-  .roadmap-slider {
+  &-item {
+    flex-basis: 280px;
+    justify-items: center;
+    align-items: center;
     display: flex;
+    flex-direction: column;
+    text-align: center;
+    flex-shrink: 0;
+    padding: 0 25px;
+    z-index: 2;
+    position: relative;
+
     &:after {
       content: '';
       height: 1px;
       background: @color-submit-50;
       width: 100%;
       position: absolute;
-      top: 38px;
+      top: 19px;
       left: 0;
+      z-index: 1;
     }
 
-    &-icon {
-      display: inline-flex;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 2px solid @color-submit-50;
-      background-color: @color-white;
-      background-repeat: no-repeat;
-      background-position: center;
-
-      &-wrap {
-        display: flex;
-        justify-items: center;
-        margin-bottom: 15px;
-        padding: 0 50px;
-        background: @color-white;
-        z-index: 2;
-      }
+    &.absolute {
+      position: absolute;
     }
+  }
 
-    &-item {
-      flex-basis: 280px;
-      justify-items: center;
-      align-items: center;
-      display: flex;
-      flex-direction: column;
-      text-align: center;
-      flex-shrink: 0;
-      padding: 20px 25px;
-      z-index: 2;
+  &-title {
+    font-weight: 400;
+  }
+}
 
-      &.absolute {
-        position: absolute;
-      }
+
+@media screen and (min-width: 860px) {
+  .roadmap {
+    max-width: 1346px;
+    &::before {
+      width: 280px;
     }
-
-    &-title {
-      font-weight: 400;
+    &::after {
+      width: 280px;
     }
   }
 }

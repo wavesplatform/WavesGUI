@@ -1,13 +1,12 @@
-<div class="slider">
-    <div class="slide-window"></div>
-    <div class="slider-content roadmap-slider">
+<div class="roadmap">
+    <div class="roadmap-content roadmap-slider">
         <div ng-repeat="edge in $ctrl.edges track by $index"
-             class="roadmap-slider-item {{::edge.timeWhenMade}}">
-            <div class="roadmap-slider-icon-wrap">
-                <i class="roadmap-slider-icon roadmap-icon-{{::edge.timeWhenMade}}"></i>
+             class="roadmap-item {{::edge.timeWhenMade}}">
+            <div class="roadmap-icon-wrap">
+                <i class="roadmap-icon roadmap-icon-{{::edge.timeWhenMade}}"></i>
             </div>
             <div class="basic-500 body-3" w-i18n="{{::edge.date}}"></div>
-            <h4 class="roadmap-slider-title basic-900 margin-1" w-i18n="{{::edge.title}}"></h4>
+            <h4 class="roadmap-title basic-900 margin-1" w-i18n="{{::edge.title}}"></h4>
             <div class="basic-500 body-2 margin-1" w-i18n="{{::edge.text}}"></div>
         </div>
     </div>
