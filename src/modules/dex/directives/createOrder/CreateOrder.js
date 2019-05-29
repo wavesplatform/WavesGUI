@@ -22,6 +22,7 @@
 
         const { without, keys, last } = require('ramda');
         const { Money } = require('@waves/data-entities');
+        const { BigNumber } = require('@waves/bignumber');
         const ds = require('data-service');
         const analytics = require('@waves/event-sender');
 

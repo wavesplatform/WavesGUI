@@ -13,6 +13,7 @@
 
         const { SIGN_TYPE } = require('@waves/signature-adapter');
         const { WAVES_ID } = require('@waves/signature-generator');
+        const { BigNumber } = require('@waves/bignumber');
         const ds = require('data-service');
         const $ = require('jquery');
         const BASE_64_PREFIX = 'base64:';

@@ -107,6 +107,11 @@
                  * @private
                  */
                 this._dom = null;
+                /**
+                 * @type {boolean}
+                 * @public
+                 */
+                this.isScrolled = false;
 
                 this.receive(dexDataService.showSpread, () => {
                     this._dom.$box.stop().animate({ scrollTop: this._getSpreadScrollPosition() }, 300);
@@ -175,6 +180,11 @@
                     $info: { get: () => this._dom.$box.find(SECTIONS.INFO) },
                     $lastPrice: { get: () => this._dom.$info.find(SECTIONS.LAST_PRICE) },
                     $spread: { get: () => this._dom.$info.find(SECTIONS.SPREAD) }
+                });
+                this._dom.$box.on('scroll', () => {
+                    const scrollPos = this._dom.$box[0].scrollTop;
+                    const spreadPos = this._getSpreadScrollPosition();
+                    this.isScrolled = Math.abs(scrollPos - spreadPos) >= 2;
                 });
             }
 
@@ -470,6 +480,9 @@
 
     angular.module('app.dex').component('wDexOrderBook', {
         templateUrl: 'modules/dex/directives/orderBook/orderBook.html',
+        bindings: {
+            isScrolled: '='
+        },
         controller
     });
 })();

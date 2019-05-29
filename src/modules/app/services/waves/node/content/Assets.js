@@ -3,7 +3,6 @@
     'use strict';
 
     const { Money } = require('@waves/data-entities');
-    const { equals } = require('ramda');
 
     /**
      * @param {BaseNodeComponent} BaseNodeComponent
@@ -21,9 +20,10 @@
             constructor() {
                 super();
                 user.onLogin().then(() => {
-
-                    if (!user.getSetting('withScam')) {
+                    if (user.getSetting('scamListUrl')) {
                         this.stopScam();
+                    } else {
+                        this.giveMyScamBack();
                     }
                 });
             }
@@ -133,9 +133,6 @@
             }
 
             stopScam() {
-                if (this._pollScam) {
-                    return null;
-                }
                 /**
                  * @type {Poll}
                  * @private
@@ -158,7 +155,8 @@
                             }
                         });
                         return hash;
-                    });
+                    })
+                    .catch(() => Object.create(null));
             }
 
             /**
@@ -166,9 +164,7 @@
              * @private
              */
             _setScamAssetList(hash) {
-                if (!equals(hash, user.scam)) {
-                    user.scam = hash;
-                }
+                user.setScam(hash);
             }
 
             /**
@@ -179,17 +175,6 @@
             _getEmptyBalanceList(idList) {
                 return ds.api.assets.get(idList)
                     .then((list) => list.map(asset => new Money(0, asset)));
-            }
-
-            /**
-             * @param props
-             * @return {*}
-             * @private
-             */
-            static _remapAssetProps(props) {
-                props.precision = props.decimals;
-                delete props.decimals;
-                return props;
             }
 
             /**
