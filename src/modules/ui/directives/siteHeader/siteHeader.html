@@ -1,4 +1,4 @@
-<header w-toggle-class-container w-18n-ns="app.signInDex">
+<header w-toggle-class-container w-18n-ns="app.welcome">
     <div class="header-wrapper">
         <span class="logo" ng-if="$ctrl.isLogined" ng-click="$ctrl.toWelcome()"></span>
         <a class="logo logo-header" ng-if="!$ctrl.isLogined" href="/"></a>
@@ -8,29 +8,30 @@
                event="'Menu Exchange Click'"
                class="link-margin link-dex"
                href="/dex-demo"
-               w-i18n="landing.exchange">
+               w-i18n="welcome.exchange">
             </a>
             <a w-analytics event-target="'ui'"
                event="'Menu API Click'"
                class="link-margin"
                href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html"
                target="_blank"
-               w-i18n="landing.api">
+               w-i18n="welcome.api">
             </a>
             <a w-analytics event-target="'ui'"
                event="'Menu Help Click'"
                class="link-margin"
                href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html"
                target="_blank"
-               w-i18n="landing.help">
+               w-i18n="welcome.help">
             </a>
             <a w-analytics event-target="'ui'"
                event="'Menu News Click'"
                class="link-margin"
-               href="https://twitter.com/wavesplatform" target="_blank"
-               w-i18n="landing.news"></a>
+               href="https://twitter.com/wavesplatform"
+               target="_blank"
+               w-i18n="welcome.news"></a>
             <div class="relative dropdown-toggler">
-                <span class="dropdown-btn" w-i18n="landing.download"></span>
+                <span class="dropdown-btn" w-i18n="welcome.download"></span>
                 <div class="dropdown menu-margin">
                     <a w-analytics class="no-border"
                        event-target="'ui'"
@@ -39,8 +40,8 @@
                        target="_blank">
                         <i class="dropdown-icon icon-24 icon-win"></i>
                         <div>
-                            <div w-i18n="landing.windows"></div>
-                            <div class="footnote-1 basic-500" w-i18n="landing.windowsDescription"></div>
+                            <div w-i18n="welcome.windows"></div>
+                            <div class="footnote-1 basic-500" w-i18n="welcome.windowsDescription"></div>
                         </div>
                     </a>
 
@@ -50,8 +51,8 @@
                        target="_blank">
                         <i class="dropdown-icon icon-24 icon-mac"></i>
                         <div>
-                            <div w-i18n="landing.macOs"></div>
-                            <div class="footnote-1 basic-500" w-i18n="landing.macOsDescription"></div>
+                            <div w-i18n="welcome.macOs"></div>
+                            <div class="footnote-1 basic-500" w-i18n="welcome.macOsDescription"></div>
                         </div>
                     </a>
 
@@ -61,8 +62,8 @@
                        target="_blank">
                         <i class="dropdown-icon icon-24 icon-linux"></i>
                         <div>
-                            <div w-i18n="landing.linux"></div>
-                            <div class="footnote-1 basic-500" w-i18n="landing.linuxDescription"></div>
+                            <div w-i18n="welcome.linux"></div>
+                            <div class="footnote-1 basic-500" w-i18n="welcome.linuxDescription"></div>
                         </div>
                     </a>
                 </div>
@@ -76,18 +77,19 @@
         <nav class="mobile-menu">
             <div class="mobile-menu-wrapper">
                 <ul ng-if="!$ctrl.isLogined">
-                    <li><a href="/dex-demo" ng-click="$ctrl.removeBodyClass()" w-i18n="landing.exchange"></a></li>
+                    <li><a href="/dex-demo" ng-click="$ctrl.removeBodyClass()" w-i18n="welcome.exchange"></a></li>
                     <li><a href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html"
                            target="_blank"
-                           w-i18n="landing.api"></a></li>
+                           w-i18n="welcome.api"></a></li>
                     <li><a href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html"
                            target="_blank"
-                           w-i18n="landing.api"></a></li>
+                           w-i18n="welcome.api"></a></li>
                     <li><a href="https://twitter.com/wavesplatform"
                            target="_blank"
-                           w-i18n="landing.news"></a></li>
-                    <li><a class="has-child" w-toggle-class="show-downloads"
-                           w-i18n="landing.download"
+                           w-i18n="welcome.news"></a></li>
+                    <li><a class="has-child"
+                           w-toggle-class="show-downloads"
+                           w-i18n="welcome.download"
                            href="#"></a></li>
                 </ul>
 
@@ -106,21 +108,21 @@
                                 <!--w-help-icon class="avatar-options-list" ng-if="($ctrl.hasTypeHelp)">
                                     <div class="help-icon__row row-keeper" ng-if="$ctrl.isKeeper">
                                         <span class="acount-option-icon"></span>
-                                        <span w-i18n="landing.keeperAccount"></span>
+                                        <span w-i18n="welcome.keeperAccount"></span>
                                     </div>
                                     <div class="help-icon__row row-ledger" ng-if="$ctrl.isLedger">
                                         <span class="acount-option-icon"></span>
-                                        <span w-i18n="landing.ledgerAccount"></span>
+                                        <span w-i18n="welcome.ledgerAccount"></span>
                                     </div>
                                     <div class="help-icon__row row-script" ng-if="$ctrl.isScript">
                                         <span class="acount-option-icon"></span>
-                                        <span w-i18n="landing.scriptAccount"></span>
+                                        <span w-i18n="welcome.scriptAccount"></span>
                                     </div>
                                 </w-help-icon-->
 
                                 <div class="flex mobile-user-info">
                                     <div>
-                                        <div class="body-2 margin-05" style="color: red;">@Lisicinz</div>
+                                        <div class="body-2 margin-05" style="color: red!important;">@Lisicinz</div>
                                         <div>
                                             <w-copy-wrap class="copywrap-default"
                                                          info="::$ctrl.address"
@@ -133,11 +135,11 @@
                             </div>
                         </a>
                     </li>
-                    <li><a href="/dex" w-i18n="landing.exchange"></a></li>
+                    <li><a href="/dex" w-i18n="welcome.exchange"></a></li>
                     <li w-toggle-class="show-wallet">
-                        <a href="#" class="has-child" w-i18n=landing.wallet" w-toggle-class="mobile-menu-inner-expanded"></a>
+                        <a href="#" class="has-child" w-i18n="welcome.wallet" w-toggle-class="mobile-menu-inner-expanded"></a>
                     </li>
-                    <li><a href="/tokens" w-i18n="landing.createToken"></a></li>
+                    <li><a href="/tokens" w-i18n="welcome.createToken"></a></li>
                 </ul>
             </div>
 
@@ -146,37 +148,37 @@
                     <li><a class="menu-link menu-link-menu"
                            w-toggle-class="show-downloads"
                            href="#"
-                           w-i18n="landing.menu"></a></li>
+                           w-i18n="welcome.menu"></a></li>
                     <li><a w-analytics event-target="'ui'"
                            event="'Menu Download Android Click'"
                            href="https://play.google.com/store/apps/details?id=com.wavesplatform.wallet"
                            target="_blank"
-                           w-i18n="landing.apple"></a></li>
+                           w-i18n="welcome.apple"></a></li>
                     <li><a w-analytics event-target="'ui'"
                            event="'Menu Download Apple mobile Click'"
                            href="https://itunes.apple.com/us/app/waves-wallet/id1233158971?mt=8"
                            target="_blank"
-                           w-i18n="landing.android"></a></li>
+                           w-i18n="welcome.android"></a></li>
                 </ul>
             </div>
 
             <div class="mobile-menu-wrapper mobile-menu-wrapper-inner aliases-menu" ng-if="$ctrl.isLogined">
                 <ul>
-                    <li><a class="menu-link menu-link-menu" w-toggle-class="show-aliases" href="#" w-i18n="landing.menu"></a></li>
-                    <li><a class="menu-link menu-link-aliases" href="#" ng-click="$ctrl.avatarClick()" w-i18n="landing.aliases"></a></li>
-                    <li><a class="menu-link menu-link-settings" href="#" ng-click="$ctrl.settings()" w-i18n=landing.settings""></a></li>
-                    <li><a class="menu-link menu-link-logout" ng-click="$ctrl.logout()" href="#" w-i18n="landing.logout"></a></li>
+                    <li><a class="menu-link menu-link-menu" w-toggle-class="show-aliases" href="#" w-i18n="welcome.menu"></a></li>
+                    <li><a class="menu-link menu-link-aliases" href="#" ng-click="$ctrl.avatarClick()" w-i18n="welcome.aliases"></a></li>
+                    <li><a class="menu-link menu-link-settings" href="#" ng-click="$ctrl.settings()" w-i18n="welcome.settings"></a></li>
+                    <li><a class="menu-link menu-link-logout" ng-click="$ctrl.logout()" href="#" w-i18n="welcome.logout"></a></li>
                 </ul>
             </div>
 
             <div class="mobile-menu-wrapper mobile-menu-wrapper-inner wallet-menu" ng-if="$ctrl.isLogined">
                 <ul>
-                    <li><a class="menu-link menu-link-menu" w-toggle-class="show-wallet" href="#" w-i18n=landing.menu""></a></li>
-                    <li><a class="menu-link menu-link-dashboard" href="/wallet/assets" w-i18n="landing.dashboard"></a></li>
-                    <li><a class="menu-link menu-link-portfolio" href="/wallet/portfolio" w-i18n="landing.portfolio"></a></li>
-                    <li><a class="menu-link menu-link-transactions" href="/wallet/transactions" w-i18n="landing.transactions"></a></li>
-                    <li><a class="menu-link menu-link-leasing" href="/wallet/leasing" w-i18n="landing.leasing"></a></li>
-                    <li><a class="menu-link menu-link-logout" ng-click="$ctrl.logout()" href="#" w-i18n="landing.logout"></a></li>
+                    <li><a class="menu-link menu-link-menu" w-toggle-class="show-wallet" href="#" w-i18n="welcome.menu"></a></li>
+                    <li><a class="menu-link menu-link-dashboard" href="/wallet/assets" w-i18n="welcome.dashboard"></a></li>
+                    <li><a class="menu-link menu-link-portfolio" href="/wallet/portfolio" w-i18n="welcome.portfolio"></a></li>
+                    <li><a class="menu-link menu-link-transactions" href="/wallet/transactions" w-i18n="welcome.transactions"></a></li>
+                    <li><a class="menu-link menu-link-leasing" href="/wallet/leasing" w-i18n="welcome.leasing"></a></li>
+                    <li><a class="menu-link menu-link-logout" ng-click="$ctrl.logout()" href="#" w-i18n="welcome.logout"></a></li>
                 </ul>
             </div>
 
@@ -184,44 +186,44 @@
         </nav>
 
         <nav class="top-menu top-menu-wallet" ng-if="$ctrl.isLogined">
-            <a class="link-margin link-dex" href="/dex" w-i18n="landing.exchange"></a>
+            <a class="link-margin link-dex" href="/dex" w-i18n="welcome.exchange"></a>
             <div class="relative dropdown-toggler link-margin">
-                <a class="dropdown-btn link-wallet" href="/wallet/assets" w-i18n="landing.wallet"></a>
+                <a class="dropdown-btn link-wallet" href="/wallet/assets" w-i18n="welcome.wallet"></a>
                 <div class="dropdown">
                     <a class="link-assets no-border" href="/wallet/assets">
                         <i class="dropdown-icon icon-18 icon-dashboard"></i>
                         <div>
-                            <div w-i18n="landing.dashboard"></div>
+                            <div w-i18n="welcome.dashboard"></div>
                         </div>
                     </a>
                     <a class="link-portfolio" href="/wallet/portfolio">
                         <i class="dropdown-icon icon-18 icon-portfolio"></i>
                         <div>
-                            <div w-i18n="landing.portfolio"></div>
+                            <div w-i18n="welcome.portfolio"></div>
                         </div>
                     </a>
                     <a class="link-transactions" href="/wallet/transactions">
                         <i class="dropdown-icon icon-18 icon-transactions"></i>
                         <div>
-                            <div w-i18n="landing.transactions"></div>
+                            <div w-i18n="welcome.transactions"></div>
                         </div>
                     </a>
                     <a class="link-leasing" href="/wallet/leasing">
                         <i class="dropdown-icon icon-18 icon-leasing"></i>
                         <div>
-                            <div w-i18n="landing.leasing"></div>
+                            <div w-i18n="welcome.leasing"></div>
                         </div>
                     </a>
                 </div>
             </div>
-            <a class="link-margin link-tokens" href="/tokens" w-i18n="landing.createToken"></a>
+            <a class="link-margin link-tokens" href="/tokens" w-i18n="welcome.createToken"></a>
         </nav>
 
         <div ng-if="$ctrl.signInBtn || $ctrl.getStartedBtn"
              class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
-            <a class="body-2 margin-right-3 submit-400" ng-if="$ctrl.signInBtn" href="/sign-in" w-i18n="landing.signIn"></a>
+            <a class="body-2 margin-right-3 submit-400" ng-if="$ctrl.signInBtn" href="/sign-in" w-i18n="welcome.signIn"></a>
             <a class="fake-button submit medium" ng-if="$ctrl.getStartedBtn" href="/create">
-                <span w-i18n="landing.getStarted" class="fake-button-content medium submit"></span>
+                <span w-i18n="welcome.getStarted" class="fake-button-content medium submit"></span>
             </a>
         </div>
 
@@ -236,15 +238,15 @@
             <!--w-help-icon class="avatar-options-list" ng-if="($ctrl.hasTypeHelp)">
                 <div class="help-icon__row row-keeper" ng-if="$ctrl.isKeeper">
                     <span class="acount-option-icon"></span>
-                    <span w-i18n="landing.keeperAccount"></span>
+                    <span w-i18n="welcome.keeperAccount"></span>
                 </div>
                 <div class="help-icon__row row-ledger" ng-if="$ctrl.isLedger">
                     <span class="acount-option-icon"></span>
-                    <span w-i18n="landing.ledgerAccount"></span>
+                    <span w-i18n="welcome.ledgerAccount"></span>
                 </div>
                 <div class="help-icon__row row-script" ng-if="$ctrl.isScript">
                     <span class="acount-option-icon"></span>
-                    <span w-i18n="landing.scriptAccount"></span>
+                    <span w-i18n="welcome.scriptAccount"></span>
                 </div>
             </w-help-icon-->
 
@@ -270,19 +272,19 @@
                 <a class="link-aliases" ng-click="$ctrl.avatarClick()">
                     <i class="dropdown-icon icon-18 icon-aliases"></i>
                     <div>
-                        <div w-i18n="landing.aliases"></div>
+                        <div w-i18n="welcome.aliases"></div>
                     </div>
                 </a>
                 <a class="link-settings" ng-click="$ctrl.settings()">
                     <i class="dropdown-icon icon-18 icon-settings"></i>
                     <div>
-                        <div ng-click="$ctrl.settings()" w-i18n="landing.settings"></div>
+                        <div w-i18n="welcome.settings"></div>
                     </div>
                 </a>
                 <a class="link-logout" ng-click="$ctrl.logout()">
                     <i class="dropdown-icon icon-18 icon-logout"></i>
                     <div>
-                        <div w-i18n="landing.logOut"></div>
+                        <div w-i18n="welcome.logOut"></div>
                     </div>
                 </a>
             </div>
