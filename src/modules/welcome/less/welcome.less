@@ -71,6 +71,15 @@ body.welcome {
     }
   }
 
+  .markets-table-description {
+    display: flex;
+    flex-direction: row;
+    a {
+      display: inline-block;
+      margin-left: 4px;
+    }
+  }
+
   .table {
     &-markets {
       border-radius: 4px;
@@ -88,6 +97,7 @@ body.welcome {
       .graph {
         width: 110px;
         height: 36px;
+        line-height: 36px;
         margin-left: 10px;
         position: relative;
       }
@@ -255,6 +265,9 @@ body.welcome {
 
       w-carousel {
         height: 140px;
+        .graph {
+          margin-left: 10px;
+        }
       }
 
       .slider {
@@ -577,12 +590,3 @@ body.welcome {
   }
 }
 
-
-@media screen and (min-width: 1440px) {
-  .header-new-user {
-    header {
-      padding-left: 40px;
-      padding-right: 40px;
-    }
-  }
-}
