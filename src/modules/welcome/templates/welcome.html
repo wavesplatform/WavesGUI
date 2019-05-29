@@ -1,23 +1,19 @@
 <w-site-header class="header-new-user" sign-in-btn="$ctrl.userList.length > 0" get-started-btn="true"></w-site-header>
-<div w-i18n-ns="app.welcome" class="wrapper movable scrolled-view">
+<div w-i18n-ns="app.signInDex" class="wrapper movable scrolled-view">
     <div class="white-bg"></div>
     <section class="section-welcome">
         <div class="section-wrapper">
             <div class="left-side">
-                <h1 class="margin-2 headline-0 welcome-text">Trade on the Waves Decentralised Exchange</h1>
-                <div class="basic-500 body-1 margin-5">
-                    Trade quickly and securely.
-                    You retain complete control over your funds when trading them on our decentralised exchange.
-                </div>
+                <h1 class="margin-2 headline-0 welcome-text" w-i18n="landing.tradeOnWaves"></h1>
+                <div class="basic-500 body-1 margin-5" w-i18n="landing.tradeOnWavesDescription"></div>
                 <div class="buttons-wrapper buttons-wrapper-nowidth">
                     <a class="fake-button get-started-btn" ui-sref="create">
-                        <span class="fake-button-content big submit ">
-                          Get Started
-                          <i class="promo-icon-min promo-icon-arrow-right"></i>
+                        <span class="fake-button-content big submit" w-i18n="landing.getStarted">
+                            <i class="promo-icon-min promo-icon-arrow-right"></i>
                         </span>
                     </a>
                     <a ng-if="$ctrl.userList.length" href="/sign-in" class="fake-button">
-                        <span class="fake-button-content big submit-light">Sign In</span>
+                        <span class="fake-button-content big submit-light" w-i18n="landing.signIn"></span>
                     </a>
                 </div>
             </div>
@@ -81,20 +77,18 @@
     <section class="section-markets">
         <div class="section-wrapper">
 
-            <h2 class="margin-1">Markets</h2>
-            <div class="basic-500 body-2">Lorem Ipsum is not simply random text.
-                It has roots in a piece of classical Latin literature
-            </div>
+            <h2 class="margin-1" w-i18n="landing.markets"></h2>
+            <div class="basic-500 body-2" w-i18n="landing.marketsDescription"></div>
 
             <div class="table-markets margin-top-3 margin-3">
                 <div class="row row-header">
-                    <div class="cell pair">PAIR</div>
-                    <div class="cell last-price">LAST PRICE</div>
-                    <div class="cell change">CHANGE</div>
-                    <div class="cell height24">24 HIGHT</div>
-                    <div class="cell low24">24 LOW</div>
-                    <div class="cell volume">VOLUME</div>
-                    <div class="cell graph">CHART</div>
+                    <div class="cell pair" w-i18n="landing.pair"></div>
+                    <div class="cell last-price" w-i18n="landing.lastPrice"></div>
+                    <div class="cell change" w-i18n="landing.change"></div>
+                    <div class="cell height24" w-i18n="landing.height"></div>
+                    <div class="cell low24" w-i18n="landing.low"></div>
+                    <div class="cell volume" w-i18n="landing.volume"></div>
+                    <div class="cell graph" w-i18n="landing.chart"></div>
                 </div>
 
                 <a ng-repeat="pair in $ctrl.pairsInfoList track by $index"
@@ -127,8 +121,8 @@
 
             </div>
 
-            <div class="center body-2 basic-500">
-                <span>Click <a ui-sref="import">Show all</a> to view the full list of markets</span>
+            <div class="center body-2 basic-500" style="color: red!important">
+                <span w-i18n="">Click</span> <a ui-sref="import">Show all</a> <span>to view the full list of markets</span>
             </div>
         </div>
     </section>
