@@ -2,6 +2,8 @@
 
 .transactions w-scroll-box {
   border-radius: @border-radius;
+  margin: -10px;
+  padding: 10px;
 
   .scroll-list {
     height: 100%;
@@ -42,11 +44,9 @@ w-transaction-list {
     transform: translate3d(0, 0, 0);
 
     ul {
-      .transaction-list-mixin();
       list-style: none;
       margin: 0;
       padding: 0;
-      border-radius: @border-radius;
       transform: translate3d(0, 0, 0);
       height: 100%;
 
@@ -58,15 +58,12 @@ w-transaction-list {
           padding-left: 23px;
           height: 42px;
           text-transform: uppercase;
-          background-color: @color-basic-50;
+          background-color: @app-background;
           font-family: @font-roboto-medium;
           letter-spacing: 2px;
         }
 
         .row {
-          position: relative;
-          transition: all 0.3s;
-
           .w-visible {
             border-bottom: 1px solid @color-basic-50;
           }

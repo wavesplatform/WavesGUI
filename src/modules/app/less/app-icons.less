@@ -87,16 +87,14 @@
   background: url(/img/icons/transaction-warning.svg) center no-repeat;
 }
 
-.btn-send {
-  .btn-icon::before {
-    transition: .3s;
-  }
-}
-
-.btn-receive {
-  svg {
-    transform-origin: center;
-    transform: rotate(-180deg)
+body.assets,
+body.portfolio {
+  .btn-send,
+  .btn-receive {
+    margin-right: 10px;
+    button {
+      padding: 0 30px;
+    }
   }
 }
 

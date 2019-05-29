@@ -3,6 +3,13 @@
 @import (reference) 'config';
 @import (reference) 'icons';
 
+.tx-block-wrapper {
+  border-radius: @border-radius;
+  box-shadow: 0 0 3px 0 rgba(209, 218, 227, 0.5);
+  background: @color-white;
+  overflow: hidden;
+}
+
 .status-label,
 .status-label-min {
   width: auto;
@@ -211,7 +218,7 @@ w-transaction .transaction {
   .transaction-info {
     display: flex;
     flex-direction: row;
-    width: ~'calc(100% - 88px)';
+    width: 100%;
 
     .full-width {
       width: 100%;
