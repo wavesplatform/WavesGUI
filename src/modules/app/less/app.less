@@ -21,12 +21,19 @@ body {
   background-color: @app-background;
 }
 
-body {
-  &.menu-is-shown {
-    .logo,
-    .movable {
-      transition: .25s;
-      transform: translateX(-261px);
+body.dex,
+body.dex-demo {
+  background-color: @dex-background;
+}
+
+@media screen and (max-width: 860px) {
+  body {
+    &.menu-is-shown {
+      .logo-header,
+      .movable {
+        transition: .25s;
+        transform: translateX(-261px);
+      }
     }
   }
 }
@@ -149,7 +156,6 @@ w-scroll-box {
   flex-direction: column;
   overflow: auto;
   height: 100%;
-  background: @color-white;
 }
 
 .btn-active() {

@@ -1,6 +1,6 @@
 @import (reference) url('config');
 
-w-copy-wrap {
+w-copy-wrap:not(.copywrap-default) {
   display: flex;
   align-items: center;
   position: relative;
@@ -50,5 +50,21 @@ w-copy-wrap {
     .copy-icon {
       height: @height-control-big-responsive;
     }
+  }
+}
+
+w-copy-wrap.copywrap-default {
+  position: relative;
+  justify-content: center;
+  display: flex;
+
+  .copy-icon {
+    background: url(/img/icons/copy-14-basic500.svg) center no-repeat;
+    display: block;
+    width: 14px;
+    height: 14px;
+    flex-basis: auto;
+    border: 0 none;
+    cursor: pointer;
   }
 }

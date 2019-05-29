@@ -2,12 +2,16 @@
     <ul ng-if="!$ctrl.pending && $ctrl.transactions.length">
         <li class="transaction-item" ng-repeat="data in $ctrl.transactions track by data.date">
             <div class="date tag-2 info-400">{{ ::data.timestamp | date:'MMM, d, yyyy' }}</div>
-            <div class="row" ng-repeat="transaction in data.transactions track by transaction.id">
-                <w-visible scroll-root-selector="{{::$ctrl.parentSelector}}">
-                    <w-transaction date-pattern="{{::$ctrl.transactionDatePattern}}"
-                                   transaction="transaction"></w-transaction>
-                </w-visible>
+
+            <div class="tx-block-wrapper">
+                <div class="row" ng-repeat="transaction in data.transactions track by transaction.id">
+                    <w-visible scroll-root-selector="{{::$ctrl.parentSelector}}">
+                        <w-transaction date-pattern="{{::$ctrl.transactionDatePattern}}"
+                                       transaction="transaction"></w-transaction>
+                    </w-visible>
+                </div>
             </div>
+
         </li>
     </ul>
     <w-empty-block ng-if="!$ctrl.pending && !$ctrl.transactions.length"></w-empty-block>
