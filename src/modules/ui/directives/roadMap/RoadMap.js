@@ -22,15 +22,15 @@
                 timeWhenMade: 'past'
             },
             {
-                date: 'roadmap.nov2018.date',
-                title: 'roadmap.nov2018.title',
-                text: 'roadmap.nov2018.text',
+                date: 'roadmap.feb2018.date',
+                title: 'roadmap.feb2018.title',
+                text: 'roadmap.feb2018.text',
                 timeWhenMade: 'past'
             },
             {
-                date: 'roadmap.nov2018.date',
-                title: 'roadmap.nov2018.title',
-                text: 'roadmap.nov2018.text',
+                date: 'roadmap.may2018.date',
+                title: 'roadmap.may2018.title',
+                text: 'roadmap.may2018.text',
                 timeWhenMade: 'past'
             },
             {
