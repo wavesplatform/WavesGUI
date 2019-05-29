@@ -2,7 +2,7 @@
     <div class="slide-window"></div>
     <div class="slider-content roadmap-slider">
         <div ng-repeat="edge in $ctrl.edges track by $index"
-             class="roadmap-slider-item">
+             class="roadmap-slider-item {{::edge.timeWhenMade}}">
             <div class="roadmap-slider-icon-wrap">
                 <i class="roadmap-slider-icon roadmap-icon-{{::edge.timeWhenMade}}"></i>
             </div>

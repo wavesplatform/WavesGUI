@@ -15,6 +15,12 @@
 
         class SiteHeaderCtrl extends Base {
 
+            /**
+             * @public
+             * @type {string}
+             */
+            userName;
+
             constructor() {
                 super();
                 this.hovered = false;
@@ -32,6 +38,7 @@
                 if (!this.isLogined) {
                     this.activeState = this.activeState.replace('-demo', '');
                 }
+                this.userName = user.name;
 
                 this.isScript = user.hasScript();
                 this.isKeeper = user.userType === 'wavesKeeper';

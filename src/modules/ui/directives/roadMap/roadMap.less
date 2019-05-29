@@ -4,20 +4,18 @@
 
 w-road-map {
   display: block;
-  max-width: 882px;
-  margin: 0 auto;
-  overflow: hidden;
+  user-select: none;
 }
 
 .slider {
-  overflow: visible;
-  width: 100%;
-  height: 100%;
+  max-width: 798px;
   position: relative;
+  overflow: hidden;
+  margin: 0 auto;
 }
 
 .slider-content {
-  //display: flex;
+  display: flex;
   //position: absolute;
 }
 
@@ -30,14 +28,12 @@ w-road-map {
 
 
 .section-roadmap {
-  padding: 20px 0;
+  margin: 0 auto;
+  padding: 60px 0;
   background: @color-white;
 
   .roadmap-slider {
     display: flex;
-    margin: 40px 0;
-    position: relative;
-
     &:after {
       content: '';
       height: 1px;
