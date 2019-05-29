@@ -1,27 +1,87 @@
+@import (reference) "config";
+@import (reference) 'icons';
+@import (reference) '../../../app/less/typography';
+
 w-road-map {
   display: block;
+  user-select: none;
+}
 
-  .slider {
-    overflow: visible;
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
+.slider {
+  max-width: 798px;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+}
 
-  .slider-content {
+.slider-content {
+  display: flex;
+  //position: absolute;
+}
+
+.slide-window {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.section-roadmap {
+  margin: 0 auto;
+  padding: 60px 0;
+  background: @color-white;
+
+  .roadmap-slider {
     display: flex;
-    position: absolute;
-  }
+    &:after {
+      content: '';
+      height: 1px;
+      background: @color-submit-50;
+      width: 100%;
+      position: absolute;
+      top: 38px;
+      left: 0;
+    }
 
-  .slide-window {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
+    &-icon {
+      display: inline-flex;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid @color-submit-50;
+      background-color: @color-white;
+      background-repeat: no-repeat;
+      background-position: center;
 
-  .edge {
-    width: 250px;
-    height: 170px;
+      &-wrap {
+        display: flex;
+        justify-items: center;
+        margin-bottom: 15px;
+        padding: 0 50px;
+        background: @color-white;
+        z-index: 2;
+      }
+    }
+
+    &-item {
+      flex-basis: 280px;
+      justify-items: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      flex-shrink: 0;
+      padding: 20px 25px;
+      z-index: 2;
+
+      &.absolute {
+        position: absolute;
+      }
+    }
+
+    &-title {
+      font-weight: 400;
+    }
   }
 }
