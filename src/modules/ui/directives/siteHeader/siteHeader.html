@@ -1,4 +1,4 @@
-<header w-toggle-class-container w-18n-ns="app.welcome">
+<header w-toggle-class-container w-i18n-ns="app.welcome">
     <div class="header-wrapper">
         <span class="logo" ng-if="$ctrl.isLogined" ng-click="$ctrl.toWelcome()"></span>
         <a class="logo logo-header" ng-if="!$ctrl.isLogined" href="/"></a>
@@ -137,7 +137,8 @@
                     </li>
                     <li><a href="/dex" w-i18n="welcome.exchange"></a></li>
                     <li w-toggle-class="show-wallet">
-                        <a href="#" class="has-child" w-i18n="welcome.wallet" w-toggle-class="mobile-menu-inner-expanded"></a>
+                        <a href="#" class="has-child" w-i18n="welcome.wallet"
+                           w-toggle-class="mobile-menu-inner-expanded"></a>
                     </li>
                     <li><a href="/tokens" w-i18n="welcome.createToken"></a></li>
                 </ul>
@@ -164,21 +165,30 @@
 
             <div class="mobile-menu-wrapper mobile-menu-wrapper-inner aliases-menu" ng-if="$ctrl.isLogined">
                 <ul>
-                    <li><a class="menu-link menu-link-menu" w-toggle-class="show-aliases" href="#" w-i18n="welcome.menu"></a></li>
-                    <li><a class="menu-link menu-link-aliases" href="#" ng-click="$ctrl.avatarClick()" w-i18n="welcome.aliases"></a></li>
-                    <li><a class="menu-link menu-link-settings" href="#" ng-click="$ctrl.settings()" w-i18n="welcome.settings"></a></li>
-                    <li><a class="menu-link menu-link-logout" ng-click="$ctrl.logout()" href="#" w-i18n="welcome.logout"></a></li>
+                    <li><a class="menu-link menu-link-menu" w-toggle-class="show-aliases" href="#"
+                           w-i18n="welcome.menu"></a></li>
+                    <li><a class="menu-link menu-link-aliases" href="#" ng-click="$ctrl.avatarClick()"
+                           w-i18n="welcome.aliases"></a></li>
+                    <li><a class="menu-link menu-link-settings" href="#" ng-click="$ctrl.settings()"
+                           w-i18n="welcome.settings"></a></li>
+                    <li><a class="menu-link menu-link-logout" ng-click="$ctrl.logout()" href="#"
+                           w-i18n="welcome.logout"></a></li>
                 </ul>
             </div>
 
             <div class="mobile-menu-wrapper mobile-menu-wrapper-inner wallet-menu" ng-if="$ctrl.isLogined">
                 <ul>
-                    <li><a class="menu-link menu-link-menu" w-toggle-class="show-wallet" href="#" w-i18n="welcome.menu"></a></li>
-                    <li><a class="menu-link menu-link-dashboard" href="/wallet/assets" w-i18n="welcome.dashboard"></a></li>
-                    <li><a class="menu-link menu-link-portfolio" href="/wallet/portfolio" w-i18n="welcome.portfolio"></a></li>
-                    <li><a class="menu-link menu-link-transactions" href="/wallet/transactions" w-i18n="welcome.transactions"></a></li>
+                    <li><a class="menu-link menu-link-menu" w-toggle-class="show-wallet" href="#"
+                           w-i18n="welcome.menu"></a></li>
+                    <li><a class="menu-link menu-link-dashboard" href="/wallet/assets" w-i18n="welcome.dashboard"></a>
+                    </li>
+                    <li><a class="menu-link menu-link-portfolio" href="/wallet/portfolio"
+                           w-i18n="welcome.portfolio"></a></li>
+                    <li><a class="menu-link menu-link-transactions" href="/wallet/transactions"
+                           w-i18n="welcome.transactions"></a></li>
                     <li><a class="menu-link menu-link-leasing" href="/wallet/leasing" w-i18n="welcome.leasing"></a></li>
-                    <li><a class="menu-link menu-link-logout" ng-click="$ctrl.logout()" href="#" w-i18n="welcome.logout"></a></li>
+                    <li><a class="menu-link menu-link-logout" ng-click="$ctrl.logout()" href="#"
+                           w-i18n="welcome.logout"></a></li>
                 </ul>
             </div>
 
@@ -221,7 +231,8 @@
 
         <div ng-if="$ctrl.signInBtn || $ctrl.getStartedBtn"
              class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
-            <a class="body-2 margin-right-3 submit-400" ng-if="$ctrl.signInBtn" href="/sign-in" w-i18n="welcome.signIn"></a>
+            <a class="body-2 margin-right-3 submit-400" ng-if="$ctrl.signInBtn" href="/sign-in"
+               w-i18n="welcome.signIn"></a>
             <a class="fake-button submit medium" ng-if="$ctrl.getStartedBtn" href="/create">
                 <span w-i18n="welcome.getStarted" class="fake-button-content medium submit"></span>
             </a>
@@ -253,12 +264,13 @@
             <div class="dropdown">
                 <div class="center">
                     <w-avatar
-                        type="{{$ctrl.userType}}"
-                        ng-click="$ctrl.avatarClick()"
-                        size="40"
-                        class="margin-1 margin-top-2"
-                        address="$ctrl.address"></w-avatar>
-                    <div class="basic-900" style="color: red;">@Lisicinz</div>
+                            type="{{$ctrl.userType}}"
+                            ng-click="$ctrl.avatarClick()"
+                            size="40"
+                            class="margin-1 margin-top-2"
+                            address="$ctrl.address"></w-avatar>
+
+                    <div class="basic-900">{{$ctrl.userName}}</div>
 
                     <w-copy-wrap class="margin-2 copywrap-default"
                                  info="::$ctrl.address"
