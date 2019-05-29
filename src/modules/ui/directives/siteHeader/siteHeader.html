@@ -1,7 +1,7 @@
 <header w-toggle-class-container>
     <div class="header-wrapper">
         <span class="logo" ng-if="$ctrl.isLogined" ng-click="$ctrl.toWelcome()"></span>
-        <a class="logo" ng-if="!$ctrl.isLogined" href="/"></a>
+        <a class="logo logo-header" ng-if="!$ctrl.isLogined" href="/"></a>
 
         <nav class="top-menu top-menu-welcome" ng-if="!$ctrl.isLogined">
             <a w-analytics event-target="'ui'"
