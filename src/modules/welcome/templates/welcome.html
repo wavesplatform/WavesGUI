@@ -12,7 +12,8 @@
                             <i class="promo-icon-min promo-icon-arrow-right"></i>
                         </span>
                     </a>
-                    <a ng-if="$ctrl.userList.length" href="/sign-in" class="fake-button">
+                    <a ng-if="$ctrl.userList.length" href="/sign-in" class="fake-button"
+                        w-analytics event="'Sign In Click'" event-target="ui">
                         <span class="fake-button-content big submit-light" w-i18n="welcome.signIn"></span>
                     </a>
                 </div>

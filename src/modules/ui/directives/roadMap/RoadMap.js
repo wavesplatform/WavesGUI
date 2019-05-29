@@ -16,9 +16,9 @@
         // TODO to config
         const edges = [
             {
-                date: 'roadmap.nov2018.date',
-                title: 'roadmap.nov2018.title',
-                text: 'roadmap.nov2018.text',
+                date: 'roadmap.feb2017.date',
+                title: 'roadmap.feb2017.title',
+                text: 'roadmap.feb2017.text',
                 timeWhenMade: 'past'
             },
             {
