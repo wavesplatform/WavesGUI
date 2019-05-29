@@ -91,7 +91,7 @@
 
                                 <div class="plate-warning server-error" ng-if="$ctrl.gatewayServerError">
                                     <div class="body-2 warning-500"
-                                         w-i18n="modal.receive.serverError"></div>
+                                         w-i18n="modal.receive.{{$ctrl.gatewayServiceKeyName}}.serverError"></div>
                                 </div>
                                 <w-button ng-if="$ctrl.gatewayServerError"
                                           on-click="$ctrl.updateGatewayAddress()"

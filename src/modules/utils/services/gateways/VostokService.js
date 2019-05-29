@@ -7,6 +7,8 @@
 
     const PATH = `${WavesApp.network.vostok.gateway}/api/v1`;
 
+    const KEY_NAME_PREFIX = 'vostok';
+
     /**
      * @returns {VostokService}
      */
@@ -23,7 +25,8 @@
                 if (GATEWAYS[asset.id]) {
                     return {
                         deposit: true,
-                        withdraw: true
+                        withdraw: true,
+                        keyName: true
                     };
                 }
             }
@@ -89,7 +92,14 @@
              * @return {string}
              */
             getAssetKeyName(asset) {
-                return `${GATEWAYS[asset.id].gateway}`;
+                return `${KEY_NAME_PREFIX}${GATEWAYS[asset.id].gateway}`;
+            }
+
+            /**
+             * @return {string}
+             */
+            getServiceKeyName() {
+                return KEY_NAME_PREFIX;
             }
 
             /**
