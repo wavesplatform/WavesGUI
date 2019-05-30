@@ -91,6 +91,12 @@
                            w-toggle-class="show-downloads"
                            w-i18n="welcome.download"
                            href="#"></a></li>
+                    <li><a class="sign-in-link"
+                           ng-click="$ctrl.removeBodyClass()"
+                           href="/sign-in" w-i18n="welcome.signIn"></a></li>
+                    <li><a class="get-started-link"
+                           ng-click="$ctrl.removeBodyClass()"
+                           href="/create" w-i18n="welcome.getStarted"></a></li>
                 </ul>
 
                 <ul ng-if="$ctrl.isLogined">
@@ -122,7 +128,7 @@
 
                                 <div class="flex mobile-user-info">
                                     <div>
-                                        <div class="body-2 margin-05" style="color: red!important;">@Lisicinz</div>
+                                        <div class="body-2 margin-05">{{::$ctrl.userName}}</div>
                                         <div>
                                             <w-copy-wrap class="copywrap-default"
                                                          info="::$ctrl.address"
@@ -141,6 +147,8 @@
                            w-toggle-class="mobile-menu-inner-expanded"></a>
                     </li>
                     <li><a href="/tokens" w-i18n="welcome.createToken"></a></li>
+                    <li><a class="menu-link menu-link-logout" ng-click="$ctrl.logout()" href="#"
+                           w-i18n="welcome.logout"></a></li>
                 </ul>
             </div>
 
@@ -160,6 +168,8 @@
                            href="https://itunes.apple.com/us/app/waves-wallet/id1233158971?mt=8"
                            target="_blank"
                            w-i18n="welcome.android"></a></li>
+                    <li><a class="menu-link menu-link-logout" ng-click="$ctrl.logout()" href="#"
+                           w-i18n="welcome.logout"></a></li>
                 </ul>
             </div>
 
