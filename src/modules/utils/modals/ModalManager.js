@@ -34,6 +34,9 @@
             HEADER: 'modules/utils/modals/templates/header.modal.html'
         };
 
+        /**
+         * @class ModalManager
+         */
         class ModalManager {
 
             constructor() {

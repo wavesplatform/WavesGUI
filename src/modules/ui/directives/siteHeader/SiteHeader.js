@@ -81,6 +81,31 @@
                 }
             }
 
+            /**
+             * public
+             */
+            toWelcome() {
+                if (this.isLogined) {
+                    return modalManager.showConfirmLogout().then(() => {
+                        user.logout('welcome');
+                    });
+                }
+            }
+
+            /**
+             * public
+             */
+            removeBodyClass() {
+                $document.find('body').removeClass('menu-is-shown');
+            }
+
+            /**
+             * @param type
+             * @param success
+             * @param error
+             * @return {Promise}
+             * @private
+             */
             _getDialogModal(type, success, error) {
                 return modalManager.showDialogModal({
                     iconClass: `${type.replace(/\./g, '-')}-account-info`,
@@ -100,24 +125,6 @@
                         }
                     ]
                 });
-            }
-
-            /**
-             * public
-             */
-            toWelcome() {
-                if (this.isLogined) {
-                    return modalManager.showConfirmLogout().then(() => {
-                        user.logout();
-                    });
-                }
-            }
-
-            /**
-             * public
-             */
-            removeBodyClass() {
-                $document.find('body').removeClass('menu-is-shown');
             }
 
             /**
