@@ -35,9 +35,12 @@
                 this.menuList = stateManager.getStateTree();
                 this.activeState = $state.$current.name.slice($state.$current.name.lastIndexOf('.') + 1);
                 this.userType = user.userType;
+
                 if (!this.isLogined) {
                     this.activeState = this.activeState.replace('-demo', '');
                 }
+
+                this.isDesktop = WavesApp.isDesktop();
                 this.userName = user.name;
 
                 this.isScript = user.hasScript();

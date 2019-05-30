@@ -30,7 +30,7 @@
                href="https://twitter.com/wavesplatform"
                target="_blank"
                w-i18n="welcome.news"></a>
-            <div class="relative dropdown-toggler">
+            <div class="relative dropdown-toggler" ng-if="!$ctrl.isDesktop">
                 <span class="dropdown-btn" w-i18n="welcome.download"></span>
                 <div class="dropdown menu-margin">
                     <a w-analytics class="no-border"
@@ -73,6 +73,7 @@
         <div class="mobile-menu-toggler">
             <span></span>
         </div>
+
 
         <nav class="mobile-menu">
             <div class="mobile-menu-wrapper">
