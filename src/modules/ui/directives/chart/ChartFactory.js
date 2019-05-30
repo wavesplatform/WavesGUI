@@ -9,7 +9,7 @@
 
         const { Money } = require('@waves/data-entities');
         const tsUtils = require('ts-utils');
-        const SCALE = 3;
+        const SCALE = devicePixelRatio || 1;
 
         class ChartFactory extends Base {
 
