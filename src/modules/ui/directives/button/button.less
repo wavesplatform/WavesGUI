@@ -27,6 +27,10 @@ w-button {
     width: 100%;
   }
 
+  .fake-button-content {
+    display: block;
+  }
+
   .fake-button-content,
   & > * {
     transition: all 0.3s;
@@ -34,9 +38,27 @@ w-button {
     padding: 0;
     border: 0 none;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+    &.tiny {
+      font-size: @font-size-control-tiny;
+      padding: @padding-control-tiny;
+    }
+
+    &.small {
+      font-size: @font-size-control-small;
+      padding: @padding-control-button-small;
+    }
+
+    &.big {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      height: @height-control-big;
+      font-size: @font-size-control-big;
+      font-family: @font-roboto-medium;
+    }
 
     background-color: @color-white;
     box-shadow: 0 0 0 1px @color-basic-200 inset;
@@ -74,6 +96,11 @@ w-button {
       line-height: 42px;
     }
 
+    &.micro {
+      font-size: @font-size-control-micro;
+      padding: @padding-control-button-micro;
+    }
+
     &.big {
       font-family: @font-roboto-medium;
       font-size: 17px;
@@ -84,6 +111,22 @@ w-button {
         height: @height-control-big-responsive;
         line-height: @height-control-big-responsive;
         font-size: @font-size-control-big-responsive;
+      }
+    }
+
+    &.micro {
+      background-color: @color-white;
+      border: 1px solid @color-basic-100;
+      color: @color-basic-700;
+
+      &:hover, &.hover {
+        border-color: @color-submit-300;
+        color: @color-basic-700;
+      }
+
+      &:disabled, &.disabled {
+        border: 1px solid @color-accent-50;
+        color: @color-basic-500;
       }
     }
 
@@ -212,6 +255,18 @@ w-button {
       &.bordered {
         box-shadow: none;
         border: 1px solid @color-basic-100;
+      }
+    }
+  }
+
+  &:active, &.active {
+    &:not(.transparent) {
+      .micro {
+        &,
+        &:hover {
+          border-color: @color-submit-300;
+          color: @color-submit-300;
+        }
       }
     }
   }

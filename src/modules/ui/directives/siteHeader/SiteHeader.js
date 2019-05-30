@@ -5,13 +5,23 @@
      * @param Base
      * @param {StateManager} stateManager
      * @param {ModalManager} modalManager
+     * @param {app.utils} utils
+     * @param $scope
      * @param {User} user
      * @param {$state} $state
      * @param {JQuery} $document
      * @param {JQuery} $element
      * @return {SiteHeader}
      */
-    const controller = function (Base, stateManager, modalManager, user, $state, $element, $document) {
+    const controller = function (Base,
+                                 stateManager,
+                                 modalManager,
+                                 user,
+                                 $state,
+                                 $element,
+                                 $document,
+                                 utils,
+                                 $scope) {
 
         class SiteHeaderCtrl extends Base {
 
@@ -20,6 +30,11 @@
              * @type {string}
              */
             userName;
+            /**
+             * @private
+             * @type {Array}
+             */
+            userList = [];
 
             constructor() {
                 super();
@@ -48,6 +63,14 @@
                 this.isLedger = user.userType === 'ledger';
 
                 this.hasTypeHelp = this.isScript && (this.isLedger || this.isKeeper);
+
+                user.getFilteredUserList().then(list => {
+                    this.userList = list;
+                    utils.postDigest($scope).then(() => {
+                        $scope.$apply();
+                    });
+                });
+
                 this._initClickHandlers();
             }
 
@@ -146,7 +169,17 @@
         return new SiteHeaderCtrl();
     };
 
-    controller.$inject = ['Base', 'stateManager', 'modalManager', 'user', '$state', '$element', '$document'];
+    controller.$inject = [
+        'Base',
+        'stateManager',
+        'modalManager',
+        'user',
+        '$state',
+        '$element',
+        '$document',
+        'utils',
+        '$scope'
+    ];
 
     angular.module('app.ui').component('wSiteHeader', {
         bindings: {
