@@ -168,25 +168,25 @@
                         </w-input-container>
 
                         <div class="field-buttons">
-                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.25), disabled:!$ctrl.hasBalance()}"
+                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.25)}"
                                       on-click="$ctrl.setAmountByBalance(0.25)"
                                       class="micro"
                                       disabled="!$ctrl.hasBalance()">
-                                <span>25%</span>
+                                <span class="button">25%</span>
                             </w-button>
-                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.5), disabled:!$ctrl.hasBalance()}"
+                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.5)}"
                                       on-click="$ctrl.setAmountByBalance(0.5)"
                                       class="micro"
                                       disabled="!$ctrl.hasBalance()">
                                 <span class="button">50%</span>
                             </w-button>
-                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.75), disabled:!$ctrl.hasBalance()}"
+                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.75)}"
                                       on-click="$ctrl.setAmountByBalance(0.75)"
                                       class="micro"
                                       disabled="!$ctrl.hasBalance()">
                                 <span class="button">75%</span>
                             </w-button>
-                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(1), disabled:!$ctrl.hasBalance()}"
+                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(1)}"
                                       on-click="$ctrl.setAmountByBalance(1)"
                                       class="micro"
                                       disabled="!$ctrl.hasBalance()">
