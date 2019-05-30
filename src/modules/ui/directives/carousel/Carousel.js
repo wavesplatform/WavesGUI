@@ -194,13 +194,13 @@
              */
             _move() {
                 const lastPos = last(this._coords);
-                return Promise.all(this.content.toArray().map(element => {
-                    const $element = $(element);
-                    const start = $element.data('translate');
+                return Promise.all(this.content.toArray().map(slide => {
+                    const $slide = $(slide);
+                    const start = $slide.data('translate');
                     const duration = 1000;
                     const newPos = start - this.diff;
-                    $element.prop('progress', 0);
-                    $element.data('translate', newPos);
+                    $slide.prop('progress', 0);
+                    $slide.data('translate', newPos);
                     let opacity;
                     switch (true) {
                         case (newPos < -this.diff || newPos > this._coords[this.slidesAmount + 1]):
@@ -213,19 +213,19 @@
                             opacity = 1;
                             break;
                     }
-                    return utils.animate($element, {
+                    return utils.animate($slide, {
                         opacity,
                         progress: 1
                     }, {
                         duration: duration,
                         step: progress => {
                             const translate = start + ((newPos - start) * progress);
-                            $element.css('transform', `translateX(${translate}px)`);
+                            $slide.css('transform', `translateX(${translate}px)`);
                         },
                         complete: () => {
                             if (newPos < -this.diff) {
-                                $element.css('transform', `translateX(${lastPos}px)`);
-                                $element.data('translate', lastPos);
+                                $slide.css('transform', `translateX(${lastPos}px)`);
+                                $slide.data('translate', lastPos);
                             }
                         }
                     });

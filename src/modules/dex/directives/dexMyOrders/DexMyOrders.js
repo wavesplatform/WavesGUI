@@ -73,6 +73,10 @@
              */
             showAnims = false;
 
+            /**
+             * @private
+             */
+            _userList = [];
 
             constructor() {
                 super();
@@ -158,6 +162,10 @@
                     this.receive(dexDataService.createOrder, () => poll.restart());
                     this.poll = poll;
                 }
+
+                user.getFilteredUserList().then(list => {
+                    this._userList = list;
+                });
             }
 
             /**
