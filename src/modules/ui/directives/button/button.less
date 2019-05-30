@@ -39,6 +39,11 @@ w-button {
       padding: @padding-control-tiny;
     }
 
+    &.micro {
+      font-size: @font-size-control-micro;
+      padding: @padding-control-button-micro;
+    }
+
     &.small {
       font-size: @font-size-control-small;
       padding: @padding-control-button-small;
@@ -80,6 +85,22 @@ w-button {
       &:disabled, &.disabled {
         border: 1px solid @color-basic-200;
         color: @color-basic-200;
+      }
+
+      &.micro {
+        background-color: @color-white;
+        border: 1px solid @color-basic-100;
+        color: @color-basic-700;
+
+        &:hover, &.hover {
+          border-color: @color-submit-300;
+          color: @color-basic-700;
+        }
+
+        &:disabled, &.disabled {
+          border: 1px solid @color-accent-50;
+          color: @color-basic-500;
+        }
       }
     }
 
@@ -212,6 +233,18 @@ w-button {
       background: transparent;
       border: 1px solid @color-white;
       color: @color-white;
+    }
+  }
+
+  &:active, &.active {
+    &:not(.transparent) {
+      .micro {
+        &,
+        &:hover {
+          border-color: @color-submit-300;
+          color: @color-submit-300;
+        }
+      }
     }
   }
 }
