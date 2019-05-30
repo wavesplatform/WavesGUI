@@ -3,6 +3,7 @@
     'use strict';
 
     const { equals } = require('ramda');
+    const { utils: generatorUtils } = require('@waves/signature-generator');
 
     /* global
         Mousetrap
@@ -422,7 +423,7 @@
              */
             getUserList() {
                 return storage.onReady().then(() => storage.load('userList'))
-                    .then((list) => {
+                    .then(list => {
                         list = list || [];
 
                         list.sort((a, b) => {
@@ -432,6 +433,14 @@
 
                         return list;
                     });
+            }
+
+            /**
+             * @return {Promise}
+             */
+            getFilteredUserList() {
+                return this.getUserList()
+                    .then(list => list.filter(user => generatorUtils.crypto.isValidAddress(user.address)));
             }
 
             removeUserByAddress(removeAddress) {
