@@ -323,6 +323,25 @@
 
                 let waiting = false;
 
+                let userType = 'unknown';
+
+                const data = {
+                    platform: WavesApp.type,
+                    networkByte: ds.config.get('code'),
+                    userType
+                };
+
+                Object.defineProperty(data, 'userType', {
+                    get: () => userType,
+                    set: v => {
+                        userType = v;
+                    }
+                });
+
+                analytics.init(WavesApp.analyticsIframe, data);
+
+                analytics.activate();
+
                 const stop = $rootScope.$on('$stateChangeStart', (event, toState, params, fromState) => {
 
                     let tryDesktop;
@@ -380,6 +399,8 @@
                         .then(() => {
                             stop();
 
+                            userType = user.userType;
+
                             this._stopListenChangeLanguage();
                             if (START_STATES.indexOf(toState.name) === -1) {
                                 $state.go(toState.name, params);
@@ -417,19 +438,12 @@
                     storage.load('needReadNewTerms'),
                     storage.load('termsAccepted')
                 ]).then(([needReadNewTerms, termsAccepted]) => {
-                    const autoPromise = (promise) => {
-                        return promise.then(() => {
-                            analytics.activate();
-                        })
-                            .catch(() => false);
-                    };
+
                     if (needReadNewTerms) {
-                        return autoPromise(modalManager.showAcceptNewTerms(user));
+                        return modalManager.showAcceptNewTerms(user);
 
                     } else if (!termsAccepted) {
-                        return autoPromise(modalManager.showTermsAccept(user));
-                    } else {
-                        analytics.activate();
+                        return modalManager.showTermsAccept(user);
                     }
                     return Promise.resolve();
                 });
