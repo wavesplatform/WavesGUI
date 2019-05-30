@@ -136,6 +136,13 @@
             }
 
             /**
+             * @public
+             */
+            goToDexDemo(pairAssets) {
+                angularUtils.openDex(pairAssets.assetId1, pairAssets.assetId2, 'dex-demo');
+            }
+
+            /**
              * @private
              */
             _initPairs() {

@@ -138,6 +138,13 @@
             }
 
             /**
+             * @public
+             */
+            goToDexDemo(pairAssets) {
+                utils.openDex(pairAssets.assetId1, pairAssets.assetId2, 'dex-demo');
+            }
+
+            /**
              * @private
              */
             _remapSlides() {

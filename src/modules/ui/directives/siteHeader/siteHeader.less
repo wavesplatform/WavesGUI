@@ -41,7 +41,7 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    background-color: @color-basic-700;
+    background-color: @mobile-menu-border;
     opacity: .5;
   }
 
@@ -142,7 +142,7 @@
       right: -261px;
       transition: .25s;
       height: 100%;
-      background: @color-basic-900;
+      background: @mobile-menu-background;
       width: 261px;
       top: 0;
       min-height: 250px;
@@ -157,7 +157,7 @@
     }
 
     a {
-      color: @color-white;
+      color: @mobile-menu-link;
       transition: .3s;
       line-height: 50px;
       display: flex;
@@ -167,7 +167,7 @@
       position: relative;
 
       &.menu-link-menu {
-        background: fadein(@color-basic-700, 80%);
+        background: @mobile-menu-background-hover;
       }
 
       &::before {
@@ -175,8 +175,8 @@
       }
 
       &:hover {
-        color: @color-white;
-        background: fadein(@color-basic-700, 80%);
+        color: @mobile-menu-link-hover;
+        background: @mobile-menu-background-hover;
       }
 
       &.has-child {

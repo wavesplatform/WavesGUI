@@ -92,7 +92,7 @@
                     const userSettings = user.getSettingsByUser(this.user);
                     const activeUser = { ...this.user, password: this.password, settings: userSettings };
                     const api = ds.signature.getDefaultSignatureApi(activeUser);
-                    const adapterAvailablePromise = api.isAvailable();
+                    const adapterAvailablePromise = api.isAvailable(true);
 
                     let canLoginPromise;
 
