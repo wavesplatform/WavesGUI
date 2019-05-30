@@ -181,11 +181,18 @@ w-create-order {
   .create-order {
     position: relative;
 
-    input {
-      color: @color-disabled-900;
-      background: @color-white;
-    }
+    w-input {
+      .w-input-wrap {
+        input {
+          color: @color-disabled-900;
+          background: @color-white;
 
+          &[type="text"].tiny {
+            padding: 0;
+          }
+        }
+      }
+    }
     .head {
       align-items: center;
       width: 100%;

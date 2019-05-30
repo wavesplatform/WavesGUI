@@ -26,6 +26,7 @@
                 this.hovered = false;
                 this.address = user.address || '3PHBX4uXhCyaANUxccLHNXw3sqyksV7YnDz';
                 this.isLogined = !!user.address;
+                this.userName = user.name;
                 this.receive(stateManager.changeRouteState, () => {
                     this.subStateList = stateManager.subStateList;
                     this.rootStateList = stateManager.rootStateList;
@@ -41,7 +42,6 @@
                 }
 
                 this.isDesktop = WavesApp.isDesktop();
-                this.userName = user.name;
 
                 this.isScript = user.hasScript();
                 this.isKeeper = user.userType === 'wavesKeeper';
