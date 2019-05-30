@@ -13,7 +13,8 @@
     <w-error-block ng-if="$ctrl.loadingError"></w-error-block>
 
     <div class="sign-in-message" ng-if="$ctrl.isDemo">
-        <a ui-sref="{{$ctrl._userList.length > 0 ? 'signIn' : 'welcome'}}" class="link" w-i18n="directives.demo.signIn"></a>
+        <a ng-if="$ctrl.userList.length > 0" ui-sref="signIn" class="link" w-i18n="directives.demo.signIn"></a>
+        <a ng-if="!($ctrl.userList.length > 0)" ui-sref="welcome" class="link" w-i18n="directives.demo.signIn"></a>
         <span w-i18n="directives.demo.or"></span>
         <a ui-sref="create" class="link" w-i18n="directives.demo.createAccount"></a>
         <span w-i18n="directives.demo.to.openorders"></span>
