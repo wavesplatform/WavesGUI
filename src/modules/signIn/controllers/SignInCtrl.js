@@ -135,6 +135,9 @@
                 const user = this.userList.find((user) => user.address === address);
                 modalManager.showConfirmDeleteUser(user).then(() => {
                     this._deleteUser(address);
+                    if (!this.userList.length) {
+                        $state.go('welcome');
+                    }
                 });
             }
 
