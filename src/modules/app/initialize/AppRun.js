@@ -418,13 +418,15 @@
                                     this._modalRouter.initialize();
                                 });
 
-                            $rootScope.$on('$stateChangeStart', (event, current) => {
+                            const off = $rootScope.$on('$stateChangeStart', (event, current) => {
                                 if (START_STATES.indexOf(current.name) !== -1) {
                                     event.preventDefault();
                                 } else {
                                     state.signals.changeRouterStateStart.dispatch(event);
                                 }
                             });
+
+                            user.onLogout.once(off);
                         });
                 });
             }

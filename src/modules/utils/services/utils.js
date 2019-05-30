@@ -924,7 +924,7 @@
              * @param {string} asset1
              * @param {string} [asset2]
              */
-            openDex(asset1, asset2) {
+            openDex(asset1, asset2, dex = 'dex') {
                 /**
                  * @type {$state}
                  */
@@ -934,7 +934,7 @@
                         return utils.openDex(asset1);
                     }
                     setTimeout(() => {
-                        $state.go('main.dex', { assetId1: asset1, assetId2: asset2 });
+                        $state.go(`main.${dex}`, { assetId1: asset1, assetId2: asset2 });
                     }, 50);
                     return null;
                 }
@@ -944,7 +944,7 @@
                     asset2 = WavesApp.defaultAssets.WAVES;
                 }
                 setTimeout(() => {
-                    $state.go('main.dex', { assetId1: asset1, assetId2: asset2 });
+                    $state.go(`main.${dex}`, { assetId1: asset1, assetId2: asset2 });
                 }, 50);
             },
 
