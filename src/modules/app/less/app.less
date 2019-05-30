@@ -131,6 +131,17 @@ body.dex-demo {
   }
 }
 
+body.assets,
+body.portfolio {
+  .btn-send,
+  .btn-receive {
+    margin-right: 10px;
+    button {
+      padding: 0 30px;
+    }
+  }
+}
+
 ui-view[name="main"] {
   position: relative;
   width: 100%;
@@ -170,6 +181,8 @@ w-scroll-box {
   background-color: @color-disabled-100;
   color: @color-black;
 }
+
+
 
 .main-content {
   transition: .5s;
@@ -319,5 +332,15 @@ w-scroll-box {
 
   .get-started-checkbox-save {
     margin: 20px 0 30px;
+  }
+
+  body.assets,
+  body.portfolio {
+    .btn-send,
+    .btn-receive {
+      button {
+        padding: 0 30px;
+      }
+    }
   }
 }

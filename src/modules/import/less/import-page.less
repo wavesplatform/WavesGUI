@@ -27,10 +27,6 @@
   }
 
   .import-modal {
-    &__blocks-wrapper {
-      flex-direction: column;
-    }
-
     &__block {
       flex-basis: 100%;
       max-width: 100%;
@@ -48,10 +44,12 @@
 }
 
 @media screen and (min-width: 480px) {
-  .import-modal__block {
-    max-width: 235px;
-    padding: 40px 30px;
-    margin-top: 50px;
+  .import-content-ledger {
+    .import-modal__block {
+      max-width: 235px;
+      padding: 40px 30px;
+      margin-top: 50px;
+    }
   }
 
   .import-footer {
