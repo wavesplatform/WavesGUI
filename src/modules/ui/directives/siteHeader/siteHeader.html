@@ -277,7 +277,6 @@
         <div ng-if="$ctrl.isLogined" class="avatar-container dropdown-toggler has-helper">
             <w-analytics event="'Account Picture Click'" event-target="'ui'">
                 <w-avatar type="{{$ctrl.userType}}"
-                          ng-click="$ctrl.avatarClick()"
                           size="36"
                           address="$ctrl.address"></w-avatar>
             </w-analytics>
@@ -301,7 +300,6 @@
                 <div class="center">
                     <w-avatar
                             type="{{$ctrl.userType}}"
-                            ng-click="$ctrl.avatarClick()"
                             size="40"
                             class="margin-1 margin-top-2"
                             address="$ctrl.address"></w-avatar>
@@ -332,7 +330,7 @@
                 <a class="link-logout" ng-click="$ctrl.logout()">
                     <i class="dropdown-icon icon-18 icon-logout"></i>
                     <div>
-                        <div w-i18n="welcome.logOut"></div>
+                        <div w-i18n-ns="app.welcome" w-i18n="welcome.logout"></div>
                     </div>
                 </a>
             </div>
