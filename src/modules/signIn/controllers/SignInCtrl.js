@@ -92,7 +92,7 @@
                     const userSettings = user.getSettingsByUser(this.user);
                     const activeUser = { ...this.user, password: this.password, settings: userSettings };
                     const api = ds.signature.getDefaultSignatureApi(activeUser);
-                    const adapterAvailablePromise = api.isAvailable();
+                    const adapterAvailablePromise = api.isAvailable(true);
 
                     let canLoginPromise;
 
@@ -135,6 +135,9 @@
                 const user = this.userList.find((user) => user.address === address);
                 modalManager.showConfirmDeleteUser(user).then(() => {
                     this._deleteUser(address);
+                    if (!this.userList.length) {
+                        $state.go('welcome');
+                    }
                 });
             }
 

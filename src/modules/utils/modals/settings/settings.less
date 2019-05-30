@@ -50,7 +50,7 @@ md-dialog.settings-modal {
   w-responsive-menu {
     width: 199px;
     height: 100%;
-    position: fixed;
+    position: absolute;
     font-size: 15px;
     border-right: 1px solid @color-disabled-200;
 
@@ -467,13 +467,13 @@ md-dialog.settings-modal {
     }
 
     w-responsive-menu {
-      width: calc(100% ~'+ 40px');
+      width: 100%;
       min-width: 360px;
       border-bottom: 1px solid @color-accent-50;
       left: 0;
       top: 79px;
       position: fixed;
-      margin: -20px -10px 0 -20px;
+      margin-top: -20px;
       border-right: 0 none;
       height: auto;
       transition: .3s;
@@ -528,6 +528,7 @@ md-dialog.settings-modal {
           align-items: center;
           width: 30px;
           height: 30px;
+          -webkit-appearance: button-bevel;
 
           .dots {
             width: 16px;

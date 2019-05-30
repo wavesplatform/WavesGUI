@@ -14,7 +14,8 @@
         'networkError',
         'changeScript',
         'setScamSignal',
-        'scam'
+        'scam',
+        'onLogout'
     ];
 
     /**
@@ -27,7 +28,7 @@
      * @param {TimeLine} timeLine
      * @param {$injector} $injector
      * @param {app.utils} utils
-     * @param {/} themes
+     * @param {*} themes
      * @return {User}
      */
     const factory = function (storage,
@@ -46,6 +47,9 @@
         const { Money } = require('@waves/data-entities');
         const analytics = require('@waves/event-sender');
 
+        /**
+         * @class User
+         */
         class User {
 
             /**
@@ -55,6 +59,10 @@
                 return this._settings.change;
             }
 
+            /**
+             * @type {Signal<{}>}
+             */
+            onLogout = new tsUtils.Signal();
             /**
              * @type {boolean}
              */
@@ -378,11 +386,27 @@
                 });
             }
 
-            logout() {
-                if (WavesApp.isDesktop()) {
-                    transfer('reload');
+            /**
+             * @param {string} [stateName]
+             */
+            logout(stateName) {
+                this.onLogout.dispatch({});
+
+                const applyLogout = () => { // TODO DEXW-1740
+                    if (WavesApp.isDesktop()) {
+                        transfer('reload');
+                    } else {
+                        window.location.reload();
+                    }
+                };
+
+                if (stateName) { // TODO DEXW-1740
+                    state.signals.changeRouterStateSuccess.once(
+                        () => requestAnimationFrame(applyLogout)
+                    );
+                    $state.go(stateName, { logout: true });
                 } else {
-                    window.location.reload();
+                    applyLogout();
                 }
             }
 
@@ -541,12 +565,6 @@
                             } else if (item[propertyName] != null) {
                                 this[propertyName] = item[propertyName];
                             }
-                        });
-
-                        analytics.init(WavesApp.analyticsIframe, {
-                            platform: WavesApp.type,
-                            userType: data.userType,
-                            networkByte: ds.config.get('code')
                         });
 
                         this.lastLogin = Date.now();

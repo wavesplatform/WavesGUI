@@ -26,6 +26,7 @@
                 this.hovered = false;
                 this.address = user.address || '3PHBX4uXhCyaANUxccLHNXw3sqyksV7YnDz';
                 this.isLogined = !!user.address;
+                this.userName = user.name;
                 this.receive(stateManager.changeRouteState, () => {
                     this.subStateList = stateManager.subStateList;
                     this.rootStateList = stateManager.rootStateList;
@@ -35,10 +36,12 @@
                 this.menuList = stateManager.getStateTree();
                 this.activeState = $state.$current.name.slice($state.$current.name.lastIndexOf('.') + 1);
                 this.userType = user.userType;
+
                 if (!this.isLogined) {
                     this.activeState = this.activeState.replace('-demo', '');
                 }
-                this.userName = user.name;
+
+                this.isDesktop = WavesApp.isDesktop();
 
                 this.isScript = user.hasScript();
                 this.isKeeper = user.userType === 'wavesKeeper';
@@ -81,6 +84,31 @@
                 }
             }
 
+            /**
+             * public
+             */
+            toWelcome() {
+                if (this.isLogined) {
+                    return modalManager.showConfirmLogout().then(() => {
+                        user.logout('welcome');
+                    });
+                }
+            }
+
+            /**
+             * public
+             */
+            removeBodyClass() {
+                $document.find('body').removeClass('menu-is-shown');
+            }
+
+            /**
+             * @param type
+             * @param success
+             * @param error
+             * @return {Promise}
+             * @private
+             */
             _getDialogModal(type, success, error) {
                 return modalManager.showDialogModal({
                     iconClass: `${type.replace(/\./g, '-')}-account-info`,
@@ -100,24 +128,6 @@
                         }
                     ]
                 });
-            }
-
-            /**
-             * public
-             */
-            toWelcome() {
-                if (this.isLogined) {
-                    return modalManager.showConfirmLogout().then(() => {
-                        user.logout();
-                    });
-                }
-            }
-
-            /**
-             * public
-             */
-            removeBodyClass() {
-                $document.find('body').removeClass('menu-is-shown');
             }
 
             /**

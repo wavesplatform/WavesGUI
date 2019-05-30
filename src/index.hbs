@@ -586,17 +586,24 @@
             id: 'root',
             children: [
                 {
-                    id: 'welcome',
+                    id: 'signIn',
                     data: {
-                        url: '/',
+                        url: '/sign-in',
                         noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },
                 {
-                    id: 'signIn',
+                    id: 'unavailable',
                     data: {
-                        url: '/sign-in',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'welcome',
+                    data: {
+                        url: '/',
                         noLogin: true,
                         views: [{ name: 'main' }]
                     }

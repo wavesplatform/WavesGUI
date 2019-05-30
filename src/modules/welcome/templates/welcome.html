@@ -12,7 +12,7 @@
                             <i class="promo-icon-min promo-icon-arrow-right"></i>
                         </span>
                     </a>
-                    <a ng-if="$ctrl.userList.length" href="/sign-in" class="fake-button"
+                    <a ng-if="$ctrl.userList.length" ui-sref="signIn" class="fake-button"
                         w-analytics event="'Sign In Click'" event-target="ui">
                         <span class="fake-button-content big submit-light" w-i18n="welcome.signIn"></span>
                     </a>
@@ -92,11 +92,11 @@
                     <div class="cell graph" w-i18n="welcome.chart"></div>
                 </div>
 
-                <a ng-repeat="pair in $ctrl.pairsInfoList track by $index"
+                <div ng-repeat="pair in $ctrl.pairsInfoList track by $index"
                    w-analytics event="'Menu Exchange Click'"
                    event-target="'ui'"
                    ng-class="pair.change24.gt(0) ? 'blue' : 'red'"
-                   href="/dex-demo?assetId1={{pair.amountAsset.id}}&assetId2={{pair.priceAsset.id}}"
+                   ng-click="$ctrl.goToDexDemo({ assetId1: pair.amountAsset.id, assetId2: pair.priceAsset.id })"
                    class="row row-content">
                     <div class="cell pair">{{pair.amountAsset.ticker}} / {{pair.priceAsset.ticker}}</div>
                     <div class="cell last-price">
@@ -118,7 +118,7 @@
                         <span w-nice-number="pair.volume.toFormat()" precision="3"></span>
                     </div>
                     <div class="cell graph"></div>
-                </a>
+                </div>
 
             </div>
 
