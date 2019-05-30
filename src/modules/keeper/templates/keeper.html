@@ -43,7 +43,7 @@
                     <h3 class="basic-700" w-i18n="keeperForm.error.hasNoUsersHeader"></h3>
                     <div class="basic-500">
                         <span w-i18n="keeperForm.error.hasNoUsersDescription"></span>
-                        <a ui-sref="import" class="inline-link submit-400 body-2" w-i18n="keeperForm.back"></a>
+                        <a ui-sref="import" class="inline-link submit-400 body-2 margin-05" w-i18n="keeperForm.back"></a>
                     </div>
                 </div>
 
@@ -63,7 +63,7 @@
                             <span w-i18n="keeperForm.or"></span>
                         </div>
                         <div class="margin-2 text-center">
-                            <a ui-sref="import" class="inline-link submit-400 body-2" w-i18n="keeperForm.back"></a>
+                            <a ui-sref="import" class="inline-link submit-400 body-2 margin-05" w-i18n="keeperForm.back"></a>
                         </div>
                     </div>
                 </div>
@@ -73,14 +73,14 @@
                     <h3 class="basic-700" w-i18n="keeperForm.error.networkHeader"></h3>
                     <div class="basic-500">
                         <span w-i18n="keeperForm.error.networkDescription"></span>
-                        <a ui-sref="import" class="inline-link submit-400 body-2" w-i18n="keeperForm.back"></a>
+                        <a ui-sref="import" class="inline-link submit-400 body-2 margin-05" w-i18n="keeperForm.back"></a>
                     </div>
                 </div>
             </div>
 
             <div class="import-wrapper margin-3" ng-if="$ctrl.isInit && !$ctrl.error">
 
-                <div class="body-2 basic-900" w-i18n="keeperForm.address"></div>
+                <div class="body-2 basic-900 margin-05" w-i18n="keeperForm.address"></div>
                 <div class="input-like address basic-900 mobile-caption-2 flex margin-2">
                     <w-avatar address="$ctrl.selectedUser.address"
                               size="30"
@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="margin-2">
-                    <div class="body-2 basic-900" w-i18n="keeperForm.name"></div>
+                    <div class="body-2 basic-900 margin-05" w-i18n="keeperForm.name"></div>
                     <w-input w-autofocus
                              class="big no-validate no-icon flex"
                              type="text"
