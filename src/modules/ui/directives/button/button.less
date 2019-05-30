@@ -1,5 +1,6 @@
 @import (reference) 'config';
 @import (reference) 'icons';
+@import (reference) '../../../app/less/app';
 
 @candy-animation: candyDotsAnimation 1.6s infinite ease-in-out;
 @candy-size: 10px;
@@ -36,6 +37,11 @@ w-button {
     &.tiny {
       font-size: @font-size-control-tiny;
       padding: @padding-control-tiny;
+    }
+
+    &.micro {
+      font-size: @font-size-control-micro;
+      padding: @padding-control-button-micro;
     }
 
     &.small {
@@ -79,6 +85,22 @@ w-button {
       &:disabled, &.disabled {
         border: 1px solid @color-basic-200;
         color: @color-basic-200;
+      }
+
+      &.micro {
+        background-color: @color-white;
+        border: 1px solid @color-basic-100;
+        color: @color-basic-700;
+
+        &:hover, &.hover {
+          border-color: @color-submit-300;
+          color: @color-basic-700;
+        }
+
+        &:disabled, &.disabled {
+          border: 1px solid @color-accent-50;
+          color: @color-basic-500;
+        }
       }
     }
 
@@ -213,6 +235,32 @@ w-button {
       color: @color-white;
     }
   }
+
+  &:active, &.active {
+    &:not(.transparent) {
+      .micro {
+        &,
+        &:hover {
+          border-color: @color-submit-300;
+          color: @color-submit-300;
+        }
+      }
+    }
+  }
+}
+
+.buttons-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  w-button,
+  .fake-button {
+    display: block;
+    flex-basis: 48%;
+    max-width: 48%;
+  }
 }
 
 //Candy effect
@@ -299,6 +347,40 @@ w-button > button {
       padding-top: 8px;
       padding-bottom: 8px;
       white-space: nowrap;
+    }
+  }
+}
+
+
+.btn-wrap.btn-group {
+  box-sizing: border-box;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  & > *:first-child .btn, & > .btn:first-child {
+    border-left: 1px solid @color-disabled-100;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+  }
+
+  & > *:last-child .btn, & > .btn:last-child {
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+  .btn {
+    display: block;
+    box-sizing: border-box;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-bottom: 1px solid @color-disabled-100;
+    border-top: 1px solid @color-disabled-100;
+    border-right: 1px solid @color-disabled-100;
+
+    &:active {
+      .btn-active();
     }
   }
 }

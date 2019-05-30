@@ -305,6 +305,14 @@
   background-color: rgba(90, 129, 234, 0.1);
 }
 
+.icon-tx-script-invocation {
+  &::before {
+    display: block;
+    background-position-x: -@tx-icon-size * 22;
+  }
+  background-color: rgba(90, 129, 234, 0.1);
+}
+
 .icon-info {
   width: 20px;
   height: 20px;
@@ -392,6 +400,13 @@
   background-image: @orderbook-to-spread-icon;
   background-repeat: no-repeat;
   background-position: center center;
+}
+
+.icon-dex-tospread-active {
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: @orderbook-to-spread-icon-active;
 }
 
 .apple-store-btn,
