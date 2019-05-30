@@ -15,6 +15,11 @@
              * @type {string}
              */
             telegramLink;
+            /**
+             * @public
+             * @type {string}
+             */
+            lang;
 
             constructor() {
                 super();
@@ -27,6 +32,8 @@
                 this.telegramLink = localStorage.getItem('lng') === 'ru' ?
                     'https://t.me/WavesCommunityRU' :
                     'https://t.me/WavesCommunity';
+
+                this.lang = localStorage.getItem('lng') === 'ru' ? 'Ru' : 'Global';
             }
 
             /**

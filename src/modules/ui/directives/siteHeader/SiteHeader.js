@@ -26,6 +26,7 @@
                 this.hovered = false;
                 this.address = user.address || '3PHBX4uXhCyaANUxccLHNXw3sqyksV7YnDz';
                 this.isLogined = !!user.address;
+                this.userName = user.name;
                 this.receive(stateManager.changeRouteState, () => {
                     this.subStateList = stateManager.subStateList;
                     this.rootStateList = stateManager.rootStateList;
@@ -38,7 +39,6 @@
                 if (!this.isLogined) {
                     this.activeState = this.activeState.replace('-demo', '');
                 }
-                this.userName = user.name;
 
                 this.isScript = user.hasScript();
                 this.isKeeper = user.userType === 'wavesKeeper';

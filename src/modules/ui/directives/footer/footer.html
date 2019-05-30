@@ -71,16 +71,23 @@
 
                 <div>
                     <div class="footer-title basic-700" w-i18n="welcome.legal"></div>
-                    <div><a class="footer__link" w-i18n="welcome.privacyPolicy" target="_blank" href="https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf"></a></div>
-                    <div><a class="footer__link" w-i18n="welcome.termsOfUse" target="_blank" href="https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf"></a></div>
+                    <div><a w-analytics event="'Footer Privacy Policy Click'"
+                            event-target="'ui'"
+                            class="footer__link" w-i18n="welcome.privacyPolicy" target="_blank" href="https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf"></a></div>
+                    <div><a w-analytics event="'Footer Terms of use Click'"
+                             event-target="'ui'"class="footer__link" w-i18n="welcome.termsOfUse" target="_blank" href="https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf"></a></div>
                 </div>
 
                 <div>
                     <div class="footer-title basic-700" w-i18n="welcome.social"></div>
-                    <div><a class="footer__link" w-i18n="welcome.blog" target="_blank" href="https://blog.wavesplatform.com/"></a></div>
-                    <div><a class="footer__link" w-i18n="welcome.twitter" target="_blank" href="https://twitter.com/wavesplatform"></a></div>
-                    <div><a class="footer__link" w-i18n="welcome.telegram" target="_blank" href="{{::$ctrl.telegramLink}}"></a></div>
-                    <div><a class="footer__link" w-i18n="welcome.forum" target="_blank" href="https://forum.wavesplatform.com"></a></div>
+                    <div><a w-analytics event="'Footer Blog Click'"
+                            class="footer__link" w-i18n="welcome.blog" target="_blank" href="https://blog.wavesplatform.com/"></a></div>
+                    <div><a w-analytics event="'Footer Twitter Click'"
+                            class="footer__link" w-i18n="welcome.twitter" target="_blank" href="https://twitter.com/wavesplatform"></a></div>
+                    <div><a w-analytics event="'Footer Telegram Click'" event-params='{Language: $ctrl.lang}'
+                            class="footer__link" w-i18n="welcome.telegram" target="_blank" href="{{::$ctrl.telegramLink}}"></a></div>
+                    <div><a w-analytics event="'Footer Forum Click'"
+                            class="footer__link" w-i18n="welcome.forum" target="_blank" href="https://forum.wavesplatform.com"></a></div>
                 </div>
             </div>
         </div>

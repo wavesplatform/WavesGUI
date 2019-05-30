@@ -63,7 +63,7 @@
                 this.observe('activeUserAddress', this._calculateActiveIndex);
                 this.observe('password', this._updatePassword);
 
-                analytics.send({ name: 'Sign In Show', target: 'ui', params: { from: 'sign-in' } });
+                analytics.send({ name: 'Onboarding Sign In Show', target: 'ui', params: { from: 'sign-in' } });
                 this._initUserList();
             }
 

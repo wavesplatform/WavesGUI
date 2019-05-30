@@ -12,7 +12,8 @@
                             <i class="promo-icon-min promo-icon-arrow-right"></i>
                         </span>
                     </a>
-                    <a ng-if="$ctrl.userList.length" href="/sign-in" class="fake-button">
+                    <a ng-if="$ctrl.userList.length" ui-sref="signIn" class="fake-button"
+                        w-analytics event="'Sign In Click'" event-target="ui">
                         <span class="fake-button-content big submit-light" w-i18n="welcome.signIn"></span>
                     </a>
                 </div>
@@ -85,7 +86,7 @@
                     <div class="cell pair" w-i18n="welcome.pair"></div>
                     <div class="cell last-price" w-i18n="welcome.lastPrice"></div>
                     <div class="cell change" w-i18n="welcome.change"></div>
-                    <div class="cell height24" w-i18n="welcome.height"></div>
+                    <div class="cell high" w-i18n="welcome.high"></div>
                     <div class="cell low24" w-i18n="welcome.low"></div>
                     <div class="cell volume" w-i18n="welcome.volume"></div>
                     <div class="cell graph" w-i18n="welcome.chart"></div>
