@@ -74,9 +74,9 @@
             showAnims = false;
 
             /**
-             * @private
+             * @type {Array}
              */
-            _userList = [];
+            userList = [];
 
             constructor() {
                 super();
@@ -164,7 +164,7 @@
                 }
 
                 user.getFilteredUserList().then(list => {
-                    this._userList = list;
+                    this.userList = list;
                 });
             }
 
