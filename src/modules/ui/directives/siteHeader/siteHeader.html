@@ -113,10 +113,10 @@
                            w-toggle-class="show-downloads"
                            w-i18n="welcome.download"
                            href="#"></a></li>
+                    <li class="separator"></li>
                     <li><a class="sign-in-link"
                            ng-click="$ctrl.removeBodyClass()"
                            ui-sref="signIn" w-i18n="welcome.signIn"></a></li>
-
                     <li><a class="get-started-link"
                            ng-click="$ctrl.removeBodyClass()"
                            ui-sref="create" w-i18n="welcome.getStarted"></a></li>
@@ -170,6 +170,7 @@
                            w-toggle-class="mobile-menu-inner-expanded"></a>
                     </li>
                     <li><a ui-sref="main.tokens" w-i18n="welcome.createToken"></a></li>
+                    <li class="separator"></li>
                     <li><a class="menu-link menu-link-logout" ng-click="$ctrl.logout()" href="#"
                            w-i18n="welcome.logout"></a></li>
                 </ul>
@@ -204,6 +205,7 @@
                            w-i18n="welcome.aliases"></a></li>
                     <li><a class="menu-link menu-link-settings" href="#" ng-click="$ctrl.settings()"
                            w-i18n="welcome.settings"></a></li>
+                    <li class="separator"></li>
                     <li><a class="menu-link menu-link-logout" ng-click="$ctrl.logout()" href="#"
                            w-i18n="welcome.logout"></a></li>
                 </ul>
@@ -222,6 +224,7 @@
                            w-i18n="welcome.transactions"></a></li>
                     <li><a class="menu-link menu-link-leasing" ui-sref="main.wallet.leasing"
                            w-i18n="welcome.leasing"></a></li>
+                    <li class="separator"></li>
                     <li><a class="menu-link menu-link-logout" ng-click="$ctrl.logout()" href="#"
                            w-i18n="welcome.logout"></a></li>
                 </ul>

@@ -99,6 +99,21 @@
     display: block;
     position: fixed;
     right: 0;
+    ul {
+      display: flex;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      flex-direction: column;
+
+      li.separator {
+        height: 100%;
+      }
+      li {
+        display: block;
+      }
+    }
 
     .has-user-address {
       .flex {
@@ -115,13 +130,6 @@
 
     w-avatar {
       margin: 14px 14px 14px 0;
-    }
-
-    ul {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-      overflow: hidden;
     }
 
     .mobile-menu-fader {
@@ -243,8 +251,6 @@
         &-logout {
           background-image: url(/img/icons/logout.svg);
           border-bottom: 0 none;
-          position: absolute;
-          bottom: 0;
           &::before {
             .link-border;
             bottom: auto;
@@ -455,18 +461,11 @@ w-site-header {
 
   .sign-in-link,
   .get-started-link {
-    position: fixed;
-    bottom: 0;
-    z-index: 1;
-    background-position: 20px center;
+    z-index: 10;
     &::before {
       bottom: auto;
       top: 0;
     }
-  }
-
-  .sign-in-link {
-    transform: translateY(-100%);
   }
 
   .copywrap-default {
