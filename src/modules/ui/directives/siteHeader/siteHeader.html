@@ -108,16 +108,17 @@
                            target="_blank"
                            rel="noopener noreferrer"
                            w-i18n="welcome.news"></a></li>
-                    <li ng-if="!$ctrl.isDesktop"><a class="has-child"
+                    <li ng-if="!$ctrl.isDesktop">
+                        <a class="has-child"
                            w-toggle-class="show-downloads"
                            w-i18n="welcome.download"
                            href="#"></a></li>
                     <li><a class="sign-in-link"
                            ng-click="$ctrl.removeBodyClass()"
-                           ui-serf="sign-in" w-i18n="welcome.signIn"></a></li>
+                           ui-sref="signIn" w-i18n="welcome.signIn"></a></li>
                     <li><a class="get-started-link"
                            ng-click="$ctrl.removeBodyClass()"
-                           ui-serf="create" w-i18n="welcome.getStarted"></a></li>
+                           ui-sref="create" w-i18n="welcome.getStarted"></a></li>
                 </ul>
 
                 <ul ng-if="$ctrl.isLogined">
