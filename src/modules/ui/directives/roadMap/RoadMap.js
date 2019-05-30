@@ -34,9 +34,21 @@
                 timeWhenMade: 'past'
             },
             {
-                date: 'roadmap.nov2018.date',
-                title: 'roadmap.nov2018.title',
-                text: 'roadmap.nov2018.text',
+                date: 'roadmap.jul2018.date',
+                title: 'roadmap.jul2018.title',
+                text: 'roadmap.jul2018.text',
+                timeWhenMade: 'past'
+            },
+            {
+                date: 'roadmap.jul2018.date',
+                title: 'roadmap.jul2018.title_2',
+                text: 'roadmap.jul2018.text_2',
+                timeWhenMade: 'past'
+            },
+            {
+                date: 'roadmap.sep2018.date',
+                title: 'roadmap.sep2018.title',
+                text: 'roadmap.sep2018.text',
                 timeWhenMade: 'past'
             },
             {
@@ -49,12 +61,60 @@
                 date: 'roadmap.dec2018.date',
                 title: 'roadmap.dec2018.title',
                 text: 'roadmap.dec2018.text',
+                timeWhenMade: 'past'
+            },
+            {
+                date: 'roadmap.dec2018.date',
+                title: 'roadmap.dec2018.title_2',
+                text: 'roadmap.dec2018.text_2',
+                timeWhenMade: 'past'
+            },
+            {
+                date: 'roadmap.jan2019.date',
+                title: 'roadmap.jan2019.title',
+                text: 'roadmap.jan2019.text',
+                timeWhenMade: 'past'
+            },
+            {
+                date: 'roadmap.jan2019.date',
+                title: 'roadmap.jan2019.title_2',
+                text: 'roadmap.jan2019.text_2',
+                timeWhenMade: 'past'
+            },
+            {
+                date: 'roadmap.jun2019.date',
+                title: 'roadmap.jun2019.title',
+                text: 'roadmap.jun2019.text',
                 timeWhenMade: 'now'
             },
             {
-                date: 'roadmap.dec2019.date',
-                title: 'roadmap.dec2019.title',
-                text: 'roadmap.dec2019.text',
+                date: 'roadmap.jul2019.date',
+                title: 'roadmap.jul2019.title',
+                text: 'roadmap.jul2019.text',
+                timeWhenMade: 'now'
+            },
+            {
+                date: 'roadmap.jul2019.date',
+                title: 'roadmap.jul2019.title_2',
+                text: 'roadmap.jul2019.text_2',
+                timeWhenMade: 'future'
+            },
+            {
+                date: 'roadmap.jul2019.date',
+                title: 'roadmap.jul2019.title_3',
+                text: 'roadmap.jul2019.text_3',
+                timeWhenMade: 'future'
+            },
+            {
+                date: 'roadmap.aug2019.date',
+                title: 'roadmap.aug2019.title',
+                text: 'roadmap.aug2019.text',
+                timeWhenMade: 'future'
+            },
+            {
+                date: 'roadmap.sep2019.date',
+                title: 'roadmap.sep2019.title',
+                text: 'roadmap.sep2019.text',
                 timeWhenMade: 'future'
             }
         ];
