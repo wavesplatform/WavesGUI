@@ -9,6 +9,7 @@
 
         const { Money } = require('@waves/data-entities');
         const tsUtils = require('ts-utils');
+        const SCALE = 3;
 
         class ChartFactory extends Base {
 
@@ -60,17 +61,22 @@
              */
             _initializeCanvasElement($element) {
                 const canvas = document.createElement('canvas');
+                const width = Math.round($element.width());
+                const height = Math.round($element.height());
+
                 canvas.style.position = 'absolute';
                 canvas.style.left = '0';
                 canvas.style.top = '0';
+                canvas.style.width = `${width}px`;
+                canvas.style.height = `${height}px`;
 
                 if ($element.css('position') === 'static') {
                     $element.css('position', 'relative');
                 }
 
                 $element.append(canvas);
-                canvas.width = $element.width();
-                canvas.height = $element.height();
+                canvas.width = width * SCALE;
+                canvas.height = height * SCALE;
                 return canvas;
             }
 
@@ -107,8 +113,7 @@
             _drawChart(data) {
 
                 this.ctx.strokeStyle = data.lineColor;
-
-                this.ctx.lineWidth = data.lineWidth;
+                this.ctx.lineWidth = data.lineWidth * SCALE;
 
                 const first = data.coordinates[0];
                 this.ctx.moveTo(first.x, first.y);
@@ -278,6 +283,7 @@
  * @property {BigNumber} yFactor
  * @property {Array<{x: number, y: number}>} coordinates
  * @property {number} length
+ * @property {number} lineWidth
  * @property {string} axisX
  * @property {string} axisY
  * @property {string} lineColor
