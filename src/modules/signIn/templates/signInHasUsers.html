@@ -2,7 +2,7 @@
 
     <div class="margin-5 text-center">
         <div class="headline-1 margin-1" w-i18n="userList.title"></div>
-        <div class="body-2 margin-top-2 basic-500">
+        <div class="body-2 margin-top-2 basic-500 margin-05">
             <span w-i18n="userList.notHaveAccount"></span>
         </div>
     </div>
@@ -23,7 +23,7 @@
                           size="30"></w-avatar></div>
 
             <div ng-class="::{'has-name': !!user.name}" class="ellipsis">
-                <div class="name body-2 mobile-caption-2">{{::user.name}}</div>
+                <div class="name body-2 margin-05 mobile-caption-2">{{::user.name}}</div>
                 <div class="address footnote-1 mobile-caption-2 ellipsis">{{::user.address}}</div>
             </div>
             <div class="icon-remove-user icon-close" ng-click="$ctrl.removeUser(user.address)"></div>
