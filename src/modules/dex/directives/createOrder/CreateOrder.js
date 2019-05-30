@@ -125,6 +125,10 @@
              */
             _silenceNow = false;
             /**
+             * @type {Array}
+             */
+            _userList = [];
+            /**
              *
              * @type {boolean}
              */
@@ -258,6 +262,10 @@
                 // TODO Add directive for stop propagation (catch move for draggable)
                 $element.on('mousedown touchstart', '.body', (e) => {
                     e.stopPropagation();
+                });
+
+                user.getFilteredUserList().then(list => {
+                    this._userList = list;
                 });
 
                 currentFee();
@@ -524,7 +532,7 @@
                             success: true,
                             classes: 'big submit',
                             text: { literal: 'modal.createOrder.ok' },
-                            click: () => $state.go('welcome')
+                            click: () => $state.go(`${this._userList.length > 0 ? 'signIn' : 'welcome'}`)
                         }
                     ]
                 })
