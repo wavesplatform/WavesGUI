@@ -10,7 +10,6 @@
                     <div class="headline-1 margin-1 text-center" w-i18n="seedForm.title"></div>
                     <div class="body-2 text-center margin-5">
                         <span class="disabled-600" w-i18n="seedForm.description"></span>
-                        <a ui-sref="create" w-i18n="seedForm.create"></a>
                     </div>
 
                     <div class="body-2 margin-05 basic-900" w-i18n="seedForm.seedTitle"></div>
@@ -45,7 +44,7 @@
                            class="footnote-1 basic-500"></label>
                 </div>
                 <div  ng-if="$ctrl.address && $ctrl.seed.length <= 59"  class="plate-warning warning-500 body-2 margin-3">
-                    <div class="body-2" w-i18n="warningSeed.title"></div>
+                    <div class="body-2 margin-05" w-i18n="warningSeed.title"></div>
                     <div class="footnote-1 basic-500" w-i18n="warningSeed.message"></div>
                 </div>
                 <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">

@@ -5,9 +5,9 @@
             <form class="generate-form" name="$ctrl.createForm" novalidate>
 
                 <div class="row">
-                    <div class="body-2 basic-900">
+                    <div class="body-2 basic-900 margin-05">
                         <span w-i18n="name"></span>
-                        <div class="footnote-1 basic-500" w-i18n="help.name"></div>
+                        <div class="footnote-1 basic-500 margin-05" w-i18n="help.name"></div>
                     </div>
                     <w-input-container>
                         <w-input type="text"
@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="body-2 basic-900" w-i18n="description"></div>
+                    <div class="body-2 basic-900 margin-05" w-i18n="description"></div>
                     <w-input-container>
                         <w-input class="no-validate-icons" textarea
                                  name="description"
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="body-2 basic-900 relative">
+                    <div class="body-2 basic-900 margin-05 relative">
                         <span w-i18n="count"></span>
                         <w-help-icon>
                             <div class="help-icon__row headline-3">
@@ -100,7 +100,7 @@
                     </w-input-container>
                 </div>
                 <div class="row">
-                    <div class="body-2 basic-900 relative">
+                    <div class="body-2 basic-900 margin-05 relative">
                         <span w-i18n="precision"></span>
                         <w-help-icon>
                             <div class="help-icon__row headline-3">
@@ -155,7 +155,7 @@
                         <div ng-if="$ctrl.hasAssetScript" w-i18n-ns="app.utils">
                             <div class="basic-500 margin-1 margin-top-1" w-i18n="directives.scriptForm.ideLink"></div>
                             <div class="plate-warning warning-500">
-                                <div class="body-2" w-i18n="modal.setAssetScript.warningHeader"></div>
+                                <div class="body-2 margin-05" w-i18n="modal.setAssetScript.warningHeader"></div>
                                 <div class="footnote-1 basic-500"
                                      w-i18n="modal.setAssetScript.warningDescription"></div>
                             </div>
@@ -164,7 +164,7 @@
                 </div>
 
                 <div class="row margin-top-1">
-                    <div class="body-2 basic-900" w-i18n="preview"></div>
+                    <div class="body-2 basic-900 margin-05" w-i18n="preview"></div>
                     <div class="preview">
                         <div class="avatar-wrap">
                             <w-asset-logo ng-if="$ctrl.name"
@@ -176,7 +176,7 @@
                             <div class="line token-name headline-3 basic-900">
                                 <span ng-if="$ctrl.name && $ctrl.createForm.$valid">{{$ctrl.name}}</span>
                             </div>
-                            <div class="line token-value body-2 basic-700">
+                            <div class="line token-value body-2 basic-700 margin-05">
                         <span ng-if="$ctrl.name && $ctrl.createForm.$valid"
                               w-nice-number="$ctrl.count"
                               precision="$ctrl.precision.toString()"></span>
