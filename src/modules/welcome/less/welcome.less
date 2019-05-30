@@ -11,6 +11,7 @@ body.welcome {
   margin: 0 auto;
   font-weight: normal;
   color: @color-basic-900;
+  max-width: 100%;
 
   .white-bg {
     background: @color-white;
@@ -26,6 +27,7 @@ body.welcome {
     overflow-y: auto;
     max-height: 100%;
     width: 100%;
+    max-width: 100%;
   }
 
   .wrapper {
@@ -54,6 +56,8 @@ body.welcome {
     margin: 0 auto;
     position: relative;
     z-index: 1;
+    overflow: hidden;
+    max-width: 100%;
   }
 
   .get-started-btn {
@@ -168,9 +172,6 @@ body.welcome {
   }
 
   .section {
-    max-width: 100%;
-    overflow: hidden;
-
     &-welcome {
       display: block;
       height: 770px;
@@ -235,7 +236,7 @@ body.welcome {
     &-slider {
       padding: 0;
       background: @color-info-50;
-      overflow: visible;
+      overflow: hidden;
       position: relative;
       max-width: 100%;
 
