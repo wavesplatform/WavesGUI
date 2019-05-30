@@ -314,7 +314,7 @@
              */
             _initializeLogin() {
 
-                let needShowTutorial = false;
+                // let needShowTutorial = false;
 
                 this._listenChangeLanguage();
 
@@ -348,10 +348,10 @@
                         return null;
                     }
 
-                    if (needShowTutorial && toState.name !== 'dex-demo') {
-                        modalManager.showTutorialModals();
-                        needShowTutorial = false;
-                    }
+                    // if (needShowTutorial && toState.name !== 'dex-demo') {
+                    //     modalManager.showTutorialModals();
+                    //     needShowTutorial = false;
+                    // }
 
                     if (toState.name === 'main.dex-demo') {
                         tryDesktop = Promise.resolve();
@@ -359,19 +359,19 @@
                         tryDesktop = this._initTryDesktop();
                     }
 
-                    const promise = Promise.all([
-                        storage.onReady(),
-                        tryDesktop
-                    ]).then(([oldVersion, canOpenTutorial]) => {
-                        needShowTutorial = canOpenTutorial && !oldVersion;
-                    });
-
-                    promise.then(() => {
-                        if (needShowTutorial && toState.name !== 'dex-demo') {
-                            modalManager.showTutorialModals();
-                            needShowTutorial = false;
-                        }
-                    });
+                    // const promise = Promise.all([
+                    //     storage.onReady(),
+                    //     tryDesktop
+                    // ]).then(([oldVersion, canOpenTutorial]) => {
+                    //     needShowTutorial = canOpenTutorial && !oldVersion;
+                    // });
+                    //
+                    // // promise.then(() => {
+                    // //     if (needShowTutorial && toState.name !== 'dex-demo') {
+                    // //         modalManager.showTutorialModals();
+                    // //         needShowTutorial = false;
+                    // //     }
+                    // // });
 
                     waiting = true;
 
