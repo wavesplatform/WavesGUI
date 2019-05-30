@@ -543,12 +543,6 @@
                             }
                         });
 
-                        analytics.init(WavesApp.analyticsIframe, {
-                            platform: WavesApp.type,
-                            userType: data.userType,
-                            networkByte: ds.config.get('code')
-                        });
-
                         this.lastLogin = Date.now();
 
                         if (this._settings) {
