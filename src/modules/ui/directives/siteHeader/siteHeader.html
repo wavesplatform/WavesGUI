@@ -6,29 +6,36 @@
         <nav class="top-menu top-menu-welcome" ng-if="!$ctrl.isLogined">
             <a w-analytics event-target="'ui'"
                event="'Menu Exchange Click'"
+               event-target="'ui'"
                class="link-margin link-dex"
                ui-sref="main.dex-demo"
                w-i18n="welcome.exchange">
             </a>
             <a w-analytics event-target="'ui'"
                event="'Menu API Click'"
+               event-target="'ui'"
                class="link-margin"
                href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html"
                target="_blank"
+               rel="noopener noreferrer"
                w-i18n="welcome.api">
             </a>
             <a w-analytics event-target="'ui'"
                event="'Menu Help Click'"
+               event-target="'ui'"
                class="link-margin"
                href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html"
                target="_blank"
+               rel="noopener noreferrer"
                w-i18n="welcome.help">
             </a>
             <a w-analytics event-target="'ui'"
                event="'Menu News Click'"
+               event-target="'ui'"
                class="link-margin"
                href="https://twitter.com/wavesplatform"
                target="_blank"
+               rel="noopener noreferrer"
                w-i18n="welcome.news"></a>
             <div class="relative dropdown-toggler" ng-if="!$ctrl.isDesktop">
                 <span class="dropdown-btn" w-i18n="welcome.download"></span>
@@ -37,7 +44,8 @@
                        event-target="'ui'"
                        event="'Menu Download Windows Click'"
                        href="https://wavesplatform.com/files/WavesClient-win.zip"
-                       target="_blank">
+                       target="_blank"
+                       rel="noopener noreferrer">
                         <i class="dropdown-icon icon-24 icon-win"></i>
                         <div>
                             <div w-i18n="welcome.windows"></div>
@@ -48,7 +56,8 @@
                     <a w-analytics event-target="'ui'"
                        event="'Menu Download Mac OS Click'"
                        href="https://wavesplatform.com/files/WavesClient-mac.dmg"
-                       target="_blank">
+                       target="_blank"
+                       rel="noopener noreferrer">
                         <i class="dropdown-icon icon-24 icon-mac"></i>
                         <div>
                             <div w-i18n="welcome.macOs"></div>
@@ -59,7 +68,8 @@
                     <a w-analytics event-target="'ui'"
                        event="'Menu Download Linux Click'"
                        href="https://wavesplatform.com/files/WavesClient-linux.deb"
-                       target="_blank">
+                       target="_blank"
+                       rel="noopener noreferrer">
                         <i class="dropdown-icon icon-24 icon-linux"></i>
                         <div>
                             <div w-i18n="welcome.linux"></div>
@@ -78,15 +88,25 @@
         <nav class="mobile-menu">
             <div class="mobile-menu-wrapper">
                 <ul ng-if="!$ctrl.isLogined">
-                    <li><a ui-sref="main.dex-demo" ng-click="$ctrl.removeBodyClass()" w-i18n="welcome.exchange"></a></li>
+                    <li><a ui-sref="main.dex-demo" ng-click="$ctrl.removeBodyClass()" w-i18n="welcome.exchange"></a>
+                    </li>
                     <li><a href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html"
+                           w-analytics event-target="'ui'"
+                           event="'Menu API Click'"
                            target="_blank"
+                           rel="noopener noreferrer"
                            w-i18n="welcome.api"></a></li>
                     <li><a href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html"
+                           w-analytics event-target="'ui'"
+                           event="'Menu Help Click'"
                            target="_blank"
+                           rel="noopener noreferrer"
                            w-i18n="welcome.help"></a></li>
                     <li><a href="https://twitter.com/wavesplatform"
+                           w-analytics event-target="'ui'"
+                           event="'Menu Twitter Click'"
                            target="_blank"
+                           rel="noopener noreferrer"
                            w-i18n="welcome.news"></a></li>
                     <li><a class="has-child"
                            w-toggle-class="show-downloads"
@@ -163,11 +183,13 @@
                            event="'Menu Download Android Click'"
                            href="https://play.google.com/store/apps/details?id=com.wavesplatform.wallet"
                            target="_blank"
+                           rel="noopener noreferrer"
                            w-i18n="welcome.apple"></a></li>
                     <li><a w-analytics event-target="'ui'"
                            event="'Menu Download Apple mobile Click'"
                            href="https://itunes.apple.com/us/app/waves-wallet/id1233158971?mt=8"
                            target="_blank"
+                           rel="noopener noreferrer"
                            w-i18n="welcome.android"></a></li>
                     <li><a class="menu-link menu-link-logout" ng-click="$ctrl.logout()" href="#"
                            w-i18n="welcome.logout"></a></li>
@@ -191,13 +213,15 @@
                 <ul>
                     <li><a class="menu-link menu-link-menu" w-toggle-class="show-wallet" href="#"
                            w-i18n="welcome.menu"></a></li>
-                    <li><a class="menu-link menu-link-dashboard" ui-sref="main.wallet.assets" w-i18n="welcome.dashboard"></a>
+                    <li><a class="menu-link menu-link-dashboard" ui-sref="main.wallet.assets"
+                           w-i18n="welcome.dashboard"></a>
                     </li>
                     <li><a class="menu-link menu-link-portfolio" ui-sref="main.wallet.portfolio"
                            w-i18n="welcome.portfolio"></a></li>
                     <li><a class="menu-link menu-link-transactions" ui-sref="main.wallet.transactions"
                            w-i18n="welcome.transactions"></a></li>
-                    <li><a class="menu-link menu-link-leasing" ui-sref="main.wallet.leasing" w-i18n="welcome.leasing"></a></li>
+                    <li><a class="menu-link menu-link-leasing" ui-sref="main.wallet.leasing"
+                           w-i18n="welcome.leasing"></a></li>
                     <li><a class="menu-link menu-link-logout" ng-click="$ctrl.logout()" href="#"
                            w-i18n="welcome.logout"></a></li>
                 </ul>

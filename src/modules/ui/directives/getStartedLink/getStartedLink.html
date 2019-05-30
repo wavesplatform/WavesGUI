@@ -4,7 +4,7 @@
     </div>
     <div class="text-center body-2 flex-column-center-min">
 
-        <a href="/sign-in" class="get-started-btnLink" ng-if="$ctrl.hasSignIn && !!$ctrl._userList.length">
+        <a ui-sref="signIn" class="get-started-btnLink" ng-if="$ctrl.hasSignIn && !!$ctrl._userList.length">
             <div class="get-started-btnLink-content">
                 <i class="get-started-btnLink-icon icon-dex-lock"></i>
                 <div w-i18n="createAccount.signIn" class="get-started-btnLink-title body-2"></div>
@@ -12,7 +12,7 @@
             </div>
         </a>
 
-        <a href="/import" class="get-started-btnLink" ng-if="$ctrl.hasImport">
+        <a ui-sref="import" class="get-started-btnLink" ng-if="$ctrl.hasImport">
             <div class="get-started-btnLink-content">
                 <i class="get-started-btnLink-icon icon-dex-paper"></i>
                 <div w-i18n="createAccount.import" class="get-started-btnLink-title body-2"></div>
@@ -20,7 +20,7 @@
             </div>
         </a>
 
-        <a href="/create" class="get-started-btnLink" ng-if="$ctrl.hasCreate">
+        <a ui-sref="create" class="get-started-btnLink" ng-if="$ctrl.hasCreate">
             <div class="get-started-btnLink-content">
                 <i class="get-started-btnLink-icon icon-dex-create"></i>
                 <div w-i18n="createAccount.create" class="get-started-btnLink-title body-2"></div>
