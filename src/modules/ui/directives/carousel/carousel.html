@@ -8,7 +8,9 @@
            class="slide">
             <div class="slide_css-anim">
                 <div class="margin-1 body-2 flex">
-                    <div class="basic-700 grow">{{pair.amountAsset.ticker}} / {{pair.priceAsset.ticker}}</div>
+                    <div class="basic-700 grow">
+                        {{pair.amountAsset.ticker || pair.amountAsset.displayName }} / {{pair.priceAsset.ticker || pair.priceAsset.displayName}}
+                    </div>
                     <div ng-class="pair.change24.gt(0) ? 'blue' : 'red'">{{pair.change24}}%</div>
                 </div>
                 <div class="flex">
