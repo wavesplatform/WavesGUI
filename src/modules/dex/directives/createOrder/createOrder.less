@@ -181,11 +181,18 @@ w-create-order {
   .create-order {
     position: relative;
 
-    input {
-      color: @color-disabled-900;
-      background: @color-white;
-    }
+    w-input {
+      .w-input-wrap {
+        input {
+          color: @color-disabled-900;
+          background: @color-white;
 
+          &[type="text"].tiny {
+            padding: 0 16px;
+          }
+        }
+      }
+    }
     .head {
       align-items: center;
       width: 100%;
@@ -359,6 +366,13 @@ w-create-order {
           }
         }
 
+        button.micro {
+          &[disabled] {
+            border: 1px solid @color-accent-50;
+            color: @color-basic-500;
+          }
+        }
+
         &.buy {
 
           .areas .area.buy {
@@ -460,7 +474,7 @@ w-create-order {
 
             .dex-layout {
               &__block {
-                height: 350px;
+                height: 386px;
               }
             }
 
@@ -626,6 +640,19 @@ w-create-order {
           }
         }
       }
+    }
+  }
+}
+
+
+.amount {
+  .field-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 7px;
+
+    w-button {
+      width: ~'calc(25% - 6px)';
     }
   }
 }

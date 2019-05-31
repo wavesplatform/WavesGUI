@@ -45,105 +45,105 @@
   "analyticsIframe": "https://iframe.wavesplatform.com",
   "langList": {
     "en": {
-      "name": "En",
+      "name": "English",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "ru": {
-      "name": "Ru",
+      "name": "Russian",
       "separators": {
         "group": " ",
         "decimal": "."
       }
     },
     "ko": {
-      "name": "Ko",
+      "name": "Korean",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "zh_CN": {
-      "name": "Zh",
+      "name": "Chinese",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "tr": {
-      "name": "Tr",
+      "name": "Turkish",
       "separators": {
         "group": " ",
         "decimal": "."
       }
     },
     "ja": {
-      "name": "Jp",
+      "name": "Japanese",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "nl_NL": {
-      "name": "Nl",
+      "name": "Dutch",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "hi_IN": {
-      "name": "Hi",
+      "name": "Hindi",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "es": {
-      "name": "Es",
+      "name": "Spanish",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "et_EE": {
-      "name": "Est",
+      "name": "Estonian",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "pt_BR": {
-      "name": "Br",
+      "name": "Brazil",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "pl": {
-      "name": "Pl",
+      "name": "Polish",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "it": {
-      "name": "It",
+      "name": "Italian",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "de": {
-      "name": "De",
+      "name": "German",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "id": {
-      "name": "Id",
+      "name": "Indonesian",
       "separators": {
         "group": ",",
         "decimal": "."
@@ -222,7 +222,7 @@
       "nodeList": "http://dev.pywaves.org/testnet/generators/",
       "scamListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv",
       "origin": "https://testnet.wavesplatform.com",
-      "featuresConfigUrl": "https://localhost:8080/wavesplatform/waves-client-config/master/testnet.config.json",
+      "featuresConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/testnet.config.json",
       "feeConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/fee.json",
       "assets": {
         "EUR": "AsuWyM9MUUsMmWkK7jS48L3ky6gA1pxx7QtEYPbfLjAJ",

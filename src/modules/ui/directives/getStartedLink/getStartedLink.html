@@ -1,0 +1,31 @@
+<div w-i18n-ns="app.create" class="flex-column-center-min">
+    <div class="or">
+        <span class="basic-900" w-i18n="noBackupNoMoney.or"></span>
+    </div>
+    <div class="text-center body-2 flex-column-center-min">
+
+        <a ui-sref="signIn" class="get-started-btnLink" ng-if="$ctrl.hasSignIn && !!$ctrl._userList.length">
+            <div class="get-started-btnLink-content">
+                <i class="get-started-btnLink-icon icon-dex-lock"></i>
+                <div w-i18n="createAccount.signIn" class="get-started-btnLink-title body-2"></div>
+                <div w-i18n="createAccount.signDescription" class="get-started-btnLink-description"></div>
+            </div>
+        </a>
+
+        <a ui-sref="import" class="get-started-btnLink" ng-if="$ctrl.hasImport">
+            <div class="get-started-btnLink-content">
+                <i class="get-started-btnLink-icon icon-dex-paper"></i>
+                <div w-i18n="createAccount.import" class="get-started-btnLink-title body-2"></div>
+                <div w-i18n="createAccount.importDescription" class="get-started-btnLink-description"></div>
+            </div>
+        </a>
+
+        <a ui-sref="create" class="get-started-btnLink" ng-if="$ctrl.hasCreate">
+            <div class="get-started-btnLink-content">
+                <i class="get-started-btnLink-icon icon-dex-create"></i>
+                <div w-i18n="createAccount.create" class="get-started-btnLink-title body-2"></div>
+                <div w-i18n="createAccount.createDescription" class="get-started-btnLink-description"></div>
+            </div>
+        </a>
+    </div>
+</div>

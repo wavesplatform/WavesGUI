@@ -1,28 +1,12 @@
 @import (reference) 'icons';
+@import (reference) '../../app/less/app';
 
 .no-backup-no-money {
-  width: 380px;
-  text-align: center;
-  margin: auto;
-
   .icon {
     background: @slide-backup-icon no-repeat center center;
     width: 260px;
     height: 216px;
     margin: 0 auto 25px;
-  }
-
-  @button-width: 224px;
-
-  .submit.big {
-    display: block;
-    width: @button-width;
-    margin: 50px auto 0;
-  }
-
-  .or {
-    width: @button-width;
-    margin: 22px auto;
   }
 }
 
@@ -57,11 +41,6 @@
 }
 
 @media screen and (max-width: 480px) {
-  .no-backup-no-money {
-    width: calc(100% ~'- 20px');
-    padding: 0 10px;
-  }
-
   .no-backup-no-money-modal {
     padding: 20px;
     min-height: calc(100vh ~'- 20px');

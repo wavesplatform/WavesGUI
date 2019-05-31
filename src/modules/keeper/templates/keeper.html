@@ -1,97 +1,120 @@
-<div w-i18n-ns="app.utils" class="import-content">
-    <w-change-language></w-change-language>
-    <div class="center">
-        <a class="waves-logo" ui-sref="welcome"></a>
-        <div ng-if="$ctrl.isInit && !$ctrl.error"
-             class="headline-1 margin-4"
-             w-i18n="keeperForm.heading"></div>
-    </div>
-
-    <div class="center margin-2">
-
-        <div class="text-center" ng-if="$ctrl.loading">
-            <h3 class="basic-700" w-i18n="keeperForm.loading"></h3>
-            <w-loader></w-loader>
-        </div>
-
-        <div ng-if="$ctrl.noKeeper">
-            <i class="keeper-icon margin-3 block"></i>
-            <h3 class="basic-700" w-i18n="keeperForm.error.notInstalledHeader"></h3>
-            <div class="basic-500 footnote-1" w-i18n="keeperForm.error.notInstalledDescription"></div>
-            <a class="fake-button half margin-top-4" href="https://chrome.google.com/webstore/detail/waves-keeper/lpilbniiabackdjcionkobglmddfbcjo?hl">
-                <span w-i18n="keeperForm.error.install" class="fake-button-content big long submit"></span>
-            </a>
-            <div class="or margin-top-4" w-i18n="keeperForm.or"></div>
-            <a ui-sref="import" class="block margin-top-2" w-i18n="keeperForm.back"></a>
-        </div>
-
-        <div class="text-center" ng-if="$ctrl.noKeeperAccounts || $ctrl.noKeeperPermission">
-            <i class="error-icon margin-3 block"></i>
-            <h3 class="basic-700" w-i18n="keeperForm.error.hasNoUsersHeader"></h3>
-            <div class="basic-500">
-                <span w-i18n="keeperForm.error.hasNoUsersDescription"></span>
-                <a ui-sref="import" class="inline-link" w-i18n="keeperForm.back"></a>
+<w-site-header></w-site-header>
+<div w-i18n-ns="app.utils" class="main-container movable">
+    <div class="main-container-wrapper">
+        <div class="keeper-content get-started-content">
+            <div class="text-center" >
+                <div ng-if="$ctrl.isInit && !$ctrl.error"
+                     class="headline-1 margin-4"
+                     w-i18n="keeperForm.heading"></div>
             </div>
-        </div>
 
-        <div class="text-center" ng-if="$ctrl.lockedKeeper">
-            <i class="error-icon margin-3 block"></i>
-            <h3 class="basic-700" w-i18n="keeperForm.error.hasLockedKeeperHeader"></h3>
-            <div class="basic-500">
-                <span w-i18n="keeperForm.error.hasLockedKeeperDescription"></span>
-                <a ui-sref="import" class="inline-link" w-i18n="keeperForm.back"></a>
-            </div>
-        </div>
+            <div>
 
-        <div class="text-center" ng-if="$ctrl.incorrectKeeperNetwork">
-            <i class="error-icon margin-3 block"></i>
-            <h3 class="basic-700" w-i18n="keeperForm.error.networkHeader"></h3>
-            <div class="basic-500">
-                <span w-i18n="keeperForm.error.networkDescription"></span>
-                <a ui-sref="import" class="inline-link" w-i18n="keeperForm.back"></a>
+                <div class="text-center" ng-if="$ctrl.loading">
+                    <h3 class="basic-700" w-i18n="keeperForm.loading"></h3>
+                    <w-loader></w-loader>
+                </div>
+
+                <div ng-if="$ctrl.noKeeper">
+                    <i class="keeper-icon margin-3 block"></i>
+                    <div class="text-center">
+                        <h3 class="basic-700" w-i18n="keeperForm.error.notInstalledHeader"></h3>
+                        <div class="basic-500 footnote-1" w-i18n="keeperForm.error.notInstalledDescription"></div>
+                        <div class="get-started-footer">
+                            <div class="margin-2 margin-top-3">
+                                <a class="fake-button long" href="https://chrome.google.com/webstore/detail/waves-keeper/lpilbniiabackdjcionkobglmddfbcjo?hl">
+                                    <span w-i18n="keeperForm.error.install" class="fake-button-content big long submit"></span>
+                                </a>
+                            </div>
+                            <div class="get-started-footer">
+                                <div class="or margin-2">
+                                    <span w-i18n="keeperForm.or"></span>
+                                </div>
+                                <div class="text-center margin-2">
+                                    <a class="submit-400 body-2" w-i18n="keeperForm.back" ui-sref="import"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center" ng-if="$ctrl.noKeeperAccounts || $ctrl.noKeeperPermission">
+                    <i class="error-icon margin-3 block"></i>
+                    <h3 class="basic-700" w-i18n="keeperForm.error.hasNoUsersHeader"></h3>
+                    <div class="basic-500">
+                        <span w-i18n="keeperForm.error.hasNoUsersDescription"></span>
+                        <a ui-sref="import" class="inline-link submit-400 body-2 margin-05" w-i18n="keeperForm.back"></a>
+                    </div>
+                </div>
+
+                <div class="text-center" ng-if="$ctrl.lockedKeeper">
+                    <i class="error-icon margin-3 block"></i>
+                    <h3 class="basic-700" w-i18n="keeperForm.error.hasLockedKeeperHeader"></h3>
+                    <div class="body-2 basic-500 margin-3">
+                        <span w-i18n="keeperForm.error.hasLockedKeeperDescription"></span>
+                    </div>
+                    <div class="get-started-footer">
+                        <div class="margin-3">
+                            <w-button class="submit big long" on-click="">
+                                <span w-i18n="keeperForm.retry"></span>
+                            </w-button>
+                        </div>
+                        <div class="or margin-2">
+                            <span w-i18n="keeperForm.or"></span>
+                        </div>
+                        <div class="margin-2 text-center">
+                            <a ui-sref="import" class="inline-link submit-400 body-2 margin-05" w-i18n="keeperForm.back"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center" ng-if="$ctrl.incorrectKeeperNetwork">
+                    <i class="error-icon margin-3 block"></i>
+                    <h3 class="basic-700" w-i18n="keeperForm.error.networkHeader"></h3>
+                    <div class="basic-500">
+                        <span w-i18n="keeperForm.error.networkDescription"></span>
+                        <a ui-sref="import" class="inline-link submit-400 body-2 margin-05" w-i18n="keeperForm.back"></a>
+                    </div>
+                </div>
             </div>
+
+            <div class="import-wrapper margin-3" ng-if="$ctrl.isInit && !$ctrl.error">
+
+                <div class="body-2 basic-900 margin-05" w-i18n="keeperForm.address"></div>
+                <div class="input-like address basic-900 mobile-caption-2 flex margin-2">
+                    <w-avatar address="$ctrl.selectedUser.address"
+                              size="30"
+                              type="keeper"
+                              class="margin-right-1"></w-avatar>
+                    <div>{{$ctrl.selectedUser.address}}</div>
+                </div>
+
+                <div class="margin-2">
+                    <div class="body-2 basic-900 margin-05" w-i18n="keeperForm.name"></div>
+                    <w-input w-autofocus
+                             class="big no-validate no-icon flex"
+                             type="text"
+                             maxlength="20"
+                             ng-model="$ctrl.selectedUser.name">
+                    </w-input>
+                </div>
+                <div class="flex get-started-checkbox-save">
+                    <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
+                    <label for="save-user-data" class="footnote-1 basic-500">
+                        <span w-i18n="keeperForm.saveUserData"></span>
+                    </label>
+                </div>
+
+                <div class="margin-3">
+                    <w-button class="submit big long" on-click="$ctrl.login()">
+                        <span w-i18n="keeperForm.login"></span>
+                    </w-button>
+                </div>
+
+                <w-get-started-link has-sign-in="::true" has-create="::true"></w-get-started-link>
+            </div>
+
         </div>
     </div>
-
-    <div class="import-wrapper margin-3" ng-if="$ctrl.isInit && !$ctrl.error">
-
-        <div class="body-2 basic-900" w-i18n="keeperForm.address"></div>
-        <div class="input-like address basic-900 mobile-caption-2 flex margin-2">
-            <w-avatar address="$ctrl.selectedUser.address"
-                      size="30"
-                      type="keeper"
-                      class="margin-right-1"></w-avatar>
-            <div>{{$ctrl.selectedUser.address}}</div>
-        </div>
-
-        <div class="margin-2">
-            <div class="body-2 basic-900" w-i18n="keeperForm.name"></div>
-            <w-input w-autofocus
-                     class="big no-validate no-icon flex"
-                     type="text"
-                     maxlength="20"
-                     ng-model="$ctrl.selectedUser.name">
-            </w-input>
-        </div>
-        <div class="flex margin-2">
-            <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
-            <label for="save-user-data" class="footnote-1 basic-500">
-                <span w-i18n="keeperForm.saveUserData"></span>
-            </label>
-        </div>
-
-        <div class="margin-3 margin-top-3">
-            <w-button class="submit big long" on-click="$ctrl.login()">
-                <span w-i18n="keeperForm.login"></span>
-            </w-button>
-        </div>
-
-        <div class="or margin-2">
-            <span w-i18n="keeperForm.or"></span>
-        </div>
-        <div class="text-center margin-2">
-            <a w-i18n="keeperForm.back" ui-sref="import"></a>
-        </div>
-    </div>
-
 </div>
+<w-footer></w-footer>
