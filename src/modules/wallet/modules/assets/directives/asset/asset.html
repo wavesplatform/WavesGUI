@@ -27,12 +27,12 @@
             </h2>
 
             <div ng-if="!$ctrl.balance.regular.eq($ctrl.balance.available)"
-                 class="body-2 disabled-500 asset__balance-leasing"
+                 class="margin-05 body-2 disabled-500 asset__balance-leasing"
                  w-i18n="directives.asset.ofTotalBalance"
                  params="{totalBalance: $ctrl.balance.regular.toFormat()}"></div>
         </div>
     </div>
-    <hr>
+    <hr class="hr">
     <div class="asset__footer">
         <div class="btn-icon icon-send"
              ng-click="$ctrl.onClick({event: $event, asset: $ctrl.balance.asset, action: 'send'})">

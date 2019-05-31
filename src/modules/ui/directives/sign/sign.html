@@ -5,10 +5,10 @@
 
 <div ng-if="!$ctrl.signPending && $ctrl.signError"
      class="plate-error margin-3">
-    <div  ng-if="::$ctrl.isLedger" w-i18n="directives.sign.confirmRequestLedger.errorHeader" class="error-400 body-2"></div>
+    <div  ng-if="::$ctrl.isLedger" w-i18n="directives.sign.confirmRequestLedger.errorHeader" class="error-400 body-2 margin-05"></div>
     <div  ng-if="::$ctrl.isLedger" w-i18n="directives.sign.confirmRequestLedger.errorDescription" class="basic-500"></div>
 
-    <div ng-if="::$ctrl.isKeeper" w-i18n="directives.sign.confirmRequestKeeper.errorHeader" class="error-400 body-2"></div>
+    <div ng-if="::$ctrl.isKeeper" w-i18n="directives.sign.confirmRequestKeeper.errorHeader" class="error-400 body-2 margin-05"></div>
     <div ng-if="::$ctrl.isKeeper" w-i18n="directives.sign.confirmRequestKeeper.errorDescription" class="basic-500"></div>
 </div>
 

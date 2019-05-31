@@ -9,7 +9,8 @@
     <w-empty-block ng-if="!$ctrl.history.length && !$ctrl.isDemo"></w-empty-block>
 
     <div class="sign-in-message" ng-if="$ctrl.isMy && $ctrl.isDemo">
-        <a ui-sref="welcome" class="link" w-i18n="directives.demo.signIn"></a>
+        <a ng-if="$ctrl.userList.length > 0" ui-sref="signIn" class="link" w-i18n="directives.demo.signIn"></a>
+        <a ng-if="$ctrl.userList.length === 0" ui-sref="welcome" class="link" w-i18n="directives.demo.signIn"></a>
         <span w-i18n="directives.demo.or"></span>
         <a ui-sref="create" class="link" w-i18n="directives.demo.createAccount"></a>
         <span w-i18n="directives.demo.to.tradehistory"></span>

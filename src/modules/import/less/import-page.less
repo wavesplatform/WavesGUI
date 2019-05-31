@@ -1,35 +1,60 @@
 @import (reference) 'config';
+@import (reference) '../../app/less/app';
 
-body.import {
-  ui-view[name='main'] {
-    position: relative;
+.import-content-ledger {
+  .getStartedContentWidth(@getStartedContentPadding);
+  margin: auto;
+}
+
+@media screen and (max-width: 480px) {
+  .import-content-ledger {
+    .import-modal__block,
+    .import-modal__block-w {
+      flex-direction: row;
+      display: flex;
+    }
+
+    .import-modal__content {
+      text-align: left;
+      margin-left: 18px;
+    }
+
+    .import-modal__icon {
+      margin: 0;
+      width: 42px;
+      height: 42px;
+    }
   }
 
-  .flex {
-    display: flex;
-    align-items: center;
-  }
+  .import-modal {
+    &__block {
+      flex-basis: 100%;
+      max-width: 100%;
+      width: 100%;
+    }
 
-  .import-footer {
-    margin: 0 auto 20px;
-    padding: 0 20px;
-    width: 420px;
-  }
-
-  .import-content {
-    max-width: 868px;
-    margin: 0 auto;
-    padding: 0 20px;
+    w-help-icon {
+      .help-icon__content {
+        right: 0;
+        left: 0;
+        width: 100%;
+      }
+    }
   }
 }
 
-@media screen and (max-width: 768px) {
-  body.import {
-    .import-content {
-      padding: 0;
+@media screen and (min-width: 480px) {
+  .import-content-ledger {
+    .import-modal__block {
+      max-width: 235px;
+      padding: 40px 30px;
+      margin-top: 50px;
     }
-    .import-footer {
-      width: calc(100% ~'- 40px');
-    }
+  }
+
+  .import-footer {
+    max-width: @getStartedContentWidth;
+    margin: auto;
+    text-align: center;
   }
 }

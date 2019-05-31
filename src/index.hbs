@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>Waves Client</title>
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
+
     <script>
         document.write('<script src="/init.js?_t=' + Date.now() + '"><\/script>');
     </script>
@@ -478,12 +479,12 @@
             }
 
             Array.prototype.slice.apply(document.querySelectorAll('[rel=stylesheet]'))
-                    .filter(function (el) {
-                        return el.getAttribute('theme');
-                    })
-                    .forEach(function (el) {
-                        el.disabled = el.getAttribute('theme') !== 'default';
-                    });
+                .filter(function (el) {
+                    return el.getAttribute('theme');
+                })
+                .forEach(function (el) {
+                    el.disabled = el.getAttribute('theme') !== 'default';
+                });
         } catch (err) {
             console.warn(e);
         }
@@ -500,7 +501,7 @@
     <div class="progress"></div>
     <div class="loader-wrapper">
         <div class="loader"><span class="leaf1"></span><span class="leaf2"></span><span class="leaf3"></span><span
-                class="leaf4"></span></div>
+            class="leaf4"></span></div>
     </div>
 </div>
 
@@ -585,6 +586,21 @@
             id: 'root',
             children: [
                 {
+                    id: 'signIn',
+                    data: {
+                        url: '/sign-in',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'unavailable',
+                    data: {
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
                     id: 'welcome',
                     data: {
                         url: '/',
@@ -639,13 +655,6 @@
                 },
                 {
                     id: 'stand',
-                    data: {
-                        noLogin: true,
-                        views: [{ name: 'main' }]
-                    }
-                },
-                {
-                    id: 'unavailable',
                     data: {
                         noLogin: true,
                         views: [{ name: 'main' }]
@@ -711,7 +720,6 @@
             ]
         });
     }
-
 </script>
 
 </body>

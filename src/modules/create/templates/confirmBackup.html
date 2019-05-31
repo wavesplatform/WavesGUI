@@ -1,47 +1,41 @@
-<div class="confirm-backup">
+<div class="get-started-content movable confirm-backup text-center">
 
-    <a class="waves-logo" ui-sref="welcome"></a>
-    <div class="headline-1">
+    <div class="headline-1 margin-1">
         <span w-i18n="confirmBackup.confirm"></span>
     </div>
 
-    <div class="body-2 basic-500 margin-5 margin-top-1">
+    <div class="body-2 basic-500 margin-4 margin-top-1">
         <span w-i18n="confirmBackup.description"></span>
         <a ng-click="$ctrl.next(-1)" w-i18n="confirmBackup.back"></a>
     </div>
 
     <w-seed-write class="margin-4"
+                  ng-class="{'seed-error': $ctrl.seedConfirmWasFilled && !$ctrl.seedIsValid}"
                   on-fulfilled="$ctrl.onSeedConfirmFulfilled(isValid)"
                   on-touch="$ctrl.seedOnTouch()"
                   seed="{{::$ctrl.seed}}"></w-seed-write>
 
-    <div class="body-2 basic-900">
+    <div class="body-2 basic-900 margin-05">
         <span w-i18n="confirmBackup.enterCorrect"></span>
     </div>
 
-    <w-seed-read type="random" class="margin-4" seed="{{::$ctrl.seed}}"></w-seed-read>
+    <w-seed-read type="random" class="margin-1" seed="{{::$ctrl.seed}}"></w-seed-read>
 
-    <div class="error-500 seed-error margin-3"
+    <div class="body-2 error-500 margin-1"
          ng-if="$ctrl.seedConfirmWasFilled && !$ctrl.seedIsValid"
          w-i18n="confirmBackup.error"></div>
 
-    <div class="margin-2">
-        <w-button class="submit big long"
-                  disabled="!$ctrl.seedIsValid"
-                  on-click="$ctrl.create()">
-            <span w-i18n="confirmBackup.ok"></span>
-        </w-button>
-    </div>
-
-    <div class="or margin-2">
-        <span w-i18n="noBackupNoMoney.or"></span>
-    </div>
-
     <div class="body-2 margin-2">
-        <a class="submit-400"
-           ng-click="$ctrl.clearSeedConfirm()"
-           w-i18n="confirmBackup.clear"></a>
-        <span class="basic-900" w-i18n="confirmBackup.again"></span>
+        <a ng-click="$ctrl.clearSeedConfirm()" w-i18n="confirmBackup.clear"></a>
+        <span w-i18n="confirmBackup.tapAgain"></span>
     </div>
+
+    <w-button class="submit big long"
+              disabled="!$ctrl.seedIsValid"
+              on-click="$ctrl.create()">
+        <span w-i18n="confirmBackup.ok"></span>
+    </w-button>
+
+    <w-get-started-link has-sign-in="::true" has-import="::true"></w-get-started-link>
 
 </div>
