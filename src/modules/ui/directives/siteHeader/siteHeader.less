@@ -99,6 +99,8 @@
     display: block;
     position: fixed;
     right: 0;
+    z-index: 12;
+
     ul {
       display: flex;
       list-style-type: none;
@@ -128,7 +130,7 @@
       display: none;
     }
 
-    w-avatar {
+    .avatar-container {
       margin: 14px 14px 14px 0;
     }
 
@@ -156,12 +158,20 @@
       min-height: 250px;
       z-index: 1;
       max-height: 100%;
-      overflow: auto;
     }
 
     .mobile-menu-wrapper-inner {
       right: -261px;
       z-index: 2;
+    }
+
+    .sign-in-link,
+    .get-started-link {
+      z-index: 10;
+      &::before {
+        bottom: auto;
+        top: 0;
+      }
     }
 
     a {
@@ -216,12 +226,18 @@
         &-transactions,
         &-portfolio,
         &-leasing,
-        &-logout {
+        &-logout,
+        &-apple,
+        &-android {
           padding-left: 58px;
         }
 
+        &.get-started-link {
+          background: url(/img/icons/arrow-white-right.svg) calc(100% ~' - 20px') center no-repeat;
+        }
+
         &-menu {
-          background-image: url(/img/icons/menu-back.svg);
+          background-image: url(/img/icons/arrow-white-left.svg);
         }
 
         &-aliases {
@@ -246,6 +262,22 @@
 
         &-transactions {
           background-image: url(/img/icons/transactions.svg);
+        }
+
+        &-apple {
+           background-image: url(/img/icons/apple-basic-600.svg);
+         }
+
+        &-android {
+          background-image: url(/img/icons/android-basic-600.svg);
+        }
+
+        &-apple {
+          background-image: url(/img/icons/apple-basic-600.svg);
+        }
+
+        &-android {
+          background-image: url(/img/icons/android-basic-600.svg);
         }
 
         &-logout {
@@ -345,8 +377,10 @@
   // end expanded
 
   w-site-header {
-    .avatar-container.dropdown-toggler {
-      display: none;
+    header {
+      .dropdown-toggler {
+        display: none;
+      }
     }
   }
 }
@@ -454,19 +488,27 @@ w-site-header {
       }
     }
 
+    .dropdown-toggler {
+      position: relative;
+      cursor: pointer;
+      width: 80px;background: url(/img/icons/arrow-down-12.svg) 52px center no-repeat;
+
+      &-right {
+        width: 80px;
+
+        .dropdown {
+          right: 0;
+          left: auto;
+          transform: translate(0, 11px);
+        }
+      }
+    }
+
     .link-margin {
       margin-right: 30px;
     }
   }
 
-  .sign-in-link,
-  .get-started-link {
-    z-index: 10;
-    &::before {
-      bottom: auto;
-      top: 0;
-    }
-  }
 
   .copywrap-default {
     width: calc(100% ~' - 40px');
@@ -539,23 +581,40 @@ w-site-header {
       z-index: 11;
       bottom: -21px;
     }
-  }
 
-  .dropdown-toggler:hover {
-    &:hover {
-      &::after {
-        display: block;
+   &:hover {
+      &:hover {
+        &::after {
+          display: block;
+        }
+        .dropdown {
+          display: block;
+        }
       }
-      .dropdown {
-        display: block;
+
+      .dropdown-btn {
+        color: @color-submit-400;
+        &::after {
+          transform: rotate(-180deg);
+          background: url(/img/landing/arrow-down-blue.svg) right center no-repeat;
+        }
       }
     }
 
     .dropdown-btn {
-      color: @color-submit-400;
+      padding-right: 17px;
+      position: relative;
+
       &::after {
-        transform: rotate(-180deg);
-        background: url(/img/landing/arrow-down-blue.svg) right center no-repeat;
+        display: block;
+        width: 10px;
+        height: 10px;
+        content: '';
+        background: url(/img/landing/arrow-down.svg) right center no-repeat;
+        position: absolute;
+        top: 5px;
+        right: 0;
+        transition: .3s;
       }
     }
   }
@@ -573,22 +632,7 @@ w-site-header {
     z-index: 10;
     min-width: 280px;
 
-    &-btn {
-      padding-right: 17px;
-      position: relative;
 
-      &::after {
-        display: block;
-        width: 10px;
-        height: 10px;
-        content: '';
-        background: url(/img/landing/arrow-down.svg) right center no-repeat;
-        position: absolute;
-        top: 5px;
-        right: 0;
-        transition: .3s;
-      }
-    }
 
     &-icon {
       margin-right: 15px;
@@ -633,8 +677,11 @@ w-site-header {
 
   .avatar-container {
     position: relative;
-    cursor: pointer;
-    background: url(/img/icons/arrow-down-12.svg) 52px center no-repeat;
+
+    w-avatar {
+      position: relative;
+      display: block;
+    }
 
     w-avatar[type='scripted'],
     w-avatar[type='ledger'],
@@ -672,14 +719,6 @@ w-site-header {
           }
         }
       }
-    }
-
-    .dropdown {
-      left: auto;
-      cursor: default;
-      transform: translate(0, 11px);
-      min-width: 280px;
-      right: 0;
     }
   }
 

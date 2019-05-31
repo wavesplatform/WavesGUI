@@ -37,11 +37,19 @@ w-avatar .avatar-wrap {
         position: absolute;
         top: 24px;
         left: -22px;
+        line-height: 14px;
 
         &::after {
-          left: 19px;
+          left: -5px;
+          margin-top: -3px;
           top: 50%;
-          margin-top: -5px;
+          background: none transparent;
+          width: 0;
+          height: 0;
+          transform: rotate(0);
+          border-style: solid;
+          border-width: 4px 0 4px 5px;
+          border-color: transparent transparent transparent @color-submit-300;
         }
 
         &::before {
@@ -54,13 +62,13 @@ w-avatar .avatar-wrap {
 
       &__content {
         width: 150px;
-        left: 6px;
+        left: -170px;
         top: 31px;
-        margin-top: 1px;
+        margin-top: 4px;
         padding: 11px;
         line-height: 1em;
         font-size: 11px;
-        border-left: 4px solid @color-submit-300;
+        border-right: 4px solid @color-submit-300;
         border-top: 0 none;
         transform: translateY(-50%);
       }
