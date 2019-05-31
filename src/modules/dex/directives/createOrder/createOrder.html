@@ -89,14 +89,14 @@
                         <w-input-container ng-class="{'invalid': $ctrl.isPriceInvalid()}">
                             <div class="input-like tiny">
                                 <w-input class="tiny embed no-validate-icons"
-                                         tabindex="2"
+                                         tabindex="1"
                                          type="text"
                                          ng-blur="$ctrl.setChangedInput('price')"
                                          w-validate
+                                         w-validator-custom="{{$ctrl.isValidTickSize}}"
                                          w-validator-asset="{{$ctrl.priceBalance.asset}}"
                                          w-validator-lte="{{$ctrl.pairRestrictions.maxPrice}}"
                                          w-validator-gte="{{$ctrl.pairRestrictions.minPrice}}"
-                                         w-validator-custom="{{$ctrl.isValidTickSize}}"
                                          name="price"
                                          ng-model="$ctrl.price"
                                          autocomplete="off"
@@ -106,10 +106,12 @@
                                 </div>
                             </div>
                             <w-input-error message="precision" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.precision"
-                                      params="{precision: $ctrl.priceBalance.asset.precision}"></span>
+                                <span w-i18n="directives.createOrder.errors.tickSize"></span>
+                                <span class="clickable-value" ng-click="$ctrl.setPrice($ctrl.roundPrice())">
+                                    {{$ctrl.roundPrice()}}
+                                </span>
                             </w-input-error>
-                            <w-input-error message="lte" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                            <w-input-error message="lte" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.lte"></span>
                             </w-input-error>
                             <w-input-error message="gte" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
@@ -118,8 +120,11 @@
                             <w-input-error message="required" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.required"></span>
                             </w-input-error>
-                            <w-input-error message="custom" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                            <w-input-error message="custom" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.tickSize"></span>
+                                <span class="clickable-value" ng-click="$ctrl.setPrice($ctrl.roundPrice())">
+                                    {{$ctrl.roundPrice()}}
+                                </span>
                             </w-input-error>
                         </w-input-container>
                     </div>
@@ -142,7 +147,7 @@
 
                         <w-input-container ng-class="{'invalid': $ctrl.isAmountInvalid()}">
                             <div class="input-like tiny">
-                                <w-input tabindex="1"
+                                <w-input tabindex="2"
                                          class="tiny embed no-validate-icons"
                                          type="text"
                                          ng-blur="$ctrl.setChangedInput('amount')"
@@ -164,18 +169,24 @@
                                 <span w-i18n="directives.createOrder.errors.required"></span>
                             </w-input-error>
                             <w-input-error message="gte" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.required"></span>
+                                <span w-i18n="directives.createOrder.errors.gte"></span>
                             </w-input-error>
                             <w-input-error message="precision" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.precision"
                                       params="{precision: $ctrl.amountBalance.asset.precision}"></span>
                             </w-input-error>
                             <w-input-error message="lte" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.balance"
+                                <span ng-if="$ctrl.maxAmountBalance"
+                                      w-i18n="directives.createOrder.errors.balance"
                                       params="{name: $ctrl.amountBalance.asset.displayName}"></span>
+                                <span ng-if="!$ctrl.maxAmountBalance"
+                                      w-i18n="directives.createOrder.errors.lte"></span>
                             </w-input-error>
-                            <w-input-error message="custom" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                            <w-input-error message="custom" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.stepSize"></span>
+                                <span class="clickable-value" ng-click="$ctrl.setAmount($ctrl.roundAmount())">
+                                    {{$ctrl.roundAmount()}}
+                                </span>
                             </w-input-error>
                         </w-input-container>
 

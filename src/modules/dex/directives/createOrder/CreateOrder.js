@@ -20,7 +20,7 @@
     const controller = function (Base, waves, user, utils, createPoll, $scope,
                                  $element, notification, dexDataService, ease, $state, modalManager, balanceWatcher) {
 
-        const { without, keys, last } = require('ramda');
+        const { without, keys, last, equals } = require('ramda');
         const { Money } = require('@waves/data-entities');
         const ds = require('data-service');
         const analytics = require('@waves/event-sender');
@@ -44,6 +44,10 @@
 
             get loaded() {
                 return this.amountBalance && this.priceBalance;
+            }
+
+            get loadedPairRestrictions() {
+                return !equals(this.pairRestrictions, Object.create(null));
             }
 
             /**
@@ -102,6 +106,10 @@
              */
             ERROR_DISPLAY_INTERVAL = 3;
             /**
+             * @type {number}
+             */
+            ERROR_CLICKABLE_DISPLAY_INTERVAL = 6;
+            /**
              * @type {{amount: string, price: string}}
              * @private
              */
@@ -152,6 +160,14 @@
              * @type {Object}
              */
             pairRestrictions = {};
+            /**
+             * @type {Money}
+             */
+            _price = null;
+            /**
+             * @type {Money}
+             */
+            _amount = null;
 
 
             constructor() {
@@ -192,10 +208,9 @@
 
                 this.receive(balanceWatcher.change, () => {
                     this._updateBalances();
-                    this._getPairRestrictions();
                 }, this);
-                this._updateBalances();
-                this._getPairRestrictions();
+                this._updateBalances()
+                    .then(() => this._setPairRestrictions());
 
                 const lastTradePromise = new Promise((resolve) => {
                     balanceWatcher.ready.then(() => {
@@ -233,6 +248,7 @@
                 this.isValidTickSize = this._validateTickSize();
 
                 this.observe(['amountBalance', 'type', 'fee', 'priceBalance'], this._updateMaxAmountOrPriceBalance);
+                this.observe(['maxAmountBalance', 'amountBalance', 'priceBalance'], this._setPairRestrictions);
 
                 this.observe('_assetIdPair', () => {
                     this.amount = null;
@@ -258,26 +274,27 @@
                         }
                     }));
                     currentFee();
-                    this._getPairRestrictions();
                 });
 
                 this.observe(['priceBalance', 'total', 'maxPriceBalance'], this._setIfCanBuyOrder);
 
                 this.observe('amount', () => {
+                    this.isValidStepSize = this._validateStepSize();
                     if (!this._silenceNow) {
-                        this.isValidStepSize = this._validateStepSize();
                         this._updateField({ amount: this.amount });
+                    }
+                    if (this.amount) {
+                        this._amount = this.amount;
                     }
                 });
 
-                this.observe('price', () => (
-                    !this._silenceNow && this._updateField({ price: this.price })
-                ));
-
                 this.observe('price', () => {
+                    this.isValidTickSize = this._validateTickSize();
                     if (!this._silenceNow) {
-                        this.isValidTickSize = this._validateTickSize();
                         this._updateField({ price: this.price });
+                    }
+                    if (this.price) {
+                        this._price = this.price;
                     }
                 });
 
@@ -309,9 +326,12 @@
 
             /**
              * @param {number} factor
+             * @return {Promise}
              */
             setAmountByBalance(factor) {
-                const amount = this.maxAmount.cloneWithTokens(this.maxAmount.getTokens().times(factor));
+                const amount = this.maxAmount.cloneWithTokens(
+                    this.roundAmount(this.maxAmount.getTokens().times(factor))
+                );
                 this._updateField({ amount });
                 return Promise.resolve();
             }
@@ -380,6 +400,16 @@
                 );
                 const price = this.price;
                 this._updateField({ amount, total, price });
+            }
+
+            setPrice(value) {
+                const price = this.priceBalance.cloneWithTokens(value);
+                this._updateField({ price });
+            }
+
+            setAmount(value) {
+                const amount = this.amountBalance.cloneWithTokens(value);
+                this._updateField({ amount });
             }
 
             setBidPrice() {
@@ -908,35 +938,111 @@
                 this.order.$setDirty();
             }
 
-            _getPairRestrictions() {
+            _setPairRestrictions() {
                 if (!this.loaded) {
                     return false;
                 }
+
+                this.pairRestrictions = {};
 
                 ds.api.matcher.getPairRestrictions({
                     amountAsset: this.amountBalance.asset,
                     priceAsset: this.priceBalance.asset
                 }).then(info => {
                     if (info) {
-                        this.pairRestrictions = info;
+                        this.pairRestrictions = Object.keys(info).reduce((pairRestriction, key) => {
+                            if (typeof info[key] === 'string' || typeof info[key] === 'number') {
+                                pairRestriction[key] = new BigNumber(info[key]);
+                            } else {
+                                pairRestriction[key] = info[key];
+                            }
+                            return pairRestriction;
+                        }, Object.create(null));
+                    } else {
+                        const tickSize = new BigNumber(Math.pow(10, -this.priceBalance.asset.precision));
+                        const stepSize = new BigNumber(Math.pow(10, -this.amountBalance.asset.precision));
+                        const maxPrice = new BigNumber(Infinity);
+                        const maxAmount = this.maxAmountBalance ?
+                            this.maxAmountBalance.getTokens() :
+                            new BigNumber(Infinity);
+                        this.pairRestrictions = {
+                            maxPrice,
+                            maxAmount,
+                            tickSize,
+                            stepSize,
+                            minPrice: tickSize,
+                            minAmount: stepSize
+                        };
                     }
                 });
             }
 
+            /**
+             * @return {boolean}
+             */
             _validateStepSize() {
                 if (!this.amount) {
                     return false;
                 }
-                const step = new BigNumber(this.pairRestrictions.stepSize);
-                return this.amount.getTokens().modulo(step).isZero();
+
+                return this.amount.getTokens().modulo(this.pairRestrictions.stepSize).isZero();
             }
 
+            /**
+             * @return {boolean}
+             */
             _validateTickSize() {
-                if (!this.price) {
-                    return false;
+                const { tickSize, minPrice, maxPrice } = this.pairRestrictions;
+                if (!this.price || this.price.getTokens().lte(minPrice) || this.price.getTokens().gte(maxPrice)) {
+                    return true;
                 }
-                const step = new BigNumber(this.pairRestrictions.tickSize);
-                return this.price.getTokens().modulo(step).isZero();
+
+                return this.price.getTokens().modulo(tickSize).isZero();
+            }
+
+            /**
+             * @return {string}
+             */
+            roundPrice() {
+                if (!this.loadedPairRestrictions) {
+                    return '';
+                }
+                const price = this._price.getTokens();
+                const { tickSize, minPrice, maxPrice } = this.pairRestrictions;
+                const roundedPrice = price.decimalPlaces(-tickSize.e, BigNumber.ROUND_HALF_EVEN);
+
+                if (roundedPrice.lt(minPrice)) {
+                    return minPrice;
+                }
+
+                if (roundedPrice.gt(maxPrice)) {
+                    return maxPrice;
+                }
+
+                return roundedPrice;
+            }
+
+            /**
+             * @param {Money} value
+             * @return {string}
+             */
+            roundAmount(value) {
+                if (!this.loadedPairRestrictions) {
+                    return '';
+                }
+                const amount = value ? value : this._amount.getTokens();
+                const { stepSize, minAmount, maxAmount } = this.pairRestrictions;
+                const roundedAmount = amount.decimalPlaces(-stepSize.e, BigNumber.ROUND_HALF_EVEN);
+
+                if (roundedAmount.lt(minAmount)) {
+                    return minAmount;
+                }
+
+                if (roundedAmount.gt(maxAmount)) {
+                    return maxAmount;
+                }
+
+                return roundedAmount;
             }
 
             static _animateNotification($element) {
