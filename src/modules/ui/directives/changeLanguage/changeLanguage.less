@@ -3,16 +3,6 @@
 w-change-language {
   w-select {
     width: 142px;
-    border: 0 none;
-    position: absolute;
-    right: 40px;
-    top: 34px;
-    z-index: 1;
-
-    .select.expanded .title {
-      border: 1px solid @color-basic-200;
-      border-bottom: 1px solid transparent;
-    }
 
     .select {
       .title {
@@ -23,10 +13,6 @@ w-change-language {
         max-height: 171px;
         overflow: auto;
       }
-    }
-
-    .title-content {
-      min-height: 36px;
     }
 
     .lng-item {
@@ -192,11 +178,5 @@ w-change-language {
         }
       }
     }
-  }
-}
-
-@media screen and (max-width: 420px) {
-  w-change-language w-select {
-    right: 10px;
   }
 }
