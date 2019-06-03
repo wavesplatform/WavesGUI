@@ -108,19 +108,19 @@
                             <w-input-error message="precision" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.priceTickSize"></span>
                                 <span class="clickable-value" ng-click="$ctrl.setPrice($ctrl.roundPrice())">
-                                    {{$ctrl.roundPrice()}}
+                                    {{$ctrl.roundPrice().toFormat()}}
                                 </span>
                             </w-input-error>
                             <w-input-error message="lte" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.priceLte"></span>
                                 <span class="clickable-value" ng-click="$ctrl.setPrice($ctrl.pairRestrictions.maxPrice)">
-                                    {{$ctrl.pairRestrictions.maxPrice}}
+                                    {{$ctrl.pairRestrictions.maxPrice.toFormat()}}
                                 </span>
                             </w-input-error>
                             <w-input-error message="gte" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.priceGte"></span>
                                 <span class="clickable-value" ng-click="$ctrl.setPrice($ctrl.pairRestrictions.minPrice)">
-                                    {{$ctrl.pairRestrictions.minPrice}}
+                                    {{$ctrl.pairRestrictions.minPrice.toFormat()}}
                                 </span>
                             </w-input-error>
                             <w-input-error message="required" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
@@ -129,7 +129,7 @@
                             <w-input-error message="custom" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.priceTickSize"></span>
                                 <span class="clickable-value" ng-click="$ctrl.setPrice($ctrl.roundPrice())">
-                                    {{$ctrl.roundPrice()}}
+                                    {{$ctrl.roundPrice().toFormat()}}
                                 </span>
                             </w-input-error>
                         </w-input-container>
@@ -177,7 +177,7 @@
                             <w-input-error message="gte" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.amountGte"></span>
                                 <span class="clickable-value" ng-click="$ctrl.setAmount($ctrl.pairRestrictions.minAmount)">
-                                    {{$ctrl.pairRestrictions.minAmount}}
+                                    {{$ctrl.pairRestrictions.minAmount.toFormat()}}
                                 </span>
                             </w-input-error>
                             <w-input-error message="precision" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
@@ -191,14 +191,14 @@
                                 <span ng-if="!$ctrl.maxAmountBalance">
                                     <span w-i18n="directives.createOrder.errors.amountLte"></span>
                                     <span class="clickable-value" ng-click="$ctrl.setAmount($ctrl.pairRestrictions.maxAmount)">
-                                        {{$ctrl.pairRestrictions.maxAmount}}
+                                        {{$ctrl.pairRestrictions.maxAmount.toFormat()}}
                                     </span>
                                 </span>
                             </w-input-error>
                             <w-input-error message="custom" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.stepSize"></span>
-                                <span class="clickable-value" ng-click="$ctrl.setAmount($ctrl.roundAmount())">
-                                    {{$ctrl.roundAmount()}}
+                                <span w-i18n="directives.createOrder.errors.amountStepSize"></span>
+                                <span class="clickable-value" ng-click="$ctrl.setAmount($ctrl.getClosestValidAmount())">
+                                    {{$ctrl.getClosestValidAmount().toFormat()}}
                                 </span>
                             </w-input-error>
                         </w-input-container>
