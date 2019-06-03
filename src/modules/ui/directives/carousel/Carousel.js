@@ -168,20 +168,20 @@
              * @private
              */
             _copyStaticSlides() {
-                const temp$slidesContainer = this.$slidesContainer.clone();
-                temp$slidesContainer.find('.slide').slice(this.slidesAmount).remove();
-                const slides = temp$slidesContainer.find('.slide');
+                const tempSlidesContainer = this.$slidesContainer.clone();
+                tempSlidesContainer.find('.slide').slice(this.slidesAmount).remove();
+                const slides = tempSlidesContainer.find('.slide');
                 slides
                     .removeAttr('style')
                     .removeClass('absolute');
-                temp$slidesContainer.appendTo($element.find('.slider'));
+                tempSlidesContainer.appendTo($element.find('.slider'));
 
                 const width = slides.outerWidth();
                 const startCoords = slides
                     .toArray()
                     .map(slide => Math.round($(slide).offset().left));
 
-                temp$slidesContainer.remove();
+                tempSlidesContainer.remove();
                 return { width, startCoords };
             }
 
