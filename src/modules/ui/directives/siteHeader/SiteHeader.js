@@ -51,7 +51,6 @@
                 this.menuList = stateManager.getStateTree();
                 this.activeState = $state.$current.name.slice($state.$current.name.lastIndexOf('.') + 1);
                 this.userType = user.userType;
-
                 if (!this.isLogined) {
                     this.activeState = this.activeState.replace('-demo', '');
                 }
@@ -66,6 +65,7 @@
 
                 user.getFilteredUserList().then(list => {
                     this.userList = list;
+                    this.hasUsers = this.userList.length > 0;
                     utils.postDigest($scope).then(() => {
                         $scope.$apply();
                     });
@@ -92,6 +92,7 @@
             }
 
             avatarClick() {
+                $document.find('body').removeClass('menu-is-shown');
                 if (this.isLogined) {
                     modalManager.showAccountInfo();
                 } else {
@@ -100,6 +101,7 @@
             }
 
             settings() {
+                $document.find('body').removeClass('menu-is-shown');
                 if (this.isLogined) {
                     modalManager.showSettings();
                 } else {
@@ -116,6 +118,13 @@
                         user.logout('welcome');
                     });
                 }
+            }
+
+            /**
+             * public
+             */
+            removeInnerMenu() {
+                $document.find('w-site-header header').removeClass('show-wallet show-aliases show-downloads');
             }
 
             /**
