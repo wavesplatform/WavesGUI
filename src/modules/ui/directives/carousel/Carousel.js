@@ -64,9 +64,14 @@
             timer = null;
             /**
              * @private
+             * @type {number}
+             */
+            _diff = null;
+            /**
+             * @private
              * @type {jQuery}
              */
-            content = null;
+            $slides = null;
             /**
              * @private
              * @type {Array}
@@ -78,9 +83,9 @@
                     utils.postDigest($scope).then(() => {
                         carouselManager.registerSlider(this.id, this);
                         this.interval = Number(this.interval) || 0;
-                        this.wrapper = $element.find('.slider-content:first');
-                        this.content = $element.find('.slider-content:first').children();
-                        this._mapSlides = this.content.toArray().map(slide => ({ $slide: $(slide), translateX: null }));
+                        this.$slidesContainer = $element.find('.slider-content:first');
+                        this.$slides = $element.find('.slider-content:first').children();
+                        this._mapSlides = this.$slides.toArray().map(slide => ({ $slide: $(slide), translateX: null }));
 
                         this._fillGraphs();
                         this._remapSlides();
@@ -130,11 +135,11 @@
              * @private
              */
             _fillGraphs() {
-                this.content.toArray().forEach((element, i) => {
+                this._mapSlides.forEach(({ $slide }, i) => {
                     const info = this.pairsInfoList[i];
                     const options = info.change24.gt(0) ? chartOptions.blue : chartOptions.red;
                     new ChartFactory(
-                        $(element).find('.graph'),
+                        $slide.find('.graph'),
                         options,
                         this.pairsInfoList[i].rateHistory
                     );
@@ -148,35 +153,35 @@
                 this.slidesAmount = this._getSlidesInWindowAmount(window.innerWidth);
 
                 const { width, startCoords } = this._copyStaticSlides();
-                this.diff = startCoords.length > 1 ? startCoords[1] - startCoords[0] : width + 10;
-                this._coords = this.content.toArray().map((element, i) => (i - 1) * this.diff);
+                this._diff = startCoords.length > 1 ? startCoords[1] - startCoords[0] : width + 10;
+                this._coords = this.$slides.toArray().map((element, i) => (i - 1) * this._diff);
 
                 this._mapSlides.forEach((slide, i) => {
                     slide.translateX = this._coords[i];
-                    slide.$slide.css({ transform: `translateX(${this._coords[i]}px)`, width });
+                    slide.$slide.css({ transform: `translateX(${this._coords[i]}px)` });
                 });
 
-                this.content.addClass('absolute');
+                this.$slides.addClass('absolute');
             }
 
             /**
              * @private
              */
             _copyStaticSlides() {
-                const tempWrapper = this.wrapper.clone();
-                tempWrapper.find('.slide').slice(this.slidesAmount).remove();
-                const slides = tempWrapper.find('.slide');
+                const temp$slidesContainer = this.$slidesContainer.clone();
+                temp$slidesContainer.find('.slide').slice(this.slidesAmount).remove();
+                const slides = temp$slidesContainer.find('.slide');
                 slides
                     .removeAttr('style')
                     .removeClass('absolute');
-                tempWrapper.appendTo($element.find('.slider'));
+                temp$slidesContainer.appendTo($element.find('.slider'));
 
                 const width = slides.outerWidth();
                 const startCoords = slides
                     .toArray()
                     .map(slide => Math.round($(slide).offset().left));
 
-                tempWrapper.remove();
+                temp$slidesContainer.remove();
                 return { width, startCoords };
             }
 
@@ -206,7 +211,7 @@
                     const $slide = slide.$slide;
                     const start = slide.translateX;
                     const duration = 1000;
-                    const end = start - this.diff;
+                    const end = start - this._diff;
                     slide.translateX = end;
                     const opacity = this._switchOpacity(end);
 
@@ -217,7 +222,7 @@
                         duration: duration,
                         progress: this._animateProgress(start, end, $slide),
                         complete: () => {
-                            if (end < -this.diff) {
+                            if (end < -this._diff) {
                                 $slide.css('transform', `translateX(${lastPos}px)`);
                                 slide.translateX = lastPos;
                             }
@@ -250,7 +255,7 @@
              */
             _switchOpacity(newPos) {
                 switch (true) {
-                    case (newPos < -this.diff || newPos > this._coords[this.slidesAmount + 1]):
+                    case (newPos < -this._diff || newPos > this._coords[this.slidesAmount + 1]):
                         return 0;
                     case (newPos < 0 || newPos > this._coords[this.slidesAmount]):
                         return 0.2;
