@@ -69,7 +69,7 @@ body.ledger {
     top: 50%;
     width: 100px;
     margin: 0 auto;
-    height: 67px;
+    height: 107px;
     transform: translate(0);
     left: 0;
     w-loader {
@@ -84,15 +84,15 @@ body.ledger {
       .icon {
         &-left,
         &-right {
-          top: 32px;
+          top: 34px;
         }
 
         &-left {
-          left: 0;
+          left: -15px;
         }
 
         &-right {
-          right: 0;
+          right: -15px;
         }
       }
 
@@ -110,12 +110,9 @@ body.ledger {
         }
       }
     }
-  }
-}
 
-@media screen and (max-width: 480px) {
-  body.ledger .import-wrapper .avatars-list {
-    margin-left: 20px;
-    margin-right: 20px;
+    .loader-wrapper {
+      height: 87px;
+    }
   }
 }
