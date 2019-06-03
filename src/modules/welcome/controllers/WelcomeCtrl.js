@@ -167,23 +167,7 @@
                             });
                         })
                             .catch(() => {
-                                this.pairsInfoList = tempInfoList.map(info => {
-                                    return {
-                                        rateHistory: [{
-                                            rate: new BigNumber(0),
-                                            timestamp: ds.utils.normalizeTime(Date.now())
-                                        }],
-                                        ticker: info.displayName,
-                                        amountAsset: info.amountAsset,
-                                        priceAsset: info.priceAsset,
-                                        change24: new BigNumber(0),
-                                        high: new Money(0, info.priceAsset),
-                                        id: info.id,
-                                        lastPrice: new Money(0, info.priceAsset),
-                                        low: new Money(0, info.priceAsset),
-                                        volume: new Money(0, info.priceAsset)
-                                    };
-                                });
+                                this.pairsInfoList = tempInfoList.map(this._fakeValues);
                             })
                             .then(() => {
                                 angularUtils.safeApply($scope);
@@ -191,6 +175,28 @@
                                 this._addScrollHandler();
                             });
                     });
+            }
+
+            /**
+             * @param info
+             * @private
+             */
+            _fakeValues(info) {
+                return {
+                    rateHistory: [{
+                        rate: new BigNumber(0),
+                        timestamp: ds.utils.normalizeTime(Date.now())
+                    }],
+                    ticker: info.displayName,
+                    amountAsset: info.amountAsset,
+                    priceAsset: info.priceAsset,
+                    change24: new BigNumber(0),
+                    high: new Money(0, info.priceAsset),
+                    id: info.id,
+                    lastPrice: new Money(0, info.priceAsset),
+                    low: new Money(0, info.priceAsset),
+                    volume: new Money(0, info.priceAsset)
+                };
             }
 
             /**
