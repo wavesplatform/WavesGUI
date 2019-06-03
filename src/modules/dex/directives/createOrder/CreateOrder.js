@@ -1004,9 +1004,10 @@
              * @return {string}
              */
             roundPrice() {
-                if (!this.loadedPairRestrictions) {
+                if (!this.loadedPairRestrictions || !this._price) {
                     return '';
                 }
+
                 const price = this._price.getTokens();
                 const { tickSize, minPrice, maxPrice } = this.pairRestrictions;
                 const roundedPrice = price.decimalPlaces(-tickSize.e, BigNumber.ROUND_HALF_EVEN);
@@ -1027,7 +1028,7 @@
              * @return {string}
              */
             roundAmount(value) {
-                if (!this.loadedPairRestrictions) {
+                if (!this.loadedPairRestrictions || !this._amount) {
                     return '';
                 }
                 const amount = value ? value : this._amount.getTokens();
