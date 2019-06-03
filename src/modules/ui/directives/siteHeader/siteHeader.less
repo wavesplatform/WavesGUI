@@ -94,6 +94,7 @@
     }
   }
   // end toggler button
+
   // basic mobile menu styles
   .mobile-menu {
     display: block;
@@ -192,11 +193,6 @@
         .link-border;
       }
 
-      &:hover {
-        color: @mobile-menu-link-hover;
-        background: @mobile-menu-background-hover;
-      }
-
       &.has-child {
         position: relative;
 
@@ -205,7 +201,7 @@
           position: absolute;
           display: block;
           content: '';
-          background: @dex-arrow-right-icon; //todo change color
+          background: @dex-arrow-right-icon;
           right: 20px;
           top: 50%;
           transform: translate(0, -50%);
@@ -483,9 +479,6 @@ w-site-header {
     .dropdown-toggler {
       font-size: 15px;
       color: @color-basic-900;
-      &:hover {
-        color: @color-submit-400;
-      }
     }
 
     .dropdown-toggler {
