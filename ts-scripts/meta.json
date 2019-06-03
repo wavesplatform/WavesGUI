@@ -213,7 +213,7 @@
       "explorer": "https://wavesexplorer.com/testnet",
       "coinomat": "https://localhost:8080/coinomat",
       "vostok": {
-        "gateway": "https://gateways-dev.wvservices.com",
+        "gateway": "https://gw.wavesplatform.com",
         "networkByte": "F"
       },
       "support": "https://support.wavesplatform.com",
@@ -255,7 +255,7 @@
       "explorer": "https://wavesexplorer.com",
       "coinomat": "https://coinomat.com",
       "vostok": {
-        "gateway": "https://gateways-dev.wvservices.com",
+        "gateway": "https://gw.wavesplatform.com",
         "networkByte": "F"
       },
       "support": "https://support.wavesplatform.com",
