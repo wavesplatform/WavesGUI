@@ -110,17 +110,6 @@
             /**
              * public
              */
-            toWelcome() {
-                if (this.isLogined) {
-                    return modalManager.showConfirmLogout().then(() => {
-                        user.logout('welcome');
-                    });
-                }
-            }
-
-            /**
-             * public
-             */
             removeBodyClass() {
                 $document.find('body').removeClass('menu-is-shown');
             }
