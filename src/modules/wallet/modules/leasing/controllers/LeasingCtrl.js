@@ -79,7 +79,8 @@
                 createPoll(this, this._getTransactions, this._setTxList, 3000, { isBalance: true });
 
                 this.receive(balanceWatcher.change, this._updateLeasingData, this);
-                this.observe(['_txList', 'allActiveLeasing', 'filter'], this._currentLeasingList);
+                this.observe(['_txList', 'allActiveLeasing'], this._currentLeasingList);
+                this.observe('filter', this._filterLeasingList);
 
                 this._updateLeasingData();
             }
@@ -136,6 +137,7 @@
                 };
 
                 this._txList = txList.filter(({ typeName }) => AVAILABLE_TYPES_HASH[typeName]);
+                this.pending = false;
                 $scope.$apply();
             }
 
@@ -151,11 +153,6 @@
                 }
 
                 this.pending = !txList.length && !allActiveLeasing;
-
-                if (!allActiveLeasing || !allActiveLeasing.length) {
-                    this.transactions = txList.slice();
-                    return null;
-                }
 
                 const idHash = utils.toHash(txList, 'id');
                 const result = txList.slice();
@@ -174,6 +171,7 @@
              * @private
              */
             _filterLeasingList() {
+                this.pending = true;
                 const filter = this.filter;
                 if (filter === 'active') {
                     this.transactions = this.transactions.filter(tx => tx.status === 'active');
