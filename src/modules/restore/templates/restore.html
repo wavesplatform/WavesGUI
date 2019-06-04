@@ -18,14 +18,14 @@
                         <div class="seed-block margin-2">
                             <w-input textarea
                                      w-autofocus
-                                     class="embed no-icon big footnote-1"
+                                     class="embed no-icon"
                                      ng-model="$ctrl.seed"
                                      placeholder="seedForm.placeholder"
                                      w-i18n-attr="placeholder"
                                      minlength="25"
                                      required></w-input>
                             <div class="address-block-info">
-                                <w-avatar ng-if="$ctrl.address" class="margin-right-1" address="$ctrl.address"
+                                <w-avatar ng-if="$ctrl.address" address="$ctrl.address"
                                           size="40"></w-avatar>
                                 <div ng-if="!$ctrl.address" class="avatar-fake margin-right-1"></div>
                                 <div class="address-block">
