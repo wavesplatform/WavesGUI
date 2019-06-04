@@ -136,9 +136,6 @@
 
             $onDestroy() {
                 super.$onDestroy();
-                if (!this.loadingTradingView) {
-                    user.setSetting('lastInterval', this._chart.symbolInterval().interval);
-                }
                 this._removeTradingView();
             }
 
@@ -246,6 +243,10 @@
                         this._assetIdPairWasChanged = false;
                         this._chartReady = true;
                     }
+
+                    this._chart.subscribe('onIntervalChange', (e) => {
+                        user.setSetting('lastInterval', e);
+                    });
                 });
                 this._chart.options.datafeed.onLoadError = () => {
                     this.notLoaded = true;
