@@ -14,7 +14,6 @@
         const ds = require('data-service');
         const analytics = require('@waves/event-sender');
         const PATH = 'modules/signIn/templates';
-        const { utils } = require('@waves/signature-generator');
 
         class SignInCtrl extends Base {
 
@@ -172,9 +171,9 @@
              * @private
              */
             _initUserList() {
-                user.getUserList()
+                user.getFilteredUserList()
                     .then((list) => {
-                        this.userList = list.filter(user => utils.crypto.isValidAddress(user.address));
+                        this.userList = list;
                         this.pendingRestore = false;
                         this._updateActiveUserAddress();
                         setTimeout(() => {

@@ -447,7 +447,7 @@
                 const toGateway = this.outerSendMode && this.gatewayDetails;
                 const fee = toGateway ? this.tx.amount.cloneWithTokens(toGateway.gatewayFee) : null;
                 const attachmentString = this.tx.attachment ? this.tx.attachment.toString() : '';
-                const isWavesAddress = waves.node.isValidAddress(this.tx.recipient);
+                const isWavesAddress = user.isValidAddress(this.tx.recipient);
 
                 this.wavesTx = {
                     ...this.wavesTx,
@@ -647,7 +647,7 @@
                 }
 
                 const outerChain = outerBlockchains[this.assetId];
-                const isValidWavesAddress = waves.node.isValidAddress(this.tx.recipient);
+                const isValidWavesAddress = user.isValidAddress(this.tx.recipient);
 
                 if (this.gatewayDetailsError) {
                     this.outerSendMode = false;

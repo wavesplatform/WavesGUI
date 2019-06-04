@@ -283,14 +283,14 @@
                     return false;
                 }
 
-                return this.maxAmount.cloneWithTokens(this.maxAmount.getTokens().times(factor)).eq(amount);
+                return this.maxAmount.cloneWithTokens(this.maxAmount.getTokens().mul(factor)).eq(amount);
             }
 
             /**
              * @param {number} factor
              */
             setAmountByBalance(factor) {
-                const amount = this.maxAmount.cloneWithTokens(this.maxAmount.getTokens().times(factor));
+                const amount = this.maxAmount.cloneWithTokens(this.maxAmount.getTokens().mul(factor));
                 this._updateField({ amount });
                 return Promise.resolve();
             }

@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-    const { isValidAddress } = require('@waves/signature-adapter');
-
     /**
      * @param Base
      * @param $scope
@@ -188,11 +186,9 @@
              * @private
              */
             _initUserList() {
-                user.getUserList()
+                user.getFilteredUserList()
                     .then((list) => {
-                        this.userList = list.filter(
-                            user => isValidAddress(user.address, WavesApp.network.code.charCodeAt(0))
-                        );
+                        this.userList = list;
                         this.pendingRestore = false;
                         setTimeout(() => {
                             $scope.$apply(); // TODO FIX!
