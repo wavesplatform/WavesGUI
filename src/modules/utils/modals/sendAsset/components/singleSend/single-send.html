@@ -220,7 +220,7 @@
         </w-input-error>
     </w-input-container>
 
-    <div ng-if="!$ctrl.toBankMode && !$ctrl.hasOuterError && !$ctrl.isMoneroCoinomat()"
+    <div ng-if="!$ctrl.outerSendMode && !$ctrl.toBankMode && !$ctrl.hasOuterError"
          class="margin-top-2">
         <div class="body-2 margin-05" w-i18n="modal.send.description"></div>
         <w-input-container>

@@ -439,10 +439,6 @@
                 this._onChangeAssetId();
             }
 
-            isMoneroCoinomat() {
-                return this.isMoneroAddress() && this.outerSendMode && this.gatewayDetails;
-            }
-
             /**
              * @private
              */
