@@ -48,7 +48,6 @@
             constructor(params) {
                 super();
                 this._fillColor = params.fillColor;
-                this._isAsks = params.isAsks;
                 this._createCanvas(params.node);
                 this._createLines(params.node);
             }
