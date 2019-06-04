@@ -127,6 +127,8 @@ export function getAssetsHashFromTx(transaction: T_API_TX, hash = Object.create(
         case TRANSACTION_TYPE_NUMBER.EXCHANGE:
             hash[normalizeAssetId(transaction.order1.assetPair.amountAsset)] = true;
             hash[normalizeAssetId(transaction.order1.assetPair.priceAsset)] = true;
+            hash[normalizeAssetId(transaction.order1.matcherFeeAssetId)] = true;
+            hash[normalizeAssetId(transaction.order2.matcherFeeAssetId)] = true;
             break;
         case SCRIPT_INVOCATION_NUMBER:
             transaction.payment.forEach(payment => {
@@ -264,7 +266,7 @@ export function parseExchangeOrder(factory: IFactory, order: txApi.IExchangeOrde
     const price = factory.price(order.price, pair);
     const amount = factory.money(order.amount, assetsHash[assetPair.amountAsset]);
     const total = Money.fromTokens(amount.getTokens().times(price.getTokens()), price.asset);
-    const matcherFee = factory.money(order.matcherFee, assetsHash[WAVES_ID]);
+    const matcherFee = factory.money(order.matcherFee, assetsHash[normalizeAssetId(order.matcherFeeAssetId)]);
     return { ...order, price, amount, matcherFee, assetPair, total };
 }
 
