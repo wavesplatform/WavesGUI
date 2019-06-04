@@ -248,13 +248,6 @@ md-dialog.settings-modal {
     }
   }
 
-  w-change-language w-select {
-    float: right;
-    position: relative;
-    top: 0;
-    right: 0;
-  }
-
   .asset-verification {
     z-index: 3;
     position: relative;
@@ -448,6 +441,16 @@ md-dialog.settings-modal {
         input {
           border-color: @color-error-200;
         }
+      }
+    }
+  }
+
+  .select-setting-wrap,
+  w-change-language {
+    w-select {
+      .select.expanded .title {
+        border: 1px solid @color-basic-200;
+        border-bottom: 1px solid transparent;
       }
     }
   }
