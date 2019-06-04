@@ -340,6 +340,7 @@ body.welcome {
         text-align: center;
         flex-wrap: wrap;
         padding-bottom: 60px;
+        justify-content: center;
       }
 
       &::before {
@@ -358,6 +359,7 @@ body.welcome {
       &-card {
         padding: 20px 0;
         width: 100%;
+        min-width: 280px;
       }
 
       &-title {
@@ -397,14 +399,6 @@ body.welcome {
 
 @media screen and (max-width: 1340px) {
   body.welcome {
-    .section-wrapper,
-    .section-slider,
-    .section-promo,
-    .section-markets .content-wrapper {
-      padding-left: 40px;
-      padding-right: 40px;
-    }
-
     .slide {
       width: 30%;
     }
@@ -544,7 +538,8 @@ body.welcome {
     .section-promo {
       .section-wrapper {
         flex-direction: column;
-        padding: 25px 0;
+        padding-top: 25px;
+        padding-bottom: 25px;
       }
     }
   }
@@ -565,7 +560,6 @@ body.welcome {
     }
   }
 }
-
 @media screen and (min-width: 860px) {
   body.welcome {
     .section {
@@ -576,7 +570,7 @@ body.welcome {
 
         &-card {
           padding: 20px 30px 20px 4px;
-          flex-basis: 33.33%;
+          flex-basis: 50%;
           display: flex;
           flex-direction: row;
         }
@@ -585,14 +579,18 @@ body.welcome {
           margin-left: 20px;
         }
       }
+    }
+  }
+}
 
-      //&-roadmap {
-      //  padding: 60px 0;
-      //
-      //  .roadmap-slider-wrapper {
-      //    margin: 0 210px;
-      //  }
-      //}
+@media screen and (min-width: 992px) {
+  body.welcome {
+    .section {
+      &-promo {
+        &-card {
+          flex-basis: 33.33%;
+        }
+      }
     }
   }
 }
