@@ -41,10 +41,12 @@
                 /**
                  * @type {string[]}
                  */
-                this.pinnedContestAssetIdList = [
-                    'D4pFweACmYsfatwsQjGCeXcwnaphURLm2XTg5GNh1rjQ',
-                    'HJLuSeW9zMCZpe6xTievhRLcJF5LGH6buoHgkwn6yTdb'
-                ];
+                this.pinnedContestAssetIdList = WavesApp.network.code === 'W' ?
+                    [
+                        'D4pFweACmYsfatwsQjGCeXcwnaphURLm2XTg5GNh1rjQ',
+                        'HJLuSeW9zMCZpe6xTievhRLcJF5LGH6buoHgkwn6yTdb'
+                    ] :
+                    [];
                 /**
                  * @type {Money[]}
                  */

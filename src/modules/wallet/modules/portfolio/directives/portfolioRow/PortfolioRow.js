@@ -27,10 +27,12 @@
     };
 
     // TODO: delete after contest
-    const CONTEST_ASSET_ID_MAP = {
-        D4pFweACmYsfatwsQjGCeXcwnaphURLm2XTg5GNh1rjQ: '/img/assets/waves.svg',
-        HJLuSeW9zMCZpe6xTievhRLcJF5LGH6buoHgkwn6yTdb: '/img/assets/waves.svg'
-    };
+    const CONTEST_ASSET_ID_MAP = WavesApp.network.code === 'W' ?
+        {
+            D4pFweACmYsfatwsQjGCeXcwnaphURLm2XTg5GNh1rjQ: '/img/assets/waves.svg',
+            HJLuSeW9zMCZpe6xTievhRLcJF5LGH6buoHgkwn6yTdb: '/img/assets/waves.svg'
+        } :
+        {};
     // TODO: delete after contest
 
     const COLORS_MAP = {
