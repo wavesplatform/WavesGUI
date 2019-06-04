@@ -63,6 +63,11 @@
                 }
             ];
 
+            /**
+             * @type {Array}
+             */
+            userList = [];
+
             constructor() {
                 super();
 
@@ -79,7 +84,11 @@
                     utils.when(balanceWatcher.ready).then(() => {
                         this.pending = false;
                     });
+
                 }
+                user.getFilteredUserList().then(list => {
+                    this.userList = list;
+                });
             }
 
             showAssetInfo(asset) {

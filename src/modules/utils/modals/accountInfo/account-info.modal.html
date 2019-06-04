@@ -1,12 +1,12 @@
 <div>
-    <span class="body-2 basic-900 margin-top-4 block" w-i18n="modal.account.address"></span>
+    <span class="body-2 basic-900 margin-top-4 margin-05 block" w-i18n="modal.account.address"></span>
     <w-copy-wrap info="::$ctrl.address" ng-click="$ctrl.onCopyAddress()">
         <w-avatar size="30" address="$ctrl.address"></w-avatar>
         <div class="body-1 basic-900 mobile-low-fsize">{{::$ctrl.address}}</div>
     </w-copy-wrap>
 
     <div class="row">
-        <span class="body-2 basic-900 modal-header" w-i18n="modal.account.aliases"></span>
+        <span class="body-2 basic-900 margin-05 modal-header" w-i18n="modal.account.aliases"></span>
         <w-help-icon>
             <div class="help-icon__row headline-3" w-i18n="modal.accountInfo.alias.helpIcon.row1"></div>
             <div class="help-icon__row" w-i18n="modal.accountInfo.alias.helpIcon.row2"></div>
@@ -94,11 +94,11 @@
 
                                 <div class="errors-margin">
                                     <div class="bottom-warning margin-3" ng-if="!!$ctrl.errorCreateAliasMsg">
-                                            <div class="body-2 error-400">{{$ctrl.errorCreateAliasMsg}}</div>
+                                            <div class="body-2 error-400 margin-05">{{$ctrl.errorCreateAliasMsg}}</div>
                                     </div>
                                     <div class="bottom-warning margin-3" ng-if="$ctrl.signDeviceFail">
                                         <div class="plate-error">
-                                            <div class="body-2 error-400" w-i18n-ns="app.ui" w-i18n="confirmTransaction.{{::$ctrl.userType}}Unconfirmed.header"></div>
+                                            <div class="body-2 error-400 margin-05" w-i18n-ns="app.ui" w-i18n="confirmTransaction.{{::$ctrl.userType}}Unconfirmed.header"></div>
                                             <div class="footnote-1 basic-500" w-i18n-ns="app.ui" w-i18n="confirmTransaction.{{::$ctrl.userType}}Unconfirmed.description"></div>
                                         </div>
                                     </div>

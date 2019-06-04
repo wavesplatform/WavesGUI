@@ -3,6 +3,12 @@
 @import (reference) 'config';
 @import (reference) 'icons';
 
+.tx-block-wrapper {
+  border-radius: @border-radius;
+  box-shadow: @shadow-type-1;
+  background: @color-white;
+}
+
 .status-label,
 .status-label-min {
   width: auto;
@@ -211,7 +217,7 @@ w-transaction .transaction {
   .transaction-info {
     display: flex;
     flex-direction: row;
-    width: ~'calc(100% - 88px)';
+    width: 100%;
 
     .full-width {
       width: 100%;
@@ -243,12 +249,8 @@ w-transaction .transaction {
             display: none;
           }
 
-          .flex {
-            flex: 0;
-
-            .ellipsis {
-              max-width: 120px;
-            }
+          .ellipsis {
+            max-width: 120px;
           }
         }
         .bottom {

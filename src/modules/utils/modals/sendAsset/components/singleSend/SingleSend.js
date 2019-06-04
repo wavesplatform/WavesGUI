@@ -542,8 +542,6 @@
                 this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
                 this._updateGatewayDetails();
                 this._updateGatewayPermisson();
-
-                // analytics.push('Send', `Send.ChangeCurrency.${WavesApp.type}`, this.assetId);
             }
 
             /**
@@ -693,7 +691,7 @@
              * @private
              */
             _updateGatewayPermisson() {
-                this.gatewayDetailsError = !this.isGatewayAccepted;
+                this.gatewayDetailsError = this.outerSendMode ? !this.isGatewayAccepted : this.gatewayDetailsError;
             }
 
         }
