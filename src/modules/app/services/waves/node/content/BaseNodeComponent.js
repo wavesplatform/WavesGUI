@@ -15,7 +15,7 @@
         const { Money } = require('@waves/data-entities');
         const { currentFeeFactory, SIGN_TYPE } = require('@waves/signature-adapter');
         const { libs } = require('@waves/waves-transactions');
-        const { address, base58decode } = libs.crypto;
+        const { address } = libs.crypto;
         const { path } = require('ramda');
         const { BigNumber } = require('@waves/bignumber');
 
@@ -111,7 +111,7 @@
                     return Promise.resolve(user.hasScript());
                 }
 
-                const wavesAddress = address(base58decode(publicKey), WavesApp.network.code);
+                const wavesAddress = address({ publicKey }, WavesApp.network.code);
 
                 return ds.api.address.getScriptInfo(wavesAddress)
                     .then(data => data.extraFee.getTokens().gt(0));
