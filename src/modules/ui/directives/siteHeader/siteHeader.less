@@ -42,7 +42,7 @@
     bottom: 0;
     left: 0;
     background-color: @mobile-menu-border;
-    opacity: .5;
+    opacity: .3;
   }
 
   // toggler button
@@ -141,8 +141,8 @@
       top: 0;
       width: 100%;
       height: 120vh;
-      background: grey;
-      opacity: 0.5;
+      background: @color-basic-900;
+      opacity: 0.3;
       display: none;
       transition: .3s;
     }
@@ -234,6 +234,9 @@
 
         &-menu {
           background-image: url(/img/icons/arrow-white-left.svg);
+          &::before {
+            opacity: .6;
+          }
         }
 
         &-aliases {
@@ -258,14 +261,6 @@
 
         &-transactions {
           background-image: url(/img/icons/transactions.svg);
-        }
-
-        &-apple {
-           background-image: url(/img/icons/apple-basic-600.svg);
-         }
-
-        &-android {
-          background-image: url(/img/icons/android-basic-600.svg);
         }
 
         &-apple {
@@ -415,6 +410,14 @@
 @media screen and (max-width: 480px) {
   .mobile-menu-toggler {
     right: 5px;
+  }
+
+  body {
+    w-site-header {
+      header {
+        padding: 0 20px;
+      }
+    }
   }
 }
 
