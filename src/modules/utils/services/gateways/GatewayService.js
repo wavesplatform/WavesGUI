@@ -5,9 +5,10 @@
      * @param {CoinomatService} coinomatService
      * @param {CoinomatCardService} coinomatCardService
      * @param {CoinomatSepaService} coinomatSepaService
+     * @param {VostokService} vostokService
      * @return {GatewayService}
      */
-    const factory = function (coinomatService, coinomatCardService, coinomatSepaService) {
+    const factory = function (coinomatService, coinomatCardService, coinomatSepaService, vostokService) {
 
         class GatewayService {
 
@@ -15,7 +16,8 @@
                 this.gateways = [
                     coinomatService,
                     coinomatCardService,
-                    coinomatSepaService
+                    coinomatSepaService,
+                    vostokService
                 ];
             }
 
@@ -145,6 +147,15 @@
 
             /**
              * @param {Asset} asset
+             * @return {string}
+             */
+            getKeyName(asset) {
+                const gateway = this._findGatewayFor(asset, 'keyName');
+                return gateway.getServiceKeyName();
+            }
+
+            /**
+             * @param {Asset} asset
              * @param {string} type
              * @return {IGateway}
              */
@@ -164,7 +175,7 @@
         return new GatewayService();
     };
 
-    factory.$inject = ['coinomatService', 'coinomatCardService', 'coinomatSepaService'];
+    factory.$inject = ['coinomatService', 'coinomatCardService', 'coinomatSepaService', 'vostokService'];
 
     angular.module('app.utils').factory('gatewayService', factory);
 })();

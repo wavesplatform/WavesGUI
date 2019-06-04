@@ -140,13 +140,13 @@
                 return this.toBankMode && this.termsLoadError;
             }
 
-            get isCoinomatAccepted() {
+            get isGatewayAccepted() {
                 return configService
-                    .get('PERMISSIONS.CAN_TRANSFER_COINOMAT').indexOf(this.balance.asset.id) !== -1;
+                    .get('PERMISSIONS.CAN_TRANSFER_GATEWAY').indexOf(this.balance.asset.id) !== -1;
             }
 
             get isBankAccepted() {
-                return this.toBankMode ? this.isCoinomatAccepted : true;
+                return this.toBankMode ? this.isGatewayAccepted : true;
             }
 
             get isBankPendingOrError() {
@@ -260,6 +260,11 @@
              */
             _noCurrentRate = false;
 
+            /**
+             * @type {string}
+             */
+            gatewayServiceKeyName = '';
+
             constructor() {
                 super();
 
@@ -309,6 +314,7 @@
                     this._onChangeBaseAssets();
                     this._updateGatewayDetails();
                 });
+                this._onChangeBaseAssets();
             }
 
             onSignCoinomatStart() {
@@ -654,6 +660,7 @@
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
+                    this.gatewayServiceKeyName = gatewayService.getKeyName(this.balance.asset);
                     return gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.paymentId)
                         .then((details) => {
                             const max = BigNumber.min(
@@ -684,7 +691,7 @@
              * @private
              */
             _updateGatewayPermisson() {
-                this.gatewayDetailsError = this.outerSendMode ? !this.isCoinomatAccepted : this.gatewayDetailsError;
+                this.gatewayDetailsError = this.outerSendMode ? !this.isGatewayAccepted : this.gatewayDetailsError;
             }
 
         }

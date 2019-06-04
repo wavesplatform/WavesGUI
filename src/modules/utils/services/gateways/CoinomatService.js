@@ -85,13 +85,21 @@
                 if (GATEWAYS[asset.id]) {
                     return {
                         deposit: true,
-                        withdraw: true
+                        withdraw: true,
+                        keyName: true
                     };
                 }
             }
 
             getAssetKeyName(asset) {
                 return `${KEY_NAME_PREFIX}${GATEWAYS[asset.id].gateway}`;
+            }
+
+            /**
+             * @return {string}
+             */
+            getServiceKeyName() {
+                return KEY_NAME_PREFIX;
             }
 
             /**
