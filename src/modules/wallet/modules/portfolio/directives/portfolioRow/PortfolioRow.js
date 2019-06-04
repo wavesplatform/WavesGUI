@@ -28,7 +28,8 @@
 
     // TODO: delete after contest
     const CONTEST_ASSET_ID_MAP = {
-        D4pFweACmYsfatwsQjGCeXcwnaphURLm2XTg5GNh1rjQ: '/img/assets/waves.svg'
+        D4pFweACmYsfatwsQjGCeXcwnaphURLm2XTg5GNh1rjQ: '/img/assets/waves.svg',
+        HJLuSeW9zMCZpe6xTievhRLcJF5LGH6buoHgkwn6yTdb: '/img/assets/waves.svg'
     };
     // TODO: delete after contest
 
@@ -636,7 +637,19 @@
              * @private
              */
             _getSrefParams(asset) {
-                this.utils.openDex(asset.id);
+                // TODO: delete after contest
+                const contestAssetsId = Object.keys(CONTEST_ASSET_ID_MAP);
+                if (contestAssetsId.indexOf(asset.id) > -1) {
+                    const assetPairs = contestAssetsId.filter(id => id !== asset.id);
+                    this.utils.openDex(
+                        asset.id,
+                        assetPairs[Math.floor(assetPairs.length * Math.random())]
+                    );
+                } else {
+                    this.utils.openDex(asset.id);
+                }
+                // this.utils.openDex(asset.id);
+
             }
 
             /**
