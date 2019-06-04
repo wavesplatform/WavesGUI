@@ -1,5 +1,5 @@
 import { IAssetPair, IHash } from '../interface';
-import { WAVES_ID } from '@waves/signature-generator';
+import { WAVES_ID } from '@waves/signature-adapter';
 import { Asset, Money, AssetPair, OrderPrice } from '@waves/data-entities';
 import { BigNumber } from '@waves/bignumber';
 import { get } from '../api/assets/assets';

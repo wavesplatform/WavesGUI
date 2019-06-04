@@ -6,7 +6,8 @@
     const tsApiValidator = require('ts-api-validator');
     const { WindowAdapter, Bus, WindowProtocol } = require('@waves/waves-browser-bus');
     const { splitEvery, pipe, path, map, ifElse, concat, defaultTo, identity, isNil } = require('ramda');
-    const { libs } = require('@waves/signature-generator');
+    const { libs } = require('@waves/waves-transactions');
+    const { base58decode, base58encode, stringToUint8Array, uint8ArrayToString } = libs.crypto;
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const { Money } = require('@waves/data-entities');
@@ -142,11 +143,10 @@
      * @return {app.utils}
      */
     const factory = function ($q, Moment, $injector) {
-
-        const base58ToBytes = libs.base58.decode;
-        const stringToBytes = libs.converters.stringToByteArray;
-        const bytesToBase58 = libs.base58.encode;
-        const bytesToString = libs.converters.byteArrayToString;
+        const base58ToBytes = base58decode;
+        const stringToBytes = stringToUint8Array;
+        const bytesToBase58 = base58encode;
+        const bytesToString = uint8ArrayToString;
 
         const utils = {
 
@@ -346,7 +346,7 @@
                 return (script.match(/ByteVector\(\d+\sbytes,\s(.[^)]+)/g) || [])
                     .map(res => res.replace(/ByteVector\(\d+\sbytes,\s0x/, ''))
                     .map(toBytes)
-                    .map(libs.base58.encode);
+                    .map(base58encode);
             },
 
             /**

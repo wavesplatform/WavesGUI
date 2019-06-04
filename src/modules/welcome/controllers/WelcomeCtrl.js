@@ -2,7 +2,7 @@
     'use strict';
 
     const PATH = 'modules/welcome/templates';
-    const { utils } = require('@waves/signature-generator');
+    const { isValidAddress } = require('@waves/signature-adapter');
 
     /**
      * @param Base
@@ -163,7 +163,9 @@
             _initUserList() {
                 user.getUserList()
                     .then((list) => {
-                        this.userList = list.filter(user => utils.crypto.isValidAddress(user.address));
+                        this.userList = list.filter(
+                            user => isValidAddress(user.address, WavesApp.network.code.charCodeAt(0))
+                        );
                         this.pendingRestore = false;
                         this._updateActiveUserAddress();
                         setTimeout(() => {

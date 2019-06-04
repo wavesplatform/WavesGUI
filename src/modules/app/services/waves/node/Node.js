@@ -49,7 +49,7 @@
              */
             isValidAddress(address) {
                 try {
-                    return ds.isValidAddress(address);
+                    return ds.isValidAddress(address, WavesApp.network.code.charCodeAt(0));
                 } catch (e) {
                     return false;
                 }

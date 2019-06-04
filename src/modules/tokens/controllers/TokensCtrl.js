@@ -11,8 +11,7 @@
      */
     const controller = function (Base, $scope, modalManager, waves, balanceWatcher, user) {
 
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
-        const { WAVES_ID } = require('@waves/signature-generator');
+        const { SIGN_TYPE, WAVES_ID } = require('@waves/signature-adapter');
         const { BigNumber } = require('@waves/bignumber');
         const ds = require('data-service');
         const $ = require('jquery');

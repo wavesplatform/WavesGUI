@@ -1,7 +1,7 @@
 import { Money } from '@waves/data-entities';
 import { BigNumber } from '@waves/bignumber';
 import { IAssetPair, TLeasingStatus, TOrderType } from '../../interface';
-import { TRANSACTION_TYPE_NUMBER } from '@waves/signature-generator';
+import { TRANSACTION_TYPE_NUMBER } from '@waves/signature-adapter';
 
 
 export type T_API_TX =

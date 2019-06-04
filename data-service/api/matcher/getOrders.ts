@@ -1,4 +1,4 @@
-import { WAVES_ID } from '@waves/signature-generator';
+import { WAVES_ID } from '@waves/signature-adapter';
 import { Asset, AssetPair, Money, OrderPrice } from '@waves/data-entities';
 import { BigNumber } from '@waves/bignumber';
 import { IHash, IMoneyFactory, IPriceMoneyFactory } from '../../interface';

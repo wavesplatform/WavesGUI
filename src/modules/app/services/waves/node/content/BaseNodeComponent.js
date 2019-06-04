@@ -14,7 +14,8 @@
         const ds = require('data-service');
         const { Money } = require('@waves/data-entities');
         const { currentFeeFactory, SIGN_TYPE } = require('@waves/signature-adapter');
-        const generator = require('@waves/signature-generator');
+        const { libs } = require('@waves/waves-transactions');
+        const { address, base58decode } = libs.crypto;
         const { path } = require('ramda');
         const { BigNumber } = require('@waves/bignumber');
 
@@ -55,7 +56,7 @@
                             ds.api.assets.get('WAVES'),
                             this._isSmartAccount(tx)
                         ]).then(([smartAssetsIdList, bytes, wavesAsset, hasScript]) => {
-                            const bigNumberFee = currentFee(bytes, hasScript, smartAssetsIdList);
+                            const bigNumberFee = currentFee(tx, bytes, hasScript, smartAssetsIdList);
                             const count = bigNumberFee
                                 .div(feeConfig.calculate_fee_rules.default.fee)
                                 .roundTo(0, BigNumber.ROUND_MODE.ROUND_UP);
@@ -110,9 +111,9 @@
                     return Promise.resolve(user.hasScript());
                 }
 
-                const address = generator.utils.crypto.buildRawAddress(generator.libs.base58.decode(publicKey));
+                const wavesAddress = address(base58decode(publicKey), WavesApp.network.code);
 
-                return ds.api.address.getScriptInfo(address)
+                return ds.api.address.getScriptInfo(wavesAddress)
                     .then(data => data.extraFee.getTokens().gt(0));
             }
 

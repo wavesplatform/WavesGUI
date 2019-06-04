@@ -5,7 +5,8 @@
     const { Money } = require('@waves/data-entities');
     const { BigNumber } = require('@waves/bignumber');
     const { currentCreateOrderFactory } = require('@waves/signature-adapter');
-    const generator = require('@waves/signature-generator');
+    const { libs } = require('@waves/waves-transactions');
+    const { address } = libs.crypto;
 
     /**
      * @param {app.utils} utils
@@ -64,8 +65,7 @@
                 return this.getMinOrderFee()
                     .then(minFee => {
                         const currentFee = currentCreateOrderFactory(config, minFee);
-                        const publicKeyBytes = generator.libs.base58.decode(order.matcherPublicKey);
-                        const matcherAddress = generator.utils.crypto.buildRawAddress(publicKeyBytes);
+                        const matcherAddress = address({ public: order.matcherPublicKey }, WavesApp.network.code);
 
                         return Promise.all([
                             this._scriptInfo(matcherAddress),

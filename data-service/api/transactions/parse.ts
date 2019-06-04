@@ -1,6 +1,7 @@
 import { Asset, AssetPair, Money } from '@waves/data-entities';
 import { BigNumber } from '@waves/bignumber';
-import { libs, TRANSACTION_TYPE_NUMBER, WAVES_ID } from '@waves/signature-generator';
+import { TRANSACTION_TYPE_NUMBER, WAVES_ID } from '@waves/signature-adapter';
+import { libs } from '@waves/waves-transactions';
 import { get } from '../assets/assets';
 import {
     IBurn,
@@ -38,7 +39,7 @@ const SCRIPT_INVOCATION_NUMBER = 16;
 
 const parseAttachment: (data: string | number) => Uint8Array = pipe(
     String,
-    libs.base58.decode
+    libs.crypto.base58decode
 );
 
 const getFactory = (isTokens: boolean): IFactory => {
