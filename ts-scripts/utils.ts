@@ -405,7 +405,7 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
                     });
 
                     if (location.pathname.replace('/', '') === '') {
-                        analytics.send({ name: 'Onboarding Show', target: 'ui' });
+                        analytics.send({ name: 'Onboarding In Show', target: 'ui' });
                     }
 
                 })();

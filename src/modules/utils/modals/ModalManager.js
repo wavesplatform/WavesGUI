@@ -34,6 +34,9 @@
             HEADER: 'modules/utils/modals/templates/header.modal.html'
         };
 
+        /**
+         * @class ModalManager
+         */
         class ModalManager {
 
             constructor() {
@@ -496,6 +499,14 @@
                     mod: 'import-accounts',
                     controller: 'ImportAccountsCtrl',
                     contentUrl: 'modules/utils/modals/importAccounts/importAccounts.html'
+                });
+            }
+
+            showConfirmLogout() {
+                return this._getModal({
+                    id: 'logout-modal',
+                    contentUrl: 'modules/utils/modals/confirmLogout/confirmLogout.modal.html',
+                    title: ''
                 });
             }
 

@@ -10,6 +10,7 @@
         const { Money } = require('@waves/data-entities');
         const { BigNumber } = require('@waves/bignumber');
         const { isNotEmpty } = require('ts-utils');
+        const SCALE = devicePixelRatio || 1;
 
         class ChartFactory extends Base {
 
@@ -25,7 +26,7 @@
                 /**
                  * @type {ChartFactory.IOptions}
                  */
-                this.options = options;
+                this.options = Object.assign(Object.create(null), ChartFactory.defaultOptions, options);
                 /**
                  * @type {Array}
                  */
@@ -61,17 +62,22 @@
              */
             _initializeCanvasElement($element) {
                 const canvas = document.createElement('canvas');
+                const width = Math.round($element.width());
+                const height = Math.round($element.height());
+
                 canvas.style.position = 'absolute';
                 canvas.style.left = '0';
                 canvas.style.top = '0';
+                canvas.style.width = `${width}px`;
+                canvas.style.height = `${height}px`;
 
                 if ($element.css('position') === 'static') {
                     $element.css('position', 'relative');
                 }
 
                 $element.append(canvas);
-                canvas.width = $element.width();
-                canvas.height = $element.height();
+                canvas.width = width * SCALE;
+                canvas.height = height * SCALE;
                 return canvas;
             }
 
@@ -108,6 +114,7 @@
             _drawChart(data) {
 
                 this.ctx.strokeStyle = data.lineColor;
+                this.ctx.lineWidth = data.lineWidth * SCALE;
 
                 const first = data.coordinates[0];
                 this.ctx.moveTo(first.x, first.y);
@@ -120,7 +127,14 @@
 
                 if (data.fillColor) {
                     this.ctx.fillStyle = data.fillColor;
-
+                    if (data.gradientColor) {
+                        const grd = this.ctx.createLinearGradient(0, 0, 0, data.height.toNumber());
+                        grd.addColorStop(0, data.gradientColor[0]);
+                        grd.addColorStop(1, data.gradientColor[1]);
+                        this.ctx.fillStyle = grd;
+                    } else {
+                        this.ctx.fillStyle = data.fillColor;
+                    }
                     const last = data.coordinates[data.coordinates.length - 1];
                     this.ctx.lineTo(last.x, Number(data.height.toFixed()));
                     this.ctx.lineTo(first.x, Number(data.height.toFixed()));
@@ -195,6 +209,19 @@
                 });
             }
 
+            static defaultOptions = {
+                charts: [
+                    {
+                        axisX: 'timestamp',
+                        axisY: 'rate',
+                        lineColor: '#ef4829',
+                        fillColor: '#FFF',
+                        gradientColor: false,
+                        lineWidth: 2
+                    }
+                ]
+            };
+
             /**
              * @param item
              * @return {BigNumber}
@@ -240,6 +267,7 @@
  * @property {string} axisY
  * @property {string} lineColor
  * @property {string} [fillColor]
+ * @property {array} gradientColor
  */
 
 /**
@@ -259,8 +287,10 @@
  * @property {BigNumber} yFactor
  * @property {Array<{x: number, y: number}>} coordinates
  * @property {number} length
+ * @property {number} lineWidth
  * @property {string} axisX
  * @property {string} axisY
  * @property {string} lineColor
  * @property {string} [fillColor]
+ * @property {array} gradientColor
  */

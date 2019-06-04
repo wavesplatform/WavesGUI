@@ -1,41 +1,43 @@
-<div class="user-list">
+ <div class="user-list get-started-content">
 
-    <div class="center">
-        <a class="waves-logo" ui-sref="welcome"></a>
-        <div class="headline-1" w-i18n="userList.title"></div>
+    <div class="margin-5 text-center">
+        <div class="headline-1 margin-1" w-i18n="userList.title"></div>
+        <div class="body-2 margin-top-2 basic-500 margin-05">
+            <span w-i18n="userList.notHaveAccount"></span>
+        </div>
     </div>
 
-    <div class="body-2 basic-900" w-i18n="userList.address"></div>
+    <div class="body-2 basic-900 margin-05" w-i18n="userList.address"></div>
 
-    <w-select ng-model="$ctrl.activeUserAddress" class="big margin-3">
+    <w-select ng-model="$ctrl.activeUserAddress"
+              one-item="$ctrl.userList.length <= 1"
+              disabled="$ctrl.userList.length <= 1"
+              class="big margin-3">
         <w-option ng-repeat="user in $ctrl.userList track by user.address"
                   value="::user.address">
 
             <div class="avatar-container margin-right-1">
-                <w-avatar type="{{user.userType}}" class="margin-right-1" address="user.address" size="30"></w-avatar>
-            </div>
+                <w-avatar type="{{user.userType}}"
+                          class="margin-right-1"
+                          address="user.address"
+                          size="30"></w-avatar></div>
 
-            <div ng-class="::{'has-name': !!user.name}">
-                <div class="name body-2 mobile-caption-2">{{::user.name}}</div>
-                <div class="address footnote-1 mobile-caption-2">{{::user.address}}</div>
+            <div ng-class="::{'has-name': !!user.name}" class="ellipsis">
+                <div class="name body-2 margin-05 mobile-caption-2">{{::user.name}}</div>
+                <div class="address footnote-1 mobile-caption-2 ellipsis">{{::user.address}}</div>
             </div>
             <div class="icon-remove-user icon-close" ng-click="$ctrl.removeUser(user.address)"></div>
         </w-option>
-        <div>
-            <a ui-sref="import"
-               class="add-account"
-               w-i18n="userList.import"></a>
-        </div>
     </w-select>
 
     <div class="password-placeholder" ng-if="$ctrl.needPassword">
-        <div class="body-2 basic-900" w-i18n="userList.password"></div>
+        <div class="body-2 basic-900 margin-05" w-i18n="userList.password"></div>
     </div>
     <form class="margin-2"
           name="$ctrl.loginForm"
           novalidate>
 
-        <w-input-container class="margin-3" ng-if="$ctrl.needPassword">
+        <w-input-container class="margin-4" ng-if="$ctrl.needPassword">
             <w-input w-autofocus
                      name="password"
                      type="password"
@@ -62,11 +64,6 @@
         </w-analytics>
     </form>
 
-    <div class="or margin-2">
-        <span w-i18n="newUser.or"></span>
-    </div>
-    <div class="text-center body-2 flex-column-center-min margin-2">
-        <a ui-sref="create" w-i18n="userList.create"></a>
-    </div>
+    <w-get-started-link has-create="::true" has-import="::true"></w-get-started-link>
 
 </div>

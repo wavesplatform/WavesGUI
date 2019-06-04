@@ -314,7 +314,7 @@
              */
             _initializeLogin() {
 
-                let needShowTutorial = false;
+                // let needShowTutorial = false;
 
                 this._listenChangeLanguage();
 
@@ -322,6 +322,25 @@
                     .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
 
                 let waiting = false;
+
+                let userType = 'unknown';
+
+                const data = {
+                    platform: WavesApp.type,
+                    networkByte: ds.config.get('code'),
+                    userType
+                };
+
+                Object.defineProperty(data, 'userType', {
+                    get: () => userType,
+                    set: v => {
+                        userType = v;
+                    }
+                });
+
+                analytics.init(WavesApp.analyticsIframe, data);
+
+                analytics.activate();
 
                 const stop = $rootScope.$on('$stateChangeStart', (event, toState, params, fromState) => {
 
@@ -348,10 +367,10 @@
                         return null;
                     }
 
-                    if (needShowTutorial && toState.name !== 'dex-demo') {
-                        modalManager.showTutorialModals();
-                        needShowTutorial = false;
-                    }
+                    // if (needShowTutorial && toState.name !== 'dex-demo') {
+                    //     modalManager.showTutorialModals();
+                    //     needShowTutorial = false;
+                    // }
 
                     if (toState.name === 'main.dex-demo') {
                         tryDesktop = Promise.resolve();
@@ -359,19 +378,19 @@
                         tryDesktop = this._initTryDesktop();
                     }
 
-                    const promise = Promise.all([
-                        storage.onReady(),
-                        tryDesktop
-                    ]).then(([oldVersion, canOpenTutorial]) => {
-                        needShowTutorial = canOpenTutorial && !oldVersion;
-                    });
-
-                    promise.then(() => {
-                        if (needShowTutorial && toState.name !== 'dex-demo') {
-                            modalManager.showTutorialModals();
-                            needShowTutorial = false;
-                        }
-                    });
+                    // const promise = Promise.all([
+                    //     storage.onReady(),
+                    //     tryDesktop
+                    // ]).then(([oldVersion, canOpenTutorial]) => {
+                    //     needShowTutorial = canOpenTutorial && !oldVersion;
+                    // });
+                    //
+                    // // promise.then(() => {
+                    // //     if (needShowTutorial && toState.name !== 'dex-demo') {
+                    // //         modalManager.showTutorialModals();
+                    // //         needShowTutorial = false;
+                    // //     }
+                    // // });
 
                     waiting = true;
 
@@ -379,6 +398,8 @@
                         .then((canChangeState) => this._login(toState, canChangeState))
                         .then(() => {
                             stop();
+
+                            userType = user.userType;
 
                             this._stopListenChangeLanguage();
                             if (START_STATES.indexOf(toState.name) === -1) {
@@ -397,13 +418,15 @@
                                     this._modalRouter.initialize();
                                 });
 
-                            $rootScope.$on('$stateChangeStart', (event, current) => {
+                            const off = $rootScope.$on('$stateChangeStart', (event, current) => {
                                 if (START_STATES.indexOf(current.name) !== -1) {
                                     event.preventDefault();
                                 } else {
                                     state.signals.changeRouterStateStart.dispatch(event);
                                 }
                             });
+
+                            user.onLogout.once(off);
                         });
                 });
             }
@@ -417,19 +440,12 @@
                     storage.load('needReadNewTerms'),
                     storage.load('termsAccepted')
                 ]).then(([needReadNewTerms, termsAccepted]) => {
-                    const autoPromise = (promise) => {
-                        return promise.then(() => {
-                            analytics.activate();
-                        })
-                            .catch(() => false);
-                    };
+
                     if (needReadNewTerms) {
-                        return autoPromise(modalManager.showAcceptNewTerms(user));
+                        return modalManager.showAcceptNewTerms(user);
 
                     } else if (!termsAccepted) {
-                        return autoPromise(modalManager.showTermsAccept(user));
-                    } else {
-                        analytics.activate();
+                        return modalManager.showTermsAccept(user);
                     }
                     return Promise.resolve();
                 });

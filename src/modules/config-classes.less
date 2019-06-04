@@ -1,7 +1,6 @@
 @import (reference) 'config';
 
 html {
-
   .disabled-50 {
     color: @color-disabled-50;
   }
@@ -198,11 +197,19 @@ html {
     color: @color-error-700;
   }
 
-  @margin-step: 10px;
-
   .margin-auto {
     margin-left: auto;
     margin-right: auto;
+  }
+}
+
+@margin-step: 10px;
+@margin-step-phone: @margin-step / 2;
+
+.margin-classes(@margin-step) {
+
+  .margin-05 {
+    margin-bottom: @margin-step / 2;
   }
 
   .margin-1 {
@@ -276,4 +283,12 @@ html {
   .margin-right-6 {
     margin-right: @margin-step * 5;
   }
+}
+
+@media screen and (min-width: 480px) {
+  .margin-classes(@margin-step);
+}
+
+@media screen and (max-width: 480px) {
+  .margin-classes(@margin-step-phone);
 }

@@ -64,58 +64,6 @@
 
             <div class="expandable">
                 <form class="fields" novalidate name="$ctrl.order">
-                    <div class="amount">
-                        <div class="split-half field-label">
-                            <div class="caption-2 basic-600"
-                                 w-i18n="directives.createOrder.amountField"></div>
-                            <div ng-if="$ctrl.type === 'buy'"
-                                 ng-click="$ctrl.setMaxPrice()"
-                                 class="caption-2 disabled-900 underline-dashed">
-                                <span w-i18n="money-currency" params="{money: $ctrl.maxPriceBalance}"></span>
-                            </div>
-                            <div ng-if="$ctrl.type === 'sell'"
-                                 ng-click="$ctrl.setMaxAmount()"
-                                 class="caption-2 disabled-900 underline-dashed">
-                                <span w-i18n="money-currency" params="{money: $ctrl.maxAmountBalance}"></span>
-                            </div>
-                        </div>
-
-                        <w-input-container ng-class="{'invalid': $ctrl.isAmountInvalid()}">
-                            <div class="input-like tiny">
-                                <w-input tabindex="1"
-                                         class="tiny embed no-validate-icons"
-                                         type="text"
-                                         ng-blur="$ctrl.setChangedInput('amount')"
-                                         w-validate
-                                         w-validator-asset="{{$ctrl.amountBalance.asset}}"
-                                         w-validator-lte="{{$ctrl.maxAmountBalance}}"
-                                         w-validator-gt="0"
-                                         name="amount"
-                                         ng-model="$ctrl.amount"
-                                         autocomplete="off"
-                                         required></w-input>
-                                <div class="asset-name-wrap">
-                                    <div class="caption-1 basic-500">{{$ctrl.amountDisplayName}}</div>
-                                </div>
-                            </div>
-
-                            <w-input-error message="required" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.required"></span>
-                            </w-input-error>
-                            <w-input-error message="gt" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.required"></span>
-                            </w-input-error>
-                            <w-input-error message="precision" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.precision"
-                                      params="{precision: $ctrl.amountBalance.asset.precision}"></span>
-                            </w-input-error>
-                            <w-input-error message="lte" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.balance"
-                                      params="{name: $ctrl.amountBalance.asset.displayName}"></span>
-                            </w-input-error>
-                        </w-input-container>
-                    </div>
-
                     <div class="price">
                         <div class="split-half field-label">
                             <div class="basic-600" w-i18n="directives.createOrder.priceField"></div>
@@ -166,6 +114,85 @@
                                 <span w-i18n="directives.createOrder.errors.required"></span>
                             </w-input-error>
                         </w-input-container>
+                    </div>
+
+                    <div class="amount">
+                        <div class="split-half field-label">
+                            <div class="caption-2 basic-600"
+                                 w-i18n="directives.createOrder.amountField"></div>
+                            <div ng-if="$ctrl.type === 'buy'"
+                                 ng-click="$ctrl.setMaxPrice()"
+                                 class="caption-2 disabled-900 underline-dashed">
+                                <span w-i18n="money-currency" params="{money: $ctrl.maxPriceBalance}"></span>
+                            </div>
+                            <div ng-if="$ctrl.type === 'sell'"
+                                 ng-click="$ctrl.setMaxAmount()"
+                                 class="caption-2 disabled-900 underline-dashed">
+                                <span w-i18n="money-currency" params="{money: $ctrl.maxAmountBalance}"></span>
+                            </div>
+                        </div>
+
+                        <w-input-container ng-class="{'invalid': $ctrl.isAmountInvalid()}">
+                            <div class="input-like tiny">
+                                <w-input tabindex="1"
+                                         class="tiny embed no-validate-icons"
+                                         type="text"
+                                         ng-blur="$ctrl.setChangedInput('amount')"
+                                         w-validate
+                                         w-validator-asset="{{$ctrl.amountBalance.asset}}" amount
+                                         w-validator-lte="{{$ctrl.maxAmountBalance}}"
+                                         w-validator-gt="0"
+                                         name="amount"
+                                         ng-model="$ctrl.amount"
+                                         autocomplete="off"
+                                         required></w-input>
+                                <div class="asset-name-wrap">
+                                    <div class="caption-1 basic-500">{{$ctrl.amountDisplayName}}</div>
+                                </div>
+                            </div>
+
+                            <w-input-error message="required" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                <span w-i18n="directives.createOrder.errors.required"></span>
+                            </w-input-error>
+                            <w-input-error message="gt" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                <span w-i18n="directives.createOrder.errors.required"></span>
+                            </w-input-error>
+                            <w-input-error message="precision" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                <span w-i18n="directives.createOrder.errors.precision"
+                                      params="{precision: $ctrl.amountBalance.asset.precision}"></span>
+                            </w-input-error>
+                            <w-input-error message="lte" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                <span w-i18n="directives.createOrder.errors.balance"
+                                      params="{name: $ctrl.amountBalance.asset.displayName}"></span>
+                            </w-input-error>
+                        </w-input-container>
+
+                        <div class="field-buttons">
+                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.25)}"
+                                      on-click="$ctrl.setAmountByBalance(0.25)"
+                                      class="micro"
+                                      disabled="!$ctrl.hasBalance()">
+                                <span class="button">25%</span>
+                            </w-button>
+                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.5)}"
+                                      on-click="$ctrl.setAmountByBalance(0.5)"
+                                      class="micro"
+                                      disabled="!$ctrl.hasBalance()">
+                                <span class="button">50%</span>
+                            </w-button>
+                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.75)}"
+                                      on-click="$ctrl.setAmountByBalance(0.75)"
+                                      class="micro"
+                                      disabled="!$ctrl.hasBalance()">
+                                <span class="button">75%</span>
+                            </w-button>
+                            <w-button ng-class="{active: $ctrl.isActiveBalanceButton(1)}"
+                                      on-click="$ctrl.setAmountByBalance(1)"
+                                      class="micro"
+                                      disabled="!$ctrl.hasBalance()">
+                                <span class="button">100%</span>
+                            </w-button>
+                        </div>
                     </div>
 
                     <div class="total">

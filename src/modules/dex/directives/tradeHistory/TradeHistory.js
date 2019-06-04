@@ -65,6 +65,11 @@
 
         class TradeHistory extends Base {
 
+            /**
+             * @private
+             */
+            userList = [];
+
             constructor() {
                 super();
                 /**
@@ -97,6 +102,10 @@
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
+                });
+
+                user.getFilteredUserList().then(list => {
+                    this.userList = list;
                 });
             }
 

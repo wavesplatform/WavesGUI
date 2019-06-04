@@ -120,8 +120,7 @@
             /**
              * Method for create transaction event for event manager
              * @param {Money[]} moneyList
-             * @protected
-             */
+             * @protected             */
             _pipeTransaction(moneyList) {
                 return (transaction) => {
                     eventManager.addTx(transaction, moneyList);

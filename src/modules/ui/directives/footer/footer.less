@@ -1,0 +1,173 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../app/less/typography';
+
+.footer {
+
+  background: @color-basic-900;
+
+
+  .section-wrapper {
+    max-width: 1440px;
+    color: @color-basic-600;
+    display: flex;
+    width: 100%;
+    padding: 60px 80px;
+    align-items: flex-start;
+    font-size: 15px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+
+    .links {
+      display: flex;
+      width: calc(100% ~'- 250px');
+      padding-left: 150px;
+      & > div {
+        flex-basis: 25%;
+      }
+    }
+  }
+
+  .footer-title {
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    font-size: 13px;
+  }
+
+  &__link {
+    margin-bottom: 14px;
+    display: inline-block;
+    color: @color-basic-600;
+    transition: color 0.3s;
+
+    &:hover {
+      color: @color-white;
+    }
+  }
+
+  .footer-left {
+    width: 250px;
+  }
+
+  .logo {
+    margin-top: -8px;
+  }
+}
+
+.toaster-mobiles {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  justify-content: space-between;
+  background: @color-submit-400;
+  padding: 12px 10px;
+  display: none;
+  width: 100%;
+  z-index: 2;
+  transform: translateY(0);
+  transition: transform 0.2s;
+  &__link {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__mobile-app-logo {
+    background: #fff @waves-30-icon center no-repeat;
+    width: 36px;
+    height: 36px;
+    border-radius: @border-radius;
+    box-shadow: 0 2px 3px 0 rgba(10, 46, 141, 0.2);
+    margin-right: 16px;
+  }
+  &__title {
+    font-size: @mobile-mid-fsize;
+    color: @color-white;
+    line-height: 16px;
+  }
+  &__sub-title {
+    font-size: 12px;
+    color: @color-submit-200;
+    line-height: 16px;
+  }
+  &__close {
+    display: flex;
+    align-items: center;
+    &-icon {
+      background: @notification-icon-close center no-repeat;
+      border: 0;
+      width: 14px;
+      height: 14px;
+      opacity: .5;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+  &.hidden-toaster {
+    transform: translateY(100%);
+  }
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 1340px) {
+  .footer .section-wrapper {
+    padding: 40px;
+  }
+}
+
+@media screen and (max-width: 1174px) {
+  .footer {
+    .section-wrapper {
+      .links {
+        padding-left: 0;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .footer {
+    .section-wrapper {
+      .links > div {
+        margin-left: 20px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .footer {
+    .section-wrapper {
+      padding: 40px 40px 0;
+      font-size: 13px;
+      flex-direction: column;
+
+      .footer-title {
+        margin-bottom: 20px;
+        font-size: 11px;
+      }
+
+      .links {
+        padding: 0;
+        flex-wrap: wrap;
+        width: 100%;
+
+        & > div {
+          flex-basis: 50%;
+          margin: 30px 0 0 0;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .footer .section-wrapper {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}

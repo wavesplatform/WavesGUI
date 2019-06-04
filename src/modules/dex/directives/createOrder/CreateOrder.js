@@ -47,98 +47,110 @@
                 return this.amountBalance && this.priceBalance;
             }
 
+            /**
+             * Max amount (with fee)
+             * @type {Money}
+             */
+            maxAmountBalance = null;
+            /**
+             * Has price balance for buy amount
+             * @type {boolean}
+             */
+            canBuyOrder = true;
+            /**
+             * Amount asset balance
+             * @type {Money}
+             */
+            amountBalance = null;
+            /**
+             * Price asset balance
+             * @type {Money}
+             */
+            priceBalance = null;
+            /**
+             * Order type
+             * @type {string}
+             */
+            type = 'buy';
+            /**
+             * Max balance in price asset
+             * @type {Money}
+             */
+            maxPriceBalance = null;
+            /**
+             * Total price (amount multiply price)
+             * @type {Money}
+             */
+            total = null;
+            /**
+             * @type {Money}
+             */
+            amount = null;
+            /**
+             * @type {Money}
+             */
+            price = null;
+            /**
+             * @type {boolean}
+             */
+            loadingError = false;
+            /**
+             * @type {boolean}
+             */
+            idDemo = !user.address;
+            /**
+             * @type {number}
+             */
+            ERROR_DISPLAY_INTERVAL = 3;
+            /**
+             * @type {{amount: string, price: string}}
+             * @private
+             */
+            _assetIdPair = null;
+            /**
+             * @type string
+             * @private
+             */
+            analyticsPair = null;
+            /**
+             * @type {Money}
+             * @private
+             */
+            lastTradePrice = null;
+            /**
+             * @type {Array}
+             */
+            changedInputName = [];
+            /**
+             * @type {boolean}
+             */
+            _silenceNow = false;
+            /**
+             * @type {Array}
+             */
+            _userList = [];
+            /**
+             *
+             * @type {boolean}
+             */
+            expirationValues = [
+                { name: '5min', value: () => utils.moment().add().minute(5).getDate().getTime() },
+                { name: '30min', value: () => utils.moment().add().minute(30).getDate().getTime() },
+                { name: '1hour', value: () => utils.moment().add().hour(1).getDate().getTime() },
+                { name: '1day', value: () => utils.moment().add().day(1).getDate().getTime() },
+                { name: '1week', value: () => utils.moment().add().week(1).getDate().getTime() },
+                { name: '30day', value: () => utils.moment().add().day(29).getDate().getTime() }
+            ];
+            /**
+             * @type {Money}
+             */
+            maxAmount = null;
+
+
             constructor() {
                 super();
-                /**
-                 * Max amount (with fee)
-                 * @type {Money}
-                 */
-                this.maxAmountBalance = null;
-                /**
-                 * Has price balance for buy amount
-                 * @type {boolean}
-                 */
-                this.canBuyOrder = true;
-                /**
-                 * Amount asset balance
-                 * @type {Money}
-                 */
-                this.amountBalance = null;
-                /**
-                 * Price asset balance
-                 * @type {Money}
-                 */
-                this.priceBalance = null;
-                /**
-                 * Order type
-                 * @type {string}
-                 */
-                this.type = 'buy';
-                /**
-                 * Max balance in price asset
-                 * @type {Money}
-                 */
-                this.maxPriceBalance = null;
-                /**
-                 * Total price (amount multiply price)
-                 * @type {Money}
-                 */
-                this.total = null;
-                /**
-                 * @type {Money}
-                 */
-                this.amount = null;
-                /**
-                 * @type {Money}
-                 */
-                this.price = null;
-                /**
-                 * @type {boolean}
-                 */
-                this.loadingError = false;
-                /**
-                 * @type {boolean}
-                 */
-                this.idDemo = !user.address;
-                /**
-                 * @type {number}
-                 */
-                this.ERROR_DISPLAY_INTERVAL = 3;
-                /**
-                 * @type {{amount: string, price: string}}
-                 * @private
-                 */
-                this._assetIdPair = null;
-                /**
-                 * @type string
-                 * @private
-                 */
-                this.analyticsPair = null;
-                /**
-                 * @type {Money}
-                 * @private
-                 */
-                this.lastTradePrice = null;
-                /**
-                 * @type {Array}
-                 */
-                this.changedInputName = [];
-                /**
-                 * @type {boolean}
-                 */
-                this._silenceNow = false;
-                /**
-                 *
-                 * @type {boolean}
-                 */
-                this.expirationValues = [
-                    { name: '5min', value: () => utils.moment().add().minute(5).getDate().getTime() },
-                    { name: '30min', value: () => utils.moment().add().minute(30).getDate().getTime() },
-                    { name: '1hour', value: () => utils.moment().add().hour(1).getDate().getTime() },
-                    { name: '1day', value: () => utils.moment().add().day(1).getDate().getTime() },
-                    { name: '1week', value: () => utils.moment().add().week(1).getDate().getTime() },
-                    { name: '30day', value: () => utils.moment().add().day(29).getDate().getTime() }
-                ];
+
+                this.observe(['type', 'amount', 'price', 'amountBalance', 'fee'], this._currentMaxAmount);
 
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.expand(type);
@@ -253,8 +265,43 @@
                     e.stopPropagation();
                 });
 
+                user.getFilteredUserList().then(list => {
+                    this._userList = list;
+                });
+
                 currentFee();
             }
+
+            /**
+             * @param {number} factor
+             * @return {boolean}
+             */
+            isActiveBalanceButton(factor) {
+                const amount = this.amount;
+
+                if (!amount || amount.getTokens().eq(0)) {
+                    return false;
+                }
+
+                return this.maxAmount.cloneWithTokens(this.maxAmount.getTokens().times(factor)).eq(amount);
+            }
+
+            /**
+             * @param {number} factor
+             */
+            setAmountByBalance(factor) {
+                const amount = this.maxAmount.cloneWithTokens(this.maxAmount.getTokens().times(factor));
+                this._updateField({ amount });
+                return Promise.resolve();
+            }
+
+            /**
+             * @return {boolean}
+             */
+            hasBalance() {
+                return !this.maxAmount.getTokens().isZero();
+            }
+
 
             expand(type) {
                 this.type = type;
@@ -301,12 +348,12 @@
             }
 
             setMaxAmount() {
-                const amount = this._getMaxAmountForSell();
+                const amount = this.maxAmount;
                 this._updateField({ amount });
             }
 
             setMaxPrice() {
-                const amount = this._getMaxAmountForBuy();
+                const amount = this.maxAmount;
                 const total = this.priceBalance.cloneWithTokens(
                     this.price.getTokens().mul(amount.getTokens())
                 );
@@ -486,7 +533,7 @@
                             success: true,
                             classes: 'big submit',
                             text: { literal: 'modal.createOrder.ok' },
-                            click: () => $state.go('welcome')
+                            click: () => $state.go(`${this._userList.length > 0 ? 'signIn' : 'welcome'}`)
                         }
                     ]
                 })
@@ -507,8 +554,8 @@
             _onClickBuyOrder(priceStr, amountStr) {
                 this.changedInputName = ['price'];
                 const price = this.priceBalance.cloneWithTokens(priceStr);
-                const minAmount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens().div(priceStr));
-                const amount = Money.min(this.amountBalance.cloneWithTokens(amountStr), minAmount);
+                const maxAmount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens().div(priceStr));
+                const amount = Money.min(this.amountBalance.cloneWithTokens(amountStr), maxAmount);
                 this._updateField({ amount, price });
             }
 
@@ -521,7 +568,7 @@
                 this.changedInputName = ['price'];
                 const price = this.priceBalance.cloneWithTokens(priceStr);
                 const amountMoney = this.amountBalance.cloneWithTokens(amountStr);
-                const amount = Money.min(amountMoney, this._getMaxAmountForSell());
+                const amount = Money.min(amountMoney, this.maxAmount);
                 this._updateField({ amount, price });
             }
 
@@ -541,11 +588,11 @@
              * @private
              */
             _getMaxAmountForBuy() {
-                if (!this.price || this.price.getTokens().eq(0)) {
+                const fee = this.fee;
+
+                if (!fee || !this.price || this.price.getTokens().eq(0)) {
                     return this.amountBalance.cloneWithTokens('0');
                 }
-
-                const fee = this.fee;
 
                 return this.amountBalance.cloneWithTokens(
                     this.priceBalance.safeSub(fee)
@@ -554,6 +601,14 @@
                         .div(this.price.getTokens())
                         .roundTo(this.amountBalance.asset.precision)
                 );
+            }
+
+            _currentMaxAmount() {
+                if (this.type === 'buy') {
+                    this.maxAmount = this._getMaxAmountForBuy();
+                } else {
+                    this.maxAmount = this._getMaxAmountForSell();
+                }
             }
 
             /**

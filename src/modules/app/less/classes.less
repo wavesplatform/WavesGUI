@@ -43,6 +43,11 @@
   align-items: center;
   height: 100%;
   width: 100%;
+  text-align: center;
+}
+
+.no-shadow {
+  box-shadow: none;
 }
 
 .relative {
@@ -52,6 +57,7 @@
 .absolute {
   position: absolute;
 }
+
 .overflow-h {
   overflow: hidden;
 }
@@ -83,6 +89,10 @@
 
 .flex {
   display: flex;
+
+  .grow {
+    flex-grow: 1;
+  }
 }
 
 .flex-between {
@@ -117,4 +127,8 @@
 
 .hide-selection {
   background: none transparent;
+}
+
+.inline-link {
+  display: inline-block;
 }

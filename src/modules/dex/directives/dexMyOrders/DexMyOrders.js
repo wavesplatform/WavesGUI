@@ -74,6 +74,10 @@
              */
             showAnims = false;
 
+            /**
+             * @type {Array}
+             */
+            userList = [];
 
             constructor() {
                 super();
@@ -159,6 +163,10 @@
                     this.receive(dexDataService.createOrder, () => poll.restart());
                     this.poll = poll;
                 }
+
+                user.getFilteredUserList().then(list => {
+                    this.userList = list;
+                });
             }
 
             /**
