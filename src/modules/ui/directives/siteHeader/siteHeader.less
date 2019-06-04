@@ -53,7 +53,7 @@
     height: 60px;
     width: 60px;
     cursor: pointer;
-    transition: .5s;
+    transition: .25s;
     z-index: 21;
 
     span,
@@ -293,8 +293,6 @@
     }
   }
 
-
-
   body.dex-demo {
     .mobile-menu {
       .menu-link-exchange {
@@ -305,7 +303,6 @@
       }
     }
   }
-
 
   // end basic mobile menu styles
   // expanded
@@ -371,6 +368,14 @@
     .mobile-menu-toggler {
       right: 261px;
 
+      &:hover {
+        span,
+        &::before,
+        &::after {
+          background: @color-basic-900;
+        }
+      }
+
       span {
         animation-fill-mode: forwards;
         animation-duration: .5s;
@@ -392,6 +397,7 @@
 
   w-site-header {
     header {
+      padding: 0 20px 0 38px;
       .dropdown-toggler {
         display: none;
       }
@@ -491,7 +497,7 @@ w-site-header {
     align-items: center;
     z-index: 11;
     background: @color-white;
-    padding: 0 16px;
+    padding: 0 20px;
 
     a,
     .dropdown-toggler {
@@ -502,10 +508,33 @@ w-site-header {
     .dropdown-toggler {
       position: relative;
       cursor: pointer;
-      width: 80px;background: url(/img/icons/arrow-down-12.svg) 52px center no-repeat;
+      width: 80px;
+
 
       &-right {
         width: 80px;
+        position: relative;
+
+        &:hover {
+          &::before {
+            transform: translateY(-50%) rotate(180deg);
+            background: url(/img/landing/arrow-down-blue.svg) center no-repeat;
+          }
+        }
+
+        &::before {
+          width: 12px;
+          height: 12px;
+          display: block;
+          position: absolute;
+          transform-origin: center;
+          right: 20px;
+          top: 50%;
+          transition: .3s;
+          transform: translateY(-50%);
+          content: '';
+          background: url(/img/icons/arrow-down-12.svg) center no-repeat;
+        }
 
         .dropdown {
           right: 0;
