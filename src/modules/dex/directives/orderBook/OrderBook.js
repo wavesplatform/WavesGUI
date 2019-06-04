@@ -12,7 +12,7 @@
      * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
      * @param {app.i18n} i18n
-     * @param {Promise<typeof OrderList>} promise
+     * @param {typeof OrderList} OrderList
      * @return {OrderBook}
      */
     const controller = function (Base,
@@ -23,7 +23,7 @@
                                  utils,
                                  $scope,
                                  i18n,
-                                 promise) {
+                                 OrderList) {
 
         const SECTIONS = {
             ASKS: '.asks',
@@ -143,52 +143,38 @@
                     this.isScrolled = Math.abs(scrollPos - spreadPos) >= 2;
                 });
 
-                promise
-                    .then(OrderList => {
-                        const poll = createPoll(this, this._getOrders, this._setOrders, 1000, { $scope });
 
-                        this.observe('_assetIdPair', () => {
-                            this._showSpread = true;
-                            this.pending = true;
-                            this.hasOrderBook = false;
-                            this.loadingError = false;
-                            this._updateAssetData();
-                            poll.restart();
-                        });
+                const poll = createPoll(this, this._getOrders, this._setOrders, 1000, { $scope });
 
-                        $element.on('mousedown touchstart', 'w-scroll-box w-row', () => {
-                            this._noRender = true;
-                        });
+                this.observe('_assetIdPair', () => {
+                    this._showSpread = true;
+                    this.pending = true;
+                    this.hasOrderBook = false;
+                    this.loadingError = false;
+                    this._updateAssetData();
+                    poll.restart();
+                });
 
-                        $element.on('mouseup touchend', 'w-scroll-box w-row', () => {
-                            this._noRender = false;
-                            if (this._lastResponse) {
-                                this._render(this._lastResponse);
-                                this._lastResponse = null;
-                            }
-                        });
+                $element.on('mousedown touchstart', 'w-scroll-box w-row', () => {
+                    this._noRender = true;
+                });
 
-                        $element.on('click', 'w-scroll-box w-row', (e) => {
-                            const amount = e.currentTarget.getAttribute('data-amount');
-                            const price = e.currentTarget.getAttribute('data-price');
-                            const type = e.currentTarget.getAttribute('data-type');
+                $element.on('mouseup touchend', 'w-scroll-box w-row', () => {
+                    this._noRender = false;
+                    if (this._lastResponse) {
+                        this._render(this._lastResponse);
+                        this._lastResponse = null;
+                    }
+                });
 
-                            if (amount && price && type) {
-                                dexDataService.chooseOrderBook.dispatch({ amount, price, type });
-                            }
-                        });
-
-                        this._asks = new OrderList({
-                            node: this._dom.$asks.get(0),
-                            fromTop: true,
-                            fillColor: 'rgba(229,73,77,0.1)'
-                        });
-                        this._bids = new OrderList({
-                            node: this._dom.$bids.get(0),
-                            fromTop: false,
-                            fillColor: 'rgba(90,129,234,0.1)'
-                        });
-                    });
+                this._asks = new OrderList({
+                    node: this._dom.$asks.get(0),
+                    fillColor: 'rgba(229,73,77,0.1)'
+                });
+                this._bids = new OrderList({
+                    node: this._dom.$bids.get(0),
+                    fillColor: 'rgba(90,129,234,0.1)'
+                });
             }
 
             nothingFound() {
@@ -295,10 +281,13 @@
                 const maxAmount = OrderBook._getMaxAmount(bids, asks, crop);
 
                 return {
-                    bids: this._toTemplate(bids, crop, priceHash, maxAmount),
+                    bids: bids,
+                    maxAmount,
+                    priceHash,
+                    crop,
                     lastTrade,
                     spread: orderbook.spread && orderbook.spread.percent,
-                    asks: this._toTemplate(asks, crop, priceHash, maxAmount)
+                    asks: asks
                 };
             }
 
@@ -316,9 +305,7 @@
                     return null;
                 }
 
-                this.hasOrderBook = Boolean(data.bids || data.asks);
-
-                this._asks.render(data.asks);
+                this.hasOrderBook = Boolean(data.bids.length || data.asks.length);
 
                 if (data.lastTrade) {
                     const isBuy = data.lastTrade.lastSide === 'buy';
@@ -333,7 +320,15 @@
                 }
                 this._dom.$spread.text(data.spread && data.lastTrade ? data.spread.toFixed(2) : '');
 
-                this._bids.render(data.bids);
+                const pair = new AssetPair(this.amountAsset, this.priceAsset);
+
+                const toLength = (list, len) => {
+                    const count = len - list.length;
+                    return new Array(count).fill(null).concat(list);
+                };
+
+                this._asks.render(toLength(data.asks, 100), data.crop, data.priceHash, data.maxAmount, pair);
+                this._bids.render(data.bids, data.crop, data.priceHash, data.maxAmount, pair);
 
                 if (this._showSpread) {
                     this._showSpread = false;
@@ -350,52 +345,6 @@
                 const box = this._dom.$box.get(0);
                 const info = this._dom.$info.get(0);
                 return info.offsetTop - box.offsetTop - box.clientHeight / 2 + info.clientHeight / 2;
-            }
-
-            /**
-             * @param {OrderBook.IOrder[]} list
-             * @param {OrderBook.ICrop} crop
-             * @param {Object.<string, string>} priceHash
-             * @param {BigNumber} maxAmount
-             * @return Array<string>
-             * @private
-             */
-            _toTemplate(list, crop, priceHash, maxAmount) {
-                return list.map((order) => {
-                    const hasOrder = !!priceHash[order.price.toFixed(this.priceAsset.precision)];
-                    const inRange = order.price.gte(crop.min) && order.price.lte(crop.max);
-                    const type = order.type;
-                    const totalAmount = order.totalAmount && order.totalAmount.toFixed();
-                    const width = order.amount.div(maxAmount).times(100).toFixed(2);
-                    const amount = utils.getNiceNumberTemplate(order.amount, this.amountAsset.precision, true);
-                    const price = utils.getNiceNumberTemplate(order.price, this.priceAsset.precision, true);
-                    const total = utils.getNiceNumberTemplate(order.total, this.priceAsset.precision, true);
-                    const priceNum = order.price.toFixed();
-                    const totalAmountNum = order.totalAmount && order.totalAmount.toFixed();
-                    const amountAsset = this.amountAsset.displayName;
-                    const priceAsset = this.priceAsset.displayName;
-                    const buyTooltip = i18n.translate('orderbook.ask.tooltipText', 'app.dex', {
-                        amountAsset, priceAsset, price: order.price.toFormat(this.priceAsset.precision)
-                    });
-                    const sellTooltip = i18n.translate('orderbook.bid.tooltipText', 'app.dex', {
-                        amountAsset, priceAsset, price: order.price.toFormat(this.priceAsset.precision)
-                    });
-
-                    return {
-                        hasOrder,
-                        inRange,
-                        type,
-                        totalAmount,
-                        amount,
-                        price,
-                        total,
-                        width,
-                        priceNum,
-                        totalAmountNum,
-                        buyTooltip,
-                        sellTooltip
-                    };
-                });
             }
 
             /**
@@ -493,14 +442,17 @@
 
 /**
  * @typedef {object} OrderBook#ICrop
- * @property {number} min
- * @property {number} max
+ * @property {BigNumber} min
+ * @property {BigNumber} max
  */
 
 /**
  * @typedef {object} OrderBook#OrdersData
- * @property {string} asks
- * @property {string} bids
+ * @property {Array<OrderBook.IOrder>} bids
+ * @property {Array<OrderBook.IOrder>} asks
+ * @property {BigNumber} maxAmount
+ * @property {OrderBook.ICrop} crop
+ * @property {Record<string, boolean>} priceHash
  * @property {{price: Money, lastSide: string}} lastTrade
  * @property {BigNumber} spread
  */
