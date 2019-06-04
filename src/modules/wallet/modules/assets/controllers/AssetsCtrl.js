@@ -11,10 +11,13 @@
      * @param {ModalManager} modalManager
      * @param {IPollCreate} createPoll
      * @param {BalanceWatcher} balanceWatcher
+     * // TODO: delete after contest
+     * @param {PermissionManager} permissionManager
+     * // TODO: delete after contest
      * @return {Assets}
      */
     const controller = function (waves, assetsData, $scope, utils, Base, user, modalManager, createPoll,
-                                 balanceWatcher) {
+                                 balanceWatcher, permissionManager) {
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
@@ -33,6 +36,20 @@
                  * @type {Money[]}
                  */
                 this.pinnedAssetBalances = null;
+
+                // TODO: delete after contest
+                /**
+                 * @type {string[]}
+                 */
+                this.pinnedContestAssetIdList = [
+                    'D4pFweACmYsfatwsQjGCeXcwnaphURLm2XTg5GNh1rjQ'
+                ];
+                /**
+                 * @type {Money[]}
+                 */
+                this.pinnedContestAssetBalances = null;
+                this.isContestTimeNow = permissionManager.isPermitted('CONTEST_TIME');
+                // TODO: delete after contest
 
                 this.chartMode = null;
                 this.total = null;
@@ -250,6 +267,26 @@
                     this.pinnedAssetBalances = list;
                     utils.safeApply($scope);
                 });
+
+                // TODO: delete after contest
+                const balancesContest = this.pinnedContestAssetIdList.reduce((acc, assetId) => {
+                    return acc.then(list => {
+                        if (hash[assetId]) {
+                            list.push(hash[assetId]);
+                            return list;
+                        }
+                        return balanceWatcher.getFullBalanceByAssetId(assetId).then(balance => {
+                            list.push(balance);
+                            return list;
+                        });
+                    });
+                }, Promise.resolve([]));
+
+                balancesContest.then(list => {
+                    this.pinnedContestAssetBalances = list;
+                    utils.safeApply($scope);
+                });
+                // TODO: delete after contest
             }
 
             /**
@@ -337,7 +374,8 @@
         'user',
         'modalManager',
         'createPoll',
-        'balanceWatcher'
+        'balanceWatcher',
+        'permissionManager'
     ];
 
     angular.module('app.wallet.assets')

@@ -11,7 +11,14 @@
             </h2>
 
             <div ng-if="$ctrl.ticker" class="body-2 margin-05 basic-500 asset__ticker">{{$ctrl.ticker}}</div>
-        </div>
+<!--            TODO: delete after contest-->
+            <div ng-if="$ctrl.isContestAsset" class="body-2 margin-05">
+                <a href="https://wsoc.io"
+                   w-i18n="modal.assetInfo.wsocRef"
+                   target="_blank"
+                   rel="noopener noreferrer"></a>
+            </div>
+<!--            TODO: delete after contest-->
 
         <div class="chart-wrapper">
             <w-asset-rate-chart no-update="::true" asset-id="$ctrl.assetId"></w-asset-rate-chart>

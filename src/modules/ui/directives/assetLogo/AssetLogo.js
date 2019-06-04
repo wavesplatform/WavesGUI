@@ -20,6 +20,12 @@
         [WavesApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
     };
 
+    // TODO: delete after contest
+    const CONTEST_ASSET_ID_MAP = {
+        D4pFweACmYsfatwsQjGCeXcwnaphURLm2XTg5GNh1rjQ: '/img/assets/waves.svg'
+    };
+    // TODO: delete after contest
+
     const ds = require('data-service');
     const { isEmpty } = require('ts-utils');
 
@@ -146,6 +152,15 @@
                                             .css('backgroundImage', `url(${ASSET_IMAGES_MAP[asset.id]})`);
                                     })
                                     .catch(() => this._addLetter(asset.name));
+                            } else if (CONTEST_ASSET_ID_MAP[asset.id]) {
+                                // TODO: delete after contest
+                                utils.loadImage(CONTEST_ASSET_ID_MAP[asset.id])
+                                    .then(() => {
+                                        $element.find('.asset__logo')
+                                            .css('backgroundImage', `url(${CONTEST_ASSET_ID_MAP[asset.id]})`);
+                                    })
+                                    .catch(() => this._addLetter(asset.name));
+                                // TODO: delete after contest
                             } else {
                                 this._addLetter(asset.name);
                             }

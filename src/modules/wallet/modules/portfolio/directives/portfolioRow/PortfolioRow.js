@@ -26,6 +26,12 @@
         [WavesApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
     };
 
+    // TODO: delete after contest
+    const CONTEST_ASSET_ID_MAP = {
+        D4pFweACmYsfatwsQjGCeXcwnaphURLm2XTg5GNh1rjQ: '/img/assets/waves.svg'
+    };
+    // TODO: delete after contest
+
     const COLORS_MAP = {
         A: '#39a12c',
         B: '#6a737b',
@@ -240,7 +246,9 @@
                         isVerified: isVerified,
                         isGateway: isGateway,
                         isTokenomica: isTokenomica,
-                        assetIconPath: logo || ASSET_IMAGES_MAP[this.balance.asset.id],
+                        assetIconPath: logo ||
+                            ASSET_IMAGES_MAP[this.balance.asset.id] ||
+                            CONTEST_ASSET_ID_MAP[this.balance.asset.id],
                         firstAssetChar,
                         canBurn: !this._isWaves,
                         canReissue: this._isMyAsset && this.balance.asset.reissuable,

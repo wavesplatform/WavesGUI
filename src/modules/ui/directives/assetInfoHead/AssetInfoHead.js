@@ -1,6 +1,12 @@
 (function () {
     'use strict';
 
+    // TODO: delete after contest
+    const CONTEST_ASSET_ID_LIST = [
+        'D4pFweACmYsfatwsQjGCeXcwnaphURLm2XTg5GNh1rjQ'
+    ];
+    // TODO: delete after contest
+
     /**
      * @param Base
      * @param $scope
@@ -21,6 +27,10 @@
             $postLink() {
                 this._getAssetInfo();
                 this.observe('assetId', this._getAssetInfo);
+
+                // TODO: delete after contest
+                this.isContestAsset = CONTEST_ASSET_ID_LIST.indexOf(this.assetId) > -1;
+                // TODO: delete after contest
             }
 
             /**
