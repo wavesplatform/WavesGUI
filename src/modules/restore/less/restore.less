@@ -27,7 +27,7 @@ body.restore {
             &.empty {
               position: relative;
               top: 3px;
-              height: 12px;
+              height: 8px;
               border-radius: 100px;
               background-color: @color-basic-100;
             }
@@ -50,11 +50,41 @@ body.restore {
       }
 
       .avatar-fake {
-        width: 40px;
-        height: 40px;
+        width: 36px;
+        height: 36px;
         border-radius: 100%;
         background-color: @color-basic-100;
         flex-shrink: 0;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body.restore {
+    .restore-content {
+      .seed-block {
+        w-input textarea {
+          padding: @padding-control-big-responsive-horizontal;
+        }
+
+        .avatar-fake {
+          width: 32px;
+          height: 32px;
+        }
+
+        .address-block {
+          .address {
+            &.empty {
+              height: 6px;
+            }
+          }
+        }
+
+        .address-block-info {
+          height: 67px;
+        }
       }
     }
   }

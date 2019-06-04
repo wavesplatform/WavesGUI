@@ -7,9 +7,9 @@
             <w-step-by-step active-step="$ctrl.activeStep">
                 <w-step>
 
-                    <div class="headline-1 margin-1 text-center" w-i18n="seedForm.title"></div>
-                    <div class="body-2 text-center margin-5">
-                        <span class="disabled-600" w-i18n="seedForm.description"></span>
+                    <div class="headline-1 margin-2 text-center" w-i18n="seedForm.title"></div>
+                    <div class="body-2 text-center margin-3">
+                        <span class="basic-500" w-i18n="seedForm.description"></span>
                     </div>
 
                     <div class="body-2 margin-05 basic-900" w-i18n="seedForm.seedTitle"></div>
@@ -18,7 +18,7 @@
                         <div class="seed-block margin-2">
                             <w-input textarea
                                      w-autofocus
-                                     class="embed no-icon big footnote-1"
+                                     class="embed no-icon"
                                      ng-model="$ctrl.seed"
                                      placeholder="seedForm.placeholder"
                                      w-i18n-attr="placeholder"
@@ -57,7 +57,7 @@
 
                     <div class="headline-1 margin-1 text-center" w-i18n="passwordForm.title"></div>
                     <div class="body-2 text-center margin-5">
-                        <span class="disabled-600" w-i18n="passwordForm.description"></span>
+                        <span class="basic-500" w-i18n="passwordForm.description"></span>
                         <a w-i18n="passwordForm.back" w-step-prev ng-click="$ctrl.resetNameAndPassword()"></a>
                     </div>
 

@@ -15,7 +15,7 @@
                     <div ng-repeat="legend in $ctrl.chartData track by legend.id"
                          ng-if="!legend.value.getTokens().eq(0)"
                          class="legend-item">
-                        <div class="part disabled-600 footnote-1">
+                        <div class="part basic-500 footnote-1">
                             <div class="legend-color margin-right-1"
                                  style="background-color: {{::$ctrl.chartOptions.items[legend.id].color}}"></div>
                             <span w-i18n="{{::legend.id}}"></span>
