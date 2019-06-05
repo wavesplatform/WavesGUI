@@ -54,7 +54,7 @@
     width: 60px;
     cursor: pointer;
     transition: .25s;
-    z-index: 21;
+    z-index: 22;
 
     span,
     &::before,
@@ -518,8 +518,8 @@ w-site-header {
       cursor: pointer;
 
       &-right {
-        position: relative;
         padding-right: 30px;
+        width: 205px;
 
         &:hover {
           &::before {
@@ -742,8 +742,9 @@ w-site-header {
   .header-avatar-container {
     display: flex;
     align-items: center;
-    width: 100%;
-    max-width: 205px;
+    width: 36px;
+    height: 36px;
+    position: relative;
   }
 
   .account-name {
@@ -770,8 +771,6 @@ w-site-header {
     w-avatar[type='ledger'],
     w-avatar[type='wavesKeeper'] {
       display: block;
-      width: 40px;
-      height: 40px;
       margin-left: auto;
       margin-right: auto;
     }
