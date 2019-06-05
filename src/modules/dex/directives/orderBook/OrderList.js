@@ -8,6 +8,8 @@
      */
     const service = function (Base, OrderListItem, dexDataService) {
 
+        const SCALE = devicePixelRatio || 1;
+
         /**
          * @class OrderList
          */
@@ -34,11 +36,6 @@
              */
             _ctx;
             /**
-             * @type {boolean}
-             * @private
-             */
-            _hasSize = false;
-            /**
              * @type {string}
              * @private
              */
@@ -60,13 +57,12 @@
              * @param {AssetPair} pair
              */
             render(data, crop, priceHash, maxAmount, pair) {
-                this._initSize();
-
                 const widthList = [];
 
                 this._rows.forEach((row, index) => {
-                    row.render(data[index], crop, priceHash, pair);
-                    widthList[index] = data[index] && data[index].amount.div(maxAmount).times(100).toFixed(2);
+                    const item = data[index];
+                    row.render(item, crop, priceHash, pair);
+                    widthList[index] = item && item.amount.div(maxAmount).times(100).toFixed(2);
                 });
 
                 this._drawCanvas(widthList);
@@ -117,6 +113,8 @@
              * @private
              */
             _drawCanvas(widthList) {
+                this._initSize();
+
                 const height = this._getLineHeight();
                 const rate = this._canvas.width / 100;
 
@@ -129,7 +127,7 @@
                 this._ctx.fillStyle = this._fillColor;
 
                 widthList.forEach((width, index) => {
-                    this._ctx.fillRect(0, index * height, width * rate, height);
+                    this._ctx.fillRect(0, index * height * SCALE, width * rate, height * SCALE);
                 });
 
                 this._ctx.stroke();
@@ -145,9 +143,14 @@
             _initSize() {
                 const width = this._canvas.parentElement.clientWidth;
                 const height = this._canvas.parentElement.clientHeight;
-                this._hasSize = !!width && !!height;
-                this._canvas.width = width;
-                this._canvas.height = height;
+                this._canvas.width = width * SCALE;
+                this._canvas.height = height * SCALE;
+                this._canvas.style.width = `${width}px`;
+                this._canvas.style.height = `${height}px`;
+
+                if (width && height) {
+                    this._initSize = () => undefined;
+                }
             }
 
             /**
