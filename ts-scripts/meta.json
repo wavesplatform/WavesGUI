@@ -256,7 +256,7 @@
       "coinomat": "https://coinomat.com",
       "vostok": {
         "gateway": "https://gw.wavesplatform.com",
-        "networkByte": "F"
+        "networkByte": "V"
       },
       "support": "https://support.wavesplatform.com",
       "termsAndConditions": "https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf",
