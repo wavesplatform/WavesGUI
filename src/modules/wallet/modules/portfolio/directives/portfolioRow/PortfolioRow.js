@@ -293,6 +293,7 @@
              */
             _onChangeLanguage() {
                 const nodeList = this.node.querySelectorAll('[w-i18n-literal]');
+                this._updateBalances();
 
                 Array.prototype.forEach.call(nodeList, element => {
                     element.innerHTML = this.i18n.translate(
@@ -360,14 +361,6 @@
                     change24Node.classList.remove('plus');
                     this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
                     this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
-
-                    return null;
-                }
-
-                if (balance.isOnScamList) {
-                    this.node.querySelector(`.${SELECTORS.CHANGE_24}`).innerHTML = '—';
-                    this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
-                    this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
 
                     return null;
                 }
