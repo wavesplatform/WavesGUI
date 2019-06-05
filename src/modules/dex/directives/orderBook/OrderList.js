@@ -4,9 +4,8 @@
     /**
      * @param {typeof Base} Base
      * @param {typeof OrderListItem} OrderListItem
-     * @param {DexDataService} dexDataService
      */
-    const service = function (Base, OrderListItem, dexDataService) {
+    const service = function (Base, OrderListItem) {
 
         const SCALE = devicePixelRatio || 1;
 
@@ -15,6 +14,7 @@
          */
         class OrderList extends Base {
 
+            static ROWS_COUNT = 80;
             /**
              * @type {Array<OrderListItem>}
              * @private
@@ -68,18 +68,20 @@
                 this._drawCanvas(widthList);
             }
 
+            $onDestroy() {
+                super.$onDestroy();
+                this._rows.forEach(row => {
+                    row.$onDestroy();
+                });
+            }
+
             /**
              * @param node
              * @private
              */
             _createLines(node) {
-                const handler = item => {
-                    OrderList._onClickRow(item);
-                };
-                for (let i = 0; i < 100; i++) {
-                    const item = new OrderListItem(node);
-                    item.addEventListener('click', handler);
-                    this._rows.push(item);
+                for (let i = 0; i < OrderList.ROWS_COUNT; i++) {
+                    this._rows.push(new OrderListItem(node));
                 }
             }
 
@@ -153,30 +155,12 @@
                 }
             }
 
-            /**
-             * @param {OrderListItem} item
-             * @private
-             */
-            static _onClickRow(item) {
-                const order = item.getData();
-
-                if (!order) {
-                    return null;
-                }
-
-                dexDataService.chooseOrderBook.dispatch({
-                    amount: order.totalAmount.toFixed(2),
-                    price: order.price.toFixed(),
-                    type: order.type
-                });
-            }
-
         }
 
         return OrderList;
     };
 
-    service.$inject = ['Base', 'OrderListItem', 'dexDataService'];
+    service.$inject = ['Base', 'OrderListItem'];
 
     angular.module('app.dex').service('OrderList', service);
 })();

@@ -96,11 +96,6 @@
                  */
                 this._orderBookCropRate = null;
                 /**
-                 * @type {function(data: object): string}
-                 * @private
-                 */
-                this._template = null;
-                /**
                  * @private
                  */
                 this._dom = null;
@@ -174,6 +169,11 @@
                 this._bids = new OrderList({
                     node: this._dom.$bids.get(0),
                     fillColor: 'rgba(90,129,234,0.1)'
+                });
+
+                this.signals.destroy.once(() => {
+                    this._asks.$onDestroy();
+                    this._bids.$onDestroy();
                 });
             }
 
@@ -258,9 +258,12 @@
              */
             _remapOrderBook(orderbook, orders = [], lastPrice) {
 
+                const dataBids = orderbook.bids.slice(0, OrderList.ROWS_COUNT);
+                const dataAsks = orderbook.asks.slice(0, OrderList.ROWS_COUNT);
+
                 const crop = utils.getOrderBookRangeByCropRate({
-                    bids: orderbook.bids,
-                    asks: orderbook.asks,
+                    bids: dataBids,
+                    asks: dataAsks,
                     chartCropRate: this._orderBookCropRate
                 });
 
@@ -275,19 +278,19 @@
                 }, Object.create(null));
 
                 const lastTrade = lastPrice;
-                const bids = OrderBook._sumAllOrders(orderbook.bids, 'sell');
-                const asks = OrderBook._sumAllOrders(orderbook.asks, 'buy').reverse();
+                const bids = OrderBook._sumAllOrders(dataBids, 'sell');
+                const asks = OrderBook._sumAllOrders(dataAsks, 'buy').reverse();
 
                 const maxAmount = OrderBook._getMaxAmount(bids, asks, crop);
 
                 return {
-                    bids: bids,
+                    bids,
                     maxAmount,
                     priceHash,
                     crop,
                     lastTrade,
                     spread: orderbook.spread && orderbook.spread.percent,
-                    asks: asks
+                    asks
                 };
             }
 
@@ -327,7 +330,8 @@
                     return new Array(count).fill(null).concat(list);
                 };
 
-                this._asks.render(toLength(data.asks, 100), data.crop, data.priceHash, data.maxAmount, pair);
+                const length = OrderList.ROWS_COUNT;
+                this._asks.render(toLength(data.asks, length), data.crop, data.priceHash, data.maxAmount, pair);
                 this._bids.render(data.bids, data.crop, data.priceHash, data.maxAmount, pair);
 
                 if (this._showSpread) {

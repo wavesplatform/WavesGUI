@@ -10,7 +10,20 @@
 
         const tsUtils = require('ts-utils');
 
+        /**
+         * @class Base
+         */
         class Base {
+
+            /**
+             * @type {Base.IMethods}
+             * @static
+             */
+            static DOM_EVENTS_METHODS = {
+                on: 'addEventListener',
+                off: 'removeEventListener',
+                capture: false
+            };
 
             /**
              * @constructor

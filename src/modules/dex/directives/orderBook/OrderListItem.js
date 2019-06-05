@@ -5,11 +5,13 @@
      * @param {typeof Base} Base
      * @param {app.utils} utils
      * @param {app.i18n} i18n
+     * @param {DexDataService} dexDataService
      */
-    const service = function (Base, utils, i18n) {
+    const service = function (Base, utils, i18n, dexDataService) {
 
         /**
          * @class OrderListItem
+         * @extends Base
          */
         class OrderListItem extends Base {
 
@@ -93,14 +95,6 @@
             }
 
             /**
-             * @param event
-             * @param callback
-             */
-            addEventListener(event, callback) {
-                this._root.addEventListener(event, () => callback(this), false);
-            }
-
-            /**
              * @return {number}
              */
             getHeight() {
@@ -142,9 +136,12 @@
              * @private
              */
             _setHandlers() {
-                this._root.addEventListener('mouseenter', () => {
+                this.listenEventEmitter(this._root, 'mouseenter', () => {
                     this._onHoverIn();
-                }, false);
+                }, Base.DOM_EVENTS_METHODS);
+                this.listenEventEmitter(this._root, 'click', () => {
+                    OrderListItem._onClickRow(this);
+                }, Base.DOM_EVENTS_METHODS);
             }
 
             /**
@@ -221,12 +218,30 @@
                 return element;
             }
 
+            /**
+             * @param {OrderListItem} item
+             * @private
+             */
+            static _onClickRow(item) {
+                const order = item.getData();
+
+                if (!order) {
+                    return null;
+                }
+
+                dexDataService.chooseOrderBook.dispatch({
+                    amount: order.totalAmount.toFixed(2),
+                    price: order.price.toFixed(),
+                    type: order.type
+                });
+            }
+
         }
 
         return OrderListItem;
     };
 
-    service.$inject = ['Base', 'utils', 'i18n'];
+    service.$inject = ['Base', 'utils', 'i18n', 'dexDataService'];
 
     angular.module('app.dex').service('OrderListItem', service);
 })();
