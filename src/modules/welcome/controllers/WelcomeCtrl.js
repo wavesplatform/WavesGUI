@@ -114,6 +114,7 @@
 
                 this._initUserList();
                 this._initPairs();
+                this._addScrollHandler();
             }
 
             /**
@@ -162,7 +163,6 @@
                             });
                             angularUtils.safeApply($scope);
                             this._insertCharts();
-                            this._addScrollHandler();
                         });
                     });
             }
