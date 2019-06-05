@@ -171,9 +171,6 @@
                                 </div>
                             </div>
 
-                            <w-input-error message="required" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.required"></span>
-                            </w-input-error>
                             <w-input-error message="gte" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.amountGte"></span>
                                 <span class="clickable-value" ng-click="$ctrl.setAmount($ctrl.pairRestrictions.minAmount)">
@@ -181,8 +178,10 @@
                                 </span>
                             </w-input-error>
                             <w-input-error message="precision" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.precision"
-                                      params="{precision: $ctrl.amountBalance.asset.precision}"></span>
+                                <span w-i18n="directives.createOrder.errors.amountStepSize"></span>
+                                <span class="clickable-value" ng-click="$ctrl.setAmount($ctrl.getClosestValidAmount())">
+                                    {{$ctrl.getClosestValidAmount().toFormat()}}
+                                </span>
                             </w-input-error>
                             <w-input-error message="lte" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
                                 <span ng-if="$ctrl.maxAmountBalance"
@@ -200,6 +199,9 @@
                                 <span class="clickable-value" ng-click="$ctrl.setAmount($ctrl.getClosestValidAmount())">
                                     {{$ctrl.getClosestValidAmount().toFormat()}}
                                 </span>
+                            </w-input-error>
+                            <w-input-error message="required" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                <span w-i18n="directives.createOrder.errors.required"></span>
                             </w-input-error>
                         </w-input-container>
 

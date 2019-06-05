@@ -526,6 +526,10 @@
              * @return {BigNumber}
              */
             getRoundAmountByStepSize(value) {
+                if (!this.loadedPairRestrictions) {
+                    return value;
+                }
+
                 const { stepSize } = this.pairRestrictions;
                 const roundedAmount = value.decimalPlaces(stepSize.decimalPlaces(), BigNumber.ROUND_HALF_EVEN);
 
@@ -548,11 +552,11 @@
                 const roundedAmount = this.getRoundAmountByStepSize(amount);
 
                 if (roundedAmount.lt(minAmount)) {
-                    return minAmount;
+                    return minAmount.decimalPlaces(roundedAmount.decimalPlaces());
                 }
 
                 if (roundedAmount.gt(maxAmount)) {
-                    return maxAmount;
+                    return maxAmount.decimalPlaces(roundedAmount.decimalPlaces());
                 }
 
                 return roundedAmount;
@@ -1008,37 +1012,51 @@
                 }
 
                 this.pairRestrictions = {};
+                const defaultPairRestriction = this._getDefaultPairRestriction();
 
                 ds.api.matcher.getPairRestrictions({
                     amountAsset: this.amountBalance.asset,
                     priceAsset: this.priceBalance.asset
                 })
                     .then(info => {
+                        const maxAmount = info.maxAmount ?
+                            new BigNumber(info.maxAmount) :
+                            defaultPairRestriction.maxAmount;
                         this.pairRestrictions = {
-                            maxPrice: new BigNumber(info.maxPrice),
-                            maxAmount: new BigNumber(info.maxAmount),
-                            tickSize: new BigNumber(info.tickSize),
-                            stepSize: new BigNumber(info.stepSize),
-                            minPrice: new BigNumber(info.minPrice),
-                            minAmount: new BigNumber(info.minAmount)
+                            maxPrice: info.maxPrice ? new BigNumber(info.maxPrice) : defaultPairRestriction.maxPrice,
+                            maxAmount: this.maxAmountBalance ?
+                                this.maxAmountBalance.getTokens() :
+                                maxAmount,
+                            tickSize: info.tickSize ? new BigNumber(info.tickSize) : defaultPairRestriction.tickSize,
+                            stepSize: info.stepSize ? new BigNumber(info.stepSize) : defaultPairRestriction.stepSize,
+                            minPrice: info.minPrice ? new BigNumber(info.minPrice) : defaultPairRestriction.minPrice,
+                            minAmount: info.minAmount ? new BigNumber(info.minAmount) : defaultPairRestriction.minAmount
                         };
                     })
                     .catch(() => {
-                        const tickSize = new BigNumber(Math.pow(10, -this.priceBalance.asset.precision));
-                        const stepSize = new BigNumber(Math.pow(10, -this.amountBalance.asset.precision));
-                        const maxPrice = new BigNumber(Infinity);
-                        const maxAmount = this.maxAmountBalance ?
-                            this.maxAmountBalance.getTokens() :
-                            new BigNumber(Infinity);
-                        this.pairRestrictions = {
-                            maxPrice,
-                            maxAmount,
-                            tickSize,
-                            stepSize,
-                            minPrice: tickSize,
-                            minAmount: stepSize
-                        };
+                        this.pairRestrictions = defaultPairRestriction;
                     });
+            }
+
+            /**
+             * @return {{minAmount, minPrice, stepSize, maxPrice, maxAmount, tickSize}}
+             * @private
+             */
+            _getDefaultPairRestriction() {
+                const tickSize = new BigNumber(Math.pow(10, -this.priceBalance.asset.precision));
+                const stepSize = new BigNumber(Math.pow(10, -this.amountBalance.asset.precision));
+                const maxPrice = new BigNumber(Infinity);
+                const maxAmount = this.maxAmountBalance ?
+                    this.maxAmountBalance.getTokens() :
+                    new BigNumber(Infinity);
+                return ({
+                    maxPrice,
+                    maxAmount,
+                    tickSize,
+                    stepSize,
+                    minPrice: tickSize,
+                    minAmount: stepSize
+                });
             }
 
             /**
@@ -1046,7 +1064,7 @@
              */
             _validateStepSize() {
                 if (!this.amount) {
-                    return false;
+                    return true;
                 }
 
                 return this.amount.getTokens().modulo(this.pairRestrictions.stepSize).isZero();
