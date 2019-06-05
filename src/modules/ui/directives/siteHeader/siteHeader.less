@@ -509,15 +509,17 @@ w-site-header {
       color: @color-basic-900;
     }
 
+    .user-info-wrapper {
+      margin-left: 10px;
+    }
+
     .dropdown-toggler {
       position: relative;
       cursor: pointer;
-      width: 80px;
-
 
       &-right {
-        width: 80px;
         position: relative;
+        padding-right: 30px;
 
         &:hover {
           &::before {
@@ -532,7 +534,7 @@ w-site-header {
           display: block;
           position: absolute;
           transform-origin: center;
-          right: 20px;
+          right: 16px;
           top: 50%;
           transition: .3s;
           transform: translateY(-50%);
@@ -543,7 +545,9 @@ w-site-header {
         .dropdown {
           right: 0;
           left: auto;
-          transform: translate(0, 11px);
+          transform: translate(0, 5px);
+          min-width: 100%;
+          width: 100%;
         }
       }
     }
@@ -671,7 +675,7 @@ w-site-header {
     position: absolute;
     top: 100%;
     left: 50%;
-    transform: translate(-50%, 11px);
+    transform: translate(-50%, 26px);
     z-index: 10;
     min-width: 280px;
 
@@ -714,6 +718,41 @@ w-site-header {
     margin-left: 50px;
     flex-grow: 1;
     position: relative;
+  }
+
+  .header-logout {
+    width: 60px;
+    height: 60px;
+    margin-right: -20px;
+    border-left: 1px solid #f0f4fa;
+    background: url(/img/icons/power-basic-500.svg) center no-repeat;
+    &:hover {
+      background: url(/img/icons/power-submit-400.svg) center no-repeat;
+    }
+  }
+
+  .header-right-wrapper {
+    display: flex;
+    vertical-align: center;
+  }
+
+  .header-avatar-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 205px;
+  }
+
+  .account-name {
+    font-weight: 600;
+  }
+
+  .account-name,
+  .account-address {
+    max-width: 125px;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   .avatar-container {
@@ -897,7 +936,10 @@ body.tokens {
 @media screen and (max-width: 860px) {
   w-site-header {
     header {
+      .account-address,
+      .account-name,
       .top-menu,
+      .header-logout,
       .buttons-wrapper {
         display: none;
       }

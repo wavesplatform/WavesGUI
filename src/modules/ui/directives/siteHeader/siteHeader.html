@@ -324,85 +324,54 @@
             </a>
         </div>
 
-        <div ng-if="$ctrl.isLogined">
-            <div class="account-name" ng-if="$ctrl.userName">{{$ctrl.userName}}</div>
-            <div class="account-address">{{$ctrl.address}}</div>
-        </div>
 
-        <div ng-if="$ctrl.isLogined" class="dropdown-toggler dropdown-toggler-right">
-            <div class="avatar-container has-helper">
-                <w-analytics event="'Account Picture Click'" event-target="'ui'">
-                    <w-avatar type="{{$ctrl.userType}}"
-                              size="36"
-                              address="$ctrl.address"></w-avatar>
-                </w-analytics>
+        <div class="header-right-wrapper" ng-if="$ctrl.isLogined">
 
-                <w-help-icon class="avatar-options-list" ng-if="($ctrl.hasTypeHelp)">
-                    <div class="help-icon__row row-keeper" ng-if="$ctrl.isKeeper">
-                        <span class="acount-option-icon"></span>
-                        <span w-i18n="welcome.keeperAccount"></span>
-                    </div>
-                    <div class="help-icon__row row-ledger" ng-if="$ctrl.isLedger">
-                        <span class="acount-option-icon"></span>
-                        <span w-i18n="welcome.ledgerAccount"></span>
-                    </div>
-                    <div class="help-icon__row row-script" ng-if="!$ctrl.isScript">
-                        <span class="acount-option-icon"></span>
-                        <span w-i18n="welcome.scriptAccount"></span>
-                    </div>
-                </w-help-icon>
-            </div>
+            <div class="dropdown-toggler dropdown-toggler-right">
+                <div class="avatar-container header-avatar-container has-helper">
+                    <w-analytics event="'Account Picture Click'" event-target="'ui'">
+                        <w-avatar type="{{$ctrl.userType}}"
+                                  size="36"
+                                  address="$ctrl.address"></w-avatar>
+                    </w-analytics>
 
-            <div class="dropdown">
-                <div class="center">
-                    <div class="avatar-container has-helper margin-1 margin-top-2">
-                        <w-avatar
-                            type="{{$ctrl.userType}}"
-                            size="40"
-                            address="$ctrl.address"></w-avatar>
-                        <w-help-icon class="avatar-options-list" ng-if="($ctrl.hasTypeHelp)">
-                            <div class="help-icon__row row-keeper" ng-if="$ctrl.isKeeper">
-                                <span class="acount-option-icon"></span>
-                                <span w-i18n="welcome.keeperAccount"></span>
-                            </div>
-                            <div class="help-icon__row row-ledger" ng-if="$ctrl.isLedger">
-                                <span class="acount-option-icon"></span>
-                                <span w-i18n="welcome.ledgerAccount"></span>
-                            </div>
-                            <div class="help-icon__row row-script" ng-if="!$ctrl.isScript">
-                                <span class="acount-option-icon"></span>
-                                <span w-i18n="welcome.scriptAccount"></span>
-                            </div>
-                        </w-help-icon>
-                    </div>
-                    <div class="basic-900">{{$ctrl.userName}}</div>
-                    <w-copy-wrap class="margin-2 copywrap-default"
-                                 info="::$ctrl.address"
-                                 ng-click="$ctrl.onCopyAddress()">
-                        <div class="basic-500" ng-click="$ctrl.onCopy()" w-copy="$ctrl.info">
-                            {{$ctrl.address}}
+                    <w-help-icon class="avatar-options-list" ng-if="($ctrl.hasTypeHelp)">
+                        <div class="help-icon__row row-keeper" ng-if="$ctrl.isKeeper">
+                            <span class="acount-option-icon"></span>
+                            <span w-i18n="welcome.keeperAccount"></span>
                         </div>
-                    </w-copy-wrap>
+                        <div class="help-icon__row row-ledger" ng-if="$ctrl.isLedger">
+                            <span class="acount-option-icon"></span>
+                            <span w-i18n="welcome.ledgerAccount"></span>
+                        </div>
+                        <div class="help-icon__row row-script" ng-if="!$ctrl.isScript">
+                            <span class="acount-option-icon"></span>
+                            <span w-i18n="welcome.scriptAccount"></span>
+                        </div>
+                    </w-help-icon>
+                    <div class="user-info-wrapper">
+                        <div class="account-name body-2 basic-700" ng-if="$ctrl.userName">{{$ctrl.userName}}</div>
+                        <div class="account-address basic-500 body-3">{{$ctrl.address}}</div>
+                    </div>
                 </div>
-                <a class="link-aliases" ng-click="$ctrl.avatarClick()">
-                    <i class="dropdown-icon icon-18 icon-aliases"></i>
-                    <div>
-                        <div w-i18n="welcome.aliases"></div>
-                    </div>
-                </a>
-                <a class="link-settings" ng-click="$ctrl.settings()">
-                    <i class="dropdown-icon icon-18 icon-settings"></i>
-                    <div>
-                        <div w-i18n="welcome.settings"></div>
-                    </div>
-                </a>
-                <a class="link-logout" ng-click="$ctrl.logout()">
-                    <i class="dropdown-icon icon-18 icon-logout"></i>
-                    <div>
-                        <div w-i18n-ns="app.welcome" w-i18n="welcome.logout"></div>
-                    </div>
-                </a>
+
+                <div class="dropdown">
+                    <a class="link-aliases no-border" ng-click="$ctrl.avatarClick()">
+                        <i class="dropdown-icon icon-18 icon-aliases"></i>
+                        <div>
+                            <div w-i18n="welcome.aliases"></div>
+                        </div>
+                    </a>
+                    <a class="link-settings" ng-click="$ctrl.settings()">
+                        <i class="dropdown-icon icon-18 icon-settings"></i>
+                        <div>
+                            <div w-i18n="welcome.settings"></div>
+                        </div>
+                    </a>
+                </div>
             </div>
+
+            <a class="header-logout" href="#" ng-click="$ctrl.logout()"></a>
         </div>
     </div>
 </header>
