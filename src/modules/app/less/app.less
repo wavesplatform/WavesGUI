@@ -72,7 +72,18 @@ select:-webkit-autofill:focus {
   background: @selection-bg;
 }
 
+body.keeper,
+body.welcome,
 body.signIn,
+body.create,
+body.restore,
+body.import,
+body.ledger {
+  .main-container {
+    height: calc(100vh ~'- 60px');
+  }
+}
+
 body.keeper,
 body.welcome,
 body.signIn,

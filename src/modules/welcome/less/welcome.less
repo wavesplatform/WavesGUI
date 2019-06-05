@@ -31,7 +31,7 @@ body.welcome {
   }
 
   .wrapper {
-    padding-top: 60px;
+    margin-top: 60px;
   }
 
   a {
@@ -85,10 +85,11 @@ body.welcome {
   }
 
   .table {
-    &-markets {
+    &-markets { // .table-markets
       border-radius: 4px;
       background: @color-white;
       width: 100%;
+      box-shadow: @shadow-dex-welcome;
 
       .cell {
         width: ~"calc((100% - 190px) / 5)";
@@ -285,11 +286,14 @@ body.welcome {
         min-width: 290px;
         overflow: visible;
         cursor: pointer;
-        &_css-anim {
+
+        &_css-anim { // .slide_css-anim
           border-radius: @border-radius;
           background: @color-white;
           padding: 30px;
           transition: all 0.3s;
+          box-shadow: @shadow-dex-welcome;
+
           &:hover {
             box-shadow: 0 1rem 2.5rem rgba(58, 78, 136, 0.1), 0 0.5rem 1rem -0.75rem rgba(58, 78, 136, 0.1) !important;
             transform: translate3d(0, -3px, 0);
@@ -317,18 +321,22 @@ body.welcome {
       }
 
       @media screen and (max-width: 1400px) {
-        .slide {
-          width: 31%;
-        }
+        //.slide {
+        //  width: 31%;
+        //}
       }
-      @media screen and (max-width: 1000px) {
-        .slide {
-          width: 48%;
+
+      @media screen and (max-width: 768px) {
+        .slider-wrapper {
+          padding: 60px 0 20px;
         }
-      }
-      @media screen and (max-width: 620px) {
+
         .slide {
-          width: 100%;
+          min-width: 280px;
+
+          &_css-anim { // .slide_css-anim
+            padding: 20px;
+          }
         }
       }
     }
@@ -398,10 +406,6 @@ body.welcome {
 
 @media screen and (max-width: 1340px) {
   body.welcome {
-    .slide {
-      width: 30%;
-    }
-
     .section-welcome {
       .dex-screenshot {
         left: 580px;
