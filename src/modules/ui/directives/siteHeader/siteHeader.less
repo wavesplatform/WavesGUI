@@ -122,8 +122,11 @@
       .flex {
         align-items: center;
       }
-      .mobile-user-info {
-
+      .mobile-user-info div {
+        max-width: 160px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
       }
     }
 
@@ -557,27 +560,7 @@ w-site-header {
     }
   }
 
-  .copywrap-default {
-    width: calc(100% ~' - 40px');
-    margin: 0 20px 20px;
-
-    .container {
-      div {
-        display: block;
-        font-size: 11px;
-        max-width: 220px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        width: 100%;
-        padding: 0 5px 0 0;
-      }
-    }
-  }
-
   .mobile-menu {
-    .copywrap-default {
-      margin: 0 25px 0 0;
-    }
     .container div {
       max-width: 164px;
     }
@@ -690,6 +673,82 @@ w-site-header {
       font-size: 15px;
       color: @color-basic-900;
 
+      .icon {
+        &-win {
+          background: url(/img/icons/windows.svg) center no-repeat;
+        }
+
+        &-mac {
+          background: url(/img/icons/apple.svg) center no-repeat;
+        }
+
+        &-linux {
+          background: url(/img/icons/linux.svg) center no-repeat;
+        }
+
+        &-portfolio {
+          background: url(/img/icons/portfolio.svg) center no-repeat;
+        }
+
+        &-dashboard {
+          background: url(/img/icons/dashboard.svg) center no-repeat;
+        }
+
+        &-transactions {
+          background: url(/img/icons/transactions.svg) center no-repeat;
+        }
+
+        &-leasing {
+          background: url(/img/icons/leasing.svg) center no-repeat;
+        }
+
+        &-logout {
+          background: url(/img/icons/logout.svg) center no-repeat;
+        }
+
+        &-aliases {
+          background: url(/img/icons/alias.svg) center no-repeat;
+        }
+
+        &-settings {
+          background: url(/img/icons/settings.svg) center no-repeat;
+        }
+      }
+
+      &:hover {
+        background-color: @color-info-50;
+
+        .icon {
+          &-portfolio {
+            background: url(/img/icons/portfolio-submit-300.svg) center no-repeat;
+          }
+
+          &-dashboard {
+            background: url(/img/icons/dashboard-submit-300.svg) center no-repeat;
+          }
+
+          &-transactions {
+            background: url(/img/icons/transactions-submit-300.svg) center no-repeat;
+          }
+
+          &-leasing {
+            background: url(/img/icons/leasing-submit-300.svg) center no-repeat;
+          }
+
+          &-logout {
+            background: url(/img/icons/logout-submit-300.svg) center no-repeat;
+          }
+
+          &-aliases {
+            background: url(/img/icons/alias-submit-300.svg) center no-repeat;
+          }
+
+          &-settings {
+            background: url(/img/icons/settings-submit-300.svg) center no-repeat;
+          }
+        }
+      }
+
       &:first-child {
         padding: 10px 18px 18px;
       }
@@ -716,83 +775,12 @@ w-site-header {
 
     a .icon {
       // TODO @uIsk - move to icons.less
-      &-win {
-        background: url(/img/icons/windows.svg) center no-repeat;
-      }
-
-      &-mac {
-        background: url(/img/icons/apple.svg) center no-repeat;
-      }
-
-      &-linux {
-        background: url(/img/icons/linux.svg) center no-repeat;
-      }
-
-      &-portfolio {
-        background: url(/img/icons/portfolio.svg) center no-repeat;
-      }
-
-      &-dashboard {
-        background: url(/img/icons/dashboard.svg) center no-repeat;
-      }
-
-      &-transactions {
-        background: url(/img/icons/transactions.svg) center no-repeat;
-      }
-
-      &-leasing {
-        background: url(/img/icons/leasing.svg) center no-repeat;
-      }
-
-      &-aliases {
-        background: url(/img/icons/alias.svg) center no-repeat;
-      }
-
-      &-settings {
-        background: url(/img/icons/settings.svg) center no-repeat;
-      }
-
-      &-logout {
-        background: url(/img/icons/logout.svg) center no-repeat;
-      }
 
     }
 
     a:hover {
       color: @color-submit-300;
-      background: @color-info-50;
-
-      .icon {
-        &-portfolio {
-          background: url(/img/icons/portfolio-submit-300.svg) center no-repeat;
-        }
-
-        &-dashboard {
-          background: url(/img/icons/dashboard-submit-300.svg) center no-repeat;
-        }
-
-        &-transactions {
-          background: url(/img/icons/transactions-submit-300.svg) center no-repeat;
-        }
-
-        &-leasing {
-          background: url(/img/icons/leasing-submit-300.svg) center no-repeat;
-        }
-
-        &-aliases {
-          background: url(/img/icons/alias-submit-300.svg) center no-repeat;
-        }
-
-        &-settings {
-          background: url(/img/icons/settings-submit-300.svg) center no-repeat;
-        }
-
-        &-logout {
-          background: url(/img/icons/logout-submit-300.svg) center no-repeat;
-        }
-      }
     }
-
   }
 
   .header-logout {
@@ -922,21 +910,33 @@ body.wallet {
   &.assets {
     a.link-assets {
       color: @color-submit-300;
+      .icon-dashboard {
+        background: url(/img/icons/dashboard-submit-300.svg) center no-repeat;
+      }
     }
   }
   &.portfolio {
     a.link-portfolio {
       color: @color-submit-300;
+      .icon-portfolio {
+        background: url(/img/icons/portfolio-submit-300.svg) center no-repeat;
+      }
     }
   }
   &.transactions {
     a.link-transactions {
       color: @color-submit-300;
+      .icon-transactions {
+        background: url(/img/icons/transactions-submit-300.svg) center no-repeat;
+      }
     }
   }
   &.leasing {
     a.link-leasing {
       color: @color-submit-300;
+      .icon-leasing {
+        background: url(/img/icons/leasing-submit-300.svg) center no-repeat;
+      }
     }
   }
   a.link-wallet {
