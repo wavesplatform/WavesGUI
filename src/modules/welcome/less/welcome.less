@@ -31,7 +31,7 @@ body.welcome {
   }
 
   .wrapper {
-    padding-top: 60px;
+    margin-top: 60px;
   }
 
   a {
@@ -286,6 +286,7 @@ body.welcome {
         min-width: 290px;
         overflow: visible;
         cursor: pointer;
+
         &_css-anim { // .slide_css-anim
           border-radius: @border-radius;
           background: @color-white;
@@ -320,18 +321,22 @@ body.welcome {
       }
 
       @media screen and (max-width: 1400px) {
-        .slide {
-          width: 31%;
-        }
+        //.slide {
+        //  width: 31%;
+        //}
       }
-      @media screen and (max-width: 1000px) {
-        .slide {
-          width: 48%;
+
+      @media screen and (max-width: 768px) {
+        .slider-wrapper {
+          padding: 60px 0 20px;
         }
-      }
-      @media screen and (max-width: 620px) {
+
         .slide {
-          width: 100%;
+          min-width: 280px;
+
+          &_css-anim { // .slide_css-anim
+            padding: 20px;
+          }
         }
       }
     }
@@ -402,10 +407,6 @@ body.welcome {
 
 @media screen and (max-width: 1340px) {
   body.welcome {
-    .slide {
-      width: 30%;
-    }
-
     .section-welcome {
       .dex-screenshot {
         left: 580px;
