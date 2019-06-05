@@ -1,6 +1,6 @@
 <header w-toggle-class-container w-i18n-ns="app.welcome">
     <div class="header-wrapper">
-        <span class="logo logo-header" ng-if="$ctrl.isLogined" ng-click="$ctrl.toWelcome()"></span>
+        <span class="logo logo-header" ng-if="$ctrl.isLogined"></span>
         <a class="logo logo-header" ng-if="!$ctrl.isLogined" href="/"></a>
 
         <nav class="top-menu top-menu-welcome" ng-if="!$ctrl.isLogined">
@@ -322,6 +322,11 @@
             <a class="fake-button submit medium" ui-sref="create">
                 <span w-i18n="welcome.getStarted" class="fake-button-content medium submit"></span>
             </a>
+        </div>
+
+        <div ng-if="$ctrl.isLogined">
+            <div class="account-name" ng-if="$ctrl.userName">{{$ctrl.userName}}</div>
+            <div class="account-address">{{$ctrl.address}}</div>
         </div>
 
         <div ng-if="$ctrl.isLogined" class="dropdown-toggler dropdown-toggler-right">
