@@ -107,8 +107,8 @@
                             </div>
                             <w-input-error message="precision" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.priceTickSize"></span>
-                                <span class="clickable-value" ng-click="$ctrl.setPrice($ctrl.roundPrice())">
-                                    {{$ctrl.roundPrice().toFormat()}}
+                                <span class="clickable-value" ng-click="$ctrl.setPrice($ctrl.getRoundPriceByTickSize())">
+                                    {{$ctrl.getRoundPriceByTickSize().toFormat()}}
                                 </span>
                             </w-input-error>
                             <w-input-error message="lte" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
@@ -128,8 +128,8 @@
                             </w-input-error>
                             <w-input-error message="custom" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.priceTickSize"></span>
-                                <span class="clickable-value" ng-click="$ctrl.setPrice($ctrl.roundPrice())">
-                                    {{$ctrl.roundPrice().toFormat()}}
+                                <span class="clickable-value" ng-click="$ctrl.setPrice($ctrl.getRoundPriceByTickSize())">
+                                    {{$ctrl.getRoundPriceByTickSize().toFormat()}}
                                 </span>
                             </w-input-error>
                         </w-input-container>

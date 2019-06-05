@@ -20,7 +20,7 @@
     const controller = function (Base, waves, user, utils, createPoll, $scope,
                                  $element, notification, dexDataService, ease, $state, modalManager, balanceWatcher) {
 
-        const { without, keys, last, equals } = require('ramda');
+        const { without, keys, last } = require('ramda');
         const { Money } = require('@waves/data-entities');
         const ds = require('data-service');
         const analytics = require('@waves/event-sender');
@@ -46,8 +46,11 @@
                 return this.amountBalance && this.priceBalance;
             }
 
+            /**
+             * @return {number}
+             */
             get loadedPairRestrictions() {
-                return !equals(this.pairRestrictions, Object.create(null));
+                return Object.keys(this.pairRestrictions).length;
             }
 
             /**
@@ -201,11 +204,8 @@
                  */
                 const spreadPoll = createPoll(this, this._getData, this._setData, 1000);
 
-                this.receive(balanceWatcher.change, () => {
-                    this._updateBalances();
-                }, this);
-                this._updateBalances()
-                    .then(() => this._setPairRestrictions());
+                this.receive(balanceWatcher.change, this._updateBalances, this);
+                this._updateBalances().then(() => this._setPairRestrictions());
 
                 const lastTradePromise = new Promise((resolve) => {
                     balanceWatcher.ready.then(() => {
@@ -315,7 +315,7 @@
                 }
 
                 return this.maxAmount.cloneWithTokens(
-                    this.roundAmount(this.maxAmount.getTokens().times(factor))
+                    this.getRoundAmountByStepSize(this.maxAmount.getTokens().times(factor))
                 ).eq(amount);
             }
 
@@ -397,11 +397,17 @@
                 this._updateField({ amount, total, price });
             }
 
+            /**
+             * @param value
+             */
             setPrice(value) {
                 const price = this.priceBalance.cloneWithTokens(value);
                 this._updateField({ price });
             }
 
+            /**
+             * @param value
+             */
             setAmount(value) {
                 const amount = this.amountBalance.cloneWithTokens(value);
                 this._updateField({ amount });
@@ -490,6 +496,66 @@
                                 CreateOrder._animateNotification(notify);
                             });
                     });
+            }
+
+            /**
+             * @return {BigNumber|*}
+             */
+            getRoundPriceByTickSize() {
+                if (!this.loadedPairRestrictions) {
+                    return;
+                }
+
+                const price = this.priceBalance.cloneWithTokens(this.order.price.$viewValue).getTokens();
+                const { tickSize, minPrice, maxPrice } = this.pairRestrictions;
+                const roundedPrice = price.decimalPlaces(tickSize.decimalPlaces(), BigNumber.ROUND_HALF_EVEN);
+
+                if (roundedPrice.lt(minPrice)) {
+                    return minPrice;
+                }
+
+                if (roundedPrice.gt(maxPrice)) {
+                    return maxPrice;
+                }
+
+                return roundedPrice;
+            }
+
+            /**
+             * @param {BigNumber} value
+             * @return {BigNumber}
+             */
+            getRoundAmountByStepSize(value) {
+                const { stepSize } = this.pairRestrictions;
+                const roundedAmount = value.decimalPlaces(stepSize.decimalPlaces(), BigNumber.ROUND_HALF_EVEN);
+
+                return roundedAmount;
+            }
+
+            /**
+             * @param {BigNumber} value
+             * @return {BigNumber|*}
+             */
+            getClosestValidAmount(value) {
+                if (!this.loadedPairRestrictions) {
+                    return;
+                }
+
+                const amount = value ?
+                    value :
+                    this.amountBalance.cloneWithTokens(this.order.amount.$viewValue).getTokens();
+                const { minAmount, maxAmount } = this.pairRestrictions;
+                const roundedAmount = this.getRoundAmountByStepSize(amount);
+
+                if (roundedAmount.lt(minAmount)) {
+                    return minAmount;
+                }
+
+                if (roundedAmount.gt(maxAmount)) {
+                    return maxAmount;
+                }
+
+                return roundedAmount;
             }
 
             /**
@@ -933,9 +999,12 @@
                 this.order.$setDirty();
             }
 
+            /**
+             * @private
+             */
             _setPairRestrictions() {
                 if (!this.loaded) {
-                    return false;
+                    return;
                 }
 
                 this.pairRestrictions = {};
@@ -943,17 +1012,18 @@
                 ds.api.matcher.getPairRestrictions({
                     amountAsset: this.amountBalance.asset,
                     priceAsset: this.priceBalance.asset
-                }).then(info => {
-                    if (info) {
-                        this.pairRestrictions = Object.keys(info).reduce((pairRestriction, key) => {
-                            if (typeof info[key] === 'string' || typeof info[key] === 'number') {
-                                pairRestriction[key] = new BigNumber(info[key]);
-                            } else {
-                                pairRestriction[key] = info[key];
-                            }
-                            return pairRestriction;
-                        }, Object.create(null));
-                    } else {
+                })
+                    .then(info => {
+                        this.pairRestrictions = {
+                            maxPrice: new BigNumber(info.maxPrice),
+                            maxAmount: new BigNumber(info.maxAmount),
+                            tickSize: new BigNumber(info.tickSize),
+                            stepSize: new BigNumber(info.stepSize),
+                            minPrice: new BigNumber(info.minPrice),
+                            minAmount: new BigNumber(info.minAmount)
+                        };
+                    })
+                    .catch(() => {
                         const tickSize = new BigNumber(Math.pow(10, -this.priceBalance.asset.precision));
                         const stepSize = new BigNumber(Math.pow(10, -this.amountBalance.asset.precision));
                         const maxPrice = new BigNumber(Infinity);
@@ -968,8 +1038,7 @@
                             minPrice: tickSize,
                             minAmount: stepSize
                         };
-                    }
-                });
+                    });
             }
 
             /**
@@ -993,62 +1062,6 @@
                 }
 
                 return this.price.getTokens().modulo(tickSize).isZero();
-            }
-
-            roundPrice() {
-                if (!this.loadedPairRestrictions) {
-                    return;
-                }
-
-                const price = this.priceBalance.cloneWithTokens(this.order.price.$viewValue).getTokens();
-                const { tickSize, minPrice, maxPrice } = this.pairRestrictions;
-                const roundedPrice = price.decimalPlaces(-tickSize.e, BigNumber.ROUND_HALF_EVEN);
-
-                if (roundedPrice.lt(minPrice)) {
-                    return minPrice;
-                }
-
-                if (roundedPrice.gt(maxPrice)) {
-                    return maxPrice;
-                }
-
-                return roundedPrice;
-            }
-
-            /**
-             * @param {BigNumber} value
-             * @return {BigNumber}
-             */
-            roundAmount(value) {
-                const { stepSize } = this.pairRestrictions;
-                const roundedAmount = value.decimalPlaces(-stepSize.e, BigNumber.ROUND_HALF_EVEN);
-
-                return roundedAmount;
-            }
-
-            /**
-             * @param {BigNumber} value
-             */
-            getClosestValidAmount(value) {
-                if (!this.loadedPairRestrictions) {
-                    return;
-                }
-
-                const amount = value ?
-                    value :
-                    this.amountBalance.cloneWithTokens(this.order.amount.$viewValue).getTokens();
-                const { minAmount, maxAmount } = this.pairRestrictions;
-                const roundedAmount = this.roundAmount(amount);
-
-                if (roundedAmount.lt(minAmount)) {
-                    return minAmount;
-                }
-
-                if (roundedAmount.gt(maxAmount)) {
-                    return maxAmount;
-                }
-
-                return roundedAmount;
             }
 
             static _animateNotification($element) {
