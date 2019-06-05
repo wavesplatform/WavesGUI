@@ -154,7 +154,7 @@
             }
 
             get hasOuterError() {
-                return this.outerSendMode && this.gatewayDetailsError || this.isBankError;
+                return this.outerSendMode && this.gatewayError || this.isBankError;
             }
 
             get minimumAmount() {
@@ -235,6 +235,14 @@
             /**
              * @type {boolean}
              */
+            gatewayAddressError = false;
+            /**
+             * @type {boolean}
+             */
+            gatewayError = false;
+            /**
+             * @type {boolean}
+             */
             termsIsPending = true;
             /**
              * @type {boolean}
@@ -293,6 +301,7 @@
                     this.receive(utils.observe(this.tx, 'attachment'), this._updateWavesTxObject, this);
 
                     this.observe('mirror', this._onChangeAmountMirror);
+                    this.observe(['gatewayAddressError', 'gatewayDetailsError'], this._updateGatewayError);
 
                     this._currentHasCommission();
                     this._onChangeBaseAssets();
@@ -651,6 +660,10 @@
                     this.gatewayDetailsError = false;
                 }
 
+                if (this.gatewayAddressError) {
+                    this.gatewayAddressError = false;
+                }
+
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
@@ -667,9 +680,14 @@
                             this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
                             this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
                             $scope.$apply();
-                        }, () => {
+                        }, (e) => {
                             this.gatewayDetails = null;
-                            this.gatewayDetailsError = true;
+                            if (e.message === 'Invalid wallet_to') {
+                                this.gatewayAddressError = true;
+                            } else {
+                                this.gatewayDetailsError = true;
+                            }
+                            $scope.$apply();
                         });
                 } else {
                     this.minAmount = this.state.moneyHash[this.assetId].cloneWithTokens('0');
@@ -685,6 +703,13 @@
              */
             _updateGatewayPermisson() {
                 this.gatewayDetailsError = this.outerSendMode ? !this.isCoinomatAccepted : this.gatewayDetailsError;
+            }
+
+            /**
+             * @private
+             */
+            _updateGatewayError() {
+                this.gatewayError = this.gatewayAddressError || this.gatewayDetailsError;
             }
 
         }
