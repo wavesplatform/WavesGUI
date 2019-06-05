@@ -3,6 +3,12 @@
 @import (reference) 'config';
 @import (reference) 'icons';
 
+.tx-block-wrapper {
+  border-radius: @border-radius;
+  box-shadow: @shadow-type-1;
+  background: @color-white;
+}
+
 .status-label,
 .status-label-min {
   width: auto;
@@ -69,6 +75,11 @@ w-transaction .transaction {
       right: 43px;
       bottom: 15px;
     }
+  }
+
+  .exchange-type {
+    white-space: nowrap;
+    margin-right: 5px;
   }
 
   .icon {
@@ -220,17 +231,26 @@ w-transaction .transaction {
       .line {
         height: 50%;
         flex-basis: 50%;
+        box-sizing: border-box;
+        overflow: hidden;
         color: @color-basic-700;
 
         &:last-child {
           padding-right: @padding-main-layout * 4.4;
           text-align: right;
+
+          .top {
+            word-break: break-all;
+          }
         }
 
         .top {
-          word-break: break-all;
           .spam-label {
             display: none;
+          }
+
+          .ellipsis {
+            max-width: 120px;
           }
         }
         .bottom {
@@ -289,6 +309,11 @@ w-transaction .transaction {
       }
     }
   }
+}
+
+.transaction-amounts {
+  max-width: 100%;
+  display: inline-block;
 }
 
 @media screen and (max-width: 960px) {

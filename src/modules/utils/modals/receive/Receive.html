@@ -10,7 +10,7 @@
                             <div class="receive-crypto">
 
                                 <div class="row margin-2">
-                                    <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
+                                    <div class="body-2 basic-900 margin-05" w-i18n="modal.receive.asset"></div>
                                     <div ng-if="$ctrl.singleAsset" class="input-like big flex-row split-half">
                                         <div class="flex-row">
                                             <w-asset-logo class="marker-hide" size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
@@ -40,20 +40,20 @@
                                 </div>
 
                                 <div class="plate-warning margin-1" ng-if="!$ctrl.gatewayServerError">
-                                    <div class="body-2 warning-500"
+                                    <div class="body-2 warning-500 margin-05"
                                          w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningTitle"></div>
                                     <div class="footnote-1 basic-500"
                                          w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningText"></div>
                                 </div>
 
                                 <div class="plate-warning" ng-if="!$ctrl.gatewayServerError">
-                                    <div class="body-2 warning-500"
+                                    <div class="body-2 warning-500 margin-05"
                                          w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountTitle"></div>
                                     <div class="footnote-1 basic-500"
                                          w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountText"></div>
                                 </div>
 
-                                <div class="body-2 basic-900" ng-if="!$ctrl.gatewayServerError">
+                                <div class="body-2 basic-900 margin-05" ng-if="!$ctrl.gatewayServerError">
                                     <span w-i18n="modal.deposit.copyAndShare"></span>
                                     <w-help-icon>
                                         <div class="help-icon__row headline-3">
@@ -80,7 +80,7 @@
                                 </div>
 
                                 <div class="qr-wrapper center margin-2" ng-if="!$ctrl.gatewayServerError" w-toggle-class-container>
-                                    <div class="body-2 basic-900" w-i18n="modal.deposit.scanQrCode"></div>
+                                    <div class="body-2 basic-900 margin-05" w-i18n="modal.deposit.scanQrCode"></div>
                                     <w-qr-code size="200" url="$ctrl.gatewayAddress" w-toggle-class="zoomed-in"></w-qr-code>
                                     <div class="pointer center footnote-1 margin-top-1 basic-500"
                                          w-toggle-class="zoomed-in"
@@ -90,7 +90,7 @@
                                 </div>
 
                                 <div class="plate-warning server-error" ng-if="$ctrl.gatewayServerError">
-                                    <div class="body-2 warning-500"
+                                    <div class="body-2 warning-500 margin-05"
                                          w-i18n="modal.receive.serverError"></div>
                                 </div>
                                 <w-button ng-if="$ctrl.gatewayServerError"
@@ -106,7 +106,7 @@
                             <form novalidate name="invoice">
                                 <div class="receive-invoice">
                                     <div class="row margin-2">
-                                        <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
+                                        <div class="body-2 basic-900 margin-05" w-i18n="modal.receive.asset"></div>
                                         <div class="input-like big flex-row split-half" ng-if="$ctrl.singleAsset">
                                             <div class="flex-row">
                                                 <w-asset-logo class="marker-hide" size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
@@ -135,7 +135,7 @@
                                     </div>
 
                                     <div class="row margin-2">
-                                        <div class="body-2 basic-900" w-i18n="modal.receive.addressOrAlias"></div>
+                                        <div class="body-2 basic-900 margin-05" w-i18n="modal.receive.addressOrAlias"></div>
                                         <w-select class="big" ng-model="$ctrl.chosenAlias">
                                             <w-option ng-repeat="alias in $ctrl.addressAndAliases track by $index" value="::alias">
                                                 {{::alias}}
@@ -145,7 +145,7 @@
 
                                     <div class="row margin-2">
                                         <w-input-container>
-                                            <div class="body-2" w-i18n="modal.send.amount"></div>
+                                            <div class="body-2 margin-05" w-i18n="modal.send.amount"></div>
                                             <div class="amount-wrap">
                                                 <w-input
                                                     name="amount"
@@ -160,7 +160,7 @@
                                     </div>
 
                                     <div class="row margin-2">
-                                        <div class="body-2 basic-900" w-i18n="modal.receive.shareInvoiceLink"></div>
+                                        <div class="body-2 basic-900 margin-05" w-i18n="modal.receive.shareInvoiceLink"></div>
                                         <w-copy-wrap class="overflow body-1 basic-900 mobile-low-fsize" info="$ctrl.sendLink"
                                                      ng-click="$ctrl.onCopyAddress()">
                                             <span>{{$ctrl.sendLink}}</span>
@@ -186,7 +186,7 @@
                                 <form novalidate name="card">
 
                                     <div class="row margin-2">
-                                        <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
+                                        <div class="body-2 basic-900 margin-05" w-i18n="modal.receive.asset"></div>
                                         <div ng-if="$ctrl.singleAsset" class="input-like big flex-row split-half">
                                             <div class="flex-row">
                                                 <w-asset-logo class="marker-hide" size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
@@ -212,7 +212,7 @@
                                     </div>
 
                                     <div class="row margin-1 relative">
-                                        <div class="body-2 basic-900" w-i18n="modal.receive.amountYouPay"></div>
+                                        <div class="body-2 basic-900 margin-05" w-i18n="modal.receive.amountYouPay"></div>
                                         <div class="basic-500 footnote-1">
                                             <span w-i18n="modal.receive.minimumIs"></span>&nbsp;{{$ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].min}}
                                             {{$ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].name}},&nbsp;
@@ -265,11 +265,11 @@
                                     </div>
 
                                     <div class="row margin-3">
-                                        <div class="body-2 basic-900">
+                                        <div class="body-2 basic-900 margin-05">
                                             <span w-i18n="modal.receive.youWillGet"></span>
                                         </div>
 
-                                        <div class="plate-note body-2">
+                                        <div class="plate-note body-2 margin-05">
                                             <span ng-if="$ctrl.approximateAmount"
                                                   w-i18n="money-currency"
                                                   params="{money: $ctrl.approximateAmount}"></span>
@@ -304,7 +304,7 @@
                     <div class="text-center receive-confirm" ng-if="$ctrl.showIndacoinRedirectionDescription">
                         <i class="card-success-icon margin-1"></i>
                         <h3 class="basic-700" w-i18n="modal.receive.cardSuccessHeader"></h3>
-                        <div class="body-2 basic-500" w-i18n="modal.receive.cardSuccessText"></div>
+                        <div class="body-2 basic-500 margin-05" w-i18n="modal.receive.cardSuccessText"></div>
                     </div>
 
                 </w-step>

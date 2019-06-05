@@ -1,6 +1,6 @@
 <div class="line-wrapper">
     <div class="line">
-        <div class="body-2 top fs-mobile">
+        <div class="body-2 margin-05 top fs-mobile">
             <span w-i18n="transaction.headers.{{::$ctrl.typeName}}"
                   params="{name: $ctrl.assetName}"></span>
             <span class="status-label-min inactive" w-i18n="transaction.headers.suspicious"></span>
@@ -11,11 +11,11 @@
         </div>
     </div>
     <div class="line">
-        <div class="body-2 top fs-mobile">
+        <div class="body-2 margin-05 top fs-mobile">
             <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
                   params="$ctrl.amountParams"></span>
         </div>
-        <div class="footnote-1 bottom fs-mobile">
+        <div class="footnote-1 bottom fs-mobile" ng-if="!$ctrl.isScam">
             <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
                   params="$ctrl.mirrorBalanceParams"></span>
         </div>

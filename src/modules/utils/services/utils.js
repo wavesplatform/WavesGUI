@@ -65,6 +65,7 @@
         [WavesApp.defaultAssets.BSV]: '/img/assets/bitcoin-cash-sv.svg',
         [WavesApp.defaultAssets.TRY]: '/img/assets/try.svg',
         [WavesApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
+        [WavesApp.defaultAssets.VST]: '/img/assets/vostok.svg',
         [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
         [WavesApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
     });
@@ -662,6 +663,16 @@
             },
 
             /**
+             * @name app.utils#safeApply
+             * @param {$rootScope.Scope} $scope
+             */
+            postDigest($scope) {
+                return new Promise(resolve => {
+                    $scope.$parent.$$postDigest(resolve);
+                });
+            },
+
+            /**
              * @name app.utils#when
              * @param {*} [data]
              * @return {Promise}
@@ -989,7 +1000,7 @@
              * @param {string} asset1
              * @param {string} [asset2]
              */
-            openDex(asset1, asset2) {
+            openDex(asset1, asset2, dex = 'dex') {
                 /**
                  * @type {$state}
                  */
@@ -999,7 +1010,7 @@
                         return utils.openDex(asset1);
                     }
                     setTimeout(() => {
-                        $state.go('main.dex', { assetId1: asset1, assetId2: asset2 });
+                        $state.go(`main.${dex}`, { assetId1: asset1, assetId2: asset2 });
                     }, 50);
                     return null;
                 }
@@ -1009,7 +1020,7 @@
                     asset2 = WavesApp.defaultAssets.WAVES;
                 }
                 setTimeout(() => {
-                    $state.go('main.dex', { assetId1: asset1, assetId2: asset2 });
+                    $state.go(`main.${dex}`, { assetId1: asset1, assetId2: asset2 });
                 }, 50);
             },
 
@@ -1143,6 +1154,9 @@
 
                 const isGateway = path(['status'], dataOracle) === 3;
 
+                // TODO: delete when gateway will be ready
+                const isGatewaySoon = path(['status'], dataOracle) === 4;
+
                 const isTokenomica = path(['status'], dataOracle) === STATUS_LIST.VERIFIED &&
                     path(['provider'], dataOracle) === 'Tokenomica';
 
@@ -1170,7 +1184,8 @@
                     email,
                     provider,
                     description,
-                    logo
+                    logo,
+                    isGatewaySoon
                 };
             },
 

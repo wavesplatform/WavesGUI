@@ -33,6 +33,7 @@ import { factory, IFactory } from '../matcher/getOrders';
 import { getSignatureApi } from '../../sign';
 import { pipe } from 'ramda';
 
+const SCRIPT_INVOCATION_NUMBER = 16;
 
 const parseAttachment: (data: string | number) => Uint8Array = pipe(
     String,
@@ -101,7 +102,7 @@ export function parseTx(transactions: Array<T_API_TX>, isUTX: boolean, isTokens?
                         return parseScriptTx(transaction, hash, isUTX);
                     case TRANSACTION_TYPE_NUMBER.SET_ASSET_SCRIPT:
                         return parseAssetScript(transaction, hash, isUTX);
-                    case 16:
+                    case SCRIPT_INVOCATION_NUMBER:
                         return parseInvocationTx(transaction, hash, isUTX);
                     default:
                         return transaction;
@@ -126,6 +127,11 @@ export function getAssetsHashFromTx(transaction: T_API_TX, hash = Object.create(
         case TRANSACTION_TYPE_NUMBER.EXCHANGE:
             hash[normalizeAssetId(transaction.order1.assetPair.amountAsset)] = true;
             hash[normalizeAssetId(transaction.order1.assetPair.priceAsset)] = true;
+            break;
+        case SCRIPT_INVOCATION_NUMBER:
+            transaction.payment.forEach(payment => {
+                hash[normalizeAssetId(payment.assetId)] = true;
+            });
             break;
     }
     return hash;
@@ -264,8 +270,16 @@ export function parseExchangeOrder(factory: IFactory, order: txApi.IExchangeOrde
 
 export function parseDataTx(tx: txApi.IData, assetsHash: IHash<Asset>, isUTX: boolean): IData {
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
-    const stringifiedData = JSON.stringify(tx.data, null, 4);
-    return { ...tx, stringifiedData, fee, isUTX };
+    const data = tx.data.map((dataItem) => {
+        if (dataItem.type === 'integer') {
+            return { ...dataItem, value: new BigNumber(dataItem.value) };
+        } else {
+            return dataItem;
+        }
+    });
+    const txWithBigNumber = { ...tx, data };
+    const stringifiedData = JSON.stringify(txWithBigNumber.data, null, 4);
+    return { ...txWithBigNumber, stringifiedData, fee, isUTX };
 }
 
 export function parseInvocationTx(tx: txApi.IScriptInvocation, assetsHash: IHash<Asset>, isUTX: boolean): IScriptInvocation {

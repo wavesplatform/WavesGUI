@@ -1,27 +1,19 @@
 (function () {
     'use strict';
 
-    angular.module('app.ui').component('wTransfer', {
-        bindings: {
-            props: '<'
-        },
-        templateUrl: 'modules/ui/directives/transaction/types/transfer/transfer.html'
-    });
-})();
-(function () {
-    'use strict';
-
     /**
+     * @param {typeof Base} Base
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
      * @param {Waves} waves
      * @param {$rootScope.Scope} $scope
+     * @param {app.utils} utils
      * @return {MassTransfer}
      */
 
-    const controller = function (user, baseAssetService, waves, $scope) {
+    const controller = function (Base, user, baseAssetService, waves, $scope, utils) {
 
-        class MassTransfer {
+        class MassTransfer extends Base {
 
             /**
              * {object}
@@ -32,6 +24,12 @@
                 this.typeName = this.props.typeName;
                 this.time = this.props.time;
                 this.address = this.props.shownAddress;
+                this.isScam = this.props.isScam;
+
+                this.receive(utils.observe(this.props, 'isScam'), () => {
+                    this.isScam = this.props.isScam;
+                    utils.safeApply($scope);
+                });
 
                 const TYPES = waves.node.transactions.TYPES;
 
@@ -89,10 +87,12 @@
     };
 
     controller.$inject = [
+        'Base',
         'user',
         'baseAssetService',
         'waves',
-        '$scope'
+        '$scope',
+        'utils'
     ];
 
     angular.module('app.ui').component('wMassTransferRow', {

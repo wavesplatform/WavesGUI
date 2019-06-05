@@ -1,9 +1,9 @@
 <w-step-by-step w-i18n-ns="app.create" active-step="$ctrl.step">
     <w-step>
 
-        <div class="backup-seed">
+        <div class="backup-seed text-center">
 
-            <div class="body-2">
+            <div class="body-2 margin-05">
                 <span w-i18n="backupSeed.writeSeed"></span>
                 <span>&nbsp;<span w-i18n="backupSeed.or"></span>&nbsp;<a w-copy="::$ctrl.seed.phrase" w-i18n="backupSeed.copySeed"></a></span>
             </div>
@@ -11,7 +11,7 @@
             <w-seed-read type="read"
                          seed="{{::$ctrl.seed.phrase}}"></w-seed-read>
 
-            <div class="body-2 basic-900">
+            <div class="body-2 basic-900 margin-top-3 margin-1">
                 <span w-i18n="backupSeed.needConfirm"></span>
             </div>
 
@@ -23,9 +23,9 @@
     </w-step>
     <w-step>
 
-        <div class="confirm-backup">
+        <div class="confirm-backup text-center">
 
-            <div class="body-2">
+            <div class="body-2 margin-05">
                 <span w-i18n="modal.confirmBackupDescription"></span>
             </div>
 
@@ -34,13 +34,13 @@
                           on-touch="$ctrl.seedOnTouch()"
                           seed="{{::$ctrl.seed.phrase}}"></w-seed-write>
 
-            <div class="body-2 basic-900">
+            <div class="body-2 basic-900 margin-05">
                 <span w-i18n="confirmBackup.enterCorrect"></span>
             </div>
 
             <w-seed-read class="margin-4" type="random" seed="{{::$ctrl.seed.phrase}}"></w-seed-read>
 
-            <div class="error-500 body-2"
+            <div class="error-500 body-2 margin-05"
                  ng-if="$ctrl.seedConfirmWasFilled && !$ctrl.seedIsValid"
                  w-i18n="confirmBackup.error"></div>
 

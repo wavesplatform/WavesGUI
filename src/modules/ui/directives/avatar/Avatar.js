@@ -35,7 +35,6 @@
              */
             src = null;
 
-
             $postLink() {
                 this.style = { width: `${this.size}px`, height: `${this.size}px` };
 

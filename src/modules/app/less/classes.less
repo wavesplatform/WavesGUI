@@ -22,6 +22,10 @@
   user-select: none;
 }
 
+.text-right {
+  text-align: right;
+}
+
 .ghost {
   opacity: 0 !important;
 }
@@ -39,6 +43,11 @@
   align-items: center;
   height: 100%;
   width: 100%;
+  text-align: center;
+}
+
+.no-shadow {
+  box-shadow: none;
 }
 
 .relative {
@@ -48,6 +57,7 @@
 .absolute {
   position: absolute;
 }
+
 .overflow-h {
   overflow: hidden;
 }
@@ -72,16 +82,23 @@
   justify-content: center;
   align-items: center;
 }
+
 ._internal-error {
   display: none;
 }
+
 .flex {
   display: flex;
+
+  .grow {
+    flex-grow: 1;
+  }
 }
 
 .flex-between {
   justify-content: space-between;
 }
+
 .nowrap {
   white-space: nowrap;
 }
@@ -110,4 +127,8 @@
 
 .hide-selection {
   background: none transparent;
+}
+
+.inline-link {
+  display: inline-block;
 }
