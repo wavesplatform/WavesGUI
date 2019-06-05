@@ -93,8 +93,8 @@
       transform: translate(-50%, 5px);
     }
   }
-  // end toggler button
 
+  // end toggler button
   // basic mobile menu styles
   .mobile-menu {
     display: block;
@@ -301,7 +301,6 @@
 
   // end basic mobile menu styles
   // expanded
-
   .mobile-menu-wrapper {
     &.mobile-menu-wrapper-inner {
       right: -261px;
@@ -388,6 +387,7 @@
       }
     }
   }
+
   // end expanded
   body {
     w-site-header {
@@ -629,7 +629,7 @@ w-site-header {
       bottom: -30px;
     }
 
-   &:hover {
+    &:hover {
       &:hover {
         &::after {
           display: block;
@@ -686,21 +686,16 @@ w-site-header {
     a {
       display: flex;
       align-items: center;
-      padding: 18px 0;
-      margin: 0 20px;
+      padding: 18px 20px;
       font-size: 15px;
       color: @color-basic-900;
 
-      &:not(.no-border) {
-        border-top: 1px solid @color-basic-100;
-      }
-
       &:first-child {
-        padding: 10px 0 18px;
+        padding: 10px 18px 18px;
       }
 
       &:last-child {
-        padding: 18px 0 10px;
+        padding: 18px 18px 10px;
       }
 
       span.description {
@@ -719,9 +714,85 @@ w-site-header {
     flex-grow: 1;
     position: relative;
 
-    a:hover {
-      color: @color-submit-400;
+    a .icon {
+      // TODO @uIsk - move to icons.less
+      &-win {
+        background: url(/img/icons/windows.svg) center no-repeat;
+      }
+
+      &-mac {
+        background: url(/img/icons/apple.svg) center no-repeat;
+      }
+
+      &-linux {
+        background: url(/img/icons/linux.svg) center no-repeat;
+      }
+
+      &-portfolio {
+        background: url(/img/icons/portfolio.svg) center no-repeat;
+      }
+
+      &-dashboard {
+        background: url(/img/icons/dashboard.svg) center no-repeat;
+      }
+
+      &-transactions {
+        background: url(/img/icons/transactions.svg) center no-repeat;
+      }
+
+      &-leasing {
+        background: url(/img/icons/leasing.svg) center no-repeat;
+      }
+
+      &-aliases {
+        background: url(/img/icons/alias.svg) center no-repeat;
+      }
+
+      &-settings {
+        background: url(/img/icons/settings.svg) center no-repeat;
+      }
+
+      &-logout {
+        background: url(/img/icons/logout.svg) center no-repeat;
+      }
+
     }
+
+    a:hover {
+      color: @color-submit-300;
+      background: @color-info-50;
+
+      .icon {
+        &-portfolio {
+          background: url(/img/icons/portfolio-submit-300.svg) center no-repeat;
+        }
+
+        &-dashboard {
+          background: url(/img/icons/dashboard-submit-300.svg) center no-repeat;
+        }
+
+        &-transactions {
+          background: url(/img/icons/transactions-submit-300.svg) center no-repeat;
+        }
+
+        &-leasing {
+          background: url(/img/icons/leasing-submit-300.svg) center no-repeat;
+        }
+
+        &-aliases {
+          background: url(/img/icons/alias-submit-300.svg) center no-repeat;
+        }
+
+        &-settings {
+          background: url(/img/icons/settings-submit-300.svg) center no-repeat;
+        }
+
+        &-logout {
+          background: url(/img/icons/logout-submit-300.svg) center no-repeat;
+        }
+      }
+    }
+
   }
 
   .header-logout {
@@ -757,6 +828,7 @@ w-site-header {
     width: 100%;
     text-overflow: ellipsis;
     overflow: hidden;
+    white-space: nowrap;
   }
 
   .avatar-container {
@@ -830,47 +902,6 @@ w-site-header {
       width: 24px;
       height: 24px;
     }
-
-    // TODO @uIsk - move to icons.less
-    &-win {
-      background: url(/img/icons/windows.svg) center no-repeat;
-    }
-
-    &-mac {
-      background: url(/img/icons/apple.svg) center no-repeat;
-    }
-
-    &-linux {
-      background: url(/img/icons/linux.svg) center no-repeat;
-    }
-
-    &-portfolio {
-      background: url(/img/icons/portfolio.svg) center no-repeat;
-    }
-
-    &-dashboard {
-      background: url(/img/icons/dashboard.svg) center no-repeat;
-    }
-
-    &-transactions {
-      background: url(/img/icons/transactions.svg) center no-repeat;
-    }
-
-    &-leasing {
-      background: url(/img/icons/leasing.svg) center no-repeat;
-    }
-
-    &-aliases {
-      background: url(/img/icons/alias.svg) center no-repeat;
-    }
-
-    &-settings {
-      background: url(/img/icons/settings.svg) center no-repeat;
-    }
-
-    &-logout {
-      background: url(/img/icons/logout.svg) center no-repeat;
-    }
   }
 }
 
@@ -890,41 +921,42 @@ body.dex-demo {
 body.wallet {
   &.assets {
     a.link-assets {
-      color: @color-submit-400;
+      color: @color-submit-300;
     }
   }
   &.portfolio {
     a.link-portfolio {
-      color: @color-submit-400;
+      color: @color-submit-300;
     }
   }
   &.transactions {
     a.link-transactions {
-      color: @color-submit-400;
+      color: @color-submit-300;
     }
   }
   &.leasing {
     a.link-leasing {
-      color: @color-submit-400;
+      color: @color-submit-300;
     }
   }
   a.link-wallet {
-    color: @color-submit-400;
+    color: @color-submit-300;
   }
 }
 
 body.dex,
 body.dex-demo {
   a.link-dex {
-    color: @color-submit-400;
+    color: @color-submit-300;
   }
 }
 
 body.tokens {
   a.link-tokens {
-    color: @color-submit-400;
+    color: @color-submit-300;
   }
 }
+
 @media screen and (max-width: 1440px) {
   body.welcome {
     .header-new-user {
