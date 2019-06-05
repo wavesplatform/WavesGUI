@@ -13,7 +13,6 @@ import { get } from './config';
 import { TAssetData, TBigNumberData } from './interface';
 import { get as getAssetPair } from './api/pairs/pairs';
 import { broadcast as broadcastF, createOrderSend, cancelOrderSend } from './broadcast/broadcast';
-import {  } from '@waves/signature-adapter';
 import * as signatureAdapters from '@waves/signature-adapter';
 import { Adapter, SIGN_TYPE, isValidAddress as utilsIsValidAddress } from '@waves/signature-adapter';
 import { TTimeType } from './utils/utils';
