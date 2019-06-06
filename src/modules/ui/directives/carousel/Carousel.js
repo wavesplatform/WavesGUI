@@ -13,7 +13,7 @@
      */
     const controller = function ($element, $timeout, carouselManager, utils, Base, $scope, ChartFactory) {
 
-        const { range, last } = require('ramda');
+        const { last } = require('ramda');
 
         const chartOptions = {
             red: {
@@ -59,24 +59,19 @@
              */
             interval = null;
             /**
-             * @type {number}
-             * @private
-             */
-            startFrom = null;
-            /**
              * @private
              */
             timer = null;
             /**
              * @private
-             * @type {jQuery}
+             * @type {number}
              */
-            tempWrapper = null;
+            _diff = null;
             /**
              * @private
              * @type {jQuery}
              */
-            content = null;
+            $slides = null;
             /**
              * @private
              * @type {Array}
@@ -88,21 +83,13 @@
                     utils.postDigest($scope).then(() => {
                         carouselManager.registerSlider(this.id, this);
                         this.interval = Number(this.interval) || 0;
-                        this.tempWrapper = $element.find('.slide-window:first');
-                        this.wrapper = $element.find('.slider-content:first');
-                        this.content = $element.find('.slider-content:first').children();
+                        this.$slidesContainer = $element.find('.slider-content:first');
+                        this.$slides = $element.find('.slider-content:first').children();
+                        this._mapSlides = this.$slides.toArray().map(slide => ({ $slide: $(slide), translateX: null }));
 
-                        this.content.toArray().forEach((element, i) => {
-                            const info = this.pairsInfoList[i];
-                            const options = info.change24.gt(0) ? chartOptions.blue : chartOptions.red;
-                            new ChartFactory(
-                                $(element).find('.graph'),
-                                options,
-                                this.pairsInfoList[i].rateHistory
-                            );
-                        });
-
+                        this._fillGraphs();
                         this._remapSlides();
+
                         const onResize = utils.debounceRequestAnimationFrame(() => this._remapSlides());
                         this.listenEventEmitter($(window), 'resize', onResize);
 
@@ -147,27 +134,55 @@
             /**
              * @private
              */
+            _fillGraphs() {
+                this._mapSlides.forEach(({ $slide }, i) => {
+                    const info = this.pairsInfoList[i];
+                    const options = info.change24.gt(0) ? chartOptions.blue : chartOptions.red;
+                    new ChartFactory(
+                        $slide.find('.graph'),
+                        options,
+                        this.pairsInfoList[i].rateHistory
+                    );
+                });
+            }
+
+            /**
+             * @private
+             */
             _remapSlides() {
                 this.slidesAmount = this._getSlidesInWindowAmount(window.innerWidth);
-                const divs = range(0, this.slidesAmount).map(() => '<div class="slide"></div>');
-                this.tempWrapper.append(divs);
-                const slide = this.tempWrapper.find('.slide');
-                const width = slide.outerWidth();
-                const startCoords = slide
-                    .toArray()
-                    .map(element => Math.round($(element).offset().left));
-                this.tempWrapper.empty();
-                this.diff = startCoords.length > 1 ? startCoords[1] - startCoords[0] : width + 10;
-                this._coords = this.content.toArray().map((element, i) => {
-                    const X = (i - 1) * this.diff;
-                    $(element)
-                        .css({ transform: `translateX(${X}px)`, width })
-                        .data('translate', X);
 
-                    return X;
+                const { width, startCoords } = this._copyStaticSlides();
+                this._diff = startCoords.length > 1 ? startCoords[1] - startCoords[0] : width + 10;
+                this._coords = this.$slides.toArray().map((element, i) => (i - 1) * this._diff);
+
+                this._mapSlides.forEach((slide, i) => {
+                    slide.translateX = this._coords[i];
+                    slide.$slide.css({ transform: `translateX(${this._coords[i]}px)` });
                 });
 
-                this.content.addClass('absolute');
+                this.$slides.addClass('absolute');
+            }
+
+            /**
+             * @private
+             */
+            _copyStaticSlides() {
+                const tempSlidesContainer = this.$slidesContainer.clone();
+                tempSlidesContainer.find('.slide').slice(this.slidesAmount).remove();
+                const slides = tempSlidesContainer.find('.slide');
+                slides
+                    .removeAttr('style')
+                    .removeClass('absolute');
+                tempSlidesContainer.appendTo($element.find('.slider'));
+
+                const width = slides.outerWidth();
+                const startCoords = slides
+                    .toArray()
+                    .map(slide => Math.round($(slide).offset().left));
+
+                tempSlidesContainer.remove();
+                return { width, startCoords };
             }
 
             /**
@@ -187,49 +202,42 @@
             }
 
             /**
-             * @param {number} active
-             * @param {number} old
              * @return Promise
              * @private
              */
             _move() {
                 const lastPos = last(this._coords);
-                return Promise.all(this.content.toArray().map(slide => {
-                    const $slide = $(slide);
-                    const start = $slide.data('translate');
+                return Promise.all(this._mapSlides.map(slide => {
+                    const $slide = slide.$slide;
+                    const start = slide.translateX;
                     const duration = 1000;
-                    const newPos = start - this.diff;
-                    $slide.prop('progress', 0);
-                    $slide.data('translate', newPos);
-                    let opacity;
-                    switch (true) {
-                        case (newPos < -this.diff || newPos > this._coords[this.slidesAmount + 1]):
-                            opacity = 0;
-                            break;
-                        case (newPos < 0 || newPos > this._coords[this.slidesAmount]):
-                            opacity = 0.2;
-                            break;
-                        default:
-                            opacity = 1;
-                            break;
-                    }
+                    const end = start - this._diff;
+                    slide.translateX = end;
+                    const opacity = this._switchOpacity(end);
+
                     return utils.animate($slide, {
                         opacity,
                         progress: 1
                     }, {
                         duration: duration,
-                        step: progress => {
-                            const translate = start + ((newPos - start) * progress);
-                            $slide.css('transform', `translateX(${translate}px)`);
-                        },
+                        progress: this._animateProgress(start, end, $slide),
                         complete: () => {
-                            if (newPos < -this.diff) {
+                            if (end < -this._diff) {
                                 $slide.css('transform', `translateX(${lastPos}px)`);
-                                $slide.data('translate', lastPos);
+                                slide.translateX = lastPos;
                             }
                         }
                     });
                 }));
+            }
+
+            /**
+             * @private
+             */
+            _animateProgress(start, end, slide) {
+                return (animation, progress) => {
+                    slide.css('transform', `translateX(${start + ((end - start) * progress)}px)`);
+                };
             }
 
             /**
@@ -240,6 +248,20 @@
                 this._move().then(() => {
                     this.initializeInterval();
                 });
+            }
+
+            /**
+             * @private
+             */
+            _switchOpacity(newPos) {
+                switch (true) {
+                    case (newPos < -this._diff || newPos > this._coords[this.slidesAmount + 1]):
+                        return 0;
+                    case (newPos < 0 || newPos > this._coords[this.slidesAmount]):
+                        return 0.2;
+                    default:
+                        return 1;
+                }
             }
 
         }
@@ -254,7 +276,6 @@
         bindings: {
             id: '@',
             interval: '@',
-            startFrom: '@',
             pairsInfoList: '<'
         },
         controller: controller,
