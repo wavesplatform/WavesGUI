@@ -212,6 +212,10 @@
       "api": "https://api.testnet.wavesplatform.com",
       "explorer": "https://wavesexplorer.com/testnet",
       "coinomat": "https://localhost:8080/coinomat",
+      "vostok": {
+        "gateway": "https://gw.wavesplatform.com",
+        "networkByte": "F"
+      },
       "support": "https://support.wavesplatform.com",
       "termsAndConditions": "https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf",
       "privacyPolicy": "https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf",
@@ -234,7 +238,7 @@
         "EFYT": "FvKx3cerSVYGfXKFvUgp7koNuTAcLs8DmtmwRrFVCqJv",
         "WNET": "3P8gkhcLhFQvBkDzMnWeqqwvq3qxkpTNQPs4LUQ95tKD",
         "XMR": "8oPbSCKFHkXBy1hCGSg9pJkSARE7zhTQTLpc8KZwdtr7",
-        "VST": "8MaMTgBS2KWfSWJPx5YWoT9Lhg8Rumd4DfzsnHfyBp15"
+        "VST": "63QkN8KKRMVBpkCM7azV6HiPacJ3T7EP6vmFUNVRsvAX"
       }
     },
     "mainnet": {
@@ -250,6 +254,10 @@
       "api": "https://api.wavesplatform.com",
       "explorer": "https://wavesexplorer.com",
       "coinomat": "https://coinomat.com",
+      "vostok": {
+        "gateway": "https://gw.wavesplatform.com",
+        "networkByte": "F"
+      },
       "support": "https://support.wavesplatform.com",
       "termsAndConditions": "https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf",
       "privacyPolicy": "https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf",

@@ -220,6 +220,8 @@
                     });
 
                     this.assetKeyName = gatewayService.getAssetKeyName(this.asset, 'deposit');
+                    this.gatewayServiceKeyName = gatewayService.getKeyName(this.asset);
+                    this.isVostok = this.asset.id === WavesApp.defaultAssets.VST;
                     this.activateCryptocurrencyTab();
                 }
             }
