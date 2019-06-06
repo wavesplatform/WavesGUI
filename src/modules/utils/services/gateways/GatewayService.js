@@ -147,15 +147,6 @@
 
             /**
              * @param {Asset} asset
-             * @return {string}
-             */
-            getKeyName(asset) {
-                const gateway = this._findGatewayFor(asset, 'keyName');
-                return gateway.getServiceKeyName();
-            }
-
-            /**
-             * @param {Asset} asset
              * @param {string} type
              * @return {IGateway}
              */

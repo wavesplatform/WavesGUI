@@ -260,11 +260,6 @@
              */
             _noCurrentRate = false;
 
-            /**
-             * @type {string}
-             */
-            gatewayServiceKeyName = '';
-
             constructor() {
                 super();
 
@@ -660,7 +655,6 @@
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
-                    this.gatewayServiceKeyName = gatewayService.getKeyName(this.balance.asset);
                     return gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.paymentId)
                         .then((details) => {
                             const max = BigNumber.min(
