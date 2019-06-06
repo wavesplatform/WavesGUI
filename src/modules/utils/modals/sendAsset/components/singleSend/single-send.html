@@ -62,14 +62,14 @@
         <w-loader class="asd"></w-loader>
     </div>
 
-    <div ng-if="$ctrl.toBankMode && !$ctrl.isBankPendingOrError && $ctrl.isVerified && $ctrl.isCoinomatAccepted" class="margin-1">
+    <div ng-if="$ctrl.toBankMode && !$ctrl.isBankPendingOrError && $ctrl.isVerified && $ctrl.isGatewayAccepted" class="margin-1">
         <div class="plate-warning">
             <div class="body-2 warning-500 margin-05" w-i18n="modal.send.coinomatWarningHeader"></div>
             <div class="footnote-1 basic-500" w-i18n="modal.send.coinomatWarningText"></div>
         </div>
     </div>
 
-    <div ng-if="$ctrl.toBankMode && !$ctrl.isBankPendingOrError && $ctrl.isVerified && $ctrl.isCoinomatAccepted" class="row">
+    <div ng-if="$ctrl.toBankMode && !$ctrl.isBankPendingOrError && $ctrl.isVerified && $ctrl.isGatewayAccepted" class="row">
         <div class="plate-warning">
             <div class="body-2 warning-500 margin-05" w-i18n="modal.send.coinomatLimits"></div>
         </div>
@@ -102,7 +102,7 @@
     <div ng-if="$ctrl.outerSendMode && $ctrl.gatewayDetailsError || !$ctrl.isBankAccepted" class="row">
         <div class="plate-warning server-error">
             <div class="body-2 warning-500 margin-05"
-                 w-i18n="modal.receive.serverError">
+                 w-i18n="modal.receive.gatewayError">
             </div>
         </div>
     </div>
