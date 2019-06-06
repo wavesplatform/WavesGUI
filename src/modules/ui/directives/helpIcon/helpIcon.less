@@ -10,7 +10,6 @@
     border-radius: 50%;
     display: inline-block;
     position: relative;
-    margin-top: 4px;
     width: 14px;
     height: 14px;
     font-style: normal;
@@ -56,7 +55,7 @@
     border-radius: @border-radius;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.18);
     padding: 15px;
-    margin-top: 4px;
+    margin-top: 24px;
     left: 40px;
     width: calc(100% ~'- 80px');
 
@@ -80,6 +79,8 @@
 }
 
 w-help-icon {
+  display: inline-flex;
+
   &.info {
     .help-icon {
       &__icon {
