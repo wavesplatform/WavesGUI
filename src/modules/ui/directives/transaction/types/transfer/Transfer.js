@@ -24,6 +24,7 @@
                 this.typeName = this.props.typeName;
                 this.time = this.props.time;
                 this.address = this.props.shownAddress;
+                this.isScam = this.props.isScam;
 
                 this.receive(utils.observe(this.props, 'isScam'), () => {
                     this.isScam = this.props.isScam;

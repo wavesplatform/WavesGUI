@@ -202,11 +202,11 @@
                     </div>
                     <div class="data-field has-helper">
 
-                        <w-help-icon class="info" ng-if="!$ctrl.oracleError && $ctrl.oracleData">
+                        <w-help-icon class="info" ng-if="!$ctrl.oracleError && $ctrl.oracleWavesData">
                             <div class="flex">
                                 <div>
                                     <div class="data-provider-name basic-700">
-                                        {{$ctrl.oracleData.name}}
+                                        {{$ctrl.oracleWavesData.name}}
                                     </div>
                                     <div class="data-provider-id basic-500">
                                         {{$ctrl.oracleWaves}}
@@ -215,11 +215,11 @@
                             </div>
                             <div class="data-provider-info help-icon__row">
                                             <span>
-                                                {{$ctrl.oracleData.description.en}}
+                                                {{$ctrl.oracleWavesData.description.en}}
                                             </span>
                             </div>
                             <div class="help-icon__row">
-                                <a target="_blank" rel="noopener noreferrer" href="{{$ctrl.oracleData.link}}"
+                                <a target="_blank" rel="noopener noreferrer" href="{{$ctrl.oracleWavesData.link}}"
                                    w-i18n="modal.settings.network.showMore"></a>
                             </div>
                         </w-help-icon>
