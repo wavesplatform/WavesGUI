@@ -342,7 +342,9 @@
             expand(type) {
                 this.type = type;
                 if (!this.price || this.price.getTokens().eq('0')) {
-                    this.price = this._getCurrentPrice();
+                    this._setPairRestrictions().then(() => {
+                        this.price = this._getCurrentPrice();
+                    });
                 }
 
                 // todo: refactor after getting rid of Layout-DEX coupling.
@@ -545,6 +547,7 @@
                     return;
                 }
 
+                const { stepSize } = this.pairRestrictions;
                 const amount = value ?
                     value :
                     this.amountBalance.cloneWithTokens(this.order.amount.$viewValue).getTokens();
@@ -552,11 +555,11 @@
                 const roundedAmount = this.getRoundAmountByStepSize(amount);
 
                 if (roundedAmount.lt(minAmount)) {
-                    return minAmount.decimalPlaces(roundedAmount.decimalPlaces());
+                    return minAmount.decimalPlaces(stepSize.decimalPlaces());
                 }
 
                 if (roundedAmount.gt(maxAmount)) {
-                    return maxAmount.decimalPlaces(roundedAmount.decimalPlaces());
+                    return maxAmount.decimalPlaces(stepSize.decimalPlaces());
                 }
 
                 return roundedAmount;
