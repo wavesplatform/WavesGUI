@@ -1,3 +1,4 @@
+<div class="dropdown-fader"></div>
 <header w-toggle-class-container w-i18n-ns="app.welcome">
     <div class="header-wrapper">
         <span class="logo logo-header" ng-if="$ctrl.isLogined"></span>
@@ -39,7 +40,7 @@
                w-i18n="welcome.news"></a>
             <div class="relative dropdown-toggler" ng-if="!$ctrl.isDesktop">
                 <span class="dropdown-btn" w-i18n="welcome.download"></span>
-                <div class="dropdown menu-margin">
+                <div class="dropdown dropdown-download menu-margin">
                     <a w-analytics
                        event-target="'ui'"
                        event="'Menu Download Windows Click'"
@@ -152,11 +153,7 @@
                                     <div>
                                         <div class="body-2 margin-05">{{::$ctrl.userName}}</div>
                                         <div>
-                                            <w-copy-wrap class="copywrap-default"
-                                                         info="::$ctrl.address"
-                                                         ng-click="$ctrl.onCopyAddress()">
-                                                <div class="caption-2 basic-600">{{::$ctrl.address}}</div>
-                                            </w-copy-wrap>
+                                            <div class="caption-2 basic-600">{{::$ctrl.address}}</div>
                                         </div>
                                     </div>
                                 </div>

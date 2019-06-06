@@ -67,6 +67,7 @@
                     this.userList = list;
                     this.hasUsers = this.userList.length > 0;
                     utils.postDigest($scope).then(() => {
+                        this._initFader();
                         $scope.$apply();
                     });
                 });
@@ -172,6 +173,17 @@
                 });
             }
 
+            /**
+             * @private
+             */
+            _initFader() {
+                $element.find('.dropdown-toggler').on('mouseover', () => {
+                    $element.find('.dropdown-fader').addClass('show-fader');
+                });
+                $element.find('.dropdown-toggler').on('mouseleave', () => {
+                    $element.find('.dropdown-fader').removeClass('show-fader');
+                });
+            }
 
         }
 
