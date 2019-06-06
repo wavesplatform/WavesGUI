@@ -651,22 +651,24 @@ w-site-header {
 
   @keyframes dropdown-fader-animation {
     from {
-
+      opacity: 0;
     }
     to {
-
+      opacity: 0.3;
     }
   }
 
   .dropdown-fader {
     display: none;
+    animation-name: dropdown-fader-animation;
+    animation-duration: .3s;
+    animation-direction: normal;
     opacity: 0;
     transition: 13s;
     background: none transparent;
   }
 
   .dropdown-fader.show-fader {
-    animation-name: dropdown-fader-animation;
     display: block;
     position: fixed;
     width: 100%;
@@ -690,6 +692,12 @@ w-site-header {
     transform: translate(-50%, 26px);
     z-index: 10;
     min-width: 214px;
+
+    &-download {
+      a {
+        white-space: nowrap;
+      }
+    }
 
     &-icon {
       margin-right: 15px;
