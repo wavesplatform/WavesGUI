@@ -170,11 +170,19 @@ ui-view[name="main"] {
 .logo {
   width: 152px;
   height: 32px;
-  transition: .5s;
+  transition: .25s;
   display: block;
   cursor: pointer;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+body.welcome,
+body.wallet,
+body.dex {
+  .logo {
+    cursor: default;
+  }
 }
 
 .waves-logo {
@@ -196,8 +204,6 @@ w-scroll-box {
   background-color: @color-disabled-100;
   color: @color-black;
 }
-
-
 
 .main-content {
   transition: .5s;

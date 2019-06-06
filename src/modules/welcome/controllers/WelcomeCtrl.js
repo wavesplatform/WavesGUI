@@ -25,53 +25,48 @@
 
         const ds = require('data-service');
         const { utils } = require('@waves/signature-generator');
-        const { Money } = require('@waves/data-entities');
         const { flatten } = require('ramda');
-
-        const WCT_ID = WavesApp.network.code === 'T' ?
-            WavesApp.defaultAssets.VST :
-            'DHgwrRvVyqJsepd32YbBqUeDH4GJ1N984X8QoekjgH8J';
 
         const PAIRS_IN_SLIDER = [
             {
-                amount: WavesApp.defaultAssets.BTC,
+                amount: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS',
                 price: 'WAVES'
             },
             {
-                amount: WCT_ID,
+                amount: 'DHgwrRvVyqJsepd32YbBqUeDH4GJ1N984X8QoekjgH8J',
                 price: 'WAVES'
             },
             {
-                amount: WavesApp.defaultAssets.DASH,
-                price: WavesApp.defaultAssets.BTC
+                amount: 'B3uGHFRpSUuGEDWjqB9LWWxafQj8VTvpMucEyoxzws5H',
+                price: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS'
             },
             {
-                amount: WavesApp.defaultAssets.ETH,
-                price: WavesApp.defaultAssets.BTC
+                amount: '474jTeYx2r2Va35794tCScAXWJG9hU2HcgxzMowaZUnu',
+                price: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS'
             },
             {
-                amount: WavesApp.defaultAssets.BCH,
-                price: WavesApp.defaultAssets.BTC
+                amount: 'zMFqXuoyrn5w17PFurTqxB7GsS71fp9dfk6XFwxbPCy',
+                price: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS'
             },
             {
-                amount: WavesApp.defaultAssets.ETH,
+                amount: '474jTeYx2r2Va35794tCScAXWJG9hU2HcgxzMowaZUnu',
                 price: 'WAVES'
             },
             {
                 amount: 'WAVES',
-                price: WavesApp.defaultAssets.USD
+                price: 'Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck'
             },
             {
-                amount: WavesApp.defaultAssets.ZEC,
+                amount: 'BrjUWjndUanm5VsJkbUip8VRYy6LWJePtxya3FNv4TQa',
                 price: 'WAVES'
             },
             {
-                amount: WavesApp.defaultAssets.XMR,
-                price: WavesApp.defaultAssets.BTC
+                amount: '5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3',
+                price: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS'
             },
             {
-                amount: WavesApp.defaultAssets.LTC,
-                price: WavesApp.defaultAssets.BTC
+                amount: 'HZk1mbfuJpmxU1Fs4AX5MWLVYtctsNcg6e2C6VKqK8zk',
+                price: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS'
             }
         ];
 
@@ -119,6 +114,7 @@
 
                 this._initUserList();
                 this._initPairs();
+                this._addScrollHandler();
             }
 
             /**
@@ -165,38 +161,10 @@
                                     ...info
                                 };
                             });
-                        })
-                            .catch(() => {
-                                this.pairsInfoList = tempInfoList.map(this._fakeValues);
-                            })
-                            .then(() => {
-                                angularUtils.safeApply($scope);
-                                this._insertCharts();
-                                this._addScrollHandler();
-                            });
+                            angularUtils.safeApply($scope);
+                            this._insertCharts();
+                        });
                     });
-            }
-
-            /**
-             * @param info
-             * @private
-             */
-            _fakeValues(info) {
-                return {
-                    rateHistory: [{
-                        rate: new BigNumber(0),
-                        timestamp: ds.utils.normalizeTime(Date.now())
-                    }],
-                    ticker: info.displayName,
-                    amountAsset: info.amountAsset,
-                    priceAsset: info.priceAsset,
-                    change24: new BigNumber(0),
-                    high: new Money(0, info.priceAsset),
-                    id: info.id,
-                    lastPrice: new Money(0, info.priceAsset),
-                    low: new Money(0, info.priceAsset),
-                    volume: new Money(0, info.priceAsset)
-                };
             }
 
             /**
