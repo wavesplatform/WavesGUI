@@ -39,8 +39,8 @@
                                     </w-select>
                                 </div>
 
-                                <div class="plate-warning margin-1" ng-if="!$ctrl.gatewayServerError">
-                                    <div class="body-2 warning-500 margin-05"
+                                <div class="plate-warning margin-1" ng-if="!$ctrl.gatewayServerError && !$ctrl.isVostok">
+                                    <div class="body-2 warning-500"
                                          w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningTitle"></div>
                                     <div class="footnote-1 basic-500"
                                          w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningText"></div>
@@ -49,7 +49,7 @@
                                 <div class="plate-warning" ng-if="!$ctrl.gatewayServerError">
                                     <div class="body-2 warning-500 margin-05"
                                          w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountTitle"></div>
-                                    <div class="footnote-1 basic-500"
+                                    <div class="footnote-1 basic-500" ng-if="!$ctrl.isVostok"
                                          w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountText"></div>
                                 </div>
 
@@ -91,7 +91,7 @@
 
                                 <div class="plate-warning server-error" ng-if="$ctrl.gatewayServerError">
                                     <div class="body-2 warning-500 margin-05"
-                                         w-i18n="modal.receive.serverError"></div>
+                                         w-i18n="modal.receive.gatewayError"></div>
                                 </div>
                                 <w-button ng-if="$ctrl.gatewayServerError"
                                           on-click="$ctrl.updateGatewayAddress()"

@@ -1,5 +1,4 @@
 <div class="slider">
-    <div class="slide-window"></div>
     <div class="slider-content">
         <div ng-repeat="pair in $ctrl.pairsInfoList track by $index"
            ng-click="$ctrl.goToDexDemo({ assetId1: pair.amountAsset.id, assetId2: pair.priceAsset.id })"
@@ -8,7 +7,9 @@
            class="slide">
             <div class="slide_css-anim">
                 <div class="margin-1 body-2 flex">
-                    <div class="basic-700 grow">{{pair.amountAsset.ticker}} / {{pair.priceAsset.ticker}}</div>
+                    <div class="basic-700 grow">
+                        {{pair.amountAsset.ticker || pair.amountAsset.displayName }} / {{pair.priceAsset.ticker || pair.priceAsset.displayName}}
+                    </div>
                     <div ng-class="pair.change24.gt(0) ? 'blue' : 'red'">{{pair.change24}}%</div>
                 </div>
                 <div class="flex">
@@ -17,7 +18,7 @@
                             <w-balance class="carousel-last-price" money="pair.lastPrice"></w-balance>
                         </h2>
                         <div class="basic-500 footnote-1">Volume:
-                            <span w-nice-number="pair.volume.toFormat()" precision="3"></span>
+                            <span w-nice-number="pair.volumeBigNum" precision="3"></span>
                         </div>
                     </div>
                     <div class="graph"></div>
