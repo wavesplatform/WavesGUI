@@ -1,9 +1,8 @@
 (function () {
     'use strict';
 
-    const { Money } = require('@waves/data-entities');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
-    const { filter, whereEq, uniqBy, prop, where, gt, pick, __ } = require('ramda');
+    const { filter, whereEq, uniqBy, prop, where, gt, pick, __, map } = require('ramda');
     const ds = require('data-service');
 
     /**
@@ -36,6 +35,9 @@
         $element
     ) {
 
+        /**
+         * @class
+         */
         class DexMyOrders extends Base {
 
             /**
@@ -71,12 +73,16 @@
             /**
              * @type {boolean}
              */
-            showAnims = false;
-
+            showAnimations = false;
+            /**
+             * @type {boolean}
+             */
+            isActiveOrders = false;
             /**
              * @type {Array}
              */
             userList = [];
+
 
             constructor() {
                 super();
@@ -91,6 +97,12 @@
                     this._matcherPublicKeyPromise = ds.fetch(user.getSetting('network.matcher'));
                 });
 
+                user.getFilteredUserList().then(list => {
+                    this.userList = list;
+                });
+            }
+
+            $postLink() {
                 this.headers = [
                     {
                         id: 'pair',
@@ -142,7 +154,7 @@
                         valuePath: 'item.progress',
                         sort: true
                     },
-                    {
+                    this.isActiveOrders && {
                         id: 'controls',
                         templatePath: 'modules/dex/directives/dexMyOrders/header-control-cell.html',
                         scopeData: {
@@ -151,99 +163,17 @@
                             },
                             $ctrl: this
                         }
-                    }
-                ];
+                    } || null
+                ].filter(Boolean);
 
                 if (!this.isDemo) {
-                    const poll = createPoll(this, DexMyOrders._getAllOrders, this._setOrders, 1000);
+                    const poll = createPoll(this, this._getAllOrders, this._setOrders, 1000);
                     poll.ready.then(() => {
                         this.pending = false;
                     });
                     this.receive(dexDataService.createOrder, () => poll.restart());
                     this.poll = poll;
                 }
-
-                user.getFilteredUserList().then(list => {
-                    this.userList = list;
-                });
-            }
-
-            /**
-             * @return {Promise<Array<IOrder> | never>}
-             * @private
-             */
-            static _getAllOrders() {
-                return waves.matcher.getOrders()
-                    .then(filter(whereEq({ isActive: true })))
-                    .catch(() => (this.loadingError = true));
-            }
-
-            static _animateNotification($element) {
-                return utils.animate($element, { t: 100 }, {
-                    duration: 1200,
-                    step: function (tween) {
-                        const progress = ease.bounceOut(tween / 100);
-                        $element.css('transform', `translate(0, ${-100 + progress * 100}%)`);
-                    }
-                })
-                    .then(() => utils.wait(700))
-                    .then(() => {
-                        return utils.animate($element, { t: 0 }, {
-                            duration: 500,
-                            step: function (tween) {
-                                const progress = ease.linear(tween / 100);
-                                $element.css('transform', `translate(0, ${(-((1 - progress) * 100))}%)`);
-                            }
-                        });
-                    });
-            }
-
-            static _getTransactionsByOrderIdHash(txList) {
-                const uniqueList = uniqBy(prop('id'), txList);
-                const transactionsByOrderHash = Object.create(null);
-                uniqueList.forEach((tx) => {
-                    ['order1', 'order2'].forEach((orderFieldName) => {
-                        if (!transactionsByOrderHash[tx[orderFieldName].id]) {
-                            transactionsByOrderHash[tx[orderFieldName].id] = [];
-                        }
-                        transactionsByOrderHash[tx[orderFieldName].id].push(DexMyOrders._remapTx(tx));
-                    });
-                });
-                return transactionsByOrderHash;
-            }
-
-            static _remapTx(tx) {
-                const fee = (tx, order) => order.orderType === 'sell' ? tx.sellMatcherFee : tx.buyMatcherFee;
-                const emptyFee = new Money(0, tx.fee.asset);
-                const userFee = [tx.order1, tx.order2]
-                    .filter((order) => order.sender === user.address)
-                    .reduce((acc, order) => acc.add(fee(tx, order)), emptyFee);
-
-                return { ...tx, userFee };
-            }
-
-            /**
-             * @param {IOrder} order
-             * @private
-             */
-            static _remapOrders(matcherPublicKey) {
-                return order => {
-                    const assetPair = order.assetPair;
-                    const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
-                    const isNew = DexMyOrders._isNewOrder(order.timestamp.getTime());
-                    const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
-                    return waves.matcher.getCreateOrderFee({ ...order, matcherPublicKey })
-                        .then(fee => ({ ...order, isNew, percent, pair, fee }));
-                };
-            }
-
-            /**
-             * @param {number} timestamp
-             * @return {boolean}
-             * @private
-             */
-            static _isNewOrder(timestamp) {
-                return ds.utils.normalizeTime(Date.now()) < timestamp + 1000 * 8;
             }
 
             /**
@@ -355,58 +285,168 @@
             }
 
             /**
-             * @param {Array<IOrder>} orders
+             * @param {Array<IDexOrders>} orders
              * @private
              */
             _setOrders(orders) {
-                const isEqual = this.orders.length === orders.length && this.orders
-                    .every((item, i) => whereEq(pick(['id', 'progress'], item), orders[i]));
+                let needApply = false;
 
-                if (isEqual) {
-                    let needApply = false;
+                orders.forEach(order => {
+                    const isNew = DexMyOrders._isNewOrder(order.timestamp.getTime());
+                    needApply = needApply || isNew !== order.isNew;
+                    order.isNew = isNew;
+                });
 
-                    this.orders.forEach(order => {
-                        const isNew = DexMyOrders._isNewOrder(order.timestamp.getTime());
-                        needApply = needApply || isNew !== order.isNew;
-                        order.isNew = isNew;
-                    });
-
-                    if (needApply) {
-                        $scope.$apply();
-                    }
-                    this.showAnims = true;
-                    return null;
+                if (needApply) {
+                    $scope.$apply();
                 }
 
-                return this._matcherPublicKeyPromise
-                    .then(matcherPublicKey => Promise.all(orders.map(DexMyOrders._remapOrders(matcherPublicKey))))
-                    .then(result => {
-                        const lastOrder = result.slice().reverse().find(where({ progress: gt(__, 0) }));
+                this.orders = orders;
 
-                        if (!lastOrder) {
-                            return result;
+                this.showAnimations = true;
+            }
+
+            /**
+             * @return {Promise<Array<IDexOrders>>}
+             * @private
+             */
+            _getAllOrders() {
+                return waves.matcher.getOrders({ isActive: this.isActiveOrders })
+                    .then(filter(whereEq({ isActive: this.isActiveOrders })))
+                    .then(map(order => ({ ...order, isCancelled: order.status === 'Cancelled' })))
+                    .then(orders => {
+                        if (this._isEqualOrders(orders) && this._isAllPartialFilledOrdersHasTransactions()) {
+                            return this.orders;
                         }
 
-                        return ds.api.transactions.getExchangeTxList({
-                            sender: user.address,
-                            timeStart: ds.utils.normalizeTime(lastOrder.timestamp.getTime())
-                        }).then(txList => {
-                            const transactionsByOrderHash = DexMyOrders._getTransactionsByOrderIdHash(txList);
-                            this.loadingError = false;
-                            return result.map(order => {
-                                if (!transactionsByOrderHash[order.id]) {
-                                    transactionsByOrderHash[order.id] = [];
+                        return this._matcherPublicKeyPromise
+                            .then(matcherPublicKey =>
+                                Promise.all(orders.map(DexMyOrders._remapOrders(matcherPublicKey)))
+                            )
+                            .then(result => {
+                                const lastOrder = result.slice().reverse().find(where({ progress: gt(__, 0) }));
+
+                                if (!lastOrder) {
+                                    return result;
                                 }
-                                order.exchange = transactionsByOrderHash[order.id];
-                                return order;
+
+                                return DexMyOrders._loadTransactions(lastOrder.timestamp.getTime())
+                                    .then(txList => {
+                                        const hash = DexMyOrders._getTransactionsByOrderIdHash(txList);
+                                        this.loadingError = false;
+                                        return result.map(order => {
+                                            if (!hash[order.id]) {
+                                                hash[order.id] = [];
+                                            }
+                                            order.exchange = hash[order.id];
+                                            return order;
+                                        });
+                                    }).catch(() => result);
                             });
-                        }).catch(() => result);
                     })
-                    .then(orders => (this.orders = orders))
-                    .catch(() => (this.loadingError = true))
+                    .catch(() => (this.loadingError = true));
+            }
+
+            /**
+             * @param {Array<IOrder>} newOrders
+             * @return {boolean}
+             * @private
+             */
+            _isEqualOrders(newOrders) {
+                return this.orders.length === newOrders.length && this.orders
+                    .every((item, i) => whereEq(pick(['id', 'progress'], item), newOrders[i]));
+            }
+
+            _isAllPartialFilledOrdersHasTransactions() {
+                return this.orders.filter(where({ progress: gt(__, 0) }))
+                    .every(order => order.exchange.length &&
+                        order.filled.eq(
+                            order.exchange
+                                .map(tx => tx.amount)
+                                .reduce((acc, amount) => acc.add(amount))
+                        )
+                    );
+            }
+
+            static _animateNotification($element) {
+                return utils.animate($element, { t: 100 }, {
+                    duration: 1200,
+                    step: function (tween) {
+                        const progress = ease.bounceOut(tween / 100);
+                        $element.css('transform', `translate(0, ${-100 + progress * 100}%)`);
+                    }
+                })
+                    .then(() => utils.wait(700))
                     .then(() => {
-                        $scope.$apply();
+                        return utils.animate($element, { t: 0 }, {
+                            duration: 500,
+                            step: function (tween) {
+                                const progress = ease.linear(tween / 100);
+                                $element.css('transform', `translate(0, ${(-((1 - progress) * 100))}%)`);
+                            }
+                        });
                     });
+            }
+
+            static _getTransactionsByOrderIdHash(txList) {
+                const uniqueList = uniqBy(prop('id'), txList);
+                const transactionsByOrderHash = Object.create(null);
+                uniqueList.forEach((tx) => {
+                    ['order1', 'order2'].forEach((orderFieldName) => {
+                        if (!transactionsByOrderHash[tx[orderFieldName].id]) {
+                            transactionsByOrderHash[tx[orderFieldName].id] = [];
+                        }
+                        transactionsByOrderHash[tx[orderFieldName].id].push(DexMyOrders._remapTx(tx));
+                    });
+                });
+                return transactionsByOrderHash;
+            }
+
+            static _remapTx(tx) {
+                const fee = (tx, order) => order.orderType === 'sell' ? tx.sellMatcherFee : tx.buyMatcherFee;
+                const userFee = [tx.order1, tx.order2]
+                    .reduce((acc, order) => {
+                        acc[order.orderType] = fee(tx, order);
+                        return acc;
+                    }, Object.create(null));
+
+                return { ...tx, userFee };
+            }
+
+            /**
+             * @param {IOrder} order
+             * @private
+             */
+            static _remapOrders(matcherPublicKey) {
+                return order => {
+                    const assetPair = order.assetPair;
+                    const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
+                    const isNew = DexMyOrders._isNewOrder(order.timestamp.getTime());
+                    const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
+                    return waves.matcher.getCreateOrderFee({ ...order, matcherPublicKey })
+                        .then(fee => ({ ...order, isNew, percent, pair, fee }));
+                };
+            }
+
+            /**
+             * @param {number} timestamp
+             * @return {boolean}
+             * @private
+             */
+            static _isNewOrder(timestamp) {
+                return ds.utils.normalizeTime(Date.now()) < timestamp + 1000 * 8;
+            }
+
+            /**
+             * @param {number} lastTime
+             * @return {Promise<Array<IExchange>>}
+             * @private
+             */
+            static _loadTransactions(lastTime) {
+                return ds.api.transactions.getExchangeTxList({
+                    sender: user.address,
+                    timeStart: ds.utils.normalizeTime(lastTime)
+                });
             }
 
         }
@@ -430,7 +470,9 @@
     ];
 
     angular.module('app.dex').component('wDexMyOrders', {
-        bindings: {},
+        bindings: {
+            isActiveOrders: '<'
+        },
         templateUrl: 'modules/dex/directives/dexMyOrders/myOrders.html',
         controller
     });
