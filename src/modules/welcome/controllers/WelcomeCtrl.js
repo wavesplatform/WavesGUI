@@ -161,6 +161,7 @@
                         })).then(rateHistory => {
                             this.pairsInfoList = tempInfoList.map((info, i) => {
                                 return {
+                                    volumeBigNum: info.volume.getTokens(),
                                     rateHistory: rateHistory[i],
                                     ...info
                                 };
