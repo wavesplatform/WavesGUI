@@ -283,7 +283,7 @@ body.welcome {
       }
 
       .slide {
-        min-width: 290px;
+        min-width: 280px;
         overflow: visible;
         cursor: pointer;
 
@@ -321,9 +321,19 @@ body.welcome {
       }
 
       @media screen and (max-width: 1400px) {
-        //.slide {
-        //  width: 31%;
-        //}
+        .slide {
+          width: 31%;
+        }
+      }
+      @media screen and (max-width: 1000px) {
+        .slide {
+          width: 48%;
+        }
+      }
+      @media screen and (max-width: 620px) {
+        .slide {
+          width: 100%;
+        }
       }
 
       @media screen and (max-width: 768px) {
@@ -332,8 +342,6 @@ body.welcome {
         }
 
         .slide {
-          min-width: 280px;
-
           &_css-anim { // .slide_css-anim
             padding: 20px;
           }
@@ -381,6 +389,10 @@ body.welcome {
 
 @media screen and (max-width: 1440px) {
   body.welcome {
+    .slide {
+      width: 30%;
+    }
+
     .section-wrapper {
       padding-left: 40px;
       padding-right: 40px;
