@@ -1,34 +1,20 @@
 @import (reference) 'config';
+@import (reference) 'icons';
 @import (reference) '../../../app/less/typography';
 
 .help-icon {
   display: inline-block;
 
   &__icon {
-    position: relative;
     margin-left: 7px;
-
-    &.info {
-      &::before {
-        content: 'i';
-      }
-    }
-
-    &::before {
-      content: '?';
-      background: @color-accent-100;
-      color: @color-white;
-      border-radius: 50%;
-      display: inline-block;
-      width: @text-icon-size;
-      height: @text-icon-size;
-      text-align: center;
-      font-style: normal;
-      font-weight: bold;
-      margin-top: -3px;
-      font-size: @font-size-caption-2;
-      line-height: 17px;
-    }
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 4px;
+    width: 14px;
+    height: 14px;
+    font-style: normal;
+    background: @color-accent-100 @dex-info-icon center no-repeat;
+    transition: background 0.3s;
 
     &:after {
       display: none;
@@ -36,16 +22,16 @@
       height: 10px;
       background: @color-submit-300;
       transform: rotate(-45deg);
-      left: 3px;
-      top: 21px;
+      left: 9px;
+      top: 25px;
       position: absolute;
       content: '';
       z-index: 1;
     }
 
-    &.hovered::before,
-    &:hover::before {
-      background: @color-submit-300;
+    &.hovered,
+    &:hover {
+      background-color: @color-submit-300;
     }
 
     &.hovered::after,
@@ -96,9 +82,7 @@ w-help-icon {
   &.info {
     .help-icon {
       &__icon {
-        &::before {
-          content: 'i';
-        }
+        background-image: @dex-help-icon;
       }
     }
   }

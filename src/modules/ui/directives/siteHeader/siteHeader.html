@@ -80,16 +80,15 @@
             </div>
         </nav>
 
-        <div class="mobile-menu-toggler">
+        <div class="mobile-menu-toggler" ng-click="$ctrl.removeInnerMenu()">
             <span></span>
         </div>
-
 
         <nav class="mobile-menu">
             <div class="mobile-menu-wrapper">
                 <ul ng-if="!$ctrl.isLogined">
-                    <li><a ui-sref="main.dex-demo" ng-click="$ctrl.removeBodyClass()" w-i18n="welcome.exchange"></a>
-                    </li>
+                    <li><a ui-sref="welcome" ng-click="$ctrl.removeBodyClass()" class="menu-link-main" w-i18n="welcome.mainPage"></a></li>
+                    <li><a ui-sref="main.dex-demo" ng-click="$ctrl.removeBodyClass()" class="menu-link-exchange" w-i18n="welcome.exchange"></a></li>
                     <li><a href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html"
                            w-analytics event-target="'ui'"
                            event="'Menu API Click'"
@@ -115,9 +114,10 @@
                            href="#"></a></li>
                     <li class="separator"></li>
                     <li><a class="sign-in-link"
+                           ng-if="$ctrl.hasUsers"
                            ng-click="$ctrl.removeBodyClass()"
                            ui-sref="signIn" w-i18n="welcome.signIn"></a></li>
-                    <li><a class="get-started-link"
+                    <li><a class="menu-link get-started-link"
                            ng-click="$ctrl.removeBodyClass()"
                            ui-sref="create" w-i18n="welcome.getStarted"></a></li>
                 </ul>
@@ -129,25 +129,26 @@
                            href="#">
 
                             <div class="flex monbile-menu-user-data">
+                                <div class="avatar-container has-helper"> <!-- MOBILE -->
+                                    <w-avatar size="40"
+                                              ng-click="$ctrl.avatarClick()"
+                                              address="$ctrl.address"></w-avatar>
 
-                                <w-avatar size="40"
-                                          ng-click="$ctrl.avatarClick()"
-                                          address="$ctrl.address"></w-avatar>
-
-                                <!--w-help-icon class="avatar-options-list" ng-if="($ctrl.hasTypeHelp)">
-                                    <div class="help-icon__row row-keeper" ng-if="$ctrl.isKeeper">
-                                        <span class="acount-option-icon"></span>
-                                        <span w-i18n="welcome.keeperAccount"></span>
-                                    </div>
-                                    <div class="help-icon__row row-ledger" ng-if="$ctrl.isLedger">
-                                        <span class="acount-option-icon"></span>
-                                        <span w-i18n="welcome.ledgerAccount"></span>
-                                    </div>
-                                    <div class="help-icon__row row-script" ng-if="$ctrl.isScript">
-                                        <span class="acount-option-icon"></span>
-                                        <span w-i18n="welcome.scriptAccount"></span>
-                                    </div>
-                                </w-help-icon-->
+                                    <w-help-icon class="avatar-options-list" ng-if="($ctrl.hasTypeHelp)"> <!-- -->
+                                        <div class="help-icon__row row-keeper" ng-if="$ctrl.isKeeper">
+                                            <span class="acount-option-icon"></span>
+                                            <span w-i18n="welcome.keeperAccount"></span>
+                                        </div>
+                                        <div class="help-icon__row row-ledger" ng-if="$ctrl.isLedger">
+                                            <span class="acount-option-icon"></span>
+                                            <span w-i18n="welcome.ledgerAccount"></span>
+                                        </div>
+                                        <div class="help-icon__row row-script" ng-if="!$ctrl.isScript">
+                                            <span class="acount-option-icon"></span>
+                                            <span w-i18n="welcome.scriptAccount"></span>
+                                        </div>
+                                    </w-help-icon>
+                                </div>
 
                                 <div class="flex mobile-user-info">
                                     <div>
@@ -164,34 +165,51 @@
                             </div>
                         </a>
                     </li>
-                    <li><a ui-sref="main.dex" w-i18n="welcome.exchange"></a></li>
+                    <li w-toggle-class="expanded">
+                        <a ui-sref="main.dex"
+                           ng-click="$ctrl.removeBodyClass()"
+                           w-i18n="welcome.exchange"></a></li>
                     <li w-toggle-class="show-wallet">
                         <a href="#" class="has-child" w-i18n="welcome.wallet"
                            w-toggle-class="mobile-menu-inner-expanded"></a>
                     </li>
-                    <li><a ui-sref="main.tokens" w-i18n="welcome.createToken"></a></li>
+                    <li w-toggle-class="expanded">
+                        <a ng-click="$ctrl.removeBodyClass()"
+                           ui-sref="main.tokens" w-i18n="welcome.createToken"></a></li>
                     <li class="separator"></li>
-                    <li><a class="menu-link menu-link-logout" ng-click="$ctrl.logout()" href="#"
-                           w-i18n="welcome.logout"></a></li>
+                    <li w-toggle-class="expanded">
+                        <a ng-click="$ctrl.removeBodyClass() && $ctrl.logout()"
+                           class="menu-link menu-link-logout"
+                           w-i18n="welcome.logout"
+                           href="#"></a></li>
                 </ul>
             </div>
 
             <div class="mobile-menu-wrapper mobile-menu-wrapper-inner download-menu" ng-if="!$ctrl.isLogined">
                 <ul>
-                    <li><a class="menu-link menu-link-menu"
+                    <li w-toggle-class="mobile-menu-inner-expanded">
+                        <a class="menu-link menu-link-menu"
                            w-toggle-class="show-downloads"
                            href="#"
                            w-i18n="welcome.menu"></a></li>
-                    <li><a w-analytics event-target="'ui'"
+                    <li w-toggle-class="expanded mobile-menu-inner-expanded">
+                        <a class="menu-link menu-link-apple"
+                           w-analytics
+                           event-target="'ui'"
                            event="'Menu Download Android Click'"
-                           href="https://play.google.com/store/apps/details?id=com.wavesplatform.wallet"
+                           href="https://itunes.apple.com/us/app/waves-wallet/id1233158971?mt=8"
+                           ng-click="$ctrl.removeBodyClass()"
                            target="_blank"
                            rel="noopener noreferrer"
                            w-i18n="welcome.apple"></a></li>
-                    <li><a w-analytics event-target="'ui'"
+                    <li w-toggle-class="expanded mobile-menu-inner-expanded">
+                        <a class="menu-link menu-link-android"
+                           w-analytics
+                           event-target="'ui'"
                            event="'Menu Download Apple mobile Click'"
-                           href="https://itunes.apple.com/us/app/waves-wallet/id1233158971?mt=8"
+                           href="https://play.google.com/store/apps/details?id=com.wavesplatform.wallet"
                            target="_blank"
+                           ng-click="$ctrl.removeBodyClass()"
                            rel="noopener noreferrer"
                            w-i18n="welcome.android"></a></li>
                 </ul>
@@ -199,38 +217,67 @@
 
             <div class="mobile-menu-wrapper mobile-menu-wrapper-inner aliases-menu" ng-if="$ctrl.isLogined">
                 <ul>
-                    <li><a class="menu-link menu-link-menu" w-toggle-class="show-aliases" href="#"
+                    <li w-toggle-class="mobile-menu-inner-expanded">
+                        <a class="menu-link menu-link-menu"
+                           w-toggle-class="show-aliases" href="#"
                            w-i18n="welcome.menu"></a></li>
-                    <li><a class="menu-link menu-link-aliases" href="#" ng-click="$ctrl.avatarClick()"
-                           w-i18n="welcome.aliases"></a></li>
-                    <li><a class="menu-link menu-link-settings" href="#" ng-click="$ctrl.settings()"
-                           w-i18n="welcome.settings"></a></li>
+                    <li w-toggle-class="show-aliases expanded">
+                        <a class="menu-link menu-link-aliases"
+                           ng-click="$ctrl.avatarClick()"
+                           w-i18n="welcome.aliases"
+                           href="#"></a></li>
+                    <li w-toggle-class="show-aliases expanded">
+                        <a class="menu-link menu-link-settings"
+                           ng-click="$ctrl.settings()"
+                           w-i18n="welcome.settings"
+                           href="#"></a></li>
                     <li class="separator"></li>
-                    <li><a class="menu-link menu-link-logout" ng-click="$ctrl.logout()" href="#"
-                           w-i18n="welcome.logout"></a></li>
+                    <li w-toggle-class="show-aliases expanded">
+                        <a class="menu-link menu-link-logout"
+                           ng-click="$ctrl.logout()"
+                           w-i18n="welcome.logout"
+                           href="#"></a></li>
                 </ul>
             </div>
 
             <div class="mobile-menu-wrapper mobile-menu-wrapper-inner wallet-menu" ng-if="$ctrl.isLogined">
                 <ul>
-                    <li><a class="menu-link menu-link-menu" w-toggle-class="show-wallet" href="#"
+                    <li w-toggle-class="show-wallet">
+                        <a class="menu-link menu-link-menu"
+                           href="#"
                            w-i18n="welcome.menu"></a></li>
-                    <li><a class="menu-link menu-link-dashboard" ui-sref="main.wallet.assets"
+                    <li w-toggle-class="expanded show-wallet">
+                        <a class="menu-link menu-link-dashboard"
+                           ng-click="$ctrl.removeBodyClass()"
+                           ui-sref="main.wallet.assets"
                            w-i18n="welcome.dashboard"></a>
                     </li>
-                    <li><a class="menu-link menu-link-portfolio" ui-sref="main.wallet.portfolio"
+                    <li w-toggle-class="expanded show-wallet">
+                        <a class="menu-link menu-link-portfolio"
+                           ng-click="$ctrl.removeBodyClass()"
+                           ui-sref="main.wallet.portfolio"
                            w-i18n="welcome.portfolio"></a></li>
-                    <li><a class="menu-link menu-link-transactions" ui-sref="main.wallet.transactions"
+                    <li w-toggle-class="expanded show-wallet">
+                        <a class="menu-link menu-link-transactions"
+                           ng-click="$ctrl.removeBodyClass()"
+                           ui-sref="main.wallet.transactions"
                            w-i18n="welcome.transactions"></a></li>
-                    <li><a class="menu-link menu-link-leasing" ui-sref="main.wallet.leasing"
+                    <li w-toggle-class="expanded show-wallet">
+                        <a class="menu-link menu-link-leasing"
+                           ng-click="$ctrl.removeBodyClass()"
+                           ui-sref="main.wallet.leasing"
                            w-i18n="welcome.leasing"></a></li>
                     <li class="separator"></li>
-                    <li><a class="menu-link menu-link-logout" ng-click="$ctrl.logout()" href="#"
+                    <li w-toggle-class="expanded show-wallet">
+                        <a class="menu-link menu-link-logout"
+                           ng-click="$ctrl.removeBodyClass()"
+                           ng-click="$ctrl.logout()"
+                           href="#"
                            w-i18n="welcome.logout"></a></li>
                 </ul>
             </div>
 
-            <div class="mobile-menu-fader"></div>
+            <div ng-click="$ctrl.removeInnerMenu()" class="mobile-menu-fader"></div>
         </nav>
 
         <nav class="top-menu top-menu-wallet" ng-if="$ctrl.isLogined">
@@ -277,38 +324,53 @@
             </a>
         </div>
 
-        <div ng-if="$ctrl.isLogined" class="avatar-container dropdown-toggler has-helper">
-            <w-analytics event="'Account Picture Click'" event-target="'ui'">
-                <w-avatar type="{{$ctrl.userType}}"
-                          size="36"
-                          address="$ctrl.address"></w-avatar>
-            </w-analytics>
+        <div ng-if="$ctrl.isLogined" class="dropdown-toggler dropdown-toggler-right">
+            <div class="avatar-container has-helper">
+                <w-analytics event="'Account Picture Click'" event-target="'ui'">
+                    <w-avatar type="{{$ctrl.userType}}"
+                              size="36"
+                              address="$ctrl.address"></w-avatar>
+                </w-analytics>
 
-            <!--w-help-icon class="avatar-options-list" ng-if="($ctrl.hasTypeHelp)">
-                <div class="help-icon__row row-keeper" ng-if="$ctrl.isKeeper">
-                    <span class="acount-option-icon"></span>
-                    <span w-i18n="welcome.keeperAccount"></span>
-                </div>
-                <div class="help-icon__row row-ledger" ng-if="$ctrl.isLedger">
-                    <span class="acount-option-icon"></span>
-                    <span w-i18n="welcome.ledgerAccount"></span>
-                </div>
-                <div class="help-icon__row row-script" ng-if="$ctrl.isScript">
-                    <span class="acount-option-icon"></span>
-                    <span w-i18n="welcome.scriptAccount"></span>
-                </div>
-            </w-help-icon-->
+                <w-help-icon class="avatar-options-list" ng-if="($ctrl.hasTypeHelp)">
+                    <div class="help-icon__row row-keeper" ng-if="$ctrl.isKeeper">
+                        <span class="acount-option-icon"></span>
+                        <span w-i18n="welcome.keeperAccount"></span>
+                    </div>
+                    <div class="help-icon__row row-ledger" ng-if="$ctrl.isLedger">
+                        <span class="acount-option-icon"></span>
+                        <span w-i18n="welcome.ledgerAccount"></span>
+                    </div>
+                    <div class="help-icon__row row-script" ng-if="!$ctrl.isScript">
+                        <span class="acount-option-icon"></span>
+                        <span w-i18n="welcome.scriptAccount"></span>
+                    </div>
+                </w-help-icon>
+            </div>
 
             <div class="dropdown">
                 <div class="center">
-                    <w-avatar
+                    <div class="avatar-container has-helper margin-1 margin-top-2">
+                        <w-avatar
                             type="{{$ctrl.userType}}"
                             size="40"
-                            class="margin-1 margin-top-2"
                             address="$ctrl.address"></w-avatar>
-
+                        <w-help-icon class="avatar-options-list" ng-if="($ctrl.hasTypeHelp)">
+                            <div class="help-icon__row row-keeper" ng-if="$ctrl.isKeeper">
+                                <span class="acount-option-icon"></span>
+                                <span w-i18n="welcome.keeperAccount"></span>
+                            </div>
+                            <div class="help-icon__row row-ledger" ng-if="$ctrl.isLedger">
+                                <span class="acount-option-icon"></span>
+                                <span w-i18n="welcome.ledgerAccount"></span>
+                            </div>
+                            <div class="help-icon__row row-script" ng-if="!$ctrl.isScript">
+                                <span class="acount-option-icon"></span>
+                                <span w-i18n="welcome.scriptAccount"></span>
+                            </div>
+                        </w-help-icon>
+                    </div>
                     <div class="basic-900">{{$ctrl.userName}}</div>
-
                     <w-copy-wrap class="margin-2 copywrap-default"
                                  info="::$ctrl.address"
                                  ng-click="$ctrl.onCopyAddress()">
@@ -317,7 +379,6 @@
                         </div>
                     </w-copy-wrap>
                 </div>
-
                 <a class="link-aliases" ng-click="$ctrl.avatarClick()">
                     <i class="dropdown-icon icon-18 icon-aliases"></i>
                     <div>
