@@ -36,12 +36,9 @@
                     isGateway,
                     isTokenomica,
                     isSuspicious,
-                    isGatewaySoon,
                     hasLabel
                 } = utils.getDataFromOracles(this.assetId);
                 this.isGateway = isGateway;
-                // TODO: delete when gateway will be ready
-                this.isGatewaySoon = isGatewaySoon;
                 this.isTokenomica = isGateway ? false : isTokenomica;
                 this.isVerified = isTokenomica ? false : isVerified;
                 this.isSuspicious = isVerified ? false : isSuspicious;
