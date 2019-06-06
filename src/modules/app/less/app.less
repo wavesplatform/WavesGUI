@@ -72,18 +72,18 @@ select:-webkit-autofill:focus {
   background: @selection-bg;
 }
 
-body.keeper,
-body.welcome,
-body.signIn,
-body.create,
-body.restore,
-body.import,
-body.ledger {
-  .main-container {
-    min-height: calc(100vh ~'- 60px');
-    flex-shrink: 0;
-  }
-}
+//body.keeper,
+//body.welcome,
+//body.signIn,
+//body.create,
+//body.restore,
+//body.import,
+//body.ledger {
+//  .main-container {
+//    min-height: calc(100vh ~'- 60px');
+//    flex-shrink: 0;
+//  }
+//}
 
 body.tokens,
 body.keeper,
@@ -142,6 +142,7 @@ ui-view[name="main"] {
   min-height: 100%;
   height: 100%;
   overflow: auto;
+  display: flex;
   flex-direction: column;
 }
 
