@@ -29,10 +29,14 @@
         const { flatten } = require('ramda');
 
         const WCT_ID = WavesApp.network.code === 'T' ?
-            WavesApp.defaultAssets.VST :
+            WavesApp.defaultAssets.TRY :
             'DHgwrRvVyqJsepd32YbBqUeDH4GJ1N984X8QoekjgH8J';
 
         const PAIRS_IN_SLIDER = [
+            {
+                amount: WavesApp.defaultAssets.VST,
+                price: 'WAVES'
+            },
             {
                 amount: WavesApp.defaultAssets.BTC,
                 price: 'WAVES'
@@ -67,10 +71,6 @@
             },
             {
                 amount: WavesApp.defaultAssets.XMR,
-                price: WavesApp.defaultAssets.BTC
-            },
-            {
-                amount: WavesApp.defaultAssets.LTC,
                 price: WavesApp.defaultAssets.BTC
             }
         ];
