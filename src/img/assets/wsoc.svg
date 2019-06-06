@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="96px" height="96px" viewBox="0 0 96 96" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
-    <title>wsoc_100</title>
+    <title>wsoc_sign_white</title>
     <desc>Created with Sketch.</desc>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Artboard" transform="translate(-39.000000, -45.000000)">
-            <g id="wsoc_100" transform="translate(39.000000, 45.000000)">
-                <circle id="Oval" fill="#000000" cx="50" cy="50" r="50"></circle>
-                <g id="Group-2" transform="translate(26.000000, 24.000000)">
-                    <g id="Group-9" fill="#EF4451" stroke="#EF4451">
-                        <path d="M0,0 L23,0 L23,33.4285714 L0,33.4285714 L0,0 Z M11.96,33.4285714 L11.96,51.1185826 L11.96,33.4285714 Z" id="Combined-Shape"></path>
-                    </g>
-                    <g id="Group-7" transform="translate(26.000000, 15.000000)" stroke="#21D24C">
-                        <path d="M11.5,2.78571429 L11.5,0.464285714 L11.5,2.78571429 L23,2.78571429 L23,18.5714286 L0,18.5714286 L0,2.78571429 L11.5,2.78571429 Z M11.5,18.5714286 L11.5,25.5357143 L11.5,18.5714286 Z" id="Combined-Shape"></path>
-                    </g>
-                </g>
+    <g id="wsoc_sign_white" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="wsoc_logo-2" transform="translate(10.000000, 29.000000)">
+            <g id="wsoc_logo">
+                <polygon id="Path" fill="#8CC45B" fill-rule="nonzero" points="75.9708916 0.587806452 61.5763352 37.9154194 48.5812496 37.9154194 37.9852568 9.81716129 27.1893395 37.9154194 14.3941783 37.9154194 -0.00037803161 0.587806452 9.99584165 0.587806452 20.7917589 29.9166452 32.1874494 0.587806452 43.5831398 0.587806452 54.9788302 29.9166452 65.5748231 0.587806452 75.9708916 0.587806452"></polygon>
+                <polygon id="Path-3" fill="#F75D69" points="0 0.587806452 9.99584165 0.587806452 23.7734375 38 14.3359375 38"></polygon>
+                <polygon id="Path-3" fill="#F75D69" points="34 0.587806452 43.9958417 0.587806452 58.0003662 37.9154194 48.3359375 38"></polygon>
             </g>
         </g>
     </g>
