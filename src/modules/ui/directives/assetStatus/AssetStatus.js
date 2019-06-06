@@ -3,8 +3,10 @@
 
     // TODO: delete after contest
     const CONTEST_ASSET_ID_LIST = [
-        'D4pFweACmYsfatwsQjGCeXcwnaphURLm2XTg5GNh1rjQ',
-        'HJLuSeW9zMCZpe6xTievhRLcJF5LGH6buoHgkwn6yTdb'
+        'Gsj1azEwNuUTss5FHLPbgR6FGya284Q843tCrrFgi4VZ',
+        'JCm9j4nBQ8tXE2kRKzhgoV6jqVm1QC3FeXLcKwsLdRyG',
+        'HjcJSVFeo34WD1QFFonRa3boQAkRLZxCdURJU73Ffcga',
+        'F33CKa4cPB9fK5oA3aUZKAtDJtdohvEzX84Hkwthep5V'
     ];
     // TODO: delete after contest
 
