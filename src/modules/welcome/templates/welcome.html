@@ -98,12 +98,14 @@
                    ng-class="pair.change24.gt(0) ? 'blue' : 'red'"
                    ng-click="$ctrl.goToDexDemo({ assetId1: pair.amountAsset.id, assetId2: pair.priceAsset.id })"
                    class="row row-content">
-                    <div class="cell pair">{{pair.amountAsset.ticker}} / {{pair.priceAsset.ticker}}</div>
+                    <div class="cell pair">
+                        {{pair.amountAsset.ticker || pair.amountAsset.displayName }} / {{pair.priceAsset.ticker || pair.priceAsset.displayName}}
+                    </div>
                     <div class="cell last-price">
                         <w-balance money="pair.lastPrice"></w-balance>
                         <span class="basic-500">&nbsp;/&nbsp;
                             <w-exchange balance="pair.lastPrice"
-                                        target-asset-id="Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck"></w-exchange>
+                                        target-asset-id="{{WavesApp.defaultAssets.USD}}"></w-exchange>
                             &nbsp;$
                         </span>
                     </div>
@@ -115,7 +117,7 @@
                         <w-balance money="pair.low"></w-balance>
                     </div>
                     <div class="cell volume">
-                        <span w-nice-number="pair.volume.toFormat()" precision="3"></span>
+                        <span w-nice-number="pair.volumeBigNum" precision="3"></span>
                     </div>
                     <div class="cell graph"></div>
                 </div>
