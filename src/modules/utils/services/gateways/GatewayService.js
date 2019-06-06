@@ -22,7 +22,10 @@
             }
 
             getCryptocurrencies() {
-                return coinomatService.getAll();
+                return {
+                    ...coinomatService.getAll(),
+                    ...vostokService.getAll()
+                };
             }
 
             getPurchasableWithCards() {
@@ -143,15 +146,6 @@
              */
             hasConfirmation(address) {
                 return coinomatService.hasConfirmation(address);
-            }
-
-            /**
-             * @param {Asset} asset
-             * @return {string}
-             */
-            getKeyName(asset) {
-                const gateway = this._findGatewayFor(asset, 'keyName');
-                return gateway.getServiceKeyName();
             }
 
             /**

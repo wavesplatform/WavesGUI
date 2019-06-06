@@ -72,19 +72,20 @@ select:-webkit-autofill:focus {
   background: @selection-bg;
 }
 
-body.keeper,
-body.welcome,
-body.signIn,
-body.create,
-body.restore,
-body.import,
-body.ledger {
-  .main-container {
-    min-height: calc(100vh ~'- 60px');
-    flex-shrink: 0;
-  }
-}
+//body.keeper,
+//body.welcome,
+//body.signIn,
+//body.create,
+//body.restore,
+//body.import,
+//body.ledger {
+//  .main-container {
+//    min-height: calc(100vh ~'- 60px');
+//    flex-shrink: 0;
+//  }
+//}
 
+body.tokens,
 body.keeper,
 body.welcome,
 body.signIn,
@@ -94,7 +95,9 @@ body.import,
 body.ledger,
 body.tokens,
 body.wallet,
-body.stand {
+body.stand,
+body.dex-demo,
+body.dex {
   ::-webkit-scrollbar {
     width: 4px;
     height: 4px;
@@ -122,30 +125,6 @@ body.stand {
   }
 }
 
-body.tokens,
-body.dex,
-body.dex-demo {
-  ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-  }
-
-  :hover::-webkit-scrollbar {
-    display: block;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border-radius: 6px;
-    background: @color-basic-200;
-    box-shadow: inset -1px 0 0px 1px @color-white;
-  }
-
-  ::-webkit-scrollbar-thumb:window-inactive {
-    background: @color-basic-200;
-  }
-}
-
 body.assets,
 body.portfolio {
   .btn-send,
@@ -163,7 +142,7 @@ ui-view[name="main"] {
   min-height: 100%;
   height: 100%;
   overflow: auto;
-  //display: flex;
+  display: flex;
   flex-direction: column;
 }
 

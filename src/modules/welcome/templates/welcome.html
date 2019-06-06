@@ -79,7 +79,7 @@
         <div class="section-wrapper">
 
             <h2 class="margin-1 center" w-i18n="welcome.markets"></h2>
-            <div class="basic-500 margin-05 body-2 center" w-i18n="welcome.marketsDescription"></div>
+            <div class="basic-500 margin-05 body-2 center section-markets-description" w-i18n="welcome.marketsDescription"></div>
 
             <div class="table-markets margin-top-3 margin-3">
                 <div class="row row-header">
@@ -117,7 +117,7 @@
                         <w-balance money="pair.low"></w-balance>
                     </div>
                     <div class="cell volume">
-                        <span w-nice-number="pair.volume.toFormat()" precision="3"></span>
+                        <span w-nice-number="pair.volumeBigNum" precision="3"></span>
                     </div>
                     <div class="cell graph"></div>
                 </div>
