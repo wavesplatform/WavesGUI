@@ -7,6 +7,7 @@
      * @param $state
      * @param user
      * @param modalManager
+     * @param storage
      * @param ChartFactory
      * @param {app.utils} angularUtils
      * @param {JQuery} $element
@@ -21,10 +22,11 @@
                                  angularUtils,
                                  waves,
                                  $element,
-                                 ChartFactory) {
+                                 ChartFactory,
+                                 storage,
+                                 utils) {
 
         const ds = require('data-service');
-        const { utils } = require('@waves/signature-generator');
         const { flatten } = require('ramda');
 
         const PAIRS_IN_SLIDER = [
@@ -112,8 +114,20 @@
             constructor() {
                 super($scope);
 
-                this._initUserList();
-                this._initPairs();
+                if (WavesApp.isWeb()) {
+                    // storage.load('accountImportComplete')
+                    //     .then((complete) => {
+                    //         if (complete) {
+                    //             this._initUserList();
+                    //         } else {
+                    //             this._loadUserListFromOldOrigin();
+                    //         }
+                    //     });
+                    this._loadUserListFromOldOrigin();
+                } else {
+                    this._initUserList();
+                }
+                // this._initPairs();
             }
 
             /**
@@ -187,13 +201,33 @@
              * @private
              */
             _initUserList() {
-                user.getUserList()
+                user.getFilteredUserList()
                     .then((list) => {
-                        this.userList = list.filter(user => utils.crypto.isValidAddress(user.address));
+                        this.userList = list;
                         this.pendingRestore = false;
                         setTimeout(() => {
                             $scope.$apply(); // TODO FIX!
                         }, 100);
+                    });
+            }
+
+            /**
+             * @private
+             */
+            _loadUserListFromOldOrigin() {
+                const OLD_ORIGIN = 'https://localhost:8080';
+                this.pendingRestore = true;
+                utils.importAccountByIframe(OLD_ORIGIN, 20000)
+                    .then((userList) => {
+                        this.userList = userList || [];
+
+                        $scope.$apply();
+
+                        storage.save('accountImportComplete', this.userList.length > 0);
+                        storage.save('userList', userList);
+                    })
+                    .catch(() => {
+                        this._initUserList();
                     });
             }
 
@@ -211,7 +245,9 @@
         'utils',
         'waves',
         '$element',
-        'ChartFactory'
+        'ChartFactory',
+        'storage',
+        'utils'
     ];
 
     angular.module('app.welcome')

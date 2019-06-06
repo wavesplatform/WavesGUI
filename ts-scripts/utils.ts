@@ -563,6 +563,13 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
             return null;
         }
 
+        if (url.indexOf('export') !== -1) {
+            prepareExport().then((file) => {
+                res.end(file);
+            });
+            return null;
+        }
+
         if (url.indexOf('/img/images-list.json') !== -1) {
             res.setHeader('Content-Type', 'application/json');
             const images = getFilesFrom(
@@ -836,6 +843,17 @@ export function loadLocales(path: string, options?: object) {
             });
         })
         .catch(err => console.error(`Locales did not loaded: ${err}`));
+}
+
+
+export function prepareExport(): Promise<string> {
+    return Promise.all([
+        readJSON(join(__dirname, './meta.json')) as Promise<IMetaJSON>,
+        readFile(join(__dirname, '..', 'src', 'export.hbs'), 'utf8') as Promise<string>
+    ])
+        .then(([meta, file]) => {
+            return replaceScripts(compile(file)(meta), meta.exportPageVendors);
+        });
 }
 
 export interface IRouteOptions {

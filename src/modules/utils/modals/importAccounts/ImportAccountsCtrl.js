@@ -14,7 +14,7 @@
 
         const R = require('ramda');
 
-        const OLD_ORIGIN = 'https://waveswallet.io';
+        const OLD_ORIGIN = 'https://localhost:8080';
 
         class ImportAccountsCtrl extends Base {
 
@@ -49,6 +49,7 @@
 
                 return user.getUserList()
                     .then((list) => storage.save('userList', list.concat(users)))
+                    .then(() => storage.save('accountImportComplete', true))
                     .then(() => {
                         $mdDialog.hide();
                         $state.go('welcome');
@@ -63,7 +64,7 @@
             _import(origin, name) {
                 this.pending = true;
 
-                return utils.importAccountByTab(origin, 5000)
+                return utils.importAccountByTab(origin, 10000)
                     .catch(() => [])
                     .then(list => {
                         this.pending = false;

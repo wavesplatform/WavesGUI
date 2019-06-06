@@ -5,7 +5,7 @@
 
     const { isEmpty, getPaths, get, Signal } = require('ts-utils');
     const tsApiValidator = require('ts-api-validator');
-    const { WindowAdapter, Bus, WindowProtocol } = require('@waves/waves-browser-bus');
+    const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
     const { splitEvery, pipe, path, map, ifElse, concat, defaultTo, identity, isNil } = require('ramda');
     const { libs } = require('@waves/signature-generator');
     const ds = require('data-service');
@@ -792,7 +792,6 @@
                 return new Promise((resolve, reject) => {
                     target.addEventListener('load', resolve, false);
                     target.addEventListener('error', reject, false);
-
                     setTimeout(() => {
                         reject(new Error('Timeout limit error!'));
                     }, timeout);
@@ -808,19 +807,14 @@
              */
             importUsersByWindow(win, origin, timeout) {
                 return new Promise((resolve, reject) => {
-                    const listen = new WindowProtocol(window, WindowProtocol.PROTOCOL_TYPES.LISTEN);
-                    const dispatch = new WindowProtocol(win, WindowProtocol.PROTOCOL_TYPES.DISPATCH);
-                    const adapter = new WindowAdapter([listen], [dispatch], { origins: '*' });
-                    const bus = new Bus(adapter);
+                    WindowAdapter.createSimpleWindowAdapter(win).then(adapter => {
+                        const bus = new Bus(adapter);
 
-                    bus.once('export-ready', () => {
-                        bus.request('getLocalStorageData')
-                            .then(utils.onExportUsers(origin, resolve));
+                        bus.request('getLocalStorageData', null, timeout)
+                            .then(utils.onExportUsers(origin, resolve))
+                            .catch(reject);
                     });
 
-                    setTimeout(() => {
-                        reject(new Error('Timeout limit error!'));
-                    }, timeout);
                 });
             },
 
@@ -853,7 +847,7 @@
                 iframe.src = `${origin}/export.html`;
 
                 const result = utils.loadOrTimeout(iframe, timeout)
-                    .then(() => utils.importUsersByWindow(iframe.contentWindow, origin, timeout))
+                    .then(() => utils.importUsersByWindow(iframe, origin, timeout))
                     .then(onSuccess)
                     .catch(onError);
 
@@ -914,13 +908,13 @@
                     if (!response) {
                         return [];
                     }
-
-                    resolve(response.accounts && response.accounts.map(utils.remapOldClientAccounts) || []);
+                    resolve(response);
                 };
             },
 
             /**
              * @name app.utils#openDex
+             * @param {string} dex
              * @param {string} asset1
              * @param {string} [asset2]
              */

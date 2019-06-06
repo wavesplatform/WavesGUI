@@ -64,12 +64,14 @@
 
                 this.hasTypeHelp = this.isScript && (this.isLedger || this.isKeeper);
 
-                user.getFilteredUserList().then(list => {
-                    this.userList = list;
-                    utils.postDigest($scope).then(() => {
-                        $scope.$apply();
+                if (this.userList.length === 0) {
+                    user.getFilteredUserList().then(list => {
+                        this.userList = list;
+                        utils.postDigest($scope).then(() => {
+                            $scope.$apply();
+                        });
                     });
-                });
+                }
 
                 this._initClickHandlers();
             }
@@ -184,7 +186,8 @@
     angular.module('app.ui').component('wSiteHeader', {
         bindings: {
             signInBtn: '<',
-            getStartedBtn: '<'
+            getStartedBtn: '<',
+            userList: '<'
         },
         templateUrl: 'modules/ui/directives/siteHeader/siteHeader.html',
         transclude: false,

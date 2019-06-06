@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Export</title>
+</head>
+<body>
+
+<!-- JAVASCRIPT -->
+
+<script>
+
+    function parse(data) {
+        var result;
+        tsUtils.each(data, (value, path) => {
+            if (!result) {
+                result = tsUtils.Path.parse(path)
+                        .getItemData(0).container;
+            }
+            tsUtils.set(result, path, value);
+        });
+        return result;
+    }
+
+    bus.WindowAdapter.createSimpleWindowAdapter().then(adapter => {
+        const webBus = new bus.Bus(adapter);
+        webBus.registerRequestHandler('getLocalStorageData', () => {
+            return parse(JSON.parse(localStorage.getItem('userList')));
+        });
+    });
+
+
+</script>
+
+</body>
+</html>
