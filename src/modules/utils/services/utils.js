@@ -1078,9 +1078,6 @@
 
                 const isGateway = path(['status'], dataOracle) === 3;
 
-                // TODO: delete when gateway will be ready
-                const isGatewaySoon = path(['status'], dataOracle) === 4;
-
                 const isTokenomica = path(['status'], dataOracle) === STATUS_LIST.VERIFIED &&
                     path(['provider'], dataOracle) === 'Tokenomica';
 
@@ -1108,8 +1105,7 @@
                     email,
                     provider,
                     description,
-                    logo,
-                    isGatewaySoon
+                    logo
                 };
             },
 
