@@ -254,7 +254,6 @@
              */
             _updateBalances() {
                 const hash = utils.toHash(balanceWatcher.getFullBalanceList(), 'asset.id');
-
                 const balances = this.pinnedAssetIdList.reduce((acc, assetId) => {
                     return acc.then(list => {
                         if (hash[assetId]) {
@@ -268,10 +267,11 @@
                     });
                 }, Promise.resolve([]));
 
-                balances.then(list => {
-                    this.pinnedAssetBalances = list;
-                    utils.safeApply($scope);
-                });
+                // TODO: delete // after contest
+                // balances.then(list => {
+                //     this.pinnedAssetBalances = list;
+                //     utils.safeApply($scope);
+                // });
 
                 // TODO: delete after contest
                 const balancesContest = this.pinnedContestAssetIdList.reduce((acc, assetId) => {
@@ -287,8 +287,12 @@
                     });
                 }, Promise.resolve([]));
 
-                balancesContest.then(list => {
-                    this.pinnedContestAssetBalances = list;
+                Promise.all([
+                    balances,
+                    balancesContest
+                ]).then(([list, contestList]) => {
+                    this.pinnedAssetBalances = list;
+                    this.pinnedContestAssetBalances = contestList;
                     utils.safeApply($scope);
                 });
                 // TODO: delete after contest
