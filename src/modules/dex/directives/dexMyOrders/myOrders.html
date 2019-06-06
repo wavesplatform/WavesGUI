@@ -51,7 +51,7 @@
             </w-table-cell>
             <w-table-cell>
                 <span class="cell-label"><span w-i18n="directives.myOrders.fee"></span></span>
-                <span w-i18n="money-currency" params="{money: order.fee}"></span>
+                <span w-i18n="money-currency" params="::{money: order.fee}"></span>
             </w-table-cell>
             <w-table-cell ng-click="$ctrl.toggleDetails(order)">
                 <div ng-class="{cancelled: order.isCancelled}" class="status">

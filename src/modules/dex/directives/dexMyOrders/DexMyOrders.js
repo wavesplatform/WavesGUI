@@ -87,7 +87,6 @@
             constructor() {
                 super();
 
-
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair',
                     _matcherUrl: 'network.matcher'
@@ -358,7 +357,12 @@
             }
 
             _isAllPartialFilledOrdersHasTransactions() {
-                return this.orders.filter(where({ progress: gt(__, 0) }))
+                const minTimestamp = DexMyOrders._getMinTimestamp();
+                return this.orders
+                    .filter(where({
+                        progress: gt(__, 0),
+                        timestamp: gt(__, minTimestamp)
+                    }))
                     .every(order => order.exchange.length &&
                         order.filled.eq(
                             order.exchange
@@ -443,10 +447,26 @@
              * @private
              */
             static _loadTransactions(lastTime) {
+                const minTime = DexMyOrders._getMinTimestamp();
                 return ds.api.transactions.getExchangeTxList({
                     sender: user.address,
-                    timeStart: ds.utils.normalizeTime(lastTime)
-                });
+                    timeStart: ds.utils.normalizeTime(minTime < lastTime ? lastTime : minTime)
+                }, { getAll: true });
+            }
+
+            /**
+             * @return {number}
+             * @private
+             */
+            static _getMinTimestamp() {
+                const today = new Date();
+                return new Date(
+                    today.getFullYear(),
+                    today.getMonth() - 2,
+                    today.getDate(),
+                    today.getHours(),
+                    today.getMinutes()
+                ).getTime();
             }
 
         }

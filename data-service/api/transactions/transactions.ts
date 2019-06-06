@@ -19,7 +19,7 @@ import {
 import { contains } from 'ts-utils';
 import { TRANSACTION_TYPE_NUMBER } from '@waves/signature-generator';
 import { pipe, prop, uniqBy, tap } from 'ramda';
-import { ExchangeTxFilters } from '@waves/data-service-client-js';
+import { ExchangeTxFilters, Response, Transaction } from '@waves/data-service-client-js';
 
 
 export function list(address: string, limit = 100, after: string): Promise<Array<T_TX>> {
@@ -31,8 +31,23 @@ export function list(address: string, limit = 100, after: string): Promise<Array
     )).then(transactions => parseTx(transactions as any, false));
 }
 
-export function getExchangeTxList(options: ExchangeTxFilters = Object.create(null)): Promise<Array<IExchange>> {
-    return request({ method: () => getDataService().getExchangeTxs(options).then(r => r.data) })
+export function getExchangeTxList(requestParams: ExchangeTxFilters = Object.create(null), options?: IGetExchangeOptions): Promise<Array<IExchange>> {
+
+    const getData = (response: { data: Transaction[], fetchMore?: () => any }, result: Array<Transaction[]>) => {
+        result = result.concat(response.data);
+        if (!options || !options.getAll) {
+            return result;
+        } else if (response.data.length && response.fetchMore) {
+            return response.fetchMore().then(r => getData(r, result));
+        } else {
+            return result;
+        }
+    };
+
+    return request({
+        method: () => getDataService().getExchangeTxs(requestParams)
+            .then(r => getData(r, []))
+    })
         .then((transactions: any) => parseTx(transactions, false, true) as any);
 }
 
@@ -120,4 +135,8 @@ export function isData(tx: T_TX): tx is IData;
 export function isData(tx: T_API_TX): tx is txApi.IData;
 export function isData(tx: T_TX | T_API_TX): boolean {
     return tx.type === TRANSACTION_TYPE_NUMBER.DATA;
+}
+
+interface IGetExchangeOptions {
+    getAll: boolean;
 }
