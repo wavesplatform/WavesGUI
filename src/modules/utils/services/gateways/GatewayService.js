@@ -22,7 +22,10 @@
             }
 
             getCryptocurrencies() {
-                return coinomatService.getAll();
+                return {
+                    ...coinomatService.getAll(),
+                    ...vostokService.getAll()
+                };
             }
 
             getPurchasableWithCards() {

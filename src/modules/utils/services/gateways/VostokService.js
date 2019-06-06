@@ -95,6 +95,13 @@
             }
 
             /**
+             * @return {Object}
+             */
+            getAll() {
+                return GATEWAYS;
+            }
+
+            /**
              *
              * @param {number} value
              * @param {number} pow
