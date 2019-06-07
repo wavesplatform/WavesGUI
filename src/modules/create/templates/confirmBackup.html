@@ -25,7 +25,8 @@
          ng-if="$ctrl.seedConfirmWasFilled && !$ctrl.seedIsValid"
          w-i18n="confirmBackup.error"></div>
 
-    <div class="body-2 margin-2">
+    <div class="body-2 margin-2"
+        ng-if="$ctrl.seedConfirmWasFilled && !$ctrl.seedIsValid">
         <a ng-click="$ctrl.clearSeedConfirm()" w-i18n="confirmBackup.clear"></a>
         <span w-i18n="confirmBackup.tapAgain"></span>
     </div>
