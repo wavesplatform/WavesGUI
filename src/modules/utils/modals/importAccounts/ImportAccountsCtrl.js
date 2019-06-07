@@ -27,7 +27,6 @@
 
                 this.pending = true;
                 this.userList = [];
-                this.wasImportBeta = true;
                 this.wasImportOld = false;
                 this.checkedHash = Object.create(null);
                 this._myUserList = [];
@@ -42,6 +41,10 @@
                 );
             }
 
+            /**
+             * @public
+             * @return {Promise<T | never>}
+             */
             importAccounts() {
                 const users = Object.keys(this.checkedHash).map((address) => {
                     return R.find(R.propEq('address', address), this.userList);
@@ -62,8 +65,6 @@
             }
 
             _import(origin, name) {
-                this.pending = true;
-
                 return utils.importAccountByTab(origin, 10000)
                     .catch(() => [])
                     .then(list => {

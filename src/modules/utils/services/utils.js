@@ -873,6 +873,12 @@
                 const right = `top=${Math.floor(screen.height - 100 / 2)}`;
                 let closed = false;
 
+                const win = window.open(
+                    `${origin}/export.html`,
+                    'export',
+                    `${width},${height},${left},${top},${right},no,no,no,no,no,no`
+                );
+
                 const close = d => {
                     if (!closed) {
                         win.close();
@@ -880,12 +886,6 @@
                     }
                     return d;
                 };
-
-                const win = window.open(
-                    `${origin}/export.html`,
-                    'export',
-                    `${width},${height},${left},${top},${right},no,no,no,no,no,no`
-                );
 
                 const onError = (e) => {
                     close();

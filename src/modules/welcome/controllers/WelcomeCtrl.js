@@ -120,19 +120,17 @@
                 super($scope);
 
                 if (WavesApp.isWeb()) {
-                    // storage.load('accountImportComplete')
-                    //     .then((complete) => {
-                    //         if (complete) {
-                    //             this._initUserList();
-                    //         } else {
-                    //             this._loadUserListFromOldOrigin();
-                    //         }
-                    //     });
-                    this._loadUserListFromOldOrigin();
+                    storage.load('accountImportComplete')
+                        .then((complete) => {
+                            if (complete) {
+                                this._initUserList();
+                            } else {
+                                this._loadUserListFromOldOrigin();
+                            }
+                        });
                 } else {
                     this._initUserList();
                 }
-                // this._initPairs();
             }
 
             /**
