@@ -1,6 +1,6 @@
 @import (reference) url('config');
 
-w-copy-wrap:not(.copywrap-default) {
+w-copy-wrap {
   display: flex;
   align-items: center;
   position: relative;
@@ -44,27 +44,15 @@ w-copy-wrap:not(.copywrap-default) {
   }
 
   @media screen and (max-width: 768px) {
+    font-size: @font-size-control-small;
     height: @height-control-big-responsive;
-    font-size: @font-size-control-big-responsive;
 
     .copy-icon {
       height: @height-control-big-responsive;
     }
-  }
-}
 
-w-copy-wrap.copywrap-default {
-  position: relative;
-  justify-content: center;
-  display: flex;
-
-  .copy-icon {
-    background: url(/img/icons/copy-14-basic500.svg) center no-repeat;
-    display: block;
-    width: 14px;
-    height: 14px;
-    flex-basis: auto;
-    border: 0 none;
-    cursor: pointer;
+    .container {
+      padding: 0 @padding-control-big-responsive-horizontal;
+    }
   }
 }
