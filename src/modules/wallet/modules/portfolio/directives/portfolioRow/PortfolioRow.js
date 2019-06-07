@@ -7,6 +7,17 @@
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const analytics = require('@waves/event-sender');
 
+    // TODO: delete after contest
+    const CONTEST_ASSET_ID_MAP = WavesApp.network.code === 'W' ?
+        {
+            Gsj1azEwNuUTss5FHLPbgR6FGya284Q843tCrrFgi4VZ: '/img/assets/wsoc.svg',
+            JCm9j4nBQ8tXE2kRKzhgoV6jqVm1QC3FeXLcKwsLdRyG: '/img/assets/wsoc.svg',
+            HjcJSVFeo34WD1QFFonRa3boQAkRLZxCdURJU73Ffcga: '/img/assets/wsoc.svg',
+            F33CKa4cPB9fK5oA3aUZKAtDJtdohvEzX84Hkwthep5V: '/img/assets/wsoc.svg'
+        } :
+        {};
+    // TODO: delete after contest
+
     const TEMPLATE_PATH = 'modules/wallet/modules/portfolio/directives/portfolioRow/row.hbs';
     const SELECTORS = {
         AVAILABLE: 'js-balance-available',
@@ -190,7 +201,9 @@
                         isVerified: isVerified,
                         isGateway: isGateway,
                         isTokenomica: isTokenomica,
-                        assetIconPath: logo || this.utils.getAssetLogo(this.balance.asset.id),
+                        assetIconPath: logo ||
+                            this.utils.getAssetLogo(this.balance.asset.id) ||
+                            CONTEST_ASSET_ID_MAP[this.balance.asset.id],
                         firstAssetChar,
                         canBurn: !this._isWaves,
                         canReissue: this._isMyAsset && this.balance.asset.reissuable,
@@ -311,6 +324,14 @@
                     change24Node.classList.remove('plus');
                     this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
                     this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+
+                    return null;
+                }
+
+                if (balance.isOnScamList) {
+                    this.node.querySelector(`.${SELECTORS.CHANGE_24}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
 
                     return null;
                 }
@@ -571,7 +592,19 @@
              * @private
              */
             _getSrefParams(asset) {
-                this.utils.openDex(asset.id);
+                // TODO: delete after contest
+                const contestAssetsId = Object.keys(CONTEST_ASSET_ID_MAP);
+                if (contestAssetsId.indexOf(asset.id) > -1) {
+                    const assetPairs = contestAssetsId.filter(id => id !== asset.id);
+                    this.utils.openDex(
+                        asset.id,
+                        assetPairs[Math.floor(assetPairs.length * Math.random())]
+                    );
+                } else {
+                    this.utils.openDex(asset.id);
+                }
+                // this.utils.openDex(asset.id);
+
             }
 
             /**
