@@ -1,20 +1,8 @@
 @import (reference) 'config';
+@import (reference) '../../app/less/app';
 
 body.restore {
-
-  ui-view[name="main"] {
-    position: relative;
-  }
-
   .restore-content {
-    width: 460px;
-    margin: auto;
-
-    .flex {
-      display: flex;
-      align-items: center;
-    }
-
     .seed-block {
       border-radius: @border-radius;
       border: 1px solid @color-basic-200;
@@ -30,51 +18,90 @@ body.restore {
 
       .address {
         &-block {
-          height: 30px;
-          position: relative;
-          top: -5px;
+          width: calc(100% ~'- 45px');
 
           .address {
+            overflow: hidden;
+            text-overflow: ellipsis;
+
             &.empty {
               position: relative;
               top: 3px;
-              width: 338px;
-              height: 12px;
+              height: 8px;
               border-radius: 100px;
               background-color: @color-basic-100;
             }
           }
+
+          &-avatar { // .address-block-avatar
+            margin-right: 10px;
+            width: 36px;
+            height: 36px;
+
+            .avatar-wrap {
+              width: 100% !important;
+              height: 100% !important;
+            }
+
+            .avatar-img {
+              width: 100%;
+              height: 100%;
+           }
+          }
         }
 
         &-block-info {
-          background-color: @color-disabled-50;
+          background-color: @color-basic-50;
           border-top: 1px solid @color-basic-200;
           height: 76px;
           display: flex;
           flex-direction: row;
-          padding: 18px 14px;
+          align-items: center;
+          padding: 0 14px;
         }
+      }
 
-        .avatar-fake {
-          width: 40px;
-          height: 40px;
-          border-radius: 100%;
-          background-color: @color-basic-100;
-        }
+      .avatar-fake {
+        width: 36px;
+        height: 36px;
+        border-radius: 100%;
+        background-color: @color-basic-100;
+        flex-shrink: 0;
+        margin-right: 10px;
       }
     }
   }
 }
 
-@media screen and (max-width: 480px) {
-  body.restore .restore-content {
-    width: calc(100% ~'- 20px');
-    padding: 0 10px;
+@media screen and (max-width: 768px) {
+  body.restore {
+    .restore-content {
+      .seed-block {
+        w-input textarea {
+          padding: @padding-control-big-responsive-horizontal;
+        }
 
-    .seed-block .address-block-info .address-block {
-      width: 80%;
-      .address.empty {
-        width: 100%;
+        .avatar-fake {
+          width: 32px;
+          height: 32px;
+        }
+
+        .address-block {
+          .address {
+            &.empty {
+              height: 6px;
+            }
+          }
+
+          &-avatar {
+            width: 32px;
+            height: 32px;
+          }
+        }
+
+        .address-block-info {
+          height: 67px;
+        }
       }
     }
   }

@@ -1,8 +1,17 @@
 /* COLORS */
-@app-background: #edf0f4;
+@app-background: @color-info-50;
+@dex-background: @color-basic-100;
 @white-btn-bg: #fff;
 @color-white: #fff;
 @color-black: #000;
+@dropdown-shadow: 0 2px 44px 0 rgba(31, 39, 61, 0.15);
+@header-logout-border-color: #f0f4fa;
+
+@mobile-menu-background: @color-basic-900;
+@mobile-menu-background-hover: fadein(@color-basic-700, 80%);
+@mobile-menu-link: @color-white;
+@mobile-menu-link-hover: @color-white;
+@mobile-menu-border: @color-basic-700;
 
 @color-disabled-50: #fafafa;
 @color-disabled-100: #f0f0f0;
@@ -24,7 +33,8 @@
 @color-basic-700: #4e5c6e;
 @color-basic-900: #263241;
 
-@color-info-50: #dfeaf8;
+@color-info-50: #F5F8FC;
+@color-info-100: #dfeaf8;
 @color-info-200: #c5d9e8;
 @color-info-300: #a8c6df;
 @color-info-300: #a8c6df;
@@ -35,7 +45,7 @@
 @color-accent-100: #ced0da;
 
 @color-submit-50: #eef5fe;
-@color-submit-100: #c4d0ef;
+@color-submit-100: #dee7fe;
 @color-submit-200: #bacaf4;
 @color-submit-300: #5a81ea;
 @color-submit-400: #1f5af6;
@@ -117,6 +127,10 @@
 @padding-control-small: 9px 16px;
 @font-size-control-small: 13px;
 
+@height-control-micro: 30px;
+@padding-control-button-micro: 4px 19px;
+@font-size-control-micro: 11px;
+
 // Medium
 @height-control: 42px;
 @padding-control-button: 40px 12px;
@@ -130,7 +144,8 @@
 
 // Responsive
 @height-control-big-responsive: 42px;
-@padding-control-big-responsive: 12px 16px;
+@padding-control-big-responsive-horizontal: 12px;
+@padding-control-big-responsive: 12px 16px 12px @padding-control-big-responsive-horizontal;
 @font-size-control-big-responsive: 15px;
 
 @text-icon-size: 16px;
@@ -160,6 +175,7 @@
 @shadow-buttons-default: 0 2px 4px 0 rgba(218, 225, 233, 0.5);
 @shadow-buttons-hover: 0 2px 8px 1px rgba(199, 210, 222, 0.6);
 @shadow-tooltip-confirm: 0 0 19px rgba(97, 116, 144, 0.25);
+@shadow-dex-welcome: 0 1px 4px 0 rgba(203, 221, 239, 0.2);
 
 // Hovers
 @hover-default: rgba(248, 249, 251, .5);
@@ -172,3 +188,7 @@
 
 @circle-loader-bg-sell: @color-error-100;
 @circle-loader-bg-buy: @color-submit-50;
+
+@getStartedContentWidth: 440px;
+@getStartedFooterWidth: 224px;
+@getStartedContentPadding: 20px;

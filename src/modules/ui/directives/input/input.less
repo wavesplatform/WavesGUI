@@ -12,7 +12,7 @@ input[type="checkbox"] {
   width: 100%;
   height: @height-control-big;
   padding: @padding-control-big;
-  font-size: @font-size-control-big;
+  .body-2();
   color: @color-disabled-900;
   background: @color-white;
   text-align: left;
@@ -28,7 +28,7 @@ input[type="checkbox"] {
   @media screen and (max-width: 768px) {
     height: @height-control-big-responsive;
     padding: @padding-control-big-responsive;
-    font-size: @font-size-control-big-responsive;
+    font-size: @font-size-control-small;
   }
 
   &::placeholder {
@@ -103,8 +103,11 @@ input[type="checkbox"] {
       display: block;
       //width: 50%;
 
-      &:not(.embed) {
+      &:not(.embed):not(.big) {
         height: 40px;
+      }
+
+      &:not(.embed) {
         border-radius: @border-radius 0 0 @border-radius;
         &:not(:focus) {
           border: 0 none;
@@ -151,6 +154,7 @@ w-input {
     input[type="password"],
     input[type="number"],
     textarea {
+      resize: vertical;
       .input-like();
 
       &:not(.embed):not(.no-validate) {

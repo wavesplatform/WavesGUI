@@ -16,10 +16,10 @@
         </div>
 
         <h3 class="text-center basic-700" w-i18n="modal.sign.confirmRequest"></h3>
-        <div class="bottom-wrapper text-center info-text body-2 basic-500"
+        <div class="bottom-wrapper text-center info-text margin-05 body-2 basic-500"
              w-i18n="modal.sign.confirmRequestToMatcher"></div>
         <div ng-if="$ctrl.isLedger"
-             class="text-center info-text body-2 basic-500"
+             class="text-center info-text margin-05 body-2 basic-500"
              w-i18n="modal.sign.confirmRequestLedger"></div>
 
         <div ng-if="$ctrl.isKeeper"
@@ -47,7 +47,7 @@
                 </span>
             </h3>
 
-            <div class="text-center body-2 basic-500">
+            <div class="text-center margin-05 body-2 basic-500">
                  <span ng-if="$ctrl.txData.orderType === 'sell'">
                     —<span w-i18n="money-currency" params="{money: $ctrl.txData.amount}"></span>
                 </span>
@@ -81,9 +81,9 @@
         </div>
 
         <div class="bottom-wrapper">
-            <div ng-if="$ctrl.isLedger" class="loading-text text-center body-2 caption-1 margin-top-3 margin-3"
+            <div ng-if="$ctrl.isLedger" class="loading-text text-center basic-500 caption-1 margin-top-3 margin-3"
                  w-i18n="modal.sign.signByLedger"></div>
-            <div ng-if="$ctrl.isKeeper" class="loading-text text-center body-2 caption-1 margin-top-3 margin-3"
+            <div ng-if="$ctrl.isKeeper" class="loading-text text-center basic-500 caption-1 margin-top-3 margin-3"
                  w-i18n="modal.sign.signByKeeper"></div>
             <w-loader></w-loader>
         </div>
@@ -104,9 +104,9 @@
             </div>
         </div>
         <div class="bottom-wrapper">
-            <div ng-if="$ctrl.isLedger" class="loading-text text-center body-2 caption-1 margin-top-3 margin-3"
+            <div ng-if="$ctrl.isLedger" class="loading-text text-center basic-500 caption-1 margin-top-3 margin-3"
                  w-i18n="modal.sign.signByLedger"></div>
-            <div ng-if="$ctrl.isKeeper" class="loading-text text-center body-2 caption-1 margin-top-3 margin-3"
+            <div ng-if="$ctrl.isKeeper" class="loading-text text-center basic-500 caption-1 margin-top-3 margin-3"
                  w-i18n="modal.sign.signByKeeper"></div>
             <w-loader></w-loader>
         </div>

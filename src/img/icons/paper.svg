@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <linearGradient id="a" x1="68.857%" x2="68.857%" y1="100%" y2="0%">
+            <stop offset="0%" stop-color="#EEF5FE"/>
+            <stop offset="100%" stop-color="#CAD9FF"/>
+        </linearGradient>
+        <linearGradient id="b" x1="50%" x2="50%" y1="0%" y2="100%">
+            <stop offset="0%" stop-color="#1F5AF6"/>
+            <stop offset="100%" stop-color="#477AFF"/>
+        </linearGradient>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <path fill="url(#a)" fill-rule="nonzero" d="M1 0h14l5 5v18a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1a1 1 0 0 1 1-1z" transform="translate(2)"/>
+        <path fill="url(#b)" d="M4.75 5h6.5a.75.75 0 1 1 0 1.5h-6.5a.75.75 0 0 1 0-1.5zm0 6h4.5a.75.75 0 1 1 0 1.5h-4.5a.75.75 0 1 1 0-1.5zm7 0h4.5a.75.75 0 1 1 0 1.5h-4.5a.75.75 0 1 1 0-1.5zm-7-3h11.5a.75.75 0 1 1 0 1.5H4.75a.75.75 0 0 1 0-1.5zm0 6h8.5a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5z" transform="translate(2)"/>
+        <path fill="#EEF5FE" fill-rule="nonzero" d="M22 5h-4a1 1 0 0 1-1-1V0l5 5z"/>
+    </g>
+</svg>

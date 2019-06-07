@@ -12,18 +12,41 @@
 
 html,
 body {
+  .footnote-1();
   width: 100%;
   height: 100%;
-  min-width: 360px;
+  min-width: 320px;
   overflow: auto;
-  color: @color-disabled-900;
-  background-color: @color-basic-100;
+  color: @color-basic-900;
+  background-color: @app-background;
+}
+
+body.dex,
+body.dex-demo {
+  background-color: @dex-background;
+}
+
+@media screen and (max-width: 860px) {
+  body {
+    &.menu-is-shown {
+      .logo-header,
+      .movable {
+        transition: .25s;
+        transform: translateX(-261px);
+      }
+    }
+  }
 }
 
 a {
   text-decoration: none;
   color: @color-submit-300;
   cursor: pointer;
+}
+
+ng-include {
+  height: 100%;
+  display: block;
 }
 
 input:-webkit-autofill,
@@ -49,14 +72,32 @@ select:-webkit-autofill:focus {
   background: @selection-bg;
 }
 
+//body.keeper,
+//body.welcome,
+//body.signIn,
+//body.create,
+//body.restore,
+//body.import,
+//body.ledger {
+//  .main-container {
+//    min-height: calc(100vh ~'- 60px');
+//    flex-shrink: 0;
+//  }
+//}
+
+body.tokens,
+body.keeper,
 body.welcome,
+body.signIn,
 body.create,
 body.restore,
 body.import,
 body.ledger,
 body.tokens,
 body.wallet,
-body.stand {
+body.stand,
+body.dex-demo,
+body.dex {
   ::-webkit-scrollbar {
     width: 4px;
     height: 4px;
@@ -84,36 +125,44 @@ body.stand {
   }
 }
 
-body.tokens,
-body.dex,
-body.dex-demo {
-  ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-  }
-
-  :hover::-webkit-scrollbar {
-    display: block;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border-radius: 6px;
-    background: @color-basic-200;
-    box-shadow: inset -1px 0 0px 1px @color-white;
-  }
-
-  ::-webkit-scrollbar-thumb:window-inactive {
-    background: @color-basic-200;
+body.assets,
+body.portfolio {
+  .btn-send,
+  .btn-receive {
+    margin-right: 10px;
+    button {
+      padding: 0 30px;
+    }
   }
 }
 
 ui-view[name="main"] {
-  display: block;
+  position: relative;
   width: 100%;
+  min-height: 100%;
   height: 100%;
   overflow: auto;
-  background-color: @color-white;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  width: 152px;
+  height: 32px;
+  transition: .25s;
+  display: block;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+body.tokens,
+body.welcome,
+body.wallet,
+body.dex {
+  .logo {
+    cursor: default;
+  }
 }
 
 .waves-logo {
@@ -121,8 +170,6 @@ ui-view[name="main"] {
   height: 21px;
   background-image: @waves-logo-icon;
   background-repeat: no-repeat;
-  display: block;
-  margin: 40px auto 80px auto;
 }
 
 w-scroll-box {
@@ -130,7 +177,6 @@ w-scroll-box {
   flex-direction: column;
   overflow: auto;
   height: 100%;
-  background: @color-white;
 }
 
 .btn-active() {
@@ -140,49 +186,35 @@ w-scroll-box {
 }
 
 .main-content {
+  transition: .5s;
   position: relative;
   width: 100%;
-  height: 100%;
   min-height: 355px;
+  min-width: 360px;
+  height: 100%;
+  max-height: 100%;
 
   .content {
-    width: calc(~"100% - " @width-left-menu);
-    height: calc(~"100% - " @height-header);
-    padding: @padding-main-layout;
+    height: 100%;
+    padding: 10px 80px 10px;
     overflow: hidden;
-    position: absolute;
-    right: 0;
-    bottom: 0;
+    margin: 0 auto;
+    max-width: 1440px;
   }
 }
 
-.main {
+@media screen and (max-width: 1440px) {
   .main-content {
-    background-color: @app-background;
-
-    .header,
-    .left-menu {
-      background-color: @color-white;
-      backdrop-filter: blur(10px);
+    .content {
+      padding: 10px 30px;
     }
   }
 }
 
-@media screen and (max-width: 768px) {
-
+@media screen and (max-width: 860px) {
   .main-content {
     display: flex;
     flex-direction: column;
-
-    & > w-header {
-      order: 1;
-    }
-    & > w-left-menu {
-      order: 0;
-    }
-    & > div.content {
-      order: 2;
-    }
 
     .content {
       overflow: auto;
@@ -194,8 +226,7 @@ w-scroll-box {
       top: 0;
       bottom: auto;
       margin: 0;
-      padding: 10px;
-      margin-top: 60px;
+      padding: 10px 20px;
     }
   }
 }
@@ -244,5 +275,73 @@ w-scroll-box {
   }
   &-transparent {
     background: none transparent;
+  }
+}
+
+.main-container {
+  width: 100%;
+  flex: 1 0;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  &-wrapper {
+    height: 100%;
+    display: flex;
+    width: 100%;
+    flex-grow: 1;
+    flex-direction: column;
+    box-shadow: 0 1px 0 0 rgba(161, 181, 230, 0.15) inset;
+  }
+}
+
+.getStartedContentWidth(@padding) {
+  max-width: 100%;
+  width: 100%;
+  padding: @padding * 2 @padding;
+}
+
+.getStartedContentWidthDesktop {
+  max-width: @getStartedContentWidth;
+  margin: auto;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.get-started-footer {
+  .getStartedContentWidth(0);
+  margin: auto;
+  text-align: center;
+}
+
+.get-started-content {
+  .getStartedContentWidth(@getStartedContentPadding);
+}
+
+.get-started-checkbox-save {
+  margin: 15px 0 20px;
+}
+
+@media screen and (min-width: 480px) {
+  .get-started-content {
+    .getStartedContentWidthDesktop;
+  }
+
+  .get-started-footer {
+    max-width: @getStartedFooterWidth;
+  }
+
+  .get-started-checkbox-save {
+    margin: 20px 0 30px;
+  }
+
+  body.assets,
+  body.portfolio {
+    .btn-send,
+    .btn-receive {
+      button {
+        padding: 0 30px;
+      }
+    }
   }
 }

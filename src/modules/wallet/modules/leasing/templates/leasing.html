@@ -2,7 +2,7 @@
     <div class="left-panel">
         <w-leasing-block class="noheader margin-1">
             <div>
-                <div class="center basic-500 body-2">
+                <div class="center basic-500 margin-05 body-2">
                     <span w-i18n="chart.title"></span>
                 </div>
                 <div class="balance-container text-center margin-4">
@@ -15,7 +15,7 @@
                     <div ng-repeat="legend in $ctrl.chartData track by legend.id"
                          ng-if="!legend.value.getTokens().eq(0)"
                          class="legend-item">
-                        <div class="part disabled-600 footnote-1">
+                        <div class="part basic-500 footnote-1">
                             <div class="legend-color margin-right-1"
                                  style="background-color: {{::$ctrl.chartOptions.items[legend.id].color}}"></div>
                             <span w-i18n="{{::legend.id}}"></span>
@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <w-analytics event="'Leasing Start Click'" event-target="'ui'">
-                    <w-button class="submit long" on-click="$ctrl.startLeasing()">
+                    <w-button class="submit long medium" on-click="$ctrl.startLeasing()">
                         <span w-i18n="chart.create"></span>
                     </w-button>
                 </w-analytics>

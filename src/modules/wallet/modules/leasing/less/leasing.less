@@ -12,6 +12,12 @@
   height: 100%;
   max-height: calc(~'100vh - 90px');
 
+  w-transaction {
+    .transaction {
+      padding-left: 10px;
+    }
+  }
+
   .left-panel {
     height: 100%;
     max-height: calc(~'100vh - 90px');
@@ -51,7 +57,6 @@
   .transactions-container {
     width: calc(~'100% - '@leftPanelWidth + @leftPanelRightMargin);
     position: relative;
-    box-shadow: @shadow-type-1;
   }
 
   .chart-wrapper {

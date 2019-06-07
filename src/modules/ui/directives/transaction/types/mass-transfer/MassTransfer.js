@@ -2,16 +2,18 @@
     'use strict';
 
     /**
+     * @param {typeof Base} Base
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
      * @param {Waves} waves
      * @param {$rootScope.Scope} $scope
+     * @param {app.utils} utils
      * @return {MassTransfer}
      */
 
-    const controller = function (user, baseAssetService, waves, $scope) {
+    const controller = function (Base, user, baseAssetService, waves, $scope, utils) {
 
-        class MassTransfer {
+        class MassTransfer extends Base {
 
             /**
              * {object}
@@ -22,14 +24,12 @@
                 this.typeName = this.props.typeName;
                 this.time = this.props.time;
                 this.address = this.props.shownAddress;
-                setTimeout(() => {
-                    this.isScam = this.props.isScam;
-                }, 0);
+                this.isScam = this.props.isScam;
 
-                // TODO: delete setTimeout
-                setTimeout(() => {
+                this.receive(utils.observe(this.props, 'isScam'), () => {
                     this.isScam = this.props.isScam;
-                }, 0);
+                    utils.safeApply($scope);
+                });
 
                 const TYPES = waves.node.transactions.TYPES;
 
@@ -87,10 +87,12 @@
     };
 
     controller.$inject = [
+        'Base',
         'user',
         'baseAssetService',
         'waves',
-        '$scope'
+        '$scope',
+        'utils'
     ];
 
     angular.module('app.ui').component('wMassTransferRow', {

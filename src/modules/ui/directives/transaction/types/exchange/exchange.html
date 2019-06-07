@@ -1,18 +1,17 @@
 <div class="line-wrapper">
     <div class="line">
-        <div class="body-2 top flex fs-mobile">
+        <div class="body-2 margin-05 top flex fs-mobile">
             <span class="flex">
-                <span w-i18n="transaction.headers.{{::$ctrl.typeName}}"></span>
+                <span class="exchange-type" w-i18n="transaction.headers.{{::$ctrl.typeName}}"></span>
                 <span class="ellipsis">
-                    {{$ctrl.getAssetName($ctrl.transaction.amount.asset)}}
-                </span>
+                    {{$ctrl.getAssetName($ctrl.transaction.amount.asset)}}</span>
                 <span>{{$ctrl.amountAssetName}}</span>
                 <span ng-if="$ctrl.isScamAmount"
                       class="spam-label"
                       w-i18n="transaction.headers.suspicious"></span>
-            </span>/
+                /<span>{{$ctrl.priceAssetName}}</span>
+            </span>
             <span>
-                <span>{{$ctrl.priceAssetName}}</span>
                 <span ng-if="$ctrl.isScamPrice"
                       class="spam-label"
                       w-i18n="transaction.headers.suspicious">
@@ -25,7 +24,7 @@
         </div>
     </div>
     <div class="line">
-        <div class="body-2 top fs-mobile">
+        <div class="body-2 margin-05 top fs-mobile">
             <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
                   params="$ctrl.amountParams"></span>
         </div>
