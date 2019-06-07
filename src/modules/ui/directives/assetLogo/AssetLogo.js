@@ -207,7 +207,7 @@
             template: '<div class="asset__logo footnote-3"><div class="letter"></div><div class="marker"></div></div>',
             controller: controller,
             bindings: {
-                assetId: '@',
+                assetId: '<',
                 hasScript: '<',
                 assetName: '<',
                 size: '@'
