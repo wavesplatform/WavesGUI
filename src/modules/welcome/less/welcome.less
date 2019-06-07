@@ -391,6 +391,62 @@ body.welcome {
       }
     }
   }
+
+  .contect-link {
+    height: 50px;
+    border-radius: 6px;
+    background: @color-submit-400;
+    color: @color-white;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 6px 0 rgba(31, 90, 246, 0.3);
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    bottom: -50px;
+    opacity: 0;
+    transition: opacity 0.6s, bottom 0.8s;
+
+    &.show {
+      bottom: 0;
+      opacity: 1;
+    }
+
+    &-description {
+      position: relative;
+      padding-left: 42px;
+
+      &:before {
+        content: '';
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        left: 0;
+        background: @dex-winner-icon no-repeat center;
+      }
+    }
+
+    &-close {
+      margin-left: auto;
+
+      &-icon {
+        background: @notification-icon-close center no-repeat;
+        border: 0;
+        width: 14px;
+        height: 14px;
+        opacity: .5;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+
+    &-link {
+      color: @color-white;
+    }
+  }
 }
 
 @media screen and (max-width: 1440px) {
