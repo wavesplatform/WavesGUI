@@ -4,10 +4,10 @@
 .avatar-label {
   position: absolute;
   content: '';
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   bottom: 0;
-  left: calc(100% ~'- 15px');
+  left: calc(100% ~'- 14px');
   border-radius: 50%;
   background-color: @color-white;
   background-position: center center;
@@ -29,32 +29,30 @@ w-avatar .avatar-wrap {
 .avatar-container.has-helper {
   w-help-icon {
     position: absolute;
-    left: 100%;
-    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 14px;
+    height: 14px;
 
     .help-icon {
       &__icon {
-        position: absolute;
-        top: 24px;
-        left: -22px;
         text-align: center;
         background: @color-white;
-        line-height: 15px;
+        margin: 0;
         overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
 
         &::after {
-          left: -5px;
-          margin-top: -3px;
-          top: 50%;
+          left: 0;
+          bottom: 0;
           background: none transparent;
           width: 0;
           height: 0;
-          transform: rotate(0);
+          transform: rotate(-90deg) translate(10px, 2px);
           border-style: solid;
-          border-width: 4px 0 4px 5px;
+          border-width: 4px 4px 4px 5px;
           border-color: transparent transparent transparent @color-submit-300;
         }
 
@@ -68,15 +66,12 @@ w-avatar .avatar-wrap {
 
       &__content {
         width: 150px;
-        left: -170px;
-        top: 31px;
-        margin-top: 4px;
+        left: 0;
+        top: 100%;
         padding: 11px;
         line-height: 1em;
         font-size: 11px;
-        border-right: 4px solid @color-submit-300;
-        border-top: 0 none;
-        transform: translateY(-50%);
+        transform: translate(-50%, 5px);
       }
 
       &__row {
