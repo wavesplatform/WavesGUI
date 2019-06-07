@@ -2,13 +2,16 @@
     'use strict';
 
     /**
+     * @param {BaseAssetService} baseAssetService
+     * @param {$rootScope.Scope} $scope
+     * @param {app.utils} utils
      * @param $filter
      * @return {TransactionInfoRow}
      */
 
-    const controller = function ($filter) {
+    const controller = function (Base, utils, $scope, $filter) {
 
-        class TransactionInfoRow {
+        class TransactionInfoRow extends Base {
 
             $postLink() {
                 this.type = this.transaction.type;
@@ -18,10 +21,10 @@
                     isScam: this.isScam
                 };
 
-                // TODO: delete setTimeout
-                setTimeout(() => {
+                this.observe('isScam', () => {
                     this.props.isScam = this.isScam;
-                }, 0);
+                    utils.safeApply($scope);
+                });
             }
 
         }
@@ -30,6 +33,9 @@
     };
 
     controller.$inject = [
+        'Base',
+        'utils',
+        '$scope',
         '$filter'
     ];
 

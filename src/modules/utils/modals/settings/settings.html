@@ -49,8 +49,8 @@
 
                 <div class="row flex-row row-style unit-select">
                     <div class="footnote-1 basic-500" w-i18n="modal.settings.general.timeout"></div>
-                    <div>
-                        <w-select class="with-scroll select__no-user-select" ng-model="$ctrl.logoutAfterMin">
+                    <div class="select-setting-wrap">
+                        <w-select class="small with-scroll select__no-user-select" ng-model="$ctrl.logoutAfterMin">
                             <w-option value="::5">
                                 <span w-i18n="modal.settings.general.minutes" w-i18n-ns="app.utils"
                                       params="{minutes: 5}"></span>
@@ -77,8 +77,8 @@
 
                 <div class="row flex-row row-style unit-select">
                     <div class="footnote-1 basic-500" w-i18n="modal.settings.general.theme"></div>
-                    <div>
-                        <w-select class="select__no-user-select" ng-model="$ctrl.theme">
+                    <div class="select-setting-wrap">
+                        <w-select class="small select__no-user-select" ng-model="$ctrl.theme">
                             <w-option value="::'default'">
                                 <i class="white-dot"></i>
                                 <span w-i18n-ns="app.utils" w-i18n="modal.settings.general.white"></span>
@@ -202,11 +202,11 @@
                     </div>
                     <div class="data-field has-helper">
 
-                        <w-help-icon class="info" ng-if="!$ctrl.oracleError && $ctrl.oracleData">
+                        <w-help-icon class="info" ng-if="!$ctrl.oracleError && $ctrl.oracleWavesData">
                             <div class="flex">
                                 <div>
                                     <div class="data-provider-name basic-700">
-                                        {{$ctrl.oracleData.name}}
+                                        {{$ctrl.oracleWavesData.name}}
                                     </div>
                                     <div class="data-provider-id basic-500">
                                         {{$ctrl.oracleWaves}}
@@ -215,11 +215,11 @@
                             </div>
                             <div class="data-provider-info help-icon__row">
                                             <span>
-                                                {{$ctrl.oracleData.description.en}}
+                                                {{$ctrl.oracleWavesData.description.en}}
                                             </span>
                             </div>
                             <div class="help-icon__row">
-                                <a target="_blank" rel="noopener noreferrer" href="{{$ctrl.oracleData.link}}"
+                                <a target="_blank" rel="noopener noreferrer" href="{{$ctrl.oracleWavesData.link}}"
                                    w-i18n="modal.settings.network.showMore"></a>
                             </div>
                         </w-help-icon>
