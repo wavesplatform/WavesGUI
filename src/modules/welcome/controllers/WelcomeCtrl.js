@@ -127,9 +127,17 @@
             _addScrollHandler() {
                 const scrolledView = $element.find('.scrolled-view');
                 const header = $element.find('w-site-header');
+
+                const contestLink = $element.find('.contect-link');
+                const bodyHeight = document.body.offsetHeight;
+
                 scrolledView.on('scroll', () => {
                     header.toggleClass('fixed', scrolledView.scrollTop() > whenHeaderGetFix);
                     header.toggleClass('unfixed', scrolledView.scrollTop() <= whenHeaderGetFix);
+
+                    if (scrolledView.scrollTop() > bodyHeight) {
+                        contestLink.removeClass('show');
+                    }
                 });
             }
 
