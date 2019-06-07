@@ -14,7 +14,7 @@
                                  name="name"
                                  ng-model="$ctrl.name"
                                  w-validate
-                                 class="medium"
+                                 class="big"
                                  w-validator-byte-gte="4"
                                  w-validator-byte-lte="16"
                                  required></w-input>
@@ -61,7 +61,7 @@
                     </div>
                     <w-input-container>
                         <div class="input-like input-like-with-select">
-                            <w-input class="medium"
+                            <w-input class="big"
                                      type="text"
                                      name="count"
                                      ng-model="$ctrl.count"
@@ -167,10 +167,12 @@
                     <div class="body-2 basic-900 margin-05" w-i18n="preview"></div>
                     <div class="preview">
                         <div class="avatar-wrap">
-                            <w-asset-logo ng-if="$ctrl.name"
+                            <w-new-asset-logo ng-if="$ctrl.name"
+                                          ng-click="$ctrl.createSignable()"
+                                          asset-id="$ctrl.assetId"
                                           has-script="$ctrl.hasAssetScript"
                                           size="30"
-                                          asset-name="$ctrl.name"></w-asset-logo>
+                                          asset-name="$ctrl.name"></w-new-asset-logo>
                         </div>
                         <div class="token-info-wrap" ng-class="{empty: $ctrl.createForm.$invalid}">
                             <div class="line token-name headline-3 basic-900">
@@ -194,13 +196,15 @@
                 </div>
 
                 <div class="row">
+                    <w-analytics event="'Token Generation Generate Click'" event-target="'ui'">
                     <w-sign-button disabled="$ctrl.createForm.$invalid || $ctrl.invalid"
                                    class="submit long"
                                    ng-click="$ctrl.sendAnalytics"
                                    on-success="$ctrl.generate(signable)"
-                                   on-click="$ctrl.createSignable()">
+                                   on-click="$ctrl.getSignable()">
                         <span w-i18n-ns="app.tokens" w-i18n="create"></span>
                     </w-sign-button>
+                </w-analytics>
                 </div>
 
             </form>
