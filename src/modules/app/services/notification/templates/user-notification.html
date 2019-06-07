@@ -7,11 +7,12 @@
               params="::title.params">
         </span>
     </div>
+<!--    TODO: delete after contest wsoc class-->
     <div class="content-wrapper">
         <span ng-if="::!!body"
               w-i18n="{{::body.literal}}"
               class="footnote-1 content-body"
-              ng-class="{'no-icon': !!noIcon}"
+              ng-class="{ 'no-icon': !!noIcon, 'wsoc': wsoc }"
               params="::body.params">
         </span>
     </div>
