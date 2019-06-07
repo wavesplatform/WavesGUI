@@ -72,18 +72,16 @@ select:-webkit-autofill:focus {
   background: @selection-bg;
 }
 
-//body.keeper,
-//body.welcome,
-//body.signIn,
-//body.create,
-//body.restore,
-//body.import,
-//body.ledger {
-//  .main-container {
-//    min-height: calc(100vh ~'- 60px');
-//    flex-shrink: 0;
-//  }
-//}
+body.keeper,
+body.signIn,
+body.create,
+body.restore,
+body.import,
+body.ledger {
+  .main-container {
+    min-height: calc(~'100vh' - @siteHeaderHeight);
+  }
+}
 
 body.tokens,
 body.keeper,
@@ -280,10 +278,10 @@ w-scroll-box {
 
 .main-container {
   width: 100%;
-  flex: 1 0;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  flex-shrink: 0;
 
   &-wrapper {
     height: 100%;
