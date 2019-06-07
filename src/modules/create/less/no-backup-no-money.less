@@ -4,6 +4,7 @@
 .no-backup-no-money {
   .icon {
     background: @slide-backup-icon no-repeat center center;
+    background-size: cover;
     width: 260px;
     height: 216px;
     margin: 0 auto 25px;
@@ -49,6 +50,15 @@
     //FF ignores padding bottom fix
     &::after {
       min-height: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .no-backup-no-money {
+    .icon {
+      width: 240px;
+      height: 200px;
     }
   }
 }
