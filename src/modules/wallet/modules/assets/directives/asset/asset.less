@@ -254,8 +254,14 @@ w-asset {
   }
 
   &::before {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    transform: rotate(45deg);
     bottom: -4px;
-    left: calc(100% ~'- 33px');
+    left: calc(100% ~'- 26px');
     background: @color-disabled-500;
   }
 }
