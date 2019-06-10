@@ -390,61 +390,77 @@ body.welcome {
         margin-top: 0;
       }
     }
-  }
 
-  .contect-link {
-    height: 50px;
-    border-radius: 6px;
-    background: @color-submit-400;
-    color: @color-white;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    position: absolute;
-    z-index: 10;
-    width: 100%;
-    bottom: -50px;
-    opacity: 0;
-    transition: opacity 0.6s, bottom 0.8s;
+    &-contect {
+      background: @color-white;
+      min-height: 50px;
 
-    &.show {
-      bottom: 0;
-      opacity: 1;
-      box-shadow: 0 2px 6px 0 rgba(31, 90, 246, 0.3);
-    }
-
-    &-description {
-      position: relative;
-      padding-left: 42px;
-
-      &:before {
-        content: '';
-        position: absolute;
-        width: 22px;
-        height: 22px;
-        left: 0;
-        background: @dex-winner-icon no-repeat center;
+      .section-wrapper {
+        padding-bottom: 30px;
       }
-    }
 
-    &-close {
-      margin-left: auto;
+      .contect-link {
+        height: 50px;
+        border-radius: 6px;
+        background: @color-submit-400;
+        color: @color-white;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        z-index: 10;
+        width: 100%;
+        transition: opacity 0.6s, bottom 0.8s;
 
-      &-icon {
-        background: @notification-icon-close center no-repeat;
-        border: 0;
-        width: 14px;
-        height: 14px;
-        opacity: .5;
+        &.hide {
+          position: absolute;
+          bottom: -50px;
+          opacity: 0;
+          left: 0;
+        }
 
-        &:hover {
+        &.show {
+          position: absolute;
+          bottom: 0;
           opacity: 1;
+          left: 0;
+          box-shadow: 0 2px 6px 0 rgba(31, 90, 246, 0.3);
+        }
+
+        &-description {
+          position: relative;
+          padding-left: 42px;
+
+          &:before {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            left: 0;
+            background: @dex-winner-icon no-repeat center;
+          }
+        }
+
+        &-close {
+          margin-left: auto;
+
+          &-icon {
+            background: @notification-icon-close center no-repeat;
+            border: 0;
+            width: 14px;
+            height: 14px;
+            opacity: .5;
+
+            &:hover {
+              opacity: 1;
+            }
+          }
+        }
+
+        &-link {
+          color: @color-white;
+          margin-left: 3px;
         }
       }
-    }
-
-    &-link {
-      color: @color-white;
     }
   }
 }
