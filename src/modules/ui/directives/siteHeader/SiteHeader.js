@@ -36,15 +36,6 @@
              */
             userList = [];
 
-            /**
-             * @public
-             */
-            signInBtn = true;
-            /**
-             * @public
-             */
-            getStartedBtn = true;
-
             constructor() {
                 super($scope);
                 this.hovered = false;
@@ -212,10 +203,6 @@
     ];
 
     angular.module('app.ui').component('wSiteHeader', {
-        bindings: {
-            signInBtn: '<',
-            getStartedBtn: '<'
-        },
         templateUrl: 'modules/ui/directives/siteHeader/siteHeader.html',
         transclude: false,
         controller

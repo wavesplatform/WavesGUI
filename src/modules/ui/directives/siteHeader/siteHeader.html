@@ -311,11 +311,11 @@
 
         <div ng-if="!$ctrl.isLogined"
              class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
-            <a class="body-2 margin-right-3 submit-400 signIn-hidden" ng-if="$ctrl.userList.length > 0 && $ctrl.signInBt" ui-sref="signIn"
+            <a class="body-2 margin-right-3 submit-400 signIn-hidden" ng-if="$ctrl.hasUsers" ui-sref="signIn"
                w-analytics event="'Sign In Click'" event-target="ui"
                w-i18n="welcome.signIn"></a>
             <div class="create-hidden">
-                <a class="fake-button submit medium" ui-sref="create" ng-if="$ctrl.getStartedBtn">
+                <a class="fake-button submit medium" ui-sref="create">
                     <span w-i18n="welcome.getStarted" class="fake-button-content medium submit"></span>
                 </a>
             </div>
