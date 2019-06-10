@@ -167,7 +167,7 @@
                             .map(promise => promise.catch(() => undefined)))
                             .then(rateHistory => {
                                 this.pairsInfoList = tempInfoList
-                                    .map(this._fakeValues)
+                                    .map(WelcomeCtrl._fillValues)
                                     .map((info, i) => {
                                         return {
                                             volumeBigNum: info.volume.getTokens(),
@@ -186,22 +186,20 @@
 
             /**
              * @param info
-             * @private
+             * @static
              */
-            _fakeValues(info) {
-                return info.lastPrice && info.volume && info.ticker ?
-                    info :
-                    {
-                        ticker: info.ticker || info.displayName,
-                        amountAsset: info.amountAsset,
-                        priceAsset: info.priceAsset,
-                        change24: info.change24 || new BigNumber(0),
-                        high: info.high || new Money(0, info.priceAsset),
-                        id: info.id,
-                        lastPrice: info.lastPrice || new Money(0, info.priceAsset),
-                        low: info.low || new Money(0, info.priceAsset),
-                        volume: info.volume || new Money(0, info.priceAsset)
-                    };
+            static _fillValues(info) {
+                return {
+                    ticker: info.ticker || info.displayName,
+                    amountAsset: info.amountAsset,
+                    priceAsset: info.priceAsset,
+                    change24: info.change24 || new BigNumber(0),
+                    high: info.high || new Money(0, info.priceAsset),
+                    id: info.id,
+                    lastPrice: info.lastPrice || new Money(0, info.priceAsset),
+                    low: info.low || new Money(0, info.priceAsset),
+                    volume: info.volume || new Money(0, info.priceAsset)
+                };
             }
 
             /**
