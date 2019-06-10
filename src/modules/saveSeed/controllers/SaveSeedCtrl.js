@@ -9,12 +9,10 @@
      * @param modalManager
      * @return {SaveSeedCtrl}
      */
-    const controller = function (Base, $scope, $state, user, modalManager) {
+    const controller = function (Base, $scope, $state, user, modalManager, utils) {
 
         const ds = require('data-service');
-        const analytics = require('@waves/event-sender');
         const PATH = 'modules/saveSeed/templates';
-        const { utils } = require('@waves/signature-generator');
 
         class SaveSeedCtrl extends Base {
 
@@ -44,10 +42,10 @@
              */
             _activeUserIndex = null;
             /**
-             * @type {Array}
+             * @type {boolean}
              * @public
              */
-            pairsInfoList = [];
+            isVisibleSeed = false;
 
             get user() {
                 return this.userList[this._activeUserIndex];
@@ -63,15 +61,7 @@
                 this.observe('activeUserAddress', this._calculateActiveIndex);
                 this.observe('password', this._updatePassword);
 
-                analytics.send({ name: 'Onboarding Sign In Show', target: 'ui', params: { from: 'sign-in' } });
                 this._initUserList();
-            }
-
-            /**
-             * @public
-             */
-            showTutorialModals() {
-                return modalManager.showTutorialModals();
             }
 
 
@@ -85,7 +75,7 @@
                 }
             }
 
-            login() {
+            showSeed() {
                 try {
                     this.networkError = false;
                     this.showPasswordError = false;
@@ -104,11 +94,10 @@
                     }
 
                     return canLoginPromise.then(() => {
-                        return user.login({
-                            api,
-                            userType: api.type,
-                            password: this.password,
-                            address: activeUser.address
+                        this.isVisibleSeed = true;
+                        ds.app.login(activeUser.address, api);
+                        ds.signature.getSignatureApi().getSeed().then(seed => {
+                            this.seed = seed;
                         });
                     }, () => {
                         if (!this._isSeedAdapter(api)) {
@@ -128,17 +117,11 @@
                 }
             }
 
-            /**
-             * @param {string} address
-             */
-            removeUser(address) {
-                const user = this.userList.find((user) => user.address === address);
-                modalManager.showConfirmDeleteUser(user).then(() => {
-                    this._deleteUser(address);
-                    if (!this.userList.length) {
-                        $state.go('welcome');
-                    }
-                });
+
+            hideSeed() {
+                this.password = '';
+                this.isVisibleSeed = false;
+                ds.app.logOut();
             }
 
             /**
@@ -159,28 +142,19 @@
                 this.networkError = this.user.networkError;
             }
 
-            /**
-             * @private
-             */
-            _deleteUser(address) {
-                user.removeUserByAddress(address);
-                this.userList = this.userList.filter((user) => user.address !== address);
-                this._updateActiveUserAddress();
-            }
 
             /**
              * @private
              */
             _initUserList() {
-                user.getUserList()
-                    .then((list) => {
-                        this.userList = list.filter(user => utils.crypto.isValidAddress(user.address));
-                        this.pendingRestore = false;
-                        this._updateActiveUserAddress();
-                        setTimeout(() => {
-                            $scope.$apply(); // TODO FIX!
-                        }, 100);
+                user.getFilteredUserList().then(list => {
+                    this.userList = list;
+                    this.pendingRestore = false;
+                    this._updateActiveUserAddress();
+                    utils.postDigest($scope).then(() => {
+                        $scope.$apply();
                     });
+                });
             }
 
             /**
@@ -236,7 +210,7 @@
         return new SaveSeedCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', 'utils'];
 
     angular.module('app.saveSeed')
         .controller('SaveSeedCtrl', controller);

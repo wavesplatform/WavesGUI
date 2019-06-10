@@ -43,11 +43,6 @@
              * @private
              */
             _activeUserIndex = null;
-            /**
-             * @type {Array}
-             * @public
-             */
-            pairsInfoList = [];
 
             get user() {
                 return this.userList[this._activeUserIndex];

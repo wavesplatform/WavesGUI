@@ -36,6 +36,15 @@
              */
             userList = [];
 
+            /**
+             * @public
+             */
+            signInBtn = true;
+            /**
+             * @public
+             */
+            getStartedBtn = true;
+
             constructor() {
                 super($scope);
                 this.hovered = false;

@@ -888,7 +888,6 @@
                 };
 
                 const onError = (e) => {
-                    close();
                     return Promise.reject(e);
                 };
 

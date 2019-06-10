@@ -269,10 +269,10 @@
 
         <div ng-if="!$ctrl.isLogined"
              class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
-            <a class="body-2 margin-right-3 submit-400 margin-05" ng-if="$ctrl.userList.length > 0" ui-sref="signIn"
+            <a class="body-2 margin-right-3 submit-400 margin-05" ng-if="$ctrl.userList.length > 0 && $ctrl.signInBtn" ui-sref="signIn"
                w-analytics event="'Sign In Click'" event-target="ui"
                w-i18n="welcome.signIn"></a>
-            <a class="fake-button submit medium" ui-sref="create">
+            <a class="fake-button submit medium" ui-sref="create" ng-if="$ctrl.getStartedBtn">
                 <span w-i18n="welcome.getStarted" class="fake-button-content medium submit"></span>
             </a>
         </div>
