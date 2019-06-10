@@ -134,7 +134,8 @@
 
                 let promise;
 
-                const { type, amount, fee, senderPublicKey } = this.signable.getTxData();
+                const { amount, fee, senderPublicKey } = this.signable.getTxData();
+                const { type } = this.signable;
 
                 if (senderPublicKey && senderPublicKey !== user.publicKey) {
                     return null;

@@ -1717,25 +1717,28 @@
                  */
                 const version = user.hasScript() ? 2 : undefined;
 
-                const scriptedErrorMessage = `Order rejected by script for ${user.address}`;
+                const scriptedError = 30702;
+                // TODO: delete when mainnet error code will be ready
+                const statusError = 'OrderRejected';
 
                 const signableData = {
                     type: SIGN_TYPE.CREATE_ORDER,
                     data: { ...data, version, timestamp }
                 };
 
-                const onError = error => {
+                const onError = data => {
                     notification.error({
                         ns: 'app.dex',
                         title: {
                             literal: 'directives.createOrder.notifications.error.title'
                         },
                         body: {
-                            literal: error && error.message || error
+                            literal: `directives.createOrder.notifications.error.${data.error}`,
+                            params: data.params
                         }
                     }, -1);
 
-                    return Promise.reject(error);
+                    return Promise.reject(data);
                 };
 
                 return utils.createSignable(signableData)
@@ -1743,9 +1746,9 @@
                         return utils.signMatcher(signable)
                             .then(signable => signable.getDataForApi())
                             .then(ds.createOrder)
-                            .catch(error => {
-                                if (!isAdvancedMode || error.message !== scriptedErrorMessage) {
-                                    return Promise.reject(error);
+                            .catch(data => {
+                                if (!isAdvancedMode || data.error !== scriptedError || data.status !== statusError) {
+                                    return Promise.reject(data);
                                 }
 
                                 return modalManager.showConfirmTx(signable, false)
