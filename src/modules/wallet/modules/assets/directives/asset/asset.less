@@ -209,6 +209,15 @@ w-asset {
   }
 }
 
+//TODO: delete after contest
+.contest-asset {
+  .unpin {
+    display: none;
+    pointer-events: none;
+  }
+}
+//TODO: delete after contest
+
 // todo @uIsk - Refactor all tooltips to w-tooltip
 .tooltip-holder {
   position: relative;
@@ -245,8 +254,14 @@ w-asset {
   }
 
   &::before {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    transform: rotate(45deg);
     bottom: -4px;
-    left: calc(100% ~'- 33px');
+    left: calc(100% ~'- 26px');
     background: @color-disabled-500;
   }
 }
