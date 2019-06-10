@@ -189,18 +189,18 @@
              * @private
              */
             _fakeValues(info) {
-                return info.lastPrice ?
+                return info.lastPrice && info.volume ?
                     info :
                     {
                         ticker: info.displayName,
                         amountAsset: info.amountAsset,
                         priceAsset: info.priceAsset,
-                        change24: new BigNumber(0),
-                        high: new Money(0, info.priceAsset),
+                        change24: info.change24 || new BigNumber(0),
+                        high: info.high || new Money(0, info.priceAsset),
                         id: info.id,
-                        lastPrice: new Money(0, info.priceAsset),
-                        low: new Money(0, info.priceAsset),
-                        volume: new Money(0, info.priceAsset)
+                        lastPrice: info.lastPrice || new Money(0, info.priceAsset),
+                        low: info.low || new Money(0, info.priceAsset),
+                        volume: info.volume || new Money(0, info.priceAsset)
                     };
             }
 
