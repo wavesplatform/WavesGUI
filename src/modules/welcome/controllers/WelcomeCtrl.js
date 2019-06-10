@@ -189,10 +189,10 @@
              * @private
              */
             _fakeValues(info) {
-                return info.lastPrice && info.volume ?
+                return info.lastPrice && info.volume && info.ticker ?
                     info :
                     {
-                        ticker: info.displayName,
+                        ticker: info.ticker || info.displayName,
                         amountAsset: info.amountAsset,
                         priceAsset: info.priceAsset,
                         change24: info.change24 || new BigNumber(0),
