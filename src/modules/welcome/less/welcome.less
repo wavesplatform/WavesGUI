@@ -294,18 +294,18 @@ body.welcome {
       }
     }
 
-    &-contect {
+    &-contest {
       background: @color-white;
-      min-height: 50px;
+      min-height: 80px;
 
       .section-wrapper {
         padding-bottom: 30px;
       }
 
-      .contect-link {
+      .contest-link {
         height: 50px;
         border-radius: 6px;
-        background: @color-submit-400;
+        background: url(/img/landing/contest-bg.svg) 0 0 no-repeat;
         color: @color-white;
         padding: 0 20px;
         display: flex;
@@ -331,6 +331,7 @@ body.welcome {
 
         &-description {
           position: relative;
+          font-family: @font-roboto-medium;
           padding-left: 42px;
 
           &:before {
@@ -343,9 +344,13 @@ body.welcome {
           }
         }
 
-        &-close {
+        &-actions {
+          display: flex;
+          align-items: center;
           margin-left: auto;
+        }
 
+        &-close {
           &-icon {
             background: @notification-icon-close center no-repeat;
             border: 0;
@@ -360,8 +365,13 @@ body.welcome {
         }
 
         &-link {
-          color: @color-white;
-          margin-left: 3px;
+          margin-right: 20px;
+
+          .fake-button-content {
+            padding: 0 25px;
+            font-family: @font-roboto-medium;
+            font-size: 13px;
+          }
         }
       }
     }
@@ -550,6 +560,21 @@ body.welcome {
     footer {
       .section-wrapper {
         margin-top: 0px;
+      }
+    }
+
+    .section-contest {
+      .contest-link-link {
+        .fake-button-content {
+          display: none;
+        }
+      }
+
+      .contest-link {
+        height: 60px;
+        background-size: cover;
+        background-position: -40px 0;
+        padding: 0 10px;
       }
     }
   }
