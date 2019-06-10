@@ -51,7 +51,9 @@ w-select {
         font-size: 15px;
         margin: 0 -1px;
         width: calc(100% ~'+ 2px');
-        box-shadow: 0 0 0 1px @color-basic-200 inset;
+        border-style: solid;
+        border-width: 0 1px 0 1px;
+        border-color: @color-basic-200;
         transition: .3s;
 
         &:focus {
@@ -75,7 +77,13 @@ w-select {
         }
       }
 
-      .help-icon__icon,
+      w-help-icon {
+        position: absolute;
+        top: 50%;
+        right: 14px;
+        transform: translateY(-50%);
+      }
+
       .input-clear {
         width: 14px;
         height: 14px;
@@ -95,7 +103,6 @@ w-select {
       .help-icon__content {
         left: auto;
         right: -20px;
-        top: calc(50% ~'+ 13px');
         width: 40%;
         min-width: 200px;
       }

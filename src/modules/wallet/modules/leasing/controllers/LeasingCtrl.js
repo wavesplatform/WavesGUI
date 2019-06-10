@@ -152,11 +152,6 @@
 
                 this.pending = !txList.length && !allActiveLeasing;
 
-                if (!allActiveLeasing || !allActiveLeasing.length) {
-                    this.transactions = txList.slice();
-                    return null;
-                }
-
                 const idHash = utils.toHash(txList, 'id');
                 const result = txList.slice();
 

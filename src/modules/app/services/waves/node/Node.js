@@ -56,6 +56,19 @@
             }
 
             /**
+             * @param {string} address
+             * @param {string | number} byte
+             * @return {boolean}
+             */
+            isValidAddressWithNetworkByte(address, byte) {
+                try {
+                    return ds.isValidAddressWithNetworkByte(address, byte);
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            /**
              * @return {Promise<Number>}
              */
             height() {

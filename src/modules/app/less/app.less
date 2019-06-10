@@ -72,14 +72,32 @@ select:-webkit-autofill:focus {
   background: @selection-bg;
 }
 
+//body.keeper,
+//body.welcome,
+//body.signIn,
+//body.create,
+//body.restore,
+//body.import,
+//body.ledger {
+//  .main-container {
+//    min-height: calc(100vh ~'- 60px');
+//    flex-shrink: 0;
+//  }
+//}
+
+body.tokens,
+body.keeper,
 body.welcome,
+body.signIn,
 body.create,
 body.restore,
 body.import,
 body.ledger,
 body.tokens,
 body.wallet,
-body.stand {
+body.stand,
+body.dex-demo,
+body.dex {
   ::-webkit-scrollbar {
     width: 4px;
     height: 4px;
@@ -100,30 +118,6 @@ body.stand {
     border-radius: 0;
     background: @color-basic-100;
     -webkit-box-shadow: inset 0 0 3px @color-basic-500;
-  }
-
-  ::-webkit-scrollbar-thumb:window-inactive {
-    background: @color-basic-200;
-  }
-}
-
-body.tokens,
-body.dex,
-body.dex-demo {
-  ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-  }
-
-  :hover::-webkit-scrollbar {
-    display: block;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border-radius: 6px;
-    background: @color-basic-200;
-    box-shadow: inset -1px 0 0px 1px @color-white;
   }
 
   ::-webkit-scrollbar-thumb:window-inactive {
@@ -155,11 +149,20 @@ ui-view[name="main"] {
 .logo {
   width: 152px;
   height: 32px;
-  transition: .5s;
+  transition: .25s;
   display: block;
   cursor: pointer;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+body.tokens,
+body.welcome,
+body.wallet,
+body.dex {
+  .logo {
+    cursor: default;
+  }
 }
 
 .waves-logo {
@@ -181,8 +184,6 @@ w-scroll-box {
   background-color: @color-disabled-100;
   color: @color-black;
 }
-
-
 
 .main-content {
   transition: .5s;
