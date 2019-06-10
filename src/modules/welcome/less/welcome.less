@@ -4,13 +4,9 @@
 @import (reference) '../../app/less/typography';
 
 body.welcome {
-  width: 100%;
   overflow: hidden;
-  font-family: 'Roboto', 'Tahoma', 'Arial';
   font-size: 15px;
   margin: 0 auto;
-  font-weight: normal;
-  color: @color-basic-900;
   max-width: 100%;
 
   .white-bg {
@@ -49,6 +45,9 @@ body.welcome {
   .section-wrapper {
     padding-left: 80px;
     padding-right: 80px;
+    margin: 0 auto;
+    max-width: 1440px;
+    width: 100%;
   }
 
   section {
@@ -142,7 +141,7 @@ body.welcome {
 
           .pair {
             font-weight: 600;
-            font-family: 'Roboto-regular';
+            font-family: @font-roboto-regular;
           }
 
           &:not(:last-child)::after {
@@ -164,20 +163,11 @@ body.welcome {
     }
   }
 
-  .section-wrapper {
-    margin: 0 auto;
-    padding-left: 80px;
-    padding-right: 80px;
-    max-width: 1440px;
-    width: 100%;
-  }
-
   .section {
     &-welcome {
       display: block;
       height: 770px;
       align-items: center;
-      width: 100%;
       background: @color-white;
 
       .section-wrapper {
@@ -190,7 +180,7 @@ body.welcome {
         font-size: 50px;
         font-weight: 500;
         line-height: 1.4;
-        font-family: 'Roboto-Regular';
+        font-family: @font-roboto-regular;
       }
 
       .left-side {
@@ -220,10 +210,8 @@ body.welcome {
       }
     }
 
-    &-markets {
+    &-markets { // .section-markets
       background: @color-info-50;
-      max-width: 100%;
-      padding: 0;
 
        &-description {
          max-width: 660px;
@@ -231,8 +219,6 @@ body.welcome {
        }
 
       .section-wrapper {
-        max-width: 1440px;
-        margin: 0 auto;
         padding-bottom: 60px;
 
         h2 {
@@ -263,8 +249,6 @@ body.welcome {
       }
 
       .slider-wrapper {
-        max-width: 1440px;
-        margin: 0 auto;
         padding-top: 60px;
         padding-bottom: 60px;
       }
@@ -286,7 +270,7 @@ body.welcome {
       .slider {
         display: flex;
         width: 100%;
-        max-width: 1440px;
+        max-width: @mainWrapperWidth;
       }
 
       .slide {
