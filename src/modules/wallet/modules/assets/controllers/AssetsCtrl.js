@@ -176,6 +176,12 @@
                 throw new Error('Wrong action');
             }
 
+            onContestAssetActionClick(event, asset, action) {
+                if (event.target.nodeName !== 'A') {
+                    this.onAssetActionClick(event, asset, action);
+                }
+            }
+
             /**
              * @param {Asset} asset
              */
