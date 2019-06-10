@@ -257,103 +257,6 @@ body.welcome {
         background: @color-info-50;
       }
 
-      @media screen and (max-width: 480px) {
-        padding-left: 20px;
-        padding-right: 20px;
-      }
-
-      .slider-wrapper {
-        max-width: 1440px;
-        margin: 0 auto;
-        padding-top: 60px;
-        padding-bottom: 60px;
-      }
-
-      @media screen and (max-width: 1340px) {
-        .slider-wrapper {
-          max-width: 100%;
-          padding: 80px 0;
-        }
-      }
-
-      w-carousel {
-        height: 140px;
-        .graph {
-          margin-left: 10px;
-        }
-      }
-
-      .slider {
-        display: flex;
-        width: 100%;
-        max-width: 1440px;
-      }
-
-      .slide {
-        min-width: 280px;
-        overflow: visible;
-        cursor: pointer;
-
-        &_css-anim { // .slide_css-anim
-          border-radius: @border-radius;
-          background: @color-white;
-          padding: 30px;
-          transition: all 0.3s;
-          box-shadow: @shadow-dex-welcome;
-
-          &:hover {
-            box-shadow: 0 1rem 2.5rem rgba(58, 78, 136, 0.1), 0 0.5rem 1rem -0.75rem rgba(58, 78, 136, 0.1) !important;
-            transform: translate3d(0, -3px, 0);
-          }
-        }
-
-        .graph {
-          width: 80px;
-          height: 46px;
-          position: relative;
-        }
-
-        .red {
-          color: @color-error-500;
-        }
-
-        .blue {
-          color: @color-submit-400;
-        }
-
-        h2 {
-          font-weight: normal;
-          margin: 0 0 7px;
-        }
-      }
-
-      @media screen and (max-width: 1400px) {
-        .slide {
-          width: 31%;
-        }
-      }
-      @media screen and (max-width: 1000px) {
-        .slide {
-          width: 48%;
-        }
-      }
-      @media screen and (max-width: 620px) {
-        .slide {
-          width: 100%;
-        }
-      }
-
-      @media screen and (max-width: 768px) {
-        .slider-wrapper {
-          padding: 60px 0 20px;
-        }
-
-        .slide {
-          &_css-anim { // .slide_css-anim
-            padding: 20px;
-          }
-        }
-      }
     }
 
     &-promo {
@@ -467,9 +370,6 @@ body.welcome {
 
 @media screen and (max-width: 1440px) {
   body.welcome {
-    .slide {
-      width: 30%;
-    }
 
     .section-wrapper {
       padding-left: 40px;
@@ -497,6 +397,7 @@ body.welcome {
 
 @media screen and (max-width: 1340px) {
   body.welcome {
+
     .section-welcome {
       .dex-screenshot {
         left: 580px;
@@ -642,7 +543,6 @@ body.welcome {
 @media screen and (max-width: 480px) {
   body.welcome {
     .section-wrapper,
-    .section-slider,
     .section-markets .content-wrapper {
       padding-left: 20px;
       padding-right: 20px;
