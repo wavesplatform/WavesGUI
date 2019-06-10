@@ -1,6 +1,7 @@
 <div class="asset-modal__head">
     <div class="asset-modal__head-content">
-        <w-asset-logo ng-cloak asset-id="{{$ctrl.assetId}}"
+        <w-asset-logo ng-cloak
+                      asset-id="{{::$ctrl.assetId}}"
                       size="65"
                       class="asset-modal__logo big"></w-asset-logo>
 
@@ -11,7 +12,6 @@
             </h2>
 
             <div ng-if="$ctrl.ticker" class="body-2 margin-05 basic-500 asset__ticker">{{$ctrl.ticker}}</div>
-        </div>
 
         <div class="chart-wrapper">
             <w-asset-rate-chart no-update="::true" asset-id="$ctrl.assetId"></w-asset-rate-chart>
