@@ -69,6 +69,10 @@
              */
             errorType = null;
             /**
+             * @type {string}
+             */
+            errorMessage = null;
+            /**
              * @type {boolean}
              */
             isTransaction = false;
@@ -129,7 +133,11 @@
                     this.onTxSent({ id: tx.id });
                     this.__$scope.$apply();
                 }).catch(e => {
-                    this.errorType = e.error;
+                    if (e.error) {
+                        this.errorType = e.error;
+                    } else {
+                        this.errorMessage = e.message;
+                    }
                     this.__$scope.$apply();
                 });
             }
