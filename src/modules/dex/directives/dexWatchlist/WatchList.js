@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-
+    const TRADING_PAIRS = WavesApp.tradingPairs;
     const DROP_DOWN_ORDER_LIST = ['ETH', 'BCH', 'LTC', 'USD', 'EUR', 'BSV'];
     const DROP_DOWN_LIST = [];
 
@@ -36,12 +36,17 @@
             whereEq, uniqBy, prop,
             path, flatten, splitEvery
         } = require('ramda');
+
         const ds = require('data-service');
 
         $scope.WavesApp = WavesApp;
 
         class WatchList extends Base {
 
+            /**
+             * @type {boolean}
+             */
+            isActiveTrading = false;
             /**
              * @type {boolean}
              */
@@ -198,6 +203,160 @@
                 };
             }
 
+            static _addRateForPair(rate) {
+                return pair => {
+                    if (!pair.volume) {
+                        return pair;
+                    }
+
+                    const currentVolume = pair.volume.getTokens().times(rate).dp(3, BigNumber.ROUND_HALF_UP);
+
+                    return { ...pair, currentVolume };
+                };
+            }
+
+            static _renderSmartTable() {
+                stService.render('watchlist');
+            }
+
+            static _onRenderTable(name) {
+                if (name !== 'watchlist') {
+                    return null;
+                }
+
+                setTimeout(function loop() {
+                    const $chosen = $element.find('.chosen');
+
+                    if (!$chosen.length) {
+                        return null;
+                    }
+
+                    const $body = $element.find('.smart-table__w-tbody');
+                    const scroll = $body.scrollTop();
+                    const chosenOffset = $chosen.offset().top;
+                    const bodyOffset = $body.offset().top;
+
+                    const top = chosenOffset - bodyOffset + scroll - $body.height() / 2 + $chosen.height() / 2;
+
+                    $element.find('.smart-table__w-tbody').animate({
+                        scrollTop: top
+                    }, 300);
+                }, 300);
+            }
+
+            /**
+             * @param {string} query
+             * @returns {boolean}
+             * @private
+             */
+            static _isId(query) {
+                return WatchList._getBytes(query) > 16 || query === 'WAVES';
+            }
+
+            /**
+             * @param {string} str
+             * @returns {number}
+             * @private
+             */
+            static _getBytes(str) {
+                return new Blob([str], { type: 'text/html' }).size;
+            }
+
+            static _getAssetsFromPairs(pairs) {
+                return pairs.reduce((acc, item) => {
+                    ['amountAsset', 'priceAsset'].forEach((propertyName) => {
+                        if (!acc.hash[item.pair[propertyName].id]) {
+                            acc.assets.push(item.pair[propertyName]);
+                            acc.hash[item.pair[propertyName].id] = true;
+                        }
+                    });
+                    return acc;
+                }, { assets: [], hash: {} }).assets;
+            }
+
+            /**
+             * @param {Array<string>} pair
+             * @return string
+             * @private
+             */
+            static _getKeyByPair(pair) {
+                return pair.sort().join();
+            }
+
+            /**
+             * @param pairs
+             * @private
+             */
+            static _loadDataByPairs(pairs) {
+                const ids = flatten(pairs);
+                return ds.api.assets.get(ids)
+                    .then(() => {
+                        const promiseList = pairs.filter(p => p.length === 2)
+                            .map(([assetId1, assetId2]) => ds.api.pairs.get(assetId1, assetId2));
+                        return Promise.all(promiseList);
+                    })
+                    .then((pairs) => {
+                        const promiseList = splitEvery(20, pairs).map((pairs) => {
+                            return ds.api.pairs.info(...pairs)
+                                .then(infoList => infoList.map((data, i) => ({
+                                    ...data,
+                                    pairNames:
+                                        `${pairs[i].amountAsset.displayName} / ${pairs[i].priceAsset.displayName}`,
+                                    pairIdList: [pairs[i].amountAsset.id, pairs[i].priceAsset.id]
+                                })))
+                                .catch(() => pairs.map(WatchList._getEmptyPairData));
+                        });
+
+                        return Promise.all(promiseList);
+                    })
+                    .then(flatten);
+            }
+
+            static _getEmptyPairData(pair) {
+                return {
+                    amountAsset: pair.amountAsset,
+                    priceAsset: pair.priceAsset,
+                    pairNames: `${pair.amountAsset.displayName} / ${pair.priceAsset.displayName}`,
+                    pairIdList: [pair.amountAsset.id, pair.priceAsset.id],
+                    id: [pair.amountAsset.id, pair.priceAsset.id].sort().join(),
+                    lastPrice: null,
+                    firstPrice: null,
+                    volume: null,
+                    change24: null
+                };
+            }
+
+            /**
+             * @param {Array<string>} assetIdList
+             * @return {Array<Array<string>>}
+             * @private
+             */
+            static _getAllCombinations(assetIdList) {
+                const pairs = [];
+
+                assetIdList.forEach((assetId, index) => {
+                    assetIdList
+                        .slice(index + 1)
+                        .forEach((anotherAssetId) => {
+                            pairs.push([assetId, anotherAssetId].sort(utils.comparators.asc));
+                        });
+                });
+
+                return pairs;
+            }
+
+            /**
+             * @param {Array<Array<string>>} pairs
+             * @return {Array<Array<string>>}
+             * @private
+             */
+            static _uniqPairs(pairs) {
+                return Object.values(pairs.reduce((acc, pair) => {
+                    acc[pair.join(',')] = pair;
+                    return acc;
+                }, {}));
+            }
+
             $postLink() {
                 // this._lastUserBalanceIdList = WatchList._getUserBalanceAssetIdList();
 
@@ -210,8 +369,8 @@
                 this.syncSettings({
                     activeTab: 'dex.watchlist.activeTab',
                     showOnlyFavorite: 'dex.watchlist.showOnlyFavorite',
-                    _favourite: 'dex.watchlist.favourite',
-                    _assetIdPair: 'dex.assetIdPair'
+                    favourite: 'dex.watchlist.favourite',
+                    assetIdPair: 'dex.assetIdPair'
                 });
 
                 this._initializeActiveTab();
@@ -228,6 +387,20 @@
                     this.pending = false;
                 });
             }
+
+            // /**
+            //  * @private
+            //  */
+            // _onChangeUserBalances() {
+            //     const assetIdList = WatchList._getUserBalanceAssetIdList();
+            //
+            //     if (equals(this._lastUserBalanceIdList, assetIdList)) {
+            //         return null;
+            //     }
+            //
+            //     this._lastUserBalanceIdList = assetIdList;
+            //     this._poll.restart();
+            // }
 
             showAssetInfo(event, asset) {
                 event.preventDefault();
@@ -257,6 +430,11 @@
                 this._isSelfSetPair = false;
             }
 
+            chooseTrading() {
+                this.isActiveTrading = true;
+                this.activeTab = 'trading';
+            }
+
             chooseSelect() {
                 this.isActiveSelect = true;
                 this.activeTab = this.dropDownId;
@@ -267,6 +445,7 @@
              */
             chooseTab(id) {
                 this.isActiveSelect = false;
+                this.isActiveTrading = false;
                 this.activeTab = id;
             }
 
@@ -344,20 +523,6 @@
                 }
             }
 
-            // /**
-            //  * @private
-            //  */
-            // _onChangeUserBalances() {
-            //     const assetIdList = WatchList._getUserBalanceAssetIdList();
-            //
-            //     if (equals(this._lastUserBalanceIdList, assetIdList)) {
-            //         return null;
-            //     }
-            //
-            //     this._lastUserBalanceIdList = assetIdList;
-            //     this._poll.restart();
-            // }
-
             /**
              * @return {Promise<T | never>}
              * @private
@@ -381,6 +546,11 @@
              */
             _getTabRate() {
                 const activeTab = this.activeTab;
+
+                if (activeTab === 'trading') {
+                    return Promise.resolve(new BigNumber(1));
+                }
+
                 return waves.node.assets.getAsset(activeTab === 'all' ? WavesApp.defaultAssets.WAVES : activeTab)
                     .then((asset) => {
                         this.volumeAsset = asset;
@@ -418,6 +588,11 @@
              * @private
              */
             _filterDataItemByTab(item) {
+
+                if (this.activeTab === 'trading') {
+                    return true;
+                }
+
                 const canShow = this.showOnlyFavorite ? this.isFavourite(item) : true;
 
                 if (this.activeTab === 'all') {
@@ -579,6 +754,10 @@
              * @private
              */
             _getPairList() {
+                if (this.isActiveTrading) {
+                    return TRADING_PAIRS;
+                }
+
                 const defaultAssets = configService.get('SETTINGS.DEX.WATCH_LIST_PAIRS') || [];
                 const favorite = (this._favourite || []).map(p => p.sort());
                 const chosen = [this._assetIdPair.amount, this._assetIdPair.price].sort();
@@ -615,160 +794,6 @@
 
                     return favorite.concat(other);
                 };
-            }
-
-            static _addRateForPair(rate) {
-                return pair => {
-                    if (!pair.volume) {
-                        return pair;
-                    }
-
-                    const currentVolume = pair.volume.getTokens().times(rate).dp(3, BigNumber.ROUND_HALF_UP);
-
-                    return { ...pair, currentVolume };
-                };
-            }
-
-            static _renderSmartTable() {
-                stService.render('watchlist');
-            }
-
-            static _onRenderTable(name) {
-                if (name !== 'watchlist') {
-                    return null;
-                }
-
-                setTimeout(function loop() {
-                    const $chosen = $element.find('.chosen');
-
-                    if (!$chosen.length) {
-                        return null;
-                    }
-
-                    const $body = $element.find('.smart-table__w-tbody');
-                    const scroll = $body.scrollTop();
-                    const chosenOffset = $chosen.offset().top;
-                    const bodyOffset = $body.offset().top;
-
-                    const top = chosenOffset - bodyOffset + scroll - $body.height() / 2 + $chosen.height() / 2;
-
-                    $element.find('.smart-table__w-tbody').animate({
-                        scrollTop: top
-                    }, 300);
-                }, 300);
-            }
-
-            /**
-             * @param {string} query
-             * @returns {boolean}
-             * @private
-             */
-            static _isId(query) {
-                return WatchList._getBytes(query) > 16 || query === 'WAVES';
-            }
-
-            /**
-             * @param {string} str
-             * @returns {number}
-             * @private
-             */
-            static _getBytes(str) {
-                return new Blob([str], { type: 'text/html' }).size;
-            }
-
-            static _getAssetsFromPairs(pairs) {
-                return pairs.reduce((acc, item) => {
-                    ['amountAsset', 'priceAsset'].forEach((propertyName) => {
-                        if (!acc.hash[item.pair[propertyName].id]) {
-                            acc.assets.push(item.pair[propertyName]);
-                            acc.hash[item.pair[propertyName].id] = true;
-                        }
-                    });
-                    return acc;
-                }, { assets: [], hash: {} }).assets;
-            }
-
-            /**
-             * @param {Array<string>} pair
-             * @return string
-             * @private
-             */
-            static _getKeyByPair(pair) {
-                return pair.sort().join();
-            }
-
-            /**
-             * @param pairs
-             * @private
-             */
-            static _loadDataByPairs(pairs) {
-                const ids = flatten(pairs);
-                return ds.api.assets.get(ids)
-                    .then(() => {
-                        const promiseList = pairs.filter(p => p.length === 2)
-                            .map(([assetId1, assetId2]) => ds.api.pairs.get(assetId1, assetId2));
-                        return Promise.all(promiseList);
-                    })
-                    .then((pairs) => {
-                        const promiseList = splitEvery(20, pairs).map((pairs) => {
-                            return ds.api.pairs.info(...pairs)
-                                .then(infoList => infoList.map((data, i) => ({
-                                    ...data,
-                                    pairNames:
-                                        `${pairs[i].amountAsset.displayName} / ${pairs[i].priceAsset.displayName}`,
-                                    pairIdList: [pairs[i].amountAsset.id, pairs[i].priceAsset.id]
-                                })))
-                                .catch(() => pairs.map(WatchList._getEmptyPairData));
-                        });
-
-                        return Promise.all(promiseList);
-                    })
-                    .then(flatten);
-            }
-
-            static _getEmptyPairData(pair) {
-                return {
-                    amountAsset: pair.amountAsset,
-                    priceAsset: pair.priceAsset,
-                    pairNames: `${pair.amountAsset.displayName} / ${pair.priceAsset.displayName}`,
-                    pairIdList: [pair.amountAsset.id, pair.priceAsset.id],
-                    id: [pair.amountAsset.id, pair.priceAsset.id].sort().join(),
-                    lastPrice: null,
-                    firstPrice: null,
-                    volume: null,
-                    change24: null
-                };
-            }
-
-            /**
-             * @param {Array<string>} assetIdList
-             * @return {Array<Array<string>>}
-             * @private
-             */
-            static _getAllCombinations(assetIdList) {
-                const pairs = [];
-
-                assetIdList.forEach((assetId, index) => {
-                    assetIdList
-                        .slice(index + 1)
-                        .forEach((anotherAssetId) => {
-                            pairs.push([assetId, anotherAssetId].sort(utils.comparators.asc));
-                        });
-                });
-
-                return pairs;
-            }
-
-            /**
-             * @param {Array<Array<string>>} pairs
-             * @return {Array<Array<string>>}
-             * @private
-             */
-            static _uniqPairs(pairs) {
-                return Object.values(pairs.reduce((acc, pair) => {
-                    acc[pair.join(',')] = pair;
-                    return acc;
-                }, {}));
             }
 
             // static _getUserBalanceAssetIdList() {
