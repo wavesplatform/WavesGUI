@@ -299,6 +299,8 @@ body.welcome {
       .contest-link {
         height: 50px;
         border-radius: 6px;
+        background-position-x: -2px;
+        background-color: #000;
         background: url(/img/landing/contest-bg.svg) 0 0 no-repeat;
         background-size: cover;
         color: @color-white;
@@ -307,7 +309,7 @@ body.welcome {
         align-items: center;
         z-index: 10;
         width: 100%;
-        transition: opacity 0.6s, bottom 0.8s;
+        transition: opacity 1s, bottom 0.4s;
 
         &-fixed {
           position: fixed;
@@ -315,6 +317,7 @@ body.welcome {
           width: calc(~'100%' - @welcomeSectionWrapperPaddingLarge * 2);
           max-width: 1280px;
           box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2);
+          bottom: -50px;
         }
 
         &-hide {
