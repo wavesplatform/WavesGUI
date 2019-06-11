@@ -23,9 +23,14 @@
     <div class="order-row" ng-class="{'repeatItemTransition': $ctrl.showAnims}" ng-if="!$ctrl.loadingError"
          ng-repeat="order in $data track by order.id">
         <w-table-row class="{{::order.type}}"
-                     ng-class="{'new-order': order.isNew, 'can-expand': !!order.exchange.length}">
+                     ng-class="{
+                     'new-order': order.isNew,
+                     'can-expand': !!order.exchange.length,
+                     'disabled': $ctrl.isLockedPair(order.amount.asset.id, order.price.asset.id)
+                     }">
             <w-table-cell>
                 <span ng-class="{underline: !$ctrl.isSelected(order)}"
+                      class="cell_set-pair"
                       ng-click="$ctrl.setPair(order)">
                     <a href="#">{{::order.pair}}</a>
                 </span>
@@ -75,12 +80,14 @@
                     </div>
                 </div>
             </w-table-cell>
-            <w-table-cell ng-if="$ctrl.orders.length">
+            <w-table-cell ng-if="$ctrl.orders.length" class="cell_stop">
                 <div ng-click="$ctrl.dropOrder(order)"
                      w-i18n="directives.myOrders.cancel"
-                     ng-class="'order_' + order.id"
                      class="stop"></div>
             </w-table-cell>
+            <div class="tooltip-dex tooltip-row center"
+                 ng-if="$ctrl.isLockedPair(order.amount.asset.id, order.price.asset.id)"
+                 w-i18n="directives.watchlist.placeholders.lockedPair"></div>
         </w-table-row>
         <w-table-row class="order-details"
                      ng-if="order.exchange.length && $ctrl.shownOrderDetails[order.id]"

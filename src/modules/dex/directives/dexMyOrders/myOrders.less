@@ -179,6 +179,29 @@ w-dex-my-orders {
             }
           }
 
+          &.disabled {
+            .smart-table__cell {
+              opacity: 0.4;
+            }
+            .smart-table__cell.cell_stop {
+              opacity: 1;
+            }
+            .cell_set-pair {
+              cursor: default;
+              a {
+                cursor: default;
+              }
+            }
+            &:hover {
+              background: #fff !important;
+              .cell_set-pair {
+                a::after{
+                  display: none !important;
+                }
+              }
+            }
+          }
+
         }
       }
 

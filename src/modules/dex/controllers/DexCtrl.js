@@ -12,9 +12,19 @@
      * @param {$rootScope.Scope} $scope
      * @param {IPollCreate} createPoll
      * @param {Waves} waves
+     * @param {utils} utils
      * @return {DexCtrl}
      */
-    const controller = function (Base, $element, $state, $location, user, $scope, createPoll, waves) {
+    const controller = function (Base,
+                                 $element,
+                                 $state,
+                                 $location,
+                                 user,
+                                 $scope,
+                                 createPoll,
+                                 waves,
+                                 configService,
+                                 utils) {
 
         const analytics = require('@waves/event-sender');
 
@@ -89,6 +99,7 @@
                 this.observe('_assetIdPair', this._onChangePair);
                 this.observe('_titleTxt', this._setTitle);
                 this.observe(['_leftHidden', '_rightHidden'], this._onChangeProperty);
+                this._lockedPairs = configService.get('SETTINGS.DEX.LOCKED_PAIRS') || [];
             }
 
             $onDestroy() {
@@ -99,6 +110,12 @@
             // hide and show graph to force its resize
             toggleColumn(column) {
                 this[`_${column}Hidden`] = !this[`_${column}Hidden`];
+            }
+
+
+            isLockedPair(amountAssetId, priceAssetId) {
+                return this._lockedPairs.indexOf(amountAssetId) !== -1 ||
+                    this._lockedPairs.indexOf(priceAssetId) !== -1;
             }
 
             /**
@@ -149,6 +166,9 @@
                                     price: WavesApp.defaultAssets.BTC
                                 }))
                                 .then((pair) => {
+                                    if (this.isLockedPair(pair.amountAsset.id, pair.priceAsset.id)) {
+                                        utils.openDex('8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS', 'WAVES');
+                                    }
                                     const activeTab = user.getSetting('dex.watchlist.activeTab');
 
                                     if (activeTab !== 'all' &&
@@ -218,7 +238,18 @@
     };
 
 
-    controller.$inject = ['Base', '$element', '$state', '$location', 'user', '$scope', 'createPoll', 'waves'];
+    controller.$inject = [
+        'Base',
+        '$element',
+        '$state',
+        '$location',
+        'user',
+        '$scope',
+        'createPoll',
+        'waves',
+        'configService',
+        'utils'
+    ];
 
     angular.module('app.dex')
         .controller('DexCtrl', controller);

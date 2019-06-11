@@ -137,9 +137,9 @@
 
             /**
              * @type {array}
-             * @public
+             * @private
              */
-            lockedPairs = [];
+            _lockedPairs = [];
 
 
             constructor() {
@@ -203,7 +203,7 @@
                     filter: this._getTableFilter()
                 };
 
-                this.lockedPairs = configService.get('SETTINGS.DEX.LOCKED_PAIRS') || [];
+                this._lockedPairs = configService.get('SETTINGS.DEX.LOCKED_PAIRS') || [];
             }
 
             $postLink() {
@@ -253,8 +253,8 @@
             }
 
             isLockedPair(amountAssetId, priceAssetId) {
-                return this.lockedPairs.indexOf(amountAssetId) !== -1 ||
-                    this.lockedPairs.indexOf(priceAssetId) !== -1;
+                return this._lockedPairs.indexOf(amountAssetId) !== -1 ||
+                    this._lockedPairs.indexOf(priceAssetId) !== -1;
             }
 
             /**
