@@ -160,15 +160,15 @@
                 Promise.all(PAIRS_IN_SLIDER.map(pair => ds.api.pairs.get(pair.amount, pair.price)))
                     .then(pairs => Promise.all(pairs.map(pair => ds.api.pairs.info(pair))))
                     .then(infoList => {
-                        const promiseFromRateHistory = Promise.all(
+                        const flattenInfoList = flatten(infoList);
+
+                        Promise.all(
                             PAIRS_IN_SLIDER
                                 .map(({ amount, price }) => waves.utils.getRateHistory(amount, price, startDate))
                                 .map(promise => promise.catch(() => FAKE_RATE_HISTORY))
-                        );
-
-                        promiseFromRateHistory
+                        )
                             .then(rateHistory => {
-                                this.pairsInfoList = rateHistory.map(WelcomeCtrl._fillValues(flatten(infoList)));
+                                this.pairsInfoList = rateHistory.map(WelcomeCtrl._fillValues(flattenInfoList));
                             })
                             .then(() => {
                                 angularUtils.safeApply($scope);
@@ -183,20 +183,18 @@
              * @static
              */
             static _fillValues(infoList) {
-                return (history, i) => {
+                return (rateHistory, i) => {
                     const info = infoList[i];
                     const volume = info.volume || new Money(0, info.priceAsset);
                     return {
+                        ...info,
                         ticker: info.ticker || info.displayName,
-                        amountAsset: info.amountAsset,
-                        priceAsset: info.priceAsset,
                         change24: info.change24 || new BigNumber(0),
                         high: info.high || new Money(0, info.priceAsset),
-                        id: info.id,
                         lastPrice: info.lastPrice || new Money(0, info.priceAsset),
                         low: info.low || new Money(0, info.priceAsset),
                         volume,
-                        rateHistory: history,
+                        rateHistory,
                         volumeBigNum: volume.getTokens()
                     };
                 };
