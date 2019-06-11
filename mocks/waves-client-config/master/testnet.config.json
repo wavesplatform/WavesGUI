@@ -1,0 +1,54 @@
+{
+  "PERMISSIONS": {
+    "CAN_TRANSFER_GATEWAY": [
+      "DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn",
+      "BrmjyAWT5jjr3Wpsiyivyvg5vDuzoX2s93WgiexXetB3",
+      "BNdAstuFogzSyN2rY3beJbnBYwYcu7RzTHFjW88g8roK",
+      "CFg2KQfkUgUVM2jFCMC5Xh8T8zrebvPc4HjHPfAugU1S",
+      "8HT8tXwrXAYqwm8XrZ2hywWWTUAXxobHB5DakVC1y6jn",
+      "DGgBtwVoXKAKKvV2ayUpSoPzTJxt7jo9KiXMJRzTH2ET",
+      "8oPbSCKFHkXBy1hCGSg9pJkSARE7zhTQTLpc8KZwdtr7",
+      "D6N2rAqWN6ZCWnCeNFWLGqqjS6nJLeK4m19XiuhdDenr",
+      "AsuWyM9MUUsMmWkK7jS48L3ky6gA1pxx7QtEYPbfLjAJ",
+      "4iZj7NNvpHKmbJz3znDiGYnNHTWGM9eu9s2j6Lk54y3K"
+    ],
+    "CAN_TRANSFER_TRANSACTION": true,
+    "CAN_SET_ASSET_SCRIPT_TRANSACTION": true,
+    "CAN_MASS_TRANSFER_TRANSACTION": true,
+    "CAN_CREATE_ALIAS_TRANSACTION": true,
+    "CAN_ISSUE_TRANSACTION": true,
+    "CAN_REISSUE_TRANSACTION": true,
+    "CAN_SET_SCRIPT_TRANSACTION": true,
+    "CAN_LEASE_TRANSACTION": true,
+    "CAN_CANCEL_LEASE_TRANSACTION": true,
+    "CAN_BURN_TRANSACTION": true,
+    "CAN_SPONSORSHIP_TRANSACTION": true,
+    "CAN_DATA_TRANSACTION": true,
+    "CAN_CREATE_ORDER": true,
+    "CAN_CANCEL_ORDER": true,
+    "CAN_PAIRING_WITH_MOBILE": true,
+    "CAN_ANY_TRANSACTION": true
+  },
+  "NOTIFICATIONS": [],
+  "SETTINGS": {
+    "DEX": {
+      "WATCH_LIST_PAIRS": [
+        "WAVES",
+        "AsuWyM9MUUsMmWkK7jS48L3ky6gA1pxx7QtEYPbfLjAJ",
+        "D6N2rAqWN6ZCWnCeNFWLGqqjS6nJLeK4m19XiuhdDenr",
+        "DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn",
+        "BrmjyAWT5jjr3Wpsiyivyvg5vDuzoX2s93WgiexXetB3",
+        "BNdAstuFogzSyN2rY3beJbnBYwYcu7RzTHFjW88g8roK",
+        "CFg2KQfkUgUVM2jFCMC5Xh8T8zrebvPc4HjHPfAugU1S",
+        "8HT8tXwrXAYqwm8XrZ2hywWWTUAXxobHB5DakVC1y6jn",
+        "7itsmgdmomeTXvZzaaxqF3346h4FhciRoWceEw9asNV3",
+        "DGgBtwVoXKAKKvV2ayUpSoPzTJxt7jo9KiXMJRzTH2ET",
+        "FvKx3cerSVYGfXKFvUgp7koNuTAcLs8DmtmwRrFVCqJv",
+        "3P8gkhcLhFQvBkDzMnWeqqwvq3qxkpTNQPs4LUQ95tKD",
+        "8oPbSCKFHkXBy1hCGSg9pJkSARE7zhTQTLpc8KZwdtr7",
+        "6KSUNALdYEd1EVTE4dTcSHzNw1dA3Q6ieokSRVuEcALV"
+      ]
+    }
+  },
+  "SERVICE_TEMPORARILY_UNAVAILABLE": false
+}

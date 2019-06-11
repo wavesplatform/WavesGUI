@@ -7,54 +7,16 @@
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const analytics = require('@waves/event-sender');
 
-    // TODO @xenohunter : remove that when icons are in @dvshur's service
-    const ASSET_IMAGES_MAP = {
-        [WavesApp.defaultAssets.WAVES]: '/img/assets/waves.svg',
-        [WavesApp.defaultAssets.BTC]: '/img/assets/bitcoin.svg',
-        [WavesApp.defaultAssets.ETH]: '/img/assets/ethereum.svg',
-        [WavesApp.defaultAssets.LTC]: '/img/assets/ltc.svg',
-        [WavesApp.defaultAssets.ZEC]: '/img/assets/zec.svg',
-        [WavesApp.defaultAssets.EUR]: '/img/assets/euro.svg',
-        [WavesApp.defaultAssets.USD]: '/img/assets/usd.svg',
-        [WavesApp.defaultAssets.DASH]: '/img/assets/dash.svg',
-        [WavesApp.defaultAssets.BCH]: '/img/assets/bitcoin-cash.svg',
-        [WavesApp.defaultAssets.BSV]: '/img/assets/bitcoin-cash-sv.svg',
-        [WavesApp.defaultAssets.TRY]: '/img/assets/try.svg',
-        [WavesApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
-        [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
-        [WavesApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
-    };
-
-    const COLORS_MAP = {
-        A: '#39a12c',
-        B: '#6a737b',
-        C: '#e49616',
-        D: '#008ca7',
-        E: '#ff5b38',
-        F: '#ff6a00',
-        G: '#c74124',
-        H: '#00a78e',
-        I: '#b01e53',
-        J: '#e0c61b',
-        K: '#5a81ea',
-        L: '#72b7d2',
-        M: '#a5b5c3',
-        N: '#81c926',
-        O: '#86a3bd',
-        P: '#c1d82f',
-        Q: '#5c84a8',
-        R: '#267e1b',
-        S: '#fbb034',
-        T: '#ff846a',
-        U: '#47c1ff',
-        V: '#00a0af',
-        W: '#85d7c6',
-        X: '#8a7967',
-        Y: '#26c1c9',
-        Z: '#72d28b'
-    };
-
-    const DEFAULT_COLOR = '#96bca0';
+    // TODO: delete after contest
+    const CONTEST_ASSET_ID_MAP = WavesApp.network.code === 'W' ?
+        {
+            Gsj1azEwNuUTss5FHLPbgR6FGya284Q843tCrrFgi4VZ: '/img/assets/wsoc.svg',
+            JCm9j4nBQ8tXE2kRKzhgoV6jqVm1QC3FeXLcKwsLdRyG: '/img/assets/wsoc.svg',
+            HjcJSVFeo34WD1QFFonRa3boQAkRLZxCdURJU73Ffcga: '/img/assets/wsoc.svg',
+            F33CKa4cPB9fK5oA3aUZKAtDJtdohvEzX84Hkwthep5V: '/img/assets/wsoc.svg'
+        } :
+        {};
+    // TODO: delete after contest
 
     const TEMPLATE_PATH = 'modules/wallet/modules/portfolio/directives/portfolioRow/row.hbs';
     const SELECTORS = {
@@ -83,7 +45,8 @@
             SPONSORSHIP_EDIT: 'js-action-button-sponsorship_edit',
             SPONSORSHIP_STOP: 'js-action-button-cancel-sponsorship',
             SET_ASSET_SCRIPT: 'js-action-button-set-asset-script'
-        }
+        },
+        SUSPICIOUS_LABEL: 'js-suspicious-label'
     };
 
     const ds = require('data-service');
@@ -230,7 +193,7 @@
                     const { isVerified, isGateway,
                         isTokenomica, logo } = utils.getDataFromOracles(this.balance.asset.id);
 
-                    this.isVerifiedOrGateway = isVerified && isGateway;
+                    this.isVerifiedOrGateway = isVerified || isGateway;
 
                     const html = template({
                         canSetAssetScript: this._isMyAsset && this.isSmart,
@@ -238,19 +201,20 @@
                         isVerified: isVerified,
                         isGateway: isGateway,
                         isTokenomica: isTokenomica,
-                        assetIconPath: logo || ASSET_IMAGES_MAP[this.balance.asset.id],
+                        assetIconPath: logo ||
+                            this.utils.getAssetLogo(this.balance.asset.id) ||
+                            CONTEST_ASSET_ID_MAP[this.balance.asset.id],
                         firstAssetChar,
                         canBurn: !this._isWaves,
                         canReissue: this._isMyAsset && this.balance.asset.reissuable,
-                        charColor: COLORS_MAP[firstAssetChar.toUpperCase()] || DEFAULT_COLOR,
+                        charColor: this.utils.getAssetLogoBackground(this.balance.asset.id),
                         assetName: this.balance.asset.name,
                         SELECTORS: { ...SELECTORS },
                         canShowDex: this.canShowDex,
                         canShowToggleSpam: this._canShowToggleSpam(),
                         canSponsored: this._isMyAsset,
                         canPayFee,
-                        canStopSponsored,
-                        isSpam: this.balance.isOnScamList
+                        canStopSponsored
                     });
 
                     this.node.innerHTML = html;
@@ -260,7 +224,8 @@
                         set: (value) => {
                             if (this.balance.asset.id !== value.asset.id ||
                                 !this.balance.available.getTokens().eq(value.available.getTokens()) ||
-                                !this.balance.inOrders.getTokens().eq(value.inOrders.getTokens())
+                                !this.balance.inOrders.getTokens().eq(value.inOrders.getTokens()) ||
+                                this.balance.isOnScamList !== value.isOnScamList
                             ) {
                                 balance = value;
                                 this._onUpdateBalance();
@@ -291,6 +256,7 @@
              */
             _onChangeLanguage() {
                 const nodeList = this.node.querySelectorAll('[w-i18n-literal]');
+                this._updateBalances();
 
                 Array.prototype.forEach.call(nodeList, element => {
                     element.innerHTML = this.i18n.translate(
@@ -334,6 +300,21 @@
                 this._initSpamState();
 
                 const balance = this.balance;
+
+                if (balance.isOnScamList) {
+                    this.node.querySelector(`.${SELECTORS.CHANGE_24}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.SUSPICIOUS_LABEL}`).classList.remove('hidden');
+
+                    return null;
+                } else {
+                    const suspiciousSelector = this.node.querySelector(`.${SELECTORS.SUSPICIOUS_LABEL}`);
+                    if (suspiciousSelector) {
+                        suspiciousSelector.classList.add('hidden');
+                    }
+                }
+
                 const baseAssetId = this.user.getSetting('baseAssetId');
 
                 if (baseAssetId === balance.asset.id) {
@@ -343,6 +324,14 @@
                     change24Node.classList.remove('plus');
                     this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
                     this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+
+                    return null;
+                }
+
+                if (balance.isOnScamList) {
+                    this.node.querySelector(`.${SELECTORS.CHANGE_24}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
 
                     return null;
                 }
@@ -565,10 +554,11 @@
                     this.node.querySelector(`.${SELECTORS.BUTTONS.TOGGLE_SPAM}`),
                     this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.TOGGLE_SPAM}`)
                 ];
-
                 elements.forEach(toggleSpam => {
-                    toggleSpam.classList.toggle('icon-hide', !isSpam);
-                    toggleSpam.classList.toggle('icon-show', isSpam);
+                    if (toggleSpam) {
+                        toggleSpam.classList.toggle('icon-hide', !isSpam);
+                        toggleSpam.classList.toggle('icon-show', isSpam);
+                    }
                 });
             }
 
@@ -602,7 +592,19 @@
              * @private
              */
             _getSrefParams(asset) {
-                this.utils.openDex(asset.id);
+                // TODO: delete after contest
+                const contestAssetsId = Object.keys(CONTEST_ASSET_ID_MAP);
+                if (contestAssetsId.indexOf(asset.id) > -1) {
+                    const assetPairs = contestAssetsId.filter(id => id !== asset.id);
+                    this.utils.openDex(
+                        asset.id,
+                        assetPairs[Math.floor(assetPairs.length * Math.random())]
+                    );
+                } else {
+                    this.utils.openDex(asset.id);
+                }
+                // this.utils.openDex(asset.id);
+
             }
 
             /**

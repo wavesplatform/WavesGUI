@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="42" height="42" viewBox="0 0 42 42">
+    <defs>
+        <path id="a" d="M9.5 0l8.227 4.75v9.5L9.5 19l-8.227-4.75v-9.5z"/>
+        <path id="c" d="M9.5 9.5V19l-8.227-4.75v-9.5z"/>
+        <path id="d" d="M9.5 0l8.227 4.75v9.5L9.5 19l-8.227-4.75v-9.5z"/>
+        <path id="f" d="M9.5 9.5V19l-8.227-4.75v-9.5z"/>
+        <path id="g" d="M9.5 0l8.227 4.75v9.5L9.5 19l-8.227-4.75v-9.5z"/>
+        <path id="i" d="M9.5 9.5V19l-8.227-4.75v-9.5z"/>
+        <path id="j" d="M9.5 0l8.227 4.75v9.5L9.5 19l-8.227-4.75v-9.5z"/>
+        <path id="l" d="M9.5 9.5V19l-8.227-4.75v-9.5z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <path fill="#EEF5FE" d="M16 8h10v3H16zM16 31h10v3H16zM10 15v13H7V15zM35 15v13h-3V15z"/>
+        <g transform="translate(-1)">
+            <mask id="b" fill="#fff">
+                <use xlink:href="#a"/>
+            </mask>
+            <use fill="#CAD9FF" xlink:href="#a"/>
+            <path fill="#1F5AF6" d="M9.5-9.5l8.227 4.75v9.5L9.5 9.5 1.273 4.75v-9.5z" mask="url(#b)"/>
+            <use fill="#FFF" opacity=".4" xlink:href="#c"/>
+        </g>
+        <g transform="translate(24)">
+            <mask id="e" fill="#fff">
+                <use xlink:href="#d"/>
+            </mask>
+            <use fill="#CAD9FF" xlink:href="#d"/>
+            <path fill="#1F5AF6" d="M9.5-9.5l8.227 4.75v9.5L9.5 9.5 1.273 4.75v-9.5z" mask="url(#e)"/>
+            <use fill="#FFF" opacity=".4" xlink:href="#f"/>
+        </g>
+        <g transform="translate(-1 23)">
+            <mask id="h" fill="#fff">
+                <use xlink:href="#g"/>
+            </mask>
+            <use fill="#CAD9FF" xlink:href="#g"/>
+            <path fill="#1F5AF6" d="M9.5-9.5l8.227 4.75v9.5L9.5 9.5 1.273 4.75v-9.5z" mask="url(#h)"/>
+            <use fill="#FFF" opacity=".4" xlink:href="#i"/>
+        </g>
+        <g transform="translate(24 23)">
+            <mask id="k" fill="#fff">
+                <use xlink:href="#j"/>
+            </mask>
+            <use fill="#CAD9FF" xlink:href="#j"/>
+            <path fill="#1F5AF6" d="M9.5-9.5l8.227 4.75v9.5L9.5 9.5 1.273 4.75v-9.5z" mask="url(#k)"/>
+            <use fill="#FFF" opacity=".4" xlink:href="#l"/>
+        </g>
+    </g>
+</svg>

@@ -1,92 +1,9 @@
 @import (reference) 'config';
 @import (reference) 'icons';
+@import (reference) '../../app/less/app';
 
 body.ledger {
-  ui-view[name="main"]  {
-    position: relative;
-  }
-
-  .loader-error-wrapper {
-    max-width: 460px;
-    margin: 0 auto;
-    padding-top: 30px;
-    text-align: center;
-
-    .big {
-      width: 224px;
-      margin: 0 auto 30px auto;
-      display: flex;
-    }
-
-    .big .submit {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      white-space: nowrap;
-      margin: 0 auto;
-    }
-
-    .or {
-      width: 224px;
-      margin: 0 auto 20px auto;
-    }
-  }
-
   .import-wrapper {
-    max-width: 460px;
-    margin: auto;
-    position: relative;
-    padding: 0 10px;
-
-    .ledger-avatars-list {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      margin: 10px 0 30px 0;
-      position: relative;
-
-      .loader-wrapper {
-        position: relative;
-        top: 50%;
-        width: 100px;
-        margin: 0 auto;
-        height: 84px;
-        transform: translate(0);
-        left: 0;
-        w-loader {
-          margin-top:2px;
-        }
-      }
-
-      .avatar-wrapper {
-        width: 84px;
-        height: 84px;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-
-        &.active {
-          background-color: rgba(31,90,246,0.05);
-          border: solid 1px #1f5af6;
-          cursor: default;
-        }
-
-        &.disabled {
-          opacity: 0.5;
-          cursor: default;
-
-          &.disabled .avatar-wrap {
-            cursor: default;
-          }
-        }
-      }
-    }
-
     .step {
       &-left,
       &-right {
@@ -124,42 +41,78 @@ body.ledger {
     .input-like {
       background: @color-basic-50;
     }
+  }
 
-    .flex {
-      display: flex;
-      align-items: center;
+  .loader-error-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  w-avatar[type='ledger'] .avatar-wrap:not(.scripted)::after {
+    bottom: 8px;
+    left: calc(100% ~'- 23px');
+    transition: left 0.3s, bottom 0.3s;
+  }
+
+  .avatar-wrapper {
+    &.active {
+      w-avatar[type='ledger'] .avatar-wrap:not(.scripted)::after {
+        bottom: 3px;
+        left: calc(100% ~'- 18px');
+      }
+    }
+  }
+
+  .loader-wrapper {
+    position: relative;
+    top: 50%;
+    width: 100px;
+    margin: 0 auto;
+    height: 107px;
+    transform: translate(0);
+    left: 0;
+    w-loader {
+      margin-top:2px;
     }
   }
 }
 
 @media screen and (max-width: 480px) {
   body.ledger {
-
     .import-wrapper {
       .icon {
         &-left,
         &-right {
-          top: 32px;
+          top: 34px;
         }
 
         &-left {
-          left: 0;
+          left: -15px;
         }
 
         &-right {
-          right: 0;
+          right: -15px;
         }
       }
 
-      .ledger-avatars-list {
-        margin: 10px 20px 30px 20px;
+      w-avatar[type='ledger'] .avatar-wrap:not(.scripted)::after {
+        bottom: 13px;
+        left: calc(100% ~'- 28px');
+      }
 
-        .avatar-wrapper {
-          width: 64px;
-          height: 64px;
+      .avatar-wrapper {
+        &.active {
+          w-avatar[type='ledger'] .avatar-wrap:not(.scripted)::after {
+            bottom: 8px;
+            left: calc(100% ~'- 23px');
+          }
         }
       }
     }
+
+    .loader-wrapper {
+      height: 87px;
+    }
   }
 }
-

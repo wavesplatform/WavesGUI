@@ -21,6 +21,7 @@
      * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
      * @param {IPollCreate} createPoll
+     * @param {ConfigService} configService
      * @param {IOuterBlockchains} outerBlockchains
      * @param {User} user
      * @param {GatewayService} gatewayService
@@ -31,6 +32,7 @@
                                  utils,
                                  createPoll,
                                  waves,
+                                 configService,
                                  outerBlockchains,
                                  user,
                                  gatewayService) {
@@ -138,12 +140,21 @@
                 return this.toBankMode && this.termsLoadError;
             }
 
+            get isGatewayAccepted() {
+                return configService
+                    .get('PERMISSIONS.CAN_TRANSFER_GATEWAY').indexOf(this.balance.asset.id) !== -1;
+            }
+
+            get isBankAccepted() {
+                return this.toBankMode ? this.isGatewayAccepted : true;
+            }
+
             get isBankPendingOrError() {
                 return this.isBankError || this.isBankPending;
             }
 
             get hasOuterError() {
-                return this.outerSendMode && this.gatewayDetailsError || this.isBankError;
+                return this.outerSendMode && this.gatewayError || this.isBankError;
             }
 
             get minimumAmount() {
@@ -224,6 +235,14 @@
             /**
              * @type {boolean}
              */
+            gatewayAddressError = false;
+            /**
+             * @type {boolean}
+             */
+            gatewayError = false;
+            /**
+             * @type {boolean}
+             */
             termsIsPending = true;
             /**
              * @type {boolean}
@@ -256,7 +275,6 @@
             }
 
             $postLink() {
-
                 this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
                 const onHasMoneyHash = () => {
                     this.receive(utils.observe(this.state, 'toBankMode'), this._onChangeBankMode, this);
@@ -272,6 +290,9 @@
                     this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayDetails, this);
                     this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayDetails, this);
 
+                    this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayPermisson, this);
+                    this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayPermisson, this);
+
                     this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
 
                     this.observe('gatewayDetails', this._updateWavesTxObject);
@@ -280,6 +301,12 @@
                     this.receive(utils.observe(this.tx, 'attachment'), this._updateWavesTxObject, this);
 
                     this.observe('mirror', this._onChangeAmountMirror);
+                    this.observe(['gatewayAddressError', 'gatewayDetailsError'], this._updateGatewayError);
+
+                    this._currentHasCommission();
+                    this._onChangeBaseAssets();
+                    this._updateGatewayDetails();
+                    this._updateGatewayPermisson();
                 };
                 if (!this.state.moneyHash) {
                     this.receiveOnce(utils.observe(this.state, 'moneyHash'), onHasMoneyHash);
@@ -291,6 +318,7 @@
                     this._onChangeBaseAssets();
                     this._updateGatewayDetails();
                 });
+                this._onChangeBaseAssets();
             }
 
             onSignCoinomatStart() {
@@ -461,6 +489,7 @@
                 }
 
                 this._setMinAmount();
+                this._updateGatewayPermisson();
             }
 
             /**
@@ -516,8 +545,7 @@
                 this.tx.amount = this.moneyHash[this.assetId].cloneWithTokens('0');
                 this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
                 this._updateGatewayDetails();
-
-                // analytics.push('Send', `Send.ChangeCurrency.${WavesApp.type}`, this.assetId);
+                this._updateGatewayPermisson();
             }
 
             /**
@@ -633,6 +661,10 @@
                     this.gatewayDetailsError = false;
                 }
 
+                if (this.gatewayAddressError) {
+                    this.gatewayAddressError = false;
+                }
+
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
@@ -649,9 +681,14 @@
                             this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
                             this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
                             $scope.$apply();
-                        }, () => {
+                        }, (e) => {
                             this.gatewayDetails = null;
-                            this.gatewayDetailsError = true;
+                            if (e.message === 'Invalid wallet_to') {
+                                this.gatewayAddressError = true;
+                            } else {
+                                this.gatewayDetailsError = true;
+                            }
+                            $scope.$apply();
                         });
                 } else {
                     this.minAmount = this.state.moneyHash[this.assetId].cloneWithTokens('0');
@@ -660,6 +697,20 @@
                     this._validateForm();
                 }
                 return Promise.resolve();
+            }
+
+            /**
+             * @private
+             */
+            _updateGatewayPermisson() {
+                this.gatewayDetailsError = this.outerSendMode ? !this.isGatewayAccepted : this.gatewayDetailsError;
+            }
+
+            /**
+             * @private
+             */
+            _updateGatewayError() {
+                this.gatewayError = this.gatewayAddressError || this.gatewayDetailsError;
             }
 
         }
@@ -673,6 +724,7 @@
         'utils',
         'createPoll',
         'waves',
+        'configService',
         'outerBlockchains',
         'user',
         'gatewayService'

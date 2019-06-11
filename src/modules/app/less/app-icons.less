@@ -1,5 +1,13 @@
 @import (reference) 'icons';
 
+.logo {
+  background: @logo-header;
+
+  &-footer {
+    background: @logo-footer;
+  }
+}
+
 .icon-close {
   width: 40px;
   height: 40px;
@@ -23,7 +31,7 @@
   background-position: center center;
   height: 80px;
   width: 80px;
-  margin: 60px auto 30px auto;
+  margin: 0 auto 30px auto;
 }
 
 .visa-icon {
@@ -79,22 +87,9 @@
   background: url(/img/icons/transaction-warning.svg) center no-repeat;
 }
 
-.btn-send {
-  .btn-icon::before {
-    transition: .3s;
-  }
-}
-
-.btn-receive {
-  svg {
-    transform-origin: center;
-    transform: rotate(-180deg)
-  }
-}
-
 .btn-json {
   float: right;
-  margin-right: 3px;
+  margin-right: 0;
 }
 
 .icon-qr::before {
@@ -402,6 +397,13 @@
   background-position: center center;
 }
 
+.icon-dex-tospread-active {
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: @orderbook-to-spread-icon-active;
+}
+
 .apple-store-btn,
 .google-play-btn {
   width: 135px;
@@ -419,4 +421,103 @@
 
 .keeper-icon {
   background: url(/img/icons/keeper-icon.svg) center no-repeat;
+}
+
+.promo-icon {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: inline-flex;
+
+  &-min {
+    display: block;
+    width: 24px;
+    height: 24px;
+  }
+
+  &-arrow-right {
+    background: url(/img/landing/arrow-white-right.svg) center no-repeat;
+  }
+
+  &-api {
+    background: url(/img/landing/api.svg) center no-repeat;
+  }
+
+  &-create-token {
+    background: url(/img/landing/create-token.svg) center no-repeat;
+  }
+
+  &-fees {
+    background: url(/img/landing/fees.svg) center no-repeat;
+  }
+
+  &-gateways {
+    background: url(/img/landing/gateways.svg) center no-repeat;
+  }
+
+  &-ledger {
+    background: url(/img/landing/ledger.svg) center no-repeat;
+  }
+
+  &-schield {
+    background: url(/img/landing/schield.svg) center no-repeat;
+  }
+
+  &-dex {
+    background: url(/img/landing/decentralized.svg) center no-repeat;
+  }
+
+  &-wallet {
+    background: url(/img/landing/wallet.svg) center no-repeat;
+  }
+}
+
+.icon-dex {
+  &-lock {
+    background: @dex-lock-icon;
+  }
+
+  &-paper {
+    background: @dex-paper-icon;
+  }
+
+  &-create {
+    background: @dex-create-icon;
+  }
+}
+
+.import-modal__icon {
+  &-beta {
+    background: @import-modal-icon-beta;
+  }
+
+  &-old {
+    background: @import-modal-icon-old;
+  }
+
+  &-ledger {
+    background: @import-modal-icon-ledger;
+  }
+
+  &-keeper {
+    background: @import-modal-icon-keeper;
+  }
+
+  &-error {
+    background: @import-modal-icon-error;
+  }
+}
+
+.roadmap-icon {
+  &-past {
+    background-image: @roadmap-check-icon;
+  }
+
+  &-now {
+    background-image: @roadmap-check-linear-icon;
+  }
+
+  &-future {
+    background-image: @roadmap-mantle-linear-icon;
+  }
 }

@@ -45,105 +45,105 @@
   "analyticsIframe": "https://iframe.wavesplatform.com",
   "langList": {
     "en": {
-      "name": "En",
+      "name": "English",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "ru": {
-      "name": "Ru",
+      "name": "Russian",
       "separators": {
         "group": " ",
         "decimal": "."
       }
     },
     "ko": {
-      "name": "Ko",
+      "name": "Korean",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "zh_CN": {
-      "name": "Zh",
+      "name": "Chinese",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "tr": {
-      "name": "Tr",
+      "name": "Turkish",
       "separators": {
         "group": " ",
         "decimal": "."
       }
     },
     "ja": {
-      "name": "Jp",
+      "name": "Japanese",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "nl_NL": {
-      "name": "Nl",
+      "name": "Dutch",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "hi_IN": {
-      "name": "Hi",
+      "name": "Hindi",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "es": {
-      "name": "Es",
+      "name": "Spanish",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "et_EE": {
-      "name": "Est",
+      "name": "Estonian",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "pt_BR": {
-      "name": "Br",
+      "name": "Brazil",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "pl": {
-      "name": "Pl",
+      "name": "Polish",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "it": {
-      "name": "It",
+      "name": "Italian",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "de": {
-      "name": "De",
+      "name": "German",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "id": {
-      "name": "Id",
+      "name": "Indonesian",
       "separators": {
         "group": ",",
         "decimal": "."
@@ -212,6 +212,10 @@
       "api": "https://api.testnet.wavesplatform.com",
       "explorer": "https://wavesexplorer.com/testnet",
       "coinomat": "https://localhost:8080/coinomat",
+      "vostok": {
+        "gateway": "https://gw.wavesplatform.com",
+        "networkByte": "F"
+      },
       "support": "https://support.wavesplatform.com",
       "termsAndConditions": "https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf",
       "privacyPolicy": "https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf",
@@ -233,7 +237,8 @@
         "DASH": "DGgBtwVoXKAKKvV2ayUpSoPzTJxt7jo9KiXMJRzTH2ET",
         "EFYT": "FvKx3cerSVYGfXKFvUgp7koNuTAcLs8DmtmwRrFVCqJv",
         "WNET": "3P8gkhcLhFQvBkDzMnWeqqwvq3qxkpTNQPs4LUQ95tKD",
-        "XMR": "8oPbSCKFHkXBy1hCGSg9pJkSARE7zhTQTLpc8KZwdtr7"
+        "XMR": "8oPbSCKFHkXBy1hCGSg9pJkSARE7zhTQTLpc8KZwdtr7",
+        "VST": "63QkN8KKRMVBpkCM7azV6HiPacJ3T7EP6vmFUNVRsvAX"
       }
     },
     "mainnet": {
@@ -249,6 +254,10 @@
       "api": "https://api.wavesplatform.com",
       "explorer": "https://wavesexplorer.com",
       "coinomat": "https://coinomat.com",
+      "vostok": {
+        "gateway": "https://gw.wavesplatform.com",
+        "networkByte": "V"
+      },
       "support": "https://support.wavesplatform.com",
       "termsAndConditions": "https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf",
       "privacyPolicy": "https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf",
@@ -270,7 +279,8 @@
         "DASH": "B3uGHFRpSUuGEDWjqB9LWWxafQj8VTvpMucEyoxzws5H",
         "EFYT": "725Yv9oceWsB4GsYwyy4A52kEwyVrL5avubkeChSnL46",
         "WNET": "AxAmJaro7BJ4KasYiZhw7HkjwgYtt2nekPuF2CN9LMym",
-        "XMR": "5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3"
+        "XMR": "5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3",
+        "VST": "4LHHvYGNKJUg5hj65aGD5vgScvCBmLpdRFtjokvCjSL8"
       }
     }
   }

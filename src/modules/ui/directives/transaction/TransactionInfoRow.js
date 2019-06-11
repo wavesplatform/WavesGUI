@@ -2,20 +2,29 @@
     'use strict';
 
     /**
+     * @param {BaseAssetService} baseAssetService
+     * @param {$rootScope.Scope} $scope
+     * @param {app.utils} utils
      * @param $filter
      * @return {TransactionInfoRow}
      */
 
-    const controller = function ($filter) {
+    const controller = function (Base, utils, $scope, $filter) {
 
-        class TransactionInfoRow {
+        class TransactionInfoRow extends Base {
 
             $postLink() {
                 this.type = this.transaction.type;
                 this.props = {
                     ...this.transaction,
-                    time: $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm')
+                    time: $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm'),
+                    isScam: this.isScam
                 };
+
+                this.observe('isScam', () => {
+                    this.props.isScam = this.isScam;
+                    utils.safeApply($scope);
+                });
             }
 
         }
@@ -24,13 +33,17 @@
     };
 
     controller.$inject = [
+        'Base',
+        'utils',
+        '$scope',
         '$filter'
     ];
 
     angular.module('app.ui').component('wTransactionInfoRow', {
         bindings: {
             transaction: '<',
-            datePattern: '<'
+            datePattern: '<',
+            isScam: '<'
         },
         templateUrl: 'modules/ui/directives/transaction/transaction-info-row.html',
         controller

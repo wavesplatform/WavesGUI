@@ -31,6 +31,7 @@
                     lastOpenVersion: '',
                     whatsNewList: [],
                     closedNotification: [],
+                    dontShowSpam: true,
                     withScam: false,
                     scamListUrl: WavesApp.network.scamListUrl,
                     logoutAfterMin: 5,
@@ -61,7 +62,8 @@
                         WavesApp.defaultAssets.BSV,
                         WavesApp.defaultAssets.TRY,
                         WavesApp.defaultAssets.DASH,
-                        WavesApp.defaultAssets.XMR
+                        WavesApp.defaultAssets.XMR,
+                        WavesApp.defaultAssets.VST
                     ],
                     wallet: {
                         activeState: 'assets',
