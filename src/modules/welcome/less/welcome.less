@@ -5,7 +5,7 @@
 
 body.welcome {
   overflow: hidden;
-  font-size: 15px;
+  font-size: @font-size-control;
   margin: 0 auto;
   max-width: 100%;
 
@@ -43,10 +43,10 @@ body.welcome {
   }
 
   .section-wrapper {
-    padding-left: 80px;
-    padding-right: 80px;
+    padding-left: @welcomeSectionWrapperPaddingLarge;
+    padding-right: @welcomeSectionWrapperPaddingLarge;
     margin: 0 auto;
-    max-width: 1440px;
+    max-width: @mainWrapperWidth;
     width: 100%;
   }
 
@@ -73,13 +73,98 @@ body.welcome {
       }
     }
   }
+
+  .section-contest {
+    background: @color-white;
+    min-height: 80px;
+
+    .section-wrapper {
+      padding-bottom: 30px;
+    }
+
+    .contest-link {
+      height: 50px;
+      border-radius: 6px;
+      background: url(/img/landing/contest-bg.svg) 0 0 no-repeat;
+      background-size: cover;
+      color: @color-white;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      z-index: 10;
+      width: 100%;
+      transition: opacity 0.6s, bottom 0.8s;
+
+      &-fixed {
+        position: fixed;
+        width: calc(~'100%' -@welcomeSectionWrapperPaddingLarge * 2);
+        max-width: 1280px;
+        box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2);
+      }
+
+      &-hide {
+        bottom: -50px;
+        opacity: 0;
+      }
+
+      &-show {
+        bottom: 20px;
+        opacity: 1;
+      }
+
+      &-description {
+        position: relative;
+        font-family: @font-roboto-medium;
+        padding-left: 42px;
+
+        &:before {
+          content: '';
+          position: absolute;
+          width: 22px;
+          height: 22px;
+          left: 0;
+          background: @dex-winner-icon no-repeat center;
+        }
+      }
+
+      &-actions {
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+      }
+
+      &-close {
+        &-icon {
+          background: @notification-icon-close center no-repeat;
+          border: 0;
+          width: 14px;
+          height: 14px;
+          opacity: .5;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
+
+      &-link {
+        margin-right: 20px;
+
+        .fake-button-content {
+          padding: 0 25px;
+          font-family: @font-roboto-medium;
+          font-size: 13px;
+        }
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 1440px) {
   body.welcome {
     .section-wrapper {
-      padding-left: 40px;
-      padding-right: 40px;
+      padding-left: @welcomeSectionWrapperPaddingMedium;
+      padding-right: @welcomeSectionWrapperPaddingMedium;
     }
 
     .section-welcome {
@@ -97,6 +182,10 @@ body.welcome {
         left: calc(50% ~'- 100px');
         max-width: calc(50% ~'+ 100px');
       }
+    }
+
+    .section-contest .contest-link-fixed {
+      width: calc(~'100%' - @welcomeSectionWrapperPaddingMedium * 2);
     }
   }
 }
@@ -161,7 +250,7 @@ body.welcome {
 
 @media screen and (max-width: 860px) {
   body.welcome {
-    font-size: 13px;
+    font-size: @font-size-control-small;
 
     .table-markets {
       .row {
@@ -176,7 +265,7 @@ body.welcome {
           flex-basis: 50%;
           width: 50%;
           max-width: 50%;
-          font-size: 13px;
+          font-size: @font-size-control-small;
           padding: 0;
         }
         .low24,
@@ -262,12 +351,34 @@ body.welcome {
   body.welcome {
     .section-wrapper,
     .section-markets .content-wrapper {
-      padding-left: 20px;
-      padding-right: 20px;
+      padding-left: @welcomeSectionWrapperPaddingSmall;
+      padding-right: @welcomeSectionWrapperPaddingSmall;
     }
     footer {
       .section-wrapper {
-        margin-top: 0px;
+        margin-top: 0;
+      }
+    }
+
+    .section-contest {
+      .contest-link-link {
+        .fake-button-content {
+          display: none;
+        }
+      }
+
+      .contest-link {
+        height: 60px;
+        background-position: -40px 0;
+        padding: 0 10px;
+
+        &-fixed {
+          width: calc(~'100%' - @welcomeSectionWrapperPaddingSmall * 2);
+        }
+
+        &-hide {
+          bottom: -60px;
+        }
       }
     }
   }

@@ -26,12 +26,12 @@ body.welcome {
     flex-direction: row;
     a {
       display: inline-block;
-      margin-left: 4px;
+      margin-left: @border-radius;
     }
   }
 
   .table-markets {
-    border-radius: 4px;
+    border-radius: @border-radius;
     background: @color-white;
     width: 100%;
     box-shadow: @shadow-dex-welcome;
@@ -58,7 +58,7 @@ body.welcome {
 
     .row {
       display: flex;
-      font-size: 15px;
+      font-size: @font-size-control;
       align-items: center;
       height: 70px;
       padding: 0 40px;
@@ -102,7 +102,7 @@ body.welcome {
       }
 
       &-header {
-        font-size: 13px;
+        font-size: @font-size-control-small;
         border-bottom: 1px solid @color-info-50;
       }
     }

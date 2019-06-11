@@ -22,6 +22,22 @@
         </div>
     </section>
 
+    <div class="section-contest">
+        <div class="section-wrapper">
+            <div class="contest-link contest-link-fixed contest-link-show">
+                <div class="contest-link-description body-2" w-i18n="welcome.contestLinkDescription"></div>
+                <div class="contest-link-actions">
+                    <a class="contest-link-link fake-button">
+                        <span class="fake-button-content tiny submit" w-i18n="welcome.contestLinkLink"></span>
+                    </a>
+                    <div class="contest-link-close">
+                        <button class="contest-link-close-icon"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <section class="section-promo body-2">
         <div class="section-wrapper">
             <div class="section-promo-card">
@@ -137,6 +153,7 @@
     </div>
 
     <w-footer></w-footer>
+
 </div>
 
 <w-loader ng-if="$ctrl.pendingRestore"></w-loader>
