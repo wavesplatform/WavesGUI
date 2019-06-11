@@ -20,7 +20,7 @@
         <div class="select-hover" ng-click="$ctrl.chooseTrading()">TRADE</div>
     </div>
 
-    <div class="input-container">
+    <div class="input-container" ng-if="$ctrl.activeTab !== 'trading'">
         <w-search class="search-wrapper">
             <input class="search-input"
                    type="w-search"
