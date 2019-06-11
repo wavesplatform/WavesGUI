@@ -6,7 +6,6 @@
 body.welcome {
   width: 100%;
   overflow: hidden;
-  font-family: 'Roboto', 'Tahoma', 'Arial';
   font-size: 15px;
   margin: 0 auto;
   font-weight: normal;
@@ -44,11 +43,6 @@ body.welcome {
 
   h2 {
     font-weight: 400;
-  }
-
-  .section-wrapper {
-    padding-left: 80px;
-    padding-right: 80px;
   }
 
   section {
@@ -166,8 +160,8 @@ body.welcome {
 
   .section-wrapper {
     margin: 0 auto;
-    padding-left: 80px;
-    padding-right: 80px;
+    padding-left: @welcomeSectionWrapperPaddingLarge;
+    padding-right: @welcomeSectionWrapperPaddingLarge;
     max-width: 1440px;
     width: 100%;
   }
@@ -306,6 +300,7 @@ body.welcome {
         height: 50px;
         border-radius: 6px;
         background: url(/img/landing/contest-bg.svg) 0 0 no-repeat;
+        background-size: cover;
         color: @color-white;
         padding: 0 20px;
         display: flex;
@@ -314,19 +309,22 @@ body.welcome {
         width: 100%;
         transition: opacity 0.6s, bottom 0.8s;
 
-        &.hide {
-          position: absolute;
-          bottom: -50px;
-          opacity: 0;
-          left: 0;
+        &-fixed {
+          position: fixed;
+          //left: @welcomeSectionWrapperPaddingLarge;
+          width: calc(~'100%' - @welcomeSectionWrapperPaddingLarge * 2);
+          max-width: 1280px;
+          box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2);
         }
 
-        &.show {
-          position: absolute;
-          bottom: 0;
+        &-hide {
+          bottom: -50px;
+          opacity: 0;
+        }
+
+        &-show {
+          bottom: 20px;
           opacity: 1;
-          left: 0;
-          box-shadow: 0 2px 6px 0 rgba(31, 90, 246, 0.3);
         }
 
         &-description {
@@ -382,8 +380,8 @@ body.welcome {
   body.welcome {
 
     .section-wrapper {
-      padding-left: 40px;
-      padding-right: 40px;
+      padding-left: @welcomeSectionWrapperPaddingMedium;
+      padding-right: @welcomeSectionWrapperPaddingMedium;
     }
 
     .section-welcome {
@@ -401,6 +399,11 @@ body.welcome {
         left: calc(50% ~'- 100px');
         max-width: calc(50% ~'+ 100px');
       }
+    }
+
+    .section-contest .contest-link-fixed {
+      //left: @welcomeSectionWrapperPaddingMedium;
+      width: calc(~'100%' - @welcomeSectionWrapperPaddingMedium * 2);
     }
   }
 }
@@ -554,8 +557,8 @@ body.welcome {
   body.welcome {
     .section-wrapper,
     .section-markets .content-wrapper {
-      padding-left: 20px;
-      padding-right: 20px;
+      padding-left: @welcomeSectionWrapperPaddingSmall;
+      padding-right: @welcomeSectionWrapperPaddingSmall;
     }
     footer {
       .section-wrapper {
@@ -572,9 +575,17 @@ body.welcome {
 
       .contest-link {
         height: 60px;
-        background-size: cover;
         background-position: -40px 0;
         padding: 0 10px;
+
+        &-fixed {
+          //left: @welcomeSectionWrapperPaddingSmall;
+          width: calc(~'100%' - @welcomeSectionWrapperPaddingSmall * 2);
+        }
+
+        &-hide {
+          bottom: -60px;
+        }
       }
     }
   }
