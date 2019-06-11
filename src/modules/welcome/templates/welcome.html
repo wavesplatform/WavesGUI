@@ -22,10 +22,14 @@
         </div>
     </section>
 
-    <div class="section-contest">
+    <div class="section-contest" id="section-contest-upper">
         <div class="section-wrapper">
-            <div class="contest-link">
+            <div class="contest-link" id="contest-link-upper">
                 <div class="contest-link-description body-2" w-i18n="welcome.contestLinkDescription"></div>
+                <a class="contest-link-description-hidden-link"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   href="https://wsoc.io/?utm_source=dexsite&utm_medium=cpm"></a>
                 <div class="contest-link-actions">
                     <a class="contest-link-link fake-button"
                        target="_blank"
@@ -153,6 +157,29 @@
             <h2 class="margin-1 text-center" w-i18n="welcome.roadmap"></h2>
             <div class="basic-500 margin-05 body-2 text-center" w-i18n="welcome.roadmapOpportunitiesAhead"></div>
             <w-road-map></w-road-map>
+    </div>
+
+    <div class="section-contest" id="section-contest-down">
+        <div class="section-wrapper">
+            <div class="contest-link contest-link-fixed" id="contest-link-down">
+                <div class="contest-link-description body-2" w-i18n="welcome.contestLinkDescription"></div>
+                <a class="contest-link-description-hidden-link"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   href="https://wsoc.io/?utm_source=dexsite&utm_medium=cpm"></a>
+                <div class="contest-link-actions">
+                    <a class="contest-link-link fake-button"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       href="https://wsoc.io/?utm_source=dexsite&utm_medium=cpm">
+                        <span class="fake-button-content tiny submit" w-i18n="welcome.contestLinkLink"></span>
+                    </a>
+                    <div class="contest-link-close">
+                        <button class="contest-link-close-icon"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <w-footer></w-footer>

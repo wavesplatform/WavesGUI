@@ -291,18 +291,28 @@ body.welcome {
     &-contest {
       background: @color-white;
       min-height: 80px;
+      max-height: 100%;
+
+      &.collapsed {
+        overflow: hidden;
+        max-height: 0;
+        min-height: 0;
+        transition: max-height 0.5s;
+      }
 
       .section-wrapper {
         padding-bottom: 30px;
       }
 
       .contest-link {
+        position: relative;
         height: 50px;
         border-radius: 6px;
-        background-position-x: -2px;
         background-color: #000;
-        background: url(/img/landing/contest-bg.svg) 0 0 no-repeat;
+        background-image: url(/img/landing/contest-bg.svg);
         background-size: cover;
+        background-position: -2px 0;
+        background-repeat: no-repeat;
         color: @color-white;
         padding: 0 20px;
         display: flex;
@@ -322,18 +332,27 @@ body.welcome {
 
         &-hide {
           bottom: -50px;
-          opacity: 0;
+          //opacity: 0;
         }
 
         &-show {
           bottom: 20px;
-          opacity: 1;
+          //opacity: 1;
         }
 
         &-description {
           position: relative;
           font-family: @font-roboto-medium;
           padding-left: 42px;
+
+          &-hidden-link {
+            position: absolute;
+            width: 0;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+          }
 
           &:before {
             content: '';
@@ -588,6 +607,11 @@ body.welcome {
 
         &-hide {
           bottom: -60px;
+        }
+
+        &-description-hidden-link {
+          width: calc(100% ~'- 34px');
+          pointer-events: auto;
         }
       }
     }

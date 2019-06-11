@@ -120,8 +120,21 @@
                 this._initUserList();
                 this._initPairs();
 
-                $element.find('.contest-link-close').on('click', () => {
-                    $element.find('.contest-link').remove();
+                const sectionContestUpper = $element.find('#section-contest-upper');
+                const sectionContestDown = $element.find('#section-contest-down');
+                $element.find('.contest-link-close').on('click', function () {
+                    const closestSectionContest = $(this).closest('.section-contest');
+
+                    if (closestSectionContest[0] === sectionContestUpper[0]) {
+                        sectionContestUpper.addClass('collapsed');
+                        sectionContestDown.remove();
+                        setTimeout(() => {
+                            sectionContestUpper.remove();
+                        }, 500);
+                    } else {
+                        [sectionContestDown, sectionContestUpper].forEach(section => section.remove());
+                    }
+
                 });
             }
 
@@ -132,26 +145,21 @@
                 const scrolledView = $element.find('.scrolled-view');
                 const header = $element.find('w-site-header');
 
-                const contestLink = $element.find('.contest-link');
-                const contestLinkStartCoords = contestLink.offset();
+                const contestLinkUpper = $element.find('#contest-link-upper');
+                const contestLinkDown = $element.find('#contest-link-down');
+                const contestLinkStartCoords = contestLinkUpper.offset();
 
                 scrolledView.on('scroll', () => {
                     header.toggleClass('fixed', scrolledView.scrollTop() > whenHeaderGetFix);
                     header.toggleClass('unfixed', scrolledView.scrollTop() <= whenHeaderGetFix);
 
-                    if (contestLink) {
-                        if (scrolledView.scrollTop() > contestLinkStartCoords.top + contestLink.outerHeight()) {
-                            contestLink.addClass('contest-link-fixed');
-                            contestLink.removeClass('contest-link-hide');
-                            setTimeout(() => {
-                                contestLink.addClass('contest-link-show');
-                            }, 0);
-                        } else if (contestLink.hasClass('contest-link-show')) {
-                            contestLink.removeClass('contest-link-show');
-                            contestLink.addClass('contest-link-hide');
-                            setTimeout(() => {
-                                contestLink.removeClass('contest-link-hide contest-link-fixed');
-                            }, 500);
+                    if (contestLinkUpper && contestLinkDown) {
+                        if (scrolledView.scrollTop() > contestLinkStartCoords.top + contestLinkUpper.outerHeight()) {
+                            contestLinkDown.addClass('contest-link-show');
+                            contestLinkDown.removeClass('contest-link-hide');
+                        } else {
+                            contestLinkDown.removeClass('contest-link-show');
+                            contestLinkDown.addClass('contest-link-hide');
                         }
                     }
                 });
