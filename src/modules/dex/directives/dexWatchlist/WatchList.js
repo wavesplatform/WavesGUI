@@ -432,6 +432,7 @@
 
             chooseTrading() {
                 this.isActiveTrading = true;
+                this.isActiveSelect = false;
                 this.activeTab = 'trading';
             }
 
