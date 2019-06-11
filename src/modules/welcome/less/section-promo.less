@@ -1,0 +1,41 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+// TODO uIsk - move all icons to icons config
+@import (reference) '../../app/less/typography';
+
+body.welcome {
+  .section-promo {
+    .section-wrapper {
+      display: flex;
+      align-items: flex-start;
+      text-align: center;
+      flex-wrap: wrap;
+      padding-bottom: 60px;
+      justify-content: center;
+    }
+
+    &::before {
+      position: absolute;
+      background: @color-white;
+      width: 5000px;
+      height: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0;
+      display: block;
+      content: '';
+      z-index: -1;
+    }
+
+    &-card {
+      padding: 20px 0;
+      width: 100%;
+      min-width: 280px;
+    }
+
+    &-title {
+      font-weight: 400;
+      margin-top: 0;
+    }
+  }
+}

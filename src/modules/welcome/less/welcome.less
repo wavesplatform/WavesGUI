@@ -73,313 +73,10 @@ body.welcome {
       }
     }
   }
-
-  .markets-table-description {
-    display: flex;
-    flex-direction: row;
-    a {
-      display: inline-block;
-      margin-left: 4px;
-    }
-  }
-
-  .table {
-    &-markets { // .table-markets
-      border-radius: 4px;
-      background: @color-white;
-      width: 100%;
-      box-shadow: @shadow-dex-welcome;
-
-      .cell {
-        width: ~"calc((100% - 190px) / 5)";
-        max-width: ~"calc((100% - 190px) / 5)";
-        overflow: hidden;
-        vertical-align: middle;
-        white-space: nowrap;
-      }
-
-      .graph {
-        width: 110px;
-        height: 36px;
-        line-height: 36px;
-        margin-left: 10px;
-        position: relative;
-      }
-
-      .change {
-        padding-left: 10px;
-      }
-
-      .row {
-        display: flex;
-        font-size: 15px;
-        align-items: center;
-        height: 70px;
-        padding: 0 40px;
-        position: relative;
-        color: inherit;
-        transition: .3s;
-
-        &.red {
-          .change {
-            color: @color-error-500;
-          }
-        }
-
-        &.blue {
-          .change {
-            color: @color-submit-400;
-          }
-        }
-
-        &-content {
-          cursor: pointer;
-          &:hover {
-            background: #f9fbfd;
-            box-shadow: 0px 1px 0px 0px #f9fbfd, 0px -1px 0px 0px #f9fbfd;
-          }
-
-          .pair {
-            font-weight: 600;
-            font-family: @font-roboto-regular;
-          }
-
-          &:not(:last-child)::after {
-            content: '';
-            display: block;
-            bottom: 0;
-            position: absolute;
-            width: calc(100% ~'- 80px');
-            height: 1px;
-            background: @color-info-50;
-          }
-        }
-
-        &-header {
-          font-size: 13px;
-          border-bottom: 1px solid @color-info-50;
-        }
-      }
-    }
-  }
-
-  .section {
-    &-welcome {
-      display: block;
-      height: 770px;
-      align-items: center;
-      background: @color-white;
-
-      .section-wrapper {
-        display: flex;
-        height: 100%;
-        align-items: center;
-      }
-
-      .welcome-text {
-        font-size: 50px;
-        font-weight: 500;
-        line-height: 1.4;
-        font-family: @font-roboto-regular;
-      }
-
-      .left-side {
-        max-width: 540px;
-        z-index: 2;
-      }
-
-      .submit {
-        margin-right: 15px;
-      }
-
-      .dex-screenshot {
-        left: calc(50% ~'- 50px');
-        max-width: calc(50% ~'+ 50px');
-        @dex-screenshot-width: 2732px;
-        @dex-screenshot-height: 1536px;
-        width: calc(@dex-screenshot-width / 2.7);
-        height: calc(@dex-screenshot-height / 2.7);
-        display: block;
-        position: absolute;
-        top: 90px;
-        box-shadow: 0 0 30px @color-basic-200;
-        z-index: 1;
-        transition: .5s;
-        background: url(/img/landing/dex-screenshot.png) left center no-repeat @color-white; // image size = 2732 × 1536
-        background-size: cover;
-      }
-    }
-
-    &-markets { // .section-markets
-      background: @color-info-50;
-
-       &-description {
-         max-width: 660px;
-         margin: auto;
-       }
-
-      .section-wrapper {
-        padding-bottom: 60px;
-
-        h2 {
-          margin-top: 0;
-        }
-      }
-    }
-
-    &-slider {
-      padding: 0;
-      background: @color-info-50;
-      overflow: hidden;
-      position: relative;
-      max-width: 100%;
-
-      &:before {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        display: block;
-        content: '';
-        background: @color-info-50;
-      }
-
-      @media screen and (max-width: 480px) {
-        padding-left: 20px;
-        padding-right: 20px;
-      }
-
-      .slider-wrapper {
-        padding-top: 60px;
-        padding-bottom: 60px;
-      }
-
-      @media screen and (max-width: 1340px) {
-        .slider-wrapper {
-          max-width: 100%;
-          padding: 80px 0;
-        }
-      }
-
-      w-carousel {
-        height: 140px;
-        .graph {
-          margin-left: 10px;
-        }
-      }
-
-      .slider {
-        display: flex;
-        width: 100%;
-        max-width: @mainWrapperWidth;
-      }
-
-      .slide {
-        min-width: 280px;
-        overflow: visible;
-        cursor: pointer;
-
-        &_css-anim { // .slide_css-anim
-          border-radius: @border-radius;
-          background: @color-white;
-          padding: 30px;
-          transition: all 0.3s;
-          box-shadow: @shadow-dex-welcome;
-
-          &:hover {
-            box-shadow: 0 1rem 2.5rem rgba(58, 78, 136, 0.1), 0 0.5rem 1rem -0.75rem rgba(58, 78, 136, 0.1) !important;
-            transform: translate3d(0, -3px, 0);
-          }
-        }
-
-        .graph {
-          width: 80px;
-          height: 46px;
-          position: relative;
-        }
-
-        .red {
-          color: @color-error-500;
-        }
-
-        .blue {
-          color: @color-submit-400;
-        }
-
-        h2 {
-          font-weight: normal;
-          margin: 0 0 7px;
-        }
-      }
-
-      @media screen and (max-width: 1400px) {
-        .slide {
-          width: 31%;
-        }
-      }
-      @media screen and (max-width: 1000px) {
-        .slide {
-          width: 48%;
-        }
-      }
-      @media screen and (max-width: 620px) {
-        .slide {
-          width: 100%;
-        }
-      }
-
-      @media screen and (max-width: 768px) {
-        .slider-wrapper {
-          padding: 60px 0 20px;
-        }
-
-        .slide {
-          &_css-anim { // .slide_css-anim
-            padding: 20px;
-          }
-        }
-      }
-    }
-
-    &-promo {
-      .section-wrapper {
-        display: flex;
-        align-items: flex-start;
-        text-align: center;
-        flex-wrap: wrap;
-        padding-bottom: 60px;
-        justify-content: center;
-      }
-
-      &::before {
-        position: absolute;
-        background: @color-white;
-        width: 5000px;
-        height: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        top: 0;
-        display: block;
-        content: '';
-        z-index: -1;
-      }
-
-      &-card {
-        padding: 20px 0;
-        width: 100%;
-        min-width: 280px;
-      }
-
-      &-title {
-        font-weight: 400;
-        margin-top: 0;
-      }
-    }
-  }
 }
 
 @media screen and (max-width: 1440px) {
   body.welcome {
-
     .section-wrapper {
       padding-left: 40px;
       padding-right: 40px;
@@ -445,6 +142,18 @@ body.welcome {
       .dex-screenshot {
         left: 50%;
         max-width: 50%;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 992px) {
+  body.welcome {
+    .section {
+      &-promo {
+        &-card {
+          flex-basis: 33.33%;
+        }
       }
     }
   }
@@ -563,6 +272,7 @@ body.welcome {
     }
   }
 }
+
 @media screen and (min-width: 860px) {
   body.welcome {
     .section {
@@ -580,18 +290,6 @@ body.welcome {
 
         &-content {
           margin-left: 20px;
-        }
-      }
-    }
-  }
-}
-
-@media screen and (min-width: 992px) {
-  body.welcome {
-    .section {
-      &-promo {
-        &-card {
-          flex-basis: 33.33%;
         }
       }
     }

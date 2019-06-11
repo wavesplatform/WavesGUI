@@ -1,0 +1,52 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+// TODO uIsk - move all icons to icons config
+@import (reference) '../../app/less/typography';
+
+body.welcome {
+  .section-welcome {
+    display: block;
+    height: 770px;
+    align-items: center;
+    background: @color-white;
+
+    .section-wrapper {
+      display: flex;
+      height: 100%;
+      align-items: center;
+    }
+
+    .welcome-text {
+      font-size: 50px;
+      font-weight: 500;
+      line-height: 1.4;
+      font-family: @font-roboto-regular;
+    }
+
+    .left-side {
+      max-width: 540px;
+      z-index: 2;
+    }
+
+    .submit {
+      margin-right: 15px;
+    }
+
+    .dex-screenshot {
+      left: calc(50% ~'- 50px');
+      max-width: calc(50% ~'+ 50px');
+      @dex-screenshot-width: 2732px;
+      @dex-screenshot-height: 1536px;
+      width: calc(@dex-screenshot-width / 2.7);
+      height: calc(@dex-screenshot-height / 2.7);
+      display: block;
+      position: absolute;
+      top: 90px;
+      box-shadow: 0 0 30px @color-basic-200;
+      z-index: 1;
+      transition: .5s;
+      background: url(/img/landing/dex-screenshot.png) left center no-repeat @color-white; // image size = 2732 × 1536
+      background-size: cover;
+    }
+  }
+}

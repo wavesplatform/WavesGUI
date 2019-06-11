@@ -1,0 +1,110 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+// TODO uIsk - move all icons to icons config
+@import (reference) '../../app/less/typography';
+
+body.welcome {
+  .section-markets {
+    background: @color-info-50;
+
+    &-description {
+      max-width: 660px;
+      margin: auto;
+    }
+
+    .section-wrapper {
+      padding-bottom: 60px;
+
+      h2 {
+        margin-top: 0;
+      }
+    }
+  }
+
+  .markets-table-description {
+    display: flex;
+    flex-direction: row;
+    a {
+      display: inline-block;
+      margin-left: 4px;
+    }
+  }
+
+  .table-markets {
+    border-radius: 4px;
+    background: @color-white;
+    width: 100%;
+    box-shadow: @shadow-dex-welcome;
+
+    .cell {
+      width: ~"calc((100% - 190px) / 5)";
+      max-width: ~"calc((100% - 190px) / 5)";
+      overflow: hidden;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    .graph {
+      width: 110px;
+      height: 36px;
+      line-height: 36px;
+      margin-left: 10px;
+      position: relative;
+    }
+
+    .change {
+      padding-left: 10px;
+    }
+
+    .row {
+      display: flex;
+      font-size: 15px;
+      align-items: center;
+      height: 70px;
+      padding: 0 40px;
+      position: relative;
+      color: inherit;
+      transition: .3s;
+
+      &.red {
+        .change {
+          color: @color-error-500;
+        }
+      }
+
+      &.blue {
+        .change {
+          color: @color-submit-400;
+        }
+      }
+
+      &-content {
+        cursor: pointer;
+        &:hover {
+          background: #f9fbfd;
+          box-shadow: 0px 1px 0px 0px #f9fbfd, 0px -1px 0px 0px #f9fbfd;
+        }
+
+        .pair {
+          font-weight: 600;
+          font-family: @font-roboto-regular;
+        }
+
+        &:not(:last-child)::after {
+          content: '';
+          display: block;
+          bottom: 0;
+          position: absolute;
+          width: calc(100% ~'- 80px');
+          height: 1px;
+          background: @color-info-50;
+        }
+      }
+
+      &-header {
+        font-size: 13px;
+        border-bottom: 1px solid @color-info-50;
+      }
+    }
+  }
+}
