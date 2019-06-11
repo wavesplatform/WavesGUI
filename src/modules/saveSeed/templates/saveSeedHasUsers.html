@@ -67,12 +67,12 @@
 <div class="seed" ng-if="$ctrl.isVisibleSeed">
     <div class="backup-seed movable get-started-content text-center">
         <div class="headline-1 margin-1">
-            <span w-i18n="backupSeed.saveSecret"></span>
+            <span w-i18n="backupSeed.copySeed"></span>
         </div>
 
         <div class="body-2 basic-500 margin-top-2 margin-2">
             <span w-i18n="backupSeed.warn"></span>
-            <a ng-click="$ctrl.isVisibleSeed = false" w-i18n="backupSeed.back"></a>
+            <a ng-click="$ctrl.isVisibleSeed = false" w-i18n="backupSeed.goBack"></a>
         </div>
 
         <div class="body-2 basic-900 margin-2">
@@ -82,7 +82,7 @@
         <w-seed-read type="read" seed="{{::$ctrl.seed}}" class="no-user-select margin-1 margin-top-2"></w-seed-read>
 
         <w-button class="submit big long" on-click="$ctrl.hideSeed()">
-            <span w-i18n="backupSeed.back"></span>
+            <span w-i18n="backupSeed.copy"></span>
         </w-button>
     </div>
 
