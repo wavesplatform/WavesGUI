@@ -203,160 +203,6 @@
                 };
             }
 
-            static _addRateForPair(rate) {
-                return pair => {
-                    if (!pair.volume) {
-                        return pair;
-                    }
-
-                    const currentVolume = pair.volume.getTokens().times(rate).dp(3, BigNumber.ROUND_HALF_UP);
-
-                    return { ...pair, currentVolume };
-                };
-            }
-
-            static _renderSmartTable() {
-                stService.render('watchlist');
-            }
-
-            static _onRenderTable(name) {
-                if (name !== 'watchlist') {
-                    return null;
-                }
-
-                setTimeout(function loop() {
-                    const $chosen = $element.find('.chosen');
-
-                    if (!$chosen.length) {
-                        return null;
-                    }
-
-                    const $body = $element.find('.smart-table__w-tbody');
-                    const scroll = $body.scrollTop();
-                    const chosenOffset = $chosen.offset().top;
-                    const bodyOffset = $body.offset().top;
-
-                    const top = chosenOffset - bodyOffset + scroll - $body.height() / 2 + $chosen.height() / 2;
-
-                    $element.find('.smart-table__w-tbody').animate({
-                        scrollTop: top
-                    }, 300);
-                }, 300);
-            }
-
-            /**
-             * @param {string} query
-             * @returns {boolean}
-             * @private
-             */
-            static _isId(query) {
-                return WatchList._getBytes(query) > 16 || query === 'WAVES';
-            }
-
-            /**
-             * @param {string} str
-             * @returns {number}
-             * @private
-             */
-            static _getBytes(str) {
-                return new Blob([str], { type: 'text/html' }).size;
-            }
-
-            static _getAssetsFromPairs(pairs) {
-                return pairs.reduce((acc, item) => {
-                    ['amountAsset', 'priceAsset'].forEach((propertyName) => {
-                        if (!acc.hash[item.pair[propertyName].id]) {
-                            acc.assets.push(item.pair[propertyName]);
-                            acc.hash[item.pair[propertyName].id] = true;
-                        }
-                    });
-                    return acc;
-                }, { assets: [], hash: {} }).assets;
-            }
-
-            /**
-             * @param {Array<string>} pair
-             * @return string
-             * @private
-             */
-            static _getKeyByPair(pair) {
-                return pair.sort().join();
-            }
-
-            /**
-             * @param pairs
-             * @private
-             */
-            static _loadDataByPairs(pairs) {
-                const ids = flatten(pairs);
-                return ds.api.assets.get(ids)
-                    .then(() => {
-                        const promiseList = pairs.filter(p => p.length === 2)
-                            .map(([assetId1, assetId2]) => ds.api.pairs.get(assetId1, assetId2));
-                        return Promise.all(promiseList);
-                    })
-                    .then((pairs) => {
-                        const promiseList = splitEvery(20, pairs).map((pairs) => {
-                            return ds.api.pairs.info(...pairs)
-                                .then(infoList => infoList.map((data, i) => ({
-                                    ...data,
-                                    pairNames:
-                                        `${pairs[i].amountAsset.displayName} / ${pairs[i].priceAsset.displayName}`,
-                                    pairIdList: [pairs[i].amountAsset.id, pairs[i].priceAsset.id]
-                                })))
-                                .catch(() => pairs.map(WatchList._getEmptyPairData));
-                        });
-
-                        return Promise.all(promiseList);
-                    })
-                    .then(flatten);
-            }
-
-            static _getEmptyPairData(pair) {
-                return {
-                    amountAsset: pair.amountAsset,
-                    priceAsset: pair.priceAsset,
-                    pairNames: `${pair.amountAsset.displayName} / ${pair.priceAsset.displayName}`,
-                    pairIdList: [pair.amountAsset.id, pair.priceAsset.id],
-                    id: [pair.amountAsset.id, pair.priceAsset.id].sort().join(),
-                    lastPrice: null,
-                    firstPrice: null,
-                    volume: null,
-                    change24: null
-                };
-            }
-
-            /**
-             * @param {Array<string>} assetIdList
-             * @return {Array<Array<string>>}
-             * @private
-             */
-            static _getAllCombinations(assetIdList) {
-                const pairs = [];
-
-                assetIdList.forEach((assetId, index) => {
-                    assetIdList
-                        .slice(index + 1)
-                        .forEach((anotherAssetId) => {
-                            pairs.push([assetId, anotherAssetId].sort(utils.comparators.asc));
-                        });
-                });
-
-                return pairs;
-            }
-
-            /**
-             * @param {Array<Array<string>>} pairs
-             * @return {Array<Array<string>>}
-             * @private
-             */
-            static _uniqPairs(pairs) {
-                return Object.values(pairs.reduce((acc, pair) => {
-                    acc[pair.join(',')] = pair;
-                    return acc;
-                }, {}));
-            }
-
             $postLink() {
                 // this._lastUserBalanceIdList = WatchList._getUserBalanceAssetIdList();
 
@@ -369,8 +215,8 @@
                 this.syncSettings({
                     activeTab: 'dex.watchlist.activeTab',
                     showOnlyFavorite: 'dex.watchlist.showOnlyFavorite',
-                    favourite: 'dex.watchlist.favourite',
-                    assetIdPair: 'dex.assetIdPair'
+                    _favourite: 'dex.watchlist.favourite',
+                    _assetIdPair: 'dex.assetIdPair'
                 });
 
                 this._initializeActiveTab();
@@ -387,20 +233,6 @@
                     this.pending = false;
                 });
             }
-
-            // /**
-            //  * @private
-            //  */
-            // _onChangeUserBalances() {
-            //     const assetIdList = WatchList._getUserBalanceAssetIdList();
-            //
-            //     if (equals(this._lastUserBalanceIdList, assetIdList)) {
-            //         return null;
-            //     }
-            //
-            //     this._lastUserBalanceIdList = assetIdList;
-            //     this._poll.restart();
-            // }
 
             showAssetInfo(event, asset) {
                 event.preventDefault();
@@ -432,6 +264,7 @@
 
             chooseTrading() {
                 this.isActiveTrading = true;
+                this.isActiveSelect = false;
                 this.activeTab = 'trading';
             }
 
@@ -479,11 +312,22 @@
             }
 
             /**
+             * @return {boolean}
+             * @private
+             */
+            _isActiveTrading() {
+                return this.activeTab === 'trading';
+            }
+
+            /**
              * @private
              */
             _initializeActiveTab() {
-                this.isActiveSelect = !find(propEq('value', this.activeTab), this.tabs);
-                if (this.isActiveSelect) {
+                const isActiveSelect = !find(propEq('value', this.activeTab), this.tabs);
+                this.isActiveTrading = this._isActiveTrading();
+
+                if (isActiveSelect && !this.isActiveTrading) {
+                    this.isActiveSelect = true;
                     this.dropDownId = this.activeTab;
                 }
             }
@@ -523,6 +367,20 @@
                 }
             }
 
+            // /**
+            //  * @private
+            //  */
+            // _onChangeUserBalances() {
+            //     const assetIdList = WatchList._getUserBalanceAssetIdList();
+            //
+            //     if (equals(this._lastUserBalanceIdList, assetIdList)) {
+            //         return null;
+            //     }
+            //
+            //     this._lastUserBalanceIdList = assetIdList;
+            //     this._poll.restart();
+            // }
+
             /**
              * @return {Promise<T | never>}
              * @private
@@ -547,7 +405,7 @@
             _getTabRate() {
                 const activeTab = this.activeTab;
 
-                if (activeTab === 'trading') {
+                if (this._isActiveTrading()) {
                     return Promise.resolve(new BigNumber(1));
                 }
 
@@ -589,7 +447,7 @@
              */
             _filterDataItemByTab(item) {
 
-                if (this.activeTab === 'trading') {
+                if (this._isActiveTrading()) {
                     return true;
                 }
 
@@ -754,7 +612,7 @@
              * @private
              */
             _getPairList() {
-                if (this.isActiveTrading) {
+                if (this._isActiveTrading()) {
                     return TRADING_PAIRS;
                 }
 
@@ -794,6 +652,160 @@
 
                     return favorite.concat(other);
                 };
+            }
+
+            static _addRateForPair(rate) {
+                return pair => {
+                    if (!pair.volume) {
+                        return pair;
+                    }
+
+                    const currentVolume = pair.volume.getTokens().times(rate).dp(3, BigNumber.ROUND_HALF_UP);
+
+                    return { ...pair, currentVolume };
+                };
+            }
+
+            static _renderSmartTable() {
+                stService.render('watchlist');
+            }
+
+            static _onRenderTable(name) {
+                if (name !== 'watchlist') {
+                    return null;
+                }
+
+                setTimeout(function loop() {
+                    const $chosen = $element.find('.chosen');
+
+                    if (!$chosen.length) {
+                        return null;
+                    }
+
+                    const $body = $element.find('.smart-table__w-tbody');
+                    const scroll = $body.scrollTop();
+                    const chosenOffset = $chosen.offset().top;
+                    const bodyOffset = $body.offset().top;
+
+                    const top = chosenOffset - bodyOffset + scroll - $body.height() / 2 + $chosen.height() / 2;
+
+                    $element.find('.smart-table__w-tbody').animate({
+                        scrollTop: top
+                    }, 300);
+                }, 300);
+            }
+
+            /**
+             * @param {string} query
+             * @returns {boolean}
+             * @private
+             */
+            static _isId(query) {
+                return WatchList._getBytes(query) > 16 || query === 'WAVES';
+            }
+
+            /**
+             * @param {string} str
+             * @returns {number}
+             * @private
+             */
+            static _getBytes(str) {
+                return new Blob([str], { type: 'text/html' }).size;
+            }
+
+            static _getAssetsFromPairs(pairs) {
+                return pairs.reduce((acc, item) => {
+                    ['amountAsset', 'priceAsset'].forEach((propertyName) => {
+                        if (!acc.hash[item.pair[propertyName].id]) {
+                            acc.assets.push(item.pair[propertyName]);
+                            acc.hash[item.pair[propertyName].id] = true;
+                        }
+                    });
+                    return acc;
+                }, { assets: [], hash: {} }).assets;
+            }
+
+            /**
+             * @param {Array<string>} pair
+             * @return string
+             * @private
+             */
+            static _getKeyByPair(pair) {
+                return pair.sort().join();
+            }
+
+            /**
+             * @param pairs
+             * @private
+             */
+            static _loadDataByPairs(pairs) {
+                const ids = flatten(pairs);
+                return ds.api.assets.get(ids)
+                    .then(() => {
+                        const promiseList = pairs.filter(p => p.length === 2)
+                            .map(([assetId1, assetId2]) => ds.api.pairs.get(assetId1, assetId2));
+                        return Promise.all(promiseList);
+                    })
+                    .then((pairs) => {
+                        const promiseList = splitEvery(20, pairs).map((pairs) => {
+                            return ds.api.pairs.info(...pairs)
+                                .then(infoList => infoList.map((data, i) => ({
+                                    ...data,
+                                    pairNames:
+                                        `${pairs[i].amountAsset.displayName} / ${pairs[i].priceAsset.displayName}`,
+                                    pairIdList: [pairs[i].amountAsset.id, pairs[i].priceAsset.id]
+                                })))
+                                .catch(() => pairs.map(WatchList._getEmptyPairData));
+                        });
+
+                        return Promise.all(promiseList);
+                    })
+                    .then(flatten);
+            }
+
+            static _getEmptyPairData(pair) {
+                return {
+                    amountAsset: pair.amountAsset,
+                    priceAsset: pair.priceAsset,
+                    pairNames: `${pair.amountAsset.displayName} / ${pair.priceAsset.displayName}`,
+                    pairIdList: [pair.amountAsset.id, pair.priceAsset.id],
+                    id: [pair.amountAsset.id, pair.priceAsset.id].sort().join(),
+                    lastPrice: null,
+                    firstPrice: null,
+                    volume: null,
+                    change24: null
+                };
+            }
+
+            /**
+             * @param {Array<string>} assetIdList
+             * @return {Array<Array<string>>}
+             * @private
+             */
+            static _getAllCombinations(assetIdList) {
+                const pairs = [];
+
+                assetIdList.forEach((assetId, index) => {
+                    assetIdList
+                        .slice(index + 1)
+                        .forEach((anotherAssetId) => {
+                            pairs.push([assetId, anotherAssetId].sort(utils.comparators.asc));
+                        });
+                });
+
+                return pairs;
+            }
+
+            /**
+             * @param {Array<Array<string>>} pairs
+             * @return {Array<Array<string>>}
+             * @private
+             */
+            static _uniqPairs(pairs) {
+                return Object.values(pairs.reduce((acc, pair) => {
+                    acc[pair.join(',')] = pair;
+                    return acc;
+                }, {}));
             }
 
             // static _getUserBalanceAssetIdList() {
