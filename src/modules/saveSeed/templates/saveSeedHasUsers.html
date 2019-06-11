@@ -65,25 +65,27 @@
 </div>
 
 <div class="seed" ng-if="$ctrl.isVisibleSeed">
-    <div class="backup-seed movable get-started-content text-center">
-        <div class="headline-1 margin-1">
+    <div class="backup-seed movable get-started-content">
+        <div class="headline-1 margin-1 text-center">
             <span w-i18n="backupSeed.copySeed"></span>
         </div>
 
-        <div class="body-2 basic-500 margin-top-2 margin-2">
+        <div class="body-2 basic-500 margin-top-1 margin-4 text-center">
             <span w-i18n="backupSeed.warn"></span>
-            <a ng-click="$ctrl.isVisibleSeed = false" w-i18n="backupSeed.goBack"></a>
+            <a ng-click="$ctrl.isVisibleSeed = false" class="submit-400" w-i18n="backupSeed.goBack"></a>
         </div>
 
-        <div class="body-2 basic-900 margin-2">
+        <div class="body-2 basic-900 margin-1">
             <span w-i18n="backupSeed.yourSeed"></span>
         </div>
 
-        <w-seed-read type="read" seed="{{::$ctrl.seed}}" class="no-user-select margin-1 margin-top-2"></w-seed-read>
+        <w-seed-read type="read" seed="{{::$ctrl.seed}}" class="no-user-select margin-2 margin-top-1"></w-seed-read>
 
-        <w-button class="submit big long" on-click="$ctrl.hideSeed()">
-            <span w-i18n="backupSeed.copy"></span>
-        </w-button>
+        <div class="margin-top-4">
+            <w-button class="submit big long" on-click="$ctrl.hideSeed()">
+                <span w-i18n="backupSeed.copy"></span>
+            </w-button>
+        </div>
     </div>
 
 </div>
