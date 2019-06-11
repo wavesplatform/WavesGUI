@@ -62,20 +62,20 @@
         <w-loader class="asd"></w-loader>
     </div>
 
-    <div ng-if="$ctrl.toBankMode && !$ctrl.isBankPendingOrError && $ctrl.isVerified && $ctrl.isCoinomatAccepted" class="margin-1">
+    <div ng-if="$ctrl.toBankMode && !$ctrl.isBankPendingOrError && $ctrl.isVerified && $ctrl.isGatewayAccepted" class="margin-1">
         <div class="plate-warning">
             <div class="body-2 warning-500 margin-05" w-i18n="modal.send.coinomatWarningHeader"></div>
             <div class="footnote-1 basic-500" w-i18n="modal.send.coinomatWarningText"></div>
         </div>
     </div>
 
-    <div ng-if="$ctrl.toBankMode && !$ctrl.isBankPendingOrError && $ctrl.isVerified && $ctrl.isCoinomatAccepted" class="row">
+    <div ng-if="$ctrl.toBankMode && !$ctrl.isBankPendingOrError && $ctrl.isVerified && $ctrl.isGatewayAccepted" class="row">
         <div class="plate-warning">
             <div class="body-2 warning-500 margin-05" w-i18n="modal.send.coinomatLimits"></div>
         </div>
     </div>
 
-    <div ng-if="$ctrl.outerSendMode && !$ctrl.gatewayDetailsError" class="row">
+    <div ng-if="$ctrl.outerSendMode && !$ctrl.gatewayError" class="row">
         <div class="plate-warning margin-2">
             <div class="body-2 warning-500"
                  w-i18n="modal.send.coinomat.feeTitle"
@@ -84,7 +84,7 @@
                                assetTicker: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.displayName
                              }"></div>
             <div class="footnote-1 basic-500"
-                 w-i18n="modal.send.coinomat.feeExplanation"
+                 w-i18n="modal.send.gateway.feeExplanation"
                  params="{
                                min: $ctrl.gatewayDetails.minimumAmount,
                                max: $ctrl.gatewayDetails.maximumAmount,
@@ -102,12 +102,20 @@
     <div ng-if="$ctrl.outerSendMode && $ctrl.gatewayDetailsError || !$ctrl.isBankAccepted" class="row">
         <div class="plate-warning server-error">
             <div class="body-2 warning-500 margin-05"
-                 w-i18n="modal.receive.serverError">
+                 w-i18n="modal.receive.gatewayError">
             </div>
         </div>
     </div>
 
-    <div ng-if="$ctrl.outerSendMode && $ctrl.isMoneroAddress() && !$ctrl.gatewayDetailsError">
+    <div ng-if="$ctrl.outerSendMode && $ctrl.gatewayAddressError" class="row">
+        <div class="plate-warning server-error">
+            <div class="body-2 warning-500 margin-05"
+                 w-i18n="modal.receive.serverAddressError">
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="$ctrl.outerSendMode && $ctrl.isMoneroAddress() && !$ctrl.gatewayError">
         <div class="body-2 margin-05" w-i18n="modal.send.moneroPaymentId"></div>
         <w-input-container class="row">
             <div>
@@ -246,7 +254,7 @@
     </div>
 
     <div class="commission-error margin-top-1 margin-2 footnote error-500"
-         ng-if="!$ctrl.hasComission && !$ctrl.gatewayDetailsError">
+         ng-if="!$ctrl.hasComission && !$ctrl.gatewayError">
         <span w-i18n="modal.send.validationError.notEnoughFundsWithdraw"
               ng-show="$ctrl.outerSendMode"
               params="{

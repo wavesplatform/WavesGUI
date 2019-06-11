@@ -11,7 +11,7 @@
             <div>
 
                 <div class="text-center" ng-if="$ctrl.loading">
-                    <h3 class="basic-700" w-i18n="keeperForm.loading"></h3>
+                    <h3 class="basic-700" w-i18n="keeperForm.heading"></h3>
                     <w-loader></w-loader>
                 </div>
 
@@ -81,7 +81,7 @@
             <div class="import-wrapper margin-3" ng-if="$ctrl.isInit && !$ctrl.error">
 
                 <div class="body-2 basic-900 margin-05" w-i18n="keeperForm.address"></div>
-                <div class="input-like address basic-900 mobile-caption-2 flex margin-2">
+                <div class="input-like disabled address basic-900 mobile-caption-2 flex margin-2">
                     <w-avatar address="$ctrl.selectedUser.address"
                               size="30"
                               type="keeper"

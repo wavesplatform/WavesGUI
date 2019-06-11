@@ -59,6 +59,12 @@ w-create-order {
     }
   }
 
+  .amount {
+    .underline-dashed {
+      font-family: @font-roboto-medium;
+    }
+  }
+
   .underline {
     cursor: pointer;
 
@@ -362,6 +368,7 @@ w-create-order {
             color: @white-only;
             border: none;
             height: 36px;
+            box-shadow: none;
             border-radius: @border-radius / 2;
           }
         }
@@ -374,7 +381,6 @@ w-create-order {
         }
 
         &.buy {
-
           .areas .area.buy {
             border-top: 2px solid @color-submit-400;
             border-bottom: 1px solid @color-white;
@@ -398,7 +404,6 @@ w-create-order {
         }
 
         &.sell {
-
           .areas .area.sell {
             border-top: 2px solid @color-error-400;
             border-bottom: 1px solid @color-white;
@@ -453,7 +458,7 @@ w-create-order {
           max-height: none;
           min-height: auto;
           position: absolute;
-          bottom: -5px;
+          bottom: 0;
           z-index: 7;
           box-shadow: @shadow-dex-open;
 
@@ -653,6 +658,10 @@ w-create-order {
 
     w-button {
       width: ~'calc(25% - 6px)';
+
+      > * {
+        box-shadow: none;
+      }
     }
   }
 }
