@@ -281,6 +281,33 @@ body.dex-demo .dex-wrapper {
               }
             }
           }
+
+          &.disabled {
+            cursor: default;
+            .smart-table__cell {
+              opacity: 0.4;
+            }
+          }
+
+          &:hover {
+            .tooltip-row {
+              display: flex;
+            }
+          }
+          .tooltip-row {
+            right: auto;
+            left: 50%;
+            transform: translateX(-50%);
+            &::before {
+              right: auto;
+              left: 50%;
+              transform: translateX(-50%);
+              opacity: .6;
+            }
+            &::after {
+              opacity: .6;
+            }
+          }
         }
 
         &__cell {

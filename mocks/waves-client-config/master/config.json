@@ -10,6 +10,20 @@
       "5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3",
       "Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck",
       "Gtb1WRznfchDnTh37ezoDTJ4wcoKaRsKqKjJjy7nm2zU",
+      "62LyMjcr2DtiyF5yVXFhoQ2q414VPPJXjsNYp72SuDCH",
+      "4LHHvYGNKJUg5hj65aGD5vgScvCBmLpdRFtjokvCjSL8"
+    ],
+    "CAN_TRANSFER_COINOMAT": [
+      "8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS",
+      "474jTeYx2r2Va35794tCScAXWJG9hU2HcgxzMowaZUnu",
+      "HZk1mbfuJpmxU1Fs4AX5MWLVYtctsNcg6e2C6VKqK8zk",
+      "BrjUWjndUanm5VsJkbUip8VRYy6LWJePtxya3FNv4TQa",
+      "zMFqXuoyrn5w17PFurTqxB7GsS71fp9dfk6XFwxbPCy",
+      "B3uGHFRpSUuGEDWjqB9LWWxafQj8VTvpMucEyoxzws5H",
+      "5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3",
+      "Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck",
+      "Gtb1WRznfchDnTh37ezoDTJ4wcoKaRsKqKjJjy7nm2zU",
+      "62LyMjcr2DtiyF5yVXFhoQ2q414VPPJXjsNYp72SuDCH",
       "4LHHvYGNKJUg5hj65aGD5vgScvCBmLpdRFtjokvCjSL8"
     ],
     "CAN_TRANSFER_TRANSACTION": true,
@@ -28,25 +42,47 @@
     "CAN_CANCEL_ORDER": true,
     "CAN_PAIRING_WITH_MOBILE": true,
     "CAN_ANY_TRANSACTION": true,
-    "CAN_SET_ASSET_SCRIPT": true
+    "CONTEST_TIME": false
   },
   "NOTIFICATIONS": [
     {
-      "start_date": "Thu Jun 06 2019 13:00:00 GMT+0300",
-      "id": "TRADE",
-      "end_date": "Thu Jun 07 2019 13:00:00 GMT+0300",
+      "id": "BCH Hardfork",
+      "start_date": "Fri Feb 22 2019 12:00:15 GMT+0300",
+      "end_date": "Tue Feb 25 2019 23:59:59 GMT+0300",
       "text": {
-        "en": "Win 5,000 WAVES in a trading contest on Waves DEX! Details can be found here: [https://wsoc.io](https://wsoc.io)",
-        "ru": "Выиграй 5 000 WAVES в конкурсе трейдеров на Waves DEX! Подробности по ссылке: [https://wsoc.io](https://wsoc.io)"
+        "en": "We have suspended BCH trading and are currently airdropping the new BSV coin to BCH holders.",
+        "ru": "Мы приостановили торговые операции с монетой BCH и сейчас начисляем ее держателям новую монету BSV.",
+        "de": "Wir haben den BCH-Handel ausgesetzt und verteilen derzeit die neuen BSV-Assets an BCH-Inhaber.",
+        "es": "Hemos suspendido todas las transacciones de BCH y actualmente estamos 'airdropping' la nueva BSV a los titulares de BCH.",
+        "hi": "हमने बीसीएच ट्रेडिंग को निलंबित कर दिया है और वर्तमान में बीसीएच धारकों के लिए नए बीएसवी सिक्के को प्रसारित कर रहे हैं।",
+        "id": "Kami telah menghentikan pertukaran BCH dan saat ini akan melakukan airdrop koin baru BSV untuk para pemegang BCH.",
+        "ko": "BCH 거래를 일시 중단했으며 현재 새로운 BSV 코인을 BCH 보유자에게 에어드롭하고 있습니다.",
+        "nl": "We hebben het handelen in BCH stilgelegd en zijn momenteel bezig met het aidroppen van de nieuwe BSV coin naar BCH holders.",
+        "tr": "BCH takaslarını askıya aldık ve şu anda BCH sahiplerine yeni BSV kripto parasının dağıtımını yapıyoruz.",
+        "zh-Hans-CN": "我们暂停了BCH交易，目前正在向BCH持有人空投新的BSV硬币。",
+        "it": "Abbiamo sospeso il trading di BCH ed avviato l'airdrop della nuova moneta BSV verso i possessori di BCH.",
+        "pl": "Zawiesiliśmy możliwość handlu kryptowalutą BCH i obecnie dokonujemy dystrybucji (airdrop) nowej kryptowaluty BSV dla dotychczasowych posiadaczy BCH.",
+        "pt": "Suspendemos as negociações de BCH para fazermos o airdrop de BSV para os portadores de BCH."
       }
     },
     {
-      "start_date": "Tue Jan 29 2019 15:35:15 GMT+0300",
-      "id": "BCH_WARNING",
-      "end_date": "Tue Feb 14 2019 13:02:15 GMT+0300",
+      "id": "BCH Hardfork - Done!",
+      "start_date": "Tue Feb 26 2019 00:00:00 GMT+0300",
+      "end_date": "Tue Mar 06 2019 00:00:00 GMT+0300",
       "text": {
-        "en": "Notification text [digilira.com](https://digilira.com)",
-        "ru": "Текст уведомления [digilira.com](https://digilira.com)"
+        "en": "We have distributed new BSV coins to all BCH holders. These coins can now be traded, as well as deposited and withdrawn.",
+        "ru": "Мы начислили новую монету BSV всем держателям BCH. Монеты вновь участвуют в торгах, их можно вводить и выводить.",
+        "de": "Wir haben die neue BSV-Assets an alle BCH-Inhaber verteilt. Diese Assets können jetzt gehandelt, eingezahlt und abgehoben werden.",
+        "es": "Hemos distribuido nuevamente criptomonedas BSV a todos los titulares de BCH. Estas criptomonedas pueden ser negociadas, así como depositadas y negociadas.",
+        "hi": "हमने सभी BCH धारकों को नए BSV सिक्के वितरित किए हैं। अब इन सिक्कों का कारोबार किया जा सकता है, साथ ही जमा और निकाले जा सकते हैं।",
+        "id": "Kami telah mendistribusikan koin baru BSV kepada seluruh pemegang BCH. Koin tersebut sudah bisa dipertukarkan, didepositkan dan ditarik.",
+        "ko": "모든 BCH 보유자에게 새로운 BSV 코인을 배포했습니다. 해당 코인은 지금부터 거래 및 출금 그리고 입금이 가능합니다.",
+        "nl": "We hebben de nieuwe BSV coins naar alle BCH holders gedistribueerd. Deze coins kunnen nu verhandeld, gestort en opgenomen worden.",
+        "tr": "Tüm BCH sahiplerine BSV dağıtımı tamamlandı. BSV’yi takas edebilir, yatırma ve çekme işlemlerini yapabilirsiniz.",
+        "zh-Hans-CN": "我们已经向所有BCH持有者分发了新的BSV币。 这些BSV币现在可以交易，也可以存款和提款。",
+        "it": "La distribuzione delle nuove monete BSV a tutti i possessori di BCH è stata completata. Queste nuove monete potranno d'ora in poi essere scambiate, depositate o prelevate.",
+        "pl": "Dokonaliśmy dystrybucji kryptowaluty BSV wszystkim dotychczasowym posiadaczom kryptowaluty BCH. Od teraz te kryptowaluty mogą już być przedmiotem handlu, a także można dokonać depozytu lub wypłaty.",
+        "pt": "Finalizamos a distribuição de BSV para todos os portadores de BCH. Agora essas moedas podem ser negociadas, depositadas e sacadas."
       }
     }
   ],
@@ -54,18 +90,22 @@
     "DEX": {
       "WATCH_LIST_PAIRS": [
         "WAVES",
-        "AsuWyM9MUUsMmWkK7jS48L3ky6gA1pxx7QtEYPbfLjAJ",
-        "D6N2rAqWN6ZCWnCeNFWLGqqjS6nJLeK4m19XiuhdDenr",
-        "DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn",
-        "BrmjyAWT5jjr3Wpsiyivyvg5vDuzoX2s93WgiexXetB3",
-        "BNdAstuFogzSyN2rY3beJbnBYwYcu7RzTHFjW88g8roK",
-        "CFg2KQfkUgUVM2jFCMC5Xh8T8zrebvPc4HjHPfAugU1S",
-        "8HT8tXwrXAYqwm8XrZ2hywWWTUAXxobHB5DakVC1y6jn",
-        "7itsmgdmomeTXvZzaaxqF3346h4FhciRoWceEw9asNV3",
-        "DGgBtwVoXKAKKvV2ayUpSoPzTJxt7jo9KiXMJRzTH2ET",
-        "FvKx3cerSVYGfXKFvUgp7koNuTAcLs8DmtmwRrFVCqJv",
-        "3P8gkhcLhFQvBkDzMnWeqqwvq3qxkpTNQPs4LUQ95tKD",
-        "8oPbSCKFHkXBy1hCGSg9pJkSARE7zhTQTLpc8KZwdtr7"
+        "Gtb1WRznfchDnTh37ezoDTJ4wcoKaRsKqKjJjy7nm2zU",
+        "Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck",
+        "8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS",
+        "474jTeYx2r2Va35794tCScAXWJG9hU2HcgxzMowaZUnu",
+        "HZk1mbfuJpmxU1Fs4AX5MWLVYtctsNcg6e2C6VKqK8zk",
+        "BrjUWjndUanm5VsJkbUip8VRYy6LWJePtxya3FNv4TQa",
+        "zMFqXuoyrn5w17PFurTqxB7GsS71fp9dfk6XFwxbPCy",
+        "2mX5DzVKWrAJw8iwdJnV2qtoeVG9h5nTDpTqC1wb1WEN",
+        "B3uGHFRpSUuGEDWjqB9LWWxafQj8VTvpMucEyoxzws5H",
+        "725Yv9oceWsB4GsYwyy4A52kEwyVrL5avubkeChSnL46",
+        "AxAmJaro7BJ4KasYiZhw7HkjwgYtt2nekPuF2CN9LMym",
+        "5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3",
+        "DHgwrRvVyqJsepd32YbBqUeDH4GJ1N984X8QoekjgH8J",
+        "4uK8i4ThRGbehENwa6MxyLtxAjAo1Rj9fduborGExarC",
+        "7FzrHF1pueRFrPEupz6oiVGTUZqe8epvC7ggWUx8n1bd",
+        "4LHHvYGNKJUg5hj65aGD5vgScvCBmLpdRFtjokvCjSL8"
       ],
       "LOCKED_PAIRS": [
         "7FzrHF1pueRFrPEupz6oiVGTUZqe8epvC7ggWUx8n1bd"

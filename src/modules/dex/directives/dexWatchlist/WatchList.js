@@ -135,6 +135,12 @@
              */
             _poll;
 
+            /**
+             * @type {array}
+             * @public
+             */
+            lockedPairs = [];
+
 
             constructor() {
                 super($scope);
@@ -196,6 +202,8 @@
                 this.tableOptions = {
                     filter: this._getTableFilter()
                 };
+
+                this.lockedPairs = configService.get('SETTINGS.DEX.LOCKED_PAIRS') || [];
             }
 
             $postLink() {
@@ -244,16 +252,20 @@
                     this._assetIdPair.price === pairData.priceAsset.id;
             }
 
+            isLockedPair(amountAssetId, priceAssetId) {
+                return this.lockedPairs.indexOf(amountAssetId) !== -1 ||
+                    this.lockedPairs.indexOf(priceAssetId) !== -1;
+            }
+
             /**
              * @param {WatchList.IPairDataItem} pairData
              */
             choosePair(pairData) {
-                const isLocked = configService.get('SETTINGS.DEX.LOCKED_PAIRS') || [];
                 const pair = {
                     amount: pairData.amountAsset.id,
                     price: pairData.priceAsset.id
                 };
-                if (isLocked.indexOf(pair.amount) !== -1 || isLocked.indexOf(pair.price) !== -1) {
+                if (this.isLockedPair(pair.amount, pair.price)) {
                     return null;
                 }
                 this._isSelfSetPair = true;
