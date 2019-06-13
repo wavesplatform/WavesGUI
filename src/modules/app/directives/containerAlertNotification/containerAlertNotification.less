@@ -192,28 +192,36 @@ w-container-alert-notification {
 
       &.info {
         background-color: @color-submit-300;
-        span.content-body::before {
+        span.content-body:not(.no-icon)::before {
           background: @notification-icon-info center left no-repeat;
         }
+        // TODO: delete after contest
+        span.content-body:not(.no-icon).wsoc::before {
+          width: 18px;
+          height: 18px;
+          left: -10px;
+          background: url(/img/icons/wsoc-notification.svg) center left no-repeat;
+        }
+        // TODO: delete after contest
       }
 
       &.success {
         background-color: @color-success-400;
-        span.content-body::before {
+        span.content-body:not(.no-icon)::before {
           background: @notification-icon-success center left no-repeat;
         }
       }
 
       &.warn {
         background-color: @color-warning-600;
-        span.content-body::before {
+        span.content-body:not(.no-icon)::before {
           background: @notification-icon-warning center left no-repeat;
         }
       }
 
       &.error {
         background-color: @color-error-500;
-        span.content-body::before {
+        span.content-body:not(.no-icon)::before {
           background: @notification-icon-error center left no-repeat;
         }
       }
