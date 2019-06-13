@@ -122,15 +122,23 @@
 
                 const sectionContestUpper = $element.find('#section-contest-upper');
                 const sectionContestDown = $element.find('#section-contest-down');
+
+                let timer;
                 $element.find('.contest-link-close').on('click', function () {
+                    $(this).off();
                     const closestSectionContest = $(this).closest('.section-contest');
 
                     if (closestSectionContest[0] === sectionContestUpper[0]) {
                         sectionContestUpper.addClass('collapsed');
                         sectionContestDown.remove();
-                        setTimeout(() => {
-                            sectionContestUpper.remove();
-                        }, 500);
+
+                        if (timer) {
+                            clearTimeout(timer);
+                        } else {
+                            timer = setTimeout(() => {
+                                sectionContestUpper.remove();
+                            }, 500);
+                        }
                     } else {
                         [sectionContestDown, sectionContestUpper].forEach(section => section.remove());
                     }
