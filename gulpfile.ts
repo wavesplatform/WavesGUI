@@ -338,6 +338,7 @@ task('less', function () {
 task('babel', ['concat-develop'], function () {
     return gulp.src(bundlePath)
         .pipe(babel({
+            "compact": true,
             presets: ['es2015'],
             plugins: [
                 'transform-decorators-legacy',
