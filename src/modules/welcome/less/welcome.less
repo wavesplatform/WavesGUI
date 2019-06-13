@@ -323,7 +323,6 @@ body.welcome {
 
         &-fixed {
           position: fixed;
-          //left: @welcomeSectionWrapperPaddingLarge;
           width: calc(~'100%' - @welcomeSectionWrapperPaddingLarge * 2);
           max-width: 1280px;
           box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2);
@@ -332,12 +331,10 @@ body.welcome {
 
         &-hide {
           bottom: -50px;
-          //opacity: 0;
         }
 
         &-show {
           bottom: 20px;
-          //opacity: 1;
         }
 
         &-description {
@@ -424,7 +421,6 @@ body.welcome {
     }
 
     .section-contest .contest-link-fixed {
-      //left: @welcomeSectionWrapperPaddingMedium;
       width: calc(~'100%' - @welcomeSectionWrapperPaddingMedium * 2);
     }
   }
@@ -601,12 +597,16 @@ body.welcome {
         padding: 0 10px;
 
         &-fixed {
-          //left: @welcomeSectionWrapperPaddingSmall;
           width: calc(~'100%' - @welcomeSectionWrapperPaddingSmall * 2);
+          bottom: -60px;
         }
 
         &-hide {
           bottom: -60px;
+        }
+
+        &-show {
+          bottom: 20px;
         }
 
         &-description-hidden-link {
