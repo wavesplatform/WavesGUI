@@ -87,7 +87,7 @@
                       w-nice-number="pair.currentVolume"
                       short-mode="::true"></span>
                 <span ng-if="!pair.volume">—</span>
-                <div ng-if="pair.volume" class="tooltip-dex right">
+                <div ng-if="pair.volume && !$ctrl.isLockedPair(pair.amountAsset.id, pair.priceAsset.id)" class="tooltip-dex right">
                     <span ng-if="pair.volume" w-nice-number="pair.currentVolume"></span>
                     {{$ctrl.volumeAsset.displayName}}
                 </div>
