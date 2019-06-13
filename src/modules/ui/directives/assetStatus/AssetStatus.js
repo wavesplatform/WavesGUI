@@ -27,6 +27,10 @@
                 this.observe('assetId', this._getAssetInfo);
             }
 
+            stopPropagation(e) {
+                e.stopPropagation();
+            }
+
             /**
              * @private
              */

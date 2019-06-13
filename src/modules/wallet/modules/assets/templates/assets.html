@@ -96,7 +96,7 @@
         <!--        TODO: delete after contest -->
         <w-asset ng-if="$ctrl.isContestTimeNow"
                  ng-repeat="balance in $ctrl.pinnedContestAssetBalances track by balance.asset.id"
-                 on-click="$ctrl.onContestAssetActionClick(event, balance.asset, action)"
+                 on-click="$ctrl.onAssetActionClick(event, balance.asset, action)"
                  class="contest-asset"
                  balance="balance"></w-asset>
         <!--        TODO: delete after contest -->
