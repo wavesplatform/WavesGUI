@@ -1,6 +1,5 @@
 @import (reference) 'config';
 @import (reference) 'icons';
-// TODO uIsk - move all icons to icons config
 @import (reference) '../../app/less/typography';
 
 body.welcome {
@@ -56,15 +55,24 @@ body.welcome {
 
   .get-started-btn {
     margin-right: 15px;
+    position: relative;
 
     .icon-arrow-right {
       margin-left: 10px;
+      display: block;
+      width: 24px;
+      height: 24px;
       transition: .3s;
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translate(0, -50%);
+      background-image: @arrow-white-right;
     }
 
     &:hover {
       .icon-arrow-right {
-        transform: translateX(10px);
+        transform: translate(10px, -50%);
       }
     }
   }
@@ -250,7 +258,6 @@ body.welcome {
         content: '';
         background: @color-info-50;
       }
-
     }
 
     &-promo {

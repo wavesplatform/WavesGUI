@@ -1,5 +1,6 @@
 @import (reference) 'config';
 @import (reference) 'icons';
+@import (reference) "../../../app/less/app-icons";
 @import (reference) '../../../app/less/typography';
 
 // top menu
@@ -213,7 +214,6 @@
         }
       }
 
-      // todo @uIsk - move icons to app-icons.less
       &.menu-link {
         background-position: 20px center;
         background-repeat: no-repeat;
@@ -232,50 +232,52 @@
         }
 
         &.get-started-link {
-          background: url(/img/icons/arrow-white-right.svg) calc(100% ~' - 20px') center no-repeat;
+          background-position: calc(100% ~' - 20px') center;
+          background-repeat: no-repeat;
+          background-image: @arrow-white-right;
         }
 
         &-menu {
-          background-image: url(/img/icons/arrow-white-left.svg);
+          background-image: @menu-back-icon;
           &::before {
             opacity: .6;
           }
         }
 
         &-aliases {
-          background-image: url(/img/icons/alias.svg);
+          background-image: @aliases-icon;
         }
 
         &-settings {
-          background-image: url(/img/icons/settings.svg);
+          background-image: @settings-icon;
         }
 
         &-leasing {
-          background-image: url(/img/icons/leasing.svg);
+          background-image: @leasing-icon;
         }
 
         &-portfolio {
-          background-image: url(/img/icons/portfolio.svg);
+          background-image: @portfolio-desktop-icon;
         }
 
         &-dashboard {
-          background-image: url(/img/icons/dashboard.svg);
+          background-image: @wallet-desktop-icon;
         }
 
         &-transactions {
-          background-image: url(/img/icons/transactions.svg);
+          background-image: @transactions-desktop-icon;
         }
 
         &-apple {
-          background-image: url(/img/icons/apple-basic-600.svg);
+          background-image: @apple-store-icon;
         }
 
         &-android {
-          background-image: url(/img/icons/android-basic-600.svg);
+          background-image: @google-play-icon;
         }
 
         &-logout {
-          background-image: url(/img/icons/logout.svg);
+          background-image: @logout-icon;
           border-bottom: 0 none;
           &::before {
             .link-border;
@@ -301,8 +303,8 @@
       }
     }
   }
-
   // end basic mobile menu styles
+
   // expanded
   .mobile-menu-wrapper {
     &.mobile-menu-wrapper-inner {
@@ -527,7 +529,7 @@ w-site-header {
         &:hover {
           &::before {
             transform: translateY(-50%) rotate(180deg);
-            background: url(/img/landing/arrow-down-blue.svg) center no-repeat;
+            background: @drop-down-hover-icon;
           }
         }
 
@@ -542,7 +544,7 @@ w-site-header {
           transition: .3s;
           transform: translateY(-50%);
           content: '';
-          background: url(/img/icons/arrow-down-12.svg) center no-repeat;
+          background: @dropdown-arrow-12-icon;
         }
 
         .dropdown {
@@ -563,21 +565,6 @@ w-site-header {
   .mobile-menu {
     .container div {
       max-width: 164px;
-    }
-  }
-
-  .get-started-btn {
-    margin-right: 15px;
-
-    .icon-arrow-right {
-      margin-left: 10px;
-      transition: .3s;
-    }
-
-    &:hover {
-      .icon-arrow-right {
-        transform: translateX(10px);
-      }
     }
   }
 
@@ -626,7 +613,7 @@ w-site-header {
         color: @color-submit-400;
         &::after {
           transform: rotate(-180deg);
-          background: url(/img/landing/arrow-down-blue.svg) right center no-repeat;
+          background: @drop-down-hover-icon;
         }
       }
     }
@@ -640,7 +627,7 @@ w-site-header {
         width: 10px;
         height: 10px;
         content: '';
-        background: url(/img/landing/arrow-down.svg) right center no-repeat;
+        background: @dropdown-arrow-icon;
         position: absolute;
         top: 5px;
         right: 0;
@@ -726,43 +713,43 @@ w-site-header {
 
       .icon {
         &-win {
-          background: url(/img/icons/windows.svg) center no-repeat;
+          background: @widnows-icon;
         }
 
         &-mac {
-          background: url(/img/icons/apple.svg) center no-repeat;
+          background: @macos-icon;
         }
 
         &-linux {
-          background: url(/img/icons/linux.svg) center no-repeat;
+          background: @linux-icon;
         }
 
         &-portfolio {
-          background: url(/img/icons/portfolio.svg) center no-repeat;
+          background: @portfolio-desktop-icon;
         }
 
         &-dashboard {
-          background: url(/img/icons/dashboard.svg) center no-repeat;
+          background: @wallet-desktop-icon;
         }
 
         &-transactions {
-          background: url(/img/icons/transactions.svg) center no-repeat;
+          background: @transactions-desktop-icon;
         }
 
         &-leasing {
-          background: url(/img/icons/leasing.svg) center no-repeat;
+          background: @leasing-icon;
         }
 
         &-logout {
-          background: url(/img/icons/logout.svg) center no-repeat;
+          background: @logout-icon;
         }
 
         &-aliases {
-          background: url(/img/icons/alias.svg) center no-repeat;
+          background: @aliases-icon;
         }
 
         &-settings {
-          background: url(/img/icons/settings.svg) center no-repeat;
+          background: @settings-icon;
         }
       }
 
@@ -818,10 +805,13 @@ w-site-header {
     width: 60px;
     height: 60px;
     margin-right: -20px;
+    background-image: @power-icon;
+    background-position: center;
+    background-repeat: no-repeat;
     border-left: 1px solid @header-logout-border-color;
-    background: url(/img/icons/power-basic-500.svg) center no-repeat;
+
     &:hover {
-      background: url(/img/icons/power-submit-400.svg) center no-repeat;
+      background-image: @power-hover-icon;
     }
   }
 
@@ -942,7 +932,7 @@ body.wallet {
     a.link-assets {
       color: @color-submit-300;
       .icon-dashboard {
-        background: url(/img/icons/dashboard-submit-300.svg) center no-repeat;
+        background: @wallet-icon;
       }
     }
   }
@@ -950,7 +940,7 @@ body.wallet {
     a.link-portfolio {
       color: @color-submit-300;
       .icon-portfolio {
-        background: url(/img/icons/portfolio-submit-300.svg) center no-repeat;
+        background: @portfolio-icon;
       }
     }
   }
@@ -958,7 +948,7 @@ body.wallet {
     a.link-transactions {
       color: @color-submit-300;
       .icon-transactions {
-        background: url(/img/icons/transactions-submit-300.svg) center no-repeat;
+        background: @transactions-icon;
       }
     }
   }
@@ -966,7 +956,7 @@ body.wallet {
     a.link-leasing {
       color: @color-submit-300;
       .icon-leasing {
-        background: url(/img/icons/leasing-submit-300.svg) center no-repeat;
+        background: @leasing-icon;
       }
     }
   }
