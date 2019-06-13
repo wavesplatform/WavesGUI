@@ -18,7 +18,8 @@
         </w-select>
         <div class="select-hover" ng-if="!$ctrl.isActiveSelect" ng-click="$ctrl.chooseSelect()"></div>
 
-        <div class="title title-contest"
+        <div ng-if="$ctrl.isContestTimeNow"
+             class="title title-contest"
              ng-class="{'active': $ctrl.activeTab === 'trading'}"
              ng-click="$ctrl.chooseTrading()">
             <span w-i18n="dex.contest"></span>
