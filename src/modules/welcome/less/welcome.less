@@ -115,6 +115,19 @@ body.welcome {
       position: relative;
     }
 
+    @media screen and (min-width: 1024px) {
+      .volume {
+        padding-right: 30px;
+      }
+
+      .volume,
+      .height24,
+      .low24,
+      .change {
+        text-align: right;
+      }
+    }
+
     .change {
       padding-left: 10px;
     }
@@ -505,6 +518,7 @@ body.welcome {
           font-size: 13px;
           padding: 0;
         }
+
         .low24,
         .height24 {
           display: none;
