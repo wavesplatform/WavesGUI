@@ -3,9 +3,9 @@
 
     // TODO: delete after contest
     const CONTEST_ASSET_ID_MAP = {
-        '4mX78Usbr2yMxxUPg9jt1tf9gG4fdewEhBdPZFC7cRmj': '/img/assets/wsoc.svg',
-        '7BDdXuzBX4FfxirbTgijpC2efzt4y67ikFe1Kpq3gjHr': '/img/assets/wsoc.svg',
-        '7N2qqn2D4AnmwLRv2RK2KN1wWvzfoZmngLzeNBytNcHc': '/img/assets/wsoc.svg'
+        '7eMpAC1CVLeZq7Mi16AkvkY2BmLytyApLaUG4TxNFew5': '/img/assets/wsoc.svg',
+        '8ouNBeYFxJMaeyPBwF8jY86R457CyEjAY98HaNLFox7N': '/img/assets/wsoc.svg',
+        'BFWboD9xC64tSmirFbCNARR1NSu6Ep9rP4SRoLkQhBUF': '/img/assets/wsoc.svg'
     };
     // TODO: delete after contest
 
