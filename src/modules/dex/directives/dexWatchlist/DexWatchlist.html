@@ -104,7 +104,11 @@
             </w-table-cell>
             <div class="tooltip-dex tooltip-row center"
                  ng-if="$ctrl.isLockedPair(pair.amountAsset.id, pair.priceAsset.id)"
-                 w-i18n="directives.watchlist.placeholders.lockedPair"></div>
+                 w-i18n="directives.watchlist.placeholders.lockedPair"
+                 params="{
+                     amountAssetTicker: pair.amountAsset.ticker || pair.amountAsset.displayName,
+                     priceAssetTicker:  pair.priceAsset.ticker || pair.priceAsset.displayName
+                 }"></div>
         </w-table-row>
     </w-smart-table>
 </div>

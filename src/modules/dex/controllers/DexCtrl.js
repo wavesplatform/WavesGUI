@@ -24,6 +24,7 @@
                                  createPoll,
                                  waves,
                                  configService,
+                                 modalManager,
                                  utils) {
 
         const analytics = require('@waves/event-sender');
@@ -113,7 +114,13 @@
             }
 
 
-            isLockedPair(amountAssetId, priceAssetId) {
+            /**
+             * @param amountAssetId
+             * @param priceAssetId
+             * @return {boolean}
+             * @private
+             */
+            _isLockedPair(amountAssetId, priceAssetId) {
                 return this._lockedPairs.indexOf(amountAssetId) !== -1 ||
                     this._lockedPairs.indexOf(priceAssetId) !== -1;
             }
@@ -126,6 +133,21 @@
                 $location.search('assetId2', pair.amountAsset.id);
                 $location.search('assetId1', pair.priceAsset.id);
             }
+
+            /**
+             * @return {Promise}
+             * @private
+             */
+            _showModalANdRedirect(amountAsset, priceAsset) {
+                const amountAssetName = amountAsset.ticker || amountAsset.displayName;
+                const priceAssetName = priceAsset.ticker || priceAsset.displayName;
+
+                return modalManager.showLockPairWarning(amountAssetName, priceAssetName)
+                    .then(() => {
+                        utils.openDex(WavesApp.defaultAssets.BTC, 'WAVES');
+                    });
+            }
+
             /**
              * @private
              */
@@ -165,21 +187,21 @@
                                     amount: WavesApp.defaultAssets.WAVES,
                                     price: WavesApp.defaultAssets.BTC
                                 }))
-                                .then((pair) => {
-                                    if (this.isLockedPair(pair.amountAsset.id, pair.priceAsset.id)) {
-                                        utils.openDex('8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS', 'WAVES');
+                                .then(({ amountAsset, priceAsset }) => {
+                                    if (this._isLockedPair(amountAsset.id, priceAsset.id)) {
+                                        return this._showModalANdRedirect(amountAsset, priceAsset);
                                     }
                                     const activeTab = user.getSetting('dex.watchlist.activeTab');
 
                                     if (activeTab !== 'all' &&
-                                        activeTab !== pair.amountAsset.id &&
-                                        activeTab !== pair.priceAsset.id) {
+                                        activeTab !== amountAsset.id &&
+                                        activeTab !== priceAsset.id) {
                                         user.setSetting('dex.watchlist.activeTab', 'all');
                                     }
 
                                     this._assetIdPair = {
-                                        amount: pair.amountAsset.id,
-                                        price: pair.priceAsset.id
+                                        amount: amountAsset.id,
+                                        price: priceAsset.id
                                     };
                                 })
                                 .then(resolve);
@@ -248,6 +270,7 @@
         'createPoll',
         'waves',
         'configService',
+        'modalManager',
         'utils'
     ];
 

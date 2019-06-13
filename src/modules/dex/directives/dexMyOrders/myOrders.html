@@ -87,7 +87,11 @@
             </w-table-cell>
             <div class="tooltip-dex tooltip-row center"
                  ng-if="$ctrl.isLockedPair(order.amount.asset.id, order.price.asset.id)"
-                 w-i18n="directives.watchlist.placeholders.lockedPair"></div>
+                 w-i18n="directives.myOrders.placeholders.lockedPair"
+                 params="{
+                     amountAssetTicker: order.amount.asset.ticker || order.amount.asset.displayName,
+                     priceAssetTicker:  order.price.asset.ticker || order.price.asset.displayName
+                 }"></div>
         </w-table-row>
         <w-table-row class="order-details"
                      ng-if="order.exchange.length && $ctrl.shownOrderDetails[order.id]"
