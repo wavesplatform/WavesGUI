@@ -183,24 +183,24 @@
              * @private
              */
             _initPairs() {
+                const FAKE_RATE_HISTORY = [{
+                    rate: new BigNumber(0),
+                    timestamp: ds.utils.normalizeTime(Date.now())
+                }];
+
                 const startDate = angularUtils.moment().add().day(-7);
                 Promise.all(PAIRS_IN_SLIDER.map(pair => ds.api.pairs.get(pair.amount, pair.price)))
                     .then(pairs => Promise.all(pairs.map(pair => ds.api.pairs.info(pair))))
                     .then(infoList => {
-                        const tempInfoList = flatten(infoList);
-                        Promise.all(tempInfoList.map(info => {
-                            return waves.utils.getRateHistory(info.amountAsset.id, info.priceAsset.id, startDate);
-                        })).then(rateHistory => {
-                            this.pairsInfoList = tempInfoList.map((info, i) => {
-                                return {
-                                    volumeBigNum: info.volume.getTokens(),
-                                    rateHistory: rateHistory[i],
-                                    ...info
-                                };
-                            });
-                        })
-                            .catch(() => {
-                                this.pairsInfoList = tempInfoList.map(this._fakeValues);
+                        const flattenInfoList = flatten(infoList);
+
+                        Promise.all(
+                            PAIRS_IN_SLIDER
+                                .map(({ amount, price }) => waves.utils.getRateHistory(amount, price, startDate))
+                                .map(promise => promise.catch(() => FAKE_RATE_HISTORY))
+                        )
+                            .then(rateHistory => {
+                                this.pairsInfoList = rateHistory.map(WelcomeCtrl._fillValues(flattenInfoList));
                             })
                             .then(() => {
                                 angularUtils.safeApply($scope);
@@ -211,24 +211,24 @@
             }
 
             /**
-             * @param info
-             * @private
+             * @param {array} infoList
+             * @static
              */
-            _fakeValues(info) {
-                return {
-                    rateHistory: [{
-                        rate: new BigNumber(0),
-                        timestamp: ds.utils.normalizeTime(Date.now())
-                    }],
-                    ticker: info.displayName,
-                    amountAsset: info.amountAsset,
-                    priceAsset: info.priceAsset,
-                    change24: new BigNumber(0),
-                    high: new Money(0, info.priceAsset),
-                    id: info.id,
-                    lastPrice: new Money(0, info.priceAsset),
-                    low: new Money(0, info.priceAsset),
-                    volume: new Money(0, info.priceAsset)
+            static _fillValues(infoList) {
+                return (rateHistory, i) => {
+                    const info = infoList[i];
+                    const volume = info.volume || new Money(0, info.priceAsset);
+                    return {
+                        ...info,
+                        ticker: info.ticker || info.displayName,
+                        change24: info.change24 || new BigNumber(0),
+                        high: info.high || new Money(0, info.priceAsset),
+                        lastPrice: info.lastPrice || new Money(0, info.priceAsset),
+                        low: info.low || new Money(0, info.priceAsset),
+                        volume,
+                        rateHistory,
+                        volumeBigNum: volume.getTokens()
+                    };
                 };
             }
 
