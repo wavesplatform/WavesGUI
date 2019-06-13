@@ -17,10 +17,11 @@
             </w-option>
         </w-select>
         <div class="select-hover" ng-if="!$ctrl.isActiveSelect" ng-click="$ctrl.chooseSelect()"></div>
+
         <div class="title title-contest"
              ng-class="{'active': $ctrl.activeTab === 'trading'}"
              ng-click="$ctrl.chooseTrading()">
-            <span>TRADE</span>
+            <span w-i18n="trading"></span>
         </div>
     </div>
 
