@@ -15,7 +15,11 @@
       w-i18n-ns="app.utils"
       w-i18n="modal.assetInfo.suspicious"></span>
 <!--TODO: delete after contest-->
-<span ng-if="$ctrl.isContest"
-      class="status-label-min warning"
-      w-i18n-ns="app.utils"
-      w-i18n="modal.assetInfo.contest"></span>
+<a ng-if="$ctrl.isContest"
+   ng-click="$ctrl.stopPropagation($event)"
+   target="_blank"
+   rel="noopener noreferrer"
+   href="https://wsoc.io/?utm_source=dexsite&utm_medium=cpm"
+   class="status-label-min active"
+   w-i18n-ns="app.utils"
+   w-i18n="modal.assetInfo.contest"></a>
