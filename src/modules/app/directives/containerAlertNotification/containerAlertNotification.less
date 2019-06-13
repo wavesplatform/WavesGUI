@@ -195,6 +195,14 @@ w-container-alert-notification {
         span.content-body:not(.no-icon)::before {
           background: @notification-icon-info center left no-repeat;
         }
+        // TODO: delete after contest
+        span.content-body:not(.no-icon).wsoc::before {
+          width: 18px;
+          height: 18px;
+          left: -10px;
+          background: url(/img/icons/wsoc-notification.svg) center left no-repeat;
+        }
+        // TODO: delete after contest
       }
 
       &.success {
