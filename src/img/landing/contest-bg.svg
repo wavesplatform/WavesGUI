@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1110px" height="60px" viewBox="0 0 1110 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.1 (78136) - https://sketchapp.com -->
+    <title>Artboard</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="1110" height="60"></rect>
+        <path d="M0,176 C49.15292,176 89,136.600889 89,88 C89,39.3991111 49.15292,0 0,0" id="path-3"></path>
+    </defs>
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-11">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Rectangle" fill="#000000" xlink:href="#path-1"></use>
+            <g id="Group" mask="url(#mask-2)">
+                <g transform="translate(333.000000, -170.000000)">
+                    <g id="row_img3_svg__Group-8" stroke="none" fill-rule="evenodd" transform="translate(544.000000, 160.000000)">
+                        <path d="M0.5,72 L0.5,0.300231214 L0.5,72 Z" id="row_img3_svg__Combined-Shape" stroke="#EF4451" fill="#EF4451" fill-rule="nonzero"></path>
+                    </g>
+                    <polygon id="row_img3_svg__Path-6" stroke="#0D49FF" points="762 310.899469 698.699099 130 449.960504 229.648013 430 380"></polygon>
+                    <polyline id="row_img3_svg__Path-8" stroke="#FFFFFF" points="538.830997 248.32589 604.691754 130 636.915433 228.941975 701.290671 165.878571 709.27754 187.640579 752 137.603945"></polyline>
+                    <polygon id="row_img3_svg__Path-6" stroke="#0D49FF" points="377.5 7 515.199099 159.600531 127 255 0 255"></polygon>
+                    <polyline id="row_img3_svg__Path-8" stroke="#FFFFFF" points="175 240 225.212164 186.810811 270.003078 206.050468 384.691754 0 416.915433 98.9419752 481.290671 35.8785705 489.27754 57.640579 532 7.60394518"></polyline>
+                </g>
+            </g>
+            <g id="Group" mask="url(#mask-2)">
+                <g transform="translate(-117.000000, -91.000000)" id="row_img2_svg__Group-13">
+                    <g>
+                        <circle id="row_img2_svg__Oval" stroke="#0055FF" stroke-width="2" cx="116.5" cy="116.5" r="116.5"></circle>
+                        <circle id="row_img2_svg__Oval" stroke="#0055FF" stroke-width="2" cx="67.5877863" cy="67.5877863" r="67.5877863"></circle>
+                    </g>
+                    <g transform="translate(116.000000, 29.000000)">
+                        <g id="row_img2_svg__Mask" fill="#EF4451" fill-rule="nonzero">
+                            <path d="M0,176 C49.15292,176 89,136.600889 89,88 C89,39.3991111 49.15292,0 0,0" id="row_img2_svg__path-1"></path>
+                        </g>
+                        <g id="row_img2_svg__Oval-Clipped">
+                            <mask id="mask-4" fill="white">
+                                <use xlink:href="#path-3"></use>
+                            </mask>
+                            <g id="row_img2_svg__path-1"></g>
+                            <g id="row_img2_svg__Oval" mask="url(#mask-4)">
+                                <g transform="translate(-127.700000, -28.444444)" id="Group">
+                                    <g>
+                                        <ellipse id="Oval" stroke="#FFFFFF" cx="94.34" cy="94.2222222" rx="94.34" ry="94.2222222"></ellipse>
+                                        <ellipse id="Oval" stroke="#FFFFFF" cx="74.64" cy="85.5555556" rx="67.64" ry="67.5555556"></ellipse>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

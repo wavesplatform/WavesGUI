@@ -32,6 +32,15 @@
   },
   "NOTIFICATIONS": [
     {
+      "start_date": "Thu Jun 06 2019 13:00:00 GMT+0300",
+      "id": "TRADE",
+      "end_date": "Thu Jun 07 2019 13:00:00 GMT+0300",
+      "text": {
+        "en": "Win 5,000 WAVES in a trading contest on Waves DEX! Details can be found here: [https://wsoc.io](https://wsoc.io)",
+        "ru": "Выиграй 5 000 WAVES в конкурсе трейдеров на Waves DEX! Подробности по ссылке: [https://wsoc.io](https://wsoc.io)"
+      }
+    },
+    {
       "start_date": "Tue Jan 29 2019 15:35:15 GMT+0300",
       "id": "BCH_WARNING",
       "end_date": "Tue Feb 14 2019 13:02:15 GMT+0300",
@@ -39,6 +48,17 @@
         "en": "Notification text [digilira.com](https://digilira.com)",
         "ru": "Текст уведомления [digilira.com](https://digilira.com)"
       }
+    },
+    {
+      "id": "WSOC",
+      "end_date": "Thu Jun 20 2019 00:00:00 GMT+0300",
+      "start_date": "Thu Jun 13 2019 00:00:00 GMT+0300",
+      "type": "info",
+      "text": {
+        "en": "Win 5,000 WAVES in a trading contest on Waves DEX! Details can be found here: [wsoc.io](https://wsoc.io)",
+        "ru": "Выиграй 5 000 WAVES в конкурсе трейдеров на Waves DEX! Подробности по ссылке: [wsoc.io](https://wsoc.io)"
+      },
+      "wsoc": true
     }
   ],
   "SETTINGS": {

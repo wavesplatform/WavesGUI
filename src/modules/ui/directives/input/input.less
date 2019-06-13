@@ -103,8 +103,11 @@ input[type="checkbox"] {
       display: block;
       //width: 50%;
 
-      &:not(.embed) {
+      &:not(.embed):not(.big) {
         height: 40px;
+      }
+
+      &:not(.embed) {
         border-radius: @border-radius 0 0 @border-radius;
         &:not(:focus) {
           border: 0 none;

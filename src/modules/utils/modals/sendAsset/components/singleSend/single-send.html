@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <div ng-if="$ctrl.outerSendMode && !$ctrl.gatewayDetailsError" class="row">
+    <div ng-if="$ctrl.outerSendMode && !$ctrl.gatewayError" class="row">
         <div class="plate-warning margin-2">
             <div class="body-2 warning-500"
                  w-i18n="modal.send.coinomat.feeTitle"
@@ -107,7 +107,15 @@
         </div>
     </div>
 
-    <div ng-if="$ctrl.outerSendMode && $ctrl.isMoneroAddress() && !$ctrl.gatewayDetailsError">
+    <div ng-if="$ctrl.outerSendMode && $ctrl.gatewayAddressError" class="row">
+        <div class="plate-warning server-error">
+            <div class="body-2 warning-500 margin-05"
+                 w-i18n="modal.receive.serverAddressError">
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="$ctrl.outerSendMode && $ctrl.isMoneroAddress() && !$ctrl.gatewayError">
         <div class="body-2 margin-05" w-i18n="modal.send.moneroPaymentId"></div>
         <w-input-container class="row">
             <div>
@@ -220,7 +228,7 @@
         </w-input-error>
     </w-input-container>
 
-    <div ng-if="!$ctrl.toBankMode && !$ctrl.hasOuterError"
+    <div ng-if="!$ctrl.outerSendMode && !$ctrl.toBankMode && !$ctrl.hasOuterError"
          class="margin-top-2">
         <div class="body-2 margin-05" w-i18n="modal.send.description"></div>
         <w-input-container>
@@ -246,7 +254,7 @@
     </div>
 
     <div class="commission-error margin-top-1 margin-2 footnote error-500"
-         ng-if="!$ctrl.hasComission && !$ctrl.gatewayDetailsError">
+         ng-if="!$ctrl.hasComission && !$ctrl.gatewayError">
         <span w-i18n="modal.send.validationError.notEnoughFundsWithdraw"
               ng-show="$ctrl.outerSendMode"
               params="{

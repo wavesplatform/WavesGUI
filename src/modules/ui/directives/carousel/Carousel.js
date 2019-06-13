@@ -150,9 +150,9 @@
              * @private
              */
             _remapSlides() {
-                this.slidesAmount = this._getSlidesInWindowAmount(window.innerWidth);
+                this.slidesAmount = Carousel._getSlidesInWindowAmount(window.innerWidth);
 
-                const { width, startCoords } = this._copyStaticSlides();
+                const { width, startCoords } = this._getWidthAndStart();
                 this._diff = startCoords.length > 1 ? startCoords[1] - startCoords[0] : width + 10;
                 this._coords = this.$slides.toArray().map((element, i) => (i - 1) * this._diff);
 
@@ -167,7 +167,7 @@
             /**
              * @private
              */
-            _copyStaticSlides() {
+            _getWidthAndStart() {
                 const tempSlidesContainer = this.$slidesContainer.clone();
                 tempSlidesContainer.find('.slide').slice(this.slidesAmount).remove();
                 const slides = tempSlidesContainer.find('.slide');
@@ -188,7 +188,7 @@
             /**
              * @private
              */
-            _getSlidesInWindowAmount(width) {
+            static _getSlidesInWindowAmount(width) {
                 switch (true) {
                     case (width < 620):
                         return 1;
