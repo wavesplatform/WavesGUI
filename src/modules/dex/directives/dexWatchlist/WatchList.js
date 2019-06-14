@@ -606,10 +606,8 @@
              * @private
              */
             _getTradingPairList() {
-                const chosen = [this.assetIdPair.amount, this.assetIdPair.price].sort();
                 const assetsIds = TRADING_ASSETS;
-                const other = WatchList._getAllCombinations(assetsIds);
-                return WatchList._uniqPairs(other.concat([chosen]));
+                return WatchList._uniqPairs(WatchList._getAllCombinations(assetsIds));
             }
 
             /**
