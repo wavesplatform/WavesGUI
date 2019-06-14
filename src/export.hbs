@@ -25,6 +25,8 @@
     bus.WindowAdapter.createSimpleWindowAdapter().then(adapter => {
         const webBus = new bus.Bus(adapter);
 
+        webBus.dispatchEvent('ready');
+
         webBus.registerRequestHandler('getLocalStorageData', () => {
             return parse(JSON.parse(localStorage.getItem('userList')));
         });

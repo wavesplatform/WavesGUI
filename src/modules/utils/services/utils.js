@@ -883,14 +883,18 @@
              */
             importUsersByWindow(win, origin, timeout) {
                 return new Promise((resolve, reject) => {
-                    WindowAdapter.createSimpleWindowAdapter(win).then(adapter => {
+                    WindowAdapter.createSimpleWindowAdapter(win, {
+                        origins: [origin]
+                    }).then(adapter => {
                         const bus = new Bus(adapter);
 
-                        bus.request('getLocalStorageData', null, timeout)
-                            .then(utils.onExportUsers(origin, resolve))
-                            .catch(reject);
-                    });
+                        bus.once('ready', () => {
+                            bus.request('getLocalStorageData', null, timeout)
+                                .then(utils.onExportUsers(origin, resolve))
+                                .catch(reject);
+                        });
 
+                    });
                 });
             },
 
@@ -964,6 +968,7 @@
                 };
 
                 const onError = (e) => {
+                    close();
                     return Promise.reject(e);
                 };
 
