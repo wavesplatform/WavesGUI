@@ -4,6 +4,7 @@
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const { filter, whereEq, uniqBy, prop, where, gt, pick, __, map } = require('ramda');
     const ds = require('data-service');
+    const MAX_EXCHANGE_COUNT = 2000;
 
     /**
      * @param Base
@@ -338,12 +339,44 @@
                                                 hash[order.id] = [];
                                             }
                                             order.exchange = hash[order.id];
+                                            order.price =
+                                                DexMyOrders._getAveragePriceByExchange(order, order.exchange);
+
                                             return order;
                                         });
                                     }).catch(() => result);
                             });
                     })
-                    .catch(() => (this.loadingError = true));
+                    .catch(() => {
+                        this.loadingError = true;
+                        return [];
+                    });
+            }
+
+            /**
+             * @param {IOrder} order
+             * @param {Array<IExchange>} exchangeList
+             * @private
+             */
+            static _getAveragePriceByExchange(order, exchangeList) {
+                if (!exchangeList.length) {
+                    return order.price;
+                }
+
+                const sum = exchangeList
+                    .map(tx => ({
+                        amount: tx.amount.getTokens(),
+                        total: tx.total.getTokens()
+                    }))
+                    .reduce((acc, item) => ({
+                        amount: acc.amount.plus(item.amount),
+                        total: acc.total.plus(item.total)
+                    }), {
+                        amount: new BigNumber(0),
+                        total: new BigNumber(0)
+                    });
+
+                return order.price.cloneWithTokens(sum.total.div(sum.amount));
             }
 
             /**
@@ -356,22 +389,34 @@
                     .every((item, i) => whereEq(pick(['id', 'progress'], item), newOrders[i]));
             }
 
+            /**
+             * @return {boolean}
+             * @private
+             */
             _isAllPartialFilledOrdersHasTransactions() {
                 const minTimestamp = DexMyOrders._getMinTimestamp();
+                let exchangeCount = 0;
                 return this.orders
                     .filter(where({
                         progress: gt(__, 0),
                         timestamp: gt(__, minTimestamp)
                     }))
-                    .every(order => order.exchange.length &&
-                        order.filled.eq(
-                            order.exchange
-                                .map(tx => tx.amount)
-                                .reduce((acc, amount) => acc.add(amount))
-                        )
-                    );
+                    .every(order => {
+                        exchangeCount += order.exchange.length;
+                        return order.exchange.length &&
+                            order.filled.eq(
+                                order.exchange
+                                    .map(tx => tx.amount)
+                                    .reduce((acc, amount) => acc.add(amount))
+                            ) || exchangeCount >= MAX_EXCHANGE_COUNT;
+                    });
             }
 
+            /**
+             * @param $element
+             * @return {Promise}
+             * @private
+             */
             static _animateNotification($element) {
                 return utils.animate($element, { t: 100 }, {
                     duration: 1200,
@@ -392,6 +437,11 @@
                     });
             }
 
+            /**
+             * @param txList
+             * @return {Record<string, Array>}
+             * @private
+             */
             static _getTransactionsByOrderIdHash(txList) {
                 const uniqueList = uniqBy(prop('id'), txList);
                 const transactionsByOrderHash = Object.create(null);
@@ -451,7 +501,7 @@
                 return ds.api.transactions.getExchangeTxList({
                     sender: user.address,
                     timeStart: ds.utils.normalizeTime(minTime < lastTime ? lastTime : minTime)
-                }, { getAll: true });
+                }, { getAll: true, limit: MAX_EXCHANGE_COUNT });
             }
 
             /**

@@ -18,9 +18,14 @@ import {
 } from './interface';
 import { contains } from 'ts-utils';
 import { TRANSACTION_TYPE_NUMBER } from '@waves/signature-generator';
-import { pipe, prop, uniqBy, tap } from 'ramda';
-import { ExchangeTxFilters, Response, Transaction } from '@waves/data-service-client-js';
+import { pipe, prop, uniqBy } from 'ramda';
+import { ExchangeTxFilters, Transaction } from '@waves/data-service-client-js';
 
+
+const DEFAULT_GET_TRANSACTIONS_OPTIONS: IGetExchangeOptions = Object.assign(Object.create(null), {
+    limit: 5000,
+    getAll: false
+});
 
 export function list(address: string, limit = 100, after: string): Promise<Array<T_TX>> {
     return request({
@@ -33,11 +38,16 @@ export function list(address: string, limit = 100, after: string): Promise<Array
 
 export function getExchangeTxList(requestParams: ExchangeTxFilters = Object.create(null), options?: IGetExchangeOptions): Promise<Array<IExchange>> {
 
+    options = Object.assign(Object.create(null), DEFAULT_GET_TRANSACTIONS_OPTIONS, options);
+
     const getData = (response: { data: Transaction[], fetchMore?: () => any }, result: Array<Transaction[]>) => {
         result = result.concat(response.data);
-        if (!options || !options.getAll) {
+        if (!options.getAll) {
             return result;
         } else if (response.data.length && response.fetchMore) {
+            if (options.limit && options.limit <= result.length) {
+                return result;
+            }
             return response.fetchMore().then(r => getData(r, result));
         } else {
             return result;
@@ -139,4 +149,5 @@ export function isData(tx: T_TX | T_API_TX): boolean {
 
 interface IGetExchangeOptions {
     getAll: boolean;
+    limit?: number;
 }
