@@ -6,7 +6,6 @@
 body.welcome {
   width: 100%;
   overflow: hidden;
-  font-family: 'Roboto', 'Tahoma', 'Arial';
   font-size: 15px;
   margin: 0 auto;
   font-weight: normal;
@@ -44,11 +43,6 @@ body.welcome {
 
   h2 {
     font-weight: 400;
-  }
-
-  .section-wrapper {
-    padding-left: 80px;
-    padding-right: 80px;
   }
 
   section {
@@ -166,8 +160,8 @@ body.welcome {
 
   .section-wrapper {
     margin: 0 auto;
-    padding-left: 80px;
-    padding-right: 80px;
+    padding-left: @welcomeSectionWrapperPaddingLarge;
+    padding-right: @welcomeSectionWrapperPaddingLarge;
     max-width: 1440px;
     width: 100%;
   }
@@ -293,6 +287,113 @@ body.welcome {
         margin-top: 0;
       }
     }
+
+    &-contest {
+      background: @color-white;
+      min-height: 80px;
+      max-height: 100%;
+
+      &.collapsed {
+        overflow: hidden;
+        max-height: 0;
+        min-height: 0;
+        transition: max-height 0.5s;
+      }
+
+      .section-wrapper {
+        padding-bottom: 30px;
+      }
+
+      .contest-link {
+        position: relative;
+        height: 50px;
+        border-radius: 6px;
+        background-color: #000;
+        background-image: url(/img/landing/contest-bg.svg);
+        background-size: cover;
+        background-position: -2px 0;
+        background-repeat: no-repeat;
+        color: @color-white;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        z-index: 10;
+        width: 100%;
+        transition: opacity 1s, bottom 0.4s;
+
+        &-fixed {
+          position: fixed;
+          width: calc(~'100%' - @welcomeSectionWrapperPaddingLarge * 2);
+          max-width: 1280px;
+          box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2);
+          bottom: -50px;
+        }
+
+        &-hide {
+          bottom: -50px;
+        }
+
+        &-show {
+          bottom: 20px;
+        }
+
+        &-description {
+          position: relative;
+          font-family: @font-roboto-medium;
+          padding-left: 42px;
+
+          &-hidden-link {
+            position: absolute;
+            width: 0;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+          }
+
+          &:before {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            left: 0;
+            background: @dex-winner-icon no-repeat center;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+        }
+
+        &-actions {
+          display: flex;
+          align-items: center;
+          margin-left: auto;
+        }
+
+        &-close {
+          &-icon {
+            background: @notification-icon-close center no-repeat;
+            border: 0;
+            width: 14px;
+            height: 14px;
+            opacity: .5;
+
+            &:hover {
+              opacity: 1;
+            }
+          }
+        }
+
+        &-link {
+          margin-right: 20px;
+
+          .fake-button-content {
+            padding: 0 25px;
+            font-family: @font-roboto-medium;
+            font-size: 13px;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -300,8 +401,8 @@ body.welcome {
   body.welcome {
 
     .section-wrapper {
-      padding-left: 40px;
-      padding-right: 40px;
+      padding-left: @welcomeSectionWrapperPaddingMedium;
+      padding-right: @welcomeSectionWrapperPaddingMedium;
     }
 
     .section-welcome {
@@ -319,6 +420,10 @@ body.welcome {
         left: calc(50% ~'- 100px');
         max-width: calc(50% ~'+ 100px');
       }
+    }
+
+    .section-contest .contest-link-fixed {
+      width: calc(~'100%' - @welcomeSectionWrapperPaddingMedium * 2);
     }
   }
 }
@@ -472,12 +577,44 @@ body.welcome {
   body.welcome {
     .section-wrapper,
     .section-markets .content-wrapper {
-      padding-left: 20px;
-      padding-right: 20px;
+      padding-left: @welcomeSectionWrapperPaddingSmall;
+      padding-right: @welcomeSectionWrapperPaddingSmall;
     }
     footer {
       .section-wrapper {
         margin-top: 0px;
+      }
+    }
+
+    .section-contest {
+      .contest-link-link {
+        .fake-button-content {
+          display: none;
+        }
+      }
+
+      .contest-link {
+        height: 60px;
+        background-position: -40px 0;
+        padding: 0 10px;
+
+        &-fixed {
+          width: calc(~'100%' - @welcomeSectionWrapperPaddingSmall * 2);
+          bottom: -60px;
+        }
+
+        &-hide {
+          bottom: -60px;
+        }
+
+        &-show {
+          bottom: 20px;
+        }
+
+        &-description-hidden-link {
+          width: calc(100% ~'- 34px');
+          pointer-events: auto;
+        }
       }
     }
   }

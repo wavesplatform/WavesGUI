@@ -132,7 +132,10 @@ body.portfolio {
   .btn-receive {
     margin-right: 10px;
     button {
-      padding: 0 30px;
+      padding: 0 8px;
+      @media screen and (min-width: 481px) {
+        padding: 0 30px;
+      }
     }
   }
 }
@@ -191,7 +194,7 @@ w-scroll-box {
   position: relative;
   width: 100%;
   min-height: 355px;
-  min-width: 360px;
+  min-width: 320px;
   height: 100%;
   max-height: 100%;
 
@@ -334,15 +337,5 @@ w-scroll-box {
 
   .get-started-checkbox-save {
     margin: 20px 0 30px;
-  }
-
-  body.assets,
-  body.portfolio {
-    .btn-send,
-    .btn-receive {
-      button {
-        padding: 0 30px;
-      }
-    }
   }
 }

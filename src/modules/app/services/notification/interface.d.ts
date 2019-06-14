@@ -17,6 +17,7 @@ declare class INotification extends BaseNotificationManager<INotificationObj> {
 interface INotificationObj {
     ns: string;
     noCloseIcon: boolean;
+    noIcon: boolean;
     title: IPart;
     body: IPart;
     action: IActionPart;
