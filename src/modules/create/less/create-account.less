@@ -1,45 +1,95 @@
 @import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../app/less/app';
 
-.create-account {
-  width: 460px;
-  margin: auto;
+@createAvatarBorder: 4px;
+@createAvatarSize: 50px;
+@createAvatarHoverSize: 60px;
+@createAvatarSizePhone: @createAvatarSize - 10px;
+@createAvatarHoverSizePhone: @createAvatarHoverSize - 10px;
+@createAvatarWrapperSize: @createAvatarHoverSize + @createAvatarBorder * 2;
+@createAvatarWrapperSizePhone: @createAvatarHoverSizePhone + @createAvatarBorder * 2;
 
-  .left {
-    text-align: left;
-  }
-
-  .right {
-    text-align: right;
-  }
-
-  .avatars-list {
-    display: flex;
+.avatars {
+  &-list {
     flex-direction: row;
-    justify-content: space-around;
-    margin: 10px 0 30px 0;
+    overflow: hidden;
+    display: flex;
 
-    .avatar-wrapper {
-      width: 84px;
-      height: 84px;
-      border: 1px solid transparent;
-      border-radius: @border-radius;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
+    .avatar {
+      &-img { // .avatar-img
+        width: @createAvatarSize;
+        height: @createAvatarSize;
+        border-radius: 50%;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
 
-      &.active {
-        background-color: rgba(31, 90, 246, 0.05);
-        border: solid 1px @color-submit-400;
-        cursor: default;
+      &-wrap { // .avatar-wrap
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        opacity: .7;
+        transition: opacity 0.3s;
+      }
+
+      &-wrapper { // .avatar-wrapper
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20% !important;
+        padding: 20px 0;
+        flex-shrink: 0;
+
+        &:hover {
+          .avatar-wrap {
+            opacity: 1;
+          }
+        }
+
+        &.active {
+          .avatar {
+            &-img {
+              transform: scale(1.25);
+              box-shadow: 0 0 0 4px #fff, 0 4px 18px 0 rgba(30, 41, 73, 0.15);
+
+            }
+
+            &-wrap { // .avatar-wrap
+              cursor: default;
+              opacity: 1;
+            }
+          }
+        }
+
+        &.disabled {
+          .avatar-wrap { // .avatar-wrap
+            &,
+            &:hover {
+              opacity: .5;
+              cursor: default;
+            }
+          }
+        }
       }
     }
+  }
+
+  &-scroll {
+    display: flex;
+    flex-direction: column;
   }
 }
 
 @media screen and (max-width: 480px) {
-  .create-account {
-    width: calc(100% ~'- 20px');
+  .avatars-list {
+    .avatar-img {
+      width: @createAvatarSizePhone;
+      height: @createAvatarSizePhone;
+    }
+
+    .avatar-wrapper {
+      padding: 10px 0;
+    }
   }
 }

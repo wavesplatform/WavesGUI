@@ -12,7 +12,7 @@ import {
     getScripts,
     getStyles,
     getInitScript,
-    getLocales
+    loadLocales
 } from './ts-scripts/utils';
 import { basename, extname, join, sep } from 'path';
 import {
@@ -293,7 +293,7 @@ task('concat-develop-vendors', function () {
 
 task('downloadLocales', ['concat-develop-sources'], function (done) {
     const dist = join(__dirname, 'dist');
-    getLocales(dist).then(() => done());
+    loadLocales(dist).then(() => done());
 });
 
 task('clean', function () {
@@ -432,7 +432,7 @@ task('electron-debug', function (done) {
         .then(excludeTypeScrip)
         .then(list => Promise.all(list.map(copyItem)))
         .then(makePackageJSON)
-        .then(() => getLocales(root))
+        .then(() => loadLocales(root))
         .then(() => renameLocaleDirectory())
         .then(copyNodeModules)
         .then(copyI18next)

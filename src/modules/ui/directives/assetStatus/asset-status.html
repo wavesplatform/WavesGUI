@@ -1,0 +1,21 @@
+<span ng-if="$ctrl.isVerified"
+      class="status-label-min active"
+      w-i18n-ns="app.utils"
+      w-i18n="modal.assetInfo.qualified"></span>
+<span ng-if="$ctrl.isGateway"
+      class="status-label-min active"
+      w-i18n-ns="app.utils"
+      w-i18n="modal.assetInfo.gateway"></span>
+<span ng-if="$ctrl.isTokenomica"
+      class="status-label-min active"
+      w-i18n-ns="app.utils"
+      w-i18n="modal.assetInfo.tokenomica"></span>
+<span ng-if="$ctrl.isSuspicious"
+      class="status-label-min inactive"
+      w-i18n-ns="app.utils"
+      w-i18n="modal.assetInfo.suspicious"></span>
+<!--TODO: delete after contest-->
+<span ng-if="$ctrl.isContest"
+      class="status-label-min warning"
+      w-i18n-ns="app.utils"
+      w-i18n="modal.assetInfo.contest"></span>

@@ -2,7 +2,7 @@
     <w-step-by-step active-step="$ctrl.step">
         <w-step>
             <div class="row margin-2">
-                <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
+                <div class="body-2 basic-900 margin-05" w-i18n="modal.receive.asset"></div>
                 <div class="input-like big flex-row split-half" ng-if="$ctrl.singleAsset">
                     <div class="flex-row">
                         <w-asset-logo class="marker-hide" size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
@@ -44,7 +44,7 @@
                 </div>
 
                 <div ng-if="$ctrl.isVerified && !$ctrl.pending" class="plate-warning">
-                    <div class="body-2 warning-500"
+                    <div class="body-2 warning-500 margin-05"
                          w-i18n="modal.receive.bankVerifiedPlateHeader"></div>
                     <div class="basic-500"
                          w-i18n="modal.receive.bankVerifiedPlateDescription"></div>
@@ -54,19 +54,19 @@
                     <a class="caption-1 submit-300"
                        w-i18n="modal.sepa.countryList"
                        ng-href="{{$ctrl.listOfEligibleCountries}}"
-                       target="_blank"></a>
+                       target="_blank" rel="noopener noreferrer"></a>
                 </div>
 
                 <table ng-if="!$ctrl.isVerified && !$ctrl.pending" class="steps">
                     <tr>
                         <td class="step headline-3 basic-900" w-i18n="modal.sepa.step1"></td>
-                        <td class="description body-2 basic-900"
+                        <td class="description body-2 basic-900 margin-05"
                             w-i18n="modal.sepa.step1Description"
                             params="{assetName: $ctrl.asset.name, url: $ctrl.idNowSiteUrl}"></td>
                     </tr>
                     <tr>
                         <td class="step headline-3 basic-900" w-i18n="modal.sepa.step2"></td>
-                        <td class="description body-2 basic-900"
+                        <td class="description body-2 basic-900 margin-05"
                             w-i18n="modal.sepa.step2Description"></td>
                     </tr>
                 </table>
@@ -83,7 +83,7 @@
                 <div ng-if="!$ctrl.isVerified" class="margin-top-3 relative button-wrapper-height">
                     <a ng-if="!$ctrl.signInProgress && !$ctrl.pending"
                        href="{{$ctrl.idNowUserLink}}"
-                       target="_blank"
+                       target="_blank" rel="noopener noreferrer"
                        class="flex">
                         <w-button class="big submit long" disabled="!$ctrl.termsAccepted">
                             <span w-i18n="modal.sepa.proceed"></span>
@@ -94,7 +94,7 @@
 
             <div ng-if="$ctrl.isLira && !$ctrl.error" class="bank-account">
                 <div class="plate-warning">
-                    <div class="body-2 warning-500" w-i18n="modal.receive.wtryPlate1Header"></div>
+                    <div class="body-2 warning-500 margin-05" w-i18n="modal.receive.wtryPlate1Header"></div>
                     <div class="footnote-1 basic-500" w-i18n="modal.receive.wtryPlate1Text"></div>
                 </div>
 
@@ -105,7 +105,7 @@
 
                 <a href="{{$ctrl.digiLiraUserLink}}"
                    ng-click="$ctrl.nextStep()"
-                   target="_blank"
+                   target="_blank" rel="noopener noreferrer"
                    class="fake-button long">
                         <span class="fake-button-content big submit long"
                               w-i18n="modal.receive.card.continue"></span>
@@ -118,7 +118,7 @@
             <div class="text-center receive-confirm" ng-if="!$ctrl.isLira">
                 <i class="bank-success-icon margin-1"></i> <!-- if bank -->
                 <h3 class="basic-700" w-i18n="modal.receive.bankSuccessHeader"></h3>
-                <div class="body-2 basic-500" w-i18n="modal.receive.bankSuccessText"></div>
+                <div class="body-2 basic-500 margin-05" w-i18n="modal.receive.bankSuccessText"></div>
             </div>
 
             <div class="text-center receive-confirm" ng-if="$ctrl.isLira">

@@ -1,28 +1,6 @@
 <div ng-cloak class="asset-modal">
-    <div class="asset-modal__head">
-        <div class="asset-modal__head-content">
-            <w-asset-logo ng-cloak asset-id="{{::$ctrl.asset.id}}"
-                          size="65"
-                          class="asset-modal__logo big"></w-asset-logo>
 
-            <div class="asset-modal__data">
-                <h2 ng-cloak class="asset-modal__name basic-900" ng-class="{'has-label': $ctrl.hasLabel}">
-                    <span class="name">{{::$ctrl.asset.name}}</span>
-                    <span ng-if="$ctrl.isVerified" class="status-label-min active" w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>
-                    <span ng-if="$ctrl.isGateway" class="status-label-min active"  w-i18n-ns="app.utils" w-i18n="modal.assetInfo.gateway"></span>
-                    <span ng-if="$ctrl.isSuspicious" class="status-label-min inactive" w-i18n="modal.assetInfo.suspicious"></span>
-                </h2>
-
-                <div ng-if="$ctrl.ticker" class="body-2 basic-500 asset__ticker">{{::$ctrl.ticker}}</div>
-            </div>
-
-            <div class="chart-wrapper">
-                <w-asset-rate-chart no-update="::true" asset-id="::$ctrl.asset.id"></w-asset-rate-chart>
-                <div class="interactive-stop"></div>
-            </div>
-
-        </div>
-    </div>
+    <w-asset-info-head ng-cloak asset-id="$ctrl.asset.id"></w-asset-info-head>
 
     <w-tabs class="inner" ng-model="$ctrl.tab">
         <w-tab id="::'info'"
@@ -72,11 +50,11 @@
             </div>
             <div class="line" ng-if="::$ctrl.link">
                 <div class="basic-500" w-i18n="modal.assetInfo.site"></div>
-                <a target="_blank" href="{{::$ctrl.link}}">{{::$ctrl.link}}</a>
+                <a target="_blank" rel="noopener noreferrer" href="{{::$ctrl.link}}">{{::$ctrl.link}}</a>
             </div>
             <div class="line" ng-if="::$ctrl.email">
                 <div class="basic-500" w-i18n="modal.assetInfo.email"></div>
-                <a target="_blank" href="mailto:{{::$ctrl.email}}">{{::$ctrl.email}}</a>
+                <a target="_blank" rel="noopener noreferrer" href="mailto:{{::$ctrl.email}}">{{::$ctrl.email}}</a>
             </div>
             <div class="line" ng-if="::$ctrl.provider">
                 <span class="basic-500" w-i18n-ns="app.utils" w-i18n="modal.assetInfo.qualified"></span>

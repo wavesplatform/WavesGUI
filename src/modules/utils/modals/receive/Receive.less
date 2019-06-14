@@ -164,19 +164,6 @@ md-dialog.modal-receive {
       max-height: auto;
     }
 
-    .receive-crypto,
-    .receive-invoice {
-      w-copy-wrap {
-        .container {
-          display: flex;
-          align-items: center;
-          width: 100%;
-          white-space: nowrap;
-          overflow: auto;
-        }
-      }
-    }
-
     .receive-user-status {
       position: relative;
       min-height: 130px;
@@ -234,6 +221,17 @@ md-dialog.modal-receive {
           min-width: 80px;
           background: @color-basic-50;
         }
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  w-select {
+    .select {
+      .title {
+        padding-left: @padding-control-big-responsive-horizontal;
       }
     }
   }

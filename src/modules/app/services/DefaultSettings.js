@@ -31,6 +31,7 @@
                     lastOpenVersion: '',
                     whatsNewList: [],
                     closedNotification: [],
+                    dontShowSpam: true,
                     withScam: false,
                     scamListUrl: WavesApp.network.scamListUrl,
                     logoutAfterMin: 5,
@@ -42,7 +43,7 @@
                     needReadNewTerms: false,
                     lastInterval: WavesApp.dex.defaultResolution,
                     baseAssetId: WavesApp.defaultAssets.USD,
-                    assetsOracle: WavesApp.oracle,
+                    oracleWaves: WavesApp.oracles.waves,
                     events: Object.create(null),
                     lng: 'en',
                     send: {
@@ -61,7 +62,8 @@
                         WavesApp.defaultAssets.BSV,
                         WavesApp.defaultAssets.TRY,
                         WavesApp.defaultAssets.DASH,
-                        WavesApp.defaultAssets.XMR
+                        WavesApp.defaultAssets.XMR,
+                        WavesApp.defaultAssets.VST
                     ],
                     wallet: {
                         activeState: 'assets',

@@ -1,5 +1,6 @@
 @import (reference) 'config';
 @import (reference) 'icons';
+@import (reference) '../../../app/less/app';
 
 @candy-animation: candyDotsAnimation 1.6s infinite ease-in-out;
 @candy-size: 10px;
@@ -26,12 +27,20 @@ w-button {
     width: 100%;
   }
 
-  span.fake-button-content,
+  .fake-button-content {
+    display: block;
+  }
+
+  .fake-button-content,
   & > * {
+    transition: all 0.3s;
     border-radius: @border-radius;
-    font-size: @font-size-control;
-    padding: @padding-control-button-small;
+    padding: 0;
+    border: 0 none;
     width: 100%;
+    background-color: @color-white;
+    box-shadow: 0 0 0 1px @color-basic-200 inset;
+    color: @color-basic-500;
 
     &.tiny {
       font-size: @font-size-control-tiny;
@@ -54,43 +63,84 @@ w-button {
       font-family: @font-roboto-medium;
     }
 
-    @media screen and (max-width: 768px) {
-      &.big {
+    &:hover, &.hover,
+    &:active, &.active {
+      box-shadow: 0 0 0 1px @color-basic-500 inset;
+      color: @color-basic-700;
+    }
+
+    &:disabled, &.disabled {
+      color: @color-basic-200;
+    }
+
+    &.tiny {
+      font-size: 12px;
+      padding: 0 10px;
+      height: 30px;
+      line-height: 30px;
+    }
+
+    &.small {
+      font-size: 13px;
+      padding: 0 20px;
+      height: 36px;
+      line-height: 36px;
+    }
+
+    &.medium {
+      font-family: @font-roboto-medium;
+      font-size: 15px;
+      padding: 0 20px;
+      height: 42px;
+      line-height: 42px;
+    }
+
+    &.micro {
+      font-size: @font-size-control-micro;
+      padding: @padding-control-button-micro;
+    }
+
+    &.big {
+      font-family: @font-roboto-medium;
+      font-size: 17px;
+      padding: 0 24px;
+      height: 54px;
+      line-height: 54px;
+      @media screen and (max-width: 768px) {
         height: @height-control-big-responsive;
+        line-height: @height-control-big-responsive;
         font-size: @font-size-control-big-responsive;
       }
     }
 
-    &:not(.transparent) {
+    &.micro {
       background-color: @color-white;
-      border: 1px solid @color-basic-200;
-      color: @color-basic-500;
+      border: 1px solid @color-basic-100;
+      color: @color-basic-700;
 
       &:hover, &.hover {
-        border-color: @color-basic-500;
-        color: @color-basic-700;
-      }
-
-      &:active, &.active {
-        border-color: @color-basic-500;
+        border-color: @color-submit-300;
         color: @color-basic-700;
       }
 
       &:disabled, &.disabled {
-        border: 1px solid @color-basic-200;
-        color: @color-basic-200;
+        border: 1px solid @color-accent-50;
+        color: @color-basic-500;
       }
     }
 
-    &:hover, &.hover {
-      box-shadow: inset -1px 1px 0 0 rgba(255, 255, 255, 0.00);
+    &.no-padding {
+      padding: 0;
     }
 
-    &:active, &.active {
-      box-shadow: inset -1px 1px 0 0 rgba(255, 255, 255, 0.00);
+    &.transparent {
+      background: transparent;
+      color: @color-white;
+      box-shadow: none;
     }
 
     &.success {
+      box-shadow: none;
       background-color: @color-success-300;
       color: @color-white;
 
@@ -108,51 +158,48 @@ w-button {
     }
 
     &.submit {
+      box-shadow: none;
       background-color: @color-submit-400;
-      border: 1px solid @color-submit-400;
       color: @white-only;
 
       &:hover, &.hover {
         background-color: @color-submit-500;
-        border: 1px solid @color-submit-500;
-        color: @white-only;
       }
 
       &:active, &.active {
         background-color: @color-submit-600;
-        border: 1px solid @color-submit-600;
-        color: @white-only;
       }
 
       &:disabled, &.disabled {
         background-color: @color-submit-400;
-        border: 1px solid @color-submit-400;
-        color: @white-only;
         opacity: 0.3;
+      }
+
+      &-light {
+        background: @color-submit-50;
+        color: @color-submit-400;
+        box-shadow: none;
+
+        &:hover {
+          background: @color-submit-100;
+          color: @color-submit-400;
+        }
       }
     }
 
     &.warning {
+      box-shadow: none;
       background-color: @color-error-400;
-      border: 1px solid @color-error-400;
       color: @white-only;
 
-      &:hover, &.hover {
-        background-color: @color-error-600;
-        border-color: transparent;
-        color: @white-only;
-      }
-
+      &:hover, &.hover,
       &:active, &.active {
         background-color: @color-error-600;
         border-color: transparent;
-        color: @white-only;
       }
 
       &:disabled, &.disabled {
         background-color: @color-error-200;
-        border-color: @color-error-200;
-        color: @color-white;
         box-shadow: inset -1px 1px 0 0 rgba(255, 255, 255, 0);
       }
     }
@@ -160,9 +207,12 @@ w-button {
     &.interface {
       background-color: @color-white;
       border: none;
-      color: @color-basic-500;
+      color: @color-basic-700;
       font-family: @font-roboto-medium;
+      font-size: 15px;
       height: 42px;
+      line-height: 42px;
+      padding: 0 20px;
       text-transform: capitalize;
       box-shadow: @shadow-buttons-default;
       transition: all 0.3s;
@@ -206,11 +256,42 @@ w-button {
         border: 1px solid @color-basic-100;
       }
     }
+  }
 
-    &.transparent {
-      background: transparent;
-      border: 1px solid @color-white;
-      color: @color-white;
+  &:active, &.active {
+    &:not(.transparent) {
+      .micro {
+        &,
+        &:hover {
+          border-color: @color-submit-300;
+          color: @color-submit-300;
+        }
+      }
+    }
+  }
+}
+
+.buttons-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  w-button,
+  .fake-button {
+    display: block;
+    flex-basis: 48%;
+    max-width: 48%;
+  }
+
+  &-nowidth {
+    width: auto;
+    justify-content: flex-start;
+
+    w-button,
+    .fake-button {
+      flex-basis: auto;
+      max-width: none;
     }
   }
 }
@@ -296,9 +377,43 @@ w-button > button {
 @media screen and (max-width: 768px) {
   w-button {
     & > * {
-      padding-top: 8px;
-      padding-bottom: 8px;
+      //padding-top: 8px;
+      //padding-bottom: 8px;
       white-space: nowrap;
+    }
+  }
+}
+
+
+.btn-wrap.btn-group {
+  box-sizing: border-box;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  & > *:first-child .btn, & > .btn:first-child {
+    border-left: 1px solid @color-disabled-100;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+  }
+
+  & > *:last-child .btn, & > .btn:last-child {
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+  .btn {
+    display: block;
+    box-sizing: border-box;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-bottom: 1px solid @color-disabled-100;
+    border-top: 1px solid @color-disabled-100;
+    border-right: 1px solid @color-disabled-100;
+
+    &:active {
+      .btn-active();
     }
   }
 }

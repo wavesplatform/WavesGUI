@@ -2,14 +2,16 @@
     'use strict';
 
     /**
+     * @param {User} user
      * @param Base
      * @param {$rootScope.Scope} $scope
      * @param {TransactionsCsvGen} transactionsCsvGen
      * @param {Waves} waves
      * @param {IPollCreate} createPoll
+     * @param {INotification} notification
      * @return {TransactionsCtrl}
      */
-    const controller = function (Base, $scope, transactionsCsvGen, waves, createPoll) {
+    const controller = function (user, Base, $scope, transactionsCsvGen, waves, createPoll, notification) {
 
         const analytics = require('@waves/event-sender');
 
@@ -49,10 +51,65 @@
                 this.observe('limit', () => poll.restart());
             }
 
-            exportTransactions() {
+            exportTransactions(maxTransactions = 10000) {
                 // analytics.push('TransactionsPage', `TransactionsPage.CSV.${WavesApp.type}`, 'download');
                 analytics.send({ name: 'Transactions Export Click', target: 'ui' });
-                transactionsCsvGen.generate(this.transactions);
+                const MAX_LIMIT = 1000;
+
+                const getSeriesTransactions = async ({ allTransactions = [], after = '' } = {}) => {
+                    let transactions;
+                    let downloadError = false;
+
+                    try {
+                        transactions = await waves.node.transactions.list(MAX_LIMIT, after);
+                    } catch (e) {
+                        downloadError = true;
+                        if (!allTransactions.length) {
+                            notification.error({
+                                ns: 'app.wallet.transactions',
+                                title: { literal: 'errors.download.title' },
+                                body: { literal: 'errors.download.body' }
+                            });
+                            return [];
+                        }
+
+                        transactions = [];
+                        notification.error({
+                            ns: 'app.wallet.transactions',
+                            title: { literal: 'errors.complete.title' },
+                            body: { literal: 'errors.complete.body' }
+                        });
+
+                    }
+
+                    if (user.getSetting('dontShowSpam')) {
+                        transactions = transactions.filter(el => !user.scam[el.assetId]);
+                    }
+                    allTransactions = allTransactions.concat(transactions);
+
+                    if (transactions.length < MAX_LIMIT || allTransactions.length > maxTransactions) {
+                        return { allTransactions, downloadError };
+                    } else {
+                        return getSeriesTransactions({
+                            allTransactions,
+                            after: transactions[transactions.length - 1].id
+                        });
+                    }
+                };
+
+                const promiseGetTransactions = getSeriesTransactions();
+                promiseGetTransactions.then(({ allTransactions, downloadError }) => {
+                    if (allTransactions.length) {
+                        transactionsCsvGen.generate(allTransactions);
+                    } else if (!downloadError) {
+                        notification.error({
+                            ns: 'app.wallet.transactions',
+                            title: { literal: 'errors.empty.title' },
+                            body: { literal: 'errors.empty.body' }
+                        });
+                    }
+                });
+                return promiseGetTransactions;
             }
 
             _getTxList() {
@@ -124,7 +181,7 @@
         return new TransactionsCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'transactionsCsvGen', 'waves', 'createPoll'];
+    controller.$inject = ['user', 'Base', '$scope', 'transactionsCsvGen', 'waves', 'createPoll', 'notification'];
 
     angular.module('app.wallet.transactions').controller('TransactionsCtrl', controller);
 })();

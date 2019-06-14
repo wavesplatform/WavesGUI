@@ -27,8 +27,16 @@
                  * @type {boolean}
                  */
                 this.pending = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.dontShowSpam = user.getSetting('dontShowSpam');
 
-                this.observe('_transactions', this._onChangeTransactions);
+                this.syncSettings({
+                    dontShowSpam: 'dontShowSpam'
+                });
+
+                this.observe(['_transactions', 'dontShowSpam'], this._onChangeTransactions);
             }
 
             $postLink() {
@@ -39,7 +47,11 @@
              * @private
              */
             _onChangeTransactions() {
-                const transactions = (this._transactions || []);
+                let transactions = (this._transactions || []);
+                if (this.dontShowSpam) {
+                    transactions = transactions.filter(this._filterSpam);
+                }
+
                 const hash = Object.create(null);
                 const toDate = tsUtils.date('DD.MM.YYYY');
 
@@ -59,6 +71,16 @@
                     timestamp: hash[date].timestamp,
                     date
                 }));
+            }
+
+            _filterSpam(transaction) {
+                const isScam = !!user.scam[transaction.assetId];
+                let isScamAmount, isScamPrice;
+                if (transaction.type === 7) {
+                    isScamAmount = !!user.scam[transaction.amount.asset];
+                    isScamPrice = !!user.scam[transaction.price.asset];
+                }
+                return !(isScam || isScamAmount || isScamPrice);
             }
 
         }

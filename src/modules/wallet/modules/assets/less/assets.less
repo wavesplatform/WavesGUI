@@ -4,40 +4,30 @@
 @toolbar-radio-line-height: 57.5px;
 
 .main.wallet.assets {
+  .main-content {
+    height: auto;
+  }
+
   .content {
     overflow-x: hidden;
-
-    .btn-icon {
-      font-family: @font-roboto-regular;
-      svg {
-        transition: .3s;
-        fill: @color-basic-500;
-      }
-
-      &:hover {
-        svg {
-          fill: @color-basic-700;
-        }
-      }
-    }
-
-    .interface .btn-icon {
-      font-family: @font-roboto-medium;
-    }
-
-    .icon-receive {
-      svg {
-        transform: rotate(-180deg);
-      }
-    }
+    height: auto;
 
     .toolbar {
-      margin: 0 0 10px 0;
-      width: calc(~"100% + "@padding-main-layout / 2);
+      width: 100%;
       position: relative;
       height: 42px;
-      w-button:not(:last-child) {
-        margin-right: 5px;
+      .title-content {
+        height: 36px;
+      }
+    }
+
+    .btn-json {
+      position: absolute;
+      right: 0;
+      width: 140px;
+      @media screen and (max-width: 480px) {
+        width: 60px;
+        font-size: 0;
       }
     }
 
@@ -45,7 +35,7 @@
       width: calc(~"100% + " @padding-main-layout);
       position: relative;
       left: @padding-main-layout * -1 / 2;
-      margin: @padding-main-layout / 2 0;
+      margin: @padding-main-layout / 2 0 -@padding-main-layout / 2;
     }
 
     .chart-rate {
@@ -140,6 +130,7 @@
       border: none;
       border-bottom: 1px solid transparent;
     }
+
     & w-radio input:checked ~ label.btn.btn-radio {
       font-family: @font-roboto-regular;
       letter-spacing: 0;
@@ -152,6 +143,7 @@
       border-bottom-right-radius: 0;
       border-bottom: 1px solid @color-submit-400;
     }
+
     & .radio-dot {
       display: inline-block;
       margin: 0 5px;
@@ -188,6 +180,11 @@ i.toggler {
   cursor: pointer;
 }
 
+.assets-wrapper {
+  height: 100%;
+  min-height: 210px;
+}
+
 @media screen and (max-width: 768px) {
   .toolbar-balance-radio {
     display: none;
@@ -195,15 +192,6 @@ i.toggler {
 
   .toolbar-balance-select {
     display: block;
-  }
-
-  .toolbar {
-    width: 100%;
-    & w-radio-wrap {
-      & .btn-wrap.btn-group w-radio:last-child .btn {
-        margin-right: 0;
-      }
-    }
   }
 
   .main.wallet.assets {
@@ -241,7 +229,6 @@ i.toggler {
         .toggler {
           transform: rotate(180deg);
         }
-
       }
 
       .chart-info {
@@ -273,18 +260,8 @@ i.toggler {
     }
   }
 
-}
-
-@media screen and (max-width: 560px) {
-  .main.wallet.assets {
-    .content {
-      .interface {
-        width: 54px;
-        padding: 0;
-        .btn-icon {
-          display: none;
-        }
-      }
-    }
+  .assets-wrapper {
+    max-height: 100%;
+    overflow: visible;
   }
 }

@@ -4,6 +4,7 @@
     "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js",
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
     "node_modules/handlebars/dist/handlebars.min.js",
+    "node_modules/@waves/marshall/dist/min/waves-marshall.min.js",
     "node_modules/ramda/dist/ramda.min.js",
     "node_modules/mobile-detect/mobile-detect.min.js",
     "node_modules/handlebars/dist/handlebars.min.js",
@@ -20,12 +21,13 @@
     "node_modules/howler/dist/howler.min.js",
     "node_modules/@waves/ledger/dist/transport-u2f.js",
     "node_modules/@waves/ledger/dist/waves-ledger.js",
-    "node_modules/@waves/signature-adapter/dist/signature-adapter.min.js",
-    "data-service-dist/data-service.js",
+    "node_modules/@waves/ledger/dist/transport-u2f.js",
     "node_modules/qrcode/build/qrcode.min.js",
     "node_modules/ts-api-validator/dist/ts-api-validator.partial.min.js",
     "node_modules/jquery/dist/jquery.min.js",
     "node_modules/d3/d3.min.js",
+    "node_modules/@waves/signature-adapter/dist/signature-adapter.min.js",
+    "data-service-dist/data-service.js",
     "node_modules/identity-img/dist/identity-img.min.js",
     "node_modules/i18next-locize-backend/i18nextLocizeBackend.min.js",
     "node_modules/angular/angular.min.js",
@@ -42,108 +44,108 @@
     "node_modules/ts-utils/dist/ts-utils.min.js",
     "node_modules/@waves/waves-browser-bus/dist/browser-bus.min.js"
   ],
-  "analyticsIframe": "https://iframe-test.wvservices.com/index.html",
+  "analyticsIframe": "https://iframe.wavesplatform.com",
   "langList": {
     "en": {
-      "name": "En",
+      "name": "English",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "ru": {
-      "name": "Ru",
+      "name": "Russian",
       "separators": {
         "group": " ",
         "decimal": "."
       }
     },
     "ko": {
-      "name": "Ko",
+      "name": "Korean",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "zh_CN": {
-      "name": "Zh",
+      "name": "Chinese",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "tr": {
-      "name": "Tr",
+      "name": "Turkish",
       "separators": {
         "group": " ",
         "decimal": "."
       }
     },
     "ja": {
-      "name": "Jp",
+      "name": "Japanese",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "nl_NL": {
-      "name": "Nl",
+      "name": "Dutch",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "hi_IN": {
-      "name": "Hi",
+      "name": "Hindi",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "es": {
-      "name": "Es",
+      "name": "Spanish",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "et_EE": {
-      "name": "Est",
+      "name": "Estonian",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "pt_BR": {
-      "name": "Br",
+      "name": "Brazil",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "pl": {
-      "name": "Pl",
+      "name": "Polish",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "it": {
-      "name": "It",
+      "name": "Italian",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "de": {
-      "name": "De",
+      "name": "German",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "id": {
-      "name": "Id",
+      "name": "Indonesian",
       "separators": {
         "group": ",",
         "decimal": "."
@@ -200,7 +202,10 @@
   },
   "configurations": {
     "testnet": {
-      "oracle": "3N5net4nzSeeqxPfGZrvVvnGavsinipQHbE",
+      "oracles": {
+        "waves": "3N5net4nzSeeqxPfGZrvVvnGavsinipQHbE",
+        "tokenomica": "3Mq2ikxDH6rV5VBUNX1Ef8Ag1Vjntbh4MvD"
+      },
       "apiVersion": "v0",
       "code": "T",
       "bankRecipient": "",
@@ -209,6 +214,10 @@
       "api": "https://api.testnet.wavesplatform.com",
       "explorer": "https://wavesexplorer.com/testnet",
       "coinomat": "https://localhost:8080/coinomat",
+      "vostok": {
+        "gateway": "https://gw.wavesplatform.com",
+        "networkByte": "F"
+      },
       "support": "https://support.wavesplatform.com",
       "termsAndConditions": "https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf",
       "privacyPolicy": "https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf",
@@ -230,11 +239,15 @@
         "DASH": "DGgBtwVoXKAKKvV2ayUpSoPzTJxt7jo9KiXMJRzTH2ET",
         "EFYT": "FvKx3cerSVYGfXKFvUgp7koNuTAcLs8DmtmwRrFVCqJv",
         "WNET": "3P8gkhcLhFQvBkDzMnWeqqwvq3qxkpTNQPs4LUQ95tKD",
-        "XMR": "8oPbSCKFHkXBy1hCGSg9pJkSARE7zhTQTLpc8KZwdtr7"
+        "XMR": "8oPbSCKFHkXBy1hCGSg9pJkSARE7zhTQTLpc8KZwdtr7",
+        "VST": "63QkN8KKRMVBpkCM7azV6HiPacJ3T7EP6vmFUNVRsvAX"
       }
     },
     "mainnet": {
-      "oracle": "3P6t5mKGwVDkyjFhtUqw4NnecyC3DRpLfkw",
+      "oracles": {
+        "waves": "3P6t5mKGwVDkyjFhtUqw4NnecyC3DRpLfkw",
+        "tokenomica": "3P5yz6NiyBoT3KWBrc1iwQeMAen56FcMGTW"
+      },
       "apiVersion": "v0",
       "bankRecipient": "3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us",
       "code": "W",
@@ -243,6 +256,10 @@
       "api": "https://api.wavesplatform.com",
       "explorer": "https://wavesexplorer.com",
       "coinomat": "https://coinomat.com",
+      "vostok": {
+        "gateway": "https://gw.wavesplatform.com",
+        "networkByte": "V"
+      },
       "support": "https://support.wavesplatform.com",
       "termsAndConditions": "https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf",
       "privacyPolicy": "https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf",
@@ -264,7 +281,8 @@
         "DASH": "B3uGHFRpSUuGEDWjqB9LWWxafQj8VTvpMucEyoxzws5H",
         "EFYT": "725Yv9oceWsB4GsYwyy4A52kEwyVrL5avubkeChSnL46",
         "WNET": "AxAmJaro7BJ4KasYiZhw7HkjwgYtt2nekPuF2CN9LMym",
-        "XMR": "5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3"
+        "XMR": "5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3",
+        "VST": "4LHHvYGNKJUg5hj65aGD5vgScvCBmLpdRFtjokvCjSL8"
       }
     }
   }

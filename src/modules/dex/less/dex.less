@@ -4,21 +4,9 @@
 
 @dex-lower-block-height: 50%;
 
-body.dex, body.dex-demo {
+body.dex,
+body.dex-demo {
   color: @color-basic-900;
-
-  w-header {
-    display: none;
-  }
-
-  .main-content .content {
-    height: calc(~'100% - ' @padding-main-layout);
-    width: calc(~'100% - '@width-left-menu + @padding-main-layout);
-    right: @padding-main-layout / 2;
-    bottom: @padding-main-layout / 2;
-    overflow: hidden;
-    padding: 0;
-  }
 
   .dex-wrapper {
     width: 100%;
@@ -97,16 +85,6 @@ body.dex, body.dex-demo {
         }
 
         .smart-table {
-          &__search-container {
-            input {
-              background: @input-search-icon left 48% no-repeat;
-              border: 0 none;
-              width: 100%;
-              padding-left: 20px;
-              color: @color-disabled-900;
-            }
-          }
-
           &__row {
             height: 28px;
             width: 100%;
@@ -436,11 +414,10 @@ body.dex, body.dex-demo {
             white-space: nowrap;
 
             .decimal-muted {
-              display: none;
+              color: @color-basic-500;
             }
           }
         }
-
       }
     }
 
@@ -533,8 +510,6 @@ body.dex, body.dex-demo {
     .main-content .content {
       height: 100%;
       width: 100%;
-      top: 60px;
-      max-height: calc(100% ~' - 60px');
       padding: 5px;
       right: 0;
       bottom: 0;
@@ -641,12 +616,11 @@ body.dex, body.dex-demo {
   body.dex, body.dex-demo {
     .main-content .content {
       width: 100%;
-      top: 60px;
       padding: 5px;
       right: 0;
       bottom: 0;
       height: 100%;
-      max-height: calc(100% ~' - 60px');
+      max-height: calc(100% ~' - 80px');
       overflow: auto;
 
       .dex-layout {
@@ -663,7 +637,7 @@ body.dex, body.dex-demo {
           w-dex-trade-history {
             .smart-table {
               &__w-tbody {
-                max-height: 226px;
+                max-height: 243px;
               }
 
               &.my-trade-history {

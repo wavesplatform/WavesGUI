@@ -2,11 +2,12 @@
     'use strict';
 
     const config = function ($urlRouterProvider, $stateProvider, $locationProvider) {
-
+        const TransportU2F = require('@ledgerhq/hw-transport-u2f');
         const tsUtils = require('ts-utils');
 
         ds.config.setConfig(WavesApp.network);
         ds.config.set('remappedAssetNames', WavesApp.remappedAssetNames);
+        ds.config.set('oracleTokenomica', WavesApp.oracles.tokenomica);
 
         class AppConfig {
 
@@ -19,7 +20,7 @@
 
             _initAdapters() {
 
-                const Transport = window.TransportNodeHid;
+                const Transport = window.TransportNodeHid || TransportU2F;
 
                 ds.signAdapters.adapterList.forEach((Adapter) => Adapter.initOptions({
                     networkCode: WavesApp.network.code.charCodeAt(0),
@@ -70,7 +71,8 @@
                                     tsUtils.notContains('app.templates'),
                                     tsUtils.notContains('app.keeper'),
                                     tsUtils.notContains('app.wallet'),
-                                    tsUtils.notContains('app.stand')
+                                    tsUtils.notContains('app.stand'),
+                                    tsUtils.notContains('app.signIn'),
                                 )
                             ),
                         fallbackLng: 'en',

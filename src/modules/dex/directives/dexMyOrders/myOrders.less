@@ -8,6 +8,56 @@ w-dex-my-orders {
   overflow: hidden;
   overflow-x: auto;
 
+  /* ngRepeat animation*/
+
+  .repeatItemTransition.ng-enter,
+  .repeatItemTransition.ng-leave {
+    transition: ease-in-out 0.4s;
+  }
+
+
+  .repeatItemTransition.ng-enter,
+  .repeatItemTransition.ng-leave.ng-leave-active {
+    opacity: 0;
+    max-height: 0;
+  }
+
+  .repeatItemTransition.ng-leave,
+  .repeatItemTransition.ng-enter.ng-enter-active {
+    opacity: 1;
+    max-height: 30px;
+    pointer-events: none;
+
+    &.pre-leave {
+      opacity: 0.3;
+    }
+
+    @media screen and (max-width: 1024px) {
+      max-height: 69px;
+    }
+  }
+
+  .repeatItemTransition.pre-leave {
+    transition: opacity 0.4s;
+    opacity: 0.3;
+    max-height: 30px;
+    pointer-events: none;
+
+    @media screen and (max-width: 1024px) {
+      max-height: 69px;
+    }
+
+    &.force-leave {
+      transition: ease-in-out 0.4s;
+      opacity: 0;
+      max-height: 0;
+      @media screen and (max-width: 1024px) {
+        max-height: 0 !important;
+      }
+    }
+  }
+
+  //end
   .centered {
     position: absolute;
     width: 100%;
@@ -105,7 +155,6 @@ w-dex-my-orders {
     }
 
     &__w-tbody {
-
       .smart-table {
         &__row {
           padding: 6px 10px;
@@ -230,7 +279,6 @@ w-dex-my-orders {
       }
     }
   }
-
 }
 
 @media screen and (max-width: 1400px) {
@@ -245,7 +293,7 @@ w-dex-my-orders {
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1190px) {
   body.dex .dex-wrapper,
   body.dex-demo .dex-wrapper {
     w-dex-my-orders {
@@ -295,6 +343,10 @@ w-dex-my-orders {
               }
             }
           }
+        }
+
+        &__cell {
+          padding: 0;
         }
 
         &__cell {

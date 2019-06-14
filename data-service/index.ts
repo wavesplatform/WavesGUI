@@ -21,6 +21,8 @@ import { TTimeType } from './utils/utils';
 export { getAdapterByType, getAvailableList } from '@waves/signature-adapter';
 export { Seed } from './classes/Seed';
 export { assetStorage } from './utils/AssetStorage';
+export * from './store';
+
 export const wavesDataEntities = {
     ...wavesDataEntitiesModule
 };
@@ -34,6 +36,7 @@ export const signature = {
 
 export const signAdapters = signatureAdapters;
 export const isValidAddress = cryptoUtils.crypto.isValidAddress;
+export const isValidAddressWithNetworkByte = cryptoUtils.crypto.isValidAddressWithNetworkByte;
 export const buildTransactionId = cryptoUtils.crypto.buildTransactionId;
 
 // export const prepareForBroadcast = prepareForBroadcastF;

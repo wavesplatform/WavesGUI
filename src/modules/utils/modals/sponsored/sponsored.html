@@ -1,36 +1,7 @@
 <w-step-by-step active-step="$ctrl.step">
     <w-step>
         <div class="asset-modal">
-            <div class="asset-modal__head">
-                <div class="asset-modal__head-content">
-                    <w-asset-logo ng-cloak asset-id="{{::$ctrl.asset.id}}"
-                                  size="65"
-                                  class="asset-modal__logo"></w-asset-logo>
-
-                    <div class="asset-modal__data">
-                        <h2 ng-cloak class="asset-modal__name basic-900">{{::$ctrl.asset.name}}
-                            <span class="status-label-min active"
-                                  ng-if="$ctrl.isVerified"
-                                  w-i18n-ns="app.utils"
-                                  w-i18n="modal.assetInfo.qualified"></span>
-                            <span class="status-label-min active"
-                                  ng-if="$ctrl.isGateway"
-                                  w-i18n-ns="app.utils"
-                                  w-i18n="modal.assetInfo.gateway"></span>
-                        </h2>
-
-                        <div class="body-2 basic-500">
-                            asd{{::$ctrl.ticker}}
-                        </div>
-                    </div>
-
-                    <div class="chart-wrapper">
-                        <w-asset-rate-chart no-update="::true" asset-id="::$ctrl.asset.id"></w-asset-rate-chart>
-                        <div class="interactive-stop"></div>
-                    </div>
-
-                </div>
-            </div>
+            <w-asset-info-head ng-cloak asset-id="$ctrl.asset.id"></w-asset-info-head>
         </div>
 
         <form novalidate name="sponsored">
@@ -47,14 +18,14 @@
                 </div>
 
                 <div class="plate-warning margin-3 body-1">
-                    <div class="body-2 warning-500"
+                    <div class="margin-05 body-2 warning-500"
                          w-i18n="modal.sponsorship.warningHeader"
                          params="{name: $ctrl.asset.name}"></div>
                     <div class="footnote-1 basic-500" w-i18n="modal.sponsorship.warningText"
                          params="{name: $ctrl.asset.name}"></div>
                 </div>
 
-                <div class="body-2 basic-900" w-i18n="modal.sponsorship.amountPerTx"></div>
+                <div class="margin-05 body-2 basic-900" w-i18n="modal.sponsorship.amountPerTx"></div>
 
                 <w-input-container class="margin-1">
                     <w-input ng-model="$ctrl.minSponsoredAssetFee"

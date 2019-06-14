@@ -1,206 +1,213 @@
-<div w-i18n-ns="app.tokens" class="token-page">
-    <div class="page-title headline-4 basic-700" w-i18n="pageTitle"></div>
-    <div class="token-page__content">
-        <form class="generate-form" name="$ctrl.createForm" novalidate>
+<div class="tokens-page movable">
+    <div w-i18n-ns="app.tokens" class="tokens-page-wrapper">
+        <div class="page-title basic-900" w-i18n="pageTitle"></div>
+        <div class="tokens-page__content">
+            <form class="generate-form" name="$ctrl.createForm" novalidate>
 
-            <div class="row">
-                <div class="body-2 basic-900">
-                    <span w-i18n="name"></span>
-                    <div class="footnote-1 basic-500" w-i18n="help.name"></div>
-                </div>
-                <w-input-container>
-                    <w-input type="text"
-                             name="name"
-                             ng-model="$ctrl.name"
-                             w-validate
-                             class="medium"
-                             w-validator-byte-gte="4"
-                             w-validator-byte-lte="16"
-                             required></w-input>
-
-                    <w-input-error message="required">
-                        <span w-i18n="validators.required"></span>
-                    </w-input-error>
-                    <w-input-error message="byteLte">
-                        <span w-i18n="validators.byte.lte"></span>
-                    </w-input-error>
-                    <w-input-error message="byteGte">
-                        <span w-i18n="validators.byte.gte"></span>
-                    </w-input-error>
-                </w-input-container>
-            </div>
-
-            <div class="row">
-                <div class="body-2 basic-900" w-i18n="description"></div>
-                <w-input-container>
-                    <w-input class="no-validate-icons" textarea
-                             name="description"
-                             ng-model="$ctrl.description"
-                             placeholder="placeholders.description"
-                             w-validate
-                             w-validator-byte-lte="1000"
-                             w-i18n-attr="placeholder"></w-input>
-
-                    <w-input-error message="byteLte">
-                        <span w-i18n="validators.descriptionLen"></span>
-                    </w-input-error>
-                </w-input-container>
-            </div>
-
-            <div class="row">
-                <div class="body-2 basic-900 relative">
-                    <span w-i18n="count"></span>
-                    <w-help-icon>
-                        <div class="help-icon__row headline-3">
-                            <span w-i18n="helpIcon.totalTokens.headline"></span>
-                        </div>
-                        <div class="help-icon__row" w-i18n="helpIcon.totalTokens.reissuable"></div>
-                        <div class="help-icon__row" w-i18n="helpIcon.totalTokens.notReissuable"></div>
-                    </w-help-icon>
-                </div>
-                <w-input-container>
-                    <div class="input-like input-like-with-select">
-                        <w-input class="medium"
-                                 type="text"
-                                 name="count"
-                                 ng-model="$ctrl.count"
+                <div class="row">
+                    <div class="body-2 basic-900 margin-05">
+                        <span w-i18n="name"></span>
+                        <div class="footnote-1 basic-500 margin-05" w-i18n="help.name"></div>
+                    </div>
+                    <w-input-container>
+                        <w-input type="text"
+                                 name="name"
+                                 ng-model="$ctrl.name"
                                  w-validate
-                                 w-validator-precision="{{$ctrl.precision.toString()}}"
-                                 w-validator-gt="0"
-                                 w-validator-lt="{{$ctrl.maxCoinsCount}}"
-                                 w-validator-integer
-                                 w-validator-number
+                                 class="big"
+                                 w-validator-byte-gte="4"
+                                 w-validator-byte-lte="16"
                                  required></w-input>
 
-                        <w-select class="no-user-select tiny" ng-model="$ctrl.issue">
-                            <w-option value="::false">
-                                 <span class="caption-1 mobile-caption-4 basic-700" w-i18n-ns="app.tokens"
-                                       w-i18n="reissuable.false"></span>
-                            </w-option>
-                            <w-option value="::true">
-                                 <span class="caption-1 mobile-caption-4 basic-700" w-i18n-ns="app.tokens"
-                                       w-i18n="reissuable.true"></span>
-                            </w-option>
-                        </w-select>
-                    </div>
-
-                    <w-input-error message="required">
-                        <span w-i18n="validators.required"></span>
-                    </w-input-error>
-                    <w-input-error message="gt">
-                        <span w-i18n="validators.minValueCount"></span>
-                    </w-input-error>
-                    <w-input-error message="lt">
-                        <span w-i18n="validators.maxValueCount"></span>
-                    </w-input-error>
-                    <w-input-error message="precision">
-                        <span w-i18n="validators.precisionCount"></span>
-                    </w-input-error>
-                </w-input-container>
-            </div>
-            <div class="row">
-                <div class="body-2 basic-900 relative">
-                    <span w-i18n="precision"></span>
-                    <w-help-icon>
-                        <div class="help-icon__row headline-3">
-                            <span w-i18n="helpIcon.demicals"></span>
-                        </div>
-                    </w-help-icon>
-                </div>
-                <w-range-slider ng-model="$ctrl.precision" max="::8">
-            </div>
-            <div class="row">
-                <div class="body-2 basic-900 margin-1 relative">
-                    <span w-i18n="script"></span>
-                    <w-help-icon>
-                        <div class="help-icon__row headline-3" w-i18n="helpIcon.scriptHeader"></div>
-                        <div class="help-icon__row" w-i18n="helpIcon.scriptDescription"></div>
-                        <div class="help-icon__row">
-                            <a href="https://docs.wavesplatform.com/en/technical-details/smart-assets.html"
-                               class="link"
-                               w-i18n="helpIcon.scriptLearnMore"
-                               target="blank"></a>
-                        </div>
-                    </w-help-icon>
-                </div>
-
-                <div class="input-toggle" ng-class="{active: $ctrl.hasAssetScript}">
-                    <w-checkbox-submit id="has-script"
-                                       name="has-script"
-                                       ng-model="$ctrl.hasAssetScript">
-                    </w-checkbox-submit>
-                    <label for="has-script" class="margin-right-1"></label>
-                    <div ng-if="$ctrl.hasAssetScript" class="footnote-1" w-i18n="switchScriptOff"></div>
-                    <div ng-if="!$ctrl.hasAssetScript" class="footnote-1" w-i18n="switchScriptOn"></div>
-                </div>
-
-                <div ng-if="$ctrl.hasAssetScript" class="row row-script">
-                    <w-input-container>
-                        <w-input textarea
-                                 w-validate
-                                 required
-                                 w-validator-custom="{{$ctrl.isValidScript}}"
-                                 ng-model="$ctrl.script"
-                                 name="script"></w-input>
-
-                        <w-input-error ng-if="$ctrl.hasAssetScript" message="required">
+                        <w-input-error message="required">
                             <span w-i18n="validators.required"></span>
                         </w-input-error>
-                        <w-input-error message="custom">
-                            <span w-i18n="validators.invalidScript"></span>
+                        <w-input-error message="byteLte">
+                            <span w-i18n="validators.byte.lte"></span>
+                        </w-input-error>
+                        <w-input-error message="byteGte">
+                            <span w-i18n="validators.byte.gte"></span>
                         </w-input-error>
                     </w-input-container>
+                </div>
 
-                    <div ng-if="$ctrl.hasAssetScript" w-i18n-ns="app.utils">
-                        <div class="basic-500 margin-1 margin-top-1" w-i18n="directives.scriptForm.ideLink"></div>
-                        <div class="plate-warning warning-500">
-                            <div class="body-2" w-i18n="modal.setAssetScript.warningHeader"></div>
-                            <div class="footnote-1 basic-500" w-i18n="modal.setAssetScript.warningDescription"></div>
+                <div class="row">
+                    <div class="body-2 basic-900 margin-05" w-i18n="description"></div>
+                    <w-input-container>
+                        <w-input class="no-validate-icons" textarea
+                                 name="description"
+                                 ng-model="$ctrl.description"
+                                 placeholder="placeholders.description"
+                                 w-validate
+                                 w-validator-byte-lte="1000"
+                                 w-i18n-attr="placeholder"></w-input>
+
+                        <w-input-error message="byteLte">
+                            <span w-i18n="validators.descriptionLen"></span>
+                        </w-input-error>
+                    </w-input-container>
+                </div>
+
+                <div class="row">
+                    <div class="body-2 basic-900 margin-05 relative">
+                        <span w-i18n="count"></span>
+                        <w-help-icon>
+                            <div class="help-icon__row headline-3">
+                                <span w-i18n="helpIcon.totalTokens.headline"></span>
+                            </div>
+                            <div class="help-icon__row" w-i18n="helpIcon.totalTokens.reissuable"></div>
+                            <div class="help-icon__row" w-i18n="helpIcon.totalTokens.notReissuable"></div>
+                        </w-help-icon>
+                    </div>
+                    <w-input-container>
+                        <div class="input-like input-like-with-select">
+                            <w-input class="big"
+                                     type="text"
+                                     name="count"
+                                     ng-model="$ctrl.count"
+                                     w-validate
+                                     w-validator-precision="{{$ctrl.precision.toString()}}"
+                                     w-validator-gt="0"
+                                     w-validator-lt="{{$ctrl.maxCoinsCount}}"
+                                     w-validator-integer
+                                     w-validator-number
+                                     required></w-input>
+
+                            <w-select class="no-user-select tiny" ng-model="$ctrl.issue">
+                                <w-option value="::false">
+                                 <span class="caption-1 mobile-caption-4 basic-700" w-i18n-ns="app.tokens"
+                                       w-i18n="reissuable.false"></span>
+                                </w-option>
+                                <w-option value="::true">
+                                 <span class="caption-1 mobile-caption-4 basic-700" w-i18n-ns="app.tokens"
+                                       w-i18n="reissuable.true"></span>
+                                </w-option>
+                            </w-select>
+                        </div>
+
+                        <w-input-error message="required">
+                            <span w-i18n="validators.required"></span>
+                        </w-input-error>
+                        <w-input-error message="gt">
+                            <span w-i18n="validators.minValueCount"></span>
+                        </w-input-error>
+                        <w-input-error message="lt">
+                            <span w-i18n="validators.maxValueCount"></span>
+                        </w-input-error>
+                        <w-input-error message="precision">
+                            <span w-i18n="validators.precisionCount"></span>
+                        </w-input-error>
+                    </w-input-container>
+                </div>
+                <div class="row">
+                    <div class="body-2 basic-900 margin-05 relative">
+                        <span w-i18n="precision"></span>
+                        <w-help-icon>
+                            <div class="help-icon__row headline-3">
+                                <span w-i18n="helpIcon.demicals"></span>
+                            </div>
+                        </w-help-icon>
+                    </div>
+                    <w-range-slider ng-model="$ctrl.precision" max="::8">
+                </div>
+                <div class="row">
+                    <div class="body-2 basic-900 margin-1 relative">
+                        <span w-i18n="script"></span>
+                        <w-help-icon>
+                            <div class="help-icon__row headline-3" w-i18n="helpIcon.scriptHeader"></div>
+                            <div class="help-icon__row" w-i18n="helpIcon.scriptDescription"></div>
+                            <div class="help-icon__row">
+                                <a href="https://docs.wavesplatform.com/en/technical-details/smart-assets.html"
+                                   class="link"
+                                   w-i18n="helpIcon.scriptLearnMore"
+                                   target="blank"></a>
+                            </div>
+                        </w-help-icon>
+                    </div>
+
+                    <div class="input-toggle" ng-class="{active: $ctrl.hasAssetScript}">
+                        <w-checkbox-submit id="has-script"
+                                           name="has-script"
+                                           ng-model="$ctrl.hasAssetScript">
+                        </w-checkbox-submit>
+                        <label for="has-script" class="margin-right-1"></label>
+                        <div ng-if="$ctrl.hasAssetScript" class="footnote-1" w-i18n="switchScriptOff"></div>
+                        <div ng-if="!$ctrl.hasAssetScript" class="footnote-1" w-i18n="switchScriptOn"></div>
+                    </div>
+
+                    <div ng-if="$ctrl.hasAssetScript" class="row row-script">
+                        <w-input-container>
+                            <w-input textarea
+                                     w-validate
+                                     required
+                                     w-validator-custom="{{$ctrl.isValidScript}}"
+                                     ng-model="$ctrl.script"
+                                     name="script"></w-input>
+
+                            <w-input-error ng-if="$ctrl.hasAssetScript" message="required">
+                                <span w-i18n="validators.required"></span>
+                            </w-input-error>
+                            <w-input-error message="custom">
+                                <span w-i18n="validators.invalidScript"></span>
+                            </w-input-error>
+                        </w-input-container>
+
+                        <div ng-if="$ctrl.hasAssetScript" w-i18n-ns="app.utils">
+                            <div class="basic-500 margin-1 margin-top-1" w-i18n="directives.scriptForm.ideLink"></div>
+                            <div class="plate-warning warning-500">
+                                <div class="body-2 margin-05" w-i18n="modal.setAssetScript.warningHeader"></div>
+                                <div class="footnote-1 basic-500"
+                                     w-i18n="modal.setAssetScript.warningDescription"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row margin-top-1">
-                <div class="body-2 basic-900" w-i18n="preview"></div>
-                <div class="preview">
-                    <div class="avatar-wrap">
-                        <w-asset-logo ng-if="$ctrl.name"
-                                      has-script="$ctrl.hasAssetScript"
-                                      size="30"
-                                      asset-name="$ctrl.name"></w-asset-logo>
-                    </div>
-                    <div class="token-info-wrap" ng-class="{empty: $ctrl.createForm.$invalid}">
-                        <div class="line token-name headline-3 basic-900">
-                            <span ng-if="$ctrl.name && $ctrl.createForm.$valid">{{$ctrl.name}}</span>
+                <div class="row margin-top-1">
+                    <div class="body-2 basic-900 margin-05" w-i18n="preview"></div>
+                    <div class="preview">
+                        <div class="avatar-wrap">
+                            <w-new-asset-logo ng-if="$ctrl.name"
+                                          ng-click="$ctrl.createSignable()"
+                                          asset-id="$ctrl.assetId"
+                                          has-script="$ctrl.hasAssetScript"
+                                          size="30"
+                                          asset-name="$ctrl.name"></w-new-asset-logo>
                         </div>
-                        <div class="line token-value body-2 basic-700">
+                        <div class="token-info-wrap" ng-class="{empty: $ctrl.createForm.$invalid}">
+                            <div class="line token-name headline-3 basic-900">
+                                <span ng-if="$ctrl.name && $ctrl.createForm.$valid">{{$ctrl.name}}</span>
+                            </div>
+                            <div class="line token-value body-2 basic-700 margin-05">
                         <span ng-if="$ctrl.name && $ctrl.createForm.$valid"
                               w-nice-number="$ctrl.count"
                               precision="$ctrl.precision.toString()"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div ng-class="{'error-400': $ctrl.invalid}"
-                     class="footnote-1 basic-500"
-                     params="{fee: $ctrl.fee}"
-                     w-i18n="fee_tokens"></div>
-                <div ng-if="$ctrl.invalid" class="error-400" w-i18n="validators.noMoney"></div>
-            </div>
+                <div class="row">
+                    <div ng-class="{'error-400': $ctrl.invalid}"
+                         class="footnote-1 basic-500"
+                         params="{fee: $ctrl.fee}"
+                         w-i18n="fee"></div>
+                    <div ng-if="$ctrl.invalid" class="error-400" w-i18n="validators.noMoney"></div>
+                </div>
 
-            <div class="row">
-                <w-sign-button disabled="$ctrl.createForm.$invalid || $ctrl.invalid"
-                               class="submit long margin-4"
-                               ng-click="$ctrl.sendAnalytics"
-                               on-success="$ctrl.generate(signable)"
-                               on-click="$ctrl.createSignable()">
-                    <span w-i18n-ns="app.tokens" w-i18n="create"></span>
-                </w-sign-button>
-            </div>
+                <div class="row">
+                    <w-analytics event="'Token Generation Generate Click'" event-target="'ui'">
+                    <w-sign-button disabled="$ctrl.createForm.$invalid || $ctrl.invalid"
+                                   class="submit long"
+                                   ng-click="$ctrl.sendAnalytics"
+                                   on-success="$ctrl.generate(signable)"
+                                   on-click="$ctrl.getSignable()">
+                        <span w-i18n-ns="app.tokens" w-i18n="create"></span>
+                    </w-sign-button>
+                </w-analytics>
+                </div>
 
-        </form>
+            </form>
+        </div>
     </div>
 </div>

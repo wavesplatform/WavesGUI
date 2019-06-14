@@ -3,6 +3,60 @@
 @import (reference) 'config';
 @import (reference) 'icons';
 
+.tx-block-wrapper {
+  border-radius: @border-radius;
+  box-shadow: @shadow-type-1;
+  background: @color-white;
+}
+
+.status-label,
+.status-label-min {
+  width: auto;
+  padding: 4px 11px;
+  border-radius: @border-radius;
+  text-transform: uppercase;
+  color: @color-submit-400;
+  background-color: @color-bluebar-200;
+  margin: -1px 0 0 6px;
+  white-space: nowrap;
+
+  &.success,
+  &.confirmed {
+    background: @color-success-50;
+    color: @color-success-400;
+  }
+
+  &.warning,
+  &.unconfirmed {
+    background: rgba(255, 175, 0, 0.1);
+    color: @color-warning-500;
+  }
+
+  &.error,
+  &.cancelled {
+    background: rgba(239, 72, 41, 0.1);
+    color: @color-error-500;
+  }
+
+  &.active {
+    color: @color-submit-400;
+    background-color: @color-bluebar-200;
+  }
+
+  &.inactive {
+    background-color: @asset-label-suspicious;
+    color: @color-black;
+  }
+}
+
+.status-label-min {
+  .caption-3();
+  padding: 3px 6px;
+  margin-top: 4px;
+  border-radius: @border-radius / 2;
+  text-transform: uppercase;
+}
+
 w-transaction .transaction {
   display: flex;
   flex-direction: row;
@@ -21,6 +75,11 @@ w-transaction .transaction {
       right: 43px;
       bottom: 15px;
     }
+  }
+
+  .exchange-type {
+    white-space: nowrap;
+    margin-right: 5px;
   }
 
   .icon {
@@ -129,6 +188,10 @@ w-transaction .transaction {
     &.set-asset-script {
       .icon-tx-set-asset-script();
     }
+
+    &.script-invocation {
+      .icon-tx-script-invocation();
+    }
   }
 
   &.spam .icon {
@@ -168,17 +231,26 @@ w-transaction .transaction {
       .line {
         height: 50%;
         flex-basis: 50%;
+        box-sizing: border-box;
+        overflow: hidden;
         color: @color-basic-700;
 
         &:last-child {
           padding-right: @padding-main-layout * 4.4;
           text-align: right;
+
+          .top {
+            word-break: break-all;
+          }
         }
 
         .top {
-          word-break: break-all;
           .spam-label {
             display: none;
+          }
+
+          .ellipsis {
+            max-width: 120px;
           }
         }
         .bottom {
@@ -237,6 +309,11 @@ w-transaction .transaction {
       }
     }
   }
+}
+
+.transaction-amounts {
+  max-width: 100%;
+  display: inline-block;
 }
 
 @media screen and (max-width: 960px) {

@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>Waves Client</title>
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
+
     <script>
         document.write('<script src="/init.js?_t=' + Date.now() + '"><\/script>');
     </script>
@@ -327,6 +328,10 @@
                     matcher: config.network.matcher,
                     api: config.network.api,
                     coinomat: config.network.coinomat,
+                    vostok: {
+                        gateway: config.network.vostok.gateway,
+                        networkByte: config.network.vostok.networkByte
+                    },
                     support: config.network.support,
                     termsAndConditions: config.network.termsAndConditions,
                     privacyPolicy: config.network.privacyPolicy,
@@ -348,7 +353,8 @@
                     BSV: config.network.assets.BSV,
                     DASH: config.network.assets.DASH,
                     TRY: config.network.assets.TRY,
-                    XMR: config.network.assets.XMR
+                    XMR: config.network.assets.XMR,
+                    VST: config.network.assets.VST
                 },
 
                 ALWAYS_PINNED_ASSETS: ['WAVES'],
@@ -366,7 +372,10 @@
                     defaultResolution: '60'
                 },
                 modules: [],
-                oracle: config.oracle,
+                oracles: {
+                    waves: config.oracles.waves,
+                    tokenomica: config.oracles.tokenomica
+                },
                 minAliasLength: 4,
                 maxAliasLength: 30,
                 maxAddressLength: 45,
@@ -394,6 +403,7 @@
                         SPONSORSHIP_STOP: 'sponsorship-stop',
                         SPONSORSHIP_FEE: 'sponsorship-fee',
                         SET_ASSET_SCRIPT: 'set-asset-script',
+                        SCRIPT_INVOCATION: 'script-invocation',
                         UNKNOWN: 'unknown'
                     },
                     NODE: {
@@ -409,7 +419,8 @@
                         DATA: 'data',
                         SET_SCRIPT: 'setScript',
                         SPONSORSHIP: 'sponsorship',
-                        SET_ASSET_SCRIPT: 'set-asset-script'
+                        SET_ASSET_SCRIPT: 'set-asset-script',
+                        SCRIPT_INVOCATION: 'script-invocation'
                     }
                 },
                 getLocaleData: config.getLocaleData,
@@ -472,12 +483,12 @@
             }
 
             Array.prototype.slice.apply(document.querySelectorAll('[rel=stylesheet]'))
-                    .filter(function (el) {
-                        return el.getAttribute('theme');
-                    })
-                    .forEach(function (el) {
-                        el.disabled = el.getAttribute('theme') !== 'default';
-                    });
+                .filter(function (el) {
+                    return el.getAttribute('theme');
+                })
+                .forEach(function (el) {
+                    el.disabled = el.getAttribute('theme') !== 'default';
+                });
         } catch (err) {
             console.warn(e);
         }
@@ -494,7 +505,7 @@
     <div class="progress"></div>
     <div class="loader-wrapper">
         <div class="loader"><span class="leaf1"></span><span class="leaf2"></span><span class="leaf3"></span><span
-                class="leaf4"></span></div>
+            class="leaf4"></span></div>
     </div>
 </div>
 
@@ -523,22 +534,30 @@
             <div class="browser-icon-block">
                 <img src="/img/no-preload/chrome-icon.svg"/>
                 <div>Chrome</div>
-                <div><a href="https://www.google.com/chrome/index.html" target="_blank">Install or update</a></div>
+                <div><a href="https://www.google.com/chrome/index.html"
+                        target="_blank"
+                        rel="noopener noreferrer">Install or update</a></div>
             </div>
             <div class="browser-icon-block">
                 <img src="/img/no-preload/firefox-icon.svg"/>
                 <div>Firefox</div>
-                <div><a href="https://www.mozilla.org/en-US/firefox/" target="_blank">Install or update</a></div>
+                <div><a href="https://www.mozilla.org/en-US/firefox/"
+                        target="_blank"
+                        rel="noopener noreferrer">Install or update</a></div>
             </div>
             <div class="browser-icon-block">
                 <img src="/img/no-preload/safari-icon.svg"/>
                 <div>Safari</div>
-                <div><a href="https://support.apple.com/downloads/safari" target="_blank">Install or update</a></div>
+                <div><a href="https://support.apple.com/downloads/safari"
+                        target="_blank"
+                        rel="noopener noreferrer">Install or update</a></div>
             </div>
             <div class="browser-icon-block">
                 <img src="/img/no-preload/opera-icon.svg"/>
                 <div>Opera</div>
-                <div><a href="http://www.opera.com/" target="_blank">Install or update</a></div>
+                <div><a href="http://www.opera.com/"
+                        target="_blank"
+                        rel="noopener noreferrer">Install or update</a></div>
             </div>
         </div>
     </div>
@@ -570,6 +589,21 @@
         WavesApp.stateTree = new tsUtils.Tree({
             id: 'root',
             children: [
+                {
+                    id: 'signIn',
+                    data: {
+                        url: '/sign-in',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'unavailable',
+                    data: {
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
                 {
                     id: 'welcome',
                     data: {
@@ -625,13 +659,6 @@
                 },
                 {
                     id: 'stand',
-                    data: {
-                        noLogin: true,
-                        views: [{ name: 'main' }]
-                    }
-                },
-                {
-                    id: 'unavailable',
                     data: {
                         noLogin: true,
                         views: [{ name: 'main' }]
@@ -697,7 +724,6 @@
             ]
         });
     }
-
 </script>
 
 </body>

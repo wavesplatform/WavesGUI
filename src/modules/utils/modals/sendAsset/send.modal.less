@@ -110,6 +110,7 @@ md-dialog.modal-send {
     .plate-warning {
       &.server-error {
         margin-bottom: 30px;
+        justify-content: center;
       }
     }
 
@@ -171,6 +172,7 @@ md-dialog.modal-send {
 
     .asset__name {
       margin-left: 10px;
+      max-width: 122px;
     }
 
     .flex-row {
@@ -224,31 +226,19 @@ md-dialog.modal-send {
 
         &__balance {
           font-size: 15px;
+          display: flex;
           @media screen and (max-width: 540px) {
             font-size: 13px;
           }
         }
+
+        &__amount {
+          max-width: 100px;
+        }
       }
-    }
 
-    .input-like {
-      position: relative;
-      padding: 0 20px;
-      border-radius: @border-radius;
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      overflow-x: hidden;
-    }
-
-    w-select {
       .title {
         overflow-x: hidden;
-
-        span {
-          white-space: nowrap;
-        }
       }
 
       .expanded {
@@ -261,6 +251,17 @@ md-dialog.modal-send {
         max-height: 325px;
         overflow: auto;
       }
+    }
+
+    .input-like {
+      position: relative;
+      padding: 0 20px;
+      border-radius: @border-radius;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      overflow-x: hidden;
     }
 
     .amount-wrap {
@@ -281,6 +282,10 @@ md-dialog.modal-send {
     w-balance {
       vertical-align: top;
       white-space: nowrap;
+
+      &.asset__amount {
+        max-width: 100px;
+      }
     }
 
     w-balance-input {

@@ -16,10 +16,16 @@ w-copy-wrap {
     display: flex;
     align-items: center;
     padding: 0 17px;
-    overflow: hidden;
+    overflow-x: auto;
     white-space: nowrap;
     width: 100%;
     max-width: calc(100% ~'- 45px');
+  }
+
+  &.overflow {
+    .container {
+      overflow-x: auto;
+    }
   }
 
   .copy-icon {
@@ -38,15 +44,15 @@ w-copy-wrap {
   }
 
   @media screen and (max-width: 768px) {
+    font-size: @font-size-control-small;
     height: @height-control-big-responsive;
-    font-size: @font-size-control-big-responsive;
-
-    .container {
-      line-height: @height-control-big-responsive;
-    }
 
     .copy-icon {
       height: @height-control-big-responsive;
+    }
+
+    .container {
+      padding: 0 @padding-control-big-responsive-horizontal;
     }
   }
 }

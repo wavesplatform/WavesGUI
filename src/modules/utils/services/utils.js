@@ -11,6 +11,64 @@
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const { Money, BigNumber } = require('@waves/data-entities');
+    const { STATUS_LIST } = require('@waves/oracle-data');
+
+    const GOOD_COLORS_LIST = [
+        '#39a12c',
+        '#6a737b',
+        '#e49616',
+        '#008ca7',
+        '#ff5b38',
+        '#ff6a00',
+        '#c74124',
+        '#00a78e',
+        '#b01e53',
+        '#e0c61b',
+        '#5a81ea',
+        '#72b7d2',
+        '#a5b5c3',
+        '#81c926',
+        '#86a3bd',
+        '#c1d82f',
+        '#5c84a8',
+        '#267e1b',
+        '#fbb034',
+        '#ff846a',
+        '#47c1ff',
+        '#00a0af',
+        '#85d7c6',
+        '#8a7967',
+        '#26c1c9',
+        '#72d28b',
+        '#5B1909',
+        '#264764',
+        '#270774',
+        '#8763DE',
+        '#F04085',
+        '#1E6AFD',
+        '#FF1E43',
+        '#D3002D',
+        '#967400',
+        '#264163'
+    ];
+
+    const DEFAULT_ASSET_ICONS_MAP = Object.assign(Object.create(null), {
+        [WavesApp.defaultAssets.WAVES]: '/img/assets/waves.svg',
+        [WavesApp.defaultAssets.BTC]: '/img/assets/bitcoin.svg',
+        [WavesApp.defaultAssets.ETH]: '/img/assets/ethereum.svg',
+        [WavesApp.defaultAssets.LTC]: '/img/assets/ltc.svg',
+        [WavesApp.defaultAssets.ZEC]: '/img/assets/zec.svg',
+        [WavesApp.defaultAssets.EUR]: '/img/assets/euro.svg',
+        [WavesApp.defaultAssets.USD]: '/img/assets/usd.svg',
+        [WavesApp.defaultAssets.DASH]: '/img/assets/dash.svg',
+        [WavesApp.defaultAssets.BCH]: '/img/assets/bitcoin-cash.svg',
+        [WavesApp.defaultAssets.BSV]: '/img/assets/bitcoin-cash-sv.svg',
+        [WavesApp.defaultAssets.TRY]: '/img/assets/try.svg',
+        [WavesApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
+        [WavesApp.defaultAssets.VST]: '/img/assets/vostok.svg',
+        [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
+        [WavesApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
+    });
 
     const nullOrCb = (name, cb) => (val1, val2) => {
         const v1 = val1[name];
@@ -154,6 +212,25 @@
              */
             apiValidatorParts: {
                 BigNumberPart
+            },
+            /**
+             * @name app.utils#getAssetLogo
+             * @param {string} assetId
+             * @return {string | undefined}
+             */
+            getAssetLogo(assetId) {
+                return DEFAULT_ASSET_ICONS_MAP[assetId];
+            },
+            /**
+             * @name app.utils#getAssetLogoBackground
+             * @param assetId
+             * @return {string}
+             */
+            getAssetLogoBackground(assetId) {
+                const sum = assetId.split('')
+                    .map(char => char.charCodeAt(0))
+                    .reduce((acc, code) => acc + code, 0);
+                return GOOD_COLORS_LIST[sum % GOOD_COLORS_LIST.length];
             },
             /**
              * @name app.utils#base58ToBytes
@@ -586,6 +663,16 @@
             },
 
             /**
+             * @name app.utils#safeApply
+             * @param {$rootScope.Scope} $scope
+             */
+            postDigest($scope) {
+                return new Promise(resolve => {
+                    $scope.$parent.$$postDigest(resolve);
+                });
+            },
+
+            /**
              * @name app.utils#when
              * @param {*} [data]
              * @return {Promise}
@@ -913,7 +1000,7 @@
              * @param {string} asset1
              * @param {string} [asset2]
              */
-            openDex(asset1, asset2) {
+            openDex(asset1, asset2, dex = 'dex') {
                 /**
                  * @type {$state}
                  */
@@ -923,7 +1010,7 @@
                         return utils.openDex(asset1);
                     }
                     setTimeout(() => {
-                        $state.go('main.dex', { assetId1: asset1, assetId2: asset2 });
+                        $state.go(`main.${dex}`, { assetId1: asset1, assetId2: asset2 });
                     }, 50);
                     return null;
                 }
@@ -933,7 +1020,7 @@
                     asset2 = WavesApp.defaultAssets.WAVES;
                 }
                 setTimeout(() => {
-                    $state.go('main.dex', { assetId1: asset1, assetId2: asset2 });
+                    $state.go(`main.${dex}`, { assetId1: asset1, assetId2: asset2 });
                 }, 50);
             },
 
@@ -1050,6 +1137,52 @@
                 }
 
                 return `${stringNum}${postfix}`;
+            },
+
+            /**
+             * @name app.utils#getDataFromOracles
+             * @param {string} assetId
+             * @return {object}
+             */
+            getDataFromOracles(assetId) {
+                /**
+                 * @type {User}
+                 */
+                const user = $injector.get('user');
+
+                const dataOracle = ds.dataManager.getOraclesAssetData(assetId);
+
+                const isGateway = path(['status'], dataOracle) === 3;
+
+                const isTokenomica = path(['status'], dataOracle) === STATUS_LIST.VERIFIED &&
+                    path(['provider'], dataOracle) === 'Tokenomica';
+
+                const isVerified = path(['status'], dataOracle) === STATUS_LIST.VERIFIED &&
+                    path(['provider'], dataOracle) !== 'Tokenomica';
+
+                const isSuspicious = user.scam[assetId];
+                const hasLabel = isVerified || isGateway || isSuspicious || isTokenomica;
+
+                const ticker = path(['ticker'], dataOracle);
+                const link = path(['link'], dataOracle);
+                const email = path(['email'], dataOracle);
+                const logo = path(['logo'], dataOracle);
+                const provider = isVerified || isTokenomica && path(['provider'], dataOracle) || null;
+                const description = path(['description', 'en'], dataOracle);
+
+                return {
+                    isVerified,
+                    isGateway,
+                    isTokenomica,
+                    isSuspicious,
+                    hasLabel,
+                    ticker,
+                    link,
+                    email,
+                    provider,
+                    description,
+                    logo
+                };
             },
 
             /**
@@ -1482,7 +1615,7 @@
                     case SIGN_TYPE.MASS_TRANSFER:
                         return utils.isMyPublicKey(tx.senderPublicKey) ? TYPES.MASS_SEND : TYPES.MASS_RECEIVE;
                     case SIGN_TYPE.EXCHANGE:
-                        return tx.exchangeType === 'buy' ? TYPES.EXCHANGE_BUY : TYPES.EXCHANGE_SELL;
+                        return utils.typOfExchange(tx);
                     case SIGN_TYPE.LEASE:
                         return utils.isMyPublicKey(tx.senderPublicKey) ? TYPES.LEASE_OUT : TYPES.LEASE_IN;
                     case SIGN_TYPE.CANCEL_LEASING:
@@ -1503,9 +1636,21 @@
                         return tx.minSponsoredAssetFee.getCoins().gt(0) ? SPONSOR_START : SPONSOR_STOP;
                     case SIGN_TYPE.SET_ASSET_SCRIPT:
                         return TYPES.SET_ASSET_SCRIPT;
+                    case SIGN_TYPE.SCRIPT_INVOCATION:
+                        return TYPES.SCRIPT_INVOCATION;
                     default:
                         return TYPES.UNKNOWN;
                 }
+            },
+
+            /**
+             * @name app.utils#typOfExchange
+             * @param tx
+             * @return string
+             */
+            typOfExchange({ exchangeType }) {
+                const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
+                return exchangeType === 'buy' ? TYPES.EXCHANGE_BUY : TYPES.EXCHANGE_SELL;
             },
 
             /**

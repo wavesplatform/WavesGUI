@@ -51,7 +51,7 @@
                 user.setSetting('advancedMode', mode);
             }
 
-            assetsOracle = '';
+            oracleWaves = '';
             tab = 'general';
             address = user.address;
             publicKey = user.publicKey;
@@ -59,8 +59,9 @@
             shownKey = false;
             node = '';
             matcher = '';
+            api = '';
             scamListUrl = '';
-            withScam = false;
+            dontShowSpam = true;
             theme = user.getSetting('theme');
             candle = user.getSetting('candle');
             templatePromise = $templateRequest('modules/utils/modals/settings/loader.html');
@@ -78,7 +79,7 @@
             supportLinkName = WavesApp.network.support.replace(/^https?:\/\//, '');
             blockHeight = 0;
             assetsOracleTmp = '';
-            oracleData = path(['oracle'], ds.dataManager.getOracleData());
+            oracleWavesData = path(['oracle'], ds.dataManager.getOracleData('oracleWaves'));
             oracleError = false;
             oraclePending = false;
             oracleSuccess = false;
@@ -96,15 +97,17 @@
                 this.syncSettings({
                     node: 'network.node',
                     matcher: 'network.matcher',
+                    api: 'network.api',
                     logoutAfterMin: 'logoutAfterMin',
                     scamListUrl: 'scamListUrl',
-                    withScam: 'withScam',
+                    dontShowSpam: 'dontShowSpam',
                     theme: 'theme',
                     candle: 'candle',
-                    assetsOracle: 'assetsOracle'
+                    oracleWaves: 'oracleWaves'
+
                 });
 
-                this.assetsOracleTmp = this.assetsOracle;
+                this.assetsOracleTmp = this.oracleWaves;
 
                 storage.load('openClientMode').then(mode => {
                     this.openClientMode = mode;
@@ -121,9 +124,9 @@
                     );
                 });
 
-                this.observe('assetsOracle', () => {
-                    ds.config.set('oracleAddress', this.assetsOracle);
-                    this.assetsOracleTmp = this.assetsOracle;
+                this.observe('oracleWaves', () => {
+                    ds.config.set('oracleWaves', this.oracleWaves);
+                    this.assetsOracleTmp = this.oracleWaves;
                 });
 
                 this.observe('assetsOracleTmp', () => {
@@ -132,9 +135,9 @@
                     ds.api.data.getOracleData(address)
                         .then(data => {
                             if (data.oracle) {
-                                this.oracleData = data.oracle;
-                                ds.config.set('oracleAddress', address);
-                                this.assetsOracle = this.assetsOracleTmp;
+                                this.oracleWavesData = data.oracle;
+                                ds.config.set('oracleWaves', address);
+                                this.oracleWaves = this.assetsOracleTmp;
                                 this.oracleError = false;
                                 this.oracleSuccess = true;
                                 setTimeout(() => {
@@ -156,19 +159,23 @@
                 //     user.changeCandle(this.candle);
                 // });
 
-                this.observe('withScam', () => {
-                    const withScam = this.withScam;
-                    if (withScam) {
-                        waves.node.assets.giveMyScamBack();
-                    } else {
-                        waves.node.assets.stopScam();
-                    }
+                this.observe('dontShowSpam', () => {
+                    const dontShowSpam = this.dontShowSpam;
+                    user.setSetting('dontShowSpam', dontShowSpam);
                 });
 
-                this.observe(['node', 'matcher'], () => {
+                this.observe('scamListUrl', () => {
+                    ds.config.setConfig({
+                        scamListUrl: this.scamListUrl
+                    });
+                    waves.node.assets.stopScam();
+                });
+
+                this.observe(['node', 'matcher', 'api'], () => {
                     ds.config.setConfig({
                         node: this.node,
-                        matcher: this.matcher
+                        matcher: this.matcher,
+                        api: this.api
                     });
                 });
 
@@ -213,9 +220,10 @@
             setNetworkDefault() {
                 this.node = WavesApp.network.node;
                 this.matcher = WavesApp.network.matcher;
-                this.withScam = false;
+                this.dontShowSpam = true;
                 this.scamListUrl = WavesApp.network.scamListUrl;
-                this.assetsOracle = WavesApp.oracle;
+                this.oracleWaves = WavesApp.oracles.waves;
+                this.api = WavesApp.network.api;
             }
 
             showPairingWithMobile() {
