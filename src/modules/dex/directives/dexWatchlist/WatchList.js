@@ -374,20 +374,6 @@
                 }
             }
 
-            // /**
-            //  * @private
-            //  */
-            // _onChangeUserBalances() {
-            //     const assetIdList = WatchList._getUserBalanceAssetIdList();
-            //
-            //     if (equals(this._lastUserBalanceIdList, assetIdList)) {
-            //         return null;
-            //     }
-            //
-            //     this._lastUserBalanceIdList = assetIdList;
-            //     this._poll.restart();
-            // }
-
             /**
              * @return {Promise<T | never>}
              * @private
