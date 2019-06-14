@@ -201,11 +201,9 @@
   "configurations": {
     "testnet": {
       "tradingPairs": [
-        ["HxqTXFiyp9SQ8wm8njn3cmsJtojngGcmnLcRoUNJpam5", "8zreE1U1TJ8Vhda8M2jEWukrWwX8znjSSjsgNGDUzdgh"],
-        ["HxqTXFiyp9SQ8wm8njn3cmsJtojngGcmnLcRoUNJpam5", "CMPv2sNdEUtEd56kNmgviXuE5MJ9hHABUWmhbmdgUnm1"],
-        ["8zreE1U1TJ8Vhda8M2jEWukrWwX8znjSSjsgNGDUzdgh", "CMPv2sNdEUtEd56kNmgviXuE5MJ9hHABUWmhbmdgUnm1"],
-        ["6bymXakShhDKSTbtsGjuzRuiFsCYbtkahLgEfEEzsWar", "CMPv2sNdEUtEd56kNmgviXuE5MJ9hHABUWmhbmdgUnm1"],
-        ["6bymXakShhDKSTbtsGjuzRuiFsCYbtkahLgEfEEzsWar", "8zreE1U1TJ8Vhda8M2jEWukrWwX8znjSSjsgNGDUzdgh"]
+        "HxqTXFiyp9SQ8wm8njn3cmsJtojngGcmnLcRoUNJpam5",
+        "8zreE1U1TJ8Vhda8M2jEWukrWwX8znjSSjsgNGDUzdgh",
+        "6bymXakShhDKSTbtsGjuzRuiFsCYbtkahLgEfEEzsWar"
       ],
       "oracles": {
         "waves": "3N5net4nzSeeqxPfGZrvVvnGavsinipQHbE",
@@ -250,11 +248,9 @@
     },
     "mainnet": {
       "tradingPairs": [
-        ["HjcJSVFeo34WD1QFFonRa3boQAkRLZxCdURJU73Ffcga", "Gsj1azEwNuUTss5FHLPbgR6FGya284Q843tCrrFgi4VZ"],
-        ["HjcJSVFeo34WD1QFFonRa3boQAkRLZxCdURJU73Ffcga", "F33CKa4cPB9fK5oA3aUZKAtDJtdohvEzX84Hkwthep5V"],
-        ["Gsj1azEwNuUTss5FHLPbgR6FGya284Q843tCrrFgi4VZ", "F33CKa4cPB9fK5oA3aUZKAtDJtdohvEzX84Hkwthep5V"],
-        ["JCm9j4nBQ8tXE2kRKzhgoV6jqVm1QC3FeXLcKwsLdRyG", "F33CKa4cPB9fK5oA3aUZKAtDJtdohvEzX84Hkwthep5V"],
-        ["JCm9j4nBQ8tXE2kRKzhgoV6jqVm1QC3FeXLcKwsLdRyG", "Gsj1azEwNuUTss5FHLPbgR6FGya284Q843tCrrFgi4VZ"]
+        "8ouNBeYFxJMaeyPBwF8jY86R457CyEjAY98HaNLFox7N",
+        "7eMpAC1CVLeZq7Mi16AkvkY2BmLytyApLaUG4TxNFew5",
+        "BFWboD9xC64tSmirFbCNARR1NSu6Ep9rP4SRoLkQhBUF"
       ],
       "oracles": {
         "waves": "3P6t5mKGwVDkyjFhtUqw4NnecyC3DRpLfkw",

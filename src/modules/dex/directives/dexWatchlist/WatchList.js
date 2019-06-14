@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const TRADING_PAIRS = WavesApp.tradingPairs;
+    const TRADING_ASSETS = WavesApp.tradingPairs;
     const DROP_DOWN_ORDER_LIST = ['ETH', 'BCH', 'LTC', 'USD', 'EUR', 'BSV'];
     const DROP_DOWN_LIST = [];
 
@@ -136,7 +136,7 @@
              * @type {{amount: string, price: string}}
              * @private
              */
-            _assetIdPair;
+            assetIdPair;
             /**
              * @type {Poll}
              * @private
@@ -222,13 +222,13 @@
                 this.syncSettings({
                     activeTab: 'dex.watchlist.activeTab',
                     showOnlyFavorite: 'dex.watchlist.showOnlyFavorite',
-                    _favourite: 'dex.watchlist.favourite',
-                    _assetIdPair: 'dex.assetIdPair'
+                    favourite: 'dex.watchlist.favourite',
+                    assetIdPair: 'dex.assetIdPair'
                 });
 
                 this._initializeActiveTab();
 
-                this.observe('_assetIdPair', this._onChangeChosenPair);
+                this.observe('assetIdPair', this._onChangeChosenPair);
                 this.observe('activeTab', this._onChangeActiveTab);
 
                 stService.draw.once(WatchList._onRenderTable);
@@ -252,8 +252,8 @@
              * @return boolean
              */
             isChosen(pairData) {
-                return this._assetIdPair.amount === pairData.amountAsset.id &&
-                    this._assetIdPair.price === pairData.priceAsset.id;
+                return this.assetIdPair.amount === pairData.amountAsset.id &&
+                    this.assetIdPair.price === pairData.priceAsset.id;
             }
 
             /**
@@ -265,7 +265,7 @@
                     price: pairData.priceAsset.id
                 };
                 this._isSelfSetPair = true;
-                this._assetIdPair = pair;
+                this.assetIdPair = pair;
                 this._isSelfSetPair = false;
             }
 
@@ -343,7 +343,7 @@
              * @private
              */
             _onChangeChosenPair() {
-                const pair = this._assetIdPair;
+                const pair = this.assetIdPair;
                 const id = [pair.amount, pair.price].sort().join();
 
                 if (!this._favoriteHash[id] && this.showOnlyFavorite) {
@@ -616,16 +616,28 @@
             }
 
             /**
+             * @return {Array<Array<string>>}
+             * @private
+             */
+            _getTradingPairList() {
+                const chosen = [this.assetIdPair.amount, this.assetIdPair.price].sort();
+                const assetsIds = TRADING_ASSETS;
+                const other = WatchList._getAllCombinations(assetsIds);
+                return WatchList._uniqPairs(other.concat([chosen]));
+            }
+
+            /**
              * @private
              */
             _getPairList() {
+
                 if (this._isActiveTrading()) {
-                    return TRADING_PAIRS;
+                    return this._getTradingPairList();
                 }
 
                 const defaultAssets = configService.get('SETTINGS.DEX.WATCH_LIST_PAIRS') || [];
                 const favorite = (this._favourite || []).map(p => p.sort());
-                const chosen = [this._assetIdPair.amount, this._assetIdPair.price].sort();
+                const chosen = [this.assetIdPair.amount, this.assetIdPair.price].sort();
                 const searchIdList = Object.keys(this._searchAssetsHash);
                 // const userBalances = this._lastUserBalanceIdList;
                 const assetsIds = Object.values(WavesApp.defaultAssets);
