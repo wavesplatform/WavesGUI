@@ -6,7 +6,6 @@
 body.welcome {
   width: 100%;
   overflow: hidden;
-  font-family: 'Roboto', 'Tahoma', 'Arial';
   font-size: 15px;
   margin: 0 auto;
   font-weight: normal;
@@ -44,11 +43,6 @@ body.welcome {
 
   h2 {
     font-weight: 400;
-  }
-
-  .section-wrapper {
-    padding-left: 80px;
-    padding-right: 80px;
   }
 
   section {
@@ -166,8 +160,8 @@ body.welcome {
 
   .section-wrapper {
     margin: 0 auto;
-    padding-left: 80px;
-    padding-right: 80px;
+    padding-left: @welcomeSectionWrapperPaddingLarge;
+    padding-right: @welcomeSectionWrapperPaddingLarge;
     max-width: 1440px;
     width: 100%;
   }
@@ -257,103 +251,6 @@ body.welcome {
         background: @color-info-50;
       }
 
-      @media screen and (max-width: 480px) {
-        padding-left: 20px;
-        padding-right: 20px;
-      }
-
-      .slider-wrapper {
-        max-width: 1440px;
-        margin: 0 auto;
-        padding-top: 60px;
-        padding-bottom: 60px;
-      }
-
-      @media screen and (max-width: 1340px) {
-        .slider-wrapper {
-          max-width: 100%;
-          padding: 80px 0;
-        }
-      }
-
-      w-carousel {
-        height: 140px;
-        .graph {
-          margin-left: 10px;
-        }
-      }
-
-      .slider {
-        display: flex;
-        width: 100%;
-        max-width: 1440px;
-      }
-
-      .slide {
-        min-width: 280px;
-        overflow: visible;
-        cursor: pointer;
-
-        &_css-anim { // .slide_css-anim
-          border-radius: @border-radius;
-          background: @color-white;
-          padding: 30px;
-          transition: all 0.3s;
-          box-shadow: @shadow-dex-welcome;
-
-          &:hover {
-            box-shadow: 0 1rem 2.5rem rgba(58, 78, 136, 0.1), 0 0.5rem 1rem -0.75rem rgba(58, 78, 136, 0.1) !important;
-            transform: translate3d(0, -3px, 0);
-          }
-        }
-
-        .graph {
-          width: 80px;
-          height: 46px;
-          position: relative;
-        }
-
-        .red {
-          color: @color-error-500;
-        }
-
-        .blue {
-          color: @color-submit-400;
-        }
-
-        h2 {
-          font-weight: normal;
-          margin: 0 0 7px;
-        }
-      }
-
-      @media screen and (max-width: 1400px) {
-        .slide {
-          width: 31%;
-        }
-      }
-      @media screen and (max-width: 1000px) {
-        .slide {
-          width: 48%;
-        }
-      }
-      @media screen and (max-width: 620px) {
-        .slide {
-          width: 100%;
-        }
-      }
-
-      @media screen and (max-width: 768px) {
-        .slider-wrapper {
-          padding: 60px 0 20px;
-        }
-
-        .slide {
-          &_css-anim { // .slide_css-anim
-            padding: 20px;
-          }
-        }
-      }
     }
 
     &-promo {
@@ -390,18 +287,122 @@ body.welcome {
         margin-top: 0;
       }
     }
+
+    &-contest {
+      background: @color-white;
+      min-height: 80px;
+      max-height: 100%;
+
+      &.collapsed {
+        overflow: hidden;
+        max-height: 0;
+        min-height: 0;
+        transition: max-height 0.5s;
+      }
+
+      .section-wrapper {
+        padding-bottom: 30px;
+      }
+
+      .contest-link {
+        position: relative;
+        height: 50px;
+        border-radius: 6px;
+        background-color: #000;
+        background-image: url(/img/landing/contest-bg.svg);
+        background-size: cover;
+        background-position: -2px 0;
+        background-repeat: no-repeat;
+        color: @color-white;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        z-index: 10;
+        width: 100%;
+        transition: opacity 1s, bottom 0.4s;
+
+        &-fixed {
+          position: fixed;
+          width: calc(~'100%' - @welcomeSectionWrapperPaddingLarge * 2);
+          max-width: 1280px;
+          box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2);
+          bottom: -50px;
+        }
+
+        &-hide {
+          bottom: -50px;
+        }
+
+        &-show {
+          bottom: 20px;
+        }
+
+        &-description {
+          position: relative;
+          font-family: @font-roboto-medium;
+          padding-left: 42px;
+
+          &-hidden-link {
+            position: absolute;
+            width: 0;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+          }
+
+          &:before {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            left: 0;
+            background: @dex-winner-icon no-repeat center;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+        }
+
+        &-actions {
+          display: flex;
+          align-items: center;
+          margin-left: auto;
+        }
+
+        &-close {
+          &-icon {
+            background: @notification-icon-close center no-repeat;
+            border: 0;
+            width: 14px;
+            height: 14px;
+            opacity: .5;
+
+            &:hover {
+              opacity: 1;
+            }
+          }
+        }
+
+        &-link {
+          margin-right: 20px;
+
+          .fake-button-content {
+            padding: 0 25px;
+            font-family: @font-roboto-medium;
+            font-size: 13px;
+          }
+        }
+      }
+    }
   }
 }
 
 @media screen and (max-width: 1440px) {
   body.welcome {
-    .slide {
-      width: 30%;
-    }
 
     .section-wrapper {
-      padding-left: 40px;
-      padding-right: 40px;
+      padding-left: @welcomeSectionWrapperPaddingMedium;
+      padding-right: @welcomeSectionWrapperPaddingMedium;
     }
 
     .section-welcome {
@@ -420,11 +421,16 @@ body.welcome {
         max-width: calc(50% ~'+ 100px');
       }
     }
+
+    .section-contest .contest-link-fixed {
+      width: calc(~'100%' - @welcomeSectionWrapperPaddingMedium * 2);
+    }
   }
 }
 
 @media screen and (max-width: 1340px) {
   body.welcome {
+
     .section-welcome {
       .dex-screenshot {
         left: 580px;
@@ -570,14 +576,45 @@ body.welcome {
 @media screen and (max-width: 480px) {
   body.welcome {
     .section-wrapper,
-    .section-slider,
     .section-markets .content-wrapper {
-      padding-left: 20px;
-      padding-right: 20px;
+      padding-left: @welcomeSectionWrapperPaddingSmall;
+      padding-right: @welcomeSectionWrapperPaddingSmall;
     }
     footer {
       .section-wrapper {
         margin-top: 0px;
+      }
+    }
+
+    .section-contest {
+      .contest-link-link {
+        .fake-button-content {
+          display: none;
+        }
+      }
+
+      .contest-link {
+        height: 60px;
+        background-position: -40px 0;
+        padding: 0 10px;
+
+        &-fixed {
+          width: calc(~'100%' - @welcomeSectionWrapperPaddingSmall * 2);
+          bottom: -60px;
+        }
+
+        &-hide {
+          bottom: -60px;
+        }
+
+        &-show {
+          bottom: 20px;
+        }
+
+        &-description-hidden-link {
+          width: calc(100% ~'- 34px');
+          pointer-events: auto;
+        }
       }
     }
   }
