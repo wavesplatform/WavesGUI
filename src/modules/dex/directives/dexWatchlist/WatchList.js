@@ -49,10 +49,6 @@
             /**
              * @type {boolean}
              */
-            isActiveTrading = false;
-            /**
-             * @type {boolean}
-             */
             pending = false;
             /**
              * @type {boolean}
@@ -270,7 +266,6 @@
             }
 
             chooseTrading() {
-                this.isActiveTrading = true;
                 this.isActiveSelect = false;
                 this.activeTab = 'trading';
             }
@@ -285,7 +280,6 @@
              */
             chooseTab(id) {
                 this.isActiveSelect = false;
-                this.isActiveTrading = false;
                 this.activeTab = id;
             }
 
@@ -331,9 +325,8 @@
              */
             _initializeActiveTab() {
                 const isActiveSelect = !find(propEq('value', this.activeTab), this.tabs);
-                this.isActiveTrading = this._isActiveTrading();
 
-                if (isActiveSelect && !this.isActiveTrading) {
+                if (isActiveSelect && !this._isActiveTrading()) {
                     this.isActiveSelect = true;
                     this.dropDownId = this.activeTab;
                 }
