@@ -136,7 +136,7 @@
              * @type {{amount: string, price: string}}
              * @private
              */
-            assetIdPair;
+            _assetIdPair;
             /**
              * @type {Poll}
              * @private
@@ -222,13 +222,13 @@
                 this.syncSettings({
                     activeTab: 'dex.watchlist.activeTab',
                     showOnlyFavorite: 'dex.watchlist.showOnlyFavorite',
-                    favourite: 'dex.watchlist.favourite',
-                    assetIdPair: 'dex.assetIdPair'
+                    _favourite: 'dex.watchlist.favourite',
+                    _assetIdPair: 'dex.assetIdPair'
                 });
 
                 this._initializeActiveTab();
 
-                this.observe('assetIdPair', this._onChangeChosenPair);
+                this.observe('_assetIdPair', this._onChangeChosenPair);
                 this.observe('activeTab', this._onChangeActiveTab);
 
                 stService.draw.once(WatchList._onRenderTable);
@@ -252,8 +252,8 @@
              * @return boolean
              */
             isChosen(pairData) {
-                return this.assetIdPair.amount === pairData.amountAsset.id &&
-                    this.assetIdPair.price === pairData.priceAsset.id;
+                return this._assetIdPair.amount === pairData.amountAsset.id &&
+                    this._assetIdPair.price === pairData.priceAsset.id;
             }
 
             /**
@@ -265,7 +265,7 @@
                     price: pairData.priceAsset.id
                 };
                 this._isSelfSetPair = true;
-                this.assetIdPair = pair;
+                this._assetIdPair = pair;
                 this._isSelfSetPair = false;
             }
 
@@ -343,7 +343,7 @@
              * @private
              */
             _onChangeChosenPair() {
-                const pair = this.assetIdPair;
+                const pair = this._assetIdPair;
                 const id = [pair.amount, pair.price].sort().join();
 
                 if (!this._favoriteHash[id] && this.showOnlyFavorite) {
@@ -621,7 +621,7 @@
 
                 const defaultAssets = configService.get('SETTINGS.DEX.WATCH_LIST_PAIRS') || [];
                 const favorite = (this._favourite || []).map(p => p.sort());
-                const chosen = [this.assetIdPair.amount, this.assetIdPair.price].sort();
+                const chosen = [this._assetIdPair.amount, this._assetIdPair.price].sort();
                 const searchIdList = Object.keys(this._searchAssetsHash);
                 // const userBalances = this._lastUserBalanceIdList;
                 const assetsIds = Object.values(WavesApp.defaultAssets);
