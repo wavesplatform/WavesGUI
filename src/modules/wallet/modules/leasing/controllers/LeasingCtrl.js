@@ -155,11 +155,13 @@
                 const idHash = utils.toHash(txList, 'id');
                 const result = txList.slice();
 
-                allActiveLeasing.forEach((tx) => {
-                    if (!idHash[tx.id]) {
-                        result.push(tx);
-                    }
-                });
+                if (allActiveLeasing || allActiveLeasing.length) {
+                    allActiveLeasing.forEach((tx) => {
+                        if (!idHash[tx.id]) {
+                            result.push(tx);
+                        }
+                    });
+                }
 
                 this.transactions = result;
                 this._filterLeasingList();

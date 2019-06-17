@@ -148,6 +148,13 @@
         "group": ",",
         "decimal": "."
       }
+    },
+    "fr": {
+      "name": "French",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
     }
   },
   "electronScripts": [
