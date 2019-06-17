@@ -175,12 +175,14 @@
 
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.expand(type);
+                    const roundedPrice = this.getRoundPriceByTickSize(price).toString();
+                    const roundedAmount = this.getClosestValidAmount(new BigNumber(amount)).toString();
                     switch (type) {
                         case 'buy':
-                            this._onClickBuyOrder(price, amount);
+                            this._onClickBuyOrder(roundedPrice, roundedAmount);
                             break;
                         case 'sell':
-                            this._onClickSellOrder(price, amount);
+                            this._onClickSellOrder(roundedPrice, roundedAmount);
                             break;
                         default:
                             throw new Error('Wrong order type!');
@@ -501,14 +503,17 @@
             }
 
             /**
+             * @param {string}
              * @return {BigNumber|*}
              */
-            getRoundPriceByTickSize() {
+            getRoundPriceByTickSize(value) {
                 if (!this.loadedPairRestrictions) {
                     return;
                 }
 
-                const price = this.priceBalance.cloneWithTokens(this.order.price.$viewValue).getTokens();
+                const price = value ?
+                    new BigNumber(value) :
+                    this.priceBalance.cloneWithTokens(this.order.price.$viewValue).getTokens();
                 const { tickSize, minPrice, maxPrice } = this.pairRestrictions;
                 const roundedPrice = price.decimalPlaces(tickSize.decimalPlaces(), BigNumber.ROUND_HALF_EVEN);
 
