@@ -9,7 +9,7 @@
      * @param utils
      * @return {AssetInfoHead}
      */
-    const controller = function (Base, $scope, user, waves, utils) {
+    const controller = function (Base, $scope, user, waves, utils, createPoll) {
 
         class AssetInfoHead extends Base {
 
@@ -21,6 +21,7 @@
             $postLink() {
                 this._getAssetInfo();
                 this.observe('assetId', this._getAssetInfo);
+                createPoll(this, this._getTokenRating, this._setTokenRating, 60 * 1000);
             }
 
             /**
@@ -38,12 +39,24 @@
                 this.state = { assetId: this.assetId };
             }
 
+            _getTokenRating() {
+                return ds.fetch(`https://tokenrating.wavesexplorer.com/api/v1/token/${this.assetId}`);
+            }
+
+            _setTokenRating({ token }) {
+                if (!token) {
+                    return null;
+                }
+                this.rating = token.averageScore;
+                $scope.$apply();
+            }
+
         }
 
         return new AssetInfoHead();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'waves', 'utils'];
+    controller.$inject = ['Base', '$scope', 'user', 'waves', 'utils', 'createPoll'];
 
     angular.module('app.ui')
         .component('wAssetInfoHead', {

@@ -15,24 +15,28 @@
             starsList = [];
 
             /**
-             * @private
              * @type {number}
              */
-            rating = null;
+            rating;
 
             /**
-             * @private
              * @type {boolean}
              */
-            canRate = false;
+            canRate;
 
             constructor() {
                 super($scope);
 
-                const filledAmount = Math.round(this.rating);
-                const remapStars = index => ({ filled: index <= filledAmount });
+                this.observe('rating', () => {
+                    const filledAmount = Math.round(this.rating);
+                    const remapStars = index => ({ filled: (index + 1) <= filledAmount });
+                    this.starsList = range(0, STARS_AMOUNT).map(remapStars);
+                });
+            }
 
-                this.starsList = range(0, STARS_AMOUNT).map(remapStars);
+            $postLink() {
+
+
             }
 
 
@@ -44,11 +48,11 @@
     controller.$inject = ['Base', 'user', '$scope'];
 
     angular.module('app.ui').component('wRatingStars', {
-        templateUrl: 'modules/ui/directives/getStartedLink/ratingStars.html',
         bindings: {
             rating: '<',
             canRate: '<'
         },
+        templateUrl: 'modules/ui/directives/ratingStars/ratingStars.html',
         controller
     });
 

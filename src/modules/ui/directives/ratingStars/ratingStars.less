@@ -1,4 +1,22 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+
 .rating-stars {
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
+  margin-top: 7px;
+
+  &__star {
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
+    background: @rating-star-asset-icon center no-repeat;
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &.filled {
+      background: @rating-filled-star-asset-icon center no-repeat;
+    }
+  }
 }
