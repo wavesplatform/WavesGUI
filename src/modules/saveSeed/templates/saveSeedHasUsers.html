@@ -54,12 +54,14 @@
             </div>
         </w-input-container>
 
-        <w-button disabled="$ctrl.loginForm.$invalid"
-                  on-click="$ctrl.showSeed()"
-                  type="submit"
-                  class="submit big long">
-            <span w-i18n="userList.buttons.login"></span>
-        </w-button>
+        <w-analytics event="'Migration Import Continue Click'" event-target="'ui'">
+            <w-button disabled="$ctrl.loginForm.$invalid"
+                      on-click="$ctrl.showSeed()"
+                      type="submit"
+                      class="submit big long">
+                <span w-i18n="backupSeed.continue"></span>
+            </w-button>
+        </w-analytics>
     </form>
 
 </div>
@@ -72,7 +74,7 @@
 
         <div class="body-2 basic-500 margin-top-1 margin-4 text-center">
             <span w-i18n="backupSeed.warn"></span>
-            <a ng-click="$ctrl.isVisibleSeed = false" class="submit-400" w-i18n="backupSeed.goBack"></a>
+            <a ng-click="$ctrl.backToUsersList()" class="submit-400" w-i18n="backupSeed.goBack"></a>
         </div>
 
         <div class="body-2 basic-900 margin-1">
@@ -82,9 +84,11 @@
         <w-seed-read type="read" seed="{{::$ctrl.seed}}" class="no-user-select margin-2 margin-top-1"></w-seed-read>
 
         <div class="margin-top-4">
-            <w-button class="submit big long" on-click="$ctrl.hideSeed()">
-                <span w-i18n="backupSeed.copy"></span>
-            </w-button>
+            <a class="fake-button submit big long"
+                      ng-click="$ctrl.clickCopySeed()"
+                      w-copy="::$ctrl.seed">
+                <span class="fake-button-content submit big long" w-i18n="backupSeed.copy"></span>
+            </a>
         </div>
     </div>
 

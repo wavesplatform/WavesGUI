@@ -117,11 +117,20 @@
                 }
             }
 
-
-            hideSeed() {
+            /**
+             * @public
+             */
+            backToUsersList() {
                 this.password = '';
                 this.isVisibleSeed = false;
                 ds.app.logOut();
+            }
+
+            /**
+             * @public
+             */
+            clickCopySeed() {
+                analytics.send({ name: 'Migration Import Continue Click', target: 'ui' });
             }
 
             /**
