@@ -142,7 +142,7 @@
 
             get isGatewayAccepted() {
                 return configService
-                    .get('PERMISSIONS.CAN_TRANSFER_GATEWAY').indexOf(this.balance.asset.id) !== -1;
+                    .get('PERMISSIONS.CANT_TRANSFER_GATEWAY').indexOf(this.balance.asset.id) === -1;
             }
 
             get isBankAccepted() {
