@@ -10,48 +10,74 @@
 @createAvatarWrapperSize: @createAvatarHoverSize + @createAvatarBorder * 2;
 @createAvatarWrapperSizePhone: @createAvatarHoverSizePhone + @createAvatarBorder * 2;
 
-.avatars-list {
-  flex-direction: row;
-  justify-content: space-around;
+.avatars {
+  &-list {
+    flex-direction: row;
+    overflow: hidden;
+    display: flex;
 
-  .avatar {
-    &-img { // .avatar-img
-      width: @createAvatarSize;
-      height: @createAvatarSize;
-      opacity: .8;
-      transition: transform 0.3s, opacity 0.3s;
-    }
-
-    &-wrap { // .avatar-wrap
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    &-wrapper { // .avatar-wrapper
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border-radius: 50%;
-      transition: box-shadow 0.3s;
-
-      &:hover {
-        .avatar-img {
-          opacity: 1;
-        }
+    .avatar {
+      &-img { // .avatar-img
+        width: @createAvatarSize;
+        height: @createAvatarSize;
+        border-radius: 50%;
+        transition: transform 0.3s, box-shadow 0.3s;
       }
 
-      &.active {
-        box-shadow: 0 4px 18px 0 rgba(30, 41, 73, 0.15);
-        cursor: default;
+      &-wrap { // .avatar-wrap
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        opacity: .7;
+        transition: opacity 0.3s;
+      }
 
-        .avatar-img {
-          transform: scale(1.25);
-          opacity: 1;
+      &-wrapper { // .avatar-wrapper
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20% !important;
+        padding: 20px 0;
+        flex-shrink: 0;
+
+        &:hover {
+          .avatar-wrap {
+            opacity: 1;
+          }
+        }
+
+        &.active {
+          .avatar {
+            &-img {
+              transform: scale(1.25);
+              box-shadow: 0 0 0 4px #fff, 0 4px 18px 0 rgba(30, 41, 73, 0.15);
+
+            }
+
+            &-wrap { // .avatar-wrap
+              cursor: default;
+              opacity: 1;
+            }
+          }
+        }
+
+        &.disabled {
+          .avatar-wrap { // .avatar-wrap
+            &,
+            &:hover {
+              opacity: .5;
+              cursor: default;
+            }
+          }
         }
       }
     }
+  }
+
+  &-scroll {
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -63,8 +89,7 @@
     }
 
     .avatar-wrapper {
-      width: @createAvatarWrapperSizePhone;
-      height: @createAvatarWrapperSizePhone;
+      padding: 10px 0;
     }
   }
 }

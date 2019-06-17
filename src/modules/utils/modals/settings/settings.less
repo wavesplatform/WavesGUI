@@ -135,6 +135,13 @@ md-dialog.settings-modal {
     position: relative;
     min-height: 380px;
 
+    w-step {
+      width: 100%;
+      & > div {
+        width: 100%;
+      }
+    }
+
     .settings-content {
       position: relative;
       margin-left: 200px;
@@ -144,7 +151,7 @@ md-dialog.settings-modal {
       overflow: auto;
 
       .info {
-        display: block;
+        display: inline-flex;
 
         .row-style:first-child {
           margin-top: -7px;
@@ -248,13 +255,6 @@ md-dialog.settings-modal {
     }
   }
 
-  w-change-language w-select {
-    float: right;
-    position: relative;
-    top: 0;
-    right: 0;
-  }
-
   .asset-verification {
     z-index: 3;
     position: relative;
@@ -328,7 +328,6 @@ md-dialog.settings-modal {
       width: 270px;
       left: auto;
       right: -39px;
-      margin-top: 6px;
 
       .avatar-icon {
         img {
@@ -451,6 +450,16 @@ md-dialog.settings-modal {
       }
     }
   }
+
+  .select-setting-wrap,
+  w-change-language {
+    w-select {
+      .select.expanded .title {
+        border: 1px solid @color-basic-200;
+        border-bottom: 1px solid transparent;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 767px) {
@@ -463,7 +472,7 @@ md-dialog.settings-modal {
     }
 
     md-dialog-content {
-      padding: 20px 20px 0;
+      padding: 0;
       height: 100%;
     }
 
@@ -556,7 +565,7 @@ md-dialog.settings-modal {
       .settings-content {
         margin-left: 0;
         margin-top: 50px;
-        padding: 0;
+        padding: 20px 20px 0;
 
         .row-mobile {
           flex-direction: column;

@@ -22,6 +22,29 @@
         </div>
     </section>
 
+    <div class="section-contest" id="section-contest-upper">
+        <div class="section-wrapper">
+            <div class="contest-link" id="contest-link-upper">
+                <div class="contest-link-description body-2" w-i18n="welcome.contestLinkDescription"></div>
+                <a class="contest-link-description-hidden-link"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   href="https://wsoc.io/?utm_source=dexsite&utm_medium=cpm"></a>
+                <div class="contest-link-actions">
+                    <a class="contest-link-link fake-button"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       href="https://wsoc.io/?utm_source=dexsite&utm_medium=cpm">
+                        <span class="fake-button-content tiny submit" w-i18n="welcome.contestLinkLink"></span>
+                    </a>
+                    <div class="contest-link-close">
+                        <button class="contest-link-close-icon"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <section class="section-promo body-2">
         <div class="section-wrapper">
             <div class="section-promo-card">
@@ -78,8 +101,8 @@
     <section class="section-markets">
         <div class="section-wrapper">
 
-            <h2 class="margin-1" w-i18n="welcome.markets"></h2>
-            <div class="basic-500 margin-05 body-2" w-i18n="welcome.marketsDescription"></div>
+            <h2 class="margin-1 center" w-i18n="welcome.markets"></h2>
+            <div class="basic-500 margin-05 body-2 center section-markets-description" w-i18n="welcome.marketsDescription"></div>
 
             <div class="table-markets margin-top-3 margin-3">
                 <div class="row row-header">
@@ -136,7 +159,31 @@
             <w-road-map></w-road-map>
     </div>
 
+    <div class="section-contest" id="section-contest-down">
+        <div class="section-wrapper">
+            <div class="contest-link contest-link-fixed" id="contest-link-down">
+                <div class="contest-link-description body-2" w-i18n="welcome.contestLinkDescription"></div>
+                <a class="contest-link-description-hidden-link"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   href="https://wsoc.io/?utm_source=dexsite&utm_medium=cpm"></a>
+                <div class="contest-link-actions">
+                    <a class="contest-link-link fake-button"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       href="https://wsoc.io/?utm_source=dexsite&utm_medium=cpm">
+                        <span class="fake-button-content tiny submit" w-i18n="welcome.contestLinkLink"></span>
+                    </a>
+                    <div class="contest-link-close">
+                        <button class="contest-link-close-icon"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <w-footer></w-footer>
+
 </div>
 
 <w-loader ng-if="$ctrl.pendingRestore"></w-loader>
