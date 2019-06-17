@@ -16,7 +16,7 @@
         const { find, propEq, uniqBy, filter, pipe, prop } = require('ramda');
         const { utils: generatorUtils } = require('@waves/signature-generator');
 
-        const OLD_ORIGIN = 'https://client.wavesplatform.com';
+        const OLD_ORIGIN = 'https://stage-langs.waveswallet.io';
 
         class ImportAccountsCtrl extends Base {
 
