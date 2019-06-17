@@ -427,7 +427,7 @@ w-layout {
       }
     }
 
-    .orderbook-table w-row:hover,
+    .orderbook-table w-row:not(.isEmpty):hover,
     .smart-table__cell[data-column-id="volume"]:hover {
       .tooltip-dex {
         display: flex;
@@ -441,6 +441,7 @@ w-layout {
         .tooltip-dex {
           bottom: 100%;
           top: auto;
+
           &::before {
             top: auto;
             bottom: -6px;

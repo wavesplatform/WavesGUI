@@ -21,20 +21,19 @@
      * @param {JQuery} $element
      * @return {DexMyOrders}
      */
-    const controller = function (
-        Base,
-        waves,
-        user,
-        createPoll,
-        notification,
-        utils,
-        $scope,
-        dexDataService,
-        modalManager,
-        permissionManager,
-        ease,
-        $element,
-        configService
+    const controller = function (Base,
+                                 waves,
+                                 user,
+                                 createPoll,
+                                 notification,
+                                 utils,
+                                 $scope,
+                                 dexDataService,
+                                 modalManager,
+                                 permissionManager,
+                                 ease,
+                                 $element,
+                                 configService
     ) {
 
         class DexMyOrders extends Base {
