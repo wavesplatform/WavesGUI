@@ -287,7 +287,7 @@
              * @private
              */
             _loadUserListFromOldOrigin() {
-                const OLD_ORIGIN = 'https://localhost:8080';
+                const OLD_ORIGIN = 'https://client.wavesplatform.com';
                 this.pendingRestore = true;
                 utils.importAccountByIframe(OLD_ORIGIN, 20000)
                     .then((userList) => {
