@@ -38,22 +38,30 @@
                 {{ ::order.timestamp | date:'MM-dd HH:mm:ss' }}
             </w-table-cell>
             <w-table-cell>
+                <span class="cell-label"><span w-i18n="directives.myOrders.amount"></span></span>
+                <w-balance short-mode="::true" money="::order.amount"></w-balance>
+            </w-table-cell>
+            <w-table-cell>
                 <span class="cell-label"><span w-i18n="directives.myOrders.price"></span></span>
                 <w-balance short-mode="::true" money="::order.price"></w-balance>
             </w-table-cell>
             <w-table-cell>
-                <span class="cell-label"><span w-i18n="directives.myOrders.amount"></span></span>
-                <w-balance short-mode="::true" money="::order.amount"></w-balance>
+                <span class="cell-label"><span w-i18n="directives.myOrders.average"></span></span>
+                <w-balance short-mode="::true" money="::order.average"></w-balance>
             </w-table-cell>
             <w-table-cell>
                 <span class="cell-label"><span w-i18n="directives.myOrders.total"></span></span>
                 <w-balance short-mode="::true" money="::order.total"></w-balance>
             </w-table-cell>
             <w-table-cell>
+                <span class="cell-label"><span w-i18n="directives.myOrders.filled"></span></span>
+                <w-balance short-mode="::true" money="::order.filledTotal"></w-balance>
+            </w-table-cell>
+            <w-table-cell>
                 <span class="cell-label"><span w-i18n="directives.myOrders.fee"></span></span>
                 <span w-i18n="money-currency" params="::{money: order.fee}"></span>
             </w-table-cell>
-            <w-table-cell ng-click="$ctrl.toggleDetails(order)">
+            <w-table-cell>
                 <div ng-class="{cancelled: order.isCancelled}" class="status">
                     <div class="progress-precents">
                         {{$ctrl.round(order.percent)}}%
@@ -82,34 +90,6 @@
                      ng-class="'order_' + order.id"
                      class="stop"></div>
             </w-table-cell>
-        </w-table-row>
-        <w-table-row class="order-details"
-                     ng-if="order.exchange.length && $ctrl.shownOrderDetails[order.id]"
-                     ng-repeat="tx in order.exchange track by tx.id">
-            <w-table-cell></w-table-cell>
-            <w-table-cell></w-table-cell>
-            <w-table-cell>
-                <span class="cell-label"><span w-i18n="directives.myOrders.time"></span>:</span>
-                {{ ::tx.timestamp | date:'MM-dd HH:mm:ss' }}
-            </w-table-cell>
-            <w-table-cell>
-                <span class="cell-label"><span w-i18n="directives.myOrders.price"></span>:</span>
-                <w-balance short-mode="::true" money="::tx.price"></w-balance>
-            </w-table-cell>
-            <w-table-cell>
-                <span class="cell-label"><span w-i18n="directives.myOrders.amount"></span>:</span>
-                <w-balance short-mode="::true" money="::tx.amount"></w-balance>
-            </w-table-cell>
-            <w-table-cell>
-                <span class="cell-label"><span w-i18n="directives.myOrders.total"></span>:</span>
-                <w-balance short-mode="::true" money="::tx.total"></w-balance>
-            </w-table-cell>
-            <w-table-cell>
-                <span class="cell-label"><span w-i18n="directives.myOrders.fee"></span>:</span>
-                <span w-i18n="money-currency" params="::{money: tx.userFee[order.type]}"></span>
-            </w-table-cell>
-            <w-table-cell></w-table-cell>
-            <w-table-cell ng-if="$ctrl.isActiveOrders && $ctrl.orders.length"></w-table-cell>
         </w-table-row>
     </div>
 </w-smart-table>

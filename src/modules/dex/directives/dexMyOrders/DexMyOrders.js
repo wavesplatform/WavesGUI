@@ -64,10 +64,6 @@
              */
             pending = !!user.address;
             /**
-             * @type {Object.<string, boolean>}
-             */
-            shownOrderDetails = Object.create(null);
-            /**
              * @type {boolean}
              */
             loadingError = false;
@@ -125,21 +121,33 @@
                         isAsc: false
                     },
                     {
-                        id: 'price',
-                        title: { literal: 'directives.myOrders.price' },
-                        valuePath: 'item.price',
-                        sort: true
-                    },
-                    {
                         id: 'amount',
                         title: { literal: 'directives.myOrders.amount' },
                         valuePath: 'item.amount',
                         sort: true
                     },
                     {
+                        id: 'price',
+                        title: { literal: 'directives.myOrders.price' },
+                        valuePath: 'item.price',
+                        sort: true
+                    },
+                    {
+                        id: 'average',
+                        title: { literal: 'directives.myOrders.average' },
+                        valuePath: 'item.average',
+                        sort: true
+                    },
+                    {
                         id: 'total',
                         title: { literal: 'directives.myOrders.total' },
                         valuePath: 'item.total',
+                        sort: true
+                    },
+                    {
+                        id: 'filled',
+                        title: { literal: 'directives.myOrders.filled' },
+                        valuePath: 'item.filledTotal',
                         sort: true
                     },
                     {
@@ -184,18 +192,6 @@
                     amount: order.assetPair.amountAsset.id,
                     price: order.assetPair.priceAsset.id
                 });
-            }
-
-            showDetails(order) {
-                this.shownOrderDetails[order.id] = true;
-            }
-
-            hideDetails(order) {
-                this.shownOrderDetails[order.id] = false;
-            }
-
-            toggleDetails(order) {
-                this.shownOrderDetails[order.id] = !this.shownOrderDetails[order.id];
             }
 
             cancelAllOrders() {
@@ -339,8 +335,11 @@
                                                 hash[order.id] = [];
                                             }
                                             order.exchange = hash[order.id];
-                                            order.price =
+                                            order.average =
                                                 DexMyOrders._getAveragePriceByExchange(order, order.exchange);
+                                            order.filledTotal = order.price.cloneWithTokens(
+                                                order.average.getTokens().times(order.filled.getTokens())
+                                            );
 
                                             return order;
                                         });
@@ -351,32 +350,6 @@
                         this.loadingError = true;
                         return [];
                     });
-            }
-
-            /**
-             * @param {IOrder} order
-             * @param {Array<IExchange>} exchangeList
-             * @private
-             */
-            static _getAveragePriceByExchange(order, exchangeList) {
-                if (!exchangeList.length) {
-                    return order.price;
-                }
-
-                const sum = exchangeList
-                    .map(tx => ({
-                        amount: tx.amount.getTokens(),
-                        total: tx.total.getTokens()
-                    }))
-                    .reduce((acc, item) => ({
-                        amount: acc.amount.plus(item.amount),
-                        total: acc.total.plus(item.total)
-                    }), {
-                        amount: new BigNumber(0),
-                        total: new BigNumber(0)
-                    });
-
-                return order.price.cloneWithTokens(sum.total.div(sum.amount));
             }
 
             /**
@@ -410,6 +383,32 @@
                                     .reduce((acc, amount) => acc.add(amount))
                             ) || exchangeCount >= MAX_EXCHANGE_COUNT;
                     });
+            }
+
+            /**
+             * @param {IOrder} order
+             * @param {Array<IExchange>} exchangeList
+             * @private
+             */
+            static _getAveragePriceByExchange(order, exchangeList) {
+                if (!exchangeList.length) {
+                    return order.price;
+                }
+
+                const sum = exchangeList
+                    .map(tx => ({
+                        amount: tx.amount.getTokens(),
+                        total: tx.total.getTokens()
+                    }))
+                    .reduce((acc, item) => ({
+                        amount: acc.amount.plus(item.amount),
+                        total: acc.total.plus(item.total)
+                    }), {
+                        amount: new BigNumber(0),
+                        total: new BigNumber(0)
+                    });
+
+                return order.price.cloneWithTokens(sum.total.div(sum.amount));
             }
 
             /**

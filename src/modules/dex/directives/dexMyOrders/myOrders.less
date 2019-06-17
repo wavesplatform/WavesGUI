@@ -148,12 +148,6 @@ w-dex-my-orders {
       }
     }
 
-    .order-details {
-      &:hover {
-        background-color: @color-basic-50;
-      }
-    }
-
     &__w-tbody {
       .smart-table {
         &__row {
@@ -179,14 +173,6 @@ w-dex-my-orders {
             }
           }
 
-        }
-      }
-
-      .order-details {
-        background: @color-basic-50;
-
-        &:hover {
-          background-color: @color-basic-100;
         }
       }
     }
@@ -330,19 +316,6 @@ w-dex-my-orders {
           flex-wrap: wrap;
           margin: 0 2px;
           width: calc(100% ~'- 4px');
-
-          &.order-details {
-            .smart-table {
-              &__cell[data-column-id="pair"] {
-                display: none;
-              }
-
-              &__cell[data-column-id="fee"] {
-                display: block;
-                order: 0;
-              }
-            }
-          }
         }
 
         &__cell {

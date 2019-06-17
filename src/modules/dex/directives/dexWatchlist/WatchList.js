@@ -673,7 +673,7 @@
              * @private
              */
             static _getBytes(str) {
-                return new Blob([str], { type: 'text/html' }).size;
+                return new Blob([str], { type: 'text/plain' }).size;
             }
 
             static _getAssetsFromPairs(pairs) {
