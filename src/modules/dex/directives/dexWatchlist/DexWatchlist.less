@@ -294,20 +294,6 @@ body.dex-demo .dex-wrapper {
               display: flex;
             }
           }
-          .tooltip-row {
-            right: auto;
-            left: 50%;
-            transform: translateX(-50%);
-            &::before {
-              right: auto;
-              left: 50%;
-              transform: translateX(-50%);
-              opacity: .6;
-            }
-            &::after {
-              opacity: .6;
-            }
-          }
         }
 
         &__cell {
@@ -386,6 +372,40 @@ body.dex-demo .dex-wrapper {
                   bottom: 0;
                   border-bottom: 1px dashed @color-disabled-400;
                 }
+              }
+            }
+          }
+        }
+
+        &__row{
+          .tooltip-row,
+          .tooltip-row::before {
+            left: 50%;
+            transform: translateX(-50%);
+          }
+
+          &:last-child:not(:first-child) {
+            .tooltip-row {
+              top: auto;
+              bottom: 100%;
+
+              &::before {
+                transform: translateX(-50%) rotate(180deg);
+                top: auto;
+                bottom: -6px;
+              }
+            }
+          }
+
+          &:first-child {
+            .tooltip-row {
+              top:100%;
+              bottom: auto;
+
+              &::before {
+                top: -6px;
+                bottom: auto;
+                transform: translateX(-50%) rotate(0deg);
               }
             }
           }
