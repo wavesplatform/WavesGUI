@@ -346,12 +346,39 @@
                         </div>
                     </w-help-icon>
                     <div class="user-info-wrapper">
-                        <div class="account-name body-2 basic-700" ng-if="$ctrl.userName">{{$ctrl.userName}}</div>
-                        <div class="account-address basic-500 body-3">{{$ctrl.address}}</div>
+                        <div class="account-name body-2 basic-900" ng-if="$ctrl.userName">{{$ctrl.userName}}</div>
+                        <div class="account-address basic-500 caption-1">{{$ctrl.address}}</div>
                     </div>
                 </div>
 
                 <div class="dropdown">
+                    <div class="center">
+                        <w-avatar
+                                type="{{$ctrl.userType}}"
+                                size="40"
+                                class="margin-1 margin-top-2"
+                                address="$ctrl.address"></w-avatar>
+
+                        <div class="dropdown-userName-wrap">
+                            <div class="basic-900 dropdown-userName">{{$ctrl.userName}}</div>
+                            <w-info-tooltip no-icon="true" ng-click="$ctrl.showTutorialModals()">
+                                <span class="tooltip__content" w-i18n="welcome.renameAccount"></span>
+                            </w-info-tooltip>
+                        </div>
+
+                        <div class="dropdown-copywrap-wrap">
+                            <w-copy-wrap class="margin-2 copywrap-default dropdown-copywrap"
+                                         info="::$ctrl.address"
+                                         ng-click="$ctrl.onCopyAddress()">
+                                <div class="basic-500" ng-click="$ctrl.onCopy()" w-copy="$ctrl.info">
+                                    {{$ctrl.address}}
+                                </div>
+                            </w-copy-wrap>
+                            <w-info-tooltip no-icon="true" ng-click="$ctrl.showTutorialModals()">
+                                <span class="tooltip__content" w-i18n="welcome.copyAddress"></span>
+                            </w-info-tooltip>
+                        </div>
+                    </div>
                     <a class="link-aliases" ng-click="$ctrl.avatarClick()">
                         <i class="dropdown-icon icon-18 icon-aliases"></i>
                         <div>
@@ -362,6 +389,12 @@
                         <i class="dropdown-icon icon-18 icon-settings"></i>
                         <div>
                             <div w-i18n="welcome.settings"></div>
+                        </div>
+                    </a>
+                    <a class="link-logout" ng-click="$ctrl.logout()">
+                        <i class="dropdown-icon icon-18 icon-logout"></i>
+                        <div>
+                            <div w-i18n="welcome.logout"></div>
                         </div>
                     </a>
                 </div>
