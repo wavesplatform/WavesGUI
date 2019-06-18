@@ -1,0 +1,34 @@
+@import (reference) 'config';
+
+w-input-helper {
+  position: relative;
+  display: block;
+
+  .input-helper-content {
+    display: block;
+    z-index: 19;
+    position: absolute;
+    background: @color-white;
+    border-top: 5px solid @color-warning-400;
+    border-radius: @border-radius;
+    box-shadow: 0 2px 22px 0 rgba(31, 39, 61, 0.15);
+    padding: 15px;
+    left: 0;
+    width: 100%;
+    max-width: 279px;
+    top: 5px;
+  }
+
+  &:after {
+    display: block;
+    width: 10px;
+    height: 10px;
+    background: @color-warning-400;
+    transform: rotate(-45deg);
+    left: 10%;
+    top: 2px;
+    position: absolute;
+    content: '';
+    z-index: 1;
+  }
+}
