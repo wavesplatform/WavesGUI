@@ -1,42 +1,18 @@
 (function () {
     'use strict';
 
-    const controller = function (Base, user, $scope) {
-
-        const STARS_AMOUNT = 5;
-        const { range } = require('ramda');
+    const controller = function (Base, user, $scope, RatingStarsFactory, $element) {
 
         class RatingStars extends Base {
-
-            /**
-             * @public
-             * @type {array}
-             */
-            starsList = [];
-
-            /**
-             * @type {number}
-             */
-            rating;
-
-            /**
-             * @type {boolean}
-             */
-            canRate;
 
             constructor() {
                 super($scope);
 
+                const ratingStars = new RatingStarsFactory($element, this.rating);
+
                 this.observe('rating', () => {
-                    const filledAmount = Math.round(this.rating);
-                    const remapStars = index => ({ filled: (index + 1) <= filledAmount });
-                    this.starsList = range(0, STARS_AMOUNT).map(remapStars);
+                    ratingStars.update(this.rating);
                 });
-            }
-
-            $postLink() {
-
-
             }
 
 
@@ -45,14 +21,15 @@
         return new RatingStars();
     };
 
-    controller.$inject = ['Base', 'user', '$scope'];
+    controller.$inject = ['Base', 'user', '$scope', 'RatingStarsFactory', '$element'];
 
     angular.module('app.ui').component('wRatingStars', {
         bindings: {
             rating: '<',
             canRate: '<'
         },
-        templateUrl: 'modules/ui/directives/ratingStars/ratingStars.html',
+        scope: false,
+        // templateUrl: 'modules/ui/directives/ratingStars/ratingStars.html',
         controller
     });
 

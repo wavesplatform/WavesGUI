@@ -40,14 +40,15 @@
             }
 
             _getTokenRating() {
-                return ds.fetch(`https://tokenrating.wavesexplorer.com/api/v1/token/${this.assetId}`);
+                // return ds.fetch(`https://tokenrating.wavesexplorer.com/api/v1/token/${this.assetId}`);
+                return ds.api.rating.getAssetsRating(this.assetId);
             }
 
-            _setTokenRating({ token }) {
-                if (!token) {
+            _setTokenRating([rating]) {
+                if (!rating) {
                     return null;
                 }
-                this.rating = token.averageScore;
+                this.rating = rating;
                 $scope.$apply();
             }
 

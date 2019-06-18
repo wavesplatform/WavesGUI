@@ -289,7 +289,17 @@
                         throw new Error('Wrong filter name!');
                 }
 
-                this.balanceList = balanceList;
+                ds.api.rating.getAssetsRating(this.balanceList.map(balance => balance.asset.id))
+                    .then(ratingList => {
+                        balanceList = balanceList.map((balance, i) => ({
+                            ...balance,
+                            rating: ratingList[i]
+                        }));
+
+                        this.balanceList = balanceList;
+                    });
+
+
             }
 
             /**
@@ -301,7 +311,7 @@
                         const isPinned = this._isPinned(item.asset.id);
                         const isSpam = this._isSpam(item.asset.id);
                         const isOnScamList = user.scam[item.asset.id];
-
+                        // TODO Сунуть рейтинг тут
                         return {
                             available: item.available,
                             asset: item.asset,
@@ -340,6 +350,7 @@
                     }, { spam: [], my: [], active: [], verified: [] });
 
                 this.details = details;
+
                 utils.safeApply($scope);
             }
 

@@ -26,6 +26,7 @@
         EXCHANGE_RATE: 'js-exchange-rate',
         CHANGE_24: 'js-change-24',
         CHART_CONTAINER: 'js-chart-container',
+        STARS_CONTAINER: 'js-stars-container',
         BUTTONS: {
             SEND: 'js-button-send',
             RECEIVE: 'js-button-receive',
@@ -63,6 +64,7 @@
                                  modalManager,
                                  $state,
                                  ChartFactory,
+                                 RatingStarsFactory,
                                  i18n,
                                  $scope,
                                  gatewayService,
@@ -189,8 +191,10 @@
                     this.isSmart = balance.asset.hasScript;
                     const firstAssetChar = this.balance.asset.name.slice(0, 1);
                     const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
-                    const { isVerified, isGateway,
-                        isTokenomica, logo } = utils.getDataFromOracles(this.balance.asset.id);
+                    const {
+                        isVerified, isGateway,
+                        isTokenomica, logo
+                    } = utils.getDataFromOracles(this.balance.asset.id);
 
                     this.isVerifiedOrGateway = isVerified || isGateway;
 
@@ -364,6 +368,8 @@
                         values
                     );
                 }).catch(() => null);
+
+                new RatingStarsFactory(this.$node.find(`.${SELECTORS.STARS_CONTAINER}`), balance.rating);
             }
 
             /**
@@ -641,6 +647,7 @@
             modalManager,
             $state,
             ChartFactory,
+            RatingStarsFactory,
             i18n,
             $scope,
             gatewayService,
@@ -657,6 +664,7 @@
         'modalManager',
         '$state',
         'ChartFactory',
+        'RatingStarsFactory',
         'i18n',
         '$scope',
         'gatewayService',
