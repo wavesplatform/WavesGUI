@@ -271,8 +271,8 @@
         'waves',
         'configService',
         'modalManager',
-        'utils',
-        'permissionManager'
+        'permissionManager',
+        'utils'
     ];
 
     angular.module('app.dex')
