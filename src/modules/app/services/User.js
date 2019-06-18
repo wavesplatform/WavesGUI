@@ -16,6 +16,8 @@
         'changeScript',
         'setScamSignal',
         'scam',
+        'setTokensNameSignal',
+        'tokensName',
         'onLogout'
     ];
 
@@ -121,9 +123,17 @@
              */
             setScamSignal = new tsUtils.Signal();
             /**
+             * @type {Signal<void>}
+             */
+            setTokensNameSignal = new tsUtils.Signal();
+            /**
              * @type {Record<string, boolean>}
              */
             scam = Object.create(null);
+            /**
+             * @type {Record<string, boolean>}
+             */
+            tokensName = Object.create(null);
             /**
              * @type {DefaultSettings}
              * @private
@@ -199,6 +209,13 @@
                 if (!equals(hash, this.scam)) {
                     this.scam = hash;
                     this.setScamSignal.dispatch();
+                }
+            }
+
+            setTokensNameList(hash) {
+                if (!equals(hash, this.tokensName)) {
+                    this.tokensName = hash;
+                    this.setTokensNameSignal.dispatch();
                 }
             }
 

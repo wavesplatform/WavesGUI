@@ -25,6 +25,12 @@
                     } else {
                         this.giveMyScamBack();
                     }
+
+                    if (user.getSetting('tokensNameListUrl')) {
+                        this.tokensNameList();
+                    } else {
+                        this.giveMyTokensNameBack();
+                    }
                 });
             }
 
@@ -132,6 +138,14 @@
                 }
             }
 
+            giveMyTokensNameBack() {
+                user.tokensName = Object.create(null);
+                if (this._pollTokensNames) {
+                    this._pollTokensNames.destroy();
+                    this._pollTokensNames = null;
+                }
+            }
+
             stopScam() {
                 // if (this._pollScam) {
                 //     return null;
@@ -141,6 +155,38 @@
                  * @private
                  */
                 this._pollScam = createPoll(this, this._getScamAssetList, this._setScamAssetList, 15000);
+            }
+
+            tokensNameList() {
+                /**
+                 * @type {Poll}
+                 * @private
+                 */
+                this._pollTokensNames = createPoll(
+                    this,
+                    this._getTokensNameList,
+                    hash => user.setTokensNameList(hash),
+                    20000
+                );
+            }
+
+            /**
+             * @return {Promise<Object.<string, boolean>>}
+             * @private
+             */
+            _getTokensNameList() {
+                return ds.fetch(`${user.getSetting('tokensNameListUrl')}?${WavesApp.version}-${Date.now()}`)
+                    .then((text) => {
+                        const papa = require('papaparse');
+                        const hash = Object.create(null);
+                        papa.parse(text).data.forEach(([id]) => {
+                            if (id) {
+                                hash[id] = true;
+                            }
+                        });
+                        return hash;
+                    })
+                    .catch(() => Object.create(null));
             }
 
             /**

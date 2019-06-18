@@ -18,7 +18,7 @@
                                  w-validator-byte-gte="4"
                                  w-validator-byte-lte="16"
                                  required></w-input>
-
+                        <div ng-if="$ctrl.nameWarning">WARNING! ALARM!</div>
                         <w-input-error message="required">
                             <span w-i18n="validators.required"></span>
                         </w-input-error>
@@ -99,6 +99,7 @@
                         </w-input-error>
                     </w-input-container>
                 </div>
+
                 <div class="row">
                     <div class="body-2 basic-900 margin-05 relative">
                         <span w-i18n="precision"></span>
@@ -110,6 +111,7 @@
                     </div>
                     <w-range-slider ng-model="$ctrl.precision" max="::8">
                 </div>
+
                 <div class="row">
                     <div class="body-2 basic-900 margin-1 relative">
                         <span w-i18n="script"></span>
@@ -188,6 +190,11 @@
                 </div>
 
                 <div class="row">
+                    <w-checkbox-submit id="agreeConditions" ng-model="$ctrl.agreeConditions"></w-checkbox-submit>
+                    <label for="agreeConditions" class="margin-right-1">Agree</label>
+                </div>
+
+                <div class="row">
                     <div ng-class="{'error-400': $ctrl.invalid}"
                          class="footnote-1 basic-500"
                          params="{fee: $ctrl.fee}"
@@ -197,7 +204,7 @@
 
                 <div class="row">
                     <w-analytics event="'Token Generation Generate Click'" event-target="'ui'">
-                    <w-sign-button disabled="$ctrl.createForm.$invalid || $ctrl.invalid"
+                    <w-sign-button disabled="$ctrl.createForm.$invalid || $ctrl.invalid || !$ctrl.agreeConditions"
                                    class="submit long"
                                    ng-click="$ctrl.sendAnalytics"
                                    on-success="$ctrl.generate(signable)"
