@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const controller = function (Base, $element, storage) {
+    const controller = function (Base, $scope, $element, utils, storage) {
 
         class FooterCtrl extends Base {
 
@@ -48,6 +48,7 @@
 
                 storage.load(this._toasterMobilesStorageKey).then(wasHidden => {
                     this.isToasterMobilesVisible = !wasHidden;
+                    utils.safeApply($scope);
                 });
             }
 
@@ -65,7 +66,7 @@
         return new FooterCtrl();
     };
 
-    controller.$inject = ['Base', '$element', 'storage'];
+    controller.$inject = ['Base', '$scope', '$element', 'utils', 'storage'];
 
     angular.module('app.ui').component('wFooter', {
         templateUrl: 'modules/ui/directives/footer/footer.html',
