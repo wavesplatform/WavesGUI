@@ -21,6 +21,11 @@
              */
             lang;
             /**
+             * @public
+             * @type {boolean}
+             */
+            isToasterMobilesVisible;
+            /**
              * @private
              * @readonly
              * @type {string}
@@ -42,9 +47,7 @@
                 this.lang = localStorage.getItem('lng') === 'ru' ? 'Ru' : 'Global';
 
                 storage.load(this._toasterMobilesStorageKey).then(wasHidden => {
-                    if (wasHidden) {
-                        $element.find('.toaster-mobiles').hide();
-                    }
+                    this.isToasterMobilesVisible = !wasHidden;
                 });
             }
 
