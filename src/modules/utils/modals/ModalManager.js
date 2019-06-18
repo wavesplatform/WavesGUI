@@ -416,7 +416,6 @@
                     ns: 'app.ui',
                     locals: { signable, analyticsText },
                     controller: 'ConfirmTxCtrl',
-                    headerUrl: 'modules/utils/modals/confirmTx/confirmTx.header.modal.html',
                     contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
                 });
             }

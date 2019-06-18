@@ -2,7 +2,6 @@
 @import (reference) 'config';
 @import (reference) 'icons';
 
-@column-width: 320px;
 @dex-padding: 7px;
 
 .dex.main .main-content,
@@ -66,7 +65,7 @@ w-layout {
 
         &__candlechart {
           transform: translateX(0);
-          width: calc(100% ~'- 325px');
+          width: calc(~'100%' - (@dexLayoutWatchlist + @dexLayoutGap));
 
           .dex-layout {
             &__sidebar-toggle-left div::after {
@@ -84,7 +83,7 @@ w-layout {
         }
 
         &__candlechart {
-          width: calc(100% ~'- 325px');
+          width: calc(~'100%' - (@dexLayoutWatchlist + @dexLayoutGap));
 
           .dex-layout {
             &__sidebar-toggle-right div::after {
@@ -136,7 +135,7 @@ w-layout {
 
     &__watchlist {
       transition: .3s;
-      width: 320px;
+      width: @dexLayoutWatchlist;
       max-height: calc(100% ~'- 325px');
       border-radius: @border-radius / 2;
       overflow: visible;
@@ -159,13 +158,13 @@ w-layout {
     }
 
     &__candlechart {
-      width: calc(100% ~'- 650px');
+      width: calc(~'100%' - (@dexLayoutWatchlist + @dexLayoutOrderBook + @dexLayoutGap * 2));
       max-height: calc(100% ~'- 325px');
       position: absolute;
       border-radius: @border-radius / 2;
       display: flex;
       transition: .3s;
-      transform: translateX(325px);
+      transform: translateX((@dexLayoutWatchlist + @dexLayoutGap));
 
       .block-title {
         display: none;
@@ -177,7 +176,7 @@ w-layout {
     }
 
     &__orderbook {
-      width: 320px;
+      width: @dexLayoutOrderBook;
       max-height: calc(100% ~'- 325px');
       right: 0;
       transition: .3s;
@@ -235,7 +234,7 @@ w-layout {
       min-height: 320px;
       bottom: 0;
       left: 0;
-      width: calc(100% ~'- 325px');
+      width: calc(~'100%' - (@dexLayoutOrderBook + @dexLayoutGap));
       border-radius: @border-radius / 2;
 
       .block-title {
@@ -259,7 +258,7 @@ w-layout {
       min-height: 320px;
       bottom: 0;
       right: 0;
-      width: 320px;
+      width: @dexLayoutCreateOrder;
       background-color: transparent;
       border-radius: @border-radius / 2;
 
