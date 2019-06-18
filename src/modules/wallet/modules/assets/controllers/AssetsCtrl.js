@@ -43,10 +43,9 @@
                  */
                 this.pinnedContestAssetIdList = WavesApp.network.code === 'W' ?
                     [
-                        'Gsj1azEwNuUTss5FHLPbgR6FGya284Q843tCrrFgi4VZ',
-                        'JCm9j4nBQ8tXE2kRKzhgoV6jqVm1QC3FeXLcKwsLdRyG',
-                        'HjcJSVFeo34WD1QFFonRa3boQAkRLZxCdURJU73Ffcga',
-                        'F33CKa4cPB9fK5oA3aUZKAtDJtdohvEzX84Hkwthep5V'
+                        '7eMpAC1CVLeZq7Mi16AkvkY2BmLytyApLaUG4TxNFew5',
+                        '8ouNBeYFxJMaeyPBwF8jY86R457CyEjAY98HaNLFox7N',
+                        'BFWboD9xC64tSmirFbCNARR1NSu6Ep9rP4SRoLkQhBUF'
                     ] :
                     [];
                 /**

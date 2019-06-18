@@ -13,6 +13,11 @@
      * @param {IPollCreate} createPoll
      * @param {Waves} waves
      * @param {utils} utils
+     * @param {ConfigService} configService
+     * @param {ModalManager} modalManager
+     * // TODO: delete after contest
+     * @param {PermissionManager} permissionManager
+     * // TODO: delete after contest
      * @return {DexCtrl}
      */
     const controller = function (Base,
@@ -25,6 +30,7 @@
                                  waves,
                                  configService,
                                  modalManager,
+                                 permissionManager,
                                  utils) {
 
         const analytics = require('@waves/event-sender');
@@ -180,10 +186,16 @@
                                         return this._showModalANdRedirect(amountAsset, priceAsset);
                                     }
                                     const activeTab = user.getSetting('dex.watchlist.activeTab');
+                                    const activeTabIsTrading = activeTab === 'trading';
+                                    const activeTabIsTradingAndContestEnd = activeTabIsTrading &&
+                                        !permissionManager.isPermitted('CONTEST_TIME');
 
                                     if (activeTab !== 'all' &&
                                         activeTab !== amountAsset.id &&
-                                        activeTab !== priceAsset.id) {
+                                        activeTab !== priceAsset.id &&
+                                        !activeTabIsTrading ||
+                                        activeTabIsTradingAndContestEnd
+                                    ) {
                                         user.setSetting('dex.watchlist.activeTab', 'all');
                                     }
 
@@ -259,7 +271,8 @@
         'waves',
         'configService',
         'modalManager',
-        'utils'
+        'utils',
+        'permissionManager'
     ];
 
     angular.module('app.dex')
