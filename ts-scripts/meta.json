@@ -148,6 +148,13 @@
         "group": ",",
         "decimal": "."
       }
+    },
+    "fr": {
+      "name": "French",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
     }
   },
   "electronScripts": [
@@ -200,6 +207,11 @@
   },
   "configurations": {
     "testnet": {
+      "tradingPairs": [
+        "6bymXakShhDKSTbtsGjuzRuiFsCYbtkahLgEfEEzsWar",
+        "8zreE1U1TJ8Vhda8M2jEWukrWwX8znjSSjsgNGDUzdgh",
+        "CMPv2sNdEUtEd56kNmgviXuE5MJ9hHABUWmhbmdgUnm1"
+      ],
       "oracles": {
         "waves": "3N5net4nzSeeqxPfGZrvVvnGavsinipQHbE",
         "tokenomica": "3Mq2ikxDH6rV5VBUNX1Ef8Ag1Vjntbh4MvD"
@@ -242,6 +254,11 @@
       }
     },
     "mainnet": {
+      "tradingPairs": [
+        "8ouNBeYFxJMaeyPBwF8jY86R457CyEjAY98HaNLFox7N",
+        "7eMpAC1CVLeZq7Mi16AkvkY2BmLytyApLaUG4TxNFew5",
+        "BFWboD9xC64tSmirFbCNARR1NSu6Ep9rP4SRoLkQhBUF"
+      ],
       "oracles": {
         "waves": "3P6t5mKGwVDkyjFhtUqw4NnecyC3DRpLfkw",
         "tokenomica": "3P5yz6NiyBoT3KWBrc1iwQeMAen56FcMGTW"
