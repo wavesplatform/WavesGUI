@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const controller = function (Base, $element) {
+    const controller = function (Base, $element, storage) {
 
         class FooterCtrl extends Base {
 
@@ -20,6 +20,12 @@
              * @type {string}
              */
             lang;
+            /**
+             * @private
+             * @readonly
+             * @type {string}
+             */
+            _toasterMobilesStorageKey = 'toasterMobilesHidden';
 
             constructor() {
                 super();
@@ -34,6 +40,12 @@
                     'https://t.me/WavesCommunity';
 
                 this.lang = localStorage.getItem('lng') === 'ru' ? 'Ru' : 'Global';
+
+                storage.load(this._toasterMobilesStorageKey).then(wasHidden => {
+                    if (wasHidden) {
+                        $element.find('.toaster-mobiles').hide();
+                    }
+                });
             }
 
             /**
@@ -41,6 +53,8 @@
              */
             hideToaster() {
                 $element.find('.toaster-mobiles').addClass('hidden-toaster');
+
+                storage.save(this._toasterMobilesStorageKey, true);
             }
 
         }
@@ -48,7 +62,7 @@
         return new FooterCtrl();
     };
 
-    controller.$inject = ['Base', '$element'];
+    controller.$inject = ['Base', '$element', 'storage'];
 
     angular.module('app.ui').component('wFooter', {
         templateUrl: 'modules/ui/directives/footer/footer.html',
