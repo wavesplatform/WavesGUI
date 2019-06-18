@@ -1830,6 +1830,18 @@
                     .catch(() => Promise.reject({ message: 'Your sign is not confirmed!' }));
 
                 return signByDeviceLoop();
+            },
+
+            /**
+             * @name app.utils#isLockedPair
+             * @param amountAssetId
+             * @param priceAssetId
+             * @param lockedList
+             * @return {boolean}
+             */
+            isLockedPair(amountAssetId, priceAssetId, lockedList) {
+                return lockedList.indexOf(amountAssetId) !== -1 ||
+                    lockedList.indexOf(priceAssetId) !== -1;
             }
         };
 

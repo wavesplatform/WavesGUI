@@ -113,18 +113,6 @@
                 this[`_${column}Hidden`] = !this[`_${column}Hidden`];
             }
 
-
-            /**
-             * @param amountAssetId
-             * @param priceAssetId
-             * @return {boolean}
-             * @private
-             */
-            _isLockedPair(amountAssetId, priceAssetId) {
-                return this._lockedPairs.indexOf(amountAssetId) !== -1 ||
-                    this._lockedPairs.indexOf(priceAssetId) !== -1;
-            }
-
             /**
              * @private
              */
@@ -188,7 +176,7 @@
                                     price: WavesApp.defaultAssets.BTC
                                 }))
                                 .then(({ amountAsset, priceAsset }) => {
-                                    if (this._isLockedPair(amountAsset.id, priceAsset.id)) {
+                                    if (utils.isLockedPair(amountAsset.id, priceAsset.id, this._lockedPairs)) {
                                         return this._showModalANdRedirect(amountAsset, priceAsset);
                                     }
                                     const activeTab = user.getSetting('dex.watchlist.activeTab');

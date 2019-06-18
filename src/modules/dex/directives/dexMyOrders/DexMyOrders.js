@@ -304,8 +304,7 @@
 
 
             isLockedPair(amountAssetId, priceAssetId) {
-                return this._lockedPairs.indexOf(amountAssetId) !== -1 ||
-                    this._lockedPairs.indexOf(priceAssetId) !== -1;
+                return utils.isLockedPair(amountAssetId, priceAssetId, this._lockedPairs);
             }
 
             dropOrderGetSignData(order) {
