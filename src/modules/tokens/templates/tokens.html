@@ -18,9 +18,11 @@
                                  ng-class="{warning: $ctrl.nameWarning}"
                                  w-validator-byte-gte="4"
                                  w-validator-byte-lte="16"
+                                 ng-focus="$ctrl.onNameFocus(true)"
+                                 ng-blur="$ctrl.onNameFocus(false)"
                                  required></w-input>
 
-                        <w-input-helper ng-if="$ctrl.nameWarning">
+                        <w-input-helper ng-if="$ctrl.nameWarning && $ctrl.focusName">
                             <div class="margin-05 body-2 bold" w-i18n="tokens.inputHelper.header"></div>
                             <div class="footnote-1" w-i18n="tokens.inputHelper.description"></div>
                         </w-input-helper>

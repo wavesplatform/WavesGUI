@@ -23,6 +23,11 @@
         class TokensCtrl extends Base {
 
             /**
+             * @type {boolean}
+             */
+            focusName = false;
+
+            /**
              * @type {PromiseControl}
              */
             _findNamePC = null;
@@ -144,6 +149,13 @@
                 this.observeOnce('createForm', () => {
                     this.receive(utils.observe(this.createForm, '$valid'), this.createSignable, this);
                 });
+            }
+
+            /**
+             * @param {boolean} focus
+             */
+            onNameFocus(focus) {
+                this.focusName = !!focus;
             }
 
             generate(signable) {
