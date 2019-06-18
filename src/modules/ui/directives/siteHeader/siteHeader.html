@@ -4,82 +4,84 @@
         <span class="logo logo-header" ng-if="$ctrl.isLogined"></span>
         <a class="logo logo-header" ng-if="!$ctrl.isLogined" href="/"></a>
 
-        <nav class="top-menu top-menu-welcome" ng-if="!$ctrl.isLogined">
-            <a w-analytics event-target="'ui'"
-               event="'Menu Exchange Click'"
-               event-target="'ui'"
-               class="link-margin link-dex"
-               ui-sref="main.dex-demo"
-               w-i18n="welcome.exchange">
-            </a>
-            <a w-analytics event-target="'ui'"
-               event="'Menu API Click'"
-               event-target="'ui'"
-               class="link-margin"
-               href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html"
-               target="_blank"
-               rel="noopener noreferrer"
-               w-i18n="welcome.api">
-            </a>
-            <a w-analytics event-target="'ui'"
-               event="'Menu Help Click'"
-               event-target="'ui'"
-               class="link-margin"
-               href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html"
-               target="_blank"
-               rel="noopener noreferrer"
-               w-i18n="welcome.help">
-            </a>
-            <a w-analytics event-target="'ui'"
-               event="'Menu News Click'"
-               event-target="'ui'"
-               class="link-margin"
-               href="https://twitter.com/Waves_DEX"
-               target="_blank"
-               rel="noopener noreferrer"
-               w-i18n="welcome.news"></a>
-            <div class="relative dropdown-toggler" ng-if="!$ctrl.isDesktop">
-                <span class="dropdown-btn" w-i18n="welcome.download"></span>
-                <div class="dropdown dropdown-download menu-margin">
-                    <a w-analytics
-                       event-target="'ui'"
-                       event="'Menu Download Windows Click'"
-                       href="https://wavesplatform.com/files/WavesDEX-win.zip"
-                       target="_blank"
-                       rel="noopener noreferrer">
-                        <i class="dropdown-icon icon-24 icon-win"></i>
-                        <div>
-                            <div w-i18n="welcome.windows"></div>
-                            <div class="footnote-1 basic-500" w-i18n="welcome.windowsDescription"></div>
-                        </div>
-                    </a>
+        <w-web-only>
+            <nav class="top-menu top-menu-welcome" ng-if="!$ctrl.isLogined">
+                <a w-analytics event-target="'ui'"
+                   event="'Menu Exchange Click'"
+                   event-target="'ui'"
+                   class="link-margin link-dex"
+                   ui-sref="main.dex-demo"
+                   w-i18n="welcome.exchange">
+                </a>
+                <a w-analytics event-target="'ui'"
+                   event="'Menu API Click'"
+                   event-target="'ui'"
+                   class="link-margin"
+                   href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   w-i18n="welcome.api">
+                </a>
+                <a w-analytics event-target="'ui'"
+                   event="'Menu Help Click'"
+                   event-target="'ui'"
+                   class="link-margin"
+                   href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   w-i18n="welcome.help">
+                </a>
+                <a w-analytics event-target="'ui'"
+                   event="'Menu News Click'"
+                   event-target="'ui'"
+                   class="link-margin"
+                   href="https://twitter.com/Waves_DEX"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   w-i18n="welcome.news"></a>
+                <div class="relative dropdown-toggler" ng-if="!$ctrl.isDesktop">
+                    <span class="dropdown-btn" w-i18n="welcome.download"></span>
+                    <div class="dropdown dropdown-download menu-margin">
+                        <a w-analytics
+                           event-target="'ui'"
+                           event="'Menu Download Windows Click'"
+                           href="https://wavesplatform.com/files/WavesDEX-win.zip"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            <i class="dropdown-icon icon-24 icon-win"></i>
+                            <div>
+                                <div w-i18n="welcome.windows"></div>
+                                <div class="footnote-1 basic-500" w-i18n="welcome.windowsDescription"></div>
+                            </div>
+                        </a>
 
-                    <a w-analytics event-target="'ui'"
-                       event="'Menu Download Mac OS Click'"
-                       href="https://wavesplatform.com/files/WavesDEX-mac.dmg"
-                       target="_blank"
-                       rel="noopener noreferrer">
-                        <i class="dropdown-icon icon-24 icon-mac"></i>
-                        <div>
-                            <div w-i18n="welcome.macOs"></div>
-                            <div class="footnote-1 basic-500" w-i18n="welcome.macOsDescription"></div>
-                        </div>
-                    </a>
+                        <a w-analytics event-target="'ui'"
+                           event="'Menu Download Mac OS Click'"
+                           href="https://wavesplatform.com/files/WavesDEX-mac.dmg"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            <i class="dropdown-icon icon-24 icon-mac"></i>
+                            <div>
+                                <div w-i18n="welcome.macOs"></div>
+                                <div class="footnote-1 basic-500" w-i18n="welcome.macOsDescription"></div>
+                            </div>
+                        </a>
 
-                    <a w-analytics event-target="'ui'"
-                       event="'Menu Download Linux Click'"
-                       href="https://wavesplatform.com/files/WavesDEX-linux.deb"
-                       target="_blank"
-                       rel="noopener noreferrer">
-                        <i class="dropdown-icon icon-24 icon-linux"></i>
-                        <div>
-                            <div w-i18n="welcome.linux"></div>
-                            <div class="footnote-1 basic-500" w-i18n="welcome.linuxDescription"></div>
-                        </div>
-                    </a>
+                        <a w-analytics event-target="'ui'"
+                           event="'Menu Download Linux Click'"
+                           href="https://wavesplatform.com/files/WavesDEX-linux.deb"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            <i class="dropdown-icon icon-24 icon-linux"></i>
+                            <div>
+                                <div w-i18n="welcome.linux"></div>
+                                <div class="footnote-1 basic-500" w-i18n="welcome.linuxDescription"></div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </w-web-only>
 
         <div class="mobile-menu-toggler" ng-click="$ctrl.removeInnerMenu()">
             <span></span>

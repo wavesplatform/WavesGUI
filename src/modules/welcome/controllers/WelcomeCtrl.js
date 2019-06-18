@@ -119,6 +119,7 @@
 
                 this._initUserList();
                 this._initPairs();
+                this._initDeviceTypes();
 
                 const sectionContestUpper = $element.find('#section-contest-upper');
                 const sectionContestDown = $element.find('#section-contest-down');
@@ -143,6 +144,12 @@
                         [sectionContestDown, sectionContestUpper].forEach(section => section.remove());
                     }
 
+                });
+
+                this.observeOnce('userList', () => {
+                    if (this.isDesktop && this.userList.length) {
+                        $state.go('signIn');
+                    }
                 });
             }
 
@@ -268,6 +275,14 @@
                             $scope.$apply(); // TODO FIX!
                         }, 100);
                     });
+            }
+
+            /**
+             * @private
+             */
+            _initDeviceTypes() {
+                this.isDesktop = WavesApp.isDesktop();
+                this.isWeb = WavesApp.isWeb();
             }
 
         }
