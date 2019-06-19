@@ -327,8 +327,8 @@
              * @return {Promise}
              */
             setAmountByBalance(factor) {
-                const amount = this.maxAmount.cloneWithTokens(
-                    this.getClosestValidAmountTokens(this.maxAmount.getTokens().times(factor))
+                const amount = this.getClosestValidAmount(
+                    this.maxAmount.getTokens().times(factor)
                 );
                 this._updateField({ amount });
                 return Promise.resolve();
@@ -403,7 +403,7 @@
             }
 
             /**
-             * @param value
+             * @param {BigNumber} value
              */
             setPrice(value) {
                 const price = this.priceBalance.cloneWithTokens(value);
@@ -411,7 +411,7 @@
             }
 
             /**
-             * @param value
+             * @param {BigNumber} value
              */
             setAmount(value) {
                 const amount = this.amountBalance.cloneWithTokens(value);
@@ -543,10 +543,7 @@
              * @param {BigNumber} value
              * @return {BigNumber|*}
              */
-            getRoundPriceTokensByTickSize(value) {
-                const price = value ?
-                    value :
-                    this.priceBalance.cloneWithTokens(this.order.price.$viewValue).getTokens();
+            getRoundPriceTokensByTickSize(price) {
                 const roundedPrice = this.getRoundPriceByTickSize(price);
                 if (!roundedPrice) {
                     return;
