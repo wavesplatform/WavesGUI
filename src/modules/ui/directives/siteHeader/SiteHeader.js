@@ -59,11 +59,12 @@
                     this.hasUsers = this.userList.length > 0;
                     utils.postDigest($scope).then(() => {
                         this._initFader();
+                        this._initClickHandlers();
                         $scope.$apply();
                     });
                 });
 
-                this._initClickHandlers();
+
                 this.largeTemplate = `${PATH}/largeHeader.html`;
                 this.mobileTemplate = `${PATH}/mobileHeader.html`;
             }
