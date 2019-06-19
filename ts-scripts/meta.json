@@ -250,7 +250,8 @@
         "EFYT": "FvKx3cerSVYGfXKFvUgp7koNuTAcLs8DmtmwRrFVCqJv",
         "WNET": "3P8gkhcLhFQvBkDzMnWeqqwvq3qxkpTNQPs4LUQ95tKD",
         "XMR": "8oPbSCKFHkXBy1hCGSg9pJkSARE7zhTQTLpc8KZwdtr7",
-        "VST": "63QkN8KKRMVBpkCM7azV6HiPacJ3T7EP6vmFUNVRsvAX"
+        "VST": "63QkN8KKRMVBpkCM7azV6HiPacJ3T7EP6vmFUNVRsvAX",
+        "ERGO": "GVWSgVsmEx4KTAZPm31JZDmdehxFTFZBuy7V8gzb8JxE"
       }
     },
     "mainnet": {
@@ -297,7 +298,8 @@
         "EFYT": "725Yv9oceWsB4GsYwyy4A52kEwyVrL5avubkeChSnL46",
         "WNET": "AxAmJaro7BJ4KasYiZhw7HkjwgYtt2nekPuF2CN9LMym",
         "XMR": "5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3",
-        "VST": "4LHHvYGNKJUg5hj65aGD5vgScvCBmLpdRFtjokvCjSL8"
+        "VST": "4LHHvYGNKJUg5hj65aGD5vgScvCBmLpdRFtjokvCjSL8",
+        "ERGO": "5dJj4Hn9t2Ve3tRpNGirUHy4yBK6qdJRAJYV21yPPuGz"
       }
     }
   }
