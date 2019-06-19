@@ -141,6 +141,16 @@
             }
 
             /**
+             * @param {Asset} asset
+             * @param {IGatewayType} type
+             * @return {string}
+             */
+            getAddressErrorMessage(asset, address, type) {
+                const gateway = this._findGatewayFor(asset, type);
+                return gateway.getAddressErrorMessage(address);
+            }
+
+            /**
              * @param {string} address
              * @return {Promise}
              */
