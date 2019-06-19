@@ -83,7 +83,7 @@
                 this.userList = pipe(
                     uniqBy(prop('address')),
                     filter(user => !myUsersHash[user.address])
-                )(list);
+                )(list).reverse();
 
                 this.userList.forEach((user) => {
                     this.checkedHash[user.address] = true;
