@@ -66,7 +66,7 @@
         [WavesApp.defaultAssets.TRY]: '/img/assets/try.svg',
         [WavesApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
         [WavesApp.defaultAssets.VST]: '/img/assets/vostok.svg',
-        [WavesApp.defaultAssets.ERGO]: '/img/assets/vostok.svg',
+        [WavesApp.defaultAssets.ERGO]: '/img/assets/ergo.svg',
         [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
         [WavesApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
     });
