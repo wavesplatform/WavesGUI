@@ -64,9 +64,8 @@
                 });
 
                 this._initClickHandlers();
-
-                this._defineTemplate();
-                this.listenEventEmitter($(window), 'resize', this._defineTemplate);
+                this.largeTemplate = `${PATH}/largeHeader.html`;
+                this.mobileTemplate = `${PATH}/mobileHeader.html`;
             }
 
             $onDestroy() {
@@ -146,12 +145,6 @@
                         }
                     ]
                 });
-            }
-
-            _defineTemplate() {
-                this.template = window.innerWidth < 860 ?
-                    `${PATH}/mobileHeader.html` :
-                    `${PATH}/largeHeader.html`;
             }
 
             /**
