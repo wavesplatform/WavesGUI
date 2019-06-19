@@ -684,7 +684,8 @@
                             $scope.$apply();
                         }, (e) => {
                             this.gatewayDetails = null;
-                            if (e.message === 'Invalid wallet_to') {
+                            if (e.message === gatewayService.getAddressErrorMessage(this.balance.asset,
+                                this.tx.recipient, 'errorAddressMessage')) {
                                 this.gatewayAddressError = true;
                             } else {
                                 this.gatewayDetailsError = true;
