@@ -1,20 +1,7 @@
 @import (reference) 'config';
 @import (reference) 'icons';
-@import (reference) "../../../app/less/app-icons";
-@import (reference) '../../../app/less/typography';
-
-@media screen and (max-width: 860px) {
-  .header-wrapper.large {
-    display: none;
-  }
-}
-
-@media screen and (min-width: 861px) {
-  .header-wrapper.mobile {
-    display: none;
-  }
-}
-
+@import (reference) "../../../../app/less/app-icons";
+@import (reference) '../../../../app/less/typography';
 
 body.welcome {
   .header-new-user {
@@ -560,6 +547,18 @@ body.tokens {
       .buttons-wrapper {
         display: none;
       }
+    }
+
+    .header-wrapper.large {
+      display: none;
+    }
+  }
+}
+
+@media screen and (min-width: 861px) {
+  w-site-header {
+    .header-wrapper.mobile {
+      display: none;
     }
   }
 }
