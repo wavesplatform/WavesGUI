@@ -313,7 +313,7 @@
             var WavesApp = {
                 name: 'Waves Client',
                 version: config.pack.version,
-                type: !config.isWeb ? 'desktop' : 'web',
+                type: !config.isWeb() ? 'desktop' : 'web',
                 matcherPriorityList: config.matcherPriorityList,
                 themesConf: config.themesConf,
                 progress: 0,
