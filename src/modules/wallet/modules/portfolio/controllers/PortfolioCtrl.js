@@ -159,7 +159,7 @@
                     this.observe('details', this._onChangeDetails);
                     this.observe('filter', this._onChangeDetails);
 
-                    this._onChangeDetails();
+                    // this._onChangeDetails();
                     utils.safeApply($scope);
                 });
 
@@ -289,69 +289,86 @@
                         throw new Error('Wrong filter name!');
                 }
 
-                ds.api.rating.getAssetsRating(this.balanceList.map(balance => balance.asset.id))
-                    .then(ratingList => {
-                        balanceList = balanceList.map((balance, i) => ({
-                            ...balance,
-                            rating: ratingList[i]
-                        }));
-
-                        this.balanceList = balanceList;
-                    });
-
-
+                this.balanceList = balanceList;
             }
+
+            // _addRating() {
+            //     this.details.forEach(type => {
+            //         type.forEach(asset => {
+            //
+            //         })
+            //     });
+            //     ds.api.rating.getAssetsRating(this.balanceList.map(balance => balance.asset.id))
+            //         .then(ratingList => {
+            //             balanceList = balanceList.map((balance, i) => ({
+            //                 ...balance,
+            //                 rating: ratingList[i]
+            //             }));
+            //
+            //             this.balanceList = balanceList;
+            //         });
+            // }
 
             /**
              * @private
              */
             _updateBalances() {
-                const details = balanceWatcher.getFullBalanceList()
-                    .map(item => {
-                        const isPinned = this._isPinned(item.asset.id);
-                        const isSpam = this._isSpam(item.asset.id);
-                        const isOnScamList = user.scam[item.asset.id];
-                        // TODO Сунуть рейтинг тут
-                        return {
-                            available: item.available,
-                            asset: item.asset,
-                            inOrders: item.inOrders,
-                            isPinned,
-                            isSpam,
-                            isOnScamList,
-                            minSponsoredAssetFee: item.asset.minSponsoredAssetFee,
-                            sponsorBalance: item.asset.sponsorBalance
-                        };
-                    })
-                    .reduce((acc, item) => {
-                        const oracleData = ds.dataManager.getOraclesAssetData(item.asset.id);
-                        const spam = item.isOnScamList || item.isSpam;
+                const balanceList = balanceWatcher.getFullBalanceList();
+                ds.api.rating.getAssetsRating(balanceList.map(balanceItem => balanceItem.asset.id))
+                    .then(ratingList => {
+                        const balanceListWithRating = balanceList.map((balanceItem, i) => ({
+                            ...balanceItem,
+                            rating: ratingList[i]
+                        }));
 
-                        if (oracleData && oracleData.status > 0) {
-                            acc.verified.push(item);
-                        }
+                        const details = balanceListWithRating
+                            .map(item => {
+                                const isPinned = this._isPinned(item.asset.id);
+                                const isSpam = this._isSpam(item.asset.id);
+                                const isOnScamList = user.scam[item.asset.id];
+                                return {
+                                    available: item.available,
+                                    asset: item.asset,
+                                    inOrders: item.inOrders,
+                                    isPinned,
+                                    isSpam,
+                                    isOnScamList,
+                                    rating: item.rating,
+                                    minSponsoredAssetFee: item.asset.minSponsoredAssetFee,
+                                    sponsorBalance: item.asset.sponsorBalance
+                                };
+                            })
+                            .reduce((acc, item) => {
+                                const oracleData = ds.dataManager.getOraclesAssetData(item.asset.id);
+                                const spam = item.isOnScamList || item.isSpam;
 
-                        if (spam) {
-                            if (!this.dontShowSpam) {
-                                if (item.asset.sender === user.address) {
-                                    acc.my.push(item);
+                                if (oracleData && oracleData.status > 0) {
+                                    acc.verified.push(item);
                                 }
-                                acc.spam.push(item);
-                                acc.active.push(item);
-                            }
-                        } else {
-                            if (item.asset.sender === user.address) {
-                                acc.my.push(item);
-                            }
-                            acc.active.push(item);
-                        }
 
-                        return acc;
-                    }, { spam: [], my: [], active: [], verified: [] });
+                                if (spam) {
+                                    if (!this.dontShowSpam) {
+                                        if (item.asset.sender === user.address) {
+                                            acc.my.push(item);
+                                        }
+                                        acc.spam.push(item);
+                                        acc.active.push(item);
+                                    }
+                                } else {
+                                    if (item.asset.sender === user.address) {
+                                        acc.my.push(item);
+                                    }
+                                    acc.active.push(item);
+                                }
 
-                this.details = details;
+                                return acc;
+                            }, { spam: [], my: [], active: [], verified: [] });
 
-                utils.safeApply($scope);
+                        this.details = details;
+
+                        utils.safeApply($scope);
+
+                    });
             }
 
             /**
