@@ -225,7 +225,7 @@
       "explorer": "https://wavesexplorer.com/testnet",
       "coinomat": "https://localhost:8080/coinomat",
       "vostok": {
-        "gateway": "https://gw.wavesplatform.com",
+        "gateway": "https://gateways-dev.wvservices.com",
         "networkByte": "F"
       },
       "support": "https://support.wavesplatform.com",

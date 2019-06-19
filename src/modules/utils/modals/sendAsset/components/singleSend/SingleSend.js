@@ -319,6 +319,7 @@
                     this._updateGatewayDetails();
                 });
                 this._onChangeBaseAssets();
+                this._updateWavesTxObject();
             }
 
             onSignCoinomatStart() {
