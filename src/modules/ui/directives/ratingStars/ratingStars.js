@@ -8,7 +8,7 @@
             constructor() {
                 super($scope);
 
-                const ratingStars = new RatingStarsFactory($element, this.rating);
+                const ratingStars = new RatingStarsFactory($element, this.rating, this.size);
 
                 this.observe('rating', () => {
                     ratingStars.update(this.rating);
@@ -26,6 +26,7 @@
     angular.module('app.ui').component('wRatingStars', {
         bindings: {
             rating: '<',
+            size: '<',
             canRate: '<'
         },
         scope: false,

@@ -11,20 +11,22 @@
                 <div class="marker{{#if isSmart}} smart-asset{{/if}}" style="background-color: {{charColor}}"></div>
             </div>
         {{/if}}
-        <div class="asset-name-desktop asset__wrapper">
-            <div>{{assetName}}</div>
-            {{#if isVerified}}
-                <span class="status-label-min active" w-i18n-literal="qualified"></span>
-            {{/if}}
-            {{#if isGateway}}
-                <span class="status-label-min active" w-i18n-literal="gateway"></span>
-            {{/if}}
-            {{#if isTokenomica}}
-                <span class="status-label-min active" w-i18n-literal="tokenomica"></span>
-            {{/if}}
-            <span class="status-label-min inactive {{SELECTORS.SUSPICIOUS_LABEL}}" w-i18n-literal="suspicious"></span>
-        </div>
-        <div class="js-stars-container">
+        <div class="asset__text">
+            <div class="asset-name-desktop asset__wrapper">
+                <div>{{assetName}}</div>
+                {{#if isVerified}}
+                    <span class="status-label-min active" w-i18n-literal="qualified"></span>
+                {{/if}}
+                {{#if isGateway}}
+                    <span class="status-label-min active" w-i18n-literal="gateway"></span>
+                {{/if}}
+                {{#if isTokenomica}}
+                    <span class="status-label-min active" w-i18n-literal="tokenomica"></span>
+                {{/if}}
+                <span class="status-label-min inactive {{SELECTORS.SUSPICIOUS_LABEL}}"
+                      w-i18n-literal="suspicious"></span>
+            </div>
+            <div class="js-stars-container"></div>
         </div>
     </div>
 </div>

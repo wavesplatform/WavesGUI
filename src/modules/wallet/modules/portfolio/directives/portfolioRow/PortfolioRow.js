@@ -369,7 +369,10 @@
                     );
                 }).catch(() => null);
 
-                new RatingStarsFactory(this.$node.find(`.${SELECTORS.STARS_CONTAINER}`), balance.rating);
+                if (balance.rating) {
+                    new RatingStarsFactory(this.$node.find(`.${SELECTORS.STARS_CONTAINER}`), balance.rating, 's');
+                }
+
             }
 
             /**

@@ -46,3 +46,8 @@ export interface ITokenRating {
     votes: array;
     votesCount: 2;
 }
+
+export interface IParsedRating {
+    assetId: string;
+    rating: number;
+}

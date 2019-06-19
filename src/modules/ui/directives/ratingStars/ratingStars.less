@@ -7,16 +7,41 @@
   margin-top: 7px;
 
   &__star {
-    width: 14px;
-    height: 14px;
-    margin-right: 5px;
     background: @rating-star-icon center no-repeat;
+
     &:last-child {
       margin-right: 0;
     }
 
     &.filled {
       background: @rating-filled-star-icon center no-repeat;
+    }
+  }
+
+  &.m {
+    .rating-stars__star {
+      width: 14px;
+      height: 14px;
+      margin-right: 5px;
+      background-size: 14px;
+    }
+  }
+
+  &.s {
+    .rating-stars__star {
+      width: 9px;
+      height: 9px;
+      margin-right: 3px;
+      background-size: 9px;
+    }
+  }
+
+  &.xl {
+    .rating-stars__star {
+      width: 40px;
+      height: 40px;
+      margin-right: 14px;
+      background-size: 40px;
     }
   }
 }

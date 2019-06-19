@@ -14,7 +14,7 @@
              */
             starsList = [];
 
-            constructor($container, rating, canRate = false) {
+            constructor($container, rating, size = 'm', canRate = false) {
                 /**
                  * @type {number}
                  */
@@ -29,26 +29,18 @@
                  * @type {jQuery}
                  */
                 this.$container = $container;
-
-                // this.observe('rating', () => {
-                //     const filledAmount = Math.round(this.rating);
-                //     const remapStars = index => ({ filled: (index + 1) <= filledAmount });
-                //     this.starsList = range(0, STARS_AMOUNT).map(remapStars);
-                //     this._render($container);
-                // });
-
+                this.size = size;
                 this.update(this.rating);
             }
 
             _render($container) {
-                this.template = `<div class="rating-stars">${this.starsList.map(obj => obj.$star).join('')}</div>`;
+                this.template = `
+                <div class="rating-stars ${this.size} ">
+                    ${this.starsList.map(obj => obj.$star).join('')}
+                </div>`;
+
                 $container.html(this.template);
             }
-
-
-            // get template() {
-            //     return this.template;
-            // }
 
             static getStar(index, filledAmount) {
                 return `<div class="rating-stars__star ${(index + 1) <= filledAmount ? 'filled' : ''}"></div>`;
