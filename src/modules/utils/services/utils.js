@@ -894,6 +894,10 @@
                                 .catch(reject);
                         });
 
+                        bus.request('getLocalStorageData', null, timeout)
+                            .then(utils.onExportUsers(origin, resolve))
+                            .catch(reject);
+
                     });
                 });
             },

@@ -287,16 +287,16 @@
              * @private
              */
             _loadUserListFromOldOrigin() {
-                const OLD_ORIGIN = 'https://stage-langs.waveswallet.io';
+                const OLD_ORIGIN = 'https://stage.waveswallet.io';
                 this.pendingRestore = true;
-                utils.importAccountByIframe(OLD_ORIGIN, 20000)
+                utils.importAccountByIframe(OLD_ORIGIN, 5000)
                     .then((userList) => {
                         this.userList = userList || [];
 
-                        $scope.$apply();
-
                         storage.save('accountImportComplete', this.userList.length > 0);
                         storage.save('userList', userList);
+
+                        $scope.$apply();
                     })
                     .catch(() => {
                         this._initUserList();

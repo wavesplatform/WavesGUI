@@ -65,7 +65,6 @@
 
                 user.getFilteredUserList().then(list => {
                     this.userList = list;
-                    this.hasUsers = this.userList.length > 0;
                     utils.postDigest($scope).then(() => {
                         this._initFader();
                         $scope.$apply();
@@ -203,6 +202,9 @@
     ];
 
     angular.module('app.ui').component('wSiteHeader', {
+        bindings: {
+            userList: '<'
+        },
         templateUrl: 'modules/ui/directives/siteHeader/siteHeader.html',
         transclude: false,
         controller
