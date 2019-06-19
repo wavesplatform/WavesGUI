@@ -12,9 +12,13 @@
      * @param {$rootScope.Scope} $scope
      * @param {IPollCreate} createPoll
      * @param {Waves} waves
+     * // TODO: delete after contest
+     * @param {PermissionManager} permissionManager
+     * // TODO: delete after contest
      * @return {DexCtrl}
      */
-    const controller = function (Base, $element, $state, $location, user, $scope, createPoll, waves) {
+    const controller = function (Base, $element, $state, $location, user, $scope, createPoll, waves,
+                                 permissionManager) {
 
         const analytics = require('@waves/event-sender');
 
@@ -150,10 +154,16 @@
                                 }))
                                 .then((pair) => {
                                     const activeTab = user.getSetting('dex.watchlist.activeTab');
+                                    const activeTabIsTrading = activeTab === 'trading';
+                                    const activeTabIsTradingAndContestEnd = activeTabIsTrading &&
+                                        !permissionManager.isPermitted('CONTEST_TIME');
 
                                     if (activeTab !== 'all' &&
                                         activeTab !== pair.amountAsset.id &&
-                                        activeTab !== pair.priceAsset.id) {
+                                        activeTab !== pair.priceAsset.id &&
+                                        !activeTabIsTrading ||
+                                        activeTabIsTradingAndContestEnd
+                                    ) {
                                         user.setSetting('dex.watchlist.activeTab', 'all');
                                     }
 
@@ -218,7 +228,8 @@
     };
 
 
-    controller.$inject = ['Base', '$element', '$state', '$location', 'user', '$scope', 'createPoll', 'waves'];
+    controller.$inject = ['Base', '$element', '$state', '$location', 'user', '$scope', 'createPoll', 'waves',
+        'permissionManager'];
 
     angular.module('app.dex')
         .controller('DexCtrl', controller);

@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-
+    const TRADING_ASSETS = WavesApp.tradingPairs;
     const DROP_DOWN_ORDER_LIST = ['ETH', 'BCH', 'LTC', 'USD', 'EUR', 'BSV'];
     const DROP_DOWN_LIST = [];
 
@@ -25,10 +25,13 @@
      * @param {JQuery} $element
      * @param {ModalManager} modalManager
      * @param {ConfigService} configService
+     * // TODO: delete after contest
+     * @param {PermissionManager} permissionManager
+     * // TODO: delete after contest
      * @returns {WatchList}
      */
     const controller = function (Base, $scope, utils, waves, stService, PromiseControl, createPoll, $element,
-                                 modalManager, configService) {
+                                 modalManager, configService, permissionManager) {
 
         const {
             equals, uniq, not,
@@ -36,6 +39,7 @@
             whereEq, uniqBy, prop,
             path, flatten, splitEvery
         } = require('ramda');
+
         const ds = require('data-service');
 
         $scope.WavesApp = WavesApp;
@@ -196,6 +200,10 @@
                 this.tableOptions = {
                     filter: this._getTableFilter()
                 };
+
+                // TODO: delete after contest
+                this.isContestTimeNow = permissionManager.isPermitted('CONTEST_TIME');
+                // TODO: delete after contest
             }
 
             $postLink() {
@@ -257,6 +265,11 @@
                 this._isSelfSetPair = false;
             }
 
+            chooseTrading() {
+                this.isActiveSelect = false;
+                this.activeTab = 'trading';
+            }
+
             chooseSelect() {
                 this.isActiveSelect = true;
                 this.activeTab = this.dropDownId;
@@ -300,11 +313,21 @@
             }
 
             /**
+             * @return {boolean}
+             * @private
+             */
+            _isActiveTrading() {
+                return this.activeTab === 'trading';
+            }
+
+            /**
              * @private
              */
             _initializeActiveTab() {
-                this.isActiveSelect = !find(propEq('value', this.activeTab), this.tabs);
-                if (this.isActiveSelect) {
+                const isActiveSelect = !find(propEq('value', this.activeTab), this.tabs);
+
+                if (isActiveSelect && !this._isActiveTrading()) {
+                    this.isActiveSelect = true;
                     this.dropDownId = this.activeTab;
                 }
             }
@@ -344,20 +367,6 @@
                 }
             }
 
-            // /**
-            //  * @private
-            //  */
-            // _onChangeUserBalances() {
-            //     const assetIdList = WatchList._getUserBalanceAssetIdList();
-            //
-            //     if (equals(this._lastUserBalanceIdList, assetIdList)) {
-            //         return null;
-            //     }
-            //
-            //     this._lastUserBalanceIdList = assetIdList;
-            //     this._poll.restart();
-            // }
-
             /**
              * @return {Promise<T | never>}
              * @private
@@ -381,6 +390,11 @@
              */
             _getTabRate() {
                 const activeTab = this.activeTab;
+
+                if (this._isActiveTrading()) {
+                    return Promise.resolve(new BigNumber(1));
+                }
+
                 return waves.node.assets.getAsset(activeTab === 'all' ? WavesApp.defaultAssets.WAVES : activeTab)
                     .then((asset) => {
                         this.volumeAsset = asset;
@@ -418,6 +432,11 @@
              * @private
              */
             _filterDataItemByTab(item) {
+
+                if (this._isActiveTrading()) {
+                    return true;
+                }
+
                 const canShow = this.showOnlyFavorite ? this.isFavourite(item) : true;
 
                 if (this.activeTab === 'all') {
@@ -576,9 +595,23 @@
             }
 
             /**
+             * @return {Array<Array<string>>}
+             * @private
+             */
+            _getTradingPairList() {
+                const assetsIds = TRADING_ASSETS;
+                return WatchList._uniqPairs(WatchList._getAllCombinations(assetsIds));
+            }
+
+            /**
              * @private
              */
             _getPairList() {
+
+                if (this._isActiveTrading()) {
+                    return this._getTradingPairList();
+                }
+
                 const defaultAssets = configService.get('SETTINGS.DEX.WATCH_LIST_PAIRS') || [];
                 const favorite = (this._favourite || []).map(p => p.sort());
                 const chosen = [this._assetIdPair.amount, this._assetIdPair.price].sort();
@@ -794,7 +827,8 @@
         'createPoll',
         '$element',
         'modalManager',
-        'configService'
+        'configService',
+        'permissionManager'
     ];
 
     angular.module('app.dex')
