@@ -22,9 +22,8 @@ export function getAssetsRating(assets: string | Array<string>) {
                 })
             }
         })
-        .then((data: any) => {
-            const tokensList = JSON.parse(data);
-            return tokensList.map((ratingItem: ITokenRating) => {
+        .then((tokensList: any) => {
+            return Object.values(tokensList).map((ratingItem: ITokenRating) => {
                 return ratingItem.averageScore;
             })
         });
