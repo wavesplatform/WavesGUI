@@ -1,7 +1,11 @@
+<span class="logo logo-header" ng-if="$ctrl.isLogined"></span>
+<a class="logo logo-header" ng-if="!$ctrl.isLogined" href="/"></a>
+
 <div class="mobile-menu-toggler" ng-click="$ctrl.removeInnerMenu()">
     <span></span>
 </div>
-<div class="mobile-menu-fader" w-toggle-class="expanded" ng-click="$ctrl.toggleFader()"></div>
+
+<div class="mobile-menu-fader" w-toggle-class="expanded"></div>
 <nav class="mobile-menu">
     <div class="mobile-menu-wrapper">
         <ul ng-if="!$ctrl.isLogined">

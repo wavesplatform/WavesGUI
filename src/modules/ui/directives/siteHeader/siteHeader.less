@@ -3,6 +3,19 @@
 @import (reference) "../../../app/less/app-icons";
 @import (reference) '../../../app/less/typography';
 
+@media screen and (max-width: 860px) {
+  .header-wrapper.large {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 861px) {
+  .header-wrapper.mobile {
+    display: none;
+  }
+}
+
+
 body.welcome {
   .header-new-user {
     position: fixed;
