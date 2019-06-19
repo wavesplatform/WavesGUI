@@ -157,9 +157,13 @@
              * @private
              */
             _initClickHandlers() {
-                $element.find('.mobile-menu-fader, .mobile-menu-toggler').on('click', () => {
+                $element.find('.mobile-menu-toggler').on('click', () => {
                     $element.find('header').toggleClass('expanded');
                     $document.find('body').toggleClass('menu-is-shown');
+                });
+                $element.find('.mobile-menu-fader').on('click', () => {
+                    $element.find('header').removeClass('expanded');
+                    $document.find('body').removeClass('menu-is-shown');
                 });
             }
 
