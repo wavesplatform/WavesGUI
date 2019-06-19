@@ -159,10 +159,23 @@
                 return this.signable;
             }
 
+            showInputHelper() {
+                if (this.nameWarning) {
+                    $(document).find('w-input-helper').fadeIn(500);
+                }
+            }
+
+            hideInputHelper() {
+                $(document).find('w-input-helper').fadeOut(500);
+            }
+
             createSignable() {
                 this._verifyName().then(
                     res => {
                         this.nameWarning = res;
+                        if (res) {
+                            this.showInputHelper();
+                        }
                         $scope.$apply();
                     }
                 );

@@ -13,6 +13,8 @@
                         <w-input type="text"
                                  name="name"
                                  ng-model="$ctrl.name"
+                                 ng-focus="$ctrl.showInputHelper()"
+                                 ng-blur="$ctrl.hideInputHelper()"
                                  w-validate
                                  class="big"
                                  ng-class="{warning: $ctrl.nameWarning}"
@@ -20,7 +22,7 @@
                                  w-validator-byte-lte="16"
                                  required></w-input>
 
-                        <w-input-helper ng-if="$ctrl.nameWarning">
+                        <w-input-helper>
                             <div class="margin-05 body-2 bold" w-i18n="tokens.inputHelper.header"></div>
                             <div class="footnote-1" w-i18n="tokens.inputHelper.description"></div>
                         </w-input-helper>
