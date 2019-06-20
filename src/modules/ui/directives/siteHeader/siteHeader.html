@@ -117,7 +117,7 @@
                            href="#"></a></li>
                     <li class="separator"></li>
                     <li><a class="sign-in-link signIn-hidden"
-                           ng-if="$ctrl.hasUsers"
+                           ng-if="$ctrl.userList.length > 0"
                            ng-click="$ctrl.removeBodyClass()"
                            ui-sref="signIn" w-i18n="welcome.signIn"></a></li>
                     <li><a class="menu-link get-started-link create-hidden"

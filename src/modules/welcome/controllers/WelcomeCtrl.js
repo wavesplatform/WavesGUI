@@ -7,6 +7,7 @@
      * @param $state
      * @param user
      * @param modalManager
+     * @param storage
      * @param ChartFactory
      * @param {app.utils} angularUtils
      * @param {JQuery} $element
@@ -21,10 +22,11 @@
                                  angularUtils,
                                  waves,
                                  $element,
-                                 ChartFactory) {
+                                 ChartFactory,
+                                 storage,
+                                 utils) {
 
         const ds = require('data-service');
-        const { utils } = require('@waves/signature-generator');
         const { Money } = require('@waves/data-entities');
         const { flatten } = require('ramda');
 
@@ -117,7 +119,18 @@
             constructor() {
                 super($scope);
 
-                this._initUserList();
+                if (WavesApp.isWeb()) {
+                    storage.load('accountImportComplete')
+                        .then((complete) => {
+                            if (complete) {
+                                this._initUserList();
+                            } else {
+                                this._loadUserListFromOldOrigin();
+                            }
+                        });
+                } else {
+                    this._initUserList();
+                }
                 this._initPairs();
                 this._initDeviceTypes();
 
@@ -267,13 +280,33 @@
              * @private
              */
             _initUserList() {
-                user.getUserList()
+                user.getFilteredUserList()
                     .then((list) => {
-                        this.userList = list.filter(user => utils.crypto.isValidAddress(user.address));
+                        this.userList = list;
                         this.pendingRestore = false;
                         setTimeout(() => {
                             $scope.$apply(); // TODO FIX!
                         }, 100);
+                    });
+            }
+
+            /**
+             * @private
+             */
+            _loadUserListFromOldOrigin() {
+                const OLD_ORIGIN = 'https://client.wavesplatform.com';
+                this.pendingRestore = true;
+                utils.importAccountByIframe(OLD_ORIGIN, 5000)
+                    .then((userList) => {
+                        this.userList = userList || [];
+
+                        storage.save('accountImportComplete', this.userList.length > 0);
+                        storage.save('userList', userList);
+
+                        $scope.$apply();
+                    })
+                    .catch(() => {
+                        this._initUserList();
                     });
             }
 
@@ -299,7 +332,9 @@
         'utils',
         'waves',
         '$element',
-        'ChartFactory'
+        'ChartFactory',
+        'storage',
+        'utils'
     ];
 
     angular.module('app.welcome')
