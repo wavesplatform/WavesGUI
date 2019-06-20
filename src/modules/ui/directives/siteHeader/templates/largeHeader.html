@@ -127,7 +127,7 @@
 
 <div class="header-right-wrapper" ng-if="$ctrl.isLogined">
 
-    <div class="dropdown-toggler dropdown-toggler-right" w-toggle-class-container>
+    <div class="dropdown-toggler dropdown-toggler-right">
         <div class="avatar-container header-avatar-container has-helper">
             <w-analytics event="'Account Picture Click'" event-target="'ui'">
                 <w-avatar type="{{$ctrl.userType}}"
@@ -150,7 +150,8 @@
                 </div>
             </w-help-icon>
             <div class="user-info-wrapper">
-                <div class="account-name body-2 basic-700" ng-if="$ctrl.userName">{{$ctrl.userName}}</div>
+                <div class="account-name body-2 basic-700"
+                     ng-if="$ctrl.userName">{{$ctrl.userName}}</div>
                 <div class="account-address basic-500 body-3">{{$ctrl.address}}</div>
             </div>
         </div>
@@ -181,26 +182,50 @@
 
                 <div class="text-center margin-top-1 margin-1">
                     <div class="account-name-wrapper">
-                        <span class="basic-700 body-2 account-name"
-                              w-toggle-class="show-input"
-                              ng-if="$ctrl.userName">
-                             <span>{{$ctrl.userName}}</span>
-                        </span>
-
-                        <w-info-tooltip no-icon="true">
-                            <span class="tooltip__content" w-i18n="welcome.renameAccount"></span>
-                        </w-info-tooltip>
-
                         <form action="setUserName" name="setUserName">
                             <w-input-container>
-                                <w-input type="text" ng-blur="$ctrl.setUsername()" ng-model="$ctrl.userName" class="tiny long"></w-input>
+                                <w-input type="text"
+                                         placeholder="Account"
+                                         ng-focus="$ctrl.hideTooltip()"
+                                         ng-blur="$ctrl.handleBlur()"
+                                         ng-model="$ctrl.userName"
+                                         w-validate
+                                         required
+                                         class="tiny long"></w-input> <!-- TODO literal -->
+                                <!--w-validator-custom="{{$ctrl... LENGTH > 20 && ACCOUNT NAME EXISTS}}"-->
+                                <!-- TODO Olya (ng-if input error)
+                                     - must shown only then input focused ( $ctrl.hideToolip() )
+                                -->
+                                <w-input-error class="tiny">
+                                    <span w-i18n="welcome.inputErrorNameLenght"></span>
+                                </w-input-error>
+
+                                <w-input-error class="tiny">
+                                    <span w-i18n="welcome.inputErrorNameRequied"></span>
+                                </w-input-error>
+
+                                <w-input-error class="tiny">
+                                    <span w-i18n="welcome.inputErrorNameExists"></span>
+                                </w-input-error>
                             </w-input-container>
+
+                            <w-info-tooltip no-icon="true">
+                                <span class="tooltip__content"
+                                      w-i18n="welcome.renameAccount"></span>
+                            </w-info-tooltip>
                         </form>
                     </div>
 
-                    <w-copy-wrap-default class="copy-underline basic-500 caption-4"
-                                         info="$ctrl.address">{{$ctrl.address}}
-                    </w-copy-wrap-default>
+                    <div class="account-address-wrapper">
+                        <w-copy-wrap-default class="copy-underline basic-500 caption-4"
+                                             info="$ctrl.address">{{$ctrl.address}}
+                        </w-copy-wrap-default>
+
+                        <w-info-tooltip no-icon="true">
+                                    <span class="tooltip__content"
+                                          w-i18n="welcome.renameAccount"></span>
+                        </w-info-tooltip>
+                    </div>
                 </div>
             </div>
 

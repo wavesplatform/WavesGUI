@@ -1,4 +1,5 @@
 @import (reference) 'config';
+@import (reference) '../../../app/less/typography';
 
 w-input-container {
   display: block;
@@ -30,6 +31,14 @@ w-input-container {
         &:hover {
           text-decoration: underline;
         }
+      }
+    }
+
+    &.tiny {
+      .error {
+        margin-top: 5px;
+        padding: 7px 12px;
+        font-size: @font-size-caption-1;
       }
     }
 

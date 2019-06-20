@@ -68,16 +68,40 @@
                 this.mobileTemplate = `${PATH}/mobileHeader.html`;
             }
 
-
             $postLink() {
                 this._initClickHandlers();
+                this.setDefaultUsername();
+            }
+
+
+            /**
+             * @public
+             */
+            setDefaultUsername() {
+                if (!this.userName) {
+                    this.userName = 'Account'; /* TODO Olya add literal */
+                }
             }
 
             /**
              * @public
              */
-            setUsername() {
-                $element.find('.dropdown-toggler-right').removeClass('show-input');
+            hideTooltip() {
+                $element.find('.account-name-wrapper w-info-tooltip').hide();
+            }
+
+            /**
+             * @public
+             */
+            showTooltip() {
+                $element.find('.account-name-wrapper w-info-tooltip').show();
+            }
+            /**
+             * @public
+             */
+            handleBlur() {
+                this.showTooltip();
+                this.setDefaultUsername();
             }
 
             $onDestroy() {
