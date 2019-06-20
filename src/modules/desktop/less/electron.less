@@ -1,0 +1,189 @@
+@import (reference) 'config';
+@import (reference) "icons";
+@import (reference) '../../app/less/typography';
+
+body.desktop {
+  .import-modal__blocks-wrapper {
+    flex-direction: column;
+    max-width: @getStartedContentWidth;
+    margin: auto;
+    margin-top: 40px;
+  }
+
+  .import-modal__block {
+    padding: 20px;
+    margin: 0 0 10px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .import-modal__icon {
+    margin: 0;
+    width: 40px;
+    height: 40px;
+  }
+
+  .import-modal__content {
+    text-align: left;
+    margin-left: 20px;
+
+    &-title {
+      margin-bottom: 4px;
+    }
+  }
+
+  ui-view[name="main"] {
+    display: flex;
+  }
+
+  .main-container {
+    flex: 1 0;
+    min-height: 0;
+  }
+
+  div.wrapper {
+    display: flex;
+    flex-direction: column;
+    background: @color-white;
+  }
+
+  .section-contest {
+    display: none;
+  }
+
+  w-footer {
+    margin-top: auto;
+  }
+
+  .footer {
+    > section {
+      overflow: visible;
+    }
+
+    .section-wrapper {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+    }
+
+    &-left {
+      margin-left: auto;
+      flex-direction: row-reverse;
+      display: flex;
+      align-items: center;
+    }
+
+    &-actions {
+      display: flex;
+    }
+
+    &-action {
+      align-items: center;
+      display: inline-flex;
+
+      &:not(:first-child) {
+        margin-left: 10px;
+
+        &:before {
+          content: '';
+          height: 14px;
+          width: 1px;
+          margin-right: 10px;
+          background: @color-basic-300;
+        }
+      }
+    }
+
+    &-copyright {
+      white-space: nowrap;
+      .footnote-1();
+      color: @color-basic-500;
+      margin-left: 15px;
+      margin-bottom: 0;
+    }
+
+    w-select .select .title {
+      background: transparent;
+
+      &:after {
+        width: 10px;
+        height: 10px;
+        background: @select-arrow-icon;
+      }
+    }
+
+    .lng-item span {
+      color: @color-basic-700;
+    }
+  }
+
+  .section-welcome {
+    padding: 40px 0;
+    height: auto;
+    margin: auto;
+
+    .dex-screenshot {
+      display: none;
+    }
+
+    .left-side {
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
+      margin: auto;
+    }
+
+    .welcome-text {
+      font-size: 38px;
+    }
+
+    .get-started-btn {
+      position: relative;
+      margin-right: 0;
+
+      .fake-button-content {
+        padding-right: 53px;
+
+        &:after {
+          content: '';
+          width: 24px;
+          height: 24px;
+          position: absolute;
+          top: 50%;
+          right: 0;
+          margin-right: 25px;
+          margin-top: -12px;
+          background: @arrow-right-white-icon;
+          transition: margin 0.3s;
+        }
+      }
+
+      &:hover {
+        .fake-button-content:after {
+          margin-right: 15px;
+        }
+      }
+    }
+  }
+
+  &:not(.main) {
+    w-site-header .header-wrapper {
+      width: auto;
+    }
+  }
+
+  w-site-header .header-wrapper {
+    &:after {
+      content: none;
+    }
+  }
+
+  @media screen and (max-width: 1440px) {
+    .section-wrapper {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+}

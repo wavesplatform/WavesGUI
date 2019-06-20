@@ -9,7 +9,7 @@
                 <span w-i18n="importAccountInfo"></span>
             </div>
 
-            <div class="import-modal__blocks-wrapper text-center">
+            <div  w-web-only-class="web-import-modal-wrapper" class="import-modal__blocks-wrapper text-center">
                 <div class="import-modal__block" ui-sref="restore"
                      w-analytics event="'Import Backup Click'" event-target="'ui'">
                     <div class="import-modal__icon import-modal__icon-beta"></div>
@@ -32,16 +32,16 @@
                      w-analytics event="'Import Ledger Click'" event-target="'ui'">
                     <div class="import-modal__icon import-modal__icon-ledger"></div>
                     <div class="import-modal__content">
-                        <div class="body-1 margin-1" w-i18n="LedgerClient"></div>
-                        <div class="body-2 basic-500 margin-05" w-i18n="ledgerDescription"></div>
+                        <div class="body-1 margin-1 import-modal__content-title" w-i18n="LedgerClient"></div>
+                        <div class="body-2 basic-500 import-modal__content-text" w-i18n="ledgerDescription"></div>
                     </div>
                 </div>
                 <w-web-only ng-if="isNotPhone" w-web-only-class="import-modal__block" ui-sref="keeper">
                     <w-analytics event="'Import Keeper Click'" event-target="'ui'" class="import-modal__block-w">
                         <div class="import-modal__icon import-modal__icon-keeper"></div>
                         <div class="import-modal__content">
-                            <div class="body-1 margin-1" w-i18n="KeeperClient"></div>
-                            <div class="body-2 basic-500 margin-05" w-i18n="keeperDescription"></div>
+                            <div class="body-1 margin-1 import-modal__content-title" w-i18n="KeeperClient"></div>
+                            <div class="body-2 basic-500 import-modal__content-text" w-i18n="keeperDescription"></div>
                         </div>
                     </w-analytics>
                 </w-web-only>

@@ -1,17 +1,25 @@
-<footer class="footer" w-i18n-ns="app.welcome" w-web-only-class="WEB ONLY">
+<footer w-web-only-class="web-footer" class="footer" w-i18n-ns="app.welcome">
     <section>
         <div class="section-wrapper">
+            <w-desktop-only>
+                <div class="footer-actions">
+                    <a class="footer-action footnote-1 submit-400" target="_blank" rel="noopener noreferrer"
+                       href="http://dex.wavesplatform.com" w-analytics event="'Waves DEX Web Click'">Waves DEX Web</a>
+                    <a class="footer-action footnote-1 submit-400" target="_blank" rel="noopener noreferrer"
+                       href="https://support.wavesplatform.com" w-analytics event="'Footer Support Click'">Support</a>
+                </div>
+            </w-desktop-only>
             <div class="footer-left">
-                <a class="logo logo-footer margin-2" href="https://wavesplatform.com" target="_blank" rel="noopener noreferrer"></a>
-                <div class="margin-2" w-i18n="welcome.broughtBy"></div>
-                <div class="margin-1" w-i18n="welcome.copyright"></div>
-                <div class="margin-2">
+                <w-web-only><a class="logo logo-footer margin-2" href="https://wavesplatform.com" target="_blank" rel="noopener noreferrer"></a></w-web-only>
+                <w-web-only><div class="margin-2" w-i18n="welcome.broughtBy"></div></w-web-only>
+                <div class="footer-copyright margin-1" w-i18n="welcome.copyright"></div>
+                <w-web-only><div class="margin-2">
                     <a class="footer__link" w-i18n="welcome.mailto" target="_blank" rel="noopener noreferrer"
                        href="https://support.wavesplatform.com" w-analytics event="'Footer Support Click'"></a>
-                </div>
-                <w-change-language></w-change-language>
+                </div></w-web-only>
+                <w-change-language w-web-only-class="web-footer-language"></w-change-language>
             </div>
-            <div class="links">
+            <w-web-only class="footer-links"><div class="links">
                 <div>
                     <div class="footer-title basic-700" w-i18n="welcome.productsTools"></div>
                     <div><a w-analytics event="'Footer Wallet Click'"
@@ -90,7 +98,7 @@
                     <div><a w-analytics event="'Footer Forum Click'"
                             class="footer__link" w-i18n="welcome.forum" target="_blank" rel="noopener noreferrer" href="https://forum.wavesplatform.com"></a></div>
                 </div>
-            </div>
+            </div></w-web-only>
         </div>
     </section>
     <div class="toaster-mobiles" ng-if="::$ctrl.isToasterMobilesVisible">
