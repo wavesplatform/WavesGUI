@@ -176,8 +176,8 @@
 
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.expand(type);
-                    const roundedPrice = this.getRoundPriceTokensByTickSize(new BigNumber(price)).toString();
-                    const roundedAmount = this.getClosestValidAmountTokens(new BigNumber(amount)).toString();
+                    const roundedPrice = this.getRoundPriceTokensByTickSize(new BigNumber(price)).toFixed();
+                    const roundedAmount = this.getClosestValidAmountTokens(new BigNumber(amount)).toFixed();
                     switch (type) {
                         case 'buy':
                             this._onClickBuyOrder(roundedPrice, roundedAmount);
