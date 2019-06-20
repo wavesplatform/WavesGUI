@@ -1,2 +1,2 @@
-<i class="information-icon" ng-class="{hovered: $ctrl.hovered}"></i>
+<i ng-if="::!$ctrl.noIcon" class="information-icon" ng-class="{hovered: $ctrl.hovered}"></i>
 <div ng-transclude class="tooltip"></div>
