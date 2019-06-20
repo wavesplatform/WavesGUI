@@ -4,7 +4,7 @@
         <span class="logo logo-header" ng-if="$ctrl.isLogined"></span>
         <a class="logo logo-header" ng-if="!$ctrl.isLogined" href="/"></a>
 
-        <w-web-only>
+        <w-web-only class="top-menu-wrap">
             <nav class="top-menu top-menu-welcome" ng-if="!$ctrl.isLogined">
                 <a w-analytics event-target="'ui'"
                    event="'Menu Exchange Click'"
@@ -311,7 +311,7 @@
             <a class="link-margin link-tokens" ui-sref="main.tokens" w-i18n="welcome.createToken"></a>
         </nav>
 
-        <div ng-if="!$ctrl.isLogined"
+        <w-web-only><div ng-if="!$ctrl.isLogined"
              class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
             <a class="body-2 margin-right-3 submit-400 signIn-hidden" ng-if="$ctrl.userList.length > 0" ui-sref="signIn"
                w-analytics event="'Sign In Click'" event-target="ui"
@@ -321,7 +321,7 @@
                     <span w-i18n="welcome.getStarted" class="fake-button-content medium submit"></span>
                 </a>
             </div>
-        </div>
+        </div></w-web-only>
 
         <div class="header-right-wrapper" ng-if="$ctrl.isLogined">
 
