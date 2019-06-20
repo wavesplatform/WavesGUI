@@ -78,8 +78,8 @@ w-site-header {
       cursor: pointer;
 
       &-right {
-        padding-right: 30px;
-        width: 205px;
+        padding-right: 40px;
+        margin-right: -20px;
 
         &:hover {
           &::before {
@@ -102,12 +102,100 @@ w-site-header {
           background: @dropdown-arrow-12-icon center no-repeat;
         }
 
+        &.show-input {
+          .dropdown {
+            w-info-tooltip,
+            .account-name {
+              display: none;
+            }
+            w-input-container {
+              display: block;
+            }
+          }
+        }
+
         .dropdown {
           right: 0;
           left: auto;
-          transform: translate(0, 5px);
-          min-width: 100%;
+          transform: translate(-5px, 5px);
           width: 100%;
+          min-width: 280px;
+
+          .account-name-wrapper {
+            position: relative;
+            height: 30px;
+            margin: 0 auto;
+            max-width: calc(100% ~' - 60px');
+            margin-bottom: 5px;
+          }
+
+          .account-name,
+          w-input-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+
+          w-input-container {
+            w-input .w-input-wrap input[type="text"] {
+              text-align: center;
+              width: auto;
+              min-width: 116px;
+              .body-2;
+            }
+          }
+
+          w-info-tooltip {
+            z-index: 2;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+
+          .account-name {
+            height: 30px;
+            line-height: 30px;
+            padding: 0 14px;
+            transition: .3s;
+
+            &:hover {
+              background: @color-info-50;
+              border-radius: @border-radius;
+              cursor: pointer;
+            }
+          }
+
+          w-input-container {
+            display: none;
+          }
+
+          w-copy-wrap-default {
+            margin-bottom: 17px;
+            width: 100%;
+
+            &:hover {
+              .container {
+                position: relative;
+
+                &::after {
+                  position: absolute;
+                  bottom: -2px;
+                  left: 0;
+                  width: 100%;
+                  content: '';
+                  display: block;
+                  height: 1px;
+                  border-top: 1px dashed @color-basic-500;
+                }
+              }
+            }
+          }
+
+          .avatar-container {
+            line-height: 1em;
+          }
         }
       }
     }
@@ -248,6 +336,7 @@ w-site-header {
       position: relative;
       white-space: nowrap;
 
+      &.link-aliases::before,
       &::after {
         transition: .2s;
         content: '';
@@ -258,6 +347,11 @@ w-site-header {
         background: @color-info-50;
         bottom: 0;
         left: 30px;
+      }
+
+      &.link-aliases::before {
+        bottom: auto;
+        top: 0;
       }
 
       .icon {
@@ -304,7 +398,7 @@ w-site-header {
 
       &:hover {
         background-color: @header-dropdown-hover;
-        &::after{
+        &::after {
           display: none;
         }
 
@@ -328,7 +422,7 @@ w-site-header {
 
       &:last-child {
         padding: 18px 30px 18px;
-        &::after{
+        &::after {
           display: none;
         }
       }
@@ -357,7 +451,6 @@ w-site-header {
     background-image: @power-icon;
     background-position: center;
     background-repeat: no-repeat;
-    border-left: 1px solid @header-logout-border-color;
 
     &:hover {
       background-image: @power-hover-icon;
@@ -366,27 +459,21 @@ w-site-header {
 
   .header-right-wrapper {
     display: flex;
+    height: 100%;
   }
 
   .header-avatar-container {
     display: flex;
     align-items: center;
-    width: 36px;
-    height: 36px;
     position: relative;
   }
 
   .account-name {
     font-weight: 600;
-  }
-
-  .account-name,
-  .account-address {
-    max-width: 125px;
+    max-width: 300px;
     width: 100%;
-    text-overflow: ellipsis;
     overflow: hidden;
-    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .avatar-container {

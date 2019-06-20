@@ -64,7 +64,6 @@
                     });
                 });
 
-
                 this.largeTemplate = `${PATH}/largeHeader.html`;
                 this.mobileTemplate = `${PATH}/mobileHeader.html`;
             }
@@ -72,6 +71,13 @@
 
             $postLink() {
                 this._initClickHandlers();
+            }
+
+            /**
+             * @public
+             */
+            setUsername() {
+                $element.find('.dropdown-toggler-right').removeClass('show-input');
             }
 
             $onDestroy() {
