@@ -14,7 +14,7 @@
      * @param {INotification} notification
      * @param {app.utils} utils
      * @param {BalanceWatcher} balanceWatcher
-     * @return {AccountInfoCtrl}
+     * @return {ChangeNameCtrl}
      */
     const controller = function (Base, $scope, user, waves, notification, utils, balanceWatcher) {
         const analytics = require('@waves/event-sender');
