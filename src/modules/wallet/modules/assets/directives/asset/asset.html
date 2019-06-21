@@ -5,11 +5,11 @@
                  ng-click="$ctrl.onClick({event: $event, asset: $ctrl.balance.asset, action: 'info'})">
                 <w-asset-logo asset-id="{{::$ctrl.balance.asset.id}}" size="30"></w-asset-logo>
                 <div>
-                    <span class="asset__name">{{::$ctrl.balance.asset.name}}</span>
-                    <div>
+                    <div class="asset__name-wrapper">
+                        <span class="asset__name">{{::$ctrl.balance.asset.name}}</span>
                         <w-asset-status asset-id="$ctrl.balance.asset.id"></w-asset-status>
                     </div>
-                    <w-rating-stars rating="$ctrl.balance.rating"></w-rating-stars>
+                    <w-rating-stars rating="$ctrl.rating" size="'s'"></w-rating-stars>
                 </div>
             </div>
             <div ng-click="$ctrl.onUnpinClick($ctrl.balance.asset)"

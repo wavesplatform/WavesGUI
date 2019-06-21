@@ -7,6 +7,7 @@
      * @param user
      * @param waves
      * @param utils
+     * @param createPoll
      * @return {AssetInfoHead}
      */
     const controller = function (Base, $scope, user, waves, utils, createPoll) {

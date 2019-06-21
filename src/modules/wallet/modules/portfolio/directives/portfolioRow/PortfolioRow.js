@@ -370,7 +370,11 @@
                 }).catch(() => null);
 
                 if (balance.rating) {
-                    new RatingStarsFactory(this.$node.find(`.${SELECTORS.STARS_CONTAINER}`), balance.rating, 's');
+                    new RatingStarsFactory({
+                        $container: this.$node.find(`.${SELECTORS.STARS_CONTAINER}`),
+                        rating: balance.rating,
+                        size: 's'
+                    });
                 }
 
             }
