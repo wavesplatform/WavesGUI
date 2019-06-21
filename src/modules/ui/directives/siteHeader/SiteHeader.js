@@ -79,7 +79,8 @@
              */
             setDefaultUsername() {
                 if (!this.userName) {
-                    this.userName = 'Account'; /* TODO Olya add literal */
+                    this.userName = 'Account';
+                    /* TODO Olya add literal */
                 }
             }
 
@@ -96,6 +97,7 @@
             showTooltip() {
                 $element.find('.account-name-wrapper w-info-tooltip').show();
             }
+
             /**
              * @public
              */
@@ -123,6 +125,30 @@
                 $document.find('body').removeClass('menu-is-shown');
                 if (this.isLogined) {
                     modalManager.showAccountInfo();
+                } else {
+                    this._getDialogModal('account', () => $state.go('welcome'), () => $state.go('create'));
+                }
+            }
+
+            /**
+             * @public
+             */
+            changeNameClick() {
+                $document.find('body').removeClass('menu-is-shown');
+                if (this.isLogined) {
+                    modalManager.showAccountChangeName();
+                } else {
+                    this._getDialogModal('account', () => $state.go('welcome'), () => $state.go('create'));
+                }
+            }
+
+            /**
+             * @public
+             */
+            changeAddressClick() {
+                $document.find('body').removeClass('menu-is-shown');
+                if (this.isLogined) {
+                    modalManager.showAccountChangeAddress();
                 } else {
                     this._getDialogModal('account', () => $state.go('welcome'), () => $state.go('create'));
                 }
