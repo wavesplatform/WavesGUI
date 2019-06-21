@@ -137,17 +137,32 @@
                 <a class="menu-link menu-link-menu"
                    w-toggle-class="show-aliases" href="#"
                    w-i18n="welcome.menu"></a></li>
+
+            <li w-toggle-class="show-name expanded"> <!-- name -->
+                <a class="menu-link menu-link-name"
+                   ng-click="$ctrl.changeNameClick()"
+                   w-i18n="welcome.name"
+                   href="#"></a></li>
+
+            <li w-toggle-class="show-address expanded"> <!-- address -->
+                <a class="menu-link menu-link-address"
+                   ng-click="$ctrl.changeAddressClick()"
+                   w-i18n="welcome.address"
+                   href="#"></a></li>
+
             <li w-toggle-class="show-aliases expanded">
                 <a class="menu-link menu-link-aliases"
                    ng-click="$ctrl.avatarClick()"
                    w-i18n="welcome.aliases"
                    href="#"></a></li>
+
             <li w-toggle-class="show-aliases expanded">
                 <a class="menu-link menu-link-settings"
                    ng-click="$ctrl.settings()"
                    w-i18n="welcome.settings"
                    href="#"></a></li>
             <li class="separator"></li>
+
             <li w-toggle-class="show-aliases expanded">
                 <a class="menu-link menu-link-logout"
                    ng-click="$ctrl.logout()"

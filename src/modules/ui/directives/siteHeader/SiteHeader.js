@@ -149,6 +149,30 @@
             /**
              * @public
              */
+            changeNameClick() {
+                $document.find('body').removeClass('menu-is-shown');
+                if (this.isLogined) {
+                    modalManager.showAccountChangeName();
+                } else {
+                    this._getDialogModal('account', () => $state.go('welcome'), () => $state.go('create'));
+                }
+            }
+
+            /**
+             * @public
+             */
+            changeAddressClick() {
+                $document.find('body').removeClass('menu-is-shown');
+                if (this.isLogined) {
+                    modalManager.showAccountChangeAddress();
+                } else {
+                    this._getDialogModal('account', () => $state.go('welcome'), () => $state.go('create'));
+                }
+            }
+
+            /**
+             * @public
+             */
             settings() {
                 $document.find('body').removeClass('menu-is-shown');
                 if (this.isLogined) {

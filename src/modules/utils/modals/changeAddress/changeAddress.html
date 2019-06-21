@@ -1,0 +1,45 @@
+<md-dialog w-i18n-ns="app.welcome" class="change-address" aria-label="modal">
+    <md-dialog-content>
+        <div class="btn icon-close" w-modal-close></div>
+
+        <div class="avatar-container text-center has-helper margin-top-6">
+            <w-avatar type="{{$ctrl.userType}}"
+                      size="40"
+                      address="$ctrl.address"></w-avatar>
+
+            <div class="text-center account-name">
+                {{user.name}}ЧепушОнОк 😳
+            </div>
+
+            <w-help-icon class="avatar-options-list" ng-if="($ctrl.hasTypeHelp)">
+                <div class="help-icon__row row-keeper" ng-if="$ctrl.isKeeper">
+                    <span class="acount-option-icon"></span>
+                    <span w-i18n="welcome.keeperAccount"></span>
+                </div>
+                <div class="help-icon__row row-ledger" ng-if="$ctrl.isLedger">
+                    <span class="acount-option-icon"></span>
+                    <span w-i18n="welcome.ledgerAccount"></span>
+                </div>
+                <div class="help-icon__row row-script" ng-if="$ctrl.isScript">
+                    <span class="acount-option-icon"></span>
+                    <span w-i18n="welcome.scriptAccount"></span>
+                </div>
+            </w-help-icon>
+        </div>
+
+        <w-copy-wrap info="::$ctrl.address" ng-click="$ctrl.onCopyAddress()">
+            <div class="body-1 basic-900 mobile-low-fsize">{{::$ctrl.address}}</div>
+        </w-copy-wrap>
+
+        <div class="text-center">
+            <span w-i18n="welcome.scanQrCode"></span>
+            <div class="center qr-wrapper" w-toggle-class-container>
+                <w-qr-code size="200"
+                           style="box-shadow: 0 0 10px 0 #000 inset"
+                           w-toggle-class="zoomed-in"
+                           url="$ctrl.userAddress"></w-qr-code>
+            </div>
+        </div>
+
+    </md-dialog-content>
+</md-dialog>
