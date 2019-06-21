@@ -120,6 +120,15 @@
                 analytics.send({ name: 'Account Show', target: 'ui' });
             }
 
+            /**
+             * @public
+             */
+            handleBlur() {
+                this.showTooltip();
+                this.setDefaultUsername();
+            }
+
+
             getSignableTx() {
                 const type = 10;
                 const timestamp = ds.utils.normalizeTime(Date.now());
