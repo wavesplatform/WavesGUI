@@ -151,7 +151,9 @@
             </w-help-icon>
             <div class="user-info-wrapper">
                 <div class="account-name body-2 basic-700"
-                     ng-if="$ctrl.userName">{{$ctrl.userName}}</div> <!-- TODO Olya - если в активном селекте пусто - подставлять Account-->
+                     ng-if="user.name">{{user.name}}</div>
+                <div class="account-name body-2 basic-700"
+                     ng-if="!user.name">Account</div>
                 <div class="account-address basic-500 body-3">{{$ctrl.address}}</div>
             </div>
         </div>
@@ -185,26 +187,30 @@
                         <form action="setUserName" name="setUserName">
                             <w-input-container>
                                 <w-input type="text"
-                                         placeholder="Account"
+                                         class="tiny long"
                                          ng-focus="$ctrl.hideTooltip()"
                                          ng-blur="$ctrl.handleBlur()"
                                          ng-model="$ctrl.userName"
+                                         maxlength="20"
+                                         name="userName"
                                          w-validate
-                                         required
-                                         class="tiny long"></w-input> <!-- TODO literal -->
+                                         w-validator-custom="{{$ctrl.isUniqueUserName}}"
+                                         required></w-input>
+                                <!-- TODO literal -->
                                 <!--w-validator-custom="{{$ctrl... LENGTH > 20 && ACCOUNT NAME EXISTS}}"-->
                                 <!-- TODO Olya (ng-if input error)
                                      - must shown only then input focused ( $ctrl.hideToolip() )
                                 -->
+
                                 <w-input-error class="tiny">
-                                    <span w-i18n="welcome.inputErrorNameLenght"></span>
+                                    <span w-i18n="welcome.inputErrorNameLength"></span>
                                 </w-input-error>
 
                                 <!--<w-input-error class="tiny">-->
                                     <!--<span w-i18n="welcome.inputErrorNameRequied"></span>-->
                                 <!--</w-input-error>-->
 
-                                <w-input-error class="tiny">
+                                <w-input-error class="tiny" message="custom" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
                                     <span w-i18n="welcome.inputErrorNameExists"></span>
                                 </w-input-error>
                             </w-input-container>
