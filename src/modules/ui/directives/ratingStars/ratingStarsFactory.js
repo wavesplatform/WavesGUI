@@ -53,9 +53,6 @@
              * @return {null}
              */
             update(rating) {
-                if (!rating) {
-                    return null;
-                }
                 const filledAmount = Math.round(rating);
                 const remapStars = index => ({
                     $star: RatingStarsFactory.getStar(index, filledAmount)
@@ -109,6 +106,8 @@
                         $star: $(star),
                         weight: i + 1
                     }));
+
+                this._initHandlers(this.hasBalance);
             }
 
             static getStar(index, filledAmount) {
@@ -121,7 +120,6 @@
         return RatingStarsFactory;
     };
 
-    // factory.$inject = ['Base'];
 
     angular.module('app.ui').factory('RatingStarsFactory', factory);
 

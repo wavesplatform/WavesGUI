@@ -116,7 +116,6 @@
                     .then(() => this._reset());
             }
 
-
         }
 
         return new RatingStars();

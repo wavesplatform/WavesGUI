@@ -44,6 +44,10 @@
                 $scope.$apply();
             }
 
+            hasValue(object) {
+                return typeof object === 'number';
+            }
+
         }
 
         return new Asset();
