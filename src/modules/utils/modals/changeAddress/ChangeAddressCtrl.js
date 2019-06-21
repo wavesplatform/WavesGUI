@@ -21,6 +21,12 @@
 
         class ChangeAddressCtrl extends Base {
 
+            /**
+             * @public
+             * @type {string}
+             */
+            userName;
+
             constructor() {
                 super($scope);
                 /**
@@ -100,6 +106,14 @@
                 /**
                  * @type {boolean}
                  */
+
+                this.userName = user.name;
+                this.userType = user.userType;
+
+                this.isScript = user.hasScript();
+                this.isKeeper = user.userType === 'wavesKeeper';
+                this.isLedger = user.userType === 'ledger';
+                this.hasTypeHelp = this.isScript && (this.isLedger || this.isKeeper);
                 this.errorCreateAliasMsg = '';
 
                 this.receive(balanceWatcher.change, this._updateBalance, this);
@@ -118,6 +132,20 @@
                 this.aliases = waves.node.aliases.getAliasList();
                 this.observe(['newAlias'], this._validateNewAlias);
                 analytics.send({ name: 'Account Show', target: 'ui' });
+            }
+
+            $postLink() {
+                this.setDefaultUsername();
+            }
+
+            /**
+             * @public
+             */
+            setDefaultUsername() {
+                if (!this.userName) {
+                    this.userName = 'Account';
+                    /* TODO Olya add literal */
+                }
             }
 
             getSignableTx() {
