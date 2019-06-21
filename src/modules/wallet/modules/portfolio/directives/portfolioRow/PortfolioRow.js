@@ -191,10 +191,8 @@
                     this.isSmart = balance.asset.hasScript;
                     const firstAssetChar = this.balance.asset.name.slice(0, 1);
                     const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
-                    const {
-                        isVerified, isGateway,
-                        isTokenomica, logo
-                    } = utils.getDataFromOracles(this.balance.asset.id);
+                    const { isVerified, isGateway,
+                        isTokenomica, logo, isGatewaySoon } = utils.getDataFromOracles(this.balance.asset.id);
 
                     this.isVerifiedOrGateway = isVerified || isGateway;
 
@@ -204,6 +202,7 @@
                         isVerified: isVerified,
                         isGateway: isGateway,
                         isTokenomica: isTokenomica,
+                        isGatewaySoon: isGatewaySoon,
                         assetIconPath: logo ||
                             this.utils.getAssetLogo(this.balance.asset.id) ||
                             CONTEST_ASSET_ID_MAP[this.balance.asset.id],

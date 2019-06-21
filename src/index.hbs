@@ -313,7 +313,7 @@
             var WavesApp = {
                 name: 'Waves Client',
                 version: config.pack.version,
-                type: !config.isWeb ? 'desktop' : 'web',
+                type: !config.isWeb() ? 'desktop' : 'web',
                 matcherPriorityList: config.matcherPriorityList,
                 themesConf: config.themesConf,
                 progress: 0,
@@ -354,9 +354,10 @@
                     DASH: config.network.assets.DASH,
                     TRY: config.network.assets.TRY,
                     XMR: config.network.assets.XMR,
-                    VST: config.network.assets.VST
+                    VST: config.network.assets.VST,
+                    ERGO: config.network.assets.ERGO
                 },
-
+                tradingPairs: config.tradingPairs,
                 ALWAYS_PINNED_ASSETS: ['WAVES'],
 
                 otherAssetsWithIcons: {
@@ -608,6 +609,14 @@
                     id: 'welcome',
                     data: {
                         url: '/',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'saveSeed',
+                    data: {
+                        url: '/save-seed',
                         noLogin: true,
                         views: [{ name: 'main' }]
                     }
