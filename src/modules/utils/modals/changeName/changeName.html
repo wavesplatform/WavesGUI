@@ -2,26 +2,32 @@
     <md-dialog-content>
         <div class="relative content">
             <div class="btn icon-close" w-modal-close></div>
-            <h3 w-i18n="welcome.changeName"></h3>
+            <h3 class="text-center" w-i18n="welcome.changeName"></h3>
 
             <div w-i18n="welcome.currentAccountName"></div>
             <div class="input-like disabled address basic-900 mobile-caption-2 flex margin-2">
-                {{user.name}}ЧепушОнОк 😳
+                ЧепушОнОк 😳
             </div>
 
             <form action="action" name="setNewAccountName">
                 <div w-i18n="welcome.newAccountName"></div>
                 <w-input-container>
                     <w-input class="big long"></w-input>
+                    <w-input-error>
+                        <span w-i18n="welcome.inputErrorNameLenght"></span>
+                    </w-input-error>
+                    <w-input-error>
+                        <span w-i18n="welcome.inputErrorNameExists"></span>
+                    </w-input-error>
                 </w-input-container>
             </form>
 
             <div class="buttons-wrapper">
                 <w-button w-modal-close class="big long">
-                    <span w-i18n=welcome.cancel""></span>
+                    <span w-i18n="welcome.cancel"></span>
                 </w-button>
                 <w-button class="big long submit">
-                    <span w-i18n=welcome.save""></span>
+                    <span w-i18n="welcome.save"></span>
                 </w-button>
             </div>
         </div>
