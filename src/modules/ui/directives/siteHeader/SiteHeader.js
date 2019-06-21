@@ -24,6 +24,7 @@
                                  $scope) {
 
         const PATH = 'modules/ui/directives/siteHeader/templates';
+        const DEFAULT_USER_NAME = 'Account';
 
         class SiteHeaderCtrl extends Base {
 
@@ -37,15 +38,30 @@
              * @type {Array}
              */
             userList = [];
+            /**
+             * @public
+             * @type {boolean}
+             */
+            isUniqueUserName = true;
+            /**
+             * @public
+             * @type {boolean}
+             */
+            isUserNameLengthValid = true;
+            /**
+             * @public
+             * @type {number}
+             */
+            ERROR_DISPLAY_INTERVAL = 3;
 
             constructor() {
                 super($scope);
+                $scope.user = user;
                 this.hovered = false;
                 this.address = user.address || '3PHBX4uXhCyaANUxccLHNXw3sqyksV7YnDz';
                 this.isLogined = !!user.address;
-                this.userName = user.name;
                 this.userType = user.userType;
-
+                this.userName = user.name ? user.name : DEFAULT_USER_NAME;
                 this.isDesktop = WavesApp.isDesktop();
 
                 this.isScript = user.hasScript();
@@ -66,21 +82,12 @@
 
                 this.largeTemplate = `${PATH}/largeHeader.html`;
                 this.mobileTemplate = `${PATH}/mobileHeader.html`;
+
+                this.observe('userName', this._onChangeUserName);
             }
 
             $postLink() {
                 this._initClickHandlers();
-                this.setDefaultUsername();
-            }
-
-
-            /**
-             * @public
-             */
-            setDefaultUsername() {
-                if (!this.userName) {
-                    this.userName = 'Account'; /* TODO Olya add literal */
-                }
             }
 
             /**
@@ -96,12 +103,23 @@
             showTooltip() {
                 $element.find('.account-name-wrapper w-info-tooltip').show();
             }
+
+            /**
+             * @public
+             */
+            setUserName() {
+                if (!this.userName) {
+                    this.userName = DEFAULT_USER_NAME;
+                    user.name = null;
+                }
+            }
+
             /**
              * @public
              */
             handleBlur() {
                 this.showTooltip();
-                this.setDefaultUsername();
+                this.setUserName();
             }
 
             $onDestroy() {
@@ -206,6 +224,35 @@
                 $element.find('.dropdown-toggler').on('mouseleave', () => {
                     $element.find('.dropdown-fader').removeClass('show-fader');
                 });
+            }
+
+            /**
+             * @private
+             */
+            _onChangeUserName() {
+                this._checkUserNameExistence();
+                this._checkUserNameLength();
+                const isUserNameValid = this.isUniqueUserName && this.isUserNameLengthValid;
+
+                if (isUserNameValid) {
+                    user.name = this.userName;
+                }
+            }
+
+            /**
+             * @private
+             */
+            _checkUserNameExistence() {
+                this.isUniqueUserName = this.userList
+                    .filter(user => user.address !== this.address)
+                    .every(user => user.name !== this.userName);
+            }
+
+            /**
+             * @private
+             */
+            _checkUserNameLength() {
+                this.isUserNameLengthValid = this.userName ? this.userName.length <= 20 : true;
             }
 
         }
