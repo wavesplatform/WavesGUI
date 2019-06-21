@@ -7,6 +7,8 @@
 <div class="tooltip tooltip_vote" ng-if="$ctrl.canRate">
     <span class="tooltip__content" w-i18n="modal.assetInfo.rating.canVoteTip"></span>
 </div>
-<div class="tooltip tooltip_need-money" ng-if="$ctrl.canRate">
-    <span class="tooltip__content" w-i18n="modal.assetInfo.rating.needMoneyTip"></span>
+<div class="tooltip_need-money" ng-if="$ctrl.canRate">
+    <span class="tooltip__content">
+        <span class="tooltip__content__row" w-i18n="modal.assetInfo.rating.tooltipTitle"></span>
+    </span>
 </div>

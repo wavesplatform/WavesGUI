@@ -111,7 +111,8 @@
             }
 
             static getStar(index, filledAmount) {
-                return `<div class="rating-stars__star ${(index + 1) <= filledAmount ? 'filled' : ''}"></div>`;
+                return `<div w-modal-close class="rating-stars__star ${(index + 1) <= filledAmount ? 'filled' : ''}">
+                        </div>`;
             }
 
 
