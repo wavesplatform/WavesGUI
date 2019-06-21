@@ -51,5 +51,8 @@
       ]
     }
   },
-  "SERVICE_TEMPORARILY_UNAVAILABLE": false
+  "SERVICE_TEMPORARILY_UNAVAILABLE": false,
+  "GATEWAYS_SOON": [
+    "GVWSgVsmEx4KTAZPm31JZDmdehxFTFZBuy7V8gzb8JxE"
+  ]
 }

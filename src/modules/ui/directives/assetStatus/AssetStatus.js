@@ -35,12 +35,14 @@
                     isGateway,
                     isTokenomica,
                     isSuspicious,
+                    isGatewaySoon,
                     hasLabel
                 } = utils.getDataFromOracles(this.assetId);
                 this.isGateway = isGateway;
                 this.isTokenomica = isGateway ? false : isTokenomica;
                 this.isVerified = isTokenomica ? false : isVerified;
                 this.isSuspicious = isVerified ? false : isSuspicious;
+                this.isGatewaySoon = isGateway ? false : isGatewaySoon;
                 this.hasLabel = hasLabel;
 
                 // TODO: delete after contest

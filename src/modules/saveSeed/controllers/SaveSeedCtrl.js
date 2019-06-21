@@ -7,17 +7,14 @@
      * @param $state
      * @param user
      * @param modalManager
-     * @param {app.utils} appUtils
-     * @return {SignInCtrl}
+     * @return {SaveSeedCtrl}
      */
-    const controller = function (Base, $scope, $state, user, modalManager, appUtils) {
+    const controller = function (Base, $scope, $state, user, modalManager, utils) {
 
         const ds = require('data-service');
-        const analytics = require('@waves/event-sender');
-        const PATH = 'modules/signIn/templates';
-        const { utils } = require('@waves/signature-generator');
+        const PATH = 'modules/saveSeed/templates';
 
-        class SignInCtrl extends Base {
+        class SaveSeedCtrl extends Base {
 
             /**
              * @type {boolean}
@@ -44,6 +41,11 @@
              * @private
              */
             _activeUserIndex = null;
+            /**
+             * @type {boolean}
+             * @public
+             */
+            isVisibleSeed = false;
 
             get user() {
                 return this.userList[this._activeUserIndex];
@@ -59,15 +61,7 @@
                 this.observe('activeUserAddress', this._calculateActiveIndex);
                 this.observe('password', this._updatePassword);
 
-                analytics.send({ name: 'Onboarding Sign In Show', target: 'ui', params: { from: 'sign-in' } });
                 this._initUserList();
-            }
-
-            /**
-             * @public
-             */
-            showTutorialModals() {
-                return modalManager.showTutorialModals();
             }
 
 
@@ -81,7 +75,7 @@
                 }
             }
 
-            login() {
+            showSeed() {
                 try {
                     this.networkError = false;
                     this.showPasswordError = false;
@@ -100,11 +94,10 @@
                     }
 
                     return canLoginPromise.then(() => {
-                        return user.login({
-                            api,
-                            userType: api.type,
-                            password: this.password,
-                            address: activeUser.address
+                        this.isVisibleSeed = true;
+                        ds.app.login(activeUser.address, api);
+                        ds.signature.getSignatureApi().getSeed().then(seed => {
+                            this.seed = seed;
                         });
                     }, () => {
                         if (!this._isSeedAdapter(api)) {
@@ -125,18 +118,19 @@
             }
 
             /**
-             * @param {string} address
+             * @public
              */
-            removeUser(address) {
-                const user = this.userList.find((user) => user.address === address);
+            backToUsersList() {
+                this.password = '';
+                this.isVisibleSeed = false;
+                ds.app.logOut();
+            }
 
-                modalManager.showConfirmDeleteUser(user)
-                    .then(() => this._deleteUser(address))
-                    .then(() => {
-                        if (!this.userList.length) {
-                            $state.go('welcome');
-                        }
-                    });
+            /**
+             * @public
+             */
+            clickCopySeed() {
+                analytics.send({ name: 'Migration Import Continue Click', target: 'ui' });
             }
 
             /**
@@ -157,29 +151,19 @@
                 this.networkError = this.user.networkError;
             }
 
-            /**
-             * @return {Promise}
-             * @private
-             */
-            _deleteUser(address) {
-                return user.removeUserByAddress(address).then(() => {
-                    this.userList = this.userList.filter((user) => user.address !== address);
-                    this._updateActiveUserAddress();
-                    appUtils.safeApply($scope);
-                });
-            }
 
             /**
              * @private
              */
             _initUserList() {
-                user.getUserList()
-                    .then((list) => {
-                        this.userList = list.filter(user => utils.crypto.isValidAddress(user.address));
-                        this.pendingRestore = false;
-                        this._updateActiveUserAddress();
-                        appUtils.safeApply($scope);
+                user.getFilteredUserList().then(list => {
+                    this.userList = list;
+                    this.pendingRestore = false;
+                    this._updateActiveUserAddress();
+                    utils.postDigest($scope).then(() => {
+                        $scope.$apply();
                     });
+                });
             }
 
             /**
@@ -201,9 +185,9 @@
              */
             _updatePageUrl() {
                 if (this.userList.length) {
-                    this.pageUrl = `${PATH}/signInHasUsers.html`;
+                    this.pageUrl = `${PATH}/saveSeedHasUsers.html`;
                 } else {
-                    this.pageUrl = `${PATH}/signInNoUsers.html`;
+                    this.pageUrl = `${PATH}/saveSeedNoUsers.html`;
                 }
             }
 
@@ -232,11 +216,11 @@
 
         }
 
-        return new SignInCtrl();
+        return new SaveSeedCtrl();
     };
 
     controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', 'utils'];
 
-    angular.module('app.signIn')
-        .controller('SignInCtrl', controller);
+    angular.module('app.saveSeed')
+        .controller('SaveSeedCtrl', controller);
 })();
