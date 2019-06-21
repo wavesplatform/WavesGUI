@@ -277,7 +277,7 @@
             showAccountChangeName() {
                 return this._getModal({
                     id: 'changeName',
-                    templateUrl: 'modules/utils/modals/changeName/changeName.html',
+                    contentUrl: 'modules/utils/modals/changeName/changeName.html',
                     controller: 'ChangeNameCtrl'
                 });
             }
@@ -285,7 +285,7 @@
             showAccountChangeAddress() {
                 return this._getModal({
                     id: 'chaneAddress',
-                    templateUrl: 'modules/utils/modals/changeAddress/changeAddress.html',
+                    contentUrl: 'modules/utils/modals/changeAddress/changeAddress.html',
                     controller: 'ChangeAddressCtrl'
                 });
             }
