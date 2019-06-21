@@ -32,7 +32,10 @@ export function list(address: string, limit = 100, after: string): Promise<Array
 }
 
 export function getExchangeTxList(options: ExchangeTxFilters = Object.create(null)): Promise<Array<IExchange>> {
-    return request({ method: () => getDataService().getExchangeTxs(options).then(r => r.data) })
+    return request({ method: () => getDataService().getExchangeTxs({
+        ...options,
+        matcher: '7kPFrHDiGw1rCm7LPszuECwWYL3dMf6iMifLRDJQZMzy'
+    }).then(r => r.data) })
         .then((transactions: any) => parseTx(transactions, false, true) as any);
 }
 
