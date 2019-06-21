@@ -6,6 +6,7 @@ import {
     download,
     getAllLessFiles,
     getFilesFrom,
+    prepareExport,
     prepareHTML,
     run,
     task,
@@ -189,11 +190,13 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
 
                         const filePromise = prepareHTML(params);
                         const initScript = getInitScript(null, null, null, params);
-                        return Promise.all([filePromise, initScript]);
+                        const exportPromise = prepareExport();
+                        return Promise.all([filePromise, initScript, exportPromise]);
                     })
-                    .then(([file, initScript]) => Promise.all([
+                    .then(([file, initScript, exportTemplate]) => Promise.all([
                         outputFile(`${targetPath}/index.html`, file),
                         outputFile(`${targetPath}/init.js`, initScript),
+                        outputFile(`${targetPath}/export.html`, exportTemplate),
                     ]))
                     .then(() => done());
             });

@@ -142,7 +142,7 @@
 
             get isGatewayAccepted() {
                 return configService
-                    .get('PERMISSIONS.CAN_TRANSFER_GATEWAY').indexOf(this.balance.asset.id) !== -1;
+                    .get('PERMISSIONS.CANT_TRANSFER_GATEWAY').indexOf(this.balance.asset.id) === -1;
             }
 
             get isBankAccepted() {
@@ -319,6 +319,7 @@
                     this._updateGatewayDetails();
                 });
                 this._onChangeBaseAssets();
+                this._updateWavesTxObject();
             }
 
             onSignCoinomatStart() {
@@ -683,7 +684,8 @@
                             $scope.$apply();
                         }, (e) => {
                             this.gatewayDetails = null;
-                            if (e.message === 'Invalid wallet_to') {
+                            if (e.message === gatewayService.getAddressErrorMessage(this.balance.asset,
+                                this.tx.recipient, 'errorAddressMessage')) {
                                 this.gatewayAddressError = true;
                             } else {
                                 this.gatewayDetailsError = true;
