@@ -56,9 +56,30 @@
   border-radius: @border-radius;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.18);
   padding: 15px;
-  margin-top: 24px;
-  left: 40px;
   width: 100%;
+  margin-top: 10px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  min-width: 220px;
+
+  &:after {
+    left: 50%;
+    transform: translate(-50%, 0);
+    top: -11px;
+    position: absolute;
+    content: '';
+    z-index: 1;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 6px 6px 6px;
+    border-color: transparent transparent @color-submit-300 transparent;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 2;
+  }
 
   &__row {
     margin-bottom: 5px;
