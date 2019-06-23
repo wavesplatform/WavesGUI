@@ -368,7 +368,7 @@
                     );
                 }).catch(() => null);
 
-                if (balance.rating) {
+                if (typeof balance.rating === 'number') {
                     new RatingStarsFactory({
                         $container: this.$node.find(`.${SELECTORS.STARS_CONTAINER}`),
                         rating: balance.rating,
