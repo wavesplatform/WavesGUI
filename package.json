@@ -90,6 +90,7 @@
     "data-service": "sh scripts/dataservices.sh"
   },
   "dependencies": {
+    "@sentry/browser": "5.4.3",
     "@types/ramda": "0.25.34",
     "@uirouter/angularjs": "1.0.8",
     "@waves/assets-pairs-order": "4.0.0",
