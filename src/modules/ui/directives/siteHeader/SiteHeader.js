@@ -11,6 +11,7 @@
      * @param {$state} $state
      * @param {JQuery} $document
      * @param {JQuery} $element
+     * @param {app.i18n} i18n
      * @return {SiteHeaderCtrl}
      */
     const controller = function (Base,
@@ -21,10 +22,10 @@
                                  $element,
                                  $document,
                                  utils,
-                                 $scope) {
+                                 $scope,
+                                 i18n) {
 
         const PATH = 'modules/ui/directives/siteHeader/templates';
-        const DEFAULT_USER_NAME = 'Account';
 
         class SiteHeaderCtrl extends Base {
 
@@ -33,6 +34,11 @@
              * @type {string}
              */
             userName;
+            /**
+             * @public
+             * @type {string}
+             */
+            defaultUserName;
             /**
              * @public
              * @type {Array}
@@ -48,20 +54,18 @@
              * @type {boolean}
              */
             isUserNameLengthValid = true;
-            /**
-             * @public
-             * @type {number}
-             */
-            ERROR_DISPLAY_INTERVAL = 3;
 
             constructor() {
                 super($scope);
+
                 $scope.user = user;
+                $scope.ERROR_DISPLAY_INTERVAL = 3;
+                $scope.MAX_USER_NAME_LENGTH = 20;
+
                 this.hovered = false;
                 this.address = user.address || '3PHBX4uXhCyaANUxccLHNXw3sqyksV7YnDz';
                 this.isLogined = !!user.address;
                 this.userType = user.userType;
-                this.userName = user.name ? user.name : DEFAULT_USER_NAME;
                 this.isDesktop = WavesApp.isDesktop();
 
                 this.isScript = user.hasScript();
@@ -84,6 +88,11 @@
                 this.mobileTemplate = `${PATH}/mobileHeader.html`;
 
                 this.observe('userName', this._onChangeUserName);
+                this.observe('defaultUserName', () => {
+                    this.userName = user.name ? user.name : this.defaultUserName;
+                });
+                this._setDefaultUserName();
+                this.listenEventEmitter(i18next, 'languageChanged', this._setDefaultUserName.bind(this));
             }
 
             $postLink() {
@@ -109,7 +118,7 @@
              */
             setUserName() {
                 if (!this.userName) {
-                    this.userName = DEFAULT_USER_NAME;
+                    this.userName = this.defaultUserName;
                     user.name = null;
                 }
             }
@@ -254,11 +263,11 @@
              * @private
              */
             _onChangeUserName() {
-                this._checkUserNameExistence();
-                this._checkUserNameLength();
+                this._setIsUniqueUserName();
+                this._setIsUserNameLengthValid();
                 const isUserNameValid = this.isUniqueUserName && this.isUserNameLengthValid;
 
-                if (isUserNameValid) {
+                if (isUserNameValid && this.userName !== this.defaultUserName) {
                     user.name = this.userName;
                 }
             }
@@ -266,17 +275,23 @@
             /**
              * @private
              */
-            _checkUserNameExistence() {
-                this.isUniqueUserName = this.userList
-                    .filter(user => user.address !== this.address)
-                    .every(user => user.name !== this.userName);
+            _setIsUniqueUserName() {
+                this.isUniqueUserName =
+                    !this.userName ||
+                    this.userList
+                        .filter(user => user.address !== this.address)
+                        .every(user => user.name !== this.userName);
             }
 
             /**
              * @private
              */
-            _checkUserNameLength() {
-                this.isUserNameLengthValid = this.userName ? this.userName.length <= 20 : true;
+            _setIsUserNameLengthValid() {
+                this.isUserNameLengthValid = this.userName ? this.userName.length <= $scope.MAX_USER_NAME_LENGTH : true;
+            }
+
+            _setDefaultUserName() {
+                this.defaultUserName = i18n.translate('welcome.account', 'app.welcome');
             }
 
         }
@@ -293,7 +308,8 @@
         '$element',
         '$document',
         'utils',
-        '$scope'
+        '$scope',
+        'i18n'
     ];
 
     angular.module('app.ui').component('wSiteHeader', {
