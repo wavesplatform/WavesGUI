@@ -108,6 +108,13 @@
             }
 
             /**
+             * @return {Promise<Matcher.IFeeMap>}
+             */
+            getFeeMap() {
+                return ds.api.matcher.getFeeMap();
+            }
+
+            /**
              * @param {string} asset1
              * @param {string} asset2
              * @return {Promise<{bids, asks, pair: IAssetPair, spread: {amount: string, price: string, total: string}}>}
@@ -276,4 +283,9 @@
  * @property {string} status
  * @property {Money} total
  * @property {string} type
+ */
+
+/**
+ * @typedef {object} Matcher#IFeeMap
+ * @property {number}
  */

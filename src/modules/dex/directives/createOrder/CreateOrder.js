@@ -144,6 +144,10 @@
              * @type {Money}
              */
             maxAmount = null;
+            /**
+             * @type {Array}
+             */
+            feeList = [];
 
 
             constructor() {
@@ -201,6 +205,7 @@
                     matcherPublicKey
                 })).then(fee => {
                     this.fee = fee;
+                    this._getFeeList();
                     $scope.$apply();
                 });
 
@@ -884,6 +889,30 @@
                 }
                 this[field] = value;
                 this.order.$setDirty();
+            }
+
+            _getFeeList() {
+                return ds.api.matcher.getFeeMap()
+                    .then(list => {
+                        const assetsId = Object.keys(list);
+                        const feeWavesEquivalent = this.fee.getTokens();
+
+                        Promise.all(
+                            assetsId.map(id => waves.node.assets.getAsset(id))
+                        ).then(assets => {
+                            this.feeList = assets.map(asset => {
+                                const rate = new BigNumber(list[asset.id]);
+                                const precision = new BigNumber(Math.pow(10, asset.precision));
+                                return new Money(
+                                    rate.times(feeWavesEquivalent).times(precision),
+                                    asset
+                                );
+                            });
+                        });
+                    })
+                    .catch(() => {
+                        this.feeList = [];
+                    });
             }
 
             static _animateNotification($element) {
