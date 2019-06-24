@@ -3,7 +3,7 @@
 
     /**
      * @param Base
-     * @param {StateManager} stateManager
+     * @param {stateManager} stateManager
      * @param {ModalManager} modalManager
      * @param {app.utils} utils
      * @param $scope
@@ -11,7 +11,7 @@
      * @param {$state} $state
      * @param {JQuery} $document
      * @param {JQuery} $element
-     * @return {SiteHeader}
+     * @return {SiteHeaderCtrl}
      */
     const controller = function (Base,
                                  stateManager,
@@ -23,6 +23,8 @@
                                  utils,
                                  $scope) {
 
+        const PATH = 'modules/ui/directives/siteHeader/templates';
+
         class SiteHeaderCtrl extends Base {
 
             /**
@@ -31,7 +33,7 @@
              */
             userName;
             /**
-             * @private
+             * @public
              * @type {Array}
              */
             userList = [];
@@ -42,18 +44,7 @@
                 this.address = user.address || '3PHBX4uXhCyaANUxccLHNXw3sqyksV7YnDz';
                 this.isLogined = !!user.address;
                 this.userName = user.name;
-                this.receive(stateManager.changeRouteState, () => {
-                    this.subStateList = stateManager.subStateList;
-                    this.rootStateList = stateManager.rootStateList;
-                });
-                this.rootStateList = stateManager.rootStateList;
-                this.subStateList = stateManager.subStateList;
-                this.menuList = stateManager.getStateTree();
-                this.activeState = $state.$current.name.slice($state.$current.name.lastIndexOf('.') + 1);
                 this.userType = user.userType;
-                if (!this.isLogined) {
-                    this.activeState = this.activeState.replace('-demo', '');
-                }
 
                 this.isDesktop = WavesApp.isDesktop();
 
@@ -67,10 +58,18 @@
                     this.userList = list;
                     utils.postDigest($scope).then(() => {
                         this._initFader();
+                        this._initClickHandlers();
                         $scope.$apply();
                     });
                 });
 
+
+                this.largeTemplate = `${PATH}/largeHeader.html`;
+                this.mobileTemplate = `${PATH}/mobileHeader.html`;
+            }
+
+
+            $postLink() {
                 this._initClickHandlers();
             }
 
@@ -79,18 +78,16 @@
                 $element.find('.mobile-menu-fader, .mobile-menu-toggler').off();
             }
 
-            open(sref) {
-                if (this.isLogined) {
-                    $state.go(sref);
-                } else {
-                    this._getDialogModal(`open-${sref}`, () => $state.go('welcome'), () => $state.go('create'));
-                }
-            }
-
+            /**
+             * @public
+             */
             logout() {
                 user.logout();
             }
 
+            /**
+             * @public
+             */
             avatarClick() {
                 $document.find('body').removeClass('menu-is-shown');
                 if (this.isLogined) {
@@ -100,23 +97,15 @@
                 }
             }
 
+            /**
+             * @public
+             */
             settings() {
                 $document.find('body').removeClass('menu-is-shown');
                 if (this.isLogined) {
                     modalManager.showSettings();
                 } else {
                     this._getDialogModal('settings', () => $state.go('welcome'), () => $state.go('create'));
-                }
-            }
-
-            /**
-             * public
-             */
-            toWelcome() {
-                if (this.isLogined) {
-                    return modalManager.showConfirmLogout().then(() => {
-                        user.logout('welcome');
-                    });
                 }
             }
 
@@ -166,9 +155,13 @@
              * @private
              */
             _initClickHandlers() {
-                $element.find('.mobile-menu-fader, .mobile-menu-toggler').on('click', () => {
+                $element.find('.mobile-menu-toggler').on('click', () => {
                     $element.find('header').toggleClass('expanded');
                     $document.find('body').toggleClass('menu-is-shown');
+                });
+                $element.find('.mobile-menu-fader').on('click', () => {
+                    $element.find('header').removeClass('expanded');
+                    $document.find('body').removeClass('menu-is-shown');
                 });
             }
 
@@ -205,7 +198,7 @@
         bindings: {
             userList: '<'
         },
-        templateUrl: 'modules/ui/directives/siteHeader/siteHeader.html',
+        templateUrl: 'modules/ui/directives/siteHeader/templates/siteHeader.html',
         transclude: false,
         controller
     });
