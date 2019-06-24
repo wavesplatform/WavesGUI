@@ -55,7 +55,7 @@
             update(rating) {
                 const filledAmount = Math.round(rating);
                 const remapStars = index => ({
-                    $star: RatingStarsFactory.getStar(index, filledAmount)
+                    $star: this.getStar(index, filledAmount)
                 });
                 this.starsStringList = range(0, STARS_AMOUNT).map(remapStars);
                 this._render(this.$container);
@@ -110,8 +110,9 @@
                 this._initHandlers(this.hasBalance);
             }
 
-            static getStar(index, filledAmount) {
-                return `<div w-modal-close class="rating-stars__star ${(index + 1) <= filledAmount ? 'filled' : ''}">
+            getStar(index, filledAmount) {
+                return `<div ${this.canRate && this.hasBalance ? 'w-modal-close' : ''}
+                    class="rating-stars__star ${(index + 1) <= filledAmount ? 'filled' : ''}">
                         </div>`;
             }
 

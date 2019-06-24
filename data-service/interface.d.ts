@@ -44,7 +44,7 @@ export interface ITokenRating {
     txId: string
     voted: boolean;
     votes: array;
-    votesCount: 2;
+    votesCount: number;
 }
 
 export interface IParsedRating {

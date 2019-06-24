@@ -1,4 +1,3 @@
-// import { AssetPair, Money, BigNumber, OrderPrice } from '@waves/data-entities';
 import { request } from '../../utils/request';
 import { ITokenRating, IParsedRating } from '../../interface';
 import { stringifyJSON, toArray } from '../../utils/utils';
