@@ -238,8 +238,8 @@ w-asset {
 .tooltip.unpin-tooltip {
   display: none;
   position: absolute;
-  background: @color-disabled-500;
   top: 5px;
+  background: @color-basic-700;
   right: -12px;
   transform: translate(0, -40px);
   color: @color-white;
@@ -249,6 +249,7 @@ w-asset {
   font-size: 11px;
   line-height: 12px;
   text-transform: none;
+  opacity: .8;
 
   &::after {
     display: none;
@@ -263,6 +264,6 @@ w-asset {
     transform: rotate(45deg);
     bottom: -4px;
     left: calc(100% ~'- 26px');
-    background: @color-disabled-500;
+    background: @color-basic-700;
   }
 }
