@@ -991,8 +991,9 @@
             onExportUsers(origin, resolve) {
                 return (response) => {
                     if (!response) {
-                        return [];
+                        resolve([]);
                     }
+
                     resolve(response);
                 };
             },
