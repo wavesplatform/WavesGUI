@@ -14,7 +14,9 @@ w-rating-stars {
     &.can-rate:not(.has-balance) {
       &:hover {
         & ~ .tooltip_need-money {
-          display: block;
+          visibility: visible;
+          opacity: 1;
+          transition-delay: 0s;
         }
       }
     }

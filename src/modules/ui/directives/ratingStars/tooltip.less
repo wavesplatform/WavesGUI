@@ -47,7 +47,8 @@
 }
 
 .tooltip_need-money {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
   z-index: 19;
   position: absolute;
   color: @color-basic-700;
@@ -61,6 +62,13 @@
   left: 50%;
   transform: translate(-50%, 0);
   min-width: 220px;
+  transition: 0.3s;
+  transition-delay: 1s;
+  &:hover {
+    transition-delay: 0s;
+    visibility: visible;
+    opacity: 1;
+  }
 
   &:after {
     left: 50%;
