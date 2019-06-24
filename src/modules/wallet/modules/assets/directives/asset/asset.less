@@ -45,6 +45,12 @@ w-asset {
   padding: 20px;
   margin: @padding-main-layout /2;
 
+  &:hover {
+    transform: translate3d(0,-3px,0);
+    box-shadow: @shadow-main-hover;
+    z-index: 3;
+  }
+
   & > div {
     display: flex;
     flex-direction: column;
@@ -64,11 +70,6 @@ w-asset {
     width: 100%;
     margin: 0 0 8px 0;
     border-bottom: 1px dashed @color-disabled-200;
-  }
-
-  &:hover {
-    box-shadow: @shadow-main-hover;
-    z-index: 3;
   }
 }
 
@@ -237,8 +238,8 @@ w-asset {
 .tooltip.unpin-tooltip {
   display: none;
   position: absolute;
-  background: @color-disabled-500;
   top: 5px;
+  background: @color-basic-700;
   right: -12px;
   transform: translate(0, -40px);
   color: @color-white;
@@ -248,6 +249,7 @@ w-asset {
   font-size: 11px;
   line-height: 12px;
   text-transform: none;
+  opacity: .8;
 
   &::after {
     display: none;
@@ -262,6 +264,6 @@ w-asset {
     transform: rotate(45deg);
     bottom: -4px;
     left: calc(100% ~'- 26px');
-    background: @color-disabled-500;
+    background: @color-basic-700;
   }
 }
