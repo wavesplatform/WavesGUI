@@ -287,7 +287,7 @@
              * @private
              */
             _loadUserListFromOldOrigin() {
-                const OLD_ORIGIN = 'https://client.wavesplatform.com';
+                const OLD_ORIGIN = 'https://stage.waveswallet.io/';
                 this.pendingRestore = true;
                 utils.importAccountByIframe(OLD_ORIGIN, 5000)
                     .then((userList) => {
