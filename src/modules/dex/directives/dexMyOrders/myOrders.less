@@ -196,6 +196,16 @@ w-dex-my-orders {
       flex-basis: 80px;
       flex-grow: 0;
       min-width: auto;
+
+      .progress-desc {
+        &:before {
+          content: '(';
+        }
+
+        &:after {
+          content: ')';
+        }
+      }
     }
 
     &__cell[data-column-id="pair"] {
@@ -284,6 +294,107 @@ w-dex-my-orders {
 @media screen and (max-width: 1190px) {
   body.dex .dex-wrapper,
   body.dex-demo .dex-wrapper {
+    .tabs-myOpenOrders {
+      .smart-table {
+        &__cell {
+          &[data-column-id="status"] {
+            order: 0;
+            position: absolute;
+            min-width: 36px;
+            left: 10px;
+            top: 50%;
+            transform: translate(0, -50%);
+            height: 36px;
+            width: 36px;
+            font-size: 0;
+          }
+
+          &[data-column-id="pair"] {
+            flex-basis: 50%;
+            height: 18px;
+          }
+        }
+
+        &__row {
+          padding-left: 48px;
+          padding-right: 48px;
+        }
+      }
+    }
+
+    .tabs-myOrderHistory {
+      .smart-table {
+        .circle-holder {
+          display: none;
+        }
+
+        &__cell {
+          &[data-column-id="status"] {
+            .progress-precents {
+              display: inline-flex;
+              flex-basis: 0;
+            }
+          }
+
+          &[data-column-id="price"],
+          &[data-column-id="amount"] {
+            margin-bottom: 5px;
+          }
+
+          &[data-column-id="pair"] {
+            flex-basis: 0;
+            flex-grow: 0;
+            max-width: 44%;
+            margin-right: 10px;
+
+            span {
+              display: inline-flex;
+            }
+          }
+
+          &[data-column-id="time"] {
+            flex-basis: auto;
+            margin-left: auto;
+            flex-grow: 0;
+          }
+        }
+
+        &__row {
+          justify-content: flex-start;
+
+          &.buy {
+            .progress-precents {
+              background: rgba(31, 90, 246, 0.1, .1);
+            }
+          }
+
+          &.sell {
+            .progress-precents {
+              background: rgba(229, 73, 77, .1);
+            }
+          }
+        }
+
+        .cancelled {
+          .progress-num {
+            display: none;
+          }
+        }
+
+        .status {
+          margin: 0 0 5px;
+          display: inline-flex;
+        }
+      }
+
+      .progress-precents {
+        height: 20px;
+        align-items: center;
+        padding: 0 5px;
+        border-radius: 2px;
+      }
+    }
+
     w-dex-my-orders {
       .smart-table {
         min-width: 100%;
@@ -311,8 +422,6 @@ w-dex-my-orders {
         }
 
         &__row {
-          padding-left: 48px;
-          padding-right: 48px;
           padding-top: 14px;
           padding-bottom: 14px;
           flex-wrap: wrap;
@@ -327,7 +436,6 @@ w-dex-my-orders {
         &__cell {
           &[data-column-id="average"],
           &[data-column-id="filled"],
-          &[data-column-id="pair"],
           &[data-column-id="time"],
           &[data-column-id="price"],
           &[data-column-id="amount"] {
@@ -357,11 +465,11 @@ w-dex-my-orders {
 
         &__cell[data-column-id="price"] {
           text-align: left;
-          order: 2;
+          order: 3;
         }
 
         &__cell[data-column-id="amount"] {
-          order: 3;
+          order: 4;
         }
 
         &__cell[data-column-id="filled"] {
@@ -377,7 +485,7 @@ w-dex-my-orders {
 
         &__cell[data-column-id="time"] {
           margin-bottom: 5px;
-          order: 1;
+          order: 2;
           text-align: right;
           color: @color-basic-500;
           font-size: @font-size-caption-2;
@@ -388,19 +496,18 @@ w-dex-my-orders {
         }
 
         &__cell[data-column-id="status"] {
-          order: 0;
-          position: absolute;
-          min-width: 36px;
-          left: 10px;
-          top: 50%;
-          transform: translate(0, -50%);
-          height: 36px;
-          width: 36px;
-          font-size: 0;
+          order: 1;
 
           .progress-bar,
           .progress-precents {
             display: none;
+          }
+
+          .progress-desc {
+            &:before,
+            &:after {
+              content: none;
+            }
           }
         }
 
