@@ -22,6 +22,9 @@
             {{#if isTokenomica}}
                 <span class="status-label-min active" w-i18n-literal="tokenomica"></span>
             {{/if}}
+            {{#if isGatewaySoon}}
+                <span class="status-label-min active" w-i18n-literal="gateway soon"></span>
+            {{/if}}
             <span class="status-label-min inactive {{SELECTORS.SUSPICIOUS_LABEL}}" w-i18n-literal="suspicious"></span>
         </div>
     </div>
