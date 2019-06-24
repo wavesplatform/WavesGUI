@@ -5,9 +5,10 @@
      * @param {Assets} assets
      * @param {app.utils} utils
      * @param {app.utils.decorators} decorators
+     * @param {Transactions} transactions
      * @return {WavesUtils}
      */
-    const factory = function (assets, utils, decorators) {
+    const factory = function (assets, utils, decorators, transactions) {
 
         const ds = require('data-service');
         const entities = require('@waves/data-entities');
@@ -208,7 +209,7 @@
 
                 return ds.api.pairs.get(fromId, toId)
                     .then((pair) => {
-                        return ds.api.transactions.getExchangeTxList({
+                        return transactions.getExchangeTxList({
                             limit: 5,
                             amountAsset: pair.amountAsset,
                             priceAsset: pair.priceAsset
@@ -321,7 +322,7 @@
         return new WavesUtils();
     };
 
-    factory.$inject = ['assets', 'utils', 'decorators'];
+    factory.$inject = ['assets', 'utils', 'decorators', 'transactions'];
 
     angular.module('app')
         .factory('wavesUtils', factory);
