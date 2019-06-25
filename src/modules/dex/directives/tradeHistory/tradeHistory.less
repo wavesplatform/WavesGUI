@@ -10,6 +10,34 @@ w-dex-trade-history {
     &__row {
       flex-wrap: nowrap;
       padding: 6px 14px;
+
+      &.disabled {
+        .smart-table__cell {
+          opacity: 0.4;
+        }
+        .smart-table__cell.cell_stop {
+          opacity: 1;
+        }
+        .cell_set-pair {
+          cursor: default;
+          a {
+            cursor: default;
+          }
+        }
+
+        &:hover {
+          background: @color-white;
+          .cell_set-pair {
+            a::after{
+              display: none;
+            }
+          }
+
+          .tooltip-dex {
+            display: flex;
+          }
+        }
+      }
     }
 
     &__cell {
