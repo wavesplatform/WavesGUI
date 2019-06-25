@@ -576,6 +576,7 @@
                             }
                         });
 
+                        analytics.addDefaultParams({ userType: this.userType });
                         this.lastLogin = Date.now();
 
                         if (this._settings) {

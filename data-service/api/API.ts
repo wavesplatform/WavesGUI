@@ -19,6 +19,7 @@ import { getLastPrice } from './matcher/getLastPrice';
 import { getPairRestrictions } from './matcher/getPairRestrictions';
 import { getAddressByAlias, getAliasesByAddress } from './aliases/aliases';
 import * as pairsModule from './pairs/pairs';
+import * as ratingModule from './rating/rating';
 import * as dataModule from './data';
 
 
@@ -38,6 +39,10 @@ export const utils = { ...utilsFunctions, request, assetStorage };
 
 export const pairs = {
     ...pairsModule
+};
+
+export const rating = {
+    ...ratingModule
 };
 
 export const data = {

@@ -30,9 +30,10 @@
 
             $postLink() {
                 this.transaction = this.signable.getTxData();
-                this.signable.getDataForApi().then(json => {
-                    this.json = WavesApp.stringifyJSON(json, null, 4);
-                });
+                // TODO copy JSON
+                // this.signable.getDataForApi().then(json => {
+                //     this.json = WavesApp.stringifyJSON(json, null, 4);
+                // });
                 (this.transaction.id ? Promise.resolve(this.transaction.id) : this.signable.getId())
                     .then(id => {
                         this.id = id;

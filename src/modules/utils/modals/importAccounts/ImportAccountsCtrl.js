@@ -6,15 +6,17 @@
      * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
      * @param {User} user
+     * @param {$mdDialog} $mdDialog
      * @param {Storage} storage
      * @param {*} $state
      * @returns {ImportAccountsCtrl}
      */
     const controller = function (Base, $scope, utils, user, storage, $state, $mdDialog) {
 
-        const R = require('ramda');
+        const { find, propEq, uniqBy, filter, pipe, prop } = require('ramda');
+        const { utils: generatorUtils } = require('@waves/signature-generator');
 
-        const OLD_ORIGIN = 'https://waveswallet.io';
+        const OLD_ORIGIN = 'https://client.wavesplatform.com';
 
         class ImportAccountsCtrl extends Base {
 
@@ -27,12 +29,11 @@
 
                 this.pending = true;
                 this.userList = [];
-                this.wasImportBeta = true;
                 this.wasImportOld = false;
                 this.checkedHash = Object.create(null);
                 this._myUserList = [];
 
-                const userListPromise = user.getUserList().catch(() => []);
+                const userListPromise = user.getFilteredUserList().catch(() => []);
 
                 userListPromise.then(
                     (userList) => {
@@ -42,13 +43,20 @@
                 );
             }
 
+            /**
+             * @public
+             * @return {Promise<T | never>}
+             */
             importAccounts() {
-                const users = Object.keys(this.checkedHash).map((address) => {
-                    return R.find(R.propEq('address', address), this.userList);
-                });
+                const users = Object.keys(this.checkedHash)
+                    .filter(address => this.checkedHash[address])
+                    .map((address) => {
+                        return find(propEq('address', address), this.userList);
+                    });
 
-                return user.getUserList()
+                return user.getFilteredUserList()
                     .then((list) => storage.save('userList', list.concat(users)))
+                    .then(() => storage.save('accountImportComplete', true))
                     .then(() => {
                         $mdDialog.hide();
                         $state.go('welcome');
@@ -57,32 +65,26 @@
 
             importFromOld() {
                 this.wasImportOld = true;
-                return this._import(OLD_ORIGIN, 'old');
+                return this._import(OLD_ORIGIN);
             }
 
-            _import(origin, name) {
-                this.pending = true;
-
+            _import(origin) {
                 return utils.importAccountByTab(origin, 5000)
                     .catch(() => [])
                     .then(list => {
                         this.pending = false;
-                        this._addAccountList({ [name]: list });
+                        const filteredList = list.filter(user => generatorUtils.crypto.isValidAddress(user.address));
+                        this._addAccountList(filteredList);
                     });
             }
 
-            _addAccountList({ beta, old }) {
-                beta = beta || [];
-                old = old || [];
-
+            _addAccountList(list) {
                 const myUsersHash = utils.toHash(this._myUserList || [], 'address');
-                this.userList = R.pipe(
-                    R.uniqBy(R.prop('address')),
-                    R.filter(user => !myUsersHash[user.address])
-                )(beta.concat(old));
+                this.userList = pipe(
+                    uniqBy(prop('address')),
+                    filter(user => !myUsersHash[user.address])
+                )(list).reverse();
 
-
-                this.checkedHash = Object.create(null);
                 this.userList.forEach((user) => {
                     this.checkedHash[user.address] = true;
                 });
