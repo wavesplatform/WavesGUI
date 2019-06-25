@@ -7,8 +7,7 @@
   height: 100%;
 
   &__head {
-    padding-top: @padding-main-layout * 4;
-    height: 170px;
+    height: 130px;
     position: relative;
   }
 
@@ -18,7 +17,7 @@
 
   &__logo {
     position: relative;
-    margin: 0 20px 0 0;
+    margin: 0 10px 0 0;
     left: 0;
     z-index: 1;
   }
@@ -26,8 +25,8 @@
   &__name {
     display: flex;
     align-items: center;
-    margin: 0;
-    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
   }
 
   &__data {
@@ -60,25 +59,26 @@
     }
   }
 
-  .rating-wrapper {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-top: 7px;
-  }
+  .rating {
+    &-wrapper {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-top: 7px;
+    }
 
-  .rating-number {
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: normal;
-    margin-left: 10px;
+    &-number {
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: normal;
+      margin-left: 10px;
+    }
   }
 }
 
-html body md-dialog.asset-info-modal {
+.asset-info-modal {
 
   md-dialog-content {
-    padding: 0 40px;
     overflow-y: hidden;
 
     &::after {
@@ -273,7 +273,7 @@ html body md-dialog.asset-info-modal {
 
 @media screen and (max-width: 768px) {
 
-  html body md-dialog.asset-info-modal {
+  .asset-info-modal {
     .tab-container w-transaction-list {
       .w-visible {
         height: 91px;
@@ -298,13 +298,11 @@ html body md-dialog.asset-info-modal {
 }
 
 @media screen and (max-width: 540px) {
-  html body md-dialog.asset-info-modal {
+  .asset-info-modal {
     padding-bottom: 0;
 
     md-dialog-content {
       overflow-y: auto;
-      height: auto;
-      padding: 0 20px;
     }
 
     w-tabs.inner {
@@ -353,7 +351,7 @@ html body md-dialog.asset-info-modal {
 }
 
 @media screen and (max-width: 420px) {
-  html body md-dialog.asset-info-modal {
+  .asset-info-modal {
     .padding-content .tab-tem {
       .line.chart-container {
         flex-direction: column;
