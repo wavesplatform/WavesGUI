@@ -34,7 +34,9 @@
                     this.ticker = asset.ticker;
                     const { hasLabel, isGateway } = utils.getDataFromOracles(asset.id);
                     this.hasLabel = hasLabel;
-                    this.isGateway = isGateway && this.assetId !== WavesApp.defaultAssets.VST;
+                    this.isGatewayOrWaves = this.assetId === WavesApp.defaultAssets.WAVES ||
+                        isGateway &&
+                        this.assetId !== WavesApp.defaultAssets.VST;
                     $scope.$apply();
                 });
 
