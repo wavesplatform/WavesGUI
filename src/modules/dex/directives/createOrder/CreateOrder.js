@@ -185,8 +185,16 @@
                  * @type {Poll}
                  */
                 const spreadPoll = createPoll(this, this._getData, this._setData, 1000);
+                /**
+                 * @type {Poll}
+                 */
+                const feePoll = createPoll(this, this._getFeeMap, this._updateFeeList, 20000);
 
-                this.receive(balanceWatcher.change, this._updateBalances, this);
+                const onChangeBalanceWatcher = () => {
+                    this._updateBalances();
+                    this._updateFeeList();
+                };
+                this.receive(balanceWatcher.change, onChangeBalanceWatcher, this);
                 this._updateBalances();
 
                 const lastTradePromise = new Promise((resolve) => {
@@ -205,7 +213,8 @@
                     matcherPublicKey
                 })).then(fee => {
                     this.fee = fee;
-                    this._getFeeList();
+                }).then(() => {
+                    this._updateFeeList();
                     $scope.$apply();
                 });
 
@@ -248,6 +257,7 @@
                         }
                     }));
                     currentFee();
+                    feePoll.restart();
                 });
 
                 this.observe(['priceBalance', 'total', 'maxPriceBalance'], this._setIfCanBuyOrder);
@@ -891,28 +901,47 @@
                 this.order.$setDirty();
             }
 
-            _getFeeList() {
-                return ds.api.matcher.getFeeMap()
+            /**
+             *
+             * @return {Promise<T | never>}
+             * @private
+             */
+            _updateFeeList() {
+                return this._getFeeMap()
                     .then(list => {
                         const assetsId = Object.keys(list);
                         const feeWavesEquivalent = this.fee.getTokens();
 
                         Promise.all(
-                            assetsId.map(id => waves.node.assets.getAsset(id))
-                        ).then(assets => {
-                            this.feeList = assets.map(asset => {
-                                const rate = new BigNumber(list[asset.id]);
-                                const precision = new BigNumber(Math.pow(10, asset.precision));
-                                return new Money(
-                                    rate.times(feeWavesEquivalent).times(precision),
-                                    asset
-                                );
-                            });
+                            assetsId.map(id => balanceWatcher.getBalanceByAssetId(id))
+                        ).then(balances => {
+                            const filteredFeeList = balances
+                                .map(balance => {
+                                    const rate = new BigNumber(list[balance.asset.id]);
+                                    return balance.cloneWithTokens(
+                                        rate.times(feeWavesEquivalent)
+                                    );
+                                })
+                                .filter((fee, i) => fee.lte(balances[i]));
+
+                            if (filteredFeeList.length === 1) {
+                                this.fee = filteredFeeList[0];
+                            } else {
+                                this.feeList = filteredFeeList;
+                            }
                         });
                     })
                     .catch(() => {
                         this.feeList = [];
                     });
+            }
+
+            /**
+             * @return {Promise<Matcher.IFeeMap>}
+             * @private
+             */
+            _getFeeMap() {
+                return waves.matcher.getFeeMap();
             }
 
             static _animateNotification($element) {

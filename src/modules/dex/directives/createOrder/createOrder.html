@@ -225,12 +225,13 @@
 
                     <div class="expiration">
 
-                        <div ng-if="!$ctrl.feeList.length"
-                             params="{fee: $ctrl.fee.toFormat()}"
-                             w-i18n="directives.createOrder.fee"></div>
+                        <div ng-if="!$ctrl.feeList.length">
+                            <span w-i18n="directives.createOrder.matcherFee"></span>
+                            {{::$ctrl.fee.toFormat()}} {{($ctrl.fee.asset.ticker || $ctrl.fee.asset.displayName)}}
+                        </div>
 
                         <div ng-if="$ctrl.feeList.length">
-                            <span w-i18n="directives.createOrder.feeCustom"></span>
+                            <span w-i18n="directives.createOrder.matcherFee"></span>
                             <w-select class="select__no-user-select" ng-model="$ctrl.fee" up-direction="true">
                                 <w-option ng-repeat="fee in $ctrl.feeList" value="::fee">
                                     {{::fee.toFormat()}} {{(fee.asset.ticker || fee.asset.displayName)}}

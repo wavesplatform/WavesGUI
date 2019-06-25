@@ -17,6 +17,9 @@
      */
     const factory = function (utils, decorators, i18n, user, PollCache, configService) {
 
+        /**
+         * @class
+         */
         class Matcher {
 
             constructor() {
@@ -110,6 +113,7 @@
             /**
              * @return {Promise<Matcher.IFeeMap>}
              */
+            @decorators.cachable(5)
             getFeeMap() {
                 return ds.api.matcher.getFeeMap();
             }
