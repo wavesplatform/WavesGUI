@@ -7,9 +7,10 @@
      * @param user
      * @param waves
      * @param utils
+     * @param createPoll
      * @return {AssetInfoHead}
      */
-    const controller = function (Base, $scope, user, waves, utils) {
+    const controller = function (Base, $scope, user, waves, utils, createPoll) {
 
         class AssetInfoHead extends Base {
 
@@ -21,6 +22,7 @@
             $postLink() {
                 this._getAssetInfo();
                 this.observe('assetId', this._getAssetInfo);
+                createPoll(this, this._getTokenRating, this._setTokenRating, 60 * 1000);
             }
 
             /**
@@ -30,12 +32,25 @@
                 waves.node.assets.getAsset(this.assetId).then(asset => {
                     this.assetName = asset.name;
                     this.ticker = asset.ticker;
-                    const { hasLabel } = utils.getDataFromOracles(asset.id);
+                    const { hasLabel, isGateway } = utils.getDataFromOracles(asset.id);
                     this.hasLabel = hasLabel;
+                    this.isGateway = isGateway && this.assetId !== WavesApp.defaultAssets.VST;
                     $scope.$apply();
                 });
 
                 this.state = { assetId: this.assetId };
+            }
+
+            _getTokenRating() {
+                return ds.api.rating.getAssetsRating(this.assetId);
+            }
+
+            _setTokenRating([asset]) {
+                if (!asset) {
+                    return null;
+                }
+                this.rating = asset.rating;
+                $scope.$apply();
             }
 
         }
@@ -43,7 +58,7 @@
         return new AssetInfoHead();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'waves', 'utils'];
+    controller.$inject = ['Base', '$scope', 'user', 'waves', 'utils', 'createPoll'];
 
     angular.module('app.ui')
         .component('wAssetInfoHead', {
