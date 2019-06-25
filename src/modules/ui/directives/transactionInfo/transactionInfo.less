@@ -89,7 +89,38 @@ w-transaction-info-header + w-transaction-info-general {
 
     h3 {
       margin: 0 0 6px;
+      &.vote-token-h3 {
+        margin: 20px 0 6px;
+      }
     }
+
+    .txinfo__rating {
+      padding-top: 83px;
+    }
+
+    .tooltip {
+      min-height: 30px;
+      display: none;
+      position: absolute;
+      bottom: 100%;
+      padding: 5px 0 5px 10px;
+      transform: translate(calc(-50% + 8px), -8px);
+      z-index: 2;
+      cursor: pointer;
+      border-radius: 4px;
+      background: #4e5c6e;
+    }
+    &__content {
+      color: #fff;
+      font-size: 11px;
+      max-width: 240px;
+      max-height: 150px;
+      width: max-content;
+      overflow: auto;
+      display: block;
+      padding-right: 10px;
+    }
+
   }
 
   &__header-wrapper {
