@@ -36,7 +36,8 @@
                     this.hasLabel = hasLabel;
                     this.isGatewayOrWaves = this.assetId === WavesApp.defaultAssets.WAVES ||
                         isGateway &&
-                        this.assetId !== WavesApp.defaultAssets.VST;
+                        this.assetId !== WavesApp.defaultAssets.VST &&
+                        this.assetId !== WavesApp.defaultAssets.ERGO;
                     $scope.$apply();
                 });
 
