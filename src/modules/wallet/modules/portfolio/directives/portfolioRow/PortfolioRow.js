@@ -585,7 +585,7 @@
                 const btnCreate = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_CREATE}`);
                 const btnEdit = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_EDIT}`);
                 const btnStop = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_STOP}`);
-                const icon = this.node.querySelector(`.${SELECTORS.SPONSORED} .marker`);
+                const icon = this.node.querySelector(`.${SELECTORS.SPONSORED} .asset__marker`);
 
                 btnCreate.classList.toggle('hidden', isSmart || !(canSponsored && !canStopSponsored));
                 btnEdit.classList.toggle('hidden', !(canSponsored && canStopSponsored));
@@ -594,7 +594,7 @@
                 Promise.resolve(list || this.waves.node.getFeeList({ type: SIGN_TYPE.TRANSFER }))
                     .then((list) => {
                         const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
-                        icon.classList.toggle('sponsored-asset', !!canPayFee);
+                        icon.classList.toggle('asset__marker-sponsored', !!canPayFee);
                     });
             }
 

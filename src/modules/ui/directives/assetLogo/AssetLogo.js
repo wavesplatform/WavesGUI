@@ -138,12 +138,12 @@
                     .css({
                         'background-color': color
                     });
-                $element.find('.asset__logo .letter')
+                $element.find('.asset__logo .asset__letter')
                     .text(letter)
                     .css({
                         'font-size': `${fontSize}px`
                     });
-                $element.find('.asset__logo .marker')
+                $element.find('.asset__logo .asset__marker')
                     .css({
                         'background-color': color
                     });
@@ -153,7 +153,7 @@
              * @private
              */
             _onChangeCanPayFee() {
-                $element.find('.marker').toggleClass('sponsored-asset', this._canPayFee);
+                $element.find('.asset__marker').toggleClass('asset__marker-sponsored', this._canPayFee);
             }
 
             /**
@@ -161,7 +161,7 @@
              */
             _onChangeIsSmart() {
                 const isSmart = isEmpty(this.hasScript) ? this._isSmart : this.hasScript;
-                $element.find('.marker').toggleClass('smart-asset', isSmart);
+                $element.find('.asset__marker').toggleClass('asset__marker-smart', isSmart);
             }
 
         }
@@ -173,7 +173,7 @@
 
     angular.module('app.ui')
         .component('wAssetLogo', {
-            template: '<div class="asset__logo footnote-3"><div class="letter"></div><div class="marker"></div></div>',
+            templateUrl: 'modules/ui/directives/assetLogo/asset-logo.html',
             controller: controller,
             bindings: {
                 assetId: '@',

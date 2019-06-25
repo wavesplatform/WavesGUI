@@ -25,64 +25,56 @@ w-asset-logo {
     text-align: center;
     border-radius: 50%;
     color: @white-only;
-    left: 100%;
+    left: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    margin-right: 10px;
 
     &-custom,
     &.custom {
-      .marker {
+      .asset__marker {
         background-color: @custom-asset-marker-bg;
       }
     }
+  }
 
-    .marker {
-      display: none;
-      width: 15px;
-      height: 15px;
-      position: absolute;
-      bottom: -2px;
-      right: -2px;
-      border: 2px solid @color-white;
-      border-radius: 50%;
-      background-position: center;
-      background-repeat: no-repeat;
+  &__marker {
+    display: none;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    border: 2px solid @color-white;
+    border-radius: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    &-smart {
+      background-image: url(/img/icons/smart-asset-marker.svg);
+      display: block;
     }
 
-    &.little {
-      .marker {
-        display: none;
-      }
+    &-sponsored {
+      background-image: url(/img/icons/sponosred-asset-marker.svg);
+      display: block;
     }
   }
-}
 
-.smart-asset {
-  background-image: url(/img/icons/smart-asset-marker.svg);
-  display: block;
-}
-
-.sponsored-asset {
-  background-image: url(/img/icons/sponosred-asset-marker.svg);
-  display: block;
-}
-
-.asset {
-  &__logo {
-    .marker {
-      &.sponsored-asset,
-      &.smart-asset {
-        display: block;
-      }
+  &.little & {
+    &__marker {
+      display: none;
     }
   }
 }
 
 .change-token {
-  .sponsored-asset,
-  .smart-asset {
-    .marker {
+  .asset__marker-sponsored,
+  .asset__marker-smart {
+    .asset__marker {
       display: block;
       width: 24px;
       height: 24px;
