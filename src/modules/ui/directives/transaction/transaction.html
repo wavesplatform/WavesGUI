@@ -5,30 +5,30 @@
                             transaction="$ctrl.transaction"
                             date-pattern="$ctrl.datePattern"
                             is-scam="$ctrl.isScam"></w-transaction-info-row>
-    <w-actions analytics-text="'Leasing Menu Click'" class="actions">
+    <w-actions analytics-text="'Leasing Menu Click'"  class="actions">
         <w-analytics event="'Leasing Menu Tx Click'" event-target="'ui'">
-            <w-action ng-click="$ctrl.showTransaction()">
-                <span w-i18n="transaction.actions.showTx"></span>
+            <w-action class="actionItem" ng-click="$ctrl.showTransaction()">
+                <span class="actionItem__text" w-i18n="transaction.actions.showTx"></span>
             </w-action>
         </w-analytics>
         <div w-copy="::$ctrl.transaction.id">
             <w-analytics event="'Leasing Menu Copy Tx ID Click'" event-target="'ui'">
-                <w-action>
-                    <span w-i18n="transaction.actions.copyTxId"></span>
+                <w-action class="actionItem">
+                    <span class="actionItem__text" w-i18n="transaction.actions.copyTxId"></span>
                 </w-action>
             </w-analytics>
         </div>
         <div w-copy="::$ctrl.getCopyAllData()">
             <w-analytics event="'Leasing Menu Copy all Tx Data Click'" event-target="'ui'">
-                <w-action>
-                    <span w-i18n="transaction.actions.copyTxData"></span>
+                <w-action class="actionItem">
+                    <span class="actionItem__text" w-i18n="transaction.actions.copyTxData"></span>
                 </w-action>
             </w-analytics>
         </div>
         <w-analytics event="'Leasing Menu Cancel Leasing Click'" event-target="'ui'">
-            <w-action ng-if="$ctrl.typeName === 'lease-out' && $ctrl.transaction.isActive"
+            <w-action class="actionItem" ng-if="$ctrl.typeName === 'lease-out' && $ctrl.transaction.isActive"
                       ng-click="$ctrl.cancelLeasing()">
-                <span w-i18n="transaction.actions.cancelLeasing"></span>
+                <span class="actionItem__text" w-i18n="transaction.actions.cancelLeasing"></span>
             </w-action>
         </w-analytics>
     </w-actions>

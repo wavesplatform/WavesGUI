@@ -124,79 +124,79 @@
             </span>
         {{/if}}
 
-        <div class="w-actions">
-            <div class="actions-wrapper">
-                <div class="click-area" role="button" tabindex="0">
+        <div class="actions">
+            <div class="actions__wrapper">
+                <div class="actions__click" role="button" tabindex="0">
                     <div class="dots">
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
+                        <div class="dots__item"></div>
+                        <div class="dots__item"></div>
+                        <div class="dots__item"></div>
                     </div>
-                    <div class="actions-container">
+                    <div class="actions__container">
 
-                        <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.ASSET_INFO}}"
+                        <div class="actionItem disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.ASSET_INFO}}"
                              role="button" tabindex="0">
-                            <span w-i18n-literal="info"></span>
+                            <span w-i18n-literal="info" class="actionItem__text"></span>
                         </div>
 
-                        <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SEND}}"
+                        <div class="actionItem disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SEND}}"
                              role="button" tabindex="0">
-                            <span w-i18n-literal="send"></span>
+                            <span w-i18n-literal="send" class="actionItem__text"></span>
                         </div>
 
-                        <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.RECEIVE}}"
+                        <div class="actionItem disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.RECEIVE}}"
                              role="button" tabindex="0">
-                            <span w-i18n-literal="receive"></span>
+                            <span w-i18n-literal="receive" class="actionItem__text"></span>
                         </div>
 
                         {{#if canBurn}}
-                            <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.BURN}}"
+                            <div class="actionItem disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.BURN}}"
                                  role="button" tabindex="0">
-                                <span w-i18n-literal="burn"></span>
+                                <span w-i18n-literal="burn" class="actionItem__text"></span>
                             </div>
                         {{/if}}
 
                         {{#if canReissue}}
-                            <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.REISSUE}}"
+                            <div class="actionItem disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.REISSUE}}"
                                  role="button" tabindex="0">
-                                <span w-i18n-literal="reissue"></span>
+                                <span w-i18n-literal="reissue" class="actionItem__text"></span>
                             </div>
                         {{/if}}
 
-                        <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SPONSORSHIP_CREATE}}"
+                        <div class="actionItem disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SPONSORSHIP_CREATE}}"
                              role="button" tabindex="0">
-                            <span w-i18n-literal="sponsorship"></span>
+                            <span w-i18n-literal="sponsorship" class="actionItem__text"></span>
                         </div>
 
-                        <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SPONSORSHIP_EDIT}}"
+                        <div class="actionItem disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SPONSORSHIP_EDIT}}"
                              role="button" tabindex="0">
-                            <span w-i18n-literal="sponsorshipChange"></span>
+                            <span w-i18n-literal="sponsorshipChange" class="actionItem__text"></span>
                         </div>
 
-                        <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SPONSORSHIP_STOP}}"
+                        <div class="actionItem disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SPONSORSHIP_STOP}}"
                              role="button" tabindex="0">
-                            <span w-i18n-literal="sponsorshipStop"></span>
+                            <span w-i18n-literal="sponsorshipStop" class="actionItem__text"></span>
                         </div>
 
                         {{#if canSetAssetScript}}
-                            <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SET_ASSET_SCRIPT}}"
+                            <div class="actionItem disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.SET_ASSET_SCRIPT}}"
                                  role="button" tabindex="0">
-                                <span w-i18n-literal="setAssetScript"></span>
+                                <span w-i18n-literal="setAssetScript" class="actionItem__text"></span>
                             </div>
                         {{/if}}
 
                         {{#if canShowDex}}
-                            <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.DEX}}"
+                            <div class="actionItem disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.DEX}}"
                                  role="button" tabindex="0">
-                                <span w-i18n-literal="dex"></span>
+                                <span w-i18n-literal="dex" class="actionItem__text"></span>
                             </div>
                         {{/if}}
 
                         {{#if canShowToggleSpam}}
-                            <div class="action disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.TOGGLE_SPAM}}"
+                            <div class="actionItem disabled-900 body-2 {{SELECTORS.ACTION_BUTTONS.TOGGLE_SPAM}}"
                                  role="button" tabindex="0">
-                                <span w-i18n-literal="tospam" class="tospam"></span>
-                                <span w-i18n-literal="unspam" class="unspam"></span>
+                                <span w-i18n-literal="tospam" class="actionItem__text tospam"></span>
+                                <span w-i18n-literal="unspam" class="actionItem__text unspam"></span>
                             </div>
                         {{/if}}
                     </div>

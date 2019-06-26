@@ -384,11 +384,11 @@
             _initActions() {
                 let expanded = false;
 
-                const $wrapper = this.$node.find('.actions-wrapper');
+                const $wrapper = this.$node.find('.actions__wrapper');
 
                 const toggleExpanded = () => {
                     expanded = !expanded;
-                    const conteiner = this.$node.find('.actions-container');
+                    const conteiner = this.$node.find('.actions__container');
                     const conteinerNode = conteiner.get(0);
                     conteiner.toggleClass('expanded', expanded);
 
@@ -410,7 +410,7 @@
                     }
                 };
 
-                this.$node.find('.click-area').on('click', () => {
+                this.$node.find('.actions__click').on('click', () => {
                     toggleExpanded();
                 });
 

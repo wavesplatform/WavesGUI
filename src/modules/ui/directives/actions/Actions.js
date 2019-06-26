@@ -31,7 +31,7 @@
                 /**
                  * @type {string}
                  */
-                this.DROP_DOWN_CLASS = 'actions-container';
+                this.DROP_DOWN_CLASS = 'actions__container';
 
                 /**
                  * @type {boolean}

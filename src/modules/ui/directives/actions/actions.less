@@ -1,7 +1,6 @@
 @import (reference) 'config';
 
-.w-actions,
-w-actions {
+.actions {
   display: block;
   height: 16px;
   width: 4px;
@@ -12,7 +11,7 @@ w-actions {
   cursor: pointer;
   user-select: none;
 
-  .actions-container {
+  &__container {
     z-index: 4;
     min-width: 215px;
     display: none;
@@ -25,60 +24,23 @@ w-actions {
     box-shadow: @shadow-buttons-default;
     border-radius: @border-radius;
 
-    .action {
-      padding: 8px 20px;
-      a {
-        color: @color-disabled-900;
-      }
-      &:hover {
-        background-color: @color-basic-50;
-      }
-    }
     &.expanded {
       display: block;
     }
   }
 
-  .click-area {
+  &__click {
     display: flex;
     justify-content: center;
     width: 24px;
     height: 16px;
     cursor: pointer;
-
-    .dots {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100%;
-
-      .dot {
-        width: 4px;
-        height: 4px;
-        border-radius: 100%;
-        background-color: @color-basic-500;
-
-        .spam & {
-          background-color: @color-basic-200;
-        }
-      }
-    }
-
-    .dots.white.horizontal {
-      flex-direction: row;
-      width: 30px;
-
-      .dot {
-        background-color: @color-white;
-      }
-    }
   }
 }
 
 @media screen and (min-height: 590px) {
-  .w-actions,
-  w-actions {
-    .actions-container {
+  .actions {
+    &__container {
       &.to-up {
         top: auto;
         bottom: -10px;
@@ -86,3 +48,44 @@ w-actions {
     }
   }
 }
+
+.actionItem {
+  padding: 8px 20px;
+
+  &:hover {
+    background-color: @color-basic-50;
+  }
+
+  &__link {
+    color: @color-disabled-900;
+  }
+}
+
+.dots {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  cursor: pointer;
+
+  &__item {
+    width: 4px;
+    height: 4px;
+    border-radius: 100%;
+    background-color: @color-basic-500;
+
+    .spam & {
+      background-color: @color-basic-200;
+    }
+  }
+
+  &.white.horizontal {
+    flex-direction: row;
+    width: 30px;
+
+    .dots__item {
+      background-color: @color-white;
+    }
+  }
+}
+
