@@ -1,6 +1,6 @@
 <div class="txinfo__content" ng-class="::{'spam': $ctrl.isScam || $ctrl.isScamAmount || $ctrl.isScamPrice}">
 
-    <div class="txinfo__icon" ng-class="$ctrl.typeName"></div>
+    <div class="txinfo__icon" ng-if="!$ctrl.voteObject.rating" ng-class="$ctrl.typeName"></div>
 
     <w-issue-header ng-if="$ctrl.signable.type === 3" signable="$ctrl.signable" is-scam="$ctrl.isScam"></w-issue-header>
     <w-transfer-header ng-if="$ctrl.signable.type === 4" signable="$ctrl.signable" is-scam="$ctrl.isScam"></w-transfer-header>
@@ -11,7 +11,7 @@
     <w-cancel-lease-header ng-if="$ctrl.signable.type === 9" signable="$ctrl.signable"></w-cancel-lease-header>
     <!--<w-create-alias-header ng-if="$ctrl.signable.type === 10" signable="$ctrl.signable"></w-create-alias-header>-->
     <w-mass-transfer-header ng-if="$ctrl.signable.type === 11" signable="$ctrl.signable" is-scam="$ctrl.isScam"></w-mass-transfer-header>
-    <w-data-header ng-if="$ctrl.signable.type === 12" signable="$ctrl.signable"></w-data-header>
+    <w-data-header ng-if="$ctrl.signable.type === 12" signable="$ctrl.signable" vote-object="$ctrl.voteObject"></w-data-header>
     <w-set-script-header ng-if="$ctrl.signable.type === 13" signable="$ctrl.signable"></w-set-script-header>
     <w-sponsorship-header ng-if="$ctrl.signable.type === 14" signable="$ctrl.signable" is-scam="$ctrl.isScam"></w-sponsorship-header>
     <w-set-script-asset-header ng-if="$ctrl.signable.type === 15" signable="$ctrl.signable"></w-set-script-asset-header>

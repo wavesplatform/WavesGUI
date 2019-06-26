@@ -26,6 +26,7 @@
         EXCHANGE_RATE: 'js-exchange-rate',
         CHANGE_24: 'js-change-24',
         CHART_CONTAINER: 'js-chart-container',
+        STARS_CONTAINER: 'js-stars-container',
         BUTTONS: {
             SEND: 'js-button-send',
             RECEIVE: 'js-button-receive',
@@ -63,6 +64,7 @@
                                  modalManager,
                                  $state,
                                  ChartFactory,
+                                 RatingStarsFactory,
                                  i18n,
                                  $scope,
                                  gatewayService,
@@ -365,6 +367,15 @@
                         values
                     );
                 }).catch(() => null);
+
+                if (typeof balance.rating === 'number') {
+                    new RatingStarsFactory({
+                        $container: this.$node.find(`.${SELECTORS.STARS_CONTAINER}`),
+                        rating: balance.rating,
+                        size: 's'
+                    });
+                }
+
             }
 
             /**
@@ -642,6 +653,7 @@
             modalManager,
             $state,
             ChartFactory,
+            RatingStarsFactory,
             i18n,
             $scope,
             gatewayService,
@@ -658,6 +670,7 @@
         'modalManager',
         '$state',
         'ChartFactory',
+        'RatingStarsFactory',
         'i18n',
         '$scope',
         'gatewayService',
