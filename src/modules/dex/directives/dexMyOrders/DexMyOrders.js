@@ -33,7 +33,6 @@
                                  permissionManager,
                                  ease,
                                  $element,
-                                 configService
     ) {
 
         class DexMyOrders extends Base {
@@ -166,8 +165,6 @@
                 user.getFilteredUserList().then(list => {
                     this.userList = list;
                 });
-
-                this._lockedPairs = configService.get('SETTINGS.DEX.LOCKED_PAIRS') || [];
             }
 
             /**
@@ -304,7 +301,7 @@
 
 
             isLockedPair(amountAssetId, priceAssetId) {
-                return utils.isLockedPair(amountAssetId, priceAssetId, this._lockedPairs);
+                return utils.isLockedInDex(amountAssetId, priceAssetId);
             }
 
             dropOrderGetSignData(order) {
@@ -441,8 +438,7 @@
         'modalManager',
         'permissionManager',
         'ease',
-        '$element',
-        'configService'
+        '$element'
     ];
 
     angular.module('app.dex').component('wDexMyOrders', {

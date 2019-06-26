@@ -210,8 +210,6 @@
                 // TODO: delete after contest
                 this.isContestTimeNow = permissionManager.isPermitted('CONTEST_TIME');
                 // TODO: delete after contest
-
-                this._lockedPairs = configService.get('SETTINGS.DEX.LOCKED_PAIRS') || [];
             }
 
             $postLink() {
@@ -261,7 +259,7 @@
             }
 
             isLockedPair(amountAssetId, priceAssetId) {
-                return utils.isLockedPair(amountAssetId, priceAssetId, this._lockedPairs);
+                return utils.isLockedInDex(amountAssetId, priceAssetId);
             }
 
             /**

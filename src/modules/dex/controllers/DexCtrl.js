@@ -13,7 +13,6 @@
      * @param {IPollCreate} createPoll
      * @param {Waves} waves
      * @param {utils} utils
-     * @param {ConfigService} configService
      * @param {ModalManager} modalManager
      * // TODO: delete after contest
      * @param {PermissionManager} permissionManager
@@ -28,7 +27,6 @@
                                  $scope,
                                  createPoll,
                                  waves,
-                                 configService,
                                  modalManager,
                                  permissionManager,
                                  utils) {
@@ -106,7 +104,6 @@
                 this.observe('_assetIdPair', this._onChangePair);
                 this.observe('_titleTxt', this._setTitle);
                 this.observe(['_leftHidden', '_rightHidden'], this._onChangeProperty);
-                this._lockedPairs = configService.get('SETTINGS.DEX.LOCKED_PAIRS') || [];
             }
 
             $onDestroy() {
@@ -123,6 +120,10 @@
              * @private
              */
             async _onChangePair() {
+                const userAssetIdPair = user.getSetting('dex.assetIdPair');
+                if (utils.isLockedInDex(userAssetIdPair.amount, userAssetIdPair.price)) {
+                    return this._showModalAndRedirect(userAssetIdPair.amount, userAssetIdPair.price);
+                }
                 const pair = await this._getPair();
                 $location.search('assetId2', pair.amountAsset.id);
                 $location.search('assetId1', pair.priceAsset.id);
@@ -132,14 +133,26 @@
              * @return {Promise}
              * @private
              */
-            _showModalANdRedirect(amountAsset, priceAsset) {
-                const amountAssetName = amountAsset.ticker || amountAsset.displayName;
-                const priceAssetName = priceAsset.ticker || priceAsset.displayName;
+            _showModalAndRedirect(amountAssetId, priceAssetId) {
+                Promise.all([
+                    waves.node.assets.getAsset(amountAssetId),
+                    waves.node.assets.getAsset(priceAssetId)
+                ]).then(([priceAsset, amountAsset]) => {
+                    const amountAssetName = amountAsset.ticker || amountAsset.displayName;
+                    const priceAssetName = priceAsset.ticker || priceAsset.displayName;
 
-                return modalManager.showLockPairWarning(amountAssetName, priceAssetName)
-                    .then(() => {
-                        utils.openDex(WavesApp.defaultAssets.BTC, 'WAVES');
+                    user.setSetting('dex.assetIdPair', {
+                        amount: WavesApp.defaultAssets.WAVES,
+                        price: WavesApp.defaultAssets.BTC
                     });
+
+                    return modalManager.showLockPairWarning(amountAssetName, priceAssetName)
+                        .then(() => {
+                            $location.search('assetId2', WavesApp.defaultAssets.WAVES);
+                            $location.search('assetId1', WavesApp.defaultAssets.BTC);
+                            this._initializePair();
+                        });
+                });
             }
 
             /**
@@ -182,9 +195,6 @@
                                     price: WavesApp.defaultAssets.BTC
                                 }))
                                 .then(({ amountAsset, priceAsset }) => {
-                                    if (utils.isLockedPair(amountAsset.id, priceAsset.id, this._lockedPairs)) {
-                                        return this._showModalANdRedirect(amountAsset, priceAsset);
-                                    }
                                     const activeTab = user.getSetting('dex.watchlist.activeTab');
                                     const activeTabIsTrading = activeTab === 'trading';
                                     const activeTabIsTradingAndContestEnd = activeTabIsTrading &&
@@ -269,7 +279,6 @@
         '$scope',
         'createPoll',
         'waves',
-        'configService',
         'modalManager',
         'permissionManager',
         'utils'

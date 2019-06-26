@@ -10,10 +10,10 @@
      * @param {$rootScope.Scope} $scope
      * @param {IPollCreate} createPoll
      * @param {User} user
-     * @param {ConfigService} configService
+     * @param {utils} utils
      * @return {TradeHistory}
      */
-    const controller = function (Base, $scope, createPoll, user, configService, utils) {
+    const controller = function (Base, $scope, createPoll, user, utils) {
 
         const PAIR_COLUMN_DATA = {
             id: 'pair',
@@ -108,8 +108,6 @@
                 user.getFilteredUserList().then(list => {
                     this.userList = list;
                 });
-
-                this._lockedPairs = configService.get('SETTINGS.DEX.LOCKED_PAIRS') || [];
             }
 
             $postLink() {
@@ -145,8 +143,12 @@
                 });
             }
 
+            /**
+             * @param tx
+             * @public
+             */
             isLockedPair(tx) {
-                return utils.isLockedPair(tx.amount.asset.id, tx.price.asset.id, this._lockedPairs);
+                return utils.isLockedInDex(tx.amount.asset.id, tx.price.asset.id);
             }
 
             /**
@@ -246,7 +248,7 @@
         return new TradeHistory();
     };
 
-    controller.$inject = ['Base', '$scope', 'createPoll', 'user', 'configService', 'utils'];
+    controller.$inject = ['Base', '$scope', 'createPoll', 'user', 'utils'];
 
     angular.module('app.dex')
         .component('wDexTradeHistory', {

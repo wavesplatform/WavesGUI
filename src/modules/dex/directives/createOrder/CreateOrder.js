@@ -13,12 +13,11 @@
      * @param {DexDataService} dexDataService
      * @param {Ease} ease
      * @param {$state} $state
-     * @param {ConfigService} configService
      * @param {ModalManager} modalManager
      * @param {BalanceWatcher} balanceWatcher
      * @return {CreateOrder}
      */
-    const controller = function (Base, waves, user, utils, createPoll, $scope, configService,
+    const controller = function (Base, waves, user, utils, createPoll, $scope,
                                  $element, notification, dexDataService, ease, $state, modalManager, balanceWatcher) {
 
         const { without, keys, last } = require('ramda');
@@ -235,9 +234,7 @@
                         lastTraderPoll.restart();
                     }
 
-                    const lockedPairs = configService.get('SETTINGS.DEX.LOCKED_PAIRS') || [];
-                    this.isLockedPair = utils
-                        .isLockedPair(this._assetIdPair.amount, this._assetIdPair.price, lockedPairs);
+                    this.isLockedPair = utils.isLockedInDex(this._assetIdPair.amount, this._assetIdPair.price);
 
                     this.analyticsPair = `${this._assetIdPair.amount} / ${this._assetIdPair.price}`;
                     this.observeOnce(['bid', 'ask'], utils.debounce(() => {
@@ -924,7 +921,6 @@
         'utils',
         'createPoll',
         '$scope',
-        'configService',
         '$element',
         'notification',
         'dexDataService',
