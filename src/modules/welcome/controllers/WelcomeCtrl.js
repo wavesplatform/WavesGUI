@@ -296,7 +296,7 @@
                         this.pendingRestore = false;
                         this.userList = userList || [];
 
-                        storage.save('accountImportComplete', this.userList.length > 0);
+                        storage.save('accountImportComplete', true);
                         storage.save('userList', userList);
 
                         $scope.$apply();
