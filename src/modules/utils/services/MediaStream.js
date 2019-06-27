@@ -88,6 +88,10 @@
                             .catch(() => checkResolution(RESOLUTIONS.QVGA));
                     };
 
+                    if (!navigator.mediaDevices) {
+                        return reject(new Error('navigator.mediaDevices is undefined'));
+                    }
+
                     navigator.mediaDevices.enumerateDevices()
                         .then(getUserMedia)
                         .then(handler, reject);
