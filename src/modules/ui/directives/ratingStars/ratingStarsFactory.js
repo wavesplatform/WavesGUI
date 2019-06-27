@@ -111,9 +111,7 @@
             }
 
             getStar(index, filledAmount) {
-                return `<div ${this.canRate && this.hasBalance ? 'w-modal-close' : ''}
-                    class="rating-stars__star ${(index + 1) <= filledAmount ? 'filled' : ''}">
-                        </div>`;
+                return `<div class="rating-stars__star ${(index + 1) <= filledAmount ? 'filled' : ''}"></div>`;
             }
 
 
