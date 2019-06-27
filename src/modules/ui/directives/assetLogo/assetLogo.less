@@ -1,25 +1,10 @@
 @import (reference) 'config';
+@import (reference) 'icons';
 
-w-asset-logo {
+.assetLogo {
   position: relative;
+  display: flex;
 
-  &.marker-hide {
-    .marker {
-      opacity: 0;
-    }
-  }
-
-  &.big {
-    .marker {
-      width: 24px;
-      height: 24px;
-      background-size: 12px;
-      border: 2px solid @color-white;
-    }
-  }
-}
-
-.asset {
   &__logo {
     background-size: 100% 100%;
     text-align: center;
@@ -32,13 +17,6 @@ w-asset-logo {
     flex-shrink: 0;
     position: relative;
     margin-right: 10px;
-
-    &-custom,
-    &.custom {
-      .asset__marker {
-        background-color: @custom-asset-marker-bg;
-      }
-    }
   }
 
   &__marker {
@@ -54,32 +32,41 @@ w-asset-logo {
     background-repeat: no-repeat;
 
     &-smart {
-      background-image: url(/img/icons/smart-asset-marker.svg);
+      background-image: @smart-asset-marker-icon;
       display: block;
     }
 
     &-sponsored {
-      background-image: url(/img/icons/sponosred-asset-marker.svg);
+      background-image: @sponsored-asset-marker-icon;
       display: block;
     }
   }
 
-  &.little & {
+  &-markerHide & {
     &__marker {
-      display: none;
+      opacity: 0;
     }
   }
-}
 
-.change-token {
-  .asset__marker-sponsored,
-  .asset__marker-smart {
-    .asset__marker {
-      display: block;
+  &-big & {
+    &__marker {
       width: 24px;
       height: 24px;
       background-size: 12px;
-      border: 2px solid @color-white;
+    }
+  }
+
+  &-modal {
+    margin: 0 10px 0 0;
+    left: 0;
+    z-index: 1;
+  }
+
+  &-custom &,
+  &.custom & {
+    &__marker {
+      background-color: @custom-asset-marker-bg;
     }
   }
 }
+

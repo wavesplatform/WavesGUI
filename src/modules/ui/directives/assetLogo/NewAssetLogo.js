@@ -44,7 +44,7 @@
                     throw new Error('Wrong params!');
                 }
 
-                $element.find('.asset__logo')
+                $element.find('.assetLogo__logo')
                     .css({
                         width: `${this.size}px`,
                         height: `${this.size}px`
@@ -63,11 +63,11 @@
                 const color = utils.getAssetLogoBackground(this.assetId);
                 const fontSize = Math.round((Number(this.size) || 0) * 0.43);
 
-                ['.asset__logo', '.asset__logo .asset__marker'].forEach(selector => {
+                ['.assetLogo__logo', '.assetLogo__marker'].forEach(selector => {
                     $element.find(selector).css('background-color', color);
                 });
 
-                $element.find('.asset__logo .asset__letter')
+                $element.find('.assetLogo__letter')
                     .text(letter)
                     .css({
                         'font-size': `${fontSize}px`
@@ -79,7 +79,7 @@
              */
             _onChangeIsSmart() {
                 const isSmart = isEmpty(this.hasScript) ? this._isSmart : this.hasScript;
-                $element.find('.asset__marker').toggleClass('asset__marker-smart', isSmart);
+                $element.find('.assetLogo__marker').toggleClass('assetLogo__marker-smart', isSmart);
             }
 
         }
