@@ -1,0 +1,36 @@
+@import (reference) 'config';
+
+.dots {
+  display: flex;
+  cursor: pointer;
+
+  &__wrapper {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1 0;
+  }
+
+  &__item {
+    width: 4px;
+    height: 4px;
+    border-radius: 100%;
+    background-color: @color-basic-500;
+
+    .spam & {
+      background-color: @color-basic-200;
+    }
+  }
+
+  &-white & {
+    &__item {
+      background-color: @color-white;
+    }
+  }
+
+  &-horizontal & {
+    &__wrapper {
+      flex-direction: row;
+    }
+  }
+}

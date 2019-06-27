@@ -3,9 +3,8 @@
 .actions {
   display: block;
   height: 16px;
-  width: 4px;
   position: absolute;
-  right: 30px;
+  right: 10px;
   top: 50%;
   margin-top: -8px;
   cursor: pointer;
@@ -16,7 +15,7 @@
     min-width: 215px;
     display: none;
     position: absolute;
-    right: 0;
+    right: 20px;
     top: 0;
     margin-bottom: 10px;
     padding: 17px 0;
@@ -49,43 +48,4 @@
   }
 }
 
-.actionItem {
-  padding: 8px 20px;
-
-  &:hover {
-    background-color: @color-basic-50;
-  }
-
-  &__link {
-    color: @color-disabled-900;
-  }
-}
-
-.dots {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  cursor: pointer;
-
-  &__item {
-    width: 4px;
-    height: 4px;
-    border-radius: 100%;
-    background-color: @color-basic-500;
-
-    .spam & {
-      background-color: @color-basic-200;
-    }
-  }
-
-  &.white.horizontal {
-    flex-direction: row;
-    width: 30px;
-
-    .dots__item {
-      background-color: @color-white;
-    }
-  }
-}
 
