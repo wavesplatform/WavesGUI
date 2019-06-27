@@ -1,5 +1,22 @@
 @import (reference) 'icons';
 
+/* header and mobile menu icons */
+@arrow-white-right: url(/img/icons/menu/arrow-white-right.svg);
+@menu-back-icon: url(/img/icons/menu/arrow-white-left.svg);
+
+@power-hover-icon: url(/img/icons/menu/power-submit-300.svg);
+@drop-down-hover-icon: url(/img/icons/menu/arrow-down-blue.svg);
+
+@widnows-icon: url(/img/icons/menu/windows.svg);
+@macos-icon: url(/img/icons/menu/apple.svg);
+@linux-icon: url(/img/icons/menu/linux.svg);
+
+@leasing-icon-active: url(/img/icons/menu/leasing-submit-300.svg);
+@transactions-icon-active: url(/img/icons/menu/transactions-submit-300.svg);
+@portfolio-icon-active: url(/img/icons/menu/portfolio-submit-300.svg);
+@wallet-icon-active: url(/img/icons/menu/dashboard-submit-300.svg);
+/* end */
+
 .logo {
   background: @logo-header;
 
@@ -242,6 +259,14 @@
   &::before {
     display: block;
     background-position-x: -@tx-icon-size * 14;
+  }
+  background-color: rgba(90, 129, 234, 0.1);
+}
+
+.icon-tx-data-vote {
+  &::before {
+    display: block;
+    background-position-x: -@tx-icon-size * 23;
   }
   background-color: rgba(90, 129, 234, 0.1);
 }
@@ -500,6 +525,10 @@
 
   &-error {
     background: @import-modal-icon-error;
+  }
+
+  &-client {
+    background: @dex-client-icon;
   }
 }
 

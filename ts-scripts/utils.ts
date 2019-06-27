@@ -488,7 +488,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
         if (url.includes('/package.json')) {
             res.end(readFileSync(join(__dirname, '..', 'package.json')));
         } else if (isTradingView(url)) {
-            get(`https://client.wavesplatform.com/${url}`, (resp: IncomingMessage) => {
+            get(`https://dex.wavesplatform.com/${url}`, (resp: IncomingMessage) => {
                 let data = new Buffer('');
 
                 // A chunk of data has been recieved.
@@ -560,6 +560,13 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                 res.statusCode = 404;
                 res.end('Not found!');
             }
+            return null;
+        }
+
+        if (url.indexOf('export') !== -1) {
+            prepareExport().then((file) => {
+                res.end(file);
+            });
             return null;
         }
 
@@ -836,6 +843,17 @@ export function loadLocales(path: string, options?: object) {
             });
         })
         .catch(err => console.error(`Locales did not loaded: ${err}`));
+}
+
+
+export function prepareExport(): Promise<string> {
+    return Promise.all([
+        readJSON(join(__dirname, './meta.json')) as Promise<IMetaJSON>,
+        readFile(join(__dirname, '..', 'src', 'export.hbs'), 'utf8') as Promise<string>
+    ])
+        .then(([meta, file]) => {
+            return replaceScripts(compile(file)(meta), meta.exportPageVendors);
+        });
 }
 
 export interface IRouteOptions {
