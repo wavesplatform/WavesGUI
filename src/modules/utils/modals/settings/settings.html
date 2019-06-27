@@ -42,6 +42,11 @@
                     <label for="advancedMode" w-i18n="modal.termsAccept.body.advancedMode"></label>
                 </div>
 
+                <div class="row flex-row row-style unit-checkbox no-border">
+                    <w-checkbox-submit id="playSound" ng-model="$ctrl.playSound"></w-checkbox-submit>
+                    <label for="playSound" w-i18n="modal.settings.general.playSound"></label>
+                </div>
+
                 <div class="row flex-row row-style unit-select">
                     <div class="footnote-1 basic-500" w-i18n="modal.settings.general.language"></div>
                     <w-change-language on-change="$ctrl.onChangeLanguage(language)"></w-change-language>

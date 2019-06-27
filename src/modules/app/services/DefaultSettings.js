@@ -38,6 +38,7 @@
                     encryptionRounds: 5000,
                     savePassword: true,
                     hasBackup: true,
+                    playSound: false,
                     termsAccepted: true,
                     tradeWithScriptAssets: false,
                     needReadNewTerms: false,

@@ -35,7 +35,7 @@
         [SIGN_TYPE.SET_ASSET_SCRIPT]: 'Set Asset Script'
     };
 
-    const factory = function (Base, waves, utils, $mdDialog, modalManager) {
+    const factory = function (Base, waves, utils, $mdDialog, modalManager, user) {
 
         class ConfirmTxService extends Base {
 
@@ -109,7 +109,7 @@
                 return this.signable.getDataForApi()
                     .then(method)
                     .then(data => {
-                        if (this._sound) {
+                        if (this._sound && user.getSetting('playSound')) {
                             this._sound.play();
                         }
                         analytics.send(this.getAnalytics(data, true));
@@ -258,7 +258,7 @@
         return ConfirmTxService;
     };
 
-    factory.$inject = ['Base', 'waves', 'utils', '$mdDialog', 'modalManager'];
+    factory.$inject = ['Base', 'waves', 'utils', '$mdDialog', 'modalManager', 'user'];
 
     angular.module('app.ui').factory('ConfirmTxService', factory);
 })();

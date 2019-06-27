@@ -12,7 +12,9 @@
                                  $mdDialog) {
 
         const { SIGN_TYPE } = require('@waves/signature-adapter');
-        const WCT_ID = 'DHgwrRvVyqJsepd32YbBqUeDH4GJ1N984X8QoekjgH8J';
+        const WCT_ID = WavesApp.network.code === 'T' ?
+            '5YikVBzMNjvCz6mTzu33pLgfCjw2QX8KZYnz1xzx3pHn' :
+            'DHgwrRvVyqJsepd32YbBqUeDH4GJ1N984X8QoekjgH8J';
         const WAVES_ID = 'WAVES';
         const NEED_WCT = 1;
 

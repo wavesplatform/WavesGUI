@@ -51,6 +51,14 @@
                 user.setSetting('advancedMode', mode);
             }
 
+            get playSound() {
+                return user.getSetting('playSound');
+            }
+
+            set playSound(mode) {
+                user.setSetting('playSound', mode);
+            }
+
             oracleWaves = '';
             tab = 'general';
             address = user.address;
