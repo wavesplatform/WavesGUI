@@ -71,7 +71,7 @@ export interface IConfItem {
 }
 
 export type TConnection = 'mainnet' | 'testnet';
-export type TBuild = 'dev' | 'normal' | 'min';
+export type TBuild = 'development' | 'production';
 export type TPlatform = 'web' | 'desktop';
 
 export interface ITaskFunction {

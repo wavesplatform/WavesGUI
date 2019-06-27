@@ -16,7 +16,7 @@ const ip = require('my-local-ip')();
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const connectionTypes: Array<TConnection> = ['mainnet', 'testnet'];
-const buildTypes: Array<TBuild> = ['dev', 'normal', 'min'];
+const buildTypes: Array<TBuild> = ['development', 'production'];
 const privateKey = readFileSync('localhost.key').toString();
 const certificate = readFileSync('localhost.crt').toString();
 const args = parseArguments() || Object.create(null);

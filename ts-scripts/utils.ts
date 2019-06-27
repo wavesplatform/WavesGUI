@@ -1,15 +1,14 @@
-import * as gulp from 'gulp';
 import { getType } from 'mime';
 import { exec, spawn } from 'child_process';
 import { existsSync, readdirSync, readFileSync, statSync, unlink } from 'fs';
 import { join, relative, extname, dirname } from 'path';
-import { IPackageJSON, IMetaJSON, ITaskFunction, TBuild, TConnection, TPlatform } from './interface';
+import { IPackageJSON, IMetaJSON, TBuild, TConnection, TPlatform } from './interface';
 import { readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync, copy } from 'fs-extra';
 import { compile } from 'handlebars';
 import { transform } from 'babel-core';
 import { render } from 'less';
 import { minify } from 'html-minifier';
-import { get, ServerResponse, IncomingMessage, request, ClientRequest } from 'https';
+import { get, ServerResponse, IncomingMessage, request } from 'https';
 import { MAINNET_DATA, TESTNET_DATA } from '@waves/assets-pairs-order';
 import { Http2ServerRequest, Http2ServerResponse } from 'http2';
 
@@ -23,8 +22,6 @@ declare const parse;
 declare const Mousetrap;
 declare const MobileDetect;
 declare const transfer;
-
-export const task: ITaskFunction = gulp.task.bind(gulp) as any;
 
 export function getBranch(): Promise<string> {
     return new Promise((resolve, reject) => {
@@ -156,6 +153,7 @@ export function getAllLessFiles() {
 export function getScripts(param: IPrepareHTMLOptions, pack, meta) {
     const filter = moveTo(param.target);
     let { scripts } = param || Object.create(null);
+
     if (!scripts) {
         const sourceFiles = getFilesFrom(join(__dirname, '../src'), '.js', function (name, path) {
             return !name.includes('.spec') && !path.includes('/test/');
@@ -167,6 +165,7 @@ export function getScripts(param: IPrepareHTMLOptions, pack, meta) {
         });
         scripts = scripts.map((path) => `${path}${cacheKiller}`);
     }
+
     return scripts.map(filter).map(path => `<script src="${path}"></script>`);
 }
 
@@ -192,10 +191,10 @@ export function getStyles(param: IPrepareHTMLOptions, meta, themes) {
 
     return styles.map(({ theme, name, hasGet }) => {
         if (hasGet) {
-            return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}?theme=${theme || ''}">`;
+            return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${filter(name)}?theme=${theme || ''}">`;
         }
 
-        return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}">`;
+        return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${filter(name)}">`;
     });
 }
 
@@ -219,7 +218,7 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
     const scripts = getScripts(param, pack, meta).concat(outerScripts);
     const styles = getStyles(param, meta, themes);
     const isWeb = type === 'web';
-    const isProduction = buildType && buildType === 'min';
+    const isProduction = buildType && buildType === 'production';
     const matcherPriorityList = connection === 'mainnet' ? MAINNET_DATA : TESTNET_DATA;
     const { origin, oracles, feeConfigUrl, bankRecipient, tradingPairs } = config;
     return {
@@ -509,7 +508,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
             return null;
         }
 
-        if (buildType !== 'dev') {
+        if (buildType !== 'development') {
             if (isPage(req.url)) {
                 const path = join(__dirname, '..', 'dist', type, connectionType, buildType, 'index.html');
                 return readFile(path, 'utf8').then((file) => {
@@ -518,7 +517,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
             }
             return routeStatic(req, res, connectionType, buildType, type);
         } else {
-            if (buildType === 'dev' && req.url.includes('init.js')) {
+            if (buildType === 'development' && req.url.includes('init.js')) {
                 return getInitScript(connectionType, buildType, type).then((script) => {
                     res.end(script);
                 });
@@ -769,7 +768,7 @@ export function stat(req: Http2ServerRequest, res: Http2ServerResponse, roots: A
 
 function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, platform: TPlatform) {
     const ROOTS = [join(__dirname, '..')];
-    if (buildType !== 'dev') {
+    if (buildType !== 'development') {
         ROOTS.push(join(__dirname, '..', 'dist', platform, connectionType, buildType));
     } else {
         ROOTS.push(join(__dirname, '..', 'src'));
@@ -818,6 +817,10 @@ export function loadLocales(path: string, options?: object) {
                                 }
                                 resolve();
                             });
+                        });
+                        response.on('error', (err) => {
+                            console.log('err', err)
+                            reject(err);
                         });
                     });
 
