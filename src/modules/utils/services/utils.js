@@ -5,8 +5,8 @@
 
     const { isEmpty, getPaths, get, Signal } = require('ts-utils');
     const tsApiValidator = require('ts-api-validator');
-    const { WindowAdapter, Bus, WindowProtocol } = require('@waves/waves-browser-bus');
-    const { splitEvery, pipe, path, map, ifElse, concat, defaultTo, identity, isNil } = require('ramda');
+    const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
+    const { splitEvery, pipe, path, map, ifElse, concat, defaultTo, identity, isNil, propEq } = require('ramda');
     const { libs } = require('@waves/signature-generator');
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
@@ -66,6 +66,7 @@
         [WavesApp.defaultAssets.TRY]: '/img/assets/try.svg',
         [WavesApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
         [WavesApp.defaultAssets.VST]: '/img/assets/vostok.svg',
+        [WavesApp.defaultAssets.ERGO]: '/img/assets/ergo.svg',
         [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
         [WavesApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
     });
@@ -868,7 +869,6 @@
                 return new Promise((resolve, reject) => {
                     target.addEventListener('load', resolve, false);
                     target.addEventListener('error', reject, false);
-
                     setTimeout(() => {
                         reject(new Error('Timeout limit error!'));
                     }, timeout);
@@ -884,19 +884,22 @@
              */
             importUsersByWindow(win, origin, timeout) {
                 return new Promise((resolve, reject) => {
-                    const listen = new WindowProtocol(window, WindowProtocol.PROTOCOL_TYPES.LISTEN);
-                    const dispatch = new WindowProtocol(win, WindowProtocol.PROTOCOL_TYPES.DISPATCH);
-                    const adapter = new WindowAdapter([listen], [dispatch], { origins: '*' });
-                    const bus = new Bus(adapter);
+                    WindowAdapter.createSimpleWindowAdapter(win, {
+                        origins: [origin]
+                    }).then(adapter => {
+                        const bus = new Bus(adapter);
 
-                    bus.once('export-ready', () => {
-                        bus.request('getLocalStorageData')
-                            .then(utils.onExportUsers(origin, resolve));
+                        bus.once('ready', () => {
+                            bus.request('getLocalStorageData', null, timeout)
+                                .then(utils.onExportUsers(origin, resolve))
+                                .catch(reject);
+                        });
+
+                        bus.request('getLocalStorageData', null, timeout)
+                            .then(utils.onExportUsers(origin, resolve))
+                            .catch(reject);
+
                     });
-
-                    setTimeout(() => {
-                        reject(new Error('Timeout limit error!'));
-                    }, timeout);
                 });
             },
 
@@ -929,7 +932,7 @@
                 iframe.src = `${origin}/export.html`;
 
                 const result = utils.loadOrTimeout(iframe, timeout)
-                    .then(() => utils.importUsersByWindow(iframe.contentWindow, origin, timeout))
+                    .then(() => utils.importUsersByWindow(iframe, origin, timeout))
                     .then(onSuccess)
                     .catch(onError);
 
@@ -955,6 +958,12 @@
                 const right = `top=${Math.floor(screen.height - 100 / 2)}`;
                 let closed = false;
 
+                const win = window.open(
+                    `${origin}/export.html`,
+                    'export',
+                    `${width},${height},${left},${top},${right},no,no,no,no,no,no`
+                );
+
                 const close = d => {
                     if (!closed) {
                         win.close();
@@ -962,12 +971,6 @@
                     }
                     return d;
                 };
-
-                const win = window.open(
-                    `${origin}/export.html`,
-                    'export',
-                    `${width},${height},${left},${top},${right},no,no,no,no,no,no`
-                );
 
                 const onError = (e) => {
                     close();
@@ -988,15 +991,16 @@
             onExportUsers(origin, resolve) {
                 return (response) => {
                     if (!response) {
-                        return [];
+                        resolve([]);
                     }
 
-                    resolve(response.accounts && response.accounts.map(utils.remapOldClientAccounts) || []);
+                    resolve(response);
                 };
             },
 
             /**
              * @name app.utils#openDex
+             * @param {string} dex
              * @param {string} asset1
              * @param {string} [asset2]
              */
@@ -1161,7 +1165,10 @@
                     path(['provider'], dataOracle) !== 'Tokenomica';
 
                 const isSuspicious = user.scam[assetId];
-                const hasLabel = isVerified || isGateway || isSuspicious || isTokenomica;
+
+                const isGatewaySoon = path(['status'], dataOracle) === 4;
+
+                const hasLabel = isVerified || isGateway || isSuspicious || isTokenomica || isGatewaySoon;
 
                 const ticker = path(['ticker'], dataOracle);
                 const link = path(['link'], dataOracle);
@@ -1175,6 +1182,7 @@
                     isGateway,
                     isTokenomica,
                     isSuspicious,
+                    isGatewaySoon,
                     hasLabel,
                     ticker,
                     link,
@@ -1629,7 +1637,7 @@
                     case SIGN_TYPE.BURN:
                         return TYPES.BURN;
                     case SIGN_TYPE.DATA:
-                        return TYPES.DATA;
+                        return _getDataType(tx);
                     case SIGN_TYPE.SET_SCRIPT:
                         return (tx.script || '').replace('base64:', '') ? TYPES.SET_SCRIPT : TYPES.SCRIPT_CANCEL;
                     case SIGN_TYPE.SPONSORSHIP:
@@ -1849,6 +1857,18 @@
             } else {
                 return meIsSender ? TYPES.SEND : TYPES.RECEIVE;
             }
+        }
+
+        /**
+         * @param {api.ITransferTransaction<string>} tx
+         * @private
+         */
+        function _getDataType(tx) {
+            const { DATA, DATA_VOTE } = WavesApp.TRANSACTION_TYPES.EXTENDED;
+            const data = Array.isArray(tx.data) ? tx.data : tx.data.data;
+            const keyRating = data.find(propEq('key', 'tokenRating'));
+
+            return keyRating && keyRating.value === 'tokenRating' ? DATA_VOTE : DATA;
         }
 
         /**

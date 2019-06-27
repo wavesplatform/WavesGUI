@@ -3,6 +3,8 @@
 
     const { get } = require('ts-utils');
 
+    const { splitEvery, flatten } = require('ramda');
+
     const searchByNameAndId = ($scope, key, list) => {
         const query = $scope[key];
         if (!query) {
@@ -159,7 +161,7 @@
                     this.observe('details', this._onChangeDetails);
                     this.observe('filter', this._onChangeDetails);
 
-                    this._onChangeDetails();
+                    // this._onChangeDetails();
                     utils.safeApply($scope);
                 });
 
@@ -292,55 +294,73 @@
                 this.balanceList = balanceList;
             }
 
+            _addRating(balanceList) {
+                return Promise.all(splitEvery(25, balanceList).map(block => {
+                    return ds.api.rating.getAssetsRating(block.map(balanceItem => balanceItem.asset.id));
+                })).then(list => {
+                    const listHash = utils.toHash(flatten(list), 'assetId');
+                    return balanceList.map(balanceItem => {
+                        balanceItem.rating = listHash[balanceItem.asset.id] ?
+                            listHash[balanceItem.asset.id].rating :
+                            null;
+                        return balanceItem;
+                    });
+                });
+            }
+
             /**
              * @private
              */
             _updateBalances() {
-                const details = balanceWatcher.getFullBalanceList()
-                    .map(item => {
-                        const isPinned = this._isPinned(item.asset.id);
-                        const isSpam = this._isSpam(item.asset.id);
-                        const isOnScamList = user.scam[item.asset.id];
+                const balanceList = balanceWatcher.getFullBalanceList();
 
-                        return {
-                            available: item.available,
-                            asset: item.asset,
-                            inOrders: item.inOrders,
-                            isPinned,
-                            isSpam,
-                            isOnScamList,
-                            minSponsoredAssetFee: item.asset.minSponsoredAssetFee,
-                            sponsorBalance: item.asset.sponsorBalance
-                        };
-                    })
-                    .reduce((acc, item) => {
-                        const oracleData = ds.dataManager.getOraclesAssetData(item.asset.id);
-                        const spam = item.isOnScamList || item.isSpam;
+                this._addRating(balanceList).then(balanceListWithRating => {
+                    this.details = balanceListWithRating
+                        .map(item => {
+                            const isPinned = this._isPinned(item.asset.id);
+                            const isSpam = this._isSpam(item.asset.id);
+                            const isOnScamList = user.scam[item.asset.id];
+                            return {
+                                available: item.available,
+                                asset: item.asset,
+                                inOrders: item.inOrders,
+                                isPinned,
+                                isSpam,
+                                isOnScamList,
+                                rating: item.rating,
+                                minSponsoredAssetFee: item.asset.minSponsoredAssetFee,
+                                sponsorBalance: item.asset.sponsorBalance
+                            };
+                        })
+                        .reduce((acc, item) => {
+                            const oracleData = ds.dataManager.getOraclesAssetData(item.asset.id);
+                            const spam = item.isOnScamList || item.isSpam;
 
-                        if (oracleData && oracleData.status > 0) {
-                            acc.verified.push(item);
-                        }
+                            if (oracleData && oracleData.status > 0) {
+                                acc.verified.push(item);
+                            }
 
-                        if (spam) {
-                            if (!this.dontShowSpam) {
+                            if (spam) {
+                                if (!this.dontShowSpam) {
+                                    if (item.asset.sender === user.address) {
+                                        acc.my.push(item);
+                                    }
+                                    acc.spam.push(item);
+                                    acc.active.push(item);
+                                }
+                            } else {
                                 if (item.asset.sender === user.address) {
                                     acc.my.push(item);
                                 }
-                                acc.spam.push(item);
                                 acc.active.push(item);
                             }
-                        } else {
-                            if (item.asset.sender === user.address) {
-                                acc.my.push(item);
-                            }
-                            acc.active.push(item);
-                        }
 
-                        return acc;
-                    }, { spam: [], my: [], active: [], verified: [] });
+                            return acc;
+                        }, { spam: [], my: [], active: [], verified: [] });
 
-                this.details = details;
-                utils.safeApply($scope);
+
+                    utils.safeApply($scope);
+                });
             }
 
             /**
