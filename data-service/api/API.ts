@@ -17,7 +17,7 @@ import {
 import * as addressModule from './address';
 import { getLastPrice } from './matcher/getLastPrice';
 import { getAddressByAlias, getAliasesByAddress } from './aliases/aliases';
-import { getFeeMap } from './matcher/getFeeMap';
+import { getFeeRates, getSettings } from './matcher/getSettings';
 import * as pairsModule from './pairs/pairs';
 import * as ratingModule from './rating/rating';
 import * as dataModule from './data';
@@ -29,7 +29,7 @@ export const node = { height };
 
 export const matcher = {
     getOrderBook, getOrdersByPair, addSignature, clearSignature, getOrders, signatureTimeout, factory, getLastPrice,
-    getFeeMap
+    getFeeRates, getSettings
 };
 
 export const assets = { ...assetsApi };

@@ -89,9 +89,34 @@
                             },
                             matcherPublicKey: order.matcherPublicKey
                         }, hasScript, smartAssetIdList);
-
                         return new Money(fee, asset);
                     });
+            }
+
+            /**
+             * @param {object} order
+             * @return {object}
+             */
+            calculateCustomFeeMap(order) {
+                const smartAssetExtraFee = new BigNumber(configService.getFeeConfig().smart_asset_extra_fee);
+                const baseFee = new BigNumber(order.baseFee);
+                const smartPairAssets = [order.pair.amountAsset, order.pair.priceAsset]
+                    .filter(asset => asset.hasScript);
+
+                // TODO: matcherScript checking
+                const getSmartAssetsQuantity = (feeAsset) => {
+                    const feeIsSmartAndNotInPair =
+                        feeAsset.hasScript &&
+                        (smartPairAssets.some(asset => asset.id === feeAsset.id));
+                    return smartPairAssets.length + Number(feeIsSmartAndNotInPair);
+                };
+
+                const feeMap = order.feeAssets.reduce((acc, asset) => {
+                    acc[asset.id] = baseFee.plus(smartAssetExtraFee * getSmartAssetsQuantity(asset));
+                    return acc;
+                }, Object.create(null));
+
+                return feeMap;
             }
 
             /**
@@ -114,8 +139,58 @@
              * @return {Promise<Matcher.IFeeMap>}
              */
             @decorators.cachable(5)
-            getFeeMap() {
-                return ds.api.matcher.getFeeMap();
+            getFeeRates() {
+                return ds.api.matcher.getFeeRates();
+            }
+
+            /**
+             * @return {Promise<object>}
+             */
+            getSettings() {
+                return ds.api.matcher.getSettings();
+            }
+
+            /**
+             * @param pair
+             * @param matcherPublicKey
+             * @return {Promise<object | never>}
+             */
+            getCreateOrderSettings(pair, matcherPublicKey) {
+                return this.getSettings()
+                    .then(data => {
+                        if (Object.prototype.hasOwnProperty.call(data.orderFee, 'dynamic')) {
+                            return Promise.all(
+                                Object.keys(data.orderFee.dynamic.rates).map(id => ds.api.assets.get(id))
+                            ).then((feeAssets) => {
+                                return ({
+                                    basedCustomFee: this.calculateCustomFeeMap({
+                                        pair,
+                                        matcherPublicKey,
+                                        feeAssets,
+                                        baseFee: data.orderFee.dynamic.baseFee
+                                    }),
+                                    feeMode: 'dynamic'
+                                });
+                            });
+                        } else if (Object.prototype.hasOwnProperty.call(data.orderFee, 'fixed')) {
+                            const feeValue = data.orderFee.fixed['min-fee'];
+                            const feeAsset = data.orderFee.fixed.asset;
+                            return ({
+                                fee: new Money(feeValue, feeAsset),
+                                feeMode: 'fixed'
+                            });
+                        }
+
+                        // const feeValue = '30000';
+                        // return ds.api.assets.get('8jfD2JBLe23XtCCSQoTx5eAW5QCU6Mbxi3r78aNQLcNf')
+                        //     .then(asset => {
+                        //         return ({
+                        //             // ...data,
+                        //             fee: new Money(feeValue, asset),
+                        //             feeMode: 'fixed'
+                        //         });
+                        //     });
+                    });
             }
 
             /**

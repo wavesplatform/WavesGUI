@@ -145,9 +145,13 @@
              */
             maxAmount = null;
             /**
-             * @type {Array}
+             * @type {Array<Money>}
              */
             feeList = [];
+            /**
+             * @type {Object}
+             */
+            matcherSettings = {};
 
 
             constructor() {
@@ -188,11 +192,13 @@
                 /**
                  * @type {Poll}
                  */
-                const feePoll = createPoll(this, this._getFeeMap, this._updateFeeList, 20000);
+                // const feePoll = createPoll(this, this._getFeeRates, this._updateFeeList, 20000);
 
                 const onChangeBalanceWatcher = () => {
                     this._updateBalances();
-                    this._updateFeeList();
+                    if (this.matcherSettings.mode === 'dynamic') {
+                        this._updateFeeList();
+                    }
                 };
                 this.receive(balanceWatcher.change, onChangeBalanceWatcher, this);
                 this._updateBalances();
@@ -202,20 +208,6 @@
                         lastTraderPoll = createPoll(this, this._getLastPrice, 'lastTradePrice', 1000);
                         resolve();
                     });
-                });
-
-                const currentFee = () => Promise.all([
-                    ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price),
-                    ds.fetch(ds.config.get('matcher'))
-                ]).then(([pair, matcherPublicKey]) => waves.matcher.getCreateOrderFee({
-                    amount: new Money(0, pair.amountAsset),
-                    price: new Money(0, pair.priceAsset),
-                    matcherPublicKey
-                })).then(fee => {
-                    this.fee = fee;
-                }).then(() => {
-                    this._updateFeeList();
-                    $scope.$apply();
                 });
 
                 Promise.all([
@@ -256,8 +248,8 @@
                             $scope.$apply();
                         }
                     }));
-                    currentFee();
-                    feePoll.restart();
+                    this._setMatcherSettings();
+                    // feePoll.restart();
                 });
 
                 this.observe(['priceBalance', 'total', 'maxPriceBalance'], this._setIfCanBuyOrder);
@@ -283,7 +275,16 @@
                     this._userList = list;
                 });
 
-                currentFee();
+                this._setMatcherSettings();
+                this.observe('matcherSettings', () => {
+                    if (this.matcherSettings.feeMode === 'dynamic') {
+                        this._updateFeeList();
+                    } else if (this.matcherSettings.feeMode === 'fixed') {
+                        this.fee = this.matcherSettings.fee;
+                        this.feeList = [];
+                    }
+                    $scope.$apply();
+                });
             }
 
             /**
@@ -907,23 +908,23 @@
              * @private
              */
             _updateFeeList() {
-                return this._getFeeMap()
+                return this._getFeeRates()
                     .then(list => {
                         const assetsId = Object.keys(list);
-                        const feeWavesEquivalent = this.fee.getTokens();
+                        const basedCustomFee = this.matcherSettings.basedCustomFee;
 
                         Promise.all(
                             assetsId.map(id => balanceWatcher.getBalanceByAssetId(id))
                         ).then(balances => {
                             const filteredFeeList = balances
                                 .map(balance => {
-                                    const rate = new BigNumber(list[balance.asset.id]);
-                                    return balance.cloneWithTokens(
-                                        rate.times(feeWavesEquivalent)
+                                    const id = balance.asset.id;
+                                    const rate = new BigNumber(list[id]);
+                                    return balance.cloneWithCoins(
+                                        rate.times(basedCustomFee[id])
                                     );
                                 })
                                 .filter((fee, i) => fee.lte(balances[i]));
-
                             if (filteredFeeList.length === 1) {
                                 this.fee = filteredFeeList[0];
                             } else {
@@ -940,8 +941,20 @@
              * @return {Promise<Matcher.IFeeMap>}
              * @private
              */
-            _getFeeMap() {
-                return waves.matcher.getFeeMap();
+            _getFeeRates() {
+                return waves.matcher.getFeeRates();
+            }
+
+            _setMatcherSettings() {
+                return Promise.all([
+                    ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price),
+                    ds.fetch(ds.config.get('matcher'))
+                ]).then(([pair, matcherPublicKey]) => {
+                    waves.matcher.getCreateOrderSettings(pair, matcherPublicKey)
+                        .then(data => {
+                            this.matcherSettings = data;
+                        });
+                });
             }
 
             static _animateNotification($element) {
