@@ -100,10 +100,10 @@
             calculateCustomFeeMap(order) {
                 const smartAssetExtraFee = new BigNumber(configService.getFeeConfig().smart_asset_extra_fee);
                 const baseFee = new BigNumber(order.baseFee);
+                const hasScript = order.matcherInfo.extraFee.getTokens().gt(0);
                 const smartPairAssets = [order.pair.amountAsset, order.pair.priceAsset]
                     .filter(asset => asset.hasScript);
 
-                // TODO: matcherScript checking
                 const getSmartAssetsQuantity = (feeAsset) => {
                     const feeIsSmartAndNotInPair =
                         feeAsset.hasScript &&
@@ -112,11 +112,20 @@
                 };
 
                 const feeMap = order.feeAssets.reduce((acc, asset) => {
-                    acc[asset.id] = baseFee.plus(smartAssetExtraFee * getSmartAssetsQuantity(asset));
+                    acc[asset.id] = baseFee
+                        .plus(smartAssetExtraFee.times(getSmartAssetsQuantity(asset)))
+                        .plus(smartAssetExtraFee.times(Number(hasScript)));
                     return acc;
                 }, Object.create(null));
 
                 return feeMap;
+
+                // const feeMap = order.feeAssets.reduce((acc, asset) => {
+                //     acc[asset.id] = baseFee.plus(smartAssetExtraFee * getSmartAssetsQuantity(asset));
+                //     return acc;
+                // }, Object.create(null));
+                //
+                // return feeMap;
             }
 
             /**
@@ -158,14 +167,18 @@
             getCreateOrderSettings(pair, matcherPublicKey) {
                 return this.getSettings()
                     .then(data => {
+                        const publicKeyBytes = generator.libs.base58.decode(matcherPublicKey);
+                        const matcherAddress = generator.utils.crypto.buildRawAddress(publicKeyBytes);
+
                         if (Object.prototype.hasOwnProperty.call(data.orderFee, 'dynamic')) {
-                            return Promise.all(
-                                Object.keys(data.orderFee.dynamic.rates).map(id => ds.api.assets.get(id))
-                            ).then((feeAssets) => {
+                            return Promise.all([
+                                this._scriptInfo(matcherAddress),
+                                ...Object.keys(data.orderFee.dynamic.rates).map(id => ds.api.assets.get(id))
+                            ]).then(([matcherInfo, ...feeAssets]) => {
                                 return ({
                                     basedCustomFee: this.calculateCustomFeeMap({
                                         pair,
-                                        matcherPublicKey,
+                                        matcherInfo,
                                         feeAssets,
                                         baseFee: data.orderFee.dynamic.baseFee
                                     }),
@@ -178,6 +191,17 @@
                             return ({
                                 fee: new Money(feeValue, feeAsset),
                                 feeMode: 'fixed'
+                            });
+                        } else {
+                            return this.getCreateOrderFee({
+                                amount: new Money(0, pair.amountAsset),
+                                price: new Money(0, pair.priceAsset),
+                                matcherPublicKey
+                            }).then(fee => {
+                                return ({
+                                    feeMode: 'waves',
+                                    fee: fee
+                                });
                             });
                         }
 

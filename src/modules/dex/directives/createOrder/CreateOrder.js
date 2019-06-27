@@ -152,6 +152,10 @@
              * @type {Object}
              */
             matcherSettings = {};
+            /**
+             * @type {Poll}
+             */
+            feePoll = null;
 
 
             constructor() {
@@ -192,7 +196,6 @@
                 /**
                  * @type {Poll}
                  */
-                // const feePoll = createPoll(this, this._getFeeRates, this._updateFeeList, 20000);
 
                 const onChangeBalanceWatcher = () => {
                     this._updateBalances();
@@ -249,7 +252,6 @@
                         }
                     }));
                     this._setMatcherSettings();
-                    // feePoll.restart();
                 });
 
                 this.observe(['priceBalance', 'total', 'maxPriceBalance'], this._setIfCanBuyOrder);
@@ -279,9 +281,16 @@
                 this.observe('matcherSettings', () => {
                     if (this.matcherSettings.feeMode === 'dynamic') {
                         this._updateFeeList();
-                    } else if (this.matcherSettings.feeMode === 'fixed') {
+                        if (!this.feePoll) {
+                            this.feePoll = createPoll(this, this._getFeeRates, this._updateFeeList, 20000);
+                        }
+                    } else {
                         this.fee = this.matcherSettings.fee;
                         this.feeList = [];
+                        if (this.feePoll) {
+                            this.feePoll.destroy();
+                            this.feePoll = null;
+                        }
                     }
                     $scope.$apply();
                 });
@@ -945,6 +954,10 @@
                 return waves.matcher.getFeeRates();
             }
 
+            /**
+             * @return {Promise<T | never>}
+             * @private
+             */
             _setMatcherSettings() {
                 return Promise.all([
                     ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price),
