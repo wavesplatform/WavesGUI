@@ -233,7 +233,7 @@
                         <div ng-if="$ctrl.feeList.length">
                             <span w-i18n="directives.createOrder.matcherFee"></span>
                             <w-select class="select__no-user-select" ng-model="$ctrl.fee" up-direction="true">
-                                <w-option ng-repeat="fee in $ctrl.feeList" value="::fee">
+                                <w-option ng-repeat="fee in $ctrl.feeList track by fee.asset.displayName" value="::fee">
                                     {{::fee.toFormat()}} {{(fee.asset.ticker || fee.asset.displayName)}}
                                 </w-option>
                             </w-select>
