@@ -11,9 +11,10 @@
      * @param {TimeLine} timeLine
      * @param {SymbolInfoService} symbolInfoService
      * @param {Waves} waves
+     * @param {Matcher} matcher
      * @return {CandlesService}
      */
-    const factory = function (utils, timeLine, symbolInfoService, waves) {
+    const factory = function (utils, timeLine, symbolInfoService, waves, matcher) {
 
         class CandlesService {
 
@@ -48,7 +49,10 @@
                 const amountId = symbolInfo._wavesData.amountAsset.id;
                 const priceId = symbolInfo._wavesData.priceAsset.id;
                 const { options, config: candleConfig } = utils.getValidCandleOptions(from, to, interval);
-                const promises = options.map(option => config.getDataService().getCandles(amountId, priceId, option));
+                const promises = options.map(option => config.getDataService().getCandles(amountId, priceId, {
+                    matcher: matcher.currentMatcherAddress,
+                    ...option
+                }));
 
                 const convertBigNumber = num => num.isNaN() ? null : num.toNumber();
 
@@ -184,7 +188,7 @@
         return new CandlesService();
     };
 
-    factory.$inject = ['utils', 'timeLine', 'symbolInfoService', 'waves'];
+    factory.$inject = ['utils', 'timeLine', 'symbolInfoService', 'waves', 'matcher'];
 
     angular.module('app.dex').factory('candlesService', factory);
 })();
