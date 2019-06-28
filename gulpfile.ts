@@ -52,7 +52,6 @@ function createBuildTask(args?: { platform: TPlatform; env: TBuild; config: stri
 
     const pack: IPackageJSON = readJSONSync('package.json');
     const meta: IMetaJSON = readJSONSync(join('ts-scripts', 'meta.json'));
-    // const configurations = Object.keys(meta.configurations);
     const { themes } = readJSONSync(join('src', 'themeConfig', 'theme.json'));
     const SOURCE_IMAGE_LIST = getFilesFrom(
         join('src', 'img'),
@@ -62,8 +61,6 @@ function createBuildTask(args?: { platform: TPlatform; env: TBuild; config: stri
     const SOURCE_JSON_LIST = getFilesFrom(join('src'), '.json');
 
     return series(
-        createCleanTask(),
-        createDataServicesTask(),
         parallel(
             createTemplatesTask(
                 ['src/**/*.html', 'src/!(index.hbs)/**/*.hbs'],
@@ -139,13 +136,18 @@ function createBuildTask(args?: { platform: TPlatform; env: TBuild; config: stri
                 )
             ],
             styles: [],
-            themes
+            themes,
+            networkConfigFile: config
         }),
         createElectronPackageTask(outputPath, platform as TPlatform, meta, pack)
     );
 }
 
-task('build', createBuildTask());
+task('build', series(
+    createCleanTask(),
+    createDataServicesTask(),
+    createBuildTask()
+));
 
 task('eslint', createEslintTask());
 
@@ -155,6 +157,11 @@ task('data-services', createDataServicesTask());
 
 task('electron-debug', createElectronDebugTask());
 
-task('all', parallel(
-    createBuildTask()
+task('all', series(
+    createCleanTask(),
+    createDataServicesTask(),
+    createBuildTask({ platform: 'web', env: 'production', config: './configs/mainnet.json' }),
+    createBuildTask({ platform: 'web', env: 'production', config: './configs/testnet.json' }),
+    createBuildTask({ platform: 'desktop', env: 'production', config: './configs/mainnet.json' }),
+    createBuildTask({ platform: 'desktop', env: 'production', config: './configs/testnet.json' })
 ));

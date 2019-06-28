@@ -90,9 +90,9 @@
     "lessc": "sh scripts/lessc",
     "build": "tsc -p ./ && gulp all",
     "server": "npm run build && node server",
-    "electron:linux": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.png --platform=linux --out=./dist/linux",
-    "electron:win": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.ico --platform=win32 --out=./dist/win",
-    "electron:osx": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.icns --platform=darwin --out=./dist/osx",
+    "electron:linux": "electron-packager ./dist/desktop/mainnet/ --icon=./electron/icons/icon.png --platform=linux --out=./dist/linux",
+    "electron:win": "electron-packager ./dist/desktop/mainnet/ --icon=./electron/icons/icon.ico --platform=win32 --out=./dist/win",
+    "electron:osx": "electron-packager ./dist/desktop/mainnet/ --icon=./electron/icons/icon.icns --platform=darwin --out=./dist/osx",
     "electron": "gulp all && npm run electron:linux && npm run electron:win && npm run electron:osx",
     "electron-debug": "tsc && gulp electron-debug && node_modules/.bin/electron dist/desktop/electron-debug/ --ignore-ssl-error --no-replace-desktop --inspect",
     "data-services": "gulp data-services"

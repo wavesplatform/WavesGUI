@@ -1,16 +1,16 @@
 import { getType } from 'mime';
 import { exec, spawn } from 'child_process';
-import { existsSync, readdirSync, readFileSync, statSync, unlink } from 'fs';
+import { existsSync, readdirSync, readFileSync, statSync, unlink, exists } from 'fs';
 import { join, relative, extname, dirname } from 'path';
-import { IPackageJSON, IMetaJSON, TBuild, TConnection, TPlatform } from './interface';
+import { IPackageJSON, IMetaJSON, TBuild, TConnection, TPlatform, IConfItem } from './interface';
 import { readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync, copy } from 'fs-extra';
 import { compile } from 'handlebars';
 import { transform } from 'babel-core';
 import { render } from 'less';
 import { minify } from 'html-minifier';
 import { get, ServerResponse, IncomingMessage, request } from 'https';
-import { MAINNET_DATA, TESTNET_DATA } from '@waves/assets-pairs-order';
 import { Http2ServerRequest, Http2ServerResponse } from 'http2';
+import { serialize } from 'cookie';
 
 const extract = require('extract-zip');
 
@@ -199,28 +199,28 @@ export function getStyles(param: IPrepareHTMLOptions, meta, themes) {
 }
 
 export async function getBuildParams(param: IPrepareHTMLOptions) {
-    const [pack, meta, themesConf] = await Promise.all([
+    const [pack, meta, themesConf, networkConfig] = await Promise.all([
         readJSON(join(__dirname, '../package.json')) as Promise<IPackageJSON>,
         readJSON(join(__dirname, './meta.json')) as Promise<IMetaJSON>,
-        readJSON(join(__dirname, '../src/themeConfig/theme.json'))
+        readJSON(join(__dirname, '../src/themeConfig/theme.json')),
+        (param.networkConfigFile
+            ? readJSON(param.networkConfigFile) as Promise<IConfItem>
+            : readJSON(join(__dirname, '..', 'configs', `${param.connection}.json`)) as Promise<IConfItem>
+        ).catch(e => {
+            console.error(e);
+            return Promise.reject(e);
+        })
     ]);
 
     const { themes } = themesConf;
     const { domain, analyticsIframe } = meta as any;
-    const { connection, type, buildType, outerScripts = [] } = param;
-    const config = meta.configurations[connection];
-
-    const networks = ['mainnet', 'testnet'].reduce((result, connection) => {
-        result[connection] = meta.configurations[connection];
-        return result;
-    }, Object.create(null));
-
+    const { type, buildType, outerScripts = [] } = param;
     const scripts = getScripts(param, pack, meta).concat(outerScripts);
     const styles = getStyles(param, meta, themes);
     const isWeb = type === 'web';
     const isProduction = buildType && buildType === 'production';
-    const matcherPriorityList = connection === 'mainnet' ? MAINNET_DATA : TESTNET_DATA;
-    const { origin, oracles, feeConfigUrl, bankRecipient, tradingPairs } = config;
+    const { origin, oracles, feeConfigUrl, bankRecipient, tradingPairs } = networkConfig;
+
     return {
         pack,
         isWeb,
@@ -230,13 +230,16 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
         oracles,
         domain,
         styles,
-        scripts,
+        scripts: param.scripts
+            ? scripts
+            : scripts.slice(0, meta.vendors.length)
+                .concat([`<script>angular.module('app.templates', []);</script>`])
+                .concat(scripts.slice(meta.vendors.length)),
         isProduction,
         feeConfigUrl,
         bankRecipient,
         build: { type },
-        matcherPriorityList,
-        network: networks[connection],
+        network: networkConfig,
         themesConf: themesConf,
         langList: meta.langList,
     };
@@ -287,11 +290,11 @@ export function parseArguments<T>(): T {
     return result;
 }
 
-export async function getInitScript(connectionType: TConnection, buildType: TBuild, type: TPlatform, paramsIn?) {
+export async function getInitScript(connectionType: TConnection, type: TPlatform, paramsIn?: IPrepareHTMLOptions) {
     const params = paramsIn || {
         target: join(__dirname, '..', 'src'),
         connection: connectionType,
-        type,
+        type
     };
 
     const config = await getBuildParams(params);
@@ -510,7 +513,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
 
         if (buildType !== 'development') {
             if (isPage(req.url)) {
-                const path = join(__dirname, '..', 'dist', type, connectionType, buildType, 'index.html');
+                const path = join(__dirname, '..', 'dist', type, connectionType, 'index.html');
                 return readFile(path, 'utf8').then((file) => {
                     res.end(file);
                 });
@@ -518,8 +521,22 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
             return routeStatic(req, res, connectionType, buildType, type);
         } else {
             if (buildType === 'development' && req.url.includes('init.js')) {
-                return getInitScript(connectionType, buildType, type).then((script) => {
+                return getInitScript(connectionType, type).then((script) => {
                     res.end(script);
+                }).catch(e => {
+                    if (e.code === 'ENOENT') {
+                        const cookie = serialize('session', '', {
+                            expires: new Date(),
+                            path: '/'
+                        });
+
+                        res.statusCode = 302;
+                        res.setHeader('Location', '/');
+                        res.setHeader('Set-Cookie', cookie);
+                    }
+
+                    res.statusCode = 500;
+                    res.end();
                 });
             }
         }
@@ -584,9 +601,23 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
             return prepareHTML({
                 target: join(__dirname, '..', 'src'),
                 connection: connectionType,
-                type,
+                type
             }).then((file) => {
                 res.end(file);
+            }).catch(e => {
+                if (e.code === 'ENOENT') {
+                    const cookie = serialize('session', '', {
+                        expires: new Date(),
+                        path: '/'
+                    });
+
+                    res.statusCode = 302;
+                    res.setHeader('Location', '/');
+                    res.setHeader('Set-Cookie', cookie);
+                }
+
+                res.statusCode = 500;
+                res.end();
             });
         } else if (isTemplate(url)) {
             readFile(join(__dirname, '../src', url), 'utf8')
@@ -769,7 +800,7 @@ export function stat(req: Http2ServerRequest, res: Http2ServerResponse, roots: A
 function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, platform: TPlatform) {
     const ROOTS = [join(__dirname, '..')];
     if (buildType !== 'development') {
-        ROOTS.push(join(__dirname, '..', 'dist', platform, connectionType, buildType));
+        ROOTS.push(join(__dirname, '..', 'dist', platform, connectionType));
     } else {
         ROOTS.push(join(__dirname, '..', 'src'));
     }
@@ -873,6 +904,7 @@ export interface IPrepareHTMLOptions {
     type: TPlatform;
     themes?: Array<string>;
     outerScripts?: Array<string>;
+    networkConfigFile?: string;
 }
 
 export interface IFilter {

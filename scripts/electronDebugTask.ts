@@ -7,10 +7,10 @@ import { loadLocales } from '../ts-scripts/utils';
 
 export function createElectronDebugTask(): TaskFunction {
     return function electronDebugTask() {
-        const root = join(__dirname, 'dist', 'desktop', 'electron-debug');
-        const srcDir = join(__dirname, 'electron');
-        const meta: IMetaJSON = readJSONSync(join(__dirname, 'ts-scripts', 'meta.json'));
-        const pack: IPackageJSON = readJSONSync(join(__dirname, 'package.json'));
+        const root = join(__dirname, '..', 'dist', 'desktop', 'electron-debug');
+        const srcDir = join(__dirname, '..', 'electron');
+        const meta: IMetaJSON = readJSONSync(join(__dirname, '..', 'ts-scripts', 'meta.json'));
+        const pack: IPackageJSON = readJSONSync(join(__dirname, '..', 'package.json'));
 
         const copyItem = name => copy(join(srcDir, name), join(root, name));
         const makePackageJSON = () => {
@@ -28,7 +28,7 @@ export function createElectronDebugTask(): TaskFunction {
 
         const excludeTypeScrip = list => list.filter(name => extname(name) !== '.ts');
         const copyNodeModules = () => Promise.all(meta.copyNodeModules.map(name => copy(name, join(root, name))));
-        const copyI18next = () => copy(join(__dirname, 'node_modules', 'i18next', 'dist'), join(root, 'i18next'));
+        const copyI18next = () => copy(join(__dirname, '..', 'node_modules', 'i18next', 'dist'), join(root, 'i18next'));
 
         const renameLocaleDirectory = () => {
             const localesPath = join(root, 'locales');
