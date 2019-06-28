@@ -3,7 +3,8 @@
         <w-step>
             <div class="row margin-2">
                 <div class="body-2 basic-900 margin-05" w-i18n="modal.receive.asset"></div>
-                <div class="input-like big flex-row split-half" ng-if="$ctrl.singleAsset">
+
+                <div class="input-like big flex-row split-half" ng-if="::$ctrl.isSingleAsset">
                     <div class="flex-row">
                         <w-asset-logo class="assetLogo assetLogo-markerHide" size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
                         <div class="asset__name">{{::$ctrl.asset.name}}</div>
@@ -12,9 +13,10 @@
 
                 <w-select
                     class="big"
-                    ng-if="!$ctrl.singleAsset"
-                    ng-model="$ctrl.asset">
-                    <w-option ng-repeat="fiat in $ctrl.fiats track by $index" value="::fiat">
+                    ng-if="::!$ctrl.isSingleAsset"
+                    ng-model="$ctrl.asset"
+                >
+                    <w-option ng-repeat="fiat in ::$ctrl.fiats track by $index" value="::fiat">
                         <div class="flex-row split-half">
                             <div class="flex-row">
                                 <w-asset-logo class="assetLogo assetLogo-markerHide" size="24" asset-id="{{::fiat.id}}"></w-asset-logo>
@@ -25,23 +27,25 @@
                 </w-select>
             </div>
 
-            <div ng-if="$ctrl.pending || $ctrl.error"
-                 class="receive-user-status"
-                 ng-class="{pending: $ctrl.pending}">
+            <div
+                ng-if="$ctrl.pending || $ctrl.error"
+                class="receive-user-status"
+                ng-class="{pending: $ctrl.pending}"
+            >
                 <w-loader ng-if="$ctrl.pending"></w-loader>
                 <w-error-block ng-if="$ctrl.error"></w-error-block>
             </div>
 
             <div ng-if="!$ctrl.isLira && !$ctrl.error" class="get-verified">
-
                 <div class="input-like verified-input margin-2" ng-if="$ctrl.isVerified && !$ctrl.pending">
                     <i></i><span w-i18n="modal.receive.verified"></span>
                 </div>
 
-                <div ng-if="!$ctrl.isVerified && !$ctrl.pending"
-                     class="body-2 warning-500 plate-warning margin-1"
-                     w-i18n="modal.sepa.warningTitle">
-                </div>
+                <div
+                    ng-if="!$ctrl.isVerified && !$ctrl.pending"
+                    class="body-2 warning-500 plate-warning margin-1"
+                    w-i18n="modal.sepa.warningTitle"
+                ></div>
 
                 <div ng-if="$ctrl.isVerified && !$ctrl.pending" class="plate-warning">
                     <div class="body-2 warning-500 margin-05"
@@ -51,10 +55,13 @@
                 </div>
 
                 <div ng-if="!$ctrl.isVerified && !$ctrl.pending" class="country-list-link">
-                    <a class="caption-1 submit-300"
-                       w-i18n="modal.sepa.countryList"
-                       ng-href="{{$ctrl.listOfEligibleCountries}}"
-                       target="_blank" rel="noopener noreferrer"></a>
+                    <a
+                        class="caption-1 submit-300"
+                        w-i18n="modal.sepa.countryList"
+                        ng-href="{{$ctrl.listOfEligibleCountries}}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    ></a>
                 </div>
 
                 <table ng-if="!$ctrl.isVerified && !$ctrl.pending" class="steps">
@@ -62,29 +69,36 @@
                         <td class="step headline-3 basic-900" w-i18n="modal.sepa.step1"></td>
                         <td class="description body-2 basic-900 margin-05"
                             w-i18n="modal.sepa.step1Description"
-                            params="{assetName: $ctrl.asset.name, url: $ctrl.idNowSiteUrl}"></td>
+                            params="{assetName: $ctrl.asset.name, url: $ctrl.idNowSiteUrl}"
+                        ></td>
                     </tr>
                     <tr>
                         <td class="step headline-3 basic-900" w-i18n="modal.sepa.step2"></td>
                         <td class="description body-2 basic-900 margin-05"
-                            w-i18n="modal.sepa.step2Description"></td>
+                            w-i18n="modal.sepa.step2Description"
+                        ></td>
                     </tr>
                 </table>
 
-                <w-coinomat-terms show-accepted-checkbox="::true"
-                                  is-verified="$ctrl.isVerified"
-                                  terms-accepted="$ctrl.termsAccepted"
-                                  terms-pending="$ctrl.pending"
-                                  load-error="$ctrl.error"
-                                  on-sign-start="$ctrl.onSignStart()"
-                                  on-sign-end="$ctrl.onSignEnd()"
-                                  force-show-terms="!$ctrl.isVerified"></w-coinomat-terms>
+                <w-coinomat-terms
+                    show-accepted-checkbox="::true"
+                    is-verified="$ctrl.isVerified"
+                    terms-accepted="$ctrl.termsAccepted"
+                    terms-pending="$ctrl.pending"
+                    load-error="$ctrl.error"
+                    on-sign-start="$ctrl.onSignStart()"
+                    on-sign-end="$ctrl.onSignEnd()"
+                    force-show-terms="!$ctrl.isVerified"
+                ></w-coinomat-terms>
 
                 <div ng-if="!$ctrl.isVerified" class="margin-top-3 relative button-wrapper-height">
-                    <a ng-if="!$ctrl.signInProgress && !$ctrl.pending"
-                       href="{{$ctrl.idNowUserLink}}"
-                       target="_blank" rel="noopener noreferrer"
-                       class="flex">
+                    <a
+                        class="flex"
+                        ng-if="!$ctrl.signInProgress && !$ctrl.pending"
+                        ng-href="{{$ctrl.idNowUserLink}}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         <w-button class="big submit long" disabled="!$ctrl.termsAccepted">
                             <span w-i18n="modal.sepa.proceed"></span>
                         </w-button>
@@ -103,18 +117,20 @@
                     <div w-i18n="modal.receive.wtry.info"></div>
                 </div>
 
-                <a href="{{$ctrl.digiLiraUserLink}}"
-                   ng-click="$ctrl.nextStep()"
-                   target="_blank" rel="noopener noreferrer"
-                   class="fake-button long">
-                        <span class="fake-button-content big submit long"
-                              w-i18n="modal.receive.card.continue"></span>
+                <a
+                    class="fake-button long"
+                    ng-href="{{$ctrl.digiLiraUserLink}}"
+                    ng-click="$ctrl.nextStep()"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <span class="fake-button-content big submit long"
+                        w-i18n="modal.receive.card.continue"></span>
                 </a>
             </div>
-
         </w-step>
-        <w-step>
 
+        <w-step>
             <div class="text-center receive-confirm" ng-if="!$ctrl.isLira">
                 <i class="bank-success-icon margin-1"></i> <!-- if bank -->
                 <h3 class="basic-700" w-i18n="modal.receive.bankSuccessHeader"></h3>
@@ -125,7 +141,6 @@
                 <i class="bank-building-success-icon margin-1"></i>
                 <h3 class="basic-700" w-i18n="modal.receive.wtrySuccessHeader"></h3>
             </div>
-
         </w-step>
     </w-step-by-step>
 </div>
