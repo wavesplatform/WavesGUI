@@ -18,6 +18,9 @@
             },
             '1.2.1': function (storage) {
                 return newTerms(storage);
+            },
+            '1.3.5': function (storage) {
+                return addDefaultUserName(storage);
             }
         };
 
@@ -40,6 +43,19 @@
                     const idList = settings.pinnedAssetIdList;
                     if (idList && !idList.includes(gateway)) {
                         idList.push(gateway);
+                    }
+                });
+
+                return storage.save('userList', users);
+            });
+        }
+
+        function addDefaultUserName(storage) {
+            return storage.load('userList').then((users = []) => {
+                let counter = 0;
+                users.forEach((user) => {
+                    if (!user.name) {
+                        user.name = ++counter >= 2 ? `Account ${counter}` : 'Account';
                     }
                 });
 

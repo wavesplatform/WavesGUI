@@ -152,13 +152,11 @@
             <div class="user-info-wrapper">
                 <div class="account-name body-2 basic-700"
                      ng-if="user.name">{{user.name}}</div>
-                <div class="account-name body-2 basic-700"
-                     ng-if="!user.name">{{$ctrl.defaultUserName}}</div>
                 <div class="account-address basic-500 body-3">{{$ctrl.address}}</div>
             </div>
         </div>
 
-        <div class="dropdown" style="display: block!important">
+        <div class="dropdown">
 
             <div class="avatar-container text-center has-helper margin-top-2">
                 <w-analytics event="'Account Picture Click'" event-target="'ui'">
@@ -188,8 +186,8 @@
                             <w-input-container>
                                 <w-input type="text"
                                          class="tiny long"
-                                         ng-focus="$ctrl.hideTooltip()"
-                                         ng-blur="$ctrl.handleBlur()"
+                                         ng-focus="$ctrl.onFocus()"
+                                         ng-blur="$ctrl.onBlur()"
                                          ng-model="$ctrl.userName"
                                          maxlength="{{::MAX_USER_NAME_LENGTH}}"
                                          name="userName"

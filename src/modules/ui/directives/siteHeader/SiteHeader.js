@@ -11,7 +11,6 @@
      * @param {$state} $state
      * @param {JQuery} $document
      * @param {JQuery} $element
-     * @param {app.i18n} i18n
      * @return {SiteHeaderCtrl}
      */
     const controller = function (Base,
@@ -22,8 +21,7 @@
                                  $element,
                                  $document,
                                  utils,
-                                 $scope,
-                                 i18n) {
+                                 $scope) {
 
         const PATH = 'modules/ui/directives/siteHeader/templates';
 
@@ -60,13 +58,14 @@
 
                 $scope.user = user;
                 $scope.ERROR_DISPLAY_INTERVAL = 3;
-                $scope.MAX_USER_NAME_LENGTH = 20;
+                $scope.MAX_USER_NAME_LENGTH = 24;
 
                 this.hovered = false;
                 this.address = user.address || '3PHBX4uXhCyaANUxccLHNXw3sqyksV7YnDz';
                 this.isLogined = !!user.address;
                 this.userType = user.userType;
                 this.isDesktop = WavesApp.isDesktop();
+                this.userName = user.name;
 
                 this.isScript = user.hasScript();
                 this.isKeeper = user.userType === 'wavesKeeper';
@@ -87,12 +86,10 @@
                 this.largeTemplate = `${PATH}/largeHeader.html`;
                 this.mobileTemplate = `${PATH}/mobileHeader.html`;
 
-                this.observe('userName', this._onChangeUserName);
-                this.observe('defaultUserName', () => {
-                    this.userName = user.name ? user.name : this.defaultUserName;
-                });
                 this._setDefaultUserName();
-                this.listenEventEmitter(i18next, 'languageChanged', this._setDefaultUserName.bind(this));
+                this.observe('userList', () => {
+                    this._setDefaultUserName();
+                });
             }
 
             $postLink() {
@@ -109,6 +106,13 @@
             /**
              * @public
              */
+            onFocus() {
+                this.hideTooltip();
+            }
+
+            /**
+             * @public
+             */
             showTooltip() {
                 $element.find('.account-name-wrapper w-info-tooltip').show();
             }
@@ -116,19 +120,9 @@
             /**
              * @public
              */
-            setUserName() {
-                if (!this.userName) {
-                    this.userName = this.defaultUserName;
-                    user.name = null;
-                }
-            }
-
-            /**
-             * @public
-             */
-            handleBlur() {
+            onBlur() {
                 this.showTooltip();
-                this.setUserName();
+                this._saveUserName();
             }
 
             $onDestroy() {
@@ -262,12 +256,16 @@
             /**
              * @private
              */
-            _onChangeUserName() {
+            _saveUserName() {
                 this._setIsUniqueUserName();
                 this._setIsUserNameLengthValid();
                 const isUserNameValid = this.isUniqueUserName && this.isUserNameLengthValid;
 
-                if (isUserNameValid && this.userName !== this.defaultUserName) {
+                if (!this.userName) {
+                    this.userName = this.defaultUserName;
+                }
+
+                if (isUserNameValid) {
                     user.name = this.userName;
                 }
             }
@@ -290,8 +288,35 @@
                 this.isUserNameLengthValid = this.userName ? this.userName.length <= $scope.MAX_USER_NAME_LENGTH : true;
             }
 
+            /**
+             * @private
+             */
             _setDefaultUserName() {
-                this.defaultUserName = i18n.translate('welcome.account', 'app.welcome');
+                const defaultNameRegexps = [/^Account\s\d+\s*$/, /^Account\s*$/];
+                const accoutString = 'Account';
+
+                if (defaultNameRegexps.some(name => name.test(this.userName))) {
+                    this.defaultUserName = this.userName;
+                    return;
+                }
+
+                if (!this.userList.length) {
+                    this.defaultUserName = accoutString;
+                    return;
+                }
+
+                const accountCounters = this.userList
+                    .map(user => user.name)
+                    .filter(name => defaultNameRegexps.some(defaultName => defaultName.test(name)))
+                    .map(name => +name.substring(accoutString.length + 1));
+
+                if (!accountCounters.length) {
+                    this.defaultUserName = accoutString;
+                    return;
+                }
+
+                const counter = accountCounters.sort((a, b) => b - a)[0];
+                this.defaultUserName = counter ? `${accoutString} ${counter + 1}` : `${accoutString} ${counter + 2}`;
             }
 
         }
@@ -308,8 +333,7 @@
         '$element',
         '$document',
         'utils',
-        '$scope',
-        'i18n'
+        '$scope'
     ];
 
     angular.module('app.ui').component('wSiteHeader', {
