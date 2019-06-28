@@ -1,19 +1,22 @@
 <div class="smart-table__name smart-table__cell" data-column-id="name">
     <div class="cell {{SELECTORS.SPONSORED}}">
         {{#if assetIconPath}}
-            <div class="asset__logo asset__logo-custom margin-right-1 footnote-3"
-                 style="width: 30px; height: 30px; background-image: url({{assetIconPath}});">
-                <div class="marker{{#if isSmart}} smart-asset{{/if}}"></div>
+            <div class="assetLogo assetLogo-custom footnote-3">
+                <div class="assetLogo__logo" style="width: 30px; height: 30px; background-image: url({{assetIconPath}});">
+                    <div class="assetLogo__marker{{#if isSmart}} assetLogo__marker-smart{{/if}}"></div>
+                </div>
             </div>
         {{else}}
-            <div class="asset__logo margin-right-1 footnote-3"
-                 style="width: 30px; height: 30px; background-color: {{charColor}}; font-size: 13px;">{{firstAssetChar}}
-                <div class="marker{{#if isSmart}} smart-asset{{/if}}" style="background-color: {{charColor}}"></div>
+            <div class="assetLogo footnote-3">
+                <div class="assetLogo__logo" style="width: 30px; height: 30px; background-color: {{charColor}}; font-size: 13px;">
+                    <div class="assetLogo__letter">{{firstAssetChar}}</div>
+                    <div class="assetLogo__marker{{#if isSmart}} assetLogo__marker-smart{{/if}}" style="background-color: {{charColor}}"></div>
+                </div>
             </div>
         {{/if}}
         <div class="asset__text">
-            <div class="asset-name-desktop asset__wrapper">
-                <div>{{assetName}}</div>
+            <div class="asset__wrapper asset__wrapper-desktop">
+                <div class="asset__name">{{assetName}}</div>
                 {{#if isVerified}}
                     <span class="status-label-min active" w-i18n-literal="qualified"></span>
                 {{/if}}

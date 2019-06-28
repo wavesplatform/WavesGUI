@@ -1,5 +1,6 @@
 @import (reference) 'config';
 
+.m-dialog,
 md-dialog {
 
   md-toolbar {
@@ -69,6 +70,7 @@ md-backdrop.md-dialog-backdrop {
 }
 
 .md-dialog-container {
+  .m-dialog,
   md-dialog {
     box-shadow: none;
     position: absolute;
@@ -93,6 +95,7 @@ md-toolbar:not(.md-menu-toolbar) {
 }
 
 @media screen and (max-width: 540px) {
+  .m-dialog,
   md-dialog {
 
     md-dialog-content {
@@ -112,6 +115,7 @@ md-toolbar:not(.md-menu-toolbar) {
   }
 
   .md-dialog-container {
+    .m-dialog,
     md-dialog {
       width: 100%;
       max-width: 100%;
@@ -131,4 +135,18 @@ md-toolbar:not(.md-menu-toolbar) {
       }
     }
   }
+}
+
+
+body.dex,
+body.dex-demo {
+  .m-dialog-assetInfo {
+    .m-dialog__wrapper {
+      height: auto;
+    }
+  }
+}
+
+.m-dialog__wrapper {
+  height: 100%;
 }

@@ -5,39 +5,14 @@ w-portfolio-row {
   width: 100%;
 
   .asset {
-    &__logo {
-      position: relative;
-      left: 0;
-
-      .marker {
-        display: none;
-        position: absolute;
-        bottom: calc(50% ~'- 16px');
-
-        &.smart-asset,
-        &.sponsored-asset {
-          display: block;
-        }
-      }
-
-      .spam &, .spam & .marker {
-        background-color: @color-basic-200 !important;
-      }
+    &__marker {
+      display: none;
     }
   }
 
-  .asset {
-    &__logo {
-      background-size: 100% 100%;
-      flex-shrink: 0;
-      text-align: center;
-      border-radius: 50%;
-      left: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: @white-only;
-    }
+  .spam &,
+  .spam & .asset__marker {
+    background-color: @color-basic-200 !important;
   }
 
   .smart-table {

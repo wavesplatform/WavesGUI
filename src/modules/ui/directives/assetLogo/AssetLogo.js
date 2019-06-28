@@ -73,7 +73,7 @@
                     });
                 }
 
-                $element.find('.asset__logo')
+                $element.find('.assetLogo__logo')
                     .css({
                         width: `${this.size}px`,
                         height: `${this.size}px`
@@ -90,8 +90,8 @@
                     const { logo } = utils.getDataFromOracles(this.assetId);
 
                     if (logo) {
-                        $element.find('.asset__logo')
-                            .addClass('custom')
+                        $element.find('.assetLogo__logo')
+                            .addClass('assetLogo-custom')
                             .css('backgroundImage', `url(${logo})`);
                         return null;
                     }
@@ -101,7 +101,7 @@
                             if (logo) {
                                 utils.loadImage(logo)
                                     .then(() => {
-                                        $element.find('.asset__logo')
+                                        $element.find('.assetLogo__logo')
                                             .css('backgroundImage', `url(${logo})`);
                                     })
                                     .catch(() => this._addLetter(asset.name));
@@ -109,8 +109,8 @@
                                 // TODO: delete after contest
                                 utils.loadImage(CONTEST_ASSET_ID_MAP[asset.id])
                                     .then(() => {
-                                        $element.find('.asset__logo')
-                                            .addClass('custom')
+                                        $element.find('.assetLogo__logo')
+                                            .addClass('assetLogo-custom')
                                             .css('backgroundImage', `url(${CONTEST_ASSET_ID_MAP[asset.id]})`);
                                     })
                                     .catch(() => this._addLetter(asset.name));
@@ -134,16 +134,16 @@
                     .toUpperCase();
                 const color = utils.getAssetLogoBackground(this.assetId);
                 const fontSize = Math.round((Number(this.size) || 0) * 0.43);
-                $element.find('.asset__logo')
+                $element.find('.assetLogo__logo')
                     .css({
                         'background-color': color
                     });
-                $element.find('.asset__logo .letter')
+                $element.find('.assetLogo__letter')
                     .text(letter)
                     .css({
                         'font-size': `${fontSize}px`
                     });
-                $element.find('.asset__logo .marker')
+                $element.find('.assetLogo__marker')
                     .css({
                         'background-color': color
                     });
@@ -153,7 +153,7 @@
              * @private
              */
             _onChangeCanPayFee() {
-                $element.find('.marker').toggleClass('sponsored-asset', this._canPayFee);
+                $element.find('.assetLogo__marker').toggleClass('assetLogo__marker-sponsored', this._canPayFee);
             }
 
             /**
@@ -161,7 +161,7 @@
              */
             _onChangeIsSmart() {
                 const isSmart = isEmpty(this.hasScript) ? this._isSmart : this.hasScript;
-                $element.find('.marker').toggleClass('smart-asset', isSmart);
+                $element.find('.assetLogo__marker').toggleClass('assetLogo__marker-smart', isSmart);
             }
 
         }
@@ -173,7 +173,7 @@
 
     angular.module('app.ui')
         .component('wAssetLogo', {
-            template: '<div class="asset__logo footnote-3"><div class="letter"></div><div class="marker"></div></div>',
+            templateUrl: 'modules/ui/directives/assetLogo/asset-logo.html',
             controller: controller,
             bindings: {
                 assetId: '@',

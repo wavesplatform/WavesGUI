@@ -77,12 +77,12 @@ body.tokens {
         background-color: @color-basic-100;
         position: relative;
 
-        w-new-asset-logo {
+        .newAssetLogo {
           cursor: pointer;
         }
       }
 
-      w-new-asset-logo {
+      .newAssetLogo {
         &:hover + w-info-tooltip .tooltip {
           display: flex;
         }
@@ -134,16 +134,9 @@ body.tokens {
   }
 
   w-info-tooltip {
-    top: -8px;
-    left: 50%;
-
-    .information-icon {
-      display: none;
-    }
-
     .tooltip {
       align-items: center;
-      transform: translateX(-50%);
+      transform: translate(-50%, -6px);
     }
   }
 }
