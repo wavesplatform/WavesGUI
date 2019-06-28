@@ -1,14 +1,16 @@
 (function () {
     'use strict';
 
+    const DEFAULT_LINK = '#';
+
     /**
      * @param {typeof Base} Base
-     * @param {User} user
-     * @param {$rootScope.Scope} $scope
+     * @param {ng.IScope} $scope
      * @param {GatewayService} gatewayService
+     * @param {User} user
      * @return {ReceiveBank}
      */
-    const controller = function (Base, user, $scope, gatewayService) {
+    const controller = function (Base, $scope, gatewayService, user) {
 
         class ReceiveBank extends Base {
 
@@ -34,7 +36,7 @@
             /**
              * @type {boolean}
              */
-            singleAsset = true;
+            isSingleAsset;
             /**
              * @type {Asset}
              */
@@ -46,7 +48,7 @@
             /**
              * @type {Array}
              */
-            fiats = [];
+            fiats = undefined;
             /**
              * @type {boolean}
              */
@@ -56,13 +58,31 @@
              */
             digiLiraUserLink = 'https://www.digilira.com/';
 
+            /**
+             * @type {string}
+             */
+            listOfEligibleCountries = DEFAULT_LINK;
+
+            /**
+             * @type {string}
+             */
+            idNowSiteUrl = DEFAULT_LINK;
+
+            /**
+             * @type {string}
+             */
+            idNowUserLink = DEFAULT_LINK;
+
+            /**
+             * @type {number}
+             */
+            step = 0;
 
             constructor() {
                 super();
 
-                this.observe('asset', this.initBankTab);
+                this.observe('asset', this._updateDetails);
             }
-
 
             nextStep() {
                 this.step += 1;
@@ -76,10 +96,13 @@
                 this.signInProgress = false;
             }
 
-            initBankTab() {
+            /**
+             * @private
+             */
+            _updateDetails() {
                 const sepaDetails = gatewayService.getSepaDetails(this.asset, user.address);
-                if (sepaDetails) {
 
+                if (sepaDetails) {
                     sepaDetails.then((details) => {
                         this.listOfEligibleCountries = details.listOfEligibleCountries;
                         this.idNowSiteUrl = details.idNowSiteUrl;
@@ -87,7 +110,6 @@
                         $scope.$apply();
                     });
                 }
-
             }
 
         }
@@ -95,18 +117,15 @@
         return new ReceiveBank();
     };
 
-    controller.$inject = ['Base', 'user', '$scope', 'gatewayService'];
+    controller.$inject = ['Base', '$scope', 'gatewayService', 'user'];
 
     angular.module('app.utils').component('wReceiveBank', {
         controller,
         bindings: {
-            fiats: '<',
             asset: '<',
-            singleAsset: '<',
-            listOfEligibleCountries: '<'
+            fiats: '<',
+            isSingleAsset: '<'
         },
-        templateUrl: 'modules/utils/modals/receive/receiveBank/receive-bank.html',
-        scope: false
+        templateUrl: 'modules/utils/modals/receive/receiveBank/receive-bank.html'
     });
-
 })();
