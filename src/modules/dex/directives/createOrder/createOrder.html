@@ -230,18 +230,18 @@
                             {{::$ctrl.fee.toFormat()}} {{($ctrl.fee.asset.ticker || $ctrl.fee.asset.displayName)}}
                         </div>
 
-                        <div ng-if="$ctrl.feeList.length">
-                            <span w-i18n="directives.createOrder.matcherFee"></span>
-                            <w-select class="select__no-user-select" ng-model="$ctrl.fee" up-direction="true">
+                        <div class="expiration__item expiration__item-fee" ng-if="$ctrl.feeList.length">
+                            <span class="expiration__label" w-i18n="directives.createOrder.matcherFee"></span>
+                            <w-select class="expiration__select select__no-user-select" ng-model="$ctrl.fee" up-direction="true">
                                 <w-option ng-repeat="fee in $ctrl.feeList track by fee.asset.displayName" value="::fee">
                                     {{::fee.toFormat()}} {{(fee.asset.ticker || fee.asset.displayName)}}
                                 </w-option>
                             </w-select>
                         </div>
 
-                        <div>
-                            <div w-i18n="directives.createOrder.expiration"></div>
-                            <w-select class="select__no-user-select" ng-model="$ctrl.expiration" up-direction="true">
+                        <div class="expiration__item expiration__item-acting">
+                            <div class="expiration__label" w-i18n="directives.createOrder.expiration"></div>
+                            <w-select class="expiration__select select__no-user-select" ng-model="$ctrl.expiration" up-direction="true">
                                 <w-option ng-repeat="option in $ctrl.expirationValues track by option.name"
                                           value="::option.name"
                                           w-app-class>
