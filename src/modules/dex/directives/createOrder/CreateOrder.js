@@ -199,9 +199,9 @@
 
                 const onChangeBalanceWatcher = () => {
                     this._updateBalances();
-                    // if (this.matcherSettings.mode === 'dynamic') {
-                    //     this._updateFeeList();
-                    // }
+                    if (this.matcherSettings.mode === 'dynamic') {
+                        this._updateFeeList();
+                    }
                 };
                 this.receive(balanceWatcher.change, onChangeBalanceWatcher, this);
                 this._updateBalances();
@@ -917,46 +917,36 @@
              * @private
              */
             _updateFeeList() {
+                this.feeList = [];
                 return this._getFeeRates()
                     .then(list => {
                         const assetsId = Object.keys(list);
                         const basedCustomFee = this.matcherSettings.basedCustomFee;
 
-                        // Promise.all(
-                        //     assetsId.map(id => balanceWatcher.getBalanceByAssetId(id))
-                        // ).then(balances => {
-                        //     const filteredFeeList = balances
-                        //         .map(balance => {
-                        //             const id = balance.asset.id;
-                        //             const rate = new BigNumber(list[id]);
-                        //             return balance.cloneWithCoins(
-                        //                 rate.times(basedCustomFee[id])
-                        //             );
-                        //         })
-                        //         // .filter((fee, i) => fee.lte(balances[i]));
-                        //     if (filteredFeeList.length === 1) {
-                        //         this.fee = filteredFeeList[0];
-                        //     } else {
-                        //         this.feeList = filteredFeeList;
-                        //     }
-                        // });
-
                         Promise.all(
-                            assetsId.map(id => waves.node.assets.getAsset(id))
-                        ).then(assets => {
-                            const filteredFeeList = assets
-                                .map(asset => {
-                                    const id = asset.id;
+                            assetsId.map(id => balanceWatcher.getBalanceByAssetId(id))
+                        ).then(balances => {
+
+                            const feeList = balances
+                                .map(balance => {
+                                    const id = balance.asset.id;
                                     const rate = new BigNumber(list[id]);
-                                    return new Money(rate.times(basedCustomFee[id]), asset);
+                                    return balance.cloneWithCoins(
+                                        rate.times(basedCustomFee[id])
+                                    );
                                 });
 
-                            if (filteredFeeList.length === 1) {
+                            const filteredFeeList = feeList.filter((fee, i) => fee.lte(balances[i]));
+
+                            if (!filteredFeeList.length) {
+                                this.fee = feeList.find(fee => fee.asset.id === WavesApp.defaultAssets.WAVES);
+                            } else if (filteredFeeList.length === 1) {
                                 this.fee = filteredFeeList[0];
                             } else {
                                 this.feeList = filteredFeeList;
                             }
                         });
+
                     })
                     .catch(() => {
                         this.feeList = [];
