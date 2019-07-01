@@ -148,17 +148,17 @@
              * @private
              */
             _onHoverIn() {
-                const sellTooltip = i18n.translate('orderbook.ask.tooltipText', 'app.dex', {
+                const sellTooltip = this._pair && i18n.translate('orderbook.ask.tooltipText', 'app.dex', {
                     amountAsset: this._pair.amountAsset.displayName,
                     priceAsset: this._pair.priceAsset.displayName,
                     price: this._data.price.toFormat(this._pair.priceAsset.precision)
-                });
+                }) || '-';
 
-                const buyTooltip = i18n.translate('orderbook.bid.tooltipText', 'app.dex', {
+                const buyTooltip = this._pair && i18n.translate('orderbook.bid.tooltipText', 'app.dex', {
                     amountAsset: this._pair.amountAsset.displayName,
                     priceAsset: this._pair.priceAsset.displayName,
                     price: this._data.price.toFormat(this._pair.priceAsset.precision)
-                });
+                }) || '-';
 
                 this._tooltipSell.innerText = sellTooltip;
                 this._tooltipBuy.innerText = buyTooltip;

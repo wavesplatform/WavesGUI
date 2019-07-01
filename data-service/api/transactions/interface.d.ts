@@ -174,6 +174,7 @@ export module txApi {
         expiration: number;
         id: string;
         matcherFee: string;
+        matcherFeeAssetId?: string;
         matcherPublicKey: string;
         orderType: TOrderType;
         price: string;

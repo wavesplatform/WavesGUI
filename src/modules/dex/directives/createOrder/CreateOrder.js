@@ -15,10 +15,11 @@
      * @param {$state} $state
      * @param {ModalManager} modalManager
      * @param {BalanceWatcher} balanceWatcher
+     * @param {Transactions} transactions
      * @return {CreateOrder}
      */
-    const controller = function (Base, waves, user, utils, createPoll, $scope,
-                                 $element, notification, dexDataService, ease, $state, modalManager, balanceWatcher) {
+    const controller = function (Base, waves, user, utils, createPoll, $scope, $element, notification,
+                                 dexDataService, ease, $state, modalManager, balanceWatcher, transactions) {
 
         const { without, keys, last } = require('ramda');
         const { Money } = require('@waves/data-entities');
@@ -145,6 +146,18 @@
              * @type {Money}
              */
             maxAmount = null;
+            /**
+             * @type {Array<Money>}
+             */
+            feeList = [];
+            /**
+             * @type {Object}
+             */
+            matcherSettings = {};
+            /**
+             * @type {Poll}
+             */
+            feePoll = null;
 
 
             constructor() {
@@ -182,8 +195,17 @@
                  * @type {Poll}
                  */
                 const spreadPoll = createPoll(this, this._getData, this._setData, 1000);
+                /**
+                 * @type {Poll}
+                 */
 
-                this.receive(balanceWatcher.change, this._updateBalances, this);
+                const onChangeBalanceWatcher = () => {
+                    this._updateBalances();
+                    if (this.matcherSettings.mode === 'dynamic') {
+                        this._updateFeeList();
+                    }
+                };
+                this.receive(balanceWatcher.change, onChangeBalanceWatcher, this);
                 this._updateBalances();
 
                 const lastTradePromise = new Promise((resolve) => {
@@ -191,18 +213,6 @@
                         lastTraderPoll = createPoll(this, this._getLastPrice, 'lastTradePrice', 1000);
                         resolve();
                     });
-                });
-
-                const currentFee = () => Promise.all([
-                    ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price),
-                    ds.fetch(ds.config.get('matcher'))
-                ]).then(([pair, matcherPublicKey]) => waves.matcher.getCreateOrderFee({
-                    amount: new Money(0, pair.amountAsset),
-                    price: new Money(0, pair.priceAsset),
-                    matcherPublicKey
-                })).then(fee => {
-                    this.fee = fee;
-                    $scope.$apply();
                 });
 
                 Promise.all([
@@ -243,7 +253,7 @@
                             $scope.$apply();
                         }
                     }));
-                    currentFee();
+                    this._setMatcherSettings();
                 });
 
                 this.observe(['priceBalance', 'total', 'maxPriceBalance'], this._setIfCanBuyOrder);
@@ -269,7 +279,23 @@
                     this._userList = list;
                 });
 
-                currentFee();
+                this._setMatcherSettings();
+                this.observe('matcherSettings', () => {
+                    if (this.matcherSettings.feeMode === 'dynamic') {
+                        this._updateFeeList();
+                        if (!this.feePoll) {
+                            this.feePoll = createPoll(this, this._getFeeRates, this._updateFeeList, 20000);
+                        }
+                    } else {
+                        this.fee = this.matcherSettings.fee;
+                        this.feeList = [];
+                        if (this.feePoll) {
+                            this.feePoll.destroy();
+                            this.feePoll = null;
+                        }
+                    }
+                    $scope.$apply();
+                });
             }
 
             /**
@@ -616,7 +642,7 @@
              * @private
              */
             _getLastPrice() {
-                return ds.api.transactions.getExchangeTxList({
+                return transactions.getExchangeTxList({
                     amountAsset: this._assetIdPair.amount,
                     priceAsset: this._assetIdPair.price,
                     limit: 1
@@ -887,6 +913,72 @@
                 this.order.$setDirty();
             }
 
+            /**
+             *
+             * @return {Promise<T | never>}
+             * @private
+             */
+            _updateFeeList() {
+                this.feeList = [];
+                return this._getFeeRates()
+                    .then(list => {
+                        const assetsId = Object.keys(list);
+                        const basedCustomFee = this.matcherSettings.basedCustomFee;
+
+                        Promise.all(
+                            assetsId.map(id => balanceWatcher.getBalanceByAssetId(id))
+                        ).then(balances => {
+
+                            const feeList = balances
+                                .map(balance => {
+                                    const id = balance.asset.id;
+                                    const rate = new BigNumber(list[id]);
+                                    return balance.cloneWithCoins(
+                                        rate.mul(basedCustomFee[id])
+                                    );
+                                });
+
+                            const filteredFeeList = feeList.filter((fee, i) => fee.lte(balances[i]));
+
+                            if (!filteredFeeList.length) {
+                                this.fee = feeList.find(fee => fee.asset.id === WavesApp.defaultAssets.WAVES);
+                            } else if (filteredFeeList.length === 1) {
+                                this.fee = filteredFeeList[0];
+                            } else {
+                                this.feeList = filteredFeeList;
+                            }
+                        });
+
+                    })
+                    .catch(() => {
+                        this.feeList = [];
+                    });
+            }
+
+            /**
+             * @return {Promise<Matcher.IFeeMap>}
+             * @private
+             */
+            _getFeeRates() {
+                return waves.matcher.getFeeRates();
+            }
+
+            /**
+             * @return {Promise<T | never>}
+             * @private
+             */
+            _setMatcherSettings() {
+                return Promise.all([
+                    ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price),
+                    ds.fetch(ds.config.get('matcher'))
+                ]).then(([pair, matcherPublicKey]) => {
+                    waves.matcher.getCreateOrderSettings(pair, matcherPublicKey)
+                        .then(data => {
+                            this.matcherSettings = data;
+                        });
+                });
+            }
+
             static _animateNotification($element) {
                 return utils.animate($element, { t: 100 }, {
                     duration: 1200,
@@ -925,7 +1017,8 @@
         'ease',
         '$state',
         'modalManager',
-        'balanceWatcher'
+        'balanceWatcher',
+        'transactions'
     ];
 
     angular.module('app.dex').component('wCreateOrder', {

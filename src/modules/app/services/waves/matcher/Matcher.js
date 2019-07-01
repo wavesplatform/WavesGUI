@@ -19,20 +19,37 @@
      */
     const factory = function (utils, decorators, i18n, user, PollCache, configService) {
 
+        /**
+         * @class
+         */
         class Matcher {
 
-            constructor() {
+            /**
+             * @type {string}
+             */
+            currentMatcherAddress = '';
 
+            constructor() {
                 this._orderBookCacheHash = Object.create(null);
+
+                user.onLogin().then(() => {
+                    user.changeSetting.on((path) => {
+                        if (path === 'network.matcher') {
+                            this._updateCurrentMatcherAddress();
+                        }
+                    });
+                });
+
+                this._updateCurrentMatcherAddress();
             }
 
             /**
              * @return {Promise<Array<IOrder>>}
              */
             @decorators.cachable(1)
-            getOrders() {
+            getOrders(options) {
                 if (user.address) {
-                    return ds.api.matcher.getOrders().then(ds.processOrdersWithStore);
+                    return ds.api.matcher.getOrders(options).then(ds.processOrdersWithStore);
                 } else {
                     return Promise.resolve([]);
                 }
@@ -87,9 +104,43 @@
                             },
                             matcherPublicKey: order.matcherPublicKey
                         }, hasScript, smartAssetIdList);
-
                         return new Money(fee, asset);
                     });
+            }
+
+            /**
+             * @param {object} order
+             * @return {object}
+             */
+            calculateCustomFeeMap(order) {
+                const smartAssetExtraFee = new BigNumber(configService.getFeeConfig().smart_asset_extra_fee);
+                const baseFee = new BigNumber(order.baseFee);
+                const hasScript = order.matcherInfo.extraFee.getTokens().gt(0);
+                const smartPairAssets = [order.pair.amountAsset, order.pair.priceAsset]
+                    .filter(asset => asset.hasScript);
+
+                const getSmartAssetsQuantity = (feeAsset) => {
+                    const feeIsSmartAndNotInPair =
+                        feeAsset.hasScript &&
+                        (smartPairAssets.some(asset => asset.id === feeAsset.id));
+                    return smartPairAssets.length + Number(feeIsSmartAndNotInPair);
+                };
+
+                const feeMap = order.feeAssets.reduce((acc, asset) => {
+                    acc[asset.id] = baseFee
+                        .add(smartAssetExtraFee.mul(getSmartAssetsQuantity(asset)))
+                        .add(smartAssetExtraFee.mul(Number(hasScript)));
+                    return acc;
+                }, Object.create(null));
+
+                return feeMap;
+
+                // const feeMap = order.feeAssets.reduce((acc, asset) => {
+                //     acc[asset.id] = baseFee.add(smartAssetExtraFee * getSmartAssetsQuantity(asset));
+                //     return acc;
+                // }, Object.create(null));
+                //
+                // return feeMap;
             }
 
             /**
@@ -106,6 +157,79 @@
              */
             getOrderBook(asset1, asset2) {
                 return this._getOrderBookCache(asset1, asset2).get();
+            }
+
+            /**
+             * @return {Promise<Matcher.IFeeMap>}
+             */
+            @decorators.cachable(5)
+            getFeeRates() {
+                return ds.api.matcher.getFeeRates();
+            }
+
+            /**
+             * @return {Promise<object>}
+             */
+            getSettings() {
+                return ds.api.matcher.getSettings();
+            }
+
+            /**
+             * @param pair
+             * @param matcherPublicKey
+             * @return {Promise<object | never>}
+             */
+            getCreateOrderSettings(pair, matcherPublicKey) {
+                return this.getSettings()
+                    .then(data => {
+                        const matcherPublicKeyBytes = libs.crypto.base58decode(matcherPublicKey);
+                        const matcherAddress = libs.crypto.buildAddress(matcherPublicKeyBytes, ds.config.get('code'));
+
+                        if (Object.prototype.hasOwnProperty.call(data.orderFee, 'dynamic')) {
+                            return Promise.all([
+                                this._scriptInfo(matcherAddress),
+                                ...Object.keys(data.orderFee.dynamic.rates).map(id => ds.api.assets.get(id))
+                            ]).then(([matcherInfo, ...feeAssets]) => {
+                                return ({
+                                    basedCustomFee: this.calculateCustomFeeMap({
+                                        pair,
+                                        matcherInfo,
+                                        feeAssets,
+                                        baseFee: data.orderFee.dynamic.baseFee
+                                    }),
+                                    feeMode: 'dynamic'
+                                });
+                            });
+                        } else if (Object.prototype.hasOwnProperty.call(data.orderFee, 'fixed')) {
+                            const feeValue = data.orderFee.fixed['min-fee'];
+                            const feeAsset = data.orderFee.fixed.asset;
+                            return ({
+                                fee: new Money(feeValue, feeAsset),
+                                feeMode: 'fixed'
+                            });
+                        } else {
+                            return this.getCreateOrderFee({
+                                amount: new Money(0, pair.amountAsset),
+                                price: new Money(0, pair.priceAsset),
+                                matcherPublicKey
+                            }).then(fee => {
+                                return ({
+                                    feeMode: 'waves',
+                                    fee: fee
+                                });
+                            });
+                        }
+
+                        // const feeValue = '30000';
+                        // return ds.api.assets.get('8jfD2JBLe23XtCCSQoTx5eAW5QCU6Mbxi3r78aNQLcNf')
+                        //     .then(asset => {
+                        //         return ({
+                        //             // ...data,
+                        //             fee: new Money(feeValue, asset),
+                        //             feeMode: 'fixed'
+                        //         });
+                        //     });
+                    });
             }
 
             /**
@@ -154,6 +278,22 @@
                     };
                     return hash[id].cache;
                 }
+            }
+
+            /**
+             * @private
+             */
+            _updateCurrentMatcherAddress() {
+                const networkMatcher = user.getSetting('network.matcher');
+
+                ds.fetch(networkMatcher).then(matcherPublicKey => {
+                    if (matcherPublicKey) {
+                        const matcherPublicKeyBytes = libs.crypto.base58decode(matcherPublicKey);
+                        const matcherAddress = libs.crypto.buildAddress(matcherPublicKeyBytes, ds.config.get('code'));
+
+                        this.currentMatcherAddress = matcherAddress;
+                    }
+                });
             }
 
             /**
@@ -277,4 +417,9 @@
  * @property {string} status
  * @property {Money} total
  * @property {string} type
+ */
+
+/**
+ * @typedef {object} Matcher#IFeeMap
+ * @property {number}
  */

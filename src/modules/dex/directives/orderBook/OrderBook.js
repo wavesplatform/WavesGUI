@@ -12,6 +12,7 @@
      * @param {$rootScope.Scope} $scope
      * @param {app.i18n} i18n
      * @param {typeof OrderList} OrderList
+     * @param {Transactions} transactions
      * @return {OrderBook}
      */
     const controller = function (Base,
@@ -22,7 +23,8 @@
                                  utils,
                                  $scope,
                                  i18n,
-                                 OrderList) {
+                                 OrderList,
+                                 transactions) {
 
         const SECTIONS = {
             ASKS: '.asks',
@@ -211,7 +213,7 @@
                         .then(lastPrice => {
                             const tokens = lastPrice.price.getTokens();
                             if (tokens.isNaN()) {
-                                return ds.api.transactions
+                                return transactions
                                     .getExchangeTxList({ amountAsset, priceAsset, limit })
                                     .then(([tx]) => ({ price: tx.price, lastSide: tx.exchangeType }))
                                     .catch(() => null);
@@ -419,7 +421,8 @@
         'utils',
         '$scope',
         'i18n',
-        'OrderList'
+        'OrderList',
+        'transactions'
     ];
 
     angular.module('app.dex').component('wDexOrderBook', {
