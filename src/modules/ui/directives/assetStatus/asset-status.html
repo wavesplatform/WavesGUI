@@ -14,6 +14,12 @@
       class="status-label-min inactive"
       w-i18n-ns="app.utils"
       w-i18n="modal.assetInfo.suspicious"></span>
-<!-- TODO: delete when gateway will be ready-->
+<!--TODO: delete after contest-->
+<span ng-if="$ctrl.isContest"
+      class="status-label-min warning"
+      w-i18n-ns="app.utils"
+      w-i18n="modal.assetInfo.contest"></span>
 <span ng-if="$ctrl.isGatewaySoon"
-      class="status-label-min active">GATEWAY SOON</span>
+      class="status-label-min active"
+      w-i18n-ns="app.utils"
+      w-i18n="modal.assetInfo.gatewaySoon"></span>

@@ -5,6 +5,9 @@
 
     const factory = function (Base) {
 
+        /**
+         * @class
+         */
         class DexDataService extends Base {
 
             constructor() {

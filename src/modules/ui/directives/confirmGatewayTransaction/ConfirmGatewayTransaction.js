@@ -2,6 +2,9 @@
 (function () {
     'use strict';
 
+    const analytics = require('@waves/event-sender');
+    const ds = require('data-service');
+
     /**
      * @param {typeof ConfirmTxService} ConfirmTxService
      * @param {$rootScope.Scope} $scope
@@ -33,6 +36,30 @@
 
             getEventName() {
                 return 'Gateway';
+            }
+
+            sendTransaction() {
+                if (this.signable.getTxData().amount.asset.id !== WavesApp.defaultAssets.VST) {
+                    return super.sendTransaction();
+                }
+
+                return this.signable.getDataForApi()
+                    .then(data => {
+                        return ds.fetch(`${WavesApp.network.vostok.gateway}/api/v1/external/send`, {
+                            method: 'POST',
+                            body: WavesApp.stringifyJSON({
+                                ...data,
+                                sender: ds.app.address
+                            })
+                        });
+                    })
+                    .then(data => {
+                        analytics.send({ name: 'VOSTOK Transaction Success' });
+                        return data;
+                    }, (error) => {
+                        analytics.send({ name: 'VOSTOK Transaction Error' });
+                        return Promise.reject(error);
+                    });
             }
 
         }

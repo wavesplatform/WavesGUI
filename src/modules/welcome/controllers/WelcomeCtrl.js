@@ -7,6 +7,7 @@
      * @param $state
      * @param user
      * @param modalManager
+     * @param storage
      * @param ChartFactory
      * @param {app.utils} angularUtils
      * @param {JQuery} $element
@@ -21,51 +22,58 @@
                                  angularUtils,
                                  waves,
                                  $element,
-                                 ChartFactory) {
+                                 ChartFactory,
+                                 storage,
+                                 utils) {
 
         const ds = require('data-service');
+        const { Money } = require('@waves/data-entities');
         const { flatten } = require('ramda');
+
+        const WCT_ID = WavesApp.network.code === 'T' ?
+            WavesApp.defaultAssets.TRY :
+            'DHgwrRvVyqJsepd32YbBqUeDH4GJ1N984X8QoekjgH8J';
 
         const PAIRS_IN_SLIDER = [
             {
-                amount: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS',
+                amount: WavesApp.defaultAssets.VST,
                 price: 'WAVES'
             },
             {
-                amount: 'DHgwrRvVyqJsepd32YbBqUeDH4GJ1N984X8QoekjgH8J',
+                amount: WavesApp.defaultAssets.BTC,
                 price: 'WAVES'
             },
             {
-                amount: 'B3uGHFRpSUuGEDWjqB9LWWxafQj8VTvpMucEyoxzws5H',
-                price: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS'
+                amount: WCT_ID,
+                price: 'WAVES'
             },
             {
-                amount: '474jTeYx2r2Va35794tCScAXWJG9hU2HcgxzMowaZUnu',
-                price: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS'
+                amount: WavesApp.defaultAssets.DASH,
+                price: WavesApp.defaultAssets.BTC
             },
             {
-                amount: 'zMFqXuoyrn5w17PFurTqxB7GsS71fp9dfk6XFwxbPCy',
-                price: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS'
+                amount: WavesApp.defaultAssets.ETH,
+                price: WavesApp.defaultAssets.BTC
             },
             {
-                amount: '474jTeYx2r2Va35794tCScAXWJG9hU2HcgxzMowaZUnu',
+                amount: WavesApp.defaultAssets.BCH,
+                price: WavesApp.defaultAssets.BTC
+            },
+            {
+                amount: WavesApp.defaultAssets.ETH,
                 price: 'WAVES'
             },
             {
                 amount: 'WAVES',
-                price: 'Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck'
+                price: WavesApp.defaultAssets.USD
             },
             {
-                amount: 'BrjUWjndUanm5VsJkbUip8VRYy6LWJePtxya3FNv4TQa',
+                amount: WavesApp.defaultAssets.ZEC,
                 price: 'WAVES'
             },
             {
-                amount: '5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3',
-                price: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS'
-            },
-            {
-                amount: 'HZk1mbfuJpmxU1Fs4AX5MWLVYtctsNcg6e2C6VKqK8zk',
-                price: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS'
+                amount: WavesApp.defaultAssets.XMR,
+                price: WavesApp.defaultAssets.BTC
             }
         ];
 
@@ -111,8 +119,44 @@
             constructor() {
                 super($scope);
 
-                this._initUserList();
+                if (WavesApp.isWeb()) {
+                    storage.load('accountImportComplete')
+                        .then((complete) => {
+                            if (complete) {
+                                this._initUserList();
+                            } else {
+                                this._loadUserListFromOldOrigin();
+                            }
+                        });
+                } else {
+                    this._initUserList();
+                }
                 this._initPairs();
+
+                const sectionContestUpper = $element.find('#section-contest-upper');
+                const sectionContestDown = $element.find('#section-contest-down');
+
+                let timer;
+                $element.find('.contest-link-close').on('click', function () {
+                    $(this).off();
+                    const closestSectionContest = $(this).closest('.section-contest');
+
+                    if (closestSectionContest[0] === sectionContestUpper[0]) {
+                        sectionContestUpper.addClass('collapsed');
+                        sectionContestDown.remove();
+
+                        if (timer) {
+                            clearTimeout(timer);
+                        } else {
+                            timer = setTimeout(() => {
+                                sectionContestUpper.remove();
+                            }, 500);
+                        }
+                    } else {
+                        [sectionContestDown, sectionContestUpper].forEach(section => section.remove());
+                    }
+
+                });
             }
 
             /**
@@ -121,9 +165,24 @@
             _addScrollHandler() {
                 const scrolledView = $element.find('.scrolled-view');
                 const header = $element.find('w-site-header');
+
+                const contestLinkUpper = $element.find('#contest-link-upper');
+                const contestLinkDown = $element.find('#contest-link-down');
+                const contestLinkStartCoords = contestLinkUpper.offset();
+
                 scrolledView.on('scroll', () => {
                     header.toggleClass('fixed', scrolledView.scrollTop() > whenHeaderGetFix);
                     header.toggleClass('unfixed', scrolledView.scrollTop() <= whenHeaderGetFix);
+
+                    if (contestLinkUpper && contestLinkDown) {
+                        if (scrolledView.scrollTop() > contestLinkStartCoords.top + contestLinkUpper.outerHeight()) {
+                            contestLinkDown.addClass('contest-link-show');
+                            contestLinkDown.removeClass('contest-link-hide');
+                        } else {
+                            contestLinkDown.removeClass('contest-link-show');
+                            contestLinkDown.addClass('contest-link-hide');
+                        }
+                    }
                 });
             }
 
@@ -145,25 +204,53 @@
              * @private
              */
             _initPairs() {
+                const FAKE_RATE_HISTORY = [{
+                    rate: new BigNumber(0),
+                    timestamp: ds.utils.normalizeTime(Date.now())
+                }];
+
                 const startDate = angularUtils.moment().add().day(-7);
                 Promise.all(PAIRS_IN_SLIDER.map(pair => ds.api.pairs.get(pair.amount, pair.price)))
                     .then(pairs => Promise.all(pairs.map(pair => ds.api.pairs.info(pair))))
                     .then(infoList => {
-                        const tempInfoList = flatten(infoList);
-                        Promise.all(tempInfoList.map(info => {
-                            return waves.utils.getRateHistory(info.amountAsset.id, info.priceAsset.id, startDate);
-                        })).then(rateHistory => {
-                            this.pairsInfoList = tempInfoList.map((info, i) => {
-                                return {
-                                    rateHistory: rateHistory[i],
-                                    ...info
-                                };
+                        const flattenInfoList = flatten(infoList);
+
+                        Promise.all(
+                            PAIRS_IN_SLIDER
+                                .map(({ amount, price }) => waves.utils.getRateHistory(amount, price, startDate))
+                                .map(promise => promise.catch(() => FAKE_RATE_HISTORY))
+                        )
+                            .then(rateHistory => {
+                                this.pairsInfoList = rateHistory.map(WelcomeCtrl._fillValues(flattenInfoList));
+                            })
+                            .then(() => {
+                                angularUtils.safeApply($scope);
+                                this._insertCharts();
+                                this._addScrollHandler();
                             });
-                            angularUtils.safeApply($scope);
-                            this._insertCharts();
-                            this._addScrollHandler();
-                        });
                     });
+            }
+
+            /**
+             * @param {array} infoList
+             * @static
+             */
+            static _fillValues(infoList) {
+                return (rateHistory, i) => {
+                    const info = infoList[i];
+                    const volume = info.volume || new Money(0, info.priceAsset);
+                    return {
+                        ...info,
+                        ticker: info.ticker || info.displayName,
+                        change24: info.change24 || new BigNumber(0),
+                        high: info.high || new Money(0, info.priceAsset),
+                        lastPrice: info.lastPrice || new Money(0, info.priceAsset),
+                        low: info.low || new Money(0, info.priceAsset),
+                        volume,
+                        rateHistory,
+                        volumeBigNum: volume.getTokens()
+                    };
+                };
             }
 
             /**
@@ -196,6 +283,29 @@
                     });
             }
 
+            /**
+             * @private
+             */
+            _loadUserListFromOldOrigin() {
+                const OLD_ORIGIN = 'https://client.wavesplatform.com';
+
+                this.pendingRestore = true;
+
+                utils.importAccountByIframe(OLD_ORIGIN, 5000)
+                    .then((userList) => {
+                        this.pendingRestore = false;
+                        this.userList = userList || [];
+
+                        storage.save('accountImportComplete', true);
+                        storage.save('userList', userList);
+
+                        $scope.$apply();
+                    })
+                    .catch(() => {
+                        this._initUserList();
+                    });
+            }
+
         }
 
         return new WelcomeCtrl();
@@ -210,7 +320,9 @@
         'utils',
         'waves',
         '$element',
-        'ChartFactory'
+        'ChartFactory',
+        'storage',
+        'utils'
     ];
 
     angular.module('app.welcome')

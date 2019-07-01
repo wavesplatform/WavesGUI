@@ -261,7 +261,7 @@ body.dex-demo {
                 }
 
                 &:hover {
-                  background-color: @hover-default;
+                  background-color: @dex-selected-item-bg;
 
                   .underline {
                     a {
@@ -414,11 +414,10 @@ body.dex-demo {
             white-space: nowrap;
 
             .decimal-muted {
-              color: @color-disabled-500;
+              color: @color-basic-500;
             }
           }
         }
-
       }
     }
 
@@ -638,7 +637,7 @@ body.dex-demo {
           w-dex-trade-history {
             .smart-table {
               &__w-tbody {
-                max-height: 226px;
+                max-height: 243px;
               }
 
               &.my-trade-history {

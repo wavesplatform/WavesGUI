@@ -7,9 +7,10 @@
      * @param $state
      * @param user
      * @param modalManager
+     * @param {app.utils} appUtils
      * @return {SignInCtrl}
      */
-    const controller = function (Base, $scope, $state, user, modalManager) {
+    const controller = function (Base, $scope, $state, user, modalManager, appUtils) {
 
         const ds = require('data-service');
         const analytics = require('@waves/event-sender');
@@ -42,11 +43,6 @@
              * @private
              */
             _activeUserIndex = null;
-            /**
-             * @type {Array}
-             * @public
-             */
-            pairsInfoList = [];
 
             get user() {
                 return this.userList[this._activeUserIndex];
@@ -132,12 +128,14 @@
              */
             removeUser(address) {
                 const user = this.userList.find((user) => user.address === address);
-                modalManager.showConfirmDeleteUser(user).then(() => {
-                    this._deleteUser(address);
-                    if (!this.userList.length) {
-                        $state.go('welcome');
-                    }
-                });
+
+                modalManager.showConfirmDeleteUser(user)
+                    .then(() => this._deleteUser(address))
+                    .then(() => {
+                        if (!this.userList.length) {
+                            $state.go('welcome');
+                        }
+                    });
             }
 
             /**
@@ -159,12 +157,15 @@
             }
 
             /**
+             * @return {Promise}
              * @private
              */
             _deleteUser(address) {
-                user.removeUserByAddress(address);
-                this.userList = this.userList.filter((user) => user.address !== address);
-                this._updateActiveUserAddress();
+                return user.removeUserByAddress(address).then(() => {
+                    this.userList = this.userList.filter((user) => user.address !== address);
+                    this._updateActiveUserAddress();
+                    appUtils.safeApply($scope);
+                });
             }
 
             /**
@@ -176,9 +177,7 @@
                         this.userList = list;
                         this.pendingRestore = false;
                         this._updateActiveUserAddress();
-                        setTimeout(() => {
-                            $scope.$apply(); // TODO FIX!
-                        }, 100);
+                        appUtils.safeApply($scope);
                     });
             }
 
@@ -235,7 +234,7 @@
         return new SignInCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', 'utils'];
 
     angular.module('app.signIn')
         .controller('SignInCtrl', controller);

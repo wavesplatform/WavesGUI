@@ -1,4 +1,4 @@
-<w-site-header class="header-new-user" sign-in-btn="$ctrl.userList.length > 0" get-started-btn="true"></w-site-header>
+<w-site-header class="header-new-user" sign-in-btn="$ctrl.userList.length > 0" get-started-btn="true" user-list="$ctrl.userList"></w-site-header>
 <div w-i18n-ns="app.welcome" class="wrapper movable scrolled-view">
     <div class="white-bg"></div>
     <section class="section-welcome">
@@ -8,9 +8,8 @@
                 <div class="basic-500 body-1 margin-5" w-i18n="welcome.tradeOnWavesDescription"></div>
                 <div class="buttons-wrapper buttons-wrapper-nowidth">
                     <a class="fake-button get-started-btn" ui-sref="create">
-                        <span class="fake-button-content big submit" w-i18n="welcome.getStarted">
-                            <i class="promo-icon-min promo-icon-arrow-right"></i>
-                        </span>
+                        <span class="fake-button-content big submit" w-i18n="welcome.getStarted"></span>
+                        <i class="promo-icon-min icon-arrow-right"></i>
                     </a>
                     <a ng-if="$ctrl.userList.length" ui-sref="signIn" class="fake-button"
                         w-analytics event="'Sign In Click'" event-target="ui">
@@ -21,6 +20,29 @@
             <div class="dex-screenshot"></div>
         </div>
     </section>
+
+    <div class="section-contest" id="section-contest-upper">
+        <div class="section-wrapper">
+            <div class="contest-link" id="contest-link-upper">
+                <div class="contest-link-description body-2" w-i18n="welcome.contestLinkDescription"></div>
+                <a class="contest-link-description-hidden-link"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   href="https://wsoc.io/?utm_source=dexsite&utm_medium=cpm"></a>
+                <div class="contest-link-actions">
+                    <a class="contest-link-link fake-button"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       href="https://wsoc.io/?utm_source=dexsite&utm_medium=cpm">
+                        <span class="fake-button-content tiny submit" w-i18n="welcome.contestLinkLink"></span>
+                    </a>
+                    <div class="contest-link-close">
+                        <button class="contest-link-close-icon"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <section class="section-promo body-2">
         <div class="section-wrapper">
@@ -78,8 +100,8 @@
     <section class="section-markets">
         <div class="section-wrapper">
 
-            <h2 class="margin-1" w-i18n="welcome.markets"></h2>
-            <div class="basic-500 margin-05 body-2" w-i18n="welcome.marketsDescription"></div>
+            <h2 class="margin-1 center" w-i18n="welcome.markets"></h2>
+            <div class="basic-500 margin-05 body-2 center section-markets-description" w-i18n="welcome.marketsDescription"></div>
 
             <div class="table-markets margin-top-3 margin-3">
                 <div class="row row-header">
@@ -98,12 +120,14 @@
                    ng-class="pair.change24.gt(0) ? 'blue' : 'red'"
                    ng-click="$ctrl.goToDexDemo({ assetId1: pair.amountAsset.id, assetId2: pair.priceAsset.id })"
                    class="row row-content">
-                    <div class="cell pair">{{pair.amountAsset.ticker}} / {{pair.priceAsset.ticker}}</div>
+                    <div class="cell pair">
+                        {{pair.amountAsset.ticker || pair.amountAsset.displayName }} / {{pair.priceAsset.ticker || pair.priceAsset.displayName}}
+                    </div>
                     <div class="cell last-price">
                         <w-balance money="pair.lastPrice"></w-balance>
                         <span class="basic-500">&nbsp;/&nbsp;
                             <w-exchange balance="pair.lastPrice"
-                                        target-asset-id="Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck"></w-exchange>
+                                        target-asset-id="{{WavesApp.defaultAssets.USD}}"></w-exchange>
                             &nbsp;$
                         </span>
                     </div>
@@ -115,7 +139,7 @@
                         <w-balance money="pair.low"></w-balance>
                     </div>
                     <div class="cell volume">
-                        <span w-nice-number="pair.volume.toFormat()" precision="3"></span>
+                        <span w-nice-number="pair.volumeBigNum" precision="3"></span>
                     </div>
                     <div class="cell graph"></div>
                 </div>
@@ -134,6 +158,28 @@
             <w-road-map></w-road-map>
     </div>
 
+    <div class="section-contest" id="section-contest-down">
+        <div class="section-wrapper">
+            <div class="contest-link contest-link-fixed" id="contest-link-down">
+                <div class="contest-link-description body-2" w-i18n="welcome.contestLinkDescription"></div>
+                <a class="contest-link-description-hidden-link"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   href="https://wsoc.io/?utm_source=dexsite&utm_medium=cpm"></a>
+                <div class="contest-link-actions">
+                    <a class="contest-link-link fake-button"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       href="https://wsoc.io/?utm_source=dexsite&utm_medium=cpm">
+                        <span class="fake-button-content tiny submit" w-i18n="welcome.contestLinkLink"></span>
+                    </a>
+                    <div class="contest-link-close">
+                        <button class="contest-link-close-icon"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <w-footer></w-footer>
 </div>
 

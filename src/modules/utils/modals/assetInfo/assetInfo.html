@@ -18,6 +18,10 @@
                 <div class="basic-500" w-i18n="modal.assetInfo.name"></div>
                 <div class="basic-900">{{::$ctrl.asset.name}}</div>
             </div>
+            <div class="line" ng-if="$ctrl.asset.ticker">
+                <div class="basic-500" w-i18n="modal.assetInfo.ticker"></div>
+                <div class="basic-900">{{::$ctrl.asset.ticker}}</div>
+            </div>
             <div class="line">
                 <div class="basic-500" w-i18n="modal.assetInfo.quantity"></div>
                 <div class="basic-900">{{::$ctrl.quantity}}</div>

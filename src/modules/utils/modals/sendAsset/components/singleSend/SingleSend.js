@@ -141,13 +141,13 @@
                 return this.toBankMode && this.termsLoadError;
             }
 
-            get isCoinomatAccepted() {
+            get isGatewayAccepted() {
                 return configService
-                    .get('PERMISSIONS.CAN_TRANSFER_COINOMAT').indexOf(this.balance.asset.id) !== -1;
+                    .get('PERMISSIONS.CANT_TRANSFER_GATEWAY').indexOf(this.balance.asset.id) === -1;
             }
 
             get isBankAccepted() {
-                return this.toBankMode ? this.isCoinomatAccepted : true;
+                return this.toBankMode ? this.isGatewayAccepted : true;
             }
 
             get isBankPendingOrError() {
@@ -155,7 +155,7 @@
             }
 
             get hasOuterError() {
-                return this.outerSendMode && this.gatewayDetailsError || this.isBankError;
+                return this.outerSendMode && this.gatewayError || this.isBankError;
             }
 
             get minimumAmount() {
@@ -236,6 +236,14 @@
             /**
              * @type {boolean}
              */
+            gatewayAddressError = false;
+            /**
+             * @type {boolean}
+             */
+            gatewayError = false;
+            /**
+             * @type {boolean}
+             */
             termsIsPending = true;
             /**
              * @type {boolean}
@@ -294,6 +302,7 @@
                     this.receive(utils.observe(this.tx, 'attachment'), this._updateWavesTxObject, this);
 
                     this.observe('mirror', this._onChangeAmountMirror);
+                    this.observe(['gatewayAddressError', 'gatewayDetailsError'], this._updateGatewayError);
 
                     this._currentHasCommission();
                     this._onChangeBaseAssets();
@@ -310,6 +319,8 @@
                     this._onChangeBaseAssets();
                     this._updateGatewayDetails();
                 });
+                this._onChangeBaseAssets();
+                this._updateWavesTxObject();
             }
 
             onSignCoinomatStart() {
@@ -537,8 +548,6 @@
                 this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
                 this._updateGatewayDetails();
                 this._updateGatewayPermisson();
-
-                // analytics.push('Send', `Send.ChangeCurrency.${WavesApp.type}`, this.assetId);
             }
 
             /**
@@ -654,6 +663,10 @@
                     this.gatewayDetailsError = false;
                 }
 
+                if (this.gatewayAddressError) {
+                    this.gatewayAddressError = false;
+                }
+
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
@@ -670,9 +683,15 @@
                             this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
                             this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
                             $scope.$apply();
-                        }, () => {
+                        }, (e) => {
                             this.gatewayDetails = null;
-                            this.gatewayDetailsError = true;
+                            if (e.message === gatewayService.getAddressErrorMessage(this.balance.asset,
+                                this.tx.recipient, 'errorAddressMessage')) {
+                                this.gatewayAddressError = true;
+                            } else {
+                                this.gatewayDetailsError = true;
+                            }
+                            $scope.$apply();
                         });
                 } else {
                     this.minAmount = this.state.moneyHash[this.assetId].cloneWithTokens('0');
@@ -687,7 +706,14 @@
              * @private
              */
             _updateGatewayPermisson() {
-                this.gatewayDetailsError = !this.isCoinomatAccepted;
+                this.gatewayDetailsError = this.outerSendMode ? !this.isGatewayAccepted : this.gatewayDetailsError;
+            }
+
+            /**
+             * @private
+             */
+            _updateGatewayError() {
+                this.gatewayError = this.gatewayAddressError || this.gatewayDetailsError;
             }
 
         }

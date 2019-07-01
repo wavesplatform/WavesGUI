@@ -155,7 +155,6 @@ w-dex-my-orders {
     }
 
     &__w-tbody {
-
       .smart-table {
         &__row {
           padding: 6px 10px;
@@ -280,7 +279,6 @@ w-dex-my-orders {
       }
     }
   }
-
 }
 
 @media screen and (max-width: 1400px) {
@@ -295,7 +293,7 @@ w-dex-my-orders {
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1190px) {
   body.dex .dex-wrapper,
   body.dex-demo .dex-wrapper {
     w-dex-my-orders {
@@ -345,6 +343,10 @@ w-dex-my-orders {
               }
             }
           }
+        }
+
+        &__cell {
+          padding: 0;
         }
 
         &__cell {
@@ -442,5 +444,12 @@ w-dex-my-orders {
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 660px) {
+body.dex,
+body.dex-demo {
+  ui-view[name="main"] {overflow: hidden;}
   }
 }

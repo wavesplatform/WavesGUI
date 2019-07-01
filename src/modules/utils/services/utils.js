@@ -4,8 +4,8 @@
 
     const { isEmpty, getPaths, get, Signal } = require('ts-utils');
     const tsApiValidator = require('ts-api-validator');
-    const { WindowAdapter, Bus, WindowProtocol } = require('@waves/waves-browser-bus');
-    const { splitEvery, pipe, path, map, ifElse, concat, defaultTo, identity, isNil } = require('ramda');
+    const { splitEvery, pipe, path, map, ifElse, concat, defaultTo, identity, isNil, propEq } = require('ramda');
+    const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
     const { libs } = require('@waves/waves-transactions');
     const { base58decode, base58encode, stringToUint8Array, uint8ArrayToString } = libs.crypto;
     const ds = require('data-service');
@@ -13,6 +13,64 @@
     const { Money } = require('@waves/data-entities');
     const { STATUS_LIST } = require('@waves/oracle-data');
     const { BigNumber } = require('@waves/bignumber');
+
+    const GOOD_COLORS_LIST = [
+        '#39a12c',
+        '#6a737b',
+        '#e49616',
+        '#008ca7',
+        '#ff5b38',
+        '#ff6a00',
+        '#c74124',
+        '#00a78e',
+        '#b01e53',
+        '#e0c61b',
+        '#5a81ea',
+        '#72b7d2',
+        '#a5b5c3',
+        '#81c926',
+        '#86a3bd',
+        '#c1d82f',
+        '#5c84a8',
+        '#267e1b',
+        '#fbb034',
+        '#ff846a',
+        '#47c1ff',
+        '#00a0af',
+        '#85d7c6',
+        '#8a7967',
+        '#26c1c9',
+        '#72d28b',
+        '#5B1909',
+        '#264764',
+        '#270774',
+        '#8763DE',
+        '#F04085',
+        '#1E6AFD',
+        '#FF1E43',
+        '#D3002D',
+        '#967400',
+        '#264163'
+    ];
+
+    const DEFAULT_ASSET_ICONS_MAP = Object.assign(Object.create(null), {
+        [WavesApp.defaultAssets.WAVES]: '/img/assets/waves.svg',
+        [WavesApp.defaultAssets.BTC]: '/img/assets/bitcoin.svg',
+        [WavesApp.defaultAssets.ETH]: '/img/assets/ethereum.svg',
+        [WavesApp.defaultAssets.LTC]: '/img/assets/ltc.svg',
+        [WavesApp.defaultAssets.ZEC]: '/img/assets/zec.svg',
+        [WavesApp.defaultAssets.EUR]: '/img/assets/euro.svg',
+        [WavesApp.defaultAssets.USD]: '/img/assets/usd.svg',
+        [WavesApp.defaultAssets.DASH]: '/img/assets/dash.svg',
+        [WavesApp.defaultAssets.BCH]: '/img/assets/bitcoin-cash.svg',
+        [WavesApp.defaultAssets.BSV]: '/img/assets/bitcoin-cash-sv.svg',
+        [WavesApp.defaultAssets.TRY]: '/img/assets/try.svg',
+        [WavesApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
+        [WavesApp.defaultAssets.VST]: '/img/assets/vostok.svg',
+        [WavesApp.defaultAssets.ERGO]: '/img/assets/ergo.svg',
+        [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
+        [WavesApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
+    });
 
     const nullOrCb = (name, cb) => (val1, val2) => {
         const v1 = val1[name];
@@ -155,6 +213,25 @@
              */
             apiValidatorParts: {
                 BigNumberPart
+            },
+            /**
+             * @name app.utils#getAssetLogo
+             * @param {string} assetId
+             * @return {string | undefined}
+             */
+            getAssetLogo(assetId) {
+                return DEFAULT_ASSET_ICONS_MAP[assetId];
+            },
+            /**
+             * @name app.utils#getAssetLogoBackground
+             * @param assetId
+             * @return {string}
+             */
+            getAssetLogoBackground(assetId) {
+                const sum = assetId.split('')
+                    .map(char => char.charCodeAt(0))
+                    .reduce((acc, code) => acc + code, 0);
+                return GOOD_COLORS_LIST[sum % GOOD_COLORS_LIST.length];
             },
             /**
              * @name app.utils#base58ToBytes
@@ -792,7 +869,6 @@
                 return new Promise((resolve, reject) => {
                     target.addEventListener('load', resolve, false);
                     target.addEventListener('error', reject, false);
-
                     setTimeout(() => {
                         reject(new Error('Timeout limit error!'));
                     }, timeout);
@@ -808,19 +884,22 @@
              */
             importUsersByWindow(win, origin, timeout) {
                 return new Promise((resolve, reject) => {
-                    const listen = new WindowProtocol(window, WindowProtocol.PROTOCOL_TYPES.LISTEN);
-                    const dispatch = new WindowProtocol(win, WindowProtocol.PROTOCOL_TYPES.DISPATCH);
-                    const adapter = new WindowAdapter([listen], [dispatch], { origins: '*' });
-                    const bus = new Bus(adapter);
+                    WindowAdapter.createSimpleWindowAdapter(win, {
+                        origins: [origin]
+                    }).then(adapter => {
+                        const bus = new Bus(adapter);
 
-                    bus.once('export-ready', () => {
-                        bus.request('getLocalStorageData')
-                            .then(utils.onExportUsers(origin, resolve));
+                        bus.once('ready', () => {
+                            bus.request('getLocalStorageData', null, timeout)
+                                .then(utils.onExportUsers(origin, resolve))
+                                .catch(reject);
+                        });
+
+                        bus.request('getLocalStorageData', null, timeout)
+                            .then(utils.onExportUsers(origin, resolve))
+                            .catch(reject);
+
                     });
-
-                    setTimeout(() => {
-                        reject(new Error('Timeout limit error!'));
-                    }, timeout);
                 });
             },
 
@@ -853,7 +932,7 @@
                 iframe.src = `${origin}/export.html`;
 
                 const result = utils.loadOrTimeout(iframe, timeout)
-                    .then(() => utils.importUsersByWindow(iframe.contentWindow, origin, timeout))
+                    .then(() => utils.importUsersByWindow(iframe, origin, timeout))
                     .then(onSuccess)
                     .catch(onError);
 
@@ -879,6 +958,12 @@
                 const right = `top=${Math.floor(screen.height - 100 / 2)}`;
                 let closed = false;
 
+                const win = window.open(
+                    `${origin}/export.html`,
+                    'export',
+                    `${width},${height},${left},${top},${right},no,no,no,no,no,no`
+                );
+
                 const close = d => {
                     if (!closed) {
                         win.close();
@@ -886,12 +971,6 @@
                     }
                     return d;
                 };
-
-                const win = window.open(
-                    `${origin}/export.html`,
-                    'export',
-                    `${width},${height},${left},${top},${right},no,no,no,no,no,no`
-                );
 
                 const onError = (e) => {
                     close();
@@ -912,15 +991,16 @@
             onExportUsers(origin, resolve) {
                 return (response) => {
                     if (!response) {
-                        return [];
+                        resolve([]);
                     }
 
-                    resolve(response.accounts && response.accounts.map(utils.remapOldClientAccounts) || []);
+                    resolve(response);
                 };
             },
 
             /**
              * @name app.utils#openDex
+             * @param {string} dex
              * @param {string} asset1
              * @param {string} [asset2]
              */
@@ -1078,9 +1158,6 @@
 
                 const isGateway = path(['status'], dataOracle) === 3;
 
-                // TODO: delete when gateway will be ready
-                const isGatewaySoon = path(['status'], dataOracle) === 4;
-
                 const isTokenomica = path(['status'], dataOracle) === STATUS_LIST.VERIFIED &&
                     path(['provider'], dataOracle) === 'Tokenomica';
 
@@ -1088,7 +1165,10 @@
                     path(['provider'], dataOracle) !== 'Tokenomica';
 
                 const isSuspicious = user.scam[assetId];
-                const hasLabel = isVerified || isGateway || isSuspicious || isTokenomica;
+
+                const isGatewaySoon = path(['status'], dataOracle) === 4;
+
+                const hasLabel = isVerified || isGateway || isSuspicious || isTokenomica || isGatewaySoon;
 
                 const ticker = path(['ticker'], dataOracle);
                 const link = path(['link'], dataOracle);
@@ -1102,14 +1182,14 @@
                     isGateway,
                     isTokenomica,
                     isSuspicious,
+                    isGatewaySoon,
                     hasLabel,
                     ticker,
                     link,
                     email,
                     provider,
                     description,
-                    logo,
-                    isGatewaySoon
+                    logo
                 };
             },
 
@@ -1557,7 +1637,7 @@
                     case SIGN_TYPE.BURN:
                         return TYPES.BURN;
                     case SIGN_TYPE.DATA:
-                        return TYPES.DATA;
+                        return _getDataType(tx);
                     case SIGN_TYPE.SET_SCRIPT:
                         return (tx.script || '').replace('base64:', '') ? TYPES.SET_SCRIPT : TYPES.SCRIPT_CANCEL;
                     case SIGN_TYPE.SPONSORSHIP:
@@ -1777,6 +1857,18 @@
             } else {
                 return meIsSender ? TYPES.SEND : TYPES.RECEIVE;
             }
+        }
+
+        /**
+         * @param {api.ITransferTransaction<string>} tx
+         * @private
+         */
+        function _getDataType(tx) {
+            const { DATA, DATA_VOTE } = WavesApp.TRANSACTION_TYPES.EXTENDED;
+            const data = Array.isArray(tx.data) ? tx.data : tx.data.data;
+            const keyRating = data.find(propEq('key', 'tokenRating'));
+
+            return keyRating && keyRating.value === 'tokenRating' ? DATA_VOTE : DATA;
         }
 
         /**

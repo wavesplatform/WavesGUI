@@ -2,20 +2,22 @@
     'use strict';
 
     /**
-     * @param Base
+     * @param {typeof Base} Base
      * @param {$rootScope.Scope} $scope
      * @param {ModalManager} modalManager
-     * @param {BalanceWatcher} balanceWatcher
      * @param {Waves} waves
+     * @param {BalanceWatcher} balanceWatcher
      * @param {User} user
+     * @param {app.utils} utils
      */
-    const controller = function (Base, $scope, modalManager, waves, balanceWatcher, user) {
+    const controller = function (Base, $scope, modalManager, waves, balanceWatcher, user, utils) {
 
         const { SIGN_TYPE, WAVES_ID } = require('@waves/signature-adapter');
         const { BigNumber } = require('@waves/bignumber');
         const ds = require('data-service');
         const $ = require('jquery');
         const BASE_64_PREFIX = 'base64:';
+
 
         class TokensCtrl extends Base {
 
@@ -24,6 +26,10 @@
              * @type {form.FormController}
              */
             createForm = null;
+            /**
+             * @type {string}
+             */
+            assetId = '';
             /**
              * Token name
              * @type {string}
@@ -79,6 +85,10 @@
              */
             hasAssetScript = false;
             /**
+             * @type {Signable}
+             */
+            signable = null;
+            /**
              * @type {JQueryXHR | null}
              * @private
              */
@@ -97,6 +107,15 @@
 
                 this.observe('precision', this._onChangePrecision);
                 this.observe('script', this._onChangeScript);
+                this.observe([
+                    'name',
+                    'count',
+                    'script',
+                    'precision',
+                    'description',
+                    'issue',
+                    'hasAssetScript'
+                ], this.createSignable);
 
                 waves.node.getFee({ type: SIGN_TYPE.ISSUE })
                     .then(money => {
@@ -105,6 +124,10 @@
                         this._onChangeBalance();
                         $scope.$apply();
                     });
+
+                this.observeOnce('createForm', () => {
+                    this.receive(utils.observe(this.createForm, '$valid'), this.createSignable, this);
+                });
             }
 
             generate(signable) {
@@ -116,11 +139,19 @@
                 analytics.send({ name: 'Token Generation Info Show', target: 'ui' });
             }
 
+            getSignable() {
+                return this.signable;
+            }
+
             createSignable() {
-                analytics.send({ name: 'Token Generation Generate Click', target: 'ui' });
+
+                if (!this.name || !this.createForm || !this.createForm.$valid) {
+                    this.assetId = '';
+                    return null;
+                }
 
                 const precision = Number(this.precision.toString());
-                const quantity = this.count.mul(Math.pow(10, precision));
+                const quantity = (this.count || new BigNumber(0)).mul(Math.pow(10, precision));
                 const script = this.hasAssetScript && this.script ? `${BASE_64_PREFIX}${this.script}` : '';
 
                 const tx = waves.node.transactions.createTransaction({
@@ -134,7 +165,12 @@
                     fee: this.fee
                 });
 
-                return ds.signature.getSignatureApi().makeSignable({ type: tx.type, data: tx });
+                this.signable = ds.signature.getSignatureApi().makeSignable({ type: tx.type, data: tx });
+
+                this.signable.getId().then(id => {
+                    this.assetId = id;
+                    utils.safeApply($scope);
+                });
             }
 
             /**
@@ -223,7 +259,7 @@
         return new TokensCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'modalManager', 'waves', 'balanceWatcher', 'user'];
+    controller.$inject = ['Base', '$scope', 'modalManager', 'waves', 'balanceWatcher', 'user', 'utils'];
 
     angular.module('app.tokens')
         .controller('TokensCtrl', controller);

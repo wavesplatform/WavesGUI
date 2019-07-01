@@ -3,7 +3,7 @@
 
     const { Money } = require('@waves/data-entities');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
-    const { filter, whereEq, uniqBy, prop, where, gt, pick, __ } = require('ramda');
+    const { filter, whereEq, uniqBy, prop, where, gt, pick, __, tap } = require('ramda');
     const ds = require('data-service');
     const { BigNumber } = require('@waves/bignumber');
 
@@ -176,7 +176,12 @@
             static _getAllOrders() {
                 return waves.matcher.getOrders()
                     .then(filter(whereEq({ isActive: true })))
-                    .catch(() => (this.loadingError = true));
+                    .then(tap(() => {
+                        this.loadingError = false;
+                    }))
+                    .catch(tap(() => {
+                        this.loadingError = true;
+                    }));
             }
 
             static _animateNotification($element) {

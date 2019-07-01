@@ -75,6 +75,17 @@ body.tokens {
         margin: 19px 16px;
         border-radius: 100%;
         background-color: @color-basic-100;
+        position: relative;
+
+        w-new-asset-logo {
+          cursor: pointer;
+        }
+      }
+
+      w-new-asset-logo {
+        &:hover + w-info-tooltip .tooltip {
+          display: flex;
+        }
       }
 
       .token-info-wrap {
@@ -82,6 +93,7 @@ body.tokens {
         flex-direction: column;
         height: 40px;
         width: calc(~'100% - 62px');
+        justify-content: center;
 
         &.empty {
 
@@ -118,6 +130,20 @@ body.tokens {
           margin-top: 10px;
         }
       }
+    }
+  }
+
+  w-info-tooltip {
+    top: -8px;
+    left: 50%;
+
+    .information-icon {
+      display: none;
+    }
+
+    .tooltip {
+      align-items: center;
+      transform: translateX(-50%);
     }
   }
 }

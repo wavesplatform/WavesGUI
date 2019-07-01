@@ -85,7 +85,8 @@
                 if (GATEWAYS[asset.id]) {
                     return {
                         deposit: true,
-                        withdraw: true
+                        withdraw: true,
+                        errorAddressMessage: true
                     };
                 }
             }
@@ -118,6 +119,13 @@
             getCoinomatTimestamp() {
                 return ds.fetch(`${PATH_V2}/get_ts.php`)
                     .then(prop('ts'));
+            }
+
+            /**
+             * @return {string}
+             */
+            getAddressErrorMessage() {
+                return 'Invalid wallet_to';
             }
 
             /**

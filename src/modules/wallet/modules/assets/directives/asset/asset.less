@@ -45,6 +45,12 @@ w-asset {
   padding: 20px;
   margin: @padding-main-layout /2;
 
+  &:hover {
+    transform: translate3d(0,-3px,0);
+    box-shadow: @shadow-main-hover;
+    z-index: 3;
+  }
+
   & > div {
     display: flex;
     flex-direction: column;
@@ -64,11 +70,6 @@ w-asset {
     width: 100%;
     margin: 0 0 8px 0;
     border-bottom: 1px dashed @color-disabled-200;
-  }
-
-  &:hover {
-    box-shadow: @shadow-main-hover;
-    z-index: 3;
   }
 }
 
@@ -105,6 +106,9 @@ w-asset {
     &__wrapper {
       width: 100%;
       cursor: pointer;
+      .rating-stars-wrapper {
+        margin-top: 8px;
+      }
     }
 
     &__name {
@@ -117,6 +121,10 @@ w-asset {
       cursor: pointer;
       span {
         word-break: break-all;
+      }
+      &-wrapper {
+        display: flex;
+        justify-content: space-around;
       }
     }
 
@@ -209,6 +217,15 @@ w-asset {
   }
 }
 
+//TODO: delete after contest
+.contest-asset {
+  .unpin {
+    display: none;
+    pointer-events: none;
+  }
+}
+//TODO: delete after contest
+
 // todo @uIsk - Refactor all tooltips to w-tooltip
 .tooltip-holder {
   position: relative;
@@ -228,8 +245,8 @@ w-asset {
 .tooltip.unpin-tooltip {
   display: none;
   position: absolute;
-  background: @color-disabled-500;
   top: 5px;
+  background: @color-basic-700;
   right: -12px;
   transform: translate(0, -40px);
   color: @color-white;
@@ -239,14 +256,21 @@ w-asset {
   font-size: 11px;
   line-height: 12px;
   text-transform: none;
+  opacity: .8;
 
   &::after {
     display: none;
   }
 
   &::before {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    transform: rotate(45deg);
     bottom: -4px;
-    left: calc(100% ~'- 33px');
-    background: @color-disabled-500;
+    left: calc(100% ~'- 26px');
+    background: @color-basic-700;
   }
 }

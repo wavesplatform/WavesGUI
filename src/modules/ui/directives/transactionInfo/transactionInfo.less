@@ -1,5 +1,6 @@
 @import (reference) '../../../app/less/typography';
 @import (reference) "../../../app/less/app-icons";
+@import (reference) '../../../app/less/classes';
 @import (reference) '../../../app/less/app';
 @import (reference) 'config';
 @import (reference) 'icons';
@@ -88,7 +89,38 @@ w-transaction-info-header + w-transaction-info-general {
 
     h3 {
       margin: 0 0 6px;
+      &.vote-token-h3 {
+        margin: 20px 0 6px;
+      }
     }
+
+    .txinfo__rating {
+      padding-top: 83px;
+    }
+
+    .tooltip {
+      min-height: 30px;
+      display: none;
+      position: absolute;
+      bottom: 100%;
+      padding: 5px 0 5px 10px;
+      transform: translate(calc(-50% + 8px), -8px);
+      z-index: 2;
+      cursor: pointer;
+      border-radius: 4px;
+      background: #4e5c6e;
+    }
+    &__content {
+      color: #fff;
+      font-size: 11px;
+      max-width: 240px;
+      max-height: 150px;
+      width: max-content;
+      overflow: auto;
+      display: block;
+      padding-right: 10px;
+    }
+
   }
 
   &__header-wrapper {
@@ -116,7 +148,7 @@ w-transaction-info-header + w-transaction-info-general {
     &-header {
       border-bottom: 1px solid @color-basic-100;
       border-top: 0 none;
-      color: @color-disabled-600;
+      color: @color-basic-500;
       .noborder();
       z-index: 3;
       margin: -1px 0;
@@ -161,7 +193,7 @@ w-transaction-info-header + w-transaction-info-general {
 
       &__key {
         .key-props();
-        color: @color-disabled-500;
+        color: @color-basic-500;
 
         &-mass {
           .key-props();

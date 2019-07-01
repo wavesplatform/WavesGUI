@@ -1,14 +1,14 @@
-<div class="backup-seed movable get-started-content text-center">
-    <div class="headline-1 margin-1">
+<div class="backup-seed movable get-started-content">
+    <div class="headline-1 margin-1 text-center">
         <span w-i18n="backupSeed.saveSecret"></span>
     </div>
 
-    <div class="body-2 basic-500 margin-top-2 margin-2">
+    <div class="body-2 basic-500 margin-top-2 margin-4 text-center">
         <span w-i18n="backupSeed.warn"></span>
         <a ng-click="$ctrl.next(-1)" w-i18n="backupSeed.back"></a>
     </div>
 
-    <div class="body-2 basic-900 margin-2">
+    <div class="body-2 basic-900 margin-1">
         <span w-i18n="backupSeed.writeSeed"></span>
         <span>&nbsp;
             <span w-i18n="backupSeed.or"></span>&nbsp;
@@ -19,14 +19,16 @@
         </span>
     </div>
 
-    <w-seed-read type="read" seed="{{::$ctrl.seed}}" class="no-user-select margin-1 margin-top-2"></w-seed-read>
+    <w-seed-read type="read" seed="{{::$ctrl.seed}}" class="no-user-select margin-2 margin-top-1"></w-seed-read>
 
-    <div class="body-2 basic-900 margin-top-3 margin-1">
+    <div class="body-2 basic-900 margin-2">
         <span w-i18n="backupSeed.needConfirm"></span>
     </div>
 
-    <w-button class="submit big long" on-click="$ctrl.next()">
-        <span w-i18n="backupSeed.ok"></span>
-    </w-button>
+    <div class="margin-top-4">
+        <w-button class="submit big long" on-click="$ctrl.next()">
+            <span w-i18n="backupSeed.ok"></span>
+        </w-button>
+    </div>
     <w-get-started-link has-sign-in="::true" has-import="::true"></w-get-started-link>
 </div>

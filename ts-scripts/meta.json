@@ -148,6 +148,13 @@
         "group": ",",
         "decimal": "."
       }
+    },
+    "fr": {
+      "name": "French",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
     }
   },
   "electronScripts": [
@@ -200,18 +207,27 @@
   },
   "configurations": {
     "testnet": {
+      "tradingPairs": [
+        "6bymXakShhDKSTbtsGjuzRuiFsCYbtkahLgEfEEzsWar",
+        "8zreE1U1TJ8Vhda8M2jEWukrWwX8znjSSjsgNGDUzdgh",
+        "CMPv2sNdEUtEd56kNmgviXuE5MJ9hHABUWmhbmdgUnm1"
+      ],
       "oracles": {
         "waves": "3N5net4nzSeeqxPfGZrvVvnGavsinipQHbE",
         "tokenomica": "3Mq2ikxDH6rV5VBUNX1Ef8Ag1Vjntbh4MvD"
       },
       "apiVersion": "v0",
       "code": "T",
-      "bankRecipient": "",
+      "bankRecipient": "3NCKpqzSnHmXhZEmqYy4U6RUKUAJDTxWgWP",
       "node": "https://pool.testnet.wavesnodes.com",
       "matcher": "https://matcher.testnet.wavesnodes.com/matcher",
       "api": "https://api.testnet.wavesplatform.com",
       "explorer": "https://wavesexplorer.com/testnet",
       "coinomat": "https://localhost:8080/coinomat",
+      "vostok": {
+        "gateway": "https://gateways-dev.wvservices.com",
+        "networkByte": "F"
+      },
       "support": "https://support.wavesplatform.com",
       "termsAndConditions": "https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf",
       "privacyPolicy": "https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf",
@@ -234,10 +250,16 @@
         "EFYT": "FvKx3cerSVYGfXKFvUgp7koNuTAcLs8DmtmwRrFVCqJv",
         "WNET": "3P8gkhcLhFQvBkDzMnWeqqwvq3qxkpTNQPs4LUQ95tKD",
         "XMR": "8oPbSCKFHkXBy1hCGSg9pJkSARE7zhTQTLpc8KZwdtr7",
-        "VST": "8MaMTgBS2KWfSWJPx5YWoT9Lhg8Rumd4DfzsnHfyBp15"
+        "VST": "AMFteLfPzPhTsFc3NfvHG7fSRUnsp3tJXPH88G1PCisT",
+        "ERGO": "AvxDjVat8ErppBRxM56KewbQq3RMv8QibBNssqn6P7Fd"
       }
     },
     "mainnet": {
+      "tradingPairs": [
+        "8ouNBeYFxJMaeyPBwF8jY86R457CyEjAY98HaNLFox7N",
+        "7eMpAC1CVLeZq7Mi16AkvkY2BmLytyApLaUG4TxNFew5",
+        "BFWboD9xC64tSmirFbCNARR1NSu6Ep9rP4SRoLkQhBUF"
+      ],
       "oracles": {
         "waves": "3P6t5mKGwVDkyjFhtUqw4NnecyC3DRpLfkw",
         "tokenomica": "3P5yz6NiyBoT3KWBrc1iwQeMAen56FcMGTW"
@@ -250,12 +272,16 @@
       "api": "https://api.wavesplatform.com",
       "explorer": "https://wavesexplorer.com",
       "coinomat": "https://coinomat.com",
+      "vostok": {
+        "gateway": "https://gw.wavesplatform.com",
+        "networkByte": "V"
+      },
       "support": "https://support.wavesplatform.com",
       "termsAndConditions": "https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf",
       "privacyPolicy": "https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf",
       "nodeList": "https://forum.wavesplatform.com/c/pools",
       "scamListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv",
-      "origin": "https://client.wavesplatform.com",
+      "origin": "https://dex.wavesplatform.com",
       "featuresConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/config.json",
       "feeConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/fee.json",
       "assets": {
@@ -272,7 +298,8 @@
         "EFYT": "725Yv9oceWsB4GsYwyy4A52kEwyVrL5avubkeChSnL46",
         "WNET": "AxAmJaro7BJ4KasYiZhw7HkjwgYtt2nekPuF2CN9LMym",
         "XMR": "5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3",
-        "VST": "4LHHvYGNKJUg5hj65aGD5vgScvCBmLpdRFtjokvCjSL8"
+        "VST": "4LHHvYGNKJUg5hj65aGD5vgScvCBmLpdRFtjokvCjSL8",
+        "ERGO": "5dJj4Hn9t2Ve3tRpNGirUHy4yBK6qdJRAJYV21yPPuGz"
       }
     }
   }

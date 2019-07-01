@@ -90,10 +90,6 @@
              */
             settings = Object.create(null);
             /**
-             * @type {boolean}
-             */
-            noSaveToStorage = false;
-            /**
              * @type {number}
              */
             lastLogin = Date.now();
@@ -167,6 +163,11 @@
              * @private
              */
             _scriptInfoPoll = null;
+            /**
+             * @type {boolean}
+             * @private
+             */
+            _noSaveToStorage = false;
 
             constructor() {
 
@@ -347,8 +348,7 @@
              * @return Promise
              */
             create(data, hasBackup, restore) {
-
-                this.noSaveToStorage = !data.saveToStorage;
+                this._noSaveToStorage = !data.saveToStorage;
 
                 data.userType = data.userType || 'seed';
 
@@ -588,6 +588,7 @@
                             }
                         });
 
+                        analytics.addDefaultParams({ userType: this.userType });
                         this.lastLogin = Date.now();
 
                         if (this._settings) {
@@ -700,7 +701,7 @@
              * @private
              */
             _save() {
-                if (this.noSaveToStorage || !this.address) {
+                if (this._noSaveToStorage || !this.address) {
                     return Promise.resolve();
                 }
 

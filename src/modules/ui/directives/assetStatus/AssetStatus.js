@@ -1,6 +1,14 @@
 (function () {
     'use strict';
 
+    // TODO: delete after contest
+    const CONTEST_ASSET_ID_LIST = [
+        '7eMpAC1CVLeZq7Mi16AkvkY2BmLytyApLaUG4TxNFew5',
+        '8ouNBeYFxJMaeyPBwF8jY86R457CyEjAY98HaNLFox7N',
+        'BFWboD9xC64tSmirFbCNARR1NSu6Ep9rP4SRoLkQhBUF'
+    ];
+    // TODO: delete after contest
+
     /**
      * @param Base
      * @param $scope
@@ -31,12 +39,17 @@
                     hasLabel
                 } = utils.getDataFromOracles(this.assetId);
                 this.isGateway = isGateway;
-                // TODO: delete when gateway will be ready
-                this.isGatewaySoon = isGatewaySoon;
                 this.isTokenomica = isGateway ? false : isTokenomica;
                 this.isVerified = isTokenomica ? false : isVerified;
                 this.isSuspicious = isVerified ? false : isSuspicious;
+                this.isGatewaySoon = isGateway ? false : isGatewaySoon;
                 this.hasLabel = hasLabel;
+
+                // TODO: delete after contest
+                if (CONTEST_ASSET_ID_LIST.indexOf(this.assetId) > -1) {
+                    this.isContest = true;
+                }
+                // TODO: delete after contest
             }
 
         }

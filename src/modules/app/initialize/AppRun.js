@@ -323,22 +323,11 @@
 
                 let waiting = false;
 
-                let userType = 'unknown';
-
-                const data = {
+                analytics.init(WavesApp.analyticsIframe, {
                     platform: WavesApp.type,
                     networkByte: ds.config.get('code'),
-                    userType
-                };
-
-                Object.defineProperty(data, 'userType', {
-                    get: () => userType,
-                    set: v => {
-                        userType = v;
-                    }
+                    userType: 'unknown'
                 });
-
-                analytics.init(WavesApp.analyticsIframe, data);
 
                 analytics.activate();
 
@@ -398,8 +387,6 @@
                         .then((canChangeState) => this._login(toState, canChangeState))
                         .then(() => {
                             stop();
-
-                            userType = user.userType;
 
                             this._stopListenChangeLanguage();
                             if (START_STATES.indexOf(toState.name) === -1) {

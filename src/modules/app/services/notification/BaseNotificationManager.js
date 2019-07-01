@@ -246,6 +246,7 @@
  * @property {function} [action.callback]
  * @property {boolean} [noCloseIcon]
  * @property {Function} [onClose]
+ * @property {boolean} [noIcon]
  */
 
 /**
