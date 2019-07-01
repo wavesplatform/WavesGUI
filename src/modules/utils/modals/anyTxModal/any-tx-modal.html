@@ -2,7 +2,8 @@
     <w-step-by-step active-step="$ctrl.step">
         <w-step>
             <w-any-transaction-form state="$ctrl.state"
-                                    on-success="$ctrl.onFillTxForm(signable)"></w-any-transaction-form>
+                                    on-success="$ctrl.onFillTxForm(signable)"
+                                    class="any-transaction-form"></w-any-transaction-form>
         </w-step>
         <w-step>
             <w-confirm-transaction on-click-back="$ctrl.onConfirmBack()"

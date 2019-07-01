@@ -1,9 +1,9 @@
-<form novalidate name="anyTx">
+<form class="any-transaction-form__form" novalidate name="anyTx">
 
-    <div class="flex flex-between body-2 margin-top-4 margin-05">
-        <div w-i18n="directives.anyTransaction.textAreaTitle"></div>
-        <div ng-if="!!$ctrl.json">
-            <span class="link"
+    <div class="any-transaction-form__head flex flex-between body-2 margin-top-4 margin-05">
+        <div class="any-transaction-form__title" w-i18n="directives.anyTransaction.textAreaTitle"></div>
+        <div class="any-transaction-form__action" ng-if="!!$ctrl.json">
+            <span class="any-transaction-form__copy link"
                   w-copy="$ctrl.json"
                   w-i18n-ns="app.ui"
                   w-i18n="directives.anyTransaction.copy"></span>
@@ -33,12 +33,12 @@
         <div class="footnote-1 basic-500" w-i18n="directives.anyTransaction.warning.body"></div>
     </div>
 
-    <div class="margin-top-2 basic-500 footnote-1">
+    <div class="any-transaction-form__fee margin-top-2 basic-500 footnote-1">
         <span ng-if="$ctrl.fee" w-i18n="directives.anyTransaction.fee" params="{fee: $ctrl.fee}"></span>
         <span ng-if="!$ctrl.fee || !!$ctrl.anyTx.$invalid" w-i18n="directives.anyTransaction.calculatingFee"></span>
     </div>
 
-    <div class="margin-top-3">
+    <div class="any-transaction-form__button margin-top-3">
         <w-button class="big long submit"
                   disabled="anyTx.$invalid"
                   on-click="$ctrl.next()">
