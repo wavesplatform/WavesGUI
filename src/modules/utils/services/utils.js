@@ -1718,8 +1718,6 @@
                 const version = user.hasScript() ? 2 : undefined;
 
                 const scriptedError = 30702;
-                // TODO: delete when mainnet error code will be ready
-                const statusError = 'OrderRejected';
 
                 const signableData = {
                     type: SIGN_TYPE.CREATE_ORDER,
@@ -1747,7 +1745,7 @@
                             .then(signable => signable.getDataForApi())
                             .then(ds.createOrder)
                             .catch(data => {
-                                if (!isAdvancedMode || data.error !== scriptedError || data.status !== statusError) {
+                                if (!isAdvancedMode || data.error !== scriptedError) {
                                     return Promise.reject(data);
                                 }
 
