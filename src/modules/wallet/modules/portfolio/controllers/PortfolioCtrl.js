@@ -329,7 +329,8 @@
                                 isOnScamList,
                                 rating: item.rating,
                                 minSponsoredAssetFee: item.asset.minSponsoredAssetFee,
-                                sponsorBalance: item.asset.sponsorBalance
+                                sponsorBalance: item.asset.sponsorBalance,
+                                leasedOut: item.leasedOut
                             };
                         })
                         .reduce((acc, item) => {
