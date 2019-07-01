@@ -1,0 +1,901 @@
+{
+    "confirmTransaction": {
+        "signLedger": "在Ledger设备上等待确认..."
+    },
+    "directives": {
+        "anyTransaction": {
+            "calculatingFee": "交易费用：完整的计算领域",
+            "errors": {
+                "invalidScript": "语法错误",
+                "required": "这是必填栏！"
+            },
+            "fee": "费用 {{fee, money-currency}}",
+            "ok": "继续",
+            "textAreaTitle": "TX JSON",
+            "warning": {
+                "body": "除非您是有经验的用户，否则我们不建议您提交JSON。发生错误可能导致资金损失。",
+                "title": "警告：操作可能会导致您无法访问自己的帐户"
+            }
+        },
+        "filter": {
+            "helpIcon": {
+                "assetId": "资产ID",
+                "description": "您可以找到有关搜索资产的更多信息[这里]（https://docs.wavesplatform.com/en/waves-client/）",
+                "header": "你可以搜索：",
+                "name": "名称",
+                "ticker": "股票"
+            }
+        },
+        "scriptForm": {
+            "acceptAndContinue": "接受并继续",
+            "changePlaceholder": "输入新脚本，或将该字段留空以取消现有脚本",
+            "createPlaceholder": "在这里输入脚本",
+            "errors": {
+                "fee": "您没有足够的资金来支付所需的费用。您必须支付 {{fee, money-currency}} 交易费。",
+                "invalidScript": "语法错误",
+                "required": "这是必填栏"
+            },
+            "fee": "费用 {{fee, money-currency}}",
+            "ideLink": "脚本可以使用[Waves Ride IDE]开发（https://ide.wavesplatform.com/）",
+            "ok": "登录",
+            "textAreaTitle": "Base64脚本",
+            "warning": {
+                "body": "除非您是有经验的用户，否则我们不建议您提交脚本事务。发生错误可能导致永久失去对您帐户的访问权限。",
+                "title": "警告：操作可能会导致您无法访问自己的帐户"
+            },
+            "warningDescription": "除非您是有经验的用户，否则我们不建议您提交脚本交易。发生错误可能导致永久失去对您帐户的访问权限。",
+            "warningHeader": "操作可能导致无法访问帐户"
+        },
+        "setAssetScriptForm": {
+            "fee": "费用 {{fee, money-currency}}"
+        },
+        "sign": {
+            "confirmRequestKeeper": {
+                "sign_utils": "重试"
+            }
+        }
+    },
+    "inputs": {
+        "errors": {
+            "gtGatewayMin": "您无法发送少于 {{min}} {{assetName}} 的金额"
+        }
+    },
+    "keeperForm": {
+        "address": "帐户地址",
+        "back": "回去",
+        "error": {
+            "hasLockedKeeperDescription": "要继续使用Waves Keeper，您必须输入以前创建的密码，或创建一个新密码。",
+            "hasLockedKeeperHeader": "输入Waves Keeper的密码",
+            "hasNoUsersDescription": "登录现有帐户，或创建一个新帐户，然后重试。",
+            "hasNoUsersHeader": "您没有有效帐户",
+            "install": "安装",
+            "networkDescription": "您选择的帐户位于错误的网络上。更改网络，然后再试一次。",
+            "networkHeader": "更改网络",
+            "notInstalledDescription": "安装后，创建一个帐户，登录，然后刷新页面以继续。",
+            "notInstalledHeader": "没有Waves Keeper？",
+            "refresh": "重试"
+        },
+        "heading": "从Waves Keeper导入帐户",
+        "loading": "来自Waves Keeper的导入帐户",
+        "login": "继续",
+        "name": "用户名",
+        "or": "或",
+        "retry": "再试一次",
+        "saveUserData": "让我在这台电脑上登录"
+    },
+    "LedgerClient_utils": "Ledger设备",
+    "LedgerClientDescription": "从Waves Keeper导入帐户",
+    "modal": {
+        "acceptNewTerms": {
+            "title": "使用条款协议"
+        },
+        "account": {
+            "address": "您的钱包地址",
+            "aliases": "别名",
+            "aliasesWarning": "别名功能暂时不可用",
+            "cancel": "创建帐户",
+            "create": "创建新的",
+            "createAliasNotPermitted": "别名创建暂时不可用。",
+            "fee": "交易费用{{price}} {{name}}",
+            "hasAlias": "此别名已经被使用",
+            "hasScript": "如果您有multisig，则无法创建别名",
+            "invalidSymbols": "您输入了无效字符",
+            "maxLength": "别名长度不得超过30个字符",
+            "message": "要查看帐户信息，请登录或创建帐户",
+            "minLength": "别名长度必须至少为4个字符",
+            "noMoney": "资金不充足",
+            "notifications": {
+                "aliasCreated": "别名已创建"
+            },
+            "ok": "登录",
+            "placeholder": "您地址的符号名称",
+            "title": "帐户信息 {{name}}",
+            "title_default_name": "信息"
+        },
+        "accountInfo": {
+            "alias": {
+                "helpIcon": {
+                    "row1": "关于别名",
+                    "row2": "别名是您地址的昵称。您可以使用您的别名来进行交易。",
+                    "row3": "您的别名长度必须介于4到30个字符之间并且必须包括小写拉丁字母、数字和符号 (@, -, _ 等)"
+                }
+            }
+        },
+        "assetInfo": {
+            "available": "可用",
+            "balance": "余额",
+            "contest": "比赛",
+            "date": "发行日期",
+            "decimals": "小数点",
+            "description": "描述",
+            "details": "详情",
+            "email": "电子邮件",
+            "gateway": "出入口",
+            "gatewaySoon": "网关很快",
+            "identifier": "ID",
+            "inOrders": "保留在传票中",
+            "issuer": "发行者",
+            "leased": "租赁的",
+            "name": "名称",
+            "pinned": "已固定",
+            "qualified": "合格",
+            "quantity": "总金额",
+            "rating": {
+                "canVoteTip": "点击为代币评分",
+                "tooltipLink": "更多细节",
+                "tooltipNeedWAVES": "和 0.001 WAVES",
+                "tooltipNeedWCT": "要为代币评分，您必须至少有1个",
+                "tooltipText": "Tokens are not transferred, only on existing balance is required for voting.our score will be applied after 24 hours. Please keep the current tokens in the account during this time. \nFee 0.001 WAVES.",
+                "tooltipTitle": "To rate a token, you must have at least 1 WCT in your wallet."
+            },
+            "reissue": {
+                "no": "不可再发行",
+                "yes": "可再发行"
+            },
+            "site": "网站",
+            "sponsorshipFee": "赞助资产费",
+            "suspicious": "可疑",
+            "ticker": "股票",
+            "title": "资产信息",
+            "tokenomica": "Tokenomica",
+            "total": "总额",
+            "transactions": "交易记录",
+            "type": "类型",
+            "unpinned": "添加",
+            "wsocRef": "WSOC"
+        },
+        "backup": {
+            "clearSeed": "{span.clear}[清除] 并且再次点击",
+            "title": {
+                "title_0": "保存备份短语",
+                "title_1": "确认备份",
+                "title_2": "成功"
+            }
+        },
+        "confirm-correct-order": "您的价格 {price, money-currency} 与市场价格的差异超过5％",
+        "confirmLogout": {
+            "goBack": "回去",
+            "heading": "你即将离开",
+            "logout": "登出",
+            "text": "为了防止其他人未经您的许可访问您的资金，请先从您的帐户中注销。"
+        },
+        "confirmOrder": {
+            "cancel": "取消",
+            "continue": "下订单",
+            "description": "你想继续吗？",
+            "headerBuy": "您的订单价格比最新市场价格高{{orderLimit}} ％",
+            "headerSell": "您的订单价格比最新市场价格低{{orderLimit}}%"
+        },
+        "createOrder": {
+            "cancel": "创建帐户",
+            "message": "要开始交易，请登录或创建帐户",
+            "ok": "登录"
+        },
+        "deposit": {
+            "coinomatBCH": {
+                "helpDescrText": "交易确认后，网关将处理BCH转账到Waves账户中的代币。",
+                "helpDescrTitle": "将此地址输入在您的Bitcoin Cash客户端或钱包",
+                "warningMinAmountText": "如果您发送少于0.001 BCH，您将失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为0.001 BCH",
+                "warningText": "如通过该地址发送任何其他代币，您的代币将失去。",
+                "warningTitle": "只能将BCH发送到这个存款地址"
+            },
+            "coinomatBSV": {
+                "helpDescrText": "确认交易后，网关将处理将BSV转移到Waves帐户中的代币。",
+                "helpDescrTitle": "在您的比特币Satoshi Vision客户端或钱包中输入此地址",
+                "warningMinAmountText": "如果您发送的BSV低于0.001，您将失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为0.001 BSV",
+                "warningText": "将任何其他货币发送到此地址可能会导致您的存款损失。",
+                "warningTitle": "仅将 BSV 发送到此存款地址"
+            },
+            "coinomatBTC": {
+                "helpDescrText": "交易确认之后，网关将处理BTC转账至您Waves帐户的代币。",
+                "helpDescrTitle": "将此地址输入您的比特币客户端或在线钱包",
+                "warningMinAmountText": "如果您发送的费用低于0.001 BTC，您将失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为0.001 BTC",
+                "warningText": "如通过该地址发送任何其他代币，您的代币将失去。",
+                "warningTitle": "通过该存款地址只能发送BTC"
+            },
+            "coinomatDASH": {
+                "helpDescrText": "确认交易后，网关将处理将DASH转移到Waves帐户中的代币。",
+                "helpDescrTitle": "将此地址输入您的DASH客户端或钱包",
+                "warningMinAmountText": "如果您发送小于0.1的DASH，你会失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为0.1 DASH",
+                "warningText": "如通过该地址发送任何其他代币，您的代币将失去。",
+                "warningTitle": "只能将DASH发送到这个存款地址"
+            },
+            "coinomatETH": {
+                "helpDescrText": "交易确认之后，网关将处理ETH转账至您Waves帐户的代币。",
+                "helpDescrTitle": "将此地址输入您的 以太坊客户端或在线钱包",
+                "warningMinAmountText": "如果您发送的费用低于0.001 ETH，您将失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为0.001 ETH",
+                "warningText": "检查您的钱包或交易所是否为收回ETH使用智能合约。我们不接受这种交易，也不能退款。您将会失去这笔钱。",
+                "warningTitle": "请不要从智能合约中交存ETH！别交存ERC20代币！您只能交存以太坊Ethereum。"
+            },
+            "coinomatLTC": {
+                "helpDescrText": "交易确认之后，网关将处理LTC转账至您Waves帐户的代币。",
+                "helpDescrTitle": "将此地址输入您的莱特币客户端或在线钱包",
+                "warningMinAmountText": "如果您发送的费用低于0.001 LTC，您将失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为0.001 LTC",
+                "warningText": "如通过该地址发送任何其他代币，您的代币将失去。",
+                "warningTitle": "通过该存款地址只能发送LTC"
+            },
+            "coinomatXMR": {
+                "helpDescrText": "交易确认之后，网关将处理XMR转账至您Waves帐户的代币。",
+                "helpDescrTitle": "将此地址输入在您的Monero客户端或钱包",
+                "warningMinAmountText": "如果您发送的费用低于0.001 XMR，您将失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为0.001 XMR",
+                "warningText": "{div}[付款ID不是必需的.] 如通过该地址发送任何其他代币，您的代币将失去。",
+                "warningTitle": "通过该存款地址只能发送 XMR"
+            },
+            "coinomatZEC": {
+                "helpDescrText": "交易确认之后，网关将处理ZEC转账至您Waves帐户的代币。",
+                "helpDescrTitle": "将此地址输入您的Zcash客户端或在线钱包",
+                "warningMinAmountText": "如果您发送的费用低于0.001 ZEC，您将失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为0.001 ZEC",
+                "warningText": "如通过该地址发送任何其他代币，您的代币将失去。",
+                "warningTitle": "通过该存款地址只能发送 Zcash"
+            },
+            "copyAndShare": "复制和分享钱包地址",
+            "currency": "货币",
+            "or": "或",
+            "pleaseNote": "请注意，网关对此操作不收取费用。",
+            "scanQrCode": "扫描二维码",
+            "title": "存款{{assetName}}",
+            "vostokVST": {
+                "helpDescrText": "确认交易后，网关将处理将Vostok转移到Waves帐户中的代币。",
+                "helpDescrTitle": "在您的Vostok客户端或钱包中输入此地址",
+                "warningMinAmountTitle": "最低存款金额为0.1 VST，最高存款金额为50 000 VST"
+            }
+        },
+        "dexScriptedPair": {
+            "body": "智能资产是包含脚本的资产，该脚本设置令牌流通的条件。 {div}[如果您是没有经验的用户，我们不建议您使用智能资产执行操作。在进行交易之前，请仔细阅读有关资产及其脚本的信息。]",
+            "heading": "包含智能资产的订单"
+        },
+        "disabledFeature": {
+            "anyTransaction": "JSON交易暂时无法使用。",
+            "lease": "开始租赁暂时不可用。"
+        },
+        "disabledFeatures": {
+            "default": "抱歉，此功能目前已停用。",
+            "massTransfer": "传输暂时无法使用。",
+            "transfer": "发送加密货币暂时不可用。"
+        },
+        "gatewaySign": {
+            "cancel": "取消",
+            "continue": "允许",
+            "description": "{{name}} 该应用程序将有权访问您的Waves地址。 它不会得到您的SEED或私钥。请不要在重定向的网站上输入您的SEED助记词。",
+            "descriptionDesktop1": "该链接将在您的默认Web浏览器中打开。如果要使用其他Web浏览器，",
+            "descriptionDesktop2": "复制",
+            "descriptionDesktop3": "并将链接粘贴到其URL栏中。",
+            "error": {
+                "button": "取消",
+                "headline": "出了些问题",
+                "title": "错误"
+            },
+            "headline": "{span.link}[{{url}}] 要访问您的Waves地址",
+            "retrySign": "重试",
+            "title": "登入Waves",
+            "txHash": "TXHASH",
+            "warning": "请不要在重定向的网站上输入您的SEED助记词。"
+        },
+        "import": {
+            "errorBeta": "无法从Waves客户端测试版检索您的帐户。请尝试从Waves Lite客户端导入帐户。",
+            "errorHeader": "没有找到帐户",
+            "errorLite": "我们无法从Waves Lite客户端检索您的帐户。请尝试从Waves客户端测试版导入您的帐户。",
+            "errorUnable": "无法检索您的帐户。请使用SEED助记词来恢复您的帐户。",
+            "fromBetaButton": "从客户端测试版导入",
+            "fromLiteButton": "从Lite客户端导入",
+            "helpIcon": {
+                "description": "为了正确操作，我们建议您允许弹出式窗口。浏览器说明: [Chrome](https://support.google.com/chrome/answer/95472?co=GENIE.Platform%3DDesktop&hl=en), [Safari](https://discussions.apple.com/thread/4271925),  [Firefox](https://support.mozilla.org/en-US/kb/pop-blocker-settings-exceptions-troubleshooting), [Opera](https://help.opera.com/en/presto/control-pages/).",
+                "title": "默认情况下，某些浏览器会阻止弹出式窗口自动显示在屏幕上。"
+            },
+            "importButton": "导入",
+            "importCancel": "取消",
+            "iUnderstandButton": "我了解",
+            "selectAccountDescription": "您必须允许在浏览器中显示弹出式窗口",
+            "selectAccountToImport": "选择要导入的帐户",
+            "selectAccountToImportFrom": "选择帐户",
+            "selectButton": "选择",
+            "wavesBetaClient": "Waves客户端测试版",
+            "wavesBetaClientDescription": "从Waves客户端测试版导入帐户",
+            "wavesLiteClient": "Waves Lite客户端",
+            "wavesLiteClientDescription": "从Waves Lite客户端导入帐户"
+        },
+        "open-main": {
+            "dex": {
+                "cancel": "创建帐户",
+                "message": "要开始交易，请登录或创建帐户",
+                "ok": "登录"
+            },
+            "tokens": {
+                "cancel": "创建帐户",
+                "message": "要发行代币，请登录或创建帐户",
+                "ok": "登录"
+            },
+            "wallet": {
+                "assets": {
+                    "cancel": "创建帐户",
+                    "message": "要打开您的钱包，请登录或创建帐户",
+                    "ok": "登录"
+                },
+                "cancel": "创建帐户",
+                "leasing": {
+                    "cancel": "创建帐户",
+                    "message": "要打开您的钱包，请登录或创建帐户",
+                    "ok": "登录"
+                },
+                "message": "要打开您的钱包，请登录或创建帐户",
+                "ok": "登录",
+                "portfolio": {
+                    "cancel": "创建帐户",
+                    "message": "要打开您的钱包，请登录或创建帐户",
+                    "ok": "登录"
+                },
+                "transactions": {
+                    "cancel": "创建帐户",
+                    "message": "要打开您的钱包，请登录或创建帐户",
+                    "ok": "登录"
+                }
+            }
+        },
+        "pairing": {
+            "downloadAppDescription": "下载我们的移动应用程序：",
+            "scanCodeDescription": "使用iPhone或Android设备扫描下面的代码，将其与您的帐户配对。"
+        },
+        "pinAsset": {
+            "cancel": "取消",
+            "nothing": "没选择",
+            "placeholder": "请输入资产名称或ID",
+            "submit": "固定",
+            "title": "请选择要固定的资产"
+        },
+        "qr": {
+            "copyAndShare": "复制和分享钱包地址",
+            "or": "或",
+            "scanQrCode": "扫描二维码",
+            "title": "分享您的钱包地址",
+            "warningText": "如发送任何其他数字资产到该地址，您的资金将永久性消失。",
+            "warningTitle": "通过该地址只能发送 Waves和Waves代币"
+        },
+        "receive": {
+            "accountStatus": "帐户状态",
+            "addressOrAlias": "地址/别名",
+            "amount": "金额",
+            "amountYouPay": "您支付的金额",
+            "asset": "资产",
+            "bank": {
+                "title": "银行"
+            },
+            "bankSuccessHeader": "您被重定向到 IDNow.eu 来进行验证。",
+            "bankSuccessText": "验证完成后，您将收到包含进一步说明的电子邮件。",
+            "bankVerifiedPlateDescription": "在您提取资金之前，我们建议您查看[说明]（https://docs.wavesplatform.com/en/waves-client/transfers-and-gateways/eur-usd-transfers.html）和[限制和交易费用]（https://coinomat.com/limits.php）。",
+            "bankVerifiedPlateHeader": "您必须使用以下信息填写付款细节字段：",
+            "card": {
+                "continue": "继续",
+                "title": "卡"
+            },
+            "cardSuccessHeader": "您已被重定向到 Indacoin.com",
+            "cardSuccessText": "付款完成后，您的余额将会更新",
+            "coinomat": {
+                "serverError": "Coinomat服务暂时无法使用。稍后再试。",
+                "tryAgain": "再试一次"
+            },
+            "cryptocurrency": {
+                "title": "加密货币"
+            },
+            "error": {
+                "cardAmount": {
+                    "gte": "您可以存入的最低金额为 {{gte}} {{currency}}",
+                    "lte": "您可以存入的最大金额为 {{lte}} {{currency}}",
+                    "precision": "该字段中的数字无效。它可以在小数点后包含最多2位数字。"
+                }
+            },
+            "errors": {
+                "required": "必填栏"
+            },
+            "gatewayError": "Service Gateway暂时不可用。稍后再试。",
+            "invoice": {
+                "title": "单据"
+            },
+            "ledger": {
+                "cancel": "取消",
+                "retry": "重试"
+            },
+            "maximumIs": "最高的是",
+            "minimumIs": "最低的是",
+            "providedByCoinomat": {
+                "descriprion": "{div}[Waves Platform AG does not undertake any responsibility for the activities carried out by Coinomat and does not take any part in the relationship that may arise between Coinomat and users of the Waves Platform in the provision of this service.]{div}[By using Coinomat services, you agree to be bound by [Coinomat Terms of Service and Conduction of Transactions](https://coinomat.com/terms.php). If you do not agree to these terms, then do not use Coinomat services.]",
+                "header": "此服务由Coinomat公司 (Сoinomat) 提供。",
+                "termsReadedInputLabel": "我已阅读并同意[隐私政策](https://coinomat.com/privacy.php)。我知道我可以在任何时候完全或部分撤销我的同意, 以便将来生效。",
+                "warning": "如果您有验证、付款处理问题或您愿意撤销您的同意，请联系Coinomat客服团队 -  [support@coinomat.com](给support@coinomat.com 发邮件)"
+            },
+            "receive": "存款",
+            "serverAddressError": "Gateway地址错误",
+            "serverError": "Service Coinomat暂时无法使用。稍后再试。",
+            "shareInvoiceLink": "分享单据链接",
+            "verified": "验证",
+            "vostok": {
+                "serverError": "Vostok服务暂时无法使用。稍后再试。"
+            },
+            "wtry": {
+                "info": "如果付款处理出了问题，请联系Digilira支持团队 — [support@digilira.com](mailto:support@digilira.com)"
+            },
+            "wtryPlate1Header": "如果您有土耳其公民身份，您只能使用土耳其里拉网关。",
+            "wtryPlate1Text": "为了进行存款，您将被重定向到 [digilira.com](https://digilira.com)",
+            "wtrySuccessHeader": "您被重定向到 Digilira.com",
+            "youWillGet": "您大约会收到"
+        },
+        "removeAccount": {
+            "cancel": "取消",
+            "heading": "删除帐号",
+            "remove": "删除",
+            "text": "{div}[如果您没有保存备份短语（SEED），删除帐号将导致帐户无法挽回的损失.]\n{div}[点击删除按钮来删除帐号，或点击取消来返回到上一个页面.]",
+            "warning": "您没有保存您的SEED助记词"
+        },
+        "removeKeeperAccount": {
+            "heading": "删除Waves Keeper帐户",
+            "text": "这只会删除此帐户的已保存路径。它不会从Waves Keeper中删除该帐户。"
+        },
+        "removeLedgerAccount": {
+            "heading": "删除Ledger帐户",
+            "text": "This will not delete the account from your Ledger. It will only delete the saved path to this account on your Ledger."
+        },
+        "script": {
+            "anyTx": "JSON",
+            "setScript": "脚本交易"
+        },
+        "send": {
+            "amount": "金额",
+            "attachmentLength": "该描述太长",
+            "bankAccount": "银行账户",
+            "coinomat": {
+                "feeExplanation": "我们检测到 {{assetName}} 地址，并通过Coinomat网关将您的资金发送到该地址。最低金额为 {{min, BigNumber}} {{assetTicker}}，最高金额为 {{max, BigNumber}} {{assetTicker}}。",
+                "feeTitle": "网关费用是 {{fee, BigNumber}} {{assetTicker}}"
+            },
+            "coinomatLimits": "最低100美元/欧元，最高50,000美元/欧元",
+            "coinomatWarningHeader": "我们将通过Coinomat出入口汇款。",
+            "coinomatWarningText": "在提款之前，请检查Сoinomat[限额和交易费用]（https://coinomat.com/limits.php）。",
+            "compare": {
+                "description": "您已发送 {{amount}} {{currency}} (${{mirror}})",
+                "details": "查看详情",
+                "title": "你的交易正在进行中！"
+            },
+            "confirm": {
+                "back": "返回",
+                "confirm": "确认",
+                "from": "从",
+                "title": "交易详情",
+                "to": "给",
+                "total": "总额"
+            },
+            "currency": "资产",
+            "description": "描述",
+            "descriptionPlaceholder": "可选择性的输入讯息",
+            "errors": {
+                "address": "该地址无效",
+                "allAddressesInvalid": "所有地址都是无效的",
+                "button": "取消",
+                "headline": "出了些问题",
+                "invalidChars": "该字段只能包含数字",
+                "max": "资金不足",
+                "maxCoinomat": "您的转帐金额不得超过 {{money, money-currency}}",
+                "paymentIdLength": "Monero门罗币支付ID必须是64个字符的十六进制字符串",
+                "paymentIdPattern": "十六进制字符串应该由0-9符号和A-Z(o或a-z)组成。",
+                "precision": "该字段中的数字是无效的。它可以在小数点后包含最多{{precision}}数字。",
+                "required": "这是必填栏",
+                "title": "错误"
+            },
+            "fee": "交易费用{{fee, money-currency}}",
+            "gateway": {
+                "feeExplanation": "我们检测到{{assetName}}地址，并会通过网关将您的资金发送到此地址。最低金额为 {{min, BigNumber}} {{assetTicker}} 。最大金额为 {{max, BigNumber}} {{assetTicker}}。"
+            },
+            "icoWarning": "不要将 {{assetName}} 转到ICO地址。我们将无法将这笔销售中的代币存入您的账号。",
+            "idNumber": {
+                "helpIcon": {
+                    "description": "您可以在[此处]（https://docs.wavesplatform.com/en/waves-client/transfers-and-gateways/eur-usd-transfers.html）找到有关将资金提取到银行帐户的更多信息。",
+                    "title": "在使用Coinomat确认银行帐户后，您的ID号是分配给每个用户的独特号码。"
+                }
+            },
+            "idNumberTitle": "身份证号码",
+            "liraBankAccount": "Digilira帐户",
+            "massSend": {
+                "clear": "消除",
+                "description": "描述",
+                "errors": {
+                    "invalidAddress": "无效地址列表："
+                },
+                "importFile": "导入CSV文件",
+                "recipient": "收款者，金额: {{count}}/{{max}}",
+                "recipientsAmountsPlaceholder": "例：\n地址1，金额1\n地址2，金额2",
+                "showAllErrors": {
+                    "false": "全部显示 ({{count}})",
+                    "true": "显示前2个错误"
+                },
+                "totalAmount": "总金额",
+                "warningPlate1Header": "您最多可以发送给100个收款者",
+                "warningPlate1Text": "第100位后的任何收款者都将被忽略。",
+                "warningPlate2Header": "大规模传送中不能编入无效的地址。",
+                "warningPlate3Header": "请使用逗号来分隔收款者和发送金额。为每个收款者使用一个新行。",
+                "warningPlate3Text": "[详细了解CSV文件标准](https://en.wikipedia.org/wiki/Comma-separated_values)."
+            },
+            "massSendTitle": "大规模传送",
+            "moneroPaymentId": "Monero支付ID",
+            "moneroPaymentIdPlaceholder": "粘贴或输入您的Monero支付ID",
+            "notSponsorship": {
+                "fee": "交易费 {{fee, money-currency}}"
+            },
+            "notVerifiedHeader": "您尚未经过验证。",
+            "notVerifiedText": "只有经过验证的用户才能退出银行帐户。您可以找到更多关于发送和接收法定货币的信息[这里]（https://docs.wavesplatform.com/en/waves-client/transfers-and-gateways/eur-usd-transfers.html）。",
+            "or": "或",
+            "placeholderRecipient": "粘贴或扫描地址",
+            "recipient": "收款者",
+            "sendMax": "最高限度",
+            "sendTitle": "发送",
+            "title": "发送{{assetName}}",
+            "titleComplete": "发送完成",
+            "toBank": "提款到银行账户",
+            "total": "总额",
+            "toWaves": "发送到波浪币地址",
+            "txFee": "手续费",
+            "validationError": {
+                "notEnoughFunds": "您的余额不足以支付所需交易费用。您需要{{fee, money-currency}} 作为交易费用。",
+                "notEnoughFundsWithdraw": "您的余额不足以支付所需交易费用。您需要 {{fee, money-currency}} {{getawayFee, BigNumber}} {{currency}} 作为交易费用和 {{minGatewayAmount, BigNumber}} {{currency}} 网关费用。"
+            }
+        },
+        "sepa": {
+            "countryList": "符合条件的国家和ID列表",
+            "proceed": "获得证实",
+            "step1": "第1个步骤",
+            "step1Description": "要通过SEPA转帐直接从您的银行帐户存入{{assetName}}，您必须通过我们的合作伙伴[IDNow.eu]({{url}})进行验证。",
+            "step2": "第2个步骤",
+            "step2Description": "完成验证之后，您将收到电子邮件，其中包含进一步的说明",
+            "title": "存款 {{assetName}}",
+            "warning": "如果出现验证或付款处理问题，请联系Coinomat支助团队 -  [support@coinomat.com]（邮箱地址：support@coinomat.com）",
+            "warningTitle": "我们不接受由美国公民或美国银行的进行的国际电子资金转账"
+        },
+        "setAssetScript": {
+            "errorNoMoney": "您没有足够的资金来支付所需的费用。您必须支付 {{fee, money-currency}} 交易费。",
+            "script": "脚本",
+            "scripted": "设置",
+            "title": "更新脚本",
+            "unavailable": "更新脚本功能暂时不可用",
+            "warningDescription": "{div}[除非您是有经验的用户，否则我们不建议您提交脚本交易。發生错误可能导致资产永久性损失。",
+            "warningHeader": "行动可能导致资产损失。"
+        },
+        "settings": {
+            "cancel": "创建帐户",
+            "general": {
+                "auto": "Auto",
+                "blockHeight": "当前高度",
+                "blue": "Waves",
+                "color": "颜色",
+                "dark": "黑色",
+                "green": "白色",
+                "hours": "{{hours}} 小时",
+                "language": "语言",
+                "minutes": "{{minutes}} 分钟",
+                "openLinkViaWeb": "我愿意通过网页版打开链接",
+                "playSound": "Play user interface sound effects",
+                "theme": "Theme",
+                "timeout": "您的访问超时在",
+                "title": "常规设置",
+                "white": "白色"
+            },
+            "info": {
+                "legal": "法律",
+                "privacyPolicy": "隐私政策",
+                "support": "客户服务",
+                "termsAndConditions": "条款和细则",
+                "title": "信息",
+                "version": "版本"
+            },
+            "message": "要打开设置，请登录或创建帐户",
+            "network": {
+                "apiAddress": "数据服务",
+                "apiAddressHelp": "数据服务提供了额外的API，用于与Waves区块链数据进行交互。",
+                "assetNameFilter": "命名服务",
+                "assetNameFilterHelp": "此服务使用Waves令牌库检查令牌的名称。 \n要完全禁用它，请清除该字段。",
+                "copy": "复制",
+                "dataProvider": "数据提供者",
+                "dataProviderDescription": "{{dataProviderDescription}}",
+                "dataProviderId": "{{dataProviderId}}",
+                "dataProviderInvalid": "无法获得提供商信息。请检查地址并再试一次",
+                "dataProviderName": "{{dataProviderName}}",
+                "dontShowSpamCheckboxDescr": "不要显示可疑代币",
+                "forDisableClear": "要完全禁用它，请清除该字段。",
+                "matcherAddress": "交易匹配节点地址",
+                "nodeAddress": "节点地址",
+                "showMore": "显示更多",
+                "spamFilter": "垃圾邮件筛选",
+                "spamFilterInputDescr": "关闭垃圾邮件筛选",
+                "spamListHelp": "此过滤器会从您的投资组合中删除可疑代币。",
+                "title": "网络设置"
+            },
+            "ok": "登录",
+            "pairing": {
+                "devicePairing": "导出帐户",
+                "header": "扫描配对码",
+                "showCodeLink": "显示配对码",
+                "unavailable": {
+                    "description": {
+                        "ledger": "导出不适用于存储在Ledger设备上的帐户",
+                        "wavesKeeper": "Waves Keeper设置中提供了从Waves Keeper导入的帐户的导出"
+                    },
+                    "header": {
+                        "ledger": "导出不可用",
+                        "wavesKeeper": "导出不可用"
+                    },
+                    "ok": "我明白"
+                }
+            },
+            "security": {
+                "address": "地址",
+                "backupPhrase": "备份短语",
+                "encodedSeed": "编码的SEED",
+                "privateKey": "私钥",
+                "publicKey": "公钥",
+                "script": "脚本",
+                "scriptButton": "设置脚本",
+                "scriptButtonUpdate": "更新脚本",
+                "show": "显示",
+                "title": "安全设置"
+            },
+            "setDefault": "默认设置",
+            "title": "设置"
+        },
+        "sign": {
+            "article": "文章",
+            "cancel": "取消",
+            "cancelOrder": "取消订单",
+            "close": "关闭",
+            "confirm": "确认",
+            "confirmRequest": "确认请求",
+            "confirmRequest_utils": "确认请求",
+            "confirmRequestKeeper": "等待来自Waves Keeper的确认......",
+            "confirmRequestLedger": {
+                "cancel": "取消",
+                "errorDescription": "请再试一次。如果错误仍然存在，请参阅[本文]（https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues）",
+                "errorHeader": "您未在Ledger设备上确认该请求",
+                "sign": "重试登录",
+                "waiting": "在Ledger设备上等待确认..."
+            },
+            "confirmRequestMatcher_utils": "向匹配器签署请求。如果您不签署，则无法从Ledger帐户在去中心化交易所上进行交易。",
+            "confirmRequestToMatcher": "向匹配器签署请求。如果您不签署请求，则无法在去中心化交易所上进行交易",
+            "connecting": "连接中...",
+            "connectingKeeper": "连接到Waves Keeper中 ...",
+            "connectionError": "无法连接分类帐设备",
+            "connectionErrorKeeper": "无法访问帐户",
+            "connectionText": "您的访问已经中断。请重新登入。",
+            "connectLedger": "连接您的分类帐设备",
+            "enterPin": "输入您的PIN码",
+            "fee": "费用",
+            "matcher": "Sign orders requests",
+            "openApp": "打开Waves应用程序",
+            "price": "价格",
+            "refererTo": "如果错误仍然存​​在，请参阅",
+            "referTo": "如果错误仍然存​​在，请参阅",
+            "request": "请求",
+            "requestId": "请求Hash",
+            "retry": "重试",
+            "signByKeeper": "上等待确认",
+            "signByLedger": "Ledger上等待确认",
+            "signError": "请求尚未确认。",
+            "signErrorKeeper": "您没有使用Waves Keeper确认请求",
+            "signErrorText": "您未在Ledger设备上确认该请求",
+            "signErrorTextImportKeeper": "使用地址{{address}}登录Waves Keeper，然后刷新页面以继续。",
+            "signErrorTextKeeper": "请再试一次。如果错误仍然存在，请创建[帮助]的票证（https://support.wavesplatform.com/）",
+            "txId": "TXID"
+        },
+        "sponsorship_edit": {
+            "title": "更改赞助"
+        },
+        "sponsorship": {
+            "amountPerTx": "每笔交易金额（每0.001WAVES）",
+            "assetId": "ID",
+            "continue": "继续",
+            "errors": {
+                "feeRequired": "这是必填栏！",
+                "minSponsoredAssetFee": {
+                    "precision": "此字段中的数字无效。它可以在小数点后包含最多{{precision}}数字。"
+                },
+                "noMoney": "您没有足够的资金来支付所需的费用。您必须支付 {{fee, money-currency}} 交易费。",
+                "notZero": "數值必须大于0"
+            },
+            "fee": "交易费 {{fee, money-currency}}",
+            "title": "启用赞助",
+            "warningHeader": "用户可以通过{{name}}支付交易费用",
+            "warningText": "对于每笔交易，将从您的余额中扣除0.001 波浪币， {{name}}将记入您的帐户。当您启用赞助时（在下面的表单中输入金额），您为交易的用户收取{{name}}的金额。赞助只有在余额至少为1.005波浪币时才有效。如果您的余额低于此金额，您将无法赞助交易。"
+        },
+        "startLease": {
+            "amount": "金额",
+            "balance": "余额",
+            "fee": "费用 {{fee, money-currency}}",
+            "nodeListLink": "节点列表",
+            "nodeListLink_copy": "节点列表",
+            "recipient": "收款者",
+            "start": "开始租赁",
+            "title": "开始租赁"
+        },
+        "termsAccept": {
+            "body": {
+                "advancedMode": "高级功能",
+                "analytics": "我想向开发者发送匿名统计信息来帮助改善Waves平台。",
+                "backup": "我了解如果此应用移至其他设备或已删除，我的Waves账户只能通过备份短语（助记词）进行恢复。",
+                "ok": "确认并开始",
+                "privacyPolicy": "我已阅读并同意[隐私政策]（https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf）。",
+                "read": "我已阅读、理解并同意",
+                "readTermsAndConditions": "我已阅读，理解并同意[条款和细则]（https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf）",
+                "security": "我了解我的资产安全地存放在此设备上，而不是存放于公司",
+                "securityAndBackup": "我知道我的资金是安全地保存在这个设备上，而不是公司。如果将此应用程序移动到其他设备或删除，我的Waves只能使用备份恢复。",
+                "terms": "使用条款"
+            },
+            "header": {
+                "description": "Waves与众不同 — 该钱包安全地储存在您使用的设备上",
+                "title": "完成！ 检阅明细",
+                "title2": "使用条款"
+            }
+        },
+        "token": {
+            "balance": "差额",
+            "burn": {
+                "label": "要消除的代币数量",
+                "title": "{{name}} 代币消除"
+            },
+            "description": "描述",
+            "fee": "交易费 {{fee, money-currency}}",
+            "gt0": "输入的数字必须大于0",
+            "id": "ID",
+            "quantity": "总金额",
+            "reissue": {
+                "label": "再发行的代币数量",
+                "title": "{{name}} 代币再发行"
+            },
+            "validation": {
+                "gt0": "必填栏",
+                "invalidAsset": "该字段只能包含数字",
+                "invalidPrecision": "超过 {{precision}} 小数位的最大值",
+                "lteMaxBalance": "数量不能超过差额",
+                "maxValueCount": "输入的数字过大",
+                "noMoney": "您的余额不足以支付所需交易费用。",
+                "required": "这是必填栏"
+            }
+        },
+        "tryDesktop": {
+            "remember": "记住我的选择，不要再提示"
+        },
+        "tutorialModals": {
+            "step1": {
+                "button": "您需要知道的关于您的SEED信息",
+                "buttonMobile": "下一步",
+                "p1": "为了您的安全，请您抽时间来了解一些重要信息. 🙏",
+                "p2": "如果您访问了钓鱼网站或丢失备份短语（SEED短语），我们无法恢复您的资金或冻结您的帐户。",
+                "p3": "如您愿意继续使用我们的平台，您同意接受与您SEED损失相关的所有风险。如果您丢失了SEED，您同意并承认Waves平台不会对此造成的负面后果承担责任。",
+                "title": "欢迎加入Waves平台！"
+            },
+            "step2": {
+                "backButton": "返回",
+                "cell1": "您匿名地使用您的钱包，指的是您的账户未连接到电子邮件账户或任何其他识别数据。",
+                "cell2": "用某个设备或浏览器时，您的密码可以保护您的账户，为了确保您的密码短语不被保存在存储器中。",
+                "cell3": "如果您忘记了密码，您可以通过您的密码短语使用账户恢复表单并轻松创建一个新密码。但是，如果您遗失了密码，您将无法访问您的帐户。",
+                "cell4": "你不能改变你的秘密短语。如果您不小心将其发送给某人或怀疑诈骗者已将其移交给他人，请立即创建一个新的Waves钱包并将资金转入其中。",
+                "nextButton": "保护自己",
+                "p1": "注册您的账户时，您要保存您的密码（SEED）并使用密码来保护您的账户。用普通的中央服务器上，您特别注意密码, 而且您可以通过电子邮件更改和重置密码。然而，Waves与众不同  — 该钱包安全地储存在您使用的设备上：",
+                "title": "你需要知道关于您的SEED的信息"
+            },
+            "step3": {
+                "backButton": "返回",
+                "cell1": "请总是检查URL: [https://client.wavesplatform.com](https://client.wavesplatform.com)",
+                "cell2": "访问您的账户时 请不要使用具有扩展程序或插件的浏览器",
+                "cell3": "请不要打开来自未知发件人的电子邮件或链接。",
+                "cell4": "请您定期更新您的操作系统。",
+                "cell4Web": "请您定期更新您的浏览器和操作系统。",
+                "cell5": "请您使用官方安全软件。请不要安装会被黑客攻击的未知软件。",
+                "cell6": "使用公共Wi-Fi或其他人的设备时请勿访问您的钱包。",
+                "nextButton": "我了解",
+                "p1": "诈骗最常见的攻击方式之一是网络钓鱼，一般钓鱼者在Facebook或其他类似于真实的网站上创建假社群。",
+                "title": "如何防止网络钓鱼攻击"
+            }
+        }
+    },
+    "modals": {
+        "anyTx": {
+            "title": "JSON"
+        }
+    },
+    "notification": {
+        "backup": {
+            "action": "保存",
+            "body": "您需要储蓄备份短语，这是唯一的恢复您钱包的方法。",
+            "title": "保存您的秘密短语 (SEED)"
+        }
+    },
+    "qualified": "合格",
+    "transaction": {
+        "amounts": {
+            "create-order": "{{sign}}{{amount}} {{name}}"
+        }
+    },
+    "Unpin_utils": "卸下",
+    "utils": {
+        "whatsNew": {
+            "body": {
+                "1_0_0": "{span.line} [1。 波浪币客戶已经退出测试版。] {span.line} [2。您现在可以将任何资产固定和取消固定在主页面。] {span.line} [3。添加了夜间模式。] {span.line} [4。您现在可以轻松地从旧客户端导入所有帐户。] {span.line} [5。修正了一些小错误。]",
+                "1_0_0-beta_23": "{span.line}[1. 我们添加了“新的功能”部分！!]{span.line}[2. 您现在可以为您的帐户添加姓名.]{span.line}[3. 一些小缺陷已被改正.]",
+                "1_0_0-beta_25": "{span.line}[1. 您现在可以在设置中更改访问时间.]{span.line}[2. 我们已改正了在DEX中的买 / 卖窗口缺陷.]{span.line}[3. 如果您还没有保存您的SEED短语，我们就会提醒你.]{span.line}[4. 一些小缺陷已被改正.]",
+                "1_0_0-beta_26": "{span.line}[1. 一些小缺陷已被改正.]",
+                "1_0_0-beta_27": "{span.line}[1. 添加了中文.]{span.line}[2. 添加了土耳其语.]",
+                "1_0_0-beta_30": "{span.line}[1. 您现在可以消除或再发行您已生成的代币.]{span.line}[2. 添加了Waves Auth API支持.]{span.line}[3. 一些小缺陷已被改正.]",
+                "1_0_0-beta_31": "{span.line}[1. 您现在可以用信用卡购买WAVES和BTC.]{span.line}[2. 改善了买入/卖出窗口中的用户界面.]{span.line}[3. 添加了32位Windows支持.]{span.line}[4. 一些缺陷已被改正.]",
+                "1_0_0-beta_32": "{span.line}[1. 您现在可以在客户端进行大规模传送.]{span.line}[2. 一些小缺陷已被改正.]",
+                "1_0_0-beta_35": "{span.line}[1. 您现在可以在投资组合选项卡中对代币进行排序、筛选和隐藏.]{span.line}[2. 开通支持DASH存放]{span.line}[3. 加了印地语.]{span.line}[4. 加了荷兰语.]{span.line}[5. 您现在可以向其他用户开具发票.]{span.line}[6. 其他小缺陷已被改正了.]",
+                "1_0_0-beta_36": "{span.line}[1. 主要租赁节点列在租赁页面上.]{span.line}[2. 一些缺陷已被改正了. ]",
+                "1_0_0-beta_39": "{span.line}[1. 设置里添加了垃圾信息筛选.]{span.line}[2. 一些缺陷已被改正了.]",
+                "1_0_0-beta_40": "{span.line}[1. 上了Monero网关.]",
+                "1_0_0-beta_42": "{span.line}[1. 添加了西班牙语支持.]{span.line}[2. 您可以使用客户端而不默认保存帐户详细信息.]{span.line}[3.垃圾代币现在标记在交易页面中.]{span.line}[4. 其他缺陷已被改正.]",
+                "1_0_0-beta_47": "{span.line}[1. 全新的去中心化交易所DEX UI.]{span.line}[2. 更快更稳定的Waves客户端.]{span.line}[3. 别名功能再次可用.]{span.line}[4.修正了一些小错误.]{span.line}[5. 邀请您通过制作[视频](https://forum.wavesplatform.com/t/contest-best-waves-dex-video-review/822) 或写[文章](https://forum.wavesplatform.com/t/contest-for-the-writers-waves-dex-overview/835) 参加我们的比赛.]",
+                "1_0_0-beta_50": "{span.line}[1.您现在可以销毁代币.]{span.line}[2. 其他缺陷已被改正.]",
+                "1_0_10": "{span.line} [1。增加了赞助交易支持。 [阅读更多]（https://docs.wavesplatform.com/en/waves-client/assets-management/sponsored-transaction.html）] \n {span.line} [2。波兰语和葡萄牙语支持已添加。]",
+                "1_0_14": "{span.line} [1。修正了在没有波浪币余额的情况下使用赞助资产的问题。] \n {span.line} [2。修复了30天到期订单的错误。] \n {span.line} [3。其他一些小错误。]",
+                "1_0_15": "{span.line} [1。关于总帐确认的问题已得到修复。] \n{span.line} [2。增加了总帐确认的等待时间。] \n{span.line} [3。详细信息已添加到错误消息中。]",
+                "1_0_18": "{span.line} [1。您现在可以为您的帐户设置脚本。] \n {span.line} [2。其他小错误已得到修复。]",
+                "1_0_21": "{span.line} [1。通过总帐修复授权确认。] \n {span.line} [2。修复了许多小错误。]",
+                "1_0_22": "{span.line} [1。添加了高级功能以使用脚本帐户。]",
+                "1_0_25": "{span.line} [1。已添加[Waves Keeper]（https://chrome.google.com/webstore/detail/waves-keeper/lpilbniiabackdjcionkobglmddfbcjo?hl=en）支持。",
+                "1_0_27": "{span.line} [1。在投资组合中添加了“我的资产”类别。 \n{span.line} [2。小错误已得到修复。]",
+                "1_0_28": "{span.line} [1。添加了配对功能，可将现有帐户导入移动设备。 \n{span.line} [2。小错误已得到修复。]",
+                "1_0_29": "{span.line} [1。使用西里尔字母生成QR码已得到修复。] \n{span.line} [2。已添加用于监视列表搜索的工具提示。] \n{span.line} [3。进一步的美觀修复。 ]",
+                "1_0_3": "{span.line}[1.您现在可以在投资组合页面中按ID搜索代币.]\n{span.line}[2.其他缺陷已被改正.]",
+                "1_0_30": "{span.line} [1。 “设置脚本”按钮已移至“设置”中的“安全”部分。 \n {span.line} [2。性能改进和外观更改。]",
+                "1_0_32": "{span.line} [1。与BetterTokens的预言集成。] \n{span.line} [2。添加了对代币验证协议的支持。] \n{span.line} [3。修正通过Coinomat提取令牌的佣金。",
+                "1_0_33": "{span.line} [1。如果你尝试以下的订单是与当前市场价格差距太大，您将会收到通知。]{span.line} [2. 一些缺陷已被改正了.]。",
+                "1_0_36": "{span.line}[1。 添加了使用智能帐户在DEX上交易的功能。]\n{span.line}[2。 在创建发票或发送资产时添加了对资产的搜索。]\n{span.line}[3。 次要布局编辑。]",
+                "1_0_37": "{span.line}[1。添加了智能资产功能：发行，重新发布和刻录] \n {span.line}[2。添加意大利语，德语和印尼语] \n {span.line}[3。修正了一些小错误]",
+                "1_0_40": "{span.line}[1。 DEX优化。] \n {span.line}[2。在浏览器标签标题中添加了汇率。] \n {span.line}[3。修复了小错误。]",
+                "1_0_41": "{span.line}[1。 DEX优化。] \n {span.line}[2。添加了通知系统。] \n {span.line}[3。修复了小错误。]",
+                "1_0_42": "{span.line}[1。修复了小错误。]",
+                "1_0_5": "{span.line}[1. 在DEX图表上添加了交易量表.]\n{span.line}[2. 其他缺陷已被改正.]",
+                "1_0_6": "{span.line}[1. 添加Waves桌面客户端授权.]",
+                "1_0_7": "{span.line}[1.一些桌面客户故障已被改正.]\n{span.line}[2.优化TX和Portfolio页面之间的切换.]\n{span.line}[3.垃圾代币名称隐藏在TX列表中.]\n{span.line}[4.错误消息通知已被重写.]",
+                "1_0_8": "{span.line}[1. 添加Ledger Nano S支持.]\n{span.line}[2. 添加了一个用于保存您选择的授权方法的新选项.]",
+                "1_1_0": "{span.line}[1。 现在默认保存订单到期期限。]\n{span.line}[2。 修复了小错误。]",
+                "1_2_0": "{span.line}[1。添加了日语和爱沙尼亚语。]\n{span.line}[2。在买入/卖出窗口中改进了用户界面。]\n{span.line}[3。修复了许多小错误。]",
+                "1_2_1": "{span.line}[1。该应用程序现在保存图表大小和比例设置以及时间间隔。] \n {span.line}[2。修复了小错误。]",
+                "1_2_2": "{span.line}[1。安全更新。] {span.line} [2。修复了小错误。]",
+                "1_2_3": "{span.line}[1。添加了对Ledger Waves 1.0.0 app的支持。]",
+                "1_2_6": "{span.line}[1。添加了调用脚本事务支持。 [阅读更多]（https://blog.wavesplatform.com/ride-for-dapps-hits-waves-testnet-e3f2906dd2aa)] \n {span.line}[2。改进的用户界面和其他小错误已得到修复。]",
+                "1_2_8": "{span.line} [1。垃圾邮件令牌和交易已隐藏在客户端中。] \n {span.line} [2。改进的用户界面和其他小错误已得到修复。]",
+                "1_3_0": "{span.line}[1。改进了应用程序导航和起始页面界面。]",
+                "1_3_2": "{span.line} [1。 Vostok网关已经推出。] \n {span.line} [2。改进的用户界面和其他小错误已得到修复。]",
+                "1_3_5": "{span.line}[1. A tab with [wsoc.io](https://wsoc.io) contest tokens has been added.]\n{span.line}[2. French language support added.]\n{span.line}[3. Additional minor bugs have been fixed.]",
+                "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Now you can rate tokens directly in the app.]\n{span.line}[2. Additional minor bugs have been fixed.]"
+            },
+            "title": "此更新 {{version}}中的新功能"
+        }
+    },
+    "validators": {
+        "byte": {
+            "help": "剩余字节：{{bytes}}"
+        }
+    }
+}

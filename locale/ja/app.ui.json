@@ -1,0 +1,322 @@
+{
+    "all": "すべて",
+    "amount": "数量",
+    "balanceInput": {
+        "max": "最大"
+    },
+    "confirmGatewayTransaction": {
+        "back": "戻る",
+        "confirm": "承認",
+        "fieldAddress": "ターゲットアドレス",
+        "fieldAmount": "数量",
+        "fieldFee": "手数料",
+        "fieldGatewayAddress": "ゲートウェイアドレス",
+        "fieldGatewayFee": "ゲートウェイ手数料",
+        "success": "トランザクションを処理中です！",
+        "warningText": "あなたは {{name}} のブロックチェーンに送金しようとしています。",
+        "warningTitle": "外部のブロックチェーントランザクション"
+    },
+    "confirmTransaction": {
+        "back": "戻る",
+        "confirm": "送信",
+        "description": {
+            "burn": "あなたは {{quantityStr}} {{name}} をバーンしました",
+            "cancel-leasing": "あなたはリーストランザクションをキャンセルしました",
+            "circular": "あなたは {{amount, money-currency}} をあなた自身に送信しました",
+            "create-alias": "あなたはエイリアスを作成しました",
+            "data": "あなたはデータトランザクションを送信しました",
+            "data-vote": "{div.line} [あなたは{{moneyCurrency}}投票しました。]\n {div.line} [あなたのスコアは24時間後に適用されます。評価は処理中です。]",
+            "issue": "トークンの発行に成功しました",
+            "lease-out": "あなたは {{amount, money-currency}} をリースしました",
+            "mass-send": "あなたは {{totalAmount, money-currency}} を送信しました",
+            "reissue": "あなたは追加の {{quantityStr}} {{name}} を発行しました",
+            "send": "あなたは {{amount, money-currency}} を送信しました",
+            "set-asset-script": "あなたはスクリプトをアップデートしました",
+            "set-script": "あなたはスクリプトトランザクションを作成しました",
+            "set-script-cancel": "あなたはスクリプトトランザクションをキャンセルしました",
+            "sponsorship-start": "スポンサーシップが設定されました",
+            "sponsorship-stop": "スポンサーシップが無効になりました"
+        },
+        "details": "詳細を表示",
+        "export": "エクスポート",
+        "JSON": "JSON",
+        "ledgerUnconfirmed": {
+            "description": "再度お試し下さい。問題が継続する場合、 [こちらの記事](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)をご参照下さい。",
+            "header": "あなたはLedger上でリクエストを承認しませんでした"
+        },
+        "notPermited": {
+            "cancel-leasing": "現在、リースを開始することができません。"
+        },
+        "notPermitted": {
+            "burn": "現在、トークンをバーンすることができません。",
+            "burn-title": "トークンをバーン",
+            "cancel-leasing": "現在、リースの開始機能は利用することができません。",
+            "cancel-leasing-title": "リースをキャンセル",
+            "data": "現在、データトランザクションを利用することができません。",
+            "data-title": "データトランザクション",
+            "reissue-title": "トークンの追加発行",
+            "set-script": "現在、スクリプトトランザクションは利用することができません。",
+            "sponsorship-start": "現在、スポンサーシップはできません。",
+            "sponsorship-start-title": "スポンサーシップを変更"
+        },
+        "orderSuccess": "注文が作成されました！",
+        "redirect": "あなたは {{referrer}} へリダイレクトされます",
+        "send": {
+            "errors": {
+                "balance": {
+                    "invalid": "資金が不足しています"
+                },
+                "recipient": {
+                    "invalid": "受信者のアドレスが正しくありません"
+                }
+            }
+        },
+        "sign": "署名",
+        "success": "トランザクションを処理中です！",
+        "wavesKeeperUnconfirmed": {
+            "description": "再度お試し下さい。問題が継続する場合、 [サポート](https://support.wavesplatform.com)で、サポートチケットを発行して下さい。",
+            "header": "あなたはWaves Keeper上でリクエストを承認しませんでした"
+        }
+    },
+    "copyError": "コピーすることができません。ブラウザが古い可能性があります",
+    "copySuccess": "データがコピーされました",
+    "directives": {
+        "anyTransaction": {
+            "copy": "コピー",
+            "textAreaTitle": "TX JSON"
+        },
+        "scriptForm": {
+            "placeholder": {
+                "change": "新しいスクリプトを入力するか、空欄にして現在のスクリプトをキャンセルしてください",
+                "create": "新しいスクリプトを入力するか、空欄にして現在のスクリプトをキャンセルしてください"
+            },
+            "textAreaTitle": "スクリプト"
+        },
+        "setAssetScriptForm": {
+            "ok": "次へ"
+        },
+        "sign": {
+            "confirmRequestKeeper": {
+                "cancel": "キャンセル",
+                "errorDescription": "再度お試し下さい。問題が継続する場合、 [サポート](https://support.wavesplatform.com)で、サポートチケットを発行して下さい。",
+                "errorHeader": "あなたはWaves Keeper上でリクエストを承認しませんでした",
+                "sign": "次へ",
+                "waiting": "Waves Keeperからの承認を待っています..."
+            },
+            "confirmRequestLedger": {
+                "cancel": "キャンセル",
+                "errorDescription": "再度お試し下さい。問題が継続する場合、 [こちらの記事](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)をご参照下さい。",
+                "errorHeader": "あなたはLedgerデバイスでリクエストを承認しませんでした",
+                "sign": "署名をリトライ",
+                "waiting": "Ledger デバイスからの承認を待っています..."
+            },
+            "txId": "TXID"
+        },
+        "transactionExport": {
+            "linkTitle": "署名用リンクを共有",
+            "or": "または",
+            "qrZoomBtn": "クリックしてズームイン/アウトする",
+            "scanQrCode": "QRコードをスキャン"
+        }
+    },
+    "emptyBlocks": {
+        "title": "表示するデータがありません"
+    },
+    "errorBlocks": {
+        "title": "何かがおかしいようです"
+    },
+    "modal": {
+        "assetInfo": {
+            "gateway_ui": "ゲートウェイ"
+        },
+        "sign": {
+            "signByLedger": "Ledgerデバイスからの承認を待っています"
+        },
+        "token": {
+            "warning": {
+                "header": "あなたは次の内容に同意します:",
+                "text": "{div.line}[I) トークンを詐欺などの目的で利用しないこと;]\r\n {div.line}[II) 利用者を欺くことを目的として、既に存在する有名企業や暗号通貨の名前の一部もしくは全部を使用しないこと;]\r\n {div.line}[III) 利用者を欺くことを目的に地方自治体や自治州などの名前を用いないこと;]\r\n {div.line}[IV) 資産数量によってWavesDEX上のトランザクションを制限するスクリプトをスマートアセットにセットしないこと;]\r\n {div.line}[V) スマートアセットの概要欄に、実際に設定されたスクリプトに対応しないトークンの利用ルールに関する虚偽の説明をしないこと;]",
+                "textWarning": "これらの点が守られない場合には、あなたのトークンが「注意」と分類される可能性があり、その場合にあなたのトークンはIDによる検索のみで発見されます"
+            }
+        }
+    },
+    "password": {
+        "minLength": "最低 {{minLength}} 文字",
+        "name": "アカウント名",
+        "repeat": "パスワードを再入力して確認",
+        "secure": "パスワードを強化",
+        "title": "アカウントを新しいパスワードで保護",
+        "warn": "簡単すぎます。数字やシンボルを追加して下さい"
+    },
+    "qrCodeRead": {
+        "closeRead": "キャンセル"
+    },
+    "recipient": "受信者",
+    "transaction": {
+        "actions": {
+            "cancelLeasing": "リースをキャンセル",
+            "copyTxData": "すべてのトランザクションデータをコピー",
+            "copyTxId": "トランザクションIDをコピー",
+            "showTx": "トランザクション情報"
+        },
+        "amounts": {
+            "burn": "–{{amount}} {{name}}",
+            "cancel-leasing": "{{amount}} {{name}}",
+            "circular": "{{amount}} {{name}}",
+            "exchange-buy": "{{sign}}{{amount}} {{name}}",
+            "exchange-sell": "{{sign}}{{amount}} {{name}}",
+            "issue": "{{amount}} {{name}}",
+            "lease-in": "{{amount}} {{name}}",
+            "lease-out": "{{amount}} {{name}}",
+            "mass-receive": "+{{amount}} {{name}}",
+            "mass-send": "–{{amount}} {{name}}",
+            "perTransaction": "トランザクションあたりの数量",
+            "receive": "+{{amount}} {{name}}",
+            "reissue": "+{{amount}} {{name}}",
+            "script-invocation": "–{{amount}} {{name}}",
+            "send": "–{{amount}} {{name}}",
+            "set-script": "スクリプトトランザクションをセット",
+            "set-script-cancel": "スクリプトトランザクションをキャンセル",
+            "sponsorship-change": "スポンサーシップを変更",
+            "sponsorship-fee": "{{sign}}{{amount}} {{name}}",
+            "sponsorship-start": "スポンサーシップをセット",
+            "sponsorship-stop": "スポンサーシップを無効化"
+        },
+        "confirmed": {
+            "false": "未承認",
+            "true": "完了"
+        },
+        "headers": {
+            "activeLeasing": "有効",
+            "burn": "{{name}} トークンをバーン",
+            "cancel-leasing": "リースをキャンセル",
+            "canceled": "キャンセル済",
+            "circular": "セルフトランスファー {{name}}",
+            "create-alias": "作成済みのエイリアス",
+            "data": "データトランザクション",
+            "data-vote": "{{assetName}}の投票しました",
+            "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
+            "exchange-buy": "取引所 購入:",
+            "exchange-sell": "取引所 売却:",
+            "issue": "{{name}} トークンを発行",
+            "lease-in": "受信したリース",
+            "lease-out": "開始されたリース",
+            "mass-receive": "受信 {{name}}",
+            "mass-send": "送信 {{name}}",
+            "receive": "受信 {{name}}",
+            "reissue": "{{name}} トークンを追加発行",
+            "script-invocation": "スクリプトを呼出し",
+            "send": "送信 {{name}}",
+            "set-asset-script": "アセットスクリプトトランザクションをセット",
+            "set-script": "スクリプトトランザクションをセット",
+            "set-script-cancel": "スクリプトトランザクションをキャンセル",
+            "spam": "注意",
+            "sponsorship-fee": "受信 {{name}}",
+            "sponsorship-start": "{{name}} スポンサーシップを設定",
+            "sponsorship-stop": "{{name}} のスポンサーシップを無効化",
+            "suspicious": "注意",
+            "unknown": "不明なトランザクション"
+        },
+        "modals": {
+            "assetId": "アセットID",
+            "attachment": "添付メッセージ",
+            "cancelTx": "リーストランザクション",
+            "confirmations": "承認数",
+            "copyCode": "コードをコピー",
+            "data": "データ",
+            "dataKey": "Key",
+            "dataType": "Type",
+            "dataValue": "Value",
+            "description": "概要",
+            "exchange": {
+                "buy": "購入",
+                "buyMatcherFee": "マッチャーフィーを購入",
+                "exchangeType": "注文タイプ",
+                "matcherFee": "マッチャーフィー",
+                "pair": "ペア",
+                "sell": "売却"
+            },
+            "fee": "手数料",
+            "from": "受信元",
+            "function": "関数",
+            "functionCall": "関数呼出し",
+            "height": "ブロック",
+            "hide": "非表示",
+            "hideAll": "すべて非表示",
+            "leasingStatus": "ステータス",
+            "massSend": {
+                "showAll": {
+                    "false": "すべて表示 ({{count}})",
+                    "true": "最初の3トランザクションを表示"
+                },
+                "totalAmount": "合計数量"
+            },
+            "numberOfRecipients": "受信者数",
+            "orderType": "注文タイプ",
+            "pair": "ペア",
+            "payment": "支払",
+            "price": "{{name}} 価格",
+            "script": "スクリプト",
+            "scriptAddress": "スクリプトアドレス",
+            "seeAll": "すべて表示",
+            "setAssetScript": {
+                "showScript-false": "表示",
+                "showScript-true": "非表示にする"
+            },
+            "show": "表示",
+            "showAll": "すべて表示 ({{count}})",
+            "showFirstTree": "最初の3つのキーを表示",
+            "status": "ステータス",
+            "timestamp": "タイムスタンプ",
+            "to": "送信先",
+            "toBeReissued": "追加発行数量",
+            "toRemainOnBalance": "追加発行後残高",
+            "totalAfterBurning": "合計",
+            "totalAfterReissue": "追加発行後の総トークン数",
+            "txId": "TXID",
+            "type": "タイプ",
+            "viewTransactionKey": "トランザクション",
+            "viewTransactionValue": "トランザクションを表示"
+        },
+        "notifications": {
+            "closed": "リースは既にキャンセルされました",
+            "closedSuccess": "リースのキャンセルが完了"
+        },
+        "reissuable": {
+            "false": "追加発行不可",
+            "true": "追加発行可"
+        },
+        "set-asset-script": "スクリプトをアップデート",
+        "subheaders": {
+            "burn": "{{time}}",
+            "cancel-leasing": "{{time}}{span.locale-address}[, トランザクション {{transactionId}}]",
+            "circular": "{{time}}{span.locale-address}[,アドレス {{address}} に]",
+            "create-alias": "{{time}}, {{alias}}",
+            "data": "{{time}}",
+            "exchange-buy": "{{time}}",
+            "exchange-sell": "{{time}}",
+            "issue": "{{time}}",
+            "lease-in": "{{time}}{span.locale-address}[,アドレス {{address}} から]",
+            "lease-out": "{{time}}{span.locale-address}[,アドレス {{address}} へ]",
+            "mass-receive": "{{time}}{span.locale-address}[,アドレス {{address}} から]",
+            "mass-send": "{{time}}",
+            "receive": "{{time}}{span.locale-address}[,アドレス {{address}} から]",
+            "reissue": "{{time}}",
+            "script-invocation": "{{time}}{span.locale-address}[,アドレス {{address}} へ]",
+            "send": "{{time}}{span.locale-address}[,アドレス {{address}} へ]",
+            "set-asset-script": "{{time}}, アセット {{name}} に",
+            "sponsorship-fee": "{{time}}  アドレス {{address}} から",
+            "unknown": "{{time}}"
+        }
+    },
+    "transactionList": {
+        "noTransactionsDescription": "表示するトランザクションがありません",
+        "noTransactionsTitle": "表示するデータがありません"
+    },
+    "transactions": {
+        "script": {
+            "txJson": "スクリプトをアップデート"
+        }
+    },
+    "whitespace": "&nbsp;"
+}

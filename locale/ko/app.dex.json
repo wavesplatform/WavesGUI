@@ -1,0 +1,232 @@
+{
+    "create": {
+        "order": {
+            "failed": "문제가 발생했습니다",
+            "success": "주문이 접수되었습니다"
+        }
+    },
+    "dex": {
+        "contest": "컨테스트"
+    },
+    "directives": {
+        "balance": {
+            "assetId": "자산 ID",
+            "available": "주문 가능",
+            "inOrders": "주문 대기 수량",
+            "inOrdersFull": "주문 대기",
+            "total": "총금액"
+        },
+        "candleChart": {
+            "error": "{div}[차트를 불러올 수 없습니다.]{div}[귀하의 어플리케이션에서 해당 차트를 불러오고 싶다면 [tradingview.com](https://tradingview.com)에 요청하세요.]"
+        },
+        "createOrder": {
+            "1day": "1일",
+            "1hour": "1시간",
+            "1week": "1주",
+            "30day": "29일",
+            "30min": "30분",
+            "5min": "5분",
+            "amountField": "수량",
+            "ask": "매도호가",
+            "bid": "매수호가",
+            "buy": "매수",
+            "createOrderNotPermitted": "일시적으로 거래 주문을 이용할 수 없습니다.",
+            "errors": {
+                "balance": "{{name}}가 부족합니다",
+                "precision": "최대 소수점 자리 값 {{precision}} 초과",
+                "required": "필수 입력 항목입니다"
+            },
+            "expiration": "주문 만기",
+            "fee": "수수료 {{fee}} WAVES",
+            "hasScript": "거래하기 위해 [Script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html)를 취소하세요",
+            "last": "체결가",
+            "matcherFee": "수수료",
+            "notifications": {
+                "error": {
+                    "30702": "{{address}}의 계정 스크립트가 주문을 거부했습니다",
+                    "title": "오류 메세지"
+                },
+                "isCreated": "주문이 접수되었습니다",
+                "notEnoughBalance": "잔액이 부족합니다",
+                "somethingWentWrong": "문제가 발생했습니다"
+            },
+            "notPermitted": "주문 생성이 일시적으로 불가능합니다",
+            "placeBuyOrder": "{{name}} 매수",
+            "placeSellOrder": "{{name}} 매도",
+            "priceField": "지정가",
+            "sell": "매도",
+            "spread": "스프레드",
+            "total": "총금액"
+        },
+        "demo": {
+            "createAccount": "신규 계정을 생성하여",
+            "or": "또는",
+            "signIn": "로그인",
+            "to": {
+                "mybalance": "귀하의 잔액를 확인하세요",
+                "openorders": "귀하의 주문을 확인하세요",
+                "tradehistory": "귀하의 거래내역을 확인하세요"
+            }
+        },
+        "filter": "검색",
+        "marketDepth": "Market Depth 차트",
+        "markets": {
+            "table": {
+                "price": "가격",
+                "rate": "변동률",
+                "unit": "코인",
+                "volume": "거래량"
+            },
+            "title": "거래 페어"
+        },
+        "myOrders": {
+            "amount": "수량",
+            "average": "평균",
+            "back": "아니요",
+            "cancel": "취소",
+            "cancelAll": "모두 취소",
+            "cancelAllConfirm": "네",
+            "canceled": "주문이 취소되었습니다",
+            "cancelled": "취소 완료",
+            "confirm": {
+                "header": "모든 주문을 취소하시겠습니까?",
+                "literalDescription": "본 작업은 되돌릴 수 없습니다"
+            },
+            "delete": "삭제",
+            "detail": "세부사항",
+            "fee": "수수료",
+            "filled": "체결 완료",
+            "filter": "필터",
+            "noPermissionCancelOrder": "일시적으로 주문을 취소할 수 없습니다",
+            "notifications": {
+                "isCanceled": "주문이 취소되었습니다",
+                "somethingWentWrong": "문제가 발생했습니다"
+            },
+            "opened": "대기 주문",
+            "orderType": {
+                "buy": "매수",
+                "sell": "매도"
+            },
+            "pair": "거래 페",
+            "placeholders": {
+                "lockedPair": "{{amountAssetTicker}} / {{priceAssetTicker}} 거래는 현재 사용할 수 없습니다. 주문을 취소하세요"
+            },
+            "price": "가격",
+            "status": "상태",
+            "tableTitle": {
+                "fee": "수수료"
+            },
+            "time": "시간",
+            "total": "총금액",
+            "type": "구분",
+            "withScript": "귀하의 계정에 [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html)가 설치되어 있으면 거래소를 사용할 수 없습니다."
+        },
+        "noChartDataMessage": "{div}[매수호가 및 매도호가 수량이 불충분하여]{div}[Market Depth 차트를 불러올 수 없습니다]",
+        "noChartDataTitle": "아무것도 없습니다…",
+        "orderBook": {
+            "amount": "{{assetName}} 수량",
+            "lastprice": "체결가",
+            "price": "{{assetName}} 현재가",
+            "spread": "스프레드",
+            "sum": "{{assetName}} 합계",
+            "title": "호가창"
+        },
+        "orderbook": {
+            "errorBlock": {
+                "header": "문제가 발생했습니다"
+            }
+        },
+        "portfolio": {
+            "title": "포트폴리오"
+        },
+        "tradeHistory": {
+            "orderType": {
+                "buy": "매수",
+                "sell": "매도"
+            },
+            "search": "검색",
+            "tableTitle": {
+                "date": "시간",
+                "exchangeType": "구분",
+                "fee": "수수료",
+                "price": "{{assetName}} 가격",
+                "size": "{{assetName}} 수량",
+                "total": "총금액",
+                "type": "구분"
+            },
+            "title": "거래내역"
+        },
+        "watchlist": {
+            "all": "모두",
+            "change": "변동률",
+            "chg": "변동률",
+            "coin": "코인",
+            "helpIcon": {
+                "assetId": "자산 ID",
+                "AssetId1AssetId2": "자산1 ID / 자산2 ID",
+                "description": "[여기](https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html)에서 자산 검색에 대한 자세한 방법을 확인할 수 있습니다",
+                "header": "검색 기준:",
+                "name": "이름",
+                "name1Name2": "이름1 / 이름2"
+            },
+            "pair": "거래 페어",
+            "placeholders": {
+                "base": "기축 코인",
+                "coin": "검색",
+                "filter": "필터",
+                "lockedPair": "{{amountAssetTicker}} / {{priceAssetTicker}} 거래는 현재 사용할 수 없습니다",
+                "noMarkets": "검색 결과가 없습니다"
+            },
+            "price": "가격",
+            "volume": "거래량"
+        }
+    },
+    "emptyBlocks": {
+        "myOrders": {
+            "description": "주문 내역이 없습니다.",
+            "title": "아무것도 없습니다…"
+        },
+        "orderBook": {
+            "description": "호가창이 비어있습니다.",
+            "error": {
+                "text": "페이지를 새로 고치거나 나중에 다시 시도하십시오.",
+                "title": "문제가 발생했습니다"
+            },
+            "title": "아무것도 없습니다…"
+        },
+        "tradeHistory": {
+            "description": "거래내역이 없습니다.",
+            "title": "아무것도 없습니다…"
+        }
+    },
+    "layout": {
+        "center": {
+            "bottom": "주문내역"
+        },
+        "right": {
+            "bottom": "거래내역",
+            "top": "호가창"
+        }
+    },
+    "orderbook": {
+        "ask": {
+            "tooltipText": "{{price}} {{priceAsset}} 로 {{amountAsset}} 매수"
+        },
+        "bid": {
+            "tooltipText": "{{price}} {{priceAsset}} 로 {{amountAsset}} 매도"
+        }
+    },
+    "tabs": {
+        "title": {
+            "all": "모두",
+            "btc": "Btc",
+            "eth": "ETH",
+            "myBalance": "나의 잔액",
+            "myTradeHistory": "나의 주문내역",
+            "openOrders": "나의 대기 주문",
+            "OrderHistory": "나의 주문내역",
+            "tradeHistory": "거래내역",
+            "waves": "Waves"
+        }
+    }
+}

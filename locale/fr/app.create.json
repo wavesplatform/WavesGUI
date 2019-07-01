@@ -1,0 +1,65 @@
+{
+    "backupSeed": {
+        "back": "Retour",
+        "copySeed": "Copier",
+        "needConfirm": "Vous confirmez cette phrase à l'écran suivant.",
+        "ok": "Je l'ai écrite",
+        "or": "ou",
+        "saveSecret": "Enregistrer la phrase de sauvegarde",
+        "warn": "Vu que vous êtes seul à contrôler votre argent, vous devrez enregistrer votre phrase de sauvegarde dans le cas où cette application est supprimée ou",
+        "writeSeed": "Veuillez soigneusement écrire ces 15 mots"
+    },
+    "confirmBackup": {
+        "again": "et saisissez à nouveau",
+        "back": "Retour",
+        "clear": "Effacer",
+        "confirm": "Confirmer la phrase secrète (SEED)",
+        "description": "Vérifiez votre phrase secrète (SEED) ou",
+        "enterCorrect": "Veuillez placer chaque mot dans le bon ordre",
+        "error": "Mauvais ordre, réessayer.",
+        "ok": "Confirmer",
+        "tapAgain": "et saisissez à nouveau"
+    },
+    "createAccount": {
+        "address": "Adresse du compte:",
+        "avatarUnique": "Cet avatar est unique. Vous ne pourrez pas le changer plus tard.",
+        "choose": "Choisissez l'avatar de votre adresse",
+        "create": "Créer un nouveau compte",
+        "createDescription": "Rapide et gratuit",
+        "createNewAccount": "Choisissez votre avatar",
+        "from": "Cet avatar est une représentation visuelle, vous ne pourrez pas le changer plus tard",
+        "import": "Importer des comptes",
+        "importDescription": "via une Phrase Secrète (SEED), Ledger ou Keeper",
+        "protect": "Protéger votre compte avec un mot de passe ou",
+        "protectYourAccount": "Protéger votre compte",
+        "restore": "Restaurez un compte",
+        "saveUserData": "Garder le compte sur cet ordinateur",
+        "signDescription": "vers un compte enregistré",
+        "signIn": "Identifiez-vous",
+        "signUp": "Inscrivez-vous pour un compte gratuit ci-dessous ou",
+        "tosaved": "vers un compte enregistré",
+        "toWalet": "vers votre portefeuille ou"
+    },
+    "modal": {
+        "confirmBackupDescription": "Verifier votre phrase de sauvegarde",
+        "next": "Confirmer",
+        "prev": "Retour",
+        "successContent": "Vous ne pouvez pas modifier votre phrase secrète. Si vous l'envoyez accidentellement à quelqu'un ou que vous suspectez que des escrocs y ont accès, veuillez créer un nouveau portefeuille Waves immédiatemment et y transférer vos fonds.",
+        "successHeadline": "Conservez soigneusement votre phrase de sauvegarde !",
+        "understand": "Je comprends"
+    },
+    "noBackupNoMoney": {
+        "backup": "Sauvegarder maintenant",
+        "description": "Vous devez conserver la phrase secrète (SEED). C'est crucial afin d'accéder à votre compte.",
+        "modal": {
+            "descriptionP1": "Waves Platform aimerait vous mettre en garde contre l'augmentation de la fréquence des escroqueries et des attaques d'hameçonnage au cours du dernier mois. Les escrocs cachent leur programme malveillant dans leur propre version de l'application Waves, promettant des bonus et des remises pour attirer des utilisateurs.",
+            "descriptionP2": "Veuillez agir avec caution et n'entrez jamais votre phrase de sauvegarde dans ces \"applications\" car votre compte sera alors compromis et vous perdrez tous vos fonds.",
+            "descriptionP3": "Veuillez utilisez UNIQUEMENT l'application officielle de Waves.",
+            "ok": "Je comprends.",
+            "title": "Conservez soigneusement votre phrase de sauvegarde !"
+        },
+        "or": "ou",
+        "skip": "Le faire plus tard",
+        "title": "Pas de sauvegarde, pas d'argent"
+    }
+}

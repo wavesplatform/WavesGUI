@@ -1,0 +1,31 @@
+{
+    "ledger": {
+        "article": "this article",
+        "connectionError": "Unable to Connect Ledger Device",
+        "connectionText": "The connection may have timed out. Please try again.",
+        "referTo": "If the error persists, please refer to"
+    },
+    "ledgerForm": {
+        "address": "Account address:",
+        "avatarUnique": "This avatar is unique, you can’t change it later.",
+        "back": "Go back",
+        "choose": "Choose your account",
+        "importAccount": "Import a Ledger account",
+        "ImportOrSignIn": "Import account or",
+        "login": "Continue",
+        "name": "Account name",
+        "or": "Or",
+        "retry": "Retry",
+        "savedOne": "to a saved account",
+        "saveUserData": "Keep the account on this computer",
+        "selectDefault": "Use default account",
+        "signIn": "sign in"
+    },
+    "modal": {
+        "sign": {
+            "confirmRequest": "Confirm request",
+            "confirmRequestMatcher": "Sign a request to the Matcher. If you do not sign it, you cannot trade on DEX from a Ledger account."
+        }
+    },
+    "or": "OR"
+}

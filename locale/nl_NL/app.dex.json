@@ -1,0 +1,232 @@
+{
+    "create": {
+        "order": {
+            "failed": "Er is iets fout gegaan",
+            "success": "De order is gemaakt"
+        }
+    },
+    "dex": {
+        "contest": "Contest"
+    },
+    "directives": {
+        "balance": {
+            "assetId": "Asset Id",
+            "available": "Beschikbaar",
+            "inOrders": "In orders",
+            "inOrdersFull": "Gereserveerd in orders",
+            "total": "Totaal"
+        },
+        "candleChart": {
+            "error": "{div}[De grafiek kan niet worden gedownload.] {div}[Als u deze grafiek in uw toepassing wilt gebruiken, stuur dan een verzoek naar [tradingview.com](https://tradingview.com)]"
+        },
+        "createOrder": {
+            "1day": "1 dag",
+            "1hour": "1 uur",
+            "1week": "1 week",
+            "30day": "29 dagen",
+            "30min": "30 min",
+            "5min": "5 min",
+            "amountField": "Bedrag",
+            "ask": "Vraag",
+            "bid": "Bieden",
+            "buy": "Kopen",
+            "createOrderNotPermitted": "Orders zijn tijdelijk niet beschikbaar.",
+            "errors": {
+                "balance": "Niet genoeg {{name}}",
+                "precision": "Maximum aantal decimalen van {{precision}} overschreden",
+                "required": "Verplicht veld"
+            },
+            "expiration": "Vervalt",
+            "fee": "Tarief {{fee}} WAVES",
+            "hasScript": "Annuleer [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) om te handelen",
+            "last": "Laatste",
+            "matcherFee": "Fee",
+            "notifications": {
+                "error": {
+                    "30702": "Het script van het account van {{address}} heeft de bestelling afgewezen",
+                    "title": "Error bericht"
+                },
+                "isCreated": "De order is gemaakt",
+                "notEnoughBalance": "Niet genoeg verhandelbaar saldo",
+                "somethingWentWrong": "Er is iets misgegaan"
+            },
+            "notPermitted": "Order creëren is tijdelijk niet beschikbaar",
+            "placeBuyOrder": "Koop {{name}}",
+            "placeSellOrder": "Verkoop {{name}}",
+            "priceField": "Limiet prijs",
+            "sell": "verkoop",
+            "spread": "spreiding",
+            "total": "Totaal"
+        },
+        "demo": {
+            "createAccount": "Maak een nieuw account aan",
+            "or": "of",
+            "signIn": "Log in",
+            "to": {
+                "mybalance": "om uw balans te bekijken",
+                "openorders": "om uw openstaande orders te bekijken",
+                "tradehistory": "om uw handelsgeschiedenis te bekijken"
+            }
+        },
+        "filter": "Zoeken",
+        "marketDepth": "Marktdiepte",
+        "markets": {
+            "table": {
+                "price": "Prijs",
+                "rate": "Verandering",
+                "unit": "Munt",
+                "volume": "Volume"
+            },
+            "title": "Markten"
+        },
+        "myOrders": {
+            "amount": "Bedrag",
+            "average": "Average",
+            "back": "Nee",
+            "cancel": "annuleren",
+            "cancelAll": "alles annuleren",
+            "cancelAllConfirm": "Ja",
+            "canceled": "geannuleerd",
+            "cancelled": "GEANNULEERD",
+            "confirm": {
+                "header": "Weet u het zeker?",
+                "literalDescription": "Deze actie kan niet ongedaan worden gemaakt"
+            },
+            "delete": "verwijderen",
+            "detail": "detail",
+            "fee": "tarief",
+            "filled": "Filled",
+            "filter": "Filter",
+            "noPermissionCancelOrder": "Order annuleren is tijdelijk niet beschikbaar",
+            "notifications": {
+                "isCanceled": "De order is geannuleerd",
+                "somethingWentWrong": "Er is iets fout gegaan"
+            },
+            "opened": "geopend",
+            "orderType": {
+                "buy": "Koop",
+                "sell": "Verkoop"
+            },
+            "pair": "Paar",
+            "placeholders": {
+                "lockedPair": "Trading in {{amountAssetTicker}} / {{priceAssetTicker}} is currently unavailable. You can cancel the order"
+            },
+            "price": "Prijs",
+            "status": "Status",
+            "tableTitle": {
+                "fee": "Tarief"
+            },
+            "time": "Tijd",
+            "total": "Totaal",
+            "type": "Type",
+            "withScript": "U kunt de exchange niet gebruiken terwijl er een [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) op uw account geïnstalleerd is."
+        },
+        "noChartDataMessage": "{div}[Niet genoeg kooporder en verkooporders om]{div}[een marktdiepte kaart te maken]",
+        "noChartDataTitle": "Niets hier…",
+        "orderBook": {
+            "amount": "Bedrag {{assetName}}",
+            "lastprice": "meest recente prijs",
+            "price": "Prijs {{assetName}}",
+            "spread": "spreiding",
+            "sum": "Som {{assetName}}",
+            "title": "Orderboek"
+        },
+        "orderbook": {
+            "errorBlock": {
+                "header": "Er is iets misgegaan"
+            }
+        },
+        "portfolio": {
+            "title": "Portfolio"
+        },
+        "tradeHistory": {
+            "orderType": {
+                "buy": "Kopen",
+                "sell": "Verkopen"
+            },
+            "search": "Zoeken",
+            "tableTitle": {
+                "date": "Tijd",
+                "exchangeType": "Type",
+                "fee": "Tarief",
+                "price": "Prijs {{assetName}}",
+                "size": "Bedrag {{assetName}}",
+                "total": "Totaal",
+                "type": "Type"
+            },
+            "title": "Handelsgeschiedenis"
+        },
+        "watchlist": {
+            "all": "ALLES",
+            "change": "Verandering",
+            "chg": "Vrdr",
+            "coin": "Munt",
+            "helpIcon": {
+                "assetId": "Asset ID",
+                "AssetId1AssetId2": "Asset1 ID / Asset2 ID",
+                "description": "Meer informatie over het vinden van assets [hier](https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html)",
+                "header": "U kunt zoeken op:",
+                "name": "Naam",
+                "name1Name2": "Naam1 / Naam2"
+            },
+            "pair": "Paar",
+            "placeholders": {
+                "base": "Basis munt",
+                "coin": "Zoeken",
+                "filter": "Filter",
+                "lockedPair": "Trading in {{amountAssetTicker}} / {{priceAssetTicker}} is currently unavailable",
+                "noMarkets": "Geen markten die overeenkomen met uw filters"
+            },
+            "price": "Prijs",
+            "volume": "Volume"
+        }
+    },
+    "emptyBlocks": {
+        "myOrders": {
+            "description": "U hebt geen orders.",
+            "title": "Niets hier..."
+        },
+        "orderBook": {
+            "description": "Het orderboek is leeg.",
+            "error": {
+                "text": "Ververs de pagina of probeer het later opnieuw",
+                "title": "Er is iets misgegaan"
+            },
+            "title": "Niets hier..."
+        },
+        "tradeHistory": {
+            "description": "De handelsgeschiedenis is leeg.",
+            "title": "Niets hier…"
+        }
+    },
+    "layout": {
+        "center": {
+            "bottom": "Mijn orders"
+        },
+        "right": {
+            "bottom": "Handelsgeschiedenis",
+            "top": "Orderboek"
+        }
+    },
+    "orderbook": {
+        "ask": {
+            "tooltipText": "Koop {{amountAsset}} voor {{price}} {{priceAsset}}"
+        },
+        "bid": {
+            "tooltipText": "Verkoop {{amountAsset}} voor {{price}} {{priceAsset}}"
+        }
+    },
+    "tabs": {
+        "title": {
+            "all": "Alles",
+            "btc": "Btc",
+            "eth": "ETH",
+            "myBalance": "Mijn balans",
+            "myTradeHistory": "Mijn handelsgeschiedenis",
+            "openOrders": "Mijn openstaande orders",
+            "OrderHistory": "Mijn handelsgeschiedenis",
+            "tradeHistory": "Handelsgeschiedenis",
+            "waves": "Waves"
+        }
+    }
+}

@@ -1,0 +1,30 @@
+{
+    "menu": {
+        "copy": "복사",
+        "cut": "잘라내기",
+        "dev_tools": "개발자 툴",
+        "paste": "붙여넣기",
+        "quit": "종료",
+        "title": {
+            "application": "어플리케이션",
+            "edit": "편집",
+            "god_mode": "God 모드"
+        }
+    },
+    "modal": {
+        "set_protocol_error": {
+            "close": "닫기",
+            "message": "Waves 클라이언트 실행을 위해 default 프로토콜로 설정할 수 없습니다. 브라우저에서 링크가 일시적으로 지원되지 않습니다!",
+            "report": "리포팅",
+            "title": "Set open 프로토콜 오류"
+        }
+    },
+    "storage": {
+        "read": {
+            "error": {
+                "body": "Key 로드 중 오류가 발생했습니다. 백업 저장소에 귀하의 계정을 복원했습니다.",
+                "title": "백업에서 계정을 성공적으로 복원했습니다"
+            }
+        }
+    }
+}

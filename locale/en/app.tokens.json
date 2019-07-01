@@ -1,0 +1,79 @@
+{
+    "count": "Total tokens",
+    "create": "Generate",
+    "description": "Description",
+    "directives": {
+        "sign": {
+            "confirmRequestLedger": {
+                "waiting": "Waiting for confirmation on Ledger Device…"
+            }
+        }
+    },
+    "fee": "Fee {{fee, money-currency}}",
+    "help": {
+        "name": "Please use only Latin letters"
+    },
+    "helpIcon": {
+        "demicals": "This field defines the number of decimals that your asset token will be divided in.",
+        "scriptDescription": "Each validation of a transaction by a Smart Asset’s script increases the transaction fee by 0.004 WAVES. For example, if a regular tx is made for a Smart Asset, the cost is 0.001 + 0.004 = 0.005 WAVES. If an exchange transaction is made, the cost is 0.003 + 0.004 = 0.007 WAVES.",
+        "scriptHeader": "A Smart Asset is an asset with an attached script that places conditions on every transaction made for the token in question.",
+        "scriptLearnMore": "Learn more",
+        "totalTokens": {
+            "headline": "This field defines the total tokens supply that your asset will contain.",
+            "notReissuable": "A non-reissuable asset will be permanently limited to the total token supply defined during these steps.",
+            "reissuable": "Reissuability allows for additional tokens creation that will be added to the total token supply of asset."
+        }
+    },
+    "modal": {
+        "title": "{{name}} Generation",
+        "titleSuccess": "{{name}} Generation Complete"
+    },
+    "name": "Name of your asset",
+    "notifications": {
+        "isNotCreated": "Token has not been created"
+    },
+    "pageTitle": "Token generation",
+    "placeholders": {
+        "description": "You can not change the description later",
+        "precision": "From 0 to 8"
+    },
+    "precision": "Decimals",
+    "preview": "Preview",
+    "reissuable": {
+        "false": "Not reissuable",
+        "true": "Reissuable"
+    },
+    "script": "Smart asset",
+    "success": {
+        "description": "You generated {{amount}} {{name}}",
+        "done": "Open Portfolio",
+        "title": "Your transaction is on the way!"
+    },
+    "switchScriptOff": "Disable script",
+    "switchScriptOn": "Enable script",
+    "tokens": {
+        "changeColorTooltip": "Change color",
+        "inputHelper": {
+            "description": "If you use this name, your token will be categorised as 'Suspicious' and will be searchable only by ID.",
+            "header": "This asset name has been taken"
+        },
+        "termsOfUse": {
+            "checkbox": "I understand that in the case of non-compliance with the rules, my token will be categorised as 'Suspicious', and will be available for search only by ID."
+        }
+    },
+    "validators": {
+        "byte": {
+            "gte": "Asset name must be between 4 and 16 bytes long",
+            "lte": "Asset name must be between 4 and 16 bytes long"
+        },
+        "descriptionLen": "The description is too long. It must be no more than 1,000 bytes.",
+        "invalidScript": "Syntax error",
+        "maxValueCount": "Entered number is too large",
+        "maxValuePrecision": "Invalid number. Enter number from 0 to 8",
+        "minValueCount": "Entered number must be greater than zero",
+        "minValuePrecision": "Invalid number. Enter number from 0 to 8",
+        "noMoney": "Your balance is not enough to pay transaction fees",
+        "precisionCount": "Total asset count cannot have more decimal places than specified in the Decimals field",
+        "required": "This field must be filled"
+    }
+}

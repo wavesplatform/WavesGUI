@@ -1,0 +1,73 @@
+{
+    "all": "Tous",
+    "confirmTransaction": {
+        "retrySign": "Réessayer la signature"
+    },
+    "csv": {
+        "alias": "Alias",
+        "amount": {
+            "id": "Montant d'ID d'actifs",
+            "name": "Montant de noms d'actifs",
+            "ticker": "Montant de symboles d'actifs",
+            "value": "Montant de la valeur de l'actif"
+        },
+        "attachment": "Pièce jointe à la transaction",
+        "date": "Date",
+        "description": "Description du Token",
+        "fee": {
+            "id": "ID du frais",
+            "name": "Nom du frais",
+            "ticker": "Symbole du frais",
+            "value": "Valeur du frais"
+        },
+        "height": "Hauteur de la transaction",
+        "id": "ID de la transaction",
+        "name": "Nom du Token",
+        "precision": "Précision",
+        "price": {
+            "id": "ID du prix de l'actif",
+            "name": "Nom du prix de l'actif",
+            "ticker": "Symbole du prix de l'actif",
+            "value": "Valeur du prix de l'actif"
+        },
+        "recipient": "Destinataire de la transaction",
+        "reissuable": {
+            "false": "Non réémissible",
+            "name": "Possibilité de réémettre le Token",
+            "true": "Réémissible"
+        },
+        "sender": "Émetteur de la transaction",
+        "transactionType": "Type de transaction Blockchain",
+        "type": "Type de transaction"
+    },
+    "errors": {
+        "complete": {
+            "body": "La liste des transactions n'est pas complètement téléchargée. Veuillez réessayer ultérieurement.",
+            "title": "Le téléchargement n'est pas complet."
+        },
+        "download": {
+            "body": "La liste des transactions n'est pas téléchargée. Veuillez réessayer ultérieurement.",
+            "title": "Erreur de téléchargement."
+        },
+        "empty": {
+            "body": "Il n'y a aucune transaction dans votre historique",
+            "title": "Erreur d'exportation"
+        }
+    },
+    "exchanged": "Échangé",
+    "export": "Exporter",
+    "filter": {
+        "value1": "Récent",
+        "value2": "500 txs",
+        "value3": "1000 txs"
+    },
+    "issued": "Émis",
+    "leased": "En leasing",
+    "received": "Reçu",
+    "sent": "Envoyé",
+    "transactions": {
+        "script": {
+            "txJson_wallet": "Script Base64"
+        }
+    }
+}

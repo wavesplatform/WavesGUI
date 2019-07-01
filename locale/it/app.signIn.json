@@ -1,0 +1,20 @@
+{
+    "createAccount": "Crea account",
+    "notHaveAccounts": "Non hai account salvati",
+    "nothingHere": "Niente qui…",
+    "password": {
+        "error": "Password Errata!"
+    },
+    "userList": {
+        "address": "Indirizzo / nome Account",
+        "buttons": {
+            "login": "Accedi"
+        },
+        "notHaveAccount": "Accedi per continuare",
+        "password": "Password",
+        "placeholders": {
+            "password": "Password"
+        },
+        "title": "Bentornato"
+    }
+}

@@ -1,0 +1,94 @@
+{
+    "back": "메인 페이지로 돌아가기",
+    "button": {
+        "cancel": "취소",
+        "continue": "계속"
+    },
+    "confirmTransaction": {
+        "notPermitted": {
+            "issue": "일시적으로 토큰을 발행할 수 없습니다.",
+            "issue-title": "토큰 발행",
+            "massSendTitle": "대량 전송",
+            "reissue": "일시적으로 토큰을 발행할 수 없습니다.",
+            "sendTitle": "전송",
+            "set-script-title": "Script 트랜잭션"
+        },
+        "send": {
+            "errors": {
+                "fee": "수수료를 지불하기 위한 자금이 충분하지 않습니다. 트랜잭션 수수료 {{fee, money-currency}} 를 지불해야 합니다;"
+            }
+        }
+    },
+    "date": {
+        "month": [
+            "1월",
+            "2월",
+            "3월",
+            "4월",
+            "5월",
+            "6월",
+            "7월",
+            "8월",
+            "9월",
+            "10월",
+            "11월",
+            "12월"
+        ]
+    },
+    "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
+        "description": "펑키한 코인, 알로하! 좋든 나쁘든 모든 목적을 응원합니다 ;)"
+    },
+    "fee": "{{money, money-fee}}",
+    "header": {
+        "assets": "자산",
+        "dex": "탈중앙화 거래소",
+        "leasing": "Leasing",
+        "portfolio": "포트폴리오",
+        "tokens": "토큰",
+        "transactions": "트랜잭션",
+        "wallet": "지갑"
+    },
+    "inputs": {
+        "errors": {
+            "required": "필수 입력 항목입니다!"
+        }
+    },
+    "leftmenu": {
+        "login": "로그인",
+        "logout": "로그아웃",
+        "settings": "설정"
+    },
+    "matcher": {
+        "orders": {
+            "statuses": {
+                "canceled": "취소되었습니다",
+                "filled": "({{percent}}%) 체결",
+                "opened": "대기 주문"
+            }
+        }
+    },
+    "modal": {
+        "enterPassword": {
+            "ok": "확인",
+            "title": "비밀번호를 입력하세요"
+        },
+        "pairing": {
+            "showQr": "보기"
+        },
+        "tryDesktop": {
+            "cancel": "웹으로 계속 진행",
+            "label": "해당 설정을 기억하고 다시 묻지 않습니다",
+            "message": "Waves 데스크톱 앱 사용을 권장합니다. 데스크톱 앱은 공식 홈페이지에서 다운로드할 수 있습니다.",
+            "title": "Waves 데스크톱 앱 사용",
+            "try": "데스크톱 앱 실행"
+        }
+    },
+    "money-currency": "{{money, money-currency}}",
+    "number": {
+        "short": {
+            "million": "백만",
+            "thousand": "k"
+        }
+    },
+    "Suspicious": "의심되는 토큰"
+}

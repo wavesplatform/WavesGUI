@@ -1,0 +1,50 @@
+{
+    "password": {
+        "error": "Password Errata!"
+    },
+    "passwordForm": {
+        "back": "indietro",
+        "description": "Proteggi il tuo account con una nuova password oppure",
+        "importAccounts": "Importa account",
+        "login": "Continua",
+        "title": "Proteggi il tuo Account"
+    },
+    "restore": {
+        "beta": {
+            "accountTitle": "Indirizzo / Nome Account",
+            "buttons": {
+                "cancel": "Indietro",
+                "copy": "Copia Seed",
+                "restore": "Ripristina Seed"
+            },
+            "noUsers": {
+                "description": "{div}[Non è sato possibile trovare alcun account salvato. Torna su ] {div}[[client.wavesplatform.com](https://client.wavesplatform.com)]",
+                "title": "Nessun account salvato"
+            },
+            "passwordTitle": "Password",
+            "placeholders": {
+                "password": "Password"
+            },
+            "step1Description": "Sei in possesso solamente della tua password, e non del tuo SEED, puoi utilizzare questa pagina per ripristinare un account precedentemente salvato.",
+            "step2Description": "Per favore, conserva scrupolosamente il tuo SEED. Se lo perdi, non sarà possibile in alcun modo ripristinare l'accesso al tuo account.",
+            "title": "Ripristina Seed"
+        }
+    },
+    "seedForm": {
+        "address": "Indirizzo",
+        "back": "Torna indietro",
+        "continue": "Continua",
+        "create": "crea un nuovo account",
+        "description": "Il tuo Seed è composto di 15 parole che dovresti aver salvato al momento della creazione del tuo account",
+        "or": "oppure",
+        "placeholder": "Il tuo seed è composto di 15 parole che dovresti aver salvato al momento della creazione del tuo account",
+        "saveUserData": "Salva l'account su questo computer",
+        "seedTitle": "Il seed del tuo wallet",
+        "title": "Importa dal Seed",
+        "tosaved": "su un account salvato"
+    },
+    "warningSeed": {
+        "message": "Utilizzare un indirizzo come frase SEED è assolutamente sconsigliato, in quanto altamente insicuro. Sei sicuro di voler continuare?SEED",
+        "title": "la frase SEED inserita è troppo corta"
+    }
+}

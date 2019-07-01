@@ -1,0 +1,79 @@
+{
+    "count": "토큰 총수량",
+    "create": "발행",
+    "description": "토큰 설명",
+    "directives": {
+        "sign": {
+            "confirmRequestLedger": {
+                "waiting": "Ledger 디바이스의 승인을 기다리는 중입니다…"
+            }
+        }
+    },
+    "fee": "수수료 {{fee, money-currency}}",
+    "help": {
+        "name": "라틴 문자만 사용하세요"
+    },
+    "helpIcon": {
+        "demicals": "본 항목은 발행할 토큰의 소수점 자리를 설정하는 항목입니다.",
+        "scriptDescription": "스마트 자산의 스크립트로 트랜잭션을 검증할 때마다 트랜잭션 수수료가 0.004 WAVES가 증가합니다. 예를들어 일반적인 트랜잭션이 이루어지면 그 비용은 0.001 + 0.004 = 0.005 WAVES 입니다. 만약 거래 트랜잭션이 이루어지면 그 비용은 0.003 + 0.004 = 0.007 WAVES 입니다.",
+        "scriptHeader": "스마트 자산은 의심스러운 토큰의 모든 트랜잭션에 조건을 부여하는 스크립트가 첨부된 자산입니다.",
+        "scriptLearnMore": "자세히 알아보기",
+        "totalTokens": {
+            "headline": "토큰 총 발행량을 설정하는 항목입니다.",
+            "notReissuable": "재발행 불가 선택 시 현 단계에 설정한 수량이 총 발행량으로 영구 설정되며 향후 변경이 불가능합니다.",
+            "reissuable": "재발행 가능 선택 시 향후 추가적으로 토큰을 발행할 수 있으며 추가 발행 시 총 발행량이 변경됩니다."
+        }
+    },
+    "modal": {
+        "title": "{{name}} 생성",
+        "titleSuccess": "{{name}} 생성 완료"
+    },
+    "name": "토큰 명칭",
+    "notifications": {
+        "isNotCreated": "토큰이 발행되지 않았습니다"
+    },
+    "pageTitle": "토큰 발행",
+    "placeholders": {
+        "description": "토큰 설명 항목은 추후 수정이 불가능합니다",
+        "precision": "소수점 자릿수 0에서 8사이"
+    },
+    "precision": "소수점 자릿수",
+    "preview": "미리보기",
+    "reissuable": {
+        "false": "재발행 불가",
+        "true": "재발행 가능"
+    },
+    "script": "스마트 자산",
+    "success": {
+        "description": "{{amount}} {{name}}를 발행했습니다",
+        "done": "포트폴리오 열기",
+        "title": "트랜잭션이 진행중입니다!"
+    },
+    "switchScriptOff": "스크립트 비활성화",
+    "switchScriptOn": "스크립트 활성화",
+    "tokens": {
+        "changeColorTooltip": "색상 변경",
+        "inputHelper": {
+            "description": "해당 명칭을 사용하면 귀하의 토큰은 '검증되지 않은 토큰'으로 분류되며 토큰 ID로만 검색될 수 있습니다.",
+            "header": "해당 자산 명칭은 이미 사용되고 있습니다"
+        },
+        "termsOfUse": {
+            "checkbox": "규칙을 준수하지 않는 경우 '검증되지 않은 토큰'으로 분류되어 ID로만 검색 될 수 있음을 이해합니다."
+        }
+    },
+    "validators": {
+        "byte": {
+            "gte": "토큰 명칭을 4에서 16바이트 내로 입력하세요",
+            "lte": "토큰 명칭을 4에서 16바이트 내로 입력하세요"
+        },
+        "descriptionLen": "입력된 설명이 1,000 바이트를 넘었습니다. 1,000 바이트 내로 입력하세요.",
+        "invalidScript": "Syntax 오류",
+        "maxValueCount": "입력한 숫자가 너무 큽니다",
+        "maxValuePrecision": "잘못된 숫자를 입력했습니다. 0에서 8사이의 숫자를 입력하세요",
+        "minValueCount": "입력한 숫자가 0보다 커야 합니다",
+        "minValuePrecision": "잘못된 숫자를 입력했습니다. 0에서 8사이의 숫자를 입력하세요",
+        "noMoney": "트랜잭션 수수료를 지불할 잔액이 부족합니다",
+        "precisionCount": "토큰 총수량에 입력된 소수점 자릿수 보다 더 많은 소수점 자릿수를 입력할 수 없습니다",
+        "required": "필수 입력 항목입니다"
+    }
+}

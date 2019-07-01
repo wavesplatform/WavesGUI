@@ -1,0 +1,22 @@
+{
+    "available": "Saadaval",
+    "chart": {
+        "available": "Saadaval",
+        "create": "Alusta liisingut",
+        "leased": "Renditud",
+        "title": "WAVES Saldo"
+    },
+    "description": {
+        "text1": "Saate edastada või müüa ainult selliseid WAVES, mis ei ole välja renditud. Teie või keegi teine ​​ei saa renditud summat üle kanda või sellega kaubelda.",
+        "text2": "Liisingutehingu saab tühistada niipea, kui see blokkahelas ilmub, mis tavaliselt toimub minuti jooksul või lühema aja jooksul.",
+        "text3": "Genereeriv saldo uuendatakse pärast 1000 plokki.",
+        "title": "Kiire märkus"
+    },
+    "leased": "Renditud",
+    "leasedIn": "Renditud",
+    "nodeListLink": "Sõlmede nimekiri",
+    "test": {
+        "test": "text test"
+    },
+    "title_leasing": "You have chosen to log into the Waves desktop app"
+}

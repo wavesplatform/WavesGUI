@@ -1,0 +1,79 @@
+{
+    "count": "Total de tokens",
+    "create": "Criar",
+    "description": "Descrição",
+    "directives": {
+        "sign": {
+            "confirmRequestLedger": {
+                "waiting": "Aguardando confirmação na Ledger Nano S…"
+            }
+        }
+    },
+    "fee": "Taxa: {{fee, money-currency}}",
+    "help": {
+        "name": "Por favor, use apenas o alfabeto latino"
+    },
+    "helpIcon": {
+        "demicals": "Esse campo define o número de casas decimais que o token será dividido.",
+        "scriptDescription": "Cada transação validada por script do Smart Asset é adicionada uma taxa de 0.004 WAVES. Por exemplo, se uma tx normal é feita para um Smart Asset, o custo é de 0.001 + 0.004 = 0.005 WAVES. Se esse tipo de transação for feita na exchange, o custo é de 0.003 + 0.004 = 0.007 WAVES.",
+        "scriptHeader": "O Smart Asset é um ativo com um script anexado que adiciona condições em todas as transações feitas com este token.",
+        "scriptLearnMore": "Saiba mais",
+        "totalTokens": {
+            "headline": "Este campo define a quantidade total de tokens que seu ativo terá.",
+            "notReissuable": "Um ativo não reemissível será limitado a quantidade total de tokens definida durante essas etapas.",
+            "reissuable": "A opção reemissível permite criar tokens adicionais que serão somados à quantidade total do ativo."
+        }
+    },
+    "modal": {
+        "title": "{{name}} Criação",
+        "titleSuccess": "{{name}} Criação Concluída"
+    },
+    "name": "Nome do seu ativo",
+    "notifications": {
+        "isNotCreated": "O token não foi criado"
+    },
+    "pageTitle": "Criar token",
+    "placeholders": {
+        "description": "Você não poderá mudar a descrição depois",
+        "precision": "De 0 a 8"
+    },
+    "precision": "Decimais",
+    "preview": "Visualizar",
+    "reissuable": {
+        "false": "Não reemissível",
+        "true": "Reemissível"
+    },
+    "script": "Smart asset",
+    "success": {
+        "description": "Você criou {{amount}} {{name}}",
+        "done": "Abrir Portfólio",
+        "title": "Sua transação está sendo processada!"
+    },
+    "switchScriptOff": "Desativar script",
+    "switchScriptOn": "Ativar script",
+    "tokens": {
+        "changeColorTooltip": "Change color",
+        "inputHelper": {
+            "description": "If you use this name, your token will be categorised as 'Suspicious' and will be searchable only by ID.",
+            "header": "This asset name has been taken"
+        },
+        "termsOfUse": {
+            "checkbox": "I understand that in the case of non-compliance with the rules, my token will be categorised as 'Suspicious', and will be available for search only by ID."
+        }
+    },
+    "validators": {
+        "byte": {
+            "gte": "O nome do ativo deve ter entre 4 e 16 bytes",
+            "lte": "O nome do ativo deve ter entre 4 e 16 bytes"
+        },
+        "descriptionLen": "A descrição é muito longa. Não deve ter mais que 1,000 bytes.",
+        "invalidScript": "Erro de sintaxe",
+        "maxValueCount": "O número inserido é muito grande",
+        "maxValuePrecision": "Número inválido. Digite um número de 0 a 8",
+        "minValueCount": "O Número inserido deve ser maior que zero",
+        "minValuePrecision": "Número inválido. Digite um número de 0 a 8",
+        "noMoney": "Seu saldo não é suficiente para pagar a taxa da transação",
+        "precisionCount": "O total de ativos não pode ser superior ao número especificado no campo Casas Decimais",
+        "required": "Este campo deve ser preenchido"
+    }
+}

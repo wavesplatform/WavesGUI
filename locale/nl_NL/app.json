@@ -1,0 +1,94 @@
+{
+    "back": "Terug naar de hoofdpagina",
+    "button": {
+        "cancel": "Annuleer",
+        "continue": "Ga verder"
+    },
+    "confirmTransaction": {
+        "notPermitted": {
+            "issue": "Token uitgeven is tijdelijk niet beschikbaar",
+            "issue-title": "Token creatie",
+            "massSendTitle": "Massa Transfer",
+            "reissue": "Token heruitgeven is tijdelijk niet beschikbaar",
+            "sendTitle": "Verstuurd",
+            "set-script-title": "Script transactie"
+        },
+        "send": {
+            "errors": {
+                "fee": "U heeft onvoldoende funds om de transactiekosten te voldoen. U moet {{fee, money-currency}} transactiekosten betalen;"
+            }
+        }
+    },
+    "date": {
+        "month": [
+            "Jan",
+            "Feb",
+            "Maa",
+            "Apr",
+            "Mei",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Okt",
+            "Nov",
+            "Dec"
+        ]
+    },
+    "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
+        "description": "Aloha funky coin, for any good&evil purposes ;)"
+    },
+    "fee": "{{money, money-fee}}",
+    "header": {
+        "assets": "Assets",
+        "dex": "DEX",
+        "leasing": "Lease",
+        "portfolio": "Portfolio",
+        "tokens": "Tokens",
+        "transactions": "Transacties",
+        "wallet": "Wallet"
+    },
+    "inputs": {
+        "errors": {
+            "required": "Verplicht veld!"
+        }
+    },
+    "leftmenu": {
+        "login": "Inloggen",
+        "logout": "Uitloggen",
+        "settings": "Instellingen"
+    },
+    "matcher": {
+        "orders": {
+            "statuses": {
+                "canceled": "Geannuleerd",
+                "filled": "Voldaan ({{percent}}%)",
+                "opened": "Geopend"
+            }
+        }
+    },
+    "modal": {
+        "enterPassword": {
+            "ok": "OK",
+            "title": "Voer wachtwoord in"
+        },
+        "pairing": {
+            "showQr": "Toon"
+        },
+        "tryDesktop": {
+            "cancel": "Doorgaan met internet",
+            "label": "Onthoud mijn keuze en herinner me er niet meer aan",
+            "message": "We raden u aan de Waves-desktop-app te gebruiken. Als u dit niet hebt, kunt u het downloaden van de officiële site.",
+            "title": "Gebruik de Waves desktop-app",
+            "try": "Open desktop app"
+        }
+    },
+    "money-currency": "{{money, money-currency}}",
+    "number": {
+        "short": {
+            "million": "M",
+            "thousand": "k"
+        }
+    },
+    "Suspicious": "Verdacht"
+}

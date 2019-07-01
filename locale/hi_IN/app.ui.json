@@ -1,0 +1,322 @@
+{
+    "all": "सभी",
+    "amount": "राशि",
+    "balanceInput": {
+        "max": "अधि."
+    },
+    "confirmGatewayTransaction": {
+        "back": "वापस",
+        "confirm": "पुष्टि करें",
+        "fieldAddress": "लक्षित पता",
+        "fieldAmount": "राशि",
+        "fieldFee": "फीस",
+        "fieldGatewayAddress": "गेटवे पता",
+        "fieldGatewayFee": "गेटवे फीस",
+        "success": "आपका लेनदेन होने वाला है!",
+        "warningText": "आप {{name}} ब्लॉकचेन को धन भेजने वाले हैं।",
+        "warningTitle": "बाहरी ब्लॉकचेन लेनदेन"
+    },
+    "confirmTransaction": {
+        "back": "वापस जाएं",
+        "confirm": "पुष्टि करें",
+        "description": {
+            "burn": "आपने {{quantityStr}} {{name}} जला दिए",
+            "cancel-leasing": "आपने एक लीज़िंग लेनदेन रद्द किया",
+            "circular": "आपने {{amount, money-currency}} खुद को भेजे",
+            "create-alias": "आपने एक उपनाम बनाया",
+            "data": "You have sent data transaction",
+            "data-vote": "{div.line}[You have voted for {{moneyCurrency}}.]\n{div.line}[Your score will be applied after 24 hours. Rating in processing.]",
+            "issue": "आपने जनरेट किए",
+            "lease-out": "आपने {{amount, money-currency}} लीज़ की",
+            "mass-send": "आपने {{totalAmount, money-currency}} भेजे\"",
+            "reissue": "आपने अतिरिक्त {{quantityStr}} {{name}} जनरेट किए\"",
+            "send": "आपने {{amount, money-currency}} भेजे",
+            "set-asset-script": "आपने स्क्रिप्ट को अपडेट किया है",
+            "set-script": "आपने एक स्क्रिप्ट ट्रांजेक्शन बनाया है",
+            "set-script-cancel": "आपने एक स्क्रिप्ट ट्रांजेक्शन रद्द कर दिया है",
+            "sponsorship-start": "स्पॉन्सरशिप निर्धारित किया गया है",
+            "sponsorship-stop": "स्पॉन्सरशिप अक्षम कर दिया गया है"
+        },
+        "details": "विवरण देखें",
+        "export": "निर्यात",
+        "JSON": "JSON",
+        "ledgerUnconfirmed": {
+            "description": "कृपया पुन: प्रयास करें। यदि एरर बनी रहती है, तो कृपया इस लेख को देखें (https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)",
+            "header": "आपने अपने लेडजर पर अनुरोध की पुष्टि नहीं की"
+        },
+        "notPermited": {
+            "cancel-leasing": "लीजिंग अस्थायी रूप से अनुपलब्ध है।"
+        },
+        "notPermitted": {
+            "burn": "टोकन जलाना अस्थायी रूप से अनुपलब्ध है।",
+            "burn-title": "टोकन जलाना",
+            "cancel-leasing": "लीजिंग वाली कार्यक्षमता अस्थायी रूप से अनुपलब्ध है।",
+            "cancel-leasing-title": "लीजिंग रद्द करना",
+            "data": "डेटा ट्रांजेक्शन अस्थायी रूप से अनुपलब्ध हैं।",
+            "data-title": "डेटा ट्रांजेक्शन",
+            "reissue-title": "टोकन पुनः जारी किया",
+            "set-script": "स्क्रिप्ट ट्रांजेक्शन अस्थायी रूप से अनुपलब्ध हैं।",
+            "sponsorship-start": "स्पॉन्सरशिप अस्थायी रूप से अनुपलब्ध है।",
+            "sponsorship-start-title": "स्पॉन्सरशिप बदलें"
+        },
+        "orderSuccess": "आपका ओर्डर बन गया है!",
+        "redirect": "आपको {{referrer}} पर रीडायरेक्ट किया जाएगा",
+        "send": {
+            "errors": {
+                "balance": {
+                    "invalid": "अपर्याप्त फंड"
+                },
+                "recipient": {
+                    "invalid": "प्राप्तकर्ता पता अमान्य है"
+                }
+            }
+        },
+        "sign": "साइन",
+        "success": "आपका लेनदेन होने वाला है!",
+        "wavesKeeperUnconfirmed": {
+            "description": "कृपया पुन: प्रयास करें। यदि एरर बनी रहती है, तो कृपया [सहायता](https://support.wavesplatform.com) पर एक टिकट जमा करें",
+            "header": "आपने वेव्स कीपर के उपयोग के अनुरोध की पुष्टि नहीं की"
+        }
+    },
+    "copyError": "कॉपी नहीं कर सकता! आपका ब्राउज़र पुराना हो सकता है",
+    "copySuccess": "ये डेटा कॉपी किया है",
+    "directives": {
+        "anyTransaction": {
+            "copy": "कापी",
+            "textAreaTitle": "TX JSON"
+        },
+        "scriptForm": {
+            "placeholder": {
+                "change": "एक नई स्क्रिप्ट दर्ज करें, या मौजूदा स्क्रिप्ट को रद्द करने के लिए फ़ील्ड को खाली छोड़ दें",
+                "create": "एक नई स्क्रिप्ट दर्ज करें, या मौजूदा स्क्रिप्ट को रद्द करने के लिए फ़ील्ड को खाली छोड़ दें"
+            },
+            "textAreaTitle": "Base64 स्क्रिप्ट"
+        },
+        "setAssetScriptForm": {
+            "ok": "जारी रहना"
+        },
+        "sign": {
+            "confirmRequestKeeper": {
+                "cancel": "रद्द करना",
+                "errorDescription": "कृपया पुन: प्रयास करें। यदि एरर बनी रहती है, तो कृपया [सहायता](https://support.wavesplatform.com) पर एक टिकट जमा करें",
+                "errorHeader": "आपने वेव्स कीपर के उपयोग के अनुरोध की पुष्टि नहीं की",
+                "sign": "पुन: प्रयास करें",
+                "waiting": "वेव्स कीपर से पुष्टि के लिए प्रतीक्षा कर रहा है ..."
+            },
+            "confirmRequestLedger": {
+                "cancel": "रद्द करना",
+                "errorDescription": "कृपया पुन: प्रयास करें। यदि एरर बनी रहती है, तो कृपया इस लेख को देखें (https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)",
+                "errorHeader": "आपने अपने लेडजर नैनो एस पर अनुरोध की पुष्टि नहीं की",
+                "sign": "फिर से साइन करें",
+                "waiting": "लेजर नैनो एस पर पुष्टि की प्रतीक्षा में…"
+            },
+            "txId": "TXID"
+        },
+        "transactionExport": {
+            "linkTitle": "साइन करने के लिए लिंक साइन करें",
+            "or": "या",
+            "qrZoomBtn": "ज़ूम इन/आउट करने के लिए क्लिक करें",
+            "scanQrCode": "क्यू आर कोड स्कैन करें"
+        }
+    },
+    "emptyBlocks": {
+        "title": "यहां कुछ नहीं है..."
+    },
+    "errorBlocks": {
+        "title": "कुछ गलत हुआ..."
+    },
+    "modal": {
+        "assetInfo": {
+            "gateway_ui": "गेटवे"
+        },
+        "sign": {
+            "signByLedger": "लेडजर नैनो एस पर पुष्टि की प्रतीक्षा में…"
+        },
+        "token": {
+            "warning": {
+                "header": "आप सहमत हैं कि:",
+                "text": "{div.line}[I) You will not use the token for fraudulent purposes;]\n{div.line}[II) You will not duplicate, fully or in part, the name of an existing cryptocurrency or a well-known company with the aim of misleading users;]\n{div.line}[III) You will not use names of states, other administrative units or municipal institutions for the token's name with the aim of misleading users;]\n{div.line}[IV) You will not set a script on a smart asset that limits exchange transactions on Waves DEX by asset quantity;]\n{div.line}[V) You will not give false information in a smart asset's description concerning the rules governing the token's use, which do not correspond to those of the script installed on it;]",
+                "textWarning": "इन बिंदुओं का पालन करने में विफल रहने पर आपके टोकन को स्पैम के रूप में वर्गीकृत कर दिया जाएगा, और केवल ID की खोज के लिए ही उपलब्ध होगा।"
+            }
+        }
+    },
+    "password": {
+        "minLength": "कम से कम {{minLength}} वर्णों का होना चाहिए",
+        "name": "खाते का नाम",
+        "repeat": "पासवर्ड पुष्टि करें\"",
+        "secure": "सुरक्षित पासवर्ड",
+        "title": "अपने खाते को नए पासवर्ड से सुरक्षित करें",
+        "warn": "आसान, कोई अंक या चिंह्न जोड़ें"
+    },
+    "qrCodeRead": {
+        "closeRead": "रद्द करना"
+    },
+    "recipient": "प्राप्तकर्ता",
+    "transaction": {
+        "actions": {
+            "cancelLeasing": "लीज़िंग रद्द करें",
+            "copyTxData": "सारा TX डेटा कॉपी करें",
+            "copyTxId": "TX ID कॉपी करें",
+            "showTx": "TX जानकारी"
+        },
+        "amounts": {
+            "burn": "–{{amount}} {{name}}",
+            "cancel-leasing": "{{amount}} {{name}}",
+            "circular": "{{amount}} {{name}}",
+            "exchange-buy": "{{sign}}{{amount}} {{name}}",
+            "exchange-sell": "{{sign}}{{amount}} {{name}}",
+            "issue": "{{amount}} {{name}}",
+            "lease-in": "{{amount}} {{name}}",
+            "lease-out": "{{amount}} {{name}}",
+            "mass-receive": "+{{amount}} {{name}}",
+            "mass-send": "–{{amount}} {{name}}",
+            "perTransaction": "प्रति ट्रांजेक्शन राशि",
+            "receive": "+{{amount}} {{name}}",
+            "reissue": "+{{amount}} {{name}}",
+            "script-invocation": "–{{amount}} {{name}}",
+            "send": "–{{amount}} {{name}}",
+            "set-script": "स्क्रिप्ट ट्रांजेक्शन सेट करें",
+            "set-script-cancel": "स्क्रिप्ट ट्रांजेक्शन रद्द करें",
+            "sponsorship-change": "स्पॉन्सरशिप बदलें",
+            "sponsorship-fee": "{{sign}}{{amount}} {{name}}",
+            "sponsorship-start": "स्पॉन्सरशिप सेट करें",
+            "sponsorship-stop": "डिसेबल स्पॉन्सरशिप"
+        },
+        "confirmed": {
+            "false": "अपुष्ट",
+            "true": "पूर्ण"
+        },
+        "headers": {
+            "activeLeasing": "अब सक्रिय",
+            "burn": "{{name}} टोकन जलाना",
+            "cancel-leasing": "लीज़िंग रद्द की",
+            "canceled": "रद्द",
+            "circular": "स्वयं-ट्रांसफर किया {{name}}",
+            "create-alias": "उपनाम बनाया",
+            "data": "डेटा ट्रांजेक्शन",
+            "data-vote": "Voted for {{assetName}}",
+            "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
+            "exchange-buy": "एक्सचेंज खरीद:",
+            "exchange-sell": "एक्सचेंज सेल:",
+            "issue": "{{name}} टोकन जनरेशन",
+            "lease-in": "आने वाली लीज़िंग",
+            "lease-out": "लीज़िंग शुरु की",
+            "mass-receive": "{{name}} प्राप्त किया",
+            "mass-send": "{{name}} भेजा",
+            "receive": "{{name}} प्राप्त किया",
+            "reissue": "{{name}} टोकन पुनः जारी करना",
+            "script-invocation": "Script Invocation",
+            "send": "{{name}} भेजा",
+            "set-asset-script": "एसेट स्क्रिप्ट ट्रांजेक्शन सेट करें",
+            "set-script": "स्क्रिप्ट ट्रांजेक्शन सेट करें",
+            "set-script-cancel": "स्क्रिप्ट ट्रांजेक्शन रद्द करें",
+            "spam": "संदेहजनक",
+            "sponsorship-fee": "{{name}} प्राप्त",
+            "sponsorship-start": "{{name}} के लिए स्पॉन्सरशिप सेट करें",
+            "sponsorship-stop": "{{name}} के लिए स्पॉन्सरशिप डिसेबल्ड",
+            "suspicious": "संदेहजनक",
+            "unknown": "अज्ञात लेनदेन"
+        },
+        "modals": {
+            "assetId": "ID",
+            "attachment": "संलग्न संदेश",
+            "cancelTx": "TX",
+            "confirmations": "पुष्टिकरण",
+            "copyCode": "Copy Code",
+            "data": "डेटा",
+            "dataKey": "Key",
+            "dataType": "Type",
+            "dataValue": "Value",
+            "description": "विवरण",
+            "exchange": {
+                "buy": "Buy",
+                "buyMatcherFee": "Buy Matcher Fee",
+                "exchangeType": "Order type",
+                "matcherFee": "Matcher Fee",
+                "pair": "Pair",
+                "sell": "Sell"
+            },
+            "fee": "फीस",
+            "from": "से",
+            "function": "Function",
+            "functionCall": "Function call",
+            "height": "लॉक करें",
+            "hide": "Hide",
+            "hideAll": "Hide all",
+            "leasingStatus": "स्थिति",
+            "massSend": {
+                "showAll": {
+                    "false": "सभी ({{count}}) दिखाएं",
+                    "true": "पहले 3 लेनदेन दिखाएं"
+                },
+                "totalAmount": "कुल राशि"
+            },
+            "numberOfRecipients": "राप्तकर्ताओं की संख्या",
+            "orderType": "ओर्डर प्रकार",
+            "pair": "जोड़ा",
+            "payment": "Payment",
+            "price": "{{name}} मूल्य",
+            "script": "स्क्रिप्ट",
+            "scriptAddress": "Script address",
+            "seeAll": "See all",
+            "setAssetScript": {
+                "showScript-false": "दिखाना",
+                "showScript-true": "छिपाना"
+            },
+            "show": "Show",
+            "showAll": "Show all ({{count}})",
+            "showFirstTree": "Show first 3 keys",
+            "status": "Status",
+            "timestamp": "समय-चिह्न",
+            "to": "को",
+            "toBeReissued": "पुनः जारी किया जाए",
+            "toRemainOnBalance": "बैलेंस पर बने रहना है",
+            "totalAfterBurning": "जलने के बाद कुल",
+            "totalAfterReissue": "पुनर्जन्म के बाद कुल",
+            "txId": "TXID",
+            "type": "प्रकार",
+            "viewTransactionKey": "लेनदेन",
+            "viewTransactionValue": "लेनदेन देखें"
+        },
+        "notifications": {
+            "closed": "लीज़िंग पहले पहले ही रद्द की गयी",
+            "closedSuccess": "लीज़िंग रद्द करना पूर्ण"
+        },
+        "reissuable": {
+            "false": "फिर जारी ना करने योग्य",
+            "true": "फिर जारी करने योग्य"
+        },
+        "set-asset-script": "अपडेट स्क्रिप्ट",
+        "subheaders": {
+            "burn": "{{time}}",
+            "cancel-leasing": "{{time}}{span.locale-address}[, लेनदेन {{transactionId}}]",
+            "circular": "{{time}}{span.locale-address}[, पते पर {{address}}]",
+            "create-alias": "{{time}}, {{alias}}",
+            "data": "{{time}}",
+            "exchange-buy": "{{time}}",
+            "exchange-sell": "{{time}}",
+            "issue": "{{time}}",
+            "lease-in": "{{time}}{span.locale-address}[, पते से {{address}}]",
+            "lease-out": "{{time}}{span.locale-address}[, पते को {{address}}]",
+            "mass-receive": "{{time}}{span.locale-address}[, पते से {{address}}]",
+            "mass-send": "{{time}}",
+            "receive": "{{time}}{span.locale-address}[, पते से {{address}}]",
+            "reissue": "{{time}}",
+            "script-invocation": "{{time}}{span.locale-address}[, पते को {{address}}]",
+            "send": "{{time}}{span.locale-address}[, पते को {{address}}]",
+            "set-asset-script": "{{time}}, संपत्ति {{name}} पर",
+            "sponsorship-fee": "{{time}} पते से {{address}}",
+            "unknown": "{{time}}"
+        }
+    },
+    "transactionList": {
+        "noTransactionsDescription": "आपके पास कोई लेनदेन नहीं हैं\"",
+        "noTransactionsTitle": "यहां कुछ नहीं..."
+    },
+    "transactions": {
+        "script": {
+            "txJson": "Base64 स्क्रिप्ट"
+        }
+    },
+    "whitespace": "&nbsp;"
+}

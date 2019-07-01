@@ -1,0 +1,40 @@
+{
+    "allactive": "All active ({span}[{{count}}])",
+    "burn": "代币消除",
+    "deposit": "存款",
+    "dex": "打开在DEX上",
+    "info": "资产信息",
+    "list": {
+        "actions": "操作",
+        "ask": "提问",
+        "balance": "余额",
+        "bid": "出价",
+        "change": "24小时涨跌",
+        "inOrders": "在订单中",
+        "mirror": "价值, {span.currency}[{{currency}}]",
+        "name": "资产名称",
+        "rate": "价格, {span.currency}[{{currency}}]"
+    },
+    "myassets": "我的资产（{span}[{{count}}]）",
+    "pin": "固定",
+    "portfolio": {
+        "filter": "搜索"
+    },
+    "qr": "您的钱包地址",
+    "qualified": "合格",
+    "qualifieds": "合格（{span}[{{count}}]）",
+    "receive": "接收",
+    "reissue": "再发行代币",
+    "send": "发送",
+    "setAssetScript": "更新资产脚本",
+    "spam": "垃圾币",
+    "spamAsset": "垃圾邮件",
+    "spamselect": "垃圾币 ({span}[{{count}}])",
+    "sponsorship": "启用赞助",
+    "sponsorshipChange": "改变赞助",
+    "sponsorshipStop": "取消赞助传输",
+    "tokenomica": "tokenomica",
+    "tospam": "隐藏",
+    "unpin": "取消固定",
+    "unspam": "显示"
+}

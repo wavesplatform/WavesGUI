@@ -1,0 +1,219 @@
+{
+    "backupSeed": {
+        "copySeed": "Anahtar Kelimeleri Kopyala",
+        "warn": "Hesabınızı sadece siz kontrol edersiniz. Uygulamanın silinmesi durumuna karşı Anahtar kelimelerinizi mutlaka kaydedin.",
+        "yourSeed": "Anahtar kelimeleriniz"
+    },
+    "createAccount": {
+        "from": "Hesap Oluştur"
+    },
+    "infoTooltip": "Önemli bilgilendirme",
+    "loading": {
+        "volume": "HACİM"
+    },
+    "modal": {
+        "lockPairWarning": {
+            "continue": "Devam",
+            "heading": "{{amountAssetTicker}} / {{priceAssetTicker}} arasında takas şu anda mümkün değil",
+            "text": "Seçilen takas çifti için alım satım şu anda mümkün değil. İsterseniz emri iptal edebilirsiniz."
+        }
+    },
+    "news": "Haberler",
+    "newUser": {
+        "from": "yedekten",
+        "getStarted": "Haydi başlayalım!",
+        "import": "Hesapları içe aktar",
+        "or": "veya",
+        "restore": "Hesabı geri yükle",
+        "slides": [
+            {
+                "description": "Kripto para dünyasının hızla büyüyen alanına hoşgeldiniz. Kripto paralarınıza erişebilecek tek kişi sizsiniz.",
+                "title": "Blok zincirinin bir parçası olun"
+            },
+            {
+                "description": "Dijital varlıklarınızı kolay ve güvenli bir şekilde saklayın, yönetin veya kiralayın!",
+                "title": "Cüzdan"
+            },
+            {
+                "description": "Hızlı ve güvenli bir şekilde takas yapın! Waves Platform merkezsiz borsasında işlem yaparak kripto paralarınız üzerinde tam hakimiyete sahip olursunuz.",
+                "title": "Merkezsiz Borsa"
+            },
+            {
+                "description": "Üreteceğiniz kripto paralarınızı merkezsiz oylamalar, derecelendirme sistemleri veya sadakat programları gibi amaçlar için de kullanabilirsiniz.",
+                "title": "Kendi Kripto Paranızı Yaratın"
+            }
+        ]
+    },
+    "openViaDesktop": "Linkleri masaüstü uygulaması ile açmak istiyorum",
+    "roadmap": {
+        "aug2019": {
+            "date": "Ağustos 2019",
+            "text": "Piyasa fiyatından kripto paralarınızı hızlıca satabilirsiniz.",
+            "title": "Pazar emri"
+        },
+        "dec2018": {
+            "date": "Aralık 2018",
+            "text": "Yeni mobil uygulama fantastik DEX UI ve Geçit entegrasyonu sunuyor.",
+            "text_2": "DEX'te gördüğünüz Ticker'lar ve Logo'lar kullanıcılara yüksek güven veren onaylanmış kripto paralara aittir.",
+            "title": "Mobil uygulama 2.0",
+            "title_2": "BetterTokens Entegrasyonu"
+        },
+        "feb2017": {
+            "date": "Aralık 2017",
+            "text": "Yerleşik borsaya sahip amiral gemisinin ilk sürümü hayata geçirildi.",
+            "title": "Waves DEX Beta"
+        },
+        "feb2018": {
+            "date": "Şubat 2018",
+            "text": "MacOS, Linux ve Windows için uygulama yayınlandı.",
+            "title": "Masaüstü Uygulaması"
+        },
+        "jan2019": {
+            "date": "Ocak 2019",
+            "text": "Akıllı Hesaplarla Waves DEX'te alım satım desteği etkinleştirildi.",
+            "text_2": "Bitcoin Satoshi Vision Geçidi'nin faaliyete başlaması",
+            "title": "Akıllı Hesap Takası",
+            "title_2": "BSV Geçidi"
+        },
+        "jul2018": {
+            "date": "Temmuz 2018",
+            "text": "Piyasadaki tüm DEX'lerden daha iyi performans ve kullanıcı deneyimi sunan merkezsiz borsa yenilendi.",
+            "text_2": "Popüler cüzdan büyük bir sürümle Beta'dan çıktı.",
+            "title": "Yeni DEX",
+            "title_2": "Waves Cüzdanı"
+        },
+        "jul2019": {
+            "date": "Temmuz 2019",
+            "text": "Waves ekosistemine ERC20 kripto paralarının eklenmesi ile birlikte Ethereum üzerindeki kripto paralar borsada alınıp satılabilecektir.",
+            "text_2": "Geliştiriciler, mobil geliştirme işlemlerini basitleştirdi ve Waves blok zinciri ile etkileşimde bulunma araçları için kapsamlı açıklamalar edindi.",
+            "text_3": "Kullanıcılar bir cüzdan uygulaması içindeki birden fazla hesap arasında kolayca geçiş yapabilir.",
+            "title": "ERC-20 Geçidi",
+            "title_2": "Mobil SDK ve JS kütüphanesi geliştirme",
+            "title_3": "Çoklu hesaplar"
+        },
+        "jun2019": {
+            "date": "Haziran 2019",
+            "text": "DEX hızındaki ve bellek gereksinimlerindeki iyileştirmeler uygulanacak.",
+            "title": "DEX optimizasyonu"
+        },
+        "may2018": {
+            "date": "Mayıs 2018",
+            "text": "Yenilenen DEX, piyasadaki diğer DEX’lerden daha iyi bir kullanıcı deneyimi ve performans sunar.",
+            "title": "Dash ve Bitcoin Cash geçitleri"
+        },
+        "nov2018": {
+            "date": "Kasım 2018",
+            "text": "Kullanıcılar, çoklu imza ve scriptli hesaplarla işlem yapma yeteneği kazanır.",
+            "title": "Akıllı Hesap Desteği"
+        },
+        "sep2018": {
+            "date": "Eylül 2018",
+            "text": "Waves DEX ile entegrasyon, kullanıcıların maksimum güvenlikle takas yapmalarını sağlar.",
+            "title": "Ledger Nano S"
+        },
+        "sep2019": {
+            "date": "Eylül 2019",
+            "text": "İki faktörlü doğrulama, Waves DEX kullanıcılarına daha fazla güvenlik sağlar.",
+            "title": "2FA"
+        }
+    },
+    "userList": {
+        "addNew": "Hesap ekle",
+        "create": "Yeni bir hesap oluşturun",
+        "frombackup": "yedekten",
+        "import": "Hesapları içeri aktar",
+        "restore": "Hesabı geri yükle",
+        "subTitle": "Tekrar giriş yapın veya",
+        "subTitleSession": "Oturum otomatik olarak sonlandırıldı."
+    },
+    "welcome": {
+        "aliases": "Takma adlar",
+        "android": "Google Play",
+        "api": "API",
+        "apple": "App Store",
+        "blog": "Blog",
+        "broughtBy": "Size Waves Takımı tarafından sunuldu",
+        "change": "DEĞİŞİM",
+        "chart": "GRAFİK",
+        "contestLinkDescription": "Waves DEX'teki takas yarışmasından 5,000 WAVES kazan!",
+        "contestLinkLink": "Kurallar",
+        "controlAssets": "Varlıkların kontrolü yalnızca sizindir - varlıklarınız sizden habersiz cüzdanınızdan çıkmaz ve dondurulamaz.",
+        "copyAddress": "Adresi kopyala",
+        "copyright": "© 2019 Waves Platform",
+        "createToken": "Kripto para oluştur",
+        "dashboard": "Panel",
+        "decentralised": "Merkezsiz",
+        "dexWithHardware": "DEX'i donanım cüzdanları Ledger Nano S ve Ledger Blue ile birlikte kullanın",
+        "documentation": "Dokümantasyon",
+        "download": "İndir",
+        "downloadMobileApp": "Mobil uygulamayı indir!",
+        "exchange": "Takas",
+        "forDevelopers": "Geliştiriciler için ",
+        "forum": "Forum",
+        "gateways": "Popüler kripto paralar için geçitler",
+        "getRealTimeAccess": "Piyasa verilerine gerçek zamanlı erişim sağlayın ve takas botlarınızı API üzerinden ayarlayın",
+        "getStarted": "Haydi başlayalım!",
+        "gitHub": "GitHub",
+        "help": "Yardım",
+        "high": "24 Saatlik en yüksek",
+        "instantAccessWalletDex": "Cüzdanınıza ve DEX'e anında erişim",
+        "keeperAccount": "Keeper hesabı",
+        "lastPrice": "SON FİYAT",
+        "leasing": "Kiralama",
+        "ledgerAccount": "Ledger hesabı",
+        "ledgerSupport": "Ledger desteği",
+        "legal": "Yasal",
+        "linux": "Linux",
+        "linuxDescription": "Linux uygulamasını indir",
+        "logout": "Çıkış Yap",
+        "logOut": "Çıkış Yap",
+        "low": "24 Saatlik en düşük",
+        "lowFixedFees": "Düşük, sabit ücretler",
+        "macOs": "MacOS",
+        "macOsDescription": "MacOS uygulamasını indir",
+        "mailto": "support.wavesplatform.com",
+        "mainPage": "Ana Sayfa",
+        "majorFiatCryptocurrencies": "Başlıca fiat ve kripto para birimleri desteklenir: BTC, LTC, ETH, USD, TRY ve diğerleri",
+        "markets": "Pazarlar",
+        "marketsDescription": "Waves DEX, mobil ve masaüstü uygulama, web cüzdanı veya Waves API üzerinden hızlı ve güvenli bir şekilde alım satım yapmanıza olanak sağlar.",
+        "marketsTableDescription": "Daha fazla takas çiftleri görüntülemek için tıklayın",
+        "marketsTableDescriptionLink": "Borsayı Gör",
+        "menu": "Menü",
+        "news": "Haberler",
+        "pair": "ÇİFT",
+        "portfolio": "Portföy",
+        "privacyPolicy": "Gizlilik Politikası",
+        "productsTools": "Ürünler ve araçlar",
+        "renameAccount": "Hesabı yeniden adlandır",
+        "roadmap": "Yol Haritası",
+        "roadmapOpportunitiesAhead": "Waves DEX'in geleceği: Önümüzdeki yol haritamız",
+        "scriptAccount": "Script hesabı",
+        "scriptedAccount": "Script hesabı",
+        "settings": "Ayarlar",
+        "signIn": "Giriş Yap",
+        "social": "Sosyal",
+        "stackOverflow": "Stack Overflow",
+        "suitableTradingBots": "Takas botlarına uygun",
+        "support": "Destek",
+        "telegram": "Telegram",
+        "termsOfUse": "Kullanım koşulları",
+        "tokenCreation": "Hızlı kripto para oluşturma",
+        "tokenCreationCosts": "Kripto para oluşturma maliyeti yalnızca 1 WAVES ve 1 dakika sürer",
+        "tradeOnWaves": "Waves Merkezsiz Kripto Para Borsasında Kripto Para Alın ve Satın",
+        "tradeOnWavesDescription": "Merkezi bir borsanın tüm avantajları ile birlikte kripto paralarınızı hızlı ve güvenli bir şekilde alın ve satın, bu esnada varlıklarınızın kontrolünü elinizde tutun.",
+        "transactions": "İşlemler",
+        "twitter": "Twitter",
+        "volume": "HACİM",
+        "wallet": "Cüzdan",
+        "wavesBlockchain": "Waves Blok Zinciri",
+        "wavesDexWeb": "Waves DEX Web",
+        "wavesExplorer": "Waves Gezgini",
+        "wavesIde": "WAVES IDE",
+        "wavesKeeper": "Waves Keeper",
+        "wavesLabs": "Waves Labs",
+        "wavesOrderFilled": "Doldurulan her bir emir için 0.003 WAVES",
+        "wavesWallet": "Waves Cüzdanı",
+        "windows": "Windows",
+        "windowsDescription": "Windows uygulamasını indir"
+    }
+}

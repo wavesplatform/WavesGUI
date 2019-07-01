@@ -1,0 +1,65 @@
+{
+    "backupSeed": {
+        "back": "Geri git",
+        "copySeed": "kelimeleri kopyalayın",
+        "needConfirm": "Bu kelimeleri bir sonraki ekranda doğrulayacaksınız",
+        "ok": "Hepsini bir kenera yazdım",
+        "or": "veya",
+        "saveSecret": "Geri yükleme kelimelerini kaydedin",
+        "warn": "Kripto paralarınızın kontrolü sizdedir. Uygulamanın silinmesi durumunda geri yükleme kelimelerine ihtiyaç duyacaksınız.",
+        "writeSeed": "15 kelimeyi eksiksiz ve hatasız olarak saklayın"
+    },
+    "confirmBackup": {
+        "again": "ve tekrar basın",
+        "back": "Geri dön",
+        "clear": "Temizle",
+        "confirm": "Anahtar kelimelerini doğrula",
+        "description": "Anahtar kelimelerini doğrula veya",
+        "enterCorrect": "Lüften kelimeleri doğru sıra ile tıklayın",
+        "error": "hatalı sıralama, tekrar deneyin.",
+        "ok": "Doğrula",
+        "tapAgain": "ve tekrar basın"
+    },
+    "createAccount": {
+        "address": "Hesap adresi:",
+        "avatarUnique": "Avatarlar kişiye özeldir. Sonradan değiştiremezsiniz.",
+        "choose": "Adresiniz için bir avatar seçin",
+        "create": "Yeni bir hesap oluştur",
+        "createDescription": "Hızlı ve ücretsiz",
+        "createNewAccount": "Avatarınızı seçin",
+        "from": "Avatarlar kişiye özeldir. Sonradan değiştiremezsiniz.",
+        "import": "Hesapları içeri aktar",
+        "importDescription": "Anahtar kelimelerle, Ledger veya Keeper ile",
+        "protect": "Hesabınızı bir şifre ile koruyun veya",
+        "protectYourAccount": "Hesabınızı koruyun",
+        "restore": "Yedekten geri yükleyin",
+        "saveUserData": "Bu bilgisayarda otomatik çıkış yapma",
+        "signDescription": "kayıtlı bir hesaba",
+        "signIn": "Giriş yapın",
+        "signUp": "Ücretsiz bir hesap oluşturun veya",
+        "tosaved": "kaydedilmiş hesaba",
+        "toWalet": "cüzdanına veya"
+    },
+    "modal": {
+        "confirmBackupDescription": "Yedek kelimelerinizi doğrulayın",
+        "next": "Doğrula",
+        "prev": "Geri git",
+        "successContent": "Anahtar kelimelerinizi sonradan değiştiremezsiniz! Eğer bu kelimeleri yanlışlıkla bir yere gönderirseniz veya dolandırıcılara kaptırdığınızı düşünürseniz en kısa sürede yeni bir Waves cüzdanı oluşturun ve varlıklarınızı yeni cüzdana taşıyın!",
+        "successHeadline": "Yedek kelimelerinizi güvenli bir yerde saklayın",
+        "understand": "Anladım"
+    },
+    "noBackupNoMoney": {
+        "backup": "Şimdi yedekleyin",
+        "description": "Anahtar kelimelerinizi mutlaka kaydedin! Hesabınıza erişim için ihtiyacınız olacak. ",
+        "modal": {
+            "descriptionP1": "Son zamanlarda Waves Platform adını kullanarak sahte uygulamar ile sizleri tuzağa düşürmeye çalışmaktadırlar.",
+            "descriptionP2": "Lütfen dikkatli olunuz ve SEED (anahtar) kelimelerinizi bu tip uygulamalara girmeyiniz. Hesabınızdaki bütün kripto paralarınızı çalabilirler. ",
+            "descriptionP3": "Sadece RESMİ Waves uygulamasını kullanınız.",
+            "ok": "Okudum, Anladım",
+            "title": "Yedek kelimelerinizi dikkatli bir şekilde saklayın!"
+        },
+        "or": "veya",
+        "skip": "Daha sonra yapacağım",
+        "title": "Yedek yoksa cüzdan da yok!"
+    }
+}

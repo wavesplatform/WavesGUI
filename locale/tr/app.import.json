@@ -1,0 +1,21 @@
+{
+    "back": "Ana sayfaya dön",
+    "import": {
+        "signIn": "Giriş yap"
+    },
+    "importAccount": "Hesapları içeri aktar",
+    "importAccountInfo": "Hesapların nereden aktarılacağını seçiniz",
+    "KeeperClient": "Waves Keeper",
+    "keeperDescription": "Hesabı Waves Keeper'dan içeri aktar",
+    "keeperForm": "Yükle",
+    "LedgerClient": "Ledger cihazı",
+    "ledgerDescription": "Hesapları Ledger Nano S'den içeri aktar",
+    "or": "Veya",
+    "selectButton": "Seç",
+    "wavesClient": "Waves Uygulaması",
+    "wavesClientDescription": "Waves Uygulamasından hesabı içe aktar",
+    "wavesLiteClient": "Waves Lite Client",
+    "wavesLiteClientDescription": "Hesapları Waves Lite Client'ten içeri aktar",
+    "wavesSeedClient": "Anahtar kelimeleri yedekle",
+    "wavesSeedClientDescription": "Hesapları anahtar kelimelerden içeri aktar"
+}

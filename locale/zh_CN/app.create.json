@@ -1,0 +1,65 @@
+{
+    "backupSeed": {
+        "back": "返回",
+        "copySeed": "复制",
+        "needConfirm": "您需要在下一个页面确认备份短语（助记词）",
+        "ok": "我已经写下短语",
+        "or": "或",
+        "saveSecret": "储存备份短语",
+        "warn": "唯一能够掌控资产的是您，您需要储蓄备份短语（助记词）以防该应用钱包丢失 或",
+        "writeSeed": "请仔细的写下这15个短语"
+    },
+    "confirmBackup": {
+        "again": "并且再次点击",
+        "back": "返回",
+        "clear": "清除",
+        "confirm": "确认种子短语",
+        "description": "验证种子短语或",
+        "enterCorrect": "请顺序点击每个短语",
+        "error": "错误的顺序，再试一次。",
+        "ok": "确认",
+        "tapAgain": "然后再次点击"
+    },
+    "createAccount": {
+        "address": "帐号地址:",
+        "avatarUnique": "这个头像是独特的。 未来不能改头像。",
+        "choose": "选择您的地址头像",
+        "create": "创建一个新账户",
+        "createDescription": "快速而自由",
+        "createNewAccount": "选择你的头像",
+        "from": "这个头像是视觉表达，你以后不能改变它",
+        "import": "导入帐户",
+        "importDescription": "通过种子短语，分类帐或Keeper",
+        "protect": "使用密码来保护您的帐户或",
+        "protectYourAccount": "保护您的帐号",
+        "restore": "恢复帐户",
+        "saveUserData": "在这台电脑保持登录状态 ",
+        "signDescription": "到已保存的帐户",
+        "signIn": "登录",
+        "signUp": "注册一个免费的帐户或",
+        "tosaved": "已保存的帐户",
+        "toWalet": "您的钱包或"
+    },
+    "modal": {
+        "confirmBackupDescription": "验证您的备份短语",
+        "next": "确认",
+        "prev": "返回",
+        "successContent": "您不能改变您的秘密短语。如果您不小心将秘密短语发送给某人或怀疑诈骗者已将秘密短语移交给他人，请立即创建一个新的Waves钱包并将资金转入其中。",
+        "successHeadline": "小心处理备份短语！",
+        "understand": "我了解"
+    },
+    "noBackupNoMoney": {
+        "backup": "立即备份",
+        "description": "您必须保存种子短语。这对于访问您的帐户至关重要",
+        "modal": {
+            "descriptionP1": "Waves平台提醒您，上个月发生了许多诈骗和网络钓鱼攻击。 欺诈者将他们的流氓软件隐藏在他们自己的Waves客户端版本中，并为了吸引用户承诺奖励和折扣。",
+            "descriptionP2": "请小心，绝对不要将您的SEED输入到这些“客户端”中，因为您的帐户将受到损害，您将失去所有资金。",
+            "descriptionP3": "您应该使用官方的Waves客户端。",
+            "ok": "我了解",
+            "title": "小心处理备份短语！"
+        },
+        "or": "或",
+        "skip": "稍后再做",
+        "title": "没有备份，数字资产将会丢失"
+    }
+}

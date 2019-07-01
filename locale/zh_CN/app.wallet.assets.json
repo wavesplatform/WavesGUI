@@ -1,0 +1,39 @@
+{
+    "addAsset": "添加资金",
+    "chart": {
+        "intervals": {
+            "all": "所有",
+            "day": "1天",
+            "hour": "1个小时",
+            "month": "1个月",
+            "week": "1周",
+            "year": "一年"
+        }
+    },
+    "directives": {
+        "asset": {
+            "anyTx": "JSON",
+            "deposit": "存款",
+            "ofTotalBalance": "总余额 {{totalBalance}}",
+            "receive": "接收",
+            "script": "脚本",
+            "send": "发送"
+        },
+        "balance": {
+            "actions": {
+                "assetInfo": "资产信息",
+                "copyAssetId": "复制资产号"
+            }
+        }
+    },
+    "price": "价格 {{currency}}",
+    "qr": "您的钱包地址",
+    "send": "发送",
+    "since": {
+        "day": "自昨天起",
+        "month": "自上个月起",
+        "week": "自上周起"
+    },
+    "suspicious": "可疑 - ({span}[{{count}}])",
+    "Unpin": "卸下"
+}

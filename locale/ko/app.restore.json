@@ -1,0 +1,50 @@
+{
+    "password": {
+        "error": "비밀번호를 다시 입력하세요!"
+    },
+    "passwordForm": {
+        "back": "이전 페이지로 돌아가세요",
+        "description": "비밀번호로 귀하의 계정을 보호하거나",
+        "importAccounts": "계정을 불러오세요",
+        "login": "계속하기",
+        "title": "계정 비밀번호 설정"
+    },
+    "restore": {
+        "beta": {
+            "accountTitle": "주소 / 계정 아이디",
+            "buttons": {
+                "cancel": "뒤로가기",
+                "copy": "백업 구절 복사",
+                "restore": "백업 구절 복원"
+            },
+            "noUsers": {
+                "description": "{div}[등록된 계정을 찾을 수 없습니다. 이전 페이지로 돌아가세요.]{div}[[client.wavesplatform.com](https://client.wavesplatform.com)]",
+                "title": "등록된 계정이 없습니다"
+            },
+            "passwordTitle": "비밀번호",
+            "placeholders": {
+                "password": "비밀번호"
+            },
+            "step1Description": "백업 구절이 없고 비밀번호만 있는 경우 이 페이지의 양식을 작성하여 등록된 계정을 복원할 수 있습니다.",
+            "step2Description": "백업 구절을 꼭 저장하세요. 백업 구절을 잃어버리면 계정에 액세스할 수 없습니다.",
+            "title": "백업 구절 복원"
+        }
+    },
+    "seedForm": {
+        "address": "주소",
+        "back": "뒤로가기",
+        "continue": "계속하기",
+        "create": "신규 계정을 생성하세요",
+        "description": "Seed 구절은 계정 생성 시 제공받은 15단어입니다",
+        "or": "또는",
+        "placeholder": "백업 구절은 계정 생성 시 제공받은 15단어입니다",
+        "saveUserData": "이 컴퓨터에서 로그인 상태 유지",
+        "seedTitle": "귀하의 백업 구절",
+        "title": "Seed로 불러오기",
+        "tosaved": "등록된 계정으로"
+    },
+    "warningSeed": {
+        "message": "백업 구절과 지갑 주소를 혼동하지 마십시오. 지갑 주소를 SEED로 사용할 경우 귀하의 자금이 손실될 수 있습니다. SEED는 15개의 단어로 구성되며 각 단어 사이에 공백이 존재합니다.",
+        "title": "입력한 SEED 구절이 너무 짧습니다."
+    }
+}

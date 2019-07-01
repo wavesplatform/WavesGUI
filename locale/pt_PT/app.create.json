@@ -1,0 +1,65 @@
+{
+    "backupSeed": {
+        "back": "go back",
+        "copySeed": "copy them",
+        "needConfirm": "You will confirm this phrase on the next screen.",
+        "ok": "I’ve written it down",
+        "or": "or",
+        "saveSecret": "Save backup phrase",
+        "warn": "Since only you control your money, you’ll need to save your backup phrase in case this app is deleted or",
+        "writeSeed": "Please carefully write down these 15 words"
+    },
+    "confirmBackup": {
+        "again": "and tap again",
+        "back": "go back",
+        "clear": "Clear",
+        "confirm": "Confirm Seed phrase",
+        "description": "Verify your Seed phrase or",
+        "enterCorrect": "Please, tap each word in the correct order",
+        "error": "Wrong order, try again.",
+        "ok": "Confirm",
+        "tapAgain": "and tap again"
+    },
+    "createAccount": {
+        "address": "Account address:",
+        "avatarUnique": "This avatar is unique. You cannot change it later.",
+        "choose": "Choose your address avatar",
+        "create": "Create a new account",
+        "createDescription": "Fast and free",
+        "createNewAccount": "Choose your Avatar",
+        "from": "This avatar is visual representation, you can’t change it later",
+        "import": "Import accounts",
+        "importDescription": "via Seed phrase, Ledger or Keeper",
+        "protect": "Protect your account with a password or",
+        "protectYourAccount": "Protect Your Account",
+        "restore": "restore an account",
+        "saveUserData": "Keep the account on this computer",
+        "signDescription": "to a saved account",
+        "signIn": "Sign in",
+        "signUp": "Sign up for a free account below or",
+        "tosaved": "to a saved account",
+        "toWalet": "to your wallet or"
+    },
+    "modal": {
+        "confirmBackupDescription": "Verify your backup phrase",
+        "next": "Confirm",
+        "prev": "Go back",
+        "successContent": "You cannot change your secret phrase. If you accidentally sent it to someone or suspect that scammers have taken it over, then create a new Waves wallet immediately and transfer your funds to it.",
+        "successHeadline": "Treat your backup phrase with care!",
+        "understand": "I Understand"
+    },
+    "noBackupNoMoney": {
+        "backup": "Back Up Now",
+        "description": "You must save the Seed phrase. It is crucial for accessing your account",
+        "modal": {
+            "descriptionP1": "Waves Platform would like to warn you about the increased frequency of scam and phishing attacks over the last month. Fraudsters are hiding their malware in their own versions of the Waves client and promising bonuses and discounts to lure in users.",
+            "descriptionP2": "Please be careful and never input your SEED into these 'clients', because your account will be compromised and you will lose all of your funds.",
+            "descriptionP3": "You should ONLY use the official Waves client.",
+            "ok": "I understand",
+            "title": "Treat your backup phrase with care!"
+        },
+        "or": "or",
+        "skip": "Do it later",
+        "title": "No Backup, No Money"
+    }
+}

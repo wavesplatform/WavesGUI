@@ -1,0 +1,50 @@
+{
+    "password": {
+        "error": "Kata sandi salah!"
+    },
+    "passwordForm": {
+        "back": "kembali",
+        "description": "Lindungi akun Anda dengan kata sandi baru atau",
+        "importAccounts": "Impor akun",
+        "login": "Lanjutkan",
+        "title": "Lindungi Akun Anda"
+    },
+    "restore": {
+        "beta": {
+            "accountTitle": "Alamat / Nama akun",
+            "buttons": {
+                "cancel": "Kembali",
+                "copy": "Salin Seed",
+                "restore": "Pulihkan Seed"
+            },
+            "noUsers": {
+                "description": "{div}[Kami belum menemukan akun yang disimpan. Kembali ke]{div}[[client.wavesplatform.com](https://client.wavesplatform.com)]",
+                "title": "Tidak ada akun yang disimpan"
+            },
+            "passwordTitle": "Kata sandi",
+            "placeholders": {
+                "password": "Kata sandi"
+            },
+            "step1Description": "Jika Anda hanya memiliki kata sandi, bukan SEED Anda, Anda dapat menggunakan halaman ini untuk memulihkan akun yang disimpan.",
+            "step2Description": "Tolong, simpan SEED dengan hati-hati. Jika Anda kehilangannya, Anda tidak akan memiliki cara untuk mengakses akun Anda.",
+            "title": "Pulihkan Seed"
+        }
+    },
+    "seedForm": {
+        "address": "Alamat",
+        "back": "Kembali",
+        "continue": "Lanjut",
+        "create": "buat akun baru",
+        "description": "SEED Anda, 15 kata yang Anda simpan saat membuat akun",
+        "or": "atau",
+        "placeholder": "SEED Anda adalah 15 kata yang Anda simpan saat membuat akun Anda",
+        "saveUserData": "Simpan akun di komputer ini",
+        "seedTitle": "SEED dompet Anda",
+        "title": "Impor dari SEED",
+        "tosaved": "ke akun yang disimpan"
+    },
+    "warningSeed": {
+        "message": "Pastikan Anda tidak mengacaukan frasa dengan alamat dompet. Menggunakan alamat sebagai frasa SEED dapat menyebabkan hilangnya dana. Frasa SEED harus terdiri dari 15 kata dengan spasi di antara setiap kata.",
+        "title": "Frasa SEED yang Anda masukkan terlalu pendek."
+    }
+}

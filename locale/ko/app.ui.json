@@ -1,0 +1,322 @@
+{
+    "all": "모든 TX",
+    "amount": "수량",
+    "balanceInput": {
+        "max": "최대"
+    },
+    "confirmGatewayTransaction": {
+        "back": "뒤로가기",
+        "confirm": "승인",
+        "fieldAddress": "수신자 주소",
+        "fieldAmount": "수량",
+        "fieldFee": "수수료",
+        "fieldGatewayAddress": "게이트웨이 주소",
+        "fieldGatewayFee": "게이트웨이 수수료",
+        "success": "트랜잭션이 진행 중입니다!",
+        "warningText": "귀하의 자산을 {{name}} 블록체인으로 송금하려고 합니다.",
+        "warningTitle": "외부 블록체인 트랜잭션"
+    },
+    "confirmTransaction": {
+        "back": "뒤로가기",
+        "confirm": "전송",
+        "description": {
+            "burn": "{{quantityStr}} {{name}}을 소각했습니다",
+            "cancel-leasing": "Leasing 트랜잭션을 취소했습니다",
+            "circular": "{{amount, money-currency}}을 본인에게 송금했습니다.",
+            "create-alias": "Alias를 생성했습니다",
+            "data": "데이터 트랜잭션을 보냈습니다",
+            "data-vote": "{div.line}[{{moneyCurrency}}에 투표했습니다.]\n{div.line}[투표는 24시간 후 적용됩니다. 등급 처리 중입니다.]",
+            "issue": "토큰을 성공적으로 발행했습니다",
+            "lease-out": "{{amount, money-currency}}을 Lease 했습니다",
+            "mass-send": "You have sent {{totalAmount, money-currency}}",
+            "reissue": "{{quantityStr}} {{name}}을 추가로 발행했습니다",
+            "send": "{{amount, money-currency}}을 송금했습니다",
+            "set-asset-script": "스크립트를 업데이트 했습니다",
+            "set-script": "Script 트랜잭션을 생성했습니다",
+            "set-script-cancel": "Script 트랜잭션을 취소했습니다",
+            "sponsorship-start": "스폰서십이 활성화되었습니다",
+            "sponsorship-stop": "스폰서십이 비활성화되었습니다"
+        },
+        "details": "세부사항 보기",
+        "export": "내보내기",
+        "JSON": "JSON",
+        "ledgerUnconfirmed": {
+            "description": "다시 시도 하세요. 오류가 지속된다면 [이 글을](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues) 참고하세요.",
+            "header": "귀하의 Ledger 디바이스에서 요청을 확인하지 않았습니다"
+        },
+        "notPermited": {
+            "cancel-leasing": "Leasing 시작 기능을 일시적으로 사용할 수 없습니다."
+        },
+        "notPermitted": {
+            "burn": "일시적으로 토큰 소각 기능을 이용할 수 없습니다.",
+            "burn-title": "토큰 소각",
+            "cancel-leasing": "Lease 시작 기능을 일시적으로 사용할 수 없습니다.",
+            "cancel-leasing-title": "Leasing 취소",
+            "data": "일시적으로 데이터 트랜잭션 기능을 이용할 수 없습니다",
+            "data-title": "데이터 트랜잭션",
+            "reissue-title": "토큰 재발행",
+            "set-script": "일시적으로 Script 트랜잭션 기능을 이용할 수 없습니다",
+            "sponsorship-start": "일시적으로 Sponsoring 기능을 이용할 수 없습니다",
+            "sponsorship-start-title": "Sponsorship 변경"
+        },
+        "orderSuccess": "귀하의 주문이 생성되었습니다!",
+        "redirect": "{{referrer}}로 이동합니다",
+        "send": {
+            "errors": {
+                "balance": {
+                    "invalid": "자금이 부족합니다"
+                },
+                "recipient": {
+                    "invalid": "수신자의 주소가 잘못되었습니다"
+                }
+            }
+        },
+        "sign": "서명",
+        "success": "트랜잭션이 진행 중입니다!",
+        "wavesKeeperUnconfirmed": {
+            "description": "다시 시도하세요. 오류가 지속되면 [서포트](https://support.wavesplatform.com)에 티켓을 제출하세요.",
+            "header": "Waves Keeper 사용 요청을 승인하지 않았습니다"
+        }
+    },
+    "copyError": "복사할 수 없습니다! 브라우저를 업데이트하세요",
+    "copySuccess": "데이터가 복사되었습니다",
+    "directives": {
+        "anyTransaction": {
+            "copy": "복사",
+            "textAreaTitle": "TX JSON"
+        },
+        "scriptForm": {
+            "placeholder": {
+                "change": "기존 Script를 취소하려면 새로운 Script를 입력하거나 항목을 비워두세요",
+                "create": "기존 Script를 취소하려면 새로운 Script를 입력하거나 항목을 비워두세요"
+            },
+            "textAreaTitle": "Base64 script"
+        },
+        "setAssetScriptForm": {
+            "ok": "계속"
+        },
+        "sign": {
+            "confirmRequestKeeper": {
+                "cancel": "취소",
+                "errorDescription": "다시 시도하세요. 오류가 지속되면 [서포트](https://support.wavesplatform.com)에 티켓을 제출하세요.",
+                "errorHeader": "Waves Keeper 사용 요청을 승인하지 않았습니다",
+                "sign": "재시도",
+                "waiting": "Waves Keeper의 승인을 기다리는 중입니다..."
+            },
+            "confirmRequestLedger": {
+                "cancel": "취소",
+                "errorDescription": "다시 시도하세요. 오류가 지속된다면 [이 글](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)을 참조하세요",
+                "errorHeader": "귀하는 Ledger 디바이스에서 요청을 승인하지 않았습니다",
+                "sign": "서명 재시도",
+                "waiting": "Ledger Nano S의 승인을 기다리고 있습니다..."
+            },
+            "txId": "TXID"
+        },
+        "transactionExport": {
+            "linkTitle": "서명하기 위해 링크 공유",
+            "or": "또는",
+            "qrZoomBtn": "확대/축소하기 위해 클릭",
+            "scanQrCode": "QR 코드 스캔"
+        }
+    },
+    "emptyBlocks": {
+        "title": "아무것도 없습니다…"
+    },
+    "errorBlocks": {
+        "title": "문제가 발생했습니다…"
+    },
+    "modal": {
+        "assetInfo": {
+            "gateway_ui": "게이트웨이"
+        },
+        "sign": {
+            "signByLedger": "Ledger 디바이스의 승인을 기다리는 중 입니다…"
+        },
+        "token": {
+            "warning": {
+                "header": "동의합니다:",
+                "text": "{div.line}[I) 본인은 토큰을 부당한 목적으로 사용하지 않을 것입니다;]\n{div.line}[II) 본인은 사용자를 속이려는 의도로 기존 암호화폐 또는 널리 알려진 회사의 이름 전체 또는 일부를 도용하지 않을 것입니다;]\n{div.line}[III) 본인은 사용자를 속이려는 목적으로 주 및 기타 행정 단위 또는 지방 자치 단체의 이름을 토큰의 이름으로 사용하지 않을 것입니다.]\n{div.line}[IV) 자산의 수량으로 Waves DEX에서 거래 트랜잭션을 제한하는 스크립트를 스마트 자산에 설정하지 않습니다;]\n{div.line}[V) 스마트 자산 설명 내 토큰 사용법 관리 규칙에 적용되며 스크립트에 설치된 것과 상응하지 않는 허위 정보를 제공하지 않습니다;]",
+                "textWarning": "본 사항들을 준수하지 않으면 해당 토큰은 의심되는 토큰으로 분류되어 ID로만 검색할 수 있습니다."
+            }
+        }
+    },
+    "password": {
+        "minLength": "{{minLength}}자 이상 입력 필수",
+        "name": "계정 아이디",
+        "repeat": "비밀번호 확인",
+        "secure": "비밀번호 보안",
+        "title": "새로운 비밀번호로 계정 보호",
+        "warn": "너무 쉬운 비밀번호입니다. 숫자 및 특수문자를 추가하세요"
+    },
+    "qrCodeRead": {
+        "closeRead": "취소"
+    },
+    "recipient": "수신자",
+    "transaction": {
+        "actions": {
+            "cancelLeasing": "Leasing 취소",
+            "copyTxData": "모든 TX data 복사",
+            "copyTxId": "TX ID 복사",
+            "showTx": "TX 정보"
+        },
+        "amounts": {
+            "burn": "–{{amount}} {{name}}",
+            "cancel-leasing": "{{amount}} {{name}}",
+            "circular": "{{amount}} {{name}}",
+            "exchange-buy": "{{sign}}{{amount}} {{name}}",
+            "exchange-sell": "{{sign}}{{amount}} {{name}}",
+            "issue": "{{amount}} {{name}}",
+            "lease-in": "{{amount}} {{name}}",
+            "lease-out": "{{amount}} {{name}}",
+            "mass-receive": "+{{amount}} {{name}}",
+            "mass-send": "–{{amount}} {{name}}",
+            "perTransaction": "트랜잭션당 수량",
+            "receive": "+{{amount}} {{name}}",
+            "reissue": "+{{amount}} {{name}}",
+            "script-invocation": "–{{amount}} {{name}}",
+            "send": "–{{amount}} {{name}}",
+            "set-script": "Script 트랜잭션 설정",
+            "set-script-cancel": "Script 트랜잭션 취소",
+            "sponsorship-change": "스폰서십 변경",
+            "sponsorship-fee": "{{sign}}{{amount}} {{name}}",
+            "sponsorship-start": "스폰서십 활성화",
+            "sponsorship-stop": "스폰서십 비활성화"
+        },
+        "confirmed": {
+            "false": "비승인",
+            "true": "완료"
+        },
+        "headers": {
+            "activeLeasing": "활성화된 Leasing",
+            "burn": "{{name}} 토큰 소각",
+            "cancel-leasing": "취소된 Leasing",
+            "canceled": "취소됨",
+            "circular": "{{name}} 자체 전송",
+            "create-alias": "Alias 생성",
+            "data": "데이터 트랜잭션",
+            "data-vote": "{{assetName}}에 투표했습니다",
+            "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
+            "exchange-buy": "매수 거래:",
+            "exchange-sell": "매도 거래:",
+            "issue": "{{name}} 토큰 발행",
+            "lease-in": "Incoming Leasing",
+            "lease-out": "시작된 Leasing",
+            "mass-receive": "받은 {{name}}",
+            "mass-send": "보낸 {{name}}",
+            "receive": "받은 {{name}}",
+            "reissue": "{{name}} 토큰 재발행",
+            "script-invocation": "Script 발동",
+            "send": "보낸 {{name}}",
+            "set-asset-script": "자산 스크립트 트랜잭션 설정",
+            "set-script": "스크립트 트랜잭션 설정",
+            "set-script-cancel": "Script 트랜잭션 취소",
+            "spam": "의심되는 토큰",
+            "sponsorship-fee": "수신한 {{name}}",
+            "sponsorship-start": "{{name}} 스폰서십 활성화",
+            "sponsorship-stop": "{{name}} 스폰서십 비활성화",
+            "suspicious": "의심되는 토큰",
+            "unknown": "알수없는 트랜잭션"
+        },
+        "modals": {
+            "assetId": "자산 ID",
+            "attachment": "Attachment 메세지",
+            "cancelTx": "Leasing TX",
+            "confirmations": "승인",
+            "copyCode": "복사 코드",
+            "data": "데이터",
+            "dataKey": "키",
+            "dataType": "구분",
+            "dataValue": "데이터 값",
+            "description": "설명",
+            "exchange": {
+                "buy": "매수",
+                "buyMatcherFee": "매수 Matcher 수수료",
+                "exchangeType": "주문 유형",
+                "matcherFee": "Matcher 수수료",
+                "pair": "페어",
+                "sell": "매도"
+            },
+            "fee": "수수료",
+            "from": "발신한 주소",
+            "function": "기능",
+            "functionCall": "함수 호출",
+            "height": "블록 넘버",
+            "hide": "숨기기",
+            "hideAll": "모두 숨기기",
+            "leasingStatus": "상태",
+            "massSend": {
+                "showAll": {
+                    "false": "({{count}}) 모두 보기",
+                    "true": "첫 3개 트랜잭션 보기"
+                },
+                "totalAmount": "총수량"
+            },
+            "numberOfRecipients": "수신자 수",
+            "orderType": "주문 유형",
+            "pair": "페어",
+            "payment": "결제",
+            "price": "{{name}} 가격",
+            "script": "스크립트",
+            "scriptAddress": "Script 주소",
+            "seeAll": "모두 보기",
+            "setAssetScript": {
+                "showScript-false": "보기",
+                "showScript-true": "숨기기"
+            },
+            "show": "보기",
+            "showAll": "모두 보기 ({{count}})",
+            "showFirstTree": "처음 3개의 키 표시",
+            "status": "상태",
+            "timestamp": "타임 스탬프",
+            "to": "수신한 주소",
+            "toBeReissued": "재발행 예정",
+            "toRemainOnBalance": "잔고에 남을 예정",
+            "totalAfterBurning": "소각 후 총수량",
+            "totalAfterReissue": "재발행 후 총수량",
+            "txId": "TXID",
+            "type": "구분",
+            "viewTransactionKey": "트랜잭션",
+            "viewTransactionValue": "트랜잭션 세부사항"
+        },
+        "notifications": {
+            "closed": "Leasing이 이미 취소되었습니다",
+            "closedSuccess": "Leasing 취소 완료"
+        },
+        "reissuable": {
+            "false": "재발행 불가",
+            "true": "재발행 가능"
+        },
+        "set-asset-script": "스크립트 업데이트",
+        "subheaders": {
+            "burn": "{{time}}",
+            "cancel-leasing": "{{time}}{span.locale-address}[, 트랜잭션 ID {{transactionId}}]",
+            "circular": "{{time}}{span.locale-address}[, 사용된 주소 {{address}}]",
+            "create-alias": "{{time}}, {{alias}}",
+            "data": "{{time}}",
+            "exchange-buy": "{{time}}",
+            "exchange-sell": "{{time}}",
+            "issue": "{{time}}",
+            "lease-in": "{{time}}{span.locale-address}[, 사용된 주소 {{address}}]",
+            "lease-out": "{{time}}{span.locale-address}[, 사용된 주소 {{address}}]",
+            "mass-receive": "{{time}}{span.locale-address}[, 사용된 주소 {{address}}]",
+            "mass-send": "{{time}}",
+            "receive": "{{time}}{span.locale-address}[, 사용된 주소 {{address}}]",
+            "reissue": "{{time}}",
+            "script-invocation": "{{time}}{span.locale-address}[, 사용된 주소 {{address}}]",
+            "send": "{{time}}{span.locale-address}[, 사용된 주소 {{address}}]",
+            "set-asset-script": "{{time}}, 자산에 {{name}}",
+            "sponsorship-fee": "{{time}} 발신한 주소 {{address}}",
+            "unknown": "{{time}}"
+        }
+    },
+    "transactionList": {
+        "noTransactionsDescription": "트랜잭션이 없습니다",
+        "noTransactionsTitle": "아무것도 없습니다…"
+    },
+    "transactions": {
+        "script": {
+            "txJson": "Base64 script"
+        }
+    },
+    "whitespace": "&nbsp;"
+}

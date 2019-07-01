@@ -1,0 +1,50 @@
+{
+    "password": {
+        "error": "Mot de passe erroné !"
+    },
+    "passwordForm": {
+        "back": "Retour",
+        "description": "Protéger votre compte avec un nouveau mot de passe ou",
+        "importAccounts": "Importer des comptes",
+        "login": "Continuer",
+        "title": "Protéger votre compte"
+    },
+    "restore": {
+        "beta": {
+            "accountTitle": "Adresse / Nom de compte",
+            "buttons": {
+                "cancel": "Retour",
+                "copy": "Copier la phrase secrète",
+                "restore": "Restaurer la phrase secrète"
+            },
+            "noUsers": {
+                "description": "{div}[Aucun compte enregistré n'a été trouvé. Retournez vers le]{div} [[client.wavesplatform.com](https://client.wavesplatform.com]",
+                "title": "Aucun compte enregistré"
+            },
+            "passwordTitle": "Mot de passe",
+            "placeholders": {
+                "password": "Mot de passe"
+            },
+            "step1Description": "Si vous ne disposez que de votre mot de passe, non de votre phrase secrète, vous pouvez utiliser cette page afin de restaurer un compte enregistré.",
+            "step2Description": "Veuillez soigneusement conserver votre phrase secrète. En cas de perte de celle-ci, vous n'aurez aucun moyen d'accéder à votre compte.",
+            "title": "Restaurer la phrase secrète"
+        }
+    },
+    "seedForm": {
+        "address": "Adresse",
+        "back": "Retour",
+        "continue": "Continuer",
+        "create": "Créer un nouveau compte",
+        "description": "Votre SEED est constituée des 15 mots que vous avez sauvegardés à la création de votre compte",
+        "or": "ou",
+        "placeholder": "Votre phrase secrète est constituée des 15 mots que vous avez enregistrés lors de la création de votre compte",
+        "saveUserData": "Conserver le compte sur cet ordinateur",
+        "seedTitle": "La phrase secrète de votre portefeuille",
+        "title": "Importer depuis une phrase secrète (SEED)",
+        "tosaved": "vers un compte enregistré"
+    },
+    "warningSeed": {
+        "message": "Veillez à ne pas confondre la phrase avec une adresse de portefeuille. Utiliser une adresse comme phrase secrète (SEED) peut entraîner une perte de fonds. La phrase secrète (SEED) doit être constituée de 15 mots séparés par des espaces.",
+        "title": "La phrase secrète (SEED) que vous avez entrée est trop courte."
+    }
+}

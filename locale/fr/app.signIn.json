@@ -1,0 +1,20 @@
+{
+    "createAccount": "Créer un compte",
+    "notHaveAccounts": "Vous n'avez pas de comptes enregistrés",
+    "nothingHere": "Il n'y a rien ici...",
+    "password": {
+        "error": "Mot de passe erroné !"
+    },
+    "userList": {
+        "address": "Adresse / Nom du compte",
+        "buttons": {
+            "login": "Connexion"
+        },
+        "notHaveAccount": "Veuillez vous connecter pour continuer",
+        "password": "Mot de passe",
+        "placeholders": {
+            "password": "Mot de passe"
+        },
+        "title": "Bon retour parmi nous"
+    }
+}

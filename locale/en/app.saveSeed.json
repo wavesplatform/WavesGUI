@@ -1,0 +1,27 @@
+{
+    "continue": "Continue",
+    "copy": "Copy",
+    "copySeed": "Copy Seed phrase",
+    "createAccount": "Create account",
+    "goBack": "go back",
+    "notHaveAccounts": "You do not have saved accounts",
+    "nothingHere": "Nothing Here…",
+    "password": {
+        "error": "Wrong Password!"
+    },
+    "userList": {
+        "address": "Address / Account name",
+        "buttons": {
+            "login": "Log in"
+        },
+        "exportUser": "Export your account",
+        "notHaveAccount": "Please sign in to continue",
+        "password": "Password",
+        "placeholders": {
+            "password": "Password"
+        },
+        "title": "Welcome Back"
+    },
+    "warn": "Since only you control your money, you’ll need to save your Seed phrase in case this app is deleted or",
+    "yourSeed": "Your Seed phrase"
+}

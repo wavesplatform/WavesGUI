@@ -1,0 +1,27 @@
+{
+    "continue": "次へ",
+    "copy": "コピー",
+    "copySeed": "シードをコピー",
+    "createAccount": "アカウントを作成",
+    "goBack": "戻る",
+    "notHaveAccounts": "保存したアカウントがありません",
+    "nothingHere": "表示するデータがありません",
+    "password": {
+        "error": "パスワードが間違っています！"
+    },
+    "userList": {
+        "address": "アドレス / アカウント名",
+        "buttons": {
+            "login": "ログイン"
+        },
+        "exportUser": "アカウントをエクスポート",
+        "notHaveAccount": "サインインして続行",
+        "password": "パスワード",
+        "placeholders": {
+            "password": "パスワード"
+        },
+        "title": "おかえりなさい"
+    },
+    "warn": "あなたのお金を管理できるのはあなただけです。このアプリが削除された場合に備え、バックアップフレーズを保存してください。または",
+    "yourSeed": "あなたのシードフレーズ"
+}

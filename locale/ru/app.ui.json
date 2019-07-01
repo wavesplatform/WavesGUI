@@ -1,0 +1,322 @@
+{
+    "all": "Все",
+    "amount": "Количество",
+    "balanceInput": {
+        "max": "Max"
+    },
+    "confirmGatewayTransaction": {
+        "back": "Назад",
+        "confirm": "Подтвердить",
+        "fieldAddress": "Целевой адрес",
+        "fieldAmount": "Количество",
+        "fieldFee": "Комиссия",
+        "fieldGatewayAddress": "Адрес шлюза",
+        "fieldGatewayFee": "Комиссия шлюза",
+        "success": "Ваша транзакция отправлена!",
+        "warningText": "Вы собираетесь отправить деньги в блокчейн сети {{name}}.",
+        "warningTitle": "Транзакция во внешний блокчейн"
+    },
+    "confirmTransaction": {
+        "back": "Назад",
+        "confirm": "Отправить",
+        "description": {
+            "burn": "Вы сожгли {{quantityStr}} {{name}}",
+            "cancel-leasing": "Вы отменили транзакцию лизинга",
+            "circular": "Вы отправили себе {{amount, money-currency}}",
+            "create-alias": "Вы создали алиас",
+            "data": "You have sent data transaction",
+            "data-vote": "{div.line}[Вы проголосовали за {{moneyCurrency}}.]\n{div.line}[Ваша оценка будет учтена через 24 часа. Оценка в обработке.]",
+            "issue": "Токен успешно выпущен",
+            "lease-out": "Вы отправили в лизинг {{amount, money-currency}}",
+            "mass-send": "Вы отправили {{totalAmount, money-currency}}",
+            "reissue": "Вы довыпустили {{quantityStr}} {{name}}",
+            "send": "Вы отправили {{amount, money-currency}}",
+            "set-asset-script": "Вы обновили скрипт",
+            "set-script": "Вы создали script транзакцию",
+            "set-script-cancel": "Вы отменили скрипт",
+            "sponsorship-start": "Спонсорство настроено успешно",
+            "sponsorship-stop": "Спонсорство выключено"
+        },
+        "details": "Подробнее",
+        "export": "Экспорт",
+        "JSON": "JSON",
+        "ledgerUnconfirmed": {
+            "description": "Пожалуйста, попробуйте еще раз. Если ошибка повторится, обратитесь к [этой статье](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)",
+            "header": "Вы не подтвердили запрос на устройстве Ledger"
+        },
+        "notPermited": {
+            "cancel-leasing": "Отправка в лизинг временно недоступна."
+        },
+        "notPermitted": {
+            "burn": "Сжигание токена временно недоступно.",
+            "burn-title": "Сжигание токена",
+            "cancel-leasing": "Отмена лизинга временно недоступна.",
+            "cancel-leasing-title": "Отмена лизинга",
+            "data": "Дата-транзакции временно недоступны.",
+            "data-title": "Дата-транзакция",
+            "reissue-title": "Перевыпуск токена",
+            "set-script": "Установка скрипта временно недоступна.",
+            "sponsorship-start": "Изменение спонсорства временно недоступно",
+            "sponsorship-start-title": "Изменить спонсорство"
+        },
+        "orderSuccess": "Ваш ордер был создан!",
+        "redirect": "Вы будете перенаправлены на {{referrer}}",
+        "send": {
+            "errors": {
+                "balance": {
+                    "invalid": "Недостаточно средств"
+                },
+                "recipient": {
+                    "invalid": "Невалидный адрес получателя"
+                }
+            }
+        },
+        "sign": "Подписать",
+        "success": "Ваша транзакция отправлена!",
+        "wavesKeeperUnconfirmed": {
+            "description": "Пожалуйста, попробуйте еще раз. Если ошибка повторится, обратитесь в  [Поддержку](https://support.wavesplatform.com/)",
+            "header": "Вы не подтвердили запрос Waves Keeper"
+        }
+    },
+    "copyError": "Не получается скопировать! Возможно, ваш браузер устарел",
+    "copySuccess": "Данные скопированы",
+    "directives": {
+        "anyTransaction": {
+            "copy": "Копировать",
+            "textAreaTitle": "TX JSON"
+        },
+        "scriptForm": {
+            "placeholder": {
+                "change": "Введите новый скрипт или оставьте поле пустым чтобы отменить установленный скрипт",
+                "create": "Введите новый скрипт или оставьте поле пустым чтобы отменить установленный скрипт"
+            },
+            "textAreaTitle": "Base64 скрипт"
+        },
+        "setAssetScriptForm": {
+            "ok": "Продолжить"
+        },
+        "sign": {
+            "confirmRequestKeeper": {
+                "cancel": "Отменить",
+                "errorDescription": "Пожалуйста, попробуйте еще раз. Если ошибка повторится, обратитесь в  [Поддержку](https://support.wavesplatform.com/)",
+                "errorHeader": "Вы не подтвердили запрос Waves Keeper",
+                "sign": "Повторить",
+                "waiting": "Ожидаем подтверждения через Waves Keeper..."
+            },
+            "confirmRequestLedger": {
+                "cancel": "Отмена",
+                "errorDescription": "Пожалуйста, попробуйте еще раз. Если ошибка повторится, обратитесь к  [этой статье](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)",
+                "errorHeader": "Вы не подтвердили запрос на устройстве Ledger",
+                "sign": "Повторить",
+                "waiting": "Ожидается подтверждение на устройстве Ledger..."
+            },
+            "txId": "TXID"
+        },
+        "transactionExport": {
+            "linkTitle": "Поделитесь ссылкой для подписи",
+            "or": "ИЛИ",
+            "qrZoomBtn": "Кликните, чтобы увеличить/уменьшить",
+            "scanQrCode": "Просканируйте QR-код"
+        }
+    },
+    "emptyBlocks": {
+        "title": "Пока ничего нет…"
+    },
+    "errorBlocks": {
+        "title": "Что-то пошло не так…"
+    },
+    "modal": {
+        "assetInfo": {
+            "gateway_ui": "gateway"
+        },
+        "sign": {
+            "signByLedger": "Ожидается подтверждение на устройстве Ledger..."
+        },
+        "token": {
+            "warning": {
+                "header": "Создавая токен, Вы подтверждаете, что:",
+                "text": "{div.line}[I) Вы не будете использовать его в целях совершения мошеннических действий;]\n{div.line}[II) Вы не дублируете в названии токена полностью или в части название уже существующих криптовалют или имена известных компаний с целью ввести пользователей в заблуждение.]\n{div.line}[III) Вы не используете в названии токена наименования государств, штатов, иных административных единиц, а также наименования государственных или муниципальных учреждений c целью ввести пользователей в заблуждение.]\n{div.line}[IV) Вы не устанавливаете на смарт-ассет скрипт, который ограничивает совершение транзакции обмена ассета на Waves DEX по количеству.]\n{div.line}[V) Вы не указываете в описании смарт-ассета ложную информации о правилах оборота смарт-ассета, не соответствующую работе установленного на него скрипта.]",
+                "textWarning": "В случае несоответствия данных Вами заверений действительности, Ваш токен попадет в раздел «Подозрительных», а также будет доступен к поиску только по ID."
+            }
+        }
+    },
+    "password": {
+        "minLength": "минимум {{minLength}} символов",
+        "name": "Название аккаунта",
+        "repeat": "Подтвердите пароль",
+        "secure": "надёжный пароль",
+        "title": "Защитите ваш кошелёк паролем",
+        "warn": "очень простой пароль, добавьте цифру или символ"
+    },
+    "qrCodeRead": {
+        "closeRead": "Отмена"
+    },
+    "recipient": "Получатель",
+    "transaction": {
+        "actions": {
+            "cancelLeasing": "Отменить лизинг",
+            "copyTxData": "Скопировать данные транзакции",
+            "copyTxId": "Скопировать ID транзакции",
+            "showTx": "Информация о транзакции"
+        },
+        "amounts": {
+            "burn": "–{{amount}} {{name}}",
+            "cancel-leasing": "{{amount}} {{name}}",
+            "circular": "{{amount}} {{name}}",
+            "exchange-buy": "{{sign}}{{amount}} {{name}}",
+            "exchange-sell": "{{sign}}{{amount}} {{name}}",
+            "issue": "{{amount}} {{name}}",
+            "lease-in": "{{amount}} {{name}}",
+            "lease-out": "{{amount}} {{name}}",
+            "mass-receive": "+{{amount}} {{name}}",
+            "mass-send": "–{{amount}} {{name}}",
+            "perTransaction": "Цена за транзакцию",
+            "receive": "+{{amount}} {{name}}",
+            "reissue": "+{{amount}} {{name}}",
+            "script-invocation": "–{{amount}} {{name}}",
+            "send": "–{{amount}} {{name}}",
+            "set-script": "Set Script транзакция",
+            "set-script-cancel": "Отмена скрипта",
+            "sponsorship-change": "Изменить спонсорство",
+            "sponsorship-fee": "{{sign}}{{amount}} {{name}}",
+            "sponsorship-start": "Изменить спонсорство",
+            "sponsorship-stop": "Отключить спонсорство"
+        },
+        "confirmed": {
+            "false": "НЕ ПОДТВЕРЖДЕНО",
+            "true": "ВЫПОЛНЕНО"
+        },
+        "headers": {
+            "activeLeasing": "активен",
+            "burn": "Сожжение токена {{name}}",
+            "cancel-leasing": "Отмена лизинга",
+            "canceled": "Отменен",
+            "circular": "Отправка себе {{name}}",
+            "create-alias": "Создание алиаса",
+            "data": "Дата транзакция",
+            "data-vote": "Voted for {{assetName}}",
+            "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
+            "exchange-buy": "Покупка:",
+            "exchange-sell": "Продажа:",
+            "issue": "Выпуск токена {{name}}",
+            "lease-in": "Входящий лизинг",
+            "lease-out": "Передача в лизинг",
+            "mass-receive": "Получение {{name}}",
+            "mass-send": "Отправка {{name}}",
+            "receive": "Получение {{name}}",
+            "reissue": "Перевыпуск токена {{name}}",
+            "script-invocation": "Вызов скрипта",
+            "send": "Отправка {{name}}",
+            "set-asset-script": "Транзакция установки скрипта на ассет",
+            "set-script": "Транзакция установки скрипта",
+            "set-script-cancel": "Отмена скрипта",
+            "spam": "подозрительные",
+            "sponsorship-fee": "Получение {{name}}",
+            "sponsorship-start": "Настройка спонсорства {{name}}",
+            "sponsorship-stop": "Отмена спонсорства {{name}}",
+            "suspicious": "подозрительный",
+            "unknown": "Неизвестная транзакция"
+        },
+        "modals": {
+            "assetId": "ID токена",
+            "attachment": "Прикреплённое сообщение",
+            "cancelTx": "Лизинг TX",
+            "confirmations": "Подтверждений",
+            "copyCode": "Копировать",
+            "data": "Данные",
+            "dataKey": "Ключ",
+            "dataType": "Тип",
+            "dataValue": "Value",
+            "description": "Описание",
+            "exchange": {
+                "buy": "Покупка",
+                "buyMatcherFee": "Комиссия Матчера на покупку",
+                "exchangeType": "Тип сделки",
+                "matcherFee": "Комиссия Матчера",
+                "pair": "Пара",
+                "sell": "Продажа"
+            },
+            "fee": "Комиссия",
+            "from": "Откуда",
+            "function": "Функция",
+            "functionCall": "Вызов функции",
+            "height": "Высота блока",
+            "hide": "Скрыть",
+            "hideAll": "Скрыть",
+            "leasingStatus": "Статус",
+            "massSend": {
+                "showAll": {
+                    "false": "Показать все ({{count}})",
+                    "true": "Показать первые 3 транзакции"
+                },
+                "totalAmount": "Общая сумма"
+            },
+            "numberOfRecipients": "Количество получателей",
+            "orderType": "Тип ордера",
+            "pair": "Пара",
+            "payment": "Payment",
+            "price": "Цена {{name}}",
+            "script": "Скрипт",
+            "scriptAddress": "Адрес скрипта",
+            "seeAll": "Показать все",
+            "setAssetScript": {
+                "showScript-false": "Показать",
+                "showScript-true": "Скрыть"
+            },
+            "show": "Показать",
+            "showAll": "Показать все ({{count}})",
+            "showFirstTree": "Показать первые 3 ключа",
+            "status": "Статус",
+            "timestamp": "Дата",
+            "to": "Куда",
+            "toBeReissued": "Будет перевыпущено",
+            "toRemainOnBalance": "Останется на балансе",
+            "totalAfterBurning": "Итого после сжигания",
+            "totalAfterReissue": "Итого после перевыпуска",
+            "txId": "TXID",
+            "type": "Тип",
+            "viewTransactionKey": "Детали",
+            "viewTransactionValue": "Посмотреть транзакцию"
+        },
+        "notifications": {
+            "closed": "Лизинг уже был отменён ранее",
+            "closedSuccess": "Лизинг отменён"
+        },
+        "reissuable": {
+            "false": "Не перевыпускаемый",
+            "true": "Перевыпускаемый"
+        },
+        "set-asset-script": "Обновить скрипт",
+        "subheaders": {
+            "burn": "{{time}}",
+            "cancel-leasing": "{{time}}{span.locale-address}[, транзакция {{transactionId}}]",
+            "circular": "{{time}}{span.locale-address}[, на адрес {{address}}]",
+            "create-alias": "{{time}}, {{alias}}",
+            "data": "{{time}}",
+            "exchange-buy": "{{time}}",
+            "exchange-sell": "{{time}}",
+            "issue": "{{time}}",
+            "lease-in": "{{time}}{span.locale-address}[, с адреса {{address}}]",
+            "lease-out": "{{time}}{span.locale-address}[, на адрес {{address}}]",
+            "mass-receive": "{{time}}{span.locale-address}[, from address {{address}}]",
+            "mass-send": "{{time}}",
+            "receive": "{{time}}{span.locale-address}[, с адреса {{address}}]",
+            "reissue": "{{time}}",
+            "script-invocation": "{{time}}{span.locale-address}[, на адрес {{address}}]",
+            "send": "{{time}}{span.locale-address}[, на адрес {{address}}]",
+            "set-asset-script": "{{time}}, на ассет {{name}}",
+            "sponsorship-fee": "{{time}} c адреса {{address}}",
+            "unknown": "{{time}}"
+        }
+    },
+    "transactionList": {
+        "noTransactionsDescription": "У вас пока что нет транзакций",
+        "noTransactionsTitle": "Пока ничего нет…"
+    },
+    "transactions": {
+        "script": {
+            "txJson": "Base64 скрипт"
+        }
+    },
+    "whitespace": "&nbsp;"
+}

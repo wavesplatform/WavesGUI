@@ -1,0 +1,79 @@
+{
+    "count": "Totaal aantal tokens",
+    "create": "Genereren",
+    "description": "Beschrijving",
+    "directives": {
+        "sign": {
+            "confirmRequestLedger": {
+                "waiting": "Wachten op bevestiging van Ledger…"
+            }
+        }
+    },
+    "fee": "Fee {{fee, money-currency}}",
+    "help": {
+        "name": "Gelieve enkel Latijnse letters gebruiken"
+    },
+    "helpIcon": {
+        "demicals": "Dit veld definieert het aantal decimalen waar uw token in opgesplitst zal worden.",
+        "scriptDescription": "Elke bevestiging van een transactie met een Smart Asset script verhoogt de transactiekosten met 0.004 WAVES. Bijvoorbeeld: als een normale transactie wordt gedaan van een Smart Asset kost dit 0.001 + 0.004 = 0.005 WAVES. Als een exchange transactie wordt gedaan kost dit 0.003 + 0.004 = 0.007 WAVES.",
+        "scriptHeader": "Een Smart Asset is een asset met een bijgevoegd script dat voorwaarden op elke transactie plaatst die voor de token in kwestie is gemaakt.",
+        "scriptLearnMore": "Lees verder",
+        "totalTokens": {
+            "headline": "Dit veld beschrijft het totaal aantal tokens dat deze asset zal bevatten.",
+            "notReissuable": "Een niet heruitgeefbare asset is permanent gelimiteerd aan de totale hoeveelheid tokens die tijdens dit proces gedefinieerd worden.",
+            "reissuable": "Heruitgeefbaar betekent dat er later nog tokens aan de totale hoeveelheid tokens toegevoegd kunnen worden."
+        }
+    },
+    "modal": {
+        "title": "{{name}} Genereren",
+        "titleSuccess": "{{name}} Genereren Gelukt"
+    },
+    "name": "Naam van uw asset",
+    "notifications": {
+        "isNotCreated": "Token is niet gegenereerd"
+    },
+    "pageTitle": "Token genereren",
+    "placeholders": {
+        "description": "De beschrijving kan later niet aangepast worden.",
+        "precision": "Van 0 to 8"
+    },
+    "precision": "Decimalen",
+    "preview": "Voorvertoning",
+    "reissuable": {
+        "false": "Niet Heruitgeefbaar",
+        "true": "Heruitgeefbaar"
+    },
+    "script": "Smart asset",
+    "success": {
+        "description": "U heeft {{amount}} {{name}} gegenereerd",
+        "done": "Open Portfolio",
+        "title": "Uw transactie is verzonden!"
+    },
+    "switchScriptOff": "Schakel script uit",
+    "switchScriptOn": "Schrakel script in",
+    "tokens": {
+        "changeColorTooltip": "Change color",
+        "inputHelper": {
+            "description": "If you use this name, your token will be categorised as 'Suspicious' and will be searchable only by ID.",
+            "header": "This asset name has been taken"
+        },
+        "termsOfUse": {
+            "checkbox": "I understand that in the case of non-compliance with the rules, my token will be categorised as 'Suspicious', and will be available for search only by ID."
+        }
+    },
+    "validators": {
+        "byte": {
+            "gte": "Naam van een asset moet tussen 4 en 16 bytes lang zijn",
+            "lte": "Naam van een asset moet tussen 4 en 16 bytes lang zijn"
+        },
+        "descriptionLen": "De beschrijving is te lang. Deze mag niet langer dan 1,000 bytes zijn.",
+        "invalidScript": "Syntax error",
+        "maxValueCount": "Het getal is te groot",
+        "maxValuePrecision": "Ongeldig getal. Typ een getal van 0 tot 8",
+        "minValueCount": "Het getal moet groter zijn dan nul",
+        "minValuePrecision": "Ongeldig getal. Typ een getal van 0 tot 8",
+        "noMoney": "Uw saldo is niet genoeg om transactiekosten te betalen",
+        "precisionCount": "Het totale aantal items mag niet meer dan één decimaal bevatten in het veld Decimalen",
+        "required": "Verplicht veld"
+    }
+}

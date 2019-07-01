@@ -1,0 +1,232 @@
+{
+    "create": {
+        "order": {
+            "failed": "कुछ गलत हुआ",
+            "success": "यह ऑर्डर बन गया"
+        }
+    },
+    "dex": {
+        "contest": "Contest"
+    },
+    "directives": {
+        "balance": {
+            "assetId": "एसेट Id",
+            "available": "उपलब्ध",
+            "inOrders": "ऑर्डरों में",
+            "inOrdersFull": "ऑर्डरों में सुरक्षित",
+            "total": "कुल योग"
+        },
+        "candleChart": {
+            "error": "{div}[यह चार्ट डाउनलोड नहीं किया जा सका।]{div}[यदि आप इस चार्ट को अपेन ऐप्लिकेशन में उपयोग करना चाहतें हैं तो कृपया [tradingview.com](https://tradingview.com) को अनुरोध भेजें]"
+        },
+        "createOrder": {
+            "1day": "1 दिन",
+            "1hour": "1 घंटे",
+            "1week": "1 सप्ताह",
+            "30day": "30 दिन",
+            "30min": "30 मिनट",
+            "5min": "5 मिनट",
+            "amountField": "राशि",
+            "ask": "पूछें",
+            "bid": "बोली",
+            "buy": "खरीदें",
+            "createOrderNotPermitted": "ओर्डर अस्थायी रूप से अनुपलब्ध हैं",
+            "errors": {
+                "balance": "पर्याप्त {{name}} नहीं",
+                "precision": "अधिकतम {{precision}} दशमलव स्थानों से अधिक है",
+                "required": "यह क्षेत्र जरूरी है"
+            },
+            "expiration": "अवसान",
+            "fee": "फीस {{fee}} WAVES",
+            "hasScript": "रद्द करें [स्क्रिप्ट](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) व्यापार करने के लिए",
+            "last": "अंतिम",
+            "matcherFee": "Fee",
+            "notifications": {
+                "error": {
+                    "30702": "The account's script of {{address}} rejected the order",
+                    "title": "एरर संदेश"
+                },
+                "isCreated": "यह ऑर्डर बन गया",
+                "notEnoughBalance": "रेड करने योग्य बैलेंस नहीं",
+                "somethingWentWrong": "कुछ गलत हुआ"
+            },
+            "notPermitted": "ओर्डर निर्माण अस्थायी रूप से अनुपलब्ध है",
+            "placeBuyOrder": "खरीदें {{name}}",
+            "placeSellOrder": "बिक्री {{name}}",
+            "priceField": "मूल्य सीमित करें",
+            "sell": "बेचना",
+            "spread": "स्प्रेड",
+            "total": "कुल योग"
+        },
+        "demo": {
+            "createAccount": "एक नया खाता बनाएं",
+            "or": "या",
+            "signIn": "साइन इन करें",
+            "to": {
+                "mybalance": "अपना बैलेंस देखने के लिए",
+                "openorders": "अपने खुले ऑर्डर को देखने के लिए",
+                "tradehistory": "अपने ट्रेड इतिहास को देखने के लिए"
+            }
+        },
+        "filter": "खोजें",
+        "marketDepth": "मार्केट डेप्थ",
+        "markets": {
+            "table": {
+                "price": "मूल्य",
+                "rate": "परिवर्तन",
+                "unit": "वाइन",
+                "volume": "वॉल्यूम"
+            },
+            "title": "मार्केट"
+        },
+        "myOrders": {
+            "amount": "राशि",
+            "average": "Average",
+            "back": "नहीं",
+            "cancel": "रद्द करें",
+            "cancelAll": "सभी रद्द करें",
+            "cancelAllConfirm": "हाँ",
+            "canceled": "रद्द",
+            "cancelled": "CANCELED",
+            "confirm": {
+                "header": "क्या आपको विश्वास है?",
+                "literalDescription": "यह ऐक्शन वापस पलटा नहीं जा सकता"
+            },
+            "delete": "हटाएं",
+            "detail": "विवरण",
+            "fee": "फीस",
+            "filled": "Filled",
+            "filter": "फिल्टर",
+            "noPermissionCancelOrder": "ओर्डर रद्द करना अस्थायी रूप से अनुपलब्ध है",
+            "notifications": {
+                "isCanceled": "ये ऑर्डर निरस्त हो गया है",
+                "somethingWentWrong": "कुछ गलत हुआ"
+            },
+            "opened": "खोला गया",
+            "orderType": {
+                "buy": "खरीदें",
+                "sell": "बिक्री"
+            },
+            "pair": "जोड़ा",
+            "placeholders": {
+                "lockedPair": "Trading in {{amountAssetTicker}} / {{priceAssetTicker}} is currently unavailable. You can cancel the order"
+            },
+            "price": "मूल्य",
+            "status": "स्थिति",
+            "tableTitle": {
+                "fee": "फीस"
+            },
+            "time": "समय",
+            "total": "कुल योग",
+            "type": "टाइप करें",
+            "withScript": "[स्क्रिप्ट](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) आपके खाते में स्थापित होने पर आप एक्सचेंज का उपयोग नहीं कर सकते"
+        },
+        "noChartDataMessage": "{div}[Not enough bids and asks]{div}[to create market depth chart]",
+        "noChartDataTitle": "यहां कुछ नहीं...",
+        "orderBook": {
+            "amount": "राशि {{assetName}}",
+            "lastprice": "अंतिम दाम",
+            "price": "मूल्य {{assetName}}",
+            "spread": "फैलाएं",
+            "sum": "धनराशि {{assetName}}",
+            "title": "ऑर्डर बुक"
+        },
+        "orderbook": {
+            "errorBlock": {
+                "header": "कुछ गलत हुआ"
+            }
+        },
+        "portfolio": {
+            "title": "पोर्टफोलियो"
+        },
+        "tradeHistory": {
+            "orderType": {
+                "buy": "खरीदें",
+                "sell": "बिक्री"
+            },
+            "search": "खोजें",
+            "tableTitle": {
+                "date": "समय",
+                "exchangeType": "प्रकार",
+                "fee": "फीस",
+                "price": "मूल्य {{assetName}}",
+                "size": "राशि {{assetName}}",
+                "total": "कुल योग",
+                "type": "प्रकार"
+            },
+            "title": "ट्रेड इतिहास"
+        },
+        "watchlist": {
+            "all": "सभी",
+            "change": "परिवर्तन",
+            "chg": "बदलें",
+            "coin": "वाइन",
+            "helpIcon": {
+                "assetId": "एसेट आईडी",
+                "AssetId1AssetId2": "एसेट1 आईडी / एसेट2 आईडी",
+                "description": "आप [यहाँ] संपत्ति (https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html) खोज के बारे में अधिक जानकारी प्राप्त कर सकते हैं",
+                "header": "आप द्वारा खोज सकते हैं:",
+                "name": "नाम",
+                "name1Name2": "नाम1 / नाम2"
+            },
+            "pair": "जोड़ा",
+            "placeholders": {
+                "base": "आधार क्वाइन",
+                "coin": "क्वाइन",
+                "filter": "फिल्टर",
+                "lockedPair": "Trading in {{amountAssetTicker}} / {{priceAssetTicker}} is currently unavailable",
+                "noMarkets": "आपके फिल्टर से मैच करता कोई मार्केट नहीं"
+            },
+            "price": "मूल्य",
+            "volume": "वॉल्यूम"
+        }
+    },
+    "emptyBlocks": {
+        "myOrders": {
+            "description": "आपके पास कोई ऑर्डर नहीं हैं।",
+            "title": "यहां कुछ नहीं..."
+        },
+        "orderBook": {
+            "description": "ये ऑर्डर बुक खाली है।",
+            "error": {
+                "text": "कृपया पेज रीफ्रेश करें या बाद में पुनः प्रयास करें",
+                "title": "कुछ गलत हुआ"
+            },
+            "title": "यहां कुछ नहीं…"
+        },
+        "tradeHistory": {
+            "description": "ट्रेडिंग इतिहास खाली है।",
+            "title": "यहां कुछ नहीं…"
+        }
+    },
+    "layout": {
+        "center": {
+            "bottom": "मेरे ऑर्डर"
+        },
+        "right": {
+            "bottom": "ट्रेड इतिहास",
+            "top": "ऑर्डर बुक"
+        }
+    },
+    "orderbook": {
+        "ask": {
+            "tooltipText": "{{price}} {{priceAsset}} के लिए {{amountAsset}} खरीदें"
+        },
+        "bid": {
+            "tooltipText": "{{amountAsset}} के लिए {{price}}{{priceAsset}} बेचें"
+        }
+    },
+    "tabs": {
+        "title": {
+            "all": "सभी",
+            "btc": "Btc",
+            "eth": "ETH",
+            "myBalance": "मेरा बैलेंस",
+            "myTradeHistory": "मेरा ट्रेड इतिहास",
+            "openOrders": "मेरे खुले ऑर्डर",
+            "OrderHistory": "My Order History",
+            "tradeHistory": "ट्रेड इतिहास",
+            "waves": "Waves"
+        }
+    }
+}

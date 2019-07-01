@@ -1,0 +1,232 @@
+{
+    "create": {
+        "order": {
+            "failed": "出了些问题",
+            "success": "订单已被创建"
+        }
+    },
+    "dex": {
+        "contest": "比赛"
+    },
+    "directives": {
+        "balance": {
+            "assetId": "资产号",
+            "available": "可得到",
+            "inOrders": "在订单",
+            "inOrdersFull": "保留在订单",
+            "total": "总"
+        },
+        "candleChart": {
+            "error": "{div}[无法下载该图表。]{div}[如果您要在您的应用程序中使用此图表，请向[tradingview.com](https://tradingview.com)]发送请求"
+        },
+        "createOrder": {
+            "1day": "1天",
+            "1hour": "1小时",
+            "1week": "1周",
+            "30day": "30天",
+            "30min": "30分钟",
+            "5min": "5分钟",
+            "amountField": "量",
+            "ask": "卖价",
+            "bid": "买价",
+            "buy": "买",
+            "createOrderNotPermitted": "订单暂时无法使用",
+            "errors": {
+                "balance": "您的{{name}}余额不足以",
+                "precision": "超过最大的{{precision}}位小数",
+                "required": "这是必填栏"
+            },
+            "expiration": "满期",
+            "fee": "费用 {{fee}} WAVES",
+            "hasScript": "取消[脚本]（https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html）进行交易",
+            "last": "最新交易价",
+            "matcherFee": "费用",
+            "notifications": {
+                "error": {
+                    "30702": "该帐户的{{address}}脚本拒绝了该订单",
+                    "title": "错误信息"
+                },
+                "isCreated": "订单已被创建",
+                "notEnoughBalance": "您的余额不足以",
+                "somethingWentWrong": "出了些问题"
+            },
+            "notPermitted": "订单创建暂时不可用",
+            "placeBuyOrder": "买入 {{name}}",
+            "placeSellOrder": "卖出 {{name}}",
+            "priceField": "限价",
+            "sell": "卖",
+            "spread": "买卖差价",
+            "total": "总额"
+        },
+        "demo": {
+            "createAccount": "创建新账户",
+            "or": "或",
+            "signIn": "登录",
+            "to": {
+                "mybalance": "查看您的金额",
+                "openorders": "查看您的未完成订单",
+                "tradehistory": "查看您的交易历史记录"
+            }
+        },
+        "filter": "搜索",
+        "marketDepth": "市场深度",
+        "markets": {
+            "table": {
+                "price": "价格",
+                "rate": "变化",
+                "unit": "币",
+                "volume": "数量"
+            },
+            "title": "市场"
+        },
+        "myOrders": {
+            "amount": "数量",
+            "average": "平均",
+            "back": "不",
+            "cancel": "取消",
+            "cancelAll": "全部取消",
+            "cancelAllConfirm": "是",
+            "canceled": "已取消",
+            "cancelled": "已取消",
+            "confirm": {
+                "header": "您确定吗？",
+                "literalDescription": "此操作不能撤销"
+            },
+            "delete": "删除",
+            "detail": "详情",
+            "fee": "费用",
+            "filled": "已填",
+            "filter": "筛选",
+            "noPermissionCancelOrder": "订单取消暂时无法使用",
+            "notifications": {
+                "isCanceled": "订单已被取消",
+                "somethingWentWrong": "出了问题"
+            },
+            "opened": "开",
+            "orderType": {
+                "buy": "买入",
+                "sell": "卖出"
+            },
+            "pair": "币对",
+            "placeholders": {
+                "lockedPair": "{{amountAssetTicker}} / {{priceAssetTicker}}的交易目前无法使用。您可以取消订单"
+            },
+            "price": "价格",
+            "status": "状态",
+            "tableTitle": {
+                "fee": "费用"
+            },
+            "time": "时间",
+            "total": "总",
+            "type": "类型",
+            "withScript": "在您的帐户中安装[脚本]（https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html）时，您无法使用该交换"
+        },
+        "noChartDataMessage": "{div}[没有足够的出价和需求]{div}[来创建市场深度图表]",
+        "noChartDataTitle": "记录不存在",
+        "orderBook": {
+            "amount": "金额{{assetName}}",
+            "lastprice": "最后的价格",
+            "price": "价格{{assetName}}",
+            "spread": "买卖差价",
+            "sum": "总和{{assetName}}",
+            "title": "交易委托账本"
+        },
+        "orderbook": {
+            "errorBlock": {
+                "header": "出了些问题"
+            }
+        },
+        "portfolio": {
+            "title": "投资组合"
+        },
+        "tradeHistory": {
+            "orderType": {
+                "buy": "买入",
+                "sell": "卖出"
+            },
+            "search": "搜索",
+            "tableTitle": {
+                "date": "时间",
+                "exchangeType": "类型",
+                "fee": "费用",
+                "price": "价格{{assetName}}",
+                "size": "金额{{assetName}}",
+                "total": "总",
+                "type": "类型"
+            },
+            "title": "成交记录"
+        },
+        "watchlist": {
+            "all": "所有",
+            "change": "变化",
+            "chg": "变化",
+            "coin": "代币",
+            "helpIcon": {
+                "assetId": "资产ID",
+                "AssetId1AssetId2": "资产 1 ID/资产 2 ID",
+                "description": "您可以找到有关搜索资产的更多信息[这里]（https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html）",
+                "header": "你可以搜索：",
+                "name": "名称",
+                "name1Name2": "名称1/名称2"
+            },
+            "pair": "交易对",
+            "placeholders": {
+                "base": "基础代币",
+                "coin": "搜索",
+                "filter": "筛选",
+                "lockedPair": "{{amountAssetTicker}} / {{priceAssetTicker}}的交易目前无法使用",
+                "noMarkets": "没有符合您的筛选的市场"
+            },
+            "price": "价格",
+            "volume": "量"
+        }
+    },
+    "emptyBlocks": {
+        "myOrders": {
+            "description": "您没有任何交易委托",
+            "title": "记录不存在"
+        },
+        "orderBook": {
+            "description": "您的交易委托账本没有交易委托。",
+            "error": {
+                "text": "请刷新页面或稍后再试",
+                "title": "出了些问题"
+            },
+            "title": "记录不存在…"
+        },
+        "tradeHistory": {
+            "description": "交易历史没有任何交易",
+            "title": "记录不存在…"
+        }
+    },
+    "layout": {
+        "center": {
+            "bottom": "我的交易委托"
+        },
+        "right": {
+            "bottom": "成交记录",
+            "top": "交易委托账本"
+        }
+    },
+    "orderbook": {
+        "ask": {
+            "tooltipText": "购买{{amountAsset}}为{{price}} {{priceAsset}}"
+        },
+        "bid": {
+            "tooltipText": "卖{{amountAsset}}为{{price}} {{priceAsset}}"
+        }
+    },
+    "tabs": {
+        "title": {
+            "all": "所有",
+            "btc": "Btc",
+            "eth": "ETH",
+            "myBalance": "我的金额",
+            "myTradeHistory": "我的贸易历史",
+            "openOrders": "我的开放订单",
+            "OrderHistory": "我的订单历史",
+            "tradeHistory": "交易历史记录",
+            "waves": "Waves"
+        }
+    }
+}

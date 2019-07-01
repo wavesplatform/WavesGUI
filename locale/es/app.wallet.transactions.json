@@ -1,0 +1,73 @@
+{
+    "all": "Todos",
+    "confirmTransaction": {
+        "retrySign": "Reintentar firma"
+    },
+    "csv": {
+        "alias": "Nombre del Alias",
+        "amount": {
+            "id": "Cantidad Asset ID",
+            "name": "Amount asset name",
+            "ticker": "Amount asset ticker",
+            "value": "Valor del activo"
+        },
+        "attachment": "Adjunto de la transacción",
+        "date": "Fecha",
+        "description": "Descripción del Token",
+        "fee": {
+            "id": "Fee ID",
+            "name": "Nombre de la Comisión (fee)",
+            "ticker": "Etiqueta de la comisión (fee)",
+            "value": "Valor de la comisión"
+        },
+        "height": "Altura de la transacción",
+        "id": "ID de transacción",
+        "name": "Nombre del Token",
+        "precision": "Precisión",
+        "price": {
+            "id": "Precio activo ID",
+            "name": "Nombre activo precio",
+            "ticker": "Ticker activo precio",
+            "value": "Valor activo precio"
+        },
+        "recipient": "Destinatario de la transacción",
+        "reissuable": {
+            "false": "No re-emitible",
+            "name": "Token re-emitible",
+            "true": "Re-emitible"
+        },
+        "sender": "Remitente de la transacción",
+        "transactionType": "Tipo de transacción Blockchain",
+        "type": "Tipo de transacción"
+    },
+    "errors": {
+        "complete": {
+            "body": "The list of transactions is not completely downloaded. Please retry later.",
+            "title": "Download is not complete."
+        },
+        "download": {
+            "body": "The list of transactions is not downloaded. Please retry later.",
+            "title": "Download error."
+        },
+        "empty": {
+            "body": "There are no transactions in your history",
+            "title": "Export error"
+        }
+    },
+    "exchanged": "Intercambiado",
+    "export": "Exportar",
+    "filter": {
+        "value1": "Recientes",
+        "value2": "500 txs",
+        "value3": "1000 txs"
+    },
+    "issued": "Emitido",
+    "leased": "Arrendado",
+    "received": "Recibido",
+    "sent": "Enviado",
+    "transactions": {
+        "script": {
+            "txJson_wallet": "Actualizar script"
+        }
+    }
+}

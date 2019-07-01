@@ -1,0 +1,31 @@
+{
+    "ledger": {
+        "article": "Cet article",
+        "connectionError": "Impossible de connecter l'appareil Ledger",
+        "connectionText": "La connexion a expiré. Veuillez réessayer.",
+        "referTo": "Si l'erreur persiste, veuillez vous référez à"
+    },
+    "ledgerForm": {
+        "address": "Adresse du compte :",
+        "avatarUnique": "Cet avatar est unique, vous ne pourrez pas le modifier plus tard.",
+        "back": "Retour",
+        "choose": "Choisissez votre compte",
+        "importAccount": "Importer un compte Ledger",
+        "ImportOrSignIn": "Importer un compte ou",
+        "login": "Continuer",
+        "name": "Nom du compte",
+        "or": "Ou",
+        "retry": "Réessayer",
+        "savedOne": "Vers un compte enregistré",
+        "saveUserData": "Conserver le compte sur cet ordinateur",
+        "selectDefault": "Utiliser le compte par défaut",
+        "signIn": "S'identifier"
+    },
+    "modal": {
+        "sign": {
+            "confirmRequest": "Confirmer la requête",
+            "confirmRequestMatcher": "Signez une requête au coupleur. Si vous ne la signez pas, vous ne pourrez pas négocier sur la plateforme d'échange décentralisée (DEX) à partir d'un compte Ledger."
+        }
+    },
+    "or": "OU"
+}

@@ -1,0 +1,40 @@
+{
+    "allactive": "Alle actief ({span}[{{count}}])",
+    "burn": "Tokens Burnen",
+    "deposit": "Storten",
+    "dex": "Open in DEX",
+    "info": "Asset Info",
+    "list": {
+        "actions": "Acties",
+        "ask": "Vraag",
+        "balance": "Balans",
+        "bid": "Bied",
+        "change": "24h Verandering",
+        "inOrders": "Gereserveerd",
+        "mirror": "Waarde, {span.currency}[{{currency}}]",
+        "name": "Asset Naam",
+        "rate": "Prijs, {span.currency}[{{currency}}]"
+    },
+    "myassets": "Mijn assets ({span}[{{count}}])",
+    "pin": "Pin",
+    "portfolio": {
+        "filter": "Zoeken"
+    },
+    "qr": "Uw Adres",
+    "qualified": "gekwalificeerd",
+    "qualifieds": "Gekwalificeerd ({span}[{{count}}])",
+    "receive": "Ontvangen",
+    "reissue": "Token heruitgave",
+    "send": "Verstuur",
+    "setAssetScript": "Update Asset Script",
+    "spam": "Verborgen",
+    "spamAsset": "SPAM",
+    "spamselect": "Verdacht ({span}[{{count}}])",
+    "sponsorship": "Schakel gesponsorde transactie in",
+    "sponsorshipChange": "Verander gesponsorde transactie",
+    "sponsorshipStop": "Schakel gesponsorde transactie uit",
+    "tokenomica": "tokenomica",
+    "tospam": "Verbergen",
+    "unpin": "Unpin",
+    "unspam": "Bekijken"
+}

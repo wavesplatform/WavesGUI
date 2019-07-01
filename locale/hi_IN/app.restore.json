@@ -1,0 +1,50 @@
+{
+    "password": {
+        "error": "गलत पासवर्ड!"
+    },
+    "passwordForm": {
+        "back": "वापस जाएं",
+        "description": "अपने खाते को नए पासवर्ड से सुरक्षित करें या",
+        "importAccounts": "खाता आयात करें",
+        "login": "साइन इन करें",
+        "title": "अपना खाता सुरक्षित करें"
+    },
+    "restore": {
+        "beta": {
+            "accountTitle": "एड्रेस/खाता नाम",
+            "buttons": {
+                "cancel": "वापस जाएं",
+                "copy": "सीड कॉपी करें",
+                "restore": "सीड रीस्टोर करें"
+            },
+            "noUsers": {
+                "description": "{div}[हमें सहेजा हुआ कोई भी खाता नहीं मिला। वापस जाएं]{div}[[client.wavesplatform.com](https://client.wavesplatform.com)]",
+                "title": "कोई खाता नहीं सहेजा"
+            },
+            "passwordTitle": "पासवर्ड",
+            "placeholders": {
+                "password": "पासवर्ड"
+            },
+            "step1Description": "यदि आपके पास केवल आपका पासवर्ड है और सीड नहीं हैं तो आप किसी सहेजे खाते को रीस्टोर करने के लिए इस पेज का उपयोग कर सकते हैं।",
+            "step2Description": "कृपया सीड को सावधानी से सहेजें। यदि आप इसे खो देते हैं तो आपके पास अपने खाते तक जाने का कोई भी तरीका नहीं होगा।",
+            "title": "सीड रीस्टोर करें"
+        }
+    },
+    "seedForm": {
+        "address": "पता",
+        "back": "वापस जाओ",
+        "continue": "जारी रखें",
+        "create": "एक नया खाता बनाएं",
+        "description": "नीचे अपने खाते में साइन इन हों या",
+        "or": "या",
+        "placeholder": "आपका सीड वे 15 शब्द हैं जिनको आपने अपना खाता बनाते समय सहेजा था",
+        "saveUserData": "मुझे इस कम्प्यूटर पर साइन इन रखें",
+        "seedTitle": "आपके वॉलेट की सीड",
+        "title": "पहले से सहेजे खाते में",
+        "tosaved": "वापसी पर स्वागत\""
+    },
+    "warningSeed": {
+        "message": "Make sure you do not confuse the phrase with a wallet address. Using an address as a SEED phrase can result in loss of funds. The SEED phrase must consist of 15 words with spaces between each word.",
+        "title": "The SEED phrase you entered is too short."
+    }
+}

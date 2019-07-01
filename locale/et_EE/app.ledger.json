@@ -1,0 +1,31 @@
+{
+    "ledger": {
+        "article": "see artikkel",
+        "connectionError": "Ledger Nano S'ga ei saa ühendust",
+        "connectionText": "Ühendus võib olla aegunud. Palun proovi uuesti.",
+        "referTo": "Kui viga püsib, vaadake palun"
+    },
+    "ledgerForm": {
+        "address": "Konto aadress:",
+        "avatarUnique": "See turvapilt on ainulaadne, te ei saa seda hiljem muuta.",
+        "back": "Mine tagasi",
+        "choose": "Valige oma konto",
+        "importAccount": "Importige Leder'i konto",
+        "ImportOrSignIn": "Importige konto või",
+        "login": "Jätka",
+        "name": "Kontonimi",
+        "or": "Või",
+        "retry": "Proovi uuesti",
+        "savedOne": "salvestatud kontole",
+        "saveUserData": "Hoia konto selles arvutis",
+        "selectDefault": "Kasutage vaikekontot",
+        "signIn": "logi sisse"
+    },
+    "modal": {
+        "sign": {
+            "confirmRequest": "Confirm request",
+            "confirmRequestMatcher": "Kinnitage päring Matcher'ile. Kui te seda ei kinnita, ei saa Te DEX-il kaubelda  Ledger-konto kaudu."
+        }
+    },
+    "or": "OR"
+}

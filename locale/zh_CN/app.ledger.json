@@ -1,0 +1,31 @@
+{
+    "ledger": {
+        "article": "本文",
+        "connectionError": "无法连接分类帐设备",
+        "connectionText": "连接可能已超时。请再试一次。",
+        "referTo": "如果错误仍然存​​在，请参阅"
+    },
+    "ledgerForm": {
+        "address": "帐户地址：",
+        "avatarUnique": "这个头像是独一无二的，您以后不能改变头像。",
+        "back": "返回",
+        "choose": "选择您的帐户",
+        "importAccount": "导入 Ledger 帐户",
+        "ImportOrSignIn": "导入帐户或",
+        "login": "继续",
+        "name": "帐户名",
+        "or": "或",
+        "retry": "重试",
+        "savedOne": "保存的帐户",
+        "saveUserData": "将帐户保留在此设备上",
+        "selectDefault": "使用默认帐户",
+        "signIn": "登录"
+    },
+    "modal": {
+        "sign": {
+            "confirmRequest": "确认请求",
+            "confirmRequestMatcher": "向匹配器签署请求。如果您不签署，则无法从Ledger帐户在去中心化交易所上进行交易。"
+        }
+    },
+    "or": "或"
+}

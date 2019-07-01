@@ -1,0 +1,65 @@
+{
+    "backupSeed": {
+        "back": "Zurück",
+        "copySeed": "kopieren",
+        "needConfirm": "Sie müssen die Phrase auf dem nächsten Bildschirm bestätigen.",
+        "ok": "Ich habe es aufgeschrieben.",
+        "or": "oder",
+        "saveSecret": "Backup Phrase sichern",
+        "warn": "Da nur Sie Ihr Geld kontrollieren, müssen Sie Ihre Backup-Phrase speichern, falls diese App gelöscht wird",
+        "writeSeed": "Bitte diese 15 Worte sorgfältig aufschreiben."
+    },
+    "confirmBackup": {
+        "again": "und wieder drücken",
+        "back": "Zurück",
+        "clear": "Löschen",
+        "confirm": "Backup des Seeds bestätigen",
+        "description": "Überprüfen Sie Ihre Seed-Phrase oder",
+        "enterCorrect": "Jeder Wort in der richtigen Reihenfolge anklicken",
+        "error": "Falche Reihenfolge, bitte nochmal versuchen",
+        "ok": "Bestätigen",
+        "tapAgain": "Erneut tippen"
+    },
+    "createAccount": {
+        "address": "Adresse des Kontos:",
+        "avatarUnique": "Dieser Avatar ist eindeutig, sie können in später nicht ändern.",
+        "choose": "Wähen sie ihren Avatar",
+        "create": "Einen neuen Account erstellen",
+        "createDescription": "Schnell und kostenlos",
+        "createNewAccount": "Wähen sie ihren Avatar",
+        "from": "Dieser Avatar ist einzigartig, Sie können ihn später nicht ändern.",
+        "import": "Konto importieren",
+        "importDescription": "über Seed Phrase, Ledger oder Keeper",
+        "protect": "Sichern sie ihren Account mit einem Passwort",
+        "protectYourAccount": "Schütze sie ihr Konto",
+        "restore": "Konto widerherstellen",
+        "saveUserData": "Den Account auf dem Computer halten",
+        "signDescription": "zu einem gespeicherten Account",
+        "signIn": "Einloggen",
+        "signUp": "Kostenlosen Account anmelden",
+        "tosaved": "zu einem gespeicherten Account",
+        "toWalet": "zu ihrem Konto oder"
+    },
+    "modal": {
+        "confirmBackupDescription": "Ihre Backup Phrase sichern",
+        "next": "Bestätigen",
+        "prev": "Zurück",
+        "successContent": "Sie können ihre geheime Phrase nicht sichern. Wenn sie sie ausversehen versenden oder Betrüger ihre geheime Phrase erhalten, müssen sie ein neues Konto anlegen und ihre Guthaben sofort übertragen.",
+        "successHeadline": "Behandeln sie ihre Backup Phrase sorgfältig.",
+        "understand": "Ich verstehe"
+    },
+    "noBackupNoMoney": {
+        "backup": "Sicherung jetzt durchführen",
+        "description": "Sie müssen die geheime Phrase sichern. Sie ist elementar für den Zugang zu ihrem Account.",
+        "modal": {
+            "descriptionP1": "Die Waves Platform warnt über immer häufiger werdende scam und phishing Angriffe in den letzten Monaten. Betrüger verstehen Malware in ihrer eigenen Version des Waves Clients und versprechen Bonusse und Rabatte um ahnungslose Nutzer zu überlisten.",
+            "descriptionP2": "Seien sie vorsichtig und geben sie niemals ihren SEED in fragwürdigen Clients ein, ansonsten wird ihr Konto kompromittiert und sich verlieren ihr Guthaben.",
+            "descriptionP3": "Verwenden sie nur den offiziellen Waves Client.",
+            "ok": "Ich verstehe",
+            "title": "Behandeln sie ihre Backup Phrase sorgfältig."
+        },
+        "or": "oder",
+        "skip": "Später",
+        "title": "Keine Sicherung (Backup), kein Geld"
+    }
+}

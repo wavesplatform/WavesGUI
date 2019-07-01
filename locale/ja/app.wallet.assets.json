@@ -1,0 +1,39 @@
+{
+    "addAsset": "アセットを追加",
+    "chart": {
+        "intervals": {
+            "all": "すべて",
+            "day": "1日",
+            "hour": "1時間",
+            "month": "1ヶ月",
+            "week": "1週間",
+            "year": "1年間"
+        }
+    },
+    "directives": {
+        "asset": {
+            "anyTx": "JSON",
+            "deposit": "デポジット",
+            "ofTotalBalance": "合計残高 {{totalBalance}}",
+            "receive": "受信",
+            "script": "スクリプト",
+            "send": "送信"
+        },
+        "balance": {
+            "actions": {
+                "assetInfo": "アセット情報",
+                "copyAssetId": "アセットIDをコピー"
+            }
+        }
+    },
+    "price": "価格 {{currency}}",
+    "qr": "あなたのアドレス",
+    "send": "送信",
+    "since": {
+        "day": "1日の変化率",
+        "month": "1ヶ月の変化率",
+        "week": "1週間の変化率"
+    },
+    "suspicious": "注意 - ({span}[{{count}}])",
+    "Unpin": "ピン留めを外す"
+}

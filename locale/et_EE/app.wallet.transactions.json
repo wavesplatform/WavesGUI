@@ -1,0 +1,73 @@
+{
+    "all": "Kõik",
+    "confirmTransaction": {
+        "retrySign": "Proovi uuesti kinnitada"
+    },
+    "csv": {
+        "alias": "Aliase ​​nimi",
+        "amount": {
+            "id": "Koguse vara ID",
+            "name": "Koguse vara nimi",
+            "ticker": "Koguse vara ticker",
+            "value": "Koguse vara väärtus"
+        },
+        "attachment": "Tehingu manus",
+        "date": "Kuupäev",
+        "description": "Tokeni kirjeldus",
+        "fee": {
+            "id": "Tasu ID",
+            "name": "Tasu nimi",
+            "ticker": "Tasu ticker",
+            "value": "Tasu väärtus"
+        },
+        "height": "Tehingu plokki kõrgus",
+        "id": "Tehingu ID",
+        "name": "Tokeni nimi",
+        "precision": "Täpsusaste",
+        "price": {
+            "id": "Hinna vara ID",
+            "name": "Hinna vara nimi",
+            "ticker": "Hinna vara ticker",
+            "value": "Hinna vara väärtus"
+        },
+        "recipient": "Tehingu saaja",
+        "reissuable": {
+            "false": "Taasmitteemiteeriv",
+            "name": "Saab tokeni taasemiteerida",
+            "true": "Taasemiteeritav"
+        },
+        "sender": "Tehingu saatja",
+        "transactionType": "Plokkiahela tehingu tüüp",
+        "type": "Tehingu tüüp"
+    },
+    "errors": {
+        "complete": {
+            "body": "The list of transactions is not completely downloaded. Please retry later.",
+            "title": "Download is not complete."
+        },
+        "download": {
+            "body": "The list of transactions is not downloaded. Please retry later.",
+            "title": "Download error."
+        },
+        "empty": {
+            "body": "There are no transactions in your history",
+            "title": "Export error"
+        }
+    },
+    "exchanged": "Vahetatud",
+    "export": "Eksport",
+    "filter": {
+        "value1": "Viimased",
+        "value2": "500 txs",
+        "value3": "1000 txs"
+    },
+    "issued": "Emiteeritud",
+    "leased": "Leased",
+    "received": "Saadud",
+    "sent": "Saadetud",
+    "transactions": {
+        "script": {
+            "txJson_wallet": "Base64 script"
+        }
+    }
+}

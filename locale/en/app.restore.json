@@ -1,0 +1,50 @@
+{
+    "password": {
+        "error": "Wrong Password!"
+    },
+    "passwordForm": {
+        "back": "go back",
+        "description": "Protect your account with a new password or",
+        "importAccounts": "Import accounts",
+        "login": "Continue",
+        "title": "Protect Your Account"
+    },
+    "restore": {
+        "beta": {
+            "accountTitle": "Address / Account name",
+            "buttons": {
+                "cancel": "Go Back",
+                "copy": "Copy Seed",
+                "restore": "Restore Seed"
+            },
+            "noUsers": {
+                "description": "{div}[We have not found any saved accounts. Return to the] {div}[[client.wavesplatform.com](https://client.wavesplatform.com)]",
+                "title": "No accounts saved"
+            },
+            "passwordTitle": "Password",
+            "placeholders": {
+                "password": "Password"
+            },
+            "step1Description": "If you only have your password, not your SEED, you can use this page to restore a saved account.",
+            "step2Description": "Please, carefully save SEED. If you lose it, you will have no way to access your account.",
+            "title": "Restore Seed"
+        }
+    },
+    "seedForm": {
+        "address": "Address",
+        "back": "Go back",
+        "continue": "Continue",
+        "create": "Create a new account",
+        "description": "Your Seed the 15 words you saved when creating your account",
+        "or": "or",
+        "placeholder": "Your seed is the 15 words you saved when creating your account",
+        "saveUserData": "Keep the account on this computer",
+        "seedTitle": "Your wallet seed",
+        "title": "Import from Seed",
+        "tosaved": "to a saved account"
+    },
+    "warningSeed": {
+        "message": "Make sure you do not confuse the phrase with a wallet address. Using an address as a SEED phrase can result in loss of funds. The SEED phrase must consist of 15 words with spaces between each word.",
+        "title": "The SEED phrase you entered is too short."
+    }
+}

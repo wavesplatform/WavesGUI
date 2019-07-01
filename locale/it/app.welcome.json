@@ -1,0 +1,219 @@
+{
+    "backupSeed": {
+        "copySeed": "Copia frase seed",
+        "warn": "Poichè soltanto tu hai il controllo sui tuoi fondi, sarà bene copiare questa frase di backup in caso quest'app venisse rimossa oppure",
+        "yourSeed": "La tua frase Seed"
+    },
+    "createAccount": {
+        "from": "creaAccount"
+    },
+    "infoTooltip": "Informazione importante",
+    "loading": {
+        "volume": "VOLUMI"
+    },
+    "modal": {
+        "lockPairWarning": {
+            "continue": "Continua",
+            "heading": "Il trading di {{amountAssetTicker}} / {{priceAssetTicker}} è attualmente indisponibile",
+            "text": "il Trading della coppia selezionata è attualmente indisponibile. Puoi ancora cancellare il tuo ordine se lo desideri"
+        }
+    },
+    "news": "Notizie",
+    "newUser": {
+        "from": "dal backup",
+        "getStarted": "Inizia",
+        "import": "Importa account",
+        "or": "oppure",
+        "restore": "Ripristina account",
+        "slides": [
+            {
+                "description": "Entra nel mondo in forte ascesa delle Crittovalute. Sei l'unica persona che può accedere ai tuoi critto asset.",
+                "title": "Entra nel mondo Blockchain"
+            },
+            {
+                "description": "Conserva, gestisci e ricava interessi sul tuo bilancio di asset digitali, in massima sicurezza e semplicità.",
+                "title": "Wallet"
+            },
+            {
+                "description": "Scambia velocemente e in tutta sicurezza. Operando sul nostro exchange decentralizzato, avrai sempre e solo tu il totale controllo dei fondi che vorrai scambiare.",
+                "title": "Exchange decentralizzato"
+            },
+            {
+                "description": "Emetti i tuoi token. Potrai renderli parte integrante del tuo business non solo come valuta privata ma anche come token per votazioni decentralizzate, sistemi di valutazione o programmi fedeltà.",
+                "title": "Generatore di Token"
+            }
+        ]
+    },
+    "openViaDesktop": "Voglio sempre aprire i link con l'app Desktop",
+    "roadmap": {
+        "aug2019": {
+            "date": "Ago 2019",
+            "text": "I trader possono vendere i token rapidamente al prezzo di mercato.",
+            "title": "Ordine sul mercato"
+        },
+        "dec2018": {
+            "date": "Dic 2018",
+            "text": "La nuova applicazione mobile offre una fantastica integrazione tra DEX UI e gateway.",
+            "text_2": "I ticker e i loghi su DEX mostrano gli asset approvati, contribuendo a rafforzare la fiducia degli utenti",
+            "title": "Applicazione mobile 2.0",
+            "title_2": "Integrazione BetterTokens"
+        },
+        "feb2017": {
+            "date": "Dic 2017",
+            "text": "Lancio della prima versione di exchange",
+            "title": "Waves DEX Beta"
+        },
+        "feb2018": {
+            "date": "Feb 2018",
+            "text": "Viene rilasciato il client standalone per macOS, Linux e Windows.",
+            "title": "App per il desktop"
+        },
+        "jan2019": {
+            "date": "Gen 2019",
+            "text": "Il supporto per il trading su Waves DEX con gli Smart Account è abilitato.",
+            "text_2": "Lancio del gateway Bitcoin Satoshi Vision",
+            "title": "Commercio di Smart Account",
+            "title_2": "Gateway BSV"
+        },
+        "jul2018": {
+            "date": "Lug 2018",
+            "text": "Il rilancio dell'exchange include una UX migliorata e prestazioni migliori di qualunque altro DEX sul mercato",
+            "text_2": "Il popolare wallet esce dalla versione beta con una nuova release maggiore.",
+            "title": "Nuovo DEX",
+            "title_2": "Wallet Waves"
+        },
+        "jul2019": {
+            "date": "Lug 2019",
+            "text": "Implementazione del gateway per i token ERC20 all'ecosistema Waves, per rendere possibile lo scambio dei popolari token Ethereum sulla piattaforma",
+            "text_2": "Gli sviluppatori hanno semplificato i processi di sviluppo su piattaforma mobile e migliorato le descrizioni dei metodi di interazione con la blockchain Waves.",
+            "text_3": "Gli utenti possono passare facilmente da un account all'altro utilizzando un unica app come Wallet.",
+            "title": "Gateway ERC-20",
+            "title_2": "Miglioramento delle librerie JS e dell'SDK per mobile",
+            "title_3": "Account multipli"
+        },
+        "jun2019": {
+            "date": "Giu 2019",
+            "text": "Miglioramenti sul DEX in termini di velocità, requisiti di memoria da implementare.",
+            "title": "Ottimizzazione DEX"
+        },
+        "may2018": {
+            "date": "Mag 2018",
+            "text": "Il rilancio dell'exchange include una UX migliorata e prestazioni migliori di qualunque altro DEX sul mercato",
+            "title": "Gateway Dash e Bitcoin Cash"
+        },
+        "nov2018": {
+            "date": "Nov 2018",
+            "text": "Gli utenti acquisiscono la possibilità di fare trading con account multifirma e programmabili.",
+            "title": "Supporto Account Smarts"
+        },
+        "sep2018": {
+            "date": "Set 2018",
+            "text": "L'integrazione con Waves DEX consente agli utenti di commerciare in massima sicurezza.",
+            "title": "Ledger Nano S"
+        },
+        "sep2019": {
+            "date": "Set 2019",
+            "text": "L'autenticazione a due fattori offre agli utenti di Waves DEX una sicurezza ancora maggiore.",
+            "title": "2FA"
+        }
+    },
+    "userList": {
+        "addNew": "Aggiungi un account",
+        "create": "Crea un nuovo account",
+        "frombackup": "da un backup",
+        "import": "Importa account",
+        "restore": "Ripristina account",
+        "subTitle": "Accedi nuovamente oppure",
+        "subTitleSession": "La sessione è terminata automaticamente."
+    },
+    "welcome": {
+        "aliases": "Alias",
+        "android": "Google Play",
+        "api": "API",
+        "apple": "App Store",
+        "blog": "Blog",
+        "broughtBy": "Offerto dal team Waves",
+        "change": "CAMBIA",
+        "chart": "GRAFICO",
+        "contestLinkDescription": "Vinci 5,000 WAVES con il concorso di trading sul Waves DEX!",
+        "contestLinkLink": "Regole",
+        "controlAssets": "Il controllo dei beni è solo tuo - i fondi non lasciano il portafoglio e non possono essere congelati.",
+        "copyAddress": "Copia indirizzo",
+        "copyright": "© 2019 Waves Platform",
+        "createToken": "Crea token",
+        "dashboard": "Cruscotto",
+        "decentralised": "Decentrato",
+        "dexWithHardware": "Utilizzare il DEX con i portafogli hardware Ledger Nano S e Ledger Blue",
+        "documentation": "Documentazione",
+        "download": "Scarica",
+        "downloadMobileApp": "Scarica l'app mobile!",
+        "exchange": "Exchange",
+        "forDevelopers": "Per gli sviluppatori",
+        "forum": "Forum",
+        "gateways": "Gateway verso valute popolari",
+        "getRealTimeAccess": "Ottieni accesso in tempo reale ai dati di mercato e configura i bot di trading tramite API",
+        "getStarted": "Inizia",
+        "gitHub": "GitHub",
+        "help": "Aiuto",
+        "high": "MAX 24",
+        "instantAccessWalletDex": "Accesso immediato al wallet e al DEX",
+        "keeperAccount": "Account Keeper",
+        "lastPrice": "ULTIMO PREZZO",
+        "leasing": "Prestiti",
+        "ledgerAccount": "Account Ledger",
+        "ledgerSupport": "Supporto Ledger",
+        "legal": "Legale",
+        "linux": "Linux",
+        "linuxDescription": "Scarica l'applicazione Linux",
+        "logout": "Esci",
+        "logOut": "Esci",
+        "low": "MIN 24",
+        "lowFixedFees": "Tasse fisse e basse",
+        "macOs": "MacOS",
+        "macOsDescription": "Scarica l'applicazione MacOS",
+        "mailto": "support.wavesplatform.com",
+        "mainPage": "Pagina principale",
+        "majorFiatCryptocurrencies": "Supporto per le principali valute fiat e criptovalute: BTC, LTC, ETH, USD e altri.",
+        "markets": "Mercati",
+        "marketsDescription": "Waves DEX ti permette di eseguire operazioni in modo rapido e sicuro, indipendentemente dal fatto che tu stia facendo trading tramite app mobile, client desktop, portafoglio web o API Waves.",
+        "marketsTableDescription": "Cliica per visualizzare ulteriori coppie scambiate",
+        "marketsTableDescriptionLink": "Visualizza Exchange",
+        "menu": "Menu",
+        "news": "Notizie",
+        "pair": "COPPIA",
+        "portfolio": "Portafoglio",
+        "privacyPolicy": "Informativa sulla privacy",
+        "productsTools": "Prodotti e strumenti",
+        "renameAccount": "Rinomina account",
+        "roadmap": "Tabella di marcia",
+        "roadmapOpportunitiesAhead": "Il futuro di Waves DEX: la nostra tabella di marcia e le opportunità future.",
+        "scriptAccount": "Script account",
+        "scriptedAccount": "Script account",
+        "settings": "Impostazioni",
+        "signIn": "Accedi",
+        "social": "Social",
+        "stackOverflow": "Stack Overflow",
+        "suitableTradingBots": "Adatto ai boti di trading",
+        "support": "Support",
+        "telegram": "Telegram",
+        "termsOfUse": "Termini di utilizzo",
+        "tokenCreation": "Creazione rapida di token",
+        "tokenCreationCosts": "La creazione di token costa solo 1 Waves e richiede 1 minuto",
+        "tradeOnWaves": "Commercia sull'Exchange Decentrato Waves",
+        "tradeOnWavesDescription": "Compra e vendi i token in modo rapido e sicuro con tutti i vantaggi di uno scambio centralizzato, ma mantenendo il controllo completo dei tuoi fondi.",
+        "transactions": "Transazioni",
+        "twitter": "Twitter",
+        "volume": "VOLUME",
+        "wallet": "Wallet",
+        "wavesBlockchain": "Waves Blockchain",
+        "wavesDexWeb": "Waves DEX Web",
+        "wavesExplorer": "Waves Explorer",
+        "wavesIde": "Waves IDE",
+        "wavesKeeper": "Waves Keeper",
+        "wavesLabs": "Waves Labs",
+        "wavesOrderFilled": "0.003 Waves per ordine completato",
+        "wavesWallet": "Wallet Waves",
+        "windows": "Windows",
+        "windowsDescription": "Scarica l'applicazione Windows"
+    }
+}

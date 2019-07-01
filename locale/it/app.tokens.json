@@ -1,0 +1,79 @@
+{
+    "count": "Token totali",
+    "create": "Genera",
+    "description": "Descrizione",
+    "directives": {
+        "sign": {
+            "confirmRequestLedger": {
+                "waiting": "In attesa di conferma sul dispositivo Ledger..."
+            }
+        }
+    },
+    "fee": "Spese {{fee, money-currency}}",
+    "help": {
+        "name": "Per favore usa solo caratteri Latini"
+    },
+    "helpIcon": {
+        "demicals": "Questo campo definisce il numero di decimali in cui i token del tuo asset saranno divisibili.",
+        "scriptDescription": "Ogni convalida di transazione avvenuta tramite script di uno Smart Asset incrementa il costo della transazione di 0.004 Waves. Ad esempio, il costo di una operazione di invio fondi tramite Smart Asset sarà di 0.001 + 0.004 = 0.005 WAVES. Il costo di una transazione sull'exchange sarà 0.003 + 0.004 = 0.007 WAVES.",
+        "scriptHeader": "Uno Smart Asset è un asset connesso ad uno script capace di agire in base a determinate condizioni per ogni transazione eseguita con il token in questione.",
+        "scriptLearnMore": "Maggiori dettagli",
+        "totalTokens": {
+            "headline": "Questo campo definisce il quantitativo totale di token disponibili del tuo asset.",
+            "notReissuable": "Un asset non riemettibile avrà un quantitativo totale di token permanentemente limitato al totale definito durante questi passaggi.",
+            "reissuable": "La riemettibilità permette la creazione di token supplementari che incrementeranno il quantitativo totale di token disponibili per l'asset."
+        }
+    },
+    "modal": {
+        "title": "Generazione di {{name}}",
+        "titleSuccess": "Generazione di {{name}} Completata"
+    },
+    "name": "Nome del tuo asset",
+    "notifications": {
+        "isNotCreated": "Token non generati"
+    },
+    "pageTitle": "Generazione dei Token",
+    "placeholders": {
+        "description": "La descrizione non sarà modificabile successivamente",
+        "precision": "Da 0 a 8"
+    },
+    "precision": "Decimali",
+    "preview": "Anteprima",
+    "reissuable": {
+        "false": "Non Riemettibile",
+        "true": "Riemettibile"
+    },
+    "script": "Smart Asset",
+    "success": {
+        "description": "Hai generato {{amount}} {{name}}",
+        "done": "Apri il Portafoglio",
+        "title": "La tua transazione è in lavorazione!"
+    },
+    "switchScriptOff": "Disattiva script",
+    "switchScriptOn": "Attiva script",
+    "tokens": {
+        "changeColorTooltip": "Cambia colore",
+        "inputHelper": {
+            "description": "Utilizzando questo nome, il tuo token verrà categorizzato come 'sospetto' e sarà ricercabile solo per ID.",
+            "header": "Questo nome è già in uso"
+        },
+        "termsOfUse": {
+            "checkbox": "Comprendo che in caso di mancato rispetto delle regole, il mio token verrà classificato come 'sospetto' e sarà ricercabile solo tramite ID."
+        }
+    },
+    "validators": {
+        "byte": {
+            "gte": "Il nome dell'Asset deve essere lungo da 4 a 16 bytes",
+            "lte": "Il nome dell'Asset deve essere lungo da 4 a 16 bytes"
+        },
+        "descriptionLen": "La descrizione è troppo lunga. Non deve superare i 1,000 bytes.",
+        "invalidScript": "Errore sintassi",
+        "maxValueCount": "Il numero inserito è troppo grande",
+        "maxValuePrecision": "Numero non valido. Inserire un numero compreso tra 0 e 8",
+        "minValueCount": "Il numero inserito deve essere maggiore di zero",
+        "minValuePrecision": "Numero non valido. Inserire un numero compreso tra 0 e 8",
+        "noMoney": "Il tuo bilancio non è sufficiente al pagamento delle spese di transazione",
+        "precisionCount": "Il conto totale dell'asset non può avere più posizioni decimali di quante specificate al campo Decimali",
+        "required": "Questo campo è obbligatorio"
+    }
+}

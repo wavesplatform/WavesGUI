@@ -1,0 +1,901 @@
+{
+    "confirmTransaction": {
+        "signLedger": "Ledger 디바이스의 승인을 기다리는 중입니다…"
+    },
+    "directives": {
+        "anyTransaction": {
+            "calculatingFee": "트랜잭션 수수료: 계산을 위해 해당 항목을 입력하세요",
+            "errors": {
+                "invalidScript": "Syntax 어류",
+                "required": "이 항목을 필수 입력 사항입니다"
+            },
+            "fee": "수수료 {{fee, money-currency}}",
+            "ok": "계속",
+            "textAreaTitle": "TX JSON",
+            "warning": {
+                "body": "숙련된 사용자가 아니라면 JSON 트랜잭션을 제출하지 않는 것이 좋습니다. 오류로 인해 계정에 영구적으로 접근하지 못할 수 있습니다.",
+                "title": "경고 : 해당 조치로 인해 계정에 접근하지 못할 수 있습니다."
+            }
+        },
+        "filter": {
+            "helpIcon": {
+                "assetId": "자산 ID",
+                "description": "[여기](https://docs.wavesplatform.com/en/waves-client/)에서 자산 검색에 대한 자세한 방법을 확인할 수 있습니다",
+                "header": "검색 기준:",
+                "name": "이름",
+                "ticker": "티커"
+            }
+        },
+        "scriptForm": {
+            "acceptAndContinue": "수락하고 계속",
+            "changePlaceholder": "기존 Script를 취소하려면 새로운 Script를 입력하거나 항목을 비워두세요",
+            "createPlaceholder": "Script를 입력하세요",
+            "errors": {
+                "fee": "수수료를 지불하기에 충분한 자금이 없습니다. {{fee, money-currency}} 트랜잭션 수수료를 지불해야합니다.",
+                "invalidScript": "Syntax 에러",
+                "required": "필수 입력 항목입니다"
+            },
+            "fee": "수수료 {{fee, money-currency}}",
+            "ideLink": "Script는 [Waves Ride IDE](https://ide.wavesplatform.com/)를 사용하여 개발할 수 있습니다.",
+            "ok": "서명",
+            "textAreaTitle": "Base64 script",
+            "warning": {
+                "body": "숙련된 사용자가 아니라면 Script 트랜잭션을 제출하지 않는 것이 좋습니다. 오류로 인해 계정에 영구적으로 접근하지 못할 수 있습니다.",
+                "title": "경고 : 해당 조치로 인해 계정에 접근하지 못할 수 있습니다."
+            },
+            "warningDescription": "숙련된 사용자가 아니라면 Script 트랜잭션 사용을 권장하지 않습니다. 오류로 인해 계정에 영구적으로 접근하지 못할 수 있습니다.",
+            "warningHeader": "해당 조치로 인해 계정에 접근하지 못할 수 있습니다."
+        },
+        "setAssetScriptForm": {
+            "fee": "수수료 {{fee, money-currency}}"
+        },
+        "sign": {
+            "confirmRequestKeeper": {
+                "sign_utils": "재시도"
+            }
+        }
+    },
+    "inputs": {
+        "errors": {
+            "gtGatewayMin": "최소 {{min}} {{assetName}} 이상 전송해야 합니다"
+        }
+    },
+    "keeperForm": {
+        "address": "계정 주소",
+        "back": "뒤로가기",
+        "error": {
+            "hasLockedKeeperDescription": "Waves Keeper로 작업을 계속하려면 귀하의 비밀번호를 입력하거나 새로 생성하세요.",
+            "hasLockedKeeperHeader": "Waves Keeper에서 비밀번호를 입력하세요",
+            "hasNoUsersDescription": "기존 계정으로 로그인하거나 신규 계정을 만든 후 다시 시도하세요.",
+            "hasNoUsersHeader": "활성화된 계정이 없습니다",
+            "install": "설치",
+            "networkDescription": "선택한 계정은 잘못된 네트워크에 있습니다. 네트워크를 변경한 후 다시 시도하세요.",
+            "networkHeader": "네트워크 변경",
+            "notInstalledDescription": "설치 후 계정을 생성하고 로그인 한 뒤 해당 페이지를 새로 고침 하세요",
+            "notInstalledHeader": "Waves Keeper가 없나요?",
+            "refresh": "재시도"
+        },
+        "heading": "Waves Keeper로 계정 불러오기",
+        "loading": "Waves Keeper에서 계정 불러오기",
+        "login": "계속",
+        "name": "계정 이름",
+        "or": "또는",
+        "retry": "다시 시도하세요",
+        "saveUserData": "이 컴퓨터에서 로그인 계속 유지"
+    },
+    "LedgerClient_utils": "Ledger 디바이스",
+    "LedgerClientDescription": "Waves Keeper로 계정 불러오기",
+    "modal": {
+        "acceptNewTerms": {
+            "title": "이용 약관"
+        },
+        "account": {
+            "address": "귀하의 주소",
+            "aliases": "Aliases",
+            "aliasesWarning": "Alias 기능을 일시적으로 사용할 수 없습니다.",
+            "cancel": "신규 계정 생성",
+            "create": "새로 만들기",
+            "createAliasNotPermitted": "Alias 기능을 일시적으로 사용할 수 없습니다.",
+            "fee": "트랜잭션 수수료 {{price}} {{name}}",
+            "hasAlias": "해당 Alias는 이미 사용되었습니다",
+            "hasScript": "Multisig를 가지고 있으면 alias를 생성할 수 없습니다",
+            "invalidSymbols": "잘못된 문자를 사용했습니다.",
+            "maxLength": "Alias는 30자 이하로 입력해야 합니다",
+            "message": "계정 정보를 확인하기 위해서 로그인 하거나 계정을 생성하세요",
+            "minLength": "Alias는 4자 이상 입력해야 합니다",
+            "noMoney": "자금 부족",
+            "notifications": {
+                "aliasCreated": "Alias가 생성되었습니다"
+            },
+            "ok": "로그인",
+            "placeholder": "귀하의 주소를 상징하는 명칭",
+            "title": "{{name}} 계정",
+            "title_default_name": "정보"
+        },
+        "accountInfo": {
+            "alias": {
+                "helpIcon": {
+                    "row1": "Alias란?",
+                    "row2": "Alias는 귀하의 주소를 나타내는 닉네임입니다. 트랜잭션을 하기 위해 주소 대신 Alias를 사용할 수 있습니다.",
+                    "row3": "Alias는 4에서 30자 사이로 설정해야 하며 소문자, 숫자 및 특수문자 (@, -, _)를 포함해야 합니다."
+                }
+            }
+        },
+        "assetInfo": {
+            "available": "사용 가능",
+            "balance": "잔액",
+            "contest": "컨테스트",
+            "date": "발행 일자",
+            "decimals": "소수점 자리",
+            "description": "설명",
+            "details": "세부사항",
+            "email": "이메일",
+            "gateway": "게이트웨이",
+            "gatewaySoon": "게이트웨이 준비 중",
+            "identifier": "ID",
+            "inOrders": "대기 주문",
+            "issuer": "발행자",
+            "leased": "Leased",
+            "name": "명칭",
+            "pinned": "즐겨찾기 목록",
+            "qualified": "검증 완료",
+            "quantity": "총수량",
+            "rating": {
+                "canVoteTip": "토큰을 평가하려면 클릭하세요",
+                "tooltipLink": "세부사항 확인",
+                "tooltipNeedWAVES": "그리고 0.001 WAVES",
+                "tooltipNeedWCT": "토큰을 평가하기 위해 최소 1개 이상의",
+                "tooltipText": "토큰이 전송되지 않으며 잔액이 존재해야 투표할 수 있습니다. 점수는 24시간 후 적용됩니다. 해당 시간 동안 토큰을 계정에 보유하십시오.\n0.001 WAVES 수수료.",
+                "tooltipTitle": "토큰을 평가하기 위해 최소 1개 이상의 WCT를 지갑에 보유해야 합니다."
+            },
+            "reissue": {
+                "no": "재발행 불가",
+                "yes": "재발행 가능"
+            },
+            "site": "사이트",
+            "sponsorshipFee": "스폰서십 자산 수수료",
+            "suspicious": "의심스러운 토큰",
+            "ticker": "티커",
+            "title": "자산 정보",
+            "tokenomica": "Tokenomica",
+            "total": "총수량",
+            "transactions": "트랜잭션",
+            "type": "구분",
+            "unpinned": "즐겨찾기 등록",
+            "wsocRef": "WSOC"
+        },
+        "backup": {
+            "clearSeed": "{span.clear}[모두 지우고] 다시 순서대로 클릭하세요",
+            "title": {
+                "title_0": "백업 구절 저장",
+                "title_1": "백업 승인",
+                "title_2": "성공"
+            }
+        },
+        "confirm-correct-order": "{price, money-currency} 는 시장가와  5% 이상 차이입니다",
+        "confirmLogout": {
+            "goBack": "뒤로가기",
+            "heading": "클라이언트가 종료될 예정입니다",
+            "logout": "로그아웃",
+            "text": "귀하의 허락 없이 다른 사람이 자금에 접근하는 것을 방지하기 위해 로그아웃하세요."
+        },
+        "confirmOrder": {
+            "cancel": "취소",
+            "continue": "주문 등록",
+            "description": "계속 진행하시겠습니까?",
+            "headerBuy": "귀하의 주문가는 시장가보다  {{orderLimit}}% 높습니다",
+            "headerSell": "귀하의 주문가는 시장가보다 {{orderLimit}}% 낮습니다"
+        },
+        "createOrder": {
+            "cancel": "신규 계정 생성",
+            "message": "로그인 또는 신규 계정을 생성하여 거래를 시작하세요",
+            "ok": "로그인"
+        },
+        "deposit": {
+            "coinomatBCH": {
+                "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 BCH를 토큰으로 전송하는 작업을 처리할 것입니다.",
+                "helpDescrTitle": "이 주소를 Bitcoin Cash 클라이언트 또는 지갑에 입력하세요",
+                "warningMinAmountText": "0.001 미만의 BCH를 입금할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningMinAmountTitle": "최소 입금액은 0.001 BCH 입니다",
+                "warningText": "이 주소로 다른 암호화폐를 전송할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningTitle": "이 입금 주소로 BCH만 전송하세요"
+            },
+            "coinomatBSV": {
+                "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 BSV를 토큰으로 전송하는 작업을 처리할 것입니다.",
+                "helpDescrTitle": "이 주소를 Bitcoin Satoshi Vision 클라이언트 또는 지갑에 입력하세요",
+                "warningMinAmountText": "0.001 미만의 BSV를 입금할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningMinAmountTitle": "최소 입금액은 0.001 BSV입니다",
+                "warningText": "해당 주소로 다른 자산을 보내면 귀하의 자산을 잃을 수 있습니다.",
+                "warningTitle": "본 입금 주소로 BTC만 전송하세요"
+            },
+            "coinomatBTC": {
+                "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 BTC를 토큰으로 전송하는 작업을 처리할 것입니다.",
+                "helpDescrTitle": "이 주소를 Bitcoin 클라이언트 또는 지갑에 입력하세요",
+                "warningMinAmountText": "0.001 미만의 BTC를 입금할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningMinAmountTitle": "최소 입금액은 0.001 BTC 입니다",
+                "warningText": "이 주소로 다른 암호화폐를 전송할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningTitle": "본 입금 주소로 BTC만 전송하세요"
+            },
+            "coinomatDASH": {
+                "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 DASH를 토큰으로 전송하는 작업을 처리할 것입니다.",
+                "helpDescrTitle": "이 주소를 DASH 클라이언트 또는 지갑에 입력하세요",
+                "warningMinAmountText": "0.1 미만의 DASH를 입금할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningMinAmountTitle": "최소 입금액은 0.1 DASH 입니다",
+                "warningText": "이 주소로 다른 암호화폐를 전송할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningTitle": "본 입금 주소로 DASH만 전송하세요"
+            },
+            "coinomatETH": {
+                "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 ETH를 토큰으로 전송하는 작업을 처리할 것입니다.",
+                "helpDescrTitle": "이 주소를 Ethereum 클라이언트 또는 지갑에 입력하세요",
+                "warningMinAmountText": "0.001 미만의 ETH를 입금할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningMinAmountTitle": "최소 입금액은 0.001 ETH 입니다",
+                "warningText": "ETH를 출금하려고 하는 지갑 또는 거래소가 Smart-Contracts를 사용하는지 확인하세요. 당사는 해당 트랜잭션을 수신하지 않으며 환불 또한 불가능합니다. 귀하의 자산을 잃게 됩니다.",
+                "warningTitle": "Smart Contracts에서 ETH를 입금하지 마세요! ERC20 토큰을 입금하지 마세요! Ethereum 입금만 가능합니다."
+            },
+            "coinomatLTC": {
+                "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 LTC를 토큰으로 전송하는 작업을 처리할 것입니다.",
+                "helpDescrTitle": "이 주소를 Litecoin 클라이언트 또는 지갑에 입력하세요",
+                "warningMinAmountText": "0.001 미만의 LTC를 입금할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningMinAmountTitle": "최소 입금액은 0.001 LTC 입니다",
+                "warningText": "이 주소로 다른 암호화폐를 전송할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningTitle": "이 입금 주소로 LTC만 전송하세요"
+            },
+            "coinomatXMR": {
+                "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 XMR을 토큰으로 전송하는 작업을 처리할 것입니다.",
+                "helpDescrTitle": "이 주소를 XMR 클라이언트 또는 지갑에 입력하세요",
+                "warningMinAmountText": "0.1 미만의 XMR를 입금할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningMinAmountTitle": "최소 입금액은 0.1 XMR 입니다",
+                "warningText": "{div}[Payment ID는 필요하지 않습니다.]이 주소로 다른 암호화폐를 전송할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningTitle": "이 입금 주소로 XMR만 전송하세요"
+            },
+            "coinomatZEC": {
+                "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 ZEC를 토큰으로 전송하는 작업을 처리할 것입니다.",
+                "helpDescrTitle": "이 주소를 Zcash 클라이언트 또는 지갑에 입력하세요",
+                "warningMinAmountText": "0.001 미만의 ZEC를 입금할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningMinAmountTitle": "최소 입금액은 0.001 ZEC 입니다",
+                "warningText": "이 주소로 다른 암호화폐를 전송할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningTitle": "이 입금 주소로 Zcash만 전송하세요"
+            },
+            "copyAndShare": "주소 복사 및 공유",
+            "currency": "화폐",
+            "or": "또는",
+            "pleaseNote": "게이트웨이는 본 작업을 위해 수수료를 적용하지 않습니다.",
+            "scanQrCode": "QR 코드 스캔",
+            "title": "{{assetName}} 입금",
+            "vostokVST": {
+                "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 Vostok를 토큰으로 전송하는 작업을 처리할 것입니다.",
+                "helpDescrTitle": "이 주소를 Vostok 클라이언트 또는 지갑에 입력하세요",
+                "warningMinAmountTitle": "최소 입금액은 0.1 VST 이며 최대 입금액은 50,000 VST 입니다."
+            }
+        },
+        "dexScriptedPair": {
+            "body": "스마트 자산은 토큰의 순한을 위한 조건을 설정하는 스크립트가 포함된 자산입니다.{div}[숙련된 사용자가 아니라면 스마트 자산을 사용하는 작업을 수행하는 것을 권장하지 않습니다. 트랜잭션 전 해당 자산과 스크립트에 대한 정보를 반드시 확인하시기 바랍니다.]",
+            "heading": "스마트 자산이 포함된 페어에 대한 주문 요청"
+        },
+        "disabledFeature": {
+            "anyTransaction": "일시적으로 JSON 트랜잭션 기능을 이용할 수 없습니다.",
+            "lease": "Leasing 시작 기능을 일시적으로 사용할 수 없습니다."
+        },
+        "disabledFeatures": {
+            "default": "죄송합니다. 현재 본 기능을 사용할 수 없습니다.",
+            "massTransfer": "대량 전송 기능을 일시적으로 사용할 수 없습니다.",
+            "transfer": "전송 기능을 일시적으로 사용할 수 없습니다."
+        },
+        "gatewaySign": {
+            "cancel": "취소",
+            "continue": "허용",
+            "description": "{{name}}에서 Waves 주소에 액세스할 것입니다. 귀하의 백업 구절(SEED) 또는 프라이빗 키를 수집하지 않습니다. 이동되는 웹사이트에 귀하의 백업 구절(SEED)를 입력하지 마세요.",
+            "descriptionDesktop1": "링크가 기본 웹 브라우저에서 열립니다. 다른 웹 브라우저를 사용하려면,",
+            "descriptionDesktop2": "복사",
+            "descriptionDesktop3": "하고 URL 입력창에 링크를 붙여넣으세요.",
+            "error": {
+                "button": "취소",
+                "headline": "문제가 발생했습니다",
+                "title": "오류"
+            },
+            "headline": "{span.link}[{{url}}] 에서 귀하의 Waves 주소에 대한 액세스를 요청합니다",
+            "retrySign": "재시도",
+            "title": "Waves로 로그인",
+            "txHash": "TXHASH",
+            "warning": "이동되는 웹사이트에 귀하의 백업 구절(SEED)를 입력하지 마세요."
+        },
+        "import": {
+            "errorBeta": "Waves Beta 클라이언트에서 귀하의 계정을 검색할 수 없습니다. Waves Lite 클라이언트에서 불러오기를 시도하세요.",
+            "errorHeader": "계정이 없습니다",
+            "errorLite": "Waves Lite 클라이언트에서 귀하의 계정을 검색할 수 없습니다. Waves Beta 클라이언트에서 불러오기를 시도하세요.",
+            "errorUnable": "귀하의 계정을 검색할 수 없습니다. 백업 구절(SEED)을 사용하여 복원하십시오.",
+            "fromBetaButton": "Beta Client에서 불러오기",
+            "fromLiteButton": "Lite Client에서 불러오기",
+            "helpIcon": {
+                "description": "올바른 작동을 위해 브라우저에서 팝업 기능을 허용하세요. 각 브라우저 별 팝업 허용 설정 안내: [Chrome](https://support.google.com/chrome/answer/95472?co=GENIE.Platform%3DDesktop&hl=en), [Safari](https://discussions.apple.com/thread/4271925),  [Firefox](https://support.mozilla.org/en-US/kb/pop-blocker-settings-exceptions-troubleshooting), [Opera](https://help.opera.com/en/presto/control-pages/).",
+                "title": "일부 브라우저는 기본적으로 팝업 기능을 차단합니다."
+            },
+            "importButton": "불러오기",
+            "importCancel": "취소",
+            "iUnderstandButton": "이해했습니다",
+            "selectAccountDescription": "귀하의 브라우저에서 팝업 기능을 허용하세요",
+            "selectAccountToImport": "불러올 계정 선택",
+            "selectAccountToImportFrom": "계정을 불러올 어플리케이션 선택",
+            "selectButton": "선택",
+            "wavesBetaClient": "Waves Beta 클라이언트",
+            "wavesBetaClientDescription": "Waves Beta 클라이언트에서 계정 불러오기",
+            "wavesLiteClient": "Waves Lite 클라이언트",
+            "wavesLiteClientDescription": "Waves Lite 클라이언트에서 계정 불러오기"
+        },
+        "open-main": {
+            "dex": {
+                "cancel": "신규 계정 생성",
+                "message": "로그인 또는 신규 계정을 생성하여 거래를 시작하세요",
+                "ok": "로그인"
+            },
+            "tokens": {
+                "cancel": "신규 계정 생성",
+                "message": "로그인 또는 신규 계정을 생성하여 토큰을 발행하세요",
+                "ok": "로그인"
+            },
+            "wallet": {
+                "assets": {
+                    "cancel": "신규 계정 생성",
+                    "message": "로그인 또는 신규 계정을 생성하여 귀하의 지갑을 오픈하세요",
+                    "ok": "로그인"
+                },
+                "cancel": "신규 계정 생성",
+                "leasing": {
+                    "cancel": "신규 계정 생성",
+                    "message": "로그인 또는 신규 계정을 생성하여 귀하의 지갑을 오픈하세요",
+                    "ok": "로그인"
+                },
+                "message": "로그인 또는 신규 계정을 생성하여 귀하의 지갑을 오픈하세요",
+                "ok": "로그인",
+                "portfolio": {
+                    "cancel": "신규 계정 생성",
+                    "message": "로그인 또는 신규 계정을 생성하여 귀하의 지갑을 오픈하세요",
+                    "ok": "로그인"
+                },
+                "transactions": {
+                    "cancel": "신규 계정 생성",
+                    "message": "로그인 또는 신규 계정을 생성하여 귀하의 지갑을 오픈하세요",
+                    "ok": "로그인"
+                }
+            }
+        },
+        "pairing": {
+            "downloadAppDescription": "아래에서 모바일 어플리케이션 다운로드:",
+            "scanCodeDescription": "iPhone 또는 안드로이드 장치로 아래의 코드를 스캔하여 귀하의 계정을 동기화하세요"
+        },
+        "pinAsset": {
+            "cancel": "취소",
+            "nothing": "선택 사항이 없습니다",
+            "placeholder": "자산 명칭 또는 ID를 입력하세요",
+            "submit": "즐겨찾기 등록",
+            "title": "즐겨찾기로 등록할 자산을 선택하세요"
+        },
+        "qr": {
+            "copyAndShare": "주소 복사 및 공유",
+            "or": "또는",
+            "scanQrCode": "QR 코드 스캔",
+            "title": "귀하의 주소를 공유하세요",
+            "warningText": "본 주소로 다른 디지털 자산을 보내면 자금이 영구적으로 손실됩니다.",
+            "warningTitle": "본 주소로 WAVES 또는 Waves 기반 토큰만 전송하세요"
+        },
+        "receive": {
+            "accountStatus": "계정 상태",
+            "addressOrAlias": "주소 / Alias",
+            "amount": "수량",
+            "amountYouPay": "입금할 금액",
+            "asset": "자산",
+            "bank": {
+                "title": "은행"
+            },
+            "bankSuccessHeader": "인증을 위해 IDNow.eu 웹사이트로 이동되었습니다.",
+            "bankSuccessText": "인증이 완료되면 귀하의 이메일로 추가 지시사항이 전송됩니다.",
+            "bankVerifiedPlateDescription": "귀하의 자금을 출금하기 전에 [지시 사항]](https://docs.wavesplatform.com/en/waves-client/transfers-and-gateways/eur-usd-transfers.html)과 [한도 및 거래 수수료](https://coinomat.com/limits.php)를 확인하세요.",
+            "bankVerifiedPlateHeader": "이제 귀하의 자금을 은행 계좌로 출금할 수 있습니다.",
+            "card": {
+                "continue": "계속",
+                "title": "카드"
+            },
+            "cardSuccessHeader": "Indacoin.com 웹사이트로 이동되었습니다",
+            "cardSuccessText": "지불이 완료되면 귀하의 잔고가 업데이트됩니다",
+            "coinomat": {
+                "serverError": "Coinomat 서비스를 일시적으로 사용할 수 없습니다. 나중에 다시 시도하세요.",
+                "tryAgain": "다시 시도하세요"
+            },
+            "cryptocurrency": {
+                "title": "암호화폐"
+            },
+            "error": {
+                "cardAmount": {
+                    "gte": "최소 입금액은 {{gte}} {{currency}} 이며",
+                    "lte": "최대 입금액은 {{lte}} {{currency}} 입니다",
+                    "precision": "해당 항목을 잘못 입력하였습니다. 소수점 2번째 자리까지 입력 가능합니다."
+                }
+            },
+            "errors": {
+                "required": "해당 항목은 필수 입력 사항입니다"
+            },
+            "gatewayError": "서비스 게이트웨이를 일시적으로 사용할 수 없습니다. 나중에 다시 시도하세요.",
+            "invoice": {
+                "title": "인보이스"
+            },
+            "ledger": {
+                "cancel": "취소",
+                "retry": "재시도"
+            },
+            "maximumIs": "최대 금액은",
+            "minimumIs": "최소 금액은",
+            "providedByCoinomat": {
+                "descriprion": "{div}[본 서비스는 Coinomat Company (Coinomat)에서 제공합니다. Waves Platform AG는 Coinomat에 의해 수행된 어떠한 활동에 대해서 책임을 지지 않으며 본 서비스를 제공함으로써 발생할 수 있는 Coinomat과 Waves Platform 사용자 간의 어떠한 관계에도 관여하지 않습니다.]{div}[Coinomat 서비스를 이용함으로써 귀하는 [Coinomat 서비스 약관 및 거래의 이행](https://coinomat.com/terms.php)에 동의하는 것으로 간주합니다. 본 조건에 동의하지 않으면 Coinomat 서비스를 사용하지 마십시오.]",
+                "header": "본 서비스는 Coinomat Company (Coinomat)에 의해 제공됩니다.",
+                "termsReadedInputLabel": "본인은 Coinomat Company의 [서비스 약관 및 트랜잭션 수행 약관](https://coinomat.com/terms.php), [제한 사항](https://coinomat.com/limits.php), [개인 정보 정책](https://coinomat.com/privacy.php)을 확인하였으며 이에 동의합니다.",
+                "warning": "인증, 지불 처리 또는 합의 철회와 관련된 문제가 있을 경우 Coinomat 지원팀에 문의하세요 — [support@coinomat.com](mailto:support@coinomat.com)"
+            },
+            "receive": "입금",
+            "serverAddressError": "게이트웨이 주소 오류",
+            "serverError": "Coinomat 서비스를 일시적으로 사용할 수 없습니다. 나중에 다시 시도하세요.",
+            "shareInvoiceLink": "인보이스 링크 복사",
+            "verified": "인증 완료",
+            "vostok": {
+                "serverError": "Vostok 서비스를 일시적으로 사용할 수 없습니다. 나중에 다시 시도하세요."
+            },
+            "wtry": {
+                "info": "지불 처리와 관련된 문제가 있을 경우 Digilira 지원팀에 문의하세요 — [support@digilira.com](mailto:support@digilira.com)"
+            },
+            "wtryPlate1Header": "터키 시민권 보유자만 터키 Lira 게이트웨이를 사용할 수 있습니다.",
+            "wtryPlate1Text": "입금을 진행하기 위해 [digilira.com](https://digilira.com)로 이동합니다.",
+            "wtrySuccessHeader": "Digilira.com 웹사이트로 이동했습니다",
+            "youWillGet": "입금될 자산 추정치"
+        },
+        "removeAccount": {
+            "cancel": "취소",
+            "heading": "계정 삭제",
+            "remove": "삭제",
+            "text": "{div}[백업 구절(SEED)를 저장하지 않고 계정을 삭제하면 해당 계정에 보유된 자산을 절대 찾을 수 없습니다.]\n{div}[삭제 버튼을 클릭하여 계정 삭제 절차를 진행하거나 취소 버튼을 클릭하여 이전 화면으로 돌아가세요.]",
+            "warning": "귀하는 백업 구절을 저장하지 않았습니다"
+        },
+        "removeKeeperAccount": {
+            "heading": "Waves Keeper 계정 삭제",
+            "text": "본 작업은 이 계정에 저장된 경로만 삭제됩니다. Waves Keeper에서 계정을 삭제하지 않습니다."
+        },
+        "removeLedgerAccount": {
+            "heading": "Ledger 계정 삭제",
+            "text": "본 작업은 귀하의 Ledger에서 계정을 삭제하지 않습니다. 귀하의 Ledger에서 이 계정으로 저장된 경로만 삭제합니다."
+        },
+        "script": {
+            "anyTx": "JSON",
+            "setScript": "Script 트랜잭션"
+        },
+        "send": {
+            "amount": "수량",
+            "attachmentLength": "입력 제한을 초과하였습니다",
+            "bankAccount": "은행 계좌",
+            "coinomat": {
+                "feeExplanation": "{{assetName}} 주소를 확인하였으며 Coinomat 게이트웨이를 통해 해당 주소로 자산을 송금합니다. 최소 수량은 {{min, BigNumber}} {{assetTicker}} 이며 최대 수량은 {{max, BigNumber}} {{assetTicker}} 입니다.",
+                "feeTitle": "게이트웨이 수수료는 {{fee, BigNumber}} {{assetTicker}} 입니다"
+            },
+            "coinomatLimits": "최소 $100 USD/EUR, 최대 $50,000 USD/EUR",
+            "coinomatWarningHeader": "Coinmoat 게이트웨이를 통해 귀하의 자산을 전송하겠습니다.",
+            "coinomatWarningText": "출금 전 Coinomat의 [한도와 거래 수수료]를 확인하세요(https://coinomat.com/limits.php).",
+            "compare": {
+                "description": "{{amount}} {{currency}} (${{mirror}})을 전송했습니다",
+                "details": "세부사항 확인",
+                "title": "트랜잭션이 진행 중입니다!"
+            },
+            "confirm": {
+                "back": "뒤로가기",
+                "confirm": "승인",
+                "from": "발신한 주소",
+                "title": "트랜잭션 세부사항",
+                "to": "수신한 주소",
+                "total": "총수량"
+            },
+            "currency": "자산",
+            "description": "설명",
+            "descriptionPlaceholder": "본 항목 입력은 선택사항입니다",
+            "errors": {
+                "address": "주소가 유효하지 않습니다",
+                "allAddressesInvalid": "모든 주소가 유효하지 않습니다",
+                "button": "취소",
+                "headline": "문제가 발생했습니다",
+                "invalidChars": "해당 항목에는 숫자만 입력할 수 있습니다",
+                "max": "자금이 부족합니다",
+                "maxCoinomat": "{{money, money-currency}} 이상의 금액을 전송할 수 없습니다",
+                "paymentIdLength": "Monero Payment ID는 64-character hex string 이어야 합니다",
+                "paymentIdPattern": "Hex string은 특수문자, 0-9, A-Z (또는 a-z)를 포함해야합니다",
+                "precision": "본 항목의 수는 유효하지 않습니다. 최대 소수점 {{precision}}번째 자리까지 입력할 수 있습니다.",
+                "required": "해당 항목은 필수 입력 사항입니다",
+                "title": "오류"
+            },
+            "fee": "트랜잭션 수수료 {{fee, money-currency}}",
+            "gateway": {
+                "feeExplanation": "{{assetName}} 주소를 확인하였으며 게이트웨이를 통해 해당 주소로 자산을 송금합니다. 최소 수량은 {{min, BigNumber}} {{assetTicker}} 이며 최대 수량은 {{max, BigNumber}} {{assetTicker}} 입니다."
+            },
+            "icoWarning": "{{assetName}}을 ICO로 인출하지 마십시오. 당사는 귀하의 계정에 해당 판매의 토큰을 입금하지 않습니다.",
+            "idNumber": {
+                "helpIcon": {
+                    "description": "은행 계좌로 자금을 인출하는 자세한 방법을 [여기에서](https://docs.wavesplatform.com/en/waves-client/transfers-and-gateways/eur-usd-transfers.html) 확인하세요.",
+                    "title": "귀하의 ID 번호는 Coinomat에서 은행 계좌를 확인한 후 각 사용자에게 할당된 고유 번호입니다."
+                }
+            },
+            "idNumberTitle": "ID 번호",
+            "liraBankAccount": "Digilira 계정",
+            "massSend": {
+                "clear": "지우기",
+                "description": "설명",
+                "errors": {
+                    "invalidAddress": "유효하지 않는 주소 목록:"
+                },
+                "importFile": "CSV 파일 불러오기",
+                "recipient": "수신자, 수량: {{count}}/{{max}}",
+                "recipientsAmountsPlaceholder": "예시:\n주소1,수량1\n주소2,수량2",
+                "showAllErrors": {
+                    "false": "({{count}}) 모두 보기",
+                    "true": "최초 2개의 오류 보기"
+                },
+                "totalAmount": "총수량",
+                "warningPlate1Header": "최대 100명의 수신자에게 전송할 수 있습니다",
+                "warningPlate1Text": "100번째 이후에 입력된 모든 수신자는 무시됩니다.",
+                "warningPlate2Header": "유효하지 않는 주소는 대량 전송에 포함되지 않을 것입니다.",
+                "warningPlate3Header": "수신자와 보낼 수량을 쉼표로 구분하세요. 각 수신자를 구분하기 위해 새로운 줄을 사용하세요.",
+                "warningPlate3Text": "[CSV file 기준에 대해 자세히 알아보기](https://en.wikipedia.org/wiki/Comma-separated_values)."
+            },
+            "massSendTitle": "대량 전송",
+            "moneroPaymentId": "Monero Payment ID",
+            "moneroPaymentIdPlaceholder": "귀하의 Monero Payment ID를 붙여넣거나 입력하세요",
+            "notSponsorship": {
+                "fee": "트랜잭션 수수료 {{fee, money-currency}}"
+            },
+            "notVerifiedHeader": "귀하는 인증되지 않았습니다.",
+            "notVerifiedText": "인증된 사용자만 은행 계좌로 출금이 가능합니다. 명목화폐 입출금에 대한 자세한 내용은 [여기에서](https://docs.wavesplatform.com/en/waves-client/transfers-and-gateways/eur-usd-transfers.html) 확인하세요.",
+            "or": "또는",
+            "placeholderRecipient": "주소를 붙여넣거나 스캔하세요",
+            "recipient": "수신자",
+            "sendMax": "최대",
+            "sendTitle": "전송",
+            "title": "{{assetName}} 전송",
+            "titleComplete": "전송 완료",
+            "toBank": "은행 계좌로 출금",
+            "total": "총수량",
+            "toWaves": "Waves 주소로 전송",
+            "txFee": "트랜잭션 수수료",
+            "validationError": {
+                "notEnoughFunds": "수수료를 지불할 충분한 자금이 없습니다. {{fee, money-currency}} 트랜잭션 수수료로 지불해야 합니다.",
+                "notEnoughFundsWithdraw": "수수료를 지불할 충분한 자금이 없습니다. {{fee, money-currency}}를 트랜잭션 수수료와 {{getawayFee, BigNumber}} {{currency}}를 게이트웨이 수수료로 지불해야 합니다. 최수 출금 금액은 {{minGatewayAmount, BigNumber}} {{currency}} 입니다."
+            }
+        },
+        "sepa": {
+            "countryList": "이용 가능한 국가 및 ID 목록",
+            "proceed": "인증 받기",
+            "step1": "1 단계",
+            "step1Description": "SEPA 이체를 통해 {{assetName}}을 귀하의 은행 계좌에서 바로 입금하려면 당사의 파트너 [IDNow.eu]({{url}})의 인증을 받아야 합니다.",
+            "step2": "2 단계",
+            "step2Description": "인증 단계를 마치면 귀하의 이메일로 추가 지시사항이 전송됩니다.",
+            "title": "{{assetName}} 입금",
+            "warning": "인증 또는 지불 처리와 관련된 문제가 있을 경우 Coinomat 지원팀에 문의하세요 — [support@coinomat.com](mailto:support@coinomat.com)",
+            "warningTitle": "당사는 미국 시민권자 또는 미국 은행으로부터 자금을 이체 받지 않습니다."
+        },
+        "setAssetScript": {
+            "errorNoMoney": "수수료를 지불하기에 충분한 자금이 없습니다. {{fee, money-currency}} 트랜잭션 수수료를 지불해야합니다.",
+            "script": "스크립트",
+            "scripted": "설정",
+            "title": "스크립트 업데이트",
+            "unavailable": "Update 스크립트 기능을 일시적으로 사용할 수 없습니다.",
+            "warningDescription": "{div}[숙련된 사용자가 아니라면 스크립트 트랜잭션을 제출하지 않는 것이 좋습니다. 오류로 인해 계정에 영구적으로 접근하지 못할 수 있습니다.]",
+            "warningHeader": "해당 조치로 인해 자산을 잃을 수 있습니다."
+        },
+        "settings": {
+            "cancel": "신규 계정 생성",
+            "general": {
+                "auto": "자동",
+                "blockHeight": "현재 블록 Height",
+                "blue": "Waves",
+                "color": "색상",
+                "dark": "어둡게",
+                "green": "클래식",
+                "hours": "{{hours}} 시간",
+                "language": "언어",
+                "minutes": "{{minutes}} 분",
+                "openLinkViaWeb": "항상 웹 어플리케이션 통해 링크에 연결합니다.",
+                "playSound": "Play user interface sound effects",
+                "theme": "테마",
+                "timeout": "세션 만료까지 남은 시간",
+                "title": "일반",
+                "white": "밝게"
+            },
+            "info": {
+                "legal": "법률 조건",
+                "privacyPolicy": "개인 정보 보호 정책",
+                "support": "지원센터",
+                "termsAndConditions": "이용 약관",
+                "title": "정보",
+                "version": "버전"
+            },
+            "message": "로그인 또는 신규 계정을 생성하여 환경을 설정하세요",
+            "network": {
+                "apiAddress": "데이터 서비스",
+                "apiAddressHelp": "데이터 서비스는 Waves 블록체인 데이터와 상호 작용하기 위한 추가적인 API를 제공합니다.",
+                "assetNameFilter": "명칭 지정 서비스",
+                "assetNameFilterHelp": "본 서비스는 Waves 토큰 라이브러리를 통해 토큰의 명칭을 확인합니다. 해당 기능을 비활성화하려면 항목을 비워두세요.",
+                "copy": "복사",
+                "dataProvider": "데이터 제공자",
+                "dataProviderDescription": "{{dataProviderDescription}}",
+                "dataProviderId": "{{dataProviderId}}",
+                "dataProviderInvalid": "제공자의 정보를 가져오는데 실패했습니다. 주소를 확인하고 다시 시도하세요.",
+                "dataProviderName": "{{dataProviderName}}",
+                "dontShowSpamCheckboxDescr": "검증되지 않은 토큰을 표시하지 않습니다",
+                "forDisableClear": "완전히 비활성화하려면 항목을 지우세요",
+                "matcherAddress": "Matcher 주소",
+                "nodeAddress": "Node 주소",
+                "showMore": "자세히 보기",
+                "spamFilter": "토큰 필터",
+                "spamFilterInputDescr": "스팸 필터링 해제",
+                "spamListHelp": "본 필터는 검증되지 않은 토큰을 포트폴리오에서 제거합니다.",
+                "title": "네트워크"
+            },
+            "ok": "로그인",
+            "pairing": {
+                "devicePairing": "계정 추출",
+                "header": "페어링 코드 스캔",
+                "showCodeLink": "페어링 코드 보기",
+                "unavailable": {
+                    "description": {
+                        "ledger": "Ledger 디바이스에 보관된 계정은 추출할 수 없습니다",
+                        "wavesKeeper": "Waves Keeper에서 불러온 계정의 추출은 Waves Keeper에서 사용할 수 있습니다"
+                    },
+                    "header": {
+                        "ledger": "추출 불가",
+                        "wavesKeeper": "추출 불가"
+                    },
+                    "ok": "이해했습니다"
+                }
+            },
+            "security": {
+                "address": "주소",
+                "backupPhrase": "백업 구절",
+                "encodedSeed": "암호화된 백업 구절",
+                "privateKey": "프라이빗 키",
+                "publicKey": "퍼블릭 키",
+                "script": "Script",
+                "scriptButton": "Script 설정",
+                "scriptButtonUpdate": "Script 업데이트",
+                "show": "확인",
+                "title": "보안"
+            },
+            "setDefault": "기본으로 설정",
+            "title": "환경설정"
+        },
+        "sign": {
+            "article": "article",
+            "cancel": "취소",
+            "cancelOrder": "주문 취소",
+            "close": "닫기",
+            "confirm": "승인",
+            "confirmRequest": "요청 승인",
+            "confirmRequest_utils": "요청 승인",
+            "confirmRequestKeeper": "Waves Keeper에서 승인을 기다리는 중...",
+            "confirmRequestLedger": {
+                "cancel": "취소",
+                "errorDescription": "다시 시도하세요. 오류가 지속되면 [이 글](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)을 참조하세요.",
+                "errorHeader": "Ledger 디바이스에서 요청을 승인하지 않았습니다",
+                "sign": "다시 시도",
+                "waiting": "Ledger 디바이스의 승인을 기다리는 중입니다..."
+            },
+            "confirmRequestMatcher_utils": "Matcher 요청에 서명하세요. 서명되지 않은 Ledger 계정은 DEX에서 거래 할 수 없습니다.",
+            "confirmRequestToMatcher": "Matcher 요청에 서명하십시오. 서명되지 않은 계정은 DEX에서 거래 할 수 없습니다.",
+            "connecting": "연결중…",
+            "connectingKeeper": "Waves Keeper에 연결중...",
+            "connectionError": "Ledger 디바이스에 연결할 수 없습니다",
+            "connectionErrorKeeper": "계정에 액세스할 수 없습니다",
+            "connectionText": "연결 시간이 초과되었습니다. 다시 시도하세요.",
+            "connectLedger": "Ledger 디바이스를 연결하세요",
+            "enterPin": "PIN 코드를 입력하세요",
+            "fee": "수수료",
+            "matcher": "요청 주문에 서명",
+            "openApp": "Waves 앱 실행",
+            "price": "가격",
+            "refererTo": "오류가 지속되면 다음을 참고하세요",
+            "referTo": "오류가 지속되면 다음을 참고하세요",
+            "request": "요청",
+            "requestId": "Hash 요청",
+            "retry": "다시 시도하세요",
+            "signByKeeper": "Waves Keeper의 승인을 기다리는 중입니다…",
+            "signByLedger": "Ledger의 승인을 기다리는 중 입니다…",
+            "signError": "요청이 승인되지 않았습니다.",
+            "signErrorKeeper": "Waves Keeper 사용 요청을 승인하지 않았습니다.",
+            "signErrorText": "귀하의 Ledger 디바이스에서 요청을 승인하지 않았습니다.",
+            "signErrorTextImportKeeper": "주소 {{address}}로 Waves Keeper에 로그인 하고 계속하기 위해 페이지를 새로고침 하세요.",
+            "signErrorTextKeeper": "다시 시도하세요. 오류가 지속된다면 [서포트](https://support.wavesplatform.com/)에 문의하세요.",
+            "txId": "TXID"
+        },
+        "sponsorship_edit": {
+            "title": "스폰서십 변경"
+        },
+        "sponsorship": {
+            "amountPerTx": "트랜잭션당 수량 (0.001 WAVES)",
+            "assetId": "ID",
+            "continue": "계속하기",
+            "errors": {
+                "feeRequired": "필수 입력 사항입니다!",
+                "minSponsoredAssetFee": {
+                    "precision": "잘못된 수를 입력하였습니다. 최대 소수점은 {{precision}}번째 자리입니다."
+                },
+                "noMoney": "수수료를 지불할 잔액이 충분하지 않습니다. {{fee, money-currency}} 트랜잭션 수수료를 지불해야 합니다.",
+                "notZero": "0 보다 큰 값이어야 합니다"
+            },
+            "fee": "트랜잭션 수수료 {{fee, money-currency}}",
+            "title": "스폰서십 활성화",
+            "warningHeader": "사용자는 {{name}}로 트랜잭션 수수료를 지불할 수 있습니다",
+            "warningText": "각 트랜잭션마다 0.001 WAVES가 귀하의 잔액에서 부과되며 귀하의 계정에 {{name}}이/가 입금됩니다. 스폰서십 활성화 시 트랜잭션을 위해 사용자에게 부과되는 {{name}}의 수량은 귀하가 설정할 수 있습니다 (아래의 양식에 수량을 입력하세요). 스폰서십은 최소 1.005 WAVES를 보유해야 작동합니다. 충분한 잔액을 보유하고 있지 않으면 스폰서 트랜잭션을 할 수 없습니다."
+        },
+        "startLease": {
+            "amount": "수량",
+            "balance": "잔액",
+            "fee": "수수료 {{fee, money-currency}}",
+            "nodeListLink": "Node 목록",
+            "nodeListLink_copy": "Node 목록",
+            "recipient": "수신자",
+            "start": "Lease 시작",
+            "title": "Leasing 시작"
+        },
+        "termsAccept": {
+            "body": {
+                "advancedMode": "고급 기능",
+                "analytics": "Waves 플랫폼을 개선하기 위해 개발자들에게 익명으로 사용 통계를 보냅니다.",
+                "backup": "본 앱을 다른 장치로 이동하거나 삭제하면 나의 Waves 계정은 백업 구절로만 복구될 수 있음을 이해합니다.",
+                "ok": "동의하고 시작",
+                "privacyPolicy": "본 [개인정보 보호정책]을 읽었으며 동의합니다\n(https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf).",
+                "read": "다음 약관을 읽었으며 이해하고 동의합니다.",
+                "readTermsAndConditions": "본 [이용 약관]을 읽었으며 동의합니다\n(https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
+                "security": "나의 자산이 회사가 아닌 현재 사용 중인 장치에서 안전하게 보관된다는 것을 이해합니다.",
+                "securityAndBackup": "나의 자산이 회사가 아닌 본 장치에서 안전하게 보관되고 있다는 것을 이해합니다. 만약 이 앱이 지워지거나 다른 장치로 이동된다면 나의 Waves는 백업 구절로만 복원될 수 있습니다.",
+                "terms": "이용 약관"
+            },
+            "header": {
+                "description": "Waves는 다릅니다 — 본 지갑은 귀하의 장치에서 안전하게 보관됩니다",
+                "title": "계정 생성 완료! 주의사항",
+                "title2": "이용 약관"
+            }
+        },
+        "token": {
+            "balance": "잔액",
+            "burn": {
+                "label": "소각할 토큰의 수량",
+                "title": "{{name}} 토큰 소각"
+            },
+            "description": "설명",
+            "fee": "트랜잭션 수수료 {{fee, money-currency}}",
+            "gt0": "입력한 숫자는 0보다 커야합니다",
+            "id": "자산 ID",
+            "quantity": "총수량",
+            "reissue": {
+                "label": "재발행할 토큰의 수량",
+                "title": "{{name}} 토큰 재발행"
+            },
+            "validation": {
+                "gt0": "필수 입력 항목입니다",
+                "invalidAsset": "본 항목에는 숫자만 입력할 수 있습니다",
+                "invalidPrecision": "최대 소수점 {{precision}}번째 자리를 초과하였습니다",
+                "lteMaxBalance": "잔액 보다 더 많은 수량을 입력하였습니다",
+                "maxValueCount": "입력한 숫자가 너무 큽니다",
+                "noMoney": "트랜잭션 수수료를 지불할 수 있는 잔액이 부족합니다",
+                "required": "필수 입력 항목입니다"
+            }
+        },
+        "tryDesktop": {
+            "remember": "해당 설정을 기억하고 다시 묻지 않습니다"
+        },
+        "tutorialModals": {
+            "step1": {
+                "button": "백업 구절에 대해 확인해야 할 사항",
+                "buttonMobile": "다음",
+                "p1": "귀하의 안전을 위해 몇 가지 중요한 사항을 확인해야 합니다. 🙏",
+                "p2": "만약 피싱 사이트를 방문하거나 백업 구절(일명 SEED) 분실 시 당사는 귀하의 자금을 되찾거나 계정을 정지할 수 없습니다.",
+                "p3": "당사의 플랫폼을 이용함에 따라 귀하는 백업 구절(SEED) 분실에 관련된 모든 위험을 감수하는 것에 동의하는 것이며 이는 귀하의 자금 확보 및 처분이 불가능한 경우를 포함하며 이에 국한되지 않습니다. 귀하가 SEED를 분실할 경우 Waves Platform은 이에 따른 부정적인 결과에 어떠한 책임도 없다는 것에 동의하고 승인합니다.",
+                "title": "Waves Platform에 오신것을 환영합니다!"
+            },
+            "step2": {
+                "backButton": "뒤로가기",
+                "cell1": "귀하는 익명으로 지갑을 사용합니다. 즉, 귀하의 계정은 이메일이나 기타 개인 정보 데이터에 연결되어 있지 않습니다.",
+                "cell2": "특정 장치나 브라우저에서 작업할 때 비밀번호는 귀하의 계정을 보호합니다. 이는 백업 구절이 저장 장치에 저장되지 않도록 하기 위해 필요합니다.",
+                "cell3": "비밀번호를 잊어버린 경우 계정 복구 양식에 백업 구절을 입력하여 새 비밀번호를 쉽게 만들 수 있습니다. 하지만 백업 구절을 분실할 경우 계정에 액세스할 방법이 전혀 없습니다.",
+                "cell4": "백업 구절을 변경할 수 없습니다. 실수로 다른 사람에게 공유했거나 사기꾼이 가져간 것으로 의심되는 경우 즉시 신규 Waves 지갑을 만들어 자금을 이전하세요.",
+                "nextButton": "직접 보호하세요",
+                "p1": "일반적인 중앙 집중형 서버에서는 이메일을 통해 비밀번호를 변경 및 재설정할 수 있지만 Waves와 같은 탈중앙화 플랫폼에서는 모든 것이 다르게 작동합니다:",
+                "title": "백업 구절에 대해 확인해야 할 사항"
+            },
+            "step3": {
+                "backButton": "뒤로가기",
+                "cell1": "URL을 항상 확인하세요: [https://client.wavesplatform.com](https://client.wavesplatform.com)",
+                "cell2": "확장 프로그램이나 플러그인이 있는 브라우저를 사용하여 계정에 접속하지 마세요.",
+                "cell3": "알 수 없는 발신자가 보낸 이메일 또는 링크를 열지 마세요.",
+                "cell4": "운영 체제를 정기적으로 업데이트하세요.",
+                "cell4Web": "운영 체제와 브라우저를 정기적으로 업데이트하세요.",
+                "cell5": "공식 보안 소프트웨어를 사용하세요. 해킹에 취약한 검증되지 않은 소프트웨어를 설치하지 마세요.",
+                "cell6": "공용 Wi-Fi 또는 타인의 장치를 사용하여 지갑에 액세스하지 마세요.",
+                "nextButton": "모두 이해했습니다",
+                "p1": "가장 일반적인 형태의 사기 중 하나는 피싱입니다. 이는 사기꾼들이 Facebook이나 다른 웹사이트에서 실제의 것과 아주 흡사한 가짜 커뮤니티를 만드는 것입니다.",
+                "title": "피싱으로부터 자신을 보호하는 방법"
+            }
+        }
+    },
+    "modals": {
+        "anyTx": {
+            "title": "JSON"
+        }
+    },
+    "notification": {
+        "backup": {
+            "action": "저장",
+            "body": "백업 구절을 안전하게 보관하세요. 귀하의 계정을 복원할 수 있는 유일한 방법입니다.",
+            "title": "귀하의 백업 구절(SEED)을 저장하세요"
+        }
+    },
+    "qualified": "검증 완료",
+    "transaction": {
+        "amounts": {
+            "create-order": "{{sign}}{{amount}} {{name}}"
+        }
+    },
+    "Unpin_utils": "즐겨찾기 해제",
+    "utils": {
+        "whatsNew": {
+            "body": {
+                "1_0_0": "{span.line}[1. Waves Client 정식 버전 출시.]{span.line}[2. 메인 페이지에서 즐겨찾는 자산 등록 및 해제 가능.]{span.line}[3. 나이트 모드 추가.]{span.line}[4. 구 버전의 클라이언트에서 계정 불러오기 가능.]{span.line}[5. 기타 버그 픽스.]",
+                "1_0_0-beta_23": "{span.line}[1. '새로운 기능' 섹션을 추가!]{span.line}[2. 귀하의 계정에 이름 추가 가능.]{span.line}[3. 기타 버그 픽스.]",
+                "1_0_0-beta_25": "{span.line}[1. 세션 만료 시간 설정 가능]{span.line}[2. 보기 영역 밖으로 이동되는 DEX의 매수창/매도창 버그 픽스.]{span.line}[3. 백업 구절(SEED)을 저장하지 않으면 경고 알림.]{span.line}[4. 기타 버그 픽스.]",
+                "1_0_0-beta_26": "{span.line}[1. 기타 버그 픽스.]",
+                "1_0_0-beta_27": "{span.line}[1. 중국어 지원 추가.]{span.line}[2. 터키어 지원 추가.]",
+                "1_0_0-beta_30": "{span.line}[1. 귀하가 발행한 토큰의 소각 및 재발행 가능.]{span.line}[2. Waves Auth API 지원 추가.]{span.line}[3. 기타 버그 픽스.]",
+                "1_0_0-beta_31": "{span.line}[1. 신용 카드로 WAVES 및 BTC 구매 가능.]{span.line}[2. 매수창/매도창 UI 개선.]{span.line}[3. 윈도우 32비트 운영체제 지원 추가.]{span.line}[4. 기타 버그 픽스.]",
+                "1_0_0-beta_32": "{span.line}[1. 클라이언트를 사용해 대량 전송 (Mass Transfers) 가능.]{span.line}[2. 기타 버그 픽스.]",
+                "1_0_0-beta_35": "{span.line}[1. 포트폴리오 탭에서 토큰 정리,필터링,숨기기 가능.]{span.line}[2. DASH 게이트웨이 런칭 완료.]{span.line}[3. 힌디어 지원 추가.]{span.line}[4. 네덜란드어 지원 추가.]{span.line}[5. 다른 사용자에게 인보이스 발행 가능.]{span.line}[6. 기타 버그 픽스.]",
+                "1_0_0-beta_36": "{span.line}[1. Leasing 페이지에 주요 Leasing 노드들의 목록화.]{span.line}[2. 기타 버그 픽스.]",
+                "1_0_0-beta_39": "{span.line}[1. 환경설정에 스팸 필터 추가.]{span.line}[2. 기타 버그 픽스.]",
+                "1_0_0-beta_40": "{span.line}[1. Monero 게이트웨이 런칭 완료.]",
+                "1_0_0-beta_42": "{span.line}[1. 스페인어 지원 추가.]{span.line}[2. 기본 설정으로 계정 세부사항을 저장하지 않고 클라이언트 사용 가능.]{span.line}[3. 트랜잭션 페이지에 스팸 토큰 표시.]{span.line}[4. 기타 버그 픽스.]",
+                "1_0_0-beta_47": "{span.line}[1. 완전히 새로운 DEX UI.]{span.line}[2. 보다 빠르고 안정적인 클라이언트.]{span.line}[3. Alias 기능 사용 가능.]{span.line}[4. 기타 버그 픽스.]{span.line}[5. Waves 후기 [영상](https://forum.wavesplatform.com/t/contest-best-waves-dex-video-review/822) 또는 Waves 후기 [블로그 포스팅](https://forum.wavesplatform.com/t/contest-for-the-writers-waves-dex-overview/835) 제작 경연에 참가하세요.]",
+                "1_0_0-beta_50": "{span.line}[1. 귀하의 계정에 보유하고 있는 불필요한 토큰 소각 가능.]{span.line}[2. 기타 버그 픽스.]",
+                "1_0_10": "{span.line}[1. 스폰서십 트랜잭션 지원 추가. [상세 안내](https://docs.wavesplatform.com/en/waves-client/assets-management/sponsored-transaction.html)]\n{span.line}[2. 폴란드어 및 포르투칼어 지원 추가.]",
+                "1_0_14": "{span.line}[1. Waves 잔고없이 스폰서 자산을 사용하는 버그 픽스.]\n{span.line}[2. 30일 만기 주문 버그 픽스.]\n{span.line}[3. 기타 버그 픽스.]",
+                "1_0_15": "{span.line}[1. Ledger 승인 관련 버그 픽스.]\n{span.line}[2. Ledger 승인 대기 시간 증가.]\n{span.line}[3. 오류 메세지에 대한 자세한 정보 추가.]",
+                "1_0_18": "{span.line}[1. 귀하의 계정에 Script를 설정할 수 있습니다.]\n{span.line}[2. 기타 버그 픽스.]",
+                "1_0_21": "{span.line}[1. Ledger를 통한 권한 승인 수정.]\n{span.line}[2. 기타 버그 픽스.]",
+                "1_0_22": "{span.line}[1. 스크립트된 계정으로 작업할 수 있는 고급 기능 추가.]",
+                "1_0_25": "{span.line}[1. [Waves Keeper](https://chrome.google.com/webstore/detail/waves-keeper/lpilbniiabackdjcionkobglmddfbcjo?hl=en) 서포트 기능 추가.]",
+                "1_0_27": "{span.line}[1. 포트폴리오 탭에 \"나의 자산\" 카테고리 추가.]\n{span.line}[2. 기타 버그 픽스.]",
+                "1_0_28": "{span.line}[1. 기존 계정을 모바일로 추출하는 페어링 기능 추가.]\n{span.line}[2. 기타 버그 픽스.]",
+                "1_0_29": "{span.line}[1. Cyrillic 알파벳을 사용하여 QR 코드 생성 수정.]\n{span.line}[2. 워치리스트 검색을 위한 툴팁 추가.]\n{span.line}[3. 기타 버그 픽스. ]",
+                "1_0_3": "{span.line}[1. 포트폴리오 페이지에서 자산을 ID로 검색 가능.]\n{span.line}[2. 기타 버그 픽스.]",
+                "1_0_30": "{span.line}[1. Script 설정 버튼 보안 섹션으로 이동.]\n{span.line}[2. 퍼포먼스 개선 및 기타 버그 픽스.]",
+                "1_0_32": "{span.line}[1. BetterTokens의 oracle과 통합.]\n{span.line}[2. 토큰 검증 프로토콜을 위한 지원 추가.]\n{span.line}[3. Coinomat을 통한 토큰 출금의 수수료 회계 수정.]",
+                "1_0_33": "{span.line} [1. 현재 시장가와 차이가 많이 나는 주문 요청 시 알림을 받게 됩니다.] {span.line} [2. 기타 버그 픽스.]",
+                "1_0_36": "{span.line}[1. Script된 계정으로 DEX에서 거래 할 수 있는 기능 추가.] \n{span.line}[2.인보이스 생성 또는 자산 전송 시 자산 검색 기능 추가.] \n{span.line}[3. 기타 레이아웃 편집.]",
+                "1_0_37": "{span.line}[1. 스마트 자산 기능 추가: 발행, 재발행 그리고 소각]\n{span.line}[2. 이태리어, 독일어, 인도네시아어 추가]\n{span.line}[3. 기타 버그 픽스]",
+                "1_0_40": "{span.line}[1. DEX 최적화.]\n{span.line}[2. 브라우저 탭 제목에 현재 페어에 대한 환율 추가.]\n{span.line}[3. 기타 버그 픽스.]",
+                "1_0_41": "{span.line}[1. DEX 최적화.]\n{span.line}[2. 알림 시스템 추가.]\n{span.line}[3. 기타 버그 픽스.]",
+                "1_0_42": "{span.line}[1. 기타 버그 픽스.]",
+                "1_0_5": "{span.line}[1. DEX 차트에 거래량 규모 표시 추가.]\n{span.line}[2. 기타 버그 픽스.]",
+                "1_0_6": "{span.line}[1. Waves 데스트톱 클라이언트를 통한 인증 기능이 추가되었습니다.]",
+                "1_0_7": "{span.line}[1. 데스크톱 클라이언트 충돌 오류 픽스.]\n{span.line}[2. 대량의 컨텐츠로 인한 트랜잭션과 포트폴리오 페이지간의 전환을 최적화.]\n{span.line}[3. 트랜잭션 목록에 스팸 토큰의 명칭을 숨김.]\n{span.line}[4. 오류 메세지 출력 수정.]",
+                "1_0_8": "{span.line}[1. Ledger Nano S 지원 기능 추가]\n{span.line}[2. 인증 방법을 선택할 수 있는 새로운 옵션 추가]",
+                "1_1_0": "{span.line}[1. 주문 만료기간이 기본 설정으로 저장됩니다.]\n{span.line}[2. 기타 버그 픽스.]",
+                "1_2_0": "{span.line}[1.일본어 및 에스토니아어 추가 .]\n{span.line}[2. 매수/매도창 UI 개선.]\n{span.line}[3. 기타 버그 픽스.]",
+                "1_2_1": "{span.line}[1. 차트 사이즈와 스케일 설정 및 시간 간격이 저장됩니다.]\n{span.line}[2. 기타 버그 픽스.]",
+                "1_2_2": "{span.line}[1. 보안 업데이트.]{span.line}[2. 기타 버그 픽스.]",
+                "1_2_3": "{span.line}[1.Ledger Waves 1.0.0 앱 지원 추가.]",
+                "1_2_6": "{span.line}[1. Invocation 스크립트 트랜잭션 지원 추가. [자세히 보기](https://blog.wavesplatform.com/ride-for-dapps-hits-waves-testnet-e3f2906dd2aa)]\n{span.line}[2. UI 개선 및 기타 버그 픽스.]",
+                "1_2_8": "{span.line}[1. 스팸 토큰과 스팸 트랜잭션을 클라이언트에서 숨깁니다.]\n{span.line}[2. UI 개선 및 기타 버그 픽스.]",
+                "1_3_0": "{span.line}[1. 앱 네비게이션 및 시작 페이지 인터페이스 개선.]",
+                "1_3_2": "{span.line}[1. Vostok 게이트웨이 런칭 완료.]\n{span.line}[2. UI 개선 및 기타 버그 픽스.]",
+                "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) 컨테스트 토큰 탭 추가 완료.]\n{span.line}[2. 프랑스어 지원 추가.]\n{span.line}[3. 기타 버그 픽스.]",
+                "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com)과의 통합. 앱에서 토큰을 평가할 수 있습니다.]\n{span.line}[2. 기타 버그 픽스.]"
+            },
+            "title": "{{version}} 업데이트의 새로운 기능 및 변경 사항"
+        }
+    },
+    "validators": {
+        "byte": {
+            "help": "사용 가능 Bytes: {{bytes}}"
+        }
+    }
+}

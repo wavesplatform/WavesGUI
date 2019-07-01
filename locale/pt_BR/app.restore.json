@@ -1,0 +1,50 @@
+{
+    "password": {
+        "error": "Senha incorreta!"
+    },
+    "passwordForm": {
+        "back": "voltar",
+        "description": "Proteja sua conta com uma nova senha ou",
+        "importAccounts": "Importar contas",
+        "login": "Entrar",
+        "title": "Proteja Sua Conta"
+    },
+    "restore": {
+        "beta": {
+            "accountTitle": "Endereço / Nome da conta",
+            "buttons": {
+                "cancel": "Voltar",
+                "copy": "Copiar Seed",
+                "restore": "Restaurar Seed"
+            },
+            "noUsers": {
+                "description": "{div}[Não encontramos nenhuma conta salva. Volte para o] {div}[[client.wavesplatform.com](https://client.wavesplatform.com)]",
+                "title": "Nenhuma conta salva"
+            },
+            "passwordTitle": "Senha",
+            "placeholders": {
+                "password": "Senha"
+            },
+            "step1Description": "Se você tiver apenas sua senha e não o SEED, você poderá acessar essa página para restaurar uma conta salva.",
+            "step2Description": "Por favor, guarde bem o SEED. Pois se você perder, não terá como acessar sua conta.",
+            "title": "Restaurar Seed"
+        }
+    },
+    "seedForm": {
+        "address": "Endereço",
+        "back": "Voltar",
+        "continue": "Continuar",
+        "create": "Criar uma nova conta",
+        "description": "Your Seed the 15 words you saved when creating your account",
+        "or": "ou",
+        "placeholder": "Seu seed são as 15 palavras que você salvou ao criar sua conta",
+        "saveUserData": "Mantenha-me conectado neste computador",
+        "seedTitle": "O seed da sua carteira",
+        "title": "Import from Seed",
+        "tosaved": "para uma conta salva"
+    },
+    "warningSeed": {
+        "message": "Não recomendamos o uso de um endereço como uma SEED, pois não é seguro. Você tem certeza que deseja continuar?",
+        "title": "Você digitou um endereço, não uma SEED."
+    }
+}

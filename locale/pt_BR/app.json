@@ -1,0 +1,94 @@
+{
+    "back": "Voltar para a página principal",
+    "button": {
+        "cancel": "Cancelar",
+        "continue": "Continuar"
+    },
+    "confirmTransaction": {
+        "notPermitted": {
+            "issue": "A emissão de tokens está temporariamente indisponível.",
+            "issue-title": "Geração de token",
+            "massSendTitle": "Transferência de massa",
+            "reissue": "A reemissão de tokens está temporariamente indisponível.",
+            "sendTitle": "Enviar",
+            "set-script-title": "Script de transação"
+        },
+        "send": {
+            "errors": {
+                "fee": "Você não tem saldo suficiente para pagar as taxas exigidas. Você deve pagar a taxa de {{fee, money-currency}};"
+            }
+        }
+    },
+    "date": {
+        "month": [
+            "Jan",
+            "Fev",
+            "Mar",
+            "Abr",
+            "Mai",
+            "Jun",
+            "Jul",
+            "Ago",
+            "Set",
+            "Out",
+            "Nov",
+            "Dez"
+        ]
+    },
+    "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
+        "description": "Aloha funky coin, for any good&evil purposes ;)"
+    },
+    "fee": "{{money, money-fee}}",
+    "header": {
+        "assets": "Ativos",
+        "dex": "DEX",
+        "leasing": "Aluguel",
+        "portfolio": "Portfólio",
+        "tokens": "Tokens",
+        "transactions": "Transações",
+        "wallet": "Carteira"
+    },
+    "inputs": {
+        "errors": {
+            "required": "Este campo é obrigatório!"
+        }
+    },
+    "leftmenu": {
+        "login": "Entrar",
+        "logout": "Sair",
+        "settings": "Configurações"
+    },
+    "matcher": {
+        "orders": {
+            "statuses": {
+                "canceled": "Cancelada",
+                "filled": "Concluído ({{percent}}%)",
+                "opened": "Aberta"
+            }
+        }
+    },
+    "modal": {
+        "enterPassword": {
+            "ok": "OK",
+            "title": "Digite sua Senha"
+        },
+        "pairing": {
+            "showQr": "Mostrar"
+        },
+        "tryDesktop": {
+            "cancel": "Continuar na web",
+            "label": "Salve minhas informações e não me lembre novamente",
+            "message": "Nós recomendamos que você use o aplicativo Waves desktop. Se você ainda não tem, você pode baixá-lo no site oficial).",
+            "title": "Usar o aplicativo Waves desktop",
+            "try": "Abrir o aplicativo desktop"
+        }
+    },
+    "money-currency": "{{money, money-currency}}",
+    "number": {
+        "short": {
+            "million": "M",
+            "thousand": "k"
+        }
+    },
+    "Suspicious": "Suspeito"
+}

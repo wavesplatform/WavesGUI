@@ -1,0 +1,31 @@
+{
+    "ledger": {
+        "article": "ten artykuł",
+        "connectionError": "Brak połączenia z urządzeniem Ledger",
+        "connectionText": "Połączenie mogło przekroczyć limit czasu. Spróbuj ponownie",
+        "referTo": "Jeśli błąd będzie się powtarzał zapoznaj się z"
+    },
+    "ledgerForm": {
+        "address": "Adresy konta:",
+        "avatarUnique": "Wybór avataru nie podlega późniejszym zmianom",
+        "back": "Wróć",
+        "choose": "Wybierz swoje konto",
+        "importAccount": "Importuj konto Ledger",
+        "ImportOrSignIn": "Importuj konto albo",
+        "login": "Kontynuuj",
+        "name": "Nazwa konta",
+        "or": "Albo",
+        "retry": "Ponów",
+        "savedOne": "do zapisanego konta",
+        "saveUserData": "Zachowaj moje logowanie na tym komputerze",
+        "selectDefault": "Użyj konta domyślnego",
+        "signIn": "zaloguj się"
+    },
+    "modal": {
+        "sign": {
+            "confirmRequest": "Potwierdź żądanie",
+            "confirmRequestMatcher": "Podpisz żądanie do Matchera. Jeśli nie podpiszesz tego żądania, nie możesz handlować na zdecentralizowanej giełdzie z konta Ledger."
+        }
+    },
+    "or": "LUB"
+}

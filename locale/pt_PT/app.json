@@ -1,0 +1,94 @@
+{
+    "back": "Back to main page",
+    "button": {
+        "cancel": "Cancel",
+        "continue": "Continue"
+    },
+    "confirmTransaction": {
+        "notPermitted": {
+            "issue": "Token issuance is temporarily unavailable.",
+            "issue-title": "Token generation",
+            "massSendTitle": "Mass Transfer",
+            "reissue": "Token reissuance is temporarily unavailable.",
+            "sendTitle": "Send",
+            "set-script-title": "Script transaction"
+        },
+        "send": {
+            "errors": {
+                "fee": "You don't have enough funds to pay the required fees. You must pay {{fee, money-currency}} transaction fee;"
+            }
+        }
+    },
+    "date": {
+        "month": [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
+        ]
+    },
+    "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
+        "description": "Aloha funky coin, for any good&evil purposes ;)"
+    },
+    "fee": "{{money, money-fee}}",
+    "header": {
+        "assets": "Assets",
+        "dex": "DEX",
+        "leasing": "Leasing",
+        "portfolio": "Portfolio",
+        "tokens": "Tokens",
+        "transactions": "Transactions",
+        "wallet": "Wallet"
+    },
+    "inputs": {
+        "errors": {
+            "required": "This field is required!"
+        }
+    },
+    "leftmenu": {
+        "login": "Log in",
+        "logout": "Log out",
+        "settings": "Settings"
+    },
+    "matcher": {
+        "orders": {
+            "statuses": {
+                "canceled": "Canceled",
+                "filled": "Filled ({{percent}}%)",
+                "opened": "Opened"
+            }
+        }
+    },
+    "modal": {
+        "enterPassword": {
+            "ok": "OK",
+            "title": "Enter Password"
+        },
+        "pairing": {
+            "showQr": "Show"
+        },
+        "tryDesktop": {
+            "cancel": "Continue with web",
+            "label": "Remember my choice and do not remind me again",
+            "message": "We recommend you use the Waves desktop app. If you don't have this, you can download it from the official site.",
+            "title": "Use the Waves desktop app",
+            "try": "Open desktop app"
+        }
+    },
+    "money-currency": "{{money, money-currency}}",
+    "number": {
+        "short": {
+            "million": "M",
+            "thousand": "k"
+        }
+    },
+    "Suspicious": "Suspicious"
+}

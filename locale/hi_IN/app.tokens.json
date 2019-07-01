@@ -1,0 +1,79 @@
+{
+    "count": "कुल टोकन",
+    "create": "जनरेट करें",
+    "description": "विवरण",
+    "directives": {
+        "sign": {
+            "confirmRequestLedger": {
+                "waiting": "लेजर नैनो एस पर पुष्टि की प्रतीक्षा में…"
+            }
+        }
+    },
+    "fee": "फीस {{fee, money-currency}}",
+    "help": {
+        "name": "कृपया केवल लातिन वर्ण उपयोग करें"
+    },
+    "helpIcon": {
+        "demicals": "यह क्षेत्र उन दशमलव अंकों को निर्धारित करती है जिसमें आपके एसेट टोकन विभाजित किए जाएंगे।",
+        "scriptDescription": "स्मार्ट एसेट की स्क्रिप्ट द्वारा हर बार पुष्टि के लिये लेनदेन शुल्क 0.004 WAVES बढ़ जाता है। उदाहरण के लिए, यदि स्मार्ट एसेट के लिए एक नियमित tx बनाया जाता है, तो लागत 0.001 + 0.004 = 0.005 WAVES है। यदि एक एक्सचेंज लेनदेन किया जाता है, तो लागत 0.003 + 0.004 = 0.007 WAVES है।",
+        "scriptHeader": "एक स्मार्ट एसेट एक परिसंपत्ति है जो एक स्क्रिप्ट के साथ है जो कि टोकन में किए गए प्रत्येक लेनदेन पर शर्त डालता है।",
+        "scriptLearnMore": "और अधिक जानें",
+        "totalTokens": {
+            "headline": "ह क्षेत्र उस कुल टोकन सप्लाई को निर्धारित करती है जो आपकी एसेट में शामिल हैं।",
+            "notReissuable": "कोई जारी ना हो सकने योग्य एसेट, इन चरणों के दौरान निर्धारित कुल टोकन सप्लाई तक स्थायी रूप से सीमित होगी।",
+            "reissuable": "फिर से उपयोग किए जाने की क्षमता अतिरिक्त टोकन निर्माण संभव करता है जिनको एसेट की कुल टोकन सप्लाई से जोड़ा जाएगा।"
+        }
+    },
+    "modal": {
+        "title": "{{name}} जनरेशन",
+        "titleSuccess": "{{name}} जनरेशन पूर्ण"
+    },
+    "name": "आपकी एसेट का नाम",
+    "notifications": {
+        "isNotCreated": "टोकन नहीं बनाया गया"
+    },
+    "pageTitle": "टोकन जनरेशन",
+    "placeholders": {
+        "description": "आप बाद में विवऱण नहीं बदल सकते हैं",
+        "precision": "0 से 8 तक"
+    },
+    "precision": "दशमलव",
+    "preview": "पूर्वावलोकन",
+    "reissuable": {
+        "false": "फिर जारी ना करने योग्य",
+        "true": "फिर जारी करने योग्य"
+    },
+    "script": "स्मार्ट संपत्ति",
+    "success": {
+        "description": "आपने {{amount}} {{name}} जनरेट किए हैं",
+        "done": "पोर्टफोलियो खोलें",
+        "title": "आपका लेनदेन होने वाला है!"
+    },
+    "switchScriptOff": "स्क्रिप्ट को असमर्थ करें",
+    "switchScriptOn": "स्क्रिप्ट समर्थ करें",
+    "tokens": {
+        "changeColorTooltip": "Change color",
+        "inputHelper": {
+            "description": "If you use this name, your token will be categorised as 'Suspicious' and will be searchable only by ID.",
+            "header": "This asset name has been taken"
+        },
+        "termsOfUse": {
+            "checkbox": "I understand that in the case of non-compliance with the rules, my token will be categorised as 'Suspicious', and will be available for search only by ID."
+        }
+    },
+    "validators": {
+        "byte": {
+            "gte": "\"एसेट का नाम 4 से 16 bytes के बीच लंबा होना चाहिए",
+            "lte": "एसेट का नाम 4 से 16 bytes के बीच लंबा होना चाहिए"
+        },
+        "descriptionLen": "विवरण बहुत लंबा है। इसे 1,000 bytes से बड़ा नहीं होना चाहिए।",
+        "invalidScript": "सिंटेक्स एरर",
+        "maxValueCount": "दर्ज नंबर बहुत बड़ा है",
+        "maxValuePrecision": "अमान्य नंबर। 0 से 8 तक का नंबर दर्ज करें",
+        "minValueCount": "दर्ज की गयी संख्या शून्य से बड़ी होनी चाहिए",
+        "minValuePrecision": "अमान्य नंबर। 0 से 8 तक का नंबर दर्ज करें",
+        "noMoney": "आपका बैलेंस लेनदेन फीस के भुगतान के लिए पर्याप्त नहीं है",
+        "precisionCount": "कुल एसेट संख्या में निर्धारित दशमलव क्षेत्र से अधिक दशमलव स्थान नहीं हो सकते हैं",
+        "required": "प्रत्येक क्षेत्र भरा होना चाहिए"
+    }
+}

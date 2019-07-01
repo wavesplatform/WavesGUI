@@ -1,0 +1,22 @@
+{
+    "available": "Disponible",
+    "chart": {
+        "available": "Disponible",
+        "create": "Empezar a Arrendar",
+        "leased": "Arrendadas",
+        "title": "Saldo de WAVES"
+    },
+    "description": {
+        "text1": "Solo puedes transferir o vender WAVES que no estén en arrendamiento. La cantidad arrendada no puede ser transferida ni vendida ni por ti ni por cualquier otro.",
+        "text2": "Puedes cancelar una transacción de arrendamiento tan pronto como aparezca en el blockchain, lo que suele ocurrir en un minuto o menos.",
+        "text3": "El 'Saldo generador' se actualizará después de 1000 bloques.",
+        "title": "Nota rápida"
+    },
+    "leased": "Arrendado",
+    "leasedIn": "Arrendar",
+    "nodeListLink": "Lista de nodos",
+    "test": {
+        "test": "text test"
+    },
+    "title_leasing": "Has seleccionado inciar sesión en el app Waves desktop"
+}

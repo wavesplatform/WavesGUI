@@ -1,0 +1,79 @@
+{
+    "count": "Tokens totales",
+    "create": "Generar",
+    "description": "Descripción",
+    "directives": {
+        "sign": {
+            "confirmRequestLedger": {
+                "waiting": "Esperando confirmación del Ledger Nano S..."
+            }
+        }
+    },
+    "fee": "Comisión {{fee, money-currency}}",
+    "help": {
+        "name": "Por favor, usa solo letras Latinas"
+    },
+    "helpIcon": {
+        "demicals": "Este campo define el número de decimales en los que tu Token Activo será dividido.",
+        "scriptDescription": "Cada validación de una transacción por parte de un script de Smart Asset aumenta la tarifa de transacción por 0,004 WAVES. Por ejemplo, si se realiza una tx normal para un Smart Asset, el coste es 0,001 + 0,004 = 0,005 WAVES. Si se realiza una transacción de exchange, el coste es  0.003 + 0.004 = 0.007 WAVES.",
+        "scriptHeader": "Un Smart Asset es un asset con un script adjunto que establece condiciones en cada transacción realizada para el token en cuestión.",
+        "scriptLearnMore": "Aprenda más",
+        "totalTokens": {
+            "headline": "Este campo define el suministro total de tokens que tu Activo contendrá.",
+            "notReissuable": "Un activo no re-emitible estará permanentemente limitado al total de tokens suministrados definidos en estos pasos.",
+            "reissuable": "La reusabilidad permite la emisión adicional de tokens que se añadirá al suministro total de tokens del Activo."
+        }
+    },
+    "modal": {
+        "title": "{{name}} Generación",
+        "titleSuccess": "{{name}} Generación Completa"
+    },
+    "name": "Nombre de tu Activo",
+    "notifications": {
+        "isNotCreated": "El Token no ha sido creado"
+    },
+    "pageTitle": "Generación de token",
+    "placeholders": {
+        "description": "No se puede cambiar la descripción después.",
+        "precision": "Desde 0 a 8"
+    },
+    "precision": "Decimales",
+    "preview": "Previsualizar",
+    "reissuable": {
+        "false": "No Re-emitible",
+        "true": "Re-emitible"
+    },
+    "script": "Smart asset",
+    "success": {
+        "description": "Has generado {{amount}} {{name}}",
+        "done": "Portfolio abierto",
+        "title": "¡Tu transacción está en marcha!"
+    },
+    "switchScriptOff": "Desactivar el script",
+    "switchScriptOn": "Activar el script",
+    "tokens": {
+        "changeColorTooltip": "Change color",
+        "inputHelper": {
+            "description": "If you use this name, your token will be categorised as 'Suspicious' and will be searchable only by ID.",
+            "header": "This asset name has been taken"
+        },
+        "termsOfUse": {
+            "checkbox": "I understand that in the case of non-compliance with the rules, my token will be categorised as 'Suspicious', and will be available for search only by ID."
+        }
+    },
+    "validators": {
+        "byte": {
+            "gte": "El nombre del Activo debe contener entre 4 y 16 bytes de longitud",
+            "lte": "El nombre del Activo debe contener entre 4 y 16 bytes de longitud"
+        },
+        "descriptionLen": "La descripción es demasiado larga. No debe ser mayor de 1,000 bytes.",
+        "invalidScript": "Error sintáctico",
+        "maxValueCount": "Número introducido demasiado largo.",
+        "maxValuePrecision": "Número no válido. Introduce un número de 0 a 8",
+        "minValueCount": "Introduce un número mayor de cero",
+        "minValuePrecision": "Número no válido. Introduce un número de 0 a 8",
+        "noMoney": "No tienes suficiente saldo como para pagar las comisiones",
+        "precisionCount": "El número total del Activo no puede tener más posiciones decimales de las especificadas en el campo Decimales.",
+        "required": "Este campo debe rellenarse"
+    }
+}

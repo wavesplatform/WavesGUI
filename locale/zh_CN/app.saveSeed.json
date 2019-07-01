@@ -1,0 +1,27 @@
+{
+    "continue": "继续",
+    "copy": "复制",
+    "copySeed": "复制种子短语",
+    "createAccount": "创建帐号",
+    "goBack": "返回",
+    "notHaveAccounts": "您没有已保存的帐户",
+    "nothingHere": "这里没有什么…",
+    "password": {
+        "error": "密码不正确"
+    },
+    "userList": {
+        "address": "地址 / 用户名",
+        "buttons": {
+            "login": "登入"
+        },
+        "exportUser": "导出您的帐户",
+        "notHaveAccount": "请登录以继续",
+        "password": "密码",
+        "placeholders": {
+            "password": "密码"
+        },
+        "title": "欢迎回来"
+    },
+    "warn": "由于只有你控制你的钱，你需要保存您的种子短语，以防该应用程序被删除或",
+    "yourSeed": "你的种子短语"
+}

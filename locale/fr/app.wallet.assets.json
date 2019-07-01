@@ -1,0 +1,39 @@
+{
+    "addAsset": "Ajouter un actif",
+    "chart": {
+        "intervals": {
+            "all": "Tous",
+            "day": "1J",
+            "hour": "1H",
+            "month": "1M",
+            "week": "1S",
+            "year": "1A"
+        }
+    },
+    "directives": {
+        "asset": {
+            "anyTx": "JSON",
+            "deposit": "Dépôt",
+            "ofTotalBalance": "du solde total {{totalBalance}}",
+            "receive": "Recevoir",
+            "script": "Script",
+            "send": "Envoyer"
+        },
+        "balance": {
+            "actions": {
+                "assetInfo": "Infos de l'actif",
+                "copyAssetId": "Copier l'ID de l'actif"
+            }
+        }
+    },
+    "price": "PRIX {{currency}}",
+    "qr": "Votre adresse",
+    "send": "Envoyer",
+    "since": {
+        "day": "DEPUIS LE DERNIER JOUR",
+        "month": "DEPUIS LE MOIS DERNIER",
+        "week": "DEPUIS LA SEMAINE DERNIÈRE"
+    },
+    "suspicious": "Suspect - ({span}[{{count}}])",
+    "Unpin": "Désépingler"
+}

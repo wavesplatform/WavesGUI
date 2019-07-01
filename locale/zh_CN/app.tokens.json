@@ -1,0 +1,79 @@
+{
+    "count": "代币总量",
+    "create": "立即生成",
+    "description": "描述",
+    "directives": {
+        "sign": {
+            "confirmRequestLedger": {
+                "waiting": "在Ledger设备上等待确认..."
+            }
+        }
+    },
+    "fee": "费用个 {{fee, money-currency}}",
+    "help": {
+        "name": "请只使用拉丁字母"
+    },
+    "helpIcon": {
+        "demicals": "该填写栏定义您的代币资产可被划分成的小数位数。",
+        "scriptDescription": "通过智能资产的脚本进行的每次验证都会使交易费用增加0.004 波浪币。例如，如果为智能资产制定常规tx，则成本为0.001 + 0.004 = 0.005 波浪币。如果进行了交换，则成本为0.003 + 0.004 = 0.007 波浪币。",
+        "scriptHeader": "智能资产是一种带有附加脚本的资产，它为每个有争议令牌的交易设置条件。",
+        "scriptLearnMore": "了解更多",
+        "totalTokens": {
+            "headline": "该填写栏定义您的代币资产含有的发行总量。",
+            "notReissuable": "不可再发行选项将会使得代币资产将永久限于在该填写栏里面所限制的总代币发行量。",
+            "reissuable": "可再发行选项允许增加额外代币，该代币增加之后将会被添加至代币资产中的总代币发行总量。"
+        }
+    },
+    "modal": {
+        "title": "{{name}}生成",
+        "titleSuccess": "完成{{name}}生成"
+    },
+    "name": "您的资产名称",
+    "notifications": {
+        "isNotCreated": "代币尚未创建"
+    },
+    "pageTitle": "生成代币",
+    "placeholders": {
+        "description": "描述设定之后不能更改",
+        "precision": "0至8个位数"
+    },
+    "precision": "小数位",
+    "preview": "检阅",
+    "reissuable": {
+        "false": "不可再发行",
+        "true": "可再发行"
+    },
+    "script": "智能资产",
+    "success": {
+        "description": "您生成了{{amount}} {{name}}",
+        "done": "打开投资组合",
+        "title": "您的交易正在进行中！"
+    },
+    "switchScriptOff": "禁用脚本",
+    "switchScriptOn": "启用脚本",
+    "tokens": {
+        "changeColorTooltip": "换颜色",
+        "inputHelper": {
+            "description": "如果您使用此名称，您的令牌将被归类为“可疑”，并且只能通过ID进行搜索。",
+            "header": "此资产名称已被采用"
+        },
+        "termsOfUse": {
+            "checkbox": "我了解在不遵守规则的情况下，我的令牌将被归类为“可疑”，并且只能通过ID进行搜索。"
+        }
+    },
+    "validators": {
+        "byte": {
+            "gte": "资产名称的长度必须是大于4小于16的数字",
+            "lte": "资产名称的长度必须是大于4 小于16的数字"
+        },
+        "descriptionLen": "描述太长。描述不得超过1,000个字节。",
+        "invalidScript": "语法错误",
+        "maxValueCount": "输入的数字太大",
+        "maxValuePrecision": "无效数字。请输入自0至8的数字",
+        "minValueCount": "输入的数字必须是大于0",
+        "minValuePrecision": "无效数字。请输入自0至8的数字",
+        "noMoney": "您的余额不足以支付所需交易费用",
+        "precisionCount": "资产总数不能超过 “小数”字段中指定的小数位数",
+        "required": "这是必填栏"
+    }
+}

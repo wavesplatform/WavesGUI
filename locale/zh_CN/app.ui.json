@@ -1,0 +1,322 @@
+{
+    "all": "所有",
+    "amount": "数量",
+    "balanceInput": {
+        "max": "最大限度"
+    },
+    "confirmGatewayTransaction": {
+        "back": "返回",
+        "confirm": "确认",
+        "fieldAddress": "目标地址",
+        "fieldAmount": "总量",
+        "fieldFee": "收费",
+        "fieldGatewayAddress": "网关地址",
+        "fieldGatewayFee": "网关收费",
+        "success": "你的交易正在进行中！",
+        "warningText": "您即将向{{name}}区块链发送资金。",
+        "warningTitle": "外部区块链交易"
+    },
+    "confirmTransaction": {
+        "back": "返回",
+        "confirm": "确认",
+        "description": {
+            "burn": "您已消除{{quantityStr}} {{name}}",
+            "cancel-leasing": "您已取消租赁交易",
+            "circular": "您已将{{amount, money-currency}}发送给您自己钱包地址",
+            "create-alias": "您已创建了别名",
+            "data": "您已发送数据交易",
+            "data-vote": "{div.line} [您已投票赞成{{moneyCurrency}} 。] \n {div.line} [您的分数将在24小时后应用。加工评级。]",
+            "issue": "您已生成",
+            "lease-out": "您已租赁{{amount, money-currency}}",
+            "mass-send": "您已发送 {{totalAmount, money-currency}}",
+            "reissue": "您已经生成了额外的{{quantityStr}} {{name}}",
+            "send": "您已发送{{amount, money-currency}}",
+            "set-asset-script": "您已更新脚本",
+            "set-script": "你已经创建了一个脚本交易",
+            "set-script-cancel": "您已取消脚本交易",
+            "sponsorship-start": "赞助已经设置",
+            "sponsorship-stop": "赞助已被禁用"
+        },
+        "details": "查看详情",
+        "export": "输出",
+        "JSON": "JSON",
+        "ledgerUnconfirmed": {
+            "description": "请再试一次。如果错误仍然存​​在，请参阅[本文](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)",
+            "header": "您未在Ledger设备上确认该请求"
+        },
+        "notPermited": {
+            "cancel-leasing": "开始租赁暂时不可用。"
+        },
+        "notPermitted": {
+            "burn": "代币刻录暂时无法使用。",
+            "burn-title": "代币刻录",
+            "cancel-leasing": "开始租赁功能暂时不可用。",
+            "cancel-leasing-title": "取消租赁",
+            "data": "数据交易暂时不可用。",
+            "data-title": "数据交易",
+            "reissue-title": "代币重新发行",
+            "set-script": "脚本交易暂时不可用。",
+            "sponsorship-start": "赞助暂时无法使用。",
+            "sponsorship-start-title": "改变赞助"
+        },
+        "orderSuccess": "您的订单已创建！",
+        "redirect": "您将被重定向到 {{referrer}}",
+        "send": {
+            "errors": {
+                "balance": {
+                    "invalid": "资金不充足"
+                },
+                "recipient": {
+                    "invalid": "收款者地址无效"
+                }
+            }
+        },
+        "sign": "登录",
+        "success": "您的交易正在进行中！",
+        "wavesKeeperUnconfirmed": {
+            "description": "请再试一次。如果错误仍然存在，请向[support]（https://support.wavesplatform.com）提交一张票",
+            "header": "您没有使用Waves Keeper确认请求"
+        }
+    },
+    "copyError": "不能复制！您的浏览器可能已过时",
+    "copySuccess": "数据被复制",
+    "directives": {
+        "anyTransaction": {
+            "copy": "复制",
+            "textAreaTitle": "TX JSON"
+        },
+        "scriptForm": {
+            "placeholder": {
+                "change": "输入新脚本，或将该字段留空以取消现有脚本",
+                "create": "输入新脚本，或将该字段留空以取消现有脚本"
+            },
+            "textAreaTitle": "Base64脚本"
+        },
+        "setAssetScriptForm": {
+            "ok": "继续"
+        },
+        "sign": {
+            "confirmRequestKeeper": {
+                "cancel": "取消",
+                "errorDescription": "请再试一次。如果错误仍然存在，请向[support]（https://support.wavesplatform.com）提交一张票",
+                "errorHeader": "您没有使用Waves Keeper确认请求",
+                "sign": "重试",
+                "waiting": "等待来自Waves Keeper的确认......"
+            },
+            "confirmRequestLedger": {
+                "cancel": "取消",
+                "errorDescription": "请再试一次。如果错误仍然存在，请参阅[本文]（https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues）",
+                "errorHeader": "您未在Ledger设备上确认该请求",
+                "sign": "重试登录",
+                "waiting": "在Ledger设备上等待确认..."
+            },
+            "txId": "TXID"
+        },
+        "transactionExport": {
+            "linkTitle": "分享链接登录",
+            "or": "或",
+            "qrZoomBtn": "点击放大/缩小",
+            "scanQrCode": "扫描二维码"
+        }
+    },
+    "emptyBlocks": {
+        "title": "记录不存在"
+    },
+    "errorBlocks": {
+        "title": "出了些问题…"
+    },
+    "modal": {
+        "assetInfo": {
+            "gateway_ui": "出入口"
+        },
+        "sign": {
+            "signByLedger": "在Ledger设备上等待确认..."
+        },
+        "token": {
+            "warning": {
+                "header": "您同意：",
+                "text": "{div.line}[I]您不会将该代币用于欺诈目的;] \n {div.line}[II]您不会完全或部分复制现有加密货币或知名公司的名称，以误导用户;] \n {div.line}[III]您不会使用国家，其他行政单位或市政机构的名称作为代币的名称，以误导用户;] \n {div.line}[IV]您不会在智能资产上设置脚本，以按资产数量限制Waves DEX上的交易所交易;] \n {div.line}[V]您不会在智能资产的描述中提供有关管理代币使用规则的虚假信息，这些规则与安装在其上的脚本的规则不对应;]",
+                "textWarning": "不遵守所列的某一项将导致您的代币被分类为垃圾代币，并且您的代币只能通过ID进行搜索。"
+            }
+        }
+    },
+    "password": {
+        "minLength": "字段至少要有{{minLength}}个字符长。",
+        "name": "用户名",
+        "repeat": "确认密码",
+        "secure": "安全密码",
+        "title": "使用新密码保护您的账户",
+        "warn": "密码太简单，请添加一个数字或符号"
+    },
+    "qrCodeRead": {
+        "closeRead": "取消"
+    },
+    "recipient": "收款者",
+    "transaction": {
+        "actions": {
+            "cancelLeasing": "取消租赁",
+            "copyTxData": "复制所有TX数据",
+            "copyTxId": "复制TX ID",
+            "showTx": "TX信息"
+        },
+        "amounts": {
+            "burn": "–{{amount}} {{name}}",
+            "cancel-leasing": "{{amount}} {{name}}",
+            "circular": "{{amount}} {{name}}",
+            "exchange-buy": "{{sign}}{{amount}} {{name}}",
+            "exchange-sell": "{{sign}}{{amount}} {{name}}",
+            "issue": "{{amount}} {{name}}",
+            "lease-in": "{{amount}} {{name}}",
+            "lease-out": "{{amount}} {{name}}",
+            "mass-receive": "+{{amount}} {{name}}",
+            "mass-send": "–{{amount}} {{name}}",
+            "perTransaction": "每笔交易金额",
+            "receive": "+{{amount}} {{name}}",
+            "reissue": "+{{amount}} {{name}}",
+            "script-invocation": "–{{amount}} {{name}}",
+            "send": "–{{amount}} {{name}}",
+            "set-script": "设置脚本交易",
+            "set-script-cancel": "取消脚本交易",
+            "sponsorship-change": "更改赞助",
+            "sponsorship-fee": "{{sign}}{{amount}} {{name}}",
+            "sponsorship-start": "设置赞助",
+            "sponsorship-stop": "禁用赞助"
+        },
+        "confirmed": {
+            "false": "未经证实",
+            "true": "完成"
+        },
+        "headers": {
+            "activeLeasing": "现在是有效的",
+            "burn": "{{name}}代币消除",
+            "cancel-leasing": "取消的租赁",
+            "canceled": "取消",
+            "circular": "给自己转的{{name}}",
+            "create-alias": "创建的别名",
+            "data": "数据交易",
+            "data-vote": "Voted for {{assetName}}",
+            "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
+            "exchange-buy": "交易所买入:",
+            "exchange-sell": "交易所卖出:",
+            "issue": "{{name}}代币生成",
+            "lease-in": "收到的租赁",
+            "lease-out": "已开始的租赁",
+            "mass-receive": "收到 {{name}}",
+            "mass-send": "已发送 {{name}}",
+            "receive": "收到{{name}}",
+            "reissue": "{{name}}代币增发",
+            "script-invocation": "脚本调用",
+            "send": "已发送{{name}}",
+            "set-asset-script": "设置资产脚本交易",
+            "set-script": "设置脚本交易",
+            "set-script-cancel": "取消脚本交易",
+            "spam": "可疑",
+            "sponsorship-fee": "已收到{{name}}",
+            "sponsorship-start": "为{{name}}设置赞助",
+            "sponsorship-stop": "{{name}}已停用赞助商",
+            "suspicious": "可疑",
+            "unknown": "未知交易"
+        },
+        "modals": {
+            "assetId": "资产ID",
+            "attachment": "附件消息",
+            "cancelTx": "租赁TX",
+            "confirmations": "证据",
+            "copyCode": "复制代码",
+            "data": "数据",
+            "dataKey": "锁匙",
+            "dataType": "类型",
+            "dataValue": "价值",
+            "description": "描述",
+            "exchange": {
+                "buy": "购买",
+                "buyMatcherFee": "购买匹配费",
+                "exchangeType": "订单类型",
+                "matcherFee": "匹配费用",
+                "pair": "对",
+                "sell": "卖"
+            },
+            "fee": "收费",
+            "from": "自",
+            "function": "功能",
+            "functionCall": "函数调用",
+            "height": "块",
+            "hide": "隐藏",
+            "hideAll": "全部藏起来",
+            "leasingStatus": "状态",
+            "massSend": {
+                "showAll": {
+                    "false": "全部显示（{{count}}）",
+                    "true": "显示前3个交易"
+                },
+                "totalAmount": "总额"
+            },
+            "numberOfRecipients": "收款者数量",
+            "orderType": "订单类型",
+            "pair": "对",
+            "payment": "付款",
+            "price": "{{name}}价格",
+            "script": "脚本",
+            "scriptAddress": "脚本地址",
+            "seeAll": "查看全部",
+            "setAssetScript": {
+                "showScript-false": "显示",
+                "showScript-true": "隐藏"
+            },
+            "show": "显示",
+            "showAll": "全部显示（{{count}}）",
+            "showFirstTree": "显示前3个键",
+            "status": "状态",
+            "timestamp": "时间戳",
+            "to": "至",
+            "toBeReissued": "重新发行",
+            "toRemainOnBalance": "保持平衡",
+            "totalAfterBurning": "燃烧后的总量",
+            "totalAfterReissue": "重新发行后的总计",
+            "txId": "TXID",
+            "type": "类型",
+            "viewTransactionKey": "交易",
+            "viewTransactionValue": "查看交易"
+        },
+        "notifications": {
+            "closed": "该租赁已被取消",
+            "closedSuccess": "租赁取消已完成"
+        },
+        "reissuable": {
+            "false": "不可再发行",
+            "true": "可再发行"
+        },
+        "set-asset-script": "更新脚本",
+        "subheaders": {
+            "burn": "{{time}}",
+            "cancel-leasing": "{{time}}{span.locale-address}[,交易 {{transactionId}}]",
+            "circular": "{{time}} {span.locale-address}[,地址为 {{address}}]",
+            "create-alias": "{{time}}, {{alias}}",
+            "data": "{{time}}",
+            "exchange-buy": "{{time}}",
+            "exchange-sell": "{{time}}",
+            "issue": "{{time}}",
+            "lease-in": "{{time}}{span.locale-address}[,发送人地址 {{address}}]",
+            "lease-out": "{{time}}{span.locale-address}[,地址为 {{address}}]",
+            "mass-receive": "{{time}} {span.locale-address}[，发送人地址 ]{{address}}",
+            "mass-send": "{{time}}",
+            "receive": "{{time}}{span.locale-address}[, 发送人地址 {{address}}]",
+            "reissue": "{{time}}",
+            "script-invocation": "{{time}}{span.locale-address}[, 地址为 {{address}}]",
+            "send": "{{time}}{span.locale-address}[, 地址为 {{address}}]",
+            "set-asset-script": "{{time}} ，资产{{name}}",
+            "sponsorship-fee": "{{time}}从地址 {{address}}",
+            "unknown": "{{time}}"
+        }
+    },
+    "transactionList": {
+        "noTransactionsDescription": "您并没有有任何交易",
+        "noTransactionsTitle": "记录不存在"
+    },
+    "transactions": {
+        "script": {
+            "txJson": "Base64脚本"
+        }
+    },
+    "whitespace": "&nbsp;"
+}

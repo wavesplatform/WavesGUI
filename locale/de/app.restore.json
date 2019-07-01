@@ -1,0 +1,50 @@
+{
+    "password": {
+        "error": "Falsches Passwort!"
+    },
+    "passwordForm": {
+        "back": "Zurück",
+        "description": "Schützen sie ihren Account mit einem neuen Passwort oder",
+        "importAccounts": "Account importieren",
+        "login": "Fortsetzen",
+        "title": "Schützen sie ihren Account"
+    },
+    "restore": {
+        "beta": {
+            "accountTitle": "Adresse / Accountname",
+            "buttons": {
+                "cancel": "Zurück",
+                "copy": "Seed kopieren",
+                "restore": "Seed wiederherstellen"
+            },
+            "noUsers": {
+                "description": "{div}[Wir haben keine gespeicherten Konten gefunden. Zurück zum] {div}[[client.wavesplatform.com](https://client.wavesplatform.com)]",
+                "title": "Keine Konten gespeichert"
+            },
+            "passwordTitle": "Passwort",
+            "placeholders": {
+                "password": "Passwort"
+            },
+            "step1Description": "Wenn sie nur ihr Passwort haben, nicht ihren SEED, können sie diese Seite verwenden, um ein gespeichertes Konto wiederherzustellen.",
+            "step2Description": "Bitte, speichern sie ihren SEED sorgfältig. Wenn sie ihn verlieren, haben sie keine Möglichkeit mehr, auf ihr Konto zuzugreifen.",
+            "title": "Seed wiederherstellen"
+        }
+    },
+    "seedForm": {
+        "address": "Adresse",
+        "back": "Uurück",
+        "continue": "Fortsetzen",
+        "create": "Einen neuen Account erstellen",
+        "description": "Ihr Seed die 15 Wörter, die Sie beim Erstellen Ihres Kontos gespeichert haben",
+        "or": "oder",
+        "placeholder": "Ihr Startwert sind die 15 Wörter, die sie bei der Erstellung ihres Accounts gespeichert haben",
+        "saveUserData": "Bewahren sie den Account auf diesem Computer auf",
+        "seedTitle": "Der Seed ihres Accounts",
+        "title": "Aus Seed importieren",
+        "tosaved": "zu einem gespeicherten Account"
+    },
+    "warningSeed": {
+        "message": "Stellen Sie sicher, dass Sie den Seed nicht mit einer Adresse verwechseln. Die Verwendung einer Adresse als SEED-Phrase kann zu Geldverlust führen. Die SEED-Phrase muss aus 15 Wörtern bestehen, zwischen denen jeweils Leerzeichen stehen.",
+        "title": "Ihr SEED ist zu kurz."
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "ledger": {
+        "article": "リンク",
+        "connectionError": "Ledger デバイスに接続することが出来ません",
+        "connectionText": "接続がタイムアウトしたかもしれません。再度お試し下さい。",
+        "referTo": "エラーを解決できない場合、こちらを参照ください。"
+    },
+    "ledgerForm": {
+        "address": "アカウントアドレス:",
+        "avatarUnique": "このアバターはユニークです。あとで変更することはできません。",
+        "back": "戻る",
+        "choose": "アカウントを選択",
+        "importAccount": "Ledgerアカウントをインポート",
+        "ImportOrSignIn": "アカウントをインポート。または、",
+        "login": "次へ",
+        "name": "アカウント名",
+        "or": "または",
+        "retry": "リトライ",
+        "savedOne": "(保存されたアカウントへ)",
+        "saveUserData": "アカウントをこのコンピューターに保存",
+        "selectDefault": "デフォルトアカウントを使用",
+        "signIn": "サインイン"
+    },
+    "modal": {
+        "sign": {
+            "confirmRequest": "リクエストを承認",
+            "confirmRequestMatcher": "Matcherのリクエストに署名してください。署名をしない場合、LedgerからDEXでトレードすることはできません。"
+        }
+    },
+    "or": "または"
+}

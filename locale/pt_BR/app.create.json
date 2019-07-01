@@ -1,0 +1,65 @@
+{
+    "backupSeed": {
+        "back": "voltar",
+        "copySeed": "copiar",
+        "needConfirm": "Você irá confirmar esta frase na próxima tela.",
+        "ok": "Eu anotei isso em um local seguro",
+        "or": "ou",
+        "saveSecret": "Salvar frase de backup",
+        "warn": "Como apenas você controla o seu dinheiro, é necessário salvar sua frase de backup (SEED), caso esse aplicativo seja excluído ou",
+        "writeSeed": "Por favor, anote cuidadosamente estas 15 palavras"
+    },
+    "confirmBackup": {
+        "again": "e clique novamente",
+        "back": "voltar",
+        "clear": "Limpar",
+        "confirm": "Confirmar backup",
+        "description": "Verifique sua frase de backup ou",
+        "enterCorrect": "Por favor, clique nas palavras na ordem correta",
+        "error": "Ordem incorreta, tente novamente.",
+        "ok": "Confirmar",
+        "tapAgain": "and tap again"
+    },
+    "createAccount": {
+        "address": "Endereço da conta:",
+        "avatarUnique": "Este avatar é único. Você não poderá mudar depois.",
+        "choose": "Escolha o avatar de seu endereço",
+        "create": "Create a new account",
+        "createDescription": "Fast and free",
+        "createNewAccount": "Criar Nova Conta",
+        "from": "de um backup",
+        "import": "Importar contas",
+        "importDescription": "via Seed phrase, Ledger or Keeper",
+        "protect": "Proteja sua conta com uma senha ou",
+        "protectYourAccount": "Proteja Sua Conta",
+        "restore": "restaurar uma conta",
+        "saveUserData": "Mantenha-me conectado a este computador",
+        "signDescription": "to a saved account",
+        "signIn": "Entrar",
+        "signUp": "Cadastre-se abaixo para uma conta gratuita ou",
+        "tosaved": "para uma conta existente",
+        "toWalet": "para a sua carteira ou"
+    },
+    "modal": {
+        "confirmBackupDescription": "Verifique sua frase de backup",
+        "next": "Confirmar",
+        "prev": "Voltar",
+        "successContent": "Você não pode mudar sua frase secreta. Se você a enviou acidentalmente para alguém ou suspeita que foi vítima de golpistas, crie uma nova carteira Waves imediatamente e transfira seus fundos para ela.",
+        "successHeadline": "Tenha cuidado com sua frase de backup!",
+        "understand": "Eu entendi"
+    },
+    "noBackupNoMoney": {
+        "backup": "Faça o Backup Agora",
+        "description": "Você deve salvar a frase secreta. É crucial para acessar sua conta.",
+        "modal": {
+            "descriptionP1": "A Plataforma Waves gostaria de avisá-lo sobre o aumento da frequência de fraudes e phishing nos últimos meses. Os golpistas escondem seu malware em suas próprias versões do client Waves e prometem bônus e descontos para atrair as vítimas.",
+            "descriptionP2": "Por favor, tenha cuidado e nunca insira seu SEED nestes 'clients', pois sua conta será comprometida e você perderá todos os seus fundos.",
+            "descriptionP3": "Você deve usar APENAS o client oficial da Waves.",
+            "ok": "Eu entendi",
+            "title": "Tenha cuidado com sua frase de backup!"
+        },
+        "or": "ou",
+        "skip": "Fazer isso depois",
+        "title": "Sem backup, sem dinheiro"
+    }
+}

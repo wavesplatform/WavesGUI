@@ -1,0 +1,94 @@
+{
+    "back": "返回主页",
+    "button": {
+        "cancel": "取消",
+        "continue": "继续"
+    },
+    "confirmTransaction": {
+        "notPermitted": {
+            "issue": "代币发行暂时不可用。",
+            "issue-title": "生成代币",
+            "massSendTitle": "大规模传送",
+            "reissue": "代币重新发行暂时无法使用。",
+            "sendTitle": "发送",
+            "set-script-title": "脚本交易"
+        },
+        "send": {
+            "errors": {
+                "fee": "您没有足够的资金来支付所需的费用。您必须支付 {{fee, money-currency}} 交易费;"
+            }
+        }
+    },
+    "date": {
+        "month": [
+            "1月",
+            "2月",
+            "3月",
+            "4月",
+            "5月",
+            "6月",
+            "7月",
+            "8月",
+            "9月",
+            "10月",
+            "11月",
+            "12月"
+        ]
+    },
+    "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
+        "description": "Aloha funky coin, for any good&evil purposes ;)"
+    },
+    "fee": "{{money, money-fee}}",
+    "header": {
+        "assets": "资产",
+        "dex": "去中心化交易所",
+        "leasing": "租赁",
+        "portfolio": "投资组合",
+        "tokens": "代币",
+        "transactions": "交易记录",
+        "wallet": "钱包"
+    },
+    "inputs": {
+        "errors": {
+            "required": "必填栏位"
+        }
+    },
+    "leftmenu": {
+        "login": "登录",
+        "logout": "登出",
+        "settings": "设置"
+    },
+    "matcher": {
+        "orders": {
+            "statuses": {
+                "canceled": "已取消",
+                "filled": "填 ({{percent}}%)",
+                "opened": "开的"
+            }
+        }
+    },
+    "modal": {
+        "enterPassword": {
+            "ok": "OK",
+            "title": "输入密码"
+        },
+        "pairing": {
+            "showQr": "显示"
+        },
+        "tryDesktop": {
+            "cancel": "继续使用网页",
+            "label": "记住我的选择，不要再提示",
+            "message": "我们建议您使用Waves桌面应用程序。如果您没有这个，可以从官方网站下载。",
+            "title": "使用Waves桌面应用程序",
+            "try": "打开桌面应用程序"
+        }
+    },
+    "money-currency": "{{money, money-currency}}",
+    "number": {
+        "short": {
+            "million": "M",
+            "thousand": "k"
+        }
+    },
+    "Suspicious": "可疑"
+}

@@ -1,0 +1,22 @@
+{
+    "available": "Verfügbar",
+    "chart": {
+        "available": "Verfügbar",
+        "create": "Start Lease",
+        "leased": "Geleast",
+        "title": "WAVES Guthaben"
+    },
+    "description": {
+        "text1": "Sie können nur WAVES übertragen oder handeln, die nicht geleast sind. Geleaste WAVES können weder von ihnen noch von jemand anderem übertragen oder gehandelt werden.",
+        "text2": "Sie können eine Leasingtransaktion stornieren, sobald sie in der Blockchain erscheint, was normalerweise in einer Minute oder weniger passiert.",
+        "text3": "Das generierende Guthaben wird nach 1000 Blöcken aktualisiert.",
+        "title": "Kurznachricht"
+    },
+    "leased": "Geleast",
+    "leasedIn": "Geleast an",
+    "nodeListLink": "Liste der Knoten",
+    "test": {
+        "test": "Texttest"
+    },
+    "title_leasing": "Sie haben sich zum Login in der Waves Desktop App entschieden"
+}

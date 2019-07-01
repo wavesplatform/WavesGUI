@@ -1,0 +1,21 @@
+{
+    "back": "메인 페이지로 돌아가기",
+    "import": {
+        "signIn": "로그인"
+    },
+    "importAccount": "계정 불러오기",
+    "importAccountInfo": "계정을 불러올 어플리케이션 선택",
+    "KeeperClient": "Waves Keeper",
+    "keeperDescription": "Waves Keeper에서 계정 불러오기",
+    "keeperForm": "설치",
+    "LedgerClient": "Ledger 디바이스",
+    "ledgerDescription": "Ledger 디바이스에서 계정 불러오기",
+    "or": "또는",
+    "selectButton": "선택",
+    "wavesClient": "Waves 클라이언트",
+    "wavesClientDescription": "Waves 클라이언트에서 계정 불러오기",
+    "wavesLiteClient": "Waves Lite 클라이언트",
+    "wavesLiteClientDescription": "Waves Lite 클라이언트에서 계정 불러오기",
+    "wavesSeedClient": "SEED 구절 백업",
+    "wavesSeedClientDescription": "백업 구절로 계정 불러오기"
+}

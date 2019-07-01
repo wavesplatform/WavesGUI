@@ -1,0 +1,219 @@
+{
+    "backupSeed": {
+        "copySeed": "SEED 구절 복사",
+        "warn": "귀하의 자산은 본인만 통제할 수 있습니다. 앱이 삭제될 경우를 대비해 반드시 백업 구절을 저장해야 합니다.",
+        "yourSeed": "귀하의 SEED 구절"
+    },
+    "createAccount": {
+        "from": "계정 생성"
+    },
+    "infoTooltip": "중요한 정보",
+    "loading": {
+        "volume": "거래량"
+    },
+    "modal": {
+        "lockPairWarning": {
+            "continue": "계속하기",
+            "heading": "{{amountAssetTicker}} / {{priceAssetTicker}} 거래는 현재 사용할 수 없습니다",
+            "text": "선택한 거래는 일시적으로 사용할 수 없습니다. \n주문을 취소할 수 있습니다"
+        }
+    },
+    "news": "뉴스",
+    "newUser": {
+        "from": "백업으로부터",
+        "getStarted": "클라이언트 시작하기",
+        "import": "계정 불러오기",
+        "or": "또는",
+        "restore": "계정 복원",
+        "slides": [
+            {
+                "description": "빠르게 성장하고 있는 암호화폐 분야의 일원이 되세요. 귀하의 암호화된 자산에 액세스할 수 있는 사람은 오직 당신뿐입니다.",
+                "title": "블록체인을 시작하세요"
+            },
+            {
+                "description": "자산을 쉽고 안전하게 보관 및 관리하고 귀하의 디지털 자산을 Lease하여 이자를 받으세요.",
+                "title": "지갑"
+            },
+            {
+                "description": "빠르고 안전하게 거래하세요. 탈중앙화 거래소에서 거래 시 귀하의 자금을 완벽히 통제할 수 있습니다.",
+                "title": "탈중앙화 거래소"
+            },
+            {
+                "description": "귀하의 토큰을 발행하세요. 이들은 당신의 비즈니스에 통합될 수 있습니다. 내부적인 화폐로 사용되거나 등급 시스템 또는 로얄티 프로그램에 활용할 수 있는 탈중앙화 투표 시스템으로 사용 될 수 있습니다.",
+                "title": "토큰 런처"
+            }
+        ]
+    },
+    "openViaDesktop": "항상 본 데스크톱 앱을 사용하여 링크를 열겠습니다",
+    "roadmap": {
+        "aug2019": {
+            "date": "2019년 8월",
+            "text": "거래자는 자산을 신속하게 시장가로 매도할 수 있습니다.",
+            "title": "마켓 주문"
+        },
+        "dec2018": {
+            "date": "2018년 12월",
+            "text": "새로운 모바일 앱은 환상적인 DEX UI와 게이트웨이의 통합을 제공합니다.",
+            "text_2": "DEX의 티커와 로고는 검증된 자산을 나타내며 사용자에게 높은 수준의 확신을 줍니다.",
+            "title": "모바일 앱 2.0",
+            "title_2": "BetterTokens 통합"
+        },
+        "feb2017": {
+            "date": "2017년 12월",
+            "text": "플래그십 빌트인 거래소의 첫 번째 버전 런칭.",
+            "title": "Waves DEX 베타"
+        },
+        "feb2018": {
+            "date": "2018년 2월",
+            "text": "macOS, Linux, Windows 버전의 독립형 클라이언트 릴리즈.",
+            "title": "데스크톱 앱"
+        },
+        "jan2019": {
+            "date": "2019년 1월",
+            "text": "Waves DEX 내 스마트 계정으로 거래 지원 활성화",
+            "text_2": "Bitcoin Satoshi Vision 게이트웨이 런칭",
+            "title": "스마트 계정 거래",
+            "title_2": "BSV 게이트웨이"
+        },
+        "jul2018": {
+            "date": "2018년 7월",
+            "text": "재 출시된 거래소는 시장에 출시된 다른 DEX보다 더 나은 UX와 성능을 제공합니다.",
+            "text_2": "주요 신규 릴리즈와 함께 베타에서 벗어난 인기있는 암호화폐 지갑",
+            "title": "신규 DEX",
+            "title_2": "Waves 지갑"
+        },
+        "jul2019": {
+            "date": "2019년 7월",
+            "text": "Waves ecosystem에 ERC20 토큰의 게이트웨이가 추가되었습니다. 이제 인기있는 Ethereum 기반 토큰들을 본 플랫폼에서 거래할 수 있습니다.",
+            "text_2": "개발자들은 모바일 개발 프로세스를 간소화했으며 Waves 블록체인과 상호작용하는 방법에 대한 포괄적인 설명합니다.",
+            "text_3": "사용자는 하나의 지갑 앱에서 다수의 계정으로 쉽게 전환하며 사용 할 수 있습니다.",
+            "title": "ERC-20 게이트웨이",
+            "title_2": "모바일 SDK 및 JS 라이브러리 개선",
+            "title_3": "다중 계정"
+        },
+        "jun2019": {
+            "date": "2019년 6월",
+            "text": "DEX의 향상된 속도 및 향상된 메모리 요구량 구현",
+            "title": "DEX 최적화"
+        },
+        "may2018": {
+            "date": "5월",
+            "text": "재 출시된 거래소는 시장에 출시된 다른 DEX보다 더 나은 UX와 성능을 제공합니다.",
+            "title": "Dash 및 Bitcoin Cash 게이트웨이"
+        },
+        "nov2018": {
+            "date": "11 월 2018",
+            "text": "사용자는 다중 서명 및 스크립트된 계정으로 거래할 수 있습니다..",
+            "title": "스마트계정 지원"
+        },
+        "sep2018": {
+            "date": "2018년 9월",
+            "text": "Waves DEX와의 통합을 통해 사용자들은 안전하게 거래할 수 있습니다.",
+            "title": "Ledger Nano S"
+        },
+        "sep2019": {
+            "date": "2019년 9월",
+            "text": "2단계 인증은 Waves DEX 사용자에게 더욱더 안전된 보안을 제공합니다.",
+            "title": "2FA"
+        }
+    },
+    "userList": {
+        "addNew": "계정 추가",
+        "create": "신규 계정 생성",
+        "frombackup": "백업으로부터",
+        "import": "계정 불러오기",
+        "restore": "계정 복원",
+        "subTitle": "다시 로그인 하거나",
+        "subTitleSession": "세션이 자동으로 만료되었습니다."
+    },
+    "welcome": {
+        "aliases": "별칭",
+        "android": "구글 플레이",
+        "api": "API",
+        "apple": "앱 스토어",
+        "blog": "블로그",
+        "broughtBy": "Waves 팀 제공",
+        "change": "변경",
+        "chart": "차트",
+        "contestLinkDescription": "Waves DEX 트레이딩 컨테스트에서 우승하여 5,000 WAVES를 받으세요!",
+        "contestLinkLink": "규칙",
+        "controlAssets": "자산을 통제할 수 있는 사람은 당신뿐입니다 – 자금은 지갑에서 안전히 보호되며 동결될 수 없습니다",
+        "copyAddress": "주소 복사",
+        "copyright": "© 2019 Waves 플랫폼",
+        "createToken": "토큰 생성",
+        "dashboard": "대시보드",
+        "decentralised": "탈중앙화 완료",
+        "dexWithHardware": "Ledger Nano S 및 Ledger Blue 하드웨어 지갑과 함께 DEX를 사용하세요",
+        "documentation": "문서화",
+        "download": "다운로드",
+        "downloadMobileApp": "모바일 앱 다운로드!",
+        "exchange": "거래",
+        "forDevelopers": "개발자용",
+        "forum": "포럼",
+        "gateways": "인기있는 암호화폐의 게이트웨이",
+        "getRealTimeAccess": "API를 통해 트레이딩봇을 설정하고 마켓 데이터를 실시간으로 액세스하세요",
+        "getStarted": "지금 시작하세요",
+        "gitHub": "Github",
+        "help": "도움말",
+        "high": "24 최고가",
+        "instantAccessWalletDex": "지갑과 DEX의 신속한 액세스",
+        "keeperAccount": "Keeper 계정",
+        "lastPrice": "체결가",
+        "leasing": "Leasing",
+        "ledgerAccount": "Ledger 계정",
+        "ledgerSupport": "Ledger 지원",
+        "legal": "법률 조건",
+        "linux": "Linux",
+        "linuxDescription": "Linux 어플리케이션 다운로드",
+        "logout": "로그아웃",
+        "logOut": "로그아웃",
+        "low": "24 최저가",
+        "lowFixedFees": "저렴한 고정 수수료",
+        "macOs": "MacOS",
+        "macOsDescription": "MacOS 어플리케이션 다운로드",
+        "mailto": "support.wavesplatform.com",
+        "mainPage": "메인 페이지",
+        "majorFiatCryptocurrencies": "주요 법정화폐 및 암호화폐 지원: BTC, LTC, ETH, USD 등",
+        "markets": "마켓",
+        "marketsDescription": "사용자는 모바일 앱, 데스크톱 클라이언트, 웹 지갑 또는 Waves API를 통해 Waves DEX에서 빠르고 안전하게 거래할 수 있습니다.",
+        "marketsTableDescription": "더 많은 거래 페어를 보려면 클릭하세요",
+        "marketsTableDescriptionLink": "거래소 보기",
+        "menu": "메뉴",
+        "news": "뉴스",
+        "pair": "페어",
+        "portfolio": "포트폴리오",
+        "privacyPolicy": "개인 정보 보호 정책",
+        "productsTools": "제품 및 도구",
+        "renameAccount": "계정 이름 변경",
+        "roadmap": "로드맵",
+        "roadmapOpportunitiesAhead": "Waves DEX의 미래: 기회로 가득찬 로드맵입니다.",
+        "scriptAccount": "Script 계정",
+        "scriptedAccount": "Script 계정",
+        "settings": "설정",
+        "signIn": "로그인",
+        "social": "소셜",
+        "stackOverflow": "스택 오버플로우",
+        "suitableTradingBots": "트레이딩 봇에 적합",
+        "support": "지원센터",
+        "telegram": "텔레그램",
+        "termsOfUse": "이용 약관",
+        "tokenCreation": "빠른 토큰 생성",
+        "tokenCreationCosts": "1 WAVES로 1분만에 토큰을 생성할 수 있습니다",
+        "tradeOnWaves": "Waves 탈중앙화 거래소에서 거래하세요",
+        "tradeOnWavesDescription": "본인의 자금에 대한 완전한 통제권 및 중앙 집중식 거래소의 이점과 함께 빠르고 안전하게 토큰을 사고 파세요.",
+        "transactions": "트랜잭션",
+        "twitter": "트위터",
+        "volume": "거래량",
+        "wallet": "지갑",
+        "wavesBlockchain": "Waves 블록체인",
+        "wavesDexWeb": "Waves DEX Web",
+        "wavesExplorer": "Waves Explorer",
+        "wavesIde": "Waves IDE",
+        "wavesKeeper": "Waves Keeper",
+        "wavesLabs": "Waves Labs",
+        "wavesOrderFilled": "체결된 주문 당 0.003 WAVES",
+        "wavesWallet": "Waves 지갑",
+        "windows": "Windows",
+        "windowsDescription": "윈도우 어플리케이션 다운로드"
+    }
+}

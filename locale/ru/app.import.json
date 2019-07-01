@@ -1,0 +1,21 @@
+{
+    "back": "Перейти на главную",
+    "import": {
+        "signIn": "Sign in"
+    },
+    "importAccount": "Импорт аккаунтов",
+    "importAccountInfo": "Выберите, откуда импортировать аккаунты",
+    "KeeperClient": "Waves Keeper",
+    "keeperDescription": "Импорт аккаунтов из Waves Keeper",
+    "keeperForm": "Установить",
+    "LedgerClient": "Ledger",
+    "ledgerDescription": "Импорт аккаунтов с устройства Ledger",
+    "or": "ИЛИ",
+    "selectButton": "Импортировать",
+    "wavesClient": "Waves Client",
+    "wavesClientDescription": "Import account from a Waves Client",
+    "wavesLiteClient": "Waves Lite Client",
+    "wavesLiteClientDescription": "Импорт аккаунтов из Waves Lite Client",
+    "wavesSeedClient": "Секретная фраза",
+    "wavesSeedClientDescription": "Импорт аккаунта из сохраненной фразы"
+}

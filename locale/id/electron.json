@@ -1,0 +1,30 @@
+{
+    "menu": {
+        "copy": "Salin",
+        "cut": "Potong",
+        "dev_tools": "Alat Pengembang",
+        "paste": "Tempel",
+        "quit": "Keluar",
+        "title": {
+            "application": "Aplikasi",
+            "edit": "Edit",
+            "god_mode": "Mode Tuhan"
+        }
+    },
+    "modal": {
+        "set_protocol_error": {
+            "close": "Tutup",
+            "message": "Tidak dapat mengatur protokol default untuk meluncurkan klien waves. Tautan dari peramban untuk sementara tidak didukung!",
+            "report": "Laporkan",
+            "title": "Atur kesalahan protokol menjadi terbuka"
+        }
+    },
+    "storage": {
+        "read": {
+            "error": {
+                "body": "Terjadi kesalahan saat mencoba memuat kunci Anda. Kami memulihkan akun Anda dari penyimpanan cadangan.",
+                "title": "Akun berhasil dipulihkan dari cadangan"
+            }
+        }
+    }
+}

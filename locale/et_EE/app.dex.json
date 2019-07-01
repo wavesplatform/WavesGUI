@@ -1,0 +1,232 @@
+{
+    "create": {
+        "order": {
+            "failed": "Midagi läks valesti",
+            "success": "Order on loodud"
+        }
+    },
+    "dex": {
+        "contest": "Contest"
+    },
+    "directives": {
+        "balance": {
+            "assetId": "Vara ID",
+            "available": "Saadaval",
+            "inOrders": "Orderites",
+            "inOrdersFull": "Reserveeritud orderites",
+            "total": "Kokku"
+        },
+        "candleChart": {
+            "error": "{div} [Diagrammi ei õnnestunud alla laadida.] {div} [Kui soovite seda skeemi oma rakenduses kasutada, saatke palun oma päring [tradingview.com'le](https://tradingview.com)]"
+        },
+        "createOrder": {
+            "1day": "1 päev",
+            "1hour": "1 tund",
+            "1week": "1 nädal",
+            "30day": "29 päeva",
+            "30min": "30 min",
+            "5min": "5 min",
+            "amountField": "Summa",
+            "ask": "Ask",
+            "bid": "Bid",
+            "buy": "Osta",
+            "createOrderNotPermitted": "Orderid ei ole ajutiselt saadaval",
+            "errors": {
+                "balance": "Pole piisavalt {{name}}",
+                "precision": "Ületati maksimaalselt kasutatava {{precision}} kümnendkoha",
+                "required": "Selle välja täitmine on kohustuslik"
+            },
+            "expiration": "Aegumine",
+            "fee": "Tasu {{fee}} WAVES",
+            "hasScript": "Kauplemiseks tühista [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html)",
+            "last": "Viimane",
+            "matcherFee": "Fee",
+            "notifications": {
+                "error": {
+                    "30702": "The account's script of {{address}} rejected the order",
+                    "title": "Veateade"
+                },
+                "isCreated": "Order on loodud",
+                "notEnoughBalance": "Ei ole piisavalt kaubeldavat saldot",
+                "somethingWentWrong": "Midagi läks valesti"
+            },
+            "notPermitted": "Orderi loomine pole ajutiselt saadaval",
+            "placeBuyOrder": "Osta {{name}}",
+            "placeSellOrder": "Müü {{name}}",
+            "priceField": "Piirhind",
+            "sell": "Müü",
+            "spread": "hinnavahe",
+            "total": "Kokku"
+        },
+        "demo": {
+            "createAccount": "Loo uus konto",
+            "or": "või",
+            "signIn": "Logi sisse",
+            "to": {
+                "mybalance": "oma saldo vaatamiseks",
+                "openorders": "avatud orderite vaatamiseks",
+                "tradehistory": "oma kauplemisajaloo vaatamiseks"
+            }
+        },
+        "filter": "Otsi",
+        "marketDepth": "Turu sügavus",
+        "markets": {
+            "table": {
+                "price": "Hind",
+                "rate": "Muuda",
+                "unit": "Münt",
+                "volume": "Maht"
+            },
+            "title": "Turud"
+        },
+        "myOrders": {
+            "amount": "Summa",
+            "average": "Average",
+            "back": "Ei",
+            "cancel": "tühista",
+            "cancelAll": "tühista kõik",
+            "cancelAllConfirm": "Jah",
+            "canceled": "tühistatud",
+            "cancelled": "CANCELED",
+            "confirm": {
+                "header": "Kas olete kindel?",
+                "literalDescription": "Seda toimingut ei saa tagasi võtta"
+            },
+            "delete": "kustuta",
+            "detail": "üksikasi",
+            "fee": "tasu",
+            "filled": "Filled",
+            "filter": "Filter",
+            "noPermissionCancelOrder": "Orderi tühistamine pole ajutiselt saadaval",
+            "notifications": {
+                "isCanceled": "Order on tühistatud",
+                "somethingWentWrong": "Midagi läks valesti"
+            },
+            "opened": "avatud",
+            "orderType": {
+                "buy": "Osta",
+                "sell": "Müü"
+            },
+            "pair": "Paar",
+            "placeholders": {
+                "lockedPair": "Trading in {{amountAssetTicker}} / {{priceAssetTicker}} is currently unavailable. You can cancel the order"
+            },
+            "price": "Hind",
+            "status": "Staatus",
+            "tableTitle": {
+                "fee": "Tasu"
+            },
+            "time": "Aeg",
+            "total": "Kokku",
+            "type": "Tüüp",
+            "withScript": "Teie ei saa kasutada börsi, kui teie kontole on paigaldatud [skript](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html)"
+        },
+        "noChartDataMessage": "{div} [Pole piisavalt ask/bid ordereid] {div} [turu sügavuse diagrammi loomiseks]",
+        "noChartDataTitle": "Siin pole midagi…",
+        "orderBook": {
+            "amount": "Summa {{assetName}}",
+            "lastprice": "viimane hind",
+            "price": "Hind {{assetName}}",
+            "spread": "hinnavahe",
+            "sum": "Summa {{assetName}}",
+            "title": "Orderite raamat"
+        },
+        "orderbook": {
+            "errorBlock": {
+                "header": "Midagi läks valesti"
+            }
+        },
+        "portfolio": {
+            "title": "Portfell"
+        },
+        "tradeHistory": {
+            "orderType": {
+                "buy": "Osta",
+                "sell": "Müü"
+            },
+            "search": "Otsi",
+            "tableTitle": {
+                "date": "Aeg",
+                "exchangeType": "Tüüp",
+                "fee": "Tasu",
+                "price": "Hind {{assetName}}",
+                "size": "Kogus {{assetName}}",
+                "total": "Kokku",
+                "type": "Tüüp"
+            },
+            "title": "Kauplemisajalugu"
+        },
+        "watchlist": {
+            "all": "KÕIK",
+            "change": "Muuda",
+            "chg": "Mda",
+            "coin": "Münt",
+            "helpIcon": {
+                "assetId": "Vara ID",
+                "AssetId1AssetId2": "Vara1 ID / Vara2 ID",
+                "description": "Lisateavet varade otsimise kohta leiate [siit](https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html)",
+                "header": "Võite otsida järgnevalt:",
+                "name": "Nimi",
+                "name1Name2": "Nimi1 / Nimi2"
+            },
+            "pair": "Paar",
+            "placeholders": {
+                "base": "Alusvara",
+                "coin": "Otsi",
+                "filter": "Filter",
+                "lockedPair": "Trading in {{amountAssetTicker}} / {{priceAssetTicker}} is currently unavailable",
+                "noMarkets": "Teie filtritele vastavaid turge ei leitud"
+            },
+            "price": "Hind",
+            "volume": "Maht"
+        }
+    },
+    "emptyBlocks": {
+        "myOrders": {
+            "description": "Teil ei ole ordereid.",
+            "title": "Siin pole midagi…"
+        },
+        "orderBook": {
+            "description": "Orderite raamat on tühi.",
+            "error": {
+                "text": "Palun värskendage lehte või proovige hiljem uuesti",
+                "title": "Midagi läks valesti"
+            },
+            "title": "Siin pole midagi…"
+        },
+        "tradeHistory": {
+            "description": "Kauplemisajalugu on tühi.",
+            "title": "Siin pole midagi…"
+        }
+    },
+    "layout": {
+        "center": {
+            "bottom": "Minu orderid"
+        },
+        "right": {
+            "bottom": "Kauplemisajalugu",
+            "top": "Orderite raamat"
+        }
+    },
+    "orderbook": {
+        "ask": {
+            "tooltipText": "Osta {{amountAsset}} {{price}} {{priceAsset}} eest"
+        },
+        "bid": {
+            "tooltipText": "Müü {{amountAsset}}  {{price}} {{priceAsset}} eest"
+        }
+    },
+    "tabs": {
+        "title": {
+            "all": "Kõik",
+            "btc": "Btc",
+            "eth": "ETH",
+            "myBalance": "Minu Saldod",
+            "myTradeHistory": "Minu Kauplemisajalugu",
+            "openOrders": "Minu Avatud Orderid",
+            "OrderHistory": "My Order History",
+            "tradeHistory": "Kauplemisajalugu",
+            "waves": "Waves"
+        }
+    }
+}

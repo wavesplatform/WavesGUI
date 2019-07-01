@@ -1,0 +1,21 @@
+{
+    "back": "De vuelta a la pagina principal",
+    "import": {
+        "signIn": "Sign in"
+    },
+    "importAccount": "Importar cuentas",
+    "importAccountInfo": "Seleccionar de donde importar las cuentas",
+    "KeeperClient": "Waves Keeper",
+    "keeperDescription": "Importar su cuenta desde Waves Keeper",
+    "keeperForm": "Instalar",
+    "LedgerClient": "Ledger Device",
+    "ledgerDescription": "Importar cuentas de tu Ledger Nano S",
+    "or": "O",
+    "selectButton": "Seleccionar",
+    "wavesClient": "Waves Client",
+    "wavesClientDescription": "Import account from a Waves Client",
+    "wavesLiteClient": "Cliente Waves Lite",
+    "wavesLiteClientDescription": "Importar cuenta desde el cliente Waves Lite",
+    "wavesSeedClient": "Respaldar frase SEED",
+    "wavesSeedClientDescription": "Importar cuenta desde un respaldo SEED"
+}

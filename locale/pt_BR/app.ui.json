@@ -1,0 +1,322 @@
+{
+    "all": "Tudo",
+    "amount": "Quantidade",
+    "balanceInput": {
+        "max": "Max"
+    },
+    "confirmGatewayTransaction": {
+        "back": "Voltar",
+        "confirm": "Confirmar",
+        "fieldAddress": "Endereço",
+        "fieldAmount": "Quantidade",
+        "fieldFee": "Taxa",
+        "fieldGatewayAddress": "Endereço do gateway",
+        "fieldGatewayFee": "Taxa do gateway",
+        "success": "Sua transação está sendo processada!",
+        "warningText": "Você está prestes a enviar dinheiro para {{name}} blockchain.",
+        "warningTitle": "Transação para um blockchain externo"
+    },
+    "confirmTransaction": {
+        "back": "Voltar",
+        "confirm": "Confirmar",
+        "description": {
+            "burn": "Você queimou {{quantityStr}} {{name}}",
+            "cancel-leasing": "Você cancelou uma transação de aluguel",
+            "circular": "Você enviou {{amount, money-currency}} para si mesmo",
+            "create-alias": "Você criou um alias",
+            "data": "You have sent data transaction",
+            "data-vote": "{div.line}[You have voted for {{moneyCurrency}}.]\n{div.line}[Your score will be applied after 24 hours. Rating in processing.]",
+            "issue": "Você criou",
+            "lease-out": "Você alugou {{amount, money-currency}}",
+            "mass-send": "Você enviou {{totalAmount, money-currency}}",
+            "reissue": "Você criou mais {{quantityStr}} {{name}}",
+            "send": "Você enviou {{amount, money-currency}}",
+            "set-asset-script": "Você atualizou o script",
+            "set-script": "Você criou um script",
+            "set-script-cancel": "Você cancelou um script de transação",
+            "sponsorship-start": "O patrocínio foi definido",
+            "sponsorship-stop": "O patrocínio foi desativado"
+        },
+        "details": "Ver detalhes",
+        "export": "Exportar",
+        "JSON": "JSON",
+        "ledgerUnconfirmed": {
+            "description": "Por favor, tente novamente. Se o erro persistir, consulte [este artigo](https://support.ledgerwallet.com/hc/pt-br/articles/115005165269-Fix-connection-issues)",
+            "header": "Você não confirmou a solicitação na sua Ledger"
+        },
+        "notPermited": {
+            "cancel-leasing": "A ativação do aluguel está temporariamente indisponível."
+        },
+        "notPermitted": {
+            "burn": "A queima de token está temporariamente indisponível.",
+            "burn-title": "Queimar Token",
+            "cancel-leasing": "A ativação do aluguel está temporariamente indisponível.",
+            "cancel-leasing-title": "Cancelar aluguel",
+            "data": "Transações de dados estão temporariamente indisponíveis.",
+            "data-title": "Transação de dados",
+            "reissue-title": "Token reemissível",
+            "set-script": "Scripts de transações estão temporariamente indisponíveis.",
+            "sponsorship-start": "O patrocínio está temporariamente indisponível.",
+            "sponsorship-start-title": "Alterar patrocínio"
+        },
+        "orderSuccess": "Sua ordem foi criada!",
+        "redirect": "Você será redirecionado para {{referrer}}",
+        "send": {
+            "errors": {
+                "balance": {
+                    "invalid": "Saldo insuficiente"
+                },
+                "recipient": {
+                    "invalid": "O endereço do destinatário é inválido"
+                }
+            }
+        },
+        "sign": "Entrar",
+        "success": "Sua transação está sendo processada!",
+        "wavesKeeperUnconfirmed": {
+            "description": "Por favor, tente novamente. Se o erro persistir, envie um ticket para o [suporte](https://support.wavesplatform.com)",
+            "header": "Você não confirmou o pedido usando a Waves Keeper"
+        }
+    },
+    "copyError": "Não é possível copiar! Seu navegador pode estar desatualizado",
+    "copySuccess": "O arquivo foi copiado",
+    "directives": {
+        "anyTransaction": {
+            "copy": "Copiar",
+            "textAreaTitle": "TX JSON"
+        },
+        "scriptForm": {
+            "placeholder": {
+                "change": "Digite um novo script ou deixe o campo em branco para cancelar um script existente",
+                "create": "Digite um novo script ou deixe o campo em branco para cancelar um script existente"
+            },
+            "textAreaTitle": "Base64 Script"
+        },
+        "setAssetScriptForm": {
+            "ok": "Continuar"
+        },
+        "sign": {
+            "confirmRequestKeeper": {
+                "cancel": "Cancelar",
+                "errorDescription": "Por favor, tente novamente. Se o erro persistir, envie um ticket para [suporte](https://support.wavesplatform.com)",
+                "errorHeader": "Você não confirmou o pedido usando a Waves Keeper",
+                "sign": "Continuar",
+                "waiting": "Aguardando confirmação da Waves Keeper ..."
+            },
+            "confirmRequestLedger": {
+                "cancel": "Cancelar",
+                "errorDescription": "Por favor, tente novamente. Se o erro persistir, consulte [este artigo](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)",
+                "errorHeader": "Você não confirmou a autorização no seu dispositivo Ledger Nano S",
+                "sign": "Entrar novamente",
+                "waiting": "Aguardando confirmação na Ledger Nano S…"
+            },
+            "txId": "TXID"
+        },
+        "transactionExport": {
+            "linkTitle": "Compartilhe o link para assinar",
+            "or": "OU",
+            "qrZoomBtn": "Clique para ampliar/diminuir",
+            "scanQrCode": "Capturar QR Code"
+        }
+    },
+    "emptyBlocks": {
+        "title": "Não há nada aqui…"
+    },
+    "errorBlocks": {
+        "title": "Algo deu errado…"
+    },
+    "modal": {
+        "assetInfo": {
+            "gateway_ui": "GATEWAY"
+        },
+        "sign": {
+            "signByLedger": "Aguardando confirmação na Ledger Nano S…"
+        },
+        "token": {
+            "warning": {
+                "header": "Você concorda que:",
+                "text": "{div.line}[I) Você não usará o token para fins fraudulentos;]\n{div.line}[II) Você não duplicará, totalmente ou parcialmente, o nome de uma criptomoeda existente ou de uma empresa conhecida com o objetivo de enganar os usuários;]\n{div.line}[III) Você não usará nomes de estados, outras unidades administrativas ou instituições municipais para o nome do token com o objetivo de enganar os usuários;]\n{div.line}[IV) Você não definirá um script em um smart asset que limite as negociações na Waves DEX pela quantidade de ativos.]\n{div.line}[V) Você não fornecerá informações falsas na descrição de um smart asset em relação às regras que esclarecem o uso do token, que não correspondem àquelas do script instalado nele;]",
+                "textWarning": "Se esses pontos não forem considerados, o seu token será classificado como spam e ficará disponível para pesquisa apenas pelo ID."
+            }
+        }
+    },
+    "password": {
+        "minLength": "deve ter pelo menos {{minLength}} caracteres",
+        "name": "Nome da conta",
+        "repeat": "Confirmar senha",
+        "secure": "senha segura",
+        "title": "Proteja Sua Conta com uma Nova Senha",
+        "warn": "fácil, adicione um dígito ou símbolo"
+    },
+    "qrCodeRead": {
+        "closeRead": "Cancelar"
+    },
+    "recipient": "Destinatário",
+    "transaction": {
+        "actions": {
+            "cancelLeasing": "Cancelar Aluguel",
+            "copyTxData": "Copiar todos os dados TX",
+            "copyTxId": "Copiar TX ID",
+            "showTx": "TX info"
+        },
+        "amounts": {
+            "burn": "–{{amount}} {{name}}",
+            "cancel-leasing": "{{amount}} {{name}}",
+            "circular": "{{amount}} {{name}}",
+            "exchange-buy": "{{sign}}{{amount}} {{name}}",
+            "exchange-sell": "{{sign}}{{amount}} {{name}}",
+            "issue": "{{amount}} {{name}}",
+            "lease-in": "{{amount}} {{name}}",
+            "lease-out": "{{amount}} {{name}}",
+            "mass-receive": "+{{amount}} {{name}}",
+            "mass-send": "–{{amount}} {{name}}",
+            "perTransaction": "Valor por transação",
+            "receive": "+{{amount}} {{name}}",
+            "reissue": "+{{amount}} {{name}}",
+            "script-invocation": "–{{amount}} {{name}}",
+            "send": "–{{amount}} {{name}}",
+            "set-script": "Definir Script de transação",
+            "set-script-cancel": "Cancelar script de transação",
+            "sponsorship-change": "Mudar Patrocínio",
+            "sponsorship-fee": "{{sign}}{{amount}} {{name}}",
+            "sponsorship-start": "Definir Patrocínio",
+            "sponsorship-stop": "Desativar Patrocínio"
+        },
+        "confirmed": {
+            "false": "NÃO CONFIRMADO",
+            "true": "CONFIRMADO"
+        },
+        "headers": {
+            "activeLeasing": "ativar agora",
+            "burn": "{{name}} Token Queimado",
+            "cancel-leasing": "Aluguel Cancelado",
+            "canceled": "Cancelado",
+            "circular": "Autotransferido {{name}}",
+            "create-alias": "Alias Criado",
+            "data": "Transação de Dados",
+            "data-vote": "Voted for {{assetName}}",
+            "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
+            "exchange-buy": "Comprar:",
+            "exchange-sell": "Vender:",
+            "issue": "{{name}} Criar Token",
+            "lease-in": "Aluguel Recebido",
+            "lease-out": "Aluguel Iniciado",
+            "mass-receive": "Recebido {{name}}",
+            "mass-send": "Enviado {{name}}",
+            "receive": "Recebido {{name}}",
+            "reissue": "{{name}} Reemissão de Token",
+            "script-invocation": "Script Invocation",
+            "send": "Enviado {{name}}",
+            "set-asset-script": "Definir Script de transação do Ativo",
+            "set-script": "Definir Script de Transação",
+            "set-script-cancel": "Cancelar Script de Transação",
+            "spam": "suspeito",
+            "sponsorship-fee": "Recebido {{name}}",
+            "sponsorship-start": "Definir patrocínio para {{name}}",
+            "sponsorship-stop": "Desativar Patrocínio para {{name}}",
+            "suspicious": "suspeito",
+            "unknown": "Transação desconhecida"
+        },
+        "modals": {
+            "assetId": "ID",
+            "attachment": "Mensagem Anexada",
+            "cancelTx": "TX",
+            "confirmations": "Confirmações",
+            "copyCode": "Copy Code",
+            "data": "Dados",
+            "dataKey": "Key",
+            "dataType": "Type",
+            "dataValue": "Value",
+            "description": "Descrição",
+            "exchange": {
+                "buy": "Comprar",
+                "buyMatcherFee": "Buy Matcher Fee",
+                "exchangeType": "Order type",
+                "matcherFee": "Matcher Fee",
+                "pair": "Par",
+                "sell": "Vender"
+            },
+            "fee": "Taxa",
+            "from": "De",
+            "function": "Function",
+            "functionCall": "Function call",
+            "height": "Bloco",
+            "hide": "Ocultar",
+            "hideAll": "Ocultar tudo",
+            "leasingStatus": "Status",
+            "massSend": {
+                "showAll": {
+                    "false": "Mostrar tudo ({{count}})",
+                    "true": "Mostrar as 3 primeiras transações"
+                },
+                "totalAmount": "Quantidade total"
+            },
+            "numberOfRecipients": "O Número de Destinatários",
+            "orderType": "Tipo de ordem",
+            "pair": "Par",
+            "payment": "Payment",
+            "price": "{{name}} Preço",
+            "script": "Script",
+            "scriptAddress": "Script address",
+            "seeAll": "Mostrar tudo",
+            "setAssetScript": {
+                "showScript-false": "Mostrar",
+                "showScript-true": "Esconder"
+            },
+            "show": "Mostrar",
+            "showAll": "Show all ({{count}})",
+            "showFirstTree": "Show first 3 keys",
+            "status": "Status",
+            "timestamp": "Timestamp",
+            "to": "Para",
+            "toBeReissued": "Para ser reemitido",
+            "toRemainOnBalance": "Permanecer equilibrado",
+            "totalAfterBurning": "Total após queimar",
+            "totalAfterReissue": "Total após reemissão",
+            "txId": "TXID",
+            "type": "Tipo",
+            "viewTransactionKey": "Transação",
+            "viewTransactionValue": "Ver Transação"
+        },
+        "notifications": {
+            "closed": "O aluguel já foi cancelado",
+            "closedSuccess": "O aluguel foi cancelado com sucesso"
+        },
+        "reissuable": {
+            "false": "Não Reemissível",
+            "true": "Reemissível"
+        },
+        "set-asset-script": "Atualizar script",
+        "subheaders": {
+            "burn": "{{time}}",
+            "cancel-leasing": "{{time}}{span.locale-address}[, transação {{transactionId}}]",
+            "circular": "{{time}}{span.locale-address}[, no endereço {{address}}]",
+            "create-alias": "{{time}}, {{alias}}",
+            "data": "{{time}}",
+            "exchange-buy": "{{time}}",
+            "exchange-sell": "{{time}}",
+            "issue": "{{time}}",
+            "lease-in": "{{time}}{span.locale-address}[, do endereço {{address}}]",
+            "lease-out": "{{time}}{span.locale-address}[, para o endereço {{address}}]",
+            "mass-receive": "{{time}}{span.locale-address}[, do endereço {{address}}]",
+            "mass-send": "{{time}}",
+            "receive": "{{time}}{span.locale-address}[, do endereço {{address}}]",
+            "reissue": "{{time}}",
+            "script-invocation": "{{time}}{span.locale-address}[, para o endereço {{address}}]",
+            "send": "{{time}}{span.locale-address}[, para o endereço {{address}}]",
+            "set-asset-script": "{{time}}, no ativo {{name}}",
+            "sponsorship-fee": "{{time}} do endereço {{address}}",
+            "unknown": "{{time}}"
+        }
+    },
+    "transactionList": {
+        "noTransactionsDescription": "Você não tem nenhuma transação",
+        "noTransactionsTitle": "Não há nada aqui…"
+    },
+    "transactions": {
+        "script": {
+            "txJson": "Script Base64"
+        }
+    },
+    "whitespace": "&nbsp;"
+}

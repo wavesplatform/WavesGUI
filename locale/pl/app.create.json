@@ -1,0 +1,65 @@
+{
+    "backupSeed": {
+        "back": "wróć",
+        "copySeed": "skopiuj",
+        "needConfirm": "Potwierdzisz wygenerowaną frazę na następnym ekranie",
+        "ok": "Zapisałem to",
+        "or": "albo",
+        "saveSecret": "Zapisz kopię zapasową wygenerowanej frazy",
+        "warn": "Tylko ty kontrolujesz swoje pieniądze, stąd musisz zapisać swoją kopię zapasową frazy na wypadek gdyby aplikacja została usunięta lub",
+        "writeSeed": "Proszę dokładnie zapisać te 15 słów"
+    },
+    "confirmBackup": {
+        "again": "i wybierz ponownie",
+        "back": "wróć",
+        "clear": "Wyczyść",
+        "confirm": "Potwierdź kopię zapasową",
+        "description": "Zweryfikuj kopię zapasową frazy lub",
+        "enterCorrect": "Proszę wybrać każde słowo w poprawnej kolejności",
+        "error": "Zła kolejność, spróbuj ponownie.",
+        "ok": "Potwierdź",
+        "tapAgain": "i wybierz ponownie"
+    },
+    "createAccount": {
+        "address": "Adres konta:",
+        "avatarUnique": "Wybrany awatar nie podlega zmianie",
+        "choose": "Wybierz swój awatar adresu",
+        "create": "Utwórz nowe konto",
+        "createDescription": "Szybko i za darmo",
+        "createNewAccount": "Utwórz nowe konto",
+        "from": "z kopii zapasowej",
+        "import": "Importuj konto",
+        "importDescription": "za pośrednictwem frazy Seed, Ledger lub Keeper",
+        "protect": "Chroń swoje konto hasłem lub",
+        "protectYourAccount": "Chroń swoje konto",
+        "restore": "przywróć konto",
+        "saveUserData": "Zachowaj konto na tym komputerze",
+        "signDescription": "do zapisanego konta",
+        "signIn": "Zaloguj się",
+        "signUp": "Zarejestruj darmowe konto poniżej lub",
+        "tosaved": "do zapisanego konta",
+        "toWalet": "do twojego portfela lub"
+    },
+    "modal": {
+        "confirmBackupDescription": "Weryfikuj frazę kopii zapasowej",
+        "next": "Potwierdź",
+        "prev": "Wróć",
+        "successContent": "Witamy na platformie Waves! Nie możesz zmienić swojej sekretnej frazy. Jeśli przypadkowo wysłałeś komuś sekretną frazę lub podejrzewasz, że została ona przejęta przez oszustów natychmiast utwórz nowy portfel Waves i prześlij na niego swoje środki.",
+        "successHeadline": "Traktuj swoją kopię zapasową ostrożnie!",
+        "understand": "Rozumiem"
+    },
+    "noBackupNoMoney": {
+        "backup": "Utwórz kopię zapasową",
+        "description": "Musisz zapisać swoją tajną frazę, która jest niezbędna do uzyskania dostępu do twojego konta",
+        "modal": {
+            "descriptionP1": "Platforma Waves ostrzega przed zwiększoną częstotliwością oszust i ataków typu phishing w ciągu ostatniego miesiąca. Oszuści ukrywają swoje złośliwe oprogramowanie we własnych wersjach oprogramowania Waves, a następnie obiecują premie i rabaty jako przynętę dla użytkowników.",
+            "descriptionP2": "Proszę nie logować się na nieznanych platformach ponieważ może to skutkować utratą wszystkich zainwestowanych funduszy ",
+            "descriptionP3": "Powinieneś używać tylko oficjalnego oprogramowania WAVES",
+            "ok": "Rozumiem",
+            "title": "Pilnuj swojej kopii zapasowej!"
+        },
+        "or": "albo",
+        "skip": "Zrób to później",
+        "title": "Brak kopii zapasowej grozi utratą zgromadzonych środków."
+    }
+}

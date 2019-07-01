@@ -1,0 +1,39 @@
+{
+    "addAsset": "Lisa vara",
+    "chart": {
+        "intervals": {
+            "all": "Kõik",
+            "day": "1P",
+            "hour": "1T",
+            "month": "1K",
+            "week": "1N",
+            "year": "1A"
+        }
+    },
+    "directives": {
+        "asset": {
+            "anyTx": "JSON",
+            "deposit": "Sissemakse",
+            "ofTotalBalance": "kogu saldost {{totalBalance}}",
+            "receive": "Võta vastu",
+            "script": "Skript",
+            "send": "Saada"
+        },
+        "balance": {
+            "actions": {
+                "assetInfo": "Vara info",
+                "copyAssetId": "Kopeeri Vara ID"
+            }
+        }
+    },
+    "price": "HIND {{currency}}",
+    "qr": "Your Address",
+    "send": "Send",
+    "since": {
+        "day": "ALATES EELMISEST PÄEVAST",
+        "month": "ALATES EELMISEST KUUST",
+        "week": "ALATES EELMISEST NÄDALAST"
+    },
+    "suspicious": "Kahtlane - ({span}[{{count}}])",
+    "Unpin": "Tühista vaatest"
+}

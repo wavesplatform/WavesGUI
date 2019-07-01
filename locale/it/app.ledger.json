@@ -1,0 +1,31 @@
+{
+    "ledger": {
+        "article": "questo articolo",
+        "connectionError": "Impossibile connettersi al dispositivo Ledger",
+        "connectionText": "La connessione potrebbe essere scaduta. Per favore prova di nuovo.",
+        "referTo": "Se l'errore dovesse persistere, per favore rivolgiti a"
+    },
+    "ledgerForm": {
+        "address": "Indirizzo dell'account:",
+        "avatarUnique": "Questo avatar è immodificabile, non potrà essere cambiato successivamente.",
+        "back": "Torna indietro",
+        "choose": "Seleziona il tuo account",
+        "importAccount": "Importa un account Ledger",
+        "ImportOrSignIn": "Importa account oppure",
+        "login": "Continua",
+        "name": "Nome dell'account",
+        "or": "Oppure",
+        "retry": "Riprova",
+        "savedOne": "verso un account salvato",
+        "saveUserData": "Mantieni attiva la connessione da questo computer",
+        "selectDefault": "Usa l'account predefinito",
+        "signIn": "accedi"
+    },
+    "modal": {
+        "sign": {
+            "confirmRequest": "Conferma la richiesta",
+            "confirmRequestMatcher": "Firma una richiesta al Matcher. Senza la firma, non sarà possibile fare trading sul DEX da un account Ledger."
+        }
+    },
+    "or": "oppure"
+}

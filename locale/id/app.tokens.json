@@ -1,0 +1,79 @@
+{
+    "count": "Total token",
+    "create": "Buat",
+    "description": "Deskripsi",
+    "directives": {
+        "sign": {
+            "confirmRequestLedger": {
+                "waiting": "Menunggu konfirmasi pada Perangkat Ledger..."
+            }
+        }
+    },
+    "fee": "Biaya {{fee, money-currency}}",
+    "help": {
+        "name": "Harap gunakan hanya huruf Latin"
+    },
+    "helpIcon": {
+        "demicals": "Bidang ini menentukan jumlah desimal tempat token aset Anda akan dibagi.",
+        "scriptDescription": "Setiap validasi transaksi oleh skrip Aset Pintar meningkatkan biaya transaksi sebesar 0,004 WAVES. Misalnya, jika transaksi reguler dibuat untuk Aset Cerdas, biayanya 0,001 0,004 = 0,005 WAVES. Jika transaksi pertukaran dilakukan, biaya adalah 0,003 0,004 = 0,007 WAVES.",
+        "scriptHeader": "Aset Pintar adalah aset dengan skrip terlampir yang menempatkan kondisi pada setiap transaksi yang dibuat untuk token yang dimaksud.",
+        "scriptLearnMore": "Pelajari lebih lanjut",
+        "totalTokens": {
+            "headline": "Bidang ini menentukan total token penawaran yang akan disimpan oleh aset Anda.",
+            "notReissuable": "Aset non-reissuable akan secara permanen terbatas pada total pasokan token yang ditentukan selama langkah-langkah ini.",
+            "reissuable": "Reissuability memungkinkan pembuatan token tambahan yang akan ditambahkan ke total pasokan aset token."
+        }
+    },
+    "modal": {
+        "title": "{{name}} Dibuat",
+        "titleSuccess": "{{name}} Pembuatan Selesai"
+    },
+    "name": "Nama aset Anda",
+    "notifications": {
+        "isNotCreated": "Token belum dibuat"
+    },
+    "pageTitle": "Pembuatan token",
+    "placeholders": {
+        "description": "Deskripsi tidak bisa diubah lagi setelah token dibuat",
+        "precision": "Dari 0 sampai 8"
+    },
+    "precision": "Desimal",
+    "preview": "Tinjauan",
+    "reissuable": {
+        "false": "Non-reissuable",
+        "true": "Reissuable"
+    },
+    "script": "Aset Pintar",
+    "success": {
+        "description": "Kamu membuat {{amount}} {{name}}",
+        "done": "Buka Portofolio",
+        "title": "Transaksi Anda sedang dalam perjalanan!"
+    },
+    "switchScriptOff": "Nonaktifkan skrip",
+    "switchScriptOn": "Aktifkan skrip",
+    "tokens": {
+        "changeColorTooltip": "Ganti warna",
+        "inputHelper": {
+            "description": "Jika Anda menggunakan nama ini, token Anda akan dikategorikan sebagai 'Mencurigakan' dan hanya dapat dicari dengan ID.",
+            "header": "Nama aset ini telah diambil"
+        },
+        "termsOfUse": {
+            "checkbox": "Saya memahami bahwa dalam kasus ketidakpatuhan terhadap aturan, token saya akan dikategorikan sebagai 'Mencurigakan', dan akan tersedia untuk pencarian hanya dengan ID."
+        }
+    },
+    "validators": {
+        "byte": {
+            "gte": "Nama aset harus antara 4 dan 16 karakter",
+            "lte": "Nama aset harus antara 4 dan 16 karakter"
+        },
+        "descriptionLen": "Deskripsi terlalu panjang. Itu harus tidak lebih dari 1000 karakter.",
+        "invalidScript": "Kesalahan sintaks",
+        "maxValueCount": "Jumlah yang dimasukkan terlalu besar",
+        "maxValuePrecision": "Nomor tidak valid. Masukkan angka dari 0 hingga 8",
+        "minValueCount": "Angka yang dimasukkan harus lebih besar dari nol",
+        "minValuePrecision": "Nomor tidak valid. Masukkan angka dari 0 hingga 8",
+        "noMoney": "Saldo Anda tidak cukup untuk membayar biaya transaksi",
+        "precisionCount": "Jumlah total aset tidak boleh memiliki tempat desimal lebih dari yang ditentukan dalam bidang Desimal",
+        "required": "Bidang ini harus diisi"
+    }
+}

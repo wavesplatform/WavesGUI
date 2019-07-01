@@ -1,0 +1,50 @@
+{
+    "password": {
+        "error": "Wrong Password!"
+    },
+    "passwordForm": {
+        "back": "mine tagasi",
+        "description": "Kaitske oma kontot uue parooliga või",
+        "importAccounts": "Importige kontosid",
+        "login": "Logi sisse",
+        "title": "Kaitske Oma Kontot"
+    },
+    "restore": {
+        "beta": {
+            "accountTitle": "Aadressi / Konto nimi",
+            "buttons": {
+                "cancel": "Mine Tagasi",
+                "copy": "Kopeeri salafraas",
+                "restore": "Taasta salafraas"
+            },
+            "noUsers": {
+                "description": "{div} [Me pole leidnud ühtegi salvestatud kontot. Mine tagasi] {div} [[client.wavesplatform.com]](https://client.wavesplatform.com)",
+                "title": "Kontosid pole salvestatud"
+            },
+            "passwordTitle": "Parool",
+            "placeholders": {
+                "password": "Parool"
+            },
+            "step1Description": "Kui Teil on ainult oma parool, mitte salafraas, saate selle lehe salvestatud konto taastamiseks kasutada.",
+            "step2Description": "Salvestage salafraas hoolikalt. Kui Te kaotate selle, ei saa Te oma kontole ligi pääseda.",
+            "title": "Taasta salafraas"
+        }
+    },
+    "seedForm": {
+        "address": "Aadress",
+        "back": "Mine tagasi",
+        "continue": "Jätka",
+        "create": "Loo uus konto",
+        "description": "Logige sisse oma rahakoti all või",
+        "or": "või",
+        "placeholder": "Teie salafraas on teie konto loomisel genereeritud 15 sõna",
+        "saveUserData": "Hoidke konto selles arvutis",
+        "seedTitle": "Teie rahakoti salafraas",
+        "title": "Tere tulemast tagasi",
+        "tosaved": "salvestatud kontole"
+    },
+    "warningSeed": {
+        "message": "Make sure you do not confuse the phrase with a wallet address. Using an address as a SEED phrase can result in loss of funds. The SEED phrase must consist of 15 words with spaces between each word.",
+        "title": "The SEED phrase you entered is too short."
+    }
+}

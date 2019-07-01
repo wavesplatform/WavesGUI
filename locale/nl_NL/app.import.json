@@ -1,0 +1,21 @@
+{
+    "back": "Terug naar de hoofdpagina",
+    "import": {
+        "signIn": "Inloggen"
+    },
+    "importAccount": "Accounts importeren",
+    "importAccountInfo": "Selecteer waar u accounts van wilt importeren",
+    "KeeperClient": "Waves Keeper",
+    "keeperDescription": "Importeer account vanuit Waves Keeper",
+    "keeperForm": "Installeer",
+    "LedgerClient": "Ledger Device",
+    "ledgerDescription": "Accounts importeren van uw Ledger",
+    "or": "OF",
+    "selectButton": "Selecteer",
+    "wavesClient": "Waves Client",
+    "wavesClientDescription": "Account importeren van Waves Client",
+    "wavesLiteClient": "Waves Lite Client",
+    "wavesLiteClientDescription": "Accounts importeren van de Waves Lite Client",
+    "wavesSeedClient": "Backup SEED regel",
+    "wavesSeedClientDescription": "Account importeren van een back-up SEED"
+}

@@ -1,0 +1,322 @@
+{
+    "all": "Tamamı",
+    "amount": "Miktar",
+    "balanceInput": {
+        "max": "Maksimum"
+    },
+    "confirmGatewayTransaction": {
+        "back": "Geri",
+        "confirm": "Onayla",
+        "fieldAddress": "Hedef adresi",
+        "fieldAmount": "Miktar",
+        "fieldFee": "Komisyon",
+        "fieldGatewayAddress": "Geçit adresi",
+        "fieldGatewayFee": "Geçit komisyonu",
+        "success": "Transferiniz yolda!",
+        "warningText": "{{name}} blok zincirine kripto para göndermek üzeresiniz.",
+        "warningTitle": "Harici blok zinciri transferi"
+    },
+    "confirmTransaction": {
+        "back": "Geri dön",
+        "confirm": "Onayla",
+        "description": {
+            "burn": "{{quantityStr}} {{name}} yaktınız",
+            "cancel-leasing": "Kiralama transferini iptal ettiniz",
+            "circular": "Kendinize {{amount, money-currency}} gönderdiniz",
+            "create-alias": "Takma isim oluşturdunuz",
+            "data": "Veri işlemi gönderdiniz",
+            "data-vote": "{div.line}[You have voted for {{moneyCurrency}}.]\n{div.line}[Your score will be applied after 24 hours. Rating in processing.]",
+            "issue": "Oluşturdunuz",
+            "lease-out": "{{amount, money-currency}} kiraladınız",
+            "mass-send": "Gönderdiğiniz miktar {{totalAmount, money-currency}}",
+            "reissue": "{{quantityStr}} {{name}} oluşturdunuz",
+            "send": "{{amount, money-currency}} gönderdiniz",
+            "set-asset-script": "Script'i güncellediniz.",
+            "set-script": "Script işlemi oluşturdunuz.",
+            "set-script-cancel": "Script işlemini iptal ettiniz.",
+            "sponsorship-start": "Sponsorluk etkinleştirildi",
+            "sponsorship-stop": "Sponsorluk iptal edildi"
+        },
+        "details": "Detayları görüntüle",
+        "export": "Dışa aktar",
+        "JSON": "JSON",
+        "ledgerUnconfirmed": {
+            "description": "Lütfen tekrar deneyin. Eğer hata almaya devam ederseniz [hata formu]nu doldurabilirsiniz. (https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)",
+            "header": "Ledger'da talebi onaylamadınız."
+        },
+        "notPermited": {
+            "cancel-leasing": "Kiralama geçici olarak devre dışı"
+        },
+        "notPermitted": {
+            "burn": "Kripto para yakma geçici olarak devre dışı",
+            "burn-title": "Kripto para yak",
+            "cancel-leasing": "Kiralamayı başlatma işlemi geçici olarak devre dışı",
+            "cancel-leasing-title": "Kiralamayı iptal et",
+            "data": "Veri işlemleri geçici olarak devre dışı",
+            "data-title": "Veri işlemi",
+            "reissue-title": "Tekrar kripto para oluştur",
+            "set-script": "Script işlemi geçici olarak devre dışı",
+            "sponsorship-start": "Sponsorluk işlemi geçici olarak devre dışı",
+            "sponsorship-start-title": "Sponsorluğu değiştir."
+        },
+        "orderSuccess": "Emriniz oluşturuldu.",
+        "redirect": "{{referrer}} sitesine yönlendirileceksiniz",
+        "send": {
+            "errors": {
+                "balance": {
+                    "invalid": "Yetersiz bakiye"
+                },
+                "recipient": {
+                    "invalid": "Alıcı adresi hatalı"
+                }
+            }
+        },
+        "sign": "İmzala",
+        "success": "Transferiniz yolda!",
+        "wavesKeeperUnconfirmed": {
+            "description": "Lütfen tekrar deneyin. Eğer hata devam ederse lütfen [destek] ile iletişime geçin. (https://support.wavesplatform.com)",
+            "header": "Talebi Waves Keeper'dan onaylamadınız"
+        }
+    },
+    "copyError": "Kopyalanamıyor. Tarayıcınızı güncellemeyi deneyin",
+    "copySuccess": "Veri kopyalandı",
+    "directives": {
+        "anyTransaction": {
+            "copy": "Kopyala",
+            "textAreaTitle": "TX JSON"
+        },
+        "scriptForm": {
+            "placeholder": {
+                "change": "Yeni bir script girin veya mevcut script'in iptali için boş bırakın",
+                "create": "Yeni bir script girin veya mevcut script'in iptali için boş bırakın"
+            },
+            "textAreaTitle": "Base64 script"
+        },
+        "setAssetScriptForm": {
+            "ok": "Devam"
+        },
+        "sign": {
+            "confirmRequestKeeper": {
+                "cancel": "İptal",
+                "errorDescription": "Lütfen tekrar deneyin. Eğer hata devam ederse lütfen [destek] ile iletişime geçin. (https://support.wavesplatform.com)",
+                "errorHeader": "Talebi Waves Keeper'dan onaylamadınız",
+                "sign": "Tekrar deneyin",
+                "waiting": "Waves Keeper'dan onay bekleniyor..."
+            },
+            "confirmRequestLedger": {
+                "cancel": "İptal",
+                "errorDescription": "Lütfen tekrar deneyin. Eğer hata devam ederse [bu makale](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)'den destek alabilirsiniz.",
+                "errorHeader": "Talebi Ledger Nano S'den onaylamadınız",
+                "sign": "Tekrar imzala",
+                "waiting": "Ledger Nano S'den onay bekleniyor..."
+            },
+            "txId": "TXID"
+        },
+        "transactionExport": {
+            "linkTitle": "Giriş için bu link'i paylaşın",
+            "or": "VEYA",
+            "qrZoomBtn": "Yakınlaştırma veya uzaklaştırma için tıklayın",
+            "scanQrCode": "QR kodu taratın"
+        }
+    },
+    "emptyBlocks": {
+        "title": "Burada hiçbir şey"
+    },
+    "errorBlocks": {
+        "title": "Bir şeyler ters gitti.."
+    },
+    "modal": {
+        "assetInfo": {
+            "gateway_ui": "GEÇİT"
+        },
+        "sign": {
+            "signByLedger": "Ledger Nano S'den onay bekleniyor..."
+        },
+        "token": {
+            "warning": {
+                "header": "Kabul ederim:",
+                "text": "{div.line}[I) kripto paraları sahte işlemler için kullanmayacağım;]\n{div.line}[II) kullanıcıları yanlış yönlendirmek için başka bir kripto parayı kopyalamayacağım, bilinen bir şirketin ismini kullanmayacağım;]\n{div.line}[III) Şehirlerin, şirketlerin, devlet dairelerinin isimlerini kullanmayacağım;]\n{div.line}[IV) takas işlemlerini varlık miktarı ile sınırlayan scriptler oluşturmayacağım;]\n{div.line}[V)  insanları yanıltmak amacı ile oluşturduğum kripto para hakkındaki bilgiler ile yazmış olduğum script'leri birbirinden farklı yapmayacağım.;]",
+                "textWarning": "Bu tarzda işlem yapanların kripto paraları Spam olarak işaretlenir ve sadece kripto para ID'si aratılarak bulunabilir."
+            }
+        }
+    },
+    "password": {
+        "minLength": "En az {{minLength}} karaktere sahip olmalıdır",
+        "name": "Hesap adı",
+        "repeat": "Parolayı doğrula",
+        "secure": "Parola güçlü!",
+        "title": "Hesabınızı bir parola ile koruyun",
+        "warn": "Parola basit! rakam veya sembol ekleyin"
+    },
+    "qrCodeRead": {
+        "closeRead": "İptal"
+    },
+    "recipient": "Alıcı",
+    "transaction": {
+        "actions": {
+            "cancelLeasing": "Kiralamayı İptal Et",
+            "copyTxData": "Tüm işlem verilerini kopyala",
+            "copyTxId": "İşlem bilgisini kopyala",
+            "showTx": "İşlem bilgisi"
+        },
+        "amounts": {
+            "burn": "–{{amount}} {{name}}",
+            "cancel-leasing": "{{amount}} {{name}}",
+            "circular": "{{amount}} {{name}}",
+            "exchange-buy": "{{sign}}{{amount}} {{name}}",
+            "exchange-sell": "{{sign}}{{amount}} {{name}}",
+            "issue": "{{amount}} {{name}}",
+            "lease-in": "{{amount}} {{name}}",
+            "lease-out": "{{amount}} {{name}}",
+            "mass-receive": "+{{amount}} {{name}}",
+            "mass-send": "–{{amount}} {{name}}",
+            "perTransaction": "işlem başına düşen miktar",
+            "receive": "+{{amount}} {{name}}",
+            "reissue": "+{{amount}} {{name}}",
+            "script-invocation": "–{{amount}} {{name}}",
+            "send": "–{{amount}} {{name}}",
+            "set-script": "Script işlemi ayarla",
+            "set-script-cancel": "Script işlemini iptal et",
+            "sponsorship-change": "Sponsorluğu değiştir",
+            "sponsorship-fee": "{{sign}}{{amount}} {{name}}",
+            "sponsorship-start": "Sponsorluk ayarla",
+            "sponsorship-stop": "Sponsorluğu iptal et"
+        },
+        "confirmed": {
+            "false": "ONAYLANMADI",
+            "true": "TAMAMLANDI"
+        },
+        "headers": {
+            "activeLeasing": "şu anda aktif",
+            "burn": "{{name}} Kripto Para Yakma",
+            "cancel-leasing": "Kiralama iptal edildi",
+            "canceled": "İptal edildi",
+            "circular": "{{name}} transfer edildi",
+            "create-alias": "Takma Ad Oluşturuldu",
+            "data": "Veri işlemi",
+            "data-vote": "Voted for {{assetName}}",
+            "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
+            "exchange-buy": "Borsa Alış:",
+            "exchange-sell": "Borsa Satış:",
+            "issue": "{{name}} Kripto para yaratımı",
+            "lease-in": "Gelen Kiralama",
+            "lease-out": "Kiralama Başlangıcı",
+            "mass-receive": "{{name}} alındı",
+            "mass-send": "{{name}} gönderildi",
+            "receive": "{{name}} Alındı",
+            "reissue": "{{name}} yeniden üretimi",
+            "script-invocation": "Script çağırma",
+            "send": "{{name}} gönderildi",
+            "set-asset-script": "Script işlemi ayarla",
+            "set-script": "Script işlemi ayarla",
+            "set-script-cancel": "Script işlemini iptal et",
+            "spam": "şüpheli",
+            "sponsorship-fee": "{{name}} Alındı.",
+            "sponsorship-start": "{{name}} için sponsorluk ayarla",
+            "sponsorship-stop": "{{name}} Sponsorluğunu iptal et.",
+            "suspicious": "şüpheli",
+            "unknown": "Bilinmeyen işlem"
+        },
+        "modals": {
+            "assetId": "Kimlik",
+            "attachment": "Ek Mesajı",
+            "cancelTx": "İŞLEM",
+            "confirmations": "Onaylar",
+            "copyCode": "Kodu kopyala",
+            "data": "Veri",
+            "dataKey": "Anahtar",
+            "dataType": "Tip",
+            "dataValue": "Değer",
+            "description": "Açıklama",
+            "exchange": {
+                "buy": "Al",
+                "buyMatcherFee": "Eşleştirici komisyonu",
+                "exchangeType": "Emir tipi",
+                "matcherFee": "Eşleştirici komisyonu",
+                "pair": "Eş",
+                "sell": "Sat"
+            },
+            "fee": "Komisyon",
+            "from": "Kimden",
+            "function": "Fonksiyon",
+            "functionCall": "Fonksiyon çağrısı",
+            "height": "Blok",
+            "hide": "Gizle",
+            "hideAll": "Hepsini gizle",
+            "leasingStatus": "Durum",
+            "massSend": {
+                "showAll": {
+                    "false": "Hepsini göster ({{count}})",
+                    "true": "İlk 3 işlemi göster"
+                },
+                "totalAmount": "Toplam miktar"
+            },
+            "numberOfRecipients": "Alıcıların adedi",
+            "orderType": "Emir tipi",
+            "pair": "Eş",
+            "payment": "Ödeme",
+            "price": "{{name}} Fiyat",
+            "script": "Script",
+            "scriptAddress": "Script adresi",
+            "seeAll": "Tümünü gör",
+            "setAssetScript": {
+                "showScript-false": "Göster",
+                "showScript-true": "Gizle"
+            },
+            "show": "Göster",
+            "showAll": "Hepsini göster ({{count}})",
+            "showFirstTree": "İlk 3 anahtarı göster",
+            "status": "Durum",
+            "timestamp": "Zaman damgası",
+            "to": "Kime",
+            "toBeReissued": "Tekrar oluşturulacak",
+            "toRemainOnBalance": "Kalan bakiye",
+            "totalAfterBurning": "Yakılmadan sonraki toplam",
+            "totalAfterReissue": "Tekrar oluşturmadan sonraki toplam",
+            "txId": "TXID",
+            "type": "Tip",
+            "viewTransactionKey": "İşlem",
+            "viewTransactionValue": "İşlemi Görüntüle"
+        },
+        "notifications": {
+            "closed": "Kiralama daha önceden iptal edildi",
+            "closedSuccess": "Kiralama iptali tamamlandı"
+        },
+        "reissuable": {
+            "false": "Sınırlı",
+            "true": "Tekrar üretilebilir"
+        },
+        "set-asset-script": "Script'i güncelle",
+        "subheaders": {
+            "burn": "{{time}}",
+            "cancel-leasing": "{{time}}{span.locale-address}[, transaction {{transactionId}}]",
+            "circular": "{{time}}{span.locale-address}[, at address {{address}}]",
+            "create-alias": "{{time}}, {{alias}}",
+            "data": "{{time}}",
+            "exchange-buy": "{{time}}",
+            "exchange-sell": "{{time}}",
+            "issue": "{{time}}",
+            "lease-in": "{{time}}{span.locale-address}[, from address {{address}}]",
+            "lease-out": "{{time}}{span.locale-address}[, to address {{address}}]",
+            "mass-receive": "{{time}}{span.locale-address}[, from address {{address}}]",
+            "mass-send": "{{time}}",
+            "receive": "{{time}}{span.locale-address}[, from address {{address}}]",
+            "reissue": "{{time}}",
+            "script-invocation": "{{time}}{span.locale-address}[, to address {{address}}]",
+            "send": "{{time}}{span.locale-address}[, to address {{address}}]",
+            "set-asset-script": "{{time}}, at asset {{name}}",
+            "sponsorship-fee": "{{time}} adres {{address}}",
+            "unknown": "{{time}}"
+        }
+    },
+    "transactionList": {
+        "noTransactionsDescription": "Hiçbir işlem geçmişiniz yok",
+        "noTransactionsTitle": "Burada hiçbir şey yok!"
+    },
+    "transactions": {
+        "script": {
+            "txJson": "Base64 script"
+        }
+    },
+    "whitespace": "&nbsp;"
+}

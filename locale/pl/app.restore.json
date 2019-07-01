@@ -1,0 +1,50 @@
+{
+    "password": {
+        "error": "Złe hasło!"
+    },
+    "passwordForm": {
+        "back": "wróć",
+        "description": "Chroń swoje konto nowym hasłeml lub",
+        "importAccounts": "Importuj konta",
+        "login": "Zaloguj się",
+        "title": "Chroń swoje konto"
+    },
+    "restore": {
+        "beta": {
+            "accountTitle": "Adres / nazwa konta",
+            "buttons": {
+                "cancel": "Wróć",
+                "copy": "Kopiuj słowa zapasowe",
+                "restore": "Odzyskaj słowa zapasowe"
+            },
+            "noUsers": {
+                "description": "{div}[Nie znaleźliśmy żadnego zapisanego konta.]{div}[[client.wavesplatform.com](https://client.wavesplatform.com)]",
+                "title": "Brak zapisanych kont"
+            },
+            "passwordTitle": "Hasło",
+            "placeholders": {
+                "password": "Hasło"
+            },
+            "step1Description": "Jeśli posiadasz tylko swoje hasło, bez kopii zapasowej wygenerowanych słów, możesz użyć niniejszej strony do odzyskania konta",
+            "step2Description": "Proszę ostrożnie zapisać kopię zapasową słów. W momencie utracenia niniejszej kopii stracisz dostęp do swojego konta",
+            "title": "Odzyskaj kopię zapasową słów"
+        }
+    },
+    "seedForm": {
+        "address": "Adres",
+        "back": "Wróć",
+        "continue": "Kontynuuj",
+        "create": "utwórz nowe konto",
+        "description": "Zaloguj się do swojego portfela poniżej",
+        "or": "albo",
+        "placeholder": "SEED = 15 słów wygenerowanych podczas tworzenia konta",
+        "saveUserData": "Zachowaj konto na tym komputerze",
+        "seedTitle": "Twój portfel SEED",
+        "title": "z powrotem",
+        "tosaved": "do zapisanego konta"
+    },
+    "warningSeed": {
+        "message": "Upewnij się, że nie mylisz tego wyrażenia z adresem portfela. Używanie adresu jako frazy SEED może spowodować utratę środków. Wyrażenie SEED musi składać się z 15 słów z odstępami między poszczególnymi słowami.",
+        "title": "Wprowadzona fraza SEED jest za krótka."
+    }
+}

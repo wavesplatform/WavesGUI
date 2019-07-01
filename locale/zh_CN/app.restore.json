@@ -1,0 +1,50 @@
+{
+    "password": {
+        "error": "密码不正确"
+    },
+    "passwordForm": {
+        "back": "返回",
+        "description": "设定保护账户的新密码",
+        "importAccounts": "导入账户",
+        "login": "继续",
+        "title": "保护您的帐户"
+    },
+    "restore": {
+        "beta": {
+            "accountTitle": "地址/帐户名",
+            "buttons": {
+                "cancel": "返回",
+                "copy": "复制Seed助记词",
+                "restore": "恢复Seed助记词"
+            },
+            "noUsers": {
+                "description": "{div}[我们没有找到任何已保存的帐户. 返回]{div}[[client.wavesplatform.com](https://client.wavesplatform.com)]",
+                "title": "没有保存的帐户"
+            },
+            "passwordTitle": "密码",
+            "placeholders": {
+                "password": "密码"
+            },
+            "step1Description": "如果您只有密码而没有SEED助记词，则可以使用此网页来恢复已保存的帐户。",
+            "step2Description": "请小心保存您的SEED助记词。如果您丢失您的SEED助记词，您将无法访问您的帐户。",
+            "title": "恢复Seed助记词"
+        }
+    },
+    "seedForm": {
+        "address": "地址",
+        "back": "返回",
+        "continue": "继续",
+        "create": "创建新帐户",
+        "description": "您的种子在创建帐户时保存的15个单词",
+        "or": "或",
+        "placeholder": "您的seed短语是创建帐户时保存的15个字",
+        "saveUserData": "在这台电脑保持登录状态",
+        "seedTitle": "您的钱包seed短语",
+        "title": "从种子导入",
+        "tosaved": "已保存的帐户"
+    },
+    "warningSeed": {
+        "message": "确保您不要将短语与钱包地址混淆。使用地址作为SEED短语可能导致资金损失。 SEED短语必须由15个单词组成，每个单词之间有空格。",
+        "title": "您输入的SEED短语太短。"
+    }
+}

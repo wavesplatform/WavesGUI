@@ -1,0 +1,30 @@
+{
+    "menu": {
+        "copy": "Kopiëren",
+        "cut": "Knippen",
+        "dev_tools": "Ontwikkelaarstools",
+        "paste": "Plakken",
+        "quit": "Afsluiten",
+        "title": {
+            "application": "Applicatie",
+            "edit": "Aanpassen",
+            "god_mode": "God-Modus"
+        }
+    },
+    "modal": {
+        "set_protocol_error": {
+            "close": "Sluiten",
+            "message": "Kan geen standaardprotocol instellen voor launch waves-client. Links van de browser worden tijdelijk niet ondersteund!",
+            "report": "Rapport",
+            "title": "Open protocolfout"
+        }
+    },
+    "storage": {
+        "read": {
+            "error": {
+                "body": "Er ging iets fout tijdens het laden van uw keys. We hebben uw account vanuit de backup terug gezet.",
+                "title": "Accounts succesvol terug gezet vanuit de backup"
+            }
+        }
+    }
+}

@@ -1,0 +1,322 @@
+{
+    "all": "Semua",
+    "amount": "Jumlah",
+    "balanceInput": {
+        "max": "Maksimal"
+    },
+    "confirmGatewayTransaction": {
+        "back": "Kembali",
+        "confirm": "Konfirmasi",
+        "fieldAddress": "Alamat target",
+        "fieldAmount": "Jumlah",
+        "fieldFee": "Biaya",
+        "fieldGatewayAddress": "Alamat gateway",
+        "fieldGatewayFee": "Biaya gateway",
+        "success": "Transaksi Anda sedang dalam perjalanan!",
+        "warningText": "Anda akan mengirimkan uang ke blockchain {{name}}.",
+        "warningTitle": "Transaksi blockchain eksternal"
+    },
+    "confirmTransaction": {
+        "back": "Kembali",
+        "confirm": "Konfirmasi",
+        "description": {
+            "burn": "Anda akan membakar {{quantityStr}} {{name}}",
+            "cancel-leasing": "Anda telah membatalkan sebuah transaksi leasing",
+            "circular": "Anda telah mengirimkan {{amount, money-currency}} ke dirimu sendiri.",
+            "create-alias": "Anda telah membuat sebuah alias",
+            "data": "Anda telah mengirim data transaksi",
+            "data-vote": "{div.line}[You have voted for {{moneyCurrency}}.]\n{div.line}[Your score will be applied after 24 hours. Rating in processing.]",
+            "issue": "Anda telah menghasilkan",
+            "lease-out": "Anda telah menyewakan {{amount, money-currency}}",
+            "mass-send": "Anda telah mengirim {{totalAmount, money-currency}}",
+            "reissue": "Anda telah menghasilkan tambahan {{quantityStr}} {{name}}",
+            "send": "Anda telah mengirimkan {{amount, money-currency}}",
+            "set-asset-script": "Anda telah memperbarui skrip",
+            "set-script": "Anda telah membuat transaksi skrip",
+            "set-script-cancel": "Anda telah membatalkan transaksi skrip",
+            "sponsorship-start": "Sponsorship telah ditetapkan",
+            "sponsorship-stop": "Sponsor telah dinonaktifkan"
+        },
+        "details": "Lihat detil",
+        "export": "Ekspor",
+        "JSON": "JSON",
+        "ledgerUnconfirmed": {
+            "description": "Silakan coba lagi. Jika galat berlanjut, silakan merujuk ke [artikel ini](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)",
+            "header": "Anda tidak mengonfirmasi permintaan pada Perangkat Ledger Anda"
+        },
+        "notPermited": {
+            "cancel-leasing": "Leasing sementara tidak tersedia."
+        },
+        "notPermitted": {
+            "burn": "Pembakaran Token untuk sementara tidak tersedia.",
+            "burn-title": "Pembakaran Token",
+            "cancel-leasing": "Fungsi memulai leasing untuk sementara tidak tersedia.",
+            "cancel-leasing-title": "Batalkan leasing",
+            "data": "Transaksi data tidak tersedia untuk sementara.",
+            "data-title": "Transaksi data",
+            "reissue-title": "Penerbitan token",
+            "set-script": "Transaksi skrip tidak tersedia untuk sementara.",
+            "sponsorship-start": "Sponsoring tidak tersedia untuk sementara.",
+            "sponsorship-start-title": "Ubah sponsor"
+        },
+        "orderSuccess": "Pesanan Anda telah dibuat!",
+        "redirect": "Anda akan dialihkan ke {{referrer}}",
+        "send": {
+            "errors": {
+                "balance": {
+                    "invalid": "Dana tidak mencukupi"
+                },
+                "recipient": {
+                    "invalid": "Alamat penerima tidak valid"
+                }
+            }
+        },
+        "sign": "Konfirmasi",
+        "success": "Transaksi Anda sedang dalam perjalanan!",
+        "wavesKeeperUnconfirmed": {
+            "description": "Silakan coba lagi. Jika kesalahan berlanjut, kirimkan tiket ke [dukungan](https://support.wavesplatform.com)",
+            "header": "Anda tidak mengonfirmasi permintaan menggunakan Waves Keeper"
+        }
+    },
+    "copyError": "Tidak bisa menyalin! Browser Anda mungkin sudah ketinggalan zaman",
+    "copySuccess": "Data disalin",
+    "directives": {
+        "anyTransaction": {
+            "copy": "Salinan",
+            "textAreaTitle": "TX JSON"
+        },
+        "scriptForm": {
+            "placeholder": {
+                "change": "Masukkan skrip baru, atau kosongkan bidang untuk membatalkan skrip yang ada",
+                "create": "Masukkan skrip baru, atau kosongkan bidang untuk membatalkan skrip yang ada"
+            },
+            "textAreaTitle": "Skrip Base64"
+        },
+        "setAssetScriptForm": {
+            "ok": "Lanjutkan"
+        },
+        "sign": {
+            "confirmRequestKeeper": {
+                "cancel": "Batalkan",
+                "errorDescription": "Silakan coba lagi. Jika kesalahan berlanjut, kirimkan tiket ke [dukungan](https://support.wavesplatform.com)",
+                "errorHeader": "Anda tidak mengonfirmasi permintaan menggunakan Waves Keeper",
+                "sign": "Mencoba kembali",
+                "waiting": "Menunggu konfirmasi dari Waves Keeper ..."
+            },
+            "confirmRequestLedger": {
+                "cancel": "Batalkan",
+                "errorDescription": "Silakan coba lagi. Jika eror berlanjut, silakan merujuk ke [artikel ini](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)",
+                "errorHeader": "Anda tidak mengonfirmasi permintaan pada Perangkat Ledger Anda",
+                "sign": "Tanda tangan ulang",
+                "waiting": "Menunggu konfirmasi dari Ledger Nano S…"
+            },
+            "txId": "TXID"
+        },
+        "transactionExport": {
+            "linkTitle": "Bagikan Tautan untuk tanda tangan",
+            "or": "ATAU",
+            "qrZoomBtn": "Klik untuk memperbesar / memperkecil",
+            "scanQrCode": "Pindai kode QR"
+        }
+    },
+    "emptyBlocks": {
+        "title": "Tidak ada apapun disini…"
+    },
+    "errorBlocks": {
+        "title": "Ada yang salah…"
+    },
+    "modal": {
+        "assetInfo": {
+            "gateway_ui": "GATEWAY"
+        },
+        "sign": {
+            "signByLedger": "Menunggu konfirmasi pada Perangkat Ledger..."
+        },
+        "token": {
+            "warning": {
+                "header": "Anda setuju bahwa:",
+                "text": "{div.line}[I) Anda tidak akan menggunakan token untuk tujuan penipuan;]\n{div.line}[II) Anda tidak akan menduplikasi, sepenuhnya atau sebagian, nama cryptocurrency yang ada atau perusahaan terkenal dengan tujuan menyesatkan pengguna;]\n{div.line}[III) Anda tidak akan menggunakan nama negara, unit administratif lain, atau institusi kota untuk nama token dengan tujuan menyesatkan pengguna;]\n{div.line}[IV) Anda tidak akan menetapkan skrip pada aset pintar yang membatasi transaksi pertukaran pada Gelombang DEX dengan jumlah aset;]\n{div.line}[V) Anda tidak akan memberikan informasi palsu dalam uraian aset pintar mengenai aturan yang mengatur penggunaan token, yang tidak sesuai dengan skrip yang dipasang di sana;]",
+                "textWarning": "Kegagalan untuk mengamati titik-titik ini akan menyebabkan token Anda diklasifikasikan sebagai Aset Mencurigakan, dan akan tersedia untuk mencari hanya dengan ID."
+            }
+        }
+    },
+    "password": {
+        "minLength": "harus paling tidak {{minLength}} karakter",
+        "name": "Nama akun",
+        "repeat": "Konfirmasi sandi",
+        "secure": "kata sandi aman",
+        "title": "Lindungi Akun Anda dengan Kata Sandi Baru",
+        "warn": "mudah, tambahkan digit atau simbol"
+    },
+    "qrCodeRead": {
+        "closeRead": "Membatalkan"
+    },
+    "recipient": "Penerima",
+    "transaction": {
+        "actions": {
+            "cancelLeasing": "Batalkan Leasing",
+            "copyTxData": "Salin semua data TX",
+            "copyTxId": "Salin ID TX",
+            "showTx": "Info TX"
+        },
+        "amounts": {
+            "burn": "–{{amount}} {{name}}",
+            "cancel-leasing": "{{amount}} {{name}}",
+            "circular": "{{amount}} {{name}}",
+            "exchange-buy": "{{sign}}{{amount}} {{name}}",
+            "exchange-sell": "{{sign}}{{amount}} {{name}}",
+            "issue": "{{amount}} {{name}}",
+            "lease-in": "{{amount}} {{name}}",
+            "lease-out": "{{amount}} {{name}}",
+            "mass-receive": "+{{amount}} {{name}}",
+            "mass-send": "–{{amount}} {{name}}",
+            "perTransaction": "Jumlah per transaksi",
+            "receive": "+{{amount}} {{name}}",
+            "reissue": "+{{amount}} {{name}}",
+            "script-invocation": "–{{amount}} {{name}}",
+            "send": "–{{amount}} {{name}}",
+            "set-script": "Set transaksi Skrip",
+            "set-script-cancel": "Batalkan transaksi skrip",
+            "sponsorship-change": "Ubah Sponsor",
+            "sponsorship-fee": "{{sign}} {{amount}} {{name}}",
+            "sponsorship-start": "Setel Sponsor",
+            "sponsorship-stop": "Nonaktifkan Sponsor"
+        },
+        "confirmed": {
+            "false": "TIDAK DIKONFIRMASI",
+            "true": "LENGKAP"
+        },
+        "headers": {
+            "activeLeasing": "aktif sekarang",
+            "burn": "{{name}} Token Dibakar",
+            "cancel-leasing": "Leasing Dibatalkan",
+            "canceled": "Dibatalkan",
+            "circular": "Ditransfer sendiri {{name}}",
+            "create-alias": "Alias ​​yang Dibuat",
+            "data": "Transaksi Data",
+            "data-vote": "Voted for {{assetName}}",
+            "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
+            "exchange-buy": "Pertukaran Beli:",
+            "exchange-sell": "Exchange Jual:",
+            "issue": "{{name}} Pembuatan Token",
+            "lease-in": "Sewa Masuk",
+            "lease-out": "Memulai Sewa",
+            "mass-receive": "Menerima {{name}}",
+            "mass-send": "Kirim {{name}}",
+            "receive": "Menerima {{name}}",
+            "reissue": "{{name}} Token ditambahkan",
+            "script-invocation": "Permohonan Skrip",
+            "send": "Kirim{{name}}",
+            "set-asset-script": "Tetapkan Transaksi Script Aset",
+            "set-script": "Set Script Transaction",
+            "set-script-cancel": "Batalkan Transaksi Skrip",
+            "spam": "mencurigakan",
+            "sponsorship-fee": "Menerima {{name}}",
+            "sponsorship-start": "Tetapkan Sponsor untuk {{name}}",
+            "sponsorship-stop": "Sponsor Nonaktif untuk {{name}}",
+            "suspicious": "mencurigakan",
+            "unknown": "Transaksi tidak diketahui"
+        },
+        "modals": {
+            "assetId": "ID Aset",
+            "attachment": "Pesan Lampiran",
+            "cancelTx": "TX Leasing",
+            "confirmations": "Konfirmasi",
+            "copyCode": "Salin Kode",
+            "data": "Data",
+            "dataKey": "Kunci",
+            "dataType": "Tipe",
+            "dataValue": "Nilai",
+            "description": "Deskripsi",
+            "exchange": {
+                "buy": "Beli",
+                "buyMatcherFee": "Biaya Matcher Beli",
+                "exchangeType": "Tipe pesanan",
+                "matcherFee": "Biaya Matcher",
+                "pair": "Pasangan",
+                "sell": "Jual"
+            },
+            "fee": "Biaya",
+            "from": "Dari",
+            "function": "Fungsi",
+            "functionCall": "Panggilan fungsi",
+            "height": "Blokir",
+            "hide": "Sembunyikan",
+            "hideAll": "Sembunyikan semua",
+            "leasingStatus": "Status",
+            "massSend": {
+                "showAll": {
+                    "false": "Tampilkan semua ({{count}})",
+                    "true": "Tampilkan 3 transaksi pertama"
+                },
+                "totalAmount": "Jumlah total"
+            },
+            "numberOfRecipients": "Jumlah Penerima",
+            "orderType": "Tipe pesanan",
+            "pair": "Pasangan",
+            "payment": "Pembayaran",
+            "price": "{{name}} Harga",
+            "script": "Skrip",
+            "scriptAddress": "Alamat skrip",
+            "seeAll": "Lihat semuanya",
+            "setAssetScript": {
+                "showScript-false": "Tunjukkan",
+                "showScript-true": "Sembunyikan"
+            },
+            "show": "Tampilkan",
+            "showAll": "Tampilkan semua ({{count}})",
+            "showFirstTree": "Tampilkan 3 kunci pertama",
+            "status": "Status",
+            "timestamp": "Stempel waktu",
+            "to": "Untuk",
+            "toBeReissued": "Akan diterbitkan kembali",
+            "toRemainOnBalance": "Untuk tetap dalam saldo",
+            "totalAfterBurning": "Total setelah dibakar",
+            "totalAfterReissue": "Total setelah diterbitkan ulang",
+            "txId": "TXID",
+            "type": "Tipe",
+            "viewTransactionKey": "Transaksi",
+            "viewTransactionValue": "Lihat Transaksi"
+        },
+        "notifications": {
+            "closed": "Leasing telah dibatalkan",
+            "closedSuccess": "Leasing dibatalkan lengkap"
+        },
+        "reissuable": {
+            "false": "Bukan Reissuable",
+            "true": "Reissuable"
+        },
+        "set-asset-script": "Perbarui skrip",
+        "subheaders": {
+            "burn": "{{time}}",
+            "cancel-leasing": "{{time}}{span.locale-address}[, transaksi {{transactionId}}]",
+            "circular": "{{time}}{span.locale-address}[, pada alamat {{address}}]",
+            "create-alias": "{{time}}, {{alias}}",
+            "data": "{{time}}",
+            "exchange-buy": "{{time}}",
+            "exchange-sell": "{{time}}",
+            "issue": "{{time}}",
+            "lease-in": "{{time}}{span.locale-address}[, dari alamat {{address}}]",
+            "lease-out": "{{time}}{span.locale-address}[, ke alamat {{address}}]",
+            "mass-receive": "{{time}}{span.locale-address}[, dari alamat {{address}}]",
+            "mass-send": "{{time}}",
+            "receive": "{{time}}{span.locale-address}[, dari alamat {{address}}]",
+            "reissue": "{{time}}",
+            "script-invocation": "{{time}}{span.locale-address}[, ke alamat {{address}}]",
+            "send": "{{time}}{span.locale-address}[, ke alamat {{address}}]",
+            "set-asset-script": "{{time}}, at asset {{name}}",
+            "sponsorship-fee": "{{time}} dari alamat {{address}}",
+            "unknown": "{{time}}"
+        }
+    },
+    "transactionList": {
+        "noTransactionsDescription": "Anda tidak memiliki transaksi apa pun",
+        "noTransactionsTitle": "Tidak ada apapun disini…"
+    },
+    "transactions": {
+        "script": {
+            "txJson": "Skrip Base64"
+        }
+    },
+    "whitespace": "&nbsp;"
+}

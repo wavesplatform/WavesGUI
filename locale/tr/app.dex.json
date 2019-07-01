@@ -1,0 +1,232 @@
+{
+    "create": {
+        "order": {
+            "failed": "Bir şeyler ters gitti",
+            "success": "Emir yaratıldı"
+        }
+    },
+    "dex": {
+        "contest": "Yarışma"
+    },
+    "directives": {
+        "balance": {
+            "assetId": "Kripto para ID",
+            "available": "Kullanılabilir",
+            "inOrders": "Emirlere ayrılmış",
+            "inOrdersFull": "Emirlere ayrılmış",
+            "total": "Toplam"
+        },
+        "candleChart": {
+            "error": "{div}[grafikler indirilememektedir.]{div}[Eğer uygulamanızda grafikleri kullanmak istiyorsanız [tradingview.com] a mesaj atın(https://tradingview.com)]"
+        },
+        "createOrder": {
+            "1day": "1 gün",
+            "1hour": "1 saat",
+            "1week": "1 Hafta",
+            "30day": "30 gün",
+            "30min": "30 dakika",
+            "5min": "5 dakika",
+            "amountField": "Miktar",
+            "ask": "Satış",
+            "bid": "Alış",
+            "buy": "Al",
+            "createOrderNotPermitted": "Emirler geçici olarak devre dışı",
+            "errors": {
+                "balance": "Yetersiz {{name}} bakiyesi",
+                "precision": "Maksimum ondalık sayısını {{precision}} aştınız",
+                "required": "Bu alanın doldurulması zorunludur"
+            },
+            "expiration": "Geçerlilik tarihi",
+            "fee": "Komisyon {{fee}} WAVES",
+            "hasScript": "Takas yapabilmek için [script]'i(https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) iptal edin",
+            "last": "Son",
+            "matcherFee": "Fee",
+            "notifications": {
+                "error": {
+                    "30702": "{{address}} Hesabının script'i emri iptal etti.",
+                    "title": "Hata mesajı"
+                },
+                "isCreated": "Emir girildi",
+                "notEnoughBalance": "Takas için yeterli bakiye bulunmamaktadır",
+                "somethingWentWrong": "Bir şeyler ters gitti"
+            },
+            "notPermitted": "Emir girişleri geçici olarak devre dışı",
+            "placeBuyOrder": "{{name}} al",
+            "placeSellOrder": "{{name}} sat",
+            "priceField": "Limit fiyat",
+            "sell": "Sat",
+            "spread": "Makas",
+            "total": "Toplam"
+        },
+        "demo": {
+            "createAccount": "Yeni bir hesap oluştur",
+            "or": "veya",
+            "signIn": "Giriş yap",
+            "to": {
+                "mybalance": "Bakiyeni görmek için",
+                "openorders": "Açık emirlerini görmek için",
+                "tradehistory": "takas geçmişini görmek için"
+            }
+        },
+        "filter": "Ara",
+        "marketDepth": "Derinlik",
+        "markets": {
+            "table": {
+                "price": "Fiyat",
+                "rate": "Değişim",
+                "unit": "Kripto para",
+                "volume": "Hacim"
+            },
+            "title": "Pazar alanı"
+        },
+        "myOrders": {
+            "amount": "Miktar",
+            "average": "Ortalama",
+            "back": "Hayır",
+            "cancel": "iptal",
+            "cancelAll": "hepsini iptal et",
+            "cancelAllConfirm": "Evet",
+            "canceled": "iptal edilen",
+            "cancelled": "İPTAL EDİLDİ",
+            "confirm": {
+                "header": "Emin misin?",
+                "literalDescription": "Bu işlem geri alınamaz"
+            },
+            "delete": "sil",
+            "detail": "detay",
+            "fee": "komisyon",
+            "filled": "Doldurulmuş",
+            "filter": "Filtrele",
+            "noPermissionCancelOrder": "Emir iptali geçici olarak devre dışı",
+            "notifications": {
+                "isCanceled": "Emir iptal edildi",
+                "somethingWentWrong": "Birşeyler ters gitti"
+            },
+            "opened": "açılmış",
+            "orderType": {
+                "buy": "Al",
+                "sell": "Sat"
+            },
+            "pair": "Takas çifti",
+            "placeholders": {
+                "lockedPair": "{{amountAssetTicker}} / {{priceAssetTicker}} kripto paraları arasında takas mümkün değiş. Emri iptal edebilirsiniz."
+            },
+            "price": "Fiyat",
+            "status": "Durum",
+            "tableTitle": {
+                "fee": "Komisyon"
+            },
+            "time": "Zaman",
+            "total": "Toplam",
+            "type": "Tip",
+            "withScript": "Hesabınızda [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) varken takas yapamazsınız"
+        },
+        "noChartDataMessage": "{div}[grafik derinliği oluşturmak için]{div}[yeterli emir yok]",
+        "noChartDataTitle": "Burada hiçbir şey yok...",
+        "orderBook": {
+            "amount": "Miktar {{assetName}}",
+            "lastprice": "son fiyat",
+            "price": "Fiyat {{assetName}}",
+            "spread": "spread",
+            "sum": "Toplam {{assetName}}",
+            "title": "Emir tahtası"
+        },
+        "orderbook": {
+            "errorBlock": {
+                "header": "Bir şeyler ters gitti"
+            }
+        },
+        "portfolio": {
+            "title": "Portföy"
+        },
+        "tradeHistory": {
+            "orderType": {
+                "buy": "Al",
+                "sell": "Sat"
+            },
+            "search": "Ara",
+            "tableTitle": {
+                "date": "Zaman",
+                "exchangeType": "Tip",
+                "fee": "Komisyon",
+                "price": "Fiyat {{assetName}}",
+                "size": "Miktar {{assetName}}",
+                "total": "toplam",
+                "type": "tip"
+            },
+            "title": "Takas geçmişi"
+        },
+        "watchlist": {
+            "all": "HEPSİ",
+            "change": "Değişim",
+            "chg": "Değişim",
+            "coin": "Kripto para",
+            "helpIcon": {
+                "assetId": "Kripto para ID",
+                "AssetId1AssetId2": "Kripto para 1 ID / Kripto para 2 ID",
+                "description": "Kripto paraları arama hakkında detaylı bilgiye [buradan](https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html) ulaşabilirsiniz.",
+                "header": "İle arayabilirsin:",
+                "name": "İsim",
+                "name1Name2": "İsim1 / İsim2"
+            },
+            "pair": "Eş",
+            "placeholders": {
+                "base": "Temel kripto para",
+                "coin": "Kripto para ekle",
+                "filter": "Filtrele",
+                "lockedPair": "{{amountAssetTicker}} / {{priceAssetTicker}} takası şu anda mümkün değil.",
+                "noMarkets": "Filtrelerinize uygun bir pazar bulunamadı"
+            },
+            "price": "Fiyat",
+            "volume": "Hacim"
+        }
+    },
+    "emptyBlocks": {
+        "myOrders": {
+            "description": "Herhangi bir emriniz bulunmamaktadır.",
+            "title": "Burada hiçbir şey yok..."
+        },
+        "orderBook": {
+            "description": "Emir tahtası boş.",
+            "error": {
+                "text": "Lütfen sayfayı yenileyin veya daha sonra tekrar deneyin",
+                "title": "Bir şeyler ters gitti"
+            },
+            "title": "Burada hiçbir şey yok..."
+        },
+        "tradeHistory": {
+            "description": "İşlem geçmişi yok.",
+            "title": "Burada hiçbir şey yok…"
+        }
+    },
+    "layout": {
+        "center": {
+            "bottom": "Emirlerim"
+        },
+        "right": {
+            "bottom": "Takas geçmişi",
+            "top": "Emir tahtası"
+        }
+    },
+    "orderbook": {
+        "ask": {
+            "tooltipText": "{{price}} {{priceAsset}} için {{amountAsset}} al"
+        },
+        "bid": {
+            "tooltipText": "{{price}} {{priceAsset}} için {{amountAsset}} sat"
+        }
+    },
+    "tabs": {
+        "title": {
+            "all": "Hepsi",
+            "btc": "Btc",
+            "eth": "ETH",
+            "myBalance": "Bakiyem",
+            "myTradeHistory": "Takas geçmişim",
+            "openOrders": "Açık emirlerim",
+            "OrderHistory": "Takas geçmişim",
+            "tradeHistory": "Takas geçmişi",
+            "waves": "Waves"
+        }
+    }
+}

@@ -1,0 +1,40 @@
+{
+    "allactive": "सभी सक्रिय ({span}[{{count}}])",
+    "burn": "टोकन जलाना",
+    "deposit": "जमा करें",
+    "dex": "में खुलेगा DEX",
+    "info": "एसेट जानकारी",
+    "list": {
+        "actions": "कार्रवाइयां",
+        "ask": "पूछें",
+        "balance": "बैलेंस",
+        "bid": "बोली",
+        "change": "24घं बदलाव",
+        "inOrders": "आदेश में",
+        "mirror": "मूल्य, {span.currency}[{{currency}}]",
+        "name": "एसेट नाम",
+        "rate": "मूल्य, {span.currency}[{{currency}}]"
+    },
+    "myassets": "मेरी संपत्ति ({span}[{{count}}])",
+    "pin": "पिन",
+    "portfolio": {
+        "filter": "खोज"
+    },
+    "qr": "आपका पता",
+    "qualified": "योग्य",
+    "qualifieds": "योग्य ({span}[{{count}}])",
+    "receive": "राप्त करें",
+    "reissue": "टोकन फिर जारी होना",
+    "send": "भेजें",
+    "setAssetScript": "अपडेट एसेट स्क्रिप्ट",
+    "spam": "स्पैम",
+    "spamAsset": "स्पैम",
+    "spamselect": "स्पैम ({span}[{{count}}])",
+    "sponsorship": "स्पॉन्सरशिप सक्षम करें",
+    "sponsorshipChange": "स्पॉन्सरशिप बदलें",
+    "sponsorshipStop": "स्पॉन्सरशिप अक्षम करें",
+    "tokenomica": "tokenomica",
+    "tospam": "छुपाएं",
+    "unpin": "अनपिन करें",
+    "unspam": "दिखाओ"
+}

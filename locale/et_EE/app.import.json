@@ -1,0 +1,21 @@
+{
+    "back": "Back to main page",
+    "import": {
+        "signIn": "Sign in"
+    },
+    "importAccount": "Importige kontosid",
+    "importAccountInfo": "Valige, kust kontosid importida",
+    "KeeperClient": "Waves Keeper",
+    "keeperDescription": "Impordi konto Waves Keeper'ist",
+    "keeperForm": "Installige",
+    "LedgerClient": "Ledger Device",
+    "ledgerDescription": "Importige kontosid Teie Ledger Nano S'st",
+    "or": "VÕI",
+    "selectButton": "Vali",
+    "wavesClient": "Waves Client",
+    "wavesClientDescription": "Import account from a Waves Client",
+    "wavesLiteClient": "Waves Lite klient",
+    "wavesLiteClientDescription": "Importige kontosid Waves Lite kliendist",
+    "wavesSeedClient": "Varundage salafraas",
+    "wavesSeedClientDescription": "Impordi konto salafraasiga"
+}

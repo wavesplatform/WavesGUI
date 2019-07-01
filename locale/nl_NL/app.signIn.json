@@ -1,0 +1,20 @@
+{
+    "createAccount": "Maak een account aan",
+    "notHaveAccounts": "U hebt geen opgeslagen accounts",
+    "nothingHere": "Niets hier...",
+    "password": {
+        "error": "Onjuist wachtwoord!"
+    },
+    "userList": {
+        "address": "Adres / Accountnaam",
+        "buttons": {
+            "login": "Inloggen"
+        },
+        "notHaveAccount": "Log alstublieft in om verder te gaan",
+        "password": "Wachtwoord",
+        "placeholders": {
+            "password": "Wachtwoord"
+        },
+        "title": "Welkom terug"
+    }
+}

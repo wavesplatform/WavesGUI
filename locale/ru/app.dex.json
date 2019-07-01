@@ -1,0 +1,232 @@
+{
+    "create": {
+        "order": {
+            "failed": "Что-то пошло не так",
+            "success": "Ордер создан"
+        }
+    },
+    "dex": {
+        "contest": "Конкурс"
+    },
+    "directives": {
+        "balance": {
+            "assetId": "ID ассета",
+            "available": "Доступно",
+            "inOrders": "В ордерах",
+            "inOrdersFull": "В ордерах",
+            "total": "Итого"
+        },
+        "candleChart": {
+            "error": "{div}[Невозможно загрузить график.]{div}[Если вы хотите использовать график в своем приложении, отправьте заявку [tradingview.com](https://tradingview.com)]"
+        },
+        "createOrder": {
+            "1day": "1 день",
+            "1hour": "1 час",
+            "1week": "1 неделя",
+            "30day": "29 дней",
+            "30min": "30 минут",
+            "5min": "5 минут",
+            "amountField": "Количество",
+            "ask": "Ask",
+            "bid": "Bid",
+            "buy": "Купить",
+            "createOrderNotPermitted": "Ордера временно недоступны.",
+            "errors": {
+                "balance": "Недостаточно {{name}}",
+                "precision": "Десятичных знаков больше, чем {{precision}}",
+                "required": "Это поле необходимо заполнить"
+            },
+            "expiration": "Действителен",
+            "fee": "Комис. {{fee}} WAVES",
+            "hasScript": "Отмените [скрипт](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) чтобы торговать",
+            "last": "Last",
+            "matcherFee": "Комис.",
+            "notifications": {
+                "error": {
+                    "30702": "Скрипт аккаунта {{address}} отклонил ордер",
+                    "title": "Текст ошибки"
+                },
+                "isCreated": "Ордер поставлен",
+                "notEnoughBalance": "Недостаточно баланса",
+                "somethingWentWrong": "Произошла ошибка"
+            },
+            "notPermitted": "Создание ордера временно недоступно",
+            "placeBuyOrder": "Купить {{name}}",
+            "placeSellOrder": "Продать {{name}}",
+            "priceField": "Цена",
+            "sell": "Продать",
+            "spread": "разница",
+            "total": "Сумма"
+        },
+        "demo": {
+            "createAccount": "создайте новый аккаунт",
+            "or": "или",
+            "signIn": "Войдите",
+            "to": {
+                "mybalance": "чтобы увидеть ваш баланс",
+                "openorders": "чтобы посмотреть свои открытые ордера",
+                "tradehistory": "чтобы посмотреть историю торгов"
+            }
+        },
+        "filter": "Поиск",
+        "marketDepth": "Глубина рынка",
+        "markets": {
+            "table": {
+                "price": "Цена",
+                "rate": "Изменение",
+                "unit": "Валюта",
+                "volume": "Объём"
+            },
+            "title": "Рынки"
+        },
+        "myOrders": {
+            "amount": "Кол-во",
+            "average": "Average",
+            "back": "Нет",
+            "cancel": "отменить",
+            "cancelAll": "отменить все",
+            "cancelAllConfirm": "Да",
+            "canceled": "отменён",
+            "cancelled": "ОТМЕНЕН",
+            "confirm": {
+                "header": "Вы уверены?",
+                "literalDescription": "Вы не сможете позже отменить это действие"
+            },
+            "delete": "удалить",
+            "detail": "детали",
+            "fee": "комиссия",
+            "filled": "Filled",
+            "filter": "Фильтр",
+            "noPermissionCancelOrder": "Отмена ордеров временно недоступна",
+            "notifications": {
+                "isCanceled": "Ордер был отменён",
+                "somethingWentWrong": "Произошла ошибка"
+            },
+            "opened": "открытые",
+            "orderType": {
+                "buy": "Покупка",
+                "sell": "Продажа"
+            },
+            "pair": "Пара",
+            "placeholders": {
+                "lockedPair": "Trading in {{amountAssetTicker}} / {{priceAssetTicker}} is currently unavailable. You can cancel the order"
+            },
+            "price": "Цена",
+            "status": "Статус",
+            "tableTitle": {
+                "fee": "Комиссия"
+            },
+            "time": "Время",
+            "total": "Итого",
+            "type": "Тип",
+            "withScript": "Вы не можете пользоваться обменом, пока на ваш аккаунт установлен [скрипт](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html)"
+        },
+        "noChartDataMessage": "{div}[Недостаточно данных для]{div}[построения графика глубины рынка]",
+        "noChartDataTitle": "Нет данных…",
+        "orderBook": {
+            "amount": "Кол-во {{assetName}}",
+            "lastprice": "последняя цена",
+            "price": "Цена {{assetName}}",
+            "spread": "разница",
+            "sum": "Сумма {{assetName}}",
+            "title": "Биржевой стакан"
+        },
+        "orderbook": {
+            "errorBlock": {
+                "header": "Что-то пошло не так..."
+            }
+        },
+        "portfolio": {
+            "title": "Портфолио"
+        },
+        "tradeHistory": {
+            "orderType": {
+                "buy": "Покупка",
+                "sell": "Продажа"
+            },
+            "search": "Поиск",
+            "tableTitle": {
+                "date": "Время",
+                "exchangeType": "Тип",
+                "fee": "Комиссия",
+                "price": "Цена {{assetName}}",
+                "size": "Кол-во {{assetName}}",
+                "total": "Итого",
+                "type": "Тип"
+            },
+            "title": "История сделок"
+        },
+        "watchlist": {
+            "all": "ВСЕ",
+            "change": "Изменение",
+            "chg": "Изм.",
+            "coin": "Валюта",
+            "helpIcon": {
+                "assetId": "ID Ассета",
+                "AssetId1AssetId2": "ID Ассета1 / ID Ассета2",
+                "description": "Больше информации вы можете найти [здесь](https://docs.wavesplatform.com/ru/waves-client/waves-dex/start-trading-on-the-waves-dex.html)",
+                "header": "Вы можете искать по:",
+                "name": "Имя",
+                "name1Name2": "Имя1 / Имя2"
+            },
+            "pair": "Пара",
+            "placeholders": {
+                "base": "Базовая валюта",
+                "coin": "Поиск",
+                "filter": "Фильтр",
+                "lockedPair": "Торговля парой {{amountAssetTicker}} / {{priceAssetTicker}} недоступна.",
+                "noMarkets": "Ничего не найдено"
+            },
+            "price": "Цена",
+            "volume": "Объём"
+        }
+    },
+    "emptyBlocks": {
+        "myOrders": {
+            "description": "У вас пока нет выставленных ордеров.",
+            "title": "Пока ничего нет…"
+        },
+        "orderBook": {
+            "description": "По выбраной паре нет выставленных ордеров.",
+            "error": {
+                "text": "Обновите страницу или попробуйте позже",
+                "title": "Что-то пошло не так..."
+            },
+            "title": "Пока ничего нет…"
+        },
+        "tradeHistory": {
+            "description": "Нет данных по истории торгов.",
+            "title": "Пока ничего нет…"
+        }
+    },
+    "layout": {
+        "center": {
+            "bottom": "Мои ордера"
+        },
+        "right": {
+            "bottom": "История сделок",
+            "top": "Биржевой стакан"
+        }
+    },
+    "orderbook": {
+        "ask": {
+            "tooltipText": "Купить {{amountAsset}} по {{price}} {{priceAsset}}"
+        },
+        "bid": {
+            "tooltipText": "Продать {{amountAsset}} по {{price}} {{priceAsset}}"
+        }
+    },
+    "tabs": {
+        "title": {
+            "all": "Все",
+            "btc": "Btc",
+            "eth": "ETH",
+            "myBalance": "Мой баланс",
+            "myTradeHistory": "Моя история сделок",
+            "openOrders": "Мои открытые ордера",
+            "OrderHistory": "Моя история ордеров",
+            "tradeHistory": "История сделок",
+            "waves": "Waves"
+        }
+    }
+}

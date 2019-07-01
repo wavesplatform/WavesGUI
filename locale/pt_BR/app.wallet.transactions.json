@@ -1,0 +1,73 @@
+{
+    "all": "Tudo",
+    "confirmTransaction": {
+        "retrySign": "Repetir o sinal"
+    },
+    "csv": {
+        "alias": "Nome do alias",
+        "amount": {
+            "id": "ID dos ativos",
+            "name": "Nome dos ativos",
+            "ticker": "Registro da quantidade de ativos",
+            "value": "Valor dos ativos"
+        },
+        "attachment": "Anexo da transação",
+        "date": "Período",
+        "description": "Descrição do token",
+        "fee": {
+            "id": "Taxa do ID",
+            "name": "Taxa",
+            "ticker": "Código da taxa",
+            "value": "Valor da taxa"
+        },
+        "height": "Bloco da transação",
+        "id": "ID da transação",
+        "name": "Nome do token",
+        "precision": "Precisão",
+        "price": {
+            "id": "ID do ativo",
+            "name": "Nome do ativo",
+            "ticker": "Registro do preço do ativo",
+            "value": "Valor do ativo"
+        },
+        "recipient": "Destinatário",
+        "reissuable": {
+            "false": "Não reemissível",
+            "name": "Token reemissível",
+            "true": "Reemissível"
+        },
+        "sender": "Remetente",
+        "transactionType": "Tipo de transação no Blockchain",
+        "type": "Tipo de transação"
+    },
+    "errors": {
+        "complete": {
+            "body": "The list of transactions is not completely downloaded. Please retry later.",
+            "title": "Download is not complete."
+        },
+        "download": {
+            "body": "The list of transactions is not downloaded. Please retry later.",
+            "title": "Download error."
+        },
+        "empty": {
+            "body": "There are no transactions in your history",
+            "title": "Export error"
+        }
+    },
+    "exchanged": "Negociado",
+    "export": "Exportar",
+    "filter": {
+        "value1": "Recentes",
+        "value2": "500 txs",
+        "value3": "1000 txs"
+    },
+    "issued": "Emitido",
+    "leased": "Alugado",
+    "received": "Recebido",
+    "sent": "Enviado",
+    "transactions": {
+        "script": {
+            "txJson_wallet": "Script Base64"
+        }
+    }
+}

@@ -1,0 +1,30 @@
+{
+    "menu": {
+        "copy": "Kopieren",
+        "cut": "Ausschneiden",
+        "dev_tools": "Entwicklerwerkzeuge",
+        "paste": "Einfügen",
+        "quit": "Verlassen",
+        "title": {
+            "application": "Anwendung",
+            "edit": "Bearbeiten",
+            "god_mode": "Admin Modus"
+        }
+    },
+    "modal": {
+        "set_protocol_error": {
+            "close": "Schließen",
+            "message": "Das Standardprotokoll für den Start des Waves Clients kann nicht festgelegt werden. Links vom Browser werden temporär nicht unterstützt!",
+            "report": "Melden",
+            "title": "Legen Sie einen offenen Protokollfehler fest"
+        }
+    },
+    "storage": {
+        "read": {
+            "error": {
+                "body": "Beim Versuch, Ihre Schlüssel zu laden, ist ein Fehler aufgetreten. Wir haben Ihre Konten aus dem Sicherungsspeicher wiederhergestellt.",
+                "title": "Konten wurden erfolgreich aus der Sicherung wiederhergestellt"
+            }
+        }
+    }
+}

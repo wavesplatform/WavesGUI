@@ -1,0 +1,94 @@
+{
+    "back": "De vuelta a la pagina principal",
+    "button": {
+        "cancel": "Cancelar",
+        "continue": "Continuar"
+    },
+    "confirmTransaction": {
+        "notPermitted": {
+            "issue": "Emisión del token está temporalmente no disponible",
+            "issue-title": "Generación del token",
+            "massSendTitle": "Transferencia masiva",
+            "reissue": "Reemisión del token está temporalmente no disponible",
+            "sendTitle": "Enviado",
+            "set-script-title": "transacción del script"
+        },
+        "send": {
+            "errors": {
+                "fee": "No tiene suficientes fondos en su cuenta para pagar los gastos incurridos. Debe pagar {{fee, money-currency}} honorario de transacción;"
+            }
+        }
+    },
+    "date": {
+        "month": [
+            "Ene",
+            "Feb",
+            "Mar",
+            "Abr",
+            "May",
+            "Jun",
+            "Jul",
+            "Ago",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dic"
+        ]
+    },
+    "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
+        "description": "Di hola a la nueva moneda, para cualquier propósito, bueno o malo ;)"
+    },
+    "fee": "{{money, money-fee}}",
+    "header": {
+        "assets": "Activos",
+        "dex": "DEX",
+        "leasing": "Arrendamiento",
+        "portfolio": "Portafolio",
+        "tokens": "Tokens",
+        "transactions": "Transacciones",
+        "wallet": "Monedero"
+    },
+    "inputs": {
+        "errors": {
+            "required": "¡Este campo no puede estar vacío!"
+        }
+    },
+    "leftmenu": {
+        "login": "Iniciar sesión",
+        "logout": "Salir",
+        "settings": "Configuración"
+    },
+    "matcher": {
+        "orders": {
+            "statuses": {
+                "canceled": "Cancelado",
+                "filled": "Relleno ({{percent}}%)",
+                "opened": "Abierto"
+            }
+        }
+    },
+    "modal": {
+        "enterPassword": {
+            "ok": "OK",
+            "title": "Introduce la contraseña"
+        },
+        "pairing": {
+            "showQr": "Monstrar"
+        },
+        "tryDesktop": {
+            "cancel": "Continuar con pagina web",
+            "label": "Recordar mi elección y no recordarme de nuevo",
+            "message": "Te recomendamos utilizar el app Waves desktop. Si no la tienes, puedes descargarla desde la pagina oficial.",
+            "title": "Utilizar el app Waves desktop",
+            "try": "Abrir desktop app"
+        }
+    },
+    "money-currency": "{{money, money-currency}}",
+    "number": {
+        "short": {
+            "million": "M",
+            "thousand": "k"
+        }
+    },
+    "Suspicious": "Sospechoso"
+}

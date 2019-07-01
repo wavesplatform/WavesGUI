@@ -1,0 +1,73 @@
+{
+    "all": "Wszystko",
+    "confirmTransaction": {
+        "retrySign": "Spróbuj ponownie"
+    },
+    "csv": {
+        "alias": "Nazwa aliasu",
+        "amount": {
+            "id": "ID ilości instrumentu",
+            "name": "Nazwa ilości instrumentu",
+            "ticker": "Ticker ilości instrumentu",
+            "value": "Wartość ilości instrumentu"
+        },
+        "attachment": "Załącznik do transakcji",
+        "date": "Data",
+        "description": "Opis tokenu",
+        "fee": {
+            "id": "ID prowizji",
+            "name": "Nazwa prowizji",
+            "ticker": "Ticker prowizji",
+            "value": "Wartość prowizji"
+        },
+        "height": "Blok transakcji",
+        "id": "ID transakcji",
+        "name": "Nazwa tokenu",
+        "precision": "Dokładność",
+        "price": {
+            "id": "ID ceny instrumentu",
+            "name": "Nazwa ceny instrumentu",
+            "ticker": "Ticker ceny instrumentu",
+            "value": "Wartość ceny instrumentu"
+        },
+        "recipient": "Odbiorca transakcji",
+        "reissuable": {
+            "false": "Brak możliwości emisji tokenu",
+            "name": "Możliwość emisji tokenu",
+            "true": "Możliwość emisji tokenu"
+        },
+        "sender": "Nadawca transakcji",
+        "transactionType": "Typ transakcji Blockchain",
+        "type": "Typ transakcji"
+    },
+    "errors": {
+        "complete": {
+            "body": "Lista transakcji nie jest całkowicie pobrana. Spróbuj ponownie później.",
+            "title": "Pobieranie nie jest zakończone."
+        },
+        "download": {
+            "body": "Lista transakcji nie jest pobrana. Proszę spróbować później.",
+            "title": "Błąd pobierania."
+        },
+        "empty": {
+            "body": "Nie ma żadnych transakcji w Twojej historii.",
+            "title": "Błąd eksportu"
+        }
+    },
+    "exchanged": "Transakcja",
+    "export": "Export",
+    "filter": {
+        "value1": "Ostatnie",
+        "value2": "500 txs",
+        "value3": "1000 txs"
+    },
+    "issued": "Wyemitowany",
+    "leased": "Leasingowany",
+    "received": "Otrzymany",
+    "sent": "Wysłany",
+    "transactions": {
+        "script": {
+            "txJson_wallet": "Skrypt Base64"
+        }
+    }
+}

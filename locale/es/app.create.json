@@ -1,0 +1,65 @@
+{
+    "backupSeed": {
+        "back": "ir para atrás",
+        "copySeed": "cópialas",
+        "needConfirm": "Confirmarás esta frase en la próxima pantalla.",
+        "ok": "Las he anotado",
+        "or": "o",
+        "saveSecret": "Guarda la frase de respaldo (backup)",
+        "warn": "Dado que eres el único que controlas tu dinero, debes guardar la frase de respaldo por si acaso esta app fuera borrada o ",
+        "writeSeed": "Por favor, anota cuidadosamente estas 15 palabras."
+    },
+    "confirmBackup": {
+        "again": "y desliza otra vez",
+        "back": "ir atrás",
+        "clear": "Limpiar",
+        "confirm": "Confirmar el respaldo",
+        "description": "Comprueba tu frase de respaldo (backup) o",
+        "enterCorrect": "Por favor, coloca cada palabra en su lugar correcto",
+        "error": "Orden equivocado, vuélvelo a intentar.",
+        "ok": "Confirmar",
+        "tapAgain": "and tap again"
+    },
+    "createAccount": {
+        "address": "Dirección de la cuenta:",
+        "avatarUnique": "Este avatar es único. No lo puedes cambiar después.",
+        "choose": "Elije el avatar para tu dirección",
+        "create": "Create a new account",
+        "createDescription": "Fast and free",
+        "createNewAccount": "Crear Cuenta Nueva",
+        "from": "desde un backup",
+        "import": "Importar cuenta",
+        "importDescription": "via Seed phrase, Ledger or Keeper",
+        "protect": "Proteja su cuenta con una contraseña o",
+        "protectYourAccount": "Proteja su cuenta",
+        "restore": "restaura una cuenta",
+        "saveUserData": "Mantener la sesión iniciada en este ordenador",
+        "signDescription": "to a saved account",
+        "signIn": "Registro",
+        "signUp": "Regístrate y obtén una cuenta gratuita o",
+        "tosaved": "ir a una cuenta guardada",
+        "toWalet": "ir a tu cartera o"
+    },
+    "modal": {
+        "confirmBackupDescription": "Verificar tu frase de respaldo",
+        "next": "Confirmar",
+        "prev": "Ir atrás",
+        "successContent": "No puedes cambiar tu frase secreta. Si accidentalmente se la enviaste a alguien o sospechas que algún estafador se ha apoderado de ella, crea inmediatamente una nueva cartera de Waves y transfiere todos tus fondos a ella.",
+        "successHeadline": "¡Trata tu frase de respaldo con cuidado!",
+        "understand": "Lo entiendo"
+    },
+    "noBackupNoMoney": {
+        "backup": "Haz el respaldo ahora",
+        "description": "Debes guardar la frase secreta. Es crucial para acceder a tu cuenta.",
+        "modal": {
+            "descriptionP1": "Waves Platform quiere advertirte sobre el incremento de ataques de estafa y suplantación de identidad durante el último mes. Los estafadores ocultan su malware en sus propias versiones del cliente Waves y prometen bonificaciones y descuentos para atraer a los usuarios.",
+            "descriptionP2": "Por favor, ten cuidado y nunca introduzcas tu frase de respaldo (SEED) en estos 'clientes', porque tu cuenta puede ser comprometida y perder todos tus fondos.",
+            "descriptionP3": "Deberías confiar SOLO en el cliente oficial de Waves.",
+            "ok": "Lo entiendo",
+            "title": "¡Trata tu frase de respaldo con cuidado!"
+        },
+        "or": "o",
+        "skip": "Lo haré después.",
+        "title": "Sin backup no hay dinero"
+    }
+}

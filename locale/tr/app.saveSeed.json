@@ -1,0 +1,27 @@
+{
+    "continue": "Devam",
+    "copy": "Kopyala",
+    "copySeed": "Anahtar Kelimeleri Kopyala",
+    "createAccount": "Hesap oluştur",
+    "goBack": "Geri dön",
+    "notHaveAccounts": "Kayıtlı hesabınız yok",
+    "nothingHere": "Burada hiçbir şey yok!",
+    "password": {
+        "error": "Hatalı Parola!"
+    },
+    "userList": {
+        "address": "Adres / hesap adı",
+        "buttons": {
+            "login": "Giriş Yap"
+        },
+        "exportUser": "Hesabı dışa aktar",
+        "notHaveAccount": "Devam etmek için giriş yapın",
+        "password": "Parola",
+        "placeholders": {
+            "password": "Parola"
+        },
+        "title": "Hoşgeldiniz"
+    },
+    "warn": "Hesabınızı sadece siz kontrol edersiniz. Uygulamanın silinmesi durumuna karşı Anahtar kelimelerinizi mutlaka kaydedin.",
+    "yourSeed": "Anahtar kelimeleriniz"
+}

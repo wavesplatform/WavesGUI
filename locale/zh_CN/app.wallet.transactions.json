@@ -1,0 +1,73 @@
+{
+    "all": "所有",
+    "confirmTransaction": {
+        "retrySign": "重试登录"
+    },
+    "csv": {
+        "alias": "别名",
+        "amount": {
+            "id": "量化资产ID",
+            "name": "量化资产名称",
+            "ticker": "量化资产股票代码",
+            "value": "量化资产价值"
+        },
+        "attachment": "交易附件",
+        "date": "日期",
+        "description": "代币描述",
+        "fee": {
+            "id": "费用 ID",
+            "name": "费用名称",
+            "ticker": "费用股票代码",
+            "value": "费用价值"
+        },
+        "height": "交易高度",
+        "id": "交易ID",
+        "name": "代币名称",
+        "precision": "小数数量",
+        "price": {
+            "id": "价格资产ID",
+            "name": "价格资产名称",
+            "ticker": "价格资产股票代码",
+            "value": "价格资产价值"
+        },
+        "recipient": "交易的收款者",
+        "reissuable": {
+            "false": "不可再发行",
+            "name": "可再发行代币",
+            "true": "可再发行"
+        },
+        "sender": "交易的发送者",
+        "transactionType": "区块链交易类型",
+        "type": "交易类型"
+    },
+    "errors": {
+        "complete": {
+            "body": "交易清单未完全下载。请稍后重试。",
+            "title": "下载未完成。"
+        },
+        "download": {
+            "body": "未下载交易清单。请稍后重试。",
+            "title": "下载错误。"
+        },
+        "empty": {
+            "body": "您的历史记录中没有交易",
+            "title": "导出错误"
+        }
+    },
+    "exchanged": "已交换的",
+    "export": "输出",
+    "filter": {
+        "value1": "最近的",
+        "value2": "500 txs",
+        "value3": "1000 txs"
+    },
+    "issued": "已发行的",
+    "leased": "租用的",
+    "received": "已收到",
+    "sent": "发送",
+    "transactions": {
+        "script": {
+            "txJson_wallet": "Base64脚本"
+        }
+    }
+}

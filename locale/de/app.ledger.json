@@ -1,0 +1,31 @@
+{
+    "ledger": {
+        "article": "Dieser Artikel",
+        "connectionError": "Ihr Ledger konnte nicht verbunden werden",
+        "connectionText": "Die Verbindung ist möglicherweise abgelaufen. Bitte versuchen sie es erneut.",
+        "referTo": "Wenn der Fehler weiterhin besteht, lesen Sie bitte"
+    },
+    "ledgerForm": {
+        "address": "Adresse:",
+        "avatarUnique": "Dieser Avatar ist einzigartig, Sie können ihn später nicht ändern.",
+        "back": "Zurück",
+        "choose": "Wählen sie ihren Account",
+        "importAccount": "Importieren sie einen Account von ihrem Nano Ledger S",
+        "ImportOrSignIn": "Account importieren oder",
+        "login": "Fortsetzen",
+        "name": "Account Name",
+        "or": "Oder",
+        "retry": "Wiederholen",
+        "savedOne": "zu einem gespeicherten Account",
+        "saveUserData": "Behalten sie den Account auf diesem Computer",
+        "selectDefault": "Verwenden sie den default Account",
+        "signIn": "anmelden"
+    },
+    "modal": {
+        "sign": {
+            "confirmRequest": "Anfrage bestätigen",
+            "confirmRequestMatcher": "Signieren sie eine Anfrage an den Matcher. Wenn sie sie nicht signireren, können sie nicht mit einem Nano Ledger S Account auf der DEX handeln."
+        }
+    },
+    "or": "Oder"
+}

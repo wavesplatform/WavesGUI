@@ -1,0 +1,73 @@
+{
+    "all": "Tutto",
+    "confirmTransaction": {
+        "retrySign": "Ritenta firma"
+    },
+    "csv": {
+        "alias": "Nome Alias",
+        "amount": {
+            "id": "Totale ID asset",
+            "name": "Totale nome asset",
+            "ticker": "Totale ticker asset",
+            "value": "Totoale valore asset"
+        },
+        "attachment": "Alleagato Transazione",
+        "date": "Data",
+        "description": "descrizione Token",
+        "fee": {
+            "id": "ID spese",
+            "name": "nome spese",
+            "ticker": "ticker spese",
+            "value": "valore spese"
+        },
+        "height": "Posizione transazione",
+        "id": "ID transazione",
+        "name": "nome Token",
+        "precision": "Precisione",
+        "price": {
+            "id": "ID prezzo dell'asset",
+            "name": "nome prezzo dell'asset",
+            "ticker": "ticker prezzo dell'asset",
+            "value": "valore prezzo dell'asset"
+        },
+        "recipient": "Destinatario transazione",
+        "reissuable": {
+            "false": "non riemettibile",
+            "name": "Può riemettere token",
+            "true": "Riemettibile"
+        },
+        "sender": "Mittente transazione",
+        "transactionType": "Tipologia di blockchain della transazione",
+        "type": "Tipo di transazione"
+    },
+    "errors": {
+        "complete": {
+            "body": "L'elenco delle transazioni non è completamente scaricato. Si prega di riprovare più tardi.",
+            "title": "Il download non è completo."
+        },
+        "download": {
+            "body": "L'elenco delle transazioni non è completamente scaricato. Si prega di riprovare più tardi.",
+            "title": "Errore di download."
+        },
+        "empty": {
+            "body": "Non ci sono transazioni nella tua cronologia",
+            "title": "Errore di esportazione"
+        }
+    },
+    "exchanged": "Scambiati",
+    "export": "Esporta",
+    "filter": {
+        "value1": "Recenti",
+        "value2": "500 txs",
+        "value3": "1000 txs"
+    },
+    "issued": "Emessi",
+    "leased": "Prestati",
+    "received": "Ricevuti",
+    "sent": "Inviati",
+    "transactions": {
+        "script": {
+            "txJson_wallet": "Script Base64"
+        }
+    }
+}

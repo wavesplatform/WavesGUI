@@ -1,0 +1,232 @@
+{
+    "create": {
+        "order": {
+            "failed": "Algo deu errado",
+            "success": "A ordem foi criada"
+        }
+    },
+    "dex": {
+        "contest": "Contest"
+    },
+    "directives": {
+        "balance": {
+            "assetId": "ID do Ativo",
+            "available": "Disponível",
+            "inOrders": "Em ordens",
+            "inOrdersFull": "Reservado nas ordens",
+            "total": "Total"
+        },
+        "candleChart": {
+            "error": "{div}[O gráfico não pôde ser baixado.]{div}[Se você quiser usar este gráfico em seu aplicativo, envie uma solicitação para [tradingview.com](https://tradingview.com)]"
+        },
+        "createOrder": {
+            "1day": "1 dia",
+            "1hour": "1 hora",
+            "1week": "1 semana",
+            "30day": "29 dias",
+            "30min": "30 min",
+            "5min": "5 min",
+            "amountField": "Quantidade",
+            "ask": "Ask",
+            "bid": "Bid",
+            "buy": "Comprar",
+            "createOrderNotPermitted": "As ordens estão temporariamente indisponíveis",
+            "errors": {
+                "balance": "Insuficiente {{name}}",
+                "precision": "Máximo excedido de {{precision}} casas decimais",
+                "required": "Este campo é obrigatório"
+            },
+            "expiration": "Prazo",
+            "fee": "Taxa {{fee}} WAVES",
+            "hasScript": "Cancelar [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) para negociação",
+            "last": "Last",
+            "matcherFee": "Fee",
+            "notifications": {
+                "error": {
+                    "30702": "The account's script of {{address}} rejected the order",
+                    "title": "Mensagem de erro"
+                },
+                "isCreated": "A ordem foi criada",
+                "notEnoughBalance": "Saldo insuficiente",
+                "somethingWentWrong": "Algo deu errado"
+            },
+            "notPermitted": "A criação de ordens está temporariamente indisponível",
+            "placeBuyOrder": "Comprar {{name}}",
+            "placeSellOrder": "Vender {{name}}",
+            "priceField": "Preço limite",
+            "sell": "Vender",
+            "spread": "spread",
+            "total": "Total"
+        },
+        "demo": {
+            "createAccount": "Criar uma nova conta",
+            "or": "ou",
+            "signIn": "Entrar",
+            "to": {
+                "mybalance": "para ver seu saldo",
+                "openorders": "para ver suas ordens abertas",
+                "tradehistory": "para ver seu histórico de negociações"
+            }
+        },
+        "filter": "Procurar",
+        "marketDepth": "Profundidade de Mercado",
+        "markets": {
+            "table": {
+                "price": "Preço",
+                "rate": "Variação",
+                "unit": "Moeda",
+                "volume": "Volume"
+            },
+            "title": "Mercados"
+        },
+        "myOrders": {
+            "amount": "Quantidade",
+            "average": "Average",
+            "back": "Não",
+            "cancel": "cancelar",
+            "cancelAll": "cancelar tudo",
+            "cancelAllConfirm": "Sim",
+            "canceled": "cancelado",
+            "cancelled": "CANCELADO",
+            "confirm": {
+                "header": "Você tem certeza?",
+                "literalDescription": "Essa ação não poderá ser desfeita"
+            },
+            "delete": "deletar",
+            "detail": "detalhes",
+            "fee": "taxa",
+            "filled": "Filled",
+            "filter": "Filtrar",
+            "noPermissionCancelOrder": "O cancelamento das ordens está temporariamente indisponível",
+            "notifications": {
+                "isCanceled": "A ordem foi cancelada",
+                "somethingWentWrong": "Algo deu errado"
+            },
+            "opened": "aberta",
+            "orderType": {
+                "buy": "Comprar",
+                "sell": "Vender"
+            },
+            "pair": "Par",
+            "placeholders": {
+                "lockedPair": "Trading in {{amountAssetTicker}} / {{priceAssetTicker}} is currently unavailable. You can cancel the order"
+            },
+            "price": "Preço",
+            "status": "Status",
+            "tableTitle": {
+                "fee": "Taxa"
+            },
+            "time": "Horário",
+            "total": "Total",
+            "type": "Tipo",
+            "withScript": "Você não pode usar a exchange enquanto um [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) estiver instalado em sua conta"
+        },
+        "noChartDataMessage": "{div}[Não há ordens suficientes]{div}[para criar o gráfico de profundidade de mercado]",
+        "noChartDataTitle": "Não há nada aqui…",
+        "orderBook": {
+            "amount": "Quantidade {{assetName}}",
+            "lastprice": "ÚLTIMO PREÇO",
+            "price": "Preço {{assetName}}",
+            "spread": "spread",
+            "sum": "Acumulado {{assetName}}",
+            "title": "Livro de Ofertas"
+        },
+        "orderbook": {
+            "errorBlock": {
+                "header": "Algo deu errado"
+            }
+        },
+        "portfolio": {
+            "title": "Portfólio"
+        },
+        "tradeHistory": {
+            "orderType": {
+                "buy": "Compra",
+                "sell": "Venda"
+            },
+            "search": "Procurar",
+            "tableTitle": {
+                "date": "Horário",
+                "exchangeType": "Tipo",
+                "fee": "Taxa",
+                "price": "Preço {{assetName}}",
+                "size": "Quantia {{assetName}}",
+                "total": "Total",
+                "type": "Tipo"
+            },
+            "title": "Histórico de Negociações"
+        },
+        "watchlist": {
+            "all": "TUDO",
+            "change": "Variação",
+            "chg": "Var",
+            "coin": "Moeda",
+            "helpIcon": {
+                "assetId": "ID do ativo",
+                "AssetId1AssetId2": "ID do ativo1 / ID do ativo2",
+                "description": "Você pode saber mais sobre a pesquisar ativos [here](https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html)",
+                "header": "Você pode pesquisar por:",
+                "name": "Nome",
+                "name1Name2": "Nome1 / Nome2"
+            },
+            "pair": "Par",
+            "placeholders": {
+                "base": "Moeda base",
+                "coin": "Procurar",
+                "filter": "Filtrar",
+                "lockedPair": "Trading in {{amountAssetTicker}} / {{priceAssetTicker}} is currently unavailable",
+                "noMarkets": "Nenhum mercado corresponde aos seus filtros"
+            },
+            "price": "Preço",
+            "volume": "Volume"
+        }
+    },
+    "emptyBlocks": {
+        "myOrders": {
+            "description": "Você não tem nenhuma ordem.",
+            "title": "Não há nada aqui…"
+        },
+        "orderBook": {
+            "description": "O livro de ofertas está vazio.",
+            "error": {
+                "text": "Por favor, atualize a página ou tente novamente mais tarde",
+                "title": "Algo deu errado"
+            },
+            "title": "Não há nada aqui…"
+        },
+        "tradeHistory": {
+            "description": "O histórico de negociações está vazio.",
+            "title": "Não há nada aqui…"
+        }
+    },
+    "layout": {
+        "center": {
+            "bottom": "Minhas Ordens"
+        },
+        "right": {
+            "bottom": "Histórico de Negociações",
+            "top": "Livro de Ofertas"
+        }
+    },
+    "orderbook": {
+        "ask": {
+            "tooltipText": "Comprar {{amountAsset}} por {{price}} {{priceAsset}}"
+        },
+        "bid": {
+            "tooltipText": "Vender {{amountAsset}} por {{price}} {{priceAsset}}"
+        }
+    },
+    "tabs": {
+        "title": {
+            "all": "Tudo",
+            "btc": "Btc",
+            "eth": "ETH",
+            "myBalance": "Meu Saldo",
+            "myTradeHistory": "Meu histórico de Negociações",
+            "openOrders": "Minhas Ordens Abertas",
+            "OrderHistory": "My Order History",
+            "tradeHistory": "Histórico de Negociações",
+            "waves": "Waves"
+        }
+    }
+}

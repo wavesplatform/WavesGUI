@@ -1,0 +1,39 @@
+{
+    "addAsset": "Asset Toevoegen",
+    "chart": {
+        "intervals": {
+            "all": "Alle",
+            "day": "1D",
+            "hour": "1U",
+            "month": "1M",
+            "week": "1W",
+            "year": "1J"
+        }
+    },
+    "directives": {
+        "asset": {
+            "anyTx": "JSON",
+            "deposit": "Storten",
+            "ofTotalBalance": "van totale balans {{totalBalance}}",
+            "receive": "Ontvangen",
+            "script": "Script",
+            "send": "Verstuur"
+        },
+        "balance": {
+            "actions": {
+                "assetInfo": "Asset info",
+                "copyAssetId": "Asset ID kopiëren"
+            }
+        }
+    },
+    "price": "PRIJS {{currency}}",
+    "qr": "Uw Adres",
+    "send": "Verstuur",
+    "since": {
+        "day": "SINDS GISTEREN",
+        "month": "SINDS VORIGE MAAND",
+        "week": "SINDS VORIGE WEEK"
+    },
+    "suspicious": "Verdacht - ({span}[{{count}}])",
+    "Unpin": "Unpin"
+}

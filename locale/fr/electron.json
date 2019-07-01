@@ -1,0 +1,30 @@
+{
+    "menu": {
+        "copy": "Copier",
+        "cut": "Couper",
+        "dev_tools": "Outils de développeur",
+        "paste": "Coller",
+        "quit": "Quitter",
+        "title": {
+            "application": "Application",
+            "edit": "Éditer",
+            "god_mode": "God Mode"
+        }
+    },
+    "modal": {
+        "set_protocol_error": {
+            "close": "Fermer",
+            "message": "Impossible de fixer le protocole par défaut pour le lancement du Waves Client. Les liens du navigateur ne sont temporairement pas supportés !",
+            "report": "Rapporter",
+            "title": "Fixer le protocol ouvert d'erreur"
+        }
+    },
+    "storage": {
+        "read": {
+            "error": {
+                "body": "Une erreur est survenue lors du chargement de vos clés. Nous avons restauré vos comptes depuis le stockage de sauvegarde.",
+                "title": "Les comptes ont été restaurés avec succès depuis la sauvegarde"
+            }
+        }
+    }
+}

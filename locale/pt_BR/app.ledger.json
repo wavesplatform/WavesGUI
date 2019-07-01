@@ -1,0 +1,31 @@
+{
+    "ledger": {
+        "article": "Este artigo",
+        "connectionError": "Não é possível se conectar com a Ledger Nano S",
+        "connectionText": "A conexão pode ter expirado. Por favor, tente novamente.",
+        "referTo": "Se o erro persistir, nos informe"
+    },
+    "ledgerForm": {
+        "address": "Endereço da conta:",
+        "avatarUnique": "Este avatar é único, você não pode mudá-lo depois.",
+        "back": "Voltar",
+        "choose": "Escolha sua conta",
+        "importAccount": "Importar uma conta da Ledger",
+        "ImportOrSignIn": "Importar conta ou",
+        "login": "Continuar",
+        "name": "Nome da conta",
+        "or": "Ou",
+        "retry": "Tente novamente",
+        "savedOne": "para uma conta salva",
+        "saveUserData": "Manter a conta neste computador",
+        "selectDefault": "Usar conta padrão",
+        "signIn": "Entrar"
+    },
+    "modal": {
+        "sign": {
+            "confirmRequest": "Confirmar pedido",
+            "confirmRequestMatcher": "Confime a solicitação no Matcher. Se você não confirmar, não poderá negociar na DEX com uma conta Ledger."
+        }
+    },
+    "or": "OU"
+}

@@ -1,0 +1,219 @@
+{
+    "backupSeed": {
+        "copySeed": "Copier la phrase secrète",
+        "warn": "Vu que vous êtes seul à contrôler votre argent, vous devrez enregistrer votre phrase de sauvegarde dans le cas où cette application est supprimée ou",
+        "yourSeed": "Votre phrase secrète"
+    },
+    "createAccount": {
+        "from": "créerCompte"
+    },
+    "infoTooltip": "Information importante",
+    "loading": {
+        "volume": "VOLUME"
+    },
+    "modal": {
+        "lockPairWarning": {
+            "continue": "Continuer",
+            "heading": "Les opérations sur {{amountAssetTicker}} / {{priceAssetTicker}} sont actuellement indisponibles",
+            "text": "Le trading pour la paire sélectionnée est temporairement indisponible.\nVous pouvez toujours annuler des ordres si vous le souhaitez"
+        }
+    },
+    "news": "Nouvelles",
+    "newUser": {
+        "from": "Depuis une sauvegarde",
+        "getStarted": "Commencer",
+        "import": "Importer des comptes",
+        "or": "ou",
+        "restore": "Restaurer un compte",
+        "slides": [
+            {
+                "description": "Prenez part à un secteur à forte croissance au sein du monde de la crypto. Vous êtes la seule personne ayant accès à vos crypto-actifs.",
+                "title": "Lancez-vous dans la Blockchain"
+            },
+            {
+                "description": "Stockez, gérez et recevez des intérêts sur le solde de vos actifs digitaux, simplement et de manière sécurisée.",
+                "title": "Portefeuille"
+            },
+            {
+                "description": "Échangez rapidement et de manière sécurisée. Vous gardez le contrôle absolu sur vos fonds lorsque vous les échangez sur notre plateforme d'échange décentralisée.",
+                "title": "Plateforme d'échange décentralisée"
+            },
+            {
+                "description": "Émettez vos propres Tokens. Ceux-ci peuvent être intégrés dans votre entreprise pas seulement comme devise interne, mais également comme jeton de vote décentralisé, comme système d'évaluation ou comme programme de fidélité.",
+                "title": "Lanceur de Tokens"
+            }
+        ]
+    },
+    "openViaDesktop": "Je désire toujours ouvrir les liens via l'application de bureau",
+    "roadmap": {
+        "aug2019": {
+            "date": "Août 2019",
+            "text": "Les traders peuvent vendre des jetons rapidement au prix du marché.",
+            "title": "Ordre du marché"
+        },
+        "dec2018": {
+            "date": "Déc 2018",
+            "text": "La nouvelle application mobile offre une fantastique interface utilisateur à l'échange décentralisé (DEX) ainsi qu'une géniale intégration de portails.",
+            "text_2": "Les symboles et les logos sur l'échange décentralisé montrent les actifs approuvés, offrant un haut degré de confiance aux utilisateurs.",
+            "title": "Application mobile 2.0",
+            "title_2": "Intégration BetterTokens"
+        },
+        "feb2017": {
+            "date": "Déc 2017",
+            "text": "La première version de l'emblématique échange intégré est lancée.",
+            "title": "Beta de l'échange décentralisé de Waves"
+        },
+        "feb2018": {
+            "date": "Fév 2018",
+            "text": "Le client autonome pour macOS, Linux et Windows est disponible.",
+            "title": "Application de bureau"
+        },
+        "jan2019": {
+            "date": "Jan 2019",
+            "text": "La prise en charge du trading sur l'échange décentralisé de Waves avec des comptes intelligents est activée.",
+            "text_2": "Lancement du portail Bitcoin Satoshi Vision",
+            "title": "Trading de compte intelligent",
+            "title_2": "Portail BSV"
+        },
+        "jul2018": {
+            "date": "Juil 2018",
+            "text": "Le nouvel échange offre une meilleure expérience utilisateur et de meilleures performances que tout autre échange décentralisé sur le marché.",
+            "text_2": "Le portefeuille populaire sort de la version bêta avec une nouvelle version majeure.",
+            "title": "Nouvel échange décentralisé",
+            "title_2": "Portefeuille Waves"
+        },
+        "jul2019": {
+            "date": "Juil 2019",
+            "text": "Ajout d'un portail de jetons ERC20 à l'écosystème Waves, ce qui signifie que les jetons Ethereum populaires peuvent être trader sur la plateforme.",
+            "text_2": "Les développeurs ont simplifié les processus de développement mobile et ont obtenu une description détaillée des moyens d'interagir avec la blockchain de Waves.",
+            "text_3": "Les utilisateurs ont la possibilité de basculer facilement entre plusieurs comptes au sein d'une même application portefeuille.",
+            "title": "Portail ERC-20",
+            "title_2": "Amélioration du kit de développement mobile et de la bibliothèque JS",
+            "title_3": "Comptes multiples"
+        },
+        "jun2019": {
+            "date": "Juin 2019",
+            "text": "Améliorations de la vitesse de l'échange décentralisé et des besoins en mémoire à mettre en œuvre.",
+            "title": "Optimisation de l'échange décentralisé"
+        },
+        "may2018": {
+            "date": "Mai 2018",
+            "text": "Le nouvel échange offre une meilleure expérience utilisateur et de meilleures performances que tout autre échange décentralisé sur le marché.",
+            "title": "Portails Dash & Bitcoin Cash"
+        },
+        "nov2018": {
+            "date": "Nov 2018",
+            "text": "Les utilisateurs ont la possibilité de trader avec des signatures multiples et des comptes scriptés.",
+            "title": "Support de comptes intelligents"
+        },
+        "sep2018": {
+            "date": "Sept 2018",
+            "text": "L'intégration à l'échange décentralisé de Waves permet aux utilisateurs de trader avec une sécurité maximale.",
+            "title": "Ledger Nano S"
+        },
+        "sep2019": {
+            "date": "Sept 2019",
+            "text": "L'authentification à deux facteurs offre aux utilisateurs de l'échange décentralisé de Waves une sécurité encore accrue.",
+            "title": "A2F"
+        }
+    },
+    "userList": {
+        "addNew": "Ajouter un compte",
+        "create": "Créer un nouveau compte",
+        "frombackup": "Depuis la sauvegarde",
+        "import": "Importer des comptes",
+        "restore": "Restaurer un compte",
+        "subTitle": "S'identifier à nouveau ou",
+        "subTitleSession": "La session a été automatiquement terminée."
+    },
+    "welcome": {
+        "aliases": "Alias",
+        "android": "Google Play",
+        "api": "API",
+        "apple": "App Store",
+        "blog": "Blog",
+        "broughtBy": "Présenté par l'équipe de Waves",
+        "change": "CHANGEMENT",
+        "chart": "GRAPHIQUE",
+        "contestLinkDescription": "Gagnez 5 000 WAVES dans un concours de trading sur l'échange décentralisé de Waves !",
+        "contestLinkLink": "Règles",
+        "controlAssets": "Le contrôle des actifs est à vous seul - les fonds ne sortent pas de votre portefeuille et ne peuvent pas être gelés",
+        "copyAddress": "Copier l'adresse",
+        "copyright": "© 2019 Waves Platform",
+        "createToken": "Créer un jeton",
+        "dashboard": "Tableau de bord",
+        "decentralised": "Décentralisé",
+        "dexWithHardware": "Utilisez l'échange décentralisé avec les portefeuilles matériels Ledger Nano S et Ledger Blue",
+        "documentation": "Documentation",
+        "download": "Télécharger",
+        "downloadMobileApp": "Téléchargez l'application mobile !",
+        "exchange": "Échange",
+        "forDevelopers": "Pour les développeurs",
+        "forum": "Forum",
+        "gateways": "Portails vers des devises populaires",
+        "getRealTimeAccess": "Obtenez un accès en temps réel aux données du marché et configurez vos bots de trading via l'API",
+        "getStarted": "Commencer",
+        "gitHub": "GitHub",
+        "help": "Aide",
+        "high": "24H MAX",
+        "instantAccessWalletDex": "Accès instantané à votre portefeuille et à l'échange décentralisé",
+        "keeperAccount": "Compte Keeper",
+        "lastPrice": "DERNIER PRIX",
+        "leasing": "Leasing",
+        "ledgerAccount": "Compte Ledger",
+        "ledgerSupport": "Prise en charge de Ledger",
+        "legal": "Juridique",
+        "linux": "Linux",
+        "linuxDescription": "Télécharger l'application Linux",
+        "logout": "Déconnexion",
+        "logOut": "Déconnexion",
+        "low": "24H MIN",
+        "lowFixedFees": "Frais fixes et peu élevés",
+        "macOs": "MacOS",
+        "macOsDescription": "Téléchargez l'application MacOS",
+        "mailto": "support.wavesplatform.com",
+        "mainPage": "Page d'accueil",
+        "majorFiatCryptocurrencies": "Prise en charge des principales devises et cryptomonnaies : BTC, LTC, ETH, USD, et d'autres",
+        "markets": "Marchés",
+        "marketsDescription": "L'échange décentralisé de Waves vous permet d'exécuter des transactions rapidement et en toute sécurité, que vous tradiez via l'application mobile, le client de bureau, le portefeuille web ou l'API de Waves.",
+        "marketsTableDescription": "Cliquez pour afficher plus de paires échangées",
+        "marketsTableDescriptionLink": "Afficher l'échange",
+        "menu": "Menu",
+        "news": "Nouvelles",
+        "pair": "PAIRE",
+        "portfolio": "Portfolio",
+        "privacyPolicy": "Politique de confidentialité",
+        "productsTools": "Produits et outils",
+        "renameAccount": "Renommer le compte",
+        "roadmap": "Feuille de route",
+        "roadmapOpportunitiesAhead": "Le futur de l'échange décentralisé (DEX) de Waves : notre feuille de route pour les opportunités à venir.",
+        "scriptAccount": "Compte script",
+        "scriptedAccount": "Compte script",
+        "settings": "Paramètres",
+        "signIn": "Connexion",
+        "social": "Social",
+        "stackOverflow": "Stack Overflow",
+        "suitableTradingBots": "Convient pour les bots de trading",
+        "support": "Support",
+        "telegram": "Telegram",
+        "termsOfUse": "Conditions d'utilisation",
+        "tokenCreation": "Création rapide de jetons",
+        "tokenCreationCosts": "La création de jetons coûte seulement 1 WAVES et dure 1 minute",
+        "tradeOnWaves": "Échangez sur la plateforme d'échange décentralisé de Waves",
+        "tradeOnWavesDescription": "Achetez et vendez des jetons rapidement et en toute sécurité avec tous les avantages d'un échange centralisé, tout en gardant le contrôle total de vos fonds.",
+        "transactions": "Transactions",
+        "twitter": "Twitter",
+        "volume": "VOLUME",
+        "wallet": "Portefeuille",
+        "wavesBlockchain": "Blockchain Waves",
+        "wavesDexWeb": "Plateforme Web d'échange décentralisée Waves",
+        "wavesExplorer": "Explorateur Waves",
+        "wavesIde": "EDI Waves",
+        "wavesKeeper": "Waves Keeper",
+        "wavesLabs": "Waves Labs",
+        "wavesOrderFilled": "0.003 WAVES par ordre rempli",
+        "wavesWallet": "Portefeuille Waves",
+        "windows": "Windows",
+        "windowsDescription": "Télécharger l'application Windows"
+    }
+}

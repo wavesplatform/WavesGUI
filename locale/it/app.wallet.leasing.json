@@ -1,0 +1,22 @@
+{
+    "available": "Disponibile",
+    "chart": {
+        "available": "Disponibile",
+        "create": "Presta",
+        "leased": "Prestati",
+        "title": "Bilancio WAVES"
+    },
+    "description": {
+        "text1": "Puoi trasferire o scambiare esclusivamente WAVES che non siano stati prestati. Il capitale prestato non può essere trasferito o scambiato né da te né da nessun altro.",
+        "text2": "Potrai revocare un prestito non appena la relativa transazione risulterà nella blockchain, il che di solito avviene nel giro di un minuto o poco meno.",
+        "text3": "Il bilancio generato sarà aggiornato dopo 1000 blocchi.",
+        "title": "Nota veloce"
+    },
+    "leased": "Prestati",
+    "leasedIn": "Prestati in",
+    "nodeListLink": "Lista dei nodi",
+    "test": {
+        "test": "testo di prova"
+    },
+    "title_leasing": "Hai scelto di loggarti nell'app di Waves per il desktop"
+}

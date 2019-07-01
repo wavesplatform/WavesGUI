@@ -1,0 +1,40 @@
+{
+    "allactive": "Todos os ativos ({span}[{{count}}])",
+    "burn": "Queimar Token",
+    "deposit": "Depositar",
+    "dex": "Abrir na DEX",
+    "info": "Informações do Ativo",
+    "list": {
+        "actions": "Ações",
+        "ask": "Ask",
+        "balance": "Saldo",
+        "bid": "Bid",
+        "change": "Variação em 24h",
+        "inOrders": "Reservado",
+        "mirror": "Valor, {span.currency}[{{currency}}]",
+        "name": "Nome do Ativo",
+        "rate": "Preço, {span.currency}[{{currency}}]"
+    },
+    "myassets": "Meus ativos ({span}[{{count}}])",
+    "pin": "Fixar",
+    "portfolio": {
+        "filter": "Procurar"
+    },
+    "qr": "Seu Endereço",
+    "qualified": "qualificado",
+    "qualifieds": "Qualificado ({span}[{{count}}])",
+    "receive": "Receber",
+    "reissue": "Token Reemissível",
+    "send": "Enviar",
+    "setAssetScript": "Atualizar Script do Ativo",
+    "spam": "Spam",
+    "spamAsset": "SPAM",
+    "spamselect": "Suspeito ({span}[{{count}}])",
+    "sponsorship": "Ativar Patrocínio",
+    "sponsorshipChange": "Mudar Patrocínio",
+    "sponsorshipStop": "Desativar Patrocínio",
+    "tokenomica": "tokenomica",
+    "tospam": "Esconder",
+    "unpin": "Remover",
+    "unspam": "Mostrar"
+}

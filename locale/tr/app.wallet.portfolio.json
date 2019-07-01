@@ -1,0 +1,40 @@
+{
+    "allactive": "Aktifler ({span}[{{count}}])",
+    "burn": "Kripto para yak",
+    "deposit": "Yatır",
+    "dex": "DEX'te aç",
+    "info": "Bilgi",
+    "list": {
+        "actions": "İşlemler",
+        "ask": "Alış",
+        "balance": "Bakiye",
+        "bid": "Satış",
+        "change": "24 Saatlik Değişim",
+        "inOrders": "Açık emirler",
+        "mirror": "Değer, {span.currency}[{{currency}}]",
+        "name": "Kripto para adı",
+        "rate": "Fiyat, {span.currency}[{{currency}}]"
+    },
+    "myassets": "Kripto paralarım ({span}[{{count}}])",
+    "pin": "Ana Sayfaya Tuttur",
+    "portfolio": {
+        "filter": "Ara"
+    },
+    "qr": "Adresiniz",
+    "qualified": "Yetkin",
+    "qualifieds": "Yetkin ({span}[{{count}}])",
+    "receive": "Al",
+    "reissue": "tekrar oluştur (kripto para)",
+    "send": "Gönder",
+    "setAssetScript": "Kripto para Script'ini güncelle",
+    "spam": "Şüpheli",
+    "spamAsset": "Şüpheli",
+    "spamselect": "Şüpheli ({span}[{{count}}])",
+    "sponsorship": "Sponsorluğu aktif et",
+    "sponsorshipChange": "Sponsorluğu değiştir",
+    "sponsorshipStop": "Sponsorluğu iptal et",
+    "tokenomica": "tokenomica",
+    "tospam": "Gizle",
+    "unpin": "Kaldır",
+    "unspam": "Göster"
+}

@@ -1,0 +1,30 @@
+{
+    "menu": {
+        "copy": "复制",
+        "cut": "剪切",
+        "dev_tools": "开发者工具",
+        "paste": "粘贴",
+        "quit": "登出",
+        "title": {
+            "application": "应用",
+            "edit": "编辑",
+            "god_mode": "God Mode"
+        }
+    },
+    "modal": {
+        "set_protocol_error": {
+            "close": "关闭",
+            "message": "无法为启动Waves客户端设置默认协议。浏览器的链接暂时不受支持！",
+            "report": "报告",
+            "title": "确定开放协议错误"
+        }
+    },
+    "storage": {
+        "read": {
+            "error": {
+                "body": "尝试加载密钥时出错。我们从备份存储中恢复了您的帐户。",
+                "title": "帐户已从备份成功恢复"
+            }
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "back": "Kembali ke halaman utama",
+    "import": {
+        "signIn": "Masuk"
+    },
+    "importAccount": "Impor Akun",
+    "importAccountInfo": "Pilih tempat untuk mengimpor akun",
+    "KeeperClient": "Keeper Client",
+    "keeperDescription": "Impor akun dari Waves Keeper",
+    "keeperForm": "Pasang",
+    "LedgerClient": "Perangkat Ledger",
+    "ledgerDescription": "Impor akun dari Perangkat Ledger Anda",
+    "or": "Atau",
+    "selectButton": "Memilih",
+    "wavesClient": "Klien Waves",
+    "wavesClientDescription": "Mengimpor akun dari klien Waves",
+    "wavesLiteClient": "Waves Lite Client",
+    "wavesLiteClientDescription": "Impor akun dari Waves Lite Client",
+    "wavesSeedClient": "Cadangkan prase SEED",
+    "wavesSeedClientDescription": "Impor akun dari SEED cadangan"
+}

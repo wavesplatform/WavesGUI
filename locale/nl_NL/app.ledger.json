@@ -1,0 +1,31 @@
+{
+    "ledger": {
+        "article": "dit artikel",
+        "connectionError": "Kon niet verbinden met de Ledger",
+        "connectionText": "Er is een time-out opgetreden in de verbinding. Probeer het opnieuw.",
+        "referTo": "Als de fout aanhoudt, raadpleeg dan"
+    },
+    "ledgerForm": {
+        "address": "Accountadres:",
+        "avatarUnique": "Deze avatar is uniek, u kunt deze later niet wijzigen.",
+        "back": "Ga terug",
+        "choose": "Kies uw account",
+        "importAccount": "Importeer een Ledger account",
+        "ImportOrSignIn": "Account importeren of",
+        "login": "Doorgaan",
+        "name": "Accountnaam",
+        "or": "of",
+        "retry": "opnieuw proberen",
+        "savedOne": "naar een opgeslagen account",
+        "saveUserData": "Bewaar het account op deze computer",
+        "selectDefault": "Gebruik standaard account",
+        "signIn": "inloggen"
+    },
+    "modal": {
+        "sign": {
+            "confirmRequest": "Verzoek bevestigen",
+            "confirmRequestMatcher": "Onderteken een verzoek naar de Matcher. Als u dit niet ondertekent, kunt u niet handelen op DEX vanaf een Ledger-account."
+        }
+    },
+    "or": "OF"
+}

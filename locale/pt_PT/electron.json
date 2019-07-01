@@ -1,0 +1,30 @@
+{
+    "menu": {
+        "copy": "Copy",
+        "cut": "Cut",
+        "dev_tools": "Developer tools",
+        "paste": "Paste",
+        "quit": "Quit",
+        "title": {
+            "application": "Application",
+            "edit": "Edit",
+            "god_mode": "God Mode"
+        }
+    },
+    "modal": {
+        "set_protocol_error": {
+            "close": "Close",
+            "message": "Can't set default protocol for launch waves client. Links from browser temporally not supported!",
+            "report": "Report",
+            "title": "Set open protocol error"
+        }
+    },
+    "storage": {
+        "read": {
+            "error": {
+                "body": "An error occurred while trying to load your keys. We restored your accounts from backup storage.",
+                "title": "Accounts successfully restored from backup"
+            }
+        }
+    }
+}

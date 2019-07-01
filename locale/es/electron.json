@@ -1,0 +1,30 @@
+{
+    "menu": {
+        "copy": "Copiar",
+        "cut": "Cortar",
+        "dev_tools": "Herramientas de desarrollo",
+        "paste": "Pegar",
+        "quit": "Cerrar",
+        "title": {
+            "application": "Aplicación",
+            "edit": "Editar",
+            "god_mode": "Modo Dios"
+        }
+    },
+    "modal": {
+        "set_protocol_error": {
+            "close": "Cerrar",
+            "message": "No se puede establecer el protocolo predeterminado inicial para el cliente de Waves. Los enlaces del navegador no están soportados temporalmente!",
+            "report": "Reportar",
+            "title": "Error para establecer protocolo abierto"
+        }
+    },
+    "storage": {
+        "read": {
+            "error": {
+                "body": "Se ha producido un error mientras se intentaba procesar sus claves. Hemos restablecido sus cuentas desde el respaldo",
+                "title": "Las cuentas han sido restauradas correctamente desde el respaldo"
+            }
+        }
+    }
+}

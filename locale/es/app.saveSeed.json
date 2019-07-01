@@ -1,0 +1,27 @@
+{
+    "continue": "Continuar",
+    "copy": "Copy",
+    "copySeed": "Copy Seed phrase",
+    "createAccount": "Create account",
+    "goBack": "go back",
+    "notHaveAccounts": "You do not have saved accounts",
+    "nothingHere": "Nada por aquí...",
+    "password": {
+        "error": "¡Contraseña incorrecta!"
+    },
+    "userList": {
+        "address": "Dirección / Nombre de la cuenta",
+        "buttons": {
+            "login": "Iniciar sesión"
+        },
+        "exportUser": "Export your account",
+        "notHaveAccount": "Please sign in to continue",
+        "password": "Contraseña",
+        "placeholders": {
+            "password": "Contraseña"
+        },
+        "title": "Registrarse"
+    },
+    "warn": "Since only you control your money, you’ll need to save your Seed phrase in case this app is deleted or",
+    "yourSeed": "Your Seed phrase"
+}

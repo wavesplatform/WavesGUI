@@ -1,0 +1,27 @@
+{
+    "continue": "Jätka",
+    "copy": "Copy",
+    "copySeed": "Copy Seed phrase",
+    "createAccount": "Create account",
+    "goBack": "go back",
+    "notHaveAccounts": "You do not have saved accounts",
+    "nothingHere": "Siin pole midagi…",
+    "password": {
+        "error": "Vale parool!"
+    },
+    "userList": {
+        "address": "Aadress / konto nimi",
+        "buttons": {
+            "login": "Logi sisse"
+        },
+        "exportUser": "Export your account",
+        "notHaveAccount": "Please sign in to continue",
+        "password": "Parool",
+        "placeholders": {
+            "password": "Parool"
+        },
+        "title": "Logi sisse"
+    },
+    "warn": "Since only you control your money, you’ll need to save your Seed phrase in case this app is deleted or",
+    "yourSeed": "Your Seed phrase"
+}

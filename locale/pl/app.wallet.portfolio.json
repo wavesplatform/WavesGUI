@@ -1,0 +1,40 @@
+{
+    "allactive": "Wszystkie aktywne ({span}[{{count}}])",
+    "burn": "Spal token",
+    "deposit": "Zdeponuj",
+    "dex": "Otwórz na platformie",
+    "info": "Informacja o instrumencie",
+    "list": {
+        "actions": "Działania",
+        "ask": "Podaż",
+        "balance": "Stan konta",
+        "bid": "Popyt",
+        "change": "24h Zmiana",
+        "inOrders": "Zablokowane",
+        "mirror": "Wartość, {span.currency}[{{currency}}]",
+        "name": "Nazwa instrumentu",
+        "rate": "Cena, {span.currency}[{{currency}}]"
+    },
+    "myassets": "Moja aktywa ({span}[{{count}}])",
+    "pin": "Przypnij",
+    "portfolio": {
+        "filter": "Szukaj"
+    },
+    "qr": "Twój Adres",
+    "qualified": "kwalifikowany",
+    "qualifieds": "Kwalifikowany ({span}[{{count}}])",
+    "receive": "Otrzymaj",
+    "reissue": "Emisja tokenu",
+    "send": "Wyślij",
+    "setAssetScript": "Zaktualizuj skrypt tokena",
+    "spam": "Spam",
+    "spamAsset": "SPAM",
+    "spamselect": "Spam ({span}[{{count}}])",
+    "sponsorship": "Umożliwij sponsorowanie",
+    "sponsorshipChange": "Zmiana sponsorowania",
+    "sponsorshipStop": "Wyłącz sponsorowanie",
+    "tokenomica": "tokenomica",
+    "tospam": "Ukryj",
+    "unpin": "Odepnij",
+    "unspam": "Pokaż"
+}

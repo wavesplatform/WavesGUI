@@ -1,0 +1,8 @@
+{
+    "session": {
+        "headline": "Select account",
+        "or": "OR",
+        "signIn": "Sign into account",
+        "signInNew": "Sign into a new session"
+    }
+}

@@ -1,0 +1,30 @@
+{
+    "menu": {
+        "copy": "Copiar",
+        "cut": "Recortar",
+        "dev_tools": "Ferramentas de desenvolvimento",
+        "paste": "Colar",
+        "quit": "Sair",
+        "title": {
+            "application": "Aplicação",
+            "edit": "Editar",
+            "god_mode": "God Mode"
+        }
+    },
+    "modal": {
+        "set_protocol_error": {
+            "close": "Fechar",
+            "message": "Não é possível definir o protocolo padrão para a Waves client. Os links do navegador estão temporalmente desabilitados!",
+            "report": "Reportar",
+            "title": "Definir erro de protocolo"
+        }
+    },
+    "storage": {
+        "read": {
+            "error": {
+                "body": "Ocorreu um erro ao tentar carregar suas chaves. Nós restauramos suas contas a partir do armazenamento de backup.",
+                "title": "Contas restauradas com sucesso a partir do backup"
+            }
+        }
+    }
+}

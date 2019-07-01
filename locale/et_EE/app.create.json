@@ -1,0 +1,65 @@
+{
+    "backupSeed": {
+        "back": "mine tagasi",
+        "copySeed": "kopeerige need",
+        "needConfirm": "Kinnitate selle fraasi järgmisel ekraanil.",
+        "ok": "Ma olen selle üles kirjutanud",
+        "or": "või",
+        "saveSecret": "Salvestage salafraas",
+        "warn": "Kuna ainult Teie kontrollite enda raha, peate salvestama salafraasi juhul kui see rakendus kustutatakse või",
+        "writeSeed": "Palun kirjutage hoolikalt üles need 15 sõna"
+    },
+    "confirmBackup": {
+        "again": "ja vajutage uuesti",
+        "back": "mine tagasi",
+        "clear": "Tühjenda",
+        "confirm": "Kinnitage salafraas",
+        "description": "Kinnitage oma salafraas või",
+        "enterCorrect": "Palun valige sõnad õiges järjekorras",
+        "error": "Vale järjekord, proovige uuesti.",
+        "ok": "Kinnita",
+        "tapAgain": "and tap again"
+    },
+    "createAccount": {
+        "address": "Konto aadress:",
+        "avatarUnique": "See turvapilt on ainulaadne. Te ei saa seda hiljem muuta.",
+        "choose": "Vali oma aadressi turvapilt",
+        "create": "Create a new account",
+        "createDescription": "Fast and free",
+        "createNewAccount": "Loo uus konto",
+        "from": "salafraasiga",
+        "import": "Importige kontod",
+        "importDescription": "via Seed phrase, Ledger or Keeper",
+        "protect": "Kaitske oma kontot parooliga või",
+        "protectYourAccount": "Kaitske Oma Kontot",
+        "restore": "taasta konto",
+        "saveUserData": "Hoian konto selles arvutis",
+        "signDescription": "to a saved account",
+        "signIn": "Logi sisse",
+        "signUp": "Registreerige tasuta konto allpool või",
+        "tosaved": "salvestatud kontole",
+        "toWalet": "rahakotti või"
+    },
+    "modal": {
+        "confirmBackupDescription": "Kontrollige salafraas",
+        "next": "Kinnitage",
+        "prev": "Mine tagasi",
+        "successContent": "Te ei saa oma salafraasi muuta. Kui saatsite selle kogemata kellelegi või kahtlustate, et petturid on selle üle võtnud, looge kohe uus Waves rahakott ja kandke oma raha/varad sinna üle.",
+        "successHeadline": "Hoidke oma salafraasi kaitstuna!",
+        "understand": "Ma mõistan"
+    },
+    "noBackupNoMoney": {
+        "backup": "Salvestage salafraas nüüd",
+        "description": "Salafraas tuleb salvestada. See on teie kontole ligipääsu jaoks äärmiselt oluline.",
+        "modal": {
+            "descriptionP1": "Waves Platform soovib Teid hoiatada kelmuse ja andmepüügi rünnakute sageduse üle viimase aja jooksul. Petturid peidavad oma pahavara oma Waves'i kliendi versioonides ning lubavad kasutajatele meelitavaid boonuseid ja allahindlusi.",
+            "descriptionP2": "Olge ettevaatlik ja ärge kunagi sisestage oma salafraasi nendesse „klientidesse”, sest Teie konto on kohe ohustatud ja te kaotate kõik oma rahalised vahendid.",
+            "descriptionP3": "Te peate kasutama AINULT ametlikku Waves klienti.",
+            "ok": "Saan aru",
+            "title": "Hoidke oma salafraasi kaitstuna!"
+        },
+        "or": "või",
+        "skip": "Teen seda hiljem",
+        "title": "Pole Salafraasi, Pole Raha"
+    }
+}

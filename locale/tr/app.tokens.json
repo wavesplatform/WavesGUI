@@ -1,0 +1,79 @@
+{
+    "count": "Toplam Kripto para",
+    "create": "Kripto parayı oluştur",
+    "description": "Açıklama",
+    "directives": {
+        "sign": {
+            "confirmRequestLedger": {
+                "waiting": "Ledger Nano S'den onay bekleniyor..."
+            }
+        }
+    },
+    "fee": "Komisyon {{fee, money-currency}}",
+    "help": {
+        "name": "Sadece Latin harflerini kullanın"
+    },
+    "helpIcon": {
+        "demicals": "Bu alan kripto paranızın kaç basamağa bölüneceğini belirtmektedir.",
+        "scriptDescription": "Akıllı kripto para işlemleri işlem ücreti 0.004 WAVES arttırır. Örneğin akıllı kripto para için bir işlem yaptığınızda 0.001 + 0.004 = 0.005 WAVES komisyon ödersiniz. Eğer takas işlemi yaparsanız 0.003 + 0.004 = 0.007 WAVES komisyon ödersiniz.",
+        "scriptHeader": "Akıllı kripto para, her işlemde belirli koşulları kontrol eden script'lerden oluşur.",
+        "scriptLearnMore": "Daha fazla bilgi edin",
+        "totalTokens": {
+            "headline": "Bu alan toplam üretilecek olan kripto para adedini belirtmektedir.",
+            "notReissuable": "\"Sınırlı\" olarak seçilen kripto paralar kalıcı olarak sınırlandırılacaktır ve tekrar üretilemezler.",
+            "reissuable": "\"Tekrar üretilebilir\" olarak seçilen kripto paralar her hangi bir limite bağlı olmadan daha sonra tekrar üretilebilir."
+        }
+    },
+    "modal": {
+        "title": "{{name}} Üretim",
+        "titleSuccess": "{{name}} Üretim tamamlandı"
+    },
+    "name": "Kripto paranızın adı",
+    "notifications": {
+        "isNotCreated": "Kripto para oluşturulamadı"
+    },
+    "pageTitle": "Kripto para üretimi",
+    "placeholders": {
+        "description": "Açıklamayı daha sonra değiştiremezsiniz.",
+        "precision": "0 ile 8 arasında bir değer girin"
+    },
+    "precision": "Basamak",
+    "preview": "Ön izleme",
+    "reissuable": {
+        "false": "Sınırlı",
+        "true": "Tekrar üretilebilir"
+    },
+    "script": "Akıllı kripto para",
+    "success": {
+        "description": "{{amount}} {{name}} ürettin",
+        "done": "Portföyü aç",
+        "title": "Transfer yolda!"
+    },
+    "switchScriptOff": "Script'i devre dışı bırak",
+    "switchScriptOn": "Script'i etkinleştir",
+    "tokens": {
+        "changeColorTooltip": "Rengi değiştir",
+        "inputHelper": {
+            "description": "Bu adı kullanırsanız, kripto paranız 'Şüpheli' olarak sınıflandırılır ve yalnızca kimlik numarası ile aranır.",
+            "header": "Bu varlık adı önceden alınmış"
+        },
+        "termsOfUse": {
+            "checkbox": "Kurallara uymama durumunda kripto paramın 'Şüpheli' olarak sınıflandırılacağını ve yalnızca kimlik numarasıyla aranabileceğini biliyorum."
+        }
+    },
+    "validators": {
+        "byte": {
+            "gte": "Kripto para adının 4 ve 16 byte uzunluğunluğu arasında olması zorunludur",
+            "lte": "Kripto para adının 4 ve 16 byte arasında olması zorunludur."
+        },
+        "descriptionLen": "Açıklama çok uzun! 1,000 byte'tan daha fazla olamaz.",
+        "invalidScript": "Syntax hatası",
+        "maxValueCount": "Girilen rakam çok büyük!",
+        "maxValuePrecision": "Hatalı rakam! 0 ile 8 arasında bir değer girin.",
+        "minValueCount": "Girilen rakam 0'dan büyük olmalıdır.",
+        "minValuePrecision": "Hatalı rakam! 0 ile 8 arasında bir değer girin.",
+        "noMoney": "İşlem komisyonunu ödemek için yeterli bakiyeniz bulunmamaktadır.",
+        "precisionCount": "Basamak alanında belirtilen basamaklardan daha fazla basamak giremezsiniz.",
+        "required": "Bu alanın doldurulması zorunludur."
+    }
+}

@@ -1,0 +1,40 @@
+{
+    "allactive": "Todos activos ({span}[{{count}}])",
+    "burn": "Quemar Token",
+    "deposit": "Depositar",
+    "dex": "Abrir en DEX",
+    "info": "Información del Activo",
+    "list": {
+        "actions": "Operaciones",
+        "ask": "Solicitud",
+        "balance": "Saldo",
+        "bid": "Puja",
+        "change": "Cambio en 24h",
+        "inOrders": "En pedidos",
+        "mirror": "Valor, {span.currency}[{{currency}}]",
+        "name": "Nombre del Activo",
+        "rate": "Precio, {span.currency}[{{currency}}]"
+    },
+    "myassets": "Mis activos ({span}[{{count}}])",
+    "pin": "Pin",
+    "portfolio": {
+        "filter": "Buscar"
+    },
+    "qr": "Tu dirección",
+    "qualified": "qualified",
+    "qualifieds": "Calificado ({span}[{{count}}])",
+    "receive": "Recibir",
+    "reissue": "Reeditar Token",
+    "send": "Enviar",
+    "setAssetScript": "Actualizar el Script Asset",
+    "spam": "Ocultar",
+    "spamAsset": "SPAM",
+    "spamselect": "Ocultar ({span}[{{count}}])",
+    "sponsorship": "Permitir el patrocinio",
+    "sponsorshipChange": "Cambiar el patrocinio",
+    "sponsorshipStop": "Desactivar el patrocinio",
+    "tokenomica": "tokenomica",
+    "tospam": "Ocultar",
+    "unpin": "Desanclar",
+    "unspam": "Mostrar"
+}

@@ -1,0 +1,322 @@
+{
+    "all": "Alle",
+    "amount": "Bedrag",
+    "balanceInput": {
+        "max": "Max"
+    },
+    "confirmGatewayTransaction": {
+        "back": "Ga Terug",
+        "confirm": "Bevestig",
+        "fieldAddress": "Doel adres",
+        "fieldAmount": "Bedrag",
+        "fieldFee": "Fee",
+        "fieldGatewayAddress": "Gateway adres",
+        "fieldGatewayFee": "Gateway fee",
+        "success": "Uw transactie is verzonden!",
+        "warningText": "U staat op het punt geld te sturen naar de {{name}} blockchain.",
+        "warningTitle": "Externe blockchain transactie"
+    },
+    "confirmTransaction": {
+        "back": "Ga Terug",
+        "confirm": "Verstuur",
+        "description": {
+            "burn": "Heeft {{quantityStr}} {{name}} geburnt",
+            "cancel-leasing": "U heeft een leasing transactie geannuleerd",
+            "circular": "U heeft {{amount, money-currency}} naar uzelf verzonden",
+            "create-alias": "U heeft een alias gecreeërd",
+            "data": "U heeft een data transactie verzonden",
+            "data-vote": "{div.line}[You have voted for {{moneyCurrency}}.]\n{div.line}[Your score will be applied after 24 hours. Rating in processing.]",
+            "issue": "Token succesvol aangemaakt",
+            "lease-out": "U heeft {{amount, money-currency}} geleased",
+            "mass-send": "U heeft {{totalAmount, money-currency}} verzonden",
+            "reissue": "U heeft {{quantityStr}} extra {{name}} gegenereerd",
+            "send": "U heeft {{amount, money-currency}} verzonden",
+            "set-asset-script": "U heeft het script geüpdatet",
+            "set-script": "U heeft een script transactie gemaakt",
+            "set-script-cancel": "U heeft een script transactie geannuleerd",
+            "sponsorship-start": "Gesponsorde transactie is ingesteld",
+            "sponsorship-stop": "Gesponsorde transactie is uitgeschakeld"
+        },
+        "details": "Bekijk details",
+        "export": "Exporteer",
+        "JSON": "JSON",
+        "ledgerUnconfirmed": {
+            "description": "Probeer het opnieuw. Als de fout aanhoudt, raadpleeg dan [this article](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)",
+            "header": "U heeft het verzoek op uw Ledger niet bevestigd"
+        },
+        "notPermited": {
+            "cancel-leasing": "De start lease functie is tijdelijk niet beschikbaar."
+        },
+        "notPermitted": {
+            "burn": "Token burnen is tijdelijk niet beschikbaar.",
+            "burn-title": "Token burn",
+            "cancel-leasing": "De start lease functie is tijdelijk niet beschikbaar.",
+            "cancel-leasing-title": "Annuleer lease",
+            "data": "Data transacties zijn tijdelijk niet beschikbaar.",
+            "data-title": "Data transactie",
+            "reissue-title": "Token heruitgeven",
+            "set-script": "Script transacties zijn tijdelijk niet beschikbaar.",
+            "sponsorship-start": "Sponsoring is tijdelijk niet beschikbaar.",
+            "sponsorship-start-title": "Wijzig sponsoring"
+        },
+        "orderSuccess": "Uw order is gemaakt!",
+        "redirect": "U wordt doorgestuurd naar {{referrer}}",
+        "send": {
+            "errors": {
+                "balance": {
+                    "invalid": "Onvoldoende saldo"
+                },
+                "recipient": {
+                    "invalid": "Het adres van de ontvanger is ongeldig"
+                }
+            }
+        },
+        "sign": "Onderteken",
+        "success": "Uw transactie is verzonden!",
+        "wavesKeeperUnconfirmed": {
+            "description": "Probeer alstublieft opnieuw. Indien de error aanhoudt maak dan een ticket aan bij [support](https://support.wavesplatform.com)",
+            "header": "U heeft het verzoek niet via Waves Keeper bevestigd"
+        }
+    },
+    "copyError": "Kan niet kopiëren! Wellicht is uw browser niet up to date",
+    "copySuccess": "De data is gekopieerd",
+    "directives": {
+        "anyTransaction": {
+            "copy": "Kopieer",
+            "textAreaTitle": "TX JSON"
+        },
+        "scriptForm": {
+            "placeholder": {
+                "change": "Voer een nieuw script in, of laat het veld leeg om een bestaand script te annuleren.",
+                "create": "Voer een nieuw script in, of laat het veld leeg om een bestaand script te annuleren."
+            },
+            "textAreaTitle": "Base64 script"
+        },
+        "setAssetScriptForm": {
+            "ok": "Ga door"
+        },
+        "sign": {
+            "confirmRequestKeeper": {
+                "cancel": "Annuleer",
+                "errorDescription": "Probeer het opnieuw. Als het probleem aanhoudt maak alstublieft een ticket aan bij [support](https://support.wavesplatform.com)",
+                "errorHeader": "U heeft het verzoek niet bevestigd met Waves Keeper",
+                "sign": "Probeer opnieuw",
+                "waiting": "Wachten op bevestiging van Waves Keeper..."
+            },
+            "confirmRequestLedger": {
+                "cancel": "Annuleer",
+                "errorDescription": "Probeer het aub opnieuw. Als de error aanblijft kun u meer informatie vinden in [dit artikel](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)",
+                "errorHeader": "U heeft het verzoek op de Ledger niet bevestigd",
+                "sign": "Probeer ondertekenen opnieuw",
+                "waiting": "Wachten op bevestiging van Ledger Nano S…"
+            },
+            "txId": "TXID"
+        },
+        "transactionExport": {
+            "linkTitle": "Deel te link om te ondertekenen",
+            "or": "OF",
+            "qrZoomBtn": "Klik om in of uit te zoomen",
+            "scanQrCode": "Scan QR code"
+        }
+    },
+    "emptyBlocks": {
+        "title": "Hier is niets…"
+    },
+    "errorBlocks": {
+        "title": "Er is iets misgegaan…"
+    },
+    "modal": {
+        "assetInfo": {
+            "gateway_ui": "GATEWAY"
+        },
+        "sign": {
+            "signByLedger": "Wacht op bevestiging op Ledger…"
+        },
+        "token": {
+            "warning": {
+                "header": "U gaat ermee akkoord dat:",
+                "text": "{div.line}[I) U zult deze token niet gebruiken voor frauduleuze doeleinden;]\n{div.line}[II) U zult de naam van een bestaande cryptocurrency of een bekend bedrijf niet dupliceren, niet in zijn geheel noch gedeeltelijk, met de bedoeling gebruikers te misleiden;]\n{div.line}[III) U zult geen namen van staten, andere bestuurlijke eenheden of gemeentelijke instellingen voor de naam van het token gebruiken met de bedoeling gebruikers te misleiden.]\n{div.line}[IV) U stelt geen script in op een Smart Asset dat exchange transacties beperkt op basis van de hoeveelheid van uw asset;]\n{div.line}[V) U geeft geen valse informatie in de beschrijving van een Smart Asset met betrekking tot de regels die gelden voor het gebruik van het token, die niet overeenkomen met die van het script dat erop is ingesteld;]",
+                "textWarning": "Als u zich niet aan deze punten houdt, zal dit ertoe leiden dat uw token als verdacht wordt geclassificeerd en alleen beschikbaar zijn door te zoeken op asset ID."
+            }
+        }
+    },
+    "password": {
+        "minLength": "moet minimaal {{minLength}} karakters lang zijn",
+        "name": "Accountnaam",
+        "repeat": "Bevestig wachtwoord",
+        "secure": "veilig wachtwoord",
+        "title": "Beveilig uw account met een nieuw wachtwoord",
+        "warn": "te makkelijk, voer een cijfer of symbool toe"
+    },
+    "qrCodeRead": {
+        "closeRead": "Annuleer"
+    },
+    "recipient": "Ontvanger",
+    "transaction": {
+        "actions": {
+            "cancelLeasing": "Annuleer lease",
+            "copyTxData": "Kopieer TX ID",
+            "copyTxId": "Kopieer alle TX data",
+            "showTx": "TX info"
+        },
+        "amounts": {
+            "burn": "–{{amount}} {{name}}",
+            "cancel-leasing": "{{amount}} {{name}}",
+            "circular": "{{amount}} {{name}}",
+            "exchange-buy": "{{sign}}{{amount}} {{name}}",
+            "exchange-sell": "{{sign}}{{amount}} {{name}}",
+            "issue": "{{amount}} {{name}}",
+            "lease-in": "{{amount}} {{name}}",
+            "lease-out": "{{amount}} {{name}}",
+            "mass-receive": "+{{amount}} {{name}}",
+            "mass-send": "–{{amount}} {{name}}",
+            "perTransaction": "AHoeveelheid per transactie",
+            "receive": "+{{amount}} {{name}}",
+            "reissue": "+{{amount}} {{name}}",
+            "script-invocation": "–{{amount}} {{name}}",
+            "send": "–{{amount}} {{name}}",
+            "set-script": "Stel Script transactie in",
+            "set-script-cancel": "Annuleer Script transactie",
+            "sponsorship-change": "Verander gesponsorde transactie",
+            "sponsorship-fee": "{{sign}}{{amount}} {{name}}",
+            "sponsorship-start": "Stel gesponsorde transactie in",
+            "sponsorship-stop": "Schakel gesponsorde transactie uit"
+        },
+        "confirmed": {
+            "false": "NIET BEVESTIGD",
+            "true": "VOLTOOID"
+        },
+        "headers": {
+            "activeLeasing": "momenteel actief",
+            "burn": "{{name}} Token geburnt",
+            "cancel-leasing": "Geannuleerde lease",
+            "canceled": "Geannuleerd",
+            "circular": "Naar uzelf verzonden {{name}}",
+            "create-alias": "Gecreeërde Alias",
+            "data": "Data Transactie",
+            "data-vote": "Voted for {{assetName}}",
+            "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
+            "exchange-buy": "Exchange Koop:",
+            "exchange-sell": "Exchange Verkoop:",
+            "issue": "{{name}} Token Heruitgave",
+            "lease-in": "Inkomende lease",
+            "lease-out": "Gestartte lease",
+            "mass-receive": "Ontvangen {{name}}",
+            "mass-send": "Verstuurd {{name}}",
+            "receive": "Ontvangen {{name}}",
+            "reissue": "{{name}} Token Heruitgave",
+            "script-invocation": "Script Aanroep",
+            "send": "Verstuurd {{name}}",
+            "set-asset-script": "Stel Asset Script Transaction in",
+            "set-script": "Stel Script transactie in",
+            "set-script-cancel": "Annuleer Script transactie",
+            "spam": "verdacht",
+            "sponsorship-fee": "Ontvangen {{name}}",
+            "sponsorship-start": "Stel gesponsorde transactie in voor {{name}}",
+            "sponsorship-stop": "Schakel gesponsorde transactie uit voor {{name}}",
+            "suspicious": "verdacht",
+            "unknown": "Onbekende transactie"
+        },
+        "modals": {
+            "assetId": "Asset ID",
+            "attachment": "Bijlage Bericht",
+            "cancelTx": "Lease TX",
+            "confirmations": "Bevestigingen",
+            "copyCode": "Kopieer code",
+            "data": "Data",
+            "dataKey": "Sleutel",
+            "dataType": "Type",
+            "dataValue": "Waarde",
+            "description": "Beschrijving",
+            "exchange": {
+                "buy": "Koop",
+                "buyMatcherFee": "Koop Matcher Fee",
+                "exchangeType": "Order type",
+                "matcherFee": "Matcher Fee",
+                "pair": "Paar",
+                "sell": "Verkoop"
+            },
+            "fee": "Fee",
+            "from": "Van",
+            "function": "Functie",
+            "functionCall": "Functieaanroep",
+            "height": "Block",
+            "hide": "Verbergen",
+            "hideAll": "Alles verbergen",
+            "leasingStatus": "Status",
+            "massSend": {
+                "showAll": {
+                    "false": "Bekijk alle ({{count}})",
+                    "true": "Bekijk eerste 3 transacties"
+                },
+                "totalAmount": "Totaalbedrag"
+            },
+            "numberOfRecipients": "Het aantal ontvangers",
+            "orderType": "Order type",
+            "pair": "Paar",
+            "payment": "Betaling",
+            "price": "{{name}} Prijs",
+            "script": "Script",
+            "scriptAddress": "Script adres",
+            "seeAll": "Toon alles",
+            "setAssetScript": {
+                "showScript-false": "Toon",
+                "showScript-true": "Verberg"
+            },
+            "show": "Toon",
+            "showAll": "Toon alles ({{count}})",
+            "showFirstTree": "Toon de eerste 3 sleutels",
+            "status": "Status",
+            "timestamp": "Tijdstempel",
+            "to": "Naar",
+            "toBeReissued": "Her uit te geven",
+            "toRemainOnBalance": "Blijft op de balans",
+            "totalAfterBurning": "Totaal na burnen",
+            "totalAfterReissue": "Totaal na heruitgave",
+            "txId": "TXID",
+            "type": "Type",
+            "viewTransactionKey": "Transactie",
+            "viewTransactionValue": "Bekijk Transactie"
+        },
+        "notifications": {
+            "closed": "De lease is al geannuleerd",
+            "closedSuccess": "De lease annulering is voltooid"
+        },
+        "reissuable": {
+            "false": "Niet Heruitgeefbaar",
+            "true": "Heruitgeefbaar"
+        },
+        "set-asset-script": "Update script",
+        "subheaders": {
+            "burn": "{{time}}",
+            "cancel-leasing": "{{time}}{span.locale-address}[, transaction {{transactionId}}]",
+            "circular": "{{time}}{span.locale-address}[, naar adres {{address}}]",
+            "create-alias": "{{time}}, {{alias}}",
+            "data": "{{time}}",
+            "exchange-buy": "{{time}}",
+            "exchange-sell": "{{time}}",
+            "issue": "{{time}}",
+            "lease-in": "{{time}}{span.locale-address}[, van adres {{address}}]",
+            "lease-out": "{{time}}{span.locale-address}[, naar adres {{address}}]",
+            "mass-receive": "{{time}}{span.locale-address}[, van adres {{address}}]",
+            "mass-send": "{{time}}",
+            "receive": "{{time}}{span.locale-address}[, van adres {{address}}]",
+            "reissue": "{{time}}",
+            "script-invocation": "{{time}}{span.locale-address}[, naar adres {{address}}]",
+            "send": "{{time}}{span.locale-address}[, naar adres {{address}}]",
+            "set-asset-script": "{{time}}, bij asset {{name}}",
+            "sponsorship-fee": "{{time}} van adres {{address}}",
+            "unknown": "{{time}}"
+        }
+    },
+    "transactionList": {
+        "noTransactionsDescription": "U heeft geen transacties",
+        "noTransactionsTitle": "Niets hier..."
+    },
+    "transactions": {
+        "script": {
+            "txJson": "Base64 script"
+        }
+    },
+    "whitespace": "&nbsp;"
+}

@@ -1,0 +1,219 @@
+{
+    "backupSeed": {
+        "copySeed": "复制种子短语",
+        "warn": "由于只有你控制你的钱，你需要保存您的种子短语，以防该应用程序被删除或",
+        "yourSeed": "你的种子短语"
+    },
+    "createAccount": {
+        "from": "创建帐号"
+    },
+    "infoTooltip": "重要信息",
+    "loading": {
+        "volume": "值"
+    },
+    "modal": {
+        "lockPairWarning": {
+            "continue": "继续",
+            "heading": "{{amountAssetTicker}} / {{priceAssetTicker}}的交易目前无法使用",
+            "text": "所选货币对的交易暂时无法进行。 \n如果您愿意，您仍然可以取消订单"
+        }
+    },
+    "news": "新闻",
+    "newUser": {
+        "from": "从备份",
+        "getStarted": "开始使用",
+        "import": "导入帐户",
+        "or": "或",
+        "restore": "恢复帐户",
+        "slides": [
+            {
+                "description": "参与成为快速增长加密世界里的一部分。 唯一能够访问您的数字资产是您",
+                "title": "开始使用区块链"
+            },
+            {
+                "description": "简单轻松，安全储存、管理和接收数字资产余额的利息。",
+                "title": "智能数字钱包"
+            },
+            {
+                "description": "安全快捷地交易。 使用内建去中心化交易所直接进行交易，您可以完全掌控您的资产，可以避免资产托管于第三方交易所的风险。",
+                "title": "内建去中心化交易所"
+            },
+            {
+                "description": "发行属于您的代币。 代币可以结合用于您的企业中，不仅可以作为指定货币，还可以作为分布式投票、评级系统或忠诚计划。",
+                "title": "创建代币功能"
+            }
+        ]
+    },
+    "openViaDesktop": "我愿意通过桌面版打开链接",
+    "roadmap": {
+        "aug2019": {
+            "date": "2019年8月",
+            "text": "交易者可以以市场价格快速出售代币。",
+            "title": "市场订单"
+        },
+        "dec2018": {
+            "date": "2018年12月",
+            "text": "新的移动应用程序提供了出色的DEX UI和网关集成。",
+            "text_2": "DEX上的代码和徽标显示已批准的资产，为用户提供了高度的信心。",
+            "title": "移动应用2.0",
+            "title_2": "BetterTokens集成"
+        },
+        "feb2017": {
+            "date": "2017年12月",
+            "text": "推出旗舰内置交换的第一个版本。",
+            "title": "Waves DEX Beta"
+        },
+        "feb2018": {
+            "date": "2018年2月",
+            "text": "发布了用于macOS，Linux和Windows的独立客户端。",
+            "title": "桌面应用"
+        },
+        "jan2019": {
+            "date": "2019年1月",
+            "text": "支持使用智能帐户进行Waves DEX交易。",
+            "text_2": "推出比特币Satoshi Vision网关",
+            "title": "智能账户交易",
+            "title_2": "BSV网关"
+        },
+        "jul2018": {
+            "date": "2018年7月",
+            "text": "重新启动的交换机提供了比市场上任何其他DEX更好的用户体验和性能。",
+            "text_2": "流行的钱包出现在测试阶段，主要是新版本。",
+            "title": "新DEX",
+            "title_2": "波浪钱包"
+        },
+        "jul2019": {
+            "date": "2019年7月",
+            "text": "向Waves生态系统添加ERC20令牌网关，这意味着流行的以太坊令牌可以在平台上交易。",
+            "text_2": "开发人员简化了移动开发流程，并获得了与Waves区块链交互方式的全面描述。",
+            "text_3": "用户可以在一个钱包应用程序中轻松切换多个帐户。",
+            "title": "ERC-20网关",
+            "title_2": "移动SDK和JS库改进",
+            "title_3": "多个帐户"
+        },
+        "jun2019": {
+            "date": "2019年6月",
+            "text": "要实施DEX速度和内存要求的改进。",
+            "title": "DEX优化"
+        },
+        "may2018": {
+            "date": "2018年5月",
+            "text": "重新启动的交换机提供了比市场上任何其他DEX更好的用户体验和性能。",
+            "title": "Dash和比特币现金门户"
+        },
+        "nov2018": {
+            "date": "2018年11月",
+            "text": "用户可以使用多签名和脚本帐户进行交易。",
+            "title": "Smarts帐户支持"
+        },
+        "sep2018": {
+            "date": "2018年9月",
+            "text": "与Waves集成DEX使用户能够以最高的安全性进行交易。",
+            "title": "Ledger Nano S."
+        },
+        "sep2019": {
+            "date": "2019年9月",
+            "text": "双因素身份验证为Waves DEX用户提供了更高的安全性。",
+            "title": "2FA"
+        }
+    },
+    "userList": {
+        "addNew": "添加一个帐号",
+        "create": "创建新的帐号",
+        "frombackup": "备份",
+        "import": "导入帐户",
+        "restore": "恢复帐户",
+        "subTitle": "请重新登录或",
+        "subTitleSession": "您的访问已经中断。"
+    },
+    "welcome": {
+        "aliases": "别名",
+        "android": "Google Play",
+        "api": "API",
+        "apple": "苹果应用商店",
+        "blog": "博客",
+        "broughtBy": "由Waves Team带给您",
+        "change": "更改",
+        "chart": "图表",
+        "contestLinkDescription": "在Waves DEX的交易竞赛中赢得5,000个WAVES！",
+        "contestLinkLink": "规则",
+        "controlAssets": "资产控制权是你自己的 - 资金不会留下你的钱包，也不能冻结",
+        "copyAddress": "复制地址",
+        "copyright": "©2019年波浪幣平台",
+        "createToken": "创建令牌",
+        "dashboard": "仪表板",
+        "decentralised": "分散",
+        "dexWithHardware": "将DEX与硬件钱包Ledger Nano S和Ledger Blue配合使用",
+        "documentation": "文档",
+        "download": "下载",
+        "downloadMobileApp": "下载移动应用程序！",
+        "exchange": "交换",
+        "forDevelopers": "对于开发者",
+        "forum": "论坛",
+        "gateways": "通往受欢迎货币的门户",
+        "getRealTimeAccess": "实时访问市场数据并通过API设置您的交易机器人",
+        "getStarted": "开始使用",
+        "gitHub": "GitHub",
+        "help": "帮助",
+        "high": "24 HIGH",
+        "instantAccessWalletDex": "即时访问您的钱包和DEX",
+        "keeperAccount": "Keeper账号",
+        "lastPrice": "最新价格",
+        "leasing": "租赁",
+        "ledgerAccount": "Ledger 帐户",
+        "ledgerSupport": "Ledger 支持",
+        "legal": "法律",
+        "linux": "Linux",
+        "linuxDescription": "下载Linux应用程序",
+        "logout": "登出",
+        "logOut": "登出",
+        "low": "24低",
+        "lowFixedFees": "低，固定费用",
+        "macOs": "苹果系统",
+        "macOsDescription": "下载MacOS应用程序",
+        "mailto": "support.wavesplatform.com",
+        "mainPage": "主页",
+        "majorFiatCryptocurrencies": "支持的主要法定货币和加密货币：BTC，LTC，ETH，USD等",
+        "markets": "市场",
+        "marketsDescription": "Waves DEX允许您快速安全地执行交易，无论您是通过移动应用程序，桌面客户端，网络钱包还是Waves API进行交易。",
+        "marketsTableDescription": "要查看更多交易对，请单击",
+        "marketsTableDescriptionLink": "查看Exchange",
+        "menu": "菜单",
+        "news": "新闻",
+        "pair": "对",
+        "portfolio": "投资组合",
+        "privacyPolicy": "隐私政策",
+        "productsTools": "产品和工具",
+        "renameAccount": "重命名帐户",
+        "roadmap": "路线图",
+        "roadmapOpportunitiesAhead": "Waves DEX的未来：我们未来机遇的路线图。",
+        "scriptAccount": "脚本帐户",
+        "scriptedAccount": "脚本帐户",
+        "settings": "设置",
+        "signIn": "登录",
+        "social": "社会",
+        "stackOverflow": "堆栈溢出",
+        "suitableTradingBots": "适合交易机器人",
+        "support": "Support",
+        "telegram": "Telegram",
+        "termsOfUse": "使用条款",
+        "tokenCreation": "快速令牌创建",
+        "tokenCreationCosts": "令牌创建成本仅为1 WAVES，需要1分钟",
+        "tradeOnWaves": "波浪分散交易所的交易",
+        "tradeOnWavesDescription": "快速，安全地购买和出售代币，具有集中交易的所有优势，但保留对资金的完全控制。",
+        "transactions": "交易记录",
+        "twitter": "推特",
+        "volume": "值",
+        "wallet": "智能数字钱包",
+        "wavesBlockchain": "波浪幣区块链",
+        "wavesDexWeb": "Waves DEX Web",
+        "wavesExplorer": "Waves Explorer",
+        "wavesIde": "Waves IDE",
+        "wavesKeeper": "Waves Keeper",
+        "wavesLabs": "Waves Labs",
+        "wavesOrderFilled": "每个订单填写0.003波浪幣",
+        "wavesWallet": "波浪幣钱包",
+        "windows": "视窗",
+        "windowsDescription": "下载Windows应用程序"
+    }
+}

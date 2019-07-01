@@ -1,0 +1,20 @@
+{
+    "createAccount": "Utwórz konto",
+    "notHaveAccounts": "Nie masz zapisanych kont",
+    "nothingHere": "Nic tutaj…",
+    "password": {
+        "error": "Złe hasło!"
+    },
+    "userList": {
+        "address": "Adres / Nazwa konta",
+        "buttons": {
+            "login": "Zaloguj się"
+        },
+        "notHaveAccount": "Zaloguj się, aby kontynuować",
+        "password": "Hasło",
+        "placeholders": {
+            "password": "Hasło"
+        },
+        "title": "Zaloguj się"
+    }
+}

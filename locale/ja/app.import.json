@@ -1,0 +1,21 @@
+{
+    "back": "メインページに戻る",
+    "import": {
+        "signIn": "サインイン"
+    },
+    "importAccount": "アカウントをインポート",
+    "importAccountInfo": "アカウントのインポート元を選択する",
+    "KeeperClient": "Waves Keeper",
+    "keeperDescription": "Waves Keeperからアカウントをインポート",
+    "keeperForm": "インストール",
+    "LedgerClient": "Ledgerデバイス",
+    "ledgerDescription": "Ledger デバイスからアカウントをインポート",
+    "or": "または",
+    "selectButton": "選択",
+    "wavesClient": "Waves クライアント",
+    "wavesClientDescription": "Waves クライアントからアカウントをインポート",
+    "wavesLiteClient": "Waves Lite クライアント",
+    "wavesLiteClientDescription": "Waves ライトクライアントからアカウントをインポート",
+    "wavesSeedClient": "バックアップシードフレーズ",
+    "wavesSeedClientDescription": "バックアップシードフレーズからアカウントをインポート"
+}

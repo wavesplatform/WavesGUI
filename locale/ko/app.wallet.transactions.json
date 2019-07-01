@@ -1,0 +1,73 @@
+{
+    "all": "모든 TX",
+    "confirmTransaction": {
+        "retrySign": "다시 서명하세요"
+    },
+    "csv": {
+        "alias": "Alias 명칭",
+        "amount": {
+            "id": "Amount 자산 ID 수량",
+            "name": "Amount 자산 명칭 수량",
+            "ticker": "Amount 자산 ticker 수량",
+            "value": "자산 가치 수량"
+        },
+        "attachment": "트랜잭션 Attachment",
+        "date": "날짜",
+        "description": "토큰 설명",
+        "fee": {
+            "id": "수수료 ID",
+            "name": "수수료 명칭",
+            "ticker": "수수료 ticker",
+            "value": "수수료 가치"
+        },
+        "height": "트랜잭션  Height",
+        "id": "트랜잭션 ID",
+        "name": "토큰 명칭",
+        "precision": "Precision",
+        "price": {
+            "id": "자산 ID 가격",
+            "name": "자산 명칭 가격",
+            "ticker": "자산 ticker 가격",
+            "value": "자산 가치 가격"
+        },
+        "recipient": "트랜잭션 수신자",
+        "reissuable": {
+            "false": "재발행 불가능",
+            "name": "토큰 재발행 가능",
+            "true": "재발행 가능"
+        },
+        "sender": "트랜잭션 발신자",
+        "transactionType": "블록체인 트랜잭션 유형",
+        "type": "트랜잭션 유형"
+    },
+    "errors": {
+        "complete": {
+            "body": "트랜잭션 목록이 완전히 다운로드되지 않았습니다. 다시 시도하십시오.",
+            "title": "다운로드가 완료되지 않았습니다."
+        },
+        "download": {
+            "body": "트랜잭션 목록이 완전히 다운로드되지 않았습니다. 다시 시도하십시오.",
+            "title": "다운로드 오류."
+        },
+        "empty": {
+            "body": "트랜잭션 내역이 없습니다",
+            "title": "추출 오류"
+        }
+    },
+    "exchanged": "거래 TX",
+    "export": "파일 추출",
+    "filter": {
+        "value1": "최근",
+        "value2": "500 txs",
+        "value3": "1000 txs"
+    },
+    "issued": "토큰 발행 TX",
+    "leased": "Lease된 수량",
+    "received": "수신 TX",
+    "sent": "발신 TX",
+    "transactions": {
+        "script": {
+            "txJson_wallet": "Base64 script"
+        }
+    }
+}

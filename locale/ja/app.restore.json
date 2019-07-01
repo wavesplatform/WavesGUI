@@ -1,0 +1,50 @@
+{
+    "password": {
+        "error": "パスワードが間違っています！"
+    },
+    "passwordForm": {
+        "back": "戻る",
+        "description": "アカウントを新しいパスワードで保護。または",
+        "importAccounts": "アカウントをインポート",
+        "login": "サインイン",
+        "title": "あなたのアカウントを保護する"
+    },
+    "restore": {
+        "beta": {
+            "accountTitle": "アドレス / アカウント名",
+            "buttons": {
+                "cancel": "戻る",
+                "copy": "シードをコピー",
+                "restore": "シードを復元"
+            },
+            "noUsers": {
+                "description": "{div}[保存されたアカウントは見つかりませんでした。]{div}[[client.wavesplatform.com](https://client.wavesplatform.com)]へ戻る",
+                "title": "保存されたアカウントはありません"
+            },
+            "passwordTitle": "パスワード",
+            "placeholders": {
+                "password": "パスワード"
+            },
+            "step1Description": "あなたがSEEDではなくパスワードのみ分かる場合、こちらのページから保存されたアカウントを復元することが出来ます。",
+            "step2Description": "慎重にSEEDを保管して下さい。紛失した場合、あなたのアカウントにアクセスする方法はありません。",
+            "title": "シードを復元"
+        }
+    },
+    "seedForm": {
+        "address": "アドレス",
+        "back": "戻る",
+        "continue": "次へ",
+        "create": "新しいアカウントを作成",
+        "description": "あなたのシードはアカウントの作成時に保存した15の単語です",
+        "or": "または",
+        "placeholder": "あなたのシードはアカウントの作成時に保存した15の単語です",
+        "saveUserData": "アカウントをこのコンピューターに保存",
+        "seedTitle": "あなたのウォレットシード",
+        "title": "シードからインポート",
+        "tosaved": "(保存されたアカウントへ)"
+    },
+    "warningSeed": {
+        "message": "フレーズをウォレットアドレスと混同しないようにしてください。 アドレスをシードフレーズ（SEED）として使用すると、資金を失う可能性があります。 SEEDは15語で構成され、各語間にスペースが必要です。",
+        "title": "入力されたシードフレーズは短すぎます。"
+    }
+}

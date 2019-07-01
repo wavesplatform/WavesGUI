@@ -1,0 +1,20 @@
+{
+    "createAccount": "Buat akun",
+    "notHaveAccounts": "Anda tidak memiliki akun yang disimpan",
+    "nothingHere": "Tidak ada apapun disini…",
+    "password": {
+        "error": "Kata sandi salah!"
+    },
+    "userList": {
+        "address": "Alamat / Nama akun",
+        "buttons": {
+            "login": "Masuk"
+        },
+        "notHaveAccount": "Silakan masuk untuk melanjutkan",
+        "password": "Kata sandi",
+        "placeholders": {
+            "password": "Kata sandi"
+        },
+        "title": "Selamat datang kembali"
+    }
+}

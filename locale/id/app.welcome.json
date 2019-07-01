@@ -1,0 +1,219 @@
+{
+    "backupSeed": {
+        "copySeed": "Salin frasa SEED",
+        "warn": "Karena hanya Anda yang mengendalikan uang Anda, Anda harus menyimpan frase SEED Anda jika aplikasi ini dihapus atau",
+        "yourSeed": "Frasa SEED Anda"
+    },
+    "createAccount": {
+        "from": "createAccount"
+    },
+    "infoTooltip": "Informasi Penting",
+    "loading": {
+        "volume": "VOLUME"
+    },
+    "modal": {
+        "lockPairWarning": {
+            "continue": "Lanjutkan",
+            "heading": "Berdagang di {{amountAssetTicker}} / {{priceAssetTicker}} saat ini tidak tersedia",
+            "text": "Perdagangan untuk pasangan yang dipilih untuk sementara tidak tersedia. \n Anda masih dapat membatalkan pesanan jika diinginkan"
+        }
+    },
+    "news": "Berita",
+    "newUser": {
+        "from": "dari cadangan",
+        "getStarted": "Memulai",
+        "import": "Impor Akun",
+        "or": "atau",
+        "restore": "Memulihkan Akun",
+        "slides": [
+            {
+                "description": "Menjadi bagian dari area kripto yang tumbuh cepat. Anda adalah satu-satunya orang yang dapat mengakses aset crypto Anda.",
+                "title": "Memulai dengan Blockchain"
+            },
+            {
+                "description": "Simpan, kelola, dan terima bunga pada saldo aset digital Anda, dengan mudah dan aman.",
+                "title": "Dompet"
+            },
+            {
+                "description": "Berdagang dengan cepat dan aman. Anda tetap memegang kendali penuh atas dana Anda saat menukarkannya di Exchange kami yang terdesentralisasi.",
+                "title": "Exchange Terdesentralisasi"
+            },
+            {
+                "description": "Terbitkan token Anda sendiri. Dapat diintegrasikan ke dalam bisnis Anda tidak hanya sebagai mata uang internal tetapi juga sebagai token untuk pemilihan yang terdesentralisasi, sebagai sistem rating, atau program loyalitas.",
+                "title": "Pembuatan Token"
+            }
+        ]
+    },
+    "openViaDesktop": "Saya ingin selalu membuka tautan melalui aplikasi Desktop",
+    "roadmap": {
+        "aug2019": {
+            "date": "Agustus 2019",
+            "text": "Pedagang dapat menjual token dengan cepat dengan harga pasar.",
+            "title": "Pesanan pasar"
+        },
+        "dec2018": {
+            "date": "Desember 2018",
+            "text": "Aplikasi seluler baru ini menawarkan DEX UI dan integrasi gateway yang fantastis.",
+            "text_2": "Ticker dan logo pada DEX menunjukkan aset yang disetujui, memberi pengguna tingkat kepercayaan yang tinggi.",
+            "title": "Aplikasi seluler 2.0",
+            "title_2": "Integrasi BetterTokens"
+        },
+        "feb2017": {
+            "date": "Desember 2017",
+            "text": "Versi pertama dari pertukaran bawaan diluncurkan diluncurkan.",
+            "title": "Waves DEX Beta"
+        },
+        "feb2018": {
+            "date": "Februari 2018",
+            "text": "Klien mandiri untuk macOS, Linux dan Windows dirilis.",
+            "title": "Aplikasi desktop"
+        },
+        "jan2019": {
+            "date": "Januari 2019",
+            "text": "Dukungan untuk perdagangan di Waves DEX dengan Akun Cerdas diaktifkan.",
+            "text_2": "Peluncuran gateway Bitcoin Satoshi Vision",
+            "title": "Perdagangan Akun Cerdas",
+            "title_2": "BSV Gateway"
+        },
+        "jul2018": {
+            "date": "Juli 2018",
+            "text": "Pertukaran diluncurkan menawarkan UX dan kinerja yang lebih baik daripada DEX lainnya di pasar.",
+            "text_2": "Dompet populer keluar dari versi beta dengan rilis baru yang besar.",
+            "title": "DEX baru",
+            "title_2": "Dompet Waves"
+        },
+        "jul2019": {
+            "date": "Juli 2019",
+            "text": "Penambahan ERC20 token gateway ke ekosistem Waves, artinya token Ethereum yang populer dapat diperdagangkan di platform.",
+            "text_2": "Pengembang telah menyederhanakan proses pengembangan seluler dan mendapatkan deskripsi komprehensif untuk cara berinteraksi dengan blockchain Waves.",
+            "text_3": "Pengguna memiliki kemampuan untuk beralih dengan mudah antara beberapa akun dalam satu aplikasi dompet.",
+            "title": "ERC-20 Gateway",
+            "title_2": "Peningkatan perpustakaan SDK dan JS seluler",
+            "title_3": "Beberapa akun"
+        },
+        "jun2019": {
+            "date": "Juni 2019",
+            "text": "Peningkatan dalam kecepatan DEX dan persyaratan memori untuk diimplementasikan.",
+            "title": "Optimasi DEX"
+        },
+        "may2018": {
+            "date": "Mei 2018",
+            "text": "Pertukaran diluncurkan menawarkan UX dan kinerja yang lebih baik daripada DEX lainnya di pasar.",
+            "title": "Gateway Dash & Bitcoin Cash"
+        },
+        "nov2018": {
+            "date": "November 2018",
+            "text": "Pengguna mendapatkan kemampuan untuk berdagang dengan akun multi-signature dan terskrip.",
+            "title": "Dukungan Smarts Account"
+        },
+        "sep2018": {
+            "date": "September 2018",
+            "text": "Integrasi dengan Waves DEX memungkinkan pengguna untuk berdagang dengan keamanan maksimum.",
+            "title": "Ledger Nano S"
+        },
+        "sep2019": {
+            "date": "September 2019",
+            "text": "Otentikasi dua faktor memberi pengguna Waves DEX keamanan yang lebih besar.",
+            "title": "2FA"
+        }
+    },
+    "userList": {
+        "addNew": "Tambahkan akun",
+        "create": "Membuat Akun",
+        "frombackup": "dari cadangan",
+        "import": "Impor akun",
+        "restore": "Pulihkan akun",
+        "subTitle": "Masuk lagi atau",
+        "subTitleSession": "Sesi diakhiri secara otomatis."
+    },
+    "welcome": {
+        "aliases": "Alias",
+        "android": "Google Play",
+        "api": "API",
+        "apple": "Toko aplikasi",
+        "blog": "Blog",
+        "broughtBy": "Dipersembahkan oleh Tim Waves",
+        "change": "UBAH",
+        "chart": "GRAFIK",
+        "contestLinkDescription": "Menangkan 5.000 WAVES dalam kontes perdagangan di Waves DEX!",
+        "contestLinkLink": "Aturan",
+        "controlAssets": "Kontrol aset adalah milik Anda sendiri - dana tidak meninggalkan dompet Anda dan tidak dapat dibekukan",
+        "copyAddress": "Salin alamat",
+        "copyright": "© 2019 Waves Platform",
+        "createToken": "Buat token",
+        "dashboard": "Dasbor",
+        "decentralised": "Terdesentralisasi",
+        "dexWithHardware": "Gunakan DEX dengan dompet perangkat keras Ledger Nano S dan Ledger Blue",
+        "documentation": "Dokumentasi",
+        "download": "Unduh",
+        "downloadMobileApp": "Unduh aplikasi seluler!",
+        "exchange": "Exchange",
+        "forDevelopers": "Untuk pengembang",
+        "forum": "Forum",
+        "gateways": "Gateway ke mata uang populer",
+        "getRealTimeAccess": "Dapatkan akses real-time ke data pasar dan atur bot perdagangan Anda melalui API",
+        "getStarted": "Memulai",
+        "gitHub": "GitHub",
+        "help": "Bantuan",
+        "high": "24 TINGGI",
+        "instantAccessWalletDex": "Akses instan ke dompet Anda dan DEX",
+        "keeperAccount": "Akun Keeper",
+        "lastPrice": "HARGA TERAKHIR",
+        "leasing": "Sewa",
+        "ledgerAccount": "Akun Ledger",
+        "ledgerSupport": "Dukungan Ledger",
+        "legal": "Hukum",
+        "linux": "Linux",
+        "linuxDescription": "Unduh aplikasi Linux",
+        "logout": "Keluar",
+        "logOut": "Keluar",
+        "low": "24 RENDAH",
+        "lowFixedFees": "Biaya rendah, tetap",
+        "macOs": "MacOS",
+        "macOsDescription": "Unduh aplikasi MacOS",
+        "mailto": "support.wavesplatform.com",
+        "mainPage": "Halaman Utama",
+        "majorFiatCryptocurrencies": "Fiat dan cryptocurrency utama didukung: BTC, LTC, ETH, USD, dan lainnya",
+        "markets": "Pasar",
+        "marketsDescription": "Waves DEX memungkinkan Anda untuk melakukan perdagangan dengan cepat dan aman, terlepas dari apakah Anda berdagang melalui aplikasi seluler, klien desktop, dompet web atau Waves API.",
+        "marketsTableDescription": "Untuk melihat lebih banyak pasangan yang diperdagangkan, klik",
+        "marketsTableDescriptionLink": "Lihat Exchange",
+        "menu": "Menu",
+        "news": "Berita",
+        "pair": "PASANGAN",
+        "portfolio": "Portofolio",
+        "privacyPolicy": "Kebijakan Privasi",
+        "productsTools": "Produk & alat",
+        "renameAccount": "Ganti nama akun",
+        "roadmap": "Peta jalan",
+        "roadmapOpportunitiesAhead": "Masa depan Waves DEX: peta jalan kami untuk peluang di masa depan.",
+        "scriptAccount": "Akun skrip",
+        "scriptedAccount": "Akun skrip",
+        "settings": "Pengaturan",
+        "signIn": "Masuk",
+        "social": "Sosial",
+        "stackOverflow": "Stack Overflow",
+        "suitableTradingBots": "Cocok untuk bot perdagangan",
+        "support": "Dukungan",
+        "telegram": "Telegram",
+        "termsOfUse": "Syarat Penggunaan",
+        "tokenCreation": "Pembuatan token cepat",
+        "tokenCreationCosts": "Biaya pembuatan token hanya 1 WAVES dan memakan waktu 1 menit",
+        "tradeOnWaves": "Perdagangan di Bursa Desentralisasi Waves",
+        "tradeOnWavesDescription": "Beli dan jual token dengan cepat dan aman dengan semua keuntungan dari pertukaran terpusat, tetapi tetap memegang kendali penuh atas dana Anda.",
+        "transactions": "Transaksi",
+        "twitter": "Twitter",
+        "volume": "VOLUME",
+        "wallet": "Dompet",
+        "wavesBlockchain": "Waves Blockchain",
+        "wavesDexWeb": "Web Waves DEX",
+        "wavesExplorer": "Waves Explorer",
+        "wavesIde": "Waves IDE",
+        "wavesKeeper": "Waves Keeper",
+        "wavesLabs": "Waves Labs",
+        "wavesOrderFilled": "0,003 Waves per pesanan diisi",
+        "wavesWallet": "Dompet Waves",
+        "windows": "Windows",
+        "windowsDescription": "Unduh aplikasi Windows"
+    }
+}

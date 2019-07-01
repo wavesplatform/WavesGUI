@@ -1,0 +1,79 @@
+{
+    "count": "Tokeny ogółem",
+    "create": "Generuj",
+    "description": "Opis",
+    "directives": {
+        "sign": {
+            "confirmRequestLedger": {
+                "waiting": "Czekaj na potwierdzenie z urządzenia Ledger..."
+            }
+        }
+    },
+    "fee": "Prowizja {{fee, money-currency}}",
+    "help": {
+        "name": "Proszę używać tylko liter łacińskich"
+    },
+    "helpIcon": {
+        "demicals": "To pole określa liczbę miejsc po przecinku, na które zostanie podzielona jednostka tokena",
+        "scriptDescription": "Każda weryfikacja transakcji z użyciem skryptu Smart Asset zwiększa dodatkowo opłatę transakcyjną o 0,004 WAVES. Na przykład koszt zwykłej transakcji dla Smart Asset wynosi 0,001 (standardowo) + 0,004 (dodatkowo)  = 0,005 WAVES. W przypadku dokonania transakcji wymiany Smart Asset koszt wynosi 0,003 (standardowo) + 0,004 (dodatkowo) = 0,007 WAVES.",
+        "scriptHeader": "Smart Asset to token z dołączonym skryptem, który zawiera warunki dla każdej transakcji dokonanej dla danego tokena.",
+        "scriptLearnMore": "Dowiedz się więcej",
+        "totalTokens": {
+            "headline": "To pole określa całkowitą ilość tokenów, które mieszczą się w tym aktywie.",
+            "notReissuable": "To jest typ tokena, którego nie można ponownie wydać, token zostanie więc trwale ograniczony do całkowitej liczby zdefiniowanej podczas niniejszych kroków.",
+            "reissuable": "Możliwość dodatkowej emisji tokenów. W każdej chwili będziesz mógł dodać tokeny, które zostaną dopisane do całkowitej ilości tokenów"
+        }
+    },
+    "modal": {
+        "title": "{{name}} Generowanie",
+        "titleSuccess": "{{name}} Generowanie ukończone"
+    },
+    "name": "Nazwa Twojego aktywa",
+    "notifications": {
+        "isNotCreated": "Token nie został utworzony"
+    },
+    "pageTitle": "Generowanie tokena",
+    "placeholders": {
+        "description": "Brak możliwości zmiany opisu po wygenerowaniu tokena",
+        "precision": "Od 0 do 8"
+    },
+    "precision": "Miejsca dziesiętne",
+    "preview": "Podgląd",
+    "reissuable": {
+        "false": "Brak możliwości dodatkowej emisji oprócz pierwotnej",
+        "true": "Możliwość wielokrotnej emisji"
+    },
+    "script": "Smart Asset",
+    "success": {
+        "description": "Wygenerowałeś {{amount}} {{name}}",
+        "done": "Otwórz portfel",
+        "title": "Twoja transakcja jest w drodze!"
+    },
+    "switchScriptOff": "Wyłącz skrypt",
+    "switchScriptOn": "Włącz skrypt",
+    "tokens": {
+        "changeColorTooltip": "Zmień kolor",
+        "inputHelper": {
+            "description": "Jeśli użyjesz tej nazwy, twój token zostanie sklasyfikowany jako „Podejrzany” i będzie można go wyszukać tylko za pomocą ID.",
+            "header": "Ta nazwa aktywów była już używana"
+        },
+        "termsOfUse": {
+            "checkbox": "Rozumiem, że w przypadku nieprzestrzegania zasad mój token zostanie sklasyfikowany jako „Podejrzany” i będzie dostępny do wyszukiwania tylko przez identyfikator."
+        }
+    },
+    "validators": {
+        "byte": {
+            "gte": "Nazwa tokena musi mieć od 4 do 16 bajtów długości",
+            "lte": "Nazwa tokena musi mieć od 4 do 16 bajtów długości"
+        },
+        "descriptionLen": "Opis jest zbyt długi. Opis powinien być nie dłuższy niż 1,000 bajtów.",
+        "invalidScript": "Błąd składni",
+        "maxValueCount": "Wybrana liczba jest zbyt wysoka",
+        "maxValuePrecision": "Nieprawidłowa liczba. Wybierz liczbę od 0 do 8",
+        "minValueCount": "Wybrana liczba musi być większa niż zero",
+        "minValuePrecision": "Nieprawidłowa liczba. Wybierz liczbę od 0 do 8",
+        "noMoney": "Twój stan konta jest niewystarczający aby uiścić opłaty transakcyjne",
+        "precisionCount": "Całkowita liczba nie może mieć więcej miejsc dziesiętnych niż wcześniej wyszczególniono",
+        "required": "To pole musi być wypełnione"
+    }
+}

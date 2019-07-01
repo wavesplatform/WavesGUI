@@ -1,0 +1,901 @@
+{
+    "confirmTransaction": {
+        "signLedger": "Ожидается подтверждение на устройстве Ledger..."
+    },
+    "directives": {
+        "anyTransaction": {
+            "calculatingFee": "Коммиссия: заполните поле для рассчета",
+            "errors": {
+                "invalidScript": "Cинтаксическая ошибка",
+                "required": "Поле обязательно для заполнения!"
+            },
+            "fee": "Комиссия {{fee, money-currency}}",
+            "ok": "Продолжить",
+            "textAreaTitle": "TX JSON",
+            "warning": {
+                "body": "Мы не рекомендуем отправлять JSON, если вы неопытный пользователь. Ошибки могут привести к потере ваших средств.",
+                "title": "Внимание: действия могут привести к потере доступа к вашей учетной записи."
+            }
+        },
+        "filter": {
+            "helpIcon": {
+                "assetId": "ID Ассета",
+                "description": "Больше информации вы можете найти [здесь]()",
+                "header": "Вы можете искать по:",
+                "name": "Имя",
+                "ticker": "Тикер"
+            }
+        },
+        "scriptForm": {
+            "acceptAndContinue": "Согласиться и продолжить",
+            "changePlaceholder": "Введите новый скрипт или оставьте поле пустым чтобы отменить установленный скрипт",
+            "createPlaceholder": "Введите скрипт здесь",
+            "errors": {
+                "fee": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}}.",
+                "invalidScript": "Синтаксическая ошибка",
+                "required": "Это обязательное поле"
+            },
+            "fee": "Комиссия {{fee, money-currency}}",
+            "ideLink": "Вы можете разработать скрипт с помощью [Waves Ride IDE](https://ide.wavesplatform.com/)",
+            "ok": "Отправить",
+            "textAreaTitle": "Base64 скрипт",
+            "warning": {
+                "body": "Не устанавливайте скрипт на аккаунт, если вы неопытный пользователь. Ошибка может привести к потере доступа к вашей учетной записи навсегда.",
+                "title": "Внимание: действия могут привести к потере доступа к вашей учетной записи."
+            },
+            "warningDescription": "Мы не рекомендуем устанавливать скрипт на аккаунт, если вы неопытный пользователь. Ошибка может привести к потере доступа к вашей учетной записи навсегда.",
+            "warningHeader": "Действия могут привести к потере доступа к вашей учетной записи."
+        },
+        "setAssetScriptForm": {
+            "fee": "Комиссия {{fee, money-currency}}"
+        },
+        "sign": {
+            "confirmRequestKeeper": {
+                "sign_utils": "Повторить"
+            }
+        }
+    },
+    "inputs": {
+        "errors": {
+            "gtGatewayMin": "Вы не можете переводить сумму меньше {{min}} {{assetName}}"
+        }
+    },
+    "keeperForm": {
+        "address": "Адрес аккаунта",
+        "back": "Вернуться назад",
+        "error": {
+            "hasLockedKeeperDescription": "Для продолжения работы с Waves Keeper вам необходимо ввести ранее созданный пароль, или создать новый.",
+            "hasLockedKeeperHeader": "Введите пароль от Waves Keeper",
+            "hasNoUsersDescription": "Войдите в существующий, или создайте новый.",
+            "hasNoUsersHeader": "У вас нет активного аккаунта",
+            "install": "Установить",
+            "networkDescription": "Выбранный аккаунт находится в другой сети. Измените сеть, затем повторите попытку.",
+            "networkHeader": "Смените сеть",
+            "notInstalledDescription": "После установки создайте аккаунт, авторизуйтесь и обновите страницу чтобы продолжить.",
+            "notInstalledHeader": "У вас не установлен Waves Keeper?",
+            "refresh": "Повторить"
+        },
+        "heading": "Импортировать аккаунт из Waves Keeper",
+        "loading": "Импортировать аккаунт из Waves Keeper",
+        "login": "Продолжить",
+        "name": "Название аккаунта",
+        "or": "ИЛИ",
+        "retry": "Try again",
+        "saveUserData": "Сохранить аккаунт на этом устройстве"
+    },
+    "LedgerClient_utils": "Ledger",
+    "LedgerClientDescription": "Импорт аккаунтов из Waves Keeper",
+    "modal": {
+        "acceptNewTerms": {
+            "title": "Соглашение об условиях использования"
+        },
+        "account": {
+            "address": "Ваш адрес",
+            "aliases": "Алиасы",
+            "aliasesWarning": "Операции с алиасами временно недоступны",
+            "cancel": "Create an account",
+            "create": "Создать новый",
+            "createAliasNotPermitted": "Создание алиаса временно недоступно.",
+            "fee": "Комиссия {{price}} {{name}}",
+            "hasAlias": "Алиас занят",
+            "hasScript": "Вы не можете создать алиас если у вас есть мультиподпись",
+            "invalidSymbols": "Вы использовали недопустимые символы",
+            "maxLength": "Алиас должен содержать не более 30 символов",
+            "message": "To view account information, sign in or create an account",
+            "minLength": "Алиас должен содержать не менее 4 символов",
+            "noMoney": "Недостаточно средств",
+            "notifications": {
+                "aliasCreated": "Алиас создан"
+            },
+            "ok": "Sign in",
+            "placeholder": "Удобное имя для вашего адреса",
+            "title": "Информация о кошельке {{name}}",
+            "title_default_name": "информация"
+        },
+        "accountInfo": {
+            "alias": {
+                "helpIcon": {
+                    "row1": "Про алиас",
+                    "row2": "Алиас — это короткое название вашего адреса. Вы можете использовать алиас так же, как адрес при совершении транзакции.",
+                    "row3": "Алиас должен содержать не менее 4 и не более 30 символов. Используйте только строчные латинские буквы, цифры и символы  (@, -, _)"
+                }
+            }
+        },
+        "assetInfo": {
+            "available": "Доступно",
+            "balance": "Баланс",
+            "contest": "КОНКУРС",
+            "date": "Дата выпуска",
+            "decimals": "Знаков после запятой",
+            "description": "Описание",
+            "details": "Подробнее",
+            "email": "Email",
+            "gateway": "gateway",
+            "gatewaySoon": "GATEWAY SOON",
+            "identifier": "ID",
+            "inOrders": "В ордерах",
+            "issuer": "Эмитент",
+            "leased": "В лизинге",
+            "name": "Название",
+            "pinned": "Прикреплён",
+            "qualified": "Qualified",
+            "quantity": "Всего выпущено",
+            "rating": {
+                "canVoteTip": "Click to rate token",
+                "tooltipLink": "More Details",
+                "tooltipNeedWAVES": "and 0.001 WAVES",
+                "tooltipNeedWCT": "To rate a token, you must have at least 1",
+                "tooltipText": "Tokens are not transferred, only on existing balance is required for voting.our score will be applied after 24 hours. Please keep the current tokens in the account during this time. \nFee 0.001 WAVES.",
+                "tooltipTitle": "To rate a token, you must have at least 1 WCT in your wallet."
+            },
+            "reissue": {
+                "no": "Не перевыпускаемый",
+                "yes": "Перевыпускаемый"
+            },
+            "site": "Сайт",
+            "sponsorshipFee": "Спонсорская комиссия",
+            "suspicious": "Подозрительный",
+            "ticker": "Тикер",
+            "title": "О токене",
+            "tokenomica": "Tokenomica",
+            "total": "Всего",
+            "transactions": "Транзакции",
+            "type": "Тип",
+            "unpinned": "Прикрепить",
+            "wsocRef": "WSOC"
+        },
+        "backup": {
+            "clearSeed": "{span.clear}[Очистить] и попробовать снова",
+            "title": {
+                "title_0": "Сохранение секретной фразы",
+                "title_1": "Подтверждение бэкапа",
+                "title_2": "Бэкап успешно сохранен"
+            }
+        },
+        "confirm-correct-order": "Your price {price, money-currency} is more than 5% different of market price",
+        "confirmLogout": {
+            "goBack": "Отмена",
+            "heading": "Вы покидаете сайт",
+            "logout": "Выйти",
+            "text": "Чтобы исключить неправомерное получение доступа к вашим средствам, пожалуйста выйдите из аккаунта."
+        },
+        "confirmOrder": {
+            "cancel": "Отменить",
+            "continue": "Поставить ордер",
+            "description": "Вы действительно хотите продолжить?",
+            "headerBuy": "Цена в вашем ордере на {{orderLimit}}% выше рыночной цены",
+            "headerSell": "Цена в вашем ордере на {{orderLimit}}% ниже рыночной цены"
+        },
+        "createOrder": {
+            "cancel": "Create an account",
+            "message": "To begin trading please sign in or create an account",
+            "ok": "Sign in"
+        },
+        "deposit": {
+            "coinomatBCH": {
+                "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит BCH-токен на ваш аккаунт Waves.",
+                "helpDescrTitle": "Введите этот адрес в ваш Bitcoin Cash клиент или кошелёк.",
+                "warningMinAmountText": "Если вы отправите меньше чем 0.001 BCH, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита 0.001 BCH.",
+                "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
+                "warningTitle": "Отправляйте только BCH на этот адрес"
+            },
+            "coinomatBSV": {
+                "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит BSV-токен на ваш аккаунт Waves.",
+                "helpDescrTitle": "Введите этот адрес в ваш Bitcoin Cash клиент или кошелёк.",
+                "warningMinAmountText": "Если вы отправите меньше чем 0.001 BSV, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита 0.001 BSV.",
+                "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
+                "warningTitle": "Отправляйте только BSV на этот адрес"
+            },
+            "coinomatBTC": {
+                "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит BTC-токен на ваш аккаунт Waves.",
+                "helpDescrTitle": "Введите этот адрес в ваш Bitcoin клиент или кошелёк.",
+                "warningMinAmountText": "Если вы отправите меньше чем 0.001 BTC, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита 0.001 BTC.",
+                "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
+                "warningTitle": "Отправляйте только BTC на этот адрес"
+            },
+            "coinomatDASH": {
+                "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит DASH-токен на ваш аккаунт Waves.",
+                "helpDescrTitle": "Введите этот адрес в ваш DASH клиент или кошелёк.",
+                "warningMinAmountText": "Если вы отправите меньше чем 0.1 DASH, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита 0.1 DASH.",
+                "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
+                "warningTitle": "Отправляйте только DASH на этот адрес"
+            },
+            "coinomatETH": {
+                "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит ETH-токен на ваш аккаунт Waves.",
+                "helpDescrTitle": "Введите этот адрес в ваш Ethereum клиент или кошелёк.",
+                "warningMinAmountText": "Если вы отправите меньше чем 0.001 ETH, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита 0.001 ETH.",
+                "warningText": "Проверьте, не использует ли ваш кошелёк или биржа смарт-контракты для отправки ETH. Мы не принимаем такие переводы и не можем возместить их. Вы потеряете эти деньги.",
+                "warningTitle": "Не отправляйте ETH со смарт-контрактов! Не отправляйте ERC20-токены! Только Ethereum."
+            },
+            "coinomatLTC": {
+                "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит LTC-токен на ваш аккаунт Waves.",
+                "helpDescrTitle": "Введите этот адрес в ваш Litecoin клиент или кошелёк.",
+                "warningMinAmountText": "Если вы отправите меньше чем 0.001 LTC, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита 0.001 LTC.",
+                "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
+                "warningTitle": "Отправляйте только LTC на этот адрес"
+            },
+            "coinomatXMR": {
+                "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит XMR-токен на ваш аккаунт Waves.",
+                "helpDescrTitle": "Введите этот адрес в ваш Monero клиент или кошелёк.",
+                "warningMinAmountText": "Если вы отправите меньше чем 0.1 XMR, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита 0.1 XMR",
+                "warningText": "{div}[Payment ID не требуется.]Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
+                "warningTitle": "Отправляйте только XMR на этот адрес"
+            },
+            "coinomatZEC": {
+                "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит ZEC-токен на ваш аккаунт Waves.",
+                "helpDescrTitle": "Введите этот адрес в ваш Zcash клиент или кошелёк.",
+                "warningMinAmountText": "Если вы отправите меньше чем 0.001 ZEC, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита 0.001 ZEC.",
+                "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
+                "warningTitle": "Отправляйте только Zcash на этот адрес"
+            },
+            "copyAndShare": "Скопируйте и поделитесь адресом",
+            "currency": "Валюта",
+            "or": "ИЛИ",
+            "pleaseNote": "Обратите внимание, что шлюз не взимает комиссию за эту операцию.",
+            "scanQrCode": "Просканируйте QR-код",
+            "title": "Пополнить {{assetName}}",
+            "vostokVST": {
+                "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит Vostok-токен на ваш аккаунт Waves.",
+                "helpDescrTitle": "Введите этот адрес в ваш Vostok клиент или кошелёк.",
+                "warningMinAmountTitle": "Минимальная сумма депозита 0.1 VST, максимальная сумма депозита 50 000 VST"
+            }
+        },
+        "dexScriptedPair": {
+            "body": "Смарт-ассеты — это ассеты со скриптом, который устанавливает условия обращения данного токена.{div}[Мы не рекомендуем совершать операции со смарт-ассетами, если вы неопытный пользователь. Перед совершением транзакции изучите информацию об ассете и его скрипт.]",
+            "heading": "Постановка ордера в паре со смарт-ассетом"
+        },
+        "disabledFeature": {
+            "anyTransaction": "JSON транзакции временно недоступны.",
+            "lease": "Отправка в лизинг временно недоступна."
+        },
+        "disabledFeatures": {
+            "default": "Sorry, this feature is currently disabled.",
+            "massTransfer": "Массовая отправка временно недоступна.",
+            "transfer": "Вывод временно недоступен."
+        },
+        "gatewaySign": {
+            "cancel": "Закрыть",
+            "continue": "Разрешить",
+            "description": "{{name}} получит доступ к вашему адресу Waves. Оно не получит ваш SEED или приватный ключ. Не вводите свою секретную фразу (SEED) на сторонних ресурсах.",
+            "descriptionDesktop1": "Ссылка будет открыта в вашем браузере по умолчнию. Если вы хотите использовать другой,",
+            "descriptionDesktop2": "скопируйте",
+            "descriptionDesktop3": "и вставьте ссылку в адресную строку браузера.",
+            "error": {
+                "button": "Отмена",
+                "headline": "Что-то пошло не так",
+                "title": "Ошибка"
+            },
+            "headline": "{span.link}[{{url}}] хочет получить доступ к вашему Waves адресу",
+            "retrySign": "Повторить",
+            "title": "Войти через Waves",
+            "txHash": "TX Хэш",
+            "warning": "Не вводите свою секретную фразу (SEED) на сторонних ресурсах."
+        },
+        "import": {
+            "errorBeta": "Мы не смогли получить ваши аккаунты из Waves Beta Client. Попробуйте выполнить импорт из Waves Lite Client.",
+            "errorHeader": "Не найдено аккаунтов",
+            "errorLite": "Мы не смогли получить ваши аккаунты из Waves Lite Client. Попробуйте выполнить импорт из Waves Beta Client.",
+            "errorUnable": "Мы не смогли получить ваши аккаунты. Восстановите их, используя их резервный SEED.",
+            "fromBetaButton": "Импорт из Beta Client",
+            "fromLiteButton": "Импорт из Lite Client",
+            "helpIcon": {
+                "description": "Для корректной работы рекомендуется разрешить всплывающие окна. Инструкции для браузеров: [Chrome](https://support.google.com/chrome/answer/95472?co=GENIE.Platform%3DDesktop&hl=en), [Safari](https://discussions.apple.com/thread/4271925),  [Firefox](https://support.mozilla.org/en-US/kb/pop-blocker-settings-exceptions-troubleshooting), [Opera](https://help.opera.com/en/presto/control-pages/).",
+                "title": "Некоторые браузеры блокируют всплывающие окна по умолчанию."
+            },
+            "importButton": "Импортировать",
+            "importCancel": "Отмена",
+            "iUnderstandButton": "Я понял",
+            "selectAccountDescription": "Необходимо разрешить всплывающие окна в браузере",
+            "selectAccountToImport": "Выберите аккаунты для импорта",
+            "selectAccountToImportFrom": "Выберите, откуда импортировать аккаунты",
+            "selectButton": "Выбрать",
+            "wavesBetaClient": "Waves Beta Client",
+            "wavesBetaClientDescription": "Импорт аккаунтов из Waves Lite Client",
+            "wavesLiteClient": "Waves Lite Client",
+            "wavesLiteClientDescription": "Импорт аккаунтов из Waves Lite Client"
+        },
+        "open-main": {
+            "dex": {
+                "cancel": "Create an account",
+                "message": "To begin trading please sign in or create an account",
+                "ok": "Sign in"
+            },
+            "tokens": {
+                "cancel": "Create an account",
+                "message": "To issue a token, sign in or create an account",
+                "ok": "Sign in"
+            },
+            "wallet": {
+                "assets": {
+                    "cancel": "Create an account",
+                    "message": "To open your wallet, sign in or create an account",
+                    "ok": "Sign in"
+                },
+                "cancel": "Create an account",
+                "leasing": {
+                    "cancel": "Create an account",
+                    "message": "To open your wallet, sign in or create an account",
+                    "ok": "Sign in"
+                },
+                "message": "To open your wallet, sign in or create an account",
+                "ok": "Sign in",
+                "portfolio": {
+                    "cancel": "Create an account",
+                    "message": "To open your wallet, sign in or create an account",
+                    "ok": "Sign in"
+                },
+                "transactions": {
+                    "cancel": "Create an account",
+                    "message": "To open your wallet, sign in or create an account",
+                    "ok": "Sign in"
+                }
+            }
+        },
+        "pairing": {
+            "downloadAppDescription": "Скачайте наши мобильные приложения:",
+            "scanCodeDescription": "Отсканируйте QR код с помощью мобильного устройства, чтобы перенести на него ваш аккаунт."
+        },
+        "pinAsset": {
+            "cancel": "Отменить",
+            "nothing": "Ничего не выбрано",
+            "placeholder": "Введите имя или ID ассета",
+            "submit": "Закрепить",
+            "title": "Выберите ассеты, которые вы хотите закрепить"
+        },
+        "qr": {
+            "copyAndShare": "Скопируйте или поделитесь адресом",
+            "or": "ИЛИ",
+            "scanQrCode": "Просканируйте QR-код",
+            "title": "Ваш адрес",
+            "warningText": "Если вы отправите другие цифровые активы на этот адрес, вы потеряете деньги.",
+            "warningTitle": "Отправляйте только WAVES и Waves-токены на этот адрес"
+        },
+        "receive": {
+            "accountStatus": "Статус аккаунта",
+            "addressOrAlias": "Адрес / Алиас",
+            "amount": "Количество",
+            "amountYouPay": "Вы заплатите",
+            "asset": "Валюта",
+            "bank": {
+                "title": "Банк"
+            },
+            "bankSuccessHeader": "Вы были перенаправлены на IDNow.eu для верификации.",
+            "bankSuccessText": "После прохождения верификации вы получите письмо с дальнейшими инструкциями.",
+            "bankVerifiedPlateDescription": "Перед выводом средств, рекомендуем ознакомиться с [инструкцией](https://docs.wavesplatform.com/ru/waves-client/transfers-and-gateways/eur-usd-transfers.html) и [списком лимитов и комиссий](https://coinomat.com/limits.php).",
+            "bankVerifiedPlateHeader": "Теперь вам доступен вывод средств на банковский счет.",
+            "card": {
+                "continue": "Продолжить",
+                "title": "Карта"
+            },
+            "cardSuccessHeader": "Вы были перенаправлены на Indacoin.com",
+            "cardSuccessText": "Как только платеж будет проведен, ваш баланс обновится",
+            "coinomat": {
+                "serverError": "Сервис Coinomat временно недоступен. Попробуйте, пожалуйста, позже.",
+                "tryAgain": "Обновить"
+            },
+            "cryptocurrency": {
+                "title": "Криптовалюта"
+            },
+            "error": {
+                "cardAmount": {
+                    "gte": "Минимальная сумма ввода — {{gte}} {{currency}}",
+                    "lte": "Максимальная сумма ввода — {{lte}} {{currency}}",
+                    "precision": "Число в этом поле не может содержать более 2 знаков после точки."
+                }
+            },
+            "errors": {
+                "required": "Это обязательное поле"
+            },
+            "gatewayError": "Сервис Gateway временно недоступен. Попробуйте, пожалуйста, позже.",
+            "invoice": {
+                "title": "Инвойс"
+            },
+            "ledger": {
+                "cancel": "Отменить",
+                "retry": "Повторить"
+            },
+            "maximumIs": "максимум —",
+            "minimumIs": "Минимум —",
+            "providedByCoinomat": {
+                "descriprion": "{div}[Waves Platform AG не несет ответственность за действия Coinomat и не принимает участия в отношениях, которые могут возникнуть в связи с оказанием этой услуги между Coinomat и пользователями Waves Platform.]{div}[Пользуясь услугами Coinomat, вы соглашаетесь быть связанными условиями [Пользовательского соглашения Coinomat](https://coinomat.com/terms.php). Если вы не согласны с упомянутым Соглашением, не пользуйтесь услугами Coinomat.]",
+                "header": "Данная услуга предоставляется компанией Coinomat (Сoinomat).",
+                "termsReadedInputLabel": "Я согласен с [Пользовательским соглашением](https://coinomat.com/terms.php), [Лимитами и комиссиями](https://coinomat.com/limits.php) и [Политикой конфиденциальности](https://coinomat.com/privacy.php) сервиса Coinomat.",
+                "warning": "Чтобы отозвать свое согласие, отправьте электронное письмо на адрес [support@coinomat.com](mailto:support@coinomat.com)"
+            },
+            "receive": "Пополнить",
+            "serverAddressError": "Перевод на указанный вами адрес невозможен",
+            "serverError": "Сервис Coinomat временно недоступен. Попробуйте, пожалуйста, позже.",
+            "shareInvoiceLink": "Ссылка на выставленный счет",
+            "verified": "Проверенный",
+            "vostok": {
+                "serverError": "Сервис Vostok временно недоступен. Попробуйте, пожалуйста, позже."
+            },
+            "wtry": {
+                "info": "Если у вас возникнут проблемы с процессингом, пожалуйста, обратитесь в службу поддержки Digilira — [support@digilira.com](mailto:support@digilira.com)"
+            },
+            "wtryPlate1Header": "Данный способ пополнения работает только для граждан Турции.",
+            "wtryPlate1Text": "Для внесения средств вы будете перенаправлены на [digilira.com](https://digilira.com)",
+            "wtrySuccessHeader": "Вы были перенаправлены на Digilira.com",
+            "youWillGet": "Примерно вы получите"
+        },
+        "removeAccount": {
+            "cancel": "Отмена",
+            "heading": "Удалить аккаунт",
+            "remove": "Удалить",
+            "text": "{div}[Удаление аккаунта приведет к его утрате, если вы не сохранили секретную фразу (SEED).]{div}[Нажмите кнопку УДАЛИТЬ, чтобы удалить аккаунт, или ОТМЕНА, чтобы вернуться к предыдущему экрану.]",
+            "warning": "Вы не сохранили ваш СИД"
+        },
+        "removeKeeperAccount": {
+            "heading": "Удалить аккаунт из Waves Keeper",
+            "text": "Вы всего лишь удаляете сохраненный путь к аккаунту. Аккаунт не будет удален с Waves Keeper."
+        },
+        "removeLedgerAccount": {
+            "heading": "Удалить Ledger аккаунт",
+            "text": "Удаление Ledger аккаунта не приведет к его утрате. Вы удалите его только из списка сохраненных аккаунтов."
+        },
+        "script": {
+            "anyTx": "JSON",
+            "setScript": "Script транзакция"
+        },
+        "send": {
+            "amount": "Количество",
+            "attachmentLength": "Превышена максимальная длина описания!",
+            "bankAccount": "Банковский счёт",
+            "coinomat": {
+                "feeExplanation": "Введенный адрес определен как {{assetName}}-адрес, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} {{assetTicker}}, максимальная — {{max, BigNumber}} {{assetTicker}}.",
+                "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} {{assetTicker}}"
+            },
+            "coinomatLimits": "Минимум $100 USD/EUR, максимум $50,000 USD/EUR",
+            "coinomatWarningHeader": "Ваши средства будут отправлены через шлюз сервиса Coinomat.",
+            "coinomatWarningText": "Перед выводом средств, пожалуйста ознакомьтесь с [комиссиями и ограничениями](https://coinomat.com/limits.php) сервиса Coinomat.",
+            "compare": {
+                "description": "Вы отправили {{amount}} {{currency}} (${{mirror}})",
+                "details": "Посмотреть детали",
+                "title": "Транзакция отправлена!"
+            },
+            "confirm": {
+                "back": "Вернуться",
+                "confirm": "Подтвердить",
+                "from": "Куда",
+                "title": "Детали транзакции",
+                "to": "Откуда",
+                "total": "Всего"
+            },
+            "currency": "Валюта",
+            "description": "Описание",
+            "descriptionPlaceholder": "Напишите сообщение (не обязательно)",
+            "errors": {
+                "address": "Неверный адрес",
+                "allAddressesInvalid": "Все введенные адреса — невалидные",
+                "button": "Отмена",
+                "headline": "Что-то пошло не так",
+                "invalidChars": "Это поле может содержать только цифры",
+                "max": "Недостаточно средств",
+                "maxCoinomat": "Вы не можете переводить сумму больше {{money, money-currency}}",
+                "paymentIdLength": "Monero Payment ID должен быть шестнадцатеричной строкой из 64 символов",
+                "paymentIdPattern": "Шестнадцатеричная строка должна состоять из символов 0-9 и A-Z (или a-z)",
+                "precision": "Число в этом поле не может содержать более {{precision}} знаков после точки.",
+                "required": "Это обязательное поле",
+                "title": "Ошибка"
+            },
+            "fee": "Комиссия {{fee, money-currency}}",
+            "gateway": {
+                "feeExplanation": "Введенный адрес определен как {{assetName}}-адрес, ваши средства будут отправлены на него через шлюз. Минимальная сумма перевода — {{min, BigNumber}} {{assetTicker}}, максимальная — {{max, BigNumber}} {{assetTicker}}."
+            },
+            "icoWarning": "Не выводите {{assetName}} на адреса ICO, так как мы не зачислим вам токены полученные после окончания распродажи.",
+            "idNumber": {
+                "helpIcon": {
+                    "description": "Больше о выводе денег на банковский счет вы можете узнать [здесь](https://docs.wavesplatform.com/ru/waves-client/transfers-and-gateways/eur-usd-transfers.html).",
+                    "title": "ID — уникальный номер, присваемый каждому пользователю после подтверждения банковского счета в Coinomat."
+                }
+            },
+            "idNumberTitle": "Номер ID",
+            "liraBankAccount": "Аккаунт Digilira",
+            "massSend": {
+                "clear": "Очистить",
+                "description": "Описание",
+                "errors": {
+                    "invalidAddress": "Некоторые адреса не валидные:"
+                },
+                "importFile": "Импорт из CSV Файла",
+                "recipient": "Адрес, Сумма: {{count}}/{{max}}",
+                "recipientsAmountsPlaceholder": "Пример:\nАдрес1,Сумма1\nАдрес2,Сумма2",
+                "showAllErrors": {
+                    "false": "Показать все ({{count}})",
+                    "true": "Показать первые 2 ошибки"
+                },
+                "totalAmount": "Общая сумма",
+                "warningPlate1Header": "Вы можете отправить максимум 100 получателям",
+                "warningPlate1Text": "Если вы указали более 100 получателей, отправка произойдет только первым 100.",
+                "warningPlate2Header": "Невалидные адреса будут исключены из отправки",
+                "warningPlate3Header": "Используйте запятую для разделения получателя и суммы. Для каждого получателя и суммы используйте новую строку.",
+                "warningPlate3Text": "[Подробнее о CSV формате](https://en.wikipedia.org/wiki/Comma-separated_values)."
+            },
+            "massSendTitle": "Массовая отправка",
+            "moneroPaymentId": "Monero Payment ID",
+            "moneroPaymentIdPlaceholder": "Скопируйте свой Monero Payment ID",
+            "notSponsorship": {
+                "fee": "Комиссия {{fee, money-currency}}"
+            },
+            "notVerifiedHeader": "Аккаунт не прошел верификацию",
+            "notVerifiedText": "Вывод в банк доступен только для верифицированных пользователей. Вы можете узнать больше информации про получение и отправку фиатных денег в этой [статье](https://docs.wavesplatform.com/ru/waves-client/transfers-and-gateways/eur-usd-transfers.html).",
+            "or": "или",
+            "placeholderRecipient": "Вставьте или просканируйте адрес",
+            "recipient": "Получатель",
+            "sendMax": "Max",
+            "sendTitle": "Отправить",
+            "title": "Отправить {{assetName}}",
+            "titleComplete": "Отправка завершена",
+            "toBank": "Вывод в банк",
+            "total": "Всего",
+            "toWaves": "Отправить на адрес Waves",
+            "txFee": "Комиссия",
+            "validationError": {
+                "notEnoughFunds": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}}.",
+                "notEnoughFundsWithdraw": "У вас недостаточно средств для отправки транзакции. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}} и комиссию шлюза {{getawayFee, BigNumber}} {{currency}}. Минимальная сумма для отправки составляет {{minGatewayAmount, BigNumber}} {{currency}}."
+            }
+        },
+        "sepa": {
+            "countryList": "Список допустимых стран и ID",
+            "proceed": "Пройти верификацию",
+            "step1": "Шаг 1",
+            "step1Description": "Чтобы пополнить {{assetName}} с вашего банковского счёта через SEPA-перевод, вы должны пройти идентификацию [IDNow.eu]({{url}})",
+            "step2": "Шаг 2",
+            "step2Description": "После прохождения идентификации вы получите письмо с дальнейшими инструкциями",
+            "title": "Пополнить {{assetName}}",
+            "warning": "При возникновении проблем с верификацией или обработкой платежей, пожалуйста отправьте ваш запрос на официальный адрес поддержки — [support@coinomat.com](mailto:support@coinomat.com)",
+            "warningTitle": "Мы не принимаем переводы от граждан США или от банков-резидентов США"
+        },
+        "setAssetScript": {
+            "errorNoMoney": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}}.",
+            "script": "Скрипт",
+            "scripted": "Установлен",
+            "title": "Обновить скрипт",
+            "unavailable": "Обновление скрипта временно недоступно",
+            "warningDescription": "{div}[Мы не рекомендуем устанавливать скрипт на аккаунт, если вы неопытный пользователь. Ошибка может привести к потере вашего ассета навсегда.]",
+            "warningHeader": "Действия могут привести к потере ассета."
+        },
+        "settings": {
+            "cancel": "Create an account",
+            "general": {
+                "auto": "Авто",
+                "blockHeight": "Текущая высота",
+                "blue": "Waves",
+                "color": "Цвет",
+                "dark": "Тёмная",
+                "green": "Классическая",
+                "hours": "{{hours}} час",
+                "language": "Язык",
+                "minutes": "{{minutes}} мин",
+                "openLinkViaWeb": "Всегда открывать ссылки через веб приложение",
+                "playSound": "Звуковые эффекты интерфейса",
+                "theme": "Тема",
+                "timeout": "Время жизни сессии",
+                "title": "Основные",
+                "white": "Белая"
+            },
+            "info": {
+                "legal": "Legal",
+                "privacyPolicy": "Политика конфиденциальности",
+                "support": "Поддержка",
+                "termsAndConditions": "Условия и положения",
+                "title": "О программе",
+                "version": "Версия"
+            },
+            "message": "To open Settings, sign in or create an account",
+            "network": {
+                "apiAddress": "Сервис данных",
+                "apiAddressHelp": "Сервис данных предоставляет дополнительные API для работы с данными из блокчейна Waves.",
+                "assetNameFilter": "Сервис имён",
+                "assetNameFilterHelp": "Эта служба проверяет имя токена в библиотеке токенов Waves. Для её отключения, очистите это поле.",
+                "copy": "копировать",
+                "dataProvider": "Сервис верификации ассетов",
+                "dataProviderDescription": "{{dataProviderDescription}}",
+                "dataProviderId": "{{dataProviderId}}",
+                "dataProviderInvalid": "Невозможно получить информацию о провайдере. Проверьте корректность адреса и попробуйте ещё раз",
+                "dataProviderName": "{{dataProviderName}}",
+                "dontShowSpamCheckboxDescr": "Не показывать подозрительные токены",
+                "forDisableClear": "Если хотите его полностью отключить, очистите поле.",
+                "matcherAddress": "Адрес матчера",
+                "nodeAddress": "Адрес ноды",
+                "showMore": "Показать ещё",
+                "spamFilter": "Фильтр токенов",
+                "spamFilterInputDescr": "Не фильтровать спам",
+                "spamListHelp": "Данный фильтр убирает из вашего портфолио подозрительные токены.",
+                "title": "Сеть"
+            },
+            "ok": "Sign in",
+            "pairing": {
+                "devicePairing": "Экспортировать аккаунт",
+                "header": "Отсканируйте QR-код",
+                "showCodeLink": "Показать QR-код",
+                "unavailable": {
+                    "description": {
+                        "ledger": "Экспорт недоступен для учетных записей, хранящихся на устройстве Ledger",
+                        "wavesKeeper": "Экспорт для учетных записей, импортированных из Waves Keeper, доступен в настройках Waves Keeper"
+                    },
+                    "header": {
+                        "ledger": "Экспорт недоступен",
+                        "wavesKeeper": "Экспорт недоступен"
+                    },
+                    "ok": "Я понял"
+                }
+            },
+            "security": {
+                "address": "Адрес",
+                "backupPhrase": "Секретная фраза",
+                "encodedSeed": "Зашифрованная секретная фраза",
+                "privateKey": "Приватный ключ",
+                "publicKey": "Публичный ключ",
+                "script": "Скрипт",
+                "scriptButton": "Установить скрипт",
+                "scriptButtonUpdate": "Обновить скрипт",
+                "show": "Показать",
+                "title": "Безопасность"
+            },
+            "setDefault": "По умолчанию",
+            "title": "Настройки"
+        },
+        "sign": {
+            "article": "статье",
+            "cancel": "Отмена",
+            "cancelOrder": "Отмена",
+            "close": "Закрыть",
+            "confirm": "Подтвердите",
+            "confirmRequest": "Подтверждение запроса",
+            "confirmRequest_utils": "Подтверждение запроса",
+            "confirmRequestKeeper": "Ожидаем подтверждения через Waves Keeper...",
+            "confirmRequestLedger": {
+                "cancel": "Отмена",
+                "errorDescription": "Пожалуйста, попробуйте еще раз. Если ошибка повторится, обратитесь к  [этой статье](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)",
+                "errorHeader": "Вы не подтвердили запрос на устройстве Ledger",
+                "sign": "Повторить",
+                "waiting": "Ожидается подтверждение на устройстве Ledger..."
+            },
+            "confirmRequestMatcher_utils": "Подпишите запрос к Матчеру. Если вы не подпишите запрос, то не сможете торговать на децентрализованной бирже с Ledger аккаунта.",
+            "confirmRequestToMatcher": "Подпишите запрос к Матчеру. Если вы не подпишите запрос, то не сможете торговать на децентрализованной бирже.",
+            "connecting": "Подключение...",
+            "connectingKeeper": "Подключение к Waves Keeper...",
+            "connectionError": "Не удается подключиться к устройству Ledger",
+            "connectionErrorKeeper": "Нет доступа к аккаунту",
+            "connectionText": "Время ожидания соединения истекло. Пожалуйста, попробуйте еще раз.",
+            "connectLedger": "Подключите устройство Ledger",
+            "enterPin": "Введите ваш PIN код",
+            "fee": "Комиссия",
+            "matcher": "Запрос на подписание ордера",
+            "openApp": "Откройте приложение Waves",
+            "price": "Цена",
+            "refererTo": "Если ошибка остается, обратитесь к",
+            "referTo": "Если ошибка остается, обратитесь к",
+            "request": "запрос",
+            "requestId": "Хэш запроса",
+            "retry": "Повторить попытку",
+            "signByKeeper": "Ожидаем подтверждения через Waves Keeper...",
+            "signByLedger": "Ожидается подтверждение на устройстве Ledger...",
+            "signError": "Запрос не подтвержден.",
+            "signErrorKeeper": "Вы не подтвердили запрос Waves Keeper",
+            "signErrorText": "Вы не подтвердили запрос на устройстве Ledger",
+            "signErrorTextImportKeeper": "Войдите в Waves Keeper с адресом {{address}}, а затем обновите страницу, чтобы продолжить.",
+            "signErrorTextKeeper": "Пожалуйста, попробуйте еще раз. Если ошибка повториться, напишите в [Поддержку](https://support.wavesplatform.com/)",
+            "txId": "TXID"
+        },
+        "sponsorship_edit": {
+            "title": "Изменить спонсорство"
+        },
+        "sponsorship": {
+            "amountPerTx": "Цена транзакции (за 0.001 WAVES)",
+            "assetId": "ID",
+            "continue": "Продолжить",
+            "errors": {
+                "feeRequired": "Поле обязательно для заполнения!",
+                "minSponsoredAssetFee": {
+                    "precision": "Число в этом поле не может содержать более {{precision}} знаков после точки."
+                },
+                "noMoney": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}}.",
+                "notZero": "Значение должно быть больше 0"
+            },
+            "fee": "Комиссия {{fee, money-currency}}",
+            "title": "Включить спонсорство",
+            "warningHeader": "Пользователи смогут оплачивать комиссию в {{name}}",
+            "warningText": "За каждую такую транзакцию с вашего баланса будет снято 0.001 WAVES и начислено {{name}}. Количество {{name}}, которое пользователь платит за транзакцию, устанавливаете вы (укажите соответствующую цену в поле ниже). Спонсорство работает только при балансе больше чем 1,005 Waves. Если у вас на счету менее этой суммы, спонсорство работать не будет."
+        },
+        "startLease": {
+            "amount": "Количество",
+            "balance": "Баланс",
+            "fee": "Комиссия {{fee, money-currency}}",
+            "nodeListLink": "Список нод",
+            "nodeListLink_copy": "Список нод",
+            "recipient": "Получатель",
+            "start": "Передать в лизинг",
+            "title": "Передать в лизинг"
+        },
+        "termsAccept": {
+            "body": {
+                "advancedMode": "Расширенные возможности",
+                "analytics": "Я хочу помочь развивать Waves, отправляя анонимную статистику разработчикам",
+                "backup": "Я понимаю, что если это приложение установлено на другом устройстве или удалено, то я получу доступ к своим средствам только с помощью секретной фразы",
+                "ok": "Подтвердить и начать",
+                "privacyPolicy": "Я прочел и согласен с [Privacy Policy](https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf).",
+                "read": "Я прочитал, понял и согласен с",
+                "readTermsAndConditions": "Я прочел и согласен с [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
+                "security": "Я понимаю, что мои средства хранятся на этом устройстве, а не у компании",
+                "securityAndBackup": "Я понимаю, что мои средства хранятся на этом устройстве, а не у компании и, что, если это приложение установлено на другом устройстве или удалено, то я получу доступ к своим средствам только с помощью секретной фразы.",
+                "terms": "Условиями использования"
+            },
+            "header": {
+                "description": "Кошелёк Waves хранится только на вашем компьютере",
+                "title": "Готово! Давайте начнём",
+                "title2": "Условия использования"
+            }
+        },
+        "token": {
+            "balance": "Баланс",
+            "burn": {
+                "label": "Количество токенов для сжигания",
+                "title": "Сжигание токена {{name}}"
+            },
+            "description": "Описание",
+            "fee": "Комиссия {{fee, money-currency}}",
+            "gt0": "Введённое число должно быть больше нуля",
+            "id": "ID токена",
+            "quantity": "Всего выпущено",
+            "reissue": {
+                "label": "Количество токенов для выпуска",
+                "title": "Выпуск токена {{name}}"
+            },
+            "validation": {
+                "gt0": "Поле обязательно для заполнения!",
+                "invalidAsset": "Поле может содержать только числа",
+                "invalidPrecision": "Максимальное количество знаков после запятой — {{precision}}",
+                "lteMaxBalance": "Количество сжигаемых токенов не может превышать количество токенов на балансе",
+                "maxValueCount": "Число токенов слишком велико",
+                "noMoney": "Ваш баланс недостаточен для оплаты комисси",
+                "required": "Это поле должно быть заполнено"
+            }
+        },
+        "tryDesktop": {
+            "remember": "Запомнить выбор и больше не показывать"
+        },
+        "tutorialModals": {
+            "step1": {
+                "button": "Что вам нужно знать о секретной фразе",
+                "buttonMobile": "Далее",
+                "p1": "Пожалуйста, уделите немного времени для того, чтобы ознакомиться с важной информацией. 🙏",
+                "p2": "Мы не можем вернуть ваши средства или заморозить ваш аккаунт, если вы вошли в него на фишинговом сайте или потеряли секретную фразу (SEED).",
+                "p3": "Продолжая использовать нашу платформу, вы соглашаетесь с тем, что в случае утраты вами секретной фразы (SEED), платформа Waves не сможет восстановить доступ к вашему аккаунту или вернуть вам ваши средства. Только вы контролируете свой аккаунт и ответственны за сохранность секретной фразы.",
+                "title": "Добро пожаловать на платформу Waves!"
+            },
+            "step2": {
+                "backButton": "Назад",
+                "cell1": "Вы пользуетесь кошельком анонимно, ваш аккаунт не привязывается к электронной почте или к другим идентифицирующим данным.",
+                "cell2": "Пароль защищает ваш аккаунт в рамках работы с конкретным устройством или браузером. Он необходим для того, чтобы ваша секретная фраза не хранилась в памяти и злоумышленники не могли получить к ней доступ.",
+                "cell3": "Забыв пароль, вы легко можете создать новый, воспользовавшись формой восстановления аккаунта через секретную фразу. Потеряв секретную фразу, вы теряете доступ к вашему аккаунту навсегда.",
+                "cell4": "Секретную фразу нельзя изменить. Если вы её случайно кому-то отправили или подозреваете, что ею завладели мошенники, срочно создайте новый кошелёк Waves и переведите все средства на него, не забыв при этом сохранить новую секретную фразу.",
+                "nextButton": "Как защититься от фишинга",
+                "p1": "При регистрации аккаунта вам предлагается сохранить секретную фразу (Seed) и защитить аккаунт паролем. В обычных централизованных сервисах особое внимание уделяется именно паролю, который, в случае чего, можно изменить или восстановить через почту. У децентрализованной платформы Waves всё устроено иначе:",
+                "title": "Что вам нужно знать о секретной фразе"
+            },
+            "step3": {
+                "backButton": "Назад",
+                "cell1": "Всегда проверяйте URL: [https://client.wavesplatform.com](https://client.wavesplatform.com)",
+                "cell2": "Для входа в свой аккаунт не используйте браузеры, в которых установлены расширения и плагины, они могут получить доступ к вашей секретной фразе.",
+                "cell3": "Не открывайте письма или ссылки от неизвестных вам отправителей.",
+                "cell4": "Регулярно проверяйте наличие обновлений для операционной системы.",
+                "cell4Web": "Регулярно проверяйте наличие обновлений для операционной системы и браузера.",
+                "cell5": "Пользуйтесь официальным программным обеспечением. Не устанавливайте неизвестные или взломанные программы.",
+                "cell6": "Не заходите в кошелёк, используя общественный Wi-Fi или с чужого устройства.",
+                "nextButton": "Я понял",
+                "p1": "Одним из распространённых видов мошенничества является фишинг — мошенники создают фальшивые группы в Facebook, сайты, внешне похожие на настоящие.",
+                "title": "Как защититься от фишинга"
+            }
+        }
+    },
+    "modals": {
+        "anyTx": {
+            "title": "JSON"
+        }
+    },
+    "notification": {
+        "backup": {
+            "action": "Сохранить",
+            "body": "Надежно храните ваш SEED — ключ от вашего кошелька.",
+            "title": "Сохраните вашу секретную фразу (SEED)"
+        }
+    },
+    "qualified": "qualified",
+    "transaction": {
+        "amounts": {
+            "create-order": "{{sign}}{{amount}} {{name}}"
+        }
+    },
+    "Unpin_utils": "Открепить",
+    "utils": {
+        "whatsNew": {
+            "body": {
+                "1_0_0": "{span.line}[1. The Waves Client has come out of beta.]{span.line}[2. You can now pin and unpin any assets to the main page.]{span.line}[3. Night mode added.]{span.line}[4. You can now import all your accounts from the old Client easily.]{span.line}[5. Minor bug fixes.]",
+                "1_0_0-beta_23": "{span.line}[1. Мы добавили раздел «Что нового»]{span.line}[2. Теперь вы можете добавлять название к вашему аккаунту]{span.line}[3. Были исправлены несколько мелких багов]",
+                "1_0_0-beta_25": "{span.line}[1. Теперь в Настройках вы сможете настраивать время сессии]{span.line}[2. Исправили баг с перемещением окна Купить/Продать за зону видимости экрана]{span.line}[3. Добавили напоминание для тех, кто не сохранил SEED]{span.line}[4. Исправили несколько мелких багов]",
+                "1_0_0-beta_26": "{span.line}[1. Исправили несколько мелких багов]",
+                "1_0_0-beta_27": "{span.line}[1. Добавлен китайский язык]{span.line}[2. Добавлен турецкий язык]",
+                "1_0_0-beta_30": "{span.line}[1. Теперь вы можете сжигать и довыпускать токены, которые созданы вами]{span.line}[2. Добавлена поддержка Waves Auth API]{span.line}[3. Были исправлены несколько мелких багов]",
+                "1_0_0-beta_31": "{span.line}[1. Теперь вы можете купить WAVES и BTC при помощи банковской карты]{span.line}[2. Улучшен UI окна постановки ордера]{span.line}[3. Добавлена поддержка 32-битной версии Windows]{span.line}[4. Исправлены несколько мелких багов]",
+                "1_0_0-beta_32": "{span.line}[1. Теперь вы можете делать массовую отправку токенов из Клиента]{span.line}[2. Исправлены несколько мелких багов]",
+                "1_0_0-beta_35": "{span.line}[1. Теперь вы можете сортировать, фильтровать и скрывать токены во вкладке Портфель]{span.line}[2. Запущен шлюз DASH]{span.line}[3. Добавлен хинди]{span.line}[4. Добавлен нидерландский язык]{span.line}[5. Теперь вы можете выставить счет другому пользователю]{span.line}[6. Исправлены несколько мелких багов]",
+                "1_0_0-beta_36": "{span.line}[1. Крупные лизинг-ноды добавлены на страницу лизинга.]{span.line}[2. Исправлены некоторые баги.]",
+                "1_0_0-beta_39": "{span.line}[1. Добавлен спам-фильтр в Настройки.]{span.line}[2. Исправлены мелкие баги.]",
+                "1_0_0-beta_40": "{span.line}[1. Запущен шлюз Monero.]",
+                "1_0_0-beta_42": "{span.line}[1. Добавлен испанский язык.]{span.line}[2. Добавлена настройка «не запоминать аккаунт при авторизации».]{span.line}[3. Спам транзакции получили соответствующую пометку на странице транзакций.]{span.line}[4. Исправлены мелкие баги.]",
+                "1_0_0-beta_47": "{span.line}[1. Новый интерфейс децентрализованной биржи.]{span.line}[2. Клиент теперь работает быстрее и стабильнее.]{span.line}[3. Операции с алиасами снова доступны.]{span.line}[4. Исправлены некоторые незначительные ошибки.]{span.line}[5. Примите участие в наших конкурсах. Снимите [видео](https://forum.wavesplatform.com/t/contest-best-waves-dex-video-review/822) или напишите [статью](https://forum.wavesplatform.com/t/contest-for-the-writers-waves-dex-overview/835).]",
+                "1_0_0-beta_50": "{span.line}[1. Теперь вы можете сжигать любые токены, которые имеются у вас на балансе]{span.line}[2. Исправлены мелкие баги]",
+                "1_0_10": "{span.line}[1. Добавлена поддержка спонсорских транзакций. [Подробнее](https://docs.wavesplatform.com/ru/waves-client/assets-management/sponsored-transaction.html)]\n{span.line}[2. Добавлены польский и португальский языки]",
+                "1_0_14": "{span.line}[1. Исправлена ошибка со Спонсорскими токенами при низком балансе Waves]\n{span.line}[2. Исправлена ошибка с установкой ордера с сроком на 30 дней]\n{span.line}[3. Исправлены другие незначительные ошибки]",
+                "1_0_15": "{span.line}[1. Исправлены проблемы с подтверждением транзакций на Ledger]\n{span.line}[2. Увеличено время ожидания подтверждения на Ledger]\n{span.line}[3. Добавлен вывод подробной информации в сообщение об ошибке]",
+                "1_0_18": "{span.line}[1. Теперь вы можете устанавливать скрипт на свой аккаунт]\n{span.line}[2. Исправлены мелкие баги]",
+                "1_0_21": "{span.line}[1. Исправлено подтверждение авторизации через Ledger]\n{span.line}[2. Исправлено множество мелких ошибок]",
+                "1_0_22": "{span.line}[1. Добавлены расширенные возможности для работы с аккаунтами, на которые установлен скрипт]",
+                "1_0_25": "{span.line}[1. Добавлена поддержка [Waves Keeper](https://chrome.google.com/webstore/detail/waves-keeper/lpilbniiabackdjcionkobglmddfbcjo?hl=en)]",
+                "1_0_27": "{span.line}[1. В Портфель добавлен фильтр \"Мои ассеты\"]\n{span.line}[2. Исправлены мелкие баги]",
+                "1_0_28": "{span.line}[1. Добавлена функция экспорта аккаунта в мобильные приложения]\n{span.line}[2. Исправлены мелкие баги]",
+                "1_0_29": "{span.line}[1. Добавлена поддержка генерации QR-кодов с кириллическими символами.]\n{span.line}[2. Добавлена подсказка для поиска по торговым парам.]\n{span.line}[3. Внесено несколько косметических изменений. ]",
+                "1_0_3": "{span.line}[1. Теперь вы можете искать токены в портфолио по ID]\n{span.line}[2. Исправлены мелкие баги]",
+                "1_0_30": "{span.line}[1. Функционал установки скрипта перенесен в раздел настроек \"Безопасность\".]\n{span.line}[2. Улучшена производительность приложения.]",
+                "1_0_32": "{span.line}[1. Интеграция с оракулом BetterTokens.]\n{span.line}[2. Добавлена поддержка протокола верификации токенов.]\n{span.line}[3. Исправлен учет комиссии при выводе токенов через Coinomat.]",
+                "1_0_33": "{span.line} [1. Теперь вы получите уведомление при попытке установить ордер по цене, сильно отличающейся от рыночной] {span.line} [2. Исправлены мелкие ошибки ]",
+                "1_0_36": "{span.line}[1. Добавлена возможность торговать с аккаунта, на который установлен скрипт.] {span.line}[2. Добавлен поиск по ассетам в окнах выставления счета и отправки.] {span.line}[3. Исправлены мелкие ошибки.]",
+                "1_0_37": "{span.line}[1. Выпуск, перевыпуск, сжигание смарт-ассетов.]\n{span.line}[2. Добавили Итальянский, Немецкий, Индонезийский языки.]\n{span.line}[3. Исправлены мелкие ошибки.]",
+                "1_0_40": "{span.line}[1. Оптимизация DEX]\n{span.line}[2. Добавлен курс текущей пары в заголовок вкладки браузера]\n{span.line}[3. Исправлены мелкие ошибки]",
+                "1_0_41": "{span.line}[1. Оптимизация DEX]\n{span.line}[2. Добавлена система уведомлений]\n{span.line}[3. Исправлены мелкие ошибки]",
+                "1_0_42": "{span.line}[1. Исправлены мелкие ошибки]",
+                "1_0_5": "{span.line}[1. Шкала объёма торгов теперь отображается на графиках DEX]\n{span.line}[2. Исправлены несколько мелких багов]",
+                "1_0_6": "{span.line}[1. Добавлена возможность авторизации с помощью десктопного клиента Waves]",
+                "1_0_7": "{span.line}[1. Исправлены краши десктоп-клиента.]\n{span.line}[2. Оптимизирована скорость прорисовки элементов при переключении между страницами Транзакциями и Портфолио.]\n{span.line}[3. На странице Транзакции названия спам ассетов теперь скрыты.]\n{span.line}[4. Переделан формат вывода ошибок.]",
+                "1_0_8": "{span.line}[1. Добавлена поддержка Ledger Nano S]\n{span.line}[2. Добавлено сохранение настройки способа входа]",
+                "1_1_0": "{span.line}[1. Добавлено сохранение срока действия ордера]\n{span.line}[2. Исправлены мелкие ошибки]",
+                "1_2_0": "{span.line}[1. Добавлена поддержка японского и эстонского языков]\n{span.line}[2. Оптимизация UI]\n{span.line}[3. Исправлено множество багов]",
+                "1_2_1": "{span.line}[1. Приложение теперь запоминает изменение масштаба графиков и выбранный временной интервал]\n{span.line}[2. Исправлены мелкие баги]",
+                "1_2_2": "{span.line}[1. Обновление безопасности]\n{span.line}[2. Исправлены мелкие баги]",
+                "1_2_3": "{span.line}[1. Добавлена поддержка приложения Ledger Waves 1.0.0]",
+                "1_2_6": "{span.line}[1. Добавлена поддержка Invocation-скриптов. [Подробнее](https://blog.wavesplatform.com/ride-for-dapps-hits-waves-testnet-e3f2906dd2aa)]\n{span.line}[2. Улучшен UI и исправлено несколько багов.]",
+                "1_2_8": "{span.line}[1. Спам токены и транзакции скрыты в клиенте.]\n{span.line}[2. Улучшен UI и исправлено несколько багов.]",
+                "1_3_0": "{span.line}[1. Улучшена навигация приложения и интерфейс стартовых страниц.]",
+                "1_3_2": "{span.line}[1. Запущен шлюз Vostok.]\n{span.line}[2. Улучшен UI и исправлено несколько багов.]",
+                "1_3_5": "{span.line}[1. Добавлена вкладка с токенами конкурса [wsoc.io](https://wsoc.io)]\n{span.line}[2. Добавлена поддержка франзуского языка]\n{span.line}[3. Исправлены мелкие ошибки]",
+                "1_3_7": "{span.line}[1. Интеграция с [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Теперь вы можете голосовать за токены прямо в приложении]\n{span.line}[2. Исправлены мелкие ошибки]"
+            },
+            "title": "Новое в этом обновлении {{version}}"
+        }
+    },
+    "validators": {
+        "byte": {
+            "help": "Осталось байт: {{bytes}}"
+        }
+    }
+}

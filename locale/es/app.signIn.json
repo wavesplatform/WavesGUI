@@ -1,0 +1,20 @@
+{
+    "createAccount": "Create account",
+    "notHaveAccounts": "You do not have saved accounts",
+    "nothingHere": "Nada por aquí...",
+    "password": {
+        "error": "¡Contraseña incorrecta!"
+    },
+    "userList": {
+        "address": "Dirección / Nombre de la cuenta",
+        "buttons": {
+            "login": "Iniciar sesión"
+        },
+        "notHaveAccount": "Please sign in to continue",
+        "password": "Contraseña",
+        "placeholders": {
+            "password": "Contraseña"
+        },
+        "title": "Registrarse"
+    }
+}

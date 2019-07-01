@@ -1,0 +1,232 @@
+{
+    "create": {
+        "order": {
+            "failed": "Ada yang salah",
+            "success": "Pesanan dibuat"
+        }
+    },
+    "dex": {
+        "contest": "Kontes"
+    },
+    "directives": {
+        "balance": {
+            "assetId": "Id Aset",
+            "available": "Tersedia",
+            "inOrders": "Dalam pesanan",
+            "inOrdersFull": "Dicadangkan dalam pesanan",
+            "total": "Total"
+        },
+        "candleChart": {
+            "error": "{div}[Bagan tidak dapat diunduh.] {div}[Jika Anda ingin menggunakan bagan ini di aplikasi Anda, silakan kirim permintaan ke [tradingview.com](https://tradingview.com)]"
+        },
+        "createOrder": {
+            "1day": "1 hari",
+            "1hour": "1 jam",
+            "1week": "1 minggu",
+            "30day": "29 hari",
+            "30min": "30 menit",
+            "5min": "5 menit",
+            "amountField": "Jumlah",
+            "ask": "Permintaan",
+            "bid": "Penawaran",
+            "buy": "Beli",
+            "createOrderNotPermitted": "Pesanan sementara tidak tersedia",
+            "errors": {
+                "balance": "Tidak cukup {{name}}",
+                "precision": "Melebihi {{precision}} angka desimal",
+                "required": "Bagian ini diperlukan"
+            },
+            "expiration": "Kedaluwarsa",
+            "fee": "Biaya {{fee}} WAVES",
+            "hasScript": "Batalkan [skrip](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) untuk pertukaran",
+            "last": "Terakhir",
+            "matcherFee": "Fee",
+            "notifications": {
+                "error": {
+                    "30702": "Skrip akun {{address}} menolak pesanan",
+                    "title": "Pesan eror"
+                },
+                "isCreated": "Pesanan dibuat",
+                "notEnoughBalance": "Tidak cukup saldo yang dapat diperdagangkan",
+                "somethingWentWrong": "Ada yang salah"
+            },
+            "notPermitted": "Pembuatan pesanan untuk sementara tidak tersedia",
+            "placeBuyOrder": "Beli {{name}}",
+            "placeSellOrder": "Jual {{name}}",
+            "priceField": "Batasi harga",
+            "sell": "Jual",
+            "spread": "Sebaran",
+            "total": "Total"
+        },
+        "demo": {
+            "createAccount": "Buat akun baru",
+            "or": "atau",
+            "signIn": "Masuk",
+            "to": {
+                "mybalance": "untuk melihat saldo Anda",
+                "openorders": "untuk melihat pesanan terbuka Anda",
+                "tradehistory": "untuk melihat riwayat perdagangan Anda"
+            }
+        },
+        "filter": "Pencarian",
+        "marketDepth": "Kedalaman Pasar",
+        "markets": {
+            "table": {
+                "price": "Harga",
+                "rate": "Perubahan",
+                "unit": "Koin",
+                "volume": "Volume"
+            },
+            "title": "Pasar"
+        },
+        "myOrders": {
+            "amount": "Jumlah",
+            "average": "Rata-rata",
+            "back": "Tidak",
+            "cancel": "membatalkan",
+            "cancelAll": "batalkan semua",
+            "cancelAllConfirm": "Ya",
+            "canceled": "dibatalkan",
+            "cancelled": "DIBATALKAN",
+            "confirm": {
+                "header": "Apakah anda yakin?",
+                "literalDescription": "Tindakan ini tidak bisa dibatalkan"
+            },
+            "delete": "menghapus",
+            "detail": "detail",
+            "fee": "biaya",
+            "filled": "Terisi",
+            "filter": "Filter",
+            "noPermissionCancelOrder": "Pembatalan pesanan untuk sementara tidak tersedia",
+            "notifications": {
+                "isCanceled": "Pesanan telah dibatalkan",
+                "somethingWentWrong": "Ada yang salah"
+            },
+            "opened": "terbuka",
+            "orderType": {
+                "buy": "Beli",
+                "sell": "Jual"
+            },
+            "pair": "Pasangan",
+            "placeholders": {
+                "lockedPair": "Berdagang di {{amountAssetTicker}} / {{priceAssetTicker}} saat ini tidak tersedia. Anda dapat membatalkan pesanan"
+            },
+            "price": "Harga",
+            "status": "Status",
+            "tableTitle": {
+                "fee": "Biaya"
+            },
+            "time": "Waktu",
+            "total": "Total",
+            "type": "Tipe",
+            "withScript": "Anda tidak dapat menggunakan exchange saat [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) diinstal di akun Anda"
+        },
+        "noChartDataMessage": "{div}[Tidak cukup tawaran dan bertanya] {div}[untuk membuat grafik kedalaman pasar]",
+        "noChartDataTitle": "Tidak ada disini…",
+        "orderBook": {
+            "amount": "Jumlah {{assetName}}",
+            "lastprice": "harga terakhir",
+            "price": "Harga {{assetName}}",
+            "spread": "penyebaran",
+            "sum": "Sum {{assetName}}",
+            "title": "Memesan buku"
+        },
+        "orderbook": {
+            "errorBlock": {
+                "header": "Ada yang salah"
+            }
+        },
+        "portfolio": {
+            "title": "Portofolio"
+        },
+        "tradeHistory": {
+            "orderType": {
+                "buy": "Beli",
+                "sell": "Jual"
+            },
+            "search": "Pencarian",
+            "tableTitle": {
+                "date": "Waktu",
+                "exchangeType": "Tipe",
+                "fee": "Biaya",
+                "price": "Harga {{assetName}}",
+                "size": "Jumlah {{assetName}}",
+                "total": "Total",
+                "type": "Tipe"
+            },
+            "title": "Sejarah Perdagangan"
+        },
+        "watchlist": {
+            "all": "SEMUA",
+            "change": "Perubahan",
+            "chg": "Chg",
+            "coin": "Koin",
+            "helpIcon": {
+                "assetId": "ID Aset",
+                "AssetId1AssetId2": "ID Asset1 / ID Asset2",
+                "description": "Anda dapat mengetahui lebih lanjut tentang mencari aset [di sini](https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html)",
+                "header": "Anda dapat mencari berdasarkan:",
+                "name": "Nama",
+                "name1Name2": "Name1 / Name2"
+            },
+            "pair": "Pasangan",
+            "placeholders": {
+                "base": "Koin dasar",
+                "coin": "Pencarian",
+                "filter": "Filter",
+                "lockedPair": "Berdagang di {{amountAssetTicker}} / {{priceAssetTicker}} saat ini tidak tersedia",
+                "noMarkets": "Tidak ada pasar yang cocok dengan filter Anda"
+            },
+            "price": "Harga",
+            "volume": "Volume"
+        }
+    },
+    "emptyBlocks": {
+        "myOrders": {
+            "description": "Anda tidak memiliki pesanan apa pun.",
+            "title": "Tidak ada disini…"
+        },
+        "orderBook": {
+            "description": "Buku pesanan kosong.",
+            "error": {
+                "text": "Segarkan halaman atau coba lagi nanti",
+                "title": "Ada yang salah"
+            },
+            "title": "Tidak ada disini…"
+        },
+        "tradeHistory": {
+            "description": "Sejarah perdagangan kosong.",
+            "title": "Tidak ada disini…"
+        }
+    },
+    "layout": {
+        "center": {
+            "bottom": "Pesanan Anda"
+        },
+        "right": {
+            "bottom": "Sejarah perdagangan",
+            "top": "Memesan buku"
+        }
+    },
+    "orderbook": {
+        "ask": {
+            "tooltipText": "Beli {{amountAsset}} untuk {{price}} {{priceAsset}}"
+        },
+        "bid": {
+            "tooltipText": "Jual {{amountAsset}} untuk {{price}} {{priceAsset}}"
+        }
+    },
+    "tabs": {
+        "title": {
+            "all": "Semua",
+            "btc": "Btc",
+            "eth": "ETH",
+            "myBalance": "Saldo saya",
+            "myTradeHistory": "Sejarah Dagang Anda",
+            "openOrders": "Pesanan Terbuka Anda",
+            "OrderHistory": "Riwayat Pesanan Saya",
+            "tradeHistory": "Sejarah Perdagangan",
+            "waves": "Waves"
+        }
+    }
+}

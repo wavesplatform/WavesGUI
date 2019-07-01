@@ -1,0 +1,73 @@
+{
+    "all": "Alle",
+    "confirmTransaction": {
+        "retrySign": "Versuchen sie die Eingabe des Zeichens erneut"
+    },
+    "csv": {
+        "alias": "Pseudonym",
+        "amount": {
+            "id": "Betrags Asset-ID",
+            "name": "Name des Betrags Assets",
+            "ticker": "Betrags Asset Ticker",
+            "value": "Betrag des Amount Assets"
+        },
+        "attachment": "Transaktionsanhang",
+        "date": "Datum",
+        "description": "Token Beschreibung",
+        "fee": {
+            "id": "Gebühren ID",
+            "name": "Name der Gebühr",
+            "ticker": "Gebühren Ticker",
+            "value": "Gebührenwert"
+        },
+        "height": "Transaktionshöhe",
+        "id": "Transaktions ID",
+        "name": "Token Name",
+        "precision": "Präzision",
+        "price": {
+            "id": "Preis Asset-ID",
+            "name": "Name des Preis Assets",
+            "ticker": "Preis Asset Ticker",
+            "value": "Preis Asset Wert"
+        },
+        "recipient": "Transaktionsempfänger",
+        "reissuable": {
+            "false": "Nicht erweiterbar",
+            "name": "Kann Token erneut ausgeben werden",
+            "true": "Erweiterbar"
+        },
+        "sender": "Transaktionsabsender",
+        "transactionType": "Transaktionstyp",
+        "type": "Art der Transaktion"
+    },
+    "errors": {
+        "complete": {
+            "body": "Die Liste der Transaktionen wird nicht vollständig heruntergeladen. Bitte versuchen Sie es später erneut.",
+            "title": "Der Download ist nicht abgeschlossen."
+        },
+        "download": {
+            "body": "Die Liste der Transaktionen wird nicht heruntergeladen. Bitte versuchen Sie es später erneut.",
+            "title": "Download Fehler."
+        },
+        "empty": {
+            "body": "Es gibt keine Transaktionen in Ihrer Historie",
+            "title": "Fehler beim Exportieren"
+        }
+    },
+    "exchanged": "Ausgetauscht",
+    "export": "Export",
+    "filter": {
+        "value1": "Kürzlich",
+        "value2": "500 Txs",
+        "value3": "1000 Txs"
+    },
+    "issued": "Veröffentlicht",
+    "leased": "Geleast",
+    "received": "Empfangen",
+    "sent": "Geschickt",
+    "transactions": {
+        "script": {
+            "txJson_wallet": "Base64-Skript"
+        }
+    }
+}

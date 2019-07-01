@@ -1,0 +1,219 @@
+{
+    "backupSeed": {
+        "copySeed": "Kopieer backup regel",
+        "warn": "Omdat alleen u uw geld beheert, moet u uw back-up regel bewaren voor het geval deze app wordt verwijderd of",
+        "yourSeed": "Uw backup regel"
+    },
+    "createAccount": {
+        "from": "Maak een account aan"
+    },
+    "infoTooltip": "Belangrijke informatie",
+    "loading": {
+        "volume": "VOLUME"
+    },
+    "modal": {
+        "lockPairWarning": {
+            "continue": "Ga door",
+            "heading": "Trading in {{amountAssetTicker}} / {{priceAssetTicker}} is currently unavailable",
+            "text": "Trading for the selected pair is temporarily unavailable. \nYou can still cancel orders if you wish"
+        }
+    },
+    "news": "Nieuws",
+    "newUser": {
+        "from": "van backup",
+        "getStarted": "Begin",
+        "import": "Accounts importeren",
+        "or": "of",
+        "restore": "Zet account terug",
+        "slides": [
+            {
+                "description": "Word onderdeel van het snelst groeiende gebied binnen de cryptowereld. U bent de enige persoon die toegang heeft tot uw crypto assets.",
+                "title": "Begin met Blockchain"
+            },
+            {
+                "description": "Het opslaan, beheren en het verkrijgen van rendement op uw digitale assets, gemakkelijk en veilig.",
+                "title": "Wallet"
+            },
+            {
+                "description": "Handel snel en veilig. U behoudt volledige controle over uw middelen terwijl u ermee handelt op onze decentrale exchange.",
+                "title": "Gedecentraliseerde Exchange"
+            },
+            {
+                "description": "Creeër uw eigen tokens. Deze kunnen geïntegreerd worden binnen uw bedrijf. Niet alleen als interne valuta maar ook als een token voor gedecentraliseerd stemmen, een beoordelingssysteem, of loyaliteitsprogramma.",
+                "title": "Token Launcher"
+            }
+        ]
+    },
+    "openViaDesktop": "Altijd deze links via de desktop app openen",
+    "roadmap": {
+        "aug2019": {
+            "date": "Aug 2019",
+            "text": "Handelaren kunnen tokens snel tegen de huidige marktprijs verkopen.",
+            "title": "Marktorder"
+        },
+        "dec2018": {
+            "date": "Dec 2018",
+            "text": "De nieuwe mobiele app biedt een fantastische DEX UI en gateway-integratie.",
+            "text_2": "Tickers en logo's op DEX tonen goedgekeurde assets, waardoor gebruikers een hoge mate van vertrouwen hebben.",
+            "title": "Mobiele app 2.0",
+            "title_2": "BetterTokens Integratie"
+        },
+        "feb2017": {
+            "date": "Dec 2017",
+            "text": "De eerste versie van het flagship-built-in-exchange wordt gelanceerd.",
+            "title": "Waves DEX Beta"
+        },
+        "feb2018": {
+            "date": "Feb 2018",
+            "text": "De standalone Client voor macOS, Linux en Windows is vrijgegeven.",
+            "title": "Desktop-app"
+        },
+        "jan2019": {
+            "date": "Jan 2019",
+            "text": "Ondersteuning voor de handel op Waves DEX met Smart Accounts is ingeschakeld.",
+            "text_2": "Lancering van de Bitcoin Satoshi Vision gateway",
+            "title": "Smart Account Trading",
+            "title_2": "BSV Gateway"
+        },
+        "jul2018": {
+            "date": "Juli 2018",
+            "text": "De opnieuw gelanceerde Exchange biedt een betere UX en betere prestaties dan alle andere DEX's op de markt.",
+            "text_2": "De populaire wallet komt uit bèta met een grote nieuwe release.",
+            "title": "Nieuwe DEX",
+            "title_2": "Waves Wallet"
+        },
+        "jul2019": {
+            "date": "Juli 2019",
+            "text": "Toevoeging van ERC20-token gateway in het Waves-ecosysteem, wat betekent dat populaire Ethereum-tokens kunnen worden verhandeld op het platform.",
+            "text_2": "Ontwikkelaars hebben de mobiele ontwikkelingsprocessen vereenvoudigd en uitgebreide beschrijvingen verkregen om interactie te hebben met de Waves-blockchain.",
+            "text_3": "Gebruikers hebben de mogelijkheid om eenvoudig te schakelen tussen meerdere accounts binnen één wallet-app.",
+            "title": "ERC-20 Gateway",
+            "title_2": "Mobiele SDK en JS library verbetering",
+            "title_3": "Meerdere accounts"
+        },
+        "jun2019": {
+            "date": "Jun 2019",
+            "text": "Verbeteringen in DEX-snelheid en geheugenoptimalisatie worden geïmplementeerd.",
+            "title": "DEX-optimalisatie"
+        },
+        "may2018": {
+            "date": "Mei 2018",
+            "text": "De opnieuw gelanceerde Exchange biedt een betere UX en betere prestaties dan alle andere DEX's op de markt.",
+            "title": "Dash & Bitcoin Cash-gateways"
+        },
+        "nov2018": {
+            "date": "Nov 2018",
+            "text": "Gebruikers krijgen de mogelijkheid om te handelen met accounts met meerdere handtekeningen en scripts.",
+            "title": "Smart Account Support"
+        },
+        "sep2018": {
+            "date": "Sep 2018",
+            "text": "Integratie met Waves DEX stelt gebruikers in staat om te handelen met maximale veiligheid.",
+            "title": "Ledger Nano S"
+        },
+        "sep2019": {
+            "date": "Sep 2019",
+            "text": "Two-factor-authenticatie geeft gebruikers van Waves DEX nog meer veiligheid.",
+            "title": "2FA"
+        }
+    },
+    "userList": {
+        "addNew": "Account toevoegen",
+        "create": "Maak een nieuw account",
+        "frombackup": "van backup",
+        "import": "Importeren van accounts",
+        "restore": "Zet account terug",
+        "subTitle": "Log opnieuw in of",
+        "subTitleSession": "De sessie is automatisch beëindigd."
+    },
+    "welcome": {
+        "aliases": "Aliassen",
+        "android": "Google Play",
+        "api": "API",
+        "apple": "App Store",
+        "blog": "Blog",
+        "broughtBy": "Bij u gebracht door het Waves Team",
+        "change": "WIJZIGING",
+        "chart": "CHART",
+        "contestLinkDescription": "Win 5.000 WAVES in een handelswedstrijd op Waves DEX!",
+        "contestLinkLink": "Regels",
+        "controlAssets": "U alleen beheert uw assets - geld verlaat uw portemonnee niet en kan niet worden bevroren.",
+        "copyAddress": "Copy address",
+        "copyright": "© 2019 Waves Platform",
+        "createToken": "Token maken",
+        "dashboard": "Dashboard",
+        "decentralised": "Gedecentraliseerde",
+        "dexWithHardware": "Gebruik DEX met hardware wallets Ledger Nano S en Ledger Blue",
+        "documentation": "Documentatie",
+        "download": "Download",
+        "downloadMobileApp": "Download onze mobiele app!",
+        "exchange": "Exchange",
+        "forDevelopers": "Voor ontwikkelaars",
+        "forum": "Forum",
+        "gateways": "Gateways naar populaire valuta's",
+        "getRealTimeAccess": "Krijg realtime toegang tot marktgegevens en stel uw trading bots in via een API",
+        "getStarted": "Laten we starten",
+        "gitHub": "GitHub",
+        "help": "Help",
+        "high": "24 HOOG",
+        "instantAccessWalletDex": "Directe toegang tot uw wallet en DEX",
+        "keeperAccount": "Keeper account",
+        "lastPrice": "LAATSTE PRIJS",
+        "leasing": "Leasen",
+        "ledgerAccount": "Ledger account",
+        "ledgerSupport": "Ledger support",
+        "legal": "Legaal",
+        "linux": "Linux",
+        "linuxDescription": "Download de Linux-applicatie",
+        "logout": "Uitloggen",
+        "logOut": "Uitloggen",
+        "low": "24 LAAG",
+        "lowFixedFees": "Lage, vaste tarieven",
+        "macOs": "MacOS",
+        "macOsDescription": "Download MacOS-applicatie",
+        "mailto": "support.wavesplatform.com",
+        "mainPage": "Hoofdpagina",
+        "majorFiatCryptocurrencies": "Grote fiat en cryptocurrencies ondersteund: BTC, LTC, ETH, USD en anderen",
+        "markets": "Markten",
+        "marketsDescription": "Met Waves DEX kunt u transacties snel en veilig uitvoeren, ongeacht of u handelt via een mobiele app, desktopclient, webportefeuille of de Waves-API.",
+        "marketsTableDescription": "Om meer verhandelde paren te bekijken klikt u op",
+        "marketsTableDescriptionLink": "Exchange bekijken",
+        "menu": "Menu",
+        "news": "Nieuws",
+        "pair": "PAAR",
+        "portfolio": "Portfolio",
+        "privacyPolicy": "Privacybeleid",
+        "productsTools": "Producten & tools",
+        "renameAccount": "Rename account",
+        "roadmap": "Roadmap",
+        "roadmapOpportunitiesAhead": "De toekomst van Waves DEX: onze roadmap voor de toekomst.",
+        "scriptAccount": "Script account",
+        "scriptedAccount": "Script account",
+        "settings": "Instellingen",
+        "signIn": "Aanmelden",
+        "social": "Social",
+        "stackOverflow": "Stack Overflow",
+        "suitableTradingBots": "Geschikt voor tradingbots",
+        "support": "Support",
+        "telegram": "Telegram",
+        "termsOfUse": "Gebruiksvoorwaarden",
+        "tokenCreation": "Snelle tokencreatie",
+        "tokenCreationCosts": "Het aanmaken van tokens kost slechts 1 WAVES en duurt 1 minuut",
+        "tradeOnWaves": "Handel op de Waves gedecentraliseerde exchange",
+        "tradeOnWavesDescription": "Koop en verkoop tokens snel en veilig met alle voordelen van een centrale uitwisseling, maar behoud de volledige controle over uw geld.",
+        "transactions": "Transacties",
+        "twitter": "Twitter",
+        "volume": "VOLUME",
+        "wallet": "Wallet",
+        "wavesBlockchain": "Waves Blockchain",
+        "wavesDexWeb": "Waves DEX Web",
+        "wavesExplorer": "Waves Explorer",
+        "wavesIde": "Waves IDE",
+        "wavesKeeper": "Waves Keeper",
+        "wavesLabs": "Waves Labs",
+        "wavesOrderFilled": "0.003 WAVES per gevulde order",
+        "wavesWallet": "Waves Wallet",
+        "windows": "Windows",
+        "windowsDescription": "Download Windows-applicatie"
+    }
+}

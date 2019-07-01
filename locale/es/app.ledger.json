@@ -1,0 +1,31 @@
+{
+    "ledger": {
+        "article": "este artículo",
+        "connectionError": "No se puede conectar a Ledger Nano S",
+        "connectionText": "La conexión puede haber agotado el tiempo de espera. Inténtalo de nuevo.",
+        "referTo": "Si el error persiste, consulte a"
+    },
+    "ledgerForm": {
+        "address": "Direccion de cuenta:",
+        "avatarUnique": "Este avatar es único, no puedes cambiarlo después.",
+        "back": "Ir para atrás",
+        "choose": "Elige tu cuenta",
+        "importAccount": "Importar una cuenta Ledger(Libro de Contabilidad)",
+        "ImportOrSignIn": "Importar cuenta o",
+        "login": "Continuar",
+        "name": "Nombre de cuenta",
+        "or": "O",
+        "retry": "Reintentar",
+        "savedOne": "a una cuenta guardada",
+        "saveUserData": "Mantenerme conectado en esta computadora",
+        "selectDefault": "Utilizar cuenta predeterminada",
+        "signIn": "iniciar sesión"
+    },
+    "modal": {
+        "sign": {
+            "confirmRequest": "Confirmar petición",
+            "confirmRequestMatcher": "Firme una solicitud al Matcher. Si no inicias sesión, no puedes comerciar en DEX desde una cuenta Ledger."
+        }
+    },
+    "or": "O"
+}

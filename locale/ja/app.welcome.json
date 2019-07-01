@@ -1,0 +1,219 @@
+{
+    "backupSeed": {
+        "copySeed": "シードをコピー",
+        "warn": "あなたのお金を管理できるのはあなただけです。このアプリが削除された場合に備え、バックアップフレーズを保存してください。または",
+        "yourSeed": "あなたのシードフレーズ"
+    },
+    "createAccount": {
+        "from": "アカウントを作成"
+    },
+    "infoTooltip": "重要なお知らせ",
+    "loading": {
+        "volume": "ボリューム"
+    },
+    "modal": {
+        "lockPairWarning": {
+            "continue": "次へ",
+            "heading": "{{amountAssetTicker}} / {{priceAssetTicker}} ペアは現在ご利用できません",
+            "text": "選択した取引ペアは現在ご利用できません。注文をキャンセル可能です"
+        }
+    },
+    "news": "ニュース",
+    "newUser": {
+        "from": "(バックアップから)",
+        "getStarted": "始める",
+        "import": "アカウントをインポート",
+        "or": "または",
+        "restore": "アカウントを復元",
+        "slides": [
+            {
+                "description": "急速に成長する暗号通貨の世界の一員になりましょう！あなたの暗号資産にアクセスできるのはあなただけです。",
+                "title": "ブロックチェーンと始める"
+            },
+            {
+                "description": "簡単かつ安全に、デジタル資産を保管・管理し、残高に対して利息を得ることができます。",
+                "title": "ウォレット"
+            },
+            {
+                "description": "迅速で安全なトレードが可能です。分散型取引所において、あなたの資産は完全にあなたの管理下にあります。",
+                "title": "分散型取引所"
+            },
+            {
+                "description": "独自のトークンを発行しましょう！これらは、内部通貨としてだけではなく、あなたのビジネスに導入することができます。また、トークンは分散型投票や、評価システム、ロイヤリティプログラムなどにも利用可能です。",
+                "title": "トークンラウンチャー"
+            }
+        ]
+    },
+    "openViaDesktop": "デスクトップ版クライアントからは常にリンクを開く",
+    "roadmap": {
+        "aug2019": {
+            "date": "2019年8月",
+            "text": "トレーダーはトークンを市場価格で素早く売ることができます。",
+            "title": "成行注文"
+        },
+        "dec2018": {
+            "date": "2018年12月",
+            "text": "新しいモバイルアプリは素晴らしいDEX UIとゲートウェイ統合を提供します。",
+            "text_2": "DEXのティッカーとロゴは承認されたアセットを表し、ユーザーに高い信頼性を与えます。",
+            "title": "モバイルアプリ2.0",
+            "title_2": "BetterTokensの統合"
+        },
+        "feb2017": {
+            "date": "2017年12月",
+            "text": "フラッグシップとなるビルトイン取引所の最初のバージョンが発表。",
+            "title": "Waves DEXベータ"
+        },
+        "feb2018": {
+            "date": "2018年2月",
+            "text": "macOS、LinuxおよびWindowsでスタンドアロンのクライアントがリリース。",
+            "title": "デスクトップアプリ"
+        },
+        "jan2019": {
+            "date": "2019年1月",
+            "text": "スマートアカウントによるWaves DEXでの取引がサポート。",
+            "text_2": "ビットコインSVゲートウェイのローンチ。",
+            "title": "スマートアカウントトレード",
+            "title_2": "BSV ゲートウェイ"
+        },
+        "jul2018": {
+            "date": "2018年7月",
+            "text": "リニューアルされた取引所は、どのDEXよりも優れたUXとパフォーマンスを提供します。",
+            "text_2": "Wavesの人気のウォレットは主要なリリースでベータ版として登場します。",
+            "title": "新しいDEX",
+            "title_2": "Wavesウォレット"
+        },
+        "jul2019": {
+            "date": "2019年7月",
+            "text": "ERC20トークンのゲートウェイをWavesのエコシステムに追加することは、人気の EthereumトークンがWavesのプラットフォームでトレード可能になることを意味します。",
+            "text_2": "開発者はモバイル開発プロセスを簡素化し、Wavesブロックチェーンと通信するための手段について包括的な説明を得ることができます。",
+            "text_3": "ユーザーは、1つのウォレットアプリ内で複数のアカウントを簡単に切り替えることができます。",
+            "title": "ERC-20 ゲートウェイ",
+            "title_2": "モバイルSDKとJSライブラリの改良",
+            "title_3": "複数アカウント"
+        },
+        "jun2019": {
+            "date": "2019年6月",
+            "text": "DEXの速度とメモリ要件の改善が実装されます。",
+            "title": "DEXの最適化"
+        },
+        "may2018": {
+            "date": "2018年5月",
+            "text": "リニューアルされた取引所は、どのDEXよりも優れたUXとパフォーマンスを提供します。",
+            "title": "DASHとBitcoin Cashのゲートウェイ"
+        },
+        "nov2018": {
+            "date": "2018年11月",
+            "text": "ユーザーは、マルチシグネチャアカウントとスクリプトアカウントを使って取引することが可能になります。",
+            "title": "スマートアカウントをサポート"
+        },
+        "sep2018": {
+            "date": "2018年9月",
+            "text": "Waves DEXとの統合により、ユーザーは最高のセキュリティで取引することができます。",
+            "title": "Ledger Nano S"
+        },
+        "sep2019": {
+            "date": "2019年9月",
+            "text": "二段階認証は、Waves DEXユーザーにさらに高いセキュリティを提供します。",
+            "title": "2FA"
+        }
+    },
+    "userList": {
+        "addNew": "アカウントを追加",
+        "create": "新しいアカウントを作成",
+        "frombackup": "(バックアップから)",
+        "import": "アカウントをインポート",
+        "restore": "アカウントを復元",
+        "subTitle": "再度サインイン。または、",
+        "subTitleSession": "このセッションは自動的に終了しました。"
+    },
+    "welcome": {
+        "aliases": "エイリアス",
+        "android": "Google Play",
+        "api": "API",
+        "apple": "App Store",
+        "blog": "ブログ",
+        "broughtBy": "Wavesチームからあなたへ",
+        "change": "変化",
+        "chart": "チャート",
+        "contestLinkDescription": "Waves DEXのトレーディングコンテストで5,000WAVESを勝ち取ろう！",
+        "contestLinkLink": "ルール",
+        "controlAssets": "資産の管理はあなたの責任です - 資金はあなたのウォレットに管理されています。そして、資産を凍結することはできません",
+        "copyAddress": "アドレスをコピー",
+        "copyright": "©2019 Waves Platform",
+        "createToken": "トークンを作成",
+        "dashboard": "ダッシュボード",
+        "decentralised": "分散された",
+        "dexWithHardware": "ハードウェアウォレットLedger Nano SおよびLedger BlueでDEXを使用",
+        "documentation": "ドキュメント",
+        "download": "ダウンロード",
+        "downloadMobileApp": "モバイルアプリをダウンロード!",
+        "exchange": "トレード",
+        "forDevelopers": "開発者向け",
+        "forum": "フォーラム",
+        "gateways": "人気通貨のゲートウェイ",
+        "getRealTimeAccess": "市場データへのリアルタイムアクセスを取得し、API取引ボットを設定する",
+        "getStarted": "始める",
+        "gitHub": "GitHub",
+        "help": "ヘルプ",
+        "high": "24 HIGH",
+        "instantAccessWalletDex": "あなたのウォレットとDEXへの即時アクセス",
+        "keeperAccount": "Keeper アカウント",
+        "lastPrice": "最終価格",
+        "leasing": "リース",
+        "ledgerAccount": "Ledger アカウント",
+        "ledgerSupport": "Ledger 対応",
+        "legal": "リーガル",
+        "linux": "Linux",
+        "linuxDescription": "Linuxアプリケーションをダウンロード",
+        "logout": "ログアウト",
+        "logOut": "ログアウト",
+        "low": "24 LOW",
+        "lowFixedFees": "低固定料金",
+        "macOs": "MacOS",
+        "macOsDescription": "MacOSアプリケーションをダウンロード",
+        "mailto": "support.wavesplatform.com",
+        "mainPage": "メインページ",
+        "majorFiatCryptocurrencies": "対応する主要な法定通貨と暗号通貨：BTC、LTC、ETH、USDなど",
+        "markets": "マーケット",
+        "marketsDescription": "Waves DEXを使用すると、モバイルアプリ、デスクトップクライアント、Web ウォレット、またはWaves APIのいずれを使用して取引しているかに関係なく、取引を迅速かつ安全に実行できます。",
+        "marketsTableDescription": "もっと取引ペアを見るためにクリック",
+        "marketsTableDescriptionLink": "取引所を見る",
+        "menu": "メニュー",
+        "news": "ニュース",
+        "pair": "ペア",
+        "portfolio": "ポートフォリオ",
+        "privacyPolicy": "プライバシーポリシー",
+        "productsTools": "製品とツール",
+        "renameAccount": "アカウント名を変更",
+        "roadmap": "ロードマップ",
+        "roadmapOpportunitiesAhead": "Waves DEXの将来：将来の機会に向けたWavesのロードマップ",
+        "scriptAccount": "スクリプトアカウント",
+        "scriptedAccount": "スクリプトアカウント",
+        "settings": "設定",
+        "signIn": "サインイン",
+        "social": "ソーシャル",
+        "stackOverflow": "Stack Overflow",
+        "suitableTradingBots": "ボット取引に最適",
+        "support": "サポート",
+        "telegram": "Telegram",
+        "termsOfUse": "利用規約",
+        "tokenCreation": "高速なトークン生成",
+        "tokenCreationCosts": "トークン生成にかかる費用はわずか1 WAVESで、わずか1分で完了",
+        "tradeOnWaves": "Wavesの分散型取引所でトレード",
+        "tradeOnWavesDescription": "中央型取引所のすべての利点をすべて提供しつつ、資金を完全に管理しながらトークンを迅速かつ安全に売買できます。",
+        "transactions": "トランザクション",
+        "twitter": "Twitter",
+        "volume": "ボリューム",
+        "wallet": "ウォレット",
+        "wavesBlockchain": "Waves ブロックチェーン",
+        "wavesDexWeb": "Waves DEX ウェブ",
+        "wavesExplorer": "Waves エクスプローラー",
+        "wavesIde": "Waves IDE",
+        "wavesKeeper": "Waves Keeper",
+        "wavesLabs": "Waves Labs",
+        "wavesOrderFilled": "約定毎に0.003 WAVES",
+        "wavesWallet": "Waves ウォレット",
+        "windows": "Windows",
+        "windowsDescription": "Windowsアプリケーションをダウンロード"
+    }
+}

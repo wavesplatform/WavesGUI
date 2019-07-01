@@ -1,0 +1,322 @@
+{
+    "all": "Alle",
+    "amount": "Menge",
+    "balanceInput": {
+        "max": "Max"
+    },
+    "confirmGatewayTransaction": {
+        "back": "Zurück",
+        "confirm": "Bestätigen",
+        "fieldAddress": "Zieladresse",
+        "fieldAmount": "Menge",
+        "fieldFee": "Gebühr",
+        "fieldGatewayAddress": "Gateway Adresse",
+        "fieldGatewayFee": "Gateway Gebühr",
+        "success": "Ihre Transaktion ist auf dem Weg!",
+        "warningText": "Sie sind dabei, Geld an die {{name}} blockchain zu senden.",
+        "warningTitle": "Externe Blockchain Transaktion"
+    },
+    "confirmTransaction": {
+        "back": "Geh zurück",
+        "confirm": "Senden",
+        "description": {
+            "burn": "Sie haben {{quantityStr}} {{name}} geburnt.",
+            "cancel-leasing": "Sie haben eine Leasing-Transaktion storniert",
+            "circular": "Sie haben {{amount, money-currency}} an sich selbst gesendet",
+            "create-alias": "Sie haben einen Alias ​​erstellt",
+            "data": "Sie haben eine Datentransaktion gesendet",
+            "data-vote": "{div.line}[You have voted for {{moneyCurrency}}.]\n{div.line}[Your score will be applied after 24 hours. Rating in processing.]",
+            "issue": "Sie haben generiert",
+            "lease-out": "Sie haben {{amount, money-currency}} geleast",
+            "mass-send": "Sie haben {{totalAmount, money-currency}} gesendet",
+            "reissue": "Sie haben zusätzliche {{quantityStr}} {{name}} generiert",
+            "send": "Sie haben {{amount,  money-currency}} gesendet",
+            "set-asset-script": "Sie haben das Skript aktualisiert",
+            "set-script": "Sie haben eine Skripttransaktion erstellt",
+            "set-script-cancel": "Sie haben eine Skripttransaktion abgebrochen",
+            "sponsorship-start": "Sponsoring wurde festgelegt",
+            "sponsorship-stop": "Das Sponsoring wurde deaktiviert"
+        },
+        "details": "Details anzeigen",
+        "export": "Export",
+        "JSON": "JSON",
+        "ledgerUnconfirmed": {
+            "description": "Bitte versuchen sie es erneut. Wenn der Fehler weiterhin besteht, lesen sie bitte [diesen Artikel](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)",
+            "header": "Anfrage auf Ledger bestätigen"
+        },
+        "notPermited": {
+            "cancel-leasing": "Der Start von neuen Leases ist aktuell nicht möglich."
+        },
+        "notPermitted": {
+            "burn": "Das Verbrennen von Token ist vorübergehend nicht verfügbar.",
+            "burn-title": "Token verbrennen",
+            "cancel-leasing": "Die Start-Leasing-Funktion ist vorübergehend nicht verfügbar.",
+            "cancel-leasing-title": "Leasing kündigen",
+            "data": "Datentransaktionen sind vorübergehend nicht verfügbar.",
+            "data-title": "Datentransaktion",
+            "reissue-title": "Neugenerierung des Token",
+            "set-script": "Skripttransaktionen sind vorübergehend nicht verfügbar.",
+            "sponsorship-start": "Sponsoring ist vorübergehend nicht verfügbar.",
+            "sponsorship-start-title": "Sponsoring ändern"
+        },
+        "orderSuccess": "Ihre Bestellung wurde erstellt!",
+        "redirect": "Sie werden zu {{referrer}} weitergeleitet",
+        "send": {
+            "errors": {
+                "balance": {
+                    "invalid": "Unzureichende Mittel"
+                },
+                "recipient": {
+                    "invalid": "Die Empfängeradresse ist ungültig"
+                }
+            }
+        },
+        "sign": "Signieren",
+        "success": "Ihre Transaktion ist auf dem Weg!",
+        "wavesKeeperUnconfirmed": {
+            "description": "Bitte versuchen Sie es erneut. Wenn der Fehler weiterhin besteht, senden Sie bitte ein Ticket an [Support](https://support.wavesplatform.com).",
+            "header": "Sie haben die Anfrage nicht mit Waves Keeper bestätigt"
+        }
+    },
+    "copyError": "Kann nicht kopiert werden! Ihr Browser ist möglicherweise veraltet",
+    "copySuccess": "Die Daten werden kopiert",
+    "directives": {
+        "anyTransaction": {
+            "copy": "Kopieren",
+            "textAreaTitle": "TX JSON"
+        },
+        "scriptForm": {
+            "placeholder": {
+                "change": "Geben Sie ein neues Skript ein oder lassen Sie das Feld leer, um ein vorhandenes Skript zu annulieren",
+                "create": "Geben Sie ein neues Skript ein oder lassen Sie das Feld leer, um ein vorhandenes Skript zu annulieren"
+            },
+            "textAreaTitle": "Base64-Skript"
+        },
+        "setAssetScriptForm": {
+            "ok": "Fortsetzen"
+        },
+        "sign": {
+            "confirmRequestKeeper": {
+                "cancel": "Abbrechen",
+                "errorDescription": "Bitte versuchen Sie es erneut. Wenn der Fehler weiterhin besteht, senden Sie bitte ein Ticket an [Support](https://support.wavesplatform.com).",
+                "errorHeader": "Sie haben die Anfrage nicht mit Waves Keeper bestätigt",
+                "sign": "Wiederholen",
+                "waiting": "Warten auf Bestätigung von Waves Keeper ..."
+            },
+            "confirmRequestLedger": {
+                "cancel": "Abbrechen",
+                "errorDescription": "Bitte versuchen Sie es erneut. Wenn der Fehler weiterhin besteht, lesen Sie bitte [diesen Artikel](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues).",
+                "errorHeader": "Anfrage auf Ledger bestätigen",
+                "sign": "Wiederholen Sie das Zeichen",
+                "waiting": "Warten auf Bestätigung auf Ledger Nano S..."
+            },
+            "txId": "TXID"
+        },
+        "transactionExport": {
+            "linkTitle": "Teilen Sie den Link zum Signieren",
+            "or": "ODER",
+            "qrZoomBtn": "Klicken Sie zum Vergrößern / Verkleinern",
+            "scanQrCode": "QR-Code scannen"
+        }
+    },
+    "emptyBlocks": {
+        "title": "Nichts hier…"
+    },
+    "errorBlocks": {
+        "title": "Etwas ist schief gelaufen…"
+    },
+    "modal": {
+        "assetInfo": {
+            "gateway_ui": "Gateway"
+        },
+        "sign": {
+            "signByLedger": "Warten auf Bestätigung auf Ledger ..."
+        },
+        "token": {
+            "warning": {
+                "header": "Sie stimmen zu, dass:",
+                "text": "{div.line} [I] Sie werden das Token nicht für betrügerische Zwecke verwenden.]\n{div.line} [II] Sie werden den Namen einer bestehenden Kryptowährung oder eines bekannten Unternehmens nicht vollständig oder teilweise kopieren, um Benutzer irrezuführen.]\n{div.line} [III] Sie verwenden keine Namen von Staaten, anderen Verwaltungseinheiten oder kommunalen Einrichtungen für den Namen des Tokens, um irreführende Nutzer zu erreichen.]",
+                "textWarning": "Die Nichtbeachtung dieser Punkte führt dazu, dass ihr Token als Spam eingestuft wird und nur nach ID gesucht werden kann."
+            }
+        }
+    },
+    "password": {
+        "minLength": "muss mindestens {{minLength}} Zeichen enthalten",
+        "name": "Kontobezeichnung",
+        "repeat": "Bestätigen sie das Passwort",
+        "secure": "sicheres Passwort",
+        "title": "Schützen sie Ihr Konto mit einem neuen Passwort",
+        "warn": "Fügen sie eine Ziffer oder ein Symbol hinzu"
+    },
+    "qrCodeRead": {
+        "closeRead": "Stornieren"
+    },
+    "recipient": "Empfänger",
+    "transaction": {
+        "actions": {
+            "cancelLeasing": "Leasing abbrechen",
+            "copyTxData": "Kopieren sie alle TX-Daten",
+            "copyTxId": "TX-ID kopieren",
+            "showTx": "Sendungsinfo"
+        },
+        "amounts": {
+            "burn": "–{{amount}} {{name}}",
+            "cancel-leasing": "{{amount}} {{name}}",
+            "circular": "{{amount}} {{name}}",
+            "exchange-buy": "{{sign}}{{amount}} {{name}}",
+            "exchange-sell": "{{sign}}{{amount}} {{name}}",
+            "issue": "{{amount}} {{name}}",
+            "lease-in": "{{amount}} {{name}}",
+            "lease-out": "{{amount}} {{name}}",
+            "mass-receive": "+{{amount}} {{name}}",
+            "mass-send": "–{{amount}} {{name}}",
+            "perTransaction": "Betrag pro Transaktion",
+            "receive": "{{amount}} {{name}}",
+            "reissue": "{{amount}} {{name}}",
+            "script-invocation": "–{{amount}} {{name}}",
+            "send": "–{{amount}} {{name}}",
+            "set-script": "Skripttransaktion erstellen",
+            "set-script-cancel": "Skripttransaktion abbrechen",
+            "sponsorship-change": "Ändern sie das Sponsoring",
+            "sponsorship-fee": "{{sign}}{{amount}} {{name}}",
+            "sponsorship-start": "Sponsoring festlegen",
+            "sponsorship-stop": "Sponsor deaktivieren"
+        },
+        "confirmed": {
+            "false": "UNBESTÄTIGT",
+            "true": "ABGESCHLOSSEN"
+        },
+        "headers": {
+            "activeLeasing": "jetzt aktiv",
+            "burn": "{{name}} Token burnen",
+            "cancel-leasing": "Abgebrochenes Leasing",
+            "canceled": "Abgebrochen",
+            "circular": "Selbst übertragen {{name}}",
+            "create-alias": "Erstellt Alias",
+            "data": "Datentransaktion",
+            "data-vote": "Voted for {{assetName}}",
+            "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
+            "exchange-buy": "Exchange Buy:",
+            "exchange-sell": "Exchange Sell:",
+            "issue": "{{name}} Tokengenerierung",
+            "lease-in": "Eingehendes Leasing",
+            "lease-out": "Begonnen Leasing",
+            "mass-receive": "Erhalten {{name}}",
+            "mass-send": "Gesendet {{name}}",
+            "receive": "Erhalten {{name}}",
+            "reissue": "{{name}} Token Reissue",
+            "script-invocation": "Skriptaufruf",
+            "send": "Gesendet {{name}}",
+            "set-asset-script": "Legen Sie die Asset Script-Transaktion fest",
+            "set-script": "Skripttransaktion erstellen",
+            "set-script-cancel": "Skripttransaktion abbrechen",
+            "spam": "verdächtig",
+            "sponsorship-fee": "Erhalten {{name}}",
+            "sponsorship-start": "Sponsorschaft für {{name}} festlegen",
+            "sponsorship-stop": "Deaktiviertes Sponsoring für {{name}}",
+            "suspicious": "verdächtig",
+            "unknown": "Unbekannte Transaktion"
+        },
+        "modals": {
+            "assetId": "Anlagen-ID",
+            "attachment": "Anhangsmeldung",
+            "cancelTx": "Leasing TX",
+            "confirmations": "Bestätigungen",
+            "copyCode": "Code kopieren",
+            "data": "Daten",
+            "dataKey": "Schlüssel",
+            "dataType": "Typ",
+            "dataValue": "Wert",
+            "description": "Beschreibung",
+            "exchange": {
+                "buy": "Kaufen",
+                "buyMatcherFee": "Matcher-Gebühr kaufen",
+                "exchangeType": "Auftragsart",
+                "matcherFee": "Matcher Gebühr",
+                "pair": "Paar",
+                "sell": "Verkaufen"
+            },
+            "fee": "Gebühr",
+            "from": "Von",
+            "function": "Funktion",
+            "functionCall": "Funktionsaufruf",
+            "height": "Block",
+            "hide": "Ausblenden",
+            "hideAll": "Alle ausblenden",
+            "leasingStatus": "Status",
+            "massSend": {
+                "showAll": {
+                    "false": "Alle anzeigen ({{count}})",
+                    "true": "Die ersten 3 Transaktion anzeigen"
+                },
+                "totalAmount": "Gesamtmenge"
+            },
+            "numberOfRecipients": "Die Anzahl der Empfänger",
+            "orderType": "Auftragsart",
+            "pair": "Paar",
+            "payment": "Zahlung",
+            "price": "{{name}} Preis",
+            "script": "Skript",
+            "scriptAddress": "Skriptadresse",
+            "seeAll": "Alle anzeigen",
+            "setAssetScript": {
+                "showScript-false": "Zeigen",
+                "showScript-true": "verbergen"
+            },
+            "show": "Anzeigen",
+            "showAll": "Alle anzeigen ({{count}})",
+            "showFirstTree": "Erste 3 Schlüssel anzeigen",
+            "status": "Status",
+            "timestamp": "Zeitstempel",
+            "to": "Zu",
+            "toBeReissued": "Neu generiert werden",
+            "toRemainOnBalance": "Im Saldo bleiben",
+            "totalAfterBurning": "Gesamt nach dem Burnen",
+            "totalAfterReissue": "Gesamt nach Neugenerierung",
+            "txId": "TXID",
+            "type": "Art",
+            "viewTransactionKey": "Transaktion",
+            "viewTransactionValue": "Transaktion anzeigen"
+        },
+        "notifications": {
+            "closed": "Das Leasing wurde bereits storniert",
+            "closedSuccess": "Das Leasing wurde komplett storniert"
+        },
+        "reissuable": {
+            "false": "Nicht erweiterbar",
+            "true": "Erweiterbar"
+        },
+        "set-asset-script": "Skript aktualisieren",
+        "subheaders": {
+            "burn": "{{time}}",
+            "cancel-leasing": "{{time}}{span.locale-address}[, transaktion {{transactionId}}]",
+            "circular": "{{time}}{span.locale-address}[, an Adresse {{address}}]",
+            "create-alias": "{{time}}, {{alias}}",
+            "data": "{{time}}",
+            "exchange-buy": "{{time}}",
+            "exchange-sell": "{{time}}",
+            "issue": "{{time}}",
+            "lease-in": "{{time}} {span.locale-address}[, von der Adresse {{address}}]",
+            "lease-out": "{{time}} {span.locale-address}[, Adresse {{address}}]",
+            "mass-receive": "{{time}} {span.locale-address}[, von der Adresse {{address}}]",
+            "mass-send": "{{time}}",
+            "receive": "{{time}} {span.locale-address}[, von der Adresse {{address}}]",
+            "reissue": "{{time}}",
+            "script-invocation": "{{time}}{span.locale-address}[, Adresse {{address}}]",
+            "send": "{{time}} {span.locale-address}[, Adresse {{address}}]",
+            "set-asset-script": "{{time}}, um Asset {{name}}",
+            "sponsorship-fee": "{{time}} von der Adresse {{address}}",
+            "unknown": "{{time}}"
+        }
+    },
+    "transactionList": {
+        "noTransactionsDescription": "Sie haben keine Transaktionen",
+        "noTransactionsTitle": "Nichts hier…"
+    },
+    "transactions": {
+        "script": {
+            "txJson": "Base64-Skript"
+        }
+    },
+    "whitespace": "&nbsp;"
+}

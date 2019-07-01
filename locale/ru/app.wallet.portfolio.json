@@ -1,0 +1,40 @@
+{
+    "allactive": "Все активные ({span}[{{count}}])",
+    "burn": "Сжечь токен",
+    "deposit": "Пополнить",
+    "dex": "Открыть в DEX",
+    "info": "О токене",
+    "list": {
+        "actions": "Действия",
+        "ask": "Ask",
+        "balance": "Баланс",
+        "bid": "Bid",
+        "change": "Изменение, 24ч",
+        "inOrders": "Зарезервировано",
+        "mirror": "Стоимость, {span.currency}[{{currency}}]",
+        "name": "Имя токена",
+        "rate": "Цена, {span.currency}[{{currency}}]"
+    },
+    "myassets": "Мои ассеты ({span}[{{count}}])",
+    "pin": "Прикрепить",
+    "portfolio": {
+        "filter": "Поиск"
+    },
+    "qr": "Ваш адрес",
+    "qualified": "qualified",
+    "qualifieds": "Проверенные({span}[{{count}}])",
+    "receive": "Получить",
+    "reissue": "Перевыпуск токена",
+    "send": "Отправить",
+    "setAssetScript": "Обновить скрипт",
+    "spam": "Спам",
+    "spamAsset": "СПАМ",
+    "spamselect": "Подозрительные ({span}[{{count}}])",
+    "sponsorship": "Включить спонсорство",
+    "sponsorshipChange": "Изменить спонсорство",
+    "sponsorshipStop": "Отключить спонсорство",
+    "tokenomica": "tokenomica",
+    "tospam": "Скрыть",
+    "unpin": "Открепить",
+    "unspam": "Показать"
+}

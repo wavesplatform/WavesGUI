@@ -1,0 +1,40 @@
+{
+    "allactive": "Semua aktif ({span}[{{count}}])",
+    "burn": "Membakar Token",
+    "deposit": "o",
+    "dex": "Buka di DEX",
+    "info": "Informasi Aset",
+    "list": {
+        "actions": "Aksi",
+        "ask": "Permintaan",
+        "balance": "Saldo",
+        "bid": "Tawaran",
+        "change": "Perubahan 24 jam",
+        "inOrders": "Dalam pesanan",
+        "mirror": "Nilai, {span.currency}[{{currency}}]",
+        "name": "Nama Aset",
+        "rate": "Harga, {span.currency}[{{currency}}]"
+    },
+    "myassets": "Asetku ({span}[{{count}}])",
+    "pin": "Semat",
+    "portfolio": {
+        "filter": "Cari"
+    },
+    "qr": "Alamatmu",
+    "qualified": "memenuhi syarat",
+    "qualifieds": "Memenuhi syarat ({span}[{{count}}])",
+    "receive": "Menerima",
+    "reissue": "Jumlah token ditambahkan",
+    "send": "Kirim",
+    "setAssetScript": "Perbarui Skrip Aset",
+    "spam": "Aset Mencurigakan",
+    "spamAsset": "ASET MENCURIGAKAN",
+    "spamselect": "Aset Mencurigakan ({span}[{{count}}])",
+    "sponsorship": "Aktifkan Sponsor",
+    "sponsorshipChange": "Ubah Sponsor",
+    "sponsorshipStop": "Nonaktifkan Sponsor",
+    "tokenomica": "tokenomica",
+    "tospam": "Sembunyikan",
+    "unpin": "Lepas semat",
+    "unspam": "Tampilkan"
+}

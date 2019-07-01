@@ -1,0 +1,232 @@
+{
+    "create": {
+        "order": {
+            "failed": "Coś poszło nie tak",
+            "success": "Zlecenie zostało wysłane"
+        }
+    },
+    "dex": {
+        "contest": "Konkurs"
+    },
+    "directives": {
+        "balance": {
+            "assetId": "Kod instrumentu",
+            "available": "Dostępny",
+            "inOrders": "W zleceniach",
+            "inOrdersFull": "Zablokowane w zleceniach",
+            "total": "Ogółem"
+        },
+        "candleChart": {
+            "error": "{div}[Wykres nie mógł zostać załadowany]{div}[Jeśli chcesz używać tego wykresu w twojej aplikacji wyślij proszę prośbę do [tradingview.com](https://tradingview.com)]"
+        },
+        "createOrder": {
+            "1day": "1 dzień",
+            "1hour": "1 godz",
+            "1week": "1 tydzień",
+            "30day": "29 dni",
+            "30min": "30 min",
+            "5min": "5 min.",
+            "amountField": "Ilość",
+            "ask": "Podaż",
+            "bid": "Popyt",
+            "buy": "Kupno",
+            "createOrderNotPermitted": "Chwilowo niedostępna informacja o ofertach",
+            "errors": {
+                "balance": "Nie wystarczająco {{name}}",
+                "precision": "Przekroczono maksymalną liczbę{{precision}} miejsc dziesiętnych",
+                "required": "To pole jest wymagane"
+            },
+            "expiration": "Wygaśnięcie",
+            "fee": "prowizja {{fee}} WAVES",
+            "hasScript": "Anuluj  [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) by handlować",
+            "last": "Ostatni",
+            "matcherFee": "Prowizja",
+            "notifications": {
+                "error": {
+                    "30702": "Skrypt konta {{address}} odrzucił zamówienie",
+                    "title": "Komunikat o błędzie"
+                },
+                "isCreated": "Zlecenie zostało wysłane",
+                "notEnoughBalance": "Nie wystarczająca ilość",
+                "somethingWentWrong": "Coś poszło nie tak"
+            },
+            "notPermitted": "Możliwość wysłania zlecenia jest chwilowo niedostępna",
+            "placeBuyOrder": "Kupno {{name}}",
+            "placeSellOrder": "Sprzedaż {{name}}",
+            "priceField": "Limit ceny",
+            "sell": "Sprzedaż",
+            "spread": "spread",
+            "total": "Ogółem"
+        },
+        "demo": {
+            "createAccount": "utwórz nowe konto",
+            "or": "albo",
+            "signIn": "Zaloguj się",
+            "to": {
+                "mybalance": "Zobacz stan konta",
+                "openorders": "Zobacz aktywne zlecenia",
+                "tradehistory": "Zobacz historię transakcji"
+            }
+        },
+        "filter": "Szukaj",
+        "marketDepth": "Głębokość Rynku",
+        "markets": {
+            "table": {
+                "price": "Cena",
+                "rate": "Zmiana",
+                "unit": "Waluta",
+                "volume": "Wolumen"
+            },
+            "title": "Rynki"
+        },
+        "myOrders": {
+            "amount": "Ilość",
+            "average": "Średnia",
+            "back": "Nie",
+            "cancel": "anuluj",
+            "cancelAll": "anuluj wszystko",
+            "cancelAllConfirm": "Tak",
+            "canceled": "anulowane",
+            "cancelled": "ANULOWANE",
+            "confirm": {
+                "header": "Jesteś pewien?",
+                "literalDescription": "Tego działania nie można cofnąć"
+            },
+            "delete": "usuń",
+            "detail": "detal",
+            "fee": "prowizja",
+            "filled": "Wypełnione",
+            "filter": "Filtr",
+            "noPermissionCancelOrder": "Chwilowo niedostępna możliwość anulowania zlecenia",
+            "notifications": {
+                "isCanceled": "Zlecenie zostało anulowane",
+                "somethingWentWrong": "Coś poszło nie tak"
+            },
+            "opened": "otwarte",
+            "orderType": {
+                "buy": "Kupno",
+                "sell": "Sprzedaż"
+            },
+            "pair": "Instrument",
+            "placeholders": {
+                "lockedPair": "Handel w {{amountAssetTicker}} / {{priceAssetTicker}} jest obecnie niedostępny. Możesz anulować zamówienie"
+            },
+            "price": "Cena",
+            "status": "Status",
+            "tableTitle": {
+                "fee": "Prowizja"
+            },
+            "time": "Czas",
+            "total": "Ogółem",
+            "type": "Typ",
+            "withScript": "Nie możesz korzystać z giełdy dopóki [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) jest zainstalowany na twoim koncie"
+        },
+        "noChartDataMessage": "{div}[Zbyt mało zleceń kupna i sprzedaży]{div}[aby stworzyć wykres głębokości rynku]",
+        "noChartDataTitle": "Nic tutaj…",
+        "orderBook": {
+            "amount": "Ilość {{assetName}}",
+            "lastprice": "ostatnia cena",
+            "price": "Cena {{assetName}}",
+            "spread": "spread",
+            "sum": "Suma {{assetName}}",
+            "title": "Arkusz zleceń"
+        },
+        "orderbook": {
+            "errorBlock": {
+                "header": "Coś poszło nie tak"
+            }
+        },
+        "portfolio": {
+            "title": "Portfolio"
+        },
+        "tradeHistory": {
+            "orderType": {
+                "buy": "Kupno",
+                "sell": "Sprzedaż"
+            },
+            "search": "Search",
+            "tableTitle": {
+                "date": "Czas",
+                "exchangeType": "Typ",
+                "fee": "prowizja",
+                "price": "Cena {{assetName}}",
+                "size": "Ilość {{assetName}}",
+                "total": "Ogółem",
+                "type": "Typ"
+            },
+            "title": "Historia transakcji"
+        },
+        "watchlist": {
+            "all": "WSZYSTKO",
+            "change": "Zmiana",
+            "chg": "Zmiana",
+            "coin": "Waluta",
+            "helpIcon": {
+                "assetId": "Kod Aktywa",
+                "AssetId1AssetId2": "Kod Aktywa nr 1 / Kod Aktywa nr 2",
+                "description": "Możesz dowiedzieć się więcej na temat wyszukiwania zasobów [here](https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html)",
+                "header": "Możesz wyszukiwać według:",
+                "name": "Nazwa",
+                "name1Name2": "Nazwa 1 / Nazwa 2"
+            },
+            "pair": "Instrument",
+            "placeholders": {
+                "base": "Waluta bazowa",
+                "coin": "Szukaj",
+                "filter": "Filtr",
+                "lockedPair": "Handel w {{amountAssetTicker}} / {{priceAssetTicker}} jest obecnie niedostępny",
+                "noMarkets": "Brak rynków spełniającyh wymagania"
+            },
+            "price": "Cena",
+            "volume": "Wolumen"
+        }
+    },
+    "emptyBlocks": {
+        "myOrders": {
+            "description": "Brak aktywnych zleceń",
+            "title": "Nic tutaj…"
+        },
+        "orderBook": {
+            "description": "Arkusz zleceń jest pusty",
+            "error": {
+                "text": "Proszę odśwież stronę lub spróbuj później",
+                "title": "Coś poszło nie tak"
+            },
+            "title": "Nic tutaj…"
+        },
+        "tradeHistory": {
+            "description": "Historia transakcji jest pusta",
+            "title": "Nic tutaj…"
+        }
+    },
+    "layout": {
+        "center": {
+            "bottom": "Moje zlecenia"
+        },
+        "right": {
+            "bottom": "Historia transacji",
+            "top": "Arkusz zleceń"
+        }
+    },
+    "orderbook": {
+        "ask": {
+            "tooltipText": "Kup {{amountAsset}} za {{price}} {{priceAsset}}"
+        },
+        "bid": {
+            "tooltipText": "Sprzedaj {{amountAsset}} za {{price}} {{priceAsset}}"
+        }
+    },
+    "tabs": {
+        "title": {
+            "all": "Wszystko",
+            "btc": "Btc",
+            "eth": "ETH",
+            "myBalance": "Stan konta",
+            "myTradeHistory": "Moja historia transakcji",
+            "openOrders": "Moje aktywne zlecenia",
+            "OrderHistory": "Moja historia transakcji",
+            "tradeHistory": "Historia transakcji",
+            "waves": "Waves"
+        }
+    }
+}

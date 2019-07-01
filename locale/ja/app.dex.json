@@ -1,0 +1,232 @@
+{
+    "create": {
+        "order": {
+            "failed": "何かがおかしいようです",
+            "success": "注文が作成されました"
+        }
+    },
+    "dex": {
+        "contest": "コンテスト"
+    },
+    "directives": {
+        "balance": {
+            "assetId": "アセットID",
+            "available": "使用可能",
+            "inOrders": "注文中",
+            "inOrdersFull": "注文中数量",
+            "total": "合計"
+        },
+        "candleChart": {
+            "error": "{div}[チャートをダウンロードできません。]{div}[アプリケーション内でチャートの利用を希望する場合 [tradingview.com](https://tradingview.com)にリクエストを送信して下さい。]"
+        },
+        "createOrder": {
+            "1day": "1日",
+            "1hour": "1時間",
+            "1week": "1週間",
+            "30day": "29日間",
+            "30min": "30分間",
+            "5min": "5分間",
+            "amountField": "数量",
+            "ask": "Ask",
+            "bid": "Bid",
+            "buy": "購入",
+            "createOrderNotPermitted": "現在、注文することができません",
+            "errors": {
+                "balance": "{{name}} が足りません",
+                "precision": "小数点数の最大は {{precision}} 桁です",
+                "required": "この項目は必須です"
+            },
+            "expiration": "有効期限",
+            "fee": "手数料  {{fee}} WAVES",
+            "hasScript": "トレードの為にスクリプト(https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) をキャンセル",
+            "last": "最終",
+            "matcherFee": "手数料",
+            "notifications": {
+                "error": {
+                    "30702": "{{address}} のアカウントに付加されたスクリプトが注文を拒否しました",
+                    "title": "エラーメッセージ"
+                },
+                "isCreated": "注文が作成されました",
+                "notEnoughBalance": "トレード可能な残高がありません",
+                "somethingWentWrong": "何かがおかしいようです"
+            },
+            "notPermitted": "現在、注文の作成はできません",
+            "placeBuyOrder": "{{name}} を購入",
+            "placeSellOrder": "{{name}} を売却",
+            "priceField": "指値",
+            "sell": "売却",
+            "spread": "スプレッド",
+            "total": "合計"
+        },
+        "demo": {
+            "createAccount": "新しいアカウントを作成",
+            "or": "または",
+            "signIn": "サインイン",
+            "to": {
+                "mybalance": "(残高の確認)",
+                "openorders": "(注文の確認)",
+                "tradehistory": "(トレード履歴の確認)"
+            }
+        },
+        "filter": "検索",
+        "marketDepth": "市場の厚み",
+        "markets": {
+            "table": {
+                "price": "価格",
+                "rate": "変化",
+                "unit": "通貨",
+                "volume": "ボリューム"
+            },
+            "title": "マーケット"
+        },
+        "myOrders": {
+            "amount": "数量",
+            "average": "平均",
+            "back": "いいえ",
+            "cancel": "キャンセル",
+            "cancelAll": "すべてキャンセル",
+            "cancelAllConfirm": "はい",
+            "canceled": "キャンセル済",
+            "cancelled": "キャンセル",
+            "confirm": {
+                "header": "本当によろしいですか？",
+                "literalDescription": "このアクションは取り消すことができません"
+            },
+            "delete": "削除",
+            "detail": "詳細",
+            "fee": "手数料",
+            "filled": "約定",
+            "filter": "フィルター",
+            "noPermissionCancelOrder": "現在、注文のキャンセルはできません",
+            "notifications": {
+                "isCanceled": "注文がキャンセルされました",
+                "somethingWentWrong": "何かがおかしいようです"
+            },
+            "opened": "注文中",
+            "orderType": {
+                "buy": "購入",
+                "sell": "売却"
+            },
+            "pair": "ペア",
+            "placeholders": {
+                "lockedPair": "{{amountAssetTicker}} / {{priceAssetTicker}} ペアは現在ご利用できません。注文をキャンセル可能です"
+            },
+            "price": "価格",
+            "status": "ステータス",
+            "tableTitle": {
+                "fee": "手数料"
+            },
+            "time": "時間",
+            "total": "合計",
+            "type": "タイプ",
+            "withScript": "[スクリプト](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) をあなたのアカウントにインストールしている最中は、トレード機能を使用することは出来ません"
+        },
+        "noChartDataMessage": "{div}[市場の厚みチャートを作成するための]{div}[十分な注文量がありません]",
+        "noChartDataTitle": "表示するデータがありません",
+        "orderBook": {
+            "amount": "注文数量 {{assetName}}",
+            "lastprice": "最終価格",
+            "price": "価格 {{assetName}}",
+            "spread": "スプレッド",
+            "sum": "合計 {{assetName}}",
+            "title": "オーダーブック"
+        },
+        "orderbook": {
+            "errorBlock": {
+                "header": "何かがおかしいようです"
+            }
+        },
+        "portfolio": {
+            "title": "ポートフォリオ"
+        },
+        "tradeHistory": {
+            "orderType": {
+                "buy": "購入",
+                "sell": "売却"
+            },
+            "search": "検索",
+            "tableTitle": {
+                "date": "時間",
+                "exchangeType": "タイプ",
+                "fee": "手数料",
+                "price": "価格 {{assetName}}",
+                "size": "注文数量 {{assetName}}",
+                "total": "合計",
+                "type": "タイプ"
+            },
+            "title": "トレード履歴"
+        },
+        "watchlist": {
+            "all": "すべて",
+            "change": "変化",
+            "chg": "変化",
+            "coin": "通貨",
+            "helpIcon": {
+                "assetId": "アセット ID",
+                "AssetId1AssetId2": "アセット1 ID / アセット2 ID",
+                "description": "アセットの検索の詳細については [コチラ](https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html)からご覧頂けます",
+                "header": "以下のように検索が可能です：",
+                "name": "名前",
+                "name1Name2": "名前1 / 名前2"
+            },
+            "pair": "ペア",
+            "placeholders": {
+                "base": "ベース通貨",
+                "coin": "検索",
+                "filter": "フィルター",
+                "lockedPair": "{{amountAssetTicker}} / {{priceAssetTicker}} ペアは現在ご利用できません",
+                "noMarkets": "指定されたフィルターに合致するペアはありません"
+            },
+            "price": "価格",
+            "volume": "ボリューム"
+        }
+    },
+    "emptyBlocks": {
+        "myOrders": {
+            "description": "注文はありません",
+            "title": "表示するデータがありません"
+        },
+        "orderBook": {
+            "description": "オーダーブックは空です。",
+            "error": {
+                "text": "ページを再読み込みして再度お試して下さい",
+                "title": "何かがおかしいようです"
+            },
+            "title": "表示するデータがありません…"
+        },
+        "tradeHistory": {
+            "description": "トレード履歴は空です。",
+            "title": "表示するデータがありません…"
+        }
+    },
+    "layout": {
+        "center": {
+            "bottom": "自分の注文"
+        },
+        "right": {
+            "bottom": "トレード履歴",
+            "top": "オーダーブック"
+        }
+    },
+    "orderbook": {
+        "ask": {
+            "tooltipText": "{{amountAsset}} を{{price}} {{priceAsset}}で購入"
+        },
+        "bid": {
+            "tooltipText": "{{amountAsset}} を{{price}} {{priceAsset}}で売却する"
+        }
+    },
+    "tabs": {
+        "title": {
+            "all": "すべて",
+            "btc": "Btc",
+            "eth": "ETH",
+            "myBalance": "自分の残高",
+            "myTradeHistory": "自分のトレード履歴",
+            "openOrders": "自分の未約定注文",
+            "OrderHistory": "自分のトレード履歴",
+            "tradeHistory": "トレード履歴",
+            "waves": "Waves"
+        }
+    }
+}

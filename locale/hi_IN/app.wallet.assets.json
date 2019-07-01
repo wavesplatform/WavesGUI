@@ -1,0 +1,39 @@
+{
+    "addAsset": "एसेट जोड़ें",
+    "chart": {
+        "intervals": {
+            "all": "सभी",
+            "day": "1दि",
+            "hour": "1घं",
+            "month": "1मि",
+            "week": "1ह",
+            "year": "1सा"
+        }
+    },
+    "directives": {
+        "asset": {
+            "anyTx": "JSON",
+            "deposit": "जमा करें",
+            "ofTotalBalance": "कुल बैलेंस {{totalBalance}} का",
+            "receive": "जमा करें",
+            "script": "स्क्रिप्ट",
+            "send": "भेजें"
+        },
+        "balance": {
+            "actions": {
+                "assetInfo": "एसेट जानकारी",
+                "copyAssetId": "एसेट ID कॉपी करें"
+            }
+        }
+    },
+    "price": "मूल्य {{currency}}",
+    "qr": "आपका पता",
+    "send": "भेजें",
+    "since": {
+        "day": "पिछले दिन से",
+        "month": "पिछले माह से",
+        "week": "पिछले ह ते से"
+    },
+    "suspicious": "संदेहजनक - ({span}[{{count}}])",
+    "Unpin": "अनपिन"
+}

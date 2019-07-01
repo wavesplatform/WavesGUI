@@ -1,0 +1,901 @@
+{
+    "confirmTransaction": {
+        "signLedger": "Esperando la confirmación en Ledger Nano S..."
+    },
+    "directives": {
+        "anyTransaction": {
+            "calculatingFee": "Tasa de transacción: campo completo para el cálculo",
+            "errors": {
+                "invalidScript": "Syntax error",
+                "required": "¡Este campo es obligatorio!"
+            },
+            "fee": "Cuota {{fee, money-currency}}",
+            "ok": "Continuar",
+            "textAreaTitle": "TX JSON",
+            "warning": {
+                "body": "No le recomendamos que envíe JSON a menos que sea un usuario experimentado. Los errores pueden llevar a la pérdida de fondos.",
+                "title": "Aviso: las acciones pueden llevar a la pérdida de acceso a su cuenta"
+            }
+        },
+        "filter": {
+            "helpIcon": {
+                "assetId": "ID de Activo",
+                "description": "Puede encontrar más información sobre los activos [aquí](https://docs.wavesplatform.com/en/waves-client/)",
+                "header": "Puede buscar por:",
+                "name": "Nombre",
+                "ticker": "Ticker"
+            }
+        },
+        "scriptForm": {
+            "acceptAndContinue": "Aceptar y continuar",
+            "changePlaceholder": "Introduzca un nuevo script, o deje el campo en blanco para cancelar un script existente",
+            "createPlaceholder": "Introduzca un script aquí",
+            "errors": {
+                "fee": "No tiene fondos suficientes para pagar las cuotas requeridas. Debe pagar la cuota de transacción {{fee, money-currency}}.",
+                "invalidScript": "Syntax error",
+                "required": "Este campo es obligatorio"
+            },
+            "fee": "Cuota {{fee, money-currency}}",
+            "ideLink": "El script puede ser desarrollado con [Waves Ride IDE](https://ide.wavesplatform.com/)",
+            "ok": "Firma",
+            "textAreaTitle": "Base64 Script",
+            "warning": {
+                "body": "No le recomendamos que envíe su script a menos que sea un usuario experimentado. Los errores pueden llevar a la pérdida de fondos.",
+                "title": "Aviso: las acciones pueden llevar a la pérdida de acceso a su cuenta"
+            },
+            "warningDescription": "No le recomendamos que envíe sus transacciones de script a menos que sea un usuario experimentado. Los errores pueden llevar a la pérdida de fondos.",
+            "warningHeader": "Las acciones pueden llevar a la pérdida de acceso a su cuenta"
+        },
+        "setAssetScriptForm": {
+            "fee": "Cuota {{fee, money-currency}}"
+        },
+        "sign": {
+            "confirmRequestKeeper": {
+                "sign_utils": "Retry"
+            }
+        }
+    },
+    "inputs": {
+        "errors": {
+            "gtGatewayMin": "No puedes transferir menor cantidad que {{min}} {{assetName}}"
+        }
+    },
+    "keeperForm": {
+        "address": "Dirección de la cuenta",
+        "back": "Volver atrás",
+        "error": {
+            "hasLockedKeeperDescription": "Para continuar trabajando con Waves Keeper, debe especificar una contraseña creada previamente, o crear una nueva",
+            "hasLockedKeeperHeader": "Introduzca la contraseña de Waves Keeper",
+            "hasNoUsersDescription": "Inicie sesión en una cuenta existente o cree una nueva y vuelva a intentarlo.",
+            "hasNoUsersHeader": "No tiene una cuenta activa",
+            "install": "Installar",
+            "networkDescription": "La cuenta que ha seleccionado está en la red equivocada. Cambie la red e inténtelo de nuevo.",
+            "networkHeader": "Cambiar red",
+            "notInstalledDescription": "Después de la instalación, crear una cuenta, iniciar sesión y luego actualice la página para continuar.",
+            "notInstalledHeader": "¿No tiene Waves Keeper?",
+            "refresh": "Reintentar"
+        },
+        "heading": "Importar cuenta desde Waves Keeper",
+        "loading": "Import account from the Waves Keeper",
+        "login": "Continuar",
+        "name": "Nombre de la cuenta",
+        "or": "O",
+        "retry": "Try again",
+        "saveUserData": "Mantener la sesión iniciada en este equipo"
+    },
+    "LedgerClient_utils": "Ledger Device",
+    "LedgerClientDescription": "Importar cuenta desde Waves Keeper",
+    "modal": {
+        "acceptNewTerms": {
+            "title": "Terms of Use Agreement"
+        },
+        "account": {
+            "address": "Tu dirección",
+            "aliases": "Alias",
+            "aliasesWarning": "El alias no está disponible en estos momentos",
+            "cancel": "Crear una cuenta",
+            "create": "Crear nueva",
+            "createAliasNotPermitted": "La creación de alias no está disponible temporalmente.",
+            "fee": "Comisión de Trasacción {{price}} {{name}}",
+            "hasAlias": "Este alias ya ha sido utilizado",
+            "hasScript": "No puede crear un alias si tiene multisig",
+            "invalidSymbols": "Haz usado caracteres inválidos",
+            "maxLength": "El Alias no debe tener más de 30 caracteres de longitud",
+            "message": "Para ver la información de la cuenta, regístrate o crea una cuenta",
+            "minLength": "El Alias debe tener al menos 4 caracteres de longitud",
+            "noMoney": "Fondos Insuficientes",
+            "notifications": {
+                "aliasCreated": "Se ha creado un Alias"
+            },
+            "ok": "Registrarse",
+            "placeholder": "Nombre simbólico para tu dirección",
+            "title": "Cuenta {{name}}",
+            "title_default_name": "Información"
+        },
+        "accountInfo": {
+            "alias": {
+                "helpIcon": {
+                    "row1": "Acerca De Alias",
+                    "row2": "Un alias es un apodo para su dirección. Puede usar un alias en lugar de una dirección para realizar transacciones.",
+                    "row3": "Su Alias debe tener entre 4 y 30 caracteres, y debe contener solo letras latinas minúsculas, dígitos y símbolos (@, -, _ etc.)"
+                }
+            }
+        },
+        "assetInfo": {
+            "available": "Disponible",
+            "balance": "Saldo",
+            "contest": "CONTEST",
+            "date": "Fecha de emisión",
+            "decimals": "Puntos decimales",
+            "description": "Descripción",
+            "details": "Detalles",
+            "email": "Email",
+            "gateway": "GATEWAY",
+            "gatewaySoon": "GATEWAY SOON",
+            "identifier": "ID",
+            "inOrders": "Reservado en pedidos",
+            "issuer": "Emisor",
+            "leased": "Arrendado",
+            "name": "Nombre",
+            "pinned": "Fijado",
+            "qualified": "Calificado",
+            "quantity": "Cantidad total",
+            "rating": {
+                "canVoteTip": "Click to rate token",
+                "tooltipLink": "More Details",
+                "tooltipNeedWAVES": "and 0.001 WAVES",
+                "tooltipNeedWCT": "To rate a token, you must have at least 1",
+                "tooltipText": "Tokens are not transferred, only on existing balance is required for voting.our score will be applied after 24 hours. Please keep the current tokens in the account during this time. \nFee 0.001 WAVES.",
+                "tooltipTitle": "To rate a token, you must have at least 1 WCT in your wallet."
+            },
+            "reissue": {
+                "no": "No re-emitible",
+                "yes": "Re-emitible"
+            },
+            "site": "Sitio",
+            "sponsorshipFee": "Cuota de activos patrocinados",
+            "suspicious": "Sospechoso",
+            "ticker": "Ticker",
+            "title": "Info del Activo",
+            "tokenomica": "Tokenomica",
+            "total": "Total",
+            "transactions": "Transacciones",
+            "type": "Tipo",
+            "unpinned": "Fijar",
+            "wsocRef": "WSOC"
+        },
+        "backup": {
+            "clearSeed": "{span.clear}[Clear] y desliza otra vez",
+            "title": {
+                "title_0": "Guardar frase de backup",
+                "title_1": "Confirmar la copia de seguridad",
+                "title_2": "Terminado"
+            }
+        },
+        "confirm-correct-order": "Su precio {price, money-currency} es más del 5% diferente del precio de mercado",
+        "confirmLogout": {
+            "goBack": "Go back",
+            "heading": "You’re about to leave",
+            "logout": "Log Out",
+            "text": "In order to prevent anyone else from accessing your funds without your permission, please log out from your account first."
+        },
+        "confirmOrder": {
+            "cancel": "Anular",
+            "continue": "Realizar pedido",
+            "description": "¿Desea continuar?",
+            "headerBuy": "El precio de tu pedido es {{orderLimit}}% más alto que el último precio de mercado",
+            "headerSell": "El precio de tu pedido es {{orderLimit}}% más bajo que el último precio de mercado"
+        },
+        "createOrder": {
+            "cancel": "Crear una cuenta",
+            "message": "Para empezar el comercio, por favor regístrete o crea una cuenta",
+            "ok": "Registrarse"
+        },
+        "deposit": {
+            "coinomatBCH": {
+                "helpDescrText": "Cuando la transacción se confirme, la pasarela procesará la transferencia de BCH a un token en tu cuenta Waves",
+                "helpDescrTitle": "Introduce esta dirección en tu cliente o cartera de Bitcoin Cash",
+                "warningMinAmountText": "Si mandas menos de 0.001 BCH perderás tu dinero.",
+                "warningMinAmountTitle": "La cantidad mínima a depositar es de 0.001 BCH",
+                "warningText": "Enviar otro tipo de moneda a esta dirección puede ocasionar la pérdida de tu depósito.",
+                "warningTitle": "Envía solo BCH a esta dirección de depósito"
+            },
+            "coinomatBSV": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of BSV to a token in your Waves account.",
+                "helpDescrTitle": "Enter this address into your Bitcoin Satoshi Vision client or wallet",
+                "warningMinAmountText": "Si envía menos de 0.001 BSV, perderá ese dinero",
+                "warningMinAmountTitle": "La cantidad mínima de depósito es de 0.001 BSV",
+                "warningText": "El envío de cualquier otra moneda a esta dirección puede resultar en la pérdida de su depósito.",
+                "warningTitle": "Enviar sólo BSV a este depósito de la dirección"
+            },
+            "coinomatBTC": {
+                "helpDescrText": "Cuando la transacción se confirme, la pasarela procesará la transferencia de BTC a un token en tu cuenta Waves.",
+                "helpDescrTitle": "Introduce esta dirección en tu cliente o cartera de Bitcoin",
+                "warningMinAmountText": "Si mandas menos de 0.001 BTC perderás tu dinero.",
+                "warningMinAmountTitle": "La cantidad mínima a depositar es de 0.001 BTC",
+                "warningText": "Enviar otro tipo de moneda a esta dirección puede ocasionar la pérdida de tu depósito.",
+                "warningTitle": "Envía solo BTC a esta dirección de depósito"
+            },
+            "coinomatDASH": {
+                "helpDescrText": "Una vez confirmada la transacción, la pasarela procesará la transferencia de DASH a un token en tu cuenta de Waves.",
+                "helpDescrTitle": "Introduce esta dirección en tu cliente o cartera de DASH",
+                "warningMinAmountText": "Si envías menos de 0.1 DASH perderás ese dinero.",
+                "warningMinAmountTitle": "La cantidad mínima para depositar es de 0.1 DASH",
+                "warningText": "Si envías otra moneda a esta dirección podrías perder tu depósito.",
+                "warningTitle": "Envía sólo DASH a esta dirección de depósito"
+            },
+            "coinomatETH": {
+                "helpDescrText": "Cuando la transacción se confirme, la pasarela procesará la transferencia de ETH a un token en tu cuenta Waves.",
+                "helpDescrTitle": "Introduce esta dirección en tu cliente o cartera Ethereum",
+                "warningMinAmountText": "Si mandas menos de 0.001 ETH perderás tu dinero.",
+                "warningMinAmountTitle": "La cantidad mínima a depositar es de 0.001 ETH",
+                "warningText": "Comprueba si tu monedero o tu exchange utiliza Smart-contracts para retirar ETH. No aceptamos ese tipo de transacción y no podemos devolverlo. Perderás ese dinero.",
+                "warningTitle": "!Por favor no deposites ETH desde Smart-Contract! No deposites tokens ERC20, solo se acepta Ethereum."
+            },
+            "coinomatLTC": {
+                "helpDescrText": "Cuando la transacción se confirme, la pasarela procesará la transferencia de LTC a un token en tu cuenta Waves.",
+                "helpDescrTitle": "Introduce esta dirección en tu cliente o cartera de Litecoin",
+                "warningMinAmountText": "Si mandas menos de 0.001 LTC perderás tu dinero.",
+                "warningMinAmountTitle": "La cantidad mínima a depositar es de 0.001 LTC",
+                "warningText": "Enviar otro tipo de moneda a esta dirección puede ocasionar la pérdida de tu depósito.",
+                "warningTitle": "Envía solo LTC a esta dirección de depósito"
+            },
+            "coinomatXMR": {
+                "helpDescrText": "Una vez se haya confirmado la transacción, la puerta de enlace procesará la transferencia de XMR a un token en su cuenta de Waves.",
+                "helpDescrTitle": "Introduzca esta dirección en su cliente Monero o en su monedero",
+                "warningMinAmountText": "Si envía menos de 0.1 XMR, perderá ese dinero.",
+                "warningMinAmountTitle": "El depósito mínimo es 0.1 XMR",
+                "warningText": "Enviar cualquier otra moneda a esta dirección puede resultar en la pérdida de su depósito.",
+                "warningTitle": "Envíe solo XMR la dirección de este depósito"
+            },
+            "coinomatZEC": {
+                "helpDescrText": "Cuando la transacción se confirme, la pasarela procesará la transferencia de ZEC a un token en tu cuenta Waves.",
+                "helpDescrTitle": "Introduce esta dirección en tu cliente o cartera de Zcash",
+                "warningMinAmountText": "Si mandas menos de 0.001 ZEC perderás tu dinero.",
+                "warningMinAmountTitle": "La cantidad mínima a depositar es de 0.001 ZEC",
+                "warningText": "Enviar otro tipo de moneda a esta dirección puede ocasionar la pérdida de tu depósito.",
+                "warningTitle": "Enviar solo Zcash a esta dirección de depósito"
+            },
+            "copyAndShare": "Copiar & Compartir dirección",
+            "currency": "Moneda",
+            "or": "O",
+            "pleaseNote": "Por favor, ten en cuenta que la pasarela no aplica ninguna Comisión por esta operación",
+            "scanQrCode": "Escanear Código QR",
+            "title": "Depósito {{assetName}}",
+            "vostokVST": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Vostok to a token in your Waves account.",
+                "helpDescrTitle": "Enter this address into your Vostok client or wallet",
+                "warningMinAmountTitle": "The minimum amount of deposit is 0.1 VST, the maximum amount of deposit is 50 000 VST"
+            }
+        },
+        "dexScriptedPair": {
+            "body": "Smart assets are assets that include a script that sets the conditions for the circulation of the token.{div}[We do not recommend you perform operations with smart assets if you are an inexperienced user. Before making a transaction, please read the information about the asset and its script carefully.]",
+            "heading": "Order placement for a pair that includes a Smart Asset"
+        },
+        "disabledFeature": {
+            "anyTransaction": "Las transacciones JSON no están disponibles temporalmente.",
+            "lease": "Leasing no está disponible temporalmente"
+        },
+        "disabledFeatures": {
+            "default": "Lo sentimos, esta función está actualmente desactivada.",
+            "massTransfer": "Las transferencias de massivas no están disponibles temporalmente.",
+            "transfer": "El envío de cryptomoneda no está disponible temporalmente."
+        },
+        "gatewaySign": {
+            "cancel": "Cancelar",
+            "continue": "Continuar",
+            "description": "{{name}} La aplicación tendrá acceso a tu dirección Waves. No obtendrá ni tu SEED ni tu Clave Privada.",
+            "descriptionDesktop1": "El enlace se abrirá en su navegador por defecto.Si desea utilizar otro navegador web,",
+            "descriptionDesktop2": "copiar",
+            "descriptionDesktop3": "y pegar el enlace en la barra de URL.",
+            "error": {
+                "button": "Cancelar",
+                "headline": "Algo falló...",
+                "title": "Error"
+            },
+            "headline": "{span.link}[{{url}}] wants to access your Waves Address",
+            "retrySign": "Reintentar",
+            "title": "Iniciar sesión en Waves",
+            "txHash": "TXHASH",
+            "warning": "No ingrese su frase secreta (SEED) en los sitios web en los que será redirigido."
+        },
+        "import": {
+            "errorBeta": "No pudimos recuperar sus cuentas del cliente Waves Beta. Intente importar desde el cliente Waves Lite.",
+            "errorHeader": "No se encontraron cuentas",
+            "errorLite": "No pudimos recuperar sus cuentas del cliente Waves Lite. Intente importar desde el Waves Beta Client.",
+            "errorUnable": "No pudimos recuperar sus cuentas. Restáurelos utilizando su frase de respaldo (SEED).",
+            "fromBetaButton": "Importar desde Beta Client",
+            "fromLiteButton": "Importar desde Lite Client",
+            "helpIcon": {
+                "description": "Para un funcionamiento correcto, recomendamos que permita ventanas emergentes. Instrucciones para navegadores: [Chrome](https://support.google.com/chrome/answer/95472?co=GENIE.Platform%3DDesktop&hl=en), [Safari](https://discussions.apple.com/thread/4271925),  [Firefox](https://support.mozilla.org/en-US/kb/pop-blocker-settings-exceptions-troubleshooting), [Opera](https://help.opera.com/en/presto/control-pages/).",
+                "title": "Algunos navegadores bloquean las ventanas emergentes de forma predeterminada."
+            },
+            "importButton": "Importar",
+            "importCancel": "Cancelar",
+            "iUnderstandButton": "Entiendo",
+            "selectAccountDescription": "Debe permitir ventanas emergentes en su navegador",
+            "selectAccountToImport": "Seleccione qué cuentas desea importar",
+            "selectAccountToImportFrom": "Seleccione desde dónde importar las cuentas",
+            "selectButton": "Seleccionar",
+            "wavesBetaClient": "Waves Beta Client",
+            "wavesBetaClientDescription": "Importar cuentas de Waves Beta Client",
+            "wavesLiteClient": "Waves Lite Client",
+            "wavesLiteClientDescription": "Importar cuentas desde Waves Lite Client"
+        },
+        "open-main": {
+            "dex": {
+                "cancel": "Crear una cuenta",
+                "message": "Para empezar el comercio, por favor regístrate o crea una cuenta",
+                "ok": "Registrarse"
+            },
+            "tokens": {
+                "cancel": "Crear una cuenta",
+                "message": "Para publicar un token, regístrate o crea una cuenta",
+                "ok": "Registrarse"
+            },
+            "wallet": {
+                "assets": {
+                    "cancel": "Crear una cuenta",
+                    "message": "Para abrir su cartera, regístrate o crea una cuenta",
+                    "ok": "Registrarse"
+                },
+                "cancel": "Crear una cuenta",
+                "leasing": {
+                    "cancel": "Crear una cuenta",
+                    "message": "Para abrir su cartera, regístrate o crea una cuenta",
+                    "ok": "Registrarse"
+                },
+                "message": "Para abrir su cartera, regístrate o crea una cuenta",
+                "ok": "Registrarse",
+                "portfolio": {
+                    "cancel": "Crear una cuenta",
+                    "message": "Para abrir su cartera, regístrate o crea una cuenta",
+                    "ok": "Registrarse"
+                },
+                "transactions": {
+                    "cancel": "Crear una cuenta",
+                    "message": "Para abrir su cartera, regístrate o crea una cuenta",
+                    "ok": "Registrarse"
+                }
+            }
+        },
+        "pairing": {
+            "downloadAppDescription": "Descarga nuestras aplicaciones móviles:",
+            "scanCodeDescription": "Escanear el código abajo con su dispositivo iPhone o Android para sincronizarlo con su cuenta."
+        },
+        "pinAsset": {
+            "cancel": "Cancelar",
+            "nothing": "Nada seleccionado",
+            "placeholder": "Escriba el nombre o la identificación del activo",
+            "submit": "Anclar",
+            "title": "Seleccione los activos que desea anclar"
+        },
+        "qr": {
+            "copyAndShare": "Copiar y compartir dirección",
+            "or": "O",
+            "scanQrCode": "Escanear Código QR",
+            "title": "Comparte tu dirección",
+            "warningText": "Enviar otro tipo de moneda a esta dirección puede ocasionar la pérdida de tu depósito.",
+            "warningTitle": "Envía solo WAVES y tokens Waves a esta dirección"
+        },
+        "receive": {
+            "accountStatus": "Estado de cuenta",
+            "addressOrAlias": "Dirección / Alias",
+            "amount": "Cantidad",
+            "amountYouPay": "Cantidad que pagas",
+            "asset": "Activo",
+            "bank": {
+                "title": "Banco"
+            },
+            "bankSuccessHeader": "Fuiste redirigido a IDNow.eu para la verificación.",
+            "bankSuccessText": "Después de superar la verificación recibirás un email con más instrucciones.",
+            "bankVerifiedPlateDescription": "Antes de retirar sus fondos, le recomendamos que lea  [las instrucciones](https://docs.wavesplatform.com/en/waves-client/transfers-and-gateways/eur-usd-transfers.html) y [los límites y las cuotas de transacciónes](https://coinomat.com/limits.php).",
+            "bankVerifiedPlateHeader": "DEBES rellenar los detalles de pago con la siguiente información:",
+            "card": {
+                "continue": "Continuar",
+                "title": "Tarjeta"
+            },
+            "cardSuccessHeader": "Has sido redirigido a Indacoin.com",
+            "cardSuccessText": "Después del pago que has hecho tu saldo será actualizado",
+            "coinomat": {
+                "serverError": "Servicio Coinomat no disponible temporalmente. Inténte de nuevo más tarde.",
+                "tryAgain": "Intente de nuevo"
+            },
+            "cryptocurrency": {
+                "title": "Criptomoneda"
+            },
+            "error": {
+                "cardAmount": {
+                    "gte": "La cantidad mínima que puedes depositar es {{gte}} {{currency}}",
+                    "lte": "La cantidad máxima que puedes depositar es {{lte}} {{currency}}",
+                    "precision": "El número en este campo no es válido. Puede incluir un máximo de 2 dígitos después del punto decimal."
+                }
+            },
+            "errors": {
+                "required": "Este campo es obligatorio"
+            },
+            "gatewayError": "Service Gateway temporarily unavailable. Try again later.",
+            "invoice": {
+                "title": "Factura"
+            },
+            "ledger": {
+                "cancel": "Anular",
+                "retry": "Reintentar"
+            },
+            "maximumIs": "El máximo es",
+            "minimumIs": "El mínimo es",
+            "providedByCoinomat": {
+                "descriprion": "{div}[Waves Platform AG no asume ninguna responsabilidad por las actividades llevadas a cabo por Coinomat y no toma parte en la relación que pueda surgir entre Coinomat y los usuarios de la Plataforma Waves en la prestación de este servicio.] {div}[Al utilizar los servicios de Coinomat, usted acepta estar sujeto a los [Términos de servicio de Coinomat y la realización de transacciones](https://coinomat.com/terms.php). Si no acepta estos términos, entonces no use los servicios de Coinomat.]",
+                "header": "Este servicio es provisto por Coinomat Company(Ð¡oinomat).",
+                "termsReadedInputLabel": "He leído y acepto la [Política de privacidad](https://coinomat.com/privacy.php). Soy consciente de que puedo revocar mi consentimiento total o parcialmente en cualquier momento con efecto para el futuro.",
+                "warning": "En caso de haber problemas con la verificación, el procesamiento de pagos o la revocación de su consentimiento, comuníquese con el equipo de soporte de Coinomat â € [support@coinomat.com](mailto:support@coinomat.com)"
+            },
+            "receive": "Recibir",
+            "serverAddressError": "Gateway address error",
+            "serverError": "Servicio Coinomat no disponible temporalmente. Inténte de nuevo más tarde.",
+            "shareInvoiceLink": "Comparte un Link a la factura",
+            "verified": "Verificado",
+            "vostok": {
+                "serverError": "Service Vostok temporarily unavailable. Try again later."
+            },
+            "wtry": {
+                "info": "Si tuvieras problemas con el proceso de pago, por favor, contacta con el equipo de soporte de Digilira - [support@digilira.com](mailto:support@digilira.com)"
+            },
+            "wtryPlate1Header": "Solo puedes usar la pasarela de Lira Turca si eres un ciudadano turco.",
+            "wtryPlate1Text": "Para realizar el depósito serás redirigido a [digilira.com](https://digilira.com)",
+            "wtrySuccessHeader": "Serás redirigido a Degilira.com",
+            "youWillGet": "Obtendrás aproximadamente"
+        },
+        "removeAccount": {
+            "cancel": "Cancelar",
+            "heading": "Eliminar cuenta",
+            "remove": "Eliminar",
+            "text": "{div}[Si borra una cuenta la perderá de forma permanente si no ha guardado una frase de copia de seguridad (SEMILLA).]\n{div}[Haga clic en el botón ELIMINAR para eliminar la cuenta, o en CANCELAR para volver a la pantalla anterior.]",
+            "warning": "No ha guardado su frase de seguridad (SEED)"
+        },
+        "removeKeeperAccount": {
+            "heading": "Eliminar cuenta de Waves Keeper",
+            "text": "Esto sólo suprimirá el acceso guardada a esta cuenta. No borrará la cuenta de Waves Keeper."
+        },
+        "removeLedgerAccount": {
+            "heading": "Eliminar cuenta de Ledger",
+            "text": "Esto no eliminará la cuenta de su Ledger. Solo eliminará la ruta guardada a esta cuenta en su Ledger."
+        },
+        "script": {
+            "anyTx": "JSON",
+            "setScript": "Transacción de script"
+        },
+        "send": {
+            "amount": "Cantidad",
+            "attachmentLength": "La descripción es demasiado larga",
+            "bankAccount": "Cuenta de banco",
+            "coinomat": {
+                "feeExplanation": "Detectamos una dirección {{assetName}} y enviaremos tu dinero mediante la pasarela Coinomat a esa dirección. La cantidad mínima es {{min, BigNumber}} {{assetTicker}}, la cantidad máxima es {{max, BigNumber}} {{assetTicker}}.",
+                "feeTitle": "La comisión de pasarela es {{fee, BigNumber}} {{assetTicker}}"
+            },
+            "coinomatLimits": "Minimo $100 USD/EUR, maximo $50,000 USD/EUR",
+            "coinomatWarningHeader": "Le enviaremos su dinero a través de gateway de Coinomat.",
+            "coinomatWarningText": "Antes de solicitar un retiro, por favor compruebe [las límites y las cuotas de transacción](https://coinomat.com/limits.php).",
+            "compare": {
+                "description": "Envías {{amount}} {{currency}} (${{mirror}})",
+                "details": "Ver Detalles",
+                "title": "¡Tu transacción está en marcha!"
+            },
+            "confirm": {
+                "back": "Ir atrás",
+                "confirm": "Confirmar",
+                "from": "Desde",
+                "title": "Detalles de la transacción",
+                "to": "A",
+                "total": "Total"
+            },
+            "currency": "Activo",
+            "description": "Descripción",
+            "descriptionPlaceholder": "Escribe un mensaje, opcional",
+            "errors": {
+                "address": "La dirección no es válida",
+                "allAddressesInvalid": "Todas las direcciones no son validas",
+                "button": "Cancelar",
+                "headline": "Algo ha salido mal",
+                "invalidChars": "Este campo solo puede contener números",
+                "max": "Fondos insuficientes",
+                "maxCoinomat": "No puedes transferir un monto superior a {{money, money-currency}}",
+                "paymentIdLength": "La ID de pago de Monero debe contener ser una línea hexadecimal de 64 caracteres",
+                "paymentIdPattern": "La línea hexadecimal debe consistir de símbolos 0-9 y A-Z (o a-z)",
+                "precision": "El número en este campo no es válido. Puede tener un máximo de {{precision}} dígitos después del punto decimal.",
+                "required": "Se requiere este campo",
+                "title": "Error"
+            },
+            "fee": "Comisión de transacción {{fee, money-currency}}",
+            "gateway": {
+                "feeExplanation": "We have detected a {{assetName}} address and will send your funds via a gateway to this address. The minimum amount is {{min, BigNumber}} {{assetTicker}}. The maximum amount is {{max, BigNumber}} {{assetTicker}}."
+            },
+            "icoWarning": "No retires {{assetName}} a una ICO. Nosotros no acreditaremos tu cuenta con tokens de esa venta.",
+            "idNumber": {
+                "helpIcon": {
+                    "description": "Puede encontrar más información sobre el retiro de dinero a una cuenta bancaria [ aquí](https://docs.wavesplatform.com/en/waves-client/transfers-and-gateways/eur-usd-transfers.html).",
+                    "title": "Su número de identificación es un número único asignado a cada usuario después de confirmar una cuenta bancaria con Coinomat."
+                }
+            },
+            "idNumberTitle": "Numero de ID",
+            "liraBankAccount": "Cuenta de Digilira",
+            "massSend": {
+                "clear": "Limpiar",
+                "description": "Descripción",
+                "errors": {
+                    "invalidAddress": "Lista de direcciones inválidas"
+                },
+                "importFile": "Importar un fichero CSV",
+                "recipient": "Destinatarios, Cantidades: {{count}}/{{max}}",
+                "recipientsAmountsPlaceholder": "Example:\nAddress1,Amount\nAddress2,Amount2",
+                "showAllErrors": {
+                    "false": "Mostrar todas ({{count}})",
+                    "true": "Mostrar los dos primeros errores"
+                },
+                "totalAmount": "Cantidad total",
+                "warningPlate1Header": "Puedes enviar a un máximo de 100 destinatarios",
+                "warningPlate1Text": "Cualquier destinatario después de los 100 primeros será ignorado.",
+                "warningPlate2Header": "Las direcciones inválidas no serán incluidas en la transferencia masiva.",
+                "warningPlate3Header": "Utiliza una coma para separar el destinatario y el importe a enviar. Usa una línea nueva para cada destinatario.",
+                "warningPlate3Text": "[Aprende más sobre los ficheros CSV standar](https://es.wikipedia.org/wiki/Valores_separados_por_comas)."
+            },
+            "massSendTitle": "Transferencia masiva",
+            "moneroPaymentId": "ID de pago de Monero",
+            "moneroPaymentIdPlaceholder": "Pegue o escriba su ID de pago de Monero",
+            "notSponsorship": {
+                "fee": "Cuota por transacción {{fee, money-currency}}"
+            },
+            "notVerifiedHeader": "No ha sido verificado",
+            "notVerifiedText": "Retiro a una cuenta bancaria sólo está disponible para los usuarios verificados. Puede encontrar más información sobre el envío y la recepción de dinero de fíat [aquí](https://docs.wavesplatform.com/en/waves-client/transfers-and-gateways/eur-usd-transfers.html).",
+            "or": "o",
+            "placeholderRecipient": "Pega o escanea una dirección",
+            "recipient": "Destinatario",
+            "sendMax": "Máx",
+            "sendTitle": "Enviar",
+            "title": "Enviar {{assetName}}",
+            "titleComplete": "Envío completo",
+            "toBank": "Retirar de cuenta bancaria",
+            "total": "Total",
+            "toWaves": "Enviar a la dirección de Waves",
+            "txFee": "Cuota por transacción",
+            "validationError": {
+                "notEnoughFunds": "No tienes suficientes fondos para pagar las comisiones necesarias. Debes pagar {{fee, money-currency}} por comisiones de transacción.",
+                "notEnoughFundsWithdraw": "No tienes suficientes fondos para pagar las comisiones necesarias. Debes pagar {{fee, money-currency}} {{getawayFee, BigNumber}} {{currency}} por comisiones de transacción y {{minGatewayAmount, BigNumber}} {{currency}} por comisiones de pasarela (gateway)."
+            }
+        },
+        "sepa": {
+            "countryList": "Lista de IDs y países seleccionables",
+            "proceed": "Ser verificado",
+            "step1": "Paso 1",
+            "step1Description": "Para depositar {{assetName}} directamente desde tu banco mediante transferencia SEPA tienes que ser verificado por nuestro socio [IDNow.eu]({{url}})",
+            "step2": "Paso 2",
+            "step2Description": "Después de superar la verificación recibirás un email con más instrucciones.",
+            "title": "Recibir {{assetName}}",
+            "warning": "Si surgen problemas con la verificación o con el proceso de pago, por favor contactar con el equipo de soporte de Coinomat - [support@coinomat.com](mailto:support@coinomat.com)",
+            "warningTitle": "No aceptamos transferencias electrónicas internaciones de ciudadanos americanos o de bancos americanos."
+        },
+        "setAssetScript": {
+            "errorNoMoney": "No tiene fondos suficientes para pagar las cuotas requeridas. Debe pagar la cuota de transacción {{fee, money-currency}}.",
+            "script": "Script",
+            "scripted": "Establecer",
+            "title": "Actualizar el script",
+            "unavailable": "Update Script functionality is temporarily unavailable",
+            "warningDescription": "{div}[No recomendamos que envíe las transacciones de script a menos que sea un usuario experimentado. Los errores pueden provocar una pérdida permanente del activo.]",
+            "warningHeader": "Las acciones pueden provocar una pérdida del activo."
+        },
+        "settings": {
+            "cancel": "Crear una cuenta",
+            "general": {
+                "auto": "Auto",
+                "blockHeight": "Altura de bloque",
+                "blue": "azul",
+                "color": "Color",
+                "dark": "Oscuro",
+                "green": "Clásico",
+                "hours": "{{hours}} horas",
+                "language": "Idioma",
+                "minutes": "{{minutes}} min",
+                "openLinkViaWeb": "Me gustaría siempre abrir los enlaces a través de la aplicación web",
+                "playSound": "Play user interface sound effects",
+                "theme": "Tema",
+                "timeout": "Sesión caducada",
+                "title": "General",
+                "white": "Blanco"
+            },
+            "info": {
+                "legal": "Legal",
+                "privacyPolicy": "Privacy Policy",
+                "support": "Soporte",
+                "termsAndConditions": "Los términos y condiciones",
+                "title": "Info",
+                "version": "Versión"
+            },
+            "message": "Para abrir los Ajustes, regístrate o crea una cuenta",
+            "network": {
+                "apiAddress": "Data service",
+                "apiAddressHelp": "The Data Service provides additional APIs for interacting with Waves blockchain data.",
+                "assetNameFilter": "Naming service",
+                "assetNameFilterHelp": "This service checks the name of the token with the Waves token library.\nFor completely disable it, clear the field.",
+                "copy": "copiar",
+                "dataProvider": "El proveedor de datos",
+                "dataProviderDescription": "{{dataProviderDescription}}",
+                "dataProviderId": "{{dataProviderId}}",
+                "dataProviderInvalid": "No se ha podido obtener la información del proveedor. Compruebe la dirección e inténtelo de nuevo",
+                "dataProviderName": "{{dataProviderName}}",
+                "dontShowSpamCheckboxDescr": "Don't show suspicious tokens",
+                "forDisableClear": "For completely disable it, clear the field.",
+                "matcherAddress": "Dirección del Matcher",
+                "nodeAddress": "Dirección del Nodo",
+                "showMore": "Mostrar más",
+                "spamFilter": "Filtro de spam",
+                "spamFilterInputDescr": "Desactivar el filtro de spam",
+                "spamListHelp": "Este filtro elimina tokens sospechosos de su cartera.",
+                "title": "Red"
+            },
+            "ok": "Regístrese",
+            "pairing": {
+                "devicePairing": "Exportar la cuenta",
+                "header": "Escanear código de Pairing",
+                "showCodeLink": "Mostrar código de Pairing",
+                "unavailable": {
+                    "description": {
+                        "ledger": "La exportación no está disponible para las cuentas almacenadas en el dispositivo Ledger",
+                        "wavesKeeper": "La exportación de las cuentas importadas de Waves Keeper está disponible en la configuración de Waves Keeper"
+                    },
+                    "header": {
+                        "ledger": "Exportación no disponible",
+                        "wavesKeeper": "Exportación no disponible"
+                    },
+                    "ok": "Entiendo"
+                }
+            },
+            "security": {
+                "address": "Dirección",
+                "backupPhrase": "Frase de Recuperación",
+                "encodedSeed": "Semilla codificada",
+                "privateKey": "Clave privada",
+                "publicKey": "Clave pública",
+                "script": "Script",
+                "scriptButton": "Establecer script",
+                "scriptButtonUpdate": "Actualizar script",
+                "show": "Mostrar",
+                "title": "Seguridad"
+            },
+            "setDefault": "Establecer por defecto",
+            "title": "Configuración"
+        },
+        "sign": {
+            "article": "artículo",
+            "cancel": "Cancelar",
+            "cancelOrder": "Cancelar la orden",
+            "close": "Cerrar",
+            "confirm": "Confirmar",
+            "confirmRequest": "Confirmar petición",
+            "confirmRequest_utils": "Confirmar petición",
+            "confirmRequestKeeper": "Esperando confirmación de Waves Keeper ...",
+            "confirmRequestLedger": {
+                "cancel": "Anular",
+                "errorDescription": "Inténtelo de nuevo. Si el error persiste, por favor, consulte [ este artículo]",
+                "errorHeader": "No ha confirmado la solicitud en el dispositivo Ledger",
+                "sign": "Vuelva a intentar iniciar sesión",
+                "waiting": "Esperando confirmación del dispositivo Ledger Nano S..."
+            },
+            "confirmRequestMatcher_utils": "Firme una solicitud al Matcher. Si no inicias sesión, no puedes comerciar en DEX desde una cuenta Ledger.",
+            "confirmRequestToMatcher": "Firme una solicitud a la Matcher. Si no lo firma, no puede comerciar con DEX.",
+            "connecting": "Conectando",
+            "connectingKeeper": "Conectando con Waves Keeper ...",
+            "connectionError": "No se puede conectar el Ledger",
+            "connectionErrorKeeper": "No se puede acceder a la cuenta",
+            "connectionText": "La conexión puede haber agotado el tiempo de espera. Inténtalo de nuevo.",
+            "connectLedger": "Conecte su dispositivo Ledger",
+            "enterPin": "Ingrese su código PIN",
+            "fee": "Cuota",
+            "matcher": "Solicitud de pedidos de órdenes",
+            "openApp": "Abra la aplicación Waves",
+            "price": "Precio",
+            "refererTo": "Si el error persiste, consulte a",
+            "referTo": "Si el error persiste, consulte a",
+            "request": "petición",
+            "requestId": "Solicitar hash",
+            "retry": "Intente de nuevo",
+            "signByKeeper": "Esperando confirmación del Waves Keeper",
+            "signByLedger": "Esperando confirmación del Ledger...",
+            "signError": "La petición no ha sido confirmada.",
+            "signErrorKeeper": "No ha confirmado la solicitud utilizando Waves Keeper",
+            "signErrorText": "No ha confirmado la solicitud en su dispositivo.",
+            "signErrorTextImportKeeper": "Iniciar sesión en Waves Keeper con la dirección{{address}}, y luego actualice la página para continuar.",
+            "signErrorTextKeeper": "Inténtelo de nuevo. Si el error persiste, cree un tíquet en [Soporte]https://support.wavesplatform.com/)",
+            "txId": "TXID"
+        },
+        "sponsorship_edit": {
+            "title": "Cambio de patrocinio"
+        },
+        "sponsorship": {
+            "amountPerTx": "Cantidad por transacción (por 0.001 WAVES)",
+            "assetId": "ID",
+            "continue": "Continuar",
+            "errors": {
+                "feeRequired": "¡Este campo es obligatorio!",
+                "minSponsoredAssetFee": {
+                    "precision": "El número en este campo no es válido.Puede incluir un máximo de {{precision}} dígitos después del punto decimal."
+                },
+                "noMoney": "No tiene fondos suficientes para pagar las cuotas requeridas. Debe pagar la cuota de transacción {{fee, money-currency}}.",
+                "notZero": "El valor debe ser mayor que 0"
+            },
+            "fee": "Cuota de transacción {{fee, money-currency}}",
+            "title": "Activar el Patrocinio",
+            "warningHeader": "Los usuarios podrán pagar cuotas de transacción en {{name}}",
+            "warningText": "Para cada transacción, 0.001 WAVES se deducirán de su saldo y {{name}} se acreditarán a su cuenta. La cantidad de {{name}} que se cargará a los usuarios para las transacciones se establece cuando se habilita el patrocinio (introduzca la cantidad en el formulario siguiente). El patrocinio sólo funcionará si tiene un balance de al menos 1,005 WAVES. Si su saldo se encuentra por debajo de esta cantidad, no podrá patrocinar las transacciones."
+        },
+        "startLease": {
+            "amount": "Cantidad",
+            "balance": "Saldo",
+            "fee": "Comisión {{fee, money-currency}}",
+            "nodeListLink": "Lista de nodos",
+            "nodeListLink_copy": "Lista de nodos",
+            "recipient": "Destino",
+            "start": "Empezar a arrendar",
+            "title": "Empezar el arrendamiento"
+        },
+        "termsAccept": {
+            "body": {
+                "advancedMode": "Características avanzadas",
+                "analytics": "Me gustaría ayudar a mejorar Waves Platform mediante el envío de estadísticas de uso anónimas a los desarrolladores.",
+                "backup": "Entiendo que si la app se lleva a otro dispositivo o se borra, mi cuenta solo se podrá recuperar con la frase de backup (SEED).",
+                "ok": "Confirmar y Empezar",
+                "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf).",
+                "read": "He leído, comprendido y estoy de acuerdo con el",
+                "readTermsAndConditions": "He leído, entendido y acepta los [Términos y Condiciones](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf)",
+                "security": "Entiendo que mis fondos se mantienen seguros en este dispositivo, no por una empresa",
+                "securityAndBackup": "I understand that my funds are held securely on this device, not by a company. If this app is moved to another device or deleted, my Waves can only be recovered with the backup phrase.",
+                "terms": "Términos de uso"
+            },
+            "header": {
+                "description": "!Waves es diferente! El monedero (Wallet) se guarda de forma segura en tu dispositivo",
+                "title": "¡Hecho! vamos a revisarlo",
+                "title2": "Términos de uso"
+            }
+        },
+        "token": {
+            "balance": "Saldo",
+            "burn": {
+                "label": "Cantidad de tokens a quemar",
+                "title": "Quemar {{name}} Tokens"
+            },
+            "description": "Descripción",
+            "fee": "Comisión de Transacción {{fee, money-currency}}",
+            "gt0": "El número introducido debe ser mayor de cero",
+            "id": "ID",
+            "quantity": "Tokens han sido emitidos",
+            "reissue": {
+                "label": "Cantidad de tokens para ser re-emitidos",
+                "title": "{{name}} Re-emitir Tokens"
+            },
+            "validation": {
+                "gt0": "Se requiere este campo",
+                "invalidAsset": "El campo solo puede contener números",
+                "invalidPrecision": "Excedido el máximo de {{precision}} lugares decimales",
+                "lteMaxBalance": "La cantidad no puede ser mayor que el saldo",
+                "maxValueCount": "El número es demasiado largo",
+                "noMoney": "Tu saldo no es suficiente como para pagar las comisiones de transacción",
+                "required": "Se requiere este campo"
+            }
+        },
+        "tryDesktop": {
+            "remember": "Recordar mi elección y no recordarme de nuevo"
+        },
+        "tutorialModals": {
+            "step1": {
+                "button": "Lo que tienes que saber sobre tu SEED",
+                "buttonMobile": "Siguiente",
+                "p1": "Por favor, dedica un momento para entender algunas cosas importantes sobre tu propia seguridad.",
+                "p2": "Nosotros no podemos recuperar tus fondos ni congelar tu cuenta si tu visitas un sitio de suplantación de identidad o pierdes tu frase de recuperación (conocido como SEED).",
+                "p3": "Continuar usando nuestra plataforma, muestras tu conformidad en aceptar todos los riesgos asociados a la pérdida de tu SEED, incluyendo pero no limitado a la incapacidad de obtener sus fondos y disponer de ellos. En caso de que pierda su SEED, acepta y reconoce que Waves Platform no se responsabilizará de las consecuencias negativas por ello.",
+                "title": "¡Bienvenido a la Plataforma Waves!"
+            },
+            "step2": {
+                "backButton": "Ir atrás",
+                "cell1": "Usas tu billetera (Wallet) anónimamente, lo que significa que no está vinculada a un email o a ninguna otra información de identificación.",
+                "cell2": "Tu contraseña protege tu cuenta cuando trabajas en un determinado dispositivo o navegador. Es necesario para garantizar que la frase secreta no se guarda en ningún almacenamiento definitivo.",
+                "cell3": "Si olvidas tu contraseña, fácilmente puedes crear una nueva utilizando el formulario de recuperación de cuenta usando tu frase de recuperación secreta. Si perdieras tu frase secreta, sin embargo, no habría manera de acceder a tu cuenta.",
+                "cell4": "No puedes cambiar tu frase secreta. Si accidentalmente se la envías a alguien o sospechas que estafadores se han podido apoderar de ella crea inmediatamente un nuevo Wallet y transfiere todos tus fondos.",
+                "nextButton": "Protégete",
+                "p1": "Cuando das de alta tu cuenta, te pedimos que guardes tu frase secreta (SEED) y que la protejas con una contraseña. En los servidores centralizados normales, se presta especial atención a la contraseña, que se puede cambiar y restablecer por correo electrónico, si es necesario. Sin embargo, en plataformas descentralizadas como Waves, todo está organizado de manera diferente:",
+                "title": "Lo que necesitas saber sobre tu SEED"
+            },
+            "step3": {
+                "backButton": "Ir atrás",
+                "cell1": "Siempre asegúrate de comprobar la URL: [https://client.wavesplatform.com](https://client.wavesplatform.com)",
+                "cell2": "No uses navegadores que tengan extensiones o plugins para acceder a tu cuenta.",
+                "cell3": "No abras emails o links de remitentes desconocidos.",
+                "cell4": "Actualiza tu sistema operativo con regularidad.",
+                "cell4Web": "Actualiza de forma regular tu navegador y sistema operativo.",
+                "cell5": "Utiliza software oficial y seguro. No instales software desconocido que pudiera ser hackeado.",
+                "cell6": "No accedas a tu cartera (Wallet) cuando uses un acceso público Wi-Fi o el dispositivo de alguien.",
+                "nextButton": "Lo entiendo",
+                "p1": "Una de las formas más comunes de estafa es la suplantación de identidad, en el que estafadores crean falsas comunidades de Facebook u otros websites que se parecen a los auténticos.",
+                "title": "¿Cómo protegerte de los estafadores?"
+            }
+        }
+    },
+    "modals": {
+        "anyTx": {
+            "title": "JSON"
+        }
+    },
+    "notification": {
+        "backup": {
+            "action": "Guardar",
+            "body": "Guarda tu SEED de forma segura, es la única manera de recuperar tu monedero (wallet).",
+            "title": "Guarda tu frase de respaldo (SEED)"
+        }
+    },
+    "qualified": "calificado",
+    "transaction": {
+        "amounts": {
+            "create-order": "{{sign}}{{amount}} {{name}}"
+        }
+    },
+    "Unpin_utils": "Desprender",
+    "utils": {
+        "whatsNew": {
+            "body": {
+                "1_0_0": "{span.line}[1. Waves Client salió de beta.] {span.line} [2. Ahora puede anclar y desanclar cualquier activo en la página principal.] {span.line} [3. Modo nocturno agregado.] {span.line} [4. Ahora puede importar todas sus cuentas desde el antiguo cliente fácilmente.] {span.line} [5. Correcciones de errores menores.]",
+                "1_0_0-beta_23": "{span.line}[1. Hemos añadido la sección ¡Novedades! {span.line}[2. Ahora puedes añadir un nombre a tu cuenta.]{span.line}[3. Se han corregido algunos errores leves.]",
+                "1_0_0-beta_25": "{span.line}[1. Se puede cambiar el tiempo para que expire la sesión en Configuración.]{span.line}[2. Hemos corregido el error en la ventana de Compra/Venta en el DEX para prevenir que sea movida fuera del área de visión.]{span.line}[3. Ahora te lo recordamos si no has guardado tu SEED.]{span.line}[4. Se han corregido algunos errores leves.]",
+                "1_0_0-beta_26": "{span.line}[1. Se han corregido algunos errores leves.]",
+                "1_0_0-beta_27": "{span.line}[1. Lenguaje Chino añadido.]{span.line}[2. Lenguaje Turko añadido.]",
+                "1_0_0-beta_30": "{span.line}[1. Ahora puedes quemar y volver a emitir tokens que tenías generados.]{span.line}[2. Added the Waves Auth API support.]{span.line}[3. Some minor bugs have been fixed.]",
+                "1_0_0-beta_31": "{span.line}[1. Ahora puedes comprar WAVES y BTC con tarjeta de crédito.]{span.line}[2. Mejorada la IU en la ventana Compra/Venta.]{span.line}[3. Añadido soporte para Windows 32-bit.]{span.line}[4. Corregidos numerosos errores.]",
+                "1_0_0-beta_32": "{span.line}[1. Ahora se pueden hacer transferencias masivas desde el Cliente.]{span.line}[2. Algunos errores leves corregidos.]",
+                "1_0_0-beta_35": "{span.line}[1. Ahora se puede ordenar, filtrar y esconder tokens en la pestaña Portfolio.]{span.line}[2. Lanzada la pasarela DASH.]{span.line}[3. Añadido soporte para lenguaje Indio.]{span.line}[4. Añadido soporte para lenguaje Alemán.]{span.line}[5. Puedes facturar a otros usuarios.]{span.line}[6. Han sido solucionados errores leves.]",
+                "1_0_0-beta_36": "{span.line}[1. Los principales nodos de arrendamiento se enumeran en la página de arrendamiento.]{span.line}[2. Se han resuelto algunos errores.]",
+                "1_0_0-beta_39": "{span.line}[1. Se ha añadido un filtro de spam a los Ajustes.]{span.line}[2. Se han resuelto varios errores menores adicionales.]",
+                "1_0_0-beta_40": "{span.line}[1. Se ha lanzado la puerta de enlace de Monero.]",
+                "1_0_0-beta_42": "{span.line}[1. Se ha añadido el idioma Español.]{span.line}[2. Puede usar el cliente sin tener que guardar los detalles de la cuenta por defecto.]{span.line}[3. Los tokens spam se marcan ahora en la página de transacciones.]{span.line}[4. Se han resuelto varios errores menores adicionales.]",
+                "1_0_0-beta_47": "{span.line}[1. Completamente nueva interfaz de usuario DEX.] {span.line}[2. Cliente más rápido y estable.] {span.line}[3. La funcionalidad de alias está disponible nuevamente.] {span.line}[4. Se han solucionado algunos errores menores.] {span.line}[5. Participe en nuestras competiciones haciendo un [video](https://forum.wavesplatform.com/t/contest-best-waves-dex-video-review/822) o escribiendo un [artículo](https://forum.wavesplatform.com/t/contest-for-the-writers-waves-dex-overview/835).]",
+                "1_0_0-beta_50": "{span.line}[1. Ahora puede grabar los tokens que tenga en su cuenta.]{span.line}[2. Errores menores adicionales han sido arreglados.]",
+                "1_0_10": "{span.line}[1. Soporte de transacciones de patrocinio añadido.[Leer más]https://docs.wavesplatform.com/en/waves-client/assets-management/sponsored-transaction.html)]\n{span.line}[2.Soporte de idiomas polaco y Portugués añadido.]",
+                "1_0_14": "{span.line}[1. Corregido el error con el uso de Patrocinados Activos sin saldo de Waves.]\n{span.line}[2. Corregido el error con 30 días de caducidad de las órdenes.]\n{span.line}[3. Algunos otros bugs menores.]",
+                "1_0_15": "{span.line} [ 1. Los problemas con la confirmación de Ledger se han arreglado.)\n{span.line} [ 2. Aumento del tiempo de espera para la confirmación de Ledger.)\n{span.line} [ 3. Se ha añadido información detallada a los mensajes de error.)",
+                "1_0_18": "{span.line} [ 1. Ahora puede configurar un script para su cuenta.)\n{span.line} [ 2. Se han corregido fallos menores adicionales.)",
+                "1_0_21": "{span.line} [ 1. Confirmación de autorización fija a través de Ledger.)\n{span.line} [ 2. Numerosos pequeños arreglados.)",
+                "1_0_22": "{span.line} Se han añadido funciones avanzadas para trabajar con cuentas con script.",
+                "1_0_25": "{span.line}[1. [Waves Keeper](https://chrome.google.com/webstore/detail/waves-keeper/lpilbniiabackdjcionkobglmddfbcjo?hl=en) se ha añadido soporte.]",
+                "1_0_27": "{span.line} [ 1. Se ha añadido la categoría \"Mis activos\" en Portfolio.)\n{span.line} [ 2. Las bugs menores han sido arregladas.)",
+                "1_0_28": "{span.line} [ 1. Se ha añadido una función de 'pairing' para importar cuentas existentes a dispositivos móviles.)\n{span.line} [ 2. Las bugs menores han sido arregladas.)",
+                "1_0_29": "{span.line} [ 1. La generación de código QR utilizando el alfabeto cirílico se ha arreglado.)\n{span.line} [ 2. Se ha añadido la ayuda contextual para la búsqueda de lista de observación.)\n{span.line} [ 3. Arreglos cosméticos adicionales. )",
+                "1_0_3": "{span.line}[1. Ahora puede buscar activos por ID en la página Portafolio.] \n{span.line}[2. Errores menores adicionales han sido arreglados.]",
+                "1_0_30": "{span.line} [ 1. El botón Establecer script se ha movido a la sección Seguridad en la Configuración.)\n{span.line} [ 2. Mejoras de rendimiento y cambios cosméticos.)",
+                "1_0_32": "{span.line}[1.Integración con oracle de BetterTokens.]\n{span.line}[2. añadido soporte para el protocolo de verificación token.]\n{span.line}[3. Comisión fija de contabilidad para el token de retiro a través de Coinomat.]",
+                "1_0_33": "{span.line} [ 1. Ahora recibirá una notificación si intenta colocar un pedido a un ritmo significativamente diferente de la tarifa actual del mercado.] {span.line} [ 2. Las bugs menores han sido arregladas.]",
+                "1_0_36": "{span.line} [1. Se ha añadido la posibilidad de comerciar con DEX con cuentas de script.] {span.line} [2. Se ha añadido la búsqueda de activos al crear una factura o al enviar un activo.] {span.line} [3. Ediciones de diseño minor.]",
+                "1_0_37": "{span.line}[1. funcionalidad activo inteligente añadido: emisión y reemisión quema]\n{span.line}[2. añadidos idiomas italianos, alemán e Indonesia]\n{span.line}[3. menor corrección de errores]",
+                "1_0_40": "{span.line}[1. optimización del DEX.]\n{span.line}[2. añadido tasa de cambio de 'current pair' en el título de ficha navegador.]\n{span.line}[3. Corregidos errores menores.]",
+                "1_0_41": "{span.line}[1. optimización del DEX.]\n{span.line}[2. Sistema de notificación añadido].\n{span.line}[3. Corregidos errores menores.]",
+                "1_0_42": "{span.line}[1. Corregidos errores menores.]",
+                "1_0_5": "{span.line}[1. La escala de volumen comercial se ha agregado en los gráficos DEX.]\n{span.line}[2. Errores menores adicionales han sido arreglados.]",
+                "1_0_6": "{span.line}[1. La autorización mediante Waves Desktop Client ha sido agregada.]",
+                "1_0_7": "{span.line}[1. Se han corregido algunos fallos del cliente de escritorio..]\n{span.line}[2. Optimizado de conmutación entre TX y cartera, con una gran cantidad de contenido.]\n{span.line}[3. Spam-tokens nombres están ocultos en la lista TX.]\n{span.line}[4. Los mensajes de Error de salida ha sido rediseñada.]",
+                "1_0_8": "{span.line}[1. Se ha añadido soporte Ledger Nano S.]\n{span.line}[2. Se ha agregado una nueva opción para el ahorro de su elección del método de autorización ].",
+                "1_1_0": "{span.line}[1. El periodo de caducidad de pedido se guarda ahora de forma predeterminada.] {span.line}[2. Corregidos errores menores.]",
+                "1_2_0": "{span.line}[1. Added Japanese and Estonian languages.]\n{span.line}[2. Improved UI in the Buy/Sell window.]\n{span.line}[3. Numerous minor bugs fixed.]",
+                "1_2_1": "{span.line}[1. The application now saves the chart size and scale settings as well as the time interval.]\n{span.line}[2. Fixed minor bugs.]",
+                "1_2_2": "{span.line}[1. Security updates.]{span.line}[2. Fixed minor bugs.]",
+                "1_2_3": "{span.line}[1. Added support for Ledger Waves 1.0.0 app.]",
+                "1_2_6": "{span.line}[1. Invocation script transaction support added. [Read more](https://blog.wavesplatform.com/ride-for-dapps-hits-waves-testnet-e3f2906dd2aa)]\n{span.line}[2. Improved UI and additional minor bugs have been fixed.]",
+                "1_2_8": "{span.line}[1. Spam tokens and transactions have been hidden in client.]\n{span.line}[2. Improved UI and additional minor bugs have been fixed.]",
+                "1_3_0": "{span.line}[1. Improved app navigation and start page interface.]",
+                "1_3_2": "{span.line}[1. Vostok gateway has been launched.]\n{span.line}[2. Improved UI and additional minor bugs have been fixed.]",
+                "1_3_5": "{span.line}[1. A tab with [wsoc.io](https://wsoc.io) contest tokens has been added.]\n{span.line}[2. French language support added.]\n{span.line}[3. Additional minor bugs have been fixed.]",
+                "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Now you can rate tokens directly in the app.]\n{span.line}[2. Additional minor bugs have been fixed.]"
+            },
+            "title": "Qué novedades trae la versión {{version}}"
+        }
+    },
+    "validators": {
+        "byte": {
+            "help": "Quedan: {{bytes}}"
+        }
+    }
+}

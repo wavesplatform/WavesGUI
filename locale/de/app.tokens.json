@@ -1,0 +1,79 @@
+{
+    "count": "Gesamtanzahl Tokens",
+    "create": "Generieren",
+    "description": "Beschreibung",
+    "directives": {
+        "sign": {
+            "confirmRequestLedger": {
+                "waiting": "Warte auf Bestätigung auf Ledger..."
+            }
+        }
+    },
+    "fee": "Gebühr {{fee, money-currency}}",
+    "help": {
+        "name": "Bitte verwenden sie nur lateinische Buchstaben"
+    },
+    "helpIcon": {
+        "demicals": "Dieses Feld definiert die Anzahl der Dezimalstellen, in die ihr Asset-Token unterteilt wird.",
+        "scriptDescription": "Jede Validierung einer Transaktion durch ein Smart Asset-Skript erhöht die Transaktionsgebühr um 0,004 WAVES. Wenn beispielsweise eine normale Tx für ein Smart Asset erstellt wird, betragen die Kosten 0,001 0,004 = 0,005 WAVES. Bei einem Tauschvorgang betragen die Kosten 0,003 0,004 = 0,007 WAVES.",
+        "scriptHeader": "Ein Smart Asset ist ein Asset mit einem angehängten Skript, das für jede Transaktion, die für das betreffende Token gemacht wird, Bedingungen festlegt.",
+        "scriptLearnMore": "Mehr erfahren",
+        "totalTokens": {
+            "headline": "Dieses Feld definiert die Gesamtmenge an Token, die ihr Asset enthalten soll.",
+            "notReissuable": "Ein nicht-erweiterbares Asset bleibt dauerhaft auf die initial definierte Menge an Tokens beschränkt.",
+            "reissuable": "Die Erweiterung ermöglicht die Erstellung zusätzlicher Tokens, die zum gesamten Token Vorrat des Assets hinzugefügt werden."
+        }
+    },
+    "modal": {
+        "title": "{{name}} Generierung",
+        "titleSuccess": "{{name}} Generierung abgeschlossen"
+    },
+    "name": "Name Ihres Assets",
+    "notifications": {
+        "isNotCreated": "Token wurde nicht erstellt"
+    },
+    "pageTitle": "Token Generierung",
+    "placeholders": {
+        "description": "Sie können die Beschreibung später nicht mehr ändern",
+        "precision": "Von 0 bis 8"
+    },
+    "precision": "Dezimalstellen",
+    "preview": "Vorschau",
+    "reissuable": {
+        "false": "Nicht erweiterbar",
+        "true": "Erweiterbar"
+    },
+    "script": "Smart Asset",
+    "success": {
+        "description": "Sie haben {{amount}} {{name}} erstellt",
+        "done": "Öffnen sie das Portfolio",
+        "title": "Ihre Transaktion ist auf dem Weg!"
+    },
+    "switchScriptOff": "Skript deaktivieren",
+    "switchScriptOn": "Skript aktivieren",
+    "tokens": {
+        "changeColorTooltip": "Change color",
+        "inputHelper": {
+            "description": "If you use this name, your token will be categorised as 'Suspicious' and will be searchable only by ID.",
+            "header": "This asset name has been taken"
+        },
+        "termsOfUse": {
+            "checkbox": "I understand that in the case of non-compliance with the rules, my token will be categorised as 'Suspicious', and will be available for search only by ID."
+        }
+    },
+    "validators": {
+        "byte": {
+            "gte": "Der Objektname muss zwischen 4 und 16 Byte lang sein",
+            "lte": "Der Objektname muss zwischen 4 und 16 Byte lang sein"
+        },
+        "descriptionLen": "Die Beschreibung ist zu lang. Sie darf nicht mehr als 1.000 Bytes umfassen.",
+        "invalidScript": "Syntax-Fehler",
+        "maxValueCount": "Eingegebener Wert ist zu groß",
+        "maxValuePrecision": "Ungültiger Wert. Geben Sie eine Zahl von 0 bis 8 ein",
+        "minValueCount": "Der Wert muss größer als 0 sein",
+        "minValuePrecision": "Ungültige Nummer. Geben sie die Nummer von 0 bis 8 ein",
+        "noMoney": "Ihr Kontostand reicht nicht aus, um Transaktionsgebühren zu bezahlen",
+        "precisionCount": "Die Gesamtzahl der Assets darf nicht mehr Dezimalstellen enthalten als im Feld \"Dezimalstellen\" angegeben",
+        "required": "Dieses Feld muss ausgefüllt werden"
+    }
+}

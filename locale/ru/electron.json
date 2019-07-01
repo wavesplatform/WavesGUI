@@ -1,0 +1,30 @@
+{
+    "menu": {
+        "copy": "Копировать",
+        "cut": "Вырезать",
+        "dev_tools": "Инструменты разработчика",
+        "paste": "Вставить",
+        "quit": "Выход",
+        "title": {
+            "application": "Программа",
+            "edit": "Правка",
+            "god_mode": "Режим Бога"
+        }
+    },
+    "modal": {
+        "set_protocol_error": {
+            "close": "Закрыть",
+            "message": "Can't set default protocol for launch waves client. Links from browser temporally not supported!",
+            "report": "Report",
+            "title": "Set open protocol error"
+        }
+    },
+    "storage": {
+        "read": {
+            "error": {
+                "body": "Произошла ошибка при попытке загрузки ключей. Мы восстановили ваши аккаунты из резервного хранилища.",
+                "title": "Акаунты успешно восстановлены из бэкапа"
+            }
+        }
+    }
+}

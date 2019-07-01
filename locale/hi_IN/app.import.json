@@ -1,0 +1,21 @@
+{
+    "back": "मुख्य पेज पर वापस जाएं",
+    "import": {
+        "signIn": "Sign in"
+    },
+    "importAccount": "इम्पोर्ट खाते",
+    "importAccountInfo": "यह चुनें कि खातों को कहां से आयात किया जाए",
+    "KeeperClient": "वेव्स कीपर",
+    "keeperDescription": "वेव्स कीपर से आयात खाता",
+    "keeperForm": "इंस्टॉल करें",
+    "LedgerClient": "Ledger Device",
+    "ledgerDescription": "अपने लेडजर नैनो एस से खाते आयात करें",
+    "or": "या",
+    "selectButton": "चुने",
+    "wavesClient": "Waves Client",
+    "wavesClientDescription": "Import account from a Waves Client",
+    "wavesLiteClient": "वेव्स लाइट क्लाइंट",
+    "wavesLiteClientDescription": "वेव्स लाइट क्लाइंट से खाते आयात करें",
+    "wavesSeedClient": "बैकअप सीड वाक्यांश",
+    "wavesSeedClientDescription": "एक बैकअप सीड से खाता आयात करें"
+}

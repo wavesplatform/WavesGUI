@@ -1,0 +1,901 @@
+{
+    "confirmTransaction": {
+        "signLedger": "Wachten op bevestiging van Ledger…"
+    },
+    "directives": {
+        "anyTransaction": {
+            "calculatingFee": "Transactiekosten: vul alles in om te berekenen",
+            "errors": {
+                "invalidScript": "Syntax error",
+                "required": "Dit veld is verplicht!"
+            },
+            "fee": "Transactiekosten {{fee, money-currency}}",
+            "ok": "Ga door",
+            "textAreaTitle": "TX JSON",
+            "warning": {
+                "body": "We raden u af om JSON bestanden te gebruiken tenzij u een geavanceerde gebruiker bent. Fouten kunnen tot onherstelbaar verlies leiden.",
+                "title": "Waarschuwing: deze actie kan tot verlies van toegang tot uw account leiden."
+            }
+        },
+        "filter": {
+            "helpIcon": {
+                "assetId": "Asset ID",
+                "description": "Meer informatie over het zoeken van assets [hier](https://docs.wavesplatform.com/en/waves-client/)",
+                "header": "U kunt zoeken op:",
+                "name": "Naam",
+                "ticker": "Ticker"
+            }
+        },
+        "scriptForm": {
+            "acceptAndContinue": "Accepteer en ga door",
+            "changePlaceholder": "Voer een nieuw script in, of laat het veld leeg om een bestaand script te annuleren.",
+            "createPlaceholder": "Voer hier uw script in",
+            "errors": {
+                "fee": "U heeft onvoldoende saldo om de benodigde transactiekosten te betalen. De transactiekosten bedragen {{fee, money-currency}}.",
+                "invalidScript": "Syntax error",
+                "required": "Dit veld is verplicht"
+            },
+            "fee": "Transactiekosten {{fee, money-currency}}",
+            "ideLink": "Scripts kunnen gemaakt worden door middel van [Waves Ride IDE](https://ide.wavesplatform.com/)",
+            "ok": "Onderteken",
+            "textAreaTitle": "Base64 script",
+            "warning": {
+                "body": "Wij raden aan GEEN script transacties te maken tenzij u een gevorderde gebruiker bent. Fouten kunnen tot permanent verlies van toegang tot uw account leiden.",
+                "title": "Waarschuwing: Fouten kunnen tot permanent verlies van toegang tot uw account leiden."
+            },
+            "warningDescription": "We raden u aan geen script transacties te gebruiken tenzij u een geavanceerde gebruiker bent. Fouten kunnen leiden tot permanent verlies van uw account.",
+            "warningHeader": "Acties kunnen leiden tot permanent verlies van uw account."
+        },
+        "setAssetScriptForm": {
+            "fee": "Transactiekosten {{fee, money-currency}}"
+        },
+        "sign": {
+            "confirmRequestKeeper": {
+                "sign_utils": "Probeer opnieuw"
+            }
+        }
+    },
+    "inputs": {
+        "errors": {
+            "gtGatewayMin": "U kunt geen bedrag minder dan {{min}} {{assetName}} versturen"
+        }
+    },
+    "keeperForm": {
+        "address": "Account adres",
+        "back": "Ga terug",
+        "error": {
+            "hasLockedKeeperDescription": "Om verder te kunnen werken met Waves Keeper dient u het vooraf ingegeven wachtwoord in te voeren of een nieuwe aan te maken.",
+            "hasLockedKeeperHeader": "Voer wachtwoord in van Waves Keeper",
+            "hasNoUsersDescription": "Log in een bestaand account, of creëer een nieuw account, en probeer opnieuw.",
+            "hasNoUsersHeader": "U heeft geen actief account",
+            "install": "Installeer",
+            "networkDescription": "Het account dat u heeft geselecteerd is op het verkeerde netwerk. Wijzig het netwerk en probeer het opnieuw.",
+            "networkHeader": "Wijzig netwerk",
+            "notInstalledDescription": "Na installatie, creëer een account, log in en ververs de pagina om door te gaan.",
+            "notInstalledHeader": "Heeft u Waves Keeper niet?",
+            "refresh": "Probeer opnieuw"
+        },
+        "heading": "Importeer account van Waves Keeper",
+        "loading": "Importeer account van Waves Keeper",
+        "login": "Ga door",
+        "name": "Accountnaam",
+        "or": "OF",
+        "retry": "Probeer opnieuw",
+        "saveUserData": "Blijf ingelogd op deze computer"
+    },
+    "LedgerClient_utils": "Ledger Device",
+    "LedgerClientDescription": "Importeer account van Waves Keeper",
+    "modal": {
+        "acceptNewTerms": {
+            "title": "Gebruiksvoorwaarden overeenkomst"
+        },
+        "account": {
+            "address": "Uw adres",
+            "aliases": "Aliassen",
+            "aliasesWarning": "Alias-functionaliteit is tijdelijk niet beschikbaar",
+            "cancel": "Maak een account aan",
+            "create": "Nieuw aanmaken",
+            "createAliasNotPermitted": "De alias creëer functie is tijdelijk niet beschikbaar.",
+            "fee": "Fee {{price}} {{name}}",
+            "hasAlias": "Deze alias is al in gebruik",
+            "hasScript": "U kunt geen alias aanmaken terwijl u multisig gebruikt",
+            "invalidSymbols": "U heeft ongeldige tekens gebruikt",
+            "maxLength": "Alias mag niet langer zijn dan 30 tekens",
+            "message": "Om accountinformatie te bekijken, log in of maak een account aan",
+            "minLength": "Alias moet minimaal 4 tekens lang zijn",
+            "noMoney": "Onvoldoende financiële middelen",
+            "notifications": {
+                "aliasCreated": "Er is een alias gecreeërd"
+            },
+            "ok": "Inloggen",
+            "placeholder": "Symbolische naam van uw adres",
+            "title": "Account {{name}}",
+            "title_default_name": "informatie"
+        },
+        "accountInfo": {
+            "alias": {
+                "helpIcon": {
+                    "row1": "Over Alias",
+                    "row2": "Een alias is een bijnaam voor uw adres. U kunt een alias in plaats van een adres gebruiken om transacties uit te voeren.",
+                    "row3": "Uw alias moet tussen de 4 en 30 tekens lang zijn en mag geen hoofdletters, alleen Latijnse letters, cijfers en symbolen (@, -, _, .) bevatten."
+                }
+            }
+        },
+        "assetInfo": {
+            "available": "Beschikbaar",
+            "balance": "Balans",
+            "contest": "CONTEST",
+            "date": "Datum van uitgave",
+            "decimals": "Decimaalpunten",
+            "description": "Beschrijving",
+            "details": "Details",
+            "email": "E-mail",
+            "gateway": "GATEWAY",
+            "gatewaySoon": "GATEWAY SOON",
+            "identifier": "ID",
+            "inOrders": "Gereserveerd in orders",
+            "issuer": "Uitgever",
+            "leased": "Geleased",
+            "name": "Naam",
+            "pinned": "Gepind",
+            "qualified": "Gekwalificeerd",
+            "quantity": "Totaalbedrag",
+            "rating": {
+                "canVoteTip": "Click to rate token",
+                "tooltipLink": "More Details",
+                "tooltipNeedWAVES": "and 0.001 WAVES",
+                "tooltipNeedWCT": "To rate a token, you must have at least 1",
+                "tooltipText": "Tokens are not transferred, only on existing balance is required for voting.our score will be applied after 24 hours. Please keep the current tokens in the account during this time. \nFee 0.001 WAVES.",
+                "tooltipTitle": "To rate a token, you must have at least 1 WCT in your wallet."
+            },
+            "reissue": {
+                "no": "Niet Heruitgeefbaar",
+                "yes": "Heruitgeefbaar"
+            },
+            "site": "Site",
+            "sponsorshipFee": "Gesponsorde asset fee",
+            "suspicious": "Verdacht",
+            "ticker": "Ticker",
+            "title": "Asset Info",
+            "tokenomica": "Tokenomica",
+            "total": "Totaal",
+            "transactions": "Transacties",
+            "type": "Type",
+            "unpinned": "Pin",
+            "wsocRef": "WSOC"
+        },
+        "backup": {
+            "clearSeed": "{span.clear}[Clear] en probeer opnieuw",
+            "title": {
+                "title_0": "Sla backup regel op",
+                "title_1": "Bevestig backup",
+                "title_2": "Gelukt"
+            }
+        },
+        "confirm-correct-order": "Uw prijs {price, money-currency} heeft meer dan 5% verschil met de markt prijs",
+        "confirmLogout": {
+            "goBack": "Ga terug",
+            "heading": "U staat op het punt om te vertrekken",
+            "logout": "Uitloggen",
+            "text": "Om te voorkomen dat iemand anders zonder uw toestemming toegang krijgt tot uw geld, moet u zich eerst bij uw account afmelden."
+        },
+        "confirmOrder": {
+            "cancel": "Annuleer",
+            "continue": "Plaats order",
+            "description": "Wilt u doorgaan?",
+            "headerBuy": "Uw order prijs is {{orderLimit}}% hoger dan de laatste markt prijs",
+            "headerSell": "Uw order prijs is {{orderLimit}}% lager dan de laatste markt prijs"
+        },
+        "createOrder": {
+            "cancel": "Maak een account aan",
+            "message": "Om te beginnen met handelen, gelieve in te loggen of een account aan te maken",
+            "ok": "Inloggen"
+        },
+        "deposit": {
+            "coinomatBCH": {
+                "helpDescrText": "Zodra de transactie bevestigd is zal de gateway de transactie behandelen en dit omzetten naar een BCH token in uw Waves account.",
+                "helpDescrTitle": "Voer dit adres in, in uw Bitcoin client of wallet.",
+                "warningMinAmountText": "Als u minder dan 0.001 BCH verstuurd raakt u dit geld kwijt.",
+                "warningMinAmountTitle": "Het minimumbedrag om te storten is 0.001 BCH",
+                "warningText": "Het versturen van elke andere currency naar dit adres kan resulteren in het verlies van uw storting.",
+                "warningTitle": "Verstuur enkel BCH naar dit deposit adres"
+            },
+            "coinomatBSV": {
+                "helpDescrText": "Zodra de transactie bevestigd is zal de gateway de transactie behandelen en dit omzetten naar een BSV token in uw Waves account.",
+                "helpDescrTitle": "Voer dit adres in, in uw Bitcoin Satoshi Vision client of wallet.",
+                "warningMinAmountText": "Als u minder dan 0.001 BSV stuurt raakt u dit geld kwijt.",
+                "warningMinAmountTitle": "Het minimum bedrag om te storten is 0.001 BSV",
+                "warningText": "Het versturen van elke andere valuta naar dit adres kan leiden tot het verlies van deze storting.",
+                "warningTitle": "Verstuur enkel BSV naar dit adres"
+            },
+            "coinomatBTC": {
+                "helpDescrText": "Zodra de transactie bevestigd is zal de gateway de transactie behandelen en dit omzetten naar een BTC token in uw Waves account.",
+                "helpDescrTitle": "Voer dit adres in in uw Bitcoin client of wallet",
+                "warningMinAmountText": "Als u minder dan 0.001 BTC verstuurd raakt u dit geld kwijt.",
+                "warningMinAmountTitle": "Het minimumbedrag om te storten is 0.001 BTC",
+                "warningText": "Het versturen van elke andere currency naar dit adres kan resulteren in het verlies van uw storting.",
+                "warningTitle": "Verstuur enkel BTC naar dit deposit adres"
+            },
+            "coinomatDASH": {
+                "helpDescrText": "Zodra de transactie is bevestigd, verwerkt de gateway de overdracht van DASH naar een token in uw Waves-account.",
+                "helpDescrTitle": "Voer dit adres in uw DASH client of portefeuille in",
+                "warningMinAmountText": "Als u minder dan 0.1 DASH verstuurd raakt u dit geld kwijt.",
+                "warningMinAmountTitle": "Het minimumbedrag om te storten is 0.1 DASH",
+                "warningText": "Het versturen van elke andere currency naar dit adres kan resulteren in het verlies van uw storting.",
+                "warningTitle": "Verstuur enkel DASH naar dit deposit adres"
+            },
+            "coinomatETH": {
+                "helpDescrText": "Zodra de transactie bevestigd is zal de gateway de transactie behandelen en dit omzetten naar een ETH token in uw Waves account.",
+                "helpDescrTitle": "Voer dit adres in in uw Ethereum client of wallet",
+                "warningMinAmountText": "Als u minder dan 0.001 ETH verstuurd raakt u dit geld kwijt.",
+                "warningMinAmountTitle": "Voer dit adres in in uw Ethereum client of wallet",
+                "warningText": "Controleer of uw wallet of exchange smart-contracts gebruikt om ETH the withdrawen. Wij accepteren zulke transacties niet en kunnen dit niet terug betalen. U raakt op deze manier uw geld kwijt.",
+                "warningTitle": "Verstuur geen ETH vanuit smart contracts naar dit adres. Stort geen ERC20 tokens! Alleen Ethereum is toegestaan."
+            },
+            "coinomatLTC": {
+                "helpDescrText": "Zodra de transactie bevestigd is zal de gateway de transactie behandelen en dit omzetten naar een LTC token in uw Waves account.",
+                "helpDescrTitle": "Voer dit adres in in uw Litecoin client of wallet",
+                "warningMinAmountText": "Als u minder dan 0.001 LTC verstuurd raakt u dit geld kwijt.",
+                "warningMinAmountTitle": "Het minimumbedrag om te storten is 0.001 LTC",
+                "warningText": "Het versturen van elke andere currency naar dit adres kan resulteren in het verlies van uw storting.",
+                "warningTitle": "Verstuur enkel LTC naar dit deposit adres"
+            },
+            "coinomatXMR": {
+                "helpDescrText": "Nadat de transactie is bevestigd, verwerkt de gateway de overdracht van XMR naar een token in uw Waves-account.",
+                "helpDescrTitle": "Dit adres invoeren in uw Monero-client of wallet",
+                "warningMinAmountText": "Als u minder dan 0,1 XMR verzendt, verliest u dat geld.",
+                "warningMinAmountTitle": "Het minimale stortingsbedrag is 0,1 XMR",
+                "warningText": "{div}[Payment ID is not required.]Wanneer u andere valuta naar dit adres verstuurt, kan dit tot gevolg hebben dat u uw gestorte geld verliest.",
+                "warningTitle": "Stuur alléén XMR naar dit stortingsadres"
+            },
+            "coinomatZEC": {
+                "helpDescrText": "Zodra de transactie bevestigd is zal de gateway de transactie behandelen en dit omzetten naar een Zcash token in uw Waves account.",
+                "helpDescrTitle": "Voer dit adres in in uw Zcash client of wallet",
+                "warningMinAmountText": "Als u minder dan 0.001 ZEC verstuurd raakt u dit geld kwijt.",
+                "warningMinAmountTitle": "Het minimumbedrag om te storten is 0.001 ZEC",
+                "warningText": "Het versturen van elke andere currency naar dit adres kan resulteren in het verlies van uw storting.",
+                "warningTitle": "Verstuur enkel Zcash naar dit deposit adres"
+            },
+            "copyAndShare": "Kopieer & deel Adres",
+            "currency": "Geld",
+            "or": "OF",
+            "pleaseNote": "Let op: de gateway brengt geen transactiekosten in rekening voor deze actie.",
+            "scanQrCode": "QR-code scan",
+            "title": "Storten {{assetName}}",
+            "vostokVST": {
+                "helpDescrText": "Zodra de transactie bevestigd is zal de gateway de transactie behandelen en dit omzetten naar een Vostok token in uw Waves account.",
+                "helpDescrTitle": "Dit adres invoeren in uw Vostok-client of wallet",
+                "warningMinAmountTitle": "Het minimale stortingsbedrag is 0,1 VST, het maximale stortingsbedrag is 50 000 VST"
+            }
+        },
+        "dexScriptedPair": {
+            "body": "Smart assets zijn assets die een script bevatten dat die voorwaarden van het token bepalen.{div}[We raden u niet aan om smart assets te gebruiken als u een onervaren gebruiker bent. Lees de informatie over het asset en het script zorgvuldig voordat u een transactie uitvoert.]",
+            "heading": "Order plaatsen voor een paar dat een Smart Asset bevat"
+        },
+        "disabledFeature": {
+            "anyTransaction": "JSON transacties zijn tijdelijk niet beschikbaar.",
+            "lease": "De start lease functie is tijdelijk niet beschikbaar."
+        },
+        "disabledFeatures": {
+            "default": "Sorry, deze functie is tijdelijk uitgeschakeld.",
+            "massTransfer": "De Mass Transfer functie is tijdelijk niet beschikbaar.",
+            "transfer": "De verstuur functie is tijdelijk niet beschikbaar."
+        },
+        "gatewaySign": {
+            "cancel": "Annuleren",
+            "continue": "Ga door",
+            "description": "{{name}} heeft toegang tot uw Waves-adres. Het krijgt uw SEED- of privé-sleutel niet. Vul nooit uw backup regel (SEED) in op websites waar u naar doorgestuurd wordt.",
+            "descriptionDesktop1": "De link wordt geopend in uw standaard web browser. Als u een andere web browser wilt gebruiken,",
+            "descriptionDesktop2": "kopieer",
+            "descriptionDesktop3": "en plak de link in het URL veld van de browser.",
+            "error": {
+                "button": "Annuleren",
+                "headline": "Er is iets fout gegaan",
+                "title": "Fout"
+            },
+            "headline": "{span.link}[{{url}}] wil toegang tot uw Waves adres.",
+            "retrySign": "Probeer opnieuw",
+            "title": "Inloggen met Waves",
+            "txHash": "TXHASH",
+            "warning": "Vul uw geheime regel (SEED) nooit in op websites waar u naar toe gestuurd wordt."
+        },
+        "import": {
+            "errorBeta": "We konden uw accounts niet ophalen van de Waves Beta Client Probeer het importeren vanuit de Waves Lite Client.",
+            "errorHeader": "Geen accounts gevonden",
+            "errorLite": "We konden uw accounts niet ophalen bij de Waves Lite Client Probeer het importeren vanuit de Waves Beta Client.",
+            "errorUnable": "We konden uw accounts niet ophalen. Herstel ze met behulp van hun back-up SEED's.",
+            "fromBetaButton": "Importeren van Beta Client",
+            "fromLiteButton": "Importeren van Lite Client",
+            "helpIcon": {
+                "description": "Voor een juiste werking raden wij u aan pop-ups toe te staan. Instructies voor browsers: [Chrome](https://support.google.com/chrome/answer/95472?co=GENIE.Platform%3DDesktop&hl=en), [Safari](https://discussions.apple.com/thread/4271925),  [Firefox](https://support.mozilla.org/en-US/kb/pop-blocker-settings-exceptions-troubleshooting), [Opera](https://help.opera.com/en/presto/control-pages/).",
+                "title": "Sommige browsers blokkeren standaard pop-upvensters."
+            },
+            "importButton": "Importeren",
+            "importCancel": "Annuleren",
+            "iUnderstandButton": "Ik begrijp het",
+            "selectAccountDescription": "U moet pop-upvensters toestaan ​​in uw browser",
+            "selectAccountToImport": "Selecteer welke accounts u wilt importeren",
+            "selectAccountToImportFrom": "Selecteer waar u accounts van wilt importeren",
+            "selectButton": "Selecteren",
+            "wavesBetaClient": "Waves Beta Client",
+            "wavesBetaClientDescription": "Accounts importeren van Waves Beta Client",
+            "wavesLiteClient": "Waves Lite Client",
+            "wavesLiteClientDescription": "Accounts importeren van Waves Lite Client"
+        },
+        "open-main": {
+            "dex": {
+                "cancel": "Maak een account aan",
+                "message": "Om te beginnen met handelen, gelieve in te loggen of een account aan te maken",
+                "ok": "Inloggen"
+            },
+            "tokens": {
+                "cancel": "Maak een account aan",
+                "message": "Om een token uit te geven, log in of maak een account aan",
+                "ok": "Inloggen"
+            },
+            "wallet": {
+                "assets": {
+                    "cancel": "Maak een account aan",
+                    "message": "Om uw wallet te openen, log in of maak een account aan",
+                    "ok": "Inloggen"
+                },
+                "cancel": "Maak een account aan",
+                "leasing": {
+                    "cancel": "Maak een account aan",
+                    "message": "Om uw wallet te openen, log in of maak een account aan",
+                    "ok": "Inloggen"
+                },
+                "message": "Om uw wallet te openen, log in of maak een account aan",
+                "ok": "Inloggen",
+                "portfolio": {
+                    "cancel": "Maak een account aan",
+                    "message": "Om uw wallet te openen, log in of maak een account aan",
+                    "ok": "Inloggen"
+                },
+                "transactions": {
+                    "cancel": "Maak een account aan",
+                    "message": "Om uw wallet te openen, log in of maak een account aan",
+                    "ok": "Inloggen"
+                }
+            }
+        },
+        "pairing": {
+            "downloadAppDescription": "Download onze mobiele apps:",
+            "scanCodeDescription": "Scan onderstaande code met uw iPhone of Android apparaat om het te pairen met uw account."
+        },
+        "pinAsset": {
+            "cancel": "Annuleren",
+            "nothing": "Niks geselecteerd",
+            "placeholder": "Typ de asset name of id",
+            "submit": "Pin",
+            "title": "Selecteer de assets die je vast wilt zetten"
+        },
+        "qr": {
+            "copyAndShare": "Kopieer & deel Adres",
+            "or": "OF",
+            "scanQrCode": "QR-code scan",
+            "title": "Deel uw adres",
+            "warningText": "Het versturen van elke andere digitale asset naar dit adres resulteert in permanent verlies van deze asset.",
+            "warningTitle": "Stuur enkel WAVES and WAVES tokens naar dit adres"
+        },
+        "receive": {
+            "accountStatus": "Account status",
+            "addressOrAlias": "Adres / Alias",
+            "amount": "Bedrag",
+            "amountYouPay": "Bedrag dat u betaalt",
+            "asset": "Asset",
+            "bank": {
+                "title": "Bank"
+            },
+            "bankSuccessHeader": "U bent voor verificatie doorverwezen naar de IDNow.eu.",
+            "bankSuccessText": "Nadat u de verificatie hebt doorlopen, ontvangt u een e-mail met verdere instructies.",
+            "bankVerifiedPlateDescription": "Voor u geld gaat opnemen raden wij aan eerst de instructies door te nemen. [instructies](https://docs.wavesplatform.com/en/waves-client/transfers-and-gateways/eur-usd-transfers.html) and [limits and transaction fees].(https://coinomat.com/limits.php).",
+            "bankVerifiedPlateHeader": "Uw assets zijn nu beschikbaar om op te worden genomen naar een bankrekening.",
+            "card": {
+                "continue": "Ga door",
+                "title": "Kaart"
+            },
+            "cardSuccessHeader": "U bent doorgestuurd naar Indacoin.com",
+            "cardSuccessText": "Nadat de betaling is uitgevoerd, wordt uw saldo bijgewerkt.",
+            "coinomat": {
+                "serverError": "Service Coinomat tijdelijk niet beschikbaar. Probeer het later opnieuw.",
+                "tryAgain": "Probeer het nogmaals"
+            },
+            "cryptocurrency": {
+                "title": "Cryptovaluta"
+            },
+            "error": {
+                "cardAmount": {
+                    "gte": "Het minimum bedrag dat u kunt storten is {{gte}} {{currency}}",
+                    "lte": "Het maximale bedrag dat u kunt storten is {{lte}} {{currency}}",
+                    "precision": "Het nummer in dit veld is ongeldig. Het kan maximaal 2 cijfers achter de komma bevatten."
+                }
+            },
+            "errors": {
+                "required": "Verplicht veld"
+            },
+            "gatewayError": "Service Gateway tijdelijk niet beschikbaar. Probeer het later opnieuw.",
+            "invoice": {
+                "title": "Factuur"
+            },
+            "ledger": {
+                "cancel": "Annuleer",
+                "retry": "Probeer opnieuw"
+            },
+            "maximumIs": "Het maximum is",
+            "minimumIs": "Het minimum is",
+            "providedByCoinomat": {
+                "descriprion": "{div}[Waves Platform AG neemt geen enkele verantwoordelijkheid op zich voor de activiteiten uitgevoerd door Coinomat en neemt geen enkele rol in de relatie die tussen Coinomat en gebruikers van het Waves Platform kan ontstaan ​​bij het verlenen van deze service .]{div}[Door Coinomat-services te gebruiken, stemt u ermee in gebonden te zijn aan de [Servicevoorwaarden en uitvoering van transacties door Coinomat](https://coinomat.com/terms.php). Als u niet akkoord gaat met deze voorwaarden, gebruik dan geen Coinomat-services.]",
+                "header": "Deze service wordt aangeboden door Coinomat Company (Сoinomat).",
+                "termsReadedInputLabel": "Ik ga akkoord met de [Terms of Service and Conduction of Transactions](https://coinomat.com/terms.php), [Limits](https://coinomat.com/limits.php) en [Privacy Policy](https://coinomat.com/privacy.php) van Coinomat Company.",
+                "warning": "In geval van problemen met verificatie, betalingsverwerking of intrekking van uw toestemming, neem dan contact op met het ondersteuningsteam van Coinomat - [support@coinomat.com](mailto:support@coinomat.com)"
+            },
+            "receive": "Storten",
+            "serverAddressError": "Gateway adres error",
+            "serverError": "Service Coinomat tijdelijk niet beschikbaar. Probeer het later opnieuw.",
+            "shareInvoiceLink": "Deel een link naar een factuur",
+            "verified": "Geverifieerd",
+            "vostok": {
+                "serverError": "Service Vostok tijdelijk niet beschikbaar. Probeer het later opnieuw."
+            },
+            "wtry": {
+                "info": "Neem in geval van problemen met de betalingsverwerking contact op met het Digilira-ondersteuningsteam - [support@digilira.com](mailto:support@digilira.com)"
+            },
+            "wtryPlate1Header": "U kunt de Turkse Lira-gateway alleen gebruiken als u het Turkse staatsburgerschap heeft.",
+            "wtryPlate1Text": "Om een storting te doen, wordt u doorgestuurd naar [digilira.com](https://digilira.com)",
+            "wtrySuccessHeader": "U bent doorgestuurd naar Digilira.com",
+            "youWillGet": "U ontvangt ongeveer"
+        },
+        "removeAccount": {
+            "cancel": "Annuleren",
+            "heading": "Account verwijderen",
+            "remove": "Verwijderen",
+            "text": "{div}[Het verwijderen van een account zal tot het onherstelbare verlies daarvan leiden indien u geen back-upfrase (SEED) heeft opgeslagen.]\n{div}[Klik on de knop VERWIJDEREN om verder te gaan met het verwijderen van het account, of druk op ANNULEREN om terug te keren naar het vorige scherm.]",
+            "warning": "U heeft uw SEED niet opgeslagen"
+        },
+        "removeKeeperAccount": {
+            "heading": "Verwijder Waves Keeper account",
+            "text": "Dit delete alleen het opgeslagen pad naar uw account. Het zal niet worden verwijderd van Waves Keeper."
+        },
+        "removeLedgerAccount": {
+            "heading": "Verwijder Ledger account",
+            "text": "Hiermee wordt het account van uw Ledger niet verwijderd. Het verwijdert alleen het opgeslagen pad naar dit account op uw Ledger."
+        },
+        "script": {
+            "anyTx": "JSON",
+            "setScript": "Script transactie"
+        },
+        "send": {
+            "amount": "Bedrag",
+            "attachmentLength": "De beschrijving is te lang",
+            "bankAccount": "Bankrekening",
+            "coinomat": {
+                "feeExplanation": "We hebben een {{assetName}} adres gedetecteerd en zenden uw geld via de Coinomat gateway naar dat adres. Het minimale aantal is {{min, BigNumber}} {{assetTicker}}, het maximale aantal is {{max, BigNumber}} {{assetTicker}}.",
+                "feeTitle": "Gateway fee {{fee, BigNumber}} {{assetTicker}}"
+            },
+            "coinomatLimits": "Minimaal $100 USD/EUR, maximaal $50.000 USD/EUR",
+            "coinomatWarningHeader": "We verzenden uw geld via de Coinomat gatewat.",
+            "coinomatWarningText": "Voor u geld opneemt, lees de Сoinomat [limits and transaction fees](https://coinomat.com/limits.php).",
+            "compare": {
+                "description": "U verstuurde {{amount}} {{currency}} (${{mirror}})",
+                "details": "Bekijk Details",
+                "title": "Uw transactie is verzonden!"
+            },
+            "confirm": {
+                "back": "Ga Terug",
+                "confirm": "Bevestig",
+                "from": "Van",
+                "title": "Transactie Details",
+                "to": "Naar",
+                "total": "Totaal"
+            },
+            "currency": "Asset",
+            "description": "Beschrijving",
+            "descriptionPlaceholder": "Schrijf een optioneel bericht",
+            "errors": {
+                "address": "Ongeldig adres",
+                "allAddressesInvalid": "Alle adressen zijn ongeldig",
+                "button": "Annuleren",
+                "headline": "Er is iets misgegaan",
+                "invalidChars": "Dit veld mag enkel nummers bevatten",
+                "max": "Onvoldoende saldo",
+                "maxCoinomat": "U kunt niet meer geld overboeken dan {{money, money-currency}}",
+                "paymentIdLength": "Monero Betalings-ID moet een 64-cijferige hex-string zijn",
+                "paymentIdPattern": "Een hex-string moet bestaan uit symbolen 0-9 en A-Z (of a-z)",
+                "precision": "Het getal in dit veld is ongeldig. Dit getal mag enkel het maximale aantal van {{precision}} cijfers achter de komma bevatten.",
+                "required": "Verplicht veld",
+                "title": "Fout"
+            },
+            "fee": "Transactiekosten {{fee, money-currency}}",
+            "gateway": {
+                "feeExplanation": "We hebben een {{assetName}} adres gedetecteerd en zenden uw geld via de Coinomat gateway naar dat adres. Het minimale aantal is {{min, BigNumber}} {{assetTicker}}, het maximale aantal is {{max, BigNumber}} {{assetTicker}}."
+            },
+            "icoWarning": "Stuur {{assetName}} niet naar een ICO. We zullen uw account niet crediteren met tokens van die verkoop.",
+            "idNumber": {
+                "helpIcon": {
+                    "description": "Meer informatie over geld opnemen naar een bankrekening [here](https://docs.wavesplatform.com/en/waves-client/transfers-and-gateways/eur-usd-transfers.html).",
+                    "title": "Uw ID is een uniek nummer wat aan individuele gebruikers wordt toegekend nadat een bankrekening geverifieerd is bij Coinomat."
+                }
+            },
+            "idNumberTitle": "ID nummer",
+            "liraBankAccount": "Digilira account",
+            "massSend": {
+                "clear": "Wissen",
+                "description": "Beschrijving",
+                "errors": {
+                    "invalidAddress": "Lijst met ongeldige adressen:"
+                },
+                "importFile": "Importeer een CSV-bestand",
+                "recipient": "Ontvangers, Bedragen: {{count}}/{{max}}",
+                "recipientsAmountsPlaceholder": "Voorbeeld:\nAdres1, Bedrag1\nAdres2, Bedrag2",
+                "showAllErrors": {
+                    "false": "Bekijk alle ({{count}})",
+                    "true": "Bekijk de eerste 2 fouten"
+                },
+                "totalAmount": "Totaalbedrag",
+                "warningPlate1Header": "U kunt maximaal naar 100 ontvangers verzenden",
+                "warningPlate1Text": "Ontvangers na de eerste 100 worden genegeerd.",
+                "warningPlate2Header": "Ongeldige adressen worden niet opgenomen in de massaoverdracht.",
+                "warningPlate3Header": "Gebruik een komma om de ontvanger te scheiden van het te verzenden bedrag. Gebruik een nieuwe regel voor elke ontvanger.",
+                "warningPlate3Text": "[Meer informatie over de CSV-bestandsstandaard](https://en.wikipedia.org/wiki/Comma-separated_values)."
+            },
+            "massSendTitle": "Mass Transfer",
+            "moneroPaymentId": "Monero Betalings-ID",
+            "moneroPaymentIdPlaceholder": "Plak of typ uw Monero Betalings-ID",
+            "notSponsorship": {
+                "fee": "Transactiekosten {{fee, money-currency}}"
+            },
+            "notVerifiedHeader": "U bent nog niet geverifieerd.",
+            "notVerifiedText": "Het opnemen naar een bankrekening is alleen mogelijk voor geverifieerde gebruikers. Meer informatie over het verzenden en ontvangen van fiat geld [here](https://docs.wavesplatform.com/en/waves-client/transfers-and-gateways/eur-usd-transfers.html).",
+            "or": "of",
+            "placeholderRecipient": "Plak of scan een adres",
+            "recipient": "Ontvanger",
+            "sendMax": "Max",
+            "sendTitle": "Verstuur",
+            "title": "Verstuur {{assetName}}",
+            "titleComplete": "Verzenden voltooid",
+            "toBank": "Opnemen naar bankrekening",
+            "total": "Totaal",
+            "toWaves": "Verstuur naar Waves adres",
+            "txFee": "Transactiekosten",
+            "validationError": {
+                "notEnoughFunds": "U heeft onvoldoende saldo om de benodigde fee te betalen. U moet {{fee, money-currency}} transactiekosten betalen.",
+                "notEnoughFundsWithdraw": "U heeft onvoldoende saldo om de benodigde transactiekosten te betalen. U moet {{fee, money-currency}} transactiekosten en {{getawayFee, BigNumber}} {{currency}} gateway transactiekosten betalen.Het minimum bedrag voor opname is {{minGatewayAmount, BigNumber}} {{currency}}."
+            }
+        },
+        "sepa": {
+            "countryList": "Lijst van in aanmerking komende landen en ID's",
+            "proceed": "Mijzelf verifiëren",
+            "step1": "Stap 1",
+            "step1Description": "Om in aanmerking te komen voor een storting van {{assetName}} direct vanaf uw bankrekening door middel van een SEPA transfer moet u eerst geverifieerd worden door onze partner [IDNow.eu]({{url}})",
+            "step2": "Stap 2",
+            "step2Description": "Na de verificatie ontvangt u een email met verdere instructies",
+            "title": "Storten {{assetName}}",
+            "warning": "Neem in geval van problemen met verificatie of betalingsverwerking contact op met het ondersteuningsteam van Coinomat – [support@coinomat.com](mailto: support@coinomat.com)",
+            "warningTitle": "Wij accepteren geen internationale bankoverschrijvingen van Amerikaanse burgers of van Amerikaanse banken"
+        },
+        "setAssetScript": {
+            "errorNoMoney": "U heeft onvoldoende funds om de benodigde transactiekosten te betalen. U moet {{fee, money-currency}} transactiekosten betalen.",
+            "script": "Script",
+            "scripted": "Stel in",
+            "title": "Update Script",
+            "unavailable": "Update Script-functionaliteit is tijdelijk niet beschikbaar",
+            "warningDescription": "{div}[Wij raden af dat u script transacties gebruikt tenzij u een geavanceerde gebruiker bent. Fouten kunnen tot permanent verlies leiden.]",
+            "warningHeader": "Acties kunnen tot verlies van de asset leiden."
+        },
+        "settings": {
+            "cancel": "Maak een account aan",
+            "general": {
+                "auto": "Auto",
+                "blockHeight": "Huidige hoogte",
+                "blue": "Waves",
+                "color": "Kleur",
+                "dark": "Donker",
+                "green": "Klassiek",
+                "hours": "{{hours}} uren",
+                "language": "Taal",
+                "minutes": "{{minutes}} min",
+                "openLinkViaWeb": "I wil altijd deze links openen via de web app",
+                "playSound": "Play user interface sound effects",
+                "theme": "Thema",
+                "timeout": "Sessie verloopt in",
+                "title": "Algemeen",
+                "white": "Wit"
+            },
+            "info": {
+                "legal": "Legaal",
+                "privacyPolicy": "Privacybeleid",
+                "support": "Ondersteuning",
+                "termsAndConditions": "Voorwaarden",
+                "title": "Info",
+                "version": "Versie"
+            },
+            "message": "Om instellingen te openen, log in of maak een account aan",
+            "network": {
+                "apiAddress": "Data Service",
+                "apiAddressHelp": "De dataservice biedt aanvullende API's voor interactie met Waves blockchain-data.",
+                "assetNameFilter": "Naming service",
+                "assetNameFilterHelp": "This service checks the name of the token with the Waves token library.\nFor completely disable it, clear the field.",
+                "copy": "Kopiëren",
+                "dataProvider": "Data provider",
+                "dataProviderDescription": "{{dataProviderDescription}}",
+                "dataProviderId": "{{dataProviderId}}",
+                "dataProviderInvalid": "Niet gelukt provider informatie op te vragen. Controleer het adres en probeer het opnieuw.",
+                "dataProviderName": "{{dataProviderName}}",
+                "dontShowSpamCheckboxDescr": "Toon geen verdachte tokens",
+                "forDisableClear": "Om het volledig uit te schakelen, maak het veld leeg.",
+                "matcherAddress": "Matcher adres",
+                "nodeAddress": "Node adres",
+                "showMore": "Toon meer",
+                "spamFilter": "Token Filter",
+                "spamFilterInputDescr": "Spamfilters uitschakelen",
+                "spamListHelp": "Dit filter verwijderd verdachte tokens uit uw portfolio.",
+                "title": "Netwerk"
+            },
+            "ok": "Inloggen",
+            "pairing": {
+                "devicePairing": "Exporteer account",
+                "header": "Scan Pairing Code",
+                "showCodeLink": "Toon Pairing Code",
+                "unavailable": {
+                    "description": {
+                        "ledger": "Exporteren is niet beschikbaar voor accounts op een Ledger",
+                        "wavesKeeper": "Exporteren vanuit Waves Keeper geïmporteerde accounts is beschikbaar in de instellingen van Waves Keeper"
+                    },
+                    "header": {
+                        "ledger": "Exporteren niet beschikbaar",
+                        "wavesKeeper": "Exporteren niet beschikbaar"
+                    },
+                    "ok": "Ik begrijp het"
+                }
+            },
+            "security": {
+                "address": "Adres",
+                "backupPhrase": "Backup regel",
+                "encodedSeed": "Gecodeerde seed",
+                "privateKey": "Privésleutel",
+                "publicKey": "Publieke sleutel",
+                "script": "Script",
+                "scriptButton": "Stel script in",
+                "scriptButtonUpdate": "Update Script",
+                "show": "Bekijk",
+                "title": "Beveiliging"
+            },
+            "setDefault": "Stel in als standaard",
+            "title": "Instellingen"
+        },
+        "sign": {
+            "article": "Artikel",
+            "cancel": "Annuleren",
+            "cancelOrder": "Annuleer de bestelling",
+            "close": "Sluit",
+            "confirm": "Bevestig",
+            "confirmRequest": "Verzoek bevestigen",
+            "confirmRequest_utils": "Verzoek bevestigen",
+            "confirmRequestKeeper": "Wachten op bevestiging van Waves Keeper...",
+            "confirmRequestLedger": {
+                "cancel": "Annuleer",
+                "errorDescription": "Probeer het opnieuw. Als het probleem aanhoudt lees dan [this article](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)",
+                "errorHeader": "U heeft het verzoek op uw Ledger niet bevestigd.",
+                "sign": "Opnieuw ondertekenen",
+                "waiting": "Wachten op bevestiging van de Ledger..."
+            },
+            "confirmRequestMatcher_utils": "Onderteken een verzoek naar de Matcher. Als u dit niet ondertekent, kunt u niet handelen op DEX vanaf een Ledger-account.",
+            "confirmRequestToMatcher": "Onderteken het verzoek aan de Matcher. Als u het niet ondertekent, kunt u niet handelen op DEX.",
+            "connecting": "Verbinding maken...",
+            "connectingKeeper": "Verbinden met Waves Keeper...",
+            "connectionError": "Kan Ledger niet verbinden",
+            "connectionErrorKeeper": "Kon niet bij account",
+            "connectionText": "Er is een time-out opgetreden in de verbinding. Probeer het opnieuw.",
+            "connectLedger": "Verbind uw Ledger",
+            "enterPin": "Voer uw pincode in",
+            "fee": "Fee",
+            "matcher": "Onderteken orders aanvragen",
+            "openApp": "Open de Waves App",
+            "price": "Prijs",
+            "refererTo": "Als de fout aanhoudt, raadpleeg dan",
+            "referTo": "Als de fout aanhoudt, raadpleeg dan",
+            "request": "Verzoek",
+            "requestId": "Verzoek hash",
+            "retry": "Opnieuw proberen",
+            "signByKeeper": "Wacht op bevestiging op Waves Keeper...",
+            "signByLedger": "Wacht op bevestiging op Ledger…",
+            "signError": "Het verzoek is niet bevestigd.",
+            "signErrorKeeper": "U heeft het verzoek van Waves Keeper niet bevestigd",
+            "signErrorText": "U hebt het verzoek op uw Ledger niet bevestigd",
+            "signErrorTextImportKeeper": "Login met Waves Keeper met {{address}} adres, en ververs dan de pagina om door te gaan.",
+            "signErrorTextKeeper": "Probeer alstublieft opnieuw. Als deze error aanhoudt maak dan een ticket op [Support](https://support.wavesplatform.com/)",
+            "txId": "TXID"
+        },
+        "sponsorship_edit": {
+            "title": "Verander gesponsorde transactie"
+        },
+        "sponsorship": {
+            "amountPerTx": "Hoeveelheid per transactie (per 0.001 WAVES)",
+            "assetId": "ID",
+            "continue": "Ga door",
+            "errors": {
+                "feeRequired": "Dit veld is verplicht",
+                "minSponsoredAssetFee": {
+                    "precision": "Het getal in dit veld is niet juist. Dit getal mag maximaal {{precision}} cijfers achter de komma bevatten."
+                },
+                "noMoney": "U heeft onvoldoende saldo voor de transactiekosten. {{fee, money-currency}} transactiekosten benodigd.",
+                "notZero": "Waarde moet groter dan 0 zijn"
+            },
+            "fee": "Transactiekosten {{fee, money-currency}}",
+            "title": "Schakel gesponsorde transactie in",
+            "warningHeader": "Gebruikers kunnen transactiekosten betalen in {{name}}",
+            "warningText": "Voor elke transactie wordt 0.001 WAVES in rekening gebracht vanaf uw account en {{name}} wordt aan uw account toegevoegd. Het aantal {{name}} dat in rekening wordt gebracht aan gebruikers van transacties wordt door u betaald als u een gesponsorde transactie inschakelt. Stel dit aantal in het formulier hieronder in. Sponsorship werkt enkel als uw balans ten minste 1.005 WAVES is. Als u minder dan dit aantal WAVES op uw balans heeft zal de gesponsorde transactie niet meer werken."
+        },
+        "startLease": {
+            "amount": "Hoeveelheid",
+            "balance": "Balans",
+            "fee": "Transactiekosten {{fee, money-currency}}",
+            "nodeListLink": "Lijst met nodes",
+            "nodeListLink_copy": "Lijst met nodes",
+            "recipient": "Ontvanger",
+            "start": "Een lease starten",
+            "title": "Begin met leasen"
+        },
+        "termsAccept": {
+            "body": {
+                "advancedMode": "Geavanceerde opties",
+                "analytics": "Ik help graag het Waves platform door anoniem gebruikstatistieken te verzenden naar de ontwikkelaars.",
+                "backup": "Ik begrijp dat als deze software verplaatst of verwijderd wordt, mijn Waves account alleen terug gezet kan worden door middel van de backup regel (SEED).",
+                "ok": "Bevestig en Begin",
+                "privacyPolicy": "Ik heb het [Privacybeleid](https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf) gelezen en ga hiermee akkoord.",
+                "read": "Ik heb gelezen, begrepen en ga ermee akkoord met",
+                "readTermsAndConditions": "Ik heb de [Algemene voorwaarden](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf) gelezen en ga hiermee akkoord.",
+                "security": "Ik heb de gebruiksvoorwaarden gelezen, begrepen en ga akkoord met de",
+                "securityAndBackup": "Ik begrijp dat mijn funds op veilig op dit apparaat staan en niet door een bedrijf worden beheerd. En als deze software verplaatst of verwijderd wordt, mijn Waves account alleen terug gezet kan worden door middel van de backup regel (SEED).",
+                "terms": "Gebruiksvoorwaarden"
+            },
+            "header": {
+                "description": "Waves is anders, de wallet is veilig opgeslagen op uw apparaat",
+                "title": "Klaar! Laten we eens kijken",
+                "title2": "Gebruiksvoorwaarden"
+            }
+        },
+        "token": {
+            "balance": "Balans",
+            "burn": {
+                "label": "Aantal tokens dat moet worden geburnt",
+                "title": "{{name}} Token burning"
+            },
+            "description": "Beschrijving",
+            "fee": "Transactiekosten {{fee, money-currency}}",
+            "gt0": "Ingevoerd nummer moet groter zijn dan nul",
+            "id": "Asset ID",
+            "quantity": "Totaal aantal",
+            "reissue": {
+                "label": "Aantal tokens dat opnieuw moet worden uitgegeven",
+                "title": "{{name}} Token Heruitgeven"
+            },
+            "validation": {
+                "gt0": "Verplicht veld",
+                "invalidAsset": "Dit veld mag enkel nummers bevatten",
+                "invalidPrecision": "Maximum aantal decimalen van {{precision}} overschreden",
+                "lteMaxBalance": "Hoeveelheid kan niet meer dan uw balans zijn",
+                "maxValueCount": "Het ingevoerde getal is te groot",
+                "noMoney": "Uw saldo is niet genoeg om transactiekosten te betalen",
+                "required": "Verplicht veld"
+            }
+        },
+        "tryDesktop": {
+            "remember": "Onthoud mijn keuze en herinner me er niet meer aan"
+        },
+        "tutorialModals": {
+            "step1": {
+                "button": "Wat u moet weten over uw SEED",
+                "buttonMobile": "Volgende",
+                "p1": "Gebruik alstublieft deze tijd om enkele belangrijke zaken omtrent uw eigen veiligheid te begrijpen.",
+                "p2": "Wij kunnen de inhoud van uw wallet en account niet terugzetten of bevriezen als u het slachtoffer bent van phishing of uw backup regel (SEED) kwijt raakt.",
+                "p3": "Door verder te gaan op ons platform te gebruiken gaat uw akkoord dat u alle risico's accepteert rondom het verlies van uw SEED, inclusief maar niet gelimiteerd tot het niet meer kunnen bereiken van uw assets. Indien u uw SEED kwijt raakt, gaat u ermee akkoord en begrijpt u dat het Waves Platform niet verantwoordelijk kan worden gehouden voor de negatieve consequenties die dit met zich meedraagt.",
+                "title": "Welkom bij het Waves Platform!"
+            },
+            "step2": {
+                "backButton": "Ga Terug",
+                "cell1": "U gebruikt uw wallet anoniem. Uw account is op geen enkele manier verbonden aan een e-mailadres of andere data waarmee u geÏdentificeerd kunt worden.",
+                "cell2": "Uw wachtwoord beschermt uw account op een apparaat of browser. Dit is nodig om ervoor te zorgen dat uw geheime regel niet op dit apparaat hoeft te worden opgeslagen.",
+                "cell3": "Indien u uw wachtwoord vergeet kunt u gemakkelijk weer via het account recovery formulier middels uw geheime regel, een nieuw wachtwoord instellen. Echter, als u uw geheime regel kwijt bent heeft u geen enkele manier om toegang tot uw account te herstellen.",
+                "cell4": "Uw kunt uw geheime regel later niet wijzigen. Als deze geheime regel per abuis in het bezit van iemand anders komt of u vermoed dat het in het bezit van scammers is gekomen dient u onmiddelijk een nieuwe Waves wallet te maken en alle inhoud over te zetten.",
+                "nextButton": "Bescherm uzelf",
+                "p1": "Als u uw account registreert, wordt aangegeven dat u uw geheime regel (SEED) goed moet opslaan en dat u uw account met een wachtwoord moet beveiligen. Op normale gecentraliseerde servers, is uw wachtwoord erg belangrijk maar deze kan gereset worden via e-mail indien nodig. Echter, op een gedecentraliseerd platform zoals Waves is dit allemaal anders geregeld:",
+                "title": "Wat u moet weten over uw SEED"
+            },
+            "step3": {
+                "backButton": "Ga Terug",
+                "cell1": "Controleer altijd de URL: [https://client.wavesplatform.com](https://client.wavesplatform.com)",
+                "cell2": "Gebruik geen browsers met extenties of plugins om in uw account te komen.",
+                "cell3": "Open geen e-mails of links van onbekende zenders.",
+                "cell4": "Update uw besturingssysteem regelmatig.",
+                "cell4Web": "Update uw browser en besturingssysteem regelmatig.",
+                "cell5": "Gebruik officiële beveiligingssoftware. Installeer geen onbekende software waarmee u gehackt kan worden.",
+                "cell6": "Gebruik uw Waves wallet niet terwijl u een publiek Wi-Fi netwerk of een apparaat van iemand anders gebruikt.",
+                "nextButton": "Ik begrijp het",
+                "p1": "De meest gebruikte manier van oplichting is phishing. Phishing houdt onder andere in dat oplichters neppe communities op Facebook of andere websites en platformen maken welke erg op de originele lijken.",
+                "title": "Hoe u zichzelf tegen phishing kunt beschermen"
+            }
+        }
+    },
+    "modals": {
+        "anyTx": {
+            "title": "JSON"
+        }
+    },
+    "notification": {
+        "backup": {
+            "action": "Opslaan",
+            "body": "Sla uw SEED veilig op, dit is de enige manier om de toegang tot uw wallet te herstellen.",
+            "title": "Sla uw backup regel op (SEED)"
+        }
+    },
+    "qualified": "gekwalificeerd",
+    "transaction": {
+        "amounts": {
+            "create-order": "{{sign}}{{amount}} {{name}}"
+        }
+    },
+    "Unpin_utils": "Unpin",
+    "utils": {
+        "whatsNew": {
+            "body": {
+                "1_0_0": "{span.line}[1. The Waves Client has come out of beta.]{span.line}[2. You can now pin and unpin any assets to the main page.]{span.line}[3. Night mode added.]{span.line}[4. You can now import all your accounts from the old Client easily.]{span.line}[5. Minor bug fixes.]",
+                "1_0_0-beta_23": "{span.line}[1. We have added a 'What's new' section!]{span.line}[2. You can now add a name to your account.]{span.line}[3. Some minor bugs have been fixed.]",
+                "1_0_0-beta_25": "{span.line}[1. You can now change session time in Settings.]{span.line}[2. We have fixed the bug with the Buy/Sell window in DEX to prevent it being moved outside the viewing area.]{span.line}[3. We will now remind you if you have not saved your SEED.]{span.line}[4. Some minor bugs have been fixed.]",
+                "1_0_0-beta_26": "{span.line}[1. Some minor bugs have been fixed.]",
+                "1_0_0-beta_27": "{span.line}[1. Added Chinese language.]{span.line}[2. Added Turkish language.]",
+                "1_0_0-beta_30": "{span.line} [1. Je kunt nu tokens die je hebt gegenereerd, branden en opnieuw uitgeven.] {span.line} [2. De Waves Auth API-ondersteuning toegevoegd.] {span.line} [3. Sommige kleine fouten zijn verholpen.]",
+                "1_0_0-beta_31": "{span.line}[1. U kunt nu WAVES en BTC kopen met een creditcard.]{span.line}[2. Verbeterde gebruikersinterface in het venster Kopen / verkopen.] {span.line}[3. Ondersteuning voor 32-bits Windows toegevoegd.] {span.line}[4. Talrijke andere fouten gerepareerd.]",
+                "1_0_0-beta_32": "{span.line}[1. U kunt nu massaoverdrachten van de klant maken.]{span.line}[2. Sommige kleine fouten zijn verholpen.]",
+                "1_0_0-beta_35": "{span.line}[1. U kunt nu tokens sorteren, filteren en verbergen op het Portfolio-tabblad.]{span.line}[2. DASH-gateway is gelanceerd.]{span.line}[3. Ondersteuning voor Hindi toegevoegd.]{span.line}[4. Ondersteuning voor Nederlands toegevoegd.]{span.line}[5. U kunt nu andere gebruikers factureren.]{span.line}[6. Daarnaast zijn er kleine bugs opgelost.]",
+                "1_0_0-beta_36": "{span.line}[1. Belangrijke leaseknooppunten worden vermeld op de leasepagina.]{span.line}[2. Een aantal bugs zijn opgelost.]",
+                "1_0_0-beta_39": "{span.line}[1. Er is een spamfilter toegevoegd aan Instellingen.]{span.line}[2. Daarnaast zijn er kleine bugs opgelost.]",
+                "1_0_0-beta_40": "{span.line}[1. Monero Gateway is gelanceerd.]",
+                "1_0_0-beta_42": "{span.line}[1. Ondersteuning voor de Spaanse taal toegevoegd.]{span.line}[2. U kunt de client gebruiken zonder standaard accountgegevens op te slaan.]{span.line}[3. Spam tokens worden nu op de transactiepagina gemarkeerd.]{span.line}[4. Daarnaast zijn er kleine bugs opgelost.]",
+                "1_0_0-beta_47": "{span.line}[1. Volledig nieuwe DEX UI.]{span.line}[2. Snellere en stabielere client.]{span.line}[3. Aliasfunctionaliteit is weer beschikbaar.]{span.line}[4. Sommige kleine fouten zijn opgelost.]{span.line}[5. Neem deel aan onze wedstrijden door een video te maken [video](https://forum.wavesplatform.com/t/contest-best-waves-dex-video-review/822) of het schrijven van een artikel [article](https://forum.wavesplatform.com/t/contest-for-the-writers-waves-dex-overview/835).]",
+                "1_0_0-beta_50": "{span.line}[1. U kunt nu tokens die u in uw account hebt, nu burnen.]{span.line}[2. Aanvullende kleine bugs zijn opgelost.]",
+                "1_0_10": "{span.line} [1. Sponsorship transaction support added. [Read more](https://docs.wavesplatform.com/en/waves-client/assets-management/sponsored-transaction.html)]\n{span.line} [2. Polish and Portuguese languages support added.]",
+                "1_0_14": "{span.line}[1. Fixed bug with using Sponsored Asset without Waves balance.]\n{span.line}[2. Fixed bug with 30 days expiration orders.]\n{span.line}[3. Some other minor bugs.]",
+                "1_0_15": "{span.line}[1. Issues with confirmation on Ledger have been fixed.]\n{span.line}[2. Increased waiting time for confirmation from Ledger.]\n{span.line}[3. Detailed information has been added to Error messages.]",
+                "1_0_18": "{span.line}[1. You can now set a script for your account.]\n{span.line}[2. Additional minor bugs have been fixed.]",
+                "1_0_21": "{span.line}[1. Fixed authorisation confirmation via Ledger.]\n{span.line}[2. Numerous minor bugs fixed.]",
+                "1_0_22": "{span.line}[1. Added advanced features to work with scripted accounts.]",
+                "1_0_25": "{span.line}[1. [Waves Keeper](https://chrome.google.com/webstore/detail/waves-keeper/lpilbniiabackdjcionkobglmddfbcjo?hl=en) support has been added.]",
+                "1_0_27": "{span.line}[1. Added \"My assets\" category in Portfolio.]\n{span.line}[2. Minor bug fixes.]",
+                "1_0_28": "{span.line}[1. Added pairing function to import existing accounts to mobile.]\n{span.line}[2. Minor bug fixes.]",
+                "1_0_29": "{span.line}[1. QR code generation using Cyrillic alphabet has been fixed.]\n{span.line}[2. Tooltip for watchlist search has been added.]\n{span.line}[3. Further cosmetic fixes. ]",
+                "1_0_3": "{span.line}[1. U kunt nu items zoeken op ID op de Portfolio-pagina.]\n{span.line}[2. Aanvullende kleine fouten zijn opgelost.]",
+                "1_0_30": "{span.line}[1. Set Script button has been moved to Security section in Settings.]\n{span.line}[2. Performance improvements and cosmetic changes.]",
+                "1_0_32": "{span.line}[1. Integration with BetterTokens’ oracle.]\n{span.line}[2. Added support for token verification protocol.]\n{span.line}[3. Fixed commission accounting for token withdrawal via Coinomat.]",
+                "1_0_33": "{span.line} [1. Now you will receive a notification if you try to place an order at a rate significantly differing from the current market rate.] {span.line} [2. Minor bugs have been fixed.]",
+                "1_0_36": "{span.line}[1. Added ability to trade on DEX with scripted accounts.]\n{span.line}[2. Added search for assets when creating an invoice or sending an asset.]\n{span.line}[3. Minor layout edits.]",
+                "1_0_37": "{span.line}[1. Added Smart Asset functionality: issuance, reissuance and burning]\n{span.line}[2. Added Italian, German and Indonesian languages]\n{span.line}[3. Minor bug fixes]",
+                "1_0_40": "{span.line}[1. DEX optimisation.]\n{span.line}[2. Added exchange rate for current pair in browser tab title.]\n{span.line}[3. Fixed minor bugs.]",
+                "1_0_41": "{span.line}[1. DEX optimisation.]\n{span.line}[2. Notification system added.]\n{span.line}[3. Fixed minor bugs.]",
+                "1_0_42": "{span.line}[1. Fixed minor bugs.]",
+                "1_0_5": "{span.line}[1. Handelsvolumeschaal is toegevoegd aan DEX-diagrammen.]\n{span.line}[2. Aanvullende kleine fouten zijn opgelost.]",
+                "1_0_6": "{span.line}[1. Autorisatie via Waves Desktop Client is toegevoegd.]",
+                "1_0_7": "{span.line}[1. Some desktop-client crashes were fixed.]\n{span.line}[2. Optimized switching between TX and Portfolio pages, with a big amount of content.]\n{span.line}[3. Spam-tokens names are hidden on TX list.]\n{span.line}[4. Error messages output has been reworked.]",
+                "1_0_8": "{span.line}[1. Ledger Nano S support has been added.]\n{span.line}[2. A new option for saving your choice of Authorisation method has been added.]",
+                "1_1_0": "{span.line}[1. Order expiration period is now saved by default.]\n{span.line}[2. Fixed minor bugs.]",
+                "1_2_0": "{span.line}[1. Added Japanese and Estonian languages.]\n{span.line}[2. Improved UI in the Buy/Sell window.]\n{span.line}[3. Numerous minor bugs fixed.]",
+                "1_2_1": "{span.line}[1. The application now saves the chart size and scale settings as well as the time interval.]\n{span.line}[2. Fixed minor bugs.]",
+                "1_2_2": "{span.line}[1. Security updates.]{span.line}[2. Fixed minor bugs.]",
+                "1_2_3": "{span.line}[1. Security updates.]{span.line}[2. Fixed minor bugs.]",
+                "1_2_6": "{span.line}[1. Invocation script transaction support added. [Read more](https://blog.wavesplatform.com/ride-for-dapps-hits-waves-testnet-e3f2906dd2aa)]\n{span.line}[2. Improved UI and additional minor bugs have been fixed.]",
+                "1_2_8": "{span.line}[1. Spam tokens and transactions have been hidden in client.]\n{span.line}[2. Improved UI and additional minor bugs have been fixed.]",
+                "1_3_0": "{span.line}[1. Spam tokens and transactions have been hidden in client.]\n{span.line}[2. Improved UI and additional minor bugs have been fixed.]",
+                "1_3_2": "{span.line}[1. Vostok gateway has been launched.]\n{span.line}[2. Improved UI and additional minor bugs have been fixed.]",
+                "1_3_5": "{span.line}[1. A tab with [wsoc.io](https://wsoc.io) contest tokens has been added.]\n{span.line}[2. French language support added.]\n{span.line}[3. Additional minor bugs have been fixed.]",
+                "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Now you can rate tokens directly in the app.]\n{span.line}[2. Additional minor bugs have been fixed.]"
+            },
+            "title": "Wat is er nieuw in deze update {{version}}"
+        }
+    },
+    "validators": {
+        "byte": {
+            "help": "Bytes over: {{bytes}}"
+        }
+    }
+}

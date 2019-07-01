@@ -1,0 +1,65 @@
+{
+    "backupSeed": {
+        "back": "kembali",
+        "copySeed": "salin semua",
+        "needConfirm": "Anda akan mengkonfirmasi frasa ini pada layar berikutnya.",
+        "ok": "Saya telah menulisnya",
+        "or": "atau",
+        "saveSecret": "Simpan cadangan frasa",
+        "warn": "Karena hanya Anda yang mengontrol uang Anda, Anda harus menyimpan frasa cadangan Anda jika aplikasi ini dihapus atau",
+        "writeSeed": "Tolong berhati-hati dalam menuliskan 15 kata ini"
+    },
+    "confirmBackup": {
+        "again": "dan ketuk lagi",
+        "back": "kembali",
+        "clear": "Bersihkan",
+        "confirm": "Konfirmasi frasa SEED",
+        "description": "Verifikasi frasa SEED Anda atau",
+        "enterCorrect": "Tolong, ketuk setiap kata dengan urutan yang benar",
+        "error": "Urutan salah, coba lagi.",
+        "ok": "Konfirmasi",
+        "tapAgain": "dan ketuk lagi"
+    },
+    "createAccount": {
+        "address": "Alamat Akun:",
+        "avatarUnique": "Avatar ini unik. Anda tidak dapat mengubahnya nanti.",
+        "choose": "Pilih avatar alamat Anda",
+        "create": "Buat akun baru",
+        "createDescription": "Cepat dan gratis",
+        "createNewAccount": "Pilih Avatar Anda",
+        "from": "Avatar ini adalah representasi visual, Anda tidak dapat mengubahnya nanti",
+        "import": "Impor akun",
+        "importDescription": "melalui frase SEED, Ledger atau Keeper",
+        "protect": "Lindungi akun Anda dengan kata sandi atau",
+        "protectYourAccount": "Lindungi Akun Anda",
+        "restore": "memulihkan akun",
+        "saveUserData": "Simpan akun di komputer ini",
+        "signDescription": "ke akun yang disimpan",
+        "signIn": "Masuk",
+        "signUp": "Daftar untuk mendapatkan akun gratis di bawah atau",
+        "tosaved": "ke akun yang disimpan",
+        "toWalet": "ke dompet Anda atau"
+    },
+    "modal": {
+        "confirmBackupDescription": "Verifikasi frasa cadangan Anda",
+        "next": "Konfirmasi",
+        "prev": "Kembali",
+        "successContent": "Anda tidak dapat mengubah frasa rahasia Anda. Jika Anda secara tidak sengaja mengirimkannya kepada seseorang atau menduga bahwa scammer telah mengambil alih, maka buatlah dompet Waves baru segera dan transfer dana Anda ke dalamnya.",
+        "successHeadline": "Perlakukan frase cadangan Anda dengan hati-hati!",
+        "understand": "Saya mengerti"
+    },
+    "noBackupNoMoney": {
+        "backup": "Cadangkan Sekarang",
+        "description": "Anda harus menyimpan frase SEED. Sangat penting untuk mengakses akun Anda",
+        "modal": {
+            "descriptionP1": "Waves Platform ingin memperingatkan Anda tentang peningkatan frekuensi serangan scam dan phishing selama sebulan terakhir. Penipu menyembunyikan malware mereka dalam versi mereka sendiri dari klien Waves dan menjanjikan bonus dan diskon untuk memikat pengguna.",
+            "descriptionP2": "Harap berhati-hati dan jangan pernah memasukkan SEED Anda ke 'klien' seperti ini, karena akun Anda akan dikompromikan dan Anda akan kehilangan semua dana Anda.",
+            "descriptionP3": "Anda HANYA diperbolehkan menggunakan klien Waves resmi.",
+            "ok": "Saya mengerti",
+            "title": "Perlakukan frase cadangan Anda dengan hati-hati!"
+        },
+        "or": "atau",
+        "skip": "Lakukan nanti",
+        "title": "Tidak dicadangkan, Beresiko kehilangan Uang"
+    }
+}

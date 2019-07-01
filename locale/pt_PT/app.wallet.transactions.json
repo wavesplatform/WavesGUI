@@ -1,0 +1,73 @@
+{
+    "all": "All",
+    "confirmTransaction": {
+        "retrySign": "Retry sign"
+    },
+    "csv": {
+        "alias": "Alias name",
+        "amount": {
+            "id": "Amount asset ID",
+            "name": "Amount asset name",
+            "ticker": "Amount asset ticker",
+            "value": "Amount asset value"
+        },
+        "attachment": "Transaction attachment",
+        "date": "Date",
+        "description": "Token description",
+        "fee": {
+            "id": "Fee ID",
+            "name": "Fee name",
+            "ticker": "Fee ticker",
+            "value": "Fee value"
+        },
+        "height": "Transaction height",
+        "id": "Transaction ID",
+        "name": "Token name",
+        "precision": "Precision",
+        "price": {
+            "id": "Price asset ID",
+            "name": "Price asset name",
+            "ticker": "Price asset ticker",
+            "value": "Price asset value"
+        },
+        "recipient": "Transaction recipient",
+        "reissuable": {
+            "false": "No reissuable",
+            "name": "Can reissue token",
+            "true": "Reissuable"
+        },
+        "sender": "Transaction sender",
+        "transactionType": "Blockchain transaction type",
+        "type": "Transaction type"
+    },
+    "errors": {
+        "complete": {
+            "body": "The list of transactions is not completely downloaded. Please retry later.",
+            "title": "Download is not complete."
+        },
+        "download": {
+            "body": "The list of transactions is not downloaded. Please retry later.",
+            "title": "Download error."
+        },
+        "empty": {
+            "body": "There are no transactions in your history",
+            "title": "Export error"
+        }
+    },
+    "exchanged": "Exchanged",
+    "export": "Export",
+    "filter": {
+        "value1": "Recent",
+        "value2": "500 txs",
+        "value3": "1000 txs"
+    },
+    "issued": "Issued",
+    "leased": "Leased",
+    "received": "Received",
+    "sent": "Sent",
+    "transactions": {
+        "script": {
+            "txJson_wallet": "Base64 script"
+        }
+    }
+}

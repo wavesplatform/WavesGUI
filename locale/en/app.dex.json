@@ -1,0 +1,232 @@
+{
+    "create": {
+        "order": {
+            "failed": "Something went wrong",
+            "success": "The order is created"
+        }
+    },
+    "dex": {
+        "contest": "Contest"
+    },
+    "directives": {
+        "balance": {
+            "assetId": "Asset Id",
+            "available": "Available",
+            "inOrders": "In orders",
+            "inOrdersFull": "Reserved in orders",
+            "total": "Total"
+        },
+        "candleChart": {
+            "error": "{div}[The chart could not be downloaded.]{div}[If you want to use this chart in your application, please send a request to [tradingview.com](https://tradingview.com)]"
+        },
+        "createOrder": {
+            "1day": "1 day",
+            "1hour": "1 hour",
+            "1week": "1 week",
+            "30day": "29 days",
+            "30min": "30 min",
+            "5min": "5 min",
+            "amountField": "Amount",
+            "ask": "Ask",
+            "bid": "Bid",
+            "buy": "Buy",
+            "createOrderNotPermitted": "Orders is temporarily unavailable",
+            "errors": {
+                "balance": "Not enough {{name}}",
+                "precision": "Exceeded maximum of {{precision}} decimal places",
+                "required": "This field is required"
+            },
+            "expiration": "Expiration",
+            "fee": "Fee {{fee}} WAVES",
+            "hasScript": "Cancel [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) to trade",
+            "last": "Last",
+            "matcherFee": "Fee",
+            "notifications": {
+                "error": {
+                    "30702": "The account's script of {{address}} rejected the order",
+                    "title": "Error message"
+                },
+                "isCreated": "The order is created",
+                "notEnoughBalance": "Not enough tradable balance",
+                "somethingWentWrong": "Something went wrong"
+            },
+            "notPermitted": "Order creation is temporarily unavailable",
+            "placeBuyOrder": "Buy {{name}}",
+            "placeSellOrder": "Sell {{name}}",
+            "priceField": "Limit price",
+            "sell": "Sell",
+            "spread": "spread",
+            "total": "Total"
+        },
+        "demo": {
+            "createAccount": "Create a new account",
+            "or": "or",
+            "signIn": "Sign in",
+            "to": {
+                "mybalance": "to see your balance",
+                "openorders": "to see your open orders",
+                "tradehistory": "to see your trade history"
+            }
+        },
+        "filter": "Search",
+        "marketDepth": "Market Depth",
+        "markets": {
+            "table": {
+                "price": "Price",
+                "rate": "Change",
+                "unit": "Coin",
+                "volume": "Volume"
+            },
+            "title": "Markets"
+        },
+        "myOrders": {
+            "amount": "Amount",
+            "average": "Average",
+            "back": "No",
+            "cancel": "cancel",
+            "cancelAll": "cancel all",
+            "cancelAllConfirm": "Yes",
+            "canceled": "canceled",
+            "cancelled": "CANCELED",
+            "confirm": {
+                "header": "Are you sure?",
+                "literalDescription": "This action cannot be undone"
+            },
+            "delete": "delete",
+            "detail": "detail",
+            "fee": "fee",
+            "filled": "Filled",
+            "filter": "Filter",
+            "noPermissionCancelOrder": "Order cancellation is temporarily unavailable",
+            "notifications": {
+                "isCanceled": "The order has been canceled",
+                "somethingWentWrong": "Something went wrong"
+            },
+            "opened": "opened",
+            "orderType": {
+                "buy": "Buy",
+                "sell": "Sell"
+            },
+            "pair": "Pair",
+            "placeholders": {
+                "lockedPair": "Trading in {{amountAssetTicker}} / {{priceAssetTicker}} is currently unavailable. You can cancel the order"
+            },
+            "price": "Price",
+            "status": "Status",
+            "tableTitle": {
+                "fee": "Fee"
+            },
+            "time": "Time",
+            "total": "Total",
+            "type": "Type",
+            "withScript": "You cannot use the exchange while a [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) is installed on your account"
+        },
+        "noChartDataMessage": "{div}[Not enough bids and asks]{div}[to create market depth chart]",
+        "noChartDataTitle": "Nothing Here…",
+        "orderBook": {
+            "amount": "Amount {{assetName}}",
+            "lastprice": "last price",
+            "price": "Price {{assetName}}",
+            "spread": "spread",
+            "sum": "Sum {{assetName}}",
+            "title": "Order Book"
+        },
+        "orderbook": {
+            "errorBlock": {
+                "header": "Something went wrong"
+            }
+        },
+        "portfolio": {
+            "title": "Portfolio"
+        },
+        "tradeHistory": {
+            "orderType": {
+                "buy": "Buy",
+                "sell": "Sell"
+            },
+            "search": "Search",
+            "tableTitle": {
+                "date": "Time",
+                "exchangeType": "Type",
+                "fee": "Fee",
+                "price": "Price {{assetName}}",
+                "size": "Amount {{assetName}}",
+                "total": "Total",
+                "type": "Type"
+            },
+            "title": "Trade History"
+        },
+        "watchlist": {
+            "all": "ALL",
+            "change": "Change",
+            "chg": "Chg",
+            "coin": "Coin",
+            "helpIcon": {
+                "assetId": "Asset ID",
+                "AssetId1AssetId2": "Asset1 ID / Asset2 ID",
+                "description": "You can find out more about searching assets [here](https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html)",
+                "header": "You can search by:",
+                "name": "Name",
+                "name1Name2": "Name1 / Name2"
+            },
+            "pair": "Pair",
+            "placeholders": {
+                "base": "Base coin",
+                "coin": "Search",
+                "filter": "Filter",
+                "lockedPair": "Trading in {{amountAssetTicker}} / {{priceAssetTicker}} is currently unavailable",
+                "noMarkets": "No markets matching your filters"
+            },
+            "price": "Price",
+            "volume": "Volume"
+        }
+    },
+    "emptyBlocks": {
+        "myOrders": {
+            "description": "You do not have any orders.",
+            "title": "Nothing Here…"
+        },
+        "orderBook": {
+            "description": "The order book is empty.",
+            "error": {
+                "text": "Please refresh the page or try again later",
+                "title": "Something went wrong"
+            },
+            "title": "Nothing Here…"
+        },
+        "tradeHistory": {
+            "description": "The trading history is empty.",
+            "title": "Nothing Here…"
+        }
+    },
+    "layout": {
+        "center": {
+            "bottom": "My Orders"
+        },
+        "right": {
+            "bottom": "Trade history",
+            "top": "Order Book"
+        }
+    },
+    "orderbook": {
+        "ask": {
+            "tooltipText": "Buy {{amountAsset}} for {{price}} {{priceAsset}}"
+        },
+        "bid": {
+            "tooltipText": "Sell {{amountAsset}} for {{price}} {{priceAsset}}"
+        }
+    },
+    "tabs": {
+        "title": {
+            "all": "All",
+            "btc": "Btc",
+            "eth": "ETH",
+            "myBalance": "My Balance",
+            "myTradeHistory": "My Trade History",
+            "openOrders": "My Open Orders",
+            "OrderHistory": "My Order History",
+            "tradeHistory": "Trade History",
+            "waves": "Waves"
+        }
+    }
+}

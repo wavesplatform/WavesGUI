@@ -1,0 +1,94 @@
+{
+    "back": "मुख्य पेज पर वापस जाएं",
+    "button": {
+        "cancel": "रद्द करें",
+        "continue": "जारी रखें"
+    },
+    "confirmTransaction": {
+        "notPermitted": {
+            "issue": "टोकन जारी करना अस्थायी रूप से अनुपलब्ध है।",
+            "issue-title": "टोकन जारी करना",
+            "massSendTitle": "मास्स ट्रान्सफर",
+            "reissue": "टोकन जारी करना अस्थायी रूप से अनुपलब्ध है।",
+            "sendTitle": "भेजना",
+            "set-script-title": "स्क्रिप्ट ट्रांसक्शन"
+        },
+        "send": {
+            "errors": {
+                "fee": "आवश्यक शुल्क का भुगतान करने के लिए आपके पास पर्याप्त धन नहीं है। आपको {{fee, money-currency}} ट्रांसक्शन शुल्क का भुगतान करना होगा;"
+            }
+        }
+    },
+    "date": {
+        "month": [
+            "जन",
+            "फर",
+            "मार्च",
+            "अप्रैल",
+            "मई",
+            "जून",
+            "जुलाई",
+            "अगस्त",
+            "सित",
+            "अक्टू",
+            "नव",
+            "दिस"
+        ]
+    },
+    "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
+        "description": "अलोहा फंकी सिक्का, किन्ही अच्छे व बुरे प्रयोजनो के लिए ;)"
+    },
+    "fee": "{{money, money-fee}}",
+    "header": {
+        "assets": "एसेट्स",
+        "dex": "DEX",
+        "leasing": "लीज़िंग",
+        "portfolio": "पोर्टफोलियो",
+        "tokens": "\"टोकन",
+        "transactions": "लेन-देन",
+        "wallet": "वॉलेट"
+    },
+    "inputs": {
+        "errors": {
+            "required": "यह क्षेत्र जरूरी है!"
+        }
+    },
+    "leftmenu": {
+        "login": "लॉगिन",
+        "logout": "लॉग आउट करें",
+        "settings": "सेटिंग्स"
+    },
+    "matcher": {
+        "orders": {
+            "statuses": {
+                "canceled": "रद्द",
+                "filled": "भरा ({{percent}}%)",
+                "opened": "खोला गया"
+            }
+        }
+    },
+    "modal": {
+        "enterPassword": {
+            "ok": "ठीक है",
+            "title": "पासवर्ड दर्ज करें"
+        },
+        "pairing": {
+            "showQr": "प्रदर्शन"
+        },
+        "tryDesktop": {
+            "cancel": "वेब के साथ जारी रखें",
+            "label": "मेरी पसंद को याद रखो और फिर से मुझे याद नहीं दिलाना",
+            "message": "हम आपको वेव्स डेस्कटॉप ऐप का उपयोग करने की सलाह देते हैं। यदि आपके पास यह नहीं है, तो आप इसे आधिकारिक साइट से डाउनलोड कर सकते हैं।",
+            "title": "वेव्स डेस्कटॉप एप्लिकेशन का उपयोग करें",
+            "try": "डेस्कटॉप ऐप खोलें"
+        }
+    },
+    "money-currency": "{{money, money-currency}}",
+    "number": {
+        "short": {
+            "million": "M",
+            "thousand": "k."
+        }
+    },
+    "Suspicious": "संदेहजनक"
+}

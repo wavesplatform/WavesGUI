@@ -1,0 +1,50 @@
+{
+    "password": {
+        "error": "Hatalı Parola!"
+    },
+    "passwordForm": {
+        "back": "geri gidin",
+        "description": "Hesabınızı bir parola ile koruyun veya",
+        "importAccounts": "Hesapları aktar",
+        "login": "Devam",
+        "title": "Hesabınızı Koruyun"
+    },
+    "restore": {
+        "beta": {
+            "accountTitle": "Adres / Hesap adı",
+            "buttons": {
+                "cancel": "Geri",
+                "copy": "Seed'i kopyala",
+                "restore": "Seed'i geri yükle"
+            },
+            "noUsers": {
+                "description": "{div}[Kayıtlı bir hesap bulunamadı. Şu adrese geri dönün]{div}[[client.wavesplatform.com](https://client.wavesplatform.com)]",
+                "title": "Hesap kaydedilmedi"
+            },
+            "passwordTitle": "Parola",
+            "placeholders": {
+                "password": "Parola"
+            },
+            "step1Description": "SEED'inize değil yalnızca parolanıza sahipseniz kayıtlı bir hesabı geri yüklemek için bu sayfayı kullanabilirsiniz.",
+            "step2Description": "Lütfen SEED'i dikkatlice kaydedin. Kaybettiğiniz takdirde hesabınıza hiçbir şekilde erişemezsiniz.",
+            "title": "Seed'i geri yükle"
+        }
+    },
+    "seedForm": {
+        "address": "Adres",
+        "back": "Geri dön",
+        "continue": "Devam",
+        "create": "Yeni bir hesap oluşturun",
+        "description": "Anahtar kelimeleriniz cüzdanınızı oluştururken size verilen 15 kelimeden oluşmaktadır",
+        "or": "veya",
+        "placeholder": "Anahtar kelimeleriniz cüzdanınızı oluştururken size verilen 15 kelimeden oluşmaktadır",
+        "saveUserData": "Bu bilgisayarda otomatik çıkış yapma",
+        "seedTitle": "Anahtar kelimeleriniz",
+        "title": "Anahtar kelimelerden içeri aktar",
+        "tosaved": "kaydedilmiş hesaba"
+    },
+    "warningSeed": {
+        "message": "Bir adresin anahtar kelime (SEED) yerine kullanılmasını önermiyoruz. Bu yöntem güvenli değil! Devam etmek istediğinizden emin misiniz?",
+        "title": "Anahtar kelimeleri (SEED) değil, bir adres girdiniz."
+    }
+}

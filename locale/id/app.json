@@ -1,0 +1,94 @@
+{
+    "back": "Kembali ke halaman utama",
+    "button": {
+        "cancel": "Batalkan",
+        "continue": "Lanjutkan"
+    },
+    "confirmTransaction": {
+        "notPermitted": {
+            "issue": "Penerbitan token untuk sementara tidak tersedia.",
+            "issue-title": "Pembuatan Token",
+            "massSendTitle": "Transfer Massal",
+            "reissue": "Penerbitan Ulang Token untuk sementara tidak tersedia.",
+            "sendTitle": "Kirim",
+            "set-script-title": "Transaksi skrip"
+        },
+        "send": {
+            "errors": {
+                "fee": "Anda tidak memiliki cukup dana untuk membayar biaya yang diperlukan. Anda harus membayar biaya {{fee, money-currency}};"
+            }
+        }
+    },
+    "date": {
+        "month": [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "Mei",
+            "Jun",
+            "Jul",
+            "Ags",
+            "Sep",
+            "Okt",
+            "Nov",
+            "Des"
+        ]
+    },
+    "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
+        "description": "Halo funky coin, untuk tujuan baik & jahat ;)"
+    },
+    "fee": "{{money, money-fee}}",
+    "header": {
+        "assets": "Aset",
+        "dex": "DEX",
+        "leasing": "Sewakan",
+        "portfolio": "Portofolio",
+        "tokens": "Token",
+        "transactions": "Transaksi",
+        "wallet": "Dompet"
+    },
+    "inputs": {
+        "errors": {
+            "required": "Bagian ini diperlukan!"
+        }
+    },
+    "leftmenu": {
+        "login": "Masuk",
+        "logout": "Keluar",
+        "settings": "Pengaturan"
+    },
+    "matcher": {
+        "orders": {
+            "statuses": {
+                "canceled": "Dibatalkan",
+                "filled": "Terisi ({{percent}}%)",
+                "opened": "Dibuka"
+            }
+        }
+    },
+    "modal": {
+        "enterPassword": {
+            "ok": "OK",
+            "title": "Masukkan Kata Sandi"
+        },
+        "pairing": {
+            "showQr": "Tunjukkan"
+        },
+        "tryDesktop": {
+            "cancel": "Lanjutkan menggunakan web",
+            "label": "Ingat pilihan saya dan jangan mengingatkan saya lagi",
+            "message": "Kami sarankan Anda menggunakan aplikasi desktop Waves. Jika Anda tidak memiliki ini, Anda dapat mengunduhnya dari Situs Resmi.",
+            "title": "Gunakan aplikasi desktop Waves",
+            "try": "Buka aplikasi desktop"
+        }
+    },
+    "money-currency": "{{money, money-currency}}",
+    "number": {
+        "short": {
+            "million": "juta",
+            "thousand": "ribu"
+        }
+    },
+    "Suspicious": "Mencurigakan"
+}

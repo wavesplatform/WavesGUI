@@ -1,0 +1,22 @@
+{
+    "available": "Kullanılabilir",
+    "chart": {
+        "available": "Kullanılabilir",
+        "create": "Kiralamaya başla",
+        "leased": "Kiralanmış",
+        "title": "WAVES Bakiyesi"
+    },
+    "description": {
+        "text1": "Sadece kiralanmamış WAVES'lerinizi transfer veya takas edebilirsiniz. Kiralanmış miktarlar başka bir adrese gönderilemez veya takas amacı ile kullanılamaz.",
+        "text2": "Kiralama işlemini dilediğiniz zaman iptal edebilirsiniz. İptal işlemi saniyeler içerisinde gerçekleşir.",
+        "text3": "Üretim bakiyesi 1000 Blok sonra güncellenecektir.",
+        "title": "Kiralamadan Önce"
+    },
+    "leased": "Kiralanmış",
+    "leasedIn": "Kiralanmış",
+    "nodeListLink": "Node’ların listesi",
+    "test": {
+        "test": "Metin testi"
+    },
+    "title_leasing": "Giriş yapmak için Waves masaüstü uygulamasını seçtiniz"
+}

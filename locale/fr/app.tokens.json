@@ -1,0 +1,79 @@
+{
+    "count": "Total de Tokens",
+    "create": "Générer",
+    "description": "Description",
+    "directives": {
+        "sign": {
+            "confirmRequestLedger": {
+                "waiting": "En attente de la confirmation sur Ledger Nano S..."
+            }
+        }
+    },
+    "fee": "Frais {{fee, money-currency}}",
+    "help": {
+        "name": "Veuillez n'utiliser que des caractères latins"
+    },
+    "helpIcon": {
+        "demicals": "Ce champ définit le nombre de décimales dans lesquelles votre token d'actif sera divisé.",
+        "scriptDescription": "Chaque validation d'une transaction par le script d'un Actif Intelligent augmente les frais de transaction de 0,004 WAVES. Par exemple, si une transaction régulière est faite pour un Actif Intelligent, le coût est de 0,001 + 0,004 = 0,005 WAVES. Si une opération d'échange est effectuée, le coût est de 0,003 + 0,004 = 0,007 WAVES.",
+        "scriptHeader": "Un Actif Intelligent est un actif avec un script joint qui place des conditions sur chaque transaction effectuée pour le token en question.",
+        "scriptLearnMore": "En savoir plus",
+        "totalTokens": {
+            "headline": "Ce champ définit l'offre totale de tokens que votre actif contiendra.",
+            "notReissuable": "Un actif non réémissible sera limité en permanence à l'offre totale définie au cours de ces étapes.",
+            "reissuable": "La réémission permet la création de tokens supplémentaires qui seront ajoutés à l'offre totale de tokens de l'actif."
+        }
+    },
+    "modal": {
+        "title": "Génération de {{name}}",
+        "titleSuccess": "Génération de {{name}} terminée"
+    },
+    "name": "Nom de votre actif",
+    "notifications": {
+        "isNotCreated": "Le token n'a pas été créé"
+    },
+    "pageTitle": "Génération du token",
+    "placeholders": {
+        "description": "Vous ne pourrez pas changer la description plus tard",
+        "precision": "De 0 à 8"
+    },
+    "precision": "Décimales",
+    "preview": "Aperçu",
+    "reissuable": {
+        "false": "Non réémissible",
+        "true": "Réémissible"
+    },
+    "script": "Actif Intelligent",
+    "success": {
+        "description": "Vous avez généré {{amount}} {{name}}",
+        "done": "Ouvrir le portfolio",
+        "title": "Votre transaction est en route !"
+    },
+    "switchScriptOff": "Désactiver le script",
+    "switchScriptOn": "Activer le script",
+    "tokens": {
+        "changeColorTooltip": "Changer de couleur",
+        "inputHelper": {
+            "description": "Si vous utilisez ce nom, votre jeton sera classé dans la catégorie \"Suspect\" et ne pourra être recherché que par identifiant.",
+            "header": "Ce nom d'actif a été pris"
+        },
+        "termsOfUse": {
+            "checkbox": "Je comprends que dans le cas de non-respect des règles, mon jeton sera classé dans la catégorie \"Suspect\" et ne sera disponible que pour une recherche par ID."
+        }
+    },
+    "validators": {
+        "byte": {
+            "gte": "Le nom de l'actif doit avoir une longueur comprise entre 4 et 16 octets",
+            "lte": "Le nom de l'actif doit avoir une longueur comprise entre 4 et 16 octets"
+        },
+        "descriptionLen": "La description est trop longue. Elle ne doit pas dépasser 1 000 octets.",
+        "invalidScript": "Erreur de syntaxe",
+        "maxValueCount": "Le nombre saisi est trop grand",
+        "maxValuePrecision": "Nombre invalide. Entrez un nombre de 0 à 8",
+        "minValueCount": "Le nombre saiso doit être supérieur à 0",
+        "minValuePrecision": "Nombre invalide. Entrez un nombre de 0 à 8",
+        "noMoney": "Votre solde n'est pas suffisant pour payer les frais de transaction",
+        "precisionCount": "Le total de l'actif ne peut pas avoir plus de décimales que celles spécifiées dans le champ Décimales",
+        "required": "Ce champ doit être rempli"
+    }
+}

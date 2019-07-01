@@ -1,0 +1,322 @@
+{
+    "all": "All",
+    "amount": "Kogus",
+    "balanceInput": {
+        "max": "Maks"
+    },
+    "confirmGatewayTransaction": {
+        "back": "Tagasi",
+        "confirm": "Kinnita",
+        "fieldAddress": "Siht-aadress",
+        "fieldAmount": "Kogus",
+        "fieldFee": "Tasu",
+        "fieldGatewayAddress": "Gateway aadress",
+        "fieldGatewayFee": "Gateway tasu",
+        "success": "Teie tehing on teostamisel!",
+        "warningText": "Sa kohe saadad raha {{name}} blockchainile.",
+        "warningTitle": "Välise blockchaini tehing"
+    },
+    "confirmTransaction": {
+        "back": "Mine Tagasi",
+        "confirm": "Saada",
+        "description": {
+            "burn": "Te olete ära põletanud {{quantityStr}} {{name}}",
+            "cancel-leasing": "Te olete liisingutehingu tühistanud",
+            "circular": "Te olete saatnud {{amount, money-currency}} endale",
+            "create-alias": "Olete loonud alias",
+            "data": "You have sent data transaction",
+            "data-vote": "{div.line}[You have voted for {{moneyCurrency}}.]\n{div.line}[Your score will be applied after 24 hours. Rating in processing.]",
+            "issue": "Token edukalt loodud",
+            "lease-out": "Olete rendile andnud {{amount, money-currency}}",
+            "mass-send": "Olete saatnud {{totalAmount, money-currency}}",
+            "reissue": "Olete loonud täiendavalt {{quantityStr}} {{name}}",
+            "send": "Olete saatnud {{amount, money-currency}}",
+            "set-asset-script": "Olete skripti värskendanud",
+            "set-script": "Olete loonud skripti tehingu",
+            "set-script-cancel": "Olete skripti tehing tühistanud",
+            "sponsorship-start": "Sponsorlus on loodud",
+            "sponsorship-stop": "Sponsorlus on tühistatud"
+        },
+        "details": "Vaata detaile",
+        "export": "Eksport",
+        "JSON": "JSON",
+        "ledgerUnconfirmed": {
+            "description": "Palun proovi uuesti. Kui viga püsib, vaadake palun [käesolev artikkel](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)",
+            "header": "Te pole kinnitanud päringut enda Ledger'is"
+        },
+        "notPermited": {
+            "cancel-leasing": "Liisingu alustamine pole ajutiselt saadaval."
+        },
+        "notPermitted": {
+            "burn": "Tokenite põletamine pole ajutiselt saadaval.",
+            "burn-title": "Tokenite põletamine",
+            "cancel-leasing": "Liisingu alustamise funktsiooni ei ole ajutiselt saadaval.",
+            "cancel-leasing-title": "Tühista liising",
+            "data": "Andmetehingud ei ole ajutiselt saadaval.",
+            "data-title": "Andmetehing",
+            "reissue-title": "Tokeni  taasemiteeritavus",
+            "set-script": "Skripti tehingud ei ole ajutiselt saadaval.",
+            "sponsorship-start": "Sponsorlus pole ajutiselt saadaval.",
+            "sponsorship-start-title": "Muutke sponsorlust"
+        },
+        "orderSuccess": "Teie order on loodud!",
+        "redirect": "Teid suunatakse aadressile {{referrer}}",
+        "send": {
+            "errors": {
+                "balance": {
+                    "invalid": "Ebapiisavad vahendid"
+                },
+                "recipient": {
+                    "invalid": "Saaja aadress on vigane"
+                }
+            }
+        },
+        "sign": "Allkirjasta",
+        "success": "Teie tehing on teostamisel!",
+        "wavesKeeperUnconfirmed": {
+            "description": "Palun proovige uuesti. Kui viga püsib, saatke palun pilet [kasutajatoele](https://support.wavesplatform.com)",
+            "header": "Te ei kinnitanud päringut Waves Keeperiga"
+        }
+    },
+    "copyError": "Ei saa kopeerida! Teie brauser võib olla aegunud",
+    "copySuccess": "Andmed kopeeritud",
+    "directives": {
+        "anyTransaction": {
+            "copy": "Kopeeri",
+            "textAreaTitle": "TX JSON"
+        },
+        "scriptForm": {
+            "placeholder": {
+                "change": "Sisestage uus skript või jätke väli tühjaks, et olemasolev skript tühistada",
+                "create": "Sisestage uus skript või jätke väli tühjaks, et olemasolev skript tühistada"
+            },
+            "textAreaTitle": "Skript"
+        },
+        "setAssetScriptForm": {
+            "ok": "Jätka"
+        },
+        "sign": {
+            "confirmRequestKeeper": {
+                "cancel": "Tühista",
+                "errorDescription": "Palun proovige uuesti. Kui viga püsib, saatke palun pilet [kasutajatoele](https://support.wavesplatform.com)",
+                "errorHeader": "Te pole kinnitanud päringut Waves Keeperiga",
+                "sign": "Jätka",
+                "waiting": "Waves Keeperilt kinnituse ootel ..."
+            },
+            "confirmRequestLedger": {
+                "cancel": "Tühista",
+                "errorDescription": "Palun proovige uuesti. Kui viga püsib, vaadake palun [käesolev artikkel](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)",
+                "errorHeader": "Te pole kinnitanud päringut Teie Ledger Nano S'is",
+                "sign": "Proovi kinnitada uuesti",
+                "waiting": "Ootan kinnitust Ledger Nano S's…"
+            },
+            "txId": "TXID"
+        },
+        "transactionExport": {
+            "linkTitle": "Jaga linki kinnitamiseks",
+            "or": "VÕI",
+            "qrZoomBtn": "Suurendamiseks / vähendamiseks klõpsake",
+            "scanQrCode": "Skaneeri QR-koodi"
+        }
+    },
+    "emptyBlocks": {
+        "title": "Siin pole midagi…"
+    },
+    "errorBlocks": {
+        "title": "Midagi läks valesti…"
+    },
+    "modal": {
+        "assetInfo": {
+            "gateway_ui": "GATEWAY"
+        },
+        "sign": {
+            "signByLedger": "Ootan kinnitust Ledger Nano S-s"
+        },
+        "token": {
+            "warning": {
+                "header": "Te nõustute, et:",
+                "text": "{div.line} [I) Te ei kasuta tokeni pettuse eesmärgil;]\n{div.line} [II) Te ei kopeeri täielikult või osaliselt olemasoleva krüptovaluuta või tuntud ettevõtte nime/kaubemärki, eesmärgiga eksitada kasutajaid;]\n{div.line} [III) Te ei kasuta tokeni nimes kasutajate eksitamiseks riiki, teisi haldusüksusi või kohalikke asutusi nime.]\n{div.line} [IV) Te ei loo skripti Smart Asset'ile, mis piirab Waves DEXi vahetustehinguid varade koguse järgi;]\n{div.line} [V) Te ei esitada Smart Asset'i kirjelduses valeandmeid, mis käsitlevad tokeni kasutamist reguleerivaid reegleid, mis ei vasta sellele paigaldatud skripti sisule;]",
+                "textWarning": "Nende punktide eiramine toob kaasa, et teie token klassifitseeritakse rämpsiks ja seda saab otsida ainult ID alusel."
+            }
+        }
+    },
+    "password": {
+        "minLength": "peab olema vähemalt {{minLength}} tähemärki",
+        "name": "Kontonimi",
+        "repeat": "Kinnita salasõna",
+        "secure": "turvaline parool",
+        "title": "Kaitsta oma kontot uue parooliga",
+        "warn": "ebaturvaline, palun lisage number ja/või sümbol"
+    },
+    "qrCodeRead": {
+        "closeRead": "Tühista"
+    },
+    "recipient": "Saaja",
+    "transaction": {
+        "actions": {
+            "cancelLeasing": "Tühista liising",
+            "copyTxData": "Kopeerige kõik TX andmed",
+            "copyTxId": "TX-ID kopeerimine",
+            "showTx": "TX info"
+        },
+        "amounts": {
+            "burn": "–{{amount}} {{name}}",
+            "cancel-leasing": "{{amount}} {{name}}",
+            "circular": "{{amount}} {{name}}",
+            "exchange-buy": "{{sign}}{{amount}} {{name}}",
+            "exchange-sell": "{{sign}}{{amount}} {{name}}",
+            "issue": "{{amount}} {{name}}",
+            "lease-in": "{{amount}} {{name}}",
+            "lease-out": "{{amount}} {{name}}",
+            "mass-receive": "+{{amount}} {{name}}",
+            "mass-send": "–{{amount}} {{name}}",
+            "perTransaction": "Kogus tehingu kohta",
+            "receive": "+{{amount}} {{name}}",
+            "reissue": "+{{amount}} {{name}}",
+            "script-invocation": "–{{amount}} {{name}}",
+            "send": "–{{amount}} {{name}}",
+            "set-script": "Loo skripti tehing",
+            "set-script-cancel": "Tühista skripti tehing",
+            "sponsorship-change": "Muuda sponsorlust",
+            "sponsorship-fee": "{{sign}}{{amount}} {{name}}",
+            "sponsorship-start": "Loo sponsorlus",
+            "sponsorship-stop": "Tühista sponsorlus"
+        },
+        "confirmed": {
+            "false": "KINNITAMATA",
+            "true": "TÄIDETUD"
+        },
+        "headers": {
+            "activeLeasing": "aktiivne praegu",
+            "burn": "{{name}} Token Hävitamine",
+            "cancel-leasing": "Tühistatud Liising",
+            "canceled": "Tühistatud",
+            "circular": "Iseülekantud {{name}}",
+            "create-alias": "Loodud Alias",
+            "data": "Andmetehing",
+            "data-vote": "Voted for {{assetName}}",
+            "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
+            "exchange-buy": "Börsi Ost:",
+            "exchange-sell": "Börsi Müük:",
+            "issue": "{{name}} Tokeni Loomine",
+            "lease-in": "Sissetulev liising",
+            "lease-out": "Alustatud liising",
+            "mass-receive": "Saadud {{name}}",
+            "mass-send": "Saadetud {{name}}",
+            "receive": "Saadud {{name}}",
+            "reissue": "{{name}} Tokeni Taasemiteerimine",
+            "script-invocation": "Script Invocation",
+            "send": "Saadetud {{name}}",
+            "set-asset-script": "Loo vara skripti tehing",
+            "set-script": "Loo skripti tehing",
+            "set-script-cancel": "Tühista skripti tehing",
+            "spam": "kahtlane",
+            "sponsorship-fee": "Saadud {{name}}",
+            "sponsorship-start": "Seadke sponsorlus {{name}} jaoks",
+            "sponsorship-stop": "Tühistatud sponsorlus {{name}} jaoks",
+            "suspicious": "kahtlane",
+            "unknown": "Tundmatu tehing"
+        },
+        "modals": {
+            "assetId": "Vara ID",
+            "attachment": "Manuse Sõnum",
+            "cancelTx": "Liisingu TX",
+            "confirmations": "Kinnitused",
+            "copyCode": "Copy Code",
+            "data": "Andmed",
+            "dataKey": "Key",
+            "dataType": "Type",
+            "dataValue": "Value",
+            "description": "Kirjeldus",
+            "exchange": {
+                "buy": "Buy",
+                "buyMatcherFee": "Buy Matcher Fee",
+                "exchangeType": "Order type",
+                "matcherFee": "Matcher Fee",
+                "pair": "Pair",
+                "sell": "Sell"
+            },
+            "fee": "Tasu",
+            "from": "Alates",
+            "function": "Function",
+            "functionCall": "Function call",
+            "height": "Plokk",
+            "hide": "Hide",
+            "hideAll": "Hide all",
+            "leasingStatus": "Staatus",
+            "massSend": {
+                "showAll": {
+                    "false": "Kuva kõik ({{count}})",
+                    "true": "Kuva esimest 3 tehingut"
+                },
+                "totalAmount": "Kogu summa"
+            },
+            "numberOfRecipients": "Saajate arv",
+            "orderType": "Orderi tüüp",
+            "pair": "Paar",
+            "payment": "Payment",
+            "price": "{{name}} Hind",
+            "script": "Skript",
+            "scriptAddress": "Script address",
+            "seeAll": "See all",
+            "setAssetScript": {
+                "showScript-false": "Kuva",
+                "showScript-true": "Peida"
+            },
+            "show": "Show",
+            "showAll": "Show all ({{count}})",
+            "showFirstTree": "Show first 3 keys",
+            "status": "Status",
+            "timestamp": "Ajatempel",
+            "to": "Kuni",
+            "toBeReissued": "Taasemiteerimiseks",
+            "toRemainOnBalance": "Kontol jääb",
+            "totalAfterBurning": "Kokku pärast hävitamist",
+            "totalAfterReissue": "Kokku pärast taasemiteerimist",
+            "txId": "TXID",
+            "type": "Tüüp",
+            "viewTransactionKey": "Tehing",
+            "viewTransactionValue": "Vaadake tehingut"
+        },
+        "notifications": {
+            "closed": "Liising on juba tühistatud",
+            "closedSuccess": "Liisingu tühistamine lõpetatud"
+        },
+        "reissuable": {
+            "false": "Taasmitteemiteeritav",
+            "true": "Taasemiteeritav"
+        },
+        "set-asset-script": "Uuenda skripti",
+        "subheaders": {
+            "burn": "{{time}}",
+            "cancel-leasing": "{{time}}{span.locale-address}[, tehing {{transactionId}}]",
+            "circular": "{{time}}{span.locale-address}[, aadressil {{address}}]",
+            "create-alias": "{{time}}, {{alias}}",
+            "data": "{{time}}",
+            "exchange-buy": "{{time}}",
+            "exchange-sell": "{{time}}",
+            "issue": "{{time}}",
+            "lease-in": "{{time}}{span.locale-address}[, alates aadressist {{address}}]",
+            "lease-out": "{{time}}{span.locale-address}[, kuni aadressini {{address}}]",
+            "mass-receive": "{{time}}{span.locale-address}[, alates aadressist {{address}}]",
+            "mass-send": "{{time}}",
+            "receive": "{{time}}{span.locale-address}[, alates aadressist {{address}}]",
+            "reissue": "{{time}}",
+            "script-invocation": "{{time}}{span.locale-address}[, kuni aadressini {{address}}]",
+            "send": "{{time}}{span.locale-address}[, kuni aadressini {{address}}]",
+            "set-asset-script": "{{time}}, vara {{name}}",
+            "sponsorship-fee": "{{time}} alates aadressist {{address}}",
+            "unknown": "{{time}}"
+        }
+    },
+    "transactionList": {
+        "noTransactionsDescription": "Teil ei ole tehinguid",
+        "noTransactionsTitle": "Siin pole midagi…"
+    },
+    "transactions": {
+        "script": {
+            "txJson": "Uuenda skripti"
+        }
+    },
+    "whitespace": "&nbsp;"
+}

@@ -1,0 +1,21 @@
+{
+    "back": "返回主页",
+    "import": {
+        "signIn": "登录"
+    },
+    "importAccount": "导入帐户",
+    "importAccountInfo": "选择从哪里导入帐户",
+    "KeeperClient": "Waves Keeper",
+    "keeperDescription": "从Waves Keeper导入帐户",
+    "keeperForm": "安装",
+    "LedgerClient": "Ledger设备",
+    "ledgerDescription": "从您的分类帐设备导入帐户",
+    "or": "或",
+    "selectButton": "选择",
+    "wavesClient": "Waves客户端",
+    "wavesClientDescription": "从Waves客户端导入帐户",
+    "wavesLiteClient": "Waves Lite客户端",
+    "wavesLiteClientDescription": "从Waves Lite客户端导入帐户",
+    "wavesSeedClient": "备份SEED助记词短语",
+    "wavesSeedClientDescription": "从备份SEED助记词导入帐户"
+}

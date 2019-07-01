@@ -1,0 +1,79 @@
+{
+    "count": "Kokku tokeneid",
+    "create": "Loo",
+    "description": "Kirjeldus",
+    "directives": {
+        "sign": {
+            "confirmRequestLedger": {
+                "waiting": "Ootan kinnitust Ledger Nano S's…"
+            }
+        }
+    },
+    "fee": "Fee {{fee, money-currency}}",
+    "help": {
+        "name": "Palun kasutage ainult ladina tähti"
+    },
+    "helpIcon": {
+        "demicals": "See väli määratleb kümnendkohtade arvu, mida teie vara tokenid jagatakse.",
+        "scriptDescription": "Iga tehingu valideerimine Smart Asset'i skriptiga suurendab tehingutasu 0,004 WAVES võrra. Näiteks, kui Smart Asset'le tehakse regulaarne tx, on maksumus 0,001 + 0,004 = 0,005 WAVES. Börsi tehingu sooritamise korral on maksumus 0,003 + 0,004 = 0,007 WAVES.",
+        "scriptHeader": "Smart Asset on vara, millel on lisatud skript, mis seab tingimused igale kõnealusele tokeniga tehtud tehingule.",
+        "scriptLearnMore": "Lisateave",
+        "totalTokens": {
+            "headline": "See väli määratleb teie vara tokenite kogu mahtu.",
+            "notReissuable": "Taasmitteemiteeritav vara on püsivalt limiteeritud tokenite maksimaalse mahuga mida määratakse järgnevate sammudega.",
+            "reissuable": "Taasemiteeritavus võimaldab täiendavate tokenite loomist, millega suurendatakse ka kogu tokenite maksimaalset mahtu."
+        }
+    },
+    "modal": {
+        "title": "{{name}} Loomine",
+        "titleSuccess": "{{name}} Loomine Lõpetatud"
+    },
+    "name": "Teie vara nimi",
+    "notifications": {
+        "isNotCreated": "Tokenit pole loodud"
+    },
+    "pageTitle": "Tokeni loomine",
+    "placeholders": {
+        "description": "Te ei saa kirjeldust hiljem muuta",
+        "precision": "0 kuni 8"
+    },
+    "precision": "Kümnendkohad",
+    "preview": "Eelvaade",
+    "reissuable": {
+        "false": "Taasmitteemiteeritav",
+        "true": "Taasemiteeritav"
+    },
+    "script": "Smart asset",
+    "success": {
+        "description": "Sa oled loonud {{amount}} {{name}}",
+        "done": "Avage Portfell",
+        "title": "Teie tehing on teostamisel!"
+    },
+    "switchScriptOff": "Keela skript",
+    "switchScriptOn": "Luba skript",
+    "tokens": {
+        "changeColorTooltip": "Change color",
+        "inputHelper": {
+            "description": "If you use this name, your token will be categorised as 'Suspicious' and will be searchable only by ID.",
+            "header": "This asset name has been taken"
+        },
+        "termsOfUse": {
+            "checkbox": "I understand that in the case of non-compliance with the rules, my token will be categorised as 'Suspicious', and will be available for search only by ID."
+        }
+    },
+    "validators": {
+        "byte": {
+            "gte": "Vara nimi peab olema 4 kuni 16 baiti pikk",
+            "lte": "Vara nimi peab olema 4 kuni 16 baiti pikk"
+        },
+        "descriptionLen": "Kirjeldus on liiga pikk. See ei tohi ületada 1000 baiti.",
+        "invalidScript": "Süntaksi viga",
+        "maxValueCount": "Sisestatud number on liiga suur",
+        "maxValuePrecision": "Vale number. Sisestage number vahemikus 0 kuni 8",
+        "minValueCount": "Sisestatud number peab olema suurem kui null",
+        "minValuePrecision": "Vale number. Sisestage number vahemikus 0 kuni 8",
+        "noMoney": "Teie saldost ei piisa tehingutasude maksmiseks",
+        "precisionCount": "Vara koguarvul ei saa olla rohkem kümnendkoha kui kümnendkohti määratud on",
+        "required": "See väli peab olema täidetud"
+    }
+}

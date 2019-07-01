@@ -1,0 +1,219 @@
+{
+    "backupSeed": {
+        "copySeed": "Copy Seed phrase",
+        "warn": "Since only you control your money, you’ll need to save your Seed phrase in case this app is deleted or",
+        "yourSeed": "Your Seed phrase"
+    },
+    "createAccount": {
+        "from": "createAccount"
+    },
+    "infoTooltip": "Важная информация",
+    "loading": {
+        "volume": "VOLUME"
+    },
+    "modal": {
+        "lockPairWarning": {
+            "continue": "Продолжить",
+            "heading": "Торговля парой {{amountAssetTicker}} / {{priceAssetTicker}} недоступна.",
+            "text": "Торговля этой парой временно недоступна. Вы можете отменить свои ордера."
+        }
+    },
+    "news": "News",
+    "newUser": {
+        "from": "из бэкапа",
+        "getStarted": "Давайте начнём",
+        "import": "Импорт аккаунтов",
+        "or": "или",
+        "restore": "Восстановить кошелёк",
+        "slides": [
+            {
+                "description": "Станьте частью быстро растущего криптомира. Только вы можете получить доступ к своим средствам.",
+                "title": "Начните работать с блокчейном"
+            },
+            {
+                "description": "Храните токены, отправляйте и получайте платежи легко и безопасно.",
+                "title": "Кошелёк"
+            },
+            {
+                "description": "Торгуйте быстро и безопасно. Вы всегда держите свои средства под контролем, даже в момент обмена.",
+                "title": "Децентрализованная биржа"
+            },
+            {
+                "description": "Выпускайте свои собственные токены. Они могут быть использованы в вашем бизнесе не только как внутренняя валюта, но и в голосованиях, рейтинге и программах лояльности.",
+                "title": "Создание токенов"
+            }
+        ]
+    },
+    "openViaDesktop": "Хочу всегда открывать ссылки через десктопное приложение",
+    "roadmap": {
+        "aug2019": {
+            "date": "Авг 2019",
+            "text": "Трейдеры смогут быстро продавать токены по рыночной цене.",
+            "title": "Рыночные ордера"
+        },
+        "dec2018": {
+            "date": "Дек 2018",
+            "text": "В новом мобильном приложении реализована интеграция пользовательского интерфейса DEX и гейтвеев.",
+            "text_2": "Тикеры и лого на DEX обозначают одобренные ассеты, повышая доверие пользователей.",
+            "title": "Mobile app 2.0",
+            "title_2": "Интеграция BetterTokens"
+        },
+        "feb2017": {
+            "date": "Дек 2017",
+            "text": "Выпущена первая версия встроенной биржи.",
+            "title": "Бета-версия Waves DEX"
+        },
+        "feb2018": {
+            "date": "Фев 2018",
+            "text": "Выпущен независимый клиент для macOS, Linux и Windows.",
+            "title": "Десктоп-приложение"
+        },
+        "jan2019": {
+            "date": "Янв 2019",
+            "text": "Доступна поддержка торговли со смарт-аккаунтов на Waves DEX.",
+            "text_2": "Запущен гейтвей Bitcoin Satoshi Vision.",
+            "title": "Поддержка смарт-аккаунтов",
+            "title_2": "Гейтвей BSV"
+        },
+        "jul2018": {
+            "date": "Июл 2018",
+            "text": "Перезапущенная биржа обеспечивает лучший пользовательский опыт и производительность, чем любая другая децентрализованная биржа.",
+            "text_2": "Новый релиз выводит популярный кошелек из бета-версии.",
+            "title": "Перезапуск DEX",
+            "title_2": "Кошелек Wallet"
+        },
+        "jul2019": {
+            "date": "Июль 2019",
+            "text": "Создание гейтвея для токенов ERC20 в экосистеме Waves позволит торговать на платформе популярными токенами Ethereum.",
+            "text_2": "Упрощается процесс разработки мобильных приложений, а также разработчики получат подробное описание инструментов взаимодействия с блокчейном Waves.",
+            "text_3": "Пользователи смогут легко переключаться между счетами в одном приложении-кошельке.",
+            "title": "Гейтвей ERC-20",
+            "title_2": "Мобильный SDK и улучшение JS-библиотеки",
+            "title_3": "Мультиаккаунт"
+        },
+        "jun2019": {
+            "date": "Июнь 2019",
+            "text": "Улучшение показателей скорости DEX и оптимизация используемой памяти устройства.",
+            "title": "Оптимизация DEX"
+        },
+        "may2018": {
+            "date": "Май 2018",
+            "text": "Перезапущенная биржа обеспечивает лучший пользовательский опыт и производительность, чем любая другая децентрализованная биржа.",
+            "title": "Гейтвеи для Dash и Bitcoin"
+        },
+        "nov2018": {
+            "date": "Ноя 2018",
+            "text": "Пользователи могут использовать мульти-подпись и аккаунты со скриптами.",
+            "title": "Поддержка смарт-аккаунтов"
+        },
+        "sep2018": {
+            "date": "Сен 2018",
+            "text": "Интеграция с Waves DEX обеспечивает максимальную безопасность торгов.",
+            "title": "Ledger Nano S"
+        },
+        "sep2019": {
+            "date": "Сен 2019",
+            "text": "Двухфакторная аутентификация обеспечит пользователям Waves DEX еще большую безопасность.",
+            "title": "2FA"
+        }
+    },
+    "userList": {
+        "addNew": "Добавить аккаунт",
+        "create": "Создайте новый кошелёк",
+        "frombackup": "из бэкапа",
+        "import": "Импорт аккаунта",
+        "restore": "Восстановить кошелёк",
+        "subTitle": "Войдите снова или",
+        "subTitleSession": "The session was automatically terminated."
+    },
+    "welcome": {
+        "aliases": "Псевдонимы",
+        "android": "Google Play",
+        "api": "API",
+        "apple": "App Store",
+        "blog": "Блог",
+        "broughtBy": "Разработано командой Waves",
+        "change": "24Ч. ИЗМ.",
+        "chart": "ГРАФИК",
+        "contestLinkDescription": "Win 5,000 WAVES in a trading contest on Waves DEX!",
+        "contestLinkLink": "Rules",
+        "controlAssets": "Контроль над активами только в ваших руках – средства не покидают ваш кошелек и не могут быть заморожены",
+        "copyAddress": "Copy address",
+        "copyright": "© 2019 Waves Platform",
+        "createToken": "Создать токен",
+        "dashboard": "Обзор",
+        "decentralised": "Децентрализованная",
+        "dexWithHardware": "Пользуйтесь DEX с холодными кошельками: Ledger Nano S и Ledger Blue",
+        "documentation": "Документация",
+        "download": "Скачать",
+        "downloadMobileApp": "Скачайте мобильное приложение!",
+        "exchange": "Биржа",
+        "forDevelopers": "Для разработчиков",
+        "forum": "Форум",
+        "gateways": "Шлюзы для популярных валют",
+        "getRealTimeAccess": "Получите доступ к данным в реальном времени и настройте торговых ботов через API",
+        "getStarted": "Давайте начнём",
+        "gitHub": "GitHub",
+        "help": "Помощь",
+        "high": "24Ч. ВЫС.",
+        "instantAccessWalletDex": "Быстрый доступ к кошельку и бирже",
+        "keeperAccount": "Keeper аккаунт",
+        "lastPrice": "ПОСЛ. ЦЕНА",
+        "leasing": "Лизинг",
+        "ledgerAccount": "Ledger аккаунт",
+        "ledgerSupport": "Поддержка Ledger",
+        "legal": "Правовая информация",
+        "linux": "Linux",
+        "linuxDescription": "Скачать Linux приложение",
+        "logout": "Выйти",
+        "logOut": "Выйти",
+        "low": "24Ч. НИЗ.",
+        "lowFixedFees": "Низкие комиссии",
+        "macOs": "MacOS",
+        "macOsDescription": "Скачать MacOS приложение",
+        "mailto": "support.wavesplatform.com",
+        "mainPage": "Главная страница",
+        "majorFiatCryptocurrencies": "Поддержка основных крипто и фиатных валют: BTC, LTC, ETH, USD, и другие",
+        "markets": "Рынки",
+        "marketsDescription": "Waves DEX позволяет выполнять сделки быстро и безопасно, независимо от того, торгуете ли вы через мобильное приложение, настольный клиент, веб-кошелек или Waves API.",
+        "marketsTableDescription": "Чтобы посмотреть больше пар, кликните на",
+        "marketsTableDescriptionLink": "Показать биржу",
+        "menu": "Меню",
+        "news": "Новости",
+        "pair": "ПАРА",
+        "portfolio": "Портфель",
+        "privacyPolicy": "Конфиденциальность",
+        "productsTools": "Продукты",
+        "renameAccount": "Rename account",
+        "roadmap": "План разработки",
+        "roadmapOpportunitiesAhead": "Будущее Waves DEX: наш роудмап разработки",
+        "scriptAccount": "Скрипт аккаунт",
+        "scriptedAccount": "Script account",
+        "settings": "Настройки",
+        "signIn": "Войти",
+        "social": "Соц. сети",
+        "stackOverflow": "Stack Overflow",
+        "suitableTradingBots": "Подходит для торговли ботами",
+        "support": "Support",
+        "telegram": "Telegram",
+        "termsOfUse": "Договор на обслуживание",
+        "tokenCreation": "Быстрый запуск токена",
+        "tokenCreationCosts": "Создание токена за 1 WAVES за считанные минуты",
+        "tradeOnWaves": "Торгуйте на децентрализованной бирже Waves",
+        "tradeOnWavesDescription": "Покупайте и продавайте токены быстро и безопасно со всеми преимуществами централизованных бирж, но сохраняя полный контроль над своими средствами.",
+        "transactions": "Транзакции",
+        "twitter": "Twitter",
+        "volume": "ОБЪЕМ",
+        "wallet": "Кошелёк",
+        "wavesBlockchain": "Waves Blockchain",
+        "wavesDexWeb": "Waves DEX Web",
+        "wavesExplorer": "Waves Explorer",
+        "wavesIde": "Waves IDE",
+        "wavesKeeper": "Waves Keeper",
+        "wavesLabs": "Waves Labs",
+        "wavesOrderFilled": "0.003 WAVES за любой ордер",
+        "wavesWallet": "Waves Wallet",
+        "windows": "Windows",
+        "windowsDescription": "Скачать Windows приложение"
+    }
+}

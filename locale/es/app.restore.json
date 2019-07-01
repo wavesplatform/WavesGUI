@@ -1,0 +1,50 @@
+{
+    "password": {
+        "error": "¡Contraseña incorrecta!"
+    },
+    "passwordForm": {
+        "back": "Ir atrás",
+        "description": "Protege tu cuenta con una nueva contraseña o",
+        "importAccounts": "Importar cuentas",
+        "login": "Regístrate",
+        "title": "Protege Tu Cuenta"
+    },
+    "restore": {
+        "beta": {
+            "accountTitle": "Dirección / Nombre de cuenta",
+            "buttons": {
+                "cancel": "Volver",
+                "copy": "Copiar semilla",
+                "restore": "Restaurar semilla"
+            },
+            "noUsers": {
+                "description": "{div}[No hemos encontrado ninguna cuenta guardada. Vuelva a] {div}[[client.wavesplatform.com](https://client.wavesplatform.com)]",
+                "title": "No hay cuentas guardadas"
+            },
+            "passwordTitle": "Contraseña",
+            "placeholders": {
+                "password": "Contraseña"
+            },
+            "step1Description": "Si solo dispone de su contraseña, y no su SEMILLA, puede usar esta página para restaurar una cuenta guardada.",
+            "step2Description": "Por favor, guarde cuidadosamente su SEMILLA. Si la pierde, no podrá acceder a su cuenta.",
+            "title": "Restaurar la semilla"
+        }
+    },
+    "seedForm": {
+        "address": "Dirección",
+        "back": "Ve para atrás",
+        "continue": "Continuar",
+        "create": "crear nueva cuenta",
+        "description": "Regístrate en tu cartera a continuación",
+        "or": "or",
+        "placeholder": "Tu SEED son las 15 palabras que guardaste cuando creaste la cuenta",
+        "saveUserData": "Mantener la sesión iniciada en este ordenador",
+        "seedTitle": "El SEED de tu cartera",
+        "title": "Bienvenido de nuevo",
+        "tosaved": "ve a una cuenta guardada"
+    },
+    "warningSeed": {
+        "message": "Make sure you do not confuse the phrase with a wallet address. Using an address as a SEED phrase can result in loss of funds. The SEED phrase must consist of 15 words with spaces between each word.",
+        "title": "The SEED phrase you entered is too short."
+    }
+}
