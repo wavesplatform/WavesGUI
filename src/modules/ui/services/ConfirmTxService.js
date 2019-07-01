@@ -8,7 +8,9 @@
 
     const NO_EXPORT_TYPES = [
         SIGN_TYPE.MASS_TRANSFER,
-        SIGN_TYPE.CREATE_ORDER
+        SIGN_TYPE.CREATE_ORDER,
+        SIGN_TYPE.DATA,
+        SIGN_TYPE.SCRIPT_INVOCATION
     ];
 
     const ANALYTICS_TX_NAMES = {

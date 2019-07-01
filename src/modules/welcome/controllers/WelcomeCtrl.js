@@ -159,11 +159,13 @@
 
                 });
 
-                this.observeOnce('userList', () => {
-                    if (this.isDesktop && this.userList.length) {
-                        $state.go('signIn');
-                    }
-                });
+                if (this.isDesktop) {
+                    this.observeOnce('userList', () => {
+                        if (this.userList.length) {
+                            $state.go('signIn');
+                        }
+                    });
+                }
             }
 
             /**

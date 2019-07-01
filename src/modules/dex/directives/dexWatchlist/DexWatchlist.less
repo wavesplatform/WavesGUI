@@ -232,24 +232,6 @@ body.dex-demo .dex-wrapper {
             background: @color-white;
           }
         }
-
-        &-contest {
-          span {
-            display: flex;
-            align-items: center;
-            text-transform: capitalize;
-
-            &:before {
-              content: '';
-              width: 14px;
-              height: 14px;
-              margin-right: 3px;
-              margin-top: -2px;
-              display: inline-flex;
-              background: @dex-tab-contest-icon;
-            }
-          }
-        }
       }
 
       .select-hover {
@@ -278,7 +260,7 @@ body.dex-demo .dex-wrapper {
           .smart-table {
             &__row:not(.selected) {
               &:hover {
-                background-color: @hover-default;
+                background-color: @dex-selected-item-bg;
               }
             }
           }
@@ -291,7 +273,7 @@ body.dex-demo .dex-wrapper {
           position: relative;
 
           &.selected {
-            background-color: @color-info-50;
+            background-color: @dex-selected-item-bg;
 
             .smart-table {
               &__cell[data-column-id="info"] {

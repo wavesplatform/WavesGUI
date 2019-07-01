@@ -13,7 +13,7 @@
                         </span>
                     </a>
                     <a ng-if="$ctrl.userList.length" ui-sref="signIn" class="fake-button"
-                        w-analytics event="'Sign In Click'" event-target="ui">
+                       w-analytics event="'Sign In Click'" event-target="ui">
                         <span class="fake-button-content big submit-light" w-i18n="welcome.signIn"></span>
                     </a>
                 </div>
@@ -21,29 +21,6 @@
             <w-web-only><div class="dex-screenshot"></div></w-web-only>
         </div>
     </section>
-
-    <div class="section-contest" id="section-contest-upper">
-        <div class="section-wrapper">
-            <div class="contest-link" id="contest-link-upper">
-                <div class="contest-link-description body-2" w-i18n="welcome.contestLinkDescription"></div>
-                <a class="contest-link-description-hidden-link"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   href="https://wsoc.io/?utm_source=dexsite&utm_medium=cpm"></a>
-                <div class="contest-link-actions">
-                    <a class="contest-link-link fake-button"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       href="https://wsoc.io/?utm_source=dexsite&utm_medium=cpm">
-                        <span class="fake-button-content tiny submit" w-i18n="welcome.contestLinkLink"></span>
-                    </a>
-                    <div class="contest-link-close">
-                        <button class="contest-link-close-icon"></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <w-web-only>
         <section class="section-promo body-2">
@@ -117,11 +94,11 @@
                     </div>
 
                     <div ng-repeat="pair in $ctrl.pairsInfoList track by $index"
-                       w-analytics event="'Menu Exchange Click'"
-                       event-target="'ui'"
-                       ng-class="pair.change24.gt(0) ? 'blue' : 'red'"
-                       ng-click="$ctrl.goToDexDemo({ assetId1: pair.amountAsset.id, assetId2: pair.priceAsset.id })"
-                       class="row row-content">
+                         w-analytics event="'Menu Exchange Click'"
+                         event-target="'ui'"
+                         ng-class="pair.change24.gt(0) ? 'blue' : 'red'"
+                         ng-click="$ctrl.goToDexDemo({ assetId1: pair.amountAsset.id, assetId2: pair.priceAsset.id })"
+                         class="row row-content">
                         <div class="cell pair">
                             {{pair.amountAsset.ticker || pair.amountAsset.displayName }} / {{pair.priceAsset.ticker || pair.priceAsset.displayName}}
                         </div>
@@ -155,34 +132,11 @@
         </section>
 
         <div class="section-roadmap">
-                <h2 class="margin-1 text-center" w-i18n="welcome.roadmap"></h2>
-                <div class="basic-500 margin-05 body-2 text-center" w-i18n="welcome.roadmapOpportunitiesAhead"></div>
-                <w-road-map></w-road-map>
+            <h2 class="margin-1 text-center" w-i18n="welcome.roadmap"></h2>
+            <div class="basic-500 margin-05 body-2 text-center" w-i18n="welcome.roadmapOpportunitiesAhead"></div>
+            <w-road-map></w-road-map>
         </div>
     </w-web-only>
-
-    <div class="section-contest" id="section-contest-down">
-        <div class="section-wrapper">
-            <div class="contest-link contest-link-fixed" id="contest-link-down">
-                <div class="contest-link-description body-2" w-i18n="welcome.contestLinkDescription"></div>
-                <a class="contest-link-description-hidden-link"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   href="https://wsoc.io/?utm_source=dexsite&utm_medium=cpm"></a>
-                <div class="contest-link-actions">
-                    <a class="contest-link-link fake-button"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       href="https://wsoc.io/?utm_source=dexsite&utm_medium=cpm">
-                        <span class="fake-button-content tiny submit" w-i18n="welcome.contestLinkLink"></span>
-                    </a>
-                    <div class="contest-link-close">
-                        <button class="contest-link-close-icon"></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <w-footer></w-footer>
 
