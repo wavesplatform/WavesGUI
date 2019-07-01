@@ -67,7 +67,7 @@
                  */
                 this._render = utils.debounce(() => {
                     this._initializeSelected();
-                    $scope.$digest();
+                    $scope.$apply();
                 }, 100);
 
                 this.observe('disabled', () => {

@@ -15,10 +15,11 @@
      * @param {$state} $state
      * @param {ModalManager} modalManager
      * @param {BalanceWatcher} balanceWatcher
+     * @param {Transactions} transactions
      * @return {CreateOrder}
      */
-    const controller = function (Base, waves, user, utils, createPoll, $scope,
-                                 $element, notification, dexDataService, ease, $state, modalManager, balanceWatcher) {
+    const controller = function (Base, waves, user, utils, createPoll, $scope, $element, notification,
+                                 dexDataService, ease, $state, modalManager, balanceWatcher, transactions) {
 
         const { without, keys, last } = require('ramda');
         const { Money } = require('@waves/data-entities');
@@ -615,7 +616,7 @@
              * @private
              */
             _getLastPrice() {
-                return ds.api.transactions.getExchangeTxList({
+                return transactions.getExchangeTxList({
                     amountAsset: this._assetIdPair.amount,
                     priceAsset: this._assetIdPair.price,
                     limit: 1
@@ -924,7 +925,8 @@
         'ease',
         '$state',
         'modalManager',
-        'balanceWatcher'
+        'balanceWatcher',
+        'transactions'
     ];
 
     angular.module('app.dex').component('wCreateOrder', {

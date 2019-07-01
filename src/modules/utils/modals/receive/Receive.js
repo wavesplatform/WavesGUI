@@ -1,347 +1,89 @@
 (function () {
     'use strict';
 
-    const DEFAULT_LINK = '#';
-
-    const FIAT_CODES = {
-        [WavesApp.defaultAssets.USD]: 'USD',
-        [WavesApp.defaultAssets.EUR]: 'EURO'
-    };
-
-    // TODO : move this to the related gateway service
-    // TODO : keep only IDs here
-    const FIAT_LIST = [
-        {
-            name: 'USD',
-            assetId: WavesApp.defaultAssets.USD,
-            fiatCode: FIAT_CODES[WavesApp.defaultAssets.USD],
-            min: '30',
-            max: '50'
-        },
-        {
-            name: 'EUR',
-            assetId: WavesApp.defaultAssets.EUR,
-            fiatCode: FIAT_CODES[WavesApp.defaultAssets.EUR],
-            min: '30',
-            max: '50'
-        }
-    ];
-
     /**
-     * @param Base
-     * @param {$rootScope.Scope} $scope
+     * @param {typeof Base} Base
+     * @param {ng.IScope} $scope
      * @param {GatewayService} gatewayService
      * @param {User} user
-     * @param {app.utils} utils
      * @param {Waves} waves
      * @return {ReceiveCtrl}
      */
-    const controller = function (Base, $scope, gatewayService, user, utils, waves) {
+    const controller = function (Base, $scope, gatewayService, user, waves) {
 
         class ReceiveCtrl extends Base {
 
-            constructor({ address, asset }) {
-                super($scope);
+            /**
+             * @type {string}
+             */
+            activeTab = '';
 
-                this.activeTab = 'cryptocurrency';
-                /**
-                 * @type {string}
-                 */
-                this.address = address;
+            /**
+             * @type { {[k: string]: boolean} }
+             */
+            tabs = {
+                cryptocurrency: false,
+                invoice: false,
+                card: false,
+                bank: false
+            }
+
+            /**
+             * @type {boolean}
+             */
+            isSingleAsset;
+
+            /**
+             * @type {Array}
+             */
+            cryptocurrencies;
+
+            /**
+             * @type {Array}
+             */
+            invoicables;
+
+            /**
+             * @type {Array}
+             */
+            purchasablesByCards;
+
+            /**
+             * @type {Array}
+             */
+            fiats;
+
+            constructor({ asset }) {
+                super($scope);
 
                 /**
                  * @type {Asset}
                  */
                 this.asset = asset;
 
-                /**
-                 * @type {string}
-                 */
-                this.chosenAssetId = '';
-
-                /**
-                 * @type {number}
-                 */
-                this.step = 0;
-
-                /**
-                 * @type {string}
-                 */
-                this.assetKeyName = null;
-
-                /**
-                 * @type {string}
-                 */
-                this.gatewayAddress = null;
-
-                /**
-                 * @type {string}
-                 */
-                this.listOfEligibleCountries = DEFAULT_LINK;
-                /**
-                 * @type {string}
-                 */
-                this.idNowSiteUrl = DEFAULT_LINK;
-
-                /**
-                 * @type {string}
-                 */
-                this.idNowUserLink = DEFAULT_LINK;
-
-                /**
-                 * @type {string}
-                 */
-                this.digiLiraUserLink = 'https://www.digilira.com/';
-
-                /**
-                 * @type {string}
-                 */
-                this.indacoinLink = DEFAULT_LINK;
-
-                /**
-                 * @type {boolean}
-                 */
-                this.singleAsset = true;
-
-                /**
-                 * @type {boolean}
-                 */
-                this.showCryptocurrencyTab = false;
-
-                /**
-                 * @type {Array}
-                 */
-                this.cryptocurrencies = null;
-
-                /**
-                 * @type {boolean}
-                 */
-                this.showInvoiceTab = false;
-
-                /**
-                 * @type {Array}
-                 */
-                this.invoicables = null;
-
-                /**
-                 * @type {Array}
-                 */
-                this.addressAndAliases = null;
-
-                /**
-                 * @type {string}
-                 */
-                this.chosenAlias = '';
-
-                /**
-                 * @type {Object}
-                 */
-                this.invoiceAmount = null;
-
-                /**
-                 * @type {string}
-                 */
-                this.sendLink = '';
-
-                /**
-                 * @type {boolean}
-                 */
-                this.showCardTab = false;
-
-                /**
-                 * @type {Array}
-                 */
-                this.purchasablesByCards = null;
-
-                /**
-                 * @type {boolean}
-                 */
-                this.showBankTab = false;
-
-                /**
-                 * @type {Array}
-                 */
-                this.fiats = null;
-
-                /**
-                 * @type {boolean}
-                 */
-                this.showIdNowRedirectionDescription = false;
-
-                /**
-                 * @type {boolean}
-                 */
-                this.showIndacoinRedirectionDescription = false;
-
-                /**
-                 * @type {boolean}
-                 */
-                this.showDigiliraRedirectionDescription = false;
-
-                /**
-                 * @type {number}
-                 */
-                this.chosenCurrencyIndex = 0;
-
-                /**
-                 * {{[p: string]: string}}
-                 */
-                this.cardFiatList = FIAT_LIST;
-
-                /**
-                 * @type {Object}
-                 */
-                this.cardPayment = null;
-
-                /**
-                 * @type {number}
-                 */
-                this.approximateAmount = 0;
-
                 if (this.asset) {
+                    this.isSingleAsset = true;
                     this.initForSingleAsset();
                 } else {
-                    this.singleAsset = false;
+                    this.isSingleAsset = false;
                     this.initForAllAssets();
                 }
             }
 
-            initCryptocurrencyTab() {
-                this.gatewayServerError = false;
-                const depositDetails = gatewayService.getDepositDetails(this.asset, this.address);
-                if (depositDetails) {
-                    depositDetails.then((details) => {
-                        this.gatewayAddress = details.address;
-                        $scope.$digest();
-                    }, () => {
-                        this.gatewayAddress = null;
-                        this.gatewayServerError = true;
-                        $scope.$digest();
-                    });
-
-                    this.assetKeyName = gatewayService.getAssetKeyName(this.asset, 'deposit');
-                    this.isVostok = this.asset.id === WavesApp.defaultAssets.VST;
-                    this.activateCryptocurrencyTab();
-                }
-            }
-
-            initInvoiceTab() {
-                this.addressAndAliases = [
-                    this.address,
-                    ...waves.node.aliases.getAliasList()
-                ];
-
-                this.activateInvoiceTab();
-
-                if (this.showInvoiceTab) {
-                    this.setInvoiceObserver();
-                }
-            }
-
-            updateGatewayAddress() {
-                this.initCryptocurrencyTab();
-            }
-
-            setInvoiceObserver() {
-                this.observe(['chosenAlias', 'invoiceAmount'], () => {
-                    this.updateSendLink();
-                });
-            }
-
-            updateSendLink() {
-                const assetId = this.asset && this.asset.id;
-
-                if (!(assetId && this.chosenAlias)) {
-                    this.sendLink = '';
-                    return;
-                }
-
-                const invoiceAmount = (this.invoiceAmount && this.invoiceAmount.toTokens()) || '0';
-
-                const WAVES_URL = WavesApp.origin;
-
-                this.sendLink = `${WAVES_URL}/#send/${assetId}?recipient=${this.chosenAlias}&amount=${invoiceAmount}`;
-            }
-
-            initCardTab() {
-                if (gatewayService.hasSupportOf(this.asset, 'card')) {
-                    this.showCardTab = true;
-                    this.setCardObserver();
-                    this.updateCardDetails().then(() => {
-                        gatewayService.getCardFiatWithLimits(this.asset, user.address, FIAT_LIST).then((fiatList) => {
-                            this.cardFiatList = fiatList;
-                            $scope.$apply();
-                        });
-                    });
-                }
-            }
-
-            updateCardDetails() {
-                return ds.moneyFromTokens(this.cardFiatList[0].min, this.cardFiatList[0].assetId).then((sum) => {
-                    this.cardPayment = sum;
-                });
-            }
-
-            updateCardTab() {
-                if (!this.cardPayment) {
-                    return null;
-                }
-                this.updateApproximateAmount();
-                this.indacoinLink = gatewayService.getCardBuyLink(
-                    this.asset,
-                    this.cardFiatList[this.chosenCurrencyIndex].fiatCode,
-                    user.address,
-                    this._tokenizeCardPayment()
-                );
-            }
-
-            setCardObserver() {
-                if (this.cardObserver) {
-                    return null;
-                }
-                this.cardObserver = true;
-                this.observe(['chosenCurrencyIndex', 'cardPayment', 'asset'], () => {
-                    if (!this.cardPayment) {
-                        return null;
-                    }
-
-                    if (!Number(this._tokenizeCardPayment())) {
-                        this.approximateAmount = new ds.wavesDataEntities.Money(0, this.asset);
-                    }
-
-                    this.updateCardTab();
-                });
-            }
-
-            updateApproximateAmount() {
-                this.approximateAmount = new ds.wavesDataEntities.Money(0, this.asset);
-
-                gatewayService.getCardApproximateCryptoAmount(
-                    this.asset,
-                    this.cardFiatList[this.chosenCurrencyIndex].fiatCode,
-                    user.address,
-                    this._tokenizeCardPayment()
-                )
-                    .then((approximateAmount) => {
-                        const coins = new BigNumber(approximateAmount).times(Math.pow(10, this.asset.precision));
-                        this.approximateAmount = new ds.wavesDataEntities.Money(coins.dp(0), this.asset);
-                        $scope.$digest();
-                    });
-            }
-
-            initBankTab() {
-                const sepaDetails = gatewayService.getSepaDetails(this.asset, this.address);
-                if (sepaDetails) {
-                    this.activateBankTab();
-                }
-
-            }
-
             initForSingleAsset() {
-                this.initCryptocurrencyTab();
-                this.initInvoiceTab();
-                this.initCardTab();
-                this.initBankTab();
+                if (gatewayService.hasSupportOf(this.asset, 'deposit')) {
+                    this.enableTab('cryptocurrency');
+                }
+
+                this.enableTab('invoice');
+
+                if (gatewayService.hasSupportOf(this.asset, 'card')) {
+                    this.enableTab('card');
+                }
+
+                if (gatewayService.hasSupportOf(this.asset, 'sepa')) {
+                    this.enableTab('bank');
+                }
             }
 
             initForAllAssets() {
@@ -351,7 +93,9 @@
                 });
 
                 const invoicesRequest = waves.node.assets.userBalances().then((results) => {
-                    this.invoicables = results.filter(ReceiveCtrl._isNotScam).map((balance) => balance.asset);
+                    this.invoicables = results
+                        .filter((balance) => !user.scam[balance.asset.id])
+                        .map((balance) => balance.asset);
                 });
 
                 const cardsRequests = this.getExtendedAssets(gatewayService.getPurchasableWithCards());
@@ -364,20 +108,26 @@
                     this.fiats = results;
                 });
 
-                Promise.all([cryptocurrenciesRequest, invoicesRequest, cardsRequest, fiatsRequest]).then(() => {
-                    this.updateAssetAndDataBy(this.cryptocurrencies[0].id);
+                Promise.all([
+                    cryptocurrenciesRequest,
+                    invoicesRequest,
+                    cardsRequest,
+                    fiatsRequest
+                ]).then(() => {
+                    this.updateAssetBy(this.cryptocurrencies[0].id);
 
-                    this.activateCryptocurrencyTab();
-                    this.activateInvoiceTab();
-                    this.activateCardTab();
-                    this.activateBankTab();
+                    this.enableTab('cryptocurrency');
+                    this.enableTab('invoice');
+                    this.enableTab('card');
+                    this.enableTab('bank');
 
                     this.initForSingleAsset();
                 });
-
-                this.observe('chosenAssetId', ({ value: id }) => this.updateAssetAndDataBy(id));
             }
 
+            /**
+             * @param {Object} assetsIds
+             */
             getExtendedAssets(assetsIds) {
                 return (
                     Object
@@ -386,19 +136,9 @@
                 );
             }
 
-            updateAssetAndDataBy(id) {
-                this.updateAssetBy(id);
-
-                this.initCryptocurrencyTab();
-                this.updateSendLink();
-                if (this.isPurchasableByCard(this.asset)) {
-                    if (this.showCardTab === true) {
-                        this.initCardTab();
-                    }
-                    this.updateCardTab();
-                }
-            }
-
+            /**
+             * @param {string} id
+             */
             updateAssetBy(id) {
                 this.asset = (
                     this.cryptocurrencies.find((cryptocurrency) => cryptocurrency.id === id) ||
@@ -408,59 +148,11 @@
                 );
             }
 
-            isPurchasableByCard(asset) {
-                return this.purchasablesByCards.find((purchasable) => purchasable.id === asset.id);
-            }
-
-            activateCryptocurrencyTab() {
-                this.showCryptocurrencyTab = true;
-            }
-
-            activateInvoiceTab() {
-                this.showInvoiceTab = true;
-            }
-
-            activateCardTab() {
-                this.showCardTab = true;
-            }
-
-            activateBankTab() {
-                this.showBankTab = true;
-            }
-
-            confirmIdNow() {
-                this.showIdNowRedirectionDescription = true;
-                this.increaseStep();
-            }
-
-            confirmIndacoin() {
-                this.showIndacoinRedirectionDescription = true;
-                this.increaseStep();
-            }
-
-            confirmDigilira() {
-                this.showDigiliraRedirectionDescription = true;
-                this.increaseStep();
-            }
-
-            increaseStep() {
-                this.step++;
-            }
-
-            isLira() {
-                return this.asset.id === WavesApp.defaultAssets.TRY;
-            }
-
-            _tokenizeCardPayment() {
-                return (this.cardPayment && this.cardPayment.toTokens());
-            }
-
             /**
-             * @return {boolean}
-             * @private
+             * @param {'cryptocurrency' | 'invoice' | 'card' | 'bank'} name
              */
-            static _isNotScam(item) {
-                return !user.scam[item.asset.id];
+            enableTab(name) {
+                this.tabs[name] = true;
             }
 
         }
@@ -468,7 +160,7 @@
         return new ReceiveCtrl(this.locals);
     };
 
-    controller.$inject = ['Base', '$scope', 'gatewayService', 'user', 'utils', 'waves'];
+    controller.$inject = ['Base', '$scope', 'gatewayService', 'user', 'waves'];
 
     angular.module('app.utils').controller('ReceiveCtrl', controller);
 })();

@@ -19,6 +19,7 @@
      * @param {PermissionManager} permissionManager,
      * @param {Ease} ease
      * @param {JQuery} $element
+     * @param {Transactions} transactions
      * @return {DexMyOrders}
      */
     const controller = function (
@@ -33,7 +34,8 @@
         modalManager,
         permissionManager,
         ease,
-        $element
+        $element,
+        transactions
     ) {
 
         class DexMyOrders extends Base {
@@ -392,7 +394,7 @@
                             return result;
                         }
 
-                        return ds.api.transactions.getExchangeTxList({
+                        return transactions.getExchangeTxList({
                             sender: user.address,
                             timeStart: ds.utils.normalizeTime(lastOrder.timestamp.getTime())
                         }).then(txList => {
@@ -431,7 +433,8 @@
         'modalManager',
         'permissionManager',
         'ease',
-        '$element'
+        '$element',
+        'transactions'
     ];
 
     angular.module('app.dex').component('wDexMyOrders', {
