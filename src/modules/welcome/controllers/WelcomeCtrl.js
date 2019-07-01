@@ -7,6 +7,7 @@
      * @param $state
      * @param user
      * @param modalManager
+     * @param storage
      * @param ChartFactory
      * @param {app.utils} angularUtils
      * @param {JQuery} $element
@@ -21,10 +22,11 @@
                                  angularUtils,
                                  waves,
                                  $element,
-                                 ChartFactory) {
+                                 ChartFactory,
+                                 storage,
+                                 utils) {
 
         const ds = require('data-service');
-        const { utils } = require('@waves/signature-generator');
         const { Money } = require('@waves/data-entities');
         const { flatten } = require('ramda');
 
@@ -117,33 +119,19 @@
             constructor() {
                 super($scope);
 
-                this._initUserList();
+                if (WavesApp.isWeb()) {
+                    storage.load('accountImportComplete')
+                        .then((complete) => {
+                            if (complete) {
+                                this._initUserList();
+                            } else {
+                                this._loadUserListFromOldOrigin();
+                            }
+                        });
+                } else {
+                    this._initUserList();
+                }
                 this._initPairs();
-
-                const sectionContestUpper = $element.find('#section-contest-upper');
-                const sectionContestDown = $element.find('#section-contest-down');
-
-                let timer;
-                $element.find('.contest-link-close').on('click', function () {
-                    $(this).off();
-                    const closestSectionContest = $(this).closest('.section-contest');
-
-                    if (closestSectionContest[0] === sectionContestUpper[0]) {
-                        sectionContestUpper.addClass('collapsed');
-                        sectionContestDown.remove();
-
-                        if (timer) {
-                            clearTimeout(timer);
-                        } else {
-                            timer = setTimeout(() => {
-                                sectionContestUpper.remove();
-                            }, 500);
-                        }
-                    } else {
-                        [sectionContestDown, sectionContestUpper].forEach(section => section.remove());
-                    }
-
-                });
             }
 
             /**
@@ -153,23 +141,9 @@
                 const scrolledView = $element.find('.scrolled-view');
                 const header = $element.find('w-site-header');
 
-                const contestLinkUpper = $element.find('#contest-link-upper');
-                const contestLinkDown = $element.find('#contest-link-down');
-                const contestLinkStartCoords = contestLinkUpper.offset();
-
                 scrolledView.on('scroll', () => {
                     header.toggleClass('fixed', scrolledView.scrollTop() > whenHeaderGetFix);
                     header.toggleClass('unfixed', scrolledView.scrollTop() <= whenHeaderGetFix);
-
-                    if (contestLinkUpper && contestLinkDown) {
-                        if (scrolledView.scrollTop() > contestLinkStartCoords.top + contestLinkUpper.outerHeight()) {
-                            contestLinkDown.addClass('contest-link-show');
-                            contestLinkDown.removeClass('contest-link-hide');
-                        } else {
-                            contestLinkDown.removeClass('contest-link-show');
-                            contestLinkDown.addClass('contest-link-hide');
-                        }
-                    }
                 });
             }
 
@@ -260,13 +234,36 @@
              * @private
              */
             _initUserList() {
-                user.getUserList()
+                user.getFilteredUserList()
                     .then((list) => {
-                        this.userList = list.filter(user => utils.crypto.isValidAddress(user.address));
+                        this.userList = list;
                         this.pendingRestore = false;
                         setTimeout(() => {
                             $scope.$apply(); // TODO FIX!
                         }, 100);
+                    });
+            }
+
+            /**
+             * @private
+             */
+            _loadUserListFromOldOrigin() {
+                const OLD_ORIGIN = 'https://client.wavesplatform.com';
+
+                this.pendingRestore = true;
+
+                utils.importAccountByIframe(OLD_ORIGIN, 5000)
+                    .then((userList) => {
+                        this.pendingRestore = false;
+                        this.userList = userList || [];
+
+                        storage.save('accountImportComplete', true);
+                        storage.save('userList', userList);
+
+                        $scope.$apply();
+                    })
+                    .catch(() => {
+                        this._initUserList();
                     });
             }
 
@@ -284,7 +281,9 @@
         'utils',
         'waves',
         '$element',
-        'ChartFactory'
+        'ChartFactory',
+        'storage',
+        'utils'
     ];
 
     angular.module('app.welcome')

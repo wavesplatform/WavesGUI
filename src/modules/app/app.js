@@ -104,6 +104,7 @@
         'app.signIn',
         'app.create',
         'app.restore',
+        'app.saveSeed',
         'app.desktop',
         'app.ledger',
         'app.keeper',

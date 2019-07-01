@@ -1,0 +1,91 @@
+<div class="receive-invoice">
+    <form name="invoice" novalidate>
+        <div class="row margin-2">
+            <div class="body-2 basic-900 margin-05" w-i18n="modal.receive.asset"></div>
+
+            <div class="input-like big flex-row split-half" ng-if="::$ctrl.isSingleAsset">
+                <div class="flex-row">
+                    <w-asset-logo class="marker-hide" size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
+                    <div class="asset__name">{{::$ctrl.asset.name}}</div>
+                </div>
+            </div>
+
+            <w-select
+                class="big"
+                can-search="::true"
+                ng-if="::!$ctrl.isSingleAsset"
+                ng-model="$ctrl.chosenAssetId"
+            >
+                <w-option
+                    ng-repeat="invoice in ::$ctrl.invoicables track by $index"
+                    search-value="::[invoice.name, invoice.ticker, invoice.id]"
+                    value="::invoice.id"
+                >
+                    <div class="flex-row split-half">
+                        <div class="flex-row">
+                            <w-asset-logo class="marker-hide" size="24" asset-id="{{::invoice.id}}"></w-asset-logo>
+                            <div class="asset__name">
+                                <span>{{::invoice.name}}</span>
+                                <span class="asset__id basic-500">{{::invoice.id}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </w-option>
+            </w-select>
+        </div>
+
+        <div class="row margin-2">
+            <div class="body-2 basic-900 margin-05" w-i18n="modal.receive.addressOrAlias"></div>
+
+            <w-select class="big" ng-model="$ctrl.chosenAlias">
+                <w-option ng-repeat="alias in ::$ctrl.addressAndAliases track by $index" value="::alias">
+                    {{::alias}}
+                </w-option>
+            </w-select>
+        </div>
+
+        <div class="row margin-2">
+            <w-input-container>
+                <div class="body-2 margin-05" w-i18n="modal.send.amount"></div>
+
+                <div class="amount-wrap">
+                    <w-input
+                        name="amount"
+                        type="text"
+                        class="big long"
+                        ng-model="$ctrl.invoiceAmount"
+                        w-validate
+                        w-validator-asset="{{$ctrl.asset.id || $ctrl.chosenAssetId}}"
+                        required
+                    ></w-input>
+                </div>
+            </w-input-container>
+        </div>
+
+        <div class="row margin-2">
+            <div class="body-2 basic-900 margin-05" w-i18n="modal.receive.shareInvoiceLink"></div>
+
+            <w-copy-wrap
+                class="overflow body-1 basic-900 mobile-low-fsize"
+                info="$ctrl.sendLink"
+            >
+                <span>{{$ctrl.sendLink}}</span>
+            </w-copy-wrap>
+        </div>
+
+        <div class="or" w-i18n="modal.send.or"></div>
+
+        <div class="qr-wrapper center" w-toggle-class-container>
+            <div class="margin-2 body-2 basic-900" w-i18n="modal.qr.scanQrCode"></div>
+
+            <w-qr-code w-toggle-class="zoomed-in" size="200" url="$ctrl.sendLink"></w-qr-code>
+
+            <div
+                class="pointer footnote-1 margin-top-1 basic-500"
+                w-toggle-class="zoomed-in"
+                w-i18n-ns="app.ui"
+                w-i18n="directives.transactionExport.qrZoomBtn"
+            ></div>
+        </div>
+    </form>
+</div>

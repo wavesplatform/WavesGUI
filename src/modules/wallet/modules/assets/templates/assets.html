@@ -93,14 +93,6 @@
                  on-unpin-click="$ctrl.unpin(balance.asset)"
                  balance="balance"></w-asset>
 
-        <!--        TODO: delete after contest -->
-        <w-asset ng-if="$ctrl.isContestTimeNow"
-                 ng-repeat="balance in $ctrl.pinnedContestAssetBalances track by balance.asset.id"
-                 on-click="$ctrl.onAssetActionClick(event, balance.asset, action)"
-                 class="contest-asset"
-                 balance="balance"></w-asset>
-        <!--        TODO: delete after contest -->
-
         <div class="new-asset" ng-click="$ctrl.newAssetOnClick()" role="button">
             <span></span>
         </div>

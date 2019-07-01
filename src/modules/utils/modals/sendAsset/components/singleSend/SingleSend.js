@@ -319,6 +319,7 @@
                     this._updateGatewayDetails();
                 });
                 this._onChangeBaseAssets();
+                this._updateWavesTxObject();
             }
 
             onSignCoinomatStart() {
@@ -441,8 +442,10 @@
             /**
              * @return {boolean}
              */
-            isMoneroAddress() {
-                return this.state.assetId === WavesApp.defaultAssets.XMR;
+            isMoneroNotIntegratedAddress() {
+                const moneroAddressLength = 95;
+                const assetIsMonero = this.state.assetId === WavesApp.defaultAssets.XMR;
+                return assetIsMonero && this.tx.recipient.length === moneroAddressLength;
             }
 
             getGatewayDetails() {
@@ -683,7 +686,8 @@
                             $scope.$apply();
                         }, (e) => {
                             this.gatewayDetails = null;
-                            if (e.message === 'Invalid wallet_to') {
+                            if (e.message === gatewayService.getAddressErrorMessage(this.balance.asset,
+                                this.tx.recipient, 'errorAddressMessage')) {
                                 this.gatewayAddressError = true;
                             } else {
                                 this.gatewayDetailsError = true;
