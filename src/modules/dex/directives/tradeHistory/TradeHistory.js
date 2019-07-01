@@ -9,9 +9,10 @@
      * @param {$rootScope.Scope} $scope
      * @param {IPollCreate} createPoll
      * @param {User} user
+     * @param {Transactions} transactions
      * @return {TradeHistory}
      */
-    const controller = function (Base, $scope, createPoll, user) {
+    const controller = function (Base, $scope, createPoll, user, transactions) {
 
         const PAIR_COLUMN_DATA = {
             id: 'pair',
@@ -172,7 +173,7 @@
              * @private
              */
             _getTradeHistory() {
-                return ds.api.transactions.getExchangeTxList(this._getTransactionsFilter())
+                return transactions.getExchangeTxList(this._getTransactionsFilter())
                     .then(this.remapTransactions);
             }
 
@@ -234,7 +235,7 @@
         return new TradeHistory();
     };
 
-    controller.$inject = ['Base', '$scope', 'createPoll', 'user'];
+    controller.$inject = ['Base', '$scope', 'createPoll', 'user', 'transactions'];
 
     angular.module('app.dex')
         .component('wDexTradeHistory', {

@@ -19,6 +19,7 @@
      * @param {PermissionManager} permissionManager,
      * @param {Ease} ease
      * @param {JQuery} $element
+     * @param {Transactions} transactions
      * @return {DexMyOrders}
      */
     const controller = function (
@@ -33,7 +34,8 @@
         modalManager,
         permissionManager,
         ease,
-        $element
+        $element,
+        transactions
     ) {
 
         /**
@@ -497,7 +499,7 @@
              */
             static _loadTransactions(lastTime) {
                 const minTime = DexMyOrders._getMinTimestamp();
-                return ds.api.transactions.getExchangeTxList({
+                return transactions.getExchangeTxList({
                     sender: user.address,
                     timeStart: ds.utils.normalizeTime(minTime < lastTime ? lastTime : minTime)
                 }, { getAll: true, limit: MAX_EXCHANGE_COUNT });
@@ -535,7 +537,8 @@
         'modalManager',
         'permissionManager',
         'ease',
-        '$element'
+        '$element',
+        'transactions'
     ];
 
     angular.module('app.dex').component('wDexMyOrders', {

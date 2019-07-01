@@ -1,14 +1,6 @@
 (function () {
     'use strict';
 
-    // TODO: delete after contest
-    const CONTEST_ASSET_ID_LIST = [
-        '7eMpAC1CVLeZq7Mi16AkvkY2BmLytyApLaUG4TxNFew5',
-        '8ouNBeYFxJMaeyPBwF8jY86R457CyEjAY98HaNLFox7N',
-        'BFWboD9xC64tSmirFbCNARR1NSu6Ep9rP4SRoLkQhBUF'
-    ];
-    // TODO: delete after contest
-
     /**
      * @param Base
      * @param {$rootScope.Scope} $scope
@@ -49,12 +41,6 @@
 
                 // this.ticker = path(['ticker'], data); // TODO STEP 2=
                 this.link = link;
-
-                // TODO: delete after contest
-                if (CONTEST_ASSET_ID_LIST.indexOf(this.asset.id) > -1) {
-                    this.link = 'https://wsoc.io';
-                }
-                // TODO: delete after contest
 
                 this.email = email;
 

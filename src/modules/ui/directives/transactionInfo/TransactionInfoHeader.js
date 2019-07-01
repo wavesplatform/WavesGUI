@@ -7,7 +7,9 @@
      * @param {app.utils} utils
      * @return {TransactionInfoHeader}
      */
-    const controller = function (utils, user) {
+    const controller = function (utils, user, waves) {
+
+        const { propEq } = require('ramda');
 
         class TransactionInfoHeader {
 
@@ -43,6 +45,26 @@
                     this.isScamAmount = !!user.scam[this.transaction.amount.asset];
                     this.isScamPrice = !!user.scam[this.transaction.price.asset];
                 }
+                if (this.signable.type === 12) {
+                    this._checkDataTx();
+                }
+            }
+
+            _checkDataTx() {
+                const transaction = this.signable.getTxData();
+                const findKey = key => transaction.data.find(propEq('key', key));
+
+                const keyRating = findKey('score');
+
+                this.voteObject = Object.create(null);
+
+                if (keyRating) {
+                    this.voteObject.rating = findKey('score').value;
+                    this.voteObject.assetId = findKey('assetId').value;
+                    waves.node.assets.getAsset(this.voteObject.assetId).then(asset => {
+                        this.voteObject.assetName = asset.displayName;
+                    });
+                }
             }
 
             _addAssetId(typeName) {
@@ -71,7 +93,7 @@
         return new TransactionInfoHeader();
     };
 
-    controller.$inject = ['utils', 'user'];
+    controller.$inject = ['utils', 'user', 'waves'];
 
     angular.module('app.ui').component('wTransactionInfoHeader', {
         bindings: {

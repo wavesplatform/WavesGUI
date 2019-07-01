@@ -11,13 +11,10 @@
      * @param {ModalManager} modalManager
      * @param {IPollCreate} createPoll
      * @param {BalanceWatcher} balanceWatcher
-     * // TODO: delete after contest
-     * @param {PermissionManager} permissionManager
-     * // TODO: delete after contest
      * @return {Assets}
      */
     const controller = function (waves, assetsData, $scope, utils, Base, user, modalManager, createPoll,
-                                 balanceWatcher, permissionManager) {
+                                 balanceWatcher) {
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
@@ -36,24 +33,6 @@
                  * @type {Money[]}
                  */
                 this.pinnedAssetBalances = null;
-
-                // TODO: delete after contest
-                /**
-                 * @type {string[]}
-                 */
-                this.pinnedContestAssetIdList = WavesApp.network.code === 'W' ?
-                    [
-                        '7eMpAC1CVLeZq7Mi16AkvkY2BmLytyApLaUG4TxNFew5',
-                        '8ouNBeYFxJMaeyPBwF8jY86R457CyEjAY98HaNLFox7N',
-                        'BFWboD9xC64tSmirFbCNARR1NSu6Ep9rP4SRoLkQhBUF'
-                    ] :
-                    [];
-                /**
-                 * @type {Money[]}
-                 */
-                this.pinnedContestAssetBalances = null;
-                this.isContestTimeNow = permissionManager.isPermitted('CONTEST_TIME');
-                // TODO: delete after contest
 
                 this.chartMode = null;
                 this.total = null;
@@ -266,35 +245,10 @@
                     });
                 }, Promise.resolve([]));
 
-                // TODO: delete // after contest
-                // balances.then(list => {
-                //     this.pinnedAssetBalances = list;
-                //     utils.safeApply($scope);
-                // });
-
-                // TODO: delete after contest
-                const balancesContest = this.pinnedContestAssetIdList.reduce((acc, assetId) => {
-                    return acc.then(list => {
-                        if (hash[assetId]) {
-                            list.push(hash[assetId]);
-                            return list;
-                        }
-                        return balanceWatcher.getFullBalanceByAssetId(assetId).then(balance => {
-                            list.push(balance);
-                            return list;
-                        });
-                    });
-                }, Promise.resolve([]));
-
-                Promise.all([
-                    balances,
-                    balancesContest
-                ]).then(([list, contestList]) => {
+                balances.then(list => {
                     this.pinnedAssetBalances = list;
-                    this.pinnedContestAssetBalances = contestList;
                     utils.safeApply($scope);
                 });
-                // TODO: delete after contest
             }
 
             /**
@@ -382,8 +336,7 @@
         'user',
         'modalManager',
         'createPoll',
-        'balanceWatcher',
-        'permissionManager'
+        'balanceWatcher'
     ];
 
     angular.module('app.wallet.assets')

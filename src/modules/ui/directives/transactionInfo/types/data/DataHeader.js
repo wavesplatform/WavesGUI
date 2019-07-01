@@ -3,7 +3,8 @@
 
     angular.module('app.ui').component('wDataHeader', {
         bindings: {
-            signable: '<'
+            signable: '<',
+            voteObject: '<'
         },
         templateUrl: 'modules/ui/directives/transactionInfo/types/data/data-header.html'
     });

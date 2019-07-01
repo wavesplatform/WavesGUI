@@ -106,6 +106,9 @@ w-asset {
     &__wrapper {
       width: 100%;
       cursor: pointer;
+      .rating-stars-wrapper {
+        margin-top: 8px;
+      }
     }
 
     &__name {
@@ -118,6 +121,10 @@ w-asset {
       cursor: pointer;
       span {
         word-break: break-all;
+      }
+      &-wrapper {
+        display: flex;
+        justify-content: space-around;
       }
     }
 
@@ -209,15 +216,6 @@ w-asset {
     }
   }
 }
-
-//TODO: delete after contest
-.contest-asset {
-  .unpin {
-    display: none;
-    pointer-events: none;
-  }
-}
-//TODO: delete after contest
 
 // todo @uIsk - Refactor all tooltips to w-tooltip
 .tooltip-holder {
