@@ -1,0 +1,175 @@
+<span class="logo logo-header" ng-if="$ctrl.isLogined"></span>
+<a class="logo logo-header" ng-if="!$ctrl.isLogined" href="/"></a>
+
+<nav class="top-menu top-menu-welcome" ng-if="!$ctrl.isLogined">
+    <a w-analytics event-target="'ui'"
+       event="'Menu Exchange Click'"
+       event-target="'ui'"
+       class="link-margin link-dex"
+       ui-sref="main.dex-demo"
+       w-i18n="welcome.exchange">
+    </a>
+    <a w-analytics event-target="'ui'"
+       event="'Menu API Click'"
+       event-target="'ui'"
+       class="link-margin"
+       href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html"
+       target="_blank"
+       rel="noopener noreferrer"
+       w-i18n="welcome.api">
+    </a>
+    <a w-analytics event-target="'ui'"
+       event="'Menu Help Click'"
+       event-target="'ui'"
+       class="link-margin"
+       href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html"
+       target="_blank"
+       rel="noopener noreferrer"
+       w-i18n="welcome.help">
+    </a>
+    <a w-analytics event-target="'ui'"
+       event="'Menu News Click'"
+       event-target="'ui'"
+       class="link-margin"
+       href="https://twitter.com/Waves_DEX"
+       target="_blank"
+       rel="noopener noreferrer"
+       w-i18n="welcome.news"></a>
+    <div class="relative dropdown-toggler" ng-if="!$ctrl.isDesktop">
+        <span class="dropdown-btn" w-i18n="welcome.download"></span>
+        <div class="dropdown dropdown-download menu-margin">
+            <a w-analytics
+               event-target="'ui'"
+               event="'Menu Download Windows Click'"
+               href="https://wavesplatform.com/files/WavesDEX-win.zip"
+               target="_blank"
+               rel="noopener noreferrer">
+                <i class="dropdown-icon icon-24 icon-win"></i>
+                <div>
+                    <div w-i18n="welcome.windows"></div>
+                    <div class="footnote-1 basic-500" w-i18n="welcome.windowsDescription"></div>
+                </div>
+            </a>
+
+            <a w-analytics event-target="'ui'"
+               event="'Menu Download Mac OS Click'"
+               href="https://wavesplatform.com/files/WavesDEX-mac.dmg"
+               target="_blank"
+               rel="noopener noreferrer">
+                <i class="dropdown-icon icon-24 icon-mac"></i>
+                <div>
+                    <div w-i18n="welcome.macOs"></div>
+                    <div class="footnote-1 basic-500" w-i18n="welcome.macOsDescription"></div>
+                </div>
+            </a>
+
+            <a w-analytics event-target="'ui'"
+               event="'Menu Download Linux Click'"
+               href="https://wavesplatform.com/files/WavesDEX-linux.deb"
+               target="_blank"
+               rel="noopener noreferrer">
+                <i class="dropdown-icon icon-24 icon-linux"></i>
+                <div>
+                    <div w-i18n="welcome.linux"></div>
+                    <div class="footnote-1 basic-500" w-i18n="welcome.linuxDescription"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</nav>
+
+
+<nav class="top-menu top-menu-wallet" ng-if="$ctrl.isLogined">
+    <a class="link-margin link-dex" ui-sref="main.dex" w-i18n="welcome.exchange"></a>
+    <div class="relative dropdown-toggler link-margin">
+        <a class="dropdown-btn link-wallet" w-i18n="welcome.wallet"></a>
+        <div class="dropdown">
+            <a class="link-assets" ui-sref="main.wallet.assets">
+                <i class="dropdown-icon icon-18 icon-dashboard"></i>
+                <div>
+                    <div w-i18n="welcome.dashboard"></div>
+                </div>
+            </a>
+            <a class="link-portfolio" ui-sref="main.wallet.portfolio">
+                <i class="dropdown-icon icon-18 icon-portfolio"></i>
+                <div>
+                    <div w-i18n="welcome.portfolio"></div>
+                </div>
+            </a>
+            <a class="link-transactions" ui-sref="main.wallet.transactions">
+                <i class="dropdown-icon icon-18 icon-transactions"></i>
+                <div>
+                    <div w-i18n="welcome.transactions"></div>
+                </div>
+            </a>
+            <a class="link-leasing" ui-sref="main.wallet.leasing">
+                <i class="dropdown-icon icon-18 icon-leasing"></i>
+                <div>
+                    <div w-i18n="welcome.leasing"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <a class="link-margin link-tokens" ui-sref="main.tokens" w-i18n="welcome.createToken"></a>
+</nav>
+
+<div ng-if="!$ctrl.isLogined"
+     class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
+    <a class="body-2 margin-right-3 submit-400 signIn-hidden" ng-if="$ctrl.userList.length > 0" ui-sref="signIn"
+       w-analytics event="'Sign In Click'" event-target="ui"
+       w-i18n="welcome.signIn"></a>
+    <div class="create-hidden">
+        <a class="fake-button submit medium" ui-sref="create">
+            <span w-i18n="welcome.getStarted" class="fake-button-content medium submit"></span>
+        </a>
+    </div>
+</div>
+
+<div class="header-right-wrapper" ng-if="$ctrl.isLogined">
+
+    <div class="dropdown-toggler dropdown-toggler-right">
+        <div class="avatar-container header-avatar-container has-helper">
+            <w-analytics event="'Account Picture Click'" event-target="'ui'">
+                <w-avatar type="{{$ctrl.userType}}"
+                          size="36"
+                          address="$ctrl.address"></w-avatar>
+            </w-analytics>
+
+            <w-help-icon class="avatar-options-list" ng-if="($ctrl.hasTypeHelp)">
+                <div class="help-icon__row row-keeper" ng-if="$ctrl.isKeeper">
+                    <span class="acount-option-icon"></span>
+                    <span w-i18n="welcome.keeperAccount"></span>
+                </div>
+                <div class="help-icon__row row-ledger" ng-if="$ctrl.isLedger">
+                    <span class="acount-option-icon"></span>
+                    <span w-i18n="welcome.ledgerAccount"></span>
+                </div>
+                <div class="help-icon__row row-script" ng-if="$ctrl.isScript">
+                    <span class="acount-option-icon"></span>
+                    <span w-i18n="welcome.scriptAccount"></span>
+                </div>
+            </w-help-icon>
+            <div class="user-info-wrapper">
+                <div class="account-name body-2 basic-700" ng-if="$ctrl.userName">{{$ctrl.userName}}</div>
+                <div class="account-address basic-500 body-3">{{$ctrl.address}}</div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a class="link-aliases" ng-click="$ctrl.avatarClick()">
+                <i class="dropdown-icon icon-18 icon-aliases"></i>
+                <div>
+                    <div w-i18n="welcome.aliases"></div>
+                </div>
+            </a>
+            <a class="link-settings" ng-click="$ctrl.settings()">
+                <i class="dropdown-icon icon-18 icon-settings"></i>
+                <div>
+                    <div w-i18n="welcome.settings"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <a class="header-logout" href="#" ng-click="$ctrl.logout()"></a>
+</div>

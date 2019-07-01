@@ -23,9 +23,10 @@
             </li>
         </ul>
         <div class="transaction-details__actions">
-            <span class="transaction-details__action copy-code submit-300"
-                  w-copy="::$ctrl.json"
-                  w-i18n="transaction.modals.copyCode"></span>
+            <!-- TODO copy JSON -->
+<!--            <span class="transaction-details__action copy-code submit-300"-->
+<!--                  w-copy="::$ctrl.json"-->
+<!--                  w-i18n="transaction.modals.copyCode"></span>-->
             <span class="transaction-details__action see-all submit-300"
                   ng-if="$ctrl.transaction.data.length > 4"
                   ng-click="$ctrl.toggleAll()"

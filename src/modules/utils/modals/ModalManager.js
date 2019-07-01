@@ -332,7 +332,7 @@
                 return user.onLogin().then(() => {
                     return this._getModal({
                         id: 'receive-popup',
-                        locals: { address: user.address, asset },
+                        locals: { asset },
                         templateUrl: 'modules/utils/modals/receive/Receive.html',
                         controller: 'ReceiveCtrl'
                     });
@@ -416,7 +416,6 @@
                     ns: 'app.ui',
                     locals: { signable, analyticsText },
                     controller: 'ConfirmTxCtrl',
-                    headerUrl: 'modules/utils/modals/confirmTx/confirmTx.header.modal.html',
                     contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
                 });
             }

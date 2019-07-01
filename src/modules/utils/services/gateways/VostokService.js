@@ -25,7 +25,8 @@
                 if (GATEWAYS[asset.id]) {
                     return {
                         deposit: true,
-                        withdraw: true
+                        withdraw: true,
+                        errorAddressMessage: true
                     };
                 }
             }
@@ -99,6 +100,13 @@
              */
             getAll() {
                 return GATEWAYS;
+            }
+
+            /**
+             * @return {string}
+             */
+            getAddressErrorMessage(address) {
+                return `can't withdraw to address ${address}`;
             }
 
             /**

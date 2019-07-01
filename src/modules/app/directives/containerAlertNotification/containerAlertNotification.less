@@ -111,7 +111,7 @@ w-container-alert-notification {
 // Top notifications
 .notifications-top {
   width: 100%;
-  min-width: 340px;
+  min-width: 320px;
   position: absolute;
   top: 0;
   left: 0;
@@ -195,11 +195,6 @@ w-container-alert-notification {
         span.content-body:not(.no-icon)::before {
           background: @notification-icon-info center left no-repeat;
         }
-        // TODO: delete after contest
-        span.content-body:not(.no-icon).wsoc::before {
-          background: url(/img/icons/wsoc-notification.svg) center left no-repeat;
-        }
-        // TODO: delete after contest
       }
 
       &.success {

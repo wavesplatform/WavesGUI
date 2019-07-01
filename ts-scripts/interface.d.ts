@@ -50,6 +50,7 @@ export interface IHash<T> {
 }
 
 export interface IConfItem {
+    tradingPairs: Array<Array<string, string>>;
     oracles: object;
     apiVersion: string;
     code: string;

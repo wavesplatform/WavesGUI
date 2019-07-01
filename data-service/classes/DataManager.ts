@@ -79,7 +79,11 @@ export class DataManager {
             [WavesApp.defaultAssets.DASH]: true,
             [WavesApp.defaultAssets.XMR]: true,
             [WavesApp.defaultAssets.VST]: true,
+            [WavesApp.defaultAssets.ERGO]: true,
         };
+
+        const gatewaysSoon = (window as any).angular
+            .element(document.body).injector().get('configService').get('GATEWAYS_SOON') || [];
 
         const descriptionHash = {
             WAVES: { en: 'Waves is a blockchain ecosystem that offers comprehensive and effective blockchain-based tools for businesses, individuals and developers. Waves Platform offers unprecedented throughput and flexibility. Features include the LPoS consensus algorithm, Waves-NG protocol and advanced smart contract functionality.' }
@@ -97,8 +101,17 @@ export class DataManager {
             description: descriptionHash[id]
         };
 
+        const gatewaySoonAsset = {
+            ...gatewayAsset,
+            status: 4
+        };
+
         if (id === 'WAVES') {
             return { status: STATUS_LIST.VERIFIED, description: descriptionHash.WAVES } as any;
+        }
+
+        if (gatewaysSoon.indexOf(id) > -1) {
+            return gatewaySoonAsset;
         }
 
         if (gateways[id]) {
