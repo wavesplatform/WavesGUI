@@ -8,21 +8,22 @@ w-portfolio-row {
     &__logo {
       position: relative;
       left: 0;
+    }
 
-      .marker {
-        display: none;
-        position: absolute;
-        bottom: calc(50% ~'- 16px');
+    &__marker {
+      display: none;
+      position: absolute;
+      bottom: calc(50% ~'- 16px');
 
-        &.smart-asset,
-        &.sponsored-asset {
-          display: block;
-        }
+      &_smart,
+      &_sponsored {
+        display: block;
       }
+    }
 
-      .spam &, .spam & .marker {
-        background-color: @color-basic-200 !important;
-      }
+    .spam &,
+    .spam & &__marker {
+      background-color: @color-basic-200 !important;
     }
   }
 
@@ -61,7 +62,7 @@ w-portfolio-row {
   }
 
   .actions__wrapper {
-    .actionItem {
+    .action-item {
       &.icon-hide {
         .unspam {
           display: none;
