@@ -25,13 +25,10 @@
      * @param {JQuery} $element
      * @param {ModalManager} modalManager
      * @param {ConfigService} configService
-     * // TODO: delete after contest
-     * @param {PermissionManager} permissionManager
-     * // TODO: delete after contest
      * @returns {WatchList}
      */
     const controller = function (Base, $scope, utils, waves, stService, PromiseControl, createPoll, $element,
-                                 modalManager, configService, permissionManager) {
+                                 modalManager, configService) {
 
         const {
             equals, uniq, not,
@@ -200,10 +197,6 @@
                 this.tableOptions = {
                     filter: this._getTableFilter()
                 };
-
-                // TODO: delete after contest
-                this.isContestTimeNow = permissionManager.isPermitted('CONTEST_TIME');
-                // TODO: delete after contest
             }
 
             $postLink() {
@@ -827,8 +820,7 @@
         'createPoll',
         '$element',
         'modalManager',
-        'configService',
-        'permissionManager'
+        'configService'
     ];
 
     angular.module('app.dex')
