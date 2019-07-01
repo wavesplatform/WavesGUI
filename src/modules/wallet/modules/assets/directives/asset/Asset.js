@@ -18,6 +18,10 @@
                  * @type {number}
                  */
                 this.rating = null;
+                /**
+                 * @type {boolean}
+                 */
+                this.ratingError = false;
             }
 
             $postLink() {
@@ -36,8 +40,12 @@
                 return ds.api.rating.getAssetsRating(this.balance.asset.id);
             }
 
-            _setTokenRating([asset]) {
+            _setTokenRating(asset) {
                 if (!asset) {
+                    return null;
+                }
+                if (!Array.isArray(asset)) {
+                    this.ratingError = true;
                     return null;
                 }
                 this.rating = asset.rating;

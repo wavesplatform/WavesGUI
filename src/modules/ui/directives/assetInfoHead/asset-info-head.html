@@ -11,7 +11,7 @@
                 <w-asset-status asset-id="$ctrl.assetId"></w-asset-status>
             </h2>
 
-            <div class="rating-wrapper" ng-if="!$ctrl.isGatewayOrWaves">
+            <div class="rating-wrapper" ng-if="!$ctrl.isGatewayOrWaves && !$ctrl.ratingError">
                 <w-rating-stars asset-id="$ctrl.assetId" rating="$ctrl.rating" can-rate="'true'">
                 </w-rating-stars>
                 <span class="rating-number" w-nice-number="$ctrl.rating" precision="1"></span>

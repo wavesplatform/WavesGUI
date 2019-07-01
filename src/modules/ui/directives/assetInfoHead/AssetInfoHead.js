@@ -18,6 +18,10 @@
              * @type {string}
              */
             assetName;
+            /**
+             * @type {boolean}
+             */
+            ratingError = false;
 
             $postLink() {
                 this._getAssetInfo();
@@ -45,13 +49,19 @@
             }
 
             _getTokenRating() {
-                return ds.api.rating.getAssetsRating(this.assetId);
+                return ds.api.rating.getAssetsRating(this.assetId)
+                    .then(assetList => assetList);
             }
 
-            _setTokenRating([asset]) {
+            _setTokenRating(asset) {
                 if (!asset) {
                     return null;
                 }
+                if (!Array.isArray(asset)) {
+                    this.ratingError = true;
+                    return null;
+                }
+                this.ratingError = false;
                 this.rating = asset.rating;
                 $scope.$apply();
             }
