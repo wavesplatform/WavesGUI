@@ -1,15 +1,6 @@
 (function () {
     'use strict';
 
-    // TODO: delete after contest
-    const CONTEST_ASSET_ID_MAP = {
-        Gsj1azEwNuUTss5FHLPbgR6FGya284Q843tCrrFgi4VZ: '/img/assets/wsoc.svg',
-        JCm9j4nBQ8tXE2kRKzhgoV6jqVm1QC3FeXLcKwsLdRyG: '/img/assets/wsoc.svg',
-        HjcJSVFeo34WD1QFFonRa3boQAkRLZxCdURJU73Ffcga: '/img/assets/wsoc.svg',
-        F33CKa4cPB9fK5oA3aUZKAtDJtdohvEzX84Hkwthep5V: '/img/assets/wsoc.svg'
-    };
-    // TODO: delete after contest
-
     const ds = require('data-service');
     const { isEmpty } = require('ts-utils');
 
@@ -106,16 +97,6 @@
                                             .css('backgroundImage', `url(${logo})`);
                                     })
                                     .catch(() => this._addLetter(asset.name));
-                            } else if (CONTEST_ASSET_ID_MAP[asset.id]) {
-                                // TODO: delete after contest
-                                utils.loadImage(CONTEST_ASSET_ID_MAP[asset.id])
-                                    .then(() => {
-                                        $element.find('.asset__logo')
-                                            .addClass('custom')
-                                            .css('backgroundImage', `url(${CONTEST_ASSET_ID_MAP[asset.id]})`);
-                                    })
-                                    .catch(() => this._addLetter(asset.name));
-                                // TODO: delete after contest
                             } else {
                                 this._addLetter(asset.name);
                             }

@@ -16,7 +16,7 @@
     const controller = function (ConfirmTxService, $scope, validateService, utils, waves, $attrs,
                                  balanceWatcher, user) {
 
-        const { flatten } = require('ramda');
+        const { flatten, propEq } = require('ramda');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
         const analytics = require('@waves/event-sender');
 
@@ -65,6 +65,14 @@
                     this.step = state ? 1 : 0;
                     $scope.$apply();
                 });
+
+                if (this.tx.typeName === 'data-vote') {
+                    const findKey = key => tx.data.find(propEq('key', key));
+                    const assetId = findKey('assetId').value;
+                    waves.node.assets.getAsset(assetId).then(asset => {
+                        this.votedAssetID = asset.displayName;
+                    });
+                }
             }
 
             sendTransaction() {

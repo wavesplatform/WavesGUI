@@ -1,0 +1,564 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) "../../../../app/less/app-icons";
+@import (reference) '../../../../app/less/typography';
+
+body.welcome {
+  .header-new-user {
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    top: 0;
+    left: 0;
+
+    .shadow {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 4px;
+      top: 100%;
+      margin: 0 -40px;
+      transition: 1s;
+      transform: translate3d(0, 0, 0);
+      background: -moz-linear-gradient(top, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
+      background: -webkit-linear-gradient(top, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
+      background: linear-gradient(to bottom, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
+    }
+
+    header::after {
+      opacity: 0;
+    }
+
+    &.fixed header {
+      position: fixed;
+      &::after {
+        opacity: 1;
+      }
+    }
+
+    header {
+      font-family: 'Roboto-Regular';
+      width: 100%;
+      &::after {
+        .shadow;
+      }
+    }
+  }
+}
+
+w-site-header {
+  display: block;
+
+  header {
+    height: 60px;
+    display: flex;
+    width: 100%;
+    position: relative;
+    left: 0;
+    top: 0;
+    align-items: center;
+    z-index: 11;
+    background: @color-white;
+    padding: 0 20px;
+
+    a,
+    .dropdown-toggler {
+      font-size: 15px;
+      color: @color-basic-900;
+    }
+
+    .user-info-wrapper {
+      margin-left: 10px;
+    }
+
+    .dropdown-toggler {
+      position: relative;
+      cursor: pointer;
+
+      &-right {
+        padding-right: 30px;
+        width: 205px;
+
+        &:hover {
+          &::before {
+            transform: translateY(-50%) rotate(180deg);
+            background: @drop-down-hover-icon center no-repeat;
+          }
+        }
+
+        &::before {
+          width: 12px;
+          height: 12px;
+          display: block;
+          position: absolute;
+          transform-origin: center;
+          right: 16px;
+          top: 50%;
+          transition: .3s;
+          transform: translateY(-50%) translate3d(0, 0, 0);
+          content: '';
+          background: @dropdown-arrow-12-icon center no-repeat;
+        }
+
+        .dropdown {
+          right: 0;
+          left: auto;
+          transform: translate(0, 5px);
+          min-width: 100%;
+          width: 100%;
+        }
+      }
+    }
+
+    .link-margin {
+      margin-right: 30px;
+    }
+  }
+
+  .mobile-menu {
+    .container div {
+      max-width: 164px;
+    }
+  }
+
+  .header-wrapper {
+    margin: 0 auto;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    background: @color-white;
+    z-index: 111;
+  }
+
+  @media screen and (max-width: 1340px) {
+    .header-wrapper {
+      padding: 0;
+    }
+  }
+
+  .dropdown-toggler {
+    margin: 0;
+    display: flex;
+    align-items: center;
+
+    &::after {
+      content: '';
+      display: none;
+      width: 100%;
+      height: 42px;
+      position: absolute;
+      z-index: 11;
+      bottom: -30px;
+    }
+
+    &:hover {
+      &:hover {
+        &::after {
+          display: block;
+        }
+        .dropdown {
+          display: block;
+        }
+      }
+
+      .dropdown-btn {
+        color: @color-submit-400;
+        &::after {
+          transform: rotate(-180deg);
+          background: @drop-down-hover-icon;
+        }
+      }
+    }
+
+    .dropdown-btn {
+      padding-right: 17px;
+      position: relative;
+
+      &::after {
+        display: block;
+        width: 10px;
+        height: 10px;
+        content: '';
+        background: @dropdown-arrow-icon;
+        position: absolute;
+        top: 5px;
+        right: 0;
+        transition: .3s;
+      }
+    }
+  }
+
+  @keyframes dropdown-fader-animation {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 0.3;
+    }
+  }
+
+  .dropdown-fader {
+    display: none;
+    animation-name: dropdown-fader-animation;
+    animation-duration: .3s;
+    animation-direction: normal;
+    opacity: 0;
+    transition: 13s;
+    background: none transparent;
+  }
+
+  .dropdown-fader.show-fader {
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: @fader-background;
+    opacity: @fader-opacity;
+    z-index: 10;
+    top: 0;
+    left: 0;
+  }
+
+  .dropdown {
+    display: none;
+    padding: 10px 0;
+    box-shadow: 0 2px 44px 0 rgba(31, 39, 61, 0.15);
+    background: @color-white;
+    border-radius: 8px;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 26px);
+    z-index: 10;
+    min-width: 214px;
+
+    &-icon {
+      margin-right: 15px;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      padding: 18px 30px;
+      font-size: 15px;
+      color: @color-basic-900;
+      position: relative;
+      white-space: nowrap;
+
+      &::after {
+        transition: .2s;
+        content: '';
+        display: block;
+        position: absolute;
+        width: calc(100% ~' - 60px');
+        height: 1px;
+        background: @color-info-50;
+        bottom: 0;
+        left: 30px;
+      }
+
+      .icon {
+        &-win {
+          background: @widnows-icon;
+        }
+
+        &-mac {
+          background: @macos-icon;
+        }
+
+        &-linux {
+          background: @linux-icon;
+        }
+
+        &-portfolio {
+          background: @portfolio-desktop-icon;
+        }
+
+        &-dashboard {
+          background: @wallet-desktop-icon;
+        }
+
+        &-transactions {
+          background: @transactions-desktop-icon;
+        }
+
+        &-leasing {
+          background: @leasing-icon;
+        }
+
+        &-logout {
+          background: @logout-icon;
+        }
+
+        &-aliases {
+          background: @aliases-icon;
+        }
+
+        &-settings {
+          background: @settings-icon;
+        }
+      }
+
+      &:hover {
+        background-color: @header-dropdown-hover;
+        &::after{
+          display: none;
+        }
+
+        &::before {
+          content: '';
+          display: block;
+          position: absolute;
+          width: calc(100% ~' - 60px');
+          height: 1px;
+          background: @color-white;
+          opacity: 1;
+          top: -1px;
+          left: 30px;
+          transition: .2s;
+        }
+      }
+
+      &:first-child {
+        padding: 18px 30px 18px;
+      }
+
+      &:last-child {
+        padding: 18px 30px 18px;
+        &::after{
+          display: none;
+        }
+      }
+
+      span.description {
+        color: @color-basic-500;
+        font-size: 13px;
+        font-weight: 300;
+      }
+    }
+  }
+
+  nav.top-menu {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    margin-left: 50px;
+    flex-grow: 1;
+    position: relative;
+  }
+
+  .header-logout {
+    width: 60px;
+    height: 60px;
+    margin-right: -20px;
+    background-image: @power-icon;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-left: 1px solid @header-logout-border-color;
+
+    &:hover {
+      background-image: @power-hover-icon;
+    }
+  }
+
+  .header-right-wrapper {
+    display: flex;
+  }
+
+  .header-avatar-container {
+    display: flex;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    position: relative;
+  }
+
+  .account-name {
+    font-weight: 600;
+  }
+
+  .account-name,
+  .account-address {
+    max-width: 125px;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .avatar-container {
+    position: relative;
+
+    w-avatar {
+      position: relative;
+      display: block;
+    }
+
+    w-avatar[type='scripted'],
+    w-avatar[type='ledger'],
+    w-avatar[type='wavesKeeper'] {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    w-avatar:hover .avatar-options-list {
+      display: block;
+    }
+
+    // account type helper tooltip
+    .avatar-container.has-helper {
+      w-help-icon {
+        position: absolute;
+        left: 100%;
+        top: 0;
+
+        .help-icon {
+          &__icon {
+            &::after {
+              left: 19px;
+              top: 50%;
+              margin-top: -5px;
+            }
+          }
+
+          &__content {
+            left: 6px;
+            top: 31px;
+          }
+        }
+      }
+    }
+  }
+
+  .center {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .width {
+    width: 100%;
+  }
+
+  .height {
+    height: 100%;
+    display: block;
+  }
+
+  .icon {
+    display: block;
+
+    &-18 {
+      width: 18px;
+      height: 18px;
+    }
+
+    &-24 {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+.menu-link-main {
+  display: none;
+}
+
+body.dex-demo {
+  .menu-link-exchange {
+    display: none;
+  }
+  .menu-link-main {
+    display: block;
+  }
+}
+
+body.wallet {
+  &.assets {
+    a.link-assets {
+      color: @color-submit-300;
+      .icon-dashboard {
+        background: @wallet-icon-active;
+      }
+    }
+  }
+  &.portfolio {
+    a.link-portfolio {
+      color: @color-submit-300;
+      .icon-portfolio {
+        background: @portfolio-icon-active;
+      }
+    }
+  }
+  &.transactions {
+    a.link-transactions {
+      color: @color-submit-300;
+      .icon-transactions {
+        background: @transactions-icon-active;
+      }
+    }
+  }
+  &.leasing {
+    a.link-leasing {
+      color: @color-submit-300;
+      .icon-leasing {
+        background: @leasing-icon-active;
+      }
+    }
+  }
+  a.link-wallet {
+    color: @color-submit-300;
+  }
+}
+
+body.dex,
+body.dex-demo {
+  a.link-dex {
+    color: @color-submit-300;
+  }
+}
+
+body.tokens {
+  a.link-tokens {
+    color: @color-submit-300;
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  body.welcome {
+    .header-new-user {
+      .shadow {
+        margin: 0 -20px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 860px) {
+  w-site-header {
+    header {
+      .account-address,
+      .account-name,
+      .top-menu,
+      .header-logout,
+      .buttons-wrapper {
+        display: none;
+      }
+    }
+
+    .header-wrapper.large {
+      display: none;
+    }
+  }
+}
+
+@media screen and (min-width: 861px) {
+  w-site-header {
+    .header-wrapper.mobile {
+      display: none;
+    }
+  }
+}

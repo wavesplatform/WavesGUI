@@ -28,3 +28,26 @@ export interface IMoneyFactory {
 export interface IPriceMoneyFactory {
     (data: string | number | BigNumber, pair: AssetPair): Money;
 }
+
+export interface ITokenRating {
+    assetId: string;
+    assetName: string;
+    averageScore: number;
+    createdAt: string;
+    details: object;
+    lastAverageScore: number;
+    scoreBoard: object;
+    sender: string
+    sumTokens: number;
+    timestamp: number;
+    top: boolean;
+    txId: string
+    voted: boolean;
+    votes: array;
+    votesCount: number;
+}
+
+export interface IParsedRating {
+    assetId: string;
+    rating: number;
+}

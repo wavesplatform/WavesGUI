@@ -7,17 +7,6 @@
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const analytics = require('@waves/event-sender');
 
-    // TODO: delete after contest
-    const CONTEST_ASSET_ID_MAP = WavesApp.network.code === 'W' ?
-        {
-            Gsj1azEwNuUTss5FHLPbgR6FGya284Q843tCrrFgi4VZ: '/img/assets/wsoc.svg',
-            JCm9j4nBQ8tXE2kRKzhgoV6jqVm1QC3FeXLcKwsLdRyG: '/img/assets/wsoc.svg',
-            HjcJSVFeo34WD1QFFonRa3boQAkRLZxCdURJU73Ffcga: '/img/assets/wsoc.svg',
-            F33CKa4cPB9fK5oA3aUZKAtDJtdohvEzX84Hkwthep5V: '/img/assets/wsoc.svg'
-        } :
-        {};
-    // TODO: delete after contest
-
     const TEMPLATE_PATH = 'modules/wallet/modules/portfolio/directives/portfolioRow/row.hbs';
     const SELECTORS = {
         AVAILABLE: 'js-balance-available',
@@ -27,6 +16,7 @@
         EXCHANGE_RATE: 'js-exchange-rate',
         CHANGE_24: 'js-change-24',
         CHART_CONTAINER: 'js-chart-container',
+        STARS_CONTAINER: 'js-stars-container',
         BUTTONS: {
             SEND: 'js-button-send',
             RECEIVE: 'js-button-receive',
@@ -64,6 +54,7 @@
                                  modalManager,
                                  $state,
                                  ChartFactory,
+                                 RatingStarsFactory,
                                  i18n,
                                  $scope,
                                  gatewayService,
@@ -191,7 +182,7 @@
                     const firstAssetChar = this.balance.asset.name.slice(0, 1);
                     const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
                     const { isVerified, isGateway,
-                        isTokenomica, logo } = utils.getDataFromOracles(this.balance.asset.id);
+                        isTokenomica, logo, isGatewaySoon } = utils.getDataFromOracles(this.balance.asset.id);
 
                     this.isVerifiedOrGateway = isVerified || isGateway;
 
@@ -201,9 +192,9 @@
                         isVerified: isVerified,
                         isGateway: isGateway,
                         isTokenomica: isTokenomica,
+                        isGatewaySoon: isGatewaySoon,
                         assetIconPath: logo ||
-                            this.utils.getAssetLogo(this.balance.asset.id) ||
-                            CONTEST_ASSET_ID_MAP[this.balance.asset.id],
+                            this.utils.getAssetLogo(this.balance.asset.id),
                         firstAssetChar,
                         canBurn: !this._isWaves,
                         canReissue: this._isMyAsset && this.balance.asset.reissuable,
@@ -365,6 +356,15 @@
                         values
                     );
                 }).catch(() => null);
+
+                if (typeof balance.rating === 'number') {
+                    new RatingStarsFactory({
+                        $container: this.$node.find(`.${SELECTORS.STARS_CONTAINER}`),
+                        rating: balance.rating,
+                        size: 's'
+                    });
+                }
+
             }
 
             /**
@@ -592,18 +592,7 @@
              * @private
              */
             _getSrefParams(asset) {
-                // TODO: delete after contest
-                const contestAssetsId = Object.keys(CONTEST_ASSET_ID_MAP);
-                if (contestAssetsId.indexOf(asset.id) > -1) {
-                    const assetPairs = contestAssetsId.filter(id => id !== asset.id);
-                    this.utils.openDex(
-                        asset.id,
-                        assetPairs[Math.floor(assetPairs.length * Math.random())]
-                    );
-                } else {
-                    this.utils.openDex(asset.id);
-                }
-                // this.utils.openDex(asset.id);
+                this.utils.openDex(asset.id);
 
             }
 
@@ -642,6 +631,7 @@
             modalManager,
             $state,
             ChartFactory,
+            RatingStarsFactory,
             i18n,
             $scope,
             gatewayService,
@@ -658,6 +648,7 @@
         'modalManager',
         '$state',
         'ChartFactory',
+        'RatingStarsFactory',
         'i18n',
         '$scope',
         'gatewayService',

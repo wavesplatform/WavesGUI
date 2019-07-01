@@ -1,17 +1,6 @@
 {
   "PERMISSIONS": {
-    "CAN_TRANSFER_GATEWAY": [
-      "DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn",
-      "BrmjyAWT5jjr3Wpsiyivyvg5vDuzoX2s93WgiexXetB3",
-      "BNdAstuFogzSyN2rY3beJbnBYwYcu7RzTHFjW88g8roK",
-      "CFg2KQfkUgUVM2jFCMC5Xh8T8zrebvPc4HjHPfAugU1S",
-      "8HT8tXwrXAYqwm8XrZ2hywWWTUAXxobHB5DakVC1y6jn",
-      "DGgBtwVoXKAKKvV2ayUpSoPzTJxt7jo9KiXMJRzTH2ET",
-      "8oPbSCKFHkXBy1hCGSg9pJkSARE7zhTQTLpc8KZwdtr7",
-      "D6N2rAqWN6ZCWnCeNFWLGqqjS6nJLeK4m19XiuhdDenr",
-      "AsuWyM9MUUsMmWkK7jS48L3ky6gA1pxx7QtEYPbfLjAJ",
-      "4iZj7NNvpHKmbJz3znDiGYnNHTWGM9eu9s2j6Lk54y3K"
-    ],
+    "CANT_TRANSFER_GATEWAY": [],
     "CAN_TRANSFER_TRANSACTION": true,
     "CAN_SET_ASSET_SCRIPT_TRANSACTION": true,
     "CAN_MASS_TRANSFER_TRANSACTION": true,
@@ -29,7 +18,19 @@
     "CAN_PAIRING_WITH_MOBILE": true,
     "CAN_ANY_TRANSACTION": true
   },
-  "NOTIFICATIONS": [],
+  "NOTIFICATIONS": [
+    {
+      "id": "WSOC",
+      "end_date": "Thu Jun 20 2019 00:00:00 GMT+0300",
+      "start_date": "Thu Jun 13 2019 00:00:00 GMT+0300",
+      "type": "info",
+      "text": {
+        "en": "Win 5,000 WAVES in a trading contest on Waves DEX! Details can be found here: [wsoc.io](https://wsoc.io)",
+        "ru": "Выиграй 5 000 WAVES в конкурсе трейдеров на Waves DEX! Подробности по ссылке: [wsoc.io](https://wsoc.io)"
+      },
+      "wsoc": true
+    }
+  ],
   "SETTINGS": {
     "DEX": {
       "WATCH_LIST_PAIRS": [
@@ -50,5 +51,8 @@
       ]
     }
   },
-  "SERVICE_TEMPORARILY_UNAVAILABLE": false
+  "SERVICE_TEMPORARILY_UNAVAILABLE": false,
+  "GATEWAYS_SOON": [
+    "GVWSgVsmEx4KTAZPm31JZDmdehxFTFZBuy7V8gzb8JxE"
+  ]
 }

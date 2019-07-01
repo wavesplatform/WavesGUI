@@ -11,32 +11,42 @@
                 <div class="marker{{#if isSmart}} smart-asset{{/if}}" style="background-color: {{charColor}}"></div>
             </div>
         {{/if}}
-        <div class="asset-name-desktop asset__wrapper">
-            <div>{{assetName}}</div>
-            {{#if isVerified}}
-                <span class="status-label-min active" w-i18n-literal="qualified"></span>
-            {{/if}}
-            {{#if isGateway}}
-                <span class="status-label-min active" w-i18n-literal="gateway"></span>
-            {{/if}}
-            {{#if isTokenomica}}
-                <span class="status-label-min active" w-i18n-literal="tokenomica"></span>
-            {{/if}}
-            <span class="status-label-min inactive {{SELECTORS.SUSPICIOUS_LABEL}}" w-i18n-literal="suspicious"></span>
+        <div class="asset__text">
+            <div class="asset-name-desktop asset__wrapper">
+                <div>{{assetName}}</div>
+                {{#if isVerified}}
+                    <span class="status-label-min active" w-i18n-literal="qualified"></span>
+                {{/if}}
+                {{#if isGateway}}
+                    <span class="status-label-min active" w-i18n-literal="gateway"></span>
+                {{/if}}
+                {{#if isTokenomica}}
+                    <span class="status-label-min active" w-i18n-literal="tokenomica"></span>
+                {{/if}}
+                {{#if isGatewaySoon}}
+                    <span class="status-label-min active" w-i18n-literal="gateway soon"></span>
+                {{/if}}
+                <span class="status-label-min inactive {{SELECTORS.SUSPICIOUS_LABEL}}"
+                      w-i18n-literal="suspicious"></span>
+            </div>
+            <div class="js-stars-container"></div>
         </div>
     </div>
 </div>
 <div class="smart-table__available smart-table__cell" data-column-id="balance">
-    <div class="cell">
+    <div class="cell asset__text-mobile">
         <div class="asset-wrapper mobiles-only">
             <div>
-                <span class="basic-500 footnote-3">{{assetName}}</span>
+                <span class="basic-500 caption-2">{{assetName}}</span>
             </div>
+            <div class="js-stars-container"></div>
+        </div>
+        <div class="mobile-flex">
+            <span class="{{SELECTORS.AVAILABLE}}"></span>
             {{#if isVerified}}
-                <span class="status-label-min active" w-i18n-literal="qualified"></span>
+                <span class="status-label-min active mobiles-only" w-i18n-literal="qualified"></span>
             {{/if}}
         </div>
-        <span class="{{SELECTORS.AVAILABLE}}"></span>
     </div>
 </div>
 <div class="smart-table__in-orders smart-table__cell" data-column-id="inOrders">

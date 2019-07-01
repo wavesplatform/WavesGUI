@@ -16,7 +16,7 @@ md-dialog {
   .confirm-tx {
     position: relative;
     .icon-close {
-      right: 0;
+      right: -23px;
       top: 20px;
       position: absolute;
     }
@@ -47,13 +47,17 @@ md-dialog {
   }
 }
 
+md-backdrop.md-dialog-backdrop {
+  background-color: @fader-background;
+  opacity: @fader-opacity;
+}
+
 .md-dialog-backdrop:nth-of-type(even) {
   z-index: 81;
 }
 
 .md-dialog-backdrop:nth-of-type(odd) {
   z-index: 79;
-  opacity: 0.7;
 }
 
 .md-dialog-container:first-child:nth-of-type(even) {
