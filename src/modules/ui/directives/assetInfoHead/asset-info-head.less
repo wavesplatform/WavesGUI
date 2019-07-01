@@ -1,0 +1,56 @@
+@import (reference) 'config';
+@import (reference) '../../../app/less/typography';
+
+// do not forget add all the same changes to 'sponsored.less'
+
+.asset-info-head {
+  display: flex;
+
+  &__head {
+    height: 130px;
+    position: relative;
+    flex: 1 0;
+  }
+
+  &__content {
+    display: flex;
+  }
+
+  &__name {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  &__data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__chart {
+    position: absolute;
+    opacity: 0.2;
+    height: 76px;
+    width: calc(100% ~'+ 80px');
+    left: -40px;
+    bottom: 0;
+    border-bottom: 1px solid @color-submit-300;
+  }
+
+  &__rating {
+    .rating {
+      &-wrapper {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 7px;
+      }
+
+      &-number {
+        margin-left: 10px;
+      }
+    }
+  }
+}

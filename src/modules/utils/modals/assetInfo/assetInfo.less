@@ -1,74 +1,8 @@
 @import (reference) 'config';
 @import (reference) '../../../app/less/typography';
 
-// do not forget add all the same changes to 'sponsored.less'
-
-.asset-modal {
-  height: 100%;
-
-  &__head {
-    padding-top: @padding-main-layout * 4;
-    height: 170px;
-    position: relative;
-  }
-
-  &__head-content {
-    display: flex;
-  }
-
-  &__name {
-    display: flex;
-    align-items: center;
-    margin: 0;
-    font-weight: normal;
-  }
-
-  &__data {
-    display: flex;
-    flex-direction: column;
-    min-height: 65px;
-    justify-content: center;
-  }
-
-  .chart-wrapper {
-    position: absolute;
-    opacity: 0.2;
-    height: 76px;
-    width: calc(100% ~'+ 80px');
-    left: -40px;
-    bottom: 0;
-    border-bottom: 1px solid @color-submit-300;
-
-    .interactive-stop {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    }
-
-    .chart-tooltip,
-    .chart-legend { // Lib ng3-charts
-      display: none !important;
-    }
-  }
-
-  .rating-wrapper {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-top: 7px;
-  }
-
-  .rating-number {
-    margin-left: 10px;
-  }
-}
-
-html body md-dialog.asset-info-modal {
-
+.m-dialog_asset-info {
   md-dialog-content {
-    padding: 0 40px;
     overflow-y: hidden;
 
     &::after {
@@ -263,7 +197,7 @@ html body md-dialog.asset-info-modal {
 
 @media screen and (max-width: 768px) {
 
-  html body md-dialog.asset-info-modal {
+  .m-dialog_asset-info {
     .tab-container w-transaction-list {
       .w-visible {
         height: 91px;
@@ -288,13 +222,11 @@ html body md-dialog.asset-info-modal {
 }
 
 @media screen and (max-width: 540px) {
-  html body md-dialog.asset-info-modal {
+  .m-dialog_asset-info {
     padding-bottom: 0;
 
     md-dialog-content {
       overflow-y: auto;
-      height: auto;
-      padding: 0 20px;
     }
 
     w-tabs.inner {
@@ -343,7 +275,7 @@ html body md-dialog.asset-info-modal {
 }
 
 @media screen and (max-width: 420px) {
-  html body md-dialog.asset-info-modal {
+  .m-dialog_asset-info {
     .padding-content .tab-tem {
       .line.chart-container {
         flex-direction: column;

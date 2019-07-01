@@ -1,7 +1,7 @@
 @import (reference) 'config';
 @import (reference) 'icons';
 
-.assetLogo {
+.asset-logo {
   position: relative;
   display: flex;
 
@@ -31,24 +31,24 @@
     background-position: center;
     background-repeat: no-repeat;
 
-    &-smart {
+    &_smart {
       background-image: @smart-asset-marker-icon;
       display: block;
     }
 
-    &-sponsored {
+    &_sponsored {
       background-image: @sponsored-asset-marker-icon;
       display: block;
     }
   }
 
-  &-markerHide & {
+  &_marker-hide & {
     &__marker {
       opacity: 0;
     }
   }
 
-  &-big & {
+  &_big & {
     &__marker {
       width: 24px;
       height: 24px;
@@ -56,13 +56,13 @@
     }
   }
 
-  &-modal {
+  &_modal {
     margin: 0 10px 0 0;
     left: 0;
     z-index: 1;
   }
 
-  &-custom &,
+  &_custom &,
   &.custom & {
     &__marker {
       background-color: @custom-asset-marker-bg;
