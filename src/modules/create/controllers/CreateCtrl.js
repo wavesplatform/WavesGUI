@@ -196,7 +196,7 @@
                     this.password = Date.now().toString();
                 }
 
-                const encryptedSeed = new ds.Seed(this.seed).encrypt(this.password);
+                const encryptedSeed = new ds.Seed(this.seed, window.WavesApp.network.code).encrypt(this.password);
                 const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
 
                 const newUser = {
