@@ -1,9 +1,9 @@
 import { getType } from 'mime';
 import { exec, spawn } from 'child_process';
-import { existsSync, readdirSync, readFileSync, statSync, unlink, exists } from 'fs';
+import { existsSync, readdirSync, readFileSync, statSync, unlink } from 'fs';
 import { join, relative, extname, dirname } from 'path';
 import { IPackageJSON, IMetaJSON, TBuild, TConnection, TPlatform, IConfItem } from './interface';
-import { readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync, copy } from 'fs-extra';
+import { readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync, copy, mkdirp } from 'fs-extra';
 import { compile } from 'handlebars';
 import { transform } from 'babel-core';
 import { render } from 'less';
@@ -249,30 +249,6 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
     const pFile = readFile(join(__dirname, '../src/index.hbs'), 'utf8');
     const pConfig = getBuildParams(param);
     return Promise.all([pFile, pConfig]).then(([file, config]) => compile(file)(config));
-}
-
-export function download(url: string, filePath: string): Promise<void> {
-    return new Promise<void>((resolve) => {
-
-        const cachePath = join(process.cwd(), '.cache-download', filePath.replace(process.cwd(), ''));
-        if (existsSync(cachePath)) {
-            copy(cachePath, filePath).then(resolve);
-        } else {
-
-            try {
-                mkdirpSync(dirname(filePath));
-            } catch (e) {
-                console.log(e);
-            }
-
-            const file = createWriteStream(filePath);
-
-            get(url, (response) => {
-                response.pipe(file);
-                response.on('end', () => copy(filePath, cachePath).then(resolve));
-            });
-        }
-    });
 }
 
 export function parseArguments<T>(): T {
@@ -548,35 +524,17 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                 .replace('.json', '')
                 .split('/');
 
-            const localePath = join(process.cwd(), '.cache-download', 'locale');
-            const cachePath = join(localePath, lang, `${ns}.json`);
+            const localePath = join(process.cwd(), 'locale', lang, `${ns}.json`);
 
-            const isModified = path => {
-                const { mtime } = statSync(path);
-                const dateNow = new Date();
-                return (dateNow.getTime() - mtime.getTime()) > 60 * 10000;
-            };
-
-            if (existsSync(cachePath)) {
-                if (isModified(cachePath) && lang === 'ru' && ns === 'app') {
-                    loadLocales(localePath)
-                        .then(() => {
-                            const data = readFileSync(cachePath);
-                            res.end(data);
-                        })
-                        .catch(error => {
-                            res.statusCode = 404;
-                            res.end(error);
-                        });
-                } else {
-                    const data = readFileSync(cachePath);
-                    res.end(data);
+            readFile(localePath, (err, data) => {
+                if (err) {
+                    res.statusCode = 404;
+                    res.end('Not found!');
                 }
 
-            } else {
-                res.statusCode = 404;
-                res.end('Not found!');
-            }
+                res.end(data);
+            });
+
             return null;
         }
 
@@ -809,16 +767,15 @@ function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, p
     stat(req, res, ROOTS);
 }
 
-export function loadLocales(path: string, options?: object) {
+export function loadLocales(path: string, options?: object): Promise<void> {
     const postOptions = {
         method: 'POST',
         hostname: 'api.lokalise.co',
         path: '/api2/projects/389876335c7d2c119edf16.76978095/files/download',
-        headers:
-            {
-                'x-api-token': '3ffba358636086e35054412e37db76d933cfe3b5',
-                'content-type': 'application/json'
-            }
+        headers: {
+            'x-api-token': '3ffba358636086e35054412e37db76d933cfe3b5',
+            'content-type': 'application/json'
+        }
     };
 
     const dataOptions = {
@@ -831,48 +788,44 @@ export function loadLocales(path: string, options?: object) {
         ...options
     };
 
-    const zipName = `locale.zip`;
-    const filePath = join(path, zipName);
+    const cachePath = join(process.cwd(), '.cache-download');
+    const zipPath = join(cachePath, 'locale.zip');
 
-    const loadAndExtract = () => {
-        return new Promise((resolve, reject) => {
-            const req = request(postOptions, response => {
-                response.on('data', (data: string) => {
-                    const file = createWriteStream(filePath);
-                    const url = JSON.parse(data).bundle_url;
+    return mkdirp(dirname(cachePath))
+        .then(() => {
+            return new Promise((resolve, reject) => {
+                const req = request(postOptions, response => {
+                    response.on('data', (data: string) => {
+                        const file = createWriteStream(zipPath);
+                        const url = JSON.parse(data).bundle_url;
 
-                    get(url, (response) => {
-                        response.pipe(file);
-                        response.on('end', () => {
-                            extract(filePath, { dir: `${path}/` }, error => {
-                                if (error) {
-                                    reject(error);
-                                }
-                                resolve();
+                        get(url, (res) => {
+                            res.pipe(file);
+                            res.on('end', () => {
+                                extract(zipPath, { dir: `${path}/` }, error => {
+                                    if (error) {
+                                        reject(error);
+                                    }
+                                    resolve();
+                                });
+                            });
+                            res.on('error', (err) => {
+                                console.log('err', err)
+                                reject(err);
                             });
                         });
-                        response.on('error', (err) => {
-                            console.log('err', err)
-                            reject(err);
-                        });
                     });
-
                 });
+
+                req.on('error', error => {
+                    reject(error);
+                });
+
+                req.end(JSON.stringify(dataOptions));
             });
-
-            req.on('error', error => {
-                reject(error);
-            });
-
-            req.write(JSON.stringify(dataOptions));
-
-            req.end();
-        });
-    };
-
-    return loadAndExtract()
+        })
         .then(() => {
-            unlink(filePath, error => {
+            unlink(zipPath, error => {
                 if (error) {
                     console.log('ERROR', error);
                 }
