@@ -282,11 +282,11 @@
                 });
             }
 
-            showAccountChangeAddress() {
+            showAccountAddress() {
                 return this._getModal({
-                    id: 'chaneAddress',
-                    templateUrl: 'modules/utils/modals/changeAddress/changeAddress.html',
-                    controller: 'ChangeAddressCtrl'
+                    id: 'addressInfo',
+                    templateUrl: 'modules/utils/modals/addressInfo/addressInfo.html',
+                    controller: 'AddressInfoCtrl'
                 });
             }
 

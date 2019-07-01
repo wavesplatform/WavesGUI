@@ -191,13 +191,22 @@
                 });
             }
 
-            _create(hasBackup) {
+            /**
+             * @param hasBackup
+             * @return {Promise}
+             * @private
+             */
+            async _create(hasBackup) {
                 if (!this.saveUserData) {
                     this.password = Date.now().toString();
                 }
 
                 const encryptedSeed = new ds.Seed(this.seed).encrypt(this.password);
                 const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
+
+                if (!this.name) {
+                    this.name = await user.getDefaultUserName();
+                }
 
                 const newUser = {
                     userType: this.restoreType,

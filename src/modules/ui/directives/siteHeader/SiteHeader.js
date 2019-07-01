@@ -11,6 +11,7 @@
      * @param {$state} $state
      * @param {JQuery} $document
      * @param {JQuery} $element
+     * @param {UserNameService} userNameService
      * @return {SiteHeaderCtrl}
      */
     const controller = function (Base,
@@ -21,7 +22,8 @@
                                  $element,
                                  $document,
                                  utils,
-                                 $scope) {
+                                 $scope,
+                                 userNameService) {
 
         const PATH = 'modules/ui/directives/siteHeader/templates';
 
@@ -34,11 +36,6 @@
             userName;
             /**
              * @public
-             * @type {string}
-             */
-            defaultUserName;
-            /**
-             * @public
              * @type {Array}
              */
             userList = [];
@@ -47,25 +44,21 @@
              * @type {boolean}
              */
             isUniqueUserName = true;
-            /**
-             * @public
-             * @type {boolean}
-             */
-            isUserNameLengthValid = true;
 
             constructor() {
                 super($scope);
 
-                $scope.user = user;
                 $scope.ERROR_DISPLAY_INTERVAL = 3;
-                $scope.MAX_USER_NAME_LENGTH = 24;
+                $scope.user = user;
+
+                $scope.MAX_USER_NAME_LENGTH = userNameService.MAX_USER_NAME_LENGTH;
+                this.userName = userNameService.name;
 
                 this.hovered = false;
                 this.address = user.address || '3PHBX4uXhCyaANUxccLHNXw3sqyksV7YnDz';
                 this.isLogined = !!user.address;
                 this.userType = user.userType;
                 this.isDesktop = WavesApp.isDesktop();
-                this.userName = user.name;
 
                 this.isScript = user.hasScript();
                 this.isKeeper = user.userType === 'wavesKeeper';
@@ -86,10 +79,14 @@
                 this.largeTemplate = `${PATH}/largeHeader.html`;
                 this.mobileTemplate = `${PATH}/mobileHeader.html`;
 
-                this._setDefaultUserName();
-                this.observe('userList', () => {
-                    this._setDefaultUserName();
+                this.observe('userName', () => {
+                    userNameService.setName(this.userName);
+                    this.isUniqueUserName = userNameService.isUniqueName();
                 });
+
+                this.receive(utils.observe(userNameService, 'name'), function () {
+                    this.userName = userNameService.name;
+                }, this);
             }
 
             $postLink() {
@@ -164,10 +161,10 @@
             /**
              * @public
              */
-            changeAddressClick() {
+            showAddressClick() {
                 $document.find('body').removeClass('menu-is-shown');
                 if (this.isLogined) {
-                    modalManager.showAccountChangeAddress();
+                    modalManager.showAccountAddress();
                 } else {
                     this._getDialogModal('account', () => $state.go('welcome'), () => $state.go('create'));
                 }
@@ -257,66 +254,7 @@
              * @private
              */
             _saveUserName() {
-                this._setIsUniqueUserName();
-                this._setIsUserNameLengthValid();
-                const isUserNameValid = this.isUniqueUserName && this.isUserNameLengthValid;
-
-                if (!this.userName) {
-                    this.userName = this.defaultUserName;
-                }
-
-                if (isUserNameValid) {
-                    user.name = this.userName;
-                }
-            }
-
-            /**
-             * @private
-             */
-            _setIsUniqueUserName() {
-                this.isUniqueUserName =
-                    !this.userName ||
-                    this.userList
-                        .filter(user => user.address !== this.address)
-                        .every(user => user.name !== this.userName);
-            }
-
-            /**
-             * @private
-             */
-            _setIsUserNameLengthValid() {
-                this.isUserNameLengthValid = this.userName ? this.userName.length <= $scope.MAX_USER_NAME_LENGTH : true;
-            }
-
-            /**
-             * @private
-             */
-            _setDefaultUserName() {
-                const defaultNameRegexps = [/^Account\s\d+\s*$/, /^Account\s*$/];
-                const accoutString = 'Account';
-
-                if (defaultNameRegexps.some(name => name.test(this.userName))) {
-                    this.defaultUserName = this.userName;
-                    return;
-                }
-
-                if (!this.userList.length) {
-                    this.defaultUserName = accoutString;
-                    return;
-                }
-
-                const accountCounters = this.userList
-                    .map(user => user.name)
-                    .filter(name => defaultNameRegexps.some(defaultName => defaultName.test(name)))
-                    .map(name => +name.substring(accoutString.length + 1));
-
-                if (!accountCounters.length) {
-                    this.defaultUserName = accoutString;
-                    return;
-                }
-
-                const counter = accountCounters.sort((a, b) => b - a)[0];
-                this.defaultUserName = counter ? `${accoutString} ${counter + 1}` : `${accoutString} ${counter + 2}`;
+                userNameService.save();
             }
 
         }
@@ -333,7 +271,8 @@
         '$element',
         '$document',
         'utils',
-        '$scope'
+        '$scope',
+        'userNameService'
     ];
 
     angular.module('app.ui').component('wSiteHeader', {

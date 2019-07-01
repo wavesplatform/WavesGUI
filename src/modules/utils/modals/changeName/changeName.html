@@ -7,36 +7,37 @@
             <div class="row">
                 <div class="body-2" w-i18n="welcome.currentAccountName"></div>
                 <div class="input-like disabled address basic-900 mobile-caption-2 flex margin-2">
-                    ЧепушОнОк 😳
+                    {{user.name}}
                 </div>
             </div>
 
-            <form action="setNewAccountName" name="setNewAccountName">
-                <div class="row">
-                    <div w-i18n="welcome.newAccountName"></div>
-                    <w-input-container>
-                        <w-input class="big long"
-                                 type="text"
-                                 placeholder="Account"
-                                 ng-blur="$ctrl.handleBlur()"
-                                 ng-model="$ctrl.userName"
-                                 w-validate
-                                 required></w-input>
-                        <w-input-error>
-                            <span w-i18n="welcome.inputErrorNameLenght"></span>
-                        </w-input-error>
-                        <w-input-error>
-                            <span w-i18n="welcome.inputErrorNameExists"></span>
-                        </w-input-error>
-                    </w-input-container>
-                </div>
+            <form name="setUserName">
+                <w-input-container>
+                    <w-input type="text"
+                             class="tiny long"
+                             ng-model="$ctrl.userName"
+                             maxlength="{{::MAX_USER_NAME_LENGTH}}"
+                             name="userName"
+                             w-validate
+                             w-validator-custom="{{$ctrl.isUniqueUserName}}"
+                             required></w-input>
+
+                    <w-input-error class="tiny" message="custom" hide-within="ERROR_DISPLAY_INTERVAL">
+                        <span w-i18n="welcome.inputErrorNameExists"></span>
+                    </w-input-error>
+                </w-input-container>
+
+                <w-info-tooltip no-icon="true">
+                    <span class="tooltip__content"
+                          w-i18n="welcome.renameAccount"></span>
+                </w-info-tooltip>
             </form>
 
             <div class="buttons-wrapper">
                 <w-button w-modal-close class="big long">
                     <span w-i18n="welcome.cancel"></span>
                 </w-button>
-                <w-button class="big long submit">
+                <w-button class="big long submit" on-click="$ctrl.saveUserName()">
                     <span w-i18n="welcome.save"></span>
                 </w-button>
             </div>

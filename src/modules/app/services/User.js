@@ -551,6 +551,32 @@
             }
 
             /**
+             * @public
+             * @return {Promise<string>}
+             */
+            async getDefaultUserName() {
+                const defaultNameRegexps = [/^Account\s\d+\s*$/, /^Account\s*$/];
+                const accoutString = 'Account';
+                const list = await this.getFilteredUserList();
+
+                if (!list.length) {
+                    return accoutString;
+                }
+
+                const accountCounters = list
+                    .map(user => user.name)
+                    .filter(name => defaultNameRegexps.some(defaultName => defaultName.test(name)))
+                    .map(name => +name.substring(accoutString.length + 1));
+
+                if (!accountCounters.length) {
+                    return accoutString;
+                }
+
+                const counter = Math.max(...accountCounters);
+                return counter ? `${accoutString} ${counter + 1}` : `${accoutString} ${counter + 2}`;
+            }
+
+            /**
              * @param {object} data
              * @param {Adapter} data.api
              * @param {string} data.address

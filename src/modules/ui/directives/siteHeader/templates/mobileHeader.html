@@ -72,7 +72,7 @@
 
                         <div class="flex mobile-user-info">
                             <div>
-                                <div class="body-2 margin-05 mobile-user-info-name">{{::$ctrl.userName}}</div>
+                                <div class="body-2 margin-05 mobile-user-info-name">{{user.name}}</div>
                                 <div>
                                     <div class="caption-2 basic-600">{{::$ctrl.address}}</div>
                                 </div>
@@ -146,7 +146,7 @@
 
             <li w-toggle-class="show-address expanded"> <!-- address -->
                 <a class="menu-link menu-link-address"
-                   ng-click="$ctrl.changeAddressClick()"
+                   ng-click="$ctrl.showAddressClick()"
                    w-i18n="welcome.address"
                    href="#"></a></li>
 

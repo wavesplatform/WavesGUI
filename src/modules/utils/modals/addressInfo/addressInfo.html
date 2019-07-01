@@ -8,7 +8,7 @@
                       address="$ctrl.address"></w-avatar>
 
             <div class="text-center account-name">
-                {{user.name}}ЧепушОнОк 😳
+                {{$ctrl.userName}}
             </div>
 
             <w-help-icon class="avatar-options-list" ng-if="($ctrl.hasTypeHelp)">
@@ -37,7 +37,7 @@
                 <w-qr-code size="200"
                            style="box-shadow: 0 0 10px 0 #000 inset"
                            w-toggle-class="zoomed-in"
-                           url="$ctrl.userAddress"></w-qr-code>
+                           url="$ctrl.address"></w-qr-code>
             </div>
         </div>
 
