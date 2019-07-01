@@ -6,9 +6,10 @@
      * @param Base
      * @param $scope
      * @param {User} user
+     * @param {app.utils} utils
      * @return {KeeperCtrl}
      */
-    const controller = function (Base, $scope, user) {
+    const controller = function (Base, $scope, user, utils) {
 
         const signatureAdapter = require('@waves/signature-adapter');
 
@@ -62,13 +63,32 @@
              * @type {string}
              */
             name = '';
+            /**
+             * @type {boolean}
+             */
+            isAddressInStorage = false;
+            /**
+             * @type {boolean}
+             */
+            isNameExists = false;
+            /**
+             * @type {Array}
+             * @private
+             */
+            _usersInStorage = [];
 
             constructor() {
                 super($scope);
+
+                user.getFilteredUserList().then(users => {
+                    this._usersInStorage = users;
+                });
+
                 this.getUsers();
                 this.adapter.onUpdate(() => {
                     this.getUsers();
                 });
+                this.observe('selectedUser', this._onSelectUser);
             }
 
             /**
@@ -123,6 +143,7 @@
                             return Promise.reject({ code: 'locked' });
                         }
                         this.selectedUser = user;
+                        this.receive(utils.observe(this.selectedUser, 'name'), this._onChangeName, this);
                         delete this.selectedUser.type;
                     })
                     .catch((e) => this.onError(e))
@@ -136,8 +157,12 @@
             /**
              * @return {void}
              */
-            login() {
+            async login() {
                 const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
+
+                if (!this.selectedUser.name) {
+                    this.selectedUser.name = await user.getDefaultUserName();
+                }
 
                 const newUser = {
                     ...this.selectedUser,
@@ -158,12 +183,38 @@
                 });
             }
 
+            /**
+             * @private
+             */
+            _onSelectUser() {
+                this._onChangeAddress();
+                this._onChangeName();
+            }
+
+            /**
+             * @private
+             */
+            _onChangeAddress() {
+                this.isAddressInStorage = this._usersInStorage.some(user => {
+                    return user.address === this.selectedUser.address;
+                });
+            }
+
+            /**
+             * @private
+             */
+            _onChangeName() {
+                this.isNameExists = this._usersInStorage.some(user => {
+                    return user.name === this.selectedUser.name;
+                });
+            }
+
         }
 
         return new KeeperCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user'];
+    controller.$inject = ['Base', '$scope', 'user', 'utils'];
 
     angular.module('app.keeper').controller('KeeperCtrl', controller);
 })();

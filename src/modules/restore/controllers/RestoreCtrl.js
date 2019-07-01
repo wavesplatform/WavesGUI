@@ -51,18 +51,37 @@
                  * @type {number}
                  */
                 this.activeStep = 0;
+                /**
+                 * @type {boolean}
+                 */
+                this.isAddressInStorage = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.isNameExists = false;
+                /**
+                 * @type {Array}
+                 * @private
+                 */
+                this._usersInStorage = [];
+
+                user.getFilteredUserList().then(users => {
+                    this._usersInStorage = users;
+                });
 
                 this.observe('seed', this._onChangeSeed);
                 this.observeOnce('seedForm', () => {
                     this.receive(utils.observe(this.seedForm, '$valid'), this._onChangeSeed, this);
                 });
+                this.observe('address', this._onChangeAddress);
+                this.observe('name', this._onChangeName);
             }
 
             showTutorialModals() {
                 return modalManager.showTutorialModals();
             }
 
-            restore() {
+            async restore() {
 
                 if (!this.saveUserData) {
                     this.password = Date.now().toString();
@@ -72,6 +91,10 @@
 
                 const encryptedSeed = new ds.Seed(this.seed).encrypt(this.password);
                 const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
+
+                if (!this.name) {
+                    this.name = await user.getDefaultUserName();
+                }
 
                 const newUser = {
                     userType: this.restoreType,
@@ -125,6 +148,21 @@
                 } else {
                     this.address = '';
                 }
+            }
+
+            /**
+             * @private
+             */
+            _onChangeAddress() {
+                this.isAddressInStorage = this._usersInStorage.some(user => {
+                    return user.address === this.address;
+                });
+            }
+
+            _onChangeName() {
+                this.isNameExists = this._usersInStorage.some(user => {
+                    return user.name === this.name;
+                });
             }
 
         }

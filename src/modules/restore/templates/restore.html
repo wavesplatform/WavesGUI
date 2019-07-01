@@ -45,7 +45,10 @@
                     <div class="body-2 margin-05" w-i18n="warningSeed.title"></div>
                     <div class="footnote-1 basic-500" w-i18n="warningSeed.message"></div>
                 </div>
-                <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">
+
+                <div ng-if="$ctrl.isAddressInStorage" w-i18n="seedForm.addressSaved"></div>
+
+                <w-button disabled="!$ctrl.address || $ctrl.isAddressInStorage || $ctrl.isNameExists" class="submit big long" on-click="$ctrl.nextStep()">
                     <span w-i18n="seedForm.continue"></span>
                 </w-button>
             </form>
@@ -66,6 +69,9 @@
                             <span w-i18n="passwordForm.login"></span>
                         </span>
                     </w-password>
+
+                    <div ng-if="$ctrl.isNameExists" w-i18n="seedForm.nameExists"></div>
+
                 </w-step>
             </w-step-by-step>
 

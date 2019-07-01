@@ -76,7 +76,7 @@
                     <w-input w-autofocus
                              class="big no-validate no-icon"
                              type="text"
-                             maxlength="20"
+                             maxlength="24"
                              ng-model="$ctrl.name">
                     </w-input>
                 </div>
@@ -88,7 +88,11 @@
                     </label>
                 </div>
 
-                <w-button disabled="$ctrl.disabledLogin"
+                <div ng-if="$ctrl.isAddressInStorage" w-i18n="ledgerForm.addressSaved"></div>
+
+                <div ng-if="$ctrl.isNameExists" w-i18n="ledgerForm.nameExists"></div>
+
+                <w-button disabled="$ctrl.disabledLogin || $ctrl.isAddressInStorage || $ctrl.isNameExists"
                           class="submit big long" on-click="$ctrl.login()">
                     <span w-i18n="ledgerForm.login"></span>
                 </w-button>

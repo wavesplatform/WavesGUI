@@ -94,7 +94,7 @@
                     <w-input w-autofocus
                              class="big no-validate no-icon flex"
                              type="text"
-                             maxlength="20"
+                             maxlength="24"
                              ng-model="$ctrl.selectedUser.name">
                     </w-input>
                 </div>
@@ -104,9 +104,10 @@
                         <span w-i18n="keeperForm.saveUserData"></span>
                     </label>
                 </div>
-
+                <div ng-if="$ctrl.isAddressInStorage" w-i18n="keeperForm.addressSaved"></div>
+                <div ng-if="$ctrl.isNameExists" w-i18n="keeperForm.nameExists"></div>
                 <div class="margin-3">
-                    <w-button class="submit big long" on-click="$ctrl.login()">
+                    <w-button disabled="$ctrl.isAddressInStorage || $ctrl.isNameExists" class="submit big long" on-click="$ctrl.login()">
                         <span w-i18n="keeperForm.login"></span>
                     </w-button>
                 </div>

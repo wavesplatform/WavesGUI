@@ -81,9 +81,28 @@
                  * @private
                  */
                 this._runLedgerCommand = '';
+                /**
+                 * @type {Array}
+                 * @private
+                 */
+                this._usersInStorage = [];
+                /**
+                 * @type {boolean}
+                 */
+                this.isAddressInStorage = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.isNameExists = false;
+
+                user.getFilteredUserList().then(users => {
+                    this._usersInStorage = users;
+                });
 
                 this.observe('selectDefault', this._onChangeSelectDefault);
                 this.getUsers(PRELOAD_USERS_COUNT);
+                this.observe('selectedUser', this._onSelectUser);
+                this.observe('name', this._onChangeName);
             }
 
             /**
@@ -198,9 +217,14 @@
             /**
              * @return {void}
              */
-            login() {
+            async login() {
                 this._runLedgerCommand = 'login';
                 const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
+
+                if (!this.name) {
+                    this.name = await user.getDefaultUserName();
+                }
+
                 const newUser = {
                     ...this.selectedUser,
                     userType: this.adapter.type,
@@ -244,6 +268,24 @@
                 }
                 this._calculateDisabled();
                 this.showVisibleUsers();
+            }
+
+            /**
+             * @private
+             */
+            _onSelectUser() {
+                this.isAddressInStorage = this._usersInStorage.some(user => {
+                    return user.address === this.selectedUser.address;
+                });
+            }
+
+            /**
+             * @private
+             */
+            _onChangeName() {
+                this.isNameExists = this._usersInStorage.some(user => {
+                    return user.name === this.name;
+                });
             }
 
         }
