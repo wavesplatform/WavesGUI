@@ -175,7 +175,8 @@
             resetAddress() {
                 const list = [];
                 for (let i = 0; i < 5; i++) {
-                    const seedData = ds.Seed.create();
+                    const phrase = ds.Seed.create().phrase;
+                    const seedData = new ds.Seed(phrase, window.WavesApp.network.code);
                     list.push({ seed: seedData.phrase, address: seedData.address });
                 }
 
