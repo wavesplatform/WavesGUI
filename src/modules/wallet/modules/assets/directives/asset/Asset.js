@@ -18,10 +18,6 @@
                  * @type {number}
                  */
                 this.rating = null;
-                /**
-                 * @type {boolean}
-                 */
-                this.ratingError = false;
             }
 
             $postLink() {
@@ -37,18 +33,17 @@
             }
 
             _getTokenRating() {
-                return ds.api.rating.getAssetsRating(this.balance.asset.id);
+                return ds.api.rating.getAssetsRating(this.balance.asset.id)
+                    .then(assetList => assetList)
+                    .catch(() => null);
             }
 
-            _setTokenRating(asset) {
-                if (!asset) {
+            _setTokenRating(assetList) {
+                if (!assetList || !assetList[0]) {
                     return null;
                 }
-                if (!Array.isArray(asset)) {
-                    this.ratingError = true;
-                    return null;
-                }
-                this.rating = asset.rating;
+
+                this.rating = assetList[0].rating;
                 $scope.$apply();
             }
 

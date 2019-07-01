@@ -9,7 +9,7 @@
                         <span class="asset__name">{{::$ctrl.balance.asset.name}}</span>
                         <w-asset-status asset-id="$ctrl.balance.asset.id"></w-asset-status>
                     </div>
-                    <w-rating-stars ng-if="$ctrl.rating !== null && !$ctrl.ratingError" rating="$ctrl.rating" size="'s'"></w-rating-stars>
+                    <w-rating-stars ng-if="$ctrl.rating !== null" rating="$ctrl.rating" size="'s'"></w-rating-stars>
                 </div>
             </div>
             <div ng-click="$ctrl.onUnpinClick($ctrl.balance.asset)"

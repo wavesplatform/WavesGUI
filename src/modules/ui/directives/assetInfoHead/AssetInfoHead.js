@@ -50,19 +50,20 @@
 
             _getTokenRating() {
                 return ds.api.rating.getAssetsRating(this.assetId)
-                    .then(assetList => assetList);
+                    .then(assetList => assetList)
+                    .catch(() => null);
             }
 
-            _setTokenRating(asset) {
-                if (!asset) {
-                    return null;
-                }
-                if (!Array.isArray(asset)) {
+            _setTokenRating(assetList) {
+                if (!assetList) {
                     this.ratingError = true;
                     return null;
                 }
-                this.ratingError = false;
-                this.rating = asset.rating;
+                if (!assetList[0]) {
+                    return null;
+                }
+
+                this.rating = assetList[0].rating;
                 $scope.$apply();
             }
 

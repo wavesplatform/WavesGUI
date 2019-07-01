@@ -305,7 +305,10 @@
                             null;
                         return balanceItem;
                     });
-                });
+                })
+                    .catch(() => {
+                        return balanceList;
+                    });
             }
 
             /**
@@ -327,7 +330,7 @@
                                 isPinned,
                                 isSpam,
                                 isOnScamList,
-                                rating: item.rating,
+                                rating: item.rating || null,
                                 minSponsoredAssetFee: item.asset.minSponsoredAssetFee,
                                 sponsorBalance: item.asset.sponsorBalance
                             };

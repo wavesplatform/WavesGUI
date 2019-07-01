@@ -29,8 +29,5 @@ export function getAssetsRating(assets: string | Array<string>): Promise<Array<I
                     rating: ratingItem.averageScore
                 };
             })
-        })
-        .catch(error => {
-            return error;
         });
 }
