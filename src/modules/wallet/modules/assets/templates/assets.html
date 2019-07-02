@@ -83,7 +83,8 @@
         </div>
 
         <div class="chart-wrapper">
-            <linechart ng-if="$ctrl.chartMode && $ctrl.data" options="$ctrl.options" data="$ctrl.data"></linechart>
+<!--            <linechart ng-if="$ctrl.chartMode && $ctrl.data" options="$ctrl.options" data="$ctrl.data"></linechart>-->
+            <w-chart data="$ctrl.data" options="$ctrl.chartOptions"></w-chart>
         </div>
     </div>
 

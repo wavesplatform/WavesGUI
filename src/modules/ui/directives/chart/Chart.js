@@ -12,12 +12,17 @@
         class Chart extends Base {
 
             $postLink() {
-                this.chart = new ChartFactory($element);
-                this.observe(['options', 'data'], this._render);
+                this.chart = new ChartFactory($element, this.options, this.data);
+                this.observe('data', this._updateData);
+                this.observe('options', this._updateOptions);
             }
 
-            _render() {
-                // TODO
+            _updateData() {
+                this.chart.setData(this.data);
+            }
+
+            _updateOptions() {
+                this.chart.setOptions(this.options);
             }
 
         }

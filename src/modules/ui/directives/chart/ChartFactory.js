@@ -10,6 +10,11 @@
         const { Money } = require('@waves/data-entities');
         const tsUtils = require('ts-utils');
         const SCALE = devicePixelRatio || 1;
+        const SELECTORS = {
+            platePrice: '.chart-plate__price',
+            plateDate: '.chart-plate__date',
+            plateTime: '.chart-plate__time'
+        };
 
         class ChartFactory extends Base {
 
@@ -40,6 +45,7 @@
                 this.ctx = this.canvas.getContext('2d');
 
                 this._render();
+                this._createPlateAndMarker();
             }
 
             setOptions(options) {
@@ -80,6 +86,14 @@
                 return canvas;
             }
 
+            _setSize(width, height) {
+                this.canvas.width = width;
+                this.canvas.height = height;
+                this.canvas.style.width = `${width}px`;
+                this.canvas.style.height = `${height}px`;
+                this._render();
+            }
+
             _clear() {
                 this._clearCanvas();
             }
@@ -99,11 +113,12 @@
                     return null;
                 }
 
-                const data = this._getChartData();
+                this.chartData = this._getChartData();
 
-                data.forEach(item => {
+                this.chartData.forEach(item => {
                     this._drawChart(item);
                 });
+                this._initMouseActions();
             }
 
             /**
@@ -114,12 +129,13 @@
 
                 this.ctx.strokeStyle = data.lineColor;
                 this.ctx.lineWidth = data.lineWidth * SCALE;
-
                 const first = data.coordinates[0];
                 this.ctx.moveTo(first.x, first.y);
-
-                data.coordinates.forEach(({ x, y }) => {
-                    this.ctx.lineTo(x, y);
+                data.coordinates.forEach(({ x, y }, i) => {
+                    const j = i === (data.coordinates.length - 1) ? i : i + 1;
+                    const xc = (data.coordinates[i].x + data.coordinates[j].x) / 2;
+                    const yc = (data.coordinates[i].y + data.coordinates[j].y) / 2;
+                    this.ctx.quadraticCurveTo(x, y, xc, yc);
                 });
 
                 this.ctx.stroke();
@@ -143,17 +159,26 @@
                 }
             }
 
+            /**
+             * @private
+             */
             _getChartData() {
                 const height = new BigNumber(this.canvas.height);
                 const width = new BigNumber(this.canvas.width);
-                const maxChartHeight = height.times(0.9);
+                const maxChartHeight = height.times(0.8);
 
                 return this.options.charts.map(chartOptions => {
+                    const marginBottom = new BigNumber(chartOptions.marginBottom);
                     const xValues = [];
                     const yValues = [];
+                    const dates = [];
 
                     this.data.forEach(item => {
-                        const x = ChartFactory._getValues(item[chartOptions.axisX]);
+                        const itemX = item[chartOptions.axisX];
+                        if (itemX instanceof Date) {
+                            dates.push(itemX);
+                        }
+                        const x = ChartFactory._getValues(itemX);
                         const y = ChartFactory._getValues(item[chartOptions.axisY]);
 
                         if (tsUtils.isNotEmpty(x) && tsUtils.isNotEmpty(y)) {
@@ -161,7 +186,6 @@
                             yValues.push(y);
                         }
                     });
-
 
                     const xMin = BigNumber.min(...xValues);
                     const xMax = BigNumber.max(...xValues);
@@ -179,7 +203,7 @@
                         const yValue = yValues[i];
 
                         const x = xValue.minus(xMin).times(xFactor).toNumber();
-                        const y = height.minus(yValue.minus(yMin).times(yFactor)).toNumber();
+                        const y = height.minus(yValue.minus(yMin).times(yFactor)).toNumber() - marginBottom;
 
                         coordinates.push({ x, y });
                     }
@@ -188,6 +212,7 @@
                         height,
                         maxChartHeight,
                         width,
+                        dates,
                         xValues,
                         yValues,
                         xMin,
@@ -213,7 +238,8 @@
                         lineColor: '#ef4829',
                         fillColor: '#FFF',
                         gradientColor: false,
-                        lineWidth: 2
+                        lineWidth: 2,
+                        marginBottom: 0
                     }
                 ]
             };
@@ -236,6 +262,84 @@
                     default:
                         throw new Error('Wrong value type!');
                 }
+            }
+
+
+            _initMouseActions() {
+                const omMouseMove = event => {
+                    const coords = this.chartData[0].coordinates;
+                    const diff = coords[1].x - coords[0].x;
+                    coords.forEach(({ x, y }, i) => {
+                        if (Math.abs(event.offsetX - x) <= (diff / 2)) {
+                            this._fillPlate(i);
+                            this._setMarkerAndPlatePosition(event, x, y);
+                        }
+                    });
+                };
+
+                const onMouseLeave = () => {
+                    this.plate.removeClass('visible');
+                    this.marker.removeClass('visible');
+                };
+
+                const onResize = () => {
+                    this.$parent.off();
+                    this._setSize(this.$parent.outerWidth(), this.$parent.outerHeight());
+                    this._render();
+                    this.$parent.on('mousemove', omMouseMove);
+                };
+
+                this.$parent.on('mousemove', omMouseMove);
+
+                this.$parent.on('mouseleave', onMouseLeave);
+
+                this.listenEventEmitter($(window), 'resize', onResize);
+            }
+
+            /**
+             * @param i
+             * @private
+             */
+            _fillPlate(i) {
+                this.plate.find(SELECTORS.platePrice).html(this.chartData[0].yValues[i].toFormat());
+                this.plate.find(SELECTORS.plateDate).html(this.chartData[0].dates[i].toLocaleDateString());
+                this.plate.find(SELECTORS.plateTime)
+                    .html(this.chartData[0].dates[i].toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+            }
+
+            _setMarkerAndPlatePosition(event, x, y) {
+                const PLATE_ARROW_WIDTH = 5;
+                const markerX = x - (this.marker.outerWidth() / 2);
+                const markerY = y - (this.marker.outerHeight() / 2);
+                let plateX;
+                if (event.offsetX < (window.innerWidth / 2)) {
+                    plateX = x + (this.marker.outerWidth() / 2) + PLATE_ARROW_WIDTH;
+                    this.plate.addClass('to-right');
+                } else {
+                    plateX = markerX - this.plate.outerWidth() - PLATE_ARROW_WIDTH;
+                    this.plate.removeClass('to-right');
+                }
+                const plateY = y - (this.plate.outerHeight() / 2);
+                this.plate.css('transform', `translate(${plateX}px,${plateY}px)`);
+                this.marker.css('transform', `translate(${markerX}px,${markerY}px)`);
+                this.plate.addClass('visible');
+                this.marker.addClass('visible');
+            }
+
+            /**
+             * @private
+             */
+            _createPlateAndMarker() {
+                this.plate = $('<div class="chart-plate">' +
+                    '<div class="chart-plate__price"></div>' +
+                    '<div class="chart-plate__timestamp headline-4">' +
+                    '<span class="chart-plate__date"></span><span class="chart-plate__time"></span>' +
+                    '</div>' +
+                    '</div>');
+
+                this.marker = $('<div class="chart-plate__marker"</div>');
+
+                this.$parent.append([this.plate, this.marker]);
             }
 
         }
@@ -264,6 +368,7 @@
  * @property {string} lineColor
  * @property {string} [fillColor]
  * @property {array} gradientColor
+ * @property {number} marginBottom
  */
 
 /**
