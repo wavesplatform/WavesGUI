@@ -340,7 +340,7 @@
                 pipe(
                     identity,
                     bytesToString,
-                    isNil
+                    isNil,
                 ),
                 pipe(
                     identity,
@@ -1759,14 +1759,12 @@
                  */
                 const isAdvancedMode = user.getSetting('advancedMode');
 
-                const hasScript = user.hasScript();
-
                 const hasCustomFee = data.matcherFee.asset.id && data.matcherFee.asset.id !== 'WAVES';
 
                 /**
                  * @type {number | undefined}
                  */
-                const version = (hasCustomFee && 3) || (hasScript && 2) || data.version || undefined;
+                const version = (hasCustomFee && 3) || 2;
 
                 const scriptedErrorMessage = `Order rejected by script for ${user.address}`;
 
