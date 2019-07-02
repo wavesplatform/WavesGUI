@@ -124,19 +124,16 @@
 
                 this.observe(['interval', 'intervalCount', 'activeChartAssetId'], this._onChangeInterval);
 
-                this.chartOptions = {
-                    charts: [
-                        {
-                            axisX: 'timestamp',
-                            axisY: 'rate',
-                            lineColor: '#1f5af6',
-                            fillColor: '#FFF',
-                            gradientColor: ['#EAF0FE', '#FFF'],
-                            lineWidth: 4,
-                            marginBottom: 40
-                        }
-                    ]
-                };
+                this.chartOptions =
+                    {
+                        axisX: 'timestamp',
+                        axisY: 'rate',
+                        lineColor: '#1f5af6',
+                        fillColor: '#FFF',
+                        gradientColor: ['#EAF0FE', '#FFF'],
+                        lineWidth: 4,
+                        marginBottom: 40
+                    };
             }
 
             openScriptModal() {

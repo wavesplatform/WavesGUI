@@ -3,11 +3,13 @@
 
     /**
      * @param Base
+     * @param utils
      * @return {Chart}
      */
-    const factory = function (Base) {
+    const factory = function (Base, user) {
 
         const { Money } = require('@waves/data-entities');
+        const { splitEvery } = require('ramda');
         const tsUtils = require('ts-utils');
         const SCALE = devicePixelRatio || 1;
         const SELECTORS = {
@@ -109,16 +111,19 @@
                     return null;
                 }
 
-                if (!this.options.charts || !this.options.charts.length) {
+                if (!this.options) {
                     return null;
                 }
 
                 this.chartData = this._getChartData();
 
-                this.chartData.forEach(item => {
-                    this._drawChart(item);
-                });
+                this._drawChart(this.chartData);
                 this._initMouseActions();
+
+                if (!this.axisDatesObjects) {
+                    this._createAxisDates(this._getAxisDatesWithCoords());
+                }
+                this._updateAxisObject();
             }
 
             /**
@@ -126,16 +131,12 @@
              * @private
              */
             _drawChart(data) {
-
                 this.ctx.strokeStyle = data.lineColor;
                 this.ctx.lineWidth = data.lineWidth * SCALE;
                 const first = data.coordinates[0];
                 this.ctx.moveTo(first.x, first.y);
-                data.coordinates.forEach(({ x, y }, i) => {
-                    const j = i === (data.coordinates.length - 1) ? i : i + 1;
-                    const xc = (data.coordinates[i].x + data.coordinates[j].x) / 2;
-                    const yc = (data.coordinates[i].y + data.coordinates[j].y) / 2;
-                    this.ctx.quadraticCurveTo(x, y, xc, yc);
+                data.coordinates.forEach(({ x, y }) => {
+                    this.ctx.lineTo(x, y);
                 });
 
                 this.ctx.stroke();
@@ -167,81 +168,76 @@
                 const width = new BigNumber(this.canvas.width);
                 const maxChartHeight = height.times(0.8);
 
-                return this.options.charts.map(chartOptions => {
-                    const marginBottom = new BigNumber(chartOptions.marginBottom);
-                    const xValues = [];
-                    const yValues = [];
-                    const dates = [];
+                const marginBottom = new BigNumber(this.options.marginBottom);
+                const xValues = [];
+                const yValues = [];
+                const dates = [];
 
-                    this.data.forEach(item => {
-                        const itemX = item[chartOptions.axisX];
-                        if (itemX instanceof Date) {
-                            dates.push(itemX);
-                        }
-                        const x = ChartFactory._getValues(itemX);
-                        const y = ChartFactory._getValues(item[chartOptions.axisY]);
-
-                        if (tsUtils.isNotEmpty(x) && tsUtils.isNotEmpty(y)) {
-                            xValues.push(x);
-                            yValues.push(y);
-                        }
-                    });
-
-                    const xMin = BigNumber.min(...xValues);
-                    const xMax = BigNumber.max(...xValues);
-                    const yMin = BigNumber.min(...yValues);
-                    const yMax = BigNumber.max(...yValues);
-                    const xDelta = xMax.minus(xMin);
-                    const yDelta = yMax.minus(yMin);
-                    const xFactor = width.div(xDelta);
-                    const yFactor = maxChartHeight.div(yDelta);
-
-                    const coordinates = [];
-
-                    for (let i = 0; i < xValues.length; i++) {
-                        const xValue = xValues[i];
-                        const yValue = yValues[i];
-
-                        const x = xValue.minus(xMin).times(xFactor).toNumber();
-                        const y = height.minus(yValue.minus(yMin).times(yFactor)).toNumber() - marginBottom;
-
-                        coordinates.push({ x, y });
+                this.data.forEach(item => {
+                    const itemX = item[this.options.axisX];
+                    if (itemX instanceof Date) {
+                        dates.push(itemX);
                     }
+                    const x = ChartFactory._getValues(itemX);
+                    const y = ChartFactory._getValues(item[this.options.axisY]);
 
-                    return {
-                        height,
-                        maxChartHeight,
-                        width,
-                        dates,
-                        xValues,
-                        yValues,
-                        xMin,
-                        xMax,
-                        yMin,
-                        yMax,
-                        xDelta,
-                        yDelta,
-                        xFactor,
-                        yFactor,
-                        coordinates,
-                        length: coordinates.length,
-                        ...chartOptions
-                    };
+                    if (tsUtils.isNotEmpty(x) && tsUtils.isNotEmpty(y)) {
+                        xValues.push(x);
+                        yValues.push(y);
+                    }
                 });
+
+                const xMin = BigNumber.min(...xValues);
+                const xMax = BigNumber.max(...xValues);
+                const yMin = BigNumber.min(...yValues);
+                const yMax = BigNumber.max(...yValues);
+                const xDelta = xMax.minus(xMin);
+                const yDelta = yMax.minus(yMin);
+                const xFactor = width.div(xDelta);
+                const yFactor = maxChartHeight.div(yDelta);
+
+                const coordinates = [];
+
+                for (let i = 0; i < xValues.length; i++) {
+                    const xValue = xValues[i];
+                    const yValue = yValues[i];
+
+                    const x = xValue.minus(xMin).times(xFactor).toNumber();
+                    const y = height.minus(yValue.minus(yMin).times(yFactor)).toNumber() - marginBottom;
+
+                    coordinates.push({ x, y });
+                }
+
+                return {
+                    height,
+                    maxChartHeight,
+                    width,
+                    dates,
+                    xValues,
+                    yValues,
+                    xMin,
+                    xMax,
+                    yMin,
+                    yMax,
+                    xDelta,
+                    yDelta,
+                    xFactor,
+                    yFactor,
+                    coordinates,
+                    length: coordinates.length,
+                    ...this.options
+                };
             }
 
             static defaultOptions = {
-                charts: [
-                    {
-                        axisX: 'timestamp',
-                        axisY: 'rate',
-                        lineColor: '#ef4829',
-                        fillColor: '#FFF',
-                        gradientColor: false,
-                        lineWidth: 2,
-                        marginBottom: 0
-                    }
-                ]
+                axisX: 'timestamp',
+                axisY: 'rate',
+                lineColor: '#ef4829',
+                fillColor: '#FFF',
+                gradientColor: false,
+                lineWidth: 2,
+                marginBottom: 0
+
             };
 
             /**
@@ -267,7 +263,7 @@
 
             _initMouseActions() {
                 const omMouseMove = event => {
-                    const coords = this.chartData[0].coordinates;
+                    const coords = this.chartData.coordinates;
                     const diff = coords[1].x - coords[0].x;
                     coords.forEach(({ x, y }, i) => {
                         if (Math.abs(event.offsetX - x) <= (diff / 2)) {
@@ -301,10 +297,10 @@
              * @private
              */
             _fillPlate(i) {
-                this.plate.find(SELECTORS.platePrice).html(this.chartData[0].yValues[i].toFormat());
-                this.plate.find(SELECTORS.plateDate).html(this.chartData[0].dates[i].toLocaleDateString());
+                this.plate.find(SELECTORS.platePrice).html(this.chartData.yValues[i].toFormat());
+                this.plate.find(SELECTORS.plateDate).html(this.chartData.dates[i].toLocaleDateString());
                 this.plate.find(SELECTORS.plateTime)
-                    .html(this.chartData[0].dates[i].toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+                    .html(this.chartData.dates[i].toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
             }
 
             _setMarkerAndPlatePosition(event, x, y) {
@@ -342,12 +338,74 @@
                 this.$parent.append([this.plate, this.marker]);
             }
 
+            _getAxisDatesWithCoords() {
+                const axisDates = splitEvery(this.data.length / 4, this.data).map(splitted => {
+                    return splitted[Math.floor(splitted.length / 2)].timestamp;
+                });
+                const axisDatesWithCoords = [];
+
+                this.chartData.dates.forEach((date, i) => {
+                    axisDates.forEach(axisDate => {
+                        if (axisDate.getTime() === date.getTime()) {
+                            axisDatesWithCoords.push({
+                                date,
+                                x: this.chartData.coordinates[i].x
+                            });
+                        }
+                    });
+                });
+
+                return axisDatesWithCoords;
+            }
+
+            _createAxisDates(axisDatesWithCoords) {
+                this.axisDatesObjects = axisDatesWithCoords.map(({ date, x }) => {
+                    const object = {
+                        $date: $(`<div class="chart-plate__axis-date">${ChartFactory._localDayAndMonth(date)}</div>`),
+                        dateValue: date,
+                        coords: null
+                    };
+                    this.$parent.append(object.$date);
+                    object.coords = x - object.$date.width() / 2;
+                    object.$date.css({
+                        left: object.coords
+                    });
+                    return object;
+                });
+            }
+
+            _updateAxisObject() {
+                const newCoords = this._getAxisDatesWithCoords();
+                this.axisDatesObjects.forEach((object, i) => {
+                    object.dateValue = newCoords[i].date;
+                    object.coords = newCoords[i].coords;
+                });
+                this._setAxisCoords();
+            }
+
+            _setAxisCoords() {
+                this.axisDatesObjects.forEach(object => {
+                    object.$date
+                        .html(ChartFactory._localDayAndMonth(object.dateValue))
+                        .css({
+                            left: object.coords
+                        });
+                });
+            }
+
+            static _localDayAndMonth(date) {
+                return date.toLocaleDateString(user.getSetting('lng'), {
+                    day: 'numeric',
+                    month: 'numeric'
+                });
+            }
+
         }
 
         return ChartFactory;
     };
 
-    factory.$inject = ['Base', 'utils'];
+    factory.$inject = ['Base', 'user'];
 
     angular.module('app.ui').factory('ChartFactory', factory);
 })();
