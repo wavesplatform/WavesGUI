@@ -9,7 +9,7 @@
      * @param modalManager
      * @param storage
      * @param ChartFactory
-     * @param {app.utils} angularUtils
+     * @param {app.utils} utils
      * @param {JQuery} $element
      * @param {Waves} waves
      * @return {WelcomeCtrl}
@@ -19,12 +19,11 @@
                                  $state,
                                  user,
                                  modalManager,
-                                 angularUtils,
+                                 utils,
                                  waves,
                                  $element,
                                  ChartFactory,
-                                 storage,
-                                 utils) {
+                                 storage) {
 
         const ds = require('data-service');
         const { Money } = require('@waves/data-entities');
@@ -158,7 +157,7 @@
              * @public
              */
             goToDexDemo(pairAssets) {
-                angularUtils.openDex(pairAssets.assetId1, pairAssets.assetId2, 'dex-demo');
+                utils.openDex(pairAssets.assetId1, pairAssets.assetId2, 'dex-demo');
             }
 
             /**
@@ -170,7 +169,7 @@
                     timestamp: ds.utils.normalizeTime(Date.now())
                 }];
 
-                const startDate = angularUtils.moment().add().day(-7);
+                const startDate = utils.moment().add().day(-7);
                 Promise.all(PAIRS_IN_SLIDER.map(pair => ds.api.pairs.get(pair.amount, pair.price)))
                     .then(pairs => Promise.all(pairs.map(pair => ds.api.pairs.info(pair))))
                     .then(infoList => {
@@ -185,7 +184,7 @@
                                 this.pairsInfoList = rateHistory.map(WelcomeCtrl._fillValues(flattenInfoList));
                             })
                             .then(() => {
-                                angularUtils.safeApply($scope);
+                                utils.safeApply($scope);
                                 this._insertCharts();
                                 this._addScrollHandler();
                             });
@@ -282,8 +281,7 @@
         'waves',
         '$element',
         'ChartFactory',
-        'storage',
-        'utils'
+        'storage'
     ];
 
     angular.module('app.welcome')
