@@ -242,6 +242,7 @@
                     case TYPES.LEASE_IN:
                     case TYPES.CREATE_ALIAS:
                     case TYPES.SPONSORSHIP_FEE:
+                    case TYPES.SCRIPT_INVOCATION:
                         return sender;
                     default:
                         return recipient;
