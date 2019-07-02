@@ -918,15 +918,22 @@
              * @private
              */
             _updateFeeList() {
-                this.feeList = [];
                 return this._getFeeRates()
                     .then(list => {
-                        const assetsId = Object.keys(list);
-                        const basedCustomFee = this.matcherSettings.basedCustomFee;
+                        const { baseFee, otherFee } = Object.keys(list).reduce((acc, id) => {
+                            if (id === WavesApp.defaultAssets.WAVES) {
+                                acc.baseFee.push(id);
+                            } else {
+                                acc.otherFee.push(id);
+                            }
+                            return acc;
+                        }, { baseFee: [], otherFee: [] });
+                        const assetsId = [...baseFee, ...otherFee];
 
                         Promise.all(
                             assetsId.map(id => balanceWatcher.getBalanceByAssetId(id))
                         ).then(balances => {
+                            const basedCustomFee = this.matcherSettings.basedCustomFee;
 
                             const feeList = balances
                                 .map(balance => {
@@ -940,10 +947,13 @@
                             const filteredFeeList = feeList.filter((fee, i) => fee.lte(balances[i]));
 
                             if (!filteredFeeList.length) {
-                                this.fee = feeList.find(fee => fee.asset.id === WavesApp.defaultAssets.WAVES);
+                                this.fee = feeList[0];
+                                this.feeList = [];
                             } else if (filteredFeeList.length === 1) {
                                 this.fee = filteredFeeList[0];
+                                this.feeList = [];
                             } else {
+                                this.fee = filteredFeeList[0];
                                 this.feeList = filteredFeeList;
                             }
                         });
