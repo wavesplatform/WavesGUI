@@ -5,7 +5,7 @@
 
             <div class="input-like big flex-row split-half" ng-if="::$ctrl.isSingleAsset">
                 <div class="flex-row">
-                    <w-asset-logo class="marker-hide" size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
+                    <w-asset-logo class="marker-hide" size="24" asset-id="$ctrl.asset.id"></w-asset-logo>
                     <div class="asset__name">{{::$ctrl.asset.name}}</div>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                 >
                     <div class="flex-row split-half">
                         <div class="flex-row">
-                            <w-asset-logo class="marker-hide" size="24" asset-id="{{::invoice.id}}"></w-asset-logo>
+                            <w-asset-logo class="marker-hide" size="24" asset-id="invoice.id"></w-asset-logo>
                             <div class="asset__name">
                                 <span>{{::invoice.name}}</span>
                                 <span class="asset__id basic-500">{{::invoice.id}}</span>
