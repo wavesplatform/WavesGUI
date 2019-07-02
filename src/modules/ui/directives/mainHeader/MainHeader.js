@@ -12,7 +12,7 @@
      * @param {JQuery} $document
      * @param {JQuery} $element
      * @param {UserNameService} userNameService
-     * @return {SiteHeaderCtrl}
+     * @return {MainHeaderCtrl}
      */
     const controller = function (Base,
                                  stateManager,
@@ -25,9 +25,8 @@
                                  $scope,
                                  userNameService) {
 
-        const PATH = 'modules/ui/directives/siteHeader/templates';
-
-        class SiteHeaderCtrl extends Base {
+        const PATH = 'modules/ui/directives/mainHeader/templates';
+        class MainHeaderCtrl extends Base {
 
             /**
              * @public
@@ -185,7 +184,7 @@
              * public
              */
             removeInnerMenu() {
-                $document.find('w-site-header header').removeClass('show-wallet show-aliases show-downloads');
+                $document.find('w-main-header header').removeClass('show-wallet show-aliases show-downloads');
             }
 
             /**
@@ -242,10 +241,10 @@
              */
             _initFader() {
                 $element.find('.dropdown-toggler').on('mouseover', () => {
-                    $element.find('.dropdown-fader').addClass('show-fader');
+                    $element.find('.main-header__fader').addClass('show-fader');
                 });
                 $element.find('.dropdown-toggler').on('mouseleave', () => {
-                    $element.find('.dropdown-fader').removeClass('show-fader');
+                    $element.find('.main-header__fader').removeClass('show-fader');
                 });
             }
 
@@ -258,7 +257,7 @@
 
         }
 
-        return new SiteHeaderCtrl();
+        return new MainHeaderCtrl();
     };
 
     controller.$inject = [
@@ -274,11 +273,11 @@
         'userNameService'
     ];
 
-    angular.module('app.ui').component('wSiteHeader', {
+    angular.module('app.ui').component('wMainHeader', {
         bindings: {
             userList: '<'
         },
-        templateUrl: 'modules/ui/directives/siteHeader/templates/siteHeader.html',
+        templateUrl: 'modules/ui/directives/mainHeader/templates/mainHeader.html',
         transclude: false,
         controller
     });

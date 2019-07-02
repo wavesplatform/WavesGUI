@@ -1,6 +1,6 @@
-<div class="dropdown-fader"></div>
-<header w-toggle-class-container w-i18n-ns="app.welcome">
-    <div class="header-wrapper">
+<div class="main-header__fader"></div>
+<header w-toggle-class-container w-i18n-ns="app.welcome" class="main-header__header">
+    <div class="main-header__wrapper">
         <span class="logo logo-header" ng-if="$ctrl.isLogined"></span>
         <a class="logo logo-header" ng-if="!$ctrl.isLogined" href="/"></a>
 
@@ -321,7 +321,7 @@
             </div>
         </div>
 
-        <div class="header-right-wrapper" ng-if="$ctrl.isLogined">
+        <div class="main-header__user" ng-if="$ctrl.isLogined">
 
             <div class="dropdown-toggler dropdown-toggler-right">
                 <div class="avatar-container header-avatar-container has-helper">

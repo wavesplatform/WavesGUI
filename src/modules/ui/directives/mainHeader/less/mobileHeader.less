@@ -367,7 +367,7 @@ body {
     }
   }
 
-  header.expanded {
+  .main-header__header.expanded {
     &.show-wallet {
       .mobile-menu-wrapper-inner {
         &.wallet-menu {
@@ -438,9 +438,10 @@ body {
 
   // end expanded
   body {
-    w-site-header {
-      header {
+    .main-header {
+      .main-header__header {
         padding: 0 20px 0 38px;
+
         .dropdown-toggler {
           display: none;
         }
@@ -461,8 +462,8 @@ body {
   }
 
   body {
-    w-site-header {
-      header {
+    .main-header {
+      .main-header__header {
         padding: 0 20px;
       }
     }

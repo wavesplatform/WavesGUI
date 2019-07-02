@@ -139,7 +139,7 @@
              */
             _addScrollHandler() {
                 const scrolledView = $element.find('.scrolled-view');
-                const header = $element.find('w-site-header');
+                const header = $element.find('w-main-header');
 
                 scrolledView.on('scroll', () => {
                     header.toggleClass('fixed', scrolledView.scrollTop() > whenHeaderGetFix);
