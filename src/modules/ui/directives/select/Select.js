@@ -268,7 +268,7 @@
             upDirection: '<',
             canSearch: '<',
             oneItem: '<',
-            hideActive: '='
+            hideActive: '<'
         },
         templateUrl: 'modules/ui/directives/select/select.html',
         transclude: true,
