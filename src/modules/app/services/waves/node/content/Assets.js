@@ -3,6 +3,7 @@
     'use strict';
 
     const { Money } = require('@waves/data-entities');
+    const { BigNumber } = require('@waves/bignumber');
 
     /**
      * @param {BaseNodeComponent} BaseNodeComponent

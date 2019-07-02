@@ -29,6 +29,7 @@
         const ds = require('data-service');
         const { Money } = require('@waves/data-entities');
         const { flatten } = require('ramda');
+        const { BigNumber } = require('@waves/bignumber');
 
         const WCT_ID = WavesApp.network.code === 'T' ?
             WavesApp.defaultAssets.TRY :
@@ -115,6 +116,10 @@
              */
             pairsInfoList = [];
 
+            /**
+             * @type {boolean}
+             */
+            hasUsers = false;
 
             constructor() {
                 super($scope);
@@ -237,6 +242,7 @@
                 user.getFilteredUserList()
                     .then((list) => {
                         this.userList = list;
+                        this.hasUsers = this.userList && this.userList.length > 0;
                         this.pendingRestore = false;
                         setTimeout(() => {
                             $scope.$apply(); // TODO FIX!

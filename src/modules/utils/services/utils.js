@@ -1407,6 +1407,19 @@
             },
 
             /**
+             * @name app.utils#parseError
+             * @param error
+             * @returns {*}
+             */
+            parseError(error) {
+                try {
+                    return typeof error === 'string' ? JSON.parse(error).message : error;
+                } catch (e) {
+                    return error;
+                }
+            },
+
+            /**
              * @name app.utils#filterOrderBookByCharCropRate
              * @param {object} data
              * @param {number} data.chartCropRate

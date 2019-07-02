@@ -10,6 +10,8 @@
      */
     const controller = function (Base, $scope, gatewayService, user) {
 
+        const { BigNumber } = require('@waves/bignumber');
+
         class ReceiveCard extends Base {
 
             /**

@@ -28,6 +28,7 @@
     };
 
     const tsUtils = require('ts-utils');
+    const { BigNumber } = require('@waves/bignumber');
 
     /**
      * @param Base
