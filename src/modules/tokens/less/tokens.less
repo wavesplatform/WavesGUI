@@ -4,6 +4,15 @@
 body.tokens {
   @height-title: 60px;
 
+  .nameHelper {
+    transition: opacity 0.5s;
+    opacity: 0;
+
+    &.showNameHelper {
+      opacity: 1;
+    }
+  }
+
   .main-content .content {
     height: 100%;
     overflow: auto;
@@ -102,6 +111,7 @@ body.tokens {
           }
 
           .token-value::after {
+            width: 242px;
             width: 242px;
           }
 
