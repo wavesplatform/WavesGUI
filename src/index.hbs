@@ -339,7 +339,8 @@
                     scamListUrl: config.network.scamListUrl,
                     explorer: config.network.explorer,
                     featuresConfigUrl: config.network.featuresConfigUrl,
-                    feeConfigUrl: config.feeConfigUrl
+                    feeConfigUrl: config.feeConfigUrl,
+                    tokenrating: config.network.tokenrating
                 },
                 defaultAssets: {
                     WAVES: 'WAVES',
@@ -359,6 +360,7 @@
                 },
                 tradingPairs: config.tradingPairs,
                 ALWAYS_PINNED_ASSETS: ['WAVES'],
+                WCTAsset: config.network.assets.WCT,
 
                 otherAssetsWithIcons: {
                     // TODO @xenohunter : remove that when icons are in @dvshur's service
