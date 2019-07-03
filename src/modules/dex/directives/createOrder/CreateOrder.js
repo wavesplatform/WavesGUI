@@ -512,7 +512,7 @@
                     return;
                 }
                 const { tickSize } = this.pairRestrictions;
-                const roundedPrice = price.decimalPlaces(tickSize.decimalPlaces(), BigNumber.ROUND_HALF_EVEN);
+                const roundedPrice = price.dividedToIntegerBy(tickSize).times(tickSize);
                 return this.priceBalance.cloneWithTokens(roundedPrice);
             }
 
@@ -577,7 +577,7 @@
                 }
 
                 const { stepSize } = this.pairRestrictions;
-                const roundedAmount = value.decimalPlaces(stepSize.decimalPlaces());
+                const roundedAmount = value.div(stepSize).integerValue().times(stepSize);
                 return this.amountBalance.cloneWithTokens(roundedAmount);
             }
 
