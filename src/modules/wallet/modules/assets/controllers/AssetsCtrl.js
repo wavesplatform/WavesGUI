@@ -132,7 +132,9 @@
                         fillColor: '#FFF',
                         gradientColor: ['#EAF0FE', '#FFF'],
                         lineWidth: 4,
-                        marginBottom: 40
+                        marginBottom: 46,
+                        hasMouseEvents: true,
+                        hasDates: true
                     };
             }
 

@@ -23,6 +23,12 @@
             changeLanguageHandler = () => this._setAxisCoords();
 
             /**
+             * @private
+             * @type {object}
+             */
+            axisDatesObjects;
+
+            /**
              * @param {JQuery} $element
              * @param {ChartFactory.IOptions} [options]
              * @param {Array} [data]
@@ -49,7 +55,10 @@
                 this.ctx = this.canvas.getContext('2d');
 
                 this._render();
-                this._createPlateAndMarker();
+
+                if (this.options.hasMouseEvents) {
+                    this._createPlateAndMarker();
+                }
             }
 
             setOptions(options) {
@@ -73,7 +82,6 @@
                 const canvas = document.createElement('canvas');
                 const width = Math.round($element.width());
                 const height = Math.round($element.height());
-
                 canvas.style.position = 'absolute';
                 canvas.style.left = '0';
                 canvas.style.top = '0';
@@ -120,12 +128,17 @@
                 this.chartData = this._getChartData();
 
                 this._drawChart(this.chartData);
-                this._initMouseActions();
 
-                if (!this.axisDatesObjects) {
-                    this._createAxisDates(this._getAxisDatesWithCoords());
+                if (this.options.hasDates) {
+                    if (!this.axisDatesObjects) {
+                        this._createAxisDates(this._getAxisDatesWithCoords());
+                    }
+                    this._updateAxisObject();
                 }
-                this._updateAxisObject();
+
+                if (this.options.hasMouseEvents) {
+                    this._initActions();
+                }
             }
 
             /**
@@ -238,8 +251,9 @@
                 fillColor: '#FFF',
                 gradientColor: false,
                 lineWidth: 2,
-                marginBottom: 0
-
+                marginBottom: 0,
+                hasMouseEvents: false,
+                hasDates: false
             };
 
             /**
@@ -265,7 +279,7 @@
             /**
              * @private
              */
-            _initMouseActions() {
+            _initActions() {
                 const omMouseMove = event => {
                     const coords = this.chartData.coordinates;
                     const diff = coords[1].x - coords[0].x;
@@ -301,8 +315,8 @@
              * @private
              */
             _fillPlate(i) {
-                this.plate.find(SELECTORS.platePrice).html(this.chartData.yValues[i].toFormat());
-                this.plate.find(SELECTORS.plateDate).html(this.chartData.dates[i].toLocaleDateString());
+                this.plate.find(SELECTORS.platePrice).html(`$ ${this.chartData.yValues[i].toFormat(2)}`);
+                this.plate.find(SELECTORS.plateDate).html(ChartFactory._localDate(this.chartData.dates[i], true));
                 this.plate.find(SELECTORS.plateTime)
                     .html(this.chartData.dates[i].toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
             }
@@ -379,7 +393,7 @@
             _createAxisDates(axisDatesWithCoords) {
                 this.axisDatesObjects = axisDatesWithCoords.map(({ date, x }) => {
                     const object = {
-                        $date: $(`<div class="chart-plate__axis-date">${ChartFactory._localDayAndMonth(date)}</div>`),
+                        $date: $(`<div class="chart-plate__axis-date">${ChartFactory._localDate(date)}</div>`),
                         dateValue: date,
                         coords: null
                     };
@@ -412,7 +426,7 @@
             _setAxisCoords() {
                 this.axisDatesObjects.forEach(object => {
                     object.$date
-                        .html(ChartFactory._localDayAndMonth(object.dateValue))
+                        .html(ChartFactory._localDate(object.dateValue))
                         .css({
                             left: object.coords
                         });
@@ -424,7 +438,7 @@
              * @return {string}
              * @private
              */
-            static _localDayAndMonth(date) {
+            static _localDate(date, hasYear = false) {
                 const userLang = user.getSetting('lng');
                 const remapLangs = lang => {
                     switch (lang) {
@@ -444,7 +458,8 @@
                 };
                 return date.toLocaleDateString(remapLangs(userLang), {
                     day: 'numeric',
-                    month: 'numeric'
+                    month: 'numeric',
+                    year: hasYear ? 'numeric' : undefined
                 });
             }
 

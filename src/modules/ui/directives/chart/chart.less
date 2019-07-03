@@ -1,9 +1,9 @@
 @import (reference) 'config';
 
 w-chart {
-  display: inline-block;
-  width: 100%;
-  height: 100%;
+  display: block;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 .chart-legend {
@@ -27,13 +27,16 @@ w-chart {
   transition: opacity 0.3s;
   pointer-events: none;
   padding: 12px 16px;
-  //&__price {
-  //  font-size: @font-size-caption-1;
-  //}
   &__price {
     text-align: right;
-    font-size: 20px;
-    line-height: 24px;
+    font-size: @font-size-control-big;
+    line-height: 20px;
+    margin-bottom: 2px;
+  }
+  &__timestamp {
+    font-size: @font-size-control-micro;
+    font-weight: 500;
+    line-height: 13px;
   }
   &__date {
     margin-right: 4px;
@@ -85,6 +88,7 @@ w-chart {
     color: @color-basic-500;
     font-size: @font-size-control-small;
     user-select: none;
+    pointer-events: none;
   }
 }
 
