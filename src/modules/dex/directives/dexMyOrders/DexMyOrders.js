@@ -100,6 +100,139 @@
                 });
             }
 
+            /**
+             * @param {IOrder} order
+             * @param {Array<IExchange>} exchangeList
+             * @private
+             */
+            static _getAveragePriceByExchange(order, exchangeList) {
+                if (!exchangeList.length) {
+                    return order.price;
+                }
+
+                const sum = exchangeList
+                    .map(tx => ({
+                        amount: tx.amount.getTokens(),
+                        total: tx.total.getTokens()
+                    }))
+                    .reduce((acc, item) => ({
+                        amount: acc.amount.plus(item.amount),
+                        total: acc.total.plus(item.total)
+                    }), {
+                        amount: new BigNumber(0),
+                        total: new BigNumber(0)
+                    });
+
+                return order.price.cloneWithTokens(sum.total.div(sum.amount));
+            }
+
+            /**
+             * @param $element
+             * @return {Promise}
+             * @private
+             */
+            static _animateNotification($element) {
+                return utils.animate($element, { t: 100 }, {
+                    duration: 1200,
+                    step: function (tween) {
+                        const progress = ease.bounceOut(tween / 100);
+                        $element.css('transform', `translate(0, ${-100 + progress * 100}%)`);
+                    }
+                })
+                    .then(() => utils.wait(700))
+                    .then(() => {
+                        return utils.animate($element, { t: 0 }, {
+                            duration: 500,
+                            step: function (tween) {
+                                const progress = ease.linear(tween / 100);
+                                $element.css('transform', `translate(0, ${(-((1 - progress) * 100))}%)`);
+                            }
+                        });
+                    });
+            }
+
+            /**
+             * @param txList
+             * @return {Record<string, Array>}
+             * @private
+             */
+            static _getTransactionsByOrderIdHash(txList) {
+                const uniqueList = uniqBy(prop('id'), txList);
+                const transactionsByOrderHash = Object.create(null);
+                uniqueList.forEach((tx) => {
+                    ['order1', 'order2'].forEach((orderFieldName) => {
+                        if (!transactionsByOrderHash[tx[orderFieldName].id]) {
+                            transactionsByOrderHash[tx[orderFieldName].id] = [];
+                        }
+                        transactionsByOrderHash[tx[orderFieldName].id].push(DexMyOrders._remapTx(tx));
+                    });
+                });
+                return transactionsByOrderHash;
+            }
+
+            static _remapTx(tx) {
+                const fee = (tx, order) => order.orderType === 'sell' ? tx.sellMatcherFee : tx.buyMatcherFee;
+                const userFee = [tx.order1, tx.order2]
+                    .reduce((acc, order) => {
+                        acc[order.orderType] = fee(tx, order);
+                        return acc;
+                    }, Object.create(null));
+
+                return { ...tx, userFee };
+            }
+
+            /**
+             * @param {IOrder} order
+             * @private
+             */
+            static _remapOrders(matcherPublicKey) {
+                return order => {
+                    const assetPair = order.assetPair;
+                    const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
+                    const isNew = DexMyOrders._isNewOrder(order.timestamp.getTime());
+                    const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
+                    return waves.matcher.getCreateOrderFee({ ...order, matcherPublicKey })
+                        .then(fee => ({ ...order, isNew, percent, pair, fee }));
+                };
+            }
+
+            /**
+             * @param {number} timestamp
+             * @return {boolean}
+             * @private
+             */
+            static _isNewOrder(timestamp) {
+                return ds.utils.normalizeTime(Date.now()) < timestamp + 1000 * 8;
+            }
+
+            /**
+             * @param {number} lastTime
+             * @return {Promise<Array<IExchange>>}
+             * @private
+             */
+            static _loadTransactions(lastTime) {
+                const minTime = DexMyOrders._getMinTimestamp();
+                return transactions.getExchangeTxList({
+                    sender: user.address,
+                    timeStart: ds.utils.normalizeTime(minTime < lastTime ? lastTime : minTime)
+                }, { getAll: true, limit: MAX_EXCHANGE_COUNT });
+            }
+
+            /**
+             * @return {number}
+             * @private
+             */
+            static _getMinTimestamp() {
+                const today = new Date();
+                return new Date(
+                    today.getFullYear(),
+                    today.getMonth() - 2,
+                    today.getDate(),
+                    today.getHours(),
+                    today.getMinutes()
+                ).getTime();
+            }
+
             $postLink() {
                 this.headers = [
                     {
@@ -383,139 +516,6 @@
                                     .reduce((acc, amount) => acc.add(amount))
                             ) || exchangeCount >= MAX_EXCHANGE_COUNT;
                     });
-            }
-
-            /**
-             * @param {IOrder} order
-             * @param {Array<IExchange>} exchangeList
-             * @private
-             */
-            static _getAveragePriceByExchange(order, exchangeList) {
-                if (!exchangeList.length) {
-                    return order.price;
-                }
-
-                const sum = exchangeList
-                    .map(tx => ({
-                        amount: tx.amount.getTokens(),
-                        total: tx.total.getTokens()
-                    }))
-                    .reduce((acc, item) => ({
-                        amount: acc.amount.plus(item.amount),
-                        total: acc.total.plus(item.total)
-                    }), {
-                        amount: new BigNumber(0),
-                        total: new BigNumber(0)
-                    });
-
-                return order.price.cloneWithTokens(sum.total.div(sum.amount));
-            }
-
-            /**
-             * @param $element
-             * @return {Promise}
-             * @private
-             */
-            static _animateNotification($element) {
-                return utils.animate($element, { t: 100 }, {
-                    duration: 1200,
-                    step: function (tween) {
-                        const progress = ease.bounceOut(tween / 100);
-                        $element.css('transform', `translate(0, ${-100 + progress * 100}%)`);
-                    }
-                })
-                    .then(() => utils.wait(700))
-                    .then(() => {
-                        return utils.animate($element, { t: 0 }, {
-                            duration: 500,
-                            step: function (tween) {
-                                const progress = ease.linear(tween / 100);
-                                $element.css('transform', `translate(0, ${(-((1 - progress) * 100))}%)`);
-                            }
-                        });
-                    });
-            }
-
-            /**
-             * @param txList
-             * @return {Record<string, Array>}
-             * @private
-             */
-            static _getTransactionsByOrderIdHash(txList) {
-                const uniqueList = uniqBy(prop('id'), txList);
-                const transactionsByOrderHash = Object.create(null);
-                uniqueList.forEach((tx) => {
-                    ['order1', 'order2'].forEach((orderFieldName) => {
-                        if (!transactionsByOrderHash[tx[orderFieldName].id]) {
-                            transactionsByOrderHash[tx[orderFieldName].id] = [];
-                        }
-                        transactionsByOrderHash[tx[orderFieldName].id].push(DexMyOrders._remapTx(tx));
-                    });
-                });
-                return transactionsByOrderHash;
-            }
-
-            static _remapTx(tx) {
-                const fee = (tx, order) => order.orderType === 'sell' ? tx.sellMatcherFee : tx.buyMatcherFee;
-                const userFee = [tx.order1, tx.order2]
-                    .reduce((acc, order) => {
-                        acc[order.orderType] = fee(tx, order);
-                        return acc;
-                    }, Object.create(null));
-
-                return { ...tx, userFee };
-            }
-
-            /**
-             * @param {IOrder} order
-             * @private
-             */
-            static _remapOrders(matcherPublicKey) {
-                return order => {
-                    const assetPair = order.assetPair;
-                    const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
-                    const isNew = DexMyOrders._isNewOrder(order.timestamp.getTime());
-                    const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
-                    return waves.matcher.getCreateOrderFee({ ...order, matcherPublicKey })
-                        .then(fee => ({ ...order, isNew, percent, pair, fee }));
-                };
-            }
-
-            /**
-             * @param {number} timestamp
-             * @return {boolean}
-             * @private
-             */
-            static _isNewOrder(timestamp) {
-                return ds.utils.normalizeTime(Date.now()) < timestamp + 1000 * 8;
-            }
-
-            /**
-             * @param {number} lastTime
-             * @return {Promise<Array<IExchange>>}
-             * @private
-             */
-            static _loadTransactions(lastTime) {
-                const minTime = DexMyOrders._getMinTimestamp();
-                return transactions.getExchangeTxList({
-                    sender: user.address,
-                    timeStart: ds.utils.normalizeTime(minTime < lastTime ? lastTime : minTime)
-                }, { getAll: true, limit: MAX_EXCHANGE_COUNT });
-            }
-
-            /**
-             * @return {number}
-             * @private
-             */
-            static _getMinTimestamp() {
-                const today = new Date();
-                return new Date(
-                    today.getFullYear(),
-                    today.getMonth() - 2,
-                    today.getDate(),
-                    today.getHours(),
-                    today.getMinutes()
-                ).getTime();
             }
 
         }
