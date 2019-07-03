@@ -20,6 +20,8 @@
 
         class ChartFactory extends Base {
 
+            changeLanguageHandler = () => this._setAxisCoords();
+
             /**
              * @param {JQuery} $element
              * @param {ChartFactory.IOptions} [options]
@@ -260,7 +262,9 @@
                 }
             }
 
-
+            /**
+             * @private
+             */
             _initMouseActions() {
                 const omMouseMove = event => {
                     const coords = this.chartData.coordinates;
@@ -303,6 +307,12 @@
                     .html(this.chartData.dates[i].toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
             }
 
+            /**
+             * @param event
+             * @param x
+             * @param y
+             * @private
+             */
             _setMarkerAndPlatePosition(event, x, y) {
                 const PLATE_ARROW_WIDTH = 5;
                 const markerX = x - (this.marker.outerWidth() / 2);
@@ -338,6 +348,10 @@
                 this.$parent.append([this.plate, this.marker]);
             }
 
+            /**
+             * @return {Array}
+             * @private
+             */
             _getAxisDatesWithCoords() {
                 const axisDates = splitEvery(this.data.length / 4, this.data).map(splitted => {
                     return splitted[Math.floor(splitted.length / 2)].timestamp;
@@ -358,6 +372,10 @@
                 return axisDatesWithCoords;
             }
 
+            /**
+             * @param axisDatesWithCoords
+             * @private
+             */
             _createAxisDates(axisDatesWithCoords) {
                 this.axisDatesObjects = axisDatesWithCoords.map(({ date, x }) => {
                     const object = {
@@ -372,8 +390,13 @@
                     });
                     return object;
                 });
+
+                i18next.on('languageChanged', this.changeLanguageHandler);
             }
 
+            /**
+             * @private
+             */
             _updateAxisObject() {
                 const newCoords = this._getAxisDatesWithCoords();
                 this.axisDatesObjects.forEach((object, i) => {
@@ -383,6 +406,9 @@
                 this._setAxisCoords();
             }
 
+            /**
+             * @private
+             */
             _setAxisCoords() {
                 this.axisDatesObjects.forEach(object => {
                     object.$date
@@ -393,8 +419,30 @@
                 });
             }
 
+            /**
+             * @param date
+             * @return {string}
+             * @private
+             */
             static _localDayAndMonth(date) {
-                return date.toLocaleDateString(user.getSetting('lng'), {
+                const userLang = user.getSetting('lng');
+                const remapLangs = lang => {
+                    switch (lang) {
+                        case 'nl_NL':
+                            return 'nl';
+                        case 'pt_BR':
+                            return 'pt';
+                        case 'et_EE':
+                            return 'est';
+                        case 'hi_IN':
+                            return 'hi';
+                        case 'zh_CN':
+                            return 'cn';
+                        default:
+                            return lang;
+                    }
+                };
+                return date.toLocaleDateString(remapLangs(userLang), {
                     day: 'numeric',
                     month: 'numeric'
                 });
