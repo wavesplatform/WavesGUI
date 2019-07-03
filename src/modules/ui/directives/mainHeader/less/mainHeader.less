@@ -3,52 +3,6 @@
 @import (reference) "../../../../app/less/app-icons";
 @import (reference) '../../../../app/less/typography';
 
-body.welcome {
-  .header-new-user {
-    position: fixed;
-    z-index: 10;
-    width: 100%;
-    top: 0;
-    left: 0;
-
-    .shadow {
-      content: '';
-      display: block;
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 4px;
-      top: 100%;
-      margin: 0 -40px;
-      transition: 1s;
-      transform: translate3d(0, 0, 0);
-      background: -moz-linear-gradient(top, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
-      background: -webkit-linear-gradient(top, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
-      background: linear-gradient(to bottom, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
-    }
-
-    .main-header__header::after {
-      opacity: 0;
-    }
-
-    &.fixed .main-header__header {
-      position: fixed;
-      &::after {
-        opacity: 1;
-      }
-    }
-
-    .main-header__header {
-      font-family: 'Roboto-Regular';
-      width: 100%;
-
-      &::after {
-        .shadow;
-      }
-    }
-  }
-}
-
 .main-header {
   display: block;
 
@@ -99,6 +53,127 @@ body.welcome {
       z-index: 10;
       top: 0;
       left: 0;
+    }
+  }
+
+  &__dropdown {
+    display: none;
+    padding: 10px 0;
+    box-shadow: 0 2px 44px 0 rgba(31, 39, 61, 0.15);
+    background: @color-white;
+    border-radius: 8px;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 26px);
+    z-index: 10;
+    min-width: 214px;
+  }
+
+  .dropdown {
+    &__icon {
+      margin-right: 15px;
+    }
+
+    &__link {
+      display: flex;
+      align-items: center;
+      padding: 18px 30px;
+      font-size: 15px;
+      color: @color-basic-900;
+      position: relative;
+      white-space: nowrap;
+
+      &:hover {
+        background-color: @header-dropdown-hover;
+      }
+    }
+
+    &__icon {
+      &_win {
+        background: @widnows-icon;
+      }
+
+      &_mac {
+        background: @macos-icon;
+      }
+
+      &_linux {
+        background: @linux-icon;
+      }
+
+      &_portfolio {
+        background: @portfolio-desktop-icon;
+      }
+
+      &_dashboard {
+        background: @wallet-desktop-icon;
+      }
+
+      &_transactions {
+        background: @transactions-desktop-icon;
+      }
+
+      &_leasing {
+        background: @leasing-icon;
+      }
+
+      &_logout {
+        background: @logout-icon;
+      }
+
+      &_aliases {
+        background: @aliases-icon;
+      }
+
+      &_settings {
+        background: @settings-icon;
+      }
+    }
+  }
+
+  &_new-user {
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    top: 0;
+    left: 0;
+
+    .shadow {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 4px;
+      top: 100%;
+      margin: 0 -40px;
+      transition: 1s;
+      transform: translate3d(0, 0, 0);
+      background: -moz-linear-gradient(top, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
+      background: -webkit-linear-gradient(top, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
+      background: linear-gradient(to bottom, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
+    }
+
+    .main-header__header::after {
+      opacity: 0;
+    }
+
+    &.fixed .main-header__header {
+      position: fixed;
+
+      &::after {
+        opacity: 1;
+      }
+    }
+
+    .main-header__header {
+      font-family: 'Roboto-Regular';
+      width: 100%;
+
+      &::after {
+        .shadow;
+      }
     }
   }
 
@@ -274,7 +349,6 @@ body.welcome {
   }
 
   .dropdown-toggler {
-    //margin: 0;
     display: flex;
     align-items: center;
 
@@ -289,17 +363,16 @@ body.welcome {
     }
 
     &:hover {
-      &:hover {
-        &::after {
-          display: block;
-        }
-        .dropdown {
-          display: block;
-        }
+      &::after {
+        display: block;
+      }
+      .dropdown {
+        display: block;
       }
 
       .dropdown-btn {
         color: @color-submit-400;
+
         &::after {
           transform: rotate(-180deg);
           background: @drop-down-hover-icon;
@@ -331,131 +404,6 @@ body.welcome {
     }
     to {
       opacity: 0.3;
-    }
-  }
-
-  .dropdown {
-    display: none;
-    padding: 10px 0;
-    box-shadow: 0 2px 44px 0 rgba(31, 39, 61, 0.15);
-    background: @color-white;
-    border-radius: 8px;
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translate(-50%, 26px);
-    z-index: 10;
-    min-width: 214px;
-
-    &-icon {
-      margin-right: 15px;
-    }
-
-    a {
-      display: flex;
-      align-items: center;
-      padding: 18px 30px;
-      font-size: 15px;
-      color: @color-basic-900;
-      position: relative;
-      white-space: nowrap;
-
-      &.link-aliases::before,
-      &::after {
-        transition: .2s;
-        content: '';
-        display: block;
-        position: absolute;
-        width: calc(100% ~' - 60px');
-        height: 1px;
-        background: @color-info-50;
-        bottom: 0;
-        left: 30px;
-      }
-
-      &.link-aliases::before {
-        bottom: auto;
-        top: 0;
-      }
-
-      .icon {
-        &-win {
-          background: @widnows-icon;
-        }
-
-        &-mac {
-          background: @macos-icon;
-        }
-
-        &-linux {
-          background: @linux-icon;
-        }
-
-        &-portfolio {
-          background: @portfolio-desktop-icon;
-        }
-
-        &-dashboard {
-          background: @wallet-desktop-icon;
-        }
-
-        &-transactions {
-          background: @transactions-desktop-icon;
-        }
-
-        &-leasing {
-          background: @leasing-icon;
-        }
-
-        &-logout {
-          background: @logout-icon;
-        }
-
-        &-aliases {
-          background: @aliases-icon;
-        }
-
-        &-settings {
-          background: @settings-icon;
-        }
-      }
-
-      &:hover {
-        background-color: @header-dropdown-hover;
-        &::after {
-          display: none;
-        }
-
-        &::before {
-          content: '';
-          display: block;
-          position: absolute;
-          width: calc(100% ~' - 60px');
-          height: 1px;
-          background: @color-white;
-          opacity: 1;
-          top: -1px;
-          left: 30px;
-          transition: .2s;
-        }
-      }
-
-      &:first-child {
-        padding: 18px 30px 18px;
-      }
-
-      &:last-child {
-        padding: 18px 30px 18px;
-        &::after {
-          display: none;
-        }
-      }
-
-      span.description {
-        color: @color-basic-500;
-        font-size: 13px;
-        font-weight: 300;
-      }
     }
   }
 
@@ -584,87 +532,89 @@ body.dex-demo {
 
 body.wallet {
   &.assets {
-    a.link-assets {
+    .dropdown__link_assets {
       color: @color-submit-300;
-      .icon-dashboard {
-        background: @wallet-icon-active;
-      }
+    }
+
+    .dropdown__icon_dashboard {
+      background: @wallet-icon-active;
     }
   }
+
   &.portfolio {
-    a.link-portfolio {
+    dropdown__link_portfolio {
       color: @color-submit-300;
-      .icon-portfolio {
-        background: @portfolio-icon-active;
-      }
+    }
+
+    .dropdown__icon_portfolio {
+      background: @portfolio-icon-active;
     }
   }
+
   &.transactions {
-    a.link-transactions {
+    .dropdown__link_transactions {
       color: @color-submit-300;
-      .icon-transactions {
-        background: @transactions-icon-active;
-      }
+    }
+
+    .dropdown__icon_transactions {
+      background: @transactions-icon-active;
     }
   }
+
   &.leasing {
-    a.link-leasing {
+    .dropdown__link_leasing {
       color: @color-submit-300;
-      .icon-leasing {
-        background: @leasing-icon-active;
-      }
+    }
+
+    .dropdown__icon_leasing {
+      background: @leasing-icon-active;
     }
   }
-  a.link-wallet {
+
+  .dropdown__link_wallet {
     color: @color-submit-300;
   }
 }
 
 body.dex,
 body.dex-demo {
-  a.link-dex {
+  .dropdown__link_dex {
     color: @color-submit-300;
   }
 }
 
 body.tokens {
-  a.link-tokens {
+  .dropdown__link_tokens {
     color: @color-submit-300;
   }
 }
 
 @media screen and (max-width: 1440px) {
-  body.welcome {
-    .header-new-user {
-      .shadow {
-        margin: 0 -20px;
-      }
+  .main-header_new-user {
+    .shadow {
+      margin: 0 -20px;
     }
   }
 }
 
 @media screen and (max-width: 860px) {
-  .main-header {
-    .main-header__header {
-      .account-address,
-      .account-name,
-      .top-menu,
-      .header-logout,
-      .buttons-wrapper {
-        display: none;
-      }
-    }
-
-    .main-header__wrapper_large {
+  .main-header__header {
+    .account-address,
+    .account-name,
+    .top-menu,
+    .header-logout,
+    .buttons-wrapper {
       display: none;
     }
+  }
+
+  .main-header__wrapper_large {
+    display: none;
   }
 }
 
 @media screen and (min-width: 861px) {
-  .main-header {
-    .main-header__wrapper_mobile {
-      display: none;
-    }
+  .main-header__wrapper_mobile {
+    display: none;
   }
 }
