@@ -7,51 +7,13 @@
     const { splitEvery, pipe, path, map, ifElse, concat, defaultTo, identity, isNil, propEq } = require('ramda');
     const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
     const { libs } = require('@waves/waves-transactions');
-    const { base58decode, base58encode, stringToUint8Array } = libs.crypto;
+    const { base58Decode, base58Encode, stringToBytes, bytesToString } = libs.crypto;
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const { Money } = require('@waves/data-entities');
     const { STATUS_LIST } = require('@waves/oracle-data');
     const { BigNumber } = require('@waves/bignumber');
 
-    /* eslint-disable */
-    const uint8ArrayToString = function (bytes, opt_startIndex, length) {
-        if (length === 0) {
-            return '';
-        }
-
-        if (opt_startIndex && length) {
-            bytes = bytes.slice(opt_startIndex, opt_startIndex + length);
-        }
-
-        const extraByteMap = [1, 1, 1, 1, 2, 2, 3, 0];
-        const count = bytes.length;
-        let str = '';
-
-        for (let index = 0; index < count;) {
-            let ch = bytes[index++];
-            if (ch & 0x80) {
-                let extra = extraByteMap[(ch >> 3) & 0x07];
-                if (!(ch & 0x40) || !extra || ((index + extra) > count))
-                    return null;
-
-                ch = ch & (0x3F >> extra);
-                for (; extra > 0; extra -= 1) {
-                    const chx = bytes[index++];
-                    if ((chx & 0xC0) != 0x80)
-                        return null;
-
-                    ch = (ch << 6) | (chx & 0x3F);
-                }
-            }
-
-            str += String.fromCharCode(ch);
-        }
-
-        return str;
-    };
-
-    /* eslint-enable */
     const GOOD_COLORS_LIST = [
         '#39a12c',
         '#6a737b',
@@ -239,10 +201,8 @@
      * @return {app.utils}
      */
     const factory = function ($q, Moment, $injector) {
-        const base58ToBytes = base58decode;
-        const stringToBytes = stringToUint8Array;
-        const bytesToBase58 = base58encode;
-        const bytesToString = uint8ArrayToString;
+        const base58ToBytes = base58Decode;
+        const bytesToBase58 = base58Encode;
 
         const utils = {
 
@@ -461,7 +421,7 @@
                 return (script.match(/ByteVector\(\d+\sbytes,\s(.[^)]+)/g) || [])
                     .map(res => res.replace(/ByteVector\(\d+\sbytes,\s0x/, ''))
                     .map(toBytes)
-                    .map(base58encode);
+                    .map(base58Encode);
             },
 
             /**

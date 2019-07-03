@@ -39,7 +39,7 @@ const SCRIPT_INVOCATION_NUMBER = 16;
 
 const parseAttachment: (data: string | number) => Uint8Array = pipe(
     String,
-    libs.crypto.base58decode
+    libs.crypto.base58Decode
 );
 
 const getFactory = (isTokens: boolean): IFactory => {

@@ -44,6 +44,63 @@
             }
 
             /**
+             * @param bids
+             * @param asks
+             * @param pair
+             * @returns {Promise<any[]>}
+             * @private
+             */
+            static _remapOrderBook({ bids, asks, pair }) {
+                return {
+                    pair,
+                    bids: Matcher._remapBidAsks(bids, pair),
+                    asks: Matcher._remapBidAsks(asks, pair)
+                };
+            }
+
+            /**
+             * @param list
+             * @param pair
+             * @returns {Promise<(any[])[]>}
+             * @private
+             */
+            static _remapBidAsks(list, pair) {
+                return (list || []).map((item) => {
+                    const amount = item.amount.getTokens();
+                    const price = item.price.getTokens();
+                    const total = amount.mul(price);
+
+                    return {
+                        amount: amount.toFixed(pair.amountAsset.precision),
+                        price: price.toFixed(pair.priceAsset.precision),
+                        total: total.toFixed(pair.priceAsset.precision)
+                    };
+                });
+            }
+
+            /**
+             * @param {Array} bids
+             * @param {Array} asks
+             * @returns {Matcher.ISpread}
+             * @private
+             */
+            static _getSpread(bids, asks) {
+                const [lastAsk] = asks;
+                const [firstBid] = bids;
+                const sell = new BigNumber(firstBid && firstBid.price);
+                const buy = new BigNumber(lastAsk && lastAsk.price);
+                const percent = (buy.gt(0)) ? buy.sub(sell).mul(100).div(buy) : new BigNumber(0);
+
+                return firstBid && lastAsk && {
+                    lastAsk,
+                    firstBid,
+                    buy,
+                    sell,
+                    percent
+                } || null;
+            }
+
+            /**
              * @return {Promise<Array<IOrder>>}
              */
             @decorators.cachable(1)
@@ -182,8 +239,12 @@
             getCreateOrderSettings(pair, matcherPublicKey) {
                 return this.getSettings()
                     .then(data => {
-                        const matcherPublicKeyBytes = libs.crypto.base58decode(matcherPublicKey);
-                        const matcherAddress = libs.crypto.buildAddress(matcherPublicKeyBytes, ds.config.get('code'));
+                        const matcherPublicKeyBytes = libs.crypto.base58Decode(matcherPublicKey);
+                        const matcherAddress = libs.crypto.address(
+                            {
+                                publicKey: matcherPublicKeyBytes
+                            },
+                            ds.config.get('code'));
 
                         if (Object.prototype.hasOwnProperty.call(data.orderFee, 'dynamic')) {
                             return Promise.all([
@@ -208,11 +269,12 @@
                                 feeMode: 'fixed'
                             });
                         } else {
-                            return this.getCreateOrderFee({
-                                amount: new Money(0, pair.amountAsset),
-                                price: new Money(0, pair.priceAsset),
-                                matcherPublicKey
-                            }).then(fee => {
+                            return this.getCreateOrderFee(
+                                {
+                                    amount: new Money(0, pair.amountAsset),
+                                    price: new Money(0, pair.priceAsset),
+                                    matcherPublicKey
+                                }).then(fee => {
                                 return ({
                                     feeMode: 'waves',
                                     fee: fee
@@ -288,69 +350,16 @@
 
                 ds.fetch(networkMatcher).then(matcherPublicKey => {
                     if (matcherPublicKey) {
-                        const matcherPublicKeyBytes = libs.crypto.base58decode(matcherPublicKey);
-                        const matcherAddress = libs.crypto.buildAddress(matcherPublicKeyBytes, ds.config.get('code'));
+                        const matcherPublicKeyBytes = libs.crypto.base58Decode(matcherPublicKey);
+                        const matcherAddress = libs.crypto.address(
+                            {
+                                publicKey: matcherPublicKeyBytes
+                            },
+                            ds.config.get('code'));
 
                         this.currentMatcherAddress = matcherAddress;
                     }
                 });
-            }
-
-            /**
-             * @param bids
-             * @param asks
-             * @param pair
-             * @returns {Promise<any[]>}
-             * @private
-             */
-            static _remapOrderBook({ bids, asks, pair }) {
-                return {
-                    pair,
-                    bids: Matcher._remapBidAsks(bids, pair),
-                    asks: Matcher._remapBidAsks(asks, pair)
-                };
-            }
-
-            /**
-             * @param list
-             * @param pair
-             * @returns {Promise<(any[])[]>}
-             * @private
-             */
-            static _remapBidAsks(list, pair) {
-                return (list || []).map((item) => {
-                    const amount = item.amount.getTokens();
-                    const price = item.price.getTokens();
-                    const total = amount.mul(price);
-
-                    return {
-                        amount: amount.toFixed(pair.amountAsset.precision),
-                        price: price.toFixed(pair.priceAsset.precision),
-                        total: total.toFixed(pair.priceAsset.precision)
-                    };
-                });
-            }
-
-            /**
-             * @param {Array} bids
-             * @param {Array} asks
-             * @returns {Matcher.ISpread}
-             * @private
-             */
-            static _getSpread(bids, asks) {
-                const [lastAsk] = asks;
-                const [firstBid] = bids;
-                const sell = new BigNumber(firstBid && firstBid.price);
-                const buy = new BigNumber(lastAsk && lastAsk.price);
-                const percent = (buy.gt(0)) ? buy.sub(sell).mul(100).div(buy) : new BigNumber(0);
-
-                return firstBid && lastAsk && {
-                    lastAsk,
-                    firstBid,
-                    buy,
-                    sell,
-                    percent
-                } || null;
             }
 
         }
