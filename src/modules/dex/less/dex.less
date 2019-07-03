@@ -231,6 +231,16 @@ body.dex-demo {
           }
         }
 
+        .tabs-myOrderHistory {
+          .smart-table {
+            &__cell {
+              .decimal-muted {
+                color: @color-basic-900;
+              }
+            }
+          }
+        }
+
         .smart-table {
           &__w-thead {
             z-index: 3;
@@ -289,12 +299,12 @@ body.dex-demo {
             .tag-3();
 
             .progress-bar {
-              width: 80px;
+              width: 100%;
               height: 2px;
               margin-top: 2px;
 
               .progress-fill {
-                max-width: 80px;
+                max-width: 100%;
                 height: 2px;
               }
             }
@@ -386,6 +396,12 @@ body.dex-demo {
                 }
               }
             }
+
+            .smart-table__cell {
+              .cancelled {
+                opacity: .5;
+              }
+            }
           }
           // end
 
@@ -412,6 +428,7 @@ body.dex-demo {
 
           &__cell {
             white-space: nowrap;
+            padding: 0 30px 0 0;
 
             .decimal-muted {
               color: @color-basic-500;
