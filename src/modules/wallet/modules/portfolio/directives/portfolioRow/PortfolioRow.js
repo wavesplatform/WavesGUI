@@ -157,8 +157,7 @@
                     axisX: 'timestamp',
                     axisY: 'rate',
                     lineColor: 'rgba(90, 129, 234)',
-                    fillColor: 'rgba(90, 129, 234, .3)',
-                    lineWidth: 1
+                    fillColor: 'rgba(90, 129, 234, .3)'
                 };
             }
 

@@ -4,9 +4,10 @@
     /**
      * @param Base
      * @param utils
-     * @return {Chart}
+     * @param user
+     * @return {ChartFactory}
      */
-    const factory = function (Base, user) {
+    const factory = function (Base, user, utils) {
 
         const { Money } = require('@waves/data-entities');
         const { splitEvery } = require('ramda');
@@ -297,17 +298,15 @@
                 };
 
                 const onResize = () => {
-                    this.$parent.off();
+                    this.$parent.off('mousemove');
                     this._setSize(this.$parent.outerWidth(), this.$parent.outerHeight());
-                    this._render();
                     this.$parent.on('mousemove', omMouseMove);
                 };
 
                 this.$parent.on('mousemove', omMouseMove);
-
                 this.$parent.on('mouseleave', onMouseLeave);
 
-                this.listenEventEmitter($(window), 'resize', onResize);
+                this.listenEventEmitter($(window), 'resize', utils.debounceRequestAnimationFrame(() => onResize()));
             }
 
             /**
@@ -377,7 +376,7 @@
                         if (axisDate.getTime() === date.getTime()) {
                             axisDatesWithCoords.push({
                                 date,
-                                x: this.chartData.coordinates[i].x
+                                coords: Math.round(this.chartData.coordinates[i].x)
                             });
                         }
                     });
@@ -392,17 +391,15 @@
              */
             _createAxisDates(axisDatesWithCoords) {
                 this.axisDatesObjects = axisDatesWithCoords.map(({ date, x }) => {
-                    const object = {
-                        $date: $(`<div class="chart-plate__axis-date">${ChartFactory._localDate(date)}</div>`),
+                    const $date = $(`<div class="chart-plate__axis-date">${ChartFactory._localDate(date)}</div>`);
+                    this.$parent.append($date);
+                    const coords = Math.round(x - $date.width() / 2);
+                    $date.css({ left: coords });
+                    return {
+                        $date,
                         dateValue: date,
-                        coords: null
+                        coords
                     };
-                    this.$parent.append(object.$date);
-                    object.coords = x - object.$date.width() / 2;
-                    object.$date.css({
-                        left: object.coords
-                    });
-                    return object;
                 });
 
                 i18next.on('languageChanged', this.changeLanguageHandler);
@@ -413,10 +410,11 @@
              */
             _updateAxisObject() {
                 const newCoords = this._getAxisDatesWithCoords();
-                this.axisDatesObjects.forEach((object, i) => {
-                    object.dateValue = newCoords[i].date;
-                    object.coords = newCoords[i].coords;
-                });
+                this.axisDatesObjects = this.axisDatesObjects.map((object, i) => ({
+                    $date: object.$date,
+                    dateValue: newCoords[i].date,
+                    coords: newCoords[i].coords
+                }));
                 this._setAxisCoords();
             }
 
@@ -435,6 +433,7 @@
 
             /**
              * @param date
+             * @param hasYear
              * @return {string}
              * @private
              */
@@ -468,7 +467,7 @@
         return ChartFactory;
     };
 
-    factory.$inject = ['Base', 'user'];
+    factory.$inject = ['Base', 'user', 'utils'];
 
     angular.module('app.ui').factory('ChartFactory', factory);
 })();
