@@ -536,72 +536,76 @@
             _onChangeStateSuccess(event, toState, some, fromState) {
                 const from = fromState.name || document.referrer;
 
-                switch (toState.name) {
-                    case 'create':
-                        analytics.send({
-                            name: 'Create New Account Show',
-                            params: { from }
-                        });
-                        break;
-                    case 'import':
-                        analytics.send({
-                            name: 'Import Accounts Show',
-                            params: { from },
-                            target: 'ui'
-                        });
-                        break;
-                    case 'restore':
-                        analytics.send({
-                            name: 'Import Backup Show',
-                            params: { from },
-                            target: 'ui'
-                        });
-                        break;
-                    case 'main.wallet.leasing':
-                        analytics.send({
-                            name: 'Leasing Show',
-                            params: { from },
-                            target: 'ui'
-                        });
-                        break;
-                    case 'main.tokens':
-                        analytics.send({
-                            name: 'Token Generation Show',
-                            target: 'ui'
-                        });
-                        break;
-                    case 'main.wallet.assets':
-                        analytics.send({
-                            name: 'Wallet Assets Show',
-                            target: 'ui'
-                        });
-                        break;
-                    case 'main.wallet.portfolio':
-                        analytics.send({
-                            name: 'Wallet Portfolio Show',
-                            target: 'ui'
-                        });
-                        break;
-                    case 'main.dex':
-                        analytics.send({
-                            name: 'DEX Show',
-                            target: 'ui'
-                        });
-                        break;
-                    default:
-                        break;
-                }
-                this.activeClasses.forEach((className) => {
-                    document.body.classList.remove(className);
-                });
-                this.activeClasses = [];
-                toState.name.split('.')
-                    .filter(Boolean)
-                    .forEach((className) => {
-                        const name = className.replace(/_/g, '-');
-                        document.body.classList.add(name);
-                        this.activeClasses.push(name);
+                if (toState.name !== fromState.name) {
+                    switch (toState.name) {
+                        case 'create':
+                            analytics.send({
+                                name: 'Create New Account Show',
+                                params: { from }
+                            });
+                            break;
+                        case 'import':
+                            analytics.send({
+                                name: 'Import Accounts Show',
+                                params: { from },
+                                target: 'ui'
+                            });
+                            break;
+                        case 'restore':
+                            analytics.send({
+                                name: 'Import Backup Show',
+                                params: { from },
+                                target: 'ui'
+                            });
+                            break;
+                        case 'main.wallet.leasing':
+                            analytics.send({
+                                name: 'Leasing Show',
+                                params: { from },
+                                target: 'ui'
+                            });
+                            break;
+                        case 'main.tokens':
+                            analytics.send({
+                                name: 'Token Generation Show',
+                                target: 'ui'
+                            });
+                            break;
+                        case 'main.wallet.assets':
+                            analytics.send({
+                                name: 'Wallet Assets Show',
+                                target: 'ui'
+                            });
+                            break;
+                        case 'main.wallet.portfolio':
+                            analytics.send({
+                                name: 'Wallet Portfolio Show',
+                                target: 'ui'
+                            });
+                            break;
+                        case 'main.dex':
+                            analytics.send({
+                                name: 'DEX Show',
+                                target: 'ui'
+                            });
+                            break;
+                        default:
+                            break;
+                    }
+
+                    this.activeClasses.forEach((className) => {
+                        document.body.classList.remove(className);
                     });
+                    this.activeClasses = [];
+                    toState.name.split('.')
+                        .filter(Boolean)
+                        .forEach((className) => {
+                            const name = className.replace(/_/g, '-');
+                            document.body.classList.add(name);
+                            this.activeClasses.push(name);
+                        });
+                }
+
                 user.applyState(toState);
                 state.signals.changeRouterStateSuccess.dispatch(toState);
             }

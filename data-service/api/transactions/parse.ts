@@ -286,8 +286,9 @@ export function parseDataTx(tx: txApi.IData, assetsHash: IHash<Asset>, isUTX: bo
 
 export function parseInvocationTx(tx: txApi.IScriptInvocation, assetsHash: IHash<Asset>, isUTX: boolean): IScriptInvocation {
     const fee = new Money(tx.fee, assetsHash[WAVES_ID]);
+    const dApp = normalizeRecipient(tx.dApp);
     const payment = tx.payment.map(payment => new Money(payment.amount, assetsHash[normalizeAssetId(payment.assetId)]));
-    return { ...tx, fee, payment, isUTX };
+    return { ...tx, fee, payment, isUTX, dApp };
 }
 
 function parseSponsorshipTx(tx: txApi.ISponsorship, assetsHash: IHash<Asset>, isUTX: boolean): ISponsorship {
