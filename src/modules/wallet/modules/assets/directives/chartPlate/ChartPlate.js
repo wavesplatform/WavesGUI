@@ -34,7 +34,7 @@
             _onMove() {
                 const data = this.data;
 
-                if (!data) {
+                if (!data || !data.yValue) {
                     this.plate.removeClass('visible');
                     this.marker.addClass('visible');
                     return null;

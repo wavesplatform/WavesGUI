@@ -199,9 +199,11 @@
             _getChartData() {
                 const height = new BigNumber(this.canvas.height);
                 const width = new BigNumber(this.canvas.width);
-                const maxChartHeight = height.times(0.8);
+                const maxChartHeight = height.times(0.7);
 
-                const marginBottom = new BigNumber(this.options.marginBottom);
+                // TODO завязать отступ снизу на коэффициент
+
+                const marginBottom = this.options.marginBottom;
                 const xValues = [];
                 const yValues = [];
                 const dates = [];
@@ -236,7 +238,7 @@
                     const yValue = yValues[i];
 
                     const x = xValue.minus(xMin).times(xFactor).toNumber();
-                    const y = height.minus(yValue.minus(yMin).times(yFactor)).toNumber() - marginBottom;
+                    const y = height.minus(yValue.minus(yMin).times(yFactor)).toNumber() - marginBottom * SCALE;
 
                     coordinates.push({ x, y });
                 }
@@ -408,7 +410,7 @@
                         if (axisDate.getTime() === date.getTime()) {
                             axisDatesWithCoords.push({
                                 date,
-                                coords: Math.round(this.chartData.coordinates[i].x)
+                                coords: Math.round(this.chartData.coordinates[i].x / SCALE)
                             });
                         }
                     });
@@ -423,7 +425,7 @@
              */
             _createAxisDates(axisDatesWithCoords) {
                 this.axisDatesObjects = axisDatesWithCoords.map(({ date, x }) => {
-                    const $date = $(`<div class="chart-plate__axis-date">${ChartFactory._localDate(date)}</div>`);
+                    const $date = $(`<div class="chart-legend">${ChartFactory._localDate(date)}</div>`);
                     this.$parent.append($date);
                     const coords = Math.round(x - $date.width() / 2);
                     $date.css({ left: coords });
