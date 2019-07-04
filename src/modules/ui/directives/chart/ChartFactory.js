@@ -49,7 +49,7 @@
                 /**
                  * @type {HTMLCanvasElement}
                  */
-                this.canvas = this._initializeCanvasElement($element);
+                this.canvas = ChartFactory._initializeCanvasElement($element);
                 /**
                  * @type {CanvasRenderingContext2D}
                  */
@@ -57,9 +57,25 @@
 
                 this._render();
 
-                if (this.options.hasMouseEvents) {
-                    this._createPlateAndMarker();
+                // if (this.options.hasMouseEvents) {
+                //     this._createPlateAndMarker();
+                // }
+
+                this.mouseSignal = new tsUtils.Signal();
+
+                const checkInterval = this.options.checkWidth;
+
+                if (checkInterval) {
+                    setInterval(() => {
+                        if (this.canvas.width !== this.$parent.outerWidth()) {
+                            this._setSize(this.$parent.outerWidth(), this.$parent.outerHeight());
+                        }
+                    }, typeof checkInterval === 'number' ? checkInterval : 1000);
                 }
+            }
+
+            get mouse() {
+                return this.mouseSignal;
             }
 
             setOptions(options) {
@@ -79,7 +95,7 @@
              * @return {HTMLCanvasElement}
              * @private
              */
-            _initializeCanvasElement($element) {
+            static _initializeCanvasElement($element) {
                 const canvas = document.createElement('canvas');
                 const width = Math.round($element.width());
                 const height = Math.round($element.height());
@@ -100,12 +116,13 @@
             }
 
             _setSize(width, height) {
-                this.canvas.width = width;
-                this.canvas.height = height;
+                this.canvas.width = width * SCALE;
+                this.canvas.height = height * SCALE;
                 this.canvas.style.width = `${width}px`;
                 this.canvas.style.height = `${height}px`;
                 this._render();
             }
+
 
             _clear() {
                 this._clearCanvas();
@@ -254,7 +271,8 @@
                 lineWidth: 2,
                 marginBottom: 0,
                 hasMouseEvents: false,
-                hasDates: false
+                hasDates: false,
+                checkWidth: false
             };
 
             /**
@@ -281,32 +299,44 @@
              * @private
              */
             _initActions() {
-                const omMouseMove = event => {
+                this.$parent.off();
+                const onMouseMove = event => {
                     const coords = this.chartData.coordinates;
                     const diff = coords[1].x - coords[0].x;
                     coords.forEach(({ x, y }, i) => {
-                        if (Math.abs(event.offsetX - x) <= (diff / 2)) {
-                            this._fillPlate(i);
-                            this._setMarkerAndPlatePosition(event, x, y);
+                        if (Math.abs(event.offsetX - (x / SCALE)) <= (diff / 2)) {
+                            // this._fillPlate(i);
+                            // this._setMarkerAndPlatePosition(event, x, y);
+                            this.mouseSignal.dispatch(this.getMouseEvent(event, i, x, y));
                         }
                     });
                 };
 
-                const onMouseLeave = () => {
-                    this.plate.removeClass('visible');
-                    this.marker.removeClass('visible');
+                const onMouseLeave = event => {
+                    this.mouseSignal.dispatch(this.getMouseEvent(event));
                 };
 
                 const onResize = () => {
-                    this.$parent.off('mousemove');
+                    this.$parent.off();
                     this._setSize(this.$parent.outerWidth(), this.$parent.outerHeight());
-                    this.$parent.on('mousemove', omMouseMove);
+                    this.$parent.on('mousemove', onMouseMove);
+                    this.$parent.on('mouseleave', onMouseLeave);
                 };
 
-                this.$parent.on('mousemove', omMouseMove);
+                this.$parent.on('mousemove', onMouseMove);
                 this.$parent.on('mouseleave', onMouseLeave);
 
                 this.listenEventEmitter($(window), 'resize', utils.debounceRequestAnimationFrame(() => onResize()));
+            }
+
+            getMouseEvent(event, i, x, y) {
+                return {
+                    yValue: this.chartData.yValues[i],
+                    xValue: this.chartData.dates[i],
+                    event,
+                    x: x / SCALE,
+                    y: y / SCALE
+                };
             }
 
             /**
@@ -326,19 +356,21 @@
              * @param y
              * @private
              */
-            _setMarkerAndPlatePosition(event, x, y) {
+            _setMarkerAndPlatePosition({ offsetX }, x, y) {
                 const PLATE_ARROW_WIDTH = 5;
-                const markerX = x - (this.marker.outerWidth() / 2);
-                const markerY = y - (this.marker.outerHeight() / 2);
+                const scaledX = x / SCALE;
+                const scaledY = y / SCALE;
+                const markerX = scaledX - (this.marker.outerWidth() / 2);
+                const markerY = scaledY - (this.marker.outerHeight() / 2);
                 let plateX;
-                if (event.offsetX < (window.innerWidth / 2)) {
-                    plateX = x + (this.marker.outerWidth() / 2) + PLATE_ARROW_WIDTH;
+                if (offsetX < (window.innerWidth / 2)) {
+                    plateX = scaledX + (this.marker.outerWidth() / 2) + PLATE_ARROW_WIDTH;
                     this.plate.addClass('to-right');
                 } else {
                     plateX = markerX - this.plate.outerWidth() - PLATE_ARROW_WIDTH;
                     this.plate.removeClass('to-right');
                 }
-                const plateY = y - (this.plate.outerHeight() / 2);
+                const plateY = scaledY - (this.plate.outerHeight() / 2);
                 this.plate.css('transform', `translate(${plateX}px,${plateY}px)`);
                 this.marker.css('transform', `translate(${markerX}px,${markerY}px)`);
                 this.plate.addClass('visible');
@@ -356,7 +388,7 @@
                     '</div>' +
                     '</div>');
 
-                this.marker = $('<div class="chart-plate__marker"</div>');
+                this.marker = $('<div class="chart-plate__marker"></div>');
 
                 this.$parent.append([this.plate, this.marker]);
             }

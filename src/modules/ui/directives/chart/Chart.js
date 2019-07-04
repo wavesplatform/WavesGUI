@@ -15,6 +15,8 @@
                 this.chart = new ChartFactory($element, this.options, this.data);
                 this.observe('data', this._updateData);
                 this.observe('options', this._updateOptions);
+
+                this.receive(this.chart.mouse, this._onMove, this);
             }
 
             _updateData() {
@@ -23,6 +25,15 @@
 
             _updateOptions() {
                 this.chart.setOptions(this.options);
+            }
+
+            _onMove(chartData) {
+                this.mouseEvent({ chartData });
+            }
+
+            $onDestroy() {
+                super.$onDestroy();
+                $element.off();
             }
 
         }
@@ -35,9 +46,11 @@
     angular.module('app.ui').component('wChart', {
         bindings: {
             options: '<',
-            data: '<'
+            data: '<',
+            mouseEvent: '&'
         },
-        scope: false,
+        transclude: true,
+        template: '<div ng-transclude></div>',
         controller
     });
 })();

@@ -131,10 +131,11 @@
                         lineColor: '#1f5af6',
                         fillColor: '#FFF',
                         gradientColor: ['#EAF0FE', '#FFF'],
-                        lineWidth: 4,
+                        lineWidth: 2,
                         marginBottom: 46,
                         hasMouseEvents: true,
-                        hasDates: true
+                        hasDates: true,
+                        checkWidth: 2000
                     };
             }
 
@@ -227,6 +228,10 @@
              */
             showSepa(asset) {
                 return modalManager.showSepaAsset(user, asset);
+            }
+
+            onMouse(chartData) {
+                this.chartEvent = chartData;
             }
 
             /**

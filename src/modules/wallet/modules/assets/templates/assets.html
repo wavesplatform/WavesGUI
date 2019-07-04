@@ -83,7 +83,10 @@
         </div>
 
         <div class="chart-wrapper">
-            <w-chart data="$ctrl.data" options="$ctrl.chartOptions"></w-chart>
+            <w-chart data="$ctrl.data" options="$ctrl.chartOptions" mouse-event="$ctrl.onMouse(chartData)">
+                <w-chart-plate data="$ctrl.chartEvent"></w-chart-plate>
+            </w-chart>
+
         </div>
     </div>
 

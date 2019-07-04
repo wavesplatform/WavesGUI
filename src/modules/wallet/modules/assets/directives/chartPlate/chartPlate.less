@@ -1,0 +1,79 @@
+@import (reference) url('config');
+
+.chart-plate {
+  position: absolute;
+  z-index: 2;
+  box-shadow: 0 2px 4px 0 rgba(78, 92, 110, 0.2);
+  background-color: rgba(78, 92, 110, 0.9);
+  border-radius: @border-radius;
+  color: @color-white;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  padding: 12px 16px;
+  &__price {
+    text-align: right;
+    font-size: @font-size-control-big;
+    line-height: 20px;
+    margin-bottom: 2px;
+  }
+  &__timestamp {
+    font-size: @font-size-control-micro;
+    font-weight: 500;
+    line-height: 13px;
+  }
+  &__date {
+    margin-right: 4px;
+  }
+  &__marker {
+    z-index: 2;
+    visibility: hidden;
+    opacity: 0;
+    width: 14px;
+    height: 14px;
+    border: 2px @color-submit-400 solid;
+    background: @color-white;
+    border-radius: 50%;
+    position: absolute;
+    transition: opacity, visibility 0.3s;
+    pointer-events: none;
+    &.visible {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+  &::before {
+    content: '';
+    position: absolute;
+    //z-index: -1;
+    opacity: .8;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-left-color: @color-basic-700;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%) scale(1.04);
+  }
+  &.visible {
+    visibility: visible;
+    opacity: 1;
+  }
+  &.to-right {
+    &::before {
+      border-left-color: transparent;
+      border-right-color: @color-basic-700;
+      left: auto;
+      right: 100%;
+    }
+  }
+  &__axis-date {
+    position: absolute;
+    bottom: 20px;
+    color: @color-basic-500;
+    font-size: @font-size-control-small;
+    user-select: none;
+    pointer-events: none;
+  }
+}
