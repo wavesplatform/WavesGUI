@@ -39,7 +39,7 @@
             userList = [];
 
             constructor() {
-                super($scope);
+                super();
                 this.hovered = false;
                 this.address = user.address || '3PHBX4uXhCyaANUxccLHNXw3sqyksV7YnDz';
                 this.isLogined = !!user.address;
