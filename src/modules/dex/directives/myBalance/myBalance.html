@@ -1,8 +1,11 @@
 <w-loader ng-if="$ctrl.pending"></w-loader>
 
-<w-smart-table ng-if="!$ctrl.pending" class="smart-table"
-               data="$ctrl.balanceList"
-               header-info="$ctrl.headers">
+<w-smart-table
+    ng-if="!$ctrl.pending"
+    class="smart-table"
+    name="balanceList"
+    data="$ctrl.balanceList"
+    header-info="$ctrl.headers">
 
     <div class="sign-in-message" ng-if="$ctrl.isDemo">
         <a ng-if="$ctrl.userList.length > 0" ui-sref="signIn" class="link" w-i18n="directives.demo.signIn"></a>

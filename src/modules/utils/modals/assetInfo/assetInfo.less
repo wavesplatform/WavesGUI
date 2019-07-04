@@ -1,7 +1,81 @@
 @import (reference) 'config';
 @import (reference) '../../../app/less/typography';
 
-.m-dialog-asset-info {
+// do not forget add all the same changes to 'sponsored.less'
+
+.asset-modal {
+  height: 100%;
+
+  &__head {
+    padding-top: @padding-main-layout * 4;
+    height: 170px;
+    position: relative;
+  }
+
+  &__head-content {
+    display: flex;
+  }
+
+  &__logo {
+    position: relative;
+    margin: 0 20px 0 0;
+    left: 0;
+    z-index: 1;
+  }
+
+  &__name {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    font-weight: normal;
+  }
+
+  &__data {
+    display: flex;
+    flex-direction: column;
+    min-height: 65px;
+    justify-content: center;
+  }
+
+  .chart-wrapper {
+    position: absolute;
+    opacity: 0.2;
+    height: 76px;
+    width: calc(100% ~'+ 80px');
+    left: -40px;
+    bottom: 0;
+    border-bottom: 1px solid @color-submit-300;
+
+    .interactive-stop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    .chart-tooltip,
+    .chart-legend { // Lib ng3-charts
+      display: none !important;
+    }
+  }
+
+  .rating-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 7px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .rating-number {
+    margin-left: 10px;
+  }
+}
+
+html body md-dialog.asset-info-modal {
+
   md-dialog-content {
     overflow-y: hidden;
 
