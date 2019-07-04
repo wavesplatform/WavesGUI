@@ -225,11 +225,10 @@
         cursor: default;
 
         .account-name-wrapper {
-          position: relative;
-          height: 30px;
-          margin: 0 auto 5px;
-          max-width: calc(100% ~' - 60px');
+          margin: 0 0 5px;
           z-index: 1;
+          display: flex;
+          width: 100%;
         }
 
         .account-address-wrapper {
@@ -240,45 +239,35 @@
           width: 100%;
         }
 
-        w-avatar .avatar-wrap {
+        .avatar-wrap {
           cursor: default;
-        }
-
-        w-input-container {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
         }
 
         w-input-container {
           display: flex;
           width: auto;
+        }
 
-          w-input .w-input-wrap input[type="text"] {
-            text-align: center;
-            width: auto;
-            min-width: 116px;
-            .body-2;
+        .w-input-wrap input[type="text"] {
+          width: 100%;
+          .headline-3;
+          border-radius: @border-radius;
+          cursor: pointer;
 
-            border-radius: @border-radius;
-            cursor: pointer;
-
-            &:hover.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
-              background: @color-basic-50;
-              border: 1px solid transparent;
-            }
-
-            &.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
-              border: 1px solid transparent;
-            }
+          &:hover.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
+            background: @color-basic-50;
+            border: 1px solid transparent;
           }
 
-          input[type="text"]::-webkit-input-placeholder {font-size: 15px; color: @color-white;}
-          input[type="text"]::-moz-placeholder          {font-size: 15px; color: @color-white;}
-          input[type="text"]:-moz-placeholder           {font-size: 15px; color: @color-white;}
-          input[type="text"]:-ms-input-placeholder      {font-size: 15px; color: @color-white;}
+          &.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
+            border: 1px solid transparent;
+          }
         }
+
+        input[type="text"]::-webkit-input-placeholder {font-size: 15px; color: @color-white;}
+        input[type="text"]::-moz-placeholder          {font-size: 15px; color: @color-white;}
+        input[type="text"]:-moz-placeholder           {font-size: 15px; color: @color-white;}
+        input[type="text"]:-ms-input-placeholder      {font-size: 15px; color: @color-white;}
 
         w-input-container:hover + w-info-tooltip,
         .account-address-wrapper:hover w-info-tooltip {
@@ -298,7 +287,6 @@
           height: 0;
 
           .tooltip {
-            transform: translate(-50%, 100%);
             bottom: -30px;
             min-height: 25px;
 

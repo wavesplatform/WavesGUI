@@ -149,52 +149,32 @@
         <div class="main-header__dropdown dropdown">
 
             <div class="avatar-container text-center has-helper margin-top-2">
-                <w-analytics event="'Account Picture Click'" event-target="'ui'">
-                    <w-avatar type="{{$ctrl.userType}}"
-                              size="40"
-                              address="$ctrl.address"></w-avatar>
-                </w-analytics>
-
-                <w-help-icon class="avatar-options-list" ng-if="($ctrl.hasTypeHelp)">
-                    <div class="help-icon__row row-keeper" ng-if="$ctrl.isKeeper">
-                        <span class="acount-option-icon"></span>
-                        <span w-i18n="welcome.keeperAccount"></span>
-                    </div>
-                    <div class="help-icon__row row-ledger" ng-if="$ctrl.isLedger">
-                        <span class="acount-option-icon"></span>
-                        <span w-i18n="welcome.ledgerAccount"></span>
-                    </div>
-                    <div class="help-icon__row row-script" ng-if="$ctrl.isScript">
-                        <span class="acount-option-icon"></span>
-                        <span w-i18n="welcome.scriptAccount"></span>
-                    </div>
-                </w-help-icon>
 
                 <div class="text-center margin-top-1 margin-1">
                     <div class="account-name-wrapper">
-                        <form name="setUserName">
-                            <w-input-container>
-                                <w-input type="text"
-                                         class="tiny long"
-                                         ng-focus="$ctrl.onFocus()"
-                                         ng-blur="$ctrl.onBlur()"
-                                         ng-model="$ctrl.userName"
-                                         maxlength="{{::MAX_USER_NAME_LENGTH}}"
-                                         name="userName"
-                                         w-validate
-                                         w-validator-custom="{{$ctrl.isUniqueUserName}}"
-                                         required></w-input>
+                         <form name="setUserName">
+                                <w-input-container>
+                                    <w-input type="text"
+                                             class="tiny long"
+                                             ng-focus="$ctrl.onFocus()"
+                                             ng-blur="$ctrl.onBlur()"
+                                             ng-model="$ctrl.userName"
+                                             maxlength="{{::MAX_USER_NAME_LENGTH}}"
+                                             name="userName"
+                                             w-validate
+                                             w-validator-custom="{{$ctrl.isUniqueUserName}}"
+                                             required></w-input>
 
-                                <w-input-error class="tiny" message="custom" hide-within="ERROR_DISPLAY_INTERVAL">
-                                    <span w-i18n="welcome.inputErrorNameExists"></span>
-                                </w-input-error>
-                            </w-input-container>
+                                    <w-input-error class="tiny" message="custom" hide-within="ERROR_DISPLAY_INTERVAL">
+                                        <span w-i18n="welcome.inputErrorNameExists"></span>
+                                    </w-input-error>
+                                </w-input-container>
 
-                            <w-info-tooltip no-icon="true">
+                                <w-info-tooltip no-icon="true">
                                 <span class="tooltip__content"
                                       w-i18n="welcome.renameAccount"></span>
-                            </w-info-tooltip>
-                        </form>
+                                </w-info-tooltip>
+                            </form>
                     </div>
 
                     <div class="account-address-wrapper">
