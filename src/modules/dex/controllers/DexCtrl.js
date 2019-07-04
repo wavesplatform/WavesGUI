@@ -141,15 +141,22 @@
                     const amountAssetName = amountAsset.ticker || amountAsset.displayName;
                     const priceAssetName = priceAsset.ticker || priceAsset.displayName;
 
+                    const findUnlocked = assetId => assetId !== 'WAVES' && !utils.isLockedInDex(assetId);
+
+                    const unLockedAsset = utils.isLockedInDex(WavesApp.defaultAssets.BTC) ?
+                        Object.values(WavesApp.defaultAssets).find(findUnlocked) :
+                        WavesApp.defaultAssets.BTC;
+
+
                     user.setSetting('dex.assetIdPair', {
                         amount: WavesApp.defaultAssets.WAVES,
-                        price: WavesApp.defaultAssets.BTC
+                        price: unLockedAsset
                     });
 
                     return modalManager.showLockPairWarning(amountAssetName, priceAssetName)
                         .then(() => {
                             $location.search('assetId2', WavesApp.defaultAssets.WAVES);
-                            $location.search('assetId1', WavesApp.defaultAssets.BTC);
+                            $location.search('assetId1', unLockedAsset);
                             this._initializePair();
                         });
                 });
