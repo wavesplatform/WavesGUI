@@ -6,6 +6,12 @@
     const USERS_COUNT = 5;
     const PRELOAD_USERS_COUNT = 5;
 
+    const priorityMap = {
+        seed: 0,
+        wavesKeeper: 1,
+        ledger: 2
+    };
+
     /**
      * @param Base
      * @param $scope
@@ -89,11 +95,20 @@
                 /**
                  * @type {boolean}
                  */
-                this.isAddressInStorage = false;
+                this.isPriorityUserTypeExists = false;
                 /**
                  * @type {boolean}
                  */
                 this.isNameExists = false;
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._type = 'ledger';
+                /**
+                 * @type {object | null}
+                 */
+                this.userExisted = Object.create(null);
 
                 user.getFilteredUserList().then(users => {
                     this._usersInStorage = users;
@@ -274,9 +289,12 @@
              * @private
              */
             _onSelectUser() {
-                this.isAddressInStorage = this._usersInStorage.some(user => {
-                    return user.address === this.selectedUser.address;
-                });
+                this.userExisted =
+                    this._usersInStorage.find(user => user.address === this.selectedUser.address) ||
+                    null;
+                this.isPriorityUserTypeExists =
+                    !!this.userExisted &&
+                    priorityMap[this._type] <= priorityMap[this.userExisted.userType];
             }
 
             /**
@@ -284,7 +302,7 @@
              */
             _onChangeName() {
                 this.isNameExists = this._usersInStorage.some(user => {
-                    return user.name === this.name;
+                    return user.name === this.name && user.address !== this.selectedUser.address;
                 });
             }
 

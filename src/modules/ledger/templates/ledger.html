@@ -88,11 +88,11 @@
                     </label>
                 </div>
 
-                <div ng-if="$ctrl.isAddressInStorage" w-i18n="ledgerForm.addressSaved"></div>
+                <div ng-if="$ctrl.isPriorityUserTypeExists" w-i18n="ledgerForm.addressSaved"></div>
 
                 <div ng-if="$ctrl.isNameExists" w-i18n="ledgerForm.nameExists"></div>
 
-                <w-button disabled="$ctrl.disabledLogin || $ctrl.isAddressInStorage || $ctrl.isNameExists"
+                <w-button disabled="$ctrl.disabledLogin || $ctrl.isPriorityUserTypeExists || $ctrl.isNameExists"
                           class="submit big long" on-click="$ctrl.login()">
                     <span w-i18n="ledgerForm.login"></span>
                 </w-button>

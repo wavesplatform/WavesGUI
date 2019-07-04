@@ -2,6 +2,11 @@
     'use strict';
 
     const analytics = require('@waves/event-sender');
+    const priorityMap = {
+        seed: 0,
+        wavesKeeper: 1,
+        ledger: 2
+    };
 
     /**
      * @param Base
@@ -54,7 +59,11 @@
                 /**
                  * @type {boolean}
                  */
-                this.isAddressInStorage = false;
+                this.isPriorityUserTypeExists = false;
+                /**
+                 * @type {object | null}
+                 */
+                this.userExisted = Object.create(null);
                 /**
                  * @type {boolean}
                  */
@@ -64,6 +73,11 @@
                  * @private
                  */
                 this._usersInStorage = [];
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._type = 'seed';
 
                 user.getFilteredUserList().then(users => {
                     this._usersInStorage = users;
@@ -154,14 +168,15 @@
              * @private
              */
             _onChangeAddress() {
-                this.isAddressInStorage = this._usersInStorage.some(user => {
-                    return user.address === this.address;
-                });
+                this.userExisted = this._usersInStorage.find(user => user.address === this.address) || null;
+                this.isPriorityUserTypeExists =
+                    !!this.userExisted &&
+                    priorityMap[this._type] <= priorityMap[this.userExisted.userType];
             }
 
             _onChangeName() {
                 this.isNameExists = this._usersInStorage.some(user => {
-                    return user.name === this.name;
+                    return user.name === this.name && user.address !== this.address;
                 });
             }
 

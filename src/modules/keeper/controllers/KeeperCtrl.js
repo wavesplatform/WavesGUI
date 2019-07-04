@@ -1,6 +1,11 @@
 (function () {
     'use strict';
 
+    const priorityMap = {
+        seed: 0,
+        wavesKeeper: 1,
+        ledger: 2
+    };
 
     /**
      * @param Base
@@ -66,7 +71,11 @@
             /**
              * @type {boolean}
              */
-            isAddressInStorage = false;
+            isPriorityUserTypeExists = false;
+            /**
+             * @type {object | null}
+             */
+            userExisted = Object.create(null);
             /**
              * @type {boolean}
              */
@@ -76,6 +85,11 @@
              * @private
              */
             _usersInStorage = [];
+            /**
+             * @type {string}
+             * @private
+             */
+            _type = 'wavesKeeper';
 
             constructor() {
                 super($scope);
@@ -195,9 +209,12 @@
              * @private
              */
             _onChangeAddress() {
-                this.isAddressInStorage = this._usersInStorage.some(user => {
-                    return user.address === this.selectedUser.address;
-                });
+                this.userExisted =
+                    this._usersInStorage.find(user => user.address === this.selectedUser.address) ||
+                    null;
+                this.isPriorityUserTypeExists =
+                    !!this.userExisted &&
+                    priorityMap[this._type] <= priorityMap[this.userExisted.userType];
             }
 
             /**
@@ -205,7 +222,7 @@
              */
             _onChangeName() {
                 this.isNameExists = this._usersInStorage.some(user => {
-                    return user.name === this.selectedUser.name;
+                    return user.name === this.selectedUser.name && user.address !== this.selectedUser.address;
                 });
             }
 
