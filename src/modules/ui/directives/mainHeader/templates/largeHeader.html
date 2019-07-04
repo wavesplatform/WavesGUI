@@ -152,7 +152,10 @@
 
                 <div class="text-center margin-top-1 margin-1">
                     <div class="account-name-wrapper">
-                         <form name="setUserName">
+
+                        <div ng-if="!$ctrl.showInput" ng-click="$ctrl.toggleNameView()">{{$ctrl.userName}}</div>
+                        <div ng-if="$ctrl.showInput">
+                            <form name="$ctrl.setUserName">
                                 <w-input-container>
                                     <w-input type="text"
                                              class="tiny long"
@@ -175,6 +178,8 @@
                                       w-i18n="welcome.renameAccount"></span>
                                 </w-info-tooltip>
                             </form>
+                        </div>
+
                     </div>
 
                     <div class="account-address-wrapper">

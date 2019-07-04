@@ -43,6 +43,10 @@
              * @type {boolean}
              */
             isUniqueUserName = true;
+            /**
+             * @type {boolean}
+             */
+            showInput = false;
 
             constructor() {
                 super($scope);
@@ -118,6 +122,7 @@
             onBlur() {
                 this.showTooltip();
                 this._saveUserName();
+                this.toggleNameView();
             }
 
             $onDestroy() {
@@ -192,6 +197,18 @@
              */
             removeBodyClass() {
                 $document.find('body').removeClass('menu-is-shown');
+            }
+
+            /**
+             *
+             */
+            toggleNameView() {
+                this.showInput = !this.showInput;
+                utils.postDigest($scope).then(() => {
+                    if (this.showInput) {
+                        this.setUserName.userName.$$element.focus();
+                    }
+                });
             }
 
             /**
