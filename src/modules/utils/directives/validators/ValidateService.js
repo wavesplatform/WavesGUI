@@ -160,7 +160,7 @@
             }
 
             getByteFromString(str) {
-                return new Blob([str], { type: 'text/html' }).size;
+                return new Blob([str], { type: 'text/plain' }).size;
             }
 
             static toBigNumber(item) {
