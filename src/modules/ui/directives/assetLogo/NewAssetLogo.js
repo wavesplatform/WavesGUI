@@ -44,7 +44,7 @@
                     throw new Error('Wrong params!');
                 }
 
-                $element.find('.asset__logo')
+                $element.find('.asset-logo__logo')
                     .css({
                         width: `${this.size}px`,
                         height: `${this.size}px`
@@ -63,11 +63,11 @@
                 const color = utils.getAssetLogoBackground(this.assetId);
                 const fontSize = Math.round((Number(this.size) || 0) * 0.43);
 
-                ['.asset__logo', '.asset__logo .marker'].forEach(selector => {
+                ['.asset-logo__logo', '.asset-logo__marker'].forEach(selector => {
                     $element.find(selector).css('background-color', color);
                 });
 
-                $element.find('.asset__logo .letter')
+                $element.find('.asset-logo__letter')
                     .text(letter)
                     .css({
                         'font-size': `${fontSize}px`
@@ -79,7 +79,7 @@
              */
             _onChangeIsSmart() {
                 const isSmart = isEmpty(this.hasScript) ? this._isSmart : this.hasScript;
-                $element.find('.marker').toggleClass('smart-asset', isSmart);
+                $element.find('.asset-logo__marker').toggleClass('asset-logo__marker_smart', isSmart);
             }
 
         }
@@ -91,7 +91,7 @@
 
     angular.module('app.ui')
         .component('wNewAssetLogo', {
-            template: '<div class="asset__logo footnote-3"><div class="letter"></div><div class="marker"></div></div>',
+            templateUrl: 'modules/ui/directives/assetLogo/asset-logo.html',
             controller: controller,
             bindings: {
                 assetId: '<',

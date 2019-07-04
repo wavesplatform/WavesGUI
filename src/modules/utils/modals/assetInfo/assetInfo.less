@@ -74,10 +74,8 @@
   }
 }
 
-md-dialog.asset-info-modal {
-
+.m-dialog_asset-info {
   md-dialog-content {
-    padding: 0 40px;
     overflow-y: hidden;
 
     &::after {
@@ -272,7 +270,7 @@ md-dialog.asset-info-modal {
 
 @media screen and (max-width: 768px) {
 
-  md-dialog.asset-info-modal {
+  .m-dialog_asset-info {
     .tab-container w-transaction-list {
       .w-visible {
         height: 91px;
@@ -297,13 +295,11 @@ md-dialog.asset-info-modal {
 }
 
 @media screen and (max-width: 540px) {
-  md-dialog.asset-info-modal {
+  .m-dialog_asset-info {
     padding-bottom: 0;
 
     md-dialog-content {
       overflow-y: auto;
-      height: auto;
-      padding: 0 20px;
     }
 
     w-tabs.inner {
@@ -352,7 +348,7 @@ md-dialog.asset-info-modal {
 }
 
 @media screen and (max-width: 420px) {
-  md-dialog.asset-info-modal {
+  .m-dialog_asset-info {
     .padding-content .tab-tem {
       .line.chart-container {
         flex-direction: column;

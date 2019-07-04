@@ -1,17 +1,17 @@
-<div class="asset-modal__head">
-    <div class="asset-modal__head-content">
+<div class="asset-info-head__head margin-top-4">
+    <div class="asset-info-head__content">
         <w-asset-logo ng-cloak
                       asset-id="{{::$ctrl.assetId}}"
                       size="65"
-                      class="asset-modal__logo big"></w-asset-logo>
+                      class="asset-logo asset-logo_modal asset-logo_big"></w-asset-logo>
 
-        <div class="asset-modal__data">
-            <h2 ng-cloak class="asset-modal__name basic-900" ng-class="{'has-label': $ctrl.hasLabel}">
-                <span class="name">{{$ctrl.assetName}}</span>
+        <div class="asset-info-head__data">
+            <div ng-cloak class="asset-info-head__name basic-900" ng-class="{'has-label': $ctrl.hasLabel}">
+                <span class="asset-info-head__title">{{$ctrl.assetName}}</span>
                 <w-asset-status asset-id="$ctrl.assetId"></w-asset-status>
-            </h2>
+            </div>
 
-            <div class="rating-wrapper" ng-if="!$ctrl.isGatewayOrWaves && !$ctrl.ratingError">
+            <div class="asset-info-head__rating rating-wrapper" ng-if="!$ctrl.isGatewayOrWaves && !$ctrl.ratingError">
                 <w-rating-stars asset-id="$ctrl.assetId" rating="$ctrl.rating" can-rate="'true'">
                 </w-rating-stars>
                 <span class="rating-number" w-nice-number="$ctrl.rating" precision="1"></span>
@@ -27,9 +27,9 @@
                     </div>
                 </w-help-icon>
             </div>
-            <div class="chart-wrapper">
-                <w-asset-rate-chart no-update="::true" asset-id="$ctrl.assetId"></w-asset-rate-chart>
-                <div class="interactive-stop"></div>
+            <div class="asset-info-head__chart">
+                <w-asset-rate-chart no-update="::true" asset-id="$ctrl.assetId" class="asset-info-chart"></w-asset-rate-chart>
+                <div class="asset-info-chart__interactive-stop"></div>
             </div>
 
         </div>

@@ -1,93 +1,70 @@
 @import (reference) 'config';
+@import (reference) 'icons';
 
-w-asset-logo {
+.asset-logo {
   position: relative;
+  display: flex;
 
-  &.marker-hide {
-    .marker {
-      opacity: 0;
-    }
-  }
-
-  &.big {
-    .marker {
-      width: 24px;
-      height: 24px;
-      background-size: 12px;
-      border: 2px solid @color-white;
-    }
-  }
-}
-
-.asset {
   &__logo {
     background-size: 100% 100%;
     text-align: center;
     border-radius: 50%;
     color: @white-only;
-    left: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    &-custom,
-    &.custom {
-      .marker {
-        background-color: @custom-asset-marker-bg;
-      }
-    }
-
-    .marker {
-      display: none;
-      width: 15px;
-      height: 15px;
-      position: absolute;
-      bottom: -2px;
-      right: -2px;
-      border: 2px solid @color-white;
-      border-radius: 50%;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-
-    &.little {
-      .marker {
-        display: none;
-      }
-    }
+    flex-shrink: 0;
+    position: relative;
+    margin-right: 10px;
   }
-}
 
-.smart-asset {
-  background-image: url(/img/icons/smart-asset-marker.svg);
-  display: block;
-}
+  &__marker {
+    display: none;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    border: 2px solid @color-white;
+    border-radius: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
 
-.sponsored-asset {
-  background-image: url(/img/icons/sponosred-asset-marker.svg);
-  display: block;
-}
-
-.asset {
-  &__logo {
-    .marker {
-      &.sponsored-asset,
-      &.smart-asset {
-        display: block;
-      }
-    }
-  }
-}
-
-.change-token {
-  .sponsored-asset,
-  .smart-asset {
-    .marker {
+    &_smart {
+      background-image: @smart-asset-marker-icon;
       display: block;
+    }
+
+    &_sponsored {
+      background-image: @sponsored-asset-marker-icon;
+      display: block;
+    }
+  }
+
+  &_marker-hide & {
+    &__marker {
+      opacity: 0;
+    }
+  }
+
+  &_big & {
+    &__marker {
       width: 24px;
       height: 24px;
       background-size: 12px;
-      border: 2px solid @color-white;
+    }
+  }
+
+  &_modal {
+    margin: 0 10px 0 0;
+    z-index: 1;
+  }
+
+  &_custom &,
+  &.custom & {
+    &__marker {
+      background-color: @custom-asset-marker-bg;
     }
   }
 }
+
