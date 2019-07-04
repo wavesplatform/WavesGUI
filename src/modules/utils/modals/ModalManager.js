@@ -175,7 +175,7 @@
                     contentUrl: 'modules/utils/modals/assetInfo/assetInfo.html',
                     locals: asset,
                     controller: 'AssetInfoCtrl',
-                    mod: 'm-dialog m-dialog-asset-info'
+                    mod: 'm-dialog m-dialog_asset-info'
                 });
             }
 
