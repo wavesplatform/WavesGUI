@@ -30,7 +30,7 @@
 
             $postLink() {
                 this.transaction = this.signable.getTxData();
-                this.json = JSON.stringify(this.transaction.data);
+                this.json = JSON.stringify(this.transaction.data, null, '\t');
                 (this.transaction.id ? Promise.resolve(this.transaction.id) : this.signable.getId())
                     .then(id => {
                         this.id = id;
