@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const config = function ($urlRouterProvider, $stateProvider, $locationProvider) {
+    const config = function ($urlRouterProvider, $stateProvider, $locationProvider, $compileProvider) {
         const TransportU2F = require('@ledgerhq/hw-transport-u2f');
         const tsUtils = require('ts-utils');
 
@@ -16,6 +16,7 @@
                 this._initLocalize();
                 this._initAdapters();
                 this._initStates();
+                this._initCompiler();
             }
 
             _initAdapters() {
@@ -188,6 +189,15 @@
                     });
             }
 
+            /**
+             * @private
+             */
+            _initCompiler() {
+                $compileProvider.commentDirectivesEnabled(false);
+                $compileProvider.cssClassDirectivesEnabled(false);
+                $compileProvider.debugInfoEnabled(!WavesApp.isProduction());
+            }
+
             static getCtrlName(name) {
                 return `${name.charAt(0)
                     .toUpperCase() + name.substr(1)}Ctrl as $ctrl`;
@@ -252,7 +262,7 @@
         return new AppConfig();
     };
 
-    config.$inject = ['$urlRouterProvider', '$stateProvider', '$locationProvider'];
+    config.$inject = ['$urlRouterProvider', '$stateProvider', '$locationProvider', '$compileProvider'];
 
     angular.module('app')
         .config(config);
