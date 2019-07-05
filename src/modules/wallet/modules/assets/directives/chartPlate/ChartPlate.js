@@ -34,7 +34,7 @@
             _onMove() {
                 const data = this.data;
 
-                if (!data || !data.yValue) {
+                if (!data || data.leave) {
                     this.plate.removeClass('visible');
                     this.marker.removeClass('visible');
                     return null;

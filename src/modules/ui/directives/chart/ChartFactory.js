@@ -27,7 +27,7 @@
              * @private
              * @type {object}
              */
-            axisDatesObjects;
+            legendItemsObjects;
 
             /**
              * @param {JQuery} $element
@@ -148,10 +148,10 @@
                 this._drawChart(this.chartData);
 
                 if (this.options.hasDates) {
-                    if (!this.axisDatesObjects) {
-                        this._createAxisDates(this._getAxisDatesWithCoords());
+                    if (!this.legendItemsObjects) {
+                        this._createBottomLegend(this._getLegendItemsWithCoords());
                     }
-                    this._updateAxisObject();
+                    this._updateLegendObject();
                 }
 
                 if (this.options.hasMouseEvents) {
@@ -313,13 +313,19 @@
                         if (Math.abs(event.offsetX - (x / SCALE)) <= (diff / 2)) {
                             // this._fillPlate(i);
                             // this._setMarkerAndPlatePosition(event, x, y);
-                            this.mouseSignal.dispatch(this.getMouseEvent(event, i, x, y));
+                            this.mouseSignal.dispatch(ChartFactory._getMouseEvent({
+                                event,
+                                x,
+                                y,
+                                xValue: this.chartData.originalX[i],
+                                yValue: this.chartData.originalY[i]
+                            }));
                         }
                     });
                 };
 
                 const onMouseLeave = event => {
-                    this.mouseSignal.dispatch(this.getMouseEvent(event));
+                    this.mouseSignal.dispatch(ChartFactory._getMouseEvent({ event }));
                 };
 
                 const onResize = () => {
@@ -335,13 +341,15 @@
                 this.listenEventEmitter($(window), 'resize', utils.debounceRequestAnimationFrame(() => onResize()));
             }
 
-            getMouseEvent(event, i, x, y) {
+            /**
+             * @param event
+             * @return {{leave: boolean}}
+             * @private
+             */
+            static _getMouseEvent(event) {
                 return {
-                    yValue: this.chartData.originalY[i],
-                    xValue: this.chartData.originalX[i],
-                    event,
-                    x: x / SCALE,
-                    y: y / SCALE
+                    ...event,
+                    leave: !event.x || !event.y
                 };
             }
 
@@ -403,39 +411,39 @@
              * @return {Array}
              * @private
              */
-            _getAxisDatesWithCoords() {
+            _getLegendItemsWithCoords() {
                 const axisDates = splitEvery(this.data.length / 4, this.data).map(splitted => {
                     return splitted[Math.floor(splitted.length / 2)].timestamp;
                 });
-                const axisDatesWithCoords = [];
+                const axisItemsWithCoords = [];
 
-                this.chartData.originalX.forEach((date, i) => {
+                this.chartData.originalX.forEach((value, i) => {
                     axisDates.forEach(axisDate => {
-                        if (axisDate.getTime() === date.getTime()) {
-                            axisDatesWithCoords.push({
-                                date,
+                        if (axisDate.getTime() === value.getTime()) {
+                            axisItemsWithCoords.push({
+                                value,
                                 coords: Math.round(this.chartData.coordinates[i].x / SCALE)
                             });
                         }
                     });
                 });
 
-                return axisDatesWithCoords;
+                return axisItemsWithCoords;
             }
 
             /**
-             * @param axisDatesWithCoords
+             * @param axisItemsWithCoords
              * @private
              */
-            _createAxisDates(axisDatesWithCoords) {
-                this.axisDatesObjects = axisDatesWithCoords.map(({ date, x }) => {
-                    const $date = $(`<div class="chart-legend">${ChartFactory._localDate(date)}</div>`);
-                    this.$parent.append($date);
-                    const coords = Math.round(x - $date.width() / 2);
-                    $date.css({ left: coords });
+            _createBottomLegend(axisItemsWithCoords) {
+                this.legendItemsObjects = axisItemsWithCoords.map(({ value, x }) => {
+                    const $legendItem = $(`<div class="chart-legend">${ChartFactory._localDate(value)}</div>`);
+                    this.$parent.append($legendItem);
+                    const coords = Math.round(x - $legendItem.width() / 2);
+                    $legendItem.css({ left: coords });
                     return {
-                        $date,
-                        dateValue: date,
+                        $legendItem,
+                        legendValue: value,
                         coords
                     };
                 });
@@ -446,11 +454,11 @@
             /**
              * @private
              */
-            _updateAxisObject() {
-                const newCoords = this._getAxisDatesWithCoords();
-                this.axisDatesObjects = this.axisDatesObjects.map((object, i) => ({
-                    $date: object.$date,
-                    dateValue: newCoords[i].date,
+            _updateLegendObject() {
+                const newCoords = this._getLegendItemsWithCoords();
+                this.legendItemsObjects = this.legendItemsObjects.map((object, i) => ({
+                    $legendItem: object.$legendItem,
+                    legendValue: newCoords[i].value,
                     coords: newCoords[i].coords
                 }));
                 this._setAxisCoords();
@@ -460,9 +468,9 @@
              * @private
              */
             _setAxisCoords() {
-                this.axisDatesObjects.forEach(object => {
-                    object.$date
-                        .html(ChartFactory._localDate(object.dateValue))
+                this.legendItemsObjects.forEach(object => {
+                    object.$legendItem
+                        .html(ChartFactory._localDate(object.legendValue))
                         .css({
                             left: object.coords
                         });

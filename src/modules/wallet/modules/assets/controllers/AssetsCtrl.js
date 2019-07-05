@@ -131,7 +131,7 @@
                         lineColor: '#1f5af6',
                         fillColor: '#FFF',
                         gradientColor: ['#EAF0FE', '#FFF'],
-                        lineWidth: 2,
+                        lineWidth: 4,
                         marginBottom: 46,
                         hasMouseEvents: true,
                         hasDates: true,
