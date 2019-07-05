@@ -16,6 +16,8 @@
                 this.observe('data', this._updateData);
                 this.observe('options', this._updateOptions);
 
+                // this.
+
                 this.receive(this.chart.mouse, this._onMove, this);
             }
 

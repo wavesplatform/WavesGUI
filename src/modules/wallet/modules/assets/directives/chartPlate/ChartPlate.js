@@ -39,9 +39,10 @@
                     this.marker.removeClass('visible');
                     return null;
                 }
+                const date = new Date(data.xValue.toNumber());
                 this.price = data.yValue.toFormat(2);
-                this.date = ChartPlate._localDate(data.xValue, true);
-                this.time = data.xValue.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                this.date = ChartPlate._localDate(date, true);
+                this.time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
                 this._setMarkerAndPlatePosition(data);
             }

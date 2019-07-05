@@ -10,14 +10,9 @@
     const factory = function (Base, user, utils) {
 
         const { Money } = require('@waves/data-entities');
-        const { splitEvery } = require('ramda');
+        const { splitEvery, equals, isEmpty } = require('ramda');
         const tsUtils = require('ts-utils');
         const SCALE = devicePixelRatio || 1;
-        const SELECTORS = {
-            platePrice: '.chart-plate__price',
-            plateDate: '.chart-plate__date',
-            plateTime: '.chart-plate__time'
-        };
 
         class ChartFactory extends Base {
 
@@ -55,11 +50,13 @@
                  */
                 this.ctx = this.canvas.getContext('2d');
 
-                this._render();
+                /**
+                 * @type {Object}
+                 * @private
+                 */
+                this._lastEvent = Object.create(null);
 
-                // if (this.options.hasMouseEvents) {
-                //     this._createPlateAndMarker();
-                // }
+                this._render();
 
                 this.mouseSignal = new tsUtils.Signal();
 
@@ -72,6 +69,7 @@
                         }
                     }, typeof checkInterval === 'number' ? checkInterval : 1000);
                 }
+
             }
 
             get mouse() {
@@ -206,14 +204,10 @@
                 const marginBottom = this.options.marginBottom;
                 const xValues = [];
                 const yValues = [];
-                const originalX = [];
-                const originalY = [];
 
                 this.data.forEach(item => {
                     const itemX = item[this.options.axisX];
                     const itemY = item[this.options.axisY];
-                    originalX.push(itemX);
-                    originalY.push(itemY);
 
                     const x = ChartFactory._getValues(itemX);
                     const y = ChartFactory._getValues(itemY);
@@ -249,8 +243,6 @@
                     height,
                     maxChartHeight,
                     width,
-                    originalX,
-                    originalY,
                     xValues,
                     yValues,
                     xMin,
@@ -266,19 +258,6 @@
                     ...this.options
                 };
             }
-
-            static defaultOptions = {
-                axisX: 'timestamp',
-                axisY: 'rate',
-                lineColor: '#ef4829',
-                fillColor: '#FFF',
-                gradientColor: false,
-                lineWidth: 2,
-                marginBottom: 0,
-                hasMouseEvents: false,
-                hasDates: false,
-                checkWidth: false
-            };
 
             /**
              * @param item
@@ -308,24 +287,12 @@
                 const onMouseMove = mouseOrTouchEvent => {
                     const event = utils.getEventInfo(mouseOrTouchEvent);
                     const coords = this.chartData.coordinates;
-                    const diff = coords[1].x - coords[0].x;
-                    coords.forEach(({ x, y }, i) => {
-                        if (Math.abs(event.offsetX - (x / SCALE)) <= (diff / 2)) {
-                            // this._fillPlate(i);
-                            // this._setMarkerAndPlatePosition(event, x, y);
-                            this.mouseSignal.dispatch(ChartFactory._getMouseEvent({
-                                event,
-                                x,
-                                y,
-                                xValue: this.chartData.originalX[i],
-                                yValue: this.chartData.originalY[i]
-                            }));
-                        }
-                    });
+                    coords.forEach(this._findIntersection(event).bind(this));
                 };
 
                 const onMouseLeave = event => {
                     this.mouseSignal.dispatch(ChartFactory._getMouseEvent({ event }));
+                    this._lastEvent = Object.create(null);
                 };
 
                 const onResize = () => {
@@ -354,57 +321,49 @@
             }
 
             /**
-             * @param i
+             * @param event
+             * @return {Function}
              * @private
              */
-            _fillPlate(i) {
-                this.plate.find(SELECTORS.platePrice).html(`$ ${this.chartData.yValues[i].toFormat(2)}`);
-                this.plate.find(SELECTORS.plateDate).html(ChartFactory._localDate(this.chartData.originalX[i], true));
-                this.plate.find(SELECTORS.plateTime)
-                    .html(this.chartData.originalX[i].toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+            _findIntersection(event) {
+                return ({ x, y }, i, coords) => {
+                    let j;
+                    if (i === 0) {
+                        return null;
+                    } else {
+                        j = i - 1;
+                    }
+
+                    const diff = (coords[i].x - coords[j].x) / SCALE;
+                    const isIntersect = Math.abs(event.offsetX - (x / SCALE)) <= (diff / 2);
+
+                    if (isIntersect) {
+                        if (!equals(this._lastEvent, { x, y })) {
+                            this._dispatchMouseMove(x, y, i, event);
+                        }
+                        if (isEmpty(this._lastEvent)) {
+                            this._lastEvent = { x, y };
+                        }
+                    }
+                };
             }
 
             /**
-             * @param event
              * @param x
              * @param y
+             * @param i
+             * @param event
              * @private
              */
-            _setMarkerAndPlatePosition({ offsetX }, x, y) {
-                const PLATE_ARROW_WIDTH = 5;
-                const scaledX = x / SCALE;
-                const scaledY = y / SCALE;
-                const markerX = scaledX - (this.marker.outerWidth() / 2);
-                const markerY = scaledY - (this.marker.outerHeight() / 2);
-                let plateX;
-                if (offsetX < (window.innerWidth / 2)) {
-                    plateX = scaledX + (this.marker.outerWidth() / 2) + PLATE_ARROW_WIDTH;
-                    this.plate.addClass('to-right');
-                } else {
-                    plateX = markerX - this.plate.outerWidth() - PLATE_ARROW_WIDTH;
-                    this.plate.removeClass('to-right');
-                }
-                const plateY = scaledY - (this.plate.outerHeight() / 2);
-                this.plate.css('transform', `translate(${plateX}px,${plateY}px)`);
-                this.marker.css('transform', `translate(${markerX}px,${markerY}px)`);
-                this.plate.addClass('visible');
-                this.marker.addClass('visible');
-            }
-
-            /**
-             * @private
-             */
-            _createPlateAndMarker() {
-                this.plate = $('<div class="chart-plate">' +
-                    '<div class="chart-plate__price"></div>' +
-                    '<div class="chart-plate__timestamp headline-4">' +
-                    '<span class="chart-plate__date"></span><span class="chart-plate__time"></span>' +
-                    '</div>' +
-                    '</div>');
-
-                this.marker = $('<div class="chart-plate__marker"></div>');
-
-                this.$parent.append([this.plate, this.marker]);
+            _dispatchMouseMove(x, y, i, event) {
+                this.mouseSignal.dispatch(ChartFactory._getMouseEvent({
+                    event,
+                    x,
+                    y,
+                    xValue: this.chartData.xValues[i],
+                    yValue: this.chartData.yValues[i]
+                }));
+                this._lastEvent = { x, y };
             }
 
             /**
@@ -417,11 +376,12 @@
                 });
                 const axisItemsWithCoords = [];
 
-                this.chartData.originalX.forEach((value, i) => {
+                this.chartData.xValues.forEach((value, i) => {
+                    const date = new Date(value.toNumber());
                     axisDates.forEach(axisDate => {
-                        if (axisDate.getTime() === value.getTime()) {
+                        if (axisDate.getTime() === date.getTime()) {
                             axisItemsWithCoords.push({
-                                value,
+                                value: date,
                                 coords: Math.round(this.chartData.coordinates[i].x / SCALE)
                             });
                         }

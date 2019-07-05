@@ -232,6 +232,7 @@
 
             onMouse(chartData) {
                 this.chartEvent = chartData;
+                $scope.$apply();
             }
 
             /**
