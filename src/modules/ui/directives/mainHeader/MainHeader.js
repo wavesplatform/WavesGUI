@@ -71,11 +71,11 @@
 
                 user.getFilteredUserList().then(list => {
                     this.userList = list;
-                    utils.postDigest($scope).then(() => {
-                        this._initFader();
-                        this._initClickHandlers();
-                        $scope.$apply();
-                    });
+                });
+
+                $scope.$on('$includeContentLoaded', () => {
+                    this._initFader();
+                    this._initClickHandlers();
                 });
 
                 this.largeTemplate = `${PATH}/largeHeader.html`;
@@ -89,10 +89,6 @@
                 this.receive(utils.observe(userNameService, 'name'), function () {
                     this.userName = userNameService.name;
                 }, this);
-            }
-
-            $postLink() {
-                this._initClickHandlers();
             }
 
             /**
