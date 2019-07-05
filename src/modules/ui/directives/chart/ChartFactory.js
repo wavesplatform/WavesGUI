@@ -206,15 +206,17 @@
                 const marginBottom = this.options.marginBottom;
                 const xValues = [];
                 const yValues = [];
-                const dates = [];
+                const originalX = [];
+                const originalY = [];
 
                 this.data.forEach(item => {
                     const itemX = item[this.options.axisX];
-                    if (itemX instanceof Date) {
-                        dates.push(itemX);
-                    }
+                    const itemY = item[this.options.axisY];
+                    originalX.push(itemX);
+                    originalY.push(itemY);
+
                     const x = ChartFactory._getValues(itemX);
-                    const y = ChartFactory._getValues(item[this.options.axisY]);
+                    const y = ChartFactory._getValues(itemY);
 
                     if (tsUtils.isNotEmpty(x) && tsUtils.isNotEmpty(y)) {
                         xValues.push(x);
@@ -247,7 +249,8 @@
                     height,
                     maxChartHeight,
                     width,
-                    dates,
+                    originalX,
+                    originalY,
                     xValues,
                     yValues,
                     xMin,
@@ -334,8 +337,8 @@
 
             getMouseEvent(event, i, x, y) {
                 return {
-                    yValue: this.chartData.yValues[i],
-                    xValue: this.chartData.dates[i],
+                    yValue: this.chartData.originalY[i],
+                    xValue: this.chartData.originalX[i],
                     event,
                     x: x / SCALE,
                     y: y / SCALE
@@ -348,9 +351,9 @@
              */
             _fillPlate(i) {
                 this.plate.find(SELECTORS.platePrice).html(`$ ${this.chartData.yValues[i].toFormat(2)}`);
-                this.plate.find(SELECTORS.plateDate).html(ChartFactory._localDate(this.chartData.dates[i], true));
+                this.plate.find(SELECTORS.plateDate).html(ChartFactory._localDate(this.chartData.originalX[i], true));
                 this.plate.find(SELECTORS.plateTime)
-                    .html(this.chartData.dates[i].toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+                    .html(this.chartData.originalX[i].toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
             }
 
             /**
@@ -406,7 +409,7 @@
                 });
                 const axisDatesWithCoords = [];
 
-                this.chartData.dates.forEach((date, i) => {
+                this.chartData.originalX.forEach((date, i) => {
                     axisDates.forEach(axisDate => {
                         if (axisDate.getTime() === date.getTime()) {
                             axisDatesWithCoords.push({
