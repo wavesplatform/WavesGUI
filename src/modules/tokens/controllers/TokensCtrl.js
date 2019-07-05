@@ -18,7 +18,6 @@
         const $ = require('jquery');
         const BASE_64_PREFIX = 'base64:';
 
-
         class TokensCtrl extends Base {
 
             /**
@@ -98,6 +97,10 @@
              * @private
              */
             _balance;
+            /**
+             * @type {boolean}
+             */
+            isNFT = false;
 
 
             constructor() {
@@ -117,13 +120,16 @@
                     'hasAssetScript'
                 ], this.createSignable);
 
-                waves.node.getFee({ type: SIGN_TYPE.ISSUE })
-                    .then(money => {
-                        this.fee = money;
+                this.observe([
+                    'count',
+                    'precision',
+                    'issue'
+                ], this._setIsNFT);
 
-                        this._onChangeBalance();
-                        $scope.$apply();
-                    });
+                this._getFee();
+                this.observe('isNFT', () => {
+                    this._getFee();
+                });
 
                 this.observeOnce('createForm', () => {
                     this.receive(utils.observe(this.createForm, '$valid'), this.createSignable, this);
@@ -252,6 +258,33 @@
                 this.createForm.$setUntouched();
 
                 $scope.$apply();
+            }
+
+            /**
+             * @private
+             */
+            _setIsNFT() {
+                const { count, precision, issue } = this;
+                const nftCount = count && count.eq(1);
+                const nftPrecision = precision === 0;
+                this.isNFT = !issue && nftCount && nftPrecision;
+            }
+
+            /**
+             * @private
+             */
+            _getFee() {
+                waves.node.getFee({
+                    type: SIGN_TYPE.ISSUE,
+                    reissue: this.issue,
+                    precision: this.precision,
+                    quantity: this.count
+                })
+                    .then(money => {
+                        this.fee = money;
+                        this._onChangeBalance();
+                        $scope.$apply();
+                    });
             }
 
         }
