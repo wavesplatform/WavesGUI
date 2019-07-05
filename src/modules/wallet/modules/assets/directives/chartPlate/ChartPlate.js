@@ -36,7 +36,7 @@
 
                 if (!data || !data.yValue) {
                     this.plate.removeClass('visible');
-                    this.marker.addClass('visible');
+                    this.marker.removeClass('visible');
                     return null;
                 }
                 this.price = data.yValue.toFormat(2);

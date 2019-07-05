@@ -302,7 +302,8 @@
              */
             _initActions() {
                 this.$parent.off();
-                const onMouseMove = event => {
+                const onMouseMove = mouseOrTouchEvent => {
+                    const event = utils.getEventInfo(mouseOrTouchEvent);
                     const coords = this.chartData.coordinates;
                     const diff = coords[1].x - coords[0].x;
                     coords.forEach(({ x, y }, i) => {
