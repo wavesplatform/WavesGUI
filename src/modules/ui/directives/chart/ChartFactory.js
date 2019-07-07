@@ -10,7 +10,7 @@
     const factory = function (Base, user, utils) {
 
         const { Money } = require('@waves/data-entities');
-        const { splitEvery, equals, isEmpty } = require('ramda');
+        const { equals, isEmpty, range, last, head } = require('ramda');
         const tsUtils = require('ts-utils');
         const SCALE = devicePixelRatio || 1;
 
@@ -371,24 +371,27 @@
              * @private
              */
             _getLegendItemsWithCoords() {
-                const axisDates = splitEvery(this.data.length / 4, this.data).map(splitted => {
-                    return splitted[Math.floor(splitted.length / 2)].timestamp;
+                const width = this.$parent.outerWidth() / 4;
+                const exactCoords = range(0, 4).map(i => {
+                    return width * i + width / 2;
                 });
-                const axisItemsWithCoords = [];
 
-                this.chartData.xValues.forEach((value, i) => {
-                    const date = new Date(value.toNumber());
-                    axisDates.forEach(axisDate => {
-                        if (axisDate.getTime() === date.getTime()) {
-                            axisItemsWithCoords.push({
-                                value: date,
-                                coords: Math.round(this.chartData.coordinates[i].x / SCALE)
-                            });
+                const xCoords = this.chartData.coordinates.map(({ x }) => x);
+                return exactCoords.map(x => {
+                    return xCoords.reduce((prevXCoord, currentXCoord) => {
+                        if (Math.abs(currentXCoord / SCALE - x) < Math.abs(prevXCoord / SCALE - x)) {
+                            return currentXCoord;
+                        } else {
+                            return prevXCoord;
                         }
                     });
+                }).map(foundX => {
+                    const dateIndex = this.chartData.coordinates.findIndex(({ x }) => foundX === x);
+                    return {
+                        coords: foundX / SCALE,
+                        value: new Date(this.chartData.xValues[dateIndex].toNumber())
+                    };
                 });
-
-                return axisItemsWithCoords;
             }
 
             /**
@@ -428,9 +431,17 @@
              * @private
              */
             _setAxisCoords() {
+                const twoDays = 24 * 60 * 60 * 1000 * 2;
+                const isTime = last(this.legendItemsObjects).legendValue - head(this.legendItemsObjects).legendValue <
+                    twoDays;
+
                 this.legendItemsObjects.forEach(object => {
+                    const legendDate = isTime ?
+                        object.legendValue.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) :
+                        ChartFactory._localDate(object.legendValue);
+
                     object.$legendItem
-                        .html(ChartFactory._localDate(object.legendValue))
+                        .html(legendDate)
                         .css({
                             left: object.coords
                         });

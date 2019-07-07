@@ -284,32 +284,6 @@
             _getGraphData() {
                 const from = this.activeChartAssetId;
                 const to = this.mirrorId;
-                // const precisionPromise = waves.node.assets.getAsset(this.mirrorId)
-                //     .then(({ precision }) => precision);
-                // const valuesPromise = waves.utils.getRateHistory(from, to, this._startDate);
-                //
-                // return Promise.all([precisionPromise, valuesPromise])
-                //     .then(([precision, values]) => {
-                //         this.chart = new ChartFactory(
-                //             $element.find('.chart-wrapper'),
-                //             this.chartOptions,
-                //             values
-                //         );
-                //
-                //
-                //         const first = values[0].rate;
-                //         const last = values[values.length - 1].rate;
-                //         this.change = (last - first).toFixed(precision);
-                //         this.changePercent = ((last - first) / first * 100).toFixed(precision);
-                //
-                //         values = values.map((item) => {
-                //             return {
-                //                 ...item,
-                //                 rate: +item.rate.toFixed(precision)
-                //             };
-                //         });
-                //         return values;
-                //     });
                 return waves.utils.getRateHistory(from, to, this._startDate);
             }
 

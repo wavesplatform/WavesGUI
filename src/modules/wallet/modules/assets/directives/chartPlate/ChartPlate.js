@@ -4,15 +4,13 @@
     /**
      * @param Base
      * @param {JQuery} $element
+     * @param {User} user
      * @return {ChartPlate}
      */
     const controller = function (Base, $element, user) {
 
         const SELECTORS = {
             plate: '.chart-plate',
-            platePrice: '.chart-plate__price',
-            plateDate: '.chart-plate__date',
-            plateTime: '.chart-plate__time',
             marker: '.chart-plate__marker'
         };
 
