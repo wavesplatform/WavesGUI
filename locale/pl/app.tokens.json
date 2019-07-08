@@ -29,6 +29,10 @@
         "titleSuccess": "{{name}} Generowanie ukończone"
     },
     "name": "Nazwa Twojego aktywa",
+    "NFT": {
+        "description": "Token niezamienny (NFT) jest unikatowym, indywidualnym tokenem istniejącym w łańcuchu bloków Waves. Obecnie wyświetlanie NFTsów w Waves Wallet i na Waves DEX nie jest obsługiwane. Możesz zobaczyć swoje NFTs w [Waves Explorer] (https://wavesexplorer.com/)",
+        "title": "Tworzysz token niezamienny."
+    },
     "notifications": {
         "isNotCreated": "Token nie został utworzony"
     },

@@ -6,7 +6,7 @@
         "back": "wróć",
         "description": "Chroń swoje konto nowym hasłeml lub",
         "importAccounts": "Importuj konta",
-        "login": "Zaloguj się",
+        "login": "Kontynuuj",
         "title": "Chroń swoje konto"
     },
     "restore": {
@@ -35,12 +35,12 @@
         "back": "Wróć",
         "continue": "Kontynuuj",
         "create": "utwórz nowe konto",
-        "description": "Zaloguj się do swojego portfela poniżej",
+        "description": "Twój SEED to 15 słów zapisanych podczas tworzenia konta",
         "or": "albo",
         "placeholder": "SEED = 15 słów wygenerowanych podczas tworzenia konta",
         "saveUserData": "Zachowaj konto na tym komputerze",
         "seedTitle": "Twój portfel SEED",
-        "title": "z powrotem",
+        "title": "Importuj z Seed",
         "tosaved": "do zapisanego konta"
     },
     "warningSeed": {

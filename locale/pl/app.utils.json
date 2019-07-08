@@ -432,7 +432,7 @@
             },
             "receive": "Depozyt",
             "serverAddressError": "Błąd adresu bramy",
-            "serverError": "Usługa Coinomat jest chwilowo niedostępna. Spróbuj ponownie później.",
+            "serverError": "Usługa Coinomat chwilowo niedostępna. Spróbuj ponownie później.",
             "shareInvoiceLink": "Udostępnij link do faktury",
             "verified": "Zweryfikowany",
             "vostok": {
@@ -887,8 +887,8 @@
                 "1_2_8": "{span.line} [1. Tokeny ze spamem i transakcje zostały ukryte w kliencie.] \n {span.line} [2. Poprawiony interfejs użytkownika i dodatkowo zostały naprawione drobne błędy.]",
                 "1_3_0": "{span.line}[1. Ulepszona nawigacja aplikacji i interfejs strony startowej.]",
                 "1_3_2": "{span.line} [1. Uruchomiono bramę (gateway) Vostok.] \n {span.line} [2. Poprawiony interfejs użytkownika i dodatkowo zostały naprawione drobne błędy.]",
-                "1_3_5": "{span.line}[1. A tab with [wsoc.io](https://wsoc.io) contest tokens has been added.]\n{span.line}[2. French language support added.]\n{span.line}[3. Additional minor bugs have been fixed.]",
-                "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Now you can rate tokens directly in the app.]\n{span.line}[2. Additional minor bugs have been fixed.]"
+                "1_3_5": "{span.line} [1. Dodano zakładkę z tokenami konkursowymi [wsoc.io] (https://wsoc.io).] \n {span.line} [2. Dodano obsługę języka francuskiego.] \n {span.line} [3. Dodatkowe drobne błędy zostały naprawione.]",
+                "1_3_7": "{span.line} [1. Integracja z [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Teraz możesz oceniać tokeny bezpośrednio w aplikacji.] \n {span.line} [2. Dodatkowe drobne błędy zostały naprawione.]"
             },
             "title": "Co nowego w aktualizacji {{version}}"
         }

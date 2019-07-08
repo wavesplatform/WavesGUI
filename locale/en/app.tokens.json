@@ -29,6 +29,10 @@
         "titleSuccess": "{{name}} Generation Complete"
     },
     "name": "Name of your asset",
+    "NFT": {
+        "description": "A non-fungible token (NFT) is a unique, individual token existing on the Waves blockchain. Currently, display of NFTs in Waves Wallet and on Waves DEX is not supported. You can see your NFTs in [Waves Explorer](https://wavesexplorer.com/)",
+        "title": "You are creating a non-fungible token."
+    },
     "notifications": {
         "isNotCreated": "Token has not been created"
     },

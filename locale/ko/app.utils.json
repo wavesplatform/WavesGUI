@@ -596,7 +596,7 @@
                 "language": "언어",
                 "minutes": "{{minutes}} 분",
                 "openLinkViaWeb": "항상 웹 어플리케이션 통해 링크에 연결합니다.",
-                "playSound": "Play user interface sound effects",
+                "playSound": "사용자 인터페이스 효과음 재생",
                 "theme": "테마",
                 "timeout": "세션 만료까지 남은 시간",
                 "title": "일반",

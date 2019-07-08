@@ -81,7 +81,7 @@
         },
         "myOrders": {
             "amount": "Кол-во",
-            "average": "Average",
+            "average": "Ср. цена",
             "back": "Нет",
             "cancel": "отменить",
             "cancelAll": "отменить все",
@@ -95,7 +95,7 @@
             "delete": "удалить",
             "detail": "детали",
             "fee": "комиссия",
-            "filled": "Filled",
+            "filled": "Исполнено",
             "filter": "Фильтр",
             "noPermissionCancelOrder": "Отмена ордеров временно недоступна",
             "notifications": {

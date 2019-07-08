@@ -143,8 +143,8 @@
             "rating": {
                 "canVoteTip": "Cliquez pour évaluer le jeton",
                 "tooltipLink": "Plus de détails",
-                "tooltipNeedWAVES": "and 0.001 WAVES",
-                "tooltipNeedWCT": "To rate a token, you must have at least 1",
+                "tooltipNeedWAVES": "et 0.001 WAVES",
+                "tooltipNeedWCT": "Pour noter un jeton, vous devez avoir au moins 1",
                 "tooltipText": "Les jetons ne sont pas transférés, seul le solde existant est requis pour le vote. Notre score sera appliqué après 24 heures. Veuillez conserver les jetons sur le compte pendant ce temps. \nFrais 0.001 WAVES.",
                 "tooltipTitle": "Pour évaluer un jeton, vous devez avoir au moins 1 WCT dans votre portefeuille."
             },
@@ -596,7 +596,7 @@
                 "language": "Language",
                 "minutes": "{{minutes}} min",
                 "openLinkViaWeb": "Je souhaite toujours ouvrir les liens via l'application Web",
-                "playSound": "Play user interface sound effects",
+                "playSound": "Lire les effets sonores de l'interface utilisateur",
                 "theme": "Thème",
                 "timeout": "Arrêt de la session dans",
                 "title": "Général",
@@ -888,7 +888,7 @@
                 "1_3_0": "{span.line}[1. Amélioration de la navigation dans l'application et de l'interface de la page de démarrage.]",
                 "1_3_2": "{span.line}[1. Le portail Vostok a été lancé.] \n{span.line}[2. Interface utilisateur améliorée et correction de bugs mineurs supplémentaires.]",
                 "1_3_5": "{span.line}[1. Un onglet avec les jetons du concours [wsoc.io] (https://wsoc.io) a été ajouté.] \n {span.line}[2. Prise en charge de la langue française ajoutée.] \n {span.line}[3. Des bugs mineurs supplémentaires ont été corrigés.]",
-                "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Now you can rate tokens directly in the app.]\n{span.line}[2. Additional minor bugs have been fixed.]"
+                "1_3_7": "{span.line}[1. Intégration avec [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Vous pouvez maintenant noter les jetons directement dans l'application.] \n {span.line}[2. Des bugs mineurs supplémentaires ont été corrigés.]"
             },
             "title": "Quoi de neuf dans cette {{version}}"
         }

@@ -29,6 +29,10 @@
         "titleSuccess": "Génération de {{name}} terminée"
     },
     "name": "Nom de votre actif",
+    "NFT": {
+        "description": "Un jeton non fongible (NFT) est un jeton individuel unique existant dans la blockchain de Waves. Actuellement, l'affichage des NFT dans Waves Wallet et sur l'échange décentralisé de Waves n'est pas pris en charge. Vous pouvez voir votre NFT sur [Waves Explorer] (https://wavesexplorer.com/)",
+        "title": "Vous créez un jeton non fongible."
+    },
     "notifications": {
         "isNotCreated": "Le token n'a pas été créé"
     },

@@ -20,8 +20,8 @@
         "placeholders": {
             "password": "Hasło"
         },
-        "title": "Zaloguj się"
+        "title": "Witaj z powrotem"
     },
-    "warn": "Since only you control your money, you’ll need to save your Seed phrase in case this app is deleted or",
-    "yourSeed": "Your Seed phrase"
+    "warn": "Tylko ty kontrolujesz swoje pieniądze, stąd musisz zapisać swoją kopię zapasową frazy Seed, na wypadek gdyby aplikacja została usunięta lub",
+    "yourSeed": "Twoja fraza Seed"
 }

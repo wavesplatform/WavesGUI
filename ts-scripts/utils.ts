@@ -490,10 +490,27 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
         if (buildType !== 'development') {
             if (isPage(req.url)) {
                 const path = join(__dirname, '..', 'dist', type, connectionType, 'index.html');
+
                 return readFile(path, 'utf8').then((file) => {
                     res.end(file);
+                }).catch(e => {
+                    if (e.code === 'ENOENT') {
+                        const cookie = serialize('session', '', {
+                            expires: new Date(),
+                            path: '/'
+                        });
+
+                        res.statusCode = 302;
+                        res.setHeader('Location', '/');
+                        res.setHeader('Set-Cookie', cookie);
+                    } else {
+                        res.statusCode = 500;
+                    }
+
+                    res.end();
                 });
             }
+
             return routeStatic(req, res, connectionType, buildType, type);
         } else {
             if (buildType === 'development' && req.url.includes('init.js')) {

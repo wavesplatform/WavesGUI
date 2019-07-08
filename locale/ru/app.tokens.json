@@ -29,6 +29,10 @@
         "titleSuccess": "Токен \"{{name}}\" выпущен"
     },
     "name": "Название вашего токена",
+    "NFT": {
+        "description": "Не взаимозаменяемый токен или NFT (от англ. non-fungible token) — особый тип токена, являющийся уникальным объектом на блокчейне Waves. В настоящее время отображение NFT-токенов в Waves Wallet и на Waves DEX не поддерживается. Вы можете увидеть свои NFT-токены в [Waves Explorer](https://wavesexplorer.com/)",
+        "title": "Вы создаете NFT-токен."
+    },
     "notifications": {
         "isNotCreated": "Токен не был выпущен"
     },

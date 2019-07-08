@@ -40,7 +40,7 @@
             "fee": "Frais {{fee}} WAVES",
             "hasScript": "Annuler [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) pour échanger",
             "last": "Dernier",
-            "matcherFee": "Fee",
+            "matcherFee": "Frais",
             "notifications": {
                 "error": {
                     "30702": "Le script du compte {{address}} a rejeté l'ordre",
