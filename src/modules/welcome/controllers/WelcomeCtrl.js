@@ -133,30 +133,13 @@
                 this._initPairs();
                 this._initDeviceTypes();
 
-                const sectionContestUpper = $element.find('#section-contest-upper');
-                const sectionContestDown = $element.find('#section-contest-down');
-
-                let timer;
-                $element.find('.contest-link-close').on('click', function () {
-                    $(this).off();
-                    const closestSectionContest = $(this).closest('.section-contest');
-
-                    if (closestSectionContest[0] === sectionContestUpper[0]) {
-                        sectionContestUpper.addClass('collapsed');
-                        sectionContestDown.remove();
-
-                        if (timer) {
-                            clearTimeout(timer);
-                        } else {
-                            timer = setTimeout(() => {
-                                sectionContestUpper.remove();
-                            }, 500);
+                if (this.isDesktop) {
+                    this.observeOnce('userList', () => {
+                        if (this.userList.length) {
+                            $state.go('signIn');
                         }
-                    } else {
-                        [sectionContestDown, sectionContestUpper].forEach(section => section.remove());
-                    }
-
-                });
+                    });
+                }
             }
 
             /**
@@ -274,15 +257,12 @@
              */
             _loadUserListFromOldOrigin() {
                 const OLD_ORIGIN = 'https://client.wavesplatform.com';
-
                 this.pendingRestore = true;
-
                 utils.importAccountByIframe(OLD_ORIGIN, 5000)
                     .then((userList) => {
-                        this.pendingRestore = false;
                         this.userList = userList || [];
 
-                        storage.save('accountImportComplete', true);
+                        storage.save('accountImportComplete', this.userList.length > 0);
                         storage.save('userList', userList);
 
                         $scope.$apply();

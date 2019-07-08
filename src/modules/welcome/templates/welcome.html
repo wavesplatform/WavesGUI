@@ -8,11 +8,12 @@
                 <div class="basic-500 body-1 margin-5" w-i18n="welcome.tradeOnWavesDescription"></div>
                 <div class="buttons-wrapper buttons-wrapper-nowidth">
                     <a class="fake-button get-started-btn" ui-sref="create">
-                        <span class="fake-button-content big submit" w-i18n="welcome.getStarted"></span>
-                        <i class="promo-icon-min icon-arrow-right"></i>
+                        <span class="fake-button-content big submit" w-i18n="welcome.getStarted">
+                            <i class="promo-icon-min promo-icon-arrow-right"></i>
+                        </span>
                     </a>
                     <a ng-if="$ctrl.userList.length" ui-sref="signIn" class="fake-button"
-                        w-analytics event="'Sign In Click'" event-target="ui">
+                       w-analytics event="'Sign In Click'" event-target="ui">
                         <span class="fake-button-content big submit-light" w-i18n="welcome.signIn"></span>
                     </a>
                 </div>
@@ -92,35 +93,35 @@
                             <div class="cell graph" w-i18n="welcome.chart"></div>
                         </div>
 
-                        <div ng-repeat="pair in $ctrl.pairsInfoList track by $index"
-                           w-analytics event="'Menu Exchange Click'"
-                           event-target="'ui'"
-                           ng-class="pair.change24.gt(0) ? 'blue' : 'red'"
-                           ng-click="$ctrl.goToDexDemo({ assetId1: pair.amountAsset.id, assetId2: pair.priceAsset.id })"
-                           class="row row-content">
-                            <div class="cell pair">
-                                {{pair.amountAsset.ticker || pair.amountAsset.displayName }} / {{pair.priceAsset.ticker || pair.priceAsset.displayName}}
-                            </div>
-                            <div class="cell last-price">
-                                <w-balance money="pair.lastPrice"></w-balance>
-                                <span class="basic-500">&nbsp;/&nbsp;
-                                    <w-exchange balance="pair.lastPrice"
-                                                target-asset-id="{{WavesApp.defaultAssets.USD}}"></w-exchange>
-                                    &nbsp;$
-                                </span>
-                            </div>
-                            <div class="cell change">{{pair.change24}}%</div>
-                            <div class="cell height24">
-                                <w-balance money="pair.high"></w-balance>
-                            </div>
-                            <div class="cell low24">
-                                <w-balance money="pair.low"></w-balance>
-                            </div>
-                            <div class="cell volume">
-                                <span w-nice-number="pair.volumeBigNum" precision="3"></span>
-                            </div>
-                            <div class="cell graph"></div>
+                    <div ng-repeat="pair in $ctrl.pairsInfoList track by $index"
+                         w-analytics event="'Menu Exchange Click'"
+                         event-target="'ui'"
+                         ng-class="pair.change24.gt(0) ? 'blue' : 'red'"
+                         ng-click="$ctrl.goToDexDemo({ assetId1: pair.amountAsset.id, assetId2: pair.priceAsset.id })"
+                         class="row row-content">
+                        <div class="cell pair">
+                            {{pair.amountAsset.ticker || pair.amountAsset.displayName }} / {{pair.priceAsset.ticker || pair.priceAsset.displayName}}
                         </div>
+                        <div class="cell last-price">
+                            <w-balance money="pair.lastPrice"></w-balance>
+                            <span class="basic-500">&nbsp;/&nbsp;
+                                <w-exchange balance="pair.lastPrice"
+                                            target-asset-id="{{WavesApp.defaultAssets.USD}}"></w-exchange>
+                                &nbsp;$
+                            </span>
+                        </div>
+                        <div class="cell change">{{pair.change24}}%</div>
+                        <div class="cell height24">
+                            <w-balance money="pair.high"></w-balance>
+                        </div>
+                        <div class="cell low24">
+                            <w-balance money="pair.low"></w-balance>
+                        </div>
+                        <div class="cell volume">
+                            <span w-nice-number="pair.volumeBigNum" precision="3"></span>
+                        </div>
+                        <div class="cell graph"></div>
+                    </div>
 
                     </div>
 
@@ -131,13 +132,14 @@
             </section>
 
         <div class="section-roadmap">
-                <h2 class="margin-1 text-center" w-i18n="welcome.roadmap"></h2>
-                <div class="basic-500 margin-05 body-2 text-center" w-i18n="welcome.roadmapOpportunitiesAhead"></div>
-                <w-road-map></w-road-map>
+            <h2 class="margin-1 text-center" w-i18n="welcome.roadmap"></h2>
+            <div class="basic-500 margin-05 body-2 text-center" w-i18n="welcome.roadmapOpportunitiesAhead"></div>
+            <w-road-map></w-road-map>
         </div>
     </w-web-only>
 
     <w-footer></w-footer>
+
 </div>
 
 <w-loader ng-if="$ctrl.pendingRestore"></w-loader>
