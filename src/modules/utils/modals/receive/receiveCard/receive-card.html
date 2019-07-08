@@ -1,0 +1,126 @@
+<div class="receive-card">
+    <w-step-by-step active-step="$ctrl.step">
+        <w-step>
+            <form name="card" novalidate>
+                <div class="row margin-2">
+                    <div class="body-2 basic-900 margin-05" w-i18n="modal.receive.asset"></div>
+
+                    <div ng-if="::$ctrl.isSingleAsset" class="input-like big flex-row split-half">
+                        <div class="flex-row">
+                            <w-asset-logo class="marker-hide" size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
+                            <div class="asset__name">{{::$ctrl.asset.name}}</div>
+                        </div>
+                    </div>
+
+                    <w-select
+                        class="big has-fliter"
+                        ng-if="::!$ctrl.isSingleAsset"
+                        ng-model="$ctrl.chosenAssetId"
+                    >
+                        <w-option
+                            ng-repeat="purchasableByCard in ::$ctrl.purchasablesByCards track by $index"
+                            value="::purchasableByCard.id"
+                        >
+                            <div class="flex-row split-half">
+                                <div class="flex-row">
+                                    <w-asset-logo class="marker-hide" size="24" asset-id="{{::purchasableByCard.id}}"></w-asset-logo>
+                                    <div class="asset__name">
+                                        <span>{{::purchasableByCard.name}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </w-option>
+                    </w-select>
+                </div>
+
+                <div class="row margin-1 relative">
+                    <div class="body-2 basic-900 margin-05" w-i18n="modal.receive.amountYouPay"></div>
+
+                    <div class="basic-500 footnote-1">
+                        <span w-i18n="modal.receive.minimumIs"></span>&nbsp;{{$ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].min}}
+                        {{$ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].name}},&nbsp;
+                        <span w-i18n="modal.receive.maximumIs"></span>&nbsp;{{$ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].max}}
+                        {{$ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].name}}
+                    </div>
+
+                    <div class="card-icons">
+                        <i class="visa-icon"></i>
+                        <i class="mastercard-icon"></i>
+                    </div>
+                </div>
+
+                <div class="row margin-2">
+                    <w-input-container>
+                        <div class="amount-wrap">
+                            <w-input
+                                name="amount"
+                                type="text"
+                                class="big"
+                                ng-model="$ctrl.cardPayment"
+                                w-validate
+                                w-validator-gte="{{$ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].min}}"
+                                w-validator-lte="{{$ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].max}}"
+                                w-validator-asset="{{$ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].assetId}}"
+                                required
+                            ></w-input>
+
+                            <w-select class="big" ng-model="$ctrl.chosenCurrencyIndex">
+                                <w-option
+                                    ng-repeat="currency in $ctrl.cardFiatList track by $index"
+                                    value="$index"
+                                >
+                                    <span>{{::currency.name}}</span>
+                                </w-option>
+                            </w-select>
+                        </div>
+
+                        <w-input-error message="gte">
+                            <span w-i18n="modal.receive.error.cardAmount.gte"
+                                params="{gte: $ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].min,currency: $ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].name}"></span>
+                        </w-input-error>
+                        <w-input-error message="lte">
+                            <span w-i18n="modal.receive.error.cardAmount.lte"
+                                params="{lte: $ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].max,currency: $ctrl.cardFiatList[$ctrl.chosenCurrencyIndex].name}"></span>
+                        </w-input-error>
+                        <w-input-error message="precision">
+                            <span w-i18n="modal.receive.error.cardAmount.precision"></span>
+                        </w-input-error>
+                    </w-input-container>
+                </div>
+
+                <div class="row margin-3">
+                    <div class="body-2 basic-900 margin-05">
+                        <span w-i18n="modal.receive.youWillGet"></span>
+                    </div>
+
+                    <div class="plate-note body-2 margin-05">
+                        <span
+                            ng-if="$ctrl.approximateAmount"
+                            w-i18n="money-currency"
+                            params="{money: $ctrl.approximateAmount}"
+                        ></span>
+                        <w-loader ng-if="!$ctrl.approximateAmount"></w-loader>
+                    </div>
+                </div>
+            </form>
+
+            <a ng-href="{{$ctrl.indacoinLink}}" target="_blank" rel="noopener noreferrer">
+                <w-button
+                    class="big submit long"
+                    disabled="card.$invalid"
+                    on-click="$ctrl.confirmIndacoin()"
+                >
+                    <span w-i18n="modal.receive.card.continue"></span>
+                </w-button>
+            </a>
+        </w-step>
+
+        <w-step>
+            <div class="text-center receive-confirm" ng-if="$ctrl.showIndacoinRedirectionDescription">
+                <i class="card-success-icon margin-1"></i>
+                <h3 class="basic-700" w-i18n="modal.receive.cardSuccessHeader"></h3>
+                <div class="body-2 basic-500 margin-05" w-i18n="modal.receive.cardSuccessText"></div>
+            </div>
+        </w-step>
+    </w-step-by-step>
+</div>

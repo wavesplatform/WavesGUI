@@ -11,7 +11,7 @@
     const SELECTORS = {
         AVAILABLE: 'js-balance-available',
         SPONSORED: 'js-sponsored-asset',
-        IN_ORDERS: 'js-balance-in-orders',
+        IN_RESERVED: 'js-balance-in-reserved',
         BASE_ASSET_BALANCE: 'js-balance-in-base-asset',
         EXCHANGE_RATE: 'js-exchange-rate',
         CHANGE_24: 'js-change-24',
@@ -254,7 +254,6 @@
                         'app.wallet.portfolio');
                 });
             }
-
             /**
              * @return {boolean}
              * @private
@@ -602,10 +601,11 @@
                 const asset = this.balance.asset;
                 const available = this.balance.available.getTokens();
                 const inOrders = this.balance.inOrders.getTokens();
+                const leasedOut = this.balance.leasedOut.getTokens();
                 const availableHtml = this.utils.getNiceNumberTemplate(available, asset.precision, true);
-                const inOrdersHtml = this.utils.getNiceNumberTemplate(inOrders, asset.precision);
+                const inReservedHtml = this.utils.getNiceNumberTemplate(inOrders.plus(leasedOut), asset.precision);
                 this.node.querySelector(`.${SELECTORS.AVAILABLE}`).innerHTML = availableHtml;
-                this.node.querySelector(`.${SELECTORS.IN_ORDERS}`).innerHTML = inOrdersHtml;
+                this.node.querySelector(`.${SELECTORS.IN_RESERVED}`).innerHTML = inReservedHtml;
             }
 
             /**
@@ -651,7 +651,8 @@
         'i18n',
         '$scope',
         'gatewayService',
-        'createPoll'];
+        'createPoll'
+    ];
 
     angular.module('app.wallet.portfolio').component('wPortfolioRow', {
         controller,

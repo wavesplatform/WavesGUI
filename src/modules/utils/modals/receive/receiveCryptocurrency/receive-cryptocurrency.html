@@ -1,0 +1,100 @@
+<div class="receive-crypto">
+    <div class="row margin-2">
+        <div class="body-2 basic-900 margin-05" w-i18n="modal.receive.asset"></div>
+
+        <div ng-if="::$ctrl.isSingleAsset" class="input-like big flex-row split-half">
+            <div class="flex-row">
+                <w-asset-logo class="marker-hide" size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
+                <div class="asset__name">
+                    <span>{{::$ctrl.asset.name}}</span>
+                </div>
+            </div>
+        </div>
+
+        <w-select
+            class="big"
+            can-search="::true"
+            ng-if="::!$ctrl.isSingleAsset"
+            ng-model="$ctrl.chosenAssetId"
+        >
+            <w-option
+                ng-repeat="cryptocurrency in ::$ctrl.cryptocurrencies track by $index"
+                search-value="::[cryptocurrency.name, cryptocurrency.ticker, cryptocurrency.id]"
+                value="::cryptocurrency.id"
+            >
+                <div class="flex-row split-half">
+                    <div class="flex-row">
+                        <w-asset-logo class="marker-hide" size="24" asset-id="{{::cryptocurrency.id}}"></w-asset-logo>
+                        <div class="asset__name">
+                            <span>{{::cryptocurrency.name}}</span>
+                            <span class="asset__id basic-500">{{::cryptocurrency.id}}</span>
+                        </div>
+                    </div>
+                </div>
+            </w-option>
+        </w-select>
+    </div>
+
+    <div class="plate-warning margin-1" ng-if="!$ctrl.gatewayServerError && !$ctrl.isVostok">
+        <div class="body-2 warning-500" w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningTitle"></div>
+        <div class="footnote-1 basic-500" w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningText"></div>
+    </div>
+
+    <div class="plate-warning" ng-if="!$ctrl.gatewayServerError">
+        <div class="body-2 warning-500 margin-05" w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountTitle"></div>
+        <div class="footnote-1 basic-500" ng-if="!$ctrl.isVostok" w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountText"></div>
+    </div>
+
+    <div class="body-2 basic-900 margin-05" ng-if="!$ctrl.gatewayServerError">
+        <span w-i18n="modal.deposit.copyAndShare"></span>
+        <w-help-icon>
+            <div class="help-icon__row headline-3">
+                <span w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.helpDescrTitle"></span>
+            </div>
+            <div class="help-icon__row">
+                <span w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.helpDescrText"></span>
+            </div>
+            <div class="help-icon__row">
+                <span w-i18n="modal.deposit.pleaseNote"></span>
+            </div>
+        </w-help-icon>
+    </div>
+
+    <w-copy-wrap
+        class="overflow body-1 basic-900 mobile-low-fsize"
+        info="$ctrl.gatewayAddress"
+        ng-if="!$ctrl.gatewayServerError"
+    >
+        {{$ctrl.gatewayAddress}}
+        <w-loader ng-if="!$ctrl.gatewayAddress"></w-loader>
+    </w-copy-wrap>
+
+    <div class="or" ng-if="!$ctrl.gatewayServerError">
+        <span w-i18n="modal.deposit.or"></span>
+    </div>
+
+    <div class="qr-wrapper center margin-2" ng-if="!$ctrl.gatewayServerError" w-toggle-class-container>
+        <div class="body-2 basic-900 margin-05" w-i18n="modal.deposit.scanQrCode"></div>
+
+        <w-qr-code size="200" url="$ctrl.gatewayAddress" w-toggle-class="zoomed-in"></w-qr-code>
+
+        <div class="pointer center footnote-1 margin-top-1 basic-500"
+            w-toggle-class="zoomed-in"
+            w-i18n-ns="app.ui"
+            w-i18n="directives.transactionExport.qrZoomBtn"></div>
+        <w-loader ng-if="!$ctrl.gatewayAddress"></w-loader>
+    </div>
+
+    <div class="plate-warning server-error" ng-if="$ctrl.gatewayServerError">
+        <div class="body-2 warning-500 margin-05" w-i18n="modal.receive.gatewayError"></div>
+    </div>
+
+    <w-button
+        ng-if="$ctrl.gatewayServerError"
+        on-click="$ctrl.updateGatewayAddress()"
+        type="submit"
+        class="big submit long"
+    >
+        <span w-i18n="modal.receive.coinomat.tryAgain"></span>
+    </w-button>
+</div>
