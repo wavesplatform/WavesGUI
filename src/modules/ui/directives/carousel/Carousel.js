@@ -17,28 +17,20 @@
 
         const chartOptions = {
             red: {
-                charts: [
-                    {
-                        axisX: 'timestamp',
-                        axisY: 'rate',
-                        lineColor: '#ef4829',
-                        fillColor: '#FFF',
-                        gradientColor: ['#FEEFEC', '#FFF'],
-                        lineWidth: 4
-                    }
-                ]
+                axisX: 'timestamp',
+                axisY: 'rate',
+                lineColor: '#ef4829',
+                fillColor: '#FFF',
+                gradientColor: ['#FEEFEC', '#FFF'],
+                lineWidth: 4
             },
             blue: {
-                charts: [
-                    {
-                        axisX: 'timestamp',
-                        axisY: 'rate',
-                        lineColor: '#1f5af6',
-                        fillColor: '#FFF',
-                        gradientColor: ['#EAF0FE', '#FFF'],
-                        lineWidth: 4
-                    }
-                ]
+                axisX: 'timestamp',
+                axisY: 'rate',
+                lineColor: '#1f5af6',
+                fillColor: '#FFF',
+                gradientColor: ['#EAF0FE', '#FFF'],
+                lineWidth: 4
             }
         };
 

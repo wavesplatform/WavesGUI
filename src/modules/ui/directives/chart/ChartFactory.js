@@ -479,6 +479,19 @@
                 });
             }
 
+            static defaultOptions = {
+                axisX: 'timestamp',
+                axisY: 'rate',
+                lineColor: '#ef4829',
+                fillColor: '#FFF',
+                gradientColor: false,
+                lineWidth: 2,
+                marginBottom: 0,
+                hasMouseEvents: false,
+                hasDates: false,
+                checkWidth: false
+            };
+
         }
 
         return ChartFactory;
