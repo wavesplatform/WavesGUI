@@ -42,9 +42,9 @@
              * @return {Promise<Array<IOrder>>}
              */
             @decorators.cachable(1)
-            getOrders() {
+            getOrders(options) {
                 if (user.address) {
-                    return ds.api.matcher.getOrders().then(ds.processOrdersWithStore);
+                    return ds.api.matcher.getOrders(options).then(ds.processOrdersWithStore);
                 } else {
                     return Promise.resolve([]);
                 }
