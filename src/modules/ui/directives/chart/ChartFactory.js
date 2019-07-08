@@ -456,7 +456,7 @@
 
                 this.legendItemsObjects.forEach(object => {
                     const legendDate = isTime ?
-                        object.legendValue.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) :
+                        tsUtils.date('hh:mm')(object.legendValue) :
                         ChartFactory._localDate(object.legendValue);
 
                     object.$legendItem
@@ -474,7 +474,7 @@
              * @private
              */
             static _localDate(date, hasYear = false) {
-                return hasYear ? date.toLocaleDateString() : date.toLocaleDateString().slice(0, -5);
+                return hasYear ? tsUtils.date('DD.MM.YYYY')(date) : tsUtils.date('DD.MM')(date);
             }
 
             static defaultOptions = {

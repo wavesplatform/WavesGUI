@@ -42,7 +42,7 @@
                 const date = new Date(data.xValue.toNumber());
                 this.price = data.yValue.toFormat(2);
                 this.date = ChartPlate._localDate(date, true);
-                this.time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                this.time = tsUtils.date('hh:mm')(date);
 
                 this._setMarkerAndPlatePosition(data);
             }
@@ -80,9 +80,8 @@
              * @private
              */
             static _localDate(date, hasYear = false) {
-                return hasYear ? date.toLocaleDateString() : date.toLocaleDateString().slice(0, -5);
+                return hasYear ? tsUtils.date('DD.MM.YYYY')(date) : tsUtils.date('DD.MM')(date);
             }
-
 
         }
 
