@@ -266,7 +266,8 @@
           span {
             display: none;
             position: absolute;
-            background: @color-disabled-500;
+            background: @color-basic-700;
+            opacity: .8;
             top: 0;
             z-index: 2;
             left: 50%;
@@ -282,7 +283,7 @@
               content: '';
               width: 10px;
               height: 10px;
-              background: @color-disabled-500;
+              background: @color-basic-700;
               position: absolute;
               left: 50%;
               transform: translate(-50%, 5px) rotate(45deg);
@@ -374,7 +375,7 @@
         }
 
         .smart-table__cell[data-column-id="mirror"],
-        .smart-table__cell[data-column-id="inOrders"] {
+        .smart-table__cell[data-column-id="inReserved"] {
           display: none;
         }
       }
@@ -399,8 +400,24 @@
   .portfolio-wrapper {
     padding: 10px 0 10px 10px;
   }
-
   .main.wallet.portfolio {
+
+    .mobile-flex {
+      display: flex;
+      align-items: center;
+    }
+
+    .asset__text-mobile {
+      .js-stars-container {
+        margin-left: 6px;
+      }
+    }
+
+    .asset__text {
+      .js-stars-container {
+        display: none;
+      }
+    }
 
     .asset-name-desktop {
       display: none;

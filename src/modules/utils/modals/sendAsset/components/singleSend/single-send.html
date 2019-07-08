@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row margin-top-2">
         <div class="flex-row-title">
             <div class="body-2 margin-05" w-i18n="modal.send.recipient"></div>
             <div ng-if="$ctrl.hasSendToBank"
@@ -115,7 +115,7 @@
         </div>
     </div>
 
-    <div ng-if="$ctrl.outerSendMode && $ctrl.isMoneroAddress() && !$ctrl.gatewayError">
+    <div ng-if="$ctrl.outerSendMode && $ctrl.isMoneroNotIntegratedAddress() && !$ctrl.gatewayError">
         <div class="body-2 margin-05" w-i18n="modal.send.moneroPaymentId"></div>
         <w-input-container class="row">
             <div>

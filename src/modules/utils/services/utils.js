@@ -6,7 +6,7 @@
     const { isEmpty, getPaths, get, Signal } = require('ts-utils');
     const tsApiValidator = require('ts-api-validator');
     const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
-    const { splitEvery, pipe, path, map, ifElse, concat, defaultTo, identity, isNil } = require('ramda');
+    const { splitEvery, pipe, path, map, ifElse, concat, defaultTo, identity, isNil, propEq } = require('ramda');
     const { libs } = require('@waves/signature-generator');
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
@@ -991,8 +991,9 @@
             onExportUsers(origin, resolve) {
                 return (response) => {
                     if (!response) {
-                        return [];
+                        resolve([]);
                     }
+
                     resolve(response);
                 };
             },
@@ -1596,14 +1597,8 @@
              * @return Money
              */
             getExchangeFee(tx) {
-                /**
-                 * @type {User}
-                 */
-                const user = $injector.get('user');
-                return [tx.order1, tx.order2]
-                    .filter(order => user.publicKey === order.senderPublicKey)
-                    .map(order => order.matcherFee)
-                    .reduce((acc, item) => acc.add(item), tx.fee.cloneWithTokens(0));
+                const isBuy = tx.exchangeType === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_BUY;
+                return isBuy ? tx.buyMatcherFee : tx.sellMatcherFee;
             },
 
             /**
@@ -1636,7 +1631,7 @@
                     case SIGN_TYPE.BURN:
                         return TYPES.BURN;
                     case SIGN_TYPE.DATA:
-                        return TYPES.DATA;
+                        return _getDataType(tx);
                     case SIGN_TYPE.SET_SCRIPT:
                         return (tx.script || '').replace('base64:', '') ? TYPES.SET_SCRIPT : TYPES.SCRIPT_CANCEL;
                     case SIGN_TYPE.SPONSORSHIP:
@@ -1856,6 +1851,18 @@
             } else {
                 return meIsSender ? TYPES.SEND : TYPES.RECEIVE;
             }
+        }
+
+        /**
+         * @param {api.ITransferTransaction<string>} tx
+         * @private
+         */
+        function _getDataType(tx) {
+            const { DATA, DATA_VOTE } = WavesApp.TRANSACTION_TYPES.EXTENDED;
+            const data = Array.isArray(tx.data) ? tx.data : tx.data.data;
+            const keyRating = data.find(propEq('key', 'tokenRating'));
+
+            return keyRating && keyRating.value === 'tokenRating' ? DATA_VOTE : DATA;
         }
 
         /**

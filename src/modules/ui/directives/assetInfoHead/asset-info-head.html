@@ -11,12 +11,27 @@
                 <w-asset-status asset-id="$ctrl.assetId"></w-asset-status>
             </h2>
 
-            <div ng-if="$ctrl.ticker" class="body-2 margin-05 basic-500 asset__ticker">{{$ctrl.ticker}}</div>
+            <div class="rating-wrapper" ng-if="!$ctrl.isGatewayOrWaves && !$ctrl.ratingError">
+                <w-rating-stars asset-id="$ctrl.assetId" rating="$ctrl.rating" can-rate="'true'">
+                </w-rating-stars>
+                <span class="rating-number" w-nice-number="$ctrl.rating" precision="1"></span>
+                <w-help-icon class="asset-modal__help">
+                    <div class="help-icon__row headline-3" w-i18n="modal.assetInfo.rating.tooltipTitle"></div>
+                    <div class="help-icon__row" w-i18n="modal.assetInfo.rating.tooltipText"></div>
+                    <div class="help-icon__row">
+                        <a href="https://tokenrating.wavesexplorer.com"
+                           w-i18n="modal.assetInfo.rating.tooltipLink"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                        ></a>
+                    </div>
+                </w-help-icon>
+            </div>
+            <div class="chart-wrapper">
+                <w-asset-rate-chart no-update="::true" asset-id="$ctrl.assetId"></w-asset-rate-chart>
+                <div class="interactive-stop"></div>
+            </div>
 
-        <div class="chart-wrapper">
-            <w-asset-rate-chart no-update="::true" asset-id="$ctrl.assetId"></w-asset-rate-chart>
-            <div class="interactive-stop"></div>
         </div>
-
     </div>
 </div>

@@ -1,5 +1,6 @@
 {
   "vendors": [
+    "node_modules/@sentry/browser/build/bundle.min.js",
     "node_modules/@waves/oracle-data/dist/oracle-data.min.js",
     "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js",
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
@@ -204,103 +205,5 @@
       }
     },
     "server": "desktop.wavesplatform.com"
-  },
-  "configurations": {
-    "testnet": {
-      "tradingPairs": [
-        "6bymXakShhDKSTbtsGjuzRuiFsCYbtkahLgEfEEzsWar",
-        "8zreE1U1TJ8Vhda8M2jEWukrWwX8znjSSjsgNGDUzdgh",
-        "CMPv2sNdEUtEd56kNmgviXuE5MJ9hHABUWmhbmdgUnm1"
-      ],
-      "oracles": {
-        "waves": "3N5net4nzSeeqxPfGZrvVvnGavsinipQHbE",
-        "tokenomica": "3Mq2ikxDH6rV5VBUNX1Ef8Ag1Vjntbh4MvD"
-      },
-      "apiVersion": "v0",
-      "code": "T",
-      "bankRecipient": "",
-      "node": "https://pool.testnet.wavesnodes.com",
-      "matcher": "https://matcher.testnet.wavesnodes.com/matcher",
-      "api": "https://api.testnet.wavesplatform.com",
-      "explorer": "https://wavesexplorer.com/testnet",
-      "coinomat": "https://localhost:8080/coinomat",
-      "vostok": {
-        "gateway": "https://gateways-dev.wvservices.com",
-        "networkByte": "F"
-      },
-      "support": "https://support.wavesplatform.com",
-      "termsAndConditions": "https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf",
-      "privacyPolicy": "https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf",
-      "nodeList": "http://dev.pywaves.org/testnet/generators/",
-      "scamListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv",
-      "origin": "https://testnet.wavesplatform.com",
-      "featuresConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/testnet.config.json",
-      "feeConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/fee.json",
-      "assets": {
-        "EUR": "AsuWyM9MUUsMmWkK7jS48L3ky6gA1pxx7QtEYPbfLjAJ",
-        "USD": "D6N2rAqWN6ZCWnCeNFWLGqqjS6nJLeK4m19XiuhdDenr",
-        "BTC": "DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn",
-        "ETH": "BrmjyAWT5jjr3Wpsiyivyvg5vDuzoX2s93WgiexXetB3",
-        "LTC": "BNdAstuFogzSyN2rY3beJbnBYwYcu7RzTHFjW88g8roK",
-        "ZEC": "CFg2KQfkUgUVM2jFCMC5Xh8T8zrebvPc4HjHPfAugU1S",
-        "BCH": "8HT8tXwrXAYqwm8XrZ2hywWWTUAXxobHB5DakVC1y6jn",
-        "BSV": "6KSUNALdYEd1EVTE4dTcSHzNw1dA3Q6ieokSRVuEcALV",
-        "TRY": "7itsmgdmomeTXvZzaaxqF3346h4FhciRoWceEw9asNV3",
-        "DASH": "DGgBtwVoXKAKKvV2ayUpSoPzTJxt7jo9KiXMJRzTH2ET",
-        "EFYT": "FvKx3cerSVYGfXKFvUgp7koNuTAcLs8DmtmwRrFVCqJv",
-        "WNET": "3P8gkhcLhFQvBkDzMnWeqqwvq3qxkpTNQPs4LUQ95tKD",
-        "XMR": "8oPbSCKFHkXBy1hCGSg9pJkSARE7zhTQTLpc8KZwdtr7",
-        "VST": "63QkN8KKRMVBpkCM7azV6HiPacJ3T7EP6vmFUNVRsvAX",
-        "ERGO": "GVWSgVsmEx4KTAZPm31JZDmdehxFTFZBuy7V8gzb8JxE"
-      }
-    },
-    "mainnet": {
-      "tradingPairs": [
-        "8ouNBeYFxJMaeyPBwF8jY86R457CyEjAY98HaNLFox7N",
-        "7eMpAC1CVLeZq7Mi16AkvkY2BmLytyApLaUG4TxNFew5",
-        "BFWboD9xC64tSmirFbCNARR1NSu6Ep9rP4SRoLkQhBUF"
-      ],
-      "oracles": {
-        "waves": "3P6t5mKGwVDkyjFhtUqw4NnecyC3DRpLfkw",
-        "tokenomica": "3P5yz6NiyBoT3KWBrc1iwQeMAen56FcMGTW"
-      },
-      "apiVersion": "v0",
-      "bankRecipient": "3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us",
-      "code": "W",
-      "node": "https://nodes.wavesplatform.com",
-      "matcher": "https://matcher.wavesplatform.com/matcher",
-      "api": "https://api.wavesplatform.com",
-      "explorer": "https://wavesexplorer.com",
-      "coinomat": "https://coinomat.com",
-      "vostok": {
-        "gateway": "https://gw.wavesplatform.com",
-        "networkByte": "V"
-      },
-      "support": "https://support.wavesplatform.com",
-      "termsAndConditions": "https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf",
-      "privacyPolicy": "https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf",
-      "nodeList": "https://forum.wavesplatform.com/c/pools",
-      "scamListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv",
-      "origin": "https://dex.wavesplatform.com",
-      "featuresConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/config.json",
-      "feeConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/fee.json",
-      "assets": {
-        "EUR": "Gtb1WRznfchDnTh37ezoDTJ4wcoKaRsKqKjJjy7nm2zU",
-        "USD": "Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck",
-        "BTC": "8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS",
-        "BSV": "62LyMjcr2DtiyF5yVXFhoQ2q414VPPJXjsNYp72SuDCH",
-        "ETH": "474jTeYx2r2Va35794tCScAXWJG9hU2HcgxzMowaZUnu",
-        "LTC": "HZk1mbfuJpmxU1Fs4AX5MWLVYtctsNcg6e2C6VKqK8zk",
-        "ZEC": "BrjUWjndUanm5VsJkbUip8VRYy6LWJePtxya3FNv4TQa",
-        "BCH": "zMFqXuoyrn5w17PFurTqxB7GsS71fp9dfk6XFwxbPCy",
-        "TRY": "2mX5DzVKWrAJw8iwdJnV2qtoeVG9h5nTDpTqC1wb1WEN",
-        "DASH": "B3uGHFRpSUuGEDWjqB9LWWxafQj8VTvpMucEyoxzws5H",
-        "EFYT": "725Yv9oceWsB4GsYwyy4A52kEwyVrL5avubkeChSnL46",
-        "WNET": "AxAmJaro7BJ4KasYiZhw7HkjwgYtt2nekPuF2CN9LMym",
-        "XMR": "5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3",
-        "VST": "4LHHvYGNKJUg5hj65aGD5vgScvCBmLpdRFtjokvCjSL8",
-        "ERGO": "5dJj4Hn9t2Ve3tRpNGirUHy4yBK6qdJRAJYV21yPPuGz"
-      }
-    }
   }
 }
