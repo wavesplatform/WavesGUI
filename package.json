@@ -69,7 +69,9 @@
     "gulp-uglify": "3.0.2",
     "handlebars": "^4.1.2",
     "html-minifier": "^3.5.20",
+    "husky": "3.0.0",
     "less": "2.7.2",
+    "lint-staged": "9.1.0",
     "mime": "2.0.3",
     "my-local-ip": "1.0.0",
     "opn": "^5.4.0",
@@ -81,18 +83,19 @@
     "yargs": "13.2.4"
   },
   "scripts": {
-    "start": "node server.js startSimple openUrl",
+    "start": "ts-node server.ts startSimple openUrl",
+    "preinstall": "sh scripts/preinstall.sh",
     "postinstall": "sh scripts/postinstall.sh",
     "preversion": "sh scripts/preversion.sh",
     "postversion": "sh scripts/postversion.sh",
     "lessc": "sh scripts/lessc",
-    "build": "tsc -p ./ && gulp all",
-    "server": "npm run build && node server",
+    "build": "tsc -p ./tsconfig.json && gulp all",
+    "server": "npm run build && ts-node server.ts",
     "electron:linux": "electron-packager ./dist/desktop/mainnet/ --icon=./electron/icons/icon.png --platform=linux --out=./dist/linux",
     "electron:win": "electron-packager ./dist/desktop/mainnet/ --icon=./electron/icons/icon.ico --platform=win32 --out=./dist/win",
     "electron:osx": "electron-packager ./dist/desktop/mainnet/ --icon=./electron/icons/icon.icns --platform=darwin --out=./dist/osx",
-    "electron": "gulp all && npm run electron:linux && npm run electron:win && npm run electron:osx",
-    "electron-debug": "tsc && gulp electron-debug && node_modules/.bin/electron dist/desktop/electron-debug/ --ignore-ssl-error --no-replace-desktop --inspect",
+    "electron": "tsc -p ./tsconfig.json && gulp all && npm run electron:linux && npm run electron:win && npm run electron:osx",
+    "electron-debug": "gulp electron-debug && node_modules/.bin/electron dist/desktop/electron-debug/ --ignore-ssl-error --no-replace-desktop --inspect",
     "data-services": "gulp data-services"
   },
   "dependencies": {
@@ -134,5 +137,17 @@
     "ts-api-validator": "2.1.2",
     "ts-utils": "^6.0.6",
     "worker-wrapper": "^1.2.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "ts-node ./ts-scripts/commit-msg.ts $HUSKY_GIT_PARAMS",
+      "post-commit": "git update-index --again"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint"
+    ]
   }
 }
