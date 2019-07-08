@@ -4,10 +4,9 @@
     /**
      * @param Base
      * @param {JQuery} $element
-     * @param {User} user
      * @return {ChartPlate}
      */
-    const controller = function (Base, $element, user) {
+    const controller = function (Base, $element) {
 
         const SELECTORS = {
             plate: '.chart-plate',
@@ -29,6 +28,9 @@
                 this.observe('data', this._onMove);
             }
 
+            /**
+             * @private
+             */
             _onMove() {
                 const data = this.data;
 
@@ -46,9 +48,10 @@
             }
 
             /**
-             * @param event
-             * @param x
-             * @param y
+             * @param data @type {Object}
+             * @param data.event @type {Object}
+             * @param data.x @type {number}
+             * @param data.y @type {number}
              * @private
              */
             _setMarkerAndPlatePosition({ event, x, y }) {
@@ -71,34 +74,13 @@
             }
 
             /**
-             * @param date
-             * @param hasYear
+             * @param date @type {Date}
+             * @param hasYear @type {boolean}
              * @return {string}
              * @private
              */
             static _localDate(date, hasYear = false) {
-                const userLang = user.getSetting('lng');
-                const remapLangs = lang => {
-                    switch (lang) {
-                        case 'nl_NL':
-                            return 'nl';
-                        case 'pt_BR':
-                            return 'pt';
-                        case 'et_EE':
-                            return 'est';
-                        case 'hi_IN':
-                            return 'hi';
-                        case 'zh_CN':
-                            return 'cn';
-                        default:
-                            return lang;
-                    }
-                };
-                return date.toLocaleDateString(remapLangs(userLang), {
-                    day: 'numeric',
-                    month: 'numeric',
-                    year: hasYear ? 'numeric' : undefined
-                });
+                return hasYear ? date.toLocaleDateString() : date.toLocaleDateString().slice(0, -5);
             }
 
 
@@ -107,7 +89,7 @@
         return new ChartPlate();
     };
 
-    controller.$inject = ['Base', '$element', 'user'];
+    controller.$inject = ['Base', '$element'];
 
     angular.module('app.ui').component('wChartPlate', {
         bindings: {

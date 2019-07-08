@@ -76,12 +76,18 @@
                 return this.mouseSignal;
             }
 
+            /**
+             * @param options @type {Object}
+             */
             setOptions(options) {
                 this.options = options;
 
                 this._render();
             }
 
+            /**
+             * @param data @type {Object}
+             */
             setData(data) {
                 this.data = data;
 
@@ -113,6 +119,11 @@
                 return canvas;
             }
 
+            /**
+             * @param width @type {number}
+             * @param height @type {number}
+             * @private
+             */
             _setSize(width, height) {
                 this.canvas.width = width * SCALE;
                 this.canvas.height = height * SCALE;
@@ -121,15 +132,23 @@
                 this._render();
             }
 
-
+            /**
+             * @private
+             */
             _clear() {
                 this._clearCanvas();
             }
 
+            /**
+             * @private
+             */
             _clearCanvas() {
                 this.canvas.width = this.canvas.width;
             }
 
+            /**
+             * @private
+             */
             _render() {
                 this._clear();
 
@@ -349,10 +368,10 @@
             }
 
             /**
-             * @param x
-             * @param y
-             * @param i
-             * @param event
+             * @param x @type {number}
+             * @param y @type {number}
+             * @param i @type {number}
+             * @param event @type {Object}
              * @private
              */
             _dispatchMouseMove(x, y, i, event) {
@@ -395,7 +414,7 @@
             }
 
             /**
-             * @param axisItemsWithCoords
+             * @param axisItemsWithCoords @type {Array}
              * @private
              */
             _createBottomLegend(axisItemsWithCoords) {
@@ -449,34 +468,13 @@
             }
 
             /**
-             * @param date
-             * @param hasYear
+             * @param date @type {Date}
+             * @param hasYear @type {boolean}
              * @return {string}
              * @private
              */
             static _localDate(date, hasYear = false) {
-                const userLang = user.getSetting('lng');
-                const remapLangs = lang => {
-                    switch (lang) {
-                        case 'nl_NL':
-                            return 'nl';
-                        case 'pt_BR':
-                            return 'pt';
-                        case 'et_EE':
-                            return 'est';
-                        case 'hi_IN':
-                            return 'hi';
-                        case 'zh_CN':
-                            return 'cn';
-                        default:
-                            return lang;
-                    }
-                };
-                return date.toLocaleDateString(remapLangs(userLang), {
-                    day: 'numeric',
-                    month: 'numeric',
-                    year: hasYear ? 'numeric' : undefined
-                });
+                return hasYear ? date.toLocaleDateString() : date.toLocaleDateString().slice(0, -5);
             }
 
             static defaultOptions = {

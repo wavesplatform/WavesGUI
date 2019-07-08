@@ -12,6 +12,7 @@
      * @param {app.utils} angularUtils
      * @param {JQuery} $element
      * @param {Waves} waves
+     * @param {app.utils} utils
      * @return {WelcomeCtrl}
      */
     const controller = function (Base,
