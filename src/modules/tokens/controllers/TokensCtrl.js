@@ -127,9 +127,7 @@
                 ], this._setIsNFT);
 
                 this._getFee();
-                this.observe('isNFT', () => {
-                    this._getFee();
-                });
+                this.observe('isNFT', this._getFee);
 
                 this.observeOnce('createForm', () => {
                     this.receive(utils.observe(this.createForm, '$valid'), this.createSignable, this);
