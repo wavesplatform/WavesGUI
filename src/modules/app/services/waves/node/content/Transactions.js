@@ -19,6 +19,9 @@
 
         const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
 
+        /**
+         * @class Transactions
+         */
         class Transactions extends BaseNodeComponent {
 
             constructor() {
@@ -102,14 +105,15 @@
             }
 
             /**
-             * @param {ExchangeTxFilters} options
+             * @param {ExchangeTxFilters} prams
+             * @param {IGetExchangeOptions} [options]
              * @returns {Promise<IExchange[]>}
              */
-            getExchangeTxList(options) {
+            getExchangeTxList(prams, options) {
                 return ds.api.transactions.getExchangeTxList({
                     matcher: matcher.currentMatcherAddress,
-                    ...options
-                });
+                    ...prams
+                }, options);
             }
 
             createTransaction(txData) {
