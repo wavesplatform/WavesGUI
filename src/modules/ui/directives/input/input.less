@@ -140,48 +140,6 @@ w-input {
   width: 100%;
   transform: translate3d(0, 0, 0);
 
-  .w-input-wrap {
-    position: relative;
-    width: 100%;
-
-    input[type="text"],
-    input[type="password"],
-    input[type="number"],
-    textarea {
-      resize: vertical;
-      .input-like();
-
-      &:not(.no-validate) {
-        &:focus, &.focus {
-          background-color: @color-white;
-          color: @color-basic-900;
-          border-color: @input-focused-border;
-        }
-
-        &.disabled {
-          background: @color-basic-50;
-        }
-
-        &.ng-touched {
-          &.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
-            border-color: @color-success-300;
-          }
-          &.ng-invalid:not(:focus):not(.focus) {
-            border-color: @color-error-200;
-          }
-        }
-      }
-
-      &.no-validate:focus {
-        border: 1px solid @color-submit-400;
-      }
-
-      &[disabled="disabled"] {
-        background-color: @color-basic-50;
-      }
-    }
-  }
-
   &[textarea="true"] {
     resize: vertical;
 
@@ -249,6 +207,48 @@ w-input {
     ng-transclude {
       display: block;
       width: 100%;
+    }
+  }
+}
+
+.w-input-wrap {
+  position: relative;
+  width: 100%;
+
+  input[type="text"],
+  input[type="password"],
+  input[type="number"],
+  textarea {
+    resize: vertical;
+    .input-like();
+
+    &:not(.no-validate) {
+      &:focus, &.focus {
+        background-color: @color-white;
+        color: @color-basic-900;
+        border-color: @input-focused-border;
+      }
+
+      &.disabled {
+        background: @color-basic-50;
+      }
+
+      &.ng-touched {
+        &.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
+          border-color: @color-success-300;
+        }
+        &.ng-invalid:not(:focus):not(.focus) {
+          border-color: @color-error-200;
+        }
+      }
+    }
+
+    &.no-validate:focus {
+      border: 1px solid @color-submit-400;
+    }
+
+    &[disabled="disabled"] {
+      background-color: @color-basic-50;
     }
   }
 }

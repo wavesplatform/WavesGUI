@@ -1,0 +1,143 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) "../../../../app/less/app-icons";
+@import (reference) '../../../../app/less/typography';
+
+.dropdown {
+  display: block !important;
+
+  &__link {
+    display: flex;
+    align-items: center;
+    padding: 11px 10px;
+    font-size: 15px;
+    color: @color-basic-900;
+    position: relative;
+    white-space: nowrap;
+    border-radius: @border-radius;
+
+    &:hover {
+      background-color: @color-basic-50;
+    }
+  }
+
+  &__icon {
+    margin-right: 15px;
+
+    &_win {
+      background: @widnows-icon;
+    }
+
+    &_mac {
+      background: @macos-icon;
+    }
+
+    &_linux {
+      background: @linux-icon;
+    }
+
+    &_portfolio {
+      background: @portfolio-desktop-icon;
+    }
+
+    &_dashboard {
+      background: @wallet-desktop-icon;
+    }
+
+    &_transactions {
+      background: @transactions-desktop-icon;
+    }
+
+    &_leasing {
+      background: @leasing-icon;
+    }
+
+    &_logout {
+      background: @logout-icon;
+    }
+
+    &_aliases {
+      background: @aliases-icon;
+    }
+
+    &_settings {
+      background: @settings-icon;
+    }
+  }
+
+  w-input-error {
+    width: 100%;
+  }
+
+  w-input-container {
+    display: flex;
+    width: auto;
+  }
+
+  .w-input-wrap input[type="text"] {
+    width: 100%;
+    .headline-3;
+    border-radius: @border-radius;
+    padding: 0 5px;
+    cursor: pointer;
+
+    &:hover.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
+      background: @color-basic-50;
+      border: 1px solid transparent;
+    }
+
+    &.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
+      border: 1px solid transparent;
+    }
+  }
+
+  input[type="text"]::-webkit-input-placeholder {font-size: 15px; color: @color-white;}
+  input[type="text"]::-moz-placeholder          {font-size: 15px; color: @color-white;}
+  input[type="text"]:-moz-placeholder           {font-size: 15px; color: @color-white;}
+  input[type="text"]:-ms-input-placeholder      {font-size: 15px; color: @color-white;}
+
+  .user-account__block:hover w-info-tooltip,
+  .user-account__input:hover w-info-tooltip,
+  .user-account__address:hover w-info-tooltip {
+    .tooltip {
+      display: block;
+    }
+  }
+
+  w-info-tooltip {
+    z-index: 2;
+    position: absolute;
+
+    .tooltip {
+      min-height: 25px;
+      position: static;
+      transform: translate(-50%, 25%);
+
+      &::before {
+        top: -3px;
+        bottom: auto;
+      }
+    }
+  }
+
+  w-copy-wrap-default {
+    width: 100%;
+
+    &:hover {
+      .container {
+        position: relative;
+
+        &::after {
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 100%;
+          content: '';
+          display: block;
+          height: 1px;
+          border-top: 1px dashed @color-basic-500;
+        }
+      }
+    }
+  }
+}

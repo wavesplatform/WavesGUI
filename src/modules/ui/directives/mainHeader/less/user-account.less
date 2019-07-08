@@ -1,0 +1,69 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) "../../../../app/less/app-icons";
+@import (reference) '../../../../app/less/typography';
+
+.user-account {
+  position: relative;
+  margin: 5px 0;
+  padding-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid @color-info-50;
+
+  &__name {
+    display: inline-flex;
+    position: relative;
+  }
+
+  &__address,
+  &__text {
+    &:hover {
+      background: @color-basic-50;
+    }
+  }
+
+  &__address {
+    padding: 5px;
+    border-radius: @border-radius;
+    position: relative;
+  }
+
+  &__block {
+    position: relative;
+    max-width: 100%;
+  }
+
+  &__text {
+    cursor: pointer;
+    position: relative;
+    .headline-3;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    border-radius: @border-radius;
+    padding: 5px 24px 5px 6px;
+    height: 30px;
+
+    &:after {
+      display: none;
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      content: '';
+      width: 14px;
+      height: 14px;
+      margin: -7px 0 0 5px;
+      background: @color-info-50 @dex-edit-icon;
+    }
+
+    &:hover {
+      &:after {
+        display: block;
+      }
+    }
+  }
+
+  &__input {
+    width: 100%;
+  }
+}

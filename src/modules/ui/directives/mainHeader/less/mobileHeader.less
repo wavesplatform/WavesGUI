@@ -28,37 +28,33 @@
   }
 }
 
-.logo {
-  cursor: pointer;
-}
-
 @media screen and (max-width: 860px) {
-body {
-  .mobile-menu-wrapper {
-    right: -261px;
-  }
-
-  .mobile-menu-fader {
-    display: none;
-  }
-
-  &.menu-is-shown {
-    .mobile-menu-fader {
-      position: fixed;
-      display: block;
-      top: 0;
-      left: 0;
-      opacity: @fader-opacity;
-      width: 100%;
-      height: 100%;
-      background-color: @fader-background;
-    }
-
+  body {
     .mobile-menu-wrapper {
       right: -261px;
     }
+
+    .mobile-menu-fader {
+      display: none;
+    }
+
+    &.menu-is-shown {
+      .mobile-menu-fader {
+        position: fixed;
+        display: block;
+        top: 0;
+        left: 0;
+        opacity: @fader-opacity;
+        width: 100%;
+        height: 100%;
+        background-color: @fader-background;
+      }
+
+      .mobile-menu-wrapper {
+        right: -261px;
+      }
+    }
   }
-}
 
   .link-border {
     content: '';

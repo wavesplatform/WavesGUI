@@ -152,7 +152,13 @@
 
                     <div class="user-account__name">
 
-                        <div class="user-account__text" ng-if="!$ctrl.showInput" ng-click="$ctrl.toggleNameView()">{{$ctrl.userName}}</div>
+                        <div class="user-account__block" ng-if="!$ctrl.showInput" ng-click="$ctrl.toggleNameView()">
+                            <div class="user-account__text">{{$ctrl.userName}}</div>
+                            <w-info-tooltip no-icon="true">
+                                <span class="tooltip__content"
+                                      w-i18n="welcome.renameAccount"></span>
+                            </w-info-tooltip>
+                        </div>
                         <div class="user-account__input" ng-if="$ctrl.showInput">
                             <form name="$ctrl.setUserName">
                                 <w-input-container>
@@ -171,12 +177,11 @@
                                         <span w-i18n="welcome.inputErrorNameExists"></span>
                                     </w-input-error>
                                 </w-input-container>
-
-                                <w-info-tooltip no-icon="true">
+                            </form>
+                            <w-info-tooltip no-icon="true">
                                 <span class="tooltip__content"
                                       w-i18n="welcome.renameAccount"></span>
-                                </w-info-tooltip>
-                            </form>
+                            </w-info-tooltip>
                         </div>
 
                     </div>
