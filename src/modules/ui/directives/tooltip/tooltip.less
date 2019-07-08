@@ -1,0 +1,45 @@
+@import (reference) 'config';
+
+.tooltip {
+  min-height: 30px;
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  padding: 5px 0 5px 10px;
+  transform: translate(calc(-50%~'+ 8px'), -8px);
+  z-index: 2;
+  cursor: pointer;
+  border-radius: @border-radius;
+  background: @color-basic-700;
+  opacity: 0.9;
+
+  &__content {
+    color: @color-white;
+    font-size: @font-size-caption-2;
+    max-width: 240px;
+    max-height: 150px;
+    width: max-content;
+    overflow: auto;
+    display: block;
+    padding-right: 10px;
+  }
+
+  &::before {
+    position: absolute;
+    bottom: -3px;
+    left: calc(50% ~'- 5px');
+    width: 10px;
+    height: 10px;
+    content: '';
+    transform-origin: center;
+    transform: rotate(45deg);
+    background: @color-basic-700;
+    opacity: 0.9;
+    z-index: -1;
+  }
+
+  &:hover {
+    display: flex;
+  }
+}
