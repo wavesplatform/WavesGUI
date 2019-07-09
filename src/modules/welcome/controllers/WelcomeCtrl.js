@@ -141,6 +141,7 @@
                 }
 
                 this._initPairs();
+                this._initDeviceTypes();
 
                 if (this.isDesktop) {
                     this.observeOnce('userList', () => {
