@@ -1,37 +1,48 @@
-window.addEventListener('load', function () {
-    const password = localStorage.getItem('__password-demon-data');
+/* eslint-disable no-var */
+/* eslint-disable no-console */
 
-    const find = function (): Promise<JQuery> {
-        const get = function (resolve) {
-            const $input: JQuery = $('input[name="password"]');
-            $input.length ? resolve($input) : setTimeout(() => get(resolve), 500);
+window.addEventListener('load', function () {
+    'use strict';
+
+    var password = localStorage.getItem('__password-demon-data');
+
+    var find = function () {
+        var get = function (resolve) {
+            var $input = $('input[name="password"]');
+
+            if ($input.length) {
+                resolve($input);
+            } else {
+                setTimeout(function () {
+                    get(resolve);
+                }, 500);
+            }
         };
 
-        return new Promise((resolve) => {
+        return new Promise(function (resolve) {
             get(resolve);
         });
     };
 
     if (location.href.indexOf('loginDaemon=false') === -1) {
-        const nsAttr = 'w-i18n-ns';
+        var nsAttr = 'w-i18n-ns';
 
         $(document).on('mouseenter', '[w-i18n]', function () {
-            const $element = $(this);
-            const literal = $element.attr('w-i18n');
-            const ns = $element.attr(nsAttr) || $element.closest(`[${nsAttr}]`).attr(nsAttr);
+            var $element = $(this);
+            var literal = $element.attr('w-i18n');
+            var ns = $element.attr(nsAttr) || $element.closest(`[${nsAttr}]`).attr(nsAttr);
             console.log(`Namespace "${ns}", literal "${literal}"`);
         });
 
-        const fill = function () {
+        var fill = function () {
             find()
-                .then(($input) => {
-
+                .then(function ($input) {
                     if (password) {
-                        setTimeout(() => {
+                        setTimeout(function () {
                             $input.focus();
                             $input.val(password);
                             $input.change();
-                            setTimeout(() => {
+                            setTimeout(function () {
                                 $input.closest('form')
                                     .find('button[type="submit"]')
                                     .click();
@@ -40,14 +51,13 @@ window.addEventListener('load', function () {
                             }, 500);
                         }, 500);
                     } else {
-                        $input.on('input', () => {
+                        $input.on('input', function () {
                             localStorage.setItem('__password-demon-data', String($input.val()));
                         });
                     }
-
                 });
         };
+
         fill();
     }
-
 });
