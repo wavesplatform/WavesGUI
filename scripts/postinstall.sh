@@ -10,8 +10,8 @@ echo "compile typescript >> DONE"
 echo "run post install script >> DONE"
 
 echo "copy hooks"
-cp hooks/pre-commit .git/hooks || exit 0
-cp hooks/commit-msg .git/hooks || exit 0
+cp -f hooks/pre-commit .git/hooks || exit 0
+cp -f hooks/commit-msg .git/hooks || exit 0
 echo "copy hooks >> DONE"
 
 echo "apply aliases"
