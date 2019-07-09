@@ -117,7 +117,8 @@
                     'precision',
                     'description',
                     'issue',
-                    'hasAssetScript'
+                    'hasAssetScript',
+                    'fee'
                 ], this.createSignable);
 
                 this.observe([
