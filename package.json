@@ -77,7 +77,7 @@
     "postcss-cli": "5.0.0",
     "serve-static": "1.13.1",
     "ts-node": "8.3.0",
-    "typescript": "^3.2.2",
+    "typescript": "^3.5.3",
     "yargs": "13.2.4"
   },
   "scripts": {

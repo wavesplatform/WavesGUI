@@ -43,10 +43,10 @@ function createClearStore<T>(addContainer: TStore<T>, addRemoveF: IRemoveOrderFu
     };
 }
 
-function createProcessStore<T>(toAddContainer: TStore<T>, toRemoveContainer: TStore<T>, idKey: string): (list: Array<T>) => Array<T> {
+function createProcessStore<T extends Record<string, any>>(toAddContainer: TStore<T>, toRemoveContainer: TStore<T>, idKey: string): (list: Array<T>) => Array<T> {
     return pipe(
         list => concat(toAddContainer.map(prop('data')), list),
-        list => differenceWith(eqProps(idKey), list, toRemoveContainer.map(prop('data'))) as any,
+        list => differenceWith<T, T>(eqProps(idKey), list, toRemoveContainer.map(prop('data'))) as any,
         uniqBy(prop(idKey) as any)
     );
 }
