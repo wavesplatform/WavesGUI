@@ -16,6 +16,7 @@
   },
   "exclude": [
     "node_modules",
-    "./gulpfile.ts"
+    "./gulpfile.ts",
+    "./scripts"
   ]
 }
