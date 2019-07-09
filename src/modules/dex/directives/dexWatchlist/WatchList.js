@@ -173,7 +173,7 @@
                     {
                         id: 'price',
                         title: { literal: 'directives.watchlist.price' },
-                        sort: this._getComparatorByPath('price')
+                        sort: this._getComparatorByPath('lastPrice')
                     },
                     {
                         id: 'change',
