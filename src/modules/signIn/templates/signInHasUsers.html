@@ -38,14 +38,18 @@
           novalidate>
 
         <w-input-container class="margin-4" ng-if="$ctrl.needPassword">
-            <w-input w-autofocus
-                     name="password"
-                     type="password"
-                     ng-model="$ctrl.password"
-                     w-i18n-attr="placeholder"
-                     class="big no-icon"
-                     placeholder="userList.placeholders.password"
-                     required></w-input>
+            <w-show-hide-password>
+                <w-input
+                    w-autofocus
+                    name="password"
+                    type="password"
+                    ng-model="$ctrl.password"
+                    w-i18n-attr="placeholder"
+                    class="big no-icon"
+                    placeholder="userList.placeholders.password"
+                    required>
+                </w-input>
+            </w-show-hide-password>
             <div class="like-input-error" ng-if="$ctrl.showPasswordError && !$ctrl.networkError">
                 <span class="error active" w-i18n="password.error"></span>
             </div>

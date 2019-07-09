@@ -191,10 +191,10 @@ export function getStyles(param: IPrepareHTMLOptions, meta, themes) {
 
     return styles.map(({ theme, name, hasGet }) => {
         if (hasGet) {
-            return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${filter(name)}?theme=${theme || ''}">`;
+            return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="/${filter(name)}?theme=${theme || ''}">`;
         }
 
-        return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${filter(name)}">`;
+        return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="/${filter(name)}">`;
     });
 }
 
@@ -533,9 +533,10 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                         res.statusCode = 302;
                         res.setHeader('Location', '/');
                         res.setHeader('Set-Cookie', cookie);
+                    } else {
+                        res.statusCode = 500;
                     }
 
-                    res.statusCode = 500;
                     res.end();
                 });
             }
@@ -614,9 +615,10 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                     res.statusCode = 302;
                     res.setHeader('Location', '/');
                     res.setHeader('Set-Cookie', cookie);
+                } else {
+                    res.statusCode = 500;
                 }
 
-                res.statusCode = 500;
                 res.end();
             });
         } else if (isTemplate(url)) {
