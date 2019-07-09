@@ -63,7 +63,6 @@ class Main implements IMain {
         this.dataPromise = Main.loadMeta();
 
         this.setHandlers();
-        this.addDevTools();
     }
 
     public reload() {
