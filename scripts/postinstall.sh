@@ -4,7 +4,7 @@ echo "run post install script"
 
 echo "compile typescript"
 ./node_modules/.bin/tsc || exit 1
-npm run data-service || exit 1
+npm run data-services || exit 1
 echo "compile typescript >> DONE"
 
 echo "run post install script >> DONE"

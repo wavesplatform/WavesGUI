@@ -2,14 +2,16 @@
     'use strict';
 
     /**
-     * @param Base
-     * @param $q
-     * @param $element
+     * @param {typeof Base} Base
+     * @param {ng.IQService} $q
+     * @param {ng.IAugmentedJQuery} $element
      * @param {app.utils} utils
-     * @param $rootScope
+     * @param {ng.IRootScopeService} $rootScope
+     * @param {VisibleService} visibleService
+     * @param {app.utils.decorators} decorators
      * @return {Layout}
      */
-    const controller = function (Base, $q, $element, utils, $rootScope) {
+    const controller = function (Base, $q, $element, utils, $rootScope, visibleService, decorators) {
 
         class Layout extends Base {
 
@@ -134,6 +136,11 @@
                 }
             }
 
+            @decorators.async(300)
+            updateVisible() {
+                visibleService.updateSort();
+            }
+
             _onChangeCollapsed() {
                 const watchlist = this._watchlistCollapsed;
                 const orderbook = this._orderbookCollapsed;
@@ -187,7 +194,7 @@
         return new Layout();
     };
 
-    controller.$inject = ['Base', '$q', '$element', 'utils', '$rootScope'];
+    controller.$inject = ['Base', '$q', '$element', 'utils', '$rootScope', 'visibleService', 'decorators'];
 
     angular.module('app.dex')
         .component('wLayout', {
