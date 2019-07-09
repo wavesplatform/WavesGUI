@@ -108,7 +108,7 @@
     "@waves/ledger": "^3.3.3",
     "@waves/marshall": "^0.7.2",
     "@waves/oracle-data": "^0.0.6",
-    "@waves/signature-adapter": "^4.5.4",
+    "@waves/signature-adapter": "^4.6.0",
     "@waves/signature-generator": "^5.0.0",
     "@waves/ts-types": "0.0.2",
     "@waves/waves-browser-bus": "^0.1.5",
