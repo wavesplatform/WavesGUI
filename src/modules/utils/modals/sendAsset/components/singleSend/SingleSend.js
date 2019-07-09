@@ -443,8 +443,10 @@
             /**
              * @return {boolean}
              */
-            isMoneroAddress() {
-                return this.state.assetId === WavesApp.defaultAssets.XMR;
+            isMoneroNotIntegratedAddress() {
+                const moneroAddressLength = 95;
+                const assetIsMonero = this.state.assetId === WavesApp.defaultAssets.XMR;
+                return assetIsMonero && this.tx.recipient.length === moneroAddressLength;
             }
 
             getGatewayDetails() {

@@ -71,11 +71,15 @@ w-dex-my-orders {
   }
 
   .smart-table {
+    .smart-table {
+      &__cell[data-column-id="controls"] {
+        padding-left: 0;
+      }
+    }
+
     &__w-thead {
       .smart-table {
         &__cell[data-column-id="controls"] {
-          flex-basis: 0;
-          padding-left: 0;
 
           .disabled {
             display: none;
@@ -151,7 +155,7 @@ w-dex-my-orders {
     &__w-tbody {
       .smart-table {
         &__row {
-          padding: 6px 10px;
+          padding: 6px 14px;
 
           &.can-expand {
             .smart-table {
@@ -179,7 +183,6 @@ w-dex-my-orders {
 
     &__cell {
       flex-basis: 100px;
-      flex-grow: 1;
     }
 
     &__cell[data-column-id="fee"] {
@@ -193,7 +196,7 @@ w-dex-my-orders {
     }
 
     &__cell[data-column-id="status"] {
-      flex-basis: 100px;
+      flex-basis: 80px;
       flex-grow: 0;
       min-width: auto;
     }
@@ -213,16 +216,14 @@ w-dex-my-orders {
       }
     }
 
+    &__cell[data-column-id="filled"],
+    &__cell[data-column-id="average"],
     &__cell[data-column-id="price"],
     &__cell[data-column-id="amount"],
     &__cell[data-column-id="total"],
     &__cell[data-column-id="time"],
-    &__cell[data-column-id="controls"] {
+    &__cell[data-column-id="type"] {
       text-align: right;
-    }
-
-    &__cell[data-column-id="controls"] {
-      flex-grow: 0;
     }
 
     .stop {
@@ -230,9 +231,9 @@ w-dex-my-orders {
       background-image: url(/img/icons/order_cancel.svg);
       background-size: 8px 8px;
       background-repeat: no-repeat;
-      background-position: 14px center;
+      background-position: 10px center;
       display: inline-block;
-      padding-left: 32px;
+      padding-left: 25px;
       text-transform: capitalize;
     }
   }
@@ -323,6 +324,8 @@ w-dex-my-orders {
         }
 
         &__cell {
+          &[data-column-id="average"],
+          &[data-column-id="filled"],
           &[data-column-id="pair"],
           &[data-column-id="time"],
           &[data-column-id="price"],
@@ -360,8 +363,14 @@ w-dex-my-orders {
           order: 3;
         }
 
+        &__cell[data-column-id="filled"] {
+          text-align: left;
+        }
+
         &__cell[data-column-id="type"],
-        &__cell[data-column-id="total"] {
+        &__cell[data-column-id="total"],
+        &__cell[data-column-id="filled"],
+        &__cell[data-column-id="average"] {
           display: none;
         }
 
@@ -413,6 +422,38 @@ w-dex-my-orders {
             margin-left: 0;
             height: 30px;
             width: 30px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  body.dex .dex-wrapper,
+  body.dex-demo .dex-wrapper {
+    .tabs-myOpenOrders {
+      w-dex-my-orders {
+        .smart-table {
+          &__cell[data-column-id="average"],
+          &__cell[data-column-id="filled"] {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+body.dex .dex-wrapper,
+body.dex-demo .dex-wrapper {
+  .tabs-myOrderHistory {
+    .smart-table__w-tbody {
+      .smart-table__cell {
+        &:not(:first-child):nth-child(odd) {
+          &,
+          .decimal-muted {
+            color: @color-basic-600;
           }
         }
       }
