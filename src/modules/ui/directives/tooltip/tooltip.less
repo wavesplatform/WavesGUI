@@ -1,34 +1,40 @@
 @import (reference) 'config';
 
+w-tooltip {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .tooltip {
-  min-height: 30px;
-  display: none;
   position: absolute;
+  display: flex;
+  min-height: 30px;
   bottom: 100%;
   left: 50%;
-  padding: 5px 0 5px 10px;
-  transform: translate(calc(-50%~'+ 8px'), -8px);
-  z-index: 2;
+  padding: 5px 10px;
+  z-index: 112;
   cursor: pointer;
   border-radius: @border-radius;
   background: @color-basic-700;
-  opacity: 0.9;
+  opacity: 0;
+  visibility: hidden;
+  transition: visibility, opacity 0.2s;
+  transition-delay: 0.1s;
 
   &__content {
+    font-size: @font-size-control-small;
     color: @color-white;
-    font-size: @font-size-caption-2;
+    line-height: 20px;
     max-width: 240px;
     max-height: 150px;
     width: max-content;
     overflow: auto;
     display: block;
-    padding-right: 10px;
   }
 
   &::before {
     position: absolute;
-    bottom: -3px;
-    left: calc(50% ~'- 5px');
     width: 10px;
     height: 10px;
     content: '';
@@ -39,7 +45,50 @@
     z-index: -1;
   }
 
+
+  &_top {
+    &::before {
+      bottom: -3px;
+      left: calc(50% ~'- 5px');
+      transform: rotate(45deg);
+    }
+  }
+
+  &_bottom {
+    &::before {
+      top: -3px;
+      left: calc(50% ~'- 5px');
+      transform: rotate(45deg);
+    }
+  }
+
+  &_left {
+    &::before {
+      top: calc(50% ~'- 5px');
+      right: -3px;
+      transform: rotate(45deg);
+    }
+  }
+
+  &_right {
+    &::before {
+      top: calc(50% ~'- 5px');
+      left: -3px;
+      transform: rotate(45deg);
+    }
+  }
+
+  &.show {
+    visibility: visible;
+    opacity: .9;
+  }
+
   &:hover {
-    display: flex;
+    visibility: visible;
+    opacity: .9;
+  }
+
+  &.hidden {
+    display: none;
   }
 }
