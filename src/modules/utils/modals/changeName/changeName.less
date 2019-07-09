@@ -1,17 +1,33 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../app/less/typography';
+
 .change-name {
   height: 100%;
-  background: pink;
 
-  h3 {
-    margin: 20px 0 30px;
+  &__wrapper {
+    display: flex;
   }
 
-  .row {
+  &__title {
+    font-size: 24px;
+    margin: 40px 0 30px;
+  }
+
+  &__row {
     margin-bottom: 20px;
   }
 
-  .buttons-wrapper {
-    position: absolute;
-    width: 100%;
+  &__actions {
+    margin-top: auto;
+  }
+
+  &__icon-close {
+    right: 0;
+    top: 0;
+  }
+
+  .w-input-wrap input[type="text"].medium.mobile-caption-5 {
+    font-size: @font-size-caption-5;
   }
 }

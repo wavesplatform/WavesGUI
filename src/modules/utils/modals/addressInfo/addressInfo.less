@@ -1,10 +1,27 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../app/less/typography';
+
 .change-address {
-  .account-name {
-    margin: 10px auto;
-    font-size: 17px;
+  &__copy {
+    margin-bottom: 30px;
   }
 
-  w-copy-wrap {
-    margin-bottom: 30px;
+  &__title {
+    margin: 10px auto;
+    font-size: @font-size-caption-7;
+  }
+
+  &__avatar {
+    margin-top: 40px;
+  }
+
+  &__icon-close {
+    right: 0;
+    top: 0;
+  }
+
+  &__qr-code {
+    min-height: 200px;
   }
 }

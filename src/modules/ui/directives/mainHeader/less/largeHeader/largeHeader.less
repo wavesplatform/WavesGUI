@@ -1,9 +1,25 @@
 @import (reference) 'config';
 @import (reference) 'icons';
-@import (reference) "../../../../app/less/app-icons";
-@import (reference) '../../../../app/less/typography';
+@import (reference) "../../../../../app/less/app-icons";
+@import (reference) '../../../../../app/less/typography';
 
 .main-header {
+  .shadow() {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 4px;
+    top: 100%;
+    margin: 0 -40px;
+    transition: 1s;
+    transform: translate3d(0, 0, 0);
+    background: -moz-linear-gradient(top, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
+    background: -webkit-linear-gradient(top, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(to bottom, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+
   display: block;
 
   &__header {
@@ -85,22 +101,6 @@
     width: 100%;
     top: 0;
     left: 0;
-
-    .shadow() {
-      content: '';
-      display: block;
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 4px;
-      top: 100%;
-      margin: 0 -40px;
-      transition: 1s;
-      transform: translate3d(0, 0, 0);
-      background: -moz-linear-gradient(top, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
-      background: -webkit-linear-gradient(top, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
-      background: linear-gradient(to bottom, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
-    }
 
     .main-header__header::after {
       opacity: 0;
@@ -224,8 +224,6 @@ body.tokens {
 
 @media screen and (max-width: 860px) {
   .main-header__header {
-    .account-address,
-    .account-name,
     .top-menu,
     .header-logout,
     .buttons-wrapper {

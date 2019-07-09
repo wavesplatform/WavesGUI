@@ -1,46 +1,42 @@
 <md-dialog w-i18n-ns="app.welcome" aria-label="modal" class="change-name">
-    <md-dialog-content>
-        <div class="relative">
-            <div class="btn icon-close" w-modal-close></div>
-            <h3 class="text-center" w-i18n="welcome.changeName"></h3>
+    <md-dialog-content class="change-name__wrapper">
+        <div class="change-name__icon-close btn icon-close" w-modal-close></div>
+        <div class="change-name__content">
+            <div class="change-name__title text-center" w-i18n="welcome.changeName"></div>
 
-            <div class="row">
-                <div class="body-2" w-i18n="welcome.currentAccountName"></div>
-                <div class="input-like disabled address basic-900 mobile-caption-2 flex margin-2">
-                    {{user.name}}
-                </div>
+            <div class="change-name__row">
+                <div class="change-name__label body-2 margin-1" w-i18n="welcome.currentAccountName"></div>
+                <div class="change-name__name input-like disabled mobile-caption-5">{{user.name}}</div>
             </div>
 
-            <form name="setUserName">
-                <w-input-container>
-                    <w-input type="text"
-                             class="tiny long"
-                             ng-model="$ctrl.userName"
-                             maxlength="{{::MAX_USER_NAME_LENGTH}}"
-                             name="userName"
-                             w-validate
-                             w-validator-custom="{{$ctrl.isUniqueUserName}}"
-                             required></w-input>
+            <div class="change-name__row">
+                <form class="change-name__form" name="setUserName">
+                    <div class="change-name__label body-2 margin-1" w-i18n="welcome.newAccountName"></div>
+                    <w-input-container>
+                        <w-input type="text"
+                                 class="medium mobile-caption-5"
+                                 ng-model="$ctrl.userName"
+                                 maxlength="{{::MAX_USER_NAME_LENGTH}}"
+                                 name="userName"
+                                 w-validate
+                                 w-validator-custom="{{$ctrl.isUniqueUserName}}"
+                                 required></w-input>
 
-                    <w-input-error class="tiny" message="custom" hide-within="ERROR_DISPLAY_INTERVAL">
-                        <span w-i18n="welcome.inputErrorNameExists"></span>
-                    </w-input-error>
-                </w-input-container>
-
-                <w-info-tooltip no-icon="true">
-                    <span class="tooltip__content"
-                          w-i18n="welcome.renameAccount"></span>
-                </w-info-tooltip>
-            </form>
-
-            <div class="buttons-wrapper">
-                <w-button w-modal-close class="big long">
-                    <span w-i18n="welcome.cancel"></span>
-                </w-button>
-                <w-button class="big long submit" on-click="$ctrl.saveUserName()">
-                    <span w-i18n="welcome.save"></span>
-                </w-button>
+                        <w-input-error class="medium mobile-caption-5" message="custom" hide-within="ERROR_DISPLAY_INTERVAL">
+                            <span w-i18n="welcome.inputErrorNameExists"></span>
+                        </w-input-error>
+                    </w-input-container>
+                </form>
             </div>
+        </div>
+
+        <div class="change-name__actions buttons-wrapper">
+            <w-button w-modal-close class="big long">
+                <span w-i18n="welcome.cancel"></span>
+            </w-button>
+            <w-button class="big long submit" on-click="$ctrl.saveUserName()">
+                <span w-i18n="welcome.save"></span>
+            </w-button>
         </div>
     </md-dialog-content>
 </md-dialog>

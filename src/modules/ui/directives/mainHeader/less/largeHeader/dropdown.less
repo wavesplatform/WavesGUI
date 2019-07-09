@@ -1,11 +1,9 @@
 @import (reference) 'config';
 @import (reference) 'icons';
-@import (reference) "../../../../app/less/app-icons";
-@import (reference) '../../../../app/less/typography';
+@import (reference) "../../../../../app/less/app-icons";
+@import (reference) '../../../../../app/less/typography';
 
 .dropdown {
-  display: block !important;
-
   &__link {
     display: flex;
     align-items: center;
@@ -83,12 +81,12 @@
 
     &:hover.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
       background: @color-basic-50;
-      border: 1px solid transparent;
+      //border: 1px solid transparent;
     }
-
-    &.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
-      border: 1px solid transparent;
-    }
+    //
+    //&.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
+    //  border: 1px solid transparent;
+    //}
   }
 
   input[type="text"]::-webkit-input-placeholder {font-size: 15px; color: @color-white;}

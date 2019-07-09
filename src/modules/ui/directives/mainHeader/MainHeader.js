@@ -123,7 +123,7 @@
 
             $onDestroy() {
                 super.$onDestroy();
-                $element.find('.mobile-menu-fader, .mobile-menu-toggler').off();
+                $element.find('.main-header__mobile-fader, .main-header__mobile-toggler').off();
             }
 
             /**
@@ -239,11 +239,11 @@
              * @private
              */
             _initClickHandlers() {
-                $element.find('.mobile-menu-toggler').on('click', () => {
+                $element.find('.main-header__mobile-toggler').on('click', () => {
                     $element.find('.main-header__header').toggleClass('expanded');
                     $document.find('body').toggleClass('menu-is-shown');
                 });
-                $element.find('.mobile-menu-fader').on('click', () => {
+                $element.find('.main-header__mobile-fader').on('click', () => {
                     $element.find('.main-header__header').removeClass('expanded');
                     $document.find('body').removeClass('menu-is-shown');
                 });

@@ -1,0 +1,211 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) "../../../../../app/less/app-icons";
+@import (reference) '../../../../../app/less/typography';
+
+@header-shadow: 0 0 10px 0 lightgrey;
+
+@keyframes header-down-shadow {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes header-up-shadow {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes menu-toggler-animation-top {
+  0% {
+    transform: translate(-7px, -50%);
+  }
+  50% {
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+}
+
+@keyframes menu-toggler-animation-bottom {
+  0% {
+    transform: translate(5px, -50%);
+  }
+  50% {
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+}
+
+.main-header {
+  &__mobile-toggler {
+    display: block;
+    position: absolute;
+    right: 5px;
+    height: 60px;
+    width: 60px;
+    cursor: pointer;
+    transition: .25s;
+    z-index: 22;
+
+    span,
+    &::before,
+    &::after {
+      background: black;
+      position: absolute;
+      width: 22px;
+      top: 50%;
+      left: 50%;
+      transform-origin: center;
+      transform: translateX(-50%);
+      transition: .5s;
+      content: '';
+      display: block;
+      height: 2px;
+      background: @color-basic-900;
+    }
+
+    &:hover {
+      span,
+      &::before,
+      &::after {
+        background: @color-submit-400;
+      }
+    }
+
+    span {
+      transform: translate(-50%, -7px);
+    }
+
+    &::before {
+      transform: translate(-50%, -50%);
+    }
+
+    &::after {
+      transform: translate(-50%, 5px);
+    }
+  }
+
+  &__mobile-fader {
+    display: none;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    transition: .3s;
+    top: 0;
+    left: 0;
+    opacity: @fader-opacity;
+    width: 100%;
+    height: 100%;
+    background-color: @fader-background;
+  }
+
+  &__header.expanded {
+    .main-header__mobile {
+      &-fader {
+        display: block;
+      }
+
+      &-toggler {
+        right: 261px;
+
+        &:hover {
+          span,
+          &::before,
+          &::after {
+            background: @color-basic-900;
+          }
+        }
+
+        span {
+          animation-fill-mode: forwards;
+          animation-duration: .5s;
+          animation-name: menu-toggler-animation-top;
+        }
+
+        &::before {
+          opacity: 0;
+        }
+
+        &::after {
+          animation-fill-mode: forwards;
+          animation-duration: .5s;
+          animation-name: menu-toggler-animation-bottom;
+        }
+      }
+    }
+
+    &.show-wallet {
+      .mobile-menu__wrapper_inner {
+        &.wallet-menu {
+          right: 0;
+        }
+
+        &.aliases-menu {
+          right: -261px;
+        }
+      }
+    }
+
+    &.show-aliases {
+      .mobile-menu__wrapper_inner {
+        &.wallet-menu {
+          right: -261px;
+        }
+
+        &.aliases-menu {
+          right: 0;
+        }
+      }
+    }
+
+    &.show-downloads {
+      .mobile-menu__wrapper_inner {
+        right: 0;
+      }
+    }
+
+    .mobile-menu__wrapper:not(.mobile-menu__wrapper_inner) {
+      right: 0;
+    }
+  }
+}
+
+.dex-demo {
+  .mobile-menu {
+    .menu-link-exchange {
+      display: none;
+    }
+    .menu-link-main {
+      display: block;
+    }
+  }
+}
+
+@media screen and (max-width: 860px) {
+  &.menu-is-shown {
+    .main-header__mobile-fader {
+      display: block;
+    }
+
+    .mobile-menu__wrapper {
+      right: -261px;
+    }
+  }
+}
+
+@media screen and (min-width: 861px) {
+  nav.mobile-menu {
+    display: none;
+  }
+}
