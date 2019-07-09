@@ -16,6 +16,8 @@
                         class="big has-fliter"
                         ng-if="::!$ctrl.isSingleAsset"
                         ng-model="$ctrl.chosenAssetId"
+                        one-item="$ctrl.purchasablesByCards.length <= 1"
+                        disabled="$ctrl.purchasablesByCards.length <= 1"
                     >
                         <w-option
                             ng-repeat="purchasableByCard in ::$ctrl.purchasablesByCards track by $index"
