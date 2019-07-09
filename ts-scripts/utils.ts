@@ -191,10 +191,10 @@ export function getStyles(param: IPrepareHTMLOptions, meta, themes) {
 
     return styles.map(({ theme, name, hasGet }) => {
         if (hasGet) {
-            return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${filter(name)}?theme=${theme || ''}">`;
+            return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="/${filter(name)}?theme=${theme || ''}">`;
         }
 
-        return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${filter(name)}">`;
+        return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="/${filter(name)}">`;
     });
 }
 
