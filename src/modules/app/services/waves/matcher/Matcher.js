@@ -246,11 +246,14 @@
                             },
                             ds.config.get('code'));
 
-                        if (Object.prototype.hasOwnProperty.call(data.orderFee, 'dynamic')) {
+                        if (data.orderFee.dynamic) {
                             return Promise.all([
                                 this._scriptInfo(matcherAddress),
                                 ...Object.keys(data.orderFee.dynamic.rates).map(id => ds.api.assets.get(id))
                             ]).then(([matcherInfo, ...feeAssets]) => {
+                                if (!feeAssets.length) {
+                                    throw new Error('Fee list is empty');
+                                }
                                 return ({
                                     basedCustomFee: this.calculateCustomFeeMap({
                                         pair,
@@ -261,36 +264,28 @@
                                     feeMode: 'dynamic'
                                 });
                             });
-                        } else if (Object.prototype.hasOwnProperty.call(data.orderFee, 'fixed')) {
+                        } else if (data.orderFee.fixed) {
                             const feeValue = data.orderFee.fixed['min-fee'];
                             const feeAsset = data.orderFee.fixed.asset;
                             return ({
                                 fee: new Money(feeValue, feeAsset),
                                 feeMode: 'fixed'
                             });
-                        } else {
-                            return this.getCreateOrderFee(
-                                {
-                                    amount: new Money(0, pair.amountAsset),
-                                    price: new Money(0, pair.priceAsset),
-                                    matcherPublicKey
-                                }).then(fee => {
-                                return ({
-                                    feeMode: 'waves',
-                                    fee: fee
-                                });
-                            });
                         }
 
-                        // const feeValue = '30000';
-                        // return ds.api.assets.get('8jfD2JBLe23XtCCSQoTx5eAW5QCU6Mbxi3r78aNQLcNf')
-                        //     .then(asset => {
-                        //         return ({
-                        //             // ...data,
-                        //             fee: new Money(feeValue, asset),
-                        //             feeMode: 'fixed'
-                        //         });
-                        //     });
+                        throw new Error('Matcher settings is incorrect');
+                    })
+                    .catch(() => {
+                        return this.getCreateOrderFee({
+                            amount: new Money(0, pair.amountAsset),
+                            price: new Money(0, pair.priceAsset),
+                            matcherPublicKey
+                        }).then(fee => {
+                            return ({
+                                feeMode: 'waves',
+                                fee: fee
+                            });
+                        });
                     });
             }
 
