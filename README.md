@@ -18,7 +18,6 @@ You will need Node.js 10.7.0 (or higher) and npm v5 (or higher).
 
 ```
 npm i
-npm run data-service
 npm run server
 ```
 
