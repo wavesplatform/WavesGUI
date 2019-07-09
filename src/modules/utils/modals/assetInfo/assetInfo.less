@@ -35,6 +35,13 @@
     flex-direction: column;
     min-height: 65px;
     justify-content: center;
+    flex: 1 0;
+  }
+
+  &__help {
+    .help-icon__content {
+      width: calc(100% ~'- 105px');
+    }
   }
 
   .chart-wrapper {
@@ -65,6 +72,8 @@
     justify-content: flex-start;
     align-items: center;
     margin-top: 7px;
+    position: relative;
+    z-index: 10;
   }
 
   .rating-number {

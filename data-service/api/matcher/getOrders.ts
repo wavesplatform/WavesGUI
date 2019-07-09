@@ -75,12 +75,15 @@ export const parse = (list) => {
     });
 };
 
-
-export function getOrders(): Promise<Array<IOrder>> {
+export function getOrders(options?: IGetOrdersOptions): Promise<Array<IOrder>> {
     if (!signatureData) {
         throw new Error('Get orders without signature! Call method "addSignature"!');
     }
-    return fetch<Array<api.IOrder>>(`orderbook/${signatureData.publicKey}?activeOnly=true`)
+
+    options = options ? options : { isActive: true };
+    const activeOnly = options.isActive;
+
+    return fetch<Array<api.IOrder>>(`orderbook/${signatureData.publicKey}?activeOnly=${activeOnly}`)
         .then(parse);
 }
 
@@ -142,6 +145,10 @@ interface ISignatureData {
     publicKey: string;
     timestamp: number;
     signature: string;
+}
+
+interface IGetOrdersOptions {
+    isActive?: boolean;
 }
 
 export interface IReservedBalanceApi {
