@@ -1,31 +1,23 @@
 @import (reference) 'config';
 
 w-tooltip {
-  display: block;
-  width: 100%;
-  height: 100%;
+  display: inline-block;
 }
 
 .tooltip {
   position: absolute;
   display: flex;
-  min-height: 30px;
-  bottom: 100%;
-  left: 50%;
-  padding: 5px 10px;
+  padding: 6px 10px;
   z-index: 112;
   cursor: pointer;
   border-radius: @border-radius;
   background: @color-basic-700;
-  opacity: 0;
-  visibility: hidden;
-  transition: visibility, opacity 0.2s;
-  transition-delay: 0.1s;
+  opacity: .9;
 
   &__content {
-    font-size: @font-size-control-small;
+    font-size: @font-size-control-micro;
     color: @color-white;
-    line-height: 20px;
+    line-height: 15px;
     max-width: 240px;
     max-height: 150px;
     width: max-content;
@@ -47,6 +39,7 @@ w-tooltip {
 
 
   &_top {
+    transform: translate(-50%, -100%);
     &::before {
       bottom: -3px;
       left: calc(50% ~'- 5px');
@@ -55,6 +48,7 @@ w-tooltip {
   }
 
   &_bottom {
+    transform: translateX(-50%);
     &::before {
       top: -3px;
       left: calc(50% ~'- 5px');
@@ -63,6 +57,7 @@ w-tooltip {
   }
 
   &_left {
+    transform: translateY(-50%) translateX(-100%);
     &::before {
       top: calc(50% ~'- 5px');
       right: -3px;
@@ -71,6 +66,7 @@ w-tooltip {
   }
 
   &_right {
+    transform: translateY(-50%);
     &::before {
       top: calc(50% ~'- 5px');
       left: -3px;

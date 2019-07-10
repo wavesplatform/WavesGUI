@@ -1,8 +1,7 @@
 
-    <div w-tooltip direction="'bottom'"
-            tip-offset="10"
-            tip-locale="'modal.assetInfo.rating.canVoteTip'"
-            tip-name-space="'app.utils'"
+    <div w-tooltip direction="'top'"
+            tip-offset="5"
+            tip-content="'<div w-i18n=\'modal.assetInfo.rating.canVoteTip\'  w-i18n-ns=\'app.utils\'></div>'"
             is-show="$ctrl.canRate"
             class="rating-stars-wrapper" ng-class="{ 'can-rate': $ctrl.canRate, 'has-balance':$ctrl.hasBalance }"></div>
 <div class="tooltip_need-money" ng-if="$ctrl.canRate">

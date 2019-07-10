@@ -22,8 +22,10 @@
             constructor() {
                 super($scope);
 
+                this._hasMouseEvent = false;
+
                 if ($scope.tipOffset === undefined) {
-                    $scope.tipOffset = 20;
+                    $scope.tipOffset = 0;
                 }
 
                 this.receive(utils.observe($scope, 'isShow'), this._onChangeShow, this);
@@ -35,28 +37,32 @@
              */
             _render() {
                 $templateRequest(TEMPLATE_URL).then(template => {
-                    const compiled = $compile(template)($scope);
-                    $document.find('body').append(compiled);
-                    this.$tooltip = $(compiled[1]);
-
-                    this.listenEventEmitter($element, 'mouseover', () => this._onHover());
-                    this.listenEventEmitter($element, 'mouseleave', () => this.$tooltip.removeClass('show'));
+                    this.$tooltip = $compile(template)($scope);
+                    this.$tooltip.find('.tooltip__content').append($compile($scope.tipContent)($scope.$parent));
+                    this.listenEventEmitter($element, 'mouseenter', () => this._onHover());
+                    this.listenEventEmitter($element, 'mouseleave', () => this._onLeave());
                 });
+                this._hasMouseEvent = true;
             }
 
             /**
              * @private
              */
             _onHover() {
-                this.$tooltip.addClass('show');
-                this.$tooltip.css(this._getPosition());
+                $document.find('body').append(this.$tooltip);
+                this.$tooltip.css(Tooltip._getPosition());
+                $scope.$parent.$digest();
+            }
+
+            _onLeave() {
+                this.$tooltip.remove();
             }
 
             /**
              * @private
              */
             _onChangeShow() {
-                if ($scope.isShow) {
+                if ($scope.isShow && !this._hasMouseEvent) {
                     this._render();
                 }
             }
@@ -77,8 +83,8 @@
              * @return {{top: number, left: number}} @type {Object}
              * @private
              */
-            _getPosition() {
-                const tooltipArrowSize = window.getComputedStyle(this.$tooltip[0], ':before').height.slice(0, -2) / 2;
+            static _getPosition() {
+                const tooltipArrowSize = 5;
 
                 const {
                     width: elementWidth,
@@ -87,16 +93,14 @@
                     top: elemTop
                 } = $element[0].getBoundingClientRect();
 
-                const { width: tooltipWidth, height: tooltipHeight } = this.$tooltip[0].getBoundingClientRect();
-
-                const centerLeft = elemLeft + (elementWidth / 2) - (tooltipWidth / 2);
-                const centerTop = elemTop + (elementHeight / 2) - (tooltipHeight / 2);
+                const centerLeft = elemLeft + (elementWidth / 2);
+                const centerTop = elemTop + (elementHeight / 2);
 
                 switch ($scope.direction) {
                     case 'top':
                         return {
                             left: centerLeft,
-                            top: elemTop - tooltipHeight - $scope.tipOffset - tooltipArrowSize
+                            top: elemTop - $scope.tipOffset - tooltipArrowSize
                         };
                     case 'bottom':
                         return {
@@ -105,7 +109,7 @@
                         };
                     case 'left':
                         return {
-                            left: elemLeft - tooltipWidth - $scope.tipOffset - tooltipArrowSize,
+                            left: elemLeft - $scope.tipOffset - tooltipArrowSize,
                             top: centerTop
                         };
                     case 'right':
@@ -116,7 +120,7 @@
                     default:
                         return {
                             left: centerLeft,
-                            top: elemTop - tooltipHeight - $scope.tipOffset
+                            top: elemTop - $scope.tipOffset - tooltipArrowSize
                         };
                 }
             }
@@ -134,8 +138,7 @@
                 restrict: 'AE',
                 scope: {
                     direction: '<',
-                    tipLocale: '<',
-                    tipNameSpace: '<',
+                    tipContent: '<',
                     tipOffset: '<',
                     isShow: '<'
                 },

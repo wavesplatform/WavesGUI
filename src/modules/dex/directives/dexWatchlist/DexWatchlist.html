@@ -2,9 +2,9 @@
 
     <div class="titles-wrap">
         <div ng-repeat="tab in $ctrl.tabs track by tab.value"
-           class="title"
-           ng-class="{'active': $ctrl.activeTab === tab.value}"
-           ng-click="$ctrl.chooseTab(tab.value)">
+             class="title"
+             ng-class="{'active': $ctrl.activeTab === tab.value}"
+             ng-click="$ctrl.chooseTab(tab.value)">
             <span w-i18n="{{::tab.name}}"></span>
         </div>
 
@@ -84,14 +84,15 @@
                 <span>{{ pair.change24.toFormat() }}</span>{{ pair.change24 ? '%' : '—' }}
             </w-table-cell>
             <w-table-cell>
-                <span ng-if="pair.volume"
-                      w-nice-number="pair.currentVolume"
-                      short-mode="::true"></span>
+                <w-tooltip
+                        direction="'top'"
+                        tip-content="'<span ng-cloak><span w-nice-number=\'pair.currentVolume\'></span> {{::$ctrl.volumeAsset.displayName}}</span>'"
+                        is-show="pair.volume">
+                    <span ng-if="pair.volume"
+                          w-nice-number="pair.currentVolume"
+                          short-mode="::true"></span>
+                </w-tooltip>
                 <span ng-if="!pair.volume">—</span>
-                <div ng-if="pair.volume" class="tooltip-dex right">
-                    <span ng-if="pair.volume" w-nice-number="pair.currentVolume"></span>
-                    {{$ctrl.volumeAsset.displayName}}
-                </div>
             </w-table-cell>
             <w-table-cell ng-if="$ctrl.isChosen(pair)" class="chosen">
                 <div>
