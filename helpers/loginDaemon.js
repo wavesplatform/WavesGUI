@@ -1,5 +1,6 @@
 /* eslint-disable no-var */
 /* eslint-disable no-console */
+/* eslint-disable prefer-template */
 
 window.addEventListener('load', function () {
     'use strict';
@@ -30,8 +31,8 @@ window.addEventListener('load', function () {
         $(document).on('mouseenter', '[w-i18n]', function () {
             var $element = $(this);
             var literal = $element.attr('w-i18n');
-            var ns = $element.attr(nsAttr) || $element.closest(`[${nsAttr}]`).attr(nsAttr);
-            console.log(`Namespace "${ns}", literal "${literal}"`);
+            var ns = $element.attr(nsAttr) || $element.closest('[' + nsAttr + ']').attr(nsAttr);
+            console.log('Namespace "' + ns + '", literal "' + literal + '"');
         });
 
         var fill = function () {
