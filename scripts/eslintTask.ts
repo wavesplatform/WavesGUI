@@ -1,10 +1,10 @@
 import { TaskFunction } from 'gulp';
 import { createSpawn } from './utils';
+import { normalize } from 'path';
 
 export function createEslintTask(): TaskFunction {
     return function eslintTask() {
-        return createSpawn('sh', [
-            './node_modules/.bin/eslint',
+        return createSpawn(normalize('./node_modules/.bin/eslint'), [
             '-c', '.eslintrc.json',
             './src/modules/'
         ]);
