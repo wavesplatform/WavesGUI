@@ -349,10 +349,10 @@ w-transaction-info-header + w-transaction-info-general {
     &::before {
       width: @tx-icon-size;
       height: @tx-icon-size;
-      background-size: 1920px, 160px;
+      background-size: auto 200%;
       background-color: @color-white;
       background-repeat: no-repeat;
-      background-image: url(/img/icons/transaction-icons-30.svg);
+      background-image: @transaction-icons;
       content: '';
       display: block;
     }
