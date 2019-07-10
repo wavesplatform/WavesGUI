@@ -12,6 +12,7 @@
     <w-select ng-model="$ctrl.activeUserAddress"
               one-item="$ctrl.userList.length <= 1"
               disabled="$ctrl.userList.length <= 1"
+              hide-active="::false"
               class="big margin-3">
         <w-option ng-repeat="user in $ctrl.userList track by user.address"
                   value="::user.address">
@@ -38,14 +39,18 @@
           novalidate>
 
         <w-input-container class="margin-4" ng-if="$ctrl.needPassword">
-            <w-input w-autofocus
-                     name="password"
-                     type="password"
-                     ng-model="$ctrl.password"
-                     w-i18n-attr="placeholder"
-                     class="big no-icon"
-                     placeholder="userList.placeholders.password"
-                     required></w-input>
+            <w-show-hide-password>
+                <w-input
+                    w-autofocus
+                    name="password"
+                    type="password"
+                    ng-model="$ctrl.password"
+                    w-i18n-attr="placeholder"
+                    class="big no-icon"
+                    placeholder="userList.placeholders.password"
+                    required>
+                </w-input>
+            </w-show-hide-password>
             <div class="like-input-error" ng-if="$ctrl.showPasswordError && !$ctrl.networkError">
                 <span class="error active" w-i18n="password.error"></span>
             </div>
@@ -59,7 +64,7 @@
                       on-click="$ctrl.showSeed()"
                       type="submit"
                       class="submit big long">
-                <span w-i18n="backupSeed.continue"></span>
+                <span w-i18n="continue"></span>
             </w-button>
         </w-analytics>
     </form>
@@ -69,16 +74,16 @@
 <div class="seed" ng-if="$ctrl.isVisibleSeed">
     <div class="backup-seed movable get-started-content">
         <div class="headline-1 margin-1 text-center">
-            <span w-i18n="backupSeed.copySeed"></span>
+            <span w-i18n="copySeed"></span>
         </div>
 
         <div class="body-2 basic-500 margin-top-1 margin-4 text-center">
-            <span w-i18n="backupSeed.warn"></span>
-            <a ng-click="$ctrl.backToUsersList()" class="submit-400" w-i18n="backupSeed.goBack"></a>
+            <span w-i18n="warn"></span>
+            <a ng-click="$ctrl.backToUsersList()" class="submit-400" w-i18n="goBack"></a>
         </div>
 
         <div class="body-2 basic-900 margin-1">
-            <span w-i18n="backupSeed.yourSeed"></span>
+            <span w-i18n="yourSeed"></span>
         </div>
 
         <w-seed-read type="read" seed="{{::$ctrl.seed}}" class="no-user-select margin-2 margin-top-1"></w-seed-read>
@@ -87,7 +92,7 @@
             <a class="fake-button submit big long"
                       ng-click="$ctrl.clickCopySeed()"
                       w-copy="::$ctrl.seed">
-                <span class="fake-button-content submit big long" w-i18n="backupSeed.copy"></span>
+                <span class="fake-button-content submit big long" w-i18n="copy"></span>
             </a>
         </div>
     </div>

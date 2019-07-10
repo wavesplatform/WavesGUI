@@ -19,6 +19,7 @@
      * @param {PermissionManager} permissionManager,
      * @param {Ease} ease
      * @param {JQuery} $element
+     * @param {Transactions} transactions
      * @return {DexMyOrders}
      */
     const controller = function (
@@ -33,7 +34,8 @@
         modalManager,
         permissionManager,
         ease,
-        $element
+        $element,
+        transactions
     ) {
 
         /**
@@ -321,29 +323,27 @@
                             )
                             .then(result => {
                                 const lastOrder = result.slice().reverse().find(where({ progress: gt(__, 0) }));
+                                const exchanges = lastOrder ?
+                                    DexMyOrders._loadTransactions(lastOrder.timestamp.getTime()) :
+                                    Promise.resolve([]);
 
-                                if (!lastOrder) {
-                                    return result;
-                                }
+                                return exchanges.then(txList => {
+                                    const hash = DexMyOrders._getTransactionsByOrderIdHash(txList);
+                                    this.loadingError = false;
+                                    return result.map(order => {
+                                        if (!hash[order.id]) {
+                                            hash[order.id] = [];
+                                        }
+                                        order.exchange = hash[order.id];
+                                        order.average =
+                                            DexMyOrders._getAveragePriceByExchange(order, order.exchange);
+                                        order.filledTotal = order.price.cloneWithTokens(
+                                            order.average.getTokens().times(order.filled.getTokens())
+                                        );
 
-                                return DexMyOrders._loadTransactions(lastOrder.timestamp.getTime())
-                                    .then(txList => {
-                                        const hash = DexMyOrders._getTransactionsByOrderIdHash(txList);
-                                        this.loadingError = false;
-                                        return result.map(order => {
-                                            if (!hash[order.id]) {
-                                                hash[order.id] = [];
-                                            }
-                                            order.exchange = hash[order.id];
-                                            order.average =
-                                                DexMyOrders._getAveragePriceByExchange(order, order.exchange);
-                                            order.filledTotal = order.price.cloneWithTokens(
-                                                order.average.getTokens().times(order.filled.getTokens())
-                                            );
-
-                                            return order;
-                                        });
-                                    }).catch(() => result);
+                                        return order;
+                                    });
+                                }).catch(() => result);
                             });
                     })
                     .catch(() => {
@@ -497,7 +497,7 @@
              */
             static _loadTransactions(lastTime) {
                 const minTime = DexMyOrders._getMinTimestamp();
-                return ds.api.transactions.getExchangeTxList({
+                return transactions.getExchangeTxList({
                     sender: user.address,
                     timeStart: ds.utils.normalizeTime(minTime < lastTime ? lastTime : minTime)
                 }, { getAll: true, limit: MAX_EXCHANGE_COUNT });
@@ -535,7 +535,8 @@
         'modalManager',
         'permissionManager',
         'ease',
-        '$element'
+        '$element',
+        'transactions'
     ];
 
     angular.module('app.dex').component('wDexMyOrders', {

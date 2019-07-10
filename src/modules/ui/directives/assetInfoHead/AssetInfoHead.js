@@ -18,6 +18,10 @@
              * @type {string}
              */
             assetName;
+            /**
+             * @type {boolean}
+             */
+            ratingError = false;
 
             $postLink() {
                 this._getAssetInfo();
@@ -34,7 +38,10 @@
                     this.ticker = asset.ticker;
                     const { hasLabel, isGateway } = utils.getDataFromOracles(asset.id);
                     this.hasLabel = hasLabel;
-                    this.isGateway = isGateway && this.assetId !== WavesApp.defaultAssets.VST;
+                    this.isGatewayOrWaves = this.assetId === WavesApp.defaultAssets.WAVES ||
+                        isGateway &&
+                        this.assetId !== WavesApp.defaultAssets.VST &&
+                        this.assetId !== WavesApp.defaultAssets.ERGO;
                     $scope.$apply();
                 });
 
@@ -42,14 +49,21 @@
             }
 
             _getTokenRating() {
-                return ds.api.rating.getAssetsRating(this.assetId);
+                return ds.api.rating.getAssetsRating(this.assetId)
+                    .then(assetList => assetList)
+                    .catch(() => null);
             }
 
-            _setTokenRating([asset]) {
-                if (!asset) {
+            _setTokenRating(assetList) {
+                if (!assetList) {
+                    this.ratingError = true;
                     return null;
                 }
-                this.rating = asset.rating;
+                if (!assetList[0]) {
+                    return null;
+                }
+
+                this.rating = assetList[0].rating;
                 $scope.$apply();
             }
 

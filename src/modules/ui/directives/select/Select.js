@@ -50,6 +50,10 @@
              */
             oneItem = false;
             /**
+             * @type {boolean}
+             */
+            hideActive = true;
+            /**
              * @type {string}
              */
             filter = '';
@@ -67,7 +71,7 @@
                  */
                 this._render = utils.debounce(() => {
                     this._initializeSelected();
-                    $scope.$digest();
+                    $scope.$apply();
                 }, 100);
 
                 this.observe('disabled', () => {
@@ -76,6 +80,14 @@
 
                 this.observe('oneItem', () => {
                     $element.toggleClass('disabled one-item', !!this.oneItem);
+                });
+
+                this.observeOnce('hideActive', () => {
+                    if (this.hideActive || this.hideActive === undefined) {
+                        $element.addClass('hide-active');
+                    } else {
+                        $element.removeClass('hide-active');
+                    }
                 });
 
                 this.observe('filter', () => {
@@ -255,7 +267,8 @@
             disabled: '<',
             upDirection: '<',
             canSearch: '<',
-            oneItem: '<'
+            oneItem: '<',
+            hideActive: '<'
         },
         templateUrl: 'modules/ui/directives/select/select.html',
         transclude: true,

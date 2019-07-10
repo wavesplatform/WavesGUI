@@ -991,8 +991,9 @@
             onExportUsers(origin, resolve) {
                 return (response) => {
                     if (!response) {
-                        return [];
+                        resolve([]);
                     }
+
                     resolve(response);
                 };
             },
@@ -1596,14 +1597,8 @@
              * @return Money
              */
             getExchangeFee(tx) {
-                /**
-                 * @type {User}
-                 */
-                const user = $injector.get('user');
-                return [tx.order1, tx.order2]
-                    .filter(order => user.publicKey === order.senderPublicKey)
-                    .map(order => order.matcherFee)
-                    .reduce((acc, item) => acc.add(item), tx.fee.cloneWithTokens(0));
+                const isBuy = tx.exchangeType === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_BUY;
+                return isBuy ? tx.buyMatcherFee : tx.sellMatcherFee;
             },
 
             /**

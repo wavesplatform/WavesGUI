@@ -208,9 +208,10 @@
                     type: tx.type,
                     name: tx.name || 'name',
                     description: tx.description || 'description',
-                    reissuable: tx.reissue || true,
+                    reissuable: tx.reissue == null ? true : tx.reissue,
                     quantity: tx.quantity || new BigNumber(1),
                     precision: tx.precision || 0,
+                    decimals: tx.precision || 0,
                     script: tx.script || '',
                     fee: tx.fee || new Money(1, asset)
                 }));
