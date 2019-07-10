@@ -46,6 +46,34 @@ body.welcome {
       }
     }
   }
+
+  .get-started-btn {
+    position: relative;
+    margin-right: 0;
+
+    .fake-button-content {
+      padding-right: 53px;
+
+      &:after {
+        content: '';
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        margin-right: 25px;
+        margin-top: -12px;
+        background: @arrow-right-white-icon;
+        transition: margin 0.3s;
+      }
+    }
+
+    &:hover {
+      .fake-button-content:after {
+        margin-right: 15px;
+      }
+    }
+  }
 }
 
 w-site-header {
@@ -127,7 +155,7 @@ w-site-header {
     margin: 0 auto;
     display: flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     background: @color-white;
     z-index: 111;
