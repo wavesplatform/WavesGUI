@@ -5,13 +5,11 @@ import { normalize } from 'path';
 export function createDataServicesTask(): TaskFunction {
     return async function dataServicesTask() {
 
-        await createSpawn('sh', [
-            normalize('./node_modules/.bin/tsc'),
+        await createSpawn(normalize('./node_modules/.bin/tsc'), [
             '-p', normalize('./data-service')
         ]);
 
-        await createSpawn('sh', [
-            normalize('./node_modules/.bin/browserify'),
+        await createSpawn(normalize('./node_modules/.bin/browserify'), [
             normalize('data-service/index.js'),
             '-s', 'ds',
             '-u', 'ts-utils',
@@ -24,8 +22,7 @@ export function createDataServicesTask(): TaskFunction {
             '-o', normalize('./data-service-dist/data-service-es6.js')
         ]);
 
-        await createSpawn('sh', [
-            normalize('./node_modules/.bin/babel'),
+        await createSpawn(normalize('./node_modules/.bin/babel'), [
             normalize('./data-service-dist/data-service-es6.js'),
             '--presets=es2015',
             '--plugins=transform-decorators-legacy,transform-class-properties,transform-object-rest-spread',
