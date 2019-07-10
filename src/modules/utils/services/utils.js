@@ -1719,7 +1719,7 @@
                  */
                 const version = user.hasScript() ? 2 : undefined;
 
-                const scriptedError = 30702;
+                const accountScriptErrors = [3147521, 3147522];
 
                 const signableData = {
                     type: SIGN_TYPE.CREATE_ORDER,
@@ -1727,16 +1727,29 @@
                 };
 
                 const onError = data => {
-                    notification.error({
-                        ns: 'app.dex',
-                        title: {
-                            literal: 'directives.createOrder.notifications.error.title'
-                        },
-                        body: {
-                            literal: `directives.createOrder.notifications.error.${data.error}`,
-                            params: data.params
-                        }
-                    }, -1);
+                    if (data && data.error) {
+                        notification.error({
+                            ns: 'app.dex',
+                            title: {
+                                literal: 'directives.createOrder.notifications.error.title'
+                            },
+                            body: {
+                                literal: `directives.createOrder.notifications.error.${data.error}`,
+                                params: data.params ? data.params : {}
+                            }
+                        }, -1);
+                    } else {
+                        notification.error({
+                            ns: 'app.dex',
+                            title: {
+                                literal: 'directives.createOrder.notifications.error.title'
+                            },
+                            body: {
+                                literal: data && data.message || data
+                            }
+                        }, -1);
+                    }
+
 
                     return Promise.reject(data);
                 };
@@ -1747,7 +1760,7 @@
                             .then(signable => signable.getDataForApi())
                             .then(ds.createOrder)
                             .catch(data => {
-                                if (!isAdvancedMode || data.error !== scriptedError) {
+                                if (!isAdvancedMode || !accountScriptErrors.includes(data.error)) {
                                     return Promise.reject(data);
                                 }
 

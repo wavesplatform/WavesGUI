@@ -92,7 +92,8 @@
                         <div ng-if="$ctrl.errorType"
                              class="error-500 margin-2 margin-top-2"
                              w-i18n-ns="app.dex"
-                             w-i18n="directives.createOrder.notifications.error.{{::$ctrl.errorType}}">
+                             w-i18n="directives.createOrder.notifications.error.{{::$ctrl.errorType}}"
+                             params="$ctrl.errorParams">
                         </div>
 
                         <div ng-if="$ctrl.errorMessage" class="error-500 margin-2 margin-top-2">

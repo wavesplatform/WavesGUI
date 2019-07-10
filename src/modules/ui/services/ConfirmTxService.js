@@ -75,6 +75,10 @@
              */
             errorMessage = null;
             /**
+             * @type {object}
+             */
+            errorParams = Object.create(null);
+            /**
              * @type {boolean}
              */
             isTransaction = false;
@@ -137,6 +141,7 @@
                 }).catch(e => {
                     if (e.error) {
                         this.errorType = e.error;
+                        this.errorParams = e.params;
                     } else {
                         this.errorMessage = e.message;
                     }
