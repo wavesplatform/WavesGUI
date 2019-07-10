@@ -47,7 +47,7 @@
                    ng-if="$ctrl.hasUsers"
                    ng-click="$ctrl.removeBodyClass()"
                    ui-sref="signIn" w-i18n="welcome.signIn"></a></li>
-            <li class="mobile-menu__item">
+            <li class="mobile-menu__item mobile-menu__item_get-started-link">
                 <a class="mobile-menu__link mobile-menu__link_get-started-link create-hidden"
                    ng-click="$ctrl.removeBodyClass()"
                    ui-sref="create" w-i18n="welcome.getStarted"></a></li>
@@ -59,17 +59,15 @@
                    w-toggle-class="mobile-menu-inner-expanded"
                    href="#">
 
-                    <div class="mobile-menu__user mobile-menu-user-data">
-                        <div class="mobile-menu__user-avatar has-helper"> <!-- MOBILE -->
+                    <div class="mobile-menu__user">
+                        <div class="mobile-menu__avatar has-helper"> <!-- MOBILE -->
                             <w-avatar size="40" address="$ctrl.address"></w-avatar>
                         </div>
 
-                        <div class="mobile-menu__user-info flex mobile-user-info">
-                            <div>
-                                <div class="body-2 margin-05 mobile-user-info-name">{{user.name}}</div>
-                                <div>
-                                    <div class="caption-2 basic-600">{{::$ctrl.address}}</div>
-                                </div>
+                        <div class="mobile-menu__info mobile-user">
+                            <div class="mobile-user__info">
+                                <div class="mobile-user__name body-2 margin-05">{{user.name}}</div>
+                                <div class="mobile-user__address caption-2 basic-600">{{::$ctrl.address}}</div>
                             </div>
                         </div>
                     </div>
