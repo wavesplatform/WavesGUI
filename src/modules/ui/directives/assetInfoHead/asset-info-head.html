@@ -8,7 +8,7 @@
         <div class="asset-modal__data">
             <h2 ng-cloak class="asset-modal__name basic-900" ng-class="{'has-label': $ctrl.hasLabel}">
                 <span class="name">{{$ctrl.assetName}}</span>
-                <w-asset-status asset-id="$ctrl.assetId"></w-asset-status>
+                <w-asset-status class="asset-status" asset-id="$ctrl.assetId"></w-asset-status>
             </h2>
 
             <div class="rating-wrapper" ng-if="!$ctrl.isGatewayOrWaves && !$ctrl.ratingError">

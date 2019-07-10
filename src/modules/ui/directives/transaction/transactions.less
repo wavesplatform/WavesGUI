@@ -10,7 +10,7 @@
 }
 
 .status-label,
-.status-label-min {
+.asset-status__status {
   width: auto;
   padding: 4px 11px;
   border-radius: @border-radius;
@@ -55,7 +55,7 @@
   }
 }
 
-.status-label-min {
+.asset-status__status {
   .caption-3();
   padding: 2px 6px;
   //margin-top: 4px;
@@ -72,7 +72,7 @@ w-transaction .transaction {
   align-items: center;
   position: relative;
 
-  .status-label-min {
+  .asset-status__status {
     &.inactive {
       margin-bottom: -1px;
     }
@@ -214,12 +214,12 @@ w-transaction .transaction {
     }
   }
 
-  .status-label-min.inactive {
+  .asset-status__status.inactive {
     display: none;
   }
 
   .spam {
-    .status-label-min.inactive {
+    .asset-status__status.inactive {
       display: block;
     }
   }
@@ -308,7 +308,7 @@ w-transaction .transaction {
             color: @color-accent-100;
           }
 
-          .status-label-min {
+          .asset-status__status {
             display: inline-block;
             top: auto;
             bottom: 3px;
@@ -332,7 +332,7 @@ w-transaction .transaction {
       margin-right: 20px;
     }
 
-    .status-label-min {
+    .asset-status__status {
       right: 40px;
       top: 24px;
       bottom: auto;
@@ -416,7 +416,7 @@ w-transaction .transaction {
         .line-wrapper {
           .line {
             .top {
-              .status-label-min {
+              .asset-status__status {
                 position: absolute;
                 right: 43px;
                 bottom: 44px;
@@ -432,7 +432,7 @@ w-transaction .transaction {
 @media screen and (max-width: 540px) {
   md-dialog {
     w-transaction .transaction {
-      .status-label-min {
+      .asset-status__status {
         right: 10px;
       }
     }
