@@ -38,7 +38,7 @@
             _render() {
                 $templateRequest(TEMPLATE_URL).then(template => {
                     this.$tooltip = $compile(template)($scope);
-                    this.$tooltip.find('.tooltip__content').append($compile($scope.tipContent)($scope.$parent));
+                    this.$tooltip.find('.js-tooltip-content').append($compile($scope.tipContent)($scope.$parent));
                     this.listenEventEmitter($element, 'mouseenter', () => this._onHover());
                     this.listenEventEmitter($element, 'mouseleave', () => this._onLeave());
                 });
@@ -72,7 +72,6 @@
              */
             $onDestroy() {
                 super.$onDestroy();
-                this.stopListenEventEmitter($element);
                 if (this.$tooltip) {
                     this.$tooltip.remove();
                 }
