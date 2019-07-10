@@ -170,8 +170,8 @@
     "dist/dev/js/templates.js"
   ],
   "debugInjections": [
-    "ts-scripts/loginDaemon.js",
-    "ts-scripts/mobileConsole.js"
+    "helpers/loginDaemon.js",
+    "helpers/mobileConsole.js"
   ],
   "copyNodeModules": [
     "node_modules/qrcode-reader/dist/index.min.js",
