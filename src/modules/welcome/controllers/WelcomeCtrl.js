@@ -268,6 +268,7 @@
                         $scope.$apply();
                     })
                     .catch(() => {
+                        storage.save('accountImportComplete', true);
                         this._initUserList();
                     });
             }

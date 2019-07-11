@@ -450,10 +450,7 @@
                     .then(list => {
                         list = list || [];
 
-                        list.sort((a, b) => {
-                            return a.lastLogin - b.lastLogin;
-                        })
-                            .reverse();
+                        list.sort((a, b) => a.lastLogin - b.lastLogin).reverse();
 
                         return list;
                     });

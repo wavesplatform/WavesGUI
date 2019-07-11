@@ -605,7 +605,7 @@
                 const inOrders = this.balance.inOrders.getTokens();
                 const leasedOut = this.balance.leasedOut.getTokens();
                 const availableHtml = this.utils.getNiceNumberTemplate(available, asset.precision, true);
-                const inReservedHtml = this.utils.getNiceNumberTemplate(inOrders.plus(leasedOut), asset.precision);
+                const inReservedHtml = this.utils.getNiceNumberTemplate(inOrders.add(leasedOut), asset.precision);
                 this.node.querySelector(`.${SELECTORS.AVAILABLE}`).innerHTML = availableHtml;
                 this.node.querySelector(`.${SELECTORS.IN_RESERVED}`).innerHTML = inReservedHtml;
             }
