@@ -298,7 +298,7 @@ w-button {
 
 //Candy effect
 w-button {
-  w-loader {
+  .preloader {
     display: none;
   }
 
@@ -308,7 +308,7 @@ w-button {
       display: none;
     }
 
-    w-loader {
+    .preloader {
       display: block;
       margin: 0 auto;
 
@@ -324,7 +324,7 @@ w-button {
         animation: @candy-animation;
       }
 
-      .preloader {
+      &__dot {
         .loader-dots();
         top: -12px;
         animation-delay: .16s;
