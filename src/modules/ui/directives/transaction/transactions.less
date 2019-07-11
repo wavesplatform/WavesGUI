@@ -9,58 +9,50 @@
   background: @color-white;
 }
 
-.status-label,
-.asset-status__status {
-  width: auto;
-  padding: 4px 11px;
-  border-radius: @border-radius;
-  text-transform: uppercase;
-  color: @color-submit-400;
-  background-color: @color-bluebar-200;
-  margin: 0 0 0 6px;
-  white-space: nowrap;
+// .status-label,
+// .asset-status__status {
+//   width: auto;
+//   padding: 4px 11px;
+//   border-radius: @border-radius;
+//   text-transform: uppercase;
+//   color: @color-submit-400;
+//   background-color: @color-bluebar-200;
+//   margin: 0 0 0 6px;
+//   white-space: nowrap;
 
-  &.success,
-  &.confirmed {
-    background: @color-success-50;
-    color: @color-success-400;
-  }
+//   &.success,
+//   &.confirmed {
+//     background: @color-success-50;
+//     color: @color-success-400;
+//   }
 
-  &.warning,
-  &.unconfirmed {
-    background: rgba(255, 175, 0, 0.1);
-    color: @color-warning-500;
-  }
+//   &.warning,
+//   &.unconfirmed {
+//     background: rgba(255, 175, 0, 0.1);
+//     color: @color-warning-500;
+//   }
 
-  &.error,
-  &.cancelled {
-    background: rgba(239, 72, 41, 0.1);
-    color: @color-error-500;
-  }
+//   &.error,
+//   &.cancelled {
+//     background: rgba(239, 72, 41, 0.1);
+//     color: @color-error-500;
+//   }
 
-  &.active {
-    color: @color-submit-400;
-    background-color: @color-bluebar-200;
-  }
+//   &.active {
+//     color: @color-submit-400;
+//     background-color: @color-bluebar-200;
+//   }
 
-  &.inactive {
-    background-color: @asset-label-suspicious;
-    color: @color-black;
-  }
-}
+//   &.inactive {
+//     background-color: @asset-label-suspicious;
+//     color: @color-black;
+//   }
+// }
 
 .asset__text {
   .js-stars-container {
     margin-top: 1px;
   }
-}
-
-.asset-status__status {
-  .caption-3();
-  padding: 2px 6px;
-  //margin-top: 4px;
-  border-radius: @border-radius / 2;
-  text-transform: uppercase;
 }
 
 w-transaction .transaction {
@@ -214,12 +206,12 @@ w-transaction .transaction {
     }
   }
 
-  .asset-status__status.inactive {
+  .asset-status__status_inactive {
     display: none;
   }
 
   .spam {
-    .asset-status__status.inactive {
+    .asset-status__status_inactive {
       display: block;
     }
   }
