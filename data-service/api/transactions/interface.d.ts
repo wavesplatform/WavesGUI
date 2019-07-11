@@ -17,7 +17,8 @@ export type T_API_TX =
     txApi.IData |
     txApi.ISponsorship |
     txApi.ISetScript |
-    txApi.ISetAssetScript;
+    txApi.ISetAssetScript |
+    tx.Api.IScriptInvocation;
 
 export type T_TX =
     IIssue |
@@ -158,12 +159,21 @@ export module txApi {
         script: string;
     }
 
+    export interface IScriptInvocation extends IBaseTransaction {
+        type: 16;
+        version?: number;
+        call?: ICall;
+        dApp: string;
+        payment?: Array<{ amount: number; assetId: string; }>;
+    }
+
     export interface IExchangeOrder {
         amount: string;
         assetPair: IAssetPair;
         expiration: number;
         id: string;
         matcherFee: string;
+        matcherFeeAssetId?: string;
         matcherPublicKey: string;
         orderType: TOrderType;
         price: string;
@@ -207,8 +217,7 @@ export interface ITransfer extends IBaseTransaction {
     type: TRANSACTION_TYPE_NUMBER.TRANSFER;
     amount: Money;
     assetId: string;
-    attachment: string;
-    rawAttachment: string;
+    attachment: Uint8Array;
     fee: Money;
     feeAssetId: string;
     recipient: string;
@@ -270,8 +279,7 @@ export interface IMassTransfer extends IBaseTransaction {
     type: TRANSACTION_TYPE_NUMBER.MASS_TRANSFER;
     version?: number;
     assetId: string;
-    attachment: string;
-    rawAttachment: string;
+    attachment: Uint8Array;
     fee: Money;
     totalAmount: Money;
     transferCount: number;
@@ -320,12 +328,24 @@ export interface IExchangeOrder {
     timestamp: number;
 }
 
+export interface IScriptInvocation extends IBaseTransaction {
+    version?: number;
+    call?: ICall;
+    dApp: string;
+    payment?: Array<Money>;
+}
+
+export interface ICall {
+    args: Array<TCallArgs>;
+    function: string;
+}
+
 export type TDataEntry = TDataEntryInteger | TDataEntryBoolean | TDataEntryBinary | TDataEntryString;
 
 export interface TDataEntryInteger {
     type: 'integer';
     key: string;
-    value: number;
+    value: number | BigNumber;
 }
 
 export interface TDataEntryBoolean {
@@ -343,5 +363,27 @@ export interface TDataEntryBinary {
 export interface TDataEntryString {
     type: 'string';
     key: string;
+    value: string;
+}
+
+export type TCallArgs = TCallArgsInteger | TCallArgsBoolean | TCallArgsBinary | TCallArgsString;
+
+export interface TCallArgsInteger {
+    type: 'integer';
+    value: number;
+}
+
+export interface TCallArgsBoolean {
+    type: 'boolean';
+    value: boolean;
+}
+
+export interface TCallArgsBinary {
+    type: 'binary';
+    value: string; // base64
+}
+
+export interface TCallArgsString {
+    type: 'string';
     value: string;
 }

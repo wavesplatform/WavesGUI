@@ -8,7 +8,7 @@ Waves Client is the official wallet software designed with mass adoption in mind
 
 ## Installation and usage
 
-The web version is available at [https://client.wavesplatform.com](https://client.wavesplatform.com) and needs no installation.
+The web version is available at [https://dex.wavesplatform.com](https://dex.wavesplatform.com) and needs no installation.
 
 The desktop client can be downloaded from [https://wavesplatform.com/product](https://wavesplatform.com/product).
 
@@ -18,7 +18,6 @@ You will need Node.js 10.7.0 (or higher) and npm v5 (or higher).
 
 ```
 npm i
-npm run data-service
 npm run server
 ```
 

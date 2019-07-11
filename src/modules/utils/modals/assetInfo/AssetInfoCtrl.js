@@ -13,8 +13,6 @@
     const controller = function (Base, $scope, user, createPoll, utils, waves) {
 
         const ds = require('data-service');
-        const { path } = require('ramda');
-        const { STATUS_LIST } = require('@waves/oracle-data');
 
         class AssetInfoCtrl extends Base {
 
@@ -36,18 +34,18 @@
                 this.totalBalance = null;
                 this.transactions = [];
                 this.transactionsPending = true;
-                const data = ds.dataManager.getOracleAssetData(asset.id);
-                this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
-                this.isGateway = path(['status'], data) === 3;
-                this.isSuspicious = WavesApp.scam[this.asset.id];
-                this.hasLabel = this.isVerified || this.isGateway || this.isSuspicious;
 
-                // this.ticker = path(['ticker'], data); // TODO STEP 2
-                this.ticker = asset.ticker; // TODO STEP 2
-                this.link = path(['link'], data);
-                this.email = path(['email'], data);
-                this.provider = this.isVerified && path(['provider'], data) || null;
-                this.description = path(['description', 'en'], data) || asset.description;
+                const {
+                    link, email, provider, description
+                } = utils.getDataFromOracles(this.asset.id);
+
+                // this.ticker = path(['ticker'], data); // TODO STEP 2=
+                this.link = link;
+
+                this.email = email;
+
+                this.provider = provider;
+                this.description = description || asset.description;
 
                 this.withScam = null;
                 this.spam = [];

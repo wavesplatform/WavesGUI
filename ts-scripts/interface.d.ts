@@ -8,11 +8,8 @@ export interface IMetaJSON {
     copyNodeModules: Array<string>;
     debugInjections: Array<string>;
     electronScripts: Array<string>;
+    analyticsIframe: string;
     langList: object,
-    configurations: {
-        testnet: IConfItem;
-        mainnet: IConfItem;
-    };
     tradingView: {
         domain: string;
         files: Array<string>;
@@ -49,7 +46,8 @@ export interface IHash<T> {
 }
 
 export interface IConfItem {
-    oracle: string;
+    tradingPairs: Array<Array<string, string>>;
+    oracles: object;
     apiVersion: string;
     code: string;
     bankRecipient: string;
@@ -65,20 +63,9 @@ export interface IConfItem {
     origin: string;
     assets: IHash<string>;
     feeConfigUrl: string;
+    analyticsIframe: string;
 }
 
 export type TConnection = 'mainnet' | 'testnet';
-export type TBuild = 'dev' | 'normal' | 'min';
+export type TBuild = 'development' | 'production';
 export type TPlatform = 'web' | 'desktop';
-
-export interface ITaskFunction {
-    (name: string, deps: Array<string>): void;
-
-    (name: string, deps: Array<string>, cb: ITaskCallback): void;
-
-    (name: string, cb: ITaskCallback): void;
-}
-
-export interface ITaskCallback {
-    (done?: (error?: any) => void): Stream | void;
-}

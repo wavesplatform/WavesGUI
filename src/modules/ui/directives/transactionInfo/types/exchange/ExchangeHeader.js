@@ -26,6 +26,14 @@
              */
             signAmount = '+';
 
+            /**
+             * @type {boolean}
+             */
+            isScamAmount;
+            /**
+             * @type {boolean}
+             */
+            isScamPrice;
 
             $postLink() {
                 this.transaction = this.signable.getTxData();
@@ -33,6 +41,8 @@
                 this.totalPrice = utils.getExchangeTotalPrice(this.transaction.amount, this.transaction.price);
                 this.signPrice = this.typeName === 'exchange-buy' ? '–' : '+';
                 this.signAmount = this.typeName === 'exchange-buy' ? '+' : '–';
+                // this.isScamAmount = !!user.scam[this.transaction.amount.asset];
+                // this.isScamPrice = !!user.scam[this.transaction.price.asset];
             }
 
         }
@@ -44,7 +54,9 @@
 
     angular.module('app.ui').component('wExchangeHeader', {
         bindings: {
-            signable: '<'
+            signable: '<',
+            isScamAmount: '<',
+            isScamPrice: '<'
         },
         controller,
         templateUrl: 'modules/ui/directives/transactionInfo/types/exchange/header.html'

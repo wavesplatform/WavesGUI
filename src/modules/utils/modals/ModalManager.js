@@ -9,14 +9,16 @@
      * @param $rootScope
      * @param {$injector} $injector
      * @param {State} state
+     * @param {Storage} storage
      * @return {ModalManager}
      */
-    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state) {
+    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state, storage) {
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
         const { Money } = require('@waves/data-entities');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const analytics = require('@waves/event-sender');
 
         const DEFAULT_OPTIONS = {
             clickOutsideToClose: true,
@@ -32,6 +34,9 @@
             HEADER: 'modules/utils/modals/templates/header.modal.html'
         };
 
+        /**
+         * @class ModalManager
+         */
         class ModalManager {
 
             constructor() {
@@ -68,6 +73,7 @@
             }
 
             showTryDesktopModal() {
+                analytics.send({ name: 'Onboarding Platform Popup Show', target: 'ui' });
                 return this._getModal({
                     id: 'try-desktop',
                     title: '',
@@ -189,6 +195,11 @@
                  * @type {User}
                  */
                 const user = $injector.get('user');
+
+                analytics.send({
+                    name: 'Create Done Show', params: { hasBackup: user.getSetting('hasBackup') }
+                });
+
                 return this._getModal({
                     id: 'terms-accept',
                     templateUrl: 'modules/utils/modals/termsAccept/terms-accept.html',
@@ -196,7 +207,25 @@
                     clickOutsideToClose: false,
                     escapeToClose: false
                 })
-                    .then(() => user.setSetting('termsAccepted', true));
+                    .then(() => {
+                        analytics.send({ name: 'Create Done Confirm and Begin Click' });
+                        storage.save('needReadNewTerms', false);
+                        storage.save('termsAccepted', true);
+                    });
+            }
+
+            showAcceptNewTerms() {
+                return this._getModal({
+                    id: 'accept-new-terms',
+                    templateUrl: 'modules/utils/modals/acceptNewTerms/accept-new-terms.html',
+                    controller: 'AcceptNewTermsCtrl',
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                })
+                    .then(() => {
+                        storage.save('needReadNewTerms', false);
+                        storage.save('termsAccepted', true);
+                    });
             }
 
             showTutorialModals() {
@@ -230,6 +259,17 @@
                     controller: 'confirmDeleteUserCtrl',
                     locals: {
                         user
+                    }
+                });
+            }
+
+            showDexScriptedPair(assets) {
+                return this._getModal({
+                    id: 'dex-scripted-pair',
+                    templateUrl: 'modules/utils/modals/dexScriptedPair/dexScriptedPair.html',
+                    controller: 'DexScriptedPairCtrl',
+                    locals: {
+                        assets
                     }
                 });
             }
@@ -292,7 +332,7 @@
                 return user.onLogin().then(() => {
                     return this._getModal({
                         id: 'receive-popup',
-                        locals: { address: user.address, asset },
+                        locals: { asset },
                         templateUrl: 'modules/utils/modals/receive/Receive.html',
                         controller: 'ReceiveCtrl'
                     });
@@ -337,23 +377,6 @@
                 });
             }
 
-            /**
-             * @param {User} user
-             * @return {Promise}
-             */
-            showAddressQrCode(user) {
-                return user.onLogin().then(() => {
-                    return this._getModal({
-                        id: 'user-address-qr-code',
-                        locals: { address: user.address },
-                        title: 'modal.qr.title',
-                        contentUrl: 'modules/utils/modals/addressQrCode/address-qr-code.modal.html',
-                        controller: 'AddressQrCode',
-                        mod: 'modal-address-qr-code'
-                    });
-                });
-            }
-
             showTransactionInfo(transactionId) {
                 return this._getModal({
                     id: 'transaction-info',
@@ -365,13 +388,13 @@
                 });
             }
 
-            showAnyTx(tx) {
+            showAnyTx(tx, analyticsText) {
                 return this._getModal({
                     id: 'any-tx-modal',
                     controller: 'AnyTxModalCtrl',
                     contentUrl: 'modules/utils/modals/anyTxModal/any-tx-modal.html',
                     title: 'modals.anyTx.title',
-                    locals: tx
+                    locals: { tx, analyticsText }
                 });
             }
 
@@ -386,14 +409,13 @@
                 });
             }
 
-            showConfirmTx(signable, showValidationErrors) {
+            showConfirmTx(signable, analyticsText) {
                 return this._getModal({
                     id: 'confirm-tx',
                     mod: 'confirm-tx',
                     ns: 'app.ui',
-                    locals: { signable, showValidationErrors },
+                    locals: { signable, analyticsText },
                     controller: 'ConfirmTxCtrl',
-                    headerUrl: 'modules/utils/modals/confirmTx/confirmTx.header.modal.html',
                     contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
                 });
             }
@@ -466,7 +488,7 @@
                         data: tx
                     });
 
-                    return this.showConfirmTx(signable, true);
+                    return this.showConfirmTx(signable);
                 });
             }
 
@@ -476,6 +498,14 @@
                     mod: 'import-accounts',
                     controller: 'ImportAccountsCtrl',
                     contentUrl: 'modules/utils/modals/importAccounts/importAccounts.html'
+                });
+            }
+
+            showConfirmLogout() {
+                return this._getModal({
+                    id: 'logout-modal',
+                    contentUrl: 'modules/utils/modals/confirmLogout/confirmLogout.modal.html',
+                    title: ''
                 });
             }
 
@@ -542,7 +572,7 @@
                             this._counter--;
 
                             if (options.id) {
-                                analytics.push('Modal', `Modal.Close.${WavesApp.type}`, options.id);
+                                // analytics.push('Modal', `Modal.Close.${WavesApp.type}`, options.id);
                             }
                         };
 
@@ -554,7 +584,7 @@
                         const modal = $mdDialog.show(target);
 
                         if (options.id) {
-                            analytics.push('Modal', `Modal.Open.${WavesApp.type}`, options.id);
+                            // analytics.push('Modal', `Modal.Open.${WavesApp.type}`, options.id);
                         }
 
                         modal.then(changeCounter, changeCounter);
@@ -747,7 +777,14 @@
         return utils.bind(new ModalManager());
     };
 
-    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope', '$injector', 'state'];
+    factory.$inject = ['$mdDialog',
+        'utils',
+        'decorators',
+        '$templateRequest',
+        '$rootScope',
+        '$injector',
+        'state',
+        'storage'];
 
     angular.module('app.utils')
         .factory('modalManager', factory);

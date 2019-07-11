@@ -11,6 +11,7 @@
         <span ng-if="::!!body"
               w-i18n="{{::body.literal}}"
               class="footnote-1 content-body"
+              ng-class="{ 'no-icon': !!noIcon }"
               params="::body.params">
         </span>
     </div>

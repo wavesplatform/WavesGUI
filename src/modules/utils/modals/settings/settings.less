@@ -50,7 +50,7 @@ md-dialog.settings-modal {
   w-responsive-menu {
     width: 199px;
     height: 100%;
-    position: fixed;
+    position: absolute;
     font-size: 15px;
     border-right: 1px solid @color-disabled-200;
 
@@ -135,16 +135,23 @@ md-dialog.settings-modal {
     position: relative;
     min-height: 380px;
 
+    w-step {
+      width: 100%;
+      & > div {
+        width: 100%;
+      }
+    }
+
     .settings-content {
       position: relative;
       margin-left: 200px;
       right: 0;
       padding: 30px 40px 40px;
       width: 100%;
+      overflow: auto;
 
       .info {
-        margin-top: -1px;
-        display: block;
+        display: inline-flex;
 
         .row-style:first-child {
           margin-top: -7px;
@@ -211,6 +218,7 @@ md-dialog.settings-modal {
     border-radius: 50%;
     margin-right: 8px;
     width: 12px;
+    min-width: 12px;
     height: 12px;
   }
 
@@ -247,11 +255,19 @@ md-dialog.settings-modal {
     }
   }
 
-  w-change-language w-select {
-    float: right;
+  .asset-verification {
+    z-index: 3;
     position: relative;
-    top: 0;
-    right: 0;
+  }
+
+  .asset-api {
+    z-index: 2;
+    position: relative;
+  }
+
+  .asset-filter {
+    z-index: 1;
+    position: relative;
   }
 
   .data-field {
@@ -270,7 +286,17 @@ md-dialog.settings-modal {
     }
 
     &.has-helper {
-      z-index: 1;
+      w-help-icon {
+        position: absolute;
+        top: 50%;
+        right: 26px;
+        transform: translateY(-50%);
+        z-index: 1;
+      }
+
+    input {
+        padding-right: 30px;
+      }
     }
 
     .data-provider-info {
@@ -302,7 +328,6 @@ md-dialog.settings-modal {
       width: 270px;
       left: auto;
       right: -39px;
-      margin-top: 6px;
 
       .avatar-icon {
         img {
@@ -313,7 +338,7 @@ md-dialog.settings-modal {
       }
     }
 
-    pre {
+    .pre {
       display: block;
       position: absolute;
       line-height: 1em;
@@ -334,16 +359,6 @@ md-dialog.settings-modal {
       right: 6px;
       top: 50%;
       transform: translate(-50%, -50%);
-
-      w-help-icon {
-        display: block;
-        position: absolute;
-        left: 0;
-        top: 0;
-        .help-icon__icon {
-          margin:0;
-        }
-      }
 
       &__icon {
         display: flex;
@@ -409,18 +424,18 @@ md-dialog.settings-modal {
       }
     }
 
-    .w-input-wrap {
-      input {
-        border-radius: @border-radius;
-        padding: 0 @padding-main-layout;
-        background: @color-white;
-        color: @color-disabled-900;
-        height: 30px;
-        line-height: 30px;
-        width: 100%;
-        border: 1px solid @color-basic-200;
-      }
+    input {
+      border-radius: @border-radius;
+      padding: 0 @padding-main-layout;
+      background: @color-white;
+      color: @color-disabled-900;
+      height: 30px;
+      line-height: 30px;
+      width: 100%;
+      border: 1px solid @color-basic-200;
+    }
 
+    .w-input-wrap {
       &.focused {
         input {
           border-color: @color-submit-400;
@@ -435,6 +450,16 @@ md-dialog.settings-modal {
       }
     }
   }
+
+  .select-setting-wrap,
+  w-change-language {
+    w-select {
+      .select.expanded .title {
+        border: 1px solid @color-basic-200;
+        border-bottom: 1px solid transparent;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 767px) {
@@ -444,25 +469,21 @@ md-dialog.settings-modal {
 
     md-toolbar {
       padding: 20px;
-
-      .icon-close {
-        right: 10px;
-      }
     }
 
     md-dialog-content {
-      padding: 20px 20px 0;
+      padding: 0;
       height: 100%;
     }
 
     w-responsive-menu {
-      width: calc(100% ~'+ 40px');
+      width: 100%;
       min-width: 360px;
       border-bottom: 1px solid @color-accent-50;
       left: 0;
       top: 79px;
       position: fixed;
-      margin: -20px -10px 0 -20px;
+      margin-top: -20px;
       border-right: 0 none;
       height: auto;
       transition: .3s;
@@ -517,6 +538,7 @@ md-dialog.settings-modal {
           align-items: center;
           width: 30px;
           height: 30px;
+          box-shadow: none;
 
           .dots {
             width: 16px;
@@ -543,7 +565,7 @@ md-dialog.settings-modal {
       .settings-content {
         margin-left: 0;
         margin-top: 50px;
-        padding: 0;
+        padding: 20px 20px 0;
 
         .row-mobile {
           flex-direction: column;

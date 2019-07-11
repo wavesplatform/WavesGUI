@@ -1,4 +1,5 @@
 import { Money } from '@waves/data-entities';
+import { path } from 'ramda';
 import { IPollAPI, Poll } from '../utils/Poll';
 import { balanceList } from '../api/assets/assets';
 import { getReservedBalance } from '../api/matcher/getOrders';
@@ -17,9 +18,19 @@ export class DataManager {
     public transactions: UTXManager = new UTXManager();
     public pollControl: PollControl<TPollHash>;
     private _address: string;
+    private _silentMode: boolean = false;
 
     constructor() {
         this.pollControl = new PollControl<TPollHash>(() => this._createPolls());
+    }
+
+    public setSilentMode(silent: boolean): void {
+        this._silentMode = silent;
+        if (silent) {
+            this.pollControl.pause();
+        } else {
+            this.pollControl.play();
+        }
     }
 
     public applyAddress(address: string): void {
@@ -49,10 +60,10 @@ export class DataManager {
         return this.pollControl.getPollHash().aliases.lastData || [];
     }
 
-    public getOracleAssetData(id: string): TProviderAsset & { provider: string } {
-        const lastData = this.pollControl.getPollHash().oracle.lastData;
+    public getOracleAssetDataByOracleName(id: string, oracleName: string = 'oracleWaves'): TProviderAsset & { provider: string } {
+        let pollHash = this.pollControl.getPollHash();
+        const lastData = <any>path([oracleName, 'lastData'], pollHash);
         const assets = lastData && lastData.assets || Object.create(null);
-
         const WavesApp = (window as any).WavesApp;
 
         const gateways = {
@@ -67,7 +78,12 @@ export class DataManager {
             [WavesApp.defaultAssets.BSV]: true,
             [WavesApp.defaultAssets.DASH]: true,
             [WavesApp.defaultAssets.XMR]: true,
+            [WavesApp.defaultAssets.VST]: true,
+            [WavesApp.defaultAssets.ERGO]: true,
         };
+
+        const gatewaysSoon = (window as any).angular
+            .element(document.body).injector().get('configService').get('GATEWAYS_SOON') || [];
 
         const descriptionHash = {
             WAVES: { en: 'Waves is a blockchain ecosystem that offers comprehensive and effective blockchain-based tools for businesses, individuals and developers. Waves Platform offers unprecedented throughput and flexibility. Features include the LPoS consensus algorithm, Waves-NG protocol and advanced smart contract functionality.' }
@@ -85,8 +101,17 @@ export class DataManager {
             description: descriptionHash[id]
         };
 
+        const gatewaySoonAsset = {
+            ...gatewayAsset,
+            status: 4
+        };
+
         if (id === 'WAVES') {
             return { status: STATUS_LIST.VERIFIED, description: descriptionHash.WAVES } as any;
+        }
+
+        if (gatewaysSoon.indexOf(id) > -1) {
+            return gatewaySoonAsset;
         }
 
         if (gateways[id]) {
@@ -96,8 +121,14 @@ export class DataManager {
         return assets[id] ? { ...assets[id], provider: lastData.oracle.name } : null;
     }
 
-    public getOracleData() {
-        return this.pollControl.getPollHash().oracle.lastData;
+    public getOraclesAssetData (id: string) {
+        const dataOracleWaves = this.getOracleAssetDataByOracleName(id, 'oracleWaves');
+        const dataOracleTokenomica = this.getOracleAssetDataByOracleName(id, 'oracleTokenomica');
+        return dataOracleWaves || dataOracleTokenomica;
+    }
+
+    public getOracleData(oracleName: string) {
+        return this.pollControl.getPollHash()[oracleName].lastData;
     }
 
     private _getPollBalanceApi(): IPollAPI<Array<IBalanceItem>> {
@@ -123,10 +154,9 @@ export class DataManager {
         };
     }
 
-    private _getPollOracleApi(): IPollAPI<IOracleData> {
+    private _getPollOracleApi(address: string): IPollAPI<IOracleData> {
         return {
             get: () => {
-                const address = get('oracleAddress');
                 return address ? getOracleData(address) : Promise.resolve({ assets: Object.create(null) }) as any;
             },
             set: () => null
@@ -136,16 +166,17 @@ export class DataManager {
     private _createPolls(): TPollHash {
         const balance = new Poll(this._getPollBalanceApi(), 1000);
         const orders = new Poll(this._getPollOrdersApi(), 1000);
-        const aliases = new Poll(this._getPollAliasesApi(), 5000);
-        const oracle = new Poll(this._getPollOracleApi(), 30000);
+        const aliases = new Poll(this._getPollAliasesApi(), 10000);
+        const oracleWaves = new Poll(this._getPollOracleApi(get('oracleWaves')), 30000);
+        const oracleTokenomica = new Poll(this._getPollOracleApi(get('oracleTokenomica')), 30000);
 
         change.on((key) => {
-            if (key === 'oracleAddress') {
-                oracle.restart();
+            if (key === 'oracleWaves') {
+                oracleWaves.restart();
             }
         });
 
-        return { balance, orders, aliases, oracle };
+        return { balance, orders, aliases, oracleWaves, oracleTokenomica };
     }
 
 }
@@ -154,7 +185,8 @@ type TPollHash = {
     balance: Poll<Array<IBalanceItem>>;
     orders: Poll<IHash<Money>>;
     aliases: Poll<Array<string>>;
-    oracle: Poll<IOracleData>
+    oracleWaves: Poll<IOracleData>
+    oracleTokenomica: Poll<IOracleData>
 }
 
 export interface IOracleAsset {

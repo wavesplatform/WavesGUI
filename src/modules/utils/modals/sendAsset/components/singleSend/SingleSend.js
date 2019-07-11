@@ -9,6 +9,8 @@
 
     const { Money } = require('@waves/data-entities');
     const ds = require('data-service');
+    const { SIGN_TYPE } = require('@waves/signature-adapter');
+    const analytics = require('@waves/event-sender');
 
     const BANK_RECIPIENT = WavesApp.bankRecipient;
     const MIN_TOKEN_COUNT = 100;
@@ -19,6 +21,7 @@
      * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
      * @param {IPollCreate} createPoll
+     * @param {ConfigService} configService
      * @param {IOuterBlockchains} outerBlockchains
      * @param {User} user
      * @param {GatewayService} gatewayService
@@ -29,6 +32,7 @@
                                  utils,
                                  createPoll,
                                  waves,
+                                 configService,
                                  outerBlockchains,
                                  user,
                                  gatewayService) {
@@ -136,12 +140,21 @@
                 return this.toBankMode && this.termsLoadError;
             }
 
+            get isGatewayAccepted() {
+                return configService
+                    .get('PERMISSIONS.CANT_TRANSFER_GATEWAY').indexOf(this.balance.asset.id) === -1;
+            }
+
+            get isBankAccepted() {
+                return this.toBankMode ? this.isGatewayAccepted : true;
+            }
+
             get isBankPendingOrError() {
                 return this.isBankError || this.isBankPending;
             }
 
             get hasOuterError() {
-                return this.outerSendMode && this.gatewayDetailsError || this.isBankError;
+                return this.outerSendMode && this.gatewayError || this.isBankError;
             }
 
             get minimumAmount() {
@@ -222,6 +235,14 @@
             /**
              * @type {boolean}
              */
+            gatewayAddressError = false;
+            /**
+             * @type {boolean}
+             */
+            gatewayError = false;
+            /**
+             * @type {boolean}
+             */
             termsIsPending = true;
             /**
              * @type {boolean}
@@ -231,6 +252,16 @@
              * @type {boolean}
              */
             signInProgress = false;
+            /**
+             * @type {ISingleSendTx}
+             */
+            wavesTx = {
+                type: SIGN_TYPE.TRANSFER,
+                amount: null,
+                attachment: '',
+                fee: null,
+                recipient: ''
+            };
             /**
              * @type {boolean}
              * @private
@@ -244,11 +275,8 @@
             }
 
             $postLink() {
-
                 this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
-
-                this.receiveOnce(utils.observe(this.state, 'moneyHash'), () => {
-
+                const onHasMoneyHash = () => {
                     this.receive(utils.observe(this.state, 'toBankMode'), this._onChangeBankMode, this);
                     this.observe('gatewayDetails', this._currentHasCommission);
 
@@ -262,13 +290,36 @@
                     this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayDetails, this);
                     this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayDetails, this);
 
+                    this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayPermisson, this);
+                    this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayPermisson, this);
+
                     this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
+
+                    this.observe('gatewayDetails', this._updateWavesTxObject);
+                    this.receive(utils.observe(this.tx, 'amount'), this._updateWavesTxObject, this);
+                    this.receive(utils.observe(this.tx, 'recipient'), this._updateWavesTxObject, this);
+                    this.receive(utils.observe(this.tx, 'attachment'), this._updateWavesTxObject, this);
+
                     this.observe('mirror', this._onChangeAmountMirror);
+                    this.observe(['gatewayAddressError', 'gatewayDetailsError'], this._updateGatewayError);
 
                     this._currentHasCommission();
                     this._onChangeBaseAssets();
                     this._updateGatewayDetails();
+                    this._updateGatewayPermisson();
+                };
+                if (!this.state.moneyHash) {
+                    this.receiveOnce(utils.observe(this.state, 'moneyHash'), onHasMoneyHash);
+                } else {
+                    onHasMoneyHash();
+                }
+                this.receive(utils.observe(this.state, 'moneyHash'), () => {
+                    this._currentHasCommission();
+                    this._onChangeBaseAssets();
+                    this._updateGatewayDetails();
                 });
+                this._onChangeBaseAssets();
+                this._updateWavesTxObject();
             }
 
             onSignCoinomatStart() {
@@ -282,11 +333,11 @@
             createTx() {
                 const toGateway = this.outerSendMode && this.gatewayDetails;
                 const fee = toGateway ? this.tx.amount.cloneWithTokens(toGateway.gatewayFee) : null;
-
+                const attachmentString = this.tx.attachment ? this.tx.attachment.toString() : '';
                 const tx = waves.node.transactions.createTransaction({
                     ...this.tx,
                     recipient: toGateway ? this.gatewayDetails.address : this.tx.recipient,
-                    attachment: toGateway ? this.gatewayDetails.attachment : this.tx.attachment,
+                    attachment: utils.stringToBytes(toGateway ? this.gatewayDetails.attachment : attachmentString),
                     amount: toGateway ? this.tx.amount.add(fee) : this.tx.amount
                 });
 
@@ -299,6 +350,7 @@
             }
 
             onSignTx(signable) {
+                analytics.send({ name: 'Transfer Continue Click', target: 'ui' });
                 this.onContinue({ signable });
             }
 
@@ -352,7 +404,8 @@
 
                 this.tx.recipient = result.recipient;
 
-                analytics.push('Send', `Send.QrCodeRead.${WavesApp.type}`, `Send.QrCodeRead.${WavesApp.type}.Success`);
+                // analytics.push('Send', `Send.QrCodeRead.${WavesApp.type}`,
+                // `Send.QrCodeRead.${WavesApp.type}.Success`);
 
                 if (result) {
 
@@ -389,12 +442,31 @@
             /**
              * @return {boolean}
              */
-            isMoneroAddress() {
-                return this.state.assetId === WavesApp.defaultAssets.XMR;
+            isMoneroNotIntegratedAddress() {
+                const moneroAddressLength = 95;
+                const assetIsMonero = this.state.assetId === WavesApp.defaultAssets.XMR;
+                return assetIsMonero && this.tx.recipient.length === moneroAddressLength;
             }
 
             getGatewayDetails() {
                 this._onChangeAssetId();
+            }
+
+            /**
+             * @private
+             */
+            _updateWavesTxObject() {
+                const toGateway = this.outerSendMode && this.gatewayDetails;
+                const fee = toGateway ? this.tx.amount.cloneWithTokens(toGateway.gatewayFee) : null;
+                const attachmentString = this.tx.attachment ? this.tx.attachment.toString() : '';
+                const isWavesAddress = waves.node.isValidAddress(this.tx.recipient);
+
+                this.wavesTx = {
+                    ...this.wavesTx,
+                    recipient: toGateway ? this.gatewayDetails.address : isWavesAddress && this.tx.recipient || '',
+                    attachment: utils.stringToBytes(toGateway ? this.gatewayDetails.attachment : attachmentString),
+                    amount: toGateway ? this.tx.amount.add(fee) : this.tx.amount
+                };
             }
 
             /**
@@ -420,6 +492,7 @@
                 }
 
                 this._setMinAmount();
+                this._updateGatewayPermisson();
             }
 
             /**
@@ -475,8 +548,7 @@
                 this.tx.amount = this.moneyHash[this.assetId].cloneWithTokens('0');
                 this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
                 this._updateGatewayDetails();
-
-                analytics.push('Send', `Send.ChangeCurrency.${WavesApp.type}`, this.assetId);
+                this._updateGatewayPermisson();
             }
 
             /**
@@ -592,6 +664,10 @@
                     this.gatewayDetailsError = false;
                 }
 
+                if (this.gatewayAddressError) {
+                    this.gatewayAddressError = false;
+                }
+
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
@@ -607,9 +683,16 @@
                                 .cloneWithTokens(details.minimumAmount.minus('0.00000001'));
                             this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
                             this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
-                        }, () => {
+                            $scope.$apply();
+                        }, (e) => {
                             this.gatewayDetails = null;
-                            this.gatewayDetailsError = true;
+                            if (e.message === gatewayService.getAddressErrorMessage(this.balance.asset,
+                                this.tx.recipient, 'errorAddressMessage')) {
+                                this.gatewayAddressError = true;
+                            } else {
+                                this.gatewayDetailsError = true;
+                            }
+                            $scope.$apply();
                         });
                 } else {
                     this.minAmount = this.state.moneyHash[this.assetId].cloneWithTokens('0');
@@ -618,6 +701,20 @@
                     this._validateForm();
                 }
                 return Promise.resolve();
+            }
+
+            /**
+             * @private
+             */
+            _updateGatewayPermisson() {
+                this.gatewayDetailsError = this.outerSendMode ? !this.isGatewayAccepted : this.gatewayDetailsError;
+            }
+
+            /**
+             * @private
+             */
+            _updateGatewayError() {
+                this.gatewayError = this.gatewayAddressError || this.gatewayDetailsError;
             }
 
         }
@@ -631,6 +728,7 @@
         'utils',
         'createPoll',
         'waves',
+        'configService',
         'outerBlockchains',
         'user',
         'gatewayService'

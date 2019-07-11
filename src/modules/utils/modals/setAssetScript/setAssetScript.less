@@ -22,23 +22,13 @@
         align-items: flex-start;
         font-size: 20px;
       }
-
-      &__label {
-        margin: 5px 0 0;
-      }
-
       &__ticker {
         margin-top: 5px;
       }
     }
-  }
-
-  .asset__logo {
-    .marker {
-      width: 24px;
-      height: 24px;
-      background-size: 12px;
-    }
+    .status-label-min {
+       margin: 5px 0 0;
+     }
   }
 
   .line {
@@ -101,5 +91,18 @@
         width: 100%;
       }
     }
+  }
+}
+
+.warning {
+  &-plate {
+    text-align: center;
+  }
+
+  &-text {
+    display: inline-block;
+    padding: 13px 12px;
+    border-radius: @border-radius;
+    border: 1px dashed @color-warning-400;
   }
 }

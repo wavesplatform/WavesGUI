@@ -16,11 +16,6 @@ w-select {
     height: @height-control-big;
   }
 
-  &.disabled .select {
-    background: @color-basic-50;
-    cursor: default;
-  }
-
   &.select__no-user-select {
     user-select: none;
   }
@@ -31,6 +26,20 @@ w-select {
     }
   }
 
+  &.one-item .select .title {
+    cursor: default;
+    &::after {
+      background-image: none;
+    }
+    w-avatar .avatar-wrap {
+      cursor: default;
+    }
+  }
+
+  &.hide-active .select .select-list w-option.active {
+    display: none;
+  }
+
   .select {
     height: 100%;
     position: relative;
@@ -39,8 +48,9 @@ w-select {
       position: relative;
       border: 1px solid @color-basic-200;
       height: 100%;
-      font-size: @font-size-control;
-      padding: 8px 35px 8px 15px;
+      background: @color-white;
+      font-size: @font-size-control-small;
+      padding: 0 35px 0 15px;
       border-radius: @border-radius;
       cursor: pointer;
       color: @color-disabled-900;
@@ -58,11 +68,11 @@ w-select {
         position: absolute;
         right: 16px;
         top: 50%;
-        width: 10px;
-        height: 5px;
+        width: 12px;
+        height: 12px;
         transform: translateY(-50%);
         background-size: 100%;
-        background-image: @arrow-select-icon;
+        background-image: @dex-arrow-down-icon;
       }
     }
 
@@ -71,7 +81,7 @@ w-select {
       border-bottom-right-radius: 0;
 
       &::after {
-        background-image: @arrow-select-expanded-icon;
+        background-image: @dex-arrow-down-blue-icon;
       }
     }
 
@@ -101,6 +111,8 @@ w-select {
         padding: 8px 35px 8px 15px;
         white-space: nowrap;
         color: @color-disabled-900;
+        display: flex;
+        align-items: center;
         &:hover {
           background-color: @color-basic-50;
         }
@@ -113,6 +125,12 @@ w-select {
         border-bottom: none;
       }
     }
+
+    &[disabled] .title,
+    &.disabled .title {
+      background: @color-basic-50;
+      cursor: default;
+    }
   }
 
   &.interface {
@@ -121,22 +139,27 @@ w-select {
     .title {
       background: @color-white;
       border-color: @color-white;
-      color: @color-basic-500;
+      color: @color-basic-700;
       box-shadow: @shadow-buttons-default;
       width: 100%;
+      font-size: 15px;
     }
+
     &:hover {
       border-radius: @border-radius @border-radius 0 0;
       color: @color-basic-700;
+
       .title {
         box-shadow: @shadow-buttons-hover;
         transition: all 0.3s;
         color: @color-basic-700;
       }
+
       .select:not(.expanded) {
         border-radius: 0 0 @border-radius @border-radius;
       }
     }
+
     .select.expanded {
       .title {
         border-top: 1px solid @color-basic-200;
@@ -144,6 +167,16 @@ w-select {
         border-right: 1px solid @color-basic-200;
         border-bottom: 1px solid @color-white;
         border-radius: @border-radius @border-radius 0 0;
+      }
+    }
+
+    &[disabled],
+    &.disabled {
+      &:hover {
+        .select .title {
+          box-shadow: @shadow-buttons-default; //@color-basic-50;
+          color: @color-basic-500;
+        }
       }
     }
   }

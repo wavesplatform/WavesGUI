@@ -3,6 +3,8 @@
 
     const { get } = require('ts-utils');
 
+    const { splitEvery, flatten } = require('ramda');
+
     const searchByNameAndId = ($scope, key, list) => {
         const query = $scope[key];
         if (!query) {
@@ -81,6 +83,10 @@
                  * @type {boolean}
                  */
                 this.pending = true;
+                /**
+                 * @type {boolean}
+                 */
+                this.dontShowSpam = user.getSetting('dontShowSpam');
 
                 waves.node.assets.getAsset(this.mirrorId)
                     .then((mirror) => {
@@ -132,12 +138,21 @@
                 this.syncSettings({
                     pinned: 'pinnedAssetIdList',
                     spam: 'wallet.portfolio.spam',
-                    filter: 'wallet.portfolio.filter'
+                    filter: 'wallet.portfolio.filter',
+                    dontShowSpam: 'dontShowSpam'
                 });
 
                 balanceWatcher.ready
                     .then(() => {
-                        this.receive(balanceWatcher.change, this._updateBalances, this);
+                        const onChange = () => {
+                            this._updateBalances();
+                            visibleService.updateSort();
+                        };
+
+                        this.receive(balanceWatcher.change, onChange);
+                        this.receive(utils.observe(user, 'scam'), onChange);
+                        this.observe(['pinned', 'spam', 'dontShowSpam'], onChange);
+
                         this._updateBalances();
                     });
 
@@ -146,7 +161,8 @@
                     this.observe('details', this._onChangeDetails);
                     this.observe('filter', this._onChangeDetails);
 
-                    this._onChangeDetails();
+                    // this._onChangeDetails();
+                    utils.safeApply($scope);
                 });
 
                 this.receive(stService.sort, () => {
@@ -187,10 +203,6 @@
              */
             showSepa(asset) {
                 return modalManager.showSepaAsset(user, asset);
-            }
-
-            showQR() {
-                return modalManager.showAddressQrCode(user);
             }
 
             showBurn(assetId) {
@@ -282,47 +294,77 @@
                 this.balanceList = balanceList;
             }
 
+            _addRating(balanceList) {
+                return Promise.all(splitEvery(25, balanceList).map(block => {
+                    return ds.api.rating.getAssetsRating(block.map(balanceItem => balanceItem.asset.id));
+                })).then(list => {
+                    const listHash = utils.toHash(flatten(list), 'assetId');
+                    return balanceList.map(balanceItem => {
+                        balanceItem.rating = listHash[balanceItem.asset.id] ?
+                            listHash[balanceItem.asset.id].rating :
+                            null;
+                        return balanceItem;
+                    });
+                })
+                    .catch(() => {
+                        return balanceList;
+                    });
+            }
+
             /**
              * @private
              */
             _updateBalances() {
-                const details = balanceWatcher.getFullBalanceList()
-                    .map(item => {
-                        const isPinned = this._isPinned(item.asset.id);
-                        const isSpam = this._isSpam(item.asset.id);
-                        const isOnScamList = WavesApp.scam[item.asset.id];
+                const balanceList = balanceWatcher.getFullBalanceList();
 
-                        return {
-                            available: item.available,
-                            asset: item.asset,
-                            inOrders: item.inOrders,
-                            isPinned,
-                            isSpam,
-                            isOnScamList,
-                            minSponsoredAssetFee: item.asset.minSponsoredAssetFee,
-                            sponsorBalance: item.asset.sponsorBalance
-                        };
-                    })
-                    .reduce((acc, item) => {
-                        const oracleData = ds.dataManager.getOracleAssetData(item.asset.id);
+                this._addRating(balanceList).then(balanceListWithRating => {
+                    this.details = balanceListWithRating
+                        .map(item => {
+                            const isPinned = this._isPinned(item.asset.id);
+                            const isSpam = this._isSpam(item.asset.id);
+                            const isOnScamList = user.scam[item.asset.id];
+                            return {
+                                available: item.available,
+                                asset: item.asset,
+                                inOrders: item.inOrders,
+                                isPinned,
+                                isSpam,
+                                isOnScamList,
+                                rating: item.rating || null,
+                                minSponsoredAssetFee: item.asset.minSponsoredAssetFee,
+                                sponsorBalance: item.asset.sponsorBalance,
+                                leasedOut: item.leasedOut
+                            };
+                        })
+                        .reduce((acc, item) => {
+                            const oracleData = ds.dataManager.getOraclesAssetData(item.asset.id);
+                            const spam = item.isOnScamList || item.isSpam;
 
-                        if (item.asset.sender === user.address) {
-                            acc.my.push(item);
-                        }
-                        if (oracleData && oracleData.status > 0) {
-                            acc.verified.push(item);
-                        }
-                        if (item.isOnScamList || item.isSpam) {
-                            acc.spam.push(item);
-                        } else {
-                            acc.active.push(item);
-                        }
+                            if (oracleData && oracleData.status > 0) {
+                                acc.verified.push(item);
+                            }
 
-                        return acc;
-                    }, { spam: [], my: [], active: [], verified: [] });
+                            if (spam) {
+                                if (!this.dontShowSpam) {
+                                    if (item.asset.sender === user.address) {
+                                        acc.my.push(item);
+                                    }
+                                    acc.spam.push(item);
+                                    acc.active.push(item);
+                                }
+                            } else {
+                                if (item.asset.sender === user.address) {
+                                    acc.my.push(item);
+                                }
+                                acc.active.push(item);
+                            }
 
-                this.details = details;
-                utils.safeApply($scope);
+                            return acc;
+                        }, { spam: [], my: [], active: [], verified: [] });
+
+
+                    utils.safeApply($scope);
+                });
             }
 
             /**

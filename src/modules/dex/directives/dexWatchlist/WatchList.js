@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-
+    const TRADING_ASSETS = WavesApp.tradingPairs;
     const DROP_DOWN_ORDER_LIST = ['ETH', 'BCH', 'LTC', 'USD', 'EUR', 'BSV'];
     const DROP_DOWN_LIST = [];
 
@@ -36,6 +36,7 @@
             whereEq, uniqBy, prop,
             path, flatten, splitEvery
         } = require('ramda');
+
         const ds = require('data-service');
 
         $scope.WavesApp = WavesApp;
@@ -46,6 +47,10 @@
              * @type {boolean}
              */
             pending = false;
+            /**
+             * @type {boolean}
+             */
+            loadingError = false;
             /**
              * @type {null}
              */
@@ -253,6 +258,11 @@
                 this._isSelfSetPair = false;
             }
 
+            chooseTrading() {
+                this.isActiveSelect = false;
+                this.activeTab = 'trading';
+            }
+
             chooseSelect() {
                 this.isActiveSelect = true;
                 this.activeTab = this.dropDownId;
@@ -296,11 +306,21 @@
             }
 
             /**
+             * @return {boolean}
+             * @private
+             */
+            _isActiveTrading() {
+                return this.activeTab === 'trading';
+            }
+
+            /**
              * @private
              */
             _initializeActiveTab() {
-                this.isActiveSelect = !find(propEq('value', this.activeTab), this.tabs);
-                if (this.isActiveSelect) {
+                const isActiveSelect = !find(propEq('value', this.activeTab), this.tabs);
+
+                if (isActiveSelect && !this._isActiveTrading()) {
+                    this.isActiveSelect = true;
                     this.dropDownId = this.activeTab;
                 }
             }
@@ -340,20 +360,6 @@
                 }
             }
 
-            // /**
-            //  * @private
-            //  */
-            // _onChangeUserBalances() {
-            //     const assetIdList = WatchList._getUserBalanceAssetIdList();
-            //
-            //     if (equals(this._lastUserBalanceIdList, assetIdList)) {
-            //         return null;
-            //     }
-            //
-            //     this._lastUserBalanceIdList = assetIdList;
-            //     this._poll.restart();
-            // }
-
             /**
              * @return {Promise<T | never>}
              * @private
@@ -364,7 +370,11 @@
                     this._getTabRate(),
                     this._cache(pairs)
                 ])
-                    .then(([rate, pairs]) => pairs.map(WatchList._addRateForPair(rate)));
+                    .then(([rate, pairs]) => {
+                        this.loadingError = false;
+                        return pairs.map(WatchList._addRateForPair(rate));
+                    })
+                    .catch(() => (this.loadingError = true));
             }
 
             /**
@@ -373,6 +383,11 @@
              */
             _getTabRate() {
                 const activeTab = this.activeTab;
+
+                if (this._isActiveTrading()) {
+                    return Promise.resolve(new BigNumber(1));
+                }
+
                 return waves.node.assets.getAsset(activeTab === 'all' ? WavesApp.defaultAssets.WAVES : activeTab)
                     .then((asset) => {
                         this.volumeAsset = asset;
@@ -410,6 +425,11 @@
              * @private
              */
             _filterDataItemByTab(item) {
+
+                if (this._isActiveTrading()) {
+                    return true;
+                }
+
                 const canShow = this.showOnlyFavorite ? this.isFavourite(item) : true;
 
                 if (this.activeTab === 'all') {
@@ -514,6 +534,7 @@
 
                 this.searchInProgress = true;
                 this.pending = true;
+                this.loadingError = false;
 
                 this.searchRequest = new PromiseControl(Promise.all(queryParts.map(waves.node.assets.search)))
                     .then(([d1 = [], d2 = []]) => {
@@ -559,6 +580,7 @@
              */
             _onChangeActiveTab() {
                 this.pending = true;
+                this.loadingError = false;
                 this._poll.restart().then(() => {
                     this.pending = false;
                     $scope.$apply();
@@ -566,15 +588,30 @@
             }
 
             /**
+             * @return {Array<Array<string>>}
+             * @private
+             */
+            _getTradingPairList() {
+                const assetsIds = TRADING_ASSETS;
+                return WatchList._uniqPairs(WatchList._getAllCombinations(assetsIds));
+            }
+
+            /**
              * @private
              */
             _getPairList() {
+
+                if (this._isActiveTrading()) {
+                    return this._getTradingPairList();
+                }
+
                 const defaultAssets = configService.get('SETTINGS.DEX.WATCH_LIST_PAIRS') || [];
                 const favorite = (this._favourite || []).map(p => p.sort());
                 const chosen = [this._assetIdPair.amount, this._assetIdPair.price].sort();
                 const searchIdList = Object.keys(this._searchAssetsHash);
                 // const userBalances = this._lastUserBalanceIdList;
-                const idList = defaultAssets.concat(searchIdList);
+                const assetsIds = Object.values(WavesApp.defaultAssets);
+                const idList = uniq(assetsIds.concat(searchIdList, defaultAssets));
                 const other = WatchList._getAllCombinations(idList);
                 return WatchList._uniqPairs(favorite.concat(other, [chosen]));
             }
@@ -662,7 +699,7 @@
              * @private
              */
             static _getBytes(str) {
-                return new Blob([str], { type: 'text/html' }).size;
+                return new Blob([str], { type: 'text/plain' }).size;
             }
 
             static _getAssetsFromPairs(pairs) {
@@ -762,7 +799,7 @@
 
             // static _getUserBalanceAssetIdList() {
             //     return Object.keys(balanceWatcher.getBalance())
-            //         .filter(id => !WavesApp.scam[id])
+            //         .filter(id => !user.scam[id])
             //         .sort(utils.comparators.asc);
             // }
 

@@ -36,6 +36,7 @@ export const signature = {
 
 export const signAdapters = signatureAdapters;
 export const isValidAddress = cryptoUtils.crypto.isValidAddress;
+export const isValidAddressWithNetworkByte = cryptoUtils.crypto.isValidAddressWithNetworkByte;
 export const buildTransactionId = cryptoUtils.crypto.buildTransactionId;
 
 // export const prepareForBroadcast = prepareForBroadcastF;

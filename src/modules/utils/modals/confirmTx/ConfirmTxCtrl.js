@@ -8,6 +8,7 @@
      * @returns {ConfirmTxCtrl}
      */
     const controller = function (Base, $scope, $mdDialog) {
+        const analytics = require('@waves/event-sender');
 
         class ConfirmTxCtrl extends Base {
 
@@ -18,10 +19,12 @@
             _resolveOnClose = false;
 
 
-            constructor({ signable, showValidationErrors }) {
+            constructor({ signable, analyticsText }) {
                 super($scope);
                 this.signable = signable;
-                this.showValidationErrors = showValidationErrors;
+                if (analyticsText) {
+                    analytics.send({ name: analyticsText, target: 'ui' });
+                }
             }
 
             back() {

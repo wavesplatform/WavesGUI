@@ -101,15 +101,19 @@
         'app.utils',
         'app.ui',
         'app.welcome',
+        'app.signIn',
         'app.create',
         'app.restore',
+        'app.saveSeed',
         'app.desktop',
         'app.ledger',
         'app.keeper',
         'app.import',
         'app.wallet',
         'app.dex',
-        'app.tokens'
+        'app.tokens',
+        'app.unavailable',
+        'app.stand'
     ]);
 })();
 
@@ -134,11 +138,10 @@
 /**
  * @typedef {object} IWavesApp
  * @property {string} name
- * @property {string} oracle
+ * @property {object} oracles
  * @property {string} version
  * @property {string} type
  * @property {string} origin
- * @property {Object.<boolean>} scam
  * @property {MobileDetect} device
  * @property {Object.<{separators: {group: string, decimal: string}}>} localize
  * @property {number} minAliasLength
@@ -160,6 +163,8 @@
  * @property {function():boolean} isWeb
  * @property {function():boolean} isDesktop
  * @property {function():boolean} isProduction
+ * @property {boolean} usePostMessageStorage
+ * @property {boolean} isMock
  * @property {Function} addController
  * @property {Function} getController
  * @property {function():{name: string, separators: {group: string, decimal: string}}} getLocaleData

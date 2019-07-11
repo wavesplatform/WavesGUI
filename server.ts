@@ -1,13 +1,13 @@
 import { createSecureServer } from 'http2';
 import { createServer } from 'https';
-import { route, parseArguments } from './ts-scripts/utils';
-import { readFileSync } from 'fs';
+import { route, parseArguments, stat, loadLocales } from './ts-scripts/utils';
+import { readFileSync, existsSync, mkdirSync, readdirSync } from 'fs';
 import { serialize, parse as parserCookie } from 'cookie';
 import { compile } from 'handlebars';
 import { parse } from 'url';
 import { TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import { readFile } from 'fs-extra';
-import { join } from 'path';
+import { join, basename, extname } from 'path';
 import * as fs from 'fs';
 import * as qs from 'querystring';
 import * as opn from 'opn';
@@ -16,13 +16,20 @@ const ip = require('my-local-ip')();
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const connectionTypes: Array<TConnection> = ['mainnet', 'testnet'];
-const buildTypes: Array<TBuild> = ['dev', 'normal', 'min'];
+const buildTypes: Array<TBuild> = ['development', 'production'];
 const privateKey = readFileSync('localhost.key').toString();
 const certificate = readFileSync('localhost.crt').toString();
-
+const args = parseArguments() || Object.create(null);
 
 const handler = function (req, res) {
     const url = parse(req.url);
+
+    const parts = ['event-sender', 'amplitude', 'googleAnalytics'];
+
+    if (parts.some(item => req.url.includes(item))) {
+        stat(req, res, [__dirname, join(__dirname, 'node_modules/@waves')]);
+        return null;
+    }
 
     if (url.href.includes('/choose/')) {
         const [platform, connection, build] = url.href.replace('/choose/', '').split('/');
@@ -45,6 +52,7 @@ const handler = function (req, res) {
     }
 
     const parsed = parseCookie(req.headers.cookie);
+
     if (!parsed) {
         readFile(join(__dirname, 'chooseBuild.hbs'), 'utf8').then((file) => {
             res.end(compile(file)({ links: getBuildsLinks(req.headers['user-agent']) }));
@@ -63,9 +71,16 @@ function createMyServer(port) {
     server.listen(port);
     console.log(`Listen port ${port}...`);
     console.log('Available urls:');
-
     console.log(url);
-    opn(url);
+    const cachePath = join(process.cwd(), '.cache-download');
+    if (!existsSync(cachePath)) {
+        mkdirSync(cachePath);
+    }
+    loadLocales(cachePath);
+
+    if (args.openUrl) {
+        opn(url);
+    }
 }
 
 function createSimpleServer({ port = 8000 }) {
@@ -77,7 +92,7 @@ function createSimpleServer({ port = 8000 }) {
 }
 
 createMyServer(8080);
-const args = parseArguments() || Object.create(null);
+
 if (args.startSimple) {
     createSimpleServer(args);
 }
@@ -86,14 +101,16 @@ function getBuildsLinks(userAgent: string = ''): Array<{ url: string; text: stri
     const result = [];
     const platform: TPlatform = userAgent.includes('Electron') ? 'desktop' : 'web';
 
-    connectionTypes.forEach((connection) => {
-        buildTypes.forEach((build) => {
-            result.push({
-                url: `/choose/${platform}/${connection}/${build}`,
-                text: `${platform} ${connection} ${build}`
+    readdirSync(join(__dirname, 'configs'))
+        .map(config => basename(config, extname(config)))
+        .forEach((connection) => {
+            buildTypes.forEach((build) => {
+                result.push({
+                    url: `/choose/${platform}/${connection}/${build}`,
+                    text: `${platform} ${connection} ${build}`
+                });
             });
         });
-    });
 
     return result;
 }
@@ -126,13 +143,20 @@ function request(req, res) {
 }
 
 function wavesClientConfig(req, res, next) {
-    if (!req.url.includes('waves-client-config')) {
+    const parsedCookie = parseCookie(req.headers.cookie);
+    const connection: string | null = parsedCookie ? parsedCookie.connection : null;
+
+    if (!req.url.includes('waves-client-config') || !connection) {
         next();
         return null;
     }
     let response_json = { error: 'oops' };
 
-    const path = join(__dirname, 'mocks/waves-client-config/master/config.json');
+    const path = join(
+        __dirname,
+        `mocks/waves-client-config/master/${connection === 'mainnet' ? '' : 'testnet.'}config.json`
+    );
+
     if (fs.existsSync(path)) {
         response_json = JSON.parse(fs.readFileSync(path, 'utf8')) || '';
     }

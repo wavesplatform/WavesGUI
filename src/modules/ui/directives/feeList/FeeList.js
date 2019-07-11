@@ -4,9 +4,10 @@
     /**
      * @param {typeof Base} Base
      * @param {Waves} waves
+     * @param {User} user
      * @param {$rootScope.Scope} $scope
      */
-    const controller = function (Base, waves, $scope) {
+    const controller = function (Base, waves, $scope, user) {
 
         class FeeList extends Base {
 
@@ -53,16 +54,16 @@
                         isEqualAssetId(money1.asset, money2.asset) && money1.eq(money2);
 
                     const hasMyFeeInList = this.fee && list.some(item => isEqualMoney(item, this.fee));
-
                     if (!hasMyFeeInList) {
                         this.fee = null;
                     }
 
                     if (!(this.fee && list.find(item => item.asset.id === this.fee.asset.id))) {
-                        const fee = this.balanceHash && Object.keys(this.balanceHash).length && list.find(item => {
-                            const balance = this.balanceHash[item.asset.id];
-                            return balance && balance.gte(item);
-                        });
+                        const fee = this.balanceHash && Object.keys(this.balanceHash).length && this.feeList
+                            .find(item => {
+                                const balance = this.balanceHash[item.asset.id];
+                                return balance && balance.gte(item);
+                            });
                         this.fee = fee || this.feeList[0];
                     }
 
@@ -109,9 +110,10 @@
                 }
 
                 const wavesFee = list.find(item => item.asset.id === 'WAVES');
-                const filteredList = list.filter((fee) => {
+                const filteredList = list.filter(fee => {
                     const feeBalance = this.balanceHash[fee.asset.id];
-                    return !(!hasBalances || !feeBalance || feeBalance.lt(fee));
+                    const canUseOwnFee = user.address !== fee.asset.sender || this.balanceHash.WAVES.gte(wavesFee);
+                    return hasBalances && feeBalance && feeBalance.gte(fee) && canUseOwnFee;
                 });
 
 
@@ -127,7 +129,7 @@
         return new FeeList();
     };
 
-    controller.$inject = ['Base', 'waves', '$scope'];
+    controller.$inject = ['Base', 'waves', '$scope', 'user'];
 
     angular.module('app.ui').component('wFeeList', {
         bindings: {

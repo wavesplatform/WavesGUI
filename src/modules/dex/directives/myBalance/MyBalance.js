@@ -8,9 +8,11 @@
      * @param {ModalManager} modalManager
      * @param {BalanceWatcher} balanceWatcher
      * @param {app.utils} utils
+     * @param {STService} stService
+     * @param {VisibleService} visibleService
      * @return {MyBalance}
      */
-    const controller = function (Base, $scope, user, modalManager, balanceWatcher, utils) {
+    const controller = function (Base, $scope, user, modalManager, balanceWatcher, utils, stService, visibleService) {
 
         class MyBalance extends Base {
 
@@ -63,6 +65,11 @@
                 }
             ];
 
+            /**
+             * @type {Array}
+             */
+            userList = [];
+
             constructor() {
                 super();
 
@@ -79,7 +86,13 @@
                     utils.when(balanceWatcher.ready).then(() => {
                         this.pending = false;
                     });
+
                 }
+                user.getFilteredUserList().then(list => {
+                    this.userList = list;
+                });
+
+                this.receive(stService.draw, this._updateVisible, this);
             }
 
             showAssetInfo(asset) {
@@ -113,6 +126,16 @@
 
             /**
              * @private
+             * @param {string} name
+             */
+            _updateVisible(name) {
+                if (name === 'balanceList') {
+                    visibleService.updateSort();
+                }
+            }
+
+            /**
+             * @private
              */
             _onChangeBalance() {
                 this.balanceList = MyBalance._getBalanceList();
@@ -132,7 +155,7 @@
                         r[id] = true;
                         return r;
                     }, Object.create(null));
-                return item => !WavesApp.scam[item.asset.id] && !spamHash[item.asset.id];
+                return item => !user.scam[item.asset.id] && !spamHash[item.asset.id];
             }
 
         }
@@ -140,7 +163,16 @@
         return new MyBalance();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'modalManager', 'balanceWatcher', 'utils'];
+    controller.$inject = [
+        'Base',
+        '$scope',
+        'user',
+        'modalManager',
+        'balanceWatcher',
+        'utils',
+        'stService',
+        'visibleService'
+    ];
 
     angular.module('app.dex').component('wDexMyBalance', {
         bindings: {},

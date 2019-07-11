@@ -5,9 +5,10 @@
      * @param {CoinomatService} coinomatService
      * @param {CoinomatCardService} coinomatCardService
      * @param {CoinomatSepaService} coinomatSepaService
+     * @param {VostokService} vostokService
      * @return {GatewayService}
      */
-    const factory = function (coinomatService, coinomatCardService, coinomatSepaService) {
+    const factory = function (coinomatService, coinomatCardService, coinomatSepaService, vostokService) {
 
         class GatewayService {
 
@@ -15,12 +16,16 @@
                 this.gateways = [
                     coinomatService,
                     coinomatCardService,
-                    coinomatSepaService
+                    coinomatSepaService,
+                    vostokService
                 ];
             }
 
             getCryptocurrencies() {
-                return coinomatService.getAll();
+                return {
+                    ...coinomatService.getAll(),
+                    ...vostokService.getAll()
+                };
             }
 
             getPurchasableWithCards() {
@@ -136,11 +141,45 @@
             }
 
             /**
+             * @param {Asset} asset
+             * @param {IGatewayType} type
+             * @return {string}
+             */
+            getAddressErrorMessage(asset, address, type) {
+                const gateway = this._findGatewayFor(asset, type);
+                return gateway.getAddressErrorMessage(address);
+            }
+
+            /**
              * @param {string} address
              * @return {Promise}
              */
             hasConfirmation(address) {
                 return coinomatService.hasConfirmation(address);
+            }
+
+            getDefaultCardFiatList() {
+                const FIAT_CODES = {
+                    [WavesApp.defaultAssets.USD]: 'USD',
+                    [WavesApp.defaultAssets.EUR]: 'EURO'
+                };
+
+                return [
+                    {
+                        name: 'USD',
+                        assetId: WavesApp.defaultAssets.USD,
+                        fiatCode: FIAT_CODES[WavesApp.defaultAssets.USD],
+                        min: '30',
+                        max: '50'
+                    },
+                    {
+                        name: 'EUR',
+                        assetId: WavesApp.defaultAssets.EUR,
+                        fiatCode: FIAT_CODES[WavesApp.defaultAssets.EUR],
+                        min: '30',
+                        max: '50'
+                    }
+                ];
             }
 
             /**
@@ -164,7 +203,7 @@
         return new GatewayService();
     };
 
-    factory.$inject = ['coinomatService', 'coinomatCardService', 'coinomatSepaService'];
+    factory.$inject = ['coinomatService', 'coinomatCardService', 'coinomatSepaService', 'vostokService'];
 
     angular.module('app.utils').factory('gatewayService', factory);
 })();

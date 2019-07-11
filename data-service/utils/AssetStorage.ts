@@ -56,6 +56,7 @@ export class AssetStorage {
                     timestamp: asset.timestamp,
                     sender: asset.sender,
                     hasScript: asset.hasScript,
+                    minSponsoredFee: asset.minSponsoredFee,
                     quantity,
                     reissuable
                 };

@@ -2,7 +2,7 @@ import { request } from '../utils/request';
 import { parse } from '../api/matcher/getOrders';
 import { get } from '../config';
 import { addOrderToStore, removeOrderFromStore, removeAllOrdersFromStore } from '../store';
-import { stringifyJSON } from "../utils/utils";
+import { stringifyJSON } from '../utils/utils';
 
 
 export function broadcast(data) {

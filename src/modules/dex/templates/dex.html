@@ -10,20 +10,25 @@
         </w-dex-block>
 
         <w-dex-block block="orderbook"
+                     is-active-scroll="$ctrl.isActiveScroll"
                      title-name="directives.orderBook.title">
-            <w-dex-order-book></w-dex-order-book>
+            <w-dex-order-book is-scrolled="$ctrl.isActiveScroll"></w-dex-order-book>
         </w-dex-block>
 
         <w-dex-block block="tradevolume"
                      can-collapse="true"
+                     analytics-text="'DEX Market Depth'"
                      title-name="directives.marketDepth">
             <w-dex-trade-graph></w-dex-trade-graph>
         </w-dex-block>
 
         <w-dex-block block="tradehistory">
             <w-tabs ng-model="$ctrl.tab">
-                <w-tab title-name="::'tabs.title.openOrders'" id="::'myOpenOrders'">
-                    <w-dex-my-orders></w-dex-my-orders>
+                <w-tab title-name="::'tabs.title.openOrders'" id="::'myOpenOrders'" class="tabs-myOpenOrders">
+                    <w-dex-my-orders is-active-orders="::true"></w-dex-my-orders>
+                </w-tab>
+                <w-tab title-name="::'tabs.title.OrderHistory'" id="::'myOrderHistory'" class="tabs-myOrderHistory">
+                    <w-dex-my-orders is-active-orders="::false"></w-dex-my-orders>
                 </w-tab>
                 <w-tab title-name="::'tabs.title.myTradeHistory'" id="::'myTradeHistory'">
                     <w-dex-trade-history is-my="::true"></w-dex-trade-history>

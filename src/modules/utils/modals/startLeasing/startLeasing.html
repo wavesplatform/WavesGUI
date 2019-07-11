@@ -4,10 +4,10 @@
             <div class="margin-top-4">
                 <form name="lease" novalidate>
                     <div class="row">
-                        <div class="body-2 basic-900" w-i18n="modal.startLease.balance"></div>
+                        <div class="margin-05 body-2 basic-900" w-i18n="modal.startLease.balance"></div>
                         <div class="input-like flex-row split-half">
                             <div class="flex-row">
-                                <w-asset-logo class="marker-hide" size="24"
+                                <w-asset-logo size="24"
                                               asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
                                 <div class="asset-name">{{$ctrl.balance.asset.name}}</div>
                             </div>
@@ -19,7 +19,7 @@
                     </div>
                     <div class="row">
                         <div class="flex-row-title">
-                            <div class="body-2 basic-900" w-i18n="modal.startLease.recipient"></div>
+                            <div class="margin-05 body-2 basic-900" w-i18n="modal.startLease.recipient"></div>
                             <a
                                     class="link"
                                     target="_blank"
@@ -49,7 +49,7 @@
                     </div>
                     <div class="row">
 
-                        <div class="body-2 basic-900" w-i18n="modal.startLease.amount"></div>
+                        <div class="margin-05 body-2 basic-900" w-i18n="modal.startLease.amount"></div>
 
                         <w-input-container>
                             <w-balance-input name="amount"
@@ -118,7 +118,7 @@
     </div>
     <h3 class="basic-700 margin-3 center"
         w-i18n="modal.startLease.title"></h3>
-    <div class="warning-plate warning-500">
+    <div class="plate-warning warning-500">
         <span w-i18n="modal.disabledFeature.lease" class="body-1"></span>
     </div>
 </w-permit>

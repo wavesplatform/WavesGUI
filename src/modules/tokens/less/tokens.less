@@ -2,27 +2,29 @@
 @import (reference) '../../app/less/typography';
 
 body.tokens {
-
-  w-header {
-    display: none;
-  }
-
-  @height-title: 40px;
+  @height-title: 60px;
 
   .main-content .content {
     height: 100%;
-    width: calc(~'100% - '@width-left-menu);
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
+    overflow: auto;
+    margin: 0 auto;
+    max-width: 100%;
   }
 
-  .token-page {
-    width: 100%;
+  .tokens-page {
     height: 100%;
-    background-color: @color-white;
-    border-radius: @border-radius;
-    box-shadow: @shadow-type-1;
+    display: flex;
+    align-items: center;
+    padding-bottom: 2%;
+
+    &-wrapper {
+      background-color: @color-white;
+      border-radius: @border-radius;
+      box-shadow: @shadow-type-1;
+      max-width: 540px;
+      margin: auto;
+      width: 100%;
+    }
 
     w-select {
       .issue-select {
@@ -30,9 +32,9 @@ body.tokens {
       }
     }
 
-    .token-page__content {
-      height: calc(~'100% - 1px - ' @height-title);
+    &__content {
       overflow: auto;
+      padding: 0 40px;
 
       &::after {
         display: block;
@@ -42,7 +44,6 @@ body.tokens {
     }
 
     textarea {
-      resize: vertical;
       min-height: 77px;
       max-height: 300px;
     }
@@ -50,56 +51,11 @@ body.tokens {
     .page-title {
       display: flex;
       align-items: center;
-      padding-left: 13px;
+      padding: 0 40px;
+      font-size: 17px;
+      font-family: 'Roboto-Medium';
       height: @height-title;
-      border-bottom: 1px solid @color-basic-100;
-    }
-
-    .input-like {
-      padding: 0;
-      display: flex;
-      align-items: center;
-
-      w-input {
-        display: block;
-        width: 50%;
-
-        input {
-          height: 40px;
-          background: @color-white;
-          border-radius: @border-radius;
-        }
-
-        input:not(:focus) {
-          border: none;
-        }
-      }
-
-      .select-wrap {
-        position: relative;
-        height: 100%;
-        width: 50%;
-        background-color: @color-disabled-50;
-        border-top-right-radius: @border-radius;
-        border-bottom-right-radius: @border-radius;
-
-        .issue-select {
-          width: 216px;
-          height: 30px;
-          position: absolute;
-          right: 6px;
-          top: 6px;
-
-          .title-content {
-            display: flex;
-            align-items: center;
-          }
-
-          .title {
-            background-color: @color-white;
-          }
-        }
-      }
+      border-bottom: 1px solid @color-basic-200;
     }
 
     .preview {
@@ -119,6 +75,17 @@ body.tokens {
         margin: 19px 16px;
         border-radius: 100%;
         background-color: @color-basic-100;
+        position: relative;
+
+        w-new-asset-logo {
+          cursor: pointer;
+        }
+      }
+
+      w-new-asset-logo {
+        &:hover + w-info-tooltip .tooltip {
+          display: flex;
+        }
       }
 
       .token-info-wrap {
@@ -126,6 +93,7 @@ body.tokens {
         flex-direction: column;
         height: 40px;
         width: calc(~'100% - 62px');
+        justify-content: center;
 
         &.empty {
 
@@ -155,11 +123,6 @@ body.tokens {
     }
 
     .generate-form {
-      display: block;
-      width: 460px;
-      margin: auto;
-      padding-top: 60px;
-
       .row {
         margin-top: 20px;
 
@@ -167,6 +130,20 @@ body.tokens {
           margin-top: 10px;
         }
       }
+    }
+  }
+
+  w-info-tooltip {
+    top: -8px;
+    left: 50%;
+
+    .information-icon {
+      display: none;
+    }
+
+    .tooltip {
+      align-items: center;
+      transform: translateX(-50%);
     }
   }
 }

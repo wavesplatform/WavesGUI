@@ -3,11 +3,10 @@
 
 .ledger-modal {
   .icon-close {
-    right: 30px;
-    top: 30px;
+    right: 10px;
+    top: 10px;
     position: absolute;
   }
-
   .device-img {
     width: 278px;
     height: 146px;
@@ -31,23 +30,20 @@
   }
   .create-order-icon {
     background: @transaction-icons;
-    background-size: auto 80px;
     background-repeat: no-repeat;
-    background-position: -157px center;
+    background-position-x: -160px;
   }
   .create-order-cont {
     border-bottom: 1px solid @color-basic-100;
   }
   .cancel-order-mode,
   .create-order-mode {
-    padding-top: 30px;
+    padding-top: 60px;
   }
   .cancel-order-icon {
     background: @cancelorder-icon;
   }
   .bottom-wrapper {
-    padding-top: 20px;
-
     w-loader {
       position: relative;
     }
@@ -117,7 +113,7 @@
     w-loader {
       position: relative;
       margin: 30px auto 0;
-      transform: translate(0) translate3d(0,0,0);
+      transform: translate(0) translate3d(0, 0, 0);
       left: auto;
     }
 
@@ -131,4 +127,3 @@
     }
   }
 }
-

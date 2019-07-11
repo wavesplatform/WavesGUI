@@ -7,9 +7,10 @@
      * @param {Aliases} aliases
      * @param {app.utils.decorators} decorators
      * @param {BaseNodeComponent} BaseNodeComponent
+     * @param {Matcher} matcher
      * @return {Transactions}
      */
-    const factory = function (user, utils, aliases, decorators, BaseNodeComponent) {
+    const factory = function (user, utils, aliases, decorators, BaseNodeComponent, matcher) {
 
         const tsUtils = require('ts-utils');
         const R = require('ramda');
@@ -18,6 +19,9 @@
 
         const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
 
+        /**
+         * @class Transactions
+         */
         class Transactions extends BaseNodeComponent {
 
             constructor() {
@@ -61,11 +65,12 @@
             /**
              * Get transactions list by user
              * @param {number} [limit]
+             * @param {string} [after]
              * @return {Promise<ITransaction[]>}
              */
             @decorators.cachable(1)
-            list(limit = 1000) {
-                return ds.api.transactions.list(user.address, limit)
+            list(limit = 1000, after) {
+                return ds.api.transactions.list(user.address, limit, after)
                     .then(list => list.map(this._pipeTransaction()));
             }
 
@@ -99,8 +104,19 @@
                     .then(([utxTxList, txList]) => utxTxList.concat(txList));
             }
 
-            createTransaction(txData) {
+            /**
+             * @param {ExchangeTxFilters} prams
+             * @param {IGetExchangeOptions} [options]
+             * @returns {Promise<IExchange[]>}
+             */
+            getExchangeTxList(prams, options) {
+                return ds.api.transactions.getExchangeTxList({
+                    matcher: matcher.currentMatcherAddress,
+                    ...prams
+                }, options);
+            }
 
+            createTransaction(txData) {
                 const tx = {
                     sender: user.address,
                     timestamp: Date.now(),
@@ -111,7 +127,6 @@
                     tx.totalAmount = tx.totalAmount || tx.transfers.map(({ amount }) => amount)
                         .reduce((result, item) => result.add(item));
                 }
-
                 return this._pipeTransaction(false)(tx);
             }
 
@@ -121,7 +136,6 @@
              */
             _pipeTransaction() {
                 return (tx) => {
-
                     tx.timestamp = new Date(tx.timestamp);
                     tx.typeName = utils.getTransactionTypeName(tx);
                     tx.templateType = Transactions._getTemplateType(tx);
@@ -181,6 +195,8 @@
                         return 13;
                     case WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP:
                         return 14;
+                    case WavesApp.TRANSACTION_TYPES.NODE.SCRIPT_INVOCATION:
+                        return 16;
                     default:
                         throw new Error('Wrong tx name!');
                 }
@@ -216,6 +232,8 @@
                         return 'sponsorship';
                     case TYPES.SPONSORSHIP_FEE:
                         return 'sponsorship_fee';
+                    case TYPES.SCRIPT_INVOCATION:
+                        return 'script-invocation';
                     case TYPES.UNKNOWN:
                         return 'unknown';
                     default:
@@ -240,6 +258,7 @@
                     case TYPES.LEASE_IN:
                     case TYPES.CREATE_ALIAS:
                     case TYPES.SPONSORSHIP_FEE:
+                    case TYPES.SCRIPT_INVOCATION:
                         return sender;
                     default:
                         return recipient;
@@ -251,7 +270,7 @@
         return utils.bind(new Transactions());
     };
 
-    factory.$inject = ['user', 'utils', 'aliases', 'decorators', 'BaseNodeComponent'];
+    factory.$inject = ['user', 'utils', 'aliases', 'decorators', 'BaseNodeComponent', 'matcher'];
 
     angular.module('app')
         .factory('transactions', factory);

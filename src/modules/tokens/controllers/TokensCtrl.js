@@ -2,14 +2,15 @@
     'use strict';
 
     /**
-     * @param Base
+     * @param {typeof Base} Base
      * @param {$rootScope.Scope} $scope
      * @param {ModalManager} modalManager
-     * @param {BalanceWatcher} balanceWatcher
      * @param {Waves} waves
+     * @param {BalanceWatcher} balanceWatcher
      * @param {User} user
+     * @param {app.utils} utils
      */
-    const controller = function (Base, $scope, modalManager, waves, balanceWatcher, user) {
+    const controller = function (Base, $scope, modalManager, waves, balanceWatcher, user, utils) {
 
         const { SIGN_TYPE } = require('@waves/signature-adapter');
         const { WAVES_ID } = require('@waves/signature-generator');
@@ -24,6 +25,10 @@
              * @type {form.FormController}
              */
             createForm = null;
+            /**
+             * @type {string}
+             */
+            assetId = '';
             /**
              * Token name
              * @type {string}
@@ -52,7 +57,7 @@
             /**
              * @type {BigNumber}
              */
-            maxCoinsCount = null;
+            maxCoinsCount = WavesApp.maxCoinsCount;
             /**
              * Has money for fee
              * @type {boolean}
@@ -79,6 +84,10 @@
              */
             hasAssetScript = false;
             /**
+             * @type {Signable}
+             */
+            signable = null;
+            /**
              * @type {JQueryXHR | null}
              * @private
              */
@@ -88,6 +97,10 @@
              * @private
              */
             _balance;
+            /**
+             * @type {boolean}
+             */
+            isNFT = false;
 
 
             constructor() {
@@ -97,14 +110,29 @@
 
                 this.observe('precision', this._onChangePrecision);
                 this.observe('script', this._onChangeScript);
+                this.observe([
+                    'name',
+                    'count',
+                    'script',
+                    'precision',
+                    'description',
+                    'issue',
+                    'hasAssetScript',
+                    'fee'
+                ], this.createSignable);
 
-                waves.node.getFee({ type: SIGN_TYPE.ISSUE })
-                    .then(money => {
-                        this.fee = money;
+                this.observe([
+                    'count',
+                    'precision',
+                    'issue'
+                ], this._setIsNFT);
 
-                        this._onChangeBalance();
-                        $scope.$apply();
-                    });
+                this._getFee();
+                this.observe('isNFT', this._getFee);
+
+                this.observeOnce('createForm', () => {
+                    this.receive(utils.observe(this.createForm, '$valid'), this.createSignable, this);
+                });
             }
 
             generate(signable) {
@@ -112,9 +140,23 @@
                     .then(() => this._reset());
             }
 
+            sendAnalytics() {
+                analytics.send({ name: 'Token Generation Info Show', target: 'ui' });
+            }
+
+            getSignable() {
+                return this.signable;
+            }
+
             createSignable() {
+
+                if (!this.name || !this.createForm || !this.createForm.$valid) {
+                    this.assetId = '';
+                    return null;
+                }
+
                 const precision = Number(this.precision.toString());
-                const quantity = this.count.times(Math.pow(10, precision));
+                const quantity = (this.count || new BigNumber(0)).times(Math.pow(10, precision));
                 const script = this.hasAssetScript && this.script ? `${BASE_64_PREFIX}${this.script}` : '';
 
                 const tx = waves.node.transactions.createTransaction({
@@ -128,7 +170,12 @@
                     fee: this.fee
                 });
 
-                return ds.signature.getSignatureApi().makeSignable({ type: tx.type, data: tx });
+                this.signable = ds.signature.getSignatureApi().makeSignable({ type: tx.type, data: tx });
+
+                this.signable.getId().then(id => {
+                    this.assetId = id;
+                    utils.safeApply($scope);
+                });
             }
 
             /**
@@ -202,7 +249,7 @@
                 this.issue = true;
                 this.count = new BigNumber(0);
                 this.precision = 0;
-                this.maxCoinsCount = null;
+                this.maxCoinsCount = WavesApp.maxCoinsCount;
                 this.script = '';
                 this.hasAssetScript = false;
 
@@ -212,12 +259,39 @@
                 $scope.$apply();
             }
 
+            /**
+             * @private
+             */
+            _setIsNFT() {
+                const { count, precision, issue } = this;
+                const nftCount = count && count.eq(1);
+                const nftPrecision = precision === 0;
+                this.isNFT = !issue && nftCount && nftPrecision;
+            }
+
+            /**
+             * @private
+             */
+            _getFee() {
+                waves.node.getFee({
+                    type: SIGN_TYPE.ISSUE,
+                    reissue: this.issue,
+                    precision: this.precision,
+                    quantity: this.count
+                })
+                    .then(money => {
+                        this.fee = money;
+                        this._onChangeBalance();
+                        $scope.$apply();
+                    });
+            }
+
         }
 
         return new TokensCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'modalManager', 'waves', 'balanceWatcher', 'user'];
+    controller.$inject = ['Base', '$scope', 'modalManager', 'waves', 'balanceWatcher', 'user', 'utils'];
 
     angular.module('app.tokens')
         .controller('TokensCtrl', controller);

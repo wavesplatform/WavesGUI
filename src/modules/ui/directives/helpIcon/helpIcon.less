@@ -1,37 +1,20 @@
 @import (reference) 'config';
+@import (reference) 'icons';
 @import (reference) '../../../app/less/typography';
 
 .help-icon {
   display: inline-block;
 
   &__icon {
-    position: relative;
     margin-left: 7px;
-    z-index: 1;
-
-    &.info {
-      &::before {
-        content: 'i';
-      }
-    }
-
-    &::before {
-      content: '?';
-      background: @color-accent-100;
-      color: @color-white;
-      border-radius: 50%;
-      display: inline-block;
-      width: @text-icon-size;
-      height: 14px;
-      padding-top: 2px;
-      text-align: center;
-      font-style: normal;
-      font-weight: bold;
-      vertical-align: middle;
-      margin-top: -3px;
-      font-size: @font-size-caption-2;
-      line-height: 13px;
-    }
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    width: 14px;
+    height: 14px;
+    font-style: normal;
+    background: @color-accent-100 @dex-info-icon center no-repeat;
+    transition: background 0.3s;
 
     &:after {
       display: none;
@@ -39,16 +22,16 @@
       height: 10px;
       background: @color-submit-300;
       transform: rotate(-45deg);
-      left: 3px;
-      top: 21px;
+      left: 2px;
+      top: 19px;
       position: absolute;
       content: '';
-      z-index: 0;
+      z-index: 1;
     }
 
-    &.hovered::before,
-    &:hover::before {
-      background: @color-submit-300;
+    &.hovered,
+    &:hover {
+      background-color: @color-submit-300;
     }
 
     &.hovered::after,
@@ -72,7 +55,7 @@
     border-radius: @border-radius;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.18);
     padding: 15px;
-    margin-top: 4px;
+    margin-top: 24px;
     left: 40px;
     width: calc(100% ~'- 80px');
 
@@ -93,17 +76,15 @@
     margin-bottom: 5px;
     margin-top: 0;
   }
-
-
 }
 
 w-help-icon {
+  display: inline-flex;
+
   &.info {
     .help-icon {
       &__icon {
-        &::before {
-          content: 'i';
-        }
+        background-image: @dex-help-icon;
       }
     }
   }

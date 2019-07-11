@@ -75,6 +75,20 @@
              */
             _applyValueMode = false;
 
+            __handlePosition = 0;
+
+            get _handleTranslateX() {
+                return this.__handlePosition;
+            }
+
+            set _handleTranslateX(translate) {
+                if (translate !== this.__handlePosition) {
+                    this.__handlePosition = translate;
+                    this._handle.css('transform', `translateX(${translate}px)`);
+                    this._trackColor.css('width', translate);
+                }
+            }
+
 
             $postLink() {
                 this._track = $element.find('.range-slider__track');
@@ -102,9 +116,18 @@
              */
             _drawModelState() {
                 const newPos = this._coords[this._numberValues[this.ngModel]];
+                const start = this._handleTranslateX;
+                this._handle.prop('progress', 0);
+
                 utils.animate(this._handle, {
-                    left: newPos
-                }, { duration: 100 });
+                    progress: 1
+                }, {
+                    duration: 100,
+                    step: progress => {
+                        this._handleTranslateX = start + ((newPos - start) * progress);
+                    }
+                });
+
                 utils.animate(this._trackColor, {
                     width: newPos
                 }, { duration: 100 });
@@ -149,10 +172,6 @@
 
                 this._coords = range(0, this._amountOfPoints + 1)
                     .map(num => this._track.position().left + num * this._scale);
-
-                this._handle.css({
-                    left: head(this._coords)
-                });
             }
 
             /**
@@ -171,6 +190,8 @@
              */
             _initEvents() {
                 const onDragStart = () => {
+                    this._handle.stop(true, false);
+                    this._trackColor.stop(true, false);
                     const startPos = this._track.offset().left;
                     this._container.addClass('range-slider_drag');
 
@@ -179,15 +200,8 @@
                         const position = Math.round(utilEvent.pageX - startPos - (this._handle.width() / 2));
                         const newPosition = Math.min(Math.max(head(this._coords), position), last(this._coords));
 
-
                         this._updateModel(this._numberValues[this._findClosestIndex(newPosition)]);
-
-                        this._handle.css({
-                            left: newPosition
-                        });
-                        this._trackColor.css({
-                            width: newPosition
-                        });
+                        this._handleTranslateX = newPosition;
                         $scope.$apply();
                     });
 

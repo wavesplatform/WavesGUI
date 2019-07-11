@@ -215,7 +215,7 @@
                     // debug: true,
                     locale: DexCandleChart._remapLanguageCode(i18next.language),
                     symbol: `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
-                    interval: WavesApp.dex.defaultResolution,
+                    interval: user.getSetting('lastInterval'),
                     container_id: this.elementId,
                     datafeed: candlesService,
                     library_path: 'trading-view/',
@@ -225,7 +225,8 @@
                     // enabled_features: ENABLED_FEATURES,
                     overrides,
                     studies_overrides,
-                    custom_css_url
+                    custom_css_url,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
                 });
 
                 this._chart.onChartReady(() => {
@@ -242,8 +243,14 @@
                         this._assetIdPairWasChanged = false;
                         this._chartReady = true;
                     }
-                });
 
+                    this._chart.subscribe('onIntervalChange', (e) => {
+                        user.setSetting('lastInterval', e);
+                    });
+                });
+                this._chart.options.datafeed.onLoadError = () => {
+                    this.notLoaded = true;
+                };
                 return this;
             }
 
@@ -265,12 +272,14 @@
 
             static _remapLanguageCode(code) {
                 switch (code) {
-                    case 'hi':
+                    case 'hi_IN':
                         return 'en';
-                    case 'nl':
-                        return 'nl_NL';
-                    case 'zh-Hans-CN':
+                    case 'id':
+                        return 'en';
+                    case 'zh_CN':
                         return 'zh';
+                    case 'pt_BR':
+                        return 'pt';
                     default:
                         return code;
                 }

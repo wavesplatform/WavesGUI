@@ -20,9 +20,10 @@
             constructor() {
                 super();
                 user.onLogin().then(() => {
-
-                    if (!user.getSetting('withScam')) {
+                    if (user.getSetting('scamListUrl')) {
                         this.stopScam();
+                    } else {
+                        this.giveMyScamBack();
                     }
                 });
             }
@@ -124,7 +125,7 @@
             }
 
             giveMyScamBack() {
-                WavesApp.scam = Object.create(null);
+                user.scam = Object.create(null);
                 if (this._pollScam) {
                     this._pollScam.destroy();
                     this._pollScam = null;
@@ -132,9 +133,9 @@
             }
 
             stopScam() {
-                if (this._pollScam) {
-                    return null;
-                }
+                // if (this._pollScam) {
+                //     return null;
+                // }
                 /**
                  * @type {Poll}
                  * @private
@@ -157,7 +158,8 @@
                             }
                         });
                         return hash;
-                    });
+                    })
+                    .catch(() => Object.create(null));
             }
 
             /**
@@ -165,7 +167,7 @@
              * @private
              */
             _setScamAssetList(hash) {
-                WavesApp.scam = hash;
+                user.setScam(hash);
             }
 
             /**

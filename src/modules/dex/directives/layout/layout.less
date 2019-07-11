@@ -2,15 +2,31 @@
 @import (reference) 'config';
 @import (reference) 'icons';
 
-@column-width: 320px;
 @dex-padding: 7px;
 
 .dex.main .main-content,
 .dex-demo.main .main-content {
-  background: @app-background;
-  min-width: 1280px;
+  width: 100%;
   min-height: 520px;
-  overflow-y: hidden;
+  max-height: none;
+  overflow: hidden;
+
+  .content {
+    max-width: 100%;
+    padding: 5px;
+    overflow: auto;
+  }
+}
+
+html body.dex.main,
+html body.dex-demo.main {
+  overflow: hidden;
+  w-site-header {
+    .header-wrapper {
+      max-width: 100%;
+      padding: 0;
+    }
+  }
 }
 
 html body.dex,
@@ -48,7 +64,7 @@ w-layout {
 
         &__candlechart {
           transform: translateX(0);
-          width: calc(100% ~'- 325px');
+          width: calc(~'100%' - (@dexLayoutWatchlist + @dexLayoutGap));
 
           .dex-layout {
             &__sidebar-toggle-left div::after {
@@ -66,7 +82,7 @@ w-layout {
         }
 
         &__candlechart {
-          width: calc(100% ~'- 325px');
+          width: calc(~'100%' - (@dexLayoutWatchlist + @dexLayoutGap));
 
           .dex-layout {
             &__sidebar-toggle-right div::after {
@@ -118,8 +134,8 @@ w-layout {
 
     &__watchlist {
       transition: .3s;
-      width: 320px;
-      max-height: calc(100% ~'- 308px');
+      width: @dexLayoutWatchlist;
+      max-height: calc(100% ~'- 325px');
       border-radius: @border-radius / 2;
       overflow: visible;
 
@@ -141,13 +157,13 @@ w-layout {
     }
 
     &__candlechart {
-      width: calc(100% ~'- 650px');
-      max-height: calc(100% ~'- 308px');
+      width: calc(~'100%' - (@dexLayoutWatchlist + @dexLayoutOrderBook + @dexLayoutGap * 2));
+      max-height: calc(100% ~'- 325px');
       position: absolute;
       border-radius: @border-radius / 2;
       display: flex;
       transition: .3s;
-      transform: translateX(325px);
+      transform: translateX((@dexLayoutWatchlist + @dexLayoutGap));
 
       .block-title {
         display: none;
@@ -159,8 +175,8 @@ w-layout {
     }
 
     &__orderbook {
-      width: 320px;
-      max-height: calc(100% ~'- 308px');
+      width: @dexLayoutOrderBook;
+      max-height: calc(100% ~'- 325px');
       right: 0;
       transition: .3s;
       margin-left: 5px;
@@ -213,11 +229,11 @@ w-layout {
     }
 
     &__tradehistory {
-      max-height: 303px;
-      min-height: 303px;
+      max-height: 320px;
+      min-height: 320px;
       bottom: 0;
       left: 0;
-      width: calc(100% ~'- 325px');
+      width: calc(~'100%' - (@dexLayoutOrderBook + @dexLayoutGap));
       border-radius: @border-radius / 2;
 
       .block-title {
@@ -237,11 +253,11 @@ w-layout {
     }
 
     &__createorder {
-      max-height: 303px;
-      min-height: 303px;
+      max-height: 320px;
+      min-height: 320px;
       bottom: 0;
       right: 0;
-      width: 320px;
+      width: @dexLayoutCreateOrder;
       background-color: transparent;
       border-radius: @border-radius / 2;
 
@@ -253,7 +269,6 @@ w-layout {
     &__block {
       height: 100%;
       width: 100%;
-      min-width: @column-width;
     }
 
     w-dex-layout-side-bar-toggle {
@@ -382,7 +397,7 @@ w-layout {
         z-index: -1;
         top: -5px;
         right: 10px;
-        opacity: .6;
+        opacity: .8;
         width: 0;
         height: 0;
         border: 5px solid transparent;
@@ -392,7 +407,7 @@ w-layout {
       }
 
       &::after {
-        opacity: .6;
+        opacity: .8;
         border-radius: @border-radius;
         position: absolute;
         background: @color-basic-700;
@@ -522,6 +537,7 @@ html body.dex-demo .notifications {
     transition: .3s;
   }
 }
+
 //end
 
 //hi-res
@@ -753,10 +769,6 @@ html body.dex-demo .notifications {
 
   .dex.main .main-content,
   .dex-demo.main .main-content {
-    w-responsive-menu w-button.nav-toggler {
-      display: block;
-    }
-
     min-width: 645px;
     width: 100%;
     min-height: 100%;
@@ -944,7 +956,6 @@ html body.dex-demo .notifications {
   .dex.main .main-content,
   .dex-demo.main .main-content {
     min-width: 100%;
-    min-height: 100%;
 
     .content {
       margin-top: 0;
@@ -1003,9 +1014,8 @@ html body.dex-demo .notifications {
       &__orderbook {
         width: 100%;
         max-height: 420px;
-        margin-bottom: 85px;
         margin-left: 0;
-        order: 3;
+        order: 2;
 
         .dex-layout {
           &__block[data-block="tradevolume"] {
@@ -1027,7 +1037,7 @@ html body.dex-demo .notifications {
       &__tradehistory {
         width: 100%;
         margin-bottom: 5px;
-        order: 2;
+        order: 3;
 
         .dex-layout__block {
           height: 304px;

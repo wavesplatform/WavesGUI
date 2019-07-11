@@ -1,12 +1,13 @@
 (function () {
     'use strict';
 
-    const config = function ($urlRouterProvider, $stateProvider, $locationProvider) {
-
+    const config = function ($urlRouterProvider, $stateProvider, $locationProvider, $compileProvider) {
+        const TransportU2F = require('@ledgerhq/hw-transport-u2f');
         const tsUtils = require('ts-utils');
 
         ds.config.setConfig(WavesApp.network);
         ds.config.set('remappedAssetNames', WavesApp.remappedAssetNames);
+        ds.config.set('oracleTokenomica', WavesApp.oracles.tokenomica);
 
         class AppConfig {
 
@@ -15,11 +16,12 @@
                 this._initLocalize();
                 this._initAdapters();
                 this._initStates();
+                this._initCompiler();
             }
 
             _initAdapters() {
 
-                const Transport = window.TransportNodeHid;
+                const Transport = window.TransportNodeHid || TransportU2F;
 
                 ds.signAdapters.adapterList.forEach((Adapter) => Adapter.initOptions({
                     networkCode: WavesApp.network.code.charCodeAt(0),
@@ -62,9 +64,17 @@
                 i18next
                     .use(i18nextLocizeBackend)
                     .init({
-                        lng: localStorage.getItem('lng') || AppConfig.getUserLang(),
+                        lng: AppConfig.getUserLang(),
                         debug: !WavesApp.isProduction(),
-                        ns: WavesApp.modules.filter(tsUtils.notContains('app.templates')),
+                        ns: WavesApp.modules
+                            .filter(
+                                tsUtils.filterList(
+                                    tsUtils.notContains('app.templates'),
+                                    tsUtils.notContains('app.keeper'),
+                                    tsUtils.notContains('app.wallet'),
+                                    tsUtils.notContains('app.stand')
+                                )
+                            ),
                         fallbackLng: 'en',
                         whitelist: Object.keys(WavesApp.localize),
                         defaultNS: 'app',
@@ -179,6 +189,15 @@
                     });
             }
 
+            /**
+             * @private
+             */
+            _initCompiler() {
+                $compileProvider.commentDirectivesEnabled(false);
+                $compileProvider.cssClassDirectivesEnabled(false);
+                $compileProvider.debugInfoEnabled(!WavesApp.isProduction());
+            }
+
             static getCtrlName(name) {
                 return `${name.charAt(0)
                     .toUpperCase() + name.substr(1)}Ctrl as $ctrl`;
@@ -200,8 +219,11 @@
             }
 
             static getUserLang() {
-
                 const available = Object.keys(WavesApp.localize);
+                const langFromStorage = localStorage.getItem('lng');
+                if (available.indexOf(langFromStorage) !== -1) {
+                    return langFromStorage;
+                }
                 const cookieLng = Cookies.get('locale');
                 const userLang = navigator.language || navigator.userLanguage;
 
@@ -240,7 +262,7 @@
         return new AppConfig();
     };
 
-    config.$inject = ['$urlRouterProvider', '$stateProvider', '$locationProvider'];
+    config.$inject = ['$urlRouterProvider', '$stateProvider', '$locationProvider', '$compileProvider'];
 
     angular.module('app')
         .config(config);

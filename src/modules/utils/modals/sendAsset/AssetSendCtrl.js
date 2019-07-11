@@ -115,6 +115,11 @@
                     this.state.singleSend.recipient = options.recipient;
                     this.state.singleSend.attachment = options.attachment;
 
+                    const toGateway = this.outerSendMode && this.gatewayDetails;
+                    const attachment = toGateway ? this.gatewayDetails.attachment : options.attachment;
+                    const attachmentString = attachment ? attachment.toString() : '';
+                    const bytesAttachment = utils.stringToBytes(attachmentString);
+
                     Promise.all([
                         ds.moneyFromTokens(options.amount || '0', this.state.assetId),
                         waves.node.getFee({ type: SIGN_TYPE.TRANSFER })
@@ -123,7 +128,10 @@
                         this.state.singleSend.amount = money;
                         this.state.singleSend.fee = fee;
 
-                        const tx = waves.node.transactions.createTransaction(this.state.singleSend);
+                        const tx = waves.node.transactions.createTransaction({
+                            ...this.state.singleSend,
+                            attachment: bytesAttachment
+                        });
                         const signable = ds.signature.getSignatureApi().makeSignable({
                             type: SIGN_TYPE.TRANSFER,
                             data: tx
@@ -211,7 +219,7 @@
              * @private
              */
             static _isNotScam(item) {
-                return !WavesApp.scam[item.asset.id];
+                return !user.scam[item.asset.id];
             }
 
         }

@@ -1,9 +1,11 @@
 {
   "vendors": [
+    "node_modules/@sentry/browser/build/bundle.min.js",
     "node_modules/@waves/oracle-data/dist/oracle-data.min.js",
     "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js",
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
     "node_modules/handlebars/dist/handlebars.min.js",
+    "node_modules/@waves/marshall/dist/min/waves-marshall.min.js",
     "node_modules/ramda/dist/ramda.min.js",
     "node_modules/mobile-detect/mobile-detect.min.js",
     "node_modules/handlebars/dist/handlebars.min.js",
@@ -16,14 +18,15 @@
     "node_modules/@waves/data-entities/dist/data-entities.min.js",
     "node_modules/@waves/signature-generator/dist/signature-generator.partial.min.js",
     "node_modules/@waves/waves-browser-bus/dist/browser-bus.min.js",
-    "node_modules/@waves/ledger/dist/transport-u2f.js",
+    "node_modules/@waves/event-sender/dist/analytics.js",
     "node_modules/@waves/ledger/dist/waves-ledger.js",
-    "node_modules/@waves/signature-adapter/dist/signature-adapter.min.js",
-    "data-service-dist/data-service.js",
+    "node_modules/@waves/ledger/dist/transport-u2f.js",
     "node_modules/qrcode/build/qrcode.min.js",
     "node_modules/ts-api-validator/dist/ts-api-validator.partial.min.js",
     "node_modules/jquery/dist/jquery.min.js",
     "node_modules/d3/d3.min.js",
+    "node_modules/@waves/signature-adapter/dist/signature-adapter.min.js",
+    "data-service-dist/data-service.js",
     "node_modules/identity-img/dist/identity-img.min.js",
     "node_modules/i18next-locize-backend/i18nextLocizeBackend.min.js",
     "node_modules/angular/angular.min.js",
@@ -34,100 +37,121 @@
     "node_modules/@uirouter/angularjs/release/stateEvents.min.js",
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
     "node_modules/i18next/dist/umd/i18next.js",
-    "node_modules/n3-charts/build/LineChart.min.js",
-    "node_modules/@waves/event-sender/dist/umd.js"
+    "node_modules/n3-charts/build/LineChart.min.js"
   ],
   "exportPageVendors": [
     "node_modules/ts-utils/dist/ts-utils.min.js",
     "node_modules/@waves/waves-browser-bus/dist/browser-bus.min.js"
   ],
+  "analyticsIframe": "https://iframe.wavesplatform.com",
   "langList": {
     "en": {
-      "name": "En",
+      "name": "English",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "ru": {
-      "name": "Ru",
+      "name": "Russian",
       "separators": {
         "group": " ",
         "decimal": "."
       }
     },
     "ko": {
-      "name": "Ko",
+      "name": "Korean",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
-    "zh-Hans-CN": {
-      "name": "Zh",
+    "zh_CN": {
+      "name": "Chinese",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "tr": {
-      "name": "Tr",
+      "name": "Turkish",
       "separators": {
         "group": " ",
         "decimal": "."
       }
     },
-    "nl": {
-      "name": "Nl",
+    "ja": {
+      "name": "Japanese",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
-    "hi": {
-      "name": "Hi",
+    "nl_NL": {
+      "name": "Dutch",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
+    "hi_IN": {
+      "name": "Hindi",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "es": {
-      "name": "Es",
+      "name": "Spanish",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
-    "pt": {
-      "name": "Pt",
+    "et_EE": {
+      "name": "Estonian",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
+    "pt_BR": {
+      "name": "Brazil",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "pl": {
-      "name": "Pl",
+      "name": "Polish",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "it": {
-      "name": "It",
+      "name": "Italian",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "de": {
-      "name": "De",
+      "name": "German",
       "separators": {
         "group": ",",
         "decimal": "."
       }
     },
     "id": {
-      "name": "Id",
+      "name": "Indonesian",
+      "separators": {
+        "group": ",",
+        "decimal": "."
+      }
+    },
+    "fr": {
+      "name": "French",
       "separators": {
         "group": ",",
         "decimal": "."
@@ -146,8 +170,8 @@
     "dist/dev/js/templates.js"
   ],
   "debugInjections": [
-    "ts-scripts/loginDaemon.js",
-    "ts-scripts/mobileConsole.js"
+    "helpers/loginDaemon.js",
+    "helpers/mobileConsole.js"
   ],
   "copyNodeModules": [
     "node_modules/qrcode-reader/dist/index.min.js",
@@ -181,71 +205,5 @@
       }
     },
     "server": "desktop.wavesplatform.com"
-  },
-  "configurations": {
-    "testnet": {
-      "oracle": "3N5net4nzSeeqxPfGZrvVvnGavsinipQHbE",
-      "apiVersion": "v0",
-      "code": "T",
-      "bankRecipient": "",
-      "node": "https://pool.testnet.wavesnodes.com",
-      "matcher": "https://matcher.testnet.wavesnodes.com/matcher",
-      "api": "https://api.testnet.wavesplatform.com",
-      "explorer": "https://wavesexplorer.com/testnet",
-      "coinomat": "https://localhost:8080/coinomat",
-      "support": "https://support.wavesplatform.com",
-      "nodeList": "http://dev.pywaves.org/testnet/generators/",
-      "scamListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv",
-      "origin": "https://testnet.wavesplatform.com",
-      "featuresConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/testnet.config.json",
-      "feeConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/fee.json",
-      "assets": {
-        "EUR": "AsuWyM9MUUsMmWkK7jS48L3ky6gA1pxx7QtEYPbfLjAJ",
-        "USD": "D6N2rAqWN6ZCWnCeNFWLGqqjS6nJLeK4m19XiuhdDenr",
-        "BTC": "DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn",
-        "ETH": "BrmjyAWT5jjr3Wpsiyivyvg5vDuzoX2s93WgiexXetB3",
-        "LTC": "BNdAstuFogzSyN2rY3beJbnBYwYcu7RzTHFjW88g8roK",
-        "ZEC": "CFg2KQfkUgUVM2jFCMC5Xh8T8zrebvPc4HjHPfAugU1S",
-        "BCH": "8HT8tXwrXAYqwm8XrZ2hywWWTUAXxobHB5DakVC1y6jn",
-        "BSV": "6KSUNALdYEd1EVTE4dTcSHzNw1dA3Q6ieokSRVuEcALV",
-        "TRY": "7itsmgdmomeTXvZzaaxqF3346h4FhciRoWceEw9asNV3",
-        "DASH": "DGgBtwVoXKAKKvV2ayUpSoPzTJxt7jo9KiXMJRzTH2ET",
-        "EFYT": "FvKx3cerSVYGfXKFvUgp7koNuTAcLs8DmtmwRrFVCqJv",
-        "WNET": "3P8gkhcLhFQvBkDzMnWeqqwvq3qxkpTNQPs4LUQ95tKD",
-        "XMR": "8oPbSCKFHkXBy1hCGSg9pJkSARE7zhTQTLpc8KZwdtr7"
-      }
-    },
-    "mainnet": {
-      "oracle":  "3P6t5mKGwVDkyjFhtUqw4NnecyC3DRpLfkw",
-      "apiVersion": "v0",
-      "bankRecipient": "3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us",
-      "code": "W",
-      "node": "https://nodes.wavesplatform.com",
-      "matcher": "https://matcher.wavesplatform.com/matcher",
-      "api": "https://api.wavesplatform.com",
-      "explorer": "https://wavesexplorer.com",
-      "coinomat": "https://coinomat.com",
-      "support": "https://support.wavesplatform.com",
-      "nodeList": "https://forum.wavesplatform.com/c/pools",
-      "scamListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv",
-      "origin": "https://client.wavesplatform.com",
-      "featuresConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/config.json",
-      "feeConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/fee.json",
-      "assets": {
-        "EUR": "Gtb1WRznfchDnTh37ezoDTJ4wcoKaRsKqKjJjy7nm2zU",
-        "USD": "Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck",
-        "BTC": "8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS",
-        "BSV": "62LyMjcr2DtiyF5yVXFhoQ2q414VPPJXjsNYp72SuDCH",
-        "ETH": "474jTeYx2r2Va35794tCScAXWJG9hU2HcgxzMowaZUnu",
-        "LTC": "HZk1mbfuJpmxU1Fs4AX5MWLVYtctsNcg6e2C6VKqK8zk",
-        "ZEC": "BrjUWjndUanm5VsJkbUip8VRYy6LWJePtxya3FNv4TQa",
-        "BCH": "zMFqXuoyrn5w17PFurTqxB7GsS71fp9dfk6XFwxbPCy",
-        "TRY": "2mX5DzVKWrAJw8iwdJnV2qtoeVG9h5nTDpTqC1wb1WEN",
-        "DASH": "B3uGHFRpSUuGEDWjqB9LWWxafQj8VTvpMucEyoxzws5H",
-        "EFYT": "725Yv9oceWsB4GsYwyy4A52kEwyVrL5avubkeChSnL46",
-        "WNET": "AxAmJaro7BJ4KasYiZhw7HkjwgYtt2nekPuF2CN9LMym",
-        "XMR": "5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3"
-      }
-    }
   }
 }

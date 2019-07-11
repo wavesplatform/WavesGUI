@@ -1,32 +1,50 @@
 (function () {
     'use strict';
 
-    const { path } = require('ramda');
-    const ds = require('data-service');
-    const { STATUS_LIST } = require('@waves/oracle-data');
-
     /**
      * @return {Asset}
      */
-    const controller = function () {
+    const controller = function (Base, utils, createPoll, $scope) {
 
-        class Asset {
+        class Asset extends Base {
 
             constructor() {
+                super($scope);
                 /**
                  * @type {IBalanceDetails}
                  */
                 this.balance = null;
+                /**
+                 * @type {number}
+                 */
+                this.rating = null;
             }
 
             $postLink() {
-                const data = ds.dataManager.getOracleAssetData(this.balance.asset.id);
-                this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED || this.balance.asset.id === 'WAVES';
-                this.isGateway = path(['status'], data) === 3;
+                const { isVerified, isGateway, isTokenomica } = utils.getDataFromOracles(this.balance.asset.id);
+                this.isVerified = isVerified;
+                this.isGateway = isGateway;
+                this.isTokenomica = isTokenomica;
+                createPoll(this, this._getTokenRating, this._setTokenRating, 60 * 1000);
             }
 
             isUnpinned() {
                 return !WavesApp.ALWAYS_PINNED_ASSETS.includes(this.balance.asset.id);
+            }
+
+            _getTokenRating() {
+                return ds.api.rating.getAssetsRating(this.balance.asset.id)
+                    .then(assetList => assetList)
+                    .catch(() => null);
+            }
+
+            _setTokenRating(assetList) {
+                if (!assetList || !assetList[0]) {
+                    return null;
+                }
+
+                this.rating = assetList[0].rating;
+                $scope.$apply();
             }
 
         }
@@ -34,7 +52,7 @@
         return new Asset();
     };
 
-    controller.$inject = [];
+    controller.$inject = ['Base', 'utils', 'createPoll', '$scope'];
 
     angular.module('app.wallet.assets').component('wAsset', {
         bindings: {

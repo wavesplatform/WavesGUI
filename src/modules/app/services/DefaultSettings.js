@@ -31,16 +31,19 @@
                     lastOpenVersion: '',
                     whatsNewList: [],
                     closedNotification: [],
+                    dontShowSpam: true,
                     withScam: false,
                     scamListUrl: WavesApp.network.scamListUrl,
-                    shareAnalytics: false,
                     logoutAfterMin: 5,
                     encryptionRounds: 5000,
                     savePassword: true,
                     hasBackup: true,
                     termsAccepted: true,
+                    tradeWithScriptAssets: false,
+                    needReadNewTerms: false,
+                    lastInterval: WavesApp.dex.defaultResolution,
                     baseAssetId: WavesApp.defaultAssets.USD,
-                    assetsOracle: WavesApp.oracle,
+                    oracleWaves: WavesApp.oracles.waves,
                     events: Object.create(null),
                     lng: 'en',
                     send: {
@@ -59,7 +62,9 @@
                         WavesApp.defaultAssets.BSV,
                         WavesApp.defaultAssets.TRY,
                         WavesApp.defaultAssets.DASH,
-                        WavesApp.defaultAssets.XMR
+                        WavesApp.defaultAssets.XMR,
+                        WavesApp.defaultAssets.VST,
+                        WavesApp.defaultAssets.ERGO
                     ],
                     wallet: {
                         activeState: 'assets',
@@ -88,6 +93,9 @@
                         assetIdPair: {
                             amount: WavesApp.defaultAssets.WAVES,
                             price: WavesApp.defaultAssets.BTC
+                        },
+                        createOrder: {
+                            expirationName: '30day'
                         },
                         watchlist: {
                             showOnlyFavorite: false,

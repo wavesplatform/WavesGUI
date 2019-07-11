@@ -52,31 +52,19 @@ md-dialog.modal-receive {
       overflow: auto;
       position: relative;
 
-      .warning-plate {
+      .plate-warning {
         margin: 10px 0 20px;
         &.server-error {
           margin-bottom: 30px;
         }
       }
 
-      .warning-plate.margin-1 {
+      .plate-warning.margin-1 {
         margin-bottom: 10px;
       }
 
-      .note-plate {
-        position: relative;
+      .plate-note {
         margin: 10px 0 20px;
-        background: @color-basic-50;
-        border: 1px dashed @color-basic-200;
-        padding: 0 14px;
-        border-radius: @border-radius;
-        line-height: 54px;
-        min-height: 54px;
-
-        &.transparent {
-          background: transparent;
-          padding: 12px;
-        }
       }
     }
 
@@ -87,16 +75,6 @@ md-dialog.modal-receive {
     w-select .select-list {
       max-height: 325px;
       overflow: auto;
-    }
-
-    .icon-close {
-      position: absolute;
-      top: 10px;
-      right: 30px;
-      z-index: 13;
-      padding: 20px;
-      background-size: 16px;
-      background-position: center;
     }
 
     .flex-row {
@@ -186,19 +164,6 @@ md-dialog.modal-receive {
       max-height: auto;
     }
 
-    .receive-crypto,
-    .receive-invoice {
-      w-copy-wrap {
-        .container {
-          display: flex;
-          align-items: center;
-          width: 100%;
-          white-space: nowrap;
-          overflow: auto;
-        }
-      }
-    }
-
     .receive-user-status {
       position: relative;
       min-height: 130px;
@@ -256,6 +221,17 @@ md-dialog.modal-receive {
           min-width: 80px;
           background: @color-basic-50;
         }
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  w-select {
+    .select {
+      .title {
+        padding-left: @padding-control-big-responsive-horizontal;
       }
     }
   }

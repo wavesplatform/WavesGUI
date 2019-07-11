@@ -3,6 +3,66 @@
 @import (reference) 'config';
 @import (reference) 'icons';
 
+.tx-block-wrapper {
+  border-radius: @border-radius;
+  box-shadow: @shadow-type-1;
+  background: @color-white;
+}
+
+.status-label,
+.status-label-min {
+  width: auto;
+  padding: 4px 11px;
+  border-radius: @border-radius;
+  text-transform: uppercase;
+  color: @color-submit-400;
+  background-color: @color-bluebar-200;
+  margin: 0 0 0 6px;
+  white-space: nowrap;
+
+  &.success,
+  &.confirmed {
+    background: @color-success-50;
+    color: @color-success-400;
+  }
+
+  &.warning,
+  &.unconfirmed {
+    background: rgba(255, 175, 0, 0.1);
+    color: @color-warning-500;
+  }
+
+  &.error,
+  &.cancelled {
+    background: rgba(239, 72, 41, 0.1);
+    color: @color-error-500;
+  }
+
+  &.active {
+    color: @color-submit-400;
+    background-color: @color-bluebar-200;
+  }
+
+  &.inactive {
+    background-color: @asset-label-suspicious;
+    color: @color-black;
+  }
+}
+
+.asset__text {
+  .js-stars-container {
+    margin-top: 1px;
+  }
+}
+
+.status-label-min {
+  .caption-3();
+  padding: 2px 6px;
+  //margin-top: 4px;
+  border-radius: @border-radius / 2;
+  text-transform: uppercase;
+}
+
 w-transaction .transaction {
   display: flex;
   flex-direction: row;
@@ -12,24 +72,20 @@ w-transaction .transaction {
   align-items: center;
   position: relative;
 
-  .status {
-    .caption-3();
-    padding: 3px 6px;
-    margin-top: 4px;
-    border-radius: @border-radius / 2;
-    text-transform: uppercase;
-    position: absolute;
-    right: 43px;
-    bottom: 15px;
+  .status-label-min {
+    &.inactive {
+      margin-bottom: -1px;
+    }
+    &:not(.inactive) {
+      position: absolute;
+      right: 43px;
+      bottom: 15px;
+    }
+  }
 
-    &.active {
-      background: @color-success-50;
-      color: @color-success-400;
-    }
-    &.canceled {
-      background: rgba(239, 72, 41, 0.1);
-      color: @color-error-500;
-    }
+  .exchange-type {
+    white-space: nowrap;
+    margin-right: 5px;
   }
 
   .icon {
@@ -42,13 +98,16 @@ w-transaction .transaction {
 
     &::before {
       content: '';
-      display: block;
       position: absolute;
       width: @tx-icon-size;
       height: @tx-icon-size;
       overflow: hidden;
-      left: 10px;
+      left: 9px;
       top: 9px;
+      background-position-y: 0;
+      display: none;
+      background: url(/img/icons/transaction-icons-30.svg);
+      background-repeat: no-repeat;
     }
 
     &.send {
@@ -112,6 +171,10 @@ w-transaction .transaction {
       .icon-tx-data();
     }
 
+    &.data-vote {
+      .icon-tx-data-vote();
+    }
+
     &.sponsorship-start {
       .icon-tx-sponsorship-start();
     }
@@ -136,9 +199,9 @@ w-transaction .transaction {
       .icon-tx-set-asset-script();
     }
 
-    //&.sponsorship-minus {
-    //  .icon-tx-sponsorship-minus();
-    //}
+    &.script-invocation {
+      .icon-tx-script-invocation();
+    }
   }
 
   &.spam .icon {
@@ -148,6 +211,16 @@ w-transaction .transaction {
 
     &.mass-receive {
       .icon-tx-mass-spam();
+    }
+  }
+
+  .status-label-min.inactive {
+    display: none;
+  }
+
+  .spam {
+    .status-label-min.inactive {
+      display: block;
     }
   }
 
@@ -168,18 +241,26 @@ w-transaction .transaction {
       .line {
         height: 50%;
         flex-basis: 50%;
+        box-sizing: border-box;
+        overflow: hidden;
+        color: @color-basic-700;
 
         &:last-child {
           padding-right: @padding-main-layout * 4.4;
           text-align: right;
+
+          .top {
+            word-break: break-all;
+          }
         }
 
         .top {
-          color: @color-basic-700;
-          word-break: break-all;
-
           .spam-label {
             display: none;
+          }
+
+          .ellipsis {
+            max-width: 120px;
           }
         }
         .bottom {
@@ -195,38 +276,54 @@ w-transaction .transaction {
           flex-grow: 0;
         }
       }
-
     }
-
   }
 
   &.spam {
+    .icon {
+      &.send,
+      &.receive,
+      &.circular,
+      &.exchange-buy,
+      &.exchange-sell,
+      &.reissue,
+      &.sponsorship-start,
+      &.sponsorship-stop,
+      &.sponsorship-fee,
+      &.mass-send,
+      &.set-asset-script {
+        background-color: @color-disabled-50;
+        &::before {
+          background-position-y: bottom;
+        }
+      }
+    }
+
     .transaction-info {
       .line-wrapper {
         .line {
-          .top {
-            color: @color-basic-500;
-            word-break: break-all;
+          color: @color-basic-500;
 
-            .spam-label {
-              .status();
-              display: inline-block;
-              background-color: @color-disabled-200;
-              color: @color-basic-900;
-              position: relative;
-              top: auto;
-              bottom: 3px;
-              margin-top: 0;
-              right: auto;
-            }
-          }
           .bottom {
             color: @color-accent-100;
+          }
+
+          .status-label-min {
+            display: inline-block;
+            top: auto;
+            bottom: 3px;
+            margin-top: 0;
+            right: auto;
           }
         }
       }
     }
   }
+}
+
+.transaction-amounts {
+  max-width: 100%;
+  display: inline-block;
 }
 
 @media screen and (max-width: 960px) {
@@ -235,7 +332,7 @@ w-transaction .transaction {
       margin-right: 20px;
     }
 
-    .status {
+    .status-label-min {
       right: 40px;
       top: 24px;
       bottom: auto;
@@ -319,7 +416,7 @@ w-transaction .transaction {
         .line-wrapper {
           .line {
             .top {
-              .spam-label {
+              .status-label-min {
                 position: absolute;
                 right: 43px;
                 bottom: 44px;
@@ -335,7 +432,7 @@ w-transaction .transaction {
 @media screen and (max-width: 540px) {
   md-dialog {
     w-transaction .transaction {
-      .status {
+      .status-label-min {
         right: 10px;
       }
     }

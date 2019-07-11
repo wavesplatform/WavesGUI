@@ -1,3 +1,5 @@
+@import (reference) 'config';
+
 md-dialog {
 
   md-toolbar {
@@ -9,24 +11,12 @@ md-dialog {
       height: auto;
       padding: 0;
     }
-
-    .btn.icon-close {
-      position: absolute;
-      right: 30px;
-      top: 50%;
-      transform: translateY(-50%);
-      background-repeat: no-repeat;
-      background-size: 16px 16px;
-      background-position: center;
-      width: 36px;
-      height: 36px;
-    }
   }
 
   .confirm-tx {
     position: relative;
     .icon-close {
-      right: 0;
+      right: -23px;
       top: 20px;
       position: absolute;
     }
@@ -49,13 +39,57 @@ md-dialog {
 
     .modal-header {
       display: inline-block;
-      margin-bottom: 4px;
     }
 
     .header-texts h1 {
       font-size: 34px;
     }
   }
+}
+
+md-backdrop.md-dialog-backdrop {
+  background-color: @fader-background;
+  opacity: @fader-opacity;
+}
+
+.md-dialog-backdrop:nth-of-type(even) {
+  z-index: 81;
+}
+
+.md-dialog-backdrop:nth-of-type(odd) {
+  z-index: 79;
+}
+
+.md-dialog-container:first-child:nth-of-type(even) {
+  z-index: 75;
+}
+
+.md-dialog-container:nth-of-type(odd) {
+  z-index: 82;
+}
+
+.md-dialog-container {
+  md-dialog {
+    box-shadow: none;
+    position: absolute;
+    max-height: 90%;
+    width: 540px;
+    background: @color-white;
+    color: @color-disabled-900;
+
+    md-dialog-actions {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+}
+
+md-toolbar.md-default-theme:not(.md-menu-toolbar),
+md-toolbar:not(.md-menu-toolbar) {
+  background-color: @color-white;
+  color: @color-black;
+  border-bottom: 1px solid @color-basic-200;
 }
 
 @media screen and (max-width: 540px) {
@@ -74,12 +108,27 @@ md-dialog {
     md-toolbar {
       min-height: 62px;
       padding: 20px;
-
-      .btn.icon-close {
-        right: 20px;
-        top: 31px;
-      }
     }
   }
 
+  .md-dialog-container {
+    md-dialog {
+      width: 100%;
+      max-width: 100%;
+      min-width: 320px;
+      height: 100%;
+      max-height: 100%;
+      left: 0;
+      top: 0;
+      transform-origin: center;
+      transform: translateY(0) translateX(0);
+      border-radius: 0;
+
+      md-dialog-content {
+        padding: 20px 20px 0;
+        height: 100%;
+        color: @color-disabled-900;
+      }
+    }
+  }
 }

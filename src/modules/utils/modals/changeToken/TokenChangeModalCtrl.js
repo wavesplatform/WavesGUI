@@ -16,9 +16,8 @@
         const entities = require('@waves/data-entities');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
 
+        const analytics = require('@waves/event-sender');
         const ds = require('data-service');
-        const { path } = require('ramda');
-        const { STATUS_LIST } = require('@waves/oracle-data');
 
         class TokenChangeModalCtrl extends Base {
 
@@ -70,11 +69,11 @@
                  */
                 this._waves = null;
 
-                const data = ds.dataManager.getOracleAssetData(money.asset.id);
-                this.isVerified = path(['status'], data) === STATUS_LIST.VERIFIED;
-                this.isGateway = path(['status'], data) === 3;
-                this.ticker = money.asset.ticker;
-                this.description = path(['description', 'en'], data) || money.asset.description;
+                const {
+                    description
+                } = utils.getDataFromOracles(money.asset);
+
+                this.description = description || money.asset.description;
 
                 const { TokenChangeModalCtrl = {} } = user.getThemeSettings();
 
@@ -124,6 +123,8 @@
             }
 
             getSignable() {
+                const name = this.txType.slice(0, 1).toUpperCase() + this.txType.slice(1);
+                analytics.send({ name: `${name} Token Continue Click`, target: 'ui' });
                 return this.signable;
             }
 

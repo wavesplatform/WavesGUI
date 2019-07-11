@@ -19,18 +19,32 @@
 
         class Matcher {
 
-            constructor() {
+            /**
+             * @type {string}
+             */
+            currentMatcherAddress = '';
 
+            constructor() {
                 this._orderBookCacheHash = Object.create(null);
+
+                user.onLogin().then(() => {
+                    user.changeSetting.on((path) => {
+                        if (path === 'network.matcher') {
+                            this._updateCurrentMatcherAddress();
+                        }
+                    });
+                });
+
+                this._updateCurrentMatcherAddress();
             }
 
             /**
              * @return {Promise<Array<IOrder>>}
              */
             @decorators.cachable(1)
-            getOrders() {
+            getOrders(options) {
                 if (user.address) {
-                    return ds.api.matcher.getOrders().then(ds.processOrdersWithStore);
+                    return ds.api.matcher.getOrders(options).then(ds.processOrdersWithStore);
                 } else {
                     return Promise.resolve([]);
                 }
@@ -138,14 +152,14 @@
                     hash[id].timer = setTimeout(() => {
                         hash[id].cache.destroy();
                         delete hash[id];
-                    }, 5000);
+                    }, 2000);
                     return hash[id].cache;
                 } else {
                     hash[id] = {
                         timer: setTimeout(() => {
                             hash[id].cache.destroy();
                             delete hash[id];
-                        }, 5000),
+                        }, 2000),
                         cache: new PollCache({
                             getData: () => this._getOrderBook(asset1, asset2),
                             timeout: 1000
@@ -153,6 +167,22 @@
                     };
                     return hash[id].cache;
                 }
+            }
+
+            /**
+             * @private
+             */
+            _updateCurrentMatcherAddress() {
+                const networkMatcher = user.getSetting('network.matcher');
+
+                ds.fetch(networkMatcher).then(matcherPublicKey => {
+                    if (matcherPublicKey) {
+                        const matcherPublicKeyBytes = generator.libs.base58.decode(matcherPublicKey);
+                        const matcherAddress = generator.utils.crypto.buildRawAddress(matcherPublicKeyBytes);
+
+                        this.currentMatcherAddress = matcherAddress;
+                    }
+                });
             }
 
             /**

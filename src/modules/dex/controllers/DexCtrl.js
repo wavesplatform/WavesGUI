@@ -16,6 +16,15 @@
      */
     const controller = function (Base, $element, $state, $location, user, $scope, createPoll, waves) {
 
+        const analytics = require('@waves/event-sender');
+
+        const ANALYTICS_TABS_NAMES = {
+            myOpenOrders: 'My Open Orders',
+            myTradeHistory: 'My Trade History',
+            tradeHistory: 'Trade History',
+            myBalance: 'My Balance'
+        };
+
         class DexCtrl extends Base {
 
             /**
@@ -49,6 +58,7 @@
                  */
                 this._assetIdPair = null;
 
+                this.observe('tab', this._onChangeTab);
 
                 this.syncSettings({
                     tab: 'dex.layout.bottomleft.tab',
@@ -99,6 +109,14 @@
                 $location.search('assetId2', pair.amountAsset.id);
                 $location.search('assetId1', pair.priceAsset.id);
             }
+            /**
+             * @private
+             */
+            _onChangeTab() {
+                if (ANALYTICS_TABS_NAMES[this.tab]) {
+                    analytics.send({ name: `DEX ${ANALYTICS_TABS_NAMES[this.tab]} Show`, target: 'ui' });
+                }
+            }
 
             /**
              * @return {Promise}
@@ -106,9 +124,13 @@
              */
             _getLastPrice() {
                 return this._getPair().then(pair => {
-                    return waves.matcher.getLastPrice(pair).then(data => (
-                        `${data.price.toFormat()} | ${pair.amountAsset.displayName}/${pair.priceAsset.displayName}`
-                    ));
+                    const pairText = `| ${pair.amountAsset.displayName}/${pair.priceAsset.displayName}`;
+                    return waves.matcher.getLastPrice(pair).then(data => {
+                        const priceText = data.price.getTokens().isNaN() ? '-' : data.price.toFormat();
+                        return `${priceText} ${pairText}`;
+                    }, () => {
+                        return `- ${pairText}`;
+                    });
                 });
             }
 

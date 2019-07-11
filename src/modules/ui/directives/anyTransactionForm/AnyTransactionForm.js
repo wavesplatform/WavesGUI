@@ -14,7 +14,7 @@
         const { SIGN_TYPE } = require('@waves/signature-adapter');
         const { Money } = require('@waves/data-entities');
         const ds = require('data-service');
-
+        const analytics = require('@waves/event-sender');
 
         class AnyTransactionForm extends Base {
 
@@ -47,6 +47,7 @@
             }
 
             next() {
+                analytics.send({ name: 'Wallet Assets JSON Continue Click', target: 'ui' });
                 this.onSuccess({ signable: this.signable });
             }
 
@@ -117,6 +118,9 @@
 
                     if (data.type === SIGN_TYPE.SET_SCRIPT && !data.script) {
                         data.script = '';
+                    }
+                    if (data.type === SIGN_TYPE.TRANSFER || data.type === SIGN_TYPE.MASS_TRANSFER) {
+                        data.attachment = Array.from(data.attachment);
                     }
 
                     try {

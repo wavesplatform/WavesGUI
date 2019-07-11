@@ -1,10 +1,12 @@
 <form novalidate name="$ctrl.massSend">
 
-    <div class="margin-2">
-        <ng-transclude></ng-transclude>
+    <ng-transclude></ng-transclude>
+    <div class="plate-warning margin-2 margin-top-2">
+        <div class="body-2 warning-500 margin-05" w-i18n="modal.send.massSend.warningPlate3Header"></div>
+        <div class="footnote-1 basic-500" w-i18n="modal.send.massSend.warningPlate3Text"></div>
     </div>
 
-    <div class="flex-row-title body-2">
+    <div class="flex-row-title body-2 margin-05">
         <div>
             <span w-i18n="modal.send.massSend.recipient"
                   params="{count: $ctrl.validTxCount, max: $ctrl.maxTransfersCount}"></span>
@@ -23,7 +25,6 @@
     </div>
 
     <w-input-container class="margin-2">
-
         <w-input textarea="true"
                  class="tall"
                  name="recipientCsv"
@@ -66,25 +67,18 @@
         <w-input-error name="recipientCsv" message="required">
             <span w-i18n="modal.receive.errors.required"></span>
         </w-input-error>
-
-        </div>
     </w-input-container>
 
-    <div class="warning-plate margin-1">
-        <div class="body-2 warning-500" w-i18n="modal.send.massSend.warningPlate2Header"></div>
+    <div class="plate-warning margin-2">
+        <div class="body-2 warning-500 margin-05" w-i18n="modal.send.massSend.warningPlate2Header"></div>
     </div>
 
-    <div class="warning-plate margin-2" ng-if="$ctrl.transfers.length > $ctrl.maxTransfersCount">
-        <div class="body-2 warning-500" w-i18n="modal.send.massSend.warningPlate1Header"></div>
+    <div class="plate-warning margin-2" ng-if="$ctrl.transfers.length > $ctrl.maxTransfersCount">
+        <div class="body-2 warning-500 margin-05" w-i18n="modal.send.massSend.warningPlate1Header"></div>
         <div class="footnote-1 basic-500" w-i18n="modal.send.massSend.warningPlate1Text"></div>
     </div>
 
-    <div class="warning-plate margin-2">
-        <div class="body-2 warning-500" w-i18n="modal.send.massSend.warningPlate3Header"></div>
-        <div class="footnote-1 basic-500" w-i18n="modal.send.massSend.warningPlate3Text"></div>
-    </div>
-
-    <div class="body-2" w-i18n="modal.send.massSend.description"></div>
+    <div class="body-2 margin-05" w-i18n="modal.send.massSend.description"></div>
     <w-input-container class="margin-2">
         <w-input textarea="true"
                  class="normal"
@@ -100,7 +94,7 @@
         </w-input-error>
     </w-input-container>
 
-    <div class="body-2" w-i18n="modal.send.massSend.totalAmount"></div>
+    <div class="body-2 margin-05" w-i18n="modal.send.massSend.totalAmount"></div>
     <div class="input-like total-amount margin-1">
         <w-balance money="$ctrl.totalAmount"></w-balance>
     </div>

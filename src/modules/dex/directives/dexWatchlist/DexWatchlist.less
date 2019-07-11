@@ -19,6 +19,7 @@ body.dex-demo .dex-wrapper {
         display: inline-block;
         width: 100%;
         z-index: 4;
+        height: 35px;
 
         w-help-icon {
           position: absolute;
@@ -33,29 +34,22 @@ body.dex-demo .dex-wrapper {
               margin-top: 7px;
               padding: 12px 12px 8px;
               min-width: 235px;
-              transform: translate(calc(-50% ~'+ 15px'), 0);
+              transform: translate(calc(-50% ~'+ 15px'), 16px);
               box-shadow: @shadow-tooltip-confirm;
               @media screen and (max-width: 1024px) {
-                transform: translate(calc(-100% ~'+ 30px'), 0);
+                transform: translate(calc(-100% ~'+ 30px'), 16px);
               }
             }
           }
         }
       }
 
-      input {
-        background: @input-search-icon 8px 50% no-repeat;
-        border: 0 none;
-        width: 100%;
-        padding-left: 31px;
-        height: 35px;
-        color: @color-disabled-900;
-        font-size: @font-size-caption-1;
-        border-bottom: 1px solid @color-basic-100;
+      .search-input {
+        border-bottom-color: @color-basic-100;
 
         &:focus {
-          box-shadow: 0 0 0 1px @color-submit-400 inset;
           position: relative;
+          border-color: @color-submit-300;
           z-index: 2;
         }
 
@@ -86,6 +80,7 @@ body.dex-demo .dex-wrapper {
 
         w-select {
           position: relative;
+          z-index: 6;
 
           .select-list {
             max-height: 155px;
@@ -106,7 +101,7 @@ body.dex-demo .dex-wrapper {
             &::after {
               right: 13px;
               transform: translateY(0);
-              top: 16px;
+              top: 13px;
               background-size: 80%;
               background-repeat: no-repeat;
               background-position: center left;
@@ -244,7 +239,7 @@ body.dex-demo .dex-wrapper {
         width: 50px;
         height: 36px;
         left: 179px;
-        z-index: 5;
+        z-index: 7;
         top: 3px;
       }
 
@@ -265,7 +260,7 @@ body.dex-demo .dex-wrapper {
           .smart-table {
             &__row:not(.selected) {
               &:hover {
-                background-color: @hover-default;
+                background-color: @dex-selected-item-bg;
               }
             }
           }
@@ -278,7 +273,7 @@ body.dex-demo .dex-wrapper {
           position: relative;
 
           &.selected {
-            background-color: @color-info-50;
+            background-color: @dex-selected-item-bg;
 
             .smart-table {
               &__cell[data-column-id="info"] {
@@ -311,6 +306,10 @@ body.dex-demo .dex-wrapper {
           &[data-column-id="price"] {
             flex-basis: 24%;
             text-align: right;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            max-width: 24%;
           }
 
           &[data-column-id="change"] {

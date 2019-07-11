@@ -13,38 +13,17 @@
     h3 {
       margin: 30px;
     }
-
-    .icon-close {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
   }
 
-  &__buttons-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    w-button {
-      flex-basis: 49%;
-    }
-  }
-
-  &__search:not(input) {
+  .search-wrapper {
     border: 1px solid @color-basic-100;
     border-radius: @border-radius @border-radius 0 0;
-    padding: 8px 15px 8px 35px;
-    background: @input-search-icon 15px center no-repeat @color-white;
     margin: -1px 0 0;
     height: 48px;
     width: 100%;
 
-    input {
+    .search-input {
       .body-2();
-      border: 0 none;
-      width: 100%;
-      background: @color-white;
       color: @color-basic-700;
     }
   }
@@ -96,7 +75,6 @@
       }
     }
   }
-
 }
 
 @media screen and (max-width: 540px) {

@@ -27,14 +27,6 @@
     position: relative;
     display: flex;
     flex-direction: row;
-    w-button:not(:last-child) {
-      margin-right: 5px;
-
-      svg {
-        display: inline-block;
-        width: 16px;
-      }
-    }
 
     w-select {
       width: 100%;
@@ -42,6 +34,7 @@
       position: absolute;
       right: 0;
       top: 0;
+      z-index: 3;
 
       .title {
         display: flex;
@@ -63,13 +56,10 @@
 
 .smart-table {
   &__mode-large {
-    max-height: calc(100vh ~'- 142px');
-    margin-top: @padding-main-layout;
     box-shadow: @shadow-type-1;
 
     .smart-table {
       &__w-tbody {
-        max-height: calc(100vh ~'- 208px');
         transform: translate3d(0, 0, 0);
         will-change: transform;
 
@@ -78,11 +68,11 @@
             &__row:hover {
               background: @hover-default;
 
-             .asset__logo {
-               .marker {
-                 border: 2px solid @custom-asset-marker-border;
-               }
-             }
+              .asset__logo {
+                .marker {
+                  border: 2px solid @custom-asset-marker-border;
+                }
+              }
             }
           }
         }
@@ -120,6 +110,16 @@
 
       i.toggler {
         display: none;
+      }
+
+      &.spam {
+        .smart-table__cell:last-child {
+          .cell {
+            span.icon svg {
+              fill: @color-basic-200;
+            }
+          }
+        }
       }
     }
 
@@ -266,7 +266,8 @@
           span {
             display: none;
             position: absolute;
-            background: @color-disabled-500;
+            background: @color-basic-700;
+            opacity: .8;
             top: 0;
             z-index: 2;
             left: 50%;
@@ -282,11 +283,10 @@
               content: '';
               width: 10px;
               height: 10px;
-              background: @color-disabled-500;
+              background: @color-basic-700;
               position: absolute;
               left: 50%;
               transform: translate(-50%, 5px) rotate(45deg);
-
             }
           }
 
@@ -375,8 +375,20 @@
         }
 
         .smart-table__cell[data-column-id="mirror"],
-        .smart-table__cell[data-column-id="inOrders"] {
+        .smart-table__cell[data-column-id="inReserved"] {
           display: none;
+        }
+      }
+    }
+  }
+
+  body {
+
+    &.portfolio {
+      .portfolio-list {
+        w-scroll-box {
+          min-height: calc(100vh ~'- 130px');
+          max-height: 100%;
         }
       }
     }
@@ -389,6 +401,23 @@
     padding: 10px 0 10px 10px;
   }
   .main.wallet.portfolio {
+
+    .mobile-flex {
+      display: flex;
+      align-items: center;
+    }
+
+    .asset__text-mobile {
+      .js-stars-container {
+        margin-left: 6px;
+      }
+    }
+
+    .asset__text {
+      .js-stars-container {
+        display: none;
+      }
+    }
 
     .asset-name-desktop {
       display: none;
@@ -451,13 +480,6 @@
           border-top: 1px solid @color-accent-50;
           border-radius: @border-radius 0 @border-radius @border-radius;
         }
-      }
-    }
-
-    .btn-icon {
-      font-size: 0;
-      &::before {
-        margin: 0;
       }
     }
   }

@@ -11,9 +11,9 @@ w-seed-read, w-seed-write {
     align-items: center;
     flex-wrap: wrap;
     padding: 15px 10px;
-    border: 1px solid @color-disabled-200;
+    border: 1px dashed @color-disabled-200;
     border-radius: @border-radius;
-    background-color: @color-disabled-50;
+    background-color: @color-white;
     box-sizing: border-box;
     user-select: none;
 
@@ -26,14 +26,11 @@ w-seed-read, w-seed-write {
 
   &[type="read"] {
     .seed-container {
-      padding: 25px 30px;
+      padding: 25px 12px;
     }
 
     .seed-item {
-      .headline-1();
-      font-size: 17px;
-      line-height: 17px;
-      margin: 0;
+      line-height: 1;
       color: @color-basic-900;
       padding: 5px 8px;
       font-weight: 500;
@@ -50,20 +47,23 @@ w-seed-read, w-seed-write {
     }
 
     .seed-item {
-      .headline-1();
       border-radius: @border-radius;
       background-color: @color-submit-400;
       font-weight: 500;
       margin: 3px;
       border: solid 1px @color-submit-400;
       cursor: pointer;
-      font-size: 15px;
       color: @white-only;
       line-height: 34px;
       padding: 0 15px;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: @color-submit-500;
+      }
 
       &.moved {
-        border: dashed 1px @color-basic-500;
+        border: dashed 1px @color-basic-200;
         background-color: transparent;
         color: transparent;
         cursor: default;
@@ -76,29 +76,39 @@ w-seed-write {
   user-select: none;
 
   .seed-container {
-    height: 178px;
+    height: 158px;
     padding: 15px 5px;
     position: relative;
   }
 
   .seed-item {
-    .headline-1();
     border-radius: @border-radius;
     padding: 0 15px;
     margin: 3px;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-    background-color: @white-btn-bg;
+    font-weight: 500;
+    background-color: @color-submit-50;
     cursor: pointer;
-    font-size: 15px;
     line-height: 36px;
     font-weight: 500;
     max-height: 36px;
+    color: @color-submit-400;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: @color-submit-100;
+    }
+  }
+
+  &.seed-error {
+    .seed-container {
+      border-color: @color-error-500;
+    }
   }
 }
 
 @media screen and (max-width: 480px) {
   w-seed-write .seed-container {
-    min-height: 178px;
+    min-height: 224px;
     height: auto;
   }
 }

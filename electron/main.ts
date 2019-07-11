@@ -2,6 +2,7 @@
 
 
 import { app, BrowserWindow, screen, Menu } from 'electron';
+import loggable from './decorators/loggable';
 import { Bridge } from './Bridge';
 import { ISize, IMetaJSON, ILastOpen } from './package';
 import { join } from 'path';
@@ -18,7 +19,7 @@ import {
 } from './utils';
 import { homedir } from 'os';
 import { execSync } from 'child_process';
-import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST } from './constansts';
+import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST, CONTEXT_MENU } from './constansts';
 import { get } from 'https';
 
 import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOptions;
@@ -33,6 +34,7 @@ class Main implements IMain {
     public mainWindow: BrowserWindow;
     public menu: Menu;
     public bridge: Bridge;
+    private ctxMenuList: Array<Menu> = [];
     private initializeUrl: string = '';
     private hasDevTools: boolean = false;
     private dataPromise: Promise<IMetaJSON>;
@@ -79,12 +81,12 @@ class Main implements IMain {
 
     public setLanguage(lng: string): void {
         changeLanguage(lng);
-        this.addApplicationMenu();
+        this.addContextMenu();
     }
 
     public addDevTools() {
         this.hasDevTools = true;
-        this.addApplicationMenu();
+        this.addContextMenu();
     }
 
     private makeSingleInstance(): boolean {
@@ -161,6 +163,7 @@ class Main implements IMain {
         });
     }
 
+
     // private log(message: string): void {
     //     const command = `console.log('${message}');`
     //     this.mainWindow.webContents.executeJavaScript(command);
@@ -189,16 +192,32 @@ class Main implements IMain {
     private onAppReady() {
         this.registerProtocol()
             .then(() => this.createWindow())
-            .then(() => this.addApplicationMenu());
+            .then(() => this.addContextMenu())
     }
 
-    private addApplicationMenu(): Promise<void> {
+    private addContextMenu(): Promise<void> {
         Menu.setApplicationMenu(null);
         return localeReady.then(t => {
-            const menuList = GET_MENU_LIST(app, t, this.hasDevTools);
-            this.menu = Menu.buildFromTemplate(menuList);
-            Menu.setApplicationMenu(this.menu);
+            this.createAppMenu(t);
+            this.createCtxMenu(t);
         });
+    }
+
+    private createAppMenu(locale) {
+        const menuList = GET_MENU_LIST(app, locale, this.hasDevTools);
+        this.menu = Menu.buildFromTemplate(menuList);
+        Menu.setApplicationMenu(this.menu);
+    }
+
+    private createCtxMenu(locale) {
+        const onContextMenu = (menu: Menu): () => void => () => menu.popup({});
+        if (this.ctxMenuList.length > 0) {
+            this.mainWindow.webContents.removeAllListeners('context-menu');
+        }
+        const ctxMenuTemplate = CONTEXT_MENU(locale);
+        const ctxMenu = Menu.buildFromTemplate(ctxMenuTemplate);
+        this.ctxMenuList.push(ctxMenu);
+        this.mainWindow.webContents.on('context-menu',  onContextMenu(ctxMenu));
     }
 
     private registerProtocol(): Promise<void> {

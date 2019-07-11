@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Export</title>
+</head>
+<body>
+
+<!-- JAVASCRIPT -->
+
+<script>
+
+    function parse(data) {
+        var result;
+        tsUtils.each(data, (value, path) => {
+            if (!result) {
+                result = tsUtils.Path.parse(path)
+                        .getItemData(0).container;
+            }
+            tsUtils.set(result, path, value);
+        });
+        return result;
+    }
+
+    var adapter = new bus.WindowAdapter(
+            [new bus.WindowProtocol(window, 'listen')],
+            [new bus.WindowProtocol(window.opener || window.parent, 'dispatch')],
+            {
+                origins: 'https://dex.wavesplatform.com'
+            }
+    );
+
+    var webBus = new bus.Bus(adapter);
+    webBus.dispatchEvent('ready');
+    webBus.registerRequestHandler('getLocalStorageData', () => {
+        return parse(JSON.parse(localStorage.getItem('userList')));
+    });
+
+
+</script>
+
+</body>
+</html>

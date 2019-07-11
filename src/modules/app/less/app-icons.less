@@ -1,13 +1,54 @@
 @import (reference) 'icons';
 
+/* header and mobile menu icons */
+@arrow-white-right: url(/img/icons/menu/arrow-white-right.svg);
+@menu-back-icon: url(/img/icons/menu/arrow-white-left.svg);
+
+@power-hover-icon: url(/img/icons/menu/power-submit-300.svg);
+@drop-down-hover-icon: url(/img/icons/menu/arrow-down-blue.svg);
+
+@widnows-icon: url(/img/icons/menu/windows.svg);
+@macos-icon: url(/img/icons/menu/apple.svg);
+@linux-icon: url(/img/icons/menu/linux.svg);
+
+@leasing-icon-active: url(/img/icons/menu/leasing-submit-300.svg);
+@transactions-icon-active: url(/img/icons/menu/transactions-submit-300.svg);
+@portfolio-icon-active: url(/img/icons/menu/portfolio-submit-300.svg);
+@wallet-icon-active: url(/img/icons/menu/dashboard-submit-300.svg);
+/* end */
+
+.logo {
+  background: @logo-header;
+
+  &-footer {
+    background: @logo-footer;
+  }
+}
+
 .icon-close {
-  width: 16px;
-  height: 16px;
-  background-image: @close-icon;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  width: 40px;
+  height: 40px;
+  background: url(/img/icons/close.svg) center no-repeat;
+  background-size: 16px;
   display: inline-block;
   cursor: pointer;
+  right: 17px;
+  position: absolute;
+  top: 10px;
+  z-index: 13;
+  @media screen and (max-width: 540px) {
+    right: 8px;
+    top: 8px;
+  }
+}
+
+.sign-error-icon {
+  background: @error-circle-icon;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 80px;
+  width: 80px;
+  margin: 0 auto 30px auto;
 }
 
 .visa-icon {
@@ -63,24 +104,6 @@
   background: url(/img/icons/transaction-warning.svg) center no-repeat;
 }
 
-.btn-send {
-  .btn-icon::before {
-    transition: .3s;
-  }
-}
-
-.btn-receive {
-  svg {
-    transform-origin: center;
-    transform: rotate(-180deg)
-  }
-}
-
-.btn-json {
-  float: right;
-  margin-right: 3px;
-}
-
 .icon-qr::before {
   background-image: url(/img/icons/qr-code-small.svg);
 }
@@ -102,203 +125,208 @@
   margin: 60px auto 20px auto;
 }
 
-.icon-tx-bg {
-  background-image: url(/img/icons/transaction-icons.svg);
-  background-size: auto @tx-icon-size;
-  background-repeat: no-repeat;
-}
-
 .icon-tx-create-alias {
   &::before {
-    .icon-tx-bg();
-    background-position: 0 center;
+    background-position-x: 0;
+    display: block;
   }
   background-color: rgba(53, 165, 245, 0.1);
 }
 
 .icon-tx-cancel-leasing {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size center;
+    display: block;
+    background-position-x: -@tx-icon-size;
   }
   background-color: rgba(239, 72, 41, 0.1);
 }
 
 .icon-tx-exchange {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 2 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 2;
   }
   background-color: rgba(171, 125, 246, 0.1);
 }
 
 .icon-tx-receive {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 3 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 3;
   }
   background-color: rgba(129, 201, 38, 0.1);
 }
 
 .icon-tx-circular {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 4 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 4;
   }
   background-color: rgba(239, 72, 41, 0.1);
 }
 
 .icon-tx-send {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 5 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 5;
   }
   background-color: rgba(255, 175, 0, 0.1);
 }
 
 .icon-tx-lease {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 6 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 6;
   }
   background-color: rgba(129, 201, 38, 0.1);
 }
 
 .icon-tx-burn {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 7 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 7;
   }
   background-color: rgba(255, 175, 0, 0.1);
 }
 
 .icon-tx-issue {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 8 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 8;
   }
   background-color: rgba(38, 193, 201, 0.1);
 }
 
 .icon-tx-reissue {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 9 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 9;
   }
   background-color: rgba(129, 201, 38, 0.1);
 }
 
 .icon-tx-incoming-leasing {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 10 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 10;
   }
   background-color: rgba(90, 129, 234, 0.1);
 }
 
 .icon-tx-unknown {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 11 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 11;
   }
   background-color: rgba(153, 153, 153, 0.1);
 }
 
 .icon-tx-mass-transfer {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 12 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 12;
   }
   background-color: rgba(255, 175, 0, 0.1);
 }
 
 .icon-tx-mass-receive {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 13 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 13;
   }
   background-color: rgba(129, 201, 38, 0.1);
 }
 
 .icon-tx-spam {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 14 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 3;
+    background-position-y: bottom;
   }
   background-color: rgba(153, 153, 153, 0.1);
 }
 
 .icon-tx-mass-spam {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 15 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 13;
+    background-position-y: bottom;
   }
   background-color: rgba(153, 153, 153, 0.1);
 }
 
 .icon-tx-data {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 16 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 14;
+  }
+  background-color: rgba(90, 129, 234, 0.1);
+}
+
+.icon-tx-data-vote {
+  &::before {
+    display: block;
+    background-position-x: -@tx-icon-size * 23;
   }
   background-color: rgba(90, 129, 234, 0.1);
 }
 
 .icon-tx-sponsorship-start {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 17 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 15;
   }
   background-color: rgba(129, 201, 38, 0.1);
 }
 
 .icon-tx-sponsorship-stop {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 18 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 18;
+
   }
   background-color: rgba(239, 72, 41, 0.1);
 }
 
 .icon-tx-sponsorship-plus {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 19 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 17;
   }
   background-color: rgba(129, 201, 38, 0.1);
 }
 
 .icon-tx-set-script {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 21 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 19;
   }
   background-color: rgba(129, 201, 38, 0.1);
 }
 
 .icon-tx-cancel-script {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 22 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 20;
   }
   background-color: rgba(239, 72, 41, 0.1);
 }
 
 .icon-tx-set-asset-script {
   &::before {
-    .icon-tx-bg();
-    background-position: -@tx-icon-size * 23 center;
+    display: block;
+    background-position-x: -@tx-icon-size * 21;
   }
   background-color: rgba(90, 129, 234, 0.1);
 }
 
-//.icon-tx-sponsorship-minus {
-//  &::before {
-//    .icon-tx-bg();
-//    background-position: -@tx-icon-size * 20 center;
-//  }
-//  background-color: rgba(90, 129, 234, 0.1);
-//}
+.icon-tx-script-invocation {
+  &::before {
+    display: block;
+    background-position-x: -@tx-icon-size * 22;
+  }
+  background-color: rgba(90, 129, 234, 0.1);
+}
 
 .icon-info {
   width: 20px;
@@ -353,10 +381,17 @@
 
 .icon-connected {
   display: block;
-  margin: 20px auto 20px auto;
   width: 80px;
   height: 80px;
   background: url(/img/icons/icon-connected.svg) center top no-repeat;
+}
+
+.icon-document {
+  display: block;
+  margin: 60px auto 20px auto;
+  width: 80px;
+  height: 80px;
+  background: url(/img/icons/icon-document.svg) center no-repeat;
 }
 
 .icon-sorting {
@@ -382,6 +417,13 @@
   background-position: center center;
 }
 
+.icon-dex-tospread-active {
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: @orderbook-to-spread-icon-active;
+}
+
 .apple-store-btn,
 .google-play-btn {
   width: 135px;
@@ -392,10 +434,124 @@
 .apple-store-btn {
   background: url(/img/icons/apple-store-icon.svg) center no-repeat;
 }
+
 .google-play-btn {
   background: url(/img/icons/google-play-icon.svg) center no-repeat;
 }
 
 .keeper-icon {
   background: url(/img/icons/keeper-icon.svg) center no-repeat;
+}
+
+.promo-icon {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: inline-flex;
+
+  &-min {
+    display: block;
+    width: 24px;
+    height: 24px;
+  }
+
+  &-arrow-right {
+    background: url(/img/landing/arrow-white-right.svg) center no-repeat;
+  }
+
+  &-api {
+    background: url(/img/landing/api.svg) center no-repeat;
+  }
+
+  &-create-token {
+    background: url(/img/landing/create-token.svg) center no-repeat;
+  }
+
+  &-fees {
+    background: url(/img/landing/fees.svg) center no-repeat;
+  }
+
+  &-gateways {
+    background: url(/img/landing/gateways.svg) center no-repeat;
+  }
+
+  &-ledger {
+    background: url(/img/landing/ledger.svg) center no-repeat;
+  }
+
+  &-schield {
+    background: url(/img/landing/schield.svg) center no-repeat;
+  }
+
+  &-dex {
+    background: url(/img/landing/decentralized.svg) center no-repeat;
+  }
+
+  &-wallet {
+    background: url(/img/landing/wallet.svg) center no-repeat;
+  }
+}
+
+.icon-dex {
+  &-lock {
+    background: @dex-lock-icon;
+  }
+
+  &-paper {
+    background: @dex-paper-icon;
+  }
+
+  &-create {
+    background: @dex-create-icon;
+  }
+}
+
+.import-modal__icon {
+  &-beta {
+    background: @import-modal-icon-beta;
+  }
+
+  &-old {
+    background: @import-modal-icon-old;
+  }
+
+  &-ledger {
+    background: @import-modal-icon-ledger;
+  }
+
+  &-keeper {
+    background: @import-modal-icon-keeper;
+  }
+
+  &-error {
+    background: @import-modal-icon-error;
+  }
+
+  &-client {
+    background: @dex-client-icon;
+  }
+}
+
+.roadmap-icon {
+  &-past {
+    background-image: @roadmap-check-icon;
+  }
+
+  &-now {
+    background-image: @roadmap-check-linear-icon;
+  }
+
+  &-future {
+    background-image: @roadmap-mantle-linear-icon;
+  }
+}
+
+.icon-eye {
+  width: 14px;
+  height: 14px;
+  background: @eye-icon center no-repeat;
+
+  &_active {
+    background: @eye-icon-active center no-repeat;
+  }
 }
