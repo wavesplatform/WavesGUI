@@ -211,7 +211,7 @@
                     .then(() => {
                         notification.info({
                             ns: 'app.dex',
-                            title: { literal: 'directives.myOrders.notifications.isCanceled' }
+                            title: { literal: 'directives.myOrders.notifications.canceledAll' }
                         });
 
                         if (this.poll) {
