@@ -1,3 +1,50 @@
+@import (reference) "../../../app/less/app-icons";
+@import (reference) '../../../app/less/typography';
+@import (reference) 'config';
+@import (reference) 'icons';
+
+.status-label-min,
 .asset-status {
   display: inline-flex;
+
+  &__status, &_full {
+  width: auto;
+  padding: 4px 11px;
+  border-radius: @border-radius;
+  text-transform: uppercase;
+  color: @color-submit-400;
+  background-color: @color-bluebar-200;
+  margin: 0 0 0 6px;
+  white-space: nowrap;
+
+    &.success,
+    &.confirmed {
+      background: @color-success-50;
+      color: @color-success-400;
+    }
+
+    &.warning,
+    &.unconfirmed {
+      background: rgba(255, 175, 0, 0.1);
+      color: @color-warning-500;
+    }
+
+    &.error,
+    &.cancelled {
+      background: rgba(239, 72, 41, 0.1);
+      color: @color-error-500;
+    }
+
+    &_active {
+      color: @color-submit-400;
+      background-color: @color-bluebar-200;
+    }
+
+    &_inactive {
+      background-color: @asset-label-suspicious;
+      color: @color-black;
+    }
+
+    .caption-3();
+  }
 }
