@@ -6,9 +6,10 @@
      * @param {$rootScope.Scope} $scope
      * @param {UserNameService} userNameService
      * @param {User} user
+     * @param {INotification} notification
      * @return {ChangeNameCtrl}
      */
-    const controller = function (Base, $scope, userNameService, user) {
+    const controller = function (Base, $scope, userNameService, user, notification) {
 
         class ChangeNameCtrl extends Base {
 
@@ -42,6 +43,12 @@
                 if (this.isUniqueUserName) {
                     userNameService.save();
                 }
+                notification.info({
+                    ns: 'app.welcome',
+                    title: {
+                        literal: 'welcome.nameSaved'
+                    }
+                });
             }
 
         }
@@ -49,7 +56,7 @@
         return new ChangeNameCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'userNameService', 'user'];
+    controller.$inject = ['Base', '$scope', 'userNameService', 'user', 'notification'];
 
     angular.module('app.utils')
         .controller('ChangeNameCtrl', controller);
