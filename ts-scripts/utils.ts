@@ -191,10 +191,10 @@ export function getStyles(param: IPrepareHTMLOptions, meta, themes) {
 
     return styles.map(({ theme, name, hasGet }) => {
         if (hasGet) {
-            return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${filter(name)}?theme=${theme || ''}">`;
+            return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="/${filter(name)}?theme=${theme || ''}">`;
         }
 
-        return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${filter(name)}">`;
+        return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="/${filter(name)}">`;
     });
 }
 
@@ -756,13 +756,12 @@ export function isPage(url: string): boolean {
         'css',
         'fonts',
         'js',
-        'bower_components',
         'node_modules',
         'ts-scripts',
         'modules',
         'themeConfig',
         'locales',
-        'loginDaemon',
+        'helpers',
         'transfer.js',
         'tradingview-style',
         'data-service-dist',
