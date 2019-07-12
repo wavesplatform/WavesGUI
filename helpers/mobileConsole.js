@@ -30,7 +30,7 @@
         });
         document.body.appendChild(out);
 
-        var origin = window.onerror || function () { /* pass */ };
+        const origin = window.onerror || function () { /* pass */ };
         window.onerror = function (message, filename, lineno, colno, error) {
             origin(message, filename, lineno, colno, error);
             var line = document.createElement('div');
