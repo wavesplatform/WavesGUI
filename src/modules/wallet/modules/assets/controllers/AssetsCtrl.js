@@ -123,6 +123,20 @@
                 this.observe('pinnedAssetIdList', this._updateBalances);
 
                 this.observe(['interval', 'intervalCount', 'activeChartAssetId'], this._onChangeInterval);
+
+                this.chartOptions =
+                    {
+                        axisX: 'timestamp',
+                        axisY: 'rate',
+                        lineColor: '#1f5af6',
+                        fillColor: '#FFF',
+                        gradientColor: ['#EAF0FE', '#FFF'],
+                        lineWidth: 4,
+                        marginBottom: 46,
+                        hasMouseEvents: true,
+                        hasDates: true,
+                        checkWidth: 2000
+                    };
             }
 
             openScriptModal() {
@@ -216,6 +230,11 @@
                 return modalManager.showSepaAsset(user, asset);
             }
 
+            onMouse(chartData) {
+                this.chartEvent = chartData;
+                $scope.$apply();
+            }
+
             /**
              * @param value
              * @private
@@ -265,26 +284,7 @@
             _getGraphData() {
                 const from = this.activeChartAssetId;
                 const to = this.mirrorId;
-                const precisionPromise = waves.node.assets.getAsset(this.mirrorId)
-                    .then(({ precision }) => precision);
-                const valuesPromise = waves.utils.getRateHistory(from, to, this._startDate);
-
-                return Promise.all([precisionPromise, valuesPromise])
-                    .then(([precision, values]) => {
-                        const first = values[0].rate;
-                        const last = values[values.length - 1].rate;
-                        this.change = (last - first).toFixed(precision);
-                        this.changePercent = ((last - first) / first * 100).toFixed(precision);
-
-                        values = values.map((item) => {
-                            return {
-                                ...item,
-                                rate: +item.rate.toFixed(precision)
-                            };
-                        });
-
-                        return { values };
-                    });
+                return waves.utils.getRateHistory(from, to, this._startDate);
             }
 
             /**

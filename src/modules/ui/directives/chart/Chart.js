@@ -12,12 +12,28 @@
         class Chart extends Base {
 
             $postLink() {
-                this.chart = new ChartFactory($element);
-                this.observe(['options', 'data'], this._render);
+                this.chart = new ChartFactory($element, this.options, this.data);
+                this.observe('data', this._updateData);
+                this.observe('options', this._updateOptions);
+
+                this.receive(this.chart.mouse, this._onMove, this);
             }
 
-            _render() {
-                // TODO
+            _updateData() {
+                this.chart.setData(this.data);
+            }
+
+            _updateOptions() {
+                this.chart.setOptions(this.options);
+            }
+
+            _onMove(chartData) {
+                this.mouseEvent({ chartData });
+            }
+
+            $onDestroy() {
+                super.$onDestroy();
+                $element.off();
             }
 
         }
@@ -30,9 +46,11 @@
     angular.module('app.ui').component('wChart', {
         bindings: {
             options: '<',
-            data: '<'
+            data: '<',
+            mouseEvent: '&'
         },
-        scope: false,
+        transclude: true,
+        template: '<div ng-transclude></div>',
         controller
     });
 })();

@@ -154,14 +154,11 @@
                 }
 
                 this.chartOptions = {
-                    charts: [
-                        {
-                            axisX: 'timestamp',
-                            axisY: 'rate',
-                            lineColor: 'rgba(90, 129, 234)',
-                            fillColor: 'rgba(90, 129, 234, .3)'
-                        }
-                    ]
+                    axisX: 'timestamp',
+                    axisY: 'rate',
+                    lineColor: 'rgba(90, 129, 234)',
+                    fillColor: 'rgba(90, 129, 234, .3)',
+                    lineWidth: 1
                 };
             }
 
@@ -181,8 +178,10 @@
                     this.isSmart = balance.asset.hasScript;
                     const firstAssetChar = this.balance.asset.name.slice(0, 1);
                     const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
-                    const { isVerified, isGateway,
-                        isTokenomica, logo, isGatewaySoon } = utils.getDataFromOracles(this.balance.asset.id);
+                    const {
+                        isVerified, isGateway,
+                        isTokenomica, logo, isGatewaySoon
+                    } = utils.getDataFromOracles(this.balance.asset.id);
 
                     this.isVerifiedOrGateway = isVerified || isGateway;
 
