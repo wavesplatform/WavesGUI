@@ -21,7 +21,7 @@
             type: ['line', 'area']
         }
     };
-    const ORDER_LIST_STUB = [{ amount: 0, price: 0 }];
+    // const ORDER_LIST_STUB = [{ amount: 0, price: 0 }];
     const THRESHOLD_VALUES = {
         asks: 2,
         bids: 2
@@ -76,31 +76,53 @@
                  */
                 this.pending = true;
 
+                // this.options = {
+                //     margin: {
+                //         top: 0,
+                //         left: 0,
+                //         right: 0,
+                //         bottom: 0
+                //     },
+                //     grid: {
+                //         x: false,
+                //         y: false
+                //     },
+                //     series: [
+                //         SERIES_SETTINGS.asks,
+                //         SERIES_SETTINGS.bids
+                //     ],
+                //     axes: {
+                //         x: { key: 'price', type: 'linear', ticks: 2 },
+                //         y: { key: 'amount', ticks: 4 }
+                //     }
+                // };
+
                 this.options = {
-                    margin: {
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0
-                    },
-                    grid: {
-                        x: false,
-                        y: false
-                    },
-                    series: [
-                        SERIES_SETTINGS.asks,
-                        SERIES_SETTINGS.bids
-                    ],
-                    axes: {
-                        x: { key: 'price', type: 'linear', ticks: 2 },
-                        y: { key: 'amount', ticks: 4 }
-                    }
+                    axisX: 'price',
+                    axisY: 'amount',
+                    marginBottom: 0,
+                    hasMouseEvents: true,
+                    hasDates: false,
+                    checkWidth: 2000,
+                    view: [
+                        {
+                            lineColor: '#1f5af6',
+                            fillColor: '#EAF0FE',
+                            lineWidth: 4
+                        },
+                        {
+                            lineColor: '#e5494d',
+                            fillColor: '#ffe4e4',
+                            lineWidth: 4
+                        }
+                    ]
                 };
 
-                this.data = {
-                    asks: ORDER_LIST_STUB,
-                    bids: ORDER_LIST_STUB
-                };
+                // this.data = {
+                //     asks: ORDER_LIST_STUB,
+                //     bids: ORDER_LIST_STUB
+                // };
+                this.data = [];
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair',
@@ -116,6 +138,11 @@
                 this._poll = createPoll(this, this._getOrderBook, this._setOrderBook, 1000, { $scope });
 
                 this._resetPending();
+            }
+
+            onMouse(chartData) {
+                this.chartEvent = chartData;
+                $scope.$apply();
             }
 
             _onChangeAssets(noRestart) {
@@ -150,8 +177,9 @@
 
             _setOrderBook(orderBook) {
                 this._updateGraphAccordingToOrderBook(orderBook);
-                this.data.asks = orderBook.asks;
-                this.data.bids = orderBook.bids;
+                // this.data.asks = orderBook.asks;
+                // this.data.bids = orderBook.bids;
+                this.data = [orderBook.bids, orderBook.asks];
 
                 this._setDataSignal.dispatch();
 

@@ -106,7 +106,7 @@
                 this.mirrorId = user.getSetting('baseAssetId');
                 this._onChangeMode();
 
-                this.updateGraph = createPoll(this, this._getGraphData, 'data', 15000, { $scope });
+                this.updateGraph = createPoll(this, this._getGraphData, this._setGraphData, 15000, { $scope });
 
                 ds.api.assets.get(this.chartAssetIdList).then(assets => {
                     this.chartAssetList = assets;
@@ -128,14 +128,18 @@
                     {
                         axisX: 'timestamp',
                         axisY: 'rate',
-                        lineColor: '#1f5af6',
-                        fillColor: '#FFF',
-                        gradientColor: ['#EAF0FE', '#FFF'],
                         lineWidth: 4,
                         marginBottom: 46,
                         hasMouseEvents: true,
                         hasDates: true,
-                        checkWidth: 2000
+                        checkWidth: 2000,
+                        view: [
+                            {
+                                lineColor: '#1f5af6',
+                                fillColor: '#FFF',
+                                gradientColor: ['#EAF0FE', '#FFF']
+                            }
+                        ]
                     };
             }
 
@@ -285,6 +289,14 @@
                 const from = this.activeChartAssetId;
                 const to = this.mirrorId;
                 return waves.utils.getRateHistory(from, to, this._startDate);
+            }
+
+            /**
+             * @param data
+             * @private
+             */
+            _setGraphData(data) {
+                this.data = [data];
             }
 
             /**

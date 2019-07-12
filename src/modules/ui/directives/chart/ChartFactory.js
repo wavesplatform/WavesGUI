@@ -27,7 +27,7 @@
             /**
              * @param {JQuery} $element
              * @param {ChartFactory.IOptions} [options]
-             * @param {Array} [data]
+             * @param {Array<Array>} [data]
              */
             constructor($element, options, data) {
                 super();
@@ -160,7 +160,7 @@
                     return null;
                 }
 
-                this.chartData = this._getChartData();
+                this.chartData = this._getChartData(this.data);
 
                 this._drawChart(this.chartData);
 
@@ -181,42 +181,51 @@
              * @private
              */
             _drawChart(data) {
-                this.ctx.strokeStyle = data.lineColor;
-                this.ctx.lineWidth = data.lineWidth * SCALE;
-                const first = data.coordinates[0];
-                this.ctx.moveTo(first.x, first.y);
-                data.coordinates.forEach(({ x, y }) => {
-                    this.ctx.lineTo(x, y);
-                });
+                const { ctx } = this;
 
-                this.ctx.stroke();
+                data.coordinates.forEach((chartCoords, i) => {
+                    const viewOptions = data.view[i] ? data.view[i] : data.view[0];
+                    const first = chartCoords[0];
 
-                if (data.fillColor) {
-                    this.ctx.fillStyle = data.fillColor;
-                    if (data.gradientColor) {
-                        const grd = this.ctx.createLinearGradient(0, 0, 0, data.height.toNumber());
-                        grd.addColorStop(0, data.gradientColor[0]);
-                        grd.addColorStop(1, data.gradientColor[1]);
-                        this.ctx.fillStyle = grd;
-                    } else {
-                        this.ctx.fillStyle = data.fillColor;
+                    ctx.strokeStyle = viewOptions.lineColor;
+                    ctx.lineWidth = viewOptions.lineWidth * SCALE;
+
+                    ctx.beginPath();
+                    ctx.moveTo(first.x, first.y);
+                    chartCoords.forEach(({ x, y }) => {
+                        ctx.lineTo(x, y);
+                    });
+
+                    ctx.stroke();
+
+                    if (viewOptions.fillColor) {
+                        ctx.fillStyle = viewOptions.fillColor;
+                        if (viewOptions.gradientColor) {
+                            const grd = ctx.createLinearGradient(0, 0, 0, data.height.toNumber());
+                            grd.addColorStop(0, viewOptions.gradientColor[0]);
+                            grd.addColorStop(1, viewOptions.gradientColor[1]);
+                            ctx.fillStyle = grd;
+                        } else {
+                            ctx.fillStyle = viewOptions.fillColor;
+                        }
+                        const last = chartCoords[chartCoords.length - 1];
+                        ctx.lineTo(last.x, data.height.toNumber());
+                        ctx.lineTo(first.x, data.height.toNumber());
+                        ctx.lineTo(first.x, first.y);
+
+                        ctx.fill();
                     }
-                    const last = data.coordinates[data.coordinates.length - 1];
-                    this.ctx.lineTo(last.x, data.height.toNumber());
-                    this.ctx.lineTo(first.x, data.height.toNumber());
-                    this.ctx.lineTo(first.x, first.y);
-
-                    this.ctx.fill();
-                }
+                });
             }
 
             /**
              * @private
              */
-            _getChartData() {
+            _getChartData(data) {
                 const height = new BigNumber(this.canvas.height);
                 const width = new BigNumber(this.canvas.width);
                 const maxChartHeight = height.times(0.7);
+                // const maxChartHeight = height.times(0.9);
 
                 // TODO завязать отступ снизу на коэффициент
 
@@ -224,23 +233,30 @@
                 const xValues = [];
                 const yValues = [];
 
-                this.data.forEach(item => {
-                    const itemX = item[this.options.axisX];
-                    const itemY = item[this.options.axisY];
+                data.forEach((chart, i) => {
+                    xValues[i] = [];
+                    yValues[i] = [];
 
-                    const x = ChartFactory._getValues(itemX);
-                    const y = ChartFactory._getValues(itemY);
+                    chart.forEach(item => {
+                        const itemX = item[this.options.axisX];
+                        const itemY = item[this.options.axisY];
 
-                    if (tsUtils.isNotEmpty(x) && tsUtils.isNotEmpty(y)) {
-                        xValues.push(x);
-                        yValues.push(y);
-                    }
+                        const x = ChartFactory._getValues(itemX);
+                        const y = ChartFactory._getValues(itemY);
+
+                        if (tsUtils.isNotEmpty(x) && tsUtils.isNotEmpty(y)) {
+                            xValues[i].push(x);
+                            yValues[i].push(y);
+                        }
+                    });
                 });
 
-                const xMin = BigNumber.min(...xValues);
-                const xMax = BigNumber.max(...xValues);
-                const yMin = BigNumber.min(...yValues);
-                const yMax = BigNumber.max(...yValues);
+                const combinedXValues = Array.prototype.concat(...xValues);
+                const combinedYValues = Array.prototype.concat(...yValues);
+                const xMin = BigNumber.min(combinedXValues);
+                const xMax = BigNumber.max(combinedXValues);
+                const yMin = BigNumber.min(combinedYValues);
+                const yMax = BigNumber.max(combinedYValues);
                 const xDelta = xMax.minus(xMin);
                 const yDelta = yMax.minus(yMin);
                 const xFactor = width.div(xDelta);
@@ -249,13 +265,19 @@
                 const coordinates = [];
 
                 for (let i = 0; i < xValues.length; i++) {
-                    const xValue = xValues[i];
-                    const yValue = yValues[i];
+                    const chartXValues = xValues[i];
+                    const chartYValues = yValues[i];
+                    coordinates[i] = [];
 
-                    const x = xValue.minus(xMin).times(xFactor).toNumber();
-                    const y = height.minus(yValue.minus(yMin).times(yFactor)).toNumber() - marginBottom * SCALE;
+                    for (let j = 0; j < chartXValues.length; j++) {
+                        const xValue = chartXValues[j];
+                        const yValue = chartYValues[j];
 
-                    coordinates.push({ x, y });
+                        const x = xValue.minus(xMin).times(xFactor).toNumber();
+                        const y = height.minus(yValue.minus(yMin).times(yFactor)).toNumber() - marginBottom * SCALE;
+
+                        coordinates[i].push({ x, y });
+                    }
                 }
 
                 return {
@@ -273,7 +295,10 @@
                     xFactor,
                     yFactor,
                     coordinates,
-                    length: coordinates.length,
+                    combinedXValues,
+                    combinedYValues,
+                    length: coordinates.length, // TODO
+                    combinedCoordinates: Array.prototype.concat(...coordinates),
                     ...this.options
                 };
             }
@@ -395,7 +420,8 @@
                     return width * i + width / 2;
                 });
 
-                const xCoords = this.chartData.coordinates.map(({ x }) => x);
+                const xCoords = this.chartData.combinedCoordinates.map(({ x }) => x);
+
                 return exactCoords.map(x => {
                     return xCoords.reduce((prevXCoord, currentXCoord) => {
                         if (Math.abs(currentXCoord / SCALE - x) < Math.abs(prevXCoord / SCALE - x)) {
@@ -405,10 +431,10 @@
                         }
                     });
                 }).map(foundX => {
-                    const dateIndex = this.chartData.coordinates.findIndex(({ x }) => foundX === x);
+                    const dateIndex = this.chartData.combinedCoordinates.findIndex(({ x }) => foundX === x);
                     return {
                         coords: foundX / SCALE,
-                        value: new Date(this.chartData.xValues[dateIndex].toNumber())
+                        value: new Date(this.chartData.combinedXValues[dateIndex].toNumber())
                     };
                 });
             }
@@ -480,14 +506,16 @@
             static defaultOptions = {
                 axisX: 'timestamp',
                 axisY: 'rate',
-                lineColor: '#ef4829',
-                fillColor: '#FFF',
-                gradientColor: false,
-                lineWidth: 2,
                 marginBottom: 0,
                 hasMouseEvents: false,
                 hasDates: false,
-                checkWidth: false
+                checkWidth: false,
+                view: {
+                    lineColor: '#ef4829',
+                    fillColor: '#FFF',
+                    gradientColor: false,
+                    lineWidth: 2
+                }
             };
 
         }
