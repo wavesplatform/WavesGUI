@@ -75,11 +75,11 @@
             margin: 0 auto 80px auto;
         }
 
-        .app-loader.app-loader-transition {
+        .app-preloader.app-preloader-transition {
             animation: loader-transition 4s both;
         }
 
-        .app-loader {
+        .app-preloader {
             z-index: 10000;
             position: fixed;
             top: 0;
@@ -93,7 +93,7 @@
             background: #fff;
         }
 
-        .app-loader .progress {
+        .app-preloader .progress {
             position: absolute;
             top: 0;
             left: 0;
@@ -105,7 +105,7 @@
             -moz-transition: width 1s;
         }
 
-        .loader-wrapper {
+        .preloader-wrapper {
             position: fixed;
             left: 50%;
             top: 50%;
@@ -117,7 +117,7 @@
             text-align: center;
         }
 
-        .loader {
+        .preloader {
             width: 100px;
             height: 100px;
             display: flex;
@@ -128,14 +128,14 @@
             transform: rotate(45deg);
         }
 
-        .loader span {
+        .preloader span {
             position: relative;
             width: 50px;
             height: 50px;
             display: inline-block;
         }
 
-        .loader span::before {
+        .preloader span::before {
             content: '';
             background-color: #1f5af6;
             position: absolute;
@@ -153,42 +153,42 @@
             animation: folding 2.5s infinite linear both;
         }
 
-        .loader .leaf2 {
+        .preloader .preloader__leaf2 {
             -moz-transform: rotateZ(90deg);
             -ms-transform: rotateZ(90deg);
             -webkit-transform: rotateZ(90deg);
             transform: rotateZ(90deg);
         }
 
-        .loader .leaf2::before {
+        .preloader .preloader__leaf2::before {
             -moz-animation-delay: 0.3s;
             -webkit-animation-delay: 0.3s;
             animation-delay: 0.3s;
             background-color: #0a49f2;
         }
 
-        .loader .leaf3 {
+        .preloader .preloader__leaf3 {
             -moz-transform: rotateZ(270deg);
             -ms-transform: rotateZ(270deg);
             -webkit-transform: rotateZ(270deg);
             transform: rotateZ(270deg);
         }
 
-        .loader .leaf3::before {
+        .preloader .preloader__leaf3::before {
             -moz-animation-delay: 0.9s;
             -webkit-animation-delay: 0.9s;
             animation-delay: 0.9s;
             background-color: #0a49f2;
         }
 
-        .loader .leaf4 {
+        .preloader .preloader__leaf4 {
             -moz-transform: rotateZ(180deg);
             -ms-transform: rotateZ(180deg);
             -webkit-transform: rotateZ(180deg);
             transform: rotateZ(180deg);
         }
 
-        .loader .leaf4::before {
+        .preloader .preloader__leaf4::before {
             -moz-animation-delay: 0.6s;
             -webkit-animation-delay: 0.6s;
             animation-delay: 0.6s;
@@ -271,7 +271,7 @@
         }
 
         @media screen and (max-width: 768px) {
-            .app-loader .loader {
+            .app-preloader .preloader {
                 margin: 0 auto;
                 transform: scale(.8) rotate(45deg);
             }
@@ -291,7 +291,7 @@
                         case 'loadingError':
                             clearInterval(__interval);
                             if (config.isBrowserSupported()) {
-                                document.querySelector('.app-loader').style.display = 'none';
+                                document.querySelector('.app-preloader').style.display = 'none';
                                 document.querySelector('.connection-problem').style.display = 'block';
                                 document.querySelector('[name=main]').style.display = 'none';
                             }
@@ -503,11 +503,11 @@
     <w-container-alert-notification type="userNotification"></w-container-alert-notification>
 </div>
 
-<div class="app-loader">
+<div class="app-preloader">
     <div class="progress"></div>
-    <div class="loader-wrapper">
-        <div class="loader"><span class="leaf1"></span><span class="leaf2"></span><span class="leaf3"></span><span
-            class="leaf4"></span></div>
+    <div class="preloader-wrapper">
+        <div class="preloader"><span class="preloader__leaf1"></span><span class="preloader__leaf2"></span><span class="preloader__leaf3"></span><span
+            class="preloader__leaf4"></span></div>
     </div>
 </div>
 

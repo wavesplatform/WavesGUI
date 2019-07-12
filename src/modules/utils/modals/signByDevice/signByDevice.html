@@ -30,7 +30,7 @@
             <div class="txinfo__key" w-i18n="modal.sign.requestId"></div>
             <div class="txinfo__value">{{$ctrl.txId}}</div>
         </div>
-        <w-loader class="preloader"></w-loader>
+        <w-loader class="loader"></w-loader>
     </div>
 
     <div class="create-order-mode" ng-if="$ctrl.mode === 'create-order'">
@@ -85,7 +85,7 @@
                  w-i18n="modal.sign.signByLedger"></div>
             <div ng-if="$ctrl.isKeeper" class="loading-text text-center basic-500 caption-1 margin-top-3 margin-3"
                  w-i18n="modal.sign.signByKeeper"></div>
-            <w-loader></w-loader>
+            <w-loader class="loader"></w-loader>
         </div>
     </div>
 
@@ -108,7 +108,7 @@
                  w-i18n="modal.sign.signByLedger"></div>
             <div ng-if="$ctrl.isKeeper" class="loading-text text-center basic-500 caption-1 margin-top-3 margin-3"
                  w-i18n="modal.sign.signByKeeper"></div>
-            <w-loader></w-loader>
+            <w-loader class="loader"></w-loader>
         </div>
     </div>
 

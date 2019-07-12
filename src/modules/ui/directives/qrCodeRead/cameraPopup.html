@@ -1,7 +1,7 @@
 <div class="camera-popup" w-i18n-ns="app.ui">
     <div ng-class="{pending: $ctrl.videoPending, error: $ctrl.videoError}"
          class="camera-popup__video-wrapper js-camera-wrapper">
-        <w-loader class="preloader" ng-if="$ctrl.videoPending"></w-loader>
+        <w-loader class="loader" ng-if="$ctrl.videoPending"></w-loader>
         <div ng-if="!$ctrl.videoError && !$ctrl.videoPending"
              class="camera-popup__target-square"></div>
 

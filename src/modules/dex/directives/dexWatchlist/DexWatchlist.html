@@ -51,7 +51,7 @@
             <div class="help-icon__row caption-2 basic-700" w-i18n="directives.watchlist.helpIcon.description"></div>
         </w-help-icon>
     </div>
-    <w-loader class="preloader" ng-if="$ctrl.pending"></w-loader>
+    <w-loader class="loader" ng-if="$ctrl.pending"></w-loader>
     <w-error-block ng-show="$ctrl.loadingError"></w-error-block>
     <w-smart-table ng-if="!$ctrl.pending"
                    name="watchlist"
