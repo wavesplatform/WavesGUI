@@ -14,6 +14,8 @@
 
     <div class="dex-layout__column dex-layout__orderbook"
          w-toggle-class-container>
+        <w-dex-layout-side-bar-toggle handle-click="$ctrl.toggleColumn('orderbook')"
+                                      side="left"></w-dex-layout-side-bar-toggle>
         <div data-block="orderbook" class="dex-layout__block"></div>
         <div data-block="tradevolume" class="dex-layout__block"></div>
     </div>
