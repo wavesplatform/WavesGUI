@@ -16,7 +16,7 @@
              ng-repeat="seed in $ctrl.seedList track by seed.address"
              ng-class="{active: seed.active}"
              ng-click="$ctrl.setActiveSeed(seed)">
-            <w-avatar address="seed.address"></w-avatar>
+            <w-avatar class="avatar" address="seed.address"></w-avatar>
         </div>
     </div>
 

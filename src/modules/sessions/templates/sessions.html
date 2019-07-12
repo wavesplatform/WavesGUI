@@ -11,7 +11,7 @@
     <ul class="sessions-holder" ng-if="$ctrl.session.address.length <= 3">
         <li class="input-like big margin-2" ng-repeat="session in $ctrl.sessions track by session.address"
             ng-click="$ctrl.chooseSession(session)">
-            <w-avatar class="margin-right-1" size="30" address="session.address"></w-avatar>
+            <w-avatar class="avatar margin-right-1" size="30" address="session.address"></w-avatar>
             <div class="mobile-caption-2" ng-class="::{'has-name': !!session.name}">
                 <span class="session-name">{{::session.name}}</span>
                 <span class="session-address">{{::session.address}}</span>

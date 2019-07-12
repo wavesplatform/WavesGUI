@@ -49,7 +49,7 @@
                          ng-class="{active: $ctrl.selectedUser === user, disabled: $ctrl.isUserDisable($index)}"
                          ng-repeat="user in $ctrl.visibleUsers track by user.id"
                          ng-click="$ctrl.selectUser(user)">
-                         <w-avatar address="user.address"
+                         <w-avatar class="avatar" address="user.address"
                                   type="ledger"></w-avatar>
                     </div>
                 </div>

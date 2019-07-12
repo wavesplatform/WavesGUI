@@ -15,7 +15,7 @@
   box-shadow: 0 0 3px 0 rgba(34, 34, 34, 0.24);
 }
 
-w-avatar .avatar-wrap {
+.avatar .avatar__wrap {
   position: relative;
   margin: auto;
   cursor: pointer;
@@ -116,33 +116,33 @@ w-avatar .avatar-wrap {
   }
 }
 
-w-avatar[type='ledger'],
-w-avatar[type='wavesKeeper'] {
-  .avatar-wrap:not(.scripted) {
+.avatar[type='ledger'],
+.avatar[type='wavesKeeper'] {
+  &__wrap:not(.scripted) {
     &::after {
       .avatar-label;
     }
   }
 }
 
-w-avatar {
+.avatar {
   &[type='ledger'] {
-    .avatar-wrap:not(.scripted)::after {
+    &__wrap:not(.scripted)::after {
       background-image: @ledger-mini-icon;
     }
   }
 
   &[type='wavesKeeper'] {
-    .avatar-wrap:not(.scripted)::after {
+    &__wrap:not(.scripted)::after {
       background-image: @keeper-mini-icon;
     }
   }
 }
 
-w-avatar[type='seed'],
-w-avatar[type='ledger'],
-w-avatar[type='wavesKeeper'] {
-  .avatar-wrap.scripted {
+.avatar[type='seed'],
+.avatar[type='ledger'],
+.avatar[type='wavesKeeper'] {
+  &__wrap.scripted {
     &::after {
       .avatar-label;
       background-image: @scripted-mini-icon;
