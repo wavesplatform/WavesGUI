@@ -38,3 +38,4 @@ Keep up with the latest news and articles, and find out all about events happeni
 _Please see the [issues](https://github.com/wavesplatform/WavesGUI/issues) section to report any bugs or feature requests and to see the list of known issues._
 
 [<img src="https://cdn.worldvectorlogo.com/logos/waves-6.svg" width="113px" alt="Waves Logo" />](https://wavesplatform.com)
+
