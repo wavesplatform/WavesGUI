@@ -4,6 +4,9 @@
     const config = function ($urlRouterProvider, $stateProvider, $locationProvider, $compileProvider) {
         const TransportU2F = require('@ledgerhq/hw-transport-u2f');
         const tsUtils = require('ts-utils');
+        const { BigNumber } = require('@waves/bignumber');
+        const ds = require('data-service');
+        const i18next = require('i18next');
 
         ds.config.setConfig(WavesApp.network);
         ds.config.set('remappedAssetNames', WavesApp.remappedAssetNames);
@@ -113,8 +116,8 @@
                 i18next.on('initialized', () => {
                     const localeData = WavesApp.getLocaleData().separators;
 
-                    BigNumber.config({
-                        ROUNDING_MODE: BigNumber.ROUND_DOWN,
+                    BigNumber.config.set({
+                        ROUNDING_MODE: BigNumber.ROUND_MODE.ROUND_DOWN,
                         FORMAT: tsUtils.merge(Object.create(null), BIG_NUMBER_FORMAT, {
                             groupSeparator: localeData.group,
                             decimalSeparator: localeData.decimal
@@ -132,8 +135,8 @@
 
                         const localeData = WavesApp.getLocaleData().separators;
 
-                        BigNumber.config({
-                            ROUNDING_MODE: BigNumber.ROUND_DOWN,
+                        BigNumber.config.set({
+                            ROUNDING_MODE: BigNumber.ROUND_MODE.ROUND_DOWN,
                             FORMAT: tsUtils.merge(Object.create(null), BIG_NUMBER_FORMAT, {
                                 groupSeparator: localeData.group,
                                 decimalSeparator: localeData.decimal

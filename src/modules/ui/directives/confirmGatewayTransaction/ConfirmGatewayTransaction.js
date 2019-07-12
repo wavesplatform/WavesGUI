@@ -30,7 +30,7 @@
                     }
 
                     const fee = this.tx.amount.cloneWithTokens(this.gatewayDetails.gatewayFee);
-                    this.tx.amount = this.tx.amount.minus(fee);
+                    this.tx.amount = this.tx.amount.sub(fee);
                 });
             }
 
