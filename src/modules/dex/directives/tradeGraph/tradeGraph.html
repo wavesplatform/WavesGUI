@@ -4,6 +4,6 @@
                options="$ctrl.options"
                data="$ctrl.data"></linechart>
 
-    <w-empty-block ng-if="!$ctrl.pending && !$ctrl.canShowGraph && !$ctrl.loadingError"></w-empty-block>
+    <w-empty-block class="empty-block" ng-if="!$ctrl.pending && !$ctrl.canShowGraph && !$ctrl.loadingError"></w-empty-block>
     <w-error-block ng-if="!$ctrl.pending && $ctrl.loadingError"></w-error-block>
 </div>

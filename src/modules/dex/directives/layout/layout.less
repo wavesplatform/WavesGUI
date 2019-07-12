@@ -100,7 +100,7 @@ w-layout {
             &__block[data-block="orderbook"] {
               height: calc(100% ~'- 38px');
 
-              w-empty-block,
+              .empty-block,
               w-error-block {
                 top: 50%;
                 transform: translate(-50%, -50%);
@@ -199,7 +199,7 @@ w-layout {
           transition: .3s;
           height: calc(100% ~'- 200px');
 
-          w-empty-block,
+          .empty-block,
           w-error-block {
             transform: translate(-50%, 0%);
             top: 90px;
@@ -354,14 +354,14 @@ w-layout {
       }
     }
 
-    w-empty-block,
+    .empty-block,
     w-error-block {
       position: absolute;
       transform: translate(-50%, -50%);
       top: 50%;
       left: 50%;
 
-      .icon {
+      &__icon {
         margin-top: 0;
       }
     }
