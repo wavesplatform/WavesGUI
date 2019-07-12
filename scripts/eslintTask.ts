@@ -6,7 +6,7 @@ export function createEslintTask(): TaskFunction {
     return function eslintTask() {
         return createSpawn(normalize('./node_modules/.bin/eslint'), [
             '-c', '.eslintrc.json',
-            './src/modules/'
+            normalize('./src/modules/')
         ]);
     }
 }
