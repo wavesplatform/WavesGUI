@@ -1,7 +1,7 @@
 <div class="wrapper">
     <w-loader ng-show="$ctrl.pending"></w-loader>
     <w-empty-block ng-show="$ctrl.nothingFound()"></w-empty-block>
-    <w-error-block ng-show="$ctrl.loadingError"></w-error-block>
+    <w-error-block class="error-block" ng-show="$ctrl.loadingError"></w-error-block>
 
     <w-table class="orderbook-table">
         <w-thead>

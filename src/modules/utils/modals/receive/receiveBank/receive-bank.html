@@ -33,7 +33,7 @@
                 ng-class="{pending: $ctrl.pending}"
             >
                 <w-loader ng-if="$ctrl.pending"></w-loader>
-                <w-error-block ng-if="$ctrl.error"></w-error-block>
+                <w-error-block class="error-block" ng-if="$ctrl.error"></w-error-block>
             </div>
 
             <div ng-if="!$ctrl.isLira && !$ctrl.error" class="get-verified">

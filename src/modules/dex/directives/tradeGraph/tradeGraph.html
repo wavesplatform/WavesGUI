@@ -5,5 +5,5 @@
                data="$ctrl.data"></linechart>
 
     <w-empty-block ng-if="!$ctrl.pending && !$ctrl.canShowGraph && !$ctrl.loadingError"></w-empty-block>
-    <w-error-block ng-if="!$ctrl.pending && $ctrl.loadingError"></w-error-block>
+    <w-error-block class="error-block" ng-if="!$ctrl.pending && $ctrl.loadingError"></w-error-block>
 </div>

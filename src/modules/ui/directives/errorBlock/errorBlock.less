@@ -1,6 +1,6 @@
 @import (reference) 'icons';
 
-w-error-block {
+.error-block {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -8,7 +8,7 @@ w-error-block {
   justify-content: center;
   text-align: center;
 
-  .icon {
+  &__icon {
     background-image: @empty-icon;
     background-repeat: no-repeat;
     background-position: center center;
@@ -18,8 +18,8 @@ w-error-block {
   }
 }
 
-w-error-block {
-  .icon {
+.error-block {
+  &__icon {
     background-image: @error-icon;
   }
 }
