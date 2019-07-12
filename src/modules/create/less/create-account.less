@@ -17,14 +17,14 @@
     display: flex;
 
     .avatar {
-      &-img { // .avatar-img
+      &__img { // .avatar__img
         width: @createAvatarSize;
         height: @createAvatarSize;
         border-radius: 50%;
         transition: transform 0.3s, box-shadow 0.3s;
       }
 
-      &-wrap { // .avatar-wrap
+      &__wrap { // .avatar__wrap
         display: flex;
         align-items: center;
         justify-content: center;
@@ -42,20 +42,20 @@
         flex-shrink: 0;
 
         &:hover {
-          .avatar-wrap {
+          .avatar__wrap {
             opacity: 1;
           }
         }
 
         &.active {
           .avatar {
-            &-img {
+            &__img {
               transform: scale(1.25);
               box-shadow: 0 0 0 4px #fff, 0 4px 18px 0 rgba(30, 41, 73, 0.15);
 
             }
 
-            &-wrap { // .avatar-wrap
+            &__wrap { // .avatar__wrap
               cursor: default;
               opacity: 1;
             }
@@ -63,7 +63,7 @@
         }
 
         &.disabled {
-          .avatar-wrap { // .avatar-wrap
+          .avatar__wrap { // .avatar__wrap
             &,
             &:hover {
               opacity: .5;
@@ -83,7 +83,7 @@
 
 @media screen and (max-width: 480px) {
   .avatars-list {
-    .avatar-img {
+    .avatar__img {
       width: @createAvatarSizePhone;
       height: @createAvatarSizePhone;
     }

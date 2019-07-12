@@ -15,137 +15,43 @@
   box-shadow: 0 0 3px 0 rgba(34, 34, 34, 0.24);
 }
 
-.avatar .avatar__wrap {
+.avatar {
+  &__wrap {
   position: relative;
   margin: auto;
   cursor: pointer;
+  }
 
   img {
     border-radius: 50%;
   }
-}
 
-// account type helper tooltip
-.avatar-container.has-helper {
-  w-help-icon {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 14px;
-    height: 14px;
-
-    .help-icon {
-      &__icon {
-        text-align: center;
-        background: @color-white;
-        margin: 0;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        &::after {
-          left: 0;
-          bottom: 0;
-          background: none transparent;
-          width: 0;
-          height: 0;
-          transform: rotate(-90deg) translate(10px, 2px);
-          border-style: solid;
-          border-width: 4px 4px 4px 5px;
-          border-color: transparent transparent transparent @color-submit-300;
-        }
-
-        &::before {
-          font-size: 11px;
-          content: '+';
-          color: @color-black;
-          background-color: @color-white;
-        }
-      }
-
-      &__content {
-        width: 150px;
-        left: 0;
-        top: 100%;
-        padding: 11px;
-        line-height: 1em;
-        font-size: 11px;
-        transform: translate(-50%, 5px);
-      }
-
-      &__row {
-        display: flex;
-        align-items: center;
-        &:last-child {
-          margin: 0;
-        }
-
-        .acount-option-icon {
-          display: inline-block;
-          width: 16px;
-          height: 16px;
-          margin-right: 10px;
-          background-color: @color-basic-50;
-          background-repeat: no-repeat;
-          background-position: center;
-          border-radius: 50%;
-        }
-
-        &.row {
-          &-keeper {
-            .acount-option-icon {
-              background-image: @keeper-mini-icon;
-            }
-          }
-
-          &-ledger {
-            .acount-option-icon {
-              background-image: @ledger-mini-icon;
-            }
-          }
-
-          &-script {
-            .acount-option-icon {
-              background-image: @scripted-mini-icon;
-            }
-          }
-        }
+  &[type='ledger'], &[type='wavesKeeper'] {
+    &__wrap:not(.scripted) {
+      &::after {
+        .avatar-label;
       }
     }
   }
-}
 
-.avatar[type='ledger'],
-.avatar[type='wavesKeeper'] {
-  &__wrap:not(.scripted) {
-    &::after {
-      .avatar-label;
-    }
-  }
-}
-
-.avatar {
   &[type='ledger'] {
     &__wrap:not(.scripted)::after {
       background-image: @ledger-mini-icon;
     }
   }
-
+  
   &[type='wavesKeeper'] {
     &__wrap:not(.scripted)::after {
       background-image: @keeper-mini-icon;
     }
   }
-}
 
-.avatar[type='seed'],
-.avatar[type='ledger'],
-.avatar[type='wavesKeeper'] {
-  &__wrap.scripted {
-    &::after {
-      .avatar-label;
-      background-image: @scripted-mini-icon;
+  &[type='seed'], &[type='ledger'], &[type='wavesKeeper'] {
+    &__wrap.scripted {
+      &::after {
+        .avatar-label;
+        background-image: @scripted-mini-icon;
+      }
     }
   }
 }
