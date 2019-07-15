@@ -1,7 +1,7 @@
 @import (reference) 'icons';
 @import (reference) 'config';
 
-.avatar-label {
+.avatar-label() {
   position: absolute;
   content: '';
   width: 14px;
@@ -16,20 +16,25 @@
 }
 
 .avatar {
+  position: relative;
+  display: block;
+
   &__wrap {
   position: relative;
   margin: auto;
   cursor: pointer;
   }
-
-  img {
+  &__img {
     border-radius: 50%;
+    width: 100%;
+    height: 100%;
   }
 
-  &[type='ledger'], &[type='wavesKeeper'] {
+  &[type='ledger'],
+  &[type='wavesKeeper'] {
     &__wrap:not(.scripted) {
       &::after {
-        .avatar-label;
+        .avatar-label();
       }
     }
   }
@@ -46,10 +51,12 @@
     }
   }
 
-  &[type='seed'], &[type='ledger'], &[type='wavesKeeper'] {
+  &[type='seed'],
+  &[type='ledger'],
+  &[type='wavesKeeper'] {
     &__wrap.scripted {
       &::after {
-        .avatar-label;
+        .avatar-label();
         background-image: @scripted-mini-icon;
       }
     }
