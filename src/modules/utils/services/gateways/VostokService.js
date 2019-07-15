@@ -15,6 +15,8 @@
 
     const factory = function () {
 
+        const { BigNumber } = require('@waves/bignumber');
+
         class VostokService {
 
             /**

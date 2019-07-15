@@ -8,6 +8,7 @@
     };
 
     const { Money } = require('@waves/data-entities');
+    const { BigNumber } = require('@waves/bignumber');
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const analytics = require('@waves/event-sender');
@@ -459,7 +460,7 @@
                 const toGateway = this.outerSendMode && this.gatewayDetails;
                 const fee = toGateway ? this.tx.amount.cloneWithTokens(toGateway.gatewayFee) : null;
                 const attachmentString = this.tx.attachment ? this.tx.attachment.toString() : '';
-                const isWavesAddress = waves.node.isValidAddress(this.tx.recipient);
+                const isWavesAddress = user.isValidAddress(this.tx.recipient);
 
                 this.wavesTx = {
                     ...this.wavesTx,
@@ -657,7 +658,7 @@
                 }
 
                 const outerChain = outerBlockchains[this.assetId];
-                const isValidWavesAddress = waves.node.isValidAddress(this.tx.recipient);
+                const isValidWavesAddress = user.isValidAddress(this.tx.recipient);
 
                 if (this.gatewayDetailsError) {
                     this.outerSendMode = false;
@@ -674,13 +675,13 @@
                     return gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.paymentId)
                         .then((details) => {
                             const max = BigNumber.min(
-                                details.maximumAmount.plus(details.gatewayFee),
+                                details.maximumAmount.add(details.gatewayFee),
                                 this.moneyHash[this.assetId].getTokens()
                             );
 
                             this.gatewayDetails = details;
                             this.minAmount = this.moneyHash[this.assetId]
-                                .cloneWithTokens(details.minimumAmount.minus('0.00000001'));
+                                .cloneWithTokens(details.minimumAmount.sub('0.00000001'));
                             this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
                             this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
                             $scope.$apply();

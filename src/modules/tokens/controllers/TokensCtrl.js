@@ -12,8 +12,8 @@
      */
     const controller = function (Base, $scope, modalManager, waves, balanceWatcher, user, utils) {
 
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
-        const { WAVES_ID } = require('@waves/signature-generator');
+        const { SIGN_TYPE, WAVES_ID } = require('@waves/signature-adapter');
+        const { BigNumber } = require('@waves/bignumber');
         const ds = require('data-service');
         const $ = require('jquery');
         const BASE_64_PREFIX = 'base64:';
@@ -156,7 +156,7 @@
                 }
 
                 const precision = Number(this.precision.toString());
-                const quantity = (this.count || new BigNumber(0)).times(Math.pow(10, precision));
+                const quantity = (this.count || new BigNumber(0)).mul(Math.pow(10, precision));
                 const script = this.hasAssetScript && this.script ? `${BASE_64_PREFIX}${this.script}` : '';
 
                 const tx = waves.node.transactions.createTransaction({
