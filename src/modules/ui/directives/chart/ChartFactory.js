@@ -12,6 +12,7 @@
         const { Money } = require('@waves/data-entities');
         const { equals, isEmpty, range, last, head } = require('ramda');
         const tsUtils = require('ts-utils');
+        const { BigNumber } = require('@waves/bignumber');
         const SCALE = devicePixelRatio || 1;
 
         class ChartFactory extends Base {
@@ -226,7 +227,7 @@
             _getChartData(data) {
                 const height = new BigNumber(this.canvas.height);
                 const width = new BigNumber(this.canvas.width);
-                const maxChartHeight = height.times(this.options.heightFactor);
+                const maxChartHeight = height.mul(this.options.heightFactor);
 
                 // TODO завязать отступ снизу на коэффициент
 
@@ -254,12 +255,12 @@
 
                 const combinedXValues = Array.prototype.concat(...xValues);
                 const combinedYValues = Array.prototype.concat(...yValues);
-                const xMin = BigNumber.min(combinedXValues);
-                const xMax = BigNumber.max(combinedXValues);
-                const yMin = BigNumber.min(combinedYValues);
-                const yMax = BigNumber.max(combinedYValues);
-                const xDelta = xMax.minus(xMin);
-                const yDelta = yMax.minus(yMin);
+                const xMin = BigNumber.min(...combinedXValues);
+                const xMax = BigNumber.max(...combinedXValues);
+                const yMin = BigNumber.min(...combinedYValues);
+                const yMax = BigNumber.max(...combinedYValues);
+                const xDelta = xMax.sub(xMin);
+                const yDelta = yMax.sub(yMin);
                 const xFactor = width.div(xDelta);
                 const yFactor = maxChartHeight.div(yDelta);
 
@@ -274,8 +275,8 @@
                         const xValue = chartXValues[j];
                         const yValue = chartYValues[j];
 
-                        const x = xValue.minus(xMin).times(xFactor).toNumber();
-                        const y = height.minus(yValue.minus(yMin).times(yFactor)).toNumber() - marginBottom * SCALE;
+                        const x = Number(xValue.sub(xMin).mul(xFactor).toFixed());
+                        const y = Number(height.sub(yValue.sub(yMin).mul(yFactor)).toFixed()) - marginBottom * SCALE;
 
                         coordinates[i].push({ x, y });
                     }

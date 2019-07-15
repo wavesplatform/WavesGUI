@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const { map } = require('ramda');
+
     /**
      * @param {Base} Base
      * @param {IPollCreate} createPoll
@@ -122,6 +124,7 @@
                 }
 
                 return waves.utils.getRateHistory(assetId, baseAssetId, startDate)
+                    .then(map(item => ({ ...item, rate: Number(item.rate.toFixed()) })))
                     .then(values => ([values]));
             }
 

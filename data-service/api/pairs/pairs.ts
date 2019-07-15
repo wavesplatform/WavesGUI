@@ -1,9 +1,10 @@
-import { Asset, AssetPair, Money, BigNumber } from '@waves/data-entities';
+import { Asset, AssetPair, Money } from '@waves/data-entities';
+import { BigNumber } from '@waves/bignumber';
 import { getDataService, matcherSettingsPromise } from '../../config';
 import { request } from '../../utils/request';
 import { get as getAsset } from '../assets/assets';
 import { createOrderPair } from '@waves/assets-pairs-order';
-import { WAVES_ID } from '@waves/signature-generator';
+import { WAVES_ID } from '@waves/signature-adapter';
 import { IPairJSON } from '@waves/data-service-client-js/src/types';
 import { TMoneyInput } from '@waves/data-entities/dist/entities/Money';
 
@@ -25,7 +26,7 @@ export function get(assetId1: string | Asset, assetId2: string | Asset): Promise
 
 const remapPairInfo = (pairs: Array<AssetPair>, volumeFactory: (data: TMoneyInput) => Money) => (list: Array<IPairJSON>) => pairs.map((pair, index) => {
     const moneyOrNull = (pair: AssetPair) => (data: TMoneyInput): Money => data && Money.fromTokens(data, pair.priceAsset) || null;
-    const change24F = (open, close) => ((!open || open.eq(0)) || !close) ? new BigNumber(0) : close.minus(open).div(open).times(100).dp(2);
+    const change24F = (open, close) => ((!open || open.eq(0)) || !close) ? new BigNumber(0) : close.sub(open).div(open).mul(100).roundTo(2);
     const moneyFactory = moneyOrNull(pair);
 
     const data = list[index] || Object.create(null);
@@ -39,8 +40,8 @@ const remapPairInfo = (pairs: Array<AssetPair>, volumeFactory: (data: TMoneyInpu
     const volume = volumeFactory(data.volumeWaves);
     let change24 = change24F(firstPrice && firstPrice.getTokens(), lastPrice && lastPrice.getTokens());
 
-    if (change24.isGreaterThan(1000)) {
-        change24 = change24.dp(0);
+    if (change24.gt(1000)) {
+        change24 = change24.roundTo(0);
     }
 
     const id = [amountAsset.id, priceAsset.id].sort().join();
