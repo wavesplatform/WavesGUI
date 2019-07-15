@@ -281,6 +281,9 @@
                     }
                 }
 
+                const combinedCoordinates = Array.prototype.concat(...coordinates)
+                    .sort(({ x: coordA }, { x: coordB }) => coordA - coordB);
+
                 return {
                     height,
                     maxChartHeight,
@@ -299,7 +302,7 @@
                     combinedXValues,
                     combinedYValues,
                     length: coordinates.length, // TODO
-                    combinedCoordinates: Array.prototype.concat(...coordinates),
+                    combinedCoordinates,
                     ...this.options
                 };
             }
@@ -331,8 +334,7 @@
                 this.$parent.off();
                 const onMouseMove = mouseOrTouchEvent => {
                     const event = utils.getEventInfo(mouseOrTouchEvent);
-                    const coords = this.chartData.combinedCoordinates;
-                    coords.forEach(this._findIntersection(event).bind(this));
+                    this._findIntersection(event);
                 };
 
                 const onMouseLeave = event => {
@@ -371,26 +373,41 @@
              * @private
              */
             _findIntersection(event) {
-                return ({ x, y }, i, coords) => {
-                    let j;
-                    if (i === 0) {
-                        return null;
-                    } else {
-                        j = i - 1;
+                const coords = this.chartData.combinedCoordinates;
+
+                const binarySearch = (data, target, start, end) => {
+                    if (end < 1) {
+                        return data[0];
+                    }
+                    if ((end - 1) === start) {
+                        const endClosest = Math.abs(data[start].x - target) > Math.abs(data[end].x - target);
+                        return endClosest ? data[end] : data[start];
                     }
 
-                    const diff = (coords[i].x - coords[j].x) / SCALE;
-                    const isIntersect = Math.abs(event.offsetX - (x / SCALE)) <= Math.abs(diff / 2); // TODO
-
-                    if (isIntersect) {
-                        if (!equals(this._lastEvent, { x, y })) {
-                            this._dispatchMouseMove(x, y, i, event);
-                        }
-                        if (isEmpty(this._lastEvent)) {
-                            this._lastEvent = { x, y };
-                        }
+                    const middle = Math.floor((start + (end - start) / 2));
+                    if (target === data[middle].x) {
+                        return data[middle];
+                    }
+                    if (target > data[middle].x) {
+                        return binarySearch(data, target, middle, end);
+                    }
+                    if (target < data[middle].x) {
+                        return binarySearch(data, target, start, middle);
                     }
                 };
+
+                const closestPoints = binarySearch(coords, event.offsetX, 0, coords.length - 1);
+
+                if (closestPoints) {
+                    if (!equals(this._lastEvent, closestPoints)) {
+                        const { x, y } = closestPoints;
+                        const i = coords.findIndex(coord => coord.x === x && coord.y === y);
+                        this._dispatchMouseMove(x, y, i, event);
+                    }
+                    if (isEmpty(this._lastEvent)) {
+                        this._lastEvent = closestPoints;
+                    }
+                }
             }
 
             /**
@@ -547,6 +564,7 @@
  * @property {string} [fillColor]
  * @property {array} gradientColor
  * @property {number} marginBottom
+ * @property {number} heightFactor
  */
 
 /**

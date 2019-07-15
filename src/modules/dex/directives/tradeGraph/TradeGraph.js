@@ -106,13 +106,13 @@
                     checkWidth: true,
                     view: [
                         {
-                            lineColor: '#1f5af6',
-                            fillColor: '#EAF0FE',
+                            lineColor: '#e5494d',
+                            fillColor: '#ffe4e4',
                             lineWidth: 4
                         },
                         {
-                            lineColor: '#e5494d',
-                            fillColor: '#ffe4e4',
+                            lineColor: '#1f5af6',
+                            fillColor: '#EAF0FE',
                             lineWidth: 4
                         }
                     ]
@@ -179,7 +179,7 @@
                 this._updateGraphAccordingToOrderBook(orderBook);
                 // this.data.asks = orderBook.asks;
                 // this.data.bids = orderBook.bids;
-                this.data = [orderBook.bids, orderBook.asks];
+                this.data = [orderBook.asks, orderBook.bids];
 
                 this._setDataSignal.dispatch();
 
