@@ -156,9 +156,13 @@
                 this.chartOptions = {
                     axisX: 'timestamp',
                     axisY: 'rate',
-                    lineColor: 'rgba(90, 129, 234)',
-                    fillColor: 'rgba(90, 129, 234, .3)',
-                    lineWidth: 1
+                    view: [
+                        {
+                            lineColor: 'rgba(90, 129, 234)',
+                            fillColor: 'rgba(90, 129, 234, .3)',
+                            lineWidth: 1
+                        }
+                    ]
                 };
             }
 
@@ -351,7 +355,7 @@
                     this.chart = new this.ChartFactory(
                         this.$node.find(`.${SELECTORS.CHART_CONTAINER}`),
                         this.chartOptions,
-                        values
+                        [values]
                     );
                 }).catch(() => null);
 

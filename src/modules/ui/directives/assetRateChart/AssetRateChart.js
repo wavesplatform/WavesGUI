@@ -17,32 +17,17 @@
                 super();
 
                 this.options = {
-                    grid: {
-                        x: false,
-                        y: false
-                    },
-                    margin: {
-                        top: 0,
-                        right: 0,
-                        left: 0,
-                        bottom: 0
-                    },
-                    series: [
+                    axisX: 'timestamp',
+                    axisY: 'rate',
+                    checkWidth: true,
+                    view: [
                         {
-                            dataset: 'values',
-                            key: 'rate',
-                            label: 'Rate',
-                            color: '#5a81ea',
-                            type: ['line', 'area']
+                            lineColor: '#5a81ea',
+                            fillColor: '#FFF',
+                            lineWidth: 4
                         }
-                    ],
-                    axes: {
-                        x: {
-                            key: 'timestamp',
-                            type: 'date',
-                            ticks: 4
-                        }
-                    }
+                    ]
+
                 };
 
                 /**
@@ -91,7 +76,7 @@
             _setThemSettings() {
                 const { wAssetRateChart } = user.getThemeSettings();
                 this.options = { ...this.options };
-                this.options.series[0] = { ...this.options.series[0], color: wAssetRateChart.seriesColor };
+                this.options.view[0].fillColor = wAssetRateChart.seriesColor;
             }
 
             /**
@@ -137,7 +122,7 @@
                 }
 
                 return waves.utils.getRateHistory(assetId, baseAssetId, startDate)
-                    .then(values => ({ values }));
+                    .then(values => ([values]));
             }
 
             /**
@@ -153,7 +138,13 @@
         return new AssetRateChart();
     };
 
-    controller.$inject = ['Base', 'createPoll', 'waves', 'utils', 'user'];
+    controller.$inject = [
+        'Base',
+        'createPoll',
+        'waves',
+        'utils',
+        'user'
+    ];
 
     angular.module('app.ui').component('wAssetRateChart', {
         bindings: {
@@ -162,7 +153,7 @@
             noUpdate: '<',
             chartToId: '<'
         },
-        template: '<linechart ng-if="$ctrl.chartData" options="$ctrl.options" data="$ctrl.chartData"></linechart>',
+        template: '<w-chart ng-if="$ctrl.chartData" data="$ctrl.chartData" options="$ctrl.options""></w-chart>',
         transclude: false,
         controller
     });

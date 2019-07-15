@@ -80,7 +80,7 @@
              * @param options @type {Object}
              */
             setOptions(options) {
-                this.options = options;
+                this.options = Object.assign(Object.create(null), ChartFactory.defaultOptions, options);
 
                 this._render();
             }
@@ -224,8 +224,7 @@
             _getChartData(data) {
                 const height = new BigNumber(this.canvas.height);
                 const width = new BigNumber(this.canvas.width);
-                const maxChartHeight = height.times(0.7);
-                // const maxChartHeight = height.times(0.9);
+                const maxChartHeight = height.times(this.options.heightFactor);
 
                 // TODO завязать отступ снизу на коэффициент
 
@@ -330,7 +329,7 @@
                 this.$parent.off();
                 const onMouseMove = mouseOrTouchEvent => {
                     const event = utils.getEventInfo(mouseOrTouchEvent);
-                    const coords = this.chartData.coordinates;
+                    const coords = this.chartData.combinedCoordinates;
                     coords.forEach(this._findIntersection(event).bind(this));
                 };
 
@@ -379,7 +378,7 @@
                     }
 
                     const diff = (coords[i].x - coords[j].x) / SCALE;
-                    const isIntersect = Math.abs(event.offsetX - (x / SCALE)) <= (diff / 2);
+                    const isIntersect = Math.abs(event.offsetX - (x / SCALE)) <= Math.abs(diff / 2); // TODO
 
                     if (isIntersect) {
                         if (!equals(this._lastEvent, { x, y })) {
@@ -404,8 +403,8 @@
                     event,
                     x,
                     y,
-                    xValue: this.chartData.xValues[i],
-                    yValue: this.chartData.yValues[i]
+                    xValue: this.chartData.combinedXValues[i],
+                    yValue: this.chartData.combinedYValues[i]
                 }));
                 this._lastEvent = { x, y };
             }
@@ -510,6 +509,7 @@
                 hasMouseEvents: false,
                 hasDates: false,
                 checkWidth: false,
+                heightFactor: 0.9,
                 view: {
                     lineColor: '#ef4829',
                     fillColor: '#FFF',

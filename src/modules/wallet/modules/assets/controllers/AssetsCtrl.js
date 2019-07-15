@@ -133,6 +133,7 @@
                         hasMouseEvents: true,
                         hasDates: true,
                         checkWidth: 2000,
+                        heightFactor: 0.7,
                         view: [
                             {
                                 lineColor: '#1f5af6',

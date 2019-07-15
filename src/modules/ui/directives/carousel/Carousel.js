@@ -19,18 +19,26 @@
             red: {
                 axisX: 'timestamp',
                 axisY: 'rate',
-                lineColor: '#ef4829',
-                fillColor: '#FFF',
-                gradientColor: ['#FEEFEC', '#FFF'],
-                lineWidth: 4
+                view: [
+                    {
+                        lineColor: '#ef4829',
+                        fillColor: '#FFF',
+                        gradientColor: ['#FEEFEC', '#FFF'],
+                        lineWidth: 4
+                    }
+                ]
             },
             blue: {
                 axisX: 'timestamp',
                 axisY: 'rate',
-                lineColor: '#1f5af6',
-                fillColor: '#FFF',
-                gradientColor: ['#EAF0FE', '#FFF'],
-                lineWidth: 4
+                view: [
+                    {
+                        lineColor: '#1f5af6',
+                        fillColor: '#FFF',
+                        gradientColor: ['#EAF0FE', '#FFF'],
+                        lineWidth: 4
+                    }
+                ]
             }
         };
 
@@ -137,7 +145,7 @@
                     new ChartFactory(
                         $slide.find('.graph'),
                         options,
-                        this.pairsInfoList[i].rateHistory
+                        [this.pairsInfoList[i].rateHistory]
                     );
                 });
             }
