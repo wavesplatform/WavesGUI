@@ -28,18 +28,21 @@
             /**
              * @param {JQuery} $element
              * @param {ChartFactory.IOptions} [options]
-             * @param {Array<Array>} [data]
+             * @param {Array<Array<object>>>} [data]
              */
             constructor($element, options, data) {
                 super();
 
+                /**
+                 * @type {JQuery}
+                 */
                 this.$parent = $element;
                 /**
                  * @type {ChartFactory.IOptions}
                  */
                 this.options = Object.assign(Object.create(null), ChartFactory.defaultOptions, options);
                 /**
-                 * @type {Array}
+                 * @type {Array<Array<object>>}
                  */
                 this.data = data;
                 /**
@@ -50,15 +53,17 @@
                  * @type {CanvasRenderingContext2D}
                  */
                 this.ctx = this.canvas.getContext('2d');
-
                 /**
-                 * @type {Object}
+                 * @type {object}
                  * @private
                  */
                 this._lastEvent = Object.create(null);
 
                 this._render();
 
+                /**
+                 * @type {Signal<any>}
+                 */
                 this.mouseSignal = new tsUtils.Signal();
 
                 const checkInterval = this.options.checkWidth;
@@ -80,7 +85,7 @@
             }
 
             /**
-             * @param options @type {Object}
+             * @param {ChartFactory.IOptions} options
              */
             setOptions(options) {
                 this.options = Object.assign(Object.create(null), ChartFactory.defaultOptions, options);
@@ -89,11 +94,10 @@
             }
 
             /**
-             * @param data @type {Object}
+             * @param {Array<Array<object>>} data
              */
             setData(data) {
                 this.data = data;
-
                 this._render();
             }
 
@@ -180,14 +184,14 @@
             }
 
             /**
-             * @param {ChartFactory._IChartData} data
+             * @param {ChartFactory.IChartData} data
              * @private
              */
             _drawChart(data) {
-                const { ctx } = this;
+                const { ctx, options } = this;
 
                 data.coordinates.forEach((chartCoords, i) => {
-                    const viewOptions = data.view[i] ? data.view[i] : data.view[0];
+                    const viewOptions = options.view[i] ? options.view[i] : options.view[0];
                     const first = chartCoords[0];
 
                     ctx.strokeStyle = viewOptions.lineColor;
@@ -222,6 +226,8 @@
             }
 
             /**
+             * @param {Array<Array<object>>} data
+             * @return {ChartFactory.IChartData}
              * @private
              */
             _getChartData(data) {
@@ -283,9 +289,9 @@
                 }
 
                 const combinedCoordinates = Array.prototype.concat(...coordinates)
-                    .sort(({ x: coordA }, { x: coordB }) => coordA - coordB);
+                    .sort(({ x: a }, { x: b }) => a - b);
 
-                return {
+                return ({
                     height,
                     maxChartHeight,
                     width,
@@ -302,10 +308,9 @@
                     coordinates,
                     combinedXValues,
                     combinedYValues,
-                    length: coordinates.length, // TODO
                     combinedCoordinates,
-                    ...this.options
-                };
+                    length: combinedCoordinates.length
+                });
             }
 
             /**
@@ -370,7 +375,6 @@
 
             /**
              * @param event
-             * @return {Function}
              * @private
              */
             _findIntersection(event) {
@@ -415,7 +419,7 @@
              * @param x @type {number}
              * @param y @type {number}
              * @param i @type {number}
-             * @param event @type {Object}
+             * @param event @type {object}
              * @private
              */
             _dispatchMouseMove(x, y, i, event) {
@@ -554,27 +558,31 @@
 
 /**
  * @typedef {object} ChartFactory#IOptions
- * @property {ChartFactory.IChart[]} charts
+ * @property {string} axisX
+ * @property {string} axisY
+ * @property {boolean | number} checkWidth
+ * @property {number} marginBottom
+ * @property {boolean} hasMouseEvents
+ * @property {boolean} hasDates
+ * @property {number} heightFactor
+ * @property {ChartFactory.IViewChart[]} view
  */
 
 /**
- * @typedef {object} ChartFactory#IChart
- * @property {string} axisX
- * @property {string} axisY
+ * @typedef {object} ChartFactory#IViewChart
  * @property {string} lineColor
  * @property {string} [fillColor]
  * @property {array} gradientColor
- * @property {number} marginBottom
- * @property {number} heightFactor
+ * @property {number} lineWidth
  */
 
 /**
- * @typedef {object} ChartFactory#_IChartData
+ * @typedef {object} ChartFactory#IChartData
  * @property {BigNumber} height
  * @property {BigNumber} maxChartHeight
  * @property {BigNumber} width
- * @property {BigNumber[]} xValues
- * @property {BigNumber[]} yValues
+ * @property {Array<BigNumber[]>} xValues
+ * @property {Array<BigNumber[]>} yValues
  * @property {BigNumber} xMin
  * @property {BigNumber} xMax
  * @property {BigNumber} yMin
@@ -583,12 +591,15 @@
  * @property {BigNumber} yDelta
  * @property {BigNumber} xFactor
  * @property {BigNumber} yFactor
- * @property {Array<{x: number, y: number}>} coordinates
+ * @property {Array<ICoords[]>} coordinates
+ * @property {BigNumber[]} combinedXValues
+ * @property {BigNumber[]} combinedYValues
+ * @property {Array<ICoords>} combinedCoordinates
  * @property {number} length
- * @property {number} lineWidth
- * @property {string} axisX
- * @property {string} axisY
- * @property {string} lineColor
- * @property {string} [fillColor]
- * @property {array} gradientColor
+ */
+
+/**
+ * @typedef {object} ChartFactory#ICoords
+ * @property {number} x
+ * @property {number} y
  */
