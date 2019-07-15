@@ -64,7 +64,9 @@
 
                 if (checkInterval) {
                     setInterval(() => {
-                        if (this.canvas.width !== this.$parent.outerWidth()) {
+                        if (this.canvas.width !== this.$parent.outerWidth() ||
+                            this.canvas.height !== this.$parent.outerHeight()
+                        ) {
                             this._setSize(this.$parent.outerWidth(), this.$parent.outerHeight());
                         }
                     }, typeof checkInterval === 'number' ? checkInterval : 1000);

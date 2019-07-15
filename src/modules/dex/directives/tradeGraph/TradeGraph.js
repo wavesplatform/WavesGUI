@@ -103,7 +103,7 @@
                     marginBottom: 0,
                     hasMouseEvents: true,
                     hasDates: false,
-                    checkWidth: 2000,
+                    checkWidth: true,
                     view: [
                         {
                             lineColor: '#1f5af6',
