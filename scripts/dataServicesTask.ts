@@ -16,6 +16,8 @@ export function createDataServicesTask(): TaskFunction {
             '-u', '@waves/data-entities',
             '-u', '@waves/signature-generator',
             '-u', '@waves/signature-adapter',
+            '-u', '@waves/waves-transactions',
+            '-u', '@waves/bignumber',
             '--no-bf',
             '-o', './data-service-dist/data-service-es6.js'
         ]);

@@ -99,10 +99,6 @@
                 });
 
                 this.getUsers();
-                this.adapter.onUpdate(() => {
-                    this.getUsers();
-                });
-                this.observe('selectedUser', this._onSelectUser);
             }
 
             /**

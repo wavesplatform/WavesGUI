@@ -103,7 +103,7 @@
                     analytics.send({ name: 'Import Backup Protect Your Account Continue Click', target: 'ui' });
                 }
 
-                const encryptedSeed = new ds.Seed(this.seed).encrypt(this.password);
+                const encryptedSeed = new ds.Seed(this.seed, window.WavesApp.network.code).encrypt(this.password);
                 const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
 
                 if (!this.name) {
@@ -158,7 +158,7 @@
              */
             _onChangeSeed() {
                 if (this.seedForm.$valid) {
-                    this.address = new ds.Seed(this.seed).address;
+                    this.address = new ds.Seed(this.seed, window.WavesApp.network.code).address;
                 } else {
                     this.address = '';
                 }

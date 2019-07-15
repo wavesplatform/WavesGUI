@@ -16,7 +16,7 @@
     const controller = function (waves, assetsData, $scope, utils, Base, user, modalManager, createPoll,
                                  balanceWatcher) {
 
-        const tsUtils = require('ts-utils');
+        const { date } = require('ts-utils');
         const ds = require('data-service');
         const analytics = require('@waves/event-sender');
 
@@ -82,8 +82,8 @@
                  */
                 this.advancedMode = false;
 
-                const hours = tsUtils.date('hh:mm');
-                const dates = tsUtils.date('DD/MM');
+                const hours = date('hh:mm');
+                const dates = date('DD/MM');
 
                 this.options.axes.x.tickFormat = (date) => {
                     if (this.chartMode === 'hour' || this.chartMode === 'day') {

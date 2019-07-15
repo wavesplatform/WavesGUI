@@ -49,7 +49,7 @@
              */
             isValidAddress(address) {
                 try {
-                    return ds.isValidAddress(address);
+                    return user.isValidAddress(address);
                 } catch (e) {
                     return false;
                 }
@@ -62,7 +62,7 @@
              */
             isValidAddressWithNetworkByte(address, byte) {
                 try {
-                    return ds.isValidAddressWithNetworkByte(address, byte);
+                    return ds.isValidAddress(address, byte);
                 } catch (e) {
                     return false;
                 }
