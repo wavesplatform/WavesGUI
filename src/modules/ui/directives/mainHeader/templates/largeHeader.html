@@ -156,7 +156,8 @@
                 <div class="user-account__name">
 
                     <div class="user-account__block" ng-show="!$ctrl.showInput" ng-click="$ctrl.toggleNameView()">
-                        <div class="user-account__text">{{$ctrl.userName}}</div>
+<!--                        <div class="user-account__text">{{$ctrl.userName}}</div>-->
+                        <div class="user-account__text">{{user.name}}</div>
                         <w-info-tooltip class="{{SELECTORS.TOOLTIP_RENAME}}" no-icon="true">
                             <span class="tooltip__content" w-i18n="welcome.renameAccount"></span>
                         </w-info-tooltip>
@@ -172,10 +173,10 @@
                                          maxlength="{{::MAX_USER_NAME_LENGTH}}"
                                          name="userName"
                                          w-validate
-                                         w-validator-custom="{{$ctrl.isUniqueUserName}}"
-                                         required></w-input>
+                                         w-validator-custom="{{$ctrl.isUniqueUserName}}"></w-input>
 
-                                <w-input-error class="tiny" message="custom" hide-within="ERROR_DISPLAY_INTERVAL">
+<!--                                <w-input-error class="tiny" message="custom" hide-within="ERROR_DISPLAY_INTERVAL">-->
+                                <w-input-error class="tiny" message="custom" ng-if="$ctrl.isUniqueUserName"">
                                     <span w-i18n="welcome.inputErrorNameExists"></span>
                                 </w-input-error>
                             </w-input-container>

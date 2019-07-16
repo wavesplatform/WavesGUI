@@ -119,9 +119,15 @@
              * @public
              */
             onBlur() {
-                this.showTooltip();
                 this._saveUserName();
+                this.showTooltip();
                 this.toggleNameView();
+
+                // if (this.setUserName.userName.$valid) {
+                //     this.showTooltip();
+                //     this.toggleNameView();
+                // }
+
             }
 
             $onDestroy() {
