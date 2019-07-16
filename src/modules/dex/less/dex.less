@@ -3,6 +3,51 @@
 @import (reference) '../../app/less/typography';
 
 @dex-lower-block-height: 50%;
+@dex-padding: 7px;
+
+.dex,
+.dex-demo {
+  background-color: @dex-background;
+}
+
+.dex.main .main-content,
+.dex-demo.main .main-content {
+  width: 100%;
+  min-height: 520px;
+  max-height: none;
+  overflow: hidden;
+
+  .content {
+    max-width: 100%;
+    padding: 5px;
+    overflow: auto;
+  }
+}
+
+html body.dex.main,
+html body.dex-demo.main {
+  overflow: hidden;
+  w-site-header {
+    .header-wrapper {
+      max-width: 100%;
+      padding: 0;
+    }
+  }
+}
+
+html body.dex,
+html body.dex-demo {
+  md-dialog.asset-info-modal {
+    .asset-content {
+      height: auto;
+    }
+  }
+}
+
+html body.dex .notifications,
+html body.dex-demo .notifications {
+  position: fixed
+}
 
 body.dex,
 body.dex-demo {
@@ -521,6 +566,105 @@ body.dex-demo {
   }
 }
 
+.dex-demo {
+  .avatar-wrap {
+    background: url(/img/icons/dex-demo-avatar.svg) center no-repeat;
+    background-size: 50px;
+    border-radius: 50%;
+
+    img {
+      display: none;
+    }
+  }
+}
+
+.dex-loader,
+.loading {
+  opacity: 0;
+}
+
+.dex-loader {
+  position: absolute;
+  z-index: 0;
+}
+
+.dex-loader.loading {
+  opacity: 1;
+  position: absolute;
+  z-index: 1;
+  display: inline-block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media screen and (min-width: 2400px) {
+  body.dex,
+  body.dex-demo {
+    font-size: 12px;
+    .dex-wrapper {
+      .smart-table {
+        &__w-tbody {
+          .smart-table {
+            &__row {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+
+      w-dex-watchlist .wrapper {
+        .titles-wrap {
+          height: 42px;
+
+          w-select {
+            .select-list {
+              height: 42px;
+              font-size: 13px;
+            }
+
+            w-option {
+              font-size: 13px;
+            }
+
+            .title {
+              height: 41px;
+              font-size: 13px;
+            }
+          }
+
+          .title {
+            height: 42px;
+            font-size: 13px;
+            &.active {
+              background: @color-white;
+            }
+          }
+        }
+      }
+
+      w-create-order {
+        .create-order {
+          .body .making-order .areas .area .name {
+            line-height: 36px;
+          }
+        }
+      }
+
+      .dex-layout {
+        &__tradehistory w-tabs {
+          .titles-wrap {
+            height: 42px;
+            .title {
+              height: 42px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 1024px) {
   body.dex, body.dex-demo {
     .main-content .content {
@@ -627,7 +771,30 @@ body.dex-demo {
   }
 }
 
+@media screen and (min-width: 660px) and (max-width: 1024px) {
+  .dex.main .main-content,
+  .dex-demo.main .main-content {
+    min-width: 645px;
+    width: 100%;
+    min-height: 100%;
+
+    .content {
+      position: relative;
+      margin-top: 0;
+      overflow: auto;
+    }
+  }
+}
+
 @media screen and (max-width: 659px) {
+  .dex.main .main-content,
+  .dex-demo.main .main-content {
+    min-width: 100%;
+
+    .content {
+      margin-top: 0;
+    }
+  }
 
   body.dex, body.dex-demo {
     .main-content .content {
