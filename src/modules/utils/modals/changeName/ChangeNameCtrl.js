@@ -7,9 +7,10 @@
      * @param {UserNameService} userNameService
      * @param {User} user
      * @param {INotification} notification
+     * @param $mdDialog
      * @return {ChangeNameCtrl}
      */
-    const controller = function (Base, $scope, userNameService, user, notification) {
+    const controller = function (Base, $scope, userNameService, user, notification, $mdDialog) {
 
         class ChangeNameCtrl extends Base {
 
@@ -42,13 +43,14 @@
                 this.isUniqueUserName = userNameService.isUniqueName();
                 if (this.isUniqueUserName) {
                     userNameService.save();
+                    notification.info({
+                        ns: 'app.welcome',
+                        title: {
+                            literal: 'welcome.nameSaved'
+                        }
+                    });
+                    $mdDialog.cancel();
                 }
-                notification.info({
-                    ns: 'app.welcome',
-                    title: {
-                        literal: 'welcome.nameSaved'
-                    }
-                });
             }
 
         }
@@ -56,7 +58,7 @@
         return new ChangeNameCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'userNameService', 'user', 'notification'];
+    controller.$inject = ['Base', '$scope', 'userNameService', 'user', 'notification', '$mdDialog'];
 
     angular.module('app.utils')
         .controller('ChangeNameCtrl', controller);
