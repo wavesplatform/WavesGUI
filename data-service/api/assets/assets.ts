@@ -1,8 +1,9 @@
-import { Asset, Money, BigNumber } from '@waves/data-entities';
+import { Asset, Money } from '@waves/data-entities';
+import { BigNumber } from '@waves/bignumber';
 import { get as configGet, getDataService } from '../../config';
 import { request } from '../../utils/request';
 import { IBalanceItem, assetsApi } from './interface';
-import { WAVES_ID } from '@waves/signature-generator';
+import { WAVES_ID } from '@waves/signature-adapter';
 import { assetStorage } from '../../utils/AssetStorage';
 import { clearTransferFee, normalizeAssetId, setTransferFeeItem, toArray, toHash } from '../../utils/utils';
 import { isEmpty } from 'ts-utils';
@@ -24,22 +25,24 @@ export function get(assets: string | Array<string>): Promise<any> {
         });
 }
 
+export const wavesAsset = new Asset({
+    ticker: 'WAVES',
+    id: 'WAVES',
+    name: 'Waves',
+    precision: 8,
+    description: '',
+    height: 0,
+    hasScript: false,
+    timestamp: new Date('2016-04-11T21:00:00.000Z'),
+    minSponsoredFee: new BigNumber(0),
+    sender: '',
+    quantity: 10000000000000000,
+    reissuable: false
+});
+
 export function getAssetFromNode(assetId: string): Promise<Asset> {
     if (assetId === WAVES_ID) {
-        return Promise.resolve(new Asset({
-            ticker: 'WAVES',
-            id: 'WAVES',
-            name: 'Waves',
-            precision: 8,
-            description: '',
-            height: 0,
-            hasScript: false,
-            timestamp: new Date('2016-04-11T21:00:00.000Z'),
-            minSponsoredFee: new BigNumber(0),
-            sender: '',
-            quantity: 10000000000000000,
-            reissuable: false
-        }));
+        return Promise.resolve(wavesAsset);
     }
 
     return request<INodeAssetData>({ url: `${configGet('node')}/assets/details/${assetId}` })

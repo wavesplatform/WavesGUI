@@ -1,4 +1,4 @@
-<w-site-header class="header-new-user" sign-in-btn="$ctrl.userList.length > 0" get-started-btn="true" user-list="$ctrl.userList"></w-site-header>
+<w-site-header class="header-new-user" sign-in-btn="$ctrl.hasUsers" get-started-btn="true" user-list="$ctrl.userList"></w-site-header>
 <div w-i18n-ns="app.welcome" class="wrapper movable scrolled-view">
     <div class="white-bg"></div>
     <section class="section-welcome">
@@ -11,7 +11,7 @@
                         <span class="fake-button-content big submit" w-i18n="welcome.getStarted"></span>
                         <i class="promo-icon-min icon-arrow-right"></i>
                     </a>
-                    <a ng-if="$ctrl.userList.length" ui-sref="signIn" class="fake-button"
+                    <a ng-show="$ctrl.hasUsers" ui-sref="signIn" class="fake-button"
                         w-analytics event="'Sign In Click'" event-target="ui">
                         <span class="fake-button-content big submit-light" w-i18n="welcome.signIn"></span>
                     </a>
