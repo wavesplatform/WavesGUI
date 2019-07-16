@@ -65,7 +65,6 @@
                 $scope.MAX_USER_NAME_LENGTH = userNameService.MAX_USER_NAME_LENGTH;
                 this.userName = userNameService.name;
 
-                this.hovered = false;
                 this.address = user.address || '3PHBX4uXhCyaANUxccLHNXw3sqyksV7YnDz';
                 this.isLogined = !!user.address;
                 this.userType = user.userType;
