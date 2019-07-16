@@ -46,11 +46,12 @@
                 <div class="avatars-list">
                     <div class="avatar-wrapper"
                          ng-if="!$ctrl.loading"
-                         ng-class="{active: $ctrl.selectedUser === user, disabled: $ctrl.isUserDisable($index)}"
-                         ng-repeat="user in $ctrl.visibleUsers track by user.id"
-                         ng-click="$ctrl.selectUser(user)">
-                         <w-avatar class="avatar" address="user.address"
-                                  type="ledger"></w-avatar>
+                         ng-repeat="user in $ctrl.visibleUsers track by user.id">
+                         <w-avatar class="avatar"
+                                   address="user.address"
+                                   ng-click="$ctrl.selectUser(user)"
+                                    type="ledger"
+                                    ng-class="{active: $ctrl.selectedUser === user, disabled: $ctrl.isUserDisable($index)}"></w-avatar>
                     </div>
                 </div>
 

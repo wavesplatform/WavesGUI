@@ -13,10 +13,11 @@
 
     <div class="avatars-list flex margin-2 margin-top-2">
         <div class="avatar-wrapper"
-             ng-repeat="seed in $ctrl.seedList track by seed.address"
-             ng-class="{active: seed.active}"
-             ng-click="$ctrl.setActiveSeed(seed)">
-            <w-avatar class="avatar" address="seed.address"></w-avatar>
+             ng-repeat="seed in $ctrl.seedList track by seed.address">
+            <w-avatar class="avatar"
+                      address="seed.address"
+                      ng-click="$ctrl.setActiveSeed(seed)"
+                      ng-class="{active: seed.active}"></w-avatar>
         </div>
     </div>
 
