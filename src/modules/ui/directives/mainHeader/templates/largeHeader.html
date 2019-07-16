@@ -171,12 +171,9 @@
                                          ng-blur="$ctrl.onBlur()"
                                          ng-model="$ctrl.userName"
                                          maxlength="{{::MAX_USER_NAME_LENGTH}}"
-                                         name="userName"
-                                         w-validate
-                                         w-validator-custom="{{$ctrl.isUniqueUserName}}"></w-input>
+                                         name="userName"></w-input>
 
-<!--                                <w-input-error class="tiny" message="custom" hide-within="ERROR_DISPLAY_INTERVAL">-->
-                                <w-input-error class="tiny" message="custom" ng-if="$ctrl.isUniqueUserName"">
+                                <w-input-error class="tiny" ng-class='{hidden: $ctrl.isUniqueUserName}'>
                                     <span w-i18n="welcome.inputErrorNameExists"></span>
                                 </w-input-error>
                             </w-input-container>
