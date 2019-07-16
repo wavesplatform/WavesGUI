@@ -2,8 +2,49 @@
 @import (reference) '../../../app/less/classes';
 @import (reference) 'icons';
 
-.get-started {
-  &-btnLink { // .get-started-btnLink
+.get-started-link {
+  &__container {
+    .flex-column-center-min();
+  }
+
+  &__or {
+    text-transform: uppercase;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  
+    &::before, &::after {
+      content: '';
+      display: inline-block;
+      height: 0;
+      border-bottom: 1px solid @color-info-100;
+      width: 100%;
+    }
+  
+    &::before {
+      margin: 0 10px 0 0;
+    }
+  
+    &::after {
+      margin: 0 0 0 10px;
+    }
+
+    &-content {
+      color: @color-basic-900;
+    }
+  }
+
+  &__btns {
+    .flex-column-center-min();
+    text-align: center;
+  }
+
+  &__btn {
     width: 100%;
     background: @color-white;
     border-radius: @border-radius;
@@ -34,17 +75,17 @@
       }
     }
 
-    &-description {
-      display: none;
-      font-size: 13px;
-      color: @color-basic-500;
-    }
-
     &-icon {
       width: 24px;
       height: 24px;
       position: absolute;
       left: 20px;
+    }
+
+    &-description {
+      display: none;
+      font-size: 13px;
+      color: @color-basic-500;
     }
 
     &:hover & {
@@ -60,36 +101,8 @@
   }
 }
 
-.or {
-  text-transform: uppercase;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  white-space: nowrap;
-  margin-top: 20px;
-  margin-bottom: 20px;
-
-  &::before, &::after {
-    content: '';
-    display: inline-block;
-    height: 0;
-    border-bottom: 1px solid @color-info-100;
-    width: 100%;
-  }
-
-  &::before {
-    margin: 0 10px 0 0;
-  }
-
-  &::after {
-    margin: 0 0 0 10px;
-  }
-}
-
 @media screen and (min-width: 480px) {
-  .get-started-btnLink {
+  .get-started-link__btn {
     &-content {
       height: 52px;
     }

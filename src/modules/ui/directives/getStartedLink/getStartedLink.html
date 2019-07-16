@@ -1,30 +1,30 @@
-<div w-i18n-ns="app.create" class="flex-column-center-min">
-    <div class="or">
-        <span class="basic-900" w-i18n="noBackupNoMoney.or"></span>
+<div w-i18n-ns="app.create" class="get-started-link__container">
+    <div class="get-started-link__or">
+        <span class="get-started-link__or-content" w-i18n="noBackupNoMoney.or"></span>
     </div>
-    <div class="text-center body-2 flex-column-center-min">
+    <div class="get-started-link__btns body-2">
 
-        <a ui-sref="signIn" class="get-started-btnLink" ng-if="$ctrl.hasSignIn && !!$ctrl._userList.length">
-            <div class="get-started-btnLink-content">
-                <i class="get-started-btnLink-icon icon-dex-lock"></i>
-                <div w-i18n="createAccount.signIn" class="get-started-btnLink-title body-2"></div>
-                <div w-i18n="createAccount.signDescription" class="get-started-btnLink-description"></div>
+        <a ui-sref="signIn" class="get-started-link__btn" ng-if="$ctrl.hasSignIn && !!$ctrl._userList.length">
+            <div class="get-started-link__btn-content">
+                <i class="get-started-link__btn-icon icon-dex-lock"></i>
+                <div w-i18n="createAccount.signIn" class="get-started-link__btn-title body-2"></div>
+                <div w-i18n="createAccount.signDescription" class="get-started-link__btn-description"></div>
             </div>
         </a>
 
-        <a ui-sref="import" class="get-started-btnLink" ng-if="$ctrl.hasImport">
-            <div class="get-started-btnLink-content">
-                <i class="get-started-btnLink-icon icon-dex-paper"></i>
-                <div w-i18n="createAccount.import" class="get-started-btnLink-title body-2"></div>
-                <div w-i18n="createAccount.importDescription" class="get-started-btnLink-description"></div>
+        <a ui-sref="import" class="get-started-link__btn" ng-if="$ctrl.hasImport">
+            <div class="get-started-link__btn-content">
+                <i class="get-started-link__btn-icon icon-dex-paper"></i>
+                <div w-i18n="createAccount.import" class="get-started-link__btn-title body-2"></div>
+                <div w-i18n="createAccount.importDescription" class="get-started-link__btn-description"></div>
             </div>
         </a>
 
-        <a ui-sref="create" class="get-started-btnLink" ng-if="$ctrl.hasCreate">
-            <div class="get-started-btnLink-content">
-                <i class="get-started-btnLink-icon icon-dex-create"></i>
-                <div w-i18n="createAccount.create" class="get-started-btnLink-title body-2"></div>
-                <div w-i18n="createAccount.createDescription" class="get-started-btnLink-description"></div>
+        <a ui-sref="create" class="get-started-link__btn" ng-if="$ctrl.hasCreate">
+            <div class="get-started-link__btn-content">
+                <i class="get-started-link__btn-icon icon-dex-create"></i>
+                <div w-i18n="createAccount.create" class="get-started-link__btn-title body-2"></div>
+                <div w-i18n="createAccount.createDescription" class="get-started-link__btn-description"></div>
             </div>
         </a>
     </div>
