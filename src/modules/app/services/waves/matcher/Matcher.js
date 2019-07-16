@@ -139,7 +139,7 @@
                 return this.getMinOrderFee()
                     .then(minFee => {
                         const currentFee = currentCreateOrderFactory(config, minFee);
-                        const matcherAddress = address({ public: order.matcherPublicKey }, WavesApp.network.code);
+                        const matcherAddress = address({ publicKey: order.matcherPublicKey }, WavesApp.network.code);
 
                         return Promise.all([
                             this._scriptInfo(matcherAddress),

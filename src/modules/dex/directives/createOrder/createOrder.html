@@ -225,9 +225,9 @@
 
                     <div class="expiration">
 
-                        <div ng-if="!$ctrl.feeList.length">
-                            <span w-i18n="directives.createOrder.matcherFee"></span>
-                            {{::$ctrl.fee.toFormat()}} {{($ctrl.fee.asset.ticker || $ctrl.fee.asset.displayName)}}
+                        <div class="expiration__item" ng-if="!$ctrl.feeList.length">
+                            <span class="expiration__label" w-i18n="directives.createOrder.matcherFee"></span>
+                            <span class="expiration__value">{{::$ctrl.fee.toFormat()}} {{($ctrl.fee.asset.ticker || $ctrl.fee.asset.displayName)}}</span>
                         </div>
 
                         <div class="expiration__item expiration__item-fee" ng-if="$ctrl.feeList.length">
