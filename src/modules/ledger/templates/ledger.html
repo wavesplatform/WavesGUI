@@ -51,7 +51,7 @@
                                    address="user.address"
                                    ng-click="$ctrl.selectUser(user)"
                                     type="ledger"
-                                    ng-class="{active: $ctrl.selectedUser === user, disabled: $ctrl.isUserDisable($index)}"></w-avatar>
+                                    ng-class="{'js-active': $ctrl.selectedUser === user, avatar_disabled: $ctrl.isUserDisable($index)}"></w-avatar>
                     </div>
                 </div>
 
