@@ -38,6 +38,7 @@
         } = require('ramda');
 
         const ds = require('data-service');
+        const { BigNumber } = require('@waves/bignumber');
 
         $scope.WavesApp = WavesApp;
 
@@ -649,7 +650,9 @@
                         return pair;
                     }
 
-                    const currentVolume = pair.volume.getTokens().times(rate).dp(3, BigNumber.ROUND_HALF_UP);
+                    const currentVolume = pair.volume.getTokens()
+                        .mul(rate)
+                        .roundTo(3, BigNumber.ROUND_MODE.ROUND_HALF_UP);
 
                     return { ...pair, currentVolume };
                 };

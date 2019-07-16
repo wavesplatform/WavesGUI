@@ -17,7 +17,7 @@ import {
     IData
 } from './interface';
 import { contains } from 'ts-utils';
-import { TRANSACTION_TYPE_NUMBER } from '@waves/signature-generator';
+import { TRANSACTION_TYPE_NUMBER } from '@waves/signature-adapter';
 import { pipe, prop, uniqBy } from 'ramda';
 import { ExchangeTxFilters, Transaction } from '@waves/data-service-client-js';
 
