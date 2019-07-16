@@ -1,6 +1,13 @@
 (function () {
     'use strict';
 
+    const SELECTORS = {
+        MAIN_HEADER_USER: 'js-main-header-user',
+        MAIN_HEADER_FADER: 'js-main-header-fader',
+        TOOLTIP_RENAME: 'js-tooltip-rename',
+        HEADER: 'js-header'
+    };
+
     /**
      * @param Base
      * @param {stateManager} stateManager
@@ -53,6 +60,7 @@
 
                 $scope.ERROR_DISPLAY_INTERVAL = 3;
                 $scope.user = user;
+                $scope.SELECTORS = SELECTORS;
 
                 $scope.MAX_USER_NAME_LENGTH = userNameService.MAX_USER_NAME_LENGTH;
                 this.userName = userNameService.name;
@@ -73,11 +81,6 @@
                     this.userList = list;
                 });
 
-                $scope.$on('$includeContentLoaded', () => {
-                    this._initFader();
-                    this._initClickHandlers();
-                });
-
                 this.largeTemplate = `${PATH}/largeHeader.html`;
                 this.mobileTemplate = `${PATH}/mobileHeader.html`;
 
@@ -95,7 +98,7 @@
              * @public
              */
             hideTooltip() {
-                $element.find('.account-name-wrapper w-info-tooltip').hide();
+                $element.find(`.${SELECTORS.TOOLTIP_RENAME}`).hide();
             }
 
             /**
@@ -109,7 +112,7 @@
              * @public
              */
             showTooltip() {
-                $element.find('.account-name-wrapper w-info-tooltip').show();
+                $element.find(`.${SELECTORS.TOOLTIP_RENAME}`).show();
             }
 
             /**
@@ -123,7 +126,6 @@
 
             $onDestroy() {
                 super.$onDestroy();
-                $element.find('.main-header__mobile-fader, .main-header__mobile-toggler').off();
             }
 
             /**
@@ -136,48 +138,64 @@
             /**
              * @public
              */
-            avatarClick() {
-                $document.find('body').removeClass('menu-is-shown');
+            showAliases() {
+                this.removeBodyClass();
                 if (this.isLogined) {
                     modalManager.showAccountInfo();
                 } else {
-                    this._getDialogModal('account', () => $state.go('welcome'), () => $state.go('create'));
+                    this._getDialogModal(
+                        'account',
+                        () => $state.go('welcome'),
+                        () => $state.go('create')
+                    );
                 }
             }
 
             /**
              * @public
              */
-            changeNameClick() {
-                $document.find('body').removeClass('menu-is-shown');
+            changeName() {
+                this.removeBodyClass();
                 if (this.isLogined) {
                     modalManager.showAccountChangeName();
                 } else {
-                    this._getDialogModal('account', () => $state.go('welcome'), () => $state.go('create'));
+                    this._getDialogModal(
+                        'account',
+                        () => $state.go('welcome'),
+                        () => $state.go('create')
+                    );
                 }
             }
 
             /**
              * @public
              */
-            showAddressClick() {
-                $document.find('body').removeClass('menu-is-shown');
+            showAddress() {
+                this.removeBodyClass();
                 if (this.isLogined) {
                     modalManager.showAccountAddress();
                 } else {
-                    this._getDialogModal('account', () => $state.go('welcome'), () => $state.go('create'));
+                    this._getDialogModal(
+                        'account',
+                        () => $state.go('welcome'),
+                        () => $state.go('create')
+                    );
                 }
             }
 
             /**
              * @public
              */
-            settings() {
-                $document.find('body').removeClass('menu-is-shown');
+            showSettings() {
+                this.removeBodyClass();
                 if (this.isLogined) {
                     modalManager.showSettings();
                 } else {
-                    this._getDialogModal('settings', () => $state.go('welcome'), () => $state.go('create'));
+                    this._getDialogModal(
+                        'settings',
+                        () => $state.go('welcome'),
+                        () => $state.go('create')
+                    );
                 }
             }
 
@@ -185,7 +203,9 @@
              * public
              */
             removeInnerMenu() {
-                $document.find('w-main-header header').removeClass('show-wallet show-aliases show-downloads');
+                $document.find(`.${SELECTORS.HEADER}`).removeClass(
+                    'show-wallet show-aliases show-downloads show-address'
+                );
             }
 
             /**
@@ -196,7 +216,7 @@
             }
 
             /**
-             *
+             * public
              */
             toggleNameView() {
                 this.showInput = !this.showInput;
@@ -205,6 +225,42 @@
                         this.setUserName.userName.$$element.focus();
                     }
                 });
+            }
+
+            /**
+             * public
+             */
+            toggleDropdown() {
+                $element.find(`.${SELECTORS.MAIN_HEADER_USER}`).toggleClass('open');
+                $element.find(`.${SELECTORS.MAIN_HEADER_FADER}`).toggleClass('show-fader');
+            }
+
+            /**
+             * public
+             */
+            closeDropdown() {
+                const mainHeaderUser = $element.find(`.${SELECTORS.MAIN_HEADER_USER}`);
+                if (mainHeaderUser.hasClass('open')) {
+                    mainHeaderUser.removeClass('open');
+                    $element.find(`.${SELECTORS.MAIN_HEADER_FADER}`).removeClass('show-fader');
+                }
+            }
+
+            /**
+             * public
+             */
+            onMobileTogglerClick() {
+                this.removeInnerMenu();
+                $element.find(`.${SELECTORS.HEADER}`).toggleClass('expanded');
+                this.removeBodyClass();
+            }
+
+            /**
+             * public
+             */
+            onMobileFaderClick() {
+                $element.find(`.${SELECTORS.HEADER}`).removeClass('expanded');
+                this.removeBodyClass();
             }
 
             /**
@@ -232,32 +288,6 @@
                             click: success
                         }
                     ]
-                });
-            }
-
-            /**
-             * @private
-             */
-            _initClickHandlers() {
-                $element.find('.main-header__mobile-toggler').on('click', () => {
-                    $element.find('.main-header__header').toggleClass('expanded');
-                    $document.find('body').toggleClass('menu-is-shown');
-                });
-                $element.find('.main-header__mobile-fader').on('click', () => {
-                    $element.find('.main-header__header').removeClass('expanded');
-                    $document.find('body').removeClass('menu-is-shown');
-                });
-            }
-
-            /**
-             * @private
-             */
-            _initFader() {
-                $element.find('.dropdown-toggler').on('mouseover', () => {
-                    $element.find('.main-header__fader').addClass('show-fader');
-                });
-                $element.find('.dropdown-toggler').on('mouseleave', () => {
-                    $element.find('.main-header__fader').removeClass('show-fader');
                 });
             }
 

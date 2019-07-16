@@ -1,18 +1,22 @@
 <span class="logo logo-header" ng-if="$ctrl.isLogined"></span>
 <a class="logo logo-header" ng-if="!$ctrl.isLogined" href="/"></a>
 
-<div class="main-header__mobile-toggler" ng-click="$ctrl.removeInnerMenu()">
+<div class="main-header__mobile-toggler" ng-click="$ctrl.onMobileTogglerClick()">
     <span></span>
 </div>
 
-<div class="main-header__mobile-fader" w-toggle-class="expanded"></div>
+<div class="main-header__mobile-fader" w-toggle-class="expanded" ng-click="$ctrl.onMobileFaderClick()"></div>
 <nav class="mobile-menu">
     <div class="mobile-menu__wrapper">
         <ul class="mobile-menu__list" ng-if="!$ctrl.isLogined">
             <li class="mobile-menu__item">
-                <a ui-sref="welcome" ng-click="$ctrl.removeBodyClass()" class="mobile-menu__link mobile-menu__link_main" w-i18n="welcome.mainPage"></a></li>
+                <a ui-sref="welcome" ng-click="$ctrl.removeBodyClass()"
+                   class="mobile-menu__link mobile-menu__link_main" w-i18n="welcome.mainPage"></a>
+            </li>
             <li class="mobile-menu__item">
-                <a ui-sref="main.dex-demo" ng-click="$ctrl.removeBodyClass()" class="mobile-menu__link menu-link-exchange" w-i18n="welcome.exchange"></a></li>
+                <a ui-sref="main.dex-demo" ng-click="$ctrl.removeBodyClass()"
+                   class="mobile-menu__link menu-link-exchange" w-i18n="welcome.exchange"></a>
+            </li>
             <li class="mobile-menu__item">
                 <a href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html"
                    w-analytics event-target="'ui'"
@@ -133,25 +137,25 @@
 
             <li w-toggle-class="show-name expanded" class="mobile-menu__item">
                 <a class="mobile-menu__link mobile-menu__link_name"
-                   ng-click="$ctrl.changeNameClick()"
+                   ng-click="$ctrl.changeName()"
                    w-i18n="welcome.name"
                    href="#"></a></li>
 
             <li w-toggle-class="show-address expanded" class="mobile-menu__item">
                 <a class="mobile-menu__link mobile-menu__link_address"
-                   ng-click="$ctrl.showAddressClick()"
+                   ng-click="$ctrl.showAddress()"
                    w-i18n="welcome.address"
                    href="#"></a></li>
 
             <li w-toggle-class="show-aliases expanded" class="mobile-menu__item">
                 <a class="mobile-menu__link mobile-menu__link_aliases"
-                   ng-click="$ctrl.avatarClick()"
+                   ng-click="$ctrl.showAliases()"
                    w-i18n="welcome.aliases"
                    href="#"></a></li>
 
             <li w-toggle-class="show-aliases expanded" class="mobile-menu__item">
                 <a class="mobile-menu__link mobile-menu__link_settings"
-                   ng-click="$ctrl.settings()"
+                   ng-click="$ctrl.showSettings()"
                    w-i18n="welcome.settings"
                    href="#"></a></li>
 

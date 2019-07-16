@@ -48,6 +48,12 @@
   &__user {
     display: flex;
     height: 100%;
+
+    &.open {
+      .main-header__dropdown {
+        display: block;
+      }
+    }
   }
 
   &__fader {
@@ -89,7 +95,6 @@
       right: 0;
       left: auto;
       transform: translate(-5px, 5px);
-      width: 100%;
       min-width: 289px;
       cursor: default;
     }

@@ -1,5 +1,5 @@
-<div class="main-header__fader" ng-click="$ctrl.removeInnerMenu()"></div>
-<header w-toggle-class-container w-i18n-ns="app.welcome" class="main-header__header">
+<div class="main-header__fader {{SELECTORS.MAIN_HEADER_FADER}}" ng-click="$ctrl.removeInnerMenu()"></div>
+<header w-toggle-class-container w-i18n-ns="app.welcome" class="main-header__header {{SELECTORS.HEADER}}">
     <ng-include src="$ctrl.largeTemplate" class="main-header__wrapper main-header__wrapper_large"></ng-include>
     <ng-include src="$ctrl.mobileTemplate" class="main-header__wrapper main-header__wrapper_mobile"></ng-include>
 </header>
