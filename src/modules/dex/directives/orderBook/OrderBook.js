@@ -1,4 +1,3 @@
-/* global BigNumber, tsUtils */
 (function () {
     'use strict';
 
@@ -42,6 +41,7 @@
         };
 
         const ds = require('data-service');
+        const { BigNumber } = require('@waves/bignumber');
         const { AssetPair } = require('@waves/data-entities');
 
         class OrderBook extends Base {
@@ -364,8 +364,8 @@
                 let amountTotal = new BigNumber(0);
 
                 return list.map((item) => {
-                    total = total.plus(item.total);
-                    amountTotal = amountTotal.plus(item.amount);
+                    total = total.add(item.total);
+                    amountTotal = amountTotal.add(item.amount);
                     return {
                         type,
                         amount: new BigNumber(item.amount),
