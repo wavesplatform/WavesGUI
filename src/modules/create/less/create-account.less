@@ -15,81 +15,10 @@
     flex-direction: row;
     overflow: hidden;
     display: flex;
-
-    .avatar {
-      &__img { // .avatar__img
-        width: @createAvatarSize;
-        height: @createAvatarSize;
-        // border-radius: 50%;
-        transition: transform 0.3s, box-shadow 0.3s;
-      }
-
-      &__wrap { // .avatar__wrap
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        opacity: .7;
-        transition: opacity 0.3s;
-      }
-
-      &-wrapper { // .avatar-wrapper
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 20% !important;
-        padding: 20px 0;
-        flex-shrink: 0;
-
-        &:hover {
-          .avatar__wrap {
-            opacity: 1;
-          }
-        }
-
-        &.active {
-          .avatar {
-            &__img {
-              transform: scale(1.25);
-              box-shadow: 0 0 0 4px #fff, 0 4px 18px 0 rgba(30, 41, 73, 0.15);
-
-            }
-
-            &__wrap { // .avatar__wrap
-              cursor: default;
-              opacity: 1;
-            }
-          }
-        }
-
-        &.disabled {
-          .avatar__wrap { // .avatar__wrap
-            &,
-            &:hover {
-              opacity: .5;
-              cursor: default;
-            }
-          }
-        }
-      }
-    }
   }
 
   &-scroll {
     display: flex;
     flex-direction: column;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .avatars-list {
-    .avatar__img {
-      width: @createAvatarSizePhone;
-      height: @createAvatarSizePhone;
-    }
-
-    .avatar-wrapper {
-      padding: 10px 0;
-    }
   }
 }

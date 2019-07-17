@@ -12,12 +12,12 @@
     </div>
 
     <div class="avatars-list flex margin-2 margin-top-2">
-        <div class="avatar-wrapper"
+        <div class="avatar__wrapper"
              ng-repeat="seed in $ctrl.seedList track by seed.address">
-            <w-avatar class="avatar"
+            <w-avatar class="avatar avatar_create"
                       address="seed.address"
                       ng-click="$ctrl.setActiveSeed(seed)"
-                      ng-class="{'js-active': seed.active}"></w-avatar>
+                      ng-class="{'avatar_active': seed.active}"></w-avatar>
         </div>
     </div>
 

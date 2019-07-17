@@ -49,21 +49,6 @@ body.ledger {
     align-items: center;
   }
 
-  .avatar[type='ledger'] .avatar__wrap:not(.scripted)::after {
-    bottom: 8px;
-    left: calc(100% ~'- 23px');
-    transition: left 0.3s, bottom 0.3s;
-  }
-
-  .avatar-wrapper {
-    &.active {
-      .avatar[type='ledger'] .avatar__wrap:not(.scripted)::after {
-        bottom: 3px;
-        left: calc(100% ~'- 18px');
-      }
-    }
-  }
-
   .loader-wrapper {
     position: relative;
     top: 50%;
@@ -93,20 +78,6 @@ body.ledger {
 
         &-right {
           right: -15px;
-        }
-      }
-
-      .avatar[type='ledger'] .avatar__wrap:not(.scripted)::after {
-        bottom: 13px;
-        left: calc(100% ~'- 28px');
-      }
-
-      .avatar-wrapper {
-        &.active {
-          .avatar[type='ledger'] .avatar__wrap:not(.scripted)::after {
-            bottom: 8px;
-            left: calc(100% ~'- 23px');
-          }
         }
       }
     }
