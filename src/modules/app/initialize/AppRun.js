@@ -361,7 +361,7 @@
                     //     needShowTutorial = false;
                     // }
 
-                    if (toState.name === 'main.dex-demo') {
+                    if (toState.name === 'dex-demo') {
                         tryDesktop = Promise.resolve();
                     } else {
                         tryDesktop = this._initTryDesktop();

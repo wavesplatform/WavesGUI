@@ -572,7 +572,7 @@
     </div>
 </div>
 
-<ui-view name="main"></ui-view>
+<ui-view name="main" class="ui-view"></ui-view>
 
 <div class="notifications">
     <w-container-alert-notification type="notification"></w-container-alert-notification>
@@ -701,7 +701,7 @@
                                 views: [{
                                     name: 'mainContent',
                                     noController: true,
-                                    template: '<ui-view name="content"></ui-view>'
+                                    template: '<ui-view name="content" class="ui-view"></ui-view>'
                                 }],
                                 redirectTo: 'main.wallet.assets'
                             },

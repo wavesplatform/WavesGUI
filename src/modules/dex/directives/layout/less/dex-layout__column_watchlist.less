@@ -1,0 +1,70 @@
+@import (reference) "../../../../app/less/typography";
+@import (reference) 'config';
+@import (reference) 'icons';
+
+.dex-layout {
+  &__column_watchlist {
+    transition: .3s;
+    width: @dexLayoutWatchlist;
+    max-height: calc(100% ~'- 325px');
+    border-radius: @border-radius / 2;
+    overflow: visible;
+
+    .block-title {
+      display: none;
+    }
+
+    .dex-block-title {
+      line-height: 17px;
+      border-bottom: 1px dashed @color-submit-400;
+      cursor: pointer;
+    }
+
+    .tabs {
+      .title {
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  &_watchlist-collapsed {
+    .dex-layout {
+      &__column_watchlist {
+        transform: translateX(-100%);
+      }
+
+      &__column_candlechart {
+        transform: translateX(0);
+        width: calc(~'100%' - (@dexLayoutWatchlist + @dexLayoutGap));
+
+        .dex-layout {
+          &__sidebar-toggle-left div::after {
+            transform: rotate(-90deg);
+          }
+        }
+      }
+    }
+
+    &.dex-layout_orderbook-collapsed {
+      .dex-layout {
+        &__column_watchlist {
+          overflow: hidden;
+          margin-right: 0;
+          transform: translateX(-100%);
+        }
+
+        &__column_candlechart {
+          width: 100%;
+          flex-grow: 1;
+          transform: translate(0);
+        }
+
+        &__column_orderbook {
+          overflow: hidden;
+          margin-left: 0;
+          transform: translateX(100%);
+        }
+      }
+    }
+  }
+}

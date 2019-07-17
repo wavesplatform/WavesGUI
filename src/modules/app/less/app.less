@@ -136,14 +136,9 @@ body.portfolio {
   }
 }
 
-ui-view[name="main"] {
-  position: relative;
-  width: 100%;
-  min-height: 100%;
-  height: 100%;
-  overflow: auto;
+.ui-view {
   display: block;
-  flex-direction: column;
+  height: 100%;
 }
 
 .logo {
@@ -172,7 +167,7 @@ body.dex {
   background-repeat: no-repeat;
 }
 
-w-scroll-box {
+.scroll-box {
   display: flex;
   flex-direction: column;
   overflow: auto;
@@ -229,12 +224,6 @@ w-scroll-box {
       padding: 10px 20px;
     }
   }
-}
-
-.content ui-view[name="mainContent"],
-.content ui-view[name="mainContent"] ui-view[name="content"] {
-  display: block;
-  height: 100%;
 }
 
 .plate-note,

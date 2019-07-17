@@ -3,7 +3,7 @@
 @import (reference) 'icons';
 
 .dex-layout {
-  &__createorder {
+  &__column_createorder {
     .mask {
       background: @mask-default;
       position: absolute;
@@ -20,12 +20,14 @@
 
 w-button.inactive-order-button {
   width: 100%;
+
   & > *:not(.transparent) {
     width: 100%;
     background-color: @color-basic-50;
     border: 0 none;
     cursor: default;
     color: @color-basic-500;
+
     &:hover {
       color: @color-basic-500;
     }
@@ -368,202 +370,202 @@ w-create-order {
 }
 
 @media screen and (max-width: 1024px) {
-  w-layout {
+  .dex-layout {
     .dex-layout {
-      .dex-layout {
-        &__createorder {
-          margin-left: -5px;
-          margin-right: -5px;
-          width: calc(100% ~'+ 10px');
-          height: 80px;
-          max-height: none;
-          min-height: auto;
-          position: absolute;
-          bottom: 0;
+      &__column_createorder {
+        margin-left: -5px;
+        margin-right: -5px;
+        width: calc(100% ~'+ 10px');
+        height: 80px;
+        max-height: none;
+        min-height: auto;
+        position: absolute;
+        bottom: 0;
+        z-index: 7;
+        box-shadow: @shadow-dex-open;
+
+        .dex-layout {
+          &__block {
+            width: 100%;
+            position: absolute;
+            z-index: 8;
+            bottom: 0;
+            height: 80px;
+          }
+        }
+
+        &.expanded {
           z-index: 7;
-          box-shadow: @shadow-dex-open;
+          height: calc(100% ~'+ 10px');
+          top: -5px;
 
           .dex-layout {
             &__block {
-              width: 100%;
-              position: absolute;
-              z-index: 8;
-              bottom: 0;
-              height: 80px;
+              height: 386px;
             }
           }
 
-          &.expanded {
-            z-index: 7;
-            height: calc(100% ~'+ 10px');
-            top: -5px;
+          .mask {
+            display: block;
+          }
 
-            .dex-layout {
-              &__block {
-                height: 386px;
-              }
-            }
-
-            .mask {
+          .head {
+            .icon-close {
               display: block;
             }
+          }
 
-            .head {
-              .icon-close {
-                display: block;
+          .body {
+            .making-order {
+
+              .areas {
+                display: none;
               }
-            }
 
-            .body {
-              .making-order {
+              .choice {
+                display: flex;
+                border-bottom: 1px solid @color-disabled-100;
 
-                .areas {
-                  display: none;
+                .buy {
+                  background: @color-white;
+                  flex-basis: 50%;
+                  text-align: left;
+                  padding-left: 25px;
                 }
 
-                .choice {
-                  display: flex;
-                  border-bottom: 1px solid @color-disabled-100;
-
-                  .buy {
-                    background: @color-white;
-                    flex-basis: 50%;
-                    text-align: left;
-                    padding-left: 25px;
-                  }
-
-                  .sell {
-                    background: @color-white;
-                    flex-basis: 50%;
-                    text-align: right;
-                    padding-right: 25px;
-                  }
-
-                  .middle {
-                    position: absolute;
-                    left: 50%;
-                    top: 0;
-                    color: @color-submit-400;
-                    height: 49px;
-                    width: 80px;
-                    transform: translate(-50%, 0);
-                  }
-
+                .sell {
+                  background: @color-white;
+                  flex-basis: 50%;
+                  text-align: right;
+                  padding-right: 25px;
                 }
 
-                &.buy {
-                  .buy {
-                    background: rgba(31, 90, 245, 0.1);
-                    .price {
-                      span {
-                        color: @color-submit-400;
-                      }
-                    }
+                .middle {
+                  position: absolute;
+                  left: 50%;
+                  top: 0;
+                  color: @color-submit-400;
+                  height: 49px;
+                  width: 80px;
+                  transform: translate(-50%, 0);
+                }
 
-                    .name {
+              }
+
+              &.buy {
+                .buy {
+                  background: rgba(31, 90, 245, 0.1);
+
+                  .price {
+                    span {
                       color: @color-submit-400;
                     }
                   }
 
-                  .sell {
-                    .price {
-                      span {
-                        color: @color-basic-900;
-                      }
-                    }
-                    .name {
-                      color: @color-basic-500;
-                    }
+                  .name {
+                    color: @color-submit-400;
                   }
                 }
 
-                &.sell {
-                  .buy {
-                    .price {
-                      span {
-                        color: @color-basic-900;
-                      }
-                    }
-                    .name {
-                      color: @color-basic-500;
+                .sell {
+                  .price {
+                    span {
+                      color: @color-basic-900;
                     }
                   }
 
-                  .sell {
-                    background: rgba(239, 72, 41, 0.1);
-                    .price {
-                      span {
-                        color: @color-error-500;
-                      }
-                    }
+                  .name {
+                    color: @color-basic-500;
+                  }
+                }
+              }
 
-                    .name {
+              &.sell {
+                .buy {
+                  .price {
+                    span {
+                      color: @color-basic-900;
+                    }
+                  }
+
+                  .name {
+                    color: @color-basic-500;
+                  }
+                }
+
+                .sell {
+                  background: rgba(239, 72, 41, 0.1);
+
+                  .price {
+                    span {
                       color: @color-error-500;
                     }
                   }
 
-                  .middle {
+                  .name {
                     color: @color-error-500;
                   }
                 }
 
-              }
-            }
-          }
-
-          w-create-order {
-            .create-order {
-
-              .body {
-                .making-order {
-                  .create-order-notification {
-                    z-index: 1;
-                  }
-                  .choice {
-                    display: flex;
-
-                    .price {
-                      span {
-                        color: @white-only;
-                      }
-                    }
-                  }
-
-                  .areas {
-                    display: none;
-                  }
+                .middle {
+                  color: @color-error-500;
                 }
-              }
-
-              .expandable {
-                display: block;
-              }
-
-              .head {
-                display: flex;
               }
 
             }
           }
         }
+
+        w-create-order {
+          .create-order {
+
+            .body {
+              .making-order {
+                .create-order-notification {
+                  z-index: 1;
+                }
+
+                .choice {
+                  display: flex;
+
+                  .price {
+                    span {
+                      color: @white-only;
+                    }
+                  }
+                }
+
+                .areas {
+                  display: none;
+                }
+              }
+            }
+
+            .expandable {
+              display: block;
+            }
+
+            .head {
+              display: flex;
+            }
+
+          }
+        }
       }
     }
   }
-
 }
 
 @media screen and (max-width: 659px) {
-  w-layout {
+  .dex-layout {
     .dex-layout {
-      .dex-layout {
-        &__createorder {
-          position: fixed;
-          box-shadow: @shadow-create-order;
+      &__column_createorder {
+        position: fixed;
+        box-shadow: @shadow-create-order;
 
-          &.expanded {
-            bottom: 0;
-            top: auto;
-          }
+        &.expanded {
+          bottom: 0;
+          top: auto;
         }
       }
     }

@@ -83,8 +83,8 @@
                 const base = 'dex-layout';
 
                 this._node.get(0).className = 'dex-layout';
-                this._node.toggleClass(`${base}__watchlist-collapsed`, watchlistCollapsed);
-                this._node.toggleClass(`${base}__orderbook-collapsed`, orderbookCollapsed);
+                this._node.toggleClass(`${base}_watchlist-collapsed`, watchlistCollapsed);
+                this._node.toggleClass(`${base}_orderbook-collapsed`, orderbookCollapsed);
                 this._dom.watchlist.$slider.toggleClass(`${base}__sidebar-toggle-open`, !watchlistCollapsed);
                 this._dom.orderbook.$slider.toggleClass(`${base}__sidebar-toggle-open`, !orderbookCollapsed);
 
@@ -120,7 +120,7 @@
             }
 
             collapseBlock(block, collapsed) {
-                this._node.toggleClass(`dex-layout__block-${block}-collapsed`, collapsed);
+                this._node.toggleClass(`dex-layout_${block}-collapsed`, collapsed);
             }
 
             toggleColumn(column) {
@@ -153,8 +153,8 @@
                         this._dom.orderbook.$slider.toggleClass(`${base}__sidebar-toggle-open`, !orderbook);
 
                         const endCollapseAnimations = utils.whenAll([
-                            utils.animateByClass(this._node, `${base}__watchlist-collapsed`, watchlist, 'transform'),
-                            utils.animateByClass(this._node, `${base}__orderbook-collapsed`, orderbook, 'transform')
+                            utils.animateByClass(this._node, `${base}_watchlist-collapsed`, watchlist, 'transform'),
+                            utils.animateByClass(this._node, `${base}_orderbook-collapsed`, orderbook, 'transform')
                         ]);
 
                         const notWorking = new Promise((resolve, reject) => {
