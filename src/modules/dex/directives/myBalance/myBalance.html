@@ -25,9 +25,9 @@
             </w-table-cell>
             <w-table-cell>
                 <span class="cell-label"><span w-i18n="directives.balance.assetId"></span></span>
-                <w-copy-wrap info="::balance.asset.id">
-                <span class="underline">
-                    <a ng-click="$ctrl.showAssetInfo(balance.asset)" href="#">{{::balance.asset.id}}</a>
+                <w-copy-wrap class="copy-wrap copy-wrap_balance" info="::balance.asset.id">
+                <span class="copy-wrap__content">
+                    <a class="copy-wrap__link" ng-click="$ctrl.showAssetInfo(balance.asset)" href="#">{{::balance.asset.id}}</a>
                 </span>
                 </w-copy-wrap>
             </w-table-cell>

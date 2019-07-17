@@ -6,14 +6,6 @@ md-dialog.account-info {
       margin-right: 10px;
     }
 
-    w-copy-wrap {
-      .container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-      }
-    }
-
     w-input-error {
       margin-bottom: 40px;
       &::before {
@@ -72,22 +64,6 @@ md-dialog.account-info {
 
     .row {
       margin-top: 20px;
-
-      w-copy-wrap {
-        border-bottom: none;
-        border-radius: 0;
-
-        &:first-child {
-          border-top-left-radius: @border-radius;
-          border-top-right-radius: @border-radius;
-        }
-
-        &:last-child {
-          border-bottom-left-radius: @border-radius;
-          border-bottom-right-radius: @border-radius;
-          border-bottom: 1px solid @color-basic-200;
-        }
-      }
 
       .message-warning {
         border: 1px dashed @color-warning-400;

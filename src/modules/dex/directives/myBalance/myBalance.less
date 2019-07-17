@@ -40,52 +40,16 @@ body.dex-demo .dex-wrapper {
         display: none;
       }
 
-      w-copy-wrap {
-        border: 0 none;
-        border-radius: 0;
-        height: 18px;
-        background-color: transparent;
-        width: 100%;
+      @media screen and (min-width: 1025px) and (max-width: 1550px) {
+        max-width: 250px;
+      }
 
-        .container {
-          padding: 0;
-          cursor: pointer;
-          font-size: @font-size-caption-2;
-          line-height: inherit;
-          display: inline-block;
-          width: auto;
-          text-overflow: ellipsis;
-          overflow: hidden;
+      @media screen and (max-width: 400px) {
+        max-width: 300px;
+      }
 
-          @media screen and (min-width: 1025px) and (max-width: 1550px) {
-            max-width: 250px;
-          }
-
-          @media screen and (max-width: 400px) {
-            max-width: 300px;
-          }
-
-          @media screen and (min-width: 660px) and (max-width: 820px) {
-            max-width: 220px;
-          }
-
-          span {
-            text-overflow: ellipsis;
-            overflow: hidden;
-            max-width: 300px;
-            display: block;
-            width: 100%;
-          }
-        }
-
-        .copy-icon {
-          border-left: 0 none;
-          flex-basis: 24px;
-          position: relative;
-          height: 18px;
-          margin-top: -4px;
-          background: @dex-copybalance-icon no-repeat right center;
-        }
+      @media screen and (min-width: 660px) and (max-width: 820px) {
+        max-width: 220px;
       }
 
       .search-input {
@@ -110,7 +74,7 @@ body.dex-demo .dex-wrapper {
   body.dex-demo {
     .dex-wrapper {
       .tradehistory-fullscreen {
-        w-dex-my-balance .smart-table w-copy-wrap .container {
+        w-dex-my-balance .smart-table .copy-wrap .copy-wrap__container {
           max-width: 300px;
           width: 300px;
         }
@@ -228,10 +192,6 @@ body.dex-demo .dex-wrapper {
           w-balance {
             min-width: 74px;
           }
-        }
-
-        w-copy-wrap .copy-icon {
-          margin-top: 0;
         }
       }
     }

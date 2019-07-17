@@ -1,0 +1,53 @@
+@import (reference) url('config');
+@import (reference) 'icons';
+@import (reference) '../../../../app/less/typography';
+
+.copy-wrap_balance {
+  border: 0 none;
+  border-radius: 0;
+  height: 18px;
+  background-color: transparent;
+  width: 100%;
+
+  .copy-wrap {
+    &__container {
+      padding: 0;
+      cursor: pointer;
+      font-size: @font-size-caption-2;
+      line-height: inherit;
+      display: inline-block;
+      width: auto;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    &__icon {
+      border-left: 0 none;
+      flex-basis: 24px;
+      position: relative;
+      height: 18px;
+      margin-top: -4px;
+      background: @dex-copybalance-icon no-repeat right center;
+    }
+
+    &__content {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      max-width: 300px;
+      display: block;
+      width: 100%;
+    }
+
+    &__link {
+      color: @color-disabled-900;
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .copy-wrap_balance {
+    .copy-wrap__icon {
+      margin-top: 0;
+    }
+  }
+}
