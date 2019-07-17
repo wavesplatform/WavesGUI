@@ -224,6 +224,13 @@
             /**
              * public
              */
+            toggleBodyClass() {
+                $document.find('body').toggleClass('menu-is-shown');
+            }
+
+            /**
+             * public
+             */
             toggleNameView() {
                 this.showInput = !this.showInput;
                 utils.postDigest($scope).then(() => {
@@ -258,7 +265,7 @@
             onMobileTogglerClick() {
                 this.removeInnerMenu();
                 $element.find(`.${SELECTORS.HEADER}`).toggleClass('expanded');
-                this.removeBodyClass();
+                this.toggleBodyClass();
             }
 
             /**
