@@ -12,12 +12,11 @@
      */
     const controller = function (Base, $scope, modalManager, waves, balanceWatcher, user, utils) {
 
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
-        const { WAVES_ID } = require('@waves/signature-generator');
+        const { SIGN_TYPE, WAVES_ID } = require('@waves/signature-adapter');
+        const { BigNumber } = require('@waves/bignumber');
         const ds = require('data-service');
         const $ = require('jquery');
         const BASE_64_PREFIX = 'base64:';
-
 
         class TokensCtrl extends Base {
 
@@ -98,6 +97,10 @@
              * @private
              */
             _balance;
+            /**
+             * @type {boolean}
+             */
+            isNFT = false;
 
 
             constructor() {
@@ -114,16 +117,18 @@
                     'precision',
                     'description',
                     'issue',
-                    'hasAssetScript'
+                    'hasAssetScript',
+                    'fee'
                 ], this.createSignable);
 
-                waves.node.getFee({ type: SIGN_TYPE.ISSUE })
-                    .then(money => {
-                        this.fee = money;
+                this.observe([
+                    'count',
+                    'precision',
+                    'issue'
+                ], this._setIsNFT);
 
-                        this._onChangeBalance();
-                        $scope.$apply();
-                    });
+                this._getFee();
+                this.observe('isNFT', this._getFee);
 
                 this.observeOnce('createForm', () => {
                     this.receive(utils.observe(this.createForm, '$valid'), this.createSignable, this);
@@ -151,7 +156,7 @@
                 }
 
                 const precision = Number(this.precision.toString());
-                const quantity = (this.count || new BigNumber(0)).times(Math.pow(10, precision));
+                const quantity = (this.count || new BigNumber(0)).mul(Math.pow(10, precision));
                 const script = this.hasAssetScript && this.script ? `${BASE_64_PREFIX}${this.script}` : '';
 
                 const tx = waves.node.transactions.createTransaction({
@@ -252,6 +257,33 @@
                 this.createForm.$setUntouched();
 
                 $scope.$apply();
+            }
+
+            /**
+             * @private
+             */
+            _setIsNFT() {
+                const { count, precision, issue } = this;
+                const nftCount = count && count.eq(1);
+                const nftPrecision = precision === 0;
+                this.isNFT = !issue && nftCount && nftPrecision;
+            }
+
+            /**
+             * @private
+             */
+            _getFee() {
+                waves.node.getFee({
+                    type: SIGN_TYPE.ISSUE,
+                    reissue: this.issue,
+                    precision: this.precision,
+                    quantity: this.count
+                })
+                    .then(money => {
+                        this.fee = money;
+                        this._onChangeBalance();
+                        $scope.$apply();
+                    });
             }
 
         }

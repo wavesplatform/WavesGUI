@@ -14,8 +14,10 @@
         const ds = require('data-service');
         const { Money } = require('@waves/data-entities');
         const { currentFeeFactory, SIGN_TYPE } = require('@waves/signature-adapter');
-        const generator = require('@waves/signature-generator');
+        const { libs } = require('@waves/waves-transactions');
+        const { address } = libs.crypto;
         const { path } = require('ramda');
+        const { BigNumber } = require('@waves/bignumber');
 
         const MULTY_FEE_TRANSACTIONS = {
             [SIGN_TYPE.TRANSFER]: true
@@ -54,14 +56,14 @@
                             ds.api.assets.get('WAVES'),
                             this._isSmartAccount(tx)
                         ]).then(([smartAssetsIdList, bytes, wavesAsset, hasScript]) => {
-                            const bigNumberFee = currentFee(bytes, hasScript, smartAssetsIdList);
+                            const bigNumberFee = currentFee(tx, bytes, hasScript, smartAssetsIdList);
                             const count = bigNumberFee
                                 .div(feeConfig.calculate_fee_rules.default.fee)
-                                .dp(0, BigNumber.ROUND_UP);
+                                .roundTo(0, BigNumber.ROUND_MODE.ROUND_UP);
 
                             const fee = new Money(bigNumberFee, wavesAsset);
                             const feeList = ds.utils.getTransferFeeList()
-                                .map(money => money.cloneWithTokens(money.getTokens().times(count)));
+                                .map(money => money.cloneWithTokens(money.getTokens().mul(count)));
 
                             return MULTY_FEE_TRANSACTIONS[tx.type] ? [fee, ...feeList] : [fee];
                         });
@@ -109,17 +111,16 @@
                     return Promise.resolve(user.hasScript());
                 }
 
-                const address = generator.utils.crypto.buildRawAddress(generator.libs.base58.decode(publicKey));
+                const wavesAddress = address({ publicKey }, WavesApp.network.code);
 
-                return ds.api.address.getScriptInfo(address)
+                return ds.api.address.getScriptInfo(wavesAddress)
                     .then(data => data.extraFee.getTokens().gt(0));
             }
 
             /**
              * Method for create transaction event for event manager
              * @param {Money[]} moneyList
-             * @protected
-             */
+             * @protected             */
             _pipeTransaction(moneyList) {
                 return (transaction) => {
                     eventManager.addTx(transaction, moneyList);
@@ -208,9 +209,10 @@
                     type: tx.type,
                     name: tx.name || 'name',
                     description: tx.description || 'description',
-                    reissuable: tx.reissue || true,
+                    reissuable: tx.reissue == null ? true : tx.reissue,
                     quantity: tx.quantity || new BigNumber(1),
                     precision: tx.precision || 0,
+                    decimals: tx.precision || 0,
                     script: tx.script || '',
                     fee: tx.fee || new Money(1, asset)
                 }));
@@ -311,7 +313,7 @@
                 const transfers = tx.transfers && tx.transfers.length ? tx.transfers : null;
 
                 const totalAmount = transfers && transfers.reduce((acc, item) => {
-                    return acc.plus(item.amount);
+                    return acc.add(item.amount);
                 }, tx.transfers[0].amount.cloneWithTokens(0)) || null;
 
                 return ds.api.assets.get('WAVES').then(asset => ({

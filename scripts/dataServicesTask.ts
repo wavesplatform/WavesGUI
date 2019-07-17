@@ -1,18 +1,14 @@
 import { TaskFunction } from 'gulp';
 import { createSpawn } from './utils';
-import { normalize } from 'path';
 
 export function createDataServicesTask(): TaskFunction {
     return async function dataServicesTask() {
-
-        await createSpawn('sh', [
-            normalize('./node_modules/.bin/tsc'),
-            '-p', normalize('./data-service')
+        await createSpawn('./node_modules/.bin/tsc', [
+            '-p', './data-service'
         ]);
 
-        await createSpawn('sh', [
-            normalize('./node_modules/.bin/browserify'),
-            normalize('data-service/index.js'),
+        await createSpawn('./node_modules/.bin/browserify', [
+            'data-service/index.js',
             '-s', 'ds',
             '-u', 'ts-utils',
             '-u', 'ramda',
@@ -20,16 +16,17 @@ export function createDataServicesTask(): TaskFunction {
             '-u', '@waves/data-entities',
             '-u', '@waves/signature-generator',
             '-u', '@waves/signature-adapter',
+            '-u', '@waves/waves-transactions',
+            '-u', '@waves/bignumber',
             '--no-bf',
-            '-o', normalize('./data-service-dist/data-service-es6.js')
+            '-o', './data-service-dist/data-service-es6.js'
         ]);
 
-        await createSpawn('sh', [
-            normalize('./node_modules/.bin/babel'),
-            normalize('./data-service-dist/data-service-es6.js'),
+        await createSpawn('./node_modules/.bin/babel', [
+            './data-service-dist/data-service-es6.js',
             '--presets=es2015',
             '--plugins=transform-decorators-legacy,transform-class-properties,transform-object-rest-spread',
-            '-o', normalize('./data-service-dist/data-service.js')
+            '-o', './data-service-dist/data-service.js'
         ]);
-    };
+    }
 }
