@@ -6,12 +6,6 @@
     const USERS_COUNT = 5;
     const PRELOAD_USERS_COUNT = 5;
 
-    const priorityMap = {
-        seed: 0,
-        wavesKeeper: 1,
-        ledger: 2
-    };
-
     /**
      * @param Base
      * @param $scope
@@ -109,6 +103,11 @@
                  * @type {object | null}
                  */
                 this.userExisted = Object.create(null);
+                /**
+                 * @type {object}
+                 * @private
+                 */
+                this._priorityMap = utils.getImportPriorityMap();
 
                 user.getFilteredUserList().then(users => {
                     this._usersInStorage = users;
@@ -294,7 +293,7 @@
                     null;
                 this.isPriorityUserTypeExists =
                     !!this.userExisted &&
-                    priorityMap[this._type] <= priorityMap[this.userExisted.userType];
+                    this._priorityMap[this._type] <= this._priorityMap[this.userExisted.userType];
             }
 
             /**

@@ -35,7 +35,7 @@
   }
 
   &__text {
-    cursor: pointer;
+    cursor: text;
     position: relative;
     .headline-3;
     text-overflow: ellipsis;
@@ -65,5 +65,13 @@
 
   &__input {
     width: 100%;
+
+    .w-input-wrap.focused {
+      &.invalid {
+        input {
+          border-color: @color-error-200;
+        }
+      }
+    }
   }
 }

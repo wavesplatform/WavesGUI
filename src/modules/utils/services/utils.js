@@ -175,6 +175,11 @@
             converter: el => el
         }
     };
+    const IMPORT_PRIORITY_MAP = {
+        seed: 0,
+        wavesKeeper: 1,
+        ledger: 2
+    };
 
     class BigNumberPart extends tsApiValidator.BasePart {
 
@@ -230,6 +235,12 @@
                     .map(char => char.charCodeAt(0))
                     .reduce((acc, code) => acc + code, 0);
                 return GOOD_COLORS_LIST[sum % GOOD_COLORS_LIST.length];
+            },
+            /**
+             * @return {{ledger: number, seed: number, wavesKeeper: number}}
+             */
+            getImportPriorityMap() {
+                return IMPORT_PRIORITY_MAP;
             },
             /**
              * @name app.utils#base58ToBytes

@@ -67,6 +67,8 @@
 
                 if (isNameValid) {
                     user.name = this.name;
+                } else {
+                    this.name = user.name;
                 }
             }
 

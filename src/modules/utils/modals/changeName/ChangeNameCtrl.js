@@ -28,19 +28,27 @@
             constructor() {
                 super($scope);
 
-                $scope.ERROR_DISPLAY_INTERVAL = 3;
                 $scope.user = user;
-
                 $scope.MAX_USER_NAME_LENGTH = userNameService.MAX_USER_NAME_LENGTH;
+
                 this.userName = userNameService.name;
+
+                this.observe('userName', () => {
+                    userNameService.setName(this.userName);
+                    this.isUniqueUserName = userNameService.isUniqueName();
+                });
+
+                this.observe('isUniqueUserName', () => {
+                    if (this.setUserName) {
+                        this.setUserName.userName.$setValidity('user-name-unique', this.isUniqueUserName);
+                    }
+                });
             }
 
             /**
              * @public
              */
             saveUserName() {
-                userNameService.setName(this.userName);
-                this.isUniqueUserName = userNameService.isUniqueName();
                 if (this.isUniqueUserName) {
                     userNameService.save();
                     notification.info({

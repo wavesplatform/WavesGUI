@@ -156,7 +156,6 @@
                 <div class="user-account__name">
 
                     <div class="user-account__block" ng-show="!$ctrl.showInput" ng-click="$ctrl.toggleNameView()">
-<!--                        <div class="user-account__text">{{$ctrl.userName}}</div>-->
                         <div class="user-account__text">{{user.name}}</div>
                         <w-info-tooltip class="{{SELECTORS.TOOLTIP_RENAME}}" no-icon="true">
                             <span class="tooltip__content" w-i18n="welcome.renameAccount"></span>
@@ -171,7 +170,8 @@
                                          ng-blur="$ctrl.onBlur()"
                                          ng-model="$ctrl.userName"
                                          maxlength="{{::MAX_USER_NAME_LENGTH}}"
-                                         name="userName"></w-input>
+                                         name="userName"
+                                         autocomplete="off"></w-input>
 
                                 <w-input-error class="tiny" ng-class='{hidden: $ctrl.isUniqueUserName}'>
                                     <span w-i18n="welcome.inputErrorNameExists"></span>
@@ -183,8 +183,8 @@
                 </div>
 
                 <div class="user-account__address">
-                    <w-copy-wrap-default class="copy-underline basic-500 caption-4"
-                                         info="$ctrl.address">{{$ctrl.address}}
+                    <w-copy-wrap-default class="copy-underline basic-500 caption-4" info="$ctrl.address">
+                        {{$ctrl.address}}
                     </w-copy-wrap-default>
 
                     <w-info-tooltip no-icon="true">

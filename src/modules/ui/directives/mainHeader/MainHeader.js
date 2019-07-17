@@ -91,6 +91,13 @@
                 this.receive(utils.observe(userNameService, 'name'), function () {
                     this.userName = userNameService.name;
                 }, this);
+
+                this.observe('isUniqueUserName', () => {
+                    if (this.setUserName) {
+                        this.setUserName.userName.$setValidity('user-name-unique', this.isUniqueUserName);
+                    }
+                });
+
             }
 
             /**
@@ -121,12 +128,6 @@
                 this._saveUserName();
                 this.showTooltip();
                 this.toggleNameView();
-
-                // if (this.setUserName.userName.$valid) {
-                //     this.showTooltip();
-                //     this.toggleNameView();
-                // }
-
             }
 
             $onDestroy() {

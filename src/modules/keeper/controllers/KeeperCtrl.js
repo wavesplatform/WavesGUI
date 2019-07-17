@@ -1,12 +1,6 @@
 (function () {
     'use strict';
 
-    const priorityMap = {
-        seed: 0,
-        wavesKeeper: 1,
-        ledger: 2
-    };
-
     /**
      * @param Base
      * @param $scope
@@ -90,6 +84,11 @@
              * @private
              */
             _type = 'wavesKeeper';
+            /**
+             * @type {object}
+             * @private
+             */
+            _priorityMap = utils.getImportPriorityMap();
 
             constructor() {
                 super($scope);
@@ -210,7 +209,7 @@
                     null;
                 this.isPriorityUserTypeExists =
                     !!this.userExisted &&
-                    priorityMap[this._type] <= priorityMap[this.userExisted.userType];
+                    this._priorityMap[this._type] <= this._priorityMap[this.userExisted.userType];
             }
 
             /**
