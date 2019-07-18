@@ -1,0 +1,49 @@
+@import (reference) 'config';
+
+.checkbox-switcher {
+  display: none;
+
+  & + .checkbox-switcher__label {
+    width: 40px;
+    height: 20px;
+    border: 1px solid @color-basic-200;
+    background: @color-basic-200;
+    border-radius: 10px;
+    display: block;
+    position: relative;
+    transition: .3s;
+    cursor: pointer;
+
+    &:hover {
+      border: 1px solid @input-toggle-bg-hover;
+      background: @input-toggle-bg-hover;
+    }
+
+    &::before {
+      transition: .3s;
+      background: @color-white;
+      width: 18px;
+      height: 18px;
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: 50%;
+      display: block;
+    }
+  }
+}
+
+.checkbox-switcher_active + .checkbox-switcher__label {
+  border: 1px solid @color-submit-400;
+  background: @color-submit-400;
+
+  &:hover {
+    border: 1px solid @color-submit-400;
+    background: @color-submit-400;
+  }
+
+  &::before {
+    transform: translateX(20px);
+  }
+}

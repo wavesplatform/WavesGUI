@@ -10,18 +10,18 @@
                 <hr class="hr">
 
                 <div class="row">
-                    <w-checkbox-submit id="securityAndBackup" ng-model="$ctrl.securityAndBackup"></w-checkbox-submit>
-                    <label for="securityAndBackup" w-i18n="modal.termsAccept.body.securityAndBackup"></label>
+                    <w-checkbox-submit class="checkbox-submit" id="securityAndBackup" ng-model="$ctrl.securityAndBackup"></w-checkbox-submit>
+                    <label class="checkbox-submit__label" for="securityAndBackup" w-i18n="modal.termsAccept.body.securityAndBackup"></label>
                 </div>
 
                 <div class="row">
-                    <w-checkbox-submit id="readTermsAndConditions" ng-model="$ctrl.readTermsAndConditions"></w-checkbox-submit>
-                    <label for="readTermsAndConditions" w-i18n="modal.termsAccept.body.readTermsAndConditions"></label>
+                    <w-checkbox-submit class="checkbox-submit" id="readTermsAndConditions" ng-model="$ctrl.readTermsAndConditions"></w-checkbox-submit>
+                    <label class="checkbox-submit__label" for="readTermsAndConditions" w-i18n="modal.termsAccept.body.readTermsAndConditions"></label>
                 </div>
 
                 <div class="row">
-                    <w-checkbox-submit id="privacyPolicy" ng-model="$ctrl.privacyPolicy"></w-checkbox-submit>
-                    <label for="privacyPolicy" w-i18n="modal.termsAccept.body.privacyPolicy"></label>
+                    <w-checkbox-submit class="checkbox-submit" id="privacyPolicy" ng-model="$ctrl.privacyPolicy"></w-checkbox-submit>
+                    <label class="checkbox-submit__label" for="privacyPolicy" w-i18n="modal.termsAccept.body.privacyPolicy"></label>
                 </div>
 
                 <w-button class="submit long big" on-click="$ctrl.confirm()"

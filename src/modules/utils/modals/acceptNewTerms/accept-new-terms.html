@@ -6,18 +6,20 @@
                     <i class="icon-document margin-3 margin-top-6 margin-auto"></i>
                     <h3 class="center margin-2 basic-700" w-i18n="modal.acceptNewTerms.title"></h3>
 
-                    <div class="basic-500 body-2 unit-checkbox margin-3">
-                        <w-checkbox-submit id="readTermsAndConditions"
+                    <div class="basic-500 body-2 checkbox-submit__wrap margin-3">
+                        <w-checkbox-submit class="checkbox-submit" id="readTermsAndConditions"
                                            ng-model="$ctrl.readTermsAndConditions"></w-checkbox-submit>
-                        <label for="readTermsAndConditions"
-                               w-i18n="modal.termsAccept.body.readTermsAndConditions"></label>
+                        <label  class="checkbox-submit__label"
+                                for="readTermsAndConditions"
+                                w-i18n="modal.termsAccept.body.readTermsAndConditions"></label>
                     </div>
 
-                    <div class="basic-500 body-2 unit-checkbox margin-3">
-                        <w-checkbox-submit id="privacyPolicy"
+                    <div class="basic-500 body-2 checkbox-submit__wrap margin-3">
+                        <w-checkbox-submit class="checkbox-submit" id="privacyPolicy"
                                            ng-model="$ctrl.privacyPolicy"></w-checkbox-submit>
-                        <label for="privacyPolicy"
-                               w-i18n="modal.termsAccept.body.privacyPolicy"></label>
+                        <label  class="checkbox-submit__label"
+                                for="privacyPolicy"
+                                w-i18n="modal.termsAccept.body.privacyPolicy"></label>
                     </div>
 
                     <w-button class="submit long big"

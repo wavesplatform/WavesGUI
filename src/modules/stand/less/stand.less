@@ -35,8 +35,11 @@ html body.stand {
     margin-right: 10px;
   }
 
-  w-checkbox-submit {
+  .checkbox-submit {
     margin-right: @padding-main-layout;
+    &__wrap {
+      width: 300px !important;
+    }
   }
 
   w-error-block {
@@ -75,8 +78,9 @@ html body.stand {
     }
   }
 
-  .unit-checkbox {
-    width: 300px !important;
+  .input-toggle {
+    display: flex;
+    align-items: center;
   }
 
   .qr-wrapper,

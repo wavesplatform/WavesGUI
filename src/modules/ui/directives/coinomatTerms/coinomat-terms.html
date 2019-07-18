@@ -4,13 +4,13 @@
         <div class="footnote-1" w-i18n="modal.receive.providedByCoinomat.descriprion"></div>
     </div>
 
-    <div ng-if="$ctrl.canShowCheckBox" class="unit-checkbox margin-1 basic-700">
+    <div ng-if="$ctrl.canShowCheckBox" class="checkbox-submit__wrap margin-1 basic-700">
 
-        <w-checkbox-submit id="coinomat-terms-accept"
+        <w-checkbox-submit class="checkbox-submit" id="coinomat-terms-accept"
                            ng-model="$ctrl.userModelTerms"
                            disabled="$ctrl.signPending"></w-checkbox-submit>
 
-        <label for="coinomat-terms-accept" class="footnote-1">
+        <label for="coinomat-terms-accept" class="checkbox-submit__label footnote-1">
             <span w-i18n="modal.receive.providedByCoinomat.termsReadedInputLabel"></span>
         </label>
 
