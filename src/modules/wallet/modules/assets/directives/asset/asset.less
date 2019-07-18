@@ -232,15 +232,12 @@ w-asset {
 }
 
 .tooltip.unpin-tooltip {
-  display: none;
-  position: absolute;
   top: 5px;
-  background: @color-basic-700;
   right: -12px;
+  left: auto;
   transform: translate(0, -40px);
   color: @color-white;
   padding: 10px 15px;
-  border-radius: 4px;
   font-family: @font-roboto-regular;
   font-size: 11px;
   line-height: 12px;
@@ -252,14 +249,7 @@ w-asset {
   }
 
   &::before {
-    content: '';
     display: block;
-    width: 10px;
-    height: 10px;
-    position: absolute;
-    transform: rotate(45deg);
-    bottom: -4px;
     left: calc(100% ~'- 26px');
-    background: @color-basic-700;
   }
 }

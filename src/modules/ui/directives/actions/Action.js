@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('app.ui').component('wAction', {
+    angular.module('app.ui').component('wActionItem', {
         require: {
             parent: '^wActions'
         },

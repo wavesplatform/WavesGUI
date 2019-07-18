@@ -15,6 +15,7 @@
     const controller = function (Base, readFile, $scope, utils, validateService, waves, user, decorators) {
 
         const Papa = require('papaparse');
+        const { BigNumber } = require('@waves/bignumber');
         const analytics = require('@waves/event-sender');
 
         class MassSend extends Base {
@@ -272,7 +273,7 @@
                                 return new BigNumber(0);
                             }
                         })
-                        .reduce((result, item) => result.plus(item));
+                        .reduce((result, item) => result.add(item));
                     const amount = this.state.moneyHash[this.state.assetId].cloneWithTokens(amountNum);
                     transfers.push({ recipient, amount });
                 });

@@ -2,19 +2,20 @@ import { spawn } from 'child_process';
 
 export function createSpawn(command: string, args?: string[]): Promise<string> {
     return new Promise((resolve, reject) => {
-        const sp = spawn(command, args);
+        const sp = process.platform === 'win32'
+            ? spawn('sh', [command, ...args], {
+                stdio: [null, process.stdout, process.stderr]
+            })
+            : spawn(command, args, {
+                stdio: [null, process.stdout, process.stderr]
+            });
 
-        sp.stdout.pipe(process.stdout);
-        sp.stderr.pipe(process.stderr);
-
-        sp.on('error', reject);
-
-        sp.on('exit', (code, signal) => {
+        sp.on('close', (code) => {
             if (code === 0) {
-                resolve(signal);
+                resolve();
             } else {
-                reject(signal);
+                reject();
             }
-        })
+        });
     });
 }
