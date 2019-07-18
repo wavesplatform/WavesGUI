@@ -27,8 +27,8 @@
 
             /**
              * @param {JQuery} $element
-             * @param {ChartFactory.IOptions} [options]
-             * @param {Array<Array<object>>>} [data]
+             * @param {ChartFactory.IOptions} options
+             * @param {Object<string, array>} data
              */
             constructor($element, options, data) {
                 super();
@@ -94,7 +94,7 @@
             }
 
             /**
-             * @param {Array<Array<object>>} data
+             * @param {Object<string, array>} data
              */
             setData(data) {
                 this.data = data;

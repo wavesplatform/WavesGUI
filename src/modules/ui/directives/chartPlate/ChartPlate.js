@@ -22,6 +22,7 @@
             data;
 
             $postLink() {
+                console.warn('w-chart-plate')
                 this.plate = $element.find(SELECTORS.plate);
                 this.marker = $element.find(SELECTORS.marker);
                 this.observe('data', this._onMove);
@@ -86,7 +87,7 @@
         bindings: {
             data: '<'
         },
-        templateUrl: 'modules/wallet/modules/assets/directives/chartPlate/chartPlate.html',
+        templateUrl: 'modules/ui/directives/chartPlate/chartPlate.html',
         controller
     });
 })();
