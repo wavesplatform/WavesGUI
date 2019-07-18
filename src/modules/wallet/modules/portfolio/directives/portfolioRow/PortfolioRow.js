@@ -157,13 +157,13 @@
                 this.chartOptions = {
                     axisX: 'timestamp',
                     axisY: 'rate',
-                    view: [
-                        {
+                    view: {
+                        rate: {
                             lineColor: 'rgba(90, 129, 234)',
                             fillColor: 'rgba(90, 129, 234, .3)',
                             lineWidth: 1
                         }
-                    ]
+                    }
                 };
             }
 
@@ -353,10 +353,13 @@
 
                 const startDate = this.utils.moment().add().day(-7);
                 this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then(values => {
+                    const chartData = {
+                        rate: values.map(item => ({ ...item, rate: Number(item.rate.toFixed()) }))
+                    };
                     this.chart = new this.ChartFactory(
                         this.$node.find(`.${SELECTORS.CHART_CONTAINER}`),
                         this.chartOptions,
-                        [values.map(item => ({ ...item, rate: Number(item.rate.toFixed()) }))]
+                        chartData
                     );
                 }).catch(() => null);
 

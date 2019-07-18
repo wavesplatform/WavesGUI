@@ -18,18 +18,20 @@
             constructor() {
                 super();
 
+                /**
+                 * @type {TChartOptions}
+                 * */
                 this.options = {
                     axisX: 'timestamp',
                     axisY: 'rate',
                     checkWidth: true,
-                    view: [
-                        {
+                    view: {
+                        rate: {
                             lineColor: '#5a81ea',
                             fillColor: '#FFF',
                             lineWidth: 4
                         }
-                    ]
-
+                    }
                 };
 
                 /**
@@ -77,8 +79,7 @@
              */
             _setThemSettings() {
                 const { wAssetRateChart } = user.getThemeSettings();
-                this.options = { ...this.options };
-                this.options.view[0].fillColor = wAssetRateChart.seriesColor;
+                this.options.view.rate.fillColor = wAssetRateChart.seriesColor;
             }
 
             /**
@@ -125,7 +126,11 @@
 
                 return waves.utils.getRateHistory(assetId, baseAssetId, startDate)
                     .then(map(item => ({ ...item, rate: Number(item.rate.toFixed()) })))
-                    .then(values => ([values]));
+                    .then(data => {
+                        return ({
+                            rate: data
+                        });
+                    });
             }
 
             /**
@@ -161,3 +166,18 @@
         controller
     });
 })();
+
+/**
+ * @typedef {object} TChartOptions
+ * @property {string} axisX
+ * @property {string} axisY
+ * @property {number} marginBottom
+ * @property {boolean} hasMouseEvents
+ * @property {boolean} hasDates
+ * @property {boolean | number} checkWidth
+ * @property {TView} view
+ */
+
+/**
+ * @typedef {Object<string, IView>} TView
+ */

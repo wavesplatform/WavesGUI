@@ -84,7 +84,15 @@
 
         <div class="chart-wrapper">
             <w-chart data="$ctrl.data" options="$ctrl.chartOptions" mouse-event="$ctrl.onMouse(chartData)">
-                <w-chart-plate data="$ctrl.chartEvent"></w-chart-plate>
+                <w-chart-plate data="$ctrl.chartEvent">
+                    <div class="legend-content">
+                        <div class="chart-plate__price">$ {{$ctrl.chartEvent.price}}</div>
+                        <div class="chart-plate__timestamp headline-4">
+                            <span class="chart-plate__date">{{$ctrl.chartEvent.date}}</span>
+                            <span class="chart-plate__time">{{$ctrl.chartEvent.time}}</span>
+                        </div>
+                    </div>
+                </w-chart-plate>
             </w-chart>
 
         </div>

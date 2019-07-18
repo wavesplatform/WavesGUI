@@ -1,8 +1,4 @@
 <div class="chart-plate">
-    <div class="chart-plate__price">$ {{$ctrl.price}}</div>
-    <div class="chart-plate__timestamp headline-4">
-        <span class="chart-plate__date">{{$ctrl.date}}</span>
-        <span class="chart-plate__time">{{$ctrl.time}}</span>
-    </div>
+    <ng-transclude></ng-transclude>
 </div>
 <div class="chart-plate__marker"></div>

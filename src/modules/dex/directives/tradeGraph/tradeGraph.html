@@ -1,10 +1,18 @@
 <div class="graph-wrapper">
     <w-loader ng-if="$ctrl.pending"></w-loader>
-<!--    <linechart ng-if="!$ctrl.pending && $ctrl.canShowGraph && !$ctrl.loadingError"-->
-<!--               options="$ctrl.options"-->
-<!--               data="$ctrl.data"></linechart>-->
-    <w-chart data="$ctrl.data" options="$ctrl.options" mouse-event="$ctrl.onMouse(chartData)">
-        <w-chart-plate data="$ctrl.chartEvent"></w-chart-plate>
+    <w-chart ng-if="!$ctrl.pending && $ctrl.canShowGraph && !$ctrl.loadingError"
+             data="$ctrl.data"
+             options="$ctrl.options"
+             mouse-event="$ctrl.onMouse(chartData)">
+        <w-chart-plate data="$ctrl.chartEvent">
+            <div class="legend-content">
+                <div class="chart-plate__price">{{$ctrl.chartEvent.price}}</div>
+                <div class="chart-plate__timestamp headline-4">
+                    <span class="chart-plate__date">{{$ctrl.chartEvent.id}}</span>
+                    <span class="chart-plate__time">{{$ctrl.chartEvent.amount}}</span>
+                </div>
+            </div>
+        </w-chart-plate>
     </w-chart>
 
     <w-empty-block ng-if="!$ctrl.pending && !$ctrl.canShowGraph && !$ctrl.loadingError"></w-empty-block>

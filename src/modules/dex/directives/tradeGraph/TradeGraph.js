@@ -21,7 +21,7 @@
             type: ['line', 'area']
         }
     };
-    // const ORDER_LIST_STUB = [{ amount: 0, price: 0 }];
+    const ORDER_LIST_STUB = [{ amount: 0, price: 0 }];
     const THRESHOLD_VALUES = {
         asks: 2,
         bids: 2
@@ -77,27 +77,9 @@
                  */
                 this.pending = true;
 
-                // this.options = {
-                //     margin: {
-                //         top: 0,
-                //         left: 0,
-                //         right: 0,
-                //         bottom: 0
-                //     },
-                //     grid: {
-                //         x: false,
-                //         y: false
-                //     },
-                //     series: [
-                //         SERIES_SETTINGS.asks,
-                //         SERIES_SETTINGS.bids
-                //     ],
-                //     axes: {
-                //         x: { key: 'price', type: 'linear', ticks: 2 },
-                //         y: { key: 'amount', ticks: 4 }
-                //     }
-                // };
-
+                /**
+                 * @type {TChartOptions}
+                 */
                 this.options = {
                     axisX: 'price',
                     axisY: 'amount',
@@ -105,25 +87,27 @@
                     hasMouseEvents: true,
                     hasDates: false,
                     checkWidth: true,
-                    view: [
-                        {
+                    view: {
+                        asks: {
                             lineColor: '#e5494d',
                             fillColor: '#ffe4e4',
                             lineWidth: 4
                         },
-                        {
+                        bids: {
                             lineColor: '#1f5af6',
                             fillColor: '#EAF0FE',
                             lineWidth: 4
                         }
-                    ]
+                    }
                 };
 
-                // this.data = {
-                //     asks: ORDER_LIST_STUB,
-                //     bids: ORDER_LIST_STUB
-                // };
-                this.data = [];
+                /**
+                 * @type {object<string, TChartData[]>}
+                 */
+                this.data = {
+                    asks: ORDER_LIST_STUB,
+                    bids: ORDER_LIST_STUB
+                };
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair',
@@ -142,7 +126,17 @@
             }
 
             onMouse(chartData) {
-                this.chartEvent = chartData;
+                if (!chartData) {
+                    return null;
+                }
+
+                this.chartEvent = {
+                    ...chartData,
+                    id: chartData.id ? `${chartData.id[0].toUpperCase()}${chartData.id.substring(1)}` : null,
+                    amount: chartData.yValue ? chartData.yValue.toFormat() : null,
+                    price: chartData.xValue ? chartData.xValue.toFormat() : null,
+                    markerColor: chartData.id ? this.options.view[chartData.id].lineColor : null
+                };
                 $scope.$apply();
             }
 
@@ -178,9 +172,10 @@
 
             _setOrderBook(orderBook) {
                 this._updateGraphAccordingToOrderBook(orderBook);
-                // this.data.asks = orderBook.asks;
-                // this.data.bids = orderBook.bids;
-                this.data = [orderBook.asks, orderBook.bids];
+                this.data = {
+                    asks: orderBook.asks,
+                    bids: orderBook.bids
+                };
 
                 this._setDataSignal.dispatch();
 
@@ -315,3 +310,31 @@
             controller
         });
 })();
+
+/**
+ * @typedef {object} TChartOptions
+ * @property {string} axisX
+ * @property {string} axisY
+ * @property {number} marginBottom
+ * @property {boolean} hasMouseEvents
+ * @property {boolean} hasDates
+ * @property {boolean | number} checkWidth
+ * @property {TView} view
+ */
+
+/**
+ * @typedef {Object<string, IView>} TView
+ */
+
+/**
+ * @typedef {object} IView
+ * @property {string} fillColor
+ * @property {string} lineColor
+ * @property {number} lineWidth
+ */
+
+/**
+ * @typedef {object} TChartData
+ * @property {number} amount
+ * @property {number} price
+ */

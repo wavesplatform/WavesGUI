@@ -19,26 +19,26 @@
             red: {
                 axisX: 'timestamp',
                 axisY: 'rate',
-                view: [
-                    {
+                view: {
+                    rate: {
                         lineColor: '#ef4829',
                         fillColor: '#FFF',
                         gradientColor: ['#FEEFEC', '#FFF'],
                         lineWidth: 4
                     }
-                ]
+                }
             },
             blue: {
                 axisX: 'timestamp',
                 axisY: 'rate',
-                view: [
-                    {
+                view: {
+                    rate: {
                         lineColor: '#1f5af6',
                         fillColor: '#FFF',
                         gradientColor: ['#EAF0FE', '#FFF'],
                         lineWidth: 4
                     }
-                ]
+                }
             }
         };
 
@@ -142,10 +142,13 @@
                 this._mapSlides.forEach(({ $slide }, i) => {
                     const info = this.pairsInfoList[i];
                     const options = info.change24.gt(0) ? chartOptions.blue : chartOptions.red;
+                    const chartData = {
+                        rate: info.rateHistory
+                    };
                     new ChartFactory(
                         $slide.find('.graph'),
                         options,
-                        [this.pairsInfoList[i].rateHistory]
+                        chartData
                     );
                 });
             }

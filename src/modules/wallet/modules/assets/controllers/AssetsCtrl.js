@@ -106,7 +106,7 @@
                 this.mirrorId = user.getSetting('baseAssetId');
                 this._onChangeMode();
 
-                this.updateGraph = createPoll(this, this._getGraphData, this._setGraphData, 15000, { $scope });
+                this.updateGraph = createPoll(this, this._getGraphData, 'data', 15000, { $scope });
 
                 ds.api.assets.get(this.chartAssetIdList).then(assets => {
                     this.chartAssetList = assets;
@@ -134,13 +134,13 @@
                         hasDates: true,
                         checkWidth: 2000,
                         heightFactor: 0.7,
-                        view: [
-                            {
+                        view: {
+                            rate: {
                                 lineColor: '#1f5af6',
                                 fillColor: '#FFF',
                                 gradientColor: ['#EAF0FE', '#FFF']
                             }
-                        ]
+                        }
                     };
             }
 
@@ -236,7 +236,14 @@
             }
 
             onMouse(chartData) {
-                this.chartEvent = chartData;
+                const date = chartData.xValue ? new Date(chartData.xValue.toNumber()) : null;
+                this.chartEvent = {
+                    ...chartData,
+                    id: chartData.id,
+                    price: chartData.yValue ? chartData.yValue.toFormat(2) : null,
+                    date: date ? Assets._localDate(date, true) : null,
+                    time: date ? tsUtils.date('hh:mm')(date) : null
+                };
                 $scope.$apply();
             }
 
@@ -289,15 +296,12 @@
             _getGraphData() {
                 const from = this.activeChartAssetId;
                 const to = this.mirrorId;
-                return waves.utils.getRateHistory(from, to, this._startDate);
-            }
-
-            /**
-             * @param data
-             * @private
-             */
-            _setGraphData(data) {
-                this.data = [data];
+                return waves.utils.getRateHistory(from, to, this._startDate)
+                    .then(data => {
+                        return ({
+                            rate: data
+                        });
+                    });
             }
 
             /**
@@ -333,6 +337,16 @@
                     default:
                         throw new Error('Wrong chart mode!');
                 }
+            }
+
+            /**
+             * @param date @type {Date}
+             * @param hasYear @type {boolean}
+             * @return {string}
+             * @private
+             */
+            static _localDate(date, hasYear = false) {
+                return hasYear ? tsUtils.date('DD.MM.YYYY')(date) : tsUtils.date('DD.MM')(date);
             }
 
         }

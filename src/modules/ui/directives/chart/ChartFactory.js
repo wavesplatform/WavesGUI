@@ -42,7 +42,7 @@
                  */
                 this.options = Object.assign(Object.create(null), ChartFactory.defaultOptions, options);
                 /**
-                 * @type {Array<Array<object>>}
+                 * @type {object<string, Array<object<string, number>>}
                  */
                 this.data = data;
                 /**
@@ -159,7 +159,9 @@
             _render() {
                 this._clear();
 
-                if (!this.data || !this.data.length) {
+                const keys = this.data && Object.keys(this.data);
+                const hasData = keys && keys.length && keys.some(id => this.data[id].length);
+                if (!hasData) {
                     return null;
                 }
 
@@ -190,8 +192,8 @@
             _drawChart(data) {
                 const { ctx, options } = this;
 
-                data.coordinates.forEach((chartCoords, i) => {
-                    const viewOptions = options.view[i] ? options.view[i] : options.view[0];
+                Object.entries(data.coordinates).forEach(([id, chartCoords]) => {
+                    const viewOptions = options.view[id];
                     const first = chartCoords[0];
 
                     ctx.strokeStyle = viewOptions.lineColor;
@@ -226,7 +228,7 @@
             }
 
             /**
-             * @param {Array<Array<object>>} data
+             * @param Array<Array<object>>>
              * @return {ChartFactory.IChartData}
              * @private
              */
@@ -238,12 +240,12 @@
                 // TODO завязать отступ снизу на коэффициент
 
                 const marginBottom = this.options.marginBottom;
-                const xValues = [];
-                const yValues = [];
+                const xValues = {};
+                const yValues = {};
 
-                data.forEach((chart, i) => {
-                    xValues[i] = [];
-                    yValues[i] = [];
+                Object.entries(data).forEach(([id, chart]) => {
+                    xValues[id] = [];
+                    yValues[id] = [];
 
                     chart.forEach(item => {
                         const itemX = item[this.options.axisX];
@@ -253,14 +255,18 @@
                         const y = ChartFactory._getValues(itemY);
 
                         if (tsUtils.isNotEmpty(x) && tsUtils.isNotEmpty(y)) {
-                            xValues[i].push(x);
-                            yValues[i].push(y);
+                            xValues[id].push(x);
+                            yValues[id].push(y);
                         }
                     });
                 });
 
-                const combinedXValues = Array.prototype.concat(...xValues);
-                const combinedYValues = Array.prototype.concat(...yValues);
+                const combinedXValues = Array.prototype.concat(
+                    ...Object.keys(xValues).map(key => xValues[key])
+                );
+                const combinedYValues = Array.prototype.concat(
+                    ...Object.keys(xValues).map(key => yValues[key])
+                );
                 const xMin = BigNumber.min(...combinedXValues);
                 const xMax = BigNumber.max(...combinedXValues);
                 const yMin = BigNumber.min(...combinedYValues);
@@ -272,24 +278,17 @@
 
                 const coordinates = [];
 
-                for (let i = 0; i < xValues.length; i++) {
-                    const chartXValues = xValues[i];
-                    const chartYValues = yValues[i];
-                    coordinates[i] = [];
-
-                    for (let j = 0; j < chartXValues.length; j++) {
-                        const xValue = chartXValues[j];
-                        const yValue = chartYValues[j];
-
+                Object.entries(xValues).forEach(([id, values]) => {
+                    coordinates[id] = [];
+                    values.forEach((value, i) => {
+                        const xValue = value;
+                        const yValue = yValues[id][i];
                         const x = Number(xValue.sub(xMin).mul(xFactor).toFixed());
                         const y = Number(height.sub(yValue.sub(yMin).mul(yFactor)).toFixed()) - marginBottom * SCALE;
 
-                        coordinates[i].push({ x, y });
-                    }
-                }
-
-                const combinedCoordinates = Array.prototype.concat(...coordinates)
-                    .sort(({ x: a }, { x: b }) => a - b);
+                        coordinates[id].push({ x, y });
+                    });
+                });
 
                 return ({
                     height,
@@ -305,11 +304,7 @@
                     yDelta,
                     xFactor,
                     yFactor,
-                    coordinates,
-                    combinedXValues,
-                    combinedYValues,
-                    combinedCoordinates,
-                    length: combinedCoordinates.length
+                    coordinates
                 });
             }
 
@@ -378,7 +373,12 @@
              * @private
              */
             _findIntersection(event) {
-                const coords = this.chartData.combinedCoordinates;
+                const coords = Object.entries(this.chartData.coordinates).reduce((acc, [id, coords]) => {
+                    acc[id] = coords
+                        .map(item => item)
+                        .sort(({ x: a }, { x: b }) => a - b);
+                    return acc;
+                }, Object.create(null));
 
                 const binarySearch = (data, target, start, end) => {
                     if (end < 1) {
@@ -401,17 +401,36 @@
                     }
                 };
 
-                const closestPoints = binarySearch(coords, event.offsetX, 0, coords.length - 1);
+                const closestPointsForEachChart = Object.entries(coords)
+                    .reduce((acc, [id, coords]) => {
+                        acc[id] = binarySearch(coords, event.offsetX, 0, coords.length - 1);
+                        return acc;
+                    }, Object.create(null));
 
-                if (closestPoints) {
-                    if (!equals(this._lastEvent, closestPoints)) {
-                        const { x, y } = closestPoints;
-                        const i = coords.findIndex(coord => coord.x === x && coord.y === y);
-                        this._dispatchMouseMove(x, y, i, event);
+                const xDistances = Object.keys(closestPointsForEachChart).map(key => {
+                    const coord = closestPointsForEachChart[key];
+                    return Math.abs(coord.x - event.offsetX);
+                });
+                const minXDistance = Math.min(...xDistances);
+
+                const closestPoints = Object.entries(closestPointsForEachChart).reduce((acc, [id, coord]) => {
+                    if ((coord.x - event.offsetX) === minXDistance) {
+                        acc[id] = coord;
                     }
-                    if (isEmpty(this._lastEvent)) {
-                        this._lastEvent = closestPoints;
-                    }
+                    return acc;
+                }, Object.create(null));
+
+                if (Object.keys(closestPoints).length) {
+                    Object.entries(closestPoints).forEach(([id, point]) => {
+                        if (!equals(this._lastEvent, point)) {
+                            const { x, y } = point;
+                            const i = this.chartData.coordinates[id].findIndex(coord => coord.x === x && coord.y === y);
+                            this._dispatchMouseMove(x, y, i, event, id);
+                        }
+                        if (isEmpty(this._lastEvent)) {
+                            this._lastEvent = point;
+                        }
+                    });
                 }
             }
 
@@ -422,13 +441,14 @@
              * @param event @type {object}
              * @private
              */
-            _dispatchMouseMove(x, y, i, event) {
+            _dispatchMouseMove(x, y, i, event, id) {
                 this.mouseSignal.dispatch(ChartFactory._getMouseEvent({
                     event,
                     x,
                     y,
-                    xValue: this.chartData.combinedXValues[i],
-                    yValue: this.chartData.combinedYValues[i]
+                    id,
+                    xValue: this.chartData.xValues[id][i],
+                    yValue: this.chartData.yValues[id][i]
                 }));
                 this._lastEvent = { x, y };
             }
@@ -443,7 +463,13 @@
                     return width * i + width / 2;
                 });
 
-                const xCoords = this.chartData.combinedCoordinates.map(({ x }) => x);
+                const combinedCoordinates = Array.prototype.concat(
+                    ...Object.keys(this.chartData.coordinates).map(key => this.chartData.coordinates[key])
+                );
+                const xCoords = combinedCoordinates.map(({ x }) => x);
+                const combinedXValues = Array.prototype.concat(
+                    ...Object.keys(this.chartData.xValues).map(key => this.chartData.xValues[key])
+                );
 
                 return exactCoords.map(x => {
                     return xCoords.reduce((prevXCoord, currentXCoord) => {
@@ -454,10 +480,10 @@
                         }
                     });
                 }).map(foundX => {
-                    const dateIndex = this.chartData.combinedCoordinates.findIndex(({ x }) => foundX === x);
+                    const dateIndex = combinedCoordinates.findIndex(({ x }) => foundX === x);
                     return {
                         coords: foundX / SCALE,
-                        value: new Date(this.chartData.combinedXValues[dateIndex].toNumber())
+                        value: new Date(combinedXValues[dateIndex].toNumber())
                     };
                 });
             }
@@ -535,10 +561,12 @@
                 checkWidth: false,
                 heightFactor: 0.9,
                 view: {
-                    lineColor: '#ef4829',
-                    fillColor: '#FFF',
-                    gradientColor: false,
-                    lineWidth: 2
+                    rate: {
+                        lineColor: '#ef4829',
+                        fillColor: '#FFF',
+                        gradientColor: false,
+                        lineWidth: 2
+                    }
                 }
             };
 
@@ -565,7 +593,7 @@
  * @property {boolean} hasMouseEvents
  * @property {boolean} hasDates
  * @property {number} heightFactor
- * @property {ChartFactory.IViewChart[]} view
+ * @property {Object<string, ChartFactory.IViewChart>} view
  */
 
 /**

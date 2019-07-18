@@ -24,7 +24,6 @@
             $postLink() {
                 this.plate = $element.find(SELECTORS.plate);
                 this.marker = $element.find(SELECTORS.marker);
-
                 this.observe('data', this._onMove);
             }
 
@@ -39,12 +38,8 @@
                     this.marker.removeClass('visible');
                     return null;
                 }
-                const date = new Date(data.xValue.toNumber());
-                this.price = data.yValue.toFormat(2);
-                this.date = ChartPlate._localDate(date, true);
-                this.time = tsUtils.date('hh:mm')(date);
 
-                this._setMarkerAndPlatePosition(data);
+                this._setMarkerAndPlatePosition(this.data);
             }
 
             /**
@@ -59,7 +54,7 @@
                 const markerX = x - (this.marker.outerWidth() / 2);
                 const markerY = y - (this.marker.outerHeight() / 2);
                 let plateX;
-                if (event.offsetX < (window.innerWidth / 2)) {
+                if (event.offsetX < ($element.closest('w-chart').innerWidth() / 2)) {
                     plateX = x + (this.marker.outerWidth() / 2) + PLATE_ARROW_WIDTH;
                     this.plate.addClass('to-right');
                 } else {
@@ -71,16 +66,9 @@
                 this.marker.css('transform', `translate(${markerX}px,${markerY}px)`);
                 this.plate.addClass('visible');
                 this.marker.addClass('visible');
-            }
-
-            /**
-             * @param date @type {Date}
-             * @param hasYear @type {boolean}
-             * @return {string}
-             * @private
-             */
-            static _localDate(date, hasYear = false) {
-                return hasYear ? tsUtils.date('DD.MM.YYYY')(date) : tsUtils.date('DD.MM')(date);
+                if (this.data.markerColor) {
+                    this.marker.css('border-color', this.data.markerColor);
+                }
             }
 
         }
@@ -91,6 +79,10 @@
     controller.$inject = ['Base', '$element'];
 
     angular.module('app.ui').component('wChartPlate', {
+        transclude: true,
+        require: {
+            wChart: '^wChart'
+        },
         bindings: {
             data: '<'
         },
