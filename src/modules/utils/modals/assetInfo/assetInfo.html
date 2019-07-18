@@ -77,7 +77,7 @@
                 <div>
                     <w-circle-chart options="$ctrl.chartOptions" data="$ctrl.circleChartData"></w-circle-chart>
                 </div>
-                <div class="chart-legend">
+                <div class="circle-chart-legend">
                     <div ng-repeat="legend in $ctrl.circleChartData track by legend.id"
                          ng-if="!legend.value.getTokens().eq(0)"
                          class="legend-item">
