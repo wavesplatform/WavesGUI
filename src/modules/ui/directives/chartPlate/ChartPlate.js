@@ -22,7 +22,6 @@
             data;
 
             $postLink() {
-                console.warn('w-chart-plate')
                 this.plate = $element.find(SELECTORS.plate);
                 this.marker = $element.find(SELECTORS.marker);
                 this.observe('data', this._onMove);

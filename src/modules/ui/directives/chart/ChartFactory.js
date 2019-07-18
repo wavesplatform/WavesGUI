@@ -228,7 +228,7 @@
             }
 
             /**
-             * @param Array<Array<object>>>
+             * @param {object<string, Array<object<string, number>>} data
              * @return {ChartFactory.IChartData}
              * @private
              */
@@ -620,10 +620,6 @@
  * @property {BigNumber} xFactor
  * @property {BigNumber} yFactor
  * @property {Array<ICoords[]>} coordinates
- * @property {BigNumber[]} combinedXValues
- * @property {BigNumber[]} combinedYValues
- * @property {Array<ICoords>} combinedCoordinates
- * @property {number} length
  */
 
 /**
