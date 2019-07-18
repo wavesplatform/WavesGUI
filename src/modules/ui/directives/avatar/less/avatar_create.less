@@ -1,8 +1,7 @@
 @import (reference) 'icons';
 @import (reference) 'config';
 
-@createAvatarSize: 50px;
-@createAvatarSizePhone: @createAvatarSize - 10px;
+@createAvatarSizePhone: 40px;
 
 .avatar_create {
   .avatar {
@@ -16,8 +15,6 @@
     }
 
     &__img { // .avatar__img
-      width: @createAvatarSize;
-      height: @createAvatarSize;
       transition: transform 0.3s, box-shadow 0.3s;
     }
   }

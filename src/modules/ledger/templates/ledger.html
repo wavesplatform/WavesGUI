@@ -44,12 +44,13 @@
                         <div class="step-right" ng-click="$ctrl.stepRight()" ng-class="{disabled: $ctrl.disabledRight}"><div class="icon-right"></div></div>
                     </div>
                 <div class="avatars-list">
-                    <div class="avatar__wrapper"
+                    <div class="avatars-list__item"
                          ng-if="!$ctrl.loading"
                          ng-repeat="user in $ctrl.visibleUsers track by user.id">
                          <w-avatar class="avatar avatar_create"
                                    address="user.address"
                                    ng-click="$ctrl.selectUser(user)"
+                                   size="50"
                                     type="ledger"
                                     ng-class="{'avatar_active': $ctrl.selectedUser === user, avatar_disabled: $ctrl.isUserDisable($index)}"></w-avatar>
                     </div>

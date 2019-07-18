@@ -2,23 +2,25 @@
 @import (reference) 'icons';
 @import (reference) '../../app/less/app';
 
-@createAvatarBorder: 4px;
-@createAvatarSize: 50px;
-@createAvatarHoverSize: 60px;
-@createAvatarSizePhone: @createAvatarSize - 10px;
-@createAvatarHoverSizePhone: @createAvatarHoverSize - 10px;
-@createAvatarWrapperSize: @createAvatarHoverSize + @createAvatarBorder * 2;
-@createAvatarWrapperSizePhone: @createAvatarHoverSizePhone + @createAvatarBorder * 2;
-
 .avatars {
   &-list {
     flex-direction: row;
     overflow: hidden;
     display: flex;
+
+    &__item { // .avatars-list__item
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20% !important;
+      padding: 20px 0;
+      flex-shrink: 0;
+    }
   }
 
   &-scroll {
     display: flex;
     flex-direction: column;
+    position: relative;
   }
 }

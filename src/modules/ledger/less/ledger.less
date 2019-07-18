@@ -4,13 +4,6 @@
 
 body.ledger {
   .import-wrapper {
-    .step {
-      &-left,
-      &-right {
-        position: relative;
-      }
-    }
-
     .icon {
       &-left,
       &-right {
@@ -19,6 +12,8 @@ body.ledger {
         cursor: pointer;
         position: absolute;
         top: 44px;
+        top: 50%;
+        transform: translateY(-50%);
       }
 
       &-left {
@@ -54,12 +49,9 @@ body.ledger {
     top: 50%;
     width: 100px;
     margin: 0 auto;
-    height: 107px;
+    height: 90px;
     transform: translate(0);
     left: 0;
-    w-loader {
-      margin-top:2px;
-    }
   }
 }
 
@@ -67,11 +59,6 @@ body.ledger {
   body.ledger {
     .import-wrapper {
       .icon {
-        &-left,
-        &-right {
-          top: 34px;
-        }
-
         &-left {
           left: -15px;
         }
@@ -80,10 +67,6 @@ body.ledger {
           right: -15px;
         }
       }
-    }
-
-    .loader-wrapper {
-      height: 87px;
     }
   }
 }
