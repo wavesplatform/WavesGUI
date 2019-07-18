@@ -41,7 +41,7 @@
             sendTransaction() {
                 const signableAmountAsset = this.signable.getTxData().amount.asset;
                 if (
-                    signableAmountAsset.id !== WavesApp.defaultAssets.VST ||
+                    signableAmountAsset.id !== WavesApp.defaultAssets.VST &&
                     signableAmountAsset.id !== WavesApp.defaultAssets.ERGO
                 ) {
                     return super.sendTransaction();
