@@ -11,7 +11,7 @@
 // Events: choose the events you want to trigger build on
 // Note: this pipeline uses a private repository as well as private shared library which is not available externally.
 // To set up pipeline in Jenkins: New Item > Pipeline > name it > OK > Scroll to Pipeline pane >
-// Definition: Pipeline cript from SCM, SCM: Git, Repo: 'https://github.com/wavesplatform/WavesGUI.git',
+// Definition: Pipeline script from SCM, SCM: Git, Repo: 'https://github.com/wavesplatform/WavesGUI.git',
 // Lightweight checkout: disabled. Save settings and launch pipeline.
 
 @Library('jenkins-shared-lib')
