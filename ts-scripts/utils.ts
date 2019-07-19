@@ -353,9 +353,8 @@ export async function getInitScript(connectionType: TConnection, type: TPlatform
             };
 
             config._initApp = function () {
-                global.BigNumber = ds.wavesDataEntities.BigNumber;
-
                 // Signed 64-bit integer.
+                const { BigNumber } = require('@waves/bignumber');
                 WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
                 WavesApp.analyticsIframe = config.analyticsIframe;
                 WavesApp.device = new MobileDetect(navigator.userAgent);
@@ -756,13 +755,12 @@ export function isPage(url: string): boolean {
         'css',
         'fonts',
         'js',
-        'bower_components',
         'node_modules',
         'ts-scripts',
         'modules',
         'themeConfig',
         'locales',
-        'loginDaemon',
+        'helpers',
         'transfer.js',
         'tradingview-style',
         'data-service-dist',

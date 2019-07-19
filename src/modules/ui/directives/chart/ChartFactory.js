@@ -8,7 +8,8 @@
     const factory = function (Base) {
 
         const { Money } = require('@waves/data-entities');
-        const tsUtils = require('ts-utils');
+        const { BigNumber } = require('@waves/bignumber');
+        const { isNotEmpty } = require('ts-utils');
         const SCALE = devicePixelRatio || 1;
 
         class ChartFactory extends Base {
@@ -135,18 +136,21 @@
                         this.ctx.fillStyle = data.fillColor;
                     }
                     const last = data.coordinates[data.coordinates.length - 1];
-                    this.ctx.lineTo(last.x, data.height.toNumber());
-                    this.ctx.lineTo(first.x, data.height.toNumber());
+                    this.ctx.lineTo(last.x, Number(data.height.toFixed()));
+                    this.ctx.lineTo(first.x, Number(data.height.toFixed()));
                     this.ctx.lineTo(first.x, first.y);
 
                     this.ctx.fill();
                 }
             }
 
+            /**
+             * @private
+             */
             _getChartData() {
                 const height = new BigNumber(this.canvas.height);
                 const width = new BigNumber(this.canvas.width);
-                const maxChartHeight = height.times(0.9);
+                const maxChartHeight = height.mul(0.9);
 
                 return this.options.charts.map(chartOptions => {
                     const xValues = [];
@@ -156,7 +160,7 @@
                         const x = ChartFactory._getValues(item[chartOptions.axisX]);
                         const y = ChartFactory._getValues(item[chartOptions.axisY]);
 
-                        if (tsUtils.isNotEmpty(x) && tsUtils.isNotEmpty(y)) {
+                        if (isNotEmpty(x) && isNotEmpty(y)) {
                             xValues.push(x);
                             yValues.push(y);
                         }
@@ -167,8 +171,8 @@
                     const xMax = BigNumber.max(...xValues);
                     const yMin = BigNumber.min(...yValues);
                     const yMax = BigNumber.max(...yValues);
-                    const xDelta = xMax.minus(xMin);
-                    const yDelta = yMax.minus(yMin);
+                    const xDelta = xMax.sub(xMin);
+                    const yDelta = yMax.sub(yMin);
                     const xFactor = width.div(xDelta);
                     const yFactor = maxChartHeight.div(yDelta);
 
@@ -178,8 +182,8 @@
                         const xValue = xValues[i];
                         const yValue = yValues[i];
 
-                        const x = xValue.minus(xMin).times(xFactor).toNumber();
-                        const y = height.minus(yValue.minus(yMin).times(yFactor)).toNumber();
+                        const x = Number(xValue.sub(xMin).mul(xFactor).toFixed());
+                        const y = Number(height.sub(yValue.sub(yMin).mul(yFactor)).toFixed());
 
                         coordinates.push({ x, y });
                     }

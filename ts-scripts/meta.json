@@ -1,11 +1,12 @@
 {
   "vendors": [
+    "node_modules/@waves/bignumber/dist/bignumber.umd.js",
+    "node_modules/@waves/waves-transactions/dist/min/waves-transactions.min.js",
     "node_modules/@sentry/browser/build/bundle.min.js",
     "node_modules/@waves/oracle-data/dist/oracle-data.min.js",
     "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js",
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
     "node_modules/handlebars/dist/handlebars.min.js",
-    "node_modules/@waves/marshall/dist/min/waves-marshall.min.js",
     "node_modules/ramda/dist/ramda.min.js",
     "node_modules/mobile-detect/mobile-detect.min.js",
     "node_modules/handlebars/dist/handlebars.min.js",
@@ -16,7 +17,6 @@
     "vendors/require-modules.js",
     "node_modules/ts-utils/dist/ts-utils.min.js",
     "node_modules/@waves/data-entities/dist/data-entities.min.js",
-    "node_modules/@waves/signature-generator/dist/signature-generator.partial.min.js",
     "node_modules/@waves/waves-browser-bus/dist/browser-bus.min.js",
     "node_modules/@waves/event-sender/dist/analytics.js",
     "node_modules/@waves/ledger/dist/waves-ledger.js",
@@ -170,8 +170,8 @@
     "dist/dev/js/templates.js"
   ],
   "debugInjections": [
-    "ts-scripts/loginDaemon.js",
-    "ts-scripts/mobileConsole.js"
+    "helpers/loginDaemon.js",
+    "helpers/mobileConsole.js"
   ],
   "copyNodeModules": [
     "node_modules/qrcode-reader/dist/index.min.js",
