@@ -33,6 +33,7 @@ properties([
             selectedValue: 'NONE',
             sortMode: 'DESCENDING_SMART',
             type: 'PT_BRANCH')]),
+    
         pipelineTriggers([[
             $class: 'GenericTrigger',
             genericVariables: [[ key: 'branch', value: '$.ref', regexpFilter: 'refs/heads/', defaultValue: '' ]],
@@ -42,12 +43,13 @@ properties([
             token: 'wavesGuiGithubToken' ]])
 ])
 
-
-
 stage('Aborting this build'){
     // On the first launch pipeline doesn't have any parameters configured and must skip all the steps
-    if (!binding.hasVariable('branch'))
-        branch = params.branch
+    if (env.BUILD_NUMBER == '1'){
+        echo "This is the first run of the pipeline! It is now should be configured and ready to go!"
+        currentBuild.result = Constants.PIPELINE_ABORTED
+        return
+    }
     if (! branch ) {
         echo "Aborting this build. Please run it again with the required parameters specified."
         currentBuild.result = Constants.PIPELINE_ABORTED
