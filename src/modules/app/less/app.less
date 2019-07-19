@@ -27,15 +27,16 @@ body.dex-demo {
 }
 
 @media screen and (max-width: 860px) {
-  body {
-    &.menu-is-shown {
-      .logo-header,
-      .movable {
-        transition: .25s;
-        transform: translateX(-261px);
-      }
+  .menu-is-shown {
+    .logo-header,
+    .movable {
+      transform: translateX(-261px);
     }
   }
+}
+
+.movable {
+  transition: transform .2s;
 }
 
 a {
@@ -154,7 +155,7 @@ ui-view[name="main"] {
 .logo {
   width: 152px;
   height: 32px;
-  transition: .25s;
+  transition: .1s;
   display: block;
   cursor: pointer;
   background-repeat: no-repeat;
@@ -191,7 +192,6 @@ w-scroll-box {
 }
 
 .main-content {
-  transition: .5s;
   position: relative;
   width: 100%;
   min-height: 355px;
