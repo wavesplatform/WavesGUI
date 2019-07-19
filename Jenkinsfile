@@ -45,6 +45,11 @@ properties([
 
 stage('Aborting this build'){
     // On the first launch pipeline doesn't have any parameters configured and must skip all the steps
+    if (env.JOB_NAME.contains('Waves/Waves')){
+        echo "Ops, this is a wrong Pipeline! Bye!"
+        currentBuild.result = Constants.PIPELINE_ABORTED
+        return
+    }
     if (env.BUILD_NUMBER == '1'){
         echo "This is the first run of the pipeline! It is now should be configured and ready to go!"
         currentBuild.result = Constants.PIPELINE_ABORTED
