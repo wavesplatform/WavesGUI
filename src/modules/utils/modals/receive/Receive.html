@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="btn icon-close ng-scope" w-modal-close></div>
 
-            <w-tabs class="header" ng-model="$ctrl.activeTab">
+            <w-tabs class="tabs" ng-model="$ctrl.activeTab">
                 <w-tab ng-if="$ctrl.tabs.cryptocurrency" title-name="::'modal.receive.cryptocurrency.title'" id="::'cryptocurrency'">
                     <w-receive-cryptocurrency
                         asset="$ctrl.asset"

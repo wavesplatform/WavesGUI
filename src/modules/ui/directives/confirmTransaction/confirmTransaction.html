@@ -46,7 +46,7 @@
                 <div class="txinfo__wrapper">
                     <w-transaction-info-header signable="$ctrl.signable"></w-transaction-info-header>
 
-                    <w-tabs class="inner" ng-model="$ctrl.activeTab" ng-if="::$ctrl.advancedMode">
+                    <w-tabs class="tabs tabs_inner" ng-model="$ctrl.activeTab" ng-if="::$ctrl.advancedMode">
                         <w-tab title-name="::'confirmTransaction.details'" id="::'details'">
                             <w-transaction-info-content is-confirm="::true"
                                                         confirmed="::false"

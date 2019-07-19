@@ -12,7 +12,7 @@
                 </div>
             </div>
 
-            <w-tabs class="inner" ng-model="$ctrl.activeTab" ng-if="::$ctrl.advancedMode">
+            <w-tabs class="tabs tabs_inner" ng-model="$ctrl.activeTab" ng-if="::$ctrl.advancedMode">
                 <w-tab title-name="::'confirmTransaction.details'" id="::'details'">
                     <div ng-if="$ctrl.tx && $ctrl.gatewayDetails && $ctrl.targetRecipient" class="row margin-2">
                         <div class="margin-top-4">

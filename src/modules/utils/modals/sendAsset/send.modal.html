@@ -5,7 +5,7 @@
             <w-step-by-step active-step="$ctrl.step" ng-if="!$ctrl.errorOccured">
                 <w-step class="send-form">
 
-                    <w-tabs class="header" ng-model="$ctrl.tab">
+                    <w-tabs class="tabs" ng-model="$ctrl.tab">
                         <w-tab title-name="::'modal.send.sendTitle'" id="::'singleSend'">
                             <w-permit name="CAN_TRANSFER_TRANSACTION" mode="on">
                                 <w-single-send state="$ctrl.state"
