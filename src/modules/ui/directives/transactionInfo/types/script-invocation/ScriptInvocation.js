@@ -41,7 +41,7 @@
 
             $postLink() {
                 this.transaction = this.signable.getTxData();
-                this.signable.getDataForApi().then(json => {
+                this.signable.getDataForApi({ noSign: true }).then(json => {
                     this.json = WavesApp.stringifyJSON(json, null, 4);
                 });
                 if (this.transaction.payment.length > 0) {
