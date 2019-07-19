@@ -273,7 +273,7 @@
                             });
                         }
 
-                        throw new Error('Matcher settings is incorrect');
+                        throw new Error('Matcher settings are incorrect');
                     })
                     .catch(() => {
                         return this.getCreateOrderFee({
