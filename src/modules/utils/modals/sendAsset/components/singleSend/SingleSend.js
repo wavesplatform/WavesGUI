@@ -240,6 +240,10 @@
             /**
              * @type {boolean}
              */
+            gatewayWrongAddress = false;
+            /**
+             * @type {boolean}
+             */
             gatewayError = false;
             /**
              * @type {boolean}
@@ -303,7 +307,8 @@
                     this.receive(utils.observe(this.tx, 'attachment'), this._updateWavesTxObject, this);
 
                     this.observe('mirror', this._onChangeAmountMirror);
-                    this.observe(['gatewayAddressError', 'gatewayDetailsError'], this._updateGatewayError);
+                    this.observe(['gatewayAddressError', 'gatewayDetailsError', 'gatewayWrongAddress'],
+                        this._updateGatewayError);
 
                     this._currentHasCommission();
                     this._onChangeBaseAssets();
@@ -670,6 +675,10 @@
                     this.gatewayAddressError = false;
                 }
 
+                if (this.gatewayWrongAddress) {
+                    this.gatewayWrongAddress = false;
+                }
+
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
@@ -691,6 +700,9 @@
                             if (e.message === gatewayService.getAddressErrorMessage(this.balance.asset,
                                 this.tx.recipient, 'errorAddressMessage')) {
                                 this.gatewayAddressError = true;
+                            } else if (e.message === gatewayService.getWrongAddressMessage(this.balance.asset,
+                                this.tx.recipient, 'wrongAddressMessage')) {
+                                this.gatewayWrongAddress = true;
                             } else {
                                 this.gatewayDetailsError = true;
                             }
@@ -716,7 +728,7 @@
              * @private
              */
             _updateGatewayError() {
-                this.gatewayError = this.gatewayAddressError || this.gatewayDetailsError;
+                this.gatewayError = this.gatewayAddressError || this.gatewayDetailsError || this.gatewayWrongAddress;
             }
 
         }
