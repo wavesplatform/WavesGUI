@@ -261,7 +261,8 @@
                 amount: null,
                 attachment: '',
                 fee: null,
-                recipient: ''
+                recipient: '',
+                assetId: ''
             };
             /**
              * @type {boolean}
@@ -461,12 +462,12 @@
                 const fee = toGateway ? this.tx.amount.cloneWithTokens(toGateway.gatewayFee) : null;
                 const attachmentString = this.tx.attachment ? this.tx.attachment.toString() : '';
                 const isWavesAddress = user.isValidAddress(this.tx.recipient);
-
                 this.wavesTx = {
                     ...this.wavesTx,
                     recipient: toGateway ? this.gatewayDetails.address : isWavesAddress && this.tx.recipient || '',
                     attachment: utils.stringToBytes(toGateway ? this.gatewayDetails.attachment : attachmentString),
-                    amount: toGateway ? this.tx.amount.add(fee) : this.tx.amount
+                    amount: toGateway ? this.tx.amount.add(fee) : this.tx.amount,
+                    assetId: this.assetId
                 };
             }
 
