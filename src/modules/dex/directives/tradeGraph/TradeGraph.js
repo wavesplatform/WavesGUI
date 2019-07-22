@@ -5,20 +5,14 @@
         asks: 'asks',
         bids: 'bids'
     };
-    const SERIES_SETTINGS = {
-        asks: {
-            dataset: ORDERS_TYPES.asks,
-            key: 'amount',
-            label: 'Asks',
-            color: '#e5494d',
-            type: ['line', 'area']
+    const COLORS = {
+        lineColor: {
+            asks: '#e5494d',
+            bids: '#1f5af6'
         },
-        bids: {
-            dataset: ORDERS_TYPES.bids,
-            key: 'amount',
-            label: 'Bids',
-            color: '#5a81ea',
-            type: ['line', 'area']
+        fillColor: {
+            asks: '#ffe4e4',
+            bids: '#EAF0FE'
         }
     };
     const ORDER_LIST_STUB = [{ amount: 0, price: 0 }];
@@ -27,7 +21,7 @@
         bids: 2
     };
 
-    const tsUtils = require('ts-utils');
+    const { Signal } = require('ts-utils');
     const { BigNumber } = require('@waves/bignumber');
 
     /**
@@ -41,105 +35,108 @@
      */
     const controller = function (Base, utils, waves, createPoll, $scope) {
 
+        /**
+         * @class TradeGraph
+         * @extends Base
+         */
         class TradeGraph extends Base {
+
+            /**
+                 * @type {boolean}
+                 */
+            loadingError = false;
+            /**
+             * @type {{amount: string, price: string}}
+             * @private
+             */
+            _assetIdPair = null;
+
+            /**
+             * @type {number}
+             * @private
+             */
+            _chartCropRate = null;
+            /**
+             * @type {Signal<void>}
+             * @private
+             */
+            _setDataSignal = new Signal();
+
+            /**
+             * @type {boolean}
+             * @private
+             */
+            canShowGraph = false;
+            /**
+             * @type {boolean}
+             */
+            pending = true;
+
+            /**
+             * @type {TChartOptions}
+             */
+            options = {
+                axisX: 'price',
+                axisY: 'amount',
+                marginBottom: 0,
+                hasDates: false,
+                checkWidth: true,
+                view: {
+                    asks: {
+                        lineColor: COLORS.lineColor.asks,
+                        fillColor: COLORS.fillColor.asks,
+                        lineWidth: 4
+                    },
+                    bids: {
+                        lineColor: COLORS.lineColor.bids,
+                        fillColor: COLORS.fillColor.bids,
+                        lineWidth: 4
+                    }
+                }
+            };
+
+            chartPlateOptions = COLORS.lineColor;
+
+            /**
+             * @type {object<string, TChartData[]>}
+             */
+            data = {
+                asks: ORDER_LIST_STUB,
+                bids: ORDER_LIST_STUB
+            };
 
             constructor() {
                 super();
-
-                /**
-                 * @type {boolean}
-                 */
-                this.loadingError = false;
-                /**
-                 * @type {{amount: string, price: string}}
-                 * @private
-                 */
-                this._assetIdPair = null;
-
-                /**
-                 * @type {number}
-                 * @private
-                 */
-                this._chartCropRate = null;
-                /**
-                 * @type {Signal<void>}
-                 * @private
-                 */
-                this._setDataSignal = new tsUtils.Signal();
-
-                /**
-                 * @type {boolean}
-                 * @private
-                 */
-                this.canShowGraph = false;
-                /**
-                 * @type {boolean}
-                 */
-                this.pending = true;
-
-                /**
-                 * @type {TChartOptions}
-                 */
-                this.options = {
-                    axisX: 'price',
-                    axisY: 'amount',
-                    marginBottom: 0,
-                    hasMouseEvents: true,
-                    hasDates: false,
-                    checkWidth: true,
-                    view: {
-                        asks: {
-                            lineColor: '#e5494d',
-                            fillColor: '#ffe4e4',
-                            lineWidth: 4
-                        },
-                        bids: {
-                            lineColor: '#1f5af6',
-                            fillColor: '#EAF0FE',
-                            lineWidth: 4
-                        }
-                    }
-                };
-
-                /**
-                 * @type {object<string, TChartData[]>}
-                 */
-                this.data = {
-                    asks: ORDER_LIST_STUB,
-                    bids: ORDER_LIST_STUB
-                };
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair',
                     _chartCropRate: 'dex.chartCropRate'
                 });
-
                 this.observe(['_assetIdPair', '_chartCropRate'], this._onChangeAssets);
-
                 /**
                  * @type {Poll}
                  * @private
                  */
                 this._poll = createPoll(this, this._getOrderBook, this._setOrderBook, 1000, { $scope });
-
                 this._resetPending();
             }
 
             onMouse(chartData) {
-                if (!chartData) {
-                    return null;
-                }
+                const id = chartData.id;
+                const { xValue, yValue } = chartData.point;
 
                 this.chartEvent = {
                     ...chartData,
-                    id: chartData.id ? `${chartData.id[0].toUpperCase()}${chartData.id.substring(1)}` : null,
-                    amount: chartData.yValue ? chartData.yValue.toFormat() : null,
-                    price: chartData.xValue ? chartData.xValue.toFormat() : null,
-                    markerColor: chartData.id ? this.options.view[chartData.id].lineColor : null
+                    id: `${id[0].toUpperCase()}${id.substring(1)}`,
+                    amount: new BigNumber(yValue).toFormat(),
+                    price: new BigNumber(xValue).toFormat()
                 };
-                $scope.$apply();
             }
 
+            /**
+             * @param {boolean} noRestart
+             * @private
+             */
             _onChangeAssets(noRestart) {
                 if (!noRestart) {
                     this._poll.restart();
@@ -147,6 +144,9 @@
                 }
             }
 
+            /**
+             * @private
+             */
             _resetPending() {
                 this.pending = true;
                 this.receiveOnce(this._setDataSignal, () => {
@@ -154,9 +154,11 @@
                 });
             }
 
+            /**
+             * @private
+             */
             _getOrderBook() {
-                return (waves.matcher
-                    .getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
+                return waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
                     .then((orderBook) => this._cutOffOutlyingOrdersIfNecessary(orderBook))
                     .then(TradeGraph._buildCumulativeOrderBook)
                     .then(data => {
@@ -167,7 +169,7 @@
                         this.loadingError = true;
                         this.pending = false;
                         $scope.$apply();
-                    }));
+                    });
             }
 
             _setOrderBook(orderBook) {
@@ -202,54 +204,12 @@
 
             _updateGraphAccordingToOrderBook(orderBook) {
                 if (TradeGraph._areEitherAsksOrBids(orderBook)) {
-                    this._prepareGraphForOrders(orderBook);
+                    this.canShowGraph = true;
                 } else {
-                    this._hideGraphAndShowStub();
+                    this.canShowGraph = false;
                 }
 
                 return orderBook;
-            }
-
-            _prepareGraphForOrders(orderBook) {
-                this._showGraphAndHideStub();
-
-                if (TradeGraph._areEnoughAsks(orderBook) && TradeGraph._areEnoughBids(orderBook)) {
-                    this._setGraphToShowAsksAndBids();
-                }
-
-                if (TradeGraph._isLackOfAsks(orderBook)) {
-                    this._setGraphToShowOnly(ORDERS_TYPES.bids);
-                }
-
-                if (TradeGraph._isLackOfBids(orderBook)) {
-                    this._setGraphToShowOnly(ORDERS_TYPES.asks);
-                }
-            }
-
-            _showGraphAndHideStub() {
-                this.canShowGraph = true;
-            }
-
-            _setGraphToShowAsksAndBids() {
-                this._updateGraphSeriesOptions([
-                    SERIES_SETTINGS.asks,
-                    SERIES_SETTINGS.bids
-                ]);
-            }
-
-            _setGraphToShowOnly(orderType) {
-                this._updateGraphSeriesOptions([
-                    SERIES_SETTINGS[orderType]
-                ]);
-            }
-
-            _hideGraphAndShowStub() {
-                this._updateGraphSeriesOptions([]);
-                this.canShowGraph = false;
-            }
-
-            _updateGraphSeriesOptions(seriesOptions) {
-                this.options.series = seriesOptions;
             }
 
             static _areEitherAsksOrBids(orderBook) {
@@ -316,7 +276,6 @@
  * @property {string} axisX
  * @property {string} axisY
  * @property {number} marginBottom
- * @property {boolean} hasMouseEvents
  * @property {boolean} hasDates
  * @property {boolean | number} checkWidth
  * @property {TView} view

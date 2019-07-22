@@ -13,83 +13,89 @@
      * @param {BalanceWatcher} balanceWatcher
      * @return {Assets}
      */
-    const controller = function (waves, assetsData, $scope, utils, Base, user, modalManager, createPoll,
-                                 balanceWatcher) {
+    const controller = function (waves, assetsData, $scope, utils, Base,
+                                 user, modalManager, createPoll, balanceWatcher) {
 
         const { date } = require('ts-utils');
         const ds = require('data-service');
         const analytics = require('@waves/event-sender');
 
+
+        /**
+         * @class Assets
+         * @extends Base
+         */
         class Assets extends Base {
+
+
+            /**
+             * @type {string[]}
+             */
+            pinnedAssetIdList = null;
+            /**
+             * @type {Money[]}
+             */
+            pinnedAssetBalances = null;
+
+            chartMode = null;
+            total = null;
+
+            interval = null;
+            intervalCount = null;
+
+            data = null;
+            options = assetsData.getGraphOptions();
+            mirrorId = null;
+
+            /**
+             * @type {boolean}
+             */
+            invalid = true;
+            /**
+             * @type {Moment}
+             * @private
+             */
+            _startDate = null;
+            /**
+             * @type {string}
+             */
+            activeChartAssetId = null;
+            /**
+             * @type {Money}
+             */
+            activeChartBalance = null;
+            /**
+             * @type {string[]}
+             */
+            chartAssetIdList = null;
+            /**
+             * @type {Asset[]}
+             */
+            chartAssetList = null;
+            /**
+             * @type {string}
+             */
+            change = '0.00';
+            /**
+             * @type {string}
+             */
+            changePercent = '0.00';
+            /**
+             * @type {boolean}
+             */
+            advancedMode = false;
+
+            dateToHours = date('hh:mm');
+            dateToDates = date('DD/MM');
 
             constructor() {
                 super($scope);
 
-                /**
-                 * @type {string[]}
-                 */
-                this.pinnedAssetIdList = null;
-                /**
-                 * @type {Money[]}
-                 */
-                this.pinnedAssetBalances = null;
-
-                this.chartMode = null;
-                this.total = null;
-
-                this.interval = null;
-                this.intervalCount = null;
-
-                this.data = null;
-                this.options = assetsData.getGraphOptions();
-                this.mirrorId = null;
-
-                /**
-                 * @type {boolean}
-                 */
-                this.invalid = true;
-                /**
-                 * @type {Moment}
-                 * @private
-                 */
-                this._startDate = null;
-                /**
-                 * @type {string}
-                 */
-                this.activeChartAssetId = null;
-                /**
-                 * @type {Money}
-                 */
-                this.activeChartBalance = null;
-                /**
-                 * @type {string[]}
-                 */
-                this.chartAssetIdList = null;
-                /**
-                 * @type {Asset[]}
-                 */
-                this.chartAssetList = null;
-                /**
-                 * @type {string}
-                 */
-                this.change = '0.00';
-                /**
-                 * @type {string}
-                 */
-                this.changePercent = '0.00';
-                /**
-                 * @type {boolean}
-                 */
-                this.advancedMode = false;
-
-                const hours = date('hh:mm');
-                const dates = date('DD/MM');
-
                 this.options.axes.x.tickFormat = (date) => {
                     if (this.chartMode === 'hour' || this.chartMode === 'day') {
-                        return hours(date);
+                        return this.dateToHours(date);
                     } else {
-                        return dates(date);
+                        return this.dateToDates(date);
                     }
                 };
 
@@ -130,7 +136,6 @@
                         axisY: 'rate',
                         lineWidth: 4,
                         marginBottom: 46,
-                        hasMouseEvents: true,
                         hasDates: true,
                         checkWidth: 2000,
                         heightFactor: 0.7,
@@ -236,13 +241,16 @@
             }
 
             onMouse(chartData) {
-                const date = chartData.xValue ? new Date(chartData.xValue.toNumber()) : null;
+                const id = chartData.id;
+                const { xValue, yValue } = chartData.point;
+
+                const date = new Date(xValue.toNumber());
                 this.chartEvent = {
                     ...chartData,
-                    id: chartData.id,
-                    price: chartData.yValue ? chartData.yValue.toFormat(2) : null,
-                    date: date ? Assets._localDate(date, true) : null,
-                    time: date ? tsUtils.date('hh:mm')(date) : null
+                    id,
+                    price: yValue.toFormat(2),
+                    date: Assets._localDate(date, true),
+                    time: this.dateToHours(date)
                 };
                 $scope.$apply();
             }

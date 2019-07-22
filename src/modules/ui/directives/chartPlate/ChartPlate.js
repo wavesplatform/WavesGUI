@@ -20,26 +20,31 @@
              * @type {object}
              */
             data;
+            /**
+             * @private
+             */
+            markerColor;
 
             $postLink() {
                 this.plate = $element.find(SELECTORS.plate);
                 this.marker = $element.find(SELECTORS.marker);
-                this.observe('data', this._onMove);
+                this.receive(this.wChart.signals.mouseMove, this._onMove, this);
+                this.receive(this.wChart.signals.mouseLeave, this._onLeave, this);
             }
 
             /**
              * @private
              */
-            _onMove() {
-                const data = this.data;
+            _onMove(data) {
+                this._setMarkerAndPlatePosition(data);
+            }
 
-                if (!data || data.leave) {
-                    this.plate.removeClass('visible');
-                    this.marker.removeClass('visible');
-                    return null;
-                }
-
-                this._setMarkerAndPlatePosition(this.data);
+            /**
+             * @private
+             */
+            _onLeave() {
+                this.plate.removeClass('visible');
+                this.marker.removeClass('visible');
             }
 
             /**
@@ -49,7 +54,8 @@
              * @param data.y @type {number}
              * @private
              */
-            _setMarkerAndPlatePosition({ event, x, y }) {
+            _setMarkerAndPlatePosition({ event, point, id }) {
+                const { x, y } = point;
                 const PLATE_ARROW_WIDTH = 5;
                 const markerX = x - (this.marker.outerWidth() / 2);
                 const markerY = y - (this.marker.outerHeight() / 2);
@@ -66,8 +72,11 @@
                 this.marker.css('transform', `translate(${markerX}px,${markerY}px)`);
                 this.plate.addClass('visible');
                 this.marker.addClass('visible');
-                if (this.data.markerColor) {
-                    this.marker.css('border-color', this.data.markerColor);
+
+                if (typeof this.markerColor === 'string') {
+                    this.marker.css('border-color', this.markerColor);
+                } else if (this.markerColor && this.markerColor[id]) {
+                    this.marker.css('border-color', this.markerColor[id]);
                 }
             }
 
@@ -84,7 +93,7 @@
             wChart: '^wChart'
         },
         bindings: {
-            data: '<'
+            markerColor: '<'
         },
         templateUrl: 'modules/ui/directives/chartPlate/chartPlate.html',
         controller

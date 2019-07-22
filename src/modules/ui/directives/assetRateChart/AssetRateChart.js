@@ -172,7 +172,6 @@
  * @property {string} axisX
  * @property {string} axisY
  * @property {number} marginBottom
- * @property {boolean} hasMouseEvents
  * @property {boolean} hasDates
  * @property {boolean | number} checkWidth
  * @property {TView} view

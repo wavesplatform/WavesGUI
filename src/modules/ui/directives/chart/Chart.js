@@ -13,10 +13,12 @@
 
             $postLink() {
                 this.chart = new ChartFactory($element, this.options, this.data);
+                this.signals = Object.assign(Object.create(null), this.chart.signals, this.signals);
                 this.observe('data', this._updateData);
                 this.observe('options', this._updateOptions);
 
-                this.receive(this.chart.mouse, this._onMove, this);
+                this.receive(this.chart.signals.mouseMove, this._onMove, this);
+                this.receive(this.chart.signals.mouseLeave, this._onLeave, this);
             }
 
             _updateData() {
@@ -28,7 +30,11 @@
             }
 
             _onMove(chartData) {
-                this.mouseEvent({ chartData });
+                this.mouseMove({ chartData });
+            }
+
+            _onLeave(event) {
+                this.mouseLeave({ event });
             }
 
             $onDestroy() {
@@ -47,7 +53,8 @@
         bindings: {
             options: '<',
             data: '<',
-            mouseEvent: '&'
+            mouseMove: '&',
+            mouseLeave: '&'
         },
         transclude: true,
         template: '<div ng-transclude></div>',

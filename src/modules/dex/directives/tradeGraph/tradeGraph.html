@@ -3,8 +3,8 @@
     <w-chart ng-if="!$ctrl.pending && $ctrl.canShowGraph && !$ctrl.loadingError"
              data="$ctrl.data"
              options="$ctrl.options"
-             mouse-event="$ctrl.onMouse(chartData)">
-        <w-chart-plate data="$ctrl.chartEvent">
+             mouse-move="$ctrl.onMouse(chartData)">
+        <w-chart-plate options="::$ctrl.chartPlateOptions">
             <div class="legend-content">
                 <div class="chart-plate__price">{{$ctrl.chartEvent.price}}</div>
                 <div class="chart-plate__timestamp headline-4">

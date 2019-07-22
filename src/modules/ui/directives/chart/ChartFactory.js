@@ -2,18 +2,25 @@
     'use strict';
 
     /**
-     * @param Base
+     * @param {typeof Base} Base
      * @param utils
      * @param user
      * @return {ChartFactory}
      */
-    const factory = function (Base, user, utils) {
+    const factory = function (Base, utils, createPoll) {
 
         const { Money } = require('@waves/data-entities');
-        const { equals, isEmpty, range, last, head } = require('ramda');
-        const tsUtils = require('ts-utils');
+        const { equals, isEmpty, range, last, head, pipe, not, prop, allPass } = require('ramda');
+        const { Signal } = require('ts-utils');
         const { BigNumber } = require('@waves/bignumber');
         const SCALE = devicePixelRatio || 1;
+
+        const isNotEmptyPoint = pipe(
+            allPass([
+                pipe(prop('x'), isEmpty, not),
+                pipe(prop('y'), isEmpty, not)
+            ])
+        );
 
         class ChartFactory extends Base {
 
@@ -24,6 +31,10 @@
              * @type {object}
              */
             legendItemsObjects;
+            /**
+            * @type {HTMLCanvasElement}
+            */
+            canvas;
 
             /**
              * @param {JQuery} $element
@@ -33,6 +44,10 @@
             constructor($element, options, data) {
                 super();
 
+                this.signals = Object.assign(this.signals, {
+                    mouseMove: new Signal(),
+                    mouseLeave: new Signal()
+                });
                 /**
                  * @type {JQuery}
                  */
@@ -45,10 +60,7 @@
                  * @type {object<string, Array<object<string, number>>}
                  */
                 this.data = data;
-                /**
-                 * @type {HTMLCanvasElement}
-                 */
-                this.canvas = ChartFactory._initializeCanvasElement($element);
+                this._initializeCanvasElement($element);
                 /**
                  * @type {CanvasRenderingContext2D}
                  */
@@ -57,31 +69,16 @@
                  * @type {object}
                  * @private
                  */
-                this._lastEvent = Object.create(null);
-
-                this._render();
-
-                /**
-                 * @type {Signal<any>}
-                 */
-                this.mouseSignal = new tsUtils.Signal();
-
+                this._lastEvent = null;
                 const checkInterval = this.options.checkWidth;
 
                 if (checkInterval) {
-                    setInterval(() => {
-                        if (this.canvas.width !== this.$parent.outerWidth() ||
-                            this.canvas.height !== this.$parent.outerHeight()
-                        ) {
-                            this._setSize(this.$parent.outerWidth(), this.$parent.outerHeight());
-                        }
-                    }, typeof checkInterval === 'number' ? checkInterval : 1000);
+                    const interval = typeof checkInterval === 'number' && checkInterval || 1000;
+                    createPoll(this, () => null, this._checkAndUpdateSize, interval);
                 }
 
-            }
-
-            get mouse() {
-                return this.mouseSignal;
+                this._render();
+                this._setHandlers();
             }
 
             /**
@@ -89,7 +86,6 @@
              */
             setOptions(options) {
                 this.options = Object.assign(Object.create(null), ChartFactory.defaultOptions, options);
-
                 this._render();
             }
 
@@ -99,6 +95,9 @@
             setData(data) {
                 this.data = data;
                 this._render();
+                if (this._lastEvent) {
+                    this._findIntersection(this._lastEvent.event);
+                }
             }
 
             /**
@@ -106,24 +105,61 @@
              * @return {HTMLCanvasElement}
              * @private
              */
-            static _initializeCanvasElement($element) {
+            _initializeCanvasElement($element) {
                 const canvas = document.createElement('canvas');
                 const width = Math.round($element.width());
                 const height = Math.round($element.height());
                 canvas.style.position = 'absolute';
                 canvas.style.left = '0';
                 canvas.style.top = '0';
-                canvas.style.width = `${width}px`;
-                canvas.style.height = `${height}px`;
 
                 if ($element.css('position') === 'static') {
                     $element.css('position', 'relative');
                 }
 
                 $element.append(canvas);
-                canvas.width = width * SCALE;
-                canvas.height = height * SCALE;
-                return canvas;
+                this.canvas = canvas;
+                this._setSize(width, height);
+            }
+
+            /**
+             * @private
+             */
+            _setHandlers() {
+                const onMouseMove = utils.debounceRequestAnimationFrame(mouseOrTouchEvent => {
+                    const event = utils.getEventInfo(mouseOrTouchEvent);
+                    this._findIntersection(event);
+                });
+
+                const onMouseLeave = utils.debounceRequestAnimationFrame(event => {
+                    this.signals.mouseLeave.dispatch({ event });
+                    this._lastEvent = null;
+                });
+
+                const onResize = utils.debounceRequestAnimationFrame(() => {
+                    this._checkAndUpdateSize();
+                });
+
+                this.listenEventEmitter(this.$parent, 'mousemove', onMouseMove);
+                this.listenEventEmitter(this.$parent, 'mouseleave', onMouseLeave);
+                this.listenEventEmitter(window, 'resize', onResize, {
+                    on: 'addEventListener',
+                    off: 'removeEventListener'
+                });
+            }
+
+            /**
+             * @private
+             */
+            _checkAndUpdateSize() {
+                const width = this.canvas.width;
+                if (width !== this.$parent.outerWidth() || this.canvas.height !== this.$parent.outerHeight()) {
+                    this._setSize(this.$parent.outerWidth(), this.$parent.outerHeight());
+                    this._render();
+                    if (this._lastEvent) {
+                        this.signals.mouseMove.dispatch(this._lastEvent);
+                    }
+                }
             }
 
             /**
@@ -136,20 +172,12 @@
                 this.canvas.height = height * SCALE;
                 this.canvas.style.width = `${width}px`;
                 this.canvas.style.height = `${height}px`;
-                this._render();
             }
 
             /**
              * @private
              */
             _clear() {
-                this._clearCanvas();
-            }
-
-            /**
-             * @private
-             */
-            _clearCanvas() {
                 this.canvas.width = this.canvas.width;
             }
 
@@ -178,10 +206,6 @@
                         this._createBottomLegend(this._getLegendItemsWithCoords());
                     }
                     this._updateLegendObject();
-                }
-
-                if (this.options.hasMouseEvents) {
-                    this._initActions();
                 }
             }
 
@@ -240,53 +264,50 @@
                 // TODO завязать отступ снизу на коэффициент
 
                 const marginBottom = this.options.marginBottom;
-                const xValues = {};
-                const yValues = {};
+                const min = { x: new BigNumber(Infinity), y: new BigNumber(Infinity) };
+                const max = { x: new BigNumber(-Infinity), y: new BigNumber(-Infinity) };
 
-                Object.entries(data).forEach(([id, chart]) => {
-                    xValues[id] = [];
-                    yValues[id] = [];
+                const pointsHash = Object.entries(data).reduce((acc, [id, chart]) => {
+                    const points = acc[id] = [];
 
                     chart.forEach(item => {
                         const itemX = item[this.options.axisX];
                         const itemY = item[this.options.axisY];
 
-                        const x = ChartFactory._getValues(itemX);
-                        const y = ChartFactory._getValues(itemY);
+                        const point = { x: ChartFactory._getValues(itemX), y: ChartFactory._getValues(itemY) };
 
-                        if (tsUtils.isNotEmpty(x) && tsUtils.isNotEmpty(y)) {
-                            xValues[id].push(x);
-                            yValues[id].push(y);
+                        if (isNotEmptyPoint(point)) {
+                            min.x = BigNumber.min(min.x, point.x);
+                            min.y = BigNumber.min(min.y, point.y);
+                            max.x = BigNumber.max(max.x, point.x);
+                            max.y = BigNumber.max(max.y, point.y);
+                            points.push(point);
                         }
+
+                        points.sort(utils.comparators.process(prop('x')).asc);
                     });
-                });
 
-                const combinedXValues = Array.prototype.concat(
-                    ...Object.keys(xValues).map(key => xValues[key])
-                );
-                const combinedYValues = Array.prototype.concat(
-                    ...Object.keys(xValues).map(key => yValues[key])
-                );
-                const xMin = BigNumber.min(...combinedXValues);
-                const xMax = BigNumber.max(...combinedXValues);
-                const yMin = BigNumber.min(...combinedYValues);
-                const yMax = BigNumber.max(...combinedYValues);
-                const xDelta = xMax.sub(xMin);
-                const yDelta = yMax.sub(yMin);
-                const xFactor = width.div(xDelta);
-                const yFactor = maxChartHeight.div(yDelta);
+                    return acc;
+                }, Object.create(null));
 
-                const coordinates = [];
+                const delta = { x: max.x.sub(min.x), y: max.y.sub(min.y) };
+                const factor = { x: width.div(delta.x), y: maxChartHeight.div(delta.y) };
+                const coordinates = Object.create(null);
 
-                Object.entries(xValues).forEach(([id, values]) => {
+                Object.entries(pointsHash).forEach(([id, points]) => {
                     coordinates[id] = [];
-                    values.forEach((value, i) => {
-                        const xValue = value;
-                        const yValue = yValues[id][i];
-                        const x = Number(xValue.sub(xMin).mul(xFactor).toFixed());
-                        const y = Number(height.sub(yValue.sub(yMin).mul(yFactor)).toFixed()) - marginBottom * SCALE;
+                    points.forEach(value => {
+                        const xValue = value.x;
+                        const yValue = value.y;
+                        const x = Number(xValue.sub(min.x).mul(factor.x).toFixed());
+                        const y = Number(height.sub(yValue.sub(min.y).mul(factor.y)).toFixed()) - marginBottom * SCALE;
 
-                        coordinates[id].push({ x, y });
+                        coordinates[id].push({
+                            x,
+                            y,
+                            xValue,
+                            yValue
+                        });
                     });
                 });
 
@@ -294,16 +315,10 @@
                     height,
                     maxChartHeight,
                     width,
-                    xValues,
-                    yValues,
-                    xMin,
-                    xMax,
-                    yMin,
-                    yMax,
-                    xDelta,
-                    yDelta,
-                    xFactor,
-                    yFactor,
+                    min,
+                    max,
+                    delta,
+                    factor,
                     coordinates
                 });
             }
@@ -329,56 +344,11 @@
             }
 
             /**
-             * @private
-             */
-            _initActions() {
-                this.$parent.off();
-                const onMouseMove = mouseOrTouchEvent => {
-                    const event = utils.getEventInfo(mouseOrTouchEvent);
-                    this._findIntersection(event);
-                };
-
-                const onMouseLeave = event => {
-                    this.mouseSignal.dispatch(ChartFactory._getMouseEvent({ event }));
-                    this._lastEvent = Object.create(null);
-                };
-
-                const onResize = () => {
-                    this.$parent.off();
-                    this._setSize(this.$parent.outerWidth(), this.$parent.outerHeight());
-                    this.$parent.on('mousemove', onMouseMove);
-                    this.$parent.on('mouseleave', onMouseLeave);
-                };
-
-                this.$parent.on('mousemove', onMouseMove);
-                this.$parent.on('mouseleave', onMouseLeave);
-
-                this.listenEventEmitter($(window), 'resize', utils.debounceRequestAnimationFrame(() => onResize()));
-            }
-
-            /**
-             * @param event
-             * @return {{leave: boolean}}
-             * @private
-             */
-            static _getMouseEvent(event) {
-                return {
-                    ...event,
-                    leave: !event.x || !event.y
-                };
-            }
-
-            /**
              * @param event
              * @private
+             * TODO Rename and refactor method
              */
             _findIntersection(event) {
-                const coords = Object.entries(this.chartData.coordinates).reduce((acc, [id, coords]) => {
-                    acc[id] = coords
-                        .map(item => item)
-                        .sort(({ x: a }, { x: b }) => a - b);
-                    return acc;
-                }, Object.create(null));
 
                 const binarySearch = (data, target, start, end) => {
                     if (end < 1) {
@@ -401,56 +371,40 @@
                     }
                 };
 
-                const closestPointsForEachChart = Object.entries(coords)
-                    .reduce((acc, [id, coords]) => {
-                        acc[id] = binarySearch(coords, event.offsetX, 0, coords.length - 1);
-                        return acc;
-                    }, Object.create(null));
+                if (!this.chartData && !this.chartData.coordinates) {
+                    return null;
+                }
 
-                const xDistances = Object.keys(closestPointsForEachChart).map(key => {
-                    const coord = closestPointsForEachChart[key];
-                    return Math.abs(coord.x - event.offsetX);
-                });
-                const minXDistance = Math.min(...xDistances);
+                const itersection = Object.entries(this.chartData.coordinates)
+                    .reduce((acc, [id, points]) => {
+                        const point = binarySearch(points, event.offsetX, 0, points.length - 1);
 
-                const closestPoints = Object.entries(closestPointsForEachChart).reduce((acc, [id, coord]) => {
-                    if ((coord.x - event.offsetX) === minXDistance) {
-                        acc[id] = coord;
-                    }
-                    return acc;
-                }, Object.create(null));
+                        const data = {
+                            id, point, event
+                        };
 
-                if (Object.keys(closestPoints).length) {
-                    Object.entries(closestPoints).forEach(([id, point]) => {
-                        if (!equals(this._lastEvent, point)) {
-                            const { x, y } = point;
-                            const i = this.chartData.coordinates[id].findIndex(coord => coord.x === x && coord.y === y);
-                            this._dispatchMouseMove(x, y, i, event, id);
+                        if (!acc || Math.abs(point.x - event.offsetX) < Math.abs(acc.point.x - event.offsetX)) {
+                            return data;
+                        } else {
+                            return acc;
                         }
-                        if (isEmpty(this._lastEvent)) {
-                            this._lastEvent = point;
-                        }
-                    });
+                    }, null);
+
+                if (itersection) {
+                    this._dispatchMouseMove(itersection);
                 }
             }
 
             /**
-             * @param x @type {number}
-             * @param y @type {number}
-             * @param i @type {number}
-             * @param event @type {object}
+             * @param {*} itersection
              * @private
              */
-            _dispatchMouseMove(x, y, i, event, id) {
-                this.mouseSignal.dispatch(ChartFactory._getMouseEvent({
-                    event,
-                    x,
-                    y,
-                    id,
-                    xValue: this.chartData.xValues[id][i],
-                    yValue: this.chartData.yValues[id][i]
-                }));
-                this._lastEvent = { x, y };
+            _dispatchMouseMove(itersection) {
+                if (!this._lastEvent || !equals(this._lastEvent.point, itersection.point)) {
+                    // TODO Add support legend for many charts
+                    this.signals.mouseMove.dispatch(itersection);
+                    this._lastEvent = itersection;
+                }
             }
 
             /**
@@ -458,7 +412,7 @@
              * @private
              */
             _getLegendItemsWithCoords() {
-                const width = this.$parent.outerWidth() / 4;
+                const width = this.$parent.outerWidth() / 4; // TODO Почему 4?
                 const exactCoords = range(0, 4).map(i => {
                     return width * i + width / 2;
                 });
@@ -466,10 +420,8 @@
                 const combinedCoordinates = Array.prototype.concat(
                     ...Object.keys(this.chartData.coordinates).map(key => this.chartData.coordinates[key])
                 );
-                const xCoords = combinedCoordinates.map(({ x }) => x);
-                const combinedXValues = Array.prototype.concat(
-                    ...Object.keys(this.chartData.xValues).map(key => this.chartData.xValues[key])
-                );
+                const xCoords = combinedCoordinates.map(prop('x'));
+                const combinedXValues = combinedCoordinates.map(prop('xValue'));
 
                 return exactCoords.map(x => {
                     return xCoords.reduce((prevXCoord, currentXCoord) => {
@@ -556,7 +508,6 @@
                 axisX: 'timestamp',
                 axisY: 'rate',
                 marginBottom: 0,
-                hasMouseEvents: false,
                 hasDates: false,
                 checkWidth: false,
                 heightFactor: 0.9,
@@ -575,7 +526,7 @@
         return ChartFactory;
     };
 
-    factory.$inject = ['Base', 'user', 'utils'];
+    factory.$inject = ['Base', 'utils', 'createPoll'];
 
     angular.module('app.ui').factory('ChartFactory', factory);
 })();
@@ -590,7 +541,6 @@
  * @property {string} axisY
  * @property {boolean | number} checkWidth
  * @property {number} marginBottom
- * @property {boolean} hasMouseEvents
  * @property {boolean} hasDates
  * @property {number} heightFactor
  * @property {Object<string, ChartFactory.IViewChart>} view
@@ -609,21 +559,23 @@
  * @property {BigNumber} height
  * @property {BigNumber} maxChartHeight
  * @property {BigNumber} width
- * @property {Array<BigNumber[]>} xValues
- * @property {Array<BigNumber[]>} yValues
- * @property {BigNumber} xMin
- * @property {BigNumber} xMax
- * @property {BigNumber} yMin
- * @property {BigNumber} yMax
- * @property {BigNumber} xDelta
- * @property {BigNumber} yDelta
- * @property {BigNumber} xFactor
- * @property {BigNumber} yFactor
- * @property {Array<ICoords[]>} coordinates
+ * @property {{x: BigNumber, y: BigNumber}} max
+ * @property {{x: BigNumber, y: BigNumber}} min
+ * @property {{x: BigNumber, y: BigNumber}} delta
+ * @property {{x: BigNumber, y: BigNumber}} factor
+ * @property {Array<ChartFactory.ICoords[]>} coordinates
  */
 
 /**
  * @typedef {object} ChartFactory#ICoords
+ * @property {number} x
+ * @property {number} y
+ * @property {number} xValue
+ * @property {number} yValue
+ */
+
+/**
+ * @typedef {object} ChartFactory#IPair
  * @property {number} x
  * @property {number} y
  */
