@@ -323,7 +323,8 @@
                         recipient: user.address
                     }],
                     totalAmount: totalAmount || new Money(1, asset),
-                    fee: tx.fee || new Money(1, asset)
+                    fee: tx.fee || new Money(1, asset),
+                    assetId: tx.assetId || asset.id
                 }));
             }
 
