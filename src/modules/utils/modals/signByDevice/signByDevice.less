@@ -1,6 +1,8 @@
 @import (reference) 'config';
 @import (reference) 'icons';
 
+@tx-icon-size: 80px;
+
 .ledger-modal {
   .icon-close {
     right: 10px;
@@ -16,8 +18,8 @@
     margin: 60px auto 20px calc(50% ~'- 193px');
   }
   .ledger-icons {
-    height: 80px;
-    width: 80px;
+    height: @tx-icon-size;
+    width: @tx-icon-size;
     margin: 0 auto 30px auto;
   }
   .create-order-amounts {
@@ -32,7 +34,7 @@
     background: @transaction-icons;
     background-repeat: no-repeat;
     background-position-x: -160px;
-    background-size: auto 200%;
+    background-size: auto @tx-icon-size * 2;
   }
   .create-order-cont {
     border-bottom: 1px solid @color-basic-100;
