@@ -127,6 +127,7 @@
                 if (tx.type === SIGN_TYPE.MASS_TRANSFER) {
                     tx.totalAmount = tx.totalAmount || tx.transfers.map(({ amount }) => amount)
                         .reduce((result, item) => result.add(item));
+                    tx.assetId = tx.totalAmount && tx.totalAmount.asset.id;
                 }
 
                 if (!tx.fee) {
