@@ -135,12 +135,13 @@
                         </w-help-icon>
                     </div>
 
-                    <div class="input-toggle" ng-class="{active: $ctrl.hasAssetScript}">
-                        <w-checkbox-submit class="checkbox-submit" id="has-script"
-                                           name="has-script"
-                                           ng-model="$ctrl.hasAssetScript">
-                        </w-checkbox-submit>
-                        <label for="has-script" class="checkbox-submit__label margin-right-1"></label>
+                    <div class="checkbox-input checkbox-input_switcher">
+                        <w-checkbox-switcher class="checkbox-switcher" id="has-script"
+                                             ng-class="{'checkbox-switcher_active': $ctrl.hasAssetScript}"
+                                             name="has-script"
+                                             ng-model="$ctrl.hasAssetScript">
+                        </w-checkbox-switcher>
+                        <label for="has-script" class="checkbox-input__label margin-right-1"></label>
                         <div ng-if="$ctrl.hasAssetScript" class="footnote-1" w-i18n="switchScriptOff"></div>
                         <div ng-if="!$ctrl.hasAssetScript" class="footnote-1" w-i18n="switchScriptOn"></div>
                     </div>
