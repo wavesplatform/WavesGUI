@@ -5,6 +5,22 @@
 @import (reference) 'icons';
 
 md-dialog.modal-send {
+
+  .input-wrap .input__value {
+    padding-right: 60px;
+  }
+
+  textarea {
+    min-height: 77px;
+    max-height: 300px;
+  }
+
+  .read-address-wrap {
+    .input__value {
+      padding-right: 54px;
+    }
+  }
+
   md-dialog-content {
 
     position: relative;
@@ -158,16 +174,12 @@ md-dialog.modal-send {
       }
     }
 
-    .read-address-wrap w-input:not(.no-validate) .w-input-wrap::after {
+    .read-address-wrap w-input:not(.no-validate) .input__wrap::after {
       right: 70px;
     }
 
     .read-address-wrap {
       position: relative;
-
-      .w-input-wrap input {
-        padding-right: 54px;
-      }
     }
 
     .asset__name {
@@ -208,14 +220,7 @@ md-dialog.modal-send {
       }
     }
 
-    textarea {
-      resize: vertical;
-      min-height: 77px;
-      max-height: 300px;
-    }
-
     w-select {
-
       .asset {
         &__name {
           font-size: 15px;
@@ -290,10 +295,6 @@ md-dialog.modal-send {
 
     w-balance-input {
       width: 204px;
-
-      .input-wrap .w-input-wrap input {
-        padding-right: 60px;
-      }
     }
 
     .no-mirror {
@@ -452,7 +453,7 @@ md-dialog.modal-send {
     md-dialog-content {
 
       .read-address-wrap {
-        .w-input-wrap input {
+        .input__wrap .input__value {
           padding-right: 50px;
           font-size: @font-size-caption-2;
         }
@@ -467,7 +468,7 @@ md-dialog.modal-send {
         vertical-align: top;
       }
 
-      w-balance-input w-input .w-input-wrap input[type="text"].big,
+      w-balance-input .input .input__wrap .input__value[type="text"].big,
       w-select .select .title {
         font-size: @font-size-caption-1;
       }

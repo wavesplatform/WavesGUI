@@ -435,16 +435,16 @@ md-dialog.settings-modal {
       border: 1px solid @color-basic-200;
     }
 
-    .w-input-wrap {
+    .input__wrap {
       &.focused {
-        input {
+        .input__value {
           border-color: @color-submit-400;
         }
       }
 
       &.ng-invalid,
       &.focused.ng-invalid {
-        input {
+        .input__value {
           border-color: @color-error-200;
         }
       }

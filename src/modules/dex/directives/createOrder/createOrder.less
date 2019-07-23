@@ -104,22 +104,15 @@ w-create-order {
     background-size: 10px;
     background-position: center;
   }
-
+  
+  .input__value[type="text"].tiny {
+    padding: 0 16px;
+  }
+  
   .create-order {
     position: relative;
 
-    w-input {
-      .w-input-wrap {
-        input {
-          color: @color-disabled-900;
-          background: @color-white;
-
-          &[type="text"].tiny {
-            padding: 0 16px;
-          }
-        }
-      }
-    }
+        
     .head {
       align-items: center;
       width: 100%;
@@ -254,16 +247,6 @@ w-create-order {
             display: flex;
             align-items: center;
             border-radius: @border-radius / 2;
-
-            w-input {
-              display: block;
-              width: 50%;
-
-              input {
-                height: 28px;
-                border: none;
-              }
-            }
 
             .asset-name-wrap {
               position: relative;

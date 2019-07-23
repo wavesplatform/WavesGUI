@@ -37,7 +37,7 @@
                 <w-input-container class="margin-2">
 
                     <div ng-if="$ctrl.txType === 'reissue'" class="input-like">
-                        <w-input class="embed"
+                        <w-input class="input embed"
                                  type="text"
                                  name="input"
                                  ng-model="$ctrl.input"
@@ -61,7 +61,8 @@
                         </div>
                     </div>
 
-                    <w-balance-input ng-if="$ctrl.txType === 'burn'" input-classes="big"
+                    <w-balance-input ng-if="$ctrl.txType === 'burn'"
+                                     input-classes="big"
                                      asset-id="$ctrl.asset.id"
                                      name="input"
                                      amount="$ctrl.input"

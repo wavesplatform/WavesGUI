@@ -14,7 +14,7 @@
                                  name="name"
                                  ng-model="$ctrl.name"
                                  w-validate
-                                 class="big"
+                                 class="input big"
                                  w-validator-byte-gte="4"
                                  w-validator-byte-lte="16"
                                  required></w-input>
@@ -34,7 +34,7 @@
                 <div class="row">
                     <div class="body-2 basic-900 margin-05" w-i18n="description"></div>
                     <w-input-container>
-                        <w-input class="no-validate-icons" textarea
+                        <w-input class="input no-validate-icons" textarea
                                  name="description"
                                  ng-model="$ctrl.description"
                                  placeholder="placeholders.description"
@@ -61,7 +61,7 @@
                     </div>
                     <w-input-container>
                         <div class="input-like input-like-with-select">
-                            <w-input class="big"
+                            <w-input class="input big"
                                      type="text"
                                      name="count"
                                      ng-model="$ctrl.count"
@@ -148,6 +148,7 @@
                     <div ng-if="$ctrl.hasAssetScript" class="row row-script">
                         <w-input-container>
                             <w-input textarea
+                                     class="input"
                                      w-validate
                                      required
                                      w-validator-custom="{{$ctrl.isValidScript}}"
