@@ -134,9 +134,8 @@ w-confirm-transaction {
       margin: 0;
       padding: 0 20px;
       line-height: 40px;
+      min-height: 40px;
       border: 0 none;
-      font-family: @font-roboto-medium;
-      position: relative;
       border-left: 1px solid transparent;
       border-right: 1px solid transparent;
       white-space: nowrap;
@@ -144,36 +143,6 @@ w-confirm-transaction {
       &:first-child {
         border-left: 1px solid @color-white;
       }
-  
-      // &_active {
-      //   background: @color-white;
-      //   border-bottom: 1px solid @color-white;
-      //   border-right: 1px solid @color-disabled-200;
-      //   border-left: 1px solid @color-disabled-200;
-  
-      //   &::before {
-      //     display: block;
-      //     position: absolute;
-      //     top: 0;
-      //     left: 0;
-      //     width: 100%;
-      //     content: '';
-      //     height: 2px;
-      //     background: @color-submit-400;
-      //   }
-  
-      //   &:after {
-      //     position: absolute;
-      //     bottom: -2px;
-      //     height: 2px;
-      //     width: 100%;
-      //     left: 0;
-      //     content: '';
-      //     display: block;
-      //     z-index: 1;
-      //     background: @color-white;
-      //   }
-      // }
     }
   }
 }
@@ -230,16 +199,6 @@ w-confirm-transaction {
         height: 48px;
         line-height: 48px;
         min-height: 48px;
-  
-        // &_active {
-        //   border: 0 none;
-        //   border-bottom: 1px solid @color-submit-400;
-  
-        //   &::after,
-        //   &::before {
-        //     display: none;
-        //   }
-        // }
       }
     }
   }
