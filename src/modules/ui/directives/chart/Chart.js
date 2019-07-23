@@ -37,11 +37,6 @@
                 this.mouseLeave({ event });
             }
 
-            $onDestroy() {
-                super.$onDestroy();
-                $element.off();
-            }
-
         }
 
         return new Chart();
